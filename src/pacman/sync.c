@@ -642,7 +642,7 @@ int pacman_sync(list_t *targets)
 		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
 			PM_PKG *sync = alpm_list_getdata(lp);
 			if(current == NULL) {
-				PM_DB *dbs = alpm_pkg_getinfo(sync, PM_PKG_SYNCDB);
+				PM_DB *dbs = alpm_pkg_getinfo(sync, PM_PKG_DB);
 				/* we're starting on a new repository */
 				if(!list_is_ptrin(dbs, processed)) {
 					/* ORE
