@@ -126,7 +126,7 @@ PMList *sortbydeps(PMList *targets, int mode)
  * with depmod operators.
  *
  */
-PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
+PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 {
 	pmpkg_t *info = NULL;
 	pmdepend_t depend;
@@ -186,7 +186,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					FREELISTPTR(provides);
 				}
 				found = 0;
-				if(depend.mod == PM_DEP_ANY) {
+				if(depend.mod == PM_DEP_MOD_ANY) {
 					found = 1;
 				} else {
 					/* note that we use the version from the NEW package in the check */
@@ -198,15 +198,15 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					}
 					cmp = rpmvercmp(ver, depend.version);
 					switch(depend.mod) {
-						case PM_DEP_EQ: found = (cmp == 0); break;
-						case PM_DEP_GE: found = (cmp >= 0); break;
-						case PM_DEP_LE: found = (cmp <= 0); break;
+						case PM_DEP_MOD_EQ: found = (cmp == 0); break;
+						case PM_DEP_MOD_GE: found = (cmp >= 0); break;
+						case PM_DEP_MOD_LE: found = (cmp <= 0); break;
 					}
 					FREE(ver);
 				}
 				if(!found) {
 					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_REQUIRED;
+					miss->type = PM_DEP_TYPE_REQUIRED;
 					miss->depend.mod = depend.mod;
 					STRNCPY(miss->target, p->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
@@ -234,8 +234,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					pmpkg_t *dp = (pmpkg_t *)k->data;
 					if(!strcmp(j->data, dp->name)) {
 						MALLOC(miss, sizeof(pmdepmissing_t));
-						miss->type = PM_DEP_CONFLICT;
-						miss->depend.mod = PM_DEP_ANY;
+						miss->type = PM_DEP_TYPE_CONFLICT;
+						miss->depend.mod = PM_DEP_MOD_ANY;
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
@@ -249,8 +249,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					pmpkg_t *a = (pmpkg_t *)k->data;
 					if(!strcmp(a->name, (char *)j->data)) {
 						MALLOC(miss, sizeof(pmdepmissing_t));
-						miss->type = PM_DEP_CONFLICT;
-						miss->depend.mod = PM_DEP_ANY;
+						miss->type = PM_DEP_TYPE_CONFLICT;
+						miss->depend.mod = PM_DEP_MOD_ANY;
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, a->name, PKG_NAME_LEN);
@@ -266,8 +266,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 				for(j = info->conflicts; j; j = j->next) {
 					if(!strcmp((char *)j->data, tp->name)) {
 						MALLOC(miss, sizeof(pmdepmissing_t));
-						miss->type = PM_DEP_CONFLICT;
-						miss->depend.mod = PM_DEP_ANY;
+						miss->type = PM_DEP_TYPE_CONFLICT;
+						miss->depend.mod = PM_DEP_MOD_ANY;
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
@@ -292,8 +292,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					}
 					// we treat this just like a conflict
 					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = CONFLICT;
-					miss->depend.mod = PM_DEP_ANY;
+					miss->type = PM_DEP_TYPE_CONFLICT;
+					miss->depend.mod = PM_DEP_MOD_ANY;
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, k->data, PKG_NAME_LEN);
@@ -314,7 +314,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 				for(k = db_get_pkgcache(db); k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
 					if(!strcmp(p->name, depend.name)) {
-						if(depend.mod == PM_DEP_ANY) {
+						if(depend.mod == PM_DEP_MOD_ANY) {
 							/* accept any version */
 							found = 1;
 						} else {
@@ -329,9 +329,9 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 							}
 							cmp = rpmvercmp(ver, depend.version);
 							switch(depend.mod) {
-								case PM_DEP_EQ: found = (cmp == 0); break;
-								case PM_DEP_GE: found = (cmp >= 0); break;
-								case PM_DEP_LE: found = (cmp <= 0); break;
+								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
+								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
+								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
 							}
 							FREE(ver);
 						}
@@ -342,7 +342,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					pmpkg_t *p = (pmpkg_t *)k->data;
 					/* see if the package names match OR if p provides depend.name */
 					if(!strcmp(p->name, depend.name) || pm_list_is_strin(depend.name, p->provides)) {
-						if(depend.mod == PM_DEP_ANY) {
+						if(depend.mod == PM_DEP_MOD_ANY) {
 							/* accept any version */
 							found = 1;
 						} else {
@@ -357,9 +357,9 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 							}
 							cmp = rpmvercmp(ver, depend.version);
 							switch(depend.mod) {
-								case PM_DEP_EQ: found = (cmp == 0); break;
-								case PM_DEP_GE: found = (cmp >= 0); break;
-								case PM_DEP_LE: found = (cmp <= 0); break;
+								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
+								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
+								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
 							}
 							FREE(ver);
 						}
@@ -378,7 +378,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 							FREELISTPTR(k);
 							continue;
 						}
-						if(depend.mod == PM_DEP_ANY) {
+						if(depend.mod == PM_DEP_MOD_ANY) {
 							/* accept any version */
 							found = 1;
 						} else {
@@ -393,9 +393,9 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 							}
 							cmp = rpmvercmp(ver, depend.version);
 							switch(depend.mod) {
-								case PM_DEP_EQ: found = (cmp == 0); break;
-								case PM_DEP_GE: found = (cmp >= 0); break;
-								case PM_DEP_LE: found = (cmp <= 0); break;
+								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
+								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
+								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
 							}
 							FREE(ver);
 						}
@@ -405,7 +405,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 				/* else if still not found... */
 				if(!found) {
 					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_DEPEND;
+					miss->type = PM_DEP_TYPE_DEPEND;
 					miss->depend.mod = depend.mod;
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
@@ -427,8 +427,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 			for(j = tp->requiredby; j; j = j->next) {
 				if(!pm_list_is_strin((char *)j->data, packages)) {
 					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_REQUIRED;
-					miss->depend.mod = PM_DEP_ANY;
+					miss->type = PM_DEP_TYPE_REQUIRED;
+					miss->depend.mod = PM_DEP_MOD_ANY;
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, (char *)j->data, PKG_NAME_LEN);
@@ -459,16 +459,15 @@ int splitdep(char *depstr, pmdepend_t *depend)
 	str = strdup(depstr);
 
 	if((ptr = strstr(str, ">="))) {
-		depend->mod = PM_DEP_GE;
+		depend->mod = PM_DEP_MOD_GE;
 	} else if((ptr = strstr(str, "<="))) {
-		depend->mod = PM_DEP_LE;
+		depend->mod = PM_DEP_MOD_LE;
 	} else if((ptr = strstr(str, "="))) {
-		depend->mod = PM_DEP_EQ;
+		depend->mod = PM_DEP_MOD_EQ;
 	} else {
 		/* no version specified - accept any */
-		depend->mod = PM_DEP_ANY;
+		depend->mod = PM_DEP_MOD_ANY;
 		STRNCPY(depend->name, str, PKG_NAME_LEN);
-		STRNCPY(depend->version, "", PKG_VERSION_LEN);
 	}
 
 	if(ptr == NULL) {
@@ -478,7 +477,7 @@ int splitdep(char *depstr, pmdepend_t *depend)
 	*ptr = '\0';
 	STRNCPY(depend->name, str, PKG_NAME_LEN);
 	ptr++;
-	if(depend->mod != PM_DEP_EQ) {
+	if(depend->mod != PM_DEP_MOD_EQ) {
 		ptr++;
 	}
 	STRNCPY(depend->version, ptr, PKG_VERSION_LEN);
@@ -567,7 +566,7 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 			return(1);
 		} else*/
 
-		if(miss->type == PM_DEP_DEPEND) {
+		if(miss->type == PM_DEP_TYPE_DEPEND) {
 			pmsync_t *sync = NULL;
 
 			/* find the package in one of the repositories */

@@ -565,6 +565,31 @@ int alpm_trans_release()
 }
 
 /*
+ * Dependencies
+ */
+
+void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
+{
+	void *data;
+
+	/* Sanity checks */
+	ASSERT(miss != NULL, return(NULL));
+
+	switch(parm) {
+		case PM_DEP_TARGET:  data = (void *)(int)miss->target; break;
+		case PM_DEP_TYPE:    data = (void *)(int)miss->type; break;
+		case PM_DEP_MOD:     data = (void *)(int)miss->depend.mod; break;
+		case PM_DEP_NAME:    data = miss->depend.name; break;
+		case PM_DEP_VERSION: data = miss->depend.version; break;
+		default:
+			data = NULL;
+		break;
+	}
+
+	return(data);
+}
+
+/*
  * Log facilities
  */
 

@@ -38,9 +38,7 @@ typedef struct __pmpkg_t PM_PKG;
 typedef struct __pmgrp_t PM_GRP;
 typedef struct __pmsync_t PM_SYNC;
 typedef struct __pmtrans_t PM_TRANS;
-/* ORE
-typedef struct __pmdepend_t PM_DEP;
-typedef struct __pmdepmissing_t PM_DEPMISS; */
+typedef struct __pmdepmissing_t PM_DEPMISS;
 
 /*
  * Library
@@ -226,39 +224,38 @@ enum {
 	PM_TRANS_TARGETS
 };
 
-/* Dependencies */
-enum {
-	PM_DEP_ANY = 1,
-	PM_DEP_EQ,
-	PM_DEP_GE,
-	PM_DEP_LE
-};
-enum {
-	PM_DEP_DEPEND = 1,
-	PM_DEP_REQUIRED,
-	PM_DEP_CONFLICT
-};
-
-/* ORE
-to be deprecated in favor of PM_DEP and PM_DEPMISS (opaque) */
-typedef struct __pmdepend_t {
-	unsigned short mod;
-	char name[256];
-	char version[64];
-} pmdepend_t;
-
-typedef struct __pmdepmissing_t {
-	unsigned char type;
-	char target[256];
-	pmdepend_t depend;
-} pmdepmissing_t;
-
 void *alpm_trans_getinfo(unsigned char parm);
 int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);
 int alpm_trans_commit();
 int alpm_trans_release();
+
+/*
+ * Dependencies
+ */
+
+enum {
+	PM_DEP_MOD_ANY = 1,
+	PM_DEP_MOD_EQ,
+	PM_DEP_MOD_GE,
+	PM_DEP_MOD_LE
+};
+enum {
+	PM_DEP_TYPE_DEPEND = 1,
+	PM_DEP_TYPE_REQUIRED,
+	PM_DEP_TYPE_CONFLICT
+};
+/* Dependencies parameters */
+enum {
+	PM_DEP_TARGET = 1,
+	PM_DEP_TYPE,
+	PM_DEP_MOD,
+	PM_DEP_NAME,
+	PM_DEP_VERSION
+};
+
+void *alpm_dep_getinfo(PM_DEPMISS *miss, unsigned char parm);
 
 /*
  * PM_LIST helpers

@@ -150,14 +150,13 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			for(j = lp; j; j = j->next) {
 				pmdepmissing_t* miss = j->data;
 
-				if(miss->type == PM_DEP_DEPEND || miss->type == PM_DEP_REQUIRED) {
+				if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
 					if(!errorout) {
 						errorout = 1;
 					}
 					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
 						FREELIST(lp);
-						/* ORE, needed or not ?
-						FREELIST(*data);*/
+						FREELIST(*data);
 						RET_ERR(PM_ERR_MEMORY, -1);
 					}
 					*miss = *(pmdepmissing_t*)j->data;
@@ -173,7 +172,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			_alpm_log(PM_LOG_FLOW2, "looking for conflicts");
 			for(j = lp; j; j = j->next) {
 				pmdepmissing_t* miss = (pmdepmissing_t *)j->data;
-				if(miss->type == PM_DEP_CONFLICT) {
+				if(miss->type == PM_DEP_TYPE_CONFLICT) {
 					if(!errorout) {
 						errorout = 1;
 					}

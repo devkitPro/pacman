@@ -24,8 +24,20 @@
 #include "db.h"
 #include "sync.h"
 
+typedef struct __pmdepend_t {
+	unsigned char mod;
+	char name[PKG_NAME_LEN];
+	char version[PKG_VERSION_LEN];
+} pmdepend_t;
+
+typedef struct __pmdepmissing_t {
+	char target[PKG_NAME_LEN];
+	unsigned char type;
+	pmdepend_t depend;
+} pmdepmissing_t;
+
 PMList *sortbydeps(PMList *targets, int mode);
-PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages);
+PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages);
 int splitdep(char *depstr, pmdepend_t *depend);
 PMList *removedeps(pmdb_t *db, PMList *targs);
 int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, PMList *trail, PMList **data);
