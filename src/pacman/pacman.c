@@ -56,7 +56,6 @@ unsigned short pmo_verbose    = 0;
 unsigned short pmo_version    = 0;
 unsigned short pmo_help       = 0;
 unsigned short pmo_upgrade    = 0;
-unsigned short pmo_nosave     = 0;
 unsigned short pmo_noconfirm  = 0;
 unsigned short pmo_d_vertest  = 0;
 unsigned short pmo_d_resolve  = 0;
