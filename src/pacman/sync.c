@@ -127,7 +127,7 @@ static int sync_cleancache(int level)
 			for(i = clean; i; i = i->next) {
 				char path[PATH_MAX];
 
-				snprintf(path, PATH_MAX, "%s%s/%s", root, CACHEDIR, (char *)i->data);
+				snprintf(path, PATH_MAX, "%s"CACHEDIR"/%s", root, (char *)i->data);
 				unlink(path);
 			}
 			FREELIST(clean);
@@ -137,7 +137,7 @@ static int sync_cleancache(int level)
 			mode_t oldmask;
 			char path[PATH_MAX];
 
-			snprintf(path, PATH_MAX, "%s%s", root, CACHEDIR);
+			snprintf(path, PATH_MAX, "%s"CACHEDIR, root);
 
 			printf("removing all packages from cache... ");
 			if(rmrf(path)) {
