@@ -495,13 +495,8 @@ char *fetch_pkgurl(char *target)
 {
 	char spath[PATH_MAX];
 	char url[PATH_MAX];
-	server_t *server;
-	list_t *servers = NULL;
-	list_t *files = NULL;
 	char *host, *path, *fn;
-
-	/* ORE
-	do not download the file if it exists in the current dir */
+	struct stat buf;
 
 	strncpy(url, target, PATH_MAX);
 	host = strstr(url, "://");
@@ -524,25 +519,35 @@ char *fetch_pkgurl(char *target)
 		strcpy(spath, "/");
 	}
 
-	server = (server_t *)malloc(sizeof(server_t));
-	if(server == NULL) {
-		fprintf(stderr, "error: failed to allocate %d bytes\n", sizeof(server_t));
-		return(NULL);
-	}
-	server->protocol = url;
-	server->server = host;
-	server->path = spath;
-	servers = list_add(servers, server);
+	/* do not download the file if it exists in the current dir
+	 */
+	if(stat(fn, &buf) == 0) {
+		vprint(" %s is already in the current directory\n", fn);
+	} else {
+		server_t *server;
+		list_t *servers = NULL;
+		list_t *files = NULL;
 
-	files = list_add(files, fn);
-	if(downloadfiles(servers, ".", files)) {
-		fprintf(stderr, "error: failed to download %s\n", target);
-		return(NULL);
-	}
+		server = (server_t *)malloc(sizeof(server_t));
+		if(server == NULL) {
+			fprintf(stderr, "error: failed to allocate %d bytes\n", sizeof(server_t));
+			return(NULL);
+		}
+		server->protocol = url;
+		server->server = host;
+		server->path = spath;
+		servers = list_add(servers, server);
 
-	FREELIST(servers);
-	files->data = NULL;
-	FREELIST(files);
+		files = list_add(files, fn);
+		if(downloadfiles(servers, ".", files)) {
+			fprintf(stderr, "error: failed to download %s\n", target);
+			return(NULL);
+		}
+		files->data = NULL;
+		FREELIST(files);
+
+		FREELIST(servers);
+	}
 
 	/* return the target with the raw filename, no URL */
 	return(strndup(fn, PATH_MAX));
