@@ -26,7 +26,7 @@
 
 PMList *sortbydeps(PMList *targets, int mode);
 PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages);
-void splitdep(char *depstr, pmdepend_t *depend);
+int splitdep(char *depstr, pmdepend_t *depend);
 PMList *removedeps(pmdb_t *db, PMList *targs);
 int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, PMList *trail, PMList **data);
 

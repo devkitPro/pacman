@@ -460,13 +460,13 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 	return(baddeps);
 }
 
-void splitdep(char *depstr, pmdepend_t *depend)
+int splitdep(char *depstr, pmdepend_t *depend)
 {
 	char *str = NULL;
 	char *ptr = NULL;
 
 	if(depstr == NULL || depend == NULL) {
-		return;
+		return(-1);
 	}
 
 	depend->mod = 0;
@@ -490,7 +490,7 @@ void splitdep(char *depstr, pmdepend_t *depend)
 
 	if(ptr == NULL) {
 		FREE(str);
-		return;
+		return(0);
 	}
 	*ptr = '\0';
 	strncpy(depend->name, str, sizeof(depend->name));
@@ -501,7 +501,7 @@ void splitdep(char *depstr, pmdepend_t *depend)
 	strncpy(depend->version, ptr, sizeof(depend->version));
 	FREE(str);
 
-	return;
+	return(0);
 }
 
 /* return a new PMList target list containing all packages in the original
