@@ -89,7 +89,7 @@ int db_create(char *root, char *dbpath, char *treename)
 		return(-1);
 	}
 
-	snprintf(path, PATH_MAX, "%s%s/%s", root, dbpath);
+	snprintf(path, PATH_MAX, "%s%s/%s", root, dbpath, treename);
 	if(_alpm_makepath(path) != 0) {
 		return(-1);
 	}
