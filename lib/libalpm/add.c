@@ -96,7 +96,7 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	for(j = trans->packages; j; j = j->next) {
 		pmpkg_t *pkg = j->data;
 
-		if(strcmp(pkg->name, info->name) != 0) {
+		if(strcmp(pkg->name, info->name) == 0) {
 			if(rpmvercmp(pkg->version, info->version) < 0) {
 				_alpm_log(PM_LOG_WARNING, "replacing older version of %s in target list", pkg->name);
 				FREEPKG(j->data);
