@@ -456,8 +456,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DESC) {
 		snprintf(path, PATH_MAX, "%s/desc", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			/* ORE
-			perror("db_write");*/
+			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/desc", db->treename);
 			goto error;
 		}
 		fputs("%NAME%\n", fp);
@@ -494,8 +493,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_FILES) {
 		snprintf(path, PATH_MAX, "%s/files", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			/* ORE
-			perror("db_write"); */
+			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/files", db->treename);
 			goto error;
 		}
 		fputs("%FILES%\n", fp);
@@ -515,8 +513,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DEPENDS) {
 		snprintf(path, PATH_MAX, "%s/depends", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			/* ORE
-			perror("db_write"); */
+			_alpm_log(PM_LOG_ERROR, "could not open file %s/depends", db->treename);
 			goto error;
 		}
 		fputs("%DEPENDS%\n", fp);
