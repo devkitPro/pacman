@@ -538,7 +538,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 }
 
 /* populates *list with packages that need to be installed to satisfy all
- * dependencies (recursive) for *syncpkg->pkg
+ * dependencies (recursive) for syncpkg
  *
  * make sure *list and *trail are already initialized
  */

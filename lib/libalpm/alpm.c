@@ -443,7 +443,7 @@ void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm)
  * Sync operations
  */
 
-void *alpm_sync_getinfo(PM_SYNC *sync, unsigned char parm)
+void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm)
 {
 	void *data;
 
@@ -454,6 +454,7 @@ void *alpm_sync_getinfo(PM_SYNC *sync, unsigned char parm)
 		case PM_SYNC_TYPE:     data = (void *)(int)sync->type; break;
 		case PM_SYNC_LOCALPKG: data = sync->lpkg; break;
 		case PM_SYNC_SYNCPKG:  data = sync->spkg; break;
+		case PM_SYNC_REPLACES: data = sync->replaces; break;
 		default:
 			data = NULL;
 		break;
@@ -488,7 +489,8 @@ void *alpm_trans_getinfo(unsigned char parm)
 		case PM_TRANS_TYPE:     data = (void *)(int)trans->type; break;
 		case PM_TRANS_FLAGS:    data = (void *)(int)trans->flags; break;
 		case PM_TRANS_TARGETS:  data = trans->targets; break;
-		case PM_TRANS_PACKAGES: data = trans->packages; break;
+		case PM_TRANS_INSTALLQ: data = trans->install_q; break;
+		case PM_TRANS_REMOVEQ:  data = trans->remove_q; break;
 		default:
 			data = NULL;
 		break;

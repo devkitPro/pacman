@@ -36,7 +36,7 @@ typedef struct __pmlist_t PM_LIST;
 typedef struct __pmdb_t PM_DB;
 typedef struct __pmpkg_t PM_PKG;
 typedef struct __pmgrp_t PM_GRP;
-typedef struct __pmsync_t PM_SYNC;
+typedef struct __pmsyncpkg_t PM_SYNCPKG;
 typedef struct __pmtrans_t PM_TRANS;
 typedef struct __pmdepmissing_t PM_DEPMISS;
 
@@ -174,19 +174,19 @@ void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm);
 
 /* Types */
 enum {
-	PM_SYSUPG_REPLACE = 1,
-	PM_SYSUPG_UPGRADE,
-	PM_SYSUPG_DEPEND
+	PM_SYNC_TYPE_REPLACE = 1,
+	PM_SYNC_TYPE_UPGRADE,
+	PM_SYNC_TYPE_DEPEND
 };
 /* Info parameters */
 enum {
 	PM_SYNC_TYPE = 1,
 	PM_SYNC_LOCALPKG,
-	PM_SYNC_SYNCPKG
+	PM_SYNC_SYNCPKG,
+	PM_SYNC_REPLACES
 };
 
-void *alpm_sync_getinfo(PM_SYNC *sync, unsigned char parm);
-int alpm_sync_sysupgrade(PM_LIST **data);
+void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm);
 
 /*
  * Transactions
@@ -234,7 +234,8 @@ enum {
 	PM_TRANS_TYPE = 1,
 	PM_TRANS_FLAGS,
 	PM_TRANS_TARGETS,
-	PM_TRANS_PACKAGES
+	PM_TRANS_INSTALLQ,
+	PM_TRANS_REMOVEQ
 };
 
 void *alpm_trans_getinfo(unsigned char parm);
