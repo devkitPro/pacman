@@ -145,11 +145,21 @@ char *_alpm_strtrim(char *str)
 {
 	char *pch = str;
 
+	if(*str == '\0') {
+		/* string is empty, so we're done. */
+		return(str);
+	}
+
 	while(isspace(*pch)) {
 		pch++;
 	}
 	if(pch != str) {
 		memmove(str, pch, (strlen(pch) + 1));
+	}
+
+	/* check if there wasn't anything but whitespace in the string. */
+	if(*str == '\0') {
+		return(str);
 	}
 
 	pch = (char*)(str + (strlen(str) - 1));
@@ -158,7 +168,7 @@ char *_alpm_strtrim(char *str)
 	}
 	*++pch = '\0';
 
-	return str;
+	return(str);
 }
 
 /* A cheap grep for text files, returns 1 if a substring
