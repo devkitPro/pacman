@@ -212,7 +212,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 
 	if(target != NULL) {
 		/* search for a specific package (by name only) */
-		rewinddir(db->dir);
+		db_rewind(db);
 		while(!found && (ent = readdir(db->dir)) != NULL) {
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
 				continue;
@@ -635,7 +635,7 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root)
 	 *
 	pmpkg_t *info = NULL;
 	char *dbstr   = NULL;
-	rewinddir(db->dir);
+	db_rewind(db);
 	while((info = db_scan(db, NULL, INFRQ_DESC | INFRQ_FILES)) != NULL) {
 		for(i = info->files; i; i = i->next) {
 			if(i->data == NULL) continue;
