@@ -315,13 +315,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		/* Update the requiredby field by scaning the whole database 
 		 * looking for packages depending on the package to add */
 		for(lp = db_get_pkgcache(db); lp; lp = lp->next) {
-			pmpkg_t *tmpp = NULL;
+			pmpkg_t *tmpp = lp->data;
 			PMList *tmppm = NULL;
 
-			/* ORE
-			is it useful to call db_scan(DEPENDS)?
-			depends info are already stored in the cache... */
-			tmpp = db_scan(db, ((pmpkg_t *)lp->data)->name, INFRQ_DEPENDS);
 			if(tmpp == NULL) {
 				continue;
 			}
