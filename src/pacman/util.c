@@ -28,83 +28,10 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <dirent.h>
-#include <zlib.h>
-#include <libtar.h>
+#include <unistd.h>
 
 /* pacman */
 #include "util.h"
-
-/* borrowed and modified from Per Liden's pkgutils (http://crux.nu) */
-long gzopen_frontend(char *pathname, int oflags, int mode)
-{
-	char *gzoflags;
-	int fd;
-	gzFile gzf;
-
-	switch (oflags & O_ACCMODE) {
-		case O_WRONLY:
-			gzoflags = "w";
-			break;
-		case O_RDONLY:
-			gzoflags = "r";
-			break;
-		case O_RDWR:
-		default:
-			errno = EINVAL;
-			return -1;
-	}
-	
-	if((fd = open(pathname, oflags, mode)) == -1) {
-		return -1;
-	}
-	if((oflags & O_CREAT) && fchmod(fd, mode)) {
-		return -1;
-	}
-	if(!(gzf = gzdopen(fd, gzoflags))) {
-		errno = ENOMEM;
-		return -1;
-	}
-
-	return (long)gzf;
-}
-
-int unpack(char *archive, const char *prefix, const char *fn)
-{
-	TAR *tar = NULL;
-	char expath[PATH_MAX];
-	tartype_t gztype = {
-		(openfunc_t) gzopen_frontend,
-		(closefunc_t)gzclose,
-		(readfunc_t) gzread,
-		(writefunc_t)gzwrite
-	};
-
-	/* open the .tar.gz package */
-	if(tar_open(&tar, archive, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
-		perror(archive);
-		return(1);
-	}
-	while(!th_read(tar)) {
-		if(fn && strcmp(fn, th_get_pathname(tar))) {
-			if(TH_ISREG(tar) && tar_skip_regfile(tar)) {
-				char errorstr[255];
-				snprintf(errorstr, 255, "bad tar archive: %s", archive);
-				perror(errorstr);
-				tar_close(tar);
-				return(1);
-			}
-			continue;
-		}
-		snprintf(expath, PATH_MAX, "%s/%s", prefix, th_get_pathname(tar));
-		if(tar_extract_file(tar, expath)) {
-			fprintf(stderr, "could not extract %s: %s\n", th_get_pathname(tar), strerror(errno));
-		}
-		if(fn) break;
-	}
-	tar_close(tar);
-
-	return(0);
-}
 
 /* does the same thing as 'mkdir -p' */
 int makepath(char *path)

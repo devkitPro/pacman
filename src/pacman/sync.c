@@ -156,52 +156,44 @@ static int sync_cleancache(int level)
 
 static int sync_synctree(list_t *syncs)
 {
-	char path[PATH_MAX];
-	mode_t oldmask;
-	list_t *files = NULL;
+	char *root, *dbpath;
 	list_t *i;
-	int success = 0;
+	int ret = 0;
+
+	alpm_get_option(PM_OPT_ROOT, (long *)&root);
+	alpm_get_option(PM_OPT_DBPATH, (long *)&dbpath);
 
 	for(i = syncs; i; i = i->next) {
+		char path[PATH_MAX];
+		list_t *files = NULL;
 		sync_t *sync = (sync_t *)i->data;
 
 		/* build a one-element list */
 		snprintf(path, PATH_MAX, "%s"PM_EXT_DB, sync->treename);
 		files = list_add(files, strdup(path));
 
-		success = 1;
-		if(downloadfiles(sync->servers, pmo_dbpath, files)) {
+		snprintf(path, PATH_MAX, "%s%s", root, dbpath);
+
+		if(downloadfiles(sync->servers, path, files)) {
 			fprintf(stderr, "failed to synchronize %s\n", sync->treename);
-			success = 0;
+			FREELIST(files);
+			ret--;
+			continue;
 		}
 
 		FREELIST(files);
-		snprintf(path, PATH_MAX, "%s/%s"PM_EXT_DB, pmo_dbpath, sync->treename);
 
-		if(success) {
-			char ldir[PATH_MAX];
-
-			snprintf(ldir, PATH_MAX, "%s/%s", pmo_dbpath, sync->treename);
-			/* remove the old dir */
-			vprint("removing %s (if it exists)\n", ldir);
-			rmrf(ldir);
-
-			/* make the new dir */
-			oldmask = umask(0000);
-			mkdir(ldir, 0755);
-			umask(oldmask);
-
-			/* uncompress the sync database */
-			vprint("Unpacking %s...\n", path);
-			if(unpack(path, ldir, NULL)) {
-				return(1);
-			}
+		snprintf(path, PATH_MAX, "%s%s/%s"PM_EXT_DB, root, dbpath, sync->treename);
+		if(alpm_db_update(sync->treename, path) == -1) {
+			fprintf(stderr, "error: %s\n", alpm_strerror(pm_errno));
+			ret--;
 		}
+
 		/* remove the .tar.gz */
 		unlink(path);
 	}
 
-	return(!success);
+	return(ret);
 }
 
 static int sync_search(list_t *syncs, list_t *targets)

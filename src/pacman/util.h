@@ -26,10 +26,8 @@
                        fprintf(stderr, "malloc failure: could not allocate %d bytes\n", b); \
                        exit(1); }} else p = NULL; } while(0)
 
-#define FREE(p) do { if (p) { free(p); (p)= NULL; }} while(0)
+#define FREE(p) do { if (p) { free(p); (p) = NULL; }} while(0)
 
-long gzopen_frontend(char *pathname, int oflags, int mode);
-int unpack(char *archive, const char *prefix, const char *fn);
 int makepath(char *path);
 int rmrf(char *path);
 void indentprint(char *str, int indent);
