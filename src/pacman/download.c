@@ -50,6 +50,7 @@ extern char *pmo_xfercommand;
 
 extern unsigned short pmo_proxyport;
 extern unsigned short pmo_nopassiveftp;
+extern unsigned short pmo_chomp;
 
 extern int maxcols;
 
@@ -60,6 +61,11 @@ static int log_progress(netbuf *ctl, int xfered, void *arg)
 	int i, cur;
 	struct timeval t1;
 	float timediff;
+	/* a little hard to conceal easter eggs in open-source software, but
+	 * they're still fun.  ;)
+	 */
+	static unsigned short mouth;
+	static unsigned int   lastcur = 0;
 
 	gettimeofday(&t1, NULL);
 	if(xfered+offset == fsz) {
@@ -92,13 +98,39 @@ static int log_progress(netbuf *ctl, int xfered, void *arg)
 	printf(" %s [", sync_fnm);
 	cur = (int)((maxcols-64)*pct/100);
 	for(i = 0; i < maxcols-64; i++) {
-		(i < cur) ? printf("#") : printf(" ");
+		if(pmo_chomp) {
+			if(i < cur) {
+				printf("-");
+			} else {
+				if(i == cur) {
+					if(lastcur == cur) {
+						if(mouth) {
+							printf("\033[1;33mC\033[m");
+						} else {
+							printf("\033[1;33mc\033[m");
+						}
+					} else {
+						mouth = mouth == 1 ? 0 : 1;
+						if(mouth) {
+							printf("\033[1;33mC\033[m");
+						} else {
+							printf("\033[1;33mc\033[m");
+						}
+					}
+				} else {
+					printf("\033[0;37m*\033[m");
+				}
+			}
+		} else {
+			(i < cur) ? printf("#") : printf(" ");
+		}
 	}
 	if(rate > 1000) {
 		printf("] %3d%%  %6dK  %6.0fK/s  %02d:%02d:%02d\r", pct, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
 	} else {
 		printf("] %3d%%  %6dK  %6.1fK/s  %02d:%02d:%02d\r", pct, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
 	}
+	lastcur = cur;
 	fflush(stdout);
 	return(1);
 }
@@ -202,7 +234,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				char *host;
 				unsigned port;
 				host = (pmo_proxyhost) ? pmo_proxyhost : server->server;
-				port = (pmo_proxyhost) ? pmo_proxyport : 80;
+				port = (pmo_proxyport) ? pmo_proxyport : 80;
 				if(strchr(host, ':')) {
 					vprint("connecting to %s\n", host);
 				} else {

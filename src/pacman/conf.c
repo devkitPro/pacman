@@ -39,6 +39,7 @@ extern list_t *pmo_holdpkg;
 extern char *pmo_proxyhost;
 extern unsigned short pmo_proxyport;
 extern char *pmo_xfercommand;
+extern unsigned short pmo_chomp;
 extern unsigned short pmo_nopassiveftp;
 
 extern list_t *pmc_syncs;
@@ -126,6 +127,8 @@ int parseconfig(char *file)
 						return(1);
 					}
 					vprint("config: usesyslog\n");
+				} else if(!strcmp(key, "ILOVECANDY")) {
+					pmo_chomp = 1;
 				} else {
 					ERR(NL, "config: line %d: syntax error\n", linenum);
 					return(1);

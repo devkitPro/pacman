@@ -73,6 +73,7 @@ list_t        *pmo_holdpkg      = NULL;
 char          *pmo_proxyhost    = NULL;
 unsigned short pmo_proxyport    = 0;
 char          *pmo_xfercommand  = NULL;
+unsigned short pmo_chomp        = 0;
 unsigned short pmo_nopassiveftp = 0;
 
 PM_DB *db_local;
