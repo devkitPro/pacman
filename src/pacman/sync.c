@@ -35,6 +35,7 @@
 #include "list.h"
 #include "package.h"
 #include "db.h"
+#include "trans.h"
 #include "sync.h"
 #include "pacman.h"
 
@@ -73,10 +74,10 @@ static int sync_cleancache(int level)
 
 			snprintf(dirpath, PATH_MAX, "%s"CACHEDIR, root);
 
-			printf("removing old packages from cache... ");
+			MSG(NL, "removing old packages from cache... ");
 			dir = opendir(dirpath);
 			if(dir == NULL) {
-				fprintf(stderr, "error: could not access cache directory\n");
+				ERR(NL, "could not access cache directory\n");
 				return(1);
 			}
 			rewinddir(dir);
@@ -135,27 +136,23 @@ static int sync_cleancache(int level)
 			}
 			FREELIST(clean);
 		} else {
-			/* ORE
-			// full cleanup
-			mode_t oldmask;
+			/* full cleanup */
 			char path[PATH_MAX];
 
 			snprintf(path, PATH_MAX, "%s"CACHEDIR, root);
 
-			printf("removing all packages from cache... ");
+			MSG(NL, "removing all packages from cache... ");
 			if(rmrf(path)) {
-				fprintf(stderr, "error: could not remove cache directory\n");
+				ERR(NL, "could not remove cache directory\n");
 				return(1);
 			}
 
-			oldmask = umask(0000);
 			if(makepath(path)) {
-				fprintf(stderr, "error: could not create new cache directory\n");
+				ERR(NL, "could not create new cache directory\n");
 				return(1);
 			}
-			umask(oldmask);*/
 		}
-		printf("done.\n");
+		MSG(CL, "done.\n");
 		return(0);
 }
 
@@ -422,7 +419,7 @@ int pacman_sync(list_t *targets)
 
 	/* Step 1: create a new transaction...
 	 */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, NULL) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, cb_trans) == -1) {
 		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
@@ -488,12 +485,15 @@ int pacman_sync(list_t *targets)
 			}
 		}
 		alpm_list_free(data);
+		data = NULL;
 	}
 
 	/* and add targets to it
 	 */
 	for(i = targets; i; i = i->next) {
 		char *targ = i->data;
+
+		printf("TARGET=%s\n", targ);
 
 		if(alpm_trans_addtarget(targ) == -1) {
 			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
@@ -536,8 +536,6 @@ int pacman_sync(list_t *targets)
 		}
 	}
 
-	PM_LIST_display("target :", alpm_trans_getinfo(PM_TRANS_TARGETS));
-
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
 		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
@@ -545,7 +543,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	/* list targets */
-	if(final && !pmo_s_printuris) {
+	if(!pmo_s_printuris) {
 		list_t *list = NULL;
 		char *str;
 		unsigned long totalsize = 0;
@@ -652,13 +650,10 @@ int pacman_sync(list_t *targets)
 				MSG(NL, "\n:: Retrieving packages from %s...\n", current->treename);
 				fflush(stdout);
 				if(stat(ldir, &buf)) {
-					mode_t oldmask;
-
 					/* no cache directory.... try creating it */
 					MSG(NL, "warning: no %s cache exists.  creating...", ldir);
 					alpm_logaction("warning: no %s cache exists.  creating...", ldir);
-					oldmask = umask(0000);
-					if(makepath(ldir)) {				
+					if(makepath(ldir)) {
 						/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
 						 * the package afterwards.
 						 */
@@ -667,7 +662,6 @@ int pacman_sync(list_t *targets)
 						snprintf(ldir, PATH_MAX, "/tmp");
 						varcache = 0;
 					}
-					umask(oldmask);
 				}
 				if(downloadfiles(current->servers, ldir, files)) {
 					ERR(NL, "failed to retrieve some files from %s\n", current->treename);
