@@ -42,18 +42,49 @@
 
 extern pmhandle_t *handle;
 
-pmsync_t *sync_new(int type, pmpkg_t *lpkg, pmpkg_t *spkg)
+pmsyncpkg_t *sync_new(int type, pmpkg_t *lpkg, pmpkg_t *spkg)
 {
-	pmsync_t *sync;
+	pmsyncpkg_t *sync;
 
-	if((sync = (pmsync_t *)malloc(sizeof(pmsync_t))) == NULL) {
+	if((sync = (pmsyncpkg_t *)malloc(sizeof(pmsyncpkg_t))) == NULL) {
 		return(NULL);
 	}
 
 	sync->type = type;
 	sync->lpkg = lpkg;
 	sync->spkg = spkg;
+	sync->replaces = NULL;
 	
+	return(sync);
+}
+
+void sync_free(pmsyncpkg_t *sync)
+{
+	if(sync) {
+		FREELISTPTR(sync->replaces);
+		free(sync);
+	}
+}
+
+/* Test for existance of a package in a PMList* of pmsyncpkg_t*
+ * If found, return a pointer to the respective pmsyncpkg_t*
+ */
+static pmsyncpkg_t* find_pkginsync(char *needle, PMList *haystack)
+{
+	PMList *i;
+	pmsyncpkg_t *sync = NULL;
+	int found = 0;
+
+	for(i = haystack; i && !found; i = i->next) {
+		sync = i->data;
+		if(sync && !strcmp(sync->spkg->name, needle)) {
+			found = 1;
+		}
+	}
+	if(!found) {
+		sync = NULL;
+	}
+
 	return(sync);
 }
 
@@ -119,7 +150,7 @@ int sync_sysupgrade(PMList **data)
 							_alpm_log(PM_LOG_WARNING, "%s-%s: ignoring package upgrade (to be replaced by %s-%s)",
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
 						} else {
-							pmsync_t *sync = sync_new(PM_SYSUPG_REPLACE, lpkg, spkg);
+							pmsyncpkg_t *sync = sync_new(PM_SYNC_TYPE_REPLACE, lpkg, spkg);
 							if(sync == NULL) {
 								pm_errno = PM_ERR_MEMORY;
 								goto error;
@@ -139,7 +170,7 @@ int sync_sysupgrade(PMList **data)
 		int cmp;
 		pmpkg_t *local = i->data;
 		pmpkg_t *spkg = NULL;
-		pmsync_t *sync;
+		pmsyncpkg_t *sync;
 
 		for(j = handle->dbs_sync; !spkg && j; j = j->next) {
 
@@ -168,7 +199,7 @@ int sync_sysupgrade(PMList **data)
 			_alpm_log(PM_LOG_FLOW1, "%s-%s: ignoring package upgrade (%s)",
 				local->name, local->version, spkg->version);
 		} else {
-			sync = sync_new(PM_SYSUPG_UPGRADE, local, spkg);
+			sync = sync_new(PM_SYNC_TYPE_UPGRADE, local, spkg);
 			if(sync == NULL) {
 				pm_errno = PM_ERR_MEMORY;
 				goto error;
@@ -191,75 +222,89 @@ error:
 int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name)
 {
 	char targline[(PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1];
-	char *targ, *treename;
+	char *targ;
 	PMList *j;
 	pmpkg_t *local;
-	pmpkg_t *sync = NULL;
+	pmpkg_t *spkg = NULL;
+	pmsyncpkg_t *sync;
 	int cmp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
+	if(trans->flags & PM_TRANS_FLAG_SYSUPG) {
+	}
+
 	strncpy(targline, name, (PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1);
 	targ = strchr(targline, '/');
 	if(targ) {
 		*targ = '\0';
 		targ++;
-		treename = targline;
-		for(j = dbs_sync; j && !sync; j = j->next) {
+		for(j = dbs_sync; j && !spkg; j = j->next) {
 			pmdb_t *dbs = j->data;
 			if(strcmp(dbs->treename, targline) == 0) {
-				sync = db_scan(dbs, targ, INFRQ_DESC|INFRQ_DEPENDS);
+				spkg = db_get_pkgfromcache(dbs, targ);
+				if(spkg == NULL) {
+					RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+				}
 			}
 		}
 	} else {
 		targ = targline;
-		for(j = dbs_sync; j && !sync; j = j->next) {
+		for(j = dbs_sync; j && !spkg; j = j->next) {
 			pmdb_t *dbs = j->data;
-			sync = db_scan(dbs, targ, INFRQ_DESC|INFRQ_DEPENDS);
-		}
-	}
-	if(sync == NULL) {
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
-	}
-
-	/* if not a sysupgrade, compare versions and determine if it is necessary */
-	if(!trans->flags & PM_TRANS_FLAG_SYSUPG) {
-		local = db_get_pkgfromcache(db, name);
-		if(local) {
-			cmp = alpm_pkg_vercmp(local->version, sync->version);
-			if(cmp > 0) {
-				/* local version is newer - get confirmation first */
-				/* ORE
-				if(!yesno(":: %s-%s: local version is newer.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
-				}*/
-				_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping");
-				FREE(sync);
-				return(0);
-			} else if(cmp == 0) {
-				/* versions are identical */
-				/* ORE
-				if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
-				}*/
-				_alpm_log(PM_LOG_WARNING, "%s-%s: is up to date -- skipping");
-				FREE(sync);
-				return(0);
+			spkg = db_get_pkgfromcache(dbs, targ);
+			if(spkg == NULL) {
+				continue;
 			}
 		}
 	}
+	if(spkg == NULL) {
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	}
 
+	local = db_get_pkgfromcache(db, name);
+	if(local) {
+		cmp = alpm_pkg_vercmp(local->version, spkg->version);
+		if(cmp > 0) {
+			/* local version is newer - get confirmation first */
+			/* ORE
+			if(!yesno(":: %s-%s: local version is newer.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
+			}*/
+			_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping");
+			return(0);
+		} else if(cmp == 0) {
+			/* versions are identical */
+			/* ORE
+			if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
+			}*/
+			_alpm_log(PM_LOG_WARNING, "%s-%s: is up to date -- skipping");
+			return(0);
+		}
+	}
+
+	sync = sync_new(PM_SYNC_TYPE_UPGRADE, local, spkg);
+	if(sync == NULL) {
+		RET_ERR(PM_ERR_MEMORY, -1);
+	}
 	/* add the package to the transaction */
-	trans->packages = pm_list_add(trans->packages, sync);
+	if(!find_pkginsync(sync->spkg->name, trans->packages)) {
+		trans->packages = pm_list_add(trans->packages, sync);
+	}
 
 	return(0);
 }
 
 int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 {
+	PMList *deps = NULL;
 	PMList *list = NULL;
 	PMList *trail = NULL;
 	PMList *i;
+
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	if(trans->packages == NULL) {
 		return(0);
@@ -269,46 +314,62 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 
-		list = pm_list_new();
-		trail = pm_list_new();
-
 		for(i = trans->packages; i; i = i->next) {
-			pmpkg_t *sync = i->data;
-			_alpm_log(PM_LOG_FLOW1, "resolving dependencies for package %s", sync->name);
-			if(resolvedeps(handle->db_local, handle->dbs_sync, sync, list, trail) == -1) {
+			pmsyncpkg_t *sync = i->data;
+			list = pm_list_add(list, sync->spkg);
+		}
+		trail = pm_list_new();
+		for(i = list; i; i = i->next) {
+			pmpkg_t *spkg = i->data;
+			_alpm_log(PM_LOG_FLOW1, "resolving dependencies for package %s", spkg->name);
+			if(resolvedeps(handle->db_local, handle->dbs_sync, spkg, trans->packages, trail) == -1) {
 				/* pm_errno is set by resolvedeps */
 				goto error;
 			}
 			/* ORE
 			if called from makepkg, reason should be set to REASON_DEPEND */
-			sync->reason = PM_PKG_REASON_EXPLICIT;
-		}
-		FREELISTPTR(trail);
-
-		for(i = list; i; i = i->next) {
-			pmpkg_t *sync = i->data;
-			if(sync == NULL) {
-				continue;
-			}
-			if(!pkg_isin(sync, trans->packages)) {
-				pmpkg_t *pkg = db_scan(sync->data, sync->name, INFRQ_DESC|INFRQ_DEPENDS);
-				if(pkg == NULL) {
-					_alpm_log(PM_LOG_ERROR, "could not find package \"%s\" in repository %s",
-					          sync->name, ((pmdb_t *)sync->data)->treename);
-					pm_errno = PM_ERR_PKG_NOT_FOUND;
-					goto error;
-				}
-				pkg->reason = PM_PKG_REASON_DEPEND;
-				trans->packages = pm_list_add(trans->packages, pkg);
-			}
+			spkg->reason = PM_PKG_REASON_EXPLICIT;
 		}
 		FREELISTPTR(list);
+		FREELISTPTR(trail);
 
 		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
 	}
 
 	/* ORE
 	check for inter-conflicts and whatnot */
+	for(i = trans->packages; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		if(sync) {
+			list = pm_list_add(list, sync->spkg);
+		}
+	}
+	deps = checkdeps(db, PM_TRANS_TYPE_UPGRADE, list);
+	if(deps) {
+		int errorout = 0;
+		for(i = deps; i; i = i->next) {
+			pmdepmissing_t *miss = i->data;
+			if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
+				/*if(!errorout) {
+					fprintf(stderr, "error: unresolvable dependencies:\n");
+					errorout = 1;
+				}
+				fprintf(stderr, "  %s: requires %s", miss->target, miss->depend.name);
+				switch(miss->depend.mod) {
+					case PM_DEP_MOD_EQ:  fprintf(stderr, "=%s",  miss->depend.version); break;
+					case PM_DEP_MOD_GE:  fprintf(stderr, ">=%s", miss->depend.version); break;
+					case PM_DEP_MOD_LE:  fprintf(stderr, "<=%s", miss->depend.version); break;
+				}
+				if(miss->type == PM_DEP_TYPE_DEPEND) {
+					fprintf(stderr, " but it is not in the sync db\n");
+				} else {
+					fprintf(stderr, "\n");
+				}*/
+			}
+		}
+		/* ORE
+		then look for conflicts */
+	}
 
 	/* ORE
 	any packages in rmtargs need to be removed from final.
@@ -326,21 +387,32 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 error:
 	FREELISTPTR(list);
 	FREELISTPTR(trail);
+	FREELIST(deps);
 	return(-1);
 }
 
 int sync_commit(pmdb_t *db, pmtrans_t *trans)
 {
-	PMList *i, *files = NULL;
+	PMList *i, *j, *files = NULL;
 	PMList *final = NULL;
+	PMList *rmtargs = NULL;
 	PMList *data;
 	pmtrans_t *tr;
 
 	/* remove any conflicting packages (WITHOUT dep checks) */
+	/* ORE - alpm does not handle removal of conflicting pkgs for now */
 
 	/* remove to-be-replaced packages */
+	for(i = final; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		for(j = sync->replaces; j; j = j->next) {
+			pmpkg_t *pkg = j->data;
+			rmtargs = pm_list_add(rmtargs, strdup(pkg->name));
+		}
+	}
 
 	/* install targets */
+	/* ORE - need for a flag specifying that deps have already been checked */
 	tr = trans_new(PM_TRANS_TYPE_UPGRADE, 0);
 	for(i = files; i; i = i->next) {
 		trans_addtarget(tr, i->data);

@@ -38,6 +38,8 @@ void sync_free(pmsyncpkg_t *sync);
 
 PMList *sync_load_archive(char *archive);
 
+int sync_sysupgrade(pmlist_t **data);
+
 int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name);
 int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data);
 int sync_commit(pmdb_t *db, pmtrans_t *trans);
