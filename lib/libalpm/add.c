@@ -252,8 +252,8 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 
 				/* we'll need the full record for backup checks later */
 				/* ORE
-				in fact, there's only a need for "backup" and "md5sum" fields, so
-				we should only copy these 2 ones from info, and thus save a call
+				in fact, there's only a need for "version", "backup" and "reason" fields,
+				so we should only copy them from the cache, and thus save a call
 				to db_scan(ALL) */
 				oldpkg = db_scan(db, info->name, INFRQ_ALL);
 
@@ -266,13 +266,11 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 					pmtrans_t *tr;
 
 					_alpm_log(PM_LOG_FLOW1, "removing old package first");
-					/* ORE
-					set flags to something, but what (nodeps?) ??? */
 					tr = trans_new();
 					if(tr == NULL) {
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
-					if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, 0, NULL) == -1) {
+					if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags, NULL) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
@@ -347,16 +345,16 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			alpm_logaction(NULL, "error updating database for %s-%s!", info->name, info->version);
 			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
-
 		/* ORE
 		in case of an installation, then add info in the pkgcache
 		in case of an upgrade, then replace the existing one (or just add because
-		trans_remove should already has removed it? */
+		trans_remove should already has removed it?
+		something like db_cache_addpkg(db, pkgdup(info)); (should also free db->grpcache) */
 
 		/* update dependency packages' REQUIREDBY fields */
 		_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
 		for(lp = info->depends; lp; lp = lp->next) {
-			pmpkg_t *depinfo = NULL;
+			pmpkg_t *depinfo;
 			pmdepend_t depend;
 
 			if(splitdep(lp->data, &depend)) {
@@ -373,6 +371,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 				cache, thus eliminating the need for db_scan(DEPENDS) */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
+					/* TODO: should check _all_ packages listed in provides, not just
+					 *       the first one.
+					 */
 					/* use the first one */
 					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
 					FREELISTPTR(provides);
