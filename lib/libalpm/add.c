@@ -561,10 +561,10 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			_alpm_runscriptlet(handle->root, pm_install, "post_install", info->version, NULL);
 		}
 
-		if(pmo_upgrade && oldpkg) {
+		if(pmo_upgrade) {
 			TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_DONE, info, NULL);
 			alpm_logaction("upgraded %s (%s -> %s)", info->name,
-				oldpkg->version, info->version);
+				oldpkg ? oldpkg->version : NULL, info->version);
 		} else {
 			TRANS_CB(trans, PM_TRANS_EVT_ADD_DONE, info, NULL);
 			alpm_logaction("installed %s (%s)", info->name, info->version);
