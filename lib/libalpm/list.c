@@ -89,6 +89,9 @@ PMList* pm_list_add(PMList *list, void *data)
 	ptr = list;
 	if(ptr == NULL) {
 		ptr = pm_list_new();
+		if(ptr == NULL) {
+			return(NULL);
+		}
 	}
 
 	lp = pm_list_last(ptr);

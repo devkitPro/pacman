@@ -26,7 +26,7 @@ typedef struct __pmlist_t {
 	void *data;
 	struct __pmlist_t *prev;
 	struct __pmlist_t *next;
-	struct __pmlist_t *last;
+	struct __pmlist_t *last; /* Quick access to last item in list */
 } pmlist_t;
 
 typedef struct __pmlist_t PMList;
