@@ -23,8 +23,6 @@
 
 #define LOG_STR_LEN 256
 
-typedef void (*alpm_cb_log)(unsigned short, char *);
-
 void _alpm_log(unsigned char flag, char *fmt, ...);
 
 int _alpm_log_action(unsigned char usesyslog, FILE *f, char *fmt, ...);

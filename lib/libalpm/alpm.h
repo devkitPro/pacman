@@ -61,6 +61,9 @@ int alpm_release();
 #define PM_LOG_FLOW2    0x10
 #define PM_LOG_FUNCTION 0x20
 
+/* Log callback */
+typedef void (*alpm_cb_log)(unsigned short, char *);
+
 int alpm_logaction(char *fmt, ...);
 
 /*
@@ -209,7 +212,7 @@ enum {
 	PM_TRANS_EVT_UPGRADE_DONE
 };
 
-/* Callback */
+/* Event callback */
 typedef void (*alpm_trans_cb)(unsigned short, void *, void *);
 
 /* Info parameters */

@@ -24,6 +24,7 @@
 #include <stdarg.h>
 #include <time.h>
 /* pacman */
+#include "alpm.h"
 #include "log.h"
 
 /* Internal library log mechanism */
