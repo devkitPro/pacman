@@ -228,11 +228,15 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 				/* look for a provides package */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
+					PMList *p;
 					/* TODO: should check _all_ packages listed in provides, not just
 					 *       the first one.
 					 */
 					/* use the first one */
-					depinfo = db_scan(db, provides->data, INFRQ_DEPENDS);
+					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
+					for(p = provides; p; p = p->next) {
+						p->data = NULL;
+					}
 					FREELIST(provides);
 					if(depinfo == NULL) {
 						/* wtf */

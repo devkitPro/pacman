@@ -98,9 +98,10 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 
 		if(strcmp(pkg->name, info->name) == 0) {
 			if(rpmvercmp(pkg->version, info->version) < 0) {
-				_alpm_log(PM_LOG_WARNING, "replacing older version of %s in target list", pkg->name);
+				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, info->version);
 				FREEPKG(j->data);
 				j->data = info;
+				return(0);
 			} else {
 				pm_errno = PM_ERR_TRANS_DUP_TARGET;
 				goto error;
@@ -372,6 +373,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			if(splitdep(lp->data, &depend)) {
 				continue;
 			}
+
 			/* ORE
 			same thing here: we should browse the cache instead of using db_scan */
 			depinfo = db_scan(db, depend.name, INFRQ_DESC|INFRQ_DEPENDS);
@@ -382,15 +384,15 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 				cache, thus eliminating the need for db_scan(DEPENDS) */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
+					PMList *p;
 					/* use the first one */
-					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DEPENDS);
+					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
+					for(p = provides; p; p = p->next) {
+						p->data = NULL;
+					}
+					FREELIST(provides);
 					if(depinfo == NULL) {
-						PMList *lp;
 						/* wtf */
-						for(lp = provides; lp; lp = lp->next) {
-							lp->data = NULL;
-						}
-						FREELIST(provides);
 						continue;
 					}
 				} else {
