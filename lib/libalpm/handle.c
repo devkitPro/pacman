@@ -109,33 +109,16 @@ int handle_free(pmhandle_t *handle)
 
 int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 {
-	PMList *lp;
-	char str[PATH_MAX];
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	switch(val) {
 		case PM_OPT_DBPATH:
-			if(handle->db_local) {
-				RET_ERR(PM_ERR_DB_NOT_NULL, -1);
+			if(handle->dbpath) {
+				FREE(handle->dbpath);
 			}
-			for(lp = handle->dbs_sync; lp; lp = lp->next) {
-				if(lp->data) {
-					RET_ERR(PM_ERR_DB_NOT_NULL, -1);
-				}
-			}
-
-			if(handle->trans && handle->trans->state != STATE_IDLE) {
-				RET_ERR(PM_ERR_TRANS_INITIALIZED, -1);
-			}
-
-			strncpy(str, ((char *)data) ? (char *)data : PM_DBPATH, PATH_MAX);
-			handle->dbpath = strdup(str);
+			handle->dbpath = strdup((data && strlen((char *)data) != 0) ? (char *)data : PM_DBPATH);
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_DBPATH set to '%s'", handle->dbpath);
-			/* ORE
-			We should browse all databases to update db->path fields with the new 
-			DBPATH value */
 		break;
 		case PM_OPT_LOGFILE:
 			if((char *)data == NULL || handle->uid != 0) {
