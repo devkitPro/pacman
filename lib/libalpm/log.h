@@ -25,8 +25,6 @@
 
 void _alpm_log(unsigned char flag, char *fmt, ...);
 
-int _alpm_log_action(unsigned char usesyslog, FILE *f, char *fmt, ...);
-
 #endif /* _ALPM_LOG_H */
 
 /* vim: set ts=2 sw=2 noet: */
