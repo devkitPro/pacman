@@ -1,0 +1,231 @@
+#!/bin/bash
+# 
+#   updatesync
+#  
+#   Copyright (c) 2004 by Jason Chu <jason@archlinux.org>
+#   Derived from gensync (c) 2002-2004 Judd Vinet <jvinet@zeroflux.org>
+#  
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+# 
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   USA.
+#
+
+myver='2.9.2'
+
+usage() {
+	echo "updatesync $myver"
+	echo "usage: $0 <action> <destfile> <option> [package_directory]"
+	echo
+	echo "updatesync will update a sync database by reading a PKGBUILD and"
+	echo "modifying the destfile. updatesync updates the database in a temporary"
+	echo "directory and then compresses it to <destfile>."
+	echo
+	echo "There are two types of actions:"
+	echo
+	echo "upd - Will update a package's entry or create it if it doesn't exist."
+	echo "      It takes the package's PKGBUILD as an option."
+	echo "del - Will remove a package's entry from the db."
+	echo "      It takes the package's name as an option."
+	echo
+	echo "updatesync will calculate md5sums of packages in the same directory as"
+	echo "<destfile>, unless an alternate [package_directory] is specified."
+	echo
+	echo "example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
+	echo
+	echo
+	exit 0
+}
+
+die()
+{
+	echo "updatesync: $*" >&2
+	rm -rf $ustmpdir
+	exit 1
+}
+
+get_md5checksum()
+{
+	if [ "$pkgdir" != "" ]; then
+		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	else
+		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	fi
+	if [ -f $pkgfile ]; then
+		md5line=`md5sum $pkgfile`
+		[ ! -z "$md5line" ] && pkgmd5sum=${md5line%  *}
+		echo $pkgmd5sum
+	fi
+	return 0
+}
+
+db_write_entry()
+{
+	unset pkgname pkgver pkgrel pkgdesc force
+	unset groups replaces provides depends conflicts
+	source $1 || return 1
+	cd $ustmpdir
+	mkdir $pkgname-$pkgver-$pkgrel || return 1
+	cd $pkgname-$pkgver-$pkgrel
+	# desc
+	: >desc
+	echo "%NAME%" >>desc
+	echo "$pkgname" >>desc
+	echo "" >>desc
+	echo "%VERSION%" >>desc
+	echo "$pkgver-$pkgrel" >>desc
+	echo "" >>desc
+	echo "%DESC%" >>desc
+	echo "$pkgdesc" >>desc
+	echo "" >>desc
+	echo "%CSIZE%" >>desc
+	echo "$csize" >>desc
+	echo "" >>desc
+	if [ ! -z $pkgmd5sum ]; then
+		echo "%MD5SUM%" >>desc
+		echo "$pkgmd5sum" >>desc
+		echo "" >>desc
+	fi
+	if [ ${#groups[*]} -gt 0 ]; then
+		echo "%GROUPS%" >>desc
+		for it in "${groups[@]}"; do
+			echo "$it" >>desc
+		done
+		echo "" >>desc
+	fi
+	if [ ${#replaces[*]} -gt 0 ]; then
+		echo "%REPLACES%" >>desc
+		for it in "${replaces[@]}"; do
+			echo "$it" >>desc
+		done
+		echo "" >>desc
+	fi
+	if [ "$force" = "y" -o "$force" = "Y" ]; then
+		echo "%FORCE%" >>desc
+		echo "" >>desc
+	fi
+	# depends
+	: >depends
+	if [ ${#depends[*]} -gt 0 ]; then
+		echo "%DEPENDS%" >>depends
+		for it in "${depends[@]}"; do
+		  echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+	if [ ${#conflicts[*]} -gt 0 ]; then
+		echo "%CONFLICTS%" >>depends
+		for it in "${conflicts[@]}"; do
+		  echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+	if [ ${#provides[*]} -gt 0 ]; then
+		echo "%PROVIDES%" >>depends
+		for it in "${provides[@]}"; do
+		  echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+}
+
+delete_entry()
+{
+	echo $1 | grep PKGBUILD 2>&1 >/dev/null
+	if [ $? -eq 0 ]; then
+		source $1
+	else
+		pkgname=$1
+	fi
+	for i in *; do
+		if [ "${i%-*-*}" = "$pkgname" ]; then
+			echo "updatesync: deleting $i" >&2
+			rm -rf $i
+		fi
+	done
+}
+
+if [ $# -lt 3 ]; then
+	usage
+	exit 0
+fi
+
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+	usage
+	exit 0
+fi
+
+action=$1
+pkgdb=$2
+option=$3
+curdir="`pwd`"
+pkgdir=$curdir
+if [ "$4" != "" ]; then
+	pkgdir=$4
+fi
+
+if [ "$action" != "upd" -a "$action" != "del" ]; then
+	usage
+	exit 1
+fi
+
+ustmpdir=$(mktemp -d /tmp/updatesync.XXXXXXXXXX) || exit 1
+
+cd $ustmpdir
+if [ ! -f $pkgdb ]; then
+	if [ ! -f $curdir/$pkgdb ]; then
+		echo "updatesync: $pkgdb not found"
+		exit 1
+	fi
+	pkgdb=$curdir/$pkgdb
+fi
+
+if [ "$action" = "upd" -a ! -f $option ]; then
+	if [ ! -f $curdir/$option ]; then
+		echo "updatesync: $option not found"
+		exit 1
+	fi
+	option=$curdir/$option
+fi
+
+echo "updatesync: uncompressing to $ustmpdir..." >&2
+tar -xzf $pkgdb || die "error uncompressing $pkgdb"
+if [ "$action" = "upd" ]; then
+	# INSERT / UPDATE
+	delete_entry $option
+
+	source $option || die "errors parsing $option"
+	if [ "$pkgdir" != "" ]; then
+		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	else
+		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	fi
+	[ -f $pkgfile ] || die "missing package file: $pkgfile"
+	csize=`du -b $pkgfile | cut -f1`
+	pkgmd5sum=`get_md5checksum $pkgfile`
+	[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
+	echo "updatesync: creating entry for $option" >&2
+	db_write_entry $option || die "error writing entry for $option"
+else
+	# DELETE
+	delete_entry $option
+fi
+
+echo "updatesync: compressing to $pkgdb..." >&2
+cd $ustmpdir
+tar c * | gzip -9 >$pkgdb || die "error writing to $pkgdb"
+
+cd $curdir
+rm -rf $ustmpdir
+
+exit 0

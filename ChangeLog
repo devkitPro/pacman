@@ -1,0 +1,268 @@
+VERSION         DESCRIPTION
+-----------------------------------------------------------------------------
+2.9.5         - bugfix: missing files after re-ordering packages wrt
+                deps with --upgrade
+              - added "Repository" line to -Si output
+              - patch from Tommi Rantala to fix trim() behaviour with
+                empty or whitespace-only strings
+              - fixed removal order when using -Rc or -Rs
+2.9.4         - fixed a bug that was introduced from another bugfix :-/
+2.9.3         - fixed a couple manpage typos
+              - added --ignore to -S operations, works just like IgnorePkg
+              - respect IgnorePkg list when pulling in dependencies
+              - numerous memleak fixes
+              - some code changes to improve customizability/branding
+              - Makefile fix for nonstandard lib search paths (Kevin Piche)
+              - fixed the leftover directories in /tmp
+              - speed improvement patches from Tommi Rantala
+2.9.2         - bugfix for 2.9.1 
+2.9.1         - --refresh now only downloads fresh packages lists if they've
+                been updated (currently only works with FTP)
+2.9           - Improved -Rs functionality -- pacman now tracks why a package
+                is installed: explicitly, or as a dependency for another
+                package.  -Rs will only remove dependencies that were not
+                explicitly installed.
+              - Added compressed package size to sync DBs -- shows the total
+                size of packages before downloading
+              - Patch from Tommi Rantala:
+                - Allow --info and --list together in queries
+              - Patch from Kevin Piche:
+                - Use list_add_sorted() with -Sg
+              - Patch from Hegedus Marton Csaba:
+                - Better manpage compression
+              - Added checks for additional hyphens in package versions
+              - mktemp was failing if %pmo_root%/tmp was missing -- fixed
+2.8.4         - Added updatesync script from Jason Chu
+              - Changed the pacman binary to be dynamically linked
+                - Included a pacman.static binary as well
+                - Added fakeroot checks when seeing if we're root
+              - Fixed makepkg to use 'tail -n 1' instead of 'tail -1'
+              - Added patch from Kevin Piche:
+                - Cleanup db_loadpkgs(), add list_add_sorted()
+              - Fixed a memory leak in db_find_conflicts()
+2.8.3         - Fixed a little makepkg bug with bash 3.0
+              - Fixed resolvedeps to always prefer literals over provisios
+              - Added --config option to specify an alternate config file
+              - Added "Include" directive to include repositories from
+                config files (inspired by Michael Baehr's patch)
+              - Added patch from Jason Chu:
+                - Even smarter file-conflict checking
+2.8.2         - Fixed a segfault bug in file-conflict checks
+              - Made --noconfirm actually work.  Go me.
+2.8.1         - Added a HoldPkg option in pacman.conf, for the more
+                exploratory users who run things like "pacman -R pacman".  It
+                will ask for confirmation before removing any packages listed
+                in the HoldPkg list
+              - Added a --noconfirm switch for use with script automation
+              - Modified dependency resolution to prefer packages explicitly
+                requested on the cmdline instead of those pulled in by
+                resolvedeps().  Example, if neither "xorg" nor "xfree86" is
+                installed and "blackbox xfree86" is requested, "xfree86" will
+                be used instead of "xorg"
+              - Added patch from Jason Chu:
+                - Smarter file-conflict checking with symlinked paths and
+                  with files that move from one package to another
+2.8           - Bugfixes:
+                - #861:  file:/// urls not handled properly with XferCommand
+                - #1003: set umask before scriptlet calls
+                - #1027: download problems with http urls using -U/-A
+                - #1044: segfaults when using -Rs
+                - #863:  "missing post_remove" errors with some packages
+                - #875:  detect low disk space properly
+                - #986:  makepkg -e doesn't validate files
+                - #1010: add -j option to makepkg
+                - #1028: make pacman -Sp runnable as non-root
+              - added pre_install and pre_upgrade scriptlet support
+              - added an "Architecture" field in the package meta-data
+              - added patch from Aurelien Foret which improves performance
+                adding or removing packages
+              - added implementation of GNU's strverscmp function for better
+                portability
+              - added explicit unlink() calls when --force is used, which
+                prevents those nasty "Text file busy" errors when you
+                force-upgrade something like pacman or glibc.
+2.7.9         - added the "force" option to packages, so --sysupgrade can
+                downgrade packages when it needs to
+2.7.8         - added post_remove scriptlet support
+              - added -Qs option (bug #854)
+              - a provisio does not imply conflict, to make a provisio target
+                conflict with anything else that provides the same thing, you
+                can now do this by specifying the provisio target as both a
+                provides and a conflict, eg:
+                   conflicts=('x-server')
+                   provides=('x-server')
+              - cleaned up the download progress bar a bit
+              - added %o parameter to XferCommand so wget can resume properly
+              - fixed a segfault in downloadfiles() (bug #787)
+              - patches from Oliver Burnett-Hall
+                - gensync uses a better temp dir (bug #774)
+                - PKGDEST can be set in makepkg.conf (bug #783)
+              - patches from Aurelien Foret
+                - segfault fix, couple memory leaks
+                - more sanity checks in "provides" searches
+                - fixed a little display bug in the progress bar
+                - made -Qip look like -Qi
+                - -Sc now removes OLD packages from cache, use -Scc for all
+2.7.7         - added an XferCommand directive that will make pacman use an
+                external download utility like wget
+              - added a license field to package meta-data
+              - add url support to -A and -U operations (download packages)
+              - -Ss now searches thru provides fields
+              - added --dbonly option to -R
+2.7.6         - added --print-uris option
+              - fixed an http download bug (bug #667)
+              - fixed a segfault related to replaces/conflicts handling
+2.7.5         - "replaces" packages were ignoring IgnorePkg in pacman.conf
+              - fixed another bug in conflict handling
+              - found an out-dated reference to /usr/abs, fixed
+              - added a --recursive option for package removal, which removes
+                all deps of a target that aren't required by other packages
+2.7.4         - fixed a bug in conflict handling, where installing a
+                conflicting package would fail even if the new package
+                "provided" it
+              - if pacman sees a newer version of itself during an upgrade,
+                it will ask to install itself first, then be re-run to upgrade
+                the other packages.
+              - You can now use the --info option with --sync to display an
+                uninstalled package's dependency info.
+              - Added a sane umask before db writes
+              - buffer overflow fix (bug #442)
+2.7.3         - makepkg not longer strips files with .exe or .dll extensions
+              - Added Aurelien's patch:
+                - proxy support (no authentication yet)
+                - HTTP/1.1 support
+                - an improved progress bar with transfer rates and ETA
+              - cleaned up warning output a bit
+2.7.2         - Supressed "No such file" messages during stripping
+              - Removed extra newlines in /var/log/pacman.log
+              - Added a --noextract option to makepkg to skip source extraction
+2.7.1         - Fixed a couple obscure segfaults
+              - LogFiles were logging incorrect dates - fixed
+              - Cleaned up md5sum output in makepkg -g
+              - Added (optional) colorized output messages to makepkg
+              - Renamed the "stable" repo to "release" in pacman.conf
+              - Renamed the "unofficial" repo to "extra" in pacman.conf
+2.7           - Added build-time dependencies to makepkg (Jason Chu)
+              - Added md5sum integrity checking to packages in --sync
+                mode (Aurelien Foret)
+              - Memory leak fixes (Aurelien Foret)
+              - Added CARCH variable to makepkg.conf for use in PKGBUILDs
+              - Added LogFile option for direct-to-file logging
+              - Added -Qii handling to show modified config files
+              - Allow --sync targets to specify an explicit repository to
+                sync from (eg, pacman -S current/patch)
+2.6.4         - Altered pacman_upgrade() to allow a package to replace itself
+2.6.3         - A couple memory fixes in the new replaces code
+2.6.2         - Fixed a memory cleanup bug
+              - Aurelien's patch:
+                - bug #159 implemented (for -S and -R)
+                - fixed a bug with pacman -Sg (pacman was browsing only one
+                  db to get groups)
+                - fixed a bug with list_merge()
+                - fixed some MLK (in dumppkg() and with "-Qi --orphans")
+                - now "pacman -Sg" only displays groups (without content)
+                  whereas "pacman -Sg target1 target2" displays groups
+                  target1 and target2 with content
+2.6.1         - Added http download support (Aurelien Foret)
+              - Improved makepkg's --builddeps behaviour when called via
+                makeworld
+              - makepkg's md5 validation now occurs before source extraction
+              - makepkg delays fakeroot entry until after option parsing
+              - Fixed an argument-passing bug in fakeroot
+              - Modified pacman's behaviour wrt provides -- it now allows
+                multiple packages to be installed, even if they provide the
+                same thing (they were treated as conflicts before)
+2.6           - Added group handling, so one can run 'pacman -S kde' and
+                install all files from the KDE group
+              - Fixed a duplication bug in cascade package removal
+              - Added support for virtual provisions with "provides" tags
+              - When conflicts are encountered, pacman now offers the chance
+                to remove the conflicting packages (provides or literals)
+              - Added support for renamed/combined packages with a "replaces"
+                tag
+              - Added --nostrip option to makepkg
+              - Improved --search to list all packages from all repos when
+                a search term is omitted
+              - Added logging support through syslog()
+              - Added fakeroot support to makepkg (RomanK)
+              - Added MD5sum generation/validation to makepkg (RomanK)
+              - Fixed a progress bar bug (Aurelien Foret)
+              - Sorted makepkg's .FILELISTs (Aurelien Foret)
+              - Targets are now re-ordered w.r.t. dependencies when
+                using -A/-U
+              - Modified --search to work when called as -Sys
+              - Modified abs to use ABS_ROOT from /etc/abs/abs.conf (Aurelien)
+              - Other bug fixes
+2.5.1         - Minor bug fixes
+2.5           - Added an URL tag to package info
+              - Sped up package load times by about 500% by introducing
+                a .FILELIST into the package
+              - Renamed the install scriptlet from ._install to .INSTALL
+              - Added patch from Aurlien Foret:
+                - Better lock handling (RW and RO)
+                - Sorted package order in -Qi's dependency lists
+                - Added a DBPath option to pacman.conf
+                - Fixed memory leaks
+                - Added the --nodeps option to -S
+2.4.1         - Fixed a bug in makepkg's option parsing
+2.4           - Added getopt-style options to makeworld
+              - Added -w <destdir> to makepkg
+              - makeworld now properly handles packages with --builddeps
+              - Added patches from Aurelien Foret:
+                - Cascading package removals. -Rc will remove a package and
+                  all packages that require it
+                - Support for getopt-style options in makepkg
+                - the REQUIREDBY field is now updated when a package is
+                  removed with --nodeps, then re-installed.
+                - Avoids duplicate dependency checks with sync
+                - Added a "NoPassiveFtp" option in pacman.conf
+                - Improvements to the --query listings
+2.3.2         - Added patches from Aurelien Foret:
+                - FTP resume feature
+								  - removed the hit-^C-and-delete-the-downloading-file safety
+                - IgnorePkg option in pacman.conf
+                - FTPAGENT setting in makepkg.conf
+                - Added --cleancache option to makepkg
+2.3.1         - Fixed the progress bar overflow
+              - Pacman does not ask "Are you sure" when you use --downloadonly
+              - Switched up a couple makepkg options to be more consistent
+                with pacman's options
+              - If you ^C out of a file download, the package will now be
+                removed from the cache directory
+2.3           - The beginnings of source-side dependency resolution, makepkg
+                can now either A) download/install missing deps with pacman
+                -S; or B) find missing deps in the /usr/abs tree and
+                build/install them.
+              - Added a --nodeps option to makepkg
+              - Improved the --search output
+2.2           - More bugfixes
+              - Added --downloadonly switch to --sync
+2.1           - Lots of bugfixes
+              - Added support for multiple respositories
+              - Improved the config file layout
+              - Improved dependency resolution and sorting
+2.0           - Added dependency functionality
+              - Completely new database format, similar to FreeBSD
+              - Better internal data structures
+              - Merged pacsync functionality into pacman
+              - Now uses libftp for all file retrieval (currently only ftp)
+              - Automatic dependency resolution, a la apt-get
+              - Moved config stuff from /etc/pacsync.conf to /etc/pacman.conf
+              - Much better backup file handling, now uses md5 hashes a la rpm
+1.23          - Added install/upgrade/remove scripting control
+1.22          - Some manpage typo fixes
+              - Added --root switch to pacsync
+              - Added --help and ability to specify a PKGBUILD to makepkg
+              - Switched default downloader to snarf
+1.21          - Added better backup control -- upgrade/add and remove
+                do different things with the -n switch
+1.2           - Added wildcard handling
+              - Added man pages for makepkg and pacsync
+              - Added the pacsync utility for remote file fetching/sync
+1.1           - Fixed some string-handling bugs
+              - Added better handling of configuration files and the like.
+                If "file" is about to be removed, but it is designated to
+                backed up, then it will be copied to "file.save"
+              - Changed db_find_conflicts() to ignore directories
+1.0           - Initial Release
+

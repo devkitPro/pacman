@@ -1,0 +1,312 @@
+.TH pacman 8 "September 17, 2004" "pacman #VERSION#" ""
+.SH NAME
+pacman \- package manager utility
+.SH SYNOPSIS
+\fBpacman  <operation> [options] <package> [package] ...\fP
+.SH DESCRIPTION
+\fBpacman\fP is a \fIpackage management\fP utility that tracks installed
+packages on a linux system.  It has simple dependency support and the ability
+to connect to a remote ftp server and automatically upgrade packages on
+the local system.  pacman package are \fIgzipped tar\fP format.
+.SH OPERATIONS
+.TP
+.B "\-A, \-\-add"
+Add a package to the system.  Package will be uncompressed
+into the installation root and the database will be updated.
+.TP
+.B "\-F, \-\-freshen"
+This is like --upgrade except that, unlike --upgrade, this will only
+upgrade packages that are already installed on your system.
+.TP
+.B "\-Q, \-\-query"
+Query the package database.  This operation allows you to
+view installed packages and their files, as well as meta-info
+about individual packages (dependencies, conflicts, install date,
+build date, size).  This can be run against the local package
+database or can be used on individual .tar.gz packages.  See
+\fBQUERY OPTIONS\fP below.
+.TP
+.B "\-R, \-\-remove"
+Remove a package from the system.  Files belonging to the
+specified package will be deleted, and the database will
+be updated.  Most configuration files will be saved with a
+\fI.pacsave\fP extension unless the \fB--nosave\fP option was
+used.
+.TP
+.B "\-S, \-\-sync"
+Synchronize packages.  With this function you can install packages
+directly from the ftp servers, complete with all dependencies required
+to run the packages.  For example, \fBpacman -S qt\fP will download
+qt and all the packages it depends on and install them. You could also use
+\fBpacman -Su\fP to upgrade all packages that are out of date (see below).
+.TP
+.B "\-U, \-\-upgrade"
+Upgrade a package.  This is essentially a "remove-then-add"
+process.  See \fBHANDLING CONFIG FILES\fP for an explanation
+on how pacman takes care of config files.
+.TP
+.B "\-V, \-\-version"
+Display version and exit.
+.TP
+.B "\-h, \-\-help"
+Display syntax for the given operation.  If no operation was
+supplied then the general syntax is shown.
+.SH OPTIONS
+.TP
+.B "\-d, \-\-nodeps"
+Skips all dependency checks.  Normally, pacman will always check
+a package's dependency fields to ensure that all dependencies are
+installed and there are no package conflicts in the system.  This
+switch disables these checks.
+.TP
+.B "\-f, \-\-force"
+Bypass file conflict checks, overwriting conflicting files.  If the
+package that is about to be installed contains files that are already
+installed, this option will cause all those files to be overwritten.
+This option should be used with care, ideally not at all.
+.TP
+.B "\-r, \-\-root <path>"
+Specify alternative installation root (default is "/"). This
+should \fInot\fP be used as a way to install software into
+e.g. /usr/local instead of /usr. Instead this should be used
+if you want to install a package on a temporary mounted partition,
+which is "owned" by another system. By using this option you not only
+specify where the software should be installed, but you also
+specify which package database to use.
+.TP
+.B "\-v, \-\-verbose"
+Output more status and error messages.
+.TP
+.B "\-\-config <path>"
+Specify an alternate configuration file.
+.TP
+.B "\-\-noconfirm"
+Bypass any and all "Are you sure?" messages.  It's not a good to do this
+unless you want to run pacman from a script.
+.SH SYNC OPTIONS
+.TP
+.B "\-c, \-\-clean"
+Remove old packages from the cache.  When pacman downloads packages,
+it saves them in \fI/var/cache/pacman/pkg\fP.  If you need to free up
+diskspace, you can remove these packages by using the --clean option.
+Using one --clean (or -c) switch will only remove \fIold\fP packages.
+Use it twice to remove \fIall\fP packages from the cache.
+.TP
+.B "\-g, \-\-groups"
+Display all the members for each package group specified.  If no group
+names are provided, all groups will be listed.
+.TP
+.B "\-i, \-\-info"
+Display dependency information for a given package.  This will search
+through all repositories for a matching package and display the
+dependencies, conflicts, etc.
+.TP
+.B "\-l, \-\-list"
+List all files in the specified repositories.  Multiple repositories can
+be specified on the command line.
+.TP
+.B "\-p, \-\-print-uris"
+Print out URIs for each specified package and its dependencies.  These
+can be piped to a file and downloaded at a later time, using a program
+like wget.
+.TP
+.B "\-s, \-\-search <string>"
+This will search each package in the package list for names or descriptions
+that contains <string>.
+.TP
+.B "\-u, \-\-sysupgrade"
+Upgrades all packages that are out of date.  pacman will examine every
+package installed on the system, and if a newer package exists on the
+server it will upgrade.  pacman will present a report of all packages
+it wants to upgrade and will not proceed without user confirmation.
+Dependencies are automatically resolved at this level and will be
+installed/upgraded if necessary.
+.TP
+.B "\-w, \-\-downloadonly"
+Retrieve all packages from the server, but do not install/upgrade anything.
+.TP
+.B "\-y, \-\-refresh"
+Download a fresh copy of the master package list from the ftp server
+defined in \fI/etc/pacman.conf\fP.  This should typically be used each
+time you use \fB--sysupgrade\fP.
+.TP
+.B "\-\-ignore <pkg>"
+This option functions exactly the same as the \fBIgnorePkg\fP configuration
+directive.  Sometimes it can be handy to skip some package updates without
+having to edit \fIpacman.conf\fP each time.
+.SH REMOVE OPTIONS
+.TP
+.B "\-c, \-\-cascade"
+Remove all target packages, as well as all packages that depend on one
+or more target packages.  This operation is recursive.
+.TP
+.B "\-k, \-\-keep"
+Removes the database entry only.  Leaves all files in place.
+.TP
+.B "\-n, \-\-nosave"
+Instructs pacman to ignore file backup designations.  Normally, when
+a file is about to be \fIremoved\fP from the system the database is first
+checked to see if the file should be renamed to a .pacsave extension.  If
+\fB--nosave\fP is used, these designations are ignored and the files are
+removed.
+.TP
+.B "\-s, \-\-recursive"
+For each target specified, remove it and all its dependencies, provided
+that (A) they are not required by other packages; and (B) they were not
+explicitly installed by the user.
+This option is analagous to a backwards --sync operation.
+.SH QUERY OPTIONS
+.TP
+.B "\-e, \-\-orphans"
+List all packages that were explicitly installed (ie, not pulled in
+as a dependency by other packages) and are not required by any other
+packages.
+.TP
+.B "\-g, \-\-groups"
+Display all groups that a specified package is part of.  If no package
+names are provided, all groups and members will be listed.
+.TP
+.B "\-i, \-\-info"
+Display information on a given package.  If it is used with the \fB-p\fP
+option then the .PKGINFO file will be printed.
+.TP
+.B "\-l, \-\-list"
+List all files owned by <package>.  Multiple packages can be specified on
+the command line.
+.TP
+.B "\-o, \-\-owns <file>"
+Search for the package that owns <file>.
+.TP
+.B "\-p, \-\-file"
+Tells pacman that the package supplied on the command line is a
+file, not an entry in the database.  Pacman will decompress the
+file and query it.  This is useful with \fB--info\fP and \fB--list\fP.
+.TP
+.B "\-s, \-\-search <string>"
+This will search each locally-installed package for names or descriptions
+that contains <string>.
+.SH HANDLING CONFIG FILES
+pacman uses the same logic as rpm to determine action against files
+that are designated to be backed up.  During an upgrade, it uses 3
+md5 hashes for each backup file to determine the required action:
+one for the original file installed, one for the new file that's about
+to be installed, and one for the actual file existing on the filesystem.
+After comparing these 3 hashes, the follow scenarios can result:
+.TP
+original=\fBX\fP, current=\fBX\fP, new=\fBX\fP
+All three files are the same, so we win either way.  Install the new file.
+.TP
+original=\fBX\fP, current=\fBX\fP, new=\fBY\fP
+The current file is un-altered from the original but the new one is
+different.  Since the user did not ever modify the file, and the new
+one may contain improvements/bugfixes, we install the new file.
+.TP
+original=\fBX\fP, current=\fBY\fP, new=\fBX\fP
+Both package versions contain the exact same file, but the one
+on the filesystem has been modified since.  In this case, we leave
+the current file in place.
+.TP
+original=\fBX\fP, current=\fBY\fP, new=\fBY\fP
+The new one is identical to the current one.  Win win.  Install the new file.
+.TP
+original=\fBX\fP, current=\fBY\fP, new=\fBZ\fP
+All three files are different.  So we install the new file, but back up the
+old one to a .pacsave extension.  This way the user can move the old configuration
+file back into place if he wishes.
+.SH CONFIGURATION
+pacman will attempt to read \fI/etc/pacman.conf\fP each time it is invoked.  This
+configuration file is divided into sections or \fIrepositories\fP.  Each section
+defines a package repository that pacman can use when searching for packages in
+--sync mode.  The exception to this is the \fIoptions\fP section, which defines
+global options.
+.TP
+.SH Example:
+.RS
+.nf
+[options]
+NoUpgrade = etc/passwd etc/group etc/shadow
+NoUpgrade = etc/fstab
+
+Include = /etc/pacman.d/current
+
+[custom]
+Server = file:///home/pkgs
+
+.fi
+.RE
+.SH CONFIG: OPTIONS
+.TP
+.B "DBPath = path/to/db/dir"
+Overrides the default location of the toplevel database directory.  The default is
+\fIvar/lib/pacman\fP.
+.TP
+.B "HoldPkg = <package> [package] ..."
+If a user tries to \fB--remove\fP a package that's listed in HoldPkg, pacman
+will ask for confirmation before proceeding.
+.TP
+.B "IgnorePkg = <package> [package] ..."
+Instructs pacman to ignore any upgrades for this package when performing a
+\fB--sysupgrade\fP.
+.TP
+.B "Include = <path>"
+Include another config file.  This config file can include repositories or
+general configuration options.
+.TP
+.B "ProxyServer = <host|ip>[:port]"
+If set, pacman will use this proxy server for all ftp/http transfers.
+.TP
+.B "XferCommand = /path/to/command %u"
+If set, pacman will use this external program to download all remote files.
+All instances of \fB%u\fP will be replaced with the URL to be downloaded.  If
+present, instances of \fB%o\fP will be replaced with the local filename, plus a
+".part" extension, which allows programs like wget to do file resumes properly.
+
+This option is useful for users who experience problems with pacman's built-in http/ftp
+support, or need the more advanced proxy support that comes with utilities like
+wget.
+.TP
+.B "NoPassiveFtp"
+Disables passive ftp connections when downloading packages. (aka Active Mode)
+.TP
+.B "NoUpgrade = <file> [file] ..."
+All files listed with a \fBNoUpgrade\fP directive will never be touched during a package
+install/upgrade.  \fINote:\fP do not include the leading slash when specifying files.
+.TP
+.B "UseSyslog"
+Log action messages through syslog().  This will insert pacman log entries into your
+/var/log/messages or equivalent.
+.TP
+.B "LogFile = /path/to/file"
+Log actions directly to a file, usually /var/log/pacman.log.
+
+.SH CONFIG: REPOSITORIES
+Each repository section defines a section name and at least one location where the packages
+can be found.  The section name is defined by the string within square brackets (eg, the two
+above are 'current' and 'custom').  Locations are defined with the \fIServer\fP directive and
+follow a URL naming structure.  Currently only ftp is supported for remote servers.  If you
+want to use a local directory, you can specify the full path with a 'file://' prefix, as
+shown above.
+.SH USING YOUR OWN REPOSITORY
+Let's say you have a bunch of custom packages in \fI/home/pkgs\fP and their respective PKGBUILD
+files are all in \fI/var/abs/local\fP.  All you need to do is generate a compressed package database
+in the \fI/home/pkgs\fP directory so pacman can find it when run with --refresh.
+
+.RS
+.nf
+# gensync /var/abs/local /home/pkgs/custom.db.tar.gz
+.fi
+.RE
+
+The above command will read all PKGBUILD files in /var/abs/local and generate a compressed
+database called /home/pkgs/custom.db.tar.gz.  Note that the database must be of the form
+\fI{treename}.db.tar.gz\fP, where {treename} is the name of the section defined in the
+configuration file.
+That's it!  Now configure your \fIcustom\fP section in the configuration file as shown in the
+config example above.  Pacman will now use your package repository.  If you add new packages to
+the repository, remember to re-generate the database and use pacman's --refresh option.
+.SH SEE ALSO
+\fBmakepkg\fP is the package-building tool that comes with pacman.
+.SH AUTHOR
+.nf
+Judd Vinet <jvinet@zeroflux.org>
+.fi

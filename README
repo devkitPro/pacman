@@ -1,0 +1,288 @@
+==========================================================================
+README:
+
+Overview and internals of the ALPM library and the PACMAN frontend.
+
+This document describes the state of the implementation before its CVS
+import.
+At this stage, the code is in pre-alpha state, but the design should not
+change that much.
+There's still need for some work to get the current code properly working.
+The tag "ORE" was added in various places in the code, each time a point
+remains unclear or is not yet implemented.
+
+==========================================================================
+
+
+ALPM library overview & internals
+=================================
+
+Here is a list of the main objects and files from the ALPM (i.e. Arch
+Linux Package Management) library.
+This document, whilst not exhaustive, also indicates some limitations
+(on purpose, or sometimes due to its poor design) of the library at the
+present time.
+
+Note: there is one special file ("alpm.h") which is the public interface
+that should be distributed and installed on systems with the library.
+Only structures, data and functions declared within this file are made
+available to the frontend.
+Lots of structures are of an opaque type and their fields are only
+accessible in read-only mode, through some clearly defined functions.
+
+Note: several structures and functions have been renamed compared to
+pacman 2.9 code.
+This was done at first for the sake of naming scheme consistency, and
+then primarily because of potential namespace conflicts between library
+and frontend spaces.
+Indeed, it is not possible to have two different functions with the same
+name declared in both spaces.
+To avoid such conflicts, some function names have been prepended with
+"_alpm_".
+In a general manner, public library functions are named
+"alpm_<type>_<action>" (examples: alpm_trans_commit(),
+alpm_lib_release(), alpm_pkg_getinfo(), ...).
+Internal (and thus private) functions should be named "_alpm_XXX" for
+instance (examples: _alpm_needbackup(), _alpm_runscriplet(), ...).
+As of now, this scheme is only applied to most sensitive functions
+(mainly the ones from util.c), which have generic names, and thus, which
+are likely to be redefined in the frontend.
+One can consider that the frontend should have the priority in function
+names choice, and that it is up to the library to hide its symbols to
+avoid conflicts with the frontend ones.
+Finally, functions defined and used inside a single file should be
+defined as "static".
+
+
+[HANDLE] (see handle.c)
+
+The "handle" object is the heart of the library. It is a global
+structure available from almost all other objects (althought some very
+low level objects should not be aware of the handle object, like chained
+list, package or groups structures.
+
+There is only one instance, created by the frontend upon
+"alpm_lib_init()" call, and destroyed upon "alpm_lib_release()" call.
+
+alpm_lib_init() is used to initialize library internals and to create
+the handle object (handle != NULL).
+Before its call, the library can't be used.
+alpm_lib_release() just does the opposite (memory used by the library is
+freed, and handle is set to NULL).
+After its call, the library is no more available.
+
+The aim of the handle is to provide a central placeholder for essential
+library parameters (filesystem root, pointers to database objects,
+configuration parameters, ...)
+
+The handle also allows to register a log callback usable by the frontend
+to catch all sort of notifications from the library.
+The frontend can choose the level of verbosity (i.e. the mask), or can
+simply choose to not use the log callback.
+A friendly frontend should care at least for WARNING and ERROR
+notifications.
+Other notifications can safely be ignored and are mainly available for
+troubleshooting purpose.
+
+Last, but not least, the handle holds a _unique_ transaction object.
+
+
+[TRANSACTION] (see trans.c, and also alpm.c)
+
+The transaction sturcture permits easy manipulations of several package
+at a time (i.e. adding, upgrade and removal operations).
+
+A transaction can be initiatied with a type (ADD, UPGRADE or REMOVE),
+and some flags (NODEPS, FORCE, CASCADE, ...).
+
+Note: there can only be one type at a time: a transaction is either
+created to add packages to the system, or either created to remove packages.
+The frontend can't request for mixed operations: it has to run several
+transactions, one at a time, in such a case.
+
+The flags allow to tweak the library behaviour during its resolution.
+Note, that some options of the handle can also modify the behavior of a
+transaction (NOUPGRADE, IGNOREPKG, ...).
+
+Note: once a transaction has been initiated, it is not possible anymore
+to modify its type or its flags.
+
+One can also add some targets to a transaction (alpm_trans_addtarget()).
+These targets represent the list of packages to be handled.
+
+Then, a transaction needs to be prepared (alpm_trans_prepare()). It
+means that the various targets added, will be inspected and challenged
+against the set of alreayd installed packages (dependency checkings,
+
+Last, a callback is associated with each transaction. During the
+transaction resolution, each time a new step is started or done (i.e
+dependency or conflict checkings, package adding or removal, ...), the
+callback is called, allowing the frontend to be aware of the progress of
+the resolution. Can be useful to implement a progress bar.
+
+
+[CONFIGURATION/OPTIONS] (see handle.c)
+
+The library does not use any configuration file. The handle holds a
+number of configuration options instead (IGNOREPKG, SYSLOG usage,
+log file name, registered databases, ...).
+It is up to the frontend to set the options of the library.
+Options can be manipulated using calls to
+alpm_set_option()/alpm_get_option().
+
+Note: the file system root is a special option which can only be defined
+when calling alpm_lib_init(). It can't be modified afterwards.
+
+
+[CACHE] (see cache.c)
+
+Compared to pacman 2.9, there is now one cache object connected to each
+database object.
+There are both a package and a group cache.
+The cache is loaded only on demand (i.e the cache is loaded the first
+time data from it should used).
+
+Note: the cache of a database is always destroyed by the library after
+an operation changing the database content (adding and/or removal of
+packages).
+Beware frontends ;)
+
+
+[PACKAGE] (see package.c, and also db.c)
+
+The package structure is using three new fields, namely: origin, data,
+infolevel.
+The purpose of these fields is to know some extra info about data stored
+in package structures.
+
+For instance, where is the package coming from (i.e origin)?
+Was it loaded from a file or loaded from the cache?
+If it's coming from a file, then the field data holds the full path and
+name of the file, and infolevel is set to the highest possible value
+(all package fields are reputed to be known).
+Otherwise, if the package comes from a database, data is a pointer to
+the database structure hosting the package, and infolevel is set
+according to the db_read() infolevel parameter (it is possible using
+db_read() to only read a part of the package datas).
+
+Indeed, to reduce database access, all packages data requested by the
+frontend are comming from the cache. As a consequence, the library needs
+to know exactly the level of information about packages it holds, and
+then decide if more data needs to be fetched from the database.
+
+In file alpm.c, have a look at alpm_pkg_getinfo() function to get an
+overview.
+
+
+[ERRORS] (error.c)
+
+The library provides a global variable pm_errno.
+It aims at being to the library what errno is for C system calls.
+
+Almost all public library functions are returning an integer value: 0
+indicating success, whereas -1 would indicate a failure.
+If -1 is returned, the variable pm_errno is set to a meaningful value
+(not always yet, but it should improve ;).
+Wise frontends should always care for these returned values.
+
+Note: the helper function alpm_strerror() can also be used to translate
+the error code into a more friendly sentence.
+
+
+[LIST] (see list.c, and especially list wrappers in alpm.c)
+
+It is a double chained list structure, use only for the internal needs
+of the library.
+A frontend should be free to use its own data structures to manipulate
+packages.
+For instance, consider a graphical frontend using the gtk toolkit (and
+as a consequence the glib library). The frontend will make use of the
+glib chained lists or trees.
+As a consequence, the library only provides a simple and very small
+interface to retrieve pointers to its internal data (see functions
+alpm_list_first(), alpm_list_next() and alpm_list_getdata()), giving to
+the frontend the responsibility to copy and store the data retrieved
+from the library in its own data structures.
+
+
+PACMAN frontend overview & internals
+====================================
+
+Here are some words about the frontend responsibilities.
+The library can operate only a small set of well defined operations and
+dumy operations.
+
+High level features are left to the frontend ;)
+
+For instance, during a sysupgrade, the library returns the whole list of
+packages to be upgraded, without any care for its content.
+The frontend can inspect the list and perhaps notice that "pacman"
+itself has to be upgraded. In such a case, the frontend can choose to
+perform a special action.
+
+
+[MAIN] (see pacman.c)
+
+Calls for alpm_lib_init(), and alpm_lib_release().
+Read the configuration file, and parse command line arguments.
+Based on the action requested, it initiates the appropriate transactions
+(see pacman_add(), pacman_remove(), pacman_sync() in files add.c,
+remove.c and sync.c).
+
+
+[CONFIGURATION] (see conf.c)
+
+The frontend is using a configuration file, usually "/etc/pacman.conf".
+Part of these options are only usefull for the frontend only (mainly,
+the download stuffs, and some options like HOLDPKG).
+The rest is used to configure the library.
+
+
+[ADD/UPGRADE/REMOVE/SYNC]
+
+Nothing new here, excepted some reorganization.
+
+The file pacman.c has been divided into several smaller files, namely
+add.c, remove.c, sync.c and query.c, to hold the big parts: pacman_add,
+pacman_remove, pacman_sync.
+These 3 functions have been splitted too to ease the code reading.
+
+
+[DONWLOAD] (see download.c)
+
+The library is not providing download facilities. As a consequence, it
+is up the the frontend to retrieve packages from Arch Linux servers.
+To do so, pacman is linked against an improved version of libftp
+supporting both http and ftp donwloads.
+As a consequence, the frontend is repsonsible for the directory
+/var/cache/pacman/pkgs.
+One can consider that this cache is a facility provided by pacman.
+
+Note: other frontends have to download packages by themselves too,
+although the cache directory can be shared by several frontends.
+
+
+[LIST] (see list.c)
+
+Single chained list.
+A minimalistic chained list implementation to store options from the
+configuration file, and targets passed to pacman on the command line.
+
+
+LIMITATIONS/BEHAVIOR CHANGES COMPARED TO PACMAN 2.9
+===================================================
+
+Excepted missing features still needing to be implemented, one can
+notice the following limitations:
+
+- When trying to add a package that conflicts with an already installed
+one, pacman won't ask for removing the latter one prior to install the
+former.
+It will stop with an error code mentionning a conflict.
+
+The library can handle only one transaction at a time, and as a consequence,
+it is not easily possible to remove a conflicting package while holding
+still the on-going transaction...
+
+- ...
+

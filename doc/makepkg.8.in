@@ -1,0 +1,407 @@
+.TH makepkg 8 "August 3, 2004" "makepkg #VERSION#" ""
+.SH NAME
+makepkg \- package build utility
+.SH SYNOPSIS
+\fBmakepkg [options]\fP
+.SH DESCRIPTION
+\fBmakepkg\fP will build packages for you.  All it needs is
+a build-capable linux platform, wget, and some build scripts.  The advantage
+to a script-based build is that you only really do the work once.  Once you
+have the build script for a package, you just need to run makepkg and it
+will do the rest: download and validate source files, check dependencies,
+configure the buildtime settings, build the package, install the package
+into a temporary root, make customizations, generate meta-info, and package
+the whole thing up for \fBpacman\fP to use.
+
+\fBmakeworld\fP can be used to rebuild an entire package group or the
+entire build tree.  See \fBmakeworld --help\fP for syntax.
+.SH BUILD PROCESS (or How To Build Your Own Packages)
+Start in an isolated directory (ie, it's not used for anything other
+than building this package).  The build script should be called PKGBUILD
+and it should bear resemblance to the example below.
+
+\fBNOTE:\fP If you have a local copy of the Arch Build System (ABS) tree
+on your computer, you can copy the PKGBUILD.proto file to your new package
+build directory and edit it from there.  To acquire/sync the ABS tree, use
+the \fBabs\fP script included with pacman/makepkg.
+
+.TP
+.TP
+.SH PKGBUILD Example:
+.RS
+.nf
+pkgname=modutils
+pkgver=2.4.25
+pkgrel=1
+pkgdesc="Utilities for inserting and removing modules from the linux kernel"
+url="http://www.kernel.org"
+backup=(etc/modules.conf)
+makedepends=('bash' 'mawk')
+depends=('glibc' 'zlib')
+source=(ftp://ftp.kernel.org/pub/linux/utils/kernel/$pkgname/v2.4/$pkgname-$pkgver.tar.bz2 \\
+        modules.conf)
+md5sums=('2c0cca3ef6330a187c6ef4fe41ecaa4d' \\
+        '35175bee593a7cc7d6205584a94d8625')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+  ./configure --prefix=/usr --enable-insmod-static
+  make || return 1
+  make prefix=$startdir/pkg/usr install
+  mv $startdir/pkg/usr/sbin $startdir/pkg
+  mkdir -p $startdir/pkg/etc
+  cp ../modules.conf $startdir/pkg/etc
+}
+.fi
+.RE
+
+As you can see, the setup is fairly simple.  The first three lines define
+the package name and version info.  They also define the final package name
+which will be of the form \fI$pkgname-$pkgver-$pkgrel.pkg.tar.gz\fP.  The fourth
+line provides a brief description of the package.  These four lines should
+be present in every PKGBUILD script.
+
+The line with \fIbackup=\fP specifies files that should be treated specially
+when removing or upgrading packages.  See \fBHANDLING CONFIG FILES\fP in
+the \fIpacman\fP manpage for more information on this.
+
+Lines 7 and 8 list the dependencies for this package.  The \fIdepends\fP array
+specifies the run-time dependencies and \fImakedepends\fP specifies the build-time
+dependencies.  In order to run the package, \fIdepends\fP must be satisfied.  To
+build the package, \fBall\fP dependencies must be satisifed first.  makepkg
+will check this before attempting to build the package.
+
+The \fIsource\fP array tells makepkg which files to download/extract before compiling
+begins.  The \fImd5sums\fP array provides md5sums for each of these files.  These
+are used to validate the integrity of the source files.
+
+Once your PKGBUILD is created, you can run \fImakepkg\fP from the build directory.
+makepkg will then check dependencies and look for the source files required to
+build.  If some are missing it will attempt to download them, provided there is
+a fully-qualified URL in the \fIsource\fP array.
+
+The sources are then extracted into a directory called ./src and
+the \fIbuild\fP function is called.  This is where all package configuration,
+building, and installing should be done.  Any customization will likely take
+place here.
+
+After a package is built, the \fIbuild\fP function must install the package
+files into a special package root, which can be referenced by \fB$startdir/pkg\fP
+in the \fIbuild\fP function.  The typical way to do this is one of the following:
+.RS
+.nf
+
+make DESTDIR=$startdir/pkg install
+
+or
+
+make prefix=$startdir/pkg/usr install
+
+.fi
+.RE
+Notice that the "/usr" portion should be present with "prefix", but not "DESTDIR".
+"DESTDIR" is the favorable option to use, but not all Makefiles support it.  Use
+"prefix" only when "DESTDIR" is unavailable.
+
+Once the package is successfully installed into the package root, \fImakepkg\fP
+will remove some directories (as per Arch Linux package guidelines; if you use
+this elsewhere, feel free to change it) like /usr/doc and /usr/info.  It will
+then strip debugging info from libraries and binaries and generate a meta-info
+file.  Finally, it will compress everything into a .pkg.tar.gz file and leave it
+in the directory you ran \fBmakepkg\fP from.
+
+At this point you should have a package file in the current directory, named
+something like name-version-release.pkg.tar.gz.  Done!
+
+.SH Install/Upgrade/Remove Scripting
+Pacman has the ability to store and execute a package-specific script when it
+installs, removes, or upgrades a package.  This allows a package to "configure
+itself" after installation and do the opposite right before it is removed.
+
+The exact time the script is run varies with each operation:
+.TP
+.B pre_install
+script is run right before files are extracted.
+
+.TP
+.B post_install
+script is run right after files are extracted.
+
+.TP
+.B pre_upgrade
+script is run right before files are extracted.
+
+.TP
+.B post_upgrade
+script is run after files are extracted.
+
+.TP
+.B pre_remove
+script is run right before files are removed.
+
+.TP
+.B post_remove
+script is run right after files are removed.
+
+.RE
+To use this feature, just create a file (eg, pkgname.install) and put it in
+the same directory as the PKGBUILD script.  Then use the \fIinstall\fP directive:
+.RS
+.nf
+install=pkgname.install
+.fi
+.RE
+
+The install script does not need to be specified in the \fIsource\fP array.
+
+.TP
+.TP
+.SH Install scripts must follow this format:
+.RS
+.nf
+# arg 1:  the new package version
+pre_install() {
+  #
+  #  do pre-install stuff here
+  #
+  /bin/true
+}
+
+# arg 1:  the new package version
+post_install() {
+  #
+  #  do post-install stuff here
+  #
+  /bin/true
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+pre_upgrade() {
+  #
+  #  do pre-upgrade stuff here
+  #
+  /bin/true
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+post_upgrade() {
+  #
+  #  do post-upgrade stuff here
+  #
+  /bin/true
+}
+
+# arg 1:  the old package version
+pre_remove() {
+  #
+  #  do pre-remove stuff here
+  #
+  /bin/true
+}
+
+# arg 1:  the old package version
+post_remove() {
+  #
+  #  do post-remove stuff here
+  #
+  /bin/true
+}
+
+op=$1
+shift
+$op $*
+.fi
+.RE
+
+This template is also available in your ABS tree (/var/abs/install.proto).
+
+.SH PKGBUILD Directives
+.TP
+.B pkgname
+The name of the package.  This has be a unix-friendly name as it will be
+used in the package filename.
+
+.TP
+.B pkgver
+This is the version of the software as released from the author (eg, 2.7.1).
+
+.TP
+.B pkgrel
+This is the release number specific to Arch Linux packages.
+
+.TP
+.B pkgdesc
+This should be a brief description of the package and its functionality.
+
+.TP
+.B force
+This is used to force the package to be upgraded by \fB--sysupgrade\fP, even
+if its an older version.
+
+.TP
+.B url
+This field contains an optional URL that is associated with the piece of software
+being packaged.  This is typically the project's website.
+
+.TP
+.B license
+Sets the license type (eg, "GPL", "BSD", "NON-FREE").  (\fBNote\fP: This
+option is still in development and may change in the future)
+
+.TP
+.B install
+Specifies a special install script that is to be included in the package.
+This file should reside in the same directory as the PKGBUILD, and will be
+copied into the package by makepkg.  It does not need to be included in the
+\fIsource\fP array.  (eg, install=modutils.install)
+
+.TP
+.B source \fI(array)\fP 
+The \fIsource\fP line is an array of source files required to build the
+package.  Source files must reside in the same directory as the PKGBUILD
+file, unless they have a fully-qualified URL.  Then if the source file
+does not already exist in /var/cache/pacman/src, the file is downloaded
+by wget.
+
+.TP
+.B md5sums \fI(array)\fP
+If this field is present, it should contain an MD5 hash for every source file
+specified in the \fIsource\fP array (in the same order).  makepkg will use
+this to verify source file integrity during subsequent builds.  To easily
+generate md5sums, first build using the PKGBUILD then run
+\fBmakepkg -g >>PKGBILD\fP.  Then you can edit the PKGBUILD and move the
+\fImd5sums\fP line from the bottom to an appropriate location.
+
+.TP
+.B groups \fI(array)\fP
+This is an array of symbolic names that represent groups of packages, allowing
+you to install multiple packages by requesting a single target.  For example,
+one could install all KDE packages by installing the 'kde' group.
+
+.TP
+.B backup \fI(array)\fP 
+A space-delimited array of filenames (without a preceding slash). The
+\fIbackup\fP line will be propagated to the package meta-info file for
+pacman.  This will designate all files listed there to be backed up if this
+package is ever removed from a system.  See \fBHANDLING CONFIG FILES\fP in
+the \fIpacman\fP manpage for more information.
+
+.TP
+.B depends \fI(array)\fP 
+An array of packages that this package depends on to build and run.  Packages
+in this list should be surrounded with single quotes and contain at least the
+package name.  They can also include a version requirement of the form
+\fBname<>version\fP, where <> is one of these three comparisons: \fB>=\fP
+(greater than equal to), \fB<=\fP (less than or equal to), or \fB=\fP (equal to).
+See the PKGBUILD example above for an example of the \fIdepends\fP directive.
+
+.TP
+.B makedepends \fI(array)\fP
+An array of packages that this package depends on to build (ie, not required
+to run).  Packages in this list should follow the same format as \fIdepends\fP.
+
+.TP
+.B conflicts \fI(array)\fP 
+An array of packages that will conflict with this package (ie, they cannot both
+be installed at the same time).  This directive follows the same format as
+\fIdepends\fP except you cannot specify versions here, only package names.
+
+.TP
+.B provides \fI(array)\fP 
+An array of "virtual provisions" that this package provides.  This allows a package
+to provide dependency names other than it's own package name.  For example, the
+kernel-scsi and kernel-ide packages can each provide 'kernel' which allows packages
+to simply depend on 'kernel' rather than "kernel-scsi OR kernel-ide OR ..."
+
+.TP
+.B replaces \fI(array)\fP 
+This is an array of packages that this package should replace, and can be used to handle
+renamed/combined packages.  For example, if the kernel package gets renamed
+to kernel-ide, then subsequent 'pacman -Syu' calls will not pick up the upgrade, due
+to the differing package names.  \fIreplaces\fP handles this.
+
+.SH MAKEPKG OPTIONS
+.TP
+.B "\-b, \-\-builddeps"
+Build missing dependencies from source.  When makepkg finds missing build-time or
+run-time dependencies, it will look for the dependencies' PKGBUILD files under
+$ABSROOT (set in your /etc/makepkg.conf).  If it finds them it will
+run another copy of makepkg to build and install the missing dependencies.
+The child makepkg calls will be made with the \fB-b\fP and \fB-i\fP options.
+.TP
+.B "\-c, \-\-clean"
+Clean up leftover work files/directories after a successful build.
+.TP
+.B "\-C, \-\-cleancache"
+Removes all source files from the cache directory to free up diskspace.
+.TP
+.B "\-d, \-\-nodeps"
+Do not perform any dependency checks.  This will let you override/ignore any
+dependencies required.  There's a good chance this option will break the build
+process if all of the dependencies aren't installed.
+.TP
+.B "\-f, \-\-force"
+\fBmakepkg\fP will not build a package if a \fIpkgname-pkgver-pkgrel.pkg.tar.gz\fP
+file already exists in the build directory.  You can override this behaviour with
+the \fB--force\fP switch.
+.TP
+.B "\-g, \-\-genmd5"
+Download all source files (if required) and use \fImd5sum\fP to generate md5 hashes
+for each of them.  You can then redirect the output into your PKGBUILD for source
+validation (makepkg -g >>PKGBUILD).
+.TP
+.B "\-h, \-\-help"
+Output syntax and commandline options.
+.TP
+.B "\-i, \-\-install"
+Install/Upgrade the package after a successful build.
+.TP
+.B "\-j <jobs>"
+Sets MAKEFLAGS="-j<jobs>" before building the package.  This is useful for overriding
+the MAKEFLAGS setting in /etc/makepkg.conf.
+.TP
+.B "\-m, \-\-nocolor"
+Disable color in output messages
+.TP
+.B "\-n, \-\-nostrip"
+Do not strip binaries and libraries.
+.TP
+.B "\-o, \-\-nobuild"
+Download and extract files only, do not build.
+.TP
+.B "\-p <buildscript>"
+Read the package script \fI<buildscript>\fP instead of the default (\fIPKGBUILD\fP).
+.TP
+.B "\-r, \-\-rmdeps"
+Upon successful build, remove any dependencies installed by makepkg/pacman during
+dependency auto-resolution (using \fB-b\fP or \fB-s\fP).
+.TP
+.B "\-s, \-\-syncdeps"
+Install missing dependencies using pacman.  When makepkg finds missing build-time
+or run-time dependencies, it will run pacman to try and resolve them.  If successful,
+pacman will download the missing packages from a package repository and
+install them for you.
+.TP
+.B "\-w <destdir>"
+Write the resulting package file to the directory \fI<destdir>\fP instead of the
+current working directory.
+
+.SH CONFIGURATION
+Configuration options are stored in \fI/etc/makepkg.conf\fP.  This file is parsed
+as a bash script, so you can export any special compiler flags you wish
+to use.  This is helpful for building for different architectures, or with
+different optimizations.
+
+\fBNOTE:\fP This does not guarantee that all package Makefiles will use
+your exported variables.  Some of them are flaky...
+.SH SEE ALSO
+\fBpacman\fP is the package manager that uses packages built by makepkg.
+
+See the Arch Linux Documentation for package-building guidelines if you wish
+to contribute packages to the Arch Linux project.
+.SH AUTHOR
+.nf
+Judd Vinet <jvinet@zeroflux.org>
+.fi

@@ -1,0 +1,186 @@
+#!/bin/bash
+# 
+#   gensync
+#  
+#   Copyright (c) 2002-2004 by Judd Vinet <jvinet@zeroflux.org>
+#  
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+# 
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   USA.
+#
+
+myver='2.9.2'
+
+usage() {
+  echo "gensync $myver"
+  echo "usage: $0 <root> <destfile> [package_directory]"
+	echo
+	echo "gensync will generate a sync database by reading all PKGBUILD files"
+	echo "from <root>.  gensync builds the database in a temporary directory"
+	echo "and then compresses it to <destfile>."
+	echo
+	echo "gensync will calculate md5sums of packages in the same directory as"
+	echo "<destfile>, unless an alternate [package_directory] is specified."
+	echo
+	echo "note: The <destfile> name is important.  It must be of the form"
+	echo "      {treename}.db.tar.gz where {treename} is the name of the custom"
+	echo "      package repository you configured in /etc/pacman.conf.  The"
+	echo "      generated database must reside in the same directory as your"
+	echo "      custom packages (also configured in /etc/pacman.conf)"
+	echo
+	echo "example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
+	echo
+  echo
+  exit 0
+}
+
+die() {
+	echo "gensync: $*" >&2
+	rm -rf $gstmpdir
+	exit 1
+}
+
+get_md5checksum()
+{
+	if [ "$pkgdir" != "" ]; then
+		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	else
+		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	fi
+	if [ -f $pkgfile ]; then
+		md5line=`md5sum $pkgfile`
+		[ ! -z "$md5line" ] && pkgmd5sum=${md5line%  *}
+		echo $pkgmd5sum
+	fi
+	return 0
+}
+
+db_write_entry()
+{
+	unset pkgname pkgver pkgrel pkgdesc force
+	unset groups replaces provides depends conflicts
+	source $1 || return 1
+	cd $gstmpdir
+	mkdir $pkgname-$pkgver-$pkgrel || return 1
+	cd $pkgname-$pkgver-$pkgrel
+	# desc
+	: >desc
+	echo "%NAME%" >>desc
+	echo "$pkgname" >>desc
+	echo "" >>desc
+	echo "%VERSION%" >>desc
+	echo "$pkgver-$pkgrel" >>desc
+	echo "" >>desc
+	echo "%DESC%" >>desc
+	echo "$pkgdesc" >>desc
+	echo "" >>desc
+	echo "%CSIZE%" >>desc
+	echo "$csize" >>desc
+	echo "" >>desc
+	if [ ! -z $pkgmd5sum ]; then
+		echo "%MD5SUM%" >>desc
+		echo "$pkgmd5sum" >>desc
+		echo "" >>desc
+	fi
+	if [ ${#groups[*]} -gt 0 ]; then
+		echo "%GROUPS%" >>desc
+		for it in "${groups[@]}"; do
+			echo "$it" >>desc
+		done
+		echo "" >>desc
+	fi
+	if [ ${#replaces[*]} -gt 0 ]; then
+		echo "%REPLACES%" >>desc
+		for it in "${replaces[@]}"; do
+			echo "$it" >>desc
+		done
+		echo "" >>desc
+	fi
+	if [ "$force" = "y" -o "$force" = "Y" ]; then
+		echo "%FORCE%" >>desc
+		echo "" >>desc
+	fi
+	# depends
+	: >depends
+	if [ ${#depends[*]} -gt 0 ]; then
+		echo "%DEPENDS%" >>depends
+		for it in "${depends[@]}"; do
+		  echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+	if [ ${#conflicts[*]} -gt 0 ]; then
+		echo "%CONFLICTS%" >>depends
+		for it in "${conflicts[@]}"; do
+		  echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+	if [ ${#provides[*]} -gt 0 ]; then
+		echo "%PROVIDES%" >>depends
+		for it in "${provides[@]}"; do
+		  echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+	# preserve the modification time
+	touch -r $1 desc depends
+}
+
+if [ $# -lt 2 ]; then
+	usage
+	exit 0
+fi
+
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+	usage
+	exit 0
+fi
+
+d=`dirname $1`
+rootdir=`cd $d && pwd`/`basename $1`
+d=`dirname $2`
+destdir=`cd $d && pwd`
+destfile="$destdir/`basename $2`"
+pkgdir=
+if [ "$3" != "" ]; then
+	pkgdir=$3
+fi
+gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || exit 1
+
+[ ! -d $rootdir ] && die "invalid root dir: $rootdir"
+echo "gensync: building database entries, generating md5sums..." >&2
+cd `dirname $2`
+for file in `find $rootdir/* -name PKGBUILD`; do
+	source $file || die "errors parsing $file"
+	if [ "$pkgdir" != "" ]; then
+		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	else
+		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	fi
+	[ -f $pkgfile ] || die "missing package file: $pkgfile"
+	csize=`du -b $pkgfile | cut -f1`
+	pkgmd5sum=`get_md5checksum $pkgfile`
+	[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
+	db_write_entry $file
+	[ $? -gt 0 ] && die "error writing entry for $file"
+done
+
+echo "gensync: compressing to $destfile..." >&2
+cd $gstmpdir
+tar c * | gzip -9 >$destfile
+[ $? -gt 0 ] && die "error writing to $destfile"
+
+rm -rf $gstmpdir
+exit 0

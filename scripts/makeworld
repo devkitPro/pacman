@@ -1,0 +1,143 @@
+#!/bin/bash
+# 
+#   makeworld
+#  
+#   Copyright (c) 2002-2004 by Judd Vinet <jvinet@zeroflux.org>
+#  
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+# 
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   USA.
+#
+
+toplevel=`pwd`
+version="2.9.2"
+
+usage() {
+	echo "makeworld version $version"
+	echo "usage: $0 [options] <destdir> <category> [category] ..."
+	echo "options:"
+	echo "  -b, --builddeps  Build missing dependencies from source"
+	echo "  -c, --clean      Clean up work files after build"
+	echo "  -d, --nodeps     Skip all dependency checks"
+	echo "  -f, --force      Overwrite existing packages"
+	echo "  -i, --install    Install package after successful build"
+	echo "  -h, --help       This help"
+	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
+	echo "  -s, --syncdeps   Install missing dependencies with pacman"
+	echo
+	echo "  where <category> is one or more directory names under the ABS root"
+	echo "  eg: makeworld -c /packages base lib editors"
+	echo
+	echo "  this should be run from the toplevel directory of ABS (usually /var/abs)"
+}
+
+if [ $# -lt 2 ]; then
+	usage
+	exit 1
+fi
+
+MAKEPKG_OPTS=
+for arg in $*; do
+	case $arg in
+		--clean)     MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
+		--install)   MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
+		--syncdeps)  MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
+		--builddeps) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
+		--nodeps)    MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
+		--force)     MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
+		--rmdeps)    MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+		--help)
+			usage
+			exit 0
+			;;
+		--*)
+			usage
+			exit 1
+			;;
+		-*)
+			while getopts "chisbdfr-" opt; do
+				case $opt in
+					c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
+					i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
+					s) MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
+					b) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
+					d) MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
+					f) MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
+					r) MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+					h)
+						usage
+						exit 0
+						;;
+					-)
+						OPTIND=0
+						break
+						;;
+				esac
+			done
+			;;
+		*)
+			dest=$arg
+			shift
+			break
+			;;
+	esac
+	shift
+	if [ "$dest" != "" ]; then
+		break
+	fi
+done
+
+if [ "$dest" = "" ]; then
+	usage
+	exit 1
+fi
+
+# convert a (possibly) relative path to absolute
+cd $dest
+dest=`pwd`
+cd - &>/dev/null
+
+sd=`date +"[%b %d %H:%M]"`
+
+for category in $*; do
+	for port in `find $toplevel/$category -maxdepth 1 -mindepth 1 -type d | sort`; do
+		cd $port
+		if [ -f PKGBUILD ]; then
+			. PKGBUILD
+			buildstatus=0
+			if [ ! -f $dest/$pkgname-$pkgver-$pkgrel.pkg.tar.gz ]; then
+				makepkg $MAKEPKG_OPTS -m -w $dest 2>>$toplevel/makepkg.log
+				if [ $? -gt 0 ]; then
+					buildstatus=2
+				else
+					buildstatus=1
+				fi
+			fi
+			d=`date +"[%b %d %H:%M]"`
+			echo -n "$d  " >>$toplevel/build.log
+			case $buildstatus in
+				0) echo "$pkgname already built -- skipping" >>$toplevel/build.log ;;
+				1) echo "$pkgname was built successfully" >>$toplevel/build.log ;;
+				2) echo "$pkgname build failed" >>$toplevel/build.log ;;
+			esac
+		fi
+	done
+done
+ed=`date +"[%b %d %H:%M]"`
+
+echo "makeworld complete." >>$toplevel/build.log
+echo "  started:  $sd" >>$toplevel/build.log
+echo "  finished: $ed" >>$toplevel/build.log
+
+exit 0

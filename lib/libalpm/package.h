@@ -1,0 +1,78 @@
+/*
+ *  package.h
+ * 
+ *  Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  USA.
+ */
+#ifndef _ALPM_PACKAGE_H
+#define _ALPM_PACKAGE_H
+
+#include "list.h"
+
+#define PKG_FROM_CACHE 1
+#define PKG_FROM_FILE  2
+
+typedef struct __pmpkg_t {
+	char name[256];
+	char version[64];
+	char desc[512];
+	char url[256];
+	char license[128];
+	char builddate[32];
+	char installdate[32];
+	char packager[64];
+	char md5sum[33];
+	char arch[32];
+	unsigned long size;
+	unsigned char scriptlet;
+	unsigned char force;
+	unsigned char reason;
+	PMList *replaces;
+	PMList *groups;
+	PMList *files;
+	PMList *backup;
+	PMList *depends;
+	PMList *requiredby;
+	PMList *conflicts;
+	PMList *provides;
+	/* internal */
+	unsigned char origin;
+	void *data;
+	unsigned char infolevel;
+} pmpkg_t;
+
+#define FREEPKG(p) do { if(p) { pkg_free(p); p = NULL; } } while(0)
+
+#define FREELISTPKGS(p) do {\
+	if(p) { \
+		PMList *i;\
+		for(i = p; i; i = i->next) {\
+			FREEPKG(i->data); \
+		}\
+		FREELIST(p);\
+	} \
+} while(0)
+
+pmpkg_t* pkg_new();
+void pkg_free(pmpkg_t *pkg);
+pmpkg_t *pkg_load(char *pkgfile);
+int pkg_cmp(const void *p1, const void *p2);
+int pkg_isin(pmpkg_t *needle, PMList *haystack);
+
+#endif /* _ALPM_PACKAGE_H */
+
+/* vim: set ts=2 sw=2 noet: */
