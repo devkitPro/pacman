@@ -144,13 +144,14 @@ char *_alpm_strtoupper(char *str)
 char *_alpm_strtrim(char *str)
 {
 	char *pch = str;
+
 	while(isspace(*pch)) {
 		pch++;
 	}
 	if(pch != str) {
 		memmove(str, pch, (strlen(pch) + 1));
 	}
-	
+
 	pch = (char*)(str + (strlen(str) - 1));
 	while(isspace(*pch)) {
 		pch--;

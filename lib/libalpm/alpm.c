@@ -292,18 +292,18 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 			case PM_PKG_FILES:
 			case PM_PKG_BACKUP:
 				if(!(pkg->infolevel & INFRQ_FILES)) {
-					char target[PKG_NAME_LEN+1+PKG_VERSION_LEN];
+					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
 
-					snprintf(target, PKG_NAME_LEN+1+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_FILES, pkg);
 				}
 			break;
 
 			case PM_PKG_SCRIPLET:
 				if(!(pkg->infolevel & INFRQ_SCRIPLET)) {
-					char target[PKG_NAME_LEN+1+PKG_VERSION_LEN];
+					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
 
-					snprintf(target, PKG_NAME_LEN+1+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_SCRIPLET, pkg);
 				}
 			break;
