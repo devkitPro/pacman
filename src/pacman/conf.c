@@ -127,7 +127,7 @@ int parseconfig(char *file)
 					vprint("config: usesyslog\n");
 				} else {
 					ERR(NL, "config: line %d: syntax error\n", linenum);
-					return(1);			
+					return(1);
 				}
 			} else {
 				strtrim(ptr);
@@ -220,9 +220,6 @@ int parseconfig(char *file)
 					} else if (!strcmp(key, "PROXYPORT")) {
 						pmo_proxyport = (unsigned short)atoi(ptr);
 						vprint("config: proxyport: %u\n", pmo_proxyport);
-					} else if (!strcmp(key, "INCLUDE")) {
-						/* ORE
-						TBD */
 					} else {
 						ERR(NL, "config: line %d: syntax error\n", linenum);
 						return(1);
