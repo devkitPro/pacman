@@ -159,7 +159,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
 				continue;
 			}
-			strncpy(name, ent->d_name, 255);
+			strncpy(name, ent->d_name, PKG_NAME_LEN+PKG_VERSION_LEN-1);
 			/* stat the entry, make sure it's a directory */
 			snprintf(path, PATH_MAX, "%s/%s", db->path, name);
 			if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
