@@ -7,9 +7,9 @@ TODO:
 - implement missing functionnalities (mainly pacman -S <pkg1> <pkg2>, and
 packages replacement)
 
-- pacman_deptest() is not implemented
+- pacman_deptest() is not fully implemented
 
-- backport new functionnalities from pacman >= 2.9
+- backport new functionnalities from pacman >= 2.9.3
 
 - bring back the autoconf/automake stuff
 
@@ -18,6 +18,10 @@ verbose mode, which usage for the library log callback?)
 
 - review errors handling in the library (globalise pm_errno usage,
 improve error meanings)
+
+- add a structure in pacman to hold all the configuration (pmo_root, ...)
+
+- add HTTP support for .lastupdate files
 
 - library documentation (doxygen? man pages for public functions? ...)
 
