@@ -67,7 +67,7 @@ PMList *sortbydeps(PMList *targets, int mode)
 	while(change) {
 		change = 0;
 		if(numscans > numtargs) {
-			_alpm_log(PM_LOG_FLOW2, "warning: possible dependency cycle detected\n");
+			_alpm_log(PM_LOG_WARNING, "possible dependency cycle detected");
 			change = 0;
 			continue;
 		}
@@ -378,7 +378,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 						pmpkg_t *p = db_scan(db, ((pmpkg_t *)k->data)->name, INFRQ_DESC);
 						if(p == NULL) {
 							/* wtf */
-							fprintf(stderr, "data error: %s supposedly provides %s, but it was not found in db\n",
+							_alpm_log(PM_LOG_ERROR, "%s supposedly provides %s, but it was not found in db",
 								((pmpkg_t *)k->data)->name, depend.name);
 							for(lp = k; lp; lp = lp->next) {
 								lp->data = NULL;
@@ -525,8 +525,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 			}
 			/* see if it was explicitly installed */
 			if(dep->reason == PM_PKG_REASON_EXPLICIT) {
-				/* ORE
-				vprint("excluding %s -- explicitly installed\n", dep->name);*/
+				_alpm_log(PM_LOG_FLOW2, "excluding %s -- explicitly installed", dep->name);
 				needed = 1;
 			}
 			/* see if other packages need it */
@@ -576,8 +575,7 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 		/* XXX: conflicts are now treated specially in the _add and _sync functions */
 
 		/*if(miss->type == CONFLICT) {
-			fprintf(stderr, "error: cannot resolve dependencies for \"%s\":\n", miss->target);
-			fprintf(stderr, "       %s conflicts with %s\n", miss->target, miss->depend.name);
+			_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (it conflict with %s)", miss->target, miss->depend.name);
 			return(1);
 		} else*/
 
@@ -671,7 +669,7 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 				/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
 				 * something we're not supposed to.
 				 */
-				int usedep = 1;	
+				int usedep = 1;
 				found = 0;
 				/* ORE
 				for(j = pmo_ignorepkg; j && !found; j = j->next) {

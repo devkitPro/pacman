@@ -33,6 +33,7 @@
 #include "error.h"
 #include "list.h"
 #include "package.h"
+#include "alpm.h"
 
 pmpkg_t *pkg_new()
 {
@@ -118,12 +119,12 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			continue;
 		}
 		if(output) {
-			printf("%s\n", line);
+			_alpm_log(PM_LOG_DEBUG, "%s", line);
 		}
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
-			fprintf(stderr, "%s: syntax error in description file line %d\n",
+			_alpm_log(PM_LOG_ERROR, "%s: syntax error in description file line %d",
 				info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
@@ -164,7 +165,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "BACKUP")) {
 				info->backup = pm_list_add(info->backup, strdup(ptr));
 			} else {
-				fprintf(stderr, "%s: syntax error in description file line %d\n",
+				_alpm_log(PM_LOG_ERROR, "%s: syntax error in description file line %d",
 					info->name[0] != '\0' ? info->name : "error", linenum);
 			}
 		}
@@ -257,7 +258,7 @@ pmpkg_t *pkg_load(char *pkgfile)
 			FREE(str);
 			fclose(fp);
 			if(unlink(fn)) {
-				_alpm_log(PM_LOG_WARNING, "could not remove tempfile %s\n", fn);
+				_alpm_log(PM_LOG_WARNING, "could not remove tempfile %s", fn);
 			}
 			FREE(fn);
 			filelist = 1;

@@ -240,9 +240,7 @@ int _alpm_unpack(char *archive, const char *prefix, const char *fn)
 	while(!th_read(tar)) {
 		if(fn && strcmp(fn, th_get_pathname(tar))) {
 			if(TH_ISREG(tar) && tar_skip_regfile(tar)) {
-				char errorstr[255];
-				snprintf(errorstr, 255, "bad tar archive: %s", archive);
-				perror(errorstr);
+				_alpm_log(PM_LOG_ERROR, "bad tar archive: %s", archive);
 				tar_close(tar);
 				return(1);
 			}
@@ -250,7 +248,7 @@ int _alpm_unpack(char *archive, const char *prefix, const char *fn)
 		}
 		snprintf(expath, PATH_MAX, "%s/%s", prefix, th_get_pathname(tar));
 		if(tar_extract_file(tar, expath)) {
-			fprintf(stderr, "could not extract %s: %s\n", th_get_pathname(tar), strerror(errno));
+			_alpm_log(PM_LOG_ERROR, "could not extract %s (%s)", th_get_pathname(tar), strerror(errno));
 		}
 		if(fn) break;
 	}

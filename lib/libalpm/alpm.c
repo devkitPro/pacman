@@ -245,7 +245,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	db_free_pkgcache(db);
 
 	/* remove the old dir */
-	_alpm_log(PM_LOG_FLOW2, "removing database %s/%s\n", handle->dbpath, db->treename);
+	_alpm_log(PM_LOG_FLOW2, "removing database %s/%s", handle->dbpath, db->treename);
 	/* ORE
 	We should db_remove each db entry, and not rmrf the top directory */
 	_alpm_rmrf(db->path);
@@ -259,7 +259,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	/* ORE
 	we should not simply unpack the archive, but better parse it and 
 	db_write each entry */
-	_alpm_log(PM_LOG_FLOW2, "unpacking %s...\n", archive);
+	_alpm_log(PM_LOG_FLOW2, "unpacking %s", archive);
 	if(_alpm_unpack(archive, db->path, NULL)) {
 		RET_ERR(PM_ERR_XXX, -1);
 	}

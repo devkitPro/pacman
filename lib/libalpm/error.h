@@ -21,8 +21,6 @@
 #ifndef _ALPM_ERROR_H
 #define _ALPM_ERROR_H
 
-#include "alpm.h"
-
 #define RET_ERR(err, ret) do { pm_errno = (err); return(ret); } while(0)
 
 #endif /* _ALPM_ERROR_H */

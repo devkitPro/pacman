@@ -27,10 +27,12 @@
 #include <string.h>
 #include <sys/stat.h>
 /* pacman */
+#include "log.h"
 #include "util.h"
 #include "group.h"
 #include "cache.h"
 #include "db.h"
+#include "alpm.h"
 
 /* Open a database and return a pmdb_t handle */
 pmdb_t *db_open(char *root, char *dbpath, char *treename)
@@ -258,7 +260,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		snprintf(path, PATH_MAX, "%s/%s/desc", db->path, name);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
-			fprintf(stderr, "error: %s: %s\n", path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
 			return(-1);
 		}
 		while(!feof(fp)) {
@@ -368,7 +370,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		snprintf(path, PATH_MAX, "%s/%s/files", db->path, name);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
-			fprintf(stderr, "error: %s: %s\n", path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
 			return(-1);
 		}
 		while(fgets(line, 256, fp)) {
@@ -391,7 +393,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		snprintf(path, PATH_MAX, "%s/%s/depends", db->path, name);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
-			fprintf(stderr, "error: %s: %s\n", path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
 			return(-1);
 		}
 		while(!feof(fp)) {
@@ -444,8 +446,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		return(-1);
 	}
 
-	snprintf(topdir, PATH_MAX, "%s/%s-%s", db->path,
-		info->name, info->version);
+	snprintf(topdir, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	oldmask = umask(0000);
 	mkdir(topdir, 0755);
 	/* make sure we have a sane umask */
@@ -455,9 +456,9 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DESC) {
 		snprintf(path, PATH_MAX, "%s/desc", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			perror("db_write");
-			umask(oldmask);
-			return(-1);
+			/* ORE
+			perror("db_write");*/
+			goto error;
 		}
 		fputs("%NAME%\n", fp);
 		fprintf(fp, "%s\n\n", info->name);
@@ -493,9 +494,9 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_FILES) {
 		snprintf(path, PATH_MAX, "%s/files", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			perror("db_write");
-			umask(oldmask);
-			return(-1);
+			/* ORE
+			perror("db_write"); */
+			goto error;
 		}
 		fputs("%FILES%\n", fp);
 		for(lp = info->files; lp; lp = lp->next) {
@@ -514,9 +515,9 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DEPENDS) {
 		snprintf(path, PATH_MAX, "%s/depends", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			perror("db_write");
-			umask(oldmask);
-			return(-1);
+			/* ORE
+			perror("db_write"); */
+			goto error;
 		}
 		fputs("%DEPENDS%\n", fp);
 		for(lp = info->depends; lp; lp = lp->next) {
@@ -547,6 +548,10 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	umask(oldmask);
 
 	return(0);
+
+error:
+	umask(oldmask);
+	return(-1);
 }
 
 int db_remove(pmdb_t *db, pmpkg_t *info)
@@ -572,6 +577,7 @@ int db_remove(pmdb_t *db, pmpkg_t *info)
 	/* INSTALL */
 	snprintf(file, PATH_MAX, "%s/install", topdir);
 	unlink(file);
+
 	/* Package directory */
 	if(rmdir(topdir) == -1) {
 		return(-1);
