@@ -34,6 +34,7 @@
 
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 
+extern char *pmo_dbpath;
 extern list_t *pmo_holdpkg;
 extern char *pmo_proxyhost;
 extern unsigned short pmo_proxyport;
@@ -189,10 +190,10 @@ int parseconfig(char *file)
 						if(*ptr == '/') {
 							ptr++;
 						}
-						if(alpm_set_option(PM_OPT_DBPATH, (long)ptr) == -1) {
-							ERR(NL, "failed to set option DBPATH (%s)\n", alpm_strerror(pm_errno));
-							return(1);
+						if(pmo_dbpath) {
+							FREE(pmo_dbpath);
 						}
+						pmo_dbpath = strdup(ptr);
 						vprint("config: dbpath: %s\n", ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
 						if(alpm_set_option(PM_OPT_LOGFILE, (long)ptr) == -1) {
