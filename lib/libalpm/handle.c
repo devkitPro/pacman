@@ -133,6 +133,9 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 			strncpy(str, ((char *)data) ? (char *)data : PM_DBPATH, PATH_MAX);
 			handle->dbpath = strdup(str);
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_DBPATH set to '%s'", handle->dbpath);
+			/* ORE
+			We should browse all databases to update db->path fields with the new 
+			DBPATH value */
 		break;
 		case PM_OPT_LOGFILE:
 			if((char *)data == NULL || getuid() != 0) {
