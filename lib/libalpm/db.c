@@ -105,7 +105,7 @@ int db_update(char *root, char *dbpath, char *treename, char *archive)
 	/* remove the old dir */
 	/* ORE - do we want to include alpm.h and use the log mechanism from db.c?
 	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", ldir);*/
-	/* ORE 
+	/* ORE
 	We should only rmrf the database content, and not the top directory, in case
 	a (DIR *) structure is associated with it (i.e a call to db_open). */
 	_alpm_rmrf(ldir);
@@ -141,6 +141,8 @@ void db_rewind(pmdb_t *db)
 pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 {
 	struct dirent *ent = NULL;
+	struct stat sbuf;
+	char path[PATH_MAX];
 	char name[256];
 	char *ptr = NULL;
 	int ret, found = 0;
@@ -158,6 +160,11 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 				continue;
 			}
 			strncpy(name, ent->d_name, 255);
+			/* stat the entry, make sure it's a directory */
+			snprintf(path, PATH_MAX, "%s/%s", db->path, name);
+			if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
+				continue;
+			}
 			/* truncate the string at the second-to-last hyphen, */
 			/* which will give us the package name */
 			if((ptr = rindex(name, '-'))) {
@@ -175,20 +182,20 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 		}
 	} else {
 		/* normal iteration */
-		ent = readdir(db->dir);
-		if(ent == NULL) {
-			return(NULL);
-		}
-		if(!strcmp(ent->d_name, ".")) {
+		int isdir = 0;
+		while(!isdir) {
 			ent = readdir(db->dir);
 			if(ent == NULL) {
 				return(NULL);
 			}
-		}
-		if(!strcmp(ent->d_name, "..")) {
-			ent = readdir(db->dir);
-			if(ent == NULL) {
-				return(NULL);
+			/* stat the entry, make sure it's a directory */
+			snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
+			if(!stat(path, &sbuf) && S_ISDIR(sbuf.st_mode)) {
+				isdir = 1;
+			}
+			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+				isdir = 0;
+				continue;
 			}
 		}
 	}
@@ -669,7 +676,7 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root)
 				}
 				if(!ok) {
 					MALLOC(str, 512);
-					snprintf(str, 512, "%s: exists in filesystem", path);
+					snprintf(str, 512, "%s: %s: exists in filesystem", p->name, path);
 					conflicts = pm_list_add(conflicts, str);
 				}
 			}
