@@ -143,7 +143,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
-	char name[256];
+	char name[PKG_NAME_LEN+PKG_VERSION_LEN];
 	char *ptr = NULL;
 	int ret, found = 0;
 	pmpkg_t *pkg;
