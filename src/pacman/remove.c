@@ -26,8 +26,9 @@
 #include <alpm.h>
 /* pacman */
 #include "util.h"
+#include "log.h"
 #include "list.h"
-#include "pacman.h"
+#include "trans.h"
 
 extern unsigned char pmo_flags;
 

@@ -6,10 +6,12 @@ AR=ar rc
 RAN=ranlib
 
 OBJECTS=util.o \
+	log.o \
 	list.o \
 	package.o \
 	db.o \
 	download.o \
+	trans.o \
 	add.o \
 	remove.o \
 	upgrade.o \

@@ -1,5 +1,5 @@
 /*
- *  pacman.h
+ *  trans.h
  * 
  *  Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
  * 
@@ -18,37 +18,12 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
  *  USA.
  */
-#ifndef _PM_PACMAN_H
-#define _PM_PACMAN_H
+#ifndef _PM_TRANS_H
+#define _PM_TRANS_H
 
-#ifndef PACCONF
-#define PACCONF  "/etc/pacman.conf"
-#endif
-#ifndef CACHEDIR
-#define CACHEDIR "var/cache/pacman/pkg"
-#endif
+/* callback to handle messages/notifications from pacman transactions */
+void cb_trans(unsigned short event, void *data1, void *data2);
 
-/* Operations */
-#define PM_OP_MAIN    1
-#define PM_OP_ADD     2
-#define PM_OP_REMOVE  3
-#define PM_OP_UPGRADE 4
-#define PM_OP_QUERY   5
-#define PM_OP_SYNC    6
-#define PM_OP_DEPTEST 7
-
-void cleanup(int signum);
-
-int pacman_deptest(list_t *targets);
-
-int parseargs(int argc, char **argv);
-
-void usage(int op, char *myname);
-
-void version();
-
-char *buildstring(list_t *strlist);
-
-#endif /* _PM_PACMAN_H */
+#endif /* _PM_TRANS_H */
 
 /* vim: set ts=2 sw=2 noet: */

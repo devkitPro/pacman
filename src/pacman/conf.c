@@ -27,10 +27,10 @@
 #include <alpm.h>
 /* pacman */
 #include "util.h"
+#include "log.h"
 #include "list.h"
 #include "sync.h"
 #include "download.h"
-#include "pacman.h"
 
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 

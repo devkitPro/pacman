@@ -24,19 +24,14 @@
 #include <limits.h>
 #include <getopt.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <signal.h>
-#include <stdarg.h>
 #include <mcheck.h> /* debug */
 
 #include <alpm.h>
 /* pacman */
 #include "list.h"
 #include "util.h"
+#include "log.h"
 #include "download.h"
 #include "conf.h"
 #include "package.h"
@@ -87,8 +82,6 @@ list_t *pmc_syncs = NULL;
 list_t *pm_targets  = NULL;
 
 int maxcols = 80;
-
-int neednl = 0; /* for cleaner message output */
 
 int main(int argc, char *argv[])
 {
@@ -232,92 +225,6 @@ void cleanup(int signum)
 	fflush(stdout);
 
 	exit(signum);
-}
-
-/* Callback to handle notifications from the library
- */
-void cb_log(unsigned short level, char *msg)
-{
-	char str[8] = "";
-
-	switch(level) {
-		case PM_LOG_DEBUG:
-			sprintf(str, "DEBUG");
-		break;
-		case PM_LOG_ERROR:
-			sprintf(str, "ERROR");
-		break;
-		case PM_LOG_WARNING:
-			sprintf(str, "WARNING");
-		break;
-		case PM_LOG_FLOW1:
-			sprintf(str, "FLOW1");
-		break;
-		case PM_LOG_FLOW2:
-			sprintf(str, "FLOW2");
-		break;
-		case PM_LOG_FUNCTION:
-			sprintf(str, "FUNCTION");
-		break;
-		default:
-			sprintf(str, "???");
-		break;
-	}
-
-	if(strlen(str) > 0) {
-		MSG(NL, "%s: %s\n", str, msg);
-	}
-}
-
-/* Callback to handle transaction events
- */
-void cb_trans(unsigned short event, void *data1, void *data2)
-{
-	char str[256] = "";
-
-	switch(event) {
-		case PM_TRANS_EVT_DEPS_START:
-			MSG(NL, "checking dependencies... ");
-		break;
-		case PM_TRANS_EVT_CONFLICTS_START:
-			MSG(NL, "checking for file conflicts... ");
-		break;
-		case PM_TRANS_EVT_DEPS_DONE:
-		case PM_TRANS_EVT_CONFLICTS_DONE:
-			MSG(CL, "done.\n");
-		break;
-		case PM_TRANS_EVT_ADD_START:
-			MSG(NL, "installing %s... ", (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME));
-		break;
-		case PM_TRANS_EVT_ADD_DONE:
-			MSG(CL, "done.\n");
-			snprintf(str, 256, "installed %s (%s)",
-			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
-			alpm_logaction(str);
-		break;
-		case PM_TRANS_EVT_REMOVE_START:
-			MSG(NL, "removing %s... ", (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME));
-		break;
-		case PM_TRANS_EVT_REMOVE_DONE:
-			MSG(CL, "done.\n");
-			snprintf(str, 256, "removed %s (%s)",
-			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-			         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
-			alpm_logaction(str);
-		break;
-		case PM_TRANS_EVT_UPGRADE_START:
-			MSG(NL, "upgrading %s... ", (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME));
-		break;
-		case PM_TRANS_EVT_UPGRADE_DONE:
-			MSG(CL, "done.\n");
-			snprintf(str, 256, "upgraded %s (%s -> %s)",
-			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION),
-			                   (char *)alpm_pkg_getinfo(data2, PM_PKG_VERSION));
-			alpm_logaction(str);
-		break;
-	}
 }
 
 int pacman_deptest(list_t *targets)
@@ -643,45 +550,6 @@ char *buildstring(list_t *strlist)
 	str[strlen(str)-1] = '\0';
 
 	return(str);
-}
-
-/* Check verbosity option and, if set, print the
- * string to stdout
- */
-void vprint(char *fmt, ...)
-{
-	va_list args;
-
-	if(pmo_verbose > 1) {
-		if(neednl == 1) {
-			fprintf(stdout, "\n");
-			neednl = 0;
-		}
-		va_start(args, fmt);
-		pm_fprintf(stdout, NL, fmt, args);
-		va_end(args);
-	}
-}
-
-void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
-{
-	va_list args;
-
-	char str[256];
-
-	if(neednl == 1 && line == NL) {
-		fprintf(stdout, "\n");
-		neednl = 0;
-	}
-
-	va_start(args, fmt);
-	vsnprintf(str, 256, fmt, args);
-	va_end(args);
-
-	fprintf(file, str);
-	fflush(file);
-
-	neednl = (str[strlen(str)-1] == 10) ? 0 : 1;
 }
 
 /* vim: set ts=2 sw=2 noet: */

@@ -31,9 +31,9 @@
 
 #include <alpm.h>
 /* pacman */
+#include "log.h"
 #include "list.h"
 #include "download.h"
-#include "pacman.h"
 
 /* progress bar */
 static char sync_fnm[25];

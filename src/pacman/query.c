@@ -31,7 +31,7 @@
 #include "package.h"
 #include "db.h"
 #include "query.h"
-#include "pacman.h"
+#include "log.h"
 
 extern unsigned short pmo_q_isfile;
 extern unsigned short pmo_q_info;
