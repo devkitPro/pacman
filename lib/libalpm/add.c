@@ -131,7 +131,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		PMList *j;
 
-		TRANS_CB(trans, PM_TRANS_CB_DEPS_START, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_DEPS_START, NULL, NULL);
 
 		lp = checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
@@ -191,13 +191,13 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		FREELIST(trans->packages);
 		trans->packages = lp;
 
-		TRANS_CB(trans, PM_TRANS_CB_DEPS_DONE, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
 	}
 
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		TRANS_CB(trans, PM_TRANS_CB_CONFLICTS_START, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_CONFLICTS_START, NULL, NULL);
 
 		lp = db_find_conflicts(db, trans->packages, handle->root);
 		if(lp != NULL) {
@@ -205,7 +205,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			PM_RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
 
-		TRANS_CB(trans, PM_TRANS_CB_CONFLICTS_DONE, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_CONFLICTS_DONE, NULL, NULL);
 	}
 
 	return(0);
@@ -243,7 +243,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		/* see if this is an upgrade.  if so, remove the old package first */
 		if(pmo_upgrade) {
 			if(pkg_isin(info, db_get_pkgcache(db))) {
-				TRANS_CB(trans, PM_TRANS_CB_UPGRADE_START, info, NULL);
+				TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_START, info, NULL);
 
 				/* we'll need the full record for backup checks later */
 				if((oldpkg = db_scan(db, info->name, INFRQ_ALL)) != NULL) {
@@ -278,7 +278,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			}
 		}
 		if(!pmo_upgrade) {
-			TRANS_CB(trans, PM_TRANS_CB_ADD_START, info, NULL);
+			TRANS_CB(trans, PM_TRANS_EVT_ADD_START, info, NULL);
 		}
 
 		/* Add the package to the database */
@@ -559,11 +559,11 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 
 		if(pmo_upgrade && oldpkg) {
-			TRANS_CB(trans, PM_TRANS_CB_UPGRADE_DONE, info, NULL);
+			TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_DONE, info, NULL);
 			alpm_logaction("upgraded %s (%s -> %s)", info->name,
 				oldpkg->version, info->version);
 		} else {
-			TRANS_CB(trans, PM_TRANS_CB_ADD_DONE, info, NULL);
+			TRANS_CB(trans, PM_TRANS_EVT_ADD_DONE, info, NULL);
 			alpm_logaction("installed %s (%s)", info->name, info->version);
 		}
 

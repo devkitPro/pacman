@@ -72,7 +72,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
-		TRANS_CB(trans, PM_TRANS_CB_DEPS_START, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_DEPS_START, NULL, NULL);
 
 		if((lp = checkdeps(db, trans->type, trans->packages)) != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
@@ -99,7 +99,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			trans->packages = removedeps(db, trans->packages);
 		}
 
-		TRANS_CB(trans, PM_TRANS_CB_DEPS_DONE, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
 	}
 
 	return(0);
@@ -120,7 +120,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 		info = (pmpkg_t*)targ->data;
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
-			TRANS_CB(trans, PM_TRANS_CB_REMOVE_START, info, NULL);
+			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 
 			/* run the pre-remove scriptlet if it exists  */
 			snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
@@ -241,7 +241,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
-			TRANS_CB(trans, PM_TRANS_CB_REMOVE_DONE, info, NULL);
+			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 			alpm_logaction("removed %s (%s)", info->name, info->version);
 		}
 	}

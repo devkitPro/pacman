@@ -277,40 +277,40 @@ void cb_trans(unsigned short event, void *data1, void *data2)
 	char str[256] = "";
 
 	switch(event) {
-		case PM_TRANS_CB_DEPS_START:
+		case PM_TRANS_EVT_DEPS_START:
 			MSG(NL, "checking dependencies... ");
 		break;
-		case PM_TRANS_CB_CONFLICTS_START:
+		case PM_TRANS_EVT_CONFLICTS_START:
 			MSG(NL, "checking for file conflicts... ");
 		break;
-		case PM_TRANS_CB_DEPS_DONE:
-		case PM_TRANS_CB_CONFLICTS_DONE:
+		case PM_TRANS_EVT_DEPS_DONE:
+		case PM_TRANS_EVT_CONFLICTS_DONE:
 			MSG(CL, "done.\n");
 		break;
-		case PM_TRANS_CB_ADD_START:
+		case PM_TRANS_EVT_ADD_START:
 			MSG(NL, "installing %s... ", (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME));
 		break;
-		case PM_TRANS_CB_ADD_DONE:
+		case PM_TRANS_EVT_ADD_DONE:
 			MSG(CL, "done.\n");
 			snprintf(str, 256, "installed %s (%s)",
 			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
 			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
 			alpm_logaction(str);
 		break;
-		case PM_TRANS_CB_REMOVE_START:
+		case PM_TRANS_EVT_REMOVE_START:
 			MSG(NL, "removing %s... ", (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME));
 		break;
-		case PM_TRANS_CB_REMOVE_DONE:
+		case PM_TRANS_EVT_REMOVE_DONE:
 			MSG(CL, "done.\n");
 			snprintf(str, 256, "removed %s (%s)",
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
 			alpm_logaction(str);
 		break;
-		case PM_TRANS_CB_UPGRADE_START:
+		case PM_TRANS_EVT_UPGRADE_START:
 			MSG(NL, "upgrading %s... ", (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME));
 		break;
-		case PM_TRANS_CB_UPGRADE_DONE:
+		case PM_TRANS_EVT_UPGRADE_DONE:
 			MSG(CL, "done.\n");
 			snprintf(str, 256, "upgraded %s (%s -> %s)",
 			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
