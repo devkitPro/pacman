@@ -68,13 +68,13 @@ int alpm_initialize(char *root)
 
 	/* lock db */
 	if(handle->access == PM_ACCESS_RW) {
-		if(_alpm_lckmk(PACLOCK) == -1) {
+		if(_alpm_lckmk(PM_LOCK) == -1) {
 			FREE(handle);
 			PM_RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 		}
 	}
 
-	strncpy(str, (root) ? root : PACROOT, PATH_MAX);
+	strncpy(str, (root) ? root : PM_ROOT, PATH_MAX);
 	/* add a trailing '/' if there isn't one */
 	if(str[strlen(str)-1] != '/') {
 		strcat(str, "/");
@@ -92,9 +92,9 @@ int alpm_release()
 
 	/* unlock db */
 	if(handle->access == PM_ACCESS_RW) {
-		if(_alpm_lckrm(PACLOCK)) {
-			_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PACLOCK);
-			alpm_logaction("warning: could not remove lock file %s", PACLOCK);
+		if(_alpm_lckrm(PM_LOCK)) {
+			_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
+			alpm_logaction("warning: could not remove lock file %s", PM_LOCK);
 		}
 	}
 

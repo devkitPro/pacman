@@ -130,7 +130,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 				PM_RET_ERR(PM_ERR_TRANS_INITIALIZED, -1);
 			}
 
-			strncpy(str, ((char *)data) ? (char *)data : PACDBPATH, PATH_MAX);
+			strncpy(str, ((char *)data) ? (char *)data : PM_DBPATH, PATH_MAX);
 			handle->dbpath = strdup(str);
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_DBPATH set to '%s'", handle->dbpath);
 		break;
