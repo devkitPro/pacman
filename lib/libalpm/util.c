@@ -89,7 +89,7 @@ int _alpm_makepath(char *path)
 			strcat(full, "/");
 			strcat(full, ptr);
 			if(stat(full, &buf)) {
-			  if(mkdir(full, 0755)) {
+				if(mkdir(full, 0755)) {
 					free(orig);
 					umask(oldmask);
 					return(1);
