@@ -98,7 +98,8 @@ int alpm_get_option(unsigned char parm, long *data);
 int alpm_db_register(char *treename, PM_DB **db);
 int alpm_db_unregister(PM_DB *db);
 
-int alpm_db_update(char *treename, char *archive);
+int alpm_db_getlastupdate(PM_DB *db, char *ts);
+int alpm_db_update(PM_DB *db, char *archive, char *ts);
 
 PM_PKG *alpm_db_readpkg(PM_DB *db, char *name);
 PM_LIST *alpm_db_getpkgcache(PM_DB *db);

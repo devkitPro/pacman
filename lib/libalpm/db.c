@@ -97,34 +97,92 @@ int db_create(char *root, char *dbpath, char *treename)
 	return(0);
 }
 
-int db_update(char *root, char *dbpath, char *treename, char *archive)
+/* reads dbpath/.lastupdate and populates *ts with the contents.
+ * *ts should be malloc'ed and should be at least 15 bytes.
+ *
+ * Returns 0 on success, 1 on error
+ *
+ */
+int db_getlastupdate(pmdb_t *db, char *root, char *dbpath, char *ts)
 {
-	char ldir[PATH_MAX];
+	FILE *fp;
+	char path[PATH_MAX];
 
-	snprintf(ldir, PATH_MAX, "%s%s/%s", root, dbpath, treename);
+	if(db == NULL) {
+		return(-1);
+	}
+
+	/* get the last update time, if it's there */
+	snprintf(path, PATH_MAX, "%s%s/%s/.lastupdate", root, dbpath, db->treename);
+	if((fp = fopen(path, "r")) == NULL) {
+		return(-1);
+	} else {
+		char line[256];
+		if(fgets(line, sizeof(line), fp)) {
+			strncpy(ts, line, 15); /* YYYYMMDDHHMMSS */
+			ts[14] = '\0';
+		} else {
+			fclose(fp);
+			return(-1);
+		}
+	}
+	fclose(fp);
+	return(0);
+}
+
+int db_update(pmdb_t *db, char *root, char *dbpath, char *archive, char *ts)
+{
+	char path[PATH_MAX];
+
+	if(db == NULL) {
+		return(-1);
+	}
+
+	snprintf(path, PATH_MAX, "%s%s/%s", root, dbpath, db->treename);
+
+	/* ORE
+	if(ts && strlen(ts)) {
+		Should we refuse to update the db if it is already uptodate?
+		if(ts != db_getlastupdate(db)) {
+			RET_ERR(PM_ERR_DB_UPTODATE, -1);
+		}
+	}*/
+
 	/* remove the old dir */
 	/* ORE - do we want to include alpm.h and use the log mechanism from db.c?
-	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", ldir);*/
+	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", path);*/
 	/* ORE
 	We should only rmrf the database content, and not the top directory, in case
 	a (DIR *) structure is associated with it (i.e a call to db_open). */
-	_alpm_rmrf(ldir);
+	_alpm_rmrf(path);
 
 	/* make the new dir */
-	if(db_create(root, dbpath, treename) != 0) {
+	if(db_create(root, dbpath, db->treename) != 0) {
 		return(-1);
 	}
 
 	/* uncompress the sync database */
 	/* ORE
 	_alpm_log(PM_LOG_FLOW2, "Unpacking %s...\n", archive);*/
-	if(_alpm_unpack(archive, ldir, NULL)) {
+	if(_alpm_unpack(archive, path, NULL)) {
 		return(-1);
 	}
 
-	/* ORE
-	Should we let the the library manage updates only if needed?
-	Create a .lastupdate file in ldir? Ask for a timestamp as db_update argument? */
+	/* writes the db->path/.lastupdate with the contents of *ts */
+	if(ts && strlen(ts)) {
+		FILE *fp;
+		char file[PATH_MAX];
+
+		snprintf(file, PATH_MAX, "%s/.lastupdate", path);
+		if((fp = fopen(file, "w")) == NULL) {
+			return(-1);
+		}
+		if(fputs(ts, fp) <= 0) {
+			fclose(fp);
+			return(-1);
+		}
+		fclose(fp);
+	}
 
 	return(0);
 }

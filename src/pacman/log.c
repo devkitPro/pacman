@@ -107,7 +107,10 @@ void vprint(char *fmt, ...)
 			neednl = 0;
 		}
 		va_start(args, fmt);
-		pm_fprintf(stdout, NL, fmt, args);
+		/* ORE
+		commented for now: it produces corruption
+		pm_fprintf(stdout, NL, fmt, args); */
+		vprintf(fmt, args);
 		va_end(args);
 	}
 }

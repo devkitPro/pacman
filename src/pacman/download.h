@@ -31,6 +31,9 @@ typedef struct __server_t {
 } server_t;
 
 int downloadfiles(list_t *servers, const char *localpath, list_t *files);
+int downloadfiles_forreal(list_t *servers, const char *localpath,
+		list_t *files, const char *mtime1, char *mtime2);
+
 char *fetch_pkgurl(char *target);
 
 #endif /* _PM_DOWNLOAD_H */

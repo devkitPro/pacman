@@ -205,17 +205,31 @@ int alpm_db_unregister(PM_DB *db)
 	return(0);
 }
 
-int alpm_db_update(char *treename, char *archive)
+int alpm_db_getlastupdate(PM_DB *db, char *ts)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	return(db_getlastupdate(db, handle->root, handle->dbpath, ts));
+}
+
+int alpm_db_update(PM_DB *db, char *archive, char *ts)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* ORE
-	Does it make sense to update the 'local' database, or should we prevent it?
-	stat(archive); */
+	Does it make sense to update the 'local' database, or should we prevent it? */
 
-	return(db_update(handle->root, handle->dbpath, treename, archive));
+	/* ORE
+	check if the database is registered: if not, return an error */
+
+	/* ORE
+	stat() the archive to check it exists */
+
+	return(db_update(db, handle->root, handle->dbpath, archive, ts));
 }
 
 PM_PKG *alpm_db_readpkg(PM_DB *db, char *name)

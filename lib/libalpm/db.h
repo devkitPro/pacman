@@ -48,7 +48,9 @@ typedef struct __pmdb_t {
 pmdb_t *db_open(char *root, char *dbpath, char *treename);
 void db_close(pmdb_t *db);
 int db_create(char *root, char *dbpath, char *treename);
-int db_update(char *root, char *dbpath, char *treename, char *archive);
+
+int db_getlastupdate(pmdb_t *db, char *root, char *dbpath, char *ts);
+int db_update(pmdb_t *db, char *root, char *dbpath, char *archive, char *ts);
 
 void db_rewind(pmdb_t *db);
 pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq);

@@ -31,6 +31,7 @@
 
 #include <alpm.h>
 /* pacman */
+#include "util.h"
 #include "log.h"
 #include "list.h"
 #include "download.h"
@@ -126,7 +127,36 @@ static int copyfile(char *src, char *dest)
 	return(0);
 }
 
+/*
+ * Download a list of files from a list of servers
+ *   - if one server fails, we try the next one in the list
+ *
+ * RETURN:  0 for successful download, 1 on error
+ */
 int downloadfiles(list_t *servers, const char *localpath, list_t *files)
+{
+	return(!!downloadfiles_forreal(servers, localpath, files, NULL, NULL));
+}
+
+/*
+ * This is the real downloadfiles, used directly by sync_synctree() to check
+ * modtimes on remote (ftp only) files.
+ *   - if *mtime1 is non-NULL, then only download files
+ *     if they are different than *mtime1.  String should be in the form
+ *     "YYYYMMDDHHMMSS" to match the form of ftplib's FtpModDate() function.
+ *   - if *mtime2 is non-NULL, then it will be filled with the mtime
+ *     of the remote FTP file (from MDTM).
+ * 
+ * NOTE: the *mtime option only works for FTP repositories, and won't work
+ *       if XferCommand is used.  We only use it to check mtimes on the
+ *       repo db files.
+ *
+ * RETURN:  0 for successful download
+ *         -1 if the mtimes are identical
+ *          1 on error
+ */
+int downloadfiles_forreal(list_t *servers, const char *localpath,
+		list_t *files, const char *mtime1, char *mtime2)
 {
 	int fsz;
 	netbuf *control = NULL;
@@ -145,7 +175,7 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 		if(!pmo_xfercommand && strcmp(server->protocol, "file")) {
 			if(!strcmp(server->protocol, "ftp") && !pmo_proxyhost) {
 				FtpInit();
-				vprint("Connecting to %s:21\n", server->server);
+				vprint("connecting to %s:21\n", server->server);
 				if(!FtpConnect(server->server, &control)) {
 					fprintf(stderr, "error: cannot connect to %s\n", server->server);
 					continue;
@@ -174,9 +204,9 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 				host = (pmo_proxyhost) ? pmo_proxyhost : server->server;
 				port = (pmo_proxyhost) ? pmo_proxyport : 80;
 				if(strchr(host, ':')) {
-					vprint("Connecting to %s\n", host);
+					vprint("connecting to %s\n", host);
 				} else {
-					vprint("Connecting to %s:%u\n", host, port);
+					vprint("connecting to %s:%u\n", host, port);
 				}
 				if(!HttpConnect(host, port, &control)) {
 					fprintf(stderr, "error: cannot connect to %s\n", host);
@@ -296,21 +326,42 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 					if(!FtpSize(fn, &fsz, FTPLIB_IMAGE, control)) {
 						fprintf(stderr, "warning: failed to get filesize for %s\n", fn);
 					}
-					if(!stat(output, &st)) {
-						offset = (int)st.st_size;
-						if(!FtpRestart(offset, control)) {
-							fprintf(stderr, "warning: failed to resume download -- restarting\n");
-							/* can't resume: */
-							/* unlink the file in order to restart download from scratch */
-							unlink(output);
+					/* check mtimes */
+					if(mtime1 || mtime2) {
+						char fmtime[64];
+						if(!FtpModDate(fn, fmtime, sizeof(fmtime)-1, control)) {
+							fprintf(stderr, "warning: failed to get mtime for %s\n", fn);
+						} else {
+							strtrim(fmtime);
+							if(mtime1 && !strcmp(mtime1, fmtime)) {
+								/* mtimes are identical, skip this file */
+								vprint("mtimes are identical, skipping %s\n", fn);
+								filedone = -1;
+								complete = list_add(complete, fn);
+							}
+							if(mtime2) {								
+								strncpy(mtime2, fmtime, 15); /* YYYYMMDDHHMMSS (=14b) */
+								mtime2[14] = '\0';
+							}
 						}
 					}
-					if(!FtpGet(output, fn, FTPLIB_IMAGE, control)) {
-						fprintf(stderr, "\nfailed downloading %s from %s: %s\n",
-								fn, server->server, FtpLastResponse(control));
-						/* we leave the partially downloaded file in place so it can be resumed later */
-					} else {
-						filedone = 1;
+					if(!filedone) {
+						if(!stat(output, &st)) {
+							offset = (int)st.st_size;
+							if(!FtpRestart(offset, control)) {
+								fprintf(stderr, "warning: failed to resume download -- restarting\n");
+								/* can't resume: */
+								/* unlink the file in order to restart download from scratch */
+								unlink(output);
+							}
+						}
+						if(!FtpGet(output, fn, FTPLIB_IMAGE, control)) {
+							fprintf(stderr, "\nfailed downloading %s from %s: %s\n",
+									fn, server->server, FtpLastResponse(control));
+							/* we leave the partially downloaded file in place so it can be resumed later */
+						} else {
+							filedone = 1;
+						}
 					}
 				} else if(!strcmp(server->protocol, "http") || (pmo_proxyhost && strcmp(server->protocol, "file"))) {
 					char src[PATH_MAX];
@@ -367,7 +418,7 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 					}
 				}
 
-				if(filedone) {
+				if(filedone > 0) {
 					char completefile[PATH_MAX];
 					if(!strcmp(server->protocol, "file")) {
 						char out[56];
@@ -385,6 +436,8 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 					/* rename "output.part" file to "output" file */
 					snprintf(completefile, PATH_MAX, "%s/%s", localpath, fn);
 					rename(output, completefile);
+				} else if(filedone < 0) {
+					return(-1);
 				}
 				printf("\n");
 				fflush(stdout);

@@ -159,16 +159,26 @@ static int sync_cleancache(int level)
 static int sync_synctree(list_t *syncs)
 {
 	char *root, *dbpath;
+	char path[PATH_MAX];
 	list_t *i;
-	int ret = 0;
+	int success = 0, ret;
 
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
 	alpm_get_option(PM_OPT_DBPATH, (long *)&dbpath);
 
 	for(i = syncs; i; i = i->next) {
-		char path[PATH_MAX];
 		list_t *files = NULL;
+		char *mtime = NULL;
+		char newmtime[16] = "";
+		char lastupdate[16] = "";
 		sync_t *sync = (sync_t *)i->data;
+
+		/* get the lastupdate time */
+		snprintf(path, PATH_MAX, "%s/%s", path, sync->treename);
+		if(alpm_db_getlastupdate(sync->db, lastupdate) == -1) {
+			vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
+		}
+		mtime = lastupdate;
 
 		/* build a one-element list */
 		snprintf(path, PATH_MAX, "%s"PM_EXT_DB, sync->treename);
@@ -176,26 +186,27 @@ static int sync_synctree(list_t *syncs)
 
 		snprintf(path, PATH_MAX, "%s%s", root, dbpath);
 
-		if(downloadfiles(sync->servers, path, files)) {
-			fprintf(stderr, "failed to synchronize %s\n", sync->treename);
-			FREELIST(files);
-			ret--;
-			continue;
-		}
-
+		ret = downloadfiles_forreal(sync->servers, path, files, mtime, newmtime);
+		vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
 		FREELIST(files);
-
-		snprintf(path, PATH_MAX, "%s%s/%s"PM_EXT_DB, root, dbpath, sync->treename);
-		if(alpm_db_update(sync->treename, path) == -1) {
-			fprintf(stderr, "error: %s\n", alpm_strerror(pm_errno));
-			ret--;
+		if(ret > 0) {
+			fprintf(stderr, "failed to synchronize %s\n", sync->treename);
+			success--;
+		} else if(ret < 0) {
+			printf(":: %s is up to date\n", sync->treename);
+		} else {
+			snprintf(path, PATH_MAX, "%s%s/%s"PM_EXT_DB, root, dbpath, sync->treename);
+			if(alpm_db_update(sync->db, path, newmtime) == -1) {
+				fprintf(stderr, "error: failed to set database timestamp (%s)\n", alpm_strerror(pm_errno));
+				success--;
+			}
+			/* remove the .tar.gz */
+			unlink(path);
 		}
 
-		/* remove the .tar.gz */
-		unlink(path);
 	}
 
-	return(ret);
+	return(success);
 }
 
 static int sync_search(list_t *syncs, list_t *targets)
@@ -375,13 +386,6 @@ int pacman_sync(list_t *targets)
 		return(sync_cleancache(pmo_s_clean));
 	}
 
-	if(pmo_s_sync) {
-		/* grab a fresh package list */
-		MSG(NL, ":: Synchronizing package databases...\n");
-		alpm_logaction("synchronizing package lists");
-		sync_synctree(pmc_syncs);
-	}
-
 	/* open the database(s) */
 	for(i = pmc_syncs; i; i = i->next) {
 		sync_t *sync = i->data;
@@ -389,6 +393,13 @@ int pacman_sync(list_t *targets)
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
 			return(1);
 		}
+	}
+
+	if(pmo_s_sync) {
+		/* grab a fresh package list */
+		MSG(NL, ":: Synchronizing package databases...\n");
+		alpm_logaction("synchronizing package lists");
+		sync_synctree(pmc_syncs);
 	}
 
 	if(pmo_s_search) {
