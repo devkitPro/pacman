@@ -96,6 +96,7 @@ int alpm_get_option(unsigned char parm, long *data);
 PM_DB *alpm_db_register(char *treename);
 int alpm_db_unregister(PM_DB *db);
 
+/* Sync databases */
 int alpm_db_getlastupdate(PM_DB *db, char *ts);
 int alpm_db_update(PM_DB *db, char *archive, char *ts);
 
@@ -139,8 +140,8 @@ enum {
 };
 
 /* reasons -- ie, why the package was installed */
-#define PM_PKG_REASON_EXPLICIT  0  /* explicitly requested by the user              */
-#define PM_PKG_REASON_DEPEND    1  /* installed as a dependency for another package */
+#define PM_PKG_REASON_EXPLICIT  1  /* explicitly requested by the user              */
+#define PM_PKG_REASON_DEPEND    2  /* installed as a dependency for another package */
 
 void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm);
 int alpm_pkg_load(char *filename, PM_PKG **pkg);
@@ -203,10 +204,12 @@ enum {
 
 /* Events */
 enum {
-	PM_TRANS_EVT_DEPS_START = 1,
-	PM_TRANS_EVT_DEPS_DONE,
-	PM_TRANS_EVT_CONFLICTS_START,
-	PM_TRANS_EVT_CONFLICTS_DONE,
+	PM_TRANS_EVT_CHECKDEPS_START = 1,
+	PM_TRANS_EVT_CHECKDEPS_DONE,
+	PM_TRANS_EVT_FILECONFLICTS_START,
+	PM_TRANS_EVT_FILECONFLICTS_DONE,
+	PM_TRANS_EVT_RESOLVEDEPS_START,
+	PM_TRANS_EVT_RESOLVEDEPS_DONE,
 	PM_TRANS_EVT_ADD_START,
 	PM_TRANS_EVT_ADD_DONE,
 	PM_TRANS_EVT_REMOVE_START,
@@ -222,7 +225,8 @@ typedef void (*alpm_trans_cb)(unsigned short, void *, void *);
 enum {
 	PM_TRANS_TYPE = 1,
 	PM_TRANS_FLAGS,
-	PM_TRANS_TARGETS
+	PM_TRANS_TARGETS,
+	PM_TRANS_PACKAGES
 };
 
 void *alpm_trans_getinfo(unsigned char parm);
