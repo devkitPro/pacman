@@ -354,8 +354,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	char tmpdir[PATH_MAX] = "";
 	char *scriptpath;
 	struct stat buf;
-
-	return(0);
+	char cwd[PATH_MAX];
 
 	if(stat(installfn, &buf)) {
 		/* not found */
@@ -367,7 +366,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		if(stat(tmpdir, &buf)) {
 			_alpm_makepath(tmpdir);
 		}
-		snprintf(tmpdir, PATH_MAX, "%stmp/pacman-XXXXXX", root);
+		snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
 		if(mkdtemp(tmpdir) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "could not create temp directory");
 			return(1);
@@ -391,6 +390,11 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		return(0);
 	}
 
+	/* save the cwd so we can restore it later */
+	getcwd(cwd, PATH_MAX);
+	/* just in case our cwd was removed in the upgrade operation */
+	chdir("/");
+
 	_alpm_log(PM_LOG_FLOW2, "executing %s script...", script);
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s %s\" | chroot %s /bin/sh",
@@ -405,6 +409,8 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
 		_alpm_log(PM_LOG_WARNING, "could not remove tmpdir %s", tmpdir);
 	}
+
+	chdir(cwd);
 	return(0);
 }
 
