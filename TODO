@@ -1,29 +1,39 @@
 TODO:
 
+global
+======
+
 - add i18n (gettext) support
 
 - get ride of "ORE" tags.
+
+- backport new functionnalities from pacman >= 2.9.3
+
+- bring back the autoconf/automake stuff
+
+- import libtar code into CVS too, and try to fix glibc dependencies when
+statically linking libtar?
+
+libalpm
+=======
+
+- review errors handling (globalise pm_errno usage, improve error 
+meanings)
+
+- documentation (doxygen? man pages for public functions? ...)
+
+pacman
+======
 
 - implement missing functionnalities (mainly pacman -S <pkg1> <pkg2>, and
 packages replacement)
 
 - pacman_deptest() is not fully implemented
 
-- backport new functionnalities from pacman >= 2.9.3
-
-- bring back the autoconf/automake stuff
-
 - review how things are displayed in the frontend (normal display,
 verbose mode, which usage for the library log callback?)
-
-- review errors handling in the library (globalise pm_errno usage,
-improve error meanings)
 
 - add a structure in pacman to hold all the configuration (pmo_root, ...)
 
 - add HTTP support for .lastupdate files
-
-- library documentation (doxygen? man pages for public functions? ...)
-
-- import libtar code into CVS too?
 
