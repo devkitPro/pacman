@@ -69,9 +69,12 @@ static int sync_cleancache(int level)
 			list_t *cache = NULL;
 			list_t *clean = NULL;
 			list_t *i, *j;
+			char dirpath[PATH_MAX];
+
+			snprintf(dirpath, PATH_MAX, "%s"CACHEDIR, root);
 
 			printf("removing old packages from cache... ");
-			dir = opendir("/var/cache/pacman/pkg");
+			dir = opendir(dirpath);
 			if(dir == NULL) {
 				fprintf(stderr, "error: could not access cache directory\n");
 				return(1);
@@ -688,7 +691,7 @@ int pacman_sync(list_t *targets)
 	group sync records by repository and download */
 
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
-	snprintf(ldir, PATH_MAX, "%svar/cache/pacman/pkg", root);
+	snprintf(ldir, PATH_MAX, "%s"CACHEDIR, root);
 
 	while(!done) {
 		if(current) {
