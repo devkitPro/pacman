@@ -60,6 +60,7 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	/* ORE
 	load_pkg should be done only if pkg has to be added to the transaction */
 
+	_alpm_log(PM_LOG_FLOW2, "reading %s", name);
 	info = pkg_load(name);
 	if(info == NULL) {
 		/* pm_errno is already set by pkg_load() */
@@ -73,7 +74,7 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	}
 
 	dummy = db_get_pkgfromcache(db, info->name);
-	/* only freshen this package if it is already installed and at a lesser version */
+	/* only upgrade/install this package if it is already installed and at a lesser version */
 	if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
 		if(dummy == NULL || rpmvercmp(dummy->version, info->version) >= 0) {
 			pm_errno = PM_ERR_PKG_CANT_FRESH;
@@ -127,13 +128,12 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	/* ORE ???
-	No need to check deps if pacman_add was called during a sync:
-	it is already done in pacman_sync */
-
 	/* Check dependencies
 	 */
 
+	/* ORE ???
+	No need to check deps if pacman_add was called during a sync:
+	it is already done in pacman_sync */
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		PMList *j;
 
@@ -242,11 +242,13 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			(readfunc_t)gzread,
 			(writefunc_t)gzwrite
 		};
-		unsigned short pmo_upgrade = (trans->type == PM_TRANS_TYPE_UPGRADE) ? 1 : 0;
+		unsigned short pmo_upgrade;
 		char pm_install[PATH_MAX];
 		pmpkg_t *oldpkg = NULL;
 		info = (pmpkg_t *)targ->data;
 		errors = 0;
+
+		pmo_upgrade = (trans->type == PM_TRANS_TYPE_UPGRADE) ? 1 : 0;
 
 		/* see if this is an upgrade.  if so, remove the old package first */
 		if(pmo_upgrade) {
@@ -280,6 +282,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
+					/* copy over the install reason */
+					/* ORE?
+					info->reason = oldpkg->reason; */
 					if(remove_loadtarget(db, tr, info->name) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -364,7 +369,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
 
-			splitdep(lp->data, &depend);
+			if(splitdep(lp->data, &depend)) {
+				continue;
+			}
 			/* ORE
 			same thing here: we should browse the cache instead of using db_scan */
 			depinfo = db_scan(db, depend.name, INFRQ_DESC|INFRQ_DEPENDS);
@@ -436,7 +443,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 					if(!pmo_upgrade || oldpkg == NULL) {
 						nb = pm_list_is_strin(pathname, info->backup) ? 1 : 0;
 					} else {
-						/* op == PM_UPGRADE */
+						/* op == PM_TRANS_TYPE_UPGRADE */
 						if((md5_orig = _alpm_needbackup(pathname, oldpkg->backup)) != 0) {
 							nb = 1;
 						}
@@ -450,7 +457,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 
 				md5_local = MDFile(expath);
 				/* extract the package's version to a temporary file and md5 it */
-				temp = strdup("/tmp/pacman_XXXXXX");
+				temp = strdup("/tmp/alpm_XXXXXX");
 				mkstemp(temp);
 				if(tar_extract_file(tar, temp)) {
 					alpm_logaction("could not extract %s: %s", pathname, strerror(errno));
@@ -536,7 +543,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 					}
 
 					if(installnew) {
-						/*_alpm_log(PM_LOG_FLOW2, " %s", expath);*/
+						/*_alpm_log(PM_LOG_FLOW2, "  %s", expath);*/
 						if(_alpm_copyfile(temp, expath)) {
 							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s: %s", temp, pathname, strerror(errno));
 							errors++;
