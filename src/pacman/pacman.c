@@ -247,7 +247,7 @@ int pacman_deptest(list_t *targets)
 	/* we create a transaction to hold a dummy package to be able to use
 	 * deps checkings from alpm_trans_prepare() */
 	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL) == -1) {
-		ERR(NL, "error: %s\n", alpm_strerror(pm_errno));
+		ERR(NL, "%s", alpm_strerror(pm_errno));
 		return(1);
 	}
 
