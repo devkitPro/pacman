@@ -49,13 +49,13 @@ int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 {
 	pmpkg_t *info;
 
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(name != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if((info = db_scan(db, name, INFRQ_ALL)) == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
-		PM_RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 	trans->packages = pm_list_add(trans->packages, info);
 
@@ -67,9 +67,9 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	pmpkg_t *info;
 	PMList *lp;
 
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
 		TRANS_CB(trans, PM_TRANS_EVT_DEPS_START, NULL, NULL);
@@ -90,7 +90,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 				}
 			} else {
 				*data = lp;
-				PM_RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
+				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
 		}
 
@@ -112,8 +112,8 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 	PMList *targ, *lp;
 	char line[PATH_MAX+1];
 
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	for(targ = trans->packages; targ; targ = targ->next) {
 		char pm_install[PATH_MAX];

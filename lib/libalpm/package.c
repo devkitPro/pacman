@@ -193,17 +193,17 @@ pmpkg_t *pkg_load(char *pkgfile)
 	};
 
 	if(pkgfile == NULL) {
-		PM_RET_ERR(PM_ERR_WRONG_ARGS, NULL);
+		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
 	if(tar_open(&tar, pkgfile, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
-		PM_RET_ERR(PM_ERR_NOT_A_FILE, NULL);
+		RET_ERR(PM_ERR_NOT_A_FILE, NULL);
 	}
 
 	info = pkg_new();
 	if(info == NULL) {
 		tar_close(tar);
-		PM_RET_ERR(PM_ERR_MEMORY, NULL);
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	for(i = 0; !th_read(tar); i++) {

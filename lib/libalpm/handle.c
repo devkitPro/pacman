@@ -46,7 +46,7 @@ pmhandle_t *handle_new()
 
 	handle = (pmhandle_t *)malloc(sizeof(pmhandle_t));
 	if(handle == NULL) {
-		PM_RET_ERR(PM_ERR_MEMORY, NULL);
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	/* see if we're root or not */
@@ -82,7 +82,7 @@ pmhandle_t *handle_new()
 
 int handle_free(pmhandle_t *handle)
 {
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	/* close logfiles */
 	if(handle->logfd) {
@@ -113,21 +113,21 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 	char str[PATH_MAX];
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	switch(val) {
 		case PM_OPT_DBPATH:
 			if(handle->db_local) {
-				PM_RET_ERR(PM_ERR_DB_NOT_NULL, -1);
+				RET_ERR(PM_ERR_DB_NOT_NULL, -1);
 			}
 			for(lp = handle->dbs_sync; lp; lp = lp->next) {
 				if(lp->data) {
-					PM_RET_ERR(PM_ERR_DB_NOT_NULL, -1);
+					RET_ERR(PM_ERR_DB_NOT_NULL, -1);
 				}
 			}
 
 			if(handle->trans && handle->trans->state != STATE_IDLE) {
-				PM_RET_ERR(PM_ERR_TRANS_INITIALIZED, -1);
+				RET_ERR(PM_ERR_TRANS_INITIALIZED, -1);
 			}
 
 			strncpy(str, ((char *)data) ? (char *)data : PM_DBPATH, PATH_MAX);
@@ -147,13 +147,13 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 			if(handle->logfd) {
 				if(fclose(handle->logfd) != 0) {
 					handle->logfd = NULL;
-					PM_RET_ERR(PM_ERR_OPT_LOGFILE, -1);
+					RET_ERR(PM_ERR_OPT_LOGFILE, -1);
 				}
 				handle->logfd = NULL;
 			}
 			if((handle->logfd = fopen((char *)data, "a")) == NULL) {
 				_alpm_log(PM_LOG_ERROR, "can't open log file %s", (char *)data);
-				PM_RET_ERR(PM_ERR_OPT_LOGFILE, -1);
+				RET_ERR(PM_ERR_OPT_LOGFILE, -1);
 			}
 			handle->logfile = strdup((char *)data);
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_LOGFILE set to '%s'", (char *)data);
@@ -178,7 +178,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 		break;
 		case PM_OPT_USESYSLOG:
 			if(data != 0 && data != 1) {
-				PM_RET_ERR(PM_ERR_OPT_USESYSLOG, -1);
+				RET_ERR(PM_ERR_OPT_USESYSLOG, -1);
 			}
 			if(handle->usesyslog == data) {
 				return(0);
@@ -199,7 +199,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_LOGMASK set to '%02x'", (unsigned char)data);
 		break;
 		default:
-			PM_RET_ERR(PM_ERR_WRONG_ARGS, -1);
+			RET_ERR(PM_ERR_WRONG_ARGS, -1);
 	}
 
 	return(0);
@@ -208,7 +208,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 int handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	switch(val) {
 		case PM_OPT_ROOT:      *data = (long)handle->root; break;
@@ -222,7 +222,7 @@ int handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 		case PM_OPT_LOGCB:     *data = (long)pm_logcb; break;
 		case PM_OPT_LOGMASK:   *data = pm_logmask; break;
 		default:
-			PM_RET_ERR(PM_ERR_WRONG_ARGS, -1);
+			RET_ERR(PM_ERR_WRONG_ARGS, -1);
 		break;
 	}
 

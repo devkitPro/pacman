@@ -70,7 +70,7 @@ int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_t
 {
 	/* Sanity checks */
 	if(trans == NULL) {
-		PM_RET_ERR(PM_ERR_TRANS_NULL, -1);
+		RET_ERR(PM_ERR_TRANS_NULL, -1);
 	}
 
 	/* ORE
@@ -88,11 +88,11 @@ int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_t
 int trans_addtarget(pmtrans_t *trans, char *target)
 {
 	/* Sanity checks */
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(target != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(pm_list_is_strin(target, trans->targets)) {
-		PM_RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	switch(trans->type) {
@@ -121,7 +121,7 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	*data = NULL;
 
 	/* Sanity checks */
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	ASSERT(trans->packages != NULL, return(0));
 
@@ -155,7 +155,7 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 int trans_commit(pmtrans_t *trans)
 {
 	/* Sanity checks */
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* If there's nothing to do, return without complaining */
 	ASSERT(trans->packages != NULL, return(0));

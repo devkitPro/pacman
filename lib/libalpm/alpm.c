@@ -62,7 +62,7 @@ int alpm_initialize(char *root)
 {
 	char str[PATH_MAX];
 
-	ASSERT(handle == NULL, PM_RET_ERR(PM_ERR_HANDLE_NOT_NULL, -1));
+	ASSERT(handle == NULL, RET_ERR(PM_ERR_HANDLE_NOT_NULL, -1));
 
 	handle = handle_new();
 
@@ -70,7 +70,7 @@ int alpm_initialize(char *root)
 	if(handle->access == PM_ACCESS_RW) {
 		if(_alpm_lckmk(PM_LOCK) == -1) {
 			FREE(handle);
-			PM_RET_ERR(PM_ERR_HANDLE_LOCK, -1);
+			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 		}
 	}
 
@@ -88,7 +88,7 @@ int alpm_release()
 {
 	PMList *i;
 
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	/* unlock db */
 	if(handle->access == PM_ACCESS_RW) {
@@ -123,7 +123,7 @@ int alpm_release()
 int alpm_set_option(unsigned char parm, unsigned long data)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	return(handle_set_option(handle, parm, data));
 }
@@ -131,8 +131,8 @@ int alpm_set_option(unsigned char parm, unsigned long data)
 int alpm_get_option(unsigned char parm, long *data)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	return(handle_get_option(handle, parm, data));
 }
@@ -144,9 +144,9 @@ int alpm_get_option(unsigned char parm, long *data)
 int alpm_db_register(char *treename, PM_DB **db)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(treename != NULL && strlen(treename) != 0, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* ORE
 	check if the db if already registered */
@@ -155,12 +155,12 @@ int alpm_db_register(char *treename, PM_DB **db)
 	if(*db == NULL) {
 		/* couldn't open the db directory - try creating it */
 		if(db_create(handle->root, handle->dbpath, treename) == -1) {
-			PM_RET_ERR(PM_ERR_DB_CREATE, -1);
+			RET_ERR(PM_ERR_DB_CREATE, -1);
 		}
 		*db = db_open(handle->root, handle->dbpath, treename);
 		if(*db == NULL) {
 			/* couldn't open the db directory, try creating it */
-			PM_RET_ERR(PM_ERR_DB_OPEN, -1);
+			RET_ERR(PM_ERR_DB_OPEN, -1);
 		}
 	}
 
@@ -179,8 +179,8 @@ int alpm_db_unregister(PM_DB *db)
 	int found = 0;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(db == handle->db_local) {
 		db_close(handle->db_local);
@@ -199,7 +199,7 @@ int alpm_db_unregister(PM_DB *db)
 	}
 
 	if(!found) {
-		PM_RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
+		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
 	return(0);
@@ -209,7 +209,7 @@ int alpm_db_update(char *treename, char *archive)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
-	ASSERT(treename != NULL && strlen(treename) != 0, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* ORE
 	stat(archive); */
@@ -342,8 +342,8 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 int alpm_pkg_load(char *filename, PM_PKG **pkg)
 {
 	/* Sanity checks */
-	ASSERT(filename != NULL && strlen(filename) != 0, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(pkg != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(filename != NULL && strlen(filename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	*pkg = pkg_load(filename);
 	if(*pkg == NULL) {
@@ -357,7 +357,7 @@ int alpm_pkg_load(char *filename, PM_PKG **pkg)
 int alpm_pkg_free(PM_PKG *pkg)
 {
 	/* Sanity checks */
-	ASSERT(pkg != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	pkg_free(pkg);
 
@@ -416,8 +416,8 @@ void *alpm_sync_getinfo(PM_SYNC *sync, unsigned char parm)
 
 int alpm_sync_sysupgrade(PM_LIST **data)
 {
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	return(sync_sysupgrade(data));
 }
@@ -451,13 +451,13 @@ void *alpm_trans_getinfo(unsigned char parm)
 int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
-	ASSERT(handle->trans == NULL, PM_RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	handle->trans = trans_new();
 	if(handle->trans == NULL) {
-		PM_RET_ERR(PM_ERR_MEMORY, -1);
+		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
 	return(trans_init(handle->trans, type, flags, cb));
@@ -468,12 +468,12 @@ int alpm_trans_addtarget(char *target)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(target != NULL && strlen(target) != 0, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, PM_RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	return(trans_addtarget(trans, target));
 }
@@ -483,12 +483,12 @@ int alpm_trans_prepare(PMList **data)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, PM_RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	return(trans_prepare(handle->trans, data));
 }
@@ -498,14 +498,14 @@ int alpm_trans_commit()
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_PREPARED, PM_RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
 
 	/* ORE
-	ASSERT(handle->access != PM_ACCESS_RW, PM_RET_ERR(PM_ERR_BAD_PERMS, -1));*/
+	ASSERT(handle->access != PM_ACCESS_RW, RET_ERR(PM_ERR_BAD_PERMS, -1));*/
 
 	return(trans_commit(handle->trans));
 }
@@ -515,11 +515,11 @@ int alpm_trans_release()
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state != STATE_IDLE, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	FREETRANS(handle->trans);
 

@@ -52,9 +52,9 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	pmpkg_t *info, *dummy;
 	PMList *j;
 
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(name != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* ORE
 	load_pkg should be done only if pkg has to be added to the transaction */
@@ -120,9 +120,9 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 	*data = NULL;
 
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* ORE ???
 	No need to check deps if pacman_add was called during a sync:
@@ -153,7 +153,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 						FREELIST(lp);
 						/* ORE, needed or not ?
 						FREELIST(*data);*/
-						PM_RET_ERR(PM_ERR_MEMORY, -1);
+						RET_ERR(PM_ERR_MEMORY, -1);
 					}
 					*miss = *(pmdepmissing_t*)j->data;
 					*data = pm_list_add(*data, miss);
@@ -161,7 +161,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			}
 			if(errorout) {
 				FREELIST(lp);
-				PM_RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
+				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
 
 			/* no unsatisfied deps, so look for conflicts */
@@ -179,7 +179,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			}
 			if(errorout) {
 				FREELIST(lp);
-				PM_RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
+				RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
 			}
 			FREELIST(lp);
 		}
@@ -205,7 +205,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		lp = db_find_conflicts(db, trans->packages, handle->root);
 		if(lp != NULL) {
 			*data = lp;
-			PM_RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
+			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
 
 		TRANS_CB(trans, PM_TRANS_EVT_CONFLICTS_DONE, NULL, NULL);
@@ -223,8 +223,8 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 	pmpkg_t *info = NULL;
 	PMList *targ, *lp;
 
-	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, PM_RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	if(trans->packages == NULL) {
 		return(0);
@@ -257,19 +257,19 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 					set flags to something, but what (nodeps?) ??? */
 					tr = trans_new();
 					if(tr == NULL) {
-						PM_RET_ERR(PM_ERR_TRANS_ABORT, -1);
+						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, 0, NULL) == -1) {
 						FREETRANS(tr);
-						PM_RET_ERR(PM_ERR_TRANS_ABORT, -1);
+						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					if(remove_loadtarget(db, tr, info->name) == -1) {
 						FREETRANS(tr);
-						PM_RET_ERR(PM_ERR_TRANS_ABORT, -1);
+						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					if(remove_commit(db, tr) == -1) {
 						FREETRANS(tr);
-						PM_RET_ERR(PM_ERR_TRANS_ABORT, -1);
+						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					FREETRANS(tr);
 				}
@@ -322,7 +322,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		if(db_write(db, info, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, "could not update database for %s", info->name);
 			alpm_logaction(NULL, "error updating database for %s!", info->name);
-			PM_RET_ERR(PM_ERR_DB_WRITE, -1);
+			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
@@ -358,7 +358,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 
 		/* Extract the .tar.gz package */
 		if(tar_open(&tar, info->data, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
-			PM_RET_ERR(PM_ERR_PKG_OPEN, -1);
+			RET_ERR(PM_ERR_PKG_OPEN, -1);
 		}
 		_alpm_log(PM_LOG_DEBUG, "extracting files...");
 		for(i = 0; !th_read(tar); i++) {
