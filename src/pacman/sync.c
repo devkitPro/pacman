@@ -40,14 +40,14 @@
 
 extern unsigned short pmo_noconfirm;
 extern unsigned short pmo_d_resolve;
-extern unsigned short pmo_q_info;
 extern unsigned short pmo_q_list;
-extern unsigned short pmo_s_upgrade;
-extern unsigned short pmo_s_downloadonly;
-extern unsigned short pmo_s_printuris;
-extern unsigned short pmo_s_sync;
-extern unsigned short pmo_s_search;
 extern unsigned short pmo_s_clean;
+extern unsigned short pmo_s_downloadonly;
+extern unsigned short pmo_s_info;
+extern unsigned short pmo_s_printuris;
+extern unsigned short pmo_s_search;
+extern unsigned short pmo_s_sync;
+extern unsigned short pmo_s_upgrade;
 extern unsigned short pmo_group;
 extern unsigned char  pmo_flags;
 
@@ -411,7 +411,7 @@ int pacman_sync(list_t *targets)
 		return(sync_group(pmc_syncs, targets));
 	}
 
-	if(pmo_q_info) {
+	if(pmo_s_info) {
 		return(sync_info(pmc_syncs, targets));
 	}
 

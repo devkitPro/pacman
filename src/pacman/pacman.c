@@ -46,35 +46,37 @@
 char *pmo_root       = NULL;
 char *pmo_dbpath     = NULL;
 char *pmo_configfile = NULL;
-unsigned short pmo_op         = PM_OP_MAIN;
-unsigned short pmo_verbose    = 0;
-unsigned short pmo_version    = 0;
-unsigned short pmo_help       = 0;
-unsigned short pmo_upgrade    = 0;
-unsigned short pmo_noconfirm  = 0;
-unsigned short pmo_d_vertest  = 0;
-unsigned short pmo_d_resolve  = 0;
-unsigned short pmo_q_isfile   = 0;
-unsigned short pmo_q_info     = 0;
-unsigned short pmo_q_list     = 0;
-unsigned short pmo_q_orphans  = 0;
-unsigned short pmo_q_owns     = 0;
-unsigned short pmo_q_search   = 0;
-unsigned short pmo_s_upgrade  = 0;
+unsigned short pmo_op           = PM_OP_MAIN;
+unsigned short pmo_verbose      = 0;
+unsigned short pmo_version      = 0;
+unsigned short pmo_help         = 0;
+unsigned short pmo_upgrade      = 0;
+unsigned short pmo_noconfirm    = 0;
+unsigned short pmo_d_vertest    = 0;
+unsigned short pmo_d_resolve    = 0;
+unsigned short pmo_q_isfile     = 0;
+unsigned short pmo_q_info       = 0;
+unsigned short pmo_q_list       = 0;
+unsigned short pmo_q_orphans    = 0;
+unsigned short pmo_q_owns       = 0;
+unsigned short pmo_q_search     = 0;
+unsigned short pmo_s_clean      = 0;
 unsigned short pmo_s_downloadonly = 0;
+list_t        *pmo_s_ignore     = NULL;
+unsigned short pmo_s_info       = 0;
 unsigned short pmo_s_printuris    = 0;
-unsigned short pmo_s_sync     = 0;
-unsigned short pmo_s_search   = 0;
-unsigned short pmo_s_clean    = 0;
-unsigned short pmo_group      = 0;
-unsigned char  pmo_flags      = 0;
+unsigned short pmo_s_sync       = 0;
+unsigned short pmo_s_search     = 0;
+unsigned short pmo_s_upgrade    = 0;
+unsigned short pmo_group        = 0;
+unsigned char  pmo_flags        = 0;
 /* configuration file option */
-list_t        *pmo_holdpkg      = NULL;
 char          *pmo_proxyhost    = NULL;
 unsigned short pmo_proxyport    = 0;
 char          *pmo_xfercommand  = NULL;
 unsigned short pmo_chomp        = 0;
 unsigned short pmo_nopassiveftp = 0;
+list_t        *pmo_holdpkg      = NULL;
 
 PM_DB *db_local;
 /* list of (sync_t *) structs for sync locations */
@@ -337,38 +339,39 @@ int parseargs(int argc, char **argv)
 	static struct option opts[] =
 	{
 		{"add",        no_argument,       0, 'A'},
-		{"remove",     no_argument,       0, 'R'},
-		{"upgrade",    no_argument,       0, 'U'},
+		{"resolve",    no_argument,       0, 'D'}, /* used by 'makepkg -s' */
 		{"freshen",    no_argument,       0, 'F'},
 		{"query",      no_argument,       0, 'Q'},
+		{"remove",     no_argument,       0, 'R'},
 		{"sync",       no_argument,       0, 'S'},
-		{"deptest",    no_argument,       0, 'T'},
-		{"vertest",    no_argument,       0, 'Y'},
-		{"resolve",    no_argument,       0, 'D'},
-		{"root",       required_argument, 0, 'r'},
-		{"dbpath",     required_argument, 0, 'b'},
-		{"verbose",    no_argument,       0, 'v'},
+		{"deptest",    no_argument,       0, 'T'}, /* used by makepkg */
+		{"upgrade",    no_argument,       0, 'U'},
 		{"version",    no_argument,       0, 'V'},
-		{"help",       no_argument,       0, 'h'},
-		{"search",     no_argument,       0, 's'},
+		{"vertest",    no_argument,       0, 'Y'}, /* does the same as the 'vercmp' binary */
+		{"dbpath",     required_argument, 0, 'b'},
+		{"cascade",    no_argument,       0, 'c'},
 		{"clean",      no_argument,       0, 'c'},
-		{"force",      no_argument,       0, 'f'},
 		{"nodeps",     no_argument,       0, 'd'},
 		{"orphans",    no_argument,       0, 'e'},
+		{"force",      no_argument,       0, 'f'},
+		{"groups",     no_argument,       0, 'g'},
+		{"help",       no_argument,       0, 'h'},
+		{"info",       no_argument,       0, 'i'},
+		{"dbonly",     no_argument,       0, 'k'},
+		{"list",       no_argument,       0, 'l'},
 		{"nosave",     no_argument,       0, 'n'},
 		{"owns",       no_argument,       0, 'o'},
-		{"list",       no_argument,       0, 'l'},
 		{"file",       no_argument,       0, 'p'},
-		{"info",       no_argument,       0, 'i'},
+		{"root",       required_argument, 0, 'r'},
+		{"recursive",  no_argument,       0, 's'},
+		{"search",     no_argument,       0, 's'},
 		{"sysupgrade", no_argument,       0, 'u'},
+		{"verbose",    no_argument,       0, 'v'},
 		{"downloadonly", no_argument,     0, 'w'},
 		{"refresh",    no_argument,       0, 'y'},
-		{"dbonly",     no_argument,       0, 'k'},
-		{"cascade",    no_argument,       0, 'c'},
-		{"recursive",  no_argument,       0, 's'},
-		{"groups",     no_argument,       0, 'g'},
 		{"noconfirm",  no_argument,       0, 1000},
 		{"config",     required_argument, 0, 1001},
+		{"ignore",     required_argument, 0, 1002},
 		{0, 0, 0, 0}
 	};
 	char root[256];
@@ -380,34 +383,47 @@ int parseargs(int argc, char **argv)
 		switch(opt) {
 			case 0:   break;
 			case 1000: pmo_noconfirm = 1; break;
-			case 1001: pmo_configfile = strndup(optarg, PATH_MAX); break;
+			case 1001:
+			if(pmo_configfile) {
+				free(pmo_configfile);
+			}
+			pmo_configfile = strndup(optarg, PATH_MAX); break;
+			case 1002: pmo_s_ignore = list_add(pmo_s_ignore, strdup(optarg)); break;
 			case 'A': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_ADD);     break;
-			case 'R': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_REMOVE);  break;
-			case 'U': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
+			case 'D': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_resolve = 1; break;
 			case 'F': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); pmo_flags |= PM_TRANS_FLAG_FRESHEN; break;
 			case 'Q': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_QUERY);   break;
+			case 'R': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_REMOVE);  break;
 			case 'S': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_SYNC);    break;
 			case 'T': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
-			case 'Y': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_vertest = 1; break;
-			case 'D': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_resolve = 1; break;
-			case 'h': pmo_help = 1; break;
+			case 'U': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
 			case 'V': pmo_version = 1; break;
-			case 'b': pmo_dbpath = strdup(optarg); break;
+			case 'Y': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_vertest = 1; break;
+			case 'b':
+				if(pmo_dbpath) {
+					free(pmo_dbpath);
+				}
+				pmo_dbpath = strdup(optarg);
+			break;
 			case 'c': pmo_s_clean++; pmo_flags |= PM_TRANS_FLAG_CASCADE; break;
 			case 'd': pmo_flags |= PM_TRANS_FLAG_NODEPS; break;
 			case 'e': pmo_q_orphans = 1; break;
 			case 'f': pmo_flags |= PM_TRANS_FLAG_FORCE; break;
 			case 'g': pmo_group = 1; break;
-			case 'i': pmo_q_info++; break;
+			case 'h': pmo_help = 1; break;
+			case 'i': pmo_q_info++; pmo_s_info++; break;
 			case 'k': pmo_flags |= PM_TRANS_FLAG_DBONLY; break;
 			case 'l': pmo_q_list = 1; break;
 			case 'n': pmo_flags |= PM_TRANS_FLAG_NOSAVE; break;
-			case 'p': pmo_q_isfile = 1; break;
 			case 'o': pmo_q_owns = 1; break;
+			case 'p': pmo_q_isfile = 1; break;
 			case 'r':
 				if(realpath(optarg, root) == NULL) {
 					perror("bad root path");
-				return(1);
+					return(1);
+				}
+				if(pmo_root) {
+					free(pmo_root);
 				}
 				pmo_root = strdup(root);
 			break;
