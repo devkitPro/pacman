@@ -34,10 +34,12 @@
 #define INFRQ_SCRIPLET 0x08
 #define INFRQ_ALL      0xFF
 
+#define DB_TREENAME_LEN 128
+
 /* Database */
 typedef struct __pmdb_t {
 	char *path;
-	char treename[128];
+	char treename[DB_TREENAME_LEN];
 	DIR *dir;
 	PMList *pkgcache;
 	PMList *grpcache;

@@ -53,7 +53,7 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename)
 		return(NULL);
 	}
 
-	strncpy(db->treename, treename, sizeof(db->treename)-1);
+	strncpy(db->treename, treename, DB_TREENAME_LEN-1);
 
 	db->pkgcache = NULL;
 	db->grpcache = NULL;
