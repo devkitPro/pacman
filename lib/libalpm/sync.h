@@ -26,13 +26,21 @@
 #include "trans.h"
 #include "alpm.h"
 
+typedef struct __syncpkg_t { /* ORE: not used for now */
+	pmpkg_t *pkg;
+	pmdb_t *db;
+} pmsyncpkg_t;
+
 typedef struct __pmsync_t {
 	unsigned char type;
 	pmpkg_t *lpkg;
 	pmpkg_t *spkg;
+	pmdb_t *dbs; /* ORE: not used for now */
 } pmsync_t;
 
 pmsync_t *sync_new(int type, pmpkg_t *lpkg, pmpkg_t *spkg);
+
+PMList *sync_load_archive(char *archive);
 
 /*int sync_findpkg(char *name, PMList *dbs, pmsyncpkg_t **sync);
 pmsyncpkg_t *find_pkginsync(char *needle, PMList *haystack);

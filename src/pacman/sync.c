@@ -170,11 +170,12 @@ static int sync_synctree(list_t *syncs)
 		list_t *files = NULL;
 		char *mtime = NULL;
 		char newmtime[16] = "";
-		char lastupdate[16] = "";
+		char *lastupdate;
 		sync_t *sync = (sync_t *)i->data;
 
 		/* get the lastupdate time */
-		if(alpm_db_getlastupdate(sync->db, lastupdate) == -1) {
+		lastupdate = alpm_db_getinfo(sync->db, PM_DB_LASTUPDATE);
+		if(lastupdate == NULL) {
 			vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
 		}
 		mtime = lastupdate;
@@ -364,16 +365,16 @@ int pacman_sync(list_t *targets)
 	int confirm = 0;
 	int retval = 0;
 	list_t *final = NULL;
-	list_t *i, *j;
-	PM_LIST *lp, *data;
+	list_t *i;
+	PM_LIST *data;
 	char *root;
 	char ldir[PATH_MAX];
 	int varcache = 1;
-	int done = 0;
-	int count = 0;
-	sync_t *current = NULL;
-	list_t *processed = NULL;
-	list_t *files = NULL;
+	int done;
+	int count;
+	sync_t *current;
+	list_t *processed;
+	list_t *files;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
 		ERR(NL, "error: no usable package repositories configured.");
@@ -426,6 +427,8 @@ int pacman_sync(list_t *targets)
 	}
 
 	if(pmo_s_upgrade) {
+		PM_LIST *lp;
+
 		alpm_logaction("starting full system upgrade");
 
 		if(alpm_sync_sysupgrade(&data) == -1) {
@@ -488,16 +491,16 @@ int pacman_sync(list_t *targets)
 		data = NULL;
 	}
 
+	list_display("targets:", targets);
+
 	/* and add targets to it
 	 */
 	for(i = targets; i; i = i->next) {
 		char *targ = i->data;
-
-		printf("TARGET=%s\n", targ);
-
 		if(alpm_trans_addtarget(targ) == -1) {
 			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
 				PM_GRP *grp;
+				list_t *j;
 				/* target not found: check if it's a group */
 				for(j = pmc_syncs; j && !grp; j = j->next) {
 					sync_t *sync = j->data;
@@ -544,6 +547,7 @@ int pacman_sync(list_t *targets)
 
 	/* list targets */
 	if(!pmo_s_printuris) {
+		PM_LIST *lp;
 		list_t *list = NULL;
 		char *str;
 		unsigned long totalsize = 0;
@@ -567,22 +571,28 @@ int pacman_sync(list_t *targets)
 			FREELIST(list);
 			FREE(str);
 		}*/
-		/* ORE
-		for(i = final; i; i = i->next) {
-			MALLOC(str, strlen(s->pkg->name)+strlen(s->pkg->version)+2);
-			sprintf(str, "%s-%s", s->pkg->name, s->pkg->version);
+		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
+			char *pkgname, *pkgver;
+			PM_PKG *pkg = alpm_list_getdata(lp);
+
+			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
+			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
+
+			MALLOC(str, strlen(pkgname)+strlen(pkgver)+2);
+			sprintf(str, "%s-%s", pkgname, pkgver);
 			list = list_add(list, str);
-			totalsize += s->pkg->size;
-		}*/
+
+			totalsize += (int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
+		}
 		mb = (double)(totalsize / 1048576.0);
 		/* round up to 0.1 */
 		if(mb < 0.1) {
 			mb = 0.1;
 		}
-		printf("\nTargets: ");
+		MSG(NL, "\nTargets: ");
 		str = buildstring(list);
 		indentprint(str, 9);
-		printf("\n\nTotal Package Size:   %.1f MB\n", mb);
+		MSG(NL, "\nTotal Package Size:   %.1f MB\n", mb);
 		FREELIST(list);
 		FREE(str);
 	}
@@ -593,7 +603,8 @@ int pacman_sync(list_t *targets)
 			MSG(NL, "\nBeginning download...\n");
 			confirm = 1;
 		} else {
-			confirm = yesno("\nProceed with download? [Y/n] ");
+			MSG(NL, "\n");
+			confirm = yesno("Proceed with download? [Y/n] ");
 		}
 	} else {
 		/* don't get any confirmation if we're called from makepkg */
@@ -604,7 +615,8 @@ int pacman_sync(list_t *targets)
 				MSG(NL, "\nBeginning upgrade process...\n");
 				confirm = 1;
 			} else {
-				confirm = yesno("\nProceed with upgrade? [Y/n] ");
+				MSG(NL, "\n");
+				confirm = yesno("Proceed with upgrade? [Y/n] ");
 			}
 		}
 	}
@@ -613,27 +625,56 @@ int pacman_sync(list_t *targets)
 		goto cleanup;
 	}
 
-	/* ORE
-	group sync records by repository and download */
-
+	/* group sync records by repository and download */
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
 	snprintf(ldir, PATH_MAX, "%s"CACHEDIR, root);
-
+	done = 0;
+	count = 0;
+	processed = NULL;
+	current = NULL;
 	while(!done) {
+		PM_LIST *lp;
+		printf("in while\n");
 		if(current) {
 			processed = list_add(processed, current);
 			current = NULL;
 		}
-		for(i = final; i; i = i->next) {
+		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
+			PM_PKG *sync = alpm_list_getdata(lp);
 			if(current == NULL) {
+				PM_DB *dbs = alpm_pkg_getinfo(sync, PM_PKG_SYNCDB);
 				/* we're starting on a new repository */
+				if(!list_is_ptrin(dbs, processed)) {
+					/* ORE
+					current = dbs;*/
+					current = NULL;
+				}
 			}
 			/*if(current && !strcmp(current->treename, sync->dbs->sync->treename)) {
+				struct stat buf;
+				char path[PATH_MAX];
+
+				if(pmo_s_printuris) {
+					snprintf(path, PATH_MAX, "%s-%s%s", sync->pkg->name, sync->pkg->version, PKGEXT);
+					files = list_add(files, strdup(path));
+				} else {
+					snprintf(path, PATH_MAX, "%s/%s-%s%s",
+						ldir, sync->pkg->name, sync->pkg->version, PKGEXT);
+					if(stat(path, &buf)) {
+						// file is not in the cache dir, so add it to the list //
+						snprintf(path, PATH_MAX, "%s-%s%s", sync->pkg->name, sync->pkg->version, PKGEXT);
+						files = list_add(files, strdup(path));
+					} else {
+						vprint(" %s-%s%s is already in the cache\n", sync->pkg->name, sync->pkg->version, PKGEXT);
+						count++;
+					}
+				}
 			}*/
 		}
 
 		if(files) {
 			if(pmo_s_printuris) {
+				list_t *j;
 				server_t *server = (server_t*)current->servers->data;
 				for(j = files; j; j = j->next) {
 					if(!strcmp(server->protocol, "file")) {
@@ -708,11 +749,10 @@ int pacman_sync(list_t *targets)
 
 		if(strcmp(md5sum1, md5sum2) != 0) {
 			retval = 1;
-			ERR(NL, "error: archive %s is corrupted\n", pkgname);
+			ERR(NL, "archive %s is corrupted\n", pkgname);
 		}
 
 		FREE(md5sum2);
-
 	}
 	if(retval) {
 		goto cleanup;
