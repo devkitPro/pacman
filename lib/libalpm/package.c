@@ -293,8 +293,6 @@ pmpkg_t *pkg_load(char *pkgfile)
 	return(info);
 
 error:
-	printf("toto\n");
-
 	FREEPKG(info);
 	tar_close(tar);
 
