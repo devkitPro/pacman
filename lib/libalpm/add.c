@@ -39,6 +39,7 @@
 #include "package.h"
 #include "db.h"
 #include "provide.h"
+#include "conflict.h"
 #include "trans.h"
 #include "deps.h"
 #include "add.h"

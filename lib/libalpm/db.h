@@ -58,8 +58,6 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info);
 int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq);
 int db_remove(pmdb_t *db, pmpkg_t *info);
 
-PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root);
-
 #endif /* _ALPM_DB_H */
 
 /* vim: set ts=2 sw=2 noet: */
