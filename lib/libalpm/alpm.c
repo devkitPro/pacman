@@ -222,6 +222,8 @@ int alpm_db_getlastupdate(PM_DB *db, char *ts)
 
 int alpm_db_update(PM_DB *db, char *archive, char *ts)
 {
+	struct stat buf;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -239,8 +241,10 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 		}
 	}
 
-	/* ORE
-	stat() the archive to check it exists */
+	if(stat(archive, &buf)) {
+		/* not found */
+		RET_ERR(PM_ERR_NOT_A_FILE, -1);
+	}
 
 	/* Cache needs to be rebuild */
 	db_free_pkgcache(db);
