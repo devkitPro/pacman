@@ -141,36 +141,37 @@ int alpm_get_option(unsigned char parm, long *data)
  * Databases
  */
 
-int alpm_db_register(char *treename, PM_DB **db)
+PM_DB *alpm_db_register(char *treename)
 {
+	pmdb_t *db;
+
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
+	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, NULL));
 
 	/* ORE
 	check if the db if already registered */
 
-	*db = db_open(handle->root, handle->dbpath, treename);
-	if(*db == NULL) {
+	db = db_open(handle->root, handle->dbpath, treename);
+	if(db == NULL) {
 		/* couldn't open the db directory - try creating it */
 		if(db_create(handle->root, handle->dbpath, treename) == -1) {
-			RET_ERR(PM_ERR_DB_CREATE, -1);
+			RET_ERR(PM_ERR_DB_CREATE, NULL);
 		}
-		*db = db_open(handle->root, handle->dbpath, treename);
-		if(*db == NULL) {
-			/* couldn't open the db directory, try creating it */
-			RET_ERR(PM_ERR_DB_OPEN, -1);
+		db = db_open(handle->root, handle->dbpath, treename);
+		if(db == NULL) {
+			/* couldn't open the db directory */
+			RET_ERR(PM_ERR_DB_OPEN, NULL);
 		}
 	}
 
 	if(strcmp(treename, "local") == 0) {
-		handle->db_local = *db;
+		handle->db_local = db;
 	} else {
-		handle->dbs_sync = pm_list_add(handle->dbs_sync, *db);
+		handle->dbs_sync = pm_list_add(handle->dbs_sync, db);
 	}
 
-	return(0);
+	return(db);
 }
 
 int alpm_db_unregister(PM_DB *db)

@@ -93,7 +93,7 @@ int alpm_get_option(unsigned char parm, long *data);
  * Databases
  */
 
-int alpm_db_register(char *treename, PM_DB **db);
+PM_DB *alpm_db_register(char *treename);
 int alpm_db_unregister(PM_DB *db);
 
 int alpm_db_getlastupdate(PM_DB *db, char *ts);
