@@ -523,6 +523,7 @@ void usage(int op, char *myname)
 			printf("  -u, --sysupgrade    upgrade all packages that are out of date\n");
 			printf("  -w, --downloadonly  download packages but do not install/upgrade anything\n");
 			printf("  -y, --refresh       download fresh package databases from the server\n");
+			printf("      --ignore <pkg>  ignore a package upgrade (can be used more than once)\n");
 		}
 		printf("      --config <path> set an alternate configuration file\n");
 		printf("      --noconfirm     do not ask for anything confirmation\n");
