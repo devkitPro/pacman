@@ -417,8 +417,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	if(pmo_s_upgrade) {
-		/* ORE
-		alpm_logaction(NULL, "starting full system upgrade");*/
+		alpm_logaction("starting full system upgrade");
 		if(alpm_sync_sysupgrade(&data) == -1) {
 			if(pm_errno == PM_ERR_UNRESOLVABLE_DEPS) {
 				ERR(NL, "cannot resolve dependencies\n");
