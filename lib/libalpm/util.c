@@ -403,7 +403,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s\" | chroot %s /bin/sh",
 				scriptpath, script, ver, root);
 	}
-	_alpm_log(PM_LOG_FLOW2, "%s", cmdline);
+	_alpm_log(PM_LOG_DEBUG, "%s", cmdline);
 	system(cmdline);
 	
 	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
