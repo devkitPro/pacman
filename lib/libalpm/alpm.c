@@ -202,6 +202,18 @@ int alpm_db_unregister(PM_DB *db)
 	return(0);
 }
 
+int alpm_db_update(char *treename, char *archive)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(treename != NULL && strlen(treename) != 0, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	/* ORE
+	stat(archive); */
+
+	return(db_update(handle->root, handle->dbpath, treename, archive));
+}
+
 PM_PKG *alpm_db_readpkg(PM_DB *db, char *name)
 {
 	/* Sanity checks */

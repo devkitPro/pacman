@@ -97,6 +97,38 @@ int db_create(char *root, char *dbpath, char *treename)
 	return(0);
 }
 
+int db_update(char *root, char *dbpath, char *treename, char *archive)
+{
+	char ldir[PATH_MAX];
+
+	snprintf(ldir, PATH_MAX, "%s%s/%s", root, dbpath, treename);
+	/* remove the old dir */
+	/* ORE - do we want to include alpm.h and use the log mechanism from db.c?
+	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", ldir);*/
+	/* ORE 
+	We should only rmrf the database content, and not the top directory, in case
+	a (DIR *) structure is associated with it (i.e a call to db_open). */
+	_alpm_rmrf(ldir);
+
+	/* make the new dir */
+	if(db_create(root, dbpath, treename) != 0) {
+		return(-1);
+	}
+
+	/* uncompress the sync database */
+	/* ORE
+	_alpm_log(PM_LOG_FLOW2, "Unpacking %s...\n", archive);*/
+	if(_alpm_unpack(archive, ldir, NULL)) {
+		return(-1);
+	}
+
+	/* ORE
+	Should we let the the library manage updates only if needed?
+	Create a .lastupdate file in ldir? Ask for a timestamp as db_update argument? */
+
+	return(0);
+}
+
 void db_rewind(pmdb_t *db)
 {
 	if(db == NULL || db->dir == NULL) {
