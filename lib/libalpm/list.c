@@ -23,8 +23,33 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 /* pacman */
 #include "list.h"
+
+/* Check PMList sanity
+ *
+ * 1: List seems to be OK.
+ * 0: We're in deep ...
+ */
+int _alpm_list_check(PMList* list)
+{
+	PMList* it = NULL;
+
+	if(list == NULL) {
+		return(1);
+	}
+	if(list->last == NULL) {
+		return(0);
+	}
+
+	for(it = list; it && it->next; it = it->next);
+		if(it != list->last) {
+			return(0);
+		}
+
+	return(1);
+}
 
 PMList* pm_list_new()
 {
@@ -37,6 +62,7 @@ PMList* pm_list_new()
 	list->data = NULL;
 	list->prev = NULL;
 	list->next = NULL;
+	list->last = list;
 	return(list);
 }
 
@@ -74,9 +100,13 @@ PMList* pm_list_add(PMList *list, void *data)
 			return(NULL);
 		}
 		lp->next->prev = lp;
+		lp->last = NULL;
 		lp = lp->next;
 	}
+
 	lp->data = data;
+	ptr->last = lp;
+
 	return(ptr);
 }
 
@@ -102,63 +132,78 @@ PMList* pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn)
 	/*  Insert node before insertion point. */
 	add->prev = prev;
 	add->next = iter;
+
 	if(iter != NULL) {
-		 /* Not at end. */
-		iter->prev = add;
-	}
-	if(prev != NULL) {
-		 /* In middle. */
-		prev->next = add;
+		iter->prev = add;   /*  Not at end.  */
 	} else {
-		/* Start or empty, new list head. */
-		list = add;
+		if (list != NULL) {
+			list->last = add;   /* Added new to end, so update the link to last. */
+		}
+	}
+
+	if(prev != NULL) {
+		prev->next = add;       /*  In middle.  */
+	} else {
+		if(list == NULL) {
+			add->last = add;
+		} else {
+			add->last = list->last;
+			list->last = NULL;
+		}
+		list = add;           /*  Start or empty, new list head.  */
 	}
 
 	return(list);
 }
 
-/* Remove an item in a list. Use the given comparaison function to find the
- * item.
- * If found, 'ptr' is set to point to the removed element, so that the caller
- * can free it. Otherwise, ptr is NULL.
- * Return the new list (without the removed element).
+/* list: the beginning of the list
+ * item: the item in the list to be removed
+ *
+ * returns:
+ *     list with item removed
  */
-PMList *_alpm_list_remove(PMList *list, void *data, pm_fn_cmp fn, void **ptr)
+
+PMList* list_remove(PMList* list, PMList* item)
 {
-	PMList *i = list;
+	assert(_alpm_list_check(list));
 
-	while(i) {
-		if(fn(data, i->data) == 0) {
-			break;
-		}
-		i = i->next;
+	if(list == NULL || item == NULL) {
+		return(NULL);
 	}
 
-	if(ptr) {
-		*ptr = NULL;
-	}
-
-	if(i) {
-		/* we found a matching item */
-		if(i->next) {
-			i->next->prev = i->prev;
-		}
-		if(i->prev) {
-			i->prev->next = i->next;
-		}
-		if(i == list) {
-			/* The item found is the first in the chain,
-			 * so we move the header to the next element.
-			 */
+	/* Remove first item in list. */
+	if(item == list) {
+		if(list->next == NULL) {            /* Only item in list. */
+			pm_list_free(item);
+			return(NULL);
+		} else {
+			list->next->prev = NULL;
+			list->next->last = list->last;
 			list = list->next;
+			item->prev = item->next = NULL;
+			pm_list_free(item);
+			return(list);
 		}
-
-		if(ptr) {
-			*ptr = i->data;
-		}
-
-		free(i);
 	}
+
+	/* Remove last item in list. */
+	if(list->last == item) {
+		list->last = item->prev;
+		item->prev->next = NULL;
+		item->prev = item->next = NULL;
+		pm_list_free(item);
+		return(list);
+	}
+
+	/* Remove middle item in list. */
+	assert(item->prev != NULL && item->next != NULL);
+
+	item->prev->next = item->next;
+	item->next->prev = item->prev;
+	item->prev = item->next = NULL;
+	pm_list_free(item);
+
+	assert(_alpm_list_check(list));
 
 	return(list);
 }
@@ -201,10 +246,31 @@ PMList *pm_list_is_strin(char *needle, PMList *haystack)
 
 PMList* pm_list_last(PMList *list)
 {
-	PMList *ptr;
+	if (list == NULL)
+		return(NULL);
 
-	for(ptr = list; ptr && ptr->next; ptr = ptr->next);
-	return(ptr);
+	assert(list->last != NULL);
+
+	return(list->last);
+}
+
+/* Reverse the order of a list
+ *
+ * The caller is responsible for freeing the old list
+ */
+PMList* _alpm_list_reverse(PMList *list)
+{ 
+	/* simple but functional -- we just build a new list, starting
+	 * with the old list's tail
+	 */
+	PMList *newlist = NULL;
+	PMList *lp;
+
+	for(lp = list->last; lp; lp = lp->prev) {
+		newlist = pm_list_add(newlist, lp->data);
+	}
+
+	return(newlist);
 }
 
 /* vim: set ts=2 sw=2 noet: */

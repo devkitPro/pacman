@@ -189,7 +189,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 		/* re-order w.r.t. dependencies */
 		_alpm_log(PM_LOG_FLOW2, "sorting by dependencies...");
-		lp = sortbydeps(trans->packages);
+		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_ADD);
 		/* free the old alltargs */
 		for(j = trans->packages; j; j = j->next) {
 			j->data = NULL;

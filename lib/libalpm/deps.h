@@ -24,7 +24,7 @@
 #include "db.h"
 #include "sync.h"
 
-PMList *sortbydeps(PMList *targets);
+PMList *sortbydeps(PMList *targets, int mode);
 PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages);
 void splitdep(char *depstr, pmdepend_t *depend);
 PMList *removedeps(pmdb_t *db, PMList *targs);

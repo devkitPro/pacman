@@ -35,17 +35,20 @@
 
 /* Re-order a list of target packages with respect to their dependencies.
  *
- * Example:
+ * Example (PM_TRANS_TYPE_ADD):
  *   A depends on C
  *   B depends on A
  *   Target order is A,B,C,D
  *
  *   Should be re-ordered to C,A,B,D
  * 
+ * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
+ * affects the dependency order sortbydeps() will use.
+ *
  * This function returns the new PMList* target list.
  *
  */ 
-PMList *sortbydeps(PMList *targets)
+PMList *sortbydeps(PMList *targets, int mode)
 {
 	PMList *newtargs = NULL;
 	PMList *i, *j, *k;
@@ -104,11 +107,22 @@ PMList *sortbydeps(PMList *targets)
 			for(i = targets; i; i = i->next) {
 				i->data = NULL;
 			}
-			pm_list_free(targets);
+			FREELIST(targets);
 		}
 		targets = newtargs;
 		clean = 1;
 	}
+	if(mode == PM_TRANS_TYPE_REMOVE) {
+		/* we're removing packages, so reverse the order */
+		newtargs = _alpm_list_reverse(targets);
+		/* free the old one */
+		for(i = targets; i; i = i->next) {
+			i->data = NULL;
+		}
+		FREELIST(targets);
+		targets = newtargs;
+	}
+
 	return(targets);
 }
 

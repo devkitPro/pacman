@@ -65,7 +65,7 @@ int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 {
 	pmpkg_t *info;
-	PMList *lp;
+	PMList *lp, *i;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -98,6 +98,16 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			_alpm_log(PM_LOG_FLOW1, "finding removable dependencies...");
 			trans->packages = removedeps(db, trans->packages);
 		}
+
+		/* re-order w.r.t. dependencies */ 
+		_alpm_log(PM_LOG_FLOW2, "sorting by dependencies...");
+		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
+		/* free the old alltargs */
+		for(i = trans->packages; i; i = i->next) {
+			i->data = NULL;
+		}     
+		FREELIST(trans->packages);
+		trans->packages = lp;
 
 		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
 	}
