@@ -93,7 +93,7 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	 * if so, replace it in the list */
 	/* ORE
 	we'd better do it before load_pkg. */
-	for(j = trans->packages; j; j = j->next) {
+	for(j = trans->install_q; j; j = j->next) {
 		pmpkg_t *pkg = j->data;
 
 		if(strcmp(pkg->name, info->name) == 0) {
@@ -107,7 +107,7 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	}
 
 	/* add the package to the transaction */
-	trans->packages = pm_list_add(trans->packages, info);
+	trans->install_q = pm_list_add(trans->install_q, info);
 
 	return(0);
 
@@ -138,7 +138,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
-		lp = checkdeps(db, trans->type, trans->packages);
+		lp = checkdeps(db, trans->type, trans->install_q);
 		if(lp != NULL) {
 			int errorout = 0;
 
@@ -187,10 +187,10 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 		/* re-order w.r.t. dependencies */
 		_alpm_log(PM_LOG_FLOW1, "sorting by dependencies");
-		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_ADD);
+		lp = sortbydeps(trans->install_q, PM_TRANS_TYPE_ADD);
 		/* free the old alltargs */
-		FREELISTPTR(trans->packages);
-		trans->packages = lp;
+		FREELISTPTR(trans->install_q);
+		trans->install_q = lp;
 
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
@@ -201,7 +201,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		TRANS_CB(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for file conflicts");
-		lp = db_find_conflicts(db, trans->packages, handle->root);
+		lp = db_find_conflicts(db, trans->install_q, handle->root);
 		if(lp != NULL) {
 			*data = lp;
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
@@ -225,11 +225,11 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	if(trans->packages == NULL) {
+	if(trans->install_q == NULL) {
 		return(0);
 	}
 
-	for(targ = trans->packages; targ; targ = targ->next) {
+	for(targ = trans->install_q; targ; targ = targ->next) {
 		tartype_t gztype = {
 			(openfunc_t)_alpm_gzopen_frontend,
 			(closefunc_t)gzclose,

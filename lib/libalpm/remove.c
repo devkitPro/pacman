@@ -53,11 +53,14 @@ int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
+	/* ORE
+	we should better find the package in the cache, and then perform a
+	db_read(INFRQ_FILES) to add files information to it. */
 	if((info = db_scan(db, name, INFRQ_ALL)) == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
-	trans->packages = pm_list_add(trans->packages, info);
+	trans->remove_q = pm_list_add(trans->remove_q, info);
 
 	return(0);
 }
@@ -74,20 +77,20 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
-		if((lp = checkdeps(db, trans->type, trans->packages)) != NULL) {
+		_alpm_log(PM_LOG_FLOW1, "looking for unsatisfied dependencies");
+		if((lp = checkdeps(db, trans->type, trans->remove_q)) != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				while(lp) {
 					PMList *j;
 					for(j = lp; j; j = j->next) {
 						pmdepmissing_t* miss = (pmdepmissing_t*)j->data;
 						info = db_scan(db, miss->depend.name, INFRQ_ALL);
-						if(!pkg_isin(info, trans->packages)) {
-							trans->packages = pm_list_add(trans->packages, info);
+						if(!pkg_isin(info, trans->remove_q)) {
+							trans->remove_q = pm_list_add(trans->remove_q, info);
 						}
 					}
 					FREELIST(lp);
-					lp = checkdeps(db, trans->type, trans->packages);
+					lp = checkdeps(db, trans->type, trans->remove_q);
 				}
 			} else {
 				*data = lp;
@@ -97,15 +100,15 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 		if(trans->flags & PM_TRANS_FLAG_RECURSE) {
 			_alpm_log(PM_LOG_FLOW1, "finding removable dependencies");
-			trans->packages = removedeps(db, trans->packages);
+			trans->remove_q = removedeps(db, trans->remove_q);
 		}
 
 		/* re-order w.r.t. dependencies */ 
 		_alpm_log(PM_LOG_FLOW1, "sorting by dependencies");
-		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
+		lp = sortbydeps(trans->remove_q, PM_TRANS_TYPE_REMOVE);
 		/* free the old alltargs */
-		FREELISTPTR(trans->packages);
-		trans->packages = lp;
+		FREELISTPTR(trans->remove_q);
+		trans->remove_q = lp;
 
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
@@ -123,7 +126,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	for(targ = trans->packages; targ; targ = targ->next) {
+	for(targ = trans->remove_q; targ; targ = targ->next) {
 		char pm_install[PATH_MAX];
 		info = (pmpkg_t*)targ->data;
 
