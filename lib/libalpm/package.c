@@ -215,7 +215,7 @@ pmpkg_t *pkg_load(char *pkgfile)
 			char *descfile;
 
 			/* extract this file into /tmp. it has info for us */
-			descfile = strdup("/tmp/pacman_XXXXXX");
+			descfile = strdup("/tmp/alpm_XXXXXX");
 			mkstemp(descfile);
 			tar_extract_file(tar, descfile);
 			/* parse the info file */
@@ -243,7 +243,7 @@ pmpkg_t *pkg_load(char *pkgfile)
 			char *str;
 			
 			MALLOC(str, PATH_MAX);
-			fn = strdup("/tmp/pacman_XXXXXX");
+			fn = strdup("/tmp/alpm_XXXXXX");
 			mkstemp(fn);
 			tar_extract_file(tar, fn);
 			fp = fopen(fn, "r");
