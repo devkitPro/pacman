@@ -33,7 +33,7 @@ unsigned char __pm_logmask = 0;
 
 void _alpm_log(unsigned char flag, char *fmt, ...)
 {
-	char str[256];
+	char str[LOG_STR_LEN];
 	va_list args;
 
 	if(__pm_logcb == NULL) {
@@ -42,7 +42,7 @@ void _alpm_log(unsigned char flag, char *fmt, ...)
 
 	if(flag & __pm_logmask) {
 		va_start(args, fmt);
-		vsnprintf(str, 256, fmt, args);
+		vsnprintf(str, LOG_STR_LEN, fmt, args);
 		va_end(args);
 
 		__pm_logcb(flag, str);

@@ -529,11 +529,11 @@ int alpm_trans_release()
 
 int alpm_logaction(char *fmt, ...)
 {
-	char str[256];
+	char str[LOG_STR_LEN];
 	va_list args;
 
 	va_start(args, fmt);
-	vsnprintf(str, 256, fmt, args);
+	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
 
 	return(_alpm_log_action(handle->usesyslog, handle->logfd, str));

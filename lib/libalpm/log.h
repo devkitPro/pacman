@@ -21,6 +21,8 @@
 #ifndef _ALPM_LOG_H
 #define _ALPM_LOG_H
 
+#define LOG_STR_LEN 256
+
 typedef void (*alpm_cb_log)(unsigned short, char *);
 
 void _alpm_log(unsigned char flag, char *fmt, ...);
