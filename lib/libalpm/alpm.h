@@ -93,11 +93,17 @@ int alpm_get_option(unsigned char parm, long *data);
  * Databases
  */
 
+/* Info parameters */
+enum {
+	PM_DB_TREENAME = 1,
+	PM_DB_LASTUPDATE
+};
+
 PM_DB *alpm_db_register(char *treename);
 int alpm_db_unregister(PM_DB *db);
 
-/* Sync databases */
-int alpm_db_getlastupdate(PM_DB *db, char *ts);
+void *alpm_db_getinfo(PM_DB *db, unsigned char parm);
+
 int alpm_db_update(PM_DB *db, char *archive, char *ts);
 
 PM_PKG *alpm_db_readpkg(PM_DB *db, char *name);
@@ -136,7 +142,9 @@ enum {
 	PM_PKG_FILES,
 	PM_PKG_BACKUP,
 	/* Sciplet */
-	PM_PKG_SCRIPLET
+	PM_PKG_SCRIPLET,
+	/* Misc */
+	PM_PKG_DB
 };
 
 /* reasons -- ie, why the package was installed */

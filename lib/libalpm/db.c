@@ -60,6 +60,8 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename)
 	db->pkgcache = NULL;
 	db->grpcache = NULL;
 
+	db_getlastupdate(db, db->lastupdate);
+
 	return(db);
 }
 
@@ -152,6 +154,9 @@ int db_setlastupdate(pmdb_t *db, char *ts)
 		return(-1);
 	}
 	fclose(fp);
+
+	STRNCPY(db->lastupdate, ts, DB_UPDATE_LEN);
+
 	return(0);
 }
 

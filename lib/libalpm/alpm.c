@@ -206,18 +206,22 @@ int alpm_db_unregister(PM_DB *db)
 	return(0);
 }
 
-int alpm_db_getlastupdate(PM_DB *db, char *ts)
+void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 {
-	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(ts != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	void *data = NULL;
 
-	if(!pm_list_is_ptrin(handle->dbs_sync, db)) {
-		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(db != NULL, return(NULL));
+
+	switch(parm) {
+		case PM_DB_TREENAME:   data = db->treename; break;
+		case PM_DB_LASTUPDATE: data = db->lastupdate; break;
+		default:
+			data = NULL;
 	}
 
-	return(db_getlastupdate(db, ts));
+	return(data);
 }
 
 int alpm_db_update(PM_DB *db, char *archive, char *ts)
@@ -322,7 +326,7 @@ PM_LIST *alpm_db_getgrpcache(PM_DB *db)
 
 void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 {
-	void *data;
+	void *data = NULL;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -337,7 +341,7 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
 
 					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
-					db_read(pkg->data, target, INFRQ_FILES, pkg);
+					db_read(pkg->data, pkg->name, INFRQ_FILES, pkg);
 				}
 			break;
 
@@ -374,6 +378,7 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 		case PM_PKG_FILES:       data = pkg->files; break;
 		case PM_PKG_BACKUP:      data = pkg->backup; break;
 		case PM_PKG_SCRIPLET:    data = (void *)(int)pkg->scriptlet; break;
+		case PM_PKG_DB:          data = pkg->data; break;
 		default:
 			data = NULL;
 		break;
@@ -418,7 +423,7 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 
 void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm)
 {
-	void *data;
+	void *data = NULL;
 
 	/* Sanity checks */
 	ASSERT(grp != NULL, return(NULL));
