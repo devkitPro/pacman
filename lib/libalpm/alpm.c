@@ -245,7 +245,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	db_free_pkgcache(db);
 
 	/* remove the old dir */
-	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", db->path);
+	_alpm_log(PM_LOG_FLOW2, "removing %s/%s (if it exists)\n", db->path);
 	/* ORE
 	We should db_remove each db entry, and not rmrf the top directory */
 	_alpm_rmrf(db->path);

@@ -193,10 +193,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		_alpm_log(PM_LOG_FLOW1, "sorting by dependencies");
 		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_ADD);
 		/* free the old alltargs */
-		for(j = trans->packages; j; j = j->next) {
-			j->data = NULL;
-		}
-		FREELIST(trans->packages);
+		FREELISTPTR(trans->packages);
 		trans->packages = lp;
 
 		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
@@ -384,13 +381,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 				cache, thus eliminating the need for db_scan(DEPENDS) */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
-					PMList *p;
 					/* use the first one */
 					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
-					for(p = provides; p; p = p->next) {
-						p->data = NULL;
-					}
-					FREELIST(provides);
+					FREELISTPTR(provides);
 					if(depinfo == NULL) {
 						/* wtf */
 						continue;

@@ -104,10 +104,7 @@ PMList *sortbydeps(PMList *targets, int mode)
 		}
 		if(clean && change) {
 			/* free up targets -- it's local now */
-			for(i = targets; i; i = i->next) {
-				i->data = NULL;
-			}
-			FREELIST(targets);
+			FREELISTPTR(targets);
 		}
 		targets = newtargs;
 		clean = 1;
@@ -116,10 +113,7 @@ PMList *sortbydeps(PMList *targets, int mode)
 		/* we're removing packages, so reverse the order */
 		newtargs = _alpm_list_reverse(targets);
 		/* free the old one */
-		for(i = targets; i; i = i->next) {
-			i->data = NULL;
-		}
-		FREELIST(targets);
+		FREELISTPTR(targets);
 		targets = newtargs;
 	}
 

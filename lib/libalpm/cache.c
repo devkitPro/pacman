@@ -156,13 +156,9 @@ void db_free_grpcache(pmdb_t *db)
 	}
 
 	for(lg = db->grpcache; lg; lg = lg->next) {
-		PMList *lp;
 		pmgrp_t *grp = lg->data;
 
-		for(lp = grp->packages; lp; lp = lp->next) {
-			lp->data = NULL;
-		}
-		FREELIST(grp->packages);
+		FREELISTPTR(grp->packages);
 		FREEGRP(lg->data);
 	}
 	FREELIST(db->grpcache);

@@ -65,7 +65,7 @@ int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 {
 	pmpkg_t *info;
-	PMList *lp, *i;
+	PMList *lp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -104,10 +104,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		_alpm_log(PM_LOG_FLOW1, "sorting by dependencies");
 		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 		/* free the old alltargs */
-		for(i = trans->packages; i; i = i->next) {
-			i->data = NULL;
-		}     
-		FREELIST(trans->packages);
+		FREELISTPTR(trans->packages);
 		trans->packages = lp;
 
 		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
@@ -228,16 +225,12 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 				/* look for a provides package */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
-					PMList *p;
 					/* TODO: should check _all_ packages listed in provides, not just
 					 *       the first one.
 					 */
 					/* use the first one */
 					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
-					for(p = provides; p; p = p->next) {
-						p->data = NULL;
-					}
-					FREELIST(provides);
+					FREELISTPTR(provides);
 					if(depinfo == NULL) {
 						/* wtf */
 						continue;

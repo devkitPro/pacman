@@ -32,6 +32,16 @@ typedef struct __pmlist_t {
 typedef struct __pmlist_t PMList;
 
 #define FREELIST(p) do { if(p) { pm_list_free(p); p = NULL; } } while(0)
+#define FREELISTPTR(p) do { \
+	if(p) { \
+		PMList *i; \
+		for(i = p; i; i = i->next) { \
+			i->data = NULL; \
+		} \
+		pm_list_free(p); \
+		p = NULL; \
+	} \
+} while(0)
 
 /* Sort comparison callback function declaration */
 typedef int (*pm_fn_cmp) (const void *, const void *);
