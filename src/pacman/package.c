@@ -22,9 +22,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
+#include <sys/stat.h>
 
 #include <alpm.h>
 /* pacman */
+#include "log.h"
 #include "util.h"
 #include "list.h"
 #include "package.h"
@@ -34,6 +37,7 @@
 void dump_pkg_full(PM_PKG *pkg, int level)
 {
 	char *date;
+	PM_LIST *backup;
 
 	if(pkg == NULL) {
 		return;
@@ -56,7 +60,7 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 	date = alpm_pkg_getinfo(pkg, PM_PKG_INSTALLDATE);
 	printf("Install Date   : %s %s\n", date, strlen(date) ? "UTC" : "");
 
-	printf("Install Script : %s\n", (alpm_pkg_getinfo(pkg, PM_PKG_SCRIPLET) ? "Yes" : "No"));
+	printf("Install Script : %s\n", alpm_pkg_getinfo(pkg, PM_PKG_SCRIPLET) ? "Yes" : "No");
 
 	printf("Reason:        : ");
 	switch((int)alpm_pkg_getinfo(pkg, PM_PKG_REASON)) {
@@ -80,21 +84,21 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 	indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 17);
 	printf("\n");
 
-	/*if(level > 1 && info->backup) {
+	backup = alpm_pkg_getinfo(pkg, PM_PKG_BACKUP);
+	if(level > 1 && backup) {
 		PM_LIST *i;
 		char *root;
 
 		alpm_get_option(PM_OPT_ROOT, (long *)&root);
 		fprintf(stdout, "\n");
-		for(i = alpm_first_entry(info->backup); i; i = alpm_next_entry(i)) {
+		for(i = alpm_list_first(backup); i; i = alpm_list_next(i)) {
 			struct stat buf;
 			char path[PATH_MAX];
 			char *md5sum;
-			char *str = strdup(alpm_get_entry(i));
+			char *str = strdup(alpm_list_getdata(i));
 			char *ptr = index(str, '\t');
 			if(ptr == NULL) {
-				free(str);
-				str = NULL;
+				FREE(str);
 				continue;
 			}
 			*ptr = '\0';
@@ -103,21 +107,16 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 			if(!stat(path, &buf)) {
 				md5sum = alpm_get_md5sum(path);
 				if(md5sum == NULL) {
-					fprintf(stderr, "error calculating md5sum for %s\n", path);
+					ERR(NL, "error calculating md5sum for %s\n", path);
 					continue;
 				}
-				if(strcmp(md5sum, ptr)) {
-					fprintf(stdout, "MODIFIED\t%s\n", path);
-				} else {
-					fprintf(stdout, "NOT MODIFIED\t%s\n", path);
-				}
+				printf("%sMODIFIED\t%s\n", strcmp(md5sum, ptr) ? "" : "NOT ", path);
 			} else {
-				fprintf(stdout, "MISSING\t\t%s\n", path);
+				printf("MISSING\t\t%s\n", path);
 			}
-			free(str);
-			str = NULL;
+			FREE(str);
 		}
-	}*/
+	}
 
 	printf("\n");
 }
