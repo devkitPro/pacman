@@ -14,6 +14,7 @@ OBJS=md5driver.o \
      group.o \
      db.o \
      cache.o \
+     conflict.o \
      deps.o \
      provide.o \
      rpmvercmp.o \
