@@ -183,8 +183,11 @@ int main(int argc, char *argv[])
 		case PM_OP_DEPTEST: ret = pacman_deptest(pm_targets); break;
 		case PM_OP_MAIN:    ret = 0; break;
 		default:
-			ERR(NL, "no operation specified (use -h for help)\n\n");
+			ERR(NL, "no operation specified (use -h for help)\n");
 			ret = 1;
+	}
+	if(ret != 0) {
+		MSG(NL, "\n");
 	}
 
 	cleanup(ret);
@@ -196,7 +199,7 @@ void cleanup(int signum)
 {
 	list_t *lp;
 
-	/* free pm library resources */
+	/* free alpm library resources */
 	if(alpm_release() == -1) {
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 	}
@@ -439,7 +442,7 @@ int parseargs(int argc, char **argv)
 	}
 
 	if(pmo_op == 0) {
-		ERR(NL, "only one operation may be used at a time\n\n");
+		ERR(NL, "only one operation may be used at a time\n");
 		return(1);
 	}
 
@@ -477,7 +480,7 @@ void usage(int op, char *myname)
 		printf("        %s {-F --freshen} [options] <file>\n", myname);
 		printf("        %s {-Q --query}   [options] [package]\n", myname);
 		printf("        %s {-S --sync}    [options] [package]\n", myname);
-		printf("\nuse '%s --help' with other options for more syntax\n\n", myname);
+		printf("\nuse '%s --help' with other options for more syntax\n", myname);
 	} else {
 		if(op == PM_OP_ADD) {
 			printf("usage:  %s {-A --add} [options] <file>\n", myname);
@@ -543,7 +546,8 @@ void version()
 	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2005 Judd Vinet <jvinet@zeroflux.org>\n");
 	printf("\\  '-. '-'  '-'  '-'  \n");
 	printf(" '--'                  This program may be freely redistributed under\n");
-	printf("                       the terms of the GNU General Public License\n\n");
+	printf("                       the terms of the GNU General Public License\n");
+	printf("\n");
 }
 
 /*

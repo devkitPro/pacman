@@ -110,7 +110,7 @@ int pacman_add(list_t *targets)
 					MSG(NL, ":: %s\n", (char *)alpm_list_getdata(i));
 				}
 				alpm_list_free(data);
-				MSG(NL, "\nerrors occurred, no packages were upgraded.\n\n");
+				MSG(NL, "\nerrors occurred, no packages were upgraded.\n");
 			break;
 			default:
 			break;
