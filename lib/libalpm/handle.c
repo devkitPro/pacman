@@ -57,7 +57,7 @@ pmhandle_t *handle_new()
 	}
 
 	/* see if we're root or not (fakeroot does not count) */
-	if(getuid() == 0 && !getenv("FAKEROOTKEY")) {
+	if(handle->uid() == 0 && !getenv("FAKEROOTKEY")) {
 		handle->access = PM_ACCESS_RW;
 	} else {
 		handle->access = PM_ACCESS_RO;
@@ -138,7 +138,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 			DBPATH value */
 		break;
 		case PM_OPT_LOGFILE:
-			if((char *)data == NULL || getuid() != 0) {
+			if((char *)data == NULL || handle->uid() != 0) {
 				return(0);
 			}
 			if(handle->logfile) {
