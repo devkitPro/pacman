@@ -38,6 +38,11 @@
 
 #define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
+#define STRNCPY(s1, s2, len) do { \
+	strncpy(s1, s2, (len)-1); \
+	s1[(len)-1] = 0; \
+} while(0)
+
 long _alpm_gzopen_frontend(char *pathname, int oflags, int mode);
 int _alpm_makepath(char *path);
 int _alpm_copyfile(char *src, char *dest);

@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 /* pacman */
 #include "list.h"
+#include "util.h"
 #include "package.h"
 #include "group.h"
 #include "db.h"
@@ -125,7 +126,7 @@ int db_load_grpcache(pmdb_t *db)
 			if(!pm_list_is_strin(i->data, db->grpcache)) {
 				pmgrp_t *grp = grp_new();
 
-				strncpy(grp->name, (char *)i->data, 256);
+				STRNCPY(grp->name, (char *)i->data, GRP_NAME_LEN);
 				grp->packages = pm_list_add_sorted(grp->packages, pkg->name, grp_cmp);
 				db->grpcache = pm_list_add_sorted(db->grpcache, grp, grp_cmp);
 			} else {

@@ -55,7 +55,7 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename)
 		return(NULL);
 	}
 
-	strncpy(db->treename, treename, DB_TREENAME_LEN-1);
+	STRNCPY(db->treename, treename, DB_TREENAME_LEN);
 
 	db->pkgcache = NULL;
 	db->grpcache = NULL;
@@ -121,7 +121,7 @@ int db_getlastupdate(pmdb_t *db, char *ts)
 	} else {
 		char line[256];
 		if(fgets(line, sizeof(line), fp)) {
-			strncpy(ts, line, 15); /* YYYYMMDDHHMMSS */
+			STRNCPY(ts, line, 15); /* YYYYMMDDHHMMSS */
 			ts[14] = '\0';
 		} else {
 			fclose(fp);
@@ -169,7 +169,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
-	char name[PKG_NAME_LEN+PKG_VERSION_LEN];
+	char name[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
 	char *ptr = NULL;
 	int ret, found = 0;
 	pmpkg_t *pkg;
@@ -185,7 +185,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
 				continue;
 			}
-			strncpy(name, ent->d_name, PKG_NAME_LEN+PKG_VERSION_LEN-1);
+			STRNCPY(name, ent->d_name, PKG_NAME_LEN+PKG_VERSION_LEN);
 			/* stat the entry, make sure it's a directory */
 			snprintf(path, PATH_MAX, "%s/%s", db->path, name);
 			if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {

@@ -349,7 +349,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			info->reason = PM_PKG_REASON_DEPEND;
 		}*/
 		/* make an install date (in UTC) */
-		strncpy(info->installdate, asctime(gmtime(&t)), sizeof(info->installdate));
+		STRNCPY(info->installdate, asctime(gmtime(&t)), sizeof(info->installdate));
 		if(db_write(db, info, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, "could not update database entry %s/%s-%s", db->treename, info->name, info->version);
 			alpm_logaction(NULL, "error updating database for %s-%s!", info->name, info->version);
@@ -415,7 +415,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			char pathname[PATH_MAX];
 			struct stat buf;
 
-			strncpy(pathname, th_get_pathname(tar), PATH_MAX);
+			STRNCPY(pathname, th_get_pathname(tar), PATH_MAX);
 
 			if(!strcmp(pathname, ".PKGINFO") || !strcmp(pathname, ".FILELIST")) {
 				tar_skip_regfile(tar);

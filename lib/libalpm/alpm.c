@@ -74,7 +74,7 @@ int alpm_initialize(char *root)
 		}
 	}
 
-	strncpy(str, (root) ? root : PM_ROOT, PATH_MAX);
+	STRNCPY(str, (root) ? root : PM_ROOT, PATH_MAX);
 	/* add a trailing '/' if there isn't one */
 	if(str[strlen(str)-1] != '/') {
 		strcat(str, "/");

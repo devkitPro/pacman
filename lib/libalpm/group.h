@@ -23,9 +23,11 @@
 
 #include "list.h"
 
+#define GRP_NAME_LEN 256
+
 /* Groups structure */
 typedef struct __pmgrp_t {
-	char name[256];
+	char name[GRP_NAME_LEN];
 	PMList *packages; /* List of strings */
 } pmgrp_t;
 

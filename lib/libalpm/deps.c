@@ -208,9 +208,9 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					MALLOC(miss, sizeof(pmdepmissing_t));
 					miss->type = PM_DEP_REQUIRED;
 					miss->depend.mod = depend.mod;
-					strncpy(miss->target, p->name, 256);
-					strncpy(miss->depend.name, depend.name, 256);
-					strncpy(miss->depend.version, depend.version, 64);
+					STRNCPY(miss->target, p->name, PKG_NAME_LEN);
+					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
+					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
 					if(!pm_list_is_ptrin(baddeps, miss)) {
 						baddeps = pm_list_add(baddeps, miss);
 					}
@@ -237,8 +237,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 						miss->type = PM_DEP_CONFLICT;
 						miss->depend.mod = PM_DEP_ANY;
 						miss->depend.version[0] = '\0';
-						strncpy(miss->target, tp->name, 256);
-						strncpy(miss->depend.name, dp->name, 256);
+						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+						STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
 						if(!pm_list_is_ptrin(baddeps, miss)) {
 							baddeps = pm_list_add(baddeps, miss);
 						}
@@ -252,8 +252,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 						miss->type = PM_DEP_CONFLICT;
 						miss->depend.mod = PM_DEP_ANY;
 						miss->depend.version[0] = '\0';
-						strncpy(miss->target, tp->name, 256);
-						strncpy(miss->depend.name, a->name, 256);
+						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+						STRNCPY(miss->depend.name, a->name, PKG_NAME_LEN);
 						if(!pm_list_is_ptrin(baddeps, miss)) {
 							baddeps = pm_list_add(baddeps, miss);
 						}
@@ -269,8 +269,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 						miss->type = PM_DEP_CONFLICT;
 						miss->depend.mod = PM_DEP_ANY;
 						miss->depend.version[0] = '\0';
-						strncpy(miss->target, tp->name, 256);
-						strncpy(miss->depend.name, info->name, 256);
+						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+						STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
 						if(!pm_list_is_ptrin(baddeps, miss)) {
 							baddeps = pm_list_add(baddeps, miss);
 						}
@@ -295,8 +295,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					miss->type = CONFLICT;
 					miss->depend.mod = PM_DEP_ANY;
 					miss->depend.version[0] = '\0';
-					strncpy(miss->target, tp->name, 256);
-					strncpy(miss->depend.name, k->data, 256);
+					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+					STRNCPY(miss->depend.name, k->data, PKG_NAME_LEN);
 					if(!pm_list_is_in(baddeps, miss)) {
 						baddeps = pm_list_add(baddeps, miss);
 					}
@@ -407,9 +407,9 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					MALLOC(miss, sizeof(pmdepmissing_t));
 					miss->type = PM_DEP_DEPEND;
 					miss->depend.mod = depend.mod;
-					strncpy(miss->target, tp->name, 256);
-					strncpy(miss->depend.name, depend.name, 256);
-					strncpy(miss->depend.version, depend.version, 64);
+					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
+					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
 					if(!pm_list_is_ptrin(baddeps, miss)) {
 						baddeps = pm_list_add(baddeps, miss);
 					}
@@ -430,8 +430,8 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					miss->type = PM_DEP_REQUIRED;
 					miss->depend.mod = PM_DEP_ANY;
 					miss->depend.version[0] = '\0';
-					strncpy(miss->target, tp->name, 256);
-					strncpy(miss->depend.name, (char *)j->data, 256);
+					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+					STRNCPY(miss->depend.name, (char *)j->data, PKG_NAME_LEN);
 					if(!pm_list_is_ptrin(baddeps, miss)) {
 						baddeps = pm_list_add(baddeps, miss);
 					}
@@ -467,8 +467,8 @@ int splitdep(char *depstr, pmdepend_t *depend)
 	} else {
 		/* no version specified - accept any */
 		depend->mod = PM_DEP_ANY;
-		strncpy(depend->name, str, sizeof(depend->name));
-		strncpy(depend->version, "", sizeof(depend->version));
+		STRNCPY(depend->name, str, PKG_NAME_LEN);
+		STRNCPY(depend->version, "", PKG_VERSION_LEN);
 	}
 
 	if(ptr == NULL) {
@@ -476,12 +476,12 @@ int splitdep(char *depstr, pmdepend_t *depend)
 		return(0);
 	}
 	*ptr = '\0';
-	strncpy(depend->name, str, sizeof(depend->name));
+	STRNCPY(depend->name, str, PKG_NAME_LEN);
 	ptr++;
 	if(depend->mod != PM_DEP_EQ) {
 		ptr++;
 	}
-	strncpy(depend->version, ptr, sizeof(depend->version));
+	STRNCPY(depend->version, ptr, PKG_VERSION_LEN);
 	FREE(str);
 
 	return(0);

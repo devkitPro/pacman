@@ -131,28 +131,28 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			key = _alpm_strtoupper(key);
 			_alpm_strtrim(ptr);
 			if(!strcmp(key, "PKGNAME")) {
-				strncpy(info->name, ptr, sizeof(info->name));
+				STRNCPY(info->name, ptr, sizeof(info->name));
 			} else if(!strcmp(key, "PKGVER")) {
-				strncpy(info->version, ptr, sizeof(info->version));
+				STRNCPY(info->version, ptr, sizeof(info->version));
 			} else if(!strcmp(key, "PKGDESC")) {
-				strncpy(info->desc, ptr, sizeof(info->desc));
+				STRNCPY(info->desc, ptr, sizeof(info->desc));
 			} else if(!strcmp(key, "GROUP")) {
 				info->groups = pm_list_add(info->groups, strdup(ptr));
 			} else if(!strcmp(key, "URL")) {
-				strncpy(info->url, ptr, sizeof(info->url));
+				STRNCPY(info->url, ptr, sizeof(info->url));
 			} else if(!strcmp(key, "LICENSE")) {
-				strncpy(info->license, ptr, sizeof(info->license));
+				STRNCPY(info->license, ptr, sizeof(info->license));
 			} else if(!strcmp(key, "BUILDDATE")) {
-				strncpy(info->builddate, ptr, sizeof(info->builddate));
+				STRNCPY(info->builddate, ptr, sizeof(info->builddate));
 			} else if(!strcmp(key, "INSTALLDATE")) {
-				strncpy(info->installdate, ptr, sizeof(info->installdate));
+				STRNCPY(info->installdate, ptr, sizeof(info->installdate));
 			} else if(!strcmp(key, "PACKAGER")) {
-				strncpy(info->packager, ptr, sizeof(info->packager));
+				STRNCPY(info->packager, ptr, sizeof(info->packager));
 			} else if(!strcmp(key, "ARCH")) {
-				strncpy(info->arch, ptr, sizeof(info->arch));
+				STRNCPY(info->arch, ptr, sizeof(info->arch));
 			} else if(!strcmp(key, "SIZE")) {
 				char tmp[32];
-				strncpy(tmp, ptr, sizeof(tmp));
+				STRNCPY(tmp, ptr, sizeof(tmp));
 				info->size = atol(tmp);
 			} else if(!strcmp(key, "DEPEND")) {
 				info->depends = pm_list_add(info->depends, strdup(ptr));
