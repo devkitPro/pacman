@@ -203,7 +203,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 
 		/* remove the package from the database */
-		_alpm_log(PM_LOG_FLOW1, "removing database entry %s-%s", info->name, info->version);
+		_alpm_log(PM_LOG_FLOW1, "updating database");
 		if(db_remove(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, "failed to remove database entry %s/%s-%s", db->treename, info->name, info->version);
 		}
