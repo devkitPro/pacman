@@ -283,25 +283,25 @@ int pacman_deptest(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					pmdepmissing_t *miss = alpm_list_getdata(lp);
+					PM_DEPMISS *miss = alpm_list_getdata(lp);
 					if(!pmo_d_resolve) {
-						MSG(NL, "requires: %s", miss->depend.name);
-						switch(miss->depend.mod) {
-							case PM_DEP_EQ: MSG(CL, "=%s", miss->depend.version);  break;
-							case PM_DEP_GE: MSG(CL, ">=%s", miss->depend.version); break;
-							case PM_DEP_LE: MSG(CL, "<=%s", miss->depend.version); break;
+						MSG(NL, "requires: %s", alpm_dep_getinfo(miss, PM_DEP_NAME));
+						switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
+							case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
+							case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+							case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
 						}
 						MSG(CL, "\n");
 					}
-					synctargs = list_add(synctargs, strdup(miss->depend.name));
+					synctargs = list_add(synctargs, alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				alpm_list_free(data);
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 				/* we can't auto-resolve conflicts */
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					pmdepmissing_t *miss = alpm_list_getdata(lp);
-					MSG(NL, "conflict: %s", miss->depend.name);
+					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					MSG(NL, "conflict: %s", alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				ret = 127;
 				alpm_list_free(data);

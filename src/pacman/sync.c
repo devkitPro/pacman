@@ -425,8 +425,8 @@ int pacman_sync(list_t *targets)
 			if(pm_errno == PM_ERR_UNRESOLVABLE_DEPS) {
 				ERR(NL, "cannot resolve dependencies\n");
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					pmdepmissing_t *miss = alpm_list_getdata(lp);
-					ERR(NL, "	%s: \"%s\" is not in the package set\n", miss->target, miss->depend.name);
+					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					ERR(NL, "	%s: \"%s\" is not in the package set\n", alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				alpm_list_free(data);
 			} else {

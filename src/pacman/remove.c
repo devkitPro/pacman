@@ -93,8 +93,8 @@ int pacman_remove(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
-					MSG(NL, "  %s: is required by %s\n", miss->target, miss->depend.name);
+					PM_DEPMISS *miss = alpm_list_getdata(i);
+					MSG(NL, "  %s: is required by %s\n", alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				alpm_list_free(data);
 			break;

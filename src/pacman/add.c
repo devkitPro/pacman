@@ -83,13 +83,14 @@ int pacman_add(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
+					PM_DEPMISS *miss = alpm_list_getdata(i);
 
-					MSG(NL, ":: %s: requires %s", miss->target, miss->depend.name);
-					switch(miss->depend.mod) {
-						case PM_DEP_EQ: MSG(CL, "=%s", miss->depend.version);  break;
-						case PM_DEP_GE: MSG(CL, ">=%s", miss->depend.version); break;
-						case PM_DEP_LE: MSG(CL, "<=%s", miss->depend.version); break;
+					MSG(NL, ":: %s: requires %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
+					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
+					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
+						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
+						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
 					}
 					MSG(CL, "\n");
 				}
@@ -97,10 +98,10 @@ int pacman_add(list_t *targets)
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
+					PM_DEPMISS *miss = alpm_list_getdata(i);
 
 					MSG(NL, ":: %s: conflicts with %s",
-						miss->target, miss->depend.name, miss->depend.name);
+						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				alpm_list_free(data);
 			break;
