@@ -38,6 +38,7 @@ extern char *pmo_dbpath;
 extern list_t *pmo_holdpkg;
 extern char *pmo_proxyhost;
 extern unsigned short pmo_proxyport;
+extern char *pmo_xfercommand;
 extern unsigned short pmo_nopassiveftp;
 
 extern list_t *pmc_syncs;
@@ -190,9 +191,7 @@ int parseconfig(char *file)
 						if(*ptr == '/') {
 							ptr++;
 						}
-						if(pmo_dbpath) {
-							FREE(pmo_dbpath);
-						}
+						FREE(pmo_dbpath);
 						pmo_dbpath = strdup(ptr);
 						vprint("config: dbpath: %s\n", ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
@@ -201,6 +200,10 @@ int parseconfig(char *file)
 							return(1);
 						}
 						vprint("config: log file: %s\n", ptr);
+					} else if (!strcmp(key, "XFERCOMMAND")) {
+						FREE(pmo_xfercommand);
+						pmo_xfercommand = strndup(ptr, PATH_MAX);
+						vprint("config: xfercommand: %s\n", pmo_xfercommand);
 					} else if (!strcmp(key, "PROXYSERVER")) {
 						char *p;
 						if(pmo_proxyhost) {
