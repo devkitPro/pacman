@@ -206,7 +206,7 @@ int pacman_query(list_t *targets)
 					}
 					if(pmo_q_orphans) {
 						if(alpm_pkg_getinfo(info, PM_PKG_REQUIREDBY) == NULL
-						   && alpm_pkg_getinfo(info, PM_PKG_REASON) == PM_PKG_REASON_EXPLICIT) {
+						   && (int)alpm_pkg_getinfo(info, PM_PKG_REASON) == PM_PKG_REASON_EXPLICIT) {
 							MSG(NL, "%s %s\n", pkgname, pkgver);
 						}
 					} 
