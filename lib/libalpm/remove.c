@@ -60,7 +60,7 @@ int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
-	trans->remove_q = pm_list_add(trans->remove_q, info);
+	trans->packages = pm_list_add(trans->packages, info);
 
 	return(0);
 }
@@ -78,19 +78,19 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for unsatisfied dependencies");
-		if((lp = checkdeps(db, trans->type, trans->remove_q)) != NULL) {
+		if((lp = checkdeps(db, trans->type, trans->packages)) != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				while(lp) {
 					PMList *j;
 					for(j = lp; j; j = j->next) {
 						pmdepmissing_t* miss = (pmdepmissing_t*)j->data;
 						info = db_scan(db, miss->depend.name, INFRQ_ALL);
-						if(!pkg_isin(info, trans->remove_q)) {
-							trans->remove_q = pm_list_add(trans->remove_q, info);
+						if(!pkg_isin(info, trans->packages)) {
+							trans->packages = pm_list_add(trans->packages, info);
 						}
 					}
 					FREELIST(lp);
-					lp = checkdeps(db, trans->type, trans->remove_q);
+					lp = checkdeps(db, trans->type, trans->packages);
 				}
 			} else {
 				*data = lp;
@@ -100,15 +100,15 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 		if(trans->flags & PM_TRANS_FLAG_RECURSE) {
 			_alpm_log(PM_LOG_FLOW1, "finding removable dependencies");
-			trans->remove_q = removedeps(db, trans->remove_q);
+			trans->packages = removedeps(db, trans->packages);
 		}
 
 		/* re-order w.r.t. dependencies */ 
 		_alpm_log(PM_LOG_FLOW1, "sorting by dependencies");
-		lp = sortbydeps(trans->remove_q, PM_TRANS_TYPE_REMOVE);
+		lp = sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 		/* free the old alltargs */
-		FREELISTPTR(trans->remove_q);
-		trans->remove_q = lp;
+		FREELISTPTR(trans->packages);
+		trans->packages = lp;
 
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
@@ -126,7 +126,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	for(targ = trans->remove_q; targ; targ = targ->next) {
+	for(targ = trans->packages; targ; targ = targ->next) {
 		char pm_install[PATH_MAX];
 		info = (pmpkg_t*)targ->data;
 

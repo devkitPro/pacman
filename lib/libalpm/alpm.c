@@ -489,8 +489,7 @@ void *alpm_trans_getinfo(unsigned char parm)
 		case PM_TRANS_TYPE:     data = (void *)(int)trans->type; break;
 		case PM_TRANS_FLAGS:    data = (void *)(int)trans->flags; break;
 		case PM_TRANS_TARGETS:  data = trans->targets; break;
-		case PM_TRANS_INSTALLQ: data = trans->install_q; break;
-		case PM_TRANS_REMOVEQ:  data = trans->remove_q; break;
+		case PM_TRANS_PACKAGES: data = trans->packages; break;
 		default:
 			data = NULL;
 		break;

@@ -188,6 +188,8 @@ enum {
 
 void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm);
 
+int alpm_sync_sysupgrade(PM_LIST **data);
+
 /*
  * Transactions
  */
@@ -234,8 +236,7 @@ enum {
 	PM_TRANS_TYPE = 1,
 	PM_TRANS_FLAGS,
 	PM_TRANS_TARGETS,
-	PM_TRANS_INSTALLQ,
-	PM_TRANS_REMOVEQ
+	PM_TRANS_PACKAGES
 };
 
 void *alpm_trans_getinfo(unsigned char parm);

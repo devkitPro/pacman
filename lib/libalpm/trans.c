@@ -45,8 +45,7 @@ pmtrans_t *trans_new()
 	}
 
 	trans->targets = NULL;
-	trans->install_q = NULL;
-	trans->remove_q = NULL;
+	trans->packages = NULL;
 	trans->type = 0;
 	trans->flags = 0;
 	trans->cb = NULL;
@@ -62,19 +61,15 @@ void trans_free(pmtrans_t *trans)
 	}
 
 	FREELIST(trans->targets);
-	/* ORE - ugly */
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
-		PMList *i = trans->install_q;
-		while(i) {
-			PMList *j = i->next;
+		PMList *i;
+		for(i = trans->packages; i; i = i->next) {
 			sync_free(i->data);
 			i->data = NULL;
-			pm_list_free(i);
-			i = j;
 		}
+		FREELIST(trans->packages);
 	} else {
-		FREELISTPKGS(trans->install_q);
-		FREELISTPKGS(trans->remove_q);
+		FREELISTPKGS(trans->packages);
 	}
 
 	free(trans);
@@ -142,10 +137,6 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(trans->install_q == NULL && trans->remove_q == NULL) {
-		return(0);
-	}
-
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
@@ -179,7 +170,7 @@ int trans_commit(pmtrans_t *trans)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* If there's nothing to do, return without complaining */
-	if(trans->install_q == NULL && trans->remove_q == NULL) {
+	if(trans->packages == NULL) {
 		return(0);
 	}
 
