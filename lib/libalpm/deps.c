@@ -646,7 +646,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 					if(resolvedeps(local, dbs_sync, sync, list, trail)) {
 						goto error;
 					}
-					_alpm_log(PM_LOG_DEBUG, "adding dependency %s-%s", sync->name, sync->version);
+					_alpm_log(PM_LOG_FLOW2, "adding dependency %s-%s", sync->name, sync->version);
 					list = pm_list_add(list, sync);
 				} else {
 					_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
