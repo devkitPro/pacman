@@ -213,7 +213,6 @@ int alpm_db_getlastupdate(PM_DB *db, char *ts)
 	ASSERT(ts != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!pm_list_is_ptrin(handle->dbs_sync, db)) {
-		printf("dn not in dbs_sync 1\n");
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
@@ -227,7 +226,6 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!pm_list_is_ptrin(handle->dbs_sync, db)) {
-		printf("db not in dbs_sync 2\n");
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
