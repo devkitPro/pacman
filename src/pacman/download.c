@@ -50,6 +50,8 @@ extern char *pmo_xfercommand;
 extern unsigned short pmo_proxyport;
 extern unsigned short pmo_nopassiveftp;
 
+extern int maxcols;
+
 static int log_progress(netbuf *ctl, int xfered, void *arg)
 {
 	int fsz = *(int*)arg;
