@@ -28,24 +28,24 @@
 
 /* Internal library log mechanism */
 
-alpm_cb_log __pm_logcb     = NULL;
-unsigned char __pm_logmask = 0;
+alpm_cb_log pm_logcb     = NULL;
+unsigned char pm_logmask = 0;
 
 void _alpm_log(unsigned char flag, char *fmt, ...)
 {
 	char str[LOG_STR_LEN];
 	va_list args;
 
-	if(__pm_logcb == NULL) {
+	if(pm_logcb == NULL) {
 		return;
 	}
 
-	if(flag & __pm_logmask) {
+	if(flag & pm_logmask) {
 		va_start(args, fmt);
 		vsnprintf(str, LOG_STR_LEN, fmt, args);
 		va_end(args);
 
-		__pm_logcb(flag, str);
+		pm_logcb(flag, str);
 	}
 }
 

@@ -37,8 +37,8 @@
 #include "handle.h"
 
 /* log */
-extern alpm_cb_log __pm_logcb;
-extern unsigned char __pm_logmask;
+extern alpm_cb_log pm_logcb;
+extern unsigned char pm_logmask;
 
 pmhandle_t *handle_new()
 {
@@ -189,10 +189,10 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_USESYSLOG set to '%d'", handle->usesyslog);
 		break;
 		case PM_OPT_LOGCB:
-			__pm_logcb = (alpm_cb_log)data;
+			pm_logcb = (alpm_cb_log)data;
 		break;
 		case PM_OPT_LOGMASK:
-			__pm_logmask = (unsigned char)data;
+			pm_logmask = (unsigned char)data;
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_LOGMASK set to '%02x'", (unsigned char)data);
 		break;
 		default:
@@ -216,8 +216,8 @@ int handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 		case PM_OPT_NOUPGRADE: *data = (long)handle->noupgrade; break;
 		case PM_OPT_IGNOREPKG: *data = (long)handle->ignorepkg; break;
 		case PM_OPT_USESYSLOG: *data = handle->usesyslog; break;
-		case PM_OPT_LOGCB:     *data = (long)__pm_logcb; break;
-		case PM_OPT_LOGMASK:   *data = __pm_logmask; break;
+		case PM_OPT_LOGCB:     *data = (long)pm_logcb; break;
+		case PM_OPT_LOGMASK:   *data = pm_logmask; break;
 		default:
 			PM_RET_ERR(PM_ERR_WRONG_ARGS, -1);
 		break;
