@@ -44,8 +44,6 @@ static int xfered1;
 static unsigned char eta_h, eta_m, eta_s;
 
 /* pacman options */
-extern char *pmo_root;
-extern char *pmo_dbpath;
 extern char *pmo_proxyhost;
 extern char *pmo_xfercommand;
 

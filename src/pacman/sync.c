@@ -37,9 +37,6 @@
 #include "sync.h"
 #include "pacman.h"
 
-extern char *pmo_root;
-extern char *pmo_dbpath;
-
 extern unsigned short pmo_noconfirm;
 extern unsigned short pmo_d_resolve;
 extern unsigned short pmo_q_info;
@@ -60,6 +57,10 @@ extern int maxcols;
 
 static int sync_cleancache(int level)
 {
+	char *root;
+
+	alpm_get_option(PM_OPT_ROOT, (long *)&root);
+
 		if(level == 1) {
 			/* incomplete cleanup: we keep latest packages and partial downloads */
 			DIR *dir;
@@ -125,7 +126,7 @@ static int sync_cleancache(int level)
 			for(i = clean; i; i = i->next) {
 				char path[PATH_MAX];
 
-				snprintf(path, PATH_MAX, "%s%s/%s", pmo_root, CACHEDIR, (char *)i->data);
+				snprintf(path, PATH_MAX, "%s%s/%s", root, CACHEDIR, (char *)i->data);
 				unlink(path);
 			}
 			FREELIST(clean);
@@ -135,7 +136,7 @@ static int sync_cleancache(int level)
 			mode_t oldmask;
 			char path[PATH_MAX];
 
-			snprintf(path, PATH_MAX, "%s%s", pmo_root, CACHEDIR);
+			snprintf(path, PATH_MAX, "%s%s", root, CACHEDIR);
 
 			printf("removing all packages from cache... ");
 			if(rmrf(path)) {
@@ -355,7 +356,7 @@ int pacman_sync(list_t *targets)
 	list_t *final = NULL;
 	list_t *i, *j;
 	PM_LIST *lp, *data;
-
+	char *root;
 	char ldir[PATH_MAX];
 	int varcache = 1;
 	int done = 0;
@@ -677,7 +678,8 @@ int pacman_sync(list_t *targets)
 	/* ORE
 	group sync records by repository and download */
 
-	snprintf(ldir, PATH_MAX, "%svar/cache/pacman/pkg", pmo_root);
+	alpm_get_option(PM_OPT_ROOT, (long *)&root);
+	snprintf(ldir, PATH_MAX, "%svar/cache/pacman/pkg", root);
 
 	while(!done) {
 		if(current) {
@@ -713,15 +715,15 @@ int pacman_sync(list_t *targets)
 					mode_t oldmask;
 
 					/* no cache directory.... try creating it */
-					/* ORE
-					 * alpm_logaction(stderr, "warning: no %s cache exists.  creating...", ldir);*/
+					MSG(NL, "warning: no %s cache exists.  creating...", ldir);
+					alpm_logaction("warning: no %s cache exists.  creating...", ldir);
 					oldmask = umask(0000);
 					if(makepath(ldir)) {				
 						/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
 						 * the package afterwards.
 						 */
-						/* ORE
-						 * logaction(stderr, "warning: couldn't create package cache, using /tmp instead");*/
+						MSG(NL, "warning: couldn't create package cache, using /tmp instead");
+						alpm_logaction("warning: couldn't create package cache, using /tmp instead");
 						snprintf(ldir, PATH_MAX, "/tmp");
 						varcache = 0;
 					}
