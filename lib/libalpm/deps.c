@@ -175,7 +175,6 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					}
 				}
 				if(found == 0) {
-					PMList *lp;
 					/* look for packages that list depend.name as a "provide" */
 					PMList *provides = _alpm_db_whatprovides(db, depend.name);
 					if(provides == NULL) {
@@ -184,10 +183,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 						continue;
 					}
 					/* we found an installed package that provides depend.name */
-					for(lp = provides; lp; lp = lp->next) {
-						lp->data = NULL;
-					}
-					pm_list_free(provides);
+					FREELISTPTR(provides);
 				}
 				found = 0;
 				if(depend.mod == PM_DEP_ANY) {
@@ -306,7 +302,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					}
 					k->data = NULL;
 				}
-				pm_list_free(provs);
+				FREELIST(provs);
 			}*/
 
 			/* DEPENDENCIES -- look for unsatisfied dependencies */
@@ -371,7 +367,6 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 				}
 				/* check database for provides matches */
 				if(!found){
-					PMList *lp;
 					k = _alpm_db_whatprovides(db, depend.name);
 					if(k) {
 						/* grab the first one (there should only really be one, anyway) */
@@ -380,10 +375,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 							/* wtf */
 							_alpm_log(PM_LOG_ERROR, "%s supposedly provides %s, but it was not found in db",
 								((pmpkg_t *)k->data)->name, depend.name);
-							for(lp = k; lp; lp = lp->next) {
-								lp->data = NULL;
-							}
-							pm_list_free(k);
+							FREELISTPTR(k);
 							continue;
 						}
 						if(depend.mod == PM_DEP_ANY) {
@@ -408,10 +400,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 							FREE(ver);
 						}
 					}
-					for(lp = k; lp; lp = lp->next) {
-						lp->data = NULL;
-					}
-					pm_list_free(k);
+					FREELISTPTR(k);
 				}
 				/* else if still not found... */
 				if(!found) {
@@ -556,13 +545,12 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, PMList *trail, PMList **data)
 {
 	PMList *i, *j;
-	PMList *targ = NULL;
+	PMList *targ;
 	PMList *deps = NULL;
 
-	targ = pm_list_add(targ, sync->spkg);
+	targ = pm_list_add(NULL, sync->spkg);
 	deps = checkdeps(local, PM_TRANS_TYPE_ADD, targ);
-	targ->data = NULL;
-	pm_list_free(targ);
+	FREELISTPTR(targ);
 
 	if(deps == NULL) {
 		return(0);
