@@ -547,9 +547,10 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 	PMList *i, *j;
 	PMList *targ;
 	PMList *deps = NULL;
-	PMList **data = NULL;
 
-	_alpm_log(PM_LOG_FUNCTION, "%s => %s", __FUNCTION__, syncpkg->name);
+	if(local == NULL || dbs_sync == NULL || syncpkg == NULL) {
+		return(-1);
+	}
 
 	targ = pm_list_add(NULL, syncpkg);
 	deps = checkdeps(local, PM_TRANS_TYPE_ADD, targ);
@@ -563,13 +564,11 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 		int found = 0;
 		pmdepmissing_t *miss = i->data;
 
-		printf("pkg=%s: dep.name=%s\n", miss->target, miss->depend.name);
-
 		/* XXX: conflicts are now treated specially in the _add and _sync functions */
 
 		/*if(miss->type == PM_DEP_TYPE_CONFLICT) {
 			_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (it conflict with %s)", miss->target, miss->depend.name);
-			return(1);
+			RET_ERR(???, -1);
 		} else*/
 
 		if(miss->type == PM_DEP_TYPE_DEPEND) {
@@ -582,10 +581,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				for(k = db_get_pkgcache(dbs); !sync && k; k = k->next) {
 					pmpkg_t *pkg = k->data;
 					if(!strcmp(miss->depend.name, pkg->name)) {
-						
-						/* re-fetch the package record with dependency info */
-						sync = db_scan(dbs, pkg->name, INFRQ_DESC | INFRQ_DEPENDS);
-						sync->reason = PM_PKG_REASON_DEPEND;
+						sync = pkg;
 					}
 				}
 			}
@@ -595,15 +591,14 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				pmdb_t *dbs = j->data;
 				provides = _alpm_db_whatprovides(dbs, miss->depend.name);
 				if(provides) {
-					/* re-fetch the package record with dependency info */
-					sync = db_scan(dbs, provides->data, INFRQ_DESC | INFRQ_DEPENDS);
-					sync->reason = PM_PKG_REASON_DEPEND;
+					sync = provides->data;
 				}
 				FREELISTPTR(provides);
 			}
 			if(sync == NULL) {
 				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set", miss->target, miss->depend.name);
-				return(1);
+				pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
+				goto error;
 			}
 			found = 0;
 			for(j = list; j && !found; j = j->next) {
@@ -614,10 +609,9 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 			}
 			if(found) {
 				/* this dep is already in the target list */
-				FREE(sync);
 				continue;
 			}
-			_alpm_log(PM_LOG_FLOW2, "resolving %s", sync->name);
+			_alpm_log(PM_LOG_DEBUG, "resolving %s", sync->name);
 			found = 0;
 			for(j = trail; j; j = j->next) {
 				pmpkg_t *tmp = j->data;
@@ -652,7 +646,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 					if(resolvedeps(local, dbs_sync, sync, list, trail)) {
 						goto error;
 					}
-					_alpm_log(PM_LOG_FLOW2, "adding %s-%s", sync->name, sync->version);
+					_alpm_log(PM_LOG_DEBUG, "adding dependency %s-%s", sync->name, sync->version);
 					list = pm_list_add(list, sync);
 				} else {
 					_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
@@ -661,8 +655,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				}
 			} else {
 				/* cycle detected -- skip it */
-				_alpm_log(PM_LOG_FLOW2, "dependency cycle detected: %s", sync->name);
-				FREE(sync);
+				_alpm_log(PM_LOG_DEBUG, "dependency cycle detected: %s", sync->name);
 			}
 		}
 	}
