@@ -190,14 +190,14 @@ static int sync_synctree(list_t *syncs)
 		vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
 		FREELIST(files);
 		if(ret > 0) {
-			fprintf(stderr, "failed to synchronize %s\n", sync->treename);
+			ERR(NL, "failed to synchronize %s\n", sync->treename);
 			success--;
 		} else if(ret < 0) {
-			printf(":: %s is up to date\n", sync->treename);
+			MSG(NL, ":: %s is up to date\n", sync->treename);
 		} else {
 			snprintf(path, PATH_MAX, "%s%s/%s"PM_EXT_DB, root, dbpath, sync->treename);
 			if(alpm_db_update(sync->db, path, newmtime) == -1) {
-				fprintf(stderr, "error: failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
+				ERR(NL, "failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
 				success--;
 			}
 			/* remove the .tar.gz */
@@ -226,9 +226,9 @@ static int sync_search(list_t *syncs, list_t *targets)
 			for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
 				PM_PKG *pkg = alpm_list_getdata(lp);
 
-				printf("%s/%s %s\n    ", sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
+				MSG(NL, "%s/%s %s\n    ", sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
 				indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
-				printf("\n");
+				MSG(NL, "\n");
 			}
 		}
 	}
@@ -247,7 +247,7 @@ static int sync_group(list_t *syncs, list_t *targets)
 				PM_GRP *grp = alpm_db_readgrp(sync->db, i->data);
 
 				if(grp) {
-					printf("%s/%s\n", sync->treename, (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
+					MSG(NL, "%s/%s\n", sync->treename, (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
 					PM_LIST_display("   ", alpm_grp_getinfo(grp, PM_GRP_PKGNAMES));
 				}
 			}
@@ -260,7 +260,7 @@ static int sync_group(list_t *syncs, list_t *targets)
 			for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
 				PM_GRP *grp = alpm_list_getdata(lp);
 
-				printf("%s/%s\n", (char *)sync->treename, (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
+				MSG(NL, "%s/%s\n", (char *)sync->treename, (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
 				PM_LIST_display("   ", alpm_grp_getinfo(grp, PM_GRP_PKGNAMES));
 			}
 		}
@@ -286,13 +286,13 @@ static int sync_info(list_t *syncs, list_t *targets)
 
 					if(!strcmp(alpm_pkg_getinfo(pkg, PM_PKG_NAME), i->data)) {
 						dump_pkg_sync(pkg, sync->treename);
-						printf("\n");
+						MSG(NL, "\n");
 						found = 1;
 					}
 				}
 			}
 			if(!found) {
-				fprintf(stderr, "Package \"%s\" was not found.\n", (char *)i->data);
+				ERR(NL, "package \"%s\" was not found.\n", (char *)i->data);
 				break;
 			}
 		}
@@ -303,7 +303,7 @@ static int sync_info(list_t *syncs, list_t *targets)
 			
 			for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
 				dump_pkg_sync(alpm_list_getdata(lp), sync->treename);
-				printf("\n");
+				MSG(NL, "\n");
 			}
 		}
 	}
@@ -331,7 +331,7 @@ static int sync_list(list_t *syncs, list_t *targets)
 			}
 
 			if(sync == NULL) {
-				fprintf(stderr, "Repository \"%s\" was not found.\n\n", (char *)i->data);
+				ERR(NL, "repository \"%s\" was not found.\n", (char *)i->data);
 				list_free(treenames);
 				return(1);
 			}
@@ -349,7 +349,7 @@ static int sync_list(list_t *syncs, list_t *targets)
 		for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
 			PM_PKG *pkg = alpm_list_getdata(lp);
 
-			printf("%s %s %s\n", (char *)sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
+			MSG(NL, "%s %s %s\n", (char *)sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
 		}
 	}
 
@@ -372,12 +372,12 @@ int pacman_sync(list_t *targets)
 	int varcache = 1;
 	int done;
 	int count;
-	sync_t *current;
-	list_t *processed;
-	list_t *files;
+	sync_t *current = NULL;
+	list_t *processed = NULL;
+	list_t *files = NULL;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
-		ERR(NL, "error: no usable package repositories configured.");
+		ERR(NL, "no usable package repositories configured.\n");
 		return(1);
 	}
 
@@ -399,7 +399,12 @@ int pacman_sync(list_t *targets)
 		/* grab a fresh package list */
 		MSG(NL, ":: Synchronizing package databases...\n");
 		alpm_logaction("synchronizing package lists");
-		sync_synctree(pmc_syncs);
+		if(sync_synctree(pmc_syncs)) {
+			return(1);
+		}
+		if(targets == NULL) {
+			return(0);
+		}
 	}
 
 	if(pmo_s_search) {
@@ -433,7 +438,8 @@ int pacman_sync(list_t *targets)
 
 		if(alpm_sync_sysupgrade(&data) == -1) {
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
-			return(1);
+			retval = 1;
+			goto cleanup;
 		}
 
 		/* check if pacman itself is one of the packages to upgrade.  If so, we
@@ -443,7 +449,7 @@ int pacman_sync(list_t *targets)
 		 * when sysupgrade'ing with an older version of pacman.
 		 */
 		for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-			PM_SYNC *sync = alpm_list_getdata(lp);
+			PM_SYNCPKG *sync = alpm_list_getdata(lp);
 
 			if(!strcmp("pacman", alpm_pkg_getinfo(alpm_sync_getinfo(sync, PM_SYNC_SYNCPKG), PM_PKG_NAME))) {
 				MSG(NL, "\n:: pacman has detected a newer version of the \"pacman\" package.\n");
@@ -454,13 +460,14 @@ int pacman_sync(list_t *targets)
 					/* ORE
 					we should substitute existing targets with "pacman" */
 					alpm_list_free(data);
-					return(0);
+					retval = 0;
+					goto cleanup;
 				}
 			}
 		}
 
 		for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-			PM_SYNC *sync = alpm_list_getdata(lp);
+			PM_SYNCPKG *sync = alpm_list_getdata(lp);
 			PM_PKG *lpkg, *spkg;
 			char *spkgname, *spkgver, *lpkgname, *lpkgver;
 
@@ -473,13 +480,13 @@ int pacman_sync(list_t *targets)
 			spkgver = alpm_pkg_getinfo(spkg, PM_PKG_VERSION);
 
 			switch((int)alpm_sync_getinfo(sync, PM_SYNC_TYPE)) {
-				case PM_SYSUPG_REPLACE:
+				case PM_SYNC_TYPE_REPLACE:
 					MSG(NL, "Replace %s by '%s-%s'\n", lpkgname, spkgname, spkgver);
 					if(yesno(":: Replace %s with %s from \"%s\"? [Y/n] ", lpkgname, spkgname, NULL/*dbs->db->treename*/)) {
 					}
 
 					break;
-				case PM_SYSUPG_UPGRADE:
+				case PM_SYNC_TYPE_UPGRADE:
 					MSG(NL, "Upgrade %s (%s => %s)\n", lpkgname, lpkgver, spkgver);
 					targets = list_add(targets, strdup(spkgname));
 					break;
@@ -490,8 +497,6 @@ int pacman_sync(list_t *targets)
 		alpm_list_free(data);
 		data = NULL;
 	}
-
-	list_display("targets:", targets);
 
 	/* and add targets to it
 	 */
@@ -512,7 +517,7 @@ int pacman_sync(list_t *targets)
 						pkgs = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
 						PM_LIST_display("   ", pkgs);
 
-						if(yesno("    Install whole content? [Y/n] ")) {
+						if(yesno(":: Install whole content? [Y/n] ")) {
 							for(k = alpm_list_first(pkgs); k; k = alpm_list_next(k)) {
 								targets = list_add(targets, strdup(alpm_list_getdata(k)));
 							}
@@ -528,7 +533,8 @@ int pacman_sync(list_t *targets)
 				}
 				if(grp == NULL) {
 					ERR(NL, "failed to add target '%s': not found in sync db\n", targ);
-					return(1);
+					retval = 1;
+					goto cleanup;
 				}
 				continue;
 			} else {
@@ -542,12 +548,13 @@ int pacman_sync(list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
 		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
-		return(1);
+		retval = 1;
+		goto cleanup;
 	}
 
 	/* list targets */
 	if(!pmo_s_printuris) {
-		PM_LIST *lp;
+		PM_LIST *packages, *lp;
 		list_t *list = NULL;
 		char *str;
 		unsigned long totalsize = 0;
@@ -571,9 +578,15 @@ int pacman_sync(list_t *targets)
 			FREELIST(list);
 			FREE(str);
 		}*/
-		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
+		packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
+		if(packages == NULL) {
+			retval = 0;
+			goto cleanup;
+		}
+		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
 			char *pkgname, *pkgver;
-			PM_PKG *pkg = alpm_list_getdata(lp);
+			PM_SYNCPKG *sync = alpm_list_getdata(lp);
+			PM_PKG *pkg = alpm_sync_getinfo(sync, PM_SYNC_SYNCPKG);
 
 			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
 			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
@@ -776,7 +789,7 @@ int pacman_sync(list_t *targets)
 	}
 
 cleanup:
-
+	alpm_trans_release();
 	return(retval);
 
 }
