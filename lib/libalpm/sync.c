@@ -242,6 +242,9 @@ int sync_commit(pmdb_t *db, pmtrans_t *trans)
 		}*/
 	}
 
+	/* cache needs to be rebuilt */
+	db_free_pkgcache(db);
+
 	return(0);
 }
 

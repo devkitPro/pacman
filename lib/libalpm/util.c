@@ -391,7 +391,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	}
 
 	/* ORE
-	pm_cblog(PM_LOG_FLOW2, "Executing %s script...\n", script);*/
+	_alpm_log(PM_LOG_FLOW2, "Executing %s script...\n", script);*/
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s %s\" | chroot %s /bin/sh",
 				scriptpath, script, ver, oldver, root);
@@ -400,7 +400,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 				scriptpath, script, ver, root);
 	}
 	/* ORE
-	pm_cblog(PM_LOG_FLOW2, "%s\n", cmdline);*/
+	_alpm_log(PM_LOG_FLOW2, "%s\n", cmdline);*/
 	system(cmdline);
 	
 	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {

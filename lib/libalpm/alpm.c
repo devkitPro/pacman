@@ -241,6 +241,9 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	/* ORE
 	stat() the archive to check it exists */
 
+	/* Cache needs to be rebuild */
+	db_free_pkgcache(db);
+
 	/* remove the old dir */
 	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", db->path);
 	/* ORE

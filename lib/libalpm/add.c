@@ -252,7 +252,18 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 				TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_START, info, NULL);
 
 				/* we'll need the full record for backup checks later */
-				if((oldpkg = db_scan(db, info->name, INFRQ_ALL)) != NULL) {
+				/* ORE
+				in fact, there's only a need for "backup" and "md5sum" fields, so
+				we should only copy these 2 ones from info, and thus save a call
+				to db_scan(ALL) and the allocation of a package */
+				oldpkg = db_scan(db, info->name, INFRQ_ALL);
+
+				/* pre_upgrade scriptlet */
+				if(info->scriptlet) {
+					runscriptlet(info->data, "pre_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
+				}
+
+				if(oldpkg) {
 					pmtrans_t *tr;
 
 					_alpm_log(PM_LOG_FLOW2, "removing old package first...\n");
@@ -285,6 +296,11 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 		if(!pmo_upgrade) {
 			TRANS_CB(trans, PM_TRANS_EVT_ADD_START, info, NULL);
+
+			/* pre_install scriptlet */
+			if(info->scriptlet) {
+				runscriptlet(info->data, "pre_install", info->version, NULL);
+			}
 		}
 
 		/* Add the package to the database */
@@ -296,6 +312,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			pmpkg_t *tmpp = NULL;
 			PMList *tmppm = NULL;
 
+			/* ORE
+			is it useful to call db_scan(DEPENDS)?
+			depends info are already stored in the cache... */
 			tmpp = db_scan(db, ((pmpkg_t *)lp->data)->name, INFRQ_DEPENDS);
 			if(tmpp == NULL) {
 				continue;
@@ -317,7 +336,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		info->reason = PM_PKG_REASON_EXPLICIT;
 		/* ORE
 		only relevant for sync operations?
-		if(pm_list_is_strin(dependonly, info->data)) {
+		usage of info->data should be ok for TRANS_TYPE_ADD, but wrong for
+		TRANS_TYPE_SYNC
+		if(pm_list_is_strin(trans->targets, info->data) || pmo_d_resolve) {
 			info->reason = PM_PKG_REASON_DEPEND;
 		}*/
 		/* make an install date (in UTC) */
@@ -328,15 +349,25 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
 
+		/* ORE
+		in case of an installation, then add info in the pkgcache
+		in case of an upgrade, then replace the existing one (or just add because
+		trans_remove should already has removed it? */
+
 		/* update dependency packages' REQUIREDBY fields */
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
 
 			splitdep(lp->data, &depend);
+			/* ORE
+			same thing here: we should browse the cache instead of using db_scan */
 			depinfo = db_scan(db, depend.name, INFRQ_DESC|INFRQ_DEPENDS);
 			if(depinfo == NULL) {
 				/* look for a provides package */
+				/* ORE
+				_alpm_db_whatprovides() should return a list of pointer to pkg from the
+				cache, thus eliminating the need for db_scan(DEPENDS) */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
 					/* use the first one */
@@ -354,6 +385,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 					continue;
 				}
 			}
+			/* ORE
+			if depinfo points on a package from the cache, the cache will be updated
+			automatically here! */
 			depinfo->requiredby = pm_list_add(depinfo->requiredby, strdup(info->name));
 			db_write(db, depinfo, INFRQ_DEPENDS);
 			FREEPKG(depinfo);
@@ -558,13 +592,13 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 
 		/* run the post-install script if it exists  */
-		/* ORE
-		test info->scriplet before blindly calling runscriplet? */
+		if(info->scriplet) {
 		snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
-		if(pmo_upgrade) {
-			_alpm_runscriptlet(handle->root, pm_install, "post_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
-		} else {
-			_alpm_runscriptlet(handle->root, pm_install, "post_install", info->version, NULL);
+			if(pmo_upgrade) {
+				_alpm_runscriptlet(handle->root, pm_install, "post_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
+			} else {
+				_alpm_runscriptlet(handle->root, pm_install, "post_install", info->version, NULL);
+			}
 		}
 
 		if(pmo_upgrade) {
@@ -582,6 +616,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 	/* run ldconfig if it exists */
 	_alpm_log(PM_LOG_FLOW2, "running \"%ssbin/ldconfig -r %s\"", handle->root, handle->root);
 	_alpm_ldconfig(handle->root);
+
+	/* cache needs to be rebuilt */
+	db_free_pkgcache(db);
 
 	return(0);
 }

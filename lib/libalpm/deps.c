@@ -462,9 +462,13 @@ void splitdep(char *depstr, pmdepend_t *depend)
 	char *str = NULL;
 	char *ptr = NULL;
 
-	if(depstr == NULL) {
+	if(depstr == NULL || depend == NULL) {
 		return;
 	}
+
+	depend->mod = 0;
+	depend->name[0] = 0;
+	depend->version[0] = 0;
 
 	str = strdup(depstr);
 
