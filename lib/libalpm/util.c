@@ -369,7 +369,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		}
 		snprintf(tmpdir, PATH_MAX, "%stmp/pacman-XXXXXX", root);
 		if(mkdtemp(tmpdir) == NULL) {
-			perror("error creating temp directory");
+			_alpm_log(PM_LOG_ERROR, "could not create temp directory");
 			return(1);
 		}
 		_alpm_unpack(installfn, tmpdir, ".INSTALL");
@@ -386,14 +386,12 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	if(!_alpm_grep(scriptfn, script)) {
 		/* script not found in scriptlet file */
 		if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
-			/* ORE
-			_alpm_log(PM_LOG_WARNING, "could not remove tmpdir %s", tmpdir);*/
+			_alpm_log(PM_LOG_WARNING, "could not remove tmpdir %s", tmpdir);
 		}
 		return(0);
 	}
 
-	/* ORE
-	_alpm_log(PM_LOG_FLOW2, "Executing %s script...", script);*/
+	_alpm_log(PM_LOG_FLOW2, "executing %s script...", script);
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s %s\" | chroot %s /bin/sh",
 				scriptpath, script, ver, oldver, root);
@@ -401,13 +399,11 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s\" | chroot %s /bin/sh",
 				scriptpath, script, ver, root);
 	}
-	/* ORE
-	_alpm_log(PM_LOG_FLOW2, "%s", cmdline);*/
+	_alpm_log(PM_LOG_FLOW2, "%s", cmdline);
 	system(cmdline);
 	
 	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
-		/* ORE
-		_alpm_log(PM_LOG_WARNING, "could not remove tmpdir %s", tmpdir);*/
+		_alpm_log(PM_LOG_WARNING, "could not remove tmpdir %s", tmpdir);
 	}
 	return(0);
 }
