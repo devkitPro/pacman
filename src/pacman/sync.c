@@ -390,7 +390,8 @@ int pacman_sync(list_t *targets)
 	/* open the database(s) */
 	for(i = pmc_syncs; i; i = i->next) {
 		sync_t *sync = i->data;
-		if(alpm_db_register(sync->treename, &sync->db) == -1) {
+		sync->db = alpm_db_register(sync->treename);
+		if(sync->db == NULL) {
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
 			return(1);
 		}

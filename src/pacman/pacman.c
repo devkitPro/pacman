@@ -167,7 +167,8 @@ int main(int argc, char *argv[])
 	}
 
 	/* Opening local database */
-	if(alpm_db_register("local", &db_local) == -1) {
+	db_local = alpm_db_register("local");
+	if(db_local == NULL) {
 		ERR(NL, "could not register 'local' database (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
