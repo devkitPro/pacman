@@ -133,7 +133,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 
 			/* run the pre-remove scriptlet if it exists  */
 			if(info->scriptlet) {
-				snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
+				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
 				_alpm_runscriptlet(handle->root, pm_install, "pre_remove", info->version, NULL);
 			}
 		}
