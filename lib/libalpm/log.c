@@ -28,7 +28,6 @@
 #include "log.h"
 
 /* Internal library log mechanism */
-
 alpm_cb_log pm_logcb     = NULL;
 unsigned char pm_logmask = 0;
 

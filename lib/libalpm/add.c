@@ -311,8 +311,9 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		/* Figure out whether this package was installed explicitly by the user
 		 * or installed as a dependency for another package
 		 */
-		/* ORE
 		info->reason = PM_PKG_REASON_EXPLICIT;
+		/* ORE
+		only relevant for sync operations?
 		if(pm_list_is_strin(dependonly, info->data)) {
 			info->reason = PM_PKG_REASON_DEPEND;
 		}*/
@@ -343,7 +344,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 						for(lp = provides; lp; lp = lp->next) {
 							lp->data = NULL;
 						}
-						pm_list_free(provides);
+						FREELIST(provides);
 						continue;
 					}
 				} else {

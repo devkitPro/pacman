@@ -50,8 +50,8 @@
 #include "handle.h"
 #include "alpm.h"
 
+/* Globals */
 pmhandle_t *handle = NULL;
-
 enum __pmerrno_t pm_errno;
 
 /*
@@ -132,6 +132,7 @@ int alpm_get_option(unsigned char parm, long *data)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, PM_RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(data != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	return(handle_get_option(handle, parm, data));
 }
@@ -147,7 +148,9 @@ int alpm_db_register(char *treename, PM_DB **db)
 	ASSERT(treename != NULL && strlen(treename) != 0, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(db != NULL, PM_RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	/* check if the db if already registered */
+	/* ORE
+	check if the db if already registered */
+
 	*db = db_open(handle->root, handle->dbpath, treename);
 	if(*db == NULL) {
 		/* couldn't open the db directory - try creating it */
