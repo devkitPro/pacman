@@ -357,7 +357,7 @@ if [ "`id -u`" != "0" ]; then
 	fi
 fi
 
-msg "Making package: $pkgname  (`date`)"
+msg "Making package: $pkgname $pkgver-$pkgrel (`date`)"
 
 unset deplist makedeplist
 if [ `type -p pacman` -a "$NODEPS" = "0" ]; then
