@@ -23,20 +23,32 @@
 
 #include "list.h"
 
-#define PKG_FROM_CACHE 1
-#define PKG_FROM_FILE  2
+enum {
+	PKG_FROM_CACHE = 1,
+	PKG_FROM_FILE
+};
+
+#define PKG_NAME_LEN     256
+#define PKG_VERSION_LEN  64
+#define PKG_DESC_LEN     512
+#define PKG_URL_LEN      256
+#define PKG_LICENSE_LEN  256
+#define PKG_DATE_LEN     32
+#define PKG_PACKAGER_LEN 64
+#define PKG_MD5SUM_LEN   33
+#define PKG_ARCH_LEN     32
 
 typedef struct __pmpkg_t {
-	char name[256];
-	char version[64];
-	char desc[512];
-	char url[256];
-	char license[128];
-	char builddate[32];
-	char installdate[32];
-	char packager[64];
-	char md5sum[33];
-	char arch[32];
+	char name[PKG_NAME_LEN];
+	char version[PKG_VERSION_LEN];
+	char desc[PKG_DESC_LEN];
+	char url[PKG_URL_LEN];
+	char license[PKG_LICENSE_LEN];
+	char builddate[PKG_DATE_LEN];
+	char installdate[PKG_DATE_LEN];
+	char packager[PKG_PACKAGER_LEN];
+	char md5sum[PKG_MD5SUM_LEN];
+	char arch[PKG_ARCH_LEN];
 	unsigned long size;
 	unsigned char scriptlet;
 	unsigned char force;
