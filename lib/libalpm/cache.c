@@ -27,6 +27,8 @@
 #include <string.h>
 #include <sys/stat.h>
 /* pacman */
+#include "log.h"
+#include "alpm.h"
 #include "list.h"
 #include "util.h"
 #include "package.h"
@@ -46,6 +48,8 @@ int db_load_pkgcache(pmdb_t *db)
 	}
 
 	db_free_pkgcache(db);
+
+	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository \"%s\"", db->treename);
 
 	db_rewind(db);
 	while((info = db_scan(db, NULL, INFRQ_DESC|INFRQ_DEPENDS)) != NULL) {
@@ -117,6 +121,8 @@ int db_load_grpcache(pmdb_t *db)
 	if(db->pkgcache == NULL) {
 		db_load_pkgcache(db);
 	}
+
+	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository \"%s\"", db->treename);
 
 	for(lp = db->pkgcache; lp; lp = lp->next) {
 		PMList *i;
