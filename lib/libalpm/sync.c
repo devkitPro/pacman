@@ -26,6 +26,7 @@
 /* pacman */
 #include "log.h"
 #include "util.h"
+#include "error.h"
 #include "list.h"
 #include "package.h"
 #include "db.h"
@@ -51,6 +52,11 @@ pmsync_t *sync_new(int type, pmpkg_t *lpkg, pmpkg_t *spkg)
 	sync->spkg = spkg;
 	
 	return(sync);
+}
+
+int sync_parsedb(char *archive)
+{
+	return(0);
 }
 
 int sync_sysupgrade(PMList **data)
@@ -121,24 +127,20 @@ int sync_sysupgrade(PMList **data)
 			/* local version is newer */
 			_alpm_log(PM_LOG_FLOW1, "%s-%s: local version is newer",
 				local->name, local->version);
-			continue;
 		} else if(cmp == 0) {
 			/* versions are identical */
-			continue;
 		} else if(pm_list_is_strin(i->data, handle->ignorepkg)) {
 			/* package should be ignored (IgnorePkg) */
 			_alpm_log(PM_LOG_FLOW1, "%s-%s: ignoring package upgrade (%s)",
 				local->name, local->version, spkg->version);
-			continue;
+		} else {
+			sync = sync_new(PM_SYSUPG_UPGRADE, local, spkg);
+			if(sync == NULL) {
+				pm_errno = PM_ERR_MEMORY;
+				goto error;
+			}
+			targets = pm_list_add(targets, sync);
 		}
-
-		sync = sync_new(PM_SYSUPG_UPGRADE, local, spkg);
-		if(sync == NULL) {
-			pm_errno = PM_ERR_MEMORY;
-			goto error;
-		}
-
-		targets = pm_list_add(targets, sync);
 	}
 
 	*data = targets;
@@ -150,8 +152,69 @@ error:
 	return(-1);
 }
 
-int sync_resolvedeps(PMList **syncs)
+int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name)
 {
+	char targline[(PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1];
+	char *targ, *treename;
+	PMList *j;
+	pmpkg_t *local;
+	pmpkg_t *sync = NULL;
+	int cmp;
+
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	strncpy(targline, name, (PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1);
+	targ = strchr(targline, '/');
+	if(targ) {
+		*targ = '\0';
+		targ++;
+		treename = targline;
+		for(j = dbs_sync; j && !sync; j = j->next) {
+			pmdb_t *dbs = j->data;
+			if(strcmp(dbs->treename, targline) == 0) {
+				sync = alpm_db_readpkg(dbs, targ);
+			}
+		}
+	} else {
+		targ = targline;
+		for(j = dbs_sync; j && !sync; j = j->next) {
+			pmdb_t *dbs = j->data;
+			sync = alpm_db_readpkg(dbs, targ);
+		}
+	}
+
+	if(sync == NULL) {
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	}
+
+	/* if not a sysupgrade, compare versions and determine if it is necessary */
+	if(!trans->flags & PM_TRANS_FLAG_SYSUPG) {
+		local = alpm_db_readpkg(db, name);
+		if(local) {
+			cmp = alpm_pkg_vercmp(local->version, sync->version);
+			if(cmp > 0) {
+				/* local version is newer - get confirmation first */
+				/* ORE
+				if(!yesno(":: %s-%s: local version is newer.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
+				}*/
+				_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping");
+				return(0);
+			} else if(cmp == 0) {
+				/* versions are identical */
+				/* ORE
+				if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
+				}*/
+				_alpm_log(PM_LOG_WARNING, "%s-%s: is up to date -- skipping");
+				return(0);
+			}
+		}
+	}
+
+	/* add the package to the transaction */
+	trans->packages = pm_list_add(trans->packages, sync);
+
 	return(0);
 }
 
@@ -159,10 +222,12 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 {
 	PMList *i;
 	PMList *trail = NULL;
+	PMList *list = NULL;
 
 	/* Resolve targets dependencies */
-	for(i = trans->targets; i; i = i->next) {
-		if(resolvedeps(handle->db_local, handle->dbs_sync, i->data, trans->targets, trail, data) == -1) {
+	for(i = trans->packages; i; i = i->next) {
+		pmpkg_t *sync = i->data;
+		if(resolvedeps(handle->db_local, handle->dbs_sync, sync, list, trail) == -1) {
 			/* pm_errno is set by resolvedeps */
 			goto error;
 		}
@@ -204,11 +269,8 @@ int sync_commit(pmdb_t *db, pmtrans_t *trans)
 	for(i = files; i; i = i->next) {
 		trans_addtarget(tr, i->data);
 	}
-
 	trans_prepare(tr, &data);
-
 	trans_commit(tr);
-
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */

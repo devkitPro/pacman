@@ -199,6 +199,7 @@ enum {
 #define PM_TRANS_FLAG_CASCADE 0x10
 #define PM_TRANS_FLAG_RECURSE 0x20
 #define PM_TRANS_FLAG_DBONLY  0x40
+#define PM_TRANS_FLAG_SYSUPG  0x80
 
 /* Events */
 enum {

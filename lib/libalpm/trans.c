@@ -61,7 +61,12 @@ void trans_free(pmtrans_t *trans)
 	}
 
 	FREELIST(trans->targets);
-	FREELISTPKGS(trans->packages);
+	/* ORE - ugly */
+	if(trans->type == PM_TRANS_TYPE_SYNC) {
+		FREELISTPTR(trans->packages);
+	} else {
+		FREELISTPKGS(trans->packages);
+	}
 
 	free(trans);
 }
@@ -109,9 +114,14 @@ int trans_addtarget(pmtrans_t *trans, char *target)
 				return(-1);
 			}
 		break;
+		case PM_TRANS_TYPE_SYNC:
+			if(sync_addtarget(handle->db_local, handle->dbs_sync, trans, target) == -1) {
+				/* pm_errno is set by add_loadtarget() */
+				return(-1);
+			}
+		break;
 	}
 	trans->targets = pm_list_add(trans->targets, strdup(target));
-	trans->state = STATE_INITIALIZED;
 
 	return(0);
 }

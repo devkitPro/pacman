@@ -39,6 +39,8 @@ pmsyncpkg_t *find_pkginsync(char *needle, PMList *haystack);
 PMList *rm_pkginsync(char *needle, PMList *haystack);*/
 
 int sync_sysupgrade(PMList **data);
+
+int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name);
 int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data);
 int sync_commit(pmdb_t *db, pmtrans_t *trans);
 

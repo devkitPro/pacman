@@ -208,7 +208,6 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 			_alpm_log(PM_LOG_ERROR, "failed to remove database entry %s/%s-%s", db->treename, info->name, info->version);
 		}
 
-
 		/* update dependency packages' REQUIREDBY fields */
 		_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
 		for(lp = info->depends; lp; lp = lp->next) {

@@ -25,6 +25,7 @@
 /* pacman */
 #include "util.h"
 #include "log.h"
+#include "error.h"
 #include "list.h"
 #include "package.h"
 #include "db.h"
@@ -541,13 +542,16 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
  *
  * make sure *list and *trail are already initialized
  */
-int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, PMList *trail, PMList **data)
+int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail)
 {
 	PMList *i, *j;
 	PMList *targ;
 	PMList *deps = NULL;
+	PMList **data = NULL;
 
-	targ = pm_list_add(NULL, sync->spkg);
+	_alpm_log(PM_LOG_FUNCTION, "%s => %s", __FUNCTION__, syncpkg->name);
+
+	targ = pm_list_add(NULL, syncpkg);
 	deps = checkdeps(local, PM_TRANS_TYPE_ADD, targ);
 	FREELISTPTR(targ);
 
@@ -559,99 +563,68 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 		int found = 0;
 		pmdepmissing_t *miss = i->data;
 
+		printf("pkg=%s: dep.name=%s\n", miss->target, miss->depend.name);
+
 		/* XXX: conflicts are now treated specially in the _add and _sync functions */
 
-		/*if(miss->type == CONFLICT) {
+		/*if(miss->type == PM_DEP_TYPE_CONFLICT) {
 			_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (it conflict with %s)", miss->target, miss->depend.name);
 			return(1);
 		} else*/
 
 		if(miss->type == PM_DEP_TYPE_DEPEND) {
-			pmsync_t *sync = NULL;
-
+			pmpkg_t *sync = NULL;
 			/* find the package in one of the repositories */
-
 			/* check literals */
-			for(j = databases; !sync && j; j = j->next) {
+			for(j = dbs_sync; !sync && j; j = j->next) {
 				PMList *k;
 				pmdb_t *dbs = j->data;
-
 				for(k = db_get_pkgcache(dbs); !sync && k; k = k->next) {
 					pmpkg_t *pkg = k->data;
-
 					if(!strcmp(miss->depend.name, pkg->name)) {
-						sync = sync_new(PM_SYSUPG_DEPEND, NULL, k->data);
-						if(sync == NULL) {
-							pm_errno = PM_ERR_MEMORY;
-							goto error;
-						}
-						/* ORE
-						sync->pkg->reason = PM_PKG_REASON_DEPEND;*/
+						
+						/* re-fetch the package record with dependency info */
+						sync = db_scan(dbs, pkg->name, INFRQ_DESC | INFRQ_DEPENDS);
+						sync->reason = PM_PKG_REASON_DEPEND;
 					}
 				}
 			}
-
 			/* check provides */
-			/* ORE
-			for(j = databases; !s && j; j = j->next) {
+			for(j = dbs_sync; !sync && j; j = j->next) {
 				PMList *provides;
-
-				provides = _alpm_db_whatprovides(j->data, miss->depend.name);
+				pmdb_t *dbs = j->data;
+				provides = _alpm_db_whatprovides(dbs, miss->depend.name);
 				if(provides) {
-					s = sync_new(PM_SYSUPG_DEPEND, NULL, !!!provides->data!!!);
-					if(s == NULL) {
-						pm_errno = PM_ERR_MEMORY;
-						goto error;
-					}
-					sync->pkg->reason = PM_PKG_REASON_DEPEND;
+					/* re-fetch the package record with dependency info */
+					sync = db_scan(dbs, provides->data, INFRQ_DESC | INFRQ_DEPENDS);
+					sync->reason = PM_PKG_REASON_DEPEND;
 				}
-				FREELIST(provides);
-			}*/
-
+				FREELISTPTR(provides);
+			}
 			if(sync == NULL) {
-				pmdepmissing_t *m = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t));
-				if(m == NULL) {
-					/* ORE
-					Free memory before leaving */
-					pm_errno = PM_ERR_MEMORY;
-					goto error;
-				}
-				*m = *(pmdepmissing_t *)i->data;
-				*data = pm_list_add(*data, m);
-				continue;
+				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set", miss->target, miss->depend.name);
+				return(1);
 			}
-
-			if(*data) {
-				/* there is at least an unresolvable dep... so we only
-				 * continue to get the whole list of unresolvable deps */
-				continue;
-			}
-
 			found = 0;
 			for(j = list; j && !found; j = j->next) {
-				pmsync_t *tmp = j->data;
-
-				if(tmp && !strcmp(tmp->spkg->name, sync->spkg->name)) {
+				pmpkg_t *tmp = j->data;
+				if(tmp && !strcmp(tmp->name, sync->name)) {
 					found = 1;
 				}
 			}
-
 			if(found) {
 				/* this dep is already in the target list */
 				FREE(sync);
 				continue;
 			}
-
-			_alpm_log(PM_LOG_FLOW2, "resolving %s", sync->spkg->name);
+			_alpm_log(PM_LOG_FLOW2, "resolving %s", sync->name);
 			found = 0;
 			for(j = trail; j; j = j->next) {
-				pmsync_t *tmp = j->data;
-
-				if(tmp && !strcmp(tmp->spkg->name, sync->spkg->name)) {
+				pmpkg_t *tmp = j->data;
+				if(tmp && !strcmp(tmp->name, sync->name)) {
 					found = 1;
 				}
 			}
-
 			if(!found) {
 				/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
 				 * something we're not supposed to.
@@ -659,8 +632,8 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 				int usedep = 1;
 				found = 0;
 				/* ORE
-				for(j = pmo_ignorepkg; j && !found; j = j->next) {
-					if(!strcmp(j->data, sync->pkg->name)) {
+				for(j = handle->ignorepkg; j && !found; j = j->next) {
+					if(!strcmp(j->data, sync->name)) {
 						found = 1;
 					}
 				}
@@ -668,17 +641,18 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 					if(!strcmp(j->data, sync->pkg->name)) {
 						found = 1;
 					}
-				}
-				if(found) {
-					usedep = yesno("%s requires %s, but it is in IgnorePkg.  Install anyway? [Y/n] ",
-						miss->target, sync->pkg->name);
 				}*/
+				if(found) {
+					/* ORE
+					usedep = yesno("%s requires %s, but it is in IgnorePkg.  Install anyway? [Y/n] ",
+						miss->target, sync->pkg->name);*/
+				}
 				if(usedep) {
 					trail = pm_list_add(trail, sync);
-					if(resolvedeps(local, databases, sync, list, trail, data)) {
+					if(resolvedeps(local, dbs_sync, sync, list, trail)) {
 						goto error;
 					}
-					_alpm_log(PM_LOG_FLOW2, "adding %s-%s", sync->spkg->name, sync->spkg->version);
+					_alpm_log(PM_LOG_FLOW2, "adding %s-%s", sync->name, sync->version);
 					list = pm_list_add(list, sync);
 				} else {
 					_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
@@ -687,7 +661,7 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 				}
 			} else {
 				/* cycle detected -- skip it */
-				_alpm_log(PM_LOG_FLOW2, "dependency cycle detected: %s", sync->spkg->name);
+				_alpm_log(PM_LOG_FLOW2, "dependency cycle detected: %s", sync->name);
 				FREE(sync);
 			}
 		}
@@ -695,10 +669,9 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 
 	FREELIST(deps);
 
-	if(*data) {
-		pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
-		return(-1);
-	}
+	/*if(*data) {
+		RET_ERR(PM_ERR_UNRESOLVABLE_DEPS, -1);
+	}*/
 
 	return(0);
 

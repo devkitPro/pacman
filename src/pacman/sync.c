@@ -364,7 +364,7 @@ static int sync_list(list_t *syncs, list_t *targets)
 
 int pacman_sync(list_t *targets)
 {
-	int allgood = 1, confirm = 0;
+	int confirm = 0;
 	int retval = 0;
 	list_t *final = NULL;
 	list_t *i, *j;
@@ -420,19 +420,19 @@ int pacman_sync(list_t *targets)
 		return(sync_list(pmc_syncs, targets));
 	}
 
+	/* Step 1: create a new transaction...
+	 */
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, NULL) == -1) {
+		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
+		retval = 1;
+		goto cleanup;
+	}
+
 	if(pmo_s_upgrade) {
 		alpm_logaction("starting full system upgrade");
+
 		if(alpm_sync_sysupgrade(&data) == -1) {
-			if(pm_errno == PM_ERR_UNRESOLVABLE_DEPS) {
-				ERR(NL, "cannot resolve dependencies\n");
-				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_DEPMISS *miss = alpm_list_getdata(lp);
-					ERR(NL, "	%s: \"%s\" is not in the package set\n", alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
-				}
-				alpm_list_free(data);
-			} else {
-				ERR(NL, "%s\n", alpm_strerror(pm_errno));
-			}
+			ERR(NL, "%s\n", alpm_strerror(pm_errno));
 			return(1);
 		}
 
@@ -446,13 +446,15 @@ int pacman_sync(list_t *targets)
 			PM_SYNC *sync = alpm_list_getdata(lp);
 
 			if(!strcmp("pacman", alpm_pkg_getinfo(alpm_sync_getinfo(sync, PM_SYNC_SYNCPKG), PM_PKG_NAME))) {
-				ERR(NL, "\n:: pacman has detected a newer version of the \"pacman\" package.\n");
-				ERR(NL, ":: It is recommended that you allow pacman to upgrade itself\n");
-				ERR(NL, ":: first, then you can re-run the operation with the newer version.\n");
-				ERR(NL, "::\n");
+				MSG(NL, "\n:: pacman has detected a newer version of the \"pacman\" package.\n");
+				MSG(NL, ":: It is recommended that you allow pacman to upgrade itself\n");
+				MSG(NL, ":: first, then you can re-run the operation with the newer version.\n");
+				MSG(NL, "::\n");
 				if(yesno(":: Upgrade pacman first? [Y/n] ")) {
+					/* ORE
+					we should substitute existing targets with "pacman" */
 					alpm_list_free(data);
-					data = NULL;
+					return(0);
 				}
 			}
 		}
@@ -472,56 +474,30 @@ int pacman_sync(list_t *targets)
 
 			switch((int)alpm_sync_getinfo(sync, PM_SYNC_TYPE)) {
 				case PM_SYSUPG_REPLACE:
+					MSG(NL, "Replace %s by '%s-%s'\n", lpkgname, spkgname, spkgver);
 					if(yesno(":: Replace %s with %s from \"%s\"? [Y/n] ", lpkgname, spkgname, NULL/*dbs->db->treename*/)) {
-						DBG("adding '%s-%s' to replaces candidates\n", spkgname, spkgver);
-						final = list_add(final, spkg);
 					}
 
 					break;
 				case PM_SYSUPG_UPGRADE:
-					DBG("Upgrade %s (%s => %s)\n", lpkgname, lpkgver, spkgver);
-					final = list_add(final, spkg);
+					MSG(NL, "Upgrade %s (%s => %s)\n", lpkgname, lpkgver, spkgver);
+					targets = list_add(targets, strdup(spkgname));
 					break;
 				default:
 					break;
 			}
 		}
 		alpm_list_free(data);
-	} else {
-		/* process targets */
-		for(i = targets; i; i = i->next) {
-			char *treename;
-			char *targ;
-			char *targline;
-			PM_PKG *local = NULL;
+	}
 
-			targline = strdup((char *)i->data);
-			targ = index(targline, '/');
-			if(targ) {
-				*targ = '\0';
-				targ++;
-				treename = targline;
-			} else {
-				targ = targline;
-				treename = NULL;
-			}
+	/* and add targets to it
+	 */
+	for(i = targets; i; i = i->next) {
+		char *targ = i->data;
 
-			if(treename == NULL) {
-				for(j = pmc_syncs; j && !local; j = j->next) {
-					sync_t *sync = j->data;
-					local = alpm_db_readpkg(sync->db, targ);
-				}
-			} else {
-				for(j = pmc_syncs; j && !local; j = j->next) {
-					sync_t *sync = j->data;
-					if(strcmp(sync->treename, treename) == 0) {
-						local = alpm_db_readpkg(sync->db, targ);
-					}
-				}
-			}
-
-			if(local == NULL) {
-				PM_GRP *grp = NULL;
+		if(alpm_trans_addtarget(targ) == -1) {
+			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
+				PM_GRP *grp;
 				/* target not found: check if it's a group */
 				for(j = pmc_syncs; j && !grp; j = j->next) {
 					sync_t *sync = j->data;
@@ -548,68 +524,19 @@ int pacman_sync(list_t *targets)
 					}
 				}
 				if(grp == NULL) {
-					ERR(NL, "package \"%s\" not found", targ);
+					ERR(NL, "failed to add target '%s': not found in sync db\n", targ);
 					return(1);
 				}
+				continue;
+			} else {
+				ERR(NL, "failed to add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
+				retval = 1;
+				goto cleanup;
 			}
-			if(treename) {
-				FREE(targline);
-			}
-
-		}
-
-		if(!pmo_s_downloadonly && !pmo_s_printuris) {
-			/* this is an upgrade, compare versions and determine if it is necessary */
-			for(i = targets; i; i = i->next) {
-				int cmp;
-				PM_PKG *local, *sync;
-				char *lpkgname, *lpkgver, *spkgver;
-
-				local = alpm_db_readpkg(db_local, i->data);
-				lpkgname = alpm_pkg_getinfo(local, PM_PKG_NAME);
-				lpkgver = alpm_pkg_getinfo(local, PM_PKG_VERSION);
-
-				sync = alpm_db_readpkg(db_local, i->data);
-				spkgver = alpm_pkg_getinfo(sync, PM_PKG_VERSION);
-
-				cmp = alpm_pkg_vercmp(lpkgver, spkgver);
-				if(cmp > 0) {
-					/* local version is newer - get confirmation first */
-					if(!yesno(":: %s-%s: local version is newer.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
-						/* ORE
-						char *data = list_remove(targets, lpkgname);
-						free(data);*/
-					}
-				} else if(cmp == 0) {
-					/* versions are identical */
-					if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
-						/* ORE
-						char *data = list_remove(targets, lpkgname);
-						free(data);*/
-					}
-				}
-			}
-		}
-	}
-
-	/* Step 1: create a new transaction */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, NULL) == -1) {
-		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
-		retval = 1;
-		goto cleanup;
-	}
-	/* and add targets to it */
-	for(i = targets; i; i = i->next) {
-		if(alpm_trans_addtarget(i->data) == -1) {
-			ERR(NL, "failed to add target '%s' (%s)\n", (char *)i->data, alpm_strerror(pm_errno));
-			retval = 1;
-			goto cleanup;
 		}
 	}
 
 	PM_LIST_display("target :", alpm_trans_getinfo(PM_TRANS_TARGETS));
-	/* ORE
-	TBD */
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
@@ -761,29 +688,39 @@ int pacman_sync(list_t *targets)
 	/* Check integrity of files */
 	MSG(NL, "checking package integrity... ");
 
-	allgood = 1;
 	for(i = final; i; i = i->next) {
-		char /*str[PATH_MAX],*/ pkgname[PATH_MAX];
+		char /*str[PATH_MAX],*/ pkgname[PATH_MAX] = "dummy";
 		char *md5sum1, *md5sum2;
 
 		snprintf(pkgname, PATH_MAX, "%s-%s"PM_EXT_PKG, "", "");
 
 		md5sum1 = NULL;
+		/* ORE
+		md5sum1 = sync->pkg->md5sum;
+		if(md5sum1 == NULL) {
+			ERR(NL, "can't get md5 checksum for package %s\n", pkgname);
+			retval = 1;
+			continue;
+		} */
+
 		md5sum2 = NULL;
+		/* ORE
+		md5sum2 = alpm_get_md5sum();
+		if(md5sum2 == NULL) {
+			ERR(NL, "can't get md5 checksum for package %s\n", pkgname);
+			retval = 1;
+			continue;
+		} */
 
 		if(strcmp(md5sum1, md5sum2) != 0) {
-			if(allgood) {
-				printf("\n");
-			}
-			ERR(NL, "error: archive %s is corrupted\n", "");
-			allgood = 0;
+			retval = 1;
+			ERR(NL, "error: archive %s is corrupted\n", pkgname);
 		}
 
 		FREE(md5sum2);
 
 	}
-	if(!allgood) {
-		retval = 1;
+	if(retval) {
 		goto cleanup;
 	}
 	MSG(CL, "done.\n");
