@@ -100,6 +100,9 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 				_alpm_log(PM_LOG_WARNING, "replacing older version of %s in target list", pkg->name);
 				FREEPKG(j->data);
 				j->data = info;
+			} else {
+				pm_errno = PM_ERR_TRANS_DUP_TARGET;
+				goto error;
 			}
 		}
 	}
