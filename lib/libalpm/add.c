@@ -60,7 +60,6 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	/* ORE
 	load_pkg should be done only if pkg has to be added to the transaction */
 
-	_alpm_log(PM_LOG_FLOW2, "reading %s...", name);
 	info = pkg_load(name);
 	if(info == NULL) {
 		/* pm_errno is already set by pkg_load() */
