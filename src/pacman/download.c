@@ -158,6 +158,7 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 				if(!FtpChdir(server->path, control)) {
 					fprintf(stderr, "error: could not cwd to %s: %s\n", server->path,
 							FtpLastResponse(control));
+					FtpQuit(control);
 					continue;
 				}
 				if(!pmo_nopassiveftp) {
