@@ -554,6 +554,8 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 
 		/* run the post-install script if it exists  */
+		/* ORE
+		test info->scriplet before blindly calling runscriplet? */
 		snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
 		if(pmo_upgrade) {
 			_alpm_runscriptlet(handle->root, pm_install, "post_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
