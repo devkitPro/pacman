@@ -135,7 +135,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		PMList *j;
 
-		TRANS_CB(trans, PM_TRANS_EVT_DEPS_START, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
 		lp = checkdeps(db, trans->type, trans->packages);
@@ -192,13 +192,13 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		FREELISTPTR(trans->packages);
 		trans->packages = lp;
 
-		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		TRANS_CB(trans, PM_TRANS_EVT_CONFLICTS_START, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for file conflicts");
 		lp = db_find_conflicts(db, trans->packages, handle->root);
@@ -207,7 +207,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
 
-		TRANS_CB(trans, PM_TRANS_EVT_CONFLICTS_DONE, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
 	}
 
 	return(0);
@@ -328,7 +328,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 			}
 		}
 
-		_alpm_log(PM_LOG_FLOW1, "adding database entry %s-%s", info->name, info->version);
+		_alpm_log(PM_LOG_FLOW1, "updating database");
 		/* Figure out whether this package was installed explicitly by the user
 		 * or installed as a dependency for another package
 		 */
@@ -615,14 +615,18 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 		}
 
 		FREEPKG(oldpkg);
+
+		/* cache needs to be rebuilt */
+		/* ORE
+		cache should be updated and never freed/reloaded from scratch each time a
+		package is added!!! */
+		db_free_pkgcache(db);
+
 	}
 
 	/* run ldconfig if it exists */
 	_alpm_log(PM_LOG_FLOW1, "running \"ldconfig -r %s\"", handle->root);
 	_alpm_ldconfig(handle->root);
-
-	/* cache needs to be rebuilt */
-	db_free_pkgcache(db);
 
 	return(0);
 }

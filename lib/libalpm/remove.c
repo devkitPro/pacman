@@ -72,7 +72,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
-		TRANS_CB(trans, PM_TRANS_EVT_DEPS_START, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
 		if((lp = checkdeps(db, trans->type, trans->packages)) != NULL) {
@@ -107,7 +107,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		FREELISTPTR(trans->packages);
 		trans->packages = lp;
 
-		TRANS_CB(trans, PM_TRANS_EVT_DEPS_DONE, NULL, NULL);
+		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
 	return(0);
@@ -256,15 +256,15 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 			alpm_logaction("removed %s (%s)", info->name, info->version);
 		}
+
+		/* cache needs to be rebuilt */
+		db_free_pkgcache(db);
 	}
 
 	/* run ldconfig if it exists */
 	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 		_alpm_log(PM_LOG_FLOW1, "running \"ldconfig -r %s\"", handle->root);
 		_alpm_ldconfig(handle->root);
-
-		/* cache needs to be rebuilt */
-		db_free_pkgcache(db);
 	}
 
 	return(0);
