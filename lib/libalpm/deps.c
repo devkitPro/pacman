@@ -170,6 +170,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 				}
 				if(pkg_isin(p, packages)) {
 					/* this package is also in the upgrade list, so don't worry about it */
+					FREEPKG(p);
 					continue;
 				}
 				for(k = p->depends; k && !found; k = k->next) {
@@ -185,6 +186,7 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 					PMList *provides = _alpm_db_whatprovides(db, depend.name);
 					if(provides == NULL) {
 						/* not found */
+						FREEPKG(p);
 						continue;
 					}
 					/* we found an installed package that provides depend.name */
@@ -223,8 +225,9 @@ PMList *checkdeps(pmdb_t *db, unsigned short op, PMList *packages)
 						baddeps = pm_list_add(baddeps, miss);
 					}
 				}
+				FREEPKG(p);
 			}
-			pkg_free(oldpkg);
+			FREEPKG(oldpkg);
 		}
 	}
 	if(op == PM_TRANS_TYPE_ADD || op == PM_TRANS_TYPE_UPGRADE) {
@@ -671,12 +674,38 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 			}
 
 			if(!found) {
-				trail = pm_list_add(trail, sync);
-				if(resolvedeps(local, databases, sync, list, trail, data)) {
+				/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
+				 * something we're not supposed to.
+				 */
+				int usedep = 1;	
+				found = 0;
+				/* ORE
+				for(j = pmo_ignorepkg; j && !found; j = j->next) {
+					if(!strcmp(j->data, sync->pkg->name)) {
+						found = 1;
+					}
+				}
+				for(j = pmo_s_ignore; j && !found; j = j->next) {
+					if(!strcmp(j->data, sync->pkg->name)) {
+						found = 1;
+					}
+				}
+				if(found) {
+					usedep = yesno("%s requires %s, but it is in IgnorePkg.  Install anyway? [Y/n] ",
+						miss->target, sync->pkg->name);
+				}*/
+				if(usedep) {
+					trail = pm_list_add(trail, sync);
+					if(resolvedeps(local, databases, sync, list, trail, data)) {
+						goto error;
+					}
+					_alpm_log(PM_LOG_FLOW2, "adding %s-%s", sync->spkg->name, sync->spkg->version);
+					list = pm_list_add(list, sync);
+				} else {
+					_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
+					pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
 					goto error;
 				}
-				_alpm_log(PM_LOG_FLOW2, "adding %s-%s", sync->spkg->name, sync->spkg->version);
-				list = pm_list_add(list, sync);
 			} else {
 				/* cycle detected -- skip it */
 				_alpm_log(PM_LOG_FLOW2, "dependency cycle detected: %s", sync->spkg->name);

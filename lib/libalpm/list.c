@@ -166,7 +166,7 @@ PMList* pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn)
  *     list with item removed
  */
 
-PMList* list_remove(PMList* list, PMList* item)
+PMList* _alpm_list_remove(PMList* list, PMList* item)
 {
 	assert(_alpm_list_check(list));
 

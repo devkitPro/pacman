@@ -133,8 +133,10 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 
 			/* run the pre-remove scriptlet if it exists  */
-			snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
-			_alpm_runscriptlet(handle->root, pm_install, "pre_remove", info->version, NULL);
+			if(info->scriptlet) {
+				snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
+				_alpm_runscriptlet(handle->root, pm_install, "pre_remove", info->version, NULL);
+			}
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
@@ -157,7 +159,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 					continue;
 				}
 				if(S_ISDIR(buf.st_mode)) {
-					_alpm_log(PM_LOG_DEBUG, "removing directory %s", line);
+					_alpm_log(PM_LOG_DEBUG, "removing directory %s", (char *)lp->data);
 					if(rmdir(line)) {
 						/* this is okay, other packages are probably using it. */
 					}
@@ -205,7 +207,7 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 
 		/* update dependency packages' REQUIREDBY fields */
 		for(lp = info->depends; lp; lp = lp->next) {
-			PMList *last, *j;
+			PMList *j;
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
 
@@ -231,18 +233,9 @@ int remove_commit(pmdb_t *db, pmtrans_t *trans)
 				}
 			}
 			/* splice out this entry from requiredby */
-			last = pm_list_last(depinfo->requiredby);
-			/* ORE - use list_remove here? */
 			for(j = depinfo->requiredby; j; j = j->next) {
 				if(!strcmp((char*)j->data, info->name)) {
-					if(j == depinfo->requiredby) {
-						depinfo->requiredby = j->next;
-					}
-					if(j->prev)	j->prev->next = j->next;
-					if(j->next)	j->next->prev = j->prev;
-					/* free the spliced node */
-					j->prev = j->next = NULL;
-					FREELIST(j);
+					depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, j);
 					break;
 				}
 			}
