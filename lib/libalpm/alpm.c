@@ -212,6 +212,7 @@ int alpm_db_update(char *treename, char *archive)
 	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* ORE
+	Does it make sense to update the 'local' database, or should we prevent it?
 	stat(archive); */
 
 	return(db_update(handle->root, handle->dbpath, treename, archive));
@@ -535,9 +536,25 @@ int alpm_logaction(char *fmt, ...)
 	char str[LOG_STR_LEN];
 	va_list args;
 
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
 	va_start(args, fmt);
 	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
+
+	/* ORE
+	We should add a prefix to log strings depending on who called us.
+	If logaction was called by the frontend:
+		USER: <the frontend log>
+	and if called internally:
+		ALPM: <the library log>
+	Moreover, the frontend should be able to choose its prefix (USER by default?):
+		pacman: "PACMAN"
+		kpacman: "KPACMAN"
+		...
+	It allows to share the log file between several frontends and to actually 
+	know who does what */
 
 	return(_alpm_log_action(handle->usesyslog, handle->logfd, str));
 }
