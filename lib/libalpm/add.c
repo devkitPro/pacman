@@ -68,24 +68,23 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 
 	/* no additional hyphens in version strings */
 	if(strchr(info->version, '-') != strrchr(info->version, '-')) {
-		FREEPKG(info);
 		pm_errno = PM_ERR_INVALID_NAME;
-		return(-1);
+		goto error;
 	}
 
 	dummy = db_get_pkgfromcache(db, info->name);
 	/* only freshen this package if it is already installed and at a lesser version */
 	if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
 		if(dummy == NULL || rpmvercmp(dummy->version, info->version) >= 0) {
-			FREEPKG(info);
-			PM_RET_ERR(PM_ERR_PKG_CANT_FRESH, -1);
+			pm_errno = PM_ERR_PKG_CANT_FRESH;
+			goto error;
 		}
 	}
 	/* only install this package if it is not already installed */
 	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 		if(dummy) {
-			FREEPKG(info);
-			PM_RET_ERR(PM_ERR_PKG_INSTALLED, -1);
+			pm_errno = PM_ERR_PKG_INSTALLED;
+			goto error;
 		}
 	}
 
@@ -109,6 +108,10 @@ int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	trans->packages = pm_list_add(trans->packages, info);
 
 	return(0);
+
+error:
+	FREEPKG(info);
+	return(-1);
 }
 
 int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
