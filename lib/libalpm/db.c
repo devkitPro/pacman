@@ -103,17 +103,17 @@ int db_create(char *root, char *dbpath, char *treename)
  * Returns 0 on success, 1 on error
  *
  */
-int db_getlastupdate(pmdb_t *db, char *root, char *dbpath, char *ts)
+int db_getlastupdate(pmdb_t *db, char *ts)
 {
 	FILE *fp;
 	char path[PATH_MAX];
 
-	if(db == NULL) {
+	if(db == NULL || ts == NULL) {
 		return(-1);
 	}
 
 	/* get the last update time, if it's there */
-	snprintf(path, PATH_MAX, "%s%s/%s/.lastupdate", root, dbpath, db->treename);
+	snprintf(path, PATH_MAX, "%s/.lastupdate", db->path);
 	if((fp = fopen(path, "r")) == NULL) {
 		return(-1);
 	} else {
@@ -130,60 +130,26 @@ int db_getlastupdate(pmdb_t *db, char *root, char *dbpath, char *ts)
 	return(0);
 }
 
-int db_update(pmdb_t *db, char *root, char *dbpath, char *archive, char *ts)
+/* writes the dbpath/.lastupdate with the contents of *ts
+ */
+int db_setlastupdate(pmdb_t *db, char *ts)
 {
-	char path[PATH_MAX];
+	FILE *fp;
+	char file[PATH_MAX];
 
-	if(db == NULL) {
+	if(db == NULL || ts == NULL || strlen(ts) == 0) {
 		return(-1);
 	}
 
-	snprintf(path, PATH_MAX, "%s%s/%s", root, dbpath, db->treename);
-
-	/* ORE
-	if(ts && strlen(ts)) {
-		Should we refuse to update the db if it is already uptodate?
-		if(ts != db_getlastupdate(db)) {
-			RET_ERR(PM_ERR_DB_UPTODATE, -1);
-		}
-	}*/
-
-	/* remove the old dir */
-	/* ORE - do we want to include alpm.h and use the log mechanism from db.c?
-	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", path);*/
-	/* ORE
-	We should only rmrf the database content, and not the top directory, in case
-	a (DIR *) structure is associated with it (i.e a call to db_open). */
-	_alpm_rmrf(path);
-
-	/* make the new dir */
-	if(db_create(root, dbpath, db->treename) != 0) {
+	snprintf(file, PATH_MAX, "%s/.lastupdate", db->path);
+	if((fp = fopen(file, "w")) == NULL) {
 		return(-1);
 	}
-
-	/* uncompress the sync database */
-	/* ORE
-	_alpm_log(PM_LOG_FLOW2, "Unpacking %s...\n", archive);*/
-	if(_alpm_unpack(archive, path, NULL)) {
-		return(-1);
-	}
-
-	/* writes the db->path/.lastupdate with the contents of *ts */
-	if(ts && strlen(ts)) {
-		FILE *fp;
-		char file[PATH_MAX];
-
-		snprintf(file, PATH_MAX, "%s/.lastupdate", path);
-		if((fp = fopen(file, "w")) == NULL) {
-			return(-1);
-		}
-		if(fputs(ts, fp) <= 0) {
-			fclose(fp);
-			return(-1);
-		}
+	if(fputs(ts, fp) <= 0) {
 		fclose(fp);
+		return(-1);
 	}
-
+	fclose(fp);
 	return(0);
 }
 

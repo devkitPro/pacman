@@ -174,7 +174,6 @@ static int sync_synctree(list_t *syncs)
 		sync_t *sync = (sync_t *)i->data;
 
 		/* get the lastupdate time */
-		snprintf(path, PATH_MAX, "%s/%s", path, sync->treename);
 		if(alpm_db_getlastupdate(sync->db, lastupdate) == -1) {
 			vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
 		}
@@ -197,13 +196,12 @@ static int sync_synctree(list_t *syncs)
 		} else {
 			snprintf(path, PATH_MAX, "%s%s/%s"PM_EXT_DB, root, dbpath, sync->treename);
 			if(alpm_db_update(sync->db, path, newmtime) == -1) {
-				fprintf(stderr, "error: failed to set database timestamp (%s)\n", alpm_strerror(pm_errno));
+				fprintf(stderr, "error: failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
 				success--;
 			}
 			/* remove the .tar.gz */
 			unlink(path);
 		}
-
 	}
 
 	return(success);

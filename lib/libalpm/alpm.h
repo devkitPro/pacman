@@ -296,6 +296,7 @@ extern enum __pmerrno_t {
 	PM_ERR_DB_NOT_FOUND,
 	PM_ERR_DB_NOT_NULL,
 	PM_ERR_DB_WRITE,
+	PM_ERR_DB_UPTODATE,
 	/* Cache */
 	PM_ERR_CACHE_NULL,
 	/* Configuration */
@@ -329,7 +330,8 @@ extern enum __pmerrno_t {
 	PM_ERR_FILE_CONFLICTS,
 	/* Misc */
 	PM_ERR_USER_ABORT,
-	PM_ERR_INTERNAL_ERROR
+	PM_ERR_INTERNAL_ERROR,
+	PM_ERR_XXX
 } pm_errno;
 
 char *alpm_strerror(int err);

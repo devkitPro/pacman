@@ -209,27 +209,67 @@ int alpm_db_getlastupdate(PM_DB *db, char *ts)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(ts != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	return(db_getlastupdate(db, handle->root, handle->dbpath, ts));
+	if(!pm_list_is_ptrin(handle->dbs_sync, db)) {
+		printf("dn not in dbs_sync 1\n");
+		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
+	}
+
+	return(db_getlastupdate(db, ts));
 }
 
 int alpm_db_update(PM_DB *db, char *archive, char *ts)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	/* ORE
-	Does it make sense to update the 'local' database, or should we prevent it? */
+	if(!pm_list_is_ptrin(handle->dbs_sync, db)) {
+		printf("db not in dbs_sync 2\n");
+		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
+	}
 
-	/* ORE
-	check if the database is registered: if not, return an error */
+	if(ts && strlen(ts) != 0) {
+		char lastupdate[15];
+		if(db_getlastupdate(db, lastupdate) != -1) {
+			if(strcmp(ts, lastupdate) == 0) {
+				RET_ERR(PM_ERR_DB_UPTODATE, -1);
+			}
+		}
+	}
 
 	/* ORE
 	stat() the archive to check it exists */
 
-	return(db_update(db, handle->root, handle->dbpath, archive, ts));
+	/* remove the old dir */
+	_alpm_log(PM_LOG_FLOW2, "removing %s (if it exists)\n", db->path);
+	/* ORE
+	We should db_remove each db entry, and not rmrf the top directory */
+	_alpm_rmrf(db->path);
+
+	/* make the new dir */
+	if(db_create(handle->root, handle->dbpath, db->treename) != 0) {
+		RET_ERR(PM_ERR_DB_CREATE, -1);
+	}
+
+	/* uncompress the sync database */
+	/* ORE
+	we should not simply unpack the archive, but better parse it and 
+	db_write each entry */
+	_alpm_log(PM_LOG_FLOW2, "Unpacking %s...\n", archive);
+	if(_alpm_unpack(archive, db->path, NULL)) {
+		RET_ERR(PM_ERR_XXX, -1);
+	}
+
+	if(ts && strlen(ts) != 0) {
+		if(db_setlastupdate(db, ts) == -1) {
+			RET_ERR(PM_ERR_XXX, -1);
+		}
+	}
+
+	return(0);
 }
 
 PM_PKG *alpm_db_readpkg(PM_DB *db, char *name)
@@ -268,24 +308,6 @@ PM_LIST *alpm_db_getgrpcache(PM_DB *db)
 	ASSERT(db != NULL, return(NULL));
 
 	return(db_get_grpcache(db));
-}
-
-PM_LIST *alpm_db_nextgrp(PM_LIST *cache)
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(cache != NULL, return(NULL));
-
-	return(cache->next);
-}
-
-PM_GRP *alpm_db_getgrp(PM_LIST *cache)
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(cache != NULL, return(NULL));
-
-	return(cache->data);
 }
 
 /*

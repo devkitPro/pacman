@@ -49,8 +49,8 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename);
 void db_close(pmdb_t *db);
 int db_create(char *root, char *dbpath, char *treename);
 
-int db_getlastupdate(pmdb_t *db, char *root, char *dbpath, char *ts);
-int db_update(pmdb_t *db, char *root, char *dbpath, char *archive, char *ts);
+int db_getlastupdate(pmdb_t *db, char *ts);
+int db_setlastupdate(pmdb_t *db, char *ts);
 
 void db_rewind(pmdb_t *db);
 pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq);
