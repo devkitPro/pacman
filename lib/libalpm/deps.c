@@ -601,8 +601,7 @@ int resolvedeps(pmdb_t *local, PMList *databases, pmsync_t *sync, PMList *list, 
 					s = sync_new(PM_SYSUPG_DEPEND, NULL, !!!provides->data!!!);
 					if(s == NULL) {
 						pm_errno = PM_ERR_MEMORY;
-						FREELIST(deps);
-						return(-1);
+						goto error;
 					}
 					sync->pkg->reason = PM_PKG_REASON_DEPEND;
 				}
