@@ -195,7 +195,7 @@ enum {
 #define PM_TRANS_FLAG_RECURSE 0x20
 #define PM_TRANS_FLAG_DBONLY  0x40
 
-/* Callback events */
+/* Events */
 enum {
 	PM_TRANS_EVT_DEPS_START = 1,
 	PM_TRANS_EVT_DEPS_DONE,
