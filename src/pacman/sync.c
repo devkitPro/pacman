@@ -87,12 +87,12 @@ static int sync_cleancache(int level)
 				char *str = i->data;
 				char name[256], version[64];
 
-				if(strstr(str, ".pkg.tar.gz") == NULL) {
+				if(strstr(str, PM_EXT_PKG) == NULL) {
 					clean = list_add(clean, strdup(str));
 					continue;
 				}
 				/* we keep partially downloaded files */
-				if(strstr(str, ".pkg.tar.gz.part")) {
+				if(strstr(str, PM_EXT_PKG".part")) {
 					continue;
 				}
 				if(split_pkgname(str, name, version) != 0) {
@@ -103,10 +103,10 @@ static int sync_cleancache(int level)
 					char *s = j->data;
 					char n[256], v[64];
 
-					if(strstr(s, ".pkg.tar.gz") == NULL) {
+					if(strstr(s, PM_EXT_PKG) == NULL) {
 						continue;
 					}
-					if(strstr(s, ".pkg.tar.gz.part")) {
+					if(strstr(s, PM_EXT_PKG".part")) {
 						continue;
 					}
 					if(split_pkgname(s, n, v) != 0) {
@@ -166,7 +166,7 @@ static int sync_synctree(list_t *syncs)
 		sync_t *sync = (sync_t *)i->data;
 
 		/* build a one-element list */
-		snprintf(path, PATH_MAX, "%s.db.tar.gz", sync->treename);
+		snprintf(path, PATH_MAX, "%s"PM_EXT_DB, sync->treename);
 		files = list_add(files, strdup(path));
 
 		success = 1;
@@ -176,7 +176,7 @@ static int sync_synctree(list_t *syncs)
 		}
 
 		FREELIST(files);
-		snprintf(path, PATH_MAX, "%s/%s.db.tar.gz", pmo_dbpath, sync->treename);
+		snprintf(path, PATH_MAX, "%s/%s"PM_EXT_DB, pmo_dbpath, sync->treename);
 
 		if(success) {
 			char ldir[PATH_MAX];
@@ -759,7 +759,7 @@ int pacman_sync(list_t *targets)
 		char /*str[PATH_MAX],*/ pkgname[PATH_MAX];
 		char *md5sum1, *md5sum2;
 
-		snprintf(pkgname, PATH_MAX, "%s-%s.pkg.tar.gz", "", "");
+		snprintf(pkgname, PATH_MAX, "%s-%s"PM_EXT_PKG, "", "");
 
 		md5sum1 = NULL;
 		md5sum2 = NULL;

@@ -270,11 +270,11 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 				snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
 				strncpy(sync_fnm, fn, 24);
 				/* drop filename extension */
-				ptr = strstr(fn, ".db.tar.gz");
+				ptr = strstr(fn, PM_EXT_DB);
 				if(ptr && (ptr-fn) < 24) {
 					sync_fnm[ptr-fn] = '\0';
 				}
-				ptr = strstr(fn, ".pkg.tar.gz");
+				ptr = strstr(fn, PM_EXT_PKG);
 				if(ptr && (ptr-fn) < 24) {
 					sync_fnm[ptr-fn] = '\0';
 				}

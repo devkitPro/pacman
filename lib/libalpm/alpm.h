@@ -25,6 +25,9 @@
  * Arch Linux Package Management library
  */
 
+#define PM_EXT_PKG ".pkg.tar.gz"
+#define PM_EXT_DB  ".db.tar.gz"
+
 /* 
  * Structures (opaque)
  */
@@ -44,7 +47,7 @@ typedef struct __pmdepmissing_t PM_DEPMISS; */
  */
 
 /* Version */
-#define ALPM_VERSION "0.1.0"
+#define PM_VERSION "0.1.0"
 
 int alpm_initialize(char *root);
 int alpm_release();

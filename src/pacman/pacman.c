@@ -609,7 +609,7 @@ void usage(int op, char *myname)
 void version()
 {
 	printf("\n");
-	printf(" .--.                  Pacman v%s\n", ALPM_VERSION);
+	printf(" .--.                  Pacman v%s\n", PM_VERSION);
 	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2003 Judd Vinet <jvinet@zeroflux.org>\n");
 	printf("\\  '-. '-'  '-'  '-'  \n");
 	printf(" '--'                  This program may be freely redistributed under\n");

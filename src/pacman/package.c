@@ -178,7 +178,7 @@ int split_pkgname(char *target, char *name, char *version)
 	}
 	strncpy(tmp, p, 512);
 	/* trim file extension (if any) */
-	if((p = strstr(tmp, ".pkg.tar.gz"))) {
+	if((p = strstr(tmp, PM_EXT_PKG))) {
 		*p = 0;
 	}
 
