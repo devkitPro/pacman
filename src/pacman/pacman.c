@@ -233,25 +233,25 @@ int pacman_deptest(list_t *targets)
 	PM_PKG *dummy;
 
 	if(pmo_d_vertest) {
-		/* ORE
 		if(targets && targets->data && targets->next && targets->next->data) {
-			int ret = rpmvercmp(targets->data, targets->next->data);
+			int ret = alpm_pkg_vercmp(targets->data, targets->next->data);
 			printf("%d\n", ret);
 			return(ret);
-		}*/
+		}
 		return(0);
 	}
 
 	/* we create a transaction to hold a dummy package to be able to use
-	 * pm_trans_prepare() */
-	/* ORE
-	trans = alpm_trans_new(PM_TRANS_ADD, 0);
-	if(trans == NULL) {
-		FREEPKG(dummy);
-		ERR(NL, "error: can't allocate %d bytes\n", sizeof(pm_pkginfo_t));
-		exit(1);
+	 * deps checkings from alpm_trans_prepare() */
+	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL) == -1) {
+		ERR(NL, "error: %s\n", alpm_strerror(pm_errno));
+		return(1);
 	}
 
+	dummy = NULL;
+	/* ORE
+	find a way to create a fake package and to add it to the transaction
+	targets
 	dummy = (pm_pkginfo_t *)malloc(sizeof(pm_pkginfo_t));
 	if(dummy == NULL) {
 		ERR(NL, "error: can't allocate %d bytes\n", sizeof(pm_pkginfo_t));
@@ -267,9 +267,16 @@ int pacman_deptest(list_t *targets)
 
 	trans->targets = list_add(trans->targets, strdup(dummy->name));*/
 
+	if(alpm_trans_addtarget(NULL) == -1) {
+		ERR(NL, "error: %s\n", alpm_strerror(pm_errno));
+		alpm_trans_release();
+		return(1);
+	}
+
 	if(alpm_trans_prepare(&data) == -1) {
 		int ret = 126;
 		list_t *synctargs = NULL;
+
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
@@ -300,6 +307,7 @@ int pacman_deptest(list_t *targets)
 				ret = 127;
 			break;
 		}
+
 		/* attempt to resolve missing dependencies */
 		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
 		if(ret == 126 && synctargs != NULL) {
@@ -309,11 +317,8 @@ int pacman_deptest(list_t *targets)
 			}
 		}
 		FREELIST(synctargs);
-		FREEPKG(dummy);
 		return(ret);
 	}
-
-	FREEPKG(dummy);
 
 	return(0);
 }
