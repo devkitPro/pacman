@@ -29,8 +29,6 @@
 #include "list.h"
 #include "package.h"
 
-extern char *pmo_root;
-
 /* Display the content of an installed package
  */
 void dump_pkg_full(PM_PKG *pkg, int level)
@@ -84,6 +82,9 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 
 	/*if(level > 1 && info->backup) {
 		PM_LIST *i;
+		char *root;
+
+		alpm_get_option(PM_OPT_ROOT, (long *)&root);
 		fprintf(stdout, "\n");
 		for(i = alpm_first_entry(info->backup); i; i = alpm_next_entry(i)) {
 			struct stat buf;
@@ -98,7 +99,7 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 			}
 			*ptr = '\0';
 			ptr++;
-			snprintf(path, PATH_MAX-1, "%s%s", pmo_root, str);
+			snprintf(path, PATH_MAX-1, "%s%s", root, str);
 			if(!stat(path, &buf)) {
 				md5sum = alpm_get_md5sum(path);
 				if(md5sum == NULL) {

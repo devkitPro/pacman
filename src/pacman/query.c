@@ -33,7 +33,6 @@
 #include "query.h"
 #include "pacman.h"
 
-extern char *pmo_root;
 extern unsigned short pmo_q_isfile;
 extern unsigned short pmo_q_info;
 extern unsigned short pmo_q_list;
@@ -49,6 +48,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 	int gotcha = 0;
 	char rpath[PATH_MAX];
 	PM_LIST *lp;
+	char *root;
 
 	if(db == NULL) {
 		return(0);
@@ -62,6 +62,8 @@ static int query_fileowner(PM_DB *db, char *filename)
 		fprintf(stderr, "error: %s is not a file.\n", filename);
 		return(1);
 	}
+
+	alpm_get_option(PM_OPT_ROOT, (long *)&root);
 
 	for(lp = alpm_db_getpkgcache(db); lp && !gotcha; lp = alpm_list_next(lp)) {
 		PM_PKG *info;
@@ -79,7 +81,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 		for(i = alpm_pkg_getinfo(info, PM_PKG_FILES); i && !gotcha; i = alpm_list_next(i)) {
 			char path[PATH_MAX];
 
-			snprintf(path, PATH_MAX, "%s%s", pmo_root, (char *)alpm_list_getdata(i));
+			snprintf(path, PATH_MAX, "%s%s", root, (char *)alpm_list_getdata(i));
 			if(!strcmp(path, rpath)) {
 				printf("%s is owned by %s %s\n", filename, pkgname,
 				       (char *)alpm_pkg_getinfo(info, PM_PKG_VERSION));
