@@ -662,10 +662,6 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 
 	FREELIST(deps);
 
-	/*if(*data) {
-		RET_ERR(PM_ERR_UNRESOLVABLE_DEPS, -1);
-	}*/
-
 	return(0);
 
 error:
