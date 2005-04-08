@@ -338,4 +338,47 @@ int pkg_isin(pmpkg_t *needle, PMList *haystack)
 	return(0);
 }
 
+int pkg_splitname(char *target, char *name, char *version)
+{
+	char tmp[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+7+1];
+	char *p, *q;
+
+	if(target == NULL) {
+		return(-1);
+	}
+
+	/* trim path name (if any) */
+	if((p = strrchr(target, '/')) == NULL) {
+		p = target;
+	} else {
+		p++;
+	}
+	STRNCPY(tmp, p, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+7+1);
+	/* trim file extension (if any) */
+	if((p = strstr(tmp, PM_EXT_PKG))) {
+		*p = 0;
+	}
+
+	p = tmp + strlen(tmp);
+
+	for(q = --p; *q && *q != '-'; q--);
+	if(*q != '-' || q == tmp) {
+		return(-1);
+	}
+	for(p = --q; *p && *p != '-'; p--);
+	if(*p != '-' || p == tmp) {
+		return(-1);
+	}
+	if(version) {
+		STRNCPY(version, p+1, PKG_VERSION_LEN);
+	}
+	*p = 0;
+
+	if(name) {
+		STRNCPY(name, tmp, PKG_NAME_LEN);
+	}
+
+	return(0);
+}
+
 /* vim: set ts=2 sw=2 noet: */
