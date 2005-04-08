@@ -481,13 +481,11 @@ int pacman_sync(list_t *targets)
 
 			switch((int)alpm_sync_getinfo(sync, PM_SYNC_TYPE)) {
 				case PM_SYNC_TYPE_REPLACE:
-					MSG(NL, "Replace %s by '%s-%s'\n", lpkgname, spkgname, spkgver);
 					if(yesno(":: Replace %s with %s from \"%s\"? [Y/n] ", lpkgname, spkgname, NULL/*dbs->db->treename*/)) {
 					}
 
 					break;
 				case PM_SYNC_TYPE_UPGRADE:
-					MSG(NL, "Upgrade %s (%s => %s)\n", lpkgname, lpkgver, spkgver);
 					targets = list_add(targets, strdup(spkgname));
 					break;
 				default:
@@ -504,7 +502,7 @@ int pacman_sync(list_t *targets)
 		char *targ = i->data;
 		if(alpm_trans_addtarget(targ) == -1) {
 			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
-				PM_GRP *grp;
+				PM_GRP *grp = NULL;
 				list_t *j;
 				/* target not found: check if it's a group */
 				for(j = pmc_syncs; j && !grp; j = j->next) {
@@ -513,10 +511,8 @@ int pacman_sync(list_t *targets)
 					if(grp) {
 						PM_LIST *k, *pkgs;
 						MSG(NL, ":: group %s:\n", targ);
-
 						pkgs = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
 						PM_LIST_display("   ", pkgs);
-
 						if(yesno(":: Install whole content? [Y/n] ")) {
 							for(k = alpm_list_first(pkgs); k; k = alpm_list_next(k)) {
 								targets = list_add(targets, strdup(alpm_list_getdata(k)));
@@ -536,7 +532,6 @@ int pacman_sync(list_t *targets)
 					retval = 1;
 					goto cleanup;
 				}
-				continue;
 			} else {
 				ERR(NL, "failed to add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
 				retval = 1;
