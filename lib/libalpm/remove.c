@@ -87,6 +87,8 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 						info = db_scan(db, miss->depend.name, INFRQ_ALL);
 						if(!pkg_isin(info, trans->packages)) {
 							trans->packages = pm_list_add(trans->packages, info);
+						} else {
+							FREEPKG(info);
 						}
 					}
 					FREELIST(lp);
