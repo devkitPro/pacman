@@ -120,11 +120,11 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 {
 	PMList *lp;
 
-	*data = NULL;
-
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	*data = NULL;
 
 	/* Check dependencies
 	 */
