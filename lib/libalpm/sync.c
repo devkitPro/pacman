@@ -204,7 +204,7 @@ int sync_sysupgrade(PMList **data)
 				pm_errno = PM_ERR_MEMORY;
 				goto error;
 			}
-			_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (upgrade: %s => %s)",
+			_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (%s => %s)",
 				local->name, local->version, local->version, spkg->version);
 			targets = pm_list_add(targets, sync);
 		}
@@ -234,6 +234,7 @@ int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name)
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(trans->flags & PM_TRANS_FLAG_SYSUPG) {
+		RET_ERR(PM_ERR_XXX, -1);
 	}
 
 	strncpy(targline, name, (PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1);
@@ -255,9 +256,6 @@ int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name)
 		for(j = dbs_sync; j && !spkg; j = j->next) {
 			pmdb_t *dbs = j->data;
 			spkg = db_get_pkgfromcache(dbs, targ);
-			if(spkg == NULL) {
-				continue;
-			}
 		}
 	}
 	if(spkg == NULL) {
@@ -284,12 +282,12 @@ int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name)
 		}
 	}
 
-	sync = sync_new(PM_SYNC_TYPE_UPGRADE, local, spkg);
-	if(sync == NULL) {
-		RET_ERR(PM_ERR_MEMORY, -1);
-	}
 	/* add the package to the transaction */
-	if(!find_pkginsync(sync->spkg->name, trans->packages)) {
+	if(!find_pkginsync(spkg->name, trans->packages)) {
+		sync = sync_new(PM_SYNC_TYPE_UPGRADE, local, spkg);
+		if(sync == NULL) {
+			RET_ERR(PM_ERR_MEMORY, -1);
+		}
 		trans->packages = pm_list_add(trans->packages, sync);
 	}
 
@@ -305,9 +303,17 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+
+	*data = NULL;
 
 	if(trans->packages == NULL) {
 		return(0);
+	}
+
+	for(i = trans->packages; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		list = pm_list_add(list, sync->spkg);
 	}
 
 	/* Resolve targets dependencies */
@@ -319,17 +325,28 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			list = pm_list_add(list, sync->spkg);
 		}
 		trail = pm_list_new();
-		for(i = list; i; i = i->next) {
-			pmpkg_t *spkg = i->data;
+
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			pmpkg_t *spkg = sync->spkg;
 			_alpm_log(PM_LOG_FLOW1, "resolving dependencies for package %s", spkg->name);
-			if(resolvedeps(handle->db_local, handle->dbs_sync, spkg, trans->packages, trail) == -1) {
+			if(resolvedeps(handle->db_local, handle->dbs_sync, spkg, list, trail) == -1) {
 				/* pm_errno is set by resolvedeps */
 				goto error;
 			}
 			/* ORE
-			if called from makepkg, reason should be set to REASON_DEPEND */
-			spkg->reason = PM_PKG_REASON_EXPLICIT;
+			if called from makepkg, reason should be set to REASON_DEPEND
+			spkg->reason = PM_PKG_REASON_EXPLICIT;*/
 		}
+
+		for(i = list; i; i = i->next) {
+			pmpkg_t *spkg = i->data;
+			if(!find_pkginsync(spkg->name, trans->packages)) {
+				pmsyncpkg_t *sync = sync_new(PM_SYNC_TYPE_DEPEND, NULL, spkg);
+				trans->packages = pm_list_add(trans->packages, sync);
+			}
+		}
+
 		FREELISTPTR(list);
 		FREELISTPTR(trail);
 
@@ -338,34 +355,28 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 
 	/* ORE
 	check for inter-conflicts and whatnot */
-	for(i = trans->packages; i; i = i->next) {
-		pmsyncpkg_t *sync = i->data;
-		if(sync) {
-			list = pm_list_add(list, sync->spkg);
-		}
-	}
+	_alpm_log(PM_LOG_FLOW1, "looking for inter-conflicts");
 	deps = checkdeps(db, PM_TRANS_TYPE_UPGRADE, list);
 	if(deps) {
 		int errorout = 0;
 		for(i = deps; i; i = i->next) {
 			pmdepmissing_t *miss = i->data;
 			if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
-				/*if(!errorout) {
-					fprintf(stderr, "error: unresolvable dependencies:\n");
+				if(!errorout) {
 					errorout = 1;
 				}
-				fprintf(stderr, "  %s: requires %s", miss->target, miss->depend.name);
-				switch(miss->depend.mod) {
-					case PM_DEP_MOD_EQ:  fprintf(stderr, "=%s",  miss->depend.version); break;
-					case PM_DEP_MOD_GE:  fprintf(stderr, ">=%s", miss->depend.version); break;
-					case PM_DEP_MOD_LE:  fprintf(stderr, "<=%s", miss->depend.version); break;
+				if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+					FREELIST(deps);
+					FREELIST(*data);
+					RET_ERR(PM_ERR_MEMORY, -1);
 				}
-				if(miss->type == PM_DEP_TYPE_DEPEND) {
-					fprintf(stderr, " but it is not in the sync db\n");
-				} else {
-					fprintf(stderr, "\n");
-				}*/
+				*miss = *(pmdepmissing_t *)i->data;
+				*data = pm_list_add(*data, miss);
 			}
+		}
+		if(errorout) {
+			FREELIST(deps);
+			RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 		}
 		/* ORE
 		then look for conflicts */
