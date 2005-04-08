@@ -333,22 +333,57 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 	ASSERT(pkg != NULL, return(NULL));
 
 	/* Update the cache package entry if needed */
-	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local) {
+	if(pkg->origin == PKG_FROM_CACHE) {
 		switch(parm) {
+			/* Desc entry */
+			/* ORE
+			not needed: the cache is loaded with DESC and DEPENDS by default
+			case PM_PKG_NAME:
+			case PM_PKG_VERSION:
+			case PM_PKG_DESC:
+			case PM_PKG_GROUPS:
+			case PM_PKG_URL:
+			case PM_PKG_LICENSE:
+			case PM_PKG_ARCH:
+			case PM_PKG_BUILDDATE:
+			case PM_PKG_INSTALLDATE:
+			case PM_PKG_PACKAGER:
+			case PM_PKG_SIZE:
+			case PM_PKG_REASON:
+			case PM_PKG_REPLACES:
+			case PM_PKG_MD5SUM:
+				if(!(pkg->infolevel & INFRQ_DESC)) {
+					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
+					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					db_read(pkg->data, target, INFRQ_DESC, pkg);
+				}
+			break;*/
+			/* Depends entry */
+			/* ORE
+			not needed: the cache is loaded with DESC and DEPENDS by default
+			case PM_PKG_DEPENDS:
+			case PM_PKG_REQUIREDBY:
+			case PM_PKG_CONFLICTS:
+			case PM_PKG_PROVIDES:
+				if(!(pkg->infolevel & INFRQ_DEPENDS)) {
+					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
+					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					db_read(pkg->data, target, INFRQ_DEPENDS, pkg);
+				}
+			break;*/
+			/* Files entry */
 			case PM_PKG_FILES:
 			case PM_PKG_BACKUP:
-				if(!(pkg->infolevel & INFRQ_FILES)) {
+				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_FILES)) {
 					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
-
 					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
-					db_read(pkg->data, pkg->name, INFRQ_FILES, pkg);
+					db_read(pkg->data, target, INFRQ_FILES, pkg);
 				}
 			break;
-
+			/* Scriptlet */
 			case PM_PKG_SCRIPLET:
-				if(!(pkg->infolevel & INFRQ_SCRIPLET)) {
+				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_SCRIPLET)) {
 					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
-
 					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_SCRIPLET, pkg);
 				}
