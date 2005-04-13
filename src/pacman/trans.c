@@ -50,9 +50,13 @@ void cb_trans(unsigned short event, void *data1, void *data2)
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
 			MSG(NL, "resolving dependencies... ");
 		break;
+		case PM_TRANS_EVT_INTERCONFLICTS_START:
+			MSG(NL, "looking inter-conflicts... ");
+		break;
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
+		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
 			MSG(CL, "done.\n");
 		break;
 		case PM_TRANS_EVT_ADD_START:

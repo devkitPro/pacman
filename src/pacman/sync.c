@@ -366,14 +366,10 @@ int pacman_sync(list_t *targets)
 	int retval = 0;
 	list_t *final = NULL;
 	list_t *i;
-	PM_LIST *data;
+	PM_LIST *packages, *data;
 	char *root;
 	char ldir[PATH_MAX];
 	int varcache = 1;
-	int done;
-	int count;
-	sync_t *current = NULL;
-	list_t *processed = NULL;
 	list_t *files = NULL;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
@@ -549,11 +545,11 @@ int pacman_sync(list_t *targets)
 
 	/* list targets */
 	if(!pmo_s_printuris) {
-		PM_LIST *packages, *lp;
 		list_t *list = NULL;
 		char *str;
 		unsigned long totalsize = 0;
 		double mb;
+		PM_LIST *lp;
 		/* ORE
 		for(i = rmtargs; i; i = i->next) {
 			list = list_add(list, strdup(i->data));
@@ -603,130 +599,108 @@ int pacman_sync(list_t *targets)
 		MSG(NL, "\nTotal Package Size:   %.1f MB\n", mb);
 		FREELIST(list);
 		FREE(str);
-	}
 
-	/* get confirmation */
-	if(pmo_s_downloadonly) {
-		if(pmo_noconfirm) {
-			MSG(NL, "\nBeginning download...\n");
-			confirm = 1;
-		} else {
-			MSG(NL, "\n");
-			confirm = yesno("Proceed with download? [Y/n] ");
-		}
-	} else {
-		/* don't get any confirmation if we're called from makepkg */
-		if(pmo_d_resolve || pmo_s_printuris) {
-			confirm = 1;
-		} else {
+		/* get confirmation */
+		if(pmo_s_downloadonly) {
 			if(pmo_noconfirm) {
-				MSG(NL, "\nBeginning upgrade process...\n");
+				MSG(NL, "\nBeginning download...\n");
 				confirm = 1;
 			} else {
 				MSG(NL, "\n");
-				confirm = yesno("Proceed with upgrade? [Y/n] ");
+				confirm = yesno("Proceed with download? [Y/n] ");
+			}
+		} else {
+			/* don't get any confirmation if we're called from makepkg */
+			if(pmo_d_resolve) {
+				confirm = 1;
+			} else {
+				if(pmo_noconfirm) {
+					MSG(NL, "\nBeginning upgrade process...\n");
+					confirm = 1;
+				} else {
+					MSG(NL, "\n");
+					confirm = yesno("Proceed with upgrade? [Y/n] ");
+				}
 			}
 		}
-	}
-	if(!confirm) {
-		retval = 1;
-		goto cleanup;
+		if(!confirm) {
+			retval = 1;
+			goto cleanup;
+		}
 	}
 
 	/* group sync records by repository and download */
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
-	snprintf(ldir, PATH_MAX, "%s"CACHEDIR, root);
-	done = 0;
-	count = 0;
-	processed = NULL;
-	current = NULL;
-	while(!done) {
+	snprintf(ldir, PATH_MAX, "%s" CACHEDIR, root);
+	for(i = pmc_syncs; i; i = i->next) {
 		PM_LIST *lp;
-		printf("in while\n");
-		if(current) {
-			processed = list_add(processed, current);
-			current = NULL;
-		}
-		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
-			PM_PKG *sync = alpm_list_getdata(lp);
-			if(current == NULL) {
-				PM_DB *dbs = alpm_pkg_getinfo(sync, PM_PKG_DB);
-				/* we're starting on a new repository */
-				if(!list_is_ptrin(dbs, processed)) {
-					/* ORE
-					current = dbs;*/
-					current = NULL;
-				}
-			}
-			/*if(current && !strcmp(current->treename, sync->dbs->sync->treename)) {
+		sync_t *current = i->data;
+
+		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
+			PM_SYNCPKG *sync = alpm_list_getdata(lp);
+			PM_PKG *spkg = alpm_sync_getinfo(sync, PM_SYNC_SYNCPKG);
+			PM_DB *dbs = alpm_pkg_getinfo(spkg, PM_PKG_DB);
+
+			if(current->db == dbs) {
 				struct stat buf;
 				char path[PATH_MAX];
+				char *pkgname, *pkgver;
+
+				pkgname = alpm_pkg_getinfo(spkg, PM_PKG_NAME);
+				pkgver = alpm_pkg_getinfo(spkg, PM_PKG_VERSION);
 
 				if(pmo_s_printuris) {
-					snprintf(path, PATH_MAX, "%s-%s%s", sync->pkg->name, sync->pkg->version, PKGEXT);
-					files = list_add(files, strdup(path));
+					server_t *server = (server_t*)current->servers->data;
+					snprintf(path, PATH_MAX, "%s-%s" PM_EXT_PKG, pkgname, pkgver);
+					if(!strcmp(server->protocol, "file")) {
+						MSG(NL, "%s://%s%s\n", server->protocol, server->path, path);
+					} else {
+						MSG(NL, "%s://%s%s%s\n", server->protocol,
+						    server->server, server->path, path);
+					}
 				} else {
-					snprintf(path, PATH_MAX, "%s/%s-%s%s",
-						ldir, sync->pkg->name, sync->pkg->version, PKGEXT);
+					snprintf(path, PATH_MAX, "%s/%s-%s" PM_EXT_PKG, ldir, pkgname, pkgver);
 					if(stat(path, &buf)) {
-						// file is not in the cache dir, so add it to the list //
-						snprintf(path, PATH_MAX, "%s-%s%s", sync->pkg->name, sync->pkg->version, PKGEXT);
+						/* file is not in the cache dir, so add it to the list */
+						snprintf(path, PATH_MAX, "%s-%s" PM_EXT_PKG, pkgname, pkgver);
 						files = list_add(files, strdup(path));
 					} else {
-						vprint(" %s-%s%s is already in the cache\n", sync->pkg->name, sync->pkg->version, PKGEXT);
-						count++;
+						vprint(" %s-%s" PM_EXT_PKG " is already in the cache\n", pkgname, pkgver);
 					}
 				}
-			}*/
+			}
 		}
 
 		if(files) {
-			if(pmo_s_printuris) {
-				list_t *j;
-				server_t *server = (server_t*)current->servers->data;
-				for(j = files; j; j = j->next) {
-					if(!strcmp(server->protocol, "file")) {
-						MSG(NL, "%s://%s%s\n", server->protocol, server->path,
-							(char *)j->data);
-					} else {
-						MSG(NL, "%s://%s%s%s\n", server->protocol,
-							server->server, server->path, (char *)j->data);
-					}
-				}
-			} else {
-				struct stat buf;
-
-				MSG(NL, "\n:: Retrieving packages from %s...\n", current->treename);
-				fflush(stdout);
-				if(stat(ldir, &buf)) {
-					/* no cache directory.... try creating it */
-					MSG(NL, "warning: no %s cache exists.  creating...", ldir);
-					alpm_logaction("warning: no %s cache exists.  creating...", ldir);
-					if(makepath(ldir)) {
-						/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
-						 * the package afterwards.
-						 */
-						MSG(NL, "warning: couldn't create package cache, using /tmp instead");
-						alpm_logaction("warning: couldn't create package cache, using /tmp instead");
-						snprintf(ldir, PATH_MAX, "/tmp");
-						varcache = 0;
-					}
-				}
-				if(downloadfiles(current->servers, ldir, files)) {
-					ERR(NL, "failed to retrieve some files from %s\n", current->treename);
-					retval = 1;
-					goto cleanup;
+			struct stat buf;
+			MSG(NL, "\n:: Retrieving packages from %s...\n", current->treename);
+			fflush(stdout);
+			if(stat(ldir, &buf)) {
+				/* no cache directory.... try creating it */
+				MSG(NL, "warning: no %s cache exists.  creating...", ldir);
+				alpm_logaction("warning: no %s cache exists.  creating...", ldir);
+				if(makepath(ldir)) {
+					/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
+					 * the package afterwards.
+					 */
+					MSG(NL, "warning: couldn't create package cache, using /tmp instead");
+					alpm_logaction("warning: couldn't create package cache, using /tmp instead");
+					snprintf(ldir, PATH_MAX, "/tmp");
+					varcache = 0;
 				}
 			}
-
-			count += list_count(files);
+			if(downloadfiles(current->servers, ldir, files)) {
+				ERR(NL, "failed to retrieve some files from %s\n", current->treename);
+				retval = 1;
+				goto cleanup;
+			}
 			FREELIST(files);
 		}
-		if(count == list_count(final)) {
-			done = 1;
-		}
 	}
-	printf("\n");
+	if(pmo_s_printuris) {
+		goto cleanup;
+	}
+	MSG(NL, "\n");
 
 	/* Check integrity of files */
 	MSG(NL, "checking package integrity... ");
@@ -735,7 +709,7 @@ int pacman_sync(list_t *targets)
 		char /*str[PATH_MAX],*/ pkgname[PATH_MAX] = "dummy";
 		char *md5sum1, *md5sum2;
 
-		snprintf(pkgname, PATH_MAX, "%s-%s"PM_EXT_PKG, "", "");
+		snprintf(pkgname, PATH_MAX, "%s-%s" PM_EXT_PKG, "", "");
 
 		md5sum1 = NULL;
 		/* ORE

@@ -311,21 +311,16 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 		return(0);
 	}
 
-	for(i = trans->packages; i; i = i->next) {
-		pmsyncpkg_t *sync = i->data;
-		list = pm_list_add(list, sync->spkg);
-	}
-
-	/* Resolve targets dependencies */
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
-
 		for(i = trans->packages; i; i = i->next) {
 			pmsyncpkg_t *sync = i->data;
 			list = pm_list_add(list, sync->spkg);
 		}
 		trail = pm_list_new();
 
+		/* Resolve targets dependencies */
+		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
+		_alpm_log(PM_LOG_FLOW1, "resolving targets dependencies");
 		for(i = trans->packages; i; i = i->next) {
 			pmsyncpkg_t *sync = i->data;
 			pmpkg_t *spkg = sync->spkg;
@@ -338,7 +333,6 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 			if called from makepkg, reason should be set to REASON_DEPEND
 			spkg->reason = PM_PKG_REASON_EXPLICIT;*/
 		}
-
 		for(i = list; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
 			if(!find_pkginsync(spkg->name, trans->packages)) {
@@ -346,40 +340,42 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 				trans->packages = pm_list_add(trans->packages, sync);
 			}
 		}
+		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
+
+		/* ORE
+		check for inter-conflicts and whatnot */
+		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
+		deps = checkdeps(db, PM_TRANS_TYPE_UPGRADE, list);
+		if(deps) {
+			int errorout = 0;
+			_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
+			for(i = deps; i; i = i->next) {
+				pmdepmissing_t *miss = i->data;
+				if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
+					if(!errorout) {
+						errorout = 1;
+					}
+					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+						FREELIST(deps);
+						FREELIST(*data);
+						RET_ERR(PM_ERR_MEMORY, -1);
+					}
+					*miss = *(pmdepmissing_t *)i->data;
+					*data = pm_list_add(*data, miss);
+				}
+			}
+			if(errorout) {
+				FREELIST(deps);
+				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
+			}
+			/* ORE
+			no unresolvable deps, so look for conflicts */
+			_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
+		}
+		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 
 		FREELISTPTR(list);
 		FREELISTPTR(trail);
-
-		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
-	}
-
-	/* ORE
-	check for inter-conflicts and whatnot */
-	_alpm_log(PM_LOG_FLOW1, "looking for inter-conflicts");
-	deps = checkdeps(db, PM_TRANS_TYPE_UPGRADE, list);
-	if(deps) {
-		int errorout = 0;
-		for(i = deps; i; i = i->next) {
-			pmdepmissing_t *miss = i->data;
-			if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
-				if(!errorout) {
-					errorout = 1;
-				}
-				if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-					FREELIST(deps);
-					FREELIST(*data);
-					RET_ERR(PM_ERR_MEMORY, -1);
-				}
-				*miss = *(pmdepmissing_t *)i->data;
-				*data = pm_list_add(*data, miss);
-			}
-		}
-		if(errorout) {
-			FREELIST(deps);
-			RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
-		}
-		/* ORE
-		then look for conflicts */
 	}
 
 	/* ORE
