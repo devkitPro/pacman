@@ -120,11 +120,11 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 {
 	PMList *lp;
 
+	*data = NULL;
+
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	*data = NULL;
 
 	/* Check dependencies
 	 */
@@ -265,7 +265,7 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 				if(oldpkg) {
 					pmtrans_t *tr;
 
-					_alpm_log(PM_LOG_FLOW1, "removing old package first");
+					_alpm_log(PM_LOG_FLOW1, "removing old package first (%s-%s)", oldpkg->name, oldpkg->version);
 					tr = trans_new();
 					if(tr == NULL) {
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
