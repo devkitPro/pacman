@@ -364,9 +364,8 @@ int pacman_sync(list_t *targets)
 {
 	int confirm = 0;
 	int retval = 0;
-	list_t *final = NULL;
 	list_t *i;
-	PM_LIST *packages, *data;
+	PM_LIST *packages, *data, *lp;
 	char *root;
 	char ldir[PATH_MAX];
 	int varcache = 1;
@@ -428,8 +427,6 @@ int pacman_sync(list_t *targets)
 	}
 
 	if(pmo_s_upgrade) {
-		PM_LIST *lp;
-
 		alpm_logaction("starting full system upgrade");
 
 		if(alpm_sync_sysupgrade(&data) == -1) {
@@ -543,13 +540,13 @@ int pacman_sync(list_t *targets)
 		goto cleanup;
 	}
 
-	/* list targets */
+	/* list targets and get confirmation */
 	if(!pmo_s_printuris) {
 		list_t *list = NULL;
 		char *str;
 		unsigned long totalsize = 0;
 		double mb;
-		PM_LIST *lp;
+
 		/* ORE
 		for(i = rmtargs; i; i = i->next) {
 			list = list_add(list, strdup(i->data));
@@ -600,7 +597,6 @@ int pacman_sync(list_t *targets)
 		FREELIST(list);
 		FREE(str);
 
-		/* get confirmation */
 		if(pmo_s_downloadonly) {
 			if(pmo_noconfirm) {
 				MSG(NL, "\nBeginning download...\n");
@@ -632,8 +628,8 @@ int pacman_sync(list_t *targets)
 	/* group sync records by repository and download */
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
 	snprintf(ldir, PATH_MAX, "%s" CACHEDIR, root);
+
 	for(i = pmc_syncs; i; i = i->next) {
-		PM_LIST *lp;
 		sync_t *current = i->data;
 
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
@@ -703,37 +699,34 @@ int pacman_sync(list_t *targets)
 	MSG(NL, "\n");
 
 	/* Check integrity of files */
-	MSG(NL, "checking package integrity... ");
+	MSG(NL, "checking packages integrity... ");
 
-	for(i = final; i; i = i->next) {
-		char /*str[PATH_MAX],*/ pkgname[PATH_MAX] = "dummy";
+	for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
+		PM_SYNCPKG *sync = alpm_list_getdata(lp);
+		PM_PKG *spkg = alpm_sync_getinfo(sync, PM_SYNC_SYNCPKG);
+		char str[PATH_MAX], pkgname[PATH_MAX];
 		char *md5sum1, *md5sum2;
 
-		snprintf(pkgname, PATH_MAX, "%s-%s" PM_EXT_PKG, "", "");
-
-		md5sum1 = NULL;
-		/* ORE
-		md5sum1 = sync->pkg->md5sum;
+		snprintf(pkgname, PATH_MAX, "%s-%s" PM_EXT_PKG,
+		                            (char *)alpm_pkg_getinfo(spkg, PM_PKG_NAME),
+		                            (char *)alpm_pkg_getinfo(spkg, PM_PKG_VERSION));
+		md5sum1 = alpm_pkg_getinfo(spkg, PM_PKG_MD5SUM);
 		if(md5sum1 == NULL) {
 			ERR(NL, "can't get md5 checksum for package %s\n", pkgname);
 			retval = 1;
 			continue;
-		} */
-
-		md5sum2 = NULL;
-		/* ORE
-		md5sum2 = alpm_get_md5sum();
+		}
+		snprintf(str, PATH_MAX, "%s/%s", ldir, pkgname);
+		md5sum2 = alpm_get_md5sum(str);
 		if(md5sum2 == NULL) {
 			ERR(NL, "can't get md5 checksum for package %s\n", pkgname);
 			retval = 1;
 			continue;
-		} */
-
+		}
 		if(strcmp(md5sum1, md5sum2) != 0) {
 			retval = 1;
 			ERR(NL, "archive %s is corrupted\n", pkgname);
 		}
-
 		FREE(md5sum2);
 	}
 	if(retval) {
@@ -741,13 +734,15 @@ int pacman_sync(list_t *targets)
 	}
 	MSG(CL, "done.\n");
 
+	if(pmo_s_downloadonly) {
+		goto cleanup;
+	}
+
 	/* Step 3: actually perform the installation */
-	if(!pmo_s_downloadonly) {
-		if(alpm_trans_commit(&data) == -1) {
-			ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
-			retval = 1;
-			goto cleanup;
-		}
+	if(alpm_trans_commit(&data) == -1) {
+		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
+		retval = 1;
+		goto cleanup;
 	}
 
 	if(!varcache && !pmo_s_downloadonly) {
