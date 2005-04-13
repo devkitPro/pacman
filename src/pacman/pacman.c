@@ -523,6 +523,7 @@ void usage(int op, char *myname)
 			printf("  -d, --nodeps        skip dependency checks\n");
 			printf("  -f, --force         force install, overwrite conflicting files\n");
 			printf("  -g, --groups        view all members of a package group\n");
+			printf("  -p, --print-uris    print out URIs for given packages and their dependencies\n");
 			printf("  -s, --search        search remote repositories for matching strings\n");
 			printf("  -u, --sysupgrade    upgrade all packages that are out of date\n");
 			printf("  -w, --downloadonly  download packages but do not install/upgrade anything\n");
