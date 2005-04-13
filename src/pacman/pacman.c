@@ -64,7 +64,7 @@ unsigned short pmo_s_clean      = 0;
 unsigned short pmo_s_downloadonly = 0;
 list_t        *pmo_s_ignore     = NULL;
 unsigned short pmo_s_info       = 0;
-unsigned short pmo_s_printuris    = 0;
+unsigned short pmo_s_printuris  = 0;
 unsigned short pmo_s_sync       = 0;
 unsigned short pmo_s_search     = 0;
 unsigned short pmo_s_upgrade    = 0;
@@ -366,6 +366,7 @@ int parseargs(int argc, char **argv)
 		{"nosave",     no_argument,       0, 'n'},
 		{"owns",       no_argument,       0, 'o'},
 		{"file",       no_argument,       0, 'p'},
+		{"print-uris", no_argument,       0, 'p'},
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
@@ -388,10 +389,10 @@ int parseargs(int argc, char **argv)
 			case 0:   break;
 			case 1000: pmo_noconfirm = 1; break;
 			case 1001:
-			if(pmo_configfile) {
-				free(pmo_configfile);
-			}
-			pmo_configfile = strndup(optarg, PATH_MAX); break;
+				if(pmo_configfile) {
+					free(pmo_configfile);
+				}
+				pmo_configfile = strndup(optarg, PATH_MAX); break;
 			case 1002: pmo_s_ignore = list_add(pmo_s_ignore, strdup(optarg)); break;
 			case 'A': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_ADD);     break;
 			case 'D': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_resolve = 1; break;
@@ -420,7 +421,7 @@ int parseargs(int argc, char **argv)
 			case 'l': pmo_q_list = 1; break;
 			case 'n': pmo_flags |= PM_TRANS_FLAG_NOSAVE; break;
 			case 'o': pmo_q_owns = 1; break;
-			case 'p': pmo_q_isfile = 1; break;
+			case 'p': pmo_q_isfile = 1; pmo_s_printuris = 1; break;
 			case 'r':
 				if(realpath(optarg, root) == NULL) {
 					perror("bad root path");
