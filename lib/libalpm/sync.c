@@ -270,14 +270,14 @@ int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name)
 			/* ORE
 			if(!yesno(":: %s-%s: local version is newer.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
 			}*/
-			_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping");
+			_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping", local->name, local->version);
 			return(0);
 		} else if(cmp == 0) {
 			/* versions are identical */
 			/* ORE
 			if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
 			}*/
-			_alpm_log(PM_LOG_WARNING, "%s-%s: is up to date -- skipping");
+			_alpm_log(PM_LOG_WARNING, "%s-%s: is up to date -- skipping", local->name, local->version);
 			return(0);
 		}
 	}
@@ -388,6 +388,7 @@ int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	we won't be breaking anything by removing them.
 	If a broken dep is detected, make sure it's not from a
 	package that's in our final (upgrade) list. */
+	_alpm_log(PM_LOG_DEBUG, "checking dependencies of packages designated for removal");
 
 	return(0);
 
@@ -400,7 +401,7 @@ error:
 
 int sync_commit(pmdb_t *db, pmtrans_t *trans)
 {
-	PMList *i, *j, *files = NULL;
+	PMList *i, *j = NULL;
 	PMList *final = NULL;
 	PMList *rmtargs = NULL;
 	PMList *data;
@@ -410,7 +411,7 @@ int sync_commit(pmdb_t *db, pmtrans_t *trans)
 	/* ORE - alpm does not handle removal of conflicting pkgs for now */
 
 	/* remove to-be-replaced packages */
-	for(i = final; i; i = i->next) {
+	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		for(j = sync->replaces; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
@@ -420,12 +421,18 @@ int sync_commit(pmdb_t *db, pmtrans_t *trans)
 
 	/* install targets */
 	/* ORE - need for a flag specifying that deps have already been checked */
-	tr = trans_new(PM_TRANS_TYPE_UPGRADE, 0);
-	for(i = files; i; i = i->next) {
-		trans_addtarget(tr, i->data);
+	tr = trans_new(PM_TRANS_TYPE_UPGRADE, PM_TRANS_FLAG_NODEPS);
+	for(i = trans->packages; i; i = i->next) {
+		if(trans_addtarget(tr, i->data) == -1) {
+			goto error;
+		}
 	}
-	trans_prepare(tr, &data);
-	trans_commit(tr);
+	if(trans_prepare(tr, &data) == -1) {
+		goto error;
+	}
+	if(trans_commit(tr) == -1) {
+		goto error;
+	}
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
@@ -463,6 +470,9 @@ int sync_commit(pmdb_t *db, pmtrans_t *trans)
 	db_free_pkgcache(db);
 
 	return(0);
+
+error:
+	return(-1);
 }
 
 /* vim: set ts=2 sw=2 noet: */
