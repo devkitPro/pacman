@@ -698,7 +698,7 @@ int alpm_list_free(PM_LIST *entry)
 	if(entry) {
 		/* ORE
 		does not free all memory for packages... */
-		pm_list_free(entry);
+		FREELIST(entry);
 	}
 
 	return(0);
