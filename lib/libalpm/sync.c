@@ -402,28 +402,51 @@ error:
 int sync_commit(pmdb_t *db, pmtrans_t *trans)
 {
 	PMList *i, *j = NULL;
-	PMList *final = NULL;
-	PMList *rmtargs = NULL;
 	PMList *data;
 	pmtrans_t *tr;
+	char ldir[PATH_MAX];
+
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+
+	/* ORE
+	set CACHEDIR as a library option? */
+#define PM_CACHEDIR "var/cache/pacman/pkg"
+	snprintf(ldir, PATH_MAX, "%s" PM_CACHEDIR, handle->root);
+#undef CACHEDIR
 
 	/* remove any conflicting packages (WITHOUT dep checks) */
 	/* ORE - alpm does not handle removal of conflicting pkgs for now */
 
 	/* remove to-be-replaced packages */
+	tr = trans_new(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS);
+	/* ORE */
+	if(tr == NULL) {
+		goto error;
+	}
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		for(j = sync->replaces; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			rmtargs = pm_list_add(rmtargs, strdup(pkg->name));
+			if(trans_addtarget(tr, pkg->name)) {
+				goto error;
+			}
 		}
 	}
+	trans_free(tr);
 
 	/* install targets */
 	/* ORE - need for a flag specifying that deps have already been checked */
 	tr = trans_new(PM_TRANS_TYPE_UPGRADE, PM_TRANS_FLAG_NODEPS);
+	if(tr == NULL) {
+		goto error;
+	}
 	for(i = trans->packages; i; i = i->next) {
-		if(trans_addtarget(tr, i->data) == -1) {
+		pmsyncpkg_t *sync = i->data;
+		pmpkg_t *spkg = sync->spkg;
+		char str[PATH_MAX];
+		snprintf(str, PATH_MAX, "%s/%s-%s" PM_EXT_PKG, ldir, spkg->name, spkg->version);
+		if(trans_addtarget(tr, str) == -1) {
 			goto error;
 		}
 	}
@@ -436,7 +459,7 @@ int sync_commit(pmdb_t *db, pmtrans_t *trans)
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
-	for(i = final; i; i = i->next) {
+	for(i = trans->packages; i; i = i->next) {
 		/*syncpkg_t *sync = (syncpkg_t*)i->data;
 		if(sync->replaces) {
 			pkginfo_t *new = db_scan(db, sync->pkg->name, INFRQ_DEPENDS);
