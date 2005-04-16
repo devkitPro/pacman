@@ -24,25 +24,22 @@
 #include "db.h"
 #include "package.h"
 #include "trans.h"
-#include "alpm.h"
 
 typedef struct __pmsyncpkg_t {
 	unsigned char type;
-	pmpkg_t *lpkg;
-	pmpkg_t *spkg;
-	PMList *replaces;
+	pmpkg_t *pkg;
+	void *data;
 } pmsyncpkg_t;
 
-pmsyncpkg_t *sync_new(int type, pmpkg_t *lpkg, pmpkg_t *spkg);
+pmsyncpkg_t *sync_new(int type, pmpkg_t *spkg, void *data);
 void sync_free(pmsyncpkg_t *sync);
 
 PMList *sync_load_archive(char *archive);
 
-int sync_sysupgrade(pmlist_t **data);
-
-int sync_addtarget(pmdb_t *db, PMList *dbs_sync, pmtrans_t *trans, char *name);
-int sync_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data);
-int sync_commit(pmdb_t *db, pmtrans_t *trans);
+int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db, PMList *dbs_sync);
+int sync_addtarget(pmtrans_t *trans, pmdb_t *db, PMList *dbs_sync, char *name);
+int sync_prepare(pmtrans_t *trans, pmdb_t *db, PMList *dbs_sync, PMList **data);
+int sync_commit(pmtrans_t *trans, pmdb_t *db);
 
 #endif /* _ALPM_SYNC_H */
 
