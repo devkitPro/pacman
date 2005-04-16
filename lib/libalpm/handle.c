@@ -49,6 +49,8 @@ pmhandle_t *handle_new()
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
+	memset(handle, 0, sizeof(pmhandle_t));
+
 	/* see if we're root or not */
 	handle->uid = geteuid();
 	if(!handle->uid && getenv("FAKEROOTKEY")) {
@@ -62,20 +64,6 @@ pmhandle_t *handle_new()
 	} else {
 		handle->access = PM_ACCESS_RO;
 	}
-
-	handle->trans = NULL;
-
-	handle->db_local = NULL;
-	handle->dbs_sync = NULL;
-
-	handle->logfd = NULL;
-
-	handle->root = NULL;
-	handle->dbpath = NULL;
-	handle->logfile = NULL;
-	handle->noupgrade = NULL;
-	handle->ignorepkg = NULL;
-	handle->usesyslog = 0;
 
 	return(handle);
 }
