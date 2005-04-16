@@ -48,7 +48,7 @@
 
 extern pmhandle_t *handle;
 
-int add_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
+int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info, *dummy;
 	PMList *j;
@@ -116,7 +116,7 @@ error:
 	return(-1);
 }
 
-int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
+int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	PMList *lp;
 
@@ -213,7 +213,7 @@ int add_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	return(0);
 }
 
-int add_commit(pmdb_t *db, pmtrans_t *trans)
+int add_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0;
 	TAR *tar = NULL;
@@ -277,11 +277,11 @@ int add_commit(pmdb_t *db, pmtrans_t *trans)
 					/* copy over the install reason */
 					/* ORE?
 					info->reason = oldpkg->reason; */
-					if(remove_loadtarget(db, tr, info->name) == -1) {
+					if(remove_loadtarget(tr, db, info->name) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
-					if(remove_commit(db, tr) == -1) {
+					if(remove_commit(tr, db) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}

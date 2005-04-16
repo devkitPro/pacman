@@ -45,7 +45,7 @@
 
 extern pmhandle_t *handle;
 
-int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
+int remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info;
 
@@ -65,7 +65,7 @@ int remove_loadtarget(pmdb_t *db, pmtrans_t *trans, char *name)
 	return(0);
 }
 
-int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
+int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	pmpkg_t *info;
 	PMList *lp;
@@ -118,7 +118,7 @@ int remove_prepare(pmdb_t *db, pmtrans_t *trans, PMList **data)
 	return(0);
 }
 
-int remove_commit(pmdb_t *db, pmtrans_t *trans)
+int remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info;
 	struct stat buf;
