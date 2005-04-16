@@ -50,6 +50,9 @@
 #include "handle.h"
 #include "alpm.h"
 
+#define PM_LOCK   "/tmp/pacman.lck"
+
+
 /* Globals */
 pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
@@ -141,7 +144,7 @@ int alpm_get_option(unsigned char parm, long *data)
  * Databases
  */
 
-PM_DB *alpm_db_register(char *treename)
+pmdb_t *alpm_db_register(char *treename)
 {
 	pmdb_t *db;
 
@@ -174,7 +177,7 @@ PM_DB *alpm_db_register(char *treename)
 	return(db);
 }
 
-int alpm_db_unregister(PM_DB *db)
+int alpm_db_unregister(pmdb_t *db)
 {
 	PMList *i;
 	int found = 0;
@@ -191,9 +194,7 @@ int alpm_db_unregister(PM_DB *db)
 		for(i = handle->dbs_sync; i && !found; i = i->next) {
 			if(db == i->data) {
 				db_close(i->data);
-				i->data = NULL;
-				/* ORE
-				it should be _alpm_list_removed instead */
+				handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, i);
 				found = 1;
 			}
 		}
@@ -282,7 +283,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	return(0);
 }
 
-PM_PKG *alpm_db_readpkg(PM_DB *db, char *name)
+pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -292,7 +293,7 @@ PM_PKG *alpm_db_readpkg(PM_DB *db, char *name)
 	return(db_get_pkgfromcache(db, name));
 }
 
-PM_LIST *alpm_db_getpkgcache(PM_DB *db)
+PMList *alpm_db_getpkgcache(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -301,7 +302,7 @@ PM_LIST *alpm_db_getpkgcache(PM_DB *db)
 	return(db_get_pkgcache(db));
 }
 
-PM_GRP *alpm_db_readgrp(PM_DB *db, char *name)
+pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -311,7 +312,7 @@ PM_GRP *alpm_db_readgrp(PM_DB *db, char *name)
 	return(db_get_grpfromcache(db, name));
 }
 
-PM_LIST *alpm_db_getgrpcache(PM_DB *db)
+PMList *alpm_db_getgrpcache(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -324,7 +325,7 @@ PM_LIST *alpm_db_getgrpcache(PM_DB *db)
  * Packages
  */
 
-void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
+void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 {
 	void *data = NULL;
 
@@ -353,8 +354,8 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 			case PM_PKG_REPLACES:
 			case PM_PKG_MD5SUM:
 				if(!(pkg->infolevel & INFRQ_DESC)) {
-					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
-					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					char target[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
+					snprintf(target, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_DESC, pkg);
 				}
 			break;*/
@@ -366,8 +367,8 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 			case PM_PKG_CONFLICTS:
 			case PM_PKG_PROVIDES:
 				if(!(pkg->infolevel & INFRQ_DEPENDS)) {
-					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
-					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					char target[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
+					snprintf(target, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_DEPENDS, pkg);
 				}
 			break;*/
@@ -375,16 +376,16 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 			case PM_PKG_FILES:
 			case PM_PKG_BACKUP:
 				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_FILES)) {
-					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
-					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					char target[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
+					snprintf(target, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_FILES, pkg);
 				}
 			break;
 			/* Scriptlet */
 			case PM_PKG_SCRIPLET:
 				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_SCRIPLET)) {
-					char target[PKG_NAME_LEN+PKG_VERSION_LEN];
-					snprintf(target, PKG_NAME_LEN+PKG_VERSION_LEN, "%s-%s", pkg->name, pkg->version);
+					char target[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
+					snprintf(target, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_SCRIPLET, pkg);
 				}
 			break;
@@ -413,7 +414,7 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 		case PM_PKG_FILES:       data = pkg->files; break;
 		case PM_PKG_BACKUP:      data = pkg->backup; break;
 		case PM_PKG_SCRIPLET:    data = (void *)(int)pkg->scriptlet; break;
-		case PM_PKG_DB:          data = pkg->data; break;
+		case PM_PKG_DATA:        data = pkg->data; break;
 		default:
 			data = NULL;
 		break;
@@ -422,7 +423,7 @@ void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm)
 	return(data);
 }
 
-int alpm_pkg_load(char *filename, PM_PKG **pkg)
+int alpm_pkg_load(char *filename, pmpkg_t **pkg)
 {
 	/* Sanity checks */
 	ASSERT(filename != NULL && strlen(filename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -437,14 +438,12 @@ int alpm_pkg_load(char *filename, PM_PKG **pkg)
 	return(0);
 }
 
-int alpm_pkg_free(PM_PKG *pkg)
+void alpm_pkg_free(pmpkg_t *pkg)
 {
-	/* Sanity checks */
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
+	if(pkg == NULL) {
+		return;
+	}
 	pkg_free(pkg);
-
-	return(0);
 }
 
 int alpm_pkg_vercmp(const char *ver1, const char *ver2)
@@ -456,7 +455,7 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
  * Groups
  */
 
-void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm)
+void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
 {
 	void *data = NULL;
 
@@ -478,7 +477,7 @@ void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm)
  * Sync operations
  */
 
-void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm)
+void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
 {
 	void *data;
 
@@ -487,23 +486,14 @@ void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm)
 
 	switch(parm) {
 		case PM_SYNC_TYPE:     data = (void *)(int)sync->type; break;
-		case PM_SYNC_LOCALPKG: data = sync->lpkg; break;
-		case PM_SYNC_SYNCPKG:  data = sync->spkg; break;
-		case PM_SYNC_REPLACES: data = sync->replaces; break;
+		case PM_SYNC_PKG: data = sync->pkg; break;
+		case PM_SYNC_DATA:  data = sync->data; break;
 		default:
 			data = NULL;
 		break;
 	}
 
 	return(data);
-}
-
-int alpm_sync_sysupgrade(PM_LIST **data)
-{
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	return(sync_sysupgrade(data));
 }
 
 /*
@@ -546,6 +536,20 @@ int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb)
 	}
 
 	return(trans_init(handle->trans, type, flags, cb));
+}
+
+int alpm_trans_sysupgrade()
+{
+	pmtrans_t *trans;
+
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_XXX, -1));
+
+	return(trans_sysupgrade(trans));
 }
 
 int alpm_trans_addtarget(char *target)
@@ -672,28 +676,28 @@ int alpm_logaction(char *fmt, ...)
  * Lists wrappers
  */
 
-PM_LIST *alpm_list_first(PM_LIST *list)
+PMList *alpm_list_first(PMList *list)
 {
 	ASSERT(list != NULL, return(NULL));
 
 	return(list);
 }
 
-PM_LIST *alpm_list_next(PM_LIST *entry)
+PMList *alpm_list_next(PMList *entry)
 {
 	ASSERT(entry != NULL, return(NULL));
 
 	return(entry->next);
 }
 
-void *alpm_list_getdata(PM_LIST *entry)
+void *alpm_list_getdata(PMList *entry)
 {
 	ASSERT(entry != NULL, return(NULL));
 
 	return(entry->data);
 }
 
-int alpm_list_free(PM_LIST *entry)
+int alpm_list_free(PMList *entry)
 {
 	if(entry) {
 		/* ORE

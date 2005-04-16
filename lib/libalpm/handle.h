@@ -26,10 +26,6 @@
 #include "trans.h"
 #include "alpm.h"
 
-#define PM_ROOT   "/"
-#define PM_DBPATH "var/lib/pacman"
-#define PM_LOCK   "/tmp/pacman.lck"
-
 typedef enum __pmaccess_t {
 	PM_ACCESS_RO,
 	PM_ACCESS_RW

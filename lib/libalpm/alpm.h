@@ -25,6 +25,11 @@
  * Arch Linux Package Management library
  */
 
+#define PM_VERSION "0.1.0"
+
+#define PM_ROOT    "/"
+#define PM_DBPATH  "var/lib/pacman"
+
 #define PM_EXT_PKG ".pkg.tar.gz"
 #define PM_EXT_DB  ".db.tar.gz"
 
@@ -43,9 +48,6 @@ typedef struct __pmdepmissing_t PM_DEPMISS;
 /*
  * Library
  */
-
-/* Version */
-#define PM_VERSION "0.1.0"
 
 int alpm_initialize(char *root);
 int alpm_release();
@@ -144,7 +146,7 @@ enum {
 	/* Sciplet */
 	PM_PKG_SCRIPLET,
 	/* Misc */
-	PM_PKG_DB
+	PM_PKG_DATA
 };
 
 /* reasons -- ie, why the package was installed */
@@ -153,7 +155,7 @@ enum {
 
 void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm);
 int alpm_pkg_load(char *filename, PM_PKG **pkg);
-int alpm_pkg_free(PM_PKG *pkg);
+void alpm_pkg_free(PM_PKG *pkg);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 
 /*
@@ -181,14 +183,11 @@ enum {
 /* Info parameters */
 enum {
 	PM_SYNC_TYPE = 1,
-	PM_SYNC_LOCALPKG,
-	PM_SYNC_SYNCPKG,
-	PM_SYNC_REPLACES
+	PM_SYNC_PKG,
+	PM_SYNC_DATA
 };
 
 void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm);
-
-int alpm_sync_sysupgrade(PM_LIST **data);
 
 /*
  * Transactions
@@ -210,7 +209,6 @@ enum {
 #define PM_TRANS_FLAG_CASCADE 0x10
 #define PM_TRANS_FLAG_RECURSE 0x20
 #define PM_TRANS_FLAG_DBONLY  0x40
-#define PM_TRANS_FLAG_SYSUPG  0x80
 
 /* Events */
 enum {
@@ -243,6 +241,7 @@ enum {
 
 void *alpm_trans_getinfo(unsigned char parm);
 int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb);
+int alpm_trans_sysupgrade();
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);
 int alpm_trans_commit();
