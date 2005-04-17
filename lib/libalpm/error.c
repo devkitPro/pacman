@@ -71,7 +71,7 @@ char *alpm_strerror(int err)
 			return "package already installed";
 		case PM_ERR_PKG_CANT_FRESH:
 			return "package not installed or lesser version";
-		case PM_ERR_INVALID_NAME:
+		case PM_ERR_PKG_INVALID_NAME:
 			return "package name is not valid";
 		/* Dependencies */
 		case PM_ERR_UNSATISFIED_DEPS:

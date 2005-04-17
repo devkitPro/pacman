@@ -333,7 +333,7 @@ extern enum __pmerrno_t {
 	PM_ERR_PKG_LOAD,
 	PM_ERR_PKG_INSTALLED,
 	PM_ERR_PKG_CANT_FRESH,
-	PM_ERR_INVALID_NAME,
+	PM_ERR_PKG_INVALID_NAME,
 	/* Groups */
 	PM_ERR_GRP_NOT_FOUND,
 	/* Dependencies */
