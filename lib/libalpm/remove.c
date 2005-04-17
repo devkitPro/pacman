@@ -165,9 +165,11 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 					continue;
 				}
 				if(S_ISDIR(buf.st_mode)) {
-					_alpm_log(PM_LOG_FLOW2, "removing directory %s", file);
 					if(rmdir(line)) {
 						/* this is okay, other packages are probably using it. */
+						_alpm_log(PM_LOG_DEBUG, "keeping directory %s", file);
+					} else {
+						_alpm_log(PM_LOG_FLOW2, "removing directory %s", file);
 					}
 				} else {
 					/* if the file is flagged, back it up to .pacsave */
