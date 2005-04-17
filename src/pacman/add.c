@@ -72,7 +72,7 @@ int pacman_add(list_t *targets)
 			return(1);
 		}
 	}
-	MSG(CL, "done");
+	MSG(CL, "done.");
 
 	/* Step 2: "compute" the transaction based on targets and flags
 	 */
