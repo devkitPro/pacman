@@ -50,42 +50,48 @@ extern pmhandle_t *handle;
 
 int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
-	pmpkg_t *info, *dummy;
+	pmpkg_t *info = NULL, *dummy;
+	char pkgname[PKG_NAME_LEN], pkgver[PKG_VERSION_LEN];
 	PMList *j;
+	struct stat buf;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(name != NULL && strlen(name) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	/* ORE
-	load_pkg should be done only if pkg has to be added to the transaction */
-
-	_alpm_log(PM_LOG_FLOW2, "reading %s", name);
-	info = pkg_load(name);
-	if(info == NULL) {
-		/* pm_errno is already set by pkg_load() */
-		return(-1);
-	}
-
-	/* no additional hyphens in version strings */
-	if(strchr(info->version, '-') != strrchr(info->version, '-')) {
-		pm_errno = PM_ERR_INVALID_NAME;
+	if(stat(name, &buf)) {
+		pm_errno = PM_ERR_NOT_A_FILE;
 		goto error;
 	}
 
-	dummy = db_get_pkgfromcache(db, info->name);
-	/* only upgrade/install this package if it is already installed and at a lesser version */
-	if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
-		if(dummy == NULL || rpmvercmp(dummy->version, info->version) >= 0) {
-			pm_errno = PM_ERR_PKG_CANT_FRESH;
-			goto error;
-		}
+	_alpm_log(PM_LOG_FLOW2, "loading target %s", name);
+
+	if(pkg_splitname(name, pkgname, pkgver) == -1) {
+		pm_errno = PM_ERR_PKG_INVALID_NAME;
+		goto error;
 	}
-	/* only install this package if it is not already installed */
+
+	/* no additional hyphens in version strings */
+	if(strchr(pkgver, '-') != strrchr(pkgver, '-')) {
+		pm_errno = PM_ERR_PKG_INVALID_NAME;
+		goto error;
+	}
+
 	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
+		/* only install this package if it is not already installed */
+		dummy = db_get_pkgfromcache(db, pkgname);
 		if(dummy) {
 			pm_errno = PM_ERR_PKG_INSTALLED;
 			goto error;
+		}
+	} else {
+		if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
+			/* only upgrade/install this package if it is already installed and at a lesser version */
+			dummy = db_get_pkgfromcache(db, pkgname);
+			if(dummy == NULL || rpmvercmp(dummy->version, pkgver) >= 0) {
+				pm_errno = PM_ERR_PKG_CANT_FRESH;
+				goto error;
+			}
 		}
 	}
 
@@ -96,16 +102,31 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	for(j = trans->packages; j; j = j->next) {
 		pmpkg_t *pkg = j->data;
 
-		if(strcmp(pkg->name, info->name) == 0) {
-			if(rpmvercmp(pkg->version, info->version) < 0) {
-				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, info->version);
+		if(strcmp(pkg->name, pkgname) == 0) {
+			if(rpmvercmp(pkg->version, pkgver) < 0) {
+				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, pkgver);
 				FREEPKG(j->data);
-				j->data = info;
+				j->data = pkg_load(name);
+				if(j->data == NULL) {
+					/* pm_errno is already set by pkg_load() */
+					goto error;
+				}
 			}
 			return(0);
 		}
 	}
 
+	_alpm_log(PM_LOG_FLOW2, "reading %s", name);
+	info = pkg_load(name);
+	if(info == NULL) {
+		/* pm_errno is already set by pkg_load() */
+		goto error;
+	}
+	/* check to verify we're not getting fooled by a corrupted package */
+	if(strcmp(pkgname, info->name) != 0 || strcmp(pkgver, info->version) != 0) {
+		pm_errno = PM_ERR_PKG_INVALID;
+		goto error;
+	}
 	/* add the package to the transaction */
 	trans->packages = pm_list_add(trans->packages, info);
 
@@ -302,6 +323,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			if(info->scriptlet) {
 				_alpm_runscriptlet(handle->root, info->data, "pre_install", info->version, NULL);
 			}
+		} else {
+			_alpm_log(PM_LOG_FLOW1, "adding new package (%s-%s)", info->name, info->version);
 		}
 
 		/* Add the package to the database */
