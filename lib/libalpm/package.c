@@ -193,7 +193,7 @@ pmpkg_t *pkg_load(char *pkgfile)
 		(writefunc_t)gzwrite
 	};
 
-	if(pkgfile == NULL) {
+	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
