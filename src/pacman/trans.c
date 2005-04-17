@@ -51,7 +51,7 @@ void cb_trans(unsigned short event, void *data1, void *data2)
 			MSG(NL, "resolving dependencies... ");
 		break;
 		case PM_TRANS_EVT_INTERCONFLICTS_START:
-			MSG(NL, "looking inter-conflicts... ");
+			MSG(NL, "looking for inter-conflicts... ");
 		break;
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
