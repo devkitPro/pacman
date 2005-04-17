@@ -363,9 +363,22 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				FREELIST(deps);
 				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
-			/* ORE
-			no unresolvable deps, so look for conflicts */
+			/* no unresolvable deps, so look for conflicts */
 			_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
+			errorout = 0;
+
+			/* ORE
+			 * check if the conflicting package is one that's about to be removed/replaced.
+			 * if so, then just ignore it
+			 */
+
+			/* ORE
+			if we didn't find it in any sync->replaces lists, then it's a conflict */
+
+			if(errorout) {
+				FREELIST(deps);
+				RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
+			}
 		}
 		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 
@@ -377,6 +390,14 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 	any packages in rmtargs need to be removed from final.
 	rather than ripping out nodes from final, we just copy over
 	our "good" nodes to a new list and reassign. */
+
+	/* XXX: this fails for cases where a requested package wants
+	 *      a dependency that conflicts with an older version of
+	 *      the package.  It will be removed from final, and the user
+	 *      has to re-request it to get it installed properly.
+	 *
+	 *      Not gonna happen very often, but should be dealt with...
+	 */
 
 	/* ORE
 	Check dependencies of packages in rmtargs and make sure
@@ -394,14 +415,14 @@ error:
 	return(-1);
 }
 
-int sync_commit(pmtrans_t *trans, pmdb_t *db)
+int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 {
 	PMList *i;
 	PMList *data;
 	pmtrans_t *tr;
 	char ldir[PATH_MAX];
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	snprintf(ldir, PATH_MAX, "%s" PM_CACHEDIR, handle->root);
@@ -410,6 +431,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db)
 	/* ORE - alpm does not handle removal of conflicting pkgs for now */
 
 	/* remove to-be-replaced packages */
+	_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
 	tr = trans_new(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS);
 	/* ORE */
 	if(tr == NULL) {
@@ -429,9 +451,16 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db)
 	trans_free(tr);
 
 	/* install targets */
-	/* ORE - need for a flag specifying that deps have already been checked */
-	tr = trans_new(PM_TRANS_TYPE_UPGRADE, PM_TRANS_FLAG_NODEPS);
+	_alpm_log(PM_LOG_FLOW1, "installing packages");
+	tr = trans_new();
 	if(tr == NULL) {
+		_alpm_log(PM_LOG_ERROR, "could not create transaction");
+		pm_errno = PM_ERR_XXX;
+		goto error;
+	}
+	if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags | PM_TRANS_FLAG_NODEPS, NULL) == -1) {
+		_alpm_log(PM_LOG_ERROR, "could not initialize transaction");
+		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
 	for(i = trans->packages; i; i = i->next) {
@@ -446,27 +475,32 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 	}
 	if(trans_prepare(tr, &data) == -1) {
+		_alpm_log(PM_LOG_ERROR, "could not prepare transaction");
+		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
 	if(trans_commit(tr) == -1) {
+		_alpm_log(PM_LOG_ERROR, "could not commit transaction");
+		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
+	_alpm_log(PM_LOG_FLOW1, "updating database for replaced packages dependencies");
 	for(i = trans->packages; i; i = i->next) {
-		/*syncpkg_t *sync = (syncpkg_t*)i->data;
+		/*pmsyncpkg_t *sync = i->data;
 		if(sync->replaces) {
 			PMList *j;
-			pkginfo_t *new = db_scan(db, sync->pkg->name, INFRQ_DEPENDS);
+			pkginfo_t *new = db_get_pkgfromcache(db_local, sync->pkg->name);
 			for(j = sync->replaces; j; j = j->next) {
-				pkginfo_t *old = (pkginfo_t*)j->data;
+				pkginfo_t *old = j->data;
 				// merge lists
 				for(k = old->requiredby; k; k = k->next) {
-					if(!is_in(k->data, new->requiredby)) {
+					if(!list_is_strin(k->data, new->requiredby)) {
 						// replace old's name with new's name in the requiredby's dependency list
 						PMList *m;
-						pkginfo_t *depender = db_scan(db, k->data, INFRQ_DEPENDS);
+						pkginfo_t *depender = db_get_pkgfromcache(db_local, k->data);
 						for(m = depender->depends; m; m = m->next) {
 							if(!strcmp(m->data, old->name)) {
 								FREE(m->data);
@@ -486,7 +520,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* cache needs to be rebuilt */
-	db_free_pkgcache(db);
+	db_free_pkgcache(db_local);
 
 	return(0);
 

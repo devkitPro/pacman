@@ -34,12 +34,12 @@ typedef struct __pmsyncpkg_t {
 pmsyncpkg_t *sync_new(int type, pmpkg_t *spkg, void *data);
 void sync_free(pmsyncpkg_t *sync);
 
-PMList *sync_load_archive(char *archive);
+PMList *sync_load_dbarchive(char *archive);
 
-int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db, PMList *dbs_sync);
-int sync_addtarget(pmtrans_t *trans, pmdb_t *db, PMList *dbs_sync, char *name);
-int sync_prepare(pmtrans_t *trans, pmdb_t *db, PMList *dbs_sync, PMList **data);
-int sync_commit(pmtrans_t *trans, pmdb_t *db);
+int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync);
+int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name);
+int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **data);
+int sync_commit(pmtrans_t *trans, pmdb_t *db_local);
 
 #endif /* _ALPM_SYNC_H */
 
