@@ -452,8 +452,8 @@ int pacman_sync(list_t *targets)
 				if(yesno(":: Upgrade pacman first? [Y/n] ")) {
 					/* ORE
 					we should substitute existing targets with "pacman" */
-					alpm_list_free(data);
 					retval = 0;
+					alpm_trans_release();
 					goto cleanup;
 				}
 			}
