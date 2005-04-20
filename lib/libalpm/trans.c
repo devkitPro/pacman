@@ -145,6 +145,11 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
+	/* If there's nothing to do, return without complaining */
+	if(trans->packages == NULL) {
+		return(0);
+	}
+
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
