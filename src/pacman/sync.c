@@ -516,15 +516,21 @@ int pacman_sync(list_t *targets)
 		unsigned long totalsize = 0;
 		double mb;
 
-		/* ORE
-		for(i = rmtargs; i; i = i->next) {
-			list = list_add(list, strdup(i->data));
+		packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
+		if(packages == NULL) {
+			retval = 0;
+			goto cleanup;
 		}
-		for(i = final; i; i = i->next) {
-			syncpkg_t *s = (syncpkg_t*)i->data;
-			for(j = s->replaces; j; j = j->next) {
-				pkginfo_t *p = (pkginfo_t*)j->data;
-				list = list_add(list, strdup(p->name));
+
+		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
+			PM_SYNCPKG *sync = alpm_list_getdata(lp);
+			if((int)alpm_sync_getinfo(sync, PM_SYNC_TYPE) == PM_SYNC_TYPE_REPLACE) {
+				PM_LIST *j, *data;
+				data = alpm_sync_getinfo(sync, PM_SYNC_DATA);
+				for(j = alpm_list_first(data); j; j = alpm_list_next(j)) {
+					PM_PKG *p = alpm_list_getdata(j);
+					list = list_add(list, strdup((char *)alpm_pkg_getinfo(p, PM_PKG_NAME)));
+				}
 			}
 		}
 		if(list) {
@@ -534,11 +540,6 @@ int pacman_sync(list_t *targets)
 			printf("\n");
 			FREELIST(list);
 			FREE(str);
-		}*/
-		packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
-		if(packages == NULL) {
-			retval = 0;
-			goto cleanup;
 		}
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
 			char *pkgname, *pkgver;
@@ -548,8 +549,7 @@ int pacman_sync(list_t *targets)
 			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
 			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
 
-			MALLOC(str, strlen(pkgname)+strlen(pkgver)+2);
-			sprintf(str, "%s-%s", pkgname, pkgver);
+			asprintf(&str, "%s-%s", pkgname, pkgver);
 			list = list_add(list, str);
 
 			totalsize += (int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
