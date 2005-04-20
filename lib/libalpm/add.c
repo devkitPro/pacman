@@ -141,11 +141,11 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	PMList *lp;
 
-	*data = NULL;
-
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	*data = NULL;
 
 	/* Check dependencies
 	 */
@@ -272,11 +272,12 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				_alpm_log(PM_LOG_FLOW1, "upgrading package %s-%s", info->name, info->version);
 
 				/* we'll need the full record for backup checks later */
+				oldpkg = pkg_new();
+				STRNCPY(oldpkg->name, info->name, PKG_NAME_LEN);
+				STRNCPY(oldpkg->version, info->version, PKG_VERSION_LEN);
+				oldpkg->backup = _alpm_list_strdup(info->backup);
 				/* ORE
-				in fact, there's only a need for "version", "backup" and "reason" fields,
-				so we should only copy them from the cache, and thus save a call
-				to db_scan(ALL) */
-				oldpkg = db_scan(db, info->name, INFRQ_ALL);
+				oldpkg->reason = info->reason;*/
 
 				/* pre_upgrade scriptlet */
 				if(info->scriptlet) {
