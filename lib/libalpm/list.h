@@ -52,10 +52,11 @@ PMList *pm_list_add(PMList *list, void *data);
 PMList *pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn);
 PMList* _alpm_list_remove(PMList* list, PMList* item);
 int pm_list_count(PMList *list);
-int pm_list_is_ptrin(PMList *haystack, void *needle);
+int pm_list_is_ptrin(void *needle, PMList *haystack);
 PMList *pm_list_is_strin(char *needle, PMList *haystack);
 PMList *pm_list_last(PMList *list);
 PMList *_alpm_list_reverse(PMList *list);
+PMList *_alpm_list_strdup(PMList *list);
 
 #endif /* _ALPM_LIST_H */
 

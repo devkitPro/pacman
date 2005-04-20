@@ -217,7 +217,7 @@ int pm_list_count(PMList *list)
 	return(i);
 }
 
-int pm_list_is_ptrin(PMList *haystack, void *needle)
+int pm_list_is_ptrin(void *needle, PMList *haystack)
 {
 	PMList *lp;
 
@@ -267,6 +267,18 @@ PMList* _alpm_list_reverse(PMList *list)
 
 	for(lp = list->last; lp; lp = lp->prev) {
 		newlist = pm_list_add(newlist, lp->data);
+	}
+
+	return(newlist);
+}
+
+PMList *_alpm_list_strdup(PMList *list)
+{
+	PMList *newlist = NULL;
+	PMList *lp;
+
+	for(lp = list; lp; lp = lp->next) {
+		newlist = pm_list_add(newlist, strdup(lp->data));
 	}
 
 	return(newlist);
