@@ -146,26 +146,25 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 		 * listed in the requiredby field.
 		 */
 		for(i = packages; i; i = i->next) {
-			pmpkg_t *tp, *oldpkg;
-			if(i->data == NULL) {
+			pmpkg_t *tp = i->data;
+			pmpkg_t *oldpkg;
+			if(tp == NULL) {
 				continue;
 			}
-			tp = (pmpkg_t *)i->data;
 
-			if((oldpkg = db_scan(db, tp->name, INFRQ_DESC | INFRQ_DEPENDS)) == NULL) {
+			if((oldpkg = db_get_pkgfromcache(db, tp->name)) == NULL) {
 				continue;
 			}
 			for(j = oldpkg->requiredby; j; j = j->next) {
 				char *ver;
 				pmpkg_t *p;
 				found = 0;
-				if((p = db_scan(db, j->data, INFRQ_DESC | INFRQ_DEPENDS)) == NULL) {
+				if((p = db_get_pkgfromcache(db, j->data)) == NULL) {
 					/* hmmm... package isn't installed.. */
 					continue;
 				}
 				if(pkg_isin(p, packages)) {
 					/* this package is also in the upgrade list, so don't worry about it */
-					FREEPKG(p);
 					continue;
 				}
 				for(k = p->depends; k && !found; k = k->next) {
@@ -180,7 +179,6 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					PMList *provides = _alpm_db_whatprovides(db, depend.name);
 					if(provides == NULL) {
 						/* not found */
-						FREEPKG(p);
 						continue;
 					}
 					/* we found an installed package that provides depend.name */
@@ -218,9 +216,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						FREE(miss);
 					}
 				}
-				FREEPKG(p);
 			}
-			FREEPKG(oldpkg);
 		}
 	}
 	if(op == PM_TRANS_TYPE_ADD || op == PM_TRANS_TYPE_UPGRADE) {
