@@ -233,7 +233,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(!pm_list_is_ptrin(handle->dbs_sync, db)) {
+	if(!pm_list_is_ptrin(db, handle->dbs_sync)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
