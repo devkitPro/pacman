@@ -485,9 +485,9 @@ void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
 	ASSERT(sync != NULL, return(NULL));
 
 	switch(parm) {
-		case PM_SYNC_TYPE:     data = (void *)(int)sync->type; break;
-		case PM_SYNC_PKG: data = sync->pkg; break;
-		case PM_SYNC_DATA:  data = sync->data; break;
+		case PM_SYNC_TYPE: data = (void *)(int)sync->type; break;
+		case PM_SYNC_PKG:  data = sync->pkg; break;
+		case PM_SYNC_DATA: data = sync->data; break;
 		default:
 			data = NULL;
 		break;
