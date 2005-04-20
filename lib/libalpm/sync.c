@@ -56,12 +56,7 @@ pmsyncpkg_t *sync_new(int type, pmpkg_t *spkg, void *data)
 
 	sync->type = type;
 	sync->pkg = spkg;
-
-	if(sync->type == PM_SYNC_TYPE_REPLACE) {
-		sync->data = pm_list_add(NULL, data);
-	} else {
-		sync->data = data;
-	}
+	sync->data = data;
 	
 	return(sync);
 }
@@ -152,15 +147,36 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 						if(pm_list_is_strin(lpkg->name, handle->ignorepkg)) {
 							_alpm_log(PM_LOG_WARNING, "%s-%s: ignoring package upgrade (to be replaced by %s-%s)",
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
-						} else {
-							pmsyncpkg_t *sync = sync_new(PM_SYNC_TYPE_REPLACE, spkg, lpkg);
-							if(sync == NULL) {
+						} else /* ORE if(yesno(":: Replace %s with %s from \"%s\"? [Y/n] ", lpkg->name, spkg->name, ((pmdb_t *)i->data)->treename)) */ {
+							/* if confirmed, add this to the 'final' list, designating 'lpkg' as
+							 * the package to replace.
+							 */
+							pmsyncpkg_t *sync;
+							pmpkg_t *dummy = pkg_new();
+							if(dummy == NULL) {
 								pm_errno = PM_ERR_MEMORY;
 								goto error;
 							}
+							STRNCPY(dummy->name, lpkg->name, PKG_NAME_LEN);
+							dummy->requiredby = _alpm_list_strdup(lpkg->requiredby);
+							/* check if spkg->name is already in the packages list. */
+							sync = find_pkginsync(spkg->name, trans->packages);
+							if(sync) {
+								/* found it -- just append to the replaces list */
+								sync->data = pm_list_add(sync->data, dummy);
+							} else {
+								/* none found -- enter pkg into the final sync list */
+								sync = sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
+								if(sync == NULL) {
+									FREEPKG(dummy);
+									pm_errno = PM_ERR_MEMORY;
+									goto error;
+								}
+								sync->data = pm_list_add(sync->data, dummy);
+								trans->packages = pm_list_add(trans->packages, sync);
+							}
 							_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)",
 							          lpkg->name, lpkg->version, spkg->name, spkg->version);
-							trans->packages = pm_list_add(trans->packages, sync);
 						}
 					}
 				}
@@ -184,7 +200,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			}
 		}
 		if(spkg == NULL) {
-			/*fprintf(stderr, "%s: not found in sync db.  skipping.", local->name);*/
+			/*_alpm_logf(PM_LOG_ERROR, "%s: not found in sync db -- skipping.", local->name);*/
 			continue;
 		}
 
@@ -201,8 +217,12 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			_alpm_log(PM_LOG_FLOW1, "%s-%s: ignoring package upgrade (%s)",
 				local->name, local->version, spkg->version);
 		} else {
-			sync = sync_new(PM_SYNC_TYPE_UPGRADE, spkg, local);
+			pmpkg_t *dummy = pkg_new();
+			STRNCPY(dummy->name, local->name, PKG_NAME_LEN);
+			STRNCPY(dummy->version, local->version, PKG_VERSION_LEN);
+			sync = sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 			if(sync == NULL) {
+				FREEPKG(dummy);
 				pm_errno = PM_ERR_MEMORY;
 				goto error;
 			}
@@ -279,8 +299,18 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 
 	/* add the package to the transaction */
 	if(!find_pkginsync(spkg->name, trans->packages)) {
-		sync = sync_new(PM_SYNC_TYPE_UPGRADE, spkg, local);
+		pmpkg_t *dummy = NULL;
+		if(local) {
+			dummy = pkg_new();
+			if(dummy == NULL) {
+				RET_ERR(PM_ERR_MEMORY, -1);
+			}
+			STRNCPY(dummy->name, local->name, PKG_NAME_LEN);
+			STRNCPY(dummy->version, local->version, PKG_VERSION_LEN);
+		}
+		sync = sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 		if(sync == NULL) {
+			FREEPKG(dummy);
 			RET_ERR(PM_ERR_MEMORY, -1);
 		}
 		trans->packages = pm_list_add(trans->packages, sync);
@@ -301,10 +331,6 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 	ASSERT(data != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	*data = NULL;
-
-	if(trans->packages == NULL) {
-		return(0);
-	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		for(i = trans->packages; i; i = i->next) {
@@ -342,6 +368,8 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
+			int found;
+			PMList *j, *k, *exfinal = NULL;
 			int errorout = 0;
 			_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
 			for(i = deps; i; i = i->next) {
@@ -363,17 +391,40 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				FREELIST(deps);
 				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
+
 			/* no unresolvable deps, so look for conflicts */
-			_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
 			errorout = 0;
+			_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
+			for(i = deps; i && !errorout; i = i->next) {
+				pmdepmissing_t *miss = i->data;
+				if(miss->type != PM_DEP_TYPE_CONFLICT) {
+					continue;
+				}
+				/* make sure this package wasn't already removed from the final list */
+				if(pm_list_is_ptrin(miss->target, exfinal)) {
+					continue;
+				}
 
-			/* ORE
-			 * check if the conflicting package is one that's about to be removed/replaced.
-			 * if so, then just ignore it
-			 */
+				/* check if the conflicting package is one that's about to be removed/replaced.
+				 * if so, then just ignore it
+				 */
+				found = 0;
+				for(j = trans->packages; j && !found; j = j->next) {
+					pmsyncpkg_t *sync = j->data;
+					if(sync->type != PM_SYNC_TYPE_REPLACE) {
+						continue;
+					}
+					for(k = sync->data; k && !found; k = k->next) {
+						pmpkg_t *p = k->data;
+						if(!strcmp(p->name, miss->depend.name)) {
+							found = 1;
+						}
+					}
+				}
 
-			/* ORE
-			if we didn't find it in any sync->replaces lists, then it's a conflict */
+				/* ORE
+				if we didn't find it in any sync->replaces lists, then it's a conflict */
+			}
 
 			if(errorout) {
 				FREELIST(deps);
@@ -420,34 +471,43 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	PMList *i;
 	PMList *data;
 	pmtrans_t *tr;
-	char ldir[PATH_MAX];
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	snprintf(ldir, PATH_MAX, "%s" PM_CACHEDIR, handle->root);
 
 	/* remove any conflicting packages (WITHOUT dep checks) */
 	/* ORE - alpm does not handle removal of conflicting pkgs for now */
 
 	/* remove to-be-replaced packages */
-	_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
 	tr = trans_new(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS);
 	/* ORE */
 	if(tr == NULL) {
+		_alpm_log(PM_LOG_ERROR, "could not create transaction");
+		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
-	/*for(i = trans->packages; i; i = i->next) {
+	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			pmpkg_t *pkg = sync->lpkg;
+			pmpkg_t *pkg = sync->pkg;
 			if(trans_addtarget(tr, pkg->name)) {
 				goto error;
 			}
 		}
 	}
-	trans_prepare(tr, &data);
-	trans_commit(tr);*/
+	if(tr->packages) {
+		_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
+		if(trans_prepare(tr, &data) == -1) {
+			_alpm_log(PM_LOG_ERROR, "could not prepare transaction");
+			pm_errno = PM_ERR_XXX;
+			goto error;
+		}
+		if(trans_commit(tr) == -1) {
+			_alpm_log(PM_LOG_ERROR, "could not commit transaction");
+			pm_errno = PM_ERR_XXX;
+			goto error;
+		}
+	}
 	trans_free(tr);
 
 	/* install targets */
@@ -468,7 +528,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		if(sync->type != PM_SYNC_TYPE_REPLACE) {
 			pmpkg_t *spkg = sync->pkg;
 			char str[PATH_MAX];
-			snprintf(str, PATH_MAX, "%s/%s-%s" PM_EXT_PKG, ldir, spkg->name, spkg->version);
+			snprintf(str, PATH_MAX, "%s" PM_CACHEDIR "/%s-%s" PM_EXT_PKG, handle->root, spkg->name, spkg->version);
 			if(trans_addtarget(tr, str) == -1) {
 				goto error;
 			}
@@ -487,36 +547,40 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
+	/* ORE
+	won't work because if replaced packages are already removed, the sync(REPLACES)
+	structures data field will point to unexisting data... */
 	_alpm_log(PM_LOG_FLOW1, "updating database for replaced packages dependencies");
 	for(i = trans->packages; i; i = i->next) {
-		/*pmsyncpkg_t *sync = i->data;
-		if(sync->replaces) {
+		pmsyncpkg_t *sync = i->data;
+		if(sync->type == PM_SYNC_TYPE_REPLACE && sync->data) {
 			PMList *j;
-			pkginfo_t *new = db_get_pkgfromcache(db_local, sync->pkg->name);
-			for(j = sync->replaces; j; j = j->next) {
-				pkginfo_t *old = j->data;
-				// merge lists
+			pmpkg_t *new = db_get_pkgfromcache(db_local, sync->pkg->name);
+			for(j = sync->data; j; j = j->next) {
+				PMList *k;
+				pmpkg_t *old = j->data;
+				/* merge lists */
 				for(k = old->requiredby; k; k = k->next) {
-					if(!list_is_strin(k->data, new->requiredby)) {
-						// replace old's name with new's name in the requiredby's dependency list
+					if(!pm_list_is_strin(k->data, new->requiredby)) {
+						/* replace old's name with new's name in the requiredby's dependency list */
 						PMList *m;
-						pkginfo_t *depender = db_get_pkgfromcache(db_local, k->data);
+						pmpkg_t *depender = db_get_pkgfromcache(db_local, k->data);
 						for(m = depender->depends; m; m = m->next) {
 							if(!strcmp(m->data, old->name)) {
 								FREE(m->data);
 								m->data = strdup(new->name);
 							}
 						}
-						db_write(db, depender, INFRQ_DEPENDS);
+						db_write(db_local, depender, INFRQ_DEPENDS);
 
-						// add the new requiredby
-						new->requiredby = list_add(new->requiredby, strdup(k->data));
+						/* add the new requiredby */
+						new->requiredby = pm_list_add(new->requiredby, strdup(k->data));
 					}
 				}
 			}
-			db_write(db, new, INFRQ_DEPENDS);
+			db_write(db_local, new, INFRQ_DEPENDS);
 			FREEPKG(new);
-		}*/
+		}
 	}
 
 	/* cache needs to be rebuilt */
