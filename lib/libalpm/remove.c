@@ -211,8 +211,12 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		/* remove the package from the database */
 		_alpm_log(PM_LOG_FLOW1, "updating database");
+		_alpm_log(PM_LOG_FLOW2, "removing database entry %s", info->name);
 		if(db_remove(db, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, "failed to remove database entry %s/%s-%s", db->treename, info->name, info->version);
+			_alpm_log(PM_LOG_ERROR, "could not remove database entry %s/%s-%s", db->treename, info->name, info->version);
+		}
+		if(db_remove_pkgfromcache(db, info->name) == -1) {
+			_alpm_log(PM_LOG_ERROR, "could not remove entry %s from cache", info->name);
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
@@ -226,7 +230,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 				continue;
 			}
 
-			depinfo = db_scan(db, depend.name, INFRQ_DESC|INFRQ_DEPENDS);
+			depinfo = db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
@@ -235,7 +239,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 					 *       the first one.
 					 */
 					/* use the first one */
-					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
+					depinfo = db_get_pkgfromcache(db, ((pmpkg_t *)provides->data)->name);
 					FREELISTPTR(provides);
 					if(depinfo == NULL) {
 						/* wtf */
@@ -256,16 +260,12 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db->treename, depinfo->name, depinfo->version);
 			}
-			FREEPKG(depinfo);
 		}
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 			alpm_logaction("removed %s (%s)", info->name, info->version);
 		}
-
-		/* cache needs to be rebuilt */
-		db_free_pkgcache(db);
 	}
 
 	/* run ldconfig if it exists */

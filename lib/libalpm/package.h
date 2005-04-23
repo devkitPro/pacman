@@ -80,6 +80,7 @@ typedef struct __pmpkg_t {
 } while(0)
 
 pmpkg_t* pkg_new();
+pmpkg_t *pkg_dup(pmpkg_t *pkg);
 void pkg_free(pmpkg_t *pkg);
 pmpkg_t *pkg_load(char *pkgfile);
 int pkg_cmp(const void *p1, const void *p2);

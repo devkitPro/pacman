@@ -71,6 +71,45 @@ pmpkg_t *pkg_new()
 	return(pkg);
 }
 
+pmpkg_t *pkg_dup(pmpkg_t *pkg)
+{
+	pmpkg_t* newpkg = NULL;
+
+	newpkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
+	if(newpkg == NULL) {
+		return(NULL);
+	}
+
+	STRNCPY(newpkg->name, pkg->name, PKG_NAME_LEN);
+	STRNCPY(newpkg->version, pkg->version, PKG_VERSION_LEN);
+	STRNCPY(newpkg->desc, pkg->desc, PKG_DESC_LEN);
+	STRNCPY(newpkg->url, pkg->url, PKG_URL_LEN);
+	STRNCPY(newpkg->license, pkg->license, PKG_LICENSE_LEN);
+	STRNCPY(newpkg->builddate, pkg->builddate, PKG_DATE_LEN);
+	STRNCPY(newpkg->installdate, pkg->installdate, PKG_DATE_LEN);
+	STRNCPY(newpkg->packager, pkg->packager, PKG_PACKAGER_LEN);
+	STRNCPY(newpkg->md5sum, pkg->md5sum, PKG_MD5SUM_LEN);
+	STRNCPY(newpkg->arch, pkg->arch, PKG_ARCH_LEN);
+	newpkg->size       = pkg->size;
+	newpkg->force      = pkg->force;
+	newpkg->scriptlet  = pkg->scriptlet;
+	newpkg->reason     = pkg->reason;
+	newpkg->requiredby = _alpm_list_strdup(pkg->requiredby);
+	newpkg->conflicts  = _alpm_list_strdup(pkg->conflicts);
+	newpkg->files      = _alpm_list_strdup(pkg->files);
+	newpkg->backup     = _alpm_list_strdup(pkg->backup);
+	newpkg->depends    = _alpm_list_strdup(pkg->depends);
+	newpkg->groups     = _alpm_list_strdup(pkg->groups);
+	newpkg->provides   = _alpm_list_strdup(pkg->provides);
+	newpkg->replaces   = _alpm_list_strdup(pkg->replaces);
+	/* internal */
+	newpkg->origin     = pkg->origin;
+	newpkg->data = (newpkg->origin == PKG_FROM_FILE) ? strdup(pkg->data) : pkg->data;
+	newpkg->infolevel  = pkg->infolevel;
+
+	return(newpkg);
+}
+
 void pkg_free(pmpkg_t *pkg)
 {
 	if(pkg == NULL) {

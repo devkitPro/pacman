@@ -65,7 +65,9 @@ void sync_free(pmsyncpkg_t *sync)
 {
 	if(sync) {
 		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			FREELISTPTR(sync->data);
+			FREELISTPKGS(sync->data);
+		} else {
+			FREEPKG(sync->data);
 		}
 		free(sync);
 	}
@@ -471,6 +473,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	PMList *i;
 	PMList *data;
 	pmtrans_t *tr;
+	int replaces = 0;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -493,9 +496,10 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 			if(trans_addtarget(tr, pkg->name)) {
 				goto error;
 			}
+			replaces++;
 		}
 	}
-	if(tr->packages) {
+	if(replaces) {
 		_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
 		if(trans_prepare(tr, &data) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not prepare transaction");
@@ -547,41 +551,42 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
-	_alpm_log(PM_LOG_FLOW1, "updating database for replaced packages dependencies");
-	for(i = trans->packages; i; i = i->next) {
-		pmsyncpkg_t *sync = i->data;
-		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			PMList *j;
-			pmpkg_t *new = db_get_pkgfromcache(db_local, sync->pkg->name);
-			for(j = sync->data; j; j = j->next) {
-				PMList *k;
-				pmpkg_t *old = j->data;
-				/* merge lists */
-				for(k = old->requiredby; k; k = k->next) {
-					if(!pm_list_is_strin(k->data, new->requiredby)) {
-						/* replace old's name with new's name in the requiredby's dependency list */
-						PMList *m;
-						pmpkg_t *depender = db_get_pkgfromcache(db_local, k->data);
-						for(m = depender->depends; m; m = m->next) {
-							if(!strcmp(m->data, old->name)) {
-								FREE(m->data);
-								m->data = strdup(new->name);
+	if(replaces) {
+		_alpm_log(PM_LOG_FLOW1, "updating database for replaced packages dependencies");
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			if(sync->type == PM_SYNC_TYPE_REPLACE) {
+				PMList *j;
+				pmpkg_t *new = db_get_pkgfromcache(db_local, sync->pkg->name);
+				for(j = sync->data; j; j = j->next) {
+					PMList *k;
+					pmpkg_t *old = j->data;
+					/* merge lists */
+					for(k = old->requiredby; k; k = k->next) {
+						if(!pm_list_is_strin(k->data, new->requiredby)) {
+							/* replace old's name with new's name in the requiredby's dependency list */
+							PMList *m;
+							pmpkg_t *depender = db_get_pkgfromcache(db_local, k->data);
+							for(m = depender->depends; m; m = m->next) {
+								if(!strcmp(m->data, old->name)) {
+									FREE(m->data);
+									m->data = strdup(new->name);
+								}
 							}
+							if(db_write(db_local, depender, INFRQ_DEPENDS) == -1) {
+								_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db_local->treename, new->name, new->version);
+							}
+							/* add the new requiredby */
+							new->requiredby = pm_list_add(new->requiredby, strdup(k->data));
 						}
-						db_write(db_local, depender, INFRQ_DEPENDS);
-
-						/* add the new requiredby */
-						new->requiredby = pm_list_add(new->requiredby, strdup(k->data));
 					}
 				}
+				if(db_write(db_local, new, INFRQ_DEPENDS) == -1) {
+					_alpm_log(PM_LOG_ERROR, "could not update new database entry %s/%s-%s", db_local->treename, new->name, new->version);
+				}
 			}
-			db_write(db_local, new, INFRQ_DEPENDS);
-			FREEPKG(new);
 		}
 	}
-
-	/* cache needs to be rebuilt */
-	db_free_pkgcache(db_local);
 
 	return(0);
 

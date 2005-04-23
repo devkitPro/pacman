@@ -273,11 +273,13 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				/* we'll need the full record for backup checks later */
 				oldpkg = pkg_new();
-				STRNCPY(oldpkg->name, info->name, PKG_NAME_LEN);
-				STRNCPY(oldpkg->version, info->version, PKG_VERSION_LEN);
-				oldpkg->backup = _alpm_list_strdup(info->backup);
-				/* ORE
-				oldpkg->reason = info->reason;*/
+				if(oldpkg) {
+					STRNCPY(oldpkg->name, info->name, PKG_NAME_LEN);
+					STRNCPY(oldpkg->version, info->version, PKG_VERSION_LEN);
+					oldpkg->backup = _alpm_list_strdup(info->backup);
+					/* ORE
+					oldpkg->reason = info->reason;*/
+				}
 
 				/* pre_upgrade scriptlet */
 				if(info->scriptlet) {
@@ -364,16 +366,15 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		}*/
 		/* make an install date (in UTC) */
 		STRNCPY(info->installdate, asctime(gmtime(&t)), sizeof(info->installdate));
+		_alpm_log(PM_LOG_FLOW2, "adding database entry %s", info->name);
 		if(db_write(db, info, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, "could not update database entry %s/%s-%s", db->treename, info->name, info->version);
 			alpm_logaction(NULL, "error updating database for %s-%s!", info->name, info->version);
 			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
-		/* ORE
-		in case of an installation, then add info in the pkgcache
-		in case of an upgrade, then replace the existing one (or just add because
-		trans_remove should already has removed it?
-		something like db_cache_addpkg(db, pkgdup(info)); (should also free db->grpcache) */
+		if(db_add_pkgincache(db, info) == -1) {
+			_alpm_log(PM_LOG_ERROR, "could not add entry %s in cache", info->name);
+		}
 
 		/* update dependency packages' REQUIREDBY fields */
 		_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
@@ -387,7 +388,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 
 			/* ORE
 			same thing here: we should browse the cache instead of using db_scan */
-			depinfo = db_scan(db, depend.name, INFRQ_DESC|INFRQ_DEPENDS);
+			depinfo = db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
 				/* ORE
@@ -399,7 +400,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					 *       the first one.
 					 */
 					/* use the first one */
-					depinfo = db_scan(db, ((pmpkg_t *)provides->data)->name, INFRQ_DESC|INFRQ_DEPENDS);
+					depinfo = db_get_pkgfromcache(db, ((pmpkg_t *)provides->data)->name);
 					FREELISTPTR(provides);
 					if(depinfo == NULL) {
 						/* wtf */
@@ -409,15 +410,11 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					continue;
 				}
 			}
-			/* ORE
-			if depinfo points on a package from the cache, the cache will be updated
-			automatically here! */
 			depinfo->requiredby = pm_list_add(depinfo->requiredby, strdup(info->name));
 			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package %s", depinfo->name);
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db->treename, depinfo->name, depinfo->version);
 			}
-			FREEPKG(depinfo);
 		}
 
 		/* Extract the .tar.gz package */
@@ -640,13 +637,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		FREEPKG(oldpkg);
-
-		/* cache needs to be rebuilt */
-		/* ORE
-		cache should be updated and never freed/reloaded from scratch each time a
-		package is added!!! */
-		db_free_pkgcache(db);
-
 	}
 
 	/* run ldconfig if it exists */

@@ -64,7 +64,7 @@ int db_load_pkgcache(pmdb_t *db)
 
 void db_free_pkgcache(pmdb_t *db)
 {
-	if(db == NULL || db->pkgcache == NULL) {
+	if(db == NULL) {
 		return;
 	}
 
@@ -86,6 +86,57 @@ PMList *db_get_pkgcache(pmdb_t *db)
 	}
 
 	return(db->pkgcache);
+}
+
+int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
+{
+	pmpkg_t *newpkg;
+
+	_alpm_log(PM_LOG_FUNCTION, "[db_add_pkgincache] called");
+
+	if(db == NULL || pkg == NULL) {
+		return(-1);
+	}
+
+	newpkg = pkg_dup(pkg);
+	if(newpkg == NULL) {
+		return(-1);
+	}
+	db->pkgcache = pm_list_add_sorted(db->pkgcache, newpkg, pkg_cmp);
+
+	db_free_grpcache(db);
+
+	return(0);
+}
+
+int db_remove_pkgfromcache(pmdb_t *db, char *name)
+{
+	PMList *i;
+	int found = 0;
+
+	if(db == NULL || name == NULL || strlen(name) == 0) {
+		return(-1);
+	}
+
+	_alpm_log(PM_LOG_FUNCTION, "[db_remove_pkgfromcache] called");
+
+	for(i = db->pkgcache; i && !found; i = i->next) {
+		if(strcmp(((pmpkg_t *)i->data)->name, name) == 0) {
+			_alpm_log(PM_LOG_DEBUG, "removing entry %s from \"%s\" cache", name, db->treename);
+			db->pkgcache = _alpm_list_remove(db->pkgcache, i);
+			/* ORE
+			MLK: list_remove() does not free properly an entry from a packages list */
+			found = 1;
+		}
+	}
+
+	if(!found) {
+		return(-1);
+	}
+
+	db_free_grpcache(db);
+
+	return(0);
 }
 
 pmpkg_t *db_get_pkgfromcache(pmdb_t *db, char *target)
@@ -158,7 +209,7 @@ void db_free_grpcache(pmdb_t *db)
 {
 	PMList *lg;
 
-	if(db == NULL || db->grpcache == NULL) {
+	if(db == NULL) {
 		return;
 	}
 
