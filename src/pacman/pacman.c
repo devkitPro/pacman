@@ -236,11 +236,14 @@ void cleanup(int signum)
 
 int pacman_deptest(list_t *targets)
 {
-	PM_LIST *lp, *data;
-	PM_PKG *dummy;
+	PM_LIST *data;
+
+	if(targets == NULL) {
+		return(0);
+	}
 
 	if(pmo_d_vertest) {
-		if(targets && targets->data && targets->next && targets->next->data) {
+		if(targets->data && targets->next && targets->next->data) {
 			int ret = alpm_pkg_vercmp(targets->data, targets->next->data);
 			printf("%d\n", ret);
 			return(ret);
@@ -255,32 +258,20 @@ int pacman_deptest(list_t *targets)
 		return(1);
 	}
 
-	dummy = NULL;
 	/* ORE
-	find a way to create a fake package and to add it to the transaction
-	targets
-	dummy = (pm_pkginfo_t *)malloc(sizeof(pm_pkginfo_t));
-	if(dummy == NULL) {
-		ERR(NL, "error: can't allocate %d bytes\n", sizeof(pm_pkginfo_t));
-		exit(1);
-	}
-	sprintf(dummy->name, "_dummy_");
-	sprintf(dummy->version, "1.0-1");
-
-	for(i = targets; i; i = i->next) {
-		if(i->data == NULL) continue;
-		dummy->depends = list_add(dummy->depends, strdup(i->data)));
-	}
-
-	trans->targets = list_add(trans->targets, strdup(dummy->name));*/
-
-	if(alpm_trans_addtarget(NULL) == -1) {
+	 * For ADD transaction, implement a hack to alpm_trans_addtarget() to add 
+	 * a dummy target based on the pattern: "__dummy__|version|dep1|dep2|..."
+	 * where "dummy" is the package name, "version" its version, and every dep?
+	 * the content of the "depends" field.
+	 */
+	if(alpm_trans_addtarget("__dummy__|1.0-1|dep1|dep2|...") == -1) {
 		ERR(NL, "error: %s\n", alpm_strerror(pm_errno));
 		alpm_trans_release();
 		return(1);
 	}
 
 	if(alpm_trans_prepare(&data) == -1) {
+		PM_LIST *lp;
 		int ret = 126;
 		list_t *synctargs = NULL;
 
