@@ -210,7 +210,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					STRNCPY(miss->target, p->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
-					if(!pm_list_is_ptrin(miss, baddeps)) {
+					if(!pm_list_is_in(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -238,7 +238,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
-						if(!pm_list_is_ptrin(miss, baddeps)) {
+						if(!pm_list_is_in(miss, baddeps)) {
 							baddeps = pm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
@@ -255,7 +255,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, a->name, PKG_NAME_LEN);
-						if(!pm_list_is_ptrin(miss, baddeps)) {
+						if(!pm_list_is_in(miss, baddeps)) {
 							baddeps = pm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
@@ -274,7 +274,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
-						if(!pm_list_is_ptrin(miss, baddeps)) {
+						if(!pm_list_is_in(miss, baddeps)) {
 							baddeps = pm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
@@ -415,7 +415,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
-					if(!pm_list_is_ptrin(miss, baddeps)) {
+					if(!pm_list_is_in(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -439,7 +439,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, (char *)j->data, PKG_NAME_LEN);
-					if(!pm_list_is_ptrin(miss, baddeps)) {
+					if(!pm_list_is_in(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);

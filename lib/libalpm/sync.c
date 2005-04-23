@@ -401,7 +401,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					continue;
 				}
 				/* make sure this package wasn't already removed from the final list */
-				if(pm_list_is_ptrin(miss->target, exfinal)) {
+				if(pm_list_is_in(miss->target, exfinal)) {
 					continue;
 				}
 
@@ -455,7 +455,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 	we won't be breaking anything by removing them.
 	If a broken dep is detected, make sure it's not from a
 	package that's in our final (upgrade) list. */
-	_alpm_log(PM_LOG_DEBUG, "checking dependencies of packages designated for removal");
+	/*_alpm_log(PM_LOG_DEBUG, "checking dependencies of packages designated for removal");*/
 
 	return(0);
 
@@ -547,13 +547,10 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	trans_free(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
-	/* ORE
-	won't work because if replaced packages are already removed, the sync(REPLACES)
-	structures data field will point to unexisting data... */
 	_alpm_log(PM_LOG_FLOW1, "updating database for replaced packages dependencies");
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
-		if(sync->type == PM_SYNC_TYPE_REPLACE && sync->data) {
+		if(sync->type == PM_SYNC_TYPE_REPLACE) {
 			PMList *j;
 			pmpkg_t *new = db_get_pkgfromcache(db_local, sync->pkg->name);
 			for(j = sync->data; j; j = j->next) {

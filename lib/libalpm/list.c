@@ -217,7 +217,7 @@ int pm_list_count(PMList *list)
 	return(i);
 }
 
-int pm_list_is_ptrin(void *needle, PMList *haystack)
+int pm_list_is_in(void *needle, PMList *haystack)
 {
 	PMList *lp;
 
