@@ -529,7 +529,10 @@ int pacman_sync(list_t *targets)
 				data = alpm_sync_getinfo(sync, PM_SYNC_DATA);
 				for(j = alpm_list_first(data); j; j = alpm_list_next(j)) {
 					PM_PKG *p = alpm_list_getdata(j);
-					list = list_add(list, strdup((char *)alpm_pkg_getinfo(p, PM_PKG_NAME)));
+					char *pkgname = alpm_pkg_getinfo(p, PM_PKG_NAME);
+					if(!list_is_strin(pkgname, list)) {
+						list = list_add(list, strdup(pkgname));
+					}
 				}
 			}
 		}
