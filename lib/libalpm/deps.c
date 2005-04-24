@@ -33,6 +33,9 @@
 #include "provide.h"
 #include "deps.h"
 #include "rpmvercmp.h"
+#include "handle.h"
+
+extern pmhandle_t *handle;
 
 /* Re-order a list of target packages with respect to their dependencies.
  *
@@ -628,17 +631,11 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				 */
 				int usedep = 1;
 				found = 0;
-				/* ORE
 				for(j = handle->ignorepkg; j && !found; j = j->next) {
 					if(!strcmp(j->data, sync->name)) {
 						found = 1;
 					}
 				}
-				for(j = pmo_s_ignore; j && !found; j = j->next) {
-					if(!strcmp(j->data, sync->pkg->name)) {
-						found = 1;
-					}
-				}*/
 				if(found) {
 					/* ORE
 					usedep = yesno("%s requires %s, but it is in IgnorePkg.  Install anyway? [Y/n] ",
