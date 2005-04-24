@@ -72,6 +72,7 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root)
 				}
 			}
 		}
+		FREEPKG(info);
 	}*/
 
 	/* CHECK 2: check every target against every target */
