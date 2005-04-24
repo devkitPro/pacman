@@ -56,10 +56,17 @@ int remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	/* ORE
 	we should better find the package in the cache, and then perform a
 	db_read(INFRQ_FILES) to add files information to it. */
+	_alpm_log(PM_LOG_FLOW2, "loading target %s", name);
 	if((info = db_scan(db, name, INFRQ_ALL)) == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
+
+	if(pkg_isin(info, trans->packages)) {
+		FREEPKG(info);
+		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+	}
+
 	trans->packages = pm_list_add(trans->packages, info);
 
 	return(0);
