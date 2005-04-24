@@ -108,6 +108,8 @@ int pacman_remove(list_t *targets)
 	 */
 	if(pmo_flags & PM_TRANS_FLAG_RECURSE || pmo_flags & PM_TRANS_FLAG_CASCADE) {
 		/* list transaction targets */
+		/* ORE
+		 * we need to get the list from TRANS_PACKAGES info instead of TRANS_TARGETS! */
 		PM_LIST_display("\nTargets:", alpm_trans_getinfo(PM_TRANS_TARGETS));
 		/* get confirmation */
 		if(yesno("\nDo you want to remove these packages? [Y/n] ") == 0) {
