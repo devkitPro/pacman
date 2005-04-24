@@ -67,7 +67,6 @@ int remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
-	pmpkg_t *info;
 	PMList *lp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -84,11 +83,12 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 					PMList *j;
 					for(j = lp; j; j = j->next) {
 						pmdepmissing_t* miss = (pmdepmissing_t*)j->data;
-						info = db_scan(db, miss->depend.name, INFRQ_ALL);
+						pmpkg_t *info = db_get_pkgfromcache(db, miss->depend.name);
 						if(!pkg_isin(info, trans->packages)) {
+							/* ORE
+							see remove_loadtarget() on how to avoid db_scan() */
+							info = db_scan(db, miss->depend.name, INFRQ_ALL);
 							trans->packages = pm_list_add(trans->packages, info);
-						} else {
-							FREEPKG(info);
 						}
 					}
 					FREELIST(lp);
