@@ -65,13 +65,13 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 	printf("Reason:        : ");
 	switch((int)alpm_pkg_getinfo(pkg, PM_PKG_REASON)) {
 		case PM_PKG_REASON_EXPLICIT:
-			printf("explicitly installed\n");
+			printf("Explicitly installed\n");
 			break;
 		case PM_PKG_REASON_DEPEND:
-			printf("installed as a dependency for another package\n");
+			printf("Installed as a dependency for another package\n");
 			break;
 		default:
-			printf("unknown\n");
+			printf("Unknown\n");
 			break;
 	}
 

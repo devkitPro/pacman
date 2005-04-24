@@ -711,13 +711,11 @@ int pacman_sync(list_t *targets)
 	}
 
 	/* Step 3: actually perform the installation */
-	MSG(NL, "commiting sync transaction... ");
 	if(alpm_trans_commit(&data) == -1) {
 		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
 	}
-	MSG(CL, "done.\n");
 
 	if(!varcache && !pmo_s_downloadonly) {
 		/* delete packages */
