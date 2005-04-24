@@ -61,9 +61,11 @@ long _alpm_gzopen_frontend(char *pathname, int oflags, int mode)
 		return -1;
 	}
 	if((oflags & O_CREAT) && fchmod(fd, mode)) {
+		close(fd);
 		return -1;
 	}
 	if(!(gzf = gzdopen(fd, gzoflags))) {
+		close(fd);
 		errno = ENOMEM;
 		return -1;
 	}
@@ -114,6 +116,7 @@ int _alpm_copyfile(char *src, char *dest)
 	}
 	out = fopen(dest, "w");
 	if(out == NULL) {
+		fclose(in);
 		return(1);
 	}
 
@@ -162,7 +165,7 @@ char *_alpm_strtrim(char *str)
 		return(str);
 	}
 
-	pch = (char*)(str + (strlen(str) - 1));
+	pch = (char *)(str + (strlen(str) - 1));
 	while(isspace(*pch)) {
 		pch--;
 	}
@@ -218,6 +221,8 @@ int _alpm_lckmk(char *file)
  */
 int _alpm_lckrm(char *file)
 {
+	/* ORE
+	we should close the file descriptor opened by lckmk */
 	return(unlink(file) == -1);
 }
 
