@@ -375,14 +375,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					k = _alpm_db_whatprovides(db, depend.name);
 					if(k) {
 						/* grab the first one (there should only really be one, anyway) */
-						pmpkg_t *p = db_scan(db, ((pmpkg_t *)k->data)->name, INFRQ_DESC);
-						if(p == NULL) {
-							/* wtf */
-							_alpm_log(PM_LOG_ERROR, "%s supposedly provides %s, but it was not found in db",
-								((pmpkg_t *)k->data)->name, depend.name);
-							FREELISTPTR(k);
-							continue;
-						}
+						pmpkg_t *p = k->data;
 						if(depend.mod == PM_DEP_MOD_ANY) {
 							/* accept any version */
 							found = 1;
@@ -404,8 +397,8 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 							}
 							FREE(ver);
 						}
+						FREELISTPTR(k);
 					}
-					FREELISTPTR(k);
 				}
 				/* else if still not found... */
 				if(!found) {
@@ -516,7 +509,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 			pmpkg_t *dep;
 			int needed = 0;
 			splitdep(j->data, &depend);
-			dep = db_scan(db, depend.name, INFRQ_DESC | INFRQ_DEPENDS);
+			dep = db_get_pkgfromcache(db, depend.name);
 			if(pkg_isin(dep, targs)) {
 				continue;
 			}
@@ -527,17 +520,19 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 			}
 			/* see if other packages need it */
 			for(k = dep->requiredby; k && !needed; k = k->next) {
-				pmpkg_t *dummy = db_scan(db, k->data, INFRQ_DESC);
+				pmpkg_t *dummy = db_get_pkgfromcache(db, k->data);
 				if(!pkg_isin(dummy, targs)) {
 					needed = 1;
 				}
 			}
 			if(!needed) {
+				char *name;
+				asprintf(&name, "%s-%s", dep->name, dep->version);
 				/* add it to the target list */
-				pkg_free(dep);
-				dep = db_scan(db, depend.name, INFRQ_ALL);
+				db_read(db, name, INFRQ_ALL, dep);
 				newtargs = pm_list_add(newtargs, dep);
 				newtargs = removedeps(db, newtargs);
+				FREE(name);
 			}
 		}
 	}
