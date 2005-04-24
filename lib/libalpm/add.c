@@ -97,8 +97,6 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	/* check if an older version of said package is already in transaction packages.
 	 * if so, replace it in the list */
-	/* ORE
-	we'd better do it before load_pkg. */
 	for(j = trans->packages; j; j = j->next) {
 		pmpkg_t *pkg = j->data;
 
@@ -386,14 +384,9 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				continue;
 			}
 
-			/* ORE
-			same thing here: we should browse the cache instead of using db_scan */
 			depinfo = db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
-				/* ORE
-				_alpm_db_whatprovides() should return a list of pointer to pkg from the
-				cache, thus eliminating the need for db_scan(DEPENDS) */
 				PMList *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
 					/* TODO: should check _all_ packages listed in provides, not just
