@@ -92,8 +92,6 @@ int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
 
-	_alpm_log(PM_LOG_FUNCTION, "[db_add_pkgincache] called");
-
 	if(db == NULL || pkg == NULL) {
 		return(-1);
 	}
@@ -102,6 +100,7 @@ int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 	if(newpkg == NULL) {
 		return(-1);
 	}
+	_alpm_log(PM_LOG_DEBUG, "adding entry %s in \"%s\" cache", newpkg->name, db->treename);
 	db->pkgcache = pm_list_add_sorted(db->pkgcache, newpkg, pkg_cmp);
 
 	db_free_grpcache(db);
@@ -117,8 +116,6 @@ int db_remove_pkgfromcache(pmdb_t *db, char *name)
 	if(db == NULL || name == NULL || strlen(name) == 0) {
 		return(-1);
 	}
-
-	_alpm_log(PM_LOG_FUNCTION, "[db_remove_pkgfromcache] called");
 
 	for(i = db->pkgcache; i && !found; i = i->next) {
 		if(strcmp(((pmpkg_t *)i->data)->name, name) == 0) {
