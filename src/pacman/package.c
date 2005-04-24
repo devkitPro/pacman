@@ -37,7 +37,6 @@
 void dump_pkg_full(PM_PKG *pkg, int level)
 {
 	char *date;
-	PM_LIST *backup;
 
 	if(pkg == NULL) {
 		return;
@@ -56,7 +55,6 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 
 	date = alpm_pkg_getinfo(pkg, PM_PKG_BUILDDATE);
 	printf("Build Date     : %s %s\n", date, strlen(date) ? "UTC" : "");
-
 	date = alpm_pkg_getinfo(pkg, PM_PKG_INSTALLDATE);
 	printf("Install Date   : %s %s\n", date, strlen(date) ? "UTC" : "");
 
@@ -84,14 +82,12 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 	indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 17);
 	printf("\n");
 
-	backup = alpm_pkg_getinfo(pkg, PM_PKG_BACKUP);
-	if(level > 1 && backup) {
+	if(level > 1) {
 		PM_LIST *i;
 		char *root;
-
 		alpm_get_option(PM_OPT_ROOT, (long *)&root);
 		fprintf(stdout, "\n");
-		for(i = alpm_list_first(backup); i; i = alpm_list_next(i)) {
+		for(i = alpm_list_first(alpm_pkg_getinfo(pkg, PM_PKG_BACKUP)); i; i = alpm_list_next(i)) {
 			struct stat buf;
 			char path[PATH_MAX];
 			char *md5sum;
