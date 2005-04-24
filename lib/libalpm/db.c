@@ -483,7 +483,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		fputs("%SIZE%\n", fp);
 		fprintf(fp, "%ld\n\n", info->size);
 		fputs("%REASON%\n", fp);
-		fprintf(fp, "%ld\n\n", info->reason);
+		fprintf(fp, "%d\n\n", info->reason);
 		fclose(fp);
 	}
 
