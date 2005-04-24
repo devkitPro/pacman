@@ -68,6 +68,9 @@ int alpm_initialize(char *root)
 	ASSERT(handle == NULL, RET_ERR(PM_ERR_HANDLE_NOT_NULL, -1));
 
 	handle = handle_new();
+	if(handle == NULL) {
+		RET_ERR(PM_ERR_MEM_ERROR, -1);
+	}
 
 	/* lock db */
 	if(handle->access == PM_ACCESS_RW) {
@@ -440,9 +443,6 @@ int alpm_pkg_load(char *filename, pmpkg_t **pkg)
 
 void alpm_pkg_free(pmpkg_t *pkg)
 {
-	if(pkg == NULL) {
-		return;
-	}
 	pkg_free(pkg);
 }
 
@@ -699,11 +699,7 @@ void *alpm_list_getdata(PMList *entry)
 
 int alpm_list_free(PMList *entry)
 {
-	if(entry) {
-		/* ORE
-		does not free all memory for packages... */
-		FREELIST(entry);
-	}
+	FREELIST(entry);
 
 	return(0);
 }
