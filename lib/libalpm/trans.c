@@ -133,6 +133,7 @@ int trans_addtarget(pmtrans_t *trans, char *target)
 			}
 		break;
 	}
+
 	trans->targets = pm_list_add(trans->targets, strdup(target));
 
 	return(0);

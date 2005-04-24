@@ -254,7 +254,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	strncpy(targline, name, (PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1);
+	STRNCPY(targline, name, (PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1);
 	targ = strchr(targline, '/');
 	if(targ) {
 		*targ = '\0';
@@ -294,7 +294,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 			/* ORE
 			if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
 			}*/
-			_alpm_log(PM_LOG_WARNING, "%s-%s: is up to date -- skipping", local->name, local->version);
+			_alpm_log(PM_LOG_WARNING, "%s-%s is up to date -- skipping", local->name, local->version);
 			return(0);
 		}
 	}
@@ -352,9 +352,6 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				/* pm_errno is set by resolvedeps */
 				goto error;
 			}
-			/* ORE
-			if called from makepkg, reason should be set to REASON_DEPEND
-			spkg->reason = PM_PKG_REASON_EXPLICIT;*/
 		}
 		for(i = list; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
@@ -472,7 +469,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 {
 	PMList *i;
 	PMList *data;
-	pmtrans_t *tr;
+	pmtrans_t *tr = NULL;
 	int replaces = 0;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -492,9 +489,15 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			pmpkg_t *pkg = sync->pkg;
-			if(trans_addtarget(tr, pkg->name)) {
-				goto error;
+			PMList *pkgs = sync->data;
+			PMList *j;
+			for(j = pkgs; j; j = j->next) {
+				pmpkg_t *pkg = j->data;
+				if(!pkg_isin(pkg, tr->packages)) {
+					if(trans_addtarget(tr, pkg->name) == -1) {
+						goto error;
+					}
+				}
 			}
 			replaces++;
 		}
@@ -514,7 +517,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 			goto error;
 		}
 	}
-	trans_free(tr);
+	FREETRANS(tr);
 
 	/* install targets */
 	_alpm_log(PM_LOG_FLOW1, "installing packages");
@@ -531,13 +534,21 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	}
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
-		if(sync->type != PM_SYNC_TYPE_REPLACE) {
-			pmpkg_t *spkg = sync->pkg;
-			char str[PATH_MAX];
-			snprintf(str, PATH_MAX, "%s" PM_CACHEDIR "/%s-%s" PM_EXT_PKG, handle->root, spkg->name, spkg->version);
-			if(trans_addtarget(tr, str) == -1) {
-				goto error;
-			}
+		pmpkg_t *spkg = sync->pkg;
+		char str[PATH_MAX];
+		snprintf(str, PATH_MAX, "%s" PM_CACHEDIR "/%s-%s" PM_EXT_PKG, handle->root, spkg->name, spkg->version);
+		if(trans_addtarget(tr, str) == -1) {
+			goto error;
+		}
+		/* using list_last() is ok because addtarget() adds the new target at the
+		 * end of the tr->packages list */
+		spkg = pm_list_last(tr->packages)->data;
+		if(sync->type == PM_SYNC_TYPE_DEPEND) {
+			/* ORE
+			 * if called from makepkg, reason should be set to PM_PKG_REASON_DEPEND */
+			spkg->reason = PM_PKG_REASON_DEPEND;
+		} else {
+			spkg->reason = PM_PKG_REASON_EXPLICIT;
 		}
 	}
 	if(trans_prepare(tr, &data) == -1) {
@@ -552,7 +563,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
-	trans_free(tr);
+	FREETRANS(tr);
 
 	/* propagate replaced packages' requiredby fields to their new owners */
 	if(replaces) {
@@ -595,6 +606,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	return(0);
 
 error:
+	FREETRANS(tr);
 	return(-1);
 }
 

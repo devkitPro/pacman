@@ -69,7 +69,7 @@ int alpm_initialize(char *root)
 
 	handle = handle_new();
 	if(handle == NULL) {
-		RET_ERR(PM_ERR_MEM_ERROR, -1);
+		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
 	/* lock db */
@@ -111,10 +111,8 @@ int alpm_release()
 	}
 	/* and also sync ones */
 	for(i = handle->dbs_sync; i; i = i->next) {
-		if(i->data) {
-			db_close(i->data);
-			i->data = NULL;
-		}
+		db_close(i->data);
+		i->data = NULL;
 	}
 
 	FREEHANDLE(handle);

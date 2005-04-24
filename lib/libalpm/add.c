@@ -125,6 +125,11 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		pm_errno = PM_ERR_PKG_INVALID;
 		goto error;
 	}
+
+	/* set the reason to EXPLICIT by default
+	 * it will be overwritten in the case of an upgrade or a sync operation */
+	info->reason = PM_PKG_REASON_EXPLICIT;
+
 	/* add the package to the transaction */
 	trans->packages = pm_list_add(trans->packages, info);
 
@@ -147,10 +152,6 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 
 	/* Check dependencies
 	 */
-
-	/* ORE ???
-	No need to check deps if pacman_add was called during a sync:
-	it is already done in pacman_sync */
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		PMList *j;
 
@@ -238,7 +239,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 	TAR *tar = NULL;
 	char expath[PATH_MAX];
 	time_t t;
-	pmpkg_t *info = NULL;
 	PMList *targ, *lp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -257,26 +257,25 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		};
 		unsigned short pmo_upgrade;
 		char pm_install[PATH_MAX];
+		pmpkg_t *info = (pmpkg_t *)targ->data;
 		pmpkg_t *oldpkg = NULL;
-		info = (pmpkg_t *)targ->data;
 		errors = 0;
 
 		pmo_upgrade = (trans->type == PM_TRANS_TYPE_UPGRADE) ? 1 : 0;
 
 		/* see if this is an upgrade.  if so, remove the old package first */
 		if(pmo_upgrade) {
-			if(pkg_isin(info, db_get_pkgcache(db))) {
+			pmpkg_t *local = db_get_pkgfromcache(db, info->name);
+			if(local) {
 				TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_START, info, NULL);
 				_alpm_log(PM_LOG_FLOW1, "upgrading package %s-%s", info->name, info->version);
 
-				/* we'll need the full record for backup checks later */
+				/* we'll need to save some record for backup checks later */
 				oldpkg = pkg_new();
 				if(oldpkg) {
-					STRNCPY(oldpkg->name, info->name, PKG_NAME_LEN);
-					STRNCPY(oldpkg->version, info->version, PKG_VERSION_LEN);
-					oldpkg->backup = _alpm_list_strdup(info->backup);
-					/* ORE
-					oldpkg->reason = info->reason;*/
+					STRNCPY(oldpkg->name, local->name, PKG_NAME_LEN);
+					STRNCPY(oldpkg->version, local->version, PKG_VERSION_LEN);
+					oldpkg->backup = _alpm_list_strdup(local->backup);
 				}
 
 				/* pre_upgrade scriptlet */
@@ -297,8 +296,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					/* copy over the install reason */
-					/* ORE?
-					info->reason = oldpkg->reason; */
+					info->reason = local->reason;
 					if(remove_loadtarget(tr, db, info->name) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -351,17 +349,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		_alpm_log(PM_LOG_FLOW1, "updating database");
-		/* Figure out whether this package was installed explicitly by the user
-		 * or installed as a dependency for another package
-		 */
-		info->reason = PM_PKG_REASON_EXPLICIT;
-		/* ORE
-		only relevant for sync operations?
-		usage of info->data should be ok for TRANS_TYPE_ADD, but wrong for
-		TRANS_TYPE_SYNC
-		if(pm_list_is_strin(trans->targets, info->data) || pmo_d_resolve) {
-			info->reason = PM_PKG_REASON_DEPEND;
-		}*/
 		/* make an install date (in UTC) */
 		STRNCPY(info->installdate, asctime(gmtime(&t)), sizeof(info->installdate));
 		_alpm_log(PM_LOG_FLOW2, "adding database entry %s", info->name);
