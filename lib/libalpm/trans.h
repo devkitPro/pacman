@@ -34,13 +34,24 @@ typedef struct __pmtrans_t {
 	unsigned char type;
 	unsigned char flags;
 	unsigned char state;
-	PMList *targets; /* PMList of (char *) */
-	PMList *packages; /* PMList of (pmpkginfo_t *) */
+	PMList *targets;     /* PMList of (char *) */
+	PMList *packages;    /* PMList of (pmpkg_t *) or (pmsyncpkg_t *) */
 	alpm_trans_cb cb;
 } pmtrans_t;
 
-#define FREETRANS(p) do { if (p) { trans_free(p); p = NULL; } } while (0)
-#define TRANS_CB(t, e, d1, d2) do { if((t) && (t)->cb) { (t)->cb(e, d1, d2); } } while(0)
+#define FREETRANS(p) \
+do { \
+	if(p) { \
+		trans_free(p); \
+		p = NULL; \
+	} \
+} while (0)
+#define TRANS_CB(t, e, d1, d2) \
+do { \
+	if((t) && (t)->cb) { \
+		(t)->cb(e, d1, d2); \
+	} \
+} while(0)
 
 pmtrans_t *trans_new();
 void trans_free(pmtrans_t *trans);
