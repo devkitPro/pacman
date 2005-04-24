@@ -67,12 +67,19 @@ typedef struct __pmpkg_t {
 	unsigned char infolevel;
 } pmpkg_t;
 
-#define FREEPKG(p) do { if(p) { pkg_free(p); p = NULL; } } while(0)
-
-#define FREELISTPKGS(p) do {\
+#define FREEPKG(p) \
+do { \
 	if(p) { \
-		PMList *i;\
-		for(i = p; i; i = i->next) {\
+		pkg_free(p); \
+		p = NULL; \
+	} \
+} while(0)
+
+#define FREELISTPKGS(p) \
+do { \
+	if(p) { \
+		PMList *i; \
+		for(i = p; i; i = i->next) { \
 			FREEPKG(i->data); \
 		}\
 		FREELIST(p);\

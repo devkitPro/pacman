@@ -49,7 +49,7 @@ void grp_free(pmgrp_t *grp)
 	}
 
 	FREELIST(grp->packages);
-	FREE(grp);
+	free(grp);
 
 	return;
 }

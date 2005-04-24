@@ -63,14 +63,16 @@ pmsyncpkg_t *sync_new(int type, pmpkg_t *spkg, void *data)
 
 void sync_free(pmsyncpkg_t *sync)
 {
-	if(sync) {
-		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			FREELISTPKGS(sync->data);
-		} else {
-			FREEPKG(sync->data);
-		}
-		free(sync);
+	if(sync == NULL) {
+		return;
 	}
+
+	if(sync->type == PM_SYNC_TYPE_REPLACE) {
+		FREELISTPKGS(sync->data);
+	} else {
+		FREEPKG(sync->data);
+	}
+	free(sync);
 }
 
 /* Test for existance of a package in a PMList* of pmsyncpkg_t*
