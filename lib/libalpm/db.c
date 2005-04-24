@@ -330,14 +330,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				}
 				_alpm_strtrim(tmp);
 				info->reason = atol(tmp);
-			} else if(!strcmp(line, "%SIZE%")) {
-				char tmp[32];
-				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
-					return(-1);
-				}
-				_alpm_strtrim(tmp);
-				info->size = atol(tmp);
-			} else if(!strcmp(line, "%CSIZE%")) {
+			} else if(!strcmp(line, "%SIZE%") || !strcmp(line, "%CSIZE%")) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
@@ -490,7 +483,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		fputs("%SIZE%\n", fp);
 		fprintf(fp, "%ld\n\n", info->size);
 		fputs("%REASON%\n", fp);
-		fprintf(fp, "%ld\n\n", info->size);
+		fprintf(fp, "%ld\n\n", info->reason);
 		fclose(fp);
 	}
 
