@@ -260,14 +260,17 @@ pmpkg_t *pkg_load(char *pkgfile)
 			tar_extract_file(tar, descfile);
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
+				FREE(descfile);
 				goto error;
 			}
 			if(!strlen(info->name)) {
 				_alpm_log(PM_LOG_ERROR, "missing package name in %s", pkgfile);
+				FREE(descfile);
 				goto error;
 			}
 			if(!strlen(info->version)) {
 				_alpm_log(PM_LOG_ERROR, "missing package version in %s", pkgfile);
+				FREE(descfile);
 				goto error;
 			}
 			config = 1;
