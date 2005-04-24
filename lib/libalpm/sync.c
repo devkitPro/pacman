@@ -478,8 +478,8 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	/* remove any conflicting packages (WITHOUT dep checks) */
-	/* ORE - alpm does not handle removal of conflicting pkgs for now */
+	/* ORE
+	remove any conflicting packages (WITHOUT dep checks) */
 
 	/* remove to-be-replaced packages */
 	tr = trans_new(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS);
@@ -506,6 +506,8 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 			pm_errno = PM_ERR_XXX;
 			goto error;
 		}
+		/* we want the frontend to be aware of commit details */
+		tr->cb = trans->cb;
 		if(trans_commit(tr) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not commit transaction");
 			pm_errno = PM_ERR_XXX;
@@ -543,6 +545,8 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
+	/* we want the frontend to be aware of commit details */
+	tr->cb = trans->cb;
 	if(trans_commit(tr) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not commit transaction");
 		pm_errno = PM_ERR_XXX;
