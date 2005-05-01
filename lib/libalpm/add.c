@@ -50,14 +50,60 @@ extern pmhandle_t *handle;
 
 int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
-	pmpkg_t *info = NULL, *dummy;
+	pmpkg_t *info = NULL;
+	pmpkg_t *dummy;
 	char pkgname[PKG_NAME_LEN], pkgver[PKG_VERSION_LEN];
-	PMList *j;
+	PMList *i;
 	struct stat buf;
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(name != NULL && strlen(name) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	/* Check if we need to add a fake target to the transaction.
+	 * format: field1=value1|field2=value2|...
+	 * Supported fields are "name", "version", "depend"
+	 * A fake package is created with the given tokens (name and version are
+	 * required).
+	 */
+	if(strchr(name, '|')) {
+		char *str, *ptr, *p;
+		dummy = pkg_new();
+		if(dummy == NULL) {
+			pm_errno = PM_ERR_MEMORY;
+			goto error;
+		}
+		str = strdup(name);
+		ptr = str;
+		while((p = strsep(&ptr, "|")) != NULL) {
+			char *q;
+			if(p[0] == 0) {
+				continue;
+			}
+			q = strchr(p, '=');
+			if(q == NULL) { /* not a valid token */
+				continue;
+			}
+			if(strncmp("name", p, q-p) == 0) {
+				STRNCPY(dummy->name, q+1, PKG_NAME_LEN);
+			} else if(strncmp("version", p, q-p) == 0) {
+				STRNCPY(dummy->version, q+1, PKG_VERSION_LEN);
+			} else if(strncmp("depend", p, q-p) == 0) {
+				dummy->depends = pm_list_add(dummy->depends, strdup(q+1));
+			} else {
+				_alpm_log(PM_LOG_ERROR, "could not parse token %s", p);
+			}
+		}
+		FREE(str);
+		if(dummy->name[0] == 0 || dummy->version[0] == 0) {
+			pm_errno = PM_ERR_PKG_INVALID_NAME;
+			FREEPKG(dummy);
+			goto error;
+		}
+		/* add the package to the transaction */
+		trans->packages = pm_list_add(trans->packages, dummy);
+		return(0);
+	}
 
 	if(stat(name, &buf)) {
 		pm_errno = PM_ERR_NOT_A_FILE;
@@ -97,15 +143,14 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	/* check if an older version of said package is already in transaction packages.
 	 * if so, replace it in the list */
-	for(j = trans->packages; j; j = j->next) {
-		pmpkg_t *pkg = j->data;
-
+	for(i = trans->packages; i; i = i->next) {
+		pmpkg_t *pkg = i->data;
 		if(strcmp(pkg->name, pkgname) == 0) {
 			if(rpmvercmp(pkg->version, pkgver) < 0) {
 				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, pkgver);
-				FREEPKG(j->data);
-				j->data = pkg_load(name);
-				if(j->data == NULL) {
+				FREEPKG(i->data);
+				i->data = pkg_load(name);
+				if(i->data == NULL) {
 					/* pm_errno is already set by pkg_load() */
 					goto error;
 				}
@@ -144,8 +189,8 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	PMList *lp;
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	*data = NULL;
@@ -153,7 +198,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	/* Check dependencies
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		PMList *j;
+		PMList *i;
 
 		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
@@ -164,8 +209,8 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 
 			/* look for unsatisfied dependencies */
 			_alpm_log(PM_LOG_FLOW2, "looking for unsatisfied dependencies");
-			for(j = lp; j; j = j->next) {
-				pmdepmissing_t* miss = j->data;
+			for(i = lp; i; i = i->next) {
+				pmdepmissing_t* miss = i->data;
 
 				if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
 					if(!errorout) {
@@ -176,7 +221,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 						FREELIST(*data);
 						RET_ERR(PM_ERR_MEMORY, -1);
 					}
-					*miss = *(pmdepmissing_t*)j->data;
+					*miss = *(pmdepmissing_t*)i->data;
 					*data = pm_list_add(*data, miss);
 				}
 			}
@@ -187,14 +232,14 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 
 			/* no unsatisfied deps, so look for conflicts */
 			_alpm_log(PM_LOG_FLOW2, "looking for conflicts");
-			for(j = lp; j; j = j->next) {
-				pmdepmissing_t* miss = (pmdepmissing_t *)j->data;
+			for(i = lp; i; i = i->next) {
+				pmdepmissing_t* miss = (pmdepmissing_t *)i->data;
 				if(miss->type == PM_DEP_TYPE_CONFLICT) {
 					if(!errorout) {
 						errorout = 1;
 					}
 					MALLOC(miss, sizeof(pmdepmissing_t));
-					*miss = *(pmdepmissing_t*)j->data;
+					*miss = *(pmdepmissing_t*)i->data;
 					*data = pm_list_add(*data, miss);
 				}
 			}
@@ -241,8 +286,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 	time_t t;
 	PMList *targ, *lp;
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
 	if(trans->packages == NULL) {
 		return(0);
