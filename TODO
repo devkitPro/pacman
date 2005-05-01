@@ -15,6 +15,15 @@ statically linking libtar?
 libalpm
 =======
 
+- move %REPLACES% and %REASON% fields to "depends" instead of "desc", in 
+order to allow the cache to be loaded with only INFRQ_DEPENDS, and to avoid 
+loading the INFRQ_DESC info.
+It can be done transparently for %REPLACES% because this parameter can only 
+be found in a syncdb.
+
+- remove the dependency with /usr/bin/chroot (implement the chroot handling
+using the chroot() syscall)
+
 - review errors handling (globalise pm_errno usage, improve error 
 meanings)
 
@@ -23,13 +32,11 @@ meanings)
 pacman
 ======
 
-- implement missing functionnalities (mainly pacman -S <pkg1> <pkg2>, and
-packages replacement)
-
-- pacman_deptest() is not fully implemented
+- implement missing functionnalities (mainly handling of package conflicts
+during packages replacement)
 
 - review how things are displayed in the frontend (normal display,
-verbose mode, which usage for the library log callback?)
+verbose mode, which usage for the library log callback, pmo_debug, ...)
 
 - add a structure in pacman to hold all the configuration (pmo_root, ...)
 
