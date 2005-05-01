@@ -397,9 +397,6 @@ int pacman_sync(list_t *targets)
 		if(sync_synctree(pmc_syncs)) {
 			return(1);
 		}
-		if(targets == NULL) {
-			return(0);
-		}
 	}
 
 	if(pmo_s_search) {
