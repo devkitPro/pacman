@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 			ERR(NL, "no operation specified (use -h for help)\n");
 			ret = 1;
 	}
-	if(ret != 0) {
+	if(ret != 0 && pmo_d_vertest == 0) {
 		MSG(NL, "\n");
 	}
 
@@ -237,6 +237,8 @@ void cleanup(int signum)
 int pacman_deptest(list_t *targets)
 {
 	PM_LIST *data;
+	list_t *i;
+	char *str;
 
 	if(targets == NULL) {
 		return(0);
@@ -264,11 +266,20 @@ int pacman_deptest(list_t *targets)
 	 * where "dummy" is the package name, "version" its version, and every dep?
 	 * the content of the "depends" field.
 	 */
-	if(alpm_trans_addtarget("__dummy__|1.0-1|dep1|dep2|...") == -1) {
-		ERR(NL, "error: %s\n", alpm_strerror(pm_errno));
+	str = (char *)malloc(strlen("name=dummy|version=1.0-1")+1);
+	strcpy(str, "name=dummy|version=1.0-1");
+	for(i = targets; i; i = i->next) {
+		str = (char *)realloc(str, strlen(str)+8+strlen(i->data)+1);
+		strcat(str, "|depend=");
+		strcat(str, i->data);
+	}
+	if(alpm_trans_addtarget(str) == -1) {
+		FREE(str);
+		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		alpm_trans_release();
 		return(1);
 	}
+	FREE(str);
 
 	if(alpm_trans_prepare(&data) == -1) {
 		PM_LIST *lp;
@@ -288,7 +299,7 @@ int pacman_deptest(list_t *targets)
 						}
 						MSG(CL, "\n");
 					}
-					synctargs = list_add(synctargs, alpm_dep_getinfo(miss, PM_DEP_NAME));
+					synctargs = list_add(synctargs, strdup(alpm_dep_getinfo(miss, PM_DEP_NAME)));
 				}
 				alpm_list_free(data);
 			break;
@@ -306,6 +317,11 @@ int pacman_deptest(list_t *targets)
 			break;
 		}
 
+		if(alpm_trans_release() == -1) {
+			ERR(NL, "%s", alpm_strerror(pm_errno));
+			return(1);
+		}
+
 		/* attempt to resolve missing dependencies */
 		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
 		if(ret == 126 && synctargs != NULL) {
@@ -316,6 +332,11 @@ int pacman_deptest(list_t *targets)
 		}
 		FREELIST(synctargs);
 		return(ret);
+	}
+
+	if(alpm_trans_release() == -1) {
+		ERR(NL, "%s", alpm_strerror(pm_errno));
+		return(1);
 	}
 
 	return(0);
