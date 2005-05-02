@@ -393,9 +393,12 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
-		_alpm_log(PM_LOG_FLOW1, "updating database");
 		/* make an install date (in UTC) */
 		STRNCPY(info->installdate, asctime(gmtime(&t)), sizeof(info->installdate));
+		/* remove the extra line feed appended by asctime() */
+		info->installdate[strlen(info->installdate)-1] = 0;
+
+		_alpm_log(PM_LOG_FLOW1, "updating database");
 		_alpm_log(PM_LOG_FLOW2, "adding database entry %s", info->name);
 		if(db_write(db, info, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, "could not update database entry %s/%s-%s", db->treename, info->name, info->version);
