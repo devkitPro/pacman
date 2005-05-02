@@ -364,8 +364,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		}
 		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
 
-		/* ORE
-		check for inter-conflicts and whatnot */
+		/* check for inter-conflicts and whatnot */
 		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
@@ -484,7 +483,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	tr = trans_new(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS);
 	/* ORE */
 	if(tr == NULL) {
-		_alpm_log(PM_LOG_ERROR, "could not create transaction");
+		_alpm_log(PM_LOG_ERROR, "could not create removal transaction");
 		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
@@ -507,14 +506,14 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	if(replaces) {
 		_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
 		if(trans_prepare(tr, &data) == -1) {
-			_alpm_log(PM_LOG_ERROR, "could not prepare transaction");
+			_alpm_log(PM_LOG_ERROR, "could not prepare removal transaction");
 			pm_errno = PM_ERR_XXX;
 			goto error;
 		}
 		/* we want the frontend to be aware of commit details */
 		tr->cb = trans->cb;
 		if(trans_commit(tr) == -1) {
-			_alpm_log(PM_LOG_ERROR, "could not commit transaction");
+			_alpm_log(PM_LOG_ERROR, "could not commit removal transaction");
 			pm_errno = PM_ERR_XXX;
 			goto error;
 		}
