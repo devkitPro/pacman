@@ -148,13 +148,28 @@ int alpm_get_option(unsigned char parm, long *data)
 pmdb_t *alpm_db_register(char *treename)
 {
 	pmdb_t *db;
+	int found = 0;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
 	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, NULL));
 
-	/* ORE
-	check if the db if already registered */
+	if(strcmp(treename, "local") == 0) {
+		if(handle->db_local != NULL) {
+			found = 1;
+		}
+	} else {
+		PMList *i;
+		for(i = handle->dbs_sync; i && !found; i = i->next) {
+			pmdb_t *sdb = i->data;
+			if(strcmp(treename, sdb->treename) == 0) {
+				found = 1;
+			}
+		}
+	}
+	if(found) {
+		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
+	}
 
 	db = db_open(handle->root, handle->dbpath, treename);
 	if(db == NULL) {
