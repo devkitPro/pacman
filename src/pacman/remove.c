@@ -88,12 +88,12 @@ int pacman_remove(list_t *targets)
 	/* Step 2: prepare the transaction based on its type, targets and flags
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
-		PM_LIST *i;
+		PM_LIST *lp;
 		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
-				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					PM_DEPMISS *miss = alpm_list_getdata(i);
+				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
+					PM_DEPMISS *miss = alpm_list_getdata(lp);
 					MSG(NL, "  %s: is required by %s\n", alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				alpm_list_free(data);
@@ -107,10 +107,14 @@ int pacman_remove(list_t *targets)
 	/* Warn user in case of dangerous operation
 	 */
 	if(pmo_flags & PM_TRANS_FLAG_RECURSE || pmo_flags & PM_TRANS_FLAG_CASCADE) {
+		PM_LIST *lp;
 		/* list transaction targets */
-		/* ORE
-		 * we need to get the list from TRANS_PACKAGES info instead of TRANS_TARGETS! */
-		PM_LIST_display("\nTargets:", alpm_trans_getinfo(PM_TRANS_TARGETS));
+		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
+			PM_PKG *pkg = alpm_list_getdata(lp);
+			i = list_add(i, strdup(alpm_pkg_getinfo(pkg, PM_PKG_NAME)));
+		}
+		list_display("\nTargets:", i);
+		list_free(i);
 		/* get confirmation */
 		if(yesno("\nDo you want to remove these packages? [Y/n] ") == 0) {
 			goto error;
