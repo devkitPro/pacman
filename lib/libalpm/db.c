@@ -176,7 +176,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	char path[PATH_MAX];
 	char name[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
 	char *ptr = NULL;
-	int ret, found = 0;
+	int found = 0;
 	pmpkg_t *pkg;
 
 	if(db == NULL) {
@@ -235,12 +235,11 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	if(pkg == NULL) {
 		return(NULL);
 	}
-	ret = db_read(db, ent->d_name, inforeq, pkg);
-	if(ret == -1) {
+	if(db_read(db, ent->d_name, inforeq, pkg) == -1) {
 		FREEPKG(pkg);
 	}
 
-	return(ret == 0 ? pkg : NULL);
+	return(pkg);
 }
 
 int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
@@ -290,8 +289,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				_alpm_strtrim(info->desc);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					char *s = strdup(line);
-					info->groups = pm_list_add(info->groups, s);
+					info->groups = pm_list_add(info->groups, strdup(line));
 				}
 			} else if(!strcmp(line, "%URL%")) {
 				if(fgets(info->url, sizeof(info->url), fp) == NULL) {
@@ -465,7 +463,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		fprintf(fp, "%s\n\n", info->desc);
 		fputs("%GROUPS%\n", fp);
 		for(lp = info->groups; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fputs("%URL%\n", fp);
@@ -496,12 +494,12 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		}
 		fputs("%FILES%\n", fp);
 		for(lp = info->files; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fputs("%BACKUP%\n", fp);
 		for(lp = info->backup; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fclose(fp);
@@ -516,22 +514,22 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		}
 		fputs("%DEPENDS%\n", fp);
 		for(lp = info->depends; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fputs("%REQUIREDBY%\n", fp);
 		for(lp = info->requiredby; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fputs("%CONFLICTS%\n", fp);
 		for(lp = info->conflicts; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fputs("%PROVIDES%\n", fp);
 		for(lp = info->provides; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char*)lp->data);
+			fprintf(fp, "%s\n", (char *)lp->data);
 		}
 		fprintf(fp, "\n");
 		fclose(fp);
