@@ -15,7 +15,7 @@ statically linking libtar?
 libalpm
 =======
 
-- move %REPLACES% and %REASON% fields to "depends" instead of "desc", in 
+- move %REPLACES% and %FORCE% fields to "depends" instead of "desc", in
 order to allow the cache to be loaded with only INFRQ_DEPENDS, and to avoid 
 loading the INFRQ_DESC info.
 It can be done transparently for %REPLACES% because this parameter can only 
