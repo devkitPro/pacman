@@ -70,6 +70,7 @@ unsigned short pmo_s_search     = 0;
 unsigned short pmo_s_upgrade    = 0;
 unsigned short pmo_group        = 0;
 unsigned char  pmo_flags        = 0;
+unsigned short pmo_debug        = PM_LOG_WARNING;
 /* configuration file option */
 char          *pmo_proxyhost    = NULL;
 unsigned short pmo_proxyport    = 0;
@@ -145,15 +146,13 @@ int main(int argc, char *argv[])
 	}
 
 	/* set library parameters */
-	if(pmo_verbose == 1) {
-	if(alpm_set_option(PM_OPT_LOGMASK, (long)0xFF) == -1) {
+	if(alpm_set_option(PM_OPT_LOGMASK, (long)pmo_debug) == -1) {
 		ERR(NL, "failed to set option LOGMASK (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 	if(alpm_set_option(PM_OPT_LOGCB, (long)cb_log) == -1) {
 		ERR(NL, "failed to set option LOGCB (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
-	}
 	}
 	if(alpm_set_option(PM_OPT_DBPATH, (long)pmo_dbpath) == -1) {
 		ERR(NL, "failed to set option DBPATH (%s)\n", alpm_strerror(pm_errno));
@@ -348,7 +347,7 @@ int pacman_deptest(list_t *targets)
  *     
  * Returns: 0 on success, 1 on error
  */
-int parseargs(int argc, char **argv)
+int parseargs(int argc, char *argv[])
 {
 	int opt;
 	int option_index = 0;
@@ -389,9 +388,10 @@ int parseargs(int argc, char **argv)
 		{"noconfirm",  no_argument,       0, 1000},
 		{"config",     required_argument, 0, 1001},
 		{"ignore",     required_argument, 0, 1002},
+		{"debug",      required_argument, 0, 1003},
 		{0, 0, 0, 0}
 	};
-	char root[256];
+	char root[PATH_MAX];
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTDYr:b:vkhscVfnoldepiuwyg", opts, &option_index))) {
 		if(opt < 0) {
@@ -404,8 +404,12 @@ int parseargs(int argc, char **argv)
 				if(pmo_configfile) {
 					free(pmo_configfile);
 				}
-				pmo_configfile = strndup(optarg, PATH_MAX); break;
+				pmo_configfile = strndup(optarg, PATH_MAX);
+				break;
 			case 1002: pmo_s_ignore = list_add(pmo_s_ignore, strdup(optarg)); break;
+			case 1003:
+				pmo_debug = atoi(optarg);
+				break;
 			case 'A': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_ADD);     break;
 			case 'D': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_resolve = 1; break;
 			case 'F': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); pmo_flags |= PM_TRANS_FLAG_FRESHEN; break;
@@ -470,8 +474,7 @@ int parseargs(int argc, char **argv)
 
 	while(optind < argc) {
 		/* add the target to our target array */
-		char *s = strdup(argv[optind]);
-		pm_targets = list_add(pm_targets, s);
+		pm_targets = list_add(pm_targets, strdup(argv[optind]));
 		optind++;
 	}
 
