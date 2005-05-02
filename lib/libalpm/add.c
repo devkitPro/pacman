@@ -379,16 +379,16 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		for(lp = db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *tmpp = lp->data;
 			PMList *tmppm = NULL;
-
 			if(tmpp == NULL) {
 				continue;
 			}
 			for(tmppm = tmpp->depends; tmppm; tmppm = tmppm->next) {
 				pmdepend_t depend;
-				splitdep(tmppm->data, &depend);
+				if(splitdep(tmppm->data, &depend)) {
+					continue;
+				}
 				if(tmppm->data && !strcmp(depend.name, info->name)) {
 					info->requiredby = pm_list_add(info->requiredby, strdup(tmpp->name));
-					continue;
 				}
 			}
 		}
@@ -414,11 +414,9 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo;
 			pmdepend_t depend;
-
 			if(splitdep(lp->data, &depend)) {
 				continue;
 			}
-
 			depinfo = db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
