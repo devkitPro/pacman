@@ -259,11 +259,10 @@ int pacman_deptest(list_t *targets)
 		return(1);
 	}
 
-	/* ORE
-	 * For ADD transaction, implement a hack to alpm_trans_addtarget() to add 
-	 * a dummy target based on the pattern: "__dummy__|version|dep1|dep2|..."
-	 * where "dummy" is the package name, "version" its version, and every dep?
-	 * the content of the "depends" field.
+	/* We use a hidden facility from alpm_trans_addtarget() to add a dummy
+	 * target to the transaction (see the library code for details).
+	 * It allows us to use alpm_trans_prepare() to check dependencies of the
+	 * given target.
 	 */
 	str = (char *)malloc(strlen("name=dummy|version=1.0-1")+1);
 	strcpy(str, "name=dummy|version=1.0-1");

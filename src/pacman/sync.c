@@ -446,9 +446,7 @@ int pacman_sync(list_t *targets)
 				MSG(NL, ":: It is recommended that you allow pacman to upgrade itself\n");
 				MSG(NL, ":: first, then you can re-run the operation with the newer version.\n");
 				MSG(NL, "::\n");
-				if(yesno(":: Upgrade pacman first? [Y/n] ")) {
-					/* ORE
-					we should substitute existing targets with "pacman" */
+				if(!yesno(":: Upgrade anyway? [Y/n] ")) {
 					retval = 0;
 					alpm_trans_release();
 					goto cleanup;
