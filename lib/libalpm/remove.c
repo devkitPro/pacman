@@ -238,7 +238,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
-			void *ptr;
+			char *data;
 
 			if(splitdep((char*)lp->data, &depend)) {
 				continue;
@@ -264,8 +264,8 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 			}
 			/* splice out this entry from requiredby */
-			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &ptr);
-			FREE(ptr);
+			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, (void **)&data);
+			FREE(data);
 			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package %s", depinfo->name);
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db->treename, depinfo->name, depinfo->version);

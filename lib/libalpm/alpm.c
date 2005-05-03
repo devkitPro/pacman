@@ -213,8 +213,8 @@ int alpm_db_unregister(pmdb_t *db)
 		handle->db_local = NULL;
 		found = 1;
 	} else {
-		void *data;
-		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, db_cmp, &data);
+		pmdb_t *data;
+		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, db_cmp, (void **)&data);
 		if(data) {
 			db_close(data);
 			found = 1;
