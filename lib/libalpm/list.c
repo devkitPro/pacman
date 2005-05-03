@@ -44,9 +44,10 @@ int _alpm_list_check(PMList* list)
 	}
 
 	for(it = list; it && it->next; it = it->next);
-		if(it != list->last) {
-			return(0);
-		}
+
+	if(it != list->last) {
+		return(0);
+	}
 
 	return(1);
 }
@@ -155,56 +156,57 @@ PMList* pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn)
 	return(list);
 }
 
-/* list: the beginning of the list
- * item: the item in the list to be removed
- *
- * returns:
- *     list with item removed
+/* Remove an item in a list. Use the given comparaison function to find the
+ * item.
+ * If the item is found, 'data' is pointing to the removed element.
+ * Otherwise, it is set to NULL.
+ * Return the new list (without the removed element).
  */
-
-PMList* _alpm_list_remove(PMList* list, PMList* item)
+PMList *_alpm_list_remove(PMList *haystack, void *needle, pm_fn_cmp fn, void **data)
 {
-	assert(_alpm_list_check(list));
+	PMList *i = haystack;
 
-	if(list == NULL || item == NULL) {
-		return(NULL);
+	if(data) {
+		*data = NULL;
 	}
 
-	/* Remove first item in list. */
-	if(item == list) {
-		if(list->next == NULL) {            /* Only item in list. */
-			pm_list_free(item);
-			return(NULL);
-		} else {
-			list->next->prev = NULL;
-			list->next->last = list->last;
-			list = list->next;
-			item->prev = item->next = NULL;
-			pm_list_free(item);
-			return(list);
+	while(i) {
+		if(i->data == NULL) {
+			continue;
 		}
+		if(fn(needle, i->data) == 0) {
+			break;
+		}
+		i = i->next;
 	}
 
-	/* Remove last item in list. */
-	if(list->last == item) {
-		list->last = item->prev;
-		item->prev->next = NULL;
-		item->prev = item->next = NULL;
-		pm_list_free(item);
-		return(list);
+	if(i) {
+		/* we found a matching item */
+		if(i->next) {
+			i->next->prev = i->prev;
+		}
+		if(i->prev) {
+			i->prev->next = i->next;
+		}
+		if(i == haystack) {
+			/* The item found is the first in the chain */
+			if(haystack->next) {
+				haystack->next->last = haystack->last;
+			}
+			haystack = haystack->next;
+		} else if(i == haystack->last) {
+			/* The item found is the last in the chain */
+			haystack->last = i->prev;
+		}
+
+		if(data) {
+			*data = i->data;
+		}
+		i->data = NULL;
+		free(i);
 	}
 
-	/* Remove middle item in list. */
-	assert(item->prev != NULL && item->next != NULL);
-
-	item->prev->next = item->next;
-	item->next->prev = item->prev;
-	item->prev = item->next = NULL;
-	pm_list_free(item);
-
-	assert(_alpm_list_check(list));
-
-	return(list);
+	return(haystack);
 }
 
 int pm_list_count(PMList *list)
@@ -245,8 +247,9 @@ PMList *pm_list_is_strin(char *needle, PMList *haystack)
 
 PMList* pm_list_last(PMList *list)
 {
-	if (list == NULL)
+	if(list == NULL) {
 		return(NULL);
+	}
 
 	assert(list->last != NULL);
 
