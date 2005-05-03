@@ -193,9 +193,15 @@ pmdb_t *alpm_db_register(char *treename)
 	return(db);
 }
 
+/* Helper function for comparing databases
+ */
+static int db_cmp(const void *db1, const void *db2)
+{
+	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
+}
+
 int alpm_db_unregister(pmdb_t *db)
 {
-	PMList *i;
 	int found = 0;
 
 	/* Sanity checks */
@@ -207,12 +213,11 @@ int alpm_db_unregister(pmdb_t *db)
 		handle->db_local = NULL;
 		found = 1;
 	} else {
-		for(i = handle->dbs_sync; i && !found; i = i->next) {
-			if(db == i->data) {
-				db_close(i->data);
-				handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, i);
-				found = 1;
-			}
+		void *data;
+		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, db_cmp, &data);
+		if(data) {
+			db_close(data);
+			found = 1;
 		}
 	}
 

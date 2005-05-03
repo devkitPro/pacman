@@ -30,7 +30,7 @@
 int db_load_pkgcache(pmdb_t *db);
 void db_free_pkgcache(pmdb_t *db);
 int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
-int db_remove_pkgfromcache(pmdb_t *db, char *name);
+int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
 PMList *db_get_pkgcache(pmdb_t *db);
 pmpkg_t *db_get_pkgfromcache(pmdb_t *db, char *target);
 /* groups */

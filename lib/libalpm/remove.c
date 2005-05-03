@@ -125,6 +125,13 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	return(0);
 }
 
+/* Helper function for comparing strings
+ */
+static int str_cmp(const void *s1, const void *s2)
+{
+	return(strcmp(s1, s2));
+}
+
 int remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info;
@@ -222,16 +229,16 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 		if(db_remove(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not remove database entry %s/%s-%s", db->treename, info->name, info->version);
 		}
-		if(db_remove_pkgfromcache(db, info->name) == -1) {
+		if(db_remove_pkgfromcache(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not remove entry %s from cache", info->name);
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
 		_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
 		for(lp = info->depends; lp; lp = lp->next) {
-			PMList *j;
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
+			void *ptr;
 
 			if(splitdep((char*)lp->data, &depend)) {
 				continue;
@@ -257,12 +264,8 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 			}
 			/* splice out this entry from requiredby */
-			for(j = depinfo->requiredby; j; j = j->next) {
-				if(!strcmp((char*)j->data, info->name)) {
-					depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, j);
-					break;
-				}
-			}
+			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &ptr);
+			FREE(ptr);
 			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package %s", depinfo->name);
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db->treename, depinfo->name, depinfo->version);

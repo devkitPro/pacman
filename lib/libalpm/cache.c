@@ -36,12 +36,20 @@
 #include "db.h"
 #include "cache.h"
 
+/* Helper function for comparing packages
+ */
+static int pkg_cmp(const void *p1, const void *p2)
+{
+	return(strcmp(((pmpkg_t *)p1)->name, ((pmpkg_t *)p2)->name));
+}
+
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.
  */
 int db_load_pkgcache(pmdb_t *db)
 {
 	pmpkg_t *info;
+	unsigned char infolevel = INFRQ_DESC|INFRQ_DEPENDS;
 
 	if(db == NULL) {
 		return(-1);
@@ -49,10 +57,11 @@ int db_load_pkgcache(pmdb_t *db)
 
 	db_free_pkgcache(db);
 
-	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository \"%s\"", db->treename);
+	_alpm_log(PM_LOG_DEBUG, "loading package cache (infolevel=%#x) for repository '%s'",
+	                        infolevel, db->treename);
 
 	db_rewind(db);
-	while((info = db_scan(db, NULL, INFRQ_DESC|INFRQ_DEPENDS)) != NULL) {
+	while((info = db_scan(db, NULL, infolevel)) != NULL) {
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
 		/* add to the collective */
@@ -100,7 +109,7 @@ int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 	if(newpkg == NULL) {
 		return(-1);
 	}
-	_alpm_log(PM_LOG_DEBUG, "adding entry %s in \"%s\" cache", newpkg->name, db->treename);
+	_alpm_log(PM_LOG_DEBUG, "adding entry %s in '%s' cache", newpkg->name, db->treename);
 	db->pkgcache = pm_list_add_sorted(db->pkgcache, newpkg, pkg_cmp);
 
 	db_free_grpcache(db);
@@ -108,28 +117,23 @@ int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 	return(0);
 }
 
-int db_remove_pkgfromcache(pmdb_t *db, char *name)
+int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 {
-	PMList *i;
-	int found = 0;
+	pmpkg_t *data;
 
-	if(db == NULL || name == NULL || strlen(name) == 0) {
+	if(db == NULL || pkg == NULL) {
 		return(-1);
 	}
 
-	for(i = db->pkgcache; i && !found; i = i->next) {
-		if(strcmp(((pmpkg_t *)i->data)->name, name) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "removing entry %s from \"%s\" cache", name, db->treename);
-			db->pkgcache = _alpm_list_remove(db->pkgcache, i);
-			/* ORE
-			MLK: list_remove() does not free properly an entry from a packages list */
-			found = 1;
-		}
-	}
+	db->pkgcache = _alpm_list_remove(db->pkgcache, pkg, pkg_cmp, (void **)&data);
 
-	if(!found) {
+	if(data == NULL) {
+		/* package not found */
 		return(-1);
 	}
+
+	_alpm_log(PM_LOG_DEBUG, "removing entry %s from '%s' cache", pkg->name, db->treename);
+	FREEPKG(data);
 
 	db_free_grpcache(db);
 
@@ -170,7 +174,7 @@ int db_load_grpcache(pmdb_t *db)
 		db_load_pkgcache(db);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository \"%s\"", db->treename);
+	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'", db->treename);
 
 	for(lp = db->pkgcache; lp; lp = lp->next) {
 		PMList *i;
