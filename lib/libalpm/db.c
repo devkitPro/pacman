@@ -43,6 +43,8 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename)
 		return(NULL);
 	}
 
+	_alpm_log(PM_LOG_DEBUG, "opening database '%s'", treename);
+
 	MALLOC(db, sizeof(pmdb_t));
 
 	MALLOC(db->path, strlen(root)+strlen(dbpath)+strlen(treename)+2);
@@ -70,6 +72,8 @@ void db_close(pmdb_t *db)
 	if(db == NULL) {
 		return;
 	}
+
+	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
 
 	if(db->dir) {
 		closedir(db->dir);
