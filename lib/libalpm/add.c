@@ -497,6 +497,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				if(tar_extract_file(tar, temp)) {
 					alpm_logaction("could not extract %s: %s", pathname, strerror(errno));
 					errors++;
+					FREE(md5_local);
 					continue;
 				}
 				md5_pkg = MDFile(temp);
@@ -627,6 +628,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
 						MALLOC(fn, strlen(file)+34);
 						sprintf(fn, "%s\t%s", file, md5);
+						FREE(md5);
 						FREE(file);
 						lp->data = fn;
 					}
