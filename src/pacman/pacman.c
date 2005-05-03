@@ -222,6 +222,7 @@ void cleanup(int signum)
 	FREE(pmo_configfile);
 	FREE(pmo_proxyhost);
 	FREE(pmo_xfercommand);
+	FREELIST(pmo_holdpkg);
 
 	FREELIST(pm_targets);
 
