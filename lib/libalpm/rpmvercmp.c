@@ -40,6 +40,8 @@ int rpmvercmp(const char *a, const char *b)
 		return(0);
 	}
 
+	/* ORE
+	 * the memory allocated here is never freed... */
 	str1 = strdup(a);
 	str2 = strdup(b);
 
