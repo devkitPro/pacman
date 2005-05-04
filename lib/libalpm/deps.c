@@ -59,69 +59,64 @@ PMList *sortbydeps(PMList *targets, int mode)
 	int change = 1;
 	int numscans = 0;
 	int numtargs = 0;
-	int clean = 0;
 
 	if(targets == NULL) {
 		return(NULL);
 	}
 
-	/* count the number of targets */
-	numtargs = pm_list_count(targets);
+	for(i = targets; i; i = i->next) {
+		newtargs = pm_list_add(newtargs, i->data);
+		numtargs++;
+	}
 
 	while(change) {
+		PMList *tmptargs = NULL;
 		change = 0;
 		if(numscans > numtargs) {
 			_alpm_log(PM_LOG_WARNING, "possible dependency cycle detected");
-			change = 0;
 			continue;
 		}
-		newtargs = NULL;
 		numscans++;
 		/* run thru targets, moving up packages as necessary */
-		for(i = targets; i; i = i->next) {
+		for(i = newtargs; i; i = i->next) {
 			pmpkg_t *p = (pmpkg_t*)i->data;
 			for(j = p->depends; j; j = j->next) {
 				pmdepend_t dep;
-				int found = 0;
 				pmpkg_t *q = NULL;
-
-				splitdep(j->data, &dep);
+				if(splitdep(j->data, &dep)) {
+					continue;
+				}
 				/* look for dep.name -- if it's farther down in the list, then
 				 * move it up above p
 				 */
-				for(k = i->next; k && !found; k = k->next) {
-					q = (pmpkg_t*)k->data;
+				for(k = i->next; k; k = k->next) {
+					q = (pmpkg_t *)k->data;
 					if(!strcmp(dep.name, q->name)) {
-						found = 1;
-					}
-				}
-				if(found) {
-					if(!pkg_isin(q, newtargs)) {
-						change = 1;
-						newtargs = pm_list_add(newtargs, q);
+						if(!pkg_isin(q, tmptargs)) {
+							change = 1;
+							tmptargs = pm_list_add(tmptargs, q);
+						}
+						break;
 					}
 				}
 			}
-			if(!pkg_isin(p, newtargs)) {
-				newtargs = pm_list_add(newtargs, p);
+			if(!pkg_isin(p, tmptargs)) {
+				tmptargs = pm_list_add(tmptargs, p);
 			}
 		}
-		if(clean && change) {
-			/* free up targets -- it's local now */
-			FREELISTPTR(targets);
-		}
-		targets = newtargs;
-		clean = 1;
-	}
-	if(mode == PM_TRANS_TYPE_REMOVE) {
-		/* we're removing packages, so reverse the order */
-		newtargs = _alpm_list_reverse(targets);
-		/* free the old one */
-		FREELISTPTR(targets);
-		targets = newtargs;
+		FREELISTPTR(newtargs);
+		newtargs = tmptargs;
 	}
 
-	return(targets);
+	if(mode == PM_TRANS_TYPE_REMOVE) {
+		/* we're removing packages, so reverse the order */
+		PMList *tmptargs = _alpm_list_reverse(newtargs);
+		/* free the old one */
+		FREELISTPTR(newtargs);
+		newtargs = tmptargs;
+	}
+
+	return(newtargs);
 }
 
 /* Returns a PMList* of missing_t pointers.
