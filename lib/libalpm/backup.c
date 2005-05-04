@@ -25,10 +25,10 @@
 /* pacman */
 #include "backup.h"
 
-/* Look for a filename in a pkginfo_t.backup list.  If we find it,
+/* Look for a filename in a pmpkg_t.backup list.  If we find it,
  * then we return the md5 hash (parsed from the same line)
  */
-char *_alpm_needbackup(char* file, PMList *backup)
+char *_alpm_needbackup(char *file, PMList *backup)
 {
 	PMList *lp;
 
