@@ -541,7 +541,7 @@ void *alpm_trans_getinfo(unsigned char parm)
 	return(data);
 }
 
-int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb)
+int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event event)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -553,7 +553,7 @@ int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb)
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
-	return(trans_init(handle->trans, type, flags, cb));
+	return(trans_init(handle->trans, type, flags, event));
 }
 
 int alpm_trans_sysupgrade()

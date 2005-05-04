@@ -200,7 +200,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		PMList *i;
 
-		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
 		lp = checkdeps(db, trans->type, trans->packages);
@@ -257,13 +257,13 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		FREELISTPTR(trans->packages);
 		trans->packages = lp;
 
-		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		TRANS_CB(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for file conflicts");
 		lp = db_find_conflicts(db, trans->packages, handle->root);
@@ -272,7 +272,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
 
-		TRANS_CB(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
 	}
 
 	return(0);
@@ -312,7 +312,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		if(pmo_upgrade) {
 			pmpkg_t *local = db_get_pkgfromcache(db, info->name);
 			if(local) {
-				TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_START, info, NULL);
+				EVENT(trans, PM_TRANS_EVT_UPGRADE_START, info, NULL);
 				_alpm_log(PM_LOG_FLOW1, "upgrading package %s-%s", info->name, info->version);
 
 				/* we'll need to save some record for backup checks later */
@@ -360,7 +360,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 		if(!pmo_upgrade) {
-			TRANS_CB(trans, PM_TRANS_EVT_ADD_START, info, NULL);
+			EVENT(trans, PM_TRANS_EVT_ADD_START, info, NULL);
 			_alpm_log(PM_LOG_FLOW1, "adding package %s-%s", info->name, info->version);
 
 			/* pre_install scriptlet */
@@ -656,11 +656,11 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		if(pmo_upgrade) {
-			TRANS_CB(trans, PM_TRANS_EVT_UPGRADE_DONE, info, NULL);
+			EVENT(trans, PM_TRANS_EVT_UPGRADE_DONE, info, NULL);
 			alpm_logaction("upgraded %s (%s -> %s)", info->name,
 				oldpkg ? oldpkg->version : NULL, info->version);
 		} else {
-			TRANS_CB(trans, PM_TRANS_EVT_ADD_DONE, info, NULL);
+			EVENT(trans, PM_TRANS_EVT_ADD_DONE, info, NULL);
 			alpm_logaction("installed %s (%s)", info->name, info->version);
 		}
 

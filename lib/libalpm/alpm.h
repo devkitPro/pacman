@@ -229,7 +229,10 @@ enum {
 };
 
 /* Event callback */
-typedef void (*alpm_trans_cb)(unsigned short, void *, void *);
+typedef void (*alpm_trans_cb_event)(unsigned char, void *, void *);
+
+/* Conversation callback */
+typedef void (*alpm_trans_cb_conv)(unsigned char, void *, void *);
 
 /* Info parameters */
 enum {
@@ -240,7 +243,7 @@ enum {
 };
 
 void *alpm_trans_getinfo(unsigned char parm);
-int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb cb);
+int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event cb_event);
 int alpm_trans_sysupgrade();
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);

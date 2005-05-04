@@ -81,7 +81,7 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
-		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for unsatisfied dependencies");
 		if((lp = checkdeps(db, trans->type, trans->packages)) != NULL) {
@@ -119,7 +119,7 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		FREELISTPTR(trans->packages);
 		trans->packages = lp;
 
-		TRANS_CB(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
 	return(0);
@@ -147,7 +147,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 		info = (pmpkg_t*)targ->data;
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
-			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
+			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 			_alpm_log(PM_LOG_FLOW1, "removing package %s-%s", info->name, info->version);
 
 			/* run the pre-remove scriptlet if it exists  */
@@ -273,7 +273,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
-			TRANS_CB(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
+			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 			alpm_logaction("removed %s (%s)", info->name, info->version);
 		}
 	}

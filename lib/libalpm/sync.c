@@ -344,7 +344,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		trail = pm_list_new();
 
 		/* Resolve targets dependencies */
-		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_FLOW1, "resolving targets dependencies");
 		for(i = trans->packages; i; i = i->next) {
 			pmsyncpkg_t *sync = i->data;
@@ -362,10 +362,10 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				trans->packages = pm_list_add(trans->packages, sync);
 			}
 		}
-		TRANS_CB(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
 
 		/* check for inter-conflicts and whatnot */
-		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
 			int found;
@@ -431,7 +431,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
 			}
 		}
-		TRANS_CB(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
+		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 
 		FREELISTPTR(list);
 		FREELISTPTR(trail);
@@ -511,7 +511,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 			goto error;
 		}
 		/* we want the frontend to be aware of commit details */
-		tr->cb = trans->cb;
+		tr->cb_event = trans->cb_event;
 		if(trans_commit(tr) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not commit removal transaction");
 			pm_errno = PM_ERR_XXX;
@@ -558,7 +558,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		goto error;
 	}
 	/* we want the frontend to be aware of commit details */
-	tr->cb = trans->cb;
+	tr->cb_event = trans->cb_event;
 	if(trans_commit(tr) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not commit transaction");
 		pm_errno = PM_ERR_XXX;

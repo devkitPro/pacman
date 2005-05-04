@@ -36,7 +36,7 @@ typedef struct __pmtrans_t {
 	unsigned char state;
 	PMList *targets;     /* PMList of (char *) */
 	PMList *packages;    /* PMList of (pmpkg_t *) or (pmsyncpkg_t *) */
-	alpm_trans_cb cb;
+	alpm_trans_cb_event cb_event;
 } pmtrans_t;
 
 #define FREETRANS(p) \
@@ -46,16 +46,16 @@ do { \
 		p = NULL; \
 	} \
 } while (0)
-#define TRANS_CB(t, e, d1, d2) \
+#define EVENT(t, e, d1, d2) \
 do { \
-	if((t) && (t)->cb) { \
-		(t)->cb(e, d1, d2); \
+	if((t) && (t)->cb_event) { \
+		(t)->cb_event(e, d1, d2); \
 	} \
 } while(0)
 
 pmtrans_t *trans_new();
 void trans_free(pmtrans_t *trans);
-int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb cb);
+int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event);
 int trans_sysupgrade(pmtrans_t *trans);
 int trans_addtarget(pmtrans_t *trans, char *target);
 int trans_prepare(pmtrans_t *trans, PMList **data);

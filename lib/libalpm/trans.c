@@ -48,7 +48,7 @@ pmtrans_t *trans_new()
 	trans->packages = NULL;
 	trans->type = 0;
 	trans->flags = 0;
-	trans->cb = NULL;
+	trans->cb_event = NULL;
 	trans->state = STATE_IDLE;
 
 	return(trans);
@@ -75,7 +75,7 @@ void trans_free(pmtrans_t *trans)
 	free(trans);
 }
 
-int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb cb)
+int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event)
 {
 	/* Sanity checks */
 	if(trans == NULL) {
@@ -88,7 +88,7 @@ int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_t
 
 	trans->type = type;
 	trans->flags = flags;
-	trans->cb = cb;
+	trans->cb_event = event;
 	trans->state = STATE_INITIALIZED;
 
 	return(0);
