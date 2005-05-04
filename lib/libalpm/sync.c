@@ -204,7 +204,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			}
 		}
 		if(spkg == NULL) {
-			/*_alpm_logf(PM_LOG_ERROR, "%s: not found in sync db -- skipping.", local->name);*/
+			/*_alpm_log(PM_LOG_ERROR, "%s: not found in sync db -- skipping.", local->name);*/
 			continue;
 		}
 
