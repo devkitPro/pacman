@@ -26,103 +26,7 @@
 /* pacman */
 #include "rpmvercmp.h"
 
-/* this function was taken from rpm 4.0.4 and rewritten */
-int rpmvercmp(const char *a, const char *b)
-{
-	char *str1, *str2;
-	char *one, *two;
-	char *rel1 = NULL, *rel2 = NULL;
-	char oldch1, oldch2;
-	int is1num, is2num;
-	int rc;
-
-	if(!strcmp(a,b)) {
-		return(0);
-	}
-
-	/* ORE
-	 * the memory allocated here is never freed... */
-	str1 = strdup(a);
-	str2 = strdup(b);
-
-	/* lose the release number */
-	for(one = str1; *one && *one != '-'; one++);
-	if(one) {
-		*one = '\0';
-		rel1 = ++one;
-	}
-	for(two = str2; *two && *two != '-'; two++);
-	if(two) {
-		*two = '\0';
-		rel2 = ++two;
-	}
-
-	one = str1;
-	two = str2;
-
-	while(*one || *two) {
-		while(*one && !isalnum(*one)) one++;
-		while(*two && !isalnum(*two)) two++;
-
-		str1 = one;
-		str2 = two;
-
-		/* find the next segment for each string */
-		if(isdigit(*str1)) {
-			is1num = 1;
-			while(*str1 && isdigit(*str1)) str1++;
-		} else {
-			is1num = 0;
-			while(*str1 && isalpha(*str1)) str1++;
-		}
-		if(isdigit(*str2)) {
-			is2num = 1;
-			while(*str2 && isdigit(*str2)) str2++;
-		} else {
-			is2num = 0;
-			while(*str2 && isalpha(*str2)) str2++;
-		}
-
-		oldch1 = *str1;
-		*str1 = '\0';
-		oldch2 = *str2;
-		*str2 = '\0';
-
-		/* see if we ran out of segments on one string */
-		if(one == str1 && two != str2) {
-			return(is2num ? -1 : 1);
-		}
-		if(one != str1 && two == str2) {
-			return(is1num ? 1 : -1);
-		}
-
-		/* see if we have a type mismatch (ie, one is alpha and one is digits) */
-		if(is1num && !is2num) return(1);
-		if(!is1num && is2num) return(-1);
-
-		if(is1num) while(*one == '0') one++;
-		if(is2num) while(*two == '0') two++;
-
-		rc = strverscmp(one, two);
-		if(rc) return(rc);
-
-		*str1 = oldch1;
-		*str2 = oldch2;
-		one = str1;
-		two = str2;
-	}
-
-	if((!*one) && (!*two)) {
-		/* compare release numbers */
-		if(rel1 && rel2) return(rpmvercmp(rel1, rel2));
-		return(0);
-	}
-
-	return(*one ? 1 : -1);
-}
-
 #ifndef HAVE_STRVERSCMP
-
 /* GNU's strverscmp() function, taken from glibc 2.3.2 sources
  */
 
@@ -157,13 +61,12 @@ int rpmvercmp(const char *a, const char *b)
 #define  CMP    2
 #define  LEN    3
 
-
 /* Compare S1 and S2 as strings holding indices/version numbers,
    returning less than, equal to or greater than zero if S1 is less than,
    equal to or greater than S2 (for more info, see the texinfo doc).
 */
 
-int strverscmp (s1, s2)
+static int strverscmp (s1, s2)
      const char *s1;
      const char *s2;
 {
@@ -235,5 +138,103 @@ int strverscmp (s1, s2)
 }
 
 #endif
+
+/* this function was taken from rpm 4.0.4 and rewritten */
+int rpmvercmp(const char *a, const char *b)
+{
+	char str1[64], str2[64];
+	char *ptr1, *ptr2;
+	char *one, *two;
+	char *rel1 = NULL, *rel2 = NULL;
+	char oldch1, oldch2;
+	int is1num, is2num;
+	int rc;
+
+	if(!strcmp(a,b)) {
+		return(0);
+	}
+
+	/* ORE
+	 * the memory allocated here is never freed... */
+	strncpy(str1, a, 64);
+	str1[63] = 0;
+	strncpy(str2, b, 64);
+	str2[63] = 0;
+
+	/* lose the release number */
+	for(one = str1; *one && *one != '-'; one++);
+	if(one) {
+		*one = '\0';
+		rel1 = ++one;
+	}
+	for(two = str2; *two && *two != '-'; two++);
+	if(two) {
+		*two = '\0';
+		rel2 = ++two;
+	}
+
+	one = str1;
+	two = str2;
+
+	while(*one || *two) {
+		while(*one && !isalnum(*one)) one++;
+		while(*two && !isalnum(*two)) two++;
+
+		ptr1 = one;
+		ptr2 = two;
+
+		/* find the next segment for each string */
+		if(isdigit(*ptr1)) {
+			is1num = 1;
+			while(*ptr1 && isdigit(*ptr1)) ptr1++;
+		} else {
+			is1num = 0;
+			while(*ptr1 && isalpha(*ptr1)) ptr1++;
+		}
+		if(isdigit(*ptr2)) {
+			is2num = 1;
+			while(*ptr2 && isdigit(*ptr2)) ptr2++;
+		} else {
+			is2num = 0;
+			while(*ptr2 && isalpha(*ptr2)) ptr2++;
+		}
+
+		oldch1 = *ptr1;
+		*ptr1 = '\0';
+		oldch2 = *ptr2;
+		*ptr2 = '\0';
+
+		/* see if we ran out of segments on one string */
+		if(one == ptr1 && two != ptr2) {
+			return(is2num ? -1 : 1);
+		}
+		if(one != ptr1 && two == ptr2) {
+			return(is1num ? 1 : -1);
+		}
+
+		/* see if we have a type mismatch (ie, one is alpha and one is digits) */
+		if(is1num && !is2num) return(1);
+		if(!is1num && is2num) return(-1);
+
+		if(is1num) while(*one == '0') one++;
+		if(is2num) while(*two == '0') two++;
+
+		rc = strverscmp(one, two);
+		if(rc) return(rc);
+
+		*ptr1 = oldch1;
+		*ptr2 = oldch2;
+		one = ptr1;
+		two = ptr2;
+	}
+
+	if((!*one) && (!*two)) {
+		/* compare release numbers */
+		if(rel1 && rel2) return(rpmvercmp(rel1, rel2));
+		return(0);
+	}
+
+	return(*one ? 1 : -1);
+}
 
 /* vim: set ts=2 sw=2 noet: */
