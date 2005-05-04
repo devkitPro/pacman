@@ -51,8 +51,9 @@ char *_alpm_needbackup(char *file, PMList *backup)
 		ptr++;
 		/* now str points to the filename and ptr points to the md5 hash */
 		if(!strcmp(file, str)) {
+			char *md5 = strdup(ptr);
 			free(str);
-			return(strdup(ptr));
+			return(md5);
 		}
 		free(str);
 	}
