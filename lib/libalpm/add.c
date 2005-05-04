@@ -320,6 +320,12 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				if(oldpkg) {
 					STRNCPY(oldpkg->name, local->name, PKG_NAME_LEN);
 					STRNCPY(oldpkg->version, local->version, PKG_VERSION_LEN);
+					if(!(local->infolevel & INFRQ_FILES)) {
+						char name[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
+						snprintf(name, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", local->name, local->version);
+						_alpm_log(PM_LOG_DEBUG, "loading FILES info for %s", local->name);
+						db_read(db, name, INFRQ_FILES, local);
+					}
 					oldpkg->backup = _alpm_list_strdup(local->backup);
 				}
 
@@ -330,7 +336,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				if(oldpkg) {
 					pmtrans_t *tr;
-
 					_alpm_log(PM_LOG_FLOW1, "removing old package first (%s-%s)", oldpkg->name, oldpkg->version);
 					tr = trans_new();
 					if(tr == NULL) {
@@ -369,6 +374,212 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		} else {
 			_alpm_log(PM_LOG_FLOW1, "adding new package (%s-%s)", info->name, info->version);
+		}
+
+		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
+			_alpm_log(PM_LOG_FLOW1, "extracting files");
+
+			/* Extract the .tar.gz package */
+			if(tar_open(&tar, info->data, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
+				RET_ERR(PM_ERR_PKG_OPEN, -1);
+			}
+
+			for(i = 0; !th_read(tar); i++) {
+				int nb = 0;
+				int notouch = 0;
+				char *md5_orig = NULL;
+				char pathname[PATH_MAX];
+				struct stat buf;
+
+				STRNCPY(pathname, th_get_pathname(tar), PATH_MAX);
+
+				if(!strcmp(pathname, ".PKGINFO") || !strcmp(pathname, ".FILELIST")) {
+					tar_skip_regfile(tar);
+					continue;
+				}
+
+				if(!strcmp(pathname, "._install") || !strcmp(pathname, ".INSTALL")) {
+					/* the install script goes inside the db */
+					snprintf(expath, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
+				} else {
+					/* build the new pathname relative to handle->root */
+					snprintf(expath, PATH_MAX, "%s%s", handle->root, pathname);
+				}
+
+				if(!stat(expath, &buf) && !S_ISDIR(buf.st_mode)) {
+					/* file already exists */
+					if(pm_list_is_strin(pathname, handle->noupgrade)) {
+						notouch = 1;
+					} else {
+						if(!pmo_upgrade || oldpkg == NULL) {
+							nb = pm_list_is_strin(pathname, info->backup) ? 1 : 0;
+						} else {
+							/* op == PM_TRANS_TYPE_UPGRADE */
+							if((md5_orig = _alpm_needbackup(pathname, oldpkg->backup)) != 0) {
+								nb = 1;
+							}
+						}
+					}
+				}
+
+				if(nb) {
+					char *temp;
+					char *md5_local, *md5_pkg;
+
+					md5_local = MDFile(expath);
+					/* extract the package's version to a temporary file and md5 it */
+					temp = strdup("/tmp/alpm_XXXXXX");
+					mkstemp(temp);
+					if(tar_extract_file(tar, temp)) {
+						alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
+						errors++;
+						FREE(md5_local);
+						continue;
+					}
+					md5_pkg = MDFile(temp);
+					/* append the new md5 hash to it's respective entry in info->backup
+					 * (it will be the new orginal)
+					 */
+					for(lp = info->backup; lp; lp = lp->next) {
+						char *fn;
+						char *file = lp->data;
+
+						if(!file) continue;
+						if(!strcmp(file, pathname)) {
+							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
+							MALLOC(fn, strlen(file)+34);
+							sprintf(fn, "%s\t%s", file, md5_pkg);
+							FREE(file);
+							lp->data = fn;
+						}
+					}
+
+					_alpm_log(PM_LOG_DEBUG, "checking md5 hashes for %s", pathname);
+					_alpm_log(PM_LOG_DEBUG, "current:  %s", md5_local);
+					_alpm_log(PM_LOG_DEBUG, "new:      %s", md5_pkg);
+					if(md5_orig) {
+						_alpm_log(PM_LOG_DEBUG, "original: %s", md5_orig);
+					}
+
+					if(!pmo_upgrade) {
+						/* PM_ADD */
+
+						/* if a file already exists with a different md5 hash,
+						 * then we rename it to a .pacorig extension and continue */
+						if(strcmp(md5_local, md5_pkg)) {
+							char newpath[PATH_MAX];
+							snprintf(newpath, PATH_MAX, "%s.pacorig", expath);
+							if(rename(expath, newpath)) {
+								_alpm_log(PM_LOG_ERROR, "could not rename %s (%s)", pathname, strerror(errno));
+								alpm_logaction("error: could not rename %s (%s)", expath, strerror(errno));
+							}
+							if(_alpm_copyfile(temp, expath)) {
+								_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
+								alpm_logaction("error: could not copy %s to %s (%s)", temp, expath, strerror(errno));
+								errors++;
+							} else {
+								_alpm_log(PM_LOG_WARNING, "%s saved as %s.pacorig", pathname, pathname);
+								alpm_logaction("warning: %s saved as %s", expath, newpath);
+							}
+						}
+					} else if(md5_orig) {
+						/* PM_UPGRADE */
+						int installnew = 0;
+
+						/* the fun part */
+						if(!strcmp(md5_orig, md5_local)) {
+							if(!strcmp(md5_local, md5_pkg)) {
+								_alpm_log(PM_LOG_DEBUG, "action: installing new file");
+								installnew = 1;
+							} else {
+								_alpm_log(PM_LOG_DEBUG, "action: installing new file");
+								installnew = 1;
+							}
+						} else if(!strcmp(md5_orig, md5_pkg)) {
+							_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place");
+						} else if(!strcmp(md5_local, md5_pkg)) {
+							_alpm_log(PM_LOG_DEBUG, "action: installing new file");
+							installnew = 1;
+						} else {
+							char newpath[PATH_MAX];
+							_alpm_log(PM_LOG_DEBUG, "action: saving current file and installing new one");
+							installnew = 1;
+							snprintf(newpath, PATH_MAX, "%s.pacsave", expath);
+							if(rename(expath, newpath)) {
+								_alpm_log(PM_LOG_ERROR, "could not rename %s (%s)", pathname, strerror(errno));
+								alpm_logaction("error: could not rename %s (%s)", expath, strerror(errno));
+							} else {
+								_alpm_log(PM_LOG_WARNING, "%s saved as %s.pacsave", pathname, pathname);
+								alpm_logaction("warning: %s saved as %s", expath, newpath);
+							}
+						}
+
+						if(installnew) {
+							/*_alpm_log(PM_LOG_FLOW2, "  %s", expath);*/
+							if(_alpm_copyfile(temp, expath)) {
+								_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
+								errors++;
+							}
+						}
+					}
+
+					FREE(md5_local);
+					FREE(md5_pkg);
+					FREE(md5_orig);
+					unlink(temp);
+					FREE(temp);
+				} else {
+					if(!notouch) {
+						_alpm_log(PM_LOG_FLOW2, "extracting %s", pathname);
+					} else {
+						_alpm_log(PM_LOG_FLOW2, "%s is in NoUpgrade -- skipping", pathname);
+						strncat(expath, ".pacnew", PATH_MAX);
+						_alpm_log(PM_LOG_WARNING, "extracting %s as %s.pacnew", pathname, pathname);
+						alpm_logaction("warning: extracting %s%s as %s", handle->root, pathname, expath);
+						/*tar_skip_regfile(tar);*/
+					}
+					if(trans->flags & PM_TRANS_FLAG_FORCE) {
+						/* if FORCE was used, then unlink() each file (whether it's there
+						 * or not) before extracting.  this prevents the old "Text file busy"
+						 * error that crops up if one tries to --force a glibc or pacman
+						 * upgrade.
+						 */
+						unlink(expath);
+					}
+					if(tar_extract_file(tar, expath)) {
+						_alpm_log(PM_LOG_ERROR, "could not extract %s (%s)", pathname, strerror(errno));
+						alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
+						errors++;
+					}
+					/* calculate an md5 hash if this is in info->backup */
+					for(lp = info->backup; lp; lp = lp->next) {
+						char *fn, *md5;
+						char path[PATH_MAX];
+						char *file = lp->data;
+
+						if(!file) continue;
+						if(!strcmp(file, pathname)) {
+							snprintf(path, PATH_MAX, "%s%s", handle->root, file);
+							md5 = MDFile(path);
+							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
+							MALLOC(fn, strlen(file)+34);
+							sprintf(fn, "%s\t%s", file, md5);
+							FREE(md5);
+							FREE(file);
+							lp->data = fn;
+						}
+					}
+				}
+			}
+			tar_close(tar);
+
+			if(errors) {
+				ret = 1;
+				_alpm_log(PM_LOG_ERROR, "errors occurred while %s %s",
+					(pmo_upgrade ? "upgrading" : "installing"), info->name);
+				alpm_logaction("errors occurred while %s %s",
+					(pmo_upgrade ? "upgrading" : "installing"), info->name);
+			}
 		}
 
 		/* Add the package to the database */
@@ -441,208 +652,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db->treename, depinfo->name, depinfo->version);
 			}
-		}
-
-		/* Extract the .tar.gz package */
-		if(tar_open(&tar, info->data, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
-			RET_ERR(PM_ERR_PKG_OPEN, -1);
-		}
-		_alpm_log(PM_LOG_FLOW1, "extracting files");
-		for(i = 0; !th_read(tar); i++) {
-			int nb = 0;
-			int notouch = 0;
-			char *md5_orig = NULL;
-			char pathname[PATH_MAX];
-			struct stat buf;
-
-			STRNCPY(pathname, th_get_pathname(tar), PATH_MAX);
-
-			if(!strcmp(pathname, ".PKGINFO") || !strcmp(pathname, ".FILELIST")) {
-				tar_skip_regfile(tar);
-				continue;
-			}
-
-			if(!strcmp(pathname, "._install") || !strcmp(pathname, ".INSTALL")) {
-				/* the install script goes inside the db */
-				snprintf(expath, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
-			} else {
-				/* build the new pathname relative to handle->root */
-				snprintf(expath, PATH_MAX, "%s%s", handle->root, pathname);
-			}
-
-			if(!stat(expath, &buf) && !S_ISDIR(buf.st_mode)) {
-				/* file already exists */
-				if(pm_list_is_strin(pathname, handle->noupgrade)) {
-					notouch = 1;
-				} else {
-					if(!pmo_upgrade || oldpkg == NULL) {
-						nb = pm_list_is_strin(pathname, info->backup) ? 1 : 0;
-					} else {
-						/* op == PM_TRANS_TYPE_UPGRADE */
-						if((md5_orig = _alpm_needbackup(pathname, oldpkg->backup)) != 0) {
-							nb = 1;
-						}
-					}
-				}
-			}
-
-			if(nb) {
-				char *temp;
-				char *md5_local, *md5_pkg;
-
-				md5_local = MDFile(expath);
-				/* extract the package's version to a temporary file and md5 it */
-				temp = strdup("/tmp/alpm_XXXXXX");
-				mkstemp(temp);
-				if(tar_extract_file(tar, temp)) {
-					alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
-					errors++;
-					FREE(md5_local);
-					continue;
-				}
-				md5_pkg = MDFile(temp);
-				/* append the new md5 hash to it's respective entry in info->backup
-				 * (it will be the new orginal)
-				 */
-				for(lp = info->backup; lp; lp = lp->next) {
-					char *fn;
-					char *file = lp->data;
-
-					if(!file) continue;
-					if(!strcmp(file, pathname)) {
-						/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-						MALLOC(fn, strlen(file)+34);
-						sprintf(fn, "%s\t%s", file, md5_pkg);
-						FREE(file);
-						lp->data = fn;
-					}
-				}
-
-				_alpm_log(PM_LOG_DEBUG, " checking md5 hashes for %s", pathname);
-				_alpm_log(PM_LOG_DEBUG, " current:  %s", md5_local);
-				_alpm_log(PM_LOG_DEBUG, " new:      %s", md5_pkg);
-				if(md5_orig) {
-					_alpm_log(PM_LOG_DEBUG, " original: %s", md5_orig);
-				}
-
-				if(!pmo_upgrade) {
-					/* PM_ADD */
-
-					/* if a file already exists with a different md5 hash,
-					 * then we rename it to a .pacorig extension and continue */
-					if(strcmp(md5_local, md5_pkg)) {
-						char newpath[PATH_MAX];
-						snprintf(newpath, PATH_MAX, "%s.pacorig", expath);
-						if(rename(expath, newpath)) {
-							_alpm_log(PM_LOG_ERROR, "could not rename %s (%s)", pathname, strerror(errno));
-							alpm_logaction("error: could not rename %s (%s)", expath, strerror(errno));
-						}
-						if(_alpm_copyfile(temp, expath)) {
-							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
-							alpm_logaction("error: could not copy %s to %s (%s)", temp, expath, strerror(errno));
-							errors++;
-						} else {
-							_alpm_log(PM_LOG_WARNING, "%s saved as %s.pacorig", pathname, pathname);
-							alpm_logaction("warning: %s saved as %s", expath, newpath);
-						}
-					}
-				} else if(md5_orig) {
-					/* PM_UPGRADE */
-					int installnew = 0;
-
-					/* the fun part */
-					if(!strcmp(md5_orig, md5_local)) {
-						if(!strcmp(md5_local, md5_pkg)) {
-							_alpm_log(PM_LOG_DEBUG, " action: installing new file");
-							installnew = 1;
-						} else {
-							_alpm_log(PM_LOG_DEBUG, " action: installing new file");
-							installnew = 1;
-						}
-					} else if(!strcmp(md5_orig, md5_pkg)) {
-						_alpm_log(PM_LOG_DEBUG, " action: leaving existing file in place");
-					} else if(!strcmp(md5_local, md5_pkg)) {
-						_alpm_log(PM_LOG_DEBUG, " action: installing new file");
-						installnew = 1;
-					} else {
-						char newpath[PATH_MAX];
-						_alpm_log(PM_LOG_DEBUG, " action: saving current file and installing new one");
-						installnew = 1;
-						snprintf(newpath, PATH_MAX, "%s.pacsave", expath);
-						if(rename(expath, newpath)) {
-							_alpm_log(PM_LOG_ERROR, "could not rename %s (%s)", pathname, strerror(errno));
-							alpm_logaction("error: could not rename %s (%s)", expath, strerror(errno));
-						} else {
-							_alpm_log(PM_LOG_WARNING, "%s saved as %s.pacsave", pathname, pathname);
-							alpm_logaction("warning: %s saved as %s", expath, newpath);
-						}
-					}
-
-					if(installnew) {
-						/*_alpm_log(PM_LOG_FLOW2, "  %s", expath);*/
-						if(_alpm_copyfile(temp, expath)) {
-							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
-							errors++;
-						}
-					}
-				}
-
-				FREE(md5_local);
-				FREE(md5_pkg);
-				FREE(md5_orig);
-				unlink(temp);
-				FREE(temp);
-			} else {
-				if(!notouch) {
-					_alpm_log(PM_LOG_FLOW2, "extracting %s", pathname);
-				} else {
-					_alpm_log(PM_LOG_FLOW2, "%s is in NoUpgrade -- skipping", pathname);
-					strncat(expath, ".pacnew", PATH_MAX);
-					_alpm_log(PM_LOG_WARNING, "extracting %s as %s.pacnew", pathname, pathname);
-					alpm_logaction("warning: extracting %s%s as %s", handle->root, pathname, expath);
-					/*tar_skip_regfile(tar);*/
-				}
-				if(trans->flags & PM_TRANS_FLAG_FORCE) {
-					/* if FORCE was used, then unlink() each file (whether it's there
-					 * or not) before extracting.  this prevents the old "Text file busy"
-					 * error that crops up if one tries to --force a glibc or pacman
-					 * upgrade.
-					 */
-					unlink(expath);
-				}
-				if(tar_extract_file(tar, expath)) {
-					_alpm_log(PM_LOG_ERROR, "could not extract %s (%s)", pathname, strerror(errno));
-					alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
-					errors++;
-				}
-				/* calculate an md5 hash if this is in info->backup */
-				for(lp = info->backup; lp; lp = lp->next) {
-					char *fn, *md5;
-					char path[PATH_MAX];
-					char *file = lp->data;
-
-					if(!file) continue;
-					if(!strcmp(file, pathname)) {
-						snprintf(path, PATH_MAX, "%s%s", handle->root, file);
-						md5 = MDFile(path);
-						/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-						MALLOC(fn, strlen(file)+34);
-						sprintf(fn, "%s\t%s", file, md5);
-						FREE(md5);
-						FREE(file);
-						lp->data = fn;
-					}
-				}
-			}
-		}
-		tar_close(tar);
-
-		if(errors) {
-			ret = 1;
-			_alpm_log(PM_LOG_ERROR, "errors occurred while %s %s",
-				(pmo_upgrade ? "upgrading" : "installing"), info->name);
-			alpm_logaction("errors occurred while %s %s",
-				(pmo_upgrade ? "upgrading" : "installing"), info->name);
 		}
 
 		/* run the post-install script if it exists  */
