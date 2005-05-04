@@ -495,7 +495,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				temp = strdup("/tmp/alpm_XXXXXX");
 				mkstemp(temp);
 				if(tar_extract_file(tar, temp)) {
-					alpm_logaction("could not extract %s: %s", pathname, strerror(errno));
+					alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
 					errors++;
 					FREE(md5_local);
 					continue;
@@ -534,12 +534,12 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						char newpath[PATH_MAX];
 						snprintf(newpath, PATH_MAX, "%s.pacorig", expath);
 						if(rename(expath, newpath)) {
-							_alpm_log(PM_LOG_ERROR, "could not rename %s: %s", pathname, strerror(errno));
-							alpm_logaction("error: could not rename %s: %s", expath, strerror(errno));
+							_alpm_log(PM_LOG_ERROR, "could not rename %s (%s)", pathname, strerror(errno));
+							alpm_logaction("error: could not rename %s (%s)", expath, strerror(errno));
 						}
 						if(_alpm_copyfile(temp, expath)) {
-							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s: %s", temp, pathname, strerror(errno));
-							alpm_logaction("error: could not copy %s to %s: %s", temp, expath, strerror(errno));
+							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
+							alpm_logaction("error: could not copy %s to %s (%s)", temp, expath, strerror(errno));
 							errors++;
 						} else {
 							_alpm_log(PM_LOG_WARNING, "%s saved as %s.pacorig", pathname, pathname);
@@ -570,8 +570,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						installnew = 1;
 						snprintf(newpath, PATH_MAX, "%s.pacsave", expath);
 						if(rename(expath, newpath)) {
-							_alpm_log(PM_LOG_ERROR, "could not rename %s: %s", pathname, strerror(errno));
-							alpm_logaction("error: could not rename %s: %s", expath, strerror(errno));
+							_alpm_log(PM_LOG_ERROR, "could not rename %s (%s)", pathname, strerror(errno));
+							alpm_logaction("error: could not rename %s (%s)", expath, strerror(errno));
 						} else {
 							_alpm_log(PM_LOG_WARNING, "%s saved as %s.pacsave", pathname, pathname);
 							alpm_logaction("warning: %s saved as %s", expath, newpath);
@@ -581,7 +581,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					if(installnew) {
 						/*_alpm_log(PM_LOG_FLOW2, "  %s", expath);*/
 						if(_alpm_copyfile(temp, expath)) {
-							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s: %s", temp, pathname, strerror(errno));
+							_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
 							errors++;
 						}
 					}
@@ -611,8 +611,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					unlink(expath);
 				}
 				if(tar_extract_file(tar, expath)) {
-					_alpm_log(PM_LOG_ERROR, "could not extract %s: %s", pathname, strerror(errno));
-					alpm_logaction("could not extract %s: %s", pathname, strerror(errno));
+					_alpm_log(PM_LOG_ERROR, "could not extract %s (%s)", pathname, strerror(errno));
+					alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
 					errors++;
 				}
 				/* calculate an md5 hash if this is in info->backup */
