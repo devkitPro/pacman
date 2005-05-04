@@ -596,7 +596,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				if(!notouch) {
 					_alpm_log(PM_LOG_FLOW2, "extracting %s", pathname);
 				} else {
-					_alpm_log(PM_LOG_FLOW2, "%s is in NoUpgrade - skipping", pathname);
+					_alpm_log(PM_LOG_FLOW2, "%s is in NoUpgrade -- skipping", pathname);
 					strncat(expath, ".pacnew", PATH_MAX);
 					_alpm_log(PM_LOG_WARNING, "extracting %s as %s.pacnew", pathname, pathname);
 					alpm_logaction("warning: extracting %s%s as %s", handle->root, pathname, expath);
