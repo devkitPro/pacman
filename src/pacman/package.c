@@ -90,7 +90,6 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 		for(i = alpm_list_first(alpm_pkg_getinfo(pkg, PM_PKG_BACKUP)); i; i = alpm_list_next(i)) {
 			struct stat buf;
 			char path[PATH_MAX];
-			char *md5sum;
 			char *str = strdup(alpm_list_getdata(i));
 			char *ptr = index(str, '\t');
 			if(ptr == NULL) {
@@ -101,12 +100,14 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 			ptr++;
 			snprintf(path, PATH_MAX-1, "%s%s", root, str);
 			if(!stat(path, &buf)) {
-				md5sum = alpm_get_md5sum(path);
+				char *md5sum = alpm_get_md5sum(path);
 				if(md5sum == NULL) {
 					ERR(NL, "error calculating md5sum for %s\n", path);
+					FREE(str);
 					continue;
 				}
 				printf("%sMODIFIED\t%s\n", strcmp(md5sum, ptr) ? "" : "NOT ", path);
+				FREE(md5sum);
 			} else {
 				printf("MISSING\t\t%s\n", path);
 			}
