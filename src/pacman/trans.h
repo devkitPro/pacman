@@ -22,7 +22,7 @@
 #define _PM_TRANS_H
 
 /* callback to handle messages/notifications from pacman transactions */
-void cb_trans(unsigned short event, void *data1, void *data2);
+void cb_trans(unsigned char event, void *data1, void *data2);
 
 #endif /* _PM_TRANS_H */
 

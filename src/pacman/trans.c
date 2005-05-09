@@ -36,7 +36,7 @@
 
 /* Callback to handle transaction events
  */
-void cb_trans(unsigned short event, void *data1, void *data2)
+void cb_trans(unsigned char event, void *data1, void *data2)
 {
 	char str[LOG_STR_LEN] = "";
 
