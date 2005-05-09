@@ -63,97 +63,98 @@ static int sync_cleancache(int level)
 
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
 
-		if(level == 1) {
-			/* incomplete cleanup: we keep latest packages and partial downloads */
-			DIR *dir;
-			struct dirent *ent;
-			list_t *cache = NULL;
-			list_t *clean = NULL;
-			list_t *i, *j;
-			char dirpath[PATH_MAX];
+	if(level == 1) {
+		/* incomplete cleanup: we keep latest packages and partial downloads */
+		DIR *dir;
+		struct dirent *ent;
+		list_t *cache = NULL;
+		list_t *clean = NULL;
+		list_t *i, *j;
+		char dirpath[PATH_MAX];
 
-			snprintf(dirpath, PATH_MAX, "%s"CACHEDIR, root);
+		snprintf(dirpath, PATH_MAX, "%s" CACHEDIR, root);
 
-			MSG(NL, "removing old packages from cache... ");
-			dir = opendir(dirpath);
-			if(dir == NULL) {
-				ERR(NL, "could not access cache directory\n");
-				return(1);
+		MSG(NL, "removing old packages from cache... ");
+		dir = opendir(dirpath);
+		if(dir == NULL) {
+			ERR(NL, "could not access cache directory\n");
+			return(1);
+		}
+		rewinddir(dir);
+		while((ent = readdir(dir)) != NULL) {
+			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+				continue;
 			}
-			rewinddir(dir);
-			while((ent = readdir(dir)) != NULL) {
-				if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+			cache = list_add(cache, strdup(ent->d_name));
+		}
+		closedir(dir);
+
+		for(i = cache; i; i = i->next) {
+			char *str = i->data;
+			char name[256], version[64];
+
+			if(strstr(str, PM_EXT_PKG) == NULL) {
+				clean = list_add(clean, strdup(str));
+				continue;
+			}
+			/* we keep partially downloaded files */
+			if(strstr(str, PM_EXT_PKG ".part")) {
+				continue;
+			}
+			if(split_pkgname(str, name, version) != 0) {
+				clean = list_add(clean, strdup(str));
+				continue;
+			}
+			for(j = i->next; j; j = j->next) {
+				char *s = j->data;
+				char n[256], v[64];
+
+				if(strstr(s, PM_EXT_PKG) == NULL) {
 					continue;
 				}
-				cache = list_add(cache, strdup(ent->d_name));
-			}
-			closedir(dir);
-
-			for(i = cache; i; i = i->next) {
-				char *str = i->data;
-				char name[256], version[64];
-
-				if(strstr(str, PM_EXT_PKG) == NULL) {
-					clean = list_add(clean, strdup(str));
+				if(strstr(s, PM_EXT_PKG ".part")) {
 					continue;
 				}
-				/* we keep partially downloaded files */
-				if(strstr(str, PM_EXT_PKG".part")) {
+				if(split_pkgname(s, n, v) != 0) {
 					continue;
 				}
-				if(split_pkgname(str, name, version) != 0) {
-					clean = list_add(clean, strdup(str));
-					continue;
-				}
-				for(j = i->next; j; j = j->next) {
-					char *s = j->data;
-					char n[256], v[64];
-
-					if(strstr(s, PM_EXT_PKG) == NULL) {
-						continue;
-					}
-					if(strstr(s, PM_EXT_PKG".part")) {
-						continue;
-					}
-					if(split_pkgname(s, n, v) != 0) {
-						continue;
-					}
-					if(!strcmp(name, n)) {
-						char *ptr = (alpm_pkg_vercmp(version, v) < 0) ? str : s;
-						if(!list_is_strin(ptr, clean)) {
-							clean = list_add(clean, strdup(ptr));
-						}
+				if(!strcmp(name, n)) {
+					char *ptr = (alpm_pkg_vercmp(version, v) < 0) ? str : s;
+					if(!list_is_strin(ptr, clean)) {
+						clean = list_add(clean, strdup(ptr));
 					}
 				}
-			}
-			FREELIST(cache);
-
-			for(i = clean; i; i = i->next) {
-				char path[PATH_MAX];
-
-				snprintf(path, PATH_MAX, "%s"CACHEDIR"/%s", root, (char *)i->data);
-				unlink(path);
-			}
-			FREELIST(clean);
-		} else {
-			/* full cleanup */
-			char path[PATH_MAX];
-
-			snprintf(path, PATH_MAX, "%s"CACHEDIR, root);
-
-			MSG(NL, "removing all packages from cache... ");
-			if(rmrf(path)) {
-				ERR(NL, "could not remove cache directory\n");
-				return(1);
-			}
-
-			if(makepath(path)) {
-				ERR(NL, "could not create new cache directory\n");
-				return(1);
 			}
 		}
-		MSG(CL, "done.\n");
-		return(0);
+		FREELIST(cache);
+
+		for(i = clean; i; i = i->next) {
+			char path[PATH_MAX];
+
+			snprintf(path, PATH_MAX, "%s" CACHEDIR "/%s", root, (char *)i->data);
+			unlink(path);
+		}
+		FREELIST(clean);
+	} else {
+		/* full cleanup */
+		char path[PATH_MAX];
+
+		snprintf(path, PATH_MAX, "%s" CACHEDIR, root);
+
+		MSG(NL, "removing all packages from cache... ");
+		if(rmrf(path)) {
+			ERR(NL, "could not remove cache directory\n");
+			return(1);
+		}
+
+		if(makepath(path)) {
+			ERR(NL, "could not create new cache directory\n");
+			return(1);
+		}
+	}
+
+	MSG(CL, "done.\n");
+	return(0);
 }
 
 static int sync_synctree(list_t *syncs)
@@ -181,7 +182,7 @@ static int sync_synctree(list_t *syncs)
 		mtime = lastupdate;
 
 		/* build a one-element list */
-		snprintf(path, PATH_MAX, "%s"PM_EXT_DB, sync->treename);
+		snprintf(path, PATH_MAX, "%s" PM_EXT_DB, sync->treename);
 		files = list_add(files, strdup(path));
 
 		snprintf(path, PATH_MAX, "%s%s", root, dbpath);
@@ -193,9 +194,9 @@ static int sync_synctree(list_t *syncs)
 			ERR(NL, "failed to synchronize %s\n", sync->treename);
 			success--;
 		} else if(ret < 0) {
-			MSG(NL, ":: %s is up to date\n", sync->treename);
+			MSG(NL, " %s is up to date\n", sync->treename);
 		} else {
-			snprintf(path, PATH_MAX, "%s%s/%s"PM_EXT_DB, root, dbpath, sync->treename);
+			snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, root, dbpath, sync->treename);
 			if(alpm_db_update(sync->db, path, newmtime) == -1) {
 				ERR(NL, "failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
 				success--;
@@ -313,36 +314,38 @@ static int sync_info(list_t *syncs, list_t *targets)
 
 static int sync_list(list_t *syncs, list_t *targets)
 {
-	list_t *i, *treenames = NULL;
+	list_t *i;
+	list_t *ls = NULL;
 
 	if(targets) {
 		for(i = targets; i; i = i->next) {
 			list_t *j;
 			sync_t *sync = NULL;
 
-			for(j = syncs; j; j = j->next) {
+			for(j = syncs; j && !sync; j = j->next) {
 				sync_t *s = j->data;
 
 				if(strcmp(i->data, s->treename) == 0) {
-					MALLOC(sync, sizeof(sync_t));
-					sync->treename = i->data;
-					sync->db = s->db;
+					sync = s;
 				}
 			}
 
 			if(sync == NULL) {
 				ERR(NL, "repository \"%s\" was not found.\n", (char *)i->data);
-				list_free(treenames);
+				for(j = ls; j; j = j->next) {
+					j->data = NULL;
+				}
+				list_free(ls);
 				return(1);
 			}
 
-			treenames = list_add(treenames, sync);
+			ls = list_add(ls, sync);
 		}
 	} else {
-		treenames = syncs;
+		ls = syncs;
 	}
 
-	for(i = treenames; i; i = i->next) {
+	for(i = ls; i; i = i->next) {
 		PM_LIST *lp;
 		sync_t *sync = i->data;
 
@@ -354,7 +357,10 @@ static int sync_list(list_t *syncs, list_t *targets)
 	}
 
 	if(targets) {
-		list_free(treenames);
+		for(i = ls; i; i = i->next) {
+			i->data = NULL;
+		}
+		list_free(ls);
 	}
 
 	return(0);
@@ -424,6 +430,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	if(pmo_s_upgrade) {
+		MSG(NL, ":: Starting local database upgrade...\n");
 		alpm_logaction("starting full system upgrade");
 		if(alpm_trans_sysupgrade() == -1) {
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
