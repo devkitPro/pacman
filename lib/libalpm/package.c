@@ -84,7 +84,6 @@ pmpkg_t *pkg_dup(pmpkg_t *pkg)
 	STRNCPY(newpkg->version, pkg->version, PKG_VERSION_LEN);
 	STRNCPY(newpkg->desc, pkg->desc, PKG_DESC_LEN);
 	STRNCPY(newpkg->url, pkg->url, PKG_URL_LEN);
-	STRNCPY(newpkg->license, pkg->license, PKG_LICENSE_LEN);
 	STRNCPY(newpkg->builddate, pkg->builddate, PKG_DATE_LEN);
 	STRNCPY(newpkg->installdate, pkg->installdate, PKG_DATE_LEN);
 	STRNCPY(newpkg->packager, pkg->packager, PKG_PACKAGER_LEN);
@@ -94,6 +93,7 @@ pmpkg_t *pkg_dup(pmpkg_t *pkg)
 	newpkg->force      = pkg->force;
 	newpkg->scriptlet  = pkg->scriptlet;
 	newpkg->reason     = pkg->reason;
+	newpkg->license    = _alpm_list_strdup(pkg->license);
 	newpkg->requiredby = _alpm_list_strdup(pkg->requiredby);
 	newpkg->conflicts  = _alpm_list_strdup(pkg->conflicts);
 	newpkg->files      = _alpm_list_strdup(pkg->files);

@@ -32,7 +32,6 @@ enum {
 #define PKG_VERSION_LEN  64
 #define PKG_DESC_LEN     512
 #define PKG_URL_LEN      256
-#define PKG_LICENSE_LEN  256
 #define PKG_DATE_LEN     32
 #define PKG_PACKAGER_LEN 64
 #define PKG_MD5SUM_LEN   33
@@ -43,7 +42,6 @@ typedef struct __pmpkg_t {
 	char version[PKG_VERSION_LEN];
 	char desc[PKG_DESC_LEN];
 	char url[PKG_URL_LEN];
-	char license[PKG_LICENSE_LEN];
 	char builddate[PKG_DATE_LEN];
 	char installdate[PKG_DATE_LEN];
 	char packager[PKG_PACKAGER_LEN];
@@ -53,6 +51,7 @@ typedef struct __pmpkg_t {
 	unsigned char scriptlet;
 	unsigned char force;
 	unsigned char reason;
+	PMList *license;
 	PMList *replaces;
 	PMList *groups;
 	PMList *files;

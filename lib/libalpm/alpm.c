@@ -419,13 +419,13 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 		case PM_PKG_DESC:        data = pkg->desc; break;
 		case PM_PKG_GROUPS:      data = pkg->groups; break;
 		case PM_PKG_URL:         data = pkg->url; break;
-		case PM_PKG_LICENSE:     data = pkg->license; break;
 		case PM_PKG_ARCH:        data = pkg->arch; break;
 		case PM_PKG_BUILDDATE:   data = pkg->builddate; break;
 		case PM_PKG_INSTALLDATE: data = pkg->installdate; break;
 		case PM_PKG_PACKAGER:    data = pkg->packager; break;
 		case PM_PKG_SIZE:        data = (void *)pkg->size; break;
 		case PM_PKG_REASON:      data = (void *)(int)pkg->reason; break;
+		case PM_PKG_LICENSE:     data = pkg->license; break;
 		case PM_PKG_REPLACES:    data = pkg->replaces; break;
 		case PM_PKG_MD5SUM:      data = pkg->md5sum; break;
 		case PM_PKG_DEPENDS:     data = pkg->depends; break;
