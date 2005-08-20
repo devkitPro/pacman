@@ -631,7 +631,9 @@ echo "pkgname = $pkgname" >>.PKGINFO
 echo "pkgver = $pkgver-$pkgrel" >>.PKGINFO
 echo "pkgdesc = $pkgdesc" >>.PKGINFO
 echo "url = $url" >>.PKGINFO
-echo "license = $license" >>.PKGINFO
+for it in "${license[@]}"; do
+	echo "license = $it" >>.PKGINFO
+done
 echo "builddate = $builddate" >>.PKGINFO
 echo "packager = $packager" >>.PKGINFO
 echo "size = $size" >>.PKGINFO

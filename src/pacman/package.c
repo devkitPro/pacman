@@ -49,7 +49,7 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 
 	printf("Packager       : %s\n", (char *)alpm_pkg_getinfo(pkg, PM_PKG_PACKAGER));
 	printf("URL            : %s\n", (char *)alpm_pkg_getinfo(pkg, PM_PKG_URL));
-	printf("License        : %s\n", (char *)alpm_pkg_getinfo(pkg, PM_PKG_LICENSE));
+	PM_LIST_display("License        :", alpm_pkg_getinfo(pkg, PM_PKG_LICENSE));
 	printf("Architecture   : %s\n", (char *)alpm_pkg_getinfo(pkg, PM_PKG_ARCH));
 	printf("Size           : %ld\n", (long int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE));
 
