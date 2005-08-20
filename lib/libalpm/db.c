@@ -301,10 +301,9 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				}
 				_alpm_strtrim(info->url);
 			} else if(!strcmp(line, "%LICENSE%")) {
-				if(fgets(info->license, sizeof(info->license), fp) == NULL) {
-					return(-1);
+				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
+					info->license = pm_list_add(info->license, strdup(line));
 				}
-				_alpm_strtrim(info->license);
 			} else if(!strcmp(line, "%ARCH%")) {
 				if(fgets(info->arch, sizeof(info->arch), fp) == NULL) {
 					return(-1);
@@ -473,7 +472,10 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		fputs("%URL%\n", fp);
 		fprintf(fp, "%s\n\n", info->url);
 		fputs("%LICENSE%\n", fp);
-		fprintf(fp, "%s\n\n", info->license);
+		for(lp = info->license; lp; lp = lp->next) {
+			fprintf(fp, "%s\n", (char *)lp->data);
+		}
+		fprintf(fp, "\n");
 		fputs("%ARCH%\n", fp);
 		fprintf(fp, "%s\n\n", info->arch);
 		fputs("%BUILDDATE%\n", fp);

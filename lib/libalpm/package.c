@@ -45,7 +45,7 @@ pmpkg_t *pkg_new()
 	pkg->version[0]     = '\0';
 	pkg->desc[0]        = '\0';
 	pkg->url[0]         = '\0';
-	pkg->license[0]     = '\0';
+	pkg->license        = NULL;
 	pkg->builddate[0]   = '\0';
 	pkg->installdate[0] = '\0';
 	pkg->packager[0]    = '\0';
@@ -180,7 +180,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "URL")) {
 				STRNCPY(info->url, ptr, sizeof(info->url));
 			} else if(!strcmp(key, "LICENSE")) {
-				STRNCPY(info->license, ptr, sizeof(info->license));
+				info->license = pm_list_add(info->license, strdup(ptr));
 			} else if(!strcmp(key, "BUILDDATE")) {
 				STRNCPY(info->builddate, ptr, sizeof(info->builddate));
 			} else if(!strcmp(key, "INSTALLDATE")) {
