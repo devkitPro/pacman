@@ -372,7 +372,7 @@ int pkg_isin(pmpkg_t *needle, PMList *haystack)
 
 int pkg_splitname(char *target, char *name, char *version)
 {
-	char tmp[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+7+1];
+	char tmp[PKG_FULLNAME_LEN+7];
 	char *p, *q;
 
 	if(target == NULL) {
@@ -385,7 +385,7 @@ int pkg_splitname(char *target, char *name, char *version)
 	} else {
 		p++;
 	}
-	STRNCPY(tmp, p, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+7+1);
+	STRNCPY(tmp, p, PKG_FULLNAME_LEN+7);
 	/* trim file extension (if any) */
 	if((p = strstr(tmp, PM_EXT_PKG))) {
 		*p = 0;

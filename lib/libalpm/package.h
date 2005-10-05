@@ -30,6 +30,7 @@ enum {
 
 #define PKG_NAME_LEN     256
 #define PKG_VERSION_LEN  64
+#define PKG_FULLNAME_LEN (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1
 #define PKG_DESC_LEN     512
 #define PKG_URL_LEN      256
 #define PKG_DATE_LEN     32
