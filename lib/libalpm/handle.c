@@ -50,6 +50,7 @@ pmhandle_t *handle_new()
 	}
 
 	memset(handle, 0, sizeof(pmhandle_t));
+	handle->lckfd = -1;
 
 	/* see if we're root or not */
 	handle->uid = geteuid();

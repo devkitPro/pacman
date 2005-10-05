@@ -74,7 +74,8 @@ int alpm_initialize(char *root)
 
 	/* lock db */
 	if(handle->access == PM_ACCESS_RW) {
-		if(_alpm_lckmk(PM_LOCK) == -1) {
+		handle->lckfd = _alpm_lckmk(PM_LOCK);
+		if(handle->lckfd == -1) {
 			FREE(handle);
 			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 		}
@@ -98,6 +99,10 @@ int alpm_release()
 
 	/* unlock db */
 	if(handle->access == PM_ACCESS_RW) {
+		if(handle->lckfd != -1) {
+			close(handle->lckfd);
+			handle->lckfd = -1;
+		}
 		if(_alpm_lckrm(PM_LOCK)) {
 			_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
 			alpm_logaction("warning: could not remove lock file %s", PM_LOCK);

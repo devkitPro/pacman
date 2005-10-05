@@ -212,17 +212,14 @@ int _alpm_lckmk(char *file)
 			return(-1);
 		}
 	}
-	return(fd > 0 ? 0 : -1);
 
-	return(0);
+	return(fd > 0 ? fd : -1);
 }
 
 /* Remove a lock file
  */
 int _alpm_lckrm(char *file)
 {
-	/* ORE
-	we should close the file descriptor opened by lckmk */
 	return(unlink(file) == -1);
 }
 

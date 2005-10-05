@@ -37,6 +37,7 @@ typedef struct __pmhandle_t {
 	pmdb_t *db_local;
 	PMList *dbs_sync; /* List of (pmdb_t *) */
 	FILE *logfd;
+	int lckfd;
 	pmtrans_t *trans;
 	/* parameters */
 	char *root;
