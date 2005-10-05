@@ -284,5 +284,9 @@ The library can handle only one transaction at a time, and as a consequence,
 it is not easily possible to remove a conflicting package while holding
 still the on-going transaction...
 
-- ...
+- If pacman is out of date, the frontend displays a warning and recommends
+to give up the on-going transanction. The frontend does not allow to
+upgrade pacman itself on-the-fly, and thus it should be restarted with
+only "pacman" as a target.
 
+- ...
