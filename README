@@ -89,7 +89,7 @@ Last, but not least, the handle holds a _unique_ transaction object.
 
 [TRANSACTION] (see trans.c, and also alpm.c)
 
-The transaction sturcture permits easy manipulations of several package
+The transaction sturcture permits easy manipulations of several packages
 at a time (i.e. adding, upgrade and removal operations).
 
 A transaction can be initiatied with a type (ADD, UPGRADE or REMOVE),
@@ -140,9 +140,9 @@ Compared to pacman 2.9, there is now one cache object connected to each
 database object.
 There are both a package and a group cache.
 The cache is loaded only on demand (i.e the cache is loaded the first
-time data from it should used).
+time data from it should be used).
 
-Note: the cache of a database is always destroyed by the library after
+Note: the cache of a database is always updated by the library after
 an operation changing the database content (adding and/or removal of
 packages).
 Beware frontends ;)
