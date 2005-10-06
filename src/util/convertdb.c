@@ -28,7 +28,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "pacconf.h"
+#include "alpm.h"
 #include "list.h"
 #include "util.h"
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 	struct stat buf;
 	char dbdir[PATH_MAX];
  
-	sprintf(dbdir, "/%s", PACDBDIR);
+	sprintf(dbdir, "/%s", PM_DBPATH);
 
 	if(argc < 2) {
 		printf("converts a pacman 1.x database to a pacman 2.0 format\n");
@@ -73,8 +73,8 @@ int main(int argc, char* argv[])
 			perror(dbdir);
 			return(1);
 		}
-		trim(name);
-		trim(ver);
+		_alpm_strtrim(name);
+		_alpm_strtrim(ver);
 		fprintf(stderr, "converting %s\n", name);
 		/* package directory */
 		snprintf(topdir, PATH_MAX, "%s/%s-%s", argv[1], name, ver);
@@ -111,14 +111,14 @@ int main(int argc, char* argv[])
 			return(1);
 		}
 		fputs("%FILES%\n", fp);
-		while(fgets(line, 255, db) && strcmp(trim(line), "")) {
-			trim(line);
+		while(fgets(line, 255, db) && strcmp(_alpm_strtrim(line), "")) {
+			_alpm_strtrim(line);
 			ptr = line;
 
 			/* check for backup designation and frontslashes that shouldn't be there */
 			if(line[0] == '*') ptr++;
 			if(*ptr == '/')    ptr++;
-			if(line[0] == '*') backup = list_add(backup, strdup(ptr));
+			if(line[0] == '*') backup = pm_list_add(backup, strdup(ptr));
 	
 			fprintf(fp, "%s\n", ptr);
 		}
@@ -137,7 +137,7 @@ int main(int argc, char* argv[])
 			snprintf(line, PATH_MAX, "/bin/cp %s %s/install", path, topdir);
 			system(line);
 		}
-		list_free(backup);
+		pm_list_free(backup);
 	}
 	umask(oldumask);
 	return(0);
