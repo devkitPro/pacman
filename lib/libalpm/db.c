@@ -515,7 +515,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DEPENDS) {
 		snprintf(path, PATH_MAX, "%s/depends", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, "could not open file %s/depends", db->treename);
+			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/depends", db->treename);
 			goto error;
 		}
 		fputs("%DEPENDS%\n", fp);
