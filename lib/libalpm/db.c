@@ -26,6 +26,9 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
+#ifdef CYGWIN
+#include <limits.h> /* PATH_MAX */
+#endif
 /* pacman */
 #include "log.h"
 #include "util.h"
