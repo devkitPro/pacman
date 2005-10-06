@@ -19,13 +19,18 @@
  *  USA.
  */
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
 #include <getopt.h>
 #include <string.h>
 #include <signal.h>
+#ifndef CYGWIN
 #include <mcheck.h> /* debug */
+#else
+#include <libgen.h> /* basename */
+#endif
 
 #include <alpm.h>
 /* pacman */
@@ -92,8 +97,10 @@ int main(int argc, char *argv[])
 	int ret = 0;
 	char *cenv = NULL;
 
+#ifndef CYGWIN
 	/* debug */
 	mtrace();
+#endif
 
 	cenv = getenv("COLUMNS");
 	if(cenv != NULL) {
@@ -226,8 +233,10 @@ void cleanup(int signum)
 
 	FREELIST(pm_targets);
 
+#ifndef CYGWIN
 	/* debug */
 	muntrace();
+#endif
 
 	fflush(stdout);
 

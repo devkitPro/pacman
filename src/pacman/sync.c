@@ -26,6 +26,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#ifdef CYGWIN
+#include <limits.h> /* PATH_MAX */
+#endif
 
 #include <alpm.h>
 /* pacman */

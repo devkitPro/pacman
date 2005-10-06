@@ -25,6 +25,9 @@
 #include <time.h>
 #include <fcntl.h>
 #include <string.h>
+#ifdef CYGWIN
+#include <limits.h> /* PATH_MAX */
+#endif
 #include <zlib.h>
 #include <libtar.h>
 /* pacman */

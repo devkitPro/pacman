@@ -30,6 +30,9 @@
 #include <dirent.h>
 #include <time.h>
 #include <syslog.h>
+#ifdef CYGWIN
+#include <limits.h> /* PATH_MAX */
+#endif
 #include <zlib.h>
 #include <libtar.h>
 /* pacman */

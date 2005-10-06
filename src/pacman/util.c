@@ -29,6 +29,9 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>
+#ifdef CYGWIN
+#include <limits.h> /* PATH_MAX */
+#endif
 
 /* pacman */
 #include "util.h"
