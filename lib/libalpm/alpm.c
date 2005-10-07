@@ -254,6 +254,7 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 int alpm_db_update(PM_DB *db, char *archive, char *ts)
 {
 	struct stat buf;
+	PMList *lp;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -282,9 +283,9 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 
 	/* remove the old dir */
 	_alpm_log(PM_LOG_FLOW2, "removing database %s/%s", handle->dbpath, db->treename);
-	/* ORE
-	We should db_remove each db entry, and not rmrf the top directory */
-	_alpm_rmrf(db->path);
+	for(lp = alpm_db_getpkgcache(db); lp; lp = alpm_list_next(lp)) {
+		db_remove(db, alpm_list_getdata(lp));
+	}
 
 	/* make the new dir */
 	if(db_create(handle->root, handle->dbpath, db->treename) != 0) {
