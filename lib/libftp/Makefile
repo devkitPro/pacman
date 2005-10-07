@@ -10,15 +10,16 @@ DEFINES = -DFTPLIB_DEFMODE=FTPLIB_PORT
 SONAME = 3
 SOVERSION = $(SONAME).1
 
-TARGETS = qftp libftp.a libftp.so
-OBJECTS = qftp.o ftplib.o
-SOURCES = qftp.c ftplib.c
+TARGETS = libftp.a libftp.so
+OBJECTS = ftplib.o
+SOURCES = ftplib.c
 
 CFLAGS = -Wall $(DEBUG) -I. $(INCLUDES) $(DEFINES)
 LDFLAGS = -L.
 DEPFLAGS =
 
-all : $(TARGETS)
+#all : $(TARGETS)
+all : libftp.a
 
 clean :
 	rm -f $(OBJECTS) core *.bak
@@ -29,15 +30,11 @@ clobber : clean
 	rm -f libftp.so.*
 
 install : all
-	install qftp /usr/local/bin
 	install -m 644 libftp.so.$(SOVERSION) /usr/local/lib
 	install -m 644 ftplib.h /usr/local/include
 	(cd /usr/local/lib && \
 	 ln -sf libftp.so.$(SOVERSION) libftp.so.$(SONAME) && \
 	 ln -sf libftp.so.$(SONAME) libftp.so)
-	-(cd /usr/local/bin && \
-	  for f in ftpdir ftpget ftplist ftprm ftpsend; \
-	  do ln -s qftp $$f; done)
 
 depend :
 	$(CC) $(CFLAGS) -M $(SOURCES) > .depend
@@ -59,9 +56,6 @@ libftp.so.$(SOVERSION): ftplib.o
 libftp.so: libftp.so.$(SOVERSION)
 	ln -sf $< libftp.so.$(SONAME)
 	ln -sf $< $@
-
-qftp : qftp.o libftp.so ftplib.h
-	$(CC) $(LDFLAGS) -o $@ $< -lftp
 
 ifeq (.depend,$(wildcard .depend))
 include .depend

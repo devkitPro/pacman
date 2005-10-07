@@ -219,10 +219,8 @@ static int sync_search(list_t *syncs, list_t *targets)
 	for(i = syncs; i; i = i->next) {
 		sync_t *sync = i->data;
 		if(targets) {
-			list_t *j;
-
-			for(j = targets; j; j = j->next) {
-				db_search(sync->db, sync->treename, j->data);
+			if(db_search(sync->db, sync->treename, targets)) {
+				return(1);
 			}
 		} else {
 			PM_LIST *lp;

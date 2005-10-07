@@ -44,6 +44,7 @@ typedef struct __pmhandle_t {
 	char *dbpath;
 	char *logfile;
 	PMList *noupgrade; /* List of strings */
+	PMList *noextract; /* List of strings */
 	PMList *ignorepkg; /* List of strings */
 	unsigned char usesyslog;
 } pmhandle_t;

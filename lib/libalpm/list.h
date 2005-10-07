@@ -55,6 +55,7 @@ int pm_list_count(PMList *list);
 int pm_list_is_in(void *needle, PMList *haystack);
 PMList *pm_list_is_strin(char *needle, PMList *haystack);
 PMList *pm_list_last(PMList *list);
+PMList *_alpm_list_remove_dupes(PMList *list);
 PMList *_alpm_list_reverse(PMList *list);
 PMList *_alpm_list_strdup(PMList *list);
 

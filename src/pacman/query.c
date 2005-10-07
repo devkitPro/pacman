@@ -106,8 +106,8 @@ int pacman_query(list_t *targets)
 	int done = 0;
 
 	if(pmo_q_search) {
-		for(targ = targets; targ; targ = targ->next) {
-			db_search(db_local, "local", targ->data);
+		if(db_search(db_local, "local", targets)) {
+			return(1);
 		}
 		return(0);
 	}

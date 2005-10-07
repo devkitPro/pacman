@@ -256,6 +256,24 @@ PMList* pm_list_last(PMList *list)
 	return(list->last);
 }
 
+/* Filter out any duplicate strings in a list.
+ *
+ * Not the most efficient way, but simple to implement -- we assemble
+ * a new list, using is_in() to check for dupes at each iteration.
+ *
+ */
+PMList *_alpm_list_remove_dupes(PMList *list)
+{
+	PMList *i, *newlist = NULL;
+
+	for(i = list; i; i = i->next) {
+		if(!pm_list_is_strin(i->data, newlist)) {
+			newlist = pm_list_add(newlist, strdup(i->data));
+		}
+	}
+	return newlist;
+}
+
 /* Reverse the order of a list
  *
  * The caller is responsible for freeing the old list

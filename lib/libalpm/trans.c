@@ -46,6 +46,7 @@ pmtrans_t *trans_new()
 
 	trans->targets = NULL;
 	trans->packages = NULL;
+	trans->skiplist = NULL;
 	trans->type = 0;
 	trans->flags = 0;
 	trans->cb_event = NULL;
@@ -68,6 +69,7 @@ void trans_free(pmtrans_t *trans)
 			i->data = NULL;
 		}
 		FREELIST(trans->packages);
+		FREELIST(trans->skiplist);
 	} else {
 		FREELISTPKGS(trans->packages);
 	}

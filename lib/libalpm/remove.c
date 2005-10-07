@@ -191,28 +191,42 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 						_alpm_log(PM_LOG_FLOW2, "removing directory %s", file);
 					}
 				} else {
-					/* if the file is flagged, back it up to .pacsave */
-					if(nb) {
-						if(trans->type == PM_TRANS_TYPE_UPGRADE) {
-							/* we're upgrading so just leave the file as is.  pacman_add() will handle it */
-						} else {
-							if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
-								char newpath[PATH_MAX];
-								snprintf(newpath, PATH_MAX, "%s.pacsave", line);
-								rename(line, newpath);
-								_alpm_log(PM_LOG_WARNING, "%s saved as %s", file, newpath);
-								alpm_logaction("%s saved as %s", line, newpath);
+					/* check the "skip list" before removing the file.
+					 * see the big comment block in db_find_conflicts() for an
+					 * explanation. */
+					int skipit = 0;
+					PMList *j;
+					for(j = trans->skiplist; j; j = j->next) {
+						if(!strcmp(file, (char*)j->data)) {
+							skipit = 1;
+						}
+					}
+					if(skipit) {
+						_alpm_log(PM_LOG_FLOW2, "skipping removal of %s as it has moved to another package\n", file);
+					} else {
+						/* if the file is flagged, back it up to .pacsave */
+						if(nb) {
+							if(trans->type == PM_TRANS_TYPE_UPGRADE) {
+								/* we're upgrading so just leave the file as is.  pacman_add() will handle it */
 							} else {
-								_alpm_log(PM_LOG_FLOW2, "unlinking %s", file);
-								if(unlink(line)) {
-									_alpm_log(PM_LOG_ERROR, "cannot remove file %s", file);
+								if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
+									char newpath[PATH_MAX];
+									snprintf(newpath, PATH_MAX, "%s.pacsave", line);
+									rename(line, newpath);
+									_alpm_log(PM_LOG_WARNING, "%s saved as %s", file, newpath);
+									alpm_logaction("%s saved as %s", line, newpath);
+								} else {
+									_alpm_log(PM_LOG_FLOW2, "unlinking %s", file);
+									if(unlink(line)) {
+										_alpm_log(PM_LOG_ERROR, "cannot remove file %s", file);
+									}
 								}
 							}
-						}
-					} else {
-						_alpm_log(PM_LOG_FLOW2, "unlinking %s", file);
-						if(unlink(line)) {
-							_alpm_log(PM_LOG_ERROR, "cannot remove file %s", file);
+						} else {
+							_alpm_log(PM_LOG_FLOW2, "unlinking %s", file);
+							if(unlink(line)) {
+								_alpm_log(PM_LOG_ERROR, "cannot remove file %s", file);
+							}
 						}
 					}
 				}

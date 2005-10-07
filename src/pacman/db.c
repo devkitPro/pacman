@@ -34,63 +34,86 @@
 #include "sync.h"
 #include "db.h"
 
-int db_search(PM_DB *db, char *treename, char *needle)
+int db_search(PM_DB *db, const char *treename, list_t *needles)
 {
-	PM_LIST *lp;
-	char *targ;
+	list_t *i;
 
-	targ = strdup(needle);
-	strtoupper(targ);
+	if(needles == NULL || needles->data == NULL) {
+		return(0);
+	}
+	
+	for(i = needles; i; i = i->next) {
+		PM_LIST *j;
+		char *targ;
+		int ret;
 
-	for(lp = alpm_db_getpkgcache(db); lp; lp = alpm_list_next(lp)) {
-		PM_PKG *pkg = alpm_list_getdata(lp);
-		char *haystack;
-		char *pkgname, *pkgdesc;
-		int match = 0;
-
-		pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
-		pkgdesc = alpm_pkg_getinfo(pkg, PM_PKG_DESC);
-
-		/* check name */
-		haystack = strdup(pkgname);
-		strtoupper(haystack);
-		if(strstr(haystack, targ)) {
-			match = 1;
+		if(i->data == NULL) {
+			continue;
 		}
-		FREE(haystack);
+		targ = strdup(i->data);
 
-		/* check description */
-		if(!match) {
-			haystack = strdup(pkgdesc);
-			strtoupper(haystack);
-			if(strstr(haystack, targ)) {
+		for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
+			PM_PKG *pkg = alpm_list_getdata(j);
+			char *haystack;
+			char *pkgname, *pkgdesc;
+			int match = 0;
+
+			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
+			pkgdesc = alpm_pkg_getinfo(pkg, PM_PKG_DESC);
+
+			/* check name */
+			haystack = strdup(pkgname);
+			ret = reg_match(haystack, targ);
+			if(ret < 0) {
+				/* bad regexp */
+				FREE(haystack);
+				return(1);
+			} else if(ret) {
 				match = 1;
 			}
 			FREE(haystack);
-		}
 
-		/* check provides */
-		if(!match) {
-			PM_LIST *m;
-
-			for(m = alpm_pkg_getinfo(pkg, PM_PKG_PROVIDES); m; m = alpm_list_next(m)) {
-				haystack = strdup(alpm_list_getdata(m));
-				strtoupper(haystack);
-				if(strstr(haystack, targ)) {
+			/* check description */
+			if(!match) {
+				haystack = strdup(pkgdesc);
+				ret = reg_match(haystack, targ);
+				if(ret < 0) {
+					/* bad regexp */
+					FREE(haystack);
+					return(1);
+				} else if(ret) {
 					match = 1;
 				}
 				FREE(haystack);
 			}
+
+			/* check provides */
+			if(!match) {
+				PM_LIST *m;
+
+				for(m = alpm_pkg_getinfo(pkg, PM_PKG_PROVIDES); m; m = alpm_list_next(m)) {
+					haystack = strdup(alpm_list_getdata(m));
+					ret = reg_match(haystack, targ);
+					if(ret < 0) {
+						/* bad regexp */
+						FREE(haystack);
+						return(1);
+					} else if(ret) {
+						match = 1;
+					}
+					FREE(haystack);
+				}
+			}
+
+			if(match) {
+				printf("%s/%s %s\n    ", treename, pkgname, (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
+				indentprint(pkgdesc, 4);
+				printf("\n");
+			}
 		}
 
-		if(match) {
-			printf("%s/%s %s\n    ", treename, pkgname, (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
-			indentprint(pkgdesc, 4);
-			printf("\n");
-		}
+		FREE(targ);
 	}
-
-	FREE(targ);
 
 	return(0);
 }

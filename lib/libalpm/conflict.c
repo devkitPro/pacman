@@ -31,7 +31,7 @@
 #include "util.h"
 #include "conflict.h"
 
-PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root)
+PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip_list)
 {
 	PMList *i, *j, *k;
 	char *filestr = NULL;
@@ -44,41 +44,7 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root)
 		return(NULL);
 	}
 
-	/* CHECK 1: check every db package against every target package */
-	/* XXX: I've disabled the database-against-targets check for now, as the
-	 *      many many strcmp() calls slow it down heavily and most of the
-	 *      checking is redundant to the targets-against-filesystem check.
-	 *      This will be re-enabled if I can improve performance significantly.
-	 *
-	pmpkg_t *info = NULL;
-	char *dbstr   = NULL;
-	db_rewind(db);
-	while((info = db_scan(db, NULL, INFRQ_DESC | INFRQ_FILES)) != NULL) {
-		for(i = info->files; i; i = i->next) {
-			if(i->data == NULL) continue;
-			dbstr = (char*)i->data;
-			for(j = targets; j; j = j->next) {
-				pmpkg_t *targ = (pmpkg_t*)j->data;
-				if(strcmp(info->name, targ->name)) {
-					for(k = targ->files; k; k = k->next) {
-						filestr = (char*)k->data;
-						if(!strcmp(dbstr, filestr)) {
-							if(rindex(k->data, '/') == filestr+strlen(filestr)-1) {
-								continue;
-							}
-							MALLOC(str, 512);
-							snprintf(str, 512, "%s: exists in \"%s\" (target) and \"%s\" (installed)", dbstr,
-								targ->name, info->name);
-							conflicts = pm_list_add(conflicts, str);
-						}
-					}
-				}
-			}
-		}
-		FREEPKG(info);
-	}*/
-
-	/* CHECK 2: check every target against every target */
+	/* CHECK 1: check every target against every target */
 	for(i = targets; i; i = i->next) {
 		pmpkg_t *p1 = (pmpkg_t*)i->data;
 		for(j = i; j; j = j->next) {
@@ -104,52 +70,90 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root)
 		}
 	}
 
-	/* CHECK 3: check every target against the filesystem */
+	/* CHECK 2: check every target against the filesystem */
 	for(i = targets; i; i = i->next) {
 		pmpkg_t *p = (pmpkg_t*)i->data;
 		pmpkg_t *dbpkg = NULL;
 		for(j = p->files; j; j = j->next) {
+			int isdir = 0;
 			filestr = (char*)j->data;
 			snprintf(path, PATH_MAX, "%s%s", root, filestr);
-			if(!stat(path, &buf) && !S_ISDIR(buf.st_mode)) {
+			/* is this target a file or directory? */
+			if(path[strlen(path)-1] == '/') {
+				isdir = 1;
+				path[strlen(path)-1] = '\0';
+			}
+			if(!lstat(path, &buf)) {
 				int ok = 0;
-				if(dbpkg == NULL) {
-					dbpkg = db_scan(db, p->name, INFRQ_DESC | INFRQ_FILES);
+				if(!S_ISLNK(buf.st_mode) && ((isdir && !S_ISDIR(buf.st_mode)) || (!isdir && S_ISDIR(buf.st_mode)))) {
+					/* if the package target is a directory, and the filesystem target
+					 * is not (or vice versa) then it's a conflict
+					 */
+					ok = 0;
+					goto donecheck;
 				}
-				if(dbpkg && pm_list_is_strin(j->data, dbpkg->files)) {
+				/* re-fetch with stat() instead of lstat() */
+				stat(path, &buf);
+				if(S_ISDIR(buf.st_mode)) {
+					/* if it's a directory, then we have no conflict */
 					ok = 1;
-				}
-				/* Make sure that the supposedly-conflicting file is not actually just
-				 * a symlink that points to a path that used to exist in the package.
-				 */
-				/* Check if any part of the conflicting file's path is a symlink */
-				if(dbpkg && !ok) {
-					char str[PATH_MAX];
-					for(k = dbpkg->files; k; k = k->next) {
-						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
-						stat(str, &buf2);
-						if(buf.st_ino == buf2.st_ino) {
-							ok = 1;
-						}
+				} else {
+					if(dbpkg == NULL) {
+						dbpkg = db_scan(db, p->name, INFRQ_DESC | INFRQ_FILES);
 					}
-				}
-				/* Check if the conflicting file has been moved to another package/target */
-				if(!ok) {
-					/* Look at all the targets */
-					for(k = targets; k && !ok; k = k->next) {
-						pmpkg_t *p1 = (pmpkg_t *)k->data;
-						/* As long as they're not the current package */
-						if(strcmp(p1->name, p->name)) {
-							pmpkg_t *dbpkg2 = NULL;
-							dbpkg2 = db_scan(db, p1->name, INFRQ_DESC | INFRQ_FILES);
-							/* If it used to exist in there, but doesn't anymore */
-							if(dbpkg2 && !pm_list_is_strin(filestr, p1->files) && pm_list_is_strin(filestr, dbpkg2->files)) {
+					if(dbpkg && pm_list_is_strin(j->data, dbpkg->files)) {
+						ok = 1;
+					}
+					/* Make sure that the supposedly-conflicting file is not actually just
+					 * a symlink that points to a path that used to exist in the package.
+					 */
+					/* Check if any part of the conflicting file's path is a symlink */
+					if(dbpkg && !ok) {
+						char str[PATH_MAX];
+						for(k = dbpkg->files; k; k = k->next) {
+							snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
+							stat(str, &buf2);
+							if(buf.st_ino == buf2.st_ino) {
 								ok = 1;
 							}
-							FREEPKG(dbpkg2);
+						}
+					}
+					/* Check if the conflicting file has been moved to another package/target */
+					if(!ok) {
+						/* Look at all the targets */
+						for(k = targets; k && !ok; k = k->next) {
+							pmpkg_t *p1 = (pmpkg_t *)k->data;
+							/* As long as they're not the current package */
+							if(strcmp(p1->name, p->name)) {
+								pmpkg_t *dbpkg2 = NULL;
+								dbpkg2 = db_scan(db, p1->name, INFRQ_DESC | INFRQ_FILES);
+								/* If it used to exist in there, but doesn't anymore */
+								if(dbpkg2 && !pm_list_is_strin(filestr, p1->files) && pm_list_is_strin(filestr, dbpkg2->files)) {
+									ok = 1;
+									/* Add to the "skip list" of files that we shouldn't remove during an upgrade.
+									 *
+									 * This is a workaround for the following scenario:
+									 *
+									 *    - the old package A provides file X
+									 *    - the new package A does not
+									 *    - the new package B provides file X
+									 *    - package A depends on B, so B is upgraded first
+									 *
+									 * Package B is upgraded, so file X is installed.  Then package A
+									 * is upgraded, and it *removes* file X, since it no longer exists
+									 * in package A.
+									 *
+									 * Our workaround is to scan through all "old" packages and all "new"
+									 * ones, looking for files that jump to different packages.
+									 */
+									*skip_list = pm_list_add(*skip_list, filestr);
+								}
+								FREEPKG(dbpkg2);
+							}
 						}
 					}
 				}
+donecheck:
 				if(!ok) {
 					MALLOC(str, 512);
 					snprintf(str, 512, "%s: %s: exists in filesystem", p->name, path);

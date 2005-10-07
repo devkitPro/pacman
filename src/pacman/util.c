@@ -29,6 +29,7 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <regex.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -222,6 +223,21 @@ int yesno(char *fmt, ...)
 		}
 	}
 	return(0);
+}
+
+/* match a string against a regular expression */
+int reg_match(char *string, char *pattern)
+{
+	int result;
+	regex_t reg;
+
+	if(regcomp(&reg, pattern, REG_EXTENDED | REG_NOSUB | REG_ICASE) != 0) {
+		fprintf(stderr, "error: %s is not a valid regular expression.\n", pattern);
+		return(-1);
+	}
+	result = regexec(&reg, string, 0, 0, 0);
+	regfree(&reg);
+	return(!(result));
 }
 
 /* vim: set ts=2 sw=2 noet: */

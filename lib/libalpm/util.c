@@ -40,6 +40,8 @@
 #include "util.h"
 #include "alpm.h"
 
+static char *chrootbin = NULL;
+
 /* borrowed and modified from Per Liden's pkgutils (http://crux.nu) */
 long _alpm_gzopen_frontend(char *pathname, int oflags, int mode)
 {
@@ -364,6 +366,23 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	if(stat(installfn, &buf)) {
 		/* not found */
 		return(0);
+	}
+
+	if(chrootbin == NULL) {
+		char *dirs[] = {"/usr/sbin","/usr/bin","/sbin","/bin"};
+		int i;
+		for(i = 0; i < 4 && !chrootbin; i++) {
+			char cpath[PATH_MAX];
+			snprintf(cpath, PATH_MAX, "%s/chroot", dirs[i]);
+			if(!stat(cpath, &buf)) {
+				chrootbin = strdup(cpath);
+				_alpm_log(PM_LOG_DEBUG, "found chroot binary: %s", chrootbin);
+			}
+		}
+		if(chrootbin == NULL) {
+			_alpm_log(PM_LOG_ERROR, "cannot find chroot binary - unable to run scriptlet");
+			return(1);
+		}
 	}
 
 	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {

@@ -25,7 +25,7 @@ all: pacman
 %.o: %.c %.h
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-pacman: $(OBJECTS) ../../lib/libalpm/libalpm.a
+pacman: $(OBJECTS) ../../lib/libalpm/libalpm.a ../../lib/libftp/libftp.a
 	$(CC) $(OBJECTS) -o $@ $(CFLAGS) $(LDFLAGS)
 #	$(CC) $(OBJECTS) -o $@.static $(CFLAGS) $(LDFLAGS)
 

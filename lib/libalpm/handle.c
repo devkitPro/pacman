@@ -139,6 +139,15 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 				_alpm_log(PM_LOG_FLOW2, "PM_OPT_NOUPGRADE flushed");
 			}
 		break;
+		case PM_OPT_NOEXTRACT:
+			if((char *)data && strlen((char *)data) != 0) {
+				handle->noextract = pm_list_add(handle->noextract, strdup((char *)data));
+				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_NOEXTRACT", (char *)data);
+			} else {
+				FREELIST(handle->noextract);
+				_alpm_log(PM_LOG_FLOW2, "PM_OPT_NOEXTRACT flushed");
+			}
+		break;
 		case PM_OPT_IGNOREPKG:
 			if((char *)data && strlen((char *)data) != 0) {
 				handle->ignorepkg = pm_list_add(handle->ignorepkg, strdup((char *)data));
@@ -189,6 +198,7 @@ int handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 		case PM_OPT_SYNCDB:    *data = (long)handle->dbs_sync; break;
 		case PM_OPT_LOGFILE:   *data = (long)handle->logfile; break;
 		case PM_OPT_NOUPGRADE: *data = (long)handle->noupgrade; break;
+		case PM_OPT_NOEXTRACT: *data = (long)handle->noextract; break;
 		case PM_OPT_IGNOREPKG: *data = (long)handle->ignorepkg; break;
 		case PM_OPT_USESYSLOG: *data = handle->usesyslog; break;
 		case PM_OPT_LOGCB:     *data = (long)pm_logcb; break;

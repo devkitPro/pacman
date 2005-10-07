@@ -159,6 +159,24 @@ int parseconfig(char *file)
 							return(1);
 						}
 						vprint("config: noupgrade: %s\n", p);
+					} else if(!strcmp(key, "NOEXTRACT")) {
+						char *p = ptr;
+						char *q;
+						while((q = strchr(p, ' '))) {
+							*q = '\0';
+							if(alpm_set_option(PM_OPT_NOEXTRACT, (long)p) == -1) {
+								ERR(NL, "failed to set option NOEXTRACT (%s)\n", alpm_strerror(pm_errno));
+								return(1);
+							}
+							vprint("config: noextract: %s\n", p);
+							p = q;
+							p++;
+						}
+						if(alpm_set_option(PM_OPT_NOEXTRACT, (long)p) == -1) {
+							ERR(NL, "failed to set option NOEXTRACT (%s)\n", alpm_strerror(pm_errno));
+							return(1);
+						}
+						vprint("config: noextract: %s\n", p);
 					} else if(!strcmp(key, "IGNOREPKG")) {
 						char *p = ptr;
 						char *q;

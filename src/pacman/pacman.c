@@ -26,6 +26,7 @@
 #include <getopt.h>
 #include <string.h>
 #include <signal.h>
+#include <unistd.h>
 #ifndef CYGWIN
 #include <mcheck.h> /* debug */
 #else
@@ -96,6 +97,7 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	char *cenv = NULL;
+	uid_t myuid;
 
 #ifndef CYGWIN
 	/* debug */
@@ -120,6 +122,27 @@ int main(int argc, char *argv[])
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
 		exit(ret);
+	}
+
+	/* see if we're root or not */
+	myuid = geteuid();
+	if(!myuid && getenv("FAKEROOTKEY")) {
+		/* fakeroot doesn't count, we're non-root */
+		myuid = 99;
+	}
+
+	/* check if we have sufficient permission for the requested operation */
+	if(myuid > 0) {
+		if(pmo_op != PM_OP_MAIN && pmo_op != PM_OP_QUERY && pmo_op != PM_OP_DEPTEST) {
+			if((pmo_op == PM_OP_SYNC && !pmo_s_sync &&
+					(pmo_s_search || pmo_s_printuris || pmo_group || pmo_q_list ||
+					 pmo_q_info)) || (pmo_op == PM_OP_DEPTEST && !pmo_d_resolve)) {
+				/* special case:  PM_OP_SYNC can be used w/ pmo_s_search by any user */
+			} else {
+				ERR(NL, "you cannot perform this operation unless you are root.\n");
+				exit(1);
+			}
+		}
 	}
 
 	if(pmo_root == NULL) {

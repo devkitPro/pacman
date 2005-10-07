@@ -36,6 +36,7 @@ typedef struct __pmtrans_t {
 	unsigned char state;
 	PMList *targets;     /* PMList of (char *) */
 	PMList *packages;    /* PMList of (pmpkg_t *) or (pmsyncpkg_t *) */
+	PMList *skiplist;    /* PMList of (char *) */
 	alpm_trans_cb_event cb_event;
 } pmtrans_t;
 

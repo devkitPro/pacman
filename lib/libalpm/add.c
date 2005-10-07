@@ -191,6 +191,7 @@ error:
 int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	PMList *lp;
+	PMList *skiplist;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -269,10 +270,15 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for file conflicts");
-		lp = db_find_conflicts(db, trans->packages, handle->root);
+		lp = db_find_conflicts(db, trans->packages, handle->root, &skiplist);
 		if(lp != NULL) {
 			*data = lp;
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
+		}
+
+		/* copy the file skiplist into the transaction */
+		for(lp = skiplist; lp; lp = lp->next) {
+			trans->skiplist = pm_list_add(trans->skiplist, lp->data);
 		}
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
@@ -354,6 +360,10 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
+					/* copy the skiplist over */
+					for(lp = trans->skiplist; lp; lp = lp->next) {
+						pm_list_add(tr->skiplist, lp->data);
+					}
 					if(remove_commit(tr, db) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -361,9 +371,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					FREETRANS(tr);
 				}
 			} else {
-				/* no previous package version is installed, so this is actually just an
-				 * install
-				 */
+				/* no previous package version is installed, so this is actually
+				 * just an install.  */
 				pmo_upgrade = 0;
 			}
 		}
@@ -407,6 +416,17 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				} else {
 					/* build the new pathname relative to handle->root */
 					snprintf(expath, PATH_MAX, "%s%s", handle->root, pathname);
+				}
+
+				/* if a file is in NoExtract then we never extract it.
+				 *
+				 * eg, /home/httpd/html/index.html may be removed so index.php
+				 * could be used.
+				 */
+				if(pm_list_is_strin(pathname, handle->noextract)) {
+					alpm_logaction("notice: %s is in NoExtract -- skipping extraction", pathname);
+					tar_skip_regfile(tar);
+					continue;
 				}
 
 				if(!stat(expath, &buf) && !S_ISDIR(buf.st_mode)) {
@@ -589,7 +609,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* Add the package to the database */
 		t = time(NULL);
 
-		/* Update the requiredby field by scaning the whole database 
+		/* Update the requiredby field by scanning the whole database 
 		 * looking for packages depending on the package to add */
 		for(lp = db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *tmpp = lp->data;
