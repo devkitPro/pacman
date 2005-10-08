@@ -15,12 +15,6 @@ statically linking libtar?
 libalpm
 =======
 
-- move %REPLACES% and %FORCE% fields to "depends" instead of "desc", in
-order to allow the cache to be loaded with only INFRQ_DEPENDS, and to avoid 
-loading the INFRQ_DESC info.
-It can be done transparently for %REPLACES% because this parameter can only 
-be found in a syncdb.
-
 - remove the dependency with /usr/bin/chroot (implement the chroot handling
 using the chroot() syscall)
 
