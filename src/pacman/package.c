@@ -139,7 +139,7 @@ void dump_pkg_sync(PM_PKG *pkg, char *treename)
 
 	printf("Size (compressed) : %ld\n", (long)alpm_pkg_getinfo(pkg, PM_PKG_SIZE));
 	printf("Description       : ");
-	indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 17);
+	indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 20);
 	printf("\nMD5 Sum           : %s\n", (char *)alpm_pkg_getinfo(pkg, PM_PKG_MD5SUM));
 }
 
