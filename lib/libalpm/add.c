@@ -328,8 +328,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				oldpkg = pkg_new();
 				if(oldpkg) {
 					if(!(local->infolevel & INFRQ_FILES)) {
-						char name[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
-						snprintf(name, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", local->name, local->version);
+						char name[PKG_FULLNAME_LEN];
+						snprintf(name, PKG_FULLNAME_LEN, "%s-%s", local->name, local->version);
 						_alpm_log(PM_LOG_DEBUG, "loading FILES info for %s", local->name);
 						db_read(db, name, INFRQ_FILES, local);
 					}

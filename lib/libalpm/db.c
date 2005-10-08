@@ -181,7 +181,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
-	char name[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
+	char name[PKG_FULLNAME_LEN];
 	char *ptr = NULL;
 	int found = 0;
 	pmpkg_t *pkg;
@@ -197,7 +197,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
 				continue;
 			}
-			STRNCPY(name, ent->d_name, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1);
+			STRNCPY(name, ent->d_name, PKG_FULLNAME_LEN);
 			/* stat the entry, make sure it's a directory */
 			snprintf(path, PATH_MAX, "%s/%s", db->path, name);
 			if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {

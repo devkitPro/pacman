@@ -247,7 +247,7 @@ error:
 
 int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name)
 {
-	char targline[(PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1];
+	char targline[PKG_FULLNAME_LEN];
 	char *targ;
 	PMList *j;
 	pmpkg_t *local;
@@ -259,7 +259,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	STRNCPY(targline, name, (PKG_NAME_LEN-1)+1+(DB_TREENAME_LEN-1)+1);
+	STRNCPY(targline, name, PKG_FULLNAME_LEN);
 	targ = strchr(targline, '/');
 	if(targ) {
 		*targ = '\0';
