@@ -674,7 +674,7 @@ int pacman_sync(list_t *targets)
 	MSG(NL, "\n");
 
 	/* Check integrity of files */
-	MSG(NL, "checking packages integrity... ");
+	MSG(NL, "checking package integrity... ");
 
 	for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
 		PM_SYNCPKG *sync = alpm_list_getdata(lp);
@@ -714,7 +714,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	/* Step 3: actually perform the installation */
-	if(alpm_trans_commit(&data) == -1) {
+	if(alpm_trans_commit() == -1) {
 		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
