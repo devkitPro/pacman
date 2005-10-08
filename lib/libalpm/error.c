@@ -82,6 +82,9 @@ char *alpm_strerror(int err)
 			return "could not resolve dependencies";
 		case PM_ERR_FILE_CONFLICTS:
 			return "conflicting files";
+		/* System */
+		case PM_ERR_HANDLE_LOCK:
+			return "could not create the lock file";
 		default:
 			return "unexpected error";
 	}
