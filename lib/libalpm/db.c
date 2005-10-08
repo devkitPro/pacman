@@ -346,22 +346,12 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				}
 				_alpm_strtrim(tmp);
 				info->size = atol(tmp);
-			} else if(!strcmp(line, "%REPLACES%")) {
-				/* the REPLACES tag is special -- it only appears in sync repositories,
-				 * not the local one. */
-				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = pm_list_add(info->replaces, strdup(line));
-				}
 			} else if(!strcmp(line, "%MD5SUM%")) {
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
 				if(fgets(info->md5sum, sizeof(info->md5sum), fp) == NULL) {
 					return(-1);
 				}
-			} else if(!strcmp(line, "%FORCE%")) {
-				/* FORCE tag only appears in sync repositories,
-				 * not the local one. */
-				info->force = 1;
 			}
 		}
 		fclose(fp);
@@ -417,6 +407,16 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->provides = pm_list_add(info->provides, strdup(line));
 				}
+			} else if(!strcmp(line, "%REPLACES%")) {
+				/* the REPLACES tag is special -- it only appears in sync repositories,
+				 * not the local one. */
+				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
+					info->replaces = pm_list_add(info->replaces, strdup(line));
+				}
+			} else if(!strcmp(line, "%FORCE%")) {
+				/* FORCE tag only appears in sync repositories,
+				 * not the local one. */
+				info->force = 1;
 			}
 		}
 		fclose(fp);

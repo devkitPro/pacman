@@ -134,13 +134,13 @@ enum {
 	PM_PKG_PACKAGER,
 	PM_PKG_SIZE,
 	PM_PKG_REASON,
-	PM_PKG_REPLACES, /* Sync DB only */
 	PM_PKG_MD5SUM, /* Sync DB only */
 	/* Depends entry */
 	PM_PKG_DEPENDS,
 	PM_PKG_REQUIREDBY,
 	PM_PKG_CONFLICTS,
 	PM_PKG_PROVIDES,
+	PM_PKG_REPLACES, /* Sync DB only */
 	/* Files entry */
 	PM_PKG_FILES,
 	PM_PKG_BACKUP,

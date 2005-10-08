@@ -103,17 +103,6 @@ db_write_entry()
 		done
 		echo "" >>desc
 	fi
-	if [ ${#replaces[*]} -gt 0 ]; then
-		echo "%REPLACES%" >>desc
-		for it in "${replaces[@]}"; do
-			echo "$it" >>desc
-		done
-		echo "" >>desc
-	fi
-	if [ "$force" = "y" -o "$force" = "Y" ]; then
-		echo "%FORCE%" >>desc
-		echo "" >>desc
-	fi
 	# depends
 	: >depends
 	if [ ${#depends[*]} -gt 0 ]; then
@@ -135,6 +124,17 @@ db_write_entry()
 		for it in "${provides[@]}"; do
 		  echo "$it" >>depends
 		done
+		echo "" >>depends
+	fi
+	if [ ${#replaces[*]} -gt 0 ]; then
+		echo "%REPLACES%" >>depends
+		for it in "${replaces[@]}"; do
+			echo "$it" >>depends
+		done
+		echo "" >>depends
+	fi
+	if [ "$force" = "y" -o "$force" = "Y" ]; then
+		echo "%FORCE%" >>depends
 		echo "" >>depends
 	fi
 }

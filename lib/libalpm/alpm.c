@@ -378,7 +378,6 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 			case PM_PKG_PACKAGER:
 			case PM_PKG_SIZE:
 			case PM_PKG_REASON:
-			case PM_PKG_REPLACES:
 			case PM_PKG_MD5SUM:
 				if(!(pkg->infolevel & INFRQ_DESC)) {
 					char target[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
@@ -393,6 +392,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 			case PM_PKG_REQUIREDBY:
 			case PM_PKG_CONFLICTS:
 			case PM_PKG_PROVIDES:
+			case PM_PKG_REPLACES:
 				if(!(pkg->infolevel & INFRQ_DEPENDS)) {
 					char target[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
 					snprintf(target, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", pkg->name, pkg->version);
