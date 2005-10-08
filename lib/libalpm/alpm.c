@@ -615,8 +615,8 @@ int alpm_trans_commit()
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
 
-	/* ORE
-	ASSERT(handle->access != PM_ACCESS_RW, RET_ERR(PM_ERR_BAD_PERMS, -1));*/
+	/* Check for database R/W permission */
+	ASSERT(handle->access == PM_ACCESS_RW, RET_ERR(PM_ERR_BADPERMS, -1));
 
 	return(trans_commit(handle->trans));
 }
