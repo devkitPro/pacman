@@ -327,8 +327,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				/* we'll need to save some record for backup checks later */
 				oldpkg = pkg_new();
 				if(oldpkg) {
-					STRNCPY(oldpkg->name, local->name, PKG_NAME_LEN);
-					STRNCPY(oldpkg->version, local->version, PKG_VERSION_LEN);
 					if(!(local->infolevel & INFRQ_FILES)) {
 						char name[(PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1];
 						snprintf(name, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", local->name, local->version);

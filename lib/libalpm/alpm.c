@@ -364,8 +364,6 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 	if(pkg->origin == PKG_FROM_CACHE) {
 		switch(parm) {
 			/* Desc entry */
-			/* ORE
-			not needed: the cache is loaded with DESC and DEPENDS by default
 			case PM_PKG_NAME:
 			case PM_PKG_VERSION:
 			case PM_PKG_DESC:
@@ -384,10 +382,10 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 					snprintf(target, (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_DESC, pkg);
 				}
-			break;*/
+			break;
 			/* Depends entry */
 			/* ORE
-			not needed: the cache is loaded with DESC and DEPENDS by default
+			not needed: the cache is loaded with DEPENDS by default
 			case PM_PKG_DEPENDS:
 			case PM_PKG_REQUIREDBY:
 			case PM_PKG_CONFLICTS:

@@ -266,6 +266,12 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		return(-1);
 	}
 
+	if(info->name[0] == 0) {
+		if(pkg_splitname(name, info->name, info->version) == -1) {
+			return(-1);
+		}
+	}
+
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
 		snprintf(path, PATH_MAX, "%s/%s/desc", db->path, name);
@@ -279,17 +285,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				break;
 			}
 			_alpm_strtrim(line);
-			if(!strcmp(line, "%NAME%")) {
-				if(fgets(info->name, sizeof(info->name), fp) == NULL) {
-					return(-1);
-				}
-				_alpm_strtrim(info->name);
-			} else if(!strcmp(line, "%VERSION%")) {
-				if(fgets(info->version, sizeof(info->version), fp) == NULL) {
-					return(-1);
-				}
-				_alpm_strtrim(info->version);
-			} else if(!strcmp(line, "%DESC%")) {
+			if(!strcmp(line, "%DESC%")) {
 				if(fgets(info->desc, sizeof(info->desc), fp) == NULL) {
 					return(-1);
 				}
