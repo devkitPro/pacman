@@ -191,7 +191,7 @@ error:
 int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	PMList *lp;
-	PMList *skiplist;
+	PMList *skiplist = NULL;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
