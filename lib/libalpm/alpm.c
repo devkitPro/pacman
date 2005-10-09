@@ -52,15 +52,19 @@
 
 #define PM_LOCK   "/tmp/pacman.lck"
 
-
 /* Globals */
 pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
 
-/*
- * Library
+/** @defgroup interface Interface Functions
+ * @{
  */
 
+/** Initializes the library.  This must be called before any other
+ * functions are called.
+ * @param root the full path of the root we'll be installing to (usually /)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_initialize(char *root)
 {
 	char str[PATH_MAX];
@@ -91,6 +95,9 @@ int alpm_initialize(char *root)
 	return(0);
 }
 
+/** Release the library.  This should be the last alpm call you make.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_release()
 {
 	PMList *i;
@@ -124,9 +131,10 @@ int alpm_release()
 
 	return(0);
 }
+/** @} */
 
-/*
- * Options
+/** @defgroup options Library Options
+ * @{
  */
 
 int alpm_set_option(unsigned char parm, unsigned long data)
@@ -145,9 +153,10 @@ int alpm_get_option(unsigned char parm, long *data)
 
 	return(handle_get_option(handle, parm, data));
 }
+/** @} */
 
-/*
- * Databases
+/** @defgroup databases Database Functions
+ * @{
  */
 
 pmdb_t *alpm_db_register(char *treename)
@@ -347,9 +356,10 @@ PMList *alpm_db_getgrpcache(pmdb_t *db)
 
 	return(db_get_grpcache(db));
 }
+/** @} */
 
-/*
- * Packages
+/** @defgroup packages Package Functions
+ * @{
  */
 
 void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
@@ -472,9 +482,10 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
 	return(rpmvercmp(ver1, ver2));
 }
+/** @} */
 
-/*
- * Groups
+/** @defgroup groups Group Functions
+ * @{
  */
 
 void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
@@ -494,9 +505,10 @@ void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
 
 	return(data);
 }
+/** @} */
 
-/*
- * Sync operations
+/** @defgroup sync Sync Functions
+ * @{
  */
 
 void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
@@ -517,9 +529,10 @@ void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
 
 	return(data);
 }
+/** @} */
 
-/*
- * Transactions
+/** @defgroup trans Transaction Functions
+ * @{
  */
 
 void *alpm_trans_getinfo(unsigned char parm)
@@ -636,9 +649,10 @@ int alpm_trans_release()
 
 	return(0);
 }
+/** @} */
 
-/*
- * Dependencies
+/** @defgroup dep Dependency Functions
+ * @{
  */
 
 void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
@@ -661,9 +675,10 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 
 	return(data);
 }
+/** @} */
 
-/*
- * Log facilities
+/** @defgroup log Logging Functions
+ * @{
  */
 
 int alpm_logaction(char *fmt, ...)
@@ -693,9 +708,10 @@ int alpm_logaction(char *fmt, ...)
 
 	return(_alpm_log_action(handle->usesyslog, handle->logfd, str));
 }
+/** @} */
 
-/*
- * Lists wrappers
+/** @defgroup list List Manipulation Functions
+ * @{
  */
 
 PMList *alpm_list_first(PMList *list)
@@ -725,9 +741,10 @@ int alpm_list_free(PMList *entry)
 
 	return(0);
 }
+/** @} */
 
-/*
- * Misc wrappers
+/** @defgroup misc Miscellaneous Functions
+ * @{
  */
 
 char *alpm_get_md5sum(char *name)
@@ -736,5 +753,6 @@ char *alpm_get_md5sum(char *name)
 
 	return(MDFile(name));
 }
+/* @} */
 
 /* vim: set ts=2 sw=2 noet: */
