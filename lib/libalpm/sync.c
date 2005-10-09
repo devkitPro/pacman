@@ -531,7 +531,6 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	}
 	FREETRANS(tr);
 
-	fprintf(stderr, "HERE\n"); fflush(stdout);
 	/* install targets */
 	_alpm_log(PM_LOG_FLOW1, "installing packages");
 	tr = trans_new();
