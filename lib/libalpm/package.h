@@ -89,6 +89,7 @@ do { \
 pmpkg_t* pkg_new();
 pmpkg_t *pkg_dup(pmpkg_t *pkg);
 void pkg_free(pmpkg_t *pkg);
+pmpkg_t* pkg_dummy(const char *name, const char *version);
 pmpkg_t *pkg_load(char *pkgfile);
 int pkg_isin(pmpkg_t *needle, PMList *haystack);
 int pkg_splitname(char *target, char *name, char *version);

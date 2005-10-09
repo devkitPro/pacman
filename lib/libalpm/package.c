@@ -132,6 +132,27 @@ void pkg_free(pmpkg_t *pkg)
 	return;
 }
 
+/* Create a dummy package struct that only contains the package
+ * name and version.  This is useful when we're only passing
+ * name/version data, but it needs to be wrapped in a pmpkg_t
+ */
+pmpkg_t* pkg_dummy(const char *name, const char *version)
+{
+	pmpkg_t *pkg = pkg_new();
+	if(pkg == NULL) {
+		return(NULL);
+	}
+
+	if(name) {
+		STRNCPY(pkg->name, name, PKG_NAME_LEN-1);
+	}
+	if(version) {
+		STRNCPY(pkg->version, version, PKG_VERSION_LEN-1);
+	}
+
+	return(pkg);
+}
+
 /* Parses the package description file for the current package
  *
  * Returns: 0 on success, 1 on error

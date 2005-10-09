@@ -154,37 +154,43 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 						if(pm_list_is_strin(lpkg->name, handle->ignorepkg)) {
 							_alpm_log(PM_LOG_WARNING, "%s-%s: ignoring package upgrade (to be replaced by %s-%s)",
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
-						} else /* ORE if(yesno(":: Replace %s with %s from \"%s\"? [Y/n] ", lpkg->name, spkg->name, ((pmdb_t *)i->data)->treename)) */ {
-							/* if confirmed, add this to the 'final' list, designating 'lpkg' as
-							 * the package to replace.
-							 */
-							pmsyncpkg_t *sync;
-							pmpkg_t *dummy = pkg_new();
-							if(dummy == NULL) {
-								pm_errno = PM_ERR_MEMORY;
-								goto error;
-							}
-							STRNCPY(dummy->name, lpkg->name, PKG_NAME_LEN);
-							dummy->requiredby = _alpm_list_strdup(lpkg->requiredby);
-							/* check if spkg->name is already in the packages list. */
-							sync = find_pkginsync(spkg->name, trans->packages);
-							if(sync) {
-								/* found it -- just append to the replaces list */
-								sync->data = pm_list_add(sync->data, dummy);
-							} else {
-								/* none found -- enter pkg into the final sync list */
-								sync = sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
-								if(sync == NULL) {
-									FREEPKG(dummy);
+						} else {
+							/* get confirmation for the replacement */
+							int doreplace = 0;
+							QUESTION(trans, PM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, ((pmdb_t *)i->data)->treename, &doreplace);
+
+							if(doreplace) {
+								/* if confirmed, add this to the 'final' list, designating 'lpkg' as
+								 * the package to replace.
+								 */
+								pmsyncpkg_t *sync;
+								pmpkg_t *dummy = pkg_dummy(lpkg->name, NULL);
+								if(dummy == NULL) {
 									pm_errno = PM_ERR_MEMORY;
 									goto error;
 								}
-								sync->data = pm_list_add(sync->data, dummy);
-								trans->packages = pm_list_add(trans->packages, sync);
+								dummy->requiredby = _alpm_list_strdup(lpkg->requiredby);
+								/* check if spkg->name is already in the packages list. */
+								sync = find_pkginsync(spkg->name, trans->packages);
+								if(sync) {
+									/* found it -- just append to the replaces list */
+									sync->data = pm_list_add(sync->data, dummy);
+								} else {
+									/* none found -- enter pkg into the final sync list */
+									sync = sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
+									if(sync == NULL) {
+										FREEPKG(dummy);
+										pm_errno = PM_ERR_MEMORY;
+										goto error;
+									}
+									sync->data = pm_list_add(sync->data, dummy);
+									trans->packages = pm_list_add(trans->packages, sync);
+								}
+								_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)",
+								          lpkg->name, lpkg->version, spkg->name, spkg->version);
 							}
-							_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)",
-							          lpkg->name, lpkg->version, spkg->name, spkg->version);
 						}
+						break;
 					}
 				}
 			}
@@ -288,19 +294,21 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 	if(local) {
 		cmp = alpm_pkg_vercmp(local->version, spkg->version);
 		if(cmp > 0) {
-			/* local version is newer - get confirmation first */
-			/* ORE
-			if(!yesno(":: %s-%s: local version is newer.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
-			}*/
-			_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping", local->name, local->version);
-			return(0);
+			/* local version is newer -- get confirmation before adding */
+			int resp = 0;
+			QUESTION(trans, PM_TRANS_CONV_LOCAL_NEWER, local, NULL, NULL, &resp);
+			if(!resp) {
+				_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer -- skipping", local->name, local->version);
+				return(0);
+			}
 		} else if(cmp == 0) {
-			/* versions are identical */
-			/* ORE
-			if(!yesno(":: %s-%s: is up to date.  Upgrade anyway? [Y/n] ", lpkgname, lpkgver)) {
-			}*/
-			_alpm_log(PM_LOG_WARNING, "%s-%s is up to date -- skipping", local->name, local->version);
-			return(0);
+			/* versions are identical -- get confirmation before adding */
+			int resp = 0;
+			QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
+			if(!resp) {
+				_alpm_log(PM_LOG_WARNING, "%s-%s is up to date -- skipping", local->name, local->version);
+				return(0);
+			}
 		}
 	}
 
@@ -353,7 +361,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			pmsyncpkg_t *sync = i->data;
 			pmpkg_t *spkg = sync->pkg;
 			_alpm_log(PM_LOG_FLOW1, "resolving dependencies for package %s", spkg->name);
-			if(resolvedeps(db_local, dbs_sync, spkg, list, trail) == -1) {
+			if(resolvedeps(db_local, dbs_sync, spkg, list, trail, trans) == -1) {
 				/* pm_errno is set by resolvedeps */
 				goto error;
 			}
@@ -523,6 +531,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	}
 	FREETRANS(tr);
 
+	fprintf(stderr, "HERE\n"); fflush(stdout);
 	/* install targets */
 	_alpm_log(PM_LOG_FLOW1, "installing packages");
 	tr = trans_new();
@@ -531,7 +540,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
-	if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags | PM_TRANS_FLAG_NODEPS, NULL) == -1) {
+	if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags | PM_TRANS_FLAG_NODEPS, NULL, NULL) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not initialize transaction");
 		pm_errno = PM_ERR_XXX;
 		goto error;

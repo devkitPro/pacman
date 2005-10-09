@@ -376,7 +376,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 			snprintf(cpath, PATH_MAX, "%s/chroot", dirs[i]);
 			if(!stat(cpath, &buf)) {
 				chrootbin = strdup(cpath);
-				_alpm_log(PM_LOG_DEBUG, "found chroot binary: %s", chrootbin);
+				_alpm_log(PM_LOG_FLOW2, "found chroot binary: %s", chrootbin);
 			}
 		}
 		if(chrootbin == NULL) {
@@ -421,11 +421,11 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 
 	_alpm_log(PM_LOG_FLOW2, "executing %s script...", script);
 	if(oldver) {
-		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s %s\" | chroot %s /bin/sh",
-				scriptpath, script, ver, oldver, root);
+		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s %s\" | %s %s /bin/sh",
+				scriptpath, script, ver, oldver, chrootbin, root);
 	} else {
-		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s\" | chroot %s /bin/sh",
-				scriptpath, script, ver, root);
+		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s\" | %s %s /bin/sh",
+				scriptpath, script, ver, chrootbin, root);
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s", cmdline);
 	system(cmdline);

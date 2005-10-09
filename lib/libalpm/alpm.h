@@ -211,7 +211,7 @@ enum {
 #define PM_TRANS_FLAG_RECURSE 0x20
 #define PM_TRANS_FLAG_DBONLY  0x40
 
-/* Events */
+/* Transaction Events */
 enum {
 	PM_TRANS_EVT_CHECKDEPS_START = 1,
 	PM_TRANS_EVT_CHECKDEPS_DONE,
@@ -229,11 +229,19 @@ enum {
 	PM_TRANS_EVT_UPGRADE_DONE
 };
 
-/* Event callback */
+/* Transaction Conversations (ie, questions) */
+enum {
+	PM_TRANS_CONV_INSTALL_IGNOREPKG,
+	PM_TRANS_CONV_REPLACE_PKG,
+	PM_TRANS_CONV_LOCAL_NEWER,
+	PM_TRANS_CONV_LOCAL_UPTODATE
+};
+
+/* Transaction Event callback */
 typedef void (*alpm_trans_cb_event)(unsigned char, void *, void *);
 
-/* Conversation callback */
-typedef void (*alpm_trans_cb_conv)(unsigned char, void *, void *);
+/* Transaction Conversation callback */
+typedef void (*alpm_trans_cb_conv)(unsigned char, void *, void *, void *, int *);
 
 /* Info parameters */
 enum {
@@ -244,7 +252,7 @@ enum {
 };
 
 void *alpm_trans_getinfo(unsigned char parm);
-int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event cb_event);
+int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv);
 int alpm_trans_sysupgrade();
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);

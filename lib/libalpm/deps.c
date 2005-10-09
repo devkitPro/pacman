@@ -543,7 +543,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
  *
  * make sure *list and *trail are already initialized
  */
-int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail)
+int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail, pmtrans_t *trans)
 {
 	PMList *i, *j;
 	PMList *targ;
@@ -632,13 +632,13 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 					}
 				}
 				if(found) {
-					/* ORE
-					usedep = yesno("%s requires %s, but it is in IgnorePkg.  Install anyway? [Y/n] ",
-						miss->target, sync->pkg->name);*/
+					pmpkg_t *dummypkg = pkg_dummy(miss->target, NULL);
+					QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
+					FREEPKG(dummypkg);
 				}
 				if(usedep) {
 					trail = pm_list_add(trail, sync);
-					if(resolvedeps(local, dbs_sync, sync, list, trail)) {
+					if(resolvedeps(local, dbs_sync, sync, list, trail, trans)) {
 						goto error;
 					}
 					_alpm_log(PM_LOG_FLOW2, "adding dependency %s-%s", sync->name, sync->version);

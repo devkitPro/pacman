@@ -36,7 +36,7 @@
 
 /* Callback to handle transaction events
  */
-void cb_trans(unsigned char event, void *data1, void *data2)
+void cb_trans_evt(unsigned char event, void *data1, void *data2)
 {
 	char str[LOG_STR_LEN] = "";
 
@@ -89,6 +89,39 @@ void cb_trans(unsigned char event, void *data1, void *data2)
 			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION),
 			                   (char *)alpm_pkg_getinfo(data2, PM_PKG_VERSION));
 			alpm_logaction(str);
+		break;
+	}
+}
+
+void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, int *response)
+{
+	char str[LOG_STR_LEN] = "";
+
+	switch(event) {
+		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
+			snprintf(str, LOG_STR_LEN, ":: %s requires %s, but it is in IgnorePkg.  Install anyway? [Y/n] ",
+					(char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
+					(char *)alpm_pkg_getinfo(data2, PM_PKG_NAME));
+			*response = yesno(str);
+		break;
+		case PM_TRANS_CONV_REPLACE_PKG:
+			snprintf(str, LOG_STR_LEN, ":: Replace %s with %s from \"%s\"? [Y/n] ",
+					(char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
+					(char *)alpm_pkg_getinfo(data2, PM_PKG_NAME),
+					(char *)data3);
+			*response = yesno(str);
+		break;
+		case PM_TRANS_CONV_LOCAL_NEWER:
+			snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] ",
+					(char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
+					(char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
+			*response = yesno(str);
+		break;
+		case PM_TRANS_CONV_LOCAL_UPTODATE:
+			snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] ",
+					(char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
+					(char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
+			*response = yesno(str);
 		break;
 	}
 }

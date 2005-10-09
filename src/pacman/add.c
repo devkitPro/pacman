@@ -59,7 +59,7 @@ int pacman_add(list_t *targets)
 	/* Step 1: create a new transaction
 	 */
 	if(alpm_trans_init((pmo_upgrade == 0) ? PM_TRANS_TYPE_ADD : PM_TRANS_TYPE_UPGRADE,
-	                   pmo_flags, cb_trans) == -1) {
+	                   pmo_flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		return(1);
 	}

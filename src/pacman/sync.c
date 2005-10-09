@@ -424,7 +424,7 @@ int pacman_sync(list_t *targets)
 
 	/* Step 1: create a new transaction...
 	 */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, cb_trans) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
