@@ -109,6 +109,13 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 			handle->dbpath = strdup((data && strlen((char *)data) != 0) ? (char *)data : PM_DBPATH);
 			_alpm_log(PM_LOG_FLOW2, "PM_OPT_DBPATH set to '%s'", handle->dbpath);
 		break;
+		case PM_OPT_CACHEDIR:
+			if(handle->cachedir) {
+				FREE(handle->cachedir);
+			}
+			handle->cachedir = strdup((data && strlen((char *)data) != 0) ? (char *)data : PM_CACHEDIR);
+			_alpm_log(PM_LOG_FLOW2, "PM_OPT_CACHEDIR set to '%s'", handle->cachedir);
+		break;
 		case PM_OPT_LOGFILE:
 			if((char *)data == NULL || handle->uid != 0) {
 				return(0);
@@ -194,6 +201,7 @@ int handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 	switch(val) {
 		case PM_OPT_ROOT:      *data = (long)handle->root; break;
 		case PM_OPT_DBPATH:    *data = (long)handle->dbpath; break;
+		case PM_OPT_CACHEDIR:  *data = (long)handle->cachedir; break;
 		case PM_OPT_LOCALDB:   *data = (long)handle->db_local; break;
 		case PM_OPT_SYNCDB:    *data = (long)handle->dbs_sync; break;
 		case PM_OPT_LOGFILE:   *data = (long)handle->logfile; break;

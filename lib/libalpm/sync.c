@@ -43,10 +43,6 @@
 #include "rpmvercmp.h"
 #include "handle.h"
 
-/* ORE
-set CACHEDIR as a library option? */
-#define PM_CACHEDIR "var/cache/pacman/pkg"
-
 extern pmhandle_t *handle;
 
 pmsyncpkg_t *sync_new(int type, pmpkg_t *spkg, void *data)
@@ -548,7 +544,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
 		char str[PATH_MAX];
-		snprintf(str, PATH_MAX, "%s" PM_CACHEDIR "/%s-%s" PM_EXT_PKG, handle->root, spkg->name, spkg->version);
+		snprintf(str, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG, handle->root, handle->cachedir, spkg->name, spkg->version);
 		if(trans_addtarget(tr, str) == -1) {
 			goto error;
 		}
