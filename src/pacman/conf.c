@@ -56,8 +56,7 @@ int parseconfig(char *file)
 
 	fp = fopen(file, "r");
 	if(fp == NULL) {
-		perror(file);
-		return(1);
+		return(0);
 	}
 
 	while(fgets(line, PATH_MAX, fp)) {
