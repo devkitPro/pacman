@@ -50,14 +50,14 @@ do { \
 } while (0)
 #define EVENT(t, e, d1, d2) \
 do { \
-	if((t) && (t)->cb_conv) { \
+	if((t) && (t)->cb_event) { \
 		(t)->cb_event(e, d1, d2); \
 	} \
 } while(0)
-#define QUESTION(t, e, d1, d2, d3, r) \
+#define QUESTION(t, q, d1, d2, d3, r) \
 do { \
-	if((t) && (t)->cb_event) { \
-		(t)->cb_conv(e, d1, d2, d3, r); \
+	if((t) && (t)->cb_conv) { \
+		(t)->cb_conv(q, d1, d2, d3, r); \
 	} \
 } while(0)
 
