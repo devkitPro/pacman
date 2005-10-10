@@ -348,7 +348,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					if(tr == NULL) {
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
-					if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags, NULL) == -1) {
+					if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags, NULL, NULL) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
