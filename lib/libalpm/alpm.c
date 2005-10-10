@@ -394,8 +394,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 				}
 			break;
 			/* Depends entry */
-			/* ORE
-			not needed: the cache is loaded with DEPENDS by default
+			/* not needed: the cache is loaded with DEPENDS by default
 			case PM_PKG_DEPENDS:
 			case PM_PKG_REQUIREDBY:
 			case PM_PKG_CONFLICTS:
@@ -473,9 +472,14 @@ int alpm_pkg_load(char *filename, pmpkg_t **pkg)
 	return(0);
 }
 
-void alpm_pkg_free(pmpkg_t *pkg)
+int alpm_pkg_free(pmpkg_t *pkg)
 {
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg->origin != PKG_FROM_CACHE, RET_ERR(PM_ERR_XXX, -1));
+
 	pkg_free(pkg);
+
+	return(0);
 }
 
 int alpm_pkg_vercmp(const char *ver1, const char *ver2)
@@ -542,6 +546,7 @@ void *alpm_trans_getinfo(unsigned char parm)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
+	ASSERT(handle->trans != NULL, return(NULL));
 
 	trans = handle->trans;
 

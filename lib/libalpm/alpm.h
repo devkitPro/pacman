@@ -156,7 +156,7 @@ enum {
 
 void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm);
 int alpm_pkg_load(char *filename, PM_PKG **pkg);
-void alpm_pkg_free(PM_PKG *pkg);
+int alpm_pkg_free(PM_PKG *pkg);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 
 /*

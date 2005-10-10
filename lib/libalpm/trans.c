@@ -81,9 +81,7 @@ void trans_free(pmtrans_t *trans)
 int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
 {
 	/* Sanity checks */
-	if(trans == NULL) {
-		RET_ERR(PM_ERR_TRANS_NULL, -1);
-	}
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	/* ORE
 	perform sanity checks on type and flags:
@@ -148,7 +146,7 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	*data = NULL;
 
 	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->packages == NULL) {
@@ -185,7 +183,7 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 int trans_commit(pmtrans_t *trans)
 {
 	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->packages == NULL) {
