@@ -29,6 +29,7 @@
 
 #include <alpm.h>
 /* pacman */
+#include "util.h"
 #include "log.h"
 #include "trans.h"
 
