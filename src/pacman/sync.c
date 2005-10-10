@@ -62,9 +62,13 @@ extern int maxcols;
 
 static int sync_cleancache(int level)
 {
-	char *root;
+	char *root, *cachedir;
+	char dirpath[PATH_MAX];
 
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
+	alpm_get_option(PM_OPT_CACHEDIR, (long *)&cachedir);
+
+	snprintf(dirpath, PATH_MAX, "%s%s", root, cachedir);
 
 	if(level == 1) {
 		/* incomplete cleanup: we keep latest packages and partial downloads */
@@ -73,9 +77,6 @@ static int sync_cleancache(int level)
 		list_t *cache = NULL;
 		list_t *clean = NULL;
 		list_t *i, *j;
-		char dirpath[PATH_MAX];
-
-		snprintf(dirpath, PATH_MAX, "%s" CACHEDIR, root);
 
 		MSG(NL, "removing old packages from cache... ");
 		dir = opendir(dirpath);
@@ -134,23 +135,20 @@ static int sync_cleancache(int level)
 		for(i = clean; i; i = i->next) {
 			char path[PATH_MAX];
 
-			snprintf(path, PATH_MAX, "%s" CACHEDIR "/%s", root, (char *)i->data);
+			snprintf(path, PATH_MAX, "%s/%s", dirpath, (char *)i->data);
 			unlink(path);
 		}
 		FREELIST(clean);
 	} else {
 		/* full cleanup */
-		char path[PATH_MAX];
-
-		snprintf(path, PATH_MAX, "%s" CACHEDIR, root);
-
 		MSG(NL, "removing all packages from cache... ");
-		if(rmrf(path)) {
+
+		if(rmrf(dirpath)) {
 			ERR(NL, "could not remove cache directory\n");
 			return(1);
 		}
 
-		if(makepath(path)) {
+		if(makepath(dirpath)) {
 			ERR(NL, "could not create new cache directory\n");
 			return(1);
 		}
@@ -373,7 +371,7 @@ int pacman_sync(list_t *targets)
 	int retval = 0;
 	list_t *i;
 	PM_LIST *packages, *data, *lp;
-	char *root;
+	char *root, *cachedir;
 	char ldir[PATH_MAX];
 	int varcache = 1;
 	list_t *files = NULL;
@@ -602,7 +600,8 @@ int pacman_sync(list_t *targets)
 
 	/* group sync records by repository and download */
 	alpm_get_option(PM_OPT_ROOT, (long *)&root);
-	snprintf(ldir, PATH_MAX, "%s" CACHEDIR, root);
+	alpm_get_option(PM_OPT_CACHEDIR, (long *)&cachedir);
+	snprintf(ldir, PATH_MAX, "%s%s", root, cachedir);
 
 	for(i = pmc_syncs; i; i = i->next) {
 		sync_t *current = i->data;

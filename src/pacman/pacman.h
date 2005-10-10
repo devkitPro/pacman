@@ -24,9 +24,6 @@
 #ifndef PACCONF
 #define PACCONF  "/etc/pacman.conf"
 #endif
-#ifndef CACHEDIR
-#define CACHEDIR "var/cache/pacman/pkg"
-#endif
 
 /* Operations */
 #define PM_OP_MAIN    1
