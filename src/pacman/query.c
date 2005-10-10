@@ -54,12 +54,12 @@ static int query_fileowner(PM_DB *db, char *filename)
 		return(0);
 	}
 	if(filename == NULL || strlen(filename) == 0) {
-		fprintf(stderr, "error: no file was specified for --owns\n");
+		ERR(NL, "no file was specified for --owns\n");
 		return(1);
 	}
 
 	if(stat(filename, &buf) == -1 || S_ISDIR(buf.st_mode) || realpath(filename, rpath) == NULL) {
-		fprintf(stderr, "error: %s is not a file.\n", filename);
+		ERR(NL, "%s is not a file.\n", filename);
 		return(1);
 	}
 
@@ -67,23 +67,16 @@ static int query_fileowner(PM_DB *db, char *filename)
 
 	for(lp = alpm_db_getpkgcache(db); lp && !gotcha; lp = alpm_list_next(lp)) {
 		PM_PKG *info;
-		char *pkgname;
 		PM_LIST *i;
 
-		pkgname = alpm_pkg_getinfo(alpm_list_getdata(lp), PM_PKG_NAME);
-
-		info = alpm_db_readpkg(db, pkgname);
-		if(info == NULL) {
-			fprintf(stderr, "error: package %s not found\n", pkgname);
-			return(1);
-		}
+		info = alpm_list_getdata(lp);
 
 		for(i = alpm_pkg_getinfo(info, PM_PKG_FILES); i && !gotcha; i = alpm_list_next(i)) {
 			char path[PATH_MAX];
 
 			snprintf(path, PATH_MAX, "%s%s", root, (char *)alpm_list_getdata(i));
 			if(!strcmp(path, rpath)) {
-				printf("%s is owned by %s %s\n", filename, pkgname,
+				printf("%s is owned by %s %s\n", filename, (char *)alpm_pkg_getinfo(info, PM_PKG_NAME),
 				       (char *)alpm_pkg_getinfo(info, PM_PKG_VERSION));
 				gotcha = 1;
 				break;
@@ -91,7 +84,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 		}
 	}
 	if(!gotcha) {
-		fprintf(stderr, "No package owns %s\n", filename);
+		ERR(NL, "No package owns %s\n", filename);
 		return(1);
 	}
 
