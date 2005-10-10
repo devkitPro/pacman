@@ -154,8 +154,6 @@ int rpmvercmp(const char *a, const char *b)
 		return(0);
 	}
 
-	/* ORE
-	 * the memory allocated here is never freed... */
 	strncpy(str1, a, 64);
 	str1[63] = 0;
 	strncpy(str2, b, 64);
