@@ -1,0 +1,149 @@
+ENV_CFLAGS=$CFLAGS
+
+AC_PREREQ(2.59)
+AC_INIT([Pacman package manager], 0.9.5, [bugreport@somemail.org], pacman)
+AC_LANG(C)
+AM_CONFIG_HEADER(config.h)
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE
+
+dnl Define here the libalpm version number
+PM_MAJOR_VERSION=0
+PM_MINOR_VERSION=1
+PM_MICRO_VERSION=0
+PM_VERSION=$PM_MAJOR_VERSION.$PM_MINOR_VERSION.$PM_MICRO_VERSION$PM_MICRO_VERSION_SUFFIX
+dnl Needed for libtool to create proper shared lib version
+PM_VERSION_INFO=`expr $PM_MAJOR_VERSION + $PM_MINOR_VERSION`:$PM_MICRO_VERSION:$PM_MINOR_VERSION
+
+AC_SUBST(PM_MAJOR_VERSION)
+AC_SUBST(PM_MINOR_VERSION)
+AC_SUBST(PM_MICRO_VERSION)
+AC_SUBST(PM_VERSION)
+AC_SUBST(PM_VERSION_INFO)
+
+dnl Define here the pacman binary program version number
+PACMAN_VERSION=0.9.5
+AC_SUBST(PACMAN_VERSION)
+
+dnl Put out version numbers to config.h
+AC_DEFINE_UNQUOTED([PM_VERSION], ["$PM_VERSION"], [libalpm version number])
+AC_DEFINE_UNQUOTED([PACMAN_VERSION], ["$PACMAN_VERSION"], [pacman version number])
+
+AC_PROG_CC
+AC_HEADER_STDC
+AC_PROG_INSTALL
+AC_CHECK_FUNCS([strverscmp])
+AM_PROG_LIBTOOL
+
+dnl Help line for man2html
+AC_ARG_ENABLE(man2html,
+    AC_HELP_STRING([--enable-man2html], [Build html docs via man2html]),
+    [wantman2html=$enableval], [wantman2html=no])
+
+dnl Help line for more-warnings
+AC_ARG_ENABLE(more-warnings, 
+    AC_HELP_STRING([--disable-more-warnings], [Minimum compiler warnings]),
+    [set_more_warnings="${enableval}"], [warnings_default=yes])
+
+dnl Help line for debug
+AC_ARG_ENABLE(debug,
+    AC_HELP_STRING([--disable-debug], [Disable debugging support]),
+    [debug=$enableval], [debug=yes])
+
+dnl Check for man2html binary
+AC_MSG_CHECKING(for support man2html)
+if test x$wantman2html = xyes ; then
+    AC_CHECK_PROGS([MAN2HTML], [man2html] [man2html prog])
+    AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
+    if test $MAN2HTML ; then
+        AC_DEFINE([HAS_MAN2HTML], [TRUE], [Enabled HTML generation from man via man2html])
+	AC_MSG_RESULT(yes)
+    else
+        AC_DEFINE([HAS_MAN2HTML], [FALSE], [Disabled HTML generation from man via man2html])
+	AC_MSG_RESULT(no, man2html missing)
+    fi
+else
+    AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
+    AC_DEFINE([HAS_MAN2HTML], [FALSE], [Not specified at configure line])
+    AC_MSG_RESULT(not requested by configure)
+fi
+
+dnl Enable or disable Warning FLAGS during compile
+AC_MSG_CHECKING(for more compiler warnings)
+if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
+    AC_MSG_RESULT(yes)
+    CFLAGS="-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes \
+    -Wnested-externs -Wsign-compare"
+    for option in -Wno-sign-compare; do
+	SAVE_CFLAGS="$CFLAGS"
+	CFLAGS="$CFLAGS $option"
+	AC_MSG_CHECKING([whether gcc understands $option])
+	AC_TRY_COMPILE([], [],
+	    has_option=yes,
+	    has_option=no,)
+	    if test $has_option = no; then
+		CFLAGS="$SAVE_CFLAGS"
+	    fi
+        AC_MSG_RESULT($has_option)
+        unset has_option
+        unset SAVE_CFLAGS
+    done
+    unset option
+else
+    AC_MSG_RESULT(no)
+    unset CFLAGS
+fi
+
+dnl Enable or disable debug code (-g)
+AC_MSG_CHECKING(for debug mode request)
+if test x$debug = xyes ; then
+    AC_DEFINE([PACMAN_DEBUG], [TRUE], [Enable debugging support])
+    AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xyes)
+    CFLAGS="$CFLAGS -g"
+    AC_MSG_RESULT(yes)
+else
+    AC_DEFINE([PACMAN_DEBUG], [FALSE], [Disable debugging support])
+    if test -z "$ENV_CFLAGS"; then
+	ENV_CFLAGS="-O2"
+    fi
+    AC_MSG_RESULT(no)
+fi
+
+dnl Check for zlib
+AC_CHECK_LIB([z], [gzsetparams], [AC_CHECK_HEADER([zlib.h], [LIBZ='-lz'])])
+if test -n "$LIBZ"; then
+    LDFLAGS="$LDFLAGS $LIBZ"
+fi
+
+dnl Check for libtar
+AC_CHECK_LIB([tar], [tar_open], [AC_CHECK_HEADER([libtar.h], [LIBTAR='-ltar'])])
+if test -n "$LIBTAR"; then
+    CFLAGS="$CFLAGS"
+    LDFLAGS="$LDFLAGS $LIBTAR"
+fi
+
+CFLAGS="$CFLAGS $ENV_CFLAGS"
+
+dnl ==========================================================================
+
+AC_OUTPUT([
+lib/libalpm/Makefile
+lib/libftp/Makefile
+src/pacman/Makefile
+src/util/Makefile
+scripts/Makefile
+doc/Makefile
+Makefile
+])
+
+echo "
+pacman-$VERSION:
+                                                                                
+        prefix:                   ${prefix}
+        source code location:     ${srcdir}
+        compiler:                 ${CC}
+        compiler flags:           ${CFLAGS}
+	libalpm version:          ${PM_VERSION}
+                                                                                
+	debug support:            ${debug}
+"

@@ -1,0 +1,39 @@
+TODO for autoconf/automake:
+
+pacman's Makefile.am and configure.in
+=====================================
+
+- find out how can we prevent automake/autoconf to build pacman.static binary, if we
+  are configured using --disable-static flag. Now if builded with this option, then pacman.static
+  compile fails, because there will be no libalpm.a (just .so)
+
+global
+======
+
+- review autoclean.sh script. Maybe there is a more simple way to do this FULL clean.
+
+- Add i18n (gettext) support to configure.in and create the 'po' directory (half ready) -krix
+
+- Add doxygen support to configure.in to generate code documentation automatically
+
+- Add libarchive depends instead of libtar. libtar isn't developed, but libarchive is.
+  libarchive is a powerfuller thing than libtar and not much bigger. It supports many
+  archive formats, eg .tar.gz, .tar.bz2, zip, etc..
+
+- Many things :)) If you got idea or request, then implement it.
+
+libalpm and codechanges
+=======================
+
+- Add much more defines in configure.in via options or not. Like CACHEDIR, PKGEXT, etc.
+  Those will be available from config.h so not need a big codechange. But it is usefull.
+  The user can specify at the configure what cachedir or pkgext he/she want. And maybe better
+  for other distros (like frugalware :) ) which are using other PKGEXT or cachedir than default.
+
+- Review what needed to be in config.h and what not. Probably many #depends which are now hardcoded
+  into the sources.
+
+
+Christian Hamar alias krix <krics@linuxforum.hu> 
+
+2005. oct. 13., wed, 22.38.32 CEST
