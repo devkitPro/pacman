@@ -37,6 +37,8 @@
 /* pacman */
 #include "util.h"
 
+extern int maxcols;
+
 /* does the same thing as 'mkdir -p' */
 int makepath(char *path)
 {
@@ -118,14 +120,7 @@ int rmrf(char *path)
 void indentprint(char *str, int indent)
 {
 	char *p = str;
-	char *cenv = NULL;
-	int cols = 80;
 	int cidx = indent;
-
-	cenv = getenv("COLUMNS");
-	if(cenv) {
-		cols = atoi(cenv);
-	}
 
 	while(*p) {
 		if(*p == ' ') {
@@ -138,7 +133,7 @@ void indentprint(char *str, int indent)
 				next = p + strlen(p);
 			}
 			len = next - p;
-			if(len > (cols-cidx-1)) {
+			if(len > (maxcols-cidx-1)) {
 				/* newline */
 				int i;
 				fprintf(stdout, "\n");
