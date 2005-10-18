@@ -23,6 +23,7 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
 
+#include <string.h>
 #include "md5.h"
 
 /* Constants for MD5Transform routine.
@@ -48,8 +49,8 @@ documentation and/or software.
 static void MD5Transform(UINT4 [4], unsigned char [64]);
 static void Encode(unsigned char *, UINT4 *, unsigned int);
 static void Decode(UINT4 *, unsigned char *, unsigned int);
-static void MD5_memcpy(POINTER, POINTER, unsigned int);
-static void MD5_memset(POINTER, int, unsigned int);
+/* static void MD5_memcpy(POINTER, POINTER, unsigned int); */
+/* static void MD5_memset(POINTER, int, unsigned int); */
 
 static unsigned char PADDING[64] = {
   0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -132,8 +133,7 @@ unsigned int inputLen;                     /* length of input block */
   /* Transform as many times as possible.
 */
   if (inputLen >= partLen) {
- MD5_memcpy
-   ((POINTER)&context->buffer[index], (POINTER)input, partLen);
+    memcpy ((POINTER)&context->buffer[index], (POINTER)input, partLen);
  MD5Transform (context->state, context->buffer);
 
  for (i = partLen; i + 63 < inputLen; i += 64)
@@ -145,9 +145,7 @@ unsigned int inputLen;                     /* length of input block */
  i = 0;
 
   /* Buffer remaining input */
-  MD5_memcpy
- ((POINTER)&context->buffer[index], (POINTER)&input[i],
-  inputLen-i);
+  memcpy ((POINTER)&context->buffer[index], (POINTER)&input[i], inputLen-i);
 }
 
 /* MD5 finalization. Ends an MD5 message-digest operation, writing the
@@ -177,7 +175,7 @@ MD5_CTX *context;                                       /* context */
 
   /* Zeroize sensitive information.
 */
-  MD5_memset ((POINTER)context, 0, sizeof (*context));
+  memset ((POINTER)context, 0, sizeof (*context));
 }
 
 /* MD5 basic transformation. Transforms state based on block.
@@ -271,7 +269,7 @@ unsigned char block[64];
   /* Zeroize sensitive information.
 
 */
-  MD5_memset ((POINTER)x, 0, sizeof (x));
+  memset ((POINTER)x, 0, sizeof (x));
 }
 
 /* Encodes input (UINT4) into output (unsigned char). Assumes len is
@@ -310,7 +308,7 @@ unsigned int len;
 /* Note: Replace "for loop" with standard memcpy if possible.
  */
 
-static void MD5_memcpy (output, input, len)
+/* static void MD5_memcpy (output, input, len)
 POINTER output;
 POINTER input;
 unsigned int len;
@@ -321,10 +319,10 @@ unsigned int len;
 
  output[i] = input[i];
 }
-
+*/
 /* Note: Replace "for loop" with standard memset if possible.
  */
-static void MD5_memset (output, value, len)
+/* static void MD5_memset (output, value, len)
 POINTER output;
 int value;
 unsigned int len;
@@ -334,5 +332,5 @@ unsigned int len;
   for (i = 0; i < len; i++)
  ((char *)output)[i] = (char)value;
 }
-
+*/
 /* vim: set ts=2 sw=2 noet: */
