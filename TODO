@@ -36,3 +36,12 @@ verbose mode, which usage for the library log callback, pmo_debug, ...)
 
 - add HTTP support for .lastupdate files
 
+
+ADDITIONAL IDEAS FOR PERFORMANCE IMPROVEMENT
+============================================
+
+- idea from Christian Hamar: have a /var/lib/pacman/{repo}/.cache file
+that basically contains the output of `ls -1 /var/lib/pacman/{repo}`.  This
+cache file could be used in -Q and -Si/s operations to speed up package
+listings.
+
