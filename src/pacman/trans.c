@@ -106,10 +106,10 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 			*response = yesno(str);
 		break;
 		case PM_TRANS_CONV_REPLACE_PKG:
-			snprintf(str, LOG_STR_LEN, ":: Replace %s with %s from \"%s\"? [Y/n] ",
+			snprintf(str, LOG_STR_LEN, ":: Replace %s with %s/%s? [Y/n] ",
 					(char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-					(char *)alpm_pkg_getinfo(data2, PM_PKG_NAME),
-					(char *)data3);
+					(char *)data3,
+					(char *)alpm_pkg_getinfo(data2, PM_PKG_NAME));
 			*response = yesno(str);
 		break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
