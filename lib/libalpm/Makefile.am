@@ -26,6 +26,8 @@ TARGETS = md5driver.c \
 
 lib_LTLIBRARIES = libalpm.la
 
+include_HEADERS = alpm.h
+
 libalpm_la_SOURCES = $(TARGETS)
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO)
