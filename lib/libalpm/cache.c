@@ -49,7 +49,8 @@ static int pkg_cmp(const void *p1, const void *p2)
 int db_load_pkgcache(pmdb_t *db)
 {
 	pmpkg_t *info;
-	unsigned char infolevel = INFRQ_DEPENDS;
+	/* The group cache needs INFRQ_DESC as well */
+	unsigned char infolevel = INFRQ_DEPENDS | INFRQ_DESC;
 
 	if(db == NULL) {
 		return(-1);
