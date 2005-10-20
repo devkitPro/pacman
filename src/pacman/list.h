@@ -39,6 +39,7 @@ int list_is_strin(char *needle, list_t *haystack);
 void list_display(const char *title, list_t *list);
 
 void PM_LIST_display(const char *title, PM_LIST *list);
+list_t *PM_LIST_remove_dupes(PM_LIST *list);
 
 #endif /* _PM_LIST_H */
 

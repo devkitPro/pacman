@@ -170,4 +170,26 @@ void PM_LIST_display(const char *title, PM_LIST *list)
 	}
 }
 
+/* Filter out any duplicate strings in a PM_LIST
+ *
+ * Not the most efficient way, but simple to implement -- we assemble
+ * a new list, using is_in() to check for dupes at each iteration.
+ *
+ * This function takes a PM_LIST* and returns a list_t*
+ *
+ */
+list_t *PM_LIST_remove_dupes(PM_LIST *list)
+{
+	PM_LIST *i;
+	list_t *newlist = NULL;
+
+	for(i = alpm_list_first(list); i; i = alpm_list_next(i)) {
+		char *data = alpm_list_getdata(i);
+		if(!list_is_strin(data, newlist)) {
+			newlist = list_add(newlist, strdup(data));
+		}
+	}
+	return newlist;
+}
+
 /* vim: set ts=2 sw=2 noet: */

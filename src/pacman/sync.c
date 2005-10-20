@@ -474,22 +474,28 @@ int pacman_sync(list_t *targets)
 					sync_t *sync = j->data;
 					grp = alpm_db_readgrp(sync->db, targ);
 					if(grp) {
-						PM_LIST *k, *pkgs;
+						PM_LIST *pmpkgs;
+						list_t *k, *pkgs;
 						MSG(NL, ":: group %s:\n", targ);
-						pkgs = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
-						PM_LIST_display("   ", pkgs);
+						pmpkgs = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
+						/* remove dupe entries in case a package exists in multiple repos */
+						/*   (the dupe function takes a PM_LIST* and returns a list_t*) */
+						pkgs = PM_LIST_remove_dupes(pmpkgs);
+						/* */
+						list_display("   ", pkgs);
 						if(yesno(":: Install whole content? [Y/n] ")) {
-							for(k = alpm_list_first(pkgs); k; k = alpm_list_next(k)) {
-								targets = list_add(targets, strdup(alpm_list_getdata(k)));
+							for(k = pkgs; k; k = k->next) {
+								targets = list_add(targets, strdup(k->data));
 							}
 						} else {
-							for(k = alpm_list_first(pkgs); k; k = alpm_list_next(k)) {
-								char *pkgname = alpm_list_getdata(k);
+							for(k = pkgs; k; k = k->next) {
+								char *pkgname = k->data;
 								if(yesno(":: Install %s from group %s? [Y/n] ", pkgname, targ)) {
 									targets = list_add(targets, strdup(pkgname));
 								}
 							}
 						}
+						FREELIST(pkgs);
 					}
 				}
 				if(grp == NULL) {
