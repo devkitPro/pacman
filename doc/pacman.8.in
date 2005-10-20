@@ -240,6 +240,10 @@ Server = file:///home/pkgs
 Overrides the default location of the toplevel database directory.  The default is
 \fIvar/lib/pacman\fP.
 .TP
+.B "CacheDir = path/to/cache/dir"
+Overrides the default location of the package cache directory.  The default is
+\fIvar/cache/pacman\fP.
+.TP
 .B "HoldPkg = <package> [package] ..."
 If a user tries to \fB--remove\fP a package that's listed in HoldPkg, pacman
 will ask for confirmation before proceeding.
