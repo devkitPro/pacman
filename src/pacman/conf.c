@@ -35,6 +35,7 @@
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 
 extern char *pmo_dbpath;
+extern char *pmo_cachedir;
 extern list_t *pmo_holdpkg;
 extern char *pmo_proxyhost;
 extern unsigned short pmo_proxyport;
@@ -214,6 +215,14 @@ int parseconfig(char *file)
 						FREE(pmo_dbpath);
 						pmo_dbpath = strdup(ptr);
 						vprint("config: dbpath: %s\n", ptr);
+					} else if(!strcmp(key, "CACHEDIR")) {
+						/* shave off the leading slash, if there is one */
+						if(*ptr == '/') {
+							ptr++;
+						}
+						FREE(pmo_cachedir);
+						pmo_cachedir = strdup(ptr);
+						vprint("config: cachedir: %s\n", ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
 						if(alpm_set_option(PM_OPT_LOGFILE, (long)ptr) == -1) {
 							ERR(NL, "failed to set option LOGFILE (%s)\n", alpm_strerror(pm_errno));

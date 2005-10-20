@@ -51,6 +51,7 @@
 /* command line options */
 char *pmo_root       = NULL;
 char *pmo_dbpath     = NULL;
+char *pmo_cachedir   = NULL;
 char *pmo_configfile = NULL;
 unsigned short pmo_op           = PM_OP_MAIN;
 unsigned short pmo_verbose      = 0;
@@ -174,6 +175,9 @@ int main(int argc, char *argv[])
 	if(pmo_dbpath == NULL) {
 		pmo_dbpath = strdup("var/lib/pacman");
 	}
+	if(pmo_cachedir == NULL) {
+		pmo_cachedir = strdup("var/cache/pacman");
+	}
 
 	/* set library parameters */
 	if(alpm_set_option(PM_OPT_LOGMASK, (long)pmo_debug) == -1) {
@@ -186,6 +190,10 @@ int main(int argc, char *argv[])
 	}
 	if(alpm_set_option(PM_OPT_DBPATH, (long)pmo_dbpath) == -1) {
 		ERR(NL, "failed to set option DBPATH (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_CACHEDIR, (long)pmo_cachedir) == -1) {
+		ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 	
