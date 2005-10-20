@@ -481,7 +481,6 @@ int pacman_sync(list_t *targets)
 						/* remove dupe entries in case a package exists in multiple repos */
 						/*   (the dupe function takes a PM_LIST* and returns a list_t*) */
 						pkgs = PM_LIST_remove_dupes(pmpkgs);
-						/* */
 						list_display("   ", pkgs);
 						if(yesno(":: Install whole content? [Y/n] ")) {
 							for(k = pkgs; k; k = k->next) {
