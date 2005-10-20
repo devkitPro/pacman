@@ -3,7 +3,7 @@
 #   updatesync
 #  
 #   Copyright (c) 2004 by Jason Chu <jason@archlinux.org>
-#   Derived from gensync (c) 2002-2004 Judd Vinet <jvinet@zeroflux.org>
+#   Derived from gensync (c) 2002-2005 Judd Vinet <jvinet@zeroflux.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #   USA.
 #
 
-myver='2.9.2'
+myver='2.9.7'
 
 usage() {
 	echo "updatesync $myver"
@@ -103,6 +103,17 @@ db_write_entry()
 		done
 		echo "" >>desc
 	fi
+	if [ ${#replaces[*]} -gt 0 ]; then
+		echo "%REPLACES%" >>desc
+		for it in "${replaces[@]}"; do
+			echo "$it" >>desc
+		done
+		echo "" >>desc
+	fi
+	if [ "$force" = "y" -o "$force" = "Y" ]; then
+		echo "%FORCE%" >>desc
+		echo "" >>desc
+	fi
 	# depends
 	: >depends
 	if [ ${#depends[*]} -gt 0 ]; then
@@ -124,17 +135,6 @@ db_write_entry()
 		for it in "${provides[@]}"; do
 		  echo "$it" >>depends
 		done
-		echo "" >>depends
-	fi
-	if [ ${#replaces[*]} -gt 0 ]; then
-		echo "%REPLACES%" >>depends
-		for it in "${replaces[@]}"; do
-			echo "$it" >>depends
-		done
-		echo "" >>depends
-	fi
-	if [ "$force" = "y" -o "$force" = "Y" ]; then
-		echo "%FORCE%" >>depends
 		echo "" >>depends
 	fi
 }

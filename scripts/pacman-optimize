@@ -1,0 +1,114 @@
+#!/bin/bash
+# 
+#   pacman-optimize
+#  
+#   Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
+#  
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+# 
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   USA.
+#
+
+myver='2.9.7'
+
+usage() {
+	echo "pacman-optimize $myver"
+	echo "usage: $0 [pacman_db_root]"
+	echo
+	echo "pacman-optimize is a little hack that should improve the performance"
+	echo "of pacman when reading/writing to its filesystem-based database."
+	echo
+	echo "Because pacman uses many small files to keep track of packages,"
+	echo "there is a tendency for these files to become fragmented over time."
+	echo "This script attempts to relocate these small files into one"
+	echo "contiguous location on your hard drive.  The result is that the hard"
+	echo "drive should be able to read them faster, since the hard drive head"
+	echo "does not have to move around the disk as much."
+	echo
+}
+
+die() {
+	echo "pacman-optimize: $*" >&2
+	exit 1
+}
+
+die_r() {
+	rm -f /tmp/pacman.lck
+	die $*
+}
+
+
+dbroot="/var/lib/pacman"
+
+if [ "$1" != "" ]; then
+	if [ "$1" = "-h" -o "$1" = "--help" ]; then
+		usage
+		exit 0
+	fi
+	dbroot=$1
+fi
+
+if [ "`id -u`" != 0 ]; then
+	die "You must be root to optimize the database"
+fi
+
+# make sure pacman isn't running
+if [ -f /tmp/pacman.lck ]; then
+	die "Pacman lockfile was found.  Cannot run while pacman is running."
+fi
+
+if [ ! -d $dbroot ]; then
+	die "$dbroot does not exist or is not a directory"
+fi
+
+# don't let pacman run while we do this
+touch /tmp/pacman.lck
+
+# step 1: sum the old db
+echo "==> md5sum'ing the old database..."
+find $dbroot -type f | sort | xargs md5sum >/tmp/pacsums.old 
+
+# step 1: copy the entire db directory to a new one
+echo "==> copying $dbroot..."
+cp -a $dbroot $dbroot.new || die_r "error copying $dbroot"
+
+# step 2: switch the directory names and sum the new one
+echo "==> md5sum'ing the new database..."
+mv $dbroot $dbroot.bak || die_r "error renaming $dbroot"
+mv $dbroot.new $dbroot || die_r "error renaming $dbroot.new"
+find $dbroot -type f | sort | xargs md5sum >/tmp/pacsums.new
+
+# step 3: compare sums
+echo "==> checking integrity..."
+diff /tmp/pacsums.old /tmp/pacsums.new >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	# failed, move the old one back into place
+	rm -rf $dbroot
+	mv $dbroot.bak $dbroot
+	die_r "integrity check FAILED, reverting to old database"
+fi
+
+# step 4: remove the backup
+echo "==> removing old database..."
+rm -rf $dbroot.bak || die_r "error removing backup $dbroot.bak"
+
+# remove the lock and sum files
+rm -f /tmp/pacman.lck /tmp/pacsums.old /tmp/pacsums.new
+
+echo
+echo "Finished.  Your pacman database has been optimized."
+echo
+
+exit 0
+

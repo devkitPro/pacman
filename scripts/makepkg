@@ -2,7 +2,7 @@
 # 
 #   makepkg
 #  
-#   Copyright (c) 2002-2004 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #   USA.
 #
 
-myver='2.9.2'
+myver='2.9.7'
 startdir=`pwd`
 PKGDEST=$startdir
 USE_COLOR="n"
@@ -108,7 +108,7 @@ handledeps() {
 	local missingdeps=0
 	local deplist="$*"
 	local haveperm=0
-	if [ "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
+	if [ \( "`id -u`" = "0" -a "$INFAKEROOT" != "1" \) -o "$DEP_SUDO" = 1 ]; then
 		haveperm=1
 	fi
 
@@ -117,6 +117,25 @@ handledeps() {
 			# install missing deps from binary packages (using pacman -S)
 			msg "Installing missing dependencies..."
 			pacman -D $deplist
+			if [ "$?" = "127" ]; then
+				error "Failed to install missing dependencies."
+				exit 1
+			fi
+			# TODO: check deps again to make sure they were resolved
+		elif [ "$DEP_SUDO" = "1" ]; then
+			# install missing deps from binary packages (using pacman -S and sudo)
+			msg "Installing missing dependencies..."
+			if [ "$INFAKEROOT" = "1" ]; then
+				# kinda hacky, but we need to make pacman think that we're NOT
+				# in fakeroot so it will go ahead and install the dependencies.
+				FAKEROOTKEY2=$FAKEROOTKEY
+				unset FAKEROOTKEY
+			fi
+			sudo pacman -D $deplist
+			if [ "$INFAKEROOT" = "1" ]; then
+				FAKEROOTKEY=$FAKEROOTKEY2
+				unset FAKEROOTKEY2
+			fi
 			if [ "$?" = "127" ]; then
 				error "Failed to install missing dependencies."
 				exit 1
@@ -163,8 +182,8 @@ handledeps() {
 		fi
 	elif [ "$deplist" != "" -a $haveperm -eq 0 ]; then
 		if [ "$DEP_SRC" = "1" -o "$DEP_BIN" = "1" ]; then
-			warning "Cannot auto-install missing dependencies as a normal user!"
-			plain "Run makepkg as root to resolve dependencies automatically."
+			warning "Cannot auto-install missing dependencies as a normal user without sudo!"
+			plain "Run makepkg as root or with -S to resolve dependencies automatically."
 		fi
 		missingdeps=1
 	fi
@@ -176,6 +195,7 @@ usage() {
 	echo "usage: $0 [options]"
 	echo "options:"
 	echo "  -b, --builddeps  Build missing dependencies from source"
+	echo "  -B, --noccache   Do not use ccache during build"
 	echo "  -c, --clean      Clean up work files after build"
 	echo "  -C, --cleancache Clean up source files from the cache"
 	echo "  -d, --nodeps     Skip all dependency checks"
@@ -191,6 +211,7 @@ usage() {
 	echo "  -p <buildscript> Use an alternate build script (instead of PKGBUILD)"
 	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
+	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
 	echo "  -w <destdir>     Write package to <destdir> instead of the working dir"
 	echo
 	echo "  if -p is not specified, makepkg will look for a PKGBUILD"
@@ -200,19 +221,21 @@ usage() {
 
 
 # Options
+BUILDSCRIPT="./PKGBUILD"
 CLEANUP=0
 CLEANCACHE=0
-INSTALL=0
-GENMD5=0
 DEP_BIN=0
 DEP_SRC=0
-NODEPS=0
+DEP_SUDO=0
 FORCE=0
+GENMD5=0
+INSTALL=0
+NOBUILD=0
+NOCCACHE=0
+NODEPS=0
 NOEXTRACT=0
 NOSTRIP=0
-NOBUILD=0
 RMDEPS=0
-BUILDSCRIPT="./PKGBUILD"
 
 ARGLIST=$@
 
@@ -221,7 +244,9 @@ while [ "$#" -ne "0" ]; do
 		--clean)      CLEANUP=1 ;;
 		--cleancache) CLEANCACHE=1 ;;
 		--syncdeps)   DEP_BIN=1 ;;
+		--sudosync)   DEP_SUDO=1 ;;
 		--builddeps)  DEP_SRC=1 ;;
+		--noccache)   NOCCACHE=1 ;;
 		--nodeps)     NODEPS=1 ;;
 		--noextract)  NOEXTRACT=1 ;;
 		--install)    INSTALL=1 ;;
@@ -240,11 +265,12 @@ while [ "$#" -ne "0" ]; do
 			exit 1
 			;;
 		-*)
-			while getopts "cCsbdehifgj:mnorp:w:-" opt; do
+			while getopts "bBcCdefghij:mnop:rsSw:-" opt; do
 				case $opt in
+					b) DEP_SRC=1 ;;
+					B) NOCCACHE=1 ;;
 					c) CLEANUP=1 ;;
 					C) CLEANCACHE=1 ;;
-					b) DEP_SRC=1 ;;
 					d) NODEPS=1 ;;
 					e) NOEXTRACT=1 ;;
 					f) FORCE=1 ;;
@@ -261,6 +287,7 @@ while [ "$#" -ne "0" ]; do
 					p) BUILDSCRIPT=$OPTARG ;;
 					r) RMDEPS=1 ;;
 					s) DEP_BIN=1 ;;
+					S) DEP_SUDO=1 ;;
 					w) PKGDEST=$OPTARG ;;
 					-)
 						OPTIND=0
@@ -279,6 +306,12 @@ while [ "$#" -ne "0" ]; do
 	esac
 	shift
 done
+
+# check for sudo
+if [ "$DEP_SUDO" = "1" -a ! "`type -p sudo`" ]; then
+	error "Cannot find the sudo binary!  Is sudo installed?"
+	exit 1
+fi
 
 # convert a (possibly) relative path to absolute
 cd $PKGDEST 2>/dev/null
@@ -318,6 +351,10 @@ if [ `echo $pkgver | grep '-'` ]; then
 fi
 if [ `echo $pkgrel | grep '-'` ]; then
 	error "pkgrel is not allowed to contain hyphens."
+	exit 1
+fi
+if [ "$install" -a ! -f "$install" ]; then
+	error "install scriptlet ($install) does not exist."
 	exit 1
 fi
 
@@ -553,7 +590,9 @@ if [ "$NOBUILD" = "1" ]; then
 fi
 
 # use ccache if it's available
-[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
+if [ "$NOCCACHE" = "0" ]; then
+	[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
+fi
 
 # build
 msg "Starting build()..."
@@ -567,6 +606,7 @@ fi
 cd $startdir
 rm -rf pkg/usr/info pkg/usr/share/info
 rm -rf pkg/usr/doc pkg/usr/share/doc
+rm -rf pkg/{usr,opt/gnome}/share/gtk-doc
 
 # move /usr/share/man files to /usr/man
 if [ -d pkg/usr/share/man ]; then
@@ -631,9 +671,6 @@ echo "pkgname = $pkgname" >>.PKGINFO
 echo "pkgver = $pkgver-$pkgrel" >>.PKGINFO
 echo "pkgdesc = $pkgdesc" >>.PKGINFO
 echo "url = $url" >>.PKGINFO
-for it in "${license[@]}"; do
-	echo "license = $it" >>.PKGINFO
-done
 echo "builddate = $builddate" >>.PKGINFO
 echo "packager = $packager" >>.PKGINFO
 echo "size = $size" >>.PKGINFO
@@ -641,6 +678,9 @@ if [ "$CARCH" != "" ]; then
 	echo "arch = $CARCH" >>.PKGINFO
 fi
 
+for it in "${license[@]}"; do
+	echo "license = $it" >>.PKGINFO
+done
 for it in "${replaces[@]}"; do
 	echo "replaces = $it" >>.PKGINFO
 done
@@ -687,9 +727,20 @@ if [ "$CLEANUP" = "1" ]; then
 	rm -rf src pkg filelist
 fi
 
-if [ "$RMDEPS" = "1" -a "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
+if [ "$RMDEPS" = "1" -a "`id -u`" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
 	msg "Removing installed dependencies..."
 	pacman -R $makedeplist $deplist
+elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" ]; then
+	msg "Removing installed dependencies..."
+	if [ "$INFAKEROOT" = "1" ]; then
+		FAKEROOTKEY2=$FAKEROOTKEY
+		unset FAKEROOTKEY
+	fi
+	sudo pacman -R $makedeplist $deplist
+	if [ "$INFAKEROOT" = "1" ]; then
+		FAKEROOTKEY=$FAKEROOTKEY2
+		unset FAKEROOTKEY2
+	fi
 fi
 
 msg "Finished making: $pkgname  (`date`)"
