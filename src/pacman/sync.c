@@ -170,7 +170,6 @@ static int sync_synctree(list_t *syncs)
 
 	for(i = syncs; i; i = i->next) {
 		list_t *files = NULL;
-		char *mtime = NULL;
 		char newmtime[16] = "";
 		char *lastupdate;
 		sync_t *sync = (sync_t *)i->data;
@@ -180,7 +179,6 @@ static int sync_synctree(list_t *syncs)
 		if(lastupdate == NULL) {
 			vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
 		}
-		mtime = lastupdate;
 
 		/* build a one-element list */
 		snprintf(path, PATH_MAX, "%s" PM_EXT_DB, sync->treename);
@@ -188,7 +186,7 @@ static int sync_synctree(list_t *syncs)
 
 		snprintf(path, PATH_MAX, "%s%s", root, dbpath);
 
-		ret = downloadfiles_forreal(sync->servers, path, files, mtime, newmtime);
+		ret = downloadfiles_forreal(sync->servers, path, files, (const char *)&lastupdate, newmtime);
 		vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
 		FREELIST(files);
 		if(ret > 0) {
