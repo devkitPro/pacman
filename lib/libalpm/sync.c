@@ -590,6 +590,13 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 							/* replace old's name with new's name in the requiredby's dependency list */
 							PMList *m;
 							pmpkg_t *depender = db_get_pkgfromcache(db_local, k->data);
+							if(depender == NULL) {
+								/* If the depending package no longer exists in the local db,
+								 * then it must have ALSO conflicted with sync->pkg.  If
+								 * that's the case, then we don't have anything to propagate
+								 * here. */
+								continue;
+							}
 							for(m = depender->depends; m; m = m->next) {
 								if(!strcmp(m->data, old->name)) {
 									FREE(m->data);
