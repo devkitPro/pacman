@@ -545,7 +545,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
  */
 int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail, pmtrans_t *trans)
 {
-	PMList *i, *j;
+	PMList *i, *j, *k;
 	PMList *targ;
 	PMList *deps = NULL;
 
@@ -574,6 +574,22 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 
 		if(miss->type == PM_DEP_TYPE_DEPEND) {
 			pmpkg_t *sync = NULL;
+			int provisio_match = 0;
+
+			/* check if one of the packages in *list already provides this dependency */
+			for(j = list; j; j = j->next) {
+				pmpkg_t *sp = (pmpkg_t*)j->data;
+				for(k = sp->provides; k; k = k->next) {
+					if(!strcmp(miss->depend.name, k->data)) {
+						_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s", sp->name, miss->depend.name);
+						provisio_match = 1;
+					}
+				}
+			}
+			if(provisio_match) {
+				continue;
+			}
+
 			/* find the package in one of the repositories */
 			/* check literals */
 			for(j = dbs_sync; !sync && j; j = j->next) {
