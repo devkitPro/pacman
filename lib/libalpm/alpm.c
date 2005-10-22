@@ -282,24 +282,20 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 		}
 	}
 
-	if(stat(archive, &buf)) {
-		/* not found */
-		RET_ERR(PM_ERR_NOT_A_FILE, -1);
+	/* remove the old dir */
+	_alpm_log(PM_LOG_FLOW2, "flushing database %s/%s", handle->dbpath, db->treename);
+	for(lp = db_get_pkgcache(db); lp; lp = lp->next) {
+		if(db_remove(db, lp->data) == -1) {
+			if(lp->data) {
+				_alpm_log(PM_LOG_ERROR, "could not remove database entry %s/%s", db->treename,
+				                        ((pmpkg_t *)lp->data)->name);
+			}
+			RET_ERR(PM_ERR_XXX, -1);
+		}
 	}
 
 	/* Cache needs to be rebuild */
 	db_free_pkgcache(db);
-
-	/* remove the old dir */
-	_alpm_log(PM_LOG_FLOW2, "removing database %s/%s", handle->dbpath, db->treename);
-	for(lp = alpm_db_getpkgcache(db); lp; lp = alpm_list_next(lp)) {
-		db_remove(db, alpm_list_getdata(lp));
-	}
-
-	/* make the new dir */
-	if(db_create(handle->root, handle->dbpath, db->treename) != 0) {
-		RET_ERR(PM_ERR_DB_CREATE, -1);
-	}
 
 	/* uncompress the sync database */
 	/* ORE
