@@ -650,7 +650,7 @@ int pacman_sync(list_t *targets)
 			fflush(stdout);
 			if(stat(ldir, &buf)) {
 				/* no cache directory.... try creating it */
-				MSG(NL, "warning: no %s cache exists.  creating...", ldir);
+				MSG(NL, "warning: no %s cache exists.  creating...\n", ldir);
 				alpm_logaction("warning: no %s cache exists.  creating...", ldir);
 				if(makepath(ldir)) {
 					/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
