@@ -133,7 +133,7 @@ handledeps() {
 			fi
 			sudo pacman -D $deplist
 			if [ "$INFAKEROOT" = "1" ]; then
-				FAKEROOTKEY=$FAKEROOTKEY2
+				export FAKEROOTKEY=$FAKEROOTKEY2
 				unset FAKEROOTKEY2
 			fi
 			if [ "$?" = "127" ]; then
@@ -738,7 +738,7 @@ elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" ]; then
 	fi
 	sudo pacman -R $makedeplist $deplist
 	if [ "$INFAKEROOT" = "1" ]; then
-		FAKEROOTKEY=$FAKEROOTKEY2
+		export FAKEROOTKEY=$FAKEROOTKEY2
 		unset FAKEROOTKEY2
 	fi
 fi
