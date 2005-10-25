@@ -1,2 +1,2 @@
 AUTOMAKE_OPTIONS = std-options
-bin_SCRIPTS = gensync makepkg makeworld updatesync
+bin_SCRIPTS = gensync makepkg makeworld updatesync pacman-optimize
