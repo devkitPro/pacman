@@ -1,18 +1,12 @@
-TODO:
-
-global
+GLOBAL
 ======
 
 - add i18n (gettext) support
 
 - get ride of "ORE" tags.
 
-- bring back the autoconf/automake stuff
 
-- import libtar code into CVS too, and try to fix glibc dependencies when
-statically linking libtar?
-
-libalpm
+LIBALPM
 =======
 
 - remove the dependency with /usr/bin/chroot (implement the chroot handling
@@ -23,16 +17,15 @@ meanings)
 
 - documentation (doxygen? man pages for public functions? ...)
 
-pacman
+
+PACMAN
 ======
 
 - implement missing functionnalities (mainly handling of package conflicts
 during packages replacement)
 
 - review how things are displayed in the frontend (normal display,
-verbose mode, which usage for the library log callback, pmo_debug, ...)
-
-- add a structure in pacman to hold all the configuration (pmo_root, ...)
+verbose mode, which usage for the library log callback, debug levels, ...)
 
 - add HTTP support for .lastupdate files
 
