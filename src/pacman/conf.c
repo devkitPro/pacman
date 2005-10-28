@@ -31,21 +31,47 @@
 #include "list.h"
 #include "sync.h"
 #include "download.h"
+#include "conf.h"
+#include "pacman.h"
 
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 
-extern char *pmo_dbpath;
-extern char *pmo_cachedir;
-extern list_t *pmo_holdpkg;
-extern char *pmo_proxyhost;
-extern unsigned short pmo_proxyport;
-extern char *pmo_xfercommand;
-extern unsigned short pmo_chomp;
-extern unsigned short pmo_nopassiveftp;
-
 extern list_t *pmc_syncs;
 
-int parseconfig(char *file)
+pmconfig_t *config_new()
+{
+	pmconfig_t *config;
+
+	config = (pmconfig_t *)malloc(sizeof(pmconfig_t));
+	if(config == NULL) {
+		return(NULL);
+	}
+
+	memset(config, 0, sizeof(pmconfig_t));
+
+	return(config);
+}
+
+int config_free(pmconfig_t *config)
+{
+	if(config == NULL) {
+		return(-1);
+	}
+
+	FREE(config->root);
+	FREE(config->dbpath);
+	FREE(config->cachedir);
+	FREE(config->configfile);
+	FREELIST(config->op_s_ignore);
+	FREE(config->proxyhost);
+	FREE(config->xfercommand);
+	FREELIST(config->holdpkg);
+	free(config);
+
+	return(0);
+}
+
+int parseconfig(pmconfig_t *config)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];
@@ -55,7 +81,11 @@ int parseconfig(char *file)
 	char section[256] = "";
 	sync_t *sync = NULL;
 
-	fp = fopen(file, "r");
+	if(config == NULL) {
+		return(-1);
+	}
+
+	fp = fopen(config->configfile, "r");
 	if(fp == NULL) {
 		return(0);
 	}
@@ -119,7 +149,7 @@ int parseconfig(char *file)
 			}
 			if(ptr == NULL) {
 				if(!strcmp(key, "NOPASSIVEFTP")) {
-					pmo_nopassiveftp = 1;
+					config->nopassiveftp = 1;
 					vprint("config: nopassiveftp\n");
 				} else if(!strcmp(key, "USESYSLOG")) {
 					if(alpm_set_option(PM_OPT_USESYSLOG, (long)1) == -1) {
@@ -128,7 +158,7 @@ int parseconfig(char *file)
 					}
 					vprint("config: usesyslog\n");
 				} else if(!strcmp(key, "ILOVECANDY")) {
-					pmo_chomp = 1;
+					config->chomp = 1;
 				} else {
 					ERR(NL, "config: line %d: syntax error\n", linenum);
 					return(1);
@@ -200,28 +230,28 @@ int parseconfig(char *file)
 						char *q;
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
-							pmo_holdpkg = list_add(pmo_holdpkg, strdup(p));
+							config->holdpkg = list_add(config->holdpkg, strdup(p));
 							vprint("config: holdpkg: %s\n", p);
 							p = q;
 							p++;
 						}
-						pmo_holdpkg = list_add(pmo_holdpkg, strdup(p));
+						config->holdpkg = list_add(config->holdpkg, strdup(p));
 						vprint("config: holdpkg: %s\n", p);
 					} else if(!strcmp(key, "DBPATH")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
 							ptr++;
 						}
-						FREE(pmo_dbpath);
-						pmo_dbpath = strdup(ptr);
+						FREE(config->dbpath);
+						config->dbpath = strdup(ptr);
 						vprint("config: dbpath: %s\n", ptr);
 					} else if(!strcmp(key, "CACHEDIR")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
 							ptr++;
 						}
-						FREE(pmo_cachedir);
-						pmo_cachedir = strdup(ptr);
+						FREE(config->cachedir);
+						config->cachedir = strdup(ptr);
 						vprint("config: cachedir: %s\n", ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
 						if(alpm_set_option(PM_OPT_LOGFILE, (long)ptr) == -1) {
@@ -230,13 +260,13 @@ int parseconfig(char *file)
 						}
 						vprint("config: log file: %s\n", ptr);
 					} else if (!strcmp(key, "XFERCOMMAND")) {
-						FREE(pmo_xfercommand);
-						pmo_xfercommand = strndup(ptr, PATH_MAX);
-						vprint("config: xfercommand: %s\n", pmo_xfercommand);
+						FREE(config->xfercommand);
+						config->xfercommand = strndup(ptr, PATH_MAX);
+						vprint("config: xfercommand: %s\n", config->xfercommand);
 					} else if (!strcmp(key, "PROXYSERVER")) {
 						char *p;
-						if(pmo_proxyhost) {
-							FREE(pmo_proxyhost);
+						if(config->proxyhost) {
+							FREE(config->proxyhost);
 						}
 						p = strstr(ptr, "://");
 						if(p) {
@@ -247,11 +277,11 @@ int parseconfig(char *file)
 							}
 							ptr = p;
 						}
-						pmo_proxyhost = strndup(ptr, PATH_MAX);
-						vprint("config: proxyserver: %s\n", pmo_proxyhost);
+						config->proxyhost = strndup(ptr, PATH_MAX);
+						vprint("config: proxyserver: %s\n", config->proxyhost);
 					} else if (!strcmp(key, "PROXYPORT")) {
-						pmo_proxyport = (unsigned short)atoi(ptr);
-						vprint("config: proxyport: %u\n", pmo_proxyport);
+						config->proxyport = (unsigned short)atoi(ptr);
+						vprint("config: proxyport: %u\n", config->proxyport);
 					} else {
 						ERR(NL, "config: line %d: syntax error\n", linenum);
 						return(1);

@@ -29,9 +29,9 @@
 #include "list.h"
 #include "download.h"
 #include "trans.h"
+#include "conf.h"
 
-extern unsigned char pmo_upgrade;
-extern unsigned char pmo_flags;
+extern pmconfig_t *config;
 
 int pacman_add(list_t *targets)
 {
@@ -58,8 +58,8 @@ int pacman_add(list_t *targets)
 
 	/* Step 1: create a new transaction
 	 */
-	if(alpm_trans_init((pmo_upgrade == 0) ? PM_TRANS_TYPE_ADD : PM_TRANS_TYPE_UPGRADE,
-	                   pmo_flags, cb_trans_evt, cb_trans_conv) == -1) {
+	if(alpm_trans_init((config->upgrade == 0) ? PM_TRANS_TYPE_ADD : PM_TRANS_TYPE_UPGRADE,
+	                   config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		return(1);
 	}

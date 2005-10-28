@@ -21,7 +21,50 @@
 #ifndef _PM_CONF_H
 #define _PM_CONF_H
 
-int parseconfig(char *file);
+typedef struct __pmconfig_t {
+	/* command line options */
+	char *root;
+	char *dbpath;
+	char *cachedir;
+	char *configfile;
+	unsigned short op;
+	unsigned short verbose;
+	unsigned short version;
+	unsigned short help;
+	unsigned short upgrade;
+	unsigned short noconfirm;
+	unsigned short op_d_vertest;
+	unsigned short op_d_resolve;
+	unsigned short op_q_isfile;
+	unsigned short op_q_info;
+	unsigned short op_q_list;
+	unsigned short op_q_orphans;
+	unsigned short op_q_owns;
+	unsigned short op_q_search;
+	unsigned short op_s_clean;
+	unsigned short op_s_downloadonly;
+	list_t *op_s_ignore;
+	unsigned short op_s_info;
+	unsigned short op_s_printuris;
+	unsigned short op_s_sync;
+	unsigned short op_s_search;
+	unsigned short op_s_upgrade;
+	unsigned short group;
+	unsigned char  flags;
+	unsigned short debug;
+	/* configuration file option */
+	char *proxyhost;
+	unsigned short proxyport;
+	char *xfercommand;
+	unsigned short chomp;
+	unsigned short nopassiveftp;
+	list_t *holdpkg;
+} pmconfig_t;
+
+#define FREECONF(p) do { if(p) { config_free(p); p = NULL; } } while(0)
+pmconfig_t *config_new();
+int config_free(pmconfig_t *config);
+int parseconfig(pmconfig_t *config);
 
 #endif /* _PM_CONF_H */
 

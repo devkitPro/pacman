@@ -27,14 +27,15 @@
 /* pacman */
 #include "list.h"
 #include "add.h"
+#include "conf.h"
 
-extern unsigned char pmo_upgrade;
+extern pmconfig_t *config;
 
 int pacman_upgrade(list_t *targets)
 {
 	/* this is basically just a remove-then-add process. pacman_add() will */
 	/* handle it */
-	pmo_upgrade = 1;
+	config->upgrade = 1;
 	return(pacman_add(targets));
 }
 

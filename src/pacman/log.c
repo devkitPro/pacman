@@ -28,10 +28,12 @@
 
 /* pacman */
 #include "log.h"
+#include "list.h"
+#include "conf.h"
 
 #define LOG_STR_LEN 256
 
-extern unsigned short pmo_verbose;
+extern pmconfig_t *config;
 
 static int neednl; /* for cleaner message output */
 
@@ -101,7 +103,7 @@ void vprint(char *fmt, ...)
 {
 	va_list args;
 
-	if(pmo_verbose > 1) {
+	if(config->verbose > 1) {
 		if(neednl == 1) {
 			fprintf(stdout, "\n");
 			neednl = 0;

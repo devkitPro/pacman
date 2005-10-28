@@ -48,43 +48,7 @@
 #include "sync.h"
 #include "pacman.h"
 
-/* command line options */
-char *pmo_root       = NULL;
-char *pmo_dbpath     = NULL;
-char *pmo_cachedir   = NULL;
-char *pmo_configfile = NULL;
-unsigned short pmo_op           = PM_OP_MAIN;
-unsigned short pmo_verbose      = 0;
-unsigned short pmo_version      = 0;
-unsigned short pmo_help         = 0;
-unsigned short pmo_upgrade      = 0;
-unsigned short pmo_noconfirm    = 0;
-unsigned short pmo_d_vertest    = 0;
-unsigned short pmo_d_resolve    = 0;
-unsigned short pmo_q_isfile     = 0;
-unsigned short pmo_q_info       = 0;
-unsigned short pmo_q_list       = 0;
-unsigned short pmo_q_orphans    = 0;
-unsigned short pmo_q_owns       = 0;
-unsigned short pmo_q_search     = 0;
-unsigned short pmo_s_clean      = 0;
-unsigned short pmo_s_downloadonly = 0;
-list_t        *pmo_s_ignore     = NULL;
-unsigned short pmo_s_info       = 0;
-unsigned short pmo_s_printuris  = 0;
-unsigned short pmo_s_sync       = 0;
-unsigned short pmo_s_search     = 0;
-unsigned short pmo_s_upgrade    = 0;
-unsigned short pmo_group        = 0;
-unsigned char  pmo_flags        = 0;
-unsigned short pmo_debug        = PM_LOG_WARNING;
-/* configuration file option */
-char          *pmo_proxyhost    = NULL;
-unsigned short pmo_proxyport    = 0;
-char          *pmo_xfercommand  = NULL;
-unsigned short pmo_chomp        = 0;
-unsigned short pmo_nopassiveftp = 0;
-list_t        *pmo_holdpkg      = NULL;
+pmconfig_t *config = NULL;
 
 PM_DB *db_local;
 /* list of (sync_t *) structs for sync locations */
@@ -119,6 +83,15 @@ int main(int argc, char *argv[])
 	signal(SIGINT, cleanup);
 	signal(SIGTERM, cleanup);
 
+	/* init config data */
+	config = config_new();
+	if(config == NULL) {
+		ERR(NL, "could not allocate memory for pacman config data.\n");
+		return(1);
+	}
+  config->op    = PM_OP_MAIN;
+  config->debug |= PM_LOG_WARNING;
+
 	/* parse the command line */
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
@@ -134,11 +107,11 @@ int main(int argc, char *argv[])
 
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0) {
-		if(pmo_op != PM_OP_MAIN && pmo_op != PM_OP_QUERY && pmo_op != PM_OP_DEPTEST) {
-			if((pmo_op == PM_OP_SYNC && !pmo_s_sync &&
-					(pmo_s_search || pmo_s_printuris || pmo_group || pmo_q_list ||
-					 pmo_q_info)) || (pmo_op == PM_OP_DEPTEST && !pmo_d_resolve)) {
-				/* special case:  PM_OP_SYNC can be used w/ pmo_s_search by any user */
+		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
+			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
+					(config->op_s_search || config->op_s_printuris || config->group || config->op_q_list ||
+					 config->op_q_info)) || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)) {
+				/* special case:  PM_OP_SYNC can be used w/ config->op_s_search by any user */
 			} else {
 				ERR(NL, "you cannot perform this operation unless you are root.\n");
 				exit(1);
@@ -146,41 +119,41 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if(pmo_root == NULL) {
-		pmo_root = strdup("/");
+	if(config->root == NULL) {
+		config->root = strdup("/");
+	}
+
+	/* add a trailing '/' if there isn't one */
+	if(config->root[strlen(config->root)-1] != '/') {
+		char *ptr;
+		MALLOC(ptr, strlen(config->root)+2);
+		strcpy(ptr, config->root);
+		strcat(ptr, "/");
+		FREE(config->root);
+		config->root = ptr;
 	}
 
 	/* initialize pm library */
-	if(alpm_initialize(pmo_root) == -1) {
+	if(alpm_initialize(config->root) == -1) {
 		ERR(NL, "failed to initilize alpm library (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 
-	/* add a trailing '/' if there isn't one */
-	if(pmo_root[strlen(pmo_root)-1] != '/') {
-		char *ptr;
-		MALLOC(ptr, strlen(pmo_root)+2);
-		strcpy(ptr, pmo_root);
-		strcat(ptr, "/");
-		FREE(pmo_root);
-		pmo_root = ptr;
+	if(config->configfile == NULL) {
+		config->configfile = strdup(PACCONF);
 	}
-
-	if(pmo_configfile == NULL) {
-		pmo_configfile = strdup(PACCONF);
-	}
-	if(parseconfig(pmo_configfile) == -1) {
+	if(parseconfig(config) == -1) {
 		cleanup(1);
 	}
-	if(pmo_dbpath == NULL) {
-		pmo_dbpath = strdup("var/lib/pacman");
+	if(config->dbpath == NULL) {
+		config->dbpath = strdup("var/lib/pacman");
 	}
-	if(pmo_cachedir == NULL) {
-		pmo_cachedir = strdup("var/cache/pacman");
+	if(config->cachedir == NULL) {
+		config->cachedir = strdup("var/cache/pacman");
 	}
 
 	/* set library parameters */
-	if(alpm_set_option(PM_OPT_LOGMASK, (long)pmo_debug) == -1) {
+	if(alpm_set_option(PM_OPT_LOGMASK, (long)config->debug) == -1) {
 		ERR(NL, "failed to set option LOGMASK (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
@@ -188,18 +161,18 @@ int main(int argc, char *argv[])
 		ERR(NL, "failed to set option LOGCB (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
-	if(alpm_set_option(PM_OPT_DBPATH, (long)pmo_dbpath) == -1) {
+	if(alpm_set_option(PM_OPT_DBPATH, (long)config->dbpath) == -1) {
 		ERR(NL, "failed to set option DBPATH (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
-	if(alpm_set_option(PM_OPT_CACHEDIR, (long)pmo_cachedir) == -1) {
+	if(alpm_set_option(PM_OPT_CACHEDIR, (long)config->cachedir) == -1) {
 		ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 	
-	if(pmo_verbose > 1) {
-		printf("Root  : %s\n", pmo_root);
-		printf("DBPath: %s\n", pmo_dbpath);
+	if(config->verbose > 1) {
+		printf("Root  : %s\n", config->root);
+		printf("DBPath: %s\n", config->dbpath);
 		list_display("Targets:", pm_targets);
 	}
 
@@ -211,7 +184,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* start the requested operation */
-	switch(pmo_op) {
+	switch(config->op) {
 		case PM_OP_ADD:     ret = pacman_add(pm_targets);     break;
 		case PM_OP_REMOVE:  ret = pacman_remove(pm_targets);  break;
 		case PM_OP_UPGRADE: ret = pacman_upgrade(pm_targets); break;
@@ -223,7 +196,7 @@ int main(int argc, char *argv[])
 			ERR(NL, "no operation specified (use -h for help)\n");
 			ret = 1;
 	}
-	if(ret != 0 && pmo_d_vertest == 0) {
+	if(ret != 0 && config->op_d_vertest == 0) {
 		MSG(NL, "\n");
 	}
 
@@ -255,14 +228,8 @@ void cleanup(int signum)
 		FREE(sync->treename);
 	}
 	FREELIST(pmc_syncs);
-	FREE(pmo_root);
-	FREE(pmo_dbpath);
-	FREE(pmo_configfile);
-	FREE(pmo_proxyhost);
-	FREE(pmo_xfercommand);
-	FREELIST(pmo_holdpkg);
-
 	FREELIST(pm_targets);
+	FREECONF(config);
 
 #ifndef CYGWIN
 	/* debug */
@@ -284,7 +251,7 @@ int pacman_deptest(list_t *targets)
 		return(0);
 	}
 
-	if(pmo_d_vertest) {
+	if(config->op_d_vertest) {
 		if(targets->data && targets->next && targets->next->data) {
 			int ret = alpm_pkg_vercmp(targets->data, targets->next->data);
 			printf("%d\n", ret);
@@ -329,7 +296,7 @@ int pacman_deptest(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
-					if(!pmo_d_resolve) {
+					if(!config->op_d_resolve) {
 						MSG(NL, "requires: %s", alpm_dep_getinfo(miss, PM_DEP_NAME));
 						switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 							case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
@@ -364,7 +331,7 @@ int pacman_deptest(list_t *targets)
 		/* attempt to resolve missing dependencies */
 		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
 		if(ret == 126 && synctargs != NULL) {
-			if(!pmo_d_resolve || pacman_sync(synctargs) != 0) {
+			if(!config->op_d_resolve || pacman_sync(synctargs) != 0) {
 				/* error (or -D not used) */
 				ret = 127;
 			}
@@ -439,75 +406,75 @@ int parseargs(int argc, char *argv[])
 		}
 		switch(opt) {
 			case 0:   break;
-			case 1000: pmo_noconfirm = 1; break;
+			case 1000: config->noconfirm = 1; break;
 			case 1001:
-				if(pmo_configfile) {
-					free(pmo_configfile);
+				if(config->configfile) {
+					free(config->configfile);
 				}
-				pmo_configfile = strndup(optarg, PATH_MAX);
+				config->configfile = strndup(optarg, PATH_MAX);
 				break;
-			case 1002: pmo_s_ignore = list_add(pmo_s_ignore, strdup(optarg)); break;
+			case 1002: config->op_s_ignore = list_add(config->op_s_ignore, strdup(optarg)); break;
 			case 1003:
-				pmo_debug = atoi(optarg);
+				config->debug = atoi(optarg);
 				break;
-			case 'A': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_ADD);     break;
-			case 'D': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_resolve = 1; break;
-			case 'F': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); pmo_flags |= PM_TRANS_FLAG_FRESHEN; break;
-			case 'Q': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_QUERY);   break;
-			case 'R': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_REMOVE);  break;
-			case 'S': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_SYNC);    break;
-			case 'T': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
-			case 'U': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
-			case 'V': pmo_version = 1; break;
-			case 'Y': pmo_op = (pmo_op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); pmo_d_vertest = 1; break;
+			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD);     break;
+			case 'D': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); config->op_d_resolve = 1; break;
+			case 'F': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); config->flags |= PM_TRANS_FLAG_FRESHEN; break;
+			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY);   break;
+			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE);  break;
+			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC);    break;
+			case 'T': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
+			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
+			case 'V': config->version = 1; break;
+			case 'Y': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); config->op_d_vertest = 1; break;
 			case 'b':
-				if(pmo_dbpath) {
-					free(pmo_dbpath);
+				if(config->dbpath) {
+					free(config->dbpath);
 				}
-				pmo_dbpath = strdup(optarg);
+				config->dbpath = strdup(optarg);
 			break;
-			case 'c': pmo_s_clean++; pmo_flags |= PM_TRANS_FLAG_CASCADE; break;
-			case 'd': pmo_flags |= PM_TRANS_FLAG_NODEPS; break;
-			case 'e': pmo_q_orphans = 1; break;
-			case 'f': pmo_flags |= PM_TRANS_FLAG_FORCE; break;
-			case 'g': pmo_group = 1; break;
-			case 'h': pmo_help = 1; break;
-			case 'i': pmo_q_info++; pmo_s_info++; break;
-			case 'k': pmo_flags |= PM_TRANS_FLAG_DBONLY; break;
-			case 'l': pmo_q_list = 1; break;
-			case 'n': pmo_flags |= PM_TRANS_FLAG_NOSAVE; break;
-			case 'o': pmo_q_owns = 1; break;
-			case 'p': pmo_q_isfile = 1; pmo_s_printuris = 1; break;
+			case 'c': config->op_s_clean++; config->flags |= PM_TRANS_FLAG_CASCADE; break;
+			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
+			case 'e': config->op_q_orphans = 1; break;
+			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
+			case 'g': config->group = 1; break;
+			case 'h': config->help = 1; break;
+			case 'i': config->op_q_info++; config->op_s_info++; break;
+			case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+			case 'l': config->op_q_list = 1; break;
+			case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
+			case 'o': config->op_q_owns = 1; break;
+			case 'p': config->op_q_isfile = 1; config->op_s_printuris = 1; break;
 			case 'r':
 				if(realpath(optarg, root) == NULL) {
 					perror("bad root path");
 					return(1);
 				}
-				if(pmo_root) {
-					free(pmo_root);
+				if(config->root) {
+					free(config->root);
 				}
-				pmo_root = strdup(root);
+				config->root = strdup(root);
 			break;
-			case 's': pmo_s_search = 1; pmo_q_search = 1; pmo_flags |= PM_TRANS_FLAG_RECURSE; break;
-			case 'u': pmo_s_upgrade = 1; break;
-			case 'v': pmo_verbose++; break;
-			case 'w': pmo_s_downloadonly = 1; break;
-			case 'y': pmo_s_sync = 1; break;
+			case 's': config->op_s_search = 1; config->op_q_search = 1; config->flags |= PM_TRANS_FLAG_RECURSE; break;
+			case 'u': config->op_s_upgrade = 1; break;
+			case 'v': config->verbose++; break;
+			case 'w': config->op_s_downloadonly = 1; break;
+			case 'y': config->op_s_sync = 1; break;
 			case '?': return(1);
 			default:  return(1);
 		}
 	}
 
-	if(pmo_op == 0) {
+	if(config->op == 0) {
 		ERR(NL, "only one operation may be used at a time\n");
 		return(1);
 	}
 
-	if(pmo_help) {
-		usage(pmo_op, basename(argv[0]));
+	if(config->help) {
+		usage(config->op, basename(argv[0]));
 		return(2);
 	}
-	if(pmo_version) {
+	if(config->version) {
 		version();
 		return(2);
 	}
@@ -552,7 +519,7 @@ void usage(int op, char *myname)
 			printf("  -n, --nosave        remove configuration files as well\n");
 			printf("  -s, --recursive     remove dependencies also (that won't break packages)\n");
 		} else if(op == PM_OP_UPGRADE) {
-			if(pmo_flags & PM_TRANS_FLAG_FRESHEN) {
+			if(config->flags & PM_TRANS_FLAG_FRESHEN) {
 				printf("usage:  %s {-F --freshen} [options] <file>\n", myname);
 			} else {
 				printf("usage:  %s {-U --upgrade} [options] <file>\n", myname);

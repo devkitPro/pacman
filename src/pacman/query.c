@@ -32,14 +32,9 @@
 #include "db.h"
 #include "query.h"
 #include "log.h"
+#include "conf.h"
 
-extern unsigned short pmo_q_isfile;
-extern unsigned short pmo_q_info;
-extern unsigned short pmo_q_list;
-extern unsigned short pmo_q_orphans;
-extern unsigned short pmo_q_owns;
-extern unsigned short pmo_q_search;
-extern unsigned short pmo_group;
+extern pmconfig_t *config;
 extern PM_DB *db_local;
 
 static int query_fileowner(PM_DB *db, char *filename)
@@ -98,7 +93,7 @@ int pacman_query(list_t *targets)
 	char *package = NULL;
 	int done = 0;
 
-	if(pmo_q_search) {
+	if(config->op_q_search) {
 		if(db_search(db_local, "local", targets)) {
 			return(1);
 		}
@@ -116,7 +111,7 @@ int pacman_query(list_t *targets)
 		}
 
 		/* looking for groups */
-		if(pmo_group) {
+		if(config->group) {
 			PM_LIST *lp;
 			if(targets == NULL) {
 				for(lp = alpm_db_getgrpcache(db_local); lp; lp = alpm_list_next(lp)) {
@@ -147,7 +142,7 @@ int pacman_query(list_t *targets)
 		}
 
 		/* output info for a .tar.gz package */
-		if(pmo_q_isfile) {
+		if(config->op_q_isfile) {
 			if(package == NULL) {
 				ERR(NL, "no package file was specified for --file\n");
 				return(1);
@@ -156,14 +151,14 @@ int pacman_query(list_t *targets)
 				ERR(NL, "failed to load package '%s' (%s)\n", package, alpm_strerror(pm_errno));
 				return(1);
 			}
-			if(pmo_q_info) {
+			if(config->op_q_info) {
 				dump_pkg_full(info, 0);
 				MSG(NL, "\n");
 			}
-			if(pmo_q_list) {
+			if(config->op_q_list) {
 				dump_pkg_files(info);
 			}
-			if(!pmo_q_info && !pmo_q_list) {
+			if(!config->op_q_info && !config->op_q_list) {
 				MSG(NL, "%s %s\n", (char *)alpm_pkg_getinfo(info, PM_PKG_NAME),
 				                   (char *)alpm_pkg_getinfo(info, PM_PKG_VERSION));
 			}
@@ -172,7 +167,7 @@ int pacman_query(list_t *targets)
 		}
 
 		/* determine the owner of a file */
-		if(pmo_q_owns) {
+		if(config->op_q_owns) {
 			return(query_fileowner(db_local, package));
 		}
 
@@ -187,17 +182,17 @@ int pacman_query(list_t *targets)
 				pkgname = alpm_pkg_getinfo(tmpp, PM_PKG_NAME);
 				pkgver = alpm_pkg_getinfo(tmpp, PM_PKG_VERSION);
 
-				if(pmo_q_list || pmo_q_orphans) {
+				if(config->op_q_list || config->op_q_orphans) {
 					info = alpm_db_readpkg(db_local, pkgname);
 					if(info == NULL) {
 						/* something weird happened */
 						ERR(NL, "package \"%s\" not found\n", pkgname);
 						return(1);
 					}
-					if(pmo_q_list) {
+					if(config->op_q_list) {
 						dump_pkg_files(info);
 					}
-					if(pmo_q_orphans) {
+					if(config->op_q_orphans) {
 						if(alpm_pkg_getinfo(info, PM_PKG_REQUIREDBY) == NULL
 						   && (int)alpm_pkg_getinfo(info, PM_PKG_REASON) == PM_PKG_REASON_EXPLICIT) {
 							MSG(NL, "%s %s\n", pkgname, pkgver);
@@ -217,14 +212,14 @@ int pacman_query(list_t *targets)
 			}
 
 			/* find a target */
-			if(pmo_q_info || pmo_q_list) {
-				if(pmo_q_info) {
-					dump_pkg_full(info, pmo_q_info);
+			if(config->op_q_info || config->op_q_list) {
+				if(config->op_q_info) {
+					dump_pkg_full(info, config->op_q_info);
 				}
-				if(pmo_q_list) {
+				if(config->op_q_list) {
 					dump_pkg_files(info);
 				}
-			} else if(pmo_q_orphans) {
+			} else if(config->op_q_orphans) {
 					if(alpm_pkg_getinfo(info, PM_PKG_REQUIREDBY) == NULL) {
 						MSG(NL, "%s %s\n", pkgname, pkgver);
 					}

@@ -41,19 +41,9 @@
 #include "trans.h"
 #include "sync.h"
 #include "pacman.h"
+#include "conf.h"
 
-extern unsigned short pmo_noconfirm;
-extern unsigned short pmo_d_resolve;
-extern unsigned short pmo_q_list;
-extern unsigned short pmo_s_clean;
-extern unsigned short pmo_s_downloadonly;
-extern unsigned short pmo_s_info;
-extern unsigned short pmo_s_printuris;
-extern unsigned short pmo_s_search;
-extern unsigned short pmo_s_sync;
-extern unsigned short pmo_s_upgrade;
-extern unsigned short pmo_group;
-extern unsigned char  pmo_flags;
+extern pmconfig_t *config;
 
 extern PM_DB *db_local;
 extern list_t *pmc_syncs;
@@ -379,8 +369,8 @@ int pacman_sync(list_t *targets)
 		return(1);
 	}
 
-	if(pmo_s_clean) {
-		return(sync_cleancache(pmo_s_clean));
+	if(config->op_s_clean) {
+		return(sync_cleancache(config->op_s_clean));
 	}
 
 	/* open the database(s) */
@@ -393,7 +383,7 @@ int pacman_sync(list_t *targets)
 		}
 	}
 
-	if(pmo_s_sync) {
+	if(config->op_s_sync) {
 		/* grab a fresh package list */
 		MSG(NL, ":: Synchronizing package databases...\n");
 		alpm_logaction("synchronizing package lists");
@@ -402,31 +392,31 @@ int pacman_sync(list_t *targets)
 		}
 	}
 
-	if(pmo_s_search) {
+	if(config->op_s_search) {
 		return(sync_search(pmc_syncs, targets));
 	}
 
-	if(pmo_group) {
+	if(config->group) {
 		return(sync_group(pmc_syncs, targets));
 	}
 
-	if(pmo_s_info) {
+	if(config->op_s_info) {
 		return(sync_info(pmc_syncs, targets));
 	}
 
-	if(pmo_q_list) {
+	if(config->op_q_list) {
 		return(sync_list(pmc_syncs, targets));
 	}
 
 	/* Step 1: create a new transaction...
 	 */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, pmo_flags, cb_trans_evt, cb_trans_conv) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
 	}
 
-	if(pmo_s_upgrade) {
+	if(config->op_s_upgrade) {
 		MSG(NL, ":: Starting local database upgrade...\n");
 		alpm_logaction("starting full system upgrade");
 		if(alpm_trans_sysupgrade() == -1) {
@@ -514,7 +504,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	/* list targets and get confirmation */
-	if(!pmo_s_printuris) {
+	if(!config->op_s_printuris) {
 		list_t *list = NULL;
 		char *str;
 		unsigned long totalsize = 0;
@@ -573,8 +563,8 @@ int pacman_sync(list_t *targets)
 		FREELIST(list);
 		FREE(str);
 
-		if(pmo_s_downloadonly) {
-			if(pmo_noconfirm) {
+		if(config->op_s_downloadonly) {
+			if(config->noconfirm) {
 				MSG(NL, "\nBeginning download...\n");
 				confirm = 1;
 			} else {
@@ -583,10 +573,10 @@ int pacman_sync(list_t *targets)
 			}
 		} else {
 			/* don't get any confirmation if we're called from makepkg */
-			if(pmo_d_resolve) {
+			if(config->op_d_resolve) {
 				confirm = 1;
 			} else {
-				if(pmo_noconfirm) {
+				if(config->noconfirm) {
 					MSG(NL, "\nBeginning upgrade process...\n");
 					confirm = 1;
 				} else {
@@ -622,7 +612,7 @@ int pacman_sync(list_t *targets)
 				pkgname = alpm_pkg_getinfo(spkg, PM_PKG_NAME);
 				pkgver = alpm_pkg_getinfo(spkg, PM_PKG_VERSION);
 
-				if(pmo_s_printuris) {
+				if(config->op_s_printuris) {
 					server_t *server = (server_t*)current->servers->data;
 					snprintf(path, PATH_MAX, "%s-%s" PM_EXT_PKG, pkgname, pkgver);
 					if(!strcmp(server->protocol, "file")) {
@@ -670,7 +660,7 @@ int pacman_sync(list_t *targets)
 			FREELIST(files);
 		}
 	}
-	if(pmo_s_printuris) {
+	if(config->op_s_printuris) {
 		goto cleanup;
 	}
 	MSG(NL, "\n");
@@ -711,7 +701,7 @@ int pacman_sync(list_t *targets)
 	}
 	MSG(CL, "done.\n");
 
-	if(pmo_s_downloadonly) {
+	if(config->op_s_downloadonly) {
 		goto cleanup;
 	}
 
@@ -722,7 +712,7 @@ int pacman_sync(list_t *targets)
 		goto cleanup;
 	}
 
-	if(!varcache && !pmo_s_downloadonly) {
+	if(!varcache && !config->op_s_downloadonly) {
 		/* delete packages */
 		for(i = files; i; i = i->next) {
 			unlink(i->data);

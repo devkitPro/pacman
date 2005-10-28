@@ -35,6 +35,7 @@
 #include "log.h"
 #include "list.h"
 #include "download.h"
+#include "conf.h"
 
 /* progress bar */
 static char sync_fnm[25];
@@ -45,12 +46,7 @@ static int xfered1;
 static unsigned char eta_h, eta_m, eta_s;
 
 /* pacman options */
-extern char *pmo_proxyhost;
-extern char *pmo_xfercommand;
-
-extern unsigned short pmo_proxyport;
-extern unsigned short pmo_nopassiveftp;
-extern unsigned short pmo_chomp;
+extern pmconfig_t *config;
 
 extern int maxcols;
 
@@ -98,7 +94,7 @@ static int log_progress(netbuf *ctl, int xfered, void *arg)
 	printf(" %s [", sync_fnm);
 	cur = (int)((maxcols-64)*pct/100);
 	for(i = 0; i < maxcols-64; i++) {
-		if(pmo_chomp) {
+		if(config->chomp) {
 			if(i < cur) {
 				printf("-");
 			} else {
@@ -204,8 +200,8 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 	for(i = servers; i && !done; i = i->next) {
 		server_t *server = (server_t*)i->data;
 
-		if(!pmo_xfercommand && strcmp(server->protocol, "file")) {
-			if(!strcmp(server->protocol, "ftp") && !pmo_proxyhost) {
+		if(!config->xfercommand && strcmp(server->protocol, "file")) {
+			if(!strcmp(server->protocol, "ftp") && !config->proxyhost) {
 				FtpInit();
 				vprint("connecting to %s:21\n", server->server);
 				if(!FtpConnect(server->server, &control)) {
@@ -223,18 +219,18 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					FtpQuit(control);
 					continue;
 				}
-				if(!pmo_nopassiveftp) {
+				if(!config->nopassiveftp) {
 					if(!FtpOptions(FTPLIB_CONNMODE, FTPLIB_PASSIVE, control)) {
 						fprintf(stderr, "warning: failed to set passive mode\n");
 					}
 				} else {
 					vprint("FTP passive mode not set\n");
 				}
-			} else if(pmo_proxyhost) {
+			} else if(config->proxyhost) {
 				char *host;
 				unsigned port;
-				host = (pmo_proxyhost) ? pmo_proxyhost : server->server;
-				port = (pmo_proxyport) ? pmo_proxyport : 80;
+				host = (config->proxyhost) ? config->proxyhost : server->server;
+				port = (config->proxyport) ? config->proxyport : 80;
 				if(strchr(host, ':')) {
 					vprint("connecting to %s\n", host);
 				} else {
@@ -263,7 +259,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				continue;
 			}
 
-			if(pmo_xfercommand && strcmp(server->protocol, "file")) {
+			if(config->xfercommand && strcmp(server->protocol, "file")) {
 				int ret;
 				int usepart = 0;
 				char *ptr1, *ptr2;
@@ -275,7 +271,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				snprintf(url, PATH_MAX, "%s://%s%s%s", server->protocol, server->server,
 						server->path, fn);
 				/* replace all occurrences of %o with fn.part */
-				strncpy(origCmd, pmo_xfercommand, sizeof(origCmd));
+				strncpy(origCmd, config->xfercommand, sizeof(origCmd));
 				ptr1 = origCmd;
 				while((ptr2 = strstr(ptr1, "%o"))) {
 					usepart = 1;
@@ -354,7 +350,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				eta_m = 0;
 				eta_s = 0;
 
-				if(!strcmp(server->protocol, "ftp") && !pmo_proxyhost) {
+				if(!strcmp(server->protocol, "ftp") && !config->proxyhost) {
 					if(!FtpSize(fn, &fsz, FTPLIB_IMAGE, control)) {
 						fprintf(stderr, "warning: failed to get filesize for %s\n", fn);
 					}
@@ -395,16 +391,16 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 							filedone = 1;
 						}
 					}
-				} else if(!strcmp(server->protocol, "http") || (pmo_proxyhost && strcmp(server->protocol, "file"))) {
+				} else if(!strcmp(server->protocol, "http") || (config->proxyhost && strcmp(server->protocol, "file"))) {
 					char src[PATH_MAX];
 					char *host;
 					unsigned port;
-					if(!strcmp(server->protocol, "http") && !pmo_proxyhost) {
+					if(!strcmp(server->protocol, "http") && !config->proxyhost) {
 						/* HTTP servers hang up after each request (but not proxies), so
 						 * we have to re-connect for each file.
 						 */
-						host = (pmo_proxyhost) ? pmo_proxyhost : server->server;
-						port = (pmo_proxyhost) ? pmo_proxyport : 80;
+						host = (config->proxyhost) ? config->proxyhost : server->server;
+						port = (config->proxyhost) ? config->proxyport : 80;
 						if(strchr(host, ':')) {
 							vprint("Connecting to %s\n", host);
 						} else {
@@ -426,7 +422,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					if(!stat(output, &st)) {
 						offset = (int)st.st_size;
 					}
-					if(!pmo_proxyhost) {
+					if(!config->proxyhost) {
 						snprintf(src, PATH_MAX, "%s%s", server->path, fn);
 					} else {
 						snprintf(src, PATH_MAX, "%s://%s%s%s", server->protocol, server->server, server->path, fn);
@@ -475,10 +471,10 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				fflush(stdout);
 			}
 		}
-		if(!pmo_xfercommand) {
-			if(!strcmp(server->protocol, "ftp") && !pmo_proxyhost) {
+		if(!config->xfercommand) {
+			if(!strcmp(server->protocol, "ftp") && !config->proxyhost) {
 				FtpQuit(control);
-			} else if(!strcmp(server->protocol, "http") || (pmo_proxyhost && strcmp(server->protocol, "file"))) {
+			} else if(!strcmp(server->protocol, "http") || (config->proxyhost && strcmp(server->protocol, "file"))) {
 				HttpQuit(control);
 			}
 		}

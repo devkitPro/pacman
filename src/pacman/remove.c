@@ -29,8 +29,9 @@
 #include "log.h"
 #include "list.h"
 #include "trans.h"
+#include "conf.h"
 
-extern unsigned char pmo_flags;
+extern pmconfig_t *config;
 
 extern PM_DB *db_local;
 
@@ -73,7 +74,7 @@ int pacman_remove(list_t *targets)
 
 	/* Step 1: create a new transaction
 	 */
-	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, pmo_flags, cb_trans_evt, cb_trans_conv) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
 		goto error;
 	}
@@ -106,7 +107,7 @@ int pacman_remove(list_t *targets)
 
 	/* Warn user in case of dangerous operation
 	 */
-	if(pmo_flags & PM_TRANS_FLAG_RECURSE || pmo_flags & PM_TRANS_FLAG_CASCADE) {
+	if(config->flags & PM_TRANS_FLAG_RECURSE || config->flags & PM_TRANS_FLAG_CASCADE) {
 		PM_LIST *lp;
 		/* list transaction targets */
 		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
