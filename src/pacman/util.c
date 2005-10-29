@@ -77,7 +77,6 @@ int rmrf(char *path)
 	struct dirent *dp;
 	DIR *dirp;
 	char name[PATH_MAX];
-	extern int errno;
 
 	if(!unlink(path)) {
 		return(0);
