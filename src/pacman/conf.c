@@ -38,21 +38,21 @@
 
 extern list_t *pmc_syncs;
 
-pmconfig_t *config_new()
+config_t *config_new()
 {
-	pmconfig_t *config;
+	config_t *config;
 
-	config = (pmconfig_t *)malloc(sizeof(pmconfig_t));
+	config = (config_t *)malloc(sizeof(config_t));
 	if(config == NULL) {
 		return(NULL);
 	}
 
-	memset(config, 0, sizeof(pmconfig_t));
+	memset(config, 0, sizeof(config_t));
 
 	return(config);
 }
 
-int config_free(pmconfig_t *config)
+int config_free(config_t *config)
 {
 	if(config == NULL) {
 		return(-1);
@@ -71,7 +71,7 @@ int config_free(pmconfig_t *config)
 	return(0);
 }
 
-int parseconfig(pmconfig_t *config)
+int parseconfig(config_t *config)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];

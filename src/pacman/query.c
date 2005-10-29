@@ -34,7 +34,7 @@
 #include "log.h"
 #include "conf.h"
 
-extern pmconfig_t *config;
+extern config_t *config;
 extern PM_DB *db_local;
 
 static int query_fileowner(PM_DB *db, char *filename)

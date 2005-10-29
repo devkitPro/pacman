@@ -31,7 +31,7 @@
 #include "trans.h"
 #include "conf.h"
 
-extern pmconfig_t *config;
+extern config_t *config;
 
 int pacman_add(list_t *targets)
 {

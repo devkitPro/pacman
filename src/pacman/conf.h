@@ -21,7 +21,7 @@
 #ifndef _PM_CONF_H
 #define _PM_CONF_H
 
-typedef struct __pmconfig_t {
+typedef struct __config_t {
 	/* command line options */
 	char *root;
 	char *dbpath;
@@ -59,12 +59,12 @@ typedef struct __pmconfig_t {
 	unsigned short chomp;
 	unsigned short nopassiveftp;
 	list_t *holdpkg;
-} pmconfig_t;
+} config_t;
 
 #define FREECONF(p) do { if(p) { config_free(p); p = NULL; } } while(0)
-pmconfig_t *config_new();
-int config_free(pmconfig_t *config);
-int parseconfig(pmconfig_t *config);
+config_t *config_new();
+int config_free(config_t *config);
+int parseconfig(config_t *config);
 
 #endif /* _PM_CONF_H */
 

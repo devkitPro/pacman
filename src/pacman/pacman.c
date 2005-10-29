@@ -48,7 +48,7 @@
 #include "sync.h"
 #include "pacman.h"
 
-pmconfig_t *config = NULL;
+config_t *config = NULL;
 
 PM_DB *db_local;
 /* list of (sync_t *) structs for sync locations */
@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
 	/* parse the command line */
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
+		config_free(config);
 		exit(ret);
 	}
 

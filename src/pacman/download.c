@@ -46,7 +46,7 @@ static int xfered1;
 static unsigned char eta_h, eta_m, eta_s;
 
 /* pacman options */
-extern pmconfig_t *config;
+extern config_t *config;
 
 extern int maxcols;
 

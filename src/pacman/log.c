@@ -33,7 +33,7 @@
 
 #define LOG_STR_LEN 256
 
-extern pmconfig_t *config;
+extern config_t *config;
 
 static int neednl; /* for cleaner message output */
 
@@ -41,7 +41,7 @@ static int neednl; /* for cleaner message output */
  */
 void cb_log(unsigned short level, char *msg)
 {
-	char str[8] = "";
+	char str[9] = "";
 
 	switch(level) {
 		case PM_LOG_DEBUG:
