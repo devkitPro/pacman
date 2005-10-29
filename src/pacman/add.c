@@ -29,6 +29,7 @@
 #include "list.h"
 #include "download.h"
 #include "trans.h"
+#include "add.h"
 #include "conf.h"
 
 extern config_t *config;

@@ -29,6 +29,7 @@
 #include "log.h"
 #include "list.h"
 #include "trans.h"
+#include "remove.h"
 #include "conf.h"
 
 extern config_t *config;

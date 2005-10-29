@@ -27,6 +27,7 @@
 /* pacman */
 #include "list.h"
 #include "add.h"
+#include "upgrade.h"
 #include "conf.h"
 
 extern config_t *config;
