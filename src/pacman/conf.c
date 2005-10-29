@@ -71,7 +71,7 @@ int config_free(config_t *config)
 	return(0);
 }
 
-int parseconfig(config_t *config)
+int parseconfig(char *file, config_t *config)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];
@@ -85,7 +85,7 @@ int parseconfig(config_t *config)
 		return(-1);
 	}
 
-	fp = fopen(config->configfile, "r");
+	fp = fopen(file, "r");
 	if(fp == NULL) {
 		return(0);
 	}
@@ -169,7 +169,7 @@ int parseconfig(config_t *config)
 					char conf[PATH_MAX];
 					strncpy(conf, ptr, PATH_MAX);
 					vprint("config: including %s\n", conf);
-					parseconfig(conf);
+					parseconfig(conf, config);
 				} else if(!strcmp(section, "options")) {
 					if(!strcmp(key, "NOUPGRADE")) {
 						char *p = ptr;
