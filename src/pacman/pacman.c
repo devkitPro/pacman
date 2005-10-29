@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 	}
 
 	if(config->root == NULL) {
-		config->root = strdup("/");
+		config->root = strdup(PACROOT);
 	}
 
 	/* add a trailing '/' if there isn't one */
@@ -143,14 +143,14 @@ int main(int argc, char *argv[])
 	if(config->configfile == NULL) {
 		config->configfile = strdup(PACCONF);
 	}
-	if(parseconfig(config) == -1) {
+	if(parseconfig(config->configfile, config) == -1) {
 		cleanup(1);
 	}
 	if(config->dbpath == NULL) {
-		config->dbpath = strdup("var/lib/pacman");
+		config->dbpath = strdup(PACDB);
 	}
 	if(config->cachedir == NULL) {
-		config->cachedir = strdup("var/cache/pacman");
+		config->cachedir = strdup(PACCACHE);
 	}
 
 	/* set library parameters */
