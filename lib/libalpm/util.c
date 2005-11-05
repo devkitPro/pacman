@@ -24,12 +24,14 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <ctype.h>
 #include <dirent.h>
 #include <time.h>
 #include <syslog.h>
+#include <sys/wait.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -39,8 +41,6 @@
 #include "log.h"
 #include "util.h"
 #include "alpm.h"
-
-static char *chrootbin = NULL;
 
 /* borrowed and modified from Per Liden's pkgutils (http://crux.nu) */
 long _alpm_gzopen_frontend(char *pathname, int oflags, int mode)
@@ -271,7 +271,6 @@ int _alpm_rmrf(char *path)
 	struct dirent *dp;
 	DIR *dirp;
 	char name[PATH_MAX];
-	extern int errno;
 
 	if(!unlink(path)) {
 		return(0);
@@ -362,27 +361,11 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	char *scriptpath;
 	struct stat buf;
 	char cwd[PATH_MAX];
+	pid_t pid;
 
 	if(stat(installfn, &buf)) {
 		/* not found */
 		return(0);
-	}
-
-	if(chrootbin == NULL) {
-		char *dirs[] = {"/usr/sbin","/usr/bin","/sbin","/bin"};
-		int i;
-		for(i = 0; i < 4 && !chrootbin; i++) {
-			char cpath[PATH_MAX];
-			snprintf(cpath, PATH_MAX, "%s/chroot", dirs[i]);
-			if(!stat(cpath, &buf)) {
-				chrootbin = strdup(cpath);
-				_alpm_log(PM_LOG_FLOW2, "found chroot binary: %s", chrootbin);
-			}
-		}
-		if(chrootbin == NULL) {
-			_alpm_log(PM_LOG_ERROR, "cannot find chroot binary - unable to run scriptlet");
-			return(1);
-		}
 	}
 
 	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
@@ -420,16 +403,41 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	chdir("/");
 
 	_alpm_log(PM_LOG_FLOW2, "executing %s script...", script);
+
 	if(oldver) {
-		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s %s\" | %s %s /bin/sh",
-				scriptpath, script, ver, oldver, chrootbin, root);
+		snprintf(cmdline, PATH_MAX, "source %s %s %s %s",
+				scriptpath, script, ver, oldver);
 	} else {
-		snprintf(cmdline, PATH_MAX, "echo \"umask 0022; source %s %s %s\" | %s %s /bin/sh",
-				scriptpath, script, ver, chrootbin, root);
+		snprintf(cmdline, PATH_MAX, "source %s %s %s",
+				scriptpath, script, ver);
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s", cmdline);
-	system(cmdline);
-	
+
+	pid = fork();
+	if(pid == -1) {
+		_alpm_log(PM_LOG_ERROR, "could not fork a new process (%s)", strerror(errno));
+		chdir(cwd);
+		return(1);
+	}
+
+	if(pid == 0) {
+		_alpm_log(PM_LOG_DEBUG, "chrooting in %s", root);
+		if(chroot(root) != 0) {
+			_alpm_log(PM_LOG_ERROR, "could not change the root directory (%s)", strerror(errno));
+			return (1);
+		}
+		umask(0022);
+		_alpm_log(PM_LOG_DEBUG, "executing \"%s\"", cmdline);
+		execl("/bin/sh", "sh", "-c", cmdline, (char *)0);
+		exit(0);
+	} else {
+		if(waitpid(pid, 0, 0) == -1) {
+			_alpm_log(PM_LOG_ERROR, "call to waitpid failed (%s)", strerror(errno));
+			chdir(cwd);
+			return(1);
+		}
+	}
+
 	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
 		_alpm_log(PM_LOG_WARNING, "could not remove tmpdir %s", tmpdir);
 	}
