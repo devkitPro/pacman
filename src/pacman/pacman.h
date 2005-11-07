@@ -43,7 +43,7 @@ int parseargs(int argc, char **argv);
 
 void usage(int op, char *myname);
 
-void version();
+void version(void);
 
 char *buildstring(list_t *strlist);
 

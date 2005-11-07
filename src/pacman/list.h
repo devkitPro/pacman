@@ -31,7 +31,7 @@ typedef struct __list_t {
 
 #define FREELIST(p) do { if(p) { list_free(p); p = NULL; } } while(0)
 
-list_t *list_new();
+list_t *list_new(void);
 void list_free(list_t* list);
 list_t *list_add(list_t* list, void *data);
 int list_count(list_t* list);
