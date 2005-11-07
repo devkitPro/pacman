@@ -144,10 +144,10 @@ pmpkg_t* pkg_dummy(const char *name, const char *version)
 	}
 
 	if(name) {
-		STRNCPY(pkg->name, name, PKG_NAME_LEN-1);
+		STRNCPY(pkg->name, name, PKG_NAME_LEN);
 	}
 	if(version) {
-		STRNCPY(pkg->version, version, PKG_VERSION_LEN-1);
+		STRNCPY(pkg->version, version, PKG_VERSION_LEN);
 	}
 
 	return(pkg);

@@ -262,7 +262,6 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 
 int alpm_db_update(PM_DB *db, char *archive, char *ts)
 {
-	struct stat buf;
 	PMList *lp;
 
 	/* Sanity checks */
@@ -300,7 +299,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	/* uncompress the sync database */
 	/* ORE
 	we should not simply unpack the archive, but better parse it and 
-	db_write each entry */
+	db_write each entry (see sync_load_dbarchive to get archive content) */
 	_alpm_log(PM_LOG_FLOW2, "unpacking %s", archive);
 	if(_alpm_unpack(archive, db->path, NULL)) {
 		RET_ERR(PM_ERR_XXX, -1);
