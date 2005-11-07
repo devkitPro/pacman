@@ -86,7 +86,7 @@ do { \
 	} \
 } while(0)
 
-pmpkg_t* pkg_new();
+pmpkg_t* pkg_new(void);
 pmpkg_t *pkg_dup(pmpkg_t *pkg);
 void pkg_free(pmpkg_t *pkg);
 pmpkg_t* pkg_dummy(const char *name, const char *version);

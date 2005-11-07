@@ -52,7 +52,7 @@ typedef struct __pmhandle_t {
 
 #define FREEHANDLE(p) do { if (p) { handle_free(p); p = NULL; } } while (0)
 
-pmhandle_t *handle_new();
+pmhandle_t *handle_new(void);
 int handle_free(pmhandle_t *handle);
 int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data);
 int handle_get_option(pmhandle_t *handle, unsigned char val, long *data);

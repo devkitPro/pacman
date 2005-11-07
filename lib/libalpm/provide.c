@@ -26,6 +26,7 @@
 #include "cache.h"
 #include "list.h"
 #include "db.h"
+#include "provide.h"
 
 /* return a PMList of packages in "db" that provide "package"
  */

@@ -61,7 +61,7 @@ do { \
 	} \
 } while(0)
 
-pmtrans_t *trans_new();
+pmtrans_t *trans_new(void);
 void trans_free(pmtrans_t *trans);
 int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv);
 int trans_sysupgrade(pmtrans_t *trans);

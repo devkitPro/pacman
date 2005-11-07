@@ -41,7 +41,7 @@ typedef struct __pmgrp_t {
 	FREELIST(p); \
 } while(0)
 
-pmgrp_t *grp_new();
+pmgrp_t *grp_new(void);
 void grp_free(pmgrp_t *grp);
 int grp_cmp(const void *g1, const void *g2);
 

@@ -51,7 +51,7 @@ typedef struct __pmdepmissing_t PM_DEPMISS;
  */
 
 int alpm_initialize(char *root);
-int alpm_release();
+int alpm_release(void);
 
 /*
  * Logging facilities
@@ -255,11 +255,11 @@ enum {
 
 void *alpm_trans_getinfo(unsigned char parm);
 int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv);
-int alpm_trans_sysupgrade();
+int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);
-int alpm_trans_commit();
-int alpm_trans_release();
+int alpm_trans_commit(void);
+int alpm_trans_release(void);
 
 /*
  * Dependencies
