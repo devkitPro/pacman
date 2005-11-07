@@ -32,8 +32,6 @@
 #include "list.h"
 #include "util.h"
 
-unsigned short pmo_verbose = 0;
-
 int main(int argc, char* argv[])
 {
 	FILE* db = NULL;
