@@ -267,6 +267,11 @@ pmpkg_t *pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
+	/* ORE
+	 * We should get the name and version information from the file name
+	 * by using pkg_splitname()
+	 */
+
 	for(i = 0; !th_read(tar); i++) {
 		if(config && filelist && scriptcheck) {
 			/* we have everything we need */
@@ -281,16 +286,20 @@ pmpkg_t *pkg_load(char *pkgfile)
 			tar_extract_file(tar, descfile);
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
+				_alpm_log(PM_LOG_ERROR, "could not parse the package description file");
+				pm_errno = PM_ERR_PKG_INVALID;
 				FREE(descfile);
 				goto error;
 			}
 			if(!strlen(info->name)) {
 				_alpm_log(PM_LOG_ERROR, "missing package name in %s", pkgfile);
+				pm_errno = PM_ERR_PKG_INVALID;
 				FREE(descfile);
 				goto error;
 			}
 			if(!strlen(info->version)) {
 				_alpm_log(PM_LOG_ERROR, "missing package version in %s", pkgfile);
+				pm_errno = PM_ERR_PKG_INVALID;
 				FREE(descfile);
 				goto error;
 			}
