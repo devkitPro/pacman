@@ -74,7 +74,7 @@ void sync_free(pmsyncpkg_t *sync)
 	free(sync);
 }
 
-/* Test for existance of a package in a PMList* of pmsyncpkg_t*
+/* Test for existence of a package in a PMList* of pmsyncpkg_t*
  * If found, return a pointer to the respective pmsyncpkg_t*
  */
 static pmsyncpkg_t* find_pkginsync(char *needle, PMList *haystack)
@@ -487,13 +487,17 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	remove any conflicting packages (WITHOUT dep checks) */
 
 	/* remove to-be-replaced packages */
-	tr = trans_new(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS);
-	/* ORE */
+	tr = trans_new();
+
 	if(tr == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not create removal transaction");
 		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
+
+	/* ORE
+	trans_init(PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAGS_NODEPS); */
+
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		if(sync->type == PM_SYNC_TYPE_REPLACE) {
