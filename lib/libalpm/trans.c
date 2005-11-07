@@ -66,8 +66,7 @@ void trans_free(pmtrans_t *trans)
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
 		PMList *i;
 		for(i = trans->packages; i; i = i->next) {
-			sync_free(i->data);
-			i->data = NULL;
+			FREESYNC(i->data);
 		}
 		FREELIST(trans->packages);
 		FREELIST(trans->skiplist);
