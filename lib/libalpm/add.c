@@ -447,17 +447,20 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				if(nb) {
 					char *temp;
 					char *md5_local, *md5_pkg;
+					int fd;
 
-					md5_local = MDFile(expath);
 					/* extract the package's version to a temporary file and md5 it */
 					temp = strdup("/tmp/alpm_XXXXXX");
-					mkstemp(temp);
+					fd = mkstemp(temp);
 					if(tar_extract_file(tar, temp)) {
 						alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
 						errors++;
-						FREE(md5_local);
+						unlink(temp);
+						FREE(temp);
+						close(fd);
 						continue;
 					}
+					md5_local = MDFile(expath);
 					md5_pkg = MDFile(temp);
 					/* append the new md5 hash to it's respective entry in info->backup
 					 * (it will be the new orginal)
@@ -550,6 +553,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					FREE(md5_orig);
 					unlink(temp);
 					FREE(temp);
+					close(fd);
 				} else {
 					if(!notouch) {
 						_alpm_log(PM_LOG_FLOW2, "extracting %s", pathname);

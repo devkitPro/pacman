@@ -279,32 +279,41 @@ pmpkg_t *pkg_load(char *pkgfile)
 		}
 		if(!strcmp(th_get_pathname(tar), ".PKGINFO")) {
 			char *descfile;
+			int fd;
 
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
-			mkstemp(descfile);
+			fd = mkstemp(descfile);
 			tar_extract_file(tar, descfile);
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
 				_alpm_log(PM_LOG_ERROR, "could not parse the package description file");
 				pm_errno = PM_ERR_PKG_INVALID;
+				unlink(descfile);
 				FREE(descfile);
+				close(fd);
 				goto error;
 			}
 			if(!strlen(info->name)) {
 				_alpm_log(PM_LOG_ERROR, "missing package name in %s", pkgfile);
 				pm_errno = PM_ERR_PKG_INVALID;
+				unlink(descfile);
 				FREE(descfile);
+				close(fd);
 				goto error;
 			}
 			if(!strlen(info->version)) {
 				_alpm_log(PM_LOG_ERROR, "missing package version in %s", pkgfile);
 				pm_errno = PM_ERR_PKG_INVALID;
+				unlink(descfile);
 				FREE(descfile);
+				close(fd);
 				goto error;
 			}
 			config = 1;
+			unlink(descfile);
 			FREE(descfile);
+			close(fd);
 			continue;
 		} else if(!strcmp(th_get_pathname(tar), "._install") || !strcmp(th_get_pathname(tar), ".INSTALL")) {
 			info->scriptlet = 1;
@@ -314,10 +323,11 @@ pmpkg_t *pkg_load(char *pkgfile)
 			FILE *fp;
 			char *fn;
 			char *str;
+			int fd;
 			
 			MALLOC(str, PATH_MAX);
 			fn = strdup("/tmp/alpm_XXXXXX");
-			mkstemp(fn);
+			fd = mkstemp(fn);
 			tar_extract_file(tar, fn);
 			fp = fopen(fn, "r");
 			while(!feof(fp)) {
@@ -333,6 +343,7 @@ pmpkg_t *pkg_load(char *pkgfile)
 				_alpm_log(PM_LOG_WARNING, "could not remove tempfile %s", fn);
 			}
 			FREE(fn);
+			close(fd);
 			filelist = 1;
 			continue;
 		} else {
