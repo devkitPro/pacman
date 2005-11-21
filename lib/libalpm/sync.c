@@ -139,7 +139,6 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 
 	/* check for "recommended" package replacements */
 	for(i = dbs_sync; i; i = i->next) {
-		PMList *j;
 		for(j = db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *spkg = j->data;
 			for(k = spkg->replaces; k; k = k->next) {
