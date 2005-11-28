@@ -140,7 +140,7 @@ db_write_entry()
 
 if [ $# -lt 2 ]; then
 	usage
-	exit 0
+	exit 1
 fi
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
@@ -169,12 +169,14 @@ for file in `find $rootdir/* -name PKGBUILD`; do
 	else
 		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
 	fi
-	[ -f $pkgfile ] || die "missing package file: $pkgfile"
-	csize=`du -b $pkgfile | cut -f1`
-	pkgmd5sum=`get_md5checksum $pkgfile`
-	[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
-	db_write_entry $file
-	[ $? -gt 0 ] && die "error writing entry for $file"
+	if [ -f $pkgfile ]; then
+		csize=`du -b $pkgfile | cut -f1`
+		pkgmd5sum=`get_md5checksum $pkgfile`
+		[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
+		db_write_entry $file || die "error writing entry for $file"
+	else
+		echo "gensync: missing package: $pkgfile" >&2
+	fi
 done
 
 echo "gensync: compressing to $destfile..." >&2

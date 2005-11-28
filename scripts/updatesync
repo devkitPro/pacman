@@ -157,7 +157,7 @@ delete_entry()
 
 if [ $# -lt 3 ]; then
 	usage
-	exit 0
+	exit 1
 fi
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
@@ -210,12 +210,15 @@ if [ "$action" = "upd" ]; then
 	else
 		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
 	fi
-	[ -f $pkgfile ] || die "missing package file: $pkgfile"
-	csize=`du -b $pkgfile | cut -f1`
-	pkgmd5sum=`get_md5checksum $pkgfile`
-	[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
-	echo "updatesync: creating entry for $option" >&2
-	db_write_entry $option || die "error writing entry for $option"
+	if [ -f $pkgfile ]; then
+		csize=`du -b $pkgfile | cut -f1`
+		pkgmd5sum=`get_md5checksum $pkgfile`
+		[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
+		echo "updatesync: creating entry for $option" >&2
+		db_write_entry $option || die "error writing entry for $option"
+	else
+		echo "updatesync: missing package: $pkgfile" >&2
+	fi
 else
 	# DELETE
 	delete_entry $option
