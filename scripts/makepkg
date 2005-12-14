@@ -591,6 +591,15 @@ if [ "$NOBUILD" = "1" ]; then
 	exit 0
 fi
 
+# use distcc if requested
+if [ "$DISTCC" = "y" ]; then
+	[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
+	if [ "$INCHROOT" = "1" ]; then
+		[ -d /var/tmp/fst/.distcc ] || mkdir /var/tmp/fst/.distcc
+		export DISTCC_DIR=/var/tmp/fst/.distcc
+	fi
+fi
+
 # use ccache if it's available
 if [ "$NOCCACHE" = "0" ]; then
 	[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
