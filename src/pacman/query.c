@@ -33,9 +33,12 @@
 #include "query.h"
 #include "log.h"
 #include "conf.h"
+#include "sync.h"
+#include "util.h"
 
 extern config_t *config;
 extern PM_DB *db_local;
+extern list_t *pmc_syncs;
 
 static int query_fileowner(PM_DB *db, char *filename)
 {
@@ -90,6 +93,8 @@ int pacman_query(list_t *targets)
 {
 	PM_PKG *info = NULL;
 	list_t *targ;
+	list_t *i;
+	PM_LIST *j;
 	char *package = NULL;
 	int done = 0;
 
@@ -98,6 +103,23 @@ int pacman_query(list_t *targets)
 			return(1);
 		}
 		return(0);
+	}
+
+	if(config->op_q_foreign) {
+		if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
+			ERR(NL, "no usable package repositories configured.\n");
+			return(1);
+		}
+
+		/* open the database(s) */
+		for(i = pmc_syncs; i; i = i->next) {
+			sync_t *sync = i->data;
+			sync->db = alpm_db_register(sync->treename);
+			if(sync->db == NULL) {
+				ERR(NL, "%s\n", alpm_strerror(pm_errno));
+				return(1);
+			}
+		}
 	}
 
 	for(targ = targets; !done; targ = (targ ? targ->next : NULL)) {
@@ -182,12 +204,35 @@ int pacman_query(list_t *targets)
 				pkgname = alpm_pkg_getinfo(tmpp, PM_PKG_NAME);
 				pkgver = alpm_pkg_getinfo(tmpp, PM_PKG_VERSION);
 
-				if(config->op_q_list || config->op_q_orphans) {
+				if(config->op_q_list || config->op_q_orphans || config->op_q_foreign) {
 					info = alpm_db_readpkg(db_local, pkgname);
 					if(info == NULL) {
 						/* something weird happened */
 						ERR(NL, "package \"%s\" not found\n", pkgname);
 						return(1);
+					}
+					if(config->op_q_foreign) {
+						int match = 0;
+						for(i = pmc_syncs; i; i = i->next) {
+							sync_t *sync = (sync_t *)i->data;
+							for(j = alpm_db_getpkgcache(sync->db); j; j = alpm_list_next(j)) {
+								PM_PKG *pkg = alpm_list_getdata(j);
+								char *haystack;
+								char *needle;
+								haystack = strdup(alpm_pkg_getinfo(pkg, PM_PKG_NAME));
+								strtoupper(haystack);
+								needle = strdup(alpm_pkg_getinfo(info, PM_PKG_NAME));
+								strtoupper(needle);
+								if(strstr(haystack, needle)) {
+									match = 1;
+								}
+								FREE(haystack);
+								FREE(needle);
+							}
+						}
+						if(match==0) {
+							MSG(NL, "%s %s\n", pkgname, pkgver);
+						}
 					}
 					if(config->op_q_list) {
 						dump_pkg_files(info);

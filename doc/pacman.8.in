@@ -105,6 +105,10 @@ dependencies, conflicts, etc.
 List all files in the specified repositories.  Multiple repositories can
 be specified on the command line.
 .TP
+.B "\-m, \-\-foreign"
+List all packages that were not found in the sync database(s). Typically these
+are packages that were downloading manually and installed with --add.
+.TP
 .B "\-p, \-\-print-uris"
 Print out URIs for each specified package and its dependencies.  These
 can be piped to a file and downloaded at a later time, using a program

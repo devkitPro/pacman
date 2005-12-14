@@ -38,6 +38,7 @@ typedef struct __config_t {
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;
 	unsigned short op_q_list;
+	unsigned short op_q_foreign;
 	unsigned short op_q_orphans;
 	unsigned short op_q_owns;
 	unsigned short op_q_search;
