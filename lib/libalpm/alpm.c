@@ -56,7 +56,7 @@
 pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
 
-/** @defgroup interface Interface Functions
+/** @defgroup alpm_interface Interface Functions
  * @{
  */
 
@@ -133,7 +133,7 @@ int alpm_release()
 }
 /** @} */
 
-/** @defgroup options Library Options
+/** @defgroup alpm_options Library Options
  * @{
  */
 
@@ -155,7 +155,7 @@ int alpm_get_option(unsigned char parm, long *data)
 }
 /** @} */
 
-/** @defgroup databases Database Functions
+/** @defgroup alpm_databases Database Functions
  * @{
  */
 
@@ -353,7 +353,7 @@ PMList *alpm_db_getgrpcache(pmdb_t *db)
 }
 /** @} */
 
-/** @defgroup packages Package Functions
+/** @defgroup alpm_packages Package Functions
  * @{
  */
 
@@ -483,7 +483,7 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 }
 /** @} */
 
-/** @defgroup groups Group Functions
+/** @defgroup alpm_groups Group Functions
  * @{
  */
 
@@ -506,7 +506,7 @@ void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
 }
 /** @} */
 
-/** @defgroup sync Sync Functions
+/** @defgroup alpm_sync Sync Functions
  * @{
  */
 
@@ -530,7 +530,7 @@ void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
 }
 /** @} */
 
-/** @defgroup trans Transaction Functions
+/** @defgroup alpm_trans Transaction Functions
  * @{
  */
 
@@ -651,7 +651,7 @@ int alpm_trans_release()
 }
 /** @} */
 
-/** @defgroup dep Dependency Functions
+/** @defgroup alpm_dep Dependency Functions
  * @{
  */
 
@@ -677,7 +677,7 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 }
 /** @} */
 
-/** @defgroup log Logging Functions
+/** @defgroup alpm_log Logging Functions
  * @{
  */
 
@@ -710,7 +710,7 @@ int alpm_logaction(char *fmt, ...)
 }
 /** @} */
 
-/** @defgroup list List Manipulation Functions
+/** @defgroup alpm_list List Manipulation Functions
  * @{
  */
 
@@ -743,7 +743,7 @@ int alpm_list_free(PMList *entry)
 }
 /** @} */
 
-/** @defgroup misc Miscellaneous Functions
+/** @defgroup alpm_misc Miscellaneous Functions
  * @{
  */
 
