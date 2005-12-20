@@ -28,6 +28,11 @@
 
 #define FREE(p) do { if (p) { free(p); (p) = NULL; }} while(0)
 
+#define STRNCPY(s1, s2, len) do { \
+	strncpy(s1, s2, (len)-1); \
+	s1[(len)-1] = 0; \
+} while(0)
+
 int makepath(char *path);
 int rmrf(char *path);
 void indentprint(char *str, int indent);

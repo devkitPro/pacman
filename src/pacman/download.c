@@ -451,7 +451,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					if(!strcmp(server->protocol, "file")) {
 						char out[56];
 						printf(" %s [", sync_fnm);
-						strncpy(out, server->path, 33);
+						STRNCPY(out, server->path, 33);
 						printf("%s", out);
 						for(j = strlen(out); j < maxcols-64; j++) {
 							printf(" ");
