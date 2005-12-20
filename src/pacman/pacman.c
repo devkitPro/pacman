@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
 	}
   config->op    = PM_OP_MAIN;
   config->debug |= PM_LOG_WARNING;
+  config->verbose = 1;
 
 	/* parse the command line */
 	ret = parseargs(argc, argv);
