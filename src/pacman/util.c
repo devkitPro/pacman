@@ -36,8 +36,11 @@
 
 /* pacman */
 #include "util.h"
+#include "list.h"
+#include "conf.h"
 
 extern int maxcols;
+extern config_t *config;
 
 /* does the same thing as 'mkdir -p' */
 int makepath(char *path)
@@ -192,6 +195,8 @@ int yesno(char *fmt, ...)
 	char response[32];
 	va_list args;
 
+	if(!config->noconfirm)
+	{
 	va_start(args, fmt);
 	vprintf(fmt, args);
 	va_end(args);
@@ -217,6 +222,9 @@ int yesno(char *fmt, ...)
 		}
 	}
 	return(0);
+	} else {
+		return(1);
+	}
 }
 
 /* match a string against a regular expression */
