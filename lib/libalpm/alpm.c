@@ -34,7 +34,7 @@
 /* pacman */
 #include "log.h"
 #include "error.h"
-#include "rpmvercmp.h"
+#include "versioncmp.h"
 #include "md5.h"
 #include "list.h"
 #include "package.h"
@@ -479,7 +479,7 @@ int alpm_pkg_free(pmpkg_t *pkg)
 
 int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
-	return(rpmvercmp(ver1, ver2));
+	return(versioncmp(ver1, ver2));
 }
 /** @} */
 

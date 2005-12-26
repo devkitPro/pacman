@@ -1,5 +1,5 @@
 /*
- *  rpmvercmp.h
+ *  versioncmp.h
  * 
  *  Copyright (c) 2002 by Judd Vinet <jvinet@zeroflux.org>
  * 
@@ -18,10 +18,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
  *  USA.
  */
-#ifndef _PM_RPMVERCMP_H
-#define _PM_RPMVERCMP_H
+#ifndef _PM_VERSIONCMP_H
+#define _PM_VERSIONCMP_H
 
-int rpmvercmp(const char *a, const char *b);
+int versioncmp(const char *a, const char *b);
 
 #endif
 

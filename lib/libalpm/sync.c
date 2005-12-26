@@ -40,7 +40,7 @@
 #include "deps.h"
 #include "trans.h"
 #include "sync.h"
-#include "rpmvercmp.h"
+#include "versioncmp.h"
 #include "handle.h"
 #include "alpm.h"
 
@@ -214,7 +214,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 		}
 
 		/* compare versions and see if we need to upgrade */
-		cmp = rpmvercmp(local->version, spkg->version);
+		cmp = versioncmp(local->version, spkg->version);
 		if(cmp > 0 && !spkg->force) {
 			/* local version is newer */
 			_alpm_log(PM_LOG_FLOW1, "%s-%s: local version is newer",

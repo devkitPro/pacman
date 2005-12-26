@@ -15,7 +15,7 @@ TARGETS = md5driver.c \
 	conflict.c \
 	deps.c \
 	provide.c \
-	rpmvercmp.c \
+	versioncmp.c \
 	backup.c \
 	trans.c \
 	add.c \

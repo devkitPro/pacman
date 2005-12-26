@@ -32,7 +32,7 @@
 #include "cache.h"
 #include "provide.h"
 #include "deps.h"
-#include "rpmvercmp.h"
+#include "versioncmp.h"
 #include "handle.h"
 
 extern pmhandle_t *handle;
@@ -193,7 +193,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						for(ptr = ver; *ptr != '-'; ptr++);
 						*ptr = '\0';
 					}
-					cmp = rpmvercmp(ver, depend.version);
+					cmp = versioncmp(ver, depend.version);
 					switch(depend.mod) {
 						case PM_DEP_MOD_EQ: found = (cmp == 0); break;
 						case PM_DEP_MOD_GE: found = (cmp >= 0); break;
@@ -330,7 +330,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 								for(ptr = ver; *ptr != '-'; ptr++);
 								*ptr = '\0';
 							}
-							cmp = rpmvercmp(ver, depend.version);
+							cmp = versioncmp(ver, depend.version);
 							switch(depend.mod) {
 								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
 								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
@@ -358,7 +358,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 								for(ptr = ver; *ptr != '-'; ptr++);
 								*ptr = '\0';
 							}
-							cmp = rpmvercmp(ver, depend.version);
+							cmp = versioncmp(ver, depend.version);
 							switch(depend.mod) {
 								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
 								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
@@ -387,7 +387,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 								for(ptr = ver; *ptr != '-'; ptr++);
 								*ptr = '\0';
 							}
-							cmp = rpmvercmp(ver, depend.version);
+							cmp = versioncmp(ver, depend.version);
 							switch(depend.mod) {
 								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
 								case PM_DEP_MOD_GE: found = (cmp >= 0); break;

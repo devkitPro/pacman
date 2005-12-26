@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "rpmvercmp.h"
+#include "versioncmp.h"
 
 int main(int argc, char *argv[])
 {
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 		return(0);
 	}
 	
-	ret = rpmvercmp(s1, s2);
+	ret = versioncmp(s1, s2);
 	printf("%d\n", ret);
 	return(ret);
 }

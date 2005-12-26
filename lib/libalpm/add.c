@@ -35,7 +35,7 @@
 #include "error.h"
 #include "list.h"
 #include "cache.h"
-#include "rpmvercmp.h"
+#include "versioncmp.h"
 #include "md5.h"
 #include "log.h"
 #include "backup.h"
@@ -137,7 +137,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
 			/* only upgrade/install this package if it is already installed and at a lesser version */
 			dummy = db_get_pkgfromcache(db, pkgname);
-			if(dummy == NULL || rpmvercmp(dummy->version, pkgver) >= 0) {
+			if(dummy == NULL || versioncmp(dummy->version, pkgver) >= 0) {
 				pm_errno = PM_ERR_PKG_CANT_FRESH;
 				goto error;
 			}
@@ -149,7 +149,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	for(i = trans->packages; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
 		if(strcmp(pkg->name, pkgname) == 0) {
-			if(rpmvercmp(pkg->version, pkgver) < 0) {
+			if(versioncmp(pkg->version, pkgver) < 0) {
 				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, pkgver);
 				FREEPKG(i->data);
 				i->data = pkg_load(name);

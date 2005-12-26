@@ -33,7 +33,7 @@
 /* pacman */
 #include "util.h"
 #include "error.h"
-#include "rpmvercmp.h"
+#include "versioncmp.h"
 #include "md5.h"
 #include "log.h"
 #include "backup.h"
