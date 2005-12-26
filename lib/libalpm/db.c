@@ -348,6 +348,20 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				if(fgets(info->md5sum, sizeof(info->md5sum), fp) == NULL) {
 					return(-1);
 				}
+			/* XXX: these are only here as backwards-compatibility for pacman 2.x
+			 * sync repos.... in pacman3, they have been moved to DEPENDS.
+			 * Remove this when we move to pacman3 repos.
+			 */
+			} else if(!strcmp(line, "%REPLACES%")) {
+				/* the REPLACES tag is special -- it only appears in sync repositories,
+				 * not the local one. */
+				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
+					info->replaces = pm_list_add(info->replaces, strdup(line));
+				}
+			} else if(!strcmp(line, "%FORCE%")) {
+				/* FORCE tag only appears in sync repositories,
+				 * not the local one. */
+				info->force = 1;
 			}
 		}
 		fclose(fp);

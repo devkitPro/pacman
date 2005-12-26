@@ -112,6 +112,13 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 					(char *)alpm_pkg_getinfo(data2, PM_PKG_NAME));
 			*response = yesno(str);
 		break;
+		case PM_TRANS_CONV_CONFLICT_PKG:
+			snprintf(str, LOG_STR_LEN, "\n:: %s conflicts with %s. Remove %s? [Y/n] ",
+					(char *)data1,
+					(char *)data2,
+					(char *)data2);
+			*response = yesno(str);
+		break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] ",
 					(char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
