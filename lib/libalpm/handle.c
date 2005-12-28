@@ -87,9 +87,11 @@ int handle_free(pmhandle_t *handle)
 	FREETRANS(handle->trans);
 	FREE(handle->root);
 	FREE(handle->dbpath);
+	FREE(handle->cachedir);
 	FREE(handle->logfile);
 	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
+	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);
 	free(handle);
 
