@@ -293,7 +293,6 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
-			alpm_logaction("removed %s (%s)", info->name, info->version);
 		}
 	}
 
