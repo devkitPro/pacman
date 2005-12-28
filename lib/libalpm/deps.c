@@ -613,7 +613,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				FREELISTPTR(provides);
 			}
 			if(sync == NULL) {
-				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set", miss->target, miss->depend.name);
+				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)", miss->target, miss->depend.name);
 				pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
 				goto error;
 			}
