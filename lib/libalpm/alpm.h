@@ -21,6 +21,10 @@
 #ifndef _ALPM_H
 #define _ALPM_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Arch Linux Package Management library
  */
@@ -363,6 +367,10 @@ extern enum __pmerrno_t {
 } pm_errno;
 
 char *alpm_strerror(int err);
+
+#ifdef  __cplusplus
+}
+#endif
 
 #endif /* _ALPM_H */
 
