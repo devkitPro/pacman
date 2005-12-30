@@ -508,7 +508,7 @@ if [ "$GENMD5" = "0" ]; then
 			case $file in
 				*.tar.gz|*.tar.Z|*.tgz)
 				cmd="tar --use-compress-program=gzip -xf $file" ;;
-				*.tar.bz2)
+				*.tar.bz2|*.tbz2)
 				cmd="tar --use-compress-program=bzip2 -xf $file" ;;
 				*.tar)
 				cmd="tar -xf $file" ;;
