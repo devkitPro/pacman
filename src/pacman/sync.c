@@ -454,6 +454,10 @@ int pacman_sync(list_t *targets)
 			if(alpm_trans_addtarget(targ) == -1) {
 				PM_GRP *grp = NULL;
 				list_t *j;
+				if(pm_errno == PM_ERR_TRANS_DUP_TARGET) {
+					/* just ignore duplicate targets */
+					continue;
+				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
 					ERR(NL, "could not add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
 					retval = 1;
