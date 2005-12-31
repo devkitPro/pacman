@@ -78,6 +78,9 @@ void db_free_pkgcache(pmdb_t *db)
 		return;
 	}
 
+	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'",
+	                        db->treename);
+
 	FREELISTPKGS(db->pkgcache);
 
 	if(db->grpcache) {
