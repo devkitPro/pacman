@@ -187,8 +187,12 @@ static int sync_synctree(list_t *syncs)
 		} else {
 			snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, root, dbpath, sync->treename);
 			if(alpm_db_update(sync->db, path, newmtime) == -1) {
-				ERR(NL, "failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
-				success--;
+				if(pm_errno != PM_ERR_DB_UPTODATE) {
+					ERR(NL, "failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
+					success--;
+				} else {
+					MSG(NL, ":: %s is up to date\n", sync->treename);
+				}
 			}
 			/* remove the .tar.gz */
 			unlink(path);
