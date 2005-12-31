@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
 	int ret = 0;
 	char *cenv = NULL;
 	uid_t myuid;
+	list_t *lp;
 
 #ifndef CYGWIN
 	/* debug */
@@ -170,6 +171,13 @@ int main(int argc, char *argv[])
 	if(alpm_set_option(PM_OPT_CACHEDIR, (long)config->cachedir) == -1) {
 		ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
 		cleanup(1);
+	}
+
+  for(lp = config->op_s_ignore; lp; lp = lp->next) {
+		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
+			ERR(NL, "failed to set option IGNOREPKG (%s)\n", alpm_strerror(pm_errno));
+			cleanup(1);
+		}
 	}
 	
 	if(config->verbose > 1) {
