@@ -110,7 +110,6 @@ int main(int argc, char* argv[])
 		}
 		fputs("%FILES%\n", fp);
 		while(fgets(line, 255, db) && strcmp(_alpm_strtrim(line), "")) {
-			_alpm_strtrim(line);
 			ptr = line;
 
 			/* check for backup designation and frontslashes that shouldn't be there */
