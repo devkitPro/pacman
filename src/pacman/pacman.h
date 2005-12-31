@@ -21,9 +21,6 @@
 #ifndef _PM_PACMAN_H
 #define _PM_PACMAN_H
 
-#define PACROOT  "/"
-#define PACDB    "var/lib/pacman"
-#define PACCACHE "var/cache/pacman"
 #define PACCONF  "/etc/pacman.conf"
 
 /* Operations */

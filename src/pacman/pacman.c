@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 	}
 
 	if(config->root == NULL) {
-		config->root = strdup(PACROOT);
+		config->root = strdup(PM_ROOT);
 	}
 
 	/* add a trailing '/' if there isn't one */
@@ -148,10 +148,10 @@ int main(int argc, char *argv[])
 		cleanup(1);
 	}
 	if(config->dbpath == NULL) {
-		config->dbpath = strdup(PACDB);
+		config->dbpath = strdup(PM_DBPATH);
 	}
 	if(config->cachedir == NULL) {
-		config->cachedir = strdup(PACCACHE);
+		config->cachedir = strdup(PM_CACHEDIR);
 	}
 
 	/* set library parameters */
