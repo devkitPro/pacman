@@ -593,7 +593,6 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 
 	/* remove to-be-replaced packages */
 	tr = trans_new();
-
 	if(tr == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not create removal transaction");
 		pm_errno = PM_ERR_XXX;
@@ -622,14 +621,12 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
 		if(trans_prepare(tr, &data) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not prepare removal transaction");
-			pm_errno = PM_ERR_XXX;
 			goto error;
 		}
 		/* we want the frontend to be aware of commit details */
 		tr->cb_event = trans->cb_event;
 		if(trans_commit(tr) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not commit removal transaction");
-			pm_errno = PM_ERR_XXX;
 			goto error;
 		}
 	}
@@ -645,7 +642,6 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	}
 	if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags | PM_TRANS_FLAG_NODEPS, NULL, NULL) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not initialize transaction");
-		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
 	for(i = trans->packages; i; i = i->next) {
@@ -669,14 +665,12 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	}
 	if(trans_prepare(tr, &data) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not prepare transaction");
-		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
 	/* we want the frontend to be aware of commit details */
 	tr->cb_event = trans->cb_event;
 	if(trans_commit(tr) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not commit transaction");
-		pm_errno = PM_ERR_XXX;
 		goto error;
 	}
 	FREETRANS(tr);
