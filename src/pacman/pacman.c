@@ -90,9 +90,8 @@ int main(int argc, char *argv[])
 		ERR(NL, "could not allocate memory for pacman config data.\n");
 		return(1);
 	}
-  config->op    = PM_OP_MAIN;
-  config->debug |= PM_LOG_WARNING;
-  config->verbose = 1;
+  config->op = PM_OP_MAIN;
+  config->debug |= PM_LOG_WARNING | PM_LOG_ERROR;
 
 	/* parse the command line */
 	ret = parseargs(argc, argv);
