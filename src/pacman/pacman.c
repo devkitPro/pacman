@@ -75,11 +75,6 @@ int main(int argc, char *argv[])
 		maxcols = atoi(cenv);
 	}
 
-	if(argc < 2) {
-		usage(PM_OP_MAIN, basename(argv[0]));
-		return(0);
-	}
-
 	/* set signal handlers */
 	signal(SIGINT, cleanup);
 	signal(SIGTERM, cleanup);
@@ -90,8 +85,8 @@ int main(int argc, char *argv[])
 		ERR(NL, "could not allocate memory for pacman config data.\n");
 		return(1);
 	}
-  config->op = PM_OP_MAIN;
-  config->debug |= PM_LOG_WARNING | PM_LOG_ERROR;
+	config->op = PM_OP_MAIN;
+	config->debug |= PM_LOG_WARNING | PM_LOG_ERROR;
 
 	/* parse the command line */
 	ret = parseargs(argc, argv);
@@ -179,7 +174,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	
-	if(config->verbose > 1) {
+	if(config->verbose > 0) {
 		printf("Root  : %s\n", config->root);
 		printf("DBPath: %s\n", config->dbpath);
 		list_display("Targets:", pm_targets);
@@ -200,7 +195,6 @@ int main(int argc, char *argv[])
 		case PM_OP_QUERY:   ret = pacman_query(pm_targets);   break;
 		case PM_OP_SYNC:    ret = pacman_sync(pm_targets);    break;
 		case PM_OP_DEPTEST: ret = pacman_deptest(pm_targets); break;
-		case PM_OP_MAIN:    ret = 0; break;
 		default:
 			ERR(NL, "no operation specified (use -h for help)\n");
 			ret = 1;

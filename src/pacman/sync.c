@@ -253,7 +253,7 @@ static int sync_group(list_t *syncs, list_t *targets)
 				PM_GRP *grp = alpm_list_getdata(lp);
 
 				MSG(NL, "%s/%s\n", (char *)sync->treename, (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
-				if(config->verbose > 1) {
+				if(config->verbose > 0) {
 					PM_LIST_display("   ", alpm_grp_getinfo(grp, PM_GRP_PKGNAMES));
 				}
 			}

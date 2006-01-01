@@ -103,7 +103,7 @@ void vprint(char *fmt, ...)
 {
 	va_list args;
 
-	if(config->verbose > 1) {
+	if(config->verbose > 0) {
 		if(neednl == 1) {
 			fprintf(stdout, "\n");
 			neednl = 0;
