@@ -382,7 +382,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
-			int found;
+			int found = 0;
 			PMList *j, *k;
 			int errorout = 0;
 
@@ -418,16 +418,14 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				/* check if the conflicting package is one that's about to be removed/replaced.
 				 * if so, then just ignore it
 				 */
-				found = 0;
 				for(j = trans->packages; j && !found; j = j->next) {
 					pmsyncpkg_t *sync = j->data;
-					if(sync->type != PM_SYNC_TYPE_REPLACE) {
-						continue;
-					}
-					for(k = sync->data; k && !found; k = k->next) {
-						pmpkg_t *p = k->data;
-						if(!strcmp(p->name, miss->depend.name)) {
-							found = 1;
+					if(sync->type == PM_SYNC_TYPE_REPLACE || sync->type == PM_SYNC_TYPE_REMOVE) {
+						for(k = sync->data; k && !found; k = k->next) {
+							pmpkg_t *p = k->data;
+							if(!strcmp(p->name, miss->depend.name)) {
+								found = 1;
+							}
 						}
 					}
 				}
@@ -479,8 +477,11 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 								if(rmpkg) {
 									for(k = trans->packages; k; k = k->next) {
 										pmsyncpkg_t *sync = k->data;
-										if(!strcmp(sync->pkg->name, rmpkg))
-											trans->packages = _alpm_list_remove(trans->packages, sync, ptr_cmp, (void **)&data);
+										if(!strcmp(sync->pkg->name, rmpkg)) {
+											pmsyncpkg_t *spkg;
+											trans->packages = _alpm_list_remove(trans->packages, sync, ptr_cmp, (void **)&spkg);
+											FREESYNC(spkg);
+										}
 									}
 									solved = 1;
 									FREE(rmpkg);
@@ -599,7 +600,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		goto error;
 	}
 
-	trans_init(tr, PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS, trans->cb_event, trans->cb_conv);
+	trans_init(tr, PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS, NULL, NULL);
 
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
