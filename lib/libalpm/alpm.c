@@ -224,7 +224,7 @@ int alpm_db_unregister(pmdb_t *db)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
+	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
 		db_close(handle->db_local);
@@ -272,7 +272,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* Do not update a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
+	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	if(!pm_list_is_in(db, handle->dbs_sync)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);

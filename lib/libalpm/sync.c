@@ -286,7 +286,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 
 	local = db_get_pkgfromcache(db_local, name);
 	if(local) {
-		cmp = alpm_pkg_vercmp(local->version, spkg->version);
+		cmp = versioncmp(local->version, spkg->version);
 		if(cmp > 0) {
 			/* local version is newer -- get confirmation before adding */
 			int resp = 0;
@@ -340,6 +340,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 	PMList *deps = NULL;
 	PMList *list = NULL;
 	PMList *trail = NULL;
+	PMList *asked = NULL;
 	PMList *i;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -359,8 +360,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_FLOW1, "resolving targets dependencies");
 		for(i = trans->packages; i; i = i->next) {
-			pmsyncpkg_t *sync = i->data;
-			pmpkg_t *spkg = sync->pkg;
+			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
 			_alpm_log(PM_LOG_FLOW1, "resolving dependencies for package %s", spkg->name);
 			if(resolvedeps(db_local, dbs_sync, spkg, list, trail, trans) == -1) {
 				/* pm_errno is set by resolvedeps */
@@ -368,6 +368,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			}
 		}
 		for(i = list; i; i = i->next) {
+			/* add the dependencies found by resolvedeps to the transaction set */
 			pmpkg_t *spkg = i->data;
 			if(!find_pkginsync(spkg->name, trans->packages)) {
 				pmsyncpkg_t *sync = sync_new(PM_SYNC_TYPE_DEPEND, spkg, NULL);
@@ -382,8 +383,9 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
 			int found;
-			PMList *j, *k, *asked = NULL;
+			PMList *j, *k;
 			int errorout = 0;
+
 			_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
 			for(i = deps; i; i = i->next) {
 				pmdepmissing_t *miss = i->data;
@@ -392,21 +394,20 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 						errorout = 1;
 					}
 					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-						FREELIST(deps);
 						FREELIST(*data);
-						RET_ERR(PM_ERR_MEMORY, -1);
+						pm_errno = PM_ERR_MEMORY;
+						goto error;
 					}
 					*miss = *(pmdepmissing_t *)i->data;
 					*data = pm_list_add(*data, miss);
 				}
 			}
 			if(errorout) {
-				FREELIST(deps);
-				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
+				pm_errno = PM_ERR_UNSATISFIED_DEPS;
+				goto error;
 			}
 
 			/* no unresolvable deps, so look for conflicts */
-			errorout = 0;
 			_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
 			for(i = deps; i && !errorout; i = i->next) {
 				pmdepmissing_t *miss = i->data;
@@ -482,6 +483,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 											trans->packages = _alpm_list_remove(trans->packages, sync, ptr_cmp, (void **)&data);
 									}
 									solved = 1;
+									FREE(rmpkg);
 								}
 							}
 						}
@@ -518,8 +520,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 												/* switch this sync type to REPLACE */
 												s->type = PM_SYNC_TYPE_REPLACE;
 												/* add miss->depend.name to the replaces list */
-												k = pm_list_new();
-												k = pm_list_add(k, q);
+												k = pm_list_add(NULL, q);
 												s->data = k;
 											}
 										}
@@ -537,22 +538,22 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					}
 				}
 			}
-
+			FREELIST(deps);
 			if(errorout) {
-				FREELIST(deps);
-				RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
+				pm_errno = PM_ERR_CONFLICTING_DEPS;
+				goto error;
 			}
 		}
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 
 		FREELISTPTR(list);
 		FREELISTPTR(trail);
+		FREELIST(asked);
 	}
 
-	/* ORE
-	any packages in rmtargs need to be removed from final.
-	rather than ripping out nodes from final, we just copy over
-	our "good" nodes to a new list and reassign. */
+	/* any packages in rmtargs need to be removed from final. */
+	/* rather than ripping out nodes from final, we just copy over */
+	/* our "good" nodes to a new list and reassign. */
 
 	/* XXX: this fails for cases where a requested package wants
 	 *      a dependency that conflicts with an older version of
@@ -574,6 +575,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 error:
 	FREELISTPTR(list);
 	FREELISTPTR(trail);
+	FREELIST(asked);
 	FREELIST(deps);
 	return(-1);
 }
@@ -584,14 +586,12 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	PMList *data;
 	pmtrans_t *tr = NULL;
 	int replaces = 0;
+	int removal = 0;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	/* ORE
-	remove any conflicting packages (WITHOUT dep checks) */
-
-	/* remove to-be-replaced packages */
+	/* remove conflicting and to-be-replaced packages */
 	tr = trans_new();
 	if(tr == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not create removal transaction");
@@ -604,21 +604,28 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			PMList *pkgs = sync->data;
 			PMList *j;
-			for(j = pkgs; j; j = j->next) {
+			for(j = sync->data; j; j = j->next) {
 				pmpkg_t *pkg = j->data;
 				if(!pkg_isin(pkg, tr->packages)) {
 					if(trans_addtarget(tr, pkg->name) == -1) {
 						goto error;
 					}
+					replaces++;
 				}
 			}
-			replaces++;
+		} else if(sync->type == PM_SYNC_TYPE_REMOVE) {
+			pmpkg_t *pkg = sync->data;
+			if(!pkg_isin(pkg, tr->packages)) {
+				if(trans_addtarget(tr, pkg->name) == -1) {
+					goto error;
+				}
+				removal++;
+			}
 		}
 	}
-	if(replaces) {
-		_alpm_log(PM_LOG_FLOW1, "removing to-be-replaced packages");
+	if(replaces+removal != 0) {
+		_alpm_log(PM_LOG_FLOW1, "removing conflicting and to-be-replaced packages");
 		if(trans_prepare(tr, &data) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not prepare removal transaction");
 			goto error;

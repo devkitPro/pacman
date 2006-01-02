@@ -130,7 +130,6 @@ int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 	}
 
 	db->pkgcache = _alpm_list_remove(db->pkgcache, pkg, pkg_cmp, (void **)&data);
-
 	if(data == NULL) {
 		/* package not found */
 		return(-1);
