@@ -273,6 +273,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		lp = db_find_conflicts(db, trans->packages, handle->root, &skiplist);
 		if(lp != NULL) {
 			*data = lp;
+			FREELIST(skiplist);
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
 
