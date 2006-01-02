@@ -1,7 +1,7 @@
 ENV_CFLAGS=$CFLAGS
 
 AC_PREREQ(2.59)
-AC_INIT([Pacman package manager], 0.9.5, [pacman-dev@archlinux.org], pacman)
+AC_INIT([Pacman package manager], 2.9.9, [pacman-dev@archlinux.org], pacman)
 AC_LANG(C)
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_SYSTEM
@@ -28,13 +28,8 @@ AC_SUBST(PM_MICRO_VERSION)
 AC_SUBST(PM_VERSION)
 AC_SUBST(PM_VERSION_INFO)
 
-dnl Define here the pacman binary program version number
-PACMAN_VERSION=2.9.9
-AC_SUBST(PACMAN_VERSION)
-
 dnl Put out version numbers to config.h
 AC_DEFINE_UNQUOTED([PM_VERSION], ["$PM_VERSION"], [libalpm version number])
-AC_DEFINE_UNQUOTED([PACMAN_VERSION], ["$PACMAN_VERSION"], [pacman version number])
 
 AC_PROG_CC
 AC_HEADER_STDC
@@ -140,6 +135,8 @@ src/pacman/Makefile
 src/util/Makefile
 scripts/Makefile
 doc/Makefile
+doc/makepkg.8
+doc/pacman.8
 Makefile
 ])
 
