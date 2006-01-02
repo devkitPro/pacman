@@ -183,7 +183,8 @@ void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm);
 enum {
 	PM_SYNC_TYPE_REPLACE = 1,
 	PM_SYNC_TYPE_UPGRADE,
-	PM_SYNC_TYPE_DEPEND
+	PM_SYNC_TYPE_DEPEND,
+	PM_SYNC_TYPE_REMOVE
 };
 /* Info parameters */
 enum {
@@ -235,7 +236,7 @@ enum {
 
 /* Transaction Conversations (ie, questions) */
 enum {
-	PM_TRANS_CONV_INSTALL_IGNOREPKG,
+	PM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
 	PM_TRANS_CONV_REPLACE_PKG,
 	PM_TRANS_CONV_CONFLICT_PKG,
 	PM_TRANS_CONV_LOCAL_NEWER,
@@ -279,7 +280,7 @@ enum {
 	PM_DEP_TYPE_REQUIRED,
 	PM_DEP_TYPE_CONFLICT
 };
-/* Dependencies parameters */
+/* Info parameters */
 enum {
 	PM_DEP_TARGET = 1,
 	PM_DEP_TYPE,
@@ -291,17 +292,16 @@ enum {
 void *alpm_dep_getinfo(PM_DEPMISS *miss, unsigned char parm);
 
 /*
- * PM_LIST helpers
+ * Helpers
  */
+ 
+/* PM_LIST */
 PM_LIST *alpm_list_first(PM_LIST *list);
 PM_LIST *alpm_list_next(PM_LIST *entry);
 void *alpm_list_getdata(PM_LIST *entry);
 int alpm_list_free(PM_LIST *entry);
 
-/*
- * Helpers
- */
- 
+/* md5sums */
 char *alpm_get_md5sum(char *name);
 
 /*
