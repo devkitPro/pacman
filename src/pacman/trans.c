@@ -87,8 +87,8 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 			MSG(CL, "done.\n");
 			snprintf(str, LOG_STR_LEN, "upgraded %s (%s -> %s)",
 			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION),
-			                   (char *)alpm_pkg_getinfo(data2, PM_PKG_VERSION));
+			                   (char *)alpm_pkg_getinfo(data2, PM_PKG_VERSION),
+			                   (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
 			alpm_logaction(str);
 		break;
 	}

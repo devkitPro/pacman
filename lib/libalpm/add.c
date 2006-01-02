@@ -150,13 +150,15 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		pmpkg_t *pkg = i->data;
 		if(strcmp(pkg->name, pkgname) == 0) {
 			if(versioncmp(pkg->version, pkgver) < 0) {
+				pmpkg_t *newpkg;
 				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, pkgver);
-				FREEPKG(i->data);
-				i->data = pkg_load(name);
-				if(i->data == NULL) {
+				newpkg = pkg_load(name);
+				if(newpkg == NULL) {
 					/* pm_errno is already set by pkg_load() */
 					goto error;
 				}
+				FREEPKG(i->data);
+				i->data = newpkg;
 			}
 			return(0);
 		}
@@ -245,11 +247,10 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 					*data = pm_list_add(*data, miss);
 				}
 			}
+			FREELIST(lp);
 			if(errorout) {
-				FREELIST(lp);
 				RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
 			}
-			FREELIST(lp);
 		}
 
 		/* re-order w.r.t. dependencies */
@@ -695,11 +696,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
-		if(pmo_upgrade) {
-			EVENT(trans, PM_TRANS_EVT_UPGRADE_DONE, oldpkg, info);
-		} else {
-			EVENT(trans, PM_TRANS_EVT_ADD_DONE, info, NULL);
-		}
+		EVENT(trans, (pmo_upgrade) ? PM_TRANS_EVT_UPGRADE_DONE : PM_TRANS_EVT_ADD_DONE, info, oldpkg);
 
 		FREEPKG(oldpkg);
 	}

@@ -29,8 +29,6 @@ extern "C" {
  * Arch Linux Package Management library
  */
 
-/* #define PM_VERSION "0.1.0" */ /* Comes from autoconf's config.h */
-
 #define PM_ROOT     "/"
 #define PM_DBPATH   "var/lib/pacman"
 #define PM_CACHEDIR "var/cache/pacman/pkg"
