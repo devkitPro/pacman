@@ -495,27 +495,47 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 {
 	PMList *i, *j, *k;
 	PMList *newtargs = targs;
+	char realpkgname[255];
 
 	if(db == NULL) {
 		return(newtargs);
 	}
 
 	for(i = targs; i; i = i->next) {
-		pmpkg_t *pkg = (pmpkg_t*)i->data;
-		for(j = pkg->depends; j; j = j->next) {
+		for(j = ((pmpkg_t *)i->data)->depends; j; j = j->next) {
 			pmdepend_t depend;
 			pmpkg_t *dep;
 			int needed = 0;
-			splitdep(j->data, &depend);
+
+			if(splitdep(j->data, &depend)) {
+				continue;
+			}
+
 			dep = db_get_pkgfromcache(db, depend.name);
+			if(dep == NULL) {
+				/* package not found... look for a provisio instead */
+				k = _alpm_db_whatprovides(db, depend.name);
+				if(k == NULL) {
+					_alpm_log(PM_LOG_WARNING, "cannot find package \"%s\" or anything that provides it!", depend.name);
+					continue;
+				}
+				dep = db_get_pkgfromcache(db, ((pmpkg_t *)k->data)->name);
+				if(dep == NULL) {
+					_alpm_log(PM_LOG_ERROR, "dep is NULL!");
+					continue;
+				}
+				FREELISTPTR(k);
+			}
 			if(pkg_isin(dep, targs)) {
 				continue;
 			}
+
 			/* see if it was explicitly installed */
 			if(dep->reason == PM_PKG_REASON_EXPLICIT) {
 				_alpm_log(PM_LOG_FLOW2, "excluding %s -- explicitly installed", dep->name);
 				needed = 1;
 			}
+
 			/* see if other packages need it */
 			for(k = dep->requiredby; k && !needed; k = k->next) {
 				pmpkg_t *dummy = db_get_pkgfromcache(db, k->data);
@@ -525,10 +545,16 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 			}
 			if(!needed) {
 				char *name;
+				pmpkg_t *pkg = pkg_dummy(dep->name, dep->version);
+				if(pkg == NULL) {
+					_alpm_log(PM_LOG_ERROR, "could not allocate memory for a package structure");
+					continue;
+				}
 				asprintf(&name, "%s-%s", dep->name, dep->version);
 				/* add it to the target list */
-				db_read(db, name, INFRQ_ALL, dep);
-				newtargs = pm_list_add(newtargs, dep);
+				db_read(db, name, INFRQ_ALL, pkg);
+				newtargs = pm_list_add(newtargs, pkg);
+				_alpm_log(PM_LOG_FLOW2, "adding %s to the targets", pkg->name);
 				newtargs = removedeps(db, newtargs);
 				FREE(name);
 			}
