@@ -146,7 +146,7 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip
 									 * Our workaround is to scan through all "old" packages and all "new"
 									 * ones, looking for files that jump to different packages.
 									 */
-									*skip_list = pm_list_add(*skip_list, filestr);
+									*skip_list = pm_list_add(*skip_list, strdup(filestr));
 								}
 								FREEPKG(dbpkg2);
 							}
