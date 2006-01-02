@@ -191,7 +191,6 @@ error:
 int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 {
 	PMList *lp;
-	PMList *skiplist = NULL;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -266,6 +265,8 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
+		PMList *skiplist = NULL;
+
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for file conflicts");
@@ -280,6 +281,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		for(lp = skiplist; lp; lp = lp->next) {
 			trans->skiplist = pm_list_add(trans->skiplist, lp->data);
 		}
+		FREELISTPTR(skiplist);
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
 	}
@@ -459,6 +461,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						errors++;
 						unlink(temp);
 						FREE(temp);
+						FREE(md5_orig);
 						close(fd);
 						continue;
 					}
