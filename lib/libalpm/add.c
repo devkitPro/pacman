@@ -364,7 +364,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					}
 					/* copy the skiplist over */
 					for(lp = trans->skiplist; lp; lp = lp->next) {
-						tr->skiplist = pm_list_add(tr->skiplist, lp->data);
+						tr->skiplist = pm_list_add(tr->skiplist, strdup(lp->data));
 					}
 					if(remove_commit(tr, db) == -1) {
 						FREETRANS(tr);
