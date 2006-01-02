@@ -1,11 +1,18 @@
 ENV_CFLAGS=$CFLAGS
 
 AC_PREREQ(2.59)
-AC_INIT([Pacman package manager], 0.9.5, [bugreport@somemail.org], pacman)
+AC_INIT([Pacman package manager], 0.9.5, [pacman-dev@archlinux.org], pacman)
 AC_LANG(C)
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE
+
+dnl Host dependant flags
+case "${host}" in
+	*-*-cygwin*)
+		ENV_CFLAGS="$ENV_CFLAGS -DCYGWIN"
+		;;
+esac
 
 dnl Define here the libalpm version number
 PM_MAJOR_VERSION=0
