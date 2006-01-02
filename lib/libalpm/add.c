@@ -202,13 +202,12 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	/* Check dependencies
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		PMList *i;
-
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
 		lp = checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
+			PMList *i;
 			int errorout = 0;
 
 			/* look for unsatisfied dependencies */
