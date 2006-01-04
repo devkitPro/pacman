@@ -32,6 +32,7 @@
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
+#include <time.h>
 #if defined(__unix__)
 #include <sys/time.h>
 #include <sys/types.h>
@@ -1512,18 +1513,35 @@ static int HttpXfer(const char *localfile, const char *path, int *size,
  * return 1 if successful, 0 otherwise
  */
 GLOBALREF int HttpGet(const char *host, const char *outputfile, const char *path,
-		int *size, netbuf *nControl, unsigned int offset)
+		int *size, netbuf *nControl, unsigned int offset,
+		const struct tm *mtime1, struct tm *mtime2)
 {
-	char buf[256];
+	char buf[512];
 
-	if(offset > 0)
-		sprintf(buf, "GET %s HTTP/1.1\r\nHost: %s\r\nRange: bytes=%d-\r\n\r\n", path, host, offset);
-	else
-		sprintf(buf, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
-	if(!HttpSendCmd(buf,'2',nControl))
+	sprintf(buf, "GET %s HTTP/1.1\r\nHost: %s\r\n", path, host);
+	if (offset > 0)
+		sprintf(buf, "%sRange: bytes=%d-\r\n", buf, offset);
+	if (mtime1 && mtime1->tm_year)
+	{
+		char mtime[30];
+		/* Format:
+		 * "If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT\r\n" */
+		strftime(mtime, sizeof(mtime), "%a, %d %b %Y %H:%M:%S GMT", mtime1);
+		sprintf(buf, "%sIf-Modified-Since: %s\r\n", buf, mtime);
+	}
+	sprintf(buf, "%s\r\n", buf);
+
+	if (!HttpSendCmd(buf,'2',nControl))
 	{
 		if (nControl->response[9] == '3')
+		{
+			/* If the answer from the server is 304, the requested file
+			 * hasn't been modified: no need to retrieve it */
+			if (mtime1 && mtime1->tm_year && nControl->response[11] == '4')
+				return 0;
+			/* otherwise, it is a redirection */
 			printf("redirection not supported\n");
+		}
 		return 0;
 	}
 
@@ -1545,8 +1563,45 @@ GLOBALREF int HttpGet(const char *host, const char *outputfile, const char *path
 		if (strstr(nControl->response,"Content-Length"))
 		{
 			sscanf(nControl->response,"Content-Length: %d",size);
-			if(offset > 0)
+			if (offset > 0)
 				*size += offset;
+		}
+		else if (mtime2 && strstr(nControl->response,"Last-Modified"))
+		{
+			/* Format:
+			 * "Last-Modified: Sat, 29 Oct 1994 19:43:31 GMT\r\n" */
+			char *c = nControl->response+20;
+			int mint, j;
+			static const int months[12] = {
+				('J'<<16)|('a'<<8)|'n',
+				('F'<<16)|('e'<<8)|'b',
+				('M'<<16)|('a'<<8)|'r',
+				('A'<<16)|('p'<<8)|'r',
+				('M'<<16)|('a'<<8)|'y',
+				('J'<<16)|('u'<<8)|'n',
+				('J'<<16)|('u'<<8)|'l',
+				('A'<<16)|('u'<<8)|'g',
+				('S'<<16)|('e'<<8)|'p',
+				('O'<<16)|('c'<<8)|'t',
+				('N'<<16)|('o'<<8)|'v',
+				('D'<<16)|('e'<<8)|'c'
+			};
+			mtime2->tm_mday = (c[0]-'0')*10+c[1]-'0';
+			mint = (c[3]<<16)|(c[4]<<8)|c[5];
+			mtime2->tm_mon = 0;
+			for(j = 0; j < 12; j++)
+			{
+				if (mint == months[j]) 
+				{
+					mtime2->tm_mon = j;
+					break;
+				}
+			}
+			mtime2->tm_year = ((c[7]-'0')*10+(c[8]-'0')-19)*100;
+			mtime2->tm_year += (c[9]-'0')*10+c[10]-'0';
+			mtime2->tm_hour = (c[12]-'0')*10+c[13]-'0';
+			mtime2->tm_min = (c[15]-'0')*10+c[16]-'0';
+			mtime2->tm_sec = (c[18]-'0')*10+c[19]-'0';
 		}
 		if (strlen(nControl->response) == 0)
 			break;

@@ -177,7 +177,9 @@ static int sync_synctree(list_t *syncs)
 		snprintf(path, PATH_MAX, "%s%s", root, dbpath);
 
 		ret = downloadfiles_forreal(sync->servers, path, files, lastupdate, newmtime);
-		vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
+		if(strlen(newmtime)) {
+			vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
+		}
 		FREELIST(files);
 		if(ret > 0) {
 			ERR(NL, "failed to synchronize %s\n", sync->treename);
@@ -190,7 +192,7 @@ static int sync_synctree(list_t *syncs)
 				if(pm_errno != PM_ERR_DB_UPTODATE) {
 					ERR(NL, "failed to synchronize %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
 					success--;
-				} else {
+				} else if(!strlen(newmtime)){
 					MSG(NL, ":: %s is up to date\n", sync->treename);
 				}
 			}

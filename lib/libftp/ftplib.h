@@ -121,7 +121,8 @@ GLOBALREF void FtpQuit(netbuf *nControl);
 
 GLOBALREF int HttpConnect(const char *host, unsigned short port, netbuf **nControl);
 GLOBALREF int HttpGet(const char *host, const char *output, const char *path,
-	int *size, netbuf *nControl, unsigned int offset);
+	int *size, netbuf *nControl, unsigned int offset,
+	const struct tm *mtime1, struct tm *mtime2);
 GLOBALREF void HttpQuit(netbuf *nControl);
 
 #ifdef __cplusplus

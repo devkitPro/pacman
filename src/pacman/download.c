@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/time.h>
 #include <ftplib.h>
 
@@ -366,10 +367,11 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 								vprint("mtimes are identical, skipping %s\n", fn);
 								filedone = -1;
 								complete = list_add(complete, fn);
-							}
-							if(mtime2) {								
-								strncpy(mtime2, fmtime, 15); /* YYYYMMDDHHMMSS (=14b) */
-								mtime2[14] = '\0';
+							} else {
+								if(mtime2) {								
+									strncpy(mtime2, fmtime, 15); /* YYYYMMDDHHMMSS (=14b) */
+									mtime2[14] = '\0';
+								}
 							}
 						}
 					}
@@ -395,6 +397,10 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					char src[PATH_MAX];
 					char *host;
 					unsigned port;
+					struct tm fmtime1;
+					struct tm fmtime2;
+					memset(&fmtime1, 0, sizeof(struct tm));
+					memset(&fmtime2, 0, sizeof(struct tm));
 					if(!strcmp(server->protocol, "http") && !config->proxyhost) {
 						/* HTTP servers hang up after each request (but not proxies), so
 						 * we have to re-connect for each file.
@@ -402,9 +408,9 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						host = (config->proxyhost) ? config->proxyhost : server->server;
 						port = (config->proxyhost) ? config->proxyport : 80;
 						if(strchr(host, ':')) {
-							vprint("Connecting to %s\n", host);
+							vprint("connecting to %s\n", host);
 						} else {
-							vprint("Connecting to %s:%u\n", host, port);
+							vprint("connecting to %s:%u\n", host, port);
 						}
 						if(!HttpConnect(host, port, &control)) {
 							fprintf(stderr, "error: cannot connect to %s\n", host);
@@ -427,12 +433,37 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					} else {
 						snprintf(src, PATH_MAX, "%s://%s%s%s", server->protocol, server->server, server->path, fn);
 					}
-					if(!HttpGet(server->server, output, src, &fsz, control, offset)) {
-						fprintf(stderr, "\nfailed downloading %s from %s: %s\n",
-								src, server->server, FtpLastResponse(control));
-						/* we leave the partially downloaded file in place so it can be resumed later */
+					if(mtime1) {
+						/* date conversion from YYYYMMDDHHMMSS to "rfc1123-date" */
+						sscanf(mtime1, "%4d%2d%2d%2d%2d%2d",
+						       &fmtime1.tm_year, &fmtime1.tm_mon, &fmtime1.tm_mday,
+						       &fmtime1.tm_hour, &fmtime1.tm_min, &fmtime1.tm_sec);
+						fmtime1.tm_year -= 1900;
+						fmtime1.tm_mon--;
+						/* ORE - really compute the week day because some web servers (like lighttpd)
+						 * need them.
+						 * Fortunately, Apache does not use it: so our loosy implementation with a
+						 * hardcoded week day will work in almost all cases. */
+						fmtime1.tm_wday = 0;
+					}
+					fmtime2.tm_year = 0;
+					if(!HttpGet(server->server, output, src, &fsz, control, offset, &fmtime1, &fmtime2)) {
+						if(strstr(FtpLastResponse(control), "304")) {
+							vprint("mtimes are identical, skipping %s\n", fn);
+							filedone = -1;
+							complete = list_add(complete, fn);
+						} else {
+							fprintf(stderr, "\nfailed downloading %s from %s: %s\n", src, server->server, FtpLastResponse(control));
+							/* we leave the partially downloaded file in place so it can be resumed later */
+						}
 					} else {
 						filedone = 1;
+					}
+					if(mtime2 && fmtime2.tm_year) {
+						/* date conversion from "rfc1123-date" to YYYYMMDDHHMMSS */
+						sprintf(mtime2, "%4d%02d%02d%02d%02d%02d",
+						        fmtime2.tm_year+1900, fmtime2.tm_mon+1, fmtime2.tm_mday,
+						        fmtime2.tm_hour, fmtime2.tm_min, fmtime2.tm_sec);
 					}
 				} else if(!strcmp(server->protocol, "file")) {
 					char src[PATH_MAX];
