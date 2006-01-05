@@ -660,6 +660,10 @@ int pacman_sync(list_t *targets)
 					MSG(NL, "warning: couldn't create package cache, using /tmp instead");
 					alpm_logaction("warning: couldn't create package cache, using /tmp instead");
 					snprintf(ldir, PATH_MAX, "/tmp");
+					if(alpm_set_option(PM_OPT_CACHEDIR, (long)ldir) == -1) {
+						ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
+						goto cleanup;
+					}
 					varcache = 0;
 				}
 			}
