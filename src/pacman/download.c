@@ -356,7 +356,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						fprintf(stderr, "warning: failed to get filesize for %s\n", fn);
 					}
 					/* check mtimes */
-					if(mtime1 && strlen(mtime1)) {
+					if(mtime1) {
 						char fmtime[64];
 						if(!FtpModDate(fn, fmtime, sizeof(fmtime)-1, control)) {
 							fprintf(stderr, "warning: failed to get mtime for %s\n", fn);
