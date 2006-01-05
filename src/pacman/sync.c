@@ -327,10 +327,7 @@ static int sync_list(list_t *syncs, list_t *targets)
 
 			if(sync == NULL) {
 				ERR(NL, "repository \"%s\" was not found.\n", (char *)i->data);
-				for(j = ls; j; j = j->next) {
-					j->data = NULL;
-				}
-				list_free(ls);
+				FREELISTPTR(ls);
 				return(1);
 			}
 
@@ -352,10 +349,7 @@ static int sync_list(list_t *syncs, list_t *targets)
 	}
 
 	if(targets) {
-		for(i = ls; i; i = i->next) {
-			i->data = NULL;
-		}
-		list_free(ls);
+		FREELISTPTR(ls);
 	}
 
 	return(0);
@@ -514,18 +508,19 @@ int pacman_sync(list_t *targets)
 		goto cleanup;
 	}
 
+	packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
+	if(packages == NULL) {
+		retval = 0;
+		goto cleanup;
+	}
+
 	/* list targets and get confirmation */
 	if(!config->op_s_printuris) {
-		list_t *list = NULL;
+		list_t *list_install = NULL;
+		list_t *list_remove = NULL;
 		char *str;
 		unsigned long totalsize = 0;
 		double mb;
-
-		packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
-		if(packages == NULL) {
-			retval = 0;
-			goto cleanup;
-		}
 
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
 			PM_SYNCPKG *sync = alpm_list_getdata(lp);
@@ -535,18 +530,18 @@ int pacman_sync(list_t *targets)
 				for(j = alpm_list_first(data); j; j = alpm_list_next(j)) {
 					PM_PKG *p = alpm_list_getdata(j);
 					char *pkgname = alpm_pkg_getinfo(p, PM_PKG_NAME);
-					if(!list_is_strin(pkgname, list)) {
-						list = list_add(list, strdup(pkgname));
+					if(!list_is_strin(pkgname, list_remove)) {
+						list_remove = list_add(list_remove, pkgname);
 					}
 				}
 			}
 		}
-		if(list) {
+		if(list_remove) {
 			printf("\nRemove:  ");
-			str = buildstring(list);
+			str = buildstring(list_remove);
 			indentprint(str, 9);
 			printf("\n");
-			FREELIST(list);
+			FREELISTPTR(list_remove);
 			FREE(str);
 		}
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
@@ -556,11 +551,10 @@ int pacman_sync(list_t *targets)
 
 			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
 			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
+			totalsize += (int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
 
 			asprintf(&str, "%s-%s", pkgname, pkgver);
-			list = list_add(list, str);
-
-			totalsize += (int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
+			list_install = list_add(list_install, str);
 		}
 		mb = (double)(totalsize / 1048576.0);
 		/* round up to 0.1 */
@@ -568,10 +562,10 @@ int pacman_sync(list_t *targets)
 			mb = 0.1;
 		}
 		MSG(NL, "\nTargets: ");
-		str = buildstring(list);
+		str = buildstring(list_install);
 		indentprint(str, 9);
 		MSG(NL, "\nTotal Package Size:   %.1f MB\n", mb);
-		FREELIST(list);
+		FREELIST(list_install);
 		FREE(str);
 
 		if(config->op_s_downloadonly) {
@@ -616,7 +610,6 @@ int pacman_sync(list_t *targets)
 			PM_DB *dbs = alpm_pkg_getinfo(spkg, PM_PKG_DATA);
 
 			if(current->db == dbs) {
-				struct stat buf;
 				char path[PATH_MAX];
 				char *pkgname, *pkgver;
 
@@ -633,6 +626,7 @@ int pacman_sync(list_t *targets)
 						    server->server, server->path, path);
 					}
 				} else {
+					struct stat buf;
 					snprintf(path, PATH_MAX, "%s/%s-%s" PM_EXT_PKG, ldir, pkgname, pkgver);
 					if(stat(path, &buf)) {
 						/* file is not in the cache dir, so add it to the list */

@@ -30,6 +30,14 @@ typedef struct __list_t {
 } list_t;
 
 #define FREELIST(p) do { if(p) { list_free(p); p = NULL; } } while(0)
+#define FREELISTPTR(p) do { \
+	list_t *i; \
+	for(i = p; i; i = i->next) { \
+		i->data = NULL; \
+	} \
+	FREELIST(p); \
+} while(0)
+
 
 list_t *list_new(void);
 void list_free(list_t* list);
