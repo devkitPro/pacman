@@ -279,11 +279,8 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	}
 
 	if(ts && strlen(ts) != 0) {
-		char lastupdate[15];
-		if(db_getlastupdate(db, lastupdate) != -1) {
-			if(strcmp(ts, lastupdate) == 0) {
-				RET_ERR(PM_ERR_DB_UPTODATE, -1);
-			}
+		if(strcmp(ts, db->lastupdate) == 0) {
+			RET_ERR(PM_ERR_DB_UPTODATE, -1);
 		}
 	}
 

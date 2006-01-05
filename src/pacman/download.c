@@ -356,7 +356,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						fprintf(stderr, "warning: failed to get filesize for %s\n", fn);
 					}
 					/* check mtimes */
-					if(mtime1 || mtime2) {
+					if(mtime1 && strlen(mtime1)) {
 						char fmtime[64];
 						if(!FtpModDate(fn, fmtime, sizeof(fmtime)-1, control)) {
 							fprintf(stderr, "warning: failed to get mtime for %s\n", fn);
@@ -433,21 +433,30 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					} else {
 						snprintf(src, PATH_MAX, "%s://%s%s%s", server->protocol, server->server, server->path, fn);
 					}
-					if(mtime1) {
+					if(mtime1 && strlen(mtime1)) {
+						struct tm tmref;
+						time_t t, tref;
+						int diff;
 						/* date conversion from YYYYMMDDHHMMSS to "rfc1123-date" */
 						sscanf(mtime1, "%4d%2d%2d%2d%2d%2d",
 						       &fmtime1.tm_year, &fmtime1.tm_mon, &fmtime1.tm_mday,
 						       &fmtime1.tm_hour, &fmtime1.tm_min, &fmtime1.tm_sec);
 						fmtime1.tm_year -= 1900;
 						fmtime1.tm_mon--;
-						/* ORE - really compute the week day because some web servers (like lighttpd)
-						 * need them.
-						 * Fortunately, Apache does not use it: so our loosy implementation with a
-						 * hardcoded week day will work in almost all cases. */
-						fmtime1.tm_wday = 0;
+						/* compute the week day because some web servers (like lighttpd) need them. */
+						/* we set tmref to "Thu, 01 Jan 1970 00:00:00" */
+						memset(&tmref, 0, sizeof(struct tm));
+						tmref.tm_mday = 1;
+						tref = mktime(&tmref);
+						/* then we compute the difference with mtime1 */
+						t = mktime(&fmtime1);
+						diff = ((t-tref)/3600/24)%7;
+						fmtime1.tm_wday = diff+(diff >= 3 ? -3 : 4);
+
 					}
 					fmtime2.tm_year = 0;
-					if(!HttpGet(server->server, output, src, &fsz, control, offset, &fmtime1, &fmtime2)) {
+					if(!HttpGet(server->server, output, src, &fsz, control, offset,
+					            (mtime1) ? &fmtime1 : NULL, (mtime2) ? &fmtime2 : NULL)) {
 						if(strstr(FtpLastResponse(control), "304")) {
 							vprint("mtimes are identical, skipping %s\n", fn);
 							filedone = -1;
@@ -457,13 +466,17 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 							/* we leave the partially downloaded file in place so it can be resumed later */
 						}
 					} else {
+						if(mtime2) {
+						 	if(fmtime2.tm_year) {
+								/* date conversion from "rfc1123-date" to YYYYMMDDHHMMSS */
+								sprintf(mtime2, "%4d%02d%02d%02d%02d%02d",
+								        fmtime2.tm_year+1900, fmtime2.tm_mon+1, fmtime2.tm_mday,
+								        fmtime2.tm_hour, fmtime2.tm_min, fmtime2.tm_sec);
+							} else {
+								fprintf(stderr, "warning: failed to get mtime for %s\n", fn);
+							}
+						}
 						filedone = 1;
-					}
-					if(mtime2 && fmtime2.tm_year) {
-						/* date conversion from "rfc1123-date" to YYYYMMDDHHMMSS */
-						sprintf(mtime2, "%4d%02d%02d%02d%02d%02d",
-						        fmtime2.tm_year+1900, fmtime2.tm_mon+1, fmtime2.tm_mday,
-						        fmtime2.tm_hour, fmtime2.tm_min, fmtime2.tm_sec);
 					}
 				} else if(!strcmp(server->protocol, "file")) {
 					char src[PATH_MAX];

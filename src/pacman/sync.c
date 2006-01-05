@@ -166,7 +166,7 @@ static int sync_synctree(list_t *syncs)
 
 		/* get the lastupdate time */
 		lastupdate = alpm_db_getinfo(sync->db, PM_DB_LASTUPDATE);
-		if(lastupdate == NULL) {
+		if(strlen(lastupdate) == 0) {
 			vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
 		}
 
