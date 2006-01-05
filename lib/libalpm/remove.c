@@ -180,7 +180,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 				snprintf(line, PATH_MAX, "%s%s", handle->root, file);
 				if(lstat(line, &buf)) {
-					_alpm_log(PM_LOG_ERROR, "file %s does not exist", file);
+					_alpm_log(PM_LOG_DEBUG, "file %s does not exist", file);
 					continue;
 				}
 				if(S_ISDIR(buf.st_mode)) {
