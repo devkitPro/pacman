@@ -134,7 +134,7 @@ int main(int argc, char* argv[])
 			snprintf(line, PATH_MAX, "/bin/cp %s %s/install", path, topdir);
 			system(line);
 		}
-		pm_list_free(backup);
+		_alpm_list_free(backup);
 	}
 	umask(oldumask);
 	return(0);

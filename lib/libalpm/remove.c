@@ -164,7 +164,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_FLOW1, "removing files");
 
 			/* iterate through the list backwards, unlinking files */
-			for(lp = pm_list_last(info->files); lp; lp = lp->prev) {
+			for(lp = _alpm_list_last(info->files); lp; lp = lp->prev) {
 				int nb = 0;
 				char *file = lp->data;
 				char *md5 =_alpm_needbackup(lp->data, info->backup);

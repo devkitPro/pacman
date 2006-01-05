@@ -354,7 +354,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			pmsyncpkg_t *sync = i->data;
 			list = pm_list_add(list, sync->pkg);
 		}
-		trail = pm_list_new();
+		trail = _alpm_list_new();
 
 		/* Resolve targets dependencies */
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
@@ -660,9 +660,9 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 		if(trans_addtarget(tr, str) == -1) {
 			goto error;
 		}
-		/* using list_last() is ok because addtarget() adds the new target at the
+		/* using _alpm_list_last() is ok because addtarget() adds the new target at the
 		 * end of the tr->packages list */
-		spkg = pm_list_last(tr->packages)->data;
+		spkg = _alpm_list_last(tr->packages)->data;
 		if(sync->type == PM_SYNC_TYPE_DEPEND) {
 			/* ORE
 			 * if called from makepkg, reason should be set to PM_PKG_REASON_DEPEND */

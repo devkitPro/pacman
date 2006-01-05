@@ -495,7 +495,6 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 {
 	PMList *i, *j, *k;
 	PMList *newtargs = targs;
-	char realpkgname[255];
 
 	if(db == NULL) {
 		return(newtargs);

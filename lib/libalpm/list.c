@@ -27,32 +27,7 @@
 /* pacman */
 #include "list.h"
 
-/* Check PMList sanity
- *
- * 1: List seems to be OK.
- * 0: We're in deep ...
- */
-int _alpm_list_check(PMList* list)
-{
-	PMList* it = NULL;
-
-	if(list == NULL) {
-		return(1);
-	}
-	if(list->last == NULL) {
-		return(0);
-	}
-
-	for(it = list; it && it->next; it = it->next);
-
-	if(it != list->last) {
-		return(0);
-	}
-
-	return(1);
-}
-
-PMList* pm_list_new()
+PMList* _alpm_list_new()
 {
 	PMList *list = NULL;
 	
@@ -67,7 +42,7 @@ PMList* pm_list_new()
 	return(list);
 }
 
-void pm_list_free(PMList *list)
+void _alpm_list_free(PMList *list)
 {
 	PMList *ptr, *it = list;
 
@@ -85,17 +60,17 @@ PMList* pm_list_add(PMList *list, void *data)
 
 	ptr = list;
 	if(ptr == NULL) {
-		ptr = pm_list_new();
+		ptr = _alpm_list_new();
 		if(ptr == NULL) {
 			return(NULL);
 		}
 	}
 
-	lp = pm_list_last(ptr);
+	lp = _alpm_list_last(ptr);
 	if(lp == ptr && lp->data == NULL) {
 		/* nada */
 	} else {
-		lp->next = pm_list_new();
+		lp->next = _alpm_list_new();
 		if(lp->next == NULL) {
 			return(NULL);
 		}
@@ -119,7 +94,7 @@ PMList* pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn)
 	PMList *prev = NULL;
 	PMList *iter = list;
 
-	add = pm_list_new();
+	add = _alpm_list_new();
 	add->data = data;
 
 	/* Find insertion point. */
@@ -209,7 +184,7 @@ PMList *_alpm_list_remove(PMList *haystack, void *needle, pm_fn_cmp fn, void **d
 	return(haystack);
 }
 
-int pm_list_count(PMList *list)
+int _alpm_list_count(PMList *list)
 {
 	int i;
 	PMList *lp;
@@ -245,7 +220,7 @@ PMList *pm_list_is_strin(char *needle, PMList *haystack)
 	return(NULL);
 }
 
-PMList* pm_list_last(PMList *list)
+PMList *_alpm_list_last(PMList *list)
 {
 	if(list == NULL) {
 		return(NULL);
