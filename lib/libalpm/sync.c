@@ -456,10 +456,12 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 								/* figure out which one was requested in targets.  If they both were,
 								 * then it's still an unresolvable conflict. */
-								if(pm_list_is_in(miss->depend.name, trans->targets) && !pm_list_is_in(miss->target, trans->targets)) {
+								if(pm_list_is_strin(miss->depend.name, trans->targets)
+								   && !pm_list_is_strin(miss->target, trans->targets)) {
 									/* remove miss->target */
 									rmpkg = strdup(miss->target);
-								} else if(pm_list_is_in(miss->target, trans->targets) && !pm_list_is_in(miss->depend.name, trans->targets)) {
+								} else if(pm_list_is_strin(miss->target, trans->targets)
+								          && !pm_list_is_strin(miss->depend.name, trans->targets)) {
 									/* remove miss->depend.name */
 									rmpkg = strdup(miss->depend.name);
 								} else {
