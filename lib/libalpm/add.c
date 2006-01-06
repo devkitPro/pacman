@@ -242,7 +242,11 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 					if(!errorout) {
 						errorout = 1;
 					}
-					MALLOC(miss, sizeof(pmdepmissing_t));
+					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+						FREELIST(lp);
+						FREELIST(*data);
+						RET_ERR(PM_ERR_MEMORY, -1);
+					}
 					*miss = *(pmdepmissing_t*)i->data;
 					*data = pm_list_add(*data, miss);
 				}
