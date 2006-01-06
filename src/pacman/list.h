@@ -38,11 +38,10 @@ typedef struct __list_t {
 	FREELIST(p); \
 } while(0)
 
-
 list_t *list_new(void);
-void list_free(list_t* list);
-list_t *list_add(list_t* list, void *data);
-int list_count(list_t* list);
+void list_free(list_t *list);
+list_t *list_add(list_t *list, void *data);
+int list_count(list_t *list);
 int list_is_strin(char *needle, list_t *haystack);
 void list_display(const char *title, list_t *list);
 
