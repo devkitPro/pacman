@@ -518,6 +518,34 @@ int pacman_sync(list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
 		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
+		switch(pm_errno) {
+			case PM_ERR_UNSATISFIED_DEPS:
+				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
+					PM_DEPMISS *miss = alpm_list_getdata(lp);
+
+					MSG(NL, ":: %s: requires %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
+					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
+					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
+						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
+						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+					}
+					MSG(CL, "\n");
+				}
+				alpm_list_free(data);
+			break;
+			case PM_ERR_CONFLICTING_DEPS:
+				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
+					PM_DEPMISS *miss = alpm_list_getdata(lp);
+
+					MSG(NL, ":: %s: conflicts with %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
+					                                    alpm_dep_getinfo(miss, PM_DEP_NAME));
+				}
+				alpm_list_free(data);
+			break;
+			default:
+			break;
+		}
 		retval = 1;
 		goto cleanup;
 	}
