@@ -437,14 +437,28 @@ int pacman_sync(list_t *targets)
 		for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 			PM_SYNCPKG *sync = alpm_list_getdata(lp);
 			PM_PKG *spkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
-			if(!strcmp("pacman", alpm_pkg_getinfo(spkg, PM_PKG_NAME))) {
+			if(!strcmp("pacman", alpm_pkg_getinfo(spkg, PM_PKG_NAME)) && alpm_list_count(data) > 1) {
 				MSG(NL, "\n:: pacman has detected a newer version of the \"pacman\" package.\n");
 				MSG(NL, ":: It is recommended that you allow pacman to upgrade itself\n");
 				MSG(NL, ":: first, then you can re-run the operation with the newer version.\n");
 				MSG(NL, "::\n");
-				if(!yesno(":: Upgrade anyway? [Y/n] ")) {
-					retval = 0;
-					goto cleanup;
+				if(yesno(":: Upgrade pacman first? [Y/n] ")) {
+					if(alpm_trans_release() == -1) {
+						ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+						retval = 1;
+						goto cleanup;
+					}
+					if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
+						ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
+						retval = 1;
+						goto cleanup;
+					}
+					if(alpm_trans_addtarget("pacman") == -1) {
+						ERR(NL, "could not add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
+						retval = 1;
+						goto cleanup;
+					}
+					break;
 				}
 			}
 		}
@@ -510,7 +524,7 @@ int pacman_sync(list_t *targets)
 
 	packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
 	if(packages == NULL) {
-		retval = 0;
+		/* nothing to do: just exit without complaining */
 		goto cleanup;
 	}
 
@@ -531,17 +545,17 @@ int pacman_sync(list_t *targets)
 					PM_PKG *p = alpm_list_getdata(j);
 					char *pkgname = alpm_pkg_getinfo(p, PM_PKG_NAME);
 					if(!list_is_strin(pkgname, list_remove)) {
-						list_remove = list_add(list_remove, pkgname);
+						list_remove = list_add(list_remove, strdup(pkgname));
 					}
 				}
 			}
 		}
 		if(list_remove) {
-			printf("\nRemove:  ");
+			MSG(NL, "\nRemove:  ");
 			str = buildstring(list_remove);
 			indentprint(str, 9);
-			printf("\n");
-			FREELISTPTR(list_remove);
+			MSG(CL, "\n");
+			FREELIST(list_remove);
 			FREE(str);
 		}
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
@@ -564,7 +578,7 @@ int pacman_sync(list_t *targets)
 		MSG(NL, "\nTargets: ");
 		str = buildstring(list_install);
 		indentprint(str, 9);
-		MSG(NL, "\nTotal Package Size:   %.1f MB\n", mb);
+		MSG(NL, "Total Package Size:   %.1f MB\n", mb);
 		FREELIST(list_install);
 		FREE(str);
 

@@ -300,6 +300,7 @@ PM_LIST *alpm_list_first(PM_LIST *list);
 PM_LIST *alpm_list_next(PM_LIST *entry);
 void *alpm_list_getdata(PM_LIST *entry);
 int alpm_list_free(PM_LIST *entry);
+int alpm_list_count(PM_LIST *list);
 
 /* md5sums */
 char *alpm_get_md5sum(char *name);

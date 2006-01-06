@@ -719,8 +719,6 @@ int alpm_logaction(char *fmt, ...)
 
 PMList *alpm_list_first(PMList *list)
 {
-	ASSERT(list != NULL, return(NULL));
-
 	return(list);
 }
 
@@ -740,9 +738,16 @@ void *alpm_list_getdata(PMList *entry)
 
 int alpm_list_free(PMList *entry)
 {
+	ASSERT(entry != NULL, return(-1));
+
 	FREELIST(entry);
 
 	return(0);
+}
+
+int alpm_list_count(PMList *list)
+{
+	return(_alpm_list_count(list));
 }
 /** @} */
 
