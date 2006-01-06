@@ -661,7 +661,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	tr = trans_new();
 	if(tr == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not create transaction");
-		pm_errno = PM_ERR_XXX;
+		pm_errno = PM_ERR_MEMORY;
 		goto error;
 	}
 	if(trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags | PM_TRANS_FLAG_NODEPS, NULL, NULL) == -1) {
