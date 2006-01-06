@@ -56,9 +56,6 @@ int remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	/* ORE
-	we should better find the package in the cache, and then perform a
-	db_read(INFRQ_FILES) to add files information to it. */
 	_alpm_log(PM_LOG_FLOW2, "loading target %s", name);
 	if((info = db_scan(db, name, INFRQ_ALL)) == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
@@ -95,8 +92,6 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 						pmdepmissing_t* miss = (pmdepmissing_t*)j->data;
 						pmpkg_t *info = db_get_pkgfromcache(db, miss->depend.name);
 						if(!pkg_isin(info, trans->packages)) {
-							/* ORE
-							see remove_loadtarget() on how to avoid db_scan() */
 							info = db_scan(db, miss->depend.name, INFRQ_ALL);
 							trans->packages = pm_list_add(trans->packages, info);
 						}
