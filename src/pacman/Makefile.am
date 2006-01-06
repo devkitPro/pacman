@@ -5,7 +5,7 @@ AM_CFLAGS = -D_GNU_SOURCE \
 	-I$(top_srcdir)/lib/libftp
 
 pacman_SOURCES = util.c log.c list.c package.c db.c download.c trans.c add.c \
-	remove.c upgrade.c query.c sync.c conf.c pacman.c
+	remove.c upgrade.c query.c sync.c conf.c deptest.c pacman.c
 
 pacman_static_SOURCES = $(pacman_SOURCES)
 
