@@ -386,7 +386,6 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
-			int found = 0;
 			int errorout = 0;
 
 			_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
@@ -415,6 +414,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			for(i = deps; i && !errorout; i = i->next) {
 				pmdepmissing_t *miss = i->data;
 				PMList *k;
+				int found = 0;
 
 				if(miss->type != PM_DEP_TYPE_CONFLICT) {
 					continue;
