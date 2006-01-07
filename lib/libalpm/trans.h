@@ -67,7 +67,7 @@ int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_t
 int trans_sysupgrade(pmtrans_t *trans);
 int trans_addtarget(pmtrans_t *trans, char *target);
 int trans_prepare(pmtrans_t *trans, PMList **data);
-int trans_commit(pmtrans_t *trans);
+int trans_commit(pmtrans_t *trans, PMList **data);
 
 #endif /* _ALPM_TRANS_H */
 

@@ -122,7 +122,7 @@ int pacman_add(list_t *targets)
 
 	/* Step 3: actually perform the installation
 	 */
-	if(alpm_trans_commit() == -1) {
+	if(alpm_trans_commit(NULL) == -1) {
 		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
 		return(1);
 	}

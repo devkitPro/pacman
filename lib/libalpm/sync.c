@@ -616,10 +616,9 @@ error:
 	return(-1);
 }
 
-int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
+int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 {
 	PMList *i;
-	PMList *data;
 	pmtrans_t *tr = NULL;
 	int replaces = 0;
 	int removal = 0;
@@ -665,13 +664,13 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 	}
 	if(replaces+removal != 0) {
 		_alpm_log(PM_LOG_FLOW1, "removing conflicting and to-be-replaced packages");
-		if(trans_prepare(tr, &data) == -1) {
+		if(trans_prepare(tr, data) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not prepare removal transaction");
 			goto error;
 		}
 		/* we want the frontend to be aware of commit details */
 		tr->cb_event = trans->cb_event;
-		if(trans_commit(tr) == -1) {
+		if(trans_commit(tr, NULL) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not commit removal transaction");
 			goto error;
 		}
@@ -709,13 +708,13 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local)
 			spkg->reason = PM_PKG_REASON_EXPLICIT;
 		}
 	}
-	if(trans_prepare(tr, &data) == -1) {
+	if(trans_prepare(tr, data) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not prepare transaction");
 		goto error;
 	}
 	/* we want the frontend to be aware of commit details */
 	tr->cb_event = trans->cb_event;
-	if(trans_commit(tr) == -1) {
+	if(trans_commit(tr, NULL) == -1) {
 		_alpm_log(PM_LOG_ERROR, "could not commit transaction");
 		goto error;
 	}

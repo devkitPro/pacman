@@ -262,7 +262,7 @@ int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event
 int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);
-int alpm_trans_commit(void);
+int alpm_trans_commit(PM_LIST **data);
 int alpm_trans_release(void);
 
 /*

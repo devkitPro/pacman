@@ -179,7 +179,7 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	return(0);
 }
 
-int trans_commit(pmtrans_t *trans)
+int trans_commit(pmtrans_t *trans, PMList **data)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -204,7 +204,7 @@ int trans_commit(pmtrans_t *trans)
 			}
 		break;
 		case PM_TRANS_TYPE_SYNC:
-			if(sync_commit(trans, handle->db_local) == -1) {
+			if(sync_commit(trans, handle->db_local, data) == -1) {
 				/* pm_errno is set by sync_commit() */
 				return(-1);
 			}

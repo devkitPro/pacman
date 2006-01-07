@@ -41,7 +41,7 @@ PMList *sync_load_dbarchive(char *archive);
 int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync);
 int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name);
 int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **data);
-int sync_commit(pmtrans_t *trans, pmdb_t *db_local);
+int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data);
 
 #endif /* _ALPM_SYNC_H */
 

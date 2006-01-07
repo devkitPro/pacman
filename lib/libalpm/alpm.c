@@ -619,7 +619,7 @@ int alpm_trans_prepare(PMList **data)
 	return(trans_prepare(handle->trans, data));
 }
 
-int alpm_trans_commit()
+int alpm_trans_commit(PMList **data)
 {
 	pmtrans_t *trans;
 
@@ -633,7 +633,7 @@ int alpm_trans_commit()
 	/* Check for database R/W permission */
 	ASSERT(handle->access == PM_ACCESS_RW, RET_ERR(PM_ERR_BADPERMS, -1));
 
-	return(trans_commit(handle->trans));
+	return(trans_commit(handle->trans, data));
 }
 
 int alpm_trans_release()
