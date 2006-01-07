@@ -78,7 +78,6 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
@@ -100,7 +99,9 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 					lp = checkdeps(db, trans->type, trans->packages);
 				}
 			} else {
-				*data = lp;
+				if(data) {
+					*data = lp;
+				}
 				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
 		}

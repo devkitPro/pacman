@@ -346,9 +346,10 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	*data = NULL;
+	if(data) {
+		*data = NULL;
+	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		for(i = trans->packages; i; i = i->next) {
@@ -395,13 +396,15 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					if(!errorout) {
 						errorout = 1;
 					}
-					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-						FREELIST(*data);
-						pm_errno = PM_ERR_MEMORY;
-						goto error;
+					if(data) {
+						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+							FREELIST(*data);
+							pm_errno = PM_ERR_MEMORY;
+							goto error;
+						}
+						*miss = *(pmdepmissing_t *)i->data;
+						*data = pm_list_add(*data, miss);
 					}
-					*miss = *(pmdepmissing_t *)i->data;
-					*data = pm_list_add(*data, miss);
 				}
 			}
 			if(errorout) {
@@ -527,25 +530,29 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 									/* abort */
 									_alpm_log(PM_LOG_ERROR, "package conflicts detected");
 									errorout = 1;
-									if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-										FREELIST(*data);
-										pm_errno = PM_ERR_MEMORY;
-										goto error;
+									if(data) {
+										if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+											FREELIST(*data);
+											pm_errno = PM_ERR_MEMORY;
+											goto error;
+										}
+										*miss = *(pmdepmissing_t *)i->data;
+										*data = pm_list_add(*data, miss);
 									}
-									*miss = *(pmdepmissing_t *)i->data;
-									*data = pm_list_add(*data, miss);
 								}
 							}
 						} else {
 							_alpm_log(PM_LOG_ERROR, "%s conflicts with %s", miss->target, miss->depend.name);
 							errorout = 1;
-							if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-								FREELIST(*data);
-								pm_errno = PM_ERR_MEMORY;
-								goto error;
+							if(data) {
+								if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+									FREELIST(*data);
+									pm_errno = PM_ERR_MEMORY;
+									goto error;
+								}
+								*miss = *(pmdepmissing_t *)i->data;
+								*data = pm_list_add(*data, miss);
 							}
-							*miss = *(pmdepmissing_t *)i->data;
-							*data = pm_list_add(*data, miss);
 						}
 					}
 				}
@@ -588,7 +595,9 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		_alpm_log(PM_LOG_DEBUG, "checking dependencies of packages designated for removal");
 		deps = checkdeps(db_local, PM_TRANS_TYPE_REMOVE, list);
 		if(deps) {
-			*data = deps;
+			if(data) {
+				*data = deps;
+			}
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
 		}

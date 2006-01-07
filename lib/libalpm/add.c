@@ -196,9 +196,10 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	*data = NULL;
+	if(data) {
+		*data = NULL;
+	}
 
 	/* Check dependencies
 	 */
@@ -220,13 +221,15 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 					if(!errorout) {
 						errorout = 1;
 					}
-					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-						FREELIST(lp);
-						FREELIST(*data);
-						RET_ERR(PM_ERR_MEMORY, -1);
+					if(data) {
+						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+							FREELIST(lp);
+							FREELIST(*data);
+							RET_ERR(PM_ERR_MEMORY, -1);
+						}
+						*miss = *(pmdepmissing_t*)i->data;
+						*data = pm_list_add(*data, miss);
 					}
-					*miss = *(pmdepmissing_t*)i->data;
-					*data = pm_list_add(*data, miss);
 				}
 			}
 			if(errorout) {
@@ -242,13 +245,15 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 					if(!errorout) {
 						errorout = 1;
 					}
-					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-						FREELIST(lp);
-						FREELIST(*data);
-						RET_ERR(PM_ERR_MEMORY, -1);
+					if(data) {
+						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+							FREELIST(lp);
+							FREELIST(*data);
+							RET_ERR(PM_ERR_MEMORY, -1);
+						}
+						*miss = *(pmdepmissing_t*)i->data;
+						*data = pm_list_add(*data, miss);
 					}
-					*miss = *(pmdepmissing_t*)i->data;
-					*data = pm_list_add(*data, miss);
 				}
 			}
 			FREELIST(lp);
@@ -277,7 +282,9 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		_alpm_log(PM_LOG_FLOW1, "looking for file conflicts");
 		lp = db_find_conflicts(db, trans->packages, handle->root, &skiplist);
 		if(lp != NULL) {
-			*data = lp;
+			if(data) {
+				*data = lp;
+			}
 			FREELIST(skiplist);
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}

@@ -611,7 +611,6 @@ int alpm_trans_prepare(PMList **data)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
