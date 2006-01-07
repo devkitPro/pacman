@@ -52,6 +52,7 @@ pmhandle_t *handle_new()
 	memset(handle, 0, sizeof(pmhandle_t));
 	handle->lckfd = -1;
 
+#ifndef CYGWIN
 	/* see if we're root or not */
 	handle->uid = geteuid();
 	if(!handle->uid && getenv("FAKEROOTKEY")) {
@@ -65,6 +66,9 @@ pmhandle_t *handle_new()
 	} else {
 		handle->access = PM_ACCESS_RO;
 	}
+#else
+	handle->access = PM_ACCESS_RW;
+#endif
 
 	return(handle);
 }
