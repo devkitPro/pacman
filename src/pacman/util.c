@@ -195,8 +195,10 @@ int yesno(char *fmt, ...)
 	char response[32];
 	va_list args;
 
-	if(!config->noconfirm)
-	{
+	if(config->noconfirm) {
+		return(1);
+	}
+
 	va_start(args, fmt);
 	vprintf(fmt, args);
 	va_end(args);
@@ -222,9 +224,6 @@ int yesno(char *fmt, ...)
 		}
 	}
 	return(0);
-	} else {
-		return(1);
-	}
 }
 
 /* match a string against a regular expression */
