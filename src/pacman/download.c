@@ -467,7 +467,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						}
 					} else {
 						if(mtime2) {
-						 	if(fmtime2.tm_year) {
+							if(fmtime2.tm_year) {
 								/* date conversion from "rfc1123-date" to YYYYMMDDHHMMSS */
 								sprintf(mtime2, "%4d%02d%02d%02d%02d%02d",
 								        fmtime2.tm_year+1900, fmtime2.tm_mon+1, fmtime2.tm_mday,

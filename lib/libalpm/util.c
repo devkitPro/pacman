@@ -328,8 +328,10 @@ int _alpm_log_action(unsigned char usesyslog, FILE *f, char *fmt, ...)
 		t = time(NULL);
 		tm = localtime(&t);
 
-		fprintf(f, "[%02d/%02d/%02d %02d:%02d] %s\n", tm->tm_mon+1, tm->tm_mday,
-		        tm->tm_year-100, tm->tm_hour, tm->tm_min, msg);
+		fprintf(f, "[%02d/%02d/%02d %02d:%02d] %s\n",
+		        tm->tm_mon+1, tm->tm_mday, tm->tm_year-100,
+		        tm->tm_hour, tm->tm_min,
+		        msg);
 	}
 
 	return(0);

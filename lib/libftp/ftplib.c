@@ -1513,8 +1513,8 @@ static int HttpXfer(const char *localfile, const char *path, int *size,
  * return 1 if successful, 0 otherwise
  */
 GLOBALREF int HttpGet(const char *host, const char *outputfile, const char *path,
-		int *size, netbuf *nControl, unsigned int offset,
-		const struct tm *mtime1, struct tm *mtime2)
+	int *size, netbuf *nControl, unsigned int offset,
+	const struct tm *mtime1, struct tm *mtime2)
 {
 	char buf[512];
 

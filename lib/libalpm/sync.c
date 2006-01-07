@@ -514,25 +514,25 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 									/* abort */
 									_alpm_log(PM_LOG_ERROR, "package conflicts detected");
 									errorout = 1;
-				          if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-				            FREELIST(*data);
-				            pm_errno = PM_ERR_MEMORY;
-				            goto error;
-				          }       
-				          *miss = *(pmdepmissing_t *)i->data;
-				          *data = pm_list_add(*data, miss);
+									if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+										FREELIST(*data);
+										pm_errno = PM_ERR_MEMORY;
+										goto error;
+									}
+									*miss = *(pmdepmissing_t *)i->data;
+									*data = pm_list_add(*data, miss);
 								}
 							}
 						} else {
 							_alpm_log(PM_LOG_ERROR, "%s conflicts with %s", miss->target, miss->depend.name);
 							errorout = 1;
-				      if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-				        FREELIST(*data);
-				        pm_errno = PM_ERR_MEMORY;
-				        goto error;
-				       }       
-				       *miss = *(pmdepmissing_t *)i->data;
-				       *data = pm_list_add(*data, miss);
+							if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+								FREELIST(*data);
+								pm_errno = PM_ERR_MEMORY;
+								goto error;
+							}
+							*miss = *(pmdepmissing_t *)i->data;
+							*data = pm_list_add(*data, miss);
 						}
 					}
 				}

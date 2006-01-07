@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	mode_t oldumask;
 	struct stat buf;
 	char dbdir[PATH_MAX];
- 
+
 	sprintf(dbdir, "/%s", PM_DBPATH);
 
 	if(argc < 2) {

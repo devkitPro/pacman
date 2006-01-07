@@ -155,7 +155,7 @@ enum {
 };
 
 /* reasons -- ie, why the package was installed */
-#define PM_PKG_REASON_EXPLICIT  0  /* explicitly requested by the user              */
+#define PM_PKG_REASON_EXPLICIT  0  /* explicitly requested by the user */
 #define PM_PKG_REASON_DEPEND    1  /* installed as a dependency for another package */
 
 void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm);
@@ -367,7 +367,7 @@ extern enum __pmerrno_t {
 
 char *alpm_strerror(int err);
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

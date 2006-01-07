@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 		cleanup(1);
 	}
 
-  for(lp = config->op_s_ignore; lp; lp = lp->next) {
+	for(lp = config->op_s_ignore; lp; lp = lp->next) {
 		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
 			ERR(NL, "failed to set option IGNOREPKG (%s)\n", alpm_strerror(pm_errno));
 			cleanup(1);

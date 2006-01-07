@@ -21,10 +21,17 @@
 #ifndef _PM_UTIL_H
 #define _PM_UTIL_H
 
-#define MALLOC(p, b) do { if((b) > 0) { \
-                       p = malloc(b); if (!(p)) { \
-                       fprintf(stderr, "malloc failure: could not allocate %d bytes\n", b); \
-                       exit(1); }} else p = NULL; } while(0)
+#define MALLOC(p, b) do { \
+	if((b) > 0) { \
+		p = malloc(b); \
+		if (!(p)) { \
+			fprintf(stderr, "malloc failure: could not allocate %d bytes\n", b); \
+			exit(1); \
+		} \
+	} else { \
+		p = NULL; \
+	} \
+} while(0)
 
 #define FREE(p) do { if (p) { free(p); (p) = NULL; }} while(0)
 
