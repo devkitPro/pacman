@@ -601,12 +601,14 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 			pmpkg_t *sync = NULL;
 			int provisio_match = 0;
 
+			_alpm_log(PM_LOG_DEBUG, "resolving dependency %s", miss->depend.name);
+
 			/* check if one of the packages in *list already provides this dependency */
 			for(j = list; j; j = j->next) {
 				pmpkg_t *sp = (pmpkg_t*)j->data;
 				for(k = sp->provides; k; k = k->next) {
 					if(!strcmp(miss->depend.name, k->data)) {
-						_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s", sp->name, miss->depend.name);
+						_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s -- skipping", sp->name, miss->depend.name);
 						provisio_match = 1;
 					}
 				}
@@ -638,7 +640,8 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				FREELISTPTR(provides);
 			}
 			if(sync == NULL) {
-				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)", miss->target, miss->depend.name);
+				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)",
+				          miss->target, miss->depend.name);
 				pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
 				goto error;
 			}
@@ -646,6 +649,8 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 			for(j = list; j && !found; j = j->next) {
 				pmpkg_t *tmp = j->data;
 				if(tmp && !strcmp(tmp->name, sync->name)) {
+					_alpm_log(PM_LOG_DEBUG, "dependency %s is already in the target list - skipping",
+					          sync->name);
 					found = 1;
 				}
 			}
@@ -653,7 +658,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				/* this dep is already in the target list */
 				continue;
 			}
-			_alpm_log(PM_LOG_DEBUG, "resolving %s", sync->name);
+
 			found = 0;
 			for(j = trail; j; j = j->next) {
 				pmpkg_t *tmp = j->data;
@@ -682,7 +687,8 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 					if(resolvedeps(local, dbs_sync, sync, list, trail, trans)) {
 						goto error;
 					}
-					_alpm_log(PM_LOG_FLOW2, "adding dependency %s-%s", sync->name, sync->version);
+					_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)",
+					          sync->name, syncpkg->name);
 					list = pm_list_add(list, sync);
 				} else {
 					_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
