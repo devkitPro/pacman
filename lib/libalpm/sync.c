@@ -621,7 +621,6 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 	PMList *i;
 	pmtrans_t *tr = NULL;
 	int replaces = 0;
-	int removal = 0;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -652,17 +651,9 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 					replaces++;
 				}
 			}
-		} else if(sync->type == PM_SYNC_TYPE_REMOVE) {
-			pmpkg_t *pkg = sync->data;
-			if(!pkg_isin(pkg, tr->packages)) {
-				if(trans_addtarget(tr, pkg->name) == -1) {
-					goto error;
-				}
-				removal++;
-			}
 		}
 	}
-	if(replaces+removal != 0) {
+	if(replaces) {
 		_alpm_log(PM_LOG_FLOW1, "removing conflicting and to-be-replaced packages");
 		if(trans_prepare(tr, data) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not prepare removal transaction");

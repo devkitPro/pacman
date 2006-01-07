@@ -183,8 +183,7 @@ void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm);
 enum {
 	PM_SYNC_TYPE_REPLACE = 1,
 	PM_SYNC_TYPE_UPGRADE,
-	PM_SYNC_TYPE_DEPEND,
-	PM_SYNC_TYPE_REMOVE
+	PM_SYNC_TYPE_DEPEND
 };
 /* Info parameters */
 enum {
