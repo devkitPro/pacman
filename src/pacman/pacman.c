@@ -63,7 +63,9 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	char *cenv = NULL;
+#ifndef CYGWIN
 	uid_t myuid;
+#endif
 	list_t *lp;
 
 #ifndef CYGWIN
@@ -96,6 +98,7 @@ int main(int argc, char *argv[])
 		exit(ret);
 	}
 
+#ifndef CYGWIN
 	/* see if we're root or not */
 	myuid = geteuid();
 	if(!myuid && getenv("FAKEROOTKEY")) {
@@ -116,6 +119,7 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+#endif
 
 	if(config->root == NULL) {
 		config->root = strdup(PM_ROOT);
@@ -303,47 +307,63 @@ int parseargs(int argc, char *argv[])
 			break;
 		}
 		switch(opt) {
-			case 0:   break;
+			case 0: break;
 			case 1000: config->noconfirm = 1; break;
 			case 1001:
 				if(config->configfile) {
 					free(config->configfile);
 				}
 				config->configfile = strndup(optarg, PATH_MAX);
-				break;
+			break;
 			case 1002: config->op_s_ignore = list_add(config->op_s_ignore, strdup(optarg)); break;
-			case 1003:
-				config->debug = atoi(optarg);
-				break;
-			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD);     break;
-			case 'D': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); config->op_d_resolve = 1; break;
-			case 'F': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); config->flags |= PM_TRANS_FLAG_FRESHEN; break;
-			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY);   break;
-			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE);  break;
-			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC);    break;
+			case 1003: config->debug = atoi(optarg); break;
+			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
+			case 'D':
+				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
+				config->op_d_resolve = 1;
+			break;
+			case 'F':
+				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
+				config->flags |= PM_TRANS_FLAG_FRESHEN;
+			break;
+			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
+			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
+			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
 			case 'T': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
 			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
 			case 'V': config->version = 1; break;
-			case 'Y': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); config->op_d_vertest = 1; break;
+			case 'Y':
+				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
+				config->op_d_vertest = 1;
+			break;
 			case 'b':
 				if(config->dbpath) {
 					free(config->dbpath);
 				}
 				config->dbpath = strdup(optarg);
 			break;
-			case 'c': config->op_s_clean++; config->flags |= PM_TRANS_FLAG_CASCADE; break;
+			case 'c':
+				config->op_s_clean++;
+				config->flags |= PM_TRANS_FLAG_CASCADE;
+			break;
 			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
 			case 'e': config->op_q_orphans = 1; break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 			case 'g': config->group = 1; break;
 			case 'h': config->help = 1; break;
-			case 'i': config->op_q_info++; config->op_s_info++; break;
+			case 'i':
+				config->op_q_info++;
+				config->op_s_info++;
+			break;
 			case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
 			case 'l': config->op_q_list = 1; break;
 			case 'm': config->op_q_foreign = 1; break;
 			case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
 			case 'o': config->op_q_owns = 1; break;
-			case 'p': config->op_q_isfile = 1; config->op_s_printuris = 1; break;
+			case 'p':
+				config->op_q_isfile = 1;
+				config->op_s_printuris = 1;
+			break;
 			case 'r':
 				if(realpath(optarg, root) == NULL) {
 					perror("bad root path");
@@ -354,13 +374,17 @@ int parseargs(int argc, char *argv[])
 				}
 				config->root = strdup(root);
 			break;
-			case 's': config->op_s_search = 1; config->op_q_search = 1; config->flags |= PM_TRANS_FLAG_RECURSE; break;
+			case 's':
+				config->op_s_search = 1;
+				config->op_q_search = 1;
+				config->flags |= PM_TRANS_FLAG_RECURSE;
+			break;
 			case 'u': config->op_s_upgrade = 1; break;
 			case 'v': config->verbose++; break;
 			case 'w': config->op_s_downloadonly = 1; break;
 			case 'y': config->op_s_sync = 1; break;
 			case '?': return(1);
-			default:  return(1);
+			default: return(1);
 		}
 	}
 
