@@ -287,7 +287,6 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 			}
 			/* CHECK 3: check database against targets */
 			for(k = db_get_pkgcache(db); k; k = k->next) {
-				int conflict = 0;
 				info = k->data;
 				for(j = info->conflicts; j; j = j->next) {
 					if(!strcmp((char *)j->data, tp->name)) {
@@ -324,8 +323,6 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 							}
 						}
 					}
-				}
-				if(conflict) {
 				}
 			}
 
