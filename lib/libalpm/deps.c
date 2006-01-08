@@ -303,8 +303,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 							FREE(miss);
 						}
 					} else {
-						/* see if info and tp both provide something that info wants to
-						 * exclusively provide (ie, conflicts&provides package X) */
+						/* see if the db package conflicts with something we provide */
 						PMList *m;
 						for(m = info->conflicts; m; m = m->next) {
 							PMList *n;
@@ -329,33 +328,6 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 				if(conflict) {
 				}
 			}
-
-			/* PROVIDES -- check to see if another package already provides what
-			 *             we offer
- 			 */
-			/* XXX: disabled -- we allow multiple packages to provide the same thing.
-			 *      list packages in conflicts if they really do conflict.
-			for(j = tp->provides; j; j = j->next) {
-				PMList *provs = whatprovides(db, j->data);
-				for(k = provs; k; k = k->next) {
-					if(!strcmp(tp->name, k->data->name)) {
-						// this is the same package -- skip it
-						continue;
-					}
-					// we treat this just like a conflict
-					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_TYPE_CONFLICT;
-					miss->depend.mod = PM_DEP_MOD_ANY;
-					miss->depend.version[0] = '\0';
-					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
-					STRNCPY(miss->depend.name, k->data, PKG_NAME_LEN);
-					if(!pm_list_is_in(baddeps, miss)) {
-						baddeps = pm_list_add(baddeps, miss);
-					}
-					k->data = NULL;
-				}
-				FREELIST(provs);
-			}*/
 
 			/* DEPENDENCIES -- look for unsatisfied dependencies */
 			for(j = tp->depends; j; j = j->next) {
