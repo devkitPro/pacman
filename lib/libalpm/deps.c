@@ -226,10 +226,15 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 
 			/* CONFLICTS */
 			for(j = tp->conflicts; j; j = j->next) {
-				/* check targets against database */
+				if(!strcmp(tp->name, j->data)) {
+					/* a package cannot conflict with itself -- that's just not nice */
+					continue;
+				}
+				/* CHECK 1: check targets against database */
 				for(k = db_get_pkgcache(db); k; k = k->next) {
 					pmpkg_t *dp = (pmpkg_t *)k->data;
 					if(!strcmp(j->data, dp->name)) {
+						/* confict */
 						MALLOC(miss, sizeof(pmdepmissing_t));
 						miss->type = PM_DEP_TYPE_CONFLICT;
 						miss->depend.mod = PM_DEP_MOD_ANY;
@@ -241,9 +246,28 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						} else {
 							FREE(miss);
 						}
+					} else {
+						/* see if dp provides something in tp's conflict list */
+						PMList *m;
+						for(m = dp->provides; m; m = m->next) {
+							if(!strcmp(m->data, j->data)) {
+								/* confict */
+								MALLOC(miss, sizeof(pmdepmissing_t));
+								miss->type = PM_DEP_TYPE_CONFLICT;
+								miss->depend.mod = PM_DEP_MOD_ANY;
+								miss->depend.version[0] = '\0';
+								STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+								STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
+								if(!pm_list_is_in(miss, baddeps)) {
+									baddeps = pm_list_add(baddeps, miss);
+								} else {
+									FREE(miss);
+								}
+							}
+						}
 					}
 				}
-				/* check targets against targets */
+				/* CHECK 2: check targets against targets */
 				for(k = packages; k; k = k->next) {
 					pmpkg_t *a = (pmpkg_t *)k->data;
 					if(!strcmp(a->name, (char *)j->data)) {
@@ -261,8 +285,9 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					}
 				}
 			}
-			/* check database against targets */
+			/* CHECK 3: check database against targets */
 			for(k = db_get_pkgcache(db); k; k = k->next) {
+				int conflict = 0;
 				info = k->data;
 				for(j = info->conflicts; j; j = j->next) {
 					if(!strcmp((char *)j->data, tp->name)) {
@@ -277,7 +302,31 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						} else {
 							FREE(miss);
 						}
+					} else {
+						/* see if info and tp both provide something that info wants to
+						 * exclusively provide (ie, conflicts&provides package X) */
+						PMList *m;
+						for(m = info->conflicts; m; m = m->next) {
+							PMList *n;
+							for(n = tp->provides; n; n = n->next) {
+								if(!strcmp(m->data, n->data)) {
+									MALLOC(miss, sizeof(pmdepmissing_t));
+									miss->type = PM_DEP_TYPE_CONFLICT;
+									miss->depend.mod = PM_DEP_MOD_ANY;
+									miss->depend.version[0] = '\0';
+									STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+									STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
+									if(!pm_list_is_in(miss, baddeps)) {
+										baddeps = pm_list_add(baddeps, miss);
+									} else {
+										FREE(miss);
+									}
+								}
+							}
+						}
 					}
+				}
+				if(conflict) {
 				}
 			}
 
