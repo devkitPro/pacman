@@ -161,7 +161,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 								 * the package to replace.
 								 */
 								pmsyncpkg_t *sync;
-								pmpkg_t *dummy = pkg_dummy(lpkg->name, NULL);
+								pmpkg_t *dummy = pkg_new(lpkg->name, NULL);
 								if(dummy == NULL) {
 									pm_errno = PM_ERR_MEMORY;
 									goto error;
@@ -227,7 +227,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			_alpm_log(PM_LOG_FLOW1, "%s-%s: ignoring package upgrade (%s)",
 				local->name, local->version, spkg->version);
 		} else {
-			pmpkg_t *dummy = pkg_dummy(local->name, local->version);
+			pmpkg_t *dummy = pkg_new(local->name, local->version);
 			sync = sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 			if(sync == NULL) {
 				FREEPKG(dummy);
@@ -311,12 +311,10 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 	if(!find_pkginsync(spkg->name, trans->packages)) {
 		pmpkg_t *dummy = NULL;
 		if(local) {
-			dummy = pkg_new();
+			dummy = pkg_new(local->name, local->version);
 			if(dummy == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
-			STRNCPY(dummy->name, local->name, PKG_NAME_LEN);
-			STRNCPY(dummy->version, local->version, PKG_VERSION_LEN);
 		}
 		sync = sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 		if(sync == NULL) {
@@ -512,7 +510,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 									for(l = trans->packages; l; l = l->next) {
 										pmsyncpkg_t *s = l->data;
 										if(!strcmp(s->pkg->name, miss->target)) {
-											pmpkg_t *q = pkg_new();
+											pmpkg_t *q = pkg_new(NULL, NULL);
 											STRNCPY(q->name, miss->depend.name, PKG_NAME_LEN);
 											if(s->type == PM_SYNC_TYPE_REPLACE) {
 												/* append to the replaces list */

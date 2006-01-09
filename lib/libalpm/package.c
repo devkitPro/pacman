@@ -35,14 +35,22 @@
 #include "package.h"
 #include "alpm.h"
 
-pmpkg_t *pkg_new()
+pmpkg_t *pkg_new(const char *name, const char *version)
 {
 	pmpkg_t* pkg = NULL;
 
 	MALLOC(pkg, sizeof(pmpkg_t));
 
-	pkg->name[0]        = '\0';
-	pkg->version[0]     = '\0';
+	if(name && name[0] != 0) {
+		STRNCPY(pkg->name, name, PKG_NAME_LEN);
+	} else {
+		pkg->name[0]        = '\0';
+	}
+	if(version && version[0] != 0) {
+		STRNCPY(pkg->version, version, PKG_VERSION_LEN);
+	} else {
+		pkg->version[0]     = '\0';
+	}
 	pkg->desc[0]        = '\0';
 	pkg->url[0]         = '\0';
 	pkg->license        = NULL;
@@ -131,27 +139,6 @@ void pkg_free(pmpkg_t *pkg)
 	free(pkg);
 
 	return;
-}
-
-/* Create a dummy package struct that only contains the package
- * name and version.  This is useful when we're only passing
- * name/version data, but it needs to be wrapped in a pmpkg_t
- */
-pmpkg_t* pkg_dummy(const char *name, const char *version)
-{
-	pmpkg_t *pkg = pkg_new();
-	if(pkg == NULL) {
-		return(NULL);
-	}
-
-	if(name) {
-		STRNCPY(pkg->name, name, PKG_NAME_LEN);
-	}
-	if(version) {
-		STRNCPY(pkg->version, version, PKG_VERSION_LEN);
-	}
-
-	return(pkg);
 }
 
 /* Parses the package description file for the current package
@@ -262,7 +249,7 @@ pmpkg_t *pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_NOT_A_FILE, NULL);
 	}
 
-	info = pkg_new();
+	info = pkg_new(NULL, NULL);
 	if(info == NULL) {
 		tar_close(tar);
 		RET_ERR(PM_ERR_MEMORY, NULL);

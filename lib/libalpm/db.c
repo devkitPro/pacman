@@ -238,7 +238,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 		}
 	}
 
-	pkg = pkg_new();
+	pkg = pkg_new(NULL, NULL);
 	if(pkg == NULL) {
 		return(NULL);
 	}

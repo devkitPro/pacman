@@ -71,7 +71,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	 */
 	if(strchr(name, '|')) {
 		char *str, *ptr, *p;
-		dummy = pkg_new();
+		dummy = pkg_new(NULL, NULL);
 		if(dummy == NULL) {
 			pm_errno = PM_ERR_MEMORY;
 			goto error;
@@ -339,10 +339,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				_alpm_log(PM_LOG_FLOW1, "upgrading package %s-%s", info->name, info->version);
 
 				/* we'll need to save some record for backup checks later */
-				oldpkg = pkg_new();
+				oldpkg = pkg_new(local->name, local->version);
 				if(oldpkg) {
-					strncpy(oldpkg->name, local->name, PKG_NAME_LEN);
-					strncpy(oldpkg->version, local->version, PKG_VERSION_LEN);
 					if(!(local->infolevel & INFRQ_FILES)) {
 						char name[PKG_FULLNAME_LEN];
 						snprintf(name, PKG_FULLNAME_LEN, "%s-%s", local->name, local->version);

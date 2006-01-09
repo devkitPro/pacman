@@ -565,8 +565,11 @@ int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+
+	/* ORE
+	 * perform sanity checks on type and flags:
+	* for instance, we can't set UPGRADE and FRESHEN at the same time */
 
 	handle->trans = trans_new();
 	if(handle->trans == NULL) {
@@ -708,7 +711,7 @@ int alpm_logaction(char *fmt, ...)
 	It allows to share the log file between several frontends and to actually 
 	know who does what */
 
-	return(_alpm_log_action(handle->usesyslog, handle->logfd, str));
+	return(_alpm_logaction(handle->usesyslog, handle->logfd, str));
 }
 /** @} */
 

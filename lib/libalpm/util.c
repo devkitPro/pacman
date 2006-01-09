@@ -308,7 +308,7 @@ int _alpm_rmrf(char *path)
 	return(0);
 }
 
-int _alpm_log_action(unsigned char usesyslog, FILE *f, char *fmt, ...)
+int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...)
 {
 	char msg[1024];
 	va_list args;

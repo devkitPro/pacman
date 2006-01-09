@@ -562,7 +562,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 			}
 			if(!needed) {
 				char *name;
-				pmpkg_t *pkg = pkg_dummy(dep->name, dep->version);
+				pmpkg_t *pkg = pkg_new(dep->name, dep->version);
 				if(pkg == NULL) {
 					_alpm_log(PM_LOG_ERROR, "could not allocate memory for a package structure");
 					continue;
@@ -696,7 +696,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 					}
 				}
 				if(found) {
-					pmpkg_t *dummypkg = pkg_dummy(miss->target, NULL);
+					pmpkg_t *dummypkg = pkg_new(miss->target, NULL);
 					QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
 					FREEPKG(dummypkg);
 				}
