@@ -62,7 +62,7 @@ pmpkg_t *pkg_new(const char *name, const char *version)
 	pkg->size           = 0;
 	pkg->scriptlet      = 0;
 	pkg->force          = 0;
-	pkg->reason         = 0;
+	pkg->reason         = PM_PKG_REASON_EXPLICIT;
 	pkg->requiredby     = NULL;
 	pkg->conflicts      = NULL;
 	pkg->files          = NULL;

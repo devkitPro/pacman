@@ -690,11 +690,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 		 * end of the tr->packages list */
 		spkg = _alpm_list_last(tr->packages)->data;
 		if(sync->type == PM_SYNC_TYPE_DEPEND) {
-			/* ORE
-			 * if called from makepkg, reason should be set to PM_PKG_REASON_DEPEND */
 			spkg->reason = PM_PKG_REASON_DEPEND;
-		} else {
-			spkg->reason = PM_PKG_REASON_EXPLICIT;
 		}
 	}
 	if(trans_prepare(tr, data) == -1) {

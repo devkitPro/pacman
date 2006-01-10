@@ -176,9 +176,9 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		goto error;
 	}
 
-	/* set the reason to EXPLICIT by default
-	 * it will be overwritten in the case of an upgrade or a sync operation */
-	info->reason = PM_PKG_REASON_EXPLICIT;
+	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
+		info->reason = PM_PKG_REASON_EXPLICIT;
+	}
 
 	/* add the package to the transaction */
 	trans->packages = pm_list_add(trans->packages, info);
