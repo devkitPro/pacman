@@ -321,6 +321,7 @@ int parseargs(int argc, char *argv[])
 			case 'D':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
 				config->op_d_resolve = 1;
+				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 			break;
 			case 'F':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
