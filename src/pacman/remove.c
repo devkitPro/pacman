@@ -101,7 +101,7 @@ int pacman_remove(list_t *targets)
 				alpm_list_free(data);
 			break;
 			default:
-				ERR(NL, "%s\n", alpm_strerror(pm_errno));
+			break;
 		}
 		goto error;
 	}
