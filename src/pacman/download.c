@@ -169,17 +169,13 @@ int downloadfiles(list_t *servers, const char *localpath, list_t *files)
 
 /*
  * This is the real downloadfiles, used directly by sync_synctree() to check
- * modtimes on remote (ftp only) files.
+ * modtimes on remote files.
  *   - if *mtime1 is non-NULL, then only download files
  *     if they are different than *mtime1.  String should be in the form
  *     "YYYYMMDDHHMMSS" to match the form of ftplib's FtpModDate() function.
  *   - if *mtime2 is non-NULL, then it will be filled with the mtime
- *     of the remote FTP file (from MDTM).
+ *     of the remote file (from MDTM FTP cmd or Last-Modified HTTP header).
  * 
- * NOTE: the *mtime option only works for FTP repositories, and won't work
- *       if XferCommand is used.  We only use it to check mtimes on the
- *       repo db files.
- *
  * RETURN:  0 for successful download
  *         -1 if the mtimes are identical
  *          1 on error
