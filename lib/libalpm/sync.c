@@ -510,8 +510,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 									for(l = trans->packages; l; l = l->next) {
 										pmsyncpkg_t *s = l->data;
 										if(!strcmp(s->pkg->name, miss->target)) {
-											pmpkg_t *q = pkg_new(NULL, NULL);
-											STRNCPY(q->name, miss->depend.name, PKG_NAME_LEN);
+											pmpkg_t *q = pkg_new(miss->depend.name, NULL);
 											if(s->type == PM_SYNC_TYPE_REPLACE) {
 												/* append to the replaces list */
 												s->data = pm_list_add(s->data, q);
