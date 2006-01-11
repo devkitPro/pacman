@@ -137,6 +137,11 @@ int alpm_release()
  * @{
  */
 
+/** Set a library option.
+ * @param parm the name of the parameter
+ * @param data the value of the parameter
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_set_option(unsigned char parm, unsigned long data)
 {
 	/* Sanity checks */
@@ -145,6 +150,11 @@ int alpm_set_option(unsigned char parm, unsigned long data)
 	return(handle_set_option(handle, parm, data));
 }
 
+/** Get the value of a library option.
+ * @param parm the parameter to get
+ * @param data pointer argument to get the value in
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_get_option(unsigned char parm, long *data)
 {
 	/* Sanity checks */
@@ -159,6 +169,10 @@ int alpm_get_option(unsigned char parm, long *data)
  * @{
  */
 
+/** Register a package database
+ * @param treename the name of the repository
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 pmdb_t *alpm_db_register(char *treename)
 {
 	pmdb_t *db;
@@ -209,13 +223,22 @@ pmdb_t *alpm_db_register(char *treename)
 	return(db);
 }
 
-/* Helper function for comparing databases
+/** Helper function for comparing databases
+ * @param db1 first database
+ * @param db2 second database
+ * @return an integer less than, equal to, or greater than zero if the name of
+ * db1 is found, respectively, to be less than, to match, or be greater than
+ * the name of db2.
  */
 static int db_cmp(const void *db1, const void *db2)
 {
 	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
 }
 
+/** Unregister a package database
+ * @param db pointer to the package database to unregister
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_db_unregister(pmdb_t *db)
 {
 	int found = 0;
@@ -246,6 +269,11 @@ int alpm_db_unregister(pmdb_t *db)
 	return(0);
 }
 
+/** Get informations about a database.
+ * @param db database pointer
+ * @param parm name of the info to get
+ * @return a char* on success (the value), NULL on error
+ */
 void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 {
 	void *data = NULL;
@@ -264,6 +292,12 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 	return(data);
 }
 
+/** Update a package database
+ * @param db pointer to the package database to update
+ * @param archive path to the new package database tarball
+ * @param ts timestamp of the last modification time of the tarball
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_db_update(PM_DB *db, char *archive, char *ts)
 {
 	PMList *lp;
@@ -317,6 +351,11 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	return(0);
 }
 
+/** Get a package entry from a package database
+ * @param db pointer to the package database to get the package from
+ * @param name of the package
+ * @return the package entry on success, NULL on error
+ */
 pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
@@ -327,6 +366,10 @@ pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
 	return(db_get_pkgfromcache(db, name));
 }
 
+/** Get the package cache of a package database
+ * @param db pointer to the package database to get the package from
+ * @return the list of packages on success, NULL on error
+ */
 PMList *alpm_db_getpkgcache(pmdb_t *db)
 {
 	/* Sanity checks */
@@ -336,6 +379,11 @@ PMList *alpm_db_getpkgcache(pmdb_t *db)
 	return(db_get_pkgcache(db));
 }
 
+/** Get a group entry from a package database
+ * @param db pointer to the package database to get the group from
+ * @param name of the group
+ * @return the groups entry on success, NULL on error
+ */
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
@@ -346,6 +394,10 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
 	return(db_get_grpfromcache(db, name));
 }
 
+/** Get the group cache of a package database
+ * @param db pointer to the package database to get the group from
+ * @return the list of groups on success, NULL on error
+ */
 PMList *alpm_db_getgrpcache(pmdb_t *db)
 {
 	/* Sanity checks */
