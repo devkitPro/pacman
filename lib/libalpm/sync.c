@@ -485,6 +485,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 											trans->packages = _alpm_list_remove(trans->packages, sync, ptr_cmp, (void **)&spkg);
 											FREESYNC(spkg);
 											_alpm_log(PM_LOG_DEBUG, "removing %s from target list", rmpkg);
+											/* ORE - shouldn't "solved" be set to 1 here */
 										}
 									}
 									solved = 1;
@@ -505,10 +506,9 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 								QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &doremove);
 								asked = pm_list_add(asked, strdup(miss->depend.name));
 								if(doremove) {
-									PMList *l;
 									/* remove miss->depend.name */
-									for(l = trans->packages; l; l = l->next) {
-										pmsyncpkg_t *s = l->data;
+									for(k = trans->packages; k; k = k->next) {
+										pmsyncpkg_t *s = k->data;
 										if(!strcmp(s->pkg->name, miss->target)) {
 											pmpkg_t *q = pkg_new(miss->depend.name, NULL);
 											if(s->type == PM_SYNC_TYPE_REPLACE) {
@@ -518,8 +518,8 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 												/* switch this sync type to REPLACE */
 												s->type = PM_SYNC_TYPE_REPLACE;
 												/* add miss->depend.name to the replaces list */
-												k = pm_list_add(NULL, q);
-												s->data = k;
+												/* ORE - isn't the next line overwriting s->data? */
+												s->data = pm_list_add(NULL, q);
 											}
 										}
 									}
@@ -588,18 +588,18 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				}
 			}
 		}
-
-		_alpm_log(PM_LOG_DEBUG, "checking dependencies of packages designated for removal");
-		deps = checkdeps(db_local, PM_TRANS_TYPE_REMOVE, list);
-		if(deps) {
-			if(data) {
-				*data = deps;
+		if(list) {
+			_alpm_log(PM_LOG_FLOW1, "checking dependencies of packages designated for removal");
+			deps = checkdeps(db_local, PM_TRANS_TYPE_REMOVE, list);
+			if(deps) {
+				if(data) {
+					*data = deps;
+				}
+				pm_errno = PM_ERR_UNSATISFIED_DEPS;
+				goto error;
 			}
-			pm_errno = PM_ERR_UNSATISFIED_DEPS;
-			goto error;
+			FREELISTPTR(list);
 		}
-
-		FREELISTPTR(list);
 		/*EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);*/
 	}
 
