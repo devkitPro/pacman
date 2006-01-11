@@ -177,7 +177,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
-		info->reason = PM_PKG_REASON_EXPLICIT;
+		info->reason = PM_PKG_REASON_DEPEND;
 	}
 
 	/* add the package to the transaction */
