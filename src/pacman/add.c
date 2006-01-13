@@ -70,7 +70,7 @@ int pacman_add(list_t *targets)
 	for(i = targets; i; i = i->next) {
 		if(alpm_trans_addtarget(i->data) == -1) {
 			ERR(NL, "failed to add target '%s' (%s)\n", (char *)i->data, alpm_strerror(pm_errno));
-			return(1);
+			goto error;
 		}
 	}
 	MSG(CL, "done.");
@@ -116,18 +116,23 @@ int pacman_add(list_t *targets)
 			default:
 			break;
 		}
-		alpm_trans_release();
-		return(1);
+		goto error;
 	}
 
 	/* Step 3: actually perform the installation
 	 */
 	if(alpm_trans_commit(NULL) == -1) {
 		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
-		return(1);
+		goto error;
 	}
 
 	return(0);
+
+error:
+	if(alpm_trans_release() == -1) {
+		ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+	}
+	return(1);
 }
 
 /* vim: set ts=2 sw=2 noet: */
