@@ -350,7 +350,7 @@ int parseargs(int argc, char *argv[])
 			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
 			case 'e': config->op_q_orphans = 1; break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-			case 'g': config->group = 1; break;
+			case 'g': config->group++; break;
 			case 'h': config->help = 1; break;
 			case 'i':
 				config->op_q_info++;
