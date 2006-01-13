@@ -566,6 +566,9 @@ int pacman_sync(list_t *targets)
 
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
 			PM_SYNCPKG *sync = alpm_list_getdata(lp);
+			PM_PKG *pkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
+			char *pkgname, *pkgver;
+
 			if((int)alpm_sync_getinfo(sync, PM_SYNC_TYPE) == PM_SYNC_TYPE_REPLACE) {
 				PM_LIST *j, *data;
 				data = alpm_sync_getinfo(sync, PM_SYNC_DATA);
@@ -577,6 +580,13 @@ int pacman_sync(list_t *targets)
 					}
 				}
 			}
+
+			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
+			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
+			totalsize += (int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
+
+			asprintf(&str, "%s-%s", pkgname, pkgver);
+			list_install = list_add(list_install, str);
 		}
 		if(list_remove) {
 			MSG(NL, "\nRemove:  ");
@@ -585,18 +595,6 @@ int pacman_sync(list_t *targets)
 			MSG(CL, "\n");
 			FREELIST(list_remove);
 			FREE(str);
-		}
-		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
-			char *pkgname, *pkgver;
-			PM_SYNCPKG *sync = alpm_list_getdata(lp);
-			PM_PKG *pkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
-
-			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
-			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
-			totalsize += (int)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
-
-			asprintf(&str, "%s-%s", pkgname, pkgver);
-			list_install = list_add(list_install, str);
 		}
 		mb = (double)(totalsize / 1048576.0);
 		/* round up to 0.1 */
@@ -783,7 +781,6 @@ int pacman_sync(list_t *targets)
 cleanup:
 	alpm_trans_release();
 	return(retval);
-
 }
 
 /* vim: set ts=2 sw=2 noet: */
