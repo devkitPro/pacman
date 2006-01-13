@@ -310,8 +310,7 @@ char *alpm_get_md5sum(char *name);
  */
 
 extern enum __pmerrno_t {
-	PM_ERR_NOERROR = 1,
-	PM_ERR_MEMORY,
+	PM_ERR_MEMORY = 1,
 	PM_ERR_SYSTEM,
 	PM_ERR_BADPERMS,
 	PM_ERR_NOT_A_FILE,
@@ -328,8 +327,6 @@ extern enum __pmerrno_t {
 	PM_ERR_DB_NOT_FOUND,
 	PM_ERR_DB_WRITE,
 	PM_ERR_DB_UPTODATE,
-	/* Cache */
-	PM_ERR_CACHE_NULL,
 	/* Configuration */
 	PM_ERR_OPT_LOGFILE,
 	PM_ERR_OPT_DBPATH,

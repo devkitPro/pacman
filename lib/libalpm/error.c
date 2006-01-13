@@ -57,9 +57,6 @@ char *alpm_strerror(int err)
 			return "could not update database";
 		case PM_ERR_DB_UPTODATE:
 			return "database is up to date";
-		/* Cache */
-		case PM_ERR_CACHE_NULL:
-			return "cache not initialized";
 		/* Configuration */
 		case PM_ERR_OPT_LOGFILE:
 		case PM_ERR_OPT_DBPATH:
