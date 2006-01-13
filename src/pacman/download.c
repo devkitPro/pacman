@@ -562,7 +562,7 @@ char *fetch_pkgurl(char *target)
 	} else {
 		server_t *server;
 		list_t *servers = NULL;
-		list_t *files = NULL;
+		list_t *files;
 
 		server = (server_t *)malloc(sizeof(server_t));
 		if(server == NULL) {
@@ -574,13 +574,12 @@ char *fetch_pkgurl(char *target)
 		server->path = spath;
 		servers = list_add(servers, server);
 
-		files = list_add(files, fn);
+		files = list_add(NULL, fn);
 		if(downloadfiles(servers, ".", files)) {
-			fprintf(stderr, "error: failed to download %s\n", target);
+			ERR(NL, "failed to download %s\n", target);
 			return(NULL);
 		}
-		files->data = NULL;
-		FREELIST(files);
+		FREELISTPTR(files);
 
 		FREELIST(servers);
 	}
