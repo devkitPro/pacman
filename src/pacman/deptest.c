@@ -95,7 +95,11 @@ int pacman_deptest(list_t *targets)
 		PM_LIST *lp;
 		int ret = 126;
 		list_t *synctargs = NULL;
-
+		/* return 126 = deps were missing, but successfully resolved
+		 * return 127 = deps were missing, and failed to resolve; OR
+		 *            = deps were missing, but no resolution was attempted; OR
+		 *            = unresolvable conflicts were found
+		 */
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
