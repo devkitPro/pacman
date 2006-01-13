@@ -111,12 +111,13 @@ int pacman_remove(list_t *targets)
 	if(config->flags & PM_TRANS_FLAG_RECURSE || config->flags & PM_TRANS_FLAG_CASCADE) {
 		PM_LIST *lp;
 		/* list transaction targets */
+		i = NULL;
 		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
 			PM_PKG *pkg = alpm_list_getdata(lp);
 			i = list_add(i, strdup(alpm_pkg_getinfo(pkg, PM_PKG_NAME)));
 		}
 		list_display("\nTargets:", i);
-		list_free(i);
+		FREELIST(i);
 		/* get confirmation */
 		if(yesno("\nDo you want to remove these packages? [Y/n] ") == 0) {
 			goto error;
