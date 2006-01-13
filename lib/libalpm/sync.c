@@ -139,12 +139,13 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 	PMList *i, *j, *k;
 
 	/* check for "recommended" package replacements */
+	_alpm_log(PM_LOG_FLOW1, "checking for package replacements");
 	for(i = dbs_sync; i; i = i->next) {
 		for(j = db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *spkg = j->data;
 			for(k = spkg->replaces; k; k = k->next) {
 				PMList *m;
-				_alpm_log(PM_LOG_DEBUG, "looking replacement %s for package %s", k->data, spkg->name);
+				_alpm_log(PM_LOG_DEBUG, "checking replacement %s for package %s", k->data, spkg->name);
 				for(m = db_get_pkgcache(db_local); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
 					if(!strcmp(k->data, lpkg->name)) {
@@ -183,7 +184,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 									sync->data = pm_list_add(sync->data, dummy);
 									trans->packages = pm_list_add(trans->packages, sync);
 								}
-								_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)",
+								_alpm_log(PM_LOG_FLOW2, "%s-%s elected for upgrade (to be replaced by %s-%s)",
 								          lpkg->name, lpkg->version, spkg->name, spkg->version);
 							}
 						}
@@ -218,13 +219,13 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 		cmp = versioncmp(local->version, spkg->version);
 		if(cmp > 0 && !spkg->force) {
 			/* local version is newer */
-			_alpm_log(PM_LOG_FLOW1, "%s-%s: local version is newer",
+			_alpm_log(PM_LOG_WARNING, "%s-%s: local version is newer",
 				local->name, local->version);
 		} else if(cmp == 0) {
 			/* versions are identical */
 		} else if(pm_list_is_strin(i->data, handle->ignorepkg)) {
 			/* package should be ignored (IgnorePkg) */
-			_alpm_log(PM_LOG_FLOW1, "%s-%s: ignoring package upgrade (%s)",
+			_alpm_log(PM_LOG_WARNING, "%s-%s: ignoring package upgrade (%s)",
 				local->name, local->version, spkg->version);
 		} else {
 			pmpkg_t *dummy = pkg_new(local->name, local->version);
@@ -234,7 +235,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 				pm_errno = PM_ERR_MEMORY;
 				goto error;
 			}
-			_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (%s => %s)",
+			_alpm_log(PM_LOG_FLOW2, "%s-%s elected for upgrade (%s => %s)",
 				local->name, local->version, local->version, spkg->version);
 			trans->packages = pm_list_add(trans->packages, sync);
 		}
@@ -421,7 +422,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					continue;
 				}
 
-				_alpm_log(PM_LOG_DEBUG, "package %s is conflicting with %s",
+				_alpm_log(PM_LOG_FLOW2, "package %s is conflicting with %s",
 				          miss->target, miss->depend.name);
 
 				/* check if the conflicting package is one that's about to be removed/replaced.
@@ -525,7 +526,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 									}
 								} else {
 									/* abort */
-									_alpm_log(PM_LOG_ERROR, "package conflicts detected");
+									_alpm_log(PM_LOG_ERROR, "unresolvable package conflicts detected");
 									errorout = 1;
 									if(data) {
 										if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
