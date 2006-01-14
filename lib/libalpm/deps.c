@@ -233,8 +233,12 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 				/* CHECK 1: check targets against database */
 				for(k = db_get_pkgcache(db); k; k = k->next) {
 					pmpkg_t *dp = (pmpkg_t *)k->data;
+					if(!strcmp(dp->name, tp->name)) {
+						/* a package cannot conflict with itself -- that's just not nice */
+						continue;
+					}
 					if(!strcmp(j->data, dp->name)) {
-						/* confict */
+						/* conflict */
 						MALLOC(miss, sizeof(pmdepmissing_t));
 						miss->type = PM_DEP_TYPE_CONFLICT;
 						miss->depend.mod = PM_DEP_MOD_ANY;
@@ -242,6 +246,8 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
 						if(!pm_list_is_in(miss, baddeps)) {
+							_alpm_log(PM_LOG_FLOW2, "checkdeps: targs vs db: adding %s as a conflict for %s",
+							          dp->name, tp->name);
 							baddeps = pm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
@@ -259,6 +265,8 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 								STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 								STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
 								if(!pm_list_is_in(miss, baddeps)) {
+									_alpm_log(PM_LOG_FLOW2, "checkdeps: targs vs db: adding %s as a conflict for %s",
+									          dp->name, tp->name);
 									baddeps = pm_list_add(baddeps, miss);
 								} else {
 									FREE(miss);
@@ -269,18 +277,45 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 				}
 				/* CHECK 2: check targets against targets */
 				for(k = packages; k; k = k->next) {
-					pmpkg_t *a = (pmpkg_t *)k->data;
-					if(!strcmp(a->name, (char *)j->data)) {
+					pmpkg_t *otp = (pmpkg_t *)k->data;
+					if(!strcmp(otp->name, tp->name)) {
+						/* a package cannot conflict with itself -- that's just not nice */
+						continue;
+					}
+					if(!strcmp(otp->name, (char *)j->data)) {
+						/* otp is listed in tp's conflict list */
 						MALLOC(miss, sizeof(pmdepmissing_t));
 						miss->type = PM_DEP_TYPE_CONFLICT;
 						miss->depend.mod = PM_DEP_MOD_ANY;
 						miss->depend.version[0] = '\0';
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
-						STRNCPY(miss->depend.name, a->name, PKG_NAME_LEN);
+						STRNCPY(miss->depend.name, otp->name, PKG_NAME_LEN);
 						if(!pm_list_is_in(miss, baddeps)) {
+							_alpm_log(PM_LOG_FLOW2, "checkdeps: targs vs targs: adding %s as a conflict for %s",
+							          otp->name, tp->name);
 							baddeps = pm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
+						}
+					} else {
+						/* see if otp provides something in tp's conflict list */ 
+						PMList *m;
+						for(m = otp->provides; m; m = m->next) {
+							if(!strcmp(m->data, j->data)) {
+								MALLOC(miss, sizeof(pmdepmissing_t));
+								miss->type = PM_DEP_TYPE_CONFLICT;
+								miss->depend.mod = PM_DEP_MOD_ANY;
+								miss->depend.version[0] = '\0';
+								STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
+								STRNCPY(miss->depend.name, otp->name, PKG_NAME_LEN);
+								if(!pm_list_is_in(miss, baddeps)) {
+									_alpm_log(PM_LOG_FLOW2, "checkdeps: targs vs targs: adding %s as a conflict for %s",
+									          otp->name, tp->name);
+									baddeps = pm_list_add(baddeps, miss);
+								} else {
+									FREE(miss);
+								}
+							}
 						}
 					}
 				}
@@ -288,6 +323,10 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 			/* CHECK 3: check database against targets */
 			for(k = db_get_pkgcache(db); k; k = k->next) {
 				info = k->data;
+				if(!strcmp(info->name, tp->name)) {
+					/* a package cannot conflict with itself -- that's just not nice */
+					continue;
+				}
 				for(j = info->conflicts; j; j = j->next) {
 					if(!strcmp((char *)j->data, tp->name)) {
 						MALLOC(miss, sizeof(pmdepmissing_t));
@@ -297,6 +336,8 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 						STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
 						if(!pm_list_is_in(miss, baddeps)) {
+							_alpm_log(PM_LOG_FLOW2, "checkdeps: db vs targs: adding %s as a conflict for %s",
+							          info->name, tp->name);
 							baddeps = pm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
@@ -315,6 +356,8 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 									STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 									STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
 									if(!pm_list_is_in(miss, baddeps)) {
+										_alpm_log(PM_LOG_FLOW2, "checkdeps: db vs targs: adding %s as a conflict for %s",
+										          info->name, tp->name);
 										baddeps = pm_list_add(baddeps, miss);
 									} else {
 										FREE(miss);
@@ -435,11 +478,11 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 	} else if(op == PM_TRANS_TYPE_REMOVE) {
 		/* check requiredby fields */
 		for(i = packages; i; i = i->next) {
-			pmpkg_t *tp;
-			if(i->data == NULL) {
+			pmpkg_t *tp = i->data;
+			if(tp == NULL) {
 				continue;
 			}
-			tp = (pmpkg_t*)i->data;
+
 			for(j = tp->requiredby; j; j = j->next) {
 				if(!pm_list_is_strin((char *)j->data, packages)) {
 					MALLOC(miss, sizeof(pmdepmissing_t));
@@ -618,8 +661,6 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 		if(miss->type == PM_DEP_TYPE_DEPEND) {
 			pmpkg_t *sync = NULL;
 			int provisio_match = 0;
-
-			_alpm_log(PM_LOG_DEBUG, "resolving dependency %s", miss->depend.name);
 
 			/* check if one of the packages in *list already provides this dependency */
 			for(j = list; j; j = j->next) {
