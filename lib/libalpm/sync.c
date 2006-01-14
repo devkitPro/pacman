@@ -145,10 +145,10 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			pmpkg_t *spkg = j->data;
 			for(k = spkg->replaces; k; k = k->next) {
 				PMList *m;
-				_alpm_log(PM_LOG_DEBUG, "checking replacement %s for package %s", k->data, spkg->name);
 				for(m = db_get_pkgcache(db_local); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
 					if(!strcmp(k->data, lpkg->name)) {
+						_alpm_log(PM_LOG_DEBUG, "checking replacement %s for package %s", k->data, spkg->name);
 						if(pm_list_is_strin(lpkg->name, handle->ignorepkg)) {
 							_alpm_log(PM_LOG_WARNING, "%s-%s: ignoring package upgrade (to be replaced by %s-%s)",
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
@@ -380,7 +380,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		_alpm_log(PM_LOG_FLOW1, "resolving targets dependencies");
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
-			_alpm_log(PM_LOG_DEBUG, "resolving dependencies for package %s", spkg->name);
+			_alpm_log(PM_LOG_DEBUG, "resolving dependencies for %s", spkg->name);
 			if(resolvedeps(db_local, dbs_sync, spkg, list, trail, trans) == -1) {
 				/* pm_errno is set by resolvedeps */
 				goto error;
@@ -611,11 +611,29 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			_alpm_log(PM_LOG_FLOW1, "checking dependencies of packages designated for removal");
 			deps = checkdeps(db_local, PM_TRANS_TYPE_REMOVE, list);
 			if(deps) {
-				if(data) {
-					*data = deps;
+				int errorout = 0;
+				for(i = deps; i; i = i->next) {
+					pmdepmissing_t *miss = i->data;
+					pmsyncpkg_t *spkg = find_pkginsync(miss->depend.name, trans->packages);
+					if(spkg == NULL) {
+						if(!errorout) {
+							errorout = 1;
+						}
+						if(data) {
+							if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+								FREELIST(*data);
+								pm_errno = PM_ERR_MEMORY;
+								goto error;
+							}
+							*miss = *(pmdepmissing_t *)i->data;
+							*data = pm_list_add(*data, miss);
+						}
+					}
 				}
-				pm_errno = PM_ERR_UNSATISFIED_DEPS;
-				goto error;
+				if(errorout) {
+					pm_errno = PM_ERR_UNSATISFIED_DEPS;
+					goto error;
+				}
 			}
 			FREELISTPTR(list);
 		}
