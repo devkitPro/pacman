@@ -364,7 +364,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 								filedone = -1;
 								complete = list_add(complete, fn);
 							} else {
-								if(mtime2) {								
+								if(mtime2) {
 									strncpy(mtime2, fmtime, 15); /* YYYYMMDDHHMMSS (=14b) */
 									mtime2[14] = '\0';
 								}
