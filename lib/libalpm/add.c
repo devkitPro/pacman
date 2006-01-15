@@ -197,69 +197,33 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	if(data) {
-		*data = NULL;
-	}
-
 	/* Check dependencies
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_FLOW1, "looking for conflicts or unsatisfied dependencies");
+		/* look for unsatisfied dependencies */
+		_alpm_log(PM_LOG_FLOW1, "looking for unsatisfied dependencies");
 		lp = checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
-			PMList *i;
-			int errorout = 0;
-
-			/* look for unsatisfied dependencies */
-			_alpm_log(PM_LOG_FLOW2, "looking for unsatisfied dependencies");
-			for(i = lp; i; i = i->next) {
-				pmdepmissing_t* miss = i->data;
-
-				if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
-					if(!errorout) {
-						errorout = 1;
-					}
-					if(data) {
-						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-							FREELIST(lp);
-							FREELIST(*data);
-							RET_ERR(PM_ERR_MEMORY, -1);
-						}
-						*miss = *(pmdepmissing_t*)i->data;
-						*data = pm_list_add(*data, miss);
-					}
-				}
-			}
-			if(errorout) {
+			if(data) {
+				*data = lp;
+			} else {
 				FREELIST(lp);
-				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
+			RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
+		}
 
-			/* no unsatisfied deps, so look for conflicts */
-			_alpm_log(PM_LOG_FLOW2, "looking for conflicts");
-			for(i = lp; i; i = i->next) {
-				pmdepmissing_t* miss = (pmdepmissing_t *)i->data;
-				if(miss->type == PM_DEP_TYPE_CONFLICT) {
-					if(!errorout) {
-						errorout = 1;
-					}
-					if(data) {
-						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-							FREELIST(lp);
-							FREELIST(*data);
-							RET_ERR(PM_ERR_MEMORY, -1);
-						}
-						*miss = *(pmdepmissing_t*)i->data;
-						*data = pm_list_add(*data, miss);
-					}
-				}
+		/* no unsatisfied deps, so look for conflicts */
+		_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
+		lp = checkconflicts(db, trans->packages);
+		if(lp != NULL) {
+			if(data) {
+				*data = lp;
+			} else {
+				FREELIST(lp);
 			}
-			FREELIST(lp);
-			if(errorout) {
-				RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
-			}
+			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
 		}
 
 		/* re-order w.r.t. dependencies */
@@ -284,6 +248,8 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;
+			} else {
+				FREELIST(lp);
 			}
 			FREELIST(skiplist);
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);

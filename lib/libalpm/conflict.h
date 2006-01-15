@@ -23,6 +23,7 @@
 
 #include "db.h"
 
+PMList *checkconflicts(pmdb_t *db, PMList *packages);
 PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip_list);
 
 #endif /* _ALPM_CONFLICT_H */

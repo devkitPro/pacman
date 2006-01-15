@@ -38,6 +38,7 @@
 #include "db.h"
 #include "cache.h"
 #include "deps.h"
+#include "conflict.h"
 #include "trans.h"
 #include "sync.h"
 #include "versioncmp.h"
@@ -196,6 +197,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 	}
 
 	/* match installed packages with the sync dbs and compare versions */
+	_alpm_log(PM_LOG_FLOW1, "checking for package upgrades");
 	for(i = db_get_pkgcache(db_local); i; i = i->next) {
 		int cmp;
 		int replace = 0;
@@ -402,43 +404,28 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 		/* check for inter-conflicts and whatnot */
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
+
+		_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
 		deps = checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
+		if(deps) {
+			if(data) {
+				*data = deps;
+				deps = NULL;
+			}
+			pm_errno = PM_ERR_UNSATISFIED_DEPS;
+			goto error;
+		}
+
+		/* no unresolvable deps, so look for conflicts */
+		_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
+		deps = checkconflicts(db_local, list);
 		if(deps) {
 			int errorout = 0;
 
-			_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
-			for(i = deps; i; i = i->next) {
-				pmdepmissing_t *miss = i->data;
-				if(miss->type == PM_DEP_TYPE_DEPEND || miss->type == PM_DEP_TYPE_REQUIRED) {
-					if(!errorout) {
-						errorout = 1;
-					}
-					if(data) {
-						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-							FREELIST(*data);
-							pm_errno = PM_ERR_MEMORY;
-							goto error;
-						}
-						*miss = *(pmdepmissing_t *)i->data;
-						*data = pm_list_add(*data, miss);
-					}
-				}
-			}
-			if(errorout) {
-				pm_errno = PM_ERR_UNSATISFIED_DEPS;
-				goto error;
-			}
-
-			/* no unresolvable deps, so look for conflicts */
-			_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
 			for(i = deps; i && !errorout; i = i->next) {
 				pmdepmissing_t *miss = i->data;
 				PMList *k;
 				int found = 0;
-
-				if(miss->type != PM_DEP_TYPE_CONFLICT) {
-					continue;
-				}
 
 				_alpm_log(PM_LOG_FLOW2, "package %s is conflicting with %s",
 				          miss->target, miss->depend.name);
@@ -634,6 +621,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					pm_errno = PM_ERR_UNSATISFIED_DEPS;
 					goto error;
 				}
+				FREELIST(deps);
 			}
 			FREELISTPTR(list);
 		}

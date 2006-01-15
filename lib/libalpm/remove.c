@@ -83,7 +83,8 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for unsatisfied dependencies");
-		if((lp = checkdeps(db, trans->type, trans->packages)) != NULL) {
+		lp = checkdeps(db, trans->type, trans->packages);
+		if(lp != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				while(lp) {
 					PMList *j;
@@ -101,6 +102,8 @@ int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 			} else {
 				if(data) {
 					*data = lp;
+				} else {
+					FREELIST(lp);
 				}
 				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
