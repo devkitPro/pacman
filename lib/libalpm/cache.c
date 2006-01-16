@@ -74,7 +74,7 @@ int db_load_pkgcache(pmdb_t *db)
 
 void db_free_pkgcache(pmdb_t *db)
 {
-	if(db == NULL) {
+	if(db == NULL || db->pkgcache == NULL) {
 		return;
 	}
 
@@ -213,7 +213,7 @@ void db_free_grpcache(pmdb_t *db)
 {
 	PMList *lg;
 
-	if(db == NULL) {
+	if(db == NULL || db->grpcache == NULL) {
 		return;
 	}
 

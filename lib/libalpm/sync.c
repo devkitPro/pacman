@@ -206,12 +206,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 		pmsyncpkg_t *sync;
 
 		for(j = dbs_sync; !spkg && j; j = j->next) {
-			for(k = db_get_pkgcache(j->data); !spkg && k; k = k->next) {
-				pmpkg_t *sp = k->data;
-				if(!strcmp(local->name, sp->name)) {
-					spkg = sp;
-				}
-			}
+			spkg = db_get_pkgfromcache(j->data, local->name);
 		}
 		if(spkg == NULL) {
 			_alpm_log(PM_LOG_DEBUG, "%s: not found in sync db -- skipping.", local->name);
@@ -393,8 +388,6 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			pmpkg_t *spkg = i->data;
 			if(!find_pkginsync(spkg->name, trans->packages)) {
 				pmsyncpkg_t *sync = sync_new(PM_SYNC_TYPE_DEPEND, spkg, NULL);
-				/* ORE - the trans->packages list should be sorted to stay compatible with
-				 * pacman 2.x */
 				trans->packages = pm_list_add(trans->packages, sync);
 				_alpm_log(PM_LOG_FLOW2, "adding package %s-%s to the transaction targets",
 				          spkg->name, spkg->version);
@@ -517,16 +510,13 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 										pmsyncpkg_t *s = k->data;
 										if(!strcmp(s->pkg->name, miss->target)) {
 											pmpkg_t *q = pkg_new(miss->depend.name, NULL);
-											if(s->type == PM_SYNC_TYPE_REPLACE) {
-												/* append to the replaces list */
-												s->data = pm_list_add(s->data, q);
-											} else {
+											if(s->type != PM_SYNC_TYPE_REPLACE) {
 												/* switch this sync type to REPLACE */
 												s->type = PM_SYNC_TYPE_REPLACE;
-												/* add miss->depend.name to the replaces list */
-												/* ORE - isn't the next line overwriting s->data? */
-												s->data = pm_list_add(NULL, q);
+												FREEPKG(s->data);
 											}
+											/* append to the replaces list */
+											s->data = pm_list_add(s->data, q);
 										}
 									}
 								} else {
@@ -760,7 +750,8 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 								}
 							}
 							if(db_write(db_local, depender, INFRQ_DEPENDS) == -1) {
-								_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db_local->treename, new->name, new->version);
+								_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
+								          new->name, new->version);
 							}
 							/* add the new requiredby */
 							new->requiredby = pm_list_add(new->requiredby, strdup(k->data));
@@ -768,7 +759,8 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 					}
 				}
 				if(db_write(db_local, new, INFRQ_DEPENDS) == -1) {
-					_alpm_log(PM_LOG_ERROR, "could not update new database entry %s/%s-%s", db_local->treename, new->name, new->version);
+					_alpm_log(PM_LOG_ERROR, "could not update new database entry %s-%s",
+					          new->name, new->version);
 				}
 			}
 		}

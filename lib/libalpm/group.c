@@ -29,7 +29,7 @@
 
 pmgrp_t *grp_new()
 {
-	pmgrp_t* grp = NULL;
+	pmgrp_t* grp;
 
 	grp = (pmgrp_t *)malloc(sizeof(pmgrp_t));
 	if(grp == NULL) {

@@ -108,12 +108,12 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		return(0);
 	}
 
+	_alpm_log(PM_LOG_FLOW2, "loading target %s", name);
+
 	if(stat(name, &buf)) {
 		pm_errno = PM_ERR_NOT_A_FILE;
 		goto error;
 	}
-
-	_alpm_log(PM_LOG_FLOW2, "loading target %s", name);
 
 	if(pkg_splitname(name, pkgname, pkgver) == -1) {
 		pm_errno = PM_ERR_PKG_INVALID_NAME;
@@ -256,10 +256,7 @@ int add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		}
 
 		/* copy the file skiplist into the transaction */
-		for(lp = skiplist; lp; lp = lp->next) {
-			trans->skiplist = pm_list_add(trans->skiplist, lp->data);
-		}
-		FREELISTPTR(skiplist);
+		trans->skiplist = skiplist;
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
 	}
@@ -646,18 +643,17 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					/* use the first one */
 					depinfo = db_get_pkgfromcache(db, ((pmpkg_t *)provides->data)->name);
 					FREELISTPTR(provides);
-					if(depinfo == NULL) {
-						/* wtf */
-						continue;
-					}
-				} else {
+				}
+				if(depinfo == NULL) {
+					/* wtf */
 					continue;
 				}
 			}
 			depinfo->requiredby = pm_list_add(depinfo->requiredby, strdup(info->name));
 			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package %s", depinfo->name);
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
-				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s/%s-%s", db->treename, depinfo->name, depinfo->version);
+				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
+				          depinfo->name, depinfo->version);
 			}
 		}
 
