@@ -336,9 +336,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					/* copy the skiplist over */
-					for(lp = trans->skiplist; lp; lp = lp->next) {
-						tr->skiplist = pm_list_add(tr->skiplist, strdup(lp->data));
-					}
+					tr->skiplist = _alpm_list_strdup(trans->skiplist);
 					if(remove_commit(tr, db) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -444,11 +442,12 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					 * (it will be the new orginal)
 					 */
 					for(lp = info->backup; lp; lp = lp->next) {
-						char *fn;
 						char *file = lp->data;
-
-						if(!file) continue;
+						if(!file) {
+							continue;
+						}
 						if(!strcmp(file, pathname)) {
+							char *fn;
 							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
 							MALLOC(fn, strlen(file)+34);
 							sprintf(fn, "%s\t%s", file, md5_pkg);
@@ -616,7 +615,8 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		_alpm_log(PM_LOG_FLOW1, "updating database");
 		_alpm_log(PM_LOG_FLOW2, "adding database entry %s", info->name);
 		if(db_write(db, info, INFRQ_ALL)) {
-			_alpm_log(PM_LOG_ERROR, "could not update database entry %s/%s-%s", db->treename, info->name, info->version);
+			_alpm_log(PM_LOG_ERROR, "could not update database entry %s-%s",
+			          info->name, info->version);
 			alpm_logaction(NULL, "error updating database for %s-%s!", info->name, info->version);
 			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
@@ -645,6 +645,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
+					_alpm_log(PM_LOG_ERROR, "could not find dependency %s", depend.name);
 					/* wtf */
 					continue;
 				}

@@ -277,6 +277,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
+					_alpm_log(PM_LOG_ERROR, "could not find dependency %s", depend.name);
 					/* wtf */
 					continue;
 				}
