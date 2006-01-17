@@ -108,7 +108,7 @@ int pacman_add(list_t *targets)
 			break;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					MSG(NL, ":: %s\n", (char *)alpm_list_getdata(i));
+					MSG(NL, ":: %s", (char *)alpm_list_getdata(i));
 				}
 				alpm_list_free(data);
 				MSG(NL, "\nerrors occurred, no packages were upgraded.\n");

@@ -515,7 +515,8 @@ int pacman_sync(list_t *targets)
 		}
 	}
 
-	/* Step 2: "compute" the transaction based on targets and flags */
+	/* Step 2: "compute" the transaction based on targets and flags
+	 */
 	if(alpm_trans_prepare(&data) == -1) {
 		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
 		switch(pm_errno) {
@@ -523,8 +524,9 @@ int pacman_sync(list_t *targets)
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
 
-					MSG(NL, ":: %s: requires %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
-					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
+					MSG(NL, ":: %s: %s %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
+					    alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? "requires" : "is required by",
+					    alpm_dep_getinfo(miss, PM_DEP_NAME));
 					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
 						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
@@ -541,6 +543,8 @@ int pacman_sync(list_t *targets)
 					MSG(NL, ":: %s: conflicts with %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					                                    alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
+				alpm_list_free(data);
+			break;
 				alpm_list_free(data);
 			break;
 			default:
@@ -753,7 +757,8 @@ int pacman_sync(list_t *targets)
 		goto cleanup;
 	}
 
-	/* Step 3: actually perform the installation */
+	/* Step 3: actually perform the installation
+	 */
 	if(alpm_trans_commit(&data) == -1) {
 		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
 		switch(pm_errno) {
