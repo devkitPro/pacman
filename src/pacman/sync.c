@@ -230,7 +230,7 @@ static int sync_search(list_t *syncs, list_t *targets)
 	return(0);
 }
 
-static int sync_group(list_t *syncs, list_t *targets)
+static int sync_group(int level, list_t *syncs, list_t *targets)
 {
 	list_t *i, *j;
 	
@@ -255,7 +255,7 @@ static int sync_group(list_t *syncs, list_t *targets)
 				PM_GRP *grp = alpm_list_getdata(lp);
 
 				MSG(NL, "%s/%s\n", sync->treename, (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
-				if(config->group > 1) {
+				if(level > 1) {
 					PM_LIST_display("   ", alpm_grp_getinfo(grp, PM_GRP_PKGNAMES));
 				}
 			}
@@ -399,7 +399,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	if(config->group) {
-		return(sync_group(pmc_syncs, targets));
+		return(sync_group(config->group, pmc_syncs, targets));
 	}
 
 	if(config->op_s_info) {
