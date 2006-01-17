@@ -148,7 +148,7 @@ static int sync_cleancache(int level)
 	return(0);
 }
 
-static int sync_synctree(list_t *syncs)
+static int sync_synctree(int level, list_t *syncs)
 {
 	char *root, *dbpath;
 	char path[PATH_MAX];
@@ -389,7 +389,7 @@ int pacman_sync(list_t *targets)
 		/* grab a fresh package list */
 		MSG(NL, ":: Synchronizing package databases...\n");
 		alpm_logaction("synchronizing package lists");
-		if(sync_synctree(pmc_syncs)) {
+		if(sync_synctree(config->op_s_sync, pmc_syncs)) {
 			return(1);
 		}
 	}

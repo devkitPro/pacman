@@ -383,7 +383,7 @@ int parseargs(int argc, char *argv[])
 			case 'u': config->op_s_upgrade = 1; break;
 			case 'v': config->verbose++; break;
 			case 'w': config->op_s_downloadonly = 1; break;
-			case 'y': config->op_s_sync = 1; break;
+			case 'y': config->op_s_sync++; break;
 			case '?': return(1);
 			default: return(1);
 		}
