@@ -75,7 +75,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
-					if(!pm_list_is_in(miss, baddeps)) {
+					if(!dep_isin(miss, baddeps)) {
 						_alpm_log(PM_LOG_DEBUG, "checkconflict: targs vs db: adding %s as a conflict for %s",
 						          dp->name, tp->name);
 						baddeps = pm_list_add(baddeps, miss);
@@ -94,7 +94,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 							miss->depend.version[0] = '\0';
 							STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 							STRNCPY(miss->depend.name, dp->name, PKG_NAME_LEN);
-							if(!pm_list_is_in(miss, baddeps)) {
+							if(!dep_isin(miss, baddeps)) {
 								_alpm_log(PM_LOG_DEBUG, "checkconflict: targs vs db: adding %s as a conflict for %s",
 								          dp->name, tp->name);
 								baddeps = pm_list_add(baddeps, miss);
@@ -120,7 +120,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, otp->name, PKG_NAME_LEN);
-					if(!pm_list_is_in(miss, baddeps)) {
+					if(!dep_isin(miss, baddeps)) {
 						_alpm_log(PM_LOG_DEBUG, "checkconflict: targs vs targs: adding %s as a conflict for %s",
 						          otp->name, tp->name);
 						baddeps = pm_list_add(baddeps, miss);
@@ -138,7 +138,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 							miss->depend.version[0] = '\0';
 							STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 							STRNCPY(miss->depend.name, otp->name, PKG_NAME_LEN);
-							if(!pm_list_is_in(miss, baddeps)) {
+							if(!dep_isin(miss, baddeps)) {
 								_alpm_log(PM_LOG_DEBUG, "checkconflict: targs vs targs: adding %s as a conflict for %s",
 								          otp->name, tp->name);
 								baddeps = pm_list_add(baddeps, miss);
@@ -165,7 +165,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
-					if(!pm_list_is_in(miss, baddeps)) {
+					if(!dep_isin(miss, baddeps)) {
 						_alpm_log(PM_LOG_DEBUG, "checkconflict: db vs targs: adding %s as a conflict for %s",
 						          info->name, tp->name);
 						baddeps = pm_list_add(baddeps, miss);
@@ -185,7 +185,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 								miss->depend.version[0] = '\0';
 								STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 								STRNCPY(miss->depend.name, info->name, PKG_NAME_LEN);
-								if(!pm_list_is_in(miss, baddeps)) {
+								if(!dep_isin(miss, baddeps)) {
 									_alpm_log(PM_LOG_DEBUG, "checkconflict: db vs targs: adding %s as a conflict for %s",
 									          info->name, tp->name);
 									baddeps = pm_list_add(baddeps, miss);

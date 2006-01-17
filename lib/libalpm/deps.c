@@ -37,6 +37,21 @@
 
 extern pmhandle_t *handle;
 
+int dep_isin(pmdepmissing_t *needle, PMList *haystack)
+{
+	PMList *i;
+
+	for(i = haystack; i; i = i->next) {
+		pmdepmissing_t *miss = i->data;
+		if(!memcmp(needle, miss, sizeof(pmdepmissing_t))
+		   && !memcmp(&needle->depend, &miss->depend, sizeof(pmdepend_t))) {
+			return(1);
+		}
+	}
+
+	return(0);
+}
+
 static pmdepmissing_t *depmissing_new(const char *target, unsigned char type, unsigned char depmod,
                                       const char *depname, const char *depversion)
 {
@@ -225,7 +240,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					STRNCPY(miss->target, p->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
-					if(!pm_list_is_in(miss, baddeps)) {
+					if(!dep_isin(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -339,7 +354,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
-					if(!pm_list_is_in(miss, baddeps)) {
+					if(!dep_isin(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -363,7 +378,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					miss->depend.version[0] = '\0';
 					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
 					STRNCPY(miss->depend.name, (char *)j->data, PKG_NAME_LEN);
-					if(!pm_list_is_in(miss, baddeps)) {
+					if(!dep_isin(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
