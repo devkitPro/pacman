@@ -373,30 +373,23 @@ error:
 
 /* Test for existence of a package in a PMList*
  * of pmpkg_t*
- *
- * returns:  0 for no match
- *           1 for identical match
- *          -1 for name-only match (version mismatch)
  */
-int pkg_isin(pmpkg_t *needle, PMList *haystack)
+pmpkg_t *pkg_isin(char *needle, PMList *haystack)
 {
 	PMList *lp;
 
 	if(needle == NULL || haystack == NULL) {
-		return(0);
+		return(NULL);
 	}
 
 	for(lp = haystack; lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(info && !strcmp(info->name, needle->name)) {
-			if(!strcmp(info->version, needle->version)) {
-				return(1);
-			}
-			return(-1);
+		if(info && !strcmp(info->name, needle)) {
+			return(lp->data);
 		}
 	}
-	return(0);
+	return(NULL);
 }
 
 int pkg_splitname(char *target, char *name, char *version)

@@ -145,21 +145,11 @@ int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 
 pmpkg_t *db_get_pkgfromcache(pmdb_t *db, char *target)
 {
-	PMList *i;
-
-	if(db == NULL || target == NULL || strlen(target) == 0) {
+	if(db == NULL) {
 		return(NULL);
 	}
 
-	for(i = db_get_pkgcache(db); i; i = i->next) {
-		pmpkg_t *info = i->data;
-
-		if(strcmp(info->name, target) == 0) {
-			return(info);
-		}
-	}
-
-	return(NULL);
+	return(pkg_isin(target, db_get_pkgcache(db)));
 }
 
 /* Returns a new group cache from db.

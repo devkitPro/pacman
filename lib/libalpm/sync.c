@@ -118,8 +118,9 @@ PMList *sync_load_dbarchive(char *archive)
 		goto error;
 	}
 
-	/* readdir tmp_dir */
+	/* ORE - readdir tmp_dir */
 	/* for each subdir, parse %s/desc and %s/depends */
+	/* then db_write it */
 
 	tar_close(tar);
 
@@ -217,16 +218,14 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 		for(j = trans->packages; j && !replace; j = j->next) {
 			sync = j->data;
 			if(sync->type == PM_SYNC_TYPE_REPLACE) {
-				for(k = sync->data; k && !replace; k = k->next) {
-					if(!strcmp(((pmpkg_t *)k->data)->name, spkg->name)) {
-						replace = 1;
-					}
+				if(pkg_isin(spkg->name, sync->data)) {
+					replace = 1;
 				}
 			}
 		}
 		if(replace) {
 			_alpm_log(PM_LOG_DEBUG, "%s is already elected for removal -- skipping",
-			          local->name);
+			          spkg->name);
 			continue;
 		}
 
@@ -377,7 +376,6 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		_alpm_log(PM_LOG_FLOW1, "resolving targets dependencies");
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
-			_alpm_log(PM_LOG_DEBUG, "resolving dependencies for %s", spkg->name);
 			if(resolvedeps(db_local, dbs_sync, spkg, list, trail, trans) == -1) {
 				/* pm_errno is set by resolvedeps */
 				goto error;
@@ -430,18 +428,14 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				for(j = trans->packages; j && !found; j = j->next) {
 					sync = j->data;
 					if(sync->type == PM_SYNC_TYPE_REPLACE) {
-						PMList *k;
-						for(k = sync->data; k && !found; k = k->next) {
-							pmpkg_t *p = k->data;
-							if(!strcmp(p->name, miss->depend.name)) {
-								_alpm_log(PM_LOG_DEBUG, "%s is already elected for removal -- skipping",
-								          miss->depend.name);
-								found = 1;
-							}
+						if(pkg_isin(miss->depend.name, sync->data)) {
+							found = 1;
 						}
 					}
 				}
 				if(found) {
+					_alpm_log(PM_LOG_DEBUG, "%s is already elected for removal -- skipping",
+					          miss->depend.name);
 					continue;
 				}
 
@@ -450,12 +444,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 				/* check if this package also "provides" the package it's conflicting with
 				 */
-				for(j = sync->pkg->provides; j && j->data && !found; j = j->next) {
-					if(!strcmp(j->data, miss->depend.name)) {
-						found = 1;
-					}
-				}
-				if(found) {
+				if(pm_list_is_strin(miss->depend.name, sync->pkg->provides)) {
 					/* so just treat it like a "replaces" item so the REQUIREDBY
 					 * fields are inherited properly.
 					 */
@@ -492,7 +481,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 							pmsyncpkg_t *rsync = find_pkginsync(rmpkg, trans->packages);
 							pmsyncpkg_t *spkg;
 							_alpm_log(PM_LOG_DEBUG, "removing %s from target list", rmpkg);
-							trans->packages = _alpm_list_remove(trans->packages, sync, ptr_cmp, (void **)&spkg);
+							trans->packages = _alpm_list_remove(trans->packages, rsync, ptr_cmp, (void **)&spkg);
 							FREESYNC(spkg);
 							FREE(rmpkg);
 							continue;
@@ -653,7 +642,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 			PMList *j;
 			for(j = sync->data; j; j = j->next) {
 				pmpkg_t *pkg = j->data;
-				if(!pkg_isin(pkg, tr->packages)) {
+				if(!pkg_isin(pkg->name, tr->packages)) {
 					if(trans_addtarget(tr, pkg->name) == -1) {
 						goto error;
 					}

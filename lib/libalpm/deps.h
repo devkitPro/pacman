@@ -36,7 +36,9 @@ typedef struct __pmdepmissing_t {
 	pmdepend_t depend;
 } pmdepmissing_t;
 
-int dep_isin(pmdepmissing_t *needle, PMList *haystack);
+pmdepmissing_t *depmiss_new(const char *target, unsigned char type, unsigned char depmod,
+                            const char *depname, const char *depversion);
+int depmiss_isin(pmdepmissing_t *needle, PMList *haystack);
 PMList *sortbydeps(PMList *targets, int mode);
 PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages);
 int splitdep(char *depstr, pmdepend_t *depend);

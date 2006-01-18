@@ -56,14 +56,13 @@ int remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
+	if(pkg_isin(name, trans->packages)) {
+		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+	}
+
 	if((info = db_scan(db, name, INFRQ_ALL)) == NULL) {
 		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
-	}
-
-	if(pkg_isin(info, trans->packages)) {
-		FREEPKG(info);
-		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	_alpm_log(PM_LOG_FLOW2, "adding %s in the targets list", info->name);
@@ -262,6 +261,13 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 			pmdepend_t depend;
 			char *data;
 			if(splitdep((char*)lp->data, &depend)) {
+				continue;
+			}
+			/* if this dependency is in the transaction targets, no need to update 
+			 * its requiredby info: it is in the process of being removed (if not 
+			 * already done!)
+			 */
+			if(pkg_isin(depend.name, trans->packages)) {
 				continue;
 			}
 			depinfo = db_get_pkgfromcache(db, depend.name);

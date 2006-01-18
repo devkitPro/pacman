@@ -37,23 +37,8 @@
 
 extern pmhandle_t *handle;
 
-int dep_isin(pmdepmissing_t *needle, PMList *haystack)
-{
-	PMList *i;
-
-	for(i = haystack; i; i = i->next) {
-		pmdepmissing_t *miss = i->data;
-		if(!memcmp(needle, miss, sizeof(pmdepmissing_t))
-		   && !memcmp(&needle->depend, &miss->depend, sizeof(pmdepend_t))) {
-			return(1);
-		}
-	}
-
-	return(0);
-}
-
-static pmdepmissing_t *depmissing_new(const char *target, unsigned char type, unsigned char depmod,
-                                      const char *depname, const char *depversion)
+pmdepmissing_t *depmiss_new(const char *target, unsigned char type, unsigned char depmod,
+                            const char *depname, const char *depversion)
 {
 	pmdepmissing_t *miss;
 
@@ -66,9 +51,28 @@ static pmdepmissing_t *depmissing_new(const char *target, unsigned char type, un
 	miss->type = type;
 	miss->depend.mod = depmod;
 	STRNCPY(miss->depend.name, depname, PKG_NAME_LEN);
-	STRNCPY(miss->depend.version, depversion, PKG_VERSION_LEN);
+	if(depversion) {
+		STRNCPY(miss->depend.version, depversion, PKG_VERSION_LEN);
+	} else {
+		miss->depend.version[0] = 0;
+	}
 
 	return(miss);
+}
+
+int depmiss_isin(pmdepmissing_t *needle, PMList *haystack)
+{
+	PMList *i;
+
+	for(i = haystack; i; i = i->next) {
+		pmdepmissing_t *miss = i->data;
+		if(!memcmp(needle, miss, sizeof(pmdepmissing_t))
+		   && !memcmp(&needle->depend, &miss->depend, sizeof(pmdepend_t))) {
+			return(1);
+		}
+	}
+
+	return(0);
 }
 
 /* Re-order a list of target packages with respect to their dependencies.
@@ -126,7 +130,7 @@ PMList *sortbydeps(PMList *targets, int mode)
 				for(k = i->next; k; k = k->next) {
 					q = (pmpkg_t *)k->data;
 					if(!strcmp(dep.name, q->name)) {
-						if(!pkg_isin(q, tmptargs)) {
+						if(!pkg_isin(q->name, tmptargs)) {
 							change = 1;
 							tmptargs = pm_list_add(tmptargs, q);
 						}
@@ -134,7 +138,7 @@ PMList *sortbydeps(PMList *targets, int mode)
 					}
 				}
 			}
-			if(!pkg_isin(p, tmptargs)) {
+			if(!pkg_isin(p->name, tmptargs)) {
 				tmptargs = pm_list_add(tmptargs, p);
 			}
 		}
@@ -193,7 +197,7 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					/* hmmm... package isn't installed.. */
 					continue;
 				}
-				if(pkg_isin(p, packages)) {
+				if(pkg_isin(p->name, packages)) {
 					/* this package is also in the upgrade list, so don't worry about it */
 					continue;
 				}
@@ -234,13 +238,9 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					FREE(ver);
 				}
 				if(!found) {
-					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_TYPE_REQUIRED;
-					miss->depend.mod = depend.mod;
-					STRNCPY(miss->target, p->name, PKG_NAME_LEN);
-					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
-					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
-					if(!dep_isin(miss, baddeps)) {
+					_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s as required by %s", depend.name, p->name);
+					miss = depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod, depend.name, depend.version);
+					if(!depmiss_isin(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -348,13 +348,10 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 				}
 				/* else if still not found... */
 				if(!found) {
-					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_TYPE_DEPEND;
-					miss->depend.mod = depend.mod;
-					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
-					STRNCPY(miss->depend.name, depend.name, PKG_NAME_LEN);
-					STRNCPY(miss->depend.version, depend.version, PKG_VERSION_LEN);
-					if(!dep_isin(miss, baddeps)) {
+					_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s as a dependency for %s",
+					          depend.name, tp->name);
+					miss = depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod, depend.name, depend.version);
+					if(!depmiss_isin(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -372,13 +369,9 @@ PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 
 			for(j = tp->requiredby; j; j = j->next) {
 				if(!pm_list_is_strin((char *)j->data, packages)) {
-					MALLOC(miss, sizeof(pmdepmissing_t));
-					miss->type = PM_DEP_TYPE_REQUIRED;
-					miss->depend.mod = PM_DEP_MOD_ANY;
-					miss->depend.version[0] = '\0';
-					STRNCPY(miss->target, tp->name, PKG_NAME_LEN);
-					STRNCPY(miss->depend.name, (char *)j->data, PKG_NAME_LEN);
-					if(!dep_isin(miss, baddeps)) {
+					_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s as required by %s", (char *)j->data, tp->name);
+					miss = depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
+					if(!depmiss_isin(miss, baddeps)) {
 						baddeps = pm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
@@ -469,11 +462,12 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 				dep = db_get_pkgfromcache(db, ((pmpkg_t *)k->data)->name);
 				if(dep == NULL) {
 					_alpm_log(PM_LOG_ERROR, "dep is NULL!");
+					/* wtf */
 					continue;
 				}
 				FREELISTPTR(k);
 			}
-			if(pkg_isin(dep, targs)) {
+			if(pkg_isin(dep->name, targs)) {
 				continue;
 			}
 
@@ -486,7 +480,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
 			/* see if other packages need it */
 			for(k = dep->requiredby; k && !needed; k = k->next) {
 				pmpkg_t *dummy = db_get_pkgfromcache(db, k->data);
-				if(!pkg_isin(dummy, targs)) {
+				if(!pkg_isin(dummy->name, targs)) {
 					needed = 1;
 				}
 			}
@@ -518,7 +512,7 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
  */
 int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail, pmtrans_t *trans)
 {
-	PMList *i, *j, *k;
+	PMList *i, *j;
 	PMList *targ;
 	PMList *deps = NULL;
 
@@ -538,7 +532,6 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 		int found = 0;
 		pmdepmissing_t *miss = i->data;
 		pmpkg_t *sync = NULL;
-		int provisio_match = 0;
 
 		/* XXX: conflicts are now treated specially in the _add and _sync functions */
 
@@ -549,36 +542,27 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 
 
 		/* check if one of the packages in *list already provides this dependency */
-		for(j = list; j; j = j->next) {
-			pmpkg_t *sp = (pmpkg_t*)j->data;
-			for(k = sp->provides; k; k = k->next) {
-				if(!strcmp(miss->depend.name, k->data)) {
-					_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s -- skipping", sp->name, miss->depend.name);
-					provisio_match = 1;
-				}
+		for(j = list; j && !found; j = j->next) {
+			pmpkg_t *sp = (pmpkg_t *)j->data;
+			if(pm_list_is_strin(miss->depend.name, sp->provides)) {
+				_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s -- skipping",
+				          sp->name, miss->depend.name);
+				found = 1;
 			}
 		}
-		if(provisio_match) {
+		if(found) {
 			continue;
 		}
 
 		/* find the package in one of the repositories */
 		/* check literals */
 		for(j = dbs_sync; !sync && j; j = j->next) {
-			PMList *k;
-			pmdb_t *dbs = j->data;
-			for(k = db_get_pkgcache(dbs); !sync && k; k = k->next) {
-				pmpkg_t *pkg = k->data;
-				if(!strcmp(miss->depend.name, pkg->name)) {
-					sync = pkg;
-				}
-			}
+			sync = db_get_pkgfromcache(j->data, miss->depend.name);
 		}
 		/* check provides */
 		for(j = dbs_sync; !sync && j; j = j->next) {
 			PMList *provides;
-			pmdb_t *dbs = j->data;
-			provides = _alpm_db_whatprovides(dbs, miss->depend.name);
+			provides = _alpm_db_whatprovides(j->data, miss->depend.name);
 			if(provides) {
 				sync = provides->data;
 			}
@@ -590,39 +574,19 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 			pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
 			goto error;
 		}
-		found = 0;
-		for(j = list; j && !found; j = j->next) {
-			pmpkg_t *tmp = j->data;
-			if(tmp && !strcmp(tmp->name, sync->name)) {
-				_alpm_log(PM_LOG_DEBUG, "dependency %s is already in the target list - skipping",
-				          sync->name);
-				found = 1;
-			}
-		}
-		if(found) {
+		if(pkg_isin(sync->name, list)) {
 			/* this dep is already in the target list */
+			_alpm_log(PM_LOG_DEBUG, "dependency %s is already in the target list -- skipping",
+			          sync->name);
 			continue;
 		}
 
-		found = 0;
-		for(j = trail; j; j = j->next) {
-			pmpkg_t *tmp = j->data;
-			if(tmp && !strcmp(tmp->name, sync->name)) {
-				found = 1;
-			}
-		}
-		if(!found) {
+		if(!pkg_isin(sync->name, trail)) {
 			/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
 			 * something we're not supposed to.
 			 */
 			int usedep = 1;
-			found = 0;
-			for(j = handle->ignorepkg; j && !found; j = j->next) {
-				if(!strcmp(j->data, sync->name)) {
-					found = 1;
-				}
-			}
-			if(found) {
+			if(pm_list_is_strin(sync->name, handle->ignorepkg)) {
 				pmpkg_t *dummypkg = pkg_new(miss->target, NULL);
 				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
 				FREEPKG(dummypkg);
