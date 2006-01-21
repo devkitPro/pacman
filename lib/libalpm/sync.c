@@ -376,7 +376,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 		_alpm_log(PM_LOG_FLOW1, "resolving targets dependencies");
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
-			if(resolvedeps(db_local, dbs_sync, spkg, list, trail, trans) == -1) {
+			if(resolvedeps(db_local, dbs_sync, spkg, list, trail, trans, data) == -1) {
 				/* pm_errno is set by resolvedeps */
 				goto error;
 			}

@@ -102,8 +102,6 @@ char *alpm_strerror(int err)
 			return "could not satisfy dependencies";
 		case PM_ERR_CONFLICTING_DEPS:
 			return "conflicting dependencies";
-		case PM_ERR_UNRESOLVABLE_DEPS:
-			return "could not resolve dependencies";
 		case PM_ERR_FILE_CONFLICTS:
 			return "conflicting files";
 		/* Miscellaenous */

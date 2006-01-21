@@ -510,7 +510,8 @@ PMList* removedeps(pmdb_t *db, PMList *targs)
  *
  * make sure *list and *trail are already initialized
  */
-int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail, pmtrans_t *trans)
+int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
+                PMList *trail, pmtrans_t *trans, PMList **data)
 {
 	PMList *i, *j;
 	PMList *targ;
@@ -571,7 +572,16 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 		if(sync == NULL) {
 			_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)",
 			          miss->target, miss->depend.name);
-			pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
+			if(data) {
+				if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+					FREELIST(*data);
+					pm_errno = PM_ERR_MEMORY;
+					goto error;
+				}
+				*miss = *(pmdepmissing_t *)i->data;
+				*data = pm_list_add(*data, miss);
+			}
+			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
 		}
 		if(pkg_isin(sync->name, list)) {
@@ -593,7 +603,7 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 			}
 			if(usedep) {
 				trail = pm_list_add(trail, sync);
-				if(resolvedeps(local, dbs_sync, sync, list, trail, trans)) {
+				if(resolvedeps(local, dbs_sync, sync, list, trail, trans, data)) {
 					goto error;
 				}
 				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)",
@@ -601,7 +611,16 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 				list = pm_list_add(list, sync);
 			} else {
 				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
-				pm_errno = PM_ERR_UNRESOLVABLE_DEPS;
+				if(data) {
+					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+						FREELIST(*data);
+						pm_errno = PM_ERR_MEMORY;
+						goto error;
+					}
+					*miss = *(pmdepmissing_t *)i->data;
+					*data = pm_list_add(*data, miss);
+				}
+				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				goto error;
 			}
 		} else {

@@ -354,7 +354,6 @@ extern enum __pmerrno_t {
 	/* Dependencies */
 	PM_ERR_UNSATISFIED_DEPS,
 	PM_ERR_CONFLICTING_DEPS,
-	PM_ERR_UNRESOLVABLE_DEPS,
 	PM_ERR_FILE_CONFLICTS,
 	/* Misc */
 	PM_ERR_USER_ABORT,

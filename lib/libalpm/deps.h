@@ -43,7 +43,8 @@ PMList *sortbydeps(PMList *targets, int mode);
 PMList *checkdeps(pmdb_t *db, unsigned char op, PMList *packages);
 int splitdep(char *depstr, pmdepend_t *depend);
 PMList *removedeps(pmdb_t *db, PMList *targs);
-int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list, PMList *trail, pmtrans_t *trans);
+int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
+                PMList *trail, pmtrans_t *trans, PMList **data);
 
 #endif /* _ALPM_DEPS_H */
 
