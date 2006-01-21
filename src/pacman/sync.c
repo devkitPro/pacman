@@ -523,7 +523,6 @@ int pacman_sync(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
-
 					MSG(NL, ":: %s: %s %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					    alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? "requires" : "is required by",
 					    alpm_dep_getinfo(miss, PM_DEP_NAME));
@@ -539,12 +538,9 @@ int pacman_sync(list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
-
 					MSG(NL, ":: %s: conflicts with %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					                                    alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
-				alpm_list_free(data);
-			break;
 				alpm_list_free(data);
 			break;
 			default:
