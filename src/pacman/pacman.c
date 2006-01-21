@@ -101,10 +101,12 @@ int main(int argc, char *argv[])
 #ifndef CYGWIN
 	/* see if we're root or not */
 	myuid = geteuid();
+#ifndef FAKEROOT
 	if(!myuid && getenv("FAKEROOTKEY")) {
 		/* fakeroot doesn't count, we're non-root */
 		myuid = 99;
 	}
+#endif
 
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0) {

@@ -55,13 +55,19 @@ pmhandle_t *handle_new()
 #ifndef CYGWIN
 	/* see if we're root or not */
 	handle->uid = geteuid();
+#ifndef FAKEROOT
 	if(!handle->uid && getenv("FAKEROOTKEY")) {
 		/* fakeroot doesn't count, we're non-root */
 		handle->uid = 99;
 	}
+#endif
 
 	/* see if we're root or not (fakeroot does not count) */
+#ifndef FAKEROOT
 	if(handle->uid == 0 && !getenv("FAKEROOTKEY")) {
+#else
+	if(handle->uid == 0) {
+#endif
 		handle->access = PM_ACCESS_RW;
 	} else {
 		handle->access = PM_ACCESS_RO;
