@@ -20,10 +20,28 @@
 #   USA.
 #
 
-myver='2.9.7'
+myver='2.9.8'
 startdir=`pwd`
 PKGDEST=$startdir
 USE_COLOR="n"
+
+# Options
+BUILDSCRIPT="./PKGBUILD"
+CLEANUP=0
+CLEANCACHE=0
+DEP_BIN=0
+DEP_SRC=0
+DEP_SUDO=0
+FORCE=0
+GENMD5=0
+INSTALL=0
+KEEPDOCS=0
+NOBUILD=0
+NOCCACHE=0
+NODEPS=0
+NOEXTRACT=0
+NOSTRIP=0
+RMDEPS=0
 
 # source Arch's abs.conf if it's present
 [ -f /etc/abs/abs.conf ] && source /etc/abs/abs.conf
@@ -70,6 +88,18 @@ error() {
 
 strip_url() {
 	echo $1 | sed 's|^.*://.*/||g'
+}
+
+check_option() {
+	local i
+	for i in ${options[@]}; do
+		local uc=`echo $i | tr [:lower:] [:upper:]`
+		local lc=`echo $i | tr [:upper:] [:lower:]`
+		if [ "$uc" = "$1" -o "$lc" = "$1" ]; then
+			echo $1
+			return
+		fi
+	done
 }
 
 checkdeps() {
@@ -219,24 +249,6 @@ usage() {
 	echo
 }
 
-
-# Options
-BUILDSCRIPT="./PKGBUILD"
-CLEANUP=0
-CLEANCACHE=0
-DEP_BIN=0
-DEP_SRC=0
-DEP_SUDO=0
-FORCE=0
-GENMD5=0
-INSTALL=0
-NOBUILD=0
-NOCCACHE=0
-NODEPS=0
-NOEXTRACT=0
-NOSTRIP=0
-RMDEPS=0
-
 ARGLIST=$@
 
 while [ "$#" -ne "0" ]; do
@@ -335,6 +347,7 @@ fi
 
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
+unset options
 # some applications (eg, blackbox) will not build with some languages
 unset LC_ALL LANG
 umask 0022
@@ -573,7 +586,6 @@ else
 	exit 0
 fi
 
-
 if [ "`id -u`" = "0" ]; then
 	# chown all source files to root.root
 	chown -R root.root $startdir/src
@@ -613,11 +625,14 @@ if [ $? -gt 0 ]; then
 	exit 2
 fi
 
-# remove info/doc files
-cd $startdir
-rm -rf pkg/usr/info pkg/usr/share/info
-rm -rf pkg/usr/doc pkg/usr/share/doc
-rm -rf pkg/{usr,opt/gnome}/share/gtk-doc
+if [ ! "`check_option KEEPDOCS`" -a "$KEEPDOCS" = "0" ]; then
+	# remove info/doc files
+	msg "Removing info/doc files..."
+	cd $startdir
+	rm -rf pkg/usr/info pkg/usr/share/info
+	rm -rf pkg/usr/doc pkg/usr/share/doc
+	rm -rf pkg/{usr,opt/gnome}/share/gtk-doc
+fi
 
 # move /usr/share/man files to /usr/man
 if [ -d pkg/usr/share/man ]; then
@@ -652,7 +667,7 @@ done
 cd $startdir
 
 # strip binaries
-if [ "$NOSTRIP" = "0" ]; then
+if [ ! "`check_option NOSTRIP`" -a "$NOSTRIP" = "0" ]; then
 	msg "Stripping debugging symbols from libraries..."
 	find pkg/{,usr,usr/local,opt/*}/lib -type f -not -name "*.dll" -not -name "*.exe" \
 		-exec /usr/bin/strip --strip-debug '{}' \; 2>&1 \

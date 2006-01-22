@@ -21,7 +21,7 @@
 #   USA.
 #
 
-myver='2.9.7'
+myver='2.9.8'
 
 usage() {
 	echo "updatesync $myver"
@@ -54,6 +54,18 @@ die()
 	exit 1
 }
 
+check_option() {
+	local i
+	for i in ${options[@]}; do
+		local uc=`echo $i | tr [:lower:] [:upper:]`
+		local lc=`echo $i | tr [:upper:] [:lower:]`
+		if [ "$uc" = "$1" -o "$lc" = "$1" ]; then
+			echo $1
+			return
+		fi
+	done
+}
+
 get_md5checksum()
 {
 	if [ "$pkgdir" != "" ]; then
@@ -72,7 +84,7 @@ get_md5checksum()
 db_write_entry()
 {
 	unset pkgname pkgver pkgrel pkgdesc force
-	unset groups replaces provides depends conflicts
+	unset groups replaces provides depends conflicts options
 	source $1 || return 1
 	cd $ustmpdir
 	mkdir $pkgname-$pkgver-$pkgrel || return 1
@@ -110,7 +122,7 @@ db_write_entry()
 		done
 		echo "" >>desc
 	fi
-	if [ "$force" = "y" -o "$force" = "Y" ]; then
+	if [ "$force" = "y" -o "$force" = "Y" -o "`check_option FORCE`" ]; then
 		echo "%FORCE%" >>desc
 		echo "" >>desc
 	fi
