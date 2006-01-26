@@ -503,7 +503,6 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 							_alpm_log(PM_LOG_DEBUG, "action: installing new file");
 							installnew = 1;
 						} else {
-							char newpath[PATH_MAX];
 							_alpm_log(PM_LOG_DEBUG, "action: leaving file in place, installing new one as .pacnew\n");
 							strncat(expath, ".pacnew", PATH_MAX);
 							installnew = 1;
