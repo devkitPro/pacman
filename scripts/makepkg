@@ -106,6 +106,8 @@ checkdeps() {
 	local missdep=""
 	local deplist=""
 
+	[ $# -gt 0 ] || return
+
 	missdep=`pacman -T $*`
 	ret=$?
 	if [ "$ret" != "0" ]; then
