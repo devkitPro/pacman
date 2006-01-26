@@ -97,19 +97,19 @@ db_write_entry()
 	echo "%DESC%" >>desc
 	echo "$pkgdesc" >>desc
 	echo "" >>desc
+	if [ ${#groups[*]} -gt 0 ]; then
+		echo "%GROUPS%" >>desc
+		for it in "${groups[@]}"; do
+			echo "$it" >>desc
+		done
+		echo "" >>desc
+	fi
 	echo "%CSIZE%" >>desc
 	echo "$csize" >>desc
 	echo "" >>desc
 	if [ ! -z $pkgmd5sum ]; then
 		echo "%MD5SUM%" >>desc
 		echo "$pkgmd5sum" >>desc
-		echo "" >>desc
-	fi
-	if [ ${#groups[*]} -gt 0 ]; then
-		echo "%GROUPS%" >>desc
-		for it in "${groups[@]}"; do
-			echo "$it" >>desc
-		done
 		echo "" >>desc
 	fi
 	if [ ${#replaces[*]} -gt 0 ]; then
