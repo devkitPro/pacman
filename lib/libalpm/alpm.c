@@ -50,8 +50,6 @@
 #include "handle.h"
 #include "alpm.h"
 
-#define PM_LOCK   "/tmp/pacman.lck"
-
 /* Globals */
 pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
@@ -76,15 +74,6 @@ int alpm_initialize(char *root)
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
-	/* lock db */
-	if(handle->access == PM_ACCESS_RW) {
-		handle->lckfd = _alpm_lckmk(PM_LOCK);
-		if(handle->lckfd == -1) {
-			FREE(handle);
-			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
-		}
-	}
-
 	STRNCPY(str, (root) ? root : PM_ROOT, PATH_MAX);
 	/* add a trailing '/' if there isn't one */
 	if(str[strlen(str)-1] != '/') {
@@ -105,15 +94,13 @@ int alpm_release()
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	/* unlock db */
-	if(handle->access == PM_ACCESS_RW) {
-		if(handle->lckfd != -1) {
-			close(handle->lckfd);
-			handle->lckfd = -1;
-		}
-		if(_alpm_lckrm(PM_LOCK)) {
-			_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
-			alpm_logaction("warning: could not remove lock file %s", PM_LOCK);
-		}
+	if(handle->lckfd != -1) {
+		close(handle->lckfd);
+		handle->lckfd = -1;
+	}
+	if(_alpm_lckrm(PM_LOCK) == -1) {
+		_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
+		alpm_logaction("warning: could not remove lock file %s", PM_LOCK);
 	}
 
 	/* close local database */
@@ -664,6 +651,12 @@ int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event
 	 * perform sanity checks on type and flags:
 	 * for instance, we can't set UPGRADE and FRESHEN at the same time */
 
+	/* lock db */
+	handle->lckfd = _alpm_lckmk(PM_LOCK);
+	if(handle->lckfd == -1) {
+		RET_ERR(PM_ERR_HANDLE_LOCK, -1);
+	}
+
 	handle->trans = trans_new();
 	if(handle->trans == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
@@ -764,6 +757,16 @@ int alpm_trans_release()
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	FREETRANS(handle->trans);
+
+	/* unlock db */
+	if(handle->lckfd != -1) {
+		close(handle->lckfd);
+		handle->lckfd = -1;
+	}
+	if(_alpm_lckrm(PM_LOCK) == -1) {
+		_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
+		alpm_logaction("warning: could not remove lock file %s", PM_LOCK);
+	}
 
 	return(0);
 }

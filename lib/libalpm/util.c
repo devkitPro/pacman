@@ -225,7 +225,10 @@ int _alpm_lckmk(char *file)
  */
 int _alpm_lckrm(char *file)
 {
-	return(unlink(file) == -1);
+	if(unlink(file) == -1 && errno != ENOENT) {
+		return(-1);
+	}
+	return(0);
 }
 
 int _alpm_unpack(char *archive, const char *prefix, const char *fn)
