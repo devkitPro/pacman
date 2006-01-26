@@ -41,6 +41,7 @@ int pacman_remove(list_t *targets)
 	PM_LIST *data;
 	list_t *i;
 	list_t *finaltargs = NULL;
+	int retval = 0;
 
 	if(targets == NULL) {
 		return(0);
@@ -77,13 +78,19 @@ int pacman_remove(list_t *targets)
 	 */
 	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
-		goto error;
+		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+			MSG(NL, "       if you're sure a package manager is not already running,\n"
+			        "       you can remove %s\n", PM_LOCK);
+		}
+		FREELIST(finaltargs);
+		return(1);
 	}
 	/* and add targets to it */
 	for(i = finaltargs; i; i = i->next) {
 		if(alpm_trans_addtarget(i->data) == -1) {
 			ERR(NL, "failed to add target '%s' (%s)\n", (char *)i->data, alpm_strerror(pm_errno));
-			goto error;
+			retval = 1;
+			goto cleanup;
 		}
 	}
 
@@ -104,7 +111,8 @@ int pacman_remove(list_t *targets)
 			default:
 			break;
 		}
-		goto error;
+		retval = 1;
+		goto cleanup;
 	}
 
 	/* Warn user in case of dangerous operation
@@ -121,7 +129,8 @@ int pacman_remove(list_t *targets)
 		FREELIST(i);
 		/* get confirmation */
 		if(yesno("\nDo you want to remove these packages? [Y/n] ") == 0) {
-			goto error;
+			retval = 1;
+			goto cleanup;
 		}
 		MSG(NL, "\n");
 	}
@@ -130,21 +139,20 @@ int pacman_remove(list_t *targets)
 	 */
 	if(alpm_trans_commit(NULL) == -1) {
 		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
-		goto error;
+		retval = 1;
+		goto cleanup;
 	}
 
-	/* Step 4: cleanup */
+	/* Step 4: release transaction resources
+	 */
+cleanup:
 	FREELIST(finaltargs);
 
-	return(0);
-
-error:
-	FREELIST(finaltargs);
 	if(alpm_trans_release() == -1) {
 		ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
 	}
 
-	return(1);
+	return(retval);
 }
 
 /* vim: set ts=2 sw=2 noet: */

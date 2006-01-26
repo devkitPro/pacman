@@ -414,8 +414,11 @@ int pacman_sync(list_t *targets)
 	 */
 	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
-		retval = 1;
-		goto cleanup;
+		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+			MSG(NL, "       if you're sure a package manager is not already running,\n"
+			        "       you can remove %s\n", PM_LOCK);
+		}
+		return(1);
 	}
 
 	if(config->op_s_upgrade) {
@@ -450,8 +453,11 @@ int pacman_sync(list_t *targets)
 					}
 					if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 						ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
-						retval = 1;
-						goto cleanup;
+						if(pm_errno == PM_ERR_HANDLE_LOCK) {
+							MSG(NL, "       if you're sure a package manager is not already running,\n"
+							        "       you can remove %s\n", PM_LOCK);
+						}
+						return(1);
 					}
 					if(alpm_trans_addtarget("pacman") == -1) {
 						ERR(NL, "could not add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
@@ -524,7 +530,7 @@ int pacman_sync(list_t *targets)
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
 					MSG(NL, ":: %s: %s %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
-					    alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? "requires" : "is required by",
+					    (int)alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? "requires" : "is required by",
 					    alpm_dep_getinfo(miss, PM_DEP_NAME));
 					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
@@ -779,8 +785,13 @@ int pacman_sync(list_t *targets)
 		}
 	}
 
+	/* Step 4: release transaction resources
+	 */
 cleanup:
-	alpm_trans_release();
+	if(alpm_trans_release() == -1) {
+		ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+	}
+
 	return(retval);
 }
 
