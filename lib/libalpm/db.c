@@ -462,6 +462,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	char path[PATH_MAX];
 	mode_t oldmask;
 	PMList *lp = NULL;
+	int retval = 0;
 
 	if(db == NULL || info == NULL) {
 		return(-1);
@@ -478,7 +479,8 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		snprintf(path, PATH_MAX, "%s/desc", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/desc", db->treename);
-			goto error;
+			retval = 1;
+			goto cleanup;
 		}
 		fputs("%NAME%\n", fp);
 		fprintf(fp, "%s\n\n", info->name);
@@ -511,6 +513,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		fputs("%REASON%\n", fp);
 		fprintf(fp, "%d\n\n", info->reason);
 		fclose(fp);
+		fp = NULL;
 	}
 
 	/* FILES */
@@ -518,7 +521,8 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		snprintf(path, PATH_MAX, "%s/files", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/files", db->treename);
-			goto error;
+			retval = -1;
+			goto cleanup;
 		}
 		fputs("%FILES%\n", fp);
 		for(lp = info->files; lp; lp = lp->next) {
@@ -531,6 +535,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		}
 		fprintf(fp, "\n");
 		fclose(fp);
+		fp = NULL;
 	}
 
 	/* DEPENDS */
@@ -538,7 +543,8 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		snprintf(path, PATH_MAX, "%s/depends", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/depends", db->treename);
-			goto error;
+			retval = -1;
+			goto cleanup;
 		}
 		fputs("%DEPENDS%\n", fp);
 		for(lp = info->depends; lp; lp = lp->next) {
@@ -561,18 +567,20 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		}
 		fprintf(fp, "\n");
 		fclose(fp);
+		fp = NULL;
 	}
 
 	/* INSTALL */
 	/* nothing needed here (script is automatically extracted) */
 
+cleanup:
 	umask(oldmask);
 
-	return(0);
+	if(fp) {
+		fclose(fp);
+	}
 
-error:
-	umask(oldmask);
-	return(-1);
+	return(retval);
 }
 
 int db_remove(pmdb_t *db, pmpkg_t *info)
