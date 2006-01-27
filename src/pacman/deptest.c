@@ -58,6 +58,10 @@ int pacman_deptest(list_t *targets)
 	 * deps checkings from alpm_trans_prepare() */
 	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL, NULL) == -1) {
 		ERR(NL, "%s", alpm_strerror(pm_errno));
+		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+			MSG(NL, "       if you're sure a package manager is not already running,\n" \
+			        "       you can remove %s\n", PM_LOCK);
+		}
 		return(1);
 	}
 
