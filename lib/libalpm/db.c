@@ -278,7 +278,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		fp = fopen(path, "r");
 		if(fp == NULL) {
 			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
-			return(-1);
+			goto error;
 		}
 		while(!feof(fp)) {
 			if(fgets(line, 256, fp) == NULL) {
@@ -287,7 +287,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%DESC%")) {
 				if(fgets(info->desc, sizeof(info->desc), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(info->desc);
 			} else if(!strcmp(line, "%GROUPS%")) {
@@ -296,7 +296,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				}
 			} else if(!strcmp(line, "%URL%")) {
 				if(fgets(info->url, sizeof(info->url), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(info->url);
 			} else if(!strcmp(line, "%LICENSE%")) {
@@ -305,28 +305,28 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				}
 			} else if(!strcmp(line, "%ARCH%")) {
 				if(fgets(info->arch, sizeof(info->arch), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(info->arch);
 			} else if(!strcmp(line, "%BUILDDATE%")) {
 				if(fgets(info->builddate, sizeof(info->builddate), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(info->builddate);
 			} else if(!strcmp(line, "%INSTALLDATE%")) {
 				if(fgets(info->installdate, sizeof(info->installdate), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(info->installdate);
 			} else if(!strcmp(line, "%PACKAGER%")) {
 				if(fgets(info->packager, sizeof(info->packager), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(info->packager);
 			} else if(!strcmp(line, "%REASON%")) {
 				char tmp[32];
 				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(tmp);
 				info->reason = atol(tmp);
@@ -338,7 +338,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				 */
 				char tmp[32];
 				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 				_alpm_strtrim(tmp);
 				info->size = atol(tmp);
@@ -346,7 +346,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
 				if(fgets(info->md5sum, sizeof(info->md5sum), fp) == NULL) {
-					return(-1);
+					goto error;
 				}
 			/* XXX: these are only here as backwards-compatibility for pacman 2.x
 			 * sync repos.... in pacman3, they have been moved to DEPENDS.
@@ -365,6 +365,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 			}
 		}
 		fclose(fp);
+		fp = NULL;
 	}
 
 	/* FILES */
@@ -373,7 +374,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		fp = fopen(path, "r");
 		if(fp == NULL) {
 			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
-			return(-1);
+			goto error;
 		}
 		while(fgets(line, 256, fp)) {
 			_alpm_strtrim(line);
@@ -388,6 +389,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 			}
 		}
 		fclose(fp);
+		fp = NULL;
 	}
 
 	/* DEPENDS */
@@ -396,7 +398,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 		fp = fopen(path, "r");
 		if(fp == NULL) {
 			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
-			return(-1);
+			goto error;
 		}
 		while(!feof(fp)) {
 			fgets(line, 255, fp);
@@ -430,6 +432,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 			}
 		}
 		fclose(fp);
+		fp = NULL;
 	}
 
 	/* INSTALL */
@@ -444,6 +447,12 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 	info->infolevel |= inforeq;
 
 	return(0);
+
+error:
+	if(fp) {
+		fclose(fp);
+	}
+	return(-1);
 }
 
 int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
