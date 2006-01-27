@@ -596,6 +596,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					continue;
 				}
 				if(tmppm->data && !strcmp(depend.name, info->name)) {
+					_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'", tmpp->name, info->name);
 					info->requiredby = pm_list_add(info->requiredby, strdup(tmpp->name));
 				}
 			}
@@ -607,9 +608,9 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		info->installdate[strlen(info->installdate)-1] = 0;
 
 		_alpm_log(PM_LOG_FLOW1, "updating database");
-		_alpm_log(PM_LOG_FLOW2, "adding database entry %s", info->name);
+		_alpm_log(PM_LOG_FLOW2, "adding database entry '%s'", info->name);
 		if(db_write(db, info, INFRQ_ALL)) {
-			_alpm_log(PM_LOG_ERROR, "could not update database entry %s-%s",
+			_alpm_log(PM_LOG_ERROR, "could not update database entry '%s-%s'",
 			          info->name, info->version);
 			alpm_logaction(NULL, "error updating database for %s-%s!", info->name, info->version);
 			RET_ERR(PM_ERR_DB_WRITE, -1);
@@ -619,7 +620,9 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
-		_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
+		if(info->depends) {
+			_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
+		}
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo;
 			pmdepend_t depend;
@@ -639,15 +642,15 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
-					_alpm_log(PM_LOG_ERROR, "could not find dependency %s", depend.name);
+					_alpm_log(PM_LOG_ERROR, "could not find dependency '%s'", depend.name);
 					/* wtf */
 					continue;
 				}
 			}
+			_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'", tmpp->name, info->name);
 			depinfo->requiredby = pm_list_add(depinfo->requiredby, strdup(info->name));
-			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package %s", depinfo->name);
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
-				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
+				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry '%s-%s'",
 				          depinfo->name, depinfo->version);
 			}
 		}
