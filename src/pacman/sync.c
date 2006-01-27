@@ -790,6 +790,7 @@ int pacman_sync(list_t *targets)
 cleanup:
 	if(alpm_trans_release() == -1) {
 		ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+		retval = 1;
 	}
 
 	return(retval);
