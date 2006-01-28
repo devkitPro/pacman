@@ -40,6 +40,7 @@ int pacman_deptest(list_t *targets)
 	PM_LIST *data;
 	list_t *i;
 	char *str;
+	int retval = 0;
 
 	if(targets == NULL) {
 		return(0);
@@ -73,10 +74,8 @@ int pacman_deptest(list_t *targets)
 	str = (char *)malloc(strlen("name=dummy|version=1.0-1")+1);
 	if(str == NULL) {
 		ERR(NL, "memory allocation failure\n");
-		if(alpm_trans_release() == -1) {
-			ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
-		}
-		return(1);
+		retval = 1;
+		goto cleanup;
 	}
 	strcpy(str, "name=dummy|version=1.0-1");
 	for(i = targets; i; i = i->next) {
@@ -88,17 +87,15 @@ int pacman_deptest(list_t *targets)
 	if(alpm_trans_addtarget(str) == -1) {
 		FREE(str);
 		ERR(NL, "could not add target (%s)\n", alpm_strerror(pm_errno));
-		if(alpm_trans_release() == -1) {
-			ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
-		}
-		return(1);
+		retval = 1;
+		goto cleanup;
 	}
 	FREE(str);
 
 	if(alpm_trans_prepare(&data) == -1) {
 		PM_LIST *lp;
-		int ret = 126;
 		list_t *synctargs = NULL;
+		retval = 126;
 		/* return 126 = deps were missing, but successfully resolved
 		 * return 127 = deps were missing, and failed to resolve; OR
 		 *            = deps were missing, but no resolution was attempted; OR
@@ -127,37 +124,33 @@ int pacman_deptest(list_t *targets)
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
 					MSG(NL, "conflict: %s", alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
-				ret = 127;
+				retval = 127;
 				alpm_list_free(data);
 			break;
 			default:
-				ret = 127;
+				retval = 127;
 			break;
-		}
-
-		if(alpm_trans_release() == -1) {
-			ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
-			return(1);
 		}
 
 		/* attempt to resolve missing dependencies */
 		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
-		if(ret == 126 && synctargs != NULL) {
+		if(retval == 126 && synctargs != NULL) {
 			if(!config->op_d_resolve || pacman_sync(synctargs) != 0) {
 				/* error (or -D not used) */
-				ret = 127;
+				retval = 127;
 			}
 		}
+
 		FREELIST(synctargs);
-		return(ret);
 	}
 
+cleanup:
 	if(alpm_trans_release() == -1) {
 		ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
-		return(1);
+		retval = 1;
 	}
 
-	return(0);
+	return(retval);
 }
 
 /* vim: set ts=2 sw=2 noet: */
