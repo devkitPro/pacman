@@ -647,7 +647,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					continue;
 				}
 			}
-			_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'", tmpp->name, info->name);
+			_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'", info->name, depinfo->name);
 			depinfo->requiredby = pm_list_add(depinfo->requiredby, strdup(info->name));
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry '%s-%s'",

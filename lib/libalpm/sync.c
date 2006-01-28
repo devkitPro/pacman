@@ -39,6 +39,7 @@
 #include "cache.h"
 #include "deps.h"
 #include "conflict.h"
+#include "provide.h"
 #include "trans.h"
 #include "sync.h"
 #include "versioncmp.h"
@@ -285,7 +286,14 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 			if(strcmp(dbs->treename, targline) == 0) {
 				spkg = db_get_pkgfromcache(dbs, targ);
 				if(spkg == NULL) {
-					RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+					/* Search provides */
+					PMList *p = _alpm_db_whatprovides(dbs, targ);
+					if(p == NULL) {
+						RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+					}
+					spkg = db_get_pkgfromcache(dbs, p->data);
+					p->data = NULL;
+					FREELIST(p);
 				}
 			}
 		}
@@ -295,12 +303,24 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 			pmdb_t *dbs = j->data;
 			spkg = db_get_pkgfromcache(dbs, targ);
 		}
+		if(spkg == NULL) {
+			/* Search provides */
+			for(j = dbs_sync; j && !spkg; j = j->next) {
+				pmdb_t *dbs = j->data;
+				PMList *p = _alpm_db_whatprovides(dbs, targ);
+				if(p) {
+					spkg = db_get_pkgfromcache(dbs, p->data);
+					p->data = NULL;
+					FREELIST(p);
+				}
+			}
+		}
 	}
 	if(spkg == NULL) {
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
-	local = db_get_pkgfromcache(db_local, name);
+	local = db_get_pkgfromcache(db_local, spkg->name);
 	if(local) {
 		cmp = versioncmp(local->version, spkg->version);
 		if(cmp > 0) {
