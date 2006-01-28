@@ -64,6 +64,10 @@ static int log_progress(netbuf *ctl, int xfered, void *arg)
 	static unsigned short mouth;
 	static unsigned int   lastcur = 0;
 
+	if(config->noprogressbar) {
+		return(1);
+	}
+
 	gettimeofday(&t1, NULL);
 	if(xfered+offset == fsz) {
 		t = t0;

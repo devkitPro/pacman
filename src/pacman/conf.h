@@ -33,6 +33,7 @@ typedef struct __config_t {
 	unsigned short help;
 	unsigned short upgrade;
 	unsigned short noconfirm;
+	unsigned short noprogressbar;
 	unsigned short op_d_vertest;
 	unsigned short op_d_resolve;
 	unsigned short op_q_isfile;
