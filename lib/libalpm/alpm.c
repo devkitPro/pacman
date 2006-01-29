@@ -93,16 +93,6 @@ int alpm_release()
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
-	/* unlock db */
-	if(handle->lckfd != -1) {
-		close(handle->lckfd);
-		handle->lckfd = -1;
-	}
-	if(_alpm_lckrm(PM_LOCK) == -1) {
-		_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
-		alpm_logaction("warning: could not remove lock file %s", PM_LOCK);
-	}
-
 	/* close local database */
 	if(handle->db_local) {
 		db_close(handle->db_local);
