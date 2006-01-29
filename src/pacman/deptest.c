@@ -135,10 +135,17 @@ int pacman_deptest(list_t *targets)
 		/* attempt to resolve missing dependencies */
 		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
 		if(retval == 126 && synctargs != NULL) {
+			if(alpm_trans_release() == -1) {
+				ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
+				FREELIST(synctargs);
+				return(1);
+			}
 			if(!config->op_d_resolve || pacman_sync(synctargs) != 0) {
 				/* error (or -D not used) */
 				retval = 127;
 			}
+			FREELIST(synctargs);
+			return(retval);
 		}
 
 		FREELIST(synctargs);
