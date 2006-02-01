@@ -151,6 +151,7 @@ scripts/Makefile
 doc/Makefile
 doc/makepkg.8
 doc/pacman.8
+doc/libalpm.3
 Makefile
 ])
 
