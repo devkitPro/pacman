@@ -103,17 +103,13 @@ void vprint(char *fmt, ...)
 {
 	va_list args;
 
+	char str[LOG_STR_LEN];
+
 	if(config->verbose > 0) {
-		if(neednl == 1) {
-			fprintf(stdout, "\n");
-			neednl = 0;
-		}
 		va_start(args, fmt);
-		/* ORE
-		commented for now: it produces corruption
-		pm_fprintf(stdout, NL, fmt, args); */
-		vprintf(fmt, args);
+		vsnprintf(str, LOG_STR_LEN, fmt, args);
 		va_end(args);
+		pm_fprintf(stdout, NL, str);
 	}
 }
 
