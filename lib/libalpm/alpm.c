@@ -55,6 +55,7 @@ pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
 
 /** @defgroup alpm_interface Interface Functions
+ * @brief Function to initialize and release libalpm
  * @{
  */
 
@@ -116,6 +117,7 @@ int alpm_release()
 /** @} */
 
 /** @defgroup alpm_options Library Options
+ * @brief Functions to set and get libalpm options
  * @{
  */
 
@@ -148,6 +150,7 @@ int alpm_get_option(unsigned char parm, long *data)
 /** @} */
 
 /** @defgroup alpm_databases Database Functions
+ * @brief Frunctions to query and manipulate the database of libalpm
  * @{
  */
 
@@ -391,6 +394,7 @@ PMList *alpm_db_getgrpcache(pmdb_t *db)
 /** @} */
 
 /** @defgroup alpm_packages Package Functions
+ * @brief Functions to manipulate libalpm packages
  * @{
  */
 
@@ -541,6 +545,7 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 /** @} */
 
 /** @defgroup alpm_groups Group Functions
+ * @brief Functions to get informations about libalpm groups
  * @{
  */
 
@@ -569,6 +574,7 @@ void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
 /** @} */
 
 /** @defgroup alpm_sync Sync Functions
+ * @brief Functions to get informations about libalpm syncs
  * @{
  */
 
@@ -598,6 +604,7 @@ void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
 /** @} */
 
 /** @defgroup alpm_trans Transaction Functions
+ * @brief Functions to manipulate libalpm transactions
  * @{
  */
 
@@ -768,6 +775,7 @@ int alpm_trans_release()
 /** @} */
 
 /** @defgroup alpm_dep Dependency Functions
+ * @brief Functions to get informations about a libalpm dependency
  * @{
  */
 
@@ -799,6 +807,7 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 /** @} */
 
 /** @defgroup alpm_log Logging Functions
+ * @brief Functions to log using libalpm
  * @{
  */
 
@@ -835,7 +844,8 @@ int alpm_logaction(char *fmt, ...)
 }
 /** @} */
 
-/** @defgroup alpm_list List Manipulation Functions
+/** @defgroup alpm_list List Functions
+ * @brief Functions to manipulate libalpm linked lists
  * @{
  */
 
@@ -894,6 +904,7 @@ int alpm_list_count(PMList *list)
 /** @} */
 
 /** @defgroup alpm_misc Miscellaneous Functions
+ * @brief Various libalpm functions
  * @{
  */
 
