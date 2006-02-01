@@ -93,6 +93,11 @@ int alpm_release()
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
+	/* free the transaction if there is any */
+	if(handle->trans) {
+		alpm_trans_release();
+	}
+
 	/* close local database */
 	if(handle->db_local) {
 		db_close(handle->db_local);
