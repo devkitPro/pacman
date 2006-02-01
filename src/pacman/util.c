@@ -40,6 +40,7 @@
 #include "conf.h"
 
 extern int maxcols;
+extern int neednl;
 extern config_t *config;
 
 /* does the same thing as 'mkdir -p' */
@@ -203,6 +204,7 @@ int yesno(char *fmt, ...)
 	vprintf(fmt, args);
 	va_end(args);
 	fflush(stdout);
+	neednl = 1;
 	if(fgets(response, 32, stdin)) {
 		/* trim whitespace and newlines */
 		char *pch = response;

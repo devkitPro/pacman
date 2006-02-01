@@ -59,6 +59,8 @@ list_t *pm_targets  = NULL;
 
 int maxcols = 80;
 
+extern int neednl;
+
 int main(int argc, char *argv[])
 {
 	int ret = 0;
@@ -246,6 +248,9 @@ void cleanup(int signum)
 	muntrace();
 #endif
 
+	if(neednl) {
+		putchar('\n');
+	}
 	fflush(stdout);
 
 	exit(signum);

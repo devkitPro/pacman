@@ -35,7 +35,7 @@
 
 extern config_t *config;
 
-static int neednl; /* for cleaner message output */
+int neednl; /* for cleaner message output */
 
 /* Callback to handle notifications from the library
  */
