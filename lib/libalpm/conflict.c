@@ -69,7 +69,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 				}
 				if(!strcmp(j->data, dp->name)) {
 					/* conflict */
-					_alpm_log(PM_LOG_DEBUG, "targs vs db: adding %s as a conflict for %s",
+					_alpm_log(PM_LOG_DEBUG, "targs vs db: found %s as a conflict for %s",
 					          dp->name, tp->name);
 					miss = depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, dp->name, NULL);
 					if(!depmiss_isin(miss, baddeps)) {
@@ -154,7 +154,7 @@ PMList *checkconflicts(pmdb_t *db, PMList *packages)
 						PMList *n;
 						for(n = tp->provides; n; n = n->next) {
 							if(!strcmp(m->data, n->data)) {
-								_alpm_log(PM_LOG_DEBUG, "db vs targs: adding %s as a conflict for %s",
+								_alpm_log(PM_LOG_DEBUG, "db vs targs: found %s as a conflict for %s",
 								          info->name, tp->name);
 								miss = depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, info->name, NULL);
 								if(!depmiss_isin(miss, baddeps)) {
