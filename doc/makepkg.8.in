@@ -1,4 +1,4 @@
-.TH makepkg 8 "August 3, 2004" "@PACKAGE_VERSION@" ""
+.TH makepkg 8 "January 30, 2006" "makepkg #VERSION#" ""
 .SH NAME
 makepkg \- package build utility
 .SH SYNOPSIS
@@ -236,9 +236,26 @@ This is the release number specific to Arch Linux packages.
 This should be a brief description of the package and its functionality.
 
 .TP
-.B force
-This is used to force the package to be upgraded by \fB--sysupgrade\fP, even
+.B options
+This array allows you to override some of makepkg's default behaviour
+when building packages.  To set an option, just include the option name
+in the \fBoptions\fP array.
+.TP
+.RS
+\fIAvailable Options:\fP
+.RS
+.TP
+.B FORCE
+force the package to be upgraded by \fB--sysupgrade\fP, even
 if its an older version.
+.TP
+.B KEEPDOCS
+do not remove /usr/share/doc and /usr/share/info directories.
+.TP
+.B NOSTRIP
+do not strip debugging symbols from binaries and libraries.
+.RE
+.RE
 
 .TP
 .B url
@@ -247,8 +264,17 @@ being packaged.  This is typically the project's website.
 
 .TP
 .B license
-Sets the license type (eg, "GPL", "BSD", "NON-FREE").  (\fBNote\fP: This
-option is still in development and may change in the future)
+This field specifies the license(s) that apply to the package.  Commonly-used
+licenses are typically found in \fI/usr/share/licenses/common\fP.  If you
+see the package's license there, simply reference it in the license field
+(eg, \fBlicense="GPL"\fP).  If the package provides a license not found in
+\fI/usr/share/licenses/common\fP, then you should include the license in
+the package itself and set \fBlicense="custom"\fP or \fBlicense="custom:LicenseName"\fP.
+The license itself should be placed in a directory called
+\fI$startdir/pkg/usr/share/licenses/$pkgname\fP.
+.TP
+.RE
+If multiple licenses are applied, use the array form: \fBlicenses=('GPL' 'FDL')\fP
 
 .TP
 .B install
@@ -331,6 +357,9 @@ $ABSROOT (set in your /etc/makepkg.conf).  If it finds them it will
 run another copy of makepkg to build and install the missing dependencies.
 The child makepkg calls will be made with the \fB-b\fP and \fB-i\fP options.
 .TP
+.B "\-B, \-\-noccache"
+Do not use ccache during build.
+.TP
 .B "\-c, \-\-clean"
 Clean up leftover work files/directories after a successful build.
 .TP
@@ -341,6 +370,11 @@ Removes all source files from the cache directory to free up diskspace.
 Do not perform any dependency checks.  This will let you override/ignore any
 dependencies required.  There's a good chance this option will break the build
 process if all of the dependencies aren't installed.
+.TP
+.B "\-e, \-\-noextract"
+Do not extract source files.  Instead, use whatever already exists in the
+src/ directory.  This is handy if you want to go into src and manually
+patch/tweak code, then make a package out of the result.
 .TP
 .B "\-f, \-\-force"
 \fBmakepkg\fP will not build a package if a \fIpkgname-pkgver-pkgrel.pkg.tar.gz\fP
@@ -384,9 +418,23 @@ or run-time dependencies, it will run pacman to try and resolve them.  If succes
 pacman will download the missing packages from a package repository and
 install them for you.
 .TP
+.B "\-S, \-\-sudosync"
+Install missing dependencies using pacman and sudo. This is the same as \fB-s\fP
+except that makepkg will call pacman with sudo. This means you don't have to
+build as root to use dependency auto-resolution.
+.TP
 .B "\-w <destdir>"
 Write the resulting package file to the directory \fI<destdir>\fP instead of the
 current working directory.
+.TP
+.B "\-\-noconfirm"
+When calling pacman to resolve dependencies or conflicts, makepkg can pass
+the \fI--noconfirm\fP option to it so it does not wait for any user
+input before proceeding with operations.
+.TP
+.B "\-\-noprogressbar"
+When calling pacman, makepkg can pass the \fI--noprogressbar\fP option to it.
+This is useful if one is directing makepkg's output to a non-terminal (ie, a file).
 
 .SH CONFIGURATION
 Configuration options are stored in \fI/etc/makepkg.conf\fP.  This file is parsed
