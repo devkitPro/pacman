@@ -119,6 +119,7 @@ int main(int argc, char *argv[])
 				/* special case:  PM_OP_SYNC can be used w/ config->op_s_search by any user */
 			} else {
 				ERR(NL, "you cannot perform this operation unless you are root.\n");
+				config_free(config);
 				exit(1);
 			}
 		}
