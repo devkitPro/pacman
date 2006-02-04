@@ -45,7 +45,6 @@ int rmrf(char *path);
 void indentprint(char *str, int indent);
 char *strtrim(char *str);
 char *strtoupper(char *str);
-int yesno(char *fmt, ...);
 int reg_match(char *string, char *pattern);
 
 #endif /* _PM_UTIL_H */

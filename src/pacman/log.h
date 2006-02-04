@@ -26,11 +26,6 @@
 	pm_fprintf(stderr, line, "error: "); \
 	pm_fprintf(stderr, CL, fmt, ##args); \
 } while(0)
-#define DBG(line, fmt, args...) do { \
-	char str[256]; \
-	snprintf(str, 256, fmt, ##args); \
-	cb_log(PM_LOG_DEBUG, str); \
-} while(0)
 
 enum {
 	NL, /* new line */
@@ -41,8 +36,9 @@ enum {
 void cb_log(unsigned short level, char *msg);
 
 void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...);
-
 void vprint(char *fmt, ...);
+
+int yesno(char *fmt, ...);
 
 #endif /* _PM_LOG_H */
 
