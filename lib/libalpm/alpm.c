@@ -534,6 +534,44 @@ int alpm_pkg_free(pmpkg_t *pkg)
 	return(0);
 }
 
+/** Check the integrity of a package from the sync cache.
+ * @param pkg package pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
+{
+	char *path = NULL;
+	char *md5sum = NULL;
+	int retval = 0;
+
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg->md5sum[0] != 0, RET_ERR(PM_ERR_XXX, -1));
+
+	asprintf(&path, "%s%s/%s-%s" PM_EXT_PKG,
+	                handle->root, handle->cachedir,
+	                pkg->name, pkg->version);
+
+	md5sum = MDFile(path);
+	if(md5sum == NULL) {
+		_alpm_log(PM_LOG_ERROR, "could not get md5 checksum for package %s-%s\n",
+		          pkg->name, pkg->version);
+		pm_errno = PM_ERR_NOT_A_FILE;
+		retval = -1;
+	} else {
+		if(strcmp(md5sum, pkg->md5sum) != 0) {
+			_alpm_log(PM_LOG_ERROR, "md5sums do not match for package %s-%s\n",
+			                        pkg->name, pkg->version);
+			pm_errno = PM_ERR_PKG_INVALID;
+			retval = -1;
+		}
+	}
+
+	FREE(path);
+	FREE(md5sum);
+
+	return(retval);
+}
+
 /** Compare versions.
  * @param ver1 first version
  * @param ver2 secont version
