@@ -1,7 +1,7 @@
 /*
  *  alpm.c
  * 
- *  Copyright (c) 2002 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@
 #include "db.h"
 #include "cache.h"
 #include "deps.h"
+#include "conflict.h"
 #include "backup.h"
 #include "add.h"
 #include "remove.h"
@@ -415,6 +416,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 	if(pkg->origin == PKG_FROM_CACHE) {
 		switch(parm) {
 			/* Desc entry */
+			/* not needed: the cache is loaded with DESC by default
 			case PM_PKG_NAME:
 			case PM_PKG_VERSION:
 			case PM_PKG_DESC:
@@ -433,7 +435,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 					snprintf(target, PKG_FULLNAME_LEN, "%s-%s", pkg->name, pkg->version);
 					db_read(pkg->data, target, INFRQ_DESC, pkg);
 				}
-			break;
+			break;*/
 			/* Depends entry */
 			/* not needed: the cache is loaded with DEPENDS by default
 			case PM_PKG_DEPENDS:
@@ -797,6 +799,37 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 		case PM_DEP_MOD:     data = (void *)(int)miss->depend.mod; break;
 		case PM_DEP_NAME:    data = miss->depend.name; break;
 		case PM_DEP_VERSION: data = miss->depend.version; break;
+		default:
+			data = NULL;
+		break;
+	}
+
+	return(data);
+}
+/** @} */
+
+/** @defgroup alpm_dep File Conflicts Functions
+ * @brief Functions to get informations about a libalpm file conflict
+ * @{
+ */
+
+/** Get informations about a file conflict.
+ * @param db conflict pointer
+ * @param parm name of the info to get
+ * @return a void* on success (the value), NULL on error
+ */
+void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm)
+{
+	void *data;
+
+	/* Sanity checks */
+	ASSERT(conflict != NULL, return(NULL));
+
+	switch(parm) {
+		case PM_CONFLICT_TARGET:  data = conflict->target; break;
+		case PM_CONFLICT_TYPE:    data = (void *)(int)conflict->type; break;
+		case PM_CONFLICT_FILE:    data = conflict->file; break;
+		case PM_CONFLICT_CTARGET: data = conflict->ctarget; break;
 		default:
 			data = NULL;
 		break;

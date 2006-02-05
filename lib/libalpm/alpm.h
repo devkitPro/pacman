@@ -49,6 +49,7 @@ typedef struct __pmgrp_t PM_GRP;
 typedef struct __pmsyncpkg_t PM_SYNCPKG;
 typedef struct __pmtrans_t PM_TRANS;
 typedef struct __pmdepmissing_t PM_DEPMISS;
+typedef struct __pmconflict_t PM_CONFLICT;
 
 /*
  * Library
@@ -268,7 +269,7 @@ int alpm_trans_commit(PM_LIST **data);
 int alpm_trans_release(void);
 
 /*
- * Dependencies
+ * Dependencies and conflicts
  */
 
 enum {
@@ -292,6 +293,24 @@ enum {
 };
 
 void *alpm_dep_getinfo(PM_DEPMISS *miss, unsigned char parm);
+
+/*
+ * File conflicts
+ */
+
+enum {
+	PM_CONFLICT_TYPE_TARGET = 1,
+	PM_CONFLICT_TYPE_FILE
+};
+/* Info parameters */
+enum {
+	PM_CONFLICT_TARGET = 1,
+	PM_CONFLICT_TYPE,
+	PM_CONFLICT_FILE,
+	PM_CONFLICT_CTARGET
+};
+
+void *alpm_conflict_getinfo(PM_CONFLICT *conflict, unsigned char parm);
 
 /*
  * Helpers

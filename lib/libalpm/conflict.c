@@ -34,7 +34,7 @@
 #include "deps.h"
 #include "conflict.h"
 
-/* Returns a PMList* of missing_t pointers.
+/* Returns a PMList* of pmdepmissing_t pointers.
  *
  * conflicts are always name only
  */
@@ -194,18 +194,20 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip
 			if(strcmp(p1->name, p2->name)) {
 				for(k = p1->files; k; k = k->next) {
 					filestr = k->data;
-					if(!strcmp(filestr, "._install") || !strcmp(filestr, ".INSTALL")) {
-						continue;
-					}
-					if(rindex(filestr, '/') == filestr+strlen(filestr)-1) {
+					if(filestr[strlen(filestr)-1] == '/') {
 						/* this filename has a trailing '/', so it's a directory -- skip it. */
 						continue;
 					}
+					if(!strcmp(filestr, "._install") || !strcmp(filestr, ".INSTALL")) {
+						continue;
+					}
 					if(pm_list_is_strin(filestr, p2->files)) {
-						MALLOC(str, 512);
-						snprintf(str, 512, "%s: exists in \"%s\" (target) and \"%s\" (target)",
-							filestr, p1->name, p2->name);
-						conflicts = pm_list_add(conflicts, str);
+						pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
+						conflict->type = PM_CONFLICT_TYPE_TARGET;
+						STRNCPY(conflict->target, p1->name, PKG_NAME_LEN);
+						STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
+						STRNCPY(conflict->ctarget, p2->name, PKG_NAME_LEN);
+						conflicts = pm_list_add(conflicts, conflict);
 					}
 				}
 			}
@@ -297,9 +299,12 @@ PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip
 				}
 donecheck:
 				if(!ok) {
-					MALLOC(str, 512);
-					snprintf(str, 512, "%s: %s: exists in filesystem", p->name, path);
-					conflicts = pm_list_add(conflicts, str);
+					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
+					conflict->type = PM_CONFLICT_TYPE_FILE;
+					STRNCPY(conflict->target, p->name, PKG_NAME_LEN);
+					STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
+					conflict->ctarget[0] = 0;
+					conflicts = pm_list_add(conflicts, conflict);
 				}
 			}
 		}
