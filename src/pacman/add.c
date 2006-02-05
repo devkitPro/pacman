@@ -91,7 +91,6 @@ int pacman_add(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					PM_DEPMISS *miss = alpm_list_getdata(i);
-
 					MSG(NL, ":: %s: requires %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
 					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
@@ -106,7 +105,6 @@ int pacman_add(list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					PM_DEPMISS *miss = alpm_list_getdata(i);
-
 					MSG(NL, ":: %s: conflicts with %s",
 						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
@@ -114,7 +112,20 @@ int pacman_add(list_t *targets)
 			break;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					MSG(NL, ":: %s", (char *)alpm_list_getdata(i));
+					PM_CONFLICT *conflict = alpm_list_getdata(i);
+					switch((int)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
+						case PM_CONFLICT_TYPE_TARGET:
+							MSG(NL, "%s exists in \"%s\" (target) and \"%s\" (target)",
+							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE),
+							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
+							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_CTARGET));
+						break;
+						case PM_CONFLICT_TYPE_FILE:
+							MSG(NL, "%s: %s exists in filesystem",
+							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
+							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE));
+						break;
+					}
 				}
 				alpm_list_free(data);
 				MSG(NL, "\nerrors occurred, no packages were upgraded.\n");
