@@ -168,14 +168,14 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 			for(lp = _alpm_list_last(info->files); lp; lp = lp->prev) {
 				int nb = 0;
 				char *file = lp->data;
-				char *md5 = _alpm_needbackup(lp->data, info->backup);
+				char *md5 = _alpm_needbackup(file, info->backup);
 				if(md5) {
 					nb = 1;
 					free(md5);
 				}
 				if(!nb && trans->type == PM_TRANS_TYPE_UPGRADE) {
 					/* check noupgrade */
-					if(pm_list_is_strin(lp->data, handle->noupgrade)) {
+					if(pm_list_is_strin(file, handle->noupgrade)) {
 						nb = 1;
 					}
 				}
