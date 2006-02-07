@@ -534,14 +534,6 @@ int resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
 		pmdepmissing_t *miss = i->data;
 		pmpkg_t *sync = NULL;
 
-		/* XXX: conflicts are now treated specially in the _add and _sync functions */
-
-		/*if(miss->type == PM_DEP_TYPE_CONFLICT) {
-			_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (it conflict with %s)", miss->target, miss->depend.name);
-			RET_ERR(???, -1);
-		} else*/
-
-
 		/* check if one of the packages in *list already provides this dependency */
 		for(j = list; j && !found; j = j->next) {
 			pmpkg_t *sp = (pmpkg_t *)j->data;
