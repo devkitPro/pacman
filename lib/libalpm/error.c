@@ -55,6 +55,8 @@ char *alpm_strerror(int err)
 			return "could not find database";
 		case PM_ERR_DB_WRITE:
 			return "could not update database";
+		case PM_ERR_DB_REMOVE:
+			return "could not remove database entry";
 		case PM_ERR_DB_UPTODATE:
 			return "database is up to date";
 		/* Configuration */
@@ -71,14 +73,14 @@ char *alpm_strerror(int err)
 			return "transaction already initialized";
 		case PM_ERR_TRANS_DUP_TARGET:
 			return "duplicate target";
-		case PM_ERR_TRANS_INITIALIZED:
-			return "transaction already initialized";
 		case PM_ERR_TRANS_NOT_INITIALIZED:
 			return "transaction not initialized";
 		case PM_ERR_TRANS_NOT_PREPARED:
 			return "transaction not prepared";
 		case PM_ERR_TRANS_ABORT:
 			return "transaction aborted";
+		case PM_ERR_TRANS_TYPE:
+			return "operation not compatible with the transaction type";
 		/* Packages */
 		case PM_ERR_PKG_NOT_FOUND:
 			return "could not find or read package";
@@ -109,7 +111,6 @@ char *alpm_strerror(int err)
 			return "user aborted";
 		case PM_ERR_INTERNAL_ERROR:
 			return "internal error";
-		case PM_ERR_XXX:
 		default:
 			return "unexpected error";
 	}

@@ -312,7 +312,7 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 				_alpm_log(PM_LOG_ERROR, "could not remove database entry %s/%s", db->treename,
 				                        ((pmpkg_t *)lp->data)->name);
 			}
-			RET_ERR(PM_ERR_XXX, -1);
+			RET_ERR(PM_ERR_DB_REMOVE, -1);
 		}
 	}
 
@@ -325,12 +325,12 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	db_write each entry (see sync_load_dbarchive to get archive content) */
 	_alpm_log(PM_LOG_FLOW2, "unpacking %s", archive);
 	if(_alpm_unpack(archive, db->path, NULL)) {
-		RET_ERR(PM_ERR_XXX, -1);
+		RET_ERR(PM_ERR_SYSTEM, -1);
 	}
 
 	if(ts && strlen(ts) != 0) {
 		if(db_setlastupdate(db, ts) == -1) {
-			RET_ERR(PM_ERR_XXX, -1);
+			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
 	}
 
@@ -527,9 +527,11 @@ int alpm_pkg_load(char *filename, pmpkg_t **pkg)
 int alpm_pkg_free(pmpkg_t *pkg)
 {
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(pkg->origin != PKG_FROM_CACHE, RET_ERR(PM_ERR_XXX, -1));
 
-	pkg_free(pkg);
+	/* Only free packages loaded in user space */
+	if(pkg->origin != PKG_FROM_CACHE) {
+		pkg_free(pkg);
+	}
 
 	return(0);
 }
@@ -545,7 +547,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	int retval = 0;
 
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(pkg->md5sum[0] != 0, RET_ERR(PM_ERR_XXX, -1));
+	ASSERT(pkg->md5sum[0] != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	asprintf(&path, "%s%s/%s-%s" PM_EXT_PKG,
 	                handle->root, handle->cachedir,
@@ -719,7 +721,7 @@ int alpm_trans_sysupgrade()
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_XXX, -1));
+	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
 	return(trans_sysupgrade(trans));
 }
