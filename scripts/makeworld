@@ -2,7 +2,7 @@
 # 
 #   makeworld
 #  
-#   Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,13 +20,15 @@
 #   USA.
 #
 
-version="2.9.7"
+version="2.9.8"
 toplevel=`pwd`
 
 usage() {
 	echo "makeworld version $version"
-	echo "usage: $0 [options] <destdir> <category> [category] ..."
-	echo "options:"
+	echo
+	echo "Usage: $0 [options] <destdir> <category> [category] ..."
+	echo
+	echo "Options:"
 	echo "  -b, --builddeps  Build missing dependencies from source"
 	echo "  -c, --clean      Clean up work files after build"
 	echo "  -d, --nodeps     Skip all dependency checks"
@@ -37,10 +39,15 @@ usage() {
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
 	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
 	echo
-	echo "  where <category> is one or more directory names under the ABS root"
-	echo "  eg: makeworld -c /packages base lib editors"
+	echo "These options can be passed to pacman:"
 	echo
-	echo "  this should be run from the toplevel directory of ABS (usually /var/abs)"
+	echo "  --noconfirm      Do not ask for confirmation when resolving dependencies"
+	echo "  --noprogressbar  Do not show a progress bar when downloading files"
+	echo
+	echo "Where <category> is one or more directory names under the ABS root"
+	echo "eg: makeworld -c /packages base lib editors"
+	echo
+	echo "This should be run from the toplevel directory of ABS (usually /var/abs)"
 }
 
 if [ $# -lt 2 ]; then
@@ -51,6 +58,10 @@ fi
 MAKEPKG_OPTS=
 for arg in $*; do
 	case $arg in
+# pacman
+		--noconfirm)     MAKEPKG_OPTS="$MAKEPKG_OPTS --noconfirm" ;;
+		--noprogressbar) MAKEPKG_OPTS="$MAKEPKG_OPTS --noprogressbar" ;;
+# makepkg
 		--clean)     MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
 		--install)   MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
 		--syncdeps)  MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
