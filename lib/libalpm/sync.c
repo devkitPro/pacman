@@ -492,8 +492,8 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 						/* figure out which one was requested in targets.  If they both were,
 						 * then it's still an unresolvable conflict. */
-						target = pm_list_is_strin(miss->depend.name, trans->targets);
-						depend = pm_list_is_strin(miss->target, trans->targets);
+						target = pm_list_is_strin(miss->target, trans->targets) ? miss->target : NULL;
+						depend = pm_list_is_strin(miss->depend.name, trans->targets) ? miss->depend.name : NULL;
 						if(depend && !target) {
 							_alpm_log(PM_LOG_DEBUG, "%s is in the target list -- keeping it",
 							                        miss->depend.name);
