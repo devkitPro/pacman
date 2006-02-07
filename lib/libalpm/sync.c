@@ -478,6 +478,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 						 * (not the same behavior as in pacman 2.x) */
 					} else {
 						char *rmpkg = NULL;
+						char *target, *depend;
 						/* hmmm, depend.name isn't installed, so it must be conflicting
 						 * with another package in our final list.  For example:
 						 *
@@ -491,18 +492,18 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 						/* figure out which one was requested in targets.  If they both were,
 						 * then it's still an unresolvable conflict. */
-						if(pm_list_is_strin(miss->depend.name, trans->targets)
-						   && !pm_list_is_strin(miss->target, trans->targets)) {
+						target = pm_list_is_strin(miss->depend.name, trans->targets);
+						depend = pm_list_is_strin(miss->target, trans->targets);
+						if(depend && !target) {
 							_alpm_log(PM_LOG_DEBUG, "%s is in the target list -- keeping it",
 							                        miss->depend.name);
 							/* remove miss->target */
-							rmpkg = strdup(miss->target);
-						} else if(pm_list_is_strin(miss->target, trans->targets)
-						          && !pm_list_is_strin(miss->depend.name, trans->targets)) {
+							rmpkg = miss->target;
+						} else if(target && !depend) {
 							_alpm_log(PM_LOG_DEBUG, "%s is in the target list -- keeping it",
 							                        miss->target);
 							/* remove miss->depend.name */
-							rmpkg = strdup(miss->depend.name);
+							rmpkg = miss->depend.name;
 						} else {
 							/* something's not right, bail out with a conflict error */
 						}
@@ -512,7 +513,6 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 							_alpm_log(PM_LOG_FLOW2, "removing %s from target list", rmpkg);
 							trans->packages = _alpm_list_remove(trans->packages, rsync, ptr_cmp, (void **)&spkg);
 							FREESYNC(spkg);
-							FREE(rmpkg);
 							continue;
 						}
 					}
