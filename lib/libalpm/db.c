@@ -482,36 +482,54 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			retval = 1;
 			goto cleanup;
 		}
-		fputs("%NAME%\n", fp);
-		fprintf(fp, "%s\n\n", info->name);
-		fputs("%VERSION%\n", fp);
-		fprintf(fp, "%s\n\n", info->version);
-		fputs("%DESC%\n", fp);
-		fprintf(fp, "%s\n\n", info->desc);
-		fputs("%GROUPS%\n", fp);
-		for(lp = info->groups; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		fprintf(fp, "%%NAME%%\n%s\n\n"
+		            "%%VERSION%%\n%s\n\n", info->name, info->version);
+		if(info->desc[0]) {
+			fprintf(fp, "%%DESC%%\n"
+			            "%s\n\n", info->desc);
 		}
-		fprintf(fp, "\n");
-		fputs("%URL%\n", fp);
-		fprintf(fp, "%s\n\n", info->url);
-		fputs("%LICENSE%\n", fp);
-		for(lp = info->license; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->groups) {
+			fputs("%GROUPS%\n", fp);
+			for(lp = info->groups; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
-		fputs("%ARCH%\n", fp);
-		fprintf(fp, "%s\n\n", info->arch);
-		fputs("%BUILDDATE%\n", fp);
-		fprintf(fp, "%s\n\n", info->builddate);
-		fputs("%INSTALLDATE%\n", fp);
-		fprintf(fp, "%s\n\n", info->installdate);
-		fputs("%PACKAGER%\n", fp);
-		fprintf(fp, "%s\n\n", info->packager);
-		fputs("%SIZE%\n", fp);
-		fprintf(fp, "%ld\n\n", info->size);
-		fputs("%REASON%\n", fp);
-		fprintf(fp, "%d\n\n", info->reason);
+		if(info->url[0]) {
+			fprintf(fp, "%%URL%%\n"
+			            "%s\n\n", info->url);
+		}
+		if(info->license) {
+			fputs("%LICENSE%\n", fp);
+			for(lp = info->license; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+		if(info->arch[0]) {
+			fprintf(fp, "%%ARCH%%\n"
+			            "%s\n\n", info->arch);
+		}
+		if(info->builddate[0]) {
+			fprintf(fp, "%%BUILDDATE%%\n"
+			            "%s\n\n", info->builddate);
+		}
+		if(info->installdate[0]) {
+			fprintf(fp, "%%INSTALLDATE%%\n"
+			            "%s\n\n", info->installdate);
+		}
+		if(info->packager[0]) {
+			fprintf(fp, "%%PACKAGER%%\n"
+			            "%s\n\n", info->packager);
+		}
+		if(info->size) {
+			fprintf(fp, "%%SIZE%%\n"
+			            "%ld\n\n", info->size);
+		}
+		if(info->reason) {
+			fprintf(fp, "%%REASON%%\n"
+			            "%d\n\n", info->reason);
+		}
 		fclose(fp);
 		fp = NULL;
 	}
@@ -524,16 +542,20 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			retval = -1;
 			goto cleanup;
 		}
-		fputs("%FILES%\n", fp);
-		for(lp = info->files; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->files) {
+			fprintf(fp, "%%FILES%%\n");
+			for(lp = info->files; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
-		fputs("%BACKUP%\n", fp);
-		for(lp = info->backup; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->backup) {
+			fprintf(fp, "%%BACKUP%%\n");
+			for(lp = info->backup; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
 		fclose(fp);
 		fp = NULL;
 	}
@@ -546,26 +568,34 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			retval = -1;
 			goto cleanup;
 		}
-		fputs("%DEPENDS%\n", fp);
-		for(lp = info->depends; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->depends) {
+			fputs("%DEPENDS%\n", fp);
+			for(lp = info->depends; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
-		fputs("%REQUIREDBY%\n", fp);
-		for(lp = info->requiredby; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->requiredby) {
+			fputs("%REQUIREDBY%\n", fp);
+			for(lp = info->requiredby; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
-		fputs("%CONFLICTS%\n", fp);
-		for(lp = info->conflicts; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->conflicts) {
+			fputs("%CONFLICTS%\n", fp);
+			for(lp = info->conflicts; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
-		fputs("%PROVIDES%\n", fp);
-		for(lp = info->provides; lp; lp = lp->next) {
-			fprintf(fp, "%s\n", (char *)lp->data);
+		if(info->provides) {
+			fputs("%PROVIDES%\n", fp);
+			for(lp = info->provides; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
-		fprintf(fp, "\n");
 		fclose(fp);
 		fp = NULL;
 	}
