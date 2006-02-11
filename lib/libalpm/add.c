@@ -503,7 +503,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 							_alpm_log(PM_LOG_DEBUG, "action: installing new file");
 							installnew = 1;
 						} else {
-							_alpm_log(PM_LOG_DEBUG, "action: leaving file in place, installing new one as .pacnew\n");
+							_alpm_log(PM_LOG_DEBUG, "action: leaving file in place, installing new one as .pacnew");
 							strncat(expath, ".pacnew", PATH_MAX);
 							installnew = 1;
 							_alpm_log(PM_LOG_WARNING, "extracting %s as %s.pacnew", pathname, pathname);
@@ -511,7 +511,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						}
 
 						if(installnew) {
-							/*_alpm_log(PM_LOG_FLOW2, "  %s", expath);*/
+							_alpm_log(PM_LOG_FLOW2, "extracting %s", pathname);
 							if(_alpm_copyfile(temp, expath)) {
 								_alpm_log(PM_LOG_ERROR, "could not copy %s to %s (%s)", temp, pathname, strerror(errno));
 								errors++;
@@ -545,7 +545,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 					}
 					if(tar_extract_file(tar, expath)) {
 						_alpm_log(PM_LOG_ERROR, "could not extract %s (%s)", pathname, strerror(errno));
-						alpm_logaction("could not extract %s (%s)", pathname, strerror(errno));
+						alpm_logaction("error: could not extract %s (%s)", pathname, strerror(errno));
 						errors++;
 					}
 					/* calculate an md5 hash if this is in info->backup */
@@ -556,6 +556,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 
 						if(!file) continue;
 						if(!strcmp(file, pathname)) {
+							_alpm_log(PM_LOG_DEBUG, "appending backup entry");
 							snprintf(path, PATH_MAX, "%s%s", handle->root, file);
 							md5 = MDFile(path);
 							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
