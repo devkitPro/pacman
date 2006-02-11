@@ -108,7 +108,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		return(0);
 	}
 
-	_alpm_log(PM_LOG_FLOW2, "loading target %s", name);
+	_alpm_log(PM_LOG_FLOW2, "loading target '%s'", name);
 
 	if(stat(name, &buf)) {
 		pm_errno = PM_ERR_NOT_A_FILE;
@@ -151,7 +151,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		if(strcmp(pkg->name, pkgname) == 0) {
 			if(versioncmp(pkg->version, pkgver) < 0) {
 				pmpkg_t *newpkg;
-				_alpm_log(PM_LOG_WARNING, "replacing older version of %s %s by %s in target list", pkg->name, pkg->version, pkgver);
+				_alpm_log(PM_LOG_WARNING, "replacing older version of %s-%s by %s in target list", pkg->name, pkg->version, pkgver);
 				newpkg = pkg_load(name);
 				if(newpkg == NULL) {
 					/* pm_errno is already set by pkg_load() */
@@ -164,7 +164,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		}
 	}
 
-	_alpm_log(PM_LOG_FLOW2, "reading %s", name);
+	_alpm_log(PM_LOG_FLOW2, "reading '%s' metadata", pkgname);
 	info = pkg_load(name);
 	if(info == NULL) {
 		/* pm_errno is already set by pkg_load() */
@@ -358,7 +358,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 				_alpm_runscriptlet(handle->root, info->data, "pre_install", info->version, NULL);
 			}
 		} else {
-			_alpm_log(PM_LOG_FLOW1, "adding new package (%s-%s)", info->name, info->version);
+			_alpm_log(PM_LOG_FLOW1, "adding new package %s-%s", info->name, info->version);
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
@@ -611,13 +611,13 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 		_alpm_log(PM_LOG_FLOW1, "updating database");
 		_alpm_log(PM_LOG_FLOW2, "adding database entry '%s'", info->name);
 		if(db_write(db, info, INFRQ_ALL)) {
-			_alpm_log(PM_LOG_ERROR, "could not update database entry '%s-%s'",
+			_alpm_log(PM_LOG_ERROR, "could not update database entry %s-%s",
 			          info->name, info->version);
 			alpm_logaction(NULL, "error updating database for %s-%s!", info->name, info->version);
 			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
 		if(db_add_pkgincache(db, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, "could not add entry %s in cache", info->name);
+			_alpm_log(PM_LOG_ERROR, "could not add entry '%s' in cache", info->name);
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
@@ -651,7 +651,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'", info->name, depinfo->name);
 			depinfo->requiredby = pm_list_add(depinfo->requiredby, strdup(info->name));
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
-				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry '%s-%s'",
+				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
 				          depinfo->name, depinfo->version);
 			}
 		}
