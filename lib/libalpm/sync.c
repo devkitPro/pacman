@@ -151,7 +151,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 				for(m = db_get_pkgcache(db_local); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
 					if(!strcmp(k->data, lpkg->name)) {
-						_alpm_log(PM_LOG_DEBUG, "checking replacement %s for package %s", k->data, spkg->name);
+						_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'", k->data, spkg->name);
 						if(pm_list_is_strin(lpkg->name, handle->ignorepkg)) {
 							_alpm_log(PM_LOG_WARNING, "%s-%s: ignoring package upgrade (to be replaced by %s-%s)",
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
@@ -211,7 +211,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			spkg = db_get_pkgfromcache(j->data, local->name);
 		}
 		if(spkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "%s: not found in sync db -- skipping", local->name);
+			_alpm_log(PM_LOG_DEBUG, "'%s' not found in sync db -- skipping", local->name);
 			continue;
 		}
 
@@ -225,7 +225,7 @@ int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			}
 		}
 		if(replace) {
-			_alpm_log(PM_LOG_DEBUG, "%s is already elected for removal -- skipping",
+			_alpm_log(PM_LOG_DEBUG, "'%s' is already elected for removal -- skipping",
 			          spkg->name);
 			continue;
 		}
@@ -291,10 +291,13 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 				spkg = db_get_pkgfromcache(dbs, targ);
 				if(spkg == NULL) {
 					/* Search provides */
-					PMList *p = _alpm_db_whatprovides(dbs, targ);
+					PMList *p;
+					_alpm_log(PM_LOG_FLOW2, "target '%s' not found -- looking for provisions", targ);
+					p = _alpm_db_whatprovides(dbs, targ);
 					if(p == NULL) {
 						RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 					}
+					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'", p->data, targ);
 					spkg = db_get_pkgfromcache(dbs, p->data);
 					p->data = NULL;
 					FREELIST(p);
@@ -307,12 +310,14 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 			pmdb_t *dbs = j->data;
 			spkg = db_get_pkgfromcache(dbs, targ);
 		}
-		if(spkg == NULL) {
+		if(spkg == NULL) {		
 			/* Search provides */
+			_alpm_log(PM_LOG_FLOW2, "target '%s' not found -- looking for provisions", targ);
 			for(j = dbs_sync; j && !spkg; j = j->next) {
 				pmdb_t *dbs = j->data;
 				PMList *p = _alpm_db_whatprovides(dbs, targ);
 				if(p) {
+					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'", p->data, targ);
 					spkg = db_get_pkgfromcache(dbs, p->data);
 					p->data = NULL;
 					FREELIST(p);
@@ -360,6 +365,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 			FREEPKG(dummy);
 			RET_ERR(PM_ERR_MEMORY, -1);
 		}
+		_alpm_log(PM_LOG_FLOW2, "adding target '%s' to the transaction set", spkg->name);
 		trans->packages = pm_list_add(trans->packages, sync);
 	}
 
@@ -443,7 +449,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				pmsyncpkg_t *sync;
 				pmpkg_t *local;
 
-				_alpm_log(PM_LOG_FLOW2, "package %s is conflicting with %s",
+				_alpm_log(PM_LOG_FLOW2, "package '%s' is conflicting with '%s'",
 				          miss->target, miss->depend.name);
 
 				/* check if the conflicting package is one that's about to be removed/replaced.
@@ -458,7 +464,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					}
 				}
 				if(found) {
-					_alpm_log(PM_LOG_FLOW2, "%s is already elected for removal -- skipping",
+					_alpm_log(PM_LOG_FLOW2, "'%s' is already elected for removal -- skipping",
 					          miss->depend.name);
 					continue;
 				}
@@ -472,7 +478,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 					/* so just treat it like a "replaces" item so the REQUIREDBY
 					 * fields are inherited properly.
 					 */
-					_alpm_log(PM_LOG_DEBUG, "package %s provides its own conflict", miss->target);
+					_alpm_log(PM_LOG_DEBUG, "package '%s' provides its own conflict", miss->target);
 					if(local) {
 						/* nothing to do for now: it will be handled later
 						 * (not the same behavior as in pacman 2.x) */
@@ -495,12 +501,12 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 						target = pm_list_is_strin(miss->target, trans->targets) ? miss->target : NULL;
 						depend = pm_list_is_strin(miss->depend.name, trans->targets) ? miss->depend.name : NULL;
 						if(depend && !target) {
-							_alpm_log(PM_LOG_DEBUG, "%s is in the target list -- keeping it",
+							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it",
 							                        miss->depend.name);
 							/* remove miss->target */
 							rmpkg = miss->target;
 						} else if(target && !depend) {
-							_alpm_log(PM_LOG_DEBUG, "%s is in the target list -- keeping it",
+							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it",
 							                        miss->target);
 							/* remove miss->depend.name */
 							rmpkg = miss->depend.name;
@@ -510,7 +516,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 						if(rmpkg) {
 							pmsyncpkg_t *rsync = find_pkginsync(rmpkg, trans->packages);
 							pmsyncpkg_t *spkg = NULL;
-							_alpm_log(PM_LOG_FLOW2, "removing %s from target list", rmpkg);
+							_alpm_log(PM_LOG_FLOW2, "removing '%s' from target list", rmpkg);
 							trans->packages = _alpm_list_remove(trans->packages, rsync, ptr_cmp, (void **)&spkg);
 							FREESYNC(spkg);
 							continue;
@@ -520,7 +526,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 				/* It's a conflict -- see if they want to remove it
 				 */
-				_alpm_log(PM_LOG_DEBUG, "resolving package %s conflict", miss->target);
+				_alpm_log(PM_LOG_DEBUG, "resolving package '%s' conflict", miss->target);
 				if(local) {
 					int doremove = 0;
 					if(!pm_list_is_strin(miss->depend.name, asked)) {
@@ -536,12 +542,12 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 								FREEPKG(sync->data);
 							}
 							/* append to the replaces list */
-							_alpm_log(PM_LOG_FLOW2, "electing %s for removal", miss->depend.name);
+							_alpm_log(PM_LOG_FLOW2, "electing '%s' for removal", miss->depend.name);
 							sync->data = pm_list_add(sync->data, q);
 							if(rsync) {
 								/* remove it from the target list */
 								pmsyncpkg_t *spkg = NULL;
-								_alpm_log(PM_LOG_FLOW2, "removing %s from target list", miss->depend.name);
+								_alpm_log(PM_LOG_FLOW2, "removing '%s' from target list", miss->depend.name);
 								trans->packages = _alpm_list_remove(trans->packages, rsync, ptr_cmp, (void **)&spkg);
 								FREESYNC(spkg);
 							}
@@ -616,17 +622,53 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 				for(i = deps; i; i = i->next) {
 					pmdepmissing_t *miss = i->data;
 					if(!find_pkginsync(miss->depend.name, trans->packages)) {
-						if(!errorout) {
-							errorout = 1;
+						int pfound = 0;
+						PMList *k;
+						/* If miss->depend.name depends on something that miss->target and a
+						 * package in final both provide, then it's okay...  */
+						pmpkg_t *leavingp  = db_get_pkgfromcache(db_local, miss->target);
+						pmpkg_t *conflictp = db_get_pkgfromcache(db_local, miss->depend.name);
+						if(!leavingp || !conflictp) {
+							_alpm_log(PM_LOG_ERROR, "something has gone horribly wrong");
+							goto error;
 						}
-						if(data) {
-							if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-								FREELIST(*data);
-								pm_errno = PM_ERR_MEMORY;
-								goto error;
+						/* Look through the upset package's dependencies and try to match one up
+						 * to a provisio from the package we want to remove */
+						for(k = conflictp->depends; k && !pfound; k = k->next) {
+							PMList *m;
+							for(m = leavingp->provides; m && !pfound; m = m->next) {
+								if(!strcmp(k->data, m->data)) {
+									/* Found a match -- now look through final for a package that
+									 * provides the same thing.  If none are found, then it truly
+									 * is an unresolvable conflict. */
+									PMList *n, *o;
+									for(n = trans->packages; n && !pfound; n = n->next) {
+										pmsyncpkg_t *sp = n->data;
+										for(o = sp->pkg->provides; o && !pfound; o = o->next) {
+											if(!strcmp(m->data, o->data)) {
+												/* found matching provisio -- we're good to go */
+												_alpm_log(PM_LOG_FLOW2, "found '%s' as a provision for '%s' -- conflict aborted",
+												          sp->pkg->name, (char *)o->data);
+												pfound = 1;
+											}
+										}
+									}
+								}
 							}
-							*miss = *(pmdepmissing_t *)i->data;
-							*data = pm_list_add(*data, miss);
+						}
+						if(!pfound) {
+							if(!errorout) {
+								errorout = 1;
+							}
+							if(data) {
+								if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+									FREELIST(*data);
+									pm_errno = PM_ERR_MEMORY;
+									goto error;
+								}
+								*miss = *(pmdepmissing_t *)i->data;
+								*data = pm_list_add(*data, miss);
+							}
 						}
 					}
 				}
@@ -773,7 +815,7 @@ int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 								}
 							}
 							if(db_write(db_local, depender, INFRQ_DEPENDS) == -1) {
-								_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
+								_alpm_log(PM_LOG_ERROR, "could not update requiredby for database entry %s-%s",
 								          new->name, new->version);
 							}
 							/* add the new requiredby */
