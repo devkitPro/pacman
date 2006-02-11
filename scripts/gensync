@@ -2,7 +2,7 @@
 # 
 #   gensync
 #  
-#   Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -94,9 +94,11 @@ db_write_entry()
 	echo "%VERSION%" >>desc
 	echo "$pkgver-$pkgrel" >>desc
 	echo "" >>desc
-	echo "%DESC%" >>desc
-	echo "$pkgdesc" >>desc
-	echo "" >>desc
+	if [ -n $pkgdesc ]; then
+		echo "%DESC%" >>desc
+		echo "$pkgdesc" >>desc
+		echo "" >>desc
+	fi
 	if [ ${#groups[*]} -gt 0 ]; then
 		echo "%GROUPS%" >>desc
 		for it in "${groups[@]}"; do
@@ -104,9 +106,11 @@ db_write_entry()
 		done
 		echo "" >>desc
 	fi
-	echo "%CSIZE%" >>desc
-	echo "$csize" >>desc
-	echo "" >>desc
+	if [ -n $csize ]; then
+		echo "%CSIZE%" >>desc
+		echo "$csize" >>desc
+		echo "" >>desc
+	fi
 	if [ ! -z $pkgmd5sum ]; then
 		echo "%MD5SUM%" >>desc
 		echo "$pkgmd5sum" >>desc
