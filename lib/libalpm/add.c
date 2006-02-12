@@ -51,6 +51,52 @@
 
 extern pmhandle_t *handle;
 
+static int add_faketarget(pmtrans_t *trans, char *name)
+{
+	char *ptr, *p;
+	char *str = NULL;
+	pmpkg_t *dummy = NULL;
+
+	if((dummy = pkg_new(NULL, NULL)) == NULL) {
+		RET_ERR(PM_ERR_MEMORY, -1);
+	}
+
+	/* Format: field1=value1|field2=value2|...
+	 * Valid fields are "name", "version" and "depend"
+	 */
+	str = strdup(name);
+	ptr = str;
+	while((p = strsep(&ptr, "|")) != NULL) {
+		char *q;
+		if(p[0] == 0) {
+			continue;
+		}
+		q = strchr(p, '=');
+		if(q == NULL) { /* not a valid token */
+			continue;
+		}
+		if(strncmp("name", p, q-p) == 0) {
+			STRNCPY(dummy->name, q+1, PKG_NAME_LEN);
+		} else if(strncmp("version", p, q-p) == 0) {
+			STRNCPY(dummy->version, q+1, PKG_VERSION_LEN);
+		} else if(strncmp("depend", p, q-p) == 0) {
+			dummy->depends = pm_list_add(dummy->depends, strdup(q+1));
+		} else {
+			_alpm_log(PM_LOG_ERROR, "could not parse token %s", p);
+		}
+	}
+	FREE(str);
+	if(dummy->name[0] == 0 || dummy->version[0] == 0) {
+		FREEPKG(dummy);
+		RET_ERR(PM_ERR_PKG_INVALID_NAME, -1);
+	}
+
+	/* add the package to the transaction */
+	trans->packages = pm_list_add(trans->packages, dummy);
+
+	return(0);
+}
+
 int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info = NULL;
@@ -63,49 +109,9 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(name != NULL && strlen(name) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	/* Check if we need to add a fake target to the transaction.
-	 * format: field1=value1|field2=value2|...
-	 * Supported fields are "name", "version", "depend"
-	 * A fake package is created with the given tokens (name and version are
-	 * required).
-	 */
+	/* Check if we need to add a fake target to the transaction. */
 	if(strchr(name, '|')) {
-		char *str, *ptr, *p;
-		dummy = pkg_new(NULL, NULL);
-		if(dummy == NULL) {
-			pm_errno = PM_ERR_MEMORY;
-			goto error;
-		}
-		str = strdup(name);
-		ptr = str;
-		while((p = strsep(&ptr, "|")) != NULL) {
-			char *q;
-			if(p[0] == 0) {
-				continue;
-			}
-			q = strchr(p, '=');
-			if(q == NULL) { /* not a valid token */
-				continue;
-			}
-			if(strncmp("name", p, q-p) == 0) {
-				STRNCPY(dummy->name, q+1, PKG_NAME_LEN);
-			} else if(strncmp("version", p, q-p) == 0) {
-				STRNCPY(dummy->version, q+1, PKG_VERSION_LEN);
-			} else if(strncmp("depend", p, q-p) == 0) {
-				dummy->depends = pm_list_add(dummy->depends, strdup(q+1));
-			} else {
-				_alpm_log(PM_LOG_ERROR, "could not parse token %s", p);
-			}
-		}
-		FREE(str);
-		if(dummy->name[0] == 0 || dummy->version[0] == 0) {
-			pm_errno = PM_ERR_PKG_INVALID_NAME;
-			FREEPKG(dummy);
-			goto error;
-		}
-		/* add the package to the transaction */
-		trans->packages = pm_list_add(trans->packages, dummy);
-		return(0);
+		return(add_faketarget(trans, name));
 	}
 
 	_alpm_log(PM_LOG_FLOW2, "loading target '%s'", name);
@@ -128,8 +134,7 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 		/* only install this package if it is not already installed */
-		dummy = db_get_pkgfromcache(db, pkgname);
-		if(dummy) {
+		if(db_get_pkgfromcache(db, pkgname)) {
 			pm_errno = PM_ERR_PKG_INSTALLED;
 			goto error;
 		}
@@ -151,14 +156,17 @@ int add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		if(strcmp(pkg->name, pkgname) == 0) {
 			if(versioncmp(pkg->version, pkgver) < 0) {
 				pmpkg_t *newpkg;
-				_alpm_log(PM_LOG_WARNING, "replacing older version of %s-%s by %s in target list", pkg->name, pkg->version, pkgver);
-				newpkg = pkg_load(name);
-				if(newpkg == NULL) {
+				_alpm_log(PM_LOG_WARNING, "replacing older version %s-%s by %s in target list",
+				          pkg->name, pkg->version, pkgver);
+				if((newpkg = pkg_load(name)) == NULL) {
 					/* pm_errno is already set by pkg_load() */
 					goto error;
 				}
 				FREEPKG(i->data);
 				i->data = newpkg;
+			} else {
+				_alpm_log(PM_LOG_WARNING, "newer version %s-%s is in the target list -- skipping",
+				          pkg->name, pkg->version, pkgver);
 			}
 			return(0);
 		}
