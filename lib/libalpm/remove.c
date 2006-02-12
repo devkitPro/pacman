@@ -246,12 +246,12 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		/* remove the package from the database */
 		_alpm_log(PM_LOG_FLOW1, "updating database");
-		_alpm_log(PM_LOG_FLOW2, "removing database entry %s", info->name);
+		_alpm_log(PM_LOG_FLOW2, "removing database entry '%s'", info->name);
 		if(db_remove(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, "could not remove database entry %s-%s", info->name, info->version);
 		}
 		if(db_remove_pkgfromcache(db, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, "could not remove entry %s from cache", info->name);
+			_alpm_log(PM_LOG_ERROR, "could not remove entry '%s' from cache", info->name);
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
@@ -283,7 +283,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
-					_alpm_log(PM_LOG_ERROR, "could not find dependency %s", depend.name);
+					_alpm_log(PM_LOG_ERROR, "could not find dependency '%s'", depend.name);
 					/* wtf */
 					continue;
 				}
@@ -291,7 +291,7 @@ int remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* splice out this entry from requiredby */
 			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, (void **)&data);
 			FREE(data);
-			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package %s", depinfo->name);
+			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'", depinfo->name);
 			if(db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
 				          depinfo->name, depinfo->version);
