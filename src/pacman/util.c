@@ -38,6 +38,7 @@
 #include "util.h"
 #include "list.h"
 #include "conf.h"
+#include "log.h"
 
 extern int maxcols;
 extern config_t *config;
@@ -195,7 +196,7 @@ int reg_match(char *string, char *pattern)
 	regex_t reg;
 
 	if(regcomp(&reg, pattern, REG_EXTENDED | REG_NOSUB | REG_ICASE) != 0) {
-		fprintf(stderr, "error: %s is not a valid regular expression.\n", pattern);
+		ERR(NL, "%s is not a valid regular expression.\n", pattern);
 		return(-1);
 	}
 	result = regexec(&reg, string, 0, 0, 0);
