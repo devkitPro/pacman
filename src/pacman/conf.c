@@ -42,10 +42,7 @@ config_t *config_new()
 {
 	config_t *config;
 
-	config = (config_t *)malloc(sizeof(config_t));
-	if(config == NULL) {
-		return(NULL);
-	}
+	MALLOC(config, sizeof(config_t));
 
 	memset(config, 0, sizeof(config_t));
 
@@ -123,11 +120,7 @@ int parseconfig(char *file, config_t *config)
 				}
 				if(!found) {
 					/* start a new sync record */
-					sync = (sync_t *)malloc(sizeof(sync_t));
-					if(sync == NULL) {
-						ERR(NL, "could not allocate %d bytes\n", sizeof(sync_t));
-						return(1);
-					}
+					MALLOC(sync, sizeof(sync_t));
 					sync->treename = strdup(section);
 					sync->servers = NULL;
 					pmc_syncs = list_add(pmc_syncs, sync);
@@ -292,10 +285,7 @@ int parseconfig(char *file, config_t *config)
 						server_t *server;
 						char *p;
 
-						if((server = (server_t *)malloc(sizeof(server_t))) == NULL) {
-							ERR(NL, "could not allocate %d bytes\n", sizeof(server_t));
-							return(1);
-						}
+						MALLOC(server, sizeof(server_t));
 						server->server = server->path = NULL;
 						server->protocol = NULL;
 

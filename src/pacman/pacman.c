@@ -86,10 +86,6 @@ int main(int argc, char *argv[])
 
 	/* init config data */
 	config = config_new();
-	if(config == NULL) {
-		ERR(NL, "could not allocate memory for pacman config data.\n");
-		return(1);
-	}
 	config->op = PM_OP_MAIN;
 	config->debug |= PM_LOG_WARNING;
 
