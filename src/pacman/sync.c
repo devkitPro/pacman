@@ -161,13 +161,15 @@ static int sync_synctree(int level, list_t *syncs)
 	for(i = syncs; i; i = i->next) {
 		list_t *files = NULL;
 		char newmtime[16] = "";
-		char *lastupdate;
+		char *lastupdate = NULL;
 		sync_t *sync = (sync_t *)i->data;
 
-		/* get the lastupdate time */
-		lastupdate = alpm_db_getinfo(sync->db, PM_DB_LASTUPDATE);
-		if(strlen(lastupdate) == 0) {
-			vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
+		if(level < 2) {
+			/* get the lastupdate time */
+			lastupdate = alpm_db_getinfo(sync->db, PM_DB_LASTUPDATE);
+			if(strlen(lastupdate) == 0) {
+				vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
+			}
 		}
 
 		/* build a one-element list */
