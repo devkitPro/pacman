@@ -692,13 +692,13 @@ int pacman_sync(list_t *targets)
 			fflush(stdout);
 			if(stat(ldir, &buf)) {
 				/* no cache directory.... try creating it */
-				MSG(NL, "warning: no %s cache exists.  creating...\n", ldir);
+				WARN(NL, "no %s cache exists.  creating...\n", ldir);
 				alpm_logaction("warning: no %s cache exists.  creating...", ldir);
 				if(makepath(ldir)) {
 					/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
 					 * the package afterwards.
 					 */
-					MSG(NL, "warning: couldn't create package cache, using /tmp instead");
+					WARN(NL, "couldn't create package cache, using /tmp instead");
 					alpm_logaction("warning: couldn't create package cache, using /tmp instead");
 					snprintf(ldir, PATH_MAX, "/tmp");
 					if(alpm_set_option(PM_OPT_CACHEDIR, (long)ldir) == -1) {

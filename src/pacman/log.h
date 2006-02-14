@@ -26,6 +26,10 @@
 	pm_fprintf(stderr, line, "error: "); \
 	pm_fprintf(stderr, CL, fmt, ##args); \
 } while(0)
+#define WARN(line, fmt, args...) do { \
+	pm_fprintf(stderr, line, "warning: "); \
+	pm_fprintf(stderr, CL, fmt, ##args); \
+} while(0)
 
 enum {
 	NL, /* new line */
