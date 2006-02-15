@@ -38,7 +38,7 @@
 #include "alpm.h"
 
 /* Open a database and return a pmdb_t handle */
-pmdb_t *db_open(char *root, char *dbpath, char *treename)
+pmdb_t *db_open(char *root, char *dbpath, char *treename, int mode)
 {
 	pmdb_t *db;
 
@@ -55,17 +55,23 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename)
 
 	db->dir = opendir(db->path);
 	if(db->dir == NULL) {
-		FREE(db->path);
-		FREE(db);
-		return(NULL);
+		if(mode & DB_O_CREATE) {
+			_alpm_log(PM_LOG_WARNING, "could not open database '%s' -- try creating it", treename);
+			if(_alpm_makepath(db->path) == 0) {
+				db->dir = opendir(db->path);
+			}
+		}
+		if(!(mode & DB_O_CREATE) || db->dir == NULL) {
+			FREE(db->path);
+			FREE(db);
+			return(NULL);
+		}
 	}
 
 	STRNCPY(db->treename, treename, DB_TREENAME_LEN);
 
 	db->pkgcache = NULL;
 	db->grpcache = NULL;
-
-	db_getlastupdate(db, db->lastupdate);
 
 	return(db);
 }
@@ -90,81 +96,6 @@ void db_close(pmdb_t *db)
 	free(db);
 
 	return;
-}
-
-int db_create(char *root, char *dbpath, char *treename)
-{
-	char path[PATH_MAX];
-
-	if(root == NULL || dbpath == NULL || treename == NULL) {
-		return(-1);
-	}
-
-	snprintf(path, PATH_MAX, "%s%s/%s", root, dbpath, treename);
-	if(_alpm_makepath(path) != 0) {
-		return(-1);
-	}
-
-	return(0);
-}
-
-/* reads dbpath/.lastupdate and populates *ts with the contents.
- * *ts should be malloc'ed and should be at least 15 bytes.
- *
- * Returns 0 on success, 1 on error
- *
- */
-int db_getlastupdate(pmdb_t *db, char *ts)
-{
-	FILE *fp;
-	char path[PATH_MAX];
-
-	if(db == NULL || ts == NULL) {
-		return(-1);
-	}
-
-	/* get the last update time, if it's there */
-	snprintf(path, PATH_MAX, "%s/.lastupdate", db->path);
-	if((fp = fopen(path, "r")) == NULL) {
-		return(-1);
-	} else {
-		char line[256];
-		if(fgets(line, sizeof(line), fp)) {
-			STRNCPY(ts, line, 15); /* YYYYMMDDHHMMSS */
-			ts[14] = '\0';
-		} else {
-			fclose(fp);
-			return(-1);
-		}
-	}
-	fclose(fp);
-	return(0);
-}
-
-/* writes the dbpath/.lastupdate with the contents of *ts
- */
-int db_setlastupdate(pmdb_t *db, char *ts)
-{
-	FILE *fp;
-	char file[PATH_MAX];
-
-	if(db == NULL || ts == NULL || strlen(ts) == 0) {
-		return(-1);
-	}
-
-	snprintf(file, PATH_MAX, "%s/.lastupdate", db->path);
-	if((fp = fopen(file, "w")) == NULL) {
-		return(-1);
-	}
-	if(fputs(ts, fp) <= 0) {
-		fclose(fp);
-		return(-1);
-	}
-	fclose(fp);
-
-	STRNCPY(db->lastupdate, ts, DB_UPDATE_LEN);
-
-	return(0);
 }
 
 void db_rewind(pmdb_t *db)

@@ -105,8 +105,7 @@ int alpm_get_option(unsigned char parm, long *data);
 
 /* Info parameters */
 enum {
-	PM_DB_TREENAME = 1,
-	PM_DB_LASTUPDATE
+	PM_DB_TREENAME = 1
 };
 
 PM_DB *alpm_db_register(char *treename);
@@ -114,7 +113,7 @@ int alpm_db_unregister(PM_DB *db);
 
 void *alpm_db_getinfo(PM_DB *db, unsigned char parm);
 
-int alpm_db_update(PM_DB *db, char *archive, char *ts);
+int alpm_db_update(PM_DB *db, char *archive);
 
 PM_PKG *alpm_db_readpkg(PM_DB *db, char *name);
 PM_LIST *alpm_db_getpkgcache(PM_DB *db);

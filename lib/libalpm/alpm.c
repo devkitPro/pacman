@@ -187,17 +187,9 @@ pmdb_t *alpm_db_register(char *treename)
 		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 	}
 
-	db = db_open(handle->root, handle->dbpath, treename);
+	db = db_open(handle->root, handle->dbpath, treename, DB_O_CREATE);
 	if(db == NULL) {
-		/* couldn't open the db directory - try creating it */
-		if(db_create(handle->root, handle->dbpath, treename) == -1) {
-			RET_ERR(PM_ERR_DB_CREATE, NULL);
-		}
-		db = db_open(handle->root, handle->dbpath, treename);
-		if(db == NULL) {
-			/* couldn't open the db directory */
-			RET_ERR(PM_ERR_DB_OPEN, NULL);
-		}
+		RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 
 	if(strcmp(treename, "local") == 0) {
@@ -270,7 +262,6 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 
 	switch(parm) {
 		case PM_DB_TREENAME:   data = db->treename; break;
-		case PM_DB_LASTUPDATE: data = db->lastupdate; break;
 		default:
 			data = NULL;
 	}
@@ -284,7 +275,7 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
  * @param ts timestamp of the last modification time of the tarball
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_update(PM_DB *db, char *archive, char *ts)
+int alpm_db_update(PM_DB *db, char *archive)
 {
 	PMList *lp;
 
@@ -296,12 +287,6 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 
 	if(!pm_list_is_in(db, handle->dbs_sync)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
-	}
-
-	if(ts && strlen(ts) != 0) {
-		if(strcmp(ts, db->lastupdate) == 0) {
-			RET_ERR(PM_ERR_DB_UPTODATE, -1);
-		}
 	}
 
 	/* remove the old dir */
@@ -326,12 +311,6 @@ int alpm_db_update(PM_DB *db, char *archive, char *ts)
 	_alpm_log(PM_LOG_FLOW2, "unpacking %s", archive);
 	if(_alpm_unpack(archive, db->path, NULL)) {
 		RET_ERR(PM_ERR_SYSTEM, -1);
-	}
-
-	if(ts && strlen(ts) != 0) {
-		if(db_setlastupdate(db, ts) == -1) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
-		}
 	}
 
 	return(0);

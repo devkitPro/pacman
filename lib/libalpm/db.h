@@ -35,7 +35,8 @@
 #define INFRQ_ALL      0xFF
 
 #define DB_TREENAME_LEN 128
-#define DB_UPDATE_LEN 16
+
+#define DB_O_CREATE 0x01
 
 /* Database */
 typedef struct __pmdb_t {
@@ -44,15 +45,10 @@ typedef struct __pmdb_t {
 	DIR *dir;
 	PMList *pkgcache;
 	PMList *grpcache;
-	char lastupdate[DB_UPDATE_LEN];
 } pmdb_t;
 
-pmdb_t *db_open(char *root, char *dbpath, char *treename);
+pmdb_t *db_open(char *root, char *dbpath, char *treename, int mode);
 void db_close(pmdb_t *db);
-int db_create(char *root, char *dbpath, char *treename);
-
-int db_getlastupdate(pmdb_t *db, char *ts);
-int db_setlastupdate(pmdb_t *db, char *ts);
 
 void db_rewind(pmdb_t *db);
 pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq);
