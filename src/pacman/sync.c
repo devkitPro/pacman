@@ -753,7 +753,7 @@ int pacman_sync(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_CONFLICT *conflict = alpm_list_getdata(i);
+					PM_CONFLICT *conflict = alpm_list_getdata(lp);
 					switch((int)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
 						case PM_CONFLICT_TYPE_TARGET:
 							MSG(NL, "%s exists in \"%s\" (target) and \"%s\" (target)",
