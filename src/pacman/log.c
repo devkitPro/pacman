@@ -23,9 +23,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include <alpm.h>
-
 /* pacman */
 #include "util.h"
 #include "log.h"
