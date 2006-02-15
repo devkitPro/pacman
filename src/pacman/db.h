@@ -21,6 +21,9 @@
 #ifndef _PM_DB_H
 #define _PM_DB_H
 
+int db_getlastupdate(PM_DB *db, char *ts);
+int db_setlastupdate(PM_DB *db, char *ts);
+
 int db_search(PM_DB *db, const char *treename, list_t *needles);
 
 #endif /* _PM_DB_H */

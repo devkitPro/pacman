@@ -161,12 +161,12 @@ static int sync_synctree(int level, list_t *syncs)
 	for(i = syncs; i; i = i->next) {
 		list_t *files = NULL;
 		char newmtime[16] = "";
-		char *lastupdate = NULL;
+		char lastupdate[16] = "";
 		sync_t *sync = (sync_t *)i->data;
 
 		if(level < 2) {
 			/* get the lastupdate time */
-			lastupdate = alpm_db_getinfo(sync->db, PM_DB_LASTUPDATE);
+			db_getlastupdate(sync->db, lastupdate);
 			if(strlen(lastupdate) == 0) {
 				vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
 			}
@@ -188,15 +188,11 @@ static int sync_synctree(int level, list_t *syncs)
 		} else {
 			if(strlen(newmtime)) {
 				vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
+				db_setlastupdate(sync->db, newmtime);
 			}
 			snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, root, dbpath, sync->treename);
-			if(alpm_db_update(sync->db, path, newmtime) == -1) {
-				if(pm_errno != PM_ERR_DB_UPTODATE) {
-					ERR(NL, "failed to update %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
-					success--;
-				} else if(!strlen(newmtime)){
-					MSG(NL, ":: %s is up to date\n", sync->treename);
-				}
+			if(alpm_db_update(sync->db, path) == -1) {
+				ERR(NL, "failed to update %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
 			}
 			/* remove the .tar.gz */
 			unlink(path);
