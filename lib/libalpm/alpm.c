@@ -272,7 +272,6 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 /** Update a package database
  * @param db pointer to the package database to update
  * @param archive path to the new package database tarball
- * @param ts timestamp of the last modification time of the tarball
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_db_update(PM_DB *db, char *archive)
