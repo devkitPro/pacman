@@ -309,7 +309,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 			pmdb_t *dbs = j->data;
 			spkg = db_get_pkgfromcache(dbs, targ);
 		}
-		if(spkg == NULL) {		
+		if(spkg == NULL) {
 			/* Search provides */
 			_alpm_log(PM_LOG_FLOW2, "target '%s' not found -- looking for provisions", targ);
 			for(j = dbs_sync; j && !spkg; j = j->next) {
