@@ -405,7 +405,9 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	}
 
 	/* just in case our cwd was removed in the upgrade operation */
-	chdir("/");
+	if(chdir(root) != 0) {
+		_alpm_log(PM_LOG_ERROR, "could not change directory to %s (%s)", root, strerror(errno));
+	}
 
 	_alpm_log(PM_LOG_FLOW2, "executing %s script...", script);
 
@@ -429,6 +431,10 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		_alpm_log(PM_LOG_DEBUG, "chrooting in %s", root);
 		if(chroot(root) != 0) {
 			_alpm_log(PM_LOG_ERROR, "could not change the root directory (%s)", strerror(errno));
+			return(1);
+		}
+		if(chdir("/") != 0) {
+			_alpm_log(PM_LOG_ERROR, "could not change directory to / (%s)", strerror(errno));
 			return(1);
 		}
 		umask(0022);
