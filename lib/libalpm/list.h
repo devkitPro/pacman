@@ -50,7 +50,7 @@ PMList *pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn);
 PMList *_alpm_list_remove(PMList *haystack, void *needle, pm_fn_cmp fn, void **data);
 int _alpm_list_count(PMList *list);
 int pm_list_is_in(void *needle, PMList *haystack);
-PMList *pm_list_is_strin(char *needle, PMList *haystack);
+int pm_list_is_strin(char *needle, PMList *haystack);
 PMList *_alpm_list_last(PMList *list);
 PMList *_alpm_list_remove_dupes(PMList *list);
 PMList *_alpm_list_reverse(PMList *list);

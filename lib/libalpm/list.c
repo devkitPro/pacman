@@ -208,16 +208,16 @@ int pm_list_is_in(void *needle, PMList *haystack)
 
 /* Test for existence of a string in a PMList
  */
-PMList *pm_list_is_strin(char *needle, PMList *haystack)
+int pm_list_is_strin(char *needle, PMList *haystack)
 {
 	PMList *lp;
 
 	for(lp = haystack; lp; lp = lp->next) {
 		if(lp->data && !strcmp(lp->data, needle)) {
-			return(lp);
+			return(1);
 		}
 	}
-	return(NULL);
+	return(0);
 }
 
 PMList *_alpm_list_last(PMList *list)

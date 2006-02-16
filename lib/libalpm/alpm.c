@@ -161,6 +161,8 @@ int alpm_get_option(unsigned char parm, long *data)
  */
 pmdb_t *alpm_db_register(char *treename)
 {
+	char path[PATH_MAX];
+	struct stat buf;
 	pmdb_t *db;
 	int found = 0;
 
@@ -187,7 +189,15 @@ pmdb_t *alpm_db_register(char *treename)
 		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 	}
 
-	db = db_open(handle->root, handle->dbpath, treename, DB_O_CREATE);
+	/* make sure the database directory exists */
+	snprintf(path, PATH_MAX, "%s%s", handle->root, handle->dbpath);
+	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
+		if(_alpm_makepath(path) != 0) {
+			RET_ERR(PM_ERR_SYSTEM, NULL);
+		}
+	}
+
+	db = db_open(path, treename, DB_O_CREATE);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}

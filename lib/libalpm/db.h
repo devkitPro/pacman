@@ -47,9 +47,8 @@ typedef struct __pmdb_t {
 	PMList *grpcache;
 } pmdb_t;
 
-pmdb_t *db_open(char *root, char *dbpath, char *treename, int mode);
+pmdb_t *db_open(char *path, char *treename, int mode);
 void db_close(pmdb_t *db);
-
 void db_rewind(pmdb_t *db);
 pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq);
 int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info);

@@ -33,14 +33,14 @@ unsigned char pm_logmask = 0;
 
 void _alpm_log(unsigned char flag, char *fmt, ...)
 {
-	char str[LOG_STR_LEN];
-	va_list args;
-
 	if(pm_logcb == NULL) {
 		return;
 	}
 
 	if(flag & pm_logmask) {
+		char str[LOG_STR_LEN];
+		va_list args;
+
 		va_start(args, fmt);
 		vsnprintf(str, LOG_STR_LEN, fmt, args);
 		va_end(args);

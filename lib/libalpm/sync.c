@@ -299,8 +299,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 					}
 					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'", p->data, targ);
 					spkg = db_get_pkgfromcache(dbs, p->data);
-					p->data = NULL;
-					FREELIST(p);
+					FREELISTPTR(p);
 				}
 			}
 		}
@@ -319,8 +318,7 @@ int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *n
 				if(p) {
 					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'", p->data, targ);
 					spkg = db_get_pkgfromcache(dbs, p->data);
-					p->data = NULL;
-					FREELIST(p);
+					FREELISTPTR(p);
 				}
 			}
 		}
@@ -416,6 +414,9 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 			pmpkg_t *spkg = i->data;
 			if(!find_pkginsync(spkg->name, trans->packages)) {
 				pmsyncpkg_t *sync = sync_new(PM_SYNC_TYPE_DEPEND, spkg, NULL);
+				if(sync == NULL) {
+					goto error;
+				}
 				trans->packages = pm_list_add(trans->packages, sync);
 				_alpm_log(PM_LOG_FLOW2, "adding package %s-%s to the transaction targets",
 				          spkg->name, spkg->version);
@@ -484,7 +485,7 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 						 * (not the same behavior as in pacman 2.x) */
 					} else {
 						char *rmpkg = NULL;
-						char *target, *depend;
+						int target, depend;
 						/* hmmm, depend.name isn't installed, so it must be conflicting
 						 * with another package in our final list.  For example:
 						 *
@@ -498,8 +499,8 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 
 						/* figure out which one was requested in targets.  If they both were,
 						 * then it's still an unresolvable conflict. */
-						target = pm_list_is_strin(miss->target, trans->targets) ? miss->target : NULL;
-						depend = pm_list_is_strin(miss->depend.name, trans->targets) ? miss->depend.name : NULL;
+						target = pm_list_is_strin(miss->target, trans->targets);
+						depend = pm_list_is_strin(miss->depend.name, trans->targets);
 						if(depend && !target) {
 							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it",
 							                        miss->depend.name);
@@ -535,6 +536,12 @@ int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **
 						if(doremove) {
 							pmsyncpkg_t *rsync = find_pkginsync(miss->depend.name, trans->packages);
 							pmpkg_t *q = pkg_new(miss->depend.name, NULL);
+							if(q == NULL) {
+								if(data) {
+									FREELIST(*data);
+								}
+								goto error;
+							}
 							q->requiredby = _alpm_list_strdup(local->requiredby);
 							if(sync->type != PM_SYNC_TYPE_REPLACE) {
 								/* switch this sync type to REPLACE */

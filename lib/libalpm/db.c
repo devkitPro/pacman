@@ -38,11 +38,11 @@
 #include "alpm.h"
 
 /* Open a database and return a pmdb_t handle */
-pmdb_t *db_open(char *root, char *dbpath, char *treename, int mode)
+pmdb_t *db_open(char *dbpath, char *treename, int mode)
 {
 	pmdb_t *db;
 
-	if(root == NULL || dbpath == NULL || treename == NULL) {
+	if(dbpath == NULL || treename == NULL) {
 		return(NULL);
 	}
 
@@ -50,14 +50,14 @@ pmdb_t *db_open(char *root, char *dbpath, char *treename, int mode)
 
 	MALLOC(db, sizeof(pmdb_t));
 
-	MALLOC(db->path, strlen(root)+strlen(dbpath)+strlen(treename)+2);
-	sprintf(db->path, "%s%s/%s", root, dbpath, treename);
+	MALLOC(db->path, strlen(dbpath)+strlen(treename)+2);
+	sprintf(db->path, "%s/%s", dbpath, treename);
 
 	db->dir = opendir(db->path);
 	if(db->dir == NULL) {
 		if(mode & DB_O_CREATE) {
 			_alpm_log(PM_LOG_WARNING, "could not open database '%s' -- try creating it", treename);
-			if(_alpm_makepath(db->path) == 0) {
+			if(mkdir(db->path, 0755) == 0) {
 				db->dir = opendir(db->path);
 			}
 		}
@@ -394,6 +394,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	mode_t oldmask;
 	PMList *lp = NULL;
 	int retval = 0;
+	int local = 0;
 
 	if(db == NULL || info == NULL) {
 		return(-1);
@@ -404,6 +405,10 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	mkdir(topdir, 0755);
 	/* make sure we have a sane umask */
 	umask(0022);
+
+	if(strcmp(db->treename, "local") == 0) {
+		local = 1;
+	}
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
@@ -426,47 +431,58 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			fprintf(fp, "\n");
 		}
-		if(info->url[0]) {
-			fprintf(fp, "%%URL%%\n"
-			            "%s\n\n", info->url);
-		}
-		if(info->license) {
-			fputs("%LICENSE%\n", fp);
-			for(lp = info->license; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+		if(local) {
+			if(info->url[0]) {
+				fprintf(fp, "%%URL%%\n"
+				            "%s\n\n", info->url);
 			}
-			fprintf(fp, "\n");
-		}
-		if(info->arch[0]) {
-			fprintf(fp, "%%ARCH%%\n"
-			            "%s\n\n", info->arch);
-		}
-		if(info->builddate[0]) {
-			fprintf(fp, "%%BUILDDATE%%\n"
-			            "%s\n\n", info->builddate);
-		}
-		if(info->installdate[0]) {
-			fprintf(fp, "%%INSTALLDATE%%\n"
-			            "%s\n\n", info->installdate);
-		}
-		if(info->packager[0]) {
-			fprintf(fp, "%%PACKAGER%%\n"
-			            "%s\n\n", info->packager);
-		}
-		if(info->size) {
-			fprintf(fp, "%%SIZE%%\n"
-			            "%ld\n\n", info->size);
-		}
-		if(info->reason) {
-			fprintf(fp, "%%REASON%%\n"
-			            "%d\n\n", info->reason);
+			if(info->license) {
+				fputs("%LICENSE%\n", fp);
+				for(lp = info->license; lp; lp = lp->next) {
+					fprintf(fp, "%s\n", (char *)lp->data);
+				}
+				fprintf(fp, "\n");
+			}
+			if(info->arch[0]) {
+				fprintf(fp, "%%ARCH%%\n"
+				            "%s\n\n", info->arch);
+			}
+			if(info->builddate[0]) {
+				fprintf(fp, "%%BUILDDATE%%\n"
+				            "%s\n\n", info->builddate);
+			}
+			if(info->installdate[0]) {
+				fprintf(fp, "%%INSTALLDATE%%\n"
+				            "%s\n\n", info->installdate);
+			}
+			if(info->packager[0]) {
+				fprintf(fp, "%%PACKAGER%%\n"
+				            "%s\n\n", info->packager);
+			}
+			if(info->size) {
+				fprintf(fp, "%%SIZE%%\n"
+				            "%ld\n\n", info->size);
+			}
+			if(info->reason) {
+				fprintf(fp, "%%REASON%%\n"
+				            "%d\n\n", info->reason);
+			}
+		} else {
+			if(info->size) {
+				fprintf(fp, "%%CSIZE%%\n"
+				            "%ld\n\n", info->size);
+			}
+			if(info->reason) {
+				fprintf(fp, "%%MD5SUM%%\n"
+				            "%s\n\n", info->md5sum);
+			}
 		}
 		fclose(fp);
 		fp = NULL;
 	}
 
 	/* FILES */
-	if(inforeq & INFRQ_FILES) {
+	if(local && inforeq & INFRQ_FILES) {
 		snprintf(path, PATH_MAX, "%s/files", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/files", db->treename);
@@ -506,7 +522,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			fprintf(fp, "\n");
 		}
-		if(info->requiredby) {
+		if(local && info->requiredby) {
 			fputs("%REQUIREDBY%\n", fp);
 			for(lp = info->requiredby; lp; lp = lp->next) {
 				fprintf(fp, "%s\n", (char *)lp->data);
@@ -526,6 +542,19 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 				fprintf(fp, "%s\n", (char *)lp->data);
 			}
 			fprintf(fp, "\n");
+		}
+		if(!local) {
+			if(info->replaces) {
+				fputs("%REPLACES%\n", fp);
+				for(lp = info->replaces; lp; lp = lp->next) {
+					fprintf(fp, "%s\n", (char *)lp->data);
+				}
+				fprintf(fp, "\n");
+			}
+			if(info->force) {
+				fprintf(fp, "%%FORCE%%\n"
+				            "\n");
+			}
 		}
 		fclose(fp);
 		fp = NULL;

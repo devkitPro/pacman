@@ -149,7 +149,7 @@ void pkg_free(pmpkg_t *pkg)
 static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 {
 	FILE* fp = NULL;
-	char line[PATH_MAX+1];
+	char line[PATH_MAX];
 	char* ptr = NULL;
 	char* key = NULL;
 	int linenum = 0;
