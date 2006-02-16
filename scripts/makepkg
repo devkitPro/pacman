@@ -2,7 +2,7 @@
 # 
 #   makepkg
 #  
-#   Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ NODEPS=0
 NOEXTRACT=0
 NOSTRIP=0
 RMDEPS=0
+
+PACMAN_OPTS=
 
 # source Arch's abs.conf if it's present
 [ -f /etc/abs/abs.conf ] && source /etc/abs/abs.conf
@@ -108,7 +110,7 @@ checkdeps() {
 
 	[ $# -gt 0 ] || return
 
-	missdep=`pacman -T $*`
+	missdep=`pacman $PACMAN_OPTS -T $*`
 	ret=$?
 	if [ "$ret" != "0" ]; then
 		if [ "$ret" = "127" ]; then
@@ -148,7 +150,7 @@ handledeps() {
 		if [ "$DEP_BIN" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S)
 			msg "Installing missing dependencies..."
-			pacman -D $deplist
+			pacman $PACMAN_OPTS -D $deplist
 			if [ "$?" = "127" ]; then
 				error "Failed to install missing dependencies."
 				exit 1
@@ -163,7 +165,7 @@ handledeps() {
 				FAKEROOTKEY2=$FAKEROOTKEY
 				unset FAKEROOTKEY
 			fi
-			sudo pacman -D $deplist
+			sudo pacman $PACMAN_OPTS -D $deplist
 			if [ "$INFAKEROOT" = "1" ]; then
 				export FAKEROOTKEY=$FAKEROOTKEY2
 				unset FAKEROOTKEY2
@@ -224,8 +226,10 @@ handledeps() {
 
 usage() {
 	echo "makepkg version $myver"
-	echo "usage: $0 [options]"
-	echo "options:"
+	echo
+	echo "Usage: $0 [options]"
+	echo
+	echo "Options:"
 	echo "  -b, --builddeps  Build missing dependencies from source"
 	echo "  -B, --noccache   Do not use ccache during build"
 	echo "  -c, --clean      Clean up work files after build"
@@ -246,8 +250,12 @@ usage() {
 	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
 	echo "  -w <destdir>     Write package to <destdir> instead of the working dir"
 	echo
-	echo "  if -p is not specified, makepkg will look for a PKGBUILD"
-	echo "  file in the current directory."
+	echo "These options can be passed to pacman:"
+	echo
+	echo "  --noconfirm      Do not ask for confirmation when resolving dependencies"
+	echo "  --noprogressbar  Do not show a progress bar when downloading files"
+	echo
+	echo "If -p is not specified, makepkg will look for ./PKGBUILD"
 	echo
 }
 
@@ -255,6 +263,10 @@ ARGLIST=$@
 
 while [ "$#" -ne "0" ]; do
 	case $1 in
+# pacman
+		--noconfirm)      PACMAN_OPTS="$PACMAN_OPTS --noconfirm" ;;
+		--noprogressbar)  PACMAN_OPTS="$PACMAN_OPTS --noprogressbar" ;;
+# makepkg
 		--clean)      CLEANUP=1 ;;
 		--cleancache) CLEANCACHE=1 ;;
 		--syncdeps)   DEP_BIN=1 ;;
@@ -378,7 +390,8 @@ fi
 if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz -a "$FORCE" = "0" -a "$GENMD5" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "a package has already been built, installing existing package."
-		pacman --upgrade $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+		echo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
 		exit $?
 	else
 		error "a package has already been built.  (use -f to overwrite)"
@@ -680,6 +693,18 @@ if [ ! "`check_option NOSTRIP`" -a "$NOSTRIP" = "0" ]; then
 		| grep -v "No such file" | grep -v "format not recognized"
 fi
 
+# remove libtool (.la) files
+if [ "`check_option NOLIBTOOL`" ]; then
+	msg "Removing libtool .la files..."
+	find pkg -type f -name "*.la" -exec rm -f -- '{}' \;
+fi
+
+# remove empty directories
+if [ "`check_option NOEMPTYDIRS`" ]; then
+	msg "Removing empty directories..."
+	find pkg -mindepth 1 -type d -empty -exec rmdir {} \;
+fi
+
 # get some package meta info
 builddate=`LC_ALL= ; LANG= ; date -u "+%a %b %e %H:%M:%S %Y"`
 if [ "$PACKAGER" != "" ]; then
@@ -757,14 +782,14 @@ fi
 
 if [ "$RMDEPS" = "1" -a "`id -u`" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
 	msg "Removing installed dependencies..."
-	pacman -R $makedeplist $deplist
+	pacman $PACMAN_OPTS -R $makedeplist $deplist
 elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" ]; then
 	msg "Removing installed dependencies..."
 	if [ "$INFAKEROOT" = "1" ]; then
 		FAKEROOTKEY2=$FAKEROOTKEY
 		unset FAKEROOTKEY
 	fi
-	sudo pacman -R $makedeplist $deplist
+	sudo pacman $PACMAN_OPTS -R $makedeplist $deplist
 	if [ "$INFAKEROOT" = "1" ]; then
 		export FAKEROOTKEY=$FAKEROOTKEY2
 		unset FAKEROOTKEY2
@@ -774,16 +799,16 @@ fi
 msg "Finished making: $pkgname  (`date`)"
 
 if [ "$INSTALL" = "1" -a "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
-	msg "Running pacman --upgrade..."
-	pacman --upgrade $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+	msg "Installing package with pacman -U..."
+	pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
 	exit $?
 elif [ "$INSTALL" = "1" -a "$DEP_SUDO" = "1" ]; then
-	msg "Running pacman --upgrade..."
+	msg "Installing package with pacman -U..."
 	if [ "$INFAKEROOT" = "1" ]; then
 		FAKEROOTKEY2=$FAKEROOTKEY
 		unset FAKEROOTKEY
 	fi
-	sudo pacman --upgrade $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+	sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
 	if [ "$INFAKEROOT" = "1" ]; then
 		export FAKEROOTKEY=$FAKEROOTKEY2
 		unset FAKEROOTKEY2
