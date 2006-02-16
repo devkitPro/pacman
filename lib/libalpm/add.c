@@ -416,7 +416,7 @@ int add_commit(pmtrans_t *trans, pmdb_t *db)
 						notouch = 1;
 					} else {
 						if(!pmo_upgrade || oldpkg == NULL) {
-							nb = pm_list_is_strin(pathname, info->backup) ? 1 : 0;
+							nb = pm_list_is_strin(pathname, info->backup);
 						} else {
 							/* op == PM_TRANS_TYPE_UPGRADE */
 							md5_orig = _alpm_needbackup(pathname, oldpkg->backup);
