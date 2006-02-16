@@ -58,7 +58,6 @@ long _alpm_gzopen_frontend(char *pathname, int oflags, int mode)
 			break;
 		case O_RDWR:
 		default:
-			errno = EINVAL;
 			return -1;
 	}
 	
@@ -71,7 +70,6 @@ long _alpm_gzopen_frontend(char *pathname, int oflags, int mode)
 	}
 	if(!(gzf = gzdopen(fd, gzoflags))) {
 		close(fd);
-		errno = ENOMEM;
 		return -1;
 	}
 
@@ -177,31 +175,6 @@ char *_alpm_strtrim(char *str)
 	*++pch = '\0';
 
 	return(str);
-}
-
-/* A cheap grep for text files, returns 1 if a substring
- * was found in the text file fn, 0 if it wasn't
- */
-int _alpm_grep(const char *fn, const char *needle)
-{
-	FILE *fp;
-
-	if((fp = fopen(fn, "r")) == NULL) {
-		return(0);
-	}
-	while(!feof(fp)) {
-		char line[1024];
-		fgets(line, 1024, fp);
-		if(feof(fp)) {
-			continue;
-		}
-		if(strstr(line, needle)) {
-			fclose(fp);
-			return(1);
-		}
-	}
-	fclose(fp);
-	return(0);
 }
 
 /* Create a lock file
@@ -358,6 +331,31 @@ int _alpm_ldconfig(char *root)
 	return(0);
 }
 
+/* A cheap grep for text files, returns 1 if a substring
+ * was found in the text file fn, 0 if it wasn't
+ */
+static int grep(const char *fn, const char *needle)
+{
+	FILE *fp;
+
+	if((fp = fopen(fn, "r")) == NULL) {
+		return(0);
+	}
+	while(!feof(fp)) {
+		char line[1024];
+		fgets(line, 1024, fp);
+		if(feof(fp)) {
+			continue;
+		}
+		if(strstr(line, needle)) {
+			fclose(fp);
+			return(1);
+		}
+	}
+	fclose(fp);
+	return(0);
+}
+
 int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, char *oldver)
 {
 	char scriptfn[PATH_MAX];
@@ -394,7 +392,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		scriptpath = scriptfn + strlen(root) - 1;
 	}
 
-	if(!_alpm_grep(scriptfn, script)) {
+	if(!grep(scriptfn, script)) {
 		/* script not found in scriptlet file */
 		goto cleanup;
 	}
