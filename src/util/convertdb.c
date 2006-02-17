@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 			/* check for backup designation and frontslashes that shouldn't be there */
 			if(line[0] == '*') ptr++;
 			if(*ptr == '/')    ptr++;
-			if(line[0] == '*') backup = pm_list_add(backup, strdup(ptr));
+			if(line[0] == '*') backup = _alpm_list_add(backup, strdup(ptr));
 	
 			fprintf(fp, "%s\n", ptr);
 		}

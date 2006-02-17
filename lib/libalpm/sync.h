@@ -31,17 +31,17 @@ typedef struct __pmsyncpkg_t {
 	void *data;
 } pmsyncpkg_t;
 
-#define FREESYNC(p) do { if(p) { sync_free(p); p = NULL; } } while(0)
+#define FREESYNC(p) do { if(p) { _alpm_sync_free(p); p = NULL; } } while(0)
 
-pmsyncpkg_t *sync_new(int type, pmpkg_t *spkg, void *data);
-void sync_free(pmsyncpkg_t *sync);
+pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data);
+void _alpm_sync_free(pmsyncpkg_t *sync);
 
-PMList *sync_load_dbarchive(char *archive);
+PMList *_alpm_sync_load_dbarchive(char *archive);
 
-int sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync);
-int sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name);
-int sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **data);
-int sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data);
+int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync);
+int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name);
+int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **data);
+int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data);
 
 #endif /* _ALPM_SYNC_H */
 

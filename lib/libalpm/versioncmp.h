@@ -21,7 +21,7 @@
 #ifndef _PM_VERSIONCMP_H
 #define _PM_VERSIONCMP_H
 
-int versioncmp(const char *a, const char *b);
+int _alpm_versioncmp(const char *a, const char *b);
 
 #endif
 

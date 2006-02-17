@@ -25,9 +25,9 @@
 #include "db.h"
 #include "trans.h"
 
-int remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name);
-int remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data);
-int remove_commit(pmtrans_t *trans, pmdb_t *db);
+int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name);
+int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data);
+int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db);
 
 #endif /* _ALPM_REMOVE_H */
 

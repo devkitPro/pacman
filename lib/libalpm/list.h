@@ -41,16 +41,16 @@ typedef struct __pmlist_t PMList;
 } while(0)
 
 /* Sort comparison callback function declaration */
-typedef int (*pm_fn_cmp) (const void *, const void *);
+typedef int (*_alpm_fn_cmp) (const void *, const void *);
 
 PMList *_alpm_list_new(void);
 void _alpm_list_free(PMList *list);
-PMList *pm_list_add(PMList *list, void *data);
-PMList *pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn);
-PMList *_alpm_list_remove(PMList *haystack, void *needle, pm_fn_cmp fn, void **data);
+PMList *_alpm_list_add(PMList *list, void *data);
+PMList *_alpm_list_add_sorted(PMList *list, void *data, _alpm_fn_cmp fn);
+PMList *_alpm_list_remove(PMList *haystack, void *needle, _alpm_fn_cmp fn, void **data);
 int _alpm_list_count(PMList *list);
-int pm_list_is_in(void *needle, PMList *haystack);
-int pm_list_is_strin(char *needle, PMList *haystack);
+int _alpm_list_is_in(void *needle, PMList *haystack);
+int _alpm_list_is_strin(char *needle, PMList *haystack);
 PMList *_alpm_list_last(PMList *list);
 PMList *_alpm_list_remove_dupes(PMList *list);
 PMList *_alpm_list_reverse(PMList *list);

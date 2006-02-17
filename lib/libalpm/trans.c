@@ -36,7 +36,7 @@
 
 extern pmhandle_t *handle;
 
-pmtrans_t *trans_new()
+pmtrans_t *_alpm_trans_new()
 {
 	pmtrans_t *trans;
 
@@ -56,7 +56,7 @@ pmtrans_t *trans_new()
 	return(trans);
 }
 
-void trans_free(pmtrans_t *trans)
+void _alpm_trans_free(pmtrans_t *trans)
 {
 	if(trans == NULL) {
 		return;
@@ -78,7 +78,7 @@ void trans_free(pmtrans_t *trans)
 	free(trans);
 }
 
-int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
+int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -92,52 +92,52 @@ int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_t
 	return(0);
 }
 
-int trans_sysupgrade(pmtrans_t *trans)
+int _alpm_trans_sysupgrade(pmtrans_t *trans)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	return(sync_sysupgrade(trans, handle->db_local, handle->dbs_sync));
+	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync));
 }
 
-int trans_addtarget(pmtrans_t *trans, char *target)
+int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(pm_list_is_strin(target, trans->targets)) {
+	if(_alpm_list_is_strin(target, trans->targets)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
-			if(add_loadtarget(trans, handle->db_local, target) == -1) {
-				/* pm_errno is set by add_loadtarget() */
+			if(_alpm_add_loadtarget(trans, handle->db_local, target) == -1) {
+				/* pm_errno is set by _alpm_add_loadtarget() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_REMOVE:
-			if(remove_loadtarget(trans, handle->db_local, target) == -1) {
+			if(_alpm_remove_loadtarget(trans, handle->db_local, target) == -1) {
 				/* pm_errno is set by remove_loadtarget() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_SYNC:
-			if(sync_addtarget(trans, handle->db_local, handle->dbs_sync, target) == -1) {
+			if(_alpm_sync_addtarget(trans, handle->db_local, handle->dbs_sync, target) == -1) {
 				/* pm_errno is set by sync_loadtarget() */
 				return(-1);
 			}
 		break;
 	}
 
-	trans->targets = pm_list_add(trans->targets, strdup(target));
+	trans->targets = _alpm_list_add(trans->targets, strdup(target));
 
 	return(0);
 }
 
-int trans_prepare(pmtrans_t *trans, PMList **data)
+int _alpm_trans_prepare(pmtrans_t *trans, PMList **data)
 {
 	*data = NULL;
 
@@ -152,20 +152,20 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
-			if(add_prepare(trans, handle->db_local, data) == -1) {
-				/* pm_errno is set by add_prepare() */
+			if(_alpm_add_prepare(trans, handle->db_local, data) == -1) {
+				/* pm_errno is set by _alpm_add_prepare() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_REMOVE:
-			if(remove_prepare(trans, handle->db_local, data) == -1) {
-				/* pm_errno is set by remove_prepare() */
+			if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
+				/* pm_errno is set by _alpm_remove_prepare() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_SYNC:
-			if(sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
-				/* pm_errno is set by sync_prepare() */
+			if(_alpm_sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
+				/* pm_errno is set by _alpm_sync_prepare() */
 				return(-1);
 			}
 		break;
@@ -176,7 +176,7 @@ int trans_prepare(pmtrans_t *trans, PMList **data)
 	return(0);
 }
 
-int trans_commit(pmtrans_t *trans, PMList **data)
+int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -189,20 +189,20 @@ int trans_commit(pmtrans_t *trans, PMList **data)
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
-			if(add_commit(trans, handle->db_local) == -1) {
-				/* pm_errno is set by add_prepare() */
+			if(_alpm_add_commit(trans, handle->db_local) == -1) {
+				/* pm_errno is set by _alpm_add_prepare() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_REMOVE:
-			if(remove_commit(trans, handle->db_local) == -1) {
-				/* pm_errno is set by remove_prepare() */
+			if(_alpm_remove_commit(trans, handle->db_local) == -1) {
+				/* pm_errno is set by _alpm_remove_prepare() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_SYNC:
-			if(sync_commit(trans, handle->db_local, data) == -1) {
-				/* pm_errno is set by sync_commit() */
+			if(_alpm_sync_commit(trans, handle->db_local, data) == -1) {
+				/* pm_errno is set by _alpm_sync_commit() */
 				return(-1);
 			}
 		break;

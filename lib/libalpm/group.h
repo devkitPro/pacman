@@ -31,7 +31,7 @@ typedef struct __pmgrp_t {
 	PMList *packages; /* List of strings */
 } pmgrp_t;
 
-#define FREEGRP(p) do { if(p) { grp_free(p); p = NULL; } } while(0)
+#define FREEGRP(p) do { if(p) { _alpm_grp_free(p); p = NULL; } } while(0)
 
 #define FREELISTGRPS(p) do { \
 	PMList *i; \
@@ -41,9 +41,9 @@ typedef struct __pmgrp_t {
 	FREELIST(p); \
 } while(0)
 
-pmgrp_t *grp_new(void);
-void grp_free(pmgrp_t *grp);
-int grp_cmp(const void *g1, const void *g2);
+pmgrp_t *_alpm_grp_new(void);
+void _alpm_grp_free(pmgrp_t *grp);
+int _alpm_grp_cmp(const void *g1, const void *g2);
 
 #endif /* _ALPM_GROUP_H */
 

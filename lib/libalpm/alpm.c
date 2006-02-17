@@ -102,12 +102,12 @@ int alpm_release()
 
 	/* close local database */
 	if(handle->db_local) {
-		db_close(handle->db_local);
+		_alpm_db_close(handle->db_local);
 		handle->db_local = NULL;
 	}
 	/* and also sync ones */
 	for(i = handle->dbs_sync; i; i = i->next) {
-		db_close(i->data);
+		_alpm_db_close(i->data);
 		i->data = NULL;
 	}
 
@@ -197,7 +197,7 @@ pmdb_t *alpm_db_register(char *treename)
 		}
 	}
 
-	db = db_open(path, treename, DB_O_CREATE);
+	db = _alpm_db_open(path, treename, DB_O_CREATE);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
@@ -205,7 +205,7 @@ pmdb_t *alpm_db_register(char *treename)
 	if(strcmp(treename, "local") == 0) {
 		handle->db_local = db;
 	} else {
-		handle->dbs_sync = pm_list_add(handle->dbs_sync, db);
+		handle->dbs_sync = _alpm_list_add(handle->dbs_sync, db);
 	}
 
 	return(db);
@@ -238,14 +238,14 @@ int alpm_db_unregister(pmdb_t *db)
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
-		db_close(handle->db_local);
+		_alpm_db_close(handle->db_local);
 		handle->db_local = NULL;
 		found = 1;
 	} else {
 		pmdb_t *data;
 		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, db_cmp, (void **)&data);
 		if(data) {
-			db_close(data);
+			_alpm_db_close(data);
 			found = 1;
 		}
 	}
@@ -294,14 +294,14 @@ int alpm_db_update(PM_DB *db, char *archive)
 	/* Do not update a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
-	if(!pm_list_is_in(db, handle->dbs_sync)) {
+	if(!_alpm_list_is_in(db, handle->dbs_sync)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
 	/* remove the old dir */
 	_alpm_log(PM_LOG_FLOW2, "flushing database %s/%s", handle->dbpath, db->treename);
-	for(lp = db_get_pkgcache(db); lp; lp = lp->next) {
-		if(db_remove(db, lp->data) == -1) {
+	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+		if(_alpm_db_remove(db, lp->data) == -1) {
 			if(lp->data) {
 				_alpm_log(PM_LOG_ERROR, "could not remove database entry %s/%s", db->treename,
 				                        ((pmpkg_t *)lp->data)->name);
@@ -311,7 +311,7 @@ int alpm_db_update(PM_DB *db, char *archive)
 	}
 
 	/* Cache needs to be rebuild */
-	db_free_pkgcache(db);
+	_alpm_db_free_pkgcache(db);
 
 	/* uncompress the sync database */
 	/* ORE
@@ -337,7 +337,7 @@ pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
 	ASSERT(db != NULL, return(NULL));
 	ASSERT(name != NULL && strlen(name) != 0, return(NULL));
 
-	return(db_get_pkgfromcache(db, name));
+	return(_alpm_db_get_pkgfromcache(db, name));
 }
 
 /** Get the package cache of a package database
@@ -350,7 +350,7 @@ PMList *alpm_db_getpkgcache(pmdb_t *db)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	return(db_get_pkgcache(db));
+	return(_alpm_db_get_pkgcache(db));
 }
 
 /** Get a group entry from a package database
@@ -365,7 +365,7 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
 	ASSERT(db != NULL, return(NULL));
 	ASSERT(name != NULL && strlen(name) != 0, return(NULL));
 
-	return(db_get_grpfromcache(db, name));
+	return(_alpm_db_get_grpfromcache(db, name));
 }
 
 /** Get the group cache of a package database
@@ -378,7 +378,7 @@ PMList *alpm_db_getgrpcache(pmdb_t *db)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	return(db_get_grpcache(db));
+	return(_alpm_db_get_grpcache(db));
 }
 /** @} */
 
@@ -434,7 +434,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 				if(!(pkg->infolevel & INFRQ_DEPENDS)) {
 					char target[PKG_FULLNAME_LEN];
 					snprintf(target, PKG_FULLNAME_LEN, "%s-%s", pkg->name, pkg->version);
-					db_read(pkg->data, target, INFRQ_DEPENDS, pkg);
+					_alpm_db_read(pkg->data, target, INFRQ_DEPENDS, pkg);
 				}
 			break;*/
 			/* Files entry */
@@ -443,7 +443,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_FILES)) {
 					char target[PKG_FULLNAME_LEN];
 					snprintf(target, PKG_FULLNAME_LEN, "%s-%s", pkg->name, pkg->version);
-					db_read(pkg->data, target, INFRQ_FILES, pkg);
+					_alpm_db_read(pkg->data, target, INFRQ_FILES, pkg);
 				}
 			break;
 			/* Scriptlet */
@@ -451,7 +451,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_SCRIPLET)) {
 					char target[PKG_FULLNAME_LEN];
 					snprintf(target, PKG_FULLNAME_LEN, "%s-%s", pkg->name, pkg->version);
-					db_read(pkg->data, target, INFRQ_SCRIPLET, pkg);
+					_alpm_db_read(pkg->data, target, INFRQ_SCRIPLET, pkg);
 				}
 			break;
 		}
@@ -499,7 +499,7 @@ int alpm_pkg_load(char *filename, pmpkg_t **pkg)
 	ASSERT(filename != NULL && strlen(filename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	*pkg = pkg_load(filename);
+	*pkg = _alpm_pkg_load(filename);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
 		return(-1);
@@ -518,7 +518,7 @@ int alpm_pkg_free(pmpkg_t *pkg)
 
 	/* Only free packages loaded in user space */
 	if(pkg->origin != PKG_FROM_CACHE) {
-		pkg_free(pkg);
+		_alpm_pkg_free(pkg);
 	}
 
 	return(0);
@@ -570,7 +570,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
  */
 int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
-	return(versioncmp(ver1, ver2));
+	return(_alpm_versioncmp(ver1, ver2));
 }
 /** @} */
 
@@ -689,12 +689,12 @@ int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event
 		RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 	}
 
-	handle->trans = trans_new();
+	handle->trans = _alpm_trans_new();
 	if(handle->trans == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
-	return(trans_init(handle->trans, type, flags, event, conv));
+	return(_alpm_trans_init(handle->trans, type, flags, event, conv));
 }
 
 /** Search for packages to upgrade and add them to the transaction.
@@ -711,7 +711,7 @@ int alpm_trans_sysupgrade()
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
-	return(trans_sysupgrade(trans));
+	return(_alpm_trans_sysupgrade(trans));
 }
 
 /** Add a target to the transaction.
@@ -730,7 +730,7 @@ int alpm_trans_addtarget(char *target)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
-	return(trans_addtarget(trans, target));
+	return(_alpm_trans_addtarget(trans, target));
 }
 
 /** Prepare a transaction.
@@ -749,7 +749,7 @@ int alpm_trans_prepare(PMList **data)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
-	return(trans_prepare(handle->trans, data));
+	return(_alpm_trans_prepare(handle->trans, data));
 }
 
 /** Commit a transaction.
@@ -771,7 +771,7 @@ int alpm_trans_commit(PMList **data)
 	/* Check for database R/W permission */
 	ASSERT(handle->access == PM_ACCESS_RW, RET_ERR(PM_ERR_BADPERMS, -1));
 
-	return(trans_commit(handle->trans, data));
+	return(_alpm_trans_commit(handle->trans, data));
 }
 
 /** Release a transaction.

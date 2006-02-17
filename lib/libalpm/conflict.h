@@ -32,8 +32,8 @@ typedef struct __pmconflict_t {
 	char ctarget[PKG_NAME_LEN];
 } pmconflict_t;
 
-PMList *checkconflicts(pmdb_t *db, PMList *packages);
-PMList *db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip_list);
+PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages);
+PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip_list);
 
 #endif /* _ALPM_CONFLICT_H */
 

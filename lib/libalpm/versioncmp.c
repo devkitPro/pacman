@@ -141,7 +141,7 @@ static int strverscmp (s1, s2)
 #endif
 
 /* this function was taken from rpm 4.0.4 and rewritten */
-int versioncmp(const char *a, const char *b) {
+int _alpm_versioncmp(const char *a, const char *b) {
 	char *str1, *ostr1, *str2, *ostr2;
 	char *one, *two;
 	char *rel1 = NULL, *rel2 = NULL;
@@ -248,7 +248,7 @@ int versioncmp(const char *a, const char *b) {
 	if((!*one) && (!*two)) {
 		/* compare release numbers */
 		if(rel1 && rel2) {
-			rv = versioncmp(rel1, rel2);
+			rv = _alpm_versioncmp(rel1, rel2);
 			free(ostr1);
 			free(ostr2);
 			return rv;

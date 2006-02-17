@@ -44,7 +44,7 @@ typedef struct __pmtrans_t {
 #define FREETRANS(p) \
 do { \
 	if(p) { \
-		trans_free(p); \
+		_alpm_trans_free(p); \
 		p = NULL; \
 	} \
 } while (0)
@@ -61,13 +61,13 @@ do { \
 	} \
 } while(0)
 
-pmtrans_t *trans_new(void);
-void trans_free(pmtrans_t *trans);
-int trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv);
-int trans_sysupgrade(pmtrans_t *trans);
-int trans_addtarget(pmtrans_t *trans, char *target);
-int trans_prepare(pmtrans_t *trans, PMList **data);
-int trans_commit(pmtrans_t *trans, PMList **data);
+pmtrans_t *_alpm_trans_new(void);
+void _alpm_trans_free(pmtrans_t *trans);
+int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv);
+int _alpm_trans_sysupgrade(pmtrans_t *trans);
+int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
+int _alpm_trans_prepare(pmtrans_t *trans, PMList **data);
+int _alpm_trans_commit(pmtrans_t *trans, PMList **data);
 
 #endif /* _ALPM_TRANS_H */
 

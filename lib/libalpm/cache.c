@@ -46,7 +46,7 @@ static int pkg_cmp(const void *p1, const void *p2)
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.
  */
-int db_load_pkgcache(pmdb_t *db)
+int _alpm_db_load_pkgcache(pmdb_t *db)
 {
 	pmpkg_t *info;
 	/* The group cache needs INFRQ_DESC as well */
@@ -56,23 +56,23 @@ int db_load_pkgcache(pmdb_t *db)
 		return(-1);
 	}
 
-	db_free_pkgcache(db);
+	_alpm_db_free_pkgcache(db);
 
 	_alpm_log(PM_LOG_DEBUG, "loading package cache (infolevel=%#x) for repository '%s'",
 	                        infolevel, db->treename);
 
-	db_rewind(db);
-	while((info = db_scan(db, NULL, infolevel)) != NULL) {
+	_alpm_db_rewind(db);
+	while((info = _alpm_db_scan(db, NULL, infolevel)) != NULL) {
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
 		/* add to the collective */
-		db->pkgcache = pm_list_add_sorted(db->pkgcache, info, pkg_cmp);
+		db->pkgcache = _alpm_list_add_sorted(db->pkgcache, info, pkg_cmp);
 	}
 
 	return(0);
 }
 
-void db_free_pkgcache(pmdb_t *db)
+void _alpm_db_free_pkgcache(pmdb_t *db)
 {
 	if(db == NULL || db->pkgcache == NULL) {
 		return;
@@ -84,24 +84,24 @@ void db_free_pkgcache(pmdb_t *db)
 	FREELISTPKGS(db->pkgcache);
 
 	if(db->grpcache) {
-		db_free_grpcache(db);
+		_alpm_db_free_grpcache(db);
 	}
 }
 
-PMList *db_get_pkgcache(pmdb_t *db)
+PMList *_alpm_db_get_pkgcache(pmdb_t *db)
 {
 	if(db == NULL) {
 		return(NULL);
 	}
 
 	if(db->pkgcache == NULL) {
-		db_load_pkgcache(db);
+		_alpm_db_load_pkgcache(db);
 	}
 
 	return(db->pkgcache);
 }
 
-int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
+int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
 
@@ -109,19 +109,19 @@ int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
-	newpkg = pkg_dup(pkg);
+	newpkg = _alpm_pkg_dup(pkg);
 	if(newpkg == NULL) {
 		return(-1);
 	}
 	_alpm_log(PM_LOG_DEBUG, "adding entry %s in '%s' cache", newpkg->name, db->treename);
-	db->pkgcache = pm_list_add_sorted(db->pkgcache, newpkg, pkg_cmp);
+	db->pkgcache = _alpm_list_add_sorted(db->pkgcache, newpkg, pkg_cmp);
 
-	db_free_grpcache(db);
+	_alpm_db_free_grpcache(db);
 
 	return(0);
 }
 
-int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
+int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *data;
 
@@ -138,24 +138,24 @@ int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 	_alpm_log(PM_LOG_DEBUG, "removing entry %s from '%s' cache", pkg->name, db->treename);
 	FREEPKG(data);
 
-	db_free_grpcache(db);
+	_alpm_db_free_grpcache(db);
 
 	return(0);
 }
 
-pmpkg_t *db_get_pkgfromcache(pmdb_t *db, char *target)
+pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 {
 	if(db == NULL) {
 		return(NULL);
 	}
 
-	return(pkg_isin(target, db_get_pkgcache(db)));
+	return(_alpm_pkg_isin(target, _alpm_db_get_pkgcache(db)));
 }
 
 /* Returns a new group cache from db.
  * It frees the cache if it already exists.
  */
-int db_load_grpcache(pmdb_t *db)
+int _alpm_db_load_grpcache(pmdb_t *db)
 {
 	PMList *lp;
 
@@ -164,7 +164,7 @@ int db_load_grpcache(pmdb_t *db)
 	}
 
 	if(db->pkgcache == NULL) {
-		db_load_pkgcache(db);
+		_alpm_db_load_pkgcache(db);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'", db->treename);
@@ -174,12 +174,12 @@ int db_load_grpcache(pmdb_t *db)
 		pmpkg_t *pkg = lp->data;
 
 		for(i = pkg->groups; i; i = i->next) {
-			if(!pm_list_is_strin(i->data, db->grpcache)) {
-				pmgrp_t *grp = grp_new();
+			if(!_alpm_list_is_strin(i->data, db->grpcache)) {
+				pmgrp_t *grp = _alpm_grp_new();
 
 				STRNCPY(grp->name, (char *)i->data, GRP_NAME_LEN);
-				grp->packages = pm_list_add_sorted(grp->packages, pkg->name, grp_cmp);
-				db->grpcache = pm_list_add_sorted(db->grpcache, grp, grp_cmp);
+				grp->packages = _alpm_list_add_sorted(grp->packages, pkg->name, _alpm_grp_cmp);
+				db->grpcache = _alpm_list_add_sorted(db->grpcache, grp, _alpm_grp_cmp);
 			} else {
 				PMList *j;
 
@@ -187,8 +187,8 @@ int db_load_grpcache(pmdb_t *db)
 					pmgrp_t *grp = j->data;
 
 					if(strcmp(grp->name, i->data) == 0) {
-						if(!pm_list_is_strin(pkg->name, grp->packages)) {
-							grp->packages = pm_list_add_sorted(grp->packages, (char *)pkg->name, grp_cmp);
+						if(!_alpm_list_is_strin(pkg->name, grp->packages)) {
+							grp->packages = _alpm_list_add_sorted(grp->packages, (char *)pkg->name, _alpm_grp_cmp);
 						}
 					}
 				}
@@ -199,7 +199,7 @@ int db_load_grpcache(pmdb_t *db)
 	return(0);
 }
 
-void db_free_grpcache(pmdb_t *db)
+void _alpm_db_free_grpcache(pmdb_t *db)
 {
 	PMList *lg;
 
@@ -216,20 +216,20 @@ void db_free_grpcache(pmdb_t *db)
 	FREELIST(db->grpcache);
 }
 
-PMList *db_get_grpcache(pmdb_t *db)
+PMList *_alpm_db_get_grpcache(pmdb_t *db)
 {
 	if(db == NULL) {
 		return(NULL);
 	}
 
 	if(db->grpcache == NULL) {
-		db_load_grpcache(db);
+		_alpm_db_load_grpcache(db);
 	}
 
 	return(db->grpcache);
 }
 
-pmgrp_t *db_get_grpfromcache(pmdb_t *db, char *target)
+pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, char *target)
 {
 	PMList *i;
 
@@ -237,7 +237,7 @@ pmgrp_t *db_get_grpfromcache(pmdb_t *db, char *target)
 		return(NULL);
 	}
 
-	for(i = db_get_grpcache(db); i; i = i->next) {
+	for(i = _alpm_db_get_grpcache(db); i; i = i->next) {
 		pmgrp_t *info = i->data;
 
 		if(strcmp(info->name, target) == 0) {

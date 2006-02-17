@@ -151,7 +151,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 		break;
 		case PM_OPT_NOUPGRADE:
 			if((char *)data && strlen((char *)data) != 0) {
-				handle->noupgrade = pm_list_add(handle->noupgrade, strdup((char *)data));
+				handle->noupgrade = _alpm_list_add(handle->noupgrade, strdup((char *)data));
 				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_NOUPGRADE", (char *)data);
 			} else {
 				FREELIST(handle->noupgrade);
@@ -160,7 +160,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 		break;
 		case PM_OPT_NOEXTRACT:
 			if((char *)data && strlen((char *)data) != 0) {
-				handle->noextract = pm_list_add(handle->noextract, strdup((char *)data));
+				handle->noextract = _alpm_list_add(handle->noextract, strdup((char *)data));
 				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_NOEXTRACT", (char *)data);
 			} else {
 				FREELIST(handle->noextract);
@@ -169,7 +169,7 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 		break;
 		case PM_OPT_IGNOREPKG:
 			if((char *)data && strlen((char *)data) != 0) {
-				handle->ignorepkg = pm_list_add(handle->ignorepkg, strdup((char *)data));
+				handle->ignorepkg = _alpm_list_add(handle->ignorepkg, strdup((char *)data));
 				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_IGNOREPKG", (char *)data);
 			} else {
 				FREELIST(handle->ignorepkg);

@@ -27,7 +27,7 @@
 /* pacman */
 #include "list.h"
 
-PMList* _alpm_list_new()
+PMList *_alpm_list_new()
 {
 	PMList *list = NULL;
 	
@@ -54,7 +54,7 @@ void _alpm_list_free(PMList *list)
 	}
 }
 
-PMList* pm_list_add(PMList *list, void *data)
+PMList *_alpm_list_add(PMList *list, void *data)
 {
 	PMList *ptr, *lp;
 
@@ -88,7 +88,7 @@ PMList* pm_list_add(PMList *list, void *data)
 /* Add items to a list in sorted order. Use the given comparision func to 
  * determine order.
  */
-PMList* pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn)
+PMList *_alpm_list_add_sorted(PMList *list, void *data, _alpm_fn_cmp fn)
 {
 	PMList *add;
 	PMList *prev = NULL;
@@ -137,7 +137,7 @@ PMList* pm_list_add_sorted(PMList *list, void *data, pm_fn_cmp fn)
  * Otherwise, it is set to NULL.
  * Return the new list (without the removed element).
  */
-PMList *_alpm_list_remove(PMList *haystack, void *needle, pm_fn_cmp fn, void **data)
+PMList *_alpm_list_remove(PMList *haystack, void *needle, _alpm_fn_cmp fn, void **data)
 {
 	PMList *i = haystack;
 
@@ -194,7 +194,7 @@ int _alpm_list_count(PMList *list)
 	return(i);
 }
 
-int pm_list_is_in(void *needle, PMList *haystack)
+int _alpm_list_is_in(void *needle, PMList *haystack)
 {
 	PMList *lp;
 
@@ -208,7 +208,7 @@ int pm_list_is_in(void *needle, PMList *haystack)
 
 /* Test for existence of a string in a PMList
  */
-int pm_list_is_strin(char *needle, PMList *haystack)
+int _alpm_list_is_strin(char *needle, PMList *haystack)
 {
 	PMList *lp;
 
@@ -242,8 +242,8 @@ PMList *_alpm_list_remove_dupes(PMList *list)
 	PMList *i, *newlist = NULL;
 
 	for(i = list; i; i = i->next) {
-		if(!pm_list_is_strin(i->data, newlist)) {
-			newlist = pm_list_add(newlist, strdup(i->data));
+		if(!_alpm_list_is_strin(i->data, newlist)) {
+			newlist = _alpm_list_add(newlist, strdup(i->data));
 		}
 	}
 	return newlist;
@@ -253,7 +253,7 @@ PMList *_alpm_list_remove_dupes(PMList *list)
  *
  * The caller is responsible for freeing the old list
  */
-PMList* _alpm_list_reverse(PMList *list)
+PMList *_alpm_list_reverse(PMList *list)
 { 
 	/* simple but functional -- we just build a new list, starting
 	 * with the old list's tail
@@ -262,7 +262,7 @@ PMList* _alpm_list_reverse(PMList *list)
 	PMList *lp;
 
 	for(lp = list->last; lp; lp = lp->prev) {
-		newlist = pm_list_add(newlist, lp->data);
+		newlist = _alpm_list_add(newlist, lp->data);
 	}
 
 	return(newlist);
@@ -274,7 +274,7 @@ PMList *_alpm_list_strdup(PMList *list)
 	PMList *lp;
 
 	for(lp = list; lp; lp = lp->next) {
-		newlist = pm_list_add(newlist, strdup(lp->data));
+		newlist = _alpm_list_add(newlist, strdup(lp->data));
 	}
 
 	return(newlist);

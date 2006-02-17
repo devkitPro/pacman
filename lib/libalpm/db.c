@@ -38,7 +38,7 @@
 #include "alpm.h"
 
 /* Open a database and return a pmdb_t handle */
-pmdb_t *db_open(char *dbpath, char *treename, int mode)
+pmdb_t *_alpm_db_open(char *dbpath, char *treename, int mode)
 {
 	pmdb_t *db;
 
@@ -76,7 +76,7 @@ pmdb_t *db_open(char *dbpath, char *treename, int mode)
 	return(db);
 }
 
-void db_close(pmdb_t *db)
+void _alpm_db_close(pmdb_t *db)
 {
 	if(db == NULL) {
 		return;
@@ -90,15 +90,15 @@ void db_close(pmdb_t *db)
 	}
 	FREE(db->path);
 
-	db_free_pkgcache(db);
-	db_free_grpcache(db);
+	_alpm_db_free_pkgcache(db);
+	_alpm_db_free_grpcache(db);
 
 	free(db);
 
 	return;
 }
 
-void db_rewind(pmdb_t *db)
+void _alpm_db_rewind(pmdb_t *db)
 {
 	if(db == NULL || db->dir == NULL) {
 		return;
@@ -107,7 +107,7 @@ void db_rewind(pmdb_t *db)
 	rewinddir(db->dir);
 }
 
-pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
+pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 {
 	struct dirent *ent = NULL;
 	struct stat sbuf;
@@ -123,7 +123,7 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 
 	if(target != NULL) {
 		/* search for a specific package (by name only) */
-		db_rewind(db);
+		_alpm_db_rewind(db);
 		while(!found && (ent = readdir(db->dir)) != NULL) {
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
 				continue;
@@ -169,18 +169,18 @@ pmpkg_t *db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 		}
 	}
 
-	pkg = pkg_new(NULL, NULL);
+	pkg = _alpm_pkg_new(NULL, NULL);
 	if(pkg == NULL) {
 		return(NULL);
 	}
-	if(db_read(db, ent->d_name, inforeq, pkg) == -1) {
+	if(_alpm_db_read(db, ent->d_name, inforeq, pkg) == -1) {
 		FREEPKG(pkg);
 	}
 
 	return(pkg);
 }
 
-int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
+int _alpm_db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 {
 	FILE *fp = NULL;
 	struct stat buf;
@@ -198,7 +198,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 	}
 
 	if(info->name[0] == 0) {
-		if(pkg_splitname(name, info->name, info->version) == -1) {
+		if(_alpm_pkg_splitname(name, info->name, info->version) == -1) {
 			return(-1);
 		}
 	}
@@ -223,7 +223,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				_alpm_strtrim(info->desc);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->groups = pm_list_add(info->groups, strdup(line));
+					info->groups = _alpm_list_add(info->groups, strdup(line));
 				}
 			} else if(!strcmp(line, "%URL%")) {
 				if(fgets(info->url, sizeof(info->url), fp) == NULL) {
@@ -232,7 +232,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				_alpm_strtrim(info->url);
 			} else if(!strcmp(line, "%LICENSE%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->license = pm_list_add(info->license, strdup(line));
+					info->license = _alpm_list_add(info->license, strdup(line));
 				}
 			} else if(!strcmp(line, "%ARCH%")) {
 				if(fgets(info->arch, sizeof(info->arch), fp) == NULL) {
@@ -287,7 +287,7 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 				/* the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. */
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = pm_list_add(info->replaces, strdup(line));
+					info->replaces = _alpm_list_add(info->replaces, strdup(line));
 				}
 			} else if(!strcmp(line, "%FORCE%")) {
 				/* FORCE tag only appears in sync repositories,
@@ -311,11 +311,11 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%FILES%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->files = pm_list_add(info->files, strdup(line));
+					info->files = _alpm_list_add(info->files, strdup(line));
 				}
 			} else if(!strcmp(line, "%BACKUP%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->backup = pm_list_add(info->backup, strdup(line));
+					info->backup = _alpm_list_add(info->backup, strdup(line));
 				}
 			}
 		}
@@ -336,25 +336,25 @@ int db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info)
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%DEPENDS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->depends = pm_list_add(info->depends, strdup(line));
+					info->depends = _alpm_list_add(info->depends, strdup(line));
 				}
 			} else if(!strcmp(line, "%REQUIREDBY%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->requiredby = pm_list_add(info->requiredby, strdup(line));
+					info->requiredby = _alpm_list_add(info->requiredby, strdup(line));
 				}
 			} else if(!strcmp(line, "%CONFLICTS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->conflicts = pm_list_add(info->conflicts, strdup(line));
+					info->conflicts = _alpm_list_add(info->conflicts, strdup(line));
 				}
 			} else if(!strcmp(line, "%PROVIDES%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->provides = pm_list_add(info->provides, strdup(line));
+					info->provides = _alpm_list_add(info->provides, strdup(line));
 				}
 			} else if(!strcmp(line, "%REPLACES%")) {
 				/* the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. */
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = pm_list_add(info->replaces, strdup(line));
+					info->replaces = _alpm_list_add(info->replaces, strdup(line));
 				}
 			} else if(!strcmp(line, "%FORCE%")) {
 				/* FORCE tag only appears in sync repositories,
@@ -386,7 +386,7 @@ error:
 	return(-1);
 }
 
-int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
+int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 {
 	char topdir[PATH_MAX];
 	FILE *fp = NULL;
@@ -482,7 +482,7 @@ int db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	}
 
 	/* FILES */
-	if(local && inforeq & INFRQ_FILES) {
+	if(local && (inforeq & INFRQ_FILES)) {
 		snprintf(path, PATH_MAX, "%s/files", topdir);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/files", db->treename);
@@ -573,7 +573,7 @@ cleanup:
 	return(retval);
 }
 
-int db_remove(pmdb_t *db, pmpkg_t *info)
+int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 {
 	char topdir[PATH_MAX];
 	char file[PATH_MAX];

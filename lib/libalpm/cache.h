@@ -27,17 +27,17 @@
 #include "db.h"
 
 /* packages */
-int db_load_pkgcache(pmdb_t *db);
-void db_free_pkgcache(pmdb_t *db);
-int db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
-int db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
-PMList *db_get_pkgcache(pmdb_t *db);
-pmpkg_t *db_get_pkgfromcache(pmdb_t *db, char *target);
+int _alpm_db_load_pkgcache(pmdb_t *db);
+void _alpm_db_free_pkgcache(pmdb_t *db);
+int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
+int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
+PMList *_alpm_db_get_pkgcache(pmdb_t *db);
+pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target);
 /* groups */
-int db_load_grpcache(pmdb_t *db);
-void db_free_grpcache(pmdb_t *db);
-PMList *db_get_grpcache(pmdb_t *db);
-pmgrp_t *db_get_grpfromcache(pmdb_t *db, char *target);
+int _alpm_db_load_grpcache(pmdb_t *db);
+void _alpm_db_free_grpcache(pmdb_t *db);
+PMList *_alpm_db_get_grpcache(pmdb_t *db);
+pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, char *target);
 
 #endif /* _ALPM_CACHE_H */
 

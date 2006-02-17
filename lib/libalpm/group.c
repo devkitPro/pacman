@@ -27,7 +27,7 @@
 #include "util.h"
 #include "group.h"
 
-pmgrp_t *grp_new()
+pmgrp_t *_alpm_grp_new()
 {
 	pmgrp_t* grp;
 
@@ -42,7 +42,7 @@ pmgrp_t *grp_new()
 	return(grp);
 }
 
-void grp_free(pmgrp_t *grp)
+void _alpm_grp_free(pmgrp_t *grp)
 {
 	if(grp == NULL) {
 		return;
@@ -56,7 +56,7 @@ void grp_free(pmgrp_t *grp)
 
 /* Helper function for sorting groups
  */
-int grp_cmp(const void *g1, const void *g2)
+int _alpm_grp_cmp(const void *g1, const void *g2)
 {
 	pmgrp_t *grp1 = (pmgrp_t *)g1;
 	pmgrp_t *grp2 = (pmgrp_t *)g2;

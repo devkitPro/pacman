@@ -70,7 +70,7 @@ typedef struct __pmpkg_t {
 #define FREEPKG(p) \
 do { \
 	if(p) { \
-		pkg_free(p); \
+		_alpm_pkg_free(p); \
 		p = NULL; \
 	} \
 } while(0)
@@ -86,12 +86,12 @@ do { \
 	} \
 } while(0)
 
-pmpkg_t* pkg_new(const char *name, const char *version);
-pmpkg_t *pkg_dup(pmpkg_t *pkg);
-void pkg_free(pmpkg_t *pkg);
-pmpkg_t *pkg_load(char *pkgfile);
-pmpkg_t *pkg_isin(char *needle, PMList *haystack);
-int pkg_splitname(char *target, char *name, char *version);
+pmpkg_t* _alpm_pkg_new(const char *name, const char *version);
+pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
+void _alpm_pkg_free(pmpkg_t *pkg);
+pmpkg_t *_alpm_pkg_load(char *pkgfile);
+pmpkg_t *_alpm_pkg_isin(char *needle, PMList *haystack);
+int _alpm_pkg_splitname(char *target, char *name, char *version);
 
 #endif /* _ALPM_PACKAGE_H */
 
