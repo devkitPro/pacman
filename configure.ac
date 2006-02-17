@@ -57,6 +57,11 @@ AC_ARG_ENABLE(fakeroot,
     AC_HELP_STRING([--disable-fakeoot], [Disable fakeroot proof  support]),
     [fakeroot=$enableval], [fakeroot=yes])
 
+dnl Help line for doxygen
+AC_ARG_ENABLE(doxygen,
+    AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
+    [wantdoxygen=$enableval], [wantdoxygen=yes])
+
 dnl Check for man2html binary
 AC_MSG_CHECKING(for support man2html)
 if test x$wantman2html = xyes ; then
@@ -73,6 +78,27 @@ else
     AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
     AC_DEFINE([HAS_MAN2HTML], [FALSE], [Not specified at configure line])
     AC_MSG_RESULT(not requested by configure)
+fi
+
+dnl Check for doxygen support
+AC_MSG_CHECKING(for support Doxygen)
+if test x$wantdoxygen = xyes ; then
+    AC_CHECK_PROGS([DOXYGEN], [doxygen] [doxygen binary])
+    AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
+    if test $DOXYGEN ; then
+        AC_DEFINE([HAS_DOXYGEN], [TRUE], [Enabled Doxygen Support])
+	AC_MSG_RESULT(yes)
+	DOXYSTATUS="yes, path: `which $DOXYGEN`"
+    else
+        AC_DEFINE([HAS_DOXYGEN], [FALSE], [Disabled Doxygen support])
+	AC_MSG_RESULT(no, doxygen missing)
+	DOXYSTATUS="doxygen binary not found"
+    fi
+else
+    AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
+    AC_DEFINE([HAS_DOXYGEN], [FALSE], [Not specified at configure line])
+    AC_MSG_RESULT(not requested by configure)
+    DOXYSTATUS="disabled by configure"
 fi
 
 dnl Enable or disable Warning FLAGS during compile
@@ -165,4 +191,6 @@ pacman-$VERSION:
 	libalpm version:          ${PM_VERSION}
                                                                                 
 	debug support:            ${debug}
+
+	Doxygen support          : ${DOXYSTATUS}
 "
