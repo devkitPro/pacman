@@ -18,8 +18,8 @@ clean:
 
 man_MANS: pacman.8 makepkg.8 libalpm.3
 
-if HAS_DOXYGEN
-man_MANS += man3/*.3
-endif
+#if HAS_DOXYGEN
+#man_MANS += man3/*.3
+#endif
 
 EXTRA_DIST = $(man_MANS)
