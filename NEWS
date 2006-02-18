@@ -1,8 +1,21 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
-              - fix for regex searches with -Ss (Miklos Vanja)
+2.9.8         - Changed behaviour with original=X,current=Y,new=Z scenario
+                - keep old in place, install new as .pacnew
+              - Search package provides when finding matching targets with -S
+              - Frugalware: added -Qm option to find foreign packages
+              - Frugalware: added DistCC support to makepkg
+              - bugfix: before searching databases for a dependency, make sure
+                one of the packages in the final list doesn't already provide
+                that dependency
+              - fix for segfaults that occurred when propagating requiredby
+                fields to replaced packages where one package depended on
+                another replaced package
+              - a better fix for pacman-optimize integrity checks
+              - fix for regex searches with -Ss (Miklos Vajna)
+              - added a --noprogressbar for scripts to use
 2.9.7         - fixed the dupe listings of packages when dealing w/ groups
-              - patches from Miklos Vanja:
+              - patches from Miklos Vajna:
                 - add regexp search support for -Qs and -Ss
                 - fixed md5sums on x86_64
                 - add --sudosync to makepkg
