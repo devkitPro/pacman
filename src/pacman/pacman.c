@@ -148,12 +148,6 @@ int main(int argc, char *argv[])
 	if(parseconfig(config->configfile, config) == -1) {
 		cleanup(1);
 	}
-	if(config->dbpath == NULL) {
-		config->dbpath = strdup(PM_DBPATH);
-	}
-	if(config->cachedir == NULL) {
-		config->cachedir = strdup(PM_CACHEDIR);
-	}
 
 	/* set library parameters */
 	if(alpm_set_option(PM_OPT_LOGMASK, (long)config->debug) == -1) {

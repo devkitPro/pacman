@@ -76,6 +76,9 @@ pmhandle_t *handle_new()
 	handle->access = PM_ACCESS_RW;
 #endif
 
+	handle->dbpath = strdup(PM_DBPATH);
+	handle->cachedir = strdup(PM_CACHEDIR);
+
 	return(handle);
 }
 
