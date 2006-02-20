@@ -419,10 +419,10 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			goto cleanup;
 		}
 		fprintf(fp, "%%NAME%%\n%s\n\n"
-		            "%%VERSION%%\n%s\n\n", info->name, info->version);
+			"%%VERSION%%\n%s\n\n", info->name, info->version);
 		if(info->desc[0]) {
 			fprintf(fp, "%%DESC%%\n"
-			            "%s\n\n", info->desc);
+				"%s\n\n", info->desc);
 		}
 		if(info->groups) {
 			fputs("%GROUPS%\n", fp);
@@ -434,7 +434,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		if(local) {
 			if(info->url[0]) {
 				fprintf(fp, "%%URL%%\n"
-				            "%s\n\n", info->url);
+					"%s\n\n", info->url);
 			}
 			if(info->license) {
 				fputs("%LICENSE%\n", fp);
@@ -445,36 +445,36 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			if(info->arch[0]) {
 				fprintf(fp, "%%ARCH%%\n"
-				            "%s\n\n", info->arch);
+					"%s\n\n", info->arch);
 			}
 			if(info->builddate[0]) {
 				fprintf(fp, "%%BUILDDATE%%\n"
-				            "%s\n\n", info->builddate);
+					"%s\n\n", info->builddate);
 			}
 			if(info->installdate[0]) {
 				fprintf(fp, "%%INSTALLDATE%%\n"
-				            "%s\n\n", info->installdate);
+					"%s\n\n", info->installdate);
 			}
 			if(info->packager[0]) {
 				fprintf(fp, "%%PACKAGER%%\n"
-				            "%s\n\n", info->packager);
+					"%s\n\n", info->packager);
 			}
 			if(info->size) {
 				fprintf(fp, "%%SIZE%%\n"
-				            "%ld\n\n", info->size);
+					"%ld\n\n", info->size);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%REASON%%\n"
-				            "%d\n\n", info->reason);
+					"%d\n\n", info->reason);
 			}
 		} else {
 			if(info->size) {
 				fprintf(fp, "%%CSIZE%%\n"
-				            "%ld\n\n", info->size);
+					"%ld\n\n", info->size);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%MD5SUM%%\n"
-				            "%s\n\n", info->md5sum);
+					"%s\n\n", info->md5sum);
 			}
 		}
 		fclose(fp);
@@ -553,7 +553,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			if(info->force) {
 				fprintf(fp, "%%FORCE%%\n"
-				            "\n");
+					"\n");
 			}
 		}
 		fclose(fp);
