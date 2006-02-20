@@ -1,4 +1,4 @@
-.TH pacman 8 "January 21, 2006" "pacman #VERSION#" ""
+.TH pacman 8 "January 21, 2006" "pacman @PACKAGE_VERSION@" ""
 .SH NAME
 pacman \- package manager utility
 .SH SYNOPSIS
@@ -247,6 +247,10 @@ Server = file:///home/pkgs
 .B "DBPath = path/to/db/dir"
 Overrides the default location of the toplevel database directory.  The default is
 \fIvar/lib/pacman\fP.
+.B "CacheDir = path/to/cache/dir"
+Overrides the default location of the package cache directory.  The default is
+\fIvar/cache/pacman\fP.
+.TP
 .TP
 .B "HoldPkg = <package> [package] ..."
 If a user tries to \fB--remove\fP a package that's listed in HoldPkg, pacman
