@@ -39,7 +39,10 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 {
 	pmpkg_t* pkg = NULL;
 
-	MALLOC(pkg, sizeof(pmpkg_t));
+	pkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
+	if(pkg == NULL) {
+		RET_ERR(PM_ERR_MEMORY, NULL);
+	}
 
 	if(name && name[0] != 0) {
 		STRNCPY(pkg->name, name, PKG_NAME_LEN);
@@ -313,7 +316,10 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			char *str;
 			int fd;
 			
-			MALLOC(str, PATH_MAX);
+			str = (char *)malloc(PATH_MAX);
+			if(str == NULL) {
+				RET_ERR(PM_ERR_MEMORY, NULL);
+			}
 			fn = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(fn);
 			tar_extract_file(tar, fn);

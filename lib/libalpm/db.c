@@ -32,6 +32,7 @@
 /* pacman */
 #include "log.h"
 #include "util.h"
+#include "error.h"
 #include "group.h"
 #include "cache.h"
 #include "db.h"
@@ -48,9 +49,15 @@ pmdb_t *_alpm_db_open(char *dbpath, char *treename, int mode)
 
 	_alpm_log(PM_LOG_DEBUG, "opening database '%s'", treename);
 
-	MALLOC(db, sizeof(pmdb_t));
+	db = (pmdb_t *)malloc(sizeof(pmdb_t));
+	if(db == NULL) {
+		RET_ERR(PM_ERR_MEMORY, NULL);
+	}
 
-	MALLOC(db->path, strlen(dbpath)+strlen(treename)+2);
+	db->path = (char *)malloc(strlen(dbpath)+strlen(treename)+2);
+	if(db->path == NULL) {
+		RET_ERR(PM_ERR_MEMORY, NULL);
+	}
 	sprintf(db->path, "%s/%s", dbpath, treename);
 
 	db->dir = opendir(db->path);

@@ -57,7 +57,8 @@ static int add_faketarget(pmtrans_t *trans, char *name)
 	char *str = NULL;
 	pmpkg_t *dummy = NULL;
 
-	if((dummy = _alpm_pkg_new(NULL, NULL)) == NULL) {
+	dummy = _alpm_pkg_new(NULL, NULL);
+	if(dummy == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
@@ -457,7 +458,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						if(!strcmp(file, pathname)) {
 							char *fn;
 							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-							MALLOC(fn, strlen(file)+34);
+							fn = (char *)malloc(strlen(file)+34);
+							if(fn == NULL) {
+								RET_ERR(PM_ERR_MEMORY, -1);
+							}
 							sprintf(fn, "%s\t%s", file, md5_pkg);
 							FREE(file);
 							lp->data = fn;
@@ -568,7 +572,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							snprintf(path, PATH_MAX, "%s%s", handle->root, file);
 							md5 = MDFile(path);
 							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-							MALLOC(fn, strlen(file)+34);
+							fn = (char *)malloc(strlen(file)+34);
+							if(fn == NULL) {
+								RET_ERR(PM_ERR_MEMORY, -1);
+							}
 							sprintf(fn, "%s\t%s", file, md5);
 							FREE(md5);
 							FREE(file);
