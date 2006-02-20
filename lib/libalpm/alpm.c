@@ -421,7 +421,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 				if(!(pkg->infolevel & INFRQ_DESC)) {
 					char target[PKG_FULLNAME_LEN];
 					snprintf(target, PKG_FULLNAME_LEN, "%s-%s", pkg->name, pkg->version);
-					db_read(pkg->data, target, INFRQ_DESC, pkg);
+					_alpm_db_read(pkg->data, target, INFRQ_DESC, pkg);
 				}
 			break;*/
 			/* Depends entry */
@@ -535,7 +535,8 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	int retval = 0;
 
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(pkg->md5sum[0] != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
+	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
 	asprintf(&path, "%s%s/%s-%s" PM_EXT_PKG,
 	                handle->root, handle->cachedir,
@@ -548,7 +549,16 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
 	} else {
-		if(strcmp(md5sum, pkg->md5sum) != 0) {
+		if(!(pkg->infolevel & INFRQ_DESC)) {
+			char target[PKG_FULLNAME_LEN];
+			snprintf(target, PKG_FULLNAME_LEN, "%s-%s", pkg->name, pkg->version);
+			_alpm_db_read(pkg->data, target, INFRQ_DESC, pkg);
+		}
+
+		if(strcmp(md5sum, pkg->md5sum) == 0) {
+			_alpm_log(PM_LOG_FLOW1, "checksums for package %s-%s are matching",
+			                        pkg->name, pkg->version);
+		} else {
 			_alpm_log(PM_LOG_ERROR, "md5sums do not match for package %s-%s\n",
 			                        pkg->name, pkg->version);
 			pm_errno = PM_ERR_PKG_INVALID;
