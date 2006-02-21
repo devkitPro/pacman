@@ -132,12 +132,30 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 		}
 		/* CHECK 3: check database against targets */
 		for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
+			PMList *conflicts = NULL;
+			int usenewconflicts = 0;
+
 			info = k->data;
 			if(!strcmp(info->name, tp->name)) {
 				/* a package cannot conflict with itself -- that's just not nice */
 				continue;
 			}
-			for(j = info->conflicts; j; j = j->next) {
+			/* If this package (*info) is also in our packages PMList, use the
+			 * conflicts list from the new package, not the old one (*info)
+			 */
+			for(j = packages; j; j = j->next) {
+				pmpkg_t *pkg = j->data;
+				if(!strcmp(pkg->name, info->name)) {
+					/* Use the new, to-be-installed package's conflicts */
+					conflicts = pkg->conflicts;
+					usenewconflicts = 1;
+				}
+			}
+			if(!usenewconflicts) {
+				/* Use the old package's conflicts, it's the only set we have */
+				conflicts = info->conflicts;
+			}
+			for(j = conflicts; j; j = j->next) {
 				if(!strcmp((char *)j->data, tp->name)) {
 					_alpm_log(PM_LOG_DEBUG, "db vs targs: found %s as a conflict for %s",
 					          info->name, tp->name);
@@ -150,7 +168,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				} else {
 					/* see if the db package conflicts with something we provide */
 					PMList *m;
-					for(m = info->conflicts; m; m = m->next) {
+					for(m = conflicts; m; m = m->next) {
 						PMList *n;
 						for(n = tp->provides; n; n = n->next) {
 							if(!strcmp(m->data, n->data)) {
