@@ -75,20 +75,11 @@ do { \
 	} \
 } while(0)
 
-#define FREELISTPKGS(p) \
-do { \
-	if(p) { \
-		PMList *i; \
-		for(i = p; i; i = i->next) { \
-			FREEPKG(i->data); \
-		}\
-		FREELIST(p);\
-	} \
-} while(0)
+#define FREELISTPKGS(p) _FREELIST(p, _alpm_pkg_free)
 
 pmpkg_t* _alpm_pkg_new(const char *name, const char *version);
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
-void _alpm_pkg_free(pmpkg_t *pkg);
+void _alpm_pkg_free(void *data);
 pmpkg_t *_alpm_pkg_load(char *pkgfile);
 pmpkg_t *_alpm_pkg_isin(char *needle, PMList *haystack);
 int _alpm_pkg_splitname(char *target, char *name, char *version);

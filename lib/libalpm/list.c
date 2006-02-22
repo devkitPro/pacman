@@ -42,13 +42,15 @@ PMList *_alpm_list_new()
 	return(list);
 }
 
-void _alpm_list_free(PMList *list)
+void _alpm_list_free(PMList *list, _alpm_fn_free fn)
 {
 	PMList *ptr, *it = list;
 
 	while(it) {
 		ptr = it->next;
-		free(it->data);
+		if(fn) {
+			fn(it->data);
+		}
 		free(it);
 		it = ptr;
 	}

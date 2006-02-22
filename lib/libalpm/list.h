@@ -31,20 +31,16 @@ typedef struct __pmlist_t {
 
 typedef struct __pmlist_t PMList;
 
-#define FREELIST(p) do { if(p) { _alpm_list_free(p); p = NULL; } } while(0)
-#define FREELISTPTR(p) do { \
-	PMList *i; \
-	for(i = p; i; i = i->next) { \
-		i->data = NULL; \
-	} \
-	FREELIST(p); \
-} while(0)
+#define _FREELIST(p, f) do { if(p) { _alpm_list_free(p, f); p = NULL; } } while(0)
+#define FREELIST(p) _FREELIST(p, free)
+#define FREELISTPTR(p) _FREELIST(p, NULL)
 
+typedef void (*_alpm_fn_free) (void *);
 /* Sort comparison callback function declaration */
 typedef int (*_alpm_fn_cmp) (const void *, const void *);
 
 PMList *_alpm_list_new(void);
-void _alpm_list_free(PMList *list);
+void _alpm_list_free(PMList *list, _alpm_fn_free fn);
 PMList *_alpm_list_add(PMList *list, void *data);
 PMList *_alpm_list_add_sorted(PMList *list, void *data, _alpm_fn_cmp fn);
 PMList *_alpm_list_remove(PMList *haystack, void *needle, _alpm_fn_cmp fn, void **data);

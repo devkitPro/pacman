@@ -63,8 +63,10 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 	return(sync);
 }
 
-void _alpm_sync_free(pmsyncpkg_t *sync)
+void _alpm_sync_free(void *data)
 {
+	pmsyncpkg_t *sync = data;
+
 	if(sync == NULL) {
 		return;
 	}

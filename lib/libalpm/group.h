@@ -33,16 +33,10 @@ typedef struct __pmgrp_t {
 
 #define FREEGRP(p) do { if(p) { _alpm_grp_free(p); p = NULL; } } while(0)
 
-#define FREELISTGRPS(p) do { \
-	PMList *i; \
-	for(i = p; i; i = i->next) { \
-		FREEGRP(i->data); \
-	} \
-	FREELIST(p); \
-} while(0)
+#define FREELISTGRPS(p) _FREELIST(p, _alpm_grp_free)
 
 pmgrp_t *_alpm_grp_new(void);
-void _alpm_grp_free(pmgrp_t *grp);
+void _alpm_grp_free(void *data);
 int _alpm_grp_cmp(const void *g1, const void *g2);
 
 #endif /* _ALPM_GROUP_H */

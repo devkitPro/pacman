@@ -42,8 +42,10 @@ pmgrp_t *_alpm_grp_new()
 	return(grp);
 }
 
-void _alpm_grp_free(pmgrp_t *grp)
+void _alpm_grp_free(void *data)
 {
+	pmgrp_t *grp = data;
+
 	if(grp == NULL) {
 		return;
 	}

@@ -48,7 +48,7 @@ typedef struct __pmdb_t {
 } pmdb_t;
 
 pmdb_t *_alpm_db_open(char *path, char *treename, int mode);
-void _alpm_db_close(pmdb_t *db);
+void _alpm_db_close(void *data);
 void _alpm_db_rewind(pmdb_t *db);
 pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq);
 int _alpm_db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info);

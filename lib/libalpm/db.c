@@ -64,6 +64,7 @@ pmdb_t *_alpm_db_open(char *dbpath, char *treename, int mode)
 	if(db->dir == NULL) {
 		if(mode & DB_O_CREATE) {
 			_alpm_log(PM_LOG_WARNING, "could not open database '%s' -- try creating it", treename);
+			_alpm_log(PM_LOG_DEBUG, "creating database '%s'", treename);
 			if(mkdir(db->path, 0755) == 0) {
 				db->dir = opendir(db->path);
 			}
@@ -83,8 +84,10 @@ pmdb_t *_alpm_db_open(char *dbpath, char *treename, int mode)
 	return(db);
 }
 
-void _alpm_db_close(pmdb_t *db)
+void _alpm_db_close(void *data)
 {
+	pmdb_t *db = data;
+
 	if(db == NULL) {
 		return;
 	}

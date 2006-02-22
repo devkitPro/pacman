@@ -121,8 +121,10 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	return(newpkg);
 }
 
-void _alpm_pkg_free(pmpkg_t *pkg)
+void _alpm_pkg_free(void *data)
 {
+	pmpkg_t *pkg = data;
+
 	if(pkg == NULL) {
 		return;
 	}

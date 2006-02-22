@@ -56,8 +56,10 @@ pmtrans_t *_alpm_trans_new()
 	return(trans);
 }
 
-void _alpm_trans_free(pmtrans_t *trans)
+void _alpm_trans_free(void *data)
 {
+	pmtrans_t *trans = data;
+
 	if(trans == NULL) {
 		return;
 	}

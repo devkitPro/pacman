@@ -62,7 +62,7 @@ do { \
 } while(0)
 
 pmtrans_t *_alpm_trans_new(void);
-void _alpm_trans_free(pmtrans_t *trans);
+void _alpm_trans_free(void *data);
 int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv);
 int _alpm_trans_sysupgrade(pmtrans_t *trans);
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
