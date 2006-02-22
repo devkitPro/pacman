@@ -32,8 +32,12 @@
 #include "util.h"
 #include "log.h"
 #include "trans.h"
+#include "list.h"
+#include "conf.h"
 
 #define LOG_STR_LEN 256
+
+extern config_t *config;
 
 /* Callback to handle transaction events
  */
@@ -120,16 +124,24 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 			*response = yesno(str);
 		break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
-			snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] ",
+			if(!config->op_s_downloadonly) {
+				snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] ",
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
-			*response = yesno(str);
+				*response = yesno(str);
+			} else {
+				*response = 1;
+			}
 		break;
 		case PM_TRANS_CONV_LOCAL_UPTODATE:
-			snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] ",
+			if(!config->op_s_downloadonly) {
+				snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] ",
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
-			*response = yesno(str);
+				*response = yesno(str);
+			} else {
+				*response = 1;
+			}
 		break;
 	}
 }
