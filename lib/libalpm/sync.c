@@ -471,6 +471,11 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 				}
 
 				sync = find_pkginsync(miss->target, trans->packages);
+				if(sync == NULL) {
+					_alpm_log(PM_LOG_DEBUG, "'%s' not found in transaction set -- skipping",
+					          miss->target);
+					continue;
+				}
 				local = _alpm_db_get_pkgfromcache(db_local, miss->depend.name);
 
 				/* check if this package also "provides" the package it's conflicting with
