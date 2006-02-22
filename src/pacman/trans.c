@@ -126,8 +126,8 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
 				snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] ",
-			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-			         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
+				         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
+				         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
 				*response = yesno(str);
 			} else {
 				*response = 1;
@@ -136,8 +136,8 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 		case PM_TRANS_CONV_LOCAL_UPTODATE:
 			if(!config->op_s_downloadonly) {
 				snprintf(str, LOG_STR_LEN, ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] ",
-			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
-			         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
+				         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
+				         (char *)alpm_pkg_getinfo(data1, PM_PKG_VERSION));
 				*response = yesno(str);
 			} else {
 				*response = 1;
