@@ -41,6 +41,7 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 
 	pkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
 	if(pkg == NULL) {
+		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmpkg_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 

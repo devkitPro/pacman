@@ -44,7 +44,8 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsign
 
 	miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t));
 	if(miss == NULL) {
-		return(NULL);
+		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	STRNCPY(miss->target, target, PKG_NAME_LEN);
@@ -566,6 +567,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 			          miss->target, miss->depend.name);
 			if(data) {
 				if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+					_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 					FREELIST(*data);
 					pm_errno = PM_ERR_MEMORY;
 					goto error;
@@ -605,6 +607,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
 				if(data) {
 					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+						_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 						FREELIST(*data);
 						pm_errno = PM_ERR_MEMORY;
 						goto error;

@@ -53,6 +53,7 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 	pmsyncpkg_t *sync;
 
 	if((sync = (pmsyncpkg_t *)malloc(sizeof(pmsyncpkg_t))) == NULL) {
+		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmsyncpkg_t));
 		return(NULL);
 	}
 
@@ -571,6 +572,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 							errorout = 1;
 							if(data) {
 								if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+									_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
 									goto error;
@@ -585,6 +587,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 					errorout = 1;
 					if(data) {
 						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+							_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 							FREELIST(*data);
 							pm_errno = PM_ERR_MEMORY;
 							goto error;
@@ -676,6 +679,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 							}
 							if(data) {
 								if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+									_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
 									goto error;
