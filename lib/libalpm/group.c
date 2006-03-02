@@ -25,7 +25,10 @@
 #include <string.h>
 /* pacman */
 #include "util.h"
+#include "error.h"
+#include "log.h"
 #include "group.h"
+#include "alpm.h"
 
 pmgrp_t *_alpm_grp_new()
 {
@@ -33,7 +36,9 @@ pmgrp_t *_alpm_grp_new()
 
 	grp = (pmgrp_t *)malloc(sizeof(pmgrp_t));
 	if(grp == NULL) {
-		return(NULL);
+		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes",
+		                        sizeof(pmgrp_t));
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	grp->name[0] = '\0';

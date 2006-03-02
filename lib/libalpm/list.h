@@ -35,9 +35,9 @@ typedef struct __pmlist_t PMList;
 #define FREELIST(p) _FREELIST(p, free)
 #define FREELISTPTR(p) _FREELIST(p, NULL)
 
-typedef void (*_alpm_fn_free) (void *);
+typedef void (*_alpm_fn_free)(void *);
 /* Sort comparison callback function declaration */
-typedef int (*_alpm_fn_cmp) (const void *, const void *);
+typedef int (*_alpm_fn_cmp)(const void *, const void *);
 
 PMList *_alpm_list_new(void);
 void _alpm_list_free(PMList *list, _alpm_fn_free fn);
