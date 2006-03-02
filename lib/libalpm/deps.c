@@ -38,7 +38,7 @@
 extern pmhandle_t *handle;
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsigned char depmod,
-                            const char *depname, const char *depversion)
+                                  const char *depname, const char *depversion)
 {
 	pmdepmissing_t *miss;
 
@@ -433,7 +433,7 @@ int _alpm_splitdep(char *depstr, pmdepend_t *depend)
  * I mean dependencies that are *only* required for packages in the target
  * list, so they can be safely removed.  This function is recursive.
  */
-PMList* _alpm_removedeps(pmdb_t *db, PMList *targs)
+PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
 {
 	PMList *i, *j, *k;
 	PMList *newtargs = targs;
@@ -486,19 +486,17 @@ PMList* _alpm_removedeps(pmdb_t *db, PMList *targs)
 				}
 			}
 			if(!needed) {
-				char *name;
 				pmpkg_t *pkg = _alpm_pkg_new(dep->name, dep->version);
 				if(pkg == NULL) {
 					_alpm_log(PM_LOG_ERROR, "could not allocate memory for a package structure");
 					continue;
 				}
-				asprintf(&name, "%s-%s", dep->name, dep->version);
 				/* add it to the target list */
-				_alpm_db_read(db, name, INFRQ_ALL, pkg);
+				_alpm_log(PM_LOG_DEBUG, "loading ALL info for '%s'", pkg->name);
+				_alpm_db_read(db, INFRQ_ALL, pkg);
 				newtargs = _alpm_list_add(newtargs, pkg);
-				_alpm_log(PM_LOG_FLOW2, "adding %s to the targets", pkg->name);
+				_alpm_log(PM_LOG_FLOW2, "adding '%s' to the targets", pkg->name);
 				newtargs = _alpm_removedeps(db, newtargs);
-				FREE(name);
 			}
 		}
 	}
@@ -512,7 +510,7 @@ PMList* _alpm_removedeps(pmdb_t *db, PMList *targs)
  * make sure *list and *trail are already initialized
  */
 int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
-                PMList *trail, pmtrans_t *trans, PMList **data)
+                      PMList *trail, pmtrans_t *trans, PMList **data)
 {
 	PMList *i, *j;
 	PMList *targ;

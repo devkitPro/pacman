@@ -21,9 +21,6 @@
 #ifndef _ALPM_DB_H
 #define _ALPM_DB_H
 
-#include <dirent.h>
-
-#include "list.h"
 #include "package.h"
 
 /* Database entries */
@@ -42,16 +39,20 @@
 typedef struct __pmdb_t {
 	char *path;
 	char treename[DB_TREENAME_LEN];
-	DIR *dir;
+	void *handle;
 	PMList *pkgcache;
 	PMList *grpcache;
 } pmdb_t;
 
-pmdb_t *_alpm_db_open(char *path, char *treename, int mode);
-void _alpm_db_close(void *data);
+
+pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
+void _alpm_db_free(void *data);
+/* Prototypes for backends functions */
+int _alpm_db_open(pmdb_t *db, int mode);
+void _alpm_db_close(pmdb_t *db);
 void _alpm_db_rewind(pmdb_t *db);
 pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq);
-int _alpm_db_read(pmdb_t *db, char *name, unsigned int inforeq, pmpkg_t *info);
+int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
 

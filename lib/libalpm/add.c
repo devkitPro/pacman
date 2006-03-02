@@ -25,9 +25,7 @@
 #include <time.h>
 #include <fcntl.h>
 #include <string.h>
-#ifdef CYGWIN
-#include <limits.h> /* PATH_MAX */
-#endif
+#include <limits.h>
 #include <zlib.h>
 #include <libtar.h>
 /* pacman */
@@ -314,10 +312,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				oldpkg = _alpm_pkg_new(local->name, local->version);
 				if(oldpkg) {
 					if(!(local->infolevel & INFRQ_FILES)) {
-						char name[PKG_FULLNAME_LEN];
-						snprintf(name, PKG_FULLNAME_LEN, "%s-%s", local->name, local->version);
-						_alpm_log(PM_LOG_DEBUG, "loading FILES info for %s", local->name);
-						_alpm_db_read(db, name, INFRQ_FILES, local);
+						_alpm_log(PM_LOG_DEBUG, "loading FILES info for '%s'", local->name);
+						_alpm_db_read(db, INFRQ_FILES, local);
 					}
 					oldpkg->backup = _alpm_list_strdup(local->backup);
 				}

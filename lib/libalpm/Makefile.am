@@ -22,6 +22,7 @@ TARGETS = md5driver.c \
 	remove.c \
 	sync.c \
 	handle.c \
+	be_files.c \
 	alpm.c
 
 lib_LTLIBRARIES = libalpm.la
