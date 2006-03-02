@@ -92,8 +92,7 @@ enum {
 	PM_OPT_SYNCDB,
 	PM_OPT_NOUPGRADE,
 	PM_OPT_NOEXTRACT,
-	PM_OPT_IGNOREPKG,
-	PM_OPT_HOLDPKG
+	PM_OPT_IGNOREPKG
 };
 
 int alpm_set_option(unsigned char parm, unsigned long data);
