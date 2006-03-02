@@ -27,6 +27,7 @@
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
+#include <dirent.h>
 #include <libtar.h>
 #include <zlib.h>
 /* pacman */
