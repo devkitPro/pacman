@@ -301,6 +301,7 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 int alpm_db_update(PM_DB *db, char *archive)
 {
 	PMList *lp;
+	char path[PATH_MAX];
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -331,8 +332,9 @@ int alpm_db_update(PM_DB *db, char *archive)
 	/* ORE
 	we should not simply unpack the archive, but better parse it and 
 	db_write each entry (see sync_load_dbarchive to get archive content) */
+	snprintf(path, PATH_MAX, "%s/%s", db->path, db->treename);
 	_alpm_log(PM_LOG_FLOW2, "unpacking %s", archive);
-	if(_alpm_unpack(archive, db->path, NULL)) {
+	if(_alpm_unpack(archive, path, NULL)) {
 		RET_ERR(PM_ERR_SYSTEM, -1);
 	}
 
