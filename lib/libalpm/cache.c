@@ -173,6 +173,10 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 		PMList *i;
 		pmpkg_t *pkg = lp->data;
 
+		if(!(pkg->infolevel & INFRQ_DESC)) {
+			_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		}
+
 		for(i = pkg->groups; i; i = i->next) {
 			if(!_alpm_list_is_strin(i->data, db->grpcache)) {
 				pmgrp_t *grp = _alpm_grp_new();
