@@ -59,6 +59,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				continue;
 			}
 			/* CHECK 1: check targets against database */
+			_alpm_log(PM_LOG_DEBUG, "checkconflicts: targ '%s' vs db", tp->name);
 			for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
 				pmpkg_t *dp = (pmpkg_t *)k->data;
 				if(!strcmp(dp->name, tp->name)) {
@@ -94,6 +95,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				}
 			}
 			/* CHECK 2: check targets against targets */
+			_alpm_log(PM_LOG_DEBUG, "checkconflicts: targ '%s' vs targs", tp->name);
 			for(k = packages; k; k = k->next) {
 				pmpkg_t *otp = (pmpkg_t *)k->data;
 				if(!strcmp(otp->name, tp->name)) {
@@ -129,6 +131,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 			}
 		}
 		/* CHECK 3: check database against targets */
+		_alpm_log(PM_LOG_DEBUG, "checkconflicts: db vs targ '%s'", tp->name);
 		for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
 			PMList *conflicts = NULL;
 			int usenewconflicts = 0;
@@ -144,7 +147,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 			for(j = packages; j; j = j->next) {
 				pmpkg_t *pkg = j->data;
 				if(!strcmp(pkg->name, info->name)) {
-					/* Use the new, to-be-installed package's conflicts */
+					// Use the new, to-be-installed package's conflicts
 					conflicts = pkg->conflicts;
 					usenewconflicts = 1;
 				}
