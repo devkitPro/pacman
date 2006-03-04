@@ -82,7 +82,7 @@ void _alpm_trans_free(void *data)
 	free(trans);
 }
 
-int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
+int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));

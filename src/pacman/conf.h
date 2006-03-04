@@ -52,7 +52,7 @@ typedef struct __config_t {
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
 	unsigned short group;
-	unsigned char  flags;
+	unsigned int flags;
 	unsigned short debug;
 	/* configuration file option */
 	char *proxyhost;

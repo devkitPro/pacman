@@ -695,7 +695,7 @@ void *alpm_trans_getinfo(unsigned char parm)
  * @param conv conversation callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
+int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));

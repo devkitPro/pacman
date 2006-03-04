@@ -262,7 +262,7 @@ enum {
 };
 
 void *alpm_trans_getinfo(unsigned char parm);
-int alpm_trans_init(unsigned char type, unsigned char flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv);
+int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv);
 int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(PM_LIST **data);
