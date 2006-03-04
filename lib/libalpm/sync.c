@@ -251,10 +251,12 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 			          local->name, local->version, local->version, spkg->version);
 			if(!find_pkginsync(spkg->name, trans->packages)) {
 				pmpkg_t *dummy = _alpm_pkg_new(local->name, local->version);
+				if(dummy == NULL) {
+					goto error;
+				}
 				sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 				if(sync == NULL) {
 					FREEPKG(dummy);
-					pm_errno = PM_ERR_MEMORY;
 					goto error;
 				}
 				trans->packages = _alpm_list_add(trans->packages, sync);
@@ -388,6 +390,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 	PMList *trail = NULL; /* breadcrum list to avoid running into circles */
 	PMList *asked = NULL;
 	PMList *i, *j;
+	int ret = 0;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -396,11 +399,12 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 		*data = NULL;
 	}
 
+	for(i = trans->packages; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		list = _alpm_list_add(list, sync->pkg);
+	}
+
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		for(i = trans->packages; i; i = i->next) {
-			pmsyncpkg_t *sync = i->data;
-			list = _alpm_list_add(list, sync->pkg);
-		}
 		trail = _alpm_list_new();
 
 		/* Resolve targets dependencies */
@@ -410,7 +414,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
 			if(_alpm_resolvedeps(db_local, dbs_sync, spkg, list, trail, trans, data) == -1) {
 				/* pm_errno is set by resolvedeps */
-				goto error;
+				ret = -1;
+				goto cleanup;
 			}
 		}
 		for(i = list; i; i = i->next) {
@@ -419,7 +424,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 			if(!find_pkginsync(spkg->name, trans->packages)) {
 				pmsyncpkg_t *sync = _alpm_sync_new(PM_SYNC_TYPE_DEPEND, spkg, NULL);
 				if(sync == NULL) {
-					goto error;
+					ret = -1;
+					goto cleanup;
 				}
 				trans->packages = _alpm_list_add(trans->packages, sync);
 				_alpm_log(PM_LOG_FLOW2, "adding package %s-%s to the transaction targets",
@@ -427,9 +433,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 			}
 		}
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
-
-		/* check for inter-conflicts and whatnot */
-		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, "looking for unresolvable dependencies");
 		deps = _alpm_checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
@@ -439,10 +442,17 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 				deps = NULL;
 			}
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
-			goto error;
+			ret = -1;
+			goto cleanup;
 		}
 
-		/* no unresolvable deps, so look for conflicts */
+		FREELISTPTR(trail);
+	}
+
+	if(!(trans->flags & PM_TRANS_FLAG_NOCONFLICTS)) {
+		/* check for inter-conflicts and whatnot */
+		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
+
 		_alpm_log(PM_LOG_FLOW1, "looking for conflicts");
 		deps = _alpm_checkconflicts(db_local, list);
 		if(deps) {
@@ -549,7 +559,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 								if(data) {
 									FREELIST(*data);
 								}
-								goto error;
+								ret = -1;
+								goto cleanup;
 							}
 							q->requiredby = _alpm_list_strdup(local->requiredby);
 							if(sync->type != PM_SYNC_TYPE_REPLACE) {
@@ -576,7 +587,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 									_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
-									goto error;
+									ret = -1;
+									goto cleanup;
 								}
 								*miss = *(pmdepmissing_t *)i->data;
 								*data = _alpm_list_add(*data, miss);
@@ -591,7 +603,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 							_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 							FREELIST(*data);
 							pm_errno = PM_ERR_MEMORY;
-							goto error;
+							ret = -1;
+							goto cleanup;
 						}
 						*miss = *(pmdepmissing_t *)i->data;
 						*data = _alpm_list_add(*data, miss);
@@ -600,24 +613,26 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 			}
 			if(errorout) {
 				pm_errno = PM_ERR_CONFLICTING_DEPS;
-				goto error;
+				ret = -1;
+				goto cleanup;
 			}
 			FREELIST(deps);
+			FREELIST(asked);
 		}
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
+	}
 
-		FREELISTPTR(list);
-		FREELISTPTR(trail);
-		FREELIST(asked);
+	FREELISTPTR(list);
 
-		/* XXX: this fails for cases where a requested package wants
-		 *      a dependency that conflicts with an older version of
-		 *      the package.  It will be removed from final, and the user
-		 *      has to re-request it to get it installed properly.
-		 *
-		 *      Not gonna happen very often, but should be dealt with...
-		 */
+	/* XXX: this fails for cases where a requested package wants
+	 *      a dependency that conflicts with an older version of
+	 *      the package.  It will be removed from final, and the user
+	 *      has to re-request it to get it installed properly.
+	 *
+	 *      Not gonna happen very often, but should be dealt with...
+	 */
 
+	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		/* Check dependencies of packages in rmtargs and make sure
 		 * we won't be breaking anything by removing them.
 		 * If a broken dep is detected, make sure it's not from a
@@ -648,7 +663,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 						pmpkg_t *conflictp = _alpm_db_get_pkgfromcache(db_local, miss->depend.name);
 						if(!leavingp || !conflictp) {
 							_alpm_log(PM_LOG_ERROR, "something has gone horribly wrong");
-							goto error;
+							ret = -1;
+							goto cleanup;
 						}
 						/* Look through the upset package's dependencies and try to match one up
 						 * to a provisio from the package we want to remove */
@@ -683,7 +699,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 									_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
-									goto error;
+									ret = -1;
+									goto cleanup;
 								}
 								*miss = *(pmdepmissing_t *)i->data;
 								*data = _alpm_list_add(*data, miss);
@@ -693,23 +710,22 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 				}
 				if(errorout) {
 					pm_errno = PM_ERR_UNSATISFIED_DEPS;
-					goto error;
+					ret = -1;
+					goto cleanup;
 				}
 				FREELIST(deps);
 			}
-			FREELISTPTR(list);
 		}
 		/*EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);*/
 	}
 
-	return(0);
-
-error:
+cleanup:
 	FREELISTPTR(list);
 	FREELISTPTR(trail);
 	FREELIST(asked);
 	FREELIST(deps);
-	return(-1);
+
+	return(ret);
 }
 
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)

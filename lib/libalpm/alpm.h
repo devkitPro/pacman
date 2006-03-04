@@ -33,7 +33,7 @@ extern "C" {
 #define PM_DBPATH   "var/lib/pacman"
 #define PM_CACHEDIR "var/cache/pacman/pkg"
 
-#define PM_LOCK   "/tmp/pacman.lck"
+#define PM_LOCK "/tmp/pacman.lck"
 
 #define PM_EXT_PKG ".pkg.tar.gz"
 #define PM_EXT_DB  ".db.tar.gz"
@@ -209,14 +209,16 @@ enum {
 };
 
 /* Flags */
-#define PM_TRANS_FLAG_NODEPS  0x01
-#define PM_TRANS_FLAG_FORCE   0x02
-#define PM_TRANS_FLAG_NOSAVE  0x04
-#define PM_TRANS_FLAG_FRESHEN 0x08
-#define PM_TRANS_FLAG_CASCADE 0x10
-#define PM_TRANS_FLAG_RECURSE 0x20
-#define PM_TRANS_FLAG_DBONLY  0x40
-#define PM_TRANS_FLAG_ALLDEPS 0x80
+#define PM_TRANS_FLAG_FORCE       0x001
+#define PM_TRANS_FLAG_DBONLY      0x002
+#define PM_TRANS_FLAG_NOSAVE      0x004
+#define PM_TRANS_FLAG_FRESHEN     0x008
+#define PM_TRANS_FLAG_CASCADE     0x010
+#define PM_TRANS_FLAG_RECURSE     0x020
+#define PM_TRANS_FLAG_NODEPS      0x040
+#define PM_TRANS_FLAG_ALLDEPS     0x080
+#define PM_TRANS_FLAG_NOCONFLICTS 0x100
+#define PM_TRANS_FLAG_NOSCRIPLET  0x200
 
 /* Transaction Events */
 enum {
