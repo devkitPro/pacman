@@ -89,7 +89,8 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 	newpkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
 	if(newpkg == NULL) {
-		return(NULL);
+		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmpkg_t));
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	STRNCPY(newpkg->name, pkg->name, PKG_NAME_LEN);
@@ -258,7 +259,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	info = _alpm_pkg_new(NULL, NULL);
 	if(info == NULL) {
 		tar_close(tar);
-		RET_ERR(PM_ERR_MEMORY, NULL);
+		return(NULL);
 	}
 
 	/* ORE

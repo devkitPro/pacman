@@ -44,7 +44,6 @@ typedef struct __pmdb_t {
 	PMList *grpcache;
 } pmdb_t;
 
-
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
 /* Prototypes for backends functions */
