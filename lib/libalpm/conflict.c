@@ -221,6 +221,11 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 					}
 					if(_alpm_list_is_strin(filestr, p2->files)) {
 						pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
+						if(conflict == NULL) {
+							_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes",
+							                        sizeof(pmconflict_t));
+							continue;
+						}
 						conflict->type = PM_CONFLICT_TYPE_TARGET;
 						STRNCPY(conflict->target, p1->name, PKG_NAME_LEN);
 						STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
@@ -261,7 +266,11 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 					ok = 1;
 				} else {
 					if(dbpkg == NULL) {
-						dbpkg = _alpm_db_scan(db, p->name, INFRQ_DESC | INFRQ_FILES);
+						dbpkg = _alpm_db_get_pkgfromcache(db, p->name);
+					}
+					if(dbpkg && !(dbpkg->infolevel & INFRQ_FILES)) {
+						_alpm_log(PM_LOG_DEBUG, "loading FILES info for '%s'", dbpkg->name);
+						_alpm_db_read(db, INFRQ_FILES, dbpkg);
 					}
 					if(dbpkg && _alpm_list_is_strin(j->data, dbpkg->files)) {
 						ok = 1;
@@ -288,7 +297,11 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 							/* As long as they're not the current package */
 							if(strcmp(p1->name, p->name)) {
 								pmpkg_t *dbpkg2 = NULL;
-								dbpkg2 = _alpm_db_scan(db, p1->name, INFRQ_DESC | INFRQ_FILES);
+								dbpkg2 = _alpm_db_get_pkgfromcache(db, p1->name);
+								if(dbpkg2 && !(dbpkg2->infolevel & INFRQ_FILES)) {
+									_alpm_log(PM_LOG_DEBUG, "loading FILES info for '%s'", dbpkg2->name);
+									_alpm_db_read(db, INFRQ_FILES, dbpkg2);
+								}
 								/* If it used to exist in there, but doesn't anymore */
 								if(dbpkg2 && !_alpm_list_is_strin(filestr, p1->files) && _alpm_list_is_strin(filestr, dbpkg2->files)) {
 									ok = 1;
@@ -318,6 +331,11 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 donecheck:
 				if(!ok) {
 					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
+					if(conflict == NULL) {
+						_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes",
+						                        sizeof(pmconflict_t));
+						continue;
+					}
 					conflict->type = PM_CONFLICT_TYPE_FILE;
 					STRNCPY(conflict->target, p->name, PKG_NAME_LEN);
 					STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
@@ -326,7 +344,6 @@ donecheck:
 				}
 			}
 		}
-		FREEPKG(dbpkg);
 	}
 
 	return(conflicts);
