@@ -446,7 +446,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 				fprintf(fp, "%%CSIZE%%\n"
 					"%ld\n\n", info->size);
 			}
-			if(info->reason) {
+			if(info->md5sum) {
 				fprintf(fp, "%%MD5SUM%%\n"
 					"%s\n\n", info->md5sum);
 			}
