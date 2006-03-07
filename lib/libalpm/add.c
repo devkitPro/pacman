@@ -318,6 +318,13 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					oldpkg->backup = _alpm_list_strdup(local->backup);
 				}
 
+				/* copy over the install reason */
+				if(!(local->infolevel & INFRQ_DESC)) {
+					_alpm_log(PM_LOG_DEBUG, "loading DESC info for '%s'", local->name);
+					_alpm_db_read(db, INFRQ_DESC, local);
+				}
+				info->reason = local->reason;
+
 				/* pre_upgrade scriptlet */
 				if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 					_alpm_runscriptlet(handle->root, info->data, "pre_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
@@ -334,8 +341,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
-					/* copy over the install reason */
-					info->reason = local->reason;
 					if(_alpm_remove_loadtarget(tr, db, info->name) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
