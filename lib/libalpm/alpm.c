@@ -420,9 +420,8 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 	if(pkg->origin == PKG_FROM_CACHE) {
 		switch(parm) {
 			/* Desc entry */
-			/* not needed: the cache is loaded with DESC by default
-			case PM_PKG_NAME:
-			case PM_PKG_VERSION:
+			/*case PM_PKG_NAME:
+			case PM_PKG_VERSION:*/
 			case PM_PKG_DESC:
 			case PM_PKG_GROUPS:
 			case PM_PKG_URL:
@@ -438,7 +437,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 					_alpm_log(PM_LOG_DEBUG, "loading DESC info for '%s'", pkg->name);
 					_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
 				}
-			break;*/
+			break;
 			/* Depends entry */
 			/* not needed: the cache is loaded with DEPENDS by default
 			case PM_PKG_DEPENDS:
