@@ -97,23 +97,27 @@ db_write_entry()
 	echo "%VERSION%" >>desc
 	echo "$pkgver-$pkgrel" >>desc
 	echo "" >>desc
-	echo "%DESC%" >>desc
-	echo "$pkgdesc" >>desc
-	echo "" >>desc
-	echo "%CSIZE%" >>desc
-	echo "$csize" >>desc
-	echo "" >>desc
-	if [ ! -z $pkgmd5sum ]; then
-		echo "%MD5SUM%" >>desc
-		echo "$pkgmd5sum" >>desc
-		echo "" >>desc
+	if [ -n "$pkgdesc" ]; then
+		echo "%DESC%" >>$entry
+		echo "$pkgdesc" >>$entry
+		echo "" >>$entry
 	fi
 	if [ ${#groups[*]} -gt 0 ]; then
-		echo "%GROUPS%" >>desc
+		echo "%GROUPS%" >>$entry
 		for it in "${groups[@]}"; do
-			echo "$it" >>desc
+			echo "$it" >>$entry
 		done
-		echo "" >>desc
+		echo "" >>$entry
+	fi
+	if [ -n $csize ]; then
+		echo "%CSIZE%" >>$entry
+		echo "$csize" >>$entry
+		echo "" >>$entry
+	fi
+	if [ ! -z $pkgmd5sum ]; then
+		echo "%MD5SUM%" >>$entry
+		echo "$pkgmd5sum" >>$entry
+		echo "" >>$entry
 	fi
 	if [ ${#replaces[*]} -gt 0 ]; then
 		echo "%REPLACES%" >>desc
