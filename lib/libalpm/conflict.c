@@ -323,7 +323,6 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 									 */
 									*skip_list = _alpm_list_add(*skip_list, strdup(filestr));
 								}
-								FREEPKG(dbpkg2);
 							}
 						}
 					}
