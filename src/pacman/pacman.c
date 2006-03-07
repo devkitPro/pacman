@@ -309,6 +309,7 @@ int parseargs(int argc, char *argv[])
 		{"ignore",     required_argument, 0, 1002},
 		{"debug",      required_argument, 0, 1003},
 		{"noprogressbar",  no_argument,   0, 1004},
+		{"noscriptlet", no_argument,      0, 1005},
 		{0, 0, 0, 0}
 	};
 	char root[PATH_MAX];
@@ -329,6 +330,7 @@ int parseargs(int argc, char *argv[])
 			case 1002: config->op_s_ignore = list_add(config->op_s_ignore, strdup(optarg)); break;
 			case 1003: config->debug = atoi(optarg); break;
 			case 1004: config->noprogressbar = 1; break;
+			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'D':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
@@ -496,6 +498,7 @@ void usage(int op, char *myname)
 		printf("      --config <path> set an alternate configuration file\n");
 		printf("      --noconfirm     do not ask for anything confirmation\n");
 		printf("      --noprogressbar do not show a progress bar when downloading files\n");
+		printf("      --noscriptlet   do not execute the install scriptlet if there is any\n");
 		printf("  -v, --verbose       be verbose\n");
 		printf("  -r, --root <path>   set an alternate installation root\n");
 		printf("  -b, --dbpath <path> set an alternate database location\n");

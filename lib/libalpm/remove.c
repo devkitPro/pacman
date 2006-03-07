@@ -153,7 +153,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_FLOW1, "removing package %s-%s", info->name, info->version);
 
 			/* run the pre-remove scriptlet if it exists  */
-			if(info->scriptlet) {
+			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
 				_alpm_runscriptlet(handle->root, pm_install, "pre_remove", info->version, NULL);
 			}
@@ -235,7 +235,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			/* run the post-remove script if it exists  */
-			if(info->scriptlet) {
+			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				char pm_install[PATH_MAX];
 				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
 				_alpm_runscriptlet(handle->root, pm_install, "post_remove", info->version, NULL);

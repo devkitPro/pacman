@@ -218,7 +218,7 @@ enum {
 #define PM_TRANS_FLAG_NODEPS      0x040
 #define PM_TRANS_FLAG_ALLDEPS     0x080
 #define PM_TRANS_FLAG_NOCONFLICTS 0x100
-#define PM_TRANS_FLAG_NOSCRIPLET  0x200
+#define PM_TRANS_FLAG_NOSCRIPTLET 0x200
 
 /* Transaction Events */
 enum {

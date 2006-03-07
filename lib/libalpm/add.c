@@ -319,7 +319,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 
 				/* pre_upgrade scriptlet */
-				if(info->scriptlet) {
+				if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 					_alpm_runscriptlet(handle->root, info->data, "pre_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
 				}
 
@@ -359,7 +359,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_FLOW1, "adding package %s-%s", info->name, info->version);
 
 			/* pre_install scriptlet */
-			if(info->scriptlet) {
+			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				_alpm_runscriptlet(handle->root, info->data, "pre_install", info->version, NULL);
 			}
 		} else {
@@ -668,7 +668,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* run the post-install script if it exists  */
-		if(info->scriptlet) {
+		if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 			snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, info->name, info->version);
 			if(pmo_upgrade) {
 				_alpm_runscriptlet(handle->root, pm_install, "post_upgrade", info->version, oldpkg ? oldpkg->version : NULL);
