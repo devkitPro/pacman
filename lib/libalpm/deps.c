@@ -488,7 +488,6 @@ PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
 			if(!needed) {
 				pmpkg_t *pkg = _alpm_pkg_new(dep->name, dep->version);
 				if(pkg == NULL) {
-					_alpm_log(PM_LOG_ERROR, "could not allocate memory for a package structure");
 					continue;
 				}
 				/* add it to the target list */
