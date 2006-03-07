@@ -153,7 +153,6 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 }
 
 /* Returns a new group cache from db.
- * It frees the cache if it already exists.
  */
 int _alpm_db_load_grpcache(pmdb_t *db)
 {
