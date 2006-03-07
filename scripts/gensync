@@ -94,7 +94,7 @@ db_write_entry()
 	echo "%VERSION%" >>desc
 	echo "$pkgver-$pkgrel" >>desc
 	echo "" >>desc
-	if [ -n $pkgdesc ]; then
+	if [ -n "$pkgdesc" ]; then
 		echo "%DESC%" >>desc
 		echo "$pkgdesc" >>desc
 		echo "" >>desc
