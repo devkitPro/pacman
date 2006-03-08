@@ -77,4 +77,9 @@ void _alpm_db_free(void *data)
 	free(db);
 }
 
+int _alpm_db_cmp(const void *db1, const void *db2)
+{
+	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
+}
+
 /* vim: set ts=2 sw=2 noet: */

@@ -148,6 +148,13 @@ void _alpm_pkg_free(void *data)
 	return;
 }
 
+/* Helper function for comparing packages
+ */
+int _alpm_pkg_cmp(const void *p1, const void *p2)
+{
+	return(strcmp(((pmpkg_t *)p1)->name, ((pmpkg_t *)p2)->name));
+}
+
 /* Parses the package description file for the current package
  *
  * Returns: 0 on success, 1 on error

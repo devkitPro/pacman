@@ -46,6 +46,7 @@ typedef struct __pmdb_t {
 
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
+int _alpm_db_cmp(const void *db1, const void *db2);
 /* Prototypes for backends functions */
 int _alpm_db_open(pmdb_t *db, int mode);
 void _alpm_db_close(pmdb_t *db);

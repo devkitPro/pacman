@@ -217,18 +217,6 @@ pmdb_t *alpm_db_register(char *treename)
 	return(db);
 }
 
-/** Helper function for comparing databases
- * @param db1 first database
- * @param db2 second database
- * @return an integer less than, equal to, or greater than zero if the name of
- * db1 is found, respectively, to be less than, to match, or be greater than
- * the name of db2.
- */
-static int db_cmp(const void *db1, const void *db2)
-{
-	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
-}
-
 /** Unregister a package database
  * @param db pointer to the package database to unregister
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
@@ -248,7 +236,7 @@ int alpm_db_unregister(pmdb_t *db)
 		found = 1;
 	} else {
 		pmdb_t *data;
-		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, db_cmp, (void **)&data);
+		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, (void **)&data);
 		if(data) {
 			found = 1;
 		}
