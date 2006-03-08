@@ -349,7 +349,6 @@ extern enum __pmerrno_t {
 	PM_ERR_DB_NOT_FOUND,
 	PM_ERR_DB_WRITE,
 	PM_ERR_DB_REMOVE,
-	PM_ERR_DB_UPTODATE,
 	/* Configuration */
 	PM_ERR_OPT_LOGFILE,
 	PM_ERR_OPT_DBPATH,

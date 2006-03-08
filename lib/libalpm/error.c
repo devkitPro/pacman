@@ -57,8 +57,6 @@ char *alpm_strerror(int err)
 			return "could not update database";
 		case PM_ERR_DB_REMOVE:
 			return "could not remove database entry";
-		case PM_ERR_DB_UPTODATE:
-			return "database is up to date";
 		/* Configuration */
 		case PM_ERR_OPT_LOGFILE:
 		case PM_ERR_OPT_DBPATH:
