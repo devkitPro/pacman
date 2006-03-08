@@ -246,7 +246,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	int config = 0;
 	int filelist = 0;
 	int scriptcheck = 0;
-	TAR *tar;
+	TAR *tar = NULL;
 	pmpkg_t *info = NULL;
 	tartype_t gztype = {
 		(openfunc_t)_alpm_gzopen_frontend,
@@ -259,21 +259,19 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
-	if(tar_open(&tar, pkgfile, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
-		RET_ERR(PM_ERR_NOT_A_FILE, NULL);
-	}
-
 	info = _alpm_pkg_new(NULL, NULL);
 	if(info == NULL) {
-		tar_close(tar);
 		return(NULL);
 	}
+	if(_alpm_pkg_splitname(pkgfile, info->name, info->version) == -1) {
+		pm_errno = PM_ERR_PKG_INVALID_NAME;
+		goto error;
+	}
 
-	/* ORE
-	 * We should get the name and version information from the file name
-	 * by using pkg_splitname()
-	 */
-
+	if(tar_open(&tar, pkgfile, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
+		pm_errno = PM_ERR_NOT_A_FILE;
+		goto error;
+	}
 	for(i = 0; !th_read(tar); i++) {
 		if(config && filelist && scriptcheck) {
 			/* we have everything we need */
@@ -290,22 +288,6 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
 				_alpm_log(PM_LOG_ERROR, "could not parse the package description file");
-				pm_errno = PM_ERR_PKG_INVALID;
-				unlink(descfile);
-				FREE(descfile);
-				close(fd);
-				goto error;
-			}
-			if(!strlen(info->name)) {
-				_alpm_log(PM_LOG_ERROR, "missing package name in %s", pkgfile);
-				pm_errno = PM_ERR_PKG_INVALID;
-				unlink(descfile);
-				FREE(descfile);
-				close(fd);
-				goto error;
-			}
-			if(!strlen(info->version)) {
-				_alpm_log(PM_LOG_ERROR, "missing package version in %s", pkgfile);
 				pm_errno = PM_ERR_PKG_INVALID;
 				unlink(descfile);
 				FREE(descfile);
@@ -368,6 +350,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		expath = NULL;
 	}
 	tar_close(tar);
+	tar = NULL;
 
 	if(!config) {
 		_alpm_log(PM_LOG_ERROR, "missing package info file in %s", pkgfile);
@@ -383,8 +366,9 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 
 error:
 	FREEPKG(info);
-	tar_close(tar);
-
+	if(tar) {
+		tar_close(tar);
+	}
 	return(NULL);
 }
 
