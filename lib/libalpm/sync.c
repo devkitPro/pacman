@@ -109,7 +109,6 @@ static pmsyncpkg_t *find_pkginsync(char *needle, PMList *haystack)
 PMList *_alpm_sync_load_dbarchive(char *archive)
 {
 	PMList *lp = NULL;
-	DIR *dir = NULL;
 	TAR *tar = NULL;
 	tartype_t gztype = {
 		(openfunc_t)_alpm_gzopen_frontend,
@@ -123,10 +122,6 @@ PMList *_alpm_sync_load_dbarchive(char *archive)
 		goto error;
 	}
 
-	/* ORE - readdir tmp_dir */
-	/* for each subdir, parse %s/desc and %s/depends */
-	/* then db_write it */
-
 	tar_close(tar);
 
 	return(lp);
@@ -134,9 +129,6 @@ PMList *_alpm_sync_load_dbarchive(char *archive)
 error:
 	if(tar) {
 		tar_close(tar);
-	}
-	if(dir) {
-		closedir(dir);
 	}
 	return(NULL);
 }
