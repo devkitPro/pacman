@@ -32,7 +32,6 @@
 #include "sync.h"
 #include "download.h"
 #include "conf.h"
-#include "pacman.h"
 
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 

@@ -47,7 +47,19 @@
 #include "query.h"
 #include "sync.h"
 #include "deptest.h"
-#include "pacman.h"
+
+#define PACCONF "/etc/pacman.conf"
+
+/* Operations */
+enum {
+	PM_OP_MAIN = 1,
+	PM_OP_ADD,
+	PM_OP_REMOVE,
+	PM_OP_UPGRADE,
+	PM_OP_QUERY,
+	PM_OP_SYNC,
+	PM_OP_DEPTEST
+};
 
 config_t *config = NULL;
 
@@ -61,202 +73,93 @@ int maxcols = 80;
 
 extern int neednl;
 
-int main(int argc, char *argv[])
+/* Version
+ */
+static void version()
 {
-	int ret = 0;
-	char *cenv = NULL;
-#ifndef CYGWIN
-	uid_t myuid;
-#endif
-	list_t *lp;
-
-#ifndef CYGWIN
-	/* debug */
-	mtrace();
-#endif
-
-	cenv = getenv("COLUMNS");
-	if(cenv != NULL) {
-		maxcols = atoi(cenv);
-	}
-
-	/* set signal handlers */
-	signal(SIGINT, cleanup);
-	signal(SIGTERM, cleanup);
-
-	/* init config data */
-	config = config_new();
-	config->op = PM_OP_MAIN;
-	config->debug |= PM_LOG_WARNING;
-	/* disable progressbar if the output is redirected */
-	if(!isatty(1)) {
-		config->noprogressbar = 1;
-	}
-
-	/* parse the command line */
-	ret = parseargs(argc, argv);
-	if(ret != 0) {
-		config_free(config);
-		exit(ret);
-	}
-
-#ifndef CYGWIN
-	/* see if we're root or not */
-	myuid = geteuid();
-#ifndef FAKEROOT
-	if(!myuid && getenv("FAKEROOTKEY")) {
-		/* fakeroot doesn't count, we're non-root */
-		myuid = 99;
-	}
-#endif
-
-	/* check if we have sufficient permission for the requested operation */
-	if(myuid > 0) {
-		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
-			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
-					(config->op_s_search || config->op_s_printuris || config->group || config->op_q_list ||
-					 config->op_q_info)) || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)) {
-				/* special case:  PM_OP_SYNC can be used w/ config->op_s_search by any user */
-			} else {
-				ERR(NL, "you cannot perform this operation unless you are root.\n");
-				config_free(config);
-				exit(1);
-			}
-		}
-	}
-#endif
-
-	if(config->root == NULL) {
-		config->root = strdup(PM_ROOT);
-	}
-
-	/* add a trailing '/' if there isn't one */
-	if(config->root[strlen(config->root)-1] != '/') {
-		char *ptr;
-		MALLOC(ptr, strlen(config->root)+2);
-		strcpy(ptr, config->root);
-		strcat(ptr, "/");
-		FREE(config->root);
-		config->root = ptr;
-	}
-
-	/* initialize pm library */
-	if(alpm_initialize(config->root) == -1) {
-		ERR(NL, "failed to initilize alpm library (%s)\n", alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-
-	if(config->configfile == NULL) {
-		config->configfile = strdup(PACCONF);
-	}
-	if(parseconfig(config->configfile, config) == -1) {
-		cleanup(1);
-	}
-
-	/* set library parameters */
-	if(alpm_set_option(PM_OPT_LOGMASK, (long)config->debug) == -1) {
-		ERR(NL, "failed to set option LOGMASK (%s)\n", alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_LOGCB, (long)cb_log) == -1) {
-		ERR(NL, "failed to set option LOGCB (%s)\n", alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DBPATH, (long)config->dbpath) == -1) {
-		ERR(NL, "failed to set option DBPATH (%s)\n", alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_CACHEDIR, (long)config->cachedir) == -1) {
-		ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-
-	for(lp = config->op_s_ignore; lp; lp = lp->next) {
-		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
-			ERR(NL, "failed to set option IGNOREPKG (%s)\n", alpm_strerror(pm_errno));
-			cleanup(1);
-		}
-	}
-	
-	if(config->verbose > 0) {
-		printf("Root  : %s\n", config->root);
-		printf("DBPath: %s\n", config->dbpath);
-		list_display("Targets:", pm_targets);
-	}
-
-	/* Opening local database */
-	db_local = alpm_db_register("local");
-	if(db_local == NULL) {
-		ERR(NL, "could not register 'local' database (%s)\n", alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-
-	if(list_count(pm_targets) == 0 && !(config->op == PM_OP_QUERY || (config->op == PM_OP_SYNC
-	   && (config->op_s_sync || config->op_s_upgrade || config->op_s_clean || config->group 
-	   || config->op_q_list)))) {
-		ERR(NL, "no targets specified (use -h for help)\n");
-		cleanup(1);
-	}
-
-	/* start the requested operation */
-	switch(config->op) {
-		case PM_OP_ADD:     ret = pacman_add(pm_targets);     break;
-		case PM_OP_REMOVE:  ret = pacman_remove(pm_targets);  break;
-		case PM_OP_UPGRADE: ret = pacman_upgrade(pm_targets); break;
-		case PM_OP_QUERY:   ret = pacman_query(pm_targets);   break;
-		case PM_OP_SYNC:    ret = pacman_sync(pm_targets);    break;
-		case PM_OP_DEPTEST: ret = pacman_deptest(pm_targets); break;
-		default:
-			ERR(NL, "no operation specified (use -h for help)\n");
-			ret = 1;
-	}
-
-	cleanup(ret);
-	/* not reached */
-	return(0);
+	printf("\n");
+	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, PM_VERSION);
+	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\n");
+	printf("\\  '-. '-'  '-'  '-'  \n");
+	printf(" '--'                  This program may be freely redistributed under\n");
+	printf("                       the terms of the GNU General Public License\n");
+	printf("\n");
 }
 
-void cleanup(int signum)
+/* Display usage/syntax for the specified operation.
+ *     op:     the operation code requested
+ *     myname: basename(argv[0])
+ */
+static void usage(int op, char *myname)
 {
-	list_t *lp;
-
-	if(signum != 0 && config->op_d_vertest == 0) {
-		fprintf(stderr, "\n");
-	}
-
-	/* free alpm library resources */
-	if(alpm_release() == -1) {
-		ERR(NL, "%s\n", alpm_strerror(pm_errno));
-	}
-
-	/* free memory */
-	for(lp = pmc_syncs; lp; lp = lp->next) {
-		sync_t *sync = lp->data;
-		list_t *i;
-		for(i = sync->servers; i; i = i->next) {
-			server_t *server = i->data;
-			FREE(server->protocol);
-			FREE(server->server);
-			FREE(server->path);
+	if(op == PM_OP_MAIN) {
+		printf("usage:  %s {-h --help}\n", myname);
+		printf("        %s {-V --version}\n", myname);
+		printf("        %s {-A --add}     [options] <file>\n", myname);
+		printf("        %s {-R --remove}  [options] <package>\n", myname);
+		printf("        %s {-U --upgrade} [options] <file>\n", myname);
+		printf("        %s {-F --freshen} [options] <file>\n", myname);
+		printf("        %s {-Q --query}   [options] [package]\n", myname);
+		printf("        %s {-S --sync}    [options] [package]\n", myname);
+		printf("\nuse '%s --help' with other options for more syntax\n", myname);
+	} else {
+		if(op == PM_OP_ADD) {
+			printf("usage:  %s {-A --add} [options] <file>\n", myname);
+			printf("options:\n");
+			printf("  -d, --nodeps        skip dependency checks\n");
+			printf("  -f, --force         force install, overwrite conflicting files\n");
+		} else if(op == PM_OP_REMOVE) {
+			printf("usage:  %s {-R --remove} [options] <package>\n", myname);
+			printf("options:\n");
+			printf("  -c, --cascade       remove packages and all packages that depend on them\n");
+			printf("  -d, --nodeps        skip dependency checks\n");
+			printf("  -k, --dbonly        only remove database entry, do not remove files\n");
+			printf("  -n, --nosave        remove configuration files as well\n");
+			printf("  -s, --recursive     remove dependencies also (that won't break packages)\n");
+		} else if(op == PM_OP_UPGRADE) {
+			if(config->flags & PM_TRANS_FLAG_FRESHEN) {
+				printf("usage:  %s {-F --freshen} [options] <file>\n", myname);
+			} else {
+				printf("usage:  %s {-U --upgrade} [options] <file>\n", myname);
+			}
+			printf("options:\n");
+			printf("  -d, --nodeps        skip dependency checks\n");
+			printf("  -f, --force         force install, overwrite conflicting files\n");
+		} else if(op == PM_OP_QUERY) {
+			printf("usage:  %s {-Q --query} [options] [package]\n", myname);
+			printf("options:\n");
+			printf("  -e, --orphans       list all packages that were explicitly installed\n");
+			printf("                      and are not required by any other packages\n");
+			printf("  -g, --groups        view all members of a package group\n");
+			printf("  -i, --info          view package information\n");
+			printf("  -l, --list          list the contents of the queried package\n");
+			printf("  -m, --foreign       list all packages that were not found in the sync repos\n");
+			printf("  -o, --owns <file>   query the package that owns <file>\n");
+			printf("  -p, --file          pacman will query the package file [package] instead of\n");
+			printf("                      looking in the database\n");
+			printf("  -s, --search        search locally-installed packages for matching strings\n");
+		} else if(op == PM_OP_SYNC) {
+			printf("usage:  %s {-S --sync} [options] [package]\n", myname);
+			printf("options:\n");
+			printf("  -c, --clean         remove old packages from cache directory (use -cc for all)\n");
+			printf("  -d, --nodeps        skip dependency checks\n");
+			printf("  -f, --force         force install, overwrite conflicting files\n");
+			printf("  -g, --groups        view all members of a package group\n");
+			printf("  -p, --print-uris    print out URIs for given packages and their dependencies\n");
+			printf("  -s, --search        search remote repositories for matching strings\n");
+			printf("  -u, --sysupgrade    upgrade all packages that are out of date\n");
+			printf("  -w, --downloadonly  download packages but do not install/upgrade anything\n");
+			printf("  -y, --refresh       download fresh package databases from the server\n");
+			printf("      --ignore <pkg>  ignore a package upgrade (can be used more than once)\n");
 		}
-		FREELIST(sync->servers);
-		FREE(sync->treename);
+		printf("      --config <path> set an alternate configuration file\n");
+		printf("      --noconfirm     do not ask for anything confirmation\n");
+		printf("      --noprogressbar do not show a progress bar when downloading files\n");
+		printf("      --noscriptlet   do not execute the install scriptlet if there is any\n");
+		printf("  -v, --verbose       be verbose\n");
+		printf("  -r, --root <path>   set an alternate installation root\n");
+		printf("  -b, --dbpath <path> set an alternate database location\n");
 	}
-	FREELIST(pmc_syncs);
-	FREELIST(pm_targets);
-	FREECONF(config);
-
-#ifndef CYGWIN
-	/* debug */
-	muntrace();
-#endif
-
-	if(neednl) {
-		putchar('\n');
-	}
-	fflush(stdout);
-
-	exit(signum);
 }
 
 /* Parse command-line arguments for each operation
@@ -265,7 +168,7 @@ void cleanup(int signum)
  *     
  * Returns: 0 on success, 1 on error
  */
-int parseargs(int argc, char *argv[])
+static int parseargs(int argc, char *argv[])
 {
 	int opt;
 	int option_index = 0;
@@ -429,123 +332,202 @@ int parseargs(int argc, char *argv[])
 	return(0);
 }
 
-/* Display usage/syntax for the specified operation.
- *     op:     the operation code requested
- *     myname: basename(argv[0])
- */
-void usage(int op, char *myname)
+static void cleanup(int signum)
 {
-	if(op == PM_OP_MAIN) {
-		printf("usage:  %s {-h --help}\n", myname);
-		printf("        %s {-V --version}\n", myname);
-		printf("        %s {-A --add}     [options] <file>\n", myname);
-		printf("        %s {-R --remove}  [options] <package>\n", myname);
-		printf("        %s {-U --upgrade} [options] <file>\n", myname);
-		printf("        %s {-F --freshen} [options] <file>\n", myname);
-		printf("        %s {-Q --query}   [options] [package]\n", myname);
-		printf("        %s {-S --sync}    [options] [package]\n", myname);
-		printf("\nuse '%s --help' with other options for more syntax\n", myname);
-	} else {
-		if(op == PM_OP_ADD) {
-			printf("usage:  %s {-A --add} [options] <file>\n", myname);
-			printf("options:\n");
-			printf("  -d, --nodeps        skip dependency checks\n");
-			printf("  -f, --force         force install, overwrite conflicting files\n");
-		} else if(op == PM_OP_REMOVE) {
-			printf("usage:  %s {-R --remove} [options] <package>\n", myname);
-			printf("options:\n");
-			printf("  -c, --cascade       remove packages and all packages that depend on them\n");
-			printf("  -d, --nodeps        skip dependency checks\n");
-			printf("  -k, --dbonly        only remove database entry, do not remove files\n");
-			printf("  -n, --nosave        remove configuration files as well\n");
-			printf("  -s, --recursive     remove dependencies also (that won't break packages)\n");
-		} else if(op == PM_OP_UPGRADE) {
-			if(config->flags & PM_TRANS_FLAG_FRESHEN) {
-				printf("usage:  %s {-F --freshen} [options] <file>\n", myname);
-			} else {
-				printf("usage:  %s {-U --upgrade} [options] <file>\n", myname);
-			}
-			printf("options:\n");
-			printf("  -d, --nodeps        skip dependency checks\n");
-			printf("  -f, --force         force install, overwrite conflicting files\n");
-		} else if(op == PM_OP_QUERY) {
-			printf("usage:  %s {-Q --query} [options] [package]\n", myname);
-			printf("options:\n");
-			printf("  -e, --orphans       list all packages that were explicitly installed\n");
-			printf("                      and are not required by any other packages\n");
-			printf("  -g, --groups        view all members of a package group\n");
-			printf("  -i, --info          view package information\n");
-			printf("  -l, --list          list the contents of the queried package\n");
-			printf("  -m, --foreign       list all packages that were not found in the sync repos\n");
-			printf("  -o, --owns <file>   query the package that owns <file>\n");
-			printf("  -p, --file          pacman will query the package file [package] instead of\n");
-			printf("                      looking in the database\n");
-			printf("  -s, --search        search locally-installed packages for matching strings\n");
-		} else if(op == PM_OP_SYNC) {
-			printf("usage:  %s {-S --sync} [options] [package]\n", myname);
-			printf("options:\n");
-			printf("  -c, --clean         remove old packages from cache directory (use -cc for all)\n");
-			printf("  -d, --nodeps        skip dependency checks\n");
-			printf("  -f, --force         force install, overwrite conflicting files\n");
-			printf("  -g, --groups        view all members of a package group\n");
-			printf("  -p, --print-uris    print out URIs for given packages and their dependencies\n");
-			printf("  -s, --search        search remote repositories for matching strings\n");
-			printf("  -u, --sysupgrade    upgrade all packages that are out of date\n");
-			printf("  -w, --downloadonly  download packages but do not install/upgrade anything\n");
-			printf("  -y, --refresh       download fresh package databases from the server\n");
-			printf("      --ignore <pkg>  ignore a package upgrade (can be used more than once)\n");
-		}
-		printf("      --config <path> set an alternate configuration file\n");
-		printf("      --noconfirm     do not ask for anything confirmation\n");
-		printf("      --noprogressbar do not show a progress bar when downloading files\n");
-		printf("      --noscriptlet   do not execute the install scriptlet if there is any\n");
-		printf("  -v, --verbose       be verbose\n");
-		printf("  -r, --root <path>   set an alternate installation root\n");
-		printf("  -b, --dbpath <path> set an alternate database location\n");
-	}
-}
-
-/* Version
- */
-void version()
-{
-	printf("\n");
-	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, PM_VERSION);
-	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\n");
-	printf("\\  '-. '-'  '-'  '-'  \n");
-	printf(" '--'                  This program may be freely redistributed under\n");
-	printf("                       the terms of the GNU General Public License\n");
-	printf("\n");
-}
-
-/*
- * Misc functions
- */
-
-/* Condense a list of strings into one long (space-delimited) string
- */
-char *buildstring(list_t *strlist)
-{
-	char *str;
-	int size = 1;
 	list_t *lp;
 
-	for(lp = strlist; lp; lp = lp->next) {
-		size += strlen(lp->data) + 1;
+	if(signum != 0 && config->op_d_vertest == 0) {
+		fprintf(stderr, "\n");
 	}
-	str = (char *)malloc(size);
-	if(str == NULL) {
-		ERR(NL, "failed to allocated %d bytes\n", size);
-	}
-	str[0] = '\0';
-	for(lp = strlist; lp; lp = lp->next) {
-		strcat(str, lp->data);
-		strcat(str, " ");
-	}
-	/* shave off the last space */
-	str[strlen(str)-1] = '\0';
 
-	return(str);
+	/* free alpm library resources */
+	if(alpm_release() == -1) {
+		ERR(NL, "%s\n", alpm_strerror(pm_errno));
+	}
+
+	/* free memory */
+	for(lp = pmc_syncs; lp; lp = lp->next) {
+		sync_t *sync = lp->data;
+		list_t *i;
+		for(i = sync->servers; i; i = i->next) {
+			server_t *server = i->data;
+			FREE(server->protocol);
+			FREE(server->server);
+			FREE(server->path);
+		}
+		FREELIST(sync->servers);
+		FREE(sync->treename);
+	}
+	FREELIST(pmc_syncs);
+	FREELIST(pm_targets);
+	FREECONF(config);
+
+#ifndef CYGWIN
+	/* debug */
+	muntrace();
+#endif
+
+	if(neednl) {
+		putchar('\n');
+	}
+	fflush(stdout);
+
+	exit(signum);
+}
+
+int main(int argc, char *argv[])
+{
+	int ret = 0;
+	char *cenv = NULL;
+#ifndef CYGWIN
+	uid_t myuid;
+#endif
+	list_t *lp;
+
+#ifndef CYGWIN
+	/* debug */
+	mtrace();
+#endif
+
+	cenv = getenv("COLUMNS");
+	if(cenv != NULL) {
+		maxcols = atoi(cenv);
+	}
+
+	/* set signal handlers */
+	signal(SIGINT, cleanup);
+	signal(SIGTERM, cleanup);
+
+	/* init config data */
+	config = config_new();
+	config->op = PM_OP_MAIN;
+	config->debug |= PM_LOG_WARNING;
+	/* disable progressbar if the output is redirected */
+	if(!isatty(1)) {
+		config->noprogressbar = 1;
+	}
+
+	/* parse the command line */
+	ret = parseargs(argc, argv);
+	if(ret != 0) {
+		config_free(config);
+		exit(ret);
+	}
+
+#ifndef CYGWIN
+	/* see if we're root or not */
+	myuid = geteuid();
+#ifndef FAKEROOT
+	if(!myuid && getenv("FAKEROOTKEY")) {
+		/* fakeroot doesn't count, we're non-root */
+		myuid = 99;
+	}
+#endif
+
+	/* check if we have sufficient permission for the requested operation */
+	if(myuid > 0) {
+		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
+			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
+					(config->op_s_search || config->op_s_printuris || config->group || config->op_q_list ||
+					 config->op_q_info)) || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)) {
+				/* special case:  PM_OP_SYNC can be used w/ config->op_s_search by any user */
+			} else {
+				ERR(NL, "you cannot perform this operation unless you are root.\n");
+				config_free(config);
+				exit(1);
+			}
+		}
+	}
+#endif
+
+	if(config->root == NULL) {
+		config->root = strdup(PM_ROOT);
+	}
+
+	/* add a trailing '/' if there isn't one */
+	if(config->root[strlen(config->root)-1] != '/') {
+		char *ptr;
+		MALLOC(ptr, strlen(config->root)+2);
+		strcpy(ptr, config->root);
+		strcat(ptr, "/");
+		FREE(config->root);
+		config->root = ptr;
+	}
+
+	/* initialize pm library */
+	if(alpm_initialize(config->root) == -1) {
+		ERR(NL, "failed to initilize alpm library (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+
+	if(config->configfile == NULL) {
+		config->configfile = strdup(PACCONF);
+	}
+	if(parseconfig(config->configfile, config) == -1) {
+		cleanup(1);
+	}
+
+	/* set library parameters */
+	if(alpm_set_option(PM_OPT_LOGMASK, (long)config->debug) == -1) {
+		ERR(NL, "failed to set option LOGMASK (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_LOGCB, (long)cb_log) == -1) {
+		ERR(NL, "failed to set option LOGCB (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DBPATH, (long)config->dbpath) == -1) {
+		ERR(NL, "failed to set option DBPATH (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_CACHEDIR, (long)config->cachedir) == -1) {
+		ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+
+	for(lp = config->op_s_ignore; lp; lp = lp->next) {
+		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
+			ERR(NL, "failed to set option IGNOREPKG (%s)\n", alpm_strerror(pm_errno));
+			cleanup(1);
+		}
+	}
+	
+	if(config->verbose > 0) {
+		printf("Root  : %s\n", config->root);
+		printf("DBPath: %s\n", config->dbpath);
+		list_display("Targets:", pm_targets);
+	}
+
+	/* Opening local database */
+	db_local = alpm_db_register("local");
+	if(db_local == NULL) {
+		ERR(NL, "could not register 'local' database (%s)\n", alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+
+	if(list_count(pm_targets) == 0 && !(config->op == PM_OP_QUERY || (config->op == PM_OP_SYNC
+	   && (config->op_s_sync || config->op_s_upgrade || config->op_s_clean || config->group 
+	   || config->op_q_list)))) {
+		ERR(NL, "no targets specified (use -h for help)\n");
+		cleanup(1);
+	}
+
+	/* start the requested operation */
+	switch(config->op) {
+		case PM_OP_ADD:     ret = pacman_add(pm_targets);     break;
+		case PM_OP_REMOVE:  ret = pacman_remove(pm_targets);  break;
+		case PM_OP_UPGRADE: ret = pacman_upgrade(pm_targets); break;
+		case PM_OP_QUERY:   ret = pacman_query(pm_targets);   break;
+		case PM_OP_SYNC:    ret = pacman_sync(pm_targets);    break;
+		case PM_OP_DEPTEST: ret = pacman_deptest(pm_targets); break;
+		default:
+			ERR(NL, "no operation specified (use -h for help)\n");
+			ret = 1;
+	}
+
+	cleanup(ret);
+	/* not reached */
+	return(0);
 }
 
 /* vim: set ts=2 sw=2 noet: */

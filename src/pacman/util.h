@@ -21,6 +21,8 @@
 #ifndef _PM_UTIL_H
 #define _PM_UTIL_H
 
+#include "list.h"
+
 #define MALLOC(p, b) do { \
 	if((b) > 0) { \
 		p = malloc(b); \
@@ -43,8 +45,9 @@
 int makepath(char *path);
 int rmrf(char *path);
 void indentprint(char *str, int indent);
-char *strtrim(char *str);
+char *buildstring(list_t *strlist);
 char *strtoupper(char *str);
+char *strtrim(char *str);
 int reg_match(char *string, char *pattern);
 
 #endif /* _PM_UTIL_H */

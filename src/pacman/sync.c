@@ -40,15 +40,11 @@
 #include "db.h"
 #include "trans.h"
 #include "sync.h"
-#include "pacman.h"
 #include "conf.h"
 
 extern config_t *config;
 
-extern PM_DB *db_local;
 extern list_t *pmc_syncs;
-
-extern int maxcols;
 
 static int sync_cleancache(int level)
 {
