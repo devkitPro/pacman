@@ -48,14 +48,14 @@ pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
-	db->path = (char *)malloc(strlen(root)+strlen(dbpath)+1);
+	db->path = (char *)malloc(strlen(root)+strlen(dbpath)+strlen(treename)+2);
 	if(db->path == NULL) {
 		_alpm_log(PM_LOG_ERROR, "malloc failed: could not allocate %d bytes",
-		                        strlen(root)+strlen(dbpath)+1);
+		                        strlen(root)+strlen(dbpath)+strlen(treename)+2);
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
-	sprintf(db->path, "%s%s", root, dbpath);
+	sprintf(db->path, "%s%s/%s", root, dbpath, treename);
 
 	STRNCPY(db->treename, treename, DB_TREENAME_LEN);
 

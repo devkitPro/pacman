@@ -164,6 +164,7 @@ pmdb_t *alpm_db_register(char *treename)
 	struct stat buf;
 	pmdb_t *db;
 	int found = 0;
+	char path[PATH_MAX];
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
@@ -190,16 +191,18 @@ pmdb_t *alpm_db_register(char *treename)
 
 	_alpm_log(PM_LOG_FLOW1, "registering database '%s'", treename);
 
+	/* make sure the database directory exists */
+	snprintf(path, PATH_MAX, "%s%s/%s", handle->root, handle->dbpath, treename);
+	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
+		_alpm_log(PM_LOG_FLOW1, "database directory '%s' does not exist -- try creating it", path);
+		if(_alpm_makepath(path) != 0) {
+			RET_ERR(PM_ERR_SYSTEM, NULL);
+		}
+	}
+
 	db = _alpm_db_new(handle->root, handle->dbpath, treename);
 	if(db == NULL) {
 		return(NULL);
-	}
-
-	/* make sure the database directory exists */
-	if(stat(db->path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		if(_alpm_makepath(db->path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, NULL);
-		}
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "opening database '%s'", db->treename);

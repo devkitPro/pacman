@@ -38,26 +38,13 @@
 
 int _alpm_db_open(pmdb_t *db, int mode)
 {
-	char path[PATH_MAX];
-
 	if(db == NULL) {
 		return(-1);
 	}
 
-	snprintf(path, PATH_MAX, "%s/%s", db->path, db->treename);
-	
-	db->handle = opendir(path);
+	db->handle = opendir(db->path);
 	if(db->handle == NULL) {
-		if(mode & DB_O_CREATE) {
-			_alpm_log(PM_LOG_WARNING, "could not open database '%s' -- try creating it", db->treename);
-			_alpm_log(PM_LOG_DEBUG, "creating database '%s'", db->treename);
-			if(mkdir(path, 0755) == 0) {
-				db->handle = opendir(path);
-			}
-		}
-		if(!(mode & DB_O_CREATE) || db->handle == NULL) {
-			return(-1);
-		}
+		return(-1);
 	}
 
 	return(0);
@@ -106,7 +93,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 				continue;
 			}
 			/* stat the entry, make sure it's a directory */
-			snprintf(path, PATH_MAX, "%s/%s/%s", db->path, db->treename, ent->d_name);
+			snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
 			if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
 				continue;
 			}
@@ -139,7 +126,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 				continue;
 			}
 			/* stat the entry, make sure it's a directory */
-			snprintf(path, PATH_MAX, "%s/%s/%s", db->path, db->treename, ent->d_name);
+			snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
 			if(!stat(path, &sbuf) && S_ISDIR(sbuf.st_mode)) {
 				isdir = 1;
 			}
@@ -172,7 +159,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 		return(-1);
 	}
 
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s", db->path, db->treename, info->name, info->version);
+	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
 		/* directory doesn't exist or can't be opened */
 		return(-1);
@@ -180,7 +167,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/desc", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
 			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
@@ -276,7 +263,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 
 	/* FILES */
 	if(inforeq & INFRQ_FILES) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/files", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
 			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
@@ -300,7 +287,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 
 	/* DEPENDS */
 	if(inforeq & INFRQ_DEPENDS) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/depends", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
 			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
@@ -374,7 +361,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		return(-1);
 	}
 
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s", db->path, db->treename, info->name, info->version);
+	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	oldmask = umask(0000);
 	mkdir(path, 0755);
 	/* make sure we have a sane umask */
@@ -386,7 +373,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/desc", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/desc", db->treename);
 			retval = 1;
@@ -457,7 +444,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 
 	/* FILES */
 	if(local && (inforeq & INFRQ_FILES)) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/files", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/files", db->treename);
 			retval = -1;
@@ -483,7 +470,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 
 	/* DEPENDS */
 	if(inforeq & INFRQ_DEPENDS) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/depends", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/depends", db->treename);
 			retval = -1;
@@ -535,7 +522,9 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	}
 
 	/* INSTALL */
-	/* nothing needed here (script is automatically extracted) */
+	if(local & (inforeq & INFRQ_SCRIPLET)) {
+		/* nothing needed here (script is automatically extracted) */
+	}
 
 cleanup:
 	umask(oldmask);
@@ -550,32 +539,34 @@ cleanup:
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 {
 	char path[PATH_MAX];
+	int local = 0;
 
 	if(db == NULL || info == NULL) {
 		return(-1);
 	}
 
+	if(strcmp(db->treename, "local") == 0) {
+		local = 1;
+	}
 
 	/* DESC */
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s/desc",
-	                         db->path, db->treename, info->name, info->version);
-	unlink(path);
-	/* FILES */
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s/files",
-	                         db->path, db->treename, info->name, info->version);
+	snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 	unlink(path);
 	/* DEPENDS */
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s/depends",
-	                         db->path, db->treename, info->name, info->version);
+	snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 	unlink(path);
-	/* INSTALL */
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s/install",
-	                         db->path, db->treename, info->name, info->version);
-	unlink(path);
+	if(local) {
+		/* FILES */
+		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
+		unlink(path);
+		/* INSTALL */
+		snprintf(path, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
+		unlink(path);
+	}
 
 	/* Package directory */
-	snprintf(path, PATH_MAX, "%s/%s/%s-%s",
-	                         db->path, db->treename, info->name, info->version);
+	snprintf(path, PATH_MAX, "%s/%s-%s",
+	                         db->path, info->name, info->version);
 	if(rmdir(path) == -1) {
 		return(-1);
 	}
