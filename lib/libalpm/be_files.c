@@ -330,7 +330,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 
 	/* INSTALL */
 	if(inforeq & INFRQ_SCRIPLET) {
-		snprintf(path, PATH_MAX, "%s/%s/%s-%s/install", db->path, db->treename, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
 		if(!stat(path, &buf)) {
 			info->scriptlet = 1;
 		}
