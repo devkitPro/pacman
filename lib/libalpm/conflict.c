@@ -25,6 +25,7 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <libintl.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -59,7 +60,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				continue;
 			}
 			/* CHECK 1: check targets against database */
-			_alpm_log(PM_LOG_DEBUG, "checkconflicts: targ '%s' vs db", tp->name);
+			_alpm_log(PM_LOG_DEBUG, _("checkconflicts: targ '%s' vs db"), tp->name);
 			for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
 				pmpkg_t *dp = (pmpkg_t *)k->data;
 				if(!strcmp(dp->name, tp->name)) {
@@ -68,7 +69,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				}
 				if(!strcmp(j->data, dp->name)) {
 					/* conflict */
-					_alpm_log(PM_LOG_DEBUG, "targs vs db: found %s as a conflict for %s",
+					_alpm_log(PM_LOG_DEBUG, _("targs vs db: found %s as a conflict for %s"),
 					          dp->name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, dp->name, NULL);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -82,7 +83,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 					for(m = dp->provides; m; m = m->next) {
 						if(!strcmp(m->data, j->data)) {
 							/* confict */
-							_alpm_log(PM_LOG_DEBUG, "targs vs db: found %s as a conflict for %s",
+							_alpm_log(PM_LOG_DEBUG, _("targs vs db: found %s as a conflict for %s"),
 							          dp->name, tp->name);
 							miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, dp->name, NULL);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -95,7 +96,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				}
 			}
 			/* CHECK 2: check targets against targets */
-			_alpm_log(PM_LOG_DEBUG, "checkconflicts: targ '%s' vs targs", tp->name);
+			_alpm_log(PM_LOG_DEBUG, _("checkconflicts: targ '%s' vs targs"), tp->name);
 			for(k = packages; k; k = k->next) {
 				pmpkg_t *otp = (pmpkg_t *)k->data;
 				if(!strcmp(otp->name, tp->name)) {
@@ -104,7 +105,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				}
 				if(!strcmp(otp->name, (char *)j->data)) {
 					/* otp is listed in tp's conflict list */
-					_alpm_log(PM_LOG_DEBUG, "targs vs targs: found %s as a conflict for %s",
+					_alpm_log(PM_LOG_DEBUG, _("targs vs targs: found %s as a conflict for %s"),
 					          otp->name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, otp->name, NULL);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -117,7 +118,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 					PMList *m;
 					for(m = otp->provides; m; m = m->next) {
 						if(!strcmp(m->data, j->data)) {
-							_alpm_log(PM_LOG_DEBUG, "targs vs targs: found %s as a conflict for %s",
+							_alpm_log(PM_LOG_DEBUG, _("targs vs targs: found %s as a conflict for %s"),
 							          otp->name, tp->name);
 							miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, otp->name, NULL);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -131,7 +132,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 			}
 		}
 		/* CHECK 3: check database against targets */
-		_alpm_log(PM_LOG_DEBUG, "checkconflicts: db vs targ '%s'", tp->name);
+		_alpm_log(PM_LOG_DEBUG, _("checkconflicts: db vs targ '%s'"), tp->name);
 		for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
 			PMList *conflicts = NULL;
 			int usenewconflicts = 0;
@@ -158,7 +159,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 			}
 			for(j = conflicts; j; j = j->next) {
 				if(!strcmp((char *)j->data, tp->name)) {
-					_alpm_log(PM_LOG_DEBUG, "db vs targs: found %s as a conflict for %s",
+					_alpm_log(PM_LOG_DEBUG, _("db vs targs: found %s as a conflict for %s"),
 					          info->name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, info->name, NULL);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -173,7 +174,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 						PMList *n;
 						for(n = tp->provides; n; n = n->next) {
 							if(!strcmp(m->data, n->data)) {
-								_alpm_log(PM_LOG_DEBUG, "db vs targs: found %s as a conflict for %s",
+								_alpm_log(PM_LOG_DEBUG, _("db vs targs: found %s as a conflict for %s"),
 								          info->name, tp->name);
 								miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, info->name, NULL);
 								if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -222,7 +223,7 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 					if(_alpm_list_is_strin(filestr, p2->files)) {
 						pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 						if(conflict == NULL) {
-							_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes",
+							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
 							                        sizeof(pmconflict_t));
 							continue;
 						}
@@ -269,7 +270,7 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 						dbpkg = _alpm_db_get_pkgfromcache(db, p->name);
 					}
 					if(dbpkg && !(dbpkg->infolevel & INFRQ_FILES)) {
-						_alpm_log(PM_LOG_DEBUG, "loading FILES info for '%s'", dbpkg->name);
+						_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), dbpkg->name);
 						_alpm_db_read(db, INFRQ_FILES, dbpkg);
 					}
 					if(dbpkg && _alpm_list_is_strin(j->data, dbpkg->files)) {
@@ -299,7 +300,7 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 								pmpkg_t *dbpkg2 = NULL;
 								dbpkg2 = _alpm_db_get_pkgfromcache(db, p1->name);
 								if(dbpkg2 && !(dbpkg2->infolevel & INFRQ_FILES)) {
-									_alpm_log(PM_LOG_DEBUG, "loading FILES info for '%s'", dbpkg2->name);
+									_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), dbpkg2->name);
 									_alpm_db_read(db, INFRQ_FILES, dbpkg2);
 								}
 								/* If it used to exist in there, but doesn't anymore */
@@ -331,7 +332,7 @@ donecheck:
 				if(!ok) {
 					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 					if(conflict == NULL) {
-						_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes",
+						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
 						                        sizeof(pmconflict_t));
 						continue;
 					}

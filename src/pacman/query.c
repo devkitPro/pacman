@@ -24,6 +24,7 @@
 #include <limits.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <libintl.h>
 
 #include <alpm.h>
 /* pacman */
@@ -52,12 +53,12 @@ static int query_fileowner(PM_DB *db, char *filename)
 		return(0);
 	}
 	if(filename == NULL || strlen(filename) == 0) {
-		ERR(NL, "no file was specified for --owns\n");
+		ERR(NL, _("no file was specified for --owns\n"));
 		return(1);
 	}
 
 	if(stat(filename, &buf) == -1 || S_ISDIR(buf.st_mode) || realpath(filename, rpath) == NULL) {
-		ERR(NL, "%s is not a file.\n", filename);
+		ERR(NL, _("%s is not a file.\n"), filename);
 		return(1);
 	}
 
@@ -74,7 +75,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 
 			snprintf(path, PATH_MAX, "%s%s", root, (char *)alpm_list_getdata(i));
 			if(!strcmp(path, rpath)) {
-				printf("%s is owned by %s %s\n", filename, (char *)alpm_pkg_getinfo(info, PM_PKG_NAME),
+				printf(_("%s is owned by %s %s\n"), filename, (char *)alpm_pkg_getinfo(info, PM_PKG_NAME),
 				       (char *)alpm_pkg_getinfo(info, PM_PKG_VERSION));
 				gotcha = 1;
 				break;
@@ -82,7 +83,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 		}
 	}
 	if(!gotcha) {
-		ERR(NL, "No package owns %s\n", filename);
+		ERR(NL, _("No package owns %s\n"), filename);
 		return(1);
 	}
 
@@ -107,7 +108,7 @@ int pacman_query(list_t *targets)
 
 	if(config->op_q_foreign) {
 		if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
-			ERR(NL, "no usable package repositories configured.\n");
+			ERR(NL, _("no usable package repositories configured.\n"));
 			return(1);
 		}
 
@@ -156,7 +157,7 @@ int pacman_query(list_t *targets)
 						MSG(NL, "%s %s\n", package, (char *)alpm_list_getdata(i));
 					}
 				} else {
-					ERR(NL, "group \"%s\" was not found\n", package);
+					ERR(NL, _("group \"%s\" was not found\n"), package);
 					return(2);
 				}
 			}
@@ -166,11 +167,11 @@ int pacman_query(list_t *targets)
 		/* output info for a .tar.gz package */
 		if(config->op_q_isfile) {
 			if(package == NULL) {
-				ERR(NL, "no package file was specified for --file\n");
+				ERR(NL, _("no package file was specified for --file\n"));
 				return(1);
 			}
 			if(alpm_pkg_load(package, &info) == -1) {
-				ERR(NL, "failed to load package '%s' (%s)\n", package, alpm_strerror(pm_errno));
+				ERR(NL, _("failed to load package '%s' (%s)\n"), package, alpm_strerror(pm_errno));
 				return(1);
 			}
 			if(config->op_q_info) {
@@ -208,7 +209,7 @@ int pacman_query(list_t *targets)
 					info = alpm_db_readpkg(db_local, pkgname);
 					if(info == NULL) {
 						/* something weird happened */
-						ERR(NL, "package \"%s\" not found\n", pkgname);
+						ERR(NL, _("package \"%s\" not found\n"), pkgname);
 						return(1);
 					}
 					if(config->op_q_foreign) {
@@ -252,7 +253,7 @@ int pacman_query(list_t *targets)
 
 			info = alpm_db_readpkg(db_local, package);
 			if(info == NULL) {
-				ERR(NL, "package \"%s\" not found\n", package);
+				ERR(NL, _("package \"%s\" not found\n"), package);
 				return(2);
 			}
 

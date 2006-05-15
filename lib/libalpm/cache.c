@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <libintl.h>
 /* pacman */
 #include "log.h"
 #include "alpm.h"
@@ -51,7 +52,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 
 	_alpm_db_free_pkgcache(db);
 
-	_alpm_log(PM_LOG_DEBUG, "loading package cache (infolevel=%#x) for repository '%s'",
+	_alpm_log(PM_LOG_DEBUG, _("loading package cache (infolevel=%#x) for repository '%s'"),
 	                        infolevel, db->treename);
 
 	_alpm_db_rewind(db);
@@ -71,7 +72,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 		return;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'",
+	_alpm_log(PM_LOG_DEBUG, _("freeing package cache for repository '%s'"),
 	                        db->treename);
 
 	FREELISTPKGS(db->pkgcache);
@@ -106,7 +107,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 	if(newpkg == NULL) {
 		return(-1);
 	}
-	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache", newpkg->name, db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("adding entry '%s' in '%s' cache"), newpkg->name, db->treename);
 	db->pkgcache = _alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
 
 	_alpm_db_free_grpcache(db);
@@ -128,7 +129,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "removing entry '%s' from '%s' cache", pkg->name, db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("removing entry '%s' from '%s' cache"), pkg->name, db->treename);
 	FREEPKG(data);
 
 	_alpm_db_free_grpcache(db);
@@ -159,7 +160,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 		_alpm_db_load_pkgcache(db);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'", db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("loading group cache for repository '%s'"), db->treename);
 
 	for(lp = db->pkgcache; lp; lp = lp->next) {
 		PMList *i;

@@ -27,6 +27,7 @@
 #include <string.h>
 #include <limits.h>
 #include <zlib.h>
+#include <libintl.h>
 #include <libtar.h>
 /* pacman */
 #include "util.h"
@@ -59,11 +60,11 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	if((info = _alpm_db_scan(db, name, INFRQ_ALL)) == NULL) {
-		_alpm_log(PM_LOG_ERROR, "could not find %s in database", name);
+		_alpm_log(PM_LOG_ERROR, _("could not find %s in database"), name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
-	_alpm_log(PM_LOG_FLOW2, "adding %s in the targets list", info->name);
+	_alpm_log(PM_LOG_FLOW2, _("adding %s in the targets list"), info->name);
 	trans->packages = _alpm_list_add(trans->packages, info);
 
 	return(0);
@@ -79,7 +80,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_FLOW1, "looking for unsatisfied dependencies");
+		_alpm_log(PM_LOG_FLOW1, _("looking for unsatisfied dependencies"));
 		lp = _alpm_checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
@@ -89,10 +90,10 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 						pmpkg_t *info = _alpm_db_scan(db, miss->depend.name, INFRQ_ALL);
 						if(info) {
-							_alpm_log(PM_LOG_FLOW2, "pulling %s in the targets list", info->name);
+							_alpm_log(PM_LOG_FLOW2, _("pulling %s in the targets list"), info->name);
 							trans->packages = _alpm_list_add(trans->packages, info);
 						} else {
-							_alpm_log(PM_LOG_ERROR, "could not find %s in database -- skipping",
+							_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping"),
 							          miss->depend.name);
 						}
 					}
@@ -110,12 +111,12 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		}
 
 		if(trans->flags & PM_TRANS_FLAG_RECURSE) {
-			_alpm_log(PM_LOG_FLOW1, "finding removable dependencies");
+			_alpm_log(PM_LOG_FLOW1, _("finding removable dependencies"));
 			trans->packages = _alpm_removedeps(db, trans->packages);
 		}
 
 		/* re-order w.r.t. dependencies */ 
-		_alpm_log(PM_LOG_FLOW1, "sorting by dependencies");
+		_alpm_log(PM_LOG_FLOW1, _("sorting by dependencies"));
 		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 		/* free the old alltargs */
 		FREELISTPTR(trans->packages);
@@ -150,7 +151,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
-			_alpm_log(PM_LOG_FLOW1, "removing package %s-%s", info->name, info->version);
+			_alpm_log(PM_LOG_FLOW1, _("removing package %s-%s"), info->name, info->version);
 
 			/* run the pre-remove scriptlet if it exists  */
 			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
@@ -160,7 +161,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
-			_alpm_log(PM_LOG_FLOW1, "removing files");
+			_alpm_log(PM_LOG_FLOW1, _("removing files"));
 
 			/* iterate through the list backwards, unlinking files */
 			for(lp = _alpm_list_last(info->files); lp; lp = lp->prev) {
@@ -179,15 +180,15 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 				snprintf(line, PATH_MAX, "%s%s", handle->root, file);
 				if(lstat(line, &buf)) {
-					_alpm_log(PM_LOG_DEBUG, "file %s does not exist", file);
+					_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
 					continue;
 				}
 				if(S_ISDIR(buf.st_mode)) {
 					if(rmdir(line)) {
 						/* this is okay, other packages are probably using it. */
-						_alpm_log(PM_LOG_DEBUG, "keeping directory %s", file);
+						_alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), file);
 					} else {
-						_alpm_log(PM_LOG_FLOW2, "removing directory %s", file);
+						_alpm_log(PM_LOG_FLOW2, _("removing directory %s"), file);
 					}
 				} else {
 					/* check the "skip list" before removing the file.
@@ -201,7 +202,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 						}
 					}
 					if(skipit) {
-						_alpm_log(PM_LOG_FLOW2, "skipping removal of %s as it has moved to another package",
+						_alpm_log(PM_LOG_FLOW2, _("skipping removal of %s as it has moved to another package"),
 						          file);
 					} else {
 						/* if the file is flagged, back it up to .pacsave */
@@ -213,19 +214,19 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 									char newpath[PATH_MAX];
 									snprintf(newpath, PATH_MAX, "%s.pacsave", line);
 									rename(line, newpath);
-									_alpm_log(PM_LOG_WARNING, "%s saved as %s", file, newpath);
-									alpm_logaction("%s saved as %s", line, newpath);
+									_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file, newpath);
+									alpm_logaction(_("%s saved as %s"), line, newpath);
 								} else {
-									_alpm_log(PM_LOG_FLOW2, "unlinking %s", file);
+									_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), file);
 									if(unlink(line)) {
-										_alpm_log(PM_LOG_ERROR, "cannot remove file %s", file);
+										_alpm_log(PM_LOG_ERROR, _("cannot remove file %s"), file);
 									}
 								}
 							}
 						} else {
-							_alpm_log(PM_LOG_FLOW2, "unlinking %s", file);
+							_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), file);
 							if(unlink(line)) {
-								_alpm_log(PM_LOG_ERROR, "cannot remove file %s", file);
+								_alpm_log(PM_LOG_ERROR, _("cannot remove file %s"), file);
 							}
 						}
 					}
@@ -243,17 +244,17 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* remove the package from the database */
-		_alpm_log(PM_LOG_FLOW1, "updating database");
-		_alpm_log(PM_LOG_FLOW2, "removing database entry '%s'", info->name);
+		_alpm_log(PM_LOG_FLOW1, _("updating database"));
+		_alpm_log(PM_LOG_FLOW2, _("removing database entry '%s'"), info->name);
 		if(_alpm_db_remove(db, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, "could not remove database entry %s-%s", info->name, info->version);
+			_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s"), info->name, info->version);
 		}
 		if(_alpm_db_remove_pkgfromcache(db, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, "could not remove entry '%s' from cache", info->name);
+			_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache"), info->name);
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
-		_alpm_log(PM_LOG_FLOW2, "updating dependency packages 'requiredby' fields");
+		_alpm_log(PM_LOG_FLOW2, _("updating dependency packages 'requiredby' fields"));
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
@@ -281,7 +282,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
-					_alpm_log(PM_LOG_ERROR, "could not find dependency '%s'", depend.name);
+					_alpm_log(PM_LOG_ERROR, _("could not find dependency '%s'"), depend.name);
 					/* wtf */
 					continue;
 				}
@@ -289,9 +290,9 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* splice out this entry from requiredby */
 			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, (void **)&data);
 			FREE(data);
-			_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'", depinfo->name);
+			_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), depinfo->name);
 			if(_alpm_db_write(db, depinfo, INFRQ_DEPENDS)) {
-				_alpm_log(PM_LOG_ERROR, "could not update 'requiredby' database entry %s-%s",
+				_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
 				          depinfo->name, depinfo->version);
 			}
 		}
@@ -303,7 +304,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 	/* run ldconfig if it exists */
 	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
-		_alpm_log(PM_LOG_FLOW1, "running \"ldconfig -r %s\"", handle->root);
+		_alpm_log(PM_LOG_FLOW1, _("running \"ldconfig -r %s\""), handle->root);
 		_alpm_ldconfig(handle->root);
 	}
 

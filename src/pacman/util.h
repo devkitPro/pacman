@@ -42,6 +42,8 @@
 	s1[(len)-1] = 0; \
 } while(0)
 
+#define _(str) gettext(str)
+
 int makepath(char *path);
 int rmrf(char *path);
 void indentprint(char *str, int indent);

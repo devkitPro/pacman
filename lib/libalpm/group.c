@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libintl.h>
 /* pacman */
 #include "util.h"
 #include "error.h"
@@ -36,7 +37,7 @@ pmgrp_t *_alpm_grp_new()
 
 	grp = (pmgrp_t *)malloc(sizeof(pmgrp_t));
 	if(grp == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes",
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
 		                        sizeof(pmgrp_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}

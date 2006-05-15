@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libintl.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -44,7 +45,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsign
 
 	miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t));
 	if(miss == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
@@ -112,7 +113,7 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 		PMList *tmptargs = NULL;
 		change = 0;
 		if(numscans > numtargs) {
-			_alpm_log(PM_LOG_WARNING, "possible dependency cycle detected");
+			_alpm_log(PM_LOG_WARNING, _("possible dependency cycle detected"));
 			continue;
 		}
 		numscans++;
@@ -239,7 +240,7 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 					FREE(ver);
 				}
 				if(!found) {
-					_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s as required by %s", depend.name, p->name);
+					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), depend.name, p->name);
 					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod, depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = _alpm_list_add(baddeps, miss);
@@ -349,7 +350,7 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 				}
 				/* else if still not found... */
 				if(!found) {
-					_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s as a dependency for %s",
+					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as a dependency for %s"),
 					          depend.name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod, depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -370,7 +371,7 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 
 			for(j = tp->requiredby; j; j = j->next) {
 				if(!_alpm_list_is_strin((char *)j->data, packages)) {
-					_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s as required by %s", (char *)j->data, tp->name);
+					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), (char *)j->data, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = _alpm_list_add(baddeps, miss);
@@ -457,12 +458,12 @@ PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
 				/* package not found... look for a provisio instead */
 				k = _alpm_db_whatprovides(db, depend.name);
 				if(k == NULL) {
-					_alpm_log(PM_LOG_WARNING, "cannot find package \"%s\" or anything that provides it!", depend.name);
+					_alpm_log(PM_LOG_WARNING, _("cannot find package \"%s\" or anything that provides it!"), depend.name);
 					continue;
 				}
 				dep = _alpm_db_get_pkgfromcache(db, ((pmpkg_t *)k->data)->name);
 				if(dep == NULL) {
-					_alpm_log(PM_LOG_ERROR, "dep is NULL!");
+					_alpm_log(PM_LOG_ERROR, _("dep is NULL!"));
 					/* wtf */
 					continue;
 				}
@@ -474,7 +475,7 @@ PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
 
 			/* see if it was explicitly installed */
 			if(dep->reason == PM_PKG_REASON_EXPLICIT) {
-				_alpm_log(PM_LOG_FLOW2, "excluding %s -- explicitly installed", dep->name);
+				_alpm_log(PM_LOG_FLOW2, _("excluding %s -- explicitly installed"), dep->name);
 				needed = 1;
 			}
 
@@ -491,10 +492,10 @@ PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
 					continue;
 				}
 				/* add it to the target list */
-				_alpm_log(PM_LOG_DEBUG, "loading ALL info for '%s'", pkg->name);
+				_alpm_log(PM_LOG_DEBUG, _("loading ALL info for '%s'"), pkg->name);
 				_alpm_db_read(db, INFRQ_ALL, pkg);
 				newtargs = _alpm_list_add(newtargs, pkg);
-				_alpm_log(PM_LOG_FLOW2, "adding '%s' to the targets", pkg->name);
+				_alpm_log(PM_LOG_FLOW2, _("adding '%s' to the targets"), pkg->name);
 				newtargs = _alpm_removedeps(db, newtargs);
 			}
 		}
@@ -536,7 +537,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 		for(j = list; j && !found; j = j->next) {
 			pmpkg_t *sp = (pmpkg_t *)j->data;
 			if(_alpm_list_is_strin(miss->depend.name, sp->provides)) {
-				_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s -- skipping",
+				_alpm_log(PM_LOG_DEBUG, _("%s provides dependency %s -- skipping"),
 				          sp->name, miss->depend.name);
 				found = 1;
 			}
@@ -560,11 +561,11 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 			FREELISTPTR(provides);
 		}
 		if(sync == NULL) {
-			_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)",
+			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"),
 			          miss->target, miss->depend.name);
 			if(data) {
 				if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-					_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
+					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 					FREELIST(*data);
 					pm_errno = PM_ERR_MEMORY;
 					goto error;
@@ -577,7 +578,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 		}
 		if(_alpm_pkg_isin(sync->name, list)) {
 			/* this dep is already in the target list */
-			_alpm_log(PM_LOG_DEBUG, "dependency %s is already in the target list -- skipping",
+			_alpm_log(PM_LOG_DEBUG, _("dependency %s is already in the target list -- skipping"),
 			          sync->name);
 			continue;
 		}
@@ -597,14 +598,14 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 				if(_alpm_resolvedeps(local, dbs_sync, sync, list, trail, trans, data)) {
 					goto error;
 				}
-				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)",
+				_alpm_log(PM_LOG_DEBUG, _("pulling dependency %s (needed by %s)"),
 				          sync->name, syncpkg->name);
 				list = _alpm_list_add(list, sync);
 			} else {
-				_alpm_log(PM_LOG_ERROR, "cannot resolve dependencies for \"%s\"", miss->target);
+				_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);
 				if(data) {
 					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
-						_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmdepmissing_t));
+						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 						FREELIST(*data);
 						pm_errno = PM_ERR_MEMORY;
 						goto error;
@@ -617,7 +618,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 			}
 		} else {
 			/* cycle detected -- skip it */
-			_alpm_log(PM_LOG_DEBUG, "dependency cycle detected: %s", sync->name);
+			_alpm_log(PM_LOG_DEBUG, _("dependency cycle detected: %s"), sync->name);
 		}
 	}
 

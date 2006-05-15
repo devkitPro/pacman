@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libintl.h>
 
 #include <alpm.h>
 /* pacman */
@@ -31,6 +32,7 @@
 #include "trans.h"
 #include "add.h"
 #include "conf.h"
+#include "util.h"
 
 extern config_t *config;
 
@@ -64,34 +66,34 @@ int pacman_add(list_t *targets)
 	                   config->flags, cb_trans_evt, cb_trans_conv) == -1) {
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			MSG(NL, "       if you're sure a package manager is not already running,\n"
-			        "       you can remove %s\n", PM_LOCK);
+			MSG(NL, _("       if you're sure a package manager is not already running,\n"
+			        "       you can remove %s\n"), PM_LOCK);
 		}
 		return(1);
 	}
 
 	/* and add targets to it */
-	MSG(NL, "loading package data... ");
+	MSG(NL, _("loading package data... "));
 	for(i = targets; i; i = i->next) {
 		if(alpm_trans_addtarget(i->data) == -1) {
-			ERR(NL, "failed to add target '%s' (%s)\n", (char *)i->data, alpm_strerror(pm_errno));
+			ERR(NL, _("failed to add target '%s' (%s)\n"), (char *)i->data, alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
 	}
-	MSG(CL, "done.");
+	MSG(CL, _("done."));
 
 	/* Step 2: "compute" the transaction based on targets and flags
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
 		PM_LIST *i;
 
-		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					PM_DEPMISS *miss = alpm_list_getdata(i);
-					MSG(NL, ":: %s: requires %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
+					MSG(NL, _(":: %s: requires %s"), alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
 					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
@@ -105,7 +107,7 @@ int pacman_add(list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					PM_DEPMISS *miss = alpm_list_getdata(i);
-					MSG(NL, ":: %s: conflicts with %s",
+					MSG(NL, _(":: %s: conflicts with %s"),
 						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				alpm_list_free(data);
@@ -115,20 +117,20 @@ int pacman_add(list_t *targets)
 					PM_CONFLICT *conflict = alpm_list_getdata(i);
 					switch((int)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
 						case PM_CONFLICT_TYPE_TARGET:
-							MSG(NL, "%s exists in \"%s\" (target) and \"%s\" (target)",
+							MSG(NL, _("%s exists in \"%s\" (target) and \"%s\" (target)"),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_CTARGET));
 						break;
 						case PM_CONFLICT_TYPE_FILE:
-							MSG(NL, "%s: %s exists in filesystem",
+							MSG(NL, _("%s: %s exists in filesystem"),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE));
 						break;
 					}
 				}
 				alpm_list_free(data);
-				MSG(NL, "\nerrors occurred, no packages were upgraded.\n");
+				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
 			break;
 			default:
 			break;
@@ -140,7 +142,7 @@ int pacman_add(list_t *targets)
 	/* Step 3: actually perform the installation
 	 */
 	if(alpm_trans_commit(NULL) == -1) {
-		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
 	}
@@ -149,7 +151,7 @@ int pacman_add(list_t *targets)
 	 */
 cleanup:
 	if(alpm_trans_release() == -1) {
-		ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;
 	}
 

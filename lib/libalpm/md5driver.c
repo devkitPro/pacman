@@ -23,6 +23,8 @@ documentation and/or software.
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <libintl.h>
+#include "util.h"
 #include "md5.h"
 
 /* Length of test block, number of test blocks.
@@ -43,7 +45,7 @@ char* MDFile(char *filename)
 	unsigned char buffer[1024], digest[16];
 
 	if((file = fopen(filename, "rb")) == NULL) {
-		printf ("%s can't be opened\n", filename);
+		printf (_("%s can't be opened\n"), filename);
 	} else {
 		char *ret;
 		int i;

@@ -24,6 +24,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <libintl.h>
 
 #include <alpm.h>
 /* pacman */
@@ -46,25 +47,25 @@ void cb_log(unsigned short level, char *msg)
 
 	switch(level) {
 		case PM_LOG_DEBUG:
-			sprintf(str, "debug");
+			sprintf(str, _("debug"));
 		break;
 		case PM_LOG_ERROR:
-			sprintf(str, "error");
+			sprintf(str, _("error"));
 		break;
 		case PM_LOG_WARNING:
-			sprintf(str, "warning");
+			sprintf(str, _("warning"));
 		break;
 		case PM_LOG_FLOW1:
-			sprintf(str, "flow1");
+			sprintf(str, _("flow1"));
 		break;
 		case PM_LOG_FLOW2:
-			sprintf(str, "flow2");
+			sprintf(str, _("flow2"));
 		break;
 		case PM_LOG_FUNCTION:
-			sprintf(str, "function");
+			sprintf(str, _("function"));
 		break;
 		default:
-			sprintf(str, "???");
+			sprintf(str, _("???"));
 		break;
 	}
 
@@ -147,7 +148,7 @@ int yesno(char *fmt, ...)
 		*++pch = 0;
 		strtrim(response);
 
-		if(!strcasecmp(response, "Y") || !strcasecmp(response, "YES") || !strlen(response)) {
+		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES")) || !strlen(response)) {
 			return(1);
 		}
 	}

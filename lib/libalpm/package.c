@@ -25,6 +25,7 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <string.h>
+#include <libintl.h>
 #include <libtar.h>
 #include <zlib.h>
 /* pacman */
@@ -89,7 +90,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 	newpkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
 	if(newpkg == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmpkg_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmpkg_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
@@ -169,7 +170,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 	int linenum = 0;
 
 	if((fp = fopen(descfile, "r")) == NULL) {
-		_alpm_log(PM_LOG_ERROR, "could not open file %s", descfile);
+		_alpm_log(PM_LOG_ERROR, _("could not open file %s"), descfile);
 		return(-1);
 	}
 
@@ -186,7 +187,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
-			_alpm_log(PM_LOG_ERROR, "%s: syntax error in description file line %d",
+			_alpm_log(PM_LOG_ERROR, _("%s: syntax error in description file line %d"),
 				info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
@@ -227,7 +228,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "BACKUP")) {
 				info->backup = _alpm_list_add(info->backup, strdup(ptr));
 			} else {
-				_alpm_log(PM_LOG_ERROR, "%s: syntax error in description file line %d",
+				_alpm_log(PM_LOG_ERROR, _("%s: syntax error in description file line %d"),
 					info->name[0] != '\0' ? info->name : "error", linenum);
 			}
 		}
@@ -287,7 +288,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			tar_extract_file(tar, descfile);
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
-				_alpm_log(PM_LOG_ERROR, "could not parse the package description file");
+				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file"));
 				pm_errno = PM_ERR_PKG_INVALID;
 				unlink(descfile);
 				FREE(descfile);
@@ -327,7 +328,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			FREE(str);
 			fclose(fp);
 			if(unlink(fn)) {
-				_alpm_log(PM_LOG_WARNING, "could not remove tempfile %s", fn);
+				_alpm_log(PM_LOG_WARNING, _("could not remove tempfile %s"), fn);
 			}
 			FREE(fn);
 			close(fd);
@@ -344,7 +345,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		}
 
 		if(TH_ISREG(tar) && tar_skip_regfile(tar)) {
-			_alpm_log(PM_LOG_ERROR, "bad package file in %s", pkgfile);
+			_alpm_log(PM_LOG_ERROR, _("bad package file in %s"), pkgfile);
 			goto error;
 		}
 		expath = NULL;
@@ -353,7 +354,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	tar = NULL;
 
 	if(!config) {
-		_alpm_log(PM_LOG_ERROR, "missing package info file in %s", pkgfile);
+		_alpm_log(PM_LOG_ERROR, _("missing package info file in %s"), pkgfile);
 		goto error;
 	}
 

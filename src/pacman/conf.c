@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
+#include <libintl.h>
 
 #include <alpm.h>
 /* pacman */
@@ -98,13 +99,13 @@ int parseconfig(char *file, config_t *config)
 			ptr++;
 			strncpy(section, ptr, min(255, strlen(ptr)-1));
 			section[min(255, strlen(ptr)-1)] = '\0';
-			vprint("config: new section '%s'\n", section);
+			vprint(_("config: new section '%s'\n"), section);
 			if(!strlen(section)) {
-				ERR(NL, "config: line %d: bad section name\n", linenum);
+				ERR(NL, _("config: line %d: bad section name\n"), linenum);
 				return(1);
 			}
 			if(!strcmp(section, "local")) {
-				ERR(NL, "config: line %d: '%s' is reserved and cannot be used as a package tree\n",
+				ERR(NL, _("config: line %d: '%s' is reserved and cannot be used as a package tree\n"),
 					linenum, section);
 				return(1);
 			}
@@ -130,29 +131,29 @@ int parseconfig(char *file, config_t *config)
 			ptr = line;
 			key = strsep(&ptr, "=");
 			if(key == NULL) {
-				ERR(NL, "config: line %d: syntax error\n", linenum);
+				ERR(NL, _("config: line %d: syntax error\n"), linenum);
 				return(1);
 			}
 			strtrim(key);
 			key = strtoupper(key);
 			if(!strlen(section) && strcmp(key, "INCLUDE")) {
-				ERR(NL, "config: line %d: all directives must belong to a section\n", linenum);
+				ERR(NL, _("config: line %d: all directives must belong to a section\n"), linenum);
 				return(1);
 			}
 			if(ptr == NULL) {
 				if(!strcmp(key, "NOPASSIVEFTP")) {
 					config->nopassiveftp = 1;
-					vprint("config: nopassiveftp\n");
+					vprint(_("config: nopassiveftp\n"));
 				} else if(!strcmp(key, "USESYSLOG")) {
 					if(alpm_set_option(PM_OPT_USESYSLOG, (long)1) == -1) {
-						ERR(NL, "failed to set option USESYSLOG (%s)\n", alpm_strerror(pm_errno));
+						ERR(NL, _("failed to set option USESYSLOG (%s)\n"), alpm_strerror(pm_errno));
 						return(1);
 					}
-					vprint("config: usesyslog\n");
+					vprint(_("config: usesyslog\n"));
 				} else if(!strcmp(key, "ILOVECANDY")) {
 					config->chomp = 1;
 				} else {
-					ERR(NL, "config: line %d: syntax error\n", linenum);
+					ERR(NL, _("config: line %d: syntax error\n"), linenum);
 					return(1);
 				}
 			} else {
@@ -160,7 +161,7 @@ int parseconfig(char *file, config_t *config)
 				if(!strcmp(key, "INCLUDE")) {
 					char conf[PATH_MAX];
 					strncpy(conf, ptr, PATH_MAX);
-					vprint("config: including %s\n", conf);
+					vprint(_("config: including %s\n"), conf);
 					parseconfig(conf, config);
 				} else if(!strcmp(section, "options")) {
 					if(!strcmp(key, "NOUPGRADE")) {
@@ -169,66 +170,66 @@ int parseconfig(char *file, config_t *config)
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							if(alpm_set_option(PM_OPT_NOUPGRADE, (long)p) == -1) {
-								ERR(NL, "failed to set option NOUPGRADE (%s)\n", alpm_strerror(pm_errno));
+								ERR(NL, _("failed to set option NOUPGRADE (%s)\n"), alpm_strerror(pm_errno));
 								return(1);
 							}
-							vprint("config: noupgrade: %s\n", p);
+							vprint(_("config: noupgrade: %s\n"), p);
 							p = q;
 							p++;
 						}
 						if(alpm_set_option(PM_OPT_NOUPGRADE, (long)p) == -1) {
-							ERR(NL, "failed to set option NOUPGRADE (%s)\n", alpm_strerror(pm_errno));
+							ERR(NL, _("failed to set option NOUPGRADE (%s)\n"), alpm_strerror(pm_errno));
 							return(1);
 						}
-						vprint("config: noupgrade: %s\n", p);
+						vprint(_("config: noupgrade: %s\n"), p);
 					} else if(!strcmp(key, "NOEXTRACT")) {
 						char *p = ptr;
 						char *q;
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							if(alpm_set_option(PM_OPT_NOEXTRACT, (long)p) == -1) {
-								ERR(NL, "failed to set option NOEXTRACT (%s)\n", alpm_strerror(pm_errno));
+								ERR(NL, _("failed to set option NOEXTRACT (%s)\n"), alpm_strerror(pm_errno));
 								return(1);
 							}
-							vprint("config: noextract: %s\n", p);
+							vprint(_("config: noextract: %s\n"), p);
 							p = q;
 							p++;
 						}
 						if(alpm_set_option(PM_OPT_NOEXTRACT, (long)p) == -1) {
-							ERR(NL, "failed to set option NOEXTRACT (%s)\n", alpm_strerror(pm_errno));
+							ERR(NL, _("failed to set option NOEXTRACT (%s)\n"), alpm_strerror(pm_errno));
 							return(1);
 						}
-						vprint("config: noextract: %s\n", p);
+						vprint(_("config: noextract: %s\n"), p);
 					} else if(!strcmp(key, "IGNOREPKG")) {
 						char *p = ptr;
 						char *q;
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							if(alpm_set_option(PM_OPT_IGNOREPKG, (long)p) == -1) {
-								ERR(NL, "failed to set option IGNOREPKG (%s)\n", alpm_strerror(pm_errno));
+								ERR(NL, _("failed to set option IGNOREPKG (%s)\n"), alpm_strerror(pm_errno));
 								return(1);
 							}
-							vprint("config: ignorepkg: %s\n", p);
+							vprint(_("config: ignorepkg: %s\n"), p);
 							p = q;
 							p++;
 						}
 						if(alpm_set_option(PM_OPT_IGNOREPKG, (long)p) == -1) {
-							ERR(NL, "failed to set option IGNOREPKG (%s)\n", alpm_strerror(pm_errno));
+							ERR(NL, _("failed to set option IGNOREPKG (%s)\n"), alpm_strerror(pm_errno));
 							return(1);
 						}
-						vprint("config: ignorepkg: %s\n", p);
+						vprint(_("config: ignorepkg: %s\n"), p);
 					} else if(!strcmp(key, "HOLDPKG")) {
 						char *p = ptr;
 						char *q;
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							config->holdpkg = list_add(config->holdpkg, strdup(p));
-							vprint("config: holdpkg: %s\n", p);
+							vprint(_("config: holdpkg: %s\n"), p);
 							p = q;
 							p++;
 						}
 						config->holdpkg = list_add(config->holdpkg, strdup(p));
-						vprint("config: holdpkg: %s\n", p);
+						vprint(_("config: holdpkg: %s\n"), p);
 					} else if(!strcmp(key, "DBPATH")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
@@ -236,7 +237,7 @@ int parseconfig(char *file, config_t *config)
 						}
 						FREE(config->dbpath);
 						config->dbpath = strdup(ptr);
-						vprint("config: dbpath: %s\n", ptr);
+						vprint(_("config: dbpath: %s\n"), ptr);
 					} else if(!strcmp(key, "CACHEDIR")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
@@ -244,17 +245,17 @@ int parseconfig(char *file, config_t *config)
 						}
 						FREE(config->cachedir);
 						config->cachedir = strdup(ptr);
-						vprint("config: cachedir: %s\n", ptr);
+						vprint(_("config: cachedir: %s\n"), ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
 						if(alpm_set_option(PM_OPT_LOGFILE, (long)ptr) == -1) {
-							ERR(NL, "failed to set option LOGFILE (%s)\n", alpm_strerror(pm_errno));
+							ERR(NL, _("failed to set option LOGFILE (%s)\n"), alpm_strerror(pm_errno));
 							return(1);
 						}
-						vprint("config: log file: %s\n", ptr);
+						vprint(_("config: log file: %s\n"), ptr);
 					} else if (!strcmp(key, "XFERCOMMAND")) {
 						FREE(config->xfercommand);
 						config->xfercommand = strndup(ptr, PATH_MAX);
-						vprint("config: xfercommand: %s\n", config->xfercommand);
+						vprint(_("config: xfercommand: %s\n"), config->xfercommand);
 					} else if (!strcmp(key, "PROXYSERVER")) {
 						char *p;
 						if(config->proxyhost) {
@@ -264,18 +265,18 @@ int parseconfig(char *file, config_t *config)
 						if(p) {
 							p += 3;
 							if(p == NULL || *p == '\0') {
-								ERR(NL, "config: line %d: bad server location\n", linenum);
+								ERR(NL, _("config: line %d: bad server location\n"), linenum);
 								return(1);
 							}
 							ptr = p;
 						}
 						config->proxyhost = strndup(ptr, PATH_MAX);
-						vprint("config: proxyserver: %s\n", config->proxyhost);
+						vprint(_("config: proxyserver: %s\n"), config->proxyhost);
 					} else if (!strcmp(key, "PROXYPORT")) {
 						config->proxyport = (unsigned short)atoi(ptr);
-						vprint("config: proxyport: %u\n", config->proxyport);
+						vprint(_("config: proxyport: %u\n"), config->proxyport);
 					} else {
-						ERR(NL, "config: line %d: syntax error\n", linenum);
+						ERR(NL, _("config: line %d: syntax error\n"), linenum);
 						return(1);
 					}
 				} else {
@@ -290,13 +291,13 @@ int parseconfig(char *file, config_t *config)
 
 						p = strstr(ptr, "://");
 						if(p == NULL) {
-							ERR(NL, "config: line %d: bad server location\n", linenum);
+							ERR(NL, _("config: line %d: bad server location\n"), linenum);
 							return(1);
 						}
 						*p = '\0';
 						p++; p++; p++;
 						if(p == NULL || *p == '\0') {
-							ERR(NL, "config: line %d: bad server location\n", linenum);
+							ERR(NL, _("config: line %d: bad server location\n"), linenum);
 							return(1);
 						}
 						server->protocol = strdup(ptr);
@@ -313,7 +314,7 @@ int parseconfig(char *file, config_t *config)
 									server->path = strdup(slash);
 								} else {
 									if((server->path = (char *)malloc(strlen(slash)+2)) == NULL) {
-										ERR(NL, "could not allocate %d bytes\n", sizeof(strlen(slash+2)));
+										ERR(NL, _("could not allocate %d bytes\n"), sizeof(strlen(slash+2)));
 										return(1);
 									}
 									sprintf(server->path, "%s/", slash);
@@ -328,20 +329,20 @@ int parseconfig(char *file, config_t *config)
 							} else {
 								server->path = (char *)malloc(strlen(p)+2);
 								if(server->path == NULL) {
-									ERR(NL, "could not allocate %d bytes\n", sizeof(strlen(p+2)));
+									ERR(NL, _("could not allocate %d bytes\n"), sizeof(strlen(p+2)));
 									return(1);
 								}
 								sprintf(server->path, "%s/", p);
 							}
 						} else {
-							ERR(NL, "config: line %d: protocol %s is not supported\n", linenum, ptr);
+							ERR(NL, _("config: line %d: protocol %s is not supported\n"), linenum, ptr);
 							return(1);
 						}
 						/* add to the list */
-						vprint("config: %s: server: %s %s %s\n", section, server->protocol, server->server, server->path);
+						vprint(_("config: %s: server: %s %s %s\n"), section, server->protocol, server->server, server->path);
 						sync->servers = list_add(sync->servers, server);
 					} else {
-						ERR(NL, "config: line %d: syntax error\n", linenum);
+						ERR(NL, _("config: line %d: syntax error\n"), linenum);
 						return(1);
 					}
 				}

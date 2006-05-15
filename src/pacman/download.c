@@ -29,6 +29,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <ftplib.h>
+#include <libintl.h>
 
 #include <alpm.h>
 /* pacman */
@@ -204,27 +205,27 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 		if(!config->xfercommand && strcmp(server->protocol, "file")) {
 			if(!strcmp(server->protocol, "ftp") && !config->proxyhost) {
 				FtpInit();
-				vprint("connecting to %s:21\n", server->server);
+				vprint(_("connecting to %s:21\n"), server->server);
 				if(!FtpConnect(server->server, &control)) {
-					ERR(NL, "cannot connect to %s\n", server->server);
+					ERR(NL, _("cannot connect to %s\n"), server->server);
 					continue;
 				}
 				if(!FtpLogin("anonymous", "arch@guest", control)) {
-					ERR(NL, "anonymous login failed\n");
+					ERR(NL, _("anonymous login failed\n"));
 					FtpQuit(control);
 					continue;
 				}	
 				if(!FtpChdir(server->path, control)) {
-					ERR(NL, "could not cwd to %s: %s\n", server->path, FtpLastResponse(control));
+					ERR(NL, _("could not cwd to %s: %s\n"), server->path, FtpLastResponse(control));
 					FtpQuit(control);
 					continue;
 				}
 				if(!config->nopassiveftp) {
 					if(!FtpOptions(FTPLIB_CONNMODE, FTPLIB_PASSIVE, control)) {
-						WARN(NL, "failed to set passive mode\n");
+						WARN(NL, _("failed to set passive mode\n"));
 					}
 				} else {
-					vprint("FTP passive mode not set\n");
+					vprint(_("FTP passive mode not set\n"));
 				}
 			} else if(config->proxyhost) {
 				char *host;
@@ -232,12 +233,12 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				host = (config->proxyhost) ? config->proxyhost : server->server;
 				port = (config->proxyport) ? config->proxyport : 80;
 				if(strchr(host, ':')) {
-					vprint("connecting to %s\n", host);
+					vprint(_("connecting to %s\n"), host);
 				} else {
-					vprint("connecting to %s:%u\n", host, port);
+					vprint(_("connecting to %s:%u\n"), host, port);
 				}
 				if(!HttpConnect(host, port, &control)) {
-					ERR(NL, "cannot connect to %s\n", host);
+					ERR(NL, _("cannot connect to %s\n"), host);
 					continue;
 				}
 			}
@@ -296,18 +297,18 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				/* cwd to the download directory */
 				getcwd(cwd, PATH_MAX);
 				if(chdir(localpath)) {
-					ERR(NL, "could not chdir to %s\n", localpath);
+					ERR(NL, _("could not chdir to %s\n"), localpath);
 					return(1);
 				}
 				/* execute the parsed command via /bin/sh -c */
-				vprint("running command: %s\n", parsedCmd);
+				vprint(_("running command: %s\n"), parsedCmd);
 				ret = system(parsedCmd);
 				if(ret == -1) {
-					ERR(NL, "running XferCommand: fork failed!\n");
+					ERR(NL, _("running XferCommand: fork failed!\n"));
 					return(1);
 				} else if(ret != 0) {
 					/* download failed */
-					vprint("XferCommand command returned non-zero status code (%d)\n", ret);
+					vprint(_("XferCommand command returned non-zero status code (%d)\n"), ret);
 				} else {
 					/* download was successful */
 					complete = list_add(complete, fn);
@@ -352,18 +353,18 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 
 				if(!strcmp(server->protocol, "ftp") && !config->proxyhost) {
 					if(!FtpSize(fn, &fsz, FTPLIB_IMAGE, control)) {
-						WARN(NL, "failed to get filesize for %s\n", fn);
+						WARN(NL, _("failed to get filesize for %s\n"), fn);
 					}
 					/* check mtimes */
 					if(mtime1) {
 						char fmtime[64];
 						if(!FtpModDate(fn, fmtime, sizeof(fmtime)-1, control)) {
-							WARN(NL, "failed to get mtime for %s\n", fn);
+							WARN(NL, _("failed to get mtime for %s\n"), fn);
 						} else {
 							strtrim(fmtime);
 							if(mtime1 && !strcmp(mtime1, fmtime)) {
 								/* mtimes are identical, skip this file */
-								vprint("mtimes are identical, skipping %s\n", fn);
+								vprint(_("mtimes are identical, skipping %s\n"), fn);
 								filedone = -1;
 								complete = list_add(complete, fn);
 							} else {
@@ -378,14 +379,14 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						if(!stat(output, &st)) {
 							offset = (int)st.st_size;
 							if(!FtpRestart(offset, control)) {
-								WARN(NL, "failed to resume download -- restarting\n");
+								WARN(NL, _("failed to resume download -- restarting\n"));
 								/* can't resume: */
 								/* unlink the file in order to restart download from scratch */
 								unlink(output);
 							}
 						}
 						if(!FtpGet(output, fn, FTPLIB_IMAGE, control)) {
-							ERR(NL, "\nfailed downloading %s from %s: %s\n", fn, server->server, FtpLastResponse(control));
+							ERR(NL, _("\nfailed downloading %s from %s: %s\n"), fn, server->server, FtpLastResponse(control));
 							/* we leave the partially downloaded file in place so it can be resumed later */
 						} else {
 							filedone = 1;
@@ -406,12 +407,12 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						host = (config->proxyhost) ? config->proxyhost : server->server;
 						port = (config->proxyhost) ? config->proxyport : 80;
 						if(strchr(host, ':')) {
-							vprint("connecting to %s\n", host);
+							vprint(_("connecting to %s\n"), host);
 						} else {
-							vprint("connecting to %s:%u\n", host, port);
+							vprint(_("connecting to %s:%u\n"), host, port);
 						}
 						if(!HttpConnect(host, port, &control)) {
-							ERR(NL, "cannot connect to %s\n", host);
+							ERR(NL, _("cannot connect to %s\n"), host);
 							continue;
 						}
 						/* set up our progress bar's callback (and idle timeout) */
@@ -456,11 +457,11 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 					if(!HttpGet(server->server, output, src, &fsz, control, offset,
 					            (mtime1) ? &fmtime1 : NULL, (mtime2) ? &fmtime2 : NULL)) {
 						if(strstr(FtpLastResponse(control), "304")) {
-							vprint("mtimes are identical, skipping %s\n", fn);
+							vprint(_("mtimes are identical, skipping %s\n"), fn);
 							filedone = -1;
 							complete = list_add(complete, fn);
 						} else {
-							ERR(NL, "\nfailed downloading %s from %s: %s\n", src, server->server, FtpLastResponse(control));
+							ERR(NL, _("\nfailed downloading %s from %s: %s\n"), src, server->server, FtpLastResponse(control));
 							/* we leave the partially downloaded file in place so it can be resumed later */
 						}
 					} else {
@@ -471,7 +472,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 								        fmtime2.tm_year+1900, fmtime2.tm_mon+1, fmtime2.tm_mday,
 								        fmtime2.tm_hour, fmtime2.tm_min, fmtime2.tm_sec);
 							} else {
-								WARN(NL, "failed to get mtime for %s\n", fn);
+								WARN(NL, _("failed to get mtime for %s\n"), fn);
 							}
 						}
 						filedone = 1;
@@ -479,10 +480,10 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 				} else if(!strcmp(server->protocol, "file")) {
 					char src[PATH_MAX];
 					snprintf(src, PATH_MAX, "%s%s", server->path, fn);
-					vprint("copying %s to %s/%s\n", src, localpath, fn);
+					vprint(_("copying %s to %s/%s\n"), src, localpath, fn);
 					/* local repository, just copy the file */
 					if(copyfile(src, output)) {
-						ERR(NL, "failed copying %s\n", src);
+						ERR(NL, _("failed copying %s\n"), src);
 					} else {
 						filedone = 1;
 					}
@@ -498,7 +499,7 @@ int downloadfiles_forreal(list_t *servers, const char *localpath,
 						for(j = strlen(out); j < maxcols-64; j++) {
 							printf(" ");
 						}
-						fputs("] 100%    LOCAL ", stdout);
+						fputs(_("] 100%    LOCAL "), stdout);
 					} else {
 						log_progress(control, fsz-offset, &fsz);
 					}
@@ -560,7 +561,7 @@ char *fetch_pkgurl(char *target)
 	/* do not download the file if it exists in the current dir
 	 */
 	if(stat(fn, &buf) == 0) {
-		vprint(" %s is already in the current directory\n", fn);
+		vprint(_(" %s is already in the current directory\n"), fn);
 	} else {
 		server_t *server;
 		list_t *servers = NULL;
@@ -574,7 +575,7 @@ char *fetch_pkgurl(char *target)
 
 		files = list_add(NULL, fn);
 		if(downloadfiles(servers, ".", files)) {
-			ERR(NL, "failed to download %s\n", target);
+			ERR(NL, _("failed to download %s\n"), target);
 			return(NULL);
 		}
 		FREELISTPTR(files);

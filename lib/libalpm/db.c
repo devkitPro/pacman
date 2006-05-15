@@ -27,6 +27,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -43,14 +44,14 @@ pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
 
 	db = (pmdb_t *)malloc(sizeof(pmdb_t));
 	if(db == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failed: could not allocate %d bytes",
+		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
 		                        sizeof(pmdb_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	db->path = (char *)malloc(strlen(root)+strlen(dbpath)+strlen(treename)+2);
 	if(db->path == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failed: could not allocate %d bytes",
+		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
 		                        strlen(root)+strlen(dbpath)+strlen(treename)+2);
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);

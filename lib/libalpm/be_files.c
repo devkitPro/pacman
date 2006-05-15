@@ -27,6 +27,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -138,7 +139,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 		return(NULL);
 	}
 	if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version) == -1) {
-		_alpm_log(PM_LOG_ERROR, "invalid name for dabatase entry '%s'", ent->d_name);
+		_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
 		return(NULL);
 	}
 	if(_alpm_db_read(db, inforeq, pkg) == -1) {
@@ -375,7 +376,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DESC) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/desc", db->treename);
+			_alpm_log(PM_LOG_ERROR, _("db_write: could not open file %s/desc"), db->treename);
 			retval = 1;
 			goto cleanup;
 		}
@@ -446,7 +447,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(local && (inforeq & INFRQ_FILES)) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/files", db->treename);
+			_alpm_log(PM_LOG_ERROR, _("db_write: could not open file %s/files"), db->treename);
 			retval = -1;
 			goto cleanup;
 		}
@@ -472,7 +473,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(inforeq & INFRQ_DEPENDS) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, "db_write: could not open file %s/depends", db->treename);
+			_alpm_log(PM_LOG_ERROR, _("db_write: could not open file %s/depends"), db->treename);
 			retval = -1;
 			goto cleanup;
 		}

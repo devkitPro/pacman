@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libintl.h>
 #include <alpm.h>
 /* pacman */
 #include "util.h"
@@ -60,8 +61,8 @@ int pacman_deptest(list_t *targets)
 	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL, NULL) == -1) {
 		ERR(NL, "%s", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			MSG(NL, "       if you're sure a package manager is not already running,\n" \
-			        "       you can remove %s\n", PM_LOCK);
+			MSG(NL, _("       if you're sure a package manager is not already running,\n"
+			        "       you can remove %s\n"), PM_LOCK);
 		}
 		return(1);
 	}
@@ -73,7 +74,7 @@ int pacman_deptest(list_t *targets)
 	 */
 	str = (char *)malloc(strlen("name=dummy|version=1.0-1")+1);
 	if(str == NULL) {
-		ERR(NL, "memory allocation failure\n");
+		ERR(NL, _("memory allocation failure\n"));
 		retval = 1;
 		goto cleanup;
 	}
@@ -83,10 +84,10 @@ int pacman_deptest(list_t *targets)
 		strcat(str, "|depend=");
 		strcat(str, i->data);
 	}
-	vprint("add target %s\n", str);
+	vprint(_("add target %s\n"), str);
 	if(alpm_trans_addtarget(str) == -1) {
 		FREE(str);
-		ERR(NL, "could not add target (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("could not add target (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
 	}
@@ -106,7 +107,7 @@ int pacman_deptest(list_t *targets)
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
 					if(!config->op_d_resolve) {
-						MSG(NL, "requires: %s", alpm_dep_getinfo(miss, PM_DEP_NAME));
+						MSG(NL, _("requires: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
 						switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 							case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
 							case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
@@ -122,7 +123,7 @@ int pacman_deptest(list_t *targets)
 				/* we can't auto-resolve conflicts */
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
-					MSG(NL, "conflict: %s", alpm_dep_getinfo(miss, PM_DEP_NAME));
+					MSG(NL, _("conflict: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				retval = 127;
 				alpm_list_free(data);
@@ -136,7 +137,7 @@ int pacman_deptest(list_t *targets)
 		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
 		if(retval == 126 && synctargs != NULL) {
 			if(alpm_trans_release() == -1) {
-				ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
+				ERR(NL, _("could not release transaction (%s)"), alpm_strerror(pm_errno));
 				FREELIST(synctargs);
 				return(1);
 			}
@@ -153,7 +154,7 @@ int pacman_deptest(list_t *targets)
 
 cleanup:
 	if(alpm_trans_release() == -1) {
-		ERR(NL, "could not release transaction (%s)", alpm_strerror(pm_errno));
+		ERR(NL, _("could not release transaction (%s)"), alpm_strerror(pm_errno));
 		retval = 1;
 	}
 

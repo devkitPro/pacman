@@ -26,6 +26,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -64,10 +65,10 @@ static int sync_cleancache(int level)
 		list_t *clean = NULL;
 		list_t *i, *j;
 
-		MSG(NL, "removing old packages from cache... ");
+		MSG(NL, _("removing old packages from cache... "));
 		dir = opendir(dirpath);
 		if(dir == NULL) {
-			ERR(NL, "could not access cache directory\n");
+			ERR(NL, _("could not access cache directory\n"));
 			return(1);
 		}
 		rewinddir(dir);
@@ -127,20 +128,20 @@ static int sync_cleancache(int level)
 		FREELIST(clean);
 	} else {
 		/* full cleanup */
-		MSG(NL, "removing all packages from cache... ");
+		MSG(NL, _("removing all packages from cache... "));
 
 		if(rmrf(dirpath)) {
-			ERR(NL, "could not remove cache directory\n");
+			ERR(NL, _("could not remove cache directory\n"));
 			return(1);
 		}
 
 		if(makepath(dirpath)) {
-			ERR(NL, "could not create new cache directory\n");
+			ERR(NL, _("could not create new cache directory\n"));
 			return(1);
 		}
 	}
 
-	MSG(CL, "done.\n");
+	MSG(CL, _("done.\n"));
 	return(0);
 }
 
@@ -164,7 +165,7 @@ static int sync_synctree(int level, list_t *syncs)
 			/* get the lastupdate time */
 			db_getlastupdate(sync->db, lastupdate);
 			if(strlen(lastupdate) == 0) {
-				vprint("failed to get lastupdate time for %s (no big deal)\n", sync->treename);
+				vprint(_("failed to get lastupdate time for %s (no big deal)\n"), sync->treename);
 			}
 		}
 
@@ -177,18 +178,18 @@ static int sync_synctree(int level, list_t *syncs)
 		ret = downloadfiles_forreal(sync->servers, path, files, lastupdate, newmtime);
 		FREELIST(files);
 		if(ret > 0) {
-			ERR(NL, "failed to synchronize %s\n", sync->treename);
+			ERR(NL, _("failed to synchronize %s\n"), sync->treename);
 			success--;
 		} else if(ret < 0) {
-			MSG(NL, " %s is up to date\n", sync->treename);
+			MSG(NL, _(" %s is up to date\n"), sync->treename);
 		} else {
 			if(strlen(newmtime)) {
-				vprint("sync: new mtime for %s: %s\n", sync->treename, newmtime);
+				vprint(_("sync: new mtime for %s: %s\n"), sync->treename, newmtime);
 				db_setlastupdate(sync->db, newmtime);
 			}
 			snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, root, dbpath, sync->treename);
 			if(alpm_db_update(sync->db, path) == -1) {
-				ERR(NL, "failed to update %s (%s)\n", sync->treename, alpm_strerror(pm_errno));
+				ERR(NL, _("failed to update %s (%s)\n"), sync->treename, alpm_strerror(pm_errno));
 			}
 			/* remove the .tar.gz */
 			unlink(path);
@@ -214,7 +215,7 @@ static int sync_search(list_t *syncs, list_t *targets)
 			for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
 				PM_PKG *pkg = alpm_list_getdata(lp);
 
-				MSG(NL, "%s/%s %s\n    ", sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
+				MSG(NL, _("%s/%s %s\n    "), sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
 				indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
 				MSG(NL, "\n");
 			}
@@ -282,7 +283,7 @@ static int sync_info(list_t *syncs, list_t *targets)
 				}
 			}
 			if(!found) {
-				ERR(NL, "package \"%s\" was not found.\n", (char *)i->data);
+				ERR(NL, _("package \"%s\" was not found.\n"), (char *)i->data);
 				break;
 			}
 		}
@@ -320,7 +321,7 @@ static int sync_list(list_t *syncs, list_t *targets)
 			}
 
 			if(sync == NULL) {
-				ERR(NL, "repository \"%s\" was not found.\n", (char *)i->data);
+				ERR(NL, _("repository \"%s\" was not found.\n"), (char *)i->data);
 				FREELISTPTR(ls);
 				return(1);
 			}
@@ -361,7 +362,7 @@ int pacman_sync(list_t *targets)
 	list_t *files = NULL;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
-		ERR(NL, "no usable package repositories configured.\n");
+		ERR(NL, _("no usable package repositories configured.\n"));
 		return(1);
 	}
 
@@ -381,8 +382,8 @@ int pacman_sync(list_t *targets)
 
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
-		MSG(NL, ":: Synchronizing package databases...\n");
-		alpm_logaction("synchronizing package lists");
+		MSG(NL, _(":: Synchronizing package databases...\n"));
+		alpm_logaction(_("synchronizing package lists"));
 		if(sync_synctree(config->op_s_sync, pmc_syncs)) {
 			return(1);
 		}
@@ -407,17 +408,17 @@ int pacman_sync(list_t *targets)
 	/* Step 1: create a new transaction...
 	 */
 	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
-		ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			MSG(NL, "       if you're sure a package manager is not already running,\n"
-			        "       you can remove %s\n", PM_LOCK);
+			MSG(NL, _("       if you're sure a package manager is not already running,\n"
+			        "       you can remove %s\n"), PM_LOCK);
 		}
 		return(1);
 	}
 
 	if(config->op_s_upgrade) {
-		MSG(NL, ":: Starting local database upgrade...\n");
-		alpm_logaction("starting full system upgrade");
+		MSG(NL, _(":: Starting local database upgrade...\n"));
+		alpm_logaction(_("starting full system upgrade"));
 		if(alpm_trans_sysupgrade() == -1) {
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
 			retval = 1;
@@ -435,26 +436,26 @@ int pacman_sync(list_t *targets)
 			PM_SYNCPKG *sync = alpm_list_getdata(lp);
 			PM_PKG *spkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
 			if(!strcmp("pacman", alpm_pkg_getinfo(spkg, PM_PKG_NAME)) && alpm_list_count(data) > 1) {
-				MSG(NL, "\n:: pacman has detected a newer version of the \"pacman\" package.\n");
-				MSG(NL, ":: It is recommended that you allow pacman to upgrade itself\n");
-				MSG(NL, ":: first, then you can re-run the operation with the newer version.\n");
-				MSG(NL, "::\n");
-				if(yesno(":: Upgrade pacman first? [Y/n] ")) {
+				MSG(NL, _("\n:: pacman has detected a newer version of the \"pacman\" package.\n"));
+				MSG(NL, _(":: It is recommended that you allow pacman to upgrade itself\n"));
+				MSG(NL, _(":: first, then you can re-run the operation with the newer version.\n"));
+				MSG(NL, _("::\n"));
+				if(yesno(_(":: Upgrade pacman first? [Y/n] "))) {
 					if(alpm_trans_release() == -1) {
-						ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+						ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
 						retval = 1;
 						goto cleanup;
 					}
 					if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
-						ERR(NL, "failed to init transaction (%s)\n", alpm_strerror(pm_errno));
+						ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
 						if(pm_errno == PM_ERR_HANDLE_LOCK) {
-							MSG(NL, "       if you're sure a package manager is not already running,\n"
-							        "       you can remove %s\n", PM_LOCK);
+							MSG(NL, _("       if you're sure a package manager is not already running,\n"
+							        "       you can remove %s\n"), PM_LOCK);
 						}
 						return(1);
 					}
 					if(alpm_trans_addtarget("pacman") == -1) {
-						ERR(NL, "could not add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
+						ERR(NL, _("could not add target '%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
 						retval = 1;
 						goto cleanup;
 					}
@@ -474,7 +475,7 @@ int pacman_sync(list_t *targets)
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-					ERR(NL, "could not add target '%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
+					ERR(NL, _("could not add target '%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
 					retval = 1;
 					goto cleanup;
 				}
@@ -485,20 +486,20 @@ int pacman_sync(list_t *targets)
 					if(grp) {
 						PM_LIST *pmpkgs;
 						list_t *k, *pkgs;
-						MSG(NL, ":: group %s:\n", targ);
+						MSG(NL, _(":: group %s:\n"), targ);
 						pmpkgs = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
 						/* remove dupe entries in case a package exists in multiple repos */
 						/*   (the dupe function takes a PM_LIST* and returns a list_t*) */
 						pkgs = PM_LIST_remove_dupes(pmpkgs);
 						list_display("   ", pkgs);
-						if(yesno(":: Install whole content? [Y/n] ")) {
+						if(yesno(_(":: Install whole content? [Y/n] "))) {
 							for(k = pkgs; k; k = k->next) {
 								targets = list_add(targets, strdup(k->data));
 							}
 						} else {
 							for(k = pkgs; k; k = k->next) {
 								char *pkgname = k->data;
-								if(yesno(":: Install %s from group %s? [Y/n] ", pkgname, targ)) {
+								if(yesno(_(":: Install %s from group %s? [Y/n] "), pkgname, targ)) {
 									targets = list_add(targets, strdup(pkgname));
 								}
 							}
@@ -518,13 +519,13 @@ int pacman_sync(list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
-		ERR(NL, "failed to prepare transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
-					MSG(NL, ":: %s: %s %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
-					    (int)alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? "requires" : "is required by",
+					MSG(NL, _(":: %s: %s %s"), alpm_dep_getinfo(miss, PM_DEP_TARGET),
+					    (int)alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? _("requires") : _("is required by"),
 					    alpm_dep_getinfo(miss, PM_DEP_NAME));
 					switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
@@ -589,7 +590,7 @@ int pacman_sync(list_t *targets)
 			list_install = list_add(list_install, str);
 		}
 		if(list_remove) {
-			MSG(NL, "\nRemove:  ");
+			MSG(NL, _("\nRemove:  "));
 			str = buildstring(list_remove);
 			indentprint(str, 9);
 			MSG(CL, "\n");
@@ -601,20 +602,20 @@ int pacman_sync(list_t *targets)
 		if(mb < 0.1) {
 			mb = 0.1;
 		}
-		MSG(NL, "\nTargets: ");
+		MSG(NL, _("\nTargets: "));
 		str = buildstring(list_install);
 		indentprint(str, 9);
-		MSG(NL, "\nTotal Package Size:   %.1f MB\n", mb);
+		MSG(NL, _("\nTotal Package Size:   %.1f MB\n"), mb);
 		FREELIST(list_install);
 		FREE(str);
 
 		if(config->op_s_downloadonly) {
 			if(config->noconfirm) {
-				MSG(NL, "\nBeginning download...\n");
+				MSG(NL, _("\nBeginning download...\n"));
 				confirm = 1;
 			} else {
 				MSG(NL, "\n");
-				confirm = yesno("Proceed with download? [Y/n] ");
+				confirm = yesno(_("Proceed with download? [Y/n] "));
 			}
 		} else {
 			/* don't get any confirmation if we're called from makepkg */
@@ -622,11 +623,11 @@ int pacman_sync(list_t *targets)
 				confirm = 1;
 			} else {
 				if(config->noconfirm) {
-					MSG(NL, "\nBeginning upgrade process...\n");
+					MSG(NL, _("\nBeginning upgrade process...\n"));
 					confirm = 1;
 				} else {
 					MSG(NL, "\n");
-					confirm = yesno("Proceed with upgrade? [Y/n] ");
+					confirm = yesno(_("Proceed with upgrade? [Y/n] "));
 				}
 			}
 		}
@@ -672,7 +673,7 @@ int pacman_sync(list_t *targets)
 						snprintf(path, PATH_MAX, "%s-%s" PM_EXT_PKG, pkgname, pkgver);
 						files = list_add(files, strdup(path));
 					} else {
-						vprint(" %s-%s" PM_EXT_PKG " is already in the cache\n", pkgname, pkgver);
+						vprint(_(" %s-%s" PM_EXT_PKG " is already in the cache\n"), pkgname, pkgver);
 					}
 				}
 			}
@@ -680,28 +681,28 @@ int pacman_sync(list_t *targets)
 
 		if(files) {
 			struct stat buf;
-			MSG(NL, "\n:: Retrieving packages from %s...\n", current->treename);
+			MSG(NL, _("\n:: Retrieving packages from %s...\n"), current->treename);
 			fflush(stdout);
 			if(stat(ldir, &buf)) {
 				/* no cache directory.... try creating it */
-				WARN(NL, "no %s cache exists.  creating...\n", ldir);
-				alpm_logaction("warning: no %s cache exists.  creating...", ldir);
+				WARN(NL, _("no %s cache exists.  creating...\n"), ldir);
+				alpm_logaction(_("warning: no %s cache exists.  creating..."), ldir);
 				if(makepath(ldir)) {
 					/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
 					 * the package afterwards.
 					 */
-					WARN(NL, "couldn't create package cache, using /tmp instead");
-					alpm_logaction("warning: couldn't create package cache, using /tmp instead");
+					WARN(NL, _("couldn't create package cache, using /tmp instead"));
+					alpm_logaction(_("warning: couldn't create package cache, using /tmp instead"));
 					snprintf(ldir, PATH_MAX, "/tmp");
 					if(alpm_set_option(PM_OPT_CACHEDIR, (long)ldir) == -1) {
-						ERR(NL, "failed to set option CACHEDIR (%s)\n", alpm_strerror(pm_errno));
+						ERR(NL, _("failed to set option CACHEDIR (%s)\n"), alpm_strerror(pm_errno));
 						goto cleanup;
 					}
 					varcache = 0;
 				}
 			}
 			if(downloadfiles(current->servers, ldir, files)) {
-				ERR(NL, "failed to retrieve some files from %s\n", current->treename);
+				ERR(NL, _("failed to retrieve some files from %s\n"), current->treename);
 				retval = 1;
 				goto cleanup;
 			}
@@ -714,16 +715,16 @@ int pacman_sync(list_t *targets)
 	MSG(NL, "\n");
 
 	/* Check integrity of files */
-	MSG(NL, "checking package integrity... ");
+	MSG(NL, _("checking package integrity... "));
 
 	for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
 		PM_SYNCPKG *sync = alpm_list_getdata(lp);
 		PM_PKG *spkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
 		if(alpm_pkg_checkmd5sum(spkg) == -1) {
 			if(pm_errno == PM_ERR_PKG_INVALID) {
-				ERR(NL, "archive %s is corrupted\n", alpm_pkg_getinfo(spkg, PM_PKG_NAME));
+				ERR(NL, _("archive %s is corrupted\n"), alpm_pkg_getinfo(spkg, PM_PKG_NAME));
 			} else {
-				ERR(NL, "could not get checksum for package %s (%s)\n",
+				ERR(NL, _("could not get checksum for package %s (%s)\n"),
 				    alpm_pkg_getinfo(spkg, PM_PKG_NAME), alpm_strerror(pm_errno));
 			}
 			retval = 1;
@@ -732,7 +733,7 @@ int pacman_sync(list_t *targets)
 	if(retval) {
 		goto cleanup;
 	}
-	MSG(CL, "done.\n");
+	MSG(CL, _("done.\n"));
 
 	if(config->op_s_downloadonly) {
 		goto cleanup;
@@ -741,27 +742,27 @@ int pacman_sync(list_t *targets)
 	/* Step 3: actually perform the installation
 	 */
 	if(alpm_trans_commit(&data) == -1) {
-		ERR(NL, "failed to commit transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_CONFLICT *conflict = alpm_list_getdata(lp);
 					switch((int)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
 						case PM_CONFLICT_TYPE_TARGET:
-							MSG(NL, "%s exists in \"%s\" (target) and \"%s\" (target)",
+							MSG(NL, _("%s exists in \"%s\" (target) and \"%s\" (target)"),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_CTARGET));
 						break;
 						case PM_CONFLICT_TYPE_FILE:
-							MSG(NL, "%s: %s exists in filesystem",
+							MSG(NL, _("%s: %s exists in filesystem"),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
 							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE));
 						break;
 					}
 				}
 				alpm_list_free(data);
-				MSG(NL, "\nerrors occurred, no packages were upgraded.\n");
+				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
 			break;
 			default:
 			break;
@@ -781,7 +782,7 @@ int pacman_sync(list_t *targets)
 	 */
 cleanup:
 	if(alpm_trans_release() == -1) {
-		ERR(NL, "failed to release transaction (%s)\n", alpm_strerror(pm_errno));
+		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;
 	}
 

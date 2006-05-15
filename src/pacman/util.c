@@ -30,6 +30,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <regex.h>
+#include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -168,7 +169,7 @@ char *buildstring(list_t *strlist)
 	}
 	str = (char *)malloc(size);
 	if(str == NULL) {
-		ERR(NL, "failed to allocated %d bytes\n", size);
+		ERR(NL, _("failed to allocated %d bytes\n"), size);
 	}
 	str[0] = '\0';
 	for(lp = strlist; lp; lp = lp->next) {
@@ -222,7 +223,7 @@ int reg_match(char *string, char *pattern)
 	regex_t reg;
 
 	if(regcomp(&reg, pattern, REG_EXTENDED | REG_NOSUB | REG_ICASE) != 0) {
-		ERR(NL, "%s is not a valid regular expression.\n", pattern);
+		ERR(NL, _("%s is not a valid regular expression.\n"), pattern);
 		return(-1);
 	}
 	result = regexec(&reg, string, 0, 0, 0);

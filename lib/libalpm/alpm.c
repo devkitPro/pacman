@@ -31,6 +31,7 @@
 #include <syslog.h>
 #include <limits.h> /* PATH_MAX */
 #include <stdarg.h>
+#include <libintl.h>
 /* pacman */
 #include "log.h"
 #include "error.h"
@@ -189,12 +190,12 @@ pmdb_t *alpm_db_register(char *treename)
 		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 	}
 
-	_alpm_log(PM_LOG_FLOW1, "registering database '%s'", treename);
+	_alpm_log(PM_LOG_FLOW1, _("registering database '%s'"), treename);
 
 	/* make sure the database directory exists */
 	snprintf(path, PATH_MAX, "%s%s/%s", handle->root, handle->dbpath, treename);
 	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_FLOW1, "database directory '%s' does not exist -- try creating it", path);
+		_alpm_log(PM_LOG_FLOW1, _("database directory '%s' does not exist -- try creating it"), path);
 		if(_alpm_makepath(path) != 0) {
 			RET_ERR(PM_ERR_SYSTEM, NULL);
 		}
@@ -205,7 +206,7 @@ pmdb_t *alpm_db_register(char *treename)
 		return(NULL);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "opening database '%s'", db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("opening database '%s'"), db->treename);
 	if(_alpm_db_open(db, DB_O_CREATE) == -1) {
 		_alpm_db_free(db);
 		RET_ERR(PM_ERR_DB_OPEN, NULL);
@@ -249,12 +250,12 @@ int alpm_db_unregister(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	_alpm_log(PM_LOG_FLOW1, "unregistering database '%s'", db->treename);
+	_alpm_log(PM_LOG_FLOW1, _("unregistering database '%s'"), db->treename);
 
 	/* Cleanup */
 	_alpm_db_free_pkgcache(db);
 
-	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("closing database '%s'"), db->treename);
 	_alpm_db_close(db);
 
 	_alpm_db_free(db);
@@ -304,11 +305,11 @@ int alpm_db_update(PM_DB *db, char *archive)
 	}
 
 	/* remove the old dir */
-	_alpm_log(PM_LOG_FLOW2, "flushing database %s/%s", handle->dbpath, db->treename);
+	_alpm_log(PM_LOG_FLOW2, _("flushing database %s/%s"), handle->dbpath, db->treename);
 	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		if(_alpm_db_remove(db, lp->data) == -1) {
 			if(lp->data) {
-				_alpm_log(PM_LOG_ERROR, "could not remove database entry %s/%s", db->treename,
+				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s/%s"), db->treename,
 				                        ((pmpkg_t *)lp->data)->name);
 			}
 			RET_ERR(PM_ERR_DB_REMOVE, -1);
@@ -322,7 +323,7 @@ int alpm_db_update(PM_DB *db, char *archive)
 	/* ORE
 	we should not simply unpack the archive, but better parse it and 
 	db_write each entry (see sync_load_dbarchive to get archive content) */
-	_alpm_log(PM_LOG_FLOW2, "unpacking %s", archive);
+	_alpm_log(PM_LOG_FLOW2, _("unpacking %s"), archive);
 	if(_alpm_unpack(archive, db->path, NULL)) {
 		RET_ERR(PM_ERR_SYSTEM, -1);
 	}
@@ -423,7 +424,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 			case PM_PKG_REASON:
 			case PM_PKG_MD5SUM:
 				if(!(pkg->infolevel & INFRQ_DESC)) {
-					_alpm_log(PM_LOG_DEBUG, "loading DESC info for '%s'", pkg->name);
+					_alpm_log(PM_LOG_DEBUG, _("loading DESC info for '%s'"), pkg->name);
 					_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
 				}
 			break;
@@ -443,14 +444,14 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 			case PM_PKG_FILES:
 			case PM_PKG_BACKUP:
 				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_FILES)) {
-					_alpm_log(PM_LOG_DEBUG, "loading FILES info for '%s'", pkg->name);
+					_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), pkg->name);
 					_alpm_db_read(pkg->data, INFRQ_FILES, pkg);
 				}
 			break;
 			/* Scriptlet */
 			case PM_PKG_SCRIPLET:
 				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_SCRIPLET)) {
-					_alpm_log(PM_LOG_DEBUG, "loading SCRIPLET info for '%s'", pkg->name);
+					_alpm_log(PM_LOG_DEBUG, _("loading SCRIPLET info for '%s'"), pkg->name);
 					_alpm_db_read(pkg->data, INFRQ_SCRIPLET, pkg);
 				}
 			break;
@@ -545,21 +546,21 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	md5sum = MDFile(path);
 	if(md5sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, "could not get md5 checksum for package %s-%s\n",
+		_alpm_log(PM_LOG_ERROR, _("could not get md5 checksum for package %s-%s\n"),
 		          pkg->name, pkg->version);
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
 	} else {
 		if(!(pkg->infolevel & INFRQ_DESC)) {
-			_alpm_log(PM_LOG_DEBUG, "loading DESC info for '%s'", pkg->name);
+			_alpm_log(PM_LOG_DEBUG, _("loading DESC info for '%s'"), pkg->name);
 			_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
 		}
 
 		if(strcmp(md5sum, pkg->md5sum) == 0) {
-			_alpm_log(PM_LOG_FLOW1, "checksums for package %s-%s are matching",
+			_alpm_log(PM_LOG_FLOW1, _("checksums for package %s-%s are matching"),
 			                        pkg->name, pkg->version);
 		} else {
-			_alpm_log(PM_LOG_ERROR, "md5sums do not match for package %s-%s\n",
+			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s\n"),
 			                        pkg->name, pkg->version);
 			pm_errno = PM_ERR_PKG_INVALID;
 			retval = -1;
@@ -806,8 +807,8 @@ int alpm_trans_release()
 		handle->lckfd = -1;
 	}
 	if(_alpm_lckrm(PM_LOCK) == -1) {
-		_alpm_log(PM_LOG_WARNING, "could not remove lock file %s", PM_LOCK);
-		alpm_logaction("warning: could not remove lock file %s", PM_LOCK);
+		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s"), PM_LOCK);
+		alpm_logaction(_("warning: could not remove lock file %s"), PM_LOCK);
 	}
 
 	return(0);

@@ -32,6 +32,8 @@
 	s1[(len)-1] = 0; \
 } while(0)
 
+#define _(str) dgettext("libalpm", str)
+
 long _alpm_gzopen_frontend(char *pathname, int oflags, int mode);
 int _alpm_makepath(char *path);
 int _alpm_copyfile(char *src, char *dest);

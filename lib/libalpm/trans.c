@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libintl.h>
 /* pacman */
 #include "error.h"
 #include "package.h"
@@ -42,7 +43,7 @@ pmtrans_t *_alpm_trans_new()
 	pmtrans_t *trans;
 
 	if((trans = (pmtrans_t *)malloc(sizeof(pmtrans_t))) == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmtrans_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmtrans_t));
 		return(NULL);
 	}
 

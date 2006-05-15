@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <stdarg.h>
 #include <syslog.h>
+#include <libintl.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -46,7 +47,7 @@ pmhandle_t *handle_new()
 
 	handle = (pmhandle_t *)malloc(sizeof(pmhandle_t));
 	if(handle == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmhandle_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmhandle_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
@@ -123,14 +124,14 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 				FREE(handle->dbpath);
 			}
 			handle->dbpath = strdup((data && strlen((char *)data) != 0) ? (char *)data : PM_DBPATH);
-			_alpm_log(PM_LOG_FLOW2, "PM_OPT_DBPATH set to '%s'", handle->dbpath);
+			_alpm_log(PM_LOG_FLOW2, _("PM_OPT_DBPATH set to '%s'"), handle->dbpath);
 		break;
 		case PM_OPT_CACHEDIR:
 			if(handle->cachedir) {
 				FREE(handle->cachedir);
 			}
 			handle->cachedir = strdup((data && strlen((char *)data) != 0) ? (char *)data : PM_CACHEDIR);
-			_alpm_log(PM_LOG_FLOW2, "PM_OPT_CACHEDIR set to '%s'", handle->cachedir);
+			_alpm_log(PM_LOG_FLOW2, _("PM_OPT_CACHEDIR set to '%s'"), handle->cachedir);
 		break;
 		case PM_OPT_LOGFILE:
 			if((char *)data == NULL || handle->uid != 0) {
@@ -147,37 +148,37 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 				handle->logfd = NULL;
 			}
 			if((handle->logfd = fopen((char *)data, "a")) == NULL) {
-				_alpm_log(PM_LOG_ERROR, "can't open log file %s", (char *)data);
+				_alpm_log(PM_LOG_ERROR, _("can't open log file %s"), (char *)data);
 				RET_ERR(PM_ERR_OPT_LOGFILE, -1);
 			}
 			handle->logfile = strdup((char *)data);
-			_alpm_log(PM_LOG_FLOW2, "PM_OPT_LOGFILE set to '%s'", (char *)data);
+			_alpm_log(PM_LOG_FLOW2, _("PM_OPT_LOGFILE set to '%s'"), (char *)data);
 		break;
 		case PM_OPT_NOUPGRADE:
 			if((char *)data && strlen((char *)data) != 0) {
 				handle->noupgrade = _alpm_list_add(handle->noupgrade, strdup((char *)data));
-				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_NOUPGRADE", (char *)data);
+				_alpm_log(PM_LOG_FLOW2, _("'%s' added to PM_OPT_NOUPGRADE"), (char *)data);
 			} else {
 				FREELIST(handle->noupgrade);
-				_alpm_log(PM_LOG_FLOW2, "PM_OPT_NOUPGRADE flushed");
+				_alpm_log(PM_LOG_FLOW2, _("PM_OPT_NOUPGRADE flushed"));
 			}
 		break;
 		case PM_OPT_NOEXTRACT:
 			if((char *)data && strlen((char *)data) != 0) {
 				handle->noextract = _alpm_list_add(handle->noextract, strdup((char *)data));
-				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_NOEXTRACT", (char *)data);
+				_alpm_log(PM_LOG_FLOW2, _("'%s' added to PM_OPT_NOEXTRACT"), (char *)data);
 			} else {
 				FREELIST(handle->noextract);
-				_alpm_log(PM_LOG_FLOW2, "PM_OPT_NOEXTRACT flushed");
+				_alpm_log(PM_LOG_FLOW2, _("PM_OPT_NOEXTRACT flushed"));
 			}
 		break;
 		case PM_OPT_IGNOREPKG:
 			if((char *)data && strlen((char *)data) != 0) {
 				handle->ignorepkg = _alpm_list_add(handle->ignorepkg, strdup((char *)data));
-				_alpm_log(PM_LOG_FLOW2, "'%s' added to PM_OPT_IGNOREPKG", (char *)data);
+				_alpm_log(PM_LOG_FLOW2, _("'%s' added to PM_OPT_IGNOREPKG"), (char *)data);
 			} else {
 				FREELIST(handle->ignorepkg);
-				_alpm_log(PM_LOG_FLOW2, "PM_OPT_IGNOREPKG flushed");
+				_alpm_log(PM_LOG_FLOW2, _("PM_OPT_IGNOREPKG flushed"));
 			}
 		break;
 		case PM_OPT_USESYSLOG:
@@ -193,14 +194,14 @@ int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data)
 				openlog("alpm", 0, LOG_USER);
 			}
 			handle->usesyslog = (unsigned short)data;
-			_alpm_log(PM_LOG_FLOW2, "PM_OPT_USESYSLOG set to '%d'", handle->usesyslog);
+			_alpm_log(PM_LOG_FLOW2, _("PM_OPT_USESYSLOG set to '%d'"), handle->usesyslog);
 		break;
 		case PM_OPT_LOGCB:
 			pm_logcb = (alpm_cb_log)data;
 		break;
 		case PM_OPT_LOGMASK:
 			pm_logmask = (unsigned char)data;
-			_alpm_log(PM_LOG_FLOW2, "PM_OPT_LOGMASK set to '%02x'", (unsigned char)data);
+			_alpm_log(PM_LOG_FLOW2, _("PM_OPT_LOGMASK set to '%02x'"), (unsigned char)data);
 		break;
 		default:
 			RET_ERR(PM_ERR_WRONG_ARGS, -1);
