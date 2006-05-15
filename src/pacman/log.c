@@ -45,6 +45,10 @@ void cb_log(unsigned short level, char *msg)
 {
 	char str[9] = "";
 
+	if(!strlen(msg)) {
+		return;
+	}
+
 	switch(level) {
 		case PM_LOG_DEBUG:
 			sprintf(str, _("debug"));
@@ -69,9 +73,7 @@ void cb_log(unsigned short level, char *msg)
 		break;
 	}
 
-	if(strlen(str) > 0) {
-		MSG(NL, "%s: %s\n", str, msg);
-	}
+	MSG(NL, "%s: %s\n", str, msg);
 }
 
 /* Wrapper to fprintf() that allows to choose if we want the output
