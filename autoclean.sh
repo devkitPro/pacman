@@ -27,5 +27,19 @@ rm -rf doc/*.8
 rm -rf doc/man3/*
 rm -rf compile
 rm -rf libtool
+rm -rf mkinstalldirs
+rm -rf config.rpath
 rm -rf scripts/.deps/
 rm -rf scripts/Makefile.in
+
+rm -rf src/pacman/po/Makefile
+rm -rf src/pacman/po/Makefile.in
+rm -rf src/pacman/po/POTFILES
+rm -rf src/pacman/po/stamp-po
+rm -rf src/pacman/po/*.gmo
+
+rm -rf lib/libalpm/po/Makefile
+rm -rf lib/libalpm/po/Makefile.in
+rm -rf lib/libalpm/po/POTFILES
+rm -rf lib/libalpm/po/stamp-po
+rm -rf lib/libalpm/po/*.gmo

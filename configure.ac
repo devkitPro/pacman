@@ -6,6 +6,8 @@ AC_LANG(C)
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.13.1)
 
 dnl Host dependant flags
 case "${host}" in
@@ -170,8 +172,10 @@ dnl ==========================================================================
 
 AC_OUTPUT([
 lib/libalpm/Makefile
+lib/libalpm/po/Makefile.in
 lib/libftp/Makefile
 src/pacman/Makefile
+src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
 doc/Makefile

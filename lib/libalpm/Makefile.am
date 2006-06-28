@@ -1,6 +1,10 @@
 AUTOMAKE_OPTIONS = gnu
 DEFINES = -pedantic -D_GNU_SOURCE
 AM_CFLAGS = $(DEFINES)
+SUBDIRS = po
+
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 TARGETS = md5driver.c \
 	md5.c \

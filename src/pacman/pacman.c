@@ -28,6 +28,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <libintl.h>
+#include <locale.h>
 #ifndef CYGWIN
 #include <mcheck.h> /* debug */
 #else
@@ -379,7 +380,7 @@ static void cleanup(int signum)
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	char *cenv = NULL;
+	char *cenv = NULL, *lang = NULL;
 #ifndef CYGWIN
 	uid_t myuid;
 #endif
@@ -398,6 +399,17 @@ int main(int argc, char *argv[])
 	/* set signal handlers */
 	signal(SIGINT, cleanup);
 	signal(SIGTERM, cleanup);
+
+	/* i18n init */
+	lang=getenv("LC_ALL");
+	if(lang==NULL || lang[0]=='\0')
+		lang=getenv("LC_MESSAGES");
+	if (lang==NULL || lang[0]=='\0')
+		lang=getenv("LANG");
+
+	setlocale(LC_ALL, lang);
+	bindtextdomain("pacman", "/usr/share/locale");
+	textdomain("pacman");
 
 	/* init config data */
 	config = config_new();
