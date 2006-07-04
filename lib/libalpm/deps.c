@@ -290,6 +290,51 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						}
 					}
 				}
+				/* check database for provides matches */
+				if(!found) {
+					PMList *m;
+					k = _alpm_db_whatprovides(db, depend.name);
+					for(m = k; m && !found; m = m->next) {
+						/* look for a match that isn't one of the packages we're trying
+						 * to install.  this way, if we match against a to-be-installed
+						 * package, we'll defer to the NEW one, not the one already
+						 * installed. */
+						pmpkg_t *p = m->data;
+						PMList *n;
+						int skip = 0;
+						for(n = packages; n && !skip; n = n->next) {
+							pmpkg_t *ptp = n->data;
+							if(!strcmp(ptp->name, p->name)) {
+								skip = 1;
+							}
+						}
+						if(skip) {
+							continue;
+						}
+						if(depend.mod == PM_DEP_MOD_ANY) {
+							/* accept any version */
+							found = 1;
+						} else {
+							char *ver = strdup(p->version);
+							/* check for a release in depend.version.  if it's
+							 * missing remove it from p->version as well.
+							 */
+							if(!index(depend.version,'-')) {
+								char *ptr;
+								for(ptr = ver; *ptr != '-'; ptr++);
+								*ptr = '\0';
+							}
+							cmp = _alpm_versioncmp(ver, depend.version);
+							switch(depend.mod) {
+								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
+								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
+								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
+							}
+							FREE(ver);
+						}
+					}
+					FREELISTPTR(k);
+				}
 				/* check other targets */
 				for(k = packages; k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
@@ -316,36 +361,6 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 							}
 							FREE(ver);
 						}
-					}
-				}
-				/* check database for provides matches */
-				if(!found){
-					k = _alpm_db_whatprovides(db, depend.name);
-					if(k) {
-						/* grab the first one (there should only really be one, anyway) */
-						pmpkg_t *p = k->data;
-						if(depend.mod == PM_DEP_MOD_ANY) {
-							/* accept any version */
-							found = 1;
-						} else {
-							char *ver = strdup(p->version);
-							/* check for a release in depend.version.  if it's
-							 * missing remove it from p->version as well.
-							 */
-							if(!index(depend.version,'-')) {
-								char *ptr;
-								for(ptr = ver; *ptr != '-'; ptr++);
-								*ptr = '\0';
-							}
-							cmp = _alpm_versioncmp(ver, depend.version);
-							switch(depend.mod) {
-								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
-								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
-								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
-							}
-							FREE(ver);
-						}
-						FREELISTPTR(k);
 					}
 				}
 				/* else if still not found... */
