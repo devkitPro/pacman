@@ -213,7 +213,7 @@ int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
 		break;
 	}
 
-	trans->state = STATE_COMMITED;
+	trans->state = STATE_COMMITTED;
 
 	return(0);
 }
