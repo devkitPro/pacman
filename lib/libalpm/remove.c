@@ -149,6 +149,10 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		char pm_install[PATH_MAX];
 		info = (pmpkg_t*)targ->data;
 
+		if(handle->trans->state == STATE_INTERRUPTED) {
+			break;
+		}
+
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 			_alpm_log(PM_LOG_FLOW1, _("removing package %s-%s"), info->name, info->version);
@@ -303,7 +307,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
+	if((trans->type != PM_TRANS_TYPE_UPGRADE) && (handle->trans->state != STATE_INTERRUPTED)) {
 		_alpm_log(PM_LOG_FLOW1, _("running \"ldconfig -r %s\""), handle->root);
 		_alpm_ldconfig(handle->root);
 	}

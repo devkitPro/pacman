@@ -338,6 +338,9 @@ static void cleanup(int signum)
 {
 	list_t *lp;
 
+	if((signum == SIGINT) && (alpm_trans_release() == -1)) {
+		return;
+	}
 	if(signum != 0 && config->op_d_vertest == 0) {
 		fprintf(stderr, "\n");
 	}

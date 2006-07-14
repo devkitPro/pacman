@@ -191,6 +191,8 @@ int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
 		return(0);
 	}
 
+	trans->state = STATE_COMMITTING;
+
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:

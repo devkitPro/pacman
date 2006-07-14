@@ -300,6 +300,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		pmpkg_t *oldpkg = NULL;
 		errors = 0;
 
+		if(handle->trans->state == STATE_INTERRUPTED) {
+			break;
+		}
+
 		pmo_upgrade = (trans->type == PM_TRANS_TYPE_UPGRADE) ? 1 : 0;
 
 		/* see if this is an upgrade.  if so, remove the old package first */
@@ -689,8 +693,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	_alpm_log(PM_LOG_FLOW1, _("running \"ldconfig -r %s\""), handle->root);
-	_alpm_ldconfig(handle->root);
+	if(handle->trans->state != STATE_INTERRUPTED) {
+		_alpm_log(PM_LOG_FLOW1, _("running \"ldconfig -r %s\""), handle->root);
+		_alpm_ldconfig(handle->root);
+	}
 
 	return(0);
 }

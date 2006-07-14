@@ -799,6 +799,14 @@ int alpm_trans_release()
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
+	/* during a commit do not interrupt immediately, just after a target */
+	if(trans->state == STATE_COMMITTING || trans->state == STATE_INTERRUPTED) {
+		if(trans->state == STATE_COMMITTING) {
+			trans->state = STATE_INTERRUPTED;
+		}
+		return(-1);
+	}
+
 	FREETRANS(handle->trans);
 
 	/* unlock db */
