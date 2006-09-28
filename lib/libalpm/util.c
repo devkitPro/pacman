@@ -36,46 +36,11 @@
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
-#include <zlib.h>
-#include <libtar.h>
 /* pacman */
 #include "log.h"
 #include "util.h"
+#include "error.h"
 #include "alpm.h"
-
-/* borrowed and modified from Per Liden's pkgutils (http://crux.nu) */
-long _alpm_gzopen_frontend(char *pathname, int oflags, int mode)
-{
-	char* gzoflags;
-	int fd;
-	gzFile gzf;
-
-	switch (oflags & O_ACCMODE) {
-		case O_WRONLY:
-			gzoflags = "w";
-			break;
-		case O_RDONLY:
-			gzoflags = "r";
-			break;
-		case O_RDWR:
-		default:
-			return -1;
-	}
-	
-	if((fd = open(pathname, oflags, mode)) == -1) {
-		return -1;
-	}
-	if((oflags & O_CREAT) && fchmod(fd, mode)) {
-		close(fd);
-		return -1;
-	}
-	if(!(gzf = gzdopen(fd, gzoflags))) {
-		close(fd);
-		return -1;
-	}
-
-	return (long)gzf;
-}
 
 /* does the same thing as 'mkdir -p' */
 int _alpm_makepath(char *path)
@@ -207,38 +172,54 @@ int _alpm_lckrm(char *file)
 
 int _alpm_unpack(char *archive, const char *prefix, const char *fn)
 {
-	TAR *tar = NULL;
+	register struct archive *_archive;
+	struct archive_entry *entry;
 	char expath[PATH_MAX];
-	tartype_t gztype = {
-		(openfunc_t) _alpm_gzopen_frontend,
-		(closefunc_t)gzclose,
-		(readfunc_t) gzread,
-		(writefunc_t)gzwrite
-	};
 
+	if((_archive = archive_read_new()) == NULL) {
+		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
+		return(1);
+	}
+	archive_read_support_compression_all(_archive);
+	archive_read_support_format_all(_archive);
 	/* open the .tar.gz package */
-	if(tar_open(&tar, archive, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
+	if(archive_read_open_file(_archive, archive, 10240) != ARCHIVE_OK) {
 		perror(archive);
 		return(1);
 	}
-	while(!th_read(tar)) {
-		if(fn && strcmp(fn, th_get_pathname(tar))) {
-			if(TH_ISREG(tar) && tar_skip_regfile(tar)) {
-				_alpm_log(PM_LOG_ERROR, _("bad tar archive: %s"), archive);
-				tar_close(tar);
+	while(!archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
+		if(fn && strcmp(fn, archive_entry_pathname(entry))) {
+			if(archive_read_data_skip(_archive) != ARCHIVE_OK) {
+				_alpm_log(PM_LOG_ERROR, _("bad archive: %s"), archive);
 				return(1);
 			}
 			continue;
 		}
-		snprintf(expath, PATH_MAX, "%s/%s", prefix, th_get_pathname(tar));
-		if(tar_extract_file(tar, expath)) {
-			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), th_get_pathname(tar), strerror(errno));
+		snprintf(expath, PATH_MAX, "%s/%s", prefix, archive_entry_pathname(entry));
+		if(archive_read_extract(_archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
+			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), archive_entry_pathname(entry), archive_error_string(_archive));
+			return(1);
 		}
 		if(fn) break;
 	}
-	tar_close(tar);
+	archive_read_finish(_archive);
 
 	return(0);
+}
+
+int _alpm_archive_read_entry_data_into_fd(struct archive *archive, int fd)
+{
+	register size_t length;
+	char cache[10240];
+
+	if(fd == -1) {
+		return ARCHIVE_RETRY;
+	}
+	while((length = archive_read_data(archive, &cache, sizeof(cache))) > 0) {
+		write(fd, cache, length);
+	}
+	
+	return ARCHIVE_OK;
 }
 
 /* does the same thing as 'rm -rf' */

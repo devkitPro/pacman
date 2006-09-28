@@ -111,6 +111,8 @@ char *alpm_strerror(int err)
 			return _("user aborted");
 		case PM_ERR_INTERNAL_ERROR:
 			return _("internal error");
+		case PM_ERR_LIBARCHIVE_ERROR:
+			return _("libarchive error");
 		default:
 			return _("unexpected error");
 	}

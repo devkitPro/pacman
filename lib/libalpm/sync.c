@@ -29,8 +29,6 @@
 #endif
 #include <dirent.h>
 #include <libintl.h>
-#include <libtar.h>
-#include <zlib.h>
 /* pacman */
 #include "log.h"
 #include "util.h"
@@ -110,27 +108,27 @@ static pmsyncpkg_t *find_pkginsync(char *needle, PMList *haystack)
 PMList *_alpm_sync_load_dbarchive(char *archive)
 {
 	PMList *lp = NULL;
-	TAR *tar = NULL;
-	tartype_t gztype = {
-		(openfunc_t)_alpm_gzopen_frontend,
-		(closefunc_t)gzclose,
-		(readfunc_t)gzread,
-		(writefunc_t)gzwrite
-	};
+	register struct archive *_archive;
+	struct archive_entry *entry;
 
-	if(tar_open(&tar, archive, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
+	if((_archive = archive_read_new()) == NULL) {
+		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
+		goto error;
+	}
+	archive_read_support_compression_all(_archive);
+	archive_read_support_format_all(_archive);
+
+	if(archive_read_open_file(_archive, archive, 10240) != ARCHIVE_OK) {
 		pm_errno = PM_ERR_NOT_A_FILE;
 		goto error;
 	}
 
-	tar_close(tar);
+	archive_read_finish(_archive);
 
 	return(lp);
 
 error:
-	if(tar) {
-		tar_close(tar);
-	}
+	archive_read_finish(_archive);
 	return(NULL);
 }
 

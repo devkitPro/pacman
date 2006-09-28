@@ -22,6 +22,8 @@
 #define _ALPM_UTIL_H
 
 #include <stdio.h>
+#include <archive.h>
+#include <archive_entry.h>
 
 #define FREE(p) do { if (p) { free(p); p = NULL; } } while(0)
 
@@ -34,7 +36,8 @@
 
 #define _(str) dgettext("libalpm", str)
 
-long _alpm_gzopen_frontend(char *pathname, int oflags, int mode);
+#define ARCHIVE_EXTRACT_FLAGS ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_TIME
+
 int _alpm_makepath(char *path);
 int _alpm_copyfile(char *src, char *dest);
 char *_alpm_strtoupper(char *str);
@@ -43,6 +46,7 @@ int _alpm_lckmk(char *file);
 int _alpm_lckrm(char *file);
 int _alpm_unpack(char *archive, const char *prefix, const char *fn);
 int _alpm_rmrf(char *path);
+int _alpm_archive_read_entry_data_into_fd(struct archive *archive, int fd);
 int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...);
 int _alpm_ldconfig(char *root);
 int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver);

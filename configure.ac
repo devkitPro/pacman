@@ -157,13 +157,25 @@ dnl Check for zlib
 AC_CHECK_LIB([z], [gzsetparams], [AC_CHECK_HEADER([zlib.h], [LIBZ='-lz'])])
 if test -n "$LIBZ"; then
     LDFLAGS="$LDFLAGS $LIBZ"
+else
+    AC_MSG_ERROR("missing zlib headers/libraries");
 fi
 
-dnl Check for libtar
-AC_CHECK_LIB([tar], [tar_open], [AC_CHECK_HEADER([libtar.h], [LIBTAR='-ltar'])])
-if test -n "$LIBTAR"; then
+dnl Check for bzip2
+AC_CHECK_LIB([bz2], [BZ2_bzCompress], [AC_CHECK_HEADER([bzlib.h], [LIBBZ2='-lbz2'])])
+if test -n "$LIBBZ2"; then
+    LDFLAGS="$LDFLAGS $LIBBZ2"
+else
+    AC_MSG_ERROR("missing bzip2 headers/libraries");
+fi
+
+dnl Check for libarchive
+AC_CHECK_LIB([archive], [archive_read_data], [AC_CHECK_HEADER([archive.h], [LIBARCHIVE='-larchive'])])
+if test -n "$LIBARCHIVE"; then
     CFLAGS="$CFLAGS"
-    LDFLAGS="$LDFLAGS $LIBTAR"
+    LDFLAGS="$LDFLAGS $LIBARCHIVE"
+else
+    AC_MSG_ERROR("missing libarchive headers/libraries");
 fi
 
 CFLAGS="$CFLAGS $ENV_CFLAGS"

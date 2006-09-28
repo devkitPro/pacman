@@ -26,9 +26,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <limits.h>
-#include <zlib.h>
 #include <libintl.h>
-#include <libtar.h>
 /* pacman */
 #include "util.h"
 #include "error.h"
@@ -275,7 +273,8 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0;
-	TAR *tar = NULL;
+	register struct archive *archive;
+	struct archive_entry *entry;
 	char expath[PATH_MAX];
 	time_t t;
 	PMList *targ, *lp;
@@ -288,12 +287,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	for(targ = trans->packages; targ; targ = targ->next) {
-		tartype_t gztype = {
-			(openfunc_t)_alpm_gzopen_frontend,
-			(closefunc_t)gzclose,
-			(readfunc_t)gzread,
-			(writefunc_t)gzwrite
-		};
 		unsigned short pmo_upgrade;
 		char pm_install[PATH_MAX];
 		pmpkg_t *info = (pmpkg_t *)targ->data;
@@ -380,21 +373,28 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_FLOW1, _("extracting files"));
 
 			/* Extract the .tar.gz package */
-			if(tar_open(&tar, info->data, &gztype, O_RDONLY, 0, TAR_GNU) == -1) {
+			if((archive = archive_read_new()) == NULL) {
+				RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
+			}
+			archive_read_support_compression_all(archive);
+			archive_read_support_format_all(archive);
+
+			if(archive_read_open_file(archive, info->data, 10240) != ARCHIVE_OK) {
 				RET_ERR(PM_ERR_PKG_OPEN, -1);
 			}
 
-			for(i = 0; !th_read(tar); i++) {
+			chdir(handle->root);
+			for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
 				int nb = 0;
 				int notouch = 0;
 				char *md5_orig = NULL;
 				char pathname[PATH_MAX];
 				struct stat buf;
 
-				STRNCPY(pathname, th_get_pathname(tar), PATH_MAX);
+				STRNCPY(pathname, archive_entry_pathname(entry), PATH_MAX);
 
 				if(!strcmp(pathname, ".PKGINFO") || !strcmp(pathname, ".FILELIST")) {
-					tar_skip_regfile(tar);
+					archive_read_data_skip(archive);
 					continue;
 				}
 
@@ -413,7 +413,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				 */
 				if(_alpm_list_is_strin(pathname, handle->noextract)) {
 					alpm_logaction(_("notice: %s is in NoExtract -- skipping extraction"), pathname);
-					tar_skip_regfile(tar);
+					archive_read_data_skip(archive);
 					continue;
 				}
 
@@ -442,7 +442,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					/* extract the package's version to a temporary file and md5 it */
 					temp = strdup("/tmp/alpm_XXXXXX");
 					fd = mkstemp(temp);
-					if(tar_extract_file(tar, temp)) {
+					archive_entry_set_pathname(entry, temp);
+					if(archive_read_extract(archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
 						alpm_logaction(_("could not extract %s (%s)"), pathname, strerror(errno));
 						errors++;
 						unlink(temp);
@@ -490,9 +491,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							char newpath[PATH_MAX];
 							snprintf(newpath, PATH_MAX, "%s.pacorig", expath);
 							if(rename(expath, newpath)) {
+								archive_entry_set_pathname(entry, expath);
 								_alpm_log(PM_LOG_ERROR, _("could not rename %s (%s)"), pathname, strerror(errno));
 								alpm_logaction(_("error: could not rename %s (%s)"), expath, strerror(errno));
 							}
+							archive_entry_set_pathname(entry, expath);
 							if(_alpm_copyfile(temp, expath)) {
 								_alpm_log(PM_LOG_ERROR, _("could not copy %s to %s (%s)"), temp, pathname, strerror(errno));
 								alpm_logaction(_("error: could not copy %s to %s (%s)"), temp, expath, strerror(errno));
@@ -534,6 +537,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 								_alpm_log(PM_LOG_ERROR, _("could not copy %s to %s (%s)"), temp, pathname, strerror(errno));
 								errors++;
 							}
+							archive_entry_set_pathname(entry, expath);
 						}
 					}
 
@@ -561,9 +565,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						 */
 						unlink(expath);
 					}
-					if(tar_extract_file(tar, expath)) {
-						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), pathname, strerror(errno));
-						alpm_logaction(_("error: could not extract %s (%s)"), pathname, strerror(errno));
+					archive_entry_set_pathname(entry, expath);
+					if(archive_read_extract(archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
+						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), expath, strerror(errno));
+						alpm_logaction(_("error: could not extract %s (%s)"), expath, strerror(errno));
 						errors++;
 					}
 					/* calculate an md5 hash if this is in info->backup */
@@ -590,7 +595,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					}
 				}
 			}
-			tar_close(tar);
+			archive_read_finish(archive);
 
 			if(errors) {
 				ret = 1;
