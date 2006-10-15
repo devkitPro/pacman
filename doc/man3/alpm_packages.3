@@ -1,0 +1,131 @@
+.TH "Package Functions" 3 "16 Oct 2006" "libalpm" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Package Functions \- Functions to manipulate libalpm packages.  
+
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void * \fBalpm_pkg_getinfo\fP (pmpkg_t *pkg, unsigned char parm)"
+.br
+.ti -1c
+.RI "int \fBalpm_pkg_load\fP (char *filename, pmpkg_t **pkg)"
+.br
+.ti -1c
+.RI "int \fBalpm_pkg_free\fP (pmpkg_t *pkg)"
+.br
+.ti -1c
+.RI "int \fBalpm_pkg_checksha1sum\fP (pmpkg_t *pkg)"
+.br
+.ti -1c
+.RI "int \fBalpm_pkg_checkmd5sum\fP (pmpkg_t *pkg)"
+.br
+.ti -1c
+.RI "int \fBalpm_pkg_vercmp\fP (const char *ver1, const char *ver2)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Functions to manipulate libalpm packages. 
+.PP
+.SH "Function Documentation"
+.PP 
+.SS "int alpm_pkg_checkmd5sum (pmpkg_t * pkg)"
+.PP
+Check the integrity (with md5) of a package from the sync cache. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpkg\fP package pointer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 on error (pm_errno is set accordingly) 
+.RE
+.PP
+
+.SS "int alpm_pkg_checksha1sum (pmpkg_t * pkg)"
+.PP
+Check the integrity (with sha1) of a package from the sync cache. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpkg\fP package pointer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 on error (pm_errno is set accordingly) 
+.RE
+.PP
+
+.SS "int alpm_pkg_free (pmpkg_t * pkg)"
+.PP
+Free a package. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpkg\fP package pointer to free 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 on error (pm_errno is set accordingly) 
+.RE
+.PP
+
+.SS "void* alpm_pkg_getinfo (pmpkg_t * pkg, unsigned char parm)"
+.PP
+Get informations about a package. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpkg\fP package pointer 
+.br
+\fIparm\fP name of the info to get 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a char* on success (the value), NULL on error 
+.RE
+.PP
+
+.SS "int alpm_pkg_load (char * filename, pmpkg_t ** pkg)"
+.PP
+Create a package from a file. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP location of the package tarball 
+.br
+\fIpkg\fP address of the package pointer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 on error (pm_errno is set accordingly) 
+.RE
+.PP
+
+.SS "int alpm_pkg_vercmp (const char * ver1, const char * ver2)"
+.PP
+Compare versions. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIver1\fP first version 
+.br
+\fIver2\fP secont version 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+postive, 0 or negative if ver1 is less, equal or more than ver2, respectively. 
+.RE
+.PP
+

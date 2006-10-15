@@ -1,0 +1,37 @@
+.TH "Group Functions" 3 "16 Oct 2006" "libalpm" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Group Functions \- Functions to get informations about libalpm groups.  
+
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void * \fBalpm_grp_getinfo\fP (pmgrp_t *grp, unsigned char parm)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Functions to get informations about libalpm groups. 
+.PP
+.SH "Function Documentation"
+.PP 
+.SS "void* alpm_grp_getinfo (pmgrp_t * grp, unsigned char parm)"
+.PP
+Get informations about a group. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgrp\fP group pointer 
+.br
+\fIparm\fP name of the info to get 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a char* on success (the value), NULL on error 
+.RE
+.PP
+

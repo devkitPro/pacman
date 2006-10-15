@@ -1,0 +1,107 @@
+.TH "List Functions" 3 "16 Oct 2006" "libalpm" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+List Functions \- Functions to manipulate libalpm linked lists.  
+
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "PMList * \fBalpm_list_first\fP (PMList *list)"
+.br
+.ti -1c
+.RI "PMList * \fBalpm_list_next\fP (PMList *entry)"
+.br
+.ti -1c
+.RI "void * \fBalpm_list_getdata\fP (PMList *entry)"
+.br
+.ti -1c
+.RI "int \fBalpm_list_free\fP (PMList *entry)"
+.br
+.ti -1c
+.RI "int \fBalpm_list_count\fP (PMList *list)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Functions to manipulate libalpm linked lists. 
+.PP
+.SH "Function Documentation"
+.PP 
+.SS "int alpm_list_count (PMList * list)"
+.PP
+Count the entries in a list. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlist\fP the list to count 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of entries on success, NULL on error 
+.RE
+.PP
+
+.SS "PMList* alpm_list_first (PMList * list)"
+.PP
+Get the first element of a list. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlist\fP the list 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the first element 
+.RE
+.PP
+
+.SS "int alpm_list_free (PMList * entry)"
+.PP
+Free a list. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIentry\fP list to free 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 on error 
+.RE
+.PP
+
+.SS "void* alpm_list_getdata (PMList * entry)"
+.PP
+Get the data of a list entry. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIentry\fP the list entry 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the data on success, NULL on error 
+.RE
+.PP
+
+.SS "PMList* alpm_list_next (PMList * entry)"
+.PP
+Get the next element of a list. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIentry\fP the list entry 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the next element on success, NULL on error 
+.RE
+.PP
+

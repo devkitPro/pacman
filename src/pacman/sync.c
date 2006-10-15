@@ -615,14 +615,16 @@ int pacman_sync(list_t *targets)
 		if(mb < 0.1) {
 			mb = 0.1;
 		}
-		if(umb < 0.1) {
+		if(umb > 0 && umb < 0.1) {
 			umb = 0.1;
 		}
 		MSG(NL, _("\nTargets: "));
 		str = buildstring(list_install);
 		indentprint(str, 9);
 		MSG(NL, _("\nTotal Package Size:   %.1f MB\n"), mb);
-		MSG(NL, _("\nTotal Uncompressed Package Size:   %.1f MB\n"), umb);
+		if(umb > 0) {
+		  MSG(NL, _("\nTotal Uncompressed Package Size:   %.1f MB\n"), umb);
+		}
 		FREELIST(list_install);
 		FREE(str);
 

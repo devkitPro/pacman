@@ -1,0 +1,35 @@
+.TH "Logging Functions" 3 "16 Oct 2006" "libalpm" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Logging Functions \- Functions to log using libalpm.  
+
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBalpm_logaction\fP (char *fmt,...)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Functions to log using libalpm. 
+.PP
+.SH "Function Documentation"
+.PP 
+.SS "int alpm_logaction (char * fmt,  ...)"
+.PP
+A printf-like function for logging. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfmt\fP output format 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 on error (pm_errno is set accordingly) 
+.RE
+.PP
+
