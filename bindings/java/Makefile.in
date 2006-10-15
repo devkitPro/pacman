@@ -1,7 +1,7 @@
 top_srcdir = @top_srcdir@
 prefix = @prefix@
 
-CFLAGS = $(subst -Werror,,@CFLAGS@)
+CFLAGS = $(subst -Werror,,@CFLAGS@) -I$(JAVA_HOME)/include/ -I$(JAVA_HOME)/include/linux/
 CFLAGS += -fno-strict-aliasing # see the swig docs
 ifeq ($(shell arch),x86_64)
 CFLAGS += -fPIC
