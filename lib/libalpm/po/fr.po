@@ -1,0 +1,1371 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libalpm\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-09-03 13:36+0200\n"
+"PO-Revision-Date: 2006-06-05 22:47+0100\n"
+"Last-Translator: Enda <enda@netou.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+
+#: ../add.c:95
+#, c-format
+msgid "could not parse token %s"
+msgstr "ne peut analyser l'élément %s"
+
+#: ../add.c:127
+#, c-format
+msgid "loading target '%s'"
+msgstr "charge la cible  '%s'"
+
+#: ../add.c:169
+#, c-format
+msgid "replacing older version %s-%s by %s in target list"
+msgstr "remplace l'ancienne version %s-%s par %s dans la liste de destination"
+
+#: ../add.c:178
+#, c-format
+msgid "newer version %s-%s is in the target list -- skipping"
+msgstr "une version plus récente %s-%s est déjà présente -- ignorer"
+
+#: ../add.c:185
+#, c-format
+msgid "reading '%s' metadata"
+msgstr "lecture des métas-données '%s'"
+
+#. look for unsatisfied dependencies
+#: ../add.c:227 ../remove.c:104
+msgid "looking for unsatisfied dependencies"
+msgstr "recherche des dépendances non satisfaites"
+
+#. no unsatisfied deps, so look for conflicts
+#: ../add.c:239 ../sync.c:504
+msgid "looking for conflicts"
+msgstr "recherche des conflits"
+
+#. re-order w.r.t. dependencies
+#: ../add.c:251 ../remove.c:140
+msgid "sorting by dependencies"
+msgstr "tri par dépendances"
+
+#: ../add.c:263
+msgid "cleaning up"
+msgstr "nettoyage"
+
+#: ../add.c:280
+msgid "looking for file conflicts"
+msgstr "recherche de conflits entre fichiers"
+
+#: ../add.c:345
+#, c-format
+msgid "upgrading package %s-%s"
+msgstr "mise a jour du paquet %s-%s"
+
+#: ../add.c:355 ../alpm.c:567 ../conflict.c:274 ../conflict.c:304
+#, c-format
+msgid "loading FILES info for '%s'"
+msgstr "chargement des informations de fichiers pour '%s'"
+
+#: ../add.c:365 ../alpm.c:547 ../alpm.c:679 ../alpm.c:726
+#, c-format
+msgid "loading DESC info for '%s'"
+msgstr "chargement des informations descriptives pour '%s'"
+
+#: ../add.c:378
+#, c-format
+msgid "removing old package first (%s-%s)"
+msgstr "retirer l'ancien paquet préalablement (%s-%s)"
+
+#: ../add.c:408
+#, c-format
+msgid "adding package %s-%s"
+msgstr "ajout du paquet %s-%s"
+
+#: ../add.c:419
+#, c-format
+msgid "adding new package %s-%s"
+msgstr "ajout du nouveau paquet %s-%s"
+
+#: ../add.c:423
+msgid "extracting files"
+msgstr "extraction des fichiers"
+
+#: ../add.c:438 ../util.c:456
+msgid "could not get current working directory"
+msgstr "impossible de déterminer le répertoire courant"
+
+#: ../add.c:492
+#, c-format
+msgid "notice: %s is in NoExtract -- skipping extraction"
+msgstr "note: %s est dans la liste NoExtract -- ignore l'extraction"
+
+#: ../add.c:528 ../add.c:681
+#, c-format
+msgid "could not extract %s (%s)"
+msgstr "n'a pas pu extraire %s (%s)"
+
+#: ../add.c:571
+#, c-format
+msgid "checking md5 hashes for %s"
+msgstr "vérification de la 'signature' md5 pour %s"
+
+#: ../add.c:572 ../add.c:579
+#, c-format
+msgid "current:  %s"
+msgstr "courant:   %s"
+
+#: ../add.c:573 ../add.c:580
+#, c-format
+msgid "new:      %s"
+msgstr "nouveau: %s"
+
+#: ../add.c:575 ../add.c:582
+#, c-format
+msgid "original: %s"
+msgstr "original:   %s"
+
+#: ../add.c:578
+#, c-format
+msgid "checking sha1 hashes for %s"
+msgstr "vérification de la 'signature' sha1 pour %s"
+
+#: ../add.c:596
+#, c-format
+msgid "could not rename %s (%s)"
+msgstr "n'a pas pu renommer  %s (%s)"
+
+#: ../add.c:597
+#, c-format
+msgid "error: could not rename %s (%s)"
+msgstr "erreur: n'a pas pu renommer  %s (%s)"
+
+#: ../add.c:601 ../add.c:645
+#, c-format
+msgid "could not copy %s to %s (%s)"
+msgstr "n'a pas pu copier %s vers %s (%s)"
+
+#: ../add.c:602
+#, c-format
+msgid "error: could not copy %s to %s (%s)"
+msgstr "erreur: n'a pas pu copier %s vers %s (%s)"
+
+#: ../add.c:606
+#, c-format
+msgid "%s saved as %s.pacorig"
+msgstr "%s sauve en tant que %s.pacorig"
+
+#: ../add.c:607
+#, c-format
+msgid "warning: %s saved as %s"
+msgstr "avertissement: %s sauve en tant que %s"
+
+#: ../add.c:617 ../add.c:620 ../add.c:626
+msgid "action: installing new file"
+msgstr "action: installation de nouveau fichier"
+
+#: ../add.c:624
+msgid "action: leaving existing file in place"
+msgstr "action: quitte en préservant les fichiers existant"
+
+#: ../add.c:630
+msgid "action: keeping current file and installing new one with .pacnew ending"
+msgstr ""
+"action: conserver le fichier actuel et installer le nouveau avec "
+"l'extension .pacnew"
+
+#: ../add.c:634
+#, c-format
+msgid "could not install %s as %s: %s"
+msgstr "n'a pas pu installer %s en tant que %s: %s"
+
+#: ../add.c:635
+#, c-format
+msgid "error: could not install %s as %s: %s"
+msgstr "erreur: n'a pas pu installer %s en tant que %s: %s"
+
+#: ../add.c:637
+#, c-format
+msgid "%s installed as %s"
+msgstr "%s installé en tant que %s"
+
+#: ../add.c:638
+#, c-format
+msgid "warning: %s installed as %s"
+msgstr "avertissement: %s installé en tant que %s"
+
+#: ../add.c:643 ../add.c:663
+#, c-format
+msgid "extracting %s"
+msgstr "extrait %s"
+
+#: ../add.c:665
+#, c-format
+msgid "%s is in NoUpgrade -- skipping"
+msgstr "%s est marqué NoUpgrade -- ignore"
+
+#: ../add.c:667
+#, c-format
+msgid "extracting %s as %s.pacnew"
+msgstr "extrait %s en tant que %s.pacnew"
+
+#: ../add.c:668
+#, c-format
+msgid "warning: extracting %s%s as %s"
+msgstr "avertissement: extrait %s%s en tant que %s"
+
+#: ../add.c:682
+#, c-format
+msgid "error: could not extract %s (%s)"
+msgstr "erreur: n'a pas pu extraire %s (%s)"
+
+#: ../add.c:693
+msgid "appending backup entry"
+msgstr "ajoute une entre pour la sauvegarde"
+
+#: ../add.c:725 ../add.c:727
+#, c-format
+msgid "errors occurred while %s %s"
+msgstr "des erreurs sont survenue pendant %s %s"
+
+#: ../add.c:726 ../add.c:728
+msgid "upgrading"
+msgstr "mise à jour"
+
+#: ../add.c:726 ../add.c:728
+msgid "installing"
+msgstr "installation"
+
+#: ../add.c:749 ../add.c:800
+#, c-format
+msgid "adding '%s' in requiredby field for '%s'"
+msgstr "ajoute '%s' dans le champ 'requit par' pour '%s'"
+
+#. remove the package from the database
+#: ../add.c:760 ../remove.c:284
+msgid "updating database"
+msgstr "met à jour la base de données"
+
+#: ../add.c:761
+#, c-format
+msgid "adding database entry '%s'"
+msgstr "ajoute l'entrée de base de données '%s'"
+
+#: ../add.c:763
+#, c-format
+msgid "could not update database entry %s-%s"
+msgstr "n'a pas pu mettre a jour l'entrée de base de données %s-%s"
+
+#: ../add.c:765
+#, c-format
+msgid "error updating database for %s-%s!"
+msgstr "erreur lors de la mise a jour de la base de données pour %s-%s!"
+
+#: ../add.c:769
+#, c-format
+msgid "could not add entry '%s' in cache"
+msgstr "n'a pas pu ajouter l'entrée '%s' dans le cache"
+
+#. update dependency packages' REQUIREDBY fields
+#: ../add.c:774 ../remove.c:294
+msgid "updating dependency packages 'requiredby' fields"
+msgstr "mise a jour des champs 'requit par' des dépendances"
+
+#: ../add.c:795 ../remove.c:322
+#, c-format
+msgid "could not find dependency '%s'"
+msgstr "n'a pas pu trouver la dépendance '%s'"
+
+#: ../add.c:803 ../remove.c:332
+#, c-format
+msgid "could not update 'requiredby' database entry %s-%s"
+msgstr ""
+"n'a pas pu mettre à jour le champ 'requit par' de l'entrée de base de "
+"données %s-%s"
+
+#: ../add.c:830 ../remove.c:345
+#, c-format
+msgid "running \"ldconfig -r %s\""
+msgstr "execute \"ldconfig -r %s\""
+
+#: ../alpm.c:201
+#, c-format
+msgid "registering database '%s'"
+msgstr "enregistre la base de données '%s'"
+
+#: ../alpm.c:206
+#, c-format
+msgid "database directory '%s' does not exist -- try creating it"
+msgstr ""
+"le répertoire de base de données '%s' n'existe pas -- tentative de création"
+
+#: ../alpm.c:217
+#, c-format
+msgid "opening database '%s'"
+msgstr "ouvre la base de données '%s'"
+
+#: ../alpm.c:261
+#, c-format
+msgid "unregistering database '%s'"
+msgstr "désenregistre la base de données '%s'"
+
+#: ../alpm.c:266
+#, c-format
+msgid "closing database '%s'"
+msgstr "ferme la base de données '%s'"
+
+#: ../alpm.c:344
+#, c-format
+msgid ""
+"adding new server to database '%s': protocol '%s', server '%s', path '%s'"
+msgstr ""
+
+#: ../alpm.c:348
+#, c-format
+msgid "serverlist flushed for '%s'"
+msgstr ""
+
+#: ../alpm.c:383
+#, c-format
+msgid "failed to get lastupdate time for %s (no big deal)\n"
+msgstr ""
+
+#: ../alpm.c:402
+#, c-format
+msgid "sync: new mtime for %s: %s\n"
+msgstr ""
+
+#. remove the old dir
+#: ../alpm.c:408
+#, c-format
+msgid "flushing database %s/%s"
+msgstr "recharge la base de données %s/%s"
+
+#: ../alpm.c:412
+#, c-format
+msgid "could not remove database entry %s/%s"
+msgstr "n'a pas pu retirer l'entrée de base de données %s/%s"
+
+#. uncompress the sync database
+#. ORE
+#. we should not simply unpack the archive, but better parse it and
+#. db_write each entry (see sync_load_dbarchive to get archive content)
+#: ../alpm.c:426
+#, c-format
+msgid "unpacking %s"
+msgstr "décompacte %s"
+
+#: ../alpm.c:574
+#, c-format
+msgid "loading SCRIPLET info for '%s'"
+msgstr "charge les infos de SCRIPLET pour '%s'"
+
+#: ../alpm.c:673
+#, c-format
+msgid "could not get sha1 checksum for package %s-%s\n"
+msgstr "n'a pas pu obtenir la 'signature' sha1 pour le paquet %s-%s\n"
+
+#: ../alpm.c:684 ../alpm.c:731
+#, c-format
+msgid "checksums for package %s-%s are matching"
+msgstr "les 'signatures' correspondent pour le paquet %s-%s"
+
+#: ../alpm.c:687
+#, c-format
+msgid "sha1sums do not match for package %s-%s\n"
+msgstr "les 'signatures' sha1 ne correspondent pas pour le paquet %s-%s\n"
+
+#: ../alpm.c:720
+#, c-format
+msgid "could not get md5 checksum for package %s-%s\n"
+msgstr "n'a pas pu obtenir la 'signature' md5 pour le paquet %s-%s\n"
+
+#: ../alpm.c:734
+#, c-format
+msgid "md5sums do not match for package %s-%s\n"
+msgstr "les 'signatures' md5 ne correspondent pas pour le paquet %s-%s\n"
+
+#: ../alpm.c:993
+#, c-format
+msgid "could not remove lock file %s"
+msgstr "n'a pas pu effacer le fichier de verrou %s"
+
+#: ../alpm.c:994
+#, c-format
+msgid "warning: could not remove lock file %s"
+msgstr "avertissement: n'a pas pu effacer le fichier de verrou %s"
+
+#: ../alpm.c:1232
+#, c-format
+msgid "config: new section '%s'\n"
+msgstr ""
+
+#: ../alpm.c:1275
+msgid "config: usesyslog\n"
+msgstr ""
+
+#: ../alpm.c:1286
+#, c-format
+msgid "config: including %s\n"
+msgstr ""
+
+#: ../alpm.c:1298 ../alpm.c:1306
+#, c-format
+msgid "config: noupgrade: %s\n"
+msgstr ""
+
+#: ../alpm.c:1316 ../alpm.c:1324
+#, fuzzy, c-format
+msgid "config: noextract: %s\n"
+msgstr "n'a pas pu extraire %s: %s\n"
+
+#: ../alpm.c:1334 ../alpm.c:1342
+#, c-format
+msgid "config: ignorepkg: %s\n"
+msgstr ""
+
+#: ../alpm.c:1352 ../alpm.c:1360
+#, c-format
+msgid "config: holdpkg: %s\n"
+msgstr ""
+
+#: ../alpm.c:1370
+#, c-format
+msgid "config: dbpath: %s\n"
+msgstr ""
+
+#: ../alpm.c:1380
+#, c-format
+msgid "config: cachedir: %s\n"
+msgstr ""
+
+#: ../alpm.c:1386
+#, fuzzy, c-format
+msgid "config: log file: %s\n"
+msgstr "ne peut ouvrir le fichier de log %s"
+
+#. The config value is in days, we use seconds
+#: ../alpm.c:1394
+#, c-format
+msgid "config: UpgradeDelay: %i\n"
+msgstr ""
+
+#. add to the list
+#: ../alpm.c:1415
+#, fuzzy, c-format
+msgid "config: %s: server: %s\n"
+msgstr "avertissement: %s sauve en tant que %s"
+
+#: ../be_files.c:151
+#, c-format
+msgid "invalid name for dabatase entry '%s'"
+msgstr "nom invalide pour l'entrée de base de données '%s'"
+
+#: ../be_files.c:432
+#, c-format
+msgid "db_write: could not open file %s/desc"
+msgstr "db_write: n'a pas pu ouvrir le fichier %s/desc"
+
+#: ../be_files.c:517
+#, c-format
+msgid "db_write: could not open file %s/files"
+msgstr "db_write: n'a pas pu ouvrir le fichier %s/files"
+
+#: ../be_files.c:543
+#, c-format
+msgid "db_write: could not open file %s/depends"
+msgstr "db_write: n' pas pu ouvrir le fichier %s/depends"
+
+#: ../cache.c:57
+#, c-format
+msgid "loading package cache (infolevel=%#x) for repository '%s'"
+msgstr "chargement du cache de paquet (infolevel=%#x) pour le dépot '%s'"
+
+#: ../cache.c:77
+#, c-format
+msgid "freeing package cache for repository '%s'"
+msgstr "nettoyage du cache de paquet pour le dépot '%s'"
+
+#: ../cache.c:112
+#, c-format
+msgid "adding entry '%s' in '%s' cache"
+msgstr "ajout de l'entrée '%s' dans '%s' cache"
+
+#: ../cache.c:134
+#, c-format
+msgid "removing entry '%s' from '%s' cache"
+msgstr "retrait de l'entrée '%s' depuis '%s' cache"
+
+#: ../cache.c:165
+#, c-format
+msgid "loading group cache for repository '%s'"
+msgstr "chargement du group depuis le cache pour le dépot '%s'"
+
+#. CHECK 1: check targets against database
+#: ../conflict.c:71
+#, c-format
+msgid "checkconflicts: targ '%s' vs db"
+msgstr "analyse des conflits: cible '%s' comparée à la base"
+
+#. conflict
+#. confict
+#: ../conflict.c:80 ../conflict.c:94
+#, c-format
+msgid "targs vs db: found %s as a conflict for %s"
+msgstr "comparaison cibles / base de données : trouve %s comme conflit pour %s"
+
+#. CHECK 2: check targets against targets
+#: ../conflict.c:107
+#, c-format
+msgid "checkconflicts: targ '%s' vs targs"
+msgstr "analyse des conflits: cible '%s' comparée aux cibles"
+
+#. otp is listed in tp's conflict list
+#: ../conflict.c:116 ../conflict.c:129
+#, c-format
+msgid "targs vs targs: found %s as a conflict for %s"
+msgstr "comparaison cible / liste de cibles : trouve %s comme conflit pour %s"
+
+#. CHECK 3: check database against targets
+#: ../conflict.c:143
+#, c-format
+msgid "checkconflicts: db vs targ '%s'"
+msgstr "analyse des conflits: base de donnes comparée a la cible '%s'"
+
+#: ../conflict.c:170 ../conflict.c:185
+#, c-format
+msgid "db vs targs: found %s as a conflict for %s"
+msgstr "comparaison base de donnée / cibles: trouve %s en conflit avec %s"
+
+#: ../conflict.c:234 ../conflict.c:335 ../deps.c:54 ../deps.c:601
+#: ../deps.c:641 ../group.c:42 ../handle.c:62 ../package.c:98 ../sync.c:65
+#: ../sync.c:635 ../sync.c:651 ../sync.c:747 ../trans.c:49 ../util.c:598
+#: ../util.c:605
+#, c-format
+msgid "malloc failure: could not allocate %d bytes"
+msgstr "problème malloc: n'a pas pu allouer %d bytes"
+
+#: ../db.c:57 ../db.c:64
+#, c-format
+msgid "malloc failed: could not allocate %d bytes"
+msgstr "malloc à echoué: n'a pas pu allouer %d bytes"
+
+#: ../deps.c:118
+msgid "started sorting dependencies"
+msgstr "début du tri des dépendances"
+
+#: ../deps.c:123
+msgid "possible dependency cycle detected"
+msgstr "possible cycle de dépendances détecte"
+
+#: ../deps.c:166
+msgid "sorting dependencies finished"
+msgstr "fin du tri des dépendances"
+
+#: ../deps.c:260 ../deps.c:406
+#, c-format
+msgid "checkdeps: found %s as required by %s"
+msgstr "analyse des dépendances: trouve %s comme besoin pour %s"
+
+#: ../deps.c:370
+#, c-format
+msgid "checkdeps: found %s as a dependency for %s"
+msgstr "analyse des dépendances: trouve %s comme dépendance pour %s"
+
+#: ../deps.c:494
+#, c-format
+msgid "cannot find package \"%s\" or anything that provides it!"
+msgstr "ne peut trouver le paquet \"%s\" ou quoique ce soit qui le fournisse!"
+
+#: ../deps.c:499
+msgid "dep is NULL!"
+msgstr "dep est NULL!"
+
+#: ../deps.c:511
+#, c-format
+msgid "excluding %s -- explicitly installed"
+msgstr "exclue %s -- explicitement installe"
+
+#. add it to the target list
+#: ../deps.c:528
+#, c-format
+msgid "loading ALL info for '%s'"
+msgstr "chargement de TOUTES les infos pour '%s'"
+
+#: ../deps.c:531
+#, c-format
+msgid "adding '%s' to the targets"
+msgstr "ajoute '%s' aux cibles"
+
+#: ../deps.c:573
+#, c-format
+msgid "%s provides dependency %s -- skipping"
+msgstr "%s fourni la dépendance %s -- ignore"
+
+#: ../deps.c:597
+#, c-format
+msgid ""
+"cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
+msgstr ""
+"ne peut résoudre les dépendances pour \"%s\" (\"%s\" n'est pas dans le jeu "
+"de paquet)"
+
+#. this dep is already in the target list
+#: ../deps.c:614
+#, c-format
+msgid "dependency %s is already in the target list -- skipping"
+msgstr "la dépendance %s est déjà dans la liste de cible -- ignorée"
+
+#: ../deps.c:634
+#, c-format
+msgid "pulling dependency %s (needed by %s)"
+msgstr "récupère la dépendance %s (requise par %s)"
+
+#: ../deps.c:638
+#, c-format
+msgid "cannot resolve dependencies for \"%s\""
+msgstr "ne peut résoudre les dépendances pour \"%s\""
+
+#. cycle detected -- skip it
+#: ../deps.c:654
+#, c-format
+msgid "dependency cycle detected: %s"
+msgstr "cycle de dépendances détecte: %s"
+
+#: ../error.c:34
+msgid "out of memory!"
+msgstr "dépassement de mémoire!"
+
+#: ../error.c:36 ../error.c:135
+msgid "unexpected error"
+msgstr "erreur non prévue"
+
+#: ../error.c:38
+msgid "insufficient privileges"
+msgstr "autorisation insuffisante"
+
+#: ../error.c:40
+msgid "wrong or NULL argument passed"
+msgstr "mauvais argument ou NULL passé"
+
+#: ../error.c:42
+msgid "could not find or read file"
+msgstr "ne peut trouver ou lire le fichier"
+
+#: ../error.c:45
+msgid "library not initialized"
+msgstr "librairie non initialisée"
+
+#: ../error.c:47
+msgid "library already initialized"
+msgstr "librairie déjà initialisée"
+
+#: ../error.c:49
+msgid "unable to lock database"
+msgstr "incapable de verrouiller la base de données"
+
+#: ../error.c:52
+msgid "could not open database"
+msgstr "n'a pas pu ouvrir la base de données"
+
+#: ../error.c:54
+msgid "could not create database"
+msgstr "n'a pas pu créer la base de données"
+
+#: ../error.c:56
+msgid "database not initialized"
+msgstr "base de données non initialisée"
+
+#: ../error.c:58
+msgid "database already registered"
+msgstr "base de données déjà enregistrées"
+
+#: ../error.c:60
+msgid "could not find database"
+msgstr "n'a pas pu trouver la base de données"
+
+#: ../error.c:62
+msgid "could not update database"
+msgstr "n'a pas pu mettre a jour la base de données"
+
+#: ../error.c:64
+msgid "could not remove database entry"
+msgstr "n'a pas pu retirer l'entrée de base de données"
+
+#: ../error.c:71
+msgid "could not set parameter"
+msgstr "n'a pas pu définir le paramètre"
+
+#: ../error.c:74 ../error.c:80
+msgid "transaction not initialized"
+msgstr "transaction non initialisée"
+
+#: ../error.c:76
+msgid "transaction already initialized"
+msgstr "transaction déjà initialisée"
+
+#: ../error.c:78
+msgid "duplicate target"
+msgstr "cible répétée"
+
+#: ../error.c:82
+msgid "transaction not prepared"
+msgstr "transaction non préparée"
+
+#: ../error.c:84
+msgid "transaction aborted"
+msgstr "transaction annulée"
+
+#: ../error.c:86
+msgid "operation not compatible with the transaction type"
+msgstr "opération incompatible avec le type de transaction"
+
+#: ../error.c:89
+msgid "could not find or read package"
+msgstr "ne peut trouver ou lire le paquet"
+
+#: ../error.c:91
+msgid "invalid or corrupted package"
+msgstr "paquet invalide ou corrompu"
+
+#: ../error.c:93
+msgid "cannot open package file"
+msgstr "ne peut ouvrir le fichier de paquet"
+
+#: ../error.c:95
+msgid "cannot load package data"
+msgstr "ne peut charger les données du paquet"
+
+#: ../error.c:97
+msgid "package already installed"
+msgstr "paquet déjà installé"
+
+#: ../error.c:99
+msgid "package not installed or lesser version"
+msgstr "paquet non installé ou version plus ancienne"
+
+#: ../error.c:101
+msgid "package name is not valid"
+msgstr "nom de paquet invalide"
+
+#: ../error.c:103
+msgid "corrupted package"
+msgstr "paquet corrompu"
+
+#: ../error.c:106
+msgid "group not found"
+msgstr "groupe non trouvé"
+
+#: ../error.c:109
+msgid "could not satisfy dependencies"
+msgstr "n'a pas pu satisfaire les dépendances"
+
+#: ../error.c:111
+msgid "conflicting dependencies"
+msgstr "conflit de dépendances"
+
+#: ../error.c:113
+msgid "conflicting files"
+msgstr "conflit de fichier"
+
+#: ../error.c:116
+msgid "user aborted"
+msgstr "annulation utilisateur"
+
+#: ../error.c:118
+msgid "libarchive error"
+msgstr "erreur de libarchive"
+
+#: ../error.c:120
+msgid "internal error"
+msgstr "erreur interne"
+
+#: ../error.c:122
+msgid "not enough space"
+msgstr ""
+
+#: ../error.c:124
+msgid "not confirmed"
+msgstr ""
+
+#: ../error.c:127
+msgid "bad section name"
+msgstr ""
+
+#: ../error.c:129
+msgid "'local' is reserved and cannot be used as a package tree"
+msgstr ""
+
+#: ../error.c:131
+#, fuzzy
+msgid "syntax error"
+msgstr "erreur interne"
+
+#: ../error.c:133
+msgid "all directives must belong to a section"
+msgstr ""
+
+#: ../handle.c:143
+#, c-format
+msgid "PM_OPT_DBPATH set to '%s'"
+msgstr "PM_OPT_DBPATH défini à '%s'"
+
+#: ../handle.c:150
+#, c-format
+msgid "PM_OPT_CACHEDIR set to '%s'"
+msgstr "PM_OPT_CACHEDIR défini à '%s'"
+
+#: ../handle.c:167
+#, c-format
+msgid "can't open log file %s"
+msgstr "ne peut ouvrir le fichier de log %s"
+
+#: ../handle.c:171
+#, c-format
+msgid "PM_OPT_LOGFILE set to '%s'"
+msgstr "PM_OPT_LOGFILE défini à '%s'"
+
+#: ../handle.c:176
+#, c-format
+msgid "'%s' added to PM_OPT_NOUPGRADE"
+msgstr "'%s' ajouté à PM_OPT_NOUPGRADE"
+
+#: ../handle.c:179
+msgid "PM_OPT_NOUPGRADE flushed"
+msgstr "PM_OPT_NOUPGRADE rechargé"
+
+#: ../handle.c:185
+#, c-format
+msgid "'%s' added to PM_OPT_NOEXTRACT"
+msgstr "'%s' ajouté à PM_OPT_NOEXTRACT"
+
+#: ../handle.c:188
+msgid "PM_OPT_NOEXTRACT flushed"
+msgstr "PM_OPT_NOEXTRACT rechargé"
+
+#: ../handle.c:194
+#, c-format
+msgid "'%s' added to PM_OPT_IGNOREPKG"
+msgstr "'%s' ajouté à PM_OPT_IGNOREPKG"
+
+#: ../handle.c:197
+msgid "PM_OPT_IGNOREPKG flushed"
+msgstr "PM_OPT_IGNOREPKG rechargé"
+
+#: ../handle.c:203
+#, fuzzy, c-format
+msgid "'%s' added to PM_OPT_HOLDPKG"
+msgstr "'%s' ajouté à PM_OPT_IGNOREPKG"
+
+#: ../handle.c:206
+#, fuzzy
+msgid "PM_OPT_HOLDPKG flushed"
+msgstr "PM_OPT_IGNOREPKG rechargé"
+
+#: ../handle.c:222
+#, c-format
+msgid "PM_OPT_USESYSLOG set to '%d'"
+msgstr "PM_OPT_USESYSLOG défini à '%d'"
+
+#: ../handle.c:262
+#, c-format
+msgid "PM_OPT_LOGMASK set to '%02x'"
+msgstr "PM_OPT_LOGMASK défini à '%02x'"
+
+#: ../handle.c:281
+#, fuzzy, c-format
+msgid "PM_OPT_PROXYHOST set to '%s'"
+msgstr "PM_OPT_DBPATH défini à '%s'"
+
+#: ../handle.c:285
+#, fuzzy, c-format
+msgid "PM_OPT_PROXYPORT set to '%d'"
+msgstr "PM_OPT_DBPATH défini à '%s'"
+
+#: ../handle.c:296
+#, fuzzy, c-format
+msgid "PM_OPT_XFERCOMMAND set to '%s'"
+msgstr "PM_OPT_CACHEDIR défini à '%s'"
+
+#: ../handle.c:300
+#, fuzzy, c-format
+msgid "PM_OPT_NOPASSIVEFTP set to '%d'"
+msgstr "PM_OPT_DBPATH défini à '%s'"
+
+#: ../handle.c:304
+#, fuzzy, c-format
+msgid "PM_OPT_CHOMP set to '%d'"
+msgstr "PM_OPT_CACHEDIR défini à '%s'"
+
+#: ../md5driver.c:48 ../sha1.c:395
+#, c-format
+msgid "%s can't be opened\n"
+msgstr "%s ne peut etre ouvert\n"
+
+#: ../package.c:185
+#, c-format
+msgid "could not open file %s"
+msgstr "ne peut ouvrir le fichier %s"
+
+#: ../package.c:202 ../package.c:262
+#, c-format
+msgid "%s: syntax error in description file line %d"
+msgstr "%s: erreur de syntaxe dans le fichier de description à la ligne %d"
+
+#: ../package.c:319
+msgid "could not parse the package description file"
+msgstr "n'a pas pu analyser le fichier de description"
+
+#: ../package.c:327
+#, c-format
+msgid "missing package name in %s"
+msgstr "nom de paquet manquant dans %s"
+
+#: ../package.c:335
+#, c-format
+msgid "missing package version in %s"
+msgstr "version de paquet manquant dans %s"
+
+#: ../package.c:374
+#, c-format
+msgid "could not remove tempfile %s"
+msgstr "ne peut effacer le fichier temporaire %s"
+
+#: ../package.c:391
+#, c-format
+msgid "bad package file in %s"
+msgstr "mauvais fichier de paquet dans %s"
+
+#: ../package.c:399
+#, c-format
+msgid "missing package info file in %s"
+msgstr "fichier d'information manquant dans le paquet %s"
+
+#: ../remove.c:76
+#, c-format
+msgid "could not find %s in database"
+msgstr "ne peut trouver %s dans la base de données"
+
+#: ../remove.c:88
+#, c-format
+msgid "adding %s in the targets list"
+msgstr "ajoute %s dans la liste de cibles"
+
+#: ../remove.c:114
+#, c-format
+msgid "pulling %s in the targets list"
+msgstr "envoie %s dans la liste de destination"
+
+#: ../remove.c:117
+#, c-format
+msgid "could not find %s in database -- skipping"
+msgstr "ne peut trouver %s dans la base de données -- ignoré"
+
+#: ../remove.c:135
+msgid "finding removable dependencies"
+msgstr "trouve les dépendances dispensables"
+
+#: ../remove.c:180
+#, c-format
+msgid "removing package %s-%s"
+msgstr "retrait du paquet %s-%s"
+
+#: ../remove.c:191
+msgid "removing files"
+msgstr "efface les fichiers"
+
+#: ../remove.c:217
+#, c-format
+msgid "file %s does not exist"
+msgstr "le fichier %s n'existe pas"
+
+#. this is okay, other packages are probably using it.
+#: ../remove.c:223
+#, c-format
+msgid "keeping directory %s"
+msgstr "conserve le répertoire %s"
+
+#: ../remove.c:225
+#, c-format
+msgid "removing directory %s"
+msgstr "efface le répertoire %s"
+
+#: ../remove.c:239
+#, c-format
+msgid "skipping removal of %s as it has moved to another package"
+msgstr "ignore l'effacement de %s car il a été déplacé dans un autre paquet"
+
+#: ../remove.c:251 ../remove.c:252
+#, c-format
+msgid "%s saved as %s"
+msgstr "%s sauve en tant que %s"
+
+#: ../remove.c:254 ../remove.c:261
+#, c-format
+msgid "unlinking %s"
+msgstr "suppression %s"
+
+#: ../remove.c:256 ../remove.c:266
+#, c-format
+msgid "cannot remove file %s"
+msgstr "ne peut effacer le fichier %s"
+
+#: ../remove.c:285
+#, c-format
+msgid "removing database entry '%s'"
+msgstr "ne peut effacer l'entrée de base de de données %s"
+
+#: ../remove.c:287
+#, c-format
+msgid "could not remove database entry %s-%s"
+msgstr "ne peut retirer l'entrée de base de donnée %s-%s"
+
+#: ../remove.c:290
+#, c-format
+msgid "could not remove entry '%s' from cache"
+msgstr "ne peut retirer l'entrée '%s' du cache"
+
+#: ../remove.c:330
+#, c-format
+msgid "updating 'requiredby' field for package '%s'"
+msgstr "mise à jour du champ 'requit par' pour le paquet '%s'"
+
+#. check for "recommended" package replacements
+#: ../sync.c:160
+msgid "checking for package replacements"
+msgstr "vérification des remplacements pour le paquet"
+
+#: ../sync.c:169
+#, c-format
+msgid "checking replacement '%s' for package '%s'"
+msgstr "analyse du remplacement '%s' pour le paquet '%s'"
+
+#: ../sync.c:171
+#, c-format
+msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)"
+msgstr "%s-%s: ignore la mise a jour du paquet (à remplacer par %s-%s)"
+
+#: ../sync.c:205
+#, c-format
+msgid "%s-%s elected for upgrade (to be replaced by %s-%s)"
+msgstr "%s-%s sélectionné pour mise à jour (à remplacer par %s-%s)"
+
+#. match installed packages with the sync dbs and compare versions
+#: ../sync.c:217
+msgid "checking for package upgrades"
+msgstr "vérification des mises à jour de paquets"
+
+#: ../sync.c:229
+#, c-format
+msgid "'%s' not found in sync db -- skipping"
+msgstr "'%s' non trouvé dans la liste de synchronisation -- ignoré"
+
+#: ../sync.c:243 ../sync.c:530
+#, c-format
+msgid "'%s' is already elected for removal -- skipping"
+msgstr "'%s' est déjà sélectionné pour retrait -- ignoré"
+
+#. local version is newer
+#: ../sync.c:252
+#, c-format
+msgid "%s-%s: local version is newer"
+msgstr "%s-%s: la version locale est plus récente"
+
+#. package should be ignored (IgnorePkg)
+#: ../sync.c:258
+#, c-format
+msgid "%s-%s: ignoring package upgrade (%s)"
+msgstr "%s-%s: ignore la mise à jour du paquet (%s)"
+
+#. package too new (UpgradeDelay)
+#: ../sync.c:262
+#, c-format
+msgid "%s-%s: delaying upgrade of package (%s)\n"
+msgstr "%s-%s: repousse la mise à jour du paquet (%s)\n"
+
+#: ../sync.c:266
+#, c-format
+msgid "%s-%s elected for upgrade (%s => %s)"
+msgstr "%s-%s sélectionné pour mise à jour (%s => %s)"
+
+#. Search provides
+#: ../sync.c:317 ../sync.c:336
+#, c-format
+msgid "target '%s' not found -- looking for provisions"
+msgstr "cible '%s' non trouvée -- recherche des dispositions"
+
+#: ../sync.c:322 ../sync.c:341
+#, c-format
+msgid "found '%s' as a provision for '%s'"
+msgstr "trouvé '%s' comme disposition pour '%s'"
+
+#: ../sync.c:360
+#, c-format
+msgid "%s-%s: local version is newer -- skipping"
+msgstr "%s-%s: la version locale est plus récente -- ignoré"
+
+#: ../sync.c:368
+#, c-format
+msgid "%s-%s is up to date -- skipping"
+msgstr "%s-%s est à jour -- ignoré"
+
+#: ../sync.c:388
+#, c-format
+msgid "adding target '%s' to the transaction set"
+msgstr "ajout de la cible '%s' au jeu de transaction"
+
+#: ../sync.c:433
+msgid "resolving targets dependencies"
+msgstr "résolution des dépendances pour les cibles"
+
+#: ../sync.c:453
+#, c-format
+msgid "adding package %s-%s to the transaction targets"
+msgstr "ajout du paquet %s-%s à la liste de transactions"
+
+#: ../sync.c:485
+msgid "looking for unresolvable dependencies"
+msgstr "recherche de dépendancea non soluble"
+
+#: ../sync.c:515
+#, c-format
+msgid "package '%s' is conflicting with '%s'"
+msgstr "le paquet '%s' est en conflit avec '%s'"
+
+#: ../sync.c:537
+#, c-format
+msgid "'%s' not found in transaction set -- skipping"
+msgstr "'%s' non trouve dans le jeu de transaction -- ignoré"
+
+#. so just treat it like a "replaces" item so the REQUIREDBY
+#. * fields are inherited properly.
+#.
+#: ../sync.c:548
+#, c-format
+msgid "package '%s' provides its own conflict"
+msgstr "le paquet '%s' génère son propre conflit"
+
+#: ../sync.c:571 ../sync.c:576
+#, c-format
+msgid "'%s' is in the target list -- keeping it"
+msgstr "'%s' est dans la la liste de cibles -- conservation"
+
+#: ../sync.c:588 ../sync.c:625
+#, c-format
+msgid "removing '%s' from target list"
+msgstr "retire '%s' de la liste de cibles"
+
+#. It's a conflict -- see if they want to remove it
+#.
+#: ../sync.c:597
+#, c-format
+msgid "resolving package '%s' conflict"
+msgstr "résolution du conflit de paquet '%s'"
+
+#. append to the replaces list
+#: ../sync.c:620
+#, c-format
+msgid "electing '%s' for removal"
+msgstr "sélection de  '%s' pour retrait"
+
+#. abort
+#: ../sync.c:631 ../sync.c:647
+msgid "unresolvable package conflicts detected"
+msgstr "conflit de paquets non soluble détecté"
+
+#: ../sync.c:699
+msgid "checking dependencies of packages designated for removal"
+msgstr "analyse des dépendances pour les paquets marques à retirer"
+
+#: ../sync.c:713
+msgid "something has gone horribly wrong"
+msgstr "quelque chose s'est horriblement mal passé"
+
+#. found matching provisio -- we're good to go
+#: ../sync.c:732
+#, c-format
+msgid "found '%s' as a provision for '%s' -- conflict aborted"
+msgstr "trouvé '%s' comme disposition pour '%s' -- conflit annulé"
+
+#: ../sync.c:825
+#, c-format
+msgid "%s-%s-%s%s is already in the cache\n"
+msgstr ""
+
+#. no cache directory.... try creating it
+#: ../sync.c:837
+#, c-format
+msgid "no %s cache exists.  creating...\n"
+msgstr ""
+
+#: ../sync.c:838
+#, c-format
+msgid "warning: no %s cache exists.  creating..."
+msgstr ""
+
+#. couldn't mkdir the cache directory, so fall back to /tmp and unlink
+#. * the package afterwards.
+#.
+#: ../sync.c:843
+msgid "couldn't create package cache, using /tmp instead\n"
+msgstr ""
+
+#: ../sync.c:844
+msgid "warning: couldn't create package cache, using /tmp instead"
+msgstr ""
+
+#: ../sync.c:847
+#, c-format
+msgid "failed to set option CACHEDIR (%s)\n"
+msgstr ""
+
+#: ../sync.c:854
+#, c-format
+msgid "failed to retrieve some files from %s\n"
+msgstr ""
+
+#: ../sync.c:883 ../sync.c:895
+#, c-format
+msgid "can't get md5 or sha1 checksum for package %s\n"
+msgstr "ne peut obtenir la 'signature' md5 ou sha1 pour le paquet %s\n"
+
+#: ../sync.c:914
+#, c-format
+msgid "archive %s was corrupted (bad MD5 or SHA1 checksum)\n"
+msgstr "l'archive %s était corrompue (mauvaise somme MD5 ou SHA1)\n"
+
+#: ../sync.c:916
+#, c-format
+msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
+msgstr "l'archive %s est corrompue (mauvaise somme MD5 ou SHA1)\n"
+
+#: ../sync.c:936
+msgid "could not create removal transaction"
+msgstr "n'a pas pu créer la transaction de retrait"
+
+#: ../sync.c:942
+msgid "could not initialize the removal transaction"
+msgstr "n'a pas pu initialiser la transaction de retrait"
+
+#: ../sync.c:962
+msgid "removing conflicting and to-be-replaced packages"
+msgstr "efface les paquets en conflit et ceux à remplacer"
+
+#: ../sync.c:964
+msgid "could not prepare removal transaction"
+msgstr "n'a pas pu préparer la transaction de retrait"
+
+#: ../sync.c:970
+msgid "could not commit removal transaction"
+msgstr "n'a pas pu appliquer la transaction de retrait"
+
+#. install targets
+#: ../sync.c:977
+msgid "installing packages"
+msgstr "installe les paquets"
+
+#: ../sync.c:980
+msgid "could not create transaction"
+msgstr "n'a pas pu créer la transaction"
+
+#: ../sync.c:985
+msgid "could not initialize transaction"
+msgstr "n'a pas pu initialiser la transaction"
+
+#: ../sync.c:1004
+msgid "could not prepare transaction"
+msgstr "n'a pas pu préparer la transaction"
+
+#: ../sync.c:1009
+msgid "could not commit transaction"
+msgstr "n'a pas pu appliquer la transaction"
+
+#: ../sync.c:1016
+msgid "updating database for replaced packages' dependencies"
+msgstr ""
+"mise a jour de la base de données concernant les dépendances de paquets "
+"remplaces"
+
+#: ../sync.c:1045
+#, c-format
+msgid "could not update requiredby for database entry %s-%s"
+msgstr ""
+"n'a pas pu mettre a jour les pré-requis pour l'entrée de base de données %s-%"
+"s"
+
+#: ../sync.c:1054
+#, c-format
+msgid "could not update new database entry %s-%s"
+msgstr "n'a pu mettre a jour la nouvelle entrée de base de données %s-%s"
+
+#: ../util.c:285
+#, c-format
+msgid "could not extract %s: %s\n"
+msgstr "n'a pas pu extraire %s: %s\n"
+
+#: ../util.c:436
+msgid "could not create temp directory"
+msgstr "n'a pas pu créer le répertoire temporaire"
+
+#: ../util.c:463
+#, c-format
+msgid "could not change directory to %s (%s)"
+msgstr "n'a pas pu changer de répertoire pour %s (%s)"
+
+#: ../util.c:466
+#, c-format
+msgid "executing %s script..."
+msgstr "exécute le script %s ..."
+
+#: ../util.c:479
+#, c-format
+msgid "could not fork a new process (%s)"
+msgstr "n'a pas pu générer un nouveau processus (%s)"
+
+#: ../util.c:486
+#, c-format
+msgid "chrooting in %s"
+msgstr "chroot dans %s"
+
+#: ../util.c:488
+#, c-format
+msgid "could not change the root directory (%s)"
+msgstr "n'a pas pu changer le répertoire racine (%s)"
+
+#: ../util.c:492
+#, c-format
+msgid "could not change directory to / (%s)"
+msgstr "n'a pas pu changer de répertoire vers / (%s)"
+
+#: ../util.c:496
+#, c-format
+msgid "executing \"%s\""
+msgstr "exécute \"%s\""
+
+#: ../util.c:499
+#, fuzzy, c-format
+msgid "call to popen failed (%s)"
+msgstr "la demande de mise en attente du pid a échouée (%s)"
+
+#: ../util.c:521
+#, c-format
+msgid "call to waitpid failed (%s)"
+msgstr "la demande de mise en attente du pid a échouée (%s)"
+
+#: ../util.c:529
+#, c-format
+msgid "could not remove tmpdir %s"
+msgstr "n'a pas pu effacer tmpdir %s"
+
+#: ../util.c:593
+#, c-format
+msgid "check_freespace: total pkg size: %lld, disk space: %lld"
+msgstr ""
