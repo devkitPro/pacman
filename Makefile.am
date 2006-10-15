@@ -19,3 +19,8 @@ EXTRA_DIST =		\
 
 check:
 	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman --debug=1
+
+tags:
+	ctags -a lib/libalpm/*.[ch]
+	ctags -a lib/libftp/*.[ch]
+	ctags -a src/pacman/*.[ch]
