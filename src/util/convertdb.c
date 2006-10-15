@@ -28,9 +28,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "alpm.h"
-#include "list.h"
-#include "util.h"
+
+#include <alpm.h>
+#include <list.h>
+#include <util.h>
+
+/*#ifndef PATH_MAX
+#define PATH_MAX 512
+#endif*/
 
 int main(int argc, char* argv[])
 {
