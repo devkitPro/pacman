@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-31 14:04-0700\n"
+"POT-Creation-Date: 2006-09-03 13:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../add.c:69 ../deptest.c:64 ../remove.c:83 ../sync.c:413 ../sync.c:452
+#: ../add.c:69 ../deptest.c:64 ../remove.c:83 ../sync.c:378 ../sync.c:417
 #, c-format
 msgid ""
 "       if you're sure a package manager is not already running,\n"
-"       you can remove %s\n"
+"       you can remove %s%s\n"
 msgstr ""
 
 #. and add targets to it
@@ -28,7 +28,7 @@ msgstr ""
 msgid "loading package data... "
 msgstr ""
 
-#: ../add.c:79 ../remove.c:99
+#: ../add.c:79 ../remove.c:92
 #, c-format
 msgid "failed to add target '%s' (%s)\n"
 msgstr ""
@@ -37,180 +37,50 @@ msgstr ""
 msgid "done."
 msgstr ""
 
-#: ../add.c:91 ../remove.c:109 ../sync.c:522
+#: ../add.c:92 ../remove.c:102 ../sync.c:505
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr ""
 
-#: ../add.c:96
+#: ../add.c:97
 #, c-format
 msgid ":: %s: requires %s"
 msgstr ""
 
-#: ../add.c:110
+#: ../add.c:111 ../sync.c:526
 #, c-format
 msgid ":: %s: conflicts with %s"
 msgstr ""
 
-#: ../add.c:120 ../sync.c:752
+#: ../add.c:121 ../sync.c:649
 #, c-format
-msgid "%s exists in \"%s\" (target) and \"%s\" (target)"
+msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)"
 msgstr ""
 
-#: ../add.c:126 ../sync.c:758
+#: ../add.c:128 ../sync.c:656
 #, c-format
-msgid "%s: %s exists in filesystem"
+msgid "%s: %s%s exists in filesystem"
 msgstr ""
 
-#: ../add.c:133 ../sync.c:765
+#: ../add.c:136 ../sync.c:664 ../sync.c:671
 msgid ""
 "\n"
 "errors occurred, no packages were upgraded.\n"
 msgstr ""
 
-#: ../add.c:145 ../remove.c:149 ../sync.c:745
+#: ../add.c:143 ../sync.c:536
+#, c-format
+msgid ":: %.1f MB required, have %.1f MB"
+msgstr ""
+
+#: ../add.c:157 ../remove.c:142 ../sync.c:642
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr ""
 
-#: ../add.c:154 ../remove.c:160 ../sync.c:445 ../sync.c:785
+#: ../add.c:164 ../remove.c:152 ../sync.c:410 ../sync.c:684
 #, c-format
 msgid "failed to release transaction (%s)\n"
-msgstr ""
-
-#: ../conf.c:102
-#, c-format
-msgid "config: new section '%s'\n"
-msgstr ""
-
-#: ../conf.c:104
-#, c-format
-msgid "config: line %d: bad section name\n"
-msgstr ""
-
-#: ../conf.c:108
-#, c-format
-msgid ""
-"config: line %d: '%s' is reserved and cannot be used as a package tree\n"
-msgstr ""
-
-#: ../conf.c:134 ../conf.c:156 ../conf.c:279 ../conf.c:345
-#, c-format
-msgid "config: line %d: syntax error\n"
-msgstr ""
-
-#: ../conf.c:140
-#, c-format
-msgid "config: line %d: all directives must belong to a section\n"
-msgstr ""
-
-#: ../conf.c:146
-msgid "config: nopassiveftp\n"
-msgstr ""
-
-#: ../conf.c:149
-#, c-format
-msgid "failed to set option USESYSLOG (%s)\n"
-msgstr ""
-
-#: ../conf.c:152
-msgid "config: usesyslog\n"
-msgstr ""
-
-#: ../conf.c:164
-#, c-format
-msgid "config: including %s\n"
-msgstr ""
-
-#: ../conf.c:173 ../conf.c:181
-#, c-format
-msgid "failed to set option NOUPGRADE (%s)\n"
-msgstr ""
-
-#: ../conf.c:176 ../conf.c:184
-#, c-format
-msgid "config: noupgrade: %s\n"
-msgstr ""
-
-#: ../conf.c:191 ../conf.c:199
-#, c-format
-msgid "failed to set option NOEXTRACT (%s)\n"
-msgstr ""
-
-#: ../conf.c:194 ../conf.c:202
-#, c-format
-msgid "config: noextract: %s\n"
-msgstr ""
-
-#: ../conf.c:209 ../conf.c:217 ../pacman.c:508
-#, c-format
-msgid "failed to set option IGNOREPKG (%s)\n"
-msgstr ""
-
-#: ../conf.c:212 ../conf.c:220
-#, c-format
-msgid "config: ignorepkg: %s\n"
-msgstr ""
-
-#: ../conf.c:227 ../conf.c:232
-#, c-format
-msgid "config: holdpkg: %s\n"
-msgstr ""
-
-#: ../conf.c:240
-#, c-format
-msgid "config: dbpath: %s\n"
-msgstr ""
-
-#: ../conf.c:248
-#, c-format
-msgid "config: cachedir: %s\n"
-msgstr ""
-
-#: ../conf.c:251
-#, c-format
-msgid "failed to set option LOGFILE (%s)\n"
-msgstr ""
-
-#: ../conf.c:254
-#, c-format
-msgid "config: log file: %s\n"
-msgstr ""
-
-#: ../conf.c:258
-#, c-format
-msgid "config: xfercommand: %s\n"
-msgstr ""
-
-#: ../conf.c:268 ../conf.c:294 ../conf.c:300
-#, c-format
-msgid "config: line %d: bad server location\n"
-msgstr ""
-
-#: ../conf.c:274
-#, c-format
-msgid "config: proxyserver: %s\n"
-msgstr ""
-
-#: ../conf.c:277
-#, c-format
-msgid "config: proxyport: %u\n"
-msgstr ""
-
-#: ../conf.c:317 ../conf.c:332
-#, c-format
-msgid "could not allocate %d bytes\n"
-msgstr ""
-
-#: ../conf.c:338
-#, c-format
-msgid "config: line %d: protocol %s is not supported\n"
-msgstr ""
-
-#. add to the list
-#: ../conf.c:342
-#, c-format
-msgid "config: %s: server: %s %s %s\n"
 msgstr ""
 
 #: ../deptest.c:77
@@ -237,118 +107,9 @@ msgstr ""
 msgid "conflict: %s"
 msgstr ""
 
-#: ../deptest.c:140 ../deptest.c:157
+#: ../deptest.c:140 ../deptest.c:158
 #, c-format
 msgid "could not release transaction (%s)"
-msgstr ""
-
-#: ../download.c:208
-#, c-format
-msgid "connecting to %s:21\n"
-msgstr ""
-
-#: ../download.c:210 ../download.c:241 ../download.c:415
-#, c-format
-msgid "cannot connect to %s\n"
-msgstr ""
-
-#: ../download.c:214
-msgid "anonymous login failed\n"
-msgstr ""
-
-#: ../download.c:219
-#, c-format
-msgid "could not cwd to %s: %s\n"
-msgstr ""
-
-#: ../download.c:225
-msgid "failed to set passive mode\n"
-msgstr ""
-
-#: ../download.c:228
-msgid "FTP passive mode not set\n"
-msgstr ""
-
-#: ../download.c:236 ../download.c:410
-#, c-format
-msgid "connecting to %s\n"
-msgstr ""
-
-#: ../download.c:238 ../download.c:412
-#, c-format
-msgid "connecting to %s:%u\n"
-msgstr ""
-
-#: ../download.c:300
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr ""
-
-#. execute the parsed command via /bin/sh -c
-#: ../download.c:304
-#, c-format
-msgid "running command: %s\n"
-msgstr ""
-
-#: ../download.c:307
-msgid "running XferCommand: fork failed!\n"
-msgstr ""
-
-#. download failed
-#: ../download.c:311
-#, c-format
-msgid "XferCommand command returned non-zero status code (%d)\n"
-msgstr ""
-
-#: ../download.c:356
-#, c-format
-msgid "failed to get filesize for %s\n"
-msgstr ""
-
-#: ../download.c:362 ../download.c:475
-#, c-format
-msgid "failed to get mtime for %s\n"
-msgstr ""
-
-#. mtimes are identical, skip this file
-#: ../download.c:367 ../download.c:460
-#, c-format
-msgid "mtimes are identical, skipping %s\n"
-msgstr ""
-
-#: ../download.c:382
-msgid "failed to resume download -- restarting\n"
-msgstr ""
-
-#: ../download.c:389 ../download.c:464
-#, c-format
-msgid ""
-"\n"
-"failed downloading %s from %s: %s\n"
-msgstr ""
-
-#: ../download.c:483
-#, c-format
-msgid "copying %s to %s/%s\n"
-msgstr ""
-
-#: ../download.c:486
-#, c-format
-msgid "failed copying %s\n"
-msgstr ""
-
-#: ../download.c:502
-msgid "] 100%    LOCAL "
-msgstr ""
-
-#: ../download.c:564
-#, c-format
-msgid " %s is already in the current directory\n"
-msgstr ""
-
-#: ../download.c:578
-#, c-format
-msgid "failed to download %s\n"
 msgstr ""
 
 #: ../list.c:143 ../list.c:171
@@ -356,47 +117,50 @@ msgstr ""
 msgid "None\n"
 msgstr ""
 
-#: ../log.c:54
+#: ../log.c:55
 #, c-format
 msgid "debug"
 msgstr ""
 
-#: ../log.c:57
+#: ../log.c:58
 #, c-format
 msgid "error"
 msgstr ""
 
-#: ../log.c:60
+#: ../log.c:61
 #, c-format
 msgid "warning"
 msgstr ""
 
-#: ../log.c:63
+#: ../log.c:64
 #, c-format
 msgid "flow1"
 msgstr ""
 
-#: ../log.c:66
+#: ../log.c:67
 #, c-format
 msgid "flow2"
 msgstr ""
 
-#: ../log.c:69
+#: ../log.c:70
 #, c-format
 msgid "function"
 msgstr ""
 
-#: ../log.c:72
-#, c-format
-msgid "???"
-msgstr ""
-
-#: ../log.c:153
+#: ../log.c:154
 msgid "Y"
 msgstr ""
 
-#: ../log.c:153
+#: ../log.c:154
 msgid "YES"
+msgstr ""
+
+#: ../log.h:26
+msgid "error: "
+msgstr ""
+
+#: ../log.h:30
+msgid "warning: "
 msgstr ""
 
 #: ../package.c:46
@@ -416,11 +180,6 @@ msgstr ""
 #: ../package.c:51
 #, c-format
 msgid "Packager       : %s\n"
-msgstr ""
-
-#: ../package.c:52
-#, c-format
-msgid "URL            : %s\n"
 msgstr ""
 
 #: ../package.c:53
@@ -444,336 +203,355 @@ msgstr ""
 
 #: ../package.c:60
 #, c-format
-msgid "Install Date   : %s %s\n"
+msgid "Build Type     : %s\n"
+msgstr ""
+
+#: ../package.c:60
+msgid "Unknown"
 msgstr ""
 
 #: ../package.c:62
+#, c-format
+msgid "Install Date   : %s %s\n"
+msgstr ""
+
+#: ../package.c:64
 #, c-format
 msgid "Install Script : %s\n"
 msgstr ""
 
 #: ../package.c:64
-#, c-format
-msgid "Reason:        : "
+msgid "Yes"
 msgstr ""
 
-#: ../package.c:67
+#: ../package.c:64
+msgid "No"
+msgstr ""
+
+#: ../package.c:66
+#, c-format
+msgid "Reason         : "
+msgstr ""
+
+#: ../package.c:69
 #, c-format
 msgid "Explicitly installed\n"
 msgstr ""
 
-#: ../package.c:70
+#: ../package.c:72
 #, c-format
 msgid "Installed as a dependency for another package\n"
 msgstr ""
 
-#: ../package.c:73
+#: ../package.c:75
 #, c-format
 msgid "Unknown\n"
 msgstr ""
 
-#: ../package.c:77
+#: ../package.c:79
 msgid "Provides       :"
 msgstr ""
 
-#: ../package.c:78
+#: ../package.c:80
 msgid "Depends On     :"
 msgstr ""
 
-#: ../package.c:79
-msgid "Required By    :"
-msgstr ""
-
-#: ../package.c:80
-msgid "Conflicts With :"
+#: ../package.c:81
+msgid "Removes        :"
 msgstr ""
 
 #: ../package.c:82
+msgid "Required By    :"
+msgstr ""
+
+#: ../package.c:83
+msgid "Conflicts With :"
+msgstr ""
+
+#: ../package.c:85
 #, c-format
 msgid "Description    : "
 msgstr ""
 
-#: ../package.c:106
+#: ../package.c:110
 #, c-format
-msgid "error calculating md5sum for %s\n"
+msgid "error calculating md5sum or sha1sum for %s\n"
 msgstr ""
 
-#: ../package.c:110
+#: ../package.c:115 ../package.c:117
 #, c-format
 msgid "%sMODIFIED\t%s\n"
 msgstr ""
 
-#: ../package.c:113
+#: ../package.c:115 ../package.c:117
+msgid "NOT "
+msgstr ""
+
+#: ../package.c:121
 #, c-format
 msgid "MISSING\t\t%s\n"
 msgstr ""
 
-#: ../package.c:131
+#: ../package.c:139
 #, c-format
 msgid "Repository        : %s\n"
 msgstr ""
 
-#: ../package.c:132
+#: ../package.c:140
 #, c-format
 msgid "Name              : %s\n"
 msgstr ""
 
-#: ../package.c:133
+#: ../package.c:141
 #, c-format
 msgid "Version           : %s\n"
 msgstr ""
 
-#: ../package.c:135
+#: ../package.c:143
 msgid "Groups            :"
 msgstr ""
 
-#: ../package.c:136
+#: ../package.c:144
 msgid "Provides          :"
 msgstr ""
 
-#: ../package.c:137
+#: ../package.c:145
 msgid "Depends On        :"
 msgstr ""
 
-#: ../package.c:138
+#: ../package.c:146
+msgid "Removes           :"
+msgstr ""
+
+#: ../package.c:147
 msgid "Conflicts With    :"
 msgstr ""
 
-#: ../package.c:139
+#: ../package.c:148
 msgid "Replaces          :"
 msgstr ""
 
-#: ../package.c:141
+#: ../package.c:150
 #, c-format
 msgid "Size (compressed) : %ld\n"
 msgstr ""
 
-#: ../package.c:142
+#: ../package.c:151
+#, c-format
+msgid "Size (uncompressed):%ld\n"
+msgstr ""
+
+#: ../package.c:152
 #, c-format
 msgid "Description       : "
 msgstr ""
 
-#: ../package.c:144
+#: ../package.c:156
 #, c-format
 msgid ""
 "\n"
-"MD5 Sum           : %s\n"
+"MD5 Sum           : %s"
 msgstr ""
 
-#: ../package.c:156
-#, c-format
-msgid "%s %s\n"
-msgstr ""
-
-#: ../pacman.c:82
-#, c-format
-msgid "\n"
-msgstr ""
-
-#: ../pacman.c:83
-#, c-format
-msgid " .--.                  Pacman v%s - libalpm v%s\n"
-msgstr ""
-
-#: ../pacman.c:84
+#: ../package.c:160
 #, c-format
 msgid ""
-"/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux."
-"org>\n"
+"\n"
+"SHA1 Sum          : %s"
 msgstr ""
 
-#: ../pacman.c:85
+#: ../package.c:189
 #, c-format
-msgid "\\  '-. '-'  '-'  '-'  \n"
+msgid "No changelog available for '%s'.\n"
 msgstr ""
 
-#: ../pacman.c:86
-#, c-format
-msgid " '--'                  This program may be freely redistributed under\n"
-msgstr ""
-
-#: ../pacman.c:87
-#, c-format
-msgid "                       the terms of the GNU General Public License\n"
-msgstr ""
-
-#: ../pacman.c:98
+#: ../pacman.c:96
 #, c-format
 msgid "usage:  %s {-h --help}\n"
 msgstr ""
 
-#: ../pacman.c:99
+#: ../pacman.c:97
 #, c-format
 msgid "        %s {-V --version}\n"
 msgstr ""
 
-#: ../pacman.c:100
+#: ../pacman.c:98
 #, c-format
 msgid "        %s {-A --add}     [options] <file>\n"
 msgstr ""
 
-#: ../pacman.c:101
+#: ../pacman.c:99
 #, c-format
 msgid "        %s {-R --remove}  [options] <package>\n"
 msgstr ""
 
-#: ../pacman.c:102
+#: ../pacman.c:100
 #, c-format
 msgid "        %s {-U --upgrade} [options] <file>\n"
 msgstr ""
 
-#: ../pacman.c:103
+#: ../pacman.c:101
 #, c-format
 msgid "        %s {-F --freshen} [options] <file>\n"
 msgstr ""
 
-#: ../pacman.c:104
+#: ../pacman.c:102
 #, c-format
 msgid "        %s {-Q --query}   [options] [package]\n"
 msgstr ""
 
-#: ../pacman.c:105
+#: ../pacman.c:103
 #, c-format
 msgid "        %s {-S --sync}    [options] [package]\n"
 msgstr ""
 
-#: ../pacman.c:106
+#: ../pacman.c:104
 #, c-format
 msgid ""
 "\n"
 "use '%s --help' with other options for more syntax\n"
 msgstr ""
 
-#: ../pacman.c:109
+#: ../pacman.c:107
 #, c-format
 msgid "usage:  %s {-A --add} [options] <file>\n"
 msgstr ""
 
-#: ../pacman.c:110 ../pacman.c:115 ../pacman.c:127 ../pacman.c:132
-#: ../pacman.c:145
+#: ../pacman.c:108 ../pacman.c:113 ../pacman.c:125 ../pacman.c:130
+#: ../pacman.c:144
 #, c-format
 msgid "options:\n"
 msgstr ""
 
-#: ../pacman.c:111 ../pacman.c:117 ../pacman.c:128 ../pacman.c:147
+#: ../pacman.c:109 ../pacman.c:115 ../pacman.c:126 ../pacman.c:146
 #, c-format
 msgid "  -d, --nodeps        skip dependency checks\n"
 msgstr ""
 
-#: ../pacman.c:112 ../pacman.c:129 ../pacman.c:148
+#: ../pacman.c:110 ../pacman.c:127 ../pacman.c:148
 #, c-format
 msgid "  -f, --force         force install, overwrite conflicting files\n"
 msgstr ""
 
-#: ../pacman.c:114
+#: ../pacman.c:112
 #, c-format
 msgid "usage:  %s {-R --remove} [options] <package>\n"
 msgstr ""
 
-#: ../pacman.c:116
+#: ../pacman.c:114
 #, c-format
 msgid ""
 "  -c, --cascade       remove packages and all packages that depend on them\n"
 msgstr ""
 
-#: ../pacman.c:118
+#: ../pacman.c:116
 #, c-format
 msgid "  -k, --dbonly        only remove database entry, do not remove files\n"
 msgstr ""
 
-#: ../pacman.c:119
+#: ../pacman.c:117
 #, c-format
 msgid "  -n, --nosave        remove configuration files as well\n"
 msgstr ""
 
-#: ../pacman.c:120
+#: ../pacman.c:118
 #, c-format
 msgid ""
 "  -s, --recursive     remove dependencies also (that won't break packages)\n"
 msgstr ""
 
-#: ../pacman.c:123
+#: ../pacman.c:121
 #, c-format
 msgid "usage:  %s {-F --freshen} [options] <file>\n"
 msgstr ""
 
-#: ../pacman.c:125
+#: ../pacman.c:123
 #, c-format
 msgid "usage:  %s {-U --upgrade} [options] <file>\n"
 msgstr ""
 
-#: ../pacman.c:131
+#: ../pacman.c:129
 #, c-format
 msgid "usage:  %s {-Q --query} [options] [package]\n"
 msgstr ""
 
-#: ../pacman.c:133
+#: ../pacman.c:131
 #, c-format
-msgid ""
-"  -e, --orphans       list all packages that were explicitly installed\n"
+msgid "  -c, --changelog     view the changelog of a package\n"
 msgstr ""
 
-#: ../pacman.c:134
+#: ../pacman.c:132
+#, c-format
+msgid ""
+"  -e, --orphans       list all packages that were installed as a dependency\n"
+msgstr ""
+
+#: ../pacman.c:133
 #, c-format
 msgid "                      and are not required by any other packages\n"
 msgstr ""
 
-#: ../pacman.c:135 ../pacman.c:149
+#: ../pacman.c:134 ../pacman.c:149
 #, c-format
 msgid "  -g, --groups        view all members of a package group\n"
 msgstr ""
 
-#: ../pacman.c:136
+#: ../pacman.c:135
 #, c-format
 msgid "  -i, --info          view package information\n"
 msgstr ""
 
-#: ../pacman.c:137
+#: ../pacman.c:136
 #, c-format
 msgid "  -l, --list          list the contents of the queried package\n"
 msgstr ""
 
-#: ../pacman.c:138
+#: ../pacman.c:137
 #, c-format
 msgid ""
-"  -m, --foreign       list all packages that were not found in the sync "
-"repos\n"
+"  -m, --foreign       list all packages that were not found in the sync db"
+"(s)\n"
 msgstr ""
 
-#: ../pacman.c:139
+#: ../pacman.c:138
 #, c-format
 msgid "  -o, --owns <file>   query the package that owns <file>\n"
 msgstr ""
 
-#: ../pacman.c:140
+#: ../pacman.c:139
 #, c-format
 msgid ""
 "  -p, --file          pacman will query the package file [package] instead "
 "of\n"
 msgstr ""
 
-#: ../pacman.c:141
+#: ../pacman.c:140
 #, c-format
 msgid "                      looking in the database\n"
 msgstr ""
 
-#: ../pacman.c:142
+#: ../pacman.c:141
 #, c-format
 msgid ""
 "  -s, --search        search locally-installed packages for matching "
 "strings\n"
 msgstr ""
 
-#: ../pacman.c:144
+#: ../pacman.c:143
 #, c-format
 msgid "usage:  %s {-S --sync} [options] [package]\n"
 msgstr ""
 
-#: ../pacman.c:146
+#: ../pacman.c:145
 #, c-format
 msgid ""
 "  -c, --clean         remove old packages from cache directory (use -cc for "
 "all)\n"
+msgstr ""
+
+#: ../pacman.c:147
+#, c-format
+msgid "  -e, --dependsonly   install dependencies only\n"
 msgstr ""
 
 #: ../pacman.c:150
@@ -823,97 +601,147 @@ msgstr ""
 
 #: ../pacman.c:159
 #, c-format
-msgid ""
-"      --noprogressbar do not show a progress bar when downloading files\n"
+msgid "      --ask  <number> pre-specify answers for questions (see manpage)\n"
 msgstr ""
 
 #: ../pacman.c:160
 #, c-format
 msgid ""
-"      --noscriptlet   do not execute the install scriptlet if there is any\n"
+"      --noprogressbar do not show a progress bar when downloading files\n"
 msgstr ""
 
 #: ../pacman.c:161
 #, c-format
-msgid "  -v, --verbose       be verbose\n"
+msgid ""
+"      --noscriptlet   do not execute the install scriptlet if there is any\n"
 msgstr ""
 
 #: ../pacman.c:162
 #, c-format
-msgid "  -r, --root <path>   set an alternate installation root\n"
+msgid "  -v, --verbose       be verbose\n"
 msgstr ""
 
 #: ../pacman.c:163
 #, c-format
+msgid "  -r, --root <path>   set an alternate installation root\n"
+msgstr ""
+
+#: ../pacman.c:164
+#, c-format
 msgid "  -b, --dbpath <path> set an alternate database location\n"
 msgstr ""
 
-#: ../pacman.c:289
+#: ../pacman.c:177
+#, c-format
+msgid "                       This program may be freely redistributed under\n"
+msgstr ""
+
+#: ../pacman.c:178
+#, c-format
+msgid "                       the terms of the GNU General Public License\n"
+msgstr ""
+
+#: ../pacman.c:363
 msgid "bad root path"
 msgstr ""
 
-#: ../pacman.c:315
+#: ../pacman.c:390
 msgid "only one operation may be used at a time\n"
 msgstr ""
 
-#: ../pacman.c:347
-#, c-format
-msgid "%s\n"
-msgstr ""
-
-#: ../pacman.c:448
+#: ../pacman.c:486
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr ""
 
-#: ../pacman.c:472
+#: ../pacman.c:510
 #, c-format
 msgid "failed to initilize alpm library (%s)\n"
 msgstr ""
 
-#: ../pacman.c:485
+#: ../pacman.c:518
+#, c-format
+msgid "failed to parse config (%s)\n"
+msgstr ""
+
+#: ../pacman.c:524
 #, c-format
 msgid "failed to set option LOGMASK (%s)\n"
 msgstr ""
 
-#: ../pacman.c:489
+#: ../pacman.c:528
 #, c-format
 msgid "failed to set option LOGCB (%s)\n"
 msgstr ""
 
-#: ../pacman.c:497
+#: ../pacman.c:532
 #, c-format
-msgid "failed to set option DBPATH (%s)\n"
+msgid "failed to set option DLCB (%s)\n"
 msgstr ""
 
-#: ../pacman.c:502 ../sync.c:698
+#: ../pacman.c:536
 #, c-format
-msgid "failed to set option CACHEDIR (%s)\n"
+msgid "failed to set option DLFNM (%s)\n"
 msgstr ""
 
-#: ../pacman.c:514
+#: ../pacman.c:540
 #, c-format
-msgid "Root  : %s\n"
+msgid "failed to set option DLOFFSET (%s)\n"
 msgstr ""
 
-#: ../pacman.c:515
+#: ../pacman.c:544
 #, c-format
-msgid "DBPath: %s\n"
+msgid "failed to set option DLT0 (%s)\n"
 msgstr ""
 
-#: ../pacman.c:516
+#: ../pacman.c:548
+#, c-format
+msgid "failed to set option DLT (%s)\n"
+msgstr ""
+
+#: ../pacman.c:552
+#, c-format
+msgid "failed to set option DLRATE (%s)\n"
+msgstr ""
+
+#: ../pacman.c:556
+#, c-format
+msgid "failed to set option DLXFERED1 (%s)\n"
+msgstr ""
+
+#: ../pacman.c:560
+#, c-format
+msgid "failed to set option DLETA_H (%s)\n"
+msgstr ""
+
+#: ../pacman.c:564
+#, c-format
+msgid "failed to set option DLETA_M (%s)\n"
+msgstr ""
+
+#: ../pacman.c:568
+#, c-format
+msgid "failed to set option DLETA_S (%s)\n"
+msgstr ""
+
+#: ../pacman.c:578
+#, c-format
+msgid "failed to set option IGNOREPKG (%s)\n"
+msgstr ""
+
+#: ../pacman.c:586
 msgid "Targets:"
 msgstr ""
 
-#: ../pacman.c:522
+#: ../pacman.c:592
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr ""
 
-#: ../pacman.c:529
+#: ../pacman.c:599
 msgid "no targets specified (use -h for help)\n"
 msgstr ""
 
-#: ../pacman.c:542
+#: ../pacman.c:612
 msgid "no operation specified (use -h for help)\n"
 msgstr ""
 
@@ -936,31 +764,31 @@ msgstr ""
 msgid "No package owns %s\n"
 msgstr ""
 
-#: ../query.c:111 ../sync.c:365
+#: ../query.c:111 ../sync.c:340
 msgid "no usable package repositories configured.\n"
 msgstr ""
 
-#: ../query.c:160
+#: ../query.c:150
 #, c-format
 msgid "group \"%s\" was not found\n"
 msgstr ""
 
-#: ../query.c:170
+#: ../query.c:160
 msgid "no package file was specified for --file\n"
 msgstr ""
 
-#: ../query.c:174
+#: ../query.c:164
 #, c-format
 msgid "failed to load package '%s' (%s)\n"
 msgstr ""
 
 #. something weird happened
-#: ../query.c:212 ../query.c:256
+#: ../query.c:202 ../query.c:244
 #, c-format
 msgid "package \"%s\" not found\n"
 msgstr ""
 
-#: ../remove.c:64 ../sync.c:489
+#: ../remove.c:64 ../sync.c:456
 #, c-format
 msgid ":: group %s:\n"
 msgstr ""
@@ -974,185 +802,174 @@ msgstr ""
 msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ""
 
-#: ../remove.c:81 ../sync.c:411 ../sync.c:450
+#: ../remove.c:81 ../sync.c:376 ../sync.c:415
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr ""
 
-#: ../remove.c:94
-#, c-format
-msgid ":: %s is designated as a HoldPkg.  Remove anyway? [Y/n] "
-msgstr ""
-
-#: ../remove.c:114
+#: ../remove.c:107
 #, c-format
 msgid "  %s: is required by %s\n"
 msgstr ""
 
-#: ../remove.c:136
+#: ../remove.c:129
 msgid ""
 "\n"
 "Targets:"
 msgstr ""
 
 #. get confirmation
-#: ../remove.c:139
+#: ../remove.c:132
 msgid ""
 "\n"
 "Do you want to remove these packages? [Y/n] "
 msgstr ""
 
-#: ../sync.c:68
+#: ../sync.c:73
+msgid "Do you want to remove old packages from cache? [Y/n] "
+msgstr ""
+
+#: ../sync.c:75
 msgid "removing old packages from cache... "
 msgstr ""
 
-#: ../sync.c:71
+#: ../sync.c:78
 msgid "could not access cache directory\n"
 msgstr ""
 
 #. full cleanup
-#: ../sync.c:131
+#: ../sync.c:138
+msgid "Do you want to remove all packages from cache? [Y/n] "
+msgstr ""
+
+#: ../sync.c:140
 msgid "removing all packages from cache... "
 msgstr ""
 
-#: ../sync.c:134
+#: ../sync.c:143
 msgid "could not remove cache directory\n"
 msgstr ""
 
-#: ../sync.c:139
+#: ../sync.c:148
 msgid "could not create new cache directory\n"
 msgstr ""
 
-#: ../sync.c:144 ../sync.c:736 ../trans.c:66 ../trans.c:72 ../trans.c:82
-#: ../trans.c:92
+#: ../sync.c:153 ../trans.c:72 ../trans.c:86 ../trans.c:100 ../trans.c:116
+#: ../trans.c:128
 msgid "done.\n"
 msgstr ""
 
 #: ../sync.c:168
 #, c-format
-msgid "failed to get lastupdate time for %s (no big deal)\n"
-msgstr ""
-
-#: ../sync.c:181
-#, c-format
 msgid "failed to synchronize %s\n"
 msgstr ""
 
-#: ../sync.c:184
-#, c-format
-msgid " %s is up to date\n"
-msgstr ""
-
-#: ../sync.c:187
-#, c-format
-msgid "sync: new mtime for %s: %s\n"
-msgstr ""
-
-#: ../sync.c:192
+#: ../sync.c:170
 #, c-format
 msgid "failed to update %s (%s)\n"
 msgstr ""
 
-#: ../sync.c:218
+#: ../sync.c:174
 #, c-format
-msgid ""
-"%s/%s %s\n"
-"    "
+msgid " %s is up to date\n"
 msgstr ""
 
-#: ../sync.c:286
+#: ../sync.c:265
 #, c-format
 msgid "package \"%s\" was not found.\n"
 msgstr ""
 
-#: ../sync.c:324
+#: ../sync.c:303
 #, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr ""
 
 #. grab a fresh package list
-#: ../sync.c:385
+#: ../sync.c:350
 msgid ":: Synchronizing package databases...\n"
 msgstr ""
 
-#: ../sync.c:386
+#: ../sync.c:351
 msgid "synchronizing package lists"
 msgstr ""
 
-#: ../sync.c:420
+#: ../sync.c:385
 msgid ":: Starting local database upgrade...\n"
 msgstr ""
 
-#: ../sync.c:421
+#: ../sync.c:386
 msgid "starting full system upgrade"
 msgstr ""
 
-#: ../sync.c:439
+#: ../sync.c:404
 msgid ""
 "\n"
 ":: pacman has detected a newer version of the \"pacman\" package.\n"
 msgstr ""
 
-#: ../sync.c:440
+#: ../sync.c:405
 msgid ":: It is recommended that you allow pacman to upgrade itself\n"
 msgstr ""
 
-#: ../sync.c:441
+#: ../sync.c:406
 msgid ":: first, then you can re-run the operation with the newer version.\n"
 msgstr ""
 
-#: ../sync.c:442
-msgid "::\n"
-msgstr ""
-
-#: ../sync.c:443
+#: ../sync.c:408
 msgid ":: Upgrade pacman first? [Y/n] "
 msgstr ""
 
-#: ../sync.c:458 ../sync.c:478
+#: ../sync.c:423 ../sync.c:444
 #, c-format
 msgid "could not add target '%s': %s\n"
 msgstr ""
 
-#: ../sync.c:495
+#: ../sync.c:462
 msgid ":: Install whole content? [Y/n] "
 msgstr ""
 
-#: ../sync.c:502
+#: ../sync.c:469
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
 msgstr ""
 
-#: ../sync.c:527
+#: ../sync.c:492
 #, c-format
-msgid ":: %s: %s %s"
+msgid "could not add target '%s': not found in sync db\n"
 msgstr ""
 
-#: ../sync.c:528
+#: ../sync.c:511
 msgid "requires"
 msgstr ""
 
-#: ../sync.c:528
+#: ../sync.c:511
 msgid "is required by"
 msgstr ""
 
-#: ../sync.c:593
+#: ../sync.c:588
 msgid ""
 "\n"
 "Remove:  "
 msgstr ""
 
-#: ../sync.c:605
+#: ../sync.c:604
 msgid ""
 "\n"
 "Targets: "
+msgstr ""
+
+#: ../sync.c:607
+#, c-format
+msgid ""
+"\n"
+"Total Package Size:   %.1f MB\n"
 msgstr ""
 
 #: ../sync.c:608
 #, c-format
 msgid ""
 "\n"
-"Total Package Size:   %.1f MB\n"
+"Total Uncompressed Package Size:   %.1f MB\n"
 msgstr ""
 
 #: ../sync.c:614
@@ -1175,141 +992,128 @@ msgstr ""
 msgid "Proceed with upgrade? [Y/n] "
 msgstr ""
 
-#: ../sync.c:676
+#: ../trans.c:57
+msgid "checking dependencies... "
+msgstr ""
+
+#: ../trans.c:60
+msgid "checking for file conflicts... "
+msgstr ""
+
+#: ../trans.c:63
+msgid "resolving dependencies... "
+msgstr ""
+
+#: ../trans.c:66
+msgid "looking for inter-conflicts... "
+msgstr ""
+
+#: ../trans.c:81
 #, c-format
-msgid " %s-%s"
+msgid "installing %s... "
 msgstr ""
 
-#: ../sync.c:676
-msgid " is already in the cache\n"
+#: ../trans.c:88
+#, c-format
+msgid "installed %s (%s)"
 msgstr ""
 
-#: ../sync.c:684
+#: ../trans.c:95
+#, c-format
+msgid "removing %s... "
+msgstr ""
+
+#: ../trans.c:104
+#, c-format
+msgid "removed %s (%s)"
+msgstr ""
+
+#: ../trans.c:111
+#, c-format
+msgid "upgrading %s... "
+msgstr ""
+
+#: ../trans.c:118
+#, c-format
+msgid "upgraded %s (%s -> %s)"
+msgstr ""
+
+#: ../trans.c:125
+msgid "checking package integrity... "
+msgstr ""
+
+#: ../trans.c:139
+msgid " done.\n"
+msgstr ""
+
+#: ../trans.c:141
+msgid " failed.\n"
+msgstr ""
+
+#: ../trans.c:148
 #, c-format
 msgid ""
 "\n"
 ":: Retrieving packages from %s...\n"
 msgstr ""
 
-#. no cache directory.... try creating it
-#: ../sync.c:688
-#, c-format
-msgid "no %s cache exists.  creating...\n"
+#: ../trans.c:158
+msgid "] 100%    LOCAL "
 msgstr ""
 
-#: ../sync.c:689
-#, c-format
-msgid "warning: no %s cache exists.  creating..."
-msgstr ""
-
-#. couldn't mkdir the cache directory, so fall back to /tmp and unlink
-#. * the package afterwards.
-#.
-#: ../sync.c:694
-msgid "couldn't create package cache, using /tmp instead"
-msgstr ""
-
-#: ../sync.c:695
-msgid "warning: couldn't create package cache, using /tmp instead"
-msgstr ""
-
-#: ../sync.c:705
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr ""
-
-#. Check integrity of files
-#: ../sync.c:718
-msgid "checking package integrity... "
-msgstr ""
-
-#: ../sync.c:725
-#, c-format
-msgid "archive %s is corrupted\n"
-msgstr ""
-
-#: ../sync.c:727
-#, c-format
-msgid "could not get checksum for package %s (%s)\n"
-msgstr ""
-
-#: ../trans.c:51
-msgid "checking dependencies... "
-msgstr ""
-
-#: ../trans.c:54
-msgid "checking for file conflicts... "
-msgstr ""
-
-#: ../trans.c:57
-msgid "resolving dependencies... "
-msgstr ""
-
-#: ../trans.c:60
-msgid "looking for inter-conflicts... "
-msgstr ""
-
-#: ../trans.c:69
-#, c-format
-msgid "installing %s... "
-msgstr ""
-
-#: ../trans.c:73
-#, c-format
-msgid "installed %s (%s)"
-msgstr ""
-
-#: ../trans.c:79
-#, c-format
-msgid "removing %s... "
-msgstr ""
-
-#: ../trans.c:83
-#, c-format
-msgid "removed %s (%s)"
-msgstr ""
-
-#: ../trans.c:89
-#, c-format
-msgid "upgrading %s... "
-msgstr ""
-
-#: ../trans.c:93
-#, c-format
-msgid "upgraded %s (%s -> %s)"
-msgstr ""
-
-#: ../trans.c:108
+#: ../trans.c:176
 #, c-format
 msgid ":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "
 msgstr ""
 
-#: ../trans.c:114
+#: ../trans.c:190
+#, c-format
+msgid ":: %s is designated as a HoldPkg.  Remove anyway? [Y/n] "
+msgstr ""
+
+#: ../trans.c:203
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ""
 
-#: ../trans.c:121
+#: ../trans.c:218
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
 msgstr ""
 
-#: ../trans.c:129
+#: ../trans.c:234
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ""
 
-#: ../trans.c:139
+#: ../trans.c:252
 #, c-format
 msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
 msgstr ""
 
-#: ../util.c:172
+#: ../trans.c:270
+#, c-format
+msgid ":: Archive %s is corrupted. Do you want to delete it? [Y/n] "
+msgstr ""
+
+#: ../trans.c:286
+msgid "installing"
+msgstr ""
+
+#: ../trans.c:287
+msgid "upgrading"
+msgstr ""
+
+#: ../trans.c:288
+msgid "removing"
+msgstr ""
+
+#: ../util.c:178
 #, c-format
 msgid "failed to allocated %d bytes\n"
 msgstr ""
 
-#: ../util.c:226
+#: ../util.c:232
 #, c-format
 msgid "%s is not a valid regular expression.\n"
 msgstr ""

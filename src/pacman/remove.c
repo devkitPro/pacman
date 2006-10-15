@@ -77,24 +77,17 @@ int pacman_remove(list_t *targets)
 
 	/* Step 1: create a new transaction
 	 */
-	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags, cb_trans_evt, cb_trans_conv) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags, cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
 		ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-			        "       you can remove %s\n"), PM_LOCK);
+			  			"       you can remove %s%s\n"), config->root, PM_LOCK);
 		}
 		FREELIST(finaltargs);
 		return(1);
 	}
 	/* and add targets to it */
 	for(i = finaltargs; i; i = i->next) {
-		/* check if the package is in the HoldPkg list.  If so, ask
-		 * confirmation first */
-		if(list_is_strin(i->data, config->holdpkg)) {
-			if(!yesno(_(":: %s is designated as a HoldPkg.  Remove anyway? [Y/n] "), i->data)) {
-				return(1);
-			}
-		}
 		if(alpm_trans_addtarget(i->data) == -1) {
 			ERR(NL, _("failed to add target '%s' (%s)\n"), (char *)i->data, alpm_strerror(pm_errno));
 			retval = 1;
@@ -155,7 +148,6 @@ int pacman_remove(list_t *targets)
 	 */
 cleanup:
 	FREELIST(finaltargs);
-
 	if(alpm_trans_release() == -1) {
 		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;

@@ -43,31 +43,27 @@ typedef struct __config_t {
 	unsigned short op_q_orphans;
 	unsigned short op_q_owns;
 	unsigned short op_q_search;
+	unsigned short op_q_changelog;
 	unsigned short op_s_clean;
+	unsigned short op_s_dependsonly;
 	unsigned short op_s_downloadonly;
 	list_t *op_s_ignore;
 	unsigned short op_s_info;
-	unsigned short op_s_printuris;
 	unsigned short op_s_sync;
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
 	unsigned short group;
 	unsigned int flags;
 	unsigned short debug;
-	/* configuration file option */
-	char *proxyhost;
-	unsigned short proxyport;
-	char *xfercommand;
-	unsigned short chomp;
-	unsigned short nopassiveftp;
-	list_t *holdpkg;
+	unsigned short noask;
+	unsigned int ask;
 } config_t;
 
 #define FREECONF(p) do { if(p) { config_free(p); p = NULL; } } while(0)
 
 config_t *config_new(void);
 int config_free(config_t *config);
-int parseconfig(char *file, config_t *config);
+void cb_db_register(char *section, PM_DB *db);
 
 #endif /* _PM_CONF_H */
 

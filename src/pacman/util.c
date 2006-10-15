@@ -19,6 +19,11 @@
  *  USA.
  */
 
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#include <sys/stat.h>
+#endif
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,7 +34,6 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>
-#include <regex.h>
 #include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
@@ -43,6 +47,7 @@
 
 extern int maxcols;
 extern config_t *config;
+extern int neednl;
 
 /* does the same thing as 'mkdir -p' */
 int makepath(char *path)
@@ -214,21 +219,6 @@ char *strtrim(char *str)
 	*++pch = '\0';
 
 	return str;
-}
-
-/* match a string against a regular expression */
-int reg_match(char *string, char *pattern)
-{
-	int result;
-	regex_t reg;
-
-	if(regcomp(&reg, pattern, REG_EXTENDED | REG_NOSUB | REG_ICASE) != 0) {
-		ERR(NL, _("%s is not a valid regular expression.\n"), pattern);
-		return(-1);
-	}
-	result = regexec(&reg, string, 0, 0, 0);
-	regfree(&reg);
-	return(!(result));
 }
 
 /* vim: set ts=2 sw=2 noet: */

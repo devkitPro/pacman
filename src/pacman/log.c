@@ -24,14 +24,15 @@
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <time.h>
 #include <libintl.h>
 
 #include <alpm.h>
 /* pacman */
-#include "util.h"
 #include "log.h"
 #include "list.h"
 #include "conf.h"
+#include "util.h"
 
 #define LOG_STR_LEN 256
 
@@ -43,7 +44,7 @@ int neednl; /* for cleaner message output */
  */
 void cb_log(unsigned short level, char *msg)
 {
-	char str[9] = "";
+	char str[LOG_STR_LEN] = "";
 
 	if(!strlen(msg)) {
 		return;
@@ -69,7 +70,7 @@ void cb_log(unsigned short level, char *msg)
 			sprintf(str, _("function"));
 		break;
 		default:
-			sprintf(str, _("???"));
+			sprintf(str, "???");
 		break;
 	}
 
@@ -132,7 +133,7 @@ int yesno(char *fmt, ...)
 	va_start(args, fmt);
 	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
-	MSG(NL, str);
+	pm_fprintf(stderr, NL, str);
 
 	if(fgets(response, 32, stdin)) {
 		/* trim whitespace and newlines */

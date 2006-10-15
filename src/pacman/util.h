@@ -27,7 +27,7 @@
 	if((b) > 0) { \
 		p = malloc(b); \
 		if (!(p)) { \
-			fprintf(stderr, "malloc failure: could not allocate %d bytes\n", b); \
+			fprintf(stderr, "malloc failure: could not allocate %d bytes\n", (int)b); \
 			exit(1); \
 		} \
 	} else { \

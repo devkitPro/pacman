@@ -21,20 +21,16 @@
 #ifndef _PM_DOWNLOAD_H
 #define _PM_DOWNLOAD_H
 
-#include "list.h"
+extern char sync_fnm[25];
+extern int offset;
+extern struct timeval t0, t;
+extern float rate;
+extern int xfered1;
+extern unsigned char eta_h, eta_m, eta_s;
 
-/* Servers */
-typedef struct __server_t {
-	char *protocol;
-	char *server;
-	char *path;
-} server_t;
-
-int downloadfiles(list_t *servers, const char *localpath, list_t *files);
-int downloadfiles_forreal(list_t *servers, const char *localpath,
-		list_t *files, const char *mtime1, char *mtime2);
-
-char *fetch_pkgurl(char *target);
+#ifdef __FTPLIB_H
+int log_progress(netbuf *ctl, int xfered, void *arg);
+#endif
 
 #endif /* _PM_DOWNLOAD_H */
 

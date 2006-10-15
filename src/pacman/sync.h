@@ -25,7 +25,6 @@
 typedef struct __sync_t {
 	char *treename;
 	PM_DB *db;
-	list_t *servers; /* List of server_t */
 } sync_t;
 
 int pacman_sync(list_t *targets);

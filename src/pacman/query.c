@@ -30,7 +30,6 @@
 /* pacman */
 #include "list.h"
 #include "package.h"
-#include "db.h"
 #include "query.h"
 #include "log.h"
 #include "conf.h"
@@ -95,13 +94,27 @@ int pacman_query(list_t *targets)
 	PM_PKG *info = NULL;
 	list_t *targ;
 	list_t *i;
-	PM_LIST *j;
+	PM_LIST *j, *ret;
 	char *package = NULL;
 	int done = 0;
 
 	if(config->op_q_search) {
-		if(db_search(db_local, "local", targets)) {
+		for(i = targets; i; i = i->next) {
+			alpm_set_option(PM_OPT_NEEDLES, (long)i->data);
+		}
+		ret = alpm_db_search(db_local);
+		if(ret == NULL) {
 			return(1);
+		}
+		for(j = ret; j; j = alpm_list_next(j)) {
+			PM_PKG *pkg = alpm_list_getdata(j);
+
+			printf("local/%s/%s %s\n    ",
+					(char*)alpm_list_getdata(alpm_pkg_getinfo(pkg, PM_PKG_GROUPS)),
+					(char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME),
+					(char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
+			indentprint((char *)alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
+			printf("\n");
 		}
 		return(0);
 	}
@@ -110,16 +123,6 @@ int pacman_query(list_t *targets)
 		if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
 			ERR(NL, _("no usable package repositories configured.\n"));
 			return(1);
-		}
-
-		/* open the database(s) */
-		for(i = pmc_syncs; i; i = i->next) {
-			sync_t *sync = i->data;
-			sync->db = alpm_db_register(sync->treename);
-			if(sync->db == NULL) {
-				ERR(NL, "%s\n", alpm_strerror(pm_errno));
-				return(1);
-			}
 		}
 	}
 
@@ -221,10 +224,8 @@ int pacman_query(list_t *targets)
 								char *haystack;
 								char *needle;
 								haystack = strdup(alpm_pkg_getinfo(pkg, PM_PKG_NAME));
-								strtoupper(haystack);
 								needle = strdup(alpm_pkg_getinfo(info, PM_PKG_NAME));
-								strtoupper(needle);
-								if(strstr(haystack, needle)) {
+								if(!strcmp(haystack, needle)) {
 									match = 1;
 								}
 								FREE(haystack);
@@ -240,7 +241,7 @@ int pacman_query(list_t *targets)
 					}
 					if(config->op_q_orphans) {
 						if(alpm_pkg_getinfo(info, PM_PKG_REQUIREDBY) == NULL
-						   && (int)alpm_pkg_getinfo(info, PM_PKG_REASON) == PM_PKG_REASON_EXPLICIT) {
+						   && (long)alpm_pkg_getinfo(info, PM_PKG_REASON) == PM_PKG_REASON_DEPEND) {
 							MSG(NL, "%s %s\n", pkgname, pkgver);
 						}
 					} 
@@ -249,7 +250,7 @@ int pacman_query(list_t *targets)
 				}
 			}
 		} else {
-			char *pkgname, *pkgver;
+			char *pkgname, *pkgver, changelog[PATH_MAX];
 
 			info = alpm_db_readpkg(db_local, package);
 			if(info == NULL) {
@@ -258,7 +259,17 @@ int pacman_query(list_t *targets)
 			}
 
 			/* find a target */
-			if(config->op_q_info || config->op_q_list) {
+			if(config->op_q_changelog || config->op_q_info || config->op_q_list) {
+				if(config->op_q_changelog) {
+					char *dbpath;
+					alpm_get_option(PM_OPT_DBPATH, (long *)&dbpath);
+					snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
+						config->root, dbpath,
+						(char*)alpm_db_getinfo(db_local, PM_DB_TREENAME),
+						(char*)alpm_pkg_getinfo(info, PM_PKG_NAME),
+						(char*)alpm_pkg_getinfo(info, PM_PKG_VERSION));
+					dump_pkg_changelog(changelog, (char*)alpm_pkg_getinfo(info, PM_PKG_NAME));
+				}
 				if(config->op_q_info) {
 					dump_pkg_full(info, config->op_q_info);
 				}

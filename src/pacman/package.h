@@ -25,6 +25,7 @@ void dump_pkg_full(PM_PKG *pkg, int level);
 void dump_pkg_sync(PM_PKG *pkg, char *treename);
 
 void dump_pkg_files(PM_PKG *pkg);
+void dump_pkg_changelog(char *clfile, char *pkgname);
 
 int split_pkgname(char *target, char *name, char *version);
 

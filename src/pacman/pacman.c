@@ -29,11 +29,18 @@
 #include <unistd.h>
 #include <libintl.h>
 #include <locale.h>
-#ifndef CYGWIN
-#include <mcheck.h> /* debug */
-#else
+#if defined(__APPLE__)
+#include <malloc/malloc.h>
+#elif defined(__OpenBSD__) || defined(__APPLE__)
+#include <sys/malloc.h>
+#include <sys/types.h>
+#elif defined(CYGWIN)
 #include <libgen.h> /* basename */
+#else
+#include <mcheck.h> /* debug */
 #endif
+#include <time.h>
+#include <ftplib.h>
 
 #include <alpm.h>
 /* pacman */
@@ -51,6 +58,10 @@
 #include "deptest.h"
 
 #define PACCONF "/etc/pacman.conf"
+
+#if defined(__OpenBSD__) || defined(__APPLE__)
+#define BSD
+#endif
 
 /* Operations */
 enum {
@@ -71,22 +82,9 @@ list_t *pmc_syncs = NULL;
 /* list of targets specified on command line */
 list_t *pm_targets  = NULL;
 
-int maxcols = 80;
+unsigned int maxcols = 80;
 
 extern int neednl;
-
-/* Version
- */
-static void version()
-{
-	printf(_("\n"));
-	printf(_(" .--.                  Pacman v%s - libalpm v%s\n"), PACKAGE_VERSION, PM_VERSION);
-	printf(_("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\n"));
-	printf(_("\\  '-. '-'  '-'  '-'  \n"));
-	printf(_(" '--'                  This program may be freely redistributed under\n"));
-	printf(_("                       the terms of the GNU General Public License\n"));
-	printf("\n");
-}
 
 /* Display usage/syntax for the specified operation.
  *     op:     the operation code requested
@@ -130,12 +128,13 @@ static void usage(int op, char *myname)
 		} else if(op == PM_OP_QUERY) {
 			printf(_("usage:  %s {-Q --query} [options] [package]\n"), myname);
 			printf(_("options:\n"));
-			printf(_("  -e, --orphans       list all packages that were explicitly installed\n"));
+			printf(_("  -c, --changelog     view the changelog of a package\n"));
+			printf(_("  -e, --orphans       list all packages that were installed as a dependency\n"));
 			printf(_("                      and are not required by any other packages\n"));
 			printf(_("  -g, --groups        view all members of a package group\n"));
 			printf(_("  -i, --info          view package information\n"));
 			printf(_("  -l, --list          list the contents of the queried package\n"));
-			printf(_("  -m, --foreign       list all packages that were not found in the sync repos\n"));
+			printf(_("  -m, --foreign       list all packages that were not found in the sync db(s)\n"));
 			printf(_("  -o, --owns <file>   query the package that owns <file>\n"));
 			printf(_("  -p, --file          pacman will query the package file [package] instead of\n"));
 			printf(_("                      looking in the database\n"));
@@ -145,6 +144,7 @@ static void usage(int op, char *myname)
 			printf(_("options:\n"));
 			printf(_("  -c, --clean         remove old packages from cache directory (use -cc for all)\n"));
 			printf(_("  -d, --nodeps        skip dependency checks\n"));
+			printf(_("  -e, --dependsonly   install dependencies only\n"));
 			printf(_("  -f, --force         force install, overwrite conflicting files\n"));
 			printf(_("  -g, --groups        view all members of a package group\n"));
 			printf(_("  -p, --print-uris    print out URIs for given packages and their dependencies\n"));
@@ -156,12 +156,74 @@ static void usage(int op, char *myname)
 		}
 		printf(_("      --config <path> set an alternate configuration file\n"));
 		printf(_("      --noconfirm     do not ask for anything confirmation\n"));
+		printf(_("      --ask  <number> pre-specify answers for questions (see manpage)\n"));
 		printf(_("      --noprogressbar do not show a progress bar when downloading files\n"));
 		printf(_("      --noscriptlet   do not execute the install scriptlet if there is any\n"));
 		printf(_("  -v, --verbose       be verbose\n"));
 		printf(_("  -r, --root <path>   set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path> set an alternate database location\n"));
 	}
+}
+
+/* Version
+ */
+static void version()
+{
+	printf("\n");
+	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, PM_VERSION);
+	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\n");
+	printf("\\  '-. '-'  '-'  '-'   & Frugalware developers <frugalware-devel@frugalware.org>\n");
+	printf(" '--'                  \n");
+	printf(_("                       This program may be freely redistributed under\n"));
+	printf(_("                       the terms of the GNU General Public License\n"));
+	printf("\n");
+}
+
+static void cleanup(int signum)
+{
+	list_t *lp;
+
+	if(signum==SIGSEGV)
+	{
+		fprintf(stderr, "Internal pacman error: Segmentation fault\n"
+			"Please submit a full bug report, with the given package if appropriate.\n"
+			"See <URL:http://wiki.frugalware.org/Bugs> for instructions.\n");
+		exit(signum);
+	} else if((signum == SIGINT) && (alpm_trans_release() == -1) && (pm_errno ==
+				PM_ERR_TRANS_COMMITING)) {
+		return;
+	}
+	if(signum != 0 && config->op_d_vertest == 0) {
+		fprintf(stderr, "\n");
+	}
+
+	/* free alpm library resources */
+	if(alpm_release() == -1) {
+		ERR(NL, "%s\n", alpm_strerror(pm_errno));
+	}
+
+	/* free memory */
+	for(lp = pmc_syncs; lp; lp = lp->next) {
+		sync_t *sync = lp->data;
+		FREE(sync->treename);
+	}
+	FREELIST(pmc_syncs);
+	FREELIST(pm_targets);
+	FREECONF(config);
+
+#ifndef CYGWIN
+#ifndef BSD
+	/* debug */
+	muntrace();
+#endif
+#endif
+
+	if(neednl) {
+		putchar('\n');
+	}
+	fflush(stdout);
+
+	exit(signum);
 }
 
 /* Parse command-line arguments for each operation
@@ -188,8 +250,10 @@ static int parseargs(int argc, char *argv[])
 		{"vertest",    no_argument,       0, 'Y'}, /* does the same as the 'vercmp' binary */
 		{"dbpath",     required_argument, 0, 'b'},
 		{"cascade",    no_argument,       0, 'c'},
+		{"changelog",  no_argument,       0, 'c'},
 		{"clean",      no_argument,       0, 'c'},
 		{"nodeps",     no_argument,       0, 'd'},
+		{"dependsonly",no_argument,       0, 'e'},
 		{"orphans",    no_argument,       0, 'e'},
 		{"force",      no_argument,       0, 'f'},
 		{"groups",     no_argument,       0, 'g'},
@@ -215,6 +279,7 @@ static int parseargs(int argc, char *argv[])
 		{"debug",      required_argument, 0, 1003},
 		{"noprogressbar",  no_argument,   0, 1004},
 		{"noscriptlet", no_argument,      0, 1005},
+		{"ask",        required_argument, 0, 1006},
 		{0, 0, 0, 0}
 	};
 	char root[PATH_MAX];
@@ -230,12 +295,17 @@ static int parseargs(int argc, char *argv[])
 				if(config->configfile) {
 					free(config->configfile);
 				}
+				#if defined(__OpenBSD__) || defined(__APPLE__)
+				config->configfile = strdup(optarg);
+				#else
 				config->configfile = strndup(optarg, PATH_MAX);
+				#endif
 			break;
 			case 1002: config->op_s_ignore = list_add(config->op_s_ignore, strdup(optarg)); break;
 			case 1003: config->debug = atoi(optarg); break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'D':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
@@ -265,9 +335,10 @@ static int parseargs(int argc, char *argv[])
 			case 'c':
 				config->op_s_clean++;
 				config->flags |= PM_TRANS_FLAG_CASCADE;
+				config->op_q_changelog = 1;
 			break;
 			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
-			case 'e': config->op_q_orphans = 1; break;
+			case 'e': config->op_q_orphans = 1; config->flags |= PM_TRANS_FLAG_DEPENDSONLY; break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 			case 'g': config->group++; break;
 			case 'h': config->help = 1; break;
@@ -282,7 +353,7 @@ static int parseargs(int argc, char *argv[])
 			case 'o': config->op_q_owns = 1; break;
 			case 'p':
 				config->op_q_isfile = 1;
-				config->op_s_printuris = 1;
+				config->flags |= PM_TRANS_FLAG_PRINTURIS;
 			break;
 			case 'r':
 				if(realpath(optarg, root) == NULL) {
@@ -303,6 +374,7 @@ static int parseargs(int argc, char *argv[])
 			case 'v': config->verbose++; break;
 			case 'w':
 				config->op_s_downloadonly = 1;
+				config->flags |= PM_TRANS_FLAG_DOWNLOADONLY;
 				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 			break;
 			case 'y': config->op_s_sync++; break;
@@ -334,52 +406,6 @@ static int parseargs(int argc, char *argv[])
 	return(0);
 }
 
-static void cleanup(int signum)
-{
-	list_t *lp;
-
-	if((signum == SIGINT) && (alpm_trans_release() == -1)) {
-		return;
-	}
-	if(signum != 0 && config->op_d_vertest == 0) {
-		fprintf(stderr, "\n");
-	}
-
-	/* free alpm library resources */
-	if(alpm_release() == -1) {
-		ERR(NL, _("%s\n"), alpm_strerror(pm_errno));
-	}
-
-	/* free memory */
-	for(lp = pmc_syncs; lp; lp = lp->next) {
-		sync_t *sync = lp->data;
-		list_t *i;
-		for(i = sync->servers; i; i = i->next) {
-			server_t *server = i->data;
-			FREE(server->protocol);
-			FREE(server->server);
-			FREE(server->path);
-		}
-		FREELIST(sync->servers);
-		FREE(sync->treename);
-	}
-	FREELIST(pmc_syncs);
-	FREELIST(pm_targets);
-	FREECONF(config);
-
-#ifndef CYGWIN
-	/* debug */
-	muntrace();
-#endif
-
-	if(neednl) {
-		putchar('\n');
-	}
-	fflush(stdout);
-
-	exit(signum);
-}
-
 int main(int argc, char *argv[])
 {
 	int ret = 0;
@@ -390,8 +416,10 @@ int main(int argc, char *argv[])
 	list_t *lp;
 
 #ifndef CYGWIN
+#ifndef BSD
 	/* debug */
 	mtrace();
+#endif
 #endif
 
 	cenv = getenv("COLUMNS");
@@ -402,6 +430,7 @@ int main(int argc, char *argv[])
 	/* set signal handlers */
 	signal(SIGINT, cleanup);
 	signal(SIGTERM, cleanup);
+	signal(SIGSEGV, cleanup);
 
 	/* i18n init */
 	lang=getenv("LC_ALL");
@@ -411,6 +440,9 @@ int main(int argc, char *argv[])
 		lang=getenv("LANG");
 
 	setlocale(LC_ALL, lang);
+	// workaround for tr_TR
+	if(lang && !strcmp(lang, "tr_TR"))
+		setlocale(LC_CTYPE, "C");
 	bindtextdomain("pacman", "/usr/share/locale");
 	textdomain("pacman");
 
@@ -444,9 +476,12 @@ int main(int argc, char *argv[])
 	if(myuid > 0) {
 		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
 			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
-					(config->op_s_search || config->op_s_printuris || config->group || config->op_q_list ||
-					 config->op_q_info)) || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)) {
-				/* special case:  PM_OP_SYNC can be used w/ config->op_s_search by any user */
+					(config->op_s_search || config->group || config->op_q_list || config->op_q_info))
+				 || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)
+				 || (config->root != NULL)) {
+				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
+				/* special case: ignore root user check if -r is specified, fall back on
+				 * normal FS checking */
 			} else {
 				ERR(NL, _("you cannot perform this operation unless you are root.\n"));
 				config_free(config);
@@ -476,14 +511,7 @@ int main(int argc, char *argv[])
 		cleanup(1);
 	}
 
-	if(config->configfile == NULL) {
-		config->configfile = strdup(PACCONF);
-	}
-	if(parseconfig(config->configfile, config) == -1) {
-		cleanup(1);
-	}
-
-	/* set library parameters */
+	/* Setup logging as soon as possible, to print out maximum debugging info */
 	if(alpm_set_option(PM_OPT_LOGMASK, (long)config->debug) == -1) {
 		ERR(NL, _("failed to set option LOGMASK (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
@@ -492,19 +520,60 @@ int main(int argc, char *argv[])
 		ERR(NL, _("failed to set option LOGCB (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
-	if(config->dbpath == NULL) {
-		config->dbpath = strdup(PM_DBPATH);
-	} else {
-		/* dbpath has been set by parseargs or parseconfig */
-		if(alpm_set_option(PM_OPT_DBPATH, (long)config->dbpath) == -1) {
-			ERR(NL, _("failed to set option DBPATH (%s)\n"), alpm_strerror(pm_errno));
-			cleanup(1);
-		}
+
+	if(config->configfile == NULL) {
+		config->configfile = strdup(PACCONF);
 	}
-	if(alpm_set_option(PM_OPT_CACHEDIR, (long)config->cachedir) == -1) {
-		ERR(NL, _("failed to set option CACHEDIR (%s)\n"), alpm_strerror(pm_errno));
+	if(alpm_parse_config(config->configfile, cb_db_register, "") != 0) {
+		ERR(NL, _("failed to parse config (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
+
+	/* set library parameters */
+	if(alpm_set_option(PM_OPT_DLCB, (long)log_progress) == -1) {
+		ERR(NL, _("failed to set option DLCB (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLFNM, (long)sync_fnm) == -1) {
+		ERR(NL, _("failed to set option DLFNM (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLOFFSET, (long)&offset) == -1) {
+		ERR(NL, _("failed to set option DLOFFSET (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLT0, (long)&t0) == -1) {
+		ERR(NL, _("failed to set option DLT0 (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLT, (long)&t) == -1) {
+		ERR(NL, _("failed to set option DLT (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLRATE, (long)&rate) == -1) {
+		ERR(NL, _("failed to set option DLRATE (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLXFERED1, (long)&xfered1) == -1) {
+		ERR(NL, _("failed to set option DLXFERED1 (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLETA_H, (long)&eta_h) == -1) {
+		ERR(NL, _("failed to set option DLETA_H (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLETA_M, (long)&eta_m) == -1) {
+		ERR(NL, _("failed to set option DLETA_M (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	if(alpm_set_option(PM_OPT_DLETA_S, (long)&eta_s) == -1) {
+		ERR(NL, _("failed to set option DLETA_S (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
+	}
+	FREE(config->dbpath);
+	alpm_get_option(PM_OPT_DBPATH, (long *)&config->dbpath);
+	FREE(config->cachedir);
+	alpm_get_option(PM_OPT_CACHEDIR, (long *)&config->cachedir);
 
 	for(lp = config->op_s_ignore; lp; lp = lp->next) {
 		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
@@ -514,13 +583,13 @@ int main(int argc, char *argv[])
 	}
 	
 	if(config->verbose > 0) {
-		printf(_("Root  : %s\n"), config->root);
-		printf(_("DBPath: %s\n"), config->dbpath);
+		printf("Root  : %s\n", config->root);
+		printf("DBPath: %s\n", config->dbpath);
 		list_display(_("Targets:"), pm_targets);
 	}
 
 	/* Opening local database */
-	db_local = alpm_db_register("local");
+	db_local = alpm_db_register("local", NULL);
 	if(db_local == NULL) {
 		ERR(NL, _("could not register 'local' database (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);

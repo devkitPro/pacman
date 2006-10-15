@@ -58,11 +58,11 @@ int pacman_deptest(list_t *targets)
 
 	/* we create a transaction to hold a dummy package to be able to use
 	 * deps checkings from alpm_trans_prepare() */
-	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL, NULL) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL, NULL, NULL) == -1) {
 		ERR(NL, "%s", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-			        "       you can remove %s\n"), PM_LOCK);
+			  			"       you can remove %s%s\n"), config->root, PM_LOCK);
 		}
 		return(1);
 	}
@@ -108,7 +108,7 @@ int pacman_deptest(list_t *targets)
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
 					if(!config->op_d_resolve) {
 						MSG(NL, _("requires: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
-						switch((int)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
+						switch((long)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
 							case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
 							case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
 							case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
@@ -153,9 +153,11 @@ int pacman_deptest(list_t *targets)
 	}
 
 cleanup:
-	if(alpm_trans_release() == -1) {
-		ERR(NL, _("could not release transaction (%s)"), alpm_strerror(pm_errno));
-		retval = 1;
+	if(!config->op_d_resolve) {
+		if(alpm_trans_release() == -1) {
+			ERR(NL, _("could not release transaction (%s)"), alpm_strerror(pm_errno));
+			retval = 1;
+		}
 	}
 
 	return(retval);

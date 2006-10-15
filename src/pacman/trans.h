@@ -27,6 +27,8 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2);
 /* callback to handle questions from pacman transactions (yes/no) */
 void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, int *response);
 
+void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howmany, int remain);
+
 #endif /* _PM_TRANS_H */
 
 /* vim: set ts=2 sw=2 noet: */

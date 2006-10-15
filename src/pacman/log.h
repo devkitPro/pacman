@@ -23,11 +23,11 @@
 
 #define MSG(line, fmt, args...) pm_fprintf(stdout, line, fmt, ##args)
 #define ERR(line, fmt, args...) do { \
-	pm_fprintf(stderr, line, "error: "); \
+	pm_fprintf(stderr, line, _("error: ")); \
 	pm_fprintf(stderr, CL, fmt, ##args); \
 } while(0)
 #define WARN(line, fmt, args...) do { \
-	pm_fprintf(stderr, line, "warning: "); \
+	pm_fprintf(stderr, line, _("warning: ")); \
 	pm_fprintf(stderr, CL, fmt, ##args); \
 } while(0)
 
