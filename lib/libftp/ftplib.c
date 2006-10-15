@@ -33,7 +33,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <time.h>
-#if defined(__unix__)
+#if defined(__unix__) || defined(__APPLE__)
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -93,7 +93,7 @@ static char *version =
 
 GLOBALDEF int ftplib_debug = 0;
 
-#if defined(__unix__) || defined(VMS)
+#if defined(__unix__) || defined(VMS) || defined(__APPLE__)
 #define net_read read
 #define net_write write
 #define net_close close
@@ -103,13 +103,12 @@ GLOBALDEF int ftplib_debug = 0;
 #define net_close closesocket
 #endif
 	
-#if defined(NEED_MEMCCPY)
 	/*
 	 * VAX C does not supply a memccpy routine so I provide my own
 	 */
 void *memccpy(void *dest, const void *src, int c, size_t n)
 {
-	int i=0;
+	unsigned int i=0;
 	const unsigned char *ip=src;
 	unsigned char *op=dest;
 
@@ -123,8 +122,6 @@ void *memccpy(void *dest, const void *src, int c, size_t n)
 		return NULL;
 	return op;
 }
-#endif
-#if defined(NEED_STRDUP)
 /*
  * strdup - return a malloc'ed copy of a string
  */
@@ -136,7 +133,6 @@ char *strdup(const char *src)
 		strcpy(dst,src);
 	return dst;
 }
-#endif
 
 /*
  * socket_wait - wait for socket to receive or flush data
@@ -365,6 +361,8 @@ GLOBALDEF void FtpInit(void)
 	if ((err = WSAStartup(wVersionRequested,&wsadata)) != 0)
 		fprintf(stderr,"Network failed to start: %d\n",err);
 #endif
+	/* we don't use this 'version' variable */
+	version=NULL;
 }
 
 /*
@@ -425,7 +423,7 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl)
 			sin.sin_port = pse->s_port;
 		}
 	}
-	if ((sin.sin_addr.s_addr = inet_addr(lhost)) == -1)
+	if ((signed)(sin.sin_addr.s_addr = inet_addr(lhost)) == -1)
 	{
 		if ((phe = gethostbyname(lhost)) == NULL)
 		{
@@ -1140,7 +1138,7 @@ static int FtpXfer(const char *localfile, const char *path,
 	else
 	{
 		while ((l = FtpRead(dbuf, FTPLIB_BUFSIZ, nData)) > 0)
-			if (fwrite(dbuf, 1, l, local) < l)
+			if (fwrite(dbuf, 1, l, local) < (unsigned)l)
 			{
 				perror("\nlocalfile write");
 				rv = 0;
@@ -1362,7 +1360,7 @@ GLOBALREF int HttpConnect(const char *host, unsigned short port, netbuf **nContr
 			sin.sin_port = pse->s_port;
 		}
 	}
-	if ((sin.sin_addr.s_addr = inet_addr(lhost)) == -1)
+	if ((signed)(sin.sin_addr.s_addr = inet_addr(lhost)) == -1)
 	{
 		if ((phe = gethostbyname(lhost)) == NULL)
 		{
@@ -1415,8 +1413,8 @@ static int HttpSendCmd(const char *cmd, char expresp, netbuf *nControl)
 {
 	int ret = 0;
 	char *buf = nControl->response;
-	//if (nControl->dir != FTPLIB_CONTROL)
-		//return 0;
+	/* if (nControl->dir != FTPLIB_CONTROL)
+		return 0; */
 	if (ftplib_debug > 2)
 		fprintf(stderr,"%s\n",cmd);
 	if (net_write(nControl->handle,cmd,strlen(cmd)) <= 0)
@@ -1455,6 +1453,9 @@ static int HttpXfer(const char *localfile, const char *path, int *size,
 	int rv=1;
 	int bytes = 0;
 
+	/* we don't use this 'path' variable */
+	path=NULL;
+
 	if (localfile != NULL)
 	{
 		char ac[4] = "a";
@@ -1487,7 +1488,7 @@ static int HttpXfer(const char *localfile, const char *path, int *size,
 	{
 		nControl->dir = FTPLIB_READ;
 		while ((l = FtpRead(dbuf, FTPLIB_BUFSIZ, nControl)) > 0) {
-			if (fwrite(dbuf, 1, l, local) < l)
+			if ((signed)fwrite(dbuf, 1, l, local) < l)
 			{
 				perror("\nlocalfile write");
 				rv = 0;
