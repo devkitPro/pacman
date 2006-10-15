@@ -33,11 +33,11 @@ documentation and/or software.
 #define TEST_BLOCK_COUNT 1000
 
 #define MD_CTX MD5_CTX
-#define MDInit MD5Init
-#define MDUpdate MD5Update
-#define MDFinal MD5Final
+#define MDInit _alpm_MD5Init
+#define MDUpdate _alpm_MD5Update
+#define MDFinal _alpm_MD5Final
 
-char* MDFile(char *filename)
+char* _alpm_MDFile(char *filename)
 {
 	FILE *file;
 	MD_CTX context;
@@ -73,7 +73,7 @@ char* MDFile(char *filename)
 
 /* Prints a message digest in hexadecimal.
  */
-void MDPrint(unsigned char digest[16])
+void _alpm_MDPrint(unsigned char digest[16])
 {
 	unsigned int i;
 	for (i = 0; i < 16; i++)

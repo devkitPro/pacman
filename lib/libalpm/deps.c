@@ -2,6 +2,8 @@
  *  deps.c
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,7 +24,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef __sun__
+#include <strings.h>
+#endif
 #include <libintl.h>
+#include <math.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -95,7 +101,7 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, PMList *haystack)
 PMList *_alpm_sortbydeps(PMList *targets, int mode)
 {
 	PMList *newtargs = NULL;
-	PMList *i, *j, *k;
+	PMList *i, *j, *k, *l;
 	int change = 1;
 	int numscans = 0;
 	int numtargs = 0;
@@ -109,11 +115,12 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 		numtargs++;
 	}
 
+	_alpm_log(PM_LOG_DEBUG, _("started sorting dependencies"));
 	while(change) {
 		PMList *tmptargs = NULL;
 		change = 0;
-		if(numscans > numtargs) {
-			_alpm_log(PM_LOG_WARNING, _("possible dependency cycle detected"));
+		if(numscans > sqrt(numtargs)) {
+			_alpm_log(PM_LOG_DEBUG, _("possible dependency cycle detected"));
 			continue;
 		}
 		numscans++;
@@ -138,6 +145,15 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 						}
 						break;
 					}
+					for(l = q->provides; l; l = l->next) {
+						if(!strcmp(dep.name, (char*)l->data)) {
+							if(!_alpm_pkg_isin((char*)l->data, tmptargs)) {
+								change = 1;
+								tmptargs = _alpm_list_add(tmptargs, q);
+							}
+							break;
+						}
+					}
 				}
 			}
 			if(!_alpm_pkg_isin(p->name, tmptargs)) {
@@ -147,6 +163,7 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 		FREELISTPTR(newtargs);
 		newtargs = tmptargs;
 	}
+	_alpm_log(PM_LOG_DEBUG, _("sorting dependencies finished"));
 
 	if(mode == PM_TRANS_TYPE_REMOVE) {
 		/* we're removing packages, so reverse the order */
@@ -164,7 +181,7 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
  * dependencies can include versions with depmod operators.
  *
  */
-PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
+PMList *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, PMList *packages)
 {
 	pmdepend_t depend;
 	PMList *i, *j, *k;
@@ -290,51 +307,6 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						}
 					}
 				}
-				/* check database for provides matches */
-				if(!found) {
-					PMList *m;
-					k = _alpm_db_whatprovides(db, depend.name);
-					for(m = k; m && !found; m = m->next) {
-						/* look for a match that isn't one of the packages we're trying
-						 * to install.  this way, if we match against a to-be-installed
-						 * package, we'll defer to the NEW one, not the one already
-						 * installed. */
-						pmpkg_t *p = m->data;
-						PMList *n;
-						int skip = 0;
-						for(n = packages; n && !skip; n = n->next) {
-							pmpkg_t *ptp = n->data;
-							if(!strcmp(ptp->name, p->name)) {
-								skip = 1;
-							}
-						}
-						if(skip) {
-							continue;
-						}
-						if(depend.mod == PM_DEP_MOD_ANY) {
-							/* accept any version */
-							found = 1;
-						} else {
-							char *ver = strdup(p->version);
-							/* check for a release in depend.version.  if it's
-							 * missing remove it from p->version as well.
-							 */
-							if(!index(depend.version,'-')) {
-								char *ptr;
-								for(ptr = ver; *ptr != '-'; ptr++);
-								*ptr = '\0';
-							}
-							cmp = _alpm_versioncmp(ver, depend.version);
-							switch(depend.mod) {
-								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
-								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
-								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
-							}
-							FREE(ver);
-						}
-					}
-					FREELISTPTR(k);
-				}
 				/* check other targets */
 				for(k = packages; k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
@@ -363,6 +335,36 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 						}
 					}
 				}
+				/* check database for provides matches */
+				if(!found){
+					k = _alpm_db_whatprovides(db, depend.name);
+					if(k) {
+						/* grab the first one (there should only really be one, anyway) */
+						pmpkg_t *p = k->data;
+						if(depend.mod == PM_DEP_MOD_ANY) {
+							/* accept any version */
+							found = 1;
+						} else {
+							char *ver = strdup(p->version);
+							/* check for a release in depend.version.  if it's
+							 * missing remove it from p->version as well.
+							 */
+							if(!index(depend.version,'-')) {
+								char *ptr;
+								for(ptr = ver; *ptr != '-'; ptr++);
+								*ptr = '\0';
+							}
+							cmp = _alpm_versioncmp(ver, depend.version);
+							switch(depend.mod) {
+								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
+								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
+								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
+							}
+							FREE(ver);
+						}
+						FREELISTPTR(k);
+					}
+				}
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as a dependency for %s"),
@@ -384,14 +386,30 @@ PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages)
 				continue;
 			}
 
+			found=0;
 			for(j = tp->requiredby; j; j = j->next) {
 				if(!_alpm_list_is_strin((char *)j->data, packages)) {
-					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), (char *)j->data, tp->name);
-					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
-					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = _alpm_list_add(baddeps, miss);
+					/* check if a package in trans->packages provides this package */
+					for(k=trans->packages; !found && k; k=k->next) {
+						pmpkg_t *spkg = NULL;
+					if(trans->type == PM_TRANS_TYPE_SYNC) {
+						pmsyncpkg_t *sync = k->data;
+						spkg = sync->pkg;
 					} else {
-						FREE(miss);
+						spkg = k->data;
+					}
+						if(spkg && _alpm_list_is_strin(tp->name, spkg->provides)) {
+							found=1;
+						}
+					}
+					if(!found) {
+						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), (char *)j->data, tp->name);
+						miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
+						if(!_alpm_depmiss_isin(miss, baddeps)) {
+							baddeps = _alpm_list_add(baddeps, miss);
+						} else {
+							FREE(miss);
+						}
 					}
 				}
 			}
@@ -536,7 +554,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 	}
 
 	targ = _alpm_list_add(NULL, syncpkg);
-	deps = _alpm_checkdeps(local, PM_TRANS_TYPE_ADD, targ);
+	deps = _alpm_checkdeps(trans, local, PM_TRANS_TYPE_ADD, targ);
 	FREELISTPTR(targ);
 
 	if(deps == NULL) {

@@ -2,6 +2,9 @@
  *  error.c
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -96,6 +99,8 @@ char *alpm_strerror(int err)
 			return _("package not installed or lesser version");
 		case PM_ERR_PKG_INVALID_NAME:
 			return _("package name is not valid");
+		case PM_ERR_PKG_CORRUPTED:
+			return _("corrupted package");
 		/* Groups */
 		case PM_ERR_GRP_NOT_FOUND:
 			return _("group not found");
@@ -109,10 +114,29 @@ char *alpm_strerror(int err)
 		/* Miscellaenous */
 		case PM_ERR_USER_ABORT:
 			return _("user aborted");
-		case PM_ERR_INTERNAL_ERROR:
-			return _("internal error");
 		case PM_ERR_LIBARCHIVE_ERROR:
 			return _("libarchive error");
+		case PM_ERR_INTERNAL_ERROR:
+			return _("internal error");
+		case PM_ERR_DISK_FULL:
+			return _("not enough space");
+		case PM_ERR_PKG_HOLD:
+			return _("not confirmed");
+		/* Config */
+		case PM_ERR_CONF_BAD_SECTION:
+			return _("bad section name");
+		case PM_ERR_CONF_LOCAL:
+			return _("'local' is reserved and cannot be used as a package tree");
+		case PM_ERR_CONF_BAD_SYNTAX:
+			return _("syntax error");
+		case PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION:
+			return _("all directives must belong to a section");
+		case PM_ERR_INVALID_REGEX:
+			return _("valid regular expression");
+		case PM_ERR_CONNECT_FAILED:
+			return _("connection to remote host failed");
+		case PM_ERR_FORK_FAILED:
+			return _("forking process failed");
 		default:
 			return _("unexpected error");
 	}

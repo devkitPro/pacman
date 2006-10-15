@@ -1,7 +1,9 @@
 /*
  *  versioncmp.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -141,122 +143,96 @@ static int strverscmp (s1, s2)
 #endif
 
 /* this function was taken from rpm 4.0.4 and rewritten */
-int _alpm_versioncmp(const char *a, const char *b) {
-	char *str1, *ostr1, *str2, *ostr2;
+int _alpm_versioncmp(const char *a, const char *b)
+{
+	char str1[64], str2[64];
+	char *ptr1, *ptr2;
 	char *one, *two;
 	char *rel1 = NULL, *rel2 = NULL;
 	char oldch1, oldch2;
 	int is1num, is2num;
-	int rc, rv;
-	
-	if (!strcmp(a,b)) {
+	int rc;
+
+	if(!strcmp(a,b)) {
 		return(0);
 	}
 
-	str1 = strdup(a);
-	ostr1 = str1;
-	str2 = strdup(b);
-	ostr2 = str2;
+	strncpy(str1, a, 64);
+	str1[63] = 0;
+	strncpy(str2, b, 64);
+	str2[63] = 0;
 
 	/* lose the release number */
 	for(one = str1; *one && *one != '-'; one++);
-	if(*one) {
+	if(one) {
 		*one = '\0';
 		rel1 = ++one;
-		if (*rel1 == '\0')
-			rel1 = NULL;
 	}
 	for(two = str2; *two && *two != '-'; two++);
-	if(*two) {
+	if(two) {
 		*two = '\0';
 		rel2 = ++two;
-		if (*rel2 == '\0')
-			rel2 = NULL;
 	}
 
 	one = str1;
 	two = str2;
 
 	while(*one || *two) {
-		while(*one && !isalnum(*one)) one++;
-		while(*two && !isalnum(*two)) two++;
+		while(*one && !isalnum((int)*one)) one++;
+		while(*two && !isalnum((int)*two)) two++;
 
-		str1 = one;
-		str2 = two;
+		ptr1 = one;
+		ptr2 = two;
 
 		/* find the next segment for each string */
-		if(isdigit(*str1)) {
+		if(isdigit((int)*ptr1)) {
 			is1num = 1;
-			while(*str1 && isdigit(*str1)) str1++;
+			while(*ptr1 && isdigit((int)*ptr1)) ptr1++;
 		} else {
 			is1num = 0;
-			while(*str1 && isalpha(*str1)) str1++;
+			while(*ptr1 && isalpha((int)*ptr1)) ptr1++;
 		}
-		if(isdigit(*str2)) {
+		if(isdigit((int)*ptr2)) {
 			is2num = 1;
-			while(*str2 && isdigit(*str2)) str2++;
+			while(*ptr2 && isdigit((int)*ptr2)) ptr2++;
 		} else {
 			is2num = 0;
-			while(*str2 && isalpha(*str2)) str2++;
+			while(*ptr2 && isalpha((int)*ptr2)) ptr2++;
 		}
 
-		oldch1 = *str1;
-		*str1 = '\0';
-		oldch2 = *str2;
-		*str2 = '\0';
+		oldch1 = *ptr1;
+		*ptr1 = '\0';
+		oldch2 = *ptr2;
+		*ptr2 = '\0';
 
 		/* see if we ran out of segments on one string */
-		if(one == str1 && two != str2) {
-			free(ostr1);
-			free(ostr2);
+		if(one == ptr1 && two != ptr2) {
 			return(is2num ? -1 : 1);
 		}
-		if(one != str1 && two == str2) {
-			free(ostr1);
-			free(ostr2);
+		if(one != ptr1 && two == ptr2) {
 			return(is1num ? 1 : -1);
 		}
 
 		/* see if we have a type mismatch (ie, one is alpha and one is digits) */
-		if(is1num && !is2num) {
-			free(ostr1);
-			free(ostr2);
-			return(1);
-		}
-		if(!is1num && is2num) { 
-			free(ostr1);
-			free(ostr2);
-			return(-1);
-		}
+		if(is1num && !is2num) return(1);
+		if(!is1num && is2num) return(-1);
 
 		if(is1num) while(*one == '0') one++;
 		if(is2num) while(*two == '0') two++;
 
 		rc = strverscmp(one, two);
-		if(rc) { 
-			free(ostr1);
-			free(ostr2);
-			return(rc);
-		}
+		if(rc) return(rc);
 
-		*str1 = oldch1;
-		*str2 = oldch2;
-		one = str1;
-		two = str2;
+		*ptr1 = oldch1;
+		*ptr2 = oldch2;
+		one = ptr1;
+		two = ptr2;
 	}
 
 	if((!*one) && (!*two)) {
 		/* compare release numbers */
-		if(rel1 && rel2) {
-			rv = _alpm_versioncmp(rel1, rel2);
-			free(ostr1);
-			free(ostr2);
-			return rv;
-		} else {
-			free(ostr1);
-			free(ostr2);
-			return(0);
-		}
+		if(rel1 && rel2) return(_alpm_versioncmp(rel1, rel2));
+		return(0);
 	}
 
 	return(*one ? 1 : -1);

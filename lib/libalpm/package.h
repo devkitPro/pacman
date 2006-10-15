@@ -2,6 +2,10 @@
  *  package.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
+ *  Copyright (c) 2005, 2006 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +25,9 @@
 #ifndef _ALPM_PACKAGE_H
 #define _ALPM_PACKAGE_H
 
+#if defined(__APPLE__) || defined(__sun__)
+#include <time.h>
+#endif
 #include "list.h"
 
 enum {
@@ -34,8 +41,10 @@ enum {
 #define PKG_DESC_LEN     512
 #define PKG_URL_LEN      256
 #define PKG_DATE_LEN     32
+#define PKG_TYPE_LEN     32
 #define PKG_PACKAGER_LEN 64
 #define PKG_MD5SUM_LEN   33
+#define PKG_SHA1SUM_LEN  41
 #define PKG_ARCH_LEN     32
 
 typedef struct __pmpkg_t {
@@ -44,20 +53,26 @@ typedef struct __pmpkg_t {
 	char desc[PKG_DESC_LEN];
 	char url[PKG_URL_LEN];
 	char builddate[PKG_DATE_LEN];
+	char buildtype[PKG_TYPE_LEN];
 	char installdate[PKG_DATE_LEN];
 	char packager[PKG_PACKAGER_LEN];
 	char md5sum[PKG_MD5SUM_LEN];
+	char sha1sum[PKG_SHA1SUM_LEN];
 	char arch[PKG_ARCH_LEN];
 	unsigned long size;
+	unsigned long usize;
 	unsigned char scriptlet;
 	unsigned char force;
+	time_t date;
 	unsigned char reason;
+	PMList *desc_localized;
 	PMList *license;
 	PMList *replaces;
 	PMList *groups;
 	PMList *files;
 	PMList *backup;
 	PMList *depends;
+	PMList *removes;
 	PMList *requiredby;
 	PMList *conflicts;
 	PMList *provides;

@@ -2,6 +2,10 @@
  *  util.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,8 +26,13 @@
 #define _ALPM_UTIL_H
 
 #include <stdio.h>
+#if defined(__OpenBSD__)
+#include "/usr/local/include/archive.h"
+#include "/usr/local/include/archive_entry.h"
+#else
 #include <archive.h>
 #include <archive_entry.h>
+#endif
 
 #define FREE(p) do { if (p) { free(p); p = NULL; } } while(0)
 
@@ -34,9 +43,16 @@
 	s1[(len)-1] = 0; \
 } while(0)
 
-#define _(str) dgettext("libalpm", str)
-
 #define ARCHIVE_EXTRACT_FLAGS ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_TIME
+
+#ifdef ENABLE_NLS
+#define _(str) dgettext ("libalpm", str)
+#else
+#define _(s) s
+#endif
+
+#define STARTSTR "START "
+#define DONESTR "DONE "
 
 int _alpm_makepath(char *path);
 int _alpm_copyfile(char *src, char *dest);
@@ -46,10 +62,19 @@ int _alpm_lckmk(char *file);
 int _alpm_lckrm(char *file);
 int _alpm_unpack(char *archive, const char *prefix, const char *fn);
 int _alpm_rmrf(char *path);
-int _alpm_archive_read_entry_data_into_fd(struct archive *archive, int fd);
 int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...);
 int _alpm_ldconfig(char *root);
-int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver);
+#ifdef _ALPM_TRANS_H
+int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver, pmtrans_t *trans);
+#ifndef __sun__
+int _alpm_check_freespace(pmtrans_t *trans, PMList **data);
+#endif
+#endif
+int _alpm_reg_match(char *string, char *pattern);
+#ifdef __sun__
+char* strsep(char** str, const char* delims);
+char* mkdtemp(char *template);
+#endif
 
 #endif /* _ALPM_UTIL_H */
 

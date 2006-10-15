@@ -2,6 +2,9 @@
  *  trans.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,8 +28,9 @@ enum {
 	STATE_IDLE = 0,
 	STATE_INITIALIZED,
 	STATE_PREPARED,
-	STATE_COMMITTING,
-	STATE_COMMITTED,
+	STATE_DOWNLOADING,
+	STATE_COMMITING,
+	STATE_COMMITED,
 	STATE_INTERRUPTED
 };
 
@@ -41,6 +45,7 @@ typedef struct __pmtrans_t {
 	PMList *skiplist;    /* PMList of (char *) */
 	alpm_trans_cb_event cb_event;
 	alpm_trans_cb_conv cb_conv;
+	alpm_trans_cb_progress cb_progress;
 } pmtrans_t;
 
 #define FREETRANS(p) \
@@ -62,10 +67,16 @@ do { \
 		(t)->cb_conv(q, d1, d2, d3, r); \
 	} \
 } while(0)
+#define PROGRESS(t, e, p, per, h, r) \
+do { \
+	if((t) && (t)->cb_progress) { \
+		(t)->cb_progress(e, p, per, h, r); \
+	} \
+} while(0)
 
 pmtrans_t *_alpm_trans_new(void);
 void _alpm_trans_free(void *data);
-int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv);
+int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress);
 int _alpm_trans_sysupgrade(pmtrans_t *trans);
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
 int _alpm_trans_prepare(pmtrans_t *trans, PMList **data);

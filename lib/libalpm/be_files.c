@@ -1,7 +1,8 @@
 /*
  *  be_files.c
  * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2006 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,9 +26,13 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#ifdef __sun__
+#include <strings.h>
+#endif
 #include <sys/stat.h>
 #include <dirent.h>
 #include <libintl.h>
+#include <locale.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -36,8 +41,12 @@
 #include "util.h"
 #include "db.h"
 #include "alpm.h"
+#include "error.h"
+#include "handle.h"
 
-int _alpm_db_open(pmdb_t *db, int mode)
+extern pmhandle_t *handle;
+
+int _alpm_db_open(pmdb_t *db)
 {
 	if(db == NULL) {
 		return(-1);
@@ -155,6 +164,9 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	struct stat buf;
 	char path[PATH_MAX];
 	char line[512];
+	char *lang_tmp;
+	PMList *tmplist;
+	char *foo;
 
 	if(db == NULL || info == NULL || info->name[0] == 0 || info->version[0] == 0) {
 		return(-1);
@@ -171,7 +183,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
-			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
+			_alpm_log(PM_LOG_DEBUG, "%s (%s)", path, strerror(errno));
 			goto error;
 		}
 		while(!feof(fp)) {
@@ -180,10 +192,34 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 			}
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%DESC%")) {
-				if(fgets(info->desc, sizeof(info->desc), fp) == NULL) {
-					goto error;
+				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
+					info->desc_localized = _alpm_list_add(info->desc_localized, strdup(line));
+				}
+
+				if (setlocale(LC_ALL, "") == NULL) { /* To fix segfault when locale invalid */
+					setenv("LC_ALL", "C", 1);
+				}
+				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
+					RET_ERR(PM_ERR_MEMORY, -1);
+				}
+				snprintf(lang_tmp, strlen(setlocale(LC_ALL, "")), "%s", setlocale(LC_ALL, ""));
+
+				if(info->desc_localized && !info->desc_localized->next) {
+				    snprintf(info->desc, 512, "%s", (char*)info->desc_localized->data);
+				} else {
+				    for (tmplist = info->desc_localized; tmplist; tmplist = tmplist->next) {
+					if (tmplist->data && strncmp(tmplist->data, lang_tmp, strlen(lang_tmp))) {
+					    snprintf(info->desc, 512, "%s", (char*)info->desc_localized->data);
+					} else {
+					    foo = strdup(tmplist->data);
+					    snprintf(info->desc, 512, "%s", foo+strlen(lang_tmp)+1);
+					    FREE(foo);
+					    break;
+					}
+				    }
 				}
 				_alpm_strtrim(info->desc);
+				FREE(lang_tmp);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->groups = _alpm_list_add(info->groups, strdup(line));
@@ -207,6 +243,11 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 					goto error;
 				}
 				_alpm_strtrim(info->builddate);
+			} else if(!strcmp(line, "%BUILDTYPE%")) {
+				if(fgets(info->buildtype, sizeof(info->buildtype), fp) == NULL) {
+					goto error;
+				}
+				_alpm_strtrim(info->buildtype);
 			} else if(!strcmp(line, "%INSTALLDATE%")) {
 				if(fgets(info->installdate, sizeof(info->installdate), fp) == NULL) {
 					goto error;
@@ -236,6 +277,21 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				}
 				_alpm_strtrim(tmp);
 				info->size = atol(tmp);
+			} else if(!strcmp(line, "%USIZE%")) {
+				/* USIZE (uncompressed size) tag only appears in sync repositories,
+				 * not the local one. */
+				char tmp[32];
+				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
+					goto error;
+				}
+				_alpm_strtrim(tmp);
+				info->usize = atol(tmp);
+			} else if(!strcmp(line, "%SHA1SUM%")) {
+				/* SHA1SUM tag only appears in sync repositories,
+				 * not the local one. */
+				if(fgets(info->sha1sum, sizeof(info->sha1sum), fp) == NULL) {
+					goto error;
+				}
 			} else if(!strcmp(line, "%MD5SUM%")) {
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
@@ -267,7 +323,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
-			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
+			_alpm_log(PM_LOG_WARNING, "%s (%s)", path, strerror(errno));
 			goto error;
 		}
 		while(fgets(line, 256, fp)) {
@@ -291,7 +347,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		fp = fopen(path, "r");
 		if(fp == NULL) {
-			_alpm_log(PM_LOG_ERROR, "%s (%s)", path, strerror(errno));
+			_alpm_log(PM_LOG_WARNING, "%s (%s)", path, strerror(errno));
 			goto error;
 		}
 		while(!feof(fp)) {
@@ -383,8 +439,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		fprintf(fp, "%%NAME%%\n%s\n\n"
 			"%%VERSION%%\n%s\n\n", info->name, info->version);
 		if(info->desc[0]) {
-			fprintf(fp, "%%DESC%%\n"
-				"%s\n\n", info->desc);
+			fputs("%DESC%\n", fp);
+			for(lp = info->desc_localized; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
 		}
 		if(info->groups) {
 			fputs("%GROUPS%\n", fp);
@@ -413,6 +472,10 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 				fprintf(fp, "%%BUILDDATE%%\n"
 					"%s\n\n", info->builddate);
 			}
+			if(info->buildtype[0]) {
+				fprintf(fp, "%%BUILDTYPE%%\n"
+					"%s\n\n", info->buildtype);
+			}
 			if(info->installdate[0]) {
 				fprintf(fp, "%%INSTALLDATE%%\n"
 					"%s\n\n", info->installdate);
@@ -434,7 +497,14 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 				fprintf(fp, "%%CSIZE%%\n"
 					"%ld\n\n", info->size);
 			}
-			if(info->md5sum) {
+			if(info->usize) {
+				fprintf(fp, "%%USIZE%%\n"
+					"%ld\n\n", info->usize);
+			}
+			if(info->sha1sum) {
+				fprintf(fp, "%%SHA1SUM%%\n"
+					"%s\n\n", info->sha1sum);
+			} else if(info->md5sum) {
 				fprintf(fp, "%%MD5SUM%%\n"
 					"%s\n\n", info->md5sum);
 			}
@@ -523,9 +593,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	}
 
 	/* INSTALL */
-	if(local & (inforeq & INFRQ_SCRIPLET)) {
-		/* nothing needed here (script is automatically extracted) */
-	}
+	/* nothing needed here (script is automatically extracted) */
 
 cleanup:
 	umask(oldmask);
@@ -563,6 +631,9 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 		/* INSTALL */
 		snprintf(path, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
 		unlink(path);
+		/* CHANGELOG */
+		snprintf(path, PATH_MAX, "%s/%s-%s/changelog", db->path, info->name, info->version);
+		unlink(path);
 	}
 
 	/* Package directory */
@@ -571,6 +642,65 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 	if(rmdir(path) == -1) {
 		return(-1);
 	}
+
+	return(0);
+}
+
+/* reads dbpath/.lastupdate and populates *ts with the contents.
+ * *ts should be malloc'ed and should be at least 15 bytes.
+ *
+ * Returns 0 on success, 1 on error
+ *
+ */
+int _alpm_db_getlastupdate(pmdb_t *db, char *ts)
+{
+	FILE *fp;
+	char file[PATH_MAX];
+
+	if(db == NULL || ts == NULL) {
+		return(-1);
+	}
+
+	snprintf(file, PATH_MAX, "%s%s/%s/.lastupdate", handle->root, handle->dbpath, db->treename);
+
+	/* get the last update time, if it's there */
+	if((fp = fopen(file, "r")) == NULL) {
+		return(-1);
+	} else {
+		char line[256];
+		if(fgets(line, sizeof(line), fp)) {
+			STRNCPY(ts, line, 15); /* YYYYMMDDHHMMSS */
+			ts[14] = '\0';
+		} else {
+			fclose(fp);
+			return(-1);
+		}
+	}
+	fclose(fp);
+	return(0);
+}
+
+/* writes the dbpath/.lastupdate with the contents of *ts
+ */
+int _alpm_db_setlastupdate(pmdb_t *db, char *ts)
+{
+	FILE *fp;
+	char file[PATH_MAX];
+
+	if(db == NULL || ts == NULL || strlen(ts) == 0) {
+		return(-1);
+	}
+
+	snprintf(file, PATH_MAX, "%s%s/%s/.lastupdate", handle->root, handle->dbpath, db->treename);
+
+	if((fp = fopen(file, "w")) == NULL) {
+		return(-1);
+	}
+	if(fputs(ts, fp) <= 0) {
+		fclose(fp);
+		return(-1);
+	}
+	fclose(fp);
 
 	return(0);
 }

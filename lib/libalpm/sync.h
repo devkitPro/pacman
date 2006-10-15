@@ -2,6 +2,8 @@
  *  sync.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,8 +37,6 @@ typedef struct __pmsyncpkg_t {
 
 pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data);
 void _alpm_sync_free(void *data);
-
-PMList *_alpm_sync_load_dbarchive(char *archive);
 
 int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync);
 int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name);

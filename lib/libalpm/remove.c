@@ -2,6 +2,10 @@
  *  remove.c
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,6 +23,13 @@
  *  USA.
  */
 
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#endif
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
+#include <sys/stat.h>
+#endif
+
 #include "config.h"
 #include <stdlib.h>
 #include <errno.h>
@@ -28,12 +39,14 @@
 #include <limits.h>
 #include <zlib.h>
 #include <libintl.h>
-#include <libtar.h>
 /* pacman */
+#include "list.h"
+#include "trans.h"
 #include "util.h"
 #include "error.h"
 #include "versioncmp.h"
 #include "md5.h"
+#include "sha1.h"
 #include "log.h"
 #include "backup.h"
 #include "package.h"
@@ -64,6 +77,15 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
+	/* ignore holdpkgs on upgrade */
+	if((trans == handle->trans) && _alpm_list_is_strin(info->name, handle->holdpkg)) {
+		int resp = 0;
+		QUESTION(trans, PM_TRANS_CONV_REMOVE_HOLDPKG, info, NULL, NULL, &resp);
+		if(!resp) {
+			RET_ERR(PM_ERR_PKG_HOLD, -1);
+		}
+	}
+
 	_alpm_log(PM_LOG_FLOW2, _("adding %s in the targets list"), info->name);
 	trans->packages = _alpm_list_add(trans->packages, info);
 
@@ -81,7 +103,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, _("looking for unsatisfied dependencies"));
-		lp = _alpm_checkdeps(db, trans->type, trans->packages);
+		lp = _alpm_checkdeps(trans, db, trans->type, trans->packages);
 		if(lp != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				while(lp) {
@@ -98,7 +120,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 						}
 					}
 					FREELIST(lp);
-					lp = _alpm_checkdeps(db, trans->type, trans->packages);
+					lp = _alpm_checkdeps(trans, db, trans->type, trans->packages);
 				}
 			} else {
 				if(data) {
@@ -146,6 +168,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	for(targ = trans->packages; targ; targ = targ->next) {
+		int position = 0;
 		char pm_install[PATH_MAX];
 		info = (pmpkg_t*)targ->data;
 
@@ -160,21 +183,29 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* run the pre-remove scriptlet if it exists  */
 			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
-				_alpm_runscriptlet(handle->root, pm_install, "pre_remove", info->version, NULL);
+				_alpm_runscriptlet(handle->root, pm_install, "pre_remove", info->version, NULL, trans);
 			}
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
+			int filenum = _alpm_list_count(info->files);
 			_alpm_log(PM_LOG_FLOW1, _("removing files"));
 
 			/* iterate through the list backwards, unlinking files */
 			for(lp = _alpm_list_last(info->files); lp; lp = lp->prev) {
 				int nb = 0;
+				double percent;
 				char *file = lp->data;
-				char *md5 = _alpm_needbackup(file, info->backup);
-				if(md5) {
+				char *md5 =_alpm_needbackup(file, info->backup);
+				char *sha1 =_alpm_needbackup(file, info->backup);
+
+				if (position != 0) {
+				percent = (double)position / filenum;
+				}
+				if(md5 && sha1) {
 					nb = 1;
-					free(md5);
+					FREE(md5);
+					FREE(sha1);
 				}
 				if(!nb && trans->type == PM_TRANS_TYPE_UPGRADE) {
 					/* check noupgrade */
@@ -229,6 +260,9 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 							}
 						} else {
 							_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), file);
+							/* Need at here because we count only real unlinked files ? */
+				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), _alpm_list_count(trans->packages), (_alpm_list_count(trans->packages) - _alpm_list_count(targ) +1));
+							position++;
 							if(unlink(line)) {
 								_alpm_log(PM_LOG_ERROR, _("cannot remove file %s"), file);
 							}
@@ -243,7 +277,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				char pm_install[PATH_MAX];
 				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
-				_alpm_runscriptlet(handle->root, pm_install, "post_remove", info->version, NULL);
+				_alpm_runscriptlet(handle->root, pm_install, "post_remove", info->version, NULL, trans);
 			}
 		}
 
@@ -301,6 +335,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
+	    PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 100, _alpm_list_count(trans->packages), (_alpm_list_count(trans->packages) - _alpm_list_count(targ) +1));
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 		}

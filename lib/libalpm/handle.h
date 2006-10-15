@@ -47,15 +47,24 @@ typedef struct __pmhandle_t {
 	PMList *noupgrade; /* List of strings */
 	PMList *noextract; /* List of strings */
 	PMList *ignorepkg; /* List of strings */
+	PMList *holdpkg; /* List of strings */
 	unsigned char usesyslog;
+	time_t upgradedelay;
+	/* servers */
+	char *proxyhost;
+	unsigned short proxyport;
+	char *xfercommand;
+	unsigned short nopassiveftp;
+	unsigned short chomp; /* if eye-candy features should be enabled or not */
+	PMList *needles; /* for searching */
 } pmhandle_t;
 
-#define FREEHANDLE(p) do { if (p) { handle_free(p); p = NULL; } } while (0)
+#define FREEHANDLE(p) do { if (p) { _alpm_handle_free(p); p = NULL; } } while (0)
 
-pmhandle_t *handle_new(void);
-int handle_free(pmhandle_t *handle);
-int handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data);
-int handle_get_option(pmhandle_t *handle, unsigned char val, long *data);
+pmhandle_t *_alpm_handle_new(void);
+int _alpm_handle_free(pmhandle_t *handle);
+int _alpm_handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data);
+int _alpm_handle_get_option(pmhandle_t *handle, unsigned char val, long *data);
 
 #endif /* _ALPM_HANDLE_H */
 

@@ -2,6 +2,8 @@
  *  deps.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -40,7 +42,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsign
                             const char *depname, const char *depversion);
 int _alpm_depmiss_isin(pmdepmissing_t *needle, PMList *haystack);
 PMList *_alpm_sortbydeps(PMList *targets, int mode);
-PMList *_alpm_checkdeps(pmdb_t *db, unsigned char op, PMList *packages);
+PMList *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, PMList *packages);
 int _alpm_splitdep(char *depstr, pmdepend_t *depend);
 PMList *_alpm_removedeps(pmdb_t *db, PMList *targs);
 int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,

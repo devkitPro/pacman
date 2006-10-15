@@ -23,7 +23,6 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
 
-
 /* POINTER defines a generic pointer type */
 typedef unsigned char *POINTER;
 
@@ -41,11 +40,11 @@ typedef struct {
   unsigned char buffer[64];                         /* input buffer */
 } MD5_CTX;
 
-void MD5Init(MD5_CTX *);
-void MD5Update(MD5_CTX *, unsigned char *, unsigned int);
-void MD5Final(unsigned char [16], MD5_CTX *);
+void _alpm_MD5Init(MD5_CTX *);
+void _alpm_MD5Update(MD5_CTX *, unsigned char *, unsigned int);
+void _alpm_MD5Final(unsigned char [16], MD5_CTX *);
 
-char* MDFile(char *);
-void  MDPrint(unsigned char [16]);
+char* _alpm_MDFile(char *);
+void  _alpm_MDPrint(unsigned char [16]);
 
 /* vim: set ts=2 sw=2 noet: */

@@ -2,6 +2,9 @@
  *  conflict.c
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,6 +22,10 @@
  *  USA.
  */
 
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#endif
+
 #include "config.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -28,6 +35,7 @@
 #include <libintl.h>
 /* pacman */
 #include "util.h"
+#include "error.h"
 #include "log.h"
 #include "cache.h"
 #include "deps.h"
@@ -148,7 +156,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 			for(j = packages; j; j = j->next) {
 				pmpkg_t *pkg = j->data;
 				if(!strcmp(pkg->name, info->name)) {
-					// Use the new, to-be-installed package's conflicts
+					/* Use the new, to-be-installed package's conflicts */
 					conflicts = pkg->conflicts;
 					usenewconflicts = 1;
 				}
@@ -253,13 +261,6 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 			}
 			if(!lstat(path, &buf)) {
 				int ok = 0;
-				if(!S_ISLNK(buf.st_mode) && ((isdir && !S_ISDIR(buf.st_mode)) || (!isdir && S_ISDIR(buf.st_mode)))) {
-					/* if the package target is a directory, and the filesystem target
-					 * is not (or vice versa) then it's a conflict
-					 */
-					ok = 0;
-					goto donecheck;
-				}
 				/* re-fetch with stat() instead of lstat() */
 				stat(path, &buf);
 				if(S_ISDIR(buf.st_mode)) {
@@ -328,7 +329,6 @@ PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList 
 						}
 					}
 				}
-donecheck:
 				if(!ok) {
 					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 					if(conflict == NULL) {

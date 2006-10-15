@@ -2,6 +2,8 @@
  *  db.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +23,7 @@
 #ifndef _ALPM_DB_H
 #define _ALPM_DB_H
 
+#include <limits.h>
 #include "package.h"
 
 /* Database entries */
@@ -31,30 +34,32 @@
 #define INFRQ_SCRIPLET 0x08
 #define INFRQ_ALL      0xFF
 
-#define DB_TREENAME_LEN 128
-
 #define DB_O_CREATE 0x01
 
 /* Database */
 typedef struct __pmdb_t {
 	char *path;
-	char treename[DB_TREENAME_LEN];
+	char treename[PATH_MAX];
 	void *handle;
 	PMList *pkgcache;
 	PMList *grpcache;
+	PMList *servers;
 } pmdb_t;
 
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
 int _alpm_db_cmp(const void *db1, const void *db2);
+PMList *_alpm_db_search(pmdb_t *db, PMList *needles);
 /* Prototypes for backends functions */
-int _alpm_db_open(pmdb_t *db, int mode);
+int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
 void _alpm_db_rewind(pmdb_t *db);
 pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq);
 int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
+int _alpm_db_getlastupdate(pmdb_t *db, char *ts);
+int _alpm_db_setlastupdate(pmdb_t *db, char *ts);
 
 #endif /* _ALPM_DB_H */
 

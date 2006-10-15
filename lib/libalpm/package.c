@@ -1,7 +1,10 @@
 /*
  *  package.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005, 2006 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,6 +29,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <libintl.h>
+#include <locale.h>
 /* pacman */
 #include "log.h"
 #include "util.h"
@@ -38,10 +42,8 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 {
 	pmpkg_t* pkg = NULL;
 
-	pkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
-	if(pkg == NULL) {
-		_alpm_log(PM_LOG_ERROR, "malloc failure: could not allocate %d bytes", sizeof(pmpkg_t));
-		RET_ERR(PM_ERR_MEMORY, NULL);
+	if((pkg = (pmpkg_t *)malloc(sizeof(pmpkg_t))) == NULL) {
+		RET_ERR(PM_ERR_MEMORY, (pmpkg_t *)-1);
 	}
 
 	if(name && name[0] != 0) {
@@ -57,12 +59,16 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	pkg->desc[0]        = '\0';
 	pkg->url[0]         = '\0';
 	pkg->license        = NULL;
+	pkg->desc_localized = NULL;
 	pkg->builddate[0]   = '\0';
+	pkg->buildtype[0]   = '\0';
 	pkg->installdate[0] = '\0';
 	pkg->packager[0]    = '\0';
 	pkg->md5sum[0]      = '\0';
+	pkg->sha1sum[0]     = '\0';
 	pkg->arch[0]        = '\0';
 	pkg->size           = 0;
+	pkg->usize          = 0;
 	pkg->scriptlet      = 0;
 	pkg->force          = 0;
 	pkg->reason         = PM_PKG_REASON_EXPLICIT;
@@ -71,6 +77,7 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	pkg->files          = NULL;
 	pkg->backup         = NULL;
 	pkg->depends        = NULL;
+	pkg->removes        = NULL;
 	pkg->groups         = NULL;
 	pkg->provides       = NULL;
 	pkg->replaces       = NULL;
@@ -97,20 +104,25 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	STRNCPY(newpkg->desc, pkg->desc, PKG_DESC_LEN);
 	STRNCPY(newpkg->url, pkg->url, PKG_URL_LEN);
 	STRNCPY(newpkg->builddate, pkg->builddate, PKG_DATE_LEN);
+	STRNCPY(newpkg->buildtype, pkg->buildtype, PKG_DATE_LEN);
 	STRNCPY(newpkg->installdate, pkg->installdate, PKG_DATE_LEN);
 	STRNCPY(newpkg->packager, pkg->packager, PKG_PACKAGER_LEN);
 	STRNCPY(newpkg->md5sum, pkg->md5sum, PKG_MD5SUM_LEN);
+	STRNCPY(newpkg->sha1sum, pkg->sha1sum, PKG_SHA1SUM_LEN);
 	STRNCPY(newpkg->arch, pkg->arch, PKG_ARCH_LEN);
 	newpkg->size       = pkg->size;
+	newpkg->usize      = pkg->usize;
 	newpkg->force      = pkg->force;
 	newpkg->scriptlet  = pkg->scriptlet;
 	newpkg->reason     = pkg->reason;
 	newpkg->license    = _alpm_list_strdup(pkg->license);
+	newpkg->desc_localized = _alpm_list_strdup(pkg->desc_localized);
 	newpkg->requiredby = _alpm_list_strdup(pkg->requiredby);
 	newpkg->conflicts  = _alpm_list_strdup(pkg->conflicts);
 	newpkg->files      = _alpm_list_strdup(pkg->files);
 	newpkg->backup     = _alpm_list_strdup(pkg->backup);
 	newpkg->depends    = _alpm_list_strdup(pkg->depends);
+	newpkg->removes    = _alpm_list_strdup(pkg->removes);
 	newpkg->groups     = _alpm_list_strdup(pkg->groups);
 	newpkg->provides   = _alpm_list_strdup(pkg->provides);
 	newpkg->replaces   = _alpm_list_strdup(pkg->replaces);
@@ -131,9 +143,11 @@ void _alpm_pkg_free(void *data)
 	}
 
 	FREELIST(pkg->license);
+	FREELIST(pkg->desc_localized);
 	FREELIST(pkg->files);
 	FREELIST(pkg->backup);
 	FREELIST(pkg->depends);
+	FREELIST(pkg->removes);
 	FREELIST(pkg->conflicts);
 	FREELIST(pkg->requiredby);
 	FREELIST(pkg->groups);
@@ -185,7 +199,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("%s: syntax error in description file line %d"),
+			_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
 				info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
@@ -196,7 +210,18 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "PKGVER")) {
 				STRNCPY(info->version, ptr, sizeof(info->version));
 			} else if(!strcmp(key, "PKGDESC")) {
-				STRNCPY(info->desc, ptr, sizeof(info->desc));
+				char *lang_tmp;
+				info->desc_localized = _alpm_list_add(info->desc_localized, strdup(ptr));
+				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
+					RET_ERR(PM_ERR_MEMORY, -1);
+				}
+				STRNCPY(lang_tmp, setlocale(LC_ALL, ""), strlen(setlocale(LC_ALL, "")));
+				if(info->desc_localized && !info->desc_localized->next) {
+					STRNCPY(info->desc, ptr, sizeof(info->desc));
+				} else if (ptr && !strncmp(ptr, lang_tmp, strlen(lang_tmp))) {
+					STRNCPY(info->desc, ptr+strlen(lang_tmp)+1, sizeof(info->desc));
+				}
+				FREE(lang_tmp);
 			} else if(!strcmp(key, "GROUP")) {
 				info->groups = _alpm_list_add(info->groups, strdup(ptr));
 			} else if(!strcmp(key, "URL")) {
@@ -205,6 +230,8 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				info->license = _alpm_list_add(info->license, strdup(ptr));
 			} else if(!strcmp(key, "BUILDDATE")) {
 				STRNCPY(info->builddate, ptr, sizeof(info->builddate));
+			} else if(!strcmp(key, "BUILDTYPE")) {
+				STRNCPY(info->buildtype, ptr, sizeof(info->buildtype));
 			} else if(!strcmp(key, "INSTALLDATE")) {
 				STRNCPY(info->installdate, ptr, sizeof(info->installdate));
 			} else if(!strcmp(key, "PACKAGER")) {
@@ -215,8 +242,14 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				char tmp[32];
 				STRNCPY(tmp, ptr, sizeof(tmp));
 				info->size = atol(tmp);
+			} else if(!strcmp(key, "USIZE")) {
+				char tmp[32];
+				STRNCPY(tmp, ptr, sizeof(tmp));
+				info->usize = atol(tmp);
 			} else if(!strcmp(key, "DEPEND")) {
 				info->depends = _alpm_list_add(info->depends, strdup(ptr));
+			} else if(!strcmp(key, "REMOVE")) {
+				info->removes = _alpm_list_add(info->removes, strdup(ptr));
 			} else if(!strcmp(key, "CONFLICT")) {
 				info->conflicts = _alpm_list_add(info->conflicts, strdup(ptr));
 			} else if(!strcmp(key, "REPLACES")) {
@@ -226,7 +259,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "BACKUP")) {
 				info->backup = _alpm_list_add(info->backup, strdup(ptr));
 			} else {
-				_alpm_log(PM_LOG_ERROR, _("%s: syntax error in description file line %d"),
+				_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
 					info->name[0] != '\0' ? info->name : "error", linenum);
 			}
 		}
@@ -253,42 +286,53 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
+	if ((archive = archive_read_new ()) == NULL)
+		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, NULL);
+
+	archive_read_support_compression_all (archive);
+	archive_read_support_format_all (archive);
+
+	if (archive_read_open_file (archive, pkgfile, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK)
+		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+
 	info = _alpm_pkg_new(NULL, NULL);
 	if(info == NULL) {
-		return(NULL);
-	}
-	if(_alpm_pkg_splitname(pkgfile, info->name, info->version) == -1) {
-		pm_errno = PM_ERR_PKG_INVALID_NAME;
-		goto error;
+		archive_read_finish (archive);
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
-	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, NULL);
-	}
-
-	archive_read_support_compression_all(archive);
-	archive_read_support_format_all(archive);
-	if(archive_read_open_file(archive, pkgfile, 10240) != ARCHIVE_OK) {
-		pm_errno = PM_ERR_NOT_A_FILE;
-		goto error;
-	}
-	for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
+	for(i = 0; archive_read_next_header (archive, &entry) == ARCHIVE_OK; i++) {
 		if(config && filelist && scriptcheck) {
 			/* we have everything we need */
 			break;
 		}
-		if(!strcmp(archive_entry_pathname(entry), ".PKGINFO")) {
+		if(!strcmp(archive_entry_pathname (entry), ".PKGINFO")) {
 			char *descfile;
 			int fd;
 
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(descfile);
-			_alpm_archive_read_entry_data_into_fd(archive, fd);
-			close(fd);
+			archive_read_data_into_fd (archive, fd);
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
 				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file"));
+				pm_errno = PM_ERR_PKG_INVALID;
+				unlink(descfile);
+				FREE(descfile);
+				close(fd);
+				goto error;
+			}
+			if(!strlen(info->name)) {
+				_alpm_log(PM_LOG_ERROR, _("missing package name in %s"), pkgfile);
+				pm_errno = PM_ERR_PKG_INVALID;
+				unlink(descfile);
+				FREE(descfile);
+				close(fd);
+				goto error;
+			}
+			if(!strlen(info->version)) {
+				_alpm_log(PM_LOG_ERROR, _("missing package version in %s"), pkgfile);
 				pm_errno = PM_ERR_PKG_INVALID;
 				unlink(descfile);
 				FREE(descfile);
@@ -300,24 +344,22 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			FREE(descfile);
 			close(fd);
 			continue;
-		} else if(!strcmp(archive_entry_pathname(entry), "._install") || !strcmp(archive_entry_pathname(entry), ".INSTALL")) {
+		} else if(!strcmp(archive_entry_pathname (entry), "._install") || !strcmp(archive_entry_pathname (entry),  ".INSTALL")) {
 			info->scriptlet = 1;
 			scriptcheck = 1;
-		} else if(!strcmp(archive_entry_pathname(entry), ".FILELIST")) {
+		} else if(!strcmp(archive_entry_pathname (entry), ".FILELIST")) {
 			/* Build info->files from the filelist */
 			FILE *fp;
 			char *fn;
 			char *str;
 			int fd;
 			
-			str = (char *)malloc(PATH_MAX);
-			if(str == NULL) {
-				RET_ERR(PM_ERR_MEMORY, NULL);
+			if((str = (char *)malloc(PATH_MAX)) == NULL) {
+				RET_ERR(PM_ERR_MEMORY, (pmpkg_t *)-1);
 			}
 			fn = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(fn);
-			_alpm_archive_read_entry_data_into_fd(archive, fd);
-			close(fd);
+			archive_read_data_into_fd (archive,fd);
 			fp = fopen(fn, "r");
 			while(!feof(fp)) {
 				if(fgets(str, PATH_MAX, fp) == NULL) {
@@ -340,18 +382,18 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			if(!filelist) {
 				/* no .FILELIST present in this package..  build the filelist the */
 				/* old-fashioned way, one at a time */
-				expath = strdup(archive_entry_pathname(entry));
+				expath = strdup(archive_entry_pathname (entry));
 				info->files = _alpm_list_add(info->files, expath);
 			}
 		}
 
-		if(archive_read_data_skip(archive)) {
+		if(archive_read_data_skip (archive)) {
 			_alpm_log(PM_LOG_ERROR, _("bad package file in %s"), pkgfile);
 			goto error;
 		}
 		expath = NULL;
 	}
-	archive_read_finish(archive);
+	archive_read_finish (archive);
 
 	if(!config) {
 		_alpm_log(PM_LOG_ERROR, _("missing package info file in %s"), pkgfile);
@@ -367,7 +409,8 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 
 error:
 	FREEPKG(info);
-	archive_read_finish(archive);
+	archive_read_finish (archive);
+
 	return(NULL);
 }
 

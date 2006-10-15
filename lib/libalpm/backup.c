@@ -1,7 +1,10 @@
 /*
  *  backup.c
  * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,7 +29,7 @@
 #include "backup.h"
 
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
- * then we return the md5 hash (parsed from the same line)
+ * then we return the md5 or sha1 hash (parsed from the same line)
  */
 char *_alpm_needbackup(char *file, PMList *backup)
 {
@@ -36,7 +39,7 @@ char *_alpm_needbackup(char *file, PMList *backup)
 		return(NULL);
 	}
 
-	/* run through the backup list and parse out the md5 hash for our file */
+	/* run through the backup list and parse out the md5 or sha1 hash for our file */
 	for(lp = backup; lp; lp = lp->next) {
 		char *str = strdup(lp->data);
 		char *ptr;
@@ -49,7 +52,7 @@ char *_alpm_needbackup(char *file, PMList *backup)
 		}
 		*ptr = '\0';
 		ptr++;
-		/* now str points to the filename and ptr points to the md5 hash */
+		/* now str points to the filename and ptr points to the md5 or sha1 hash */
 		if(!strcmp(file, str)) {
 			char *md5 = strdup(ptr);
 			free(str);

@@ -1,7 +1,10 @@
 /*
  *  trans.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -54,6 +57,7 @@ pmtrans_t *_alpm_trans_new()
 	trans->flags = 0;
 	trans->cb_event = NULL;
 	trans->cb_conv = NULL;
+	trans->cb_progress = NULL;
 	trans->state = STATE_IDLE;
 
 	return(trans);
@@ -83,7 +87,7 @@ void _alpm_trans_free(void *data)
 	free(trans);
 }
 
-int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv)
+int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -92,6 +96,7 @@ int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, a
 	trans->flags = flags;
 	trans->cb_event = event;
 	trans->cb_conv = conv;
+	trans->cb_progress = progress;
 	trans->state = STATE_INITIALIZED;
 
 	return(0);
@@ -183,6 +188,9 @@ int _alpm_trans_prepare(pmtrans_t *trans, PMList **data)
 
 int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
 {
+	if(data!=NULL)
+		*data = NULL;
+
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
@@ -191,7 +199,7 @@ int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
 		return(0);
 	}
 
-	trans->state = STATE_COMMITTING;
+	trans->state = STATE_COMMITING;
 
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
@@ -215,7 +223,7 @@ int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
 		break;
 	}
 
-	trans->state = STATE_COMMITTED;
+	trans->state = STATE_COMMITED;
 
 	return(0);
 }

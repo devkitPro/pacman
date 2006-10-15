@@ -1,7 +1,9 @@
 /*
  *  versioncmp.h
  * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
+ *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,8 +20,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
  *  USA.
  */
-#ifndef _PM_VERSIONCMP_H
-#define _PM_VERSIONCMP_H
+#ifndef _PM_RPMVERCMP_H
+#define _PM_RPMVERCMP_H
 
 int _alpm_versioncmp(const char *a, const char *b);
 
