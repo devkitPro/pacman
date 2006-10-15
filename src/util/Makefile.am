@@ -1,4 +1,4 @@
-bin_PROGRAMS = vercmp convertdb
+bin_PROGRAMS = vercmp
 
 AM_CFLAGS = \
 	-I$(top_srcdir)/lib/libalpm \
