@@ -1,5 +1,207 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.4.0         - makepkg -R now uses the pacman from the chroot if it is
+                possible
+              - makepkg now handles .cpio.(bz2|gz)
+              - libalpm is now statically linked to libftp
+3.3.9         - bugfix for holdpkgs during an upgrade
+              - fix building with --enable-debug
+              - fixed the download progressbar
+              - -Ss works again for multiple repos
+              - bugfix for -Sp
+              - downloads are interruptable again
+3.3.8         - new libalpm function: alpm_db_search()
+              - pactest: initial import, run make check to call it
+              - new libalpm function: alpm_parse_config()
+              - new libalpm function: alpm_fetch_pkgurl()
+              - implemented the progressbar for pacman -R
+3.3.7         - the package name is now properly displayed in the progressbar
+                during install/upgrade
+              - updatesync: bugfix when deleting packages from the repo
+              - create /tmp before locking the database, useful when -r is used
+                in an empty dir
+              - makepkg: recoginze .TGZ, .ZIP and other uppercase extensions
+              - python: added a few casting functions
+3.3.6         - ported libalpm to Solaris/Sparc
+              - bugfixes in the Hungarian translation
+              - bugfix for pacman -Qi -p
+              - new function in libalpm: alpm_db_setserver()
+              - incremented libalpm's sover due to new error codes intruduced
+                by alpm_db_setserver()
+              - added python bindings
+3.3.5         - fixed a stale lockfile problem (when packages were corrupted)
+              - fixed problem when sometimes ^C was ignored 
+              - new pacman option: --ask
+              - libalpm: prefixed all internal functions with _alpm
+              - makepkg: bugfix for suboptions=('nostrip')
+	      - new package property: "build type" - it can be "chroot" or
+	        custom
+              - updated Hungarian translation
+3.3.4         - the old extra repo is now merged to the frugalware one
+              - handle the case properly when the user hits ^C during a
+                package install
+              - fix the output of scriptlet messages
+              - check if enough free space if available
+3.3.3         - pipe and parse scriptlet messages. see man FrugalBuild
+              - new mirror: ftp10
+              - udatesync: use bzip2 instead of gzip for package databases
+              - update/gensync: bugfix for the pkgdesc_localized directive
+              - Hungarian translation update
+              - fixed several compilation warning
+              - ia64 support
+              - manpage split: moved the FrugalBuild specific part from
+                man makepkg to man FrugalBuild
+              - minor bugfixes in makepkg
+3.3.2         - gettext improvements
+              - French translation
+              - makepkg support and documentation for pkgdesc localization
+              - pacman: display uncompressed package size by default on upgrade
+3.3.1         - initial support for pkgdesc localization
+              - bugfix for -Qi and -Qm
+              - fix -Sg for multiple repos
+              - drop the NoUpgrade lines from the default config
+              - makepkg: when removing the pkg dir, remove the subpkgs' pkg
+                dir, too
+              - significant speedup while sorting dependencies with libalpm
+              - fixes for pacman's -r option in pacman and libalpm
+              - initial support for uncompressed package sizes in a sync repo
+3.3.0         - minor fixes for de_DE, hu_HU and tr_TR
+3.2.9         - seems that the original pacman3's release is delayed so it's
+                no good in waiting for it. changed the versioning scheme to
+                our usual x.y.z
+              - i18n fixes:
+                - in the german translation
+                - in makepkg
+              - gpg support in makepkg
+2.8.99.28     - added gettext support
+              - added German and Hungarian translation for libalpm and pacman
+2.9.99.27     - scripts: cleanup, they now require util.sh from FST
+              - makepkg: handle spaces in source filenames
+              - makepkg: spelling fixes
+              - libalpm: fixed a few messages' verbosity level
+              - ./autogen.sh --dist now allows to build a snapshot fpm
+2.9.99.26     - makepkg: new option -t (to be used with -R)
+              - added i386, OpenBSD and OS X support
+              - updated mirror list
+              - spelling fixes
+              - bugfix in pacman (dbpath initialization)
+2.9.99.25     - bugfix in the conflicts/provides handling code
+              - spelling fix in makepkg
+              - include the root string (ie. a slash) in file conflict error
+                messages
+              - gensync: bugfix for subpkgs
+2.9.99.24     - fixed the location of the locally installed packages'
+                install/changelog file (so that pre/post_remove and -Qc works
+                perfectly again)
+              - allow repo names to be longer than 128 chars
+              - fixed pacman -v output (not a bug just it was ugly)
+2.9.99.23     - bugfix for -Sy
+              - gensync: ignore _darcs/ directories
+2.9.99.22     - new feature: options=('scriptlet') to force executing the
+                install scriptlets even if one builds in a chroot
+              - makepkg -RC now uses the chroot's pacman.conf to determine
+                what packages need to be removed. this is especially useful
+                if you use unofficial repos only in chroot
+              - the testsuite is replaced by pactest, see HACKING
+2.9.99.21     - bugfix release
+2.9.99.20     - handle --noprogress on install/upgrade, too
+              - disable progressbar by default if the output is redirected
+              - offer deleting a packages if it is corrupted
+              - makepkg: install subpackages with -i, too
+                         in chroot sync /etc/pacman.d/* from the host system
+                         use the chroot's pacman.conf when it's available
+              - new pacman option: --noscriptlet for disabling install
+                scriptlets
+              - new variable in makepkg: $FCC in case the package would use
+                gcc directly (not from $PATH)
+2.9.99.19     - more verbose error messages on corrupted packages
+              - makepkg: added support for clearing the cache of ccache
+                         slice warnings for LANG!=C
+              - gen/updatesync: bugfix for subdescs() and subarchs()
+                                no longer ignore the Finclude function call
+2.9.99.18     - makepkg now allows to inherit install scriptlets from a
+                scheme
+              - allow multiple packages to be installed at once with -U
+              - added SBU variable to makepkg.conf
+              - 3 major bugfixes from upstream
+2.9.99.17     - support for having subpkgs in an other repo. this affects
+                gensync and updatesync, also makepkg's manpage is updated
+              - support for handle version comparators in makepkg
+              - bugfix for Finclude in makepkg
+              - removed exit() calls from libalpm
+              - bugfix for nobuild packages in sync
+2.9.99.16     - fixed a possible infinite loop during -S
+              - remove stale lockfile when pacman is interrupted
+              - new directive: added suboptions() and subarchs() for
+                FrugalBuilds
+              - added 'nofakeroot' to options()
+              - new makepkg witch: -RCC, now -RC only cleans the chroot
+2.9.99.15     - fix 'error: transaction already initialized' when using -D
+2.9.99.14     - documentation: improved libalpm manpages an added a main
+                libalpm(3) manpage
+              - yet another bugfix for the install/upgrade progressbar
+              - remove stale lockfile after -R/-A
+              - fixed a segfault when removing a package that is reqired by
+                other packages
+2.9.99.13     - Allow queries (-Q, -Si, etc) during an other pacman is
+                running (ie. -Syu)
+              - Two bugfixes in connection with provides
+              - Improved makepkg output for subpackages (crazy)
+2.9.99.12     - fixed preparing docs, 2.9.99.11 always supposed we want to
+                disable that feature
+2.9.99.11     - fixed progressbar when installing and upgrading packages at
+                the same time
+              - in general, modified makeworld to work properly on Frugalware
+              - makepkg: if build fails, save the buildlog when using -R
+              - sudo improvements for makepkg & makeworld
+              - display "checking for conflicting files..." during -S
+              - initial doxygen support
+2.9.99.10     - fixed -Sg output - now frugalpkg works again
+              - fixed a double free() when installing conflicting packages
+              - fixed an annoying bug with progressbar, now works as it did
+                in the pacman 2.x times
+              - don't care about a to-be-replaced package's newer version
+2.9.99.9      - fixed -S/-U/-A segfault. hopefully not everybody upgraded
+                yet...
+2.9.99.8      - if you have foo installed, and bar replaces + provides foo,
+                then remove foo, and install bar (now works again)
+              - upgrade only pacman first during a -Su
+              - removed duplicated error messages
+              - more verbose error message for conflicting files when using
+                -S
+2.9.99.7      - bugfix for -Sg
+              - if pacman can't create its cachedir, then use /tmp (bugfix)
+2.9.99.6      - bugfix for -Rs
+              - pre_install/pre_upgrade scripts are working again
+              - added a -f option to gensync/updatesync (don't die if the fpm
+                is missing)
+              - bugfix for --ignore
+              - added ppc support (to configure)
+              - handle broken databases (just print an error message, don't
+                segfault)
+              - more verbose error messages for unsatisfied dependencies
+2.9.99.5      - re-added SBU support to makepkg (which was accidently dropped
+                by 2.9.99.0)
+              - initial package splitting support
+              - memleak fixes
+              - more verbose error messages on file conflicts
+2.9.99.4      - fixed running scriptlets when -r is used
+              - don't die on up to date databases (when you do -Sy twice)
+              - more verbose error messages (ie. when there is a missing
+                dependency)
+2.9.99.3      - fixed -v option
+              - allow c++ usage in alpm.h
+              - fixed logging everything twice to pacman.log
+2.9.99.2      - makepkg -R works again if you haven't had a chroot yet (was a
+                pacman bug)
+              - output fix for -Sy
+              - if you have installed foo, and then you do a -S bar, then now
+                pacman offers you to remove foo (as it should)
+2.9.99.1      - fix makepkg -g
+              - makepkg: fixed changelog generation
+              - fixed --noconfirm
+2.9.99.0      - this is the first release which is based on pacman-lib
+                (converted the initial cvs repo to darcs)
 2.9.8         - Changed behaviour with original=X,current=Y,new=Z scenario
                 - keep old in place, install new as .pacnew
               - Search package provides when finding matching targets with -S

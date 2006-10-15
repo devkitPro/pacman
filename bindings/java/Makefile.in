@@ -1,0 +1,48 @@
+top_srcdir = @top_srcdir@
+prefix = @prefix@
+
+CFLAGS = $(subst -Werror,,@CFLAGS@)
+CFLAGS += -fno-strict-aliasing # see the swig docs
+ifeq ($(shell arch),x86_64)
+CFLAGS += -fPIC
+endif
+LDFLAGS += -L$(top_srcdir)/lib/libalpm -lalpm
+
+all: libalpm_java.so alpm.jar
+
+libalpm_java.so: alpm_java_wrap.o
+	$(CC) -shared $^ -o $@ $(LDFLAGS)
+
+alpm_java_wrap.o: alpm_java_wrap.c
+	$(CC) $(CFLAGS) -c -o $@ -include alpm.h $^
+
+alpm_java_wrap.c:
+	cp $(top_srcdir)/lib/libalpm/alpm.h ./
+	cp $(top_srcdir)/bindings/alpm.i alpm_java.i
+	swig -java alpm_java.i
+
+alpm.class: alpm.java
+	javac *.java
+
+alpm.jar: alpm.class
+	jar -cf alpm.jar *.class
+
+alpm.java: alpm_java_wrap.c
+
+install: install-so install-jar
+
+install-so: libalpm_java.so
+	mkdir -p $(DESTDIR)$(prefix)/lib
+	install $^ $(DESTDIR)$(prefix)/lib
+
+install-jar: alpm.jar
+	mkdir -p $(DESTDIR)$(prefix)/share/java
+	install -m644 $^ $(DESTDIR)$(prefix)/share/java
+
+clean:
+	rm -f *alpm* *.java *.class
+
+distclean: clean
+	rm -f Makefile
+
+check:

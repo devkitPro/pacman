@@ -1,0 +1,42 @@
+top_srcdir = @top_srcdir@
+prefix = @prefix@
+
+CFLAGS = $(subst -Werror,,@CFLAGS@)
+CFLAGS += $(shell perl -MExtUtils::Embed -e ccopts)
+CFLAGS += -I$(top_srcdir)/lib/libalpm
+ifeq ($(shell arch),x86_64)
+CFLAGS += -fPIC
+endif
+LDFLAGS += -L$(top_srcdir)/lib/libalpm -lalpm
+LIBDIR += $(shell perl -V|grep site|sed 's/^ *//;s|/usr|$(prefix)|;q')
+
+all: Core.so
+
+Core.so: alpm_wrap.o
+	$(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDFLAGS)
+
+alpm_wrap.o: alpm_wrap.c
+	$(CC) $(CFLAGS) -c -o $@ -include alpm.h $^
+
+alpm_wrap.c:
+	cp $(top_srcdir)/lib/libalpm/alpm.h ./
+	cp $(top_srcdir)/bindings/alpm.i ./
+	swig -perl alpm.i
+
+install: install-so install-pm
+
+install-so: Core.so
+	mkdir -p $(DESTDIR)$(LIBDIR)/auto/Alpm/Core
+	install $^ $(DESTDIR)$(LIBDIR)/auto/Alpm/Core/
+
+install-pm: Core.pm
+	mkdir -p $(DESTDIR)$(LIBDIR)/Alpm/
+	install -m644 $^ $(DESTDIR)$(LIBDIR)/Alpm/
+
+clean:
+	rm -f Core* alpm{.h,_wrap*}
+
+distclean: clean
+	rm -f Makefile
+
+check:

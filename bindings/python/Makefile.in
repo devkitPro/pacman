@@ -1,0 +1,48 @@
+top_srcdir = @top_srcdir@
+prefix = @prefix@
+
+CFLAGS = $(subst -Werror,,@CFLAGS@)
+CFLAGS += $(shell python -c 'from distutils import sysconfig; print "-I" + sysconfig.get_python_inc()')
+CFLAGS += -I$(top_srcdir)/lib/libalpm
+ifeq ($(shell arch),x86_64)
+CFLAGS += -fPIC
+endif
+LDFLAGS += -L$(top_srcdir)/lib/libalpm -lalpm
+LIBDIR += $(shell python -c 'from distutils import sysconfig; print sysconfig.get_python_lib()'|sed 's|/usr|$(prefix)|')
+
+all: _alpm.so alpm.pyc
+
+_alpm.so: alpm_wrap.o
+	$(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDFLAGS)
+
+alpm_wrap.o: alpm_wrap.c
+	$(CC) $(CFLAGS) -c -o $@ -include alpm.h $^
+
+alpm_wrap.c:
+	cp $(top_srcdir)/lib/libalpm/alpm.h ./
+	cp $(top_srcdir)/bindings/alpm.i ./
+	swig -python alpm.i
+	# strip the unnecessary prefixes
+	sed -i 's/^alpm_//;s/^PM_//' alpm.py
+
+alpm.pyc: alpm.py
+	python -c "import compileall; compileall.compile_dir('.',1,'.')"
+
+alpm.py: alpm_wrap.c
+
+install: install-so install-py
+
+install-so: _alpm.so
+	mkdir -p $(DESTDIR)$(LIBDIR)
+	install $^ $(DESTDIR)$(LIBDIR)
+
+install-py: alpm.py alpm.pyc
+	install -m644 $^ $(DESTDIR)$(LIBDIR)
+
+clean:
+	rm -f _alpm* alpm{.h,.py*,_wrap*}
+
+distclean: clean
+	rm -f Makefile
+
+check:

@@ -268,3 +268,16 @@ Single chained list.
 A minimalistic chained list implementation to store options from the
 configuration file, and targets passed to pacman on the command line.
 
+
+LIMITATIONS/BEHAVIOR CHANGES COMPARED TO PACMAN 2.9
+===================================================
+
+Excepted missing features still needing to be implemented, one can
+notice the following limitations:
+
+- If pacman is out of date, the frontend displays a warning and recommends
+to give up the on-going transanction. The frontend does not allow to
+upgrade pacman itself on-the-fly, and thus it should be restarted with
+only "pacman" as a target.
+
+- ...

@@ -1,6 +1,6 @@
 #!/bin/sh -xu
 
-make distclean
+[ -f Makefile ] && make distclean
 rm -rf autom4te.cache
 rm -rf Makefile
 rm -rf Makefile.in
@@ -23,7 +23,6 @@ rm -rf ltmain.sh
 rm -rf doc/Makefile
 rm -rf doc/Makefile.in
 rm -rf doc/html/*
-rm -rf doc/*.8
 rm -rf doc/man3/*
 rm -rf compile
 rm -rf libtool
@@ -31,6 +30,10 @@ rm -rf mkinstalldirs
 rm -rf config.rpath
 rm -rf scripts/.deps/
 rm -rf scripts/Makefile.in
+rm -rf etc/Makefile.in
+rm -rf etc/Makefile
+rm -rf etc/pacman.d/Makefile.in
+rm -rf etc/pacman.d/Makefile
 
 rm -rf src/pacman/po/Makefile
 rm -rf src/pacman/po/Makefile.in

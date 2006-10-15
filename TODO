@@ -1,8 +1,6 @@
 GLOBAL
 ======
 
-- add i18n (gettext) support
-
 - get ride of "ORE" tags.
 
 
@@ -23,8 +21,31 @@ verbose mode, which usage for the library log callback, debug levels, ...)
 
 - add .lastupdate files support for "files" db downloads
 
-- review .lastupdate implementation: is the .lastupdate file really needed?
+TRANSLATION
+===========
 
+po files
+--------
+cs.po - mail sent
+es.po - created by Matt, pending
+fr.po - mail sent
+nl.po - mail sent
+pl_PL.po - mail sent
+pt_BR.po - mail sent
+we need to mail them:
+pt_PT.po
+ru.po
+sv.po
+zh_CN.po
+
+manpages
+--------
+we need to mail them:
+es
+hu - we need somebody who'll do the work
+pl_PL
+pt_BR
+zh_CN
 
 ADDITIONAL IDEAS FOR PERFORMANCE IMPROVEMENT
 ============================================
@@ -34,5 +55,3 @@ that basically contains the output of `ls -1 /var/lib/pacman/{repo}`.  This
 cache file could be used in -Q and -Si/s operations to speed up package
 listings.
 
-- move the cache structure to a binary balanced tree instead of a double 
-chained list
