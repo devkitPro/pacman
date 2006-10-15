@@ -197,10 +197,11 @@ static int sync_search(list_t *syncs, list_t *targets)
 				PM_PKG *pkg = alpm_list_getdata(lp);
 
 				char *group = (char *)alpm_list_getdata(alpm_pkg_getinfo(pkg,PM_PKG_GROUPS));
-				printf("%s/%s%s%s %s\n    ", (char *)alpm_db_getinfo(sync->db, PM_DB_TREENAME),
-						(char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME),
-						(char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
-						(group ? " (" : ""), (group ? group : ""), (group ? ") " : ""),
+				printf("%s/%s %s %s%s%s\n    ",
+							 (char *)alpm_db_getinfo(sync->db, PM_DB_TREENAME),
+						   (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME),
+						   (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION),
+						   (group ? " (" : ""), (group ? group : ""), (group ? ") " : ""));
 				indentprint((char *)alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
 				printf("\n");
 			}

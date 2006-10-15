@@ -21,8 +21,7 @@ dnl Define here the libalpm version number
 PM_MAJOR_VERSION=0
 PM_MINOR_VERSION=1
 PM_MICRO_VERSION=0
-PM_MICRO_VERSION_SUFFIX=.0
-PM_VERSION=$PM_MAJOR_VERSION.$PM_MINOR_VERSION.$PM_MICRO_VERSION$PM_MICRO_VERSION_SUFFIX
+PM_VERSION=$PM_MAJOR_VERSION.$PM_MINOR_VERSION.$PM_MICRO_VERSION
 dnl Needed for libtool to create proper shared lib version
 PM_VERSION_INFO=`expr $PM_MAJOR_VERSION + $PM_MINOR_VERSION`:$PM_MICRO_VERSION:$PM_MINOR_VERSION
 
@@ -375,6 +374,7 @@ src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
 doc/Makefile
+doc/hu/Makefile
 etc/Makefile
 etc/pacman.d/Makefile
 bindings/perl/Makefile
