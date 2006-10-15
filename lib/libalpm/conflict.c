@@ -201,21 +201,24 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 	return(baddeps);
 }
 
-PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip_list)
+PMList *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, PMList **skip_list)
 {
 	PMList *i, *j, *k;
 	char *filestr = NULL;
 	char path[PATH_MAX+1];
 	struct stat buf, buf2;
 	PMList *conflicts = NULL;
+	PMList *targets = trans->packages;
+	double percent;
 
 	if(db == NULL || targets == NULL || root == NULL) {
 		return(NULL);
 	}
-
 	/* CHECK 1: check every target against every target */
 	for(i = targets; i; i = i->next) {
 		pmpkg_t *p1 = (pmpkg_t*)i->data;
+		percent = (double)(_alpm_list_count(targets) - _alpm_list_count(i) + 1) / _alpm_list_count(targets);
+		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100), _alpm_list_count(targets), (_alpm_list_count(targets) - _alpm_list_count(i) +1));
 		for(j = i; j; j = j->next) {
 			pmpkg_t *p2 = (pmpkg_t*)j->data;
 			if(strcmp(p1->name, p2->name)) {

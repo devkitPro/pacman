@@ -318,7 +318,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_FLOW1, _("looking for file conflicts"));
-		lp = _alpm_db_find_conflicts(db, trans->packages, handle->root, &skiplist);
+		lp = _alpm_db_find_conflicts(db, trans, handle->root, &skiplist);
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;

@@ -33,7 +33,7 @@ typedef struct __pmconflict_t {
 } pmconflict_t;
 
 PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages);
-PMList *_alpm_db_find_conflicts(pmdb_t *db, PMList *targets, char *root, PMList **skip_list);
+PMList *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, PMList **skip_list);
 
 #endif /* _ALPM_CONFLICT_H */
 
