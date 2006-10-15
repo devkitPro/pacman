@@ -20,8 +20,9 @@ pacman.8:
 endif
 
 clean:
-	rm -rf html/*
-	rm -rf hu/*.8
+	rm -f html/*
+	rm -f hu/*.8
+	rm -f man3/*.3
 
 man_MANS = pacman.8 makepkg.8 PKGBUILD.8 libalpm.3
 
