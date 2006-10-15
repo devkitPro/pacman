@@ -1,22 +1,29 @@
-all: makepkg.8 pacman.8
+all: po4a makepkg.8 PKGBUILD.8 pacman.8
 
-if HAS_MAN2HTML
-makepkg.8:
-	sed -e 's,#PACMAN_VERSION#,$(PACMAN_VERSION),g' < makepkg.8.in > makepkg.8
-	man2html makepkg.8 > html/makepkg.8.html
+SUBDIRS = hu
+
+po4a:
+if HAS_PO4A
+	@$(NORMAL_INSTALL)
+	po4a -k 0 po4a.cfg
 endif
 
 if HAS_MAN2HTML
+makepkg.8:
+	man2html makepkg.8 > html/makepkg.8.html
+
+PKGBUILD.8:
+	man2html PKGBUILD.8 > html/PKGBUILD.8.html
+
 pacman.8:
-	sed -e 's,#PACMAN_VERSION#,$(PACMAN_VERSION),g' < pacman.8.in > pacman.8
 	man2html pacman.8 > html/pacman.8.html
 endif
 
 clean:
-	rm -rf *.8
 	rm -rf html/*
+	rm -rf hu/*.8
 
-man_MANS = pacman.8 makepkg.8 libalpm.3
+man_MANS = pacman.8 makepkg.8 PKGBUILD.8 libalpm.3
 
 if HAS_DOXYGEN
 man_MANS += man3/*.3

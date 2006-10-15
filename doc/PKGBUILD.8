@@ -1,0 +1,460 @@
+.TH FrugalBuild 8 "June 13, 2006" "Frugalware Developer Manual" ""
+.SH NAME
+FrugalBuild \- Frugalware package builder descriptor
+.SH DESCRIPTION
+This manual page is meant to describe general rules about FrugalBuilds. If
+you're interested in the package builder \fBmakepkg\fP itself, then see its
+manual page, not this one.
+
+.TP
+.TP
+.SH FrugalBuild Example:
+.RS
+.nf
+# Last Modified: Sun, 19 Jun 2005 15:24:32 +0000
+# Compiling Time: 0.17 SBU
+# Maintainer: Name <email@addr.ess>
+
+pkgname=dvdauthor
+pkgver=0.6.11
+pkgrel=3
+pkgdesc="Will generate a DVD movie from a valid mpeg2 stream"
+depends=('imagemagick' 'libdvdread')
+Finclude sourceforge
+groups=('xapps')
+archs=('i686' 'x86_64')
+sha1sums=('a99ea7ef6e50646b77ad47a015127925053d34ea')
+
+# optimization OK
+.fi
+.RE
+
+As you can see, the setup is fairly simple. The first line tracks the time of
+the last update, this is automatically updated after a successful build.
+
+The next line defines its build time. Of course, it depends on your hardware,
+so we use SBUs instead of minutes as a unit.
+
+SBU is the Static Binutils Unit, which means the time "repoman merge binutils"
+takes on your machine. By default makepkg will print out how many seconds the
+build took. After you built binutils, you should update your /etc/makepkg.conf:
+
+SBU="257"
+
+The line above means compiling binutils on your machine took 257 seconds.
+Starting from this point, makepkg will print out SBUs instead of seconds after
+successful builds, and this SBU value will be equal on anyone's machine.
+
+If you wish to maintain the package, write your name or nick and e-mail
+address to the third line. If you don't plan to maintain the package just wrote
+the FrugalBuild, then write Contributor instead of Maintainer, and then someone
+can take it and will add his/her line later. Other lines like "Modified by" are
+not allowed. Use the darcs patch comments to mention others if you wish.
+
+pkgname defines the package name. It should not contain any uppercase letters.
+The package version defines the upstream version, while the package release
+tracks the Frugalware-specific changes. pkgrel should be an integer, pkgrels
+like 5wanda1 are reserved for security updates. There the rule is the
+following: If the original package's pkgrel was 4, then increment it once when
+you add a security patch, but then use 5wanda1, 5wanda2 and so on. This way
+the user can easily upgrade to pkgrel=5 which is in -current.
+
+pkgdesc is a short one-line description for the package. Usually taken from
+the project's homepage or manpage. Try to keep the lenght under 80 chars.
+
+depends() is a bash array which defines the dependencies of the package.
+depends() means the other package is required for building and using the
+current one. If the dependency is runtime-only, then use rodepends(), if
+buildtime-only then use makedepends().
+
+The next line is a special Finclude commands which allows you to inherit
+any directive from a FrugalBuild scheme. They can be found in the FST,
+under /source/include. The "util" scheme always included, since its
+provided functions are used by almost every FrugalBuild. Look at the
+/source/include/sourceforge.sh, it provides the url, up2date and source()
+directives, so we don't have to specify them here. After the Finclude you
+can overwrite the inherited directives, for example define a custom up2date
+if the inherited one is not sutable for you.
+
+The groups() array's first element can't be omitted, and it should be a valid
+"first group". This means it should be in a foo or foo-extra format, where foo
+or foo-extra is a dir under /source in the FST.
+
+The archs() array defines for which architectures the given package is
+available. If it's not available, it means that gensync will skip it when
+generating package databases. If you are not able to provide a binary package
+for a given arch, don't include that in archs()! For example, no matter if
+the package could be compiled in x86_64, if you haven't compiled it yourself,
+don't include it. If you're sure it won't be available on a given arch (for
+example it's written in x86 asm), then use !arch, for example !x86_64.
+
+The sha1sums() array can be generated with the makepkg -g command. Its purpose
+is to prevent compiling from wrong sources, especially when the build is
+automatic. Where it is available you can use signatures(), its goal is that
+you don't have to update it manually every time.
+
+The last line will be added automatically to the end of the FrugalBuild if the
+build() function used your $CFLAGS or $CXXFLAGS. This is handy if you want to
+cross-compile on a faster machine for a slower architecture. Until the package
+doesn't use our $CFLAGS we can't cross-compile it, so please try to avoid
+creating "unoptimized" packages. If the package doesn't contain any
+architecture-dependent file, then you can add this line manually as makepkg
+will not detect this.
+
+Finally we define a build() function that will build the package. If you don't
+want to do anything special, probably you don't have to specify anything, as
+the default build() (inherited from util.sh) will fit your needs. Even if you
+define a custom build(), probably you can re-use parts of the default build().
+For the list of special functions provided by util.sh and others refer to
+the /source/include dir. Again, util.sh is included automatically, but you
+have to Finclude the others before using them!
+
+Once the package is successfully installed into the package root, \fImakepkg\fP
+will prepare some documentation. It will
+then strip debugging info from libraries and binaries and generate a meta-info
+file.  Finally, it will compress everything into a .fpm file and leave it
+in the directory you ran \fBmakepkg\fP from.
+
+At this point you should have a package file in the current directory, named
+something like name-version-release-arch.fpm.  Done!
+
+.SH Install/Upgrade/Remove Scripting
+Pacman has the ability to store and execute a package-specific script when it
+installs, removes, or upgrades a package.  This allows a package to "configure
+itself" after installation and do the opposite right before it is removed.
+
+The exact time the script is run varies with each operation:
+.TP
+.B pre_install
+script is run right before files are extracted.
+
+.TP
+.B post_install
+script is run right after files are extracted.
+
+.TP
+.B pre_upgrade
+script is run right before files are extracted.
+
+.TP
+.B post_upgrade
+script is run after files are extracted.
+
+.TP
+.B pre_remove
+script is run right before files are removed.
+
+.TP
+.B post_remove
+script is run right after files are removed.
+
+.RE
+To use this feature, just create a file (eg, pkgname.install) and put it in
+the same directory as the FrugalBuild script.  Then use the \fIinstall\fP directive:
+.RS
+.nf
+install=pkgname.install
+.fi
+.RE
+
+The install script does not need to be specified in the \fIsource\fP array.
+If you omit the install directive then makepkg will check for the
+$pkgname.install install and will use it if it's present.
+
+You can find a scriptlet skeleton in the /docs/tech/skel/ directory, use it
+when creating new packages.
+
+The scriptlet messages are parsed, a simple example tells you everything:
+.nf
+post_upgrade()
+{
+	echo "START this will be good"
+	echo "DONE 0"
+	echo "START this will fail"
+	echo "DONE 1"
+	echo "old message"
+}
+.fi
+
+.SH FrugalBuild Directives
+.TP
+.B pkgname
+The name of the package.  This has be a unix-friendly name as it will be
+used in the package filename.
+
+.TP
+.B pkgver
+This is the version of the software as released from the author (eg, 2.7.1).
+
+.TP
+.B pkgrel
+This is the release number specific to Frugalware Linux packages.
+
+.TP
+.B pkgdesc
+This should be a brief description of the package and its functionality.
+
+.TP
+.B pkgdesc_localized
+Array of the localized package descriptions.
+
+The format is the following:
+pkgdesc_localized=('xx_YY foo' 'xx_YY bar')
+
+.TP
+.B url
+This field contains an optional URL that is associated with the piece of software
+being packaged.  This is typically the project's website.
+
+.TP
+.B license
+Sets the license type (eg, "GPL", "BSD", "NON-FREE").  (\fBNote\fP: This
+option is still in development and may change in the future)
+
+.TP
+.B install
+Specifies a special install script that is to be included in the package.
+This file should reside in the same directory as the FrugalBuild, and will be
+copied into the package by makepkg.  It does not need to be included in the
+\fIsource\fP array.  (eg, install=modutils.install)
+
+.TP
+.B up2date
+This directive should contain a command that prints the current upstream stable
+version of the project. This way we can check for newer version without visiting
+manually the project's website (see above).
+
+.TP
+.B source \fI(array)\fP 
+The \fIsource\fP line is an array of source files required to build the
+package.  Source files must reside in the same directory as the FrugalBuild
+file, unless they have a fully-qualified URL.  Then if the source file
+does not already exist in /var/cache/pacman/src, the file is downloaded
+by wget.
+
+.TP
+.B md5sums \fI(array)\fP
+If this field is present, it should contain an MD5 hash for every source file
+specified in the \fIsource\fP array (in the same order).  makepkg will use
+this to verify source file integrity during subsequent builds.  To easily
+generate md5sums, first build using the FrugalBuild then run
+\fBmakepkg -G >>FrugalBuild\fP.  Then you can edit the FrugalBuild and move the
+\fImd5sums\fP line from the bottom to an appropriate location.
+
+.TP
+.B sha1sums \fI(array)\fP
+If this field is present, it should contain an SHA1 hash for every source file
+specified in the \fIsource\fP array (in the same order).  makepkg will use
+this to verify source file integrity during subsequent builds.  To easily
+generate sha1sums, first build using the FrugalBuild then run
+\fBmakepkg -g >>FrugalBuild\fP.  Then you can edit the FrugalBuild and move the
+\fIsha1sums\fP line from the bottom to an appropriate location.
+
+.TP
+.B signatures \fI(array)\fP
+If this field is present, it should contain an array of gpg signatures required
+to validate the source files. Where there is no signature available just leave
+it empty, like:
+
+signatures=(${source[0]}.asc '')
+
+.TP
+.B groups \fI(array)\fP
+This is an array of symbolic names that represent groups of packages, allowing
+you to install multiple packages by requesting a single target.  For example,
+one could install all KDE packages by installing the 'kde' group.
+
+.TP
+.B archs \fI(array)\fP
+This array defines on which architectures the given package is avalibable.
+If it's not available, that will mean that gensync will skip it when generating
+package databases.
+
+.TP
+.B backup \fI(array)\fP 
+A space-delimited array of filenames (without a preceding slash). The
+\fIbackup\fP line will be propagated to the package meta-info file for
+pacman.  This will designate all files listed there to be backed up if this
+package is ever removed from a system.  See \fBHANDLING CONFIG FILES\fP in
+the \fIpacman\fP manpage for more information.
+
+.TP
+.B depends \fI(array)\fP 
+An array of packages that this package depends on to build and run.  Packages
+in this list should be surrounded with single quotes and contain at least the
+package name.  They can also include a version requirement of the form
+\fBname<>version\fP, where <> is one of these three comparisons: \fB>=\fP
+(greater than equal to), \fB<=\fP (less than or equal to), or \fB=\fP (equal to).
+See the FrugalBuild example above for an example of the \fIdepends\fP directive.
+
+.TP
+.B makedepends \fI(array)\fP
+An array of packages that this package depends on to build (ie, not required
+to run).  Packages in this list should follow the same format as \fIdepends\fP.
+
+.TP
+.B rodepends \fI(array)\fP
+An array of packages that this package depends on to run (ie, not required to
+build). Generally \fIrodepends\fP should be avoided in favour of \fIdepends\fP
+except where this will create circular dependency chains. (For example building
+logrotate doesn't requires to have dcron installed.) Packages in this list
+should follow the same format as \fIdepends\fP.
+
+.TP
+.B conflicts \fI(array)\fP 
+An array of packages that will conflict with this package (ie, they cannot both
+be installed at the same time).  This directive follows the same format as
+\fIdepends\fP except you cannot specify versions here, only package names.
+
+.TP
+.B provides \fI(array)\fP 
+An array of "virtual provisions" that this package provides.  This allows a package
+to provide dependency names other than it's own package name.  For example, the
+kernel-scsi and kernel-ide packages can each provide 'kernel' which allows packages
+to simply depend on 'kernel' rather than "kernel-scsi OR kernel-ide OR ..."
+
+.TP
+.B replaces \fI(array)\fP 
+This is an array of packages that this package should replace, and can be used to handle
+renamed/combined packages.  For example, if the kernel package gets renamed
+to kernel-ide, then subsequent 'pacman -Syu' calls will not pick up the upgrade, due
+to the differing package names.  \fIreplaces\fP handles this.
+
+.TP
+.B options \fI(array)\fP
+This is an array of various boolean options. The possible values are:
+.nf
+nodocs     Don't add any documentation automatically (ie. when there'll be
+           a separate documentation subpackage).
+nostrip    Don't strip binaries/libraries.
+force      This is used to force the package to be upgraded by --sysupgrade,
+           even if its an older version.
+nobuild    If this directive set, gensync will ignore this package, so users
+           must build  these packages on their machines, they will not be able
+           to install them with pacman -S. Useful for closed-source, but
+           freeware programs.
+nofakeroot Don't drop privileges after chrooting. Required by some broken
+           packages.
+scriptlet Don't skip executing scriptlets even if we're in chroot.
+.fi
+
+.SH  What is the process of chrooted build ?
+
+First, what is chroot? We currently use fakeroot to prevent build() from
+modifying the host system, and we use a prefix or DESTDIR directive to install
+everything to a directory and not under to the host system. This is good, but
+not enough.
+
+This system lacks of the ability to control the list of installed packages
+during the build on the system of a packager, the given compiled package maybe
+linked itself to an extra installed library. This way we can't really control
+the list of real dependencies. For example if libquicktime is installed from
+source on my system, then mplayer or any other program can link itself to that,
+and so that depends() will be incorrect. Or if I have the closed source binary
+NVidia drivers installed, some programs link tho NVidia's libraries.
+
+Of course there is a sollution to avoid this, to use a real chroot instead of a
+simple fakeroot. What is this means? The followings:
+
+When starting the build, a core chroot system is installed under /var/chroot.
+(Of course you can change this value under /etc/makepkg.conf.) The core system
+contains ~60 packages which are must installed to build any package in
+a chrooted environment. These packages (for example gcc, kernel-headers, make)
+should not be mentioned in makedepends(). 'pacman -Sg core chroot-core
+devel-core' should show you the actial list. (We try to change this list rarely
+of course.)
+
+When you start building with makepkg -R, pacman will install these packages to
+/var/chroot if necessary. This will produce a fully "clean" Frugalware system,
+that consits of base packages only. This /var/chroot is fully separated from
+the host system so that this will solve the problems mentioned above.
+(Linking to a library installed from source, etc.)
+
+Here comes the fun part. The packages listed in depends() and makedepends() are
+installed to this clean (/var/chroot) system. From this point, this chroot is
+capable to build the specified package in it without any unnecessary package
+installed, fully separated from the host system.
+
+After this the chroot should be cleaned up which means the removal of the
+installed depends() and makedepends(). This ensures us not to build from
+scratch the core chroot.
+
+This way we can prevent lots of dependency problems and it is even possible to
+build packages for a different Frugalware version. This is quite efficent when
+building security updates or fixing critical bugs in the -stable tree.
+
+If the build is failed, the working directory will not be deleted, you can find
+it under /var/chroot/var/tmp/fst. Later if you want to clean your chroot
+(delete the working directory and remove unnecessary packages) you can use 'makepkg -CR'.
+
+To activate building in a chroot, you should run makepkg as root at least with
+the -R option.
+
+.SH Package splitting
+
+Package splitting means moving out a list of specifed files to subpackages (like
+libmysql out of mysql) and then defining the properties of subpackages.
+
+NOTE: if you create several subpackages, maintaining those packages will
+require more and more time. Thus, unnecessary splits aren't welcome.
+Especially, if you split out a library, then don't move the headers to the
+package just to speed up building with a few seconds!
+
+The \fBsubpkgs()\fP array is to define the pkgnames of the subpackages. From
+now all the directives has their subfoo equivalent:
+.nf
+pkgname -> subpkgs()
+pkgdesc -> subdescs()
+pkgdesc_localized -> subdescs_localized()
+license() -> sublicense()
+replaces() -> subreplaces()
+groups() -> subgroups()
+depends() -> subdepends()
+rodepends() -> subrodepends()
+removes() -> subremoves()
+conflicts() -> subconflicts()
+provides() -> subprovides()
+backup() -> subbackup()
+install -> subinstall()
+options -> suboptions()
+archs -> subarchs()
+.fi
+
+Also note that bash does not support two-dimensional arrays, so when defining the
+array of arrays, then quotes are the major separators and spaces are the minor ones.
+
+Simple example:
+.nf
+Add the followings to your bottom of your FrugalBuild
+subpkgs=('foo' 'bar')
+subdescs=('desc of foo' 'desc of bar')
+subdepends=('foodep1 foodep2' 'bardep1 bardep2')
+subgroups=('apps' 'apps')
+subarchs=('i686 x86_64' 'i686 x86_64')
+.fi
+
+You may define conflicts, replaces and other directives for your subpackages, but
+the requirement is only to define these 5 ones.
+
+The second part is to move some files to the - just defined - subpackages. You
+should use the Fsplit command for this at the end of your build() function. You
+can read more about Fsplit in the fwmakepkg documentation, but here is a short
+example:
+.nf
+
+Fsplit subpkgname usr/share/
+
+.fi
+This will move the /usr/share dir of the package to the "subpkgname" subpackage.
+
+NOTE: never use a trailing slash when defining file patterns, especially if you
+use wildcards in it!
+
+.SH "SEE ALSO"
+.BR makepkg (8),
+.BR pacman (8)
+.SH AUTHOR
+.nf
+Judd Vinet <jvinet@zeroflux.org>
+and the Frugalware developers <frugalware-devel@frugalware.org>
+.fi
