@@ -1,0 +1,64 @@
+#
+# /etc/makepkg.conf
+#
+
+# The FTP/HTTP download utility that makepkg should use to acquire sources
+export FTPAGENT="/usr/bin/wget -U makepkg --continue --passive-ftp --tries=3 --waitretry=3 --no-check-certificate"
+#export FTPAGENT="/usr/bin/snarf"
+#export FTPAGENT="/usr/bin/lftpget -c"
+
+export CARCH="@CARCH@"
+export CHOST="@CHOST@"
+
+# Pentium Pro/Pentium II/Pentium III+/Pentium 4/Athlon exclusive (binaries
+# will use the P6 instruction set and only run on P6+ systems)
+export CFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
+export CXXFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
+# Pentium Pro/Pentium II/Pentium III+/Pentium 4/Athlon optimized (but binaries
+# will run on any x86 system)
+#export CFLAGS="-mcpu=i686 -O2 -pipe"
+#export CXXFLAGS="-mcpu=i686 -O2 -pipe"
+
+# SMP Systems
+#export MAKEFLAGS="-j2"
+
+# Enable fakeroot for building packages as a non-root user
+export USE_FAKEROOT="y"
+
+# Specify a directory for the chroot environment.
+export CHROOTDIR="/var/chroot"
+# Core package list to be installed in the chroot.
+export COREPKGS="core chroot-core devel-core"
+
+# Enable distributed C/C++/ObjC compiler
+# Don't forget to modify MAKEFLAGS to include -jN, where N is twice the
+# number of CPUs +1 available
+export DISTCC="n"
+# Space-separated list of volunteer host specifications.
+export DISTCC_HOSTS=""
+
+# Enable colorized output messages
+export USE_COLOR="y"
+
+# Specify a fixed directory where all packages will be placed
+#export PKGDEST=/home/packages
+
+# If you want your name to show up in the packages you build, change this.
+export PACKAGER="Archlinux (http://archlinux.org)"
+
+# Don't strip symbols from binaries/libraries
+#export NOSTRIP="1"
+# Don't prepare documentation
+#export NODOCS="1"
+
+# LOGDIR is the location where you would like to store a
+# permanant copy of the build log.
+# filename = [LOGDIR_APPEND]-[pkgname]-[pkgver]-[pkgrel]
+LOGDIR_APPEND=`date +%Y-%m-%d-%s`
+LOGDIR=/var/log/builds
+
+# The Standard Build Unit of this machine
+# If 1, then the build time will be displayed in seconds
+# Build the "binutils" package, and then write here the result you got,
+# so that makepkg will could the right SBU value for you.
+SBU="1"

@@ -1,0 +1,59 @@
+#
+# /etc/pacman.conf
+#
+# NOTE: If you find a mirror that is geographically close to you, please
+#       move it to the top of the server list, so pacman will choose it
+#       first.
+#
+# To re-sort your mirror lists by ping/traceroute results, use the
+# /usr/bin/sortmirrors.pl script.  It requires the "netselect" package.
+#
+#     # sortmirrors.pl </etc/pacman.conf >pacman.conf.new
+#
+
+# See the pacman manpage for option directives
+
+#
+# GENERAL OPTIONS
+#
+[options]
+LogFile     = /var/log/pacman.log
+NoUpgrade   = etc/passwd etc/group etc/shadow etc/sudoers
+NoUpgrade   = etc/fstab etc/raidtab etc/mdadm.conf etc/ld.so.conf
+NoUpgrade   = etc/inittab etc/rc.conf etc/rc.local
+NoUpgrade   = etc/modprobe.conf etc/modules.conf
+NoUpgrade   = etc/lilo.conf boot/grub/menu.lst etc/mkinitrd.conf
+HoldPkg     = pacman glibc
+#XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
+
+#
+# REPOSITORIES
+#   - can be defined here or included from another file
+#   - pacman will search repositories in the order defined here.
+#   - local/custom mirrors can be added here or in separate files
+# 
+
+#[testing]
+#Server = ftp://ftp.archlinux.org/testing/os/i686
+
+[current]
+# Add your preferred servers here, they will be used first
+Include = /etc/pacman.d/current
+
+[extra]
+# Add your preferred servers here, they will be used first
+Include = /etc/pacman.d/extra
+
+#[unstable]
+# Add your preferred servers here, they will be used first
+#Include = /etc/pacman.d/unstable
+
+[community]
+# Add your preferred servers here, they will be used first
+Include = /etc/pacman.d/community
+
+# An example of a custom package repository.  See the pacman manpage for
+# tips on creating your own repositories.
+#[custom]
+#Server = file:///home/custompkgs
+
