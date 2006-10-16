@@ -40,7 +40,7 @@
 #include "conf.h"
 
 /* progress bar */
-char sync_fnm[25];
+char sync_fnm[23];
 int offset;
 struct timeval t0, t;
 float rate;
@@ -104,9 +104,13 @@ int log_progress(netbuf *ctl, int xfered, void *arg)
 		eta_s -= eta_m * 60;
 	}
 
-	printf(" %s [", sync_fnm);
-	cur = (int)((maxcols-64)*pct/100);
-	for(i = 0; i < maxcols-64; i++) {
+	if(rate > 1000) {
+		printf("%s %6dK %6.0fK/s %02d:%02d:%02d [", sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
+	} else {
+		printf("%s %6dK %6.1fK/s %02d:%02d:%02d [", sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
+	}
+	cur = (int)((maxcols-57)*pct/100);
+	for(i = 0; i < maxcols-57; i++) {
 		if(chomp) {
 			if(i < cur) {
 				printf("-");
@@ -134,11 +138,7 @@ int log_progress(netbuf *ctl, int xfered, void *arg)
 			(i < cur) ? printf("#") : printf(" ");
 		}
 	}
-	if(rate > 1000) {
-		printf("] %3d%%  %6dK  %6.0fK/s  %02d:%02d:%02d\r", pct, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
-	} else {
-		printf("] %3d%%  %6dK  %6.1fK/s  %02d:%02d:%02d\r", pct, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
-	}
+	printf("] %3d%%\r", pct);
 	if(lastpct != 100 && pct == 100) {
 		printf("\n");
 	}

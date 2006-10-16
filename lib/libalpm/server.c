@@ -300,11 +300,11 @@ int _alpm_downloadfiles_forreal(PMList *servers, const char *localpath,
 				struct stat st;
 				snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
 				if(pm_dlfnm) {
-					strncpy(pm_dlfnm, fn, 24);
+					strncpy(pm_dlfnm, fn, 22);
 				}
 				/* drop filename extension */
 				ptr = strstr(fn, PM_EXT_DB);
-				if(pm_dlfnm && ptr && (ptr-fn) < 24) {
+				if(pm_dlfnm && ptr && (ptr-fn) < 22) {
 					pm_dlfnm[ptr-fn] = '\0';
 				}
 				ptr = strstr(fn, PM_EXT_PKG);
@@ -312,10 +312,10 @@ int _alpm_downloadfiles_forreal(PMList *servers, const char *localpath,
 					pm_dlfnm[ptr-fn] = '\0';
 				}
 				if(pm_dlfnm) {
-					for(j = strlen(pm_dlfnm); j < 24; j++) {
+					for(j = strlen(pm_dlfnm); j < 22; j++) {
 						(pm_dlfnm)[j] = ' ';
 					}
-					pm_dlfnm[24] = '\0';
+					pm_dlfnm[22] = '\0';
 				}
 				if(pm_dloffset) {
 					*pm_dloffset = 0;

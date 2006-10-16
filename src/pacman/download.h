@@ -21,7 +21,7 @@
 #ifndef _PM_DOWNLOAD_H
 #define _PM_DOWNLOAD_H
 
-extern char sync_fnm[25];
+extern char sync_fnm[23];
 extern int offset;
 extern struct timeval t0, t;
 extern float rate;
