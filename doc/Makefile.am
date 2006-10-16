@@ -20,7 +20,7 @@ pacman.8:
 endif
 
 clean:
-	rm -f html/*
+	rm -f html/*.html
 	rm -f hu/*.8
 	rm -f man3/*.3
 

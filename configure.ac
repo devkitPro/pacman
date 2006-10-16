@@ -297,17 +297,31 @@ fi
 dnl Check for java support
 AC_MSG_CHECKING(if Java bindings should be generated)
 if test x$wantjava = xyes ; then
-    AC_CHECK_PROGS([JAVAC], [javac])
-    AM_CONDITIONAL(HAS_JAVA, test $JAVAC)
-    if test $JAVAC ; then
-        AC_DEFINE([HAS_JAVA], [TRUE], [Enabled Java Support])
-	AC_MSG_RESULT(yes)
-	JAVASTATUS="yes, path: `which $JAVAC`"
-    else
-        AC_DEFINE([HAS_JAVA], [FALSE], [Disabled Java support])
-	AC_MSG_RESULT(no, javac missing)
-	JAVASTATUS="java compiler not found"
-    fi
+ 	AC_CHECK_PROGS([SWIG], [swig])
+ 	AC_CHECK_PROGS([JAVAC], [javac])
+ 	AM_CONDITIONAL(HAS_JAVA, test $SWIG)
+ 	AM_CONDITIONAL(HAS_JAVA, test $JAVAC)
+ 	if test $JAVAC ; then
+ 		if test $SWIG ; then
+ 			AC_DEFINE([HAS_JAVA], [TRUE], [Enabled Java Support (javac=ok swig=ok)])
+ 			AC_MSG_RESULT(yes)
+ 			JAVASTATUS="yes, path: `which $JAVAC`"
+ 		else
+ 			AC_DEFINE([HAS_JAVA], [FALSE], [Java support disabled because swig not found (javac=ok swig=missing)])
+ 			AC_MSG_RESULT(no, swig not found and that is need for java)
+ 			JAVASTATUS="java compiler found, swig not found"
+ 		fi
+ 	else
+ 		if test $SWIG ; then
+ 			AC_DEFINE([HAS_JAVA], [FALSE], [Disabled Java support (javac=missing swig=ok])
+ 			AC_MSG_RESULT(no, javac missing, swig ok)
+ 			JAVASTATUS="java compiler not found, swig found"
+ 		else
+ 			AC_DEFINE([HAS_JAVA], [FALSE], [Disabled Java support (javac=missing swig=missing])
+ 			AC_MSG_RESULT(no, javac missing, swig missing)
+ 			JAVASTATUS="java compiler not found, swig not found"
+ 		fi
+ 	fi
 else
     AM_CONDITIONAL(HAS_JAVA, test $JAVAC)
     AC_DEFINE([HAS_JAVA], [FALSE], [Not specified at configure line])
