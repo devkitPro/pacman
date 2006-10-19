@@ -189,48 +189,6 @@ else
     POSTATUS="no, disabled by configure"
 fi
 
-dnl Check for po4a binary
-AC_MSG_CHECKING(for support po4a)
-if test x$wantpo4a = xyes ; then
-    AC_CHECK_PROGS([PO4A], [po4a])
-    AM_CONDITIONAL(HAS_PO4A, test $PO4A)
-    if test $PO4A ; then
-        AC_DEFINE([HAS_PO4A], [TRUE], [Enabled PO4A (localization support for manpages)])
-	AC_MSG_RESULT(yes)
-	POSTATUS="yes, path: `which $PO4A`"
-    else
-        AC_DEFINE([HAS_PO4A], [FALSE], [Disabled PO4A (localization support for manpages)])
-	AC_MSG_RESULT(no, po4a binary missing)
-	POSTATUS="no, missing po4a binary"
-    fi
-else
-    AM_CONDITIONAL(HAS_PO4A, test $PO4A)
-    AC_DEFINE([HAS_PO4A], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
-    POSTATUS="no, disabled by configure"
-fi
-
-dnl Check for po4a binary
-AC_MSG_CHECKING(for support po4a)
-if test x$wantpo4a = xyes ; then
-    AC_CHECK_PROGS([PO4A], [po4a])
-    AM_CONDITIONAL(HAS_PO4A, test $PO4A)
-    if test $PO4A ; then
-        AC_DEFINE([HAS_PO4A], [TRUE], [Enabled PO4A (localization support for manpages)])
-	AC_MSG_RESULT(yes)
-	POSTATUS="yes, path: `which $PO4A`"
-    else
-        AC_DEFINE([HAS_PO4A], [FALSE], [Disabled PO4A (localization support for manpages)])
-	AC_MSG_RESULT(no, po4a binary missing)
-	POSTATUS="no, missing po4a binary"
-    fi
-else
-    AM_CONDITIONAL(HAS_PO4A, test $PO4A)
-    AC_DEFINE([HAS_PO4A], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
-    POSTATUS="no, disabled by configure"
-fi
-
 dnl Check for doxygen support
 AC_MSG_CHECKING(for support Doxygen)
 if test x$wantdoxygen = xyes ; then
