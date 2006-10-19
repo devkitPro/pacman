@@ -270,32 +270,6 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	}
 	EVENT(trans, PM_TRANS_EVT_CLEANUP_DONE, NULL, NULL);
 
-	/* Cleaning up
-	 */
-	EVENT(trans, PM_TRANS_EVT_CLEANUP_START, NULL, NULL);
-	_alpm_log(PM_LOG_FLOW1, _("cleaning up"));
-	for (lp=trans->packages; lp!=NULL; lp=lp->next) {
-		info=(pmpkg_t *)lp->data;
-		for (rmlist=info->removes; rmlist!=NULL; rmlist=rmlist->next) {
-			snprintf(rm_fname, PATH_MAX, "%s%s", handle->root, (char *)rmlist->data);
-			remove(rm_fname);
-		}
-	}
-	EVENT(trans, PM_TRANS_EVT_CLEANUP_DONE, NULL, NULL);
-
-	/* Cleaning up
-	 */
-	EVENT(trans, PM_TRANS_EVT_CLEANUP_START, NULL, NULL);
-	_alpm_log(PM_LOG_FLOW1, _("cleaning up"));
-	for (lp=trans->packages; lp!=NULL; lp=lp->next) {
-		info=(pmpkg_t *)lp->data;
-		for (rmlist=info->removes; rmlist!=NULL; rmlist=rmlist->next) {
-			snprintf(rm_fname, PATH_MAX, "%s%s", handle->root, (char *)rmlist->data);
-			remove(rm_fname);
-		}
-	}
-	EVENT(trans, PM_TRANS_EVT_CLEANUP_DONE, NULL, NULL);
-
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
