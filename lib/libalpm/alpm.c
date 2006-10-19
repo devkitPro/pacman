@@ -518,7 +518,7 @@ PMList *alpm_db_getgrpcache(pmdb_t *db)
 /** Get informations about a package.
  * @param pkg package pointer
  * @param parm name of the info to get
- * @return a char* on success (the value), NULL on error
+ * @return a void* on success (the value), NULL on error
  */
 void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 {
@@ -768,7 +768,7 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 /** Get informations about a group.
  * @param grp group pointer
  * @param parm name of the info to get
- * @return a char* on success (the value), NULL on error
+ * @return a void* on success (the value), NULL on error
  */
 void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
 {
@@ -797,7 +797,7 @@ void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
 /** Get informations about a sync.
  * @param sync pointer
  * @param parm name of the info to get
- * @return a char* on success (the value), NULL on error
+ * @return a void* on success (the value), NULL on error
  */
 void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
 {
@@ -841,7 +841,7 @@ PMList *alpm_db_search(pmdb_t *db)
 
 /** Get informations about the transaction.
  * @param parm name of the info to get
- * @return a char* on success (the value), NULL on error
+ * @return a void* on success (the value), NULL on error
  */
 void *alpm_trans_getinfo(unsigned char parm)
 {
@@ -1020,7 +1020,7 @@ int alpm_trans_release()
 /** Get informations about a dependency.
  * @param miss dependency pointer
  * @param parm name of the info to get
- * @return a char* on success (the value), NULL on error
+ * @return a void* on success (the value), NULL on error
  */
 void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 {
@@ -1052,7 +1052,7 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 /** Get informations about a file conflict.
  * @param conflict database conflict structure
  * @param parm name of the info to get
- * @return a char* on success (the value), NULL on error
+ * @return a void* on success (the value), NULL on error
  */
 void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm)
 {
