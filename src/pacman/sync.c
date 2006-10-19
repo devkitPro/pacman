@@ -161,7 +161,7 @@ static int sync_synctree(int level, list_t *syncs)
 	for(i = syncs; i; i = i->next) {
 		sync_t *sync = (sync_t *)i->data;
 
-		ret = alpm_db_update(level, sync->db);
+		ret = alpm_db_update((level < 2 ? 0 : 1), sync->db);
 		if(ret > 0) {
 			if(pm_errno == PM_ERR_DB_SYNC) {
 				ERR(NL, _("failed to synchronize %s\n"), sync->treename);
