@@ -18,7 +18,7 @@ EXTRA_DIST =		\
 	TODO.autoconf
 
 check:
-	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman --debug=1
+	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman --debug=-1
 
 tags:
 	ctags -a lib/libalpm/*.[ch]
