@@ -89,12 +89,12 @@ void _alpm_sync_free(void *data)
 	free(sync);
 }
 
-/* Test for existence of a package in a PMList* of pmsyncpkg_t*
+/* Test for existence of a package in a pmlist_t* of pmsyncpkg_t*
  * If found, return a pointer to the respective pmsyncpkg_t*
  */
-static pmsyncpkg_t *find_pkginsync(char *needle, PMList *haystack)
+static pmsyncpkg_t *find_pkginsync(char *needle, pmlist_t *haystack)
 {
-	PMList *i;
+	pmlist_t *i;
 	pmsyncpkg_t *sync = NULL;
 	int found = 0;
 
@@ -120,9 +120,9 @@ static int istoonew(pmpkg_t *pkg)
 	return((pkg->date + handle->upgradedelay) > t);
 }
 
-int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
+int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync)
 {
-	PMList *i, *j, *k;
+	pmlist_t *i, *j, *k;
 
 	/* check for "recommended" package replacements */
 	_alpm_log(PM_LOG_FLOW1, _("checking for package replacements"));
@@ -130,7 +130,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync)
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *spkg = j->data;
 			for(k = spkg->replaces; k; k = k->next) {
-				PMList *m;
+				pmlist_t *m;
 				for(m = _alpm_db_get_pkgcache(db_local); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
 					if(!strcmp(k->data, lpkg->name)) {
@@ -256,11 +256,11 @@ error:
 	return(-1);
 }
 
-int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, char *name)
+int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, char *name)
 {
 	char targline[PKG_FULLNAME_LEN];
 	char *targ;
-	PMList *j;
+	pmlist_t *j;
 	pmpkg_t *local;
 	pmpkg_t *spkg = NULL;
 	pmsyncpkg_t *sync;
@@ -281,7 +281,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, c
 				spkg = _alpm_db_get_pkgfromcache(dbs, targ);
 				if(spkg == NULL) {
 					/* Search provides */
-					PMList *p;
+					pmlist_t *p;
 					_alpm_log(PM_LOG_FLOW2, _("target '%s' not found -- looking for provisions"), targ);
 					p = _alpm_db_whatprovides(dbs, targ);
 					if(p == NULL) {
@@ -304,7 +304,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, c
 			_alpm_log(PM_LOG_FLOW2, _("target '%s' not found -- looking for provisions"), targ);
 			for(j = dbs_sync; j && !spkg; j = j->next) {
 				pmdb_t *dbs = j->data;
-				PMList *p = _alpm_db_whatprovides(dbs, targ);
+				pmlist_t *p = _alpm_db_whatprovides(dbs, targ);
 				if(p) {
 					_alpm_log(PM_LOG_DEBUG, _("found '%s' as a provision for '%s'"), p->data, targ);
 					spkg = _alpm_db_get_pkgfromcache(dbs, p->data);
@@ -372,13 +372,13 @@ static int pkg_cmp(const void *p1, const void *p2)
 	return(strcmp(((pmpkg_t *)p1)->name, ((pmsyncpkg_t *)p2)->pkg->name));
 }
 
-int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PMList **data)
+int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, pmlist_t **data)
 {
-	PMList *deps = NULL;
-	PMList *list = NULL; /* list allowing checkdeps usage with data from trans->packages */
-	PMList *trail = NULL; /* breadcrum list to avoid running into circles */
-	PMList *asked = NULL; 
-	PMList *i, *j, *k, *l;
+	pmlist_t *deps = NULL;
+	pmlist_t *list = NULL; /* list allowing checkdeps usage with data from trans->packages */
+	pmlist_t *trail = NULL; /* breadcrum list to avoid running into circles */
+	pmlist_t *asked = NULL; 
+	pmlist_t *i, *j, *k, *l;
 	int ret = 0;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -672,7 +672,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 					pmdepmissing_t *miss = i->data;
 					if(!find_pkginsync(miss->depend.name, trans->packages)) {
 						int pfound = 0;
-						PMList *k;
+						pmlist_t *k;
 						/* If miss->depend.name depends on something that miss->target and a
 						 * package in final both provide, then it's okay...  */
 						pmpkg_t *leavingp  = _alpm_db_get_pkgfromcache(db_local, miss->target);
@@ -685,13 +685,13 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, PMList *dbs_sync, PML
 						/* Look through the upset package's dependencies and try to match one up
 						 * to a provisio from the package we want to remove */
 						for(k = conflictp->depends; k && !pfound; k = k->next) {
-							PMList *m;
+							pmlist_t *m;
 							for(m = leavingp->provides; m && !pfound; m = m->next) {
 								if(!strcmp(k->data, m->data)) {
 									/* Found a match -- now look through final for a package that
 									 * provides the same thing.  If none are found, then it truly
 									 * is an unresolvable conflict. */
-									PMList *n, *o;
+									pmlist_t *n, *o;
 									for(n = trans->packages; n && !pfound; n = n->next) {
 										pmsyncpkg_t *sp = n->data;
 										for(o = sp->pkg->provides; o && !pfound; o = o->next) {
@@ -754,9 +754,9 @@ cleanup:
 	return(ret);
 }
 
-int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
+int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 {
-	PMList *i, *j, *files = NULL;
+	pmlist_t *i, *j, *files = NULL;
 	pmtrans_t *tr = NULL;
 	int replaces = 0, retval = 0;
 	char ldir[PATH_MAX];
@@ -916,7 +916,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		if(sync->type == PM_SYNC_TYPE_REPLACE) {
-			PMList *j;
+			pmlist_t *j;
 			for(j = sync->data; j; j = j->next) {
 				pmpkg_t *pkg = j->data;
 				if(!_alpm_pkg_isin(pkg->name, tr->packages)) {
@@ -987,16 +987,16 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, PMList **data)
 		for(i = trans->packages; i; i = i->next) {
 			pmsyncpkg_t *sync = i->data;
 			if(sync->type == PM_SYNC_TYPE_REPLACE) {
-				PMList *j;
+				pmlist_t *j;
 				pmpkg_t *new = _alpm_db_get_pkgfromcache(db_local, sync->pkg->name);
 				for(j = sync->data; j; j = j->next) {
-					PMList *k;
+					pmlist_t *k;
 					pmpkg_t *old = j->data;
 					/* merge lists */
 					for(k = old->requiredby; k; k = k->next) {
 						if(!_alpm_list_is_strin(k->data, new->requiredby)) {
 							/* replace old's name with new's name in the requiredby's dependency list */
-							PMList *m;
+							pmlist_t *m;
 							pmpkg_t *depender = _alpm_db_get_pkgfromcache(db_local, k->data);
 							if(depender == NULL) {
 								/* If the depending package no longer exists in the local db,

@@ -28,12 +28,12 @@
 #include "db.h"
 #include "provide.h"
 
-/* return a PMList of packages in "db" that provide "package"
+/* return a pmlist_t of packages in "db" that provide "package"
  */
-PMList *_alpm_db_whatprovides(pmdb_t *db, char *package)
+pmlist_t *_alpm_db_whatprovides(pmdb_t *db, char *package)
 {
-	PMList *pkgs = NULL;
-	PMList *lp;
+	pmlist_t *pkgs = NULL;
+	pmlist_t *lp;
 
 	if(db == NULL || package == NULL || strlen(package) == 0) {
 		return(NULL);

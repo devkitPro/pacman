@@ -59,14 +59,14 @@ pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
 	db = (pmdb_t *)malloc(sizeof(pmdb_t));
 	if(db == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
-				sizeof(pmdb_t));
+				  sizeof(pmdb_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	db->path = (char *)malloc(strlen(root)+strlen(dbpath)+strlen(treename)+2);
 	if(db->path == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
-				strlen(root)+strlen(dbpath)+strlen(treename)+2);
+				  strlen(root)+strlen(dbpath)+strlen(treename)+2);
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
@@ -97,9 +97,9 @@ int _alpm_db_cmp(const void *db1, const void *db2)
 	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
 }
 
-PMList *_alpm_db_search(pmdb_t *db, PMList *needles)
+pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
 {
-	PMList *i, *j, *k, *ret = NULL;
+	pmlist_t *i, *j, *k, *ret = NULL;
 
 	for(i = needles; i; i = i->next) {
 		char *targ;
@@ -109,6 +109,7 @@ PMList *_alpm_db_search(pmdb_t *db, PMList *needles)
 			continue;
 		}
 		targ = strdup(i->data);
+		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
 		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
@@ -123,7 +124,9 @@ PMList *_alpm_db_search(pmdb_t *db, PMList *needles)
 				FREE(haystack);
 				return(NULL);
 			} else if(retval) {
+				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'", targ, haystack);
 				match = 1;
+			} else {
 			}
 			FREE(haystack);
 
@@ -167,4 +170,60 @@ PMList *_alpm_db_search(pmdb_t *db, PMList *needles)
 
 	return(ret);
 }
-/* vim: set ts=2 sw=2 noet: */
+
+pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
+{
+	struct stat buf;
+	pmdb_t *db;
+	char path[PATH_MAX];
+
+	if(strcmp(treename, "local") == 0) {
+		if(handle->db_local != NULL) {
+			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
+			RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
+		}
+	} else {
+		pmlist_t *i;
+		for(i = handle->dbs_sync; i; i = i->next) {
+			pmdb_t *sdb = i->data;
+			if(strcmp(treename, sdb->treename) == 0) {
+				_alpm_log(PM_LOG_DEBUG, _("attempt to re-register the '%s' databse, using existing\n"), sdb->treename);
+				return sdb;
+			}
+		}
+	}
+	
+	_alpm_log(PM_LOG_FLOW1, _("registering database '%s'"), treename);
+
+	/* make sure the database directory exists */
+	snprintf(path, PATH_MAX, "%s%s/%s", handle->root, handle->dbpath, treename);
+	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
+		_alpm_log(PM_LOG_FLOW1, _("database directory '%s' does not exist -- try creating it"), path);
+		if(_alpm_makepath(path) != 0) {
+			RET_ERR(PM_ERR_SYSTEM, NULL);
+		}
+	}
+
+	db = _alpm_db_new(handle->root, handle->dbpath, treename);
+	if(db == NULL) {
+		RET_ERR(PM_ERR_DB_CREATE, NULL);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, _("opening database '%s'"), db->treename);
+	if(_alpm_db_open(db) == -1) {
+		_alpm_db_free(db);
+		RET_ERR(PM_ERR_DB_OPEN, NULL);
+	}
+
+	/* Only call callback on NEW registration. */
+	if(callback) callback(treename, db);
+
+	if(strcmp(treename, "local") == 0) {
+		handle->db_local = db;
+	} else {
+		handle->dbs_sync = _alpm_list_add(handle->dbs_sync, db);
+	}
+
+	return(db);
+}
+/* vim: set noet: */

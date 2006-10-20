@@ -67,7 +67,7 @@ int _alpm_ldconfig(char *root);
 #ifdef _ALPM_TRANS_H
 int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver, pmtrans_t *trans);
 #ifndef __sun__
-int _alpm_check_freespace(pmtrans_t *trans, PMList **data);
+int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data);
 #endif
 #endif
 int _alpm_reg_match(char *string, char *pattern);

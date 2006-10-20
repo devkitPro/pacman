@@ -26,7 +26,7 @@
 #include "trans.h"
 
 int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name);
-int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data);
+int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data);
 int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db);
 
 #endif /* _ALPM_ADD_H */

@@ -74,7 +74,16 @@ void cb_log(unsigned short level, char *msg)
 		break;
 	}
 
-	MSG(NL, "%s: %s\n", str, msg);
+	time_t t;
+	struct tm *tmp;
+	char timestr[10] = {0};
+
+	t = time(NULL);
+	tmp = localtime(&t);
+	strftime(timestr, 9, "%H:%M:%S", tmp);
+	timestr[8] = '\0';
+
+	MSG(NL, "[%s] %s: %s\n", timestr, str, msg);
 }
 
 /* Wrapper to fprintf() that allows to choose if we want the output

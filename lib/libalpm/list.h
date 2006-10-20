@@ -29,8 +29,6 @@ typedef struct __pmlist_t {
 	struct __pmlist_t *last; /* Quick access to last item in list */
 } pmlist_t;
 
-typedef struct __pmlist_t PMList;
-
 #define _FREELIST(p, f) do { if(p) { _alpm_list_free(p, f); p = NULL; } } while(0)
 #define FREELIST(p) _FREELIST(p, free)
 #define FREELISTPTR(p) _FREELIST(p, NULL)
@@ -39,18 +37,18 @@ typedef void (*_alpm_fn_free)(void *);
 /* Sort comparison callback function declaration */
 typedef int (*_alpm_fn_cmp)(const void *, const void *);
 
-PMList *_alpm_list_new(void);
-void _alpm_list_free(PMList *list, _alpm_fn_free fn);
-PMList *_alpm_list_add(PMList *list, void *data);
-PMList *_alpm_list_add_sorted(PMList *list, void *data, _alpm_fn_cmp fn);
-PMList *_alpm_list_remove(PMList *haystack, void *needle, _alpm_fn_cmp fn, void **data);
-int _alpm_list_count(PMList *list);
-int _alpm_list_is_in(void *needle, PMList *haystack);
-int _alpm_list_is_strin(char *needle, PMList *haystack);
-PMList *_alpm_list_last(PMList *list);
-PMList *_alpm_list_remove_dupes(PMList *list);
-PMList *_alpm_list_reverse(PMList *list);
-PMList *_alpm_list_strdup(PMList *list);
+pmlist_t *_alpm_list_new(void);
+void _alpm_list_free(pmlist_t *list, _alpm_fn_free fn);
+pmlist_t *_alpm_list_add(pmlist_t *list, void *data);
+pmlist_t *_alpm_list_add_sorted(pmlist_t *list, void *data, _alpm_fn_cmp fn);
+pmlist_t *_alpm_list_remove(pmlist_t *haystack, void *needle, _alpm_fn_cmp fn, void **data);
+int _alpm_list_count(pmlist_t *list);
+int _alpm_list_is_in(void *needle, pmlist_t *haystack);
+int _alpm_list_is_strin(char *needle, pmlist_t *haystack);
+pmlist_t *_alpm_list_last(pmlist_t *list);
+pmlist_t *_alpm_list_remove_dupes(pmlist_t *list);
+pmlist_t *_alpm_list_reverse(pmlist_t *list);
+pmlist_t *_alpm_list_strdup(pmlist_t *list);
 
 #endif /* _ALPM_LIST_H */
 

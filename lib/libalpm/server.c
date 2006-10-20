@@ -133,7 +133,7 @@ void _alpm_server_free(void *data)
  *
  * RETURN:  0 for successful download, 1 on error
  */
-int _alpm_downloadfiles(PMList *servers, const char *localpath, PMList *files)
+int _alpm_downloadfiles(pmlist_t *servers, const char *localpath, pmlist_t *files)
 {
 	return(!!_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL));
 }
@@ -151,15 +151,15 @@ int _alpm_downloadfiles(PMList *servers, const char *localpath, PMList *files)
  *         -1 if the mtimes are identical
  *          1 on error
  */
-int _alpm_downloadfiles_forreal(PMList *servers, const char *localpath,
-	PMList *files, const char *mtime1, char *mtime2)
+int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
+	pmlist_t *files, const char *mtime1, char *mtime2)
 {
 	int fsz;
 	netbuf *control = NULL;
-	PMList *lp;
+	pmlist_t *lp;
 	int done = 0;
-	PMList *complete = NULL;
-	PMList *i;
+	pmlist_t *complete = NULL;
+	pmlist_t *i;
 
 	if(files == NULL) {
 		return(0);
@@ -545,8 +545,8 @@ char *_alpm_fetch_pkgurl(char *target)
 		_alpm_log(PM_LOG_DEBUG, _(" %s is already in the current directory\n"), fn);
 	} else {
 		pmserver_t *server;
-		PMList *servers = NULL;
-		PMList *files;
+		pmlist_t *servers = NULL;
+		pmlist_t *files;
 
 		if((server = (pmserver_t *)malloc(sizeof(pmserver_t))) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));

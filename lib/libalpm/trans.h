@@ -40,9 +40,9 @@ typedef struct __pmtrans_t {
 	unsigned char type;
 	unsigned int flags;
 	unsigned char state;
-	PMList *targets;     /* PMList of (char *) */
-	PMList *packages;    /* PMList of (pmpkg_t *) or (pmsyncpkg_t *) */
-	PMList *skiplist;    /* PMList of (char *) */
+	pmlist_t *targets;     /* pmlist_t of (char *) */
+	pmlist_t *packages;    /* pmlist_t of (pmpkg_t *) or (pmsyncpkg_t *) */
+	pmlist_t *skiplist;    /* pmlist_t of (char *) */
 	alpm_trans_cb_event cb_event;
 	alpm_trans_cb_conv cb_conv;
 	alpm_trans_cb_progress cb_progress;
@@ -79,8 +79,8 @@ void _alpm_trans_free(void *data);
 int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress);
 int _alpm_trans_sysupgrade(pmtrans_t *trans);
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
-int _alpm_trans_prepare(pmtrans_t *trans, PMList **data);
-int _alpm_trans_commit(pmtrans_t *trans, PMList **data);
+int _alpm_trans_prepare(pmtrans_t *trans, pmlist_t **data);
+int _alpm_trans_commit(pmtrans_t *trans, pmlist_t **data);
 
 #endif /* _ALPM_TRANS_H */
 

@@ -557,9 +557,9 @@ static long long get_freespace()
 	return(ret);
 }
 
-int _alpm_check_freespace(pmtrans_t *trans, PMList **data)
+int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data)
 {
-	PMList *i;
+	pmlist_t *i;
 	long long pkgsize=0, freespace;
 
 	for(i = trans->packages; i; i = i->next) {

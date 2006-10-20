@@ -68,9 +68,9 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsign
 	return(miss);
 }
 
-int _alpm_depmiss_isin(pmdepmissing_t *needle, PMList *haystack)
+int _alpm_depmiss_isin(pmdepmissing_t *needle, pmlist_t *haystack)
 {
-	PMList *i;
+	pmlist_t *i;
 
 	for(i = haystack; i; i = i->next) {
 		pmdepmissing_t *miss = i->data;
@@ -95,13 +95,13 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, PMList *haystack)
  * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
  * affects the dependency order sortbydeps() will use.
  *
- * This function returns the new PMList* target list.
+ * This function returns the new pmlist_t* target list.
  *
  */ 
-PMList *_alpm_sortbydeps(PMList *targets, int mode)
+pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 {
-	PMList *newtargs = NULL;
-	PMList *i, *j, *k, *l;
+	pmlist_t *newtargs = NULL;
+	pmlist_t *i, *j, *k, *l;
 	int change = 1;
 	int numscans = 0;
 	int numtargs = 0;
@@ -117,7 +117,7 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 
 	_alpm_log(PM_LOG_DEBUG, _("started sorting dependencies"));
 	while(change) {
-		PMList *tmptargs = NULL;
+		pmlist_t *tmptargs = NULL;
 		change = 0;
 		if(numscans > sqrt(numtargs)) {
 			_alpm_log(PM_LOG_DEBUG, _("possible dependency cycle detected"));
@@ -167,7 +167,7 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 
 	if(mode == PM_TRANS_TYPE_REMOVE) {
 		/* we're removing packages, so reverse the order */
-		PMList *tmptargs = _alpm_list_reverse(newtargs);
+		pmlist_t *tmptargs = _alpm_list_reverse(newtargs);
 		/* free the old one */
 		FREELISTPTR(newtargs);
 		newtargs = tmptargs;
@@ -176,18 +176,18 @@ PMList *_alpm_sortbydeps(PMList *targets, int mode)
 	return(newtargs);
 }
 
-/* Returns a PMList* of missing_t pointers.
+/* Returns a pmlist_t* of missing_t pointers.
  *
  * dependencies can include versions with depmod operators.
  *
  */
-PMList *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, PMList *packages)
+pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist_t *packages)
 {
 	pmdepend_t depend;
-	PMList *i, *j, *k;
+	pmlist_t *i, *j, *k;
 	int cmp;
 	int found = 0;
-	PMList *baddeps = NULL;
+	pmlist_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
 
 	if(db == NULL) {
@@ -229,7 +229,7 @@ PMList *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, PMList *
 				}
 				if(found == 0) {
 					/* look for packages that list depend.name as a "provide" */
-					PMList *provides = _alpm_db_whatprovides(db, depend.name);
+					pmlist_t *provides = _alpm_db_whatprovides(db, depend.name);
 					if(provides == NULL) {
 						/* not found */
 						continue;
@@ -462,15 +462,15 @@ int _alpm_splitdep(char *depstr, pmdepend_t *depend)
 	return(0);
 }
 
-/* return a new PMList target list containing all packages in the original
+/* return a new pmlist_t target list containing all packages in the original
  * target list, as well as all their un-needed dependencies.  By un-needed,
  * I mean dependencies that are *only* required for packages in the target
  * list, so they can be safely removed.  This function is recursive.
  */
-PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
+pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
 {
-	PMList *i, *j, *k;
-	PMList *newtargs = targs;
+	pmlist_t *i, *j, *k;
+	pmlist_t *newtargs = targs;
 
 	if(db == NULL) {
 		return(newtargs);
@@ -542,12 +542,12 @@ PMList *_alpm_removedeps(pmdb_t *db, PMList *targs)
  *
  * make sure *list and *trail are already initialized
  */
-int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
-                      PMList *trail, pmtrans_t *trans, PMList **data)
+int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlist_t *list,
+                      pmlist_t *trail, pmtrans_t *trans, pmlist_t **data)
 {
-	PMList *i, *j;
-	PMList *targ;
-	PMList *deps = NULL;
+	pmlist_t *i, *j;
+	pmlist_t *targ;
+	pmlist_t *deps = NULL;
 
 	if(local == NULL || dbs_sync == NULL || syncpkg == NULL) {
 		return(-1);
@@ -586,7 +586,7 @@ int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList 
 		}
 		/* check provides */
 		for(j = dbs_sync; !sync && j; j = j->next) {
-			PMList *provides;
+			pmlist_t *provides;
 			provides = _alpm_db_whatprovides(j->data, miss->depend.name);
 			if(provides) {
 				sync = provides->data;

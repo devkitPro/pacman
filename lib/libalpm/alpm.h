@@ -134,7 +134,7 @@ enum {
 /* Database registration callback */
 typedef void (*alpm_cb_db_register)(char *, PM_DB *);
 
-PM_DB *alpm_db_register(char *treename, alpm_cb_db_register);
+PM_DB *alpm_db_register(char *treename);
 int alpm_db_unregister(PM_DB *db);
 
 void *alpm_db_getinfo(PM_DB *db, unsigned char parm);

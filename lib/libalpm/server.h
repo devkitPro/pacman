@@ -42,9 +42,9 @@ typedef struct __pmserver_t {
 
 pmserver_t *_alpm_server_new(char *url);
 void _alpm_server_free(void *data);
-int _alpm_downloadfiles(PMList *servers, const char *localpath, PMList *files);
-int _alpm_downloadfiles_forreal(PMList *servers, const char *localpath,
-	PMList *files, const char *mtime1, char *mtime2);
+int _alpm_downloadfiles(pmlist_t *servers, const char *localpath, pmlist_t *files);
+int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
+	pmlist_t *files, const char *mtime1, char *mtime2);
 
 char *_alpm_fetch_pkgurl(char *target);
 

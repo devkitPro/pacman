@@ -92,9 +92,9 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	return(0);
 }
 
-int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
+int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 {
-	PMList *lp;
+	pmlist_t *lp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -107,7 +107,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 		if(lp != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				while(lp) {
-					PMList *i;
+					pmlist_t *i;
 					for(i = lp; i; i = i->next) {
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 						pmpkg_t *info = _alpm_db_scan(db, miss->depend.name, INFRQ_ALL);
@@ -161,7 +161,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info;
 	struct stat buf;
-	PMList *targ, *lp;
+	pmlist_t *targ, *lp;
 	char line[PATH_MAX+1];
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -230,7 +230,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 					 * see the big comment block in db_find_conflicts() for an
 					 * explanation. */
 					int skipit = 0;
-					PMList *j;
+					pmlist_t *j;
 					for(j = trans->skiplist; j; j = j->next) {
 						if(!strcmp(file, (char*)j->data)) {
 							skipit = 1;
@@ -310,7 +310,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			depinfo = _alpm_db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
-				PMList *provides = _alpm_db_whatprovides(db, depend.name);
+				pmlist_t *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
 					/* TODO: should check _all_ packages listed in provides, not just
 					 *       the first one.

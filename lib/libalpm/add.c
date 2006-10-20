@@ -112,7 +112,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	pmpkg_t *info = NULL;
 	pmpkg_t *dummy;
 	char pkgname[PKG_NAME_LEN], pkgver[PKG_VERSION_LEN];
-	PMList *i;
+	pmlist_t *i;
 	struct stat buf;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -208,10 +208,10 @@ error:
 	return(-1);
 }
 
-int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
+int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 {
-	PMList *lp;
-	PMList *rmlist = NULL;
+	pmlist_t *lp;
+	pmlist_t *rmlist = NULL;
 	char rm_fname[PATH_MAX];
 	pmpkg_t *info = NULL;
 
@@ -273,7 +273,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, PMList **data)
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		PMList *skiplist = NULL;
+		pmlist_t *skiplist = NULL;
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
@@ -314,7 +314,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	char expath[PATH_MAX], cwd[PATH_MAX] = "", *what;
 	unsigned char cb_state;
 	time_t t;
-	PMList *targ, *lp;
+	pmlist_t *targ, *lp;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -736,7 +736,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		 * looking for packages depending on the package to add */
 		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *tmpp = lp->data;
-			PMList *tmppm = NULL;
+			pmlist_t *tmppm = NULL;
 			if(tmpp == NULL) {
 				continue;
 			}
@@ -782,7 +782,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			depinfo = _alpm_db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
-				PMList *provides = _alpm_db_whatprovides(db, depend.name);
+				pmlist_t *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
 					/* TODO: should check _all_ packages listed in provides, not just
 					 *       the first one.

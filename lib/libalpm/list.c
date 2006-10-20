@@ -27,11 +27,11 @@
 /* pacman */
 #include "list.h"
 
-PMList *_alpm_list_new()
+pmlist_t *_alpm_list_new()
 {
-	PMList *list = NULL;
+	pmlist_t *list = NULL;
 	
-	list = (PMList *)malloc(sizeof(PMList));
+	list = (pmlist_t *)malloc(sizeof(pmlist_t));
 	if(list == NULL) {
 		return(NULL);
 	}
@@ -42,9 +42,9 @@ PMList *_alpm_list_new()
 	return(list);
 }
 
-void _alpm_list_free(PMList *list, _alpm_fn_free fn)
+void _alpm_list_free(pmlist_t *list, _alpm_fn_free fn)
 {
-	PMList *ptr, *it = list;
+	pmlist_t *ptr, *it = list;
 
 	while(it) {
 		ptr = it->next;
@@ -56,9 +56,9 @@ void _alpm_list_free(PMList *list, _alpm_fn_free fn)
 	}
 }
 
-PMList *_alpm_list_add(PMList *list, void *data)
+pmlist_t *_alpm_list_add(pmlist_t *list, void *data)
 {
-	PMList *ptr, *lp;
+	pmlist_t *ptr, *lp;
 
 	ptr = list;
 	if(ptr == NULL) {
@@ -90,11 +90,11 @@ PMList *_alpm_list_add(PMList *list, void *data)
 /* Add items to a list in sorted order. Use the given comparision func to 
  * determine order.
  */
-PMList *_alpm_list_add_sorted(PMList *list, void *data, _alpm_fn_cmp fn)
+pmlist_t *_alpm_list_add_sorted(pmlist_t *list, void *data, _alpm_fn_cmp fn)
 {
-	PMList *add;
-	PMList *prev = NULL;
-	PMList *iter = list;
+	pmlist_t *add;
+	pmlist_t *prev = NULL;
+	pmlist_t *iter = list;
 
 	add = _alpm_list_new();
 	add->data = data;
@@ -139,9 +139,9 @@ PMList *_alpm_list_add_sorted(PMList *list, void *data, _alpm_fn_cmp fn)
  * Otherwise, it is set to NULL.
  * Return the new list (without the removed element).
  */
-PMList *_alpm_list_remove(PMList *haystack, void *needle, _alpm_fn_cmp fn, void **data)
+pmlist_t *_alpm_list_remove(pmlist_t *haystack, void *needle, _alpm_fn_cmp fn, void **data)
 {
-	PMList *i = haystack;
+	pmlist_t *i = haystack;
 
 	if(data) {
 		*data = NULL;
@@ -186,19 +186,19 @@ PMList *_alpm_list_remove(PMList *haystack, void *needle, _alpm_fn_cmp fn, void 
 	return(haystack);
 }
 
-int _alpm_list_count(PMList *list)
+int _alpm_list_count(pmlist_t *list)
 {
 	int i;
-	PMList *lp;
+	pmlist_t *lp;
 
 	for(lp = list, i = 0; lp; lp = lp->next, i++);
 
 	return(i);
 }
 
-int _alpm_list_is_in(void *needle, PMList *haystack)
+int _alpm_list_is_in(void *needle, pmlist_t *haystack)
 {
-	PMList *lp;
+	pmlist_t *lp;
 
 	for(lp = haystack; lp; lp = lp->next) {
 		if(lp->data == needle) {
@@ -208,11 +208,11 @@ int _alpm_list_is_in(void *needle, PMList *haystack)
 	return(0);
 }
 
-/* Test for existence of a string in a PMList
+/* Test for existence of a string in a pmlist_t
  */
-int _alpm_list_is_strin(char *needle, PMList *haystack)
+int _alpm_list_is_strin(char *needle, pmlist_t *haystack)
 {
-	PMList *lp;
+	pmlist_t *lp;
 
 	for(lp = haystack; lp; lp = lp->next) {
 		if(lp->data && !strcmp(lp->data, needle)) {
@@ -222,7 +222,7 @@ int _alpm_list_is_strin(char *needle, PMList *haystack)
 	return(0);
 }
 
-PMList *_alpm_list_last(PMList *list)
+pmlist_t *_alpm_list_last(pmlist_t *list)
 {
 	if(list == NULL) {
 		return(NULL);
@@ -239,9 +239,9 @@ PMList *_alpm_list_last(PMList *list)
  * a new list, using is_in() to check for dupes at each iteration.
  *
  */
-PMList *_alpm_list_remove_dupes(PMList *list)
+pmlist_t *_alpm_list_remove_dupes(pmlist_t *list)
 {
-	PMList *i, *newlist = NULL;
+	pmlist_t *i, *newlist = NULL;
 
 	for(i = list; i; i = i->next) {
 		if(!_alpm_list_is_strin(i->data, newlist)) {
@@ -255,13 +255,13 @@ PMList *_alpm_list_remove_dupes(PMList *list)
  *
  * The caller is responsible for freeing the old list
  */
-PMList *_alpm_list_reverse(PMList *list)
+pmlist_t *_alpm_list_reverse(pmlist_t *list)
 { 
 	/* simple but functional -- we just build a new list, starting
 	 * with the old list's tail
 	 */
-	PMList *newlist = NULL;
-	PMList *lp;
+	pmlist_t *newlist = NULL;
+	pmlist_t *lp;
 
 	for(lp = list->last; lp; lp = lp->prev) {
 		newlist = _alpm_list_add(newlist, lp->data);
@@ -270,10 +270,10 @@ PMList *_alpm_list_reverse(PMList *list)
 	return(newlist);
 }
 
-PMList *_alpm_list_strdup(PMList *list)
+pmlist_t *_alpm_list_strdup(pmlist_t *list)
 {
-	PMList *newlist = NULL;
-	PMList *lp;
+	pmlist_t *newlist = NULL;
+	pmlist_t *lp;
 
 	for(lp = list; lp; lp = lp->next) {
 		newlist = _alpm_list_add(newlist, strdup(lp->data));

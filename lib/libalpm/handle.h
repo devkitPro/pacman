@@ -35,7 +35,7 @@ typedef struct __pmhandle_t {
 	pmaccess_t access;
 	uid_t uid;
 	pmdb_t *db_local;
-	PMList *dbs_sync; /* List of (pmdb_t *) */
+	pmlist_t *dbs_sync; /* List of (pmdb_t *) */
 	FILE *logfd;
 	int lckfd;
 	pmtrans_t *trans;
@@ -44,10 +44,10 @@ typedef struct __pmhandle_t {
 	char *dbpath;
 	char *cachedir;
 	char *logfile;
-	PMList *noupgrade; /* List of strings */
-	PMList *noextract; /* List of strings */
-	PMList *ignorepkg; /* List of strings */
-	PMList *holdpkg; /* List of strings */
+	pmlist_t *noupgrade; /* List of strings */
+	pmlist_t *noextract; /* List of strings */
+	pmlist_t *ignorepkg; /* List of strings */
+	pmlist_t *holdpkg; /* List of strings */
 	unsigned char usesyslog;
 	time_t upgradedelay;
 	/* servers */
@@ -56,7 +56,7 @@ typedef struct __pmhandle_t {
 	char *xfercommand;
 	unsigned short nopassiveftp;
 	unsigned short chomp; /* if eye-candy features should be enabled or not */
-	PMList *needles; /* for searching */
+	pmlist_t *needles; /* for searching */
 } pmhandle_t;
 
 #define FREEHANDLE(p) do { if (p) { _alpm_handle_free(p); p = NULL; } } while (0)

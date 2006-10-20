@@ -40,13 +40,13 @@ typedef struct __pmdepmissing_t {
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsigned char depmod,
                             const char *depname, const char *depversion);
-int _alpm_depmiss_isin(pmdepmissing_t *needle, PMList *haystack);
-PMList *_alpm_sortbydeps(PMList *targets, int mode);
-PMList *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, PMList *packages);
+int _alpm_depmiss_isin(pmdepmissing_t *needle, pmlist_t *haystack);
+pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode);
+pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist_t *packages);
 int _alpm_splitdep(char *depstr, pmdepend_t *depend);
-PMList *_alpm_removedeps(pmdb_t *db, PMList *targs);
-int _alpm_resolvedeps(pmdb_t *local, PMList *dbs_sync, pmpkg_t *syncpkg, PMList *list,
-                PMList *trail, pmtrans_t *trans, PMList **data);
+pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs);
+int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlist_t *list,
+                pmlist_t *trail, pmtrans_t *trans, pmlist_t **data);
 
 #endif /* _ALPM_DEPS_H */
 

@@ -42,15 +42,15 @@
 #include "deps.h"
 #include "conflict.h"
 
-/* Returns a PMList* of pmdepmissing_t pointers.
+/* Returns a pmlist_t* of pmdepmissing_t pointers.
  *
  * conflicts are always name only
  */
-PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
+pmlist_t *_alpm_checkconflicts(pmdb_t *db, pmlist_t *packages)
 {
 	pmpkg_t *info = NULL;
-	PMList *i, *j, *k;
-	PMList *baddeps = NULL;
+	pmlist_t *i, *j, *k;
+	pmlist_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
 
 	if(db == NULL) {
@@ -88,7 +88,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 					}
 				} else {
 					/* see if dp provides something in tp's conflict list */
-					PMList *m;
+					pmlist_t *m;
 					for(m = dp->provides; m; m = m->next) {
 						if(!strcmp(m->data, j->data)) {
 							/* confict */
@@ -124,7 +124,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 					}
 				} else {
 					/* see if otp provides something in tp's conflict list */ 
-					PMList *m;
+					pmlist_t *m;
 					for(m = otp->provides; m; m = m->next) {
 						if(!strcmp(m->data, j->data)) {
 							_alpm_log(PM_LOG_DEBUG, _("targs vs targs: found %s as a conflict for %s"),
@@ -143,7 +143,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 		/* CHECK 3: check database against targets */
 		_alpm_log(PM_LOG_DEBUG, _("checkconflicts: db vs targ '%s'"), tp->name);
 		for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
-			PMList *conflicts = NULL;
+			pmlist_t *conflicts = NULL;
 			int usenewconflicts = 0;
 
 			info = k->data;
@@ -151,7 +151,7 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 				/* a package cannot conflict with itself -- that's just not nice */
 				continue;
 			}
-			/* If this package (*info) is also in our packages PMList, use the
+			/* If this package (*info) is also in our packages pmlist_t, use the
 			 * conflicts list from the new package, not the old one (*info)
 			 */
 			for(j = packages; j; j = j->next) {
@@ -178,9 +178,9 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 					}
 				} else {
 					/* see if the db package conflicts with something we provide */
-					PMList *m;
+					pmlist_t *m;
 					for(m = conflicts; m; m = m->next) {
-						PMList *n;
+						pmlist_t *n;
 						for(n = tp->provides; n; n = n->next) {
 							if(!strcmp(m->data, n->data)) {
 								_alpm_log(PM_LOG_DEBUG, _("db vs targs: found %s as a conflict for %s"),
@@ -202,14 +202,14 @@ PMList *_alpm_checkconflicts(pmdb_t *db, PMList *packages)
 	return(baddeps);
 }
 
-PMList *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, PMList **skip_list)
+pmlist_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, pmlist_t **skip_list)
 {
-	PMList *i, *j, *k;
+	pmlist_t *i, *j, *k;
 	char *filestr = NULL;
 	char path[PATH_MAX+1];
 	struct stat buf, buf2;
-	PMList *conflicts = NULL;
-	PMList *targets = trans->packages;
+	pmlist_t *conflicts = NULL;
+	pmlist_t *targets = trans->packages;
 	double percent;
 
 	if(db == NULL || targets == NULL || root == NULL) {

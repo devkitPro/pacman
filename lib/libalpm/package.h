@@ -65,17 +65,17 @@ typedef struct __pmpkg_t {
 	unsigned char force;
 	time_t date;
 	unsigned char reason;
-	PMList *desc_localized;
-	PMList *license;
-	PMList *replaces;
-	PMList *groups;
-	PMList *files;
-	PMList *backup;
-	PMList *depends;
-	PMList *removes;
-	PMList *requiredby;
-	PMList *conflicts;
-	PMList *provides;
+	pmlist_t *desc_localized;
+	pmlist_t *license;
+	pmlist_t *replaces;
+	pmlist_t *groups;
+	pmlist_t *files;
+	pmlist_t *backup;
+	pmlist_t *depends;
+	pmlist_t *removes;
+	pmlist_t *requiredby;
+	pmlist_t *conflicts;
+	pmlist_t *provides;
 	/* internal */
 	unsigned char origin;
 	void *data;
@@ -97,7 +97,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
 void _alpm_pkg_free(void *data);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 pmpkg_t *_alpm_pkg_load(char *pkgfile);
-pmpkg_t *_alpm_pkg_isin(char *needle, PMList *haystack);
+pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack);
 int _alpm_pkg_splitname(char *target, char *name, char *version);
 
 #endif /* _ALPM_PACKAGE_H */

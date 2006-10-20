@@ -26,7 +26,7 @@
 #include "list.h"
 #include "db.h"
 
-PMList *_alpm_db_whatprovides(pmdb_t *db, char *package);
+pmlist_t *_alpm_db_whatprovides(pmdb_t *db, char *package);
 
 #endif /* _ALPM_PROVIDE_H */
 

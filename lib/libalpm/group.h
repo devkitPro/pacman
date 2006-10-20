@@ -28,7 +28,7 @@
 /* Groups structure */
 typedef struct __pmgrp_t {
 	char name[GRP_NAME_LEN];
-	PMList *packages; /* List of strings */
+	pmlist_t *packages; /* List of strings */
 } pmgrp_t;
 
 #define FREEGRP(p) do { if(p) { _alpm_grp_free(p); p = NULL; } } while(0)

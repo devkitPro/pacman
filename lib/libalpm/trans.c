@@ -73,7 +73,7 @@ void _alpm_trans_free(void *data)
 
 	FREELIST(trans->targets);
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
-		PMList *i;
+		pmlist_t *i;
 		for(i = trans->packages; i; i = i->next) {
 			FREESYNC(i->data);
 		}
@@ -147,7 +147,7 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 	return(0);
 }
 
-int _alpm_trans_prepare(pmtrans_t *trans, PMList **data)
+int _alpm_trans_prepare(pmtrans_t *trans, pmlist_t **data)
 {
 	*data = NULL;
 
@@ -186,7 +186,7 @@ int _alpm_trans_prepare(pmtrans_t *trans, PMList **data)
 	return(0);
 }
 
-int _alpm_trans_commit(pmtrans_t *trans, PMList **data)
+int _alpm_trans_commit(pmtrans_t *trans, pmlist_t **data)
 {
 	if(data!=NULL)
 		*data = NULL;

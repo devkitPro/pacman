@@ -414,12 +414,12 @@ error:
 	return(NULL);
 }
 
-/* Test for existence of a package in a PMList*
+/* Test for existence of a package in a pmlist_t*
  * of pmpkg_t*
  */
-pmpkg_t *_alpm_pkg_isin(char *needle, PMList *haystack)
+pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack)
 {
-	PMList *lp;
+	pmlist_t *lp;
 
 	if(needle == NULL || haystack == NULL) {
 		return(NULL);

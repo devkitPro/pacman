@@ -165,7 +165,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	char path[PATH_MAX];
 	char line[512];
 	char *lang_tmp;
-	PMList *tmplist;
+	pmlist_t *tmplist;
 	char *foo;
 
 	if(db == NULL || info == NULL || info->name[0] == 0 || info->version[0] == 0) {
@@ -410,7 +410,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	FILE *fp = NULL;
 	char path[PATH_MAX];
 	mode_t oldmask;
-	PMList *lp = NULL;
+	pmlist_t *lp = NULL;
 	int retval = 0;
 	int local = 0;
 
