@@ -73,9 +73,6 @@ int alpm_release(void);
 #define PM_LOG_FLOW2    0x10
 #define PM_LOG_FUNCTION 0x20
 
-/* Log callback */
-typedef void (*alpm_cb_log)(unsigned short, char *);
-
 int alpm_logaction(char *fmt, ...);
 
 /*

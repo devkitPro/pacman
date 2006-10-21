@@ -23,6 +23,11 @@
 
 #define LOG_STR_LEN 256
 
+typedef void (*alpm_cb_log)(unsigned short, char *);
+
+extern alpm_cb_log pm_logcb;
+extern unsigned char pm_logmask;
+
 void _alpm_log(unsigned char flag, char *fmt, ...);
 
 #endif /* _ALPM_LOG_H */
