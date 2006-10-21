@@ -22,6 +22,7 @@
 #define _ALPM_SERVER_H
 
 #include "list.h"
+#include <time.h>
 #include <ftplib.h>
 
 #define FREESERVER(p) \

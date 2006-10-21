@@ -10,7 +10,7 @@
 
 /* Create casting functions */
 
-%pointer_cast(char *, long *, void_to_long);
+%pointer_cast(void *, long *, void_to_long);
 %pointer_cast(void *, char *, void_to_char);
 %pointer_cast(void *, unsigned long, void_to_unsigned_long);
 %pointer_cast(void *, PM_LIST *, void_to_PM_LIST);

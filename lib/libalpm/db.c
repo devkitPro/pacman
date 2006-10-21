@@ -124,7 +124,6 @@ pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
 			} else if(retval) {
 				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'", targ, haystack);
 				match = 1;
-			} else {
 			}
 			FREE(haystack);
 

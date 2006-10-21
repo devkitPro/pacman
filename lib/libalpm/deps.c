@@ -307,11 +307,28 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 						}
 					}
 				}
-				/* check other targets */
-				for(k = packages; k && !found; k = k->next) {
-					pmpkg_t *p = (pmpkg_t *)k->data;
-					/* see if the package names match OR if p provides depend.name */
-					if(!strcmp(p->name, depend.name) || _alpm_list_is_strin(depend.name, p->provides)) {
+ 				/* check database for provides matches */
+ 				if(!found) {
+ 					pmlist_t *m;
+ 					k = _alpm_db_whatprovides(db, depend.name);
+ 					for(m = k; m && !found; m = m->next) {
+ 						/* look for a match that isn't one of the packages we're trying
+ 						 * to install.  this way, if we match against a to-be-installed
+ 						 * package, we'll defer to the NEW one, not the one already
+ 						 * installed. */
+ 						pmpkg_t *p = m->data;
+ 						pmlist_t *n;
+ 						int skip = 0;
+ 						for(n = packages; n && !skip; n = n->next) {
+ 							pmpkg_t *ptp = n->data;
+ 							if(!strcmp(ptp->name, p->name)) {
+ 								skip = 1;
+ 							}
+ 						}
+ 						if(skip) {
+ 							continue;
+ 						}
+
 						if(depend.mod == PM_DEP_MOD_ANY) {
 							/* accept any version */
 							found = 1;
@@ -334,13 +351,13 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 							FREE(ver);
 						}
 					}
+					FREELISTPTR(k);
 				}
-				/* check database for provides matches */
-				if(!found){
-					k = _alpm_db_whatprovides(db, depend.name);
-					if(k) {
-						/* grab the first one (there should only really be one, anyway) */
-						pmpkg_t *p = k->data;
+ 				/* check other targets */
+ 				for(k = packages; k && !found; k = k->next) {
+ 					pmpkg_t *p = (pmpkg_t *)k->data;
+ 					/* see if the package names match OR if p provides depend.name */
+ 					if(!strcmp(p->name, depend.name) || _alpm_list_is_strin(depend.name, p->provides)) {
 						if(depend.mod == PM_DEP_MOD_ANY) {
 							/* accept any version */
 							found = 1;
@@ -362,7 +379,6 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 							}
 							FREE(ver);
 						}
-						FREELISTPTR(k);
 					}
 				}
 				/* else if still not found... */

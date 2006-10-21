@@ -17,7 +17,7 @@ EXTRA_DIST =		\
 	TODO 		\
 	TODO.autoconf
 
-check:
+check: src/pacman
 	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman --debug=-1
 
 tags:

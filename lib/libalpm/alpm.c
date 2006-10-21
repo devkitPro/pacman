@@ -303,6 +303,7 @@ int alpm_db_setserver(pmdb_t *db, char *url)
 
 /** Update a package database
  * @param force if true, then forces the update, otherwise update only in case
+ * the database isn't up to date
  * @param db pointer to the package database to update
  * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
  * to date
@@ -996,7 +997,7 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 }
 /** @} */
 
-/** @defgroup alpm_dep File Conflicts Functions
+/** @defgroup alpm_conflict File Conflicts Functions
  * @brief Functions to get informations about a libalpm file conflict
  * @{
  */
