@@ -55,8 +55,6 @@
 #include "handle.h"
 #include "server.h"
 
-extern pmhandle_t *handle;
-
 pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 {
 	pmsyncpkg_t *sync;

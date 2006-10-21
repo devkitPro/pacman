@@ -44,8 +44,6 @@
 #include "error.h"
 #include "handle.h"
 
-extern pmhandle_t *handle;
-
 int _alpm_db_open(pmdb_t *db)
 {
 	if(db == NULL) {

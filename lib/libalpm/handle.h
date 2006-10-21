@@ -59,6 +59,8 @@ typedef struct __pmhandle_t {
 	pmlist_t *needles; /* for searching */
 } pmhandle_t;
 
+extern pmhandle_t *handle;
+
 #define FREEHANDLE(p) do { if (p) { _alpm_handle_free(p); p = NULL; } } while (0)
 
 pmhandle_t *_alpm_handle_new(void);

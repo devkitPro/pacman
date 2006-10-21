@@ -38,7 +38,6 @@
 #include "util.h"
 #include "handle.h"
 
-extern pmhandle_t *handle;
 FtpCallback pm_dlcb = NULL;
 /* progress bar */
 char *pm_dlfnm=NULL;

@@ -50,8 +50,6 @@
 #include "cache.h"
 #include "alpm.h"
 
-extern pmhandle_t *handle;
-
 pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
 {
 	pmdb_t *db;

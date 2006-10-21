@@ -58,8 +58,6 @@
 #include "handle.h"
 #include "alpm.h"
 
-extern pmhandle_t *handle;
-
 int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info;

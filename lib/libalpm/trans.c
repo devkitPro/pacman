@@ -39,8 +39,6 @@
 #include "sync.h"
 #include "alpm.h"
 
-extern pmhandle_t *handle;
-
 pmtrans_t *_alpm_trans_new()
 {
 	pmtrans_t *trans;

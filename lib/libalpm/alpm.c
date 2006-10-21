@@ -302,7 +302,7 @@ int alpm_db_setserver(pmdb_t *db, char *url)
 }
 
 /** Update a package database
- * @param level if true, then forces the update, otherwise update only in case
+ * @param force if true, then forces the update, otherwise update only in case
  * @param db pointer to the package database to update
  * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
  * to date

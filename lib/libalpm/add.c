@@ -58,8 +58,6 @@
 #include "remove.h"
 #include "handle.h"
 
-extern pmhandle_t *handle;
-
 static int add_faketarget(pmtrans_t *trans, char *name)
 {
 	char *ptr, *p;
