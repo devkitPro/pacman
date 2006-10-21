@@ -398,7 +398,7 @@ char *alpm_get_sha1sum(char *name);
  */
 
 extern enum __pmerrno_t {
-	PM_ERR_MEMORY = 2,
+	PM_ERR_MEMORY = 1,
 	PM_ERR_SYSTEM,
 	PM_ERR_BADPERMS,
 	PM_ERR_NOT_A_FILE,
