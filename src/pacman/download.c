@@ -45,7 +45,7 @@ int offset;
 struct timeval t0, t;
 float rate;
 int xfered1;
-unsigned char eta_h, eta_m, eta_s;
+unsigned int eta_h, eta_m, eta_s;
 
 /* pacman options */
 extern config_t *config;
@@ -105,9 +105,9 @@ int log_progress(netbuf *ctl, int xfered, void *arg)
 	}
 
 	if(rate > 1000) {
-		printf("%s %6dK %6.0fK/s %02d:%02d:%02d [", sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
+		printf("%*s %6dK %6.0fK/s %02d:%02d:%02d [", PM_DLFNM_LEN, sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
 	} else {
-		printf("%s %6dK %6.1fK/s %02d:%02d:%02d [", sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
+		printf("%*s %6dK %6.1fK/s %02d:%02d:%02d [", PM_DLFNM_LEN, sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
 	}
 	cur = (int)((maxcols-57)*pct/100);
 	for(i = 0; i < maxcols-57; i++) {
