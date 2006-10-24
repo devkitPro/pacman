@@ -40,7 +40,7 @@
 #include "conf.h"
 
 /* progress bar */
-char sync_fnm[23];
+char sync_fnm[PM_DLFNM_LEN+1];
 int offset;
 struct timeval t0, t;
 float rate;

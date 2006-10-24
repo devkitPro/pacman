@@ -379,8 +379,13 @@ int alpm_db_update(int force, PM_DB *db)
 		if(_alpm_unpack(path, db->path, NULL)) {
 			RET_ERR(PM_ERR_SYSTEM, 1);
 		}
+
 		/* remove the .tar.gz */
+		/* aaron: let's not do this... we'll keep the DB around to be read for the
+		 * "new and improved" db routines
+		 
 		unlink(path);
+		*/
 	}
 
 	return(0);

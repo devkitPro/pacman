@@ -299,22 +299,22 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				struct stat st;
 				snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
 				if(pm_dlfnm) {
-					strncpy(pm_dlfnm, fn, 22);
+					strncpy(pm_dlfnm, fn, PM_DLFNM_LEN);
 				}
 				/* drop filename extension */
 				ptr = strstr(fn, PM_EXT_DB);
-				if(pm_dlfnm && ptr && (ptr-fn) < 22) {
+				if(pm_dlfnm && ptr && (ptr-fn) < PM_DLFNM_LEN) {
 					pm_dlfnm[ptr-fn] = '\0';
 				}
 				ptr = strstr(fn, PM_EXT_PKG);
-				if(ptr && (ptr-fn) < 24) {
+				if(ptr && (ptr-fn) < PM_DLFNM_LEN) {
 					pm_dlfnm[ptr-fn] = '\0';
 				}
 				if(pm_dlfnm) {
-					for(j = strlen(pm_dlfnm); j < 22; j++) {
+					for(j = strlen(pm_dlfnm); j < PM_DLFNM_LEN; j++) {
 						(pm_dlfnm)[j] = ' ';
 					}
-					pm_dlfnm[22] = '\0';
+					pm_dlfnm[PM_DLFNM_LEN] = '\0';
 				}
 				if(pm_dloffset) {
 					*pm_dloffset = 0;

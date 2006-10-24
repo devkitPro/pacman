@@ -79,6 +79,8 @@ int alpm_logaction(char *fmt, ...);
  * Options
  */
 
+#define PM_DLFNM_LEN 22
+
 /* Parameters */
 enum {
 	PM_OPT_LOGCB = 1,
