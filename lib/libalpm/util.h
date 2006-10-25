@@ -60,7 +60,7 @@ char *_alpm_strtoupper(char *str);
 char *_alpm_strtrim(char *str);
 int _alpm_lckmk(char *file);
 int _alpm_lckrm(char *file);
-int _alpm_unpack(char *archive, const char *prefix, const char *fn);
+int _alpm_unpack(const char *archive, const char *prefix, const char *fn);
 int _alpm_rmrf(char *path);
 int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...);
 int _alpm_ldconfig(char *root);

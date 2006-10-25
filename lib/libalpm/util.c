@@ -259,7 +259,7 @@ int _alpm_lckrm(char *file)
 /* Compression functions
  */
 
-int _alpm_unpack(char *archive, const char *prefix, const char *fn)
+int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {
 	register struct archive *_archive;
 	struct archive_entry *entry;

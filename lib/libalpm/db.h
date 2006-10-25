@@ -51,7 +51,9 @@ pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
 int _alpm_db_cmp(const void *db1, const void *db2);
 pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles);
+
 /* Prototypes for backends functions */
+int _alpm_db_install(pmdb_t *db, const char *dbfile);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
 void _alpm_db_rewind(pmdb_t *db);

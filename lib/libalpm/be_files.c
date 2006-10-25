@@ -44,15 +44,33 @@
 #include "error.h"
 #include "handle.h"
 
+
+/* This function is used to convert the downloaded db file to the proper backend
+ * format
+ */
+int _alpm_db_install(pmdb_t *db, const char *dbfile)
+{
+	/* ORE
+		 we should not simply unpack the archive, but better parse it and 
+		 db_write each entry (see sync_load_dbarchive to get archive content) */
+	_alpm_log(PM_LOG_FLOW2, _("unpacking database '%s'"), dbfile);
+
+	if(_alpm_unpack(dbfile, db->path, NULL)) {
+		RET_ERR(PM_ERR_SYSTEM, -1);
+	}
+
+	return unlink(dbfile);
+}
+
 int _alpm_db_open(pmdb_t *db)
 {
 	if(db == NULL) {
-		return(-1);
+		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
 	db->handle = opendir(db->path);
 	if(db->handle == NULL) {
-		return(-1);
+		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
 
 	return(0);
@@ -90,7 +108,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	pmpkg_t *pkg;
 
 	if(db == NULL) {
-		return(NULL);
+		RET_ERR(PM_ERR_DB_NULL, NULL);
 	}
 
 	if(target != NULL) {
@@ -166,7 +184,12 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	pmlist_t *tmplist;
 	char *foo;
 
-	if(db == NULL || info == NULL || info->name[0] == 0 || info->version[0] == 0) {
+	if(db == NULL) {
+		RET_ERR(PM_ERR_DB_NULL, -1);
+	}
+
+	if(info == NULL || info->name[0] == 0 || info->version[0] == 0) {
+		_alpm_log(PM_LOG_ERROR, _("invalid package entry provided to _alpm_db_read"));
 		return(-1);
 	}
 
@@ -606,38 +629,13 @@ cleanup:
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 {
 	char path[PATH_MAX];
-	int local = 0;
 
 	if(db == NULL || info == NULL) {
-		return(-1);
+		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	if(strcmp(db->treename, "local") == 0) {
-		local = 1;
-	}
-
-	/* DESC */
-	snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
-	unlink(path);
-	/* DEPENDS */
-	snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
-	unlink(path);
-	if(local) {
-		/* FILES */
-		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
-		unlink(path);
-		/* INSTALL */
-		snprintf(path, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
-		unlink(path);
-		/* CHANGELOG */
-		snprintf(path, PATH_MAX, "%s/%s-%s/changelog", db->path, info->name, info->version);
-		unlink(path);
-	}
-
-	/* Package directory */
-	snprintf(path, PATH_MAX, "%s/%s-%s",
-	                         db->path, info->name, info->version);
-	if(rmdir(path) == -1) {
+	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
+	if(_alpm_rmrf(path) == -1) {
 		return(-1);
 	}
 

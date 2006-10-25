@@ -364,7 +364,7 @@ int alpm_db_update(int force, PM_DB *db)
 					_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s/%s"), db->treename,
 					                        ((pmpkg_t *)lp->data)->name);
 				}
-				RET_ERR(PM_ERR_DB_REMOVE, 1);
+				RET_ERR(PM_ERR_DB_REMOVE, -1);
 			}
 		}
 
@@ -372,20 +372,9 @@ int alpm_db_update(int force, PM_DB *db)
 		_alpm_db_free_pkgcache(db);
 
 		/* uncompress the sync database */
-		/* ORE
-		we should not simply unpack the archive, but better parse it and 
-		db_write each entry (see sync_load_dbarchive to get archive content) */
-		_alpm_log(PM_LOG_FLOW2, _("unpacking %s"), path);
-		if(_alpm_unpack(path, db->path, NULL)) {
-			RET_ERR(PM_ERR_SYSTEM, 1);
+		if(_alpm_db_install(db, path) == -1) {
+			return -1;
 		}
-
-		/* remove the .tar.gz */
-		/* aaron: let's not do this... we'll keep the DB around to be read for the
-		 * "new and improved" db routines
-		 
-		unlink(path);
-		*/
 	}
 
 	return(0);
