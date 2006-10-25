@@ -6,7 +6,7 @@ CFLAGS += -fno-strict-aliasing # see the swig docs
 ifeq ($(shell arch),x86_64)
 CFLAGS += -fPIC
 endif
-LDFLAGS += -L$(top_srcdir)/lib/libalpm -lalpm
+LDFLAGS += -L$(top_srcdir)/lib/libalpm/.libs -lalpm
 
 all: libalpm_java.so alpm.jar
 

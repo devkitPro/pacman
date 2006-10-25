@@ -7,7 +7,7 @@ CFLAGS += -I$(top_srcdir)/lib/libalpm
 ifeq ($(shell arch),x86_64)
 CFLAGS += -fPIC
 endif
-LDFLAGS += -L$(top_srcdir)/lib/libalpm -lalpm
+LDFLAGS += -L$(top_srcdir)/lib/libalpm/.libs -lalpm
 LIBDIR += $(shell python -c 'from distutils import sysconfig; print sysconfig.get_python_lib()'|sed 's|/usr|$(prefix)|')
 
 all: _alpm.so alpm.pyc

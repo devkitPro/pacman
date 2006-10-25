@@ -7,7 +7,7 @@ CFLAGS += -I$(top_srcdir)/lib/libalpm
 ifeq ($(shell arch),x86_64)
 CFLAGS += -fPIC
 endif
-LDFLAGS += -L$(top_srcdir)/lib/libalpm -lalpm
+LDFLAGS += -L$(top_srcdir)/lib/libalpm/.libs -lalpm
 LIBDIR += $(shell perl -V|grep site|sed 's/^ *//;s|/usr|$(prefix)|;q')
 
 all: Core.so
