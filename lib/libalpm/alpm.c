@@ -1182,7 +1182,12 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 
 	if(this_section != NULL && strlen(this_section) > 0) {
 		strncpy(section, this_section, min(255, strlen(this_section)));
-		db = _alpm_db_register(section, callback);
+		if(!strcmp(section, "local")) {
+			RET_ERR(PM_ERR_CONF_LOCAL, -1);
+		}
+		if(strcmp(section, "options")) {
+			db = _alpm_db_register(section, callback);
+		}
 	}
 
 	while(fgets(line, PATH_MAX, fp)) {
