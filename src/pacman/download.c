@@ -28,7 +28,6 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
-#include <ftplib.h>
 #include <libintl.h>
 
 #include <alpm.h>
@@ -40,112 +39,139 @@
 #include "conf.h"
 
 /* progress bar */
-char sync_fnm[PM_DLFNM_LEN+1];
-int offset;
-struct timeval t0, t;
-float rate;
-int xfered1;
-unsigned int eta_h, eta_m, eta_s;
+float rate_last;
+int xfered_last;
+struct timeval last_time;
+struct timeval initial_time;
 
 /* pacman options */
 extern config_t *config;
 
 extern unsigned int maxcols;
 
-int log_progress(netbuf *ctl, int xfered, void *arg)
+#define FILENAME_TRIM_LEN 21
+#define UPDATE_SPEED_SEC 0.1
+
+void log_progress(const char *filename, int xfered, int total)
 {
-	int fsz = *(int*)arg;
-	int pct = ((float)(xfered+offset) / fsz) * 100;
-	static int lastpct=0;
-	unsigned int i, cur;
-	struct timeval t1;
-	float timediff;
-	/* a little hard to conceal easter eggs in open-source software, but
-	 * they're still fun.  ;)
-	 */
-	int chomp;
-	static unsigned short mouth;
-	static unsigned int   lastcur = 0;
+	static int lasthash = 0, mouth = 0;
+	int i, hash;
+	long chomp = 0;
+	char *fname, *p; 
+	unsigned int progresslen = maxcols - 57;
+	int percent = ((float)xfered) / ((float)total) * 100;
+	struct timeval current_time;
+	float rate = 0.0;
+	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
+	float total_timediff, timediff;
 
-	/* we don't need that parameter */
-	ctl=NULL;
-
-	if(config->noprogressbar || (pct == 100 && lastpct == 100)) {
-		return(1);
+  if(xfered == 0) {
+		gettimeofday(&initial_time, NULL);
+		gettimeofday(&last_time, NULL);
+		xfered_last = 0;
+		rate_last = 0.0;
 	}
 
-	alpm_get_option(PM_OPT_CHOMP, (long *)&chomp);
-
-	gettimeofday(&t1, NULL);
-	if(xfered+offset == fsz) {
-		t = t0;
-	}
-	timediff = t1.tv_sec-t.tv_sec + (float)(t1.tv_usec-t.tv_usec) / 1000000;
-
-	if(xfered+offset == fsz) {
-		/* average download rate */
-		rate = xfered / (timediff * 1024);
-		/* total download time */
-		eta_s = (int)timediff;
-		eta_h = eta_s / 3600;
-		eta_s -= eta_h * 3600;
-		eta_m = eta_s / 60;
-		eta_s -= eta_m * 60;
-	} else if(timediff > 1) {
-		/* we avoid computing the rate & ETA on too small periods of time, so that
-		   results are more significant */
-		rate = (xfered-xfered1) / (timediff * 1024);
-		xfered1 = xfered;
-		gettimeofday(&t, NULL);
-		eta_s = (fsz-(xfered+offset)) / (rate * 1024);
-		eta_h = eta_s / 3600;
-		eta_s -= eta_h * 3600;
-		eta_m = eta_s / 60;
-		eta_s -= eta_m * 60;
+	if(config->noprogressbar) {
+		return;
 	}
 
-	if(rate > 1000) {
-		printf("%*s %6dK %6.0fK/s %02d:%02d:%02d [", PM_DLFNM_LEN, sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
+	/* a little hard to conceal easter eggs in open-source software, but they're still fun. ;) */
+	alpm_get_option(PM_OPT_CHOMP, &chomp);
+
+	gettimeofday(&current_time, NULL);
+	total_timediff = current_time.tv_sec-initial_time.tv_sec
+		+ (float)(current_time.tv_usec-initial_time.tv_usec) / 1000000;
+	timediff = current_time.tv_sec-last_time.tv_sec
+		+ (float)(current_time.tv_usec-last_time.tv_usec) / 1000000;
+
+	if(xfered == total) {
+		/* compute final values */
+		rate = total / (total_timediff * 1024);
+		eta_s = (int)total_timediff;
+	} else if(timediff < UPDATE_SPEED_SEC) {
+	/* we avoid computing the ETA on too small periods of time, so that
+		 results are more significant */
+		return;
 	} else {
-		printf("%*s %6dK %6.1fK/s %02d:%02d:%02d [", PM_DLFNM_LEN, sync_fnm, ((xfered+offset) / 1024), rate, eta_h, eta_m, eta_s);
+		rate = (xfered - xfered_last) / (timediff * 1024);
+		rate = (rate + 2*rate_last) / 3;
+		eta_s = (total - xfered) / (rate * 1024);
 	}
-	cur = (int)((maxcols-57)*pct/100);
-	for(i = 0; i < maxcols-57; i++) {
+
+	rate_last = rate;
+	last_time = current_time;
+	xfered_last = xfered;
+	
+	/* fix up time for display */
+	eta_h = eta_s / 3600;
+	eta_s -= eta_h * 3600;
+	eta_m = eta_s / 60;
+	eta_s -= eta_m * 60;
+
+	fname = strdup(filename);
+	if((p = strstr(fname, PM_EXT_PKG)) || (p = strstr(fname, PM_EXT_DB))) {
+			*p = '\0';
+	}
+	if(strlen(fname) > FILENAME_TRIM_LEN) {
+		fname[FILENAME_TRIM_LEN] = '\0';
+	}
+
+	/* hide the cursor i - prevent flicker
+	printf("\033[?25l\033[?1c");
+	*/
+
+	/*
+	 * DL rate cap, for printf formatting - this should be sane for a while
+	 * if anything we can change to MB/s if we need a higher rate
+	 */
+	if(rate > 9999.9) {
+		rate = 9999.9;
+	}
+
+	printf(" %-*s %6dK %#6.1fK/s %02d:%02d:%02d [", FILENAME_TRIM_LEN, fname, xfered/1024, rate, eta_h, eta_m, eta_s);
+
+	free(fname);
+	
+	hash = percent*progresslen/100;
+	for(i = progresslen; i > 0; --i) {
 		if(chomp) {
-			if(i < cur) {
+			if(i > progresslen - hash) {
 				printf("-");
-			} else {
-				if(i == cur) {
-					if(lastcur == cur) {
-						if(mouth) {
-							printf("\033[1;33mC\033[m");
-						} else {
-							printf("\033[1;33mc\033[m");
-						}
+			} else if(i == progresslen - hash) {
+				if(lasthash == hash) {
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
 					} else {
-						mouth = mouth == 1 ? 0 : 1;
-						if(mouth) {
-							printf("\033[1;33mC\033[m");
-						} else {
-							printf("\033[1;33mc\033[m");
-						}
+						printf("\033[1;33mc\033[m");
 					}
 				} else {
-					printf("\033[0;37m*\033[m");
+					lasthash = hash;
+					mouth = mouth == 1 ? 0 : 1;
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
 				}
+			} else if(i%3 == 0) {
+				printf("\033[0;37mo\033[m");
+			} else {
+				printf("\033[0;37m \033[m");
 			}
+		} else if(i > progresslen - hash) {
+			printf("#");
 		} else {
-			(i < cur) ? printf("#") : printf(" ");
+			printf("-");
 		}
 	}
-	printf("] %3d%%\r", pct);
-	if(lastpct != 100 && pct == 100) {
+	printf("] %3d%%\r", percent);
+
+	if(percent == 100) {
 		printf("\n");
 	}
-	lastcur = cur;
-	lastpct = pct;
 	fflush(stdout);
-	return(1);
+	return;
 }
 
 /* vim: set ts=2 sw=2 noet: */

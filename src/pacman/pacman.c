@@ -40,7 +40,6 @@
 #include <mcheck.h> /* debug */
 #endif
 #include <time.h>
-#include <ftplib.h>
 
 #include <alpm.h>
 /* pacman */
@@ -220,7 +219,11 @@ static void cleanup(int signum)
 	if(neednl) {
 		putchar('\n');
 	}
+
+	/* restore the cursor 
+	printf("\033[?25h\033[?0c");
 	fflush(stdout);
+	*/
 
 	exit(signum);
 }
@@ -431,6 +434,10 @@ int main(int argc, char *argv[])
 	signal(SIGTERM, cleanup);
 	signal(SIGSEGV, cleanup);
 
+	/* hide the cursor, prevent flicker during fancy graphics 
+	printf("\033[?25l\033[?1c");
+	*/
+
 	/* i18n init */
 	lang=getenv("LC_ALL");
 	if(lang==NULL || lang[0]=='\0')
@@ -533,46 +540,13 @@ int main(int argc, char *argv[])
 		ERR(NL, _("failed to set option DLCB (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
-	if(alpm_set_option(PM_OPT_DLFNM, (long)sync_fnm) == -1) {
-		ERR(NL, _("failed to set option DLFNM (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLOFFSET, (long)&offset) == -1) {
-		ERR(NL, _("failed to set option DLOFFSET (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLT0, (long)&t0) == -1) {
-		ERR(NL, _("failed to set option DLT0 (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLT, (long)&t) == -1) {
-		ERR(NL, _("failed to set option DLT (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLRATE, (long)&rate) == -1) {
-		ERR(NL, _("failed to set option DLRATE (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLXFERED1, (long)&xfered1) == -1) {
-		ERR(NL, _("failed to set option DLXFERED1 (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLETA_H, (long)&eta_h) == -1) {
-		ERR(NL, _("failed to set option DLETA_H (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLETA_M, (long)&eta_m) == -1) {
-		ERR(NL, _("failed to set option DLETA_M (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_DLETA_S, (long)&eta_s) == -1) {
-		ERR(NL, _("failed to set option DLETA_S (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
 	FREE(config->dbpath);
-	alpm_get_option(PM_OPT_DBPATH, (long *)&config->dbpath);
+	long ldbpath, lcachedir;
+	alpm_get_option(PM_OPT_DBPATH, &ldbpath);
+	config->dbpath = (void *)&ldbpath;
 	FREE(config->cachedir);
-	alpm_get_option(PM_OPT_CACHEDIR, (long *)&config->cachedir);
+	alpm_get_option(PM_OPT_CACHEDIR, &lcachedir);
+	config->cachedir = (void *)&lcachedir;
 
 	for(lp = config->op_s_ignore; lp; lp = lp->next) {
 		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {

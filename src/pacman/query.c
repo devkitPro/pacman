@@ -46,6 +46,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 	int gotcha = 0;
 	char rpath[PATH_MAX];
 	PM_LIST *lp;
+	long lroot;
 	char *root;
 
 	if(db == NULL) {
@@ -61,7 +62,8 @@ static int query_fileowner(PM_DB *db, char *filename)
 		return(1);
 	}
 
-	alpm_get_option(PM_OPT_ROOT, (long *)&root);
+	alpm_get_option(PM_OPT_ROOT, &lroot);
+	root = (void *)&lroot;
 
 	for(lp = alpm_db_getpkgcache(db); lp && !gotcha; lp = alpm_list_next(lp)) {
 		PM_PKG *info;
@@ -250,7 +252,7 @@ int pacman_query(list_t *targets)
 				}
 			}
 		} else {
-			char *pkgname, *pkgver, changelog[PATH_MAX];
+			char *pkgname = NULL, *pkgver = NULL, changelog[PATH_MAX];
 
 			info = alpm_db_readpkg(db_local, package);
 			if(info == NULL) {
@@ -261,8 +263,10 @@ int pacman_query(list_t *targets)
 			/* find a target */
 			if(config->op_q_changelog || config->op_q_info || config->op_q_list) {
 				if(config->op_q_changelog) {
+					long ldbpath;
 					char *dbpath;
-					alpm_get_option(PM_OPT_DBPATH, (long *)&dbpath);
+					alpm_get_option(PM_OPT_DBPATH, &ldbpath);
+					dbpath = (void *)&ldbpath;
 					snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
 						config->root, dbpath,
 						(char*)alpm_db_getinfo(db_local, PM_DB_TREENAME),

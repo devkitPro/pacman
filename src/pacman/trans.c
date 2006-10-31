@@ -288,9 +288,11 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 
 void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howmany, int remain)
 {
+	static int lasthash = 0, mouth = 0;
 	int i, hash;
+	long chomp = 0;
 	unsigned int maxpkglen, progresslen = maxcols - 57;
-	char *addstr, *upgstr, *removestr, *conflictstr, *ptr;
+	char *addstr, *upgstr, *removestr, *conflictstr, *ptr = NULL;
 	addstr = strdup(_("installing"));
 	upgstr = strdup(_("upgrading"));
 	removestr = strdup(_("removing"));
@@ -355,14 +357,45 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 		break;
 	}
 
+	alpm_get_option(PM_OPT_CHOMP, &chomp);
+
+	/* hide the cursor, prevent flicker during fancy graphics 
+	printf("\033[?25l\033[?1c[");
+	*/
 	printf("[");
-	for (i = progresslen; i > 0; i--) {
-		if (i >= progresslen - hash)
+	for(i = progresslen; i > 0; --i) {
+		if(chomp) {
+			if(i > progresslen - hash) {
+				printf("-");
+			} else if(i == progresslen - hash) {
+				if(lasthash == hash) {
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
+				} else {
+					lasthash = hash;
+					mouth = mouth == 1 ? 0 : 1;
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
+				}
+			} else if(i%3 == 0) {
+				printf("\033[0;37mo\033[m");
+			} else {
+				printf("\033[0;37m \033[m");
+			}
+		} else if(i > progresslen - hash) {
 			printf("#");
-		else
+		} else {
 			printf("-");
+		}
 	}
-	MSG(CL, "] %3d%%\r", percent);
+	printf("] %3d%%\r", percent);
+
 	FREE(addstr);
 	FREE(upgstr);
 	FREE(removestr);

@@ -74,6 +74,7 @@ void cb_log(unsigned short level, char *msg)
 		break;
 	}
 
+#ifdef PACMAN_DEBUG
 	time_t t;
 	struct tm *tmp;
 	char timestr[10] = {0};
@@ -84,6 +85,9 @@ void cb_log(unsigned short level, char *msg)
 	timestr[8] = '\0';
 
 	MSG(NL, "[%s] %s: %s\n", timestr, str, msg);
+#else
+	MSG(NL, "%s: %s\n", str, msg);
+#endif
 }
 
 /* Wrapper to fprintf() that allows to choose if we want the output
@@ -96,7 +100,7 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 	char str[LOG_STR_LEN];
 
 	if(neednl == 1 && line == NL) {
-		fprintf(stdout, "\n");
+		fprintf(file, "\n");
 		neednl = 0;
 	}
 

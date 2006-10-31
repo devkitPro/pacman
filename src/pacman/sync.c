@@ -37,6 +37,7 @@
 #endif
 
 #include <alpm.h>
+#include <fetch.h> /* fetchLastErrString */
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -53,11 +54,14 @@ extern list_t *pmc_syncs;
 
 static int sync_cleancache(int level)
 {
+	long lroot, lcachedir;
 	char *root, *cachedir;
 	char dirpath[PATH_MAX];
 
-	alpm_get_option(PM_OPT_ROOT, (long *)&root);
-	alpm_get_option(PM_OPT_CACHEDIR, (long *)&cachedir);
+	alpm_get_option(PM_OPT_ROOT, &lroot);
+	root = (void *)&lroot;
+	alpm_get_option(PM_OPT_CACHEDIR, &lcachedir);
+	cachedir = (void *)&lcachedir;
 
 	snprintf(dirpath, PATH_MAX, "%s%s", root, cachedir);
 
@@ -162,14 +166,15 @@ static int sync_synctree(int level, list_t *syncs)
 		sync_t *sync = (sync_t *)i->data;
 
 		ret = alpm_db_update((level < 2 ? 0 : 1), sync->db);
-		if(ret > 0) {
+		if(ret < 0) {
 			if(pm_errno == PM_ERR_DB_SYNC) {
-				ERR(NL, _("failed to synchronize %s\n"), sync->treename);
+				/* use libfetch error */
+				ERR(NL, _("failed to synchronize %s: %s\n"), sync->treename, fetchLastErrString);
 			} else {
 				ERR(NL, _("failed to update %s (%s)\n"), sync->treename, alpm_strerror(pm_errno));
 			}
 			success--;
-		} else if(ret < 0) {
+		} else if(ret == 1) {
 			MSG(NL, _(" %s is up to date\n"), sync->treename);
 		}
 	}
@@ -350,7 +355,7 @@ int pacman_sync(list_t *targets)
 {
 	int confirm = 0;
 	int retval = 0;
-	list_t *i;
+	list_t *i = NULL;
 	PM_LIST *packages, *data, *lp;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
@@ -495,7 +500,7 @@ int pacman_sync(list_t *targets)
 					/* targ not found in sync db, searching for providers... */
 					PM_LIST *k = NULL;
 					PM_PKG *pkg;
-					char *pname;
+					char *pname = NULL;
 					for(j = pmc_syncs; j && !k; j = j->next) {
 						sync_t *sync = j->data;
 						k = alpm_db_whatprovides(sync->db, targ);

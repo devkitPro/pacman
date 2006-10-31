@@ -88,8 +88,10 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 
 	if(level > 1) {
 		PM_LIST *i;
+		long lroot;
 		char *root;
-		alpm_get_option(PM_OPT_ROOT, (long *)&root);
+		alpm_get_option(PM_OPT_ROOT, &lroot);
+		root = (void *)&root;
 		fprintf(stdout, "\n");
 		for(i = alpm_list_first(alpm_pkg_getinfo(pkg, PM_PKG_BACKUP)); i; i = alpm_list_next(i)) {
 			struct stat buf;
