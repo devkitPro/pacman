@@ -156,7 +156,7 @@ void _alpm_pkg_free(void *data)
 	if(pkg->origin == PKG_FROM_FILE) {
 		FREE(pkg->data);
 	}
-	free(pkg);
+	FREE(pkg);
 
 	return;
 }

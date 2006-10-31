@@ -27,6 +27,7 @@
 #include <string.h>
 /* pacman */
 #include "backup.h"
+#include "util.h"
 
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
  * then we return the md5 or sha1 hash (parsed from the same line)
@@ -47,7 +48,7 @@ char *_alpm_needbackup(char *file, pmlist_t *backup)
 		/* tab delimiter */
 		ptr = strchr(str, '\t');
 		if(ptr == NULL) {
-			free(str);
+			FREE(str);
 			continue;
 		}
 		*ptr = '\0';
@@ -55,10 +56,10 @@ char *_alpm_needbackup(char *file, pmlist_t *backup)
 		/* now str points to the filename and ptr points to the md5 or sha1 hash */
 		if(!strcmp(file, str)) {
 			char *md5 = strdup(ptr);
-			free(str);
+			FREE(str);
 			return(md5);
 		}
-		free(str);
+		FREE(str);
 	}
 
 	return(NULL);

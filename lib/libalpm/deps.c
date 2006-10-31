@@ -127,6 +127,8 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 		/* run thru targets, moving up packages as necessary */
 		for(i = newtargs; i; i = i->next) {
 			pmpkg_t *p = (pmpkg_t*)i->data;
+			_alpm_log(PM_LOG_DEBUG, "sorting %s", p->name);
+			_alpm_db_read(p->data, INFRQ_DEPENDS, p);
 			for(j = p->depends; j; j = j->next) {
 				pmdepend_t dep;
 				pmpkg_t *q = NULL;
@@ -208,6 +210,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 			if((oldpkg = _alpm_db_get_pkgfromcache(db, tp->name)) == NULL) {
 				continue;
 			}
+			_alpm_db_read(db, INFRQ_DEPENDS, oldpkg);
 			for(j = oldpkg->requiredby; j; j = j->next) {
 				char *ver;
 				pmpkg_t *p;
@@ -220,6 +223,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 					/* this package is also in the upgrade list, so don't worry about it */
 					continue;
 				}
+				_alpm_db_read(db, INFRQ_DEPENDS, p);
 				for(k = p->depends; k && !found; k = k->next) {
 					/* find the dependency info in p->depends */
 					_alpm_splitdep(k->data, &depend);
@@ -276,12 +280,19 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 				continue;
 			}
 
+			/* ensure package has depends data */
+			pmdb_t *pkgdb = tp->data;
+			_alpm_db_read(pkgdb, INFRQ_DEPENDS, tp);
+			if(!tp->depends) {
+				_alpm_log(PM_LOG_DEBUG, _("no dependencies for target '%s'"), tp->name);
+			}
+
 			for(j = tp->depends; j; j = j->next) {
 				/* split into name/version pairs */
 				_alpm_splitdep((char *)j->data, &depend);
 				found = 0;
 				/* check database for literal packages */
-				for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
+				for(k = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
 					if(!strcmp(p->name, depend.name)) {
 						if(depend.mod == PM_DEP_MOD_ANY) {
@@ -493,7 +504,13 @@ pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
 	}
 
 	for(i = targs; i; i = i->next) {
-		for(j = ((pmpkg_t *)i->data)->depends; j; j = j->next) {
+		pmpkg_t *pkg = i->data;
+		if(pkg) {
+			_alpm_db_read(db, INFRQ_DEPENDS, pkg);
+		} else {
+			continue;
+		}
+		for(j = pkg->depends; j; j = j->next) {
 			pmdepend_t depend;
 			pmpkg_t *dep;
 			int needed = 0;
@@ -569,6 +586,7 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 		return(-1);
 	}
 
+	_alpm_log(PM_LOG_DEBUG, _("started resolving dependencies"));
 	targ = _alpm_list_add(NULL, syncpkg);
 	deps = _alpm_checkdeps(trans, local, PM_TRANS_TYPE_ADD, targ);
 	FREELISTPTR(targ);
@@ -599,6 +617,7 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 		/* check literals */
 		for(j = dbs_sync; !sync && j; j = j->next) {
 			sync = _alpm_db_get_pkgfromcache(j->data, miss->depend.name);
+			_alpm_db_read(j->data, INFRQ_DEPENDS, sync);
 		}
 		/* check provides */
 		for(j = dbs_sync; !sync && j; j = j->next) {
@@ -670,6 +689,8 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 			_alpm_log(PM_LOG_DEBUG, _("dependency cycle detected: %s"), sync->name);
 		}
 	}
+	
+	_alpm_log(PM_LOG_DEBUG, _("finished resolving dependencies"));
 
 	FREELIST(deps);
 

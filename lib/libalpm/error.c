@@ -101,6 +101,8 @@ char *alpm_strerror(int err)
 			return _("package name is not valid");
 		case PM_ERR_PKG_CORRUPTED:
 			return _("corrupted package");
+		case PM_ERR_PKG_REPO_NOT_FOUND:
+			return _("no such repository");
 		/* Groups */
 		case PM_ERR_GRP_NOT_FOUND:
 			return _("group not found");

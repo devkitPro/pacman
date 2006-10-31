@@ -138,14 +138,14 @@ int _alpm_makepath(char *path)
 			strcat(full, ptr);
 			if(stat(full, &buf)) {
 				if(mkdir(full, 0755)) {
-					free(orig);
+					FREE(orig);
 					umask(oldmask);
 					return(1);
 				}
 			}
 		}
 	}
-	free(orig);
+	FREE(orig);
 	umask(oldmask);
 	return(0);
 }
@@ -302,37 +302,36 @@ int _alpm_rmrf(char *path)
 	struct dirent *dp;
 	DIR *dirp;
 	char name[PATH_MAX];
+  struct stat st;
 
-	if(!unlink(path)) {
-		return(0);
-	} else {
-		if(errno == ENOENT) {
-			return(0);
-		} else if(errno == EPERM) {
-			/* fallthrough */
-		} else if(errno == EISDIR) {
-			/* fallthrough */
-		} else if(errno == ENOTDIR) {
-			return(1);
-		} else {
-			/* not a directory */
-			return(1);
-		}
-
-		if((dirp = opendir(path)) == (DIR *)-1) {
-			return(1);
-		}
-		for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-			if(dp->d_ino) {
-				sprintf(name, "%s/%s", path, dp->d_name);
-				if(strcmp(dp->d_name, "..") && strcmp(dp->d_name, ".")) {
-					errflag += _alpm_rmrf(name);
+	if(stat(path, &st) == 0) {
+		if(S_ISREG(st.st_mode)) {
+			if(!unlink(path)) {
+				return(0);
+			} else {
+				if(errno == ENOENT) {
+					return(0);
+				} else {
+					/* not a directory */
+					return(1);
 				}
 			}
-		}
-		closedir(dirp);
-		if(rmdir(path)) {
-			errflag++;
+		} else if(S_ISDIR(st.st_mode)) {
+			if((dirp = opendir(path)) == (DIR *)-1) {
+				return(1);
+			}
+			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
+				if(dp->d_ino) {
+					sprintf(name, "%s/%s", path, dp->d_name);
+					if(strcmp(dp->d_name, "..") && strcmp(dp->d_name, ".")) {
+						errflag += _alpm_rmrf(name);
+					}
+				}
+			}
+			closedir(dirp);
+			if(rmdir(path)) {
+				errflag++;
+			}
 		}
 		return(errflag);
 	}
@@ -605,6 +604,7 @@ int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data)
 		return(0);
 	}
 }
+#endif
 
 /* match a string against a regular expression */
 int _alpm_reg_match(char *string, char *pattern)
@@ -620,6 +620,18 @@ int _alpm_reg_match(char *string, char *pattern)
 	return(!(result));
 }
 
-#endif
+/* convert a time_t to a string - buffer MUST be large enough for
+ * YYYYMMDDHHMMSS - 15 chars */
+void _alpm_time2string(time_t t, char *buffer)
+{
+	if(buffer) {
+		struct tm *lt;
+		lt = localtime(&t);
+		sprintf(buffer, "%4d%02d%02d%02d%02d%02d",
+						lt->tm_year+1900, lt->tm_mon+1, lt->tm_mday,
+						lt->tm_hour, lt->tm_min, lt->tm_sec);
+		buffer[14] = '\0';
+	}
+}
 
 /* vim: set ts=2 sw=2 noet: */

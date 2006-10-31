@@ -26,6 +26,7 @@
 #include <assert.h>
 /* pacman */
 #include "list.h"
+#include "util.h"
 
 pmlist_t *_alpm_list_new()
 {
@@ -48,10 +49,10 @@ void _alpm_list_free(pmlist_t *list, _alpm_fn_free fn)
 
 	while(it) {
 		ptr = it->next;
-		if(fn) {
+		if(fn && it->data) {
 			fn(it->data);
 		}
-		free(it);
+		FREE(it);
 		it = ptr;
 	}
 }
@@ -180,7 +181,7 @@ pmlist_t *_alpm_list_remove(pmlist_t *haystack, void *needle, _alpm_fn_cmp fn, v
 			*data = i->data;
 		}
 		i->data = NULL;
-		free(i);
+		FREE(i);
 	}
 
 	return(haystack);

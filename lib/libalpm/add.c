@@ -306,7 +306,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0, needdisp = 0;
-	double percent;
+	double percent = 0.0;
 	register struct archive *archive;
 	struct archive_entry *entry;
 	char expath[PATH_MAX], cwd[PATH_MAX] = "", *what;
@@ -360,7 +360,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				/* copy over the install reason */
 				if(!(local->infolevel & INFRQ_DESC)) {
-					_alpm_log(PM_LOG_DEBUG, _("loading DESC info for '%s'"), local->name);
 					_alpm_db_read(db, INFRQ_DESC, local);
 				}
 				info->reason = local->reason;
@@ -732,7 +731,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 		/* Update the requiredby field by scanning the whole database 
 		 * looking for packages depending on the package to add */
-		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+		for(lp = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); lp; lp = lp->next) {
 			pmpkg_t *tmpp = lp->data;
 			pmlist_t *tmppm = NULL;
 			if(tmpp == NULL) {

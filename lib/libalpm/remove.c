@@ -192,7 +192,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* iterate through the list backwards, unlinking files */
 			for(lp = _alpm_list_last(info->files); lp; lp = lp->prev) {
 				int nb = 0;
-				double percent;
+				double percent = 0.0;
 				char *file = lp->data;
 				char *md5 =_alpm_needbackup(file, info->backup);
 				char *sha1 =_alpm_needbackup(file, info->backup);
@@ -294,6 +294,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
+			void *vdata;
 			char *data;
 			if(_alpm_splitdep((char*)lp->data, &depend)) {
 				continue;
@@ -324,7 +325,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 			}
 			/* splice out this entry from requiredby */
-			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, (void **)&data);
+			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &vdata);
+			data = vdata;
 			FREE(data);
 			_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), depinfo->name);
 			if(_alpm_db_write(db, depinfo, INFRQ_DEPENDS)) {

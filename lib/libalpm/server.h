@@ -23,7 +23,8 @@
 
 #include "list.h"
 #include <time.h>
-#include <ftplib.h>
+
+#include <fetch.h>
 
 #define FREESERVER(p) \
 do { \
@@ -37,10 +38,13 @@ do { \
 
 /* Servers */
 typedef struct __pmserver_t {
-	char *protocol;
-	char *server;
 	char *path;
+	struct url *s_url;
 } pmserver_t;
+
+#define PM_DLBUF_LEN (1024 * 10)
+
+typedef void (*download_progress_cb)(const char *filename, int xfered, int total);
 
 pmserver_t *_alpm_server_new(char *url);
 void _alpm_server_free(void *data);
@@ -50,15 +54,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 
 char *_alpm_fetch_pkgurl(char *target);
 
-extern FtpCallback pm_dlcb;
-
-/* progress bar */
-extern char *pm_dlfnm;
-extern int *pm_dloffset;
-extern struct timeval *pm_dlt0, *pm_dlt;
-extern float *pm_dlrate;
-extern int *pm_dlxfered1;
-extern unsigned char *pm_dleta_h, *pm_dleta_m, *pm_dleta_s;
+extern download_progress_cb pm_dlcb;
 
 #endif /* _ALPM_SERVER_H */
 

@@ -197,8 +197,8 @@ int alpm_db_unregister(pmdb_t *db)
 		handle->db_local = NULL;
 		found = 1;
 	} else {
-		pmdb_t *data;
-		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, (void **)&data);
+		void *data;
+		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, &data);
 		if(data) {
 			found = 1;
 		}
@@ -240,12 +240,8 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
 		case PM_DB_TREENAME:   data = db->treename; break;
 		case PM_DB_FIRSTSERVER:
 			server = (pmserver_t*)db->servers->data;
-			if(!strcmp(server->protocol, "file")) {
-				snprintf(path, PATH_MAX, "%s://%s", server->protocol, server->path);
-			} else {
-				snprintf(path, PATH_MAX, "%s://%s%s", server->protocol,
-						server->server, server->path);
-			}
+			snprintf(path, PATH_MAX, "%s://%s%s", server->s_url->scheme,
+							 server->s_url->host, server->s_url->doc);
 			data = strdup(path);
 		break;
 		default:
@@ -292,7 +288,7 @@ int alpm_db_setserver(pmdb_t *db, char *url)
 		}
 		db->servers = _alpm_list_add(db->servers, server);
 		_alpm_log(PM_LOG_FLOW2, _("adding new server to database '%s': protocol '%s', server '%s', path '%s'"),
-				db->treename, server->protocol, server->server, server->path);
+				db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
 	} else {
 		FREELIST(db->servers);
 		_alpm_log(PM_LOG_FLOW2, _("serverlist flushed for '%s'"), db->treename);
@@ -343,12 +339,15 @@ int alpm_db_update(int force, PM_DB *db)
 
 	ret = _alpm_downloadfiles_forreal(db->servers, path, files, lastupdate, newmtime);
 	FREELIST(files);
-	if(ret != 0) {
-		if(ret > 0) {
-			_alpm_log(PM_LOG_DEBUG, _("failed to sync db: %s [%d]\n"),  alpm_strerror(ret), ret);
-			pm_errno = PM_ERR_DB_SYNC;
-		}
-		return(ret);
+	if(ret == 1) {
+		/* mtimes match, do nothing */
+		pm_errno = 0;
+		return(1);
+	} else if(ret == -1) {
+		/* we use fetchLastErrString and fetchLastErrCode here, error returns from
+		 * libfetch */
+		_alpm_log(PM_LOG_DEBUG, _("failed to sync db: %s [%d]\n"), fetchLastErrString, fetchLastErrCode);
+		RET_ERR(PM_ERR_DB_SYNC, -1);
 	} else {
 		if(strlen(newmtime)) {
 			_alpm_log(PM_LOG_DEBUG, _("sync: new mtime for %s: %s\n"), db->treename, newmtime);
@@ -358,7 +357,7 @@ int alpm_db_update(int force, PM_DB *db)
 
 		/* remove the old dir */
 		_alpm_log(PM_LOG_FLOW2, _("flushing database %s/%s"), handle->dbpath, db->treename);
-		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+		for(lp = _alpm_db_get_pkgcache(db, INFRQ_NONE); lp; lp = lp->next) {
 			if(_alpm_db_remove(db, lp->data) == -1) {
 				if(lp->data) {
 					_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s/%s"), db->treename,
@@ -405,7 +404,7 @@ pmlist_t *alpm_db_getpkgcache(pmdb_t *db)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	return(_alpm_db_get_pkgcache(db));
+	return(_alpm_db_get_pkgcache(db, INFRQ_NONE));
 }
 
 /** Get the list of packages that a package provides
@@ -496,7 +495,6 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 				}
 			break;
 			/* Depends entry */
-			/* not needed: the cache is loaded with DEPENDS by default
 			case PM_PKG_DEPENDS:
 			case PM_PKG_REQUIREDBY:
 			case PM_PKG_CONFLICTS:
@@ -506,7 +504,7 @@ void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
 					_alpm_log(PM_LOG_DEBUG, "loading DEPENDS info for '%s'", pkg->name);
 					_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
 				}
-			break;*/
+			break;
 			/* Files entry */
 			case PM_PKG_FILES:
 			case PM_PKG_BACKUP:
@@ -832,7 +830,7 @@ int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event 
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* lock db */
-	snprintf(path, PATH_MAX, "%s/%s", handle->root, PM_LOCK);
+	snprintf(path, PATH_MAX, "%s%s", handle->root, PM_LOCK);
 	handle->lckfd = _alpm_lckmk(path);
 	if(handle->lckfd == -1) {
 		RET_ERR(PM_ERR_HANDLE_LOCK, -1);
@@ -949,7 +947,7 @@ int alpm_trans_release()
 		close(handle->lckfd);
 		handle->lckfd = -1;
 	}
-	snprintf(path, PATH_MAX, "%s/%s", handle->root, PM_LOCK);
+	snprintf(path, PATH_MAX, "%s%s", handle->root, PM_LOCK);
 	if(_alpm_lckrm(path)) {
 		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s"), path);
 		alpm_logaction(_("warning: could not remove lock file %s"), path);
@@ -1373,7 +1371,6 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 				} else {
 					if(!strcmp(key, "SERVER")) {
 						/* add to the list */
-						_alpm_log(PM_LOG_DEBUG, _("config: %s: server: %s\n"), section, ptr);
 						if(alpm_db_setserver(db, strdup(ptr)) != 0) {
 							/* pm_errno is set by alpm_set_option */
 							return(-1);

@@ -32,6 +32,7 @@
 #include "alpm.h"
 #include "list.h"
 #include "util.h"
+#include "error.h"
 #include "package.h"
 #include "group.h"
 #include "db.h"
@@ -40,11 +41,11 @@
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.
  */
-int _alpm_db_load_pkgcache(pmdb_t *db)
+int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel)
 {
 	pmpkg_t *info;
 	/* The group cache needs INFRQ_DESC as well */
-	unsigned char infolevel = INFRQ_DEPENDS | INFRQ_DESC;
+	/*unsigned char infolevel = INFRQ_DEPENDS | INFRQ_DESC;*/
 
 	if(db == NULL) {
 		return(-1);
@@ -82,17 +83,41 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	}
 }
 
-pmlist_t *_alpm_db_get_pkgcache(pmdb_t *db)
+pmlist_t *_alpm_db_get_pkgcache(pmdb_t *db, unsigned char infolevel)
 {
 	if(db == NULL) {
 		return(NULL);
 	}
 
 	if(db->pkgcache == NULL) {
-		_alpm_db_load_pkgcache(db);
+		_alpm_db_load_pkgcache(db, infolevel);
 	}
 
+	_alpm_db_ensure_pkgcache(db, infolevel);
+
 	return(db->pkgcache);
+}
+
+int _alpm_db_ensure_pkgcache(pmdb_t *db, unsigned char infolevel)
+{
+	int reloaded = 0;
+	/* for each pkg, check and reload if the requested
+	 * info is not already cached
+	 */
+
+  pmlist_t *p;
+	for(p = db->pkgcache; p; p = p->next) {
+		pmpkg_t *pkg = (pmpkg_t *)p->data;
+		if(infolevel != INFRQ_NONE && !(pkg->infolevel & infolevel)) {
+			_alpm_db_read(db, infolevel, pkg);
+			reloaded = 1;
+		}
+	}
+	if(reloaded) {
+		_alpm_log(PM_LOG_DEBUG, _("package cache reloaded (infolevel=%#x) for repository '%s'"),
+							infolevel, db->treename);
+	}
+	return(0);
 }
 
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
@@ -117,13 +142,15 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 
 int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 {
+	void *vdata;
 	pmpkg_t *data;
 
 	if(db == NULL || pkg == NULL) {
 		return(-1);
 	}
 
-	db->pkgcache = _alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, (void **)&data);
+	db->pkgcache = _alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
+	data = vdata;
 	if(data == NULL) {
 		/* package not found */
 		return(-1);
@@ -143,7 +170,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 		return(NULL);
 	}
 
-	return(_alpm_pkg_isin(target, _alpm_db_get_pkgcache(db)));
+	return(_alpm_pkg_isin(target, _alpm_db_get_pkgcache(db, INFRQ_NONE)));
 }
 
 /* Returns a new group cache from db.
@@ -157,18 +184,14 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 	}
 
 	if(db->pkgcache == NULL) {
-		_alpm_db_load_pkgcache(db);
+		_alpm_db_load_pkgcache(db, INFRQ_DESC);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, _("loading group cache for repository '%s'"), db->treename);
 
-	for(lp = db->pkgcache; lp; lp = lp->next) {
+	for(lp = _alpm_db_get_pkgcache(db, INFRQ_DESC); lp; lp = lp->next) {
 		pmlist_t *i;
 		pmpkg_t *pkg = lp->data;
-
-		if(!(pkg->infolevel & INFRQ_DESC)) {
-			_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
-		}
 
 		for(i = pkg->groups; i; i = i->next) {
 			if(!_alpm_list_is_strin(i->data, db->grpcache)) {

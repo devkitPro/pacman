@@ -82,7 +82,7 @@ void _alpm_trans_free(void *data)
 
 	FREELIST(trans->skiplist);
 
-	free(trans);
+	FREE(trans);
 }
 
 int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress)

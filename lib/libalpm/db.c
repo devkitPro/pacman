@@ -84,8 +84,8 @@ void _alpm_db_free(void *data)
 	pmdb_t *db = data;
 
 	FREELISTSERVERS(db->servers);
-	free(db->path);
-	free(db);
+	FREE(db->path);
+	FREE(db);
 
 	return;
 }
@@ -109,7 +109,7 @@ pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
 		targ = strdup(i->data);
 		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
-		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
+		for(j = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 			char *haystack;
 			int match = 0;

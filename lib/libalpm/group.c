@@ -57,7 +57,7 @@ void _alpm_grp_free(void *data)
 	}
 
 	FREELIST(grp->packages);
-	free(grp);
+	FREE(grp);
 
 	return;
 }

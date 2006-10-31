@@ -35,7 +35,7 @@ extern "C" {
 #define PM_ROOT     "/"
 #define PM_DBPATH   "var/lib/pacman"
 #define PM_CACHEDIR "var/cache/pacman/pkg"
-#define PM_LOCK     "/tmp/pacman.lck"
+#define PM_LOCK     "tmp/pacman.lck"
 
 
 #define PM_EXT_PKG ".pkg.tar.gz"
@@ -444,6 +444,7 @@ extern enum __pmerrno_t {
 	PM_ERR_PKG_CANT_FRESH,
 	PM_ERR_PKG_INVALID_NAME,
 	PM_ERR_PKG_CORRUPTED,
+	PM_ERR_PKG_REPO_NOT_FOUND,
 	/* Groups */
 	PM_ERR_GRP_NOT_FOUND,
 	/* Dependencies */

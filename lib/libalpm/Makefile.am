@@ -1,7 +1,6 @@
 AUTOMAKE_OPTIONS = gnu
 DEFINES = -pedantic -D_GNU_SOURCE
-AM_CFLAGS = $(DEFINES) \
-	    -I$(top_srcdir)/lib/libftp
+AM_CFLAGS = $(DEFINES) -I$(top_srcdir)/lib/libfetch
 SUBDIRS = po
 
 localedir = $(datadir)/locale
@@ -38,8 +37,8 @@ include_HEADERS = alpm.h
 
 libalpm_la_SOURCES = $(TARGETS)
 
-libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO)
-libalpm_la_LIBADD = $(top_srcdir)/lib/libftp/libftp.la
+libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO) -L$(top_srcdir)/lib/libfetch
+libalpm_la_LIBADD = -lfetch
 
 if HAS_DOXYGEN
 all: doxygen.in

@@ -70,7 +70,7 @@ pmlist_t *_alpm_checkconflicts(pmdb_t *db, pmlist_t *packages)
 			}
 			/* CHECK 1: check targets against database */
 			_alpm_log(PM_LOG_DEBUG, _("checkconflicts: targ '%s' vs db"), tp->name);
-			for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
+			for(k = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); k; k = k->next) {
 				pmpkg_t *dp = (pmpkg_t *)k->data;
 				if(!strcmp(dp->name, tp->name)) {
 					/* a package cannot conflict with itself -- that's just not nice */
@@ -142,7 +142,7 @@ pmlist_t *_alpm_checkconflicts(pmdb_t *db, pmlist_t *packages)
 		}
 		/* CHECK 3: check database against targets */
 		_alpm_log(PM_LOG_DEBUG, _("checkconflicts: db vs targ '%s'"), tp->name);
-		for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
+		for(k = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); k; k = k->next) {
 			pmlist_t *conflicts = NULL;
 			int usenewconflicts = 0;
 

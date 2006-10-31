@@ -31,7 +31,7 @@
 #include <syslog.h>
 #include <libintl.h>
 #include <time.h>
-#include <ftplib.h>
+/////#include <ftplib.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -113,7 +113,7 @@ int _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->holdpkg);
 	FREELIST(handle->needles);
-	free(handle);
+	FREE(handle);
 
 	return(0);
 }
@@ -224,9 +224,9 @@ int _alpm_handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long
 			pm_logcb = (alpm_cb_log)data;
 		break;
 		case PM_OPT_DLCB:
-			pm_dlcb = (FtpCallback)data;
+			pm_dlcb = (download_progress_cb)data;
 		break;
-		case PM_OPT_DLFNM:
+/*		case PM_OPT_DLFNM:
 			pm_dlfnm = (char *)data;
 		break;
 		case PM_OPT_DLOFFSET:
@@ -253,6 +253,7 @@ int _alpm_handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long
 		case PM_OPT_DLETA_S:
 			pm_dleta_s = (unsigned char *)data;
 		break;
+*/
 		case PM_OPT_UPGRADEDELAY:
 			handle->upgradedelay = data;
 		break;
@@ -331,6 +332,7 @@ int _alpm_handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 		case PM_OPT_DLCB:     *data = (long)pm_dlcb; break;
 		case PM_OPT_UPGRADEDELAY: *data = (long)handle->upgradedelay; break;
 		case PM_OPT_LOGMASK:   *data = pm_logmask; break;
+/*
 		case PM_OPT_DLFNM:     *data = (long)pm_dlfnm; break;
 		case PM_OPT_DLOFFSET:  *data = (long)pm_dloffset; break;
 		case PM_OPT_DLT0:      *data = (long)pm_dlt0; break;
@@ -340,6 +342,7 @@ int _alpm_handle_get_option(pmhandle_t *handle, unsigned char val, long *data)
 		case PM_OPT_DLETA_H:   *data = (long)pm_dleta_h; break;
 		case PM_OPT_DLETA_M:   *data = (long)pm_dleta_m; break;
 		case PM_OPT_DLETA_S:   *data = (long)pm_dleta_s; break;
+*/
 		case PM_OPT_PROXYHOST: *data = (long)handle->proxyhost; break;
 		case PM_OPT_PROXYPORT: *data = handle->proxyport; break;
 		case PM_OPT_XFERCOMMAND: *data = (long)handle->xfercommand; break;

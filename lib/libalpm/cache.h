@@ -27,11 +27,12 @@
 #include "db.h"
 
 /* packages */
-int _alpm_db_load_pkgcache(pmdb_t *db);
+int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel);
 void _alpm_db_free_pkgcache(pmdb_t *db);
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
 int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
-pmlist_t *_alpm_db_get_pkgcache(pmdb_t *db);
+pmlist_t *_alpm_db_get_pkgcache(pmdb_t *db, unsigned char infolevel);
+int _alpm_db_ensure_pkgcache(pmdb_t *db, unsigned char infolevel);
 pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target);
 /* groups */
 int _alpm_db_load_grpcache(pmdb_t *db);
