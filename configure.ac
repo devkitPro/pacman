@@ -143,11 +143,13 @@ AC_SUBST(MARCHFLAG)
 AC_SUBST(CHOST)
 
 dnl Help line for debug
-AC_ARG_ENABLE(debug, [  --enable-debug    Enable debugging support], debug=yes)
+AC_ARG_ENABLE(debug,
+    AC_HELP_STRING([  --enable-debug], [Enable debugging support]),
+    [debug=$enableval], [debug=yes])
 
 dnl Help line for fakeroot
 AC_ARG_ENABLE(fakeroot,
-    AC_HELP_STRING([--disable-fakeroot], [Disable fakeroot proof  support]),
+    AC_HELP_STRING([--disable-fakeroot], [Disable fakeroot proof support]),
     [fakeroot=$enableval], [fakeroot=yes])
 
 dnl Check for man2html binary
@@ -316,7 +318,7 @@ dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test x$debug = xyes ; then
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xyes)
-	CFLAGS="-g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
+	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
     AC_MSG_RESULT(yes)
 else
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xno)
@@ -346,6 +348,9 @@ src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
 doc/Makefile
+doc/makepkg.8
+doc/libalpm.3
+doc/pacman.8
 doc/hu/Makefile
 etc/Makefile
 etc/pacman.d/Makefile

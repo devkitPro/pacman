@@ -1,4 +1,4 @@
-SUBDIRS = lib/libftp lib/libalpm src/util src/pacman scripts doc doc/hu etc
+SUBDIRS = lib/libfetch lib/libalpm src/util src/pacman scripts doc doc/hu etc 
 
 if HAS_PERL
 SUBDIRS += bindings/perl
