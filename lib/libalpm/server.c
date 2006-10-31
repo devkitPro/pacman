@@ -185,7 +185,8 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 					if(localf != NULL) {
 						fclose(localf);
 					}
-					return(-1);
+					/* try the next server */
+					continue;
 				} else {
 						_alpm_log(PM_LOG_DEBUG, _("server connection to %s complete"), server->s_url->host);
 				}
@@ -310,7 +311,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 		}
 	}
 
-	return(!done);
+	return(done ? 0 : -1);
 }
 
 char *_alpm_fetch_pkgurl(char *target)
