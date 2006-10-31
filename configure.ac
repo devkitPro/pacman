@@ -318,11 +318,11 @@ dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test x$debug = xyes ; then
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xyes)
-	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
+	CFLAGS="-g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
     AC_MSG_RESULT(yes)
 else
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xno)
-	CFLAGS="$CFLAGS -std=c99"
+	CFLAGS="$CFLAGS -Wall -std=c99"
     AC_MSG_RESULT(no)
 fi
 
