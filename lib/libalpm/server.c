@@ -150,7 +150,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				int chk_resume = 0;
 
 				if(stat(output, &st) == 0 && st.st_size > 0) {
-					_alpm_log(PM_LOG_DEBUG, _("existing file found, using it\n"));
+					_alpm_log(PM_LOG_DEBUG, _("existing file found, using it"));
 					server->s_url->offset = (off_t)st.st_size;
 					dltotal_bytes = st.st_size;
 					localf = fopen(output, "a");
@@ -172,14 +172,16 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				fetchTimeout = 10000;
 
 			 	/* Make libfetch super verbose... worthwhile for testing */
-				if(pm_logmask & PM_LOG_DEBUG) {
+				if(pm_logmask & PM_LOG_FETCH) {
 						fetchDebug = 1;
+				}
+				if(pm_logmask & PM_LOG_DEBUG) {
 						dlf = fetchXGet(server->s_url, &ust, (handle->nopassiveftp ? "v" : "vp"));
 				} else {
 						dlf = fetchXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
 				}
 				if(fetchLastErrCode != 0 || dlf == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from '%s://%s%s', %d : %s\n"), fn,
+					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from '%s://%s%s', %d : %s"), fn,
 										server->s_url->scheme, server->s_url->host, server->s_url->doc, fetchLastErrCode,
 										fetchLastErrString);
 					if(localf != NULL) {
@@ -195,7 +197,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 					char strtime[15];
 					_alpm_time2string(ust.mtime, strtime);
 					if(strcmp(mtime1, strtime) == 0) {
-						_alpm_log(PM_LOG_DEBUG, _("mtimes are identical, skipping %s\n"), fn);
+						_alpm_log(PM_LOG_DEBUG, _("mtimes are identical, skipping %s"), fn);
 						complete = _alpm_list_add(complete, fn);
 						if(localf != NULL) {
 							fclose(localf);
@@ -280,18 +282,18 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				/* cwd to the download directory */
 				getcwd(cwd, PATH_MAX);
 				if(chdir(localpath)) {
-					_alpm_log(PM_LOG_WARNING, _("could not chdir to %s\n"), localpath);
+					_alpm_log(PM_LOG_WARNING, _("could not chdir to %s"), localpath);
 					return(PM_ERR_CONNECT_FAILED);
 				}
 				/* execute the parsed command via /bin/sh -c */
-				_alpm_log(PM_LOG_DEBUG, _("running command: %s\n"), parsedCmd);
+				_alpm_log(PM_LOG_DEBUG, _("running command: %s"), parsedCmd);
 				ret = system(parsedCmd);
 				if(ret == -1) {
-					_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
+					_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!"));
 					return(PM_ERR_FORK_FAILED);
 				} else if(ret != 0) {
 					/* download failed */
-					_alpm_log(PM_LOG_DEBUG, _("XferCommand command returned non-zero status code (%d)\n"), ret);
+					_alpm_log(PM_LOG_DEBUG, _("XferCommand command returned non-zero status code (%d)"), ret);
 				} else {
 					/* download was successful */
 					complete = _alpm_list_add(complete, fn);
@@ -316,6 +318,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 
 char *_alpm_fetch_pkgurl(char *target)
 {
+	char *p = NULL;
 	struct stat st;
 	struct url *s_url;
 
@@ -336,7 +339,7 @@ char *_alpm_fetch_pkgurl(char *target)
 
 	/* do not download the file if it exists in the current dir */
 	if(stat(s_url->doc, &st) == 0) {
-		_alpm_log(PM_LOG_DEBUG, _(" %s is already in the current directory\n"), s_url->doc);
+		_alpm_log(PM_LOG_DEBUG, _(" %s is already in the current directory"), s_url->doc);
 	} else {
 		pmserver_t *server;
 		pmlist_t *servers = NULL;
@@ -346,21 +349,28 @@ char *_alpm_fetch_pkgurl(char *target)
 			_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));
 			return(NULL);
 		}
-		server->s_url = s_url;
-		server->path = strdup(s_url->doc);
-		servers = _alpm_list_add(servers, server);
+		if(s_url->doc && (p = strrchr(s_url->doc,'/'))) {
+			*p++ = '\0';
+			_alpm_log(PM_LOG_DEBUG, _("fetching '%s' from '%s://%s%s"), p, s_url->scheme, s_url->host, s_url->doc);
 
-		files = _alpm_list_add(NULL, s_url->doc);
-		if(_alpm_downloadfiles(servers, ".", files)) {
-			_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), target);
-			return(NULL);
+			server->s_url = s_url;
+			server->path = strdup(s_url->doc);
+			servers = _alpm_list_add(servers, server);
+
+			files = _alpm_list_add(NULL, strdup(p));
+			if(_alpm_downloadfiles(servers, ".", files)) {
+				_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
+				return(NULL);
+			}
+			FREELISTPTR(files);
+			FREELIST(servers);
 		}
-		FREELISTPTR(files);
-		FREELIST(servers);
 	}
 
+	fetchFreeURL(s_url);
+
 	/* return the target with the raw filename, no URL */
-	return(strdup(s_url->doc));
+	return(p ? strdup(p) : NULL);
 }
 
 /* vim: set ts=2 sw=2 noet: */

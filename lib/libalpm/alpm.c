@@ -327,7 +327,7 @@ int alpm_db_update(int force, PM_DB *db)
 		/* get the lastupdate time */
 		_alpm_db_getlastupdate(db, lastupdate);
 		if(strlen(lastupdate) == 0) {
-			_alpm_log(PM_LOG_DEBUG, _("failed to get lastupdate time for %s (no big deal)\n"), db->treename);
+			_alpm_log(PM_LOG_DEBUG, _("failed to get lastupdate time for %s (no big deal)"), db->treename);
 		}
 	}
 
@@ -346,11 +346,11 @@ int alpm_db_update(int force, PM_DB *db)
 	} else if(ret == -1) {
 		/* we use fetchLastErrString and fetchLastErrCode here, error returns from
 		 * libfetch */
-		_alpm_log(PM_LOG_DEBUG, _("failed to sync db: %s [%d]\n"), fetchLastErrString, fetchLastErrCode);
+		_alpm_log(PM_LOG_DEBUG, _("failed to sync db: %s [%d]"), fetchLastErrString, fetchLastErrCode);
 		RET_ERR(PM_ERR_DB_SYNC, -1);
 	} else {
 		if(strlen(newmtime)) {
-			_alpm_log(PM_LOG_DEBUG, _("sync: new mtime for %s: %s\n"), db->treename, newmtime);
+			_alpm_log(PM_LOG_DEBUG, _("sync: new mtime for %s: %s"), db->treename, newmtime);
 			_alpm_db_setlastupdate(db, newmtime);
 		}
 		snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, handle->root, handle->dbpath, db->treename);
@@ -619,7 +619,7 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 
 	sha1sum = _alpm_SHAFile(path);
 	if(sha1sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get sha1 checksum for package %s-%s\n"),
+		_alpm_log(PM_LOG_ERROR, _("could not get sha1 checksum for package %s-%s"),
 		          pkg->name, pkg->version);
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
@@ -633,7 +633,7 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 			_alpm_log(PM_LOG_FLOW1, _("checksums for package %s-%s are matching"),
 			                        pkg->name, pkg->version);
 		} else {
-			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s\n"),
+			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s"),
 			                        pkg->name, pkg->version);
 			pm_errno = PM_ERR_PKG_INVALID;
 			retval = -1;
@@ -666,7 +666,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	md5sum = _alpm_MDFile(path);
 	if(md5sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get md5 checksum for package %s-%s\n"),
+		_alpm_log(PM_LOG_ERROR, _("could not get md5 checksum for package %s-%s"),
 		          pkg->name, pkg->version);
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
@@ -680,7 +680,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 			_alpm_log(PM_LOG_FLOW1, _("checksums for package %s-%s are matching"),
 			                        pkg->name, pkg->version);
 		} else {
-			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s\n"),
+			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s"),
 			                        pkg->name, pkg->version);
 			pm_errno = PM_ERR_PKG_INVALID;
 			retval = -1;
@@ -1200,7 +1200,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 			ptr++;
 			strncpy(section, ptr, min(255, strlen(ptr)-1));
 			section[min(255, strlen(ptr)-1)] = '\0';
-			_alpm_log(PM_LOG_DEBUG, _("config: new section '%s'\n"), section);
+			_alpm_log(PM_LOG_DEBUG, _("config: new section '%s'"), section);
 			if(!strlen(section)) {
 				RET_ERR(PM_ERR_CONF_BAD_SECTION, -1);
 			}
@@ -1231,7 +1231,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 					alpm_set_option(PM_OPT_NOPASSIVEFTP, (long)1);
 				} else if(!strcmp(key, "USESYSLOG")) {
 					alpm_set_option(PM_OPT_USESYSLOG, (long)1);
-					_alpm_log(PM_LOG_DEBUG, _("config: usesyslog\n"));
+					_alpm_log(PM_LOG_DEBUG, _("config: usesyslog"));
 				} else if(!strcmp(key, "ILOVECANDY")) {
 					alpm_set_option(PM_OPT_CHOMP, (long)1);
 				} else {
@@ -1242,7 +1242,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 				if(!strcmp(key, "INCLUDE")) {
 					char conf[PATH_MAX];
 					strncpy(conf, ptr, PATH_MAX);
-					_alpm_log(PM_LOG_DEBUG, _("config: including %s\n"), conf);
+					_alpm_log(PM_LOG_DEBUG, _("config: including %s"), conf);
 					alpm_parse_config(conf, callback, section);
 				} else if(!strcmp(section, "options")) {
 					if(!strcmp(key, "NOUPGRADE")) {
@@ -1254,7 +1254,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 								/* pm_errno is set by alpm_set_option */
 								return(-1);
 							}
-							_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s\n"), p);
+							_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s"), p);
 							p = q;
 							p++;
 						}
@@ -1262,7 +1262,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s\n"), p);
+						_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s"), p);
 					} else if(!strcmp(key, "NOEXTRACT")) {
 						char *p = ptr;
 						char *q;
@@ -1272,7 +1272,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 								/* pm_errno is set by alpm_set_option */
 								return(-1);
 							}
-							_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s\n"), p);
+							_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s"), p);
 							p = q;
 							p++;
 						}
@@ -1280,7 +1280,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s\n"), p);
+						_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s"), p);
 					} else if(!strcmp(key, "IGNOREPKG")) {
 						char *p = ptr;
 						char *q;
@@ -1290,7 +1290,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 								/* pm_errno is set by alpm_set_option */
 								return(-1);
 							}
-							_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s\n"), p);
+							_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
 							p = q;
 							p++;
 						}
@@ -1298,7 +1298,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s\n"), p);
+						_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
 					} else if(!strcmp(key, "HOLDPKG")) {
 						char *p = ptr;
 						char *q;
@@ -1308,7 +1308,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 								/* pm_errno is set by alpm_set_option */
 								return(-1);
 							}
-							_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
+							_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s"), p);
 							p = q;
 							p++;
 						}
@@ -1316,7 +1316,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
+						_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s"), p);
 					} else if(!strcmp(key, "DBPATH")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
@@ -1326,7 +1326,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: dbpath: %s\n"), ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: dbpath: %s"), ptr);
 					} else if(!strcmp(key, "CACHEDIR")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
@@ -1336,13 +1336,13 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: cachedir: %s\n"), ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: cachedir: %s"), ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
 						if(alpm_set_option(PM_OPT_LOGFILE, (long)ptr) == -1) {
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
-						_alpm_log(PM_LOG_DEBUG, _("config: log file: %s\n"), ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: log file: %s"), ptr);
 					} else if (!strcmp(key, "XFERCOMMAND")) {
 						if(alpm_set_option(PM_OPT_XFERCOMMAND, (long)ptr) == -1) {
 							/* pm_errno is set by alpm_set_option */
@@ -1350,7 +1350,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 						}
 					} else if (!strcmp(key, "UPGRADEDELAY")) {
 						/* The config value is in days, we use seconds */
-						_alpm_log(PM_LOG_DEBUG, _("config: UpgradeDelay: %i\n"), (60*60*24) * atol(ptr));
+						_alpm_log(PM_LOG_DEBUG, _("config: UpgradeDelay: %i"), (60*60*24) * atol(ptr));
 						if(alpm_set_option(PM_OPT_UPGRADEDELAY, (60*60*24) * atol(ptr)) == -1) {
 							/* pm_errno is set by alpm_set_option */
 							return(-1);

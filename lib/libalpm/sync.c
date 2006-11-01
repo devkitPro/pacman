@@ -225,7 +225,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync
 				local->name, local->version, spkg->version);
 		} else if(istoonew(spkg)) {
 			/* package too new (UpgradeDelay) */
-			_alpm_log(PM_LOG_FLOW1, _("%s-%s: delaying upgrade of package (%s)\n"),
+			_alpm_log(PM_LOG_FLOW1, _("%s-%s: delaying upgrade of package (%s)"),
 					local->name, local->version, spkg->version);
 		/* check if spkg->name is already in the packages list. */
 		} else {

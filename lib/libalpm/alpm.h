@@ -72,6 +72,7 @@ int alpm_release(void);
 #define PM_LOG_FLOW1    0x08
 #define PM_LOG_FLOW2    0x10
 #define PM_LOG_FUNCTION 0x20
+#define PM_LOG_FETCH    0x40
 
 int alpm_logaction(char *fmt, ...);
 

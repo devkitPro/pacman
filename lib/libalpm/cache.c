@@ -60,7 +60,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel)
 	while((info = _alpm_db_scan(db, NULL, infolevel)) != NULL) {
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
-		/* add to the collective */
+		/* add to the collection */
 		db->pkgcache = _alpm_list_add_sorted(db->pkgcache, info, _alpm_pkg_cmp);
 	}
 

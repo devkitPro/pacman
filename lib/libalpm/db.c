@@ -107,7 +107,7 @@ pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
 			continue;
 		}
 		targ = strdup(i->data);
-		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'\n", targ);
+		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'", targ);
 
 		for(j = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
@@ -176,7 +176,7 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 
 	if(strcmp(treename, "local") == 0) {
 		if(handle->db_local != NULL) {
-			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
+			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB"));
 			RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 		}
 	} else {
@@ -184,7 +184,7 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 		for(i = handle->dbs_sync; i; i = i->next) {
 			pmdb_t *sdb = i->data;
 			if(strcmp(treename, sdb->treename) == 0) {
-				_alpm_log(PM_LOG_DEBUG, _("attempt to re-register the '%s' databse, using existing\n"), sdb->treename);
+				_alpm_log(PM_LOG_DEBUG, _("attempt to re-register the '%s' databse, using existing"), sdb->treename);
 				return sdb;
 			}
 		}

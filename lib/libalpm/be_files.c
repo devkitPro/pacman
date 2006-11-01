@@ -193,6 +193,13 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 		return(-1);
 	}
 
+	if(info->origin == PKG_FROM_FILE) {
+		_alpm_log(PM_LOG_DEBUG, _("request to read database info for a file-based package '%s', skipping..."), info->name);
+		return(-1);
+	}
+
+	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d"), info->name, inforeq);
+
 	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
 		/* directory doesn't exist or can't be opened */
