@@ -396,6 +396,10 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 	}
 	printf("] %3d%%\r", percent);
 
+	if(percent == 100) {
+		printf("\n");
+	}
+
 	FREE(addstr);
 	FREE(upgstr);
 	FREE(removestr);
