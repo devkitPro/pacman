@@ -70,8 +70,6 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
 			if(config->noprogressbar) {
 				MSG(CL, _("done.\n"));
-			} else {
-				MSG(NL, "");
 			}
 		break;
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
@@ -80,8 +78,8 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 			pm_fprintf(stderr, CL, _("done.\n"));
 		break;
 		case PM_TRANS_EVT_EXTRACT_DONE:
-			if(!config->noprogressbar) {
-				MSG(NL, "");
+			if(config->noprogressbar) {
+				MSG(CL, _("done.\n"));
 			}
 		break;
 		case PM_TRANS_EVT_ADD_START:
@@ -106,8 +104,6 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 		case PM_TRANS_EVT_REMOVE_DONE:
 			if(config->noprogressbar) {
 			    MSG(CL, _("done.\n"));
-			} else {
-			    MSG(NL, "");
 			}
 			snprintf(str, LOG_STR_LEN, _("removed %s (%s)"),
 			         (char *)alpm_pkg_getinfo(data1, PM_PKG_NAME),
@@ -153,7 +149,7 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 			MSG(NL, "%s%s\n", (char*)data1, (char*)data2);
 		break;
 		case PM_TRANS_EVT_RETRIEVE_START:
-			MSG(NL, _("\n:: Retrieving packages from %s...\n"), (char*)data1);
+			MSG(NL, _(":: Retrieving packages from %s...\n"), (char*)data1);
 			fflush(stdout);
 		break;
 		case PM_TRANS_EVT_RETRIEVE_LOCAL:
@@ -292,11 +288,7 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 	int i, hash;
 	long chomp = 0;
 	unsigned int maxpkglen, progresslen = maxcols - 57;
-	char *addstr, *upgstr, *removestr, *conflictstr, *ptr = NULL;
-	addstr = strdup(_("installing"));
-	upgstr = strdup(_("upgrading"));
-	removestr = strdup(_("removing"));
-	conflictstr = strdup(_("checking for file conflicts"));
+	char *ptr = NULL;
 
 	if(config->noprogressbar) {
 		return;
@@ -312,19 +304,19 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 	prevpercent=percent;
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
-			ptr = addstr;
+			ptr = _("installing");
 		break;
 
 		case PM_TRANS_PROGRESS_UPGRADE_START:
-			ptr = upgstr;
+			ptr = _("upgrading");
 		break;
 
 		case PM_TRANS_PROGRESS_REMOVE_START:
-			ptr = removestr;
+			ptr = _("removing");
 		break;
 
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
-			ptr = conflictstr;
+			ptr = _("checking for file conflicts");
 		break;
 	}
 	hash=percent*progresslen/100;
@@ -399,10 +391,6 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 	if(percent == 100) {
 		printf("\n");
 	}
-
-	FREE(addstr);
-	FREE(upgstr);
-	FREE(removestr);
 }
 
 /* vim: set ts=2 sw=2 noet: */

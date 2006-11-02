@@ -173,13 +173,18 @@ static int sync_synctree(int level, list_t *syncs)
 			} else {
 				ERR(NL, _("failed to update %s (%s)\n"), sync->treename, alpm_strerror(pm_errno));
 			}
-			success--;
 		} else if(ret == 1) {
 			MSG(NL, _(" %s is up to date\n"), sync->treename);
+		} else {
+			success++;
 		}
 	}
 
-	return(success);
+	/* We should always succeed if at least one DB was upgraded - we may possibly
+	 * fail later with unresolved deps, but that should be rare, and would be
+	 * expected
+	 */
+	return(success > 0);
 }
 
 static int sync_search(list_t *syncs, list_t *targets)
@@ -569,6 +574,7 @@ int pacman_sync(list_t *targets)
 	packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
+		MSG(NL," local database is up to date");
 		goto cleanup;
 	}
 

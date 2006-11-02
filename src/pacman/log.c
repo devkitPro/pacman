@@ -164,6 +164,9 @@ int yesno(char *fmt, ...)
 		*++pch = 0;
 		strtrim(response);
 
+		/* User hits 'enter', forcing a newline here */
+		neednl = 0;
+
 		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES")) || !strlen(response)) {
 			return(1);
 		}

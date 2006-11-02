@@ -63,7 +63,7 @@ static int query_fileowner(PM_DB *db, char *filename)
 	}
 
 	alpm_get_option(PM_OPT_ROOT, &lroot);
-	root = (void *)&lroot;
+	root = (char *)lroot;
 
 	for(lp = alpm_db_getpkgcache(db); lp && !gotcha; lp = alpm_list_next(lp)) {
 		PM_PKG *info;
@@ -74,9 +74,10 @@ static int query_fileowner(PM_DB *db, char *filename)
 		for(i = alpm_pkg_getinfo(info, PM_PKG_FILES); i && !gotcha; i = alpm_list_next(i)) {
 			char path[PATH_MAX];
 
-			snprintf(path, PATH_MAX, "%s%s", root, (char *)alpm_list_getdata(i));
+			char *filename = (char *)alpm_list_getdata(i);
+			snprintf(path, PATH_MAX, "%s%s", root, filename);
 			if(!strcmp(path, rpath)) {
-				printf(_("%s is owned by %s %s\n"), filename, (char *)alpm_pkg_getinfo(info, PM_PKG_NAME),
+				printf(_("%s is owned by %s %s\n"), path, (char *)alpm_pkg_getinfo(info, PM_PKG_NAME),
 				       (char *)alpm_pkg_getinfo(info, PM_PKG_VERSION));
 				gotcha = 1;
 				break;
@@ -266,7 +267,7 @@ int pacman_query(list_t *targets)
 					long ldbpath;
 					char *dbpath;
 					alpm_get_option(PM_OPT_DBPATH, &ldbpath);
-					dbpath = (void *)&ldbpath;
+					dbpath = (char *)ldbpath;
 					snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
 						config->root, dbpath,
 						(char*)alpm_db_getinfo(db_local, PM_DB_TREENAME),

@@ -91,7 +91,7 @@ void dump_pkg_full(PM_PKG *pkg, int level)
 		long lroot;
 		char *root;
 		alpm_get_option(PM_OPT_ROOT, &lroot);
-		root = (void *)&root;
+		root = (void *)lroot;
 		fprintf(stdout, "\n");
 		for(i = alpm_list_first(alpm_pkg_getinfo(pkg, PM_PKG_BACKUP)); i; i = alpm_list_next(i)) {
 			struct stat buf;

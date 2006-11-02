@@ -543,10 +543,10 @@ int main(int argc, char *argv[])
 	FREE(config->dbpath);
 	long ldbpath, lcachedir;
 	alpm_get_option(PM_OPT_DBPATH, &ldbpath);
-	config->dbpath = (void *)&ldbpath;
+	config->dbpath = (char *)ldbpath;
 	FREE(config->cachedir);
 	alpm_get_option(PM_OPT_CACHEDIR, &lcachedir);
-	config->cachedir = (void *)&lcachedir;
+	config->cachedir = (char *)lcachedir;
 
 	for(lp = config->op_s_ignore; lp; lp = lp->next) {
 		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
