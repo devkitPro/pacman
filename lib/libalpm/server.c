@@ -181,9 +181,8 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 						dlf = fetchXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
 				}
 				if(fetchLastErrCode != 0 || dlf == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from '%s://%s%s', %d : %s"), fn,
-										server->s_url->scheme, server->s_url->host, server->s_url->doc, fetchLastErrCode,
-										fetchLastErrString);
+					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s://%s: %s"), fn,
+										server->s_url->scheme, server->s_url->host, fetchLastErrString);
 					if(localf != NULL) {
 						fclose(localf);
 					}

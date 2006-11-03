@@ -175,6 +175,7 @@ static int sync_synctree(int level, list_t *syncs)
 			}
 		} else if(ret == 1) {
 			MSG(NL, _(" %s is up to date\n"), sync->treename);
+			success++;
 		} else {
 			success++;
 		}
@@ -376,7 +377,8 @@ int pacman_sync(list_t *targets)
 		/* grab a fresh package list */
 		MSG(NL, _(":: Synchronizing package databases...\n"));
 		alpm_logaction(_("synchronizing package lists"));
-		if(sync_synctree(config->op_s_sync, pmc_syncs)) {
+		if(!sync_synctree(config->op_s_sync, pmc_syncs)) {
+			ERR(NL, _("failed to synchronize any databases"));
 			return(1);
 		}
 	}

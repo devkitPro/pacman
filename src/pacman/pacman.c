@@ -455,6 +455,7 @@ int main(int argc, char *argv[])
 	/* init config data */
 	config = config_new();
 	config->op = PM_OP_MAIN;
+	config->debug |= PM_LOG_ERROR;
 	config->debug |= PM_LOG_WARNING;
 	/* disable progressbar if the output is redirected */
 	if(!isatty(1)) {

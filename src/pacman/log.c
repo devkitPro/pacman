@@ -75,16 +75,21 @@ void cb_log(unsigned short level, char *msg)
 	}
 
 #ifdef PACMAN_DEBUG
-	time_t t;
-	struct tm *tmp;
-	char timestr[10] = {0};
+	/* If debug is on, we'll timestamp the output */
+  if(config->debug&PM_LOG_DEBUG) {
+		time_t t;
+		struct tm *tmp;
+		char timestr[10] = {0};
 
-	t = time(NULL);
-	tmp = localtime(&t);
-	strftime(timestr, 9, "%H:%M:%S", tmp);
-	timestr[8] = '\0';
+		t = time(NULL);
+		tmp = localtime(&t);
+		strftime(timestr, 9, "%H:%M:%S", tmp);
+		timestr[8] = '\0';
 
-	MSG(NL, "[%s] %s: %s\n", timestr, str, msg);
+		MSG(NL, "[%s] %s: %s\n", timestr, str, msg);
+	} else {
+    MSG(NL, "%s: %s\n", str, msg);
+	}
 #else
 	MSG(NL, "%s: %s\n", str, msg);
 #endif
