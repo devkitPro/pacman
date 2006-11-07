@@ -85,6 +85,32 @@ unsigned int maxcols = 80;
 
 extern int neednl;
 
+#if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
+void mcheck_abort(enum mcheck_status status)
+{
+	switch(status)
+	{
+	case MCHECK_DISABLED:
+		fputs("mcheck: disabled, no checking can be done", stderr);
+		break;
+	case MCHECK_OK:
+		fputs("mcheck: block ok", stderr);
+		break;
+	case MCHECK_HEAD:
+		fputs("mcheck: inconsistancy at block head (underrun)", stderr);
+		abort();
+		break;
+	case MCHECK_TAIL:
+		fputs("mcheck: inconsistancy at block tail (overrun)", stderr);
+		abort();
+		break;
+	case MCHECK_FREE:
+		fputs("mcheck: block has already been freed", stderr);
+		break;
+	};
+}
+#endif
+
 /* Display usage/syntax for the specified operation.
  *     op:     the operation code requested
  *     myname: basename(argv[0])
@@ -209,11 +235,9 @@ static void cleanup(int signum)
 	FREELIST(pm_targets);
 	FREECONF(config);
 
-#ifndef CYGWIN
-#ifndef BSD
+#if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
 	/* debug */
 	muntrace();
-#endif
 #endif
 
 	if(neednl) {
@@ -417,11 +441,10 @@ int main(int argc, char *argv[])
 #endif
 	list_t *lp;
 
-#ifndef CYGWIN
-#ifndef BSD
+#if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
 	/* debug */
 	mtrace();
-#endif
+	mcheck(0);
 #endif
 
 	cenv = getenv("COLUMNS");

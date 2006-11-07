@@ -319,6 +319,7 @@ AC_MSG_CHECKING(for debug mode request)
 if test x$debug = xyes ; then
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xyes)
 	CFLAGS="-g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
+	LDFLAGS="$LDFLAGS -lmcheck"
     AC_MSG_RESULT(yes)
 else
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xno)
