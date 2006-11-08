@@ -40,7 +40,7 @@
 
 download_progress_cb pm_dlcb = NULL;
 
-pmserver_t *_alpm_server_new(char *url)
+pmserver_t *_alpm_server_new(const char *url)
 {
 	struct url *u;
 	pmserver_t *server;

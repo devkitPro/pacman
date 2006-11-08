@@ -5,7 +5,7 @@ SUBDIRS = po
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-AM_CFLAGS = -D_GNU_SOURCE \
+AM_CFLAGS = $(CFLAGS) -D_GNU_SOURCE \
 	-I$(top_srcdir)/lib/libalpm \
 	-I$(top_srcdir)/lib/libfetch
 

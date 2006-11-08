@@ -178,8 +178,8 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 {
 	FILE *fp = NULL;
 	struct stat buf;
-	char path[PATH_MAX];
-	char line[512];
+	char path[PATH_MAX+1];
+	char line[513];
 	char *lang_tmp;
 	pmlist_t *tmplist;
 	char *foo;

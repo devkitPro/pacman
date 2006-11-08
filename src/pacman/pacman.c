@@ -91,21 +91,21 @@ void mcheck_abort(enum mcheck_status status)
 	switch(status)
 	{
 	case MCHECK_DISABLED:
-		fputs("mcheck: disabled, no checking can be done", stderr);
+		fputs("mcheck: disabled, no checking can be done\n", stderr);
 		break;
 	case MCHECK_OK:
 		fputs("mcheck: block ok", stderr);
 		break;
 	case MCHECK_HEAD:
-		fputs("mcheck: inconsistancy at block head (underrun)", stderr);
+		fputs("mcheck: inconsistancy at block head (underrun)\n", stderr);
 		abort();
 		break;
 	case MCHECK_TAIL:
-		fputs("mcheck: inconsistancy at block tail (overrun)", stderr);
+		fputs("mcheck: inconsistancy at block tail (overrun)\n", stderr);
 		abort();
 		break;
 	case MCHECK_FREE:
-		fputs("mcheck: block has already been freed", stderr);
+		fputs("mcheck: block has already been freed\n", stderr);
 		break;
 	};
 }
@@ -235,11 +235,6 @@ static void cleanup(int signum)
 	FREELIST(pm_targets);
 	FREECONF(config);
 
-#if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
-	/* debug */
-	muntrace();
-#endif
-
 	if(neednl) {
 		putchar('\n');
 	}
@@ -354,7 +349,7 @@ static int parseargs(int argc, char *argv[])
 			break;
 			case 'b':
 				if(config->dbpath) {
-					free(config->dbpath);
+					FREE(config->dbpath);
 				}
 				config->dbpath = strdup(optarg);
 			break;
@@ -442,11 +437,8 @@ int main(int argc, char *argv[])
 	list_t *lp;
 
 #if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
-	/* debug */
-	mtrace();
-	mcheck(0);
+	mcheck(mcheck_abort);
 #endif
-
 	cenv = getenv("COLUMNS");
 	if(cenv != NULL) {
 		maxcols = atoi(cenv);

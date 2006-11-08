@@ -138,7 +138,7 @@ PM_DB *alpm_db_register(char *treename);
 int alpm_db_unregister(PM_DB *db);
 
 void *alpm_db_getinfo(PM_DB *db, unsigned char parm);
-int alpm_db_setserver(PM_DB *db, char *url);
+int alpm_db_setserver(PM_DB *db, const char *url);
 
 int alpm_db_update(int level, PM_DB *db);
 

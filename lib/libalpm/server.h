@@ -46,7 +46,7 @@ typedef struct __pmserver_t {
 
 typedef void (*download_progress_cb)(const char *filename, int xfered, int total);
 
-pmserver_t *_alpm_server_new(char *url);
+pmserver_t *_alpm_server_new(const char *url);
 void _alpm_server_free(void *data);
 int _alpm_downloadfiles(pmlist_t *servers, const char *localpath, pmlist_t *files);
 int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,

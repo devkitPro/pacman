@@ -258,7 +258,7 @@ void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
  * @param url url of the server
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_setserver(pmdb_t *db, char *url)
+int alpm_db_setserver(pmdb_t *db, const char *url)
 {
 	int found = 0;
 
@@ -1373,7 +1373,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 				} else {
 					if(!strcmp(key, "SERVER")) {
 						/* add to the list */
-						if(alpm_db_setserver(db, strdup(ptr)) != 0) {
+						if(alpm_db_setserver(db, ptr) != 0) {
 							/* pm_errno is set by alpm_set_option */
 							return(-1);
 						}
