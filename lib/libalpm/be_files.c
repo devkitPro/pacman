@@ -189,7 +189,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	}
 
 	if(info == NULL || info->name[0] == 0 || info->version[0] == 0) {
-		_alpm_log(PM_LOG_ERROR, _("invalid package entry provided to _alpm_db_read"));
+		_alpm_log(PM_LOG_DEBUG, _("invalid package entry provided to _alpm_db_read, skipping"));
 		return(-1);
 	}
 

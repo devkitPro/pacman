@@ -100,7 +100,7 @@ int alpm_initialize(char *root)
  */
 int alpm_release()
 {
-	pmlist_t *i;
+	int dbs_left = 0;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -115,9 +115,11 @@ int alpm_release()
 		handle->db_local = NULL;
 	}
 	/* and also sync ones */
-	for(i = handle->dbs_sync; i; i = i->next) {
-		alpm_db_unregister(i->data);
-		i->data = NULL;
+	while((dbs_left = alpm_list_count(handle->dbs_sync)) > 0) {
+		pmdb_t *db = (pmdb_t *)handle->dbs_sync->data;
+		_alpm_log(PM_LOG_DEBUG, _("removing DB %s, %d remaining..."), db->treename, dbs_left);
+		alpm_db_unregister(db);
+		db = NULL;
 	}
 
 	FREEHANDLE(handle);
