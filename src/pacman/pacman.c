@@ -411,10 +411,7 @@ int main(int argc, char *argv[])
 	list_t *lp;
 
 #if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
-	char *malloc_trace = (char *)getenv("MALLOC_TRACE");
-	if(!malloc_trace) {
-		setenv("MALLOC_TRACE","pacman.mtrace");
-	}
+	setenv("MALLOC_TRACE","pacman.mtrace", 0);
 	mtrace();
 #endif
 	cenv = getenv("COLUMNS");
