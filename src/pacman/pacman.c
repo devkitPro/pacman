@@ -473,7 +473,8 @@ int main(int argc, char *argv[])
 	if(myuid > 0) {
 		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
 			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
-					(config->op_s_search || config->group || config->op_q_list || config->op_q_info))
+					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
+					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
 				 || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)
 				 || (config->root != NULL)) {
 				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
