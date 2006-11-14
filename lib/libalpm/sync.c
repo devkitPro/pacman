@@ -324,7 +324,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync,
 	local = _alpm_db_get_pkgfromcache(db_local, spkg->name);
 	if(local) {
 		cmp = _alpm_versioncmp(local->version, spkg->version);
-		if(cmp > 0) {
+		if(cmp > 0 && !spkg->force) {
 			/* local version is newer -- get confirmation before adding */
 			int resp = 0;
 			QUESTION(trans, PM_TRANS_CONV_LOCAL_NEWER, local, NULL, NULL, &resp);

@@ -459,6 +459,12 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 	if((p = _alpm_pkgname_has_arch(tmp))) {
 		*p = '\0';
 	}
+	if(witharch) {
+		/* trim architecture */
+		if((p = _alpm_pkgname_has_arch(tmp))) {
+			*p = 0;
+		}
+	}
 
 	p = tmp + strlen(tmp);
 
