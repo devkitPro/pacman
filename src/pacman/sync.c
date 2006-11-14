@@ -214,7 +214,7 @@ static int sync_search(list_t *syncs, list_t *targets)
 						   (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION),
 						   (group ? " (" : ""), (group ? group : ""), (group ? ") " : ""));
 				indentprint((char *)alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
-				printf("\n");
+				printf("\n\n");
 			}
 			alpm_list_free_outer(ret);
 		} else {

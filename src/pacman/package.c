@@ -222,11 +222,11 @@ int split_pkgname(char *target, char *name, char *version)
 	strncpy(tmp, p, 512);
 	/* trim file extension (if any) */
 	if((p = strstr(tmp, PM_EXT_PKG))) {
-		*p = 0;
+		*p = '\0';
 	}
 	/* trim architecture */
-	if((p = strrchr(tmp, '-'))) {
-		*p = 0;
+	if((p = _alpm_pkgname_has_arch(tmp))) {
+		*p = '\0';
 	}
 
 	p = tmp + strlen(tmp);
@@ -240,7 +240,7 @@ int split_pkgname(char *target, char *name, char *version)
 		return(-1);
 	}
 	strncpy(version, p+1, 64);
-	*p = 0;
+	*p = '\0';
 
 	strncpy(name, tmp, 256);
 
