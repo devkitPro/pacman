@@ -343,7 +343,6 @@ dnl ==========================================================================
 AC_OUTPUT([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
-lib/libftp/Makefile
 src/pacman/Makefile
 src/pacman/po/Makefile.in
 src/util/Makefile

@@ -1,5 +1,5 @@
 /*
- *  download.h
+ *  downloadprog.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  * 
@@ -18,18 +18,11 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
  *  USA.
  */
-#ifndef _PM_DOWNLOAD_H
-#define _PM_DOWNLOAD_H
-
-extern char sync_fnm[PM_DLFNM_LEN+1];
-extern int offset;
-extern struct timeval t0, t;
-extern float rate;
-extern int xfered1;
-extern unsigned int eta_h, eta_m, eta_s;
+#ifndef _PM_DOWNLOADPROG_H
+#define _PM_DOWNLOADPROG_H
 
 void log_progress(const char *filename, int xfered, int total);
 
-#endif /* _PM_DOWNLOAD_H */
+#endif /* _PM_DOWNLOADPROG_H */
 
 /* vim: set ts=2 sw=2 noet: */

@@ -1,5 +1,5 @@
 /*
- *  download.c
+ *  downloadprog.c
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  * 
@@ -35,7 +35,7 @@
 #include "util.h"
 #include "log.h"
 #include "list.h"
-#include "download.h"
+#include "downloadprog.h"
 #include "conf.h"
 
 /* progress bar */
