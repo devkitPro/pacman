@@ -24,7 +24,7 @@
 #include "list.h"
 #include <time.h>
 
-#include <fetch.h>
+#include <download.h>
 
 #define FREESERVER(p) \
 do { \

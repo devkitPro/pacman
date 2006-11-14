@@ -1,4 +1,4 @@
-SUBDIRS = lib/libfetch lib/libalpm src/util src/pacman scripts doc doc/hu etc 
+SUBDIRS = lib/libalpm src/util src/pacman scripts doc doc/hu etc 
 
 if HAS_PERL
 SUBDIRS += bindings/perl
@@ -22,5 +22,4 @@ check: src/pacman
 
 tags:
 	ctags -a lib/libalpm/*.[ch]
-	ctags -a lib/libftp/*.[ch]
 	ctags -a src/pacman/*.[ch]

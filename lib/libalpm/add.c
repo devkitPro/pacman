@@ -129,7 +129,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		goto error;
 	}
 
-	if(_alpm_pkg_splitname(name, pkgname, pkgver) == -1) {
+	if(_alpm_pkg_splitname(name, pkgname, pkgver, 1) == -1) {
 		pm_errno = PM_ERR_PKG_INVALID_NAME;
 		goto error;
 	}

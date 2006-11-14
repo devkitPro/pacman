@@ -52,7 +52,7 @@ pmserver_t *_alpm_server_new(const char *url)
 	}
 
 	memset(server, 0, sizeof(pmserver_t));
-	u = fetchParseURL(url);
+	u = downloadParseURL(url);
 	if(!u) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring"), url);
 		return(NULL);
@@ -68,7 +68,7 @@ pmserver_t *_alpm_server_new(const char *url)
 	}
 
 	/* This isn't needed... we can actually kill the whole pmserver_t interface
-	 * and replace it with libfetch's 'struct url'
+	 * and replace it with libdownload's 'struct url'
 	 */
   server->s_url = u;
 	server->path = strdup(u->doc);
@@ -86,7 +86,7 @@ void _alpm_server_free(void *data)
 
 	/* free memory */
 	FREE(server->path);
-	fetchFreeURL(server->s_url);
+	downloadFreeURL(server->s_url);
 	FREE(server);
 }
 
@@ -165,24 +165,24 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				server->s_url->doc = (char *)malloc(len);
 				snprintf(server->s_url->doc, len, "%s/%s", server->path, fn);
 
-				/* libfetch does not reset the error code, reset it in the case of previous errors */
-				fetchLastErrCode = 0;
+				/* libdownload does not reset the error code, reset it in the case of previous errors */
+				downloadLastErrCode = 0;
 
 				/* 10s timeout - TODO make a config option */
-				fetchTimeout = 10000;
+				downloadTimeout = 10000;
 
-			 	/* Make libfetch super verbose... worthwhile for testing */
-				if(pm_logmask & PM_LOG_FETCH) {
-						fetchDebug = 1;
+			 	/* Make libdownload super verbose... worthwhile for testing */
+				if(pm_logmask & PM_LOG_DOWNLOAD) {
+						downloadDebug = 1;
 				}
 				if(pm_logmask & PM_LOG_DEBUG) {
-						dlf = fetchXGet(server->s_url, &ust, (handle->nopassiveftp ? "v" : "vp"));
+						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "v" : "vp"));
 				} else {
-						dlf = fetchXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
+						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
 				}
-				if(fetchLastErrCode != 0 || dlf == NULL) {
+				if(downloadLastErrCode != 0 || dlf == NULL) {
 					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s://%s: %s"), fn,
-										server->s_url->scheme, server->s_url->host, fetchLastErrString);
+										server->s_url->scheme, server->s_url->host, downloadLastErrString);
 					if(localf != NULL) {
 						fclose(localf);
 					}
@@ -321,7 +321,7 @@ char *_alpm_fetch_pkgurl(char *target)
 	struct stat st;
 	struct url *s_url;
 
-	s_url = fetchParseURL(target);
+	s_url = downloadParseURL(target);
 	if(!s_url) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring"), target);
 		return(NULL);
@@ -350,7 +350,7 @@ char *_alpm_fetch_pkgurl(char *target)
 		}
 		if(s_url->doc && (p = strrchr(s_url->doc,'/'))) {
 			*p++ = '\0';
-			_alpm_log(PM_LOG_DEBUG, _("fetching '%s' from '%s://%s%s"), p, s_url->scheme, s_url->host, s_url->doc);
+			_alpm_log(PM_LOG_DEBUG, _("downloading '%s' from '%s://%s%s"), p, s_url->scheme, s_url->host, s_url->doc);
 
 			server->s_url = s_url;
 			server->path = strdup(s_url->doc);
@@ -366,10 +366,15 @@ char *_alpm_fetch_pkgurl(char *target)
 		}
 	}
 
-	fetchFreeURL(s_url);
+	/* dupe before we free the URL struct...*/
+	if(p) {
+		p = strdup(p);
+	}
+
+	downloadFreeURL(s_url);
 
 	/* return the target with the raw filename, no URL */
-	return(p ? strdup(p) : NULL);
+	return(p);
 }
 
 /* vim: set ts=2 sw=2 noet: */

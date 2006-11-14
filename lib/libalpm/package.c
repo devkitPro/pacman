@@ -435,7 +435,7 @@ pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack)
 	return(NULL);
 }
 
-int _alpm_pkg_splitname(char *target, char *name, char *version)
+int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 {
 	char tmp[PKG_FULLNAME_LEN+7];
 	char *p, *q;
@@ -453,7 +453,11 @@ int _alpm_pkg_splitname(char *target, char *name, char *version)
 	STRNCPY(tmp, p, PKG_FULLNAME_LEN+7);
 	/* trim file extension (if any) */
 	if((p = strstr(tmp, PM_EXT_PKG))) {
-		*p = 0;
+		*p = '\0';
+	}
+
+	if((p = _alpm_pkgname_has_arch(tmp))) {
+		*p = '\0';
 	}
 
 	p = tmp + strlen(tmp);
@@ -469,7 +473,7 @@ int _alpm_pkg_splitname(char *target, char *name, char *version)
 	if(version) {
 		STRNCPY(version, p+1, PKG_VERSION_LEN);
 	}
-	*p = 0;
+	*p = '\0';
 
 	if(name) {
 		STRNCPY(name, tmp, PKG_NAME_LEN);

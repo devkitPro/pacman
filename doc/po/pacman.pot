@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-10-30  8:14-0600\n"
+"POT-Creation-Date: 2006-11-14 13:52-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1013,7 +1013,7 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: makepkg.8:30
+#: makepkg.8:30 PKGBUILD.8:11
 #, no-wrap
 msgid "PKGBUILD Example:"
 msgstr ""
@@ -1242,7 +1242,7 @@ msgid "script is run right after files are removed."
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:149
+#: makepkg.8:149 PKGBUILD.8:154
 msgid ""
 "To use this feature, just create a file (eg, pkgname.install) and put it in "
 "the same directory as the PKGBUILD script.  Then use the I<install> "
@@ -1361,7 +1361,7 @@ msgid "This template is also available in your ABS tree (/var/abs/install.proto)
 msgstr ""
 
 # type: SH
-#: makepkg.8:220
+#: makepkg.8:220 PKGBUILD.8:179
 #, no-wrap
 msgid "PKGBUILD Directives"
 msgstr ""
@@ -1513,7 +1513,7 @@ msgid "B<install>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:285
+#: makepkg.8:285 PKGBUILD.8:220
 msgid ""
 "Specifies a special install script that is to be included in the package.  "
 "This file should reside in the same directory as the PKGBUILD, and will be "
@@ -1528,7 +1528,7 @@ msgid "B<source >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:293
+#: makepkg.8:293 PKGBUILD.8:234
 msgid ""
 "The I<source> line is an array of source files required to build the "
 "package.  Source files must reside in the same directory as the PKGBUILD "
@@ -1591,7 +1591,7 @@ msgid "B<depends >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:325
+#: makepkg.8:325 PKGBUILD.8:289
 msgid ""
 "An array of packages that this package depends on to build and run.  "
 "Packages in this list should be surrounded with single quotes and contain at "
@@ -1932,7 +1932,7 @@ msgstr ""
 # type: TH
 #: PKGBUILD.8:1
 #, no-wrap
-msgid "FrugalBuild"
+msgid "PKGBUILD"
 msgstr ""
 
 # type: TH
@@ -1944,26 +1944,20 @@ msgstr ""
 # type: TH
 #: PKGBUILD.8:1
 #, no-wrap
-msgid "Frugalware Developer Manual"
+msgid "Archlinux Developer Manual"
 msgstr ""
 
 # type: Plain text
 #: PKGBUILD.8:4
-msgid "FrugalBuild - Frugalware package builder descriptor"
+msgid "PKGBUILD - Archlinux package builder descriptor"
 msgstr ""
 
 # type: Plain text
 #: PKGBUILD.8:8
 msgid ""
-"This manual page is meant to describe general rules about FrugalBuilds. If "
+"This manual page is meant to describe general rules about PKGBUILDs. If "
 "you're interested in the package builder B<makepkg> itself, then see its "
 "manual page, not this one."
-msgstr ""
-
-# type: SH
-#: PKGBUILD.8:11
-#, no-wrap
-msgid "FrugalBuild Example:"
 msgstr ""
 
 # type: Plain text
@@ -2038,8 +2032,8 @@ msgstr ""
 msgid ""
 "If you wish to maintain the package, write your name or nick and e-mail "
 "address to the third line. If you don't plan to maintain the package just "
-"wrote the FrugalBuild, then write Contributor instead of Maintainer, and "
-"then someone can take it and will add his/her line later. Other lines like "
+"wrote the PKGBUILD, then write Contributor instead of Maintainer, and then "
+"someone can take it and will add his/her line later. Other lines like "
 "\"Modified by\" are not allowed. Use the darcs patch comments to mention "
 "others if you wish."
 msgstr ""
@@ -2049,7 +2043,7 @@ msgstr ""
 msgid ""
 "pkgname defines the package name. It should not contain any uppercase "
 "letters.  The package version defines the upstream version, while the "
-"package release tracks the Frugalware-specific changes. pkgrel should be an "
+"package release tracks the Archlinux-specific changes. pkgrel should be an "
 "integer, pkgrels like 5wanda1 are reserved for security updates. There the "
 "rule is the following: If the original package's pkgrel was 4, then "
 "increment it once when you add a security patch, but then use 5wanda1, "
@@ -2077,9 +2071,9 @@ msgstr ""
 #: PKGBUILD.8:78
 msgid ""
 "The next line is a special Finclude commands which allows you to inherit any "
-"directive from a FrugalBuild scheme. They can be found in the FST, under "
+"directive from a PKGBUILD scheme. They can be found in the FST, under "
 "/source/include. The \"util\" scheme always included, since its provided "
-"functions are used by almost every FrugalBuild. Look at the "
+"functions are used by almost every PKGBUILD. Look at the "
 "/source/include/sourceforge.sh, it provides the url, up2date and source()  "
 "directives, so we don't have to specify them here. After the Finclude you "
 "can overwrite the inherited directives, for example define a custom up2date "
@@ -2119,13 +2113,13 @@ msgstr ""
 # type: Plain text
 #: PKGBUILD.8:103
 msgid ""
-"The last line will be added automatically to the end of the FrugalBuild if "
-"the build() function used your $CFLAGS or $CXXFLAGS. This is handy if you "
-"want to cross-compile on a faster machine for a slower architecture. Until "
-"the package doesn't use our $CFLAGS we can't cross-compile it, so please try "
-"to avoid creating \"unoptimized\" packages. If the package doesn't contain "
-"any architecture-dependent file, then you can add this line manually as "
-"makepkg will not detect this."
+"The last line will be added automatically to the end of the PKGBUILD if the "
+"build() function used your $CFLAGS or $CXXFLAGS. This is handy if you want "
+"to cross-compile on a faster machine for a slower architecture. Until the "
+"package doesn't use our $CFLAGS we can't cross-compile it, so please try to "
+"avoid creating \"unoptimized\" packages. If the package doesn't contain any "
+"architecture-dependent file, then you can add this line manually as makepkg "
+"will not detect this."
 msgstr ""
 
 # type: Plain text
@@ -2155,14 +2149,6 @@ msgstr ""
 msgid ""
 "At this point you should have a package file in the current directory, named "
 "something like name-version-release-arch.fpm.  Done!"
-msgstr ""
-
-# type: Plain text
-#: PKGBUILD.8:154
-msgid ""
-"To use this feature, just create a file (eg, pkgname.install) and put it in "
-"the same directory as the FrugalBuild script.  Then use the I<install> "
-"directive:"
 msgstr ""
 
 # type: Plain text
@@ -2199,15 +2185,9 @@ msgid ""
 "}\n"
 msgstr ""
 
-# type: SH
-#: PKGBUILD.8:179
-#, no-wrap
-msgid "FrugalBuild Directives"
-msgstr ""
-
 # type: Plain text
 #: PKGBUILD.8:192
-msgid "This is the release number specific to Frugalware Linux packages."
+msgid "This is the release number specific to Archlinux Linux packages."
 msgstr ""
 
 # type: TP
@@ -2233,15 +2213,6 @@ msgid ""
 "option is still in development and may change in the future)"
 msgstr ""
 
-# type: Plain text
-#: PKGBUILD.8:220
-msgid ""
-"Specifies a special install script that is to be included in the package.  "
-"This file should reside in the same directory as the FrugalBuild, and will "
-"be copied into the package by makepkg.  It does not need to be included in "
-"the I<source> array.  (eg, install=modutils.install)"
-msgstr ""
-
 # type: TP
 #: PKGBUILD.8:221
 #, no-wrap
@@ -2257,23 +2228,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:234
-msgid ""
-"The I<source> line is an array of source files required to build the "
-"package.  Source files must reside in the same directory as the FrugalBuild "
-"file, unless they have a fully-qualified URL.  Then if the source file does "
-"not already exist in /var/cache/pacman/src, the file is downloaded by wget."
-msgstr ""
-
-# type: Plain text
 #: PKGBUILD.8:243
 msgid ""
 "If this field is present, it should contain an MD5 hash for every source "
 "file specified in the I<source> array (in the same order).  makepkg will use "
 "this to verify source file integrity during subsequent builds.  To easily "
-"generate md5sums, first build using the FrugalBuild then run B<makepkg -G "
-"E<gt>E<gt>FrugalBuild>.  Then you can edit the FrugalBuild and move the "
-"I<md5sums> line from the bottom to an appropriate location."
+"generate md5sums, first build using the PKGBUILD then run B<makepkg -G "
+"E<gt>E<gt>PKGBUILD>.  Then you can edit the PKGBUILD and move the I<md5sums> "
+"line from the bottom to an appropriate location."
 msgstr ""
 
 # type: TP
@@ -2288,8 +2250,8 @@ msgid ""
 "If this field is present, it should contain an SHA1 hash for every source "
 "file specified in the I<source> array (in the same order).  makepkg will use "
 "this to verify source file integrity during subsequent builds.  To easily "
-"generate sha1sums, first build using the FrugalBuild then run B<makepkg -g "
-"E<gt>E<gt>FrugalBuild>.  Then you can edit the FrugalBuild and move the "
+"generate sha1sums, first build using the PKGBUILD then run B<makepkg -g "
+"E<gt>E<gt>PKGBUILD>.  Then you can edit the PKGBUILD and move the "
 "I<sha1sums> line from the bottom to an appropriate location."
 msgstr ""
 
@@ -2324,18 +2286,6 @@ msgid ""
 "This array defines on which architectures the given package is avalibable.  "
 "If it's not available, that will mean that gensync will skip it when "
 "generating package databases."
-msgstr ""
-
-# type: Plain text
-#: PKGBUILD.8:289
-msgid ""
-"An array of packages that this package depends on to build and run.  "
-"Packages in this list should be surrounded with single quotes and contain at "
-"least the package name.  They can also include a version requirement of the "
-"form B<nameE<lt>E<gt>version>, where E<lt>E<gt> is one of these three "
-"comparisons: B<E<gt>=> (greater than equal to), B<E<lt>=> (less than or "
-"equal to), or B<=> (equal to).  See the FrugalBuild example above for an "
-"example of the I<depends> directive."
 msgstr ""
 
 # type: TP
@@ -2437,7 +2387,7 @@ msgstr ""
 #: PKGBUILD.8:372
 msgid ""
 "When you start building with makepkg -R, pacman will install these packages "
-"to /var/chroot if necessary. This will produce a fully \"clean\" Frugalware "
+"to /var/chroot if necessary. This will produce a fully \"clean\" Archlinux "
 "system, that consits of base packages only. This /var/chroot is fully "
 "separated from the host system so that this will solve the problems "
 "mentioned above.  (Linking to a library installed from source, etc.)"
@@ -2464,7 +2414,7 @@ msgstr ""
 #: PKGBUILD.8:385
 msgid ""
 "This way we can prevent lots of dependency problems and it is even possible "
-"to build packages for a different Frugalware version. This is quite efficent "
+"to build packages for a different Archlinux version. This is quite efficent "
 "when building security updates or fixing critical bugs in the -stable tree."
 msgstr ""
 
@@ -2552,7 +2502,7 @@ msgstr ""
 #: PKGBUILD.8:434
 #, no-wrap
 msgid ""
-"Add the followings to your bottom of your FrugalBuild\n"
+"Add the followings to your bottom of your PKGBUILD\n"
 "subpkgs=('foo' 'bar')\n"
 "subdescs=('desc of foo' 'desc of bar')\n"
 "subdepends=('foodep1 foodep2' 'bardep1 bardep2')\n"

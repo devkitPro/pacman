@@ -163,7 +163,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq)
 	if(pkg == NULL) {
 		return(NULL);
 	}
-	if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version) == -1) {
+	if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
 		_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
 		return(NULL);
 	}
@@ -180,9 +180,8 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	struct stat buf;
 	char path[PATH_MAX+1];
 	char line[513];
-	char *lang_tmp;
 	pmlist_t *tmplist;
-	char *foo;
+	char *locale;
 
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
@@ -225,30 +224,26 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 					info->desc_localized = _alpm_list_add(info->desc_localized, strdup(line));
 				}
 
-				if (setlocale(LC_ALL, "") == NULL) { /* To fix segfault when locale invalid */
+				if((locale = setlocale(LC_ALL, "")) == NULL) { /* To fix segfault when locale invalid */
 					setenv("LC_ALL", "C", 1);
+					locale = setlocale(LC_ALL, "");
 				}
-				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
-					RET_ERR(PM_ERR_MEMORY, -1);
-				}
-				snprintf(lang_tmp, strlen(setlocale(LC_ALL, "")), "%s", setlocale(LC_ALL, ""));
 
 				if(info->desc_localized && !info->desc_localized->next) {
 				    snprintf(info->desc, 512, "%s", (char*)info->desc_localized->data);
 				} else {
-				    for (tmplist = info->desc_localized; tmplist; tmplist = tmplist->next) {
-					if (tmplist->data && strncmp(tmplist->data, lang_tmp, strlen(lang_tmp))) {
-					    snprintf(info->desc, 512, "%s", (char*)info->desc_localized->data);
-					} else {
-					    foo = strdup(tmplist->data);
-					    snprintf(info->desc, 512, "%s", foo+strlen(lang_tmp)+1);
-					    FREE(foo);
-					    break;
+					for (tmplist = info->desc_localized; tmplist; tmplist = tmplist->next) {
+						if (tmplist->data && strncmp(tmplist->data, locale, strlen(locale))) {
+							strncpy(info->desc, (char *)info->desc_localized->data, sizeof(info->desc));
+						} else {
+							char *p = (char *)tmplist->data;
+							p += strlen(locale) + 1;
+							strncpy(info->desc, p, sizeof(info->desc));
+							break;
+						}
 					}
-				    }
 				}
 				_alpm_strtrim(info->desc);
-				FREE(lang_tmp);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->groups = _alpm_list_add(info->groups, strdup(line));

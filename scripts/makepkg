@@ -3,7 +3,11 @@
 #   makepkg
 #  
 #   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
 #   Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
+#   Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
+#   Copyright (c) 2006 by Alex Smith <alex@alex-smith.me.uk>
+#   Copyright (c) 2006 by Andras Voroskoi <voroskoi@frugalware.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -27,15 +31,15 @@ PKGDEST=$startdir
 USE_COLOR="n"
 
 # Options
-BUILDSCRIPT="./PKGBUILD"
 CLEANUP=0
 CLEANCACHE=0
 DEP_BIN=0
 DEP_SRC=0
 DEP_SUDO=0
 FORCE=0
-GENMD5=0
+GENINTEG=0
 INSTALL=0
+DOWNLOAD=""
 KEEPDOCS=0
 NOBUILD=0
 NOCCACHE=0
@@ -43,14 +47,9 @@ NODEPS=0
 NOEXTRACT=0
 NOSTRIP=0
 RMDEPS=0
+LOGGING=0
 
 PACMAN_OPTS=
-
-# source Arch's abs.conf if it's present
-[ -f /etc/abs/abs.conf ] && source /etc/abs/abs.conf
-
-# makepkg configuration
-[ -f /etc/makepkg.conf ] && source /etc/makepkg.conf
 
 INFAKEROOT=
 if [ "$1" = "-F" ]; then
@@ -74,6 +73,15 @@ msg() {
 		echo "==> $1" >&2
 	fi
 }
+
+msg2() {
+        if [ "$USE_COLOR" = "Y" -o "$USE_COLOR" = "y" ]; then
+                echo -e "   \033[1;34m->\033[1;0m \033[1;1m$1\033[1;0m" >&2
+        else
+                echo "   -> $1" >&2
+        fi
+}
+
 warning() {
 	if [ "$USE_COLOR" = "Y" -o "$USE_COLOR" = "y" ]; then
 		echo -e "\033[1;33m==> WARNING:\033[1;0m \033[1;1m$1\033[1;0m" >&2
@@ -90,7 +98,7 @@ error() {
 }
 
 strip_url() {
-	echo $1 | sed 's|^.*://.*/||g'
+	echo "$1" | sed 's|^.*://.*/||g'
 }
 
 check_option() {
@@ -103,6 +111,16 @@ check_option() {
 			return
 		fi
 	done
+}
+
+in_array() {
+    needle=$1
+    shift 1
+    [ -z "$1" ] && return 1
+    for i in $*; do
+        [ "$i" == "$needle" ] && return 0
+    done
+    return 1
 }
 
 checkdeps() {
@@ -151,7 +169,7 @@ handledeps() {
 		if [ "$DEP_BIN" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S)
 			msg "Installing missing dependencies..."
-			pacman $PACMAN_OPTS -D $deplist
+            pacman $PACMAN_OPTS -D $deplist
 			if [ "$?" = "127" ]; then
 				error "Failed to install missing dependencies."
 				exit 1
@@ -165,33 +183,33 @@ handledeps() {
 				FAKEROOTKEY2=$FAKEROOTKEY
 				unset FAKEROOTKEY
 			fi
-			sudo pacman $PACMAN_OPTS -D $deplist
-			if [ "$INFAKEROOT" = "1" ]; then
-				export FAKEROOTKEY=$FAKEROOTKEY2
-				unset FAKEROOTKEY2
-			fi
+            sudo pacman $PACMAN_OPTS -D $deplist
 			if [ "$?" = "127" ]; then
 				error "Failed to install missing dependencies."
 				exit 1
 			fi
+			if [ "$INFAKEROOT" = "1" ]; then
+				export FAKEROOTKEY=$FAKEROOTKEY2
+				unset FAKEROOTKEY2
+            fi
 		elif [ "$DEP_SRC" = "1" ]; then
 			# install missing deps by building them from source.
-			# we look for each package name in $ABSROOT and build it.
-			if [ "$ABSROOT" = "" ]; then
-				error "The ABSROOT environment variable is not defined."
+			# we look for each package name in $SRCROOT and build it.
+			if [ "$SRCROOT" = "" ]; then
+                error "Source root cannot be found - please make sure it is specified in /etc/makepkg.conf"
 				exit 1
 			fi
 			# TODO: handle version comparators (eg, glibc>=2.2.5)
 			msg "Building missing dependencies..."
 			for dep in $deplist; do
-				candidates=`find $ABSROOT -type d -name "$dep"`
+				candidates=$(find $SRCROOT -type d -name "$dep")
 				if [ "$candidates" = "" ]; then
-					error "Could not find \"$dep\" under $ABSROOT"
+					error "Could not find \"$dep\" under $SRCROOT"
 					exit 1
 				fi
 				success=0
 				for pkgdir in $candidates; do
-					if [ -f $pkgdir/PKGBUILD ]; then
+					if [ -f $pkgdir/$BUILDSCRIPT ]; then
 						cd $pkgdir
 						if [ "$RMDEPS" = "1" ]; then
 							makepkg -i -c -b -r -w $PKGDEST
@@ -219,6 +237,16 @@ handledeps() {
 		fi
 		missingdeps=1
 	fi
+	# rerun any additional sh scripts found in /etc/profile.d/
+	for i in /etc/profile.d/*.sh
+	do
+		if [ -x $i ]; then
+			. $i &>/dev/null
+		fi
+	done
+	# some applications (eg, blackbox) will not build with some languages
+	unset LC_ALL LANG
+
 	return $missingdeps
 }
 
@@ -235,14 +263,15 @@ usage() {
 	echo "  -d, --nodeps     Skip all dependency checks"
 	echo "  -e, --noextract  Do not extract source files (use existing src/ dir)"
 	echo "  -f, --force      Overwrite existing package"
-	echo "  -g, --genmd5     Generate MD5sums for source files"
+	echo "  -g, --geninteg   Generate integrity checks for source files"
 	echo "  -h, --help       This help"
 	echo "  -i, --install    Install package after successful build"
 	echo "  -j <jobs>        Set MAKEFLAGS to \"-j<jobs>\" before building"
+	echo "  -L, --log        Log package build process"
 	echo "  -m, --nocolor    Disable colorized output messages"
 	echo "  -n, --nostrip    Do not strip binaries/libraries"
 	echo "  -o, --nobuild    Download and extract files only"
-	echo "  -p <buildscript> Use an alternate build script (instead of PKGBUILD)"
+	echo "  -p <buildscript> Use an alternate build script (instead of '$BUILDSCRIPT')"
 	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
 	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
@@ -253,11 +282,21 @@ usage() {
 	echo "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 	echo "  --noprogressbar  Do not show a progress bar when downloading files"
 	echo
-	echo "If -p is not specified, makepkg will look for ./PKGBUILD"
+	echo "If -p is not specified, makepkg will look for './$BUILDSCRIPT'"
 	echo
 }
 
 ARGLIST=$@
+
+if [ -f /etc//makepkg.conf ]; then
+    source /etc/makepkg.conf
+else
+    error "/etc/makepkg.conf not found. cannot continue"
+    exit 1
+fi
+
+#Let's be courteous and support frugalware's extensions
+[ -e /usr/lib/frugalware/fwmakepkg ] && . /usr/lib/frugalware/fwmakepkg
 
 while [ "$#" -ne "0" ]; do
 	case $1 in
@@ -278,8 +317,9 @@ while [ "$#" -ne "0" ]; do
 		--nostrip)    NOSTRIP=1 ;;
 		--nobuild)    NOBUILD=1 ;;
 		--nocolor)    USE_COLOR="n" ;;
-		--genmd5)     GENMD5=1 ;;
+		--geninteg)   GENINTEG=1 ;;
 		--rmdeps)     RMDEPS=1 ;;
+        --log)        LOGGING=1 ;;
 		--help)
 			usage
 			exit 0
@@ -289,7 +329,7 @@ while [ "$#" -ne "0" ]; do
 			exit 1
 			;;
 		-*)
-			while getopts "bBcCdefghij:mnop:rsSw:-" opt; do
+			while getopts "bBcCdefghij:Lmnop:rsSw:-" opt; do
 				case $opt in
 					b) DEP_SRC=1 ;;
 					B) NOCCACHE=1 ;;
@@ -298,13 +338,14 @@ while [ "$#" -ne "0" ]; do
 					d) NODEPS=1 ;;
 					e) NOEXTRACT=1 ;;
 					f) FORCE=1 ;;
-					g) GENMD5=1 ;;
+					g) GENINTEG=1 ;;
 					h)
 						usage
 						exit 0
 						;;
 					i) INSTALL=1 ;;
 					j) export MAKEFLAGS="-j$OPTARG" ;;
+                    L) LOGGING=1 ;;
 					m) USE_COLOR="n" ;;
 					n) NOSTRIP=1 ;;
 					o) NOBUILD=1 ;;
@@ -333,7 +374,7 @@ done
 
 # check for sudo
 if [ "$DEP_SUDO" = "1" -a ! "`type -p sudo`" ]; then
-	error "Cannot find the sudo binary!  Is sudo installed?"
+	error "Cannot find the sudo binary! Is sudo installed?"
 	exit 1
 fi
 
@@ -360,6 +401,8 @@ fi
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options
+
+
 # some applications (eg, blackbox) will not build with some languages
 unset LC_ALL LANG
 umask 0022
@@ -367,35 +410,56 @@ umask 0022
 if [ ! -f $BUILDSCRIPT ]; then
 	error "$BUILDSCRIPT does not exist."
 	exit 1
+else
+    #this is fun.... we'll unset
+    for var in $(grep "=" $BUILDSCRIPT | sed "s|.*\(\<.*\>\)=.*|\1|g"); do
+        unset $var
+    done
 fi
 
 source $BUILDSCRIPT
 
 # check for no-no's
-if [ `echo $pkgver | grep '-'` ]; then
+if [ -z "$pkgver" ]; then
+	error "pkgver is not allowed to be empty."
+	exit 1
+fi
+if [ -z "$pkgrel" ]; then
+	error "pkgrel is not allowed to be empty."
+	exit 1
+fi
+if [ $(echo $pkgver | grep '-') ]; then
 	error "pkgver is not allowed to contain hyphens."
 	exit 1
 fi
-if [ `echo $pkgrel | grep '-'` ]; then
+if [ $(echo $pkgrel | grep '-') ]; then
 	error "pkgrel is not allowed to contain hyphens."
 	exit 1
 fi
+if ! in_array $CARCH ${arch[@]}; then
+	error "$pkgname is not available for the '$CARCH' architecture."
+	exit 1
+fi
+
 if [ "$install" -a ! -f "$install" ]; then
 	error "install scriptlet ($install) does not exist."
 	exit 1
 fi
 
-if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz -a "$FORCE" = "0" -a "$GENMD5" = "0" ]; then
+if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "a package has already been built, installing existing package."
-		echo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
-		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+		echo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
+		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
 		exit $?
 	else
 		error "a package has already been built.  (use -f to overwrite)"
 		exit 1
 	fi
 fi
+
+# some applications (eg, blackbox) will not build with some languages
+unset LC_ALL LANG
 
 # Enter the fakeroot environment if necessary.  This will call the makepkg script again
 # as the fake root user.  We detect this by passing a sentinel option (-F) to makepkg
@@ -498,111 +562,113 @@ for netfile in ${source[@]}; do
 	fi
 done
 
-if [ "$GENMD5" = "0" ]; then
-	if [ "$NOEXTRACT" = "1" ]; then
-		warning "Skipping source extraction       -- using existing src/ tree"
-		warning "Skipping source integrity checks -- using existing src/ tree"
-	else
-		# MD5 validation
-		if [ ${#md5sums[@]} -ne ${#source[@]} ]; then
-			warning "MD5sums are missing or incomplete.  Cannot verify source integrity."
-			#sleep 1
-		elif [ `type -p md5sum` ]; then
-			msg "Validating source files with MD5sums"
-			errors=0
-			idx=0
-			for netfile in ${source[@]}; do
-				file=`strip_url $netfile`
-				echo -n "    $file ... " >&2
-				echo "${md5sums[$idx]}  $file" | md5sum -c - >/dev/null 2>&1
-				if [ $? -ne 0 ]; then
-					echo "FAILED" >&2
-					errors=1
-				else
-					echo "Passed" >&2
-				fi	
-				idx=$(($idx+1))
-			done
-			if [ $errors -gt 0 ]; then
-				error "One or more files did not pass the validity check!"
-				exit 1
-			fi
-		else
-			warning "The md5sum program is missing.  Cannot verify source files!"
-			sleep 1
-		fi
-		# extract sources
-		msg "Extracting Sources..."
-		for netfile in ${source[@]}; do
-			unziphack=0
-			file=`strip_url $netfile`
-			unset cmd
-			case $file in
-				*.tar.gz|*.tar.Z|*.tgz)
-				cmd="tar --use-compress-program=gzip -xf $file" ;;
-				*.tar.bz2|*.tbz2)
-				cmd="tar --use-compress-program=bzip2 -xf $file" ;;
-				*.tar)
-				cmd="tar -xf $file" ;;
-				*.zip)
-				unziphack=1
-				cmd="unzip -qqo $file" ;;
-				*.gz)
-				cmd="gunzip $file" ;;
-				*.bz2)
-				cmd="bunzip2 $file" ;;
-			esac
-			if [ "$cmd" != "" ]; then
-				msg "    $cmd"
-				$cmd
-				if [ $? -ne 0 ]; then
-					# unzip will return a 1 as a warning, it is not an error
-					if [ "$unziphack" != "1" -o $? -ne 1 ]; then
-						error "Failed to extract $file"
-						msg "Aborting..."
-						exit 1
-					fi
-				fi
-			fi
-		done
-	fi
+
+
+if [ "$NOEXTRACT" = "1" ]; then
+    warning "Skipping source extraction       -- using existing src/ tree"
+    warning "Skipping source integrity checks -- using existing src/ tree"
 else
-# generate md5 hashes
-	if [ ! `type -p md5sum` ]; then
-		error "Cannot find the md5sum program."
-		exit 1
-  fi
-	msg "Generating MD5sums for source files"
-	plain ""
-	ct=0
-	newline=0
-	numsrc=${#source[@]}
-	for netfile in ${source[@]}; do
-		file=`strip_url $netfile`
-		sum=`md5sum $file | cut -d' ' -f 1`
-		if [ $ct -eq 0 ]; then
-			echo -n "md5sums=("
-		else
-			if [ $newline -eq 0 ]; then
-				echo -n "         "
-			fi
-		fi
-		echo -n "'$sum'"
-		ct=$(($ct+1))
-		if [ $ct -eq $numsrc ]; then
-			echo ')'
-		else
-			if [ $newline -eq 1 ]; then
-				echo '\'
-				newline=0
-			else
-				echo -n ' '
-				newline=1
-			fi
-		fi
-	done
-	plain ""
-	exit 0
+    integ="$(echo $INTEGRITY_CHECK | tr A-Z a-z)"
+    case "$integ" in
+        md5) integrity_name="md5sum" ;;
+        sha1) integrity_name="sha1sum" ;;
+        *) error "Invalid integrity algorithm '$integ' specified"; exit 1;;
+    esac
+    if [ ! $(type -p $integrity_name) ]; then
+        error "Cannot find the $integrity_name program."
+        exit 1
+    fi
+
+    if [ "$GENINTEG" = "1" ]; then
+        msg "Generating ${integrity_name}s for source files"
+        plain ""
+        ct=0
+        newline=0
+        numsrc=${#source[@]}
+        for netfile in "${source[@]}"; do
+            file=`strip_url "$netfile"`
+            sum=$(eval "$integrity_name '$file' | cut -d' ' -f 1")
+            if [ $ct -eq 0 ]; then
+                echo -n "${integrity_name}s=("
+            else
+                echo -ne "\t  "
+            fi
+            echo -n "'$sum'"
+            ct=$(($ct+1))
+            if [ $ct -eq $numsrc ]; then
+                echo ')'
+            else
+                echo ' \'
+                newline=0
+            fi
+        done
+        plain ""
+        exit 0
+    else #validation
+        integrity_sums=($(eval echo \${${integrity_name}s[@]}))
+
+        if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
+            msg "Validating source files with ${integrity_name}s"
+            errors=0
+            idx=0
+            for netfile in "${source[@]}"; do
+                file=$(strip_url "$netfile")
+                echo -n "    $file ... " >&2
+                echo "${integrity_sums[$idx]}  $file" | $integrity_name -c - >/dev/null 2>&1
+                if [ $? -ne 0 ]; then
+                    echo "FAILED" >&2
+                    errors=1
+                else
+                    echo "Passed" >&2
+                fi
+                idx=$(($idx+1))
+            done
+            if [ $errors -gt 0 ]; then
+                error "One or more files did not pass the validity check!"
+                exit 1
+            fi
+        else
+            warning "Integrity checks ($INTEGRITY_CHECK) are missing or incomplete."
+        fi
+
+        msg "Extracting Sources..."
+        for netfile in "${source[@]}"; do
+            unziphack=0
+            file=`strip_url "$netfile"`
+            unset cmd
+            case "`echo $file |tr "A-Z" "a-z"`" in
+                *.tar.gz|*.tar.z|*.tgz)
+                cmd="tar --use-compress-program=gzip -xf $file" ;;
+                *.tar.bz2|*.tbz2)
+                cmd="tar --use-compress-program=bzip2 -xf $file" ;;
+                *.tar)
+                cmd="tar -xf $file" ;;
+                *.zip)
+                unziphack=1
+                cmd="unzip -qqo $file" ;;
+                *.cpio.gz)
+                cmd="bsdtar -x -f $file" ;;
+                *.cpio.bz2)
+                cmd="bsdtar -x -f $file" ;;
+                *.gz)
+                cmd="gunzip -f $file" ;;
+                *.bz2)
+                cmd="bunzip2 -f $file" ;;
+            esac
+            if [ "$cmd" != "" ]; then
+                msg "    $cmd"
+                $cmd
+                if [ $? -ne 0 ]; then
+                    # unzip will return a 1 as a warning, it is not an error
+                    if [ "$unziphack" != "1" -o $? -ne 1 ]; then
+                        error "Failed to extract $file"
+                        msg "Aborting..."
+                        exit 1
+                    fi
+                fi
+            fi
+        done
+    fi
 fi
 
 if [ "`id -u`" = "0" ]; then
@@ -625,10 +691,6 @@ fi
 # use distcc if requested
 if [ "$DISTCC" = "y" ]; then
 	[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
-	if [ "$INCHROOT" = "1" ]; then
-		[ -d /var/tmp/fst/.distcc ] || mkdir /var/tmp/fst/.distcc
-		export DISTCC_DIR=/var/tmp/fst/.distcc
-	fi
 fi
 
 # use ccache if it's available
@@ -638,10 +700,30 @@ fi
 
 # build
 msg "Starting build()..."
-build 2>&1
-if [ $? -gt 0 ]; then
-	error "Build Failed.  Aborting..."
-	exit 2
+if [ "$LOGGING" = "1" ]; then
+    BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
+    if [ -f "$BUILDLOG" ]; then
+        i=1
+        while true; do
+            if [ -f "$BUILDLOG.$i" ]; then
+                i=$(($i +1))
+            else
+                break
+            fi
+        done
+        mv "$BUILDLOG" "$BUILDLOG.$i"
+    fi
+    build 2>&1 | tee "$BUILDLOG"
+    if [ ${PIPESTATUS[0]} -gt 0 ]; then
+        error "Build Failed.  Aborting..."
+        exit 2
+    fi
+else
+    build 2>&1
+    if [ $? -gt 0 ]; then
+        error "Build Failed.  Aborting..."
+        exit 2
+    fi
 fi
 
 if [ ! "`check_option KEEPDOCS`" -a "$KEEPDOCS" = "0" ]; then
@@ -772,9 +854,9 @@ tar cvf /dev/null * | sort >.FILELIST
 msg "Compressing package..."
 cd $startdir/pkg
 if [ -f $startdir/pkg/.INSTALL ]; then
-	cmd="tar czvf $PKGDEST/$pkgname-$pkgver-$pkgrel.pkg.tar.gz .PKGINFO .FILELIST .INSTALL *"
+	cmd="tar czvf $PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT} .PKGINFO .FILELIST .INSTALL *"
 else
-	cmd="tar czvf $PKGDEST/$pkgname-$pkgver-$pkgrel.pkg.tar.gz .PKGINFO .FILELIST *"
+	cmd="tar czvf $PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT} .PKGINFO .FILELIST *"
 fi
 $cmd | sort >../filelist
 
@@ -782,6 +864,7 @@ cd $startdir
 if [ "$CLEANUP" = "1" ]; then
 	msg "Cleaning up..."
 	rm -rf src pkg filelist
+    rm -rf ${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*
 fi
 
 if [ "$RMDEPS" = "1" -a "`id -u`" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
@@ -804,7 +887,7 @@ msg "Finished making: $pkgname  (`date`)"
 
 if [ "$INSTALL" = "1" -a "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
 	msg "Installing package with pacman -U..."
-	pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+	pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
 	exit $?
 elif [ "$INSTALL" = "1" -a "$DEP_SUDO" = "1" ]; then
 	msg "Installing package with pacman -U..."
@@ -812,7 +895,7 @@ elif [ "$INSTALL" = "1" -a "$DEP_SUDO" = "1" ]; then
 		FAKEROOTKEY2=$FAKEROOTKEY
 		unset FAKEROOTKEY
 	fi
-	sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}.pkg.tar.gz
+	sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
 	if [ "$INFAKEROOT" = "1" ]; then
 		export FAKEROOTKEY=$FAKEROOTKEY2
 		unset FAKEROOTKEY2

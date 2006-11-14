@@ -72,7 +72,7 @@ int alpm_release(void);
 #define PM_LOG_FLOW1    0x08
 #define PM_LOG_FLOW2    0x10
 #define PM_LOG_FUNCTION 0x20
-#define PM_LOG_FETCH    0x40
+#define PM_LOG_DOWNLOAD 0x40
 
 int alpm_logaction(char *fmt, ...);
 
@@ -390,6 +390,7 @@ PM_LIST *alpm_list_first(PM_LIST *list);
 PM_LIST *alpm_list_next(PM_LIST *entry);
 void *alpm_list_getdata(PM_LIST *entry);
 int alpm_list_free(PM_LIST *entry);
+int alpm_list_free_outer(PM_LIST *entry);
 int alpm_list_count(PM_LIST *list);
 
 /* md5sums */

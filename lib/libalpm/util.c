@@ -243,6 +243,8 @@ int _alpm_lckmk(char *file)
 		}
 	}
 
+	free(dir);
+
 	return(fd > 0 ? fd : -1);
 }
 
@@ -265,33 +267,34 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	struct archive_entry *entry;
 	char expath[PATH_MAX];
 
-	if ((_archive = archive_read_new ()) == NULL)
+	if((_archive = archive_read_new()) == NULL)
 		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
 
 	archive_read_support_compression_all(_archive);
-	archive_read_support_format_all (_archive);
+	archive_read_support_format_all(_archive);
 
-	if (archive_read_open_file (_archive, archive, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK)
+	if(archive_read_open_file(_archive, archive, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK)
 		RET_ERR(PM_ERR_PKG_OPEN, -1);
 
-	while (archive_read_next_header (_archive, &entry) == ARCHIVE_OK) {
-		if (fn && strcmp (fn, archive_entry_pathname (entry))) {
-			if (archive_read_data_skip (_archive) != ARCHIVE_OK)
+	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
+		if (fn && strcmp(fn, archive_entry_pathname(entry))) {
+			if (archive_read_data_skip(_archive) != ARCHIVE_OK)
 				return(1);
 			continue;
 		}
-		snprintf(expath, PATH_MAX, "%s/%s", prefix, archive_entry_pathname (entry));
-		archive_entry_set_pathname (entry, expath);
-		if (archive_read_extract (_archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
-			fprintf(stderr, _("could not extract %s: %s\n"), archive_entry_pathname (entry), archive_error_string (_archive));
+		snprintf(expath, PATH_MAX, "%s/%s", prefix, archive_entry_pathname(entry));
+		archive_entry_set_pathname(entry, expath);
+		if(archive_read_extract(_archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
+			fprintf(stderr, _("could not extract %s: %s\n"), archive_entry_pathname(entry), archive_error_string(_archive));
 			 return(1);
 		}
 
-		if (fn)
+		if(fn) {
 			break;
+		}
 	}
 	
-	archive_read_finish (_archive);
+	archive_read_finish(_archive);
 	return(0);
 }
 
@@ -543,16 +546,20 @@ static long long get_freespace()
 	FILE *fp;
 	long long ret=0;
 
-	fp = setmntent (table, "r");
-	if(!fp)
-		        return(-1);
-	while ((mnt = getmntent (fp)))
+	if((fp = setmntent(table, "r")) == NULL) {
+		return(-1);
+	}
+
+	while ((mnt = getmntent(fp)))
 	{
 		struct statvfs64 buf;
 
 		statvfs64(mnt->mnt_dir, &buf);
 		ret += buf.f_bavail * buf.f_bsize;
 	}
+
+	endmntent(fp);
+
 	return(ret);
 }
 
@@ -633,5 +640,45 @@ void _alpm_time2string(time_t t, char *buffer)
 		buffer[14] = '\0';
 	}
 }
+
+/* internal */
+char *_supported_archs[] = {
+	"i586",
+	"i686",
+	"ppc",
+	"x86_64",
+};
+
+char *_alpm_pkgname_has_arch(char *pkgname)
+{
+	/* TODO remove this when we transfer everything over to -ARCH
+	 *
+	 * this parsing sucks... it's done to support
+	 * two package formats for the time being:
+	 *    package-name-foo-1.0.0-1-i686
+	 * and
+	 *    package-name-bar-1.2.3-1
+	 */
+	int i = 0;
+	char *arch, *cmp, *p;
+
+	if((p = strrchr(pkgname, '-'))) {
+		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
+			cmp = p+1;
+			arch = _supported_archs[i];
+
+			/* whee, case insensitive compare */
+
+			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
+			if(*arch || *cmp) continue;
+
+			return p;
+		}
+	}
+	return NULL;
+}
+
+
+
 
 /* vim: set ts=2 sw=2 noet: */

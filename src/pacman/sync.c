@@ -37,11 +37,11 @@
 #endif
 
 #include <alpm.h>
-#include <fetch.h> /* fetchLastErrString */
+#include <download.h> /* downloadLastErrString */
 /* pacman */
 #include "util.h"
 #include "log.h"
-#include "download.h"
+#include "downloadprog.h"
 #include "list.h"
 #include "package.h"
 #include "trans.h"
@@ -168,8 +168,8 @@ static int sync_synctree(int level, list_t *syncs)
 		ret = alpm_db_update((level < 2 ? 0 : 1), sync->db);
 		if(ret < 0) {
 			if(pm_errno == PM_ERR_DB_SYNC) {
-				/* use libfetch error */
-				ERR(NL, _("failed to synchronize %s: %s\n"), sync->treename, fetchLastErrString);
+				/* use libdownload error */
+				ERR(NL, _("failed to synchronize %s: %s\n"), sync->treename, downloadLastErrString);
 			} else {
 				ERR(NL, _("failed to update %s (%s)\n"), sync->treename, alpm_strerror(pm_errno));
 			}
@@ -216,6 +216,7 @@ static int sync_search(list_t *syncs, list_t *targets)
 				indentprint((char *)alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
 				printf("\n");
 			}
+			alpm_list_free_outer(ret);
 		} else {
 			PM_LIST *lp;
 
@@ -546,25 +547,22 @@ int pacman_sync(list_t *targets)
 					}
 					MSG(CL, "\n");
 				}
-				alpm_list_free(data);
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
-				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
+			  for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					PM_DEPMISS *miss = alpm_list_getdata(lp);
 
 					MSG(NL, _(":: %s: conflicts with %s"),
-						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
+							alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
-				alpm_list_free(data);
 			break;
 			case PM_ERR_DISK_FULL:
 				lp = alpm_list_first(data);
 				pkgsize = alpm_list_getdata(lp);
 				lp = alpm_list_next(lp);
 				freespace = alpm_list_getdata(lp);
-					MSG(NL, _(":: %.1f MB required, have %.1f MB"),
-						(double)(*pkgsize / 1048576.0), (double)(*freespace / 1048576.0));
-				alpm_list_free(data);
+				MSG(NL, _(":: %.1f MB required, have %.1f MB"),
+							(double)(*pkgsize / 1048576.0), (double)(*freespace / 1048576.0));
 			break;
 			default:
 			break;
@@ -712,6 +710,10 @@ int pacman_sync(list_t *targets)
 	/* Step 4: release transaction resources
 	 */
 cleanup:
+	if(data) {
+		alpm_list_free(data);
+		data = NULL;
+	}
 	if(alpm_trans_release() == -1) {
 		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;

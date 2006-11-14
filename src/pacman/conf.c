@@ -31,7 +31,7 @@
 #include "log.h"
 #include "list.h"
 #include "sync.h"
-#include "download.h"
+#include "downloadprog.h"
 #include "conf.h"
 
 extern list_t *pmc_syncs;

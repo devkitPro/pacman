@@ -46,7 +46,7 @@
 #include "list.h"
 #include "util.h"
 #include "log.h"
-#include "download.h"
+#include "downloadprog.h"
 #include "conf.h"
 #include "package.h"
 #include "add.h"
@@ -187,8 +187,8 @@ static void cleanup(int signum)
 		fprintf(stderr, "Internal pacman error: Segmentation fault\n"
 			"Please submit a full bug report, with the given package if appropriate.\n");
 		exit(signum);
-	} else if((signum == SIGINT) && (alpm_trans_release() == -1) && (pm_errno ==
-				PM_ERR_TRANS_COMMITING)) {
+	} else if((signum == SIGINT) && (alpm_trans_release() == -1)
+						&& (pm_errno == PM_ERR_TRANS_COMMITING)) {
 		return;
 	}
 	if(signum != 0 && config->op_d_vertest == 0) {
@@ -411,7 +411,7 @@ int main(int argc, char *argv[])
 	list_t *lp;
 
 #if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
-	setenv("MALLOC_TRACE","pacman.mtrace", 0);
+	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
 	mtrace();
 #endif
 	cenv = getenv("COLUMNS");

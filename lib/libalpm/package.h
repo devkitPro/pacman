@@ -98,7 +98,7 @@ void _alpm_pkg_free(void *data);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 pmpkg_t *_alpm_pkg_load(char *pkgfile);
 pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack);
-int _alpm_pkg_splitname(char *target, char *name, char *version);
+int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch);
 
 #endif /* _ALPM_PACKAGE_H */
 

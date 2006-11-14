@@ -346,9 +346,9 @@ int alpm_db_update(int force, PM_DB *db)
 		pm_errno = 0;
 		return(1);
 	} else if(ret == -1) {
-		/* we use fetchLastErrString and fetchLastErrCode here, error returns from
-		 * libfetch */
-		_alpm_log(PM_LOG_DEBUG, _("failed to sync db: %s [%d]"), fetchLastErrString, fetchLastErrCode);
+		/* we use downloadLastErrString and downloadLastErrCode here, error returns from
+		 * libdownload */
+		_alpm_log(PM_LOG_DEBUG, _("failed to sync db: %s [%d]"), downloadLastErrString, downloadLastErrCode);
 		RET_ERR(PM_ERR_DB_SYNC, -1);
 	} else {
 		if(strlen(newmtime)) {
@@ -1105,6 +1105,19 @@ int alpm_list_free(pmlist_t *entry)
 	ASSERT(entry != NULL, return(-1));
 
 	FREELIST(entry);
+
+	return(0);
+}
+
+/** Free the outer list, but not the contained data
+ * @param entry list to free
+ * @return 0 on success, -1 on error
+ */
+int alpm_list_free_outer(pmlist_t *entry)
+{
+	ASSERT(entry != NULL, return(-1));
+
+	_FREELIST(entry, NULL);
 
 	return(0);
 }

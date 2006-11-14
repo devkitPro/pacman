@@ -451,6 +451,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, p
 				}
 			}
 		}
+		FREELISTPTR(k);
 		FREELISTPTR(trans->packages);
 		trans->packages = l;
 

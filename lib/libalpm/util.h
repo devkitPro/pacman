@@ -72,6 +72,7 @@ int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data);
 #endif
 int _alpm_reg_match(char *string, char *pattern);
 void _alpm_time2string(time_t t, char *buffer);
+char *_alpm_pkgname_has_arch(char *pkgname);
 #ifdef __sun__
 char* strsep(char** str, const char* delims);
 char* mkdtemp(char *template);

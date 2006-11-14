@@ -119,6 +119,7 @@ int pacman_query(list_t *targets)
 			indentprint((char *)alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
 			printf("\n");
 		}
+		alpm_list_free_outer(ret);
 		return(0);
 	}
 

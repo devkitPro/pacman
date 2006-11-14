@@ -28,7 +28,7 @@
 /* pacman */
 #include "log.h"
 #include "list.h"
-#include "download.h"
+#include "downloadprog.h"
 #include "trans.h"
 #include "add.h"
 #include "conf.h"

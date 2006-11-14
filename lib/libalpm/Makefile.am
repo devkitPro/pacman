@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = gnu
 DEFINES = -pedantic -D_GNU_SOURCE
-AM_CFLAGS = $(DEFINES) -I$(top_srcdir)/lib/libfetch
+AM_CFLAGS = $(DEFINES)
 SUBDIRS = po
 
 localedir = $(datadir)/locale
@@ -37,8 +37,8 @@ include_HEADERS = alpm.h
 
 libalpm_la_SOURCES = $(TARGETS)
 
-libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO) -L$(top_srcdir)/lib/libfetch
-libalpm_la_LIBADD = -lfetch
+libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO)
+libalpm_la_LIBADD = -ldownload
 
 if HAS_DOXYGEN
 all: doxygen.in
