@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <ctype.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -704,6 +705,44 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
 	return(_alpm_versioncmp(ver1, ver2));
 }
+
+/* internal */
+char *_supported_archs[] = {
+	"i586",
+	"i686",
+	"ppc",
+	"x86_64",
+};
+
+char *alpm_pkg_name_hasarch(char *pkgname)
+{
+	/* TODO remove this when we transfer everything over to -ARCH
+	 *
+	 * this parsing sucks... it's done to support
+	 * two package formats for the time being:
+	 *    package-name-foo-1.0.0-1-i686
+	 * and
+	 *    package-name-bar-1.2.3-1
+	 */
+	int i = 0;
+	char *arch, *cmp, *p;
+
+	if((p = strrchr(pkgname, '-'))) {
+		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
+			cmp = p+1;
+			arch = _supported_archs[i];
+
+			/* whee, case insensitive compare */
+
+			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
+			if(*arch || *cmp) continue;
+
+			return p;
+		}
+	}
+	return NULL;
+}
+
 
 /** @} */
 

@@ -205,6 +205,7 @@ int alpm_pkg_checksha1sum(PM_PKG *pkg);
 char *alpm_fetch_pkgurl(char *url);
 int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this_section);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
+char *alpm_pkg_name_hasarch(char *pkgname);
 
 /*
  * Groups

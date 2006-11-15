@@ -23,8 +23,8 @@
 myver='2.9.8'
 
 usage() {
-  echo "gensync $myver"
-  echo "usage: $0 <root> <destfile> [package_directory]"
+	echo "gensync $myver"
+	echo "usage: $0 <root> <destfile> [package_directory]"
 	echo
 	echo "gensync will generate a sync database by reading all PKGBUILD files"
 	echo "from <root>.  gensync builds the database in a temporary directory"
@@ -41,9 +41,11 @@ usage() {
 	echo
 	echo "example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
 	echo
-  echo
-  exit 0
+	echo
+	exit 0
 }
+
+source /etc/makepkg.conf
 
 die() {
 	echo "gensync: $*" >&2
@@ -65,11 +67,6 @@ check_option() {
 
 get_md5checksum()
 {
-	if [ "$pkgdir" != "" ]; then
-		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
-	else
-		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
-	fi
 	if [ -f $pkgfile ]; then
 		md5line=`md5sum $pkgfile`
 		[ ! -z "$md5line" ] && pkgmd5sum=${md5line%  *}
@@ -78,8 +75,33 @@ get_md5checksum()
 	return 0
 }
 
+get_sha1checksum()
+{
+	if [ -f $pkgfile ]; then
+		sha1line=`sha1sum $pkgfile`
+		[ ! -z "$sha1line" ] && pkgsha1sum=${sha1line% *}
+		echo $pkgsha1sum
+	fi
+	return 0
+}
+
 db_write_entry()
 {
+	if [ "$pkgdir" != "" ]; then
+		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
+	else
+		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
+	fi
+	if [ ! -f $pkgfile ]; then
+		die "Package '$pkgfile' not found"
+	fi
+
+	csize=$(du -b $pkgfile | cut -f1)
+	usize=$(LANG= LC_ALL= pacman -Qi -p $pkgfile 2>/dev/null|grep ^Size|sed 's/.*: \(.*\)/\1/')
+
+	pkgmd5sum=`get_md5checksum $pkgfile`
+	[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
+
 	unset pkgname pkgver pkgrel pkgdesc force
 	unset groups replaces provides depends conflicts options
 	source $1 || return 1
@@ -106,9 +128,17 @@ db_write_entry()
 		done
 		echo "" >>desc
 	fi
+	echo "%ARCH%" >>desc
+	echo "$arch" >>desc
+	echo "" >>desc
 	if [ -n $csize ]; then
 		echo "%CSIZE%" >>desc
 		echo "$csize" >>desc
+		echo "" >>desc
+	fi
+	if [ -n $usize ]; then
+		echo "%USIZE%" >>desc
+		echo "$usize" >>desc
 		echo "" >>desc
 	fi
 	if [ ! -z $pkgmd5sum ]; then
@@ -132,21 +162,21 @@ db_write_entry()
 	if [ ${#depends[*]} -gt 0 ]; then
 		echo "%DEPENDS%" >>depends
 		for it in "${depends[@]}"; do
-		  echo "$it" >>depends
+			echo "$it" >>depends
 		done
 		echo "" >>depends
 	fi
 	if [ ${#conflicts[*]} -gt 0 ]; then
 		echo "%CONFLICTS%" >>depends
 		for it in "${conflicts[@]}"; do
-		  echo "$it" >>depends
+			echo "$it" >>depends
 		done
 		echo "" >>depends
 	fi
 	if [ ${#provides[*]} -gt 0 ]; then
 		echo "%PROVIDES%" >>depends
 		for it in "${provides[@]}"; do
-		  echo "$it" >>depends
+			echo "$it" >>depends
 		done
 		echo "" >>depends
 	fi
@@ -180,15 +210,6 @@ echo "gensync: building database entries, generating md5sums..." >&2
 cd `dirname $2`
 for file in `find $rootdir/* -name PKGBUILD`; do
 	source $file || die "errors parsing $file"
-	if [ "$pkgdir" != "" ]; then
-		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
-	else
-		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
-	fi
-	if [ -f $pkgfile ]; then
-		csize=`du -b $pkgfile | cut -f1`
-		pkgmd5sum=`get_md5checksum $pkgfile`
-		[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
 		db_write_entry $file || die "error writing entry for $file"
 	else
 		echo "gensync: missing package: $pkgfile" >&2
@@ -202,3 +223,4 @@ tar c * | gzip -9 >$destfile
 
 rm -rf $gstmpdir
 exit 0
+# vim: set ts=2 sw=2 noet:

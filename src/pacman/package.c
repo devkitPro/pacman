@@ -225,7 +225,7 @@ int split_pkgname(char *target, char *name, char *version)
 		*p = '\0';
 	}
 	/* trim architecture */
-	if((p = _alpm_pkgname_has_arch(tmp))) {
+	if((p = alpm_pkg_name_hasarch(tmp))) {
 		*p = '\0';
 	}
 

@@ -180,6 +180,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				} else {
 						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
 				}
+
 				if(downloadLastErrCode != 0 || dlf == NULL) {
 					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s://%s: %s"), fn,
 										server->s_url->scheme, server->s_url->host, downloadLastErrString);

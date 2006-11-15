@@ -435,6 +435,30 @@ pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack)
 	return(NULL);
 }
 
+char *_alpm_pkg_makefilename(pmpkg_t *pkg)
+{
+	char *fname = NULL;
+	int len = 0, arch_valid = 0;
+
+	len = strlen(pkg->name) + strlen(pkg->version) + strlen(PM_EXT_PKG) + 3;
+	if(pkg->arch && strlen(pkg->arch) > 0) {
+		arch_valid = 1;
+		len += strlen(pkg->arch) + 1;
+	}
+
+	if((fname = (char *)calloc(len, sizeof(char))) == NULL) {
+		RET_ERR(PM_ERR_MEMORY, NULL);
+	}
+
+	if(arch_valid) {
+		snprintf(fname, len-1, "%s-%s-%s" PM_EXT_PKG, pkg->name, pkg->version, pkg->arch);
+	} else {
+		snprintf(fname, len-1, "%s-%s" PM_EXT_PKG, pkg->name, pkg->version);
+	}
+
+	return fname;
+}
+
 int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 {
 	char tmp[PKG_FULLNAME_LEN+7];
@@ -456,12 +480,9 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 		*p = '\0';
 	}
 
-	if((p = _alpm_pkgname_has_arch(tmp))) {
-		*p = '\0';
-	}
 	if(witharch) {
 		/* trim architecture */
-		if((p = _alpm_pkgname_has_arch(tmp))) {
+		if((p = alpm_pkg_name_hasarch(tmp))) {
 			*p = 0;
 		}
 	}

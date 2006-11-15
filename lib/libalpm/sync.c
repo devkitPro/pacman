@@ -785,23 +785,23 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 			pmdb_t *dbs = spkg->data;
 
 			if(current == dbs) {
+				char *fname = NULL;
 				char path[PATH_MAX];
 
+				fname = _alpm_pkg_makefilename(spkg);
 				if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
-					snprintf(path, PATH_MAX, "%s-%s" PM_EXT_PKG, spkg->name, spkg->version);
-					EVENT(trans, PM_TRANS_EVT_PRINTURI, alpm_db_getinfo(current, PM_DB_FIRSTSERVER), path);
+					EVENT(trans, PM_TRANS_EVT_PRINTURI, alpm_db_getinfo(current, PM_DB_FIRSTSERVER), fname);
 				} else {
 					struct stat buf;
-					snprintf(path, PATH_MAX, "%s/%s-%s" PM_EXT_PKG, ldir, spkg->name, spkg->version);
+					snprintf(path, PATH_MAX, "%s/%s", ldir, fname);
 					if(stat(path, &buf)) {
 						/* file is not in the cache dir, so add it to the list */
-						snprintf(path, PATH_MAX, "%s-%s" PM_EXT_PKG, spkg->name, spkg->version);
-						files = _alpm_list_add(files, strdup(path));
+						files = _alpm_list_add(files, strdup(fname));
 					} else {
-						_alpm_log(PM_LOG_DEBUG, _("%s-%s%s is already in the cache\n"),
-							spkg->name, spkg->version, PM_EXT_PKG);
+						_alpm_log(PM_LOG_DEBUG, _("%s is already in the cache\n"), fname);
 					}
 				}
+				FREE(fname);
 			}
 		}
 
@@ -843,12 +843,11 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
-		char str[PATH_MAX], pkgname[PATH_MAX];
+		char str[PATH_MAX], *pkgname;
 		char *md5sum1, *md5sum2, *sha1sum1, *sha1sum2;
 		char *ptr=NULL;
 
-		snprintf(pkgname, PATH_MAX, "%s-%s" PM_EXT_PKG,
-			spkg->name, spkg->version);
+		pkgname = _alpm_pkg_makefilename(spkg);
 		md5sum1 = spkg->md5sum;
 		sha1sum1 = spkg->sha1sum;
 
@@ -885,7 +884,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 			}
 			if(doremove) {
 				char str[PATH_MAX];
-				snprintf(str, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG, handle->root, handle->cachedir, spkg->name, spkg->version);
+				snprintf(str, PATH_MAX, "%s%s/%s", handle->root, handle->cachedir, pkgname);
 				unlink(str);
 				snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 or SHA1 checksum)\n"), pkgname);
 			} else {
@@ -894,6 +893,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 			*data = _alpm_list_add(*data, ptr);
 			retval = 1;
 		}
+		FREE(pkgname);
 		FREE(md5sum2);
 		FREE(sha1sum2);
 	}
@@ -965,8 +965,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
+
+		char *fname = NULL;
 		char str[PATH_MAX];
-		snprintf(str, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG, handle->root, handle->cachedir, spkg->name, spkg->version);
+
+		fname = _alpm_pkg_makefilename(spkg);
+		snprintf(str, PATH_MAX, "%s%s/%s", handle->root, handle->cachedir, fname);
 		if(_alpm_trans_addtarget(tr, str) == -1) {
 			goto error;
 		}

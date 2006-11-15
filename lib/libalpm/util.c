@@ -641,44 +641,4 @@ void _alpm_time2string(time_t t, char *buffer)
 	}
 }
 
-/* internal */
-char *_supported_archs[] = {
-	"i586",
-	"i686",
-	"ppc",
-	"x86_64",
-};
-
-char *_alpm_pkgname_has_arch(char *pkgname)
-{
-	/* TODO remove this when we transfer everything over to -ARCH
-	 *
-	 * this parsing sucks... it's done to support
-	 * two package formats for the time being:
-	 *    package-name-foo-1.0.0-1-i686
-	 * and
-	 *    package-name-bar-1.2.3-1
-	 */
-	int i = 0;
-	char *arch, *cmp, *p;
-
-	if((p = strrchr(pkgname, '-'))) {
-		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
-			cmp = p+1;
-			arch = _supported_archs[i];
-
-			/* whee, case insensitive compare */
-
-			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
-			if(*arch || *cmp) continue;
-
-			return p;
-		}
-	}
-	return NULL;
-}
-
-
-
-
 /* vim: set ts=2 sw=2 noet: */
