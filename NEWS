@@ -1,48 +1,48 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
-3.4.0         - makepkg -R now uses the pacman from the chroot if it is
-                possible
-              - makepkg now handles .cpio.(bz2|gz)
-              - libalpm is now statically linked to libftp
-3.3.9         - bugfix for holdpkgs during an upgrade
+3.0.0         - TODO this needs alot of work
+              - switched to libfetch in place of libftp
+              - attempt to speed up file reading by reading /desc and /depends
+                on demand
+              - bugfix for holdpkgs during an upgrade
               - fix building with --enable-debug
               - fixed the download progressbar
               - -Ss works again for multiple repos
               - bugfix for -Sp
               - downloads are interruptable again
-3.3.8         - new libalpm function: alpm_db_search()
+              - new libalpm function: alpm_db_search()
               - pactest: initial import, run make check to call it
               - new libalpm function: alpm_parse_config()
               - new libalpm function: alpm_fetch_pkgurl()
               - implemented the progressbar for pacman -R
-3.3.7         - the package name is now properly displayed in the progressbar
+              - the package name is now properly displayed in the progressbar
                 during install/upgrade
               - updatesync: bugfix when deleting packages from the repo
               - create /tmp before locking the database, useful when -r is used
                 in an empty dir
               - makepkg: recoginze .TGZ, .ZIP and other uppercase extensions
               - python: added a few casting functions
-3.3.6         - ported libalpm to Solaris/Sparc
+              - ported libalpm to Solaris/Sparc
               - bugfixes in the Hungarian translation
               - bugfix for pacman -Qi -p
               - new function in libalpm: alpm_db_setserver()
               - incremented libalpm's sover due to new error codes intruduced
                 by alpm_db_setserver()
               - added python bindings
-3.3.5         - fixed a stale lockfile problem (when packages were corrupted)
+              - fixed a stale lockfile problem (when packages were corrupted)
               - fixed problem when sometimes ^C was ignored 
               - new pacman option: --ask
               - libalpm: prefixed all internal functions with _alpm
               - makepkg: bugfix for suboptions=('nostrip')
-	      - new package property: "build type" - it can be "chroot" or
-	        custom
+              - new package property: "build type" - it can be "chroot" or
+                custom
               - updated Hungarian translation
-3.3.4         - the old extra repo is now merged to the frugalware one
+              - the old extra repo is now merged to the frugalware one
               - handle the case properly when the user hits ^C during a
                 package install
               - fix the output of scriptlet messages
               - check if enough free space if available
-3.3.3         - pipe and parse scriptlet messages. see man FrugalBuild
+              - pipe and parse scriptlet messages. see man FrugalBuild
               - new mirror: ftp10
               - udatesync: use bzip2 instead of gzip for package databases
               - update/gensync: bugfix for the pkgdesc_localized directive
@@ -52,11 +52,11 @@ VERSION         DESCRIPTION
               - manpage split: moved the FrugalBuild specific part from
                 man makepkg to man FrugalBuild
               - minor bugfixes in makepkg
-3.3.2         - gettext improvements
+              - gettext improvements
               - French translation
               - makepkg support and documentation for pkgdesc localization
               - pacman: display uncompressed package size by default on upgrade
-3.3.1         - initial support for pkgdesc localization
+              - initial support for pkgdesc localization
               - bugfix for -Qi and -Qm
               - fix -Sg for multiple repos
               - drop the NoUpgrade lines from the default config
@@ -65,13 +65,13 @@ VERSION         DESCRIPTION
               - significant speedup while sorting dependencies with libalpm
               - fixes for pacman's -r option in pacman and libalpm
               - initial support for uncompressed package sizes in a sync repo
-3.3.0         - minor fixes for de_DE, hu_HU and tr_TR
-3.2.9         - seems that the original pacman3's release is delayed so it's
+              - minor fixes for de_DE, hu_HU and tr_TR
+              - seems that the original pacman3's release is delayed so it's
                 no good in waiting for it. changed the versioning scheme to
                 our usual x.y.z
               - i18n fixes:
-                - in the german translation
-                - in makepkg
+                in the german translation
+                in makepkg
               - gpg support in makepkg
 2.8.99.28     - added gettext support
               - added German and Hungarian translation for libalpm and pacman

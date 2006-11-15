@@ -1,25 +1,26 @@
 GLOBAL
 ======
-
-- get ride of "ORE" tags.
-
+- ORE tags - are there any left?
+- Automake is a PITA.  We should switch to just autoconf and hand written
+  Makefile.in's
 
 LIBALPM
 =======
+- review public interface.  There seems to be a lot of complication
+  for consuming front ends for no reason.  I have some ideas for a "new and
+  improved" public interface, but it would be a drastic change.
 
 - review errors handling (globalise pm_errno usage, improve error 
-meanings)
-
-- documentation (doxygen? man pages for public functions? ...)
+  meanings)
 
 
 PACMAN
 ======
-
 - review how things are displayed in the frontend (normal display,
-verbose mode, which usage for the library log callback, debug levels, ...)
+  verbose mode, which usage for the library log callback, debug levels, ...)
 
-- add .lastupdate files support for "files" db downloads
+- review progress / transaction even subsystem
+
 
 TRANSLATION
 ===========
@@ -46,12 +47,4 @@ hu - we need somebody who'll do the work
 pl_PL
 pt_BR
 zh_CN
-
-ADDITIONAL IDEAS FOR PERFORMANCE IMPROVEMENT
-============================================
-
-- idea from Christian Hamar: have a /var/lib/pacman/{repo}/.cache file
-that basically contains the output of `ls -1 /var/lib/pacman/{repo}`.  This
-cache file could be used in -Q and -Si/s operations to speed up package
-listings.
 
