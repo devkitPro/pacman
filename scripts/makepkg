@@ -42,7 +42,7 @@ INSTALL=0
 DOWNLOAD=""
 KEEPDOCS=0
 NOBUILD=0
-NOCCACHE=0
+USE_CCACHE=0
 NODEPS=0
 NOEXTRACT=0
 NOSTRIP=0
@@ -309,7 +309,7 @@ while [ "$#" -ne "0" ]; do
 		--syncdeps)   DEP_BIN=1 ;;
 		--sudosync)   DEP_SUDO=1 ;;
 		--builddeps)  DEP_SRC=1 ;;
-		--noccache)   NOCCACHE=1 ;;
+		--noccache)   USE_CCACHE=0 ;;
 		--nodeps)     NODEPS=1 ;;
 		--noextract)  NOEXTRACT=1 ;;
 		--install)    INSTALL=1 ;;
@@ -332,7 +332,7 @@ while [ "$#" -ne "0" ]; do
 			while getopts "bBcCdefghij:Lmnop:rsSw:-" opt; do
 				case $opt in
 					b) DEP_SRC=1 ;;
-					B) NOCCACHE=1 ;;
+					B) USE_CCACHE=0 ;;
 					c) CLEANUP=1 ;;
 					C) CLEANCACHE=1 ;;
 					d) NODEPS=1 ;;
@@ -568,107 +568,112 @@ if [ "$NOEXTRACT" = "1" ]; then
     warning "Skipping source extraction       -- using existing src/ tree"
     warning "Skipping source integrity checks -- using existing src/ tree"
 else
-    integ="$(echo $INTEGRITY_CHECK | tr A-Z a-z)"
-    case "$integ" in
-        md5) integrity_name="md5sum" ;;
-        sha1) integrity_name="sha1sum" ;;
-        *) error "Invalid integrity algorithm '$integ' specified"; exit 1;;
-    esac
-    if [ ! $(type -p $integrity_name) ]; then
-        error "Cannot find the $integrity_name program."
-        exit 1
-    fi
-
-    if [ "$GENINTEG" = "1" ]; then
-        msg "Generating ${integrity_name}s for source files"
-        plain ""
-        ct=0
-        newline=0
-        numsrc=${#source[@]}
-        for netfile in "${source[@]}"; do
-            file=`strip_url "$netfile"`
-            sum=$(eval "$integrity_name '$file' | cut -d' ' -f 1")
-            if [ $ct -eq 0 ]; then
-                echo -n "${integrity_name}s=("
-            else
-                echo -ne "\t  "
-            fi
-            echo -n "'$sum'"
-            ct=$(($ct+1))
-            if [ $ct -eq $numsrc ]; then
-                echo ')'
-            else
-                echo ' \'
-                newline=0
-            fi
-        done
-        plain ""
-        exit 0
-    else #validation
-        integrity_sums=($(eval echo \${${integrity_name}s[@]}))
-
-        if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
-            msg "Validating source files with ${integrity_name}s"
-            errors=0
-            idx=0
-            for netfile in "${source[@]}"; do
-                file=$(strip_url "$netfile")
-                echo -n "    $file ... " >&2
-                echo "${integrity_sums[$idx]}  $file" | $integrity_name -c - >/dev/null 2>&1
-                if [ $? -ne 0 ]; then
-                    echo "FAILED" >&2
-                    errors=1
-                else
-                    echo "Passed" >&2
-                fi
-                idx=$(($idx+1))
-            done
-            if [ $errors -gt 0 ]; then
-                error "One or more files did not pass the validity check!"
-                exit 1
-            fi
-        else
-            warning "Integrity checks ($INTEGRITY_CHECK) are missing or incomplete."
+    for integ in ${INTEGRITY_CHECK[@]}; do
+        integ="$(echo $integ | tr A-Z a-z)"
+        case "$integ" in
+            md5) integrity_name="md5sum" ;;
+            sha1) integrity_name="sha1sum" ;;
+            sha256) integrity_name="sha256sum" ;;
+            sha384) integrity_name="sha384sum" ;;
+            sha512) integrity_name="sha512sum" ;;
+            *) error "Invalid integrity algorithm '$integ' specified"; exit 1;;
+        esac
+        if [ ! $(type -p $integrity_name) ]; then
+            error "Cannot find the $integrity_name program."
+            exit 1
         fi
 
-        msg "Extracting Sources..."
-        for netfile in "${source[@]}"; do
-            unziphack=0
-            file=`strip_url "$netfile"`
-            unset cmd
-            case "`echo $file |tr "A-Z" "a-z"`" in
-                *.tar.gz|*.tar.z|*.tgz)
-                cmd="tar --use-compress-program=gzip -xf $file" ;;
-                *.tar.bz2|*.tbz2)
-                cmd="tar --use-compress-program=bzip2 -xf $file" ;;
-                *.tar)
-                cmd="tar -xf $file" ;;
-                *.zip)
-                unziphack=1
-                cmd="unzip -qqo $file" ;;
-                *.cpio.gz)
-                cmd="bsdtar -x -f $file" ;;
-                *.cpio.bz2)
-                cmd="bsdtar -x -f $file" ;;
-                *.gz)
-                cmd="gunzip -f $file" ;;
-                *.bz2)
-                cmd="bunzip2 -f $file" ;;
-            esac
-            if [ "$cmd" != "" ]; then
-                msg "    $cmd"
-                $cmd
-                if [ $? -ne 0 ]; then
-                    # unzip will return a 1 as a warning, it is not an error
-                    if [ "$unziphack" != "1" -o $? -ne 1 ]; then
-                        error "Failed to extract $file"
-                        msg "Aborting..."
-                        exit 1
+        if [ "$GENINTEG" = "1" ]; then
+            msg "Generating ${integrity_name}s for source files"
+            plain ""
+            ct=0
+            newline=0
+            numsrc=${#source[@]}
+            for netfile in "${source[@]}"; do
+                file=`strip_url "$netfile"`
+                sum=$(eval "$integrity_name '$file' | cut -d' ' -f 1")
+                if [ $ct -eq 0 ]; then
+                    echo -n "${integrity_name}s=("
+                else
+                    echo -ne "\t  "
+                fi
+                echo -n "'$sum'"
+                ct=$(($ct+1))
+                if [ $ct -eq $numsrc ]; then
+                    echo ')'
+                else
+                    echo ' \'
+                    newline=0
+                fi
+            done
+            plain ""
+            exit 0
+        else #validation
+            integrity_sums=($(eval echo \${${integrity_name}s[@]}))
+
+            if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
+                msg "Validating source files with ${integrity_name}s"
+                errors=0
+                idx=0
+                for netfile in "${source[@]}"; do
+                    file=$(strip_url "$netfile")
+                    echo -n "    $file ... " >&2
+                    echo "${integrity_sums[$idx]}  $file" | $integrity_name -c - >/dev/null 2>&1
+                    if [ $? -ne 0 ]; then
+                        echo "FAILED" >&2
+                        errors=1
+                    else
+                        echo "Passed" >&2
                     fi
+                    idx=$(($idx+1))
+                done
+                if [ $errors -gt 0 ]; then
+                    error "One or more files did not pass the validity check!"
+                    exit 1
+                fi
+            else
+                warning "Integrity checks ($INTEGRITY_CHECK) are missing or incomplete."
+            fi
+        fi
+    done
+
+    msg "Extracting Sources..."
+    for netfile in "${source[@]}"; do
+        unziphack=0
+        file=`strip_url "$netfile"`
+        unset cmd
+        case "`echo $file |tr "A-Z" "a-z"`" in
+            *.tar.gz|*.tar.z|*.tgz)
+            cmd="tar --use-compress-program=gzip -xf $file" ;;
+            *.tar.bz2|*.tbz2)
+            cmd="tar --use-compress-program=bzip2 -xf $file" ;;
+            *.tar)
+            cmd="tar -xf $file" ;;
+            *.zip)
+            unziphack=1
+            cmd="unzip -qqo $file" ;;
+            *.cpio.gz)
+            cmd="bsdtar -x -f $file" ;;
+            *.cpio.bz2)
+            cmd="bsdtar -x -f $file" ;;
+            *.gz)
+            cmd="gunzip -f $file" ;;
+            *.bz2)
+            cmd="bunzip2 -f $file" ;;
+        esac
+        if [ "$cmd" != "" ]; then
+            msg "    $cmd"
+            $cmd
+            if [ $? -ne 0 ]; then
+                # unzip will return a 1 as a warning, it is not an error
+                if [ "$unziphack" != "1" -o $? -ne 1 ]; then
+                    error "Failed to extract $file"
+                    msg "Aborting..."
+                    exit 1
                 fi
             fi
-        done
-    fi
+        fi
+    done
 fi
 
 if [ "`id -u`" = "0" ]; then
@@ -694,7 +699,7 @@ if [ "$DISTCC" = "y" ]; then
 fi
 
 # use ccache if it's available
-if [ "$NOCCACHE" = "0" ]; then
+if [ "$USE_CCACHE" = "1" ]; then
 	[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
 fi
 
