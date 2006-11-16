@@ -28,7 +28,6 @@
 myver='2.9.8'
 startdir=`pwd`
 PKGDEST=$startdir
-USE_COLOR="n"
 
 # Options
 CLEANUP=0
@@ -40,12 +39,9 @@ FORCE=0
 GENINTEG=0
 INSTALL=0
 DOWNLOAD=""
-KEEPDOCS=0
 NOBUILD=0
-USE_CCACHE=0
 NODEPS=0
 NOEXTRACT=0
-NOSTRIP=0
 RMDEPS=0
 LOGGING=0
 
@@ -267,6 +263,7 @@ usage() {
 	echo "  -h, --help       This help"
 	echo "  -i, --install    Install package after successful build"
 	echo "  -j <jobs>        Set MAKEFLAGS to \"-j<jobs>\" before building"
+    echo "  -k, --keepdocs   Keep doc and info directories"
 	echo "  -L, --log        Log package build process"
 	echo "  -m, --nocolor    Disable colorized output messages"
 	echo "  -n, --nostrip    Do not strip binaries/libraries"
@@ -314,6 +311,7 @@ while [ "$#" -ne "0" ]; do
 		--noextract)  NOEXTRACT=1 ;;
 		--install)    INSTALL=1 ;;
 		--force)      FORCE=1 ;;
+        --keepdocs)   KEEPDOCS=1 ;;
 		--nostrip)    NOSTRIP=1 ;;
 		--nobuild)    NOBUILD=1 ;;
 		--nocolor)    USE_COLOR="n" ;;
@@ -345,6 +343,7 @@ while [ "$#" -ne "0" ]; do
 						;;
 					i) INSTALL=1 ;;
 					j) export MAKEFLAGS="-j$OPTARG" ;;
+                    k) KEEPDOCS=1 ;;
                     L) LOGGING=1 ;;
 					m) USE_COLOR="n" ;;
 					n) NOSTRIP=1 ;;
@@ -688,24 +687,29 @@ if [ -d $startdir/pkg ]; then
 fi
 mkdir -p $startdir/pkg
 
-if [ "$NOBUILD" = "1" ]; then
+if [ "x$NOBUILD" = "1" ]; then
 	msg "Sources are ready."
 	exit 0
 fi
 
 # use distcc if requested
-if [ "$DISTCC" = "y" ]; then
+if [ "x$USE_DISTCC" = "y" ]; then
 	[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
 fi
 
 # use ccache if it's available
-if [ "$USE_CCACHE" = "1" ]; then
+if [ "x$USE_CCACHE" = "1" ]; then
 	[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
 fi
 
 # build
 msg "Starting build()..."
-if [ "$LOGGING" = "1" ]; then
+
+#check for "exit on syntax error" shell option
+echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
+set_e=$?
+
+if [ "x$LOGGING" = "1" ]; then
     BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
     if [ -f "$BUILDLOG" ]; then
         i=1
@@ -718,13 +722,24 @@ if [ "$LOGGING" = "1" ]; then
         done
         mv "$BUILDLOG" "$BUILDLOG.$i"
     fi
+
+    echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
+    set_e=$?
+
+    #use 'errexit' to bail on syntax error
+    [ $set_e -eq 1 ] && set -e
     build 2>&1 | tee "$BUILDLOG"
+    [ $set_e -eq 1 ] && set +e
+
     if [ ${PIPESTATUS[0]} -gt 0 ]; then
         error "Build Failed.  Aborting..."
         exit 2
     fi
 else
+    #use 'errexit' to bail on syntax error
+    [ $set_e -eq 1 ] && set -e
     build 2>&1
+    [ $set_e -eq 1 ] && set +e
     if [ $? -gt 0 ]; then
         error "Build Failed.  Aborting..."
         exit 2
@@ -785,15 +800,15 @@ if [ ! "`check_option NOSTRIP`" -a "$NOSTRIP" = "0" ]; then
 fi
 
 # remove libtool (.la) files
-if [ "`check_option NOLIBTOOL`" ]; then
+if [ "`check_option NOLIBTOOL`" -a "x$NOLIBTOOL" = "1" ]; then
 	msg "Removing libtool .la files..."
 	find pkg -type f -name "*.la" -exec rm -f -- '{}' \;
 fi
 
 # remove empty directories
-if [ "`check_option NOEMPTYDIRS`" ]; then
+if [ "`check_option NOEMPTYDIRS`" -a "x$NOEMPTYDIRS" = 1 ]; then
 	msg "Removing empty directories..."
-	find pkg -mindepth 1 -type d -empty -exec rmdir {} \;
+	find pkg -depth -type d -empty -delete;
 fi
 
 # get some package meta info

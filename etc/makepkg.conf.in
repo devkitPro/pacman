@@ -18,7 +18,7 @@ FTPAGENT="/usr/bin/wget --continue --passive-ftp --tries=3 --waitretry=3 --no-ch
 CARCH="@CARCH@"
 CHOST="@CHOST@"
 
-#-- Exclusive: will only run on i686 or higher (P6, Athlon)
+#-- Exclusive: will only run on @CARCHFLAGS@
 CFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
 CXXFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
 #-- Optimized: will run on any x86, but optimized for i686
@@ -34,22 +34,28 @@ CXXFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
 #-- Fakeroot: for building packages as a non-root user
 USE_FAKEROOT="y"
 #-- DistCC: a distributed C/C++/ObjC compiler (modify MAKEFLAGS too)
-DISTCC="n"
+USE_DISTCC="n"
 #-- A space-delimited list of hosts running in the DistCC cluster
 DISTCC_HOSTS=""
 #-- Colorized output messages
 USE_COLOR="y"
+#-- Use ccache when building
+USE_CCACHE=0
 
 #########################################################################
 # GLOBAL PACKAGE OPTIONS
+#   These are default values for the options=() settings
 #########################################################################
 #
 #-- Don't strip symbols from binaries/libraries
 NOSTRIP=0
 #-- Keep doc and info directories
 KEEPDOCS=0
-#-- Use ccache when building
-USE_CCACHE=0
+#-- Don't remove libtool files?
+NOLIBTOOL=0
+#-- Don't remove empty directories from package?
+NOEMPTYDIRS=0
+
 
 #########################################################################
 # PACKAGE OUTPUT
@@ -62,7 +68,7 @@ USE_CCACHE=0
 
 #########################################################################
 # Functionality Configuration
-#   Most of this will probably not need to be changed by and end user
+#   Most of this will probably not need to be changed by an end user
 #########################################################################
 #
 #-- Name of the script which makepkg reads
