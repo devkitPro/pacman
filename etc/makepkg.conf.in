@@ -48,6 +48,8 @@ USE_COLOR="y"
 NOSTRIP=0
 #-- Keep doc and info directories
 KEEPDOCS=0
+#-- Use ccache when building
+USE_CCACHE=0
 
 #########################################################################
 # PACKAGE OUTPUT
@@ -63,9 +65,14 @@ KEEPDOCS=0
 #   Most of this will probably not need to be changed by and end user
 #########################################################################
 #
+#-- Name of the script which makepkg reads
 BUILDSCRIPT="PKGBUILD"
+#-- Extension of the resultant package
 PKGEXT="pkg.tar.gz"
-INTEGRITY_CHECK="sha1"
-
+#-- File integrity checks to use. Valid:
+#   md5, sha1, sha256, sha384, sha512
+INTEGRITY_CHECK=(md5 sha1)
+#-- The root to use when building from source
 source "/etc/abs/abs.conf"
 SRCROOT=$ABSROOT
+

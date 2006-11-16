@@ -59,9 +59,9 @@ static int sync_cleancache(int level)
 	char dirpath[PATH_MAX];
 
 	alpm_get_option(PM_OPT_ROOT, &lroot);
-	root = (void *)&lroot;
+	root = (void *)lroot;
 	alpm_get_option(PM_OPT_CACHEDIR, &lcachedir);
-	cachedir = (void *)&lcachedir;
+	cachedir = (void *)lcachedir;
 
 	snprintf(dirpath, PATH_MAX, "%s%s", root, cachedir);
 

@@ -33,7 +33,7 @@ char *alpm_strerror(int err)
 		case PM_ERR_MEMORY:
 			return _("out of memory!");
 		case PM_ERR_SYSTEM:
-			return _("unexpected error");
+			return _("unexpected system error");
 		case PM_ERR_BADPERMS:
 			return _("insufficient privileges");
 		case PM_ERR_WRONG_ARGS:

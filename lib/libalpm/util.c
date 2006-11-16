@@ -273,8 +273,10 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	archive_read_support_compression_all(_archive);
 	archive_read_support_format_all(_archive);
 
-	if(archive_read_open_file(_archive, archive, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK)
+	if(archive_read_open_file(_archive, archive, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive, archive_error_string(_archive));
 		RET_ERR(PM_ERR_PKG_OPEN, -1);
+	}
 
 	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
 		if (fn && strcmp(fn, archive_entry_pathname(entry))) {
@@ -285,7 +287,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		snprintf(expath, PATH_MAX, "%s/%s", prefix, archive_entry_pathname(entry));
 		archive_entry_set_pathname(entry, expath);
 		if(archive_read_extract(_archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
-			fprintf(stderr, _("could not extract %s: %s\n"), archive_entry_pathname(entry), archive_error_string(_archive));
+			_alpm_log(PM_LOG_ERROR, _("could not extract %s: %s\n"), archive_entry_pathname(entry), archive_error_string(_archive));
 			 return(1);
 		}
 
