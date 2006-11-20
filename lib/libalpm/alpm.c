@@ -65,7 +65,7 @@
 pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
 
-/** @defgroup alpm_interface Interface Functions
+/** \addtogroup alpm_interface Interface Functions
  * @brief Function to initialize and release libalpm
  * @{
  */
@@ -75,7 +75,7 @@ enum __pmerrno_t pm_errno;
  * @param root the full path of the root we'll be installing to (usually /)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_initialize(char *root)
+int alpm_initialize(const char *root)
 {
 	char str[PATH_MAX];
 
@@ -129,40 +129,12 @@ int alpm_release()
 }
 /** @} */
 
-/** @defgroup alpm_options Library Options
+/** \addtogroup alpm_options Library Options
  * @brief Functions to set and get libalpm options
  * @{
  */
 
-/** Set a library option.
- * @param parm the name of the parameter
- * @param data the value of the parameter
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_set_option(unsigned char parm, unsigned long data)
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
-	return(_alpm_handle_set_option(handle, parm, data));
-}
-
-/** Get the value of a library option.
- * @param parm the parameter to get
- * @param data pointer argument to get the value in
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_get_option(unsigned char parm, long *data)
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	return(_alpm_handle_get_option(handle, parm, data));
-}
-/** @} */
-
-/** @defgroup alpm_databases Database Functions
+/** \addtogroup alpm_databases Database Functions
  * @brief Frunctions to query and manipulate the database of libalpm
  * @{
  */
@@ -224,36 +196,6 @@ int alpm_db_unregister(pmdb_t *db)
 	return(0);
 }
 
-/** Get informations about a database.
- * @param db database pointer
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
-void *alpm_db_getinfo(PM_DB *db, unsigned char parm)
-{
-	void *data = NULL;
-	char path[PATH_MAX];
-	pmserver_t *server;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(db != NULL, return(NULL));
-
-	switch(parm) {
-		case PM_DB_TREENAME:   data = db->treename; break;
-		case PM_DB_FIRSTSERVER:
-			server = (pmserver_t*)db->servers->data;
-			snprintf(path, PATH_MAX, "%s://%s%s", server->s_url->scheme,
-							 server->s_url->host, server->s_url->doc);
-			data = strdup(path);
-		break;
-		default:
-			data = NULL;
-	}
-
-	return(data);
-}
-
 /** Set the serverlist of a database.
  * @param db database pointer
  * @param url url of the server
@@ -307,7 +249,7 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
  * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
  * to date
  */
-int alpm_db_update(int force, PM_DB *db)
+int alpm_db_update(int force, pmdb_t *db)
 {
 	pmlist_t *lp;
 	char path[PATH_MAX];
@@ -455,111 +397,10 @@ pmlist_t *alpm_db_getgrpcache(pmdb_t *db)
 
 /** @} */
 
-/** @defgroup alpm_packages Package Functions
+/** \addtogroup alpm_packages Package Functions
  * @brief Functions to manipulate libalpm packages
  * @{
  */
-
-/** Get informations about a package.
- * @param pkg package pointer
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
-void *alpm_pkg_getinfo(pmpkg_t *pkg, unsigned char parm)
-{
-	void *data = NULL;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	/* Update the cache package entry if needed */
-	if(pkg->origin == PKG_FROM_CACHE) {
-		switch(parm) {
-			/* Desc entry */
-			/*case PM_PKG_NAME:
-			case PM_PKG_VERSION:*/
-			case PM_PKG_DESC:
-			case PM_PKG_GROUPS:
-			case PM_PKG_URL:
-			case PM_PKG_LICENSE:
-			case PM_PKG_ARCH:
-			case PM_PKG_BUILDDATE:
-			case PM_PKG_INSTALLDATE:
-			case PM_PKG_PACKAGER:
-			case PM_PKG_SIZE:
-			case PM_PKG_USIZE:
-			case PM_PKG_REASON:
-			case PM_PKG_MD5SUM:
-			case PM_PKG_SHA1SUM:
-				if(!(pkg->infolevel & INFRQ_DESC)) {
-					_alpm_log(PM_LOG_DEBUG, _("loading DESC info for '%s'"), pkg->name);
-					_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
-				}
-			break;
-			/* Depends entry */
-			case PM_PKG_DEPENDS:
-			case PM_PKG_REQUIREDBY:
-			case PM_PKG_CONFLICTS:
-			case PM_PKG_PROVIDES:
-			case PM_PKG_REPLACES:
-				if(!(pkg->infolevel & INFRQ_DEPENDS)) {
-					_alpm_log(PM_LOG_DEBUG, "loading DEPENDS info for '%s'", pkg->name);
-					_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
-				}
-			break;
-			/* Files entry */
-			case PM_PKG_FILES:
-			case PM_PKG_BACKUP:
-				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_FILES)) {
-					_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), pkg->name);
-					_alpm_db_read(pkg->data, INFRQ_FILES, pkg);
-				}
-			break;
-			/* Scriptlet */
-			case PM_PKG_SCRIPLET:
-				if(pkg->data == handle->db_local && !(pkg->infolevel & INFRQ_SCRIPLET)) {
-					_alpm_log(PM_LOG_DEBUG, _("loading SCRIPLET info for '%s'"), pkg->name);
-					_alpm_db_read(pkg->data, INFRQ_SCRIPLET, pkg);
-				}
-			break;
-		}
-	}
-
-	switch(parm) {
-		case PM_PKG_NAME:        data = pkg->name; break;
-		case PM_PKG_VERSION:     data = pkg->version; break;
-		case PM_PKG_DESC:        data = pkg->desc; break;
-		case PM_PKG_GROUPS:      data = pkg->groups; break;
-		case PM_PKG_URL:         data = pkg->url; break;
-		case PM_PKG_ARCH:        data = pkg->arch; break;
-		case PM_PKG_BUILDDATE:   data = pkg->builddate; break;
-		case PM_PKG_BUILDTYPE:   data = pkg->buildtype; break;
-		case PM_PKG_INSTALLDATE: data = pkg->installdate; break;
-		case PM_PKG_PACKAGER:    data = pkg->packager; break;
-		case PM_PKG_SIZE:        data = (void *)(long)pkg->size; break;
-		case PM_PKG_USIZE:       data = (void *)(long)pkg->usize; break;
-		case PM_PKG_REASON:      data = (void *)(long)pkg->reason; break;
-		case PM_PKG_LICENSE:     data = pkg->license; break;
-		case PM_PKG_REPLACES:    data = pkg->replaces; break;
-		case PM_PKG_MD5SUM:      data = pkg->md5sum; break;
-		case PM_PKG_SHA1SUM:     data = pkg->sha1sum; break;
-		case PM_PKG_DEPENDS:     data = pkg->depends; break;
-		case PM_PKG_REMOVES:     data = pkg->removes; break;
-		case PM_PKG_REQUIREDBY:  data = pkg->requiredby; break;
-		case PM_PKG_PROVIDES:    data = pkg->provides; break;
-		case PM_PKG_CONFLICTS:   data = pkg->conflicts; break;
-		case PM_PKG_FILES:       data = pkg->files; break;
-		case PM_PKG_BACKUP:      data = pkg->backup; break;
-		case PM_PKG_SCRIPLET:    data = (void *)(long)pkg->scriptlet; break;
-		case PM_PKG_DATA:        data = pkg->data; break;
-		default:
-			data = NULL;
-		break;
-	}
-
-	return(data);
-}
 
 /** Create a package from a file.
  * @param filename location of the package tarball
@@ -746,63 +587,10 @@ char *alpm_pkg_name_hasarch(char *pkgname)
 
 /** @} */
 
-/** @defgroup alpm_groups Group Functions
- * @brief Functions to get informations about libalpm groups
- * @{
- */
-
-/** Get informations about a group.
- * @param grp group pointer
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
-void *alpm_grp_getinfo(pmgrp_t *grp, unsigned char parm)
-{
-	void *data = NULL;
-
-	/* Sanity checks */
-	ASSERT(grp != NULL, return(NULL));
-
-	switch(parm) {
-		case PM_GRP_NAME:     data = grp->name; break;
-		case PM_GRP_PKGNAMES: data = grp->packages; break;
-		default:
-			data = NULL;
-		break;
-	}
-
-	return(data);
-}
-/** @} */
-
-/** @defgroup alpm_sync Sync Functions
+/** \addtogroup alpm_sync Sync Functions
  * @brief Functions to get informations about libalpm syncs
  * @{
  */
-
-/** Get informations about a sync.
- * @param sync pointer
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
-void *alpm_sync_getinfo(pmsyncpkg_t *sync, unsigned char parm)
-{
-	void *data;
-
-	/* Sanity checks */
-	ASSERT(sync != NULL, return(NULL));
-
-	switch(parm) {
-		case PM_SYNC_TYPE: data = (void *)(long)sync->type; break;
-		case PM_SYNC_PKG:  data = sync->pkg; break;
-		case PM_SYNC_DATA: data = sync->data; break;
-		default:
-			data = NULL;
-		break;
-	}
-
-	return(data);
-}
 
 /** Searches a database
  * @param db pointer to the package database to search in
@@ -820,7 +608,7 @@ pmlist_t *alpm_db_search(pmdb_t *db)
 }
 /** @} */
 
-/** @defgroup alpm_trans Transaction Functions
+/** \addtogroup alpm_trans Transaction Functions
  * @brief Functions to manipulate libalpm transactions
  * @{
  */
@@ -998,7 +786,7 @@ int alpm_trans_release()
 }
 /** @} */
 
-/** @defgroup alpm_dep Dependency Functions
+/** \addtogroup alpm_dep Dependency Functions
  * @brief Functions to get informations about a libalpm dependency
  * @{
  */
@@ -1030,7 +818,7 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
 }
 /** @} */
 
-/** @defgroup alpm_conflict File Conflicts Functions
+/** \addtogroup alpm_conflict File Conflicts Functions
  * @brief Functions to get informations about a libalpm file conflict
  * @{
  */
@@ -1061,7 +849,7 @@ void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm)
 }
 /** @} */
 
-/** @defgroup alpm_log Logging Functions
+/** \addtogroup alpm_log Logging Functions
  * @brief Functions to log using libalpm
  * @{
  */
@@ -1099,7 +887,7 @@ int alpm_logaction(char *fmt, ...)
 }
 /** @} */
 
-/** @defgroup alpm_list List Functions
+/** \addtogroup alpm_list List Functions
  * @brief Functions to manipulate libalpm linked lists
  * @{
  */
@@ -1128,7 +916,7 @@ pmlist_t *alpm_list_next(pmlist_t *entry)
  * @param entry the list entry
  * @return the data on success, NULL on error
  */
-void *alpm_list_getdata(pmlist_t *entry)
+void *alpm_list_getdata(const pmlist_t *entry)
 {
 	ASSERT(entry != NULL, return(NULL));
 
@@ -1165,7 +953,7 @@ int alpm_list_free_outer(pmlist_t *entry)
  * @param list the list to count
  * @return number of entries on success, NULL on error
  */
-int alpm_list_count(pmlist_t *list)
+int alpm_list_count(const pmlist_t *list)
 {
 	ASSERT(list != NULL, return(-1));
 
@@ -1173,7 +961,7 @@ int alpm_list_count(pmlist_t *list)
 }
 /** @} */
 
-/** @defgroup alpm_misc Miscellaneous Functions
+/** \addtogroup alpm_misc Miscellaneous Functions
  * @brief Various libalpm functions
  * @{
  */
@@ -1225,7 +1013,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 	char *key = NULL;
 	int linenum = 0;
 	char section[256] = "";
-	PM_DB *db = NULL;
+	pmdb_t *db = NULL;
 
 	fp = fopen(file, "r");
 	if(fp == NULL) {
@@ -1282,12 +1070,17 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 			}
 			if(ptr == NULL) {
 				if(!strcmp(key, "NOPASSIVEFTP")) {
-					alpm_set_option(PM_OPT_NOPASSIVEFTP, (long)1);
+					alpm_option_set_nopassiveftp(1);
+					_alpm_log(PM_LOG_DEBUG, _("config: nopassiveftp"));
 				} else if(!strcmp(key, "USESYSLOG")) {
-					alpm_set_option(PM_OPT_USESYSLOG, (long)1);
+					alpm_option_set_usesyslog(1);
 					_alpm_log(PM_LOG_DEBUG, _("config: usesyslog"));
 				} else if(!strcmp(key, "ILOVECANDY")) {
-					alpm_set_option(PM_OPT_CHOMP, (long)1);
+					alpm_option_set_chomp(1);
+					_alpm_log(PM_LOG_DEBUG, _("config: chomp"));
+				} else if(!strcmp(key, "USECOLOR")) {
+					alpm_option_set_usecolor(1);
+					_alpm_log(PM_LOG_DEBUG, _("config: usecolor"));
 				} else {
 					RET_ERR(PM_ERR_CONF_BAD_SYNTAX, -1);
 				}
@@ -1302,123 +1095,80 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 					if(!strcmp(key, "NOUPGRADE")) {
 						char *p = ptr;
 						char *q;
+
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
-							if(alpm_set_option(PM_OPT_NOUPGRADE, (long)p) == -1) {
-								/* pm_errno is set by alpm_set_option */
-								return(-1);
-							}
+							alpm_option_add_noupgrade(p);
 							_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s"), p);
 							p = q;
 							p++;
 						}
-						if(alpm_set_option(PM_OPT_NOUPGRADE, (long)p) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_add_noupgrade(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s"), p);
 					} else if(!strcmp(key, "NOEXTRACT")) {
 						char *p = ptr;
 						char *q;
+
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
-							if(alpm_set_option(PM_OPT_NOEXTRACT, (long)p) == -1) {
-								/* pm_errno is set by alpm_set_option */
-								return(-1);
-							}
+							alpm_option_add_noextract(p);
 							_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s"), p);
 							p = q;
 							p++;
 						}
-						if(alpm_set_option(PM_OPT_NOEXTRACT, (long)p) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_add_noextract(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s"), p);
 					} else if(!strcmp(key, "IGNOREPKG")) {
 						char *p = ptr;
 						char *q;
+
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
-							if(alpm_set_option(PM_OPT_IGNOREPKG, (long)p) == -1) {
-								/* pm_errno is set by alpm_set_option */
-								return(-1);
-							}
+							alpm_option_add_ignorepkg(p);
 							_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
 							p = q;
 							p++;
 						}
-						if(alpm_set_option(PM_OPT_IGNOREPKG, (long)p) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_add_ignorepkg(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
 					} else if(!strcmp(key, "HOLDPKG")) {
 						char *p = ptr;
 						char *q;
+
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
-							if(alpm_set_option(PM_OPT_HOLDPKG, (long)p) == -1) {
-								/* pm_errno is set by alpm_set_option */
-								return(-1);
-							}
+							alpm_option_add_holdpkg(p);
 							_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s"), p);
 							p = q;
 							p++;
 						}
-						if(alpm_set_option(PM_OPT_HOLDPKG, (long)p) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_add_holdpkg(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s"), p);
 					} else if(!strcmp(key, "DBPATH")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
 							ptr++;
 						}
-						if(alpm_set_option(PM_OPT_DBPATH, (long)ptr) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_set_dbpath(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: dbpath: %s"), ptr);
 					} else if(!strcmp(key, "CACHEDIR")) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
 							ptr++;
 						}
-						if(alpm_set_option(PM_OPT_CACHEDIR, (long)ptr) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_set_cachedir(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: cachedir: %s"), ptr);
 					} else if (!strcmp(key, "LOGFILE")) {
-						if(alpm_set_option(PM_OPT_LOGFILE, (long)ptr) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
-						_alpm_log(PM_LOG_DEBUG, _("config: log file: %s"), ptr);
+						alpm_option_set_logfile(ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: logfile: %s"), ptr);
 					} else if (!strcmp(key, "XFERCOMMAND")) {
-						if(alpm_set_option(PM_OPT_XFERCOMMAND, (long)ptr) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						alpm_option_set_xfercommand(ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: xfercommand: %s"), ptr);
 					} else if (!strcmp(key, "UPGRADEDELAY")) {
 						/* The config value is in days, we use seconds */
-						_alpm_log(PM_LOG_DEBUG, _("config: UpgradeDelay: %i"), (60*60*24) * atol(ptr));
-						if(alpm_set_option(PM_OPT_UPGRADEDELAY, (60*60*24) * atol(ptr)) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
-					} else if (!strcmp(key, "PROXYSERVER")) {
-						if(alpm_set_option(PM_OPT_PROXYHOST, (long)ptr) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
-					} else if (!strcmp(key, "PROXYPORT")) {
-						if(alpm_set_option(PM_OPT_PROXYPORT, (long)atoi(ptr)) == -1) {
-							/* pm_errno is set by alpm_set_option */
-							return(-1);
-						}
+						long ud = atol(ptr) * 60 * 60 *24;
+						alpm_option_set_upgradedelay(ud);
+						_alpm_log(PM_LOG_DEBUG, _("config: upgradedelay: %d"), ud);
 					} else {
 						RET_ERR(PM_ERR_CONF_BAD_SYNTAX, -1);
 					}

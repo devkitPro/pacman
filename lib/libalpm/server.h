@@ -22,29 +22,21 @@
 #define _ALPM_SERVER_H
 
 #include "list.h"
-#include <time.h>
+#include "alpm.h"
 
+#include <time.h>
 #include <download.h>
 
-#define FREESERVER(p) \
-do { \
-	if(p) { \
-		_alpm_server_free(p); \
-		p = NULL; \
-	} \
-} while(0)
-
+#define FREESERVER(p) do { if(p){_alpm_server_free(p); p = NULL;}} while(0)
 #define FREELISTSERVERS(p) _FREELIST(p, _alpm_server_free)
 
 /* Servers */
-typedef struct __pmserver_t {
+struct __pmserver_t {
 	char *path;
 	struct url *s_url;
-} pmserver_t;
+};
 
 #define PM_DLBUF_LEN (1024 * 10)
-
-typedef void (*download_progress_cb)(const char *filename, int xfered, int total);
 
 pmserver_t *_alpm_server_new(const char *url);
 void _alpm_server_free(void *data);
@@ -53,8 +45,6 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 	pmlist_t *files, const char *mtime1, char *mtime2);
 
 char *_alpm_fetch_pkgurl(char *target);
-
-extern download_progress_cb pm_dlcb;
 
 #endif /* _ALPM_SERVER_H */
 

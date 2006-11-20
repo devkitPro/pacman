@@ -24,19 +24,10 @@
 #ifndef _ALPM_TRANS_H
 #define _ALPM_TRANS_H
 
-enum {
-	STATE_IDLE = 0,
-	STATE_INITIALIZED,
-	STATE_PREPARED,
-	STATE_DOWNLOADING,
-	STATE_COMMITING,
-	STATE_COMMITED,
-	STATE_INTERRUPTED
-};
-
 #include "alpm.h"
 
-typedef struct __pmtrans_t {
+/* Transaction */
+struct __pmtrans_t {
 	unsigned char type;
 	unsigned int flags;
 	unsigned char state;
@@ -46,7 +37,17 @@ typedef struct __pmtrans_t {
 	alpm_trans_cb_event cb_event;
 	alpm_trans_cb_conv cb_conv;
 	alpm_trans_cb_progress cb_progress;
-} pmtrans_t;
+};
+
+enum {
+	STATE_IDLE = 0,
+	STATE_INITIALIZED,
+	STATE_PREPARED,
+	STATE_DOWNLOADING,
+	STATE_COMMITING,
+	STATE_COMMITED,
+	STATE_INTERRUPTED
+};
 
 #define FREETRANS(p) \
 do { \

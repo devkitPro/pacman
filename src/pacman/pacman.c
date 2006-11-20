@@ -75,7 +75,7 @@ enum {
 
 config_t *config = NULL;
 
-PM_DB *db_local;
+pmdb_t *db_local;
 /* list of (sync_t *) structs for sync locations */
 list_t *pmc_syncs = NULL;
 /* list of targets specified on command line */
@@ -322,10 +322,8 @@ static int parseargs(int argc, char *argv[])
 				config->op_d_vertest = 1;
 			break;
 			case 'b':
-				if(config->dbpath) {
-					FREE(config->dbpath);
-				}
-				config->dbpath = strdup(optarg);
+				alpm_option_set_dbpath(optarg);
+				config->dbpath = alpm_option_get_dbpath(optarg);
 			break;
 			case 'c':
 				config->op_s_clean++;
@@ -355,10 +353,8 @@ static int parseargs(int argc, char *argv[])
 					perror(_("bad root path"));
 					return(1);
 				}
-				if(config->root) {
-					free(config->root);
-				}
-				config->root = strdup(root);
+				alpm_option_set_root(root);
+				config->root = alpm_option_get_root();
 			break;
 			case 's':
 				config->op_s_search = 1;
@@ -404,7 +400,7 @@ static int parseargs(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	char *cenv = NULL, *lang = NULL;
+	char *lang = NULL;
 #ifndef CYGWIN
 	uid_t myuid;
 #endif
@@ -414,10 +410,7 @@ int main(int argc, char *argv[])
 	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
 	mtrace();
 #endif
-	cenv = getenv("COLUMNS");
-	if(cenv != NULL) {
-		maxcols = atoi(cenv);
-	}
+	maxcols = getcols();
 
 	/* set signal handlers */
 	signal(SIGINT, cleanup);
@@ -490,34 +483,33 @@ int main(int argc, char *argv[])
 #endif
 
 	if(config->root == NULL) {
-		config->root = strdup(PM_ROOT);
+		config->root = PM_ROOT;
 	}
 
+	char *initroot = NULL;
 	/* add a trailing '/' if there isn't one */
 	if(config->root[strlen(config->root)-1] != '/') {
 		char *ptr;
 		MALLOC(ptr, strlen(config->root)+2);
 		strcpy(ptr, config->root);
 		strcat(ptr, "/");
-		FREE(config->root);
-		config->root = ptr;
+		initroot = ptr;
+	}	else {
+		initroot = strdup(config->root);
 	}
 
 	/* initialize pm library */
-	if(alpm_initialize(config->root) == -1) {
+	if(alpm_initialize(initroot) == -1) {
 		ERR(NL, _("failed to initilize alpm library (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 
+	FREE(initroot);
+	config->root = alpm_option_get_root();
+
 	/* Setup logging as soon as possible, to print out maximum debugging info */
-	if(alpm_set_option(PM_OPT_LOGMASK, (long)config->debug) == -1) {
-		ERR(NL, _("failed to set option LOGMASK (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	if(alpm_set_option(PM_OPT_LOGCB, (long)cb_log) == -1) {
-		ERR(NL, _("failed to set option LOGCB (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
+	alpm_option_set_logmask(config->debug);
+	alpm_option_set_logcb(cb_log);
 
 	if(config->configfile == NULL) {
 		config->configfile = strdup(PACCONF);
@@ -528,23 +520,13 @@ int main(int argc, char *argv[])
 	}
 
 	/* set library parameters */
-	if(alpm_set_option(PM_OPT_DLCB, (long)log_progress) == -1) {
-		ERR(NL, _("failed to set option DLCB (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-	FREE(config->dbpath);
-	long ldbpath, lcachedir;
-	alpm_get_option(PM_OPT_DBPATH, &ldbpath);
-	config->dbpath = (char *)ldbpath;
-	FREE(config->cachedir);
-	alpm_get_option(PM_OPT_CACHEDIR, &lcachedir);
-	config->cachedir = (char *)lcachedir;
+	alpm_option_set_dlcb(log_progress);
+
+	config->dbpath = alpm_option_get_dbpath();
+	config->cachedir = alpm_option_get_cachedir();
 
 	for(lp = config->op_s_ignore; lp; lp = lp->next) {
-		if(alpm_set_option(PM_OPT_IGNOREPKG, (long)lp->data) == -1) {
-			ERR(NL, _("failed to set option IGNOREPKG (%s)\n"), alpm_strerror(pm_errno));
-			cleanup(1);
-		}
+		alpm_option_add_ignorepkg(lp->data);
 	}
 	
 	if(config->verbose > 0) {

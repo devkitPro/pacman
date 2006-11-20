@@ -18,8 +18,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
  *  USA.
  */
-#ifndef _PM_LIST_H
-#define _PM_LIST_H
+#ifndef _LIST_H
+#define _LIST_H
 
 #include <alpm.h>
 
@@ -42,12 +42,12 @@ list_t *list_new(void);
 void list_free(list_t *list);
 list_t *list_add(list_t *list, void *data);
 int list_count(list_t *list);
-int list_is_strin(char *needle, list_t *haystack);
+int list_is_strin(const char *needle, list_t *haystack);
 void list_display(const char *title, list_t *list);
 
-void PM_LIST_display(const char *title, PM_LIST *list);
-list_t *PM_LIST_remove_dupes(PM_LIST *list);
+void pmlist_display(const char *title, pmlist_t *list);
+list_t *pmlist_remove_dupes(pmlist_t *list);
 
-#endif /* _PM_LIST_H */
+#endif /*_LIST_H*/
 
 /* vim: set ts=2 sw=2 noet: */

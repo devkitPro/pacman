@@ -36,6 +36,8 @@
 #include "error.h"
 #include "list.h"
 #include "package.h"
+#include "db.h"
+#include "handle.h"
 #include "alpm.h"
 
 pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
@@ -241,11 +243,11 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "SIZE")) {
 				char tmp[32];
 				STRNCPY(tmp, ptr, sizeof(tmp));
-				info->size = atol(tmp);
+				info->size = atol(ptr);
 			} else if(!strcmp(key, "USIZE")) {
 				char tmp[32];
 				STRNCPY(tmp, ptr, sizeof(tmp));
-				info->usize = atol(tmp);
+				info->usize = atol(ptr);
 			} else if(!strcmp(key, "DEPEND")) {
 				info->depends = _alpm_list_add(info->depends, strdup(ptr));
 			} else if(!strcmp(key, "REMOVE")) {
@@ -507,6 +509,304 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 	}
 
 	return(0);
+}
+
+const char *alpm_pkg_get_name(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	return pkg->name;
+}
+
+const char *alpm_pkg_get_version(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	return pkg->version;
+}
+
+const char *alpm_pkg_get_desc(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->desc;
+}
+
+const char *alpm_pkg_get_url(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->url;
+}
+
+const char *alpm_pkg_get_builddate(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->builddate;
+}
+
+const char *alpm_pkg_get_buildtype(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->buildtype;
+}
+
+const char *alpm_pkg_get_installdate(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->installdate;
+}
+
+const char *alpm_pkg_get_packager(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->packager;
+}
+
+const char *alpm_pkg_get_md5sum(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->md5sum;
+}
+
+const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->sha1sum;
+}
+
+const char *alpm_pkg_get_arch(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->arch;
+}
+
+unsigned long alpm_pkg_get_size(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->size;
+}
+
+unsigned long alpm_pkg_get_usize(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->usize;
+}
+
+unsigned char alpm_pkg_get_reason(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->reason;
+}
+
+pmlist_t *alpm_pkg_get_licenses(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->license;
+}
+
+pmlist_t *alpm_pkg_get_groups(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+	}
+	return pkg->groups;
+}
+
+/* depends */
+pmlist_t *alpm_pkg_get_depends(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+	}
+	return pkg->depends;
+}
+
+pmlist_t *alpm_pkg_get_removes(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+	}
+	return pkg->removes;
+}
+
+pmlist_t *alpm_pkg_get_requiredby(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+	}
+	return pkg->requiredby;
+}
+
+pmlist_t *alpm_pkg_get_conflicts(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+	}
+	return pkg->conflicts;
+}
+
+pmlist_t *alpm_pkg_get_provides(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+	}
+	return pkg->provides;
+}
+
+pmlist_t *alpm_pkg_get_replaces(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+	}
+	return pkg->replaces;
+}
+
+pmlist_t *alpm_pkg_get_files(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_db_read(pkg->data, INFRQ_FILES, pkg);
+	}
+	return pkg->files;
+}
+
+pmlist_t *alpm_pkg_get_backup(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_db_read(pkg->data, INFRQ_FILES, pkg);
+	}
+	return pkg->backup;
+}
+
+unsigned char alpm_pkg_has_scriptlet(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
+		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
+		_alpm_db_read(pkg->data, INFRQ_SCRIPTLET, pkg);
+	}
+	return pkg->scriptlet;
 }
 
 /* vim: set ts=2 sw=2 noet: */

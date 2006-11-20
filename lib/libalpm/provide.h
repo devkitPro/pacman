@@ -21,10 +21,9 @@
 #ifndef _ALPM_PROVIDE_H
 #define _ALPM_PROVIDE_H
 
-#include "config.h"
-
-#include "list.h"
 #include "db.h"
+#include "list.h"
+#include "config.h"
 
 pmlist_t *_alpm_db_whatprovides(pmdb_t *db, char *package);
 

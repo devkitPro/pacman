@@ -38,7 +38,7 @@ extern config_t *config;
 
 int pacman_deptest(list_t *targets)
 {
-	PM_LIST *data;
+	pmlist_t *data;
 	list_t *i;
 	char *str;
 	int retval = 0;
@@ -94,7 +94,7 @@ int pacman_deptest(list_t *targets)
 	FREE(str);
 
 	if(alpm_trans_prepare(&data) == -1) {
-		PM_LIST *lp;
+		pmlist_t *lp;
 		list_t *synctargs = NULL;
 		retval = 126;
 		/* return 126 = deps were missing, but successfully resolved
@@ -105,7 +105,7 @@ int pacman_deptest(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					pmdepmissing_t *miss = alpm_list_getdata(lp);
 					if(!config->op_d_resolve) {
 						MSG(NL, _("requires: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
 						switch((long)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
@@ -122,7 +122,7 @@ int pacman_deptest(list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				/* we can't auto-resolve conflicts */
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					pmdepmissing_t *miss = alpm_list_getdata(lp);
 					MSG(NL, _("conflict: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
 				retval = 127;

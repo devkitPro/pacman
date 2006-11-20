@@ -790,7 +790,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 
 				fname = _alpm_pkg_makefilename(spkg);
 				if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
-					EVENT(trans, PM_TRANS_EVT_PRINTURI, alpm_db_getinfo(current, PM_DB_FIRSTSERVER), fname);
+					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current), fname);
 				} else {
 					struct stat buf;
 					snprintf(path, PATH_MAX, "%s/%s", ldir, fname);
@@ -818,11 +818,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 					 */
 					_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
 					alpm_logaction(_("warning: couldn't create package cache, using /tmp instead"));
-					snprintf(ldir, PATH_MAX, "%s/tmp", handle->root);
-					if(_alpm_handle_set_option(handle, PM_OPT_CACHEDIR, (long)"/tmp") == -1) {
-						_alpm_log(PM_LOG_WARNING, _("failed to set option CACHEDIR (%s)\n"), alpm_strerror(pm_errno));
-						RET_ERR(PM_ERR_RETRIEVE, -1);
-					}
+					snprintf(ldir, PATH_MAX, "%stmp", alpm_option_get_root());
+					alpm_option_set_cachedir(ldir);
 					varcache = 0;
 				}
 			}
@@ -1052,6 +1049,30 @@ error:
 	/* commiting failed, so this is still just a prepared transaction */
 	trans->state = STATE_PREPARED;
 	return(-1);
+}
+
+unsigned char alpm_sync_get_type(pmsyncpkg_t *sync)
+{
+	/* Sanity checks */
+	ASSERT(sync != NULL, return(-1));
+
+	return sync->type;
+}
+
+pmpkg_t *alpm_sync_get_package(pmsyncpkg_t *sync)
+{
+	/* Sanity checks */
+	ASSERT(sync != NULL, return(NULL));
+
+	return sync->pkg;
+}
+
+void *alpm_sync_get_data(pmsyncpkg_t *sync)
+{
+	/* Sanity checks */
+	ASSERT(sync != NULL, return(NULL));
+
+	return sync->data;
 }
 
 /* vim: set ts=2 sw=2 noet: */

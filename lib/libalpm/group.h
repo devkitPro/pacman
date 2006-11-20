@@ -21,18 +21,17 @@
 #ifndef _ALPM_GROUP_H
 #define _ALPM_GROUP_H
 
-#include "list.h"
-
+/* Groups */
 #define GRP_NAME_LEN 256
 
-/* Groups structure */
-typedef struct __pmgrp_t {
+#include "alpm.h"
+
+struct __pmgrp_t {
 	char name[GRP_NAME_LEN];
 	pmlist_t *packages; /* List of strings */
-} pmgrp_t;
+};
 
 #define FREEGRP(p) do { if(p) { _alpm_grp_free(p); p = NULL; } } while(0)
-
 #define FREELISTGRPS(p) _FREELIST(p, _alpm_grp_free)
 
 pmgrp_t *_alpm_grp_new(void);

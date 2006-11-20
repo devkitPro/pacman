@@ -63,6 +63,7 @@
 #include "sync.h"
 #include "util.h"
 #include "error.h"
+#include "package.h"
 #include "alpm.h"
 
 #ifdef __sun__

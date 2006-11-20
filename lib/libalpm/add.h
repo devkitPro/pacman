@@ -21,8 +21,8 @@
 #ifndef _ALPM_ADD_H
 #define _ALPM_ADD_H
 
-#include "list.h"
 #include "db.h"
+#include "list.h"
 #include "trans.h"
 
 int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name);

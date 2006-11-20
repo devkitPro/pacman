@@ -43,10 +43,10 @@
 } while(0)
 
 #define _(str) gettext(str)
-
+int getcols();
 int makepath(char *path);
 int rmrf(char *path);
-void indentprint(char *str, int indent);
+void indentprint(const char *str, int indent);
 char *buildstring(list_t *strlist);
 char *strtoupper(char *str);
 char *strtrim(char *str);

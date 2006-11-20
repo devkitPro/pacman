@@ -43,6 +43,7 @@
 #include "alpm.h"
 #include "error.h"
 #include "handle.h"
+#include "package.h"
 
 
 /* This function is used to convert the downloaded db file to the proper backend
@@ -198,6 +199,9 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	}
 
 	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d"), info->name, inforeq);
+
+	/* clear out 'line', to be certain - and to make valgrind happy */
+	memset(line, 513, 0);
 
 	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
@@ -410,7 +414,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	}
 
 	/* INSTALL */
-	if(inforeq & INFRQ_SCRIPLET) {
+	if(inforeq & INFRQ_SCRIPTLET) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
 		if(!stat(path, &buf)) {
 			info->scriptlet = 1;

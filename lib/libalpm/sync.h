@@ -23,15 +23,14 @@
 #ifndef _ALPM_SYNC_H
 #define _ALPM_SYNC_H
 
-#include "db.h"
-#include "package.h"
-#include "trans.h"
+#include "alpm.h"
 
-typedef struct __pmsyncpkg_t {
+/* Sync package */
+struct __pmsyncpkg_t {
 	unsigned char type;
 	pmpkg_t *pkg;
 	void *data;
-} pmsyncpkg_t;
+};
 
 #define FREESYNC(p) do { if(p) { _alpm_sync_free(p); p = NULL; } } while(0)
 

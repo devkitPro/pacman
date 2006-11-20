@@ -21,12 +21,7 @@
 #ifndef _ALPM_LOG_H
 #define _ALPM_LOG_H
 
-#define LOG_STR_LEN 256
-
-typedef void (*alpm_cb_log)(unsigned short, char *);
-
-extern alpm_cb_log pm_logcb;
-extern unsigned char pm_logmask;
+#define LOG_STR_LEN 1024
 
 void _alpm_log(unsigned char flag, char *fmt, ...);
 

@@ -54,14 +54,11 @@ extern list_t *pmc_syncs;
 
 static int sync_cleancache(int level)
 {
-	long lroot, lcachedir;
-	char *root, *cachedir;
+	const char *root, *cachedir;
 	char dirpath[PATH_MAX];
 
-	alpm_get_option(PM_OPT_ROOT, &lroot);
-	root = (void *)lroot;
-	alpm_get_option(PM_OPT_CACHEDIR, &lcachedir);
-	cachedir = (void *)lcachedir;
+	root = alpm_option_get_root();
+	cachedir = alpm_option_get_cachedir();
 
 	snprintf(dirpath, PATH_MAX, "%s%s", root, cachedir);
 
@@ -191,40 +188,41 @@ static int sync_synctree(int level, list_t *syncs)
 static int sync_search(list_t *syncs, list_t *targets)
 {
 	list_t *i;
-	PM_LIST *ret;
+	pmlist_t *ret;
 
 	for(i = targets; i; i = i->next) {
-		alpm_set_option(PM_OPT_NEEDLES, (long)i->data);
+		alpm_option_add_needle(i->data);
 	}
+
 	for(i = syncs; i; i = i->next) {
 		sync_t *sync = i->data;
 		if(targets) {
-			PM_LIST *lp;
+			pmlist_t *lp;
 			ret = alpm_db_search(sync->db);
 			if(ret == NULL) {
 				continue;
 			}
 			for(lp = ret; lp; lp = alpm_list_next(lp)) {
-				PM_PKG *pkg = alpm_list_getdata(lp);
+				pmpkg_t *pkg = alpm_list_getdata(lp);
 
-				char *group = (char *)alpm_list_getdata(alpm_pkg_getinfo(pkg,PM_PKG_GROUPS));
+				char *group = (char *)alpm_list_getdata(alpm_pkg_get_groups(pkg));
 				printf("%s/%s %s %s%s%s\n    ",
-							 (char *)alpm_db_getinfo(sync->db, PM_DB_TREENAME),
-						   (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME),
-						   (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION),
+							 alpm_db_get_name(sync->db),
+						   alpm_pkg_get_name(pkg),
+						   alpm_pkg_get_version(pkg),
 						   (group ? " (" : ""), (group ? group : ""), (group ? ") " : ""));
-				indentprint((char *)alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
+				indentprint(alpm_pkg_get_desc(pkg), 4);
 				printf("\n\n");
 			}
 			alpm_list_free_outer(ret);
 		} else {
-			PM_LIST *lp;
+			pmlist_t *lp;
 
 			for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
-				PM_PKG *pkg = alpm_list_getdata(lp);
+				pmpkg_t *pkg = alpm_list_getdata(lp);
 
-				MSG(NL, "%s/%s %s\n    ", sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
-				indentprint(alpm_pkg_getinfo(pkg, PM_PKG_DESC), 4);
+				MSG(NL, "%s/%s %s\n    ", sync->treename, alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+				indentprint(alpm_pkg_get_desc(pkg), 4);
 				MSG(NL, "\n");
 			}
 		}
@@ -241,25 +239,25 @@ static int sync_group(int level, list_t *syncs, list_t *targets)
 		for(i = targets; i; i = i->next) {
 			for(j = syncs; j; j = j->next) {
 				sync_t *sync = j->data;
-				PM_GRP *grp = alpm_db_readgrp(sync->db, i->data);
+				pmgrp_t *grp = alpm_db_readgrp(sync->db, i->data);
 
 				if(grp) {
-					MSG(NL, "%s\n", (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
-					PM_LIST_display("   ", alpm_grp_getinfo(grp, PM_GRP_PKGNAMES));
+					MSG(NL, "%s\n", (char *)alpm_grp_get_name(grp));
+					pmlist_display("   ", alpm_grp_get_packages(grp));
 				}
 			}
 		}
 	} else {
 		for(j = syncs; j; j = j->next) {
 			sync_t *sync = j->data;
-			PM_LIST *lp;
+			pmlist_t *lp;
 
 			for(lp = alpm_db_getgrpcache(sync->db); lp; lp = alpm_list_next(lp)) {
-				PM_GRP *grp = alpm_list_getdata(lp);
+				pmgrp_t *grp = alpm_list_getdata(lp);
 
-				MSG(NL, "%s\n", (char *)alpm_grp_getinfo(grp, PM_GRP_NAME));
+				MSG(NL, "%s\n", (char *)alpm_grp_get_name(grp));
 				if(grp && level > 1) {
-					PM_LIST_display("   ", alpm_grp_getinfo(grp, PM_GRP_PKGNAMES));
+					pmlist_display("   ", alpm_grp_get_packages(grp));
 				}
 			}
 		}
@@ -278,12 +276,12 @@ static int sync_info(list_t *syncs, list_t *targets)
 
 			for(j = syncs; j && !found; j = j->next) {
 				sync_t *sync = j->data;
-				PM_LIST *lp;
+				pmlist_t *lp;
 
 				for(lp = alpm_db_getpkgcache(sync->db); !found && lp; lp = alpm_list_next(lp)) {
-					PM_PKG *pkg = alpm_list_getdata(lp);
+					pmpkg_t *pkg = alpm_list_getdata(lp);
 
-					if(!strcmp(alpm_pkg_getinfo(pkg, PM_PKG_NAME), i->data)) {
+					if(!strcmp(alpm_pkg_get_name(pkg), i->data)) {
 						dump_pkg_sync(pkg, sync->treename);
 						MSG(NL, "\n");
 						found = 1;
@@ -298,7 +296,7 @@ static int sync_info(list_t *syncs, list_t *targets)
 	} else {
 		for(j = syncs; j; j = j->next) {
 			sync_t *sync = j->data;
-			PM_LIST *lp;
+			pmlist_t *lp;
 			
 			for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
 				dump_pkg_sync(alpm_list_getdata(lp), sync->treename);
@@ -341,13 +339,13 @@ static int sync_list(list_t *syncs, list_t *targets)
 	}
 
 	for(i = ls; i; i = i->next) {
-		PM_LIST *lp;
+		pmlist_t *lp;
 		sync_t *sync = i->data;
 
 		for(lp = alpm_db_getpkgcache(sync->db); lp; lp = alpm_list_next(lp)) {
-			PM_PKG *pkg = alpm_list_getdata(lp);
+			pmpkg_t *pkg = alpm_list_getdata(lp);
 
-			MSG(NL, "%s %s %s\n", (char *)sync->treename, (char *)alpm_pkg_getinfo(pkg, PM_PKG_NAME), (char *)alpm_pkg_getinfo(pkg, PM_PKG_VERSION));
+			MSG(NL, "%s %s %s\n", (char *)sync->treename, alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		}
 	}
 
@@ -363,7 +361,7 @@ int pacman_sync(list_t *targets)
 	int confirm = 0;
 	int retval = 0;
 	list_t *i = NULL;
-	PM_LIST *packages, *data, *lp;
+	pmlist_t *packages, *data, *lp;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
 		ERR(NL, _("no usable package repositories configured.\n"));
@@ -428,9 +426,9 @@ int pacman_sync(list_t *targets)
 		 */
 		data = alpm_trans_getinfo(PM_TRANS_PACKAGES);
 		for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-			PM_SYNCPKG *sync = alpm_list_getdata(lp);
-			PM_PKG *spkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
-			if(!strcmp("pacman", alpm_pkg_getinfo(spkg, PM_PKG_NAME)) && alpm_list_count(data) > 1) {
+			pmsyncpkg_t *sync = alpm_list_getdata(lp);
+			pmpkg_t *spkg = alpm_sync_get_package(sync);
+			if(!strcmp("pacman", alpm_pkg_get_name(spkg)) && alpm_list_count(data) > 1) {
 				MSG(NL, _("\n:: pacman has detected a newer version of the \"pacman\" package.\n"));
 				MSG(NL, _(":: It is recommended that you allow pacman to upgrade itself\n"));
 				MSG(NL, _(":: first, then you can re-run the operation with the newer version.\n"));
@@ -463,7 +461,7 @@ int pacman_sync(list_t *targets)
 		for(i = targets; i; i = i->next) {
 			char *targ = i->data;
 			if(alpm_trans_addtarget(targ) == -1) {
-				PM_GRP *grp = NULL;
+				pmgrp_t *grp = NULL;
 				list_t *j;
 				int found=0;
 				if(pm_errno == PM_ERR_TRANS_DUP_TARGET) {
@@ -480,14 +478,14 @@ int pacman_sync(list_t *targets)
 					sync_t *sync = j->data;
 					grp = alpm_db_readgrp(sync->db, targ);
 					if(grp) {
-						PM_LIST *pmpkgs;
+						pmlist_t *pmpkgs;
 						list_t *k, *pkgs;
 						found++;
 						MSG(NL, _(":: group %s:\n"), targ);
-						pmpkgs = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
+						pmpkgs = alpm_grp_get_packages(grp);
 						/* remove dupe entries in case a package exists in multiple repos */
-						/*   (the dupe function takes a PM_LIST* and returns a list_t*) */
-						pkgs = PM_LIST_remove_dupes(pmpkgs);
+						/*   (the dupe function takes a pmlist_t* and returns a list_t*) */
+						pkgs = pmlist_remove_dupes(pmpkgs);
 						list_display("   ", pkgs);
 						if(yesno(_(":: Install whole content? [Y/n] "))) {
 							for(k = pkgs; k; k = k->next) {
@@ -506,14 +504,14 @@ int pacman_sync(list_t *targets)
 				}
 				if(!found) {
 					/* targ not found in sync db, searching for providers... */
-					PM_LIST *k = NULL;
-					PM_PKG *pkg;
-					char *pname = NULL;
+					pmlist_t *k = NULL;
+					pmpkg_t *pkg;
+					const char *pname = NULL;
 					for(j = pmc_syncs; j && !k; j = j->next) {
 						sync_t *sync = j->data;
 						k = alpm_db_whatprovides(sync->db, targ);
-						pkg = (PM_PKG*)alpm_list_getdata(alpm_list_first(k));
-						pname = (char*)alpm_pkg_getinfo(pkg, PM_PKG_NAME);
+						pkg = (pmpkg_t*)alpm_list_getdata(alpm_list_first(k));
+						pname = alpm_pkg_get_name(pkg);
 					}
 					if(pname != NULL) {
 						/* targ is provided by pname */
@@ -536,7 +534,7 @@ int pacman_sync(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					pmdepmissing_t *miss = alpm_list_getdata(lp);
 					MSG(NL, ":: %s: %s %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					    (long)alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? _("requires") : _("is required by"),
 					    alpm_dep_getinfo(miss, PM_DEP_NAME));
@@ -550,7 +548,7 @@ int pacman_sync(list_t *targets)
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 			  for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					pmdepmissing_t *miss = alpm_list_getdata(lp);
 
 					MSG(NL, _(":: %s: conflicts with %s"),
 							alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
@@ -588,26 +586,26 @@ int pacman_sync(list_t *targets)
 		double mb, umb;
 
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
-			PM_SYNCPKG *sync = alpm_list_getdata(lp);
-			PM_PKG *pkg = alpm_sync_getinfo(sync, PM_SYNC_PKG);
-			char *pkgname, *pkgver;
+			pmsyncpkg_t *sync = alpm_list_getdata(lp);
+			pmpkg_t *pkg = alpm_sync_get_package(sync);
+			const char *pkgname, *pkgver;
 
-			if((long)alpm_sync_getinfo(sync, PM_SYNC_TYPE) == PM_SYNC_TYPE_REPLACE) {
-				PM_LIST *j, *data;
-				data = alpm_sync_getinfo(sync, PM_SYNC_DATA);
+			if(alpm_sync_get_type(sync) == PM_SYNC_TYPE_REPLACE) {
+				pmlist_t *j, *data;
+				data = alpm_sync_get_data(sync);
 				for(j = alpm_list_first(data); j; j = alpm_list_next(j)) {
-					PM_PKG *p = alpm_list_getdata(j);
-					char *pkgname = alpm_pkg_getinfo(p, PM_PKG_NAME);
+					pmpkg_t *p = alpm_list_getdata(j);
+					const char *pkgname = alpm_pkg_get_name(p);
 					if(!list_is_strin(pkgname, list_remove)) {
 						list_remove = list_add(list_remove, strdup(pkgname));
 					}
 				}
 			}
 
-			pkgname = alpm_pkg_getinfo(pkg, PM_PKG_NAME);
-			pkgver = alpm_pkg_getinfo(pkg, PM_PKG_VERSION);
-			totalsize += (long)alpm_pkg_getinfo(pkg, PM_PKG_SIZE);
-			totalusize += (long)alpm_pkg_getinfo(pkg, PM_PKG_USIZE);
+			pkgname = alpm_pkg_get_name(pkg);
+			pkgver = alpm_pkg_get_version(pkg);
+			totalsize += alpm_pkg_get_size(pkg);
+			totalusize += alpm_pkg_get_usize(pkg);
 
 			asprintf(&str, "%s-%s", pkgname, pkgver);
 			list_install = list_add(list_install, str);
@@ -673,7 +671,7 @@ int pacman_sync(list_t *targets)
 		switch(pm_errno) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_CONFLICT *conflict = alpm_list_getdata(lp);
+					pmconflict_t *conflict = alpm_list_getdata(lp);
 					switch((long)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
 						case PM_CONFLICT_TYPE_TARGET:
 							MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),

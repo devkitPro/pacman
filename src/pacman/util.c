@@ -49,6 +49,16 @@ extern int maxcols;
 extern config_t *config;
 extern int neednl;
 
+/* gets the current screen column width */
+int getcols()
+{
+	const char *cenv = getenv("COLUMNS");
+	if(cenv != NULL) {
+		return atoi(cenv);
+	}
+	return -1;
+}
+
 /* does the same thing as 'mkdir -p' */
 int makepath(char *path)
 {
@@ -126,14 +136,14 @@ int rmrf(char *path)
 
 /* output a string, but wrap words properly with a specified indentation
  */
-void indentprint(char *str, int indent)
+void indentprint(const char *str, int indent)
 {
-	char *p = str;
+	const char *p = str;
 	int cidx = indent;
 
 	while(*p) {
 		if(*p == ' ') {
-			char *next = NULL;
+			const char *next = NULL;
 			int len;
 			p++;
 			if(p == NULL || *p == ' ') continue;

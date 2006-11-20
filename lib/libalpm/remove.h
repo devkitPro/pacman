@@ -21,8 +21,8 @@
 #ifndef _ALPM_REMOVE_H
 #define _ALPM_REMOVE_H
 
-#include "list.h"
 #include "db.h"
+#include "list.h"
 #include "trans.h"
 
 int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name);

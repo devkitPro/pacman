@@ -28,6 +28,8 @@
 extern "C" {
 #endif
 
+#include <time.h> /* for time_t */
+
 /*
  * Arch Linux Package Management library
  */
@@ -42,23 +44,25 @@ extern "C" {
 #define PM_EXT_DB  ".db.tar.gz"
 
 /* 
- * Structures (opaque)
+ * Structures
  */
 
-typedef struct __pmlist_t PM_LIST;
-typedef struct __pmdb_t PM_DB;
-typedef struct __pmpkg_t PM_PKG;
-typedef struct __pmgrp_t PM_GRP;
-typedef struct __pmsyncpkg_t PM_SYNCPKG;
-typedef struct __pmtrans_t PM_TRANS;
-typedef struct __pmdepmissing_t PM_DEPMISS;
-typedef struct __pmconflict_t PM_CONFLICT;
+typedef struct __pmlist_t pmlist_t;
+typedef struct __pmdb_t pmdb_t;
+typedef struct __pmpkg_t pmpkg_t;
+typedef struct __pmgrp_t pmgrp_t;
+typedef struct __pmserver_t pmserver_t;
+typedef struct __pmtrans_t pmtrans_t;
+typedef struct __pmsyncpkg_t pmsyncpkg_t;
+typedef struct __pmdepend_t pmdepend_t;
+typedef struct __pmdepmissing_t pmdepmissing_t;
+typedef struct __pmconflict_t pmconflict_t;
 
 /*
  * Library
  */
 
-int alpm_initialize(char *root);
+int alpm_initialize(const char *root);
 int alpm_release(void);
 
 /*
@@ -74,7 +78,14 @@ int alpm_release(void);
 #define PM_LOG_FUNCTION 0x20
 #define PM_LOG_DOWNLOAD 0x40
 
+typedef void (*alpm_cb_log)(unsigned short, char *);
 int alpm_logaction(char *fmt, ...);
+
+/*
+ * Downloading
+ */
+
+typedef void (*alpm_cb_download)(const char *filename, int xfered, int total);
 
 /*
  * Options
@@ -82,112 +93,95 @@ int alpm_logaction(char *fmt, ...);
 
 #define PM_DLFNM_LEN 22
 
-/* Parameters */
-enum {
-	PM_OPT_LOGCB = 1,
-	PM_OPT_LOGMASK,
-	PM_OPT_USESYSLOG,
-	PM_OPT_ROOT,
-	PM_OPT_DBPATH,
-	PM_OPT_CACHEDIR,
-	PM_OPT_LOGFILE,
-	PM_OPT_LOCALDB,
-	PM_OPT_SYNCDB,
-	PM_OPT_NOUPGRADE,
-	PM_OPT_NOEXTRACT,
-	PM_OPT_IGNOREPKG,
-	PM_OPT_UPGRADEDELAY,
-	/* Download */
-	PM_OPT_PROXYHOST,
-	PM_OPT_PROXYPORT,
-	PM_OPT_XFERCOMMAND,
-	PM_OPT_NOPASSIVEFTP,
-	PM_OPT_DLCB,
-	PM_OPT_DLFNM,
-	PM_OPT_DLOFFSET,
-	PM_OPT_DLT0,
-	PM_OPT_DLT,
-	PM_OPT_DLRATE,
-	PM_OPT_DLXFERED1,
-	PM_OPT_DLETA_H,
-	PM_OPT_DLETA_M,
-	PM_OPT_DLETA_S,
-	/* End of download */
-	PM_OPT_HOLDPKG,
-	PM_OPT_CHOMP,
-	PM_OPT_NEEDLES
-};
+alpm_cb_log alpm_option_get_logcb();
+void alpm_option_set_logcb(alpm_cb_log cb);
 
-int alpm_set_option(unsigned char parm, unsigned long data);
-int alpm_get_option(unsigned char parm, long *data);
+alpm_cb_download alpm_option_get_dlcb();
+void alpm_option_set_dlcb(alpm_cb_download cb);
+
+unsigned char alpm_option_get_logmask();
+void alpm_option_set_logmask(unsigned char mask);
+
+const char *alpm_option_get_root();
+void alpm_option_set_root(const char *root);
+
+const char *alpm_option_get_dbpath();
+void alpm_option_set_dbpath(const char *dbpath);
+
+const char *alpm_option_get_cachedir();
+void alpm_option_set_cachedir(const char *cachedir);
+
+const char *alpm_option_get_logfile();
+void alpm_option_set_logfile(const char *logfile);
+
+unsigned char alpm_option_get_usesyslog();
+void alpm_option_set_usesyslog(unsigned char usesyslog);
+
+pmlist_t *alpm_option_get_noupgrades();
+void alpm_option_add_noupgrade(char *pkg);
+void alpm_option_set_noupgrades(pmlist_t *noupgrade);
+
+pmlist_t *alpm_option_get_noextracts();
+void alpm_option_add_noextract(char *pkg);
+void alpm_option_set_noextracts(pmlist_t *noextract);
+
+pmlist_t *alpm_option_get_ignorepkgs();
+void alpm_option_add_ignorepkg(char *pkg);
+void alpm_option_set_ignorepkgs(pmlist_t *ignorepkgs);
+
+pmlist_t *alpm_option_get_holdpkgs();
+void alpm_option_add_holdpkg(char *pkg);
+void alpm_option_set_holdpkgs(pmlist_t *holdpkgs);
+
+time_t alpm_option_get_upgradedelay();
+void alpm_option_set_upgradedelay(time_t delay);
+
+const char *alpm_option_get_xfercommand();
+void alpm_option_set_xfercommand(const char *cmd);
+
+unsigned short alpm_option_get_nopassiveftp();
+void alpm_option_set_nopassiveftp(unsigned short nopasv);
+
+unsigned short alpm_option_get_chomp();
+void alpm_option_set_chomp(unsigned short chomp);
+
+pmlist_t *alpm_option_get_needles();
+void alpm_option_add_needle(char *needle);
+void alpm_option_set_needles(pmlist_t *needles);
+
+unsigned short alpm_option_get_usecolor();
+void alpm_option_set_usecolor(unsigned short usecolor);
 
 /*
  * Databases
  */
 
-/* Info parameters */
-enum {
-	PM_DB_TREENAME = 1,
-	PM_DB_FIRSTSERVER
-};
-
 /* Database registration callback */
-typedef void (*alpm_cb_db_register)(char *, PM_DB *);
+typedef void (*alpm_cb_db_register)(char *, pmdb_t *);
 
-PM_DB *alpm_db_register(char *treename);
-int alpm_db_unregister(PM_DB *db);
+pmdb_t *alpm_db_register(char *treename);
+int alpm_db_unregister(pmdb_t *db);
 
-void *alpm_db_getinfo(PM_DB *db, unsigned char parm);
-int alpm_db_setserver(PM_DB *db, const char *url);
+const char *alpm_db_get_name(pmdb_t *db);
+const char *alpm_db_get_url(pmdb_t *db);
 
-int alpm_db_update(int level, PM_DB *db);
+int alpm_db_setserver(pmdb_t *db, const char *url);
 
-PM_PKG *alpm_db_readpkg(PM_DB *db, char *name);
-PM_LIST *alpm_db_getpkgcache(PM_DB *db);
-PM_LIST *alpm_db_whatprovides(PM_DB *db, char *name);
+int alpm_db_update(int level, pmdb_t *db);
 
-PM_GRP *alpm_db_readgrp(PM_DB *db, char *name);
-PM_LIST *alpm_db_getgrpcache(PM_DB *db);
-PM_LIST *alpm_db_search(PM_DB *db);
+pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name);
+pmlist_t *alpm_db_getpkgcache(pmdb_t *db);
+pmlist_t *alpm_db_whatprovides(pmdb_t *db, char *name);
+
+pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name);
+pmlist_t *alpm_db_getgrpcache(pmdb_t *db);
+pmlist_t *alpm_db_search(pmdb_t *db);
 
 /*
  * Packages
  */
 
 /* Info parameters */
-enum {
-	/* Desc entry */
-	PM_PKG_NAME = 1,
-	PM_PKG_VERSION,
-	PM_PKG_DESC,
-	PM_PKG_GROUPS,
-	PM_PKG_URL,
-	PM_PKG_LICENSE,
-	PM_PKG_ARCH,
-	PM_PKG_BUILDDATE,
-	PM_PKG_BUILDTYPE,
-	PM_PKG_INSTALLDATE,
-	PM_PKG_PACKAGER,
-	PM_PKG_SIZE,
-	PM_PKG_USIZE,
-	PM_PKG_REASON,
-	PM_PKG_MD5SUM, /* Sync DB only */
-	PM_PKG_SHA1SUM, /* Sync DB only */
-	/* Depends entry */
-	PM_PKG_DEPENDS,
-	PM_PKG_REMOVES,
-	PM_PKG_REQUIREDBY,
-	PM_PKG_CONFLICTS,
-	PM_PKG_PROVIDES,
-	PM_PKG_REPLACES, /* Sync DB only */
-	/* Files entry */
-	PM_PKG_FILES,
-	PM_PKG_BACKUP,
-	/* Sciplet */
-	PM_PKG_SCRIPLET,
-	/* Misc */
-	PM_PKG_DATA
-};
 
 /* reasons -- ie, why the package was installed */
 #define PM_PKG_REASON_EXPLICIT  0  /* explicitly requested by the user */
@@ -197,27 +191,46 @@ enum {
 #define PM_PKG_WITHOUT_ARCH 0 /* pkgname-pkgver-pkgrel, used under PM_DBPATH */
 #define PM_PKG_WITH_ARCH    1 /* ie, pkgname-pkgver-pkgrel-arch, used under PM_CACHEDIR */
 
-void *alpm_pkg_getinfo(PM_PKG *pkg, unsigned char parm);
-int alpm_pkg_load(char *filename, PM_PKG **pkg);
-int alpm_pkg_free(PM_PKG *pkg);
-int alpm_pkg_checkmd5sum(PM_PKG *pkg);
-int alpm_pkg_checksha1sum(PM_PKG *pkg);
+int alpm_pkg_load(char *filename, pmpkg_t **pkg);
+int alpm_pkg_free(pmpkg_t *pkg);
+int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
+int alpm_pkg_checksha1sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(char *url);
 int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this_section);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 char *alpm_pkg_name_hasarch(char *pkgname);
 
+const char *alpm_pkg_get_name(pmpkg_t *pkg);
+const char *alpm_pkg_get_version(pmpkg_t *pkg);
+const char *alpm_pkg_get_desc(pmpkg_t *pkg);
+const char *alpm_pkg_get_url(pmpkg_t *pkg);
+const char *alpm_pkg_get_builddate(pmpkg_t *pkg);
+const char *alpm_pkg_get_buildtype(pmpkg_t *pkg);
+const char *alpm_pkg_get_installdate(pmpkg_t *pkg);
+const char *alpm_pkg_get_packager(pmpkg_t *pkg);
+const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
+const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg);
+const char *alpm_pkg_get_arch(pmpkg_t *pkg);
+unsigned long alpm_pkg_get_size(pmpkg_t *pkg);
+unsigned long alpm_pkg_get_usize(pmpkg_t *pkg);
+unsigned char alpm_pkg_get_reason(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_groups(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_depends(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_removes(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_requiredby(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_provides(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_files(pmpkg_t *pkg);
+pmlist_t *alpm_pkg_get_backup(pmpkg_t *pkg);
+unsigned char alpm_pkg_has_scriptlet(pmpkg_t *pkg);
+
 /*
  * Groups
  */
-
-/* Info parameters */
-enum {
-	PM_GRP_NAME = 1,
-	PM_GRP_PKGNAMES
-};
-
-void *alpm_grp_getinfo(PM_GRP *grp, unsigned char parm);
+const char *alpm_grp_get_name(pmgrp_t *grp);
+pmlist_t *alpm_grp_get_packages(pmgrp_t *grp);
 
 /*
  * Sync
@@ -229,14 +242,10 @@ enum {
 	PM_SYNC_TYPE_UPGRADE,
 	PM_SYNC_TYPE_DEPEND
 };
-/* Info parameters */
-enum {
-	PM_SYNC_TYPE = 1,
-	PM_SYNC_PKG,
-	PM_SYNC_DATA
-};
 
-void *alpm_sync_getinfo(PM_SYNCPKG *sync, unsigned char parm);
+unsigned char alpm_sync_get_type(pmsyncpkg_t *sync);
+pmpkg_t *alpm_sync_get_package(pmsyncpkg_t *sync);
+void *alpm_sync_get_data(pmsyncpkg_t *sync);
 
 /*
  * Transactions
@@ -334,8 +343,8 @@ void *alpm_trans_getinfo(unsigned char parm);
 int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv, alpm_trans_cb_progress cb_progress);
 int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
-int alpm_trans_prepare(PM_LIST **data);
-int alpm_trans_commit(PM_LIST **data);
+int alpm_trans_prepare(pmlist_t **data);
+int alpm_trans_commit(pmlist_t **data);
 int alpm_trans_release(void);
 
 /*
@@ -362,7 +371,7 @@ enum {
 	PM_DEP_VERSION
 };
 
-void *alpm_dep_getinfo(PM_DEPMISS *miss, unsigned char parm);
+void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm);
 
 /*
  * File conflicts
@@ -380,19 +389,19 @@ enum {
 	PM_CONFLICT_CTARGET
 };
 
-void *alpm_conflict_getinfo(PM_CONFLICT *conflict, unsigned char parm);
+void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm);
 
 /*
  * Helpers
  */
  
-/* PM_LIST */
-PM_LIST *alpm_list_first(PM_LIST *list);
-PM_LIST *alpm_list_next(PM_LIST *entry);
-void *alpm_list_getdata(PM_LIST *entry);
-int alpm_list_free(PM_LIST *entry);
-int alpm_list_free_outer(PM_LIST *entry);
-int alpm_list_count(PM_LIST *list);
+/* pmlist_t */
+pmlist_t *alpm_list_first(pmlist_t *list);
+pmlist_t *alpm_list_next(pmlist_t *entry);
+void *alpm_list_getdata(const pmlist_t *entry);
+int alpm_list_free(pmlist_t *entry);
+int alpm_list_free_outer(pmlist_t *entry);
+int alpm_list_count(const pmlist_t *list);
 
 /* md5sums */
 char *alpm_get_md5sum(char *name);
@@ -401,7 +410,6 @@ char *alpm_get_sha1sum(char *name);
 /*
  * Errors
  */
-
 extern enum __pmerrno_t {
 	PM_ERR_MEMORY = 1,
 	PM_ERR_SYSTEM,

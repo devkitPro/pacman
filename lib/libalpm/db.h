@@ -23,36 +23,31 @@
 #ifndef _ALPM_DB_H
 #define _ALPM_DB_H
 
-#include <limits.h>
-#include "package.h"
 #include "alpm.h"
+#include <limits.h>
 
 /* Database entries */
-#define INFRQ_NONE     0x00
-#define INFRQ_DESC     0x01
-#define INFRQ_DEPENDS  0x02
-#define INFRQ_FILES    0x04
-#define INFRQ_SCRIPLET 0x08
-#define INFRQ_ALL      0xFF
-
-#define DB_O_CREATE 0x01
+#define INFRQ_NONE      0x00
+#define INFRQ_DESC      0x01
+#define INFRQ_DEPENDS   0x02
+#define INFRQ_FILES     0x04
+#define INFRQ_SCRIPTLET 0x08
+#define INFRQ_ALL       0xFF
 
 /* Database */
-typedef struct __pmdb_t {
+struct __pmdb_t {
 	char *path;
 	char treename[PATH_MAX];
 	void *handle;
 	pmlist_t *pkgcache;
 	pmlist_t *grpcache;
 	pmlist_t *servers;
-} pmdb_t;
+};
 
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
 int _alpm_db_cmp(const void *db1, const void *db2);
 pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles);
-
-/* Prototypes for backends functions */
 int _alpm_db_install(pmdb_t *db, const char *dbfile);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);

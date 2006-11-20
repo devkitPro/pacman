@@ -23,9 +23,9 @@
 
 typedef struct __config_t {
 	/* command line options */
-	char *root;
-	char *dbpath;
-	char *cachedir;
+	const char *root;
+	const char *dbpath;
+	const char *cachedir;
 	char *configfile;
 	unsigned short op;
 	unsigned short verbose;
@@ -63,7 +63,7 @@ typedef struct __config_t {
 
 config_t *config_new(void);
 int config_free(config_t *config);
-void cb_db_register(char *section, PM_DB *db);
+void cb_db_register(char *section, pmdb_t *db);
 
 #endif /* _PM_CONF_H */
 

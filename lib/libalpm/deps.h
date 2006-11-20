@@ -25,18 +25,21 @@
 
 #include "db.h"
 #include "sync.h"
+#include "alpm.h"
 
-typedef struct __pmdepend_t {
+/* Dependency */
+struct __pmdepend_t {
 	unsigned char mod;
 	char name[PKG_NAME_LEN];
 	char version[PKG_VERSION_LEN];
-} pmdepend_t;
+};
 
-typedef struct __pmdepmissing_t {
+/* Missing dependency */
+struct __pmdepmissing_t {
 	char target[PKG_NAME_LEN];
 	unsigned char type;
 	pmdepend_t depend;
-} pmdepmissing_t;
+};
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsigned char depmod,
                             const char *depname, const char *depversion);

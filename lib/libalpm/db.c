@@ -223,4 +223,29 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 
 	return(db);
 }
+
+const char *alpm_db_get_name(pmdb_t *db)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(db != NULL, return(NULL));
+
+	return db->treename;
+}
+
+const char *alpm_db_get_url(pmdb_t *db)
+{
+	char path[PATH_MAX];
+	pmserver_t *s;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(db != NULL, return(NULL));
+
+	s = (pmserver_t*)db->servers->data;
+
+	snprintf(path, PATH_MAX, "%s://%s%s", s->s_url->scheme, s->s_url->host, s->s_url->doc);
+	return strdup(path);
+}
+
 /* vim: set noet: */

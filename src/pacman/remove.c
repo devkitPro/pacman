@@ -35,11 +35,11 @@
 
 extern config_t *config;
 
-extern PM_DB *db_local;
+extern pmdb_t *db_local;
 
 int pacman_remove(list_t *targets)
 {
-	PM_LIST *data;
+	pmlist_t *data;
 	list_t *i;
 	list_t *finaltargs = NULL;
 	int retval = 0;
@@ -52,17 +52,17 @@ int pacman_remove(list_t *targets)
 	 * (the library can't remove groups for now)
 	 */
 	for(i = targets; i; i = i->next) {
-		PM_GRP *grp;
+		pmgrp_t *grp;
 
 		grp = alpm_db_readgrp(db_local, i->data);
 		if(grp) {
-			PM_LIST *lp, *pkgnames;
+			pmlist_t *lp, *pkgnames;
 			int all;
 
-			pkgnames = alpm_grp_getinfo(grp, PM_GRP_PKGNAMES);
+			pkgnames = alpm_grp_get_packages(grp);
 
-			MSG(NL, _(":: group %s:\n"), alpm_grp_getinfo(grp, PM_GRP_NAME));
-			PM_LIST_display("   ", pkgnames);
+			MSG(NL, _(":: group %s:\n"), alpm_grp_get_name(grp));
+			pmlist_display("   ", pkgnames);
 			all = yesno(_("    Remove whole content? [Y/n] "));
 			for(lp = alpm_list_first(pkgnames); lp; lp = alpm_list_next(lp)) {
 				if(all || yesno(_(":: Remove %s from group %s? [Y/n] "), (char *)alpm_list_getdata(lp), i->data)) {
@@ -98,12 +98,12 @@ int pacman_remove(list_t *targets)
 	/* Step 2: prepare the transaction based on its type, targets and flags
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
-		PM_LIST *lp;
+		pmlist_t *lp;
 		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					PM_DEPMISS *miss = alpm_list_getdata(lp);
+					pmdepmissing_t *miss = alpm_list_getdata(lp);
 					MSG(NL, _("  %s: is required by %s\n"), alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					    alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
@@ -119,12 +119,12 @@ int pacman_remove(list_t *targets)
 	/* Warn user in case of dangerous operation
 	 */
 	if(config->flags & PM_TRANS_FLAG_RECURSE || config->flags & PM_TRANS_FLAG_CASCADE) {
-		PM_LIST *lp;
+		pmlist_t *lp;
 		/* list transaction targets */
 		i = NULL;
 		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
-			PM_PKG *pkg = alpm_list_getdata(lp);
-			i = list_add(i, strdup(alpm_pkg_getinfo(pkg, PM_PKG_NAME)));
+			pmpkg_t *pkg = alpm_list_getdata(lp);
+			i = list_add(i, strdup(alpm_pkg_get_name(pkg)));
 		}
 		list_display(_("\nTargets:"), i);
 		FREELIST(i);

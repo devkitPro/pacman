@@ -21,10 +21,10 @@
 #ifndef _ALPM_CACHE_H
 #define _ALPM_CACHE_H
 
-#include "list.h"
-#include "package.h"
-#include "group.h"
 #include "db.h"
+#include "list.h"
+#include "group.h"
+#include "package.h"
 
 /* packages */
 int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel);

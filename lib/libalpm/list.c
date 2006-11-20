@@ -187,10 +187,10 @@ pmlist_t *_alpm_list_remove(pmlist_t *haystack, void *needle, _alpm_fn_cmp fn, v
 	return(haystack);
 }
 
-int _alpm_list_count(pmlist_t *list)
+int _alpm_list_count(const pmlist_t *list)
 {
 	int i;
-	pmlist_t *lp;
+	const pmlist_t *lp;
 
 	for(lp = list, i = 0; lp; lp = lp->next, i++);
 

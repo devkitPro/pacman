@@ -39,7 +39,7 @@ dnl Put out version numbers to config.h
 AC_DEFINE_UNQUOTED([PM_VERSION], ["$PM_VERSION"], [libalpm version number])
 
 dnl Configuration files
-AC_CONFIG_FILES([etc/makepkg.conf] [etc/pacman.conf])
+dnl AC_CONFIG_FILES([etc/makepkg.conf] [etc/pacman.conf])
 
 AC_PROG_CC
 AC_HEADER_STDC
@@ -353,6 +353,8 @@ doc/libalpm.3
 doc/pacman.8
 doc/hu/Makefile
 etc/Makefile
+etc/makepkg.conf
+etc/pacman.conf
 etc/pacman.d/Makefile
 bindings/perl/Makefile
 bindings/python/Makefile

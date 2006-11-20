@@ -38,7 +38,7 @@ extern config_t *config;
 
 int pacman_add(list_t *targets)
 {
-	PM_LIST *data;
+	pmlist_t *data;
 	list_t *i;
 	int retval = 0;
 
@@ -87,13 +87,13 @@ int pacman_add(list_t *targets)
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
 		long long *pkgsize, *freespace;
-		PM_LIST *i;
+		pmlist_t *i;
 
 		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					PM_DEPMISS *miss = alpm_list_getdata(i);
+					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s: requires %s"), alpm_dep_getinfo(miss, PM_DEP_TARGET),
 					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
 					switch((long)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
@@ -107,7 +107,7 @@ int pacman_add(list_t *targets)
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					PM_DEPMISS *miss = alpm_list_getdata(i);
+					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s: conflicts with %s"),
 						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
@@ -115,7 +115,7 @@ int pacman_add(list_t *targets)
 			break;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
-					PM_CONFLICT *conflict = alpm_list_getdata(i);
+					pmconflict_t *conflict = alpm_list_getdata(i);
 					switch((long)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
 						case PM_CONFLICT_TYPE_TARGET:
 							MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),

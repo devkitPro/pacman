@@ -35,6 +35,8 @@
 #include <sys/stat.h>
 #include <libintl.h>
 /* pacman */
+#include "list.h"
+#include "trans.h"
 #include "util.h"
 #include "error.h"
 #include "log.h"

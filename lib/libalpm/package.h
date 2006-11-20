@@ -28,13 +28,15 @@
 #if defined(__APPLE__) || defined(__sun__)
 #include <time.h>
 #endif
-#include "list.h"
+
+#include "alpm.h"
 
 enum {
 	PKG_FROM_CACHE = 1,
 	PKG_FROM_FILE
 };
 
+/* Packages */
 #define PKG_NAME_LEN     256
 #define PKG_VERSION_LEN  64
 #define PKG_FULLNAME_LEN (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1
@@ -47,7 +49,7 @@ enum {
 #define PKG_SHA1SUM_LEN  41
 #define PKG_ARCH_LEN     32
 
-typedef struct __pmpkg_t {
+struct __pmpkg_t {
 	char name[PKG_NAME_LEN];
 	char version[PKG_VERSION_LEN];
 	char desc[PKG_DESC_LEN];
@@ -80,16 +82,9 @@ typedef struct __pmpkg_t {
 	unsigned char origin;
 	void *data;
 	unsigned char infolevel;
-} pmpkg_t;
+};
 
-#define FREEPKG(p) \
-do { \
-	if(p) { \
-		_alpm_pkg_free(p); \
-		p = NULL; \
-	} \
-} while(0)
-
+#define FREEPKG(p) do { if(p){_alpm_pkg_free(p); p = NULL;}} while(0)
 #define FREELISTPKGS(p) _FREELIST(p, _alpm_pkg_free)
 
 pmpkg_t* _alpm_pkg_new(const char *name, const char *version);
@@ -100,6 +95,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile);
 pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack);
 char *_alpm_pkg_makefilename(pmpkg_t *pkg);
 int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch);
+
 
 #endif /* _ALPM_PACKAGE_H */
 

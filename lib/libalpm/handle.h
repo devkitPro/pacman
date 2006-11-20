@@ -21,17 +21,19 @@
 #ifndef _ALPM_HANDLE_H
 #define _ALPM_HANDLE_H
 
-#include "list.h"
 #include "db.h"
-#include "trans.h"
+#include "log.h"
+#include "list.h"
 #include "alpm.h"
+#include "trans.h"
 
-typedef enum __pmaccess_t {
+typedef enum _pmaccess_t {
 	PM_ACCESS_RO,
 	PM_ACCESS_RW
 } pmaccess_t;
 
-typedef struct __pmhandle_t {
+typedef struct _pmhandle_t {
+	/* Internal */
 	pmaccess_t access;
 	uid_t uid;
 	pmdb_t *db_local;
@@ -39,24 +41,29 @@ typedef struct __pmhandle_t {
 	FILE *logfd;
 	int lckfd;
 	pmtrans_t *trans;
-	/* parameters */
-	char *root;
-	char *dbpath;
-	char *cachedir;
-	char *logfile;
-	pmlist_t *noupgrade; /* List of strings */
-	pmlist_t *noextract; /* List of strings */
-	pmlist_t *ignorepkg; /* List of strings */
-	pmlist_t *holdpkg; /* List of strings */
-	unsigned char usesyslog;
-	time_t upgradedelay;
+	
+	/* options */
+  alpm_cb_log logcb;				/* Log callback function */
+	alpm_cb_download dlcb;    /* Download callback function */
+  unsigned char logmask;		/* Output mask for logging functions */
+	char *root;								/* Root path, default '/' */
+	char *dbpath;							/* Base path to pacman's DBs */
+	char *cachedir;						/* Base path to pacman's cache */
+	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
+	unsigned char usesyslog;	/* Use syslog instead of logfile? */
+	
+	pmlist_t *noupgrade;			/* List of packages NOT to be upgraded */
+	pmlist_t *noextract;			/* List of packages NOT to extrace */ /*TODO is this used?*/
+	pmlist_t *ignorepkg;			/* List of packages to ignore */
+	pmlist_t *holdpkg;				/* List of packages which 'hold' pacman */
+
+	time_t upgradedelay;			/* Amount of time to wait before upgrading a package*/
 	/* servers */
-	char *proxyhost;
-	unsigned short proxyport;
-	char *xfercommand;
-	unsigned short nopassiveftp;
-	unsigned short chomp; /* if eye-candy features should be enabled or not */
-	pmlist_t *needles; /* for searching */
+	char *xfercommand;				/* External download command */
+	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
+	unsigned short chomp;			/* I Love Candy! */
+	pmlist_t *needles;				/* needles for searching */ /* TODO why is this here? */
+	unsigned short use_color; /* enable colorful output */
 } pmhandle_t;
 
 extern pmhandle_t *handle;
@@ -65,8 +72,6 @@ extern pmhandle_t *handle;
 
 pmhandle_t *_alpm_handle_new(void);
 int _alpm_handle_free(pmhandle_t *handle);
-int _alpm_handle_set_option(pmhandle_t *handle, unsigned char val, unsigned long data);
-int _alpm_handle_get_option(pmhandle_t *handle, unsigned char val, long *data);
 
 #endif /* _ALPM_HANDLE_H */
 

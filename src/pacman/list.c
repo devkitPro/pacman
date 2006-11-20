@@ -101,7 +101,7 @@ static list_t *list_last(list_t *list)
 
 /* Test for existence of a string in a list_t
  */
-int list_is_strin(char *needle, list_t *haystack)
+int list_is_strin(const char *needle, list_t *haystack)
 {
 	list_t *lp;
 
@@ -144,9 +144,9 @@ void list_display(const char *title, list_t *list)
 	}
 }
 
-void PM_LIST_display(const char *title, PM_LIST *list)
+void pmlist_display(const char *title, pmlist_t *list)
 {
-	PM_LIST *lp;
+	pmlist_t *lp;
 	int cols, len;
 
 	len = strlen(title);
@@ -172,17 +172,17 @@ void PM_LIST_display(const char *title, PM_LIST *list)
 	}
 }
 
-/* Filter out any duplicate strings in a PM_LIST
+/* Filter out any duplicate strings in a pmlist_t
  *
  * Not the most efficient way, but simple to implement -- we assemble
  * a new list, using is_in() to check for dupes at each iteration.
  *
- * This function takes a PM_LIST* and returns a list_t*
+ * This function takes a pmlist_t* and returns a list_t*
  *
  */
-list_t *PM_LIST_remove_dupes(PM_LIST *list)
+list_t *pmlist_remove_dupes(pmlist_t *list)
 {
-	PM_LIST *i;
+	pmlist_t *i;
 	list_t *newlist = NULL;
 
 	for(i = alpm_list_first(list); i; i = alpm_list_next(i)) {

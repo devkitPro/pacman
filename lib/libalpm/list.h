@@ -21,13 +21,15 @@
 #ifndef _ALPM_LIST_H
 #define _ALPM_LIST_H
 
+#include "alpm.h"
+
 /* Chained list struct */
-typedef struct __pmlist_t {
+struct __pmlist_t {
 	void *data;
 	struct __pmlist_t *prev;
 	struct __pmlist_t *next;
 	struct __pmlist_t *last; /* Quick access to last item in list */
-} pmlist_t;
+};
 
 #define _FREELIST(p, f) do { if(p) { _alpm_list_free(p, f); p = NULL; } } while(0)
 #define FREELIST(p) _FREELIST(p, free)
@@ -42,7 +44,7 @@ void _alpm_list_free(pmlist_t *list, _alpm_fn_free fn);
 pmlist_t *_alpm_list_add(pmlist_t *list, void *data);
 pmlist_t *_alpm_list_add_sorted(pmlist_t *list, void *data, _alpm_fn_cmp fn);
 pmlist_t *_alpm_list_remove(pmlist_t *haystack, void *needle, _alpm_fn_cmp fn, void **data);
-int _alpm_list_count(pmlist_t *list);
+int _alpm_list_count(const pmlist_t *list);
 int _alpm_list_is_in(void *needle, pmlist_t *haystack);
 int _alpm_list_is_strin(char *needle, pmlist_t *haystack);
 pmlist_t *_alpm_list_last(pmlist_t *list);

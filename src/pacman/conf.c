@@ -53,7 +53,6 @@ int config_free(config_t *config)
 		return(-1);
 	}
 
-	FREE(config->root);
 	FREE(config->configfile);
 	FREELIST(config->op_s_ignore);
 	free(config);
@@ -61,7 +60,7 @@ int config_free(config_t *config)
 	return(0);
 }
 
-void cb_db_register(char *section, PM_DB *db)
+void cb_db_register(char *section, pmdb_t *db)
 {
 	sync_t *sync;
 

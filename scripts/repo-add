@@ -1,0 +1,237 @@
+#!/bin/bash
+#   repo-add : add a package to a given repo database file
+#  
+#   Copyright (c) 2006 Aaron Griffin <aaron@archlinux.org>
+#  
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+# 
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   USA.
+
+FORCE=0
+REPO_DB_FILE=""
+
+DB_COMPRESSION="gz" #TODO this is gross
+DB_CHECKSUMS=(md5)
+TMP_DIR=""
+
+if [ $# -lt 2 ]; then
+    echo "repo-add /path/to/repo.db.tar.gz [--force] [packages-to-add]"
+    exit 1
+fi
+
+
+get_checksum () {
+    case "$(echo "$1" | tr A-Z a-z)" in
+        md5) sum=$(md5sum $2); echo ${sum% *} ;;
+        sha1) sum=$(sha1sum $2); echo ${sum% *} ;;
+        sha256) sum=$(sha256sum $2); echo ${sum% *} ;;
+        sha384) sum=$(sha256sum $2); echo ${sum% *} ;;
+        sha512) sum=$(sha256sum $2); echo ${sum% *} ;;
+    esac
+}
+
+checksum_name () {
+    case "$(echo "$1" | tr A-Z a-z)" in
+        md5) echo "MD5SUM" ;;
+        sha1) echo "SHA1SUM" ;;
+        sha256) echo "SHA256SUM" ;;
+        sha384) echo "SHA384SUM" ;;
+        sha512) echo "SHA512SUM" ;;
+    esac
+}
+
+test_repo_db_file () {
+    if [ -f "$REPO_DB_FILE" ]; then
+        [ "$(tar tf "$REPO_DB_FILE" | grep -c "/desc")" -gt 0 ] || return 1
+    else
+        true
+    fi
+}
+
+db_write_entry()
+{
+    pkgfile=$(readlink -f $1)
+    export pkgname=""
+    pkgver=""
+    pkgdesc=""
+    url=""
+    builddate=""
+    packager=""
+    csize=""
+    size="" 
+    groups=""
+    depends=""
+    backups=""
+    licenses=""
+    _replaces=""
+    _provides=""
+    _conflicts=""
+
+    OLDIFS="$IFS"
+    #gross... IFS == new line
+    IFS='
+'
+    for i in $(tar xOf "$pkgfile" .PKGINFO | grep -v "^#" |sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
+        eval "${i}"
+        case "$i" in
+            group=*) groups="$groups $group" ;;
+            depend=*) depends="$depends $depend" ;;
+            backup=*) backups="$backups $backup" ;;
+            license=*) licenses="$licenses $license" ;;
+            replaces=*) _replaces="$_replaces $replaces" ;;
+            provides=*) _provides="$_provides $provides" ;;
+            conflicts=*) _conflicts="$_conflicts $conflicts" ;;
+        esac
+    done
+    IFS=$OLDIFS
+
+    csize="$(du -b $pkgfile | cut -f1)"
+
+    cd $gstmpdir
+
+    if [ -z "$pkgname" -o -z "$pkgver" ]; then
+        echo "   error: invalid package file"
+        return 1
+    fi 
+
+    if [ ! -d "$pkgname-$pkgver" ]; then
+        [ -e "$pkgname-$pkgver" ] && rm -rf "$pkgname-$pkgver"
+        mkdir "$pkgname-$pkgver"
+        cd "$pkgname-$pkgver"
+    else
+        cd "$pkgname-$pkgver"
+        [ -e desc ] && rm desc
+        [ -e depends ] && rm depends
+    fi
+
+    # desc
+    echo ":: creating 'desc' db entry"
+    echo -e "%FILENAME%\n$1\n" >> desc
+    echo -e "%NAME%\n$pkgname\n" >>desc
+    echo -e "%VERSION%\n$pkgver\n" >>desc
+    if [ -n "$pkgdesc" ]; then
+        echo -e "%DESC%\n$pkgdesc\n" >>desc
+    fi
+    if [ -n "$groups" ]; then
+        echo "%GROUPS%" >>desc
+        echo $groups | tr -s ' ' '\n' >>desc
+        echo "" >desc
+    fi
+    [ -n $csize ] && echo -e "%CSIZE%\n$csize\n" >>desc
+    #TODO SIZE ? USIZE ?
+    [ -n $size ] && echo -e "%USIZE%\n$size\n" >>desc
+
+    for chk in ${DB_CHECKSUMS[@]}; do
+        name="$(checksum_name $chk)"
+        echo ":: computing $name checksums"
+        if [ -n "$name" ]; then
+            echo -e "%$name%\n$(get_checksum $chk $pkgfile)\n" >>desc
+        fi
+    done
+
+    [ -n "$url" ] && echo -e "%URL%\n$url\n" >>desc
+    if [ -n "$licenses" ]; then
+        echo "%LICENSE%" >>desc
+        echo $licenses | tr -s ' ' '\n' >>desc
+        echo "" >>desc
+    fi
+    [ -n "$arch" ] && echo -e "%ARCH%\n$arch\n" >>desc
+    [ -n "$builddate" ] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
+    [ -n "$packager" ] && echo -e "%PACKAGER%\n$packager\n" >>desc
+
+    if [ -n "$_replaces" ]; then
+        echo "%REPLACES%" >>desc
+        echo $_replaces | tr -s ' ' '\n' >>desc
+        echo "" >>desc
+    fi
+    [ "$FORCE" = "1" ] && echo -e "%FORCE%\n" >>desc
+
+    # depends
+    echo ":: creating 'depends' db entry"
+    if [ -n "$depends" ]; then
+        echo "%DEPENDS%" >>depends
+        echo $depends | tr -s ' ' '\n' >>depends
+        echo "" >>depends
+    fi
+    if [ -n "$_conflicts" ]; then
+        echo "%CONFLICTS%" >>depends
+        echo $_conflicts | tr -s ' ' '\n' >>depends
+        echo "" >>depends
+    fi
+    if [ -n "$_provides" ]; then
+        echo "%PROVIDES%" >>depends
+        echo $_provides | tr -s ' ' '\n' >>depends
+        echo "" >>depends
+    fi
+
+    # preserve the modification time
+    touch -r "$pkgfile" desc depends
+}
+            
+if [ $# -gt 1 ]; then
+    gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || (\
+        echo "cannot create temp directory for database building"; \
+        exit 1)
+
+    success=0
+    for arg in $@; do
+        if [ "$arg" == "--force" -o "$arg" == "-f" ]; then
+            FORCE=1
+        elif [ "x$REPO_DB_FILE" == "x" ]; then
+            REPO_DB_FILE="$(readlink -f $arg)"
+            if ! test_repo_db_file; then
+                echo "   repository db file '$REPO_DB_FILE' is not a proper pacman db"
+                exit 1
+            elif [ -f "$REPO_DB_FILE" ]; then
+                echo ":: extracting database to a temporary location"
+                tar xf "$REPO_DB_FILE" -C "$gstmpdir"
+            fi
+        else
+            if [ -f "$arg" ]; then
+                if ! tar xf "$arg" .PKGINFO 2>&1 >/dev/null; then
+                    echo "error: '$arg' is not a package file, skipping"
+                else
+                    echo ":: adding package '$arg'"
+
+                    this_dir="$(pwd)"
+                    if db_write_entry "$arg"; then
+                        success=1
+                    fi
+                    cd $this_dir
+                fi
+            else
+                echo "error: package '$arg' not found"
+            fi
+        fi
+    done
+
+    if [ "$success" = "1" ]; then
+        echo ":: creating updated database file ${REPO_DB_FILE}"
+        cd $gstmpdir
+        if [ -n "$(ls)" ]; then
+            [ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
+            [ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+            case "$DB_COMPRESSION" in
+                gz) tar c * | gzip -9 >$REPO_DB_FILE ;;
+                bz2) tar c * | bzip2 -9 >$REPO_DB_FILE ;;
+                *) echo "warning: no compression set"
+                tar c * >$REPO_DB_FILE;;
+            esac
+        fi
+    else
+        echo ":: no packages modified, nothing to do"
+    fi
+fi
+
+[ -d "$gstmpdir" ] && rm -rf $gstmpdir

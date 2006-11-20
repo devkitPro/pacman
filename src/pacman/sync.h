@@ -24,7 +24,7 @@
 /* Repositories */
 typedef struct __sync_t {
 	char *treename;
-	PM_DB *db;
+	pmdb_t *db;
 } sync_t;
 
 int pacman_sync(list_t *targets);

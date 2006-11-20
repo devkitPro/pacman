@@ -29,6 +29,7 @@
 #include "error.h"
 #include "log.h"
 #include "group.h"
+#include "list.h"
 #include "alpm.h"
 
 pmgrp_t *_alpm_grp_new()
@@ -72,4 +73,19 @@ int _alpm_grp_cmp(const void *g1, const void *g2)
 	return(strcmp(grp1->name, grp2->name));
 }
 
+const char *alpm_grp_get_name(pmgrp_t *grp)
+{
+	/* Sanity checks */
+	ASSERT(grp != NULL, return(NULL));
+
+	return grp->name;
+}
+
+pmlist_t *alpm_grp_get_packages(pmgrp_t *grp)
+{
+	/* Sanity checks */
+	ASSERT(grp != NULL, return(NULL));
+
+	return grp->packages;
+}
 /* vim: set ts=2 sw=2 noet: */

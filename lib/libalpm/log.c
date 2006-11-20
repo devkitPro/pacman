@@ -27,17 +27,14 @@
 #include "alpm.h"
 #include "log.h"
 
-/* Internal library log mechanism */
-alpm_cb_log pm_logcb     = NULL;
-unsigned char pm_logmask = 0;
-
 void _alpm_log(unsigned char flag, char *fmt, ...)
 {
-	if(pm_logcb == NULL) {
+	alpm_cb_log logcb = alpm_option_get_logcb();
+	if(logcb == NULL) {
 		return;
 	}
 
-	if(flag & pm_logmask) {
+	if(flag & alpm_option_get_logmask()) {
 		char str[LOG_STR_LEN];
 		va_list args;
 
@@ -45,7 +42,7 @@ void _alpm_log(unsigned char flag, char *fmt, ...)
 		vsnprintf(str, LOG_STR_LEN, fmt, args);
 		va_end(args);
 
-		pm_logcb(flag, str);
+		logcb(flag, str);
 	}
 }
 

@@ -38,8 +38,6 @@
 #include "handle.h"
 #include "log.h"
 
-download_progress_cb pm_dlcb = NULL;
-
 pmserver_t *_alpm_server_new(const char *url)
 {
 	struct url *u;
@@ -172,10 +170,10 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				downloadTimeout = 10000;
 
 			 	/* Make libdownload super verbose... worthwhile for testing */
-				if(pm_logmask & PM_LOG_DOWNLOAD) {
+				if(alpm_option_get_logmask() & PM_LOG_DOWNLOAD) {
 						downloadDebug = 1;
 				}
-				if(pm_logmask & PM_LOG_DEBUG) {
+				if(alpm_option_get_logmask() & PM_LOG_DEBUG) {
 						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "v" : "vp"));
 				} else {
 						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
@@ -229,7 +227,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				}
 
 				/* Progress 0 - initialize */
-				if(pm_dlcb) pm_dlcb(fn, 0, ust.size);
+				if(handle->dlcb) handle->dlcb(fn, 0, ust.size);
 
 				int nread = 0;
 				char buffer[PM_DLBUF_LEN];
@@ -238,7 +236,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 					while((nwritten += fwrite(buffer, 1, (nread - nwritten), localf)) < nread) ;
 					dltotal_bytes += nread;
 
-					if(pm_dlcb) pm_dlcb(fn, dltotal_bytes, ust.size);
+					if(handle->dlcb) handle->dlcb(fn, dltotal_bytes, ust.size);
 				}
 
 				fclose(localf);
