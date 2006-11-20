@@ -486,26 +486,11 @@ int main(int argc, char *argv[])
 		config->root = PM_ROOT;
 	}
 
-	char *initroot = NULL;
-	/* add a trailing '/' if there isn't one */
-	if(config->root[strlen(config->root)-1] != '/') {
-		char *ptr;
-		MALLOC(ptr, strlen(config->root)+2);
-		strcpy(ptr, config->root);
-		strcat(ptr, "/");
-		initroot = ptr;
-	}	else {
-		initroot = strdup(config->root);
-	}
-
 	/* initialize pm library */
-	if(alpm_initialize(initroot) == -1) {
+	if(alpm_initialize(config->root) == -1) {
 		ERR(NL, _("failed to initilize alpm library (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
-
-	FREE(initroot);
-	config->root = alpm_option_get_root();
 
 	/* Setup logging as soon as possible, to print out maximum debugging info */
 	alpm_option_set_logmask(config->debug);
