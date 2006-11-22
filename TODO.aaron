@@ -6,3 +6,10 @@
   algorithms at a time (mostly done).
 * pacman: add pactest cases/functionality for all -Q operations and make sure
   the output is sane
+* etc/pacman.d/ install rules
+* ordering of installed packages based on dependencies
+    i.e. pkga depends=(pkgb pkgc), pkgb depends=(pkgc)
+    pacman -S pkga pkgb pkgc
+    > a depends on b and c, move them: pkgb pkgc pkga
+    > b depends on c, move it: pkgc pkgb pkga
+    > pacman -S pkgc pkgb pkga
