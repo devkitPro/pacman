@@ -224,6 +224,10 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 					server->s_url->offset = (off_t)0;
 					dltotal_bytes = 0;
 					localf = fopen(output, "w");
+					if(localf == NULL) { /* still null? */
+						_alpm_log(PM_LOG_ERROR, _("cannot write to file '%s'"), output);
+						return -1;
+					}
 				}
 
 				/* Progress 0 - initialize */
