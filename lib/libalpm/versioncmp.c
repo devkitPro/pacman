@@ -259,7 +259,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 			}
 		}
 
-		char *mod = "depends on";
+		char *mod = "~=";
 		switch(dep->mod) {
 		case PM_DEP_MOD_EQ: mod = "=="; break;
 		case PM_DEP_MOD_GE: mod = ">="; break;
