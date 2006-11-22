@@ -24,6 +24,9 @@
 #include <sys/stat.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/ioctl.h>
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,18 +48,33 @@
 #include "conf.h"
 #include "log.h"
 
-extern int maxcols;
 extern config_t *config;
 extern int neednl;
 
 /* gets the current screen column width */
 int getcols()
 {
+#ifdef TIOCGSIZE
+	struct ttysize win;
+	if(ioctl(1, TIOCGSIZE, &win) == 0) {
+		return win.ts_cols;
+	}
+#elif defined(TIOCGWINSZ)
+	struct winsize win;
+	if(ioctl(1, TIOCGWINSZ, &win) == 0) {
+		return win.ws_col;
+	}
+#endif
+	else {
+		return -1;
+	}
+	/* Original envvar way - prone to display issues
 	const char *cenv = getenv("COLUMNS");
 	if(cenv != NULL) {
 		return atoi(cenv);
 	}
 	return -1;
+	*/
 }
 
 /* does the same thing as 'mkdir -p' */
@@ -152,7 +170,7 @@ void indentprint(const char *str, int indent)
 				next = p + strlen(p);
 			}
 			len = next - p;
-			if(len > (maxcols-cidx-1)) {
+			if(len > (getcols()-cidx-1)) {
 				/* newline */
 				int i;
 				fprintf(stdout, "\n");

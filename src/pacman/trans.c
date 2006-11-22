@@ -40,7 +40,6 @@
 #define LOG_STR_LEN 256
 
 extern config_t *config;
-extern unsigned int maxcols;
 
 int prevpercent=0; /* for less progressbar output */
 
@@ -154,6 +153,7 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 		break;
 		case PM_TRANS_EVT_RETRIEVE_LOCAL:
 			MSG(NL, " %s [", (char*)data1);
+			unsigned int maxcols = getcols();
 			STRNCPY(out, (char*)data2, maxcols-42);
 			MSG(CL, "%s", out);
 			for(i = strlen(out); i < maxcols-43; i++) {
@@ -287,6 +287,7 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 	static int lasthash = 0, mouth = 0;
 	int i, hash;
 	long chomp = 0;
+	unsigned int maxcols = getcols();
 	unsigned int maxpkglen, progresslen = maxcols - 57;
 	char *ptr = NULL;
 

@@ -47,8 +47,6 @@ struct timeval initial_time;
 /* pacman options */
 extern config_t *config;
 
-extern unsigned int maxcols;
-
 #define FILENAME_TRIM_LEN 21
 #define UPDATE_SPEED_SEC 0.1
 
@@ -58,6 +56,7 @@ void log_progress(const char *filename, int xfered, int total)
 	int i, hash;
 	long chomp = 0;
 	char *fname, *p; 
+	unsigned int maxcols = getcols();
 	unsigned int progresslen = maxcols - 57;
 	int percent = ((float)xfered) / ((float)total) * 100;
 	struct timeval current_time;

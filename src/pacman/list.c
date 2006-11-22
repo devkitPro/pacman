@@ -28,8 +28,6 @@
 #include "util.h"
 #include "list.h"
 
-extern int maxcols;
-
 static list_t *list_last(list_t *list);
 
 list_t *list_new()
@@ -127,6 +125,7 @@ void list_display(const char *title, list_t *list)
 	if(list) {
 		for(lp = list, cols = len; lp; lp = lp->next) {
 			int s = strlen((char *)lp->data)+1;
+			unsigned int maxcols = getcols();
 			if(s+cols >= maxcols) {
 				int i;
 				cols = len;
@@ -155,6 +154,7 @@ void pmlist_display(const char *title, pmlist_t *list)
 	if(list) {
 		for(lp = list, cols = len; lp; lp = alpm_list_next(lp)) {
 			int s = strlen(alpm_list_getdata(lp))+1;
+			unsigned int maxcols = getcols();
 			if(s+cols >= maxcols) {
 				int i;
 				cols = len;
