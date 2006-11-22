@@ -94,12 +94,12 @@ int pacman_add(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
-					MSG(NL, _(":: %s: requires %s"), alpm_dep_getinfo(miss, PM_DEP_TARGET),
-					                              alpm_dep_getinfo(miss, PM_DEP_NAME));
-					switch((long)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
-						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
-						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
-						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+					MSG(NL, _(":: %s: requires %s"), alpm_dep_get_target(miss),
+					                              alpm_dep_get_name(miss));
+					switch(alpm_dep_get_mod(miss)) {
+						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_get_version(miss));  break;
+						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_get_version(miss)); break;
+						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_get_version(miss)); break;
 					}
 					MSG(CL, "\n");
 				}
@@ -108,25 +108,25 @@ int pacman_add(list_t *targets)
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s: conflicts with %s"),
-						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
+						alpm_dep_get_target(miss), alpm_dep_get_name(miss));
 				}
 			break;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
-					switch((long)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
+					switch(alpm_conflict_get_type(conflict)) {
 						case PM_CONFLICT_TYPE_TARGET:
 							MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),
 											config->root,
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE),
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_CTARGET));
+							        alpm_conflict_get_file(conflict),
+							        alpm_conflict_get_target(conflict),
+							        alpm_conflict_get_ctarget(conflict));
 						break;
 						case PM_CONFLICT_TYPE_FILE:
 							MSG(NL, _("%s: %s%s exists in filesystem"),
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
+							        alpm_conflict_get_target(conflict),
 											config->root,
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE));
+							        alpm_conflict_get_file(conflict));
 						break;
 					}
 				}

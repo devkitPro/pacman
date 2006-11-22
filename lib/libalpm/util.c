@@ -511,13 +511,16 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 			if(fgets(line, 1024, pp) == NULL)
 				break;
 			/* "START <event desc>" */
-			if((strlen(line) > strlen(STARTSTR)) && !strncmp(line, STARTSTR, strlen(STARTSTR))) {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_START, _alpm_strtrim(line + strlen(STARTSTR)), NULL);
+			if((strlen(line) > strlen(SCRIPTLET_START)) && !strncmp(line, SCRIPTLET_START, strlen(SCRIPTLET_START))) {
+				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_START, _alpm_strtrim(line + strlen(SCRIPTLET_START)), NULL);
 			/* "DONE <ret code>" */
-			} else if((strlen(line) > strlen(DONESTR)) && !strncmp(line, DONESTR, strlen(DONESTR))) {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_DONE, (void*)atol(_alpm_strtrim(line + strlen(DONESTR))), NULL);
+			} else if((strlen(line) > strlen(SCRIPTLET_DONE)) && !strncmp(line, SCRIPTLET_DONE, strlen(SCRIPTLET_DONE))) {
+				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_DONE, (void*)atol(_alpm_strtrim(line + strlen(SCRIPTLET_DONE))), NULL);
 			} else {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, _alpm_strtrim(line), NULL);
+				_alpm_strtrim(line);
+				/* log our script output */
+				alpm_logaction(line);
+				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
 			}
 		}
 		pclose(pp);
@@ -577,7 +580,7 @@ int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data)
 			pmsyncpkg_t *sync = i->data;
 			if(sync->type != PM_SYNC_TYPE_REPLACE) {
 				pmpkg_t *pkg = sync->pkg;
-				pkgsize += pkg->usize;
+				pkgsize += pkg->isize;
 			}
 		}
 		else

@@ -198,6 +198,10 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 		return(-1);
 	}
 
+	if(info->infolevel & inforeq) {
+		/* already loaded this info, do nothing */
+		return(0);
+	}
 	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d"), info->name, inforeq);
 
 	/* clear out 'line', to be certain - and to make valgrind happy */
@@ -223,7 +227,16 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				break;
 			}
 			_alpm_strtrim(line);
-			if(!strcmp(line, "%DESC%")) {
+			if(!strcmp(line, "%FILENAME%")) {
+				/* filename is _new_ - it provides the real name of the package, on the
+				 * server, to allow for us to not tie the name of the actual file to the
+				 * data of the package
+				 */
+				if(fgets(info->filename, sizeof(info->filename), fp) == NULL) {
+					goto error;
+				}
+				_alpm_strtrim(info->filename);
+		  } else if(!strcmp(line, "%DESC%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->desc_localized = _alpm_list_add(info->desc_localized, strdup(line));
 				}
@@ -305,15 +318,15 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				}
 				_alpm_strtrim(tmp);
 				info->size = atol(tmp);
-			} else if(!strcmp(line, "%USIZE%")) {
-				/* USIZE (uncompressed size) tag only appears in sync repositories,
+			} else if(!strcmp(line, "%ISIZE%")) {
+				/* ISIZE (installed size) tag only appears in sync repositories,
 				 * not the local one. */
 				char tmp[32];
 				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
 					goto error;
 				}
 				_alpm_strtrim(tmp);
-				info->usize = atol(tmp);
+				info->isize = atol(tmp);
 			} else if(!strcmp(line, "%SHA1SUM%")) {
 				/* SHA1SUM tag only appears in sync repositories,
 				 * not the local one. */
@@ -525,9 +538,9 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 				fprintf(fp, "%%CSIZE%%\n"
 					"%ld\n\n", info->size);
 			}
-			if(info->usize) {
-				fprintf(fp, "%%USIZE%%\n"
-					"%ld\n\n", info->usize);
+			if(info->isize) {
+				fprintf(fp, "%%ISIZE%%\n"
+					"%ld\n\n", info->isize);
 			}
 			if(info->sha1sum) {
 				fprintf(fp, "%%SHA1SUM%%\n"

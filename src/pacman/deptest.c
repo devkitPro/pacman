@@ -107,15 +107,15 @@ int pacman_deptest(list_t *targets)
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmdepmissing_t *miss = alpm_list_getdata(lp);
 					if(!config->op_d_resolve) {
-						MSG(NL, _("requires: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
-						switch((long)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
-							case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION));  break;
-							case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
-							case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+						MSG(NL, _("requires: %s"), alpm_dep_get_name(miss));
+						switch(alpm_dep_get_mod(miss)) {
+							case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_get_version(miss));  break;
+							case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_get_version(miss)); break;
+							case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_get_version(miss)); break;
 						}
 						MSG(CL, "\n");
 					}
-					synctargs = list_add(synctargs, strdup(alpm_dep_getinfo(miss, PM_DEP_NAME)));
+					synctargs = list_add(synctargs, strdup(alpm_dep_get_name(miss)));
 				}
 				alpm_list_free(data);
 			break;
@@ -123,7 +123,7 @@ int pacman_deptest(list_t *targets)
 				/* we can't auto-resolve conflicts */
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmdepmissing_t *miss = alpm_list_getdata(lp);
-					MSG(NL, _("conflict: %s"), alpm_dep_getinfo(miss, PM_DEP_NAME));
+					MSG(NL, _("conflict: %s"), alpm_dep_get_name(miss));
 				}
 				retval = 127;
 				alpm_list_free(data);

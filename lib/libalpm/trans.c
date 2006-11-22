@@ -226,4 +226,39 @@ int _alpm_trans_commit(pmtrans_t *trans, pmlist_t **data)
 	return(0);
 }
 
+unsigned char alpm_trans_get_type()
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(handle->trans != NULL, return(-1));
+
+	return handle->trans->type;
+}
+
+unsigned int alpm_trans_get_flags()
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(handle->trans != NULL, return(-1));
+
+	return handle->trans->flags;
+}
+
+pmlist_t * alpm_trans_get_targets()
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(handle->trans != NULL, return(NULL));
+
+	return handle->trans->targets;
+}
+
+pmlist_t * alpm_trans_get_packages()
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(handle->trans != NULL, return(NULL));
+
+	return handle->trans->packages;
+}
 /* vim: set ts=2 sw=2 noet: */

@@ -187,7 +187,6 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 {
 	pmdepend_t depend;
 	pmlist_t *i, *j, *k;
-	int cmp;
 	int found = 0;
 	pmlist_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
@@ -204,15 +203,16 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 			pmpkg_t *tp = i->data;
 			pmpkg_t *oldpkg;
 			if(tp == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("null package found in package list"));
 				continue;
 			}
 
 			if((oldpkg = _alpm_db_get_pkgfromcache(db, tp->name)) == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("cannot find package installed '%s'"), tp->name);
 				continue;
 			}
 			_alpm_db_read(db, INFRQ_DEPENDS, oldpkg);
 			for(j = oldpkg->requiredby; j; j = j->next) {
-				char *ver;
 				pmpkg_t *p;
 				found = 0;
 				if((p = _alpm_db_get_pkgfromcache(db, j->data)) == NULL) {
@@ -241,26 +241,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 					/* we found an installed package that provides depend.name */
 					FREELISTPTR(provides);
 				}
-				found = 0;
-				if(depend.mod == PM_DEP_MOD_ANY) {
-					found = 1;
-				} else {
-					/* note that we use the version from the NEW package in the check */
-					ver = strdup(tp->version);
-					if(!index(depend.version,'-')) {
-						char *ptr;
-						for(ptr = ver; *ptr != '-'; ptr++);
-						*ptr = '\0';
-					}
-					cmp = _alpm_versioncmp(ver, depend.version);
-					switch(depend.mod) {
-						case PM_DEP_MOD_EQ: found = (cmp == 0); break;
-						case PM_DEP_MOD_GE: found = (cmp >= 0); break;
-						case PM_DEP_MOD_LE: found = (cmp <= 0); break;
-					}
-					FREE(ver);
-				}
-				if(!found) {
+				if(!_alpm_depcmp(tp, &depend)) {
 					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), depend.name, p->name);
 					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod, depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -277,6 +258,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 		for(i = packages; i; i = i->next) {
 			pmpkg_t *tp = i->data;
 			if(tp == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("null package found in package list"));
 				continue;
 			}
 
@@ -294,29 +276,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 				/* check database for literal packages */
 				for(k = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
-					if(!strcmp(p->name, depend.name)) {
-						if(depend.mod == PM_DEP_MOD_ANY) {
-							/* accept any version */
-							found = 1;
-						} else {
-							char *ver = strdup(p->version);
-							/* check for a release in depend.version.  if it's
-							 * missing remove it from p->version as well.
-							 */
-							if(!index(depend.version,'-')) {
-								char *ptr;
-								for(ptr = ver; *ptr != '-'; ptr++);
-								*ptr = '\0';
-							}
-							cmp = _alpm_versioncmp(ver, depend.version);
-							switch(depend.mod) {
-								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
-								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
-								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
-							}
-							FREE(ver);
-						}
-					}
+					found = _alpm_depcmp(p, &depend);
 				}
  				/* check database for provides matches */
  				if(!found) {
@@ -340,57 +300,14 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
  							continue;
  						}
 
-						if(depend.mod == PM_DEP_MOD_ANY) {
-							/* accept any version */
-							found = 1;
-						} else {
-							char *ver = strdup(p->version);
-							/* check for a release in depend.version.  if it's
-							 * missing remove it from p->version as well.
-							 */
-							if(!index(depend.version,'-')) {
-								char *ptr;
-								for(ptr = ver; *ptr != '-'; ptr++);
-								*ptr = '\0';
-							}
-							cmp = _alpm_versioncmp(ver, depend.version);
-							switch(depend.mod) {
-								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
-								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
-								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
-							}
-							FREE(ver);
-						}
+						found = _alpm_depcmp(p, &depend);
 					}
 					FREELISTPTR(k);
 				}
  				/* check other targets */
  				for(k = packages; k && !found; k = k->next) {
  					pmpkg_t *p = (pmpkg_t *)k->data;
- 					/* see if the package names match OR if p provides depend.name */
- 					if(!strcmp(p->name, depend.name) || _alpm_list_is_strin(depend.name, p->provides)) {
-						if(depend.mod == PM_DEP_MOD_ANY) {
-							/* accept any version */
-							found = 1;
-						} else {
-							char *ver = strdup(p->version);
-							/* check for a release in depend.version.  if it's
-							 * missing remove it from p->version as well.
-							 */
-							if(!index(depend.version,'-')) {
-								char *ptr;
-								for(ptr = ver; *ptr != '-'; ptr++);
-								*ptr = '\0';
-							}
-							cmp = _alpm_versioncmp(ver, depend.version);
-							switch(depend.mod) {
-								case PM_DEP_MOD_EQ: found = (cmp == 0); break;
-								case PM_DEP_MOD_GE: found = (cmp >= 0); break;
-								case PM_DEP_MOD_LE: found = (cmp <= 0); break;
-							}
-							FREE(ver);
-						}
-					}
+					found = _alpm_depcmp(p, &depend);
 				}
 				/* else if still not found... */
 				if(!found) {
@@ -701,4 +618,48 @@ error:
 	return(-1);
 }
 
+const char *alpm_dep_get_target(pmdepmissing_t *miss)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(miss != NULL, return(NULL));
+
+	return miss->target;
+}
+
+unsigned char alpm_dep_get_type(pmdepmissing_t *miss)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(miss != NULL, return(-1));
+
+	return miss->type;
+}
+
+unsigned char alpm_dep_get_mod(pmdepmissing_t *miss)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(miss != NULL, return(-1));
+
+	return miss->depend.mod;
+}
+
+const char *alpm_dep_get_name(pmdepmissing_t *miss)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(miss != NULL, return(NULL));
+
+	return miss->depend.name;
+}
+
+const char *alpm_dep_get_version(pmdepmissing_t *miss)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(miss != NULL, return(NULL));
+
+	return miss->depend.version;
+}
 /* vim: set ts=2 sw=2 noet: */

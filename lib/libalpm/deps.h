@@ -25,6 +25,7 @@
 
 #include "db.h"
 #include "sync.h"
+#include "package.h"
 #include "alpm.h"
 
 /* Dependency */

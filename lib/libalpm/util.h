@@ -51,8 +51,8 @@
 #define _(s) s
 #endif
 
-#define STARTSTR "START "
-#define DONESTR "DONE "
+#define SCRIPTLET_START "START "
+#define SCRIPTLET_DONE "DONE "
 
 int _alpm_makepath(char *path);
 int _alpm_copyfile(char *src, char *dest);

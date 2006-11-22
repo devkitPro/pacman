@@ -410,7 +410,7 @@ int pacman_sync(list_t *targets)
 	}
 
 	if(config->op_s_upgrade) {
-		MSG(NL, _(":: Starting local database upgrade...\n"));
+		MSG(NL, _(":: Starting full system  upgrade...\n"));
 		alpm_logaction(_("starting full system upgrade"));
 		if(alpm_trans_sysupgrade() == -1) {
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
@@ -424,7 +424,7 @@ int pacman_sync(list_t *targets)
 		 * this can prevent some of the "syntax error" problems users can have
 		 * when sysupgrade'ing with an older version of pacman.
 		 */
-		data = alpm_trans_getinfo(PM_TRANS_PACKAGES);
+		data = alpm_trans_get_packages();
 		for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 			pmsyncpkg_t *sync = alpm_list_getdata(lp);
 			pmpkg_t *spkg = alpm_sync_get_package(sync);
@@ -535,13 +535,13 @@ int pacman_sync(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmdepmissing_t *miss = alpm_list_getdata(lp);
-					MSG(NL, ":: %s: %s %s", alpm_dep_getinfo(miss, PM_DEP_TARGET),
-					    (long)alpm_dep_getinfo(miss, PM_DEP_TYPE) == PM_DEP_TYPE_DEPEND ? _("requires") : _("is required by"),
-					    alpm_dep_getinfo(miss, PM_DEP_NAME));
-					switch((long)alpm_dep_getinfo(miss, PM_DEP_MOD)) {
-						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
-						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
-						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_getinfo(miss, PM_DEP_VERSION)); break;
+					MSG(NL, ":: %s %s %s", alpm_dep_get_target(miss),
+					    alpm_dep_get_type(miss) == PM_DEP_TYPE_DEPEND ? _("requires") : _("is required by"),
+					    alpm_dep_get_name(miss));
+					switch(alpm_dep_get_mod(miss)) {
+						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_get_version(miss)); break;
+						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_get_version(miss)); break;
+						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_get_version(miss)); break;
 					}
 					MSG(CL, "\n");
 				}
@@ -551,7 +551,7 @@ int pacman_sync(list_t *targets)
 					pmdepmissing_t *miss = alpm_list_getdata(lp);
 
 					MSG(NL, _(":: %s: conflicts with %s"),
-							alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
+							alpm_dep_get_target(miss), alpm_dep_get_name(miss));
 				}
 			break;
 			case PM_ERR_DISK_FULL:
@@ -569,7 +569,7 @@ int pacman_sync(list_t *targets)
 		goto cleanup;
 	}
 
-	packages = alpm_trans_getinfo(PM_TRANS_PACKAGES);
+	packages = alpm_trans_get_packages();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
 		MSG(NL," local database is up to date");
@@ -577,12 +577,12 @@ int pacman_sync(list_t *targets)
 	}
 
 	/* list targets and get confirmation */
-	if(!((unsigned long)alpm_trans_getinfo(PM_TRANS_FLAGS) & PM_TRANS_FLAG_PRINTURIS)) {
+	if(!(alpm_trans_get_flags() & PM_TRANS_FLAG_PRINTURIS)) {
 		list_t *list_install = NULL;
 		list_t *list_remove = NULL;
 		char *str;
 		unsigned long totalsize = 0;
-		unsigned long totalusize = 0;
+		unsigned long totalisize = 0;
 		double mb, umb;
 
 		for(lp = alpm_list_first(packages); lp; lp = alpm_list_next(lp)) {
@@ -605,7 +605,7 @@ int pacman_sync(list_t *targets)
 			pkgname = alpm_pkg_get_name(pkg);
 			pkgver = alpm_pkg_get_version(pkg);
 			totalsize += alpm_pkg_get_size(pkg);
-			totalusize += alpm_pkg_get_usize(pkg);
+			totalisize += alpm_pkg_get_isize(pkg);
 
 			asprintf(&str, "%s-%s", pkgname, pkgver);
 			list_install = list_add(list_install, str);
@@ -619,7 +619,7 @@ int pacman_sync(list_t *targets)
 			FREE(str);
 		}
 		mb = (double)(totalsize / 1048576.0);
-		umb = (double)(totalusize / 1048576.0);
+		umb = (double)(totalisize / 1048576.0);
 		/* round up to 0.1 */
 		if(mb < 0.1) {
 			mb = 0.1;
@@ -672,19 +672,19 @@ int pacman_sync(list_t *targets)
 			case PM_ERR_FILE_CONFLICTS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmconflict_t *conflict = alpm_list_getdata(lp);
-					switch((long)alpm_conflict_getinfo(conflict, PM_CONFLICT_TYPE)) {
+					switch(alpm_conflict_get_type(conflict)) {
 						case PM_CONFLICT_TYPE_TARGET:
 							MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),
 											config->root,
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE),
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_CTARGET));
+							        alpm_conflict_get_file(conflict),
+							        alpm_conflict_get_target(conflict),
+							        alpm_conflict_get_ctarget(conflict));
 						break;
 						case PM_CONFLICT_TYPE_FILE:
 							MSG(NL, _("%s: %s%s exists in filesystem"),
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_TARGET),
+							        alpm_conflict_get_target(conflict),
 											config->root,
-							        (char *)alpm_conflict_getinfo(conflict, PM_CONFLICT_FILE));
+							        alpm_conflict_get_file(conflict));
 						break;
 					}
 				}

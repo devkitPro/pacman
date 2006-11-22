@@ -21,6 +21,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <limits.h>
 #include "versioncmp.h"
 
 int main(int argc, char *argv[])

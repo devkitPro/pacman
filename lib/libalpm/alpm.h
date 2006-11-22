@@ -200,6 +200,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 char *alpm_pkg_name_hasarch(char *pkgname);
 
+const char *alpm_pkg_get_filename(pmpkg_t *pkg);
 const char *alpm_pkg_get_name(pmpkg_t *pkg);
 const char *alpm_pkg_get_version(pmpkg_t *pkg);
 const char *alpm_pkg_get_desc(pmpkg_t *pkg);
@@ -212,7 +213,7 @@ const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
 const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg);
 const char *alpm_pkg_get_arch(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_size(pmpkg_t *pkg);
-unsigned long alpm_pkg_get_usize(pmpkg_t *pkg);
+unsigned long alpm_pkg_get_isize(pmpkg_t *pkg);
 unsigned char alpm_pkg_get_reason(pmpkg_t *pkg);
 pmlist_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
 pmlist_t *alpm_pkg_get_groups(pmpkg_t *pkg);
@@ -331,15 +332,10 @@ typedef void (*alpm_trans_cb_conv)(unsigned char, void *, void *, void *, int *)
 /* Transaction Progress callback */
 typedef void (*alpm_trans_cb_progress)(unsigned char, char *, int, int, int);
 
-/* Info parameters */
-enum {
-	PM_TRANS_TYPE = 1,
-	PM_TRANS_FLAGS,
-	PM_TRANS_TARGETS,
-	PM_TRANS_PACKAGES
-};
-
-void *alpm_trans_getinfo(unsigned char parm);
+unsigned char alpm_trans_get_type();
+unsigned int alpm_trans_get_flags();
+pmlist_t * alpm_trans_get_targets();
+pmlist_t * alpm_trans_get_packages();
 int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv, alpm_trans_cb_progress cb_progress);
 int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
@@ -362,16 +358,12 @@ enum {
 	PM_DEP_TYPE_REQUIRED,
 	PM_DEP_TYPE_CONFLICT
 };
-/* Info parameters */
-enum {
-	PM_DEP_TARGET = 1,
-	PM_DEP_TYPE,
-	PM_DEP_MOD,
-	PM_DEP_NAME,
-	PM_DEP_VERSION
-};
 
-void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm);
+const char *alpm_dep_get_target(pmdepmissing_t *miss);
+unsigned char alpm_dep_get_type(pmdepmissing_t *miss);
+unsigned char alpm_dep_get_mod(pmdepmissing_t *miss);
+const char *alpm_dep_get_name(pmdepmissing_t *miss);
+const char *alpm_dep_get_version(pmdepmissing_t *miss);
 
 /*
  * File conflicts
@@ -381,15 +373,11 @@ enum {
 	PM_CONFLICT_TYPE_TARGET = 1,
 	PM_CONFLICT_TYPE_FILE
 };
-/* Info parameters */
-enum {
-	PM_CONFLICT_TARGET = 1,
-	PM_CONFLICT_TYPE,
-	PM_CONFLICT_FILE,
-	PM_CONFLICT_CTARGET
-};
 
-void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm);
+const char *alpm_conflict_get_target(pmconflict_t *conflict);
+unsigned char alpm_conflict_get_type(pmconflict_t *conflict);
+const char *alpm_conflict_get_file(pmconflict_t *conflict);
+const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
 
 /*
  * Helpers
@@ -398,6 +386,7 @@ void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm);
 /* pmlist_t */
 pmlist_t *alpm_list_first(pmlist_t *list);
 pmlist_t *alpm_list_next(pmlist_t *entry);
+#define alpm_list_data(type, list) (type)alpm_list_getdata((list))
 void *alpm_list_getdata(const pmlist_t *entry);
 int alpm_list_free(pmlist_t *entry);
 int alpm_list_free_outer(pmlist_t *entry);

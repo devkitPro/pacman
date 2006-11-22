@@ -37,6 +37,7 @@ enum {
 };
 
 /* Packages */
+#define PKG_FILENAME_LEN 512
 #define PKG_NAME_LEN     256
 #define PKG_VERSION_LEN  64
 #define PKG_FULLNAME_LEN (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1
@@ -50,6 +51,7 @@ enum {
 #define PKG_ARCH_LEN     32
 
 struct __pmpkg_t {
+	char filename[PKG_FILENAME_LEN];
 	char name[PKG_NAME_LEN];
 	char version[PKG_VERSION_LEN];
 	char desc[PKG_DESC_LEN];
@@ -62,7 +64,7 @@ struct __pmpkg_t {
 	char sha1sum[PKG_SHA1SUM_LEN];
 	char arch[PKG_ARCH_LEN];
 	unsigned long size;
-	unsigned long usize;
+	unsigned long isize;
 	unsigned char scriptlet;
 	unsigned char force;
 	time_t date;
@@ -93,7 +95,6 @@ void _alpm_pkg_free(void *data);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 pmpkg_t *_alpm_pkg_load(char *pkgfile);
 pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack);
-char *_alpm_pkg_makefilename(pmpkg_t *pkg);
 int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch);
 
 

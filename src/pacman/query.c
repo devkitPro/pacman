@@ -163,7 +163,8 @@ int pacman_query(list_t *targets)
 					}
 				} else {
 					ERR(NL, _("group \"%s\" was not found\n"), package);
-					return(2);
+					/* do not return on query operations - let's just carry on */
+					/*return(2);*/
 				}
 			}
 			continue;
@@ -215,7 +216,9 @@ int pacman_query(list_t *targets)
 					if(info == NULL) {
 						/* something weird happened */
 						ERR(NL, _("package \"%s\" not found\n"), pkgname);
-						return(1);
+						/* do not return on query operations - let's just carry on */
+						/*return(1);*/
+						continue;
 					}
 					if(config->op_q_foreign) {
 						int match = 0;
@@ -258,7 +261,9 @@ int pacman_query(list_t *targets)
 			info = alpm_db_readpkg(db_local, package);
 			if(info == NULL) {
 				ERR(NL, _("package \"%s\" not found\n"), package);
-				return(2);
+				/* do not return on query operations - let's just carry on */
+				/*return(2);*/
+				continue;
 			}
 
 			/* find a target */

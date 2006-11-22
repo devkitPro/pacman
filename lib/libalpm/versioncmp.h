@@ -23,7 +23,11 @@
 #ifndef _PM_RPMVERCMP_H
 #define _PM_RPMVERCMP_H
 
+#include "deps.h"
+#include "package.h"
+
 int _alpm_versioncmp(const char *a, const char *b);
+int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 
 #endif
 

@@ -613,34 +613,6 @@ pmlist_t *alpm_db_search(pmdb_t *db)
  * @{
  */
 
-/** Get informations about the transaction.
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
-void *alpm_trans_getinfo(unsigned char parm)
-{
-	pmtrans_t *trans;
-	void *data;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(handle->trans != NULL, return(NULL));
-
-	trans = handle->trans;
-
-	switch(parm) {
-		case PM_TRANS_TYPE:     data = (void *)(long)trans->type; break;
-		case PM_TRANS_FLAGS:    data = (void *)(long)trans->flags; break;
-		case PM_TRANS_TARGETS:  data = trans->targets; break;
-		case PM_TRANS_PACKAGES: data = trans->packages; break;
-		default:
-			data = NULL;
-		break;
-	}
-
-	return(data);
-}
-
 /** Initialize the transaction.
  * @param type type of the transaction
  * @param flags flags of the transaction (like nodeps, etc)
@@ -790,32 +762,6 @@ int alpm_trans_release()
  * @brief Functions to get informations about a libalpm dependency
  * @{
  */
-
-/** Get informations about a dependency.
- * @param miss dependency pointer
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
-void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
-{
-	void *data;
-
-	/* Sanity checks */
-	ASSERT(miss != NULL, return(NULL));
-
-	switch(parm) {
-		case PM_DEP_TARGET:  data = (void *)(long)miss->target; break;
-		case PM_DEP_TYPE:    data = (void *)(long)miss->type; break;
-		case PM_DEP_MOD:     data = (void *)(long)miss->depend.mod; break;
-		case PM_DEP_NAME:    data = miss->depend.name; break;
-		case PM_DEP_VERSION: data = miss->depend.version; break;
-		default:
-			data = NULL;
-		break;
-	}
-
-	return(data);
-}
 /** @} */
 
 /** \addtogroup alpm_conflict File Conflicts Functions
@@ -828,25 +774,6 @@ void *alpm_dep_getinfo(pmdepmissing_t *miss, unsigned char parm)
  * @param parm name of the info to get
  * @return a void* on success (the value), NULL on error
  */
-void *alpm_conflict_getinfo(pmconflict_t *conflict, unsigned char parm)
-{
-	void *data;
-
-	/* Sanity checks */
-	ASSERT(conflict != NULL, return(NULL));
-
-	switch(parm) {
-		case PM_CONFLICT_TARGET:  data = conflict->target; break;
-		case PM_CONFLICT_TYPE:    data = (void *)(long)conflict->type; break;
-		case PM_CONFLICT_FILE:    data = conflict->file; break;
-		case PM_CONFLICT_CTARGET: data = conflict->ctarget; break;
-		default:
-			data = NULL;
-		break;
-	}
-
-	return(data);
-}
 /** @} */
 
 /** \addtogroup alpm_log Logging Functions

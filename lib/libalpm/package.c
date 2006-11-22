@@ -58,6 +58,7 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	} else {
 		pkg->version[0]     = '\0';
 	}
+	pkg->filename[0]    = '\0';
 	pkg->desc[0]        = '\0';
 	pkg->url[0]         = '\0';
 	pkg->license        = NULL;
@@ -70,7 +71,7 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	pkg->sha1sum[0]     = '\0';
 	pkg->arch[0]        = '\0';
 	pkg->size           = 0;
-	pkg->usize          = 0;
+	pkg->isize          = 0;
 	pkg->scriptlet      = 0;
 	pkg->force          = 0;
 	pkg->reason         = PM_PKG_REASON_EXPLICIT;
@@ -101,6 +102,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
+	STRNCPY(newpkg->filename, pkg->filename, PKG_FILENAME_LEN);
 	STRNCPY(newpkg->name, pkg->name, PKG_NAME_LEN);
 	STRNCPY(newpkg->version, pkg->version, PKG_VERSION_LEN);
 	STRNCPY(newpkg->desc, pkg->desc, PKG_DESC_LEN);
@@ -113,7 +115,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	STRNCPY(newpkg->sha1sum, pkg->sha1sum, PKG_SHA1SUM_LEN);
 	STRNCPY(newpkg->arch, pkg->arch, PKG_ARCH_LEN);
 	newpkg->size       = pkg->size;
-	newpkg->usize      = pkg->usize;
+	newpkg->isize      = pkg->isize;
 	newpkg->force      = pkg->force;
 	newpkg->scriptlet  = pkg->scriptlet;
 	newpkg->reason     = pkg->reason;
@@ -244,10 +246,10 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				char tmp[32];
 				STRNCPY(tmp, ptr, sizeof(tmp));
 				info->size = atol(ptr);
-			} else if(!strcmp(key, "USIZE")) {
+			} else if(!strcmp(key, "ISIZE")) {
 				char tmp[32];
 				STRNCPY(tmp, ptr, sizeof(tmp));
-				info->usize = atol(ptr);
+				info->isize = atol(ptr);
 			} else if(!strcmp(key, "DEPEND")) {
 				info->depends = _alpm_list_add(info->depends, strdup(ptr));
 			} else if(!strcmp(key, "REMOVE")) {
@@ -437,30 +439,6 @@ pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack)
 	return(NULL);
 }
 
-char *_alpm_pkg_makefilename(pmpkg_t *pkg)
-{
-	char *fname = NULL;
-	int len = 0, arch_valid = 0;
-
-	len = strlen(pkg->name) + strlen(pkg->version) + strlen(PM_EXT_PKG) + 3;
-	if(pkg->arch && strlen(pkg->arch) > 0) {
-		arch_valid = 1;
-		len += strlen(pkg->arch) + 1;
-	}
-
-	if((fname = (char *)calloc(len, sizeof(char))) == NULL) {
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
-
-	if(arch_valid) {
-		snprintf(fname, len-1, "%s-%s-%s" PM_EXT_PKG, pkg->name, pkg->version, pkg->arch);
-	} else {
-		snprintf(fname, len-1, "%s-%s" PM_EXT_PKG, pkg->name, pkg->version);
-	}
-
-	return fname;
-}
-
 int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 {
 	char tmp[PKG_FULLNAME_LEN+7];
@@ -509,6 +487,24 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 	}
 
 	return(0);
+}
+
+const char *alpm_pkg_get_filename(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(!strlen(pkg->filename)) {
+		/* construct the file name, it's not in the desc file */
+		if(pkg->arch && strlen(pkg->arch) > 0) {
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PM_EXT_PKG, pkg->name, pkg->version, pkg->arch);
+		} else {
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PM_EXT_PKG, pkg->name, pkg->version);
+		}
+	}
+
+	return pkg->filename;
 }
 
 const char *alpm_pkg_get_name(pmpkg_t *pkg)
@@ -649,7 +645,7 @@ unsigned long alpm_pkg_get_size(pmpkg_t *pkg)
 	return pkg->size;
 }
 
-unsigned long alpm_pkg_get_usize(pmpkg_t *pkg)
+unsigned long alpm_pkg_get_isize(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -658,7 +654,7 @@ unsigned long alpm_pkg_get_usize(pmpkg_t *pkg)
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
 		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
 	}
-	return pkg->usize;
+	return pkg->isize;
 }
 
 unsigned char alpm_pkg_get_reason(pmpkg_t *pkg)

@@ -785,12 +785,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 			pmdb_t *dbs = spkg->data;
 
 			if(current == dbs) {
-				char *fname = NULL;
+				const char *fname = NULL;
 				char path[PATH_MAX];
 
-				fname = _alpm_pkg_makefilename(spkg);
+				fname = alpm_pkg_get_filename(spkg);
 				if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
-					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current), fname);
+					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current), (char *)fname);
 				} else {
 					struct stat buf;
 					snprintf(path, PATH_MAX, "%s/%s", ldir, fname);
@@ -801,7 +801,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 						_alpm_log(PM_LOG_DEBUG, _("%s is already in the cache\n"), fname);
 					}
 				}
-				FREE(fname);
 			}
 		}
 
@@ -840,11 +839,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
-		char str[PATH_MAX], *pkgname;
+		char str[PATH_MAX];
+		const char *pkgname;
 		char *md5sum1, *md5sum2, *sha1sum1, *sha1sum2;
 		char *ptr=NULL;
 
-		pkgname = _alpm_pkg_makefilename(spkg);
+		pkgname = alpm_pkg_get_filename(spkg);
 		md5sum1 = spkg->md5sum;
 		sha1sum1 = spkg->sha1sum;
 
@@ -877,7 +877,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 			if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
 				doremove=1;
 			} else {
-				QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, pkgname, NULL, NULL, &doremove);
+				QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)pkgname, NULL, NULL, &doremove);
 			}
 			if(doremove) {
 				char str[PATH_MAX];
@@ -890,7 +890,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 			*data = _alpm_list_add(*data, ptr);
 			retval = 1;
 		}
-		FREE(pkgname);
 		FREE(md5sum2);
 		FREE(sha1sum2);
 	}
@@ -963,10 +962,10 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, pmlist_t **data)
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
 
-		char *fname = NULL;
+		const char *fname = NULL;
 		char str[PATH_MAX];
 
-		fname = _alpm_pkg_makefilename(spkg);
+		fname = alpm_pkg_get_filename(spkg);
 		snprintf(str, PATH_MAX, "%s%s/%s", handle->root, handle->cachedir, fname);
 		if(_alpm_trans_addtarget(tr, str) == -1) {
 			goto error;

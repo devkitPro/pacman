@@ -29,12 +29,14 @@
 
 #include "config.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
 #include <libintl.h>
 /* pacman */
+#include "handle.h"
 #include "list.h"
 #include "trans.h"
 #include "util.h"
@@ -353,4 +355,39 @@ pmlist_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, pmli
 	return(conflicts);
 }
 
+const char *alpm_conflict_get_target(pmconflict_t *conflict)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(conflict != NULL, return(NULL));
+
+	return conflict->target;
+}
+
+unsigned char alpm_conflict_get_type(pmconflict_t *conflict)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(conflict != NULL, return(-1));
+
+	return conflict->type;
+}
+
+const char *alpm_conflict_get_file(pmconflict_t *conflict)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(conflict != NULL, return(NULL));
+
+	return conflict->file;
+}
+
+const char *alpm_conflict_get_ctarget(pmconflict_t *conflict)
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(conflict != NULL, return(NULL));
+
+	return conflict->ctarget;
+}
 /* vim: set ts=2 sw=2 noet: */

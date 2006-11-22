@@ -104,8 +104,8 @@ int pacman_remove(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmdepmissing_t *miss = alpm_list_getdata(lp);
-					MSG(NL, _("  %s: is required by %s\n"), alpm_dep_getinfo(miss, PM_DEP_TARGET),
-					    alpm_dep_getinfo(miss, PM_DEP_NAME));
+					MSG(NL, _("  %s is required by %s\n"), alpm_dep_get_target(miss),
+					    alpm_dep_get_name(miss));
 				}
 				alpm_list_free(data);
 			break;
@@ -122,7 +122,7 @@ int pacman_remove(list_t *targets)
 		pmlist_t *lp;
 		/* list transaction targets */
 		i = NULL;
-		for(lp = alpm_list_first(alpm_trans_getinfo(PM_TRANS_PACKAGES)); lp; lp = alpm_list_next(lp)) {
+		for(lp = alpm_list_first(alpm_trans_get_packages()); lp; lp = alpm_list_next(lp)) {
 			pmpkg_t *pkg = alpm_list_getdata(lp);
 			i = list_add(i, strdup(alpm_pkg_get_name(pkg)));
 		}

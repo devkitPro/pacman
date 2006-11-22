@@ -26,7 +26,12 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <libintl.h>
 /* pacman */
+#include "alpm.h"
+#include "log.h"
+#include "util.h"
+#include "list.h"
 #include "versioncmp.h"
 
 #ifndef HAVE_STRVERSCMP
@@ -237,5 +242,43 @@ int _alpm_versioncmp(const char *a, const char *b)
 
 	return(*one ? 1 : -1);
 }
+
+int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
+{
+	int equal = 0;
+
+  if(strcmp(pkg->name, dep->name) == 0 || _alpm_list_is_strin(dep->name, pkg->provides)) {
+		if(dep->mod == PM_DEP_MOD_ANY) {
+			equal = 1;
+		} else {
+			int cmp = _alpm_versioncmp(pkg->version, dep->version);
+			switch(dep->mod) {
+			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
+			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
+			case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
+			}
+		}
+
+		char *mod = "depends on";
+		switch(dep->mod) {
+		case PM_DEP_MOD_EQ: mod = "=="; break;
+		case PM_DEP_MOD_GE: mod = ">="; break;
+		case PM_DEP_MOD_LE: mod = "<="; break;
+		}
+
+		if(strlen(dep->version) > 0) {
+			_alpm_log(PM_LOG_DEBUG, _("depcmp: %s-%s %s %s-%s => %s"),
+								pkg->name, pkg->version, mod, dep->name, dep->version,
+								(equal ? "match" : "no match"));
+		} else {
+			_alpm_log(PM_LOG_DEBUG, _("depcmp: %s-%s %s %s => %s"),
+								pkg->name, pkg->version, mod, dep->name,
+								(equal ? "match" : "no match"));
+		}
+	}
+
+	return equal;
+}
+
 
 /* vim: set ts=2 sw=2 noet: */
