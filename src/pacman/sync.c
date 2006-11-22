@@ -688,14 +688,12 @@ int pacman_sync(list_t *targets)
 						break;
 					}
 				}
-				alpm_list_free(data);
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
 			break;
 			case PM_ERR_PKG_CORRUPTED:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					MSG(NL, "%s", (char*)alpm_list_getdata(lp));
 				}
-				alpm_list_free(data);
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
 			break;
 			default:

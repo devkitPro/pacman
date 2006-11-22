@@ -103,7 +103,6 @@ int pacman_add(list_t *targets)
 					}
 					MSG(CL, "\n");
 				}
-				alpm_list_free(data);
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
@@ -111,7 +110,6 @@ int pacman_add(list_t *targets)
 					MSG(NL, _(":: %s: conflicts with %s"),
 						alpm_dep_getinfo(miss, PM_DEP_TARGET), alpm_dep_getinfo(miss, PM_DEP_NAME));
 				}
-				alpm_list_free(data);
 			break;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
@@ -132,7 +130,6 @@ int pacman_add(list_t *targets)
 						break;
 					}
 				}
-				alpm_list_free(data);
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
 			break;
 			case PM_ERR_DISK_FULL:
@@ -142,7 +139,6 @@ int pacman_add(list_t *targets)
 				freespace = alpm_list_getdata(i);
 					MSG(NL, _(":: %.1f MB required, have %.1f MB"),
 						(double)(*pkgsize / 1048576.0), (double)(*freespace / 1048576.0));
-				alpm_list_free(data);
 			break;
 			default:
 			break;
@@ -160,6 +156,10 @@ int pacman_add(list_t *targets)
 	}
 
 cleanup:
+	if(data) {
+		alpm_list_free(data);
+		data = NULL;
+	}
 	if(alpm_trans_release() == -1) {
 		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval=1;
