@@ -1,9 +1,6 @@
 bin_PROGRAMS = vercmp
 
-AM_CFLAGS = \
-	-I$(top_srcdir)/lib/libalpm \
-	-I$(top_srcdir)/src/pacman \
-	$(CFLAGS)
+AM_CFLAGS = -I$(top_srcdir)/lib/libalpm
 
 vercmp_SOURCES = vercmp.c
 

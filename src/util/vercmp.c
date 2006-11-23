@@ -24,6 +24,9 @@
 #include <errno.h>
 #include <unistd.h>
 #include <limits.h>
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
 #include "versioncmp.h"
 
 int main(int argc, char *argv[])
