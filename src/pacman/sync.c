@@ -372,16 +372,6 @@ int pacman_sync(list_t *targets)
 		return(sync_cleancache(config->op_s_clean));
 	}
 
-	if(config->op_s_sync) {
-		/* grab a fresh package list */
-		MSG(NL, _(":: Synchronizing package databases...\n"));
-		alpm_logaction(_("synchronizing package lists"));
-		if(!sync_synctree(config->op_s_sync, pmc_syncs)) {
-			ERR(NL, _("failed to synchronize any databases"));
-			return(1);
-		}
-	}
-
 	if(config->op_s_search) {
 		return(sync_search(pmc_syncs, targets));
 	}
@@ -408,6 +398,17 @@ int pacman_sync(list_t *targets)
 		}
 		return(1);
 	}
+
+	if(config->op_s_sync) {
+		/* grab a fresh package list */
+		MSG(NL, _(":: Synchronizing package databases...\n"));
+		alpm_logaction(_("synchronizing package lists"));
+		if(!sync_synctree(config->op_s_sync, pmc_syncs)) {
+			ERR(NL, _("failed to synchronize any databases"));
+			return(1);
+		}
+	}
+
 
 	if(config->op_s_upgrade) {
 		MSG(NL, _(":: Starting full system  upgrade...\n"));
