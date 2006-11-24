@@ -319,8 +319,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("could not find dependency '%s'"), depend.name);
-					/* wtf */
+					/* dep not installed... that's fine, carry on */
+					_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s' for removal"), depend.name);
 					continue;
 				}
 			}

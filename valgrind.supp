@@ -1,0 +1,30 @@
+# pacman suppressions for valgrind.
+#   right now, I really just care about those stupid dl_relocates
+#
+# Format of this file is:
+# {
+#     name_of_suppression
+#     tool_name:supp_kind
+#     (optional extra info for some suppression types)
+#     caller0 name, or /name/of/so/file.so
+#     caller1 name, or ditto
+#     (optionally: caller2 name)
+#     (optionally: caller3 name)
+#  }
+#
+# For Memcheck, the supp_kinds are:
+#
+#     Param Value1 Value2 Value4 Value8 Value16
+#     Free Addr1 Addr2 Addr4 Addr8 Addr16
+#     Cond (previously known as Value0)
+#
+# and the optional extra info is:
+#     if Param: name of system call param
+#     if Free: name of free-ing fn)
+
+{
+   pacman-dlrelocate
+   Memcheck:Cond
+   fun:_dl_relocate_object
+   obj:*ld-2.5.so
+}

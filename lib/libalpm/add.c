@@ -789,8 +789,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					FREELISTPTR(provides);
 				}
 				if(depinfo == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("could not find dependency '%s'"), depend.name);
-					/* wtf */
+					/* We'll let the front end deal with this case... it may be intentional */
+					_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), depend.name);
 					continue;
 				}
 			}

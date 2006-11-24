@@ -215,8 +215,9 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync
 		cmp = _alpm_versioncmp(local->version, spkg->version);
 		if(cmp > 0 && !spkg->force) {
 			/* local version is newer */
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: local version is newer"),
-				local->name, local->version);
+			pmdb_t *db = spkg->data;
+			_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
+				local->name, local->version, db->treename, spkg->version);
 		} else if(cmp == 0) {
 			/* versions are identical */
 		} else if(_alpm_list_is_strin(i->data, handle->ignorepkg)) {

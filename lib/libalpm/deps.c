@@ -441,7 +441,8 @@ pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
 				/* package not found... look for a provisio instead */
 				k = _alpm_db_whatprovides(db, depend.name);
 				if(k == NULL) {
-					_alpm_log(PM_LOG_WARNING, _("cannot find package \"%s\" or anything that provides it!"), depend.name);
+					/* Not found, that's fine, carry on */
+					_alpm_log(PM_LOG_DEBUG, _("cannot find package \"%s\" or anything that provides it!"), depend.name);
 					continue;
 				}
 				dep = _alpm_db_get_pkgfromcache(db, ((pmpkg_t *)k->data)->name);
