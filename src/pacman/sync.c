@@ -411,7 +411,7 @@ int pacman_sync(list_t *targets)
 
 
 	if(config->op_s_upgrade) {
-		MSG(NL, _(":: Starting full system  upgrade...\n"));
+		MSG(NL, _(":: Starting full system upgrade...\n"));
 		alpm_logaction(_("starting full system upgrade"));
 		if(alpm_trans_sysupgrade() == -1) {
 			ERR(NL, "%s\n", alpm_strerror(pm_errno));
