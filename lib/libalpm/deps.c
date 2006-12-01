@@ -332,19 +332,30 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 
 			found=0;
 			for(j = tp->requiredby; j; j = j->next) {
+				/* Search for 'reqname' in packages for removal */
 				char *reqname = j->data;
-				if(!_alpm_list_is_strin(reqname, packages)) {
+				pmlist_t *x = NULL;
+				for(x = packages; x; x = x->next) {
+					pmpkg_t *xp = x->data;
+					if(strcmp(reqname, xp->name) == 0) {
+						found = 1;
+						break;
+					}
+				}
+				if(!found) {
 					/* check if a package in trans->packages provides this package */
 					for(k=trans->packages; !found && k; k=k->next) {
 						pmpkg_t *spkg = NULL;
-					if(trans->type == PM_TRANS_TYPE_SYNC) {
-						pmsyncpkg_t *sync = k->data;
-						spkg = sync->pkg;
-					} else {
-						spkg = k->data;
-					}
-						if(spkg && _alpm_list_is_strin(tp->name, spkg->provides)) {
-							found=1;
+						if(trans->type == PM_TRANS_TYPE_SYNC) {
+							pmsyncpkg_t *sync = k->data;
+							spkg = sync->pkg;
+						} else {
+							spkg = k->data;
+						}
+						if(spkg) {
+							if(_alpm_list_is_strin(tp->name, spkg->provides)) {
+								found = 1;
+							}
 						}
 					}
 					if(!found) {

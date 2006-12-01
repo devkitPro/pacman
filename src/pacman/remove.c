@@ -104,7 +104,7 @@ int pacman_remove(list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmdepmissing_t *miss = alpm_list_getdata(lp);
-					MSG(NL, _("  %s is required by %s\n"), alpm_dep_get_target(miss),
+					MSG(NL, _(":: %s is required by %s\n"), alpm_dep_get_target(miss),
 					    alpm_dep_get_name(miss));
 				}
 				alpm_list_free(data);
