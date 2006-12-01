@@ -22,7 +22,7 @@
 #define _ALPM_ERROR_H
 
 #define RET_ERR(err, ret) do { pm_errno = (err); \
-	_alpm_log(PM_LOG_DEBUG, _("returning error %d: %s\n"), err, alpm_strerror(err)); \
+	_alpm_log(PM_LOG_DEBUG, _("returning error %d from %s : %s\n"), err, __func__, alpm_strerror(err)); \
 	return(ret); } while(0)
 
 #endif /* _ALPM_ERROR_H */

@@ -332,7 +332,8 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 
 			found=0;
 			for(j = tp->requiredby; j; j = j->next) {
-				if(!_alpm_list_is_strin((char *)j->data, packages)) {
+				char *reqname = j->data;
+				if(!_alpm_list_is_strin(reqname, packages)) {
 					/* check if a package in trans->packages provides this package */
 					for(k=trans->packages; !found && k; k=k->next) {
 						pmpkg_t *spkg = NULL;
@@ -347,7 +348,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 						}
 					}
 					if(!found) {
-						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), (char *)j->data, tp->name);
+						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), reqname, tp->name);
 						miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
 						if(!_alpm_depmiss_isin(miss, baddeps)) {
 							baddeps = _alpm_list_add(baddeps, miss);

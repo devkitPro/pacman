@@ -220,7 +220,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync
 				local->name, local->version, db->treename, spkg->version);
 		} else if(cmp == 0) {
 			/* versions are identical */
-		} else if(_alpm_list_is_strin(i->data, handle->ignorepkg)) {
+		} else if(_alpm_list_is_strin(spkg->name, handle->ignorepkg)) {
 			/* package should be ignored (IgnorePkg) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
 				local->name, local->version, spkg->version);
@@ -367,10 +367,11 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync,
 
 /* Helper functions for _alpm_list_remove
  */
+/* removed - use pkg_cmp all of the time
 static int ptr_cmp(const void *s1, const void *s2)
 {
 	return(strcmp(((pmsyncpkg_t *)s1)->pkg->name, ((pmsyncpkg_t *)s2)->pkg->name));
-}
+}*/
 
 static int pkg_cmp(const void *p1, const void *p2)
 {
@@ -562,7 +563,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, p
 							pmsyncpkg_t *rsync = find_pkginsync(rmpkg, trans->packages);
 							void *vpkg;
 							_alpm_log(PM_LOG_FLOW2, _("removing '%s' from target list"), rmpkg);
-							trans->packages = _alpm_list_remove(trans->packages, rsync, ptr_cmp, &vpkg);
+							trans->packages = _alpm_list_remove(trans->packages, rsync, pkg_cmp, &vpkg);
 							FREESYNC(vpkg);
 							continue;
 						}
@@ -599,7 +600,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, p
 								/* remove it from the target list */
 								void *vpkg;
 								_alpm_log(PM_LOG_FLOW2, _("removing '%s' from target list"), miss->depend.name);
-								trans->packages = _alpm_list_remove(trans->packages, rsync, ptr_cmp, &vpkg);
+								trans->packages = _alpm_list_remove(trans->packages, rsync, pkg_cmp, &vpkg);
 								FREESYNC(vpkg);
 							}
 						} else {

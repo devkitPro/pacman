@@ -71,7 +71,8 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	if((info = _alpm_db_scan(db, name, INFRQ_ALL)) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not find %s in database"), name);
+		/* Unimportant - just ignore it if we can't find it */
+		_alpm_log(PM_LOG_DEBUG, _("could not find %s in database"), name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 

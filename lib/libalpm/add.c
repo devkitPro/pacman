@@ -206,9 +206,15 @@ error:
 	return(-1);
 }
 
+
+static int name_cmp(const void *p1, const void *p2)
+{
+	return(strcmp(((pmpkg_t *)p1)->name, (const char *)p2));
+}
+
 int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 {
-	pmlist_t *lp;
+	pmlist_t *lp = NULL, *i = NULL;
 	pmlist_t *rmlist = NULL;
 	char rm_fname[PATH_MAX];
 	pmpkg_t *info = NULL;
@@ -236,6 +242,18 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 		/* no unsatisfied deps, so look for conflicts */
 		_alpm_log(PM_LOG_FLOW1, _("looking for conflicts"));
 		lp = _alpm_checkconflicts(db, trans->packages);
+		for(i = lp; i; i = i->next) {
+			int skip_this = 0;
+			pmdepmissing_t *miss = i->data;
+
+			/* Attempt to resolve conflicts */
+			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &skip_this);
+			if(skip_this) {
+				pmpkg_t *pkg = NULL;
+				lp = _alpm_list_remove(lp, miss->depend.name, name_cmp, (void **)&pkg);
+				FREEPKG(pkg);
+			}
+		}
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;

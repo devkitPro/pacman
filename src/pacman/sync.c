@@ -361,7 +361,7 @@ int pacman_sync(list_t *targets)
 	int confirm = 0;
 	int retval = 0;
 	list_t *i = NULL;
-	pmlist_t *packages, *data, *lp;
+	pmlist_t *packages = NULL, *data = NULL, *lp = NULL;
 
 	if(pmc_syncs == NULL || !list_count(pmc_syncs)) {
 		ERR(NL, _("no usable package repositories configured.\n"));
@@ -449,7 +449,7 @@ int pacman_sync(list_t *targets)
 						return(1);
 					}
 					if(alpm_trans_addtarget("pacman") == -1) {
-						ERR(NL, _("could not add target '%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
+						ERR(NL, _("'%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
 						retval = 1;
 						goto cleanup;
 					}
@@ -470,7 +470,7 @@ int pacman_sync(list_t *targets)
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-					ERR(NL, _("could not add target '%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
+					ERR(NL, _("'%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
 					retval = 1;
 					goto cleanup;
 				}
@@ -518,7 +518,7 @@ int pacman_sync(list_t *targets)
 						/* targ is provided by pname */
 						targets = list_add(targets, strdup(pname));
 					} else {
-						ERR(NL, _("could not add target '%s': not found in sync db\n"), targ);
+						ERR(NL, _("'%s': not found in sync db\n"), targ);
 						retval = 1;
 						goto cleanup;
 					}

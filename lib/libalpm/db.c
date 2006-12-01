@@ -184,7 +184,7 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 		for(i = handle->dbs_sync; i; i = i->next) {
 			pmdb_t *sdb = i->data;
 			if(strcmp(treename, sdb->treename) == 0) {
-				_alpm_log(PM_LOG_DEBUG, _("attempt to re-register the '%s' databse, using existing"), sdb->treename);
+				_alpm_log(PM_LOG_DEBUG, _("attempt to re-register the '%s' database, using existing"), sdb->treename);
 				return sdb;
 			}
 		}
