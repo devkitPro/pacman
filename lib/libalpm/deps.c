@@ -465,6 +465,9 @@ pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
 				}
 				FREELISTPTR(k);
 			}
+
+			_alpm_db_read(db, INFRQ_DEPENDS, dep);
+
 			if(_alpm_pkg_isin(dep->name, targs)) {
 				continue;
 			}

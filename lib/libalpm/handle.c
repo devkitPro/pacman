@@ -152,14 +152,14 @@ void alpm_option_set_root(const char *root)
 
 void alpm_option_set_dbpath(const char *dbpath)
 {
-	if(handle->dbpath) FREE(handle->dbpath);
-	if(dbpath) handle->dbpath = strdup(dbpath);
+  if(handle->dbpath) FREE(handle->dbpath);
+  if(dbpath) handle->dbpath = strdup(dbpath);
 }
 
 void alpm_option_set_cachedir(const char *cachedir)
 {
-	if(handle->cachedir) FREE(handle->cachedir);
-	if(cachedir) handle->cachedir = strdup(cachedir);
+  if(handle->cachedir) FREE(handle->cachedir);
+  if(cachedir) handle->cachedir = strdup(cachedir);
 }
 
 void alpm_option_set_logfile(const char *logfile)
