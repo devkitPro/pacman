@@ -26,6 +26,8 @@
 #include <getopt.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <libintl.h>
 #include <locale.h>
@@ -33,7 +35,6 @@
 #include <malloc/malloc.h>
 #elif defined(__OpenBSD__) || defined(__APPLE__)
 #include <sys/malloc.h>
-#include <sys/types.h>
 #elif defined(CYGWIN)
 #include <libgen.h> /* basename */
 #else
@@ -279,6 +280,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 	char root[PATH_MAX];
+	struct stat st = {0};
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTDYr:b:vkhscVfmnoldepiuwyg", opts, &option_index))) {
 		if(opt < 0) {
@@ -323,6 +325,10 @@ static int parseargs(int argc, char *argv[])
 				config->op_d_vertest = 1;
 			break;
 			case 'b':
+			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
+					pm_fprintf(stderr, NL, _("error: '%s' is not a valid db path\n"), optarg);
+					exit(1);
+				}
 				alpm_option_set_dbpath(optarg);
 				config->dbpath = alpm_option_get_dbpath(optarg);
 			break;
