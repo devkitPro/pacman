@@ -633,7 +633,7 @@ int pacman_sync(list_t *targets)
 		indentprint(str, 9);
 		MSG(NL, _("\nTotal Package Size:   %.1f MB\n"), mb);
 		if(umb > 0) {
-		  MSG(NL, _("\nTotal Uncompressed Package Size:   %.1f MB\n"), umb);
+		  MSG(NL, _("\nTotal Installed Size:   %.1f MB\n"), umb);
 		}
 		FREELIST(list_install);
 		FREE(str);
