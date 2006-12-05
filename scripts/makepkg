@@ -880,6 +880,11 @@ else
 fi
 $cmd | sort >../filelist
 
+if [ ${PIPESTATUS[0]} -gt 0 ]; then
+    error "Failed to create package file."
+    exit ${PIPESTATUS[0]}
+fi
+
 cd $startdir
 if [ "$CLEANUP" = "1" ]; then
 	msg "Cleaning up..."
