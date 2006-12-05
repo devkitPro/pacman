@@ -1,0 +1,21 @@
+#
+# /etc/abs/supfile
+#
+
+# this is the host containing the master ABS files
+*default host=cvs.archlinux.org
+
+*default release=cvs
+*default delete
+*default use-rel-suffix
+*default compress
+
+#
+# Set tag equal to the package tree you wish to follow.  CURRENT and
+# STABLE are the most commonly used, but you can specify specific
+# versions or tag names.  Examples are RELEASE_0_2, VEGA, RELEASE_0_3,
+# FIREFLY, etc.
+#
+*default tag=CURRENT
+
+arch
