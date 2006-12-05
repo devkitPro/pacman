@@ -116,6 +116,7 @@ static int sync_cleancache(int level)
 				if(split_pkgname(s, n, v) != 0) {
 					continue;
 				}
+				/* TODO Do not remove the currently installed version EITHER */
 				if(!strcmp(name, n)) {
 					char *ptr = (alpm_pkg_vercmp(version, v) < 0) ? str : s;
 					if(!list_is_strin(ptr, clean)) {
@@ -656,7 +657,7 @@ int pacman_sync(list_t *targets)
 					confirm = 1;
 				} else {
 					MSG(NL, "\n");
-					confirm = yesno(_("Proceed with upgrade? [Y/n] "));
+					confirm = yesno(_("Proceed with installation? [Y/n] "));
 				}
 			}
 		}
