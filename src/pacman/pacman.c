@@ -360,8 +360,6 @@ static int parseargs(int argc, char *argv[])
 					perror(_("bad root path"));
 					return(1);
 				}
-				alpm_option_set_root(root);
-				config->root = alpm_option_get_root();
 			break;
 			case 's':
 				config->op_s_search = 1;
