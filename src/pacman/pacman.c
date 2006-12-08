@@ -356,10 +356,12 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_PRINTURIS;
 			break;
 			case 'r':
+			  printf("setting root path=%s\n", optarg);
 				if(realpath(optarg, root) == NULL) {
 					perror(_("bad root path"));
 					return(1);
 				}
+				config->root = strdup(root);
 			break;
 			case 's':
 				config->op_s_search = 1;
@@ -488,7 +490,7 @@ int main(int argc, char *argv[])
 #endif
 
 	if(config->root == NULL) {
-		config->root = PM_ROOT;
+		config->root = strdup(PM_ROOT);
 	}
 
 	/* initialize pm library */

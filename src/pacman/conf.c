@@ -53,6 +53,7 @@ int config_free(config_t *config)
 		return(-1);
 	}
 
+	FREE(config->root);
 	FREE(config->configfile);
 	FREELIST(config->op_s_ignore);
 	free(config);

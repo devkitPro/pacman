@@ -23,7 +23,7 @@
 
 typedef struct __config_t {
 	/* command line options */
-	const char *root;
+	char *root;
 	const char *dbpath;
 	const char *cachedir;
 	char *configfile;
