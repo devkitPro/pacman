@@ -25,16 +25,13 @@ from optparse import OptionParser
 
 def createOptParser():
    usage = "usage: %prog [options] MIRRORFILE"
-   description = "Ranks pacman mirrors by their connection and
-opening speed. Pacman mirror files are located in /etc/pacman.d/."
+   description = "Ranks pacman mirrors by their connection and opening speed. Pacman mirror files are located in /etc/pacman.d/."
    parser = OptionParser(usage=usage,description=description)
    parser.add_option("-f", "--formatted", action="store_true",
-           dest = "formatted", default=False, help="output in mirror
-file format")
+           dest = "formatted", default=False, help="output in mirror file format")
    parser.add_option("-n", dest="num", default=0,
            help="number of servers to output, 0 for all")
    parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
-- Show quoted text -
            default=False, help="be verbose in output")
    return parser
 
