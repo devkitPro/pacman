@@ -57,8 +57,6 @@
 #include "sync.h"
 #include "deptest.h"
 
-#define PACCONF "/etc/pacman.conf"
-
 #if defined(__OpenBSD__) || defined(__APPLE__)
 #define BSD
 #endif
@@ -506,6 +504,7 @@ int main(int argc, char *argv[])
 	if(config->configfile == NULL) {
 		config->configfile = strdup(PACCONF);
 	}
+
 	if(alpm_parse_config(config->configfile, cb_db_register, "") != 0) {
 		ERR(NL, _("failed to parse config (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);

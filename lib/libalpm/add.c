@@ -250,7 +250,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &skip_this);
 			if(skip_this) {
 				pmpkg_t *pkg = NULL;
-				lp = _alpm_list_remove(lp, miss->depend.name, name_cmp, (void **)&pkg);
+				lp = _alpm_list_remove(lp, (void *)miss->depend.name, name_cmp, (void **)&pkg);
 				FREEPKG(pkg);
 			}
 		}

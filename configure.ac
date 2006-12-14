@@ -1,4 +1,5 @@
 ENV_CFLAGS=$CFLAGS
+CFLAGS=""
 
 AC_PREREQ(2.59)
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
@@ -30,10 +31,6 @@ AC_SUBST(PM_MINOR_VERSION)
 AC_SUBST(PM_MICRO_VERSION)
 AC_SUBST(PM_VERSION)
 AC_SUBST(PM_VERSION_INFO)
-
-dnl Define the default config file path for pacman.conf
-PACCONF=/etc/pacman.conf
-AC_DEFINE_UNQUOTED([PACCONF], ["$PACCONF"], [pacman.conf location])
 
 dnl Put out version numbers to config.h
 AC_DEFINE_UNQUOTED([PM_VERSION], ["$PM_VERSION"], [libalpm version number])
@@ -141,6 +138,11 @@ AC_SUBST(CARCH)
 AC_SUBST(CARCHFLAGS)
 AC_SUBST(MARCHFLAG)
 AC_SUBST(CHOST)
+
+dnl Help line for config file
+AC_ARG_WITH(config-file,
+    AC_HELP_STRING([  --with-config-file=path], [Set the name and path for pacman's config file]),
+    [configfile=$withval], [configfile=/etc/pacman.conf])
 
 dnl Help line for debug
 AC_ARG_ENABLE(debug,
@@ -308,17 +310,25 @@ fi
 dnl Check for libarchive
 AC_CHECK_LIB([archive], [archive_read_data], [AC_CHECK_HEADER([archive.h], [LIBARCHIVE='-larchive'])])
 if test -n "$LIBARCHIVE"; then
-    CFLAGS="$CFLAGS"
     LDFLAGS="$LDFLAGS $LIBARCHIVE"
 else
     AC_MSG_ERROR("libarchive is needed to compile pacman!");
+fi
+
+dnl Set config location
+AC_MSG_CHECKING(for configuration file name)
+if test -n "$configfile"; then
+    CFLAGS="$CFLAGS -D'PACCONF=\"$configfile\"'"
+    AC_MSG_RESULT(["$configfile"])
+else
+    AC_MSG_ERROR(["pacman config file (--with-config-file is not set"])
 fi
 
 dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test x$debug = xyes ; then
     AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xyes)
-	CFLAGS="-g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
+	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
 	LDFLAGS="$LDFLAGS -lmcheck"
     AC_MSG_RESULT(yes)
 else
@@ -335,8 +345,6 @@ else
 	CFLAGS="$CFLAGS -DFAKEROOT"
 	AC_MSG_RESULT(no)
 fi
-
-CFLAGS="$CFLAGS"
 
 dnl ==========================================================================
 
@@ -371,7 +379,7 @@ pacman-$VERSION:
         compiler flags           : ${CFLAGS}
 
 	libalpm version          : ${PM_VERSION}
-	pacman.conf location     : ${PACCONF}
+	pacman.conf location     : ${configfile}
 
 	Architecture CARCH       : ${CARCH}
 	Architecture used cflag  : ${CARCHFLAGS}

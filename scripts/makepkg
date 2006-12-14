@@ -25,9 +25,15 @@
 #   USA.
 #
 
-myver='2.9.8'
+myver='3.0.0'
 startdir=`pwd`
 PKGDEST=$startdir
+
+BUILDSCRIPT="PKGBUILD"
+PKGEXT="pkg.tar.gz"
+
+source "/etc/abs/abs.conf"
+SRCROOT=$ABSROOT
 
 # Options
 CLEANUP=0
@@ -178,7 +184,7 @@ handledeps() {
 				# in fakeroot so it will go ahead and install the dependencies.
 				FAKEROOTKEY2=$FAKEROOTKEY
 				unset FAKEROOTKEY
-			fi
+            fi
             sudo pacman $PACMAN_OPTS -D $deplist
 			if [ "$?" = "127" ]; then
 				error "Failed to install missing dependencies."
@@ -266,12 +272,14 @@ usage() {
     echo "  -k, --keepdocs   Keep doc and info directories"
 	echo "  -L, --log        Log package build process"
 	echo "  -m, --nocolor    Disable colorized output messages"
-	echo "  -n, --nostrip    Do not strip binaries/libraries"
+	echo "  -n, --nostrip    Do not strip symbols from binaries/libraries"
 	echo "  -o, --nobuild    Download and extract files only"
 	echo "  -p <buildscript> Use an alternate build script (instead of '$BUILDSCRIPT')"
 	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
 	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
+    # fix flyspray feature request #5223 - Dan McGee <dpmcgee@gmail.com>
+    echo "  -t <sourcedir>   Cache source files in <sourcedir>"
 	echo "  -w <destdir>     Write package to <destdir> instead of the working dir"
 	echo
 	echo "These options can be passed to pacman:"
@@ -279,13 +287,13 @@ usage() {
 	echo "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 	echo "  --noprogressbar  Do not show a progress bar when downloading files"
 	echo
-	echo "If -p is not specified, makepkg will look for './$BUILDSCRIPT'"
+	echo "If -p is not specified, makepkg will look for '$BUILDSCRIPT'"
 	echo
 }
 
 ARGLIST=$@
 
-if [ -f /etc//makepkg.conf ]; then
+if [ -f /etc/makepkg.conf ]; then
     source /etc/makepkg.conf
 else
     error "/etc/makepkg.conf not found. cannot continue"
@@ -327,7 +335,7 @@ while [ "$#" -ne "0" ]; do
 			exit 1
 			;;
 		-*)
-			while getopts "bBcCdefghij:Lmnop:rsSw:-" opt; do
+			while getopts "bBcCdefghij:kLmnop:rsSt:w:-" opt; do
 				case $opt in
 					b) DEP_SRC=1 ;;
 					B) USE_CCACHE=0 ;;
@@ -352,6 +360,7 @@ while [ "$#" -ne "0" ]; do
 					r) RMDEPS=1 ;;
 					s) DEP_BIN=1 ;;
 					S) DEP_SUDO=1 ;;
+					t) SRCDEST=$OPTARG ;;
 					w) PKGDEST=$OPTARG ;;
 					-)
 						OPTIND=0
@@ -387,20 +396,26 @@ PKGDEST=`pwd`
 cd $OLDPWD
 
 if [ "$CLEANCACHE" = "1" ]; then
-	if [ "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
-		msg "Cleaning up source files from the cache."
-		rm -rf /var/cache/pacman/src/*
-		exit 0
-	else
-		error "You must be root to clean the cache."
-		exit 1
-	fi
+    if [ -n "$SRCDEST" ]; then
+        msg "Cleaning up source files from the cache."
+        rm -rf /var/cache/pacman/src/*
+        rm -rf "${SRCDEST}"/*
+        exit 0
+    else
+        if [ "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
+            msg "Cleaning up source files from the cache."
+            rm -rf /var/cache/pacman/src/*
+            exit 0
+        else
+            error "You must be root to clean the cache."
+            exit 1
+        fi
+    fi
 fi
 
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options
-
 
 # some applications (eg, blackbox) will not build with some languages
 unset LC_ALL LANG
@@ -409,11 +424,13 @@ umask 0022
 if [ ! -f $BUILDSCRIPT ]; then
 	error "$BUILDSCRIPT does not exist."
 	exit 1
-else
-    #this is fun.... we'll unset
-    for var in $(grep "=" $BUILDSCRIPT | sed "s|.*\(\<.*\>\)=.*|\1|g"); do
-        unset $var
-    done
+#TODO this is an attempt at a generic way to unset all package specific
+#variables in a PKGBUILD
+#else
+#    #this is fun.... we'll unset
+#    for var in $(grep "=" $BUILDSCRIPT | sed "s|.*\(\<.*\>\)=.*|\1|g"); do
+#        unset $var
+#    done
 fi
 
 source $BUILDSCRIPT
@@ -437,6 +454,8 @@ if [ $(echo $pkgrel | grep '-') ]; then
 fi
 if ! in_array $CARCH ${arch[@]}; then
 	error "$pkgname is not available for the '$CARCH' architecture."
+    plain "Note that many packages may need a line added to their $BUILDSCRIPT"
+    plain "such as arch=('$CARCH')."
 	exit 1
 fi
 
@@ -456,9 +475,6 @@ if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} -a "$FORCE" =
 		exit 1
 	fi
 fi
-
-# some applications (eg, blackbox) will not build with some languages
-unset LC_ALL LANG
 
 # Enter the fakeroot environment if necessary.  This will call the makepkg script again
 # as the fake root user.  We detect this by passing a sentinel option (-F) to makepkg
@@ -488,7 +504,8 @@ fi
 msg "Making package: $pkgname $pkgver-$pkgrel (`date`)"
 
 unset deplist makedeplist
-if [ `type -p pacman` -a "$NODEPS" = "0" ]; then
+# fix flyspray bug #5973 - Dan McGee <dpmcgee@gmail.com>
+if [ `type -p pacman` -a "$NODEPS" = "0" -a "$GENINTEG" = "0" -a "$NOBUILD" = "0" ]; then
 	msg "Checking Runtime Dependencies..."
 	deplist=`checkdeps ${depends[@]}`
 	handledeps $deplist
@@ -507,7 +524,7 @@ if [ `type -p pacman` -a "$NODEPS" = "0" ]; then
 	if [ $? -gt 0 ]; then
 		exit 1
 	fi
-elif [ "$NODEPS" = "1" ]; then
+elif [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" ]; then
 	warning "skipping dependency checks."
 else
 	warning "pacman was not found in PATH. skipping dependency checks."
@@ -520,13 +537,16 @@ msg "Retrieving Sources..."
 mkdir -p src
 cd $startdir/src
 for netfile in ${source[@]}; do
-	file=`strip_url $netfile`
-	if [ -f ../$file ]; then
+	file=$(strip_url $netfile)
+	if [ -f "../$file" ]; then
 		msg "    Found $file in build dir"
-		cp ../$file .
-	elif [ -f /var/cache/pacman/src/$file ]; then
-		msg "    Using local copy of $file"
-		cp /var/cache/pacman/src/$file .
+		cp "../$file" .
+	elif [ -f "$SRCDEST/$file" ]; then
+		msg "    Using cached copy of $file"
+		cp "$SRCDEST$file" .
+	elif [ -f "/var/cache/pacman/src/$file" ]; then
+		msg "    Using cached copy of $file"
+		cp "/var/cache/pacman/src/$file" .
 	else
 		# check for a download utility
 		if [ -z "$FTPAGENT" ]; then
@@ -535,28 +555,33 @@ for netfile in ${source[@]}; do
 			exit 1
 		fi
 		ftpclient=`echo $FTPAGENT | awk {'print $1'}`
-		if [ ! -x $ftpclient ]; then
+		if [ ! -x "$ftpclient" ]; then
 			error "ftpclient `basename $ftpclient` is not installed."
 			msg "Aborting..."
 			exit 1
 		fi
-		proto=`echo $netfile | sed 's|://.*||'`
+		proto=$(echo "$netfile" | sed 's|://.*||')
 		if [ "$proto" != "ftp" -a "$proto" != "http" -a "$proto" != "https" ]; then
 			error "$netfile was not found in the build directory and is not a proper URL."
 			msg "Aborting..."
 			exit 1
 		fi
 		msg "    Downloading $file"
-		$FTPAGENT $netfile 2>&1
-		if [ ! -f $file ]; then
+		$FTPAGENT "$netfile" 2>&1
+		if [ ! -f "$file" ]; then
 			error "Failed to download $file"
 			msg "Aborting..."
 			exit 1
 		fi
 		if [ "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
 			mkdir -p /var/cache/pacman/src && cp $file /var/cache/pacman/src
-		else
-			cp $file ..
+            if [ -n "$SRCDEST" ]; then
+                mkdir -p $SRCDEST && cp "$file" $SRCDEST
+            elif [ "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
+                mkdir -p /var/cache/pacman/src && cp "$file" /var/cache/pacman/src
+            else
+                cp "$file" ..
+            fi
 		fi
 	fi
 done
@@ -582,6 +607,7 @@ else
             exit 1
         fi
 
+        #Generate integrity checks
         if [ "$GENINTEG" = "1" ]; then
             msg "Generating ${integrity_name}s for source files"
             plain ""
@@ -607,7 +633,8 @@ else
             done
             plain ""
             exit 0
-        else #validation
+        #Validate integrity checks
+        else 
             integrity_sums=($(eval echo \${${integrity_name}s[@]}))
 
             if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
@@ -705,10 +732,6 @@ fi
 # build
 msg "Starting build()..."
 
-#check for "exit on syntax error" shell option
-echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
-set_e=$?
-
 if [ "x$LOGGING" = "1" ]; then
     BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
     if [ -f "$BUILDLOG" ]; then
@@ -723,6 +746,7 @@ if [ "x$LOGGING" = "1" ]; then
         mv "$BUILDLOG" "$BUILDLOG.$i"
     fi
 
+    #check for "exit on syntax error" shell option
     echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
     set_e=$?
 
@@ -771,12 +795,12 @@ fi
 
 # compress man pages
 msg "Compressing man pages..."
-find $startdir/pkg/{usr{,/local,/share},opt/*}/man -type f 2>/dev/null | while read i ; do
+find $startdir/pkg/{usr{,/local},opt/*}/man -type f 2>/dev/null | while read i ; do
 	ext="${i##*.}"
 	fn="${i##*/}"
 	if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
 		# update symlinks to this manpage
-		find $startdir/pkg/{usr{,/local,/share},opt/*}/man -lname "$fn" 2> /dev/null | while read ln ; do
+		find $startdir/pkg/{usr{,/local},opt/*}/man -lname "$fn" 2> /dev/null | while read ln ; do
 			rm -f "$ln"
 			ln -sf "${fn}.gz" "${ln}.gz"
 		done

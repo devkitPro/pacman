@@ -4,6 +4,7 @@ prefix = @prefix@
 CFLAGS = $(subst -Werror,,@CFLAGS@)
 CFLAGS += $(shell python -c 'from distutils import sysconfig; print "-I" + sysconfig.get_python_inc()')
 CFLAGS += -I$(top_srcdir)/lib/libalpm
+CFLAGS += -fno-strict-aliasing # see the swig docs
 ifeq ($(shell arch),x86_64)
 CFLAGS += -fPIC
 endif
