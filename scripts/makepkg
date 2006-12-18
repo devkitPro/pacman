@@ -568,9 +568,13 @@ for netfile in ${source[@]}; do
 		fi
 		msg "    Downloading $file"
 		$FTPAGENT "$netfile" 2>&1
-		if [ ! -f "$file" ]; then
-			error "Failed to download $file"
-			msg "Aborting..."
+        # fix flyspray bug #3289
+        ftpret=$?
+        if [ $ftpret -gt 0 ]; then
+            error "Failure while downloading $file"
+            msg "Aborting..."
+            rm "$file"
+            exit 1
 			exit 1
 		fi
 		if [ "`id -u`" = "0" -a "$INFAKEROOT" != "1" ]; then
