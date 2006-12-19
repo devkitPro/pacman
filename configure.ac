@@ -364,6 +364,7 @@ etc/Makefile
 etc/makepkg.conf
 etc/pacman.conf
 etc/pacman.d/Makefile
+etc/abs/Makefile
 bindings/perl/Makefile
 bindings/python/Makefile
 bindings/java/Makefile
