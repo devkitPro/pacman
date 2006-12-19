@@ -36,6 +36,8 @@ rm -rf etc/Makefile.in
 rm -rf etc/Makefile
 rm -rf etc/pacman.d/Makefile.in
 rm -rf etc/pacman.d/Makefile
+rm -rf etc/abs/Makefile.in
+rm -rf etc/abs/Makefile
 
 rm -rf src/pacman/po/Makefile
 rm -rf src/pacman/po/Makefile.in
