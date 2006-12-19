@@ -1,4 +1,4 @@
-EXTRA_DIST = 
+EXTRA_DIST = community current extra release unstable
 
 install-data-hook:
 	mkdir -p $(DESTDIR)$(sysconfdir)/pacman.d ; \

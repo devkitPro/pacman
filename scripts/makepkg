@@ -736,6 +736,10 @@ fi
 # build
 msg "Starting build()..."
 
+#check for "exit on syntax error" shell option
+echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
+set_e=$?
+
 if [ "x$LOGGING" = "1" ]; then
     BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
     if [ -f "$BUILDLOG" ]; then
@@ -749,10 +753,6 @@ if [ "x$LOGGING" = "1" ]; then
         done
         mv "$BUILDLOG" "$BUILDLOG.$i"
     fi
-
-    #check for "exit on syntax error" shell option
-    echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
-    set_e=$?
 
     #use 'errexit' to bail on syntax error
     [ $set_e -eq 1 ] && set -e
