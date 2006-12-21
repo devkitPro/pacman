@@ -1,6 +1,12 @@
 #!/bin/bash
 
-[ -f /etc/abs/abs.conf ] && source /etc/abs/abs.conf
+CONFDIR="/etc/abs"
+CONNMODE="m"
+
+[ -f "$CONFDIR/abs.conf" ] && source "$CONFDIR/abs.conf"
+
+#user based overrides
+[ -f ~/.abs.conf ] && source ~/.abs.conf
 
 usage() {
 	echo "Arch Build System -- synchronization utility"
@@ -14,75 +20,51 @@ usage() {
 }
 
 update() {
-	cd $ABSROOT
+	cd "$ABSROOT"
 	for sup in "${SUPFILES[@]}"; do
 		if [ "$sup" != "testing" ]; then
 			if [ "$sup" = "${sup#!}" ]; then
-				cvsup -L 1 -r 0 -g -b $ABSROOT -c .sup /etc/abs/supfile.$sup
+				$CVSUP -L 1 -r 0 -g -b "$ABSROOT" -P $CONNMODE -c .sup "$CONFDIR/supfile.$sup"
 			fi
 		elif [ "$sup" = "testing" ]; then
-			if [ ! -d /var/abs/testing ]; then
-				mkdir /var/abs/testing;
+			if [ ! -d "$ABSROOT/testing" ]; then
+				mkdir "$ABSROOT/testing"
 			fi
-			cd $ABSROOT/testing
-			cvsup -L 1 -r 0 -g -b $ABSROOT/testing -c .sup /etc/abs/supfile.testing
-			cd $ABSROOT
+			cd "$ABSROOT/testing"
+			$CVSUP -L 1 -r 0 -g -b "$ABSROOT/testing" -P $CONNMODE -c .sup "$CONFDIR/supfile.testing"
+			cd "$ABSROOT"
 		fi
 	done
 } 
-
-
-update() {
-	cd $ABSROOT
-	for sup in "${SUPFILES[@]}"; do
-		if [ "$sup" = "${sup#!}" ]; then
-			$CVSUP -L 1 -r 0 -g -b $ABSROOT -P $CONNMODE -c .sup /etc/abs/supfile.$sup
-		fi
-	done		
-}
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 	usage
 	exit 0
 fi
 
-if [ ! -d $ABSROOT ]; then
+if [ ! -d "$ABSROOT" ]; then
 	echo "abs: $ABSROOT does not exist (or is not a directory)"
 	exit 1
 fi
-if [ ! -w $ABSROOT ]; then
+if [ ! -w "$ABSROOT" ]; then
 	echo "abs: no write permissions in $ABSROOT"
 	exit 1
 fi
 
-if [ "`type -p cvsup`" ]; then
+if [ "$(type -p cvsup)" ]; then
 	CVSUP="cvsup"
-elif [ "`type -p csup`" ]; then
+elif [ "$(type -p csup)" ]; then
 	CVSUP="csup"
 else
 	echo "abs: missing CVS synchronization utility.  Install cvsup or csup."
 	exit 1
 fi
 
-if [ ! -d "$ABSROOT" ]; then
-	echo "abs: directory $ABSROOT does not exist"
-	exit 1
-fi
-
 if [ "$1" = "-p" ] || [ "$1" = "--passive" ]; then
 	CONNMODE="-"
 	shift
 else
 	CONNMODE="m"
-	shift
-fi
-
-if [ "$1" = "-p" ] || [ "$1" = "--passive" ]; then
-	CONNMODE="-"
-	shift
-else
-	CONNMODE="m"
-	shift
 fi
 
 if [ "$#" -ne "0" ]; then
