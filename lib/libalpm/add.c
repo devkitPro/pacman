@@ -513,6 +513,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					/* file already exists */
 					if(_alpm_list_is_strin(pathname, handle->noupgrade)) {
 						notouch = 1;
+						nb = 1;
 					} else {
 						if(!pmo_upgrade || oldpkg == NULL) {
 							nb = _alpm_list_is_strin(pathname, info->backup);
@@ -706,9 +707,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						if(!file) continue;
 						if(!strcmp(file, pathname)) {
 							_alpm_log(PM_LOG_DEBUG, _("appending backup entry"));
-							snprintf(path, PATH_MAX, "%s%s", handle->root, file);
 							if (info->sha1sum != NULL && info->sha1sum != '\0') {
-							    md5 = _alpm_MDFile(path);
+							    md5 = _alpm_MDFile(expath);
 							    /* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
 							    if((fn = (char *)malloc(strlen(file)+34)) == NULL) {
 										RET_ERR(PM_ERR_MEMORY, -1);
@@ -717,7 +717,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							    FREE(md5);
 							} else {
 							    /* 41 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-							    sha1 = _alpm_SHAFile(path);
+							    sha1 = _alpm_SHAFile(expath);
 							    if((fn = (char *)malloc(strlen(file)+43)) == NULL) {
 										RET_ERR(PM_ERR_MEMORY, -1);
 									}
