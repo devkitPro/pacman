@@ -120,7 +120,7 @@ check_option() {
 }
 
 in_array() {
-	needle=$1
+	local needle=$1
 	shift 1
 	[ -z "$1" ] && return 1
 	for i in $*; do
@@ -441,7 +441,7 @@ if [ $(echo $pkgrel | grep '-') ]; then
 	error "pkgrel is not allowed to contain hyphens."
 	exit 1
 fi
-if [ ! in_array $CARCH ${arch[@]} ]; then
+if ! in_array $CARCH ${arch[@]}; then
 	error "$pkgname is not available for the '$CARCH' architecture."
 	plain "Note that many packages may need a line added to their $BUILDSCRIPT"
 	plain "such as arch=('$CARCH')."
@@ -884,22 +884,19 @@ tar cvf /dev/null * | sort >.FILELIST
 # tar it up
 msg "Compressing package..."
 cd $startdir/pkg
-if [ -f $startdir/pkg/.INSTALL ]; then
-	cmd="tar czvf $PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT} .PKGINFO .FILELIST .INSTALL *"
-else
-	cmd="tar czvf $PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT} .PKGINFO .FILELIST *"
-fi
-$cmd | sort >../filelist
 
-if [ ${PIPESTATUS[0]} -gt 0 ]; then
-	error "Failed to create package file."
-	exit ${PIPESTATUS[0]}
+pkg_file="$PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT}"
+comp_files=".PKGINFO .FILELIST ${install:+.INSTALL}"
+
+if ! tar czf $pkg_file $comp_files *; then
+	error "Failed to create package file." 
+	exit 1
 fi
 
 cd $startdir
 if [ "$CLEANUP" = "1" ]; then
 	msg "Cleaning up..."
-	rm -rf src pkg filelist
+	rm -rf src pkg
 	rm -rf ${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*
 fi
 
