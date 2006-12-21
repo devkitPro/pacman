@@ -1,24 +1,24 @@
 #!/bin/bash
-# 
+#
 #   makepkg - make packages compatable for use with pacman
-#  
+#
 #   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
 #   Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
 #   Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
 #   Copyright (c) 2006 by Alex Smith <alex@alex-smith.me.uk>
 #   Copyright (c) 2006 by Andras Voroskoi <voroskoi@frugalware.org>
-#  
+#
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2 of the License, or
 #   (at your option) any later version.
-# 
+#
 #   This program is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
-#  
+#
 #   You should have received a copy of the GNU General Public License
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
@@ -293,6 +293,7 @@ usage() {
 
 ARGLIST=$@
 
+#Source user-specific makepkg.conf overrides
 if [ -f /etc/makepkg.conf ]; then
 	source /etc/makepkg.conf
 else
@@ -328,13 +329,13 @@ while [ "$#" -ne "0" ]; do
 		--repackage)  REPKG=1 ;;
 		--log)        LOGGING=1 ;;
 		--help)
-		usage
-		exit 0
-		;;
+					usage
+					exit 0
+					;;
 		--*)
-		usage
-		exit 1
-		;;
+					usage
+					exit 1
+					;;
 		-*)
 		while getopts "bBcCdefghij:Lmop:rRsS-" opt; do
 			case $opt in
@@ -347,9 +348,9 @@ while [ "$#" -ne "0" ]; do
 				f) FORCE=1 ;;
 				g) GENINTEG=1 ;;
 				h)
-					usage
-					exit 0
-					;;
+						usage
+						exit 0
+						;;
 				i) INSTALL=1 ;;
 				j) export MAKEFLAGS="-j$OPTARG" ;;
 				L) LOGGING=1 ;;
@@ -361,19 +362,19 @@ while [ "$#" -ne "0" ]; do
 				s) DEP_BIN=1 ;;
 				S) DEP_SUDO=1 ;;
 				-)
-					OPTIND=0
-					break
-					;;
+						OPTIND=0
+						break
+						;;
 				*)
-					usage
-					exit 1
-					;;
+						usage
+						exit 1
+						;;
 			esac
 		done
 		;;
 		*)
-		true
-		;;
+				true
+				;;
 	esac
 	shift
 done
@@ -383,16 +384,6 @@ if [ "$DEP_SUDO" = "1" -a ! "$(type -p sudo)" ]; then
 	error "Cannot find the sudo binary! Is sudo installed?"
 	exit 1
 fi
-
-# TODO: is this necessary?
-# convert a (possibly) relative path to absolute
-cd $PKGDEST 2>/dev/null
-if [ $? -ne 0 ]; then
-	error "Package destination directory does not exist or permission denied."
-	exit 1
-fi
-PKGDEST=$(pwd)
-cd $OLDPWD
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
@@ -450,7 +441,7 @@ if [ $(echo $pkgrel | grep '-') ]; then
 	error "pkgrel is not allowed to contain hyphens."
 	exit 1
 fi
-if [ ! in_array $CARCH ${arch[@]}]; then
+if [ ! in_array $CARCH ${arch[@]} ]; then
 	error "$pkgname is not available for the '$CARCH' architecture."
 	plain "Note that many packages may need a line added to their $BUILDSCRIPT"
 	plain "such as arch=('$CARCH')."
@@ -503,7 +494,9 @@ msg "Making package: $pkgname $pkgver-$pkgrel ($(date))"
 
 unset deplist makedeplist
 # fix flyspray bug #5973
-if [ $(type -p pacman) -a "$NODEPS" = "0" -a "$GENINTEG" = "0" -a "$NOBUILD" = "0" ]; then
+if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" ]; then
+	warning "skipping dependecy checks"
+elif [ $(type -p pacman) ]; then
 	msg "Checking Runtime Dependencies..."
 	deplist=$(checkdeps ${depends[@]})
 	handledeps $deplist
@@ -522,10 +515,6 @@ if [ $(type -p pacman) -a "$NODEPS" = "0" -a "$GENINTEG" = "0" -a "$NOBUILD" = "
 	if [ $? -gt 0 ]; then
 		exit 1
 	fi
-elif [ "$GENINTEG" = "1" -o "$NOBUILD" = "1" ]; then
-	msg "skipping dependency checks."
-elif [ "$NODEPS" = "1" ]; then
-	warning "skipping dependency checks."
 else
 	warning "pacman was not found in PATH. skipping dependency checks."
 fi
@@ -585,7 +574,7 @@ for netfile in ${source[@]}; do
 	fi
 done
 
-if [ "$NOEXTRACT" = "1" -o "$REPKG" ]; then
+if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "Skipping source integrity checks -- using existing src/ tree"
 else
 	for integ in ${INTEGRITY_CHECK[@]}; do
@@ -704,25 +693,25 @@ else
 			fi
 		fi
 	done
-fi
-
-if [ "$REPKG" = "0" ]; then
+	
 	if [ "$EUID" = "0" ]; then
 		# chown all source files to root.root
 		chown -R root.root $startdir/src
 	fi
+fi
 
+if [ "$NOBUILD" = "1" ]; then
+	msg "Sources are ready."
+	exit 0
+elif [ "$REPKG" = "1" ]; then
+	warning "Skipping build"
+else
 	# check for existing pkg directory
 	if [ -d $startdir/pkg ]; then
 		msg "Removing existing pkg/ directory..."
 		rm -rf $startdir/pkg
 	fi
 	mkdir -p $startdir/pkg
-
-	if [ "$NOBUILD" = "1" ]; then
-		msg "Sources are ready."
-		exit 0
-	fi
 
 	# use distcc if requested
 	if [ "$USE_DISTCC" = "y" ]; then
@@ -794,23 +783,23 @@ fi
 # compress man pages
 msg "Compressing man pages..."
 find $startdir/pkg/{usr{,/local},opt/*}/man -type f 2>/dev/null | while read i ; do
-ext="${i##*.}"
-fn="${i##*/}"
-if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
-	# update symlinks to this manpage
-	find $startdir/pkg/{usr{,/local},opt/*}/man -lname "$fn" 2> /dev/null | while read ln ; do
-	rm -f "$ln"
-	ln -sf "${fn}.gz" "${ln}.gz"
-done
-# compress the original
-gzip -9 "$i"
+	ext="${i##*.}"
+	fn="${i##*/}"
+	if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
+		# update symlinks to this manpage
+		find $startdir/pkg/{usr{,/local},opt/*}/man -lname "$fn" 2> /dev/null | while read ln ; do
+		rm -f "$ln"
+		ln -sf "${fn}.gz" "${ln}.gz"
+	done
+	# compress the original
+	gzip -9 "$i"
 	fi
 done
 
 cd $startdir
 
 # strip binaries
-if [ ! "$(check_option NOSTRIP)" -a "$NOSTIP" = "0" ]; then
+if [ ! "$(check_option NOSTRIP)" -a "$NOSTRIP" = "0" ]; then
 	msg "Stripping debugging symbols from libraries..."
 	find pkg/{,usr,usr/local,opt/*}/lib -type f -not -name "*.dll" -not -name "*.exe" \
 	-exec /usr/bin/strip --strip-debug '{}' \; 2>&1 \
