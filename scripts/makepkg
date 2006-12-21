@@ -293,7 +293,7 @@ usage() {
 
 ARGLIST=$@
 
-#Source user-specific makepkg.conf overrides
+#Source makepkg.conf; fail if it is not found
 if [ -f /etc/makepkg.conf ]; then
 	source /etc/makepkg.conf
 else
@@ -303,7 +303,7 @@ fi
 
 #Source user-specific makepkg.conf overrides
 if [ -f ~/.makepkg.conf ]; then
-    source ~/.makepkg.conf
+	source ~/.makepkg.conf
 fi
 
 while [ "$#" -ne "0" ]; do
@@ -494,7 +494,7 @@ msg "Making package: $pkgname $pkgver-$pkgrel ($(date))"
 
 unset deplist makedeplist
 # fix flyspray bug #5973
-if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" ]; then
+if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
 	warning "skipping dependecy checks"
 elif [ $(type -p pacman) ]; then
 	msg "Checking Runtime Dependencies..."
