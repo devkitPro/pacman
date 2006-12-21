@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-#   makepkg
+#   makepkg - make packages compatable for use with pacman
 #  
 #   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
@@ -44,19 +44,21 @@ DEP_SUDO=0
 FORCE=0
 GENINTEG=0
 INSTALL=0
-DOWNLOAD=""
 NOBUILD=0
 NODEPS=0
 NOEXTRACT=0
 RMDEPS=0
+REPKG=0
 LOGGING=0
 
 PACMAN_OPTS=
 
-INFAKEROOT=
+#determine if we are running with fakeroot
 if [ "$1" = "-F" ]; then
 	INFAKEROOT=1
 	shift
+else
+	INFAKEROOT=0
 fi
 
 ### SUBROUTINES ###
@@ -68,6 +70,7 @@ plain() {
 		echo "    $1" >&2
 	fi
 }
+
 msg() {
 	if [ "$USE_COLOR" = "Y" -o "$USE_COLOR" = "y" ]; then
 		echo -e "\033[1;32m==>\033[1;0m \033[1;1m$1\033[1;0m" >&2
@@ -91,6 +94,7 @@ warning() {
 		echo "==> WARNING: $1" >&2
 	fi
 }
+
 error() {
 	if [ "$USE_COLOR" = "Y" -o "$USE_COLOR" = "y" ]; then
 		echo -e "\033[1;31m==> ERROR:\033[1;0m \033[1;1m$1\033[1;0m" >&2
@@ -239,6 +243,7 @@ handledeps() {
 		fi
 		missingdeps=1
 	fi
+
 	# rerun any additional sh scripts found in /etc/profile.d/
 	for i in /etc/profile.d/*.sh
 	do
@@ -246,8 +251,6 @@ handledeps() {
 			. $i &>/dev/null
 		fi
 	done
-	# some applications (eg, blackbox) will not build with some languages
-	unset LC_ALL LANG
 
 	return $missingdeps
 }
@@ -269,18 +272,15 @@ usage() {
 	echo "  -h, --help       This help"
 	echo "  -i, --install    Install package after successful build"
 	echo "  -j <jobs>        Set MAKEFLAGS to \"-j<jobs>\" before building"
-	echo "  -k, --keepdocs   Keep doc and info directories"
 	echo "  -L, --log        Log package build process"
 	echo "  -m, --nocolor    Disable colorized output messages"
-	echo "  -n, --nostrip    Do not strip symbols from binaries/libraries"
 	echo "  -o, --nobuild    Download and extract files only"
 	echo "  -p <buildscript> Use an alternate build script (instead of '$BUILDSCRIPT')"
 	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
+	# fix flyspray feature request #2978
+	echo "  -R, --repackage  Repackage contents of <startdir>/pkg without building"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
 	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
-	# fix flyspray feature request #5223 - Dan McGee <dpmcgee@gmail.com>
-	echo "  -t <sourcedir>   Cache source files in <sourcedir>"
-	echo "  -w <destdir>     Write package to <destdir> instead of the working dir"
 	echo
 	echo "These options can be passed to pacman:"
 	echo
@@ -300,8 +300,10 @@ else
 	exit 1
 fi
 
-#Let's be courteous and support frugalware's extensions
-[ -e /usr/lib/frugalware/fwmakepkg ] && . /usr/lib/frugalware/fwmakepkg
+#Source user-specific makepkg.conf overrides
+if [ -f ~/.makepkg.conf ]; then
+    source ~/.makepkg.conf
+fi
 
 while [ "$#" -ne "0" ]; do
 	case $1 in
@@ -319,12 +321,11 @@ while [ "$#" -ne "0" ]; do
 		--noextract)  NOEXTRACT=1 ;;
 		--install)    INSTALL=1 ;;
 		--force)      FORCE=1 ;;
-		--keepdocs)   KEEPDOCS=1 ;;
-		--nostrip)    NOSTRIP=1 ;;
 		--nobuild)    NOBUILD=1 ;;
 		--nocolor)    USE_COLOR="n" ;;
 		--geninteg)   GENINTEG=1 ;;
 		--rmdeps)     RMDEPS=1 ;;
+		--repackage)  REPKG=1 ;;
 		--log)        LOGGING=1 ;;
 		--help)
 		usage
@@ -335,7 +336,7 @@ while [ "$#" -ne "0" ]; do
 		exit 1
 		;;
 		-*)
-		while getopts "bBcCdefghij:kLmnop:rsSt:w:-" opt; do
+		while getopts "bBcCdefghij:Lmop:rRsS-" opt; do
 			case $opt in
 				b) DEP_SRC=1 ;;
 				B) USE_CCACHE=0 ;;
@@ -346,30 +347,27 @@ while [ "$#" -ne "0" ]; do
 				f) FORCE=1 ;;
 				g) GENINTEG=1 ;;
 				h)
-				usage
-				exit 0
-				;;
+					usage
+					exit 0
+					;;
 				i) INSTALL=1 ;;
 				j) export MAKEFLAGS="-j$OPTARG" ;;
-				k) KEEPDOCS=1 ;;
 				L) LOGGING=1 ;;
 				m) USE_COLOR="n" ;;
-				n) NOSTRIP=1 ;;
 				o) NOBUILD=1 ;;
 				p) BUILDSCRIPT=$OPTARG ;;
 				r) RMDEPS=1 ;;
+				R) REPKG=1 ;;
 				s) DEP_BIN=1 ;;
 				S) DEP_SUDO=1 ;;
-				t) SRCDEST=$OPTARG ;;
-				w) PKGDEST=$OPTARG ;;
 				-)
-				OPTIND=0
-				break
-				;;
+					OPTIND=0
+					break
+					;;
 				*)
-				usage
-				exit 1
-				;;
+					usage
+					exit 1
+					;;
 			esac
 		done
 		;;
@@ -386,6 +384,7 @@ if [ "$DEP_SUDO" = "1" -a ! "$(type -p sudo)" ]; then
 	exit 1
 fi
 
+# TODO: is this necessary?
 # convert a (possibly) relative path to absolute
 cd $PKGDEST 2>/dev/null
 if [ $? -ne 0 ]; then
@@ -396,20 +395,19 @@ PKGDEST=$(pwd)
 cd $OLDPWD
 
 if [ "$CLEANCACHE" = "1" ]; then
+	#fix flyspray feature request #5223
 	if [ -n "$SRCDEST" ]; then
 		msg "Cleaning up source files from the cache."
-		rm -rf /var/cache/pacman/src/*
-		rm -rf "${SRCDEST}"/*
-		exit 0
-	else
-		if [ "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
-			msg "Cleaning up source files from the cache."
-			rm -rf /var/cache/pacman/src/*
-			exit 0
-		else
-			error "You must be root to clean the cache."
+		rm -rf "$SRCDEST"/*
+		if [ $? -ne 0 ]; then
+			error "Problem removing files; you may not have correct permissions in $SRCDEST"
 			exit 1
+		else
+			exit 0
 		fi
+	else
+		error "Source destination must be defined in makepkg.conf."
+		exit 1
 	fi
 fi
 
@@ -452,7 +450,7 @@ if [ $(echo $pkgrel | grep '-') ]; then
 	error "pkgrel is not allowed to contain hyphens."
 	exit 1
 fi
-if ! in_array $CARCH ${arch[@]}; then
+if [ ! in_array $CARCH ${arch[@]}]; then
 	error "$pkgname is not available for the '$CARCH' architecture."
 	plain "Note that many packages may need a line added to their $BUILDSCRIPT"
 	plain "such as arch=('$CARCH')."
@@ -504,7 +502,7 @@ fi
 msg "Making package: $pkgname $pkgver-$pkgrel ($(date))"
 
 unset deplist makedeplist
-# fix flyspray bug #5973 - Dan McGee <dpmcgee@gmail.com>
+# fix flyspray bug #5973
 if [ $(type -p pacman) -a "$NODEPS" = "0" -a "$GENINTEG" = "0" -a "$NOBUILD" = "0" ]; then
 	msg "Checking Runtime Dependencies..."
 	deplist=$(checkdeps ${depends[@]})
@@ -524,7 +522,9 @@ if [ $(type -p pacman) -a "$NODEPS" = "0" -a "$GENINTEG" = "0" -a "$NOBUILD" = "
 	if [ $? -gt 0 ]; then
 		exit 1
 	fi
-elif [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" ]; then
+elif [ "$GENINTEG" = "1" -o "$NOBUILD" = "1" ]; then
+	msg "skipping dependency checks."
+elif [ "$NODEPS" = "1" ]; then
 	warning "skipping dependency checks."
 else
 	warning "pacman was not found in PATH. skipping dependency checks."
@@ -537,16 +537,13 @@ msg "Retrieving Sources..."
 mkdir -p src
 cd $startdir/src
 for netfile in ${source[@]}; do
-	file=$(strip_url $netfile)
+	file=$(strip_url "$netfile")
 	if [ -f "../$file" ]; then
-		msg "    Found $file in build dir"
+		msg2 "Found $file in build dir"
 		cp "../$file" .
 	elif [ -f "$SRCDEST/$file" ]; then
-		msg "    Using cached copy of $file"
-		cp "$SRCDEST$file" .
-	elif [ -f "/var/cache/pacman/src/$file" ]; then
-		msg "    Using cached copy of $file"
-		cp "/var/cache/pacman/src/$file" .
+		msg2 "Using cached copy of $file"
+		cp "$SRCDEST/$file" .
 	else
 		# check for a download utility
 		if [ -z "$FTPAGENT" ]; then
@@ -566,33 +563,29 @@ for netfile in ${source[@]}; do
 			msg "Aborting..."
 			exit 1
 		fi
-		msg "    Downloading $file"
+		msg2 "Downloading $file"
 		$FTPAGENT "$netfile" 2>&1
 		# fix flyspray bug #3289
 		ftpret=$?
 		if [ $ftpret -gt 0 ]; then
 			error "Failure while downloading $file"
 			msg "Aborting..."
-			rm "$file"
-			exit 1
+			#rm "$file"
 			exit 1
 		fi
-		if [ "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
-			mkdir -p /var/cache/pacman/src && cp $file /var/cache/pacman/src
-			if [ -n "$SRCDEST" ]; then
-				mkdir -p $SRCDEST && cp "$file" $SRCDEST
-			elif [ "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
-				mkdir -p /var/cache/pacman/src && cp "$file" /var/cache/pacman/src
-			else
+		if [ -n "$SRCDEST" ]; then
+			mkdir -p $SRCDEST && cp "$file" $SRCDEST
+			if [ $? -ne 0 ]; then
+				warning "You do not have correct permissions to cache source in $SRCDEST"
 				cp "$file" ..
 			fi
+		else
+			cp "$file" ..
 		fi
 	fi
 done
 
-
-
-if [ "$NOEXTRACT" = "1" ]; then
+if [ "$NOEXTRACT" = "1" -o "$REPKG" ]; then
 	warning "Skipping source integrity checks -- using existing src/ tree"
 else
 	for integ in ${INTEGRITY_CHECK[@]}; do
@@ -635,7 +628,7 @@ else
 				fi
 			done
 			plain ""
-			#Validate integrity checks
+		#Validate integrity checks
 		else 
 			integrity_sums=($(eval echo \${${integrity_name}s[@]}))
 
@@ -671,8 +664,8 @@ else
 fi
 
 #Extract sources
-if [ "$NOEXTRACT" = "1" ]; then
-    warning "Skipping source extraction       -- using existing src/ tree"
+if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
+	warning "Skipping source extraction       -- using existing src/ tree"
 else
 	msg "Extracting Sources..."
 	for netfile in "${source[@]}"; do
@@ -699,7 +692,7 @@ else
 			cmd="bunzip2 -f $file" ;;
 		esac
 		if [ "$cmd" != "" ]; then
-			msg "    $cmd"
+			msg2 "$cmd"
 			$cmd
 			if [ $? -ne 0 ]; then
 				# unzip will return a 1 as a warning, it is not an error
@@ -713,81 +706,82 @@ else
 	done
 fi
 
-if [ "$EUID" = "0" ]; then
-	# chown all source files to root.root
-	chown -R root.root $startdir/src
-fi
-
-# check for existing pkg directory
-if [ -d $startdir/pkg ]; then
-	msg "Removing existing pkg/ directory..."
-	rm -rf $startdir/pkg
-fi
-mkdir -p $startdir/pkg
-
-if [ "$NOBUILD" = "1" ]; then
-	msg "Sources are ready."
-	exit 0
-fi
-
-# use distcc if requested
-if [ "$USE_DISTCC" = "y" ]; then
-	[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
-fi
-
-# use ccache if it's available
-if [ "$USE_CCACHE" = "1" ]; then
-	[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
-fi
-
-# build
-msg "Starting build()..."
-
-#check for "exit on syntax error" shell option
-echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
-set_e=$?
-
-if [ "$LOGGING" = "1" ]; then
-	BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
-	if [ -f "$BUILDLOG" ]; then
-		i=1
-		while true; do
-			if [ -f "$BUILDLOG.$i" ]; then
-				i=$(($i +1))
-			else
-				break
-			fi
-		done
-		mv "$BUILDLOG" "$BUILDLOG.$i"
+if [ "$REPKG" = "0" ]; then
+	if [ "$EUID" = "0" ]; then
+		# chown all source files to root.root
+		chown -R root.root $startdir/src
 	fi
 
-	#use 'errexit' to bail on syntax error
-	[ $set_e -eq 1 ] && set -e
-	build 2>&1 | tee "$BUILDLOG"
-	[ $set_e -eq 1 ] && set +e
-
-	if [ ${PIPESTATUS[0]} -gt 0 ]; then
-		error "Build Failed.  Aborting..."
-		exit 2
+	# check for existing pkg directory
+	if [ -d $startdir/pkg ]; then
+		msg "Removing existing pkg/ directory..."
+		rm -rf $startdir/pkg
 	fi
-else
-	#use 'errexit' to bail on syntax error
-	[ $set_e -eq 1 ] && set -e
-	build 2>&1
-	[ $set_e -eq 1 ] && set +e
-	if [ $? -gt 0 ]; then
-		error "Build Failed.  Aborting..."
-		exit 2
+	mkdir -p $startdir/pkg
+
+	if [ "$NOBUILD" = "1" ]; then
+		msg "Sources are ready."
+		exit 0
+	fi
+
+	# use distcc if requested
+	if [ "$USE_DISTCC" = "y" ]; then
+		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
+	fi
+
+	# use ccache if it's available
+	if [ "$USE_CCACHE" = "1" ]; then
+		[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
+	fi
+
+	# build
+	msg "Starting build()..."
+
+	#check for "exit on syntax error" shell option
+	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
+	set_e=$?
+
+	if [ "$LOGGING" = "1" ]; then
+		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
+		if [ -f "$BUILDLOG" ]; then
+			i=1
+			while true; do
+				if [ -f "$BUILDLOG.$i" ]; then
+					i=$(($i +1))
+				else
+					break
+				fi
+			done
+			mv "$BUILDLOG" "$BUILDLOG.$i"
+		fi
+
+		#use 'errexit' to bail on syntax error
+		[ $set_e -eq 1 ] && set -e
+		build 2>&1 | tee "$BUILDLOG"
+		[ $set_e -eq 1 ] && set +e
+
+		if [ ${PIPESTATUS[0]} -gt 0 ]; then
+			error "Build Failed.  Aborting..."
+			exit 2
+		fi
+	else
+		#use 'errexit' to bail on syntax error
+		[ $set_e -eq 1 ] && set -e
+		build 2>&1
+		[ $set_e -eq 1 ] && set +e
+		if [ $? -gt 0 ]; then
+			error "Build Failed.  Aborting..."
+			exit 2
+		fi
 	fi
 fi
 
 if [ ! "$(check_option KEEPDOCS)" -a "$KEEPDOCS" = "0" ]; then
 	# remove info/doc files
 	msg "Removing info/doc files..."
-	cd $startdir
-	rm -rf pkg/usr/info pkg/usr/share/info
-	rm -rf pkg/usr/doc pkg/usr/share/doc
-	rm -rf pkg/{usr,opt/gnome}/share/gtk-doc
+	cd $startdir/pkg
+	#fix flyspray bug #5021
+	rm -rf ${DOC_DIRS[@]}
 fi
 
 # move /usr/share/man files to /usr/man
@@ -816,7 +810,7 @@ done
 cd $startdir
 
 # strip binaries
-if [ ! "$(check_option NOSTRIP)" -a "$NOSTRIP" = "0" ]; then
+if [ ! "$(check_option NOSTRIP)" -a "$NOSTIP" = "0" ]; then
 	msg "Stripping debugging symbols from libraries..."
 	find pkg/{,usr,usr/local,opt/*}/lib -type f -not -name "*.dll" -not -name "*.exe" \
 	-exec /usr/bin/strip --strip-debug '{}' \; 2>&1 \
