@@ -562,40 +562,40 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 						if(!file) continue;
 						if(!strcmp(file, pathname)) {
-						    if(info->sha1sum != NULL && info->sha1sum != '\0') {
-							/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-							if((fn = (char *)malloc(strlen(file)+34)) == NULL) {
-								RET_ERR(PM_ERR_MEMORY, -1);
+							if(info->sha1sum != NULL && info->sha1sum != '\0') {
+								/* 32 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
+								if((fn = (char *)malloc(strlen(file)+34)) == NULL) {
+									RET_ERR(PM_ERR_MEMORY, -1);
+								}
+								sprintf(fn, "%s\t%s", file, md5_pkg);
+								FREE(file);
+								lp->data = fn;
+							} else {
+								/* 41 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
+								if((fn = (char *)malloc(strlen(file)+43)) == NULL) {
+									RET_ERR(PM_ERR_MEMORY, -1);
+								}
+								sprintf(fn, "%s\t%s", file, sha1_pkg);
+								FREE(file);
+								lp->data = fn;
 							}
-							sprintf(fn, "%s\t%s", file, md5_pkg);
-							FREE(file);
-							lp->data = fn;
-						    } else {
-							/* 41 for the hash, 1 for the terminating NULL, and 1 for the tab delimiter */
-							if((fn = (char *)malloc(strlen(file)+43)) == NULL) {
-								RET_ERR(PM_ERR_MEMORY, -1);
-							}
-							sprintf(fn, "%s\t%s", file, sha1_pkg);
-							FREE(file);
-							lp->data = fn;
-						    }
 						}
 					}
 
 					if (info->sha1sum != NULL && info->sha1sum != '\0') {
-					_alpm_log(PM_LOG_DEBUG, _("checking md5 hashes for %s"), pathname);
-					_alpm_log(PM_LOG_DEBUG, _("current:  %s"), md5_local);
-					_alpm_log(PM_LOG_DEBUG, _("new:      %s"), md5_pkg);
-					if(md5_orig) {
-						_alpm_log(PM_LOG_DEBUG, _("original: %s"), md5_orig);
-					}
+						_alpm_log(PM_LOG_DEBUG, _("checking md5 hashes for %s"), pathname);
+						_alpm_log(PM_LOG_DEBUG, _("current:  %s"), md5_local);
+						_alpm_log(PM_LOG_DEBUG, _("new:      %s"), md5_pkg);
+						if(md5_orig) {
+							_alpm_log(PM_LOG_DEBUG, _("original: %s"), md5_orig);
+						}
 					} else {
-                                        _alpm_log(PM_LOG_DEBUG, _("checking sha1 hashes for %s"), pathname);
-					_alpm_log(PM_LOG_DEBUG, _("current:  %s"), sha1_local);
-                                        _alpm_log(PM_LOG_DEBUG, _("new:      %s"), sha1_pkg);
-                                        if(sha1_orig) {
-                                        _alpm_log(PM_LOG_DEBUG, _("original: %s"), sha1_orig);
-					}
+						_alpm_log(PM_LOG_DEBUG, _("checking sha1 hashes for %s"), pathname);
+						_alpm_log(PM_LOG_DEBUG, _("current:  %s"), sha1_local);
+						_alpm_log(PM_LOG_DEBUG, _("new:      %s"), sha1_pkg);
+						if(sha1_orig) {
+							_alpm_log(PM_LOG_DEBUG, _("original: %s"), sha1_orig);
+						}
 					}
 
 					if(!pmo_upgrade) {

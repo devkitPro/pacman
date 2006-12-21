@@ -58,10 +58,10 @@ fi
 MAKEPKG_OPTS=
 for arg in $*; do
 	case $arg in
-# pacman
+		# pacman
 		--noconfirm)     MAKEPKG_OPTS="$MAKEPKG_OPTS --noconfirm" ;;
 		--noprogressbar) MAKEPKG_OPTS="$MAKEPKG_OPTS --noprogressbar" ;;
-# makepkg
+		# makepkg
 		--clean)     MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
 		--install)   MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
 		--syncdeps)  MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
@@ -71,40 +71,40 @@ for arg in $*; do
 		--force)     MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
 		--rmdeps)    MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
 		--help)
-			usage
-			exit 0
-			;;
+		usage
+		exit 0
+		;;
 		--*)
-			usage
-			exit 1
-			;;
+		usage
+		exit 1
+		;;
 		-*)
-			while getopts "chisSbdfr-" opt; do
-				case $opt in
-					c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
-					i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
-					s) MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
-					S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
-					b) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
-					d) MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
-					f) MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
-					r) MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
-					h)
-						usage
-						exit 0
-						;;
-					-)
-						OPTIND=0
-						break
-						;;
-				esac
-			done
-			;;
+		while getopts "chisSbdfr-" opt; do
+			case $opt in
+				c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
+				i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
+				s) MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
+				S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
+				b) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
+				d) MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
+				f) MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
+				r) MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+				h)
+				usage
+				exit 0
+				;;
+				-)
+				OPTIND=0
+				break
+				;;
+			esac
+		done
+		;;
 		*)
-			dest=$arg
-			shift
-			break
-			;;
+		dest=$arg
+		shift
+		break
+		;;
 	esac
 	shift
 	if [ "$dest" != "" ]; then
@@ -155,3 +155,5 @@ echo "  started:  $sd" >>$toplevel/build.log
 echo "  finished: $ed" >>$toplevel/build.log
 
 exit 0
+
+# vim: set ts=2 sw=2 noet:

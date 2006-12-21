@@ -58,3 +58,5 @@ struct sha_ctx
 
 /* Needed for pacman */
 char *_alpm_SHAFile (char *);
+
+/* vim: set ts=2 sw=2 noet: */

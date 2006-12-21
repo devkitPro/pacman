@@ -135,21 +135,21 @@ db_write_entry()
 	if [ ${#depends[*]} -gt 0 ]; then
 		echo "%DEPENDS%" >>depends
 		for it in "${depends[@]}"; do
-		  echo "$it" >>depends
+			echo "$it" >>depends
 		done
 		echo "" >>depends
 	fi
 	if [ ${#conflicts[*]} -gt 0 ]; then
 		echo "%CONFLICTS%" >>depends
 		for it in "${conflicts[@]}"; do
-		  echo "$it" >>depends
+			echo "$it" >>depends
 		done
 		echo "" >>depends
 	fi
 	if [ ${#provides[*]} -gt 0 ]; then
 		echo "%PROVIDES%" >>depends
 		for it in "${provides[@]}"; do
-		  echo "$it" >>depends
+			echo "$it" >>depends
 		done
 		echo "" >>depends
 	fi
@@ -248,3 +248,4 @@ cd $curdir
 rm -rf $ustmpdir
 
 exit 0
+# vim: set ts=2 sw=2 noet:

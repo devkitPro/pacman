@@ -210,10 +210,10 @@ echo "gensync: building database entries, generating md5sums..." >&2
 cd `dirname $2`
 for file in `find $rootdir/* -name PKGBUILD`; do
 	source $file || die "errors parsing $file"
-		db_write_entry $file || die "error writing entry for $file"
-	else
-		echo "gensync: missing package: $pkgfile" >&2
-	fi
+	db_write_entry $file || die "error writing entry for $file"
+else
+	echo "gensync: missing package: $pkgfile" >&2
+fi
 done
 
 echo "gensync: compressing to $destfile..." >&2
@@ -223,4 +223,5 @@ tar c * | gzip -9 >$destfile
 
 rm -rf $gstmpdir
 exit 0
+
 # vim: set ts=2 sw=2 noet:

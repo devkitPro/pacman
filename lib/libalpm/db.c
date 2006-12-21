@@ -248,4 +248,4 @@ const char *alpm_db_get_url(pmdb_t *db)
 	return strdup(path);
 }
 
-/* vim: set noet: */
+/* vim: set ts=2 sw=2 noet: */

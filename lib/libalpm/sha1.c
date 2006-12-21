@@ -413,3 +413,5 @@ char* _alpm_SHAFile(char *filename) {
 
     return(NULL);
 }
+
+/* vim: set ts=2 sw=2 noet: */

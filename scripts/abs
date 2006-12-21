@@ -1,5 +1,4 @@
 #!/bin/bash
-# vim: set ft=sh ts=2 sw=2
 
 [ -f /etc/abs/abs.conf ] && source /etc/abs/abs.conf
 
@@ -15,21 +14,21 @@ usage() {
 }
 
 update() {
-  cd $ABSROOT
-  for sup in "${SUPFILES[@]}"; do
-    if [ "$sup" != "testing" ]; then
-      if [ "$sup" = "${sup#!}" ]; then
-        cvsup -L 1 -r 0 -g -b $ABSROOT -c .sup /etc/abs/supfile.$sup
-      fi
-	  elif [ "$sup" = "testing" ]; then
-      if [ ! -d /var/abs/testing ]; then
-        mkdir /var/abs/testing;
-      fi
-      cd $ABSROOT/testing
-      cvsup -L 1 -r 0 -g -b $ABSROOT/testing -c .sup /etc/abs/supfile.testing
-      cd $ABSROOT
-    fi
-  done
+	cd $ABSROOT
+	for sup in "${SUPFILES[@]}"; do
+		if [ "$sup" != "testing" ]; then
+			if [ "$sup" = "${sup#!}" ]; then
+				cvsup -L 1 -r 0 -g -b $ABSROOT -c .sup /etc/abs/supfile.$sup
+			fi
+		elif [ "$sup" = "testing" ]; then
+			if [ ! -d /var/abs/testing ]; then
+				mkdir /var/abs/testing;
+			fi
+			cd $ABSROOT/testing
+			cvsup -L 1 -r 0 -g -b $ABSROOT/testing -c .sup /etc/abs/supfile.testing
+			cd $ABSROOT
+		fi
+	done
 } 
 
 
@@ -93,4 +92,4 @@ fi
 update
 
 exit 0
-# vim: set ts=2 noet:
+# vim: set ts=2 sw=2 noet:
