@@ -261,8 +261,7 @@ AC_MSG_CHECKING(if Java bindings should be generated)
 if test x$wantjava = xyes ; then
  	AC_CHECK_PROGS([SWIG], [swig])
  	AC_CHECK_PROGS([JAVAC], [javac])
- 	AM_CONDITIONAL(HAS_JAVA, test $SWIG)
- 	AM_CONDITIONAL(HAS_JAVA, test $JAVAC)
+ 	AM_CONDITIONAL(HAS_JAVA, test $JAVAC -a $SWIG)
  	if test $JAVAC ; then
  		if test $SWIG ; then
  			AC_DEFINE([HAS_JAVA], [TRUE], [Enabled Java Support (javac=ok swig=ok)])
@@ -285,7 +284,7 @@ if test x$wantjava = xyes ; then
  		fi
  	fi
 else
-    AM_CONDITIONAL(HAS_JAVA, test $JAVAC)
+    AM_CONDITIONAL(HAS_JAVA, test $JAVAC -a $SWIG)
     AC_DEFINE([HAS_JAVA], [FALSE], [Not specified at configure line])
     AC_MSG_RESULT(not requested by configure)
     JAVASTATUS="no, disabled by configure"
