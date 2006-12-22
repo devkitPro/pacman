@@ -1,17 +1,22 @@
 == This is my custom TODO file ==
 
+* pacman: ALOT of functions are way too long.  There should be an upper limit of
+  100-200 lines.  _alpm_add_commit is around 600 lines, and is far too complex.
+  Quite alot of this needs to be refactored as we go.
+
+* pacman: fixup doxygen documentation for public interface
+
+* pacman: use gcc visibility (static) for non-public functions (all _alpm
+  functions should be static)
+
 **** BUGS ****
 * Removal of conflicts on -A and -U (INCOMPLETE)
-
 
 * gensync: get all info from packages instead of PKGBUILDs
   for now, we only need to check the PKGBUILD in case of a
   'force' option
-* gensync and makepkg: support for 1 _or more_ file integrity
-  algorithms at a time (mostly done).
 * pacman: add pactest cases/functionality for all -Q operations and make sure
   the output is sane
-* etc/pacman.d/ install rules
 * ordering of installed packages based on dependencies
     i.e. pkga depends=(pkgb pkgc), pkgb depends=(pkgc)
     pacman -S pkga pkgb pkgc

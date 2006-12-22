@@ -511,20 +511,19 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				if(!stat(expath, &buf) && !S_ISDIR(buf.st_mode)) {
 					/* file already exists */
+					if(!pmo_upgrade || oldpkg == NULL) {
+						nb = _alpm_list_is_strin(pathname, info->backup);
+					} else {
+						/* op == PM_TRANS_TYPE_UPGRADE */
+						md5_orig = _alpm_needbackup(pathname, oldpkg->backup);
+						sha1_orig = _alpm_needbackup(pathname, oldpkg->backup);
+						if(md5_orig || sha1_orig) {
+							nb = 1;
+						}
+					}
 					if(_alpm_list_is_strin(pathname, handle->noupgrade)) {
 						notouch = 1;
-						nb = 1;
-					} else {
-						if(!pmo_upgrade || oldpkg == NULL) {
-							nb = _alpm_list_is_strin(pathname, info->backup);
-						} else {
-							/* op == PM_TRANS_TYPE_UPGRADE */
-							md5_orig = _alpm_needbackup(pathname, oldpkg->backup);
-							sha1_orig = _alpm_needbackup(pathname, oldpkg->backup);
-							if(md5_orig || sha1_orig) {
-								nb = 1;
-							}
-						}
+						nb = 0;
 					}
 				}
 
@@ -623,7 +622,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 								alpm_logaction(_("warning: %s saved as %s"), expath, newpath);
 							}
 						}
-					} else if(md5_pkg || sha1_pkg) {
+					} else if(md5_orig || sha1_pkg) {
 						/* PM_UPGRADE */
 						int installnew = 0;
 
