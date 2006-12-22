@@ -623,7 +623,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 								alpm_logaction(_("warning: %s saved as %s"), expath, newpath);
 							}
 						}
-					} else if(md5_orig || sha1_orig) {
+					} else if(md5_pkg || sha1_pkg) {
 						/* PM_UPGRADE */
 						int installnew = 0;
 
@@ -701,7 +701,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					/* calculate an md5 or sha1 hash if this is in info->backup */
 					for(lp = info->backup; lp; lp = lp->next) {
 						char *fn, *md5, *sha1;
-						char path[PATH_MAX];
 						char *file = lp->data;
 
 						if(!file) continue;
