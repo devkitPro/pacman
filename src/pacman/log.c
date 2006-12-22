@@ -38,7 +38,14 @@
 
 extern config_t *config;
 
-int neednl; /* for cleaner message output */
+int neednl = 0; /* for cleaner message output */
+int needpad = 0; /* pad blanks to terminal width */
+
+/* simple helper for needpad */
+void set_output_padding(int on)
+{
+	needpad = on;
+}
 
 /* Callback to handle notifications from the library
  */
@@ -103,6 +110,7 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 	va_list args;
 
 	char str[LOG_STR_LEN];
+	int len = 0;
 
 	if(neednl == 1 && line == NL) {
 		fprintf(file, "\n");
@@ -113,10 +121,28 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
 
-	fprintf(file, str);
-	fflush(file);
+	len = strlen(str);
 
-	neednl = (str[strlen(str)-1] == 10) ? 0 : 1;
+  if(needpad == 1 && str[len-1] == '\n') {
+		/* we want this removed so we can pad */
+		str[len-1] = ' ';
+		neednl = 1;
+	}
+
+	fprintf(file, str);
+	if(needpad == 1) {
+		unsigned int cols = getcols();
+		for(int i=len; i < cols; ++i) {
+			fprintf(file, " ");
+		}
+		if(neednl == 1) {
+			fprintf(file, "\n");
+			neednl = 0;
+		} else {
+			neednl = 1;
+		}
+	}
+	fflush(file);
 }
 
 /* Check verbosity option and, if set, print the

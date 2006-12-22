@@ -295,6 +295,12 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 		return;
 	}
 
+	if(percent == 0) {
+		set_output_padding(1); /* turn on output padding with ' ' */
+	} else if(percent == 100) {
+		set_output_padding(0); /* shut it off again */
+	}
+
 	if (!pkgname)
 		return;
 	if (percent > 100)

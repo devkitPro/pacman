@@ -65,6 +65,7 @@ void log_progress(const char *filename, int xfered, int total)
 	float total_timediff, timediff;
 
   if(xfered == 0) {
+		set_output_padding(1); /* we need padding from pm_fprintf output */
 		gettimeofday(&initial_time, NULL);
 		gettimeofday(&last_time, NULL);
 		xfered_last = 0;
@@ -88,6 +89,7 @@ void log_progress(const char *filename, int xfered, int total)
 		/* compute final values */
 		rate = total / (total_timediff * 1024);
 		eta_s = (int)total_timediff;
+		set_output_padding(0); /* shut off padding */
 	} else if(timediff < UPDATE_SPEED_SEC) {
 	/* we avoid computing the ETA on too small periods of time, so that
 		 results are more significant */
