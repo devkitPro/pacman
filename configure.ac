@@ -3,7 +3,7 @@ CFLAGS=""
 
 AC_PREREQ(2.59)
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
-AC_INIT([Pacman package manager], 3.4.0, [pacman-dev@archlinux.org], pacman)
+AC_INIT([Pacman package manager], 3.0.0, [pacman-dev@archlinux.org], pacman)
 AC_LANG(C)
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_SYSTEM
@@ -214,10 +214,12 @@ else
     DOXYSTATUS="no, disabled by configure"
 fi
 
+dnl Check for swig binary
+AC_CHECK_PROGS([SWIG], [swig])
+
 dnl Check for python support
 AC_MSG_CHECKING(if Python bindings should be generated)
 if test x$wantpython = xyes ; then
-    AC_CHECK_PROGS([SWIG], [swig])
     AM_CONDITIONAL(HAS_PYTHON, test $SWIG)
     if test $SWIG ; then
         AC_DEFINE([HAS_PYTHON], [TRUE], [Enabled Python Support])
@@ -238,7 +240,6 @@ fi
 dnl Check for perl support
 AC_MSG_CHECKING(if Perl bindings should be generated)
 if test x$wantperl = xyes ; then
-    AC_CHECK_PROGS([SWIG], [swig])
     AM_CONDITIONAL(HAS_PERL, test $SWIG)
     if test $SWIG ; then
         AC_DEFINE([HAS_PERL], [TRUE], [Enabled Perl Support])
@@ -259,9 +260,8 @@ fi
 dnl Check for java support
 AC_MSG_CHECKING(if Java bindings should be generated)
 if test x$wantjava = xyes ; then
- 	AC_CHECK_PROGS([SWIG], [swig])
  	AC_CHECK_PROGS([JAVAC], [javac])
- 	AM_CONDITIONAL(HAS_JAVA, test $JAVAC -a $SWIG)
+ 	AM_CONDITIONAL(HAS_JAVA, test "$JAVAC" -a "$SWIG")
  	if test $JAVAC ; then
  		if test $SWIG ; then
  			AC_DEFINE([HAS_JAVA], [TRUE], [Enabled Java Support (javac=ok swig=ok)])

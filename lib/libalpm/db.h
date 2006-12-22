@@ -43,11 +43,14 @@ struct __pmdb_t {
 	pmlist_t *grpcache;
 	pmlist_t *servers;
 };
-
+/* db.c, database general calls */
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
 int _alpm_db_cmp(const void *db1, const void *db2);
 pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles);
+pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback);
+
+/* be.c, backend specific calls */
 int _alpm_db_install(pmdb_t *db, const char *dbfile);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
@@ -58,7 +61,6 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
 int _alpm_db_getlastupdate(pmdb_t *db, char *ts);
 int _alpm_db_setlastupdate(pmdb_t *db, char *ts);
-pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback);
 
 #endif /* _ALPM_DB_H */
 

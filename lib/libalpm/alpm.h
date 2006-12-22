@@ -399,7 +399,7 @@ char *alpm_get_sha1sum(char *name);
 /*
  * Errors
  */
-extern enum __pmerrno_t {
+enum __pmerrno_t {
 	PM_ERR_MEMORY = 1,
 	PM_ERR_SYSTEM,
 	PM_ERR_BADPERMS,
@@ -469,7 +469,9 @@ extern enum __pmerrno_t {
   /* Downloading */
 	PM_ERR_CONNECT_FAILED,
   PM_ERR_FORK_FAILED
-} pm_errno;
+};
+
+extern enum __pmerrno_t pm_errno;
 
 char *alpm_strerror(int err);
 

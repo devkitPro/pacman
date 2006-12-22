@@ -382,7 +382,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, p
 {
 	pmlist_t *deps = NULL;
 	pmlist_t *list = NULL; /* list allowing checkdeps usage with data from trans->packages */
-	pmlist_t *trail = NULL; /* breadcrum list to avoid running into circles */
+	pmlist_t *trail = NULL; /* breadcrumb list to avoid running into circles */
 	pmlist_t *asked = NULL; 
 	pmlist_t *i, *j, *k, *l;
 	int ret = 0;
