@@ -54,6 +54,12 @@ extern int neednl;
 /* gets the current screen column width */
 int getcols()
 {
+	if(!isatty(1)) {
+		/* We will default to 80 columns if we're not a tty
+		 * this seems a fairly standard file width.
+		 */
+		return 80;
+	}
 #ifdef TIOCGSIZE
 	struct ttysize win;
 	if(ioctl(1, TIOCGSIZE, &win) == 0) {
