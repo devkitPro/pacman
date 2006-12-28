@@ -20,7 +20,7 @@
 #   USA.
 #
 
-myver='2.9.8'
+myver='3.0.0'
 
 usage() {
 	echo "pacman-optimize $myver"
@@ -59,10 +59,6 @@ if [ "$1" != "" ]; then
 	dbroot=$1
 fi
 
-if [ "`id -u`" != 0 ]; then
-	die "You must be root to optimize the database"
-fi
-
 # make sure pacman isn't running
 if [ -f /tmp/pacman.lck ]; then
 	die "Pacman lockfile was found.  Cannot run while pacman is running."
@@ -70,6 +66,11 @@ fi
 
 if [ ! -d $dbroot ]; then
 	die "$dbroot does not exist or is not a directory"
+fi
+
+#if [ "$EUID" != 0 ]; then
+if [ ! -w "$dbroot" ]; then
+	die "You must have correct permissions to optimize the database"
 fi
 
 # don't let pacman run while we do this
