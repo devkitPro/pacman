@@ -43,6 +43,7 @@ AC_HEADER_STDC
 AC_PROG_INSTALL
 AC_CHECK_FUNCS([strverscmp])
 AM_PROG_LIBTOOL
+AM_CONDITIONAL(LINKSTATIC, test "$enable_static" = "yes")
 
 dnl Humor lowers blood pressure
 AC_MSG_CHECKING(your blood pressure)
@@ -314,6 +315,14 @@ else
     AC_MSG_ERROR("libarchive is needed to compile pacman!");
 fi
 
+dnl Check for libdownload
+AC_CHECK_LIB([download], [downloadParseURL], [AC_CHECK_HEADER([download.h], [LIBDOWNLOAD='-ldownload'])])
+if test -n "$LIBDOWNLOAD"; then
+    LDFLAGS="$LDFLAGS $LIBDOWNLOAD"
+else
+    AC_MSG_ERROR("libdownload is needed to compile pacman!");
+fi
+
 dnl Set config location
 AC_MSG_CHECKING(for configuration file name)
 if test -n "$configfile"; then
@@ -363,33 +372,38 @@ etc/Makefile
 etc/makepkg.conf
 etc/pacman.conf
 etc/pacman.d/Makefile
+etc/pacman.d/mirrorlist
 etc/abs/Makefile
 bindings/perl/Makefile
 bindings/python/Makefile
 bindings/java/Makefile
 Makefile
+],
+[
+ cd etc/pacman.d/
+ ./gen-mirrorlist.sh
 ])
 
 echo "
 pacman-$VERSION:
 
-        prefix                   : ${prefix}
-        source code location     : ${srcdir}
-        compiler                 : ${CC}
-        compiler flags           : ${CFLAGS}
+    prefix                   : ${prefix}
+    source code location     : ${srcdir}
+    compiler                 : ${CC}
+    compiler flags           : ${CFLAGS}
 
-	libalpm version          : ${PM_VERSION}
-	pacman.conf location     : ${configfile}
+    libalpm version          : ${PM_VERSION}
+    pacman.conf location     : ${configfile}
 
-	Architecture CARCH       : ${CARCH}
-	Architecture used cflag  : ${CARCHFLAGS}
-	Architecture CHOST       : ${CHOST}
+    Architecture CARCH       : ${CARCH}
+    Architecture used cflag  : ${CARCHFLAGS}
+    Architecture CHOST       : ${CHOST}
 
-	Doxygen support          : ${DOXYSTATUS}
-	Manpage localization     : ${POSTATUS}
-	Perl bindings            : ${PERLSTATUS}
-	Python bindings          : ${PYTHONSTATUS}
-	Java bindings            : ${JAVASTATUS}
+    Doxygen support          : ${DOXYSTATUS}
+    Manpage localization     : ${POSTATUS}
+    Perl bindings            : ${PERLSTATUS}
+    Python bindings          : ${PYTHONSTATUS}
+    Java bindings            : ${JAVASTATUS}
 
-	debug support            : ${debug}
+    debug support            : ${debug}
 "

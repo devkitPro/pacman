@@ -1,4 +1,8 @@
-bin_PROGRAMS = pacman pacman.static
+bin_PROGRAMS = pacman
+
+if LINKSTATIC
+bin_PROGRAMS += pacman.static
+endif
 
 SUBDIRS = po
 
