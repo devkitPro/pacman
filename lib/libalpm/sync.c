@@ -118,7 +118,10 @@ static int istoonew(pmpkg_t *pkg)
 	return((pkg->date + handle->upgradedelay) > t);
 }
 
-int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync)
+/* Find recommended replacements for packages during a sync.
+ * (refactored from _alpm_sync_prepare)
+ */
+static int find_replacements(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync)
 {
 	pmlist_t *i, *j, *k;
 
@@ -178,80 +181,91 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync
 			}
 		}
 	}
-
-	/* match installed packages with the sync dbs and compare versions */
-	_alpm_log(PM_LOG_FLOW1, _("checking for package upgrades"));
-	for(i = _alpm_db_get_pkgcache(db_local, INFRQ_NONE); i; i = i->next) {
-		int cmp;
-		int replace=0;
-		pmpkg_t *local = i->data;
-		pmpkg_t *spkg = NULL;
-		pmsyncpkg_t *sync;
-
-		for(j = dbs_sync; !spkg && j; j = j->next) {
-			spkg = _alpm_db_get_pkgfromcache(j->data, local->name);
-		}
-		if(spkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, _("'%s' not found in sync db -- skipping"), local->name);
-			continue;
-		}
-	
-		/* we don't care about a to-be-replaced package's newer version */
-		for(j = trans->packages; j && !replace; j=j->next) {
-			sync = j->data;
-			if(sync->type == PM_SYNC_TYPE_REPLACE) {
-				if(_alpm_pkg_isin(spkg->name, sync->data)) {
-					replace=1;
-				}
-			}
-		}
-		if(replace) {
-			_alpm_log(PM_LOG_DEBUG, _("'%s' is already elected for removal -- skipping"),
-								local->name);
-			continue;
-		}
-
-		/* compare versions and see if we need to upgrade */
-		cmp = _alpm_versioncmp(local->version, spkg->version);
-		if(cmp > 0 && !spkg->force) {
-			/* local version is newer */
-			pmdb_t *db = spkg->data;
-			_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
-				local->name, local->version, db->treename, spkg->version);
-		} else if(cmp == 0) {
-			/* versions are identical */
-		} else if(_alpm_list_is_strin(spkg->name, handle->ignorepkg)) {
-			/* package should be ignored (IgnorePkg) */
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
-				local->name, local->version, spkg->version);
-		} else if(istoonew(spkg)) {
-			/* package too new (UpgradeDelay) */
-			_alpm_log(PM_LOG_FLOW1, _("%s-%s: delaying upgrade of package (%s)"),
-					local->name, local->version, spkg->version);
-		/* check if spkg->name is already in the packages list. */
-		} else {
-			_alpm_log(PM_LOG_FLOW2, _("%s-%s elected for upgrade (%s => %s)"),
-				local->name, local->version, local->version, spkg->version);
-			if(!find_pkginsync(spkg->name, trans->packages)) {
-				pmpkg_t *dummy = _alpm_pkg_new(local->name, local->version);
-				if(dummy == NULL) {
-					goto error;
-				}
-				sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
-				if(sync == NULL) {
-					FREEPKG(dummy);
-					goto error;
-				}
-				trans->packages = _alpm_list_add(trans->packages, sync);
-			} else {
-				/* spkg->name is already in the packages list -- just ignore it */
-			}
-		}
-	}
-
 	return(0);
-
 error:
+	return(-1);
+}
+
+int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync)
+{
+	pmlist_t *i, *j;
+
+	/* check for "recommended" package replacements */
+	_alpm_log(PM_LOG_FLOW1, _("checking for package replacements"));
+	if( find_replacements(trans, db_local, dbs_sync) == 0 ) {
+		/* match installed packages with the sync dbs and compare versions */
+		_alpm_log(PM_LOG_FLOW1, _("checking for package upgrades"));
+		for(i = _alpm_db_get_pkgcache(db_local, INFRQ_NONE); i; i = i->next) {
+			int cmp;
+			int replace=0;
+			pmpkg_t *local = i->data;
+			pmpkg_t *spkg = NULL;
+			pmsyncpkg_t *sync;
+
+			for(j = dbs_sync; !spkg && j; j = j->next) {
+				spkg = _alpm_db_get_pkgfromcache(j->data, local->name);
+			}
+			if(spkg == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("'%s' not found in sync db -- skipping"), local->name);
+				continue;
+			}
+
+			/* we don't care about a to-be-replaced package's newer version */
+			for(j = trans->packages; j && !replace; j=j->next) {
+				sync = j->data;
+				if(sync->type == PM_SYNC_TYPE_REPLACE) {
+					if(_alpm_pkg_isin(spkg->name, sync->data)) {
+						replace=1;
+					}
+				}
+			}
+			if(replace) {
+				_alpm_log(PM_LOG_DEBUG, _("'%s' is already elected for removal -- skipping"),
+									local->name);
+				continue;
+			}
+
+			/* compare versions and see if we need to upgrade */
+			cmp = _alpm_versioncmp(local->version, spkg->version);
+			if(cmp > 0 && !spkg->force) {
+				/* local version is newer */
+				pmdb_t *db = spkg->data;
+				_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
+									local->name, local->version, db->treename, spkg->version);
+			} else if(cmp == 0) {
+				/* versions are identical */
+			} else if(_alpm_list_is_strin(spkg->name, handle->ignorepkg)) {
+				/* package should be ignored (IgnorePkg) */
+				_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
+									local->name, local->version, spkg->version);
+			} else if(istoonew(spkg)) {
+				/* package too new (UpgradeDelay) */
+				_alpm_log(PM_LOG_FLOW1, _("%s-%s: delaying upgrade of package (%s)"),
+									local->name, local->version, spkg->version);
+				/* check if spkg->name is already in the packages list. */
+			} else {
+				_alpm_log(PM_LOG_FLOW2, _("%s-%s elected for upgrade (%s => %s)"),
+									local->name, local->version, local->version, spkg->version);
+				if(!find_pkginsync(spkg->name, trans->packages)) {
+					pmpkg_t *dummy = _alpm_pkg_new(local->name, local->version);
+					if(dummy == NULL) {
+						goto error;
+					}
+					sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
+					if(sync == NULL) {
+						FREEPKG(dummy);
+						goto error;
+					}
+					trans->packages = _alpm_list_add(trans->packages, sync);
+				} else {
+					/* spkg->name is already in the packages list -- just ignore it */
+				}
+			}
+		}
+
+		return(0);
+	}
+	/* if we're here, it's an error */
 	return(-1);
 }
 

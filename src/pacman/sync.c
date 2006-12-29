@@ -664,46 +664,46 @@ int pacman_sync(list_t *targets)
 		if(!confirm) {
 			goto cleanup;
 		}
-	}
 
-	/* Step 3: actually perform the installation
-	 */
-	if(alpm_trans_commit(&data) == -1) {
-		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
-		switch(pm_errno) {
+		/* Step 3: actually perform the installation
+		*/
+		if(alpm_trans_commit(&data) == -1) {
+			ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
+			switch(pm_errno) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					pmconflict_t *conflict = alpm_list_getdata(lp);
 					switch(alpm_conflict_get_type(conflict)) {
-						case PM_CONFLICT_TYPE_TARGET:
-							MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),
-											config->root,
-							        alpm_conflict_get_file(conflict),
-							        alpm_conflict_get_target(conflict),
-							        alpm_conflict_get_ctarget(conflict));
+					case PM_CONFLICT_TYPE_TARGET:
+						MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),
+								config->root,
+								alpm_conflict_get_file(conflict),
+								alpm_conflict_get_target(conflict),
+								alpm_conflict_get_ctarget(conflict));
 						break;
-						case PM_CONFLICT_TYPE_FILE:
-							MSG(NL, _("%s: %s%s exists in filesystem"),
-							        alpm_conflict_get_target(conflict),
-											config->root,
-							        alpm_conflict_get_file(conflict));
+					case PM_CONFLICT_TYPE_FILE:
+						MSG(NL, _("%s: %s%s exists in filesystem"),
+								alpm_conflict_get_target(conflict),
+								config->root,
+								alpm_conflict_get_file(conflict));
 						break;
 					}
 				}
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
-			break;
+				break;
 			case PM_ERR_PKG_CORRUPTED:
 				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
 					MSG(NL, "%s", (char*)alpm_list_getdata(lp));
 				}
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
-			break;
+				break;
 			default:
-			break;
+				break;
+			}
+			retval = 1;
+			goto cleanup;
 		}
-		retval = 1;
-		goto cleanup;
-	}
+	}/* else 'print uris' requested.  We're done at this point */
 
 	/* Step 4: release transaction resources
 	 */
