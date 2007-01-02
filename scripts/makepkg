@@ -751,6 +751,22 @@ else
 
 		if [ ${PIPESTATUS[0]} -gt 0 ]; then
 			error "Build Failed.  Aborting..."
+			# fix flyspray bug #5923
+			if [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
+				msg "Removing installed dependencies..."
+				pacman $PACMAN_OPTS -R $makedeplist $deplist
+			elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" ]; then
+				msg "Removing installed dependencies..."
+				if [ "$INFAKEROOT" = "1" ]; then
+					export FAKEROOTKEY2=$FAKEROOTKEY
+					unset $FAKEROOTKEY
+				fi
+				sudo pacman $PACMAN_OPTS -R $makedeplist $deplist
+				if [ "$INFAKEROOT" = "1" ]; then
+					export FAKEROOTKEY=$FAKEROOTKEY2
+					unset $FAKEROOTKEY2
+				fi
+			fi
 			exit 2
 		fi
 	else
@@ -760,6 +776,22 @@ else
 		[ $set_e -eq 1 ] && set +e
 		if [ $? -gt 0 ]; then
 			error "Build Failed.  Aborting..."
+			# fix flyspray bug #5923
+			if [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
+				msg "Removing installed dependencies..."
+				pacman $PACMAN_OPTS -R $makedeplist $deplist
+			elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" ]; then
+				msg "Removing installed dependencies..."
+				if [ "$INFAKEROOT" = "1" ]; then
+					export FAKEROOTKEY2=$FAKEROOTKEY
+					unset $FAKEROOTKEY
+				fi
+				sudo pacman $PACMAN_OPTS -R $makedeplist $deplist
+				if [ "$INFAKEROOT" = "1" ]; then
+					export FAKEROOTKEY=$FAKEROOTKEY2
+					unset $FAKEROOTKEY2
+				fi
+			fi
 			exit 2
 		fi
 	fi
