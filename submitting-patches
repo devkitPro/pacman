@@ -1,0 +1,44 @@
+HOWTO: Submit a patch
+---------------------
+
+This document is here mainly to make my job easier, and is more of a guideline,
+and not a strict set of rules.  Please try to follow as much as you can.
+
+NOTE: Much of this is paraphrased from the kernel documentation's
+"SubmittingPatches" file.
+
+Creating your patch:
+
+* Use "diff -up" or "diff -uprN" to create patches.
+
+  These options make the diff easier to read for those of us who try to review
+  submitted patches.
+
+* Please try to make patches "p1 applicable"
+
+  This means that if you are patching file "lib/libalpm/alpm.h", I should be
+  able to apply your patch while passing the -p1 argument to 'patch'.  The diff
+  header should look like so:
+
+  --- ORIGINAL_DIR/lib/libalpm/alpm.h
+  +++ NEW_DIR/lib/libalpm/alpm.h
+
+  With '-p1' the ORIGINAL_DIR and NEW_DIR arguments are stripped.
+
+Submitting your patch:
+
+* No MIME, no links, no compression, no attachments.  Just plain text.
+
+  Patches should be contained in the actual body of the email.  There are many
+  reasons for this.  Firstly, it makes them easier to read with any mail reader,
+  it allows easier review "at a glance", and most importantly, it allows people
+  to comment on exact lines of the patch in reply emails.
+
+  It is important to know that the diff format ignores plain text before (and
+  after) the main diff itself.  If you directly insert your patch into an email,
+  you can safely add lines above it describing your patch.
+
+* Describe your patch.
+
+  TODO...
+
