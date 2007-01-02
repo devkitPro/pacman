@@ -468,9 +468,10 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(strcmp(db->treename, "local") == 0) {
 		local = 1;
 	}
-
+ 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
+		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s DESC information back to db"), info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("db_write: could not open file %s/desc"), db->treename);
@@ -556,6 +557,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 
 	/* FILES */
 	if(local && (inforeq & INFRQ_FILES)) {
+		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s FILES information back to db"), info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("db_write: could not open file %s/files"), db->treename);
@@ -582,6 +584,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 
 	/* DEPENDS */
 	if(inforeq & INFRQ_DEPENDS) {
+		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s DEPENDS information back to db"), info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("db_write: could not open file %s/depends"), db->treename);

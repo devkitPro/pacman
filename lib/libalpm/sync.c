@@ -265,6 +265,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync
 
 		return(0);
 	}
+error:
 	/* if we're here, it's an error */
 	return(-1);
 }
