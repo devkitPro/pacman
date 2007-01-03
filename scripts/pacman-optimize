@@ -22,32 +22,37 @@
 
 myver='3.0.0'
 
+error() {
+	echo -e "\033[1;31m:: ERROR:\033[1;0m\033[1;1m$@\033[1;0m" >&2
+}
+
+source /etc/rc.d/functions
+
 usage() {
 	echo "pacman-optimize $myver"
 	echo "usage: $0 [pacman_db_root]"
-	echo
+	echo 
 	echo "pacman-optimize is a little hack that should improve the performance"
 	echo "of pacman when reading/writing to its filesystem-based database."
 	echo
 	echo "Because pacman uses many small files to keep track of packages,"
 	echo "there is a tendency for these files to become fragmented over time."
 	echo "This script attempts to relocate these small files into one"
-	echo "contiguous location on your hard drive.  The result is that the hard"
+	echo "continuous location on your hard drive.  The result is that the hard"
 	echo "drive should be able to read them faster, since the hard drive head"
 	echo "does not have to move around the disk as much."
 	echo
 }
 
 die() {
-	echo "pacman-optimize: $*" >&2
+	error $@
 	exit 1
 }
 
 die_r() {
 	rm -f /tmp/pacman.lck
-	die $*
+	die $@
 }
-
 
 dbroot="/var/lib/pacman"
 
@@ -56,7 +61,7 @@ if [ "$1" != "" ]; then
 		usage
 		exit 0
 	fi
-	dbroot=$1
+	dbroot="$1"
 fi
 
 # make sure pacman isn't running
@@ -64,48 +69,57 @@ if [ -f /tmp/pacman.lck ]; then
 	die "Pacman lockfile was found.  Cannot run while pacman is running."
 fi
 
-if [ ! -d $dbroot ]; then
+if [ ! -d "$dbroot" ]; then
 	die "$dbroot does not exist or is not a directory"
 fi
 
-#if [ "$EUID" != 0 ]; then
 if [ ! -w "$dbroot" ]; then
 	die "You must have correct permissions to optimize the database"
 fi
 
-# don't let pacman run while we do this
+# do not let pacman run while we do this
 touch /tmp/pacman.lck
 
 # step 1: sum the old db
-echo "==> md5sum'ing the old database..."
-find $dbroot -type f | sort | xargs md5sum >/tmp/pacsums.old 
+stat_busy "Md5sum'ing the old database"
+find $dbroot -type f | sort | xargs md5sum > /tmp/pacsums.old
+stat_done
 
-# step 1: copy the entire db directory to a new one
-echo "==> copying $dbroot..."
-cp -a $dbroot $dbroot.new || die_r "error copying $dbroot"
+# step 2: tar it up
+stat_busy "Tar'ing up $dbroot"
+cd $dbroot
+tar -czf /tmp/pacmanDB.tgz ./ || \
+		stat_fail && die_r "tar'ing up $dbroot failed"
+stat_done
 
-# step 2: switch the directory names and sum the new one
-echo "==> md5sum'ing the new database..."
-mv $dbroot $dbroot.bak || die_r "error renaming $dbroot"
-mv $dbroot.new $dbroot || die_r "error renaming $dbroot.new"
-find $dbroot -type f | sort | xargs md5sum >/tmp/pacsums.new
+# step 3: make and sum the new db
+stat_busy "Making and md5sum'ing the new db"
+mkdir $dbroot.new
+tar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/ || \
+		stat_fail && die_r "untar'ing $dbroot failed"
+find $dbroot.new -type -f | sort | xargs md5sum > /tmp/pacsums.new
+stat_done
 
-# step 3: compare sums
-echo "==> checking integrity..."
+# step 4: compare the sums
+stat_busy "Checking integrity"
 diff /tmp/pacsums.old /tmp/pacsums.new >/dev/null 2>&1
 if [ $? -ne 0 ]; then
-	# failed, move the old one back into place
-	rm -rf $dbroot
-	mv $dbroot.bak $dbroot
+	# failed
+	stat_fail
+	# leave /tmp/pacsums.old and .new for checking to see what doesn't match up
+	rm -rf "$dbroot.new" /tmp/pacman.lck /tmp/pacmanDB.tgz
 	die_r "integrity check FAILED, reverting to old database"
 fi
 
-# step 4: remove the backup
-echo "==> removing old database..."
-rm -rf $dbroot.bak || die_r "error removing backup $dbroot.bak"
+# step 5: remove the new temporary database and the old one
+#         and use the .tgz to replace the old one
+stat_busy "Putting the new database in place"
+rm -rf "$dbroot.new" "$dbroot"/*
+tar -zxpf /tmp/pacmanDB.tgz -C "$dbroot"/
+stat_done
 
-# remove the lock and sum files
-rm -f /tmp/pacman.lck /tmp/pacsums.old /tmp/pacsums.new
+# remove the lock file, sum files, and .tgz of database
+rm -f /tmp/pacman.lck /tmp/pacmsums.old /tmp/pacmsums.new /tmp/pacmanDB.tgz
 
 echo
 echo "Finished.  Your pacman database has been optimized."
