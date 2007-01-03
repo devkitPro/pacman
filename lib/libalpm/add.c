@@ -782,6 +782,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_ERROR, _("could not add entry '%s' in cache"), info->name);
 		}
 
+		/* XXX: This is copy-pasta from remove.c - refactor */
 		/* update dependency packages' REQUIREDBY fields */
 		if(info->depends) {
 			_alpm_log(PM_LOG_FLOW2, _("updating dependency packages 'requiredby' fields"));
@@ -810,6 +811,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					continue;
 				}
 			}
+	
+			/* Ensure package has the right info */
+			_alpm_db_read(db, INFRQ_DEPENDS, depinfo);
+
 			_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"), info->name, depinfo->name);
 			depinfo->requiredby = _alpm_list_add(depinfo->requiredby, strdup(info->name));
 			if(_alpm_db_write(db, depinfo, INFRQ_DEPENDS)) {

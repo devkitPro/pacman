@@ -325,6 +325,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 					continue;
 				}
 			}
+			/* Ensure package has the appropriate data */
+			_alpm_db_read(db, INFRQ_DEPENDS, depinfo);
 			/* splice out this entry from requiredby */
 			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &vdata);
 			data = vdata;
