@@ -574,7 +574,7 @@ int pacman_sync(list_t *targets)
 	packages = alpm_trans_get_packages();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
-		MSG(NL," local database is up to date");
+		MSG(NL, _("local database is up to date\n"));
 		goto cleanup;
 	}
 
