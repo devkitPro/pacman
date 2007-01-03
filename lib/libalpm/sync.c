@@ -489,7 +489,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync, p
 		FREELISTPTR(trail);
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NOCONFLICTS)) {
+	/* We don't care about conflicts if we're just printing uris */
+	if(!(trans->flags & (PM_TRANS_FLAG_NOCONFLICTS | PM_TRANS_FLAG_PRINTURIS))) {
 		/* check for inter-conflicts and whatnot */
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 

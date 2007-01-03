@@ -124,6 +124,10 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	_alpm_log(PM_LOG_FLOW2, _("loading target '%s'"), name);
 
+	/* TODO FS#5120 we need a better way to check if a package is a valid package,
+	 * and read the metadata instead of relying on the filename for package name
+	 * and version
+	 */
 	if(stat(name, &buf)) {
 		pm_errno = PM_ERR_NOT_A_FILE;
 		goto error;

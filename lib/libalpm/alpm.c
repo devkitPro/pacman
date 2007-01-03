@@ -717,7 +717,10 @@ int alpm_trans_commit(pmlist_t **data)
 	ASSERT(handle->trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
 
 	/* Check for database R/W permission */
-	ASSERT(handle->access == PM_ACCESS_RW, RET_ERR(PM_ERR_BADPERMS, -1));
+	if(!(handle->trans->flags & PM_TRANS_FLAG_PRINTURIS)) {
+		/* The print-uris operation is a bit odd. So we explicitly check for it */
+		ASSERT(handle->access == PM_ACCESS_RW, RET_ERR(PM_ERR_BADPERMS, -1));
+	}
 
 	return(_alpm_trans_commit(handle->trans, data));
 }
