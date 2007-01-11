@@ -66,7 +66,7 @@ pmhandle_t *handle = NULL;
 enum __pmerrno_t pm_errno;
 
 /** \addtogroup alpm_interface Interface Functions
- * @brief Function to initialize and release libalpm
+ * @brief Functions to initialize and release libalpm
  * @{
  */
 
@@ -127,15 +127,11 @@ int alpm_release()
 
 	return(0);
 }
+
 /** @} */
 
-/** \addtogroup alpm_options Library Options
- * @brief Functions to set and get libalpm options
- * @{
- */
-
 /** \addtogroup alpm_databases Database Functions
- * @brief Frunctions to query and manipulate the database of libalpm
+ * @brief Functions to query and manipulate the database of libalpm
  * @{
  */
 
@@ -553,7 +549,7 @@ int alpm_pkg_vercmp(const char *ver1, const char *ver2)
 }
 
 /* internal */
-char *_supported_archs[] = {
+static char *_supported_archs[] = {
 	"i586",
 	"i686",
 	"ppc",
@@ -589,7 +585,6 @@ char *alpm_pkg_name_hasarch(char *pkgname)
 	return NULL;
 }
 
-
 /** @} */
 
 /** \addtogroup alpm_sync Sync Functions
@@ -611,6 +606,7 @@ pmlist_t *alpm_db_search(pmdb_t *db)
 
 	return(_alpm_db_search(db, handle->needles));
 }
+
 /** @} */
 
 /** \addtogroup alpm_trans Transaction Functions
@@ -764,24 +760,7 @@ int alpm_trans_release()
 
 	return(0);
 }
-/** @} */
 
-/** \addtogroup alpm_dep Dependency Functions
- * @brief Functions to get informations about a libalpm dependency
- * @{
- */
-/** @} */
-
-/** \addtogroup alpm_conflict File Conflicts Functions
- * @brief Functions to get informations about a libalpm file conflict
- * @{
- */
-
-/** Get informations about a file conflict.
- * @param conflict database conflict structure
- * @param parm name of the info to get
- * @return a void* on success (the value), NULL on error
- */
 /** @} */
 
 /** \addtogroup alpm_log Logging Functions
@@ -894,6 +873,7 @@ int alpm_list_count(const pmlist_t *list)
 
 	return(_alpm_list_count(list));
 }
+
 /** @} */
 
 /** \addtogroup alpm_misc Miscellaneous Functions
@@ -1111,7 +1091,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 					if(!strcmp(key, "SERVER")) {
 						/* add to the list */
 						if(alpm_db_setserver(db, ptr) != 0) {
-							/* pm_errno is set by alpm_set_option */
+							/* pm_errno is set by alpm_db_setserver */
 							return(-1);
 						}
 					} else {
@@ -1127,6 +1107,6 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 	return(0);
 }
 
-/* @} */
+/** @} */
 
 /* vim: set ts=2 sw=2 noet: */
