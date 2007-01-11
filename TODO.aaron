@@ -30,15 +30,14 @@
 
 **** BUGS ****
 * Removal of conflicts on -A and -U (INCOMPLETE)
-
-* gensync: get all info from packages instead of PKGBUILDs
-  for now, we only need to check the PKGBUILD in case of a
-  'force' option
-* pacman: add pactest cases/functionality for all -Q operations and make sure
-  the output is sane
 * ordering of installed packages based on dependencies
     i.e. pkga depends=(pkgb pkgc), pkgb depends=(pkgc)
     pacman -S pkga pkgb pkgc
     > a depends on b and c, move them: pkgb pkgc pkga
     > b depends on c, move it: pkgc pkgb pkga
     > pacman -S pkgc pkgb pkga
+* gensync: get all info from packages instead of PKGBUILDs
+  for now, we only need to check the PKGBUILD in case of a
+  'force' option
+* pacman: add pactest cases/functionality for all -Q operations and make sure
+  the output is sane
