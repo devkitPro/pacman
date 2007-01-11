@@ -31,7 +31,7 @@
 pmlist_t *_alpm_list_new()
 {
 	pmlist_t *list = NULL;
-	
+
 	list = (pmlist_t *)malloc(sizeof(pmlist_t));
 	if(list == NULL) {
 		return(NULL);
@@ -134,6 +134,84 @@ pmlist_t *_alpm_list_add_sorted(pmlist_t *list, void *data, _alpm_fn_cmp fn)
 	return(list);
 }
 
+/*  return nth element from list (starting with 0) */
+pmlist_t* _alpm_list_nth(pmlist_t *list, int n) {
+	while (n--)
+		list = list->next;
+	return list;
+}
+
+/* merge the two sorted sublists into one sorted list */
+pmlist_t*  _alpm_list_mmerge(pmlist_t *left, pmlist_t *right, _alpm_fn_cmp fn) {
+	pmlist_t *newlist;
+	pmlist_t *lp;
+
+	if (left == NULL) 
+		return right;
+	if (right == NULL)
+		return left;
+
+	if (fn(left->data, right->data) <= 0) {
+		newlist  = left;
+		left = left->next;
+	} 
+	else {
+		newlist = right;
+		right = right->next;
+	}
+	newlist->prev = NULL;
+	newlist->next = NULL;
+	newlist->last = NULL;
+	lp = newlist;
+
+	while ((left != NULL) && (right != NULL)) {
+		if (fn(left->data, right->data) <= 0) {
+			lp->next = left;
+			left->prev = lp;
+			left = left->next;
+		} 
+		else {
+			lp->next = right;
+			right->prev = lp;
+			right = right->next;
+		}
+		lp = lp->next;
+		lp->next = NULL;
+		newlist->last = lp;      
+	}
+	if (left != NULL) {
+		lp->next = left;
+		left->prev = lp;
+		newlist->last = left->last;
+	}
+	else if (right != NULL) {
+		lp->next = right;
+		right->prev = lp;
+		newlist->last = right->last;
+	}
+	return newlist;
+}
+
+/*  sort an list of size n using mergesort algorithm  */
+pmlist_t* _alpm_list_msort(pmlist_t *list, int len, _alpm_fn_cmp fn) {
+	if (len > 1 ) {
+		pmlist_t *left = list;
+		pmlist_t *lastleft = _alpm_list_nth(list, len/2 - 1);
+		pmlist_t *right = lastleft->next;
+		/* update rights last element, to previous last element*/
+		right->last =  left->last;	
+		/* update lefts last element */
+		left->last = lastleft;	
+		/* terminate first list */
+		lastleft->next = NULL;	
+
+		left = _alpm_list_msort(left, len/2, fn);
+		right = _alpm_list_msort(right, len - (len/2), fn);
+		list = _alpm_list_mmerge(left, right, fn);
+	}
+	return list;
+}
+
 /* Remove an item in a list. Use the given comparaison function to find the
  * item.
  * If the item is found, 'data' is pointing to the removed element.
@@ -210,7 +288,7 @@ int _alpm_list_is_in(void *needle, pmlist_t *haystack)
 }
 
 /* Test for existence of a string in a pmlist_t
- */
+*/
 int _alpm_list_is_strin(char *needle, pmlist_t *haystack)
 {
 	pmlist_t *lp;

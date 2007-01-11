@@ -44,6 +44,7 @@
 int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel)
 {
 	pmpkg_t *info;
+	int count = 0;
 	/* The group cache needs INFRQ_DESC as well */
 	/*unsigned char infolevel = INFRQ_DEPENDS | INFRQ_DESC;*/
 
@@ -61,9 +62,11 @@ int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel)
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
 		/* add to the collection */
-		db->pkgcache = _alpm_list_add_sorted(db->pkgcache, info, _alpm_pkg_cmp);
+		db->pkgcache = _alpm_list_add(db->pkgcache, info);
+		count++;
 	}
 
+	db->pkgcache = _alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
 	return(0);
 }
 
