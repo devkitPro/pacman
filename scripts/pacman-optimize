@@ -23,9 +23,14 @@
 myver='3.0.0'
 
 error() {
-	echo -e "\033[1;31m:: ERROR:\033[1;0m\033[1;1m$@\033[1;0m" >&2
+	if [ "$USECOLOR" = "YES" -o "$USECOLOR" = "yes" ]; then
+		echo -e "\033[1;31m:: ERROR:\033[1;0m \033[1;1m$@\033[1;0m" >&2
+	else
+		echo ":: ERROR: $@" >&2
+	fi
 }
 
+source /etc/rc.conf #for USECOLOR
 source /etc/rc.d/functions
 
 usage() {
@@ -88,16 +93,25 @@ stat_done
 # step 2: tar it up
 stat_busy "Tar'ing up $dbroot"
 cd $dbroot
-tar -czf /tmp/pacmanDB.tgz ./ || \
-		stat_fail && die_r "tar'ing up $dbroot failed"
+tar -czf /tmp/pacmanDB.tgz ./
+if [ $? -ne 0 ]; then
+	stat_fail
+	rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
+	die_r "tar'ing up $dbroot failed"
+fi
 stat_done
 
 # step 3: make and sum the new db
 stat_busy "Making and md5sum'ing the new db"
 mkdir $dbroot.new
-tar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/ || \
-		stat_fail && die_r "untar'ing $dbroot failed"
-find $dbroot.new -type -f | sort | xargs md5sum > /tmp/pacsums.new
+tar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/
+if [ $? -ne 0 ]; then
+       rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
+       rm -rf "$dbroot.new"
+       die_r "untar'ing $dbroot failed"
+fi
+find "$dbroot.new" -type f | sort | sed -e 's/pacman.new/pacman/g' |\
+		xargs md5sum > /tmp/pacsums.new
 stat_done
 
 # step 4: compare the sums
@@ -110,6 +124,7 @@ if [ $? -ne 0 ]; then
 	rm -rf "$dbroot.new" /tmp/pacman.lck /tmp/pacmanDB.tgz
 	die_r "integrity check FAILED, reverting to old database"
 fi
+stat_done
 
 # step 5: remove the new temporary database and the old one
 #         and use the .tgz to replace the old one
@@ -119,7 +134,7 @@ tar -zxpf /tmp/pacmanDB.tgz -C "$dbroot"/
 stat_done
 
 # remove the lock file, sum files, and .tgz of database
-rm -f /tmp/pacman.lck /tmp/pacmsums.old /tmp/pacmsums.new /tmp/pacmanDB.tgz
+rm -f /tmp/pacman.lck /tmp/pacsums.old /tmp/pacsums.new /tmp/pacmanDB.tgz
 
 echo
 echo "Finished.  Your pacman database has been optimized."
