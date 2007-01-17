@@ -62,7 +62,7 @@ int _alpm_lckmk(char *file);
 int _alpm_lckrm(char *file);
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn);
 int _alpm_rmrf(char *path);
-int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...);
+int _alpm_logaction(unsigned char usesyslog, FILE *f, const char *str);
 int _alpm_ldconfig(char *root);
 #ifdef _ALPM_TRANS_H
 int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver, pmtrans_t *trans);

@@ -343,17 +343,12 @@ int _alpm_rmrf(char *path)
 	return(0);
 }
 
-int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...)
+int _alpm_logaction(unsigned char usesyslog, FILE *f, const char *str)
 {
-	char msg[1024];
-	va_list args;
-
-	va_start(args, fmt);
-	vsnprintf(msg, 1024, fmt, args);
-	va_end(args);
+	_alpm_log(PM_LOG_DEBUG, _("logaction called: %s"), str);
 
 	if(usesyslog) {
-		syslog(LOG_WARNING, "%s", msg);
+		syslog(LOG_WARNING, "%s", str);
 	}
 
 	if(f) {
@@ -366,7 +361,8 @@ int _alpm_logaction(unsigned char usesyslog, FILE *f, char *fmt, ...)
 		fprintf(f, "[%02d/%02d/%02d %02d:%02d] %s\n",
 		        tm->tm_mon+1, tm->tm_mday, tm->tm_year-100,
 		        tm->tm_hour, tm->tm_min,
-		        msg);
+		        str);
+		fflush(f);
 	}
 
 	return(0);
