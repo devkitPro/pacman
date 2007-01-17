@@ -1,5 +1,8 @@
 EXTRA_DIST = community current extra release unstable
 
+clean:
+	rm $(EXTRA_DIST)
+
 install-data-hook:
 	mkdir -p $(DESTDIR)$(sysconfdir)/pacman.d ; \
 	for j in $(EXTRA_DIST); do \
