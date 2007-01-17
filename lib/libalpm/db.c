@@ -37,6 +37,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <libintl.h>
+#include <regex.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -101,68 +102,46 @@ pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
 
 	for(i = needles; i; i = i->next) {
 		char *targ;
-		int retval;
 
 		if(i->data == NULL) {
 			continue;
 		}
-		targ = strdup(i->data);
+		targ = i->data;
 		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'", targ);
 
 		for(j = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			char *haystack;
-			int match = 0;
+			char *matched = NULL;
+			regex_t reg;
+
+			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE) != 0) {
+				RET_ERR(PM_ERR_INVALID_REGEX, NULL);
+			}
 
 			/* check name */
-			haystack = strdup(pkg->name);
-			retval = _alpm_reg_match(haystack, targ);
-			if(retval < 0) {
-				/* bad regexp */
-				FREE(haystack);
-				return(NULL);
-			} else if(retval) {
-				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'", targ, haystack);
-				match = 1;
+			if (regexec(&reg, pkg->name, 0, 0, 0) == 0) {
+				matched = pkg->name;
 			}
-			FREE(haystack);
-
-			/* check description */
-			if(!match) {
-				haystack = strdup(pkg->desc);
-				retval = _alpm_reg_match(haystack, targ);
-				if(retval < 0) {
-					/* bad regexp */
-					FREE(haystack);
-					return(NULL);
-				} else if(retval) {
-					match = 1;
-				}
-				FREE(haystack);
+			/* check desc */
+			else if (regexec(&reg, pkg->desc, 0, 0, 0) == 0) {
+				matched = pkg->desc;
 			}
-
 			/* check provides */
-			if(!match) {
+			else {
 				for(k = pkg->provides; k; k = k->next) {
-					haystack = strdup(k->data);
-					retval = _alpm_reg_match(haystack, targ);
-					if(retval < 0) {
-						/* bad regexp */
-						FREE(haystack);
-						return(NULL);
-					} else if(retval) {
-						match = 1;
+					if (regexec(&reg, k->data, 0, 0, 0) == 0) {
+						matched = k->data;
+						break;
 					}
-					FREE(haystack);
 				}
 			}
+			regfree(&reg);
 
-			if(match) {
+			if(matched != NULL) {
+				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'", targ, matched);
 				ret = _alpm_list_add(ret, pkg);
 			}
 		}
-
-		FREE(targ);
 	}
 
 	return(ret);

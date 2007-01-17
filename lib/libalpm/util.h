@@ -70,7 +70,6 @@ int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, cha
 int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data);
 #endif
 #endif
-int _alpm_reg_match(char *string, char *pattern);
 void _alpm_time2string(time_t t, char *buffer);
 #ifdef __sun__
 char* strsep(char** str, const char* delims);
