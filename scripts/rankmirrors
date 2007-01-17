@@ -20,17 +20,19 @@
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 #   USA.
 #
-import sys, datetime, time, socket, urllib2
+import os, sys, datetime, time, socket, urllib2
 from optparse import OptionParser
 
 def createOptParser():
-    usage = "usage: %prog [options] MIRRORFILE"
-    description = "Ranks pacman mirrors by their connection and opening speed. Pacman mirror files are located in /etc/pacman.d/."
+    usage = "usage: %prog [options] MIRRORFILE | URL"
+    description = "Ranks pacman mirrors by their connection and opening speed. Pacman mirror files are located in /etc/pacman.d/.  It can also rank one mirror if the URL is provided."
     parser = OptionParser(usage=usage,description=description)
     parser.add_option("-f", "--formatted", action="store_true",
             dest = "formatted", default=False, help="output in mirror file format")
     parser.add_option("-n", dest="num", default=0,
             help="number of servers to output, 0 for all")
+    parser.add_option("-u", "--url", action="store_true", dest="url",
+             default=False, help="test a specific url")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
             default=False, help="be verbose in output")
     return parser
@@ -69,6 +71,17 @@ if __name__ == "__main__":
 
     # allows connections to time out if they take too long
     socket.setdefaulttimeout(10)
+
+    if options.url:
+        if options.verbose:
+            print 'Testing', args[0] + '...'
+        serverToTime = timeCmd(getFuncToTime(args[0]))
+        print args[0], ':', serverToTime
+        sys.exit(0)
+
+    if not os.path.isfile(args[0]):
+        print 'file', args[0], 'does not exist.'
+        sys.exit(1)
 
     fl = open(args[0], 'r')
     serverToTime = {}
