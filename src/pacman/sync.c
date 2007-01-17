@@ -52,6 +52,51 @@ extern config_t *config;
 
 extern list_t *pmc_syncs;
 
+
+/* splits package name into its respective parts */
+static int split_pkgname(char *target, char *name, char *version)
+{
+	char tmp[512];
+	char *p, *q;
+
+	if(target == NULL) {
+		return(-1);
+	}
+
+	/* trim path name (if any) */
+	if((p = strrchr(target, '/')) == NULL) {
+		p = target;
+	} else {
+		p++;
+	}
+	strncpy(tmp, p, 512);
+	/* trim file extension (if any) */
+	if((p = strstr(tmp, PM_EXT_PKG))) {
+		*p = '\0';
+	}
+	/* trim architecture */
+	if((p = alpm_pkg_name_hasarch(tmp))) {
+		*p = '\0';
+	}
+
+	p = tmp + strlen(tmp);
+
+	for(q = --p; *q && *q != '-'; q--);
+	if(*q != '-' || q == tmp) {
+		return(-1);
+	}
+	for(p = --q; *p && *p != '-'; p--);
+	if(*p != '-' || p == tmp) {
+		return(-1);
+	}
+	strncpy(version, p+1, 64);
+	*p = '\0';
+
+	strncpy(name, tmp, 256);
+
+	return(0);
+}
+
 static int sync_cleancache(int level)
 {
 	const char *root, *cachedir;

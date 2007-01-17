@@ -296,7 +296,7 @@ static int parseargs(int argc, char *argv[])
 				#else
 				config->configfile = strndup(optarg, PATH_MAX);
 				#endif
-			break;
+				break;
 			case 1002: config->op_s_ignore = list_add(config->op_s_ignore, strdup(optarg)); break;
 			case 1003: config->debug = atoi(optarg); break;
 			case 1004: config->noprogressbar = 1; break;
@@ -307,11 +307,11 @@ static int parseargs(int argc, char *argv[])
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
 				config->op_d_resolve = 1;
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
-			break;
+				break;
 			case 'F':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
 				config->flags |= PM_TRANS_FLAG_FRESHEN;
-			break;
+				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
 			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
@@ -321,7 +321,7 @@ static int parseargs(int argc, char *argv[])
 			case 'Y':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
 				config->op_d_vertest = 1;
-			break;
+				break;
 			case 'b':
 			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					pm_fprintf(stderr, NL, _("error: '%s' is not a valid db path\n"), optarg);
@@ -329,21 +329,21 @@ static int parseargs(int argc, char *argv[])
 				}
 				alpm_option_set_dbpath(optarg);
 				config->dbpath = alpm_option_get_dbpath(optarg);
-			break;
+				break;
 			case 'c':
-				config->op_s_clean++;
+				(config->op_s_clean)++;
 				config->flags |= PM_TRANS_FLAG_CASCADE;
 				config->op_q_changelog = 1;
-			break;
+				break;
 			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
-			case 'e': config->op_q_orphans = 1; config->flags |= PM_TRANS_FLAG_DEPENDSONLY; break;
+			case 'e':
+				config->op_q_orphans = 1;
+				config->flags |= PM_TRANS_FLAG_DEPENDSONLY;
+				break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-			case 'g': config->group++; break;
+			case 'g': (config->group)++; break;
 			case 'h': config->help = 1; break;
-			case 'i':
-				config->op_q_info++;
-				config->op_s_info++;
-			break;
+			case 'i': (config->op_q_info)++; (config->op_s_info)++; break;
 			case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
 			case 'l': config->op_q_list = 1; break;
 			case 'm': config->op_q_foreign = 1; break;
@@ -352,7 +352,7 @@ static int parseargs(int argc, char *argv[])
 			case 'p':
 				config->op_q_isfile = 1;
 				config->flags |= PM_TRANS_FLAG_PRINTURIS;
-			break;
+				break;
 			case 'r':
 			  printf("setting root path=%s\n", optarg);
 				if(realpath(optarg, root) == NULL) {
@@ -360,20 +360,20 @@ static int parseargs(int argc, char *argv[])
 					return(1);
 				}
 				config->root = strdup(root);
-			break;
+				break;
 			case 's':
 				config->op_s_search = 1;
 				config->op_q_search = 1;
 				config->flags |= PM_TRANS_FLAG_RECURSE;
-			break;
+				break;
 			case 'u': config->op_s_upgrade = 1; break;
-			case 'v': config->verbose++; break;
+			case 'v': (config->verbose)++; break;
 			case 'w':
 				config->op_s_downloadonly = 1;
 				config->flags |= PM_TRANS_FLAG_DOWNLOADONLY;
 				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
-			break;
-			case 'y': config->op_s_sync++; break;
+				break;
+			case 'y': (config->op_s_sync)++; break;
 			case '?': return(1);
 			default: return(1);
 		}

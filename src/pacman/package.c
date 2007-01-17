@@ -37,48 +37,48 @@
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
-	const char *date, *type;
+	const char *bdate, *type, *idate, *reason;
 
 	if(pkg == NULL) {
 		return;
 	}
 
-	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
-	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
-
-	pmlist_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
-
-	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
-	printf("URL            : %s\n", (char *)alpm_pkg_get_url(pkg));
-	pmlist_display(_("License        :"), alpm_pkg_get_licenses(pkg));
-	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
-	printf(_("Size           : %ld\n"), (long int)alpm_pkg_get_size(pkg));
-
-	date = alpm_pkg_get_builddate(pkg);
-	printf(_("Build Date     : %s %s\n"), date, strlen(date) ? "UTC" : "");
+	/* set variables here, do all output below */
+	bdate = alpm_pkg_get_builddate(pkg);
 	type = alpm_pkg_get_buildtype(pkg);
-	printf(_("Build Type     : %s\n"), strlen(type) ? type : _("Unknown"));
-	date = alpm_pkg_get_installdate(pkg);
-	printf(_("Install Date   : %s %s\n"), date, strlen(date) ? "UTC" : "");
+	idate = alpm_pkg_get_installdate(pkg);
 
-	printf(_("Install Script : %s\n"), alpm_pkg_has_scriptlet(pkg) ? _("Yes") : _("No"));
-
-	printf(_("Reason         : "));
 	switch((long)alpm_pkg_get_reason(pkg)) {
 		case PM_PKG_REASON_EXPLICIT:
-			printf(_("Explicitly installed\n"));
+			reason = _("Explicitly installed\n");
 			break;
 		case PM_PKG_REASON_DEPEND:
-			printf(_("Installed as a dependency for another package\n"));
+			reason = _("Installed as a dependency for another package\n");
 			break;
 		default:
-			printf(_("Unknown\n"));
+			reason = _("Unknown\n");
 			break;
 	}
 
+	/* actual output */
+	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
+	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
+	pmlist_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
+	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
+	printf(_("URL            : %s\n"), (char *)alpm_pkg_get_url(pkg));
+	pmlist_display(_("License        :"), alpm_pkg_get_licenses(pkg));
+	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
+	printf(_("Installed Size : %ld\n"), (long int)alpm_pkg_get_size(pkg));
+	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
+	printf(_("Build Type     : %s\n"), strlen(type) ? type : _("Unknown"));
+	/* TODO only applicable if querying installed package, not a file */
+	printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
+	printf(_("Install Script : %s\n"), alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
+	printf(_("Reason         : %s\n"), reason);
 	pmlist_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	pmlist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
 	pmlist_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
+	/* TODO only applicable if querying installed package, not a file */
 	pmlist_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
 	pmlist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 
@@ -86,41 +86,11 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	indentprint(alpm_pkg_get_desc(pkg), 17);
 	printf("\n");
 
+	/* Print additional package info if info flag passed more than once */
+	/* TODO only applicable if querying installed package, not a file */
 	if(level > 1) {
-		pmlist_t *i;
-		const char *root = alpm_option_get_root();
-		fprintf(stdout, "\n");
-		for(i = alpm_list_first(alpm_pkg_get_backup(pkg)); i; i = alpm_list_next(i)) {
-			struct stat buf;
-			char path[PATH_MAX];
-			char *str = strdup(alpm_list_getdata(i));
-			char *ptr = index(str, '\t');
-			if(ptr == NULL) {
-				FREE(str);
-				continue;
-			}
-			*ptr = '\0';
-			ptr++;
-			snprintf(path, PATH_MAX-1, "%s%s", root, str);
-			if(!stat(path, &buf)) {
-				char *md5sum = alpm_get_md5sum(path);
-				char *sha1sum = alpm_get_sha1sum(path);
-				if(md5sum == NULL && sha1sum == NULL) {
-					ERR(NL, _("error calculating md5sum or sha1sum for %s\n"), path);
-					FREE(str);
-					continue;
-				}
-				if (!sha1sum) 
-				    printf(_("%sMODIFIED\t%s\n"), strcmp(md5sum, ptr) ? "" : _("NOT "), path);
-				if (!md5sum)
-				    printf(_("%sMODIFIED\t%s\n"), strcmp(sha1sum, ptr) ? "" : _("NOT "), path);
-				FREE(md5sum);
-				FREE(sha1sum);
-			} else {
-				printf(_("MISSING\t\t%s\n"), path);
-			}
-			FREE(str);
-		}
+		/* call new backup function */
+		dump_pkg_backups(pkg);
 	}
 
 	printf("\n");
@@ -130,38 +100,93 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
  */
 void dump_pkg_sync(pmpkg_t *pkg, char *treename)
 {
-	char *sum;
+	char *md5sum, *sha1sum;
 	if(pkg == NULL) {
 		return;
 	}
 
-	printf(_("Repository        : %s\n"), treename);
-	printf(_("Name              : %s\n"), (char *)alpm_pkg_get_name(pkg));
-	printf(_("Version           : %s\n"), (char *)alpm_pkg_get_version(pkg));
-
-	pmlist_display(_("Groups            :"), alpm_pkg_get_groups(pkg));
-	pmlist_display(_("Provides          :"), alpm_pkg_get_provides(pkg));
-	pmlist_display(_("Depends On        :"), alpm_pkg_get_depends(pkg));
-	pmlist_display(_("Removes           :"), alpm_pkg_get_removes(pkg));
-	pmlist_display(_("Conflicts With    :"), alpm_pkg_get_conflicts(pkg));
-	pmlist_display(_("Replaces          :"), alpm_pkg_get_replaces(pkg));
-
-	printf(_("Size (compressed) : %ld\n"), (long)alpm_pkg_get_size(pkg));
-	printf(_("Size (installed)  : %ld\n"), (long)alpm_pkg_get_isize(pkg));
-	printf(_("Description       : "));
-	indentprint(alpm_pkg_get_desc(pkg), 20);
-
-	sum = (char *)alpm_pkg_get_md5sum(pkg);
-	if (sum != NULL && sum[0] != '\0') {
-		printf(_("\nMD5 Sum           : %s"), sum);
+	md5sum = (char *)alpm_pkg_get_md5sum(pkg);
+	sha1sum = (char *)alpm_pkg_get_sha1sum(pkg);
+	
+	printf(_("Repository     : %s\n"), treename);
+	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
+	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
+	pmlist_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
+	pmlist_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
+	pmlist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
+	pmlist_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
+	pmlist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
+	pmlist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
+	printf(_("Download Size  : %ld\n"), (long)alpm_pkg_get_size(pkg));
+	printf(_("Installed Size : %ld\n"), (long)alpm_pkg_get_isize(pkg));
+	
+	printf(_("Description    : "));
+	indentprint(alpm_pkg_get_desc(pkg), 17);
+	printf("\n");
+	
+	if (md5sum != NULL && md5sum[0] != '\0') {
+		printf(_("MD5 Sum        : %s"), md5sum);
 	}
-	sum = (char *)alpm_pkg_get_sha1sum(pkg);
-	if (sum != NULL && sum[0] != '\0') {
-		printf(_("\nSHA1 Sum          : %s"), sum);
+	if (sha1sum != NULL && sha1sum[0] != '\0') {
+		printf(_("SHA1 Sum       : %s"), sha1sum);
 	}
 	printf("\n");
 }
 
+/* Display list of backup files and their modification states
+ */
+void dump_pkg_backups(pmpkg_t *pkg)
+{
+	pmlist_t *i;
+	const char *root = alpm_option_get_root();
+	printf("\nBackup Files :\n");
+	for(i = alpm_list_first(alpm_pkg_get_backup(pkg)); i; i = alpm_list_next(i)) {
+		struct stat buf;
+		char path[PATH_MAX];
+		char *str = strdup(alpm_list_getdata(i));
+		char *ptr = index(str, '\t');
+		if(ptr == NULL) {
+			FREE(str);
+			continue;
+		}
+		*ptr = '\0';
+		ptr++;
+		snprintf(path, PATH_MAX-1, "%s%s", root, str);
+		/* if we find the file, calculate checksums, otherwise it is missing */
+		if(!stat(path, &buf)) {
+			char *sum;
+			char *md5sum = alpm_get_md5sum(path);
+			char *sha1sum = alpm_get_sha1sum(path);
+
+			if(md5sum == NULL || sha1sum == NULL) {
+				ERR(NL, _("error calculating checksums for %s\n"), path);
+				FREE(str);
+				continue;
+			}
+			/* TODO Is this a good way to check type of backup stored?
+			 * We aren't storing it anywhere in the database. */
+			if (strlen(ptr) == 32) {
+				sum = md5sum;
+			} else { /*if (strlen(ptr) == 40) */
+				sum = sha1sum;
+			}
+			/* if checksums don't match, file has been modified */
+			if (strcmp(sum, ptr)) {
+				printf(_("MODIFIED\t%s\n"), path);
+			} else {
+				printf(_("Not Modified\t%s\n"), path);
+			}
+			FREE(md5sum);
+			FREE(sha1sum);
+		} else {
+			printf(_("MISSING\t\t%s\n"), path);
+		}
+		FREE(str);
+	}
+}
+	
+/* List all files contained in a package
+ */
 void dump_pkg_files(pmpkg_t *pkg)
 {
 	const char *pkgname;
@@ -200,49 +225,6 @@ void dump_pkg_changelog(char *clfile, const char *pkgname)
 		fclose(fp);
 		return;
 	}
-}
-
-int split_pkgname(char *target, char *name, char *version)
-{
-	char tmp[512];
-	char *p, *q;
-
-	if(target == NULL) {
-		return(-1);
-	}
-
-	/* trim path name (if any) */
-	if((p = strrchr(target, '/')) == NULL) {
-		p = target;
-	} else {
-		p++;
-	}
-	strncpy(tmp, p, 512);
-	/* trim file extension (if any) */
-	if((p = strstr(tmp, PM_EXT_PKG))) {
-		*p = '\0';
-	}
-	/* trim architecture */
-	if((p = alpm_pkg_name_hasarch(tmp))) {
-		*p = '\0';
-	}
-
-	p = tmp + strlen(tmp);
-
-	for(q = --p; *q && *q != '-'; q--);
-	if(*q != '-' || q == tmp) {
-		return(-1);
-	}
-	for(p = --q; *p && *p != '-'; p--);
-	if(*p != '-' || p == tmp) {
-		return(-1);
-	}
-	strncpy(version, p+1, 64);
-	*p = '\0';
-
-	strncpy(name, tmp, 256);
-
-	return(0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
