@@ -168,7 +168,7 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 	double percent = 0.0;
 	char *file = lp->data;
 	char line[PATH_MAX+1];
-	char *checksum = _alpm_needbackup(file, info->backup);
+	char *checksum = _alpm_needbackup(lp->data, info->backup);
 
 	if ( *position != 0 ) {
 		percent = (double)*position / filenum;
@@ -183,15 +183,15 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 	}
 	snprintf(line, PATH_MAX, "%s%s", handle->root, file);
 	if ( lstat(line, &buf) ) {
-		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
+		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), line);
 		return;
 	}
 	if ( S_ISDIR(buf.st_mode) ) {
 		if ( rmdir(line) ) {
 			/* this is okay, other pakcages are probably using it (like /usr) */
-			_alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), file);
+			_alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), line);
 		} else {
-			_alpm_log(PM_LOG_DEBUG, _("removing directory %s"), file);
+			_alpm_log(PM_LOG_DEBUG, _("removing directory %s"), line);
 		}
 	} else {
 		/* check the "skip list" before removing the file.
@@ -206,7 +206,7 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 		}
 		if ( skipit ) {
 			_alpm_log(PM_LOG_FLOW2, _("skipping removal of %s as it has moved to another package"),
-								file);
+								line);
 		} else {
 			/* if the file is flagged, back it up to .pacsave */
 			if ( nb ) {
@@ -217,16 +217,16 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 						char newpath[PATH_MAX];
 						snprintf(newpath, PATH_MAX, "%s.pacsave", line);
 						rename(line, newpath);
-						_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file);
+						_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), line, newpath);
 					}
 				}
 			} else {
-				_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), file);
+				_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), line);
 				int list_count = _alpm_list_count(trans->packages); /* this way we don't have to call _alpm_list_count twice during PROGRESS */
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - _alpm_list_count(targ) + 1));
 				++(*position);
 			}
-			if (unlink(file) == -1) {
+			if (unlink(line) == -1) {
 				_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), file, strerror(errno));
 			}
 		}
