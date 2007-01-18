@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <assert.h>
 /* pacman */
 #include "list.h"
 #include "util.h"
@@ -306,8 +305,6 @@ pmlist_t *_alpm_list_last(pmlist_t *list)
 	if(list == NULL) {
 		return(NULL);
 	}
-
-	assert(list->last != NULL);
 
 	return(list->last);
 }

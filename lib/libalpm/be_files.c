@@ -180,7 +180,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	FILE *fp = NULL;
 	struct stat buf;
 	char path[PATH_MAX+1];
-	char line[513] = {0};
+	char line[513];
 	pmlist_t *tmplist;
 	char *locale;
 
@@ -205,7 +205,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d"), info->name, inforeq);
 
 	/* clear out 'line', to be certain - and to make valgrind happy */
-	memset(line, 513, 0);
+	memset(line, 0, 513);
 
 	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
@@ -528,20 +528,20 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			if(info->size) {
 				fprintf(fp, "%%SIZE%%\n"
-					"%ld\n\n", info->size);
+					"%lu\n\n", info->size);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%REASON%%\n"
-					"%d\n\n", info->reason);
+					"%u\n\n", info->reason);
 			}
 		} else {
 			if(info->size) {
 				fprintf(fp, "%%CSIZE%%\n"
-					"%ld\n\n", info->size);
+					"%lu\n\n", info->size);
 			}
 			if(info->isize) {
 				fprintf(fp, "%%ISIZE%%\n"
-					"%ld\n\n", info->isize);
+					"%lu\n\n", info->isize);
 			}
 			if(info->sha1sum) {
 				fprintf(fp, "%%SHA1SUM%%\n"

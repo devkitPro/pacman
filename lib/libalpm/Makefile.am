@@ -40,7 +40,7 @@ include_HEADERS = alpm.h
 libalpm_la_SOURCES = $(TARGETS)
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO)
-libalpm_la_LIBADD = -ldownload
+libalpm_la_LIBADD = -larchive -ldownload
 
 if HAS_DOXYGEN
 all: doxygen.in

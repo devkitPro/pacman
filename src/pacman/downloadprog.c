@@ -39,10 +39,10 @@
 #include "conf.h"
 
 /* progress bar */
-float rate_last;
-int xfered_last;
-struct timeval last_time;
-struct timeval initial_time;
+static float rate_last;
+static int xfered_last;
+static struct timeval last_time;
+static struct timeval initial_time;
 
 /* pacman options */
 extern config_t *config;
@@ -52,13 +52,13 @@ extern config_t *config;
 
 void log_progress(const char *filename, int xfered, int total)
 {
-	static int lasthash = 0, mouth = 0;
-	int i, hash;
-	long chomp = 0;
+	static unsigned int lasthash = 0, mouth = 0;
+	unsigned int i, hash;
+	unsigned int chomp = 0;
 	char *fname, *p; 
 	unsigned int maxcols = getcols();
 	unsigned int progresslen = maxcols - 57;
-	int percent = ((float)xfered) / ((float)total) * 100;
+	int percent = (int)((float)xfered) / ((float)total) * 100;
 	struct timeval current_time;
 	float rate = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
@@ -87,17 +87,17 @@ void log_progress(const char *filename, int xfered, int total)
 
 	if(xfered == total) {
 		/* compute final values */
-		rate = total / (total_timediff * 1024);
-		eta_s = (int)total_timediff;
+		rate = (float)total / (total_timediff * 1024);
+		eta_s = (unsigned int)total_timediff;
 		set_output_padding(0); /* shut off padding */
 	} else if(timediff < UPDATE_SPEED_SEC) {
 	/* we avoid computing the ETA on too small periods of time, so that
 		 results are more significant */
 		return;
 	} else {
-		rate = (xfered - xfered_last) / (timediff * 1024);
-		rate = (rate + 2*rate_last) / 3;
-		eta_s = (total - xfered) / (rate * 1024);
+		rate = (float)(xfered - xfered_last) / (timediff * 1024);
+		rate = (float)(rate + 2*rate_last) / 3;
+		eta_s = (unsigned int)(total - xfered) / (rate * 1024);
 	}
 
 	rate_last = rate;
@@ -130,11 +130,12 @@ void log_progress(const char *filename, int xfered, int total)
 		rate = 9999.9;
 	}
 
-	printf(" %-*s %6dK %#6.1fK/s %02d:%02d:%02d [", FILENAME_TRIM_LEN, fname, xfered/1024, rate, eta_h, eta_m, eta_s);
+	printf(" %-*s %6dK %#6.1fK/s %02u:%02u:%02u [", FILENAME_TRIM_LEN, fname, 
+				 xfered/1024, rate, eta_h, eta_m, eta_s);
 
 	free(fname);
 	
-	hash = percent*progresslen/100;
+	hash = (unsigned int)percent*progresslen/100;
 	for(i = progresslen; i > 0; --i) {
 		if(chomp) {
 			if(i > progresslen - hash) {

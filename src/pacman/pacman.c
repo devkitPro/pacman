@@ -72,15 +72,13 @@ enum {
 	PM_OP_DEPTEST
 };
 
-config_t *config = NULL;
+config_t *config;
 
 pmdb_t *db_local;
 /* list of (sync_t *) structs for sync locations */
-list_t *pmc_syncs = NULL;
+list_t *pmc_syncs;
 /* list of targets specified on command line */
-list_t *pm_targets  = NULL;
-
-unsigned int maxcols = 80;
+static list_t *pm_targets;
 
 extern int neednl;
 
@@ -134,8 +132,7 @@ static void usage(int op, char *myname)
 			printf(_("  -l, --list          list the contents of the queried package\n"));
 			printf(_("  -m, --foreign       list all packages that were not found in the sync db(s)\n"));
 			printf(_("  -o, --owns <file>   query the package that owns <file>\n"));
-			printf(_("  -p, --file          pacman will query the package file [package] instead of\n"));
-			printf(_("                      looking in the database\n"));
+			printf(_("  -p, --file          query the package file [package] instead of the database\n"));
 			printf(_("  -s, --search        search locally-installed packages for matching strings\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf(_("usage:  %s {-S --sync} [options] [package]\n"), myname);
@@ -278,7 +275,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 	char root[PATH_MAX];
-	struct stat st = {0};
+	struct stat st;
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTDYr:b:vkhscVfmnoldepiuwyg", opts, &option_index))) {
 		if(opt < 0) {
@@ -325,7 +322,7 @@ static int parseargs(int argc, char *argv[])
 			case 'b':
 			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					pm_fprintf(stderr, NL, _("error: '%s' is not a valid db path\n"), optarg);
-					exit(1);
+					exit(EXIT_FAILURE);
 				}
 				alpm_option_set_dbpath(optarg);
 				config->dbpath = alpm_option_get_dbpath(optarg);
@@ -481,7 +478,7 @@ int main(int argc, char *argv[])
 			} else {
 				ERR(NL, _("you cannot perform this operation unless you are root.\n"));
 				config_free(config);
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		}
 	}

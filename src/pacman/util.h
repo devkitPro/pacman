@@ -28,7 +28,7 @@
 		p = malloc(b); \
 		if (!(p)) { \
 			fprintf(stderr, "malloc failure: could not allocate %d bytes\n", (int)b); \
-			exit(1); \
+			exit(EXIT_FAILURE); \
 		} \
 	} else { \
 		p = NULL; \
@@ -43,10 +43,10 @@
 } while(0)
 
 #define _(str) gettext(str)
-int getcols();
+unsigned int getcols();
 int makepath(char *path);
 int rmrf(char *path);
-void indentprint(const char *str, int indent);
+void indentprint(const char *str, unsigned int indent);
 char *buildstring(list_t *strlist);
 char *strtoupper(char *str);
 char *strtrim(char *str);

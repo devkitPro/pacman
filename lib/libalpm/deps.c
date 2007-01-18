@@ -119,6 +119,10 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 	while(change) {
 		pmlist_t *tmptargs = NULL;
 		change = 0;
+		/* TODO only use of a math.h function in entire libalpm,
+		 *      can we get rid of it? Former code line:
+		 *if(numscans > numtargs) {
+		 */
 		if(numscans > sqrt(numtargs)) {
 			_alpm_log(PM_LOG_DEBUG, _("possible dependency cycle detected"));
 			continue;

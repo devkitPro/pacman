@@ -212,6 +212,12 @@ static int sync_synctree(int level, list_t *syncs)
 		if(ret < 0) {
 			if(pm_errno == PM_ERR_DB_SYNC) {
 				/* use libdownload error */
+				/* TODO breaking abstraction barrier here?
+				 *			pacman -> libalpm -> libdownload
+				 *
+				 * Yes.  This will be here until we add a nice pacman "pm_errstr" or
+				 * something, OR add all libdownload error codes into the pm_error enum
+				 */
 				ERR(NL, _("failed to synchronize %s: %s\n"), sync->treename, downloadLastErrString);
 			} else {
 				ERR(NL, _("failed to update %s (%s)\n"), sync->treename, alpm_strerror(pm_errno));

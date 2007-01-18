@@ -218,7 +218,7 @@ void dump_pkg_changelog(char *clfile, const char *pkgname)
 	{
 		while(!feof(fp))
 		{
-			fgets(line, PATH_MAX, fp);
+			fgets(line, (int)PATH_MAX, fp);
 			printf("%s", line);
 			line[0] = '\0';
 		}

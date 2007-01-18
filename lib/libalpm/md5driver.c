@@ -21,7 +21,6 @@ documentation and/or software.
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <string.h>
 #include <libintl.h>
 #include "util.h"

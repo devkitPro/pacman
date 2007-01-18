@@ -206,6 +206,10 @@ pmlist_t *_alpm_checkconflicts(pmdb_t *db, pmlist_t *packages)
 	return(baddeps);
 }
 
+/* Returns a pmlist_t* of file conflicts.
+ *
+ * adds list of files to skip to pmlist_t** skip_list.
+ */
 pmlist_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, pmlist_t **skip_list)
 {
 	pmlist_t *i, *j, *k;
@@ -230,10 +234,10 @@ pmlist_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, pmli
 				for(k = p1->files; k; k = k->next) {
 					filestr = k->data;
 					if(filestr[strlen(filestr)-1] == '/') {
-						/* this filename has a trailing '/', so it's a directory -- skip it. */
+						/* has a trailing '/', so it's a directory -- skip it. */
 						continue;
 					}
-					if(!strcmp(filestr, "._install") || !strcmp(filestr, ".INSTALL")) {
+					if(strcmp(filestr, ".INSTALL") == 0) {
 						continue;
 					}
 					if(_alpm_list_is_strin(filestr, p2->files)) {

@@ -38,8 +38,8 @@
 
 extern config_t *config;
 
-int neednl = 0; /* for cleaner message output */
-int needpad = 0; /* pad blanks to terminal width */
+static int neednl = 0; /* for cleaner message output */
+static int needpad = 0; /* pad blanks to terminal width */
 
 /* simple helper for needpad */
 void set_output_padding(int on)
@@ -131,8 +131,8 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 
 	fprintf(file, str);
 	if(needpad == 1) {
-		unsigned int cols = getcols();
-		for(int i=len; i < cols; ++i) {
+		unsigned int i, cols = getcols();
+		for(i=len; i < cols; ++i) {
 			fprintf(file, " ");
 		}
 		if(neednl == 1) {

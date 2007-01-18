@@ -121,7 +121,8 @@ static int istoonew(pmpkg_t *pkg)
 /* Find recommended replacements for packages during a sync.
  * (refactored from _alpm_sync_prepare)
  */
-static int find_replacements(pmtrans_t *trans, pmdb_t *db_local, pmlist_t *dbs_sync)
+static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
+														 pmlist_t *dbs_sync)
 {
 	pmlist_t *i, *j, *k;
 

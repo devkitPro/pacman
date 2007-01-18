@@ -41,7 +41,7 @@ install-py: alpm.py alpm.pyc
 	install -m644 $^ $(DESTDIR)$(LIBDIR)
 
 clean:
-	rm -f _alpm* alpm{.h,.py*,_wrap*}
+	rm -f _alpm* alpm{.h,.i,.py*,_wrap*}
 
 distclean: clean
 	rm -f Makefile

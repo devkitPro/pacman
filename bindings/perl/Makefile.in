@@ -34,7 +34,7 @@ install-pm: Core.pm
 	install -m644 $^ $(DESTDIR)$(LIBDIR)/Alpm/
 
 clean:
-	rm -f Core* alpm{.h,_wrap*}
+	rm -f Core* alpm{.h,.i,_wrap*}
 
 distclean: clean
 	rm -f Makefile

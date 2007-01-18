@@ -137,7 +137,7 @@ int alpm_release()
 
 /** Register a package database
  * @param treename the name of the repository
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ * @return a pmdb_t* on success (the value), NULL on error
  */
 pmdb_t *alpm_db_register(char *treename)
 {

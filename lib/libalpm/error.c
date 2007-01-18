@@ -134,7 +134,7 @@ char *alpm_strerror(int err)
 		case PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION:
 			return _("all directives must belong to a section");
 		case PM_ERR_INVALID_REGEX:
-			return _("valid regular expression");
+			return _("invalid regular expression");
 		case PM_ERR_CONNECT_FAILED:
 			return _("connection to remote host failed");
 		case PM_ERR_FORK_FAILED:

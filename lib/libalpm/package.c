@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <fcntl.h>
 #include <string.h>
 #include <libintl.h>
 #include <locale.h>

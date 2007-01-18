@@ -41,7 +41,7 @@
 
 extern config_t *config;
 
-int prevpercent=0; /* for less progressbar output */
+static int prevpercent=0; /* for less progressbar output */
 
 /* Callback to handle transaction events
  */

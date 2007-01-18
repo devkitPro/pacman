@@ -20,9 +20,14 @@
 #include <limits.h>
 
 #define rol(x,n) ( ((x) << (n)) | ((x) >> (32 -(n))) )
+/* TODO check this comment */
 /* The code below is from md5.h (from coreutils), little modifications */
 #define UINT_MAX_32_BITS 4294967295U
 
+/* This new ifdef allows splint to not fail on its static code check */
+#ifdef S_SPLINT_S
+		typedef unsigned int sha_uint32;
+#else
 #if UINT_MAX == UINT_MAX_32_BITS
     typedef unsigned int sha_uint32;
 #else
@@ -34,9 +39,10 @@
 #else
     /* The following line is intended to evoke an error. Using #error is not portable enough.  */
 #error "Cannot determine unsigned 32-bit data type"
-#endif
-#endif
-#endif
+#endif /* ULONG_MAX */
+#endif /* USHRT_MAX */
+#endif /* UINT_MAX */
+#endif /* S_SPLINT_S */
 /* We have to make a guess about the integer type equivalent in size
    to pointers which should always be correct.  */
 typedef unsigned long int sha_uintptr;

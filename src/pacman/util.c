@@ -30,7 +30,6 @@
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -52,27 +51,28 @@ extern config_t *config;
 extern int neednl;
 
 /* gets the current screen column width */
-int getcols()
+unsigned int getcols()
 {
 	if(!isatty(1)) {
 		/* We will default to 80 columns if we're not a tty
 		 * this seems a fairly standard file width.
 		 */
 		return 80;
-	}
+	} else {
 #ifdef TIOCGSIZE
-	struct ttysize win;
-	if(ioctl(1, TIOCGSIZE, &win) == 0) {
-		return win.ts_cols;
-	}
+		struct ttysize win;
+		if(ioctl(1, TIOCGSIZE, &win) == 0) {
+			return win.ts_cols;
+		}
 #elif defined(TIOCGWINSZ)
-	struct winsize win;
-	if(ioctl(1, TIOCGWINSZ, &win) == 0) {
-		return win.ws_col;
-	}
+		struct winsize win;
+		if(ioctl(1, TIOCGWINSZ, &win) == 0) {
+			return win.ws_col;
+		}
 #endif
-	else {
-		return -1;
+		/* If we can't figure anything out, we'll just assume 80 columns */
+		/* TODO any problems caused by this assumption? */
+		return 80;
 	}
 	/* Original envvar way - prone to display issues
 	const char *cenv = getenv("COLUMNS");
@@ -155,15 +155,14 @@ int rmrf(char *path)
 		}
 		return(errflag);
 	}
-	return(0);
 }
 
 /* output a string, but wrap words properly with a specified indentation
  */
-void indentprint(const char *str, int indent)
+void indentprint(const char *str, unsigned int indent)
 {
 	const char *p = str;
-	int cidx = indent;
+	unsigned int cidx = indent;
 
 	while(*p) {
 		if(*p == ' ') {
@@ -178,7 +177,7 @@ void indentprint(const char *str, int indent)
 			len = next - p;
 			if(len > (getcols()-cidx-1)) {
 				/* newline */
-				int i;
+				unsigned int i;
 				fprintf(stdout, "\n");
 				for(i = 0; i < indent; i++) {
 					fprintf(stdout, " ");
@@ -200,7 +199,7 @@ void indentprint(const char *str, int indent)
 char *buildstring(list_t *strlist)
 {
 	char *str;
-	int size = 1;
+	size_t size = 1;
 	list_t *lp;
 
 	for(lp = strlist; lp; lp = lp->next) {
@@ -208,7 +207,7 @@ char *buildstring(list_t *strlist)
 	}
 	str = (char *)malloc(size);
 	if(str == NULL) {
-		ERR(NL, _("failed to allocated %d bytes\n"), size);
+		ERR(NL, _("failed to allocate %d bytes\n"), size);
 	}
 	str[0] = '\0';
 	for(lp = strlist; lp; lp = lp->next) {
