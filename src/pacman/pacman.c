@@ -412,8 +412,6 @@ int main(int argc, char *argv[])
 	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
 	mtrace();
 #endif
-	maxcols = getcols();
-
 	/* set signal handlers */
 	signal(SIGINT, cleanup);
 	signal(SIGTERM, cleanup);
