@@ -37,6 +37,8 @@
 #include <fcntl.h>
 #include <string.h>
 #include <limits.h>
+#include <unistd.h>
+#include <errno.h>
 #include <libintl.h>
 /* pacman */
 #include "list.h"
@@ -161,74 +163,74 @@ static int str_cmp(const void *s1, const void *s2)
 static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 												pmtrans_t *trans, int filenum, int *position)
 {
-       struct stat buf;
-       int nb = 0;
-       double percent = 0.0;
-       char *file = lp->data;
-       char line[PATH_MAX+1];
-       char *checksum = _alpm_needbackup(file, info->backup);
+	struct stat buf;
+	int nb = 0;
+	double percent = 0.0;
+	char *file = lp->data;
+	char line[PATH_MAX+1];
+	char *checksum = _alpm_needbackup(file, info->backup);
 
-       if ( *position != 0 ) {
-               percent = (double)*position / filenum;
-       } if ( checksum ) {
-               nb = 1;
-               FREE(checksum);
-       } if ( !nb && trans->type == PM_TRANS_TYPE_UPGRADE ) {
-               /* check noupgrade */
-               if ( _alpm_list_is_strin(file, handle->noupgrade) ) {
-                       nb = 1;
-               }
-       }
-       snprintf(line, PATH_MAX, "%s%s", handle->root, file);
-       if ( lstat(line, &buf) ) {
-               _alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
-               return;
-       }
-       if ( S_ISDIR(buf.st_mode) ) {
-               if ( rmdir(line) ) {
-                       /* this is okay, other pakcages are probably using it (like /usr) */
-                       _alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), file);
-               } else {
-                       _alpm_log(PM_LOG_DEBUG, _("removing directory %s"), file);
-               }
-       } else {
-               /* check the "skip list" before removing the file.
-                * see the big comment block in db_find_conflicts() for an
-                * explanation. */
-               int skipit = 0;
-               pmlist_t *j;
-               for ( j = trans->skiplist; j; j = j->next ) {
-                       if ( !strcmp(file, (char*)j->data) ) {
-                               skipit = 1;
-                       }
-               }
-               if ( skipit ) {
-                       _alpm_log(PM_LOG_FLOW2, _("skipping removal of %s as it has moved to another package"),
-                                       file);
-               } else {
-                       /* if the file is flagged, back it up to .pacsave */
-                       if ( nb ) {
-                               if ( !(trans->type == PM_TRANS_TYPE_UPGRADE) ) {
-                                       /* if it was an upgrade, the file would be left alone because
-                                        * pacman_add() would handle it */
-                                       if ( !(trans->type & PM_TRANS_FLAG_NOSAVE) ) {
-                                               char newpath[PATH_MAX];
-                                               snprintf(newpath, PATH_MAX, "%s.pacsave", line);
-                                               rename(line, newpath);
-                                               _alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file);
-                                       }
-                               }
-                       } else {
-                               _alpm_log(PM_LOG_FLOW2, _("unlinking %s"), file);
-                               int list_count = _alpm_list_count(trans->packages); /* this way we don't have to call _alpm_list_count twice during PROGRESS */
-                               PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - _alpm_list_count(targ) + 1));
-                               ++(*position);
-                       }
-                       if ( unlink(file) ) {
-                               _alpm_log(PM_LOG_ERROR, _("cannot remove file %s"), file);
-                       }
-               }
-       }
+	if ( *position != 0 ) {
+		percent = (double)*position / filenum;
+	} if ( checksum ) {
+		nb = 1;
+		FREE(checksum);
+	} if ( !nb && trans->type == PM_TRANS_TYPE_UPGRADE ) {
+		/* check noupgrade */
+		if ( _alpm_list_is_strin(file, handle->noupgrade) ) {
+			nb = 1;
+		}
+	}
+	snprintf(line, PATH_MAX, "%s%s", handle->root, file);
+	if ( lstat(line, &buf) ) {
+		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
+		return;
+	}
+	if ( S_ISDIR(buf.st_mode) ) {
+		if ( rmdir(line) ) {
+			/* this is okay, other pakcages are probably using it (like /usr) */
+			_alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), file);
+		} else {
+			_alpm_log(PM_LOG_DEBUG, _("removing directory %s"), file);
+		}
+	} else {
+		/* check the "skip list" before removing the file.
+		 * see the big comment block in db_find_conflicts() for an
+		 * explanation. */
+		int skipit = 0;
+		pmlist_t *j;
+		for ( j = trans->skiplist; j; j = j->next ) {
+			if ( !strcmp(file, (char*)j->data) ) {
+				skipit = 1;
+			}
+		}
+		if ( skipit ) {
+			_alpm_log(PM_LOG_FLOW2, _("skipping removal of %s as it has moved to another package"),
+								file);
+		} else {
+			/* if the file is flagged, back it up to .pacsave */
+			if ( nb ) {
+				if ( !(trans->type == PM_TRANS_TYPE_UPGRADE) ) {
+					/* if it was an upgrade, the file would be left alone because
+					 * pacman_add() would handle it */
+					if ( !(trans->type & PM_TRANS_FLAG_NOSAVE) ) {
+						char newpath[PATH_MAX];
+						snprintf(newpath, PATH_MAX, "%s.pacsave", line);
+						rename(line, newpath);
+						_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file);
+					}
+				}
+			} else {
+				_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), file);
+				int list_count = _alpm_list_count(trans->packages); /* this way we don't have to call _alpm_list_count twice during PROGRESS */
+				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - _alpm_list_count(targ) + 1));
+				++(*position);
+			}
+			if (unlink(file) == -1) {
+				_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), file, strerror(errno));
+			}
+		}
+	}
 }
 
 int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
