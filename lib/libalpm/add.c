@@ -253,9 +253,9 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 			/* Attempt to resolve conflicts */
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &skip_this);
 			if(skip_this) {
-				pmpkg_t *pkg = NULL;
-				lp = _alpm_list_remove(lp, (void *)miss->depend.name, name_cmp, (void **)&pkg);
-				FREEPKG(pkg);
+				pmpkg_t **pkg = NULL;
+				lp = _alpm_list_remove(lp, (void *)miss->depend.name, name_cmp, (void **)pkg);
+				FREEPKG(*pkg);
 			}
 		}
 		if(lp != NULL) {
