@@ -65,7 +65,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 {
 	pmpkg_t* newpkg;
 
-	if((newpkg = calloc(0, sizeof(pmpkg_t))) == NULL) {
+	if((newpkg = calloc(1, sizeof(pmpkg_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmpkg_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
