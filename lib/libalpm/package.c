@@ -41,10 +41,10 @@
 
 pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 {
-	pmpkg_t* pkg = NULL;
+	pmpkg_t* pkg;
 
-	if((pkg = (pmpkg_t *)malloc(sizeof(pmpkg_t))) == NULL) {
-		RET_ERR(PM_ERR_MEMORY, (pmpkg_t *)-1);
+	if((pkg = calloc(1,sizeof(pmpkg_t))) == NULL) {
+		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	if(name && name[0] != 0) {
@@ -57,67 +57,20 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	} else {
 		pkg->version[0]     = '\0';
 	}
-	pkg->filename[0]    = '\0';
-	pkg->desc[0]        = '\0';
-	pkg->url[0]         = '\0';
-	pkg->license        = NULL;
-	pkg->desc_localized = NULL;
-	pkg->builddate[0]   = '\0';
-	pkg->buildtype[0]   = '\0';
-	pkg->installdate[0] = '\0';
-	pkg->packager[0]    = '\0';
-	pkg->md5sum[0]      = '\0';
-	pkg->sha1sum[0]     = '\0';
-	pkg->arch[0]        = '\0';
-	pkg->size           = 0;
-	pkg->isize          = 0;
-	pkg->scriptlet      = 0;
-	pkg->force          = 0;
-	pkg->reason         = PM_PKG_REASON_EXPLICIT;
-	pkg->requiredby     = NULL;
-	pkg->conflicts      = NULL;
-	pkg->files          = NULL;
-	pkg->backup         = NULL;
-	pkg->depends        = NULL;
-	pkg->removes        = NULL;
-	pkg->groups         = NULL;
-	pkg->provides       = NULL;
-	pkg->replaces       = NULL;
-	/* internal */
-	pkg->origin         = 0;
-	pkg->data           = NULL;
-	pkg->infolevel      = 0;
 
 	return(pkg);
 }
 
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 {
-	pmpkg_t* newpkg = NULL;
+	pmpkg_t* newpkg;
 
-	newpkg = (pmpkg_t *)malloc(sizeof(pmpkg_t));
-	if(newpkg == NULL) {
+	if((newpkg = calloc(0, sizeof(pmpkg_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmpkg_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
-	STRNCPY(newpkg->filename, pkg->filename, PKG_FILENAME_LEN);
-	STRNCPY(newpkg->name, pkg->name, PKG_NAME_LEN);
-	STRNCPY(newpkg->version, pkg->version, PKG_VERSION_LEN);
-	STRNCPY(newpkg->desc, pkg->desc, PKG_DESC_LEN);
-	STRNCPY(newpkg->url, pkg->url, PKG_URL_LEN);
-	STRNCPY(newpkg->builddate, pkg->builddate, PKG_DATE_LEN);
-	STRNCPY(newpkg->buildtype, pkg->buildtype, PKG_DATE_LEN);
-	STRNCPY(newpkg->installdate, pkg->installdate, PKG_DATE_LEN);
-	STRNCPY(newpkg->packager, pkg->packager, PKG_PACKAGER_LEN);
-	STRNCPY(newpkg->md5sum, pkg->md5sum, PKG_MD5SUM_LEN);
-	STRNCPY(newpkg->sha1sum, pkg->sha1sum, PKG_SHA1SUM_LEN);
-	STRNCPY(newpkg->arch, pkg->arch, PKG_ARCH_LEN);
-	newpkg->size       = pkg->size;
-	newpkg->isize      = pkg->isize;
-	newpkg->force      = pkg->force;
-	newpkg->scriptlet  = pkg->scriptlet;
-	newpkg->reason     = pkg->reason;
+	memcpy(newpkg, pkg, sizeof(pmpkg_t));
 	newpkg->license    = alpm_list_strdup(pkg->license);
 	newpkg->desc_localized = alpm_list_strdup(pkg->desc_localized);
 	newpkg->requiredby = alpm_list_strdup(pkg->requiredby);
@@ -130,9 +83,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->provides   = alpm_list_strdup(pkg->provides);
 	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
 	/* internal */
-	newpkg->origin     = pkg->origin;
 	newpkg->data = (newpkg->origin == PKG_FROM_FILE) ? strdup(pkg->data) : pkg->data;
-	newpkg->infolevel  = pkg->infolevel;
 
 	return(newpkg);
 }
