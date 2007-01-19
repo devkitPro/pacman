@@ -1,10 +1,32 @@
 == This is my custom TODO file ==
 
-This (second) test should shoot a commit email to the pacman-dev list.
+* Make sure all the alpm_list_t changes are valid (especially alpm_list_free)
 
-* pacman: ALOT of functions are way too long.  There should be an upper limit of
+* src/pacman:
+    - There's quite a few single function headers which contain the pacman_*
+      functions.  We should move these to a single header (pacman.h) to clean up
+      the source a bit.
+    - config_t duplicates much of what can be accessed from the alpm_option_*
+      interface.  Determine what can / can't be removed and do so.
+    - initialize alpm BEFORE parsing args, so we can get rid of a handful of
+      local lists and things in pacman.c (see below)
+    - fix the "--debug" parameter. requiring a bitmask from the user is silly.
+      we can parse this can send a real bitmask to alpm.
+
+* lib/libalpm:
+    - Remove `root` param from alpm_initialize.  We can simply initialize to /
+      and call set_root at a later time.  This allows us to initiliaze earlier.
+    - move logging (alpm_logaction) out of the library.  log files should be
+      written by the app, not the library.  Adding a PM_LOG_* constant that
+      frontends can recognize and send to a file is probably a good idea.
+    - maybe it's my fault, but I see little difference between PM_LOG_FLOW1,
+      PM_LOG_FLOW2, and PM_LOG_DEBUG.  We might want to just do away with flow1
+      and flow2 and use debug across the board.
+
+* pacman: A LOT of functions are way too long.  There should be an upper limit of
   100-200 lines.  _alpm_add_commit is around 600 lines, and is far too complex.
-  Quite alot of this needs to be refactored as we go.
+
+  Quite a lot of this needs to be refactored as we go.
     Function list (from Dan McGee):
      add.c:
      _alpm_add_commit
