@@ -271,27 +271,15 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			/* parse the info file */
 			if(parse_descfile(descfile, info, 0) == -1) {
 				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file"));
-				pm_errno = PM_ERR_PKG_INVALID;
-				unlink(descfile);
-				FREE(descfile);
-				close(fd);
-				goto error;
+				goto pkg_invalid;
 			}
 			if(!strlen(info->name)) {
 				_alpm_log(PM_LOG_ERROR, _("missing package name in %s"), pkgfile);
-				pm_errno = PM_ERR_PKG_INVALID;
-				unlink(descfile);
-				FREE(descfile);
-				close(fd);
-				goto error;
+				goto pkg_invalid;
 			}
 			if(!strlen(info->version)) {
 				_alpm_log(PM_LOG_ERROR, _("missing package version in %s"), pkgfile);
-				pm_errno = PM_ERR_PKG_INVALID;
-				unlink(descfile);
-				FREE(descfile);
-				close(fd);
-				goto error;
+				goto pkg_invalid;
 			}
 			config = 1;
 			unlink(descfile);
@@ -361,6 +349,11 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 
 	return(info);
 
+pkg_invalid:
+	pm_errno = PM_ERR_PKG_INVALID;
+	unlink(descfile);
+	FREE(descfile);
+	close(fd);
 error:
 	FREEPKG(info);
 	archive_read_finish (archive);
