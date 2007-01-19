@@ -22,10 +22,10 @@
 #define _ALPM_PROVIDE_H
 
 #include "db.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "config.h"
 
-pmlist_t *_alpm_db_whatprovides(pmdb_t *db, char *package);
+alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, char *package);
 
 #endif /* _ALPM_PROVIDE_H */
 

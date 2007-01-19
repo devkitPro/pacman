@@ -33,8 +33,8 @@ struct __pmconflict_t {
 	char ctarget[PKG_NAME_LEN];
 };
 
-pmlist_t *_alpm_checkconflicts(pmdb_t *db, pmlist_t *packages);
-pmlist_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, pmlist_t **skip_list);
+alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages);
+alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, alpm_list_t **skip_list);
 
 #endif /* _ALPM_CONFLICT_H */
 

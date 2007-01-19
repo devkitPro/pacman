@@ -41,7 +41,7 @@
 #include <errno.h>
 #include <libintl.h>
 /* pacman */
-#include "list.h"
+#include "alpm_list.h"
 #include "trans.h"
 #include "util.h"
 #include "error.h"
@@ -78,7 +78,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	/* ignore holdpkgs on upgrade */
-	if((trans == handle->trans) && _alpm_list_is_strin(info->name, handle->holdpkg)) {
+	if((trans == handle->trans) && alpm_list_is_strin(info->name, handle->holdpkg)) {
 		int resp = 0;
 		QUESTION(trans, PM_TRANS_CONV_REMOVE_HOLDPKG, info, NULL, NULL, &resp);
 		if(!resp) {
@@ -87,14 +87,14 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	_alpm_log(PM_LOG_FLOW2, _("adding %s in the targets list"), info->name);
-	trans->packages = _alpm_list_add(trans->packages, info);
+	trans->packages = alpm_list_add(trans->packages, info);
 
 	return(0);
 }
 
-int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
+int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
-	pmlist_t *lp;
+	alpm_list_t *lp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -107,13 +107,13 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 		if(lp != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				while(lp) {
-					pmlist_t *i;
+					alpm_list_t *i;
 					for(i = lp; i; i = i->next) {
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 						pmpkg_t *info = _alpm_db_scan(db, miss->depend.name, INFRQ_ALL);
 						if(info) {
 							_alpm_log(PM_LOG_FLOW2, _("pulling %s in the targets list"), info->name);
-							trans->packages = _alpm_list_add(trans->packages, info);
+							trans->packages = alpm_list_add(trans->packages, info);
 						} else {
 							_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping"),
 							          miss->depend.name);
@@ -160,7 +160,7 @@ static int str_cmp(const void *s1, const void *s2)
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit
 */
-static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
+static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 												pmtrans_t *trans, int filenum, int *position)
 {
 	struct stat buf;
@@ -177,7 +177,7 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 		FREE(checksum);
 	} if ( !nb && trans->type == PM_TRANS_TYPE_UPGRADE ) {
 		/* check noupgrade */
-		if ( _alpm_list_is_strin(file, handle->noupgrade) ) {
+		if ( alpm_list_is_strin(file, handle->noupgrade) ) {
 			nb = 1;
 		}
 	}
@@ -198,7 +198,7 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 		 * see the big comment block in db_find_conflicts() for an
 		 * explanation. */
 		int skipit = 0;
-		pmlist_t *j;
+		alpm_list_t *j;
 		for ( j = trans->skiplist; j; j = j->next ) {
 			if ( !strcmp(file, (char*)j->data) ) {
 				skipit = 1;
@@ -222,8 +222,8 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 				}
 			} else {
 				_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), line);
-				int list_count = _alpm_list_count(trans->packages); /* this way we don't have to call _alpm_list_count twice during PROGRESS */
-				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - _alpm_list_count(targ) + 1));
+				int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
+				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
 				++(*position);
 			}
 			if (unlink(line) == -1) {
@@ -236,7 +236,7 @@ static void unlink_file(pmpkg_t *info, pmlist_t *lp, pmlist_t *targ,
 int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info;
-	pmlist_t *targ, *lp;
+	alpm_list_t *targ, *lp;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -262,11 +262,11 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
-			int filenum = _alpm_list_count(info->files);
+			int filenum = alpm_list_count(info->files);
 			_alpm_log(PM_LOG_FLOW1, _("removing files"));
 
 			/* iterate through the list backwards, unlinking files */
-			for(lp = _alpm_list_last(info->files); lp; lp = lp->prev) {
+			for(lp = alpm_list_last(info->files); lp; lp = lp->prev) {
 				unlink_file(info, lp, targ, trans, filenum, &position);
 			}
 		}
@@ -309,7 +309,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			depinfo = _alpm_db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
-				pmlist_t *provides = _alpm_db_whatprovides(db, depend.name);
+				alpm_list_t *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
 					/* TODO: should check _all_ packages listed in provides, not just
 					 *       the first one.
@@ -327,7 +327,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* Ensure package has the appropriate data */
 			_alpm_db_read(db, INFRQ_DEPENDS, depinfo);
 			/* splice out this entry from requiredby */
-			depinfo->requiredby = _alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &vdata);
+			depinfo->requiredby = alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &vdata);
 			data = vdata;
 			FREE(data);
 			_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), depinfo->name);
@@ -337,7 +337,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
-	    PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 100, _alpm_list_count(trans->packages), (_alpm_list_count(trans->packages) - _alpm_list_count(targ) +1));
+	    PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 		}

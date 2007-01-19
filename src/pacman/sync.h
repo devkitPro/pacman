@@ -21,13 +21,9 @@
 #ifndef _PM_SYNC_H
 #define _PM_SYNC_H
 
-/* Repositories */
-typedef struct __sync_t {
-	char *treename;
-	pmdb_t *db;
-} sync_t;
+#include <alpm.h>
 
-int pacman_sync(list_t *targets);
+int pacman_sync(alpm_list_t *targets);
 
 #endif /* _PM_SYNC_H */
 

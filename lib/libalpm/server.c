@@ -94,7 +94,7 @@ void _alpm_server_free(void *data)
  *
  * RETURN:  0 for successful download, 1 on error
  */
-int _alpm_downloadfiles(pmlist_t *servers, const char *localpath, pmlist_t *files)
+int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath, alpm_list_t *files)
 {
 	return(_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL));
 }
@@ -112,14 +112,14 @@ int _alpm_downloadfiles(pmlist_t *servers, const char *localpath, pmlist_t *file
  *          1 if the mtimes are identical
  *         -1 on error
  */
-int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
-	pmlist_t *files, const char *mtime1, char *mtime2)
+int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
+	alpm_list_t *files, const char *mtime1, char *mtime2)
 {
 	int dltotal_bytes = 0;
-	pmlist_t *lp;
+	alpm_list_t *lp;
 	int done = 0;
-	pmlist_t *complete = NULL;
-	pmlist_t *i;
+	alpm_list_t *complete = NULL;
+	alpm_list_t *i;
 
 	if(files == NULL) {
 		return(0);
@@ -137,7 +137,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 			snprintf(realfile, PATH_MAX, "%s/%s", localpath, fn);
 			snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
 
-			if(_alpm_list_is_strin(fn, complete)) {
+			if(alpm_list_is_strin(fn, complete)) {
 				continue;
 			}
 
@@ -196,7 +196,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 					_alpm_time2string(ust.mtime, strtime);
 					if(strcmp(mtime1, strtime) == 0) {
 						_alpm_log(PM_LOG_DEBUG, _("mtimes are identical, skipping %s"), fn);
-						complete = _alpm_list_add(complete, fn);
+						complete = alpm_list_add(complete, fn);
 						if(localf != NULL) {
 							fclose(localf);
 						}
@@ -246,7 +246,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 				fclose(localf);
 				fclose(dlf);
 				rename(output, realfile);
-				complete = _alpm_list_add(complete, fn);
+				complete = alpm_list_add(complete, fn);
 			} else {
 				int ret;
 				int usepart = 0;
@@ -298,7 +298,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 					_alpm_log(PM_LOG_DEBUG, _("XferCommand command returned non-zero status code (%d)"), ret);
 				} else {
 					/* download was successful */
-					complete = _alpm_list_add(complete, fn);
+					complete = alpm_list_add(complete, fn);
 					if(usepart) {
 						char fnpart[PATH_MAX];
 						/* rename "output.part" file to "output" file */
@@ -310,7 +310,7 @@ int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
 			}
 		}
 
-		if(_alpm_list_count(complete) == _alpm_list_count(files)) {
+		if(alpm_list_count(complete) == alpm_list_count(files)) {
 			done = 1;
 		}
 	}
@@ -344,8 +344,8 @@ char *_alpm_fetch_pkgurl(char *target)
 		_alpm_log(PM_LOG_DEBUG, _(" %s is already in the current directory"), s_url->doc);
 	} else {
 		pmserver_t *server;
-		pmlist_t *servers = NULL;
-		pmlist_t *files;
+		alpm_list_t *servers = NULL;
+		alpm_list_t *files;
 
 		if((server = (pmserver_t *)malloc(sizeof(pmserver_t))) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));
@@ -357,9 +357,9 @@ char *_alpm_fetch_pkgurl(char *target)
 
 			server->s_url = s_url;
 			server->path = strdup(s_url->doc);
-			servers = _alpm_list_add(servers, server);
+			servers = alpm_list_add(servers, server);
 
-			files = _alpm_list_add(NULL, strdup(p));
+			files = alpm_list_add(NULL, strdup(p));
 			if(_alpm_downloadfiles(servers, ".", files)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
 				return(NULL);

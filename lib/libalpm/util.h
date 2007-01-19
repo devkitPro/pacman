@@ -67,7 +67,7 @@ int _alpm_ldconfig(char *root);
 #ifdef _ALPM_TRANS_H
 int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver, pmtrans_t *trans);
 #ifndef __sun__
-int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data);
+int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data);
 #endif
 #endif
 void _alpm_time2string(time_t t, char *buffer);

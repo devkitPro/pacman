@@ -23,7 +23,7 @@
 
 #include "db.h"
 #include "log.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "alpm.h"
 #include "trans.h"
 
@@ -37,7 +37,7 @@ typedef struct _pmhandle_t {
 	pmaccess_t access;
 	uid_t uid;
 	pmdb_t *db_local;
-	pmlist_t *dbs_sync; /* List of (pmdb_t *) */
+	alpm_list_t *dbs_sync; /* List of (pmdb_t *) */
 	FILE *logfd;
 	int lckfd;
 	pmtrans_t *trans;
@@ -52,17 +52,17 @@ typedef struct _pmhandle_t {
 	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
 	unsigned char usesyslog;	/* Use syslog instead of logfile? */
 	
-	pmlist_t *noupgrade;			/* List of packages NOT to be upgraded */
-	pmlist_t *noextract;			/* List of packages NOT to extrace */ /*TODO is this used?*/
-	pmlist_t *ignorepkg;			/* List of packages to ignore */
-	pmlist_t *holdpkg;				/* List of packages which 'hold' pacman */
+	alpm_list_t *noupgrade;			/* List of packages NOT to be upgraded */
+	alpm_list_t *noextract;			/* List of packages NOT to extrace */ /*TODO is this used?*/
+	alpm_list_t *ignorepkg;			/* List of packages to ignore */
+	alpm_list_t *holdpkg;				/* List of packages which 'hold' pacman */
 
 	time_t upgradedelay;			/* Amount of time to wait before upgrading a package*/
 	/* servers */
 	char *xfercommand;				/* External download command */
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
 	unsigned short chomp;			/* I Love Candy! */
-	pmlist_t *needles;				/* needles for searching */ /* TODO why is this here? */
+	alpm_list_t *needles;				/* needles for searching */ /* TODO why is this here? */
 	unsigned short use_color; /* enable colorful output */
 } pmhandle_t;
 

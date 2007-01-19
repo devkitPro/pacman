@@ -21,7 +21,12 @@
 #ifndef _PM_UTIL_H
 #define _PM_UTIL_H
 
-#include "list.h"
+#include <stdlib.h>
+#include <string.h>
+#include <libintl.h>
+
+#include <alpm.h>
+#include <alpm_list.h>
 
 #define MALLOC(p, b) do { \
 	if((b) > 0) { \
@@ -47,10 +52,11 @@ unsigned int getcols();
 int makepath(char *path);
 int rmrf(char *path);
 void indentprint(const char *str, unsigned int indent);
-char *buildstring(list_t *strlist);
+char *buildstring(alpm_list_t *strlist);
 char *strtoupper(char *str);
 char *strtrim(char *str);
 int reg_match(char *string, char *pattern);
+void list_display(const char *title, alpm_list_t *list);
 
 #endif /* _PM_UTIL_H */
 

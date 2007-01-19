@@ -33,7 +33,7 @@
 #include "util.h"
 #include "log.h"
 #include "error.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "package.h"
 #include "db.h"
 #include "cache.h"
@@ -68,9 +68,9 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsign
 	return(miss);
 }
 
-int _alpm_depmiss_isin(pmdepmissing_t *needle, pmlist_t *haystack)
+int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
 {
-	pmlist_t *i;
+	alpm_list_t *i;
 
 	for(i = haystack; i; i = i->next) {
 		pmdepmissing_t *miss = i->data;
@@ -95,13 +95,13 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, pmlist_t *haystack)
  * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
  * affects the dependency order sortbydeps() will use.
  *
- * This function returns the new pmlist_t* target list.
+ * This function returns the new alpm_list_t* target list.
  *
  */ 
-pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode)
 {
-	pmlist_t *newtargs = NULL;
-	pmlist_t *i, *j, *k, *l;
+	alpm_list_t *newtargs = NULL;
+	alpm_list_t *i, *j, *k, *l;
 	int change = 1;
 	int numscans = 0;
 	int numtargs = 0;
@@ -111,13 +111,13 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 	}
 
 	for(i = targets; i; i = i->next) {
-		newtargs = _alpm_list_add(newtargs, i->data);
+		newtargs = alpm_list_add(newtargs, i->data);
 		numtargs++;
 	}
 
 	_alpm_log(PM_LOG_DEBUG, _("started sorting dependencies"));
 	while(change) {
-		pmlist_t *tmptargs = NULL;
+		alpm_list_t *tmptargs = NULL;
 		change = 0;
 		/* TODO only use of a math.h function in entire libalpm,
 		 *      can we get rid of it? Former code line:
@@ -147,7 +147,7 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 					if(!strcmp(dep.name, q->name)) {
 						if(!_alpm_pkg_isin(q->name, tmptargs)) {
 							change = 1;
-							tmptargs = _alpm_list_add(tmptargs, q);
+							tmptargs = alpm_list_add(tmptargs, q);
 						}
 						break;
 					}
@@ -155,7 +155,7 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 						if(!strcmp(dep.name, (char*)l->data)) {
 							if(!_alpm_pkg_isin((char*)l->data, tmptargs)) {
 								change = 1;
-								tmptargs = _alpm_list_add(tmptargs, q);
+								tmptargs = alpm_list_add(tmptargs, q);
 							}
 							break;
 						}
@@ -163,7 +163,7 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 				}
 			}
 			if(!_alpm_pkg_isin(p->name, tmptargs)) {
-				tmptargs = _alpm_list_add(tmptargs, p);
+				tmptargs = alpm_list_add(tmptargs, p);
 			}
 		}
 		FREELISTPTR(newtargs);
@@ -173,7 +173,7 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 
 	if(mode == PM_TRANS_TYPE_REMOVE) {
 		/* we're removing packages, so reverse the order */
-		pmlist_t *tmptargs = _alpm_list_reverse(newtargs);
+		alpm_list_t *tmptargs = alpm_list_reverse(newtargs);
 		/* free the old one */
 		FREELISTPTR(newtargs);
 		newtargs = tmptargs;
@@ -182,17 +182,17 @@ pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode)
 	return(newtargs);
 }
 
-/* Returns a pmlist_t* of missing_t pointers.
+/* Returns a alpm_list_t* of missing_t pointers.
  *
  * dependencies can include versions with depmod operators.
  *
  */
-pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist_t *packages)
+alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alpm_list_t *packages)
 {
 	pmdepend_t depend;
-	pmlist_t *i, *j, *k;
+	alpm_list_t *i, *j, *k;
 	int found = 0;
-	pmlist_t *baddeps = NULL;
+	alpm_list_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
 
 	if(db == NULL) {
@@ -237,7 +237,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 				}
 				if(found == 0) {
 					/* look for packages that list depend.name as a "provide" */
-					pmlist_t *provides = _alpm_db_whatprovides(db, depend.name);
+					alpm_list_t *provides = _alpm_db_whatprovides(db, depend.name);
 					if(provides == NULL) {
 						/* not found */
 						continue;
@@ -249,7 +249,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), depend.name, p->name);
 					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod, depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = _alpm_list_add(baddeps, miss);
+						baddeps = alpm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
 					}
@@ -284,7 +284,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 				}
  				/* check database for provides matches */
  				if(!found) {
- 					pmlist_t *m;
+ 					alpm_list_t *m;
  					k = _alpm_db_whatprovides(db, depend.name);
  					for(m = k; m && !found; m = m->next) {
  						/* look for a match that isn't one of the packages we're trying
@@ -292,7 +292,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
  						 * package, we'll defer to the NEW one, not the one already
  						 * installed. */
  						pmpkg_t *p = m->data;
- 						pmlist_t *n;
+ 						alpm_list_t *n;
  						int skip = 0;
  						for(n = packages; n && !skip; n = n->next) {
  							pmpkg_t *ptp = n->data;
@@ -319,7 +319,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 					          depend.name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod, depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = _alpm_list_add(baddeps, miss);
+						baddeps = alpm_list_add(baddeps, miss);
 					} else {
 						FREE(miss);
 					}
@@ -338,7 +338,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 			for(j = tp->requiredby; j; j = j->next) {
 				/* Search for 'reqname' in packages for removal */
 				char *reqname = j->data;
-				pmlist_t *x = NULL;
+				alpm_list_t *x = NULL;
 				for(x = packages; x; x = x->next) {
 					pmpkg_t *xp = x->data;
 					if(strcmp(reqname, xp->name) == 0) {
@@ -357,7 +357,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 							spkg = k->data;
 						}
 						if(spkg) {
-							if(_alpm_list_is_strin(tp->name, spkg->provides)) {
+							if(alpm_list_is_strin(tp->name, spkg->provides)) {
 								found = 1;
 							}
 						}
@@ -366,7 +366,7 @@ pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist
 						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), reqname, tp->name);
 						miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
 						if(!_alpm_depmiss_isin(miss, baddeps)) {
-							baddeps = _alpm_list_add(baddeps, miss);
+							baddeps = alpm_list_add(baddeps, miss);
 						} else {
 							FREE(miss);
 						}
@@ -422,15 +422,15 @@ int _alpm_splitdep(char *depstr, pmdepend_t *depend)
 	return(0);
 }
 
-/* return a new pmlist_t target list containing all packages in the original
+/* return a new alpm_list_t target list containing all packages in the original
  * target list, as well as all their un-needed dependencies.  By un-needed,
  * I mean dependencies that are *only* required for packages in the target
  * list, so they can be safely removed.  This function is recursive.
  */
-pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
+alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 {
-	pmlist_t *i, *j, *k;
-	pmlist_t *newtargs = targs;
+	alpm_list_t *i, *j, *k;
+	alpm_list_t *newtargs = targs;
 
 	if(db == NULL) {
 		return(newtargs);
@@ -497,7 +497,7 @@ pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
 				/* add it to the target list */
 				_alpm_log(PM_LOG_DEBUG, _("loading ALL info for '%s'"), pkg->name);
 				_alpm_db_read(db, INFRQ_ALL, pkg);
-				newtargs = _alpm_list_add(newtargs, pkg);
+				newtargs = alpm_list_add(newtargs, pkg);
 				_alpm_log(PM_LOG_FLOW2, _("adding '%s' to the targets"), pkg->name);
 				newtargs = _alpm_removedeps(db, newtargs);
 			}
@@ -512,19 +512,19 @@ pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs)
  *
  * make sure *list and *trail are already initialized
  */
-int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlist_t *list,
-                      pmlist_t *trail, pmtrans_t *trans, pmlist_t **data)
+int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg, alpm_list_t *list,
+                      alpm_list_t *trail, pmtrans_t *trans, alpm_list_t **data)
 {
-	pmlist_t *i, *j;
-	pmlist_t *targ;
-	pmlist_t *deps = NULL;
+	alpm_list_t *i, *j;
+	alpm_list_t *targ;
+	alpm_list_t *deps = NULL;
 
 	if(local == NULL || dbs_sync == NULL || syncpkg == NULL) {
 		return(-1);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, _("started resolving dependencies"));
-	targ = _alpm_list_add(NULL, syncpkg);
+	targ = alpm_list_add(NULL, syncpkg);
 	deps = _alpm_checkdeps(trans, local, PM_TRANS_TYPE_ADD, targ);
 	FREELISTPTR(targ);
 
@@ -540,7 +540,7 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 		/* check if one of the packages in *list already provides this dependency */
 		for(j = list; j && !found; j = j->next) {
 			pmpkg_t *sp = (pmpkg_t *)j->data;
-			if(_alpm_list_is_strin(miss->depend.name, sp->provides)) {
+			if(alpm_list_is_strin(miss->depend.name, sp->provides)) {
 				_alpm_log(PM_LOG_DEBUG, _("%s provides dependency %s -- skipping"),
 				          sp->name, miss->depend.name);
 				found = 1;
@@ -558,7 +558,7 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 		}
 		/* check provides */
 		for(j = dbs_sync; !sync && j; j = j->next) {
-			pmlist_t *provides;
+			alpm_list_t *provides;
 			provides = _alpm_db_whatprovides(j->data, miss->depend.name);
 			if(provides) {
 				sync = provides->data;
@@ -576,7 +576,7 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 					goto error;
 				}
 				*miss = *(pmdepmissing_t *)i->data;
-				*data = _alpm_list_add(*data, miss);
+				*data = alpm_list_add(*data, miss);
 			}
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
@@ -593,19 +593,19 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 			 * something we're not supposed to.
 			 */
 			int usedep = 1;
-			if(_alpm_list_is_strin(sync->name, handle->ignorepkg)) {
+			if(alpm_list_is_strin(sync->name, handle->ignorepkg)) {
 				pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
 				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
 				FREEPKG(dummypkg);
 			}
 			if(usedep) {
-				trail = _alpm_list_add(trail, sync);
+				trail = alpm_list_add(trail, sync);
 				if(_alpm_resolvedeps(local, dbs_sync, sync, list, trail, trans, data)) {
 					goto error;
 				}
 				_alpm_log(PM_LOG_DEBUG, _("pulling dependency %s (needed by %s)"),
 				          sync->name, syncpkg->name);
-				list = _alpm_list_add(list, sync);
+				list = alpm_list_add(list, sync);
 			} else {
 				_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);
 				if(data) {
@@ -616,7 +616,7 @@ int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlis
 						goto error;
 					}
 					*miss = *(pmdepmissing_t *)i->data;
-					*data = _alpm_list_add(*data, miss);
+					*data = alpm_list_add(*data, miss);
 				}
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				goto error;

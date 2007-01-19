@@ -33,7 +33,7 @@
 #include "log.h"
 #include "util.h"
 #include "error.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "package.h"
 #include "db.h"
 #include "handle.h"
@@ -118,17 +118,17 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->force      = pkg->force;
 	newpkg->scriptlet  = pkg->scriptlet;
 	newpkg->reason     = pkg->reason;
-	newpkg->license    = _alpm_list_strdup(pkg->license);
-	newpkg->desc_localized = _alpm_list_strdup(pkg->desc_localized);
-	newpkg->requiredby = _alpm_list_strdup(pkg->requiredby);
-	newpkg->conflicts  = _alpm_list_strdup(pkg->conflicts);
-	newpkg->files      = _alpm_list_strdup(pkg->files);
-	newpkg->backup     = _alpm_list_strdup(pkg->backup);
-	newpkg->depends    = _alpm_list_strdup(pkg->depends);
-	newpkg->removes    = _alpm_list_strdup(pkg->removes);
-	newpkg->groups     = _alpm_list_strdup(pkg->groups);
-	newpkg->provides   = _alpm_list_strdup(pkg->provides);
-	newpkg->replaces   = _alpm_list_strdup(pkg->replaces);
+	newpkg->license    = alpm_list_strdup(pkg->license);
+	newpkg->desc_localized = alpm_list_strdup(pkg->desc_localized);
+	newpkg->requiredby = alpm_list_strdup(pkg->requiredby);
+	newpkg->conflicts  = alpm_list_strdup(pkg->conflicts);
+	newpkg->files      = alpm_list_strdup(pkg->files);
+	newpkg->backup     = alpm_list_strdup(pkg->backup);
+	newpkg->depends    = alpm_list_strdup(pkg->depends);
+	newpkg->removes    = alpm_list_strdup(pkg->removes);
+	newpkg->groups     = alpm_list_strdup(pkg->groups);
+	newpkg->provides   = alpm_list_strdup(pkg->provides);
+	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
 	/* internal */
 	newpkg->origin     = pkg->origin;
 	newpkg->data = (newpkg->origin == PKG_FROM_FILE) ? strdup(pkg->data) : pkg->data;
@@ -214,7 +214,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				STRNCPY(info->version, ptr, sizeof(info->version));
 			} else if(!strcmp(key, "PKGDESC")) {
 				char *lang_tmp;
-				info->desc_localized = _alpm_list_add(info->desc_localized, strdup(ptr));
+				info->desc_localized = alpm_list_add(info->desc_localized, strdup(ptr));
 				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
 					RET_ERR(PM_ERR_MEMORY, -1);
 				}
@@ -226,11 +226,11 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				}
 				FREE(lang_tmp);
 			} else if(!strcmp(key, "GROUP")) {
-				info->groups = _alpm_list_add(info->groups, strdup(ptr));
+				info->groups = alpm_list_add(info->groups, strdup(ptr));
 			} else if(!strcmp(key, "URL")) {
 				STRNCPY(info->url, ptr, sizeof(info->url));
 			} else if(!strcmp(key, "LICENSE")) {
-				info->license = _alpm_list_add(info->license, strdup(ptr));
+				info->license = alpm_list_add(info->license, strdup(ptr));
 			} else if(!strcmp(key, "BUILDDATE")) {
 				STRNCPY(info->builddate, ptr, sizeof(info->builddate));
 			} else if(!strcmp(key, "BUILDTYPE")) {
@@ -250,17 +250,17 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				STRNCPY(tmp, ptr, sizeof(tmp));
 				info->isize = atol(ptr);
 			} else if(!strcmp(key, "DEPEND")) {
-				info->depends = _alpm_list_add(info->depends, strdup(ptr));
+				info->depends = alpm_list_add(info->depends, strdup(ptr));
 			} else if(!strcmp(key, "REMOVE")) {
-				info->removes = _alpm_list_add(info->removes, strdup(ptr));
+				info->removes = alpm_list_add(info->removes, strdup(ptr));
 			} else if(!strcmp(key, "CONFLICT")) {
-				info->conflicts = _alpm_list_add(info->conflicts, strdup(ptr));
+				info->conflicts = alpm_list_add(info->conflicts, strdup(ptr));
 			} else if(!strcmp(key, "REPLACES")) {
-				info->replaces = _alpm_list_add(info->replaces, strdup(ptr));
+				info->replaces = alpm_list_add(info->replaces, strdup(ptr));
 			} else if(!strcmp(key, "PROVIDES")) {
-				info->provides = _alpm_list_add(info->provides, strdup(ptr));
+				info->provides = alpm_list_add(info->provides, strdup(ptr));
 			} else if(!strcmp(key, "BACKUP")) {
-				info->backup = _alpm_list_add(info->backup, strdup(ptr));
+				info->backup = alpm_list_add(info->backup, strdup(ptr));
 			} else {
 				_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
 					info->name[0] != '\0' ? info->name : "error", linenum);
@@ -369,7 +369,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 					continue;
 				}
 				_alpm_strtrim(str);
-				info->files = _alpm_list_add(info->files, strdup(str));
+				info->files = alpm_list_add(info->files, strdup(str));
 			}
 			FREE(str);
 			fclose(fp);
@@ -386,7 +386,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 				/* no .FILELIST present in this package..  build the filelist the */
 				/* old-fashioned way, one at a time */
 				expath = strdup(archive_entry_pathname (entry));
-				info->files = _alpm_list_add(info->files, expath);
+				info->files = alpm_list_add(info->files, expath);
 			}
 		}
 
@@ -417,12 +417,12 @@ error:
 	return(NULL);
 }
 
-/* Test for existence of a package in a pmlist_t*
+/* Test for existence of a package in a alpm_list_t*
  * of pmpkg_t*
  */
-pmpkg_t *_alpm_pkg_isin(char *needle, pmlist_t *haystack)
+pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack)
 {
-	pmlist_t *lp;
+	alpm_list_t *lp;
 
 	if(needle == NULL || haystack == NULL) {
 		return(NULL);
@@ -668,7 +668,7 @@ unsigned char alpm_pkg_get_reason(pmpkg_t *pkg)
 	return pkg->reason;
 }
 
-pmlist_t *alpm_pkg_get_licenses(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -680,7 +680,7 @@ pmlist_t *alpm_pkg_get_licenses(pmpkg_t *pkg)
 	return pkg->license;
 }
 
-pmlist_t *alpm_pkg_get_groups(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -693,7 +693,7 @@ pmlist_t *alpm_pkg_get_groups(pmpkg_t *pkg)
 }
 
 /* depends */
-pmlist_t *alpm_pkg_get_depends(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -705,7 +705,7 @@ pmlist_t *alpm_pkg_get_depends(pmpkg_t *pkg)
 	return pkg->depends;
 }
 
-pmlist_t *alpm_pkg_get_removes(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -717,7 +717,7 @@ pmlist_t *alpm_pkg_get_removes(pmpkg_t *pkg)
 	return pkg->removes;
 }
 
-pmlist_t *alpm_pkg_get_requiredby(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -729,7 +729,7 @@ pmlist_t *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 	return pkg->requiredby;
 }
 
-pmlist_t *alpm_pkg_get_conflicts(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -741,7 +741,7 @@ pmlist_t *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 	return pkg->conflicts;
 }
 
-pmlist_t *alpm_pkg_get_provides(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -753,7 +753,7 @@ pmlist_t *alpm_pkg_get_provides(pmpkg_t *pkg)
 	return pkg->provides;
 }
 
-pmlist_t *alpm_pkg_get_replaces(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -765,7 +765,7 @@ pmlist_t *alpm_pkg_get_replaces(pmpkg_t *pkg)
 	return pkg->replaces;
 }
 
-pmlist_t *alpm_pkg_get_files(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -778,7 +778,7 @@ pmlist_t *alpm_pkg_get_files(pmpkg_t *pkg)
 	return pkg->files;
 }
 
-pmlist_t *alpm_pkg_get_backup(pmpkg_t *pkg)
+alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

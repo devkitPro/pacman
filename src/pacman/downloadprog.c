@@ -34,7 +34,6 @@
 /* pacman */
 #include "util.h"
 #include "log.h"
-#include "list.h"
 #include "downloadprog.h"
 #include "conf.h"
 

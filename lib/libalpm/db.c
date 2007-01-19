@@ -96,9 +96,9 @@ int _alpm_db_cmp(const void *db1, const void *db2)
 	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
 }
 
-pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
+alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 {
-	pmlist_t *i, *j, *k, *ret = NULL;
+	alpm_list_t *i, *j, *k, *ret = NULL;
 
 	for(i = needles; i; i = i->next) {
 		char *targ;
@@ -139,7 +139,7 @@ pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles)
 
 			if(matched != NULL) {
 				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'", targ, matched);
-				ret = _alpm_list_add(ret, pkg);
+				ret = alpm_list_add(ret, pkg);
 			}
 		}
 	}
@@ -159,7 +159,7 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 			RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 		}
 	} else {
-		pmlist_t *i;
+		alpm_list_t *i;
 		for(i = handle->dbs_sync; i; i = i->next) {
 			pmdb_t *sdb = i->data;
 			if(strcmp(treename, sdb->treename) == 0) {
@@ -197,7 +197,7 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 	if(strcmp(treename, "local") == 0) {
 		handle->db_local = db;
 	} else {
-		handle->dbs_sync = _alpm_list_add(handle->dbs_sync, db);
+		handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	}
 
 	return(db);

@@ -41,9 +41,10 @@
 #include <limits.h> /* PATH_MAX */
 #endif
 
+#include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
 #include "util.h"
-#include "list.h"
 #include "conf.h"
 #include "log.h"
 
@@ -196,22 +197,22 @@ void indentprint(const char *str, unsigned int indent)
 
 /* Condense a list of strings into one long (space-delimited) string
  */
-char *buildstring(list_t *strlist)
+char *buildstring(alpm_list_t *strlist)
 {
 	char *str;
 	size_t size = 1;
-	list_t *lp;
+	alpm_list_t *i;
 
-	for(lp = strlist; lp; lp = lp->next) {
-		size += strlen(lp->data) + 1;
+	for(i = strlist; i; i = alpm_list_next(i)) {
+		size += strlen(alpm_list_getdata(i)) + 1;
 	}
 	str = (char *)malloc(size);
 	if(str == NULL) {
 		ERR(NL, _("failed to allocate %d bytes\n"), size);
 	}
 	str[0] = '\0';
-	for(lp = strlist; lp; lp = lp->next) {
-		strcat(str, lp->data);
+	for(i = strlist; i; i = alpm_list_next(i)) {
+		strcat(str, alpm_list_getdata(i));
 		strcat(str, " ");
 	}
 	/* shave off the last space */
@@ -252,6 +253,36 @@ char *strtrim(char *str)
 	*++pch = '\0';
 
 	return str;
+}
+
+void list_display(const char *title, alpm_list_t *list)
+{
+	alpm_list_t *i;
+	int cols, len;
+
+	len = strlen(title);
+	printf("%s ", title);
+
+	if(list) {
+		for(i = list, cols = len; i; i = alpm_list_next(i)) {
+			char *str = alpm_list_getdata(i);
+			int s = strlen(str)+1;
+			unsigned int maxcols = getcols();
+			if(s + cols >= maxcols) {
+				int i;
+				cols = len;
+				printf("\n");
+				for (i = 0; i < len+1; ++i) {
+					printf(" ");
+				}
+			}
+			printf("%s ", str);
+			cols += s;
+		}
+		printf("\n");
+	} else {
+		printf(_("None\n"));
+	}
 }
 
 /* vim: set ts=2 sw=2 noet: */

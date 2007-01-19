@@ -22,7 +22,7 @@
 #define _PM_PACKAGE_H
 
 void dump_pkg_full(pmpkg_t *pkg, int level);
-void dump_pkg_sync(pmpkg_t *pkg, char *treename);
+void dump_pkg_sync(pmpkg_t *pkg, const char *treename);
 
 void dump_pkg_backups(pmpkg_t *pkg);
 void dump_pkg_files(pmpkg_t *pkg);

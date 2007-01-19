@@ -181,7 +181,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	struct stat buf;
 	char path[PATH_MAX+1];
 	char line[513];
-	pmlist_t *tmplist;
+	alpm_list_t *tmplist;
 	char *locale;
 
 	if(db == NULL) {
@@ -238,7 +238,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				_alpm_strtrim(info->filename);
 		  } else if(!strcmp(line, "%DESC%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->desc_localized = _alpm_list_add(info->desc_localized, strdup(line));
+					info->desc_localized = alpm_list_add(info->desc_localized, strdup(line));
 				}
 
 				if((locale = setlocale(LC_ALL, "")) == NULL) { /* To fix segfault when locale invalid */
@@ -263,7 +263,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				_alpm_strtrim(info->desc);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->groups = _alpm_list_add(info->groups, strdup(line));
+					info->groups = alpm_list_add(info->groups, strdup(line));
 				}
 			} else if(!strcmp(line, "%URL%")) {
 				if(fgets(info->url, sizeof(info->url), fp) == NULL) {
@@ -272,7 +272,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				_alpm_strtrim(info->url);
 			} else if(!strcmp(line, "%LICENSE%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->license = _alpm_list_add(info->license, strdup(line));
+					info->license = alpm_list_add(info->license, strdup(line));
 				}
 			} else if(!strcmp(line, "%ARCH%")) {
 				if(fgets(info->arch, sizeof(info->arch), fp) == NULL) {
@@ -347,7 +347,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				/* the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. */
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = _alpm_list_add(info->replaces, strdup(line));
+					info->replaces = alpm_list_add(info->replaces, strdup(line));
 				}
 			} else if(!strcmp(line, "%FORCE%")) {
 				/* FORCE tag only appears in sync repositories,
@@ -371,11 +371,11 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%FILES%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->files = _alpm_list_add(info->files, strdup(line));
+					info->files = alpm_list_add(info->files, strdup(line));
 				}
 			} else if(!strcmp(line, "%BACKUP%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->backup = _alpm_list_add(info->backup, strdup(line));
+					info->backup = alpm_list_add(info->backup, strdup(line));
 				}
 			}
 		}
@@ -396,25 +396,25 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%DEPENDS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->depends = _alpm_list_add(info->depends, strdup(line));
+					info->depends = alpm_list_add(info->depends, strdup(line));
 				}
 			} else if(!strcmp(line, "%REQUIREDBY%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->requiredby = _alpm_list_add(info->requiredby, strdup(line));
+					info->requiredby = alpm_list_add(info->requiredby, strdup(line));
 				}
 			} else if(!strcmp(line, "%CONFLICTS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->conflicts = _alpm_list_add(info->conflicts, strdup(line));
+					info->conflicts = alpm_list_add(info->conflicts, strdup(line));
 				}
 			} else if(!strcmp(line, "%PROVIDES%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->provides = _alpm_list_add(info->provides, strdup(line));
+					info->provides = alpm_list_add(info->provides, strdup(line));
 				}
 			} else if(!strcmp(line, "%REPLACES%")) {
 				/* the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. */
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = _alpm_list_add(info->replaces, strdup(line));
+					info->replaces = alpm_list_add(info->replaces, strdup(line));
 				}
 			} else if(!strcmp(line, "%FORCE%")) {
 				/* FORCE tag only appears in sync repositories,
@@ -451,7 +451,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	FILE *fp = NULL;
 	char path[PATH_MAX];
 	mode_t oldmask;
-	pmlist_t *lp = NULL;
+	alpm_list_t *lp = NULL;
 	int retval = 0;
 	int local = 0;
 

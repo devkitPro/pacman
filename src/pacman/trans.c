@@ -34,7 +34,6 @@
 #include "util.h"
 #include "log.h"
 #include "trans.h"
-#include "list.h"
 #include "conf.h"
 
 #define LOG_STR_LEN 256

@@ -12,7 +12,7 @@ TARGETS = md5driver.c \
 	md5.c \
 	sha1.c \
 	util.c \
-	list.c \
+	alpm_list.c \
 	log.c \
 	error.c \
 	package.c \
@@ -35,7 +35,7 @@ TARGETS = md5driver.c \
 
 lib_LTLIBRARIES = libalpm.la
 
-include_HEADERS = alpm.h
+include_HEADERS = alpm_list.h alpm.h
 
 libalpm_la_SOURCES = $(TARGETS)
 

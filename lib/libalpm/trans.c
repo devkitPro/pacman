@@ -32,7 +32,7 @@
 #include "package.h"
 #include "util.h"
 #include "log.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "handle.h"
 #include "add.h"
 #include "remove.h"
@@ -71,7 +71,7 @@ void _alpm_trans_free(void *data)
 
 	FREELIST(trans->targets);
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
-		pmlist_t *i;
+		alpm_list_t *i;
 		for(i = trans->packages; i; i = i->next) {
 			FREESYNC(i->data);
 		}
@@ -114,7 +114,7 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(_alpm_list_is_strin(target, trans->targets)) {
+	if(alpm_list_is_strin(target, trans->targets)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
@@ -140,12 +140,12 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 		break;
 	}
 
-	trans->targets = _alpm_list_add(trans->targets, strdup(target));
+	trans->targets = alpm_list_add(trans->targets, strdup(target));
 
 	return(0);
 }
 
-int _alpm_trans_prepare(pmtrans_t *trans, pmlist_t **data)
+int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 {
 	*data = NULL;
 
@@ -184,7 +184,7 @@ int _alpm_trans_prepare(pmtrans_t *trans, pmlist_t **data)
 	return(0);
 }
 
-int _alpm_trans_commit(pmtrans_t *trans, pmlist_t **data)
+int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 {
 	if(data!=NULL)
 		*data = NULL;
@@ -244,7 +244,7 @@ unsigned int alpm_trans_get_flags()
 	return handle->trans->flags;
 }
 
-pmlist_t * alpm_trans_get_targets()
+alpm_list_t * alpm_trans_get_targets()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -253,7 +253,7 @@ pmlist_t * alpm_trans_get_targets()
 	return handle->trans->targets;
 }
 
-pmlist_t * alpm_trans_get_packages()
+alpm_list_t * alpm_trans_get_packages()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

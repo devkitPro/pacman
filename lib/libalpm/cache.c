@@ -30,7 +30,7 @@
 /* pacman */
 #include "log.h"
 #include "alpm.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "util.h"
 #include "error.h"
 #include "package.h"
@@ -62,11 +62,11 @@ int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel)
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
 		/* add to the collection */
-		db->pkgcache = _alpm_list_add(db->pkgcache, info);
+		db->pkgcache = alpm_list_add(db->pkgcache, info);
 		count++;
 	}
 
-	db->pkgcache = _alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
+	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
 	return(0);
 }
 
@@ -86,7 +86,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	}
 }
 
-pmlist_t *_alpm_db_get_pkgcache(pmdb_t *db, unsigned char infolevel)
+alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, unsigned char infolevel)
 {
 	if(db == NULL) {
 		return(NULL);
@@ -108,7 +108,7 @@ int _alpm_db_ensure_pkgcache(pmdb_t *db, unsigned char infolevel)
 	 * info is not already cached
 	 */
 
-  pmlist_t *p;
+  alpm_list_t *p;
 	for(p = db->pkgcache; p; p = p->next) {
 		pmpkg_t *pkg = (pmpkg_t *)p->data;
 		if(infolevel != INFRQ_NONE && !(pkg->infolevel & infolevel)) {
@@ -136,7 +136,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 	_alpm_log(PM_LOG_DEBUG, _("adding entry '%s' in '%s' cache"), newpkg->name, db->treename);
-	db->pkgcache = _alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
+	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
 
 	_alpm_db_free_grpcache(db);
 
@@ -152,7 +152,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
-	db->pkgcache = _alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
+	db->pkgcache = alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
 	data = vdata;
 	if(data == NULL) {
 		/* package not found */
@@ -180,7 +180,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
  */
 int _alpm_db_load_grpcache(pmdb_t *db)
 {
-	pmlist_t *lp;
+	alpm_list_t *lp;
 
 	if(db == NULL) {
 		return(-1);
@@ -193,25 +193,25 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, _("loading group cache for repository '%s'"), db->treename);
 
 	for(lp = _alpm_db_get_pkgcache(db, INFRQ_DESC); lp; lp = lp->next) {
-		pmlist_t *i;
+		alpm_list_t *i;
 		pmpkg_t *pkg = lp->data;
 
 		for(i = pkg->groups; i; i = i->next) {
-			if(!_alpm_list_is_strin(i->data, db->grpcache)) {
+			if(!alpm_list_is_strin(i->data, db->grpcache)) {
 				pmgrp_t *grp = _alpm_grp_new();
 
 				STRNCPY(grp->name, (char *)i->data, GRP_NAME_LEN);
-				grp->packages = _alpm_list_add_sorted(grp->packages, pkg->name, _alpm_grp_cmp);
-				db->grpcache = _alpm_list_add_sorted(db->grpcache, grp, _alpm_grp_cmp);
+				grp->packages = alpm_list_add_sorted(grp->packages, pkg->name, _alpm_grp_cmp);
+				db->grpcache = alpm_list_add_sorted(db->grpcache, grp, _alpm_grp_cmp);
 			} else {
-				pmlist_t *j;
+				alpm_list_t *j;
 
 				for(j = db->grpcache; j; j = j->next) {
 					pmgrp_t *grp = j->data;
 
 					if(strcmp(grp->name, i->data) == 0) {
-						if(!_alpm_list_is_strin(pkg->name, grp->packages)) {
-							grp->packages = _alpm_list_add_sorted(grp->packages, (char *)pkg->name, _alpm_grp_cmp);
+						if(!alpm_list_is_strin(pkg->name, grp->packages)) {
+							grp->packages = alpm_list_add_sorted(grp->packages, (char *)pkg->name, _alpm_grp_cmp);
 						}
 					}
 				}
@@ -224,7 +224,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 
 void _alpm_db_free_grpcache(pmdb_t *db)
 {
-	pmlist_t *lg;
+	alpm_list_t *lg;
 
 	if(db == NULL || db->grpcache == NULL) {
 		return;
@@ -239,7 +239,7 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 	FREELIST(db->grpcache);
 }
 
-pmlist_t *_alpm_db_get_grpcache(pmdb_t *db)
+alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
 {
 	if(db == NULL) {
 		return(NULL);
@@ -254,7 +254,7 @@ pmlist_t *_alpm_db_get_grpcache(pmdb_t *db)
 
 pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, char *target)
 {
-	pmlist_t *i;
+	alpm_list_t *i;
 
 	if(db == NULL || target == NULL || strlen(target) == 0) {
 		return(NULL);

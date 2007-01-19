@@ -39,7 +39,7 @@
 #include <limits.h>
 #include <libintl.h>
 /* pacman */
-#include "list.h"
+#include "alpm_list.h"
 #include "trans.h"
 #include "util.h"
 #include "error.h"
@@ -88,7 +88,7 @@ static int add_faketarget(pmtrans_t *trans, char *name)
 		} else if(strncmp("version", p, q-p) == 0) {
 			STRNCPY(dummy->version, q+1, PKG_VERSION_LEN);
 		} else if(strncmp("depend", p, q-p) == 0) {
-			dummy->depends = _alpm_list_add(dummy->depends, strdup(q+1));
+			dummy->depends = alpm_list_add(dummy->depends, strdup(q+1));
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("could not parse token %s"), p);
 		}
@@ -100,7 +100,7 @@ static int add_faketarget(pmtrans_t *trans, char *name)
 	}
 
 	/* add the package to the transaction */
-	trans->packages = _alpm_list_add(trans->packages, dummy);
+	trans->packages = alpm_list_add(trans->packages, dummy);
 
 	return(0);
 }
@@ -110,7 +110,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	pmpkg_t *info = NULL;
 	pmpkg_t *dummy;
 	char pkgname[PKG_NAME_LEN], pkgver[PKG_VERSION_LEN];
-	pmlist_t *i;
+	alpm_list_t *i;
 	struct stat buf;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -201,7 +201,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	/* add the package to the transaction */
-	trans->packages = _alpm_list_add(trans->packages, info);
+	trans->packages = alpm_list_add(trans->packages, info);
 
 	return(0);
 
@@ -216,10 +216,10 @@ static int name_cmp(const void *p1, const void *p2)
 	return(strcmp(((pmpkg_t *)p1)->name, (const char *)p2));
 }
 
-int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
+int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
-	pmlist_t *lp = NULL, *i = NULL;
-	pmlist_t *rmlist = NULL;
+	alpm_list_t *lp = NULL, *i = NULL;
+	alpm_list_t *rmlist = NULL;
 	char rm_fname[PATH_MAX];
 	pmpkg_t *info = NULL;
 
@@ -254,7 +254,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &skip_this);
 			if(skip_this) {
 				pmpkg_t **pkg = NULL;
-				lp = _alpm_list_remove(lp, (void *)miss->depend.name, name_cmp, (void **)pkg);
+				lp = alpm_list_remove(lp, (void *)miss->depend.name, name_cmp, (void **)pkg);
 				FREEPKG(*pkg);
 			}
 		}
@@ -293,7 +293,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, pmlist_t **data)
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		pmlist_t *skiplist = NULL;
+		alpm_list_t *skiplist = NULL;
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
@@ -334,7 +334,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	char expath[PATH_MAX], cwd[PATH_MAX] = "", *what;
 	unsigned char cb_state;
 	time_t t;
-	pmlist_t *targ, *lp;
+	alpm_list_t *targ, *lp;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -375,7 +375,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), local->name);
 						_alpm_db_read(db, INFRQ_FILES, local);
 					}
-					oldpkg->backup = _alpm_list_strdup(local->backup);
+					oldpkg->backup = alpm_list_strdup(local->backup);
 					strncpy(oldpkg->name, local->name, PKG_NAME_LEN);
 					strncpy(oldpkg->version, local->version, PKG_VERSION_LEN);
 				}
@@ -408,7 +408,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
 					}
 					/* copy the skiplist over */
-					tr->skiplist = _alpm_list_strdup(trans->skiplist);
+					tr->skiplist = alpm_list_strdup(trans->skiplist);
 					if(_alpm_remove_commit(tr, db) == -1) {
 						FREETRANS(tr);
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -475,7 +475,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				if (info->size != 0)
 		    			percent = (double)archive_position_uncompressed(archive) / info->size;
 				if (needdisp == 0) {
-					PROGRESS(trans, cb_state, what, (int)(percent * 100), _alpm_list_count(trans->packages), (_alpm_list_count(trans->packages) - _alpm_list_count(targ) +1));
+					PROGRESS(trans, cb_state, what, (int)(percent * 100), alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 				}
 
 				if(!strcmp(pathname, ".PKGINFO") || !strcmp(pathname, ".FILELIST")) {
@@ -507,7 +507,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				 * eg, /home/httpd/html/index.html may be removed so index.php
 				 * could be used.
 				 */
-				if(_alpm_list_is_strin(pathname, handle->noextract)) {
+				if(alpm_list_is_strin(pathname, handle->noextract)) {
 					alpm_logaction(_("notice: %s is in NoExtract -- skipping extraction"), pathname);
 					archive_read_data_skip (archive);
 					continue;
@@ -516,7 +516,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				if(!stat(expath, &buf) && !S_ISDIR(buf.st_mode)) {
 					/* file already exists */
 					if(!pmo_upgrade || oldpkg == NULL) {
-						nb = _alpm_list_is_strin(pathname, info->backup);
+						nb = alpm_list_is_strin(pathname, info->backup);
 					} else {
 						/* op == PM_TRANS_TYPE_UPGRADE */
 						md5_orig = _alpm_needbackup(pathname, oldpkg->backup);
@@ -525,7 +525,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							nb = 1;
 						}
 					}
-					if(_alpm_list_is_strin(pathname, handle->noupgrade)) {
+					if(alpm_list_is_strin(pathname, handle->noupgrade)) {
 						notouch = 1;
 						nb = 0;
 					}
@@ -753,7 +753,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		 * looking for packages depending on the package to add */
 		for(lp = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); lp; lp = lp->next) {
 			pmpkg_t *tmpp = lp->data;
-			pmlist_t *tmppm = NULL;
+			alpm_list_t *tmppm = NULL;
 			if(tmpp == NULL) {
 				continue;
 			}
@@ -764,7 +764,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				}
 				if(tmppm->data && !strcmp(depend.name, info->name)) {
 					_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"), tmpp->name, info->name);
-					info->requiredby = _alpm_list_add(info->requiredby, strdup(tmpp->name));
+					info->requiredby = alpm_list_add(info->requiredby, strdup(tmpp->name));
 				}
 			}
 		}
@@ -800,7 +800,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			depinfo = _alpm_db_get_pkgfromcache(db, depend.name);
 			if(depinfo == NULL) {
 				/* look for a provides package */
-				pmlist_t *provides = _alpm_db_whatprovides(db, depend.name);
+				alpm_list_t *provides = _alpm_db_whatprovides(db, depend.name);
 				if(provides) {
 					/* TODO: should check _all_ packages listed in provides, not just
 					 *       the first one.
@@ -820,14 +820,14 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_db_read(db, INFRQ_DEPENDS, depinfo);
 
 			_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"), info->name, depinfo->name);
-			depinfo->requiredby = _alpm_list_add(depinfo->requiredby, strdup(info->name));
+			depinfo->requiredby = alpm_list_add(depinfo->requiredby, strdup(info->name));
 			if(_alpm_db_write(db, depinfo, INFRQ_DEPENDS)) {
 				_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
 				          depinfo->name, depinfo->version);
 			}
 		}
 
-		PROGRESS(trans, cb_state, what, 100, _alpm_list_count(trans->packages), (_alpm_list_count(trans->packages) - _alpm_list_count(targ) +1));
+		PROGRESS(trans, cb_state, what, 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 		needdisp = 0;
 		EVENT(trans, PM_TRANS_EVT_EXTRACT_DONE, NULL, NULL);
 		FREE(what);

@@ -26,15 +26,13 @@
 #include <libintl.h>
 
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
-#include "list.h"
 #include "sync.h"
 #include "downloadprog.h"
 #include "conf.h"
-
-extern list_t *pmc_syncs;
 
 config_t *config_new()
 {
@@ -59,16 +57,6 @@ int config_free(config_t *config)
 	free(config);
 
 	return(0);
-}
-
-void cb_db_register(char *section, pmdb_t *db)
-{
-	sync_t *sync;
-
-	MALLOC(sync, sizeof(sync_t));
-	sync->treename = strdup(section);
-	sync->db = db;
-	pmc_syncs = list_add(pmc_syncs, sync);
 }
 
 /* vim: set ts=2 sw=2 noet: */

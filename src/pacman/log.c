@@ -30,7 +30,6 @@
 #include <alpm.h>
 /* pacman */
 #include "log.h"
-#include "list.h"
 #include "conf.h"
 #include "util.h"
 

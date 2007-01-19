@@ -26,9 +26,9 @@
 #include <string.h>
 #include <libintl.h>
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
 #include "util.h"
-#include "list.h"
 #include "conf.h"
 #include "log.h"
 #include "sync.h"
@@ -36,10 +36,12 @@
 
 extern config_t *config;
 
-int pacman_deptest(list_t *targets)
+/* TODO this function is fairly messy, with the obscure return codes and the odd
+ * 'dummy' packages and all these messy FREELISTs of synctargs
+ */
+int pacman_deptest(alpm_list_t *targets)
 {
-	pmlist_t *data;
-	list_t *i;
+	alpm_list_t *data, *i;
 	char *str;
 	int retval = 0;
 
@@ -48,8 +50,11 @@ int pacman_deptest(list_t *targets)
 	}
 
 	if(config->op_d_vertest) {
-		if(targets->data && targets->next && targets->next->data) {
-			int ret = alpm_pkg_vercmp(targets->data, targets->next->data);
+		const char *pkga, *pkgb;
+		pkga = alpm_list_getdata(targets);
+		i = alpm_list_next(targets);
+		if(pkga && i && (pkgb = alpm_list_getdata(i))) {
+			int ret = alpm_pkg_vercmp(pkga, pkgb);
 			printf("%d\n", ret);
 			return(ret);
 		}
@@ -79,10 +84,11 @@ int pacman_deptest(list_t *targets)
 		goto cleanup;
 	}
 	strcpy(str, "name=dummy|version=1.0-1");
-	for(i = targets; i; i = i->next) {
-		str = (char *)realloc(str, strlen(str)+8+strlen(i->data)+1);
+	for(i = targets; i; i = alpm_list_next(i)) {
+		const char *targ = alpm_list_getdata(i);
+		str = (char *)realloc(str, strlen(str)+8+strlen(targ)+1);
 		strcat(str, "|depend=");
-		strcat(str, i->data);
+		strcat(str, targ);
 	}
 	vprint(_("add target %s\n"), str);
 	if(alpm_trans_addtarget(str) == -1) {
@@ -94,8 +100,7 @@ int pacman_deptest(list_t *targets)
 	FREE(str);
 
 	if(alpm_trans_prepare(&data) == -1) {
-		pmlist_t *lp;
-		list_t *synctargs = NULL;
+		alpm_list_t *synctargs = NULL;
 		retval = 126;
 		/* return 126 = deps were missing, but successfully resolved
 		 * return 127 = deps were missing, and failed to resolve; OR
@@ -104,8 +109,8 @@ int pacman_deptest(list_t *targets)
 		 */
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
-				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					pmdepmissing_t *miss = alpm_list_getdata(lp);
+				for(i = data; i; i = alpm_list_next(i)) {
+					pmdepmissing_t *miss = alpm_list_getdata(i);
 					if(!config->op_d_resolve) {
 						MSG(NL, _("requires: %s"), alpm_dep_get_name(miss));
 						switch(alpm_dep_get_mod(miss)) {
@@ -115,18 +120,18 @@ int pacman_deptest(list_t *targets)
 						}
 						MSG(CL, "\n");
 					}
-					synctargs = list_add(synctargs, strdup(alpm_dep_get_name(miss)));
+					synctargs = alpm_list_add(synctargs, strdup(alpm_dep_get_name(miss)));
 				}
-				alpm_list_free(data);
+				alpm_list_free(data, NULL);
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 				/* we can't auto-resolve conflicts */
-				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					pmdepmissing_t *miss = alpm_list_getdata(lp);
+				for(i = data; i; i = alpm_list_next(i)) {
+					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _("conflict: %s"), alpm_dep_get_name(miss));
 				}
 				retval = 127;
-				alpm_list_free(data);
+				alpm_list_free(data, NULL);
 			break;
 			default:
 				retval = 127;

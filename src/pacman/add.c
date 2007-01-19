@@ -25,9 +25,9 @@
 #include <libintl.h>
 
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
 #include "log.h"
-#include "list.h"
 #include "downloadprog.h"
 #include "trans.h"
 #include "add.h"
@@ -36,10 +36,9 @@
 
 extern config_t *config;
 
-int pacman_add(list_t *targets)
+int pacman_add(alpm_list_t *targets)
 {
-	pmlist_t *data;
-	list_t *i;
+	alpm_list_t *i = targets, *data;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -48,7 +47,7 @@ int pacman_add(list_t *targets)
 
 	/* Check for URL targets and process them
 	 */
-	for(i = targets; i; i = i->next) {
+	while(i) {
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(i->data);
 			if(str == NULL) {
@@ -58,6 +57,7 @@ int pacman_add(list_t *targets)
 				i->data = str;
 			}
 		}
+		i = i->next;
 	}
 
 	/* Step 1: create a new transaction
@@ -67,7 +67,7 @@ int pacman_add(list_t *targets)
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-			  "       you can remove %s%s\n"), config->root, PM_LOCK);
+						    "       you can remove %s%s\n"), config->root, PM_LOCK);
 		}
 		return(1);
 	}
@@ -87,12 +87,11 @@ int pacman_add(list_t *targets)
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
 		long long *pkgsize, *freespace;
-		pmlist_t *i;
 
 		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
-				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
+				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s: requires %s"), alpm_dep_get_target(miss),
 					                              alpm_dep_get_name(miss));
@@ -105,14 +104,14 @@ int pacman_add(list_t *targets)
 				}
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
-				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
+				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s: conflicts with %s"),
 						alpm_dep_get_target(miss), alpm_dep_get_name(miss));
 				}
 			break;
 			case PM_ERR_FILE_CONFLICTS:
-				for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
+				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
 					switch(alpm_conflict_get_type(conflict)) {
 						case PM_CONFLICT_TYPE_TARGET:
@@ -132,13 +131,16 @@ int pacman_add(list_t *targets)
 				}
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
 			break;
+			/* TODO This is gross... we should not return these values in the same list we
+			 * would get conflicts and such with... it's just silly
+			 */
 			case PM_ERR_DISK_FULL:
-				i = alpm_list_first(data);
+				i = data;
 				pkgsize = alpm_list_getdata(i);
 				i = alpm_list_next(i);
 				freespace = alpm_list_getdata(i);
 					MSG(NL, _(":: %.1f MB required, have %.1f MB"),
-						(double)(*pkgsize / 1048576.0), (double)(*freespace / 1048576.0));
+						(double)(*pkgsize / (1024.0*1024.0)), (double)(*freespace / (1024.0*1024.0)));
 			break;
 			default:
 			break;
@@ -157,8 +159,7 @@ int pacman_add(list_t *targets)
 
 cleanup:
 	if(data) {
-		alpm_list_free(data);
-		data = NULL;
+		alpm_list_free(data, NULL);
 	}
 	if(alpm_trans_release() == -1) {
 		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));

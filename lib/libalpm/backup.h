@@ -21,9 +21,9 @@
 #ifndef _ALPM_BACKUP_H
 #define _ALPM_BACKUP_H
 
-#include "list.h"
+#include "alpm_list.h"
 
-char *_alpm_needbackup(char *file, pmlist_t *backup);
+char *_alpm_needbackup(char *file, alpm_list_t *backup);
 
 #endif /* _ALPM_BACKUP_H */
 

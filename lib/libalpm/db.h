@@ -39,15 +39,15 @@ struct __pmdb_t {
 	char *path;
 	char treename[PATH_MAX];
 	void *handle;
-	pmlist_t *pkgcache;
-	pmlist_t *grpcache;
-	pmlist_t *servers;
+	alpm_list_t *pkgcache;
+	alpm_list_t *grpcache;
+	alpm_list_t *servers;
 };
 /* db.c, database general calls */
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);
 int _alpm_db_cmp(const void *db1, const void *db2);
-pmlist_t *_alpm_db_search(pmdb_t *db, pmlist_t *needles);
+alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles);
 pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback);
 
 /* be.c, backend specific calls */

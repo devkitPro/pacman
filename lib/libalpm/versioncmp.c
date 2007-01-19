@@ -31,7 +31,7 @@
 #include "alpm.h"
 #include "log.h"
 #include "util.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "versioncmp.h"
 
 #ifndef HAVE_STRVERSCMP
@@ -247,7 +247,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	int equal = 0;
 
-  if(strcmp(pkg->name, dep->name) == 0 || _alpm_list_is_strin(dep->name, pkg->provides)) {
+  if(strcmp(pkg->name, dep->name) == 0 || alpm_list_is_strin(dep->name, pkg->provides)) {
 		if(dep->mod == PM_DEP_MOD_ANY) {
 			equal = 1;
 		} else {

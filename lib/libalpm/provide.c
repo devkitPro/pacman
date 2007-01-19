@@ -24,16 +24,16 @@
 #include <string.h>
 /* pacman */
 #include "cache.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "db.h"
 #include "provide.h"
 
-/* return a pmlist_t of packages in "db" that provide "package"
+/* return a alpm_list_t of packages in "db" that provide "package"
  */
-pmlist_t *_alpm_db_whatprovides(pmdb_t *db, char *package)
+alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, char *package)
 {
-	pmlist_t *pkgs = NULL;
-	pmlist_t *lp;
+	alpm_list_t *pkgs = NULL;
+	alpm_list_t *lp;
 
 	if(db == NULL || package == NULL || strlen(package) == 0) {
 		return(NULL);
@@ -42,8 +42,8 @@ pmlist_t *_alpm_db_whatprovides(pmdb_t *db, char *package)
 	for(lp = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(_alpm_list_is_strin(package, info->provides)) {
-			pkgs = _alpm_list_add(pkgs, info);
+		if(alpm_list_is_strin(package, info->provides)) {
+			pkgs = alpm_list_add(pkgs, info);
 		}
 	}
 

@@ -29,7 +29,7 @@
 #include "error.h"
 #include "log.h"
 #include "group.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "alpm.h"
 
 pmgrp_t *_alpm_grp_new()
@@ -81,7 +81,7 @@ const char *alpm_grp_get_name(pmgrp_t *grp)
 	return grp->name;
 }
 
-pmlist_t *alpm_grp_get_packages(pmgrp_t *grp)
+alpm_list_t *alpm_grp_get_packages(pmgrp_t *grp)
 {
 	/* Sanity checks */
 	ASSERT(grp != NULL, return(NULL));

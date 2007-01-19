@@ -43,8 +43,8 @@
 #include <time.h>
 
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
-#include "list.h"
 #include "util.h"
 #include "log.h"
 #include "downloadprog.h"
@@ -75,10 +75,8 @@ enum {
 config_t *config;
 
 pmdb_t *db_local;
-/* list of (sync_t *) structs for sync locations */
-list_t *pmc_syncs;
 /* list of targets specified on command line */
-static list_t *pm_targets;
+static alpm_list_t *pm_targets;
 
 extern int neednl;
 
@@ -177,8 +175,6 @@ static void version()
 
 static void cleanup(int signum)
 {
-	list_t *lp;
-
 	if(signum==SIGSEGV)
 	{
 		fprintf(stderr, "Internal pacman error: Segmentation fault\n"
@@ -198,11 +194,6 @@ static void cleanup(int signum)
 	}
 
 	/* free memory */
-	for(lp = pmc_syncs; lp; lp = lp->next) {
-		sync_t *sync = lp->data;
-		FREE(sync->treename);
-	}
-	FREELIST(pmc_syncs);
 	FREELIST(pm_targets);
 	FREECONF(config);
 
@@ -294,7 +285,7 @@ static int parseargs(int argc, char *argv[])
 				config->configfile = strndup(optarg, PATH_MAX);
 				#endif
 				break;
-			case 1002: config->op_s_ignore = list_add(config->op_s_ignore, strdup(optarg)); break;
+			case 1002: config->op_s_ignore = alpm_list_add(config->op_s_ignore, strdup(optarg)); break;
 			case 1003: config->debug = atoi(optarg); break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
@@ -392,7 +383,7 @@ static int parseargs(int argc, char *argv[])
 
 	while(optind < argc) {
 		/* add the target to our target array */
-		pm_targets = list_add(pm_targets, strdup(argv[optind]));
+		pm_targets = alpm_list_add(pm_targets, strdup(argv[optind]));
 		optind++;
 	}
 
@@ -406,7 +397,6 @@ int main(int argc, char *argv[])
 #ifndef CYGWIN
 	uid_t myuid;
 #endif
-	list_t *lp;
 
 #if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
 	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
@@ -500,7 +490,7 @@ int main(int argc, char *argv[])
 		config->configfile = strdup(PACCONF);
 	}
 
-	if(alpm_parse_config(config->configfile, cb_db_register, "") != 0) {
+	if(alpm_parse_config(config->configfile, NULL, "") != 0) {
 		ERR(NL, _("failed to parse config (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
@@ -511,8 +501,9 @@ int main(int argc, char *argv[])
 	config->dbpath = alpm_option_get_dbpath();
 	config->cachedir = alpm_option_get_cachedir();
 
-	for(lp = config->op_s_ignore; lp; lp = lp->next) {
-		alpm_option_add_ignorepkg(lp->data);
+	alpm_list_t *i;
+	for(i = config->op_s_ignore; i; i = alpm_list_next(i)) {
+		alpm_option_add_ignorepkg(alpm_list_getdata(i));
 	}
 	
 	if(config->verbose > 0) {
@@ -528,7 +519,7 @@ int main(int argc, char *argv[])
 		cleanup(1);
 	}
 
-	if(list_count(pm_targets) == 0 && !(config->op == PM_OP_QUERY || (config->op == PM_OP_SYNC
+	if(alpm_list_count(pm_targets) == 0 && !(config->op == PM_OP_QUERY || (config->op == PM_OP_SYNC
 	   && (config->op_s_sync || config->op_s_upgrade || config->op_s_clean || config->group 
 	   || config->op_q_list)))) {
 		ERR(NL, _("no targets specified (use -h for help)\n"));

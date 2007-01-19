@@ -47,7 +47,8 @@ extern "C" {
  * Structures
  */
 
-typedef struct __pmlist_t pmlist_t;
+typedef struct __alpm_list_t alpm_list_t;
+
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
 typedef struct __pmgrp_t pmgrp_t;
@@ -117,21 +118,21 @@ void alpm_option_set_logfile(const char *logfile);
 unsigned char alpm_option_get_usesyslog();
 void alpm_option_set_usesyslog(unsigned char usesyslog);
 
-pmlist_t *alpm_option_get_noupgrades();
+alpm_list_t *alpm_option_get_noupgrades();
 void alpm_option_add_noupgrade(char *pkg);
-void alpm_option_set_noupgrades(pmlist_t *noupgrade);
+void alpm_option_set_noupgrades(alpm_list_t *noupgrade);
 
-pmlist_t *alpm_option_get_noextracts();
+alpm_list_t *alpm_option_get_noextracts();
 void alpm_option_add_noextract(char *pkg);
-void alpm_option_set_noextracts(pmlist_t *noextract);
+void alpm_option_set_noextracts(alpm_list_t *noextract);
 
-pmlist_t *alpm_option_get_ignorepkgs();
+alpm_list_t *alpm_option_get_ignorepkgs();
 void alpm_option_add_ignorepkg(char *pkg);
-void alpm_option_set_ignorepkgs(pmlist_t *ignorepkgs);
+void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
 
-pmlist_t *alpm_option_get_holdpkgs();
+alpm_list_t *alpm_option_get_holdpkgs();
 void alpm_option_add_holdpkg(char *pkg);
-void alpm_option_set_holdpkgs(pmlist_t *holdpkgs);
+void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs);
 
 time_t alpm_option_get_upgradedelay();
 void alpm_option_set_upgradedelay(time_t delay);
@@ -145,12 +146,15 @@ void alpm_option_set_nopassiveftp(unsigned short nopasv);
 unsigned short alpm_option_get_chomp();
 void alpm_option_set_chomp(unsigned short chomp);
 
-pmlist_t *alpm_option_get_needles();
+alpm_list_t *alpm_option_get_needles();
 void alpm_option_add_needle(char *needle);
-void alpm_option_set_needles(pmlist_t *needles);
+void alpm_option_set_needles(alpm_list_t *needles);
 
 unsigned short alpm_option_get_usecolor();
 void alpm_option_set_usecolor(unsigned short usecolor);
+
+pmdb_t *alpm_option_get_localdb();
+alpm_list_t *alpm_option_get_syncdbs();
 
 /*
  * Databases
@@ -170,12 +174,12 @@ int alpm_db_setserver(pmdb_t *db, const char *url);
 int alpm_db_update(int level, pmdb_t *db);
 
 pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name);
-pmlist_t *alpm_db_getpkgcache(pmdb_t *db);
-pmlist_t *alpm_db_whatprovides(pmdb_t *db, char *name);
+alpm_list_t *alpm_db_getpkgcache(pmdb_t *db);
+alpm_list_t *alpm_db_whatprovides(pmdb_t *db, char *name);
 
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name);
-pmlist_t *alpm_db_getgrpcache(pmdb_t *db);
-pmlist_t *alpm_db_search(pmdb_t *db);
+alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
+alpm_list_t *alpm_db_search(pmdb_t *db);
 
 /*
  * Packages
@@ -215,23 +219,23 @@ const char *alpm_pkg_get_arch(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_size(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_isize(pmpkg_t *pkg);
 unsigned char alpm_pkg_get_reason(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_groups(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_depends(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_removes(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_requiredby(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_provides(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_files(pmpkg_t *pkg);
-pmlist_t *alpm_pkg_get_backup(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_requiredby(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
 unsigned char alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
 /*
  * Groups
  */
 const char *alpm_grp_get_name(pmgrp_t *grp);
-pmlist_t *alpm_grp_get_packages(pmgrp_t *grp);
+alpm_list_t *alpm_grp_get_packages(pmgrp_t *grp);
 
 /*
  * Sync
@@ -334,13 +338,13 @@ typedef void (*alpm_trans_cb_progress)(unsigned char, char *, int, int, int);
 
 unsigned char alpm_trans_get_type();
 unsigned int alpm_trans_get_flags();
-pmlist_t * alpm_trans_get_targets();
-pmlist_t * alpm_trans_get_packages();
+alpm_list_t * alpm_trans_get_targets();
+alpm_list_t * alpm_trans_get_packages();
 int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv, alpm_trans_cb_progress cb_progress);
 int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
-int alpm_trans_prepare(pmlist_t **data);
-int alpm_trans_commit(pmlist_t **data);
+int alpm_trans_prepare(alpm_list_t **data);
+int alpm_trans_commit(alpm_list_t **data);
 int alpm_trans_release(void);
 
 /*
@@ -382,15 +386,6 @@ const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
 /*
  * Helpers
  */
- 
-/* pmlist_t */
-pmlist_t *alpm_list_first(pmlist_t *list);
-pmlist_t *alpm_list_next(pmlist_t *entry);
-#define alpm_list_data(type, list) (type)alpm_list_getdata((list))
-void *alpm_list_getdata(const pmlist_t *entry);
-int alpm_list_free(pmlist_t *entry);
-int alpm_list_free_outer(pmlist_t *entry);
-int alpm_list_count(const pmlist_t *list);
 
 /* md5sums */
 char *alpm_get_md5sum(char *name);

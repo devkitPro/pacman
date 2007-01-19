@@ -21,7 +21,9 @@
 #ifndef _PM_ADD_H
 #define _PM_ADD_H
 
-int pacman_add(list_t *targets);
+#include <alpm.h>
+
+int pacman_add(alpm_list_t *targets);
 
 #endif /* _PM_ADD_H */
 

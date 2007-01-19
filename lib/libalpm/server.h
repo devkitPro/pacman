@@ -21,7 +21,7 @@
 #ifndef _ALPM_SERVER_H
 #define _ALPM_SERVER_H
 
-#include "list.h"
+#include "alpm_list.h"
 #include "alpm.h"
 
 #include <time.h>
@@ -40,9 +40,9 @@ struct __pmserver_t {
 
 pmserver_t *_alpm_server_new(const char *url);
 void _alpm_server_free(void *data);
-int _alpm_downloadfiles(pmlist_t *servers, const char *localpath, pmlist_t *files);
-int _alpm_downloadfiles_forreal(pmlist_t *servers, const char *localpath,
-	pmlist_t *files, const char *mtime1, char *mtime2);
+int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath, alpm_list_t *files);
+int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
+	alpm_list_t *files, const char *mtime1, char *mtime2);
 
 char *_alpm_fetch_pkgurl(char *target);
 

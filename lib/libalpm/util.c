@@ -55,8 +55,8 @@
 #endif
 
 /* pacman */
+#include "alpm_list.h"
 #include "log.h"
-#include "list.h"
 #include "trans.h"
 #include "sync.h"
 #include "util.h"
@@ -563,9 +563,9 @@ static long long get_freespace()
 	return(ret);
 }
 
-int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data)
+int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data)
 {
-	pmlist_t *i;
+	alpm_list_t *i;
 	long long pkgsize=0, freespace;
 
 	for(i = trans->packages; i; i = i->next) {
@@ -594,7 +594,7 @@ int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data)
 				return(-1);
 			}
 			*ptr = pkgsize;
-			*data = _alpm_list_add(*data, ptr);
+			*data = alpm_list_add(*data, ptr);
 			if((ptr = (long long*)malloc(sizeof(long long)))==NULL) {
 				_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(long long));
 				FREELIST(*data);
@@ -602,7 +602,7 @@ int _alpm_check_freespace(pmtrans_t *trans, pmlist_t **data)
 				return(-1);
 			}
 			*ptr = freespace;
-			*data = _alpm_list_add(*data, ptr);
+			*data = alpm_list_add(*data, ptr);
 		}
 		pm_errno = PM_ERR_DISK_FULL;
 		return(-1);

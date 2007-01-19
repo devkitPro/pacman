@@ -21,6 +21,8 @@
 #ifndef _PM_CONF_H
 #define _PM_CONF_H
 
+#include <alpm.h>
+
 typedef struct __config_t {
 	/* command line options */
 	char *root;
@@ -47,7 +49,7 @@ typedef struct __config_t {
 	unsigned short op_s_clean;
 	unsigned short op_s_dependsonly;
 	unsigned short op_s_downloadonly;
-	list_t *op_s_ignore;
+	alpm_list_t *op_s_ignore;
 	unsigned short op_s_info;
 	unsigned short op_s_sync;
 	unsigned short op_s_search;
@@ -63,7 +65,6 @@ typedef struct __config_t {
 
 config_t *config_new(void);
 int config_free(config_t *config);
-void cb_db_register(char *section, pmdb_t *db);
 
 #endif /* _PM_CONF_H */
 

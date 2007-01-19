@@ -21,7 +21,9 @@
 #ifndef _PM_DEPTEST_H
 #define _PM_DEPTEST_H
 
-int pacman_deptest(list_t *targets);
+#include <alpm.h>
+
+int pacman_deptest(alpm_list_t *targets);
 
 #endif /* _PM_DEPTEST_H */
 

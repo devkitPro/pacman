@@ -32,9 +32,9 @@
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
  * then we return the md5 or sha1 hash (parsed from the same line)
  */
-char *_alpm_needbackup(char *file, pmlist_t *backup)
+char *_alpm_needbackup(char *file, alpm_list_t *backup)
 {
-	pmlist_t *lp;
+	alpm_list_t *lp;
 
 	if(file == NULL || backup == NULL) {
 		return(NULL);

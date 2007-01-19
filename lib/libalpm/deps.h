@@ -44,13 +44,13 @@ struct __pmdepmissing_t {
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsigned char depmod,
                             const char *depname, const char *depversion);
-int _alpm_depmiss_isin(pmdepmissing_t *needle, pmlist_t *haystack);
-pmlist_t *_alpm_sortbydeps(pmlist_t *targets, int mode);
-pmlist_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, pmlist_t *packages);
+int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack);
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode);
+alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alpm_list_t *packages);
 int _alpm_splitdep(char *depstr, pmdepend_t *depend);
-pmlist_t *_alpm_removedeps(pmdb_t *db, pmlist_t *targs);
-int _alpm_resolvedeps(pmdb_t *local, pmlist_t *dbs_sync, pmpkg_t *syncpkg, pmlist_t *list,
-                pmlist_t *trail, pmtrans_t *trans, pmlist_t **data);
+alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs);
+int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg, alpm_list_t *list,
+                alpm_list_t *trail, pmtrans_t *trans, alpm_list_t **data);
 
 #endif /* _ALPM_DEPS_H */
 

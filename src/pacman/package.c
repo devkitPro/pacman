@@ -63,10 +63,10 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	/* actual output */
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
 	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
-	pmlist_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
+	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("URL            : %s\n"), (char *)alpm_pkg_get_url(pkg));
-	pmlist_display(_("License        :"), alpm_pkg_get_licenses(pkg));
+	list_display(_("License        :"), alpm_pkg_get_licenses(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
 	printf(_("Installed Size : %ld\n"), (long int)alpm_pkg_get_size(pkg));
 	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
@@ -75,12 +75,12 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
 	printf(_("Install Script : %s\n"), alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
 	printf(_("Reason         : %s\n"), reason);
-	pmlist_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	pmlist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
-	pmlist_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
+	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
+	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
+	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
 	/* TODO only applicable if querying installed package, not a file */
-	pmlist_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
-	pmlist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
+	list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
+	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 
 	printf(_("Description    : "));
 	indentprint(alpm_pkg_get_desc(pkg), 17);
@@ -98,7 +98,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 /* Display the content of a sync package
  */
-void dump_pkg_sync(pmpkg_t *pkg, char *treename)
+void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 {
 	char *md5sum, *sha1sum;
 	if(pkg == NULL) {
@@ -111,12 +111,12 @@ void dump_pkg_sync(pmpkg_t *pkg, char *treename)
 	printf(_("Repository     : %s\n"), treename);
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
 	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
-	pmlist_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
-	pmlist_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	pmlist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
-	pmlist_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
-	pmlist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
-	pmlist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
+	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
+	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
+	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
+	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
+	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
+	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 	printf(_("Download Size  : %ld\n"), (long)alpm_pkg_get_size(pkg));
 	printf(_("Installed Size : %ld\n"), (long)alpm_pkg_get_isize(pkg));
 	
@@ -137,10 +137,10 @@ void dump_pkg_sync(pmpkg_t *pkg, char *treename)
  */
 void dump_pkg_backups(pmpkg_t *pkg)
 {
-	pmlist_t *i;
+	alpm_list_t *i;
 	const char *root = alpm_option_get_root();
 	printf("\nBackup Files :\n");
-	for(i = alpm_list_first(alpm_pkg_get_backup(pkg)); i; i = alpm_list_next(i)) {
+	for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
 		struct stat buf;
 		char path[PATH_MAX];
 		char *str = strdup(alpm_list_getdata(i));
@@ -190,7 +190,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 void dump_pkg_files(pmpkg_t *pkg)
 {
 	const char *pkgname;
-	pmlist_t *i, *pkgfiles;
+	alpm_list_t *i, *pkgfiles;
 
 	pkgname = alpm_pkg_get_name(pkg);
 	pkgfiles = alpm_pkg_get_files(pkg);

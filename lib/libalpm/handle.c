@@ -33,7 +33,7 @@
 /* pacman */
 #include "util.h"
 #include "log.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "error.h"
 #include "trans.h"
 #include "alpm.h"
@@ -123,19 +123,19 @@ const char *alpm_option_get_dbpath() { return handle->dbpath; }
 const char *alpm_option_get_cachedir() { return handle->cachedir; }
 const char *alpm_option_get_logfile() { return handle->logfile; }
 unsigned char alpm_option_get_usesyslog() { return handle->usesyslog; }
-pmlist_t *alpm_option_get_noupgrades() { return handle->noupgrade; }
-pmlist_t *alpm_option_get_noextracts() { return handle->noextract; }
-pmlist_t *alpm_option_get_ignorepkgs() { return handle->ignorepkg; }
-pmlist_t *alpm_option_get_holdpkgs() { return handle->holdpkg; }
+alpm_list_t *alpm_option_get_noupgrades() { return handle->noupgrade; }
+alpm_list_t *alpm_option_get_noextracts() { return handle->noextract; }
+alpm_list_t *alpm_option_get_ignorepkgs() { return handle->ignorepkg; }
+alpm_list_t *alpm_option_get_holdpkgs() { return handle->holdpkg; }
 time_t alpm_option_get_upgradedelay() { return handle->upgradedelay; }
 const char *alpm_option_get_xfercommand() { return handle->xfercommand; }
 unsigned short alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
 unsigned short alpm_option_get_chomp() { return handle->chomp; }
-pmlist_t *alpm_option_get_needles() { return handle->needles; }
+alpm_list_t *alpm_option_get_needles() { return handle->needles; }
 unsigned short alpm_option_get_usecolor() { return handle->use_color; }
 
-pmdb_t *alpm_option_get_localdb(pmhandle_t *handle) { return handle->db_local; }
-pmlist_t *alpm_option_get_syncdbs(pmhandle_t *handle) { return handle->dbs_sync; }
+pmdb_t *alpm_option_get_localdb() { return handle->db_local; }
+alpm_list_t *alpm_option_get_syncdbs() { return handle->dbs_sync; }
 
 void alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
 
@@ -180,9 +180,9 @@ void alpm_option_set_usesyslog(unsigned char usesyslog) { handle->usesyslog = us
 
 void alpm_option_add_noupgrade(char *pkg)
 {
-  handle->noupgrade = _alpm_list_add(handle->noupgrade, strdup(pkg));
+  handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 }
-void alpm_option_set_noupgrades(pmlist_t *noupgrade)
+void alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 {
 	if(handle->noupgrade) FREELIST(handle->noupgrade);
 	if(noupgrade) handle->noupgrade = noupgrade;
@@ -190,9 +190,9 @@ void alpm_option_set_noupgrades(pmlist_t *noupgrade)
 
 void alpm_option_add_noextract(char *pkg)
 {
-  handle->noextract = _alpm_list_add(handle->noextract, strdup(pkg));
+  handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
 }
-void alpm_option_set_noextracts(pmlist_t *noextract)
+void alpm_option_set_noextracts(alpm_list_t *noextract)
 {
 	if(handle->noextract) FREELIST(handle->noextract);
 	if(noextract) handle->noextract = noextract;
@@ -200,9 +200,9 @@ void alpm_option_set_noextracts(pmlist_t *noextract)
 
 void alpm_option_add_ignorepkg(char *pkg)
 {
-  handle->ignorepkg = _alpm_list_add(handle->ignorepkg, strdup(pkg));
+  handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 }
-void alpm_option_set_ignorepkgs(pmlist_t *ignorepkgs)
+void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 {
 	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
 	if(ignorepkgs) handle->ignorepkg = ignorepkgs;
@@ -210,9 +210,9 @@ void alpm_option_set_ignorepkgs(pmlist_t *ignorepkgs)
 
 void alpm_option_add_holdpkg(char *pkg)
 {
-  handle->holdpkg = _alpm_list_add(handle->holdpkg, strdup(pkg));
+  handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
 }
-void alpm_option_set_holdpkgs(pmlist_t *holdpkgs)
+void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 {
 	if(handle->holdpkg) FREELIST(handle->holdpkg);
 	if(holdpkgs) handle->holdpkg = holdpkgs;
@@ -232,9 +232,9 @@ void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
 
 void alpm_option_add_needle(char *needle)
 {
-  handle->needles = _alpm_list_add(handle->needles, strdup(needle));
+  handle->needles = alpm_list_add(handle->needles, strdup(needle));
 }
-void alpm_option_set_needles(pmlist_t *needles)
+void alpm_option_set_needles(alpm_list_t *needles)
 {
 	if(handle->needles) FREELIST(handle->needles);
 	if(needles) handle->needles = needles;

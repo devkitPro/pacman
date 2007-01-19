@@ -42,7 +42,7 @@
 #include "versioncmp.h"
 #include "md5.h"
 #include "sha1.h"
-#include "list.h"
+#include "alpm_list.h"
 #include "package.h"
 #include "group.h"
 #include "util.h"
@@ -169,7 +169,7 @@ int alpm_db_unregister(pmdb_t *db)
 		found = 1;
 	} else {
 		void *data;
-		handle->dbs_sync = _alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, &data);
+		handle->dbs_sync = alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, &data);
 		if(data) {
 			found = 1;
 		}
@@ -209,7 +209,7 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
 			found = 1;
 		}
 	} else {
-		pmlist_t *i;
+		alpm_list_t *i;
 		for(i = handle->dbs_sync; i && !found; i = i->next) {
 			pmdb_t *sdb = i->data;
 			if(strcmp(db->treename, sdb->treename) == 0) {
@@ -227,7 +227,7 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
 			/* pm_errno is set by _alpm_server_new */
 			return(-1);
 		}
-		db->servers = _alpm_list_add(db->servers, server);
+		db->servers = alpm_list_add(db->servers, server);
 		_alpm_log(PM_LOG_FLOW2, _("adding new server to database '%s': protocol '%s', server '%s', path '%s'"),
 				db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
 	} else {
@@ -247,9 +247,9 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
  */
 int alpm_db_update(int force, pmdb_t *db)
 {
-	pmlist_t *lp;
+	alpm_list_t *lp;
 	char path[PATH_MAX];
-	pmlist_t *files = NULL;
+	alpm_list_t *files = NULL;
 	char newmtime[16] = "";
 	char lastupdate[16] = "";
 	int ret;
@@ -265,7 +265,7 @@ int alpm_db_update(int force, pmdb_t *db)
 	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 	ASSERT(handle->trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
-	if(!_alpm_list_is_in(db, handle->dbs_sync)) {
+	if(!alpm_list_is_in(db, handle->dbs_sync)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
@@ -279,7 +279,7 @@ int alpm_db_update(int force, pmdb_t *db)
 
 	/* build a one-element list */
 	snprintf(path, PATH_MAX, "%s" PM_EXT_DB, db->treename);
-	files = _alpm_list_add(files, strdup(path));
+	files = alpm_list_add(files, strdup(path));
 
 	snprintf(path, PATH_MAX, "%s%s", handle->root, handle->dbpath);
 
@@ -344,7 +344,7 @@ pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
  * @param db pointer to the package database to get the package from
  * @return the list of packages on success, NULL on error
  */
-pmlist_t *alpm_db_getpkgcache(pmdb_t *db)
+alpm_list_t *alpm_db_getpkgcache(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -358,7 +358,7 @@ pmlist_t *alpm_db_getpkgcache(pmdb_t *db)
  * @param name name of the package
  * @return the list of packages on success, NULL on error
  */
-pmlist_t *alpm_db_whatprovides(pmdb_t *db, char *name)
+alpm_list_t *alpm_db_whatprovides(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -387,7 +387,7 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
  * @param db pointer to the package database to get the group from
  * @return the list of groups on success, NULL on error
  */
-pmlist_t *alpm_db_getgrpcache(pmdb_t *db)
+alpm_list_t *alpm_db_getgrpcache(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -596,7 +596,7 @@ char *alpm_pkg_name_hasarch(char *pkgname)
  * @param db pointer to the package database to search in
  * @return the list of packages on success, NULL on error
  */
-pmlist_t *alpm_db_search(pmdb_t *db)
+alpm_list_t *alpm_db_search(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -687,7 +687,7 @@ int alpm_trans_addtarget(char *target)
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_prepare(pmlist_t **data)
+int alpm_trans_prepare(alpm_list_t **data)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -704,7 +704,7 @@ int alpm_trans_prepare(pmlist_t **data)
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_commit(pmlist_t **data)
+int alpm_trans_commit(alpm_list_t **data)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -799,81 +799,6 @@ int alpm_logaction(char *fmt, ...)
 
 	return(_alpm_logaction(handle->usesyslog, handle->logfd, str));
 }
-/** @} */
-
-/** \addtogroup alpm_list List Functions
- * @brief Functions to manipulate libalpm linked lists
- * @{
- */
-
-/** Get the first element of a list.
- * @param list the list
- * @return the first element
- */
-pmlist_t *alpm_list_first(pmlist_t *list)
-{
-	return(list);
-}
-
-/** Get the next element of a list.
- * @param entry the list entry
- * @return the next element on success, NULL on error
- */
-pmlist_t *alpm_list_next(pmlist_t *entry)
-{
-	ASSERT(entry != NULL, return(NULL));
-
-	return(entry->next);
-}
-
-/** Get the data of a list entry.
- * @param entry the list entry
- * @return the data on success, NULL on error
- */
-void *alpm_list_getdata(const pmlist_t *entry)
-{
-	ASSERT(entry != NULL, return(NULL));
-
-	return(entry->data);
-}
-
-/** Free a list.
- * @param entry list to free
- * @return 0 on success, -1 on error
- */
-int alpm_list_free(pmlist_t *entry)
-{
-	ASSERT(entry != NULL, return(-1));
-
-	FREELIST(entry);
-
-	return(0);
-}
-
-/** Free the outer list, but not the contained data
- * @param entry list to free
- * @return 0 on success, -1 on error
- */
-int alpm_list_free_outer(pmlist_t *entry)
-{
-	ASSERT(entry != NULL, return(-1));
-
-	_FREELIST(entry, NULL);
-
-	return(0);
-}
-
-/** Count the entries in a list.
- * @param list the list to count
- * @return number of entries on success, NULL on error
- */
-int alpm_list_count(const pmlist_t *list)
-{
-	ASSERT(list != NULL, return(-1));
-
-	return(_alpm_list_count(list));
-}
-
 /** @} */
 
 /** \addtogroup alpm_misc Miscellaneous Functions

@@ -24,15 +24,15 @@
 #include <string.h>
 
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
-#include "list.h"
 #include "add.h"
 #include "upgrade.h"
 #include "conf.h"
 
 extern config_t *config;
 
-int pacman_upgrade(list_t *targets)
+int pacman_upgrade(alpm_list_t *targets)
 {
 	/* this is basically just a remove-then-add process. pacman_add() will */
 	/* handle it */

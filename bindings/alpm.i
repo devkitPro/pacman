@@ -13,7 +13,7 @@
 %pointer_cast(void *, long *, void_to_long);
 %pointer_cast(void *, char *, void_to_char);
 %pointer_cast(void *, unsigned long, void_to_unsigned_long);
-%pointer_cast(void *, pmlist_t *, void_to_pmlist);
+%pointer_cast(void *, alpm_list_t *, void_to_pmlist);
 %pointer_cast(void *, pmpkg_t *, void_to_pmpkg);
 %pointer_cast(void *, pmgrp_t *, void_to_pmgrp);
 %pointer_cast(void *, pmsyncpkg_t *, void_to_pmsyncpkg);

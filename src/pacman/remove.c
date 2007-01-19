@@ -25,10 +25,10 @@
 #include <libintl.h>
 
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
-#include "list.h"
 #include "trans.h"
 #include "remove.h"
 #include "conf.h"
@@ -37,11 +37,9 @@ extern config_t *config;
 
 extern pmdb_t *db_local;
 
-int pacman_remove(list_t *targets)
+int pacman_remove(alpm_list_t *targets)
 {
-	pmlist_t *data;
-	list_t *i;
-	list_t *finaltargs = NULL;
+	alpm_list_t *data, *i, *j, *finaltargs = NULL;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -51,27 +49,25 @@ int pacman_remove(list_t *targets)
 	/* If the target is a group, ask if its packages should be removed 
 	 * (the library can't remove groups for now)
 	 */
-	for(i = targets; i; i = i->next) {
-		pmgrp_t *grp;
-
-		grp = alpm_db_readgrp(db_local, i->data);
+	for(i = targets; i; i = alpm_list_next(i)) {
+		pmgrp_t *grp = alpm_db_readgrp(db_local, alpm_list_getdata(i));
 		if(grp) {
-			pmlist_t *lp, *pkgnames;
 			int all;
-
-			pkgnames = alpm_grp_get_packages(grp);
+			alpm_list_t *pkgnames = alpm_grp_get_packages(grp);
 
 			MSG(NL, _(":: group %s:\n"), alpm_grp_get_name(grp));
-			pmlist_display("   ", pkgnames);
+			list_display("   ", pkgnames);
 			all = yesno(_("    Remove whole content? [Y/n] "));
-			for(lp = alpm_list_first(pkgnames); lp; lp = alpm_list_next(lp)) {
-				if(all || yesno(_(":: Remove %s from group %s? [Y/n] "), (char *)alpm_list_getdata(lp), i->data)) {
-					finaltargs = list_add(finaltargs, strdup(alpm_list_getdata(lp)));
+
+			for(j = pkgnames; j; j = alpm_list_next(j)) {
+				char *pkg = alpm_list_getdata(j);
+				if(all || yesno(_(":: Remove %s from group %s? [Y/n] "), pkg, (char *)alpm_list_getdata(i))) {
+					finaltargs = alpm_list_add(finaltargs, strdup(pkg));
 				}
 			}
 		} else {
 			/* not a group, so add it to the final targets */
-			finaltargs = list_add(finaltargs, strdup(i->data));
+			finaltargs = alpm_list_add(finaltargs, strdup(alpm_list_getdata(i)));
 		}
 	}
 
@@ -87,9 +83,10 @@ int pacman_remove(list_t *targets)
 		return(1);
 	}
 	/* and add targets to it */
-	for(i = finaltargs; i; i = i->next) {
-		if(alpm_trans_addtarget(i->data) == -1) {
-			ERR(NL, _("failed to add target '%s' (%s)\n"), (char *)i->data, alpm_strerror(pm_errno));
+	for(i = finaltargs; i; i = alpm_list_next(i)) {
+		char *targ = alpm_list_getdata(i);
+		if(alpm_trans_addtarget(targ) == -1) {
+			ERR(NL, _("failed to add target '%s' (%s)\n"), targ, alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
@@ -98,16 +95,15 @@ int pacman_remove(list_t *targets)
 	/* Step 2: prepare the transaction based on its type, targets and flags
 	 */
 	if(alpm_trans_prepare(&data) == -1) {
-		pmlist_t *lp;
 		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
-				for(lp = alpm_list_first(data); lp; lp = alpm_list_next(lp)) {
-					pmdepmissing_t *miss = alpm_list_getdata(lp);
+				for(i = data; i; i = alpm_list_next(i)) {
+					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s is required by %s\n"), alpm_dep_get_target(miss),
 					    alpm_dep_get_name(miss));
 				}
-				alpm_list_free(data);
+				alpm_list_free(data, NULL);
 			break;
 			default:
 			break;
@@ -119,15 +115,14 @@ int pacman_remove(list_t *targets)
 	/* Warn user in case of dangerous operation
 	 */
 	if(config->flags & PM_TRANS_FLAG_RECURSE || config->flags & PM_TRANS_FLAG_CASCADE) {
-		pmlist_t *lp;
 		/* list transaction targets */
-		i = NULL;
-		for(lp = alpm_list_first(alpm_trans_get_packages()); lp; lp = alpm_list_next(lp)) {
-			pmpkg_t *pkg = alpm_list_getdata(lp);
-			i = list_add(i, strdup(alpm_pkg_get_name(pkg)));
+		alpm_list_t *lst = NULL;
+		for(i = alpm_trans_get_packages(); i; i = alpm_list_next(i)) {
+			pmpkg_t *pkg = alpm_list_getdata(i);
+			lst = alpm_list_add(lst, strdup(alpm_pkg_get_name(pkg)));
 		}
-		list_display(_("\nTargets:"), i);
-		FREELIST(i);
+		list_display(_("\nTargets:"), lst);
+		FREELIST(lst);
 		/* get confirmation */
 		if(yesno(_("\nDo you want to remove these packages? [Y/n] ")) == 0) {
 			retval = 1;

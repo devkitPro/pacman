@@ -28,7 +28,7 @@
 
 struct __pmgrp_t {
 	char name[GRP_NAME_LEN];
-	pmlist_t *packages; /* List of strings */
+	alpm_list_t *packages; /* List of strings */
 };
 
 #define FREEGRP(p) do { if(p) { _alpm_grp_free(p); p = NULL; } } while(0)
