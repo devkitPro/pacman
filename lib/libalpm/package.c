@@ -235,6 +235,8 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	register struct archive *archive;
 	struct archive_entry *entry;
 	pmpkg_t *info = NULL;
+	char *descfile = NULL;
+	int fd = -1;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
@@ -261,9 +263,6 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			break;
 		}
 		if(!strcmp(archive_entry_pathname (entry), ".PKGINFO")) {
-			char *descfile;
-			int fd;
-
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(descfile);
@@ -351,9 +350,13 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 
 pkg_invalid:
 	pm_errno = PM_ERR_PKG_INVALID;
-	unlink(descfile);
-	FREE(descfile);
-	close(fd);
+	if(descfile) {
+		unlink(descfile);
+		FREE(descfile);
+	}
+	if(fd != -1) {
+		close(fd);
+	}
 error:
 	FREEPKG(info);
 	archive_read_finish (archive);
