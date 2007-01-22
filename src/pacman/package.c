@@ -27,10 +27,10 @@
 #include <libintl.h>
 
 #include <alpm.h>
+#include <alpm_list.h>
 /* pacman */
 #include "log.h"
 #include "util.h"
-#include "list.h"
 #include "package.h"
 
 /* Display the content of an installed package
