@@ -681,24 +681,20 @@ else
 	for netfile in "${source[@]}"; do
 		unziphack=0
 		file=$(strip_url "$netfile")
+		# fix flyspray #6246
+		file_type=$(file -biz "$file")
 		unset cmd
-		case "$(echo $file |tr "A-Z" "a-z")" in
-			*.tar.gz|*.tar.z|*.tgz)
-			cmd="tar --use-compress-program=gzip -xf $file" ;;
-			*.tar.bz2|*.tbz2)
-			cmd="tar --use-compress-program=bzip2 -xf $file" ;;
-			*.tar)
+		case "$file_type" in
+			*application/x-tar*)
 			cmd="tar -xf $file" ;;
-			*.zip)
+			*application/x-zip*)
 			unziphack=1
 			cmd="unzip -qqo $file" ;;
-			*.cpio.gz)
+			*application/x-cpio*)
 			cmd="bsdtar -x -f $file" ;;
-			*.cpio.bz2)
-			cmd="bsdtar -x -f $file" ;;
-			*.gz)
+			*application/x-gzip*)
 			cmd="gunzip -f $file" ;;
-			*.bz2)
+			*application/x-bzip*)
 			cmd="bunzip2 -f $file" ;;
 		esac
 		if [ "$cmd" != "" ]; then
