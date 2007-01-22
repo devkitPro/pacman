@@ -339,6 +339,9 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	if(!config) {
 		_alpm_log(PM_LOG_ERROR, _("missing package info file in %s"), pkgfile);
 		goto error;
+	} else if(!filelist) {
+		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s"), pkgfile);
+		goto error;
 	}
 
 	/* internal */
