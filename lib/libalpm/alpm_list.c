@@ -420,6 +420,7 @@ int alpm_list_is_strin(const char *needle, alpm_list_t *haystack)
 		if(lp->data && strcmp((const char *)lp->data, needle) == 0) {
 			return(1);
 		}
+		lp = lp->next;
 	}
 	return(0);
 }
