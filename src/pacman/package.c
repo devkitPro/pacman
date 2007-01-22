@@ -50,13 +50,13 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 	switch((long)alpm_pkg_get_reason(pkg)) {
 		case PM_PKG_REASON_EXPLICIT:
-			reason = _("Explicitly installed\n");
+			reason = _("Explicitly installed");
 			break;
 		case PM_PKG_REASON_DEPEND:
-			reason = _("Installed as a dependency for another package\n");
+			reason = _("Installed as a dependency for another package");
 			break;
 		default:
-			reason = _("Unknown\n");
+			reason = _("Unknown");
 			break;
 	}
 
