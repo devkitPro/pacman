@@ -225,9 +225,10 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 				int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
 				++(*position);
-			}
-			if (unlink(line) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), file, strerror(errno));
+
+				if (unlink(line) == -1) {
+					_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), file, strerror(errno));
+				}
 			}
 		}
 	}
