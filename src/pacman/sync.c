@@ -289,8 +289,6 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 			char *grpname = alpm_list_getdata(i);
 			for(j = syncs; j; j = alpm_list_next(j)) {
 				pmdb_t *db = alpm_list_getdata(j);
-				printf("searching '%s' for groups '%s'\n", alpm_db_get_name(db), grpname);
-				fflush(stdout);
 				pmgrp_t *grp = alpm_db_readgrp(db, grpname);
 
 				if(grp) {
