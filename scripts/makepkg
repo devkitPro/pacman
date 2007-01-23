@@ -425,7 +425,7 @@ fi
 
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
-unset options
+unset options noextract
 
 # some applications (eg, blackbox) will not build with some languages
 unset LC_ALL LANG
@@ -681,6 +681,11 @@ else
 	for netfile in "${source[@]}"; do
 		unziphack=0
 		file=$(strip_url "$netfile")
+		if in_array "$file" ${noextract[@]}; then
+			#skip source files in the noextract=() array
+			#  these are marked explicitly to NOT be extracted
+			continue
+		fi
 		# fix flyspray #6246
 		file_type=$(file -biz "$file")
 		unset cmd
