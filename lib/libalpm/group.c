@@ -36,15 +36,12 @@ pmgrp_t *_alpm_grp_new()
 {
 	pmgrp_t* grp;
 
-	grp = (pmgrp_t *)malloc(sizeof(pmgrp_t));
+	grp = calloc(1, sizeof(pmgrp_t));
 	if(grp == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
 		                        sizeof(pmgrp_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
-
-	grp->name[0] = '\0';
-	grp->packages = NULL;
 
 	return(grp);
 }

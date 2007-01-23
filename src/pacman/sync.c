@@ -248,14 +248,20 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 				continue;
 			}
 			for(j = ret; j; j = alpm_list_next(j)) {
+				char *group = NULL;
+				alpm_list_t *grp;
 				pmpkg_t *pkg = alpm_list_getdata(j);
 
-				char *group = (char *)alpm_list_getdata(alpm_pkg_get_groups(pkg));
-				printf("%s/%s %s %s%s%s\n    ",
-							 alpm_db_get_name(db),
-						   alpm_pkg_get_name(pkg),
-						   alpm_pkg_get_version(pkg),
-						   (group ? " (" : ""), (group ? group : ""), (group ? ") " : ""));
+				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
+						   alpm_pkg_get_version(pkg));
+
+				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
+						group = alpm_list_getdata(grp);
+						printf(" (%s)\n    ", (char *)alpm_list_getdata(grp));
+				} else {
+					printf("\n    ");
+				}
+				
 				indentprint(alpm_pkg_get_desc(pkg), 4);
 				printf("\n\n");
 			}
@@ -280,9 +286,12 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
+			char *grpname = alpm_list_getdata(i);
 			for(j = syncs; j; j = alpm_list_next(j)) {
 				pmdb_t *db = alpm_list_getdata(j);
-				pmgrp_t *grp = alpm_db_readgrp(db, alpm_list_getdata(i));
+				printf("searching '%s' for groups '%s'\n", alpm_db_get_name(db), grpname);
+				fflush(stdout);
+				pmgrp_t *grp = alpm_db_readgrp(db, grpname);
 
 				if(grp) {
 					MSG(NL, "%s\n", (char *)alpm_grp_get_name(grp));

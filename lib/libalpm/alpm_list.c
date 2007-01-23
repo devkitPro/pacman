@@ -145,8 +145,10 @@ alpm_list_t *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cm
 
 		if(prev != NULL) {
 			prev->next = add;       /*  In middle.  */
+		} else {
+			list = add; /* At beginning, or new list */
 		}
-
+		
 		return(list);
 	}
 }
@@ -369,6 +371,7 @@ alpm_list_t *alpm_list_last(alpm_list_t *list)
  */
 void *alpm_list_getdata(const alpm_list_t *entry)
 {
+	if(entry == NULL) return(NULL);
 	return(entry->data);
 }
 
