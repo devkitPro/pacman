@@ -606,7 +606,7 @@ unsigned long alpm_pkg_get_isize(pmpkg_t *pkg)
 	return pkg->isize;
 }
 
-unsigned char alpm_pkg_get_reason(pmpkg_t *pkg)
+pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -741,7 +741,7 @@ alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg)
 	return pkg->backup;
 }
 
-unsigned char alpm_pkg_has_scriptlet(pmpkg_t *pkg)
+unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));

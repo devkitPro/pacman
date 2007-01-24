@@ -63,7 +63,7 @@
 
 /* Globals */
 pmhandle_t *handle = NULL;
-enum __pmerrno_t pm_errno;
+enum _pmerrno_t pm_errno;
 
 /** \addtogroup alpm_interface Interface Functions
  * @brief Functions to initialize and release libalpm
@@ -622,7 +622,9 @@ alpm_list_t *alpm_db_search(pmdb_t *db)
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress)
+int alpm_trans_init(pmtranstype_t type, unsigned int flags,
+                    alpm_trans_cb_event event, alpm_trans_cb_conv conv,
+                    alpm_trans_cb_progress progress)
 {
 	char path[PATH_MAX];
 

@@ -45,12 +45,12 @@ typedef struct _pmhandle_t {
 	/* options */
   alpm_cb_log logcb;				/* Log callback function */
 	alpm_cb_download dlcb;    /* Download callback function */
-  unsigned char logmask;		/* Output mask for logging functions */
+  unsigned short logmask;		/* Output mask for logging functions */
 	char *root;								/* Root path, default '/' */
 	char *dbpath;							/* Base path to pacman's DBs */
 	char *cachedir;						/* Base path to pacman's cache */
 	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
-	unsigned char usesyslog;	/* Use syslog instead of logfile? */
+	unsigned short usesyslog;	/* Use syslog instead of logfile? */
 	
 	alpm_list_t *noupgrade;			/* List of packages NOT to be upgraded */
 	alpm_list_t *noextract;			/* List of packages NOT to extrace */ /*TODO is this used?*/

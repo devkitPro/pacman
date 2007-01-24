@@ -71,13 +71,15 @@ int alpm_release(void);
  */
 
 /* Levels */
-#define PM_LOG_DEBUG    0x01
-#define PM_LOG_ERROR    0x02
-#define PM_LOG_WARNING  0x04
-#define PM_LOG_FLOW1    0x08
-#define PM_LOG_FLOW2    0x10
-#define PM_LOG_FUNCTION 0x20
-#define PM_LOG_DOWNLOAD 0x40
+typedef enum _pmloglevel_t {
+	PM_LOG_DEBUG = 0x01,
+	PM_LOG_ERROR = 0x02,
+	PM_LOG_WARNING = 0x04,
+	PM_LOG_FLOW1 = 0x08,
+	PM_LOG_FLOW2 = 0x10,
+	PM_LOG_FUNCTION = 0x20,
+	PM_LOG_DOWNLOAD = 0x40
+} pmloglevel_t;
 
 typedef void (*alpm_cb_log)(unsigned short, char *);
 int alpm_logaction(char *fmt, ...);
@@ -100,8 +102,8 @@ void alpm_option_set_logcb(alpm_cb_log cb);
 alpm_cb_download alpm_option_get_dlcb();
 void alpm_option_set_dlcb(alpm_cb_download cb);
 
-unsigned char alpm_option_get_logmask();
-void alpm_option_set_logmask(unsigned char mask);
+unsigned short alpm_option_get_logmask();
+void alpm_option_set_logmask(unsigned short mask);
 
 const char *alpm_option_get_root();
 void alpm_option_set_root(const char *root);
@@ -115,8 +117,8 @@ void alpm_option_set_cachedir(const char *cachedir);
 const char *alpm_option_get_logfile();
 void alpm_option_set_logfile(const char *logfile);
 
-unsigned char alpm_option_get_usesyslog();
-void alpm_option_set_usesyslog(unsigned char usesyslog);
+unsigned short alpm_option_get_usesyslog();
+void alpm_option_set_usesyslog(unsigned short usesyslog);
 
 alpm_list_t *alpm_option_get_noupgrades();
 void alpm_option_add_noupgrade(char *pkg);
@@ -188,19 +190,26 @@ alpm_list_t *alpm_db_search(pmdb_t *db);
 /* Info parameters */
 
 /* reasons -- ie, why the package was installed */
-#define PM_PKG_REASON_EXPLICIT  0  /* explicitly requested by the user */
-#define PM_PKG_REASON_DEPEND    1  /* installed as a dependency for another package */
+typedef enum _pmpkgreason_t {
+	PM_PKG_REASON_EXPLICIT = 0,  /* explicitly requested by the user */
+	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
+} pmpkgreason_t;
 
 /* package name formats */
-#define PM_PKG_WITHOUT_ARCH 0 /* pkgname-pkgver-pkgrel, used under PM_DBPATH */
-#define PM_PKG_WITH_ARCH    1 /* ie, pkgname-pkgver-pkgrel-arch, used under PM_CACHEDIR */
+/*
+typedef enum _pmpkghasarch_t {
+  PM_PKG_WITHOUT_ARCH = 0,  / pkgname-pkgver-pkgrel, used under PM_DBPATH /
+  PM_PKG_WITH_ARCH = 1  / pkgname-pkgver-pkgrel-arch, used under PM_CACHEDIR /
+} pmpkghasarch_t;
+*/
 
 int alpm_pkg_load(char *filename, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 int alpm_pkg_checksha1sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(char *url);
-int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this_section);
+int alpm_parse_config(char *file, alpm_cb_db_register callback,
+                      const char *this_section);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 char *alpm_pkg_name_hasarch(char *pkgname);
 
@@ -218,7 +227,7 @@ const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg);
 const char *alpm_pkg_get_arch(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_size(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_isize(pmpkg_t *pkg);
-unsigned char alpm_pkg_get_reason(pmpkg_t *pkg);
+pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg);
@@ -229,7 +238,7 @@ alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
-unsigned char alpm_pkg_has_scriptlet(pmpkg_t *pkg);
+unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
 /*
  * Groups
@@ -242,13 +251,13 @@ alpm_list_t *alpm_grp_get_packages(pmgrp_t *grp);
  */
 
 /* Types */
-enum {
+typedef enum _pmsynctype_t {
 	PM_SYNC_TYPE_REPLACE = 1,
 	PM_SYNC_TYPE_UPGRADE,
 	PM_SYNC_TYPE_DEPEND
-};
+} pmsynctype_t;
 
-unsigned char alpm_sync_get_type(pmsyncpkg_t *sync);
+pmsynctype_t alpm_sync_get_type(pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_get_package(pmsyncpkg_t *sync);
 void *alpm_sync_get_data(pmsyncpkg_t *sync);
 
@@ -257,30 +266,32 @@ void *alpm_sync_get_data(pmsyncpkg_t *sync);
  */
 
 /* Types */
-enum {
+typedef enum _pmtranstype_t {
 	PM_TRANS_TYPE_ADD = 1,
 	PM_TRANS_TYPE_REMOVE,
 	PM_TRANS_TYPE_UPGRADE,
 	PM_TRANS_TYPE_SYNC
-};
+} pmtranstype_t;
 
 /* Flags */
-#define PM_TRANS_FLAG_NODEPS  0x01
-#define PM_TRANS_FLAG_FORCE   0x02
-#define PM_TRANS_FLAG_NOSAVE  0x04
-#define PM_TRANS_FLAG_FRESHEN 0x08
-#define PM_TRANS_FLAG_CASCADE 0x10
-#define PM_TRANS_FLAG_RECURSE 0x20
-#define PM_TRANS_FLAG_DBONLY  0x40
-#define PM_TRANS_FLAG_DEPENDSONLY 0x80
-#define PM_TRANS_FLAG_ALLDEPS 0x100
-#define PM_TRANS_FLAG_DOWNLOADONLY 0x200
-#define PM_TRANS_FLAG_NOSCRIPTLET 0x400
-#define PM_TRANS_FLAG_NOCONFLICTS 0x800
-#define PM_TRANS_FLAG_PRINTURIS 0x1000
+typedef enum _pmtransflag_t {
+	PM_TRANS_FLAG_NODEPS = 0x01,
+	PM_TRANS_FLAG_FORCE = 0x02,
+	PM_TRANS_FLAG_NOSAVE = 0x04,
+	PM_TRANS_FLAG_FRESHEN = 0x08,
+	PM_TRANS_FLAG_CASCADE = 0x10,
+	PM_TRANS_FLAG_RECURSE = 0x20,
+	PM_TRANS_FLAG_DBONLY = 0x40,
+	PM_TRANS_FLAG_DEPENDSONLY = 0x80,
+	PM_TRANS_FLAG_ALLDEPS = 0x100,
+	PM_TRANS_FLAG_DOWNLOADONLY = 0x200,
+	PM_TRANS_FLAG_NOSCRIPTLET = 0x400,
+	PM_TRANS_FLAG_NOCONFLICTS = 0x800,
+	PM_TRANS_FLAG_PRINTURIS = 0x1000
+} pmtransflag_t;
 
 /* Transaction Events */
-enum {
+typedef enum _pmtransevt_t {
 	PM_TRANS_EVT_CHECKDEPS_START = 1,
 	PM_TRANS_EVT_CHECKDEPS_DONE,
 	PM_TRANS_EVT_FILECONFLICTS_START,
@@ -306,10 +317,10 @@ enum {
 	PM_TRANS_EVT_PRINTURI,
 	PM_TRANS_EVT_RETRIEVE_START,
 	PM_TRANS_EVT_RETRIEVE_LOCAL
-};
+} pmtransevt_t;
 
 /* Transaction Conversations (ie, questions) */
-enum {
+typedef enum _pmtransconv_t {
 	PM_TRANS_CONV_INSTALL_IGNOREPKG = 0x01,
 	PM_TRANS_CONV_REPLACE_PKG = 0x02,
 	PM_TRANS_CONV_CONFLICT_PKG = 0x04,
@@ -317,30 +328,33 @@ enum {
 	PM_TRANS_CONV_LOCAL_NEWER = 0x10,
 	PM_TRANS_CONV_LOCAL_UPTODATE = 0x20,
 	PM_TRANS_CONV_REMOVE_HOLDPKG = 0x40
-};
+} pmtransconv_t;
 
 /* Transaction Progress */
-enum {
+typedef enum _pmtransprog_t {
 	PM_TRANS_PROGRESS_ADD_START,
 	PM_TRANS_PROGRESS_UPGRADE_START,
 	PM_TRANS_PROGRESS_REMOVE_START,
 	PM_TRANS_PROGRESS_CONFLICTS_START
-};
+} pmtransprog_t;
 
 /* Transaction Event callback */
-typedef void (*alpm_trans_cb_event)(unsigned char, void *, void *);
+typedef void (*alpm_trans_cb_event)(pmtransevt_t, void *, void *);
 
 /* Transaction Conversation callback */
-typedef void (*alpm_trans_cb_conv)(unsigned char, void *, void *, void *, int *);
+typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
+                                   void *, int *);
 
 /* Transaction Progress callback */
-typedef void (*alpm_trans_cb_progress)(unsigned char, char *, int, int, int);
+typedef void (*alpm_trans_cb_progress)(pmtransprog_t, char *, int, int, int);
 
-unsigned char alpm_trans_get_type();
+pmtranstype_t alpm_trans_get_type();
 unsigned int alpm_trans_get_flags();
 alpm_list_t * alpm_trans_get_targets();
 alpm_list_t * alpm_trans_get_packages();
-int alpm_trans_init(unsigned char type, unsigned int flags, alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv, alpm_trans_cb_progress cb_progress);
+int alpm_trans_init(pmtranstype_t type, unsigned int flags,
+                    alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
+                    alpm_trans_cb_progress cb_progress);
 int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(alpm_list_t **data);
@@ -351,21 +365,22 @@ int alpm_trans_release(void);
  * Dependencies and conflicts
  */
 
-enum {
+typedef enum _pmdepmod_t {
 	PM_DEP_MOD_ANY = 1,
 	PM_DEP_MOD_EQ,
 	PM_DEP_MOD_GE,
 	PM_DEP_MOD_LE
-};
-enum {
+} pmdepmod_t;
+
+typedef enum _pmdeptype_t {
 	PM_DEP_TYPE_DEPEND = 1,
 	PM_DEP_TYPE_REQUIRED,
 	PM_DEP_TYPE_CONFLICT
-};
+} pmdeptype_t;
 
 const char *alpm_dep_get_target(pmdepmissing_t *miss);
-unsigned char alpm_dep_get_type(pmdepmissing_t *miss);
-unsigned char alpm_dep_get_mod(pmdepmissing_t *miss);
+pmdeptype_t alpm_dep_get_type(pmdepmissing_t *miss);
+pmdepmod_t alpm_dep_get_mod(pmdepmissing_t *miss);
 const char *alpm_dep_get_name(pmdepmissing_t *miss);
 const char *alpm_dep_get_version(pmdepmissing_t *miss);
 
@@ -373,19 +388,20 @@ const char *alpm_dep_get_version(pmdepmissing_t *miss);
  * File conflicts
  */
 
-enum {
+typedef enum _pmconflicttype_t {
 	PM_CONFLICT_TYPE_TARGET = 1,
 	PM_CONFLICT_TYPE_FILE
-};
+} pmconflicttype_t;
 
 const char *alpm_conflict_get_target(pmconflict_t *conflict);
-unsigned char alpm_conflict_get_type(pmconflict_t *conflict);
+pmconflicttype_t alpm_conflict_get_type(pmconflict_t *conflict);
 const char *alpm_conflict_get_file(pmconflict_t *conflict);
 const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
 
 /*
  * Helpers
  */
+ 
 
 /* md5sums */
 char *alpm_get_md5sum(char *name);
@@ -394,7 +410,7 @@ char *alpm_get_sha1sum(char *name);
 /*
  * Errors
  */
-enum __pmerrno_t {
+enum _pmerrno_t {
 	PM_ERR_MEMORY = 1,
 	PM_ERR_SYSTEM,
 	PM_ERR_BADPERMS,
@@ -466,7 +482,7 @@ enum __pmerrno_t {
   PM_ERR_FORK_FAILED
 };
 
-extern enum __pmerrno_t pm_errno;
+extern enum _pmerrno_t pm_errno;
 
 char *alpm_strerror(int err);
 

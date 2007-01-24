@@ -44,8 +44,9 @@
 
 extern pmhandle_t *handle;
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsigned char depmod,
-                                  const char *depname, const char *depversion)
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
+                                  pmdepmod_t depmod, const char *depname,
+                                  const char *depversion)
 {
 	pmdepmissing_t *miss;
 
@@ -187,7 +188,8 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode)
  * dependencies can include versions with depmod operators.
  *
  */
-alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alpm_list_t *packages)
+alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
+                             alpm_list_t *packages)
 {
 	pmdepend_t depend;
 	alpm_list_t *i, *j, *k;
@@ -224,7 +226,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alp
 					continue;
 				}
 				if(_alpm_pkg_isin(p->name, packages)) {
-					/* this package is also in the upgrade list, so don't worry about it */
+					/* this package also in the upgrade list, so don't worry about it */
 					continue;
 				}
 				_alpm_db_read(db, INFRQ_DEPENDS, p);
@@ -246,8 +248,10 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alp
 					FREELISTPTR(provides);
 				}
 				if(!_alpm_depcmp(tp, &depend)) {
-					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), depend.name, p->name);
-					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod, depend.name, depend.version);
+					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
+							depend.name, p->name);
+					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
+							depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
 					} else {
@@ -278,7 +282,8 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alp
 				_alpm_splitdep((char *)j->data, &depend);
 				found = 0;
 				/* check database for literal packages */
-				for(k = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); k && !found; k = k->next) {
+				for(k = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS);
+						k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
 					found = _alpm_depcmp(p, &depend);
 				}
@@ -316,8 +321,9 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alp
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as a dependency for %s"),
-					          depend.name, tp->name);
-					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod, depend.name, depend.version);
+							depend.name, tp->name);
+					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod,
+							depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
 					} else {
@@ -363,8 +369,10 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alp
 						}
 					}
 					if(!found) {
-						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"), reqname, tp->name);
-						miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED, PM_DEP_MOD_ANY, j->data, NULL);
+						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
+								reqname, tp->name);
+						miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED,
+								PM_DEP_MOD_ANY, j->data, NULL);
 						if(!_alpm_depmiss_isin(miss, baddeps)) {
 							baddeps = alpm_list_add(baddeps, miss);
 						} else {
@@ -512,8 +520,9 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
  *
  * make sure *list and *trail are already initialized
  */
-int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg, alpm_list_t *list,
-                      alpm_list_t *trail, pmtrans_t *trans, alpm_list_t **data)
+int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
+                      alpm_list_t *list, alpm_list_t *trail, pmtrans_t *trans,
+                      alpm_list_t **data)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *targ;
@@ -647,7 +656,7 @@ const char *alpm_dep_get_target(pmdepmissing_t *miss)
 	return miss->target;
 }
 
-unsigned char alpm_dep_get_type(pmdepmissing_t *miss)
+pmdeptype_t alpm_dep_get_type(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -656,7 +665,7 @@ unsigned char alpm_dep_get_type(pmdepmissing_t *miss)
 	return miss->type;
 }
 
-unsigned char alpm_dep_get_mod(pmdepmissing_t *miss)
+pmdepmod_t alpm_dep_get_mod(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));

@@ -28,7 +28,7 @@
 
 struct __pmconflict_t {
 	char target[PKG_NAME_LEN];
-	unsigned char type;
+	pmconflicttype_t type;
 	char file[CONFLICT_FILE_LEN];
 	char ctarget[PKG_NAME_LEN];
 };

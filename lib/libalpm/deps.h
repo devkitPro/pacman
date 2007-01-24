@@ -30,7 +30,7 @@
 
 /* Dependency */
 struct __pmdepend_t {
-	unsigned char mod;
+	pmdepmod_t mod;
 	char name[PKG_NAME_LEN];
 	char version[PKG_VERSION_LEN];
 };
@@ -38,19 +38,22 @@ struct __pmdepend_t {
 /* Missing dependency */
 struct __pmdepmissing_t {
 	char target[PKG_NAME_LEN];
-	unsigned char type;
+	pmdeptype_t type;
 	pmdepend_t depend;
 };
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, unsigned char type, unsigned char depmod,
-                            const char *depname, const char *depversion);
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
+                                  pmdepmod_t depmod, const char *depname,
+																	const char *depversion);
 int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode);
-alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, unsigned char op, alpm_list_t *packages);
+alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
+                             alpm_list_t *packages);
 int _alpm_splitdep(char *depstr, pmdepend_t *depend);
 alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs);
-int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg, alpm_list_t *list,
-                alpm_list_t *trail, pmtrans_t *trans, alpm_list_t **data);
+int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
+                      alpm_list_t *list, alpm_list_t *trail, pmtrans_t *trans,
+											alpm_list_t **data);
 
 #endif /* _ALPM_DEPS_H */
 

@@ -253,17 +253,19 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		} else {
 			int cmp = _alpm_versioncmp(pkg->version, dep->version);
 			switch(dep->mod) {
-			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
-			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
-			case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
+				case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
+				case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
+				case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
+				default: equal = 1; break;
 			}
 		}
 
 		char *mod = "~=";
 		switch(dep->mod) {
-		case PM_DEP_MOD_EQ: mod = "=="; break;
-		case PM_DEP_MOD_GE: mod = ">="; break;
-		case PM_DEP_MOD_LE: mod = "<="; break;
+			case PM_DEP_MOD_EQ: mod = "=="; break;
+			case PM_DEP_MOD_GE: mod = ">="; break;
+			case PM_DEP_MOD_LE: mod = "<="; break;
+			default: break;
 		}
 
 		if(strlen(dep->version) > 0) {

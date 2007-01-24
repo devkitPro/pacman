@@ -85,7 +85,9 @@ void _alpm_trans_free(void *data)
 	FREE(trans);
 }
 
-int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress)
+int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, unsigned int flags,
+                     alpm_trans_cb_event event, alpm_trans_cb_conv conv,
+                     alpm_trans_cb_progress progress)
 {
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -226,7 +228,7 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 	return(0);
 }
 
-unsigned char alpm_trans_get_type()
+pmtranstype_t alpm_trans_get_type()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));

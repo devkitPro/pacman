@@ -41,12 +41,12 @@
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.
  */
-int _alpm_db_load_pkgcache(pmdb_t *db, unsigned char infolevel)
+int _alpm_db_load_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 {
 	pmpkg_t *info;
 	int count = 0;
 	/* The group cache needs INFRQ_DESC as well */
-	/*unsigned char infolevel = INFRQ_DEPENDS | INFRQ_DESC;*/
+	/* pmdbinfrq_t infolevel = INFRQ_DEPENDS | INFRQ_DESC;*/
 
 	if(db == NULL) {
 		return(-1);
@@ -86,7 +86,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	}
 }
 
-alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, unsigned char infolevel)
+alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 {
 	if(db == NULL) {
 		return(NULL);
@@ -101,7 +101,7 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, unsigned char infolevel)
 	return(db->pkgcache);
 }
 
-int _alpm_db_ensure_pkgcache(pmdb_t *db, unsigned char infolevel)
+int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 {
 	int reloaded = 0;
 	/* for each pkg, check and reload if the requested

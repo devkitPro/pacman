@@ -1069,7 +1069,7 @@ error:
 	return(-1);
 }
 
-unsigned char alpm_sync_get_type(pmsyncpkg_t *sync)
+pmsynctype_t alpm_sync_get_type(pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(-1));

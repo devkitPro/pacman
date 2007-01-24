@@ -44,7 +44,7 @@ static int prevpercent=0; /* for less progressbar output */
 
 /* Callback to handle transaction events
  */
-void cb_trans_evt(unsigned char event, void *data1, void *data2)
+void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 {
 	char str[LOG_STR_LEN] = "";
 	char out[PATH_MAX];
@@ -53,38 +53,42 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
 			pm_fprintf(stderr, NL, _("checking dependencies... "));
-		break;
+			break;
 		case PM_TRANS_EVT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
 			MSG(NL, _("checking for file conflicts... "));
 			}
-		break;
+			break;
+		case PM_TRANS_EVT_CLEANUP_START:
+			pm_fprintf(stderr, NL, _("resolving dependencies... "));
+			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
 			pm_fprintf(stderr, NL, _("resolving dependencies... "));
-		break;
+			break;
 		case PM_TRANS_EVT_INTERCONFLICTS_START:
 			pm_fprintf(stderr, NL, _("looking for inter-conflicts... "));
-		break;
+			break;
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
 			if(config->noprogressbar) {
 				MSG(CL, _("done.\n"));
 			}
-		break;
+			break;
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
+		case PM_TRANS_EVT_CLEANUP_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
 		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
 			pm_fprintf(stderr, CL, _("done.\n"));
-		break;
+			break;
 		case PM_TRANS_EVT_EXTRACT_DONE:
 			if(config->noprogressbar) {
 				MSG(CL, _("done.\n"));
 			}
-		break;
+			break;
 		case PM_TRANS_EVT_ADD_START:
 			if(config->noprogressbar) {
 				MSG(NL, _("installing %s... "), alpm_pkg_get_name(data1));
 			}
-		break;
+			break;
 		case PM_TRANS_EVT_ADD_DONE:
 			if(config->noprogressbar) {
 				MSG(CL, _("done.\n"));
@@ -93,12 +97,12 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			alpm_logaction(str);
-		break;
+			break;
 		case PM_TRANS_EVT_REMOVE_START:
 			if(config->noprogressbar) {
 			MSG(NL, _("removing %s... "), alpm_pkg_get_name(data1));
 			}
-		break;
+			break;
 		case PM_TRANS_EVT_REMOVE_DONE:
 			if(config->noprogressbar) {
 			    MSG(CL, _("done.\n"));
@@ -107,12 +111,12 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			alpm_logaction(str);
-		break;
+			break;
 		case PM_TRANS_EVT_UPGRADE_START:
 			if(config->noprogressbar) {
 				MSG(NL, _("upgrading %s... "), alpm_pkg_get_name(data1));
 			}
-		break;
+			break;
 		case PM_TRANS_EVT_UPGRADE_DONE:
 			if(config->noprogressbar) {
 				MSG(CL, _("done.\n"));
@@ -122,34 +126,34 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 			         (char *)alpm_pkg_get_version(data2),
 			         (char *)alpm_pkg_get_version(data1));
 			alpm_logaction(str);
-		break;
+			break;
 		case PM_TRANS_EVT_INTEGRITY_START:
 			MSG(NL, _("checking package integrity... "));
-		break;
+			break;
 		case PM_TRANS_EVT_INTEGRITY_DONE:
 			MSG(CL, _("done.\n"));
-		break;
+			break;
 		case PM_TRANS_EVT_SCRIPTLET_INFO:
 			MSG(NL, "%s\n", (char*)data1);
-		break;
+			break;
 		case PM_TRANS_EVT_SCRIPTLET_START:
 			MSG(NL, (char*)data1);
 			MSG(CL, "...");
-		break;
+			break;
 		case PM_TRANS_EVT_SCRIPTLET_DONE:
 			if(!(long)data1) {
 				MSG(CL, _(" done.\n"));
 			} else {
 				MSG(CL, _(" failed.\n"));
 			}
-		break;
+			break;
 		case PM_TRANS_EVT_PRINTURI:
 			MSG(NL, "%s/%s\n", (char*)data1, (char*)data2);
-		break;
+			break;
 		case PM_TRANS_EVT_RETRIEVE_START:
 			MSG(NL, _(":: Retrieving packages from %s...\n"), (char*)data1);
 			fflush(stdout);
-		break;
+			break;
 		case PM_TRANS_EVT_RETRIEVE_LOCAL:
 			MSG(NL, " %s [", (char*)data1);
 			unsigned int maxcols = getcols();
@@ -159,11 +163,12 @@ void cb_trans_evt(unsigned char event, void *data1, void *data2)
 				MSG(CL, " ");
 			}
 			fputs(_("] 100%    LOCAL "), stdout);
-		break;
+			break;
 	}
 }
 
-void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, int *response)
+void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
+                   void *data3, int *response)
 {
 	char str[LOG_STR_LEN] = "";
 
@@ -181,7 +186,7 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 				         alpm_pkg_get_name(data2));
 				*response = yesno(str);
 			}
-		break;
+			break;
 		case PM_TRANS_CONV_REMOVE_HOLDPKG:
 			if(config->noask) {
 				if(config->ask & PM_TRANS_CONV_REMOVE_HOLDPKG) {
@@ -190,11 +195,11 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 					*response = 0;
 				}
 			} else {
-				snprintf(str, LOG_STR_LEN, _(":: %s is designated as a HoldPkg.  Remove anyway? [Y/n] "),
+				snprintf(str, LOG_STR_LEN, _(":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "),
 				         alpm_pkg_get_name(data1));
 				*response = yesno(str);
 			}
-		break;
+			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
 			if(config->noask) {
 				if(config->ask & PM_TRANS_CONV_REPLACE_PKG) {
@@ -209,7 +214,7 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 				         alpm_pkg_get_name(data2));
 				*response = yesno(str);
 			}
-		break;
+			break;
 		case PM_TRANS_CONV_CONFLICT_PKG:
 			if(config->noask) {
 				if(config->ask & PM_TRANS_CONV_CONFLICT_PKG) {
@@ -224,7 +229,7 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 				         (char *)data2);
 				*response = yesno(str);
 			}
-		break;
+			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(config->noask) {
 				if(config->ask & PM_TRANS_CONV_LOCAL_NEWER) {
@@ -242,7 +247,7 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 					*response = 1;
 				}
 			}
-		break;
+			break;
 		case PM_TRANS_CONV_LOCAL_UPTODATE:
 			if(config->noask) {
 				if(config->ask & PM_TRANS_CONV_LOCAL_UPTODATE) {
@@ -260,7 +265,7 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 					*response = 1;
 				}
 			}
-		break;
+			break;
 		case PM_TRANS_CONV_CORRUPTED_PKG:
 			if(config->noask) {
 				if(config->ask & PM_TRANS_CONV_CORRUPTED_PKG) {
@@ -277,11 +282,12 @@ void cb_trans_conv(unsigned char event, void *data1, void *data2, void *data3, i
 					*response = 1;
 				}
 			}
-		break;
+			break;
 	}
 }
 
-void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howmany, int remain)
+void cb_trans_progress(pmtransprog_t event, char *pkgname, int percent,
+                       int howmany, int remain)
 {
 	static int lasthash = 0, mouth = 0;
 	int i, hash;
@@ -311,19 +317,19 @@ void cb_trans_progress(unsigned char event, char *pkgname, int percent, int howm
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
 			ptr = _("installing");
-		break;
+			break;
 
 		case PM_TRANS_PROGRESS_UPGRADE_START:
 			ptr = _("upgrading");
-		break;
+			break;
 
 		case PM_TRANS_PROGRESS_REMOVE_START:
 			ptr = _("removing");
-		break;
+			break;
 
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			ptr = _("checking for file conflicts");
-		break;
+			break;
 	}
 	hash=percent*progresslen/100;
 

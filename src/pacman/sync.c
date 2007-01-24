@@ -579,12 +579,21 @@ int pacman_sync(alpm_list_t *targets)
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, ":: %s %s %s", alpm_dep_get_target(miss),
-					    alpm_dep_get_type(miss) == PM_DEP_TYPE_DEPEND ? _("requires") : _("is required by"),
-					    alpm_dep_get_name(miss));
+					    alpm_dep_get_type(miss) == PM_DEP_TYPE_DEPEND ?
+									_("requires") : _("is required by"),
+									alpm_dep_get_name(miss));
 					switch(alpm_dep_get_mod(miss)) {
-						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_get_version(miss)); break;
-						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_get_version(miss)); break;
-						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_get_version(miss)); break;
+						case PM_DEP_MOD_ANY:
+							break;
+						case PM_DEP_MOD_EQ:
+							MSG(CL, "=%s", alpm_dep_get_version(miss));
+							break;
+						case PM_DEP_MOD_GE:
+							MSG(CL, ">=%s", alpm_dep_get_version(miss));
+							break;
+						case PM_DEP_MOD_LE:
+							MSG(CL, "<=%s", alpm_dep_get_version(miss));
+							break;
 					}
 					MSG(CL, "\n");
 				}

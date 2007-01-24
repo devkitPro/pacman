@@ -117,12 +117,12 @@ int _alpm_handle_free(pmhandle_t *handle)
 
 alpm_cb_log alpm_option_get_logcb() { return handle->logcb; }
 alpm_cb_download alpm_option_get_dlcb() { return handle->dlcb; }
-unsigned char alpm_option_get_logmask() { return handle->logmask; }
+unsigned short alpm_option_get_logmask() { return handle->logmask; }
 const char *alpm_option_get_root() { return handle->root; }
 const char *alpm_option_get_dbpath() { return handle->dbpath; }
 const char *alpm_option_get_cachedir() { return handle->cachedir; }
 const char *alpm_option_get_logfile() { return handle->logfile; }
-unsigned char alpm_option_get_usesyslog() { return handle->usesyslog; }
+unsigned short alpm_option_get_usesyslog() { return handle->usesyslog; }
 alpm_list_t *alpm_option_get_noupgrades() { return handle->noupgrade; }
 alpm_list_t *alpm_option_get_noextracts() { return handle->noextract; }
 alpm_list_t *alpm_option_get_ignorepkgs() { return handle->ignorepkg; }
@@ -135,13 +135,16 @@ alpm_list_t *alpm_option_get_needles() { return handle->needles; }
 unsigned short alpm_option_get_usecolor() { return handle->use_color; }
 
 pmdb_t *alpm_option_get_localdb() { return handle->db_local; }
-alpm_list_t *alpm_option_get_syncdbs() { return handle->dbs_sync; }
+alpm_list_t *alpm_option_get_syncdbs()
+{
+  return handle->dbs_sync;
+}
 
 void alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
 
 void alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
 
-void alpm_option_set_logmask(unsigned char mask) { handle->logmask = mask; }
+void alpm_option_set_logmask(unsigned short mask) { handle->logmask = mask; }
 
 void alpm_option_set_root(const char *root)
 {
@@ -176,12 +179,16 @@ void alpm_option_set_logfile(const char *logfile)
 	}
 }
 
-void alpm_option_set_usesyslog(unsigned char usesyslog) { handle->usesyslog = usesyslog; }
+void alpm_option_set_usesyslog(unsigned short usesyslog)
+{
+  handle->usesyslog = usesyslog;
+}
 
 void alpm_option_add_noupgrade(char *pkg)
 {
   handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 }
+
 void alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 {
 	if(handle->noupgrade) FREELIST(handle->noupgrade);
@@ -218,7 +225,10 @@ void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 	if(holdpkgs) handle->holdpkg = holdpkgs;
 }
 
-void alpm_option_set_upgradedelay(time_t delay) { handle->upgradedelay = delay; }
+void alpm_option_set_upgradedelay(time_t delay)
+{
+  handle->upgradedelay = delay;
+}
 
 void alpm_option_set_xfercommand(const char *cmd)
 {
@@ -226,7 +236,10 @@ void alpm_option_set_xfercommand(const char *cmd)
 	if(cmd) handle->xfercommand = strdup(cmd);
 }
 
-void alpm_option_set_nopassiveftp(unsigned short nopasv) { handle->nopassiveftp = nopasv; }
+void alpm_option_set_nopassiveftp(unsigned short nopasv)
+{
+  handle->nopassiveftp = nopasv;
+}
 
 void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
 
@@ -239,6 +252,9 @@ void alpm_option_set_needles(alpm_list_t *needles)
 	if(handle->needles) FREELIST(handle->needles);
 	if(needles) handle->needles = needles;
 }
-void alpm_option_set_usecolor(unsigned short usecolor) { handle->use_color = usecolor; }
+void alpm_option_set_usecolor(unsigned short usecolor)
+{
+  handle->use_color = usecolor;
+}
 
 /* vim: set ts=2 sw=2 et: */

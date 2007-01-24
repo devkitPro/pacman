@@ -30,11 +30,12 @@
 #endif
 
 #include "alpm.h"
+#include "db.h"
 
-enum {
+typedef enum _pmpkgfrom_t {
 	PKG_FROM_CACHE = 1,
 	PKG_FROM_FILE
-};
+} pmpkgfrom_t;
 
 /* Packages */
 #define PKG_FILENAME_LEN 512
@@ -65,10 +66,10 @@ struct __pmpkg_t {
 	char arch[PKG_ARCH_LEN];
 	unsigned long size;
 	unsigned long isize;
-	unsigned char scriptlet;
-	unsigned char force;
+	unsigned short scriptlet;
+	unsigned short force;
 	time_t date;
-	unsigned char reason;
+	pmpkgreason_t reason;
 	alpm_list_t *desc_localized;
 	alpm_list_t *license;
 	alpm_list_t *replaces;
@@ -81,9 +82,9 @@ struct __pmpkg_t {
 	alpm_list_t *conflicts;
 	alpm_list_t *provides;
 	/* internal */
-	unsigned char origin;
+	unsigned short origin;
 	void *data;
-	unsigned char infolevel;
+	pmdbinfrq_t infolevel;
 };
 
 #define FREEPKG(p) do { if(p){_alpm_pkg_free(p); p = NULL;}} while(0)

@@ -66,7 +66,7 @@
 
 #ifdef __sun__
 /* This is a replacement for strsep which is not portable (missing on Solaris).
- * Copyright (c) 2001 by François Gouget <fgouget_at_codeweavers.com> */
+ * Copyright (c) 2001 by FranÃ§ois Gouget <fgouget_at_codeweavers.com> */
 char* strsep(char** str, const char* delims)
 {
 	char* token;
@@ -342,7 +342,7 @@ int _alpm_rmrf(char *path)
 	return(0);
 }
 
-int _alpm_logaction(unsigned char usesyslog, FILE *f, const char *str)
+int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str)
 {
 	_alpm_log(PM_LOG_DEBUG, _("logaction called: %s"), str);
 

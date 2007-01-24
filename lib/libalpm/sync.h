@@ -27,7 +27,7 @@
 
 /* Sync package */
 struct __pmsyncpkg_t {
-	unsigned char type;
+	pmsynctype_t type;
 	pmpkg_t *pkg;
 	void *data;
 };

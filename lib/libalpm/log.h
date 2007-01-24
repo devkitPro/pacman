@@ -21,9 +21,11 @@
 #ifndef _ALPM_LOG_H
 #define _ALPM_LOG_H
 
+#include "alpm.h"
+
 #define LOG_STR_LEN 1024
 
-void _alpm_log(unsigned char flag, char *fmt, ...);
+void _alpm_log(pmloglevel_t flag, char *fmt, ...);
 
 #endif /* _ALPM_LOG_H */
 

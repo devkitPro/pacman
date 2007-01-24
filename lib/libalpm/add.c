@@ -332,7 +332,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	register struct archive *archive;
 	struct archive_entry *entry;
 	char expath[PATH_MAX], cwd[PATH_MAX] = "", *what;
-	unsigned char cb_state;
+	pmtransprog_t cb_state;
 	time_t t;
 	alpm_list_t *targ, *lp;
 

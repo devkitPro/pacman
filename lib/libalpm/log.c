@@ -27,7 +27,7 @@
 #include "alpm.h"
 #include "log.h"
 
-void _alpm_log(unsigned char flag, char *fmt, ...)
+void _alpm_log(pmloglevel_t flag, char *fmt, ...)
 {
 	alpm_cb_log logcb = alpm_option_get_logcb();
 	if(logcb == NULL) {

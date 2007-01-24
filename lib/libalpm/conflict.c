@@ -368,7 +368,7 @@ const char *alpm_conflict_get_target(pmconflict_t *conflict)
 	return conflict->target;
 }
 
-unsigned char alpm_conflict_get_type(pmconflict_t *conflict)
+pmconflicttype_t alpm_conflict_get_type(pmconflict_t *conflict)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));

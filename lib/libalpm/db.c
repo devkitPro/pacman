@@ -110,7 +110,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 			char *matched = NULL;
 			regex_t reg;
 
-			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE) != 0) {
+			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
 				RET_ERR(PM_ERR_INVALID_REGEX, NULL);
 			}
 

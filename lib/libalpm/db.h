@@ -27,12 +27,14 @@
 #include <limits.h>
 
 /* Database entries */
-#define INFRQ_NONE      0x00
-#define INFRQ_DESC      0x01
-#define INFRQ_DEPENDS   0x02
-#define INFRQ_FILES     0x04
-#define INFRQ_SCRIPTLET 0x08
-#define INFRQ_ALL       0xFF
+typedef enum _pmdbinfrq_t {
+	INFRQ_NONE = 0x00,
+	INFRQ_DESC = 0x01,
+	INFRQ_DEPENDS = 0x02,
+	INFRQ_FILES = 0x04,
+	INFRQ_SCRIPTLET = 0x08,
+	INFRQ_ALL = 0xFF
+} pmdbinfrq_t;
 
 /* Database */
 struct __pmdb_t {
@@ -55,9 +57,9 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
 void _alpm_db_rewind(pmdb_t *db);
-pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, unsigned int inforeq);
-int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info);
-int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq);
+pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq);
+int _alpm_db_read(pmdb_t *db, pmdbinfrq_t inforeq, pmpkg_t *info);
+int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
 int _alpm_db_getlastupdate(pmdb_t *db, char *ts);
 int _alpm_db_setlastupdate(pmdb_t *db, char *ts);

@@ -96,9 +96,17 @@ int pacman_add(alpm_list_t *targets)
 					MSG(NL, _(":: %s: requires %s"), alpm_dep_get_target(miss),
 					                              alpm_dep_get_name(miss));
 					switch(alpm_dep_get_mod(miss)) {
-						case PM_DEP_MOD_EQ: MSG(CL, "=%s", alpm_dep_get_version(miss));  break;
-						case PM_DEP_MOD_GE: MSG(CL, ">=%s", alpm_dep_get_version(miss)); break;
-						case PM_DEP_MOD_LE: MSG(CL, "<=%s", alpm_dep_get_version(miss)); break;
+						case PM_DEP_MOD_ANY:
+							break;
+						case PM_DEP_MOD_EQ:
+							MSG(CL, "=%s", alpm_dep_get_version(miss));
+							break;
+						case PM_DEP_MOD_GE:
+							MSG(CL, ">=%s", alpm_dep_get_version(miss));
+							break;
+						case PM_DEP_MOD_LE:
+							MSG(CL, "<=%s", alpm_dep_get_version(miss));
+							break;
 					}
 					MSG(CL, "\n");
 				}

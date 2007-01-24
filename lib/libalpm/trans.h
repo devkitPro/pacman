@@ -26,20 +26,7 @@
 
 #include "alpm.h"
 
-/* Transaction */
-struct __pmtrans_t {
-	unsigned char type;
-	unsigned int flags;
-	unsigned char state;
-	alpm_list_t *targets;     /* alpm_list_t of (char *) */
-	alpm_list_t *packages;    /* alpm_list_t of (pmpkg_t *) or (pmsyncpkg_t *) */
-	alpm_list_t *skiplist;    /* alpm_list_t of (char *) */
-	alpm_trans_cb_event cb_event;
-	alpm_trans_cb_conv cb_conv;
-	alpm_trans_cb_progress cb_progress;
-};
-
-enum {
+typedef enum _pmtransstate_t {
 	STATE_IDLE = 0,
 	STATE_INITIALIZED,
 	STATE_PREPARED,
@@ -47,6 +34,19 @@ enum {
 	STATE_COMMITING,
 	STATE_COMMITED,
 	STATE_INTERRUPTED
+} pmtransstate_t;
+
+/* Transaction */
+struct __pmtrans_t {
+	pmtranstype_t type;
+	unsigned int flags;
+	pmtransstate_t state;
+	alpm_list_t *targets;     /* alpm_list_t of (char *) */
+	alpm_list_t *packages;    /* alpm_list_t of (pmpkg_t *) or (pmsyncpkg_t *) */
+	alpm_list_t *skiplist;    /* alpm_list_t of (char *) */
+	alpm_trans_cb_event cb_event;
+	alpm_trans_cb_conv cb_conv;
+	alpm_trans_cb_progress cb_progress;
 };
 
 #define FREETRANS(p) \
@@ -77,7 +77,9 @@ do { \
 
 pmtrans_t *_alpm_trans_new(void);
 void _alpm_trans_free(void *data);
-int _alpm_trans_init(pmtrans_t *trans, unsigned char type, unsigned int flags, alpm_trans_cb_event event, alpm_trans_cb_conv conv, alpm_trans_cb_progress progress);
+int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, unsigned int flags,
+                     alpm_trans_cb_event event, alpm_trans_cb_conv conv,
+                     alpm_trans_cb_progress progress);
 int _alpm_trans_sysupgrade(pmtrans_t *trans);
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
 int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data);
