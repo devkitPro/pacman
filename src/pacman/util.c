@@ -49,7 +49,6 @@
 #include "log.h"
 
 extern config_t *config;
-extern int neednl;
 
 /* gets the current screen column width */
 unsigned int getcols()

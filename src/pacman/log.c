@@ -37,7 +37,7 @@
 
 extern config_t *config;
 
-int neednl = 0; /* for cleaner message output */
+static int neednl = 0; /* for cleaner message output */
 static int needpad = 0; /* pad blanks to terminal width */
 
 /* simple helper for needpad */

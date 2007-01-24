@@ -78,8 +78,6 @@ pmdb_t *db_local;
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;
 
-extern int neednl;
-
 /* Display usage/syntax for the specified operation.
  *     op:     the operation code requested
  *     myname: basename(argv[0])
@@ -197,14 +195,8 @@ static void cleanup(int signum)
 	FREELIST(pm_targets);
 	FREECONF(config);
 
-	if(neednl) {
-		putchar('\n');
-	}
-
-	/* restore the cursor 
-	printf("\033[?25h\033[?0c");
-	fflush(stdout);
-	*/
+	/* This fixes up any missing newlines (neednl) */
+	MSG(NL, "");
 
 	exit(signum);
 }
@@ -407,10 +399,6 @@ int main(int argc, char *argv[])
 	signal(SIGTERM, cleanup);
 	signal(SIGSEGV, cleanup);
 
-	/* hide the cursor, prevent flicker during fancy graphics 
-	printf("\033[?25l\033[?1c");
-	*/
-
 	/* i18n init */
 	lang=getenv("LC_ALL");
 	if(lang==NULL || lang[0]=='\0')
@@ -419,7 +407,7 @@ int main(int argc, char *argv[])
 		lang=getenv("LANG");
 
 	setlocale(LC_ALL, lang);
-	// workaround for tr_TR
+	/* workaround for tr_TR */
 	if(lang && !strcmp(lang, "tr_TR"))
 		setlocale(LC_CTYPE, "C");
 	bindtextdomain("pacman", "/usr/share/locale");
