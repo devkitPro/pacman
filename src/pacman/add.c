@@ -167,7 +167,7 @@ int pacman_add(alpm_list_t *targets)
 
 cleanup:
 	if(data) {
-		alpm_list_free(data, NULL);
+		alpm_list_free(data);
 	}
 	if(alpm_trans_release() == -1) {
 		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));

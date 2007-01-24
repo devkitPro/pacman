@@ -22,6 +22,9 @@
     - maybe it's my fault, but I see little difference between PM_LOG_FLOW1,
       PM_LOG_FLOW2, and PM_LOG_DEBUG.  We might want to just do away with flow1
       and flow2 and use debug across the board.
+    - clear up list allocation/deallocation - some lists need to be free'd, some
+      do not and there is no clear indication WHEN this should happen.
+    - remove DB entries (directories) on a read error?
 
 * pacman: A LOT of functions are way too long.  There should be an upper limit of
   100-200 lines.  _alpm_add_commit is around 600 lines, and is far too complex.

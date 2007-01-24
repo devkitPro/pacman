@@ -103,7 +103,7 @@ int pacman_remove(alpm_list_t *targets)
 					MSG(NL, _(":: %s is required by %s\n"), alpm_dep_get_target(miss),
 					    alpm_dep_get_name(miss));
 				}
-				alpm_list_free(data, NULL);
+				alpm_list_free(data);
 			break;
 			default:
 			break;

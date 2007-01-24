@@ -29,6 +29,7 @@
 #include <string.h>
 #include <libintl.h>
 #include <locale.h>
+#include <errno.h>
 /* pacman */
 #include "log.h"
 #include "util.h"
@@ -136,7 +137,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 	int linenum = 0;
 
 	if((fp = fopen(descfile, "r")) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not open file %s"), descfile);
+		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), descfile, strerror(errno));
 		return(-1);
 	}
 

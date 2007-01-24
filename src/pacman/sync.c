@@ -265,7 +265,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 				indentprint(alpm_pkg_get_desc(pkg), 4);
 				printf("\n\n");
 			}
-			alpm_list_free_outer(ret);
+			alpm_list_free(ret);
 		} else {
 			for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
 				pmpkg_t *pkg = alpm_list_getdata(j);
@@ -375,7 +375,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 			if(db == NULL) {
 				ERR(NL, _("repository \"%s\" was not found.\n"),repo);
-				FREELISTPTR(ls);
+				alpm_list_free(ls);
 				return(1);
 			}
 
@@ -395,7 +395,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	}
 
 	if(targets) {
-		FREELISTPTR(ls);
+		alpm_list_free(ls);
 	}
 
 	return(0);
@@ -541,7 +541,7 @@ int pacman_sync(alpm_list_t *targets)
 								}
 							}
 						}
-						FREELIST(pkgs);
+						alpm_list_free(pkgs);
 					}
 				}
 				if(!found) {
@@ -756,8 +756,7 @@ int pacman_sync(alpm_list_t *targets)
 	 */
 cleanup:
 	if(data) {
-		alpm_list_free(data, NULL);
-		data = NULL;
+		alpm_list_free(data);
 	}
 	if(alpm_trans_release() == -1) {
 		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));

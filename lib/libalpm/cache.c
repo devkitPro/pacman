@@ -112,8 +112,13 @@ int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 	for(p = db->pkgcache; p; p = p->next) {
 		pmpkg_t *pkg = (pmpkg_t *)p->data;
 		if(infolevel != INFRQ_NONE && !(pkg->infolevel & infolevel)) {
-			_alpm_db_read(db, infolevel, pkg);
-			reloaded = 1;
+			if(_alpm_db_read(db, infolevel, pkg) == -1) {
+				_alpm_log(PM_LOG_ERROR, _("failed to read package '%s-%s', removing from package cache"), 
+									pkg->name, pkg->version);
+				p = alpm_list_remove_node(p);
+			} else {
+				reloaded = 1;
+			}
 		}
 	}
 	if(reloaded) {

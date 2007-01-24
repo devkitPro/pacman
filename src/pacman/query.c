@@ -98,16 +98,23 @@ int pacman_query(alpm_list_t *targets)
 			return(1);
 		}
 		for(i = ret; i; i = alpm_list_next(i)) {
+			char *group = NULL;
+			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(i);
 
-			printf("local/%s/%s %s\n    ",
-					(char *)alpm_list_getdata(alpm_pkg_get_groups(pkg)),
-					alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg));
+			printf("local/%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+
+			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
+				group = alpm_list_getdata(grp);
+				printf(" (%s)\n    ", (char *)alpm_list_getdata(grp));
+			} else {
+				printf("\n    ");
+			}
+
 			indentprint(alpm_pkg_get_desc(pkg), 4);
 			printf("\n");
 		}
-		alpm_list_free_outer(ret);
+		alpm_list_free(ret);
 		return(0);
 	}
 

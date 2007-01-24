@@ -192,12 +192,14 @@ int yesno(char *fmt, ...)
 			pch--;
 		}
 		*++pch = 0;
-		strtrim(response);
+		if(strlen(response) != 0) {
+			strtrim(response);
+		}
 
 		/* User hits 'enter', forcing a newline here */
 		neednl = 0;
 
-		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES")) || !strlen(response)) {
+		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES")) || strlen(response) == 0) {
 			return(1);
 		}
 	}

@@ -30,18 +30,18 @@ struct __alpm_list_t {
 	struct __alpm_list_t *next;
 };
 
-/* TODO we should do away with these... they're messy */
-#define _FREELIST(p, f) do { if(p) { alpm_list_free(p, f); p = NULL; } } while(0)
-#define FREELIST(p) _FREELIST(p, free)
-#define FREELISTPTR(p) _FREELIST(p, NULL)
+/* TODO we should do away with these... they're messy*/
+#define _FREELIST(p, f) do { alpm_list_free_inner(p, f); alpm_list_free(p); p = NULL; } while(0)
+#define FREELIST(p)     _FREELIST(p, free)
+#define FREELISTPTR(p)  do { alpm_list_free(p); p = NULL; } while(0)
 
 typedef void (*alpm_list_fn_free)(void *); /* item deallocation callback */
 typedef int (*alpm_list_fn_cmp)(const void *, const void *); /* item comparison callback */
 
 /* allocation */
 alpm_list_t *alpm_list_new(void);
-void alpm_list_free(alpm_list_t *list, alpm_list_fn_free fn);
-void alpm_list_free_outer(alpm_list_t *list);
+void alpm_list_free(alpm_list_t *list);
+void alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn);
 
 /* item mutators */
 alpm_list_t *alpm_list_add(alpm_list_t *list, void *data);
@@ -49,6 +49,7 @@ alpm_list_t *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cm
 alpm_list_t* alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn);
 alpm_list_t* alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn);
 alpm_list_t *alpm_list_remove(alpm_list_t *haystack, void *needle, alpm_list_fn_cmp fn, void **data);
+alpm_list_t *alpm_list_remove_node(alpm_list_t *node);
 alpm_list_t *alpm_list_remove_dupes(alpm_list_t *list);
 alpm_list_t *alpm_list_strdup(alpm_list_t *list);
 alpm_list_t *alpm_list_reverse(alpm_list_t *list);

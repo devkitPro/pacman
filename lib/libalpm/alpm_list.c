@@ -49,32 +49,36 @@ alpm_list_t *alpm_list_new()
 	return(list);
 }
 
-/** Free a list structure and possibly the internal data as well
+/** Free a list, but not the contained data
  *  @param list the list to free
- *  @param fn a free function for the internal data, or NULL for none
  */
-void alpm_list_free(alpm_list_t *list, alpm_list_fn_free fn)
+void alpm_list_free(alpm_list_t *list)
 {
 	alpm_list_t *it = list;
 
 	while(it) {
-		alpm_list_t *ptr = it->next;
-		if(fn && it->data) {
-			fn(it->data);
-		}
-		FREE(it);
-		it = ptr;
+		alpm_list_t *tmp = it->next;
+		free(it);
+		it = tmp;
 	}
 }
 
-/** Free the outer list, but not the contained data
- *  A minor simplification of alpm_list_free
+/** Free the internal data of a list structure
  *  @param list the list to free
+ *  @param fn a free function for the internal data
  */
-void alpm_list_free_outer(alpm_list_t *list)
+void alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
 {
-	alpm_list_free(list, NULL);
+	alpm_list_t *it = list;
+
+	while(it) {
+		if(fn && it->data) {
+			fn(it->data);
+		}
+		it = it->next;
+	}
 }
+
 
 /* Mutators */
 
@@ -269,6 +273,31 @@ alpm_list_t *alpm_list_remove(alpm_list_t *haystack, void *needle, alpm_list_fn_
 	}
 
 	return(haystack);
+}
+
+/** Remove the passed in node from the list that it is a part of
+ *  @note this DOES NOT free the node
+ *  @param node the list node we're removing
+ *  @return the node which took the place of this one
+ */
+alpm_list_t *alpm_list_remove_node(alpm_list_t *node)
+{
+	if(!node) return(NULL);
+
+	alpm_list_t *ret = NULL;
+
+	if(node->prev) {
+		node->prev->next = node->next;
+		ret = node->prev;
+		node->prev = NULL;
+	}
+	if(node->next) {
+		node->next->prev = node->prev;
+		ret = node->next;
+		node->next = NULL;
+	}
+
+	return(ret);
 }
 
 /** Create a new list without any duplicates

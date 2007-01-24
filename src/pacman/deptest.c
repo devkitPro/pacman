@@ -130,7 +130,7 @@ int pacman_deptest(alpm_list_t *targets)
 					}
 					synctargs = alpm_list_add(synctargs, strdup(alpm_dep_get_name(miss)));
 				}
-				alpm_list_free(data, NULL);
+				alpm_list_free(data);
 			break;
 			case PM_ERR_CONFLICTING_DEPS:
 				/* we can't auto-resolve conflicts */
@@ -139,7 +139,7 @@ int pacman_deptest(alpm_list_t *targets)
 					MSG(NL, _("conflict: %s"), alpm_dep_get_name(miss));
 				}
 				retval = 127;
-				alpm_list_free(data, NULL);
+				alpm_list_free(data);
 			break;
 			default:
 				retval = 127;
