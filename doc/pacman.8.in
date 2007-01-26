@@ -305,6 +305,9 @@ above are 'current' and 'custom').  Locations are defined with the \fIServer\fP 
 follow a URL naming structure.  Currently only ftp is supported for remote servers.  If you
 want to use a local directory, you can specify the full path with a 'file://' prefix, as
 shown above.
+The order of repositories in the file matters; repositories listed first will
+take precidence over those listed later in the file when packages in two
+repositories have identical names, regardless of version number.
 .SH USING YOUR OWN REPOSITORY
 Let's say you have a bunch of custom packages in \fI/home/pkgs\fP and their respective PKGBUILD
 files are all in \fI/var/abs/local\fP.  All you need to do is generate a compressed package database
