@@ -20,8 +20,8 @@
 #   USA.
 #
 
-version="2.9.8"
-toplevel=`pwd`
+version="3.0.0"
+toplevel=$(pwd)
 
 usage() {
 	echo "makeworld version $version"
@@ -119,13 +119,13 @@ fi
 
 # convert a (possibly) relative path to absolute
 cd $dest
-dest=`pwd`
+dest=$(pwd)
 cd - &>/dev/null
 
-sd=`date +"[%b %d %H:%M]"`
+sd=$(date +"[%b %d %H:%M]")
 
 for category in $*; do
-	for port in `find $toplevel/$category -maxdepth 1 -mindepth 1 -type d | sort`; do
+	for port in $(find $toplevel/$category -maxdepth 1 -mindepth 1 -type d | sort); do
 		cd $port
 		if [ -f PKGBUILD ]; then
 			. PKGBUILD
@@ -138,7 +138,7 @@ for category in $*; do
 					buildstatus=1
 				fi
 			fi
-			d=`date +"[%b %d %H:%M]"`
+			d=$(date +"[%b %d %H:%M]")
 			echo -n "$d  " >>$toplevel/build.log
 			case $buildstatus in
 				0) echo "$pkgname already built -- skipping" >>$toplevel/build.log ;;

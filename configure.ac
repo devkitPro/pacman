@@ -147,7 +147,7 @@ AC_ARG_WITH(config-file,
 
 dnl Help line for debug
 AC_ARG_ENABLE(debug,
-    AC_HELP_STRING([  --enable-debug], [Enable debugging support]),
+    AC_HELP_STRING([--enable-debug], [Enable debugging support]),
     [debug=$enableval], [debug=yes])
 
 dnl Help line for fakeroot
@@ -292,26 +292,20 @@ else
 fi
 
 dnl Check for math
-AC_CHECK_LIB([m], [log10], [AC_CHECK_HEADER([math.h], [LIBM='-lm'])])
-if test -n "$LIBM"; then
-    LDFLAGS="$LDFLAGS $LIBM"
-else
-    AC_MSG_ERROR("math library not found!");
+AC_CHECK_LIB([m], [sqrt], [AC_CHECK_HEADER([math.h], [LIBM='-lm'])])
+if test -z "$LIBM"; then
+    AC_MSG_ERROR("math library needed to compile pacman!");
 fi
 
 dnl Check for libarchive
 AC_CHECK_LIB([archive], [archive_read_data], [AC_CHECK_HEADER([archive.h], [LIBARCHIVE='-larchive'])])
-if test -n "$LIBARCHIVE"; then
-    LDFLAGS="$LDFLAGS $LIBARCHIVE"
-else
+if test -z "$LIBARCHIVE"; then
     AC_MSG_ERROR("libarchive is needed to compile pacman!");
 fi
 
 dnl Check for libdownload
 AC_CHECK_LIB([download], [downloadParseURL], [AC_CHECK_HEADER([download.h], [LIBDOWNLOAD='-ldownload'])])
-if test -n "$LIBDOWNLOAD"; then
-    LDFLAGS="$LDFLAGS $LIBDOWNLOAD"
-else
+if test -z "$LIBDOWNLOAD"; then
     AC_MSG_ERROR("libdownload is needed to compile pacman!");
 fi
 
@@ -326,20 +320,20 @@ fi
 
 dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
-if test x$debug = xyes ; then
-    AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xyes)
+if test "$debug" = "yes" ; then
+    AM_CONDITIONAL(PACMAN_DEBUG, test "$debug" = "yes")
 	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
 	LDFLAGS="$LDFLAGS -lmcheck"
     AC_MSG_RESULT(yes)
 else
-    AM_CONDITIONAL(PACMAN_DEBUG, test x$debug = xno)
+    AM_CONDITIONAL(PACMAN_DEBUG, test "$debug" = "no")
 	CFLAGS="$CFLAGS -Wall -std=c99"
     AC_MSG_RESULT(no)
 fi
 
 dnl Enable or disable fakeroot code
 AC_MSG_CHECKING(for fakeroot proof support)
-if test x$fakeroot = xyes ; then
+if test "$fakeroot" = "yes" ; then
 	AC_MSG_RESULT(yes)
 else
 	CFLAGS="$CFLAGS -DFAKEROOT"

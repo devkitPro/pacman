@@ -63,24 +63,24 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	/* actual output */
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
 	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
-	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
-	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("URL            : %s\n"), (char *)alpm_pkg_get_url(pkg));
 	list_display(_("License        :"), alpm_pkg_get_licenses(pkg));
-	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
-	printf(_("Installed Size : %ld\n"), (long int)alpm_pkg_get_size(pkg));
-	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
-	printf(_("Build Type     : %s\n"), strlen(type) ? type : _("Unknown"));
-	/* TODO only applicable if querying installed package, not a file */
-	printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
-	printf(_("Install Script : %s\n"), alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
-	printf(_("Reason         : %s\n"), reason);
+	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
 	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
 	/* TODO only applicable if querying installed package, not a file */
 	list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
+	printf(_("Installed Size : %ld K\n"), (long)alpm_pkg_get_size(pkg) / 1024);
+	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
+	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
+	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
+	printf(_("Build Type     : %s\n"), strlen(type) ? type : _("Unknown"));
+	/* TODO only applicable if querying installed package, not a file */
+	printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
+	printf(_("Install Script : %s\n"), alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
+	printf(_("Reason         : %s\n"), reason);
 
 	printf(_("Description    : "));
 	indentprint(alpm_pkg_get_desc(pkg), 17);
@@ -117,8 +117,8 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
-	printf(_("Download Size  : %ld\n"), (long)alpm_pkg_get_size(pkg));
-	printf(_("Installed Size : %ld\n"), (long)alpm_pkg_get_isize(pkg));
+	printf(_("Download Size  : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
+	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_isize(pkg) / 1024.0);
 	
 	printf(_("Description    : "));
 	indentprint(alpm_pkg_get_desc(pkg), 17);

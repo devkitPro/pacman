@@ -121,8 +121,8 @@ static void usage(int op, char *myname)
 			printf(_("usage:  %s {-Q --query} [options] [package]\n"), myname);
 			printf(_("options:\n"));
 			printf(_("  -c, --changelog     view the changelog of a package\n"));
-			printf(_("  -e, --orphans       list all packages that were installed as a dependency\n"));
-			printf(_("                      and are not required by any other packages\n"));
+			printf(_("  -e, --orphans       list all packages installed as dependencies but no longer\n"));
+			printf(_("                      required by any package\n"));
 			printf(_("  -g, --groups        view all members of a package group\n"));
 			printf(_("  -i, --info          view package information\n"));
 			printf(_("  -l, --list          list the contents of the queried package\n"));

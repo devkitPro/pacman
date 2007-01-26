@@ -566,7 +566,7 @@ char *alpm_pkg_name_hasarch(char *pkgname)
 	 * and
 	 *    package-name-bar-1.2.3-1
 	 */
-	int i = 0;
+	size_t i = 0;
 	char *arch, *cmp, *p;
 
 	if((p = strrchr(pkgname, '-'))) {
@@ -1008,7 +1008,7 @@ int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this
 						_alpm_log(PM_LOG_DEBUG, _("config: xfercommand: %s"), ptr);
 					} else if (!strcmp(key, "UPGRADEDELAY")) {
 						/* The config value is in days, we use seconds */
-						long ud = atol(ptr) * 60 * 60 *24;
+						time_t ud = atol(ptr) * 60 * 60 *24;
 						alpm_option_set_upgradedelay(ud);
 						_alpm_log(PM_LOG_DEBUG, _("config: upgradedelay: %d"), ud);
 					} else {

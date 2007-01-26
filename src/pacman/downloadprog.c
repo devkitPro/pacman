@@ -53,6 +53,9 @@ void log_progress(const char *filename, int xfered, int total)
 {
 	static unsigned int lasthash = 0, mouth = 0;
 	unsigned int i, hash;
+	/* a little hard to conceal easter eggs in open-source software,
+	 * but they're still fun. ;) */
+	const unsigned short chomp = alpm_option_get_chomp();
 	unsigned int chomp = 0;
 	char *fname, *p; 
 	unsigned int maxcols = getcols();
@@ -74,9 +77,6 @@ void log_progress(const char *filename, int xfered, int total)
 	if(config->noprogressbar) {
 		return;
 	}
-
-	/* a little hard to conceal easter eggs in open-source software, but they're still fun. ;) */
-	chomp = alpm_option_get_chomp();
 
 	gettimeofday(&current_time, NULL);
 	total_timediff = current_time.tv_sec-initial_time.tv_sec

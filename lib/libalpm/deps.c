@@ -249,9 +249,9 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				}
 				if(!_alpm_depcmp(tp, &depend)) {
 					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
-							depend.name, p->name);
+										depend.name, p->name);
 					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
-							depend.name, depend.version);
+																	 depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
 					} else {
