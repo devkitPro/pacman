@@ -56,7 +56,6 @@ void log_progress(const char *filename, int xfered, int total)
 	/* a little hard to conceal easter eggs in open-source software,
 	 * but they're still fun. ;) */
 	const unsigned short chomp = alpm_option_get_chomp();
-	unsigned int chomp = 0;
 	char *fname, *p; 
 	unsigned int maxcols = getcols();
 	unsigned int progresslen = maxcols - 57;
