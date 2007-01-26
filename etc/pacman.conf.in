@@ -21,7 +21,9 @@ HoldPkg     = pacman glibc
 #   - can be defined here or included from another file
 #   - pacman will search repositories in the order defined here
 #   - local/custom mirrors can be added here or in separate files
-
+#   - repositories listed first will take precedence when packages
+#     have identical names, regardless of version number
+#
 #[testing]
 #Server = ftp://ftp.archlinux.org/testing/os/i686
 
