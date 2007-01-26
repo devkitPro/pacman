@@ -60,7 +60,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_CLEANUP_START:
-			pm_fprintf(stderr, NL, _("resolving dependencies... "));
+			pm_fprintf(stderr, NL, _("cleaning up... "));
 			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
 			pm_fprintf(stderr, NL, _("resolving dependencies... "));
