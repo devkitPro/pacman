@@ -27,7 +27,6 @@
 
 myver='3.0.0'
 startdir=$(pwd)
-PKGDEST=$startdir
 
 BUILDSCRIPT="PKGBUILD"
 PKGEXT="pkg.tar.gz"
@@ -314,6 +313,11 @@ usage() {
 
 ARGLIST=$@
 
+#preserve environment variables
+PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
+_PKGDEST=${PKGDEST}
+_SRCDEST=$SRCDEST
+
 #Source makepkg.conf; fail if it is not found
 if [ -f /etc/makepkg.conf ]; then
 	source /etc/makepkg.conf
@@ -326,6 +330,10 @@ fi
 if [ -f ~/.makepkg.conf ]; then
 	source ~/.makepkg.conf
 fi
+
+# override settings with an environment variable for batch processing
+PKGDEST=${_PKGDEST:-$PKGDEST}
+SRCDEST=${_SRCDEST:-$SRCDEST}
 
 while [ "$#" -ne "0" ]; do
 	case $1 in
