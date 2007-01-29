@@ -46,5 +46,5 @@ aclocal --force
 autoheader -f
 autoconf -f
 automake -a -c --gnu --foreign
-cp -f $(dirname $(which automake))/../share/automake-1.9/mkinstalldirs ./
+cp -f $(dirname $(which automake))/../share/automake-*/mkinstalldirs ./
 cp -f $(dirname $(which automake))/../share/gettext/config.rpath ./
