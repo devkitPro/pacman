@@ -46,6 +46,6 @@ if HAS_DOXYGEN
 all: doxygen.in
 
 doxygen.in:
-	doxygen Doxyfile
+	doxygen $(srcdir)/Doxyfile
 
 endif

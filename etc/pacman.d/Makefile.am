@@ -1,14 +1,9 @@
-EXTRA_DIST = community current extra release unstable
+pkgsysconfdir = ${sysconfdir}/pacman.d
+dist_pkgsysconf_DATA = community current extra release unstable
+
+$(dist_pkgsysconf_DATA): mirrorlist
+	sed "s|@@REPO@@|$@|g" <$< >$@
 
 clean:
+	rm $(dist_pkgsysconf_DATA)
 
-install-data-hook:
-	mkdir -p $(DESTDIR)$(sysconfdir)/pacman.d ; \
-	for j in $(EXTRA_DIST); do \
-	    $(INSTALL) -c -m 644 $(srcdir)/$$j $(DESTDIR)$(sysconfdir)/pacman.d/$$j ; \
-	done
-
-uninstall-hook:
-	for j in $(EXTRA_DIST); do \
-	    rm -f $(DESTDIR)$(sysconfdir)/pacman.d/$$j ; \
-	done

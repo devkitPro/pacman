@@ -364,10 +364,6 @@ bindings/perl/Makefile
 bindings/python/Makefile
 bindings/java/Makefile
 Makefile
-],
-[
- cd etc/pacman.d/
- ./gen-mirrorlist.sh
 ])
 
 echo "

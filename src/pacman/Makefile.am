@@ -16,10 +16,10 @@ pacman_SOURCES = util.c log.c package.c downloadprog.c trans.c add.c \
 
 pacman_static_SOURCES = $(pacman_SOURCES)
 
-pacman_LDADD = -L$(top_srcdir)/lib/libalpm/.libs \
+pacman_LDADD = -L$(top_builddir)/lib/libalpm/.libs \
 			   -ldownload -lalpm
 
-pacman_static_LDADD = -L$(top_srcdir)/lib/libalpm/.libs/ \
+pacman_static_LDADD = -L$(top_builddir)/lib/libalpm/.libs/ \
 					  -ldownload -lalpm
 
 pacman_static_LDFLAGS = $(LDFLAGS) -all-static
