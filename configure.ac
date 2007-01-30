@@ -195,25 +195,17 @@ else
 fi
 
 dnl Check for doxygen support
-AC_MSG_CHECKING(for support Doxygen)
 if test x$wantdoxygen = xyes ; then
     AC_CHECK_PROGS([DOXYGEN], [doxygen])
-    AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
     if test $DOXYGEN ; then
-        AC_DEFINE([HAS_DOXYGEN], [TRUE], [Enabled Doxygen Support])
-	AC_MSG_RESULT(yes)
 	DOXYSTATUS="yes, path: `which $DOXYGEN`"
     else
-        AC_DEFINE([HAS_DOXYGEN], [FALSE], [Disabled Doxygen support])
-	AC_MSG_RESULT(no, doxygen missing)
 	DOXYSTATUS="doxygen binary not found"
     fi
 else
-    AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
-    AC_DEFINE([HAS_DOXYGEN], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
     DOXYSTATUS="no, disabled by configure"
 fi
+AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
 
 dnl Check for swig binary
 AC_CHECK_PROGS([SWIG], [swig])
