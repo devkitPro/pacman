@@ -680,7 +680,7 @@ int pacman_sync(alpm_list_t *targets)
 		indentprint(str, 9);
 		MSG(NL, _("\nTotal Package Size:   %.1f MB\n"), mb);
 		if(umb > 0) {
-		  MSG(NL, _("\nTotal Installed Size:   %.1f MB\n"), umb);
+		  MSG(NL, _("Total Installed Size:   %.1f MB\n"), umb);
 		}
 		FREELIST(list_install);
 		FREE(str);
