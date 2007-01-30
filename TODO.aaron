@@ -2,6 +2,11 @@
 
 * Make sure all the alpm_list_t changes are valid (especially alpm_list_free)
 
+* The --debug flag should't need a silly mask.
+* PM_LOG_FLOW1 and PM_LOG_FLOW2 seem extraneous at this point. These should both
+  be moved to PM_LOG_DEBUG messages, as it's going to end up being impossible to
+  keep track of what is "flow1" and what is "flow2"
+
 * src/pacman:
     - There's quite a few single function headers which contain the pacman_*
       functions.  We should move these to a single header (pacman.h) to clean up
