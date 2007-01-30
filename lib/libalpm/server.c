@@ -137,7 +137,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			snprintf(realfile, PATH_MAX, "%s/%s", localpath, fn);
 			snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
 
-			if(alpm_list_is_strin(fn, complete)) {
+			if(alpm_list_find_str(complete, fn)) {
 				continue;
 			}
 

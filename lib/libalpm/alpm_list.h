@@ -64,8 +64,8 @@ void *alpm_list_getdata(const alpm_list_t *entry);
 
 /* misc */
 int alpm_list_count(const alpm_list_t *list);
-int alpm_list_is_in(const void *needle, alpm_list_t *haystack);
-int alpm_list_is_strin(const char *needle, alpm_list_t *haystack);
+int alpm_list_find(alpm_list_t *haystack, const void *needle);
+int alpm_list_find_str(alpm_list_t *haystack,const char *needle);
 
 #endif /* _ALPM_LIST_H */
 

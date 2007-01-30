@@ -159,7 +159,7 @@ static int sync_cleancache(int level)
 				/* TODO Do not remove the currently installed version EITHER */
 				if(!strcmp(name, n)) {
 					char *ptr = (alpm_pkg_vercmp(version, v) < 0) ? str : s;
-					if(!alpm_list_is_strin(ptr, clean)) {
+					if(!alpm_list_find_str(clean, ptr)) {
 						clean = alpm_list_add(clean, strdup(ptr));
 					}
 				}
@@ -645,7 +645,7 @@ int pacman_sync(alpm_list_t *targets)
 				for(j = data; j; j = alpm_list_next(j)) {
 					pmpkg_t *p = alpm_list_getdata(j);
 					const char *pkgname = alpm_pkg_get_name(p);
-					if(!alpm_list_is_strin(pkgname, list_remove)) {
+					if(!alpm_list_find_str(list_remove, pkgname)) {
 						list_remove = alpm_list_add(list_remove, strdup(pkgname));
 					}
 				}

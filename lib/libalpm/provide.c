@@ -42,7 +42,7 @@ alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, char *package)
 	for(lp = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(alpm_list_is_strin(package, info->provides)) {
+		if(alpm_list_find_str(info->provides, package)) {
 			pkgs = alpm_list_add(pkgs, info);
 		}
 	}

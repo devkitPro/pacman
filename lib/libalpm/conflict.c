@@ -240,7 +240,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 					if(strcmp(filestr, ".INSTALL") == 0) {
 						continue;
 					}
-					if(alpm_list_is_strin(filestr, p2->files)) {
+					if(alpm_list_find_str(p2->files, filestr)) {
 						pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 						if(conflict == NULL) {
 							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
@@ -284,7 +284,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 						_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), dbpkg->name);
 						_alpm_db_read(db, INFRQ_FILES, dbpkg);
 					}
-					if(dbpkg && alpm_list_is_strin(j->data, dbpkg->files)) {
+					if(dbpkg && alpm_list_find_str(dbpkg->files, j->data)) {
 						ok = 1;
 					}
 					/* Make sure that the supposedly-conflicting file is not actually just
@@ -315,7 +315,8 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 									_alpm_db_read(db, INFRQ_FILES, dbpkg2);
 								}
 								/* If it used to exist in there, but doesn't anymore */
-								if(dbpkg2 && !alpm_list_is_strin(filestr, p1->files) && alpm_list_is_strin(filestr, dbpkg2->files)) {
+								if(dbpkg2 && !alpm_list_find_str(p1->files, filestr)
+								    && alpm_list_find_str(dbpkg2->files, filestr)) {
 									ok = 1;
 									/* Add to the "skip list" of files that we shouldn't remove during an upgrade.
 									 *

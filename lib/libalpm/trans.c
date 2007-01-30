@@ -116,7 +116,7 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(alpm_list_is_strin(target, trans->targets)) {
+	if(alpm_list_find_str(trans->targets, target)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 

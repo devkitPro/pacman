@@ -247,7 +247,8 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	int equal = 0;
 
-  if(strcmp(pkg->name, dep->name) == 0 || alpm_list_is_strin(dep->name, pkg->provides)) {
+  if(strcmp(pkg->name, dep->name) == 0
+	    || alpm_list_find_str(pkg->provides, dep->name)) {
 		if(dep->mod == PM_DEP_MOD_ANY) {
 			equal = 1;
 		} else {

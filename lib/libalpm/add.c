@@ -507,7 +507,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				 * eg, /home/httpd/html/index.html may be removed so index.php
 				 * could be used.
 				 */
-				if(alpm_list_is_strin(pathname, handle->noextract)) {
+				if(alpm_list_find_str(handle->noextract, pathname)) {
 					alpm_logaction(_("notice: %s is in NoExtract -- skipping extraction"), pathname);
 					archive_read_data_skip (archive);
 					continue;
@@ -516,7 +516,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				if(!stat(expath, &buf) && !S_ISDIR(buf.st_mode)) {
 					/* file already exists */
 					if(!pmo_upgrade || oldpkg == NULL) {
-						nb = alpm_list_is_strin(pathname, info->backup);
+						nb = alpm_list_find_str(info->backup, pathname);
 					} else {
 						/* op == PM_TRANS_TYPE_UPGRADE */
 						md5_orig = _alpm_needbackup(pathname, oldpkg->backup);
@@ -525,7 +525,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							nb = 1;
 						}
 					}
-					if(alpm_list_is_strin(pathname, handle->noupgrade)) {
+					if(alpm_list_find_str(handle->noupgrade, pathname)) {
 						notouch = 1;
 						nb = 0;
 					}

@@ -309,7 +309,7 @@ alpm_list_t *alpm_list_remove_dupes(alpm_list_t *list)
 { /* TODO does removing the strdup here cause invalid free's anywhere? */
 	alpm_list_t *lp = list, *newlist = NULL;
 	while(lp) {
-		if(!alpm_list_is_in(lp->data, newlist)) {
+		if(!alpm_list_find(newlist, lp->data)) {
 			newlist = alpm_list_add(newlist, lp->data);
 		}
 		lp = lp->next;
@@ -426,7 +426,7 @@ int alpm_list_count(const alpm_list_t *list)
  *  @param haystack the list to search
  *  @return 1 if `needle` is found, 0 otherwise
  */
-int alpm_list_is_in(const void *needle, alpm_list_t *haystack)
+int alpm_list_find(alpm_list_t *haystack, const void *needle)
 {
 	alpm_list_t *lp = haystack;
 	while(lp) {
@@ -440,12 +440,12 @@ int alpm_list_is_in(const void *needle, alpm_list_t *haystack)
 
 /* Test for existence of a string in a alpm_list_t
 */
-/** Is a _string_ in the list (optimization of alpm_list_is_in for strings)
+/** Is a _string_ in the list (optimization of alpm_list_find for strings)
  *  @param needle the string to compare
  *  @param haystack the list to search
  *  @return 1 if `needle` is found, 0 otherwise
  */
-int alpm_list_is_strin(const char *needle, alpm_list_t *haystack)
+int alpm_list_find_str(alpm_list_t *haystack, const char *needle)
 {
 	alpm_list_t *lp = haystack;
 	while(lp) {

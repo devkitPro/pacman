@@ -363,7 +363,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 							spkg = k->data;
 						}
 						if(spkg) {
-							if(alpm_list_is_strin(tp->name, spkg->provides)) {
+							if(alpm_list_find_str(spkg->provides, tp->name)) {
 								found = 1;
 							}
 						}
@@ -549,7 +549,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		/* check if one of the packages in *list already provides this dependency */
 		for(j = list; j && !found; j = j->next) {
 			pmpkg_t *sp = (pmpkg_t *)j->data;
-			if(alpm_list_is_strin(miss->depend.name, sp->provides)) {
+			if(alpm_list_find_str(sp->provides, miss->depend.name)) {
 				_alpm_log(PM_LOG_DEBUG, _("%s provides dependency %s -- skipping"),
 				          sp->name, miss->depend.name);
 				found = 1;
@@ -602,7 +602,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			 * something we're not supposed to.
 			 */
 			int usedep = 1;
-			if(alpm_list_is_strin(sync->name, handle->ignorepkg)) {
+			if(alpm_list_find_str(handle->ignorepkg, sync->name)) {
 				pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
 				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
 				FREEPKG(dummypkg);

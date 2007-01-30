@@ -78,7 +78,8 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	/* ignore holdpkgs on upgrade */
-	if((trans == handle->trans) && alpm_list_is_strin(info->name, handle->holdpkg)) {
+	if((trans == handle->trans)
+	    && alpm_list_find_str(handle->holdpkg, info->name)) {
 		int resp = 0;
 		QUESTION(trans, PM_TRANS_CONV_REMOVE_HOLDPKG, info, NULL, NULL, &resp);
 		if(!resp) {
@@ -177,7 +178,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		FREE(checksum);
 	} if ( !nb && trans->type == PM_TRANS_TYPE_UPGRADE ) {
 		/* check noupgrade */
-		if ( alpm_list_is_strin(file, handle->noupgrade) ) {
+		if ( alpm_list_find_str(handle->noupgrade, file) ) {
 			nb = 1;
 		}
 	}

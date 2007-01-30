@@ -137,7 +137,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 					pmpkg_t *lpkg = m->data;
 					if(strcmp(k->data, lpkg->name) == 0) {
 						_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), k->data, spkg->name);
-						if(alpm_list_is_strin(lpkg->name, handle->ignorepkg)) {
+						if(alpm_list_find_str(handle->ignorepkg, lpkg->name)) {
 							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)"),
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
 						} else {
@@ -235,7 +235,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 									local->name, local->version, db->treename, spkg->version);
 			} else if(cmp == 0) {
 				/* versions are identical */
-			} else if(alpm_list_is_strin(spkg->name, handle->ignorepkg)) {
+			} else if(alpm_list_find_str(handle->ignorepkg, spkg->name)) {
 				/* package should be ignored (IgnorePkg) */
 				_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
 									local->name, local->version, spkg->version);
@@ -535,7 +535,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				local = _alpm_db_get_pkgfromcache(db_local, miss->depend.name);
 				/* check if this package also "provides" the package it's conflicting with
 				 */
-				if(alpm_list_is_strin(miss->depend.name, sync->pkg->provides)) {
+				if(alpm_list_find_str(sync->pkg->provides, miss->depend.name)) {
 					/* so just treat it like a "replaces" item so the REQUIREDBY
 					 * fields are inherited properly.
 					 */
@@ -559,8 +559,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 
 						/* figure out which one was requested in targets.  If they both were,
 						 * then it's still an unresolvable conflict. */
-						target = alpm_list_is_strin(miss->target, trans->targets);
-						depend = alpm_list_is_strin(miss->depend.name, trans->targets);
+						target = alpm_list_find_str(trans->targets, miss->target);
+						depend = alpm_list_find_str(trans->targets, miss->depend.name);
 						if(depend && !target) {
 							_alpm_log(PM_LOG_DEBUG, _("'%s' is in the target list -- keeping it"),
 								miss->depend.name);
@@ -591,7 +591,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				_alpm_log(PM_LOG_DEBUG, _("resolving package '%s' conflict"), miss->target);
 				if(local) {
 					int doremove = 0;
-					if(!alpm_list_is_strin(miss->depend.name, asked)) {
+					if(!alpm_list_find_str(asked, miss->depend.name)) {
 						QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &doremove);
 						asked = alpm_list_add(asked, strdup(miss->depend.name));
 						if(doremove) {
@@ -1020,7 +1020,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 					pmpkg_t *old = j->data;
 					/* merge lists */
 					for(k = old->requiredby; k; k = k->next) {
-						if(!alpm_list_is_strin(k->data, new->requiredby)) {
+						if(!alpm_list_find_str(new->requiredby, k->data)) {
 							/* replace old's name with new's name in the requiredby's dependency list */
 							alpm_list_t *m;
 							pmpkg_t *depender = _alpm_db_get_pkgfromcache(db_local, k->data);
