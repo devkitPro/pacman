@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-12-23  1:35-0600\n"
+"POT-Creation-Date: 2007-01-30 13:43-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgid "pacman 3.0.0"
 msgstr ""
 
 # type: SH
-#: pacman.8:2 makepkg.8:2 PKGBUILD.8:2
+#: pacman.8:2 makepkg.8:2 ./PKGBUILD.8:2
 #, no-wrap
 msgid "NAME"
 msgstr ""
@@ -55,7 +55,7 @@ msgid "B<pacman E<lt>operationE<gt> [options] E<lt>packageE<gt> [package] ...>"
 msgstr ""
 
 # type: SH
-#: pacman.8:6 makepkg.8:6 PKGBUILD.8:4
+#: pacman.8:6 makepkg.8:6 ./PKGBUILD.8:4
 #, no-wrap
 msgid "DESCRIPTION"
 msgstr ""
@@ -873,7 +873,7 @@ msgid "CONFIG: REPOSITORIES"
 msgstr ""
 
 # type: Plain text
-#: pacman.8:308
+#: pacman.8:311
 msgid ""
 "Each repository section defines a section name and at least one location "
 "where the packages can be found.  The section name is defined by the string "
@@ -881,17 +881,20 @@ msgid ""
 "Locations are defined with the I<Server> directive and follow a URL naming "
 "structure.  Currently only ftp is supported for remote servers.  If you want "
 "to use a local directory, you can specify the full path with a 'file://' "
-"prefix, as shown above."
+"prefix, as shown above.  The order of repositories in the file matters; "
+"repositories listed first will take precidence over those listed later in "
+"the file when packages in two repositories have identical names, regardless "
+"of version number."
 msgstr ""
 
 # type: SH
-#: pacman.8:308
+#: pacman.8:311
 #, no-wrap
 msgid "USING YOUR OWN REPOSITORY"
 msgstr ""
 
 # type: Plain text
-#: pacman.8:312
+#: pacman.8:315
 msgid ""
 "Let's say you have a bunch of custom packages in I</home/pkgs> and their "
 "respective PKGBUILD files are all in I</var/abs/local>.  All you need to do "
@@ -900,13 +903,13 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: pacman.8:316
+#: pacman.8:319
 #, no-wrap
 msgid "# gensync /var/abs/local /home/pkgs/custom.db.tar.gz\n"
 msgstr ""
 
 # type: Plain text
-#: pacman.8:326
+#: pacman.8:329
 msgid ""
 "The above command will read all PKGBUILD files in /var/abs/local and "
 "generate a compressed database called /home/pkgs/custom.db.tar.gz.  Note "
@@ -919,24 +922,24 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: pacman.8:326 makepkg.8:447 PKGBUILD.8:453
+#: pacman.8:329 makepkg.8:447 ./PKGBUILD.8:453
 #, no-wrap
 msgid "SEE ALSO"
 msgstr ""
 
 # type: Plain text
-#: pacman.8:328
+#: pacman.8:331
 msgid "B<makepkg> is the package-building tool that comes with pacman."
 msgstr ""
 
 # type: SH
-#: pacman.8:328 makepkg.8:452 PKGBUILD.8:456
+#: pacman.8:331 makepkg.8:452 ./PKGBUILD.8:456
 #, no-wrap
 msgid "AUTHOR"
 msgstr ""
 
 # type: Plain text
-#: pacman.8:331 makepkg.8:455
+#: pacman.8:334 makepkg.8:455
 #, no-wrap
 msgid "Judd Vinet E<lt>jvinet@zeroflux.orgE<gt>\n"
 msgstr ""
@@ -1013,7 +1016,7 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: makepkg.8:30 PKGBUILD.8:11
+#: makepkg.8:30 ./PKGBUILD.8:11
 #, no-wrap
 msgid "PKGBUILD Example:"
 msgstr ""
@@ -1161,13 +1164,13 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: makepkg.8:116 PKGBUILD.8:121
+#: makepkg.8:116 ./PKGBUILD.8:121
 #, no-wrap
 msgid "Install/Upgrade/Remove Scripting"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:120 PKGBUILD.8:125
+#: makepkg.8:120 ./PKGBUILD.8:125
 msgid ""
 "Pacman has the ability to store and execute a package-specific script when "
 "it installs, removes, or upgrades a package.  This allows a package to "
@@ -1176,73 +1179,73 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:122 PKGBUILD.8:127
+#: makepkg.8:122 ./PKGBUILD.8:127
 msgid "The exact time the script is run varies with each operation:"
 msgstr ""
 
 # type: TP
-#: makepkg.8:122 PKGBUILD.8:127
+#: makepkg.8:122 ./PKGBUILD.8:127
 #, no-wrap
 msgid "B<pre_install>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:125 makepkg.8:133 PKGBUILD.8:130 PKGBUILD.8:138
+#: makepkg.8:125 makepkg.8:133 ./PKGBUILD.8:130 ./PKGBUILD.8:138
 msgid "script is run right before files are extracted."
 msgstr ""
 
 # type: TP
-#: makepkg.8:126 PKGBUILD.8:131
+#: makepkg.8:126 ./PKGBUILD.8:131
 #, no-wrap
 msgid "B<post_install>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:129 PKGBUILD.8:134
+#: makepkg.8:129 ./PKGBUILD.8:134
 msgid "script is run right after files are extracted."
 msgstr ""
 
 # type: TP
-#: makepkg.8:130 PKGBUILD.8:135
+#: makepkg.8:130 ./PKGBUILD.8:135
 #, no-wrap
 msgid "B<pre_upgrade>"
 msgstr ""
 
 # type: TP
-#: makepkg.8:134 PKGBUILD.8:139
+#: makepkg.8:134 ./PKGBUILD.8:139
 #, no-wrap
 msgid "B<post_upgrade>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:137 PKGBUILD.8:142
+#: makepkg.8:137 ./PKGBUILD.8:142
 msgid "script is run after files are extracted."
 msgstr ""
 
 # type: TP
-#: makepkg.8:138 PKGBUILD.8:143
+#: makepkg.8:138 ./PKGBUILD.8:143
 #, no-wrap
 msgid "B<pre_remove>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:141 PKGBUILD.8:146
+#: makepkg.8:141 ./PKGBUILD.8:146
 msgid "script is run right before files are removed."
 msgstr ""
 
 # type: TP
-#: makepkg.8:142 PKGBUILD.8:147
+#: makepkg.8:142 ./PKGBUILD.8:147
 #, no-wrap
 msgid "B<post_remove>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:145 PKGBUILD.8:150
+#: makepkg.8:145 ./PKGBUILD.8:150
 msgid "script is run right after files are removed."
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:149 PKGBUILD.8:154
+#: makepkg.8:149 ./PKGBUILD.8:154
 msgid ""
 "To use this feature, just create a file (eg, pkgname.install) and put it in "
 "the same directory as the PKGBUILD script.  Then use the I<install> "
@@ -1250,7 +1253,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:152 PKGBUILD.8:157
+#: makepkg.8:152 ./PKGBUILD.8:157
 #, no-wrap
 msgid "install=pkgname.install\n"
 msgstr ""
@@ -1361,37 +1364,37 @@ msgid "This template is also available in your ABS tree (/var/abs/install.proto)
 msgstr ""
 
 # type: SH
-#: makepkg.8:220 PKGBUILD.8:179
+#: makepkg.8:220 ./PKGBUILD.8:179
 #, no-wrap
 msgid "PKGBUILD Directives"
 msgstr ""
 
 # type: TP
-#: makepkg.8:221 PKGBUILD.8:180
+#: makepkg.8:221 ./PKGBUILD.8:180
 #, no-wrap
 msgid "B<pkgname>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:225 PKGBUILD.8:184
+#: makepkg.8:225 ./PKGBUILD.8:184
 msgid ""
 "The name of the package.  This has be a unix-friendly name as it will be "
 "used in the package filename."
 msgstr ""
 
 # type: TP
-#: makepkg.8:226 PKGBUILD.8:185
+#: makepkg.8:226 ./PKGBUILD.8:185
 #, no-wrap
 msgid "B<pkgver>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:229 PKGBUILD.8:188
+#: makepkg.8:229 ./PKGBUILD.8:188
 msgid "This is the version of the software as released from the author (eg, 2.7.1)."
 msgstr ""
 
 # type: TP
-#: makepkg.8:230 PKGBUILD.8:189
+#: makepkg.8:230 ./PKGBUILD.8:189
 #, no-wrap
 msgid "B<pkgrel>"
 msgstr ""
@@ -1402,13 +1405,13 @@ msgid "This is the release number specific to Arch Linux packages."
 msgstr ""
 
 # type: TP
-#: makepkg.8:234 PKGBUILD.8:193
+#: makepkg.8:234 ./PKGBUILD.8:193
 #, no-wrap
 msgid "B<pkgdesc>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:237 PKGBUILD.8:196
+#: makepkg.8:237 ./PKGBUILD.8:196
 msgid "This should be a brief description of the package and its functionality."
 msgstr ""
 
@@ -1467,20 +1470,20 @@ msgid "do not strip debugging symbols from binaries and libraries."
 msgstr ""
 
 # type: TP
-#: makepkg.8:260 PKGBUILD.8:204
+#: makepkg.8:260 ./PKGBUILD.8:204
 #, no-wrap
 msgid "B<url>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:264 PKGBUILD.8:208
+#: makepkg.8:264 ./PKGBUILD.8:208
 msgid ""
 "This field contains an optional URL that is associated with the piece of "
 "software being packaged.  This is typically the project's website."
 msgstr ""
 
 # type: TP
-#: makepkg.8:265 PKGBUILD.8:209
+#: makepkg.8:265 ./PKGBUILD.8:209
 #, no-wrap
 msgid "B<license>"
 msgstr ""
@@ -1507,13 +1510,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:279 PKGBUILD.8:214
+#: makepkg.8:279 ./PKGBUILD.8:214
 #, no-wrap
 msgid "B<install>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:285 PKGBUILD.8:220
+#: makepkg.8:285 ./PKGBUILD.8:220
 msgid ""
 "Specifies a special install script that is to be included in the package.  "
 "This file should reside in the same directory as the PKGBUILD, and will be "
@@ -1522,13 +1525,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:286 PKGBUILD.8:227
+#: makepkg.8:286 ./PKGBUILD.8:227
 #, no-wrap
 msgid "B<source >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:293 PKGBUILD.8:234
+#: makepkg.8:293 ./PKGBUILD.8:234
 msgid ""
 "The I<source> line is an array of source files required to build the "
 "package.  Source files must reside in the same directory as the PKGBUILD "
@@ -1537,7 +1540,7 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:294 PKGBUILD.8:235
+#: makepkg.8:294 ./PKGBUILD.8:235
 #, no-wrap
 msgid "B<md5sums >I<(array)>"
 msgstr ""
@@ -1554,13 +1557,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:303 PKGBUILD.8:261
+#: makepkg.8:303 ./PKGBUILD.8:261
 #, no-wrap
 msgid "B<groups >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:308 PKGBUILD.8:266
+#: makepkg.8:308 ./PKGBUILD.8:266
 msgid ""
 "This is an array of symbolic names that represent groups of packages, "
 "allowing you to install multiple packages by requesting a single target.  "
@@ -1569,13 +1572,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:309 PKGBUILD.8:273
+#: makepkg.8:309 ./PKGBUILD.8:273
 #, no-wrap
 msgid "B<backup >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:316 PKGBUILD.8:280
+#: makepkg.8:316 ./PKGBUILD.8:280
 msgid ""
 "A space-delimited array of filenames (without a preceding slash). The "
 "I<backup> line will be propagated to the package meta-info file for pacman.  "
@@ -1585,13 +1588,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:317 PKGBUILD.8:281
+#: makepkg.8:317 ./PKGBUILD.8:281
 #, no-wrap
 msgid "B<depends >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:325 PKGBUILD.8:289
+#: makepkg.8:325 ./PKGBUILD.8:289
 msgid ""
 "An array of packages that this package depends on to build and run.  "
 "Packages in this list should be surrounded with single quotes and contain at "
@@ -1603,26 +1606,26 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:326 PKGBUILD.8:290
+#: makepkg.8:326 ./PKGBUILD.8:290
 #, no-wrap
 msgid "B<makedepends >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:330 PKGBUILD.8:294
+#: makepkg.8:330 ./PKGBUILD.8:294
 msgid ""
 "An array of packages that this package depends on to build (ie, not required "
 "to run).  Packages in this list should follow the same format as I<depends>."
 msgstr ""
 
 # type: TP
-#: makepkg.8:331 PKGBUILD.8:303
+#: makepkg.8:331 ./PKGBUILD.8:303
 #, no-wrap
 msgid "B<conflicts >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:336 PKGBUILD.8:308
+#: makepkg.8:336 ./PKGBUILD.8:308
 msgid ""
 "An array of packages that will conflict with this package (ie, they cannot "
 "both be installed at the same time).  This directive follows the same format "
@@ -1630,13 +1633,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:337 PKGBUILD.8:309
+#: makepkg.8:337 ./PKGBUILD.8:309
 #, no-wrap
 msgid "B<provides >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:343 PKGBUILD.8:315
+#: makepkg.8:343 ./PKGBUILD.8:315
 msgid ""
 "An array of \"virtual provisions\" that this package provides.  This allows "
 "a package to provide dependency names other than it's own package name.  For "
@@ -1646,13 +1649,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: makepkg.8:344 PKGBUILD.8:316
+#: makepkg.8:344 ./PKGBUILD.8:316
 #, no-wrap
 msgid "B<replaces >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: makepkg.8:350 PKGBUILD.8:322
+#: makepkg.8:350 ./PKGBUILD.8:322
 msgid ""
 "This is an array of packages that this package should replace, and can be "
 "used to handle renamed/combined packages.  For example, if the kernel "
@@ -1930,30 +1933,30 @@ msgid ""
 msgstr ""
 
 # type: TH
-#: PKGBUILD.8:1
+#: ./PKGBUILD.8:1
 #, no-wrap
 msgid "PKGBUILD"
 msgstr ""
 
 # type: TH
-#: PKGBUILD.8:1
+#: ./PKGBUILD.8:1
 #, no-wrap
 msgid "June 13, 2006"
 msgstr ""
 
 # type: TH
-#: PKGBUILD.8:1
+#: ./PKGBUILD.8:1
 #, no-wrap
 msgid "Archlinux Developer Manual"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:4
+#: ./PKGBUILD.8:4
 msgid "PKGBUILD - Archlinux package builder descriptor"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:8
+#: ./PKGBUILD.8:8
 msgid ""
 "This manual page is meant to describe general rules about PKGBUILDs. If "
 "you're interested in the package builder B<makepkg> itself, then see its "
@@ -1961,7 +1964,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:17
+#: ./PKGBUILD.8:17
 #, no-wrap
 msgid ""
 "# Last Modified: Sun, 19 Jun 2005 15:24:32 +0000\n"
@@ -1970,7 +1973,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:27
+#: ./PKGBUILD.8:27
 #, no-wrap
 msgid ""
 "pkgname=dvdauthor\n"
@@ -1985,27 +1988,27 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:29
+#: ./PKGBUILD.8:29
 #, no-wrap
 msgid "# optimization OK\n"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:34
+#: ./PKGBUILD.8:34
 msgid ""
 "As you can see, the setup is fairly simple. The first line tracks the time "
 "of the last update, this is automatically updated after a successful build."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:37
+#: ./PKGBUILD.8:37
 msgid ""
 "The next line defines its build time. Of course, it depends on your "
 "hardware, so we use SBUs instead of minutes as a unit."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:41
+#: ./PKGBUILD.8:41
 msgid ""
 "SBU is the Static Binutils Unit, which means the time \"repoman merge "
 "binutils\" takes on your machine. By default makepkg will print out how many "
@@ -2014,12 +2017,12 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:43
+#: ./PKGBUILD.8:43
 msgid "SBU=\"257\""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:47
+#: ./PKGBUILD.8:47
 msgid ""
 "The line above means compiling binutils on your machine took 257 seconds.  "
 "Starting from this point, makepkg will print out SBUs instead of seconds "
@@ -2028,7 +2031,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:53
+#: ./PKGBUILD.8:53
 msgid ""
 "If you wish to maintain the package, write your name or nick and e-mail "
 "address to the third line. If you don't plan to maintain the package just "
@@ -2039,7 +2042,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:61
+#: ./PKGBUILD.8:61
 msgid ""
 "pkgname defines the package name. It should not contain any uppercase "
 "letters.  The package version defines the upstream version, while the "
@@ -2052,14 +2055,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:64
+#: ./PKGBUILD.8:64
 msgid ""
 "pkgdesc is a short one-line description for the package. Usually taken from "
 "the project's homepage or manpage. Try to keep the lenght under 80 chars."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:69
+#: ./PKGBUILD.8:69
 msgid ""
 "depends() is a bash array which defines the dependencies of the package.  "
 "depends() means the other package is required for building and using the "
@@ -2068,7 +2071,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:78
+#: ./PKGBUILD.8:78
 msgid ""
 "The next line is a special Finclude commands which allows you to inherit any "
 "directive from a PKGBUILD scheme. They can be found in the FST, under "
@@ -2081,7 +2084,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:82
+#: ./PKGBUILD.8:82
 msgid ""
 "The groups() array's first element can't be omitted, and it should be a "
 "valid \"first group\". This means it should be in a foo or foo-extra format, "
@@ -2089,7 +2092,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:90
+#: ./PKGBUILD.8:90
 msgid ""
 "The archs() array defines for which architectures the given package is "
 "available. If it's not available, it means that gensync will skip it when "
@@ -2102,7 +2105,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:95
+#: ./PKGBUILD.8:95
 msgid ""
 "The sha1sums() array can be generated with the makepkg -g command. Its "
 "purpose is to prevent compiling from wrong sources, especially when the "
@@ -2111,7 +2114,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:103
+#: ./PKGBUILD.8:103
 msgid ""
 "The last line will be added automatically to the end of the PKGBUILD if the "
 "build() function used your $CFLAGS or $CXXFLAGS. This is handy if you want "
@@ -2123,7 +2126,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:111
+#: ./PKGBUILD.8:111
 msgid ""
 "Finally we define a build() function that will build the package. If you "
 "don't want to do anything special, probably you don't have to specify "
@@ -2135,7 +2138,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:117
+#: ./PKGBUILD.8:117
 msgid ""
 "Once the package is successfully installed into the package root, I<makepkg> "
 "will prepare some documentation. It will then strip debugging info from "
@@ -2145,14 +2148,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:120
+#: ./PKGBUILD.8:120
 msgid ""
 "At this point you should have a package file in the current directory, named "
 "something like name-version-release-arch.fpm.  Done!"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:163
+#: ./PKGBUILD.8:163
 msgid ""
 "The install script does not need to be specified in the I<source> array.  If "
 "you omit the install directive then makepkg will check for the "
@@ -2160,19 +2163,19 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:166
+#: ./PKGBUILD.8:166
 msgid ""
 "You can find a scriptlet skeleton in the /docs/tech/skel/ directory, use it "
 "when creating new packages."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:168
+#: ./PKGBUILD.8:168
 msgid "The scriptlet messages are parsed, a simple example tells you everything:"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:177
+#: ./PKGBUILD.8:177
 #, no-wrap
 msgid ""
 "post_upgrade()\n"
@@ -2186,41 +2189,41 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:192
+#: ./PKGBUILD.8:192
 msgid "This is the release number specific to Archlinux Linux packages."
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:197
+#: ./PKGBUILD.8:197
 #, no-wrap
 msgid "B<pkgdesc_localized>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:200
+#: ./PKGBUILD.8:200
 msgid "Array of the localized package descriptions."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:203
+#: ./PKGBUILD.8:203
 msgid "The format is the following: pkgdesc_localized=('xx_YY foo' 'xx_YY bar')"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:213
+#: ./PKGBUILD.8:213
 msgid ""
 "Sets the license type (eg, \"GPL\", \"BSD\", \"NON-FREE\").  (B<Note>: This "
 "option is still in development and may change in the future)"
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:221
+#: ./PKGBUILD.8:221
 #, no-wrap
 msgid "B<up2date>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:226
+#: ./PKGBUILD.8:226
 msgid ""
 "This directive should contain a command that prints the current upstream "
 "stable version of the project. This way we can check for newer version "
@@ -2228,7 +2231,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:243
+#: ./PKGBUILD.8:243
 msgid ""
 "If this field is present, it should contain an MD5 hash for every source "
 "file specified in the I<source> array (in the same order).  makepkg will use "
@@ -2239,13 +2242,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:244
+#: ./PKGBUILD.8:244
 #, no-wrap
 msgid "B<sha1sums >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:252
+#: ./PKGBUILD.8:252
 msgid ""
 "If this field is present, it should contain an SHA1 hash for every source "
 "file specified in the I<source> array (in the same order).  makepkg will use "
@@ -2256,13 +2259,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:253
+#: ./PKGBUILD.8:253
 #, no-wrap
 msgid "B<signatures >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:258
+#: ./PKGBUILD.8:258
 msgid ""
 "If this field is present, it should contain an array of gpg signatures "
 "required to validate the source files. Where there is no signature available "
@@ -2270,18 +2273,18 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:260
+#: ./PKGBUILD.8:260
 msgid "signatures=(${source[0]}.asc '')"
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:267
+#: ./PKGBUILD.8:267
 #, no-wrap
 msgid "B<archs >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:272
+#: ./PKGBUILD.8:272
 msgid ""
 "This array defines on which architectures the given package is avalibable.  "
 "If it's not available, that will mean that gensync will skip it when "
@@ -2289,13 +2292,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:295
+#: ./PKGBUILD.8:295
 #, no-wrap
 msgid "B<rodepends >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:302
+#: ./PKGBUILD.8:302
 msgid ""
 "An array of packages that this package depends on to run (ie, not required "
 "to build). Generally I<rodepends> should be avoided in favour of I<depends> "
@@ -2305,18 +2308,18 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: PKGBUILD.8:323
+#: ./PKGBUILD.8:323
 #, no-wrap
 msgid "B<options >I<(array)>"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:326
+#: ./PKGBUILD.8:326
 msgid "This is an array of various boolean options. The possible values are:"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:339
+#: ./PKGBUILD.8:339
 #, no-wrap
 msgid ""
 "nodocs     Don't add any documentation automatically (ie. when there'll be\n"
@@ -2337,13 +2340,13 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: PKGBUILD.8:341
+#: ./PKGBUILD.8:341
 #, no-wrap
 msgid "What is the process of chrooted build ?"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:347
+#: ./PKGBUILD.8:347
 msgid ""
 "First, what is chroot? We currently use fakeroot to prevent build() from "
 "modifying the host system, and we use a prefix or DESTDIR directive to "
@@ -2352,7 +2355,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:355
+#: ./PKGBUILD.8:355
 msgid ""
 "This system lacks of the ability to control the list of installed packages "
 "during the build on the system of a packager, the given compiled package "
@@ -2365,14 +2368,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:358
+#: ./PKGBUILD.8:358
 msgid ""
 "Of course there is a sollution to avoid this, to use a real chroot instead "
 "of a simple fakeroot. What is this means? The followings:"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:366
+#: ./PKGBUILD.8:366
 msgid ""
 "When starting the build, a core chroot system is installed under "
 "/var/chroot.  (Of course you can change this value under /etc/makepkg.conf.) "
@@ -2384,7 +2387,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:372
+#: ./PKGBUILD.8:372
 msgid ""
 "When you start building with makepkg -R, pacman will install these packages "
 "to /var/chroot if necessary. This will produce a fully \"clean\" Archlinux "
@@ -2394,7 +2397,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:377
+#: ./PKGBUILD.8:377
 msgid ""
 "Here comes the fun part. The packages listed in depends() and makedepends() "
 "are installed to this clean (/var/chroot) system. From this point, this "
@@ -2403,7 +2406,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:381
+#: ./PKGBUILD.8:381
 msgid ""
 "After this the chroot should be cleaned up which means the removal of the "
 "installed depends() and makedepends(). This ensures us not to build from "
@@ -2411,7 +2414,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:385
+#: ./PKGBUILD.8:385
 msgid ""
 "This way we can prevent lots of dependency problems and it is even possible "
 "to build packages for a different Archlinux version. This is quite efficent "
@@ -2419,7 +2422,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:389
+#: ./PKGBUILD.8:389
 msgid ""
 "If the build is failed, the working directory will not be deleted, you can "
 "find it under /var/chroot/var/tmp/fst. Later if you want to clean your "
@@ -2428,20 +2431,20 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:392
+#: ./PKGBUILD.8:392
 msgid ""
 "To activate building in a chroot, you should run makepkg as root at least "
 "with the -R option."
 msgstr ""
 
 # type: SH
-#: PKGBUILD.8:393
+#: ./PKGBUILD.8:393
 #, no-wrap
 msgid "Package splitting"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:397
+#: ./PKGBUILD.8:397
 msgid ""
 "Package splitting means moving out a list of specifed files to subpackages "
 "(like libmysql out of mysql) and then defining the properties of "
@@ -2449,7 +2452,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:402
+#: ./PKGBUILD.8:402
 msgid ""
 "NOTE: if you create several subpackages, maintaining those packages will "
 "require more and more time. Thus, unnecessary splits aren't welcome.  "
@@ -2458,14 +2461,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:405
+#: ./PKGBUILD.8:405
 msgid ""
 "The B<subpkgs()> array is to define the pkgnames of the subpackages. From "
 "now all the directives has their subfoo equivalent:"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:421
+#: ./PKGBUILD.8:421
 #, no-wrap
 msgid ""
 "pkgname -E<gt> subpkgs()\n"
@@ -2486,7 +2489,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:425
+#: ./PKGBUILD.8:425
 msgid ""
 "Also note that bash does not support two-dimensional arrays, so when "
 "defining the array of arrays, then quotes are the major separators and "
@@ -2494,12 +2497,12 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:427
+#: ./PKGBUILD.8:427
 msgid "Simple example:"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:434
+#: ./PKGBUILD.8:434
 #, no-wrap
 msgid ""
 "Add the followings to your bottom of your PKGBUILD\n"
@@ -2511,14 +2514,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:438
+#: ./PKGBUILD.8:438
 msgid ""
 "You may define conflicts, replaces and other directives for your "
 "subpackages, but the requirement is only to define these 5 ones."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:443
+#: ./PKGBUILD.8:443
 msgid ""
 "The second part is to move some files to the - just defined - "
 "subpackages. You should use the Fsplit command for this at the end of your "
@@ -2527,32 +2530,32 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:446
+#: ./PKGBUILD.8:446
 #, no-wrap
 msgid "Fsplit subpkgname usr/share/\n"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:449
+#: ./PKGBUILD.8:449
 msgid ""
 "This will move the /usr/share dir of the package to the \"subpkgname\" "
 "subpackage."
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:452
+#: ./PKGBUILD.8:452
 msgid ""
 "NOTE: never use a trailing slash when defining file patterns, especially if "
 "you use wildcards in it!"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:456
+#: ./PKGBUILD.8:456
 msgid "B<makepkg>(8), B<pacman>(8)"
 msgstr ""
 
 # type: Plain text
-#: PKGBUILD.8:460
+#: ./PKGBUILD.8:460
 #, no-wrap
 msgid ""
 "Judd Vinet E<lt>jvinet@zeroflux.orgE<gt>\n"

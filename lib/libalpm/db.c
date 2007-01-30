@@ -199,7 +199,7 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 	return(db);
 }
 
-const char *alpm_db_get_name(pmdb_t *db)
+const char SYMEXPORT *alpm_db_get_name(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

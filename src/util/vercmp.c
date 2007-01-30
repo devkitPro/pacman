@@ -27,7 +27,7 @@
 #ifndef PATH_MAX
 #define PATH_MAX 1024
 #endif
-#include "versioncmp.h"
+#include <alpm.h>
 
 int main(int argc, char *argv[])
 {
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 		return(0);
 	}
 	
-	ret = _alpm_versioncmp(s1, s2);
+	ret = alpm_versioncmp(s1, s2);
 	printf("%d\n", ret);
 	return(ret);
 }

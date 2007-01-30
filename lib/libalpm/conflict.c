@@ -360,7 +360,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 	return(conflicts);
 }
 
-const char *alpm_conflict_get_target(pmconflict_t *conflict)
+const char SYMEXPORT *alpm_conflict_get_target(pmconflict_t *conflict)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -369,7 +369,7 @@ const char *alpm_conflict_get_target(pmconflict_t *conflict)
 	return conflict->target;
 }
 
-pmconflicttype_t alpm_conflict_get_type(pmconflict_t *conflict)
+pmconflicttype_t SYMEXPORT alpm_conflict_get_type(pmconflict_t *conflict)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -378,7 +378,7 @@ pmconflicttype_t alpm_conflict_get_type(pmconflict_t *conflict)
 	return conflict->type;
 }
 
-const char *alpm_conflict_get_file(pmconflict_t *conflict)
+const char SYMEXPORT *alpm_conflict_get_file(pmconflict_t *conflict)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -387,7 +387,7 @@ const char *alpm_conflict_get_file(pmconflict_t *conflict)
 	return conflict->file;
 }
 
-const char *alpm_conflict_get_ctarget(pmconflict_t *conflict)
+const char SYMEXPORT *alpm_conflict_get_ctarget(pmconflict_t *conflict)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

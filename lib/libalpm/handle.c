@@ -118,9 +118,9 @@ int _alpm_handle_free(pmhandle_t *handle)
 alpm_cb_log alpm_option_get_logcb() { return handle->logcb; }
 alpm_cb_download alpm_option_get_dlcb() { return handle->dlcb; }
 unsigned short alpm_option_get_logmask() { return handle->logmask; }
-const char *alpm_option_get_root() { return handle->root; }
-const char *alpm_option_get_dbpath() { return handle->dbpath; }
-const char *alpm_option_get_cachedir() { return handle->cachedir; }
+const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
+const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
+const char SYMEXPORT *alpm_option_get_cachedir() { return handle->cachedir; }
 const char *alpm_option_get_logfile() { return handle->logfile; }
 unsigned short alpm_option_get_usesyslog() { return handle->usesyslog; }
 alpm_list_t *alpm_option_get_noupgrades() { return handle->noupgrade; }
@@ -130,21 +130,21 @@ alpm_list_t *alpm_option_get_holdpkgs() { return handle->holdpkg; }
 time_t alpm_option_get_upgradedelay() { return handle->upgradedelay; }
 const char *alpm_option_get_xfercommand() { return handle->xfercommand; }
 unsigned short alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
-unsigned short alpm_option_get_chomp() { return handle->chomp; }
+unsigned short SYMEXPORT alpm_option_get_chomp() { return handle->chomp; }
 alpm_list_t *alpm_option_get_needles() { return handle->needles; }
 unsigned short alpm_option_get_usecolor() { return handle->use_color; }
 
 pmdb_t *alpm_option_get_localdb() { return handle->db_local; }
-alpm_list_t *alpm_option_get_syncdbs()
+alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
 {
   return handle->dbs_sync;
 }
 
-void alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
+void SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
 
-void alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
+void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
 
-void alpm_option_set_logmask(unsigned short mask) { handle->logmask = mask; }
+void SYMEXPORT alpm_option_set_logmask(unsigned short mask) { handle->logmask = mask; }
 
 void alpm_option_set_root(const char *root)
 {
@@ -152,7 +152,7 @@ void alpm_option_set_root(const char *root)
 	if(root) handle->root = strdup(root);
 }
 
-void alpm_option_set_dbpath(const char *dbpath)
+void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 {
   if(handle->dbpath) FREE(handle->dbpath);
   if(dbpath) handle->dbpath = strdup(dbpath);
@@ -205,7 +205,7 @@ void alpm_option_set_noextracts(alpm_list_t *noextract)
 	if(noextract) handle->noextract = noextract;
 }
 
-void alpm_option_add_ignorepkg(char *pkg)
+void SYMEXPORT alpm_option_add_ignorepkg(char *pkg)
 {
   handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 }
@@ -243,7 +243,7 @@ void alpm_option_set_nopassiveftp(unsigned short nopasv)
 
 void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
 
-void alpm_option_add_needle(char *needle)
+void SYMEXPORT alpm_option_add_needle(char *needle)
 {
   handle->needles = alpm_list_add(handle->needles, strdup(needle));
 }

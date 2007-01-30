@@ -457,7 +457,7 @@ const char *alpm_pkg_get_filename(pmpkg_t *pkg)
 	return pkg->filename;
 }
 
-const char *alpm_pkg_get_name(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -466,7 +466,7 @@ const char *alpm_pkg_get_name(pmpkg_t *pkg)
 	return pkg->name;
 }
 
-const char *alpm_pkg_get_version(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -475,7 +475,7 @@ const char *alpm_pkg_get_version(pmpkg_t *pkg)
 	return pkg->version;
 }
 
-const char *alpm_pkg_get_desc(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -487,7 +487,7 @@ const char *alpm_pkg_get_desc(pmpkg_t *pkg)
 	return pkg->desc;
 }
 
-const char *alpm_pkg_get_url(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -499,7 +499,7 @@ const char *alpm_pkg_get_url(pmpkg_t *pkg)
 	return pkg->url;
 }
 
-const char *alpm_pkg_get_builddate(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -511,7 +511,7 @@ const char *alpm_pkg_get_builddate(pmpkg_t *pkg)
 	return pkg->builddate;
 }
 
-const char *alpm_pkg_get_buildtype(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_buildtype(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -523,7 +523,7 @@ const char *alpm_pkg_get_buildtype(pmpkg_t *pkg)
 	return pkg->buildtype;
 }
 
-const char *alpm_pkg_get_installdate(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -535,7 +535,7 @@ const char *alpm_pkg_get_installdate(pmpkg_t *pkg)
 	return pkg->installdate;
 }
 
-const char *alpm_pkg_get_packager(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -547,7 +547,7 @@ const char *alpm_pkg_get_packager(pmpkg_t *pkg)
 	return pkg->packager;
 }
 
-const char *alpm_pkg_get_md5sum(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -559,7 +559,7 @@ const char *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 	return pkg->md5sum;
 }
 
-const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -571,7 +571,7 @@ const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
 	return pkg->sha1sum;
 }
 
-const char *alpm_pkg_get_arch(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -583,7 +583,7 @@ const char *alpm_pkg_get_arch(pmpkg_t *pkg)
 	return pkg->arch;
 }
 
-unsigned long alpm_pkg_get_size(pmpkg_t *pkg)
+unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -595,7 +595,7 @@ unsigned long alpm_pkg_get_size(pmpkg_t *pkg)
 	return pkg->size;
 }
 
-unsigned long alpm_pkg_get_isize(pmpkg_t *pkg)
+unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -607,7 +607,7 @@ unsigned long alpm_pkg_get_isize(pmpkg_t *pkg)
 	return pkg->isize;
 }
 
-pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg)
+pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -619,7 +619,7 @@ pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg)
 	return pkg->reason;
 }
 
-alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -631,7 +631,7 @@ alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg)
 	return pkg->license;
 }
 
-alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -644,7 +644,7 @@ alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg)
 }
 
 /* depends */
-alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -656,7 +656,7 @@ alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg)
 	return pkg->depends;
 }
 
-alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_removes(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -668,7 +668,7 @@ alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg)
 	return pkg->removes;
 }
 
-alpm_list_t *alpm_pkg_get_requiredby(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -680,7 +680,7 @@ alpm_list_t *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 	return pkg->requiredby;
 }
 
-alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -692,7 +692,7 @@ alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 	return pkg->conflicts;
 }
 
-alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -704,7 +704,7 @@ alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg)
 	return pkg->provides;
 }
 
-alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -716,7 +716,7 @@ alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg)
 	return pkg->replaces;
 }
 
-alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -729,7 +729,7 @@ alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg)
 	return pkg->files;
 }
 
-alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -742,7 +742,7 @@ alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg)
 	return pkg->backup;
 }
 
-unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg)
+unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));

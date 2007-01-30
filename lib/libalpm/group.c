@@ -70,7 +70,7 @@ int _alpm_grp_cmp(const void *g1, const void *g2)
 	return(strcmp(grp1->name, grp2->name));
 }
 
-const char *alpm_grp_get_name(pmgrp_t *grp)
+const char SYMEXPORT *alpm_grp_get_name(pmgrp_t *grp)
 {
 	/* Sanity checks */
 	ASSERT(grp != NULL, return(NULL));
@@ -78,7 +78,7 @@ const char *alpm_grp_get_name(pmgrp_t *grp)
 	return grp->name;
 }
 
-alpm_list_t *alpm_grp_get_packages(pmgrp_t *grp)
+alpm_list_t SYMEXPORT *alpm_grp_get_packages(pmgrp_t *grp)
 {
 	/* Sanity checks */
 	ASSERT(grp != NULL, return(NULL));

@@ -26,7 +26,7 @@
 #include "util.h"
 #include "alpm.h"
 
-char *alpm_strerror(int err)
+char SYMEXPORT *alpm_strerror(int err)
 {
 	switch(err) {
 		/* System */

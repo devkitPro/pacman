@@ -646,7 +646,7 @@ error:
 	return(-1);
 }
 
-const char *alpm_dep_get_target(pmdepmissing_t *miss)
+const char SYMEXPORT *alpm_dep_get_target(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -655,7 +655,7 @@ const char *alpm_dep_get_target(pmdepmissing_t *miss)
 	return miss->target;
 }
 
-pmdeptype_t alpm_dep_get_type(pmdepmissing_t *miss)
+pmdeptype_t SYMEXPORT alpm_dep_get_type(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -664,7 +664,7 @@ pmdeptype_t alpm_dep_get_type(pmdepmissing_t *miss)
 	return miss->type;
 }
 
-pmdepmod_t alpm_dep_get_mod(pmdepmissing_t *miss)
+pmdepmod_t SYMEXPORT alpm_dep_get_mod(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -673,7 +673,7 @@ pmdepmod_t alpm_dep_get_mod(pmdepmissing_t *miss)
 	return miss->depend.mod;
 }
 
-const char *alpm_dep_get_name(pmdepmissing_t *miss)
+const char SYMEXPORT *alpm_dep_get_name(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -682,7 +682,7 @@ const char *alpm_dep_get_name(pmdepmissing_t *miss)
 	return miss->depend.name;
 }
 
-const char *alpm_dep_get_version(pmdepmissing_t *miss)
+const char SYMEXPORT *alpm_dep_get_version(pmdepmissing_t *miss)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

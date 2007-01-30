@@ -237,7 +237,7 @@ pmtranstype_t alpm_trans_get_type()
 	return handle->trans->type;
 }
 
-unsigned int alpm_trans_get_flags()
+unsigned int SYMEXPORT alpm_trans_get_flags()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
@@ -255,7 +255,7 @@ alpm_list_t * alpm_trans_get_targets()
 	return handle->trans->targets;
 }
 
-alpm_list_t * alpm_trans_get_packages()
+alpm_list_t SYMEXPORT * alpm_trans_get_packages()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

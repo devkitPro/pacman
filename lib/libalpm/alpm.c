@@ -63,7 +63,7 @@
 
 /* Globals */
 pmhandle_t *handle = NULL;
-enum _pmerrno_t pm_errno;
+enum _pmerrno_t pm_errno SYMEXPORT;
 
 /** \addtogroup alpm_interface Interface Functions
  * @brief Functions to initialize and release libalpm
@@ -75,7 +75,7 @@ enum _pmerrno_t pm_errno;
  * @param root the full path of the root we'll be installing to (usually /)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_initialize(const char *root)
+int SYMEXPORT alpm_initialize(const char *root)
 {
 	char str[PATH_MAX];
 
@@ -99,7 +99,7 @@ int alpm_initialize(const char *root)
 /** Release the library.  This should be the last alpm call you make.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_release()
+int SYMEXPORT alpm_release()
 {
 	int dbs_left = 0;
 
@@ -139,7 +139,7 @@ int alpm_release()
  * @param treename the name of the repository
  * @return a pmdb_t* on success (the value), NULL on error
  */
-pmdb_t *alpm_db_register(char *treename)
+pmdb_t SYMEXPORT *alpm_db_register(char *treename)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
@@ -245,7 +245,7 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
  * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
  * to date
  */
-int alpm_db_update(int force, pmdb_t *db)
+int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	alpm_list_t *lp;
 	char path[PATH_MAX];
@@ -330,7 +330,7 @@ int alpm_db_update(int force, pmdb_t *db)
  * @param name of the package
  * @return the package entry on success, NULL on error
  */
-pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
+pmpkg_t SYMEXPORT *alpm_db_readpkg(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -344,7 +344,7 @@ pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name)
  * @param db pointer to the package database to get the package from
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t *alpm_db_getpkgcache(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -358,7 +358,7 @@ alpm_list_t *alpm_db_getpkgcache(pmdb_t *db)
  * @param name name of the package
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t *alpm_db_whatprovides(pmdb_t *db, char *name)
+alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -373,7 +373,7 @@ alpm_list_t *alpm_db_whatprovides(pmdb_t *db, char *name)
  * @param name of the group
  * @return the groups entry on success, NULL on error
  */
-pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
+pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, char *name)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -387,7 +387,7 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name)
  * @param db pointer to the package database to get the group from
  * @return the list of groups on success, NULL on error
  */
-alpm_list_t *alpm_db_getgrpcache(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_getgrpcache(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -408,7 +408,7 @@ alpm_list_t *alpm_db_getgrpcache(pmdb_t *db)
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_load(char *filename, pmpkg_t **pkg)
+int SYMEXPORT alpm_pkg_load(char *filename, pmpkg_t **pkg)
 {
 	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load");
 
@@ -429,7 +429,7 @@ int alpm_pkg_load(char *filename, pmpkg_t **pkg)
  * @param pkg package pointer to free
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_free(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 {
 	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_free");
 
@@ -543,9 +543,9 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
  * @return postive, 0 or negative if ver1 is less, equal or more
  * than ver2, respectively.
  */
-int alpm_pkg_vercmp(const char *ver1, const char *ver2)
+int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
-	return(_alpm_versioncmp(ver1, ver2));
+	return(alpm_versioncmp(ver1, ver2));
 }
 
 /* internal */
@@ -556,7 +556,7 @@ static char *_supported_archs[] = {
 	"x86_64",
 };
 
-char *alpm_pkg_name_hasarch(char *pkgname)
+char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
 {
 	/* TODO remove this when we transfer everything over to -ARCH
 	 *
@@ -596,7 +596,7 @@ char *alpm_pkg_name_hasarch(char *pkgname)
  * @param db pointer to the package database to search in
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t *alpm_db_search(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
@@ -622,7 +622,7 @@ alpm_list_t *alpm_db_search(pmdb_t *db)
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(pmtranstype_t type, unsigned int flags,
+int SYMEXPORT alpm_trans_init(pmtranstype_t type, unsigned int flags,
                     alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress progress)
 {
@@ -651,7 +651,7 @@ int alpm_trans_init(pmtranstype_t type, unsigned int flags,
 /** Search for packages to upgrade and add them to the transaction.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_sysupgrade()
+int SYMEXPORT alpm_trans_sysupgrade()
 {
 	pmtrans_t *trans;
 
@@ -669,7 +669,7 @@ int alpm_trans_sysupgrade()
  * @param target the name of the target to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_addtarget(char *target)
+int SYMEXPORT alpm_trans_addtarget(char *target)
 {
 	pmtrans_t *trans;
 
@@ -689,7 +689,7 @@ int alpm_trans_addtarget(char *target)
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_prepare(alpm_list_t **data)
+int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -706,7 +706,7 @@ int alpm_trans_prepare(alpm_list_t **data)
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_commit(alpm_list_t **data)
+int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -726,7 +726,7 @@ int alpm_trans_commit(alpm_list_t **data)
 /** Release a transaction.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_release()
+int SYMEXPORT alpm_trans_release()
 {
 	pmtrans_t *trans;
 	char path[PATH_MAX];
@@ -774,7 +774,7 @@ int alpm_trans_release()
  * @param fmt output format
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_logaction(char *fmt, ...)
+int SYMEXPORT alpm_logaction(char *fmt, ...)
 {
 	char str[LOG_STR_LEN];
 	va_list args;
@@ -812,7 +812,7 @@ int alpm_logaction(char *fmt, ...)
  * @param name name of the file
  * @return the checksum on success, NULL on error
  */
-char *alpm_get_md5sum(char *name)
+char SYMEXPORT *alpm_get_md5sum(char *name)
 {
 	ASSERT(name != NULL, return(NULL));
 
@@ -823,7 +823,7 @@ char *alpm_get_md5sum(char *name)
  * @param name name of the file
  * @return the checksum on success, NULL on error
  */
-char *alpm_get_sha1sum(char *name)
+char SYMEXPORT *alpm_get_sha1sum(char *name)
 {
 	ASSERT(name != NULL, return(NULL));
 
@@ -834,7 +834,7 @@ char *alpm_get_sha1sum(char *name)
  * @param url
  * @return the downloaded filename on success, NULL on error
  */
-char *alpm_fetch_pkgurl(char *url)
+char SYMEXPORT *alpm_fetch_pkgurl(char *url)
 {
 	ASSERT(strstr(url, "://"), return(NULL));
 
@@ -847,7 +847,7 @@ char *alpm_fetch_pkgurl(char *url)
  * @param this_section the config current section being parsed
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this_section)
+int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const char *this_section)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];

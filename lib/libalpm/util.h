@@ -76,6 +76,10 @@ char* strsep(char** str, const char* delims);
 char* mkdtemp(char *template);
 #endif
 
+/* check exported library symbols with: nm -C -D <lib> */
+#define SYMEXPORT __attribute__((visibility("default")))
+#define SYMHIDDEN __attribute__((visibility("hidden")))
+
 #endif /* _ALPM_UTIL_H */
 
 /* vim: set ts=2 sw=2 noet: */

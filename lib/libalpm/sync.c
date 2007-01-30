@@ -227,7 +227,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 			}
 
 			/* compare versions and see if we need to upgrade */
-			cmp = _alpm_versioncmp(local->version, spkg->version);
+			cmp = alpm_versioncmp(local->version, spkg->version);
 			if(cmp > 0 && !spkg->force) {
 				/* local version is newer */
 				pmdb_t *db = spkg->data;
@@ -340,7 +340,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 
 	local = _alpm_db_get_pkgfromcache(db_local, spkg->name);
 	if(local) {
-		cmp = _alpm_versioncmp(local->version, spkg->version);
+		cmp = alpm_versioncmp(local->version, spkg->version);
 		if(cmp > 0 && !spkg->force) {
 			/* local version is newer -- get confirmation before adding */
 			int resp = 0;
@@ -1069,7 +1069,7 @@ error:
 	return(-1);
 }
 
-pmsynctype_t alpm_sync_get_type(pmsyncpkg_t *sync)
+pmsynctype_t SYMEXPORT alpm_sync_get_type(pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(-1));
@@ -1077,7 +1077,7 @@ pmsynctype_t alpm_sync_get_type(pmsyncpkg_t *sync)
 	return sync->type;
 }
 
-pmpkg_t *alpm_sync_get_package(pmsyncpkg_t *sync)
+pmpkg_t SYMEXPORT *alpm_sync_get_package(pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(NULL));
@@ -1085,7 +1085,7 @@ pmpkg_t *alpm_sync_get_package(pmsyncpkg_t *sync)
 	return sync->pkg;
 }
 
-void *alpm_sync_get_data(pmsyncpkg_t *sync)
+void SYMEXPORT *alpm_sync_get_data(pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(NULL));

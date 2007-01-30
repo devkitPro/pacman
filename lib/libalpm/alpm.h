@@ -486,6 +486,9 @@ extern enum _pmerrno_t pm_errno;
 
 char *alpm_strerror(int err);
 
+/* Version Compare */
+int alpm_versioncmp(const char *a, const char *b);
+
 #ifdef __cplusplus
 }
 #endif

@@ -148,7 +148,7 @@ static int strverscmp (s1, s2)
 #endif
 
 /* this function was taken from rpm 4.0.4 and rewritten */
-int _alpm_versioncmp(const char *a, const char *b)
+int SYMEXPORT alpm_versioncmp(const char *a, const char *b)
 {
 	char str1[64], str2[64];
 	char *ptr1, *ptr2;
@@ -236,7 +236,7 @@ int _alpm_versioncmp(const char *a, const char *b)
 
 	if((!*one) && (!*two)) {
 		/* compare release numbers */
-		if(rel1 && rel2) return(_alpm_versioncmp(rel1, rel2));
+		if(rel1 && rel2) return(alpm_versioncmp(rel1, rel2));
 		return(0);
 	}
 
@@ -252,7 +252,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		if(dep->mod == PM_DEP_MOD_ANY) {
 			equal = 1;
 		} else {
-			int cmp = _alpm_versioncmp(pkg->version, dep->version);
+			int cmp = alpm_versioncmp(pkg->version, dep->version);
 			switch(dep->mod) {
 				case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
 				case PM_DEP_MOD_GE: equal = (cmp >= 0); break;

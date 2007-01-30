@@ -52,7 +52,7 @@ alpm_list_t *alpm_list_new()
 /** Free a list, but not the contained data
  *  @param list the list to free
  */
-void alpm_list_free(alpm_list_t *list)
+void SYMEXPORT alpm_list_free(alpm_list_t *list)
 {
 	alpm_list_t *it = list;
 
@@ -67,7 +67,7 @@ void alpm_list_free(alpm_list_t *list)
  *  @param list the list to free
  *  @param fn a free function for the internal data
  */
-void alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
+void SYMEXPORT alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
 {
 	alpm_list_t *it = list;
 
@@ -87,7 +87,7 @@ void alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
  *  @param data the new item to be added to the list
  *  @return the resultant list, or NULL on failure
  */
-alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
+alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 {
 	alpm_list_t *ptr, *lp;
 
@@ -305,7 +305,7 @@ alpm_list_t *alpm_list_remove_node(alpm_list_t *node)
  *  @param list the list to copy
  *  @return a NEW list containing non-duplicated items
  */
-alpm_list_t *alpm_list_remove_dupes(alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_remove_dupes(alpm_list_t *list)
 { /* TODO does removing the strdup here cause invalid free's anywhere? */
 	alpm_list_t *lp = list, *newlist = NULL;
 	while(lp) {
@@ -354,7 +354,7 @@ alpm_list_t *alpm_list_reverse(alpm_list_t *list)
  * @param list the list
  * @return the first element in the list
  */
-alpm_list_t *alpm_list_first(alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_first(alpm_list_t *list)
 {
 	return(list);
 }
@@ -377,7 +377,7 @@ alpm_list_t *alpm_list_nth(alpm_list_t *list, int n)
  * @param entry the list entry
  * @return the next element, or NULL when no more elements exist
  */
-alpm_list_t *alpm_list_next(alpm_list_t *entry)
+alpm_list_t SYMEXPORT *alpm_list_next(alpm_list_t *entry)
 {
 	return(entry->next);
 }
@@ -398,7 +398,7 @@ alpm_list_t *alpm_list_last(alpm_list_t *list)
  * @param entry the list entry
  * @return the contained data, or NULL if none
  */
-void *alpm_list_getdata(const alpm_list_t *entry)
+void SYMEXPORT *alpm_list_getdata(const alpm_list_t *entry)
 {
 	if(entry == NULL) return(NULL);
 	return(entry->data);
@@ -410,7 +410,7 @@ void *alpm_list_getdata(const alpm_list_t *entry)
  *  @param list the list to operate on
  *  @return the number of list items
  */
-int alpm_list_count(const alpm_list_t *list)
+int SYMEXPORT alpm_list_count(const alpm_list_t *list)
 {
 	unsigned int i = 0;
 	const alpm_list_t *lp = list;
