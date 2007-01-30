@@ -34,6 +34,10 @@
 #include "package.h"
 
 /* Display the content of an installed package
+ *
+ * level: <1 - omits N/A info for file query (-Qp)
+ *         1 - normal level
+ *        >1 - extra information (backup files)
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
@@ -69,25 +73,28 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
 	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
-	/* TODO only applicable if querying installed package, not a file */
-	list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
+	/* Only applicable if installed */
+	if(level > 0) {
+		list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
+	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	printf(_("Installed Size : %ld K\n"), (long)alpm_pkg_get_size(pkg) / 1024);
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
 	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
 	printf(_("Build Type     : %s\n"), strlen(type) ? type : _("Unknown"));
-	/* TODO only applicable if querying installed package, not a file */
-	printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
-	printf(_("Install Script : %s\n"), alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
-	printf(_("Reason         : %s\n"), reason);
+	if(level > 0) {
+		printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
+		printf(_("Install Reason : %s\n"), reason);
+	}
+	printf(_("Install Script : %s\n"),
+	         alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
 
 	printf(_("Description    : "));
 	indentprint(alpm_pkg_get_desc(pkg), 17);
 	printf("\n");
 
 	/* Print additional package info if info flag passed more than once */
-	/* TODO only applicable if querying installed package, not a file */
 	if(level > 1) {
 		/* call new backup function */
 		dump_pkg_backups(pkg);
