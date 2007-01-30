@@ -405,7 +405,7 @@ int pacman_sync(alpm_list_t *targets)
 {
 	int confirm = 0;
 	int retval = 0;
-	alpm_list_t *packages, *data, *i, *j, *k, *sync_dbs;
+	alpm_list_t *packages, *data = NULL, *i, *j, *k, *sync_dbs;
 
 	sync_dbs = alpm_option_get_syncdbs();
 	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
