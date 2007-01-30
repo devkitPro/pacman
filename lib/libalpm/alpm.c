@@ -103,6 +103,8 @@ int SYMEXPORT alpm_release()
 {
 	int dbs_left = 0;
 
+	ALPM_LOG_FUNC;
+
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	/* free the transaction if there is any */
@@ -141,6 +143,8 @@ int SYMEXPORT alpm_release()
  */
 pmdb_t SYMEXPORT *alpm_db_register(char *treename)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
 	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, NULL));
@@ -157,6 +161,8 @@ pmdb_t SYMEXPORT *alpm_db_register(char *treename)
 int alpm_db_unregister(pmdb_t *db)
 {
 	int found = 0;
+
+	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -200,6 +206,8 @@ int alpm_db_unregister(pmdb_t *db)
 int alpm_db_setserver(pmdb_t *db, const char *url)
 {
 	int found = 0;
+
+	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -253,6 +261,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	char newmtime[16] = "";
 	char lastupdate[16] = "";
 	int ret;
+
+	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -332,6 +342,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
  */
 pmpkg_t SYMEXPORT *alpm_db_readpkg(pmdb_t *db, char *name)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
@@ -346,6 +358,8 @@ pmpkg_t SYMEXPORT *alpm_db_readpkg(pmdb_t *db, char *name)
  */
 alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
@@ -360,6 +374,8 @@ alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
  */
 alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, char *name)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
@@ -375,6 +391,8 @@ alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, char *name)
  */
 pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, char *name)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
@@ -389,6 +407,8 @@ pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, char *name)
  */
 alpm_list_t SYMEXPORT *alpm_db_getgrpcache(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
@@ -453,6 +473,8 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 	char *sha1sum = NULL;
 	int retval = 0;
 
+	ALPM_LOG_FUNC;
+
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* We only inspect packages from sync repositories */
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
@@ -500,6 +522,8 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	char *md5sum = NULL;
 	int retval = 0;
 
+	ALPM_LOG_FUNC;
+
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* We only inspect packages from sync repositories */
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
@@ -545,6 +569,8 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
  */
 int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
+ 	ALPM_LOG_FUNC;
+
 	return(alpm_versioncmp(ver1, ver2));
 }
 
@@ -568,6 +594,8 @@ char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
 	 */
 	size_t i = 0;
 	char *arch, *cmp, *p;
+
+	ALPM_LOG_FUNC;
 
 	if((p = strrchr(pkgname, '-'))) {
 		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
@@ -598,6 +626,8 @@ char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
  */
 alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(handle->needles != NULL, return(NULL));
@@ -628,6 +658,8 @@ int SYMEXPORT alpm_trans_init(pmtranstype_t type, unsigned int flags,
 {
 	char path[PATH_MAX];
 
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -655,6 +687,8 @@ int SYMEXPORT alpm_trans_sysupgrade()
 {
 	pmtrans_t *trans;
 
+	ALPM_LOG_FUNC;
+
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	trans = handle->trans;
@@ -672,6 +706,8 @@ int SYMEXPORT alpm_trans_sysupgrade()
 int SYMEXPORT alpm_trans_addtarget(char *target)
 {
 	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -691,6 +727,8 @@ int SYMEXPORT alpm_trans_addtarget(char *target)
  */
 int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -708,6 +746,8 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
  */
 int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -730,6 +770,8 @@ int SYMEXPORT alpm_trans_release()
 {
 	pmtrans_t *trans;
 	char path[PATH_MAX];
+
+	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -779,6 +821,8 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 	char str[LOG_STR_LEN];
 	va_list args;
 
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -814,6 +858,8 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
  */
 char SYMEXPORT *alpm_get_md5sum(char *name)
 {
+	ALPM_LOG_FUNC;
+
 	ASSERT(name != NULL, return(NULL));
 
 	return(_alpm_MDFile(name));
@@ -825,6 +871,8 @@ char SYMEXPORT *alpm_get_md5sum(char *name)
  */
 char SYMEXPORT *alpm_get_sha1sum(char *name)
 {
+	ALPM_LOG_FUNC;
+
 	ASSERT(name != NULL, return(NULL));
 
 	return(_alpm_SHAFile(name));
@@ -836,6 +884,8 @@ char SYMEXPORT *alpm_get_sha1sum(char *name)
  */
 char SYMEXPORT *alpm_fetch_pkgurl(char *url)
 {
+	ALPM_LOG_FUNC;
+
 	ASSERT(strstr(url, "://"), return(NULL));
 
 	return(_alpm_fetch_pkgurl(url));
@@ -856,6 +906,8 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 	int linenum = 0;
 	char section[256] = "";
 	pmdb_t *db = NULL;
+
+	ALPM_LOG_FUNC;
 
 	fp = fopen(file, "r");
 	if(fp == NULL) {

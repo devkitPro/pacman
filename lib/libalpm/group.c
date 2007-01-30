@@ -36,6 +36,8 @@ pmgrp_t *_alpm_grp_new()
 {
 	pmgrp_t* grp;
 
+	ALPM_LOG_FUNC;
+
 	grp = calloc(1, sizeof(pmgrp_t));
 	if(grp == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
@@ -49,6 +51,8 @@ pmgrp_t *_alpm_grp_new()
 void _alpm_grp_free(void *data)
 {
 	pmgrp_t *grp = data;
+
+	ALPM_LOG_FUNC;
 
 	if(grp == NULL) {
 		return;
@@ -72,6 +76,8 @@ int _alpm_grp_cmp(const void *g1, const void *g2)
 
 const char SYMEXPORT *alpm_grp_get_name(pmgrp_t *grp)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(grp != NULL, return(NULL));
 
@@ -80,6 +86,8 @@ const char SYMEXPORT *alpm_grp_get_name(pmgrp_t *grp)
 
 alpm_list_t SYMEXPORT *alpm_grp_get_packages(pmgrp_t *grp)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(grp != NULL, return(NULL));
 

@@ -59,6 +59,8 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 {
 	pmsyncpkg_t *sync;
 
+	ALPM_LOG_FUNC;
+
 	if((sync = (pmsyncpkg_t *)malloc(sizeof(pmsyncpkg_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmsyncpkg_t));
 		return(NULL);
@@ -74,6 +76,8 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 void _alpm_sync_free(void *data)
 {
 	pmsyncpkg_t *sync = data;
+
+	ALPM_LOG_FUNC;
 
 	if(sync == NULL) {
 		return;
@@ -96,6 +100,8 @@ static pmsyncpkg_t *find_pkginsync(char *needle, alpm_list_t *haystack)
 	pmsyncpkg_t *sync = NULL;
 	int found = 0;
 
+	ALPM_LOG_FUNC;
+
 	for(i = haystack; i && !found; i = i->next) {
 		sync = i->data;
 		if(sync && !strcmp(sync->pkg->name, needle)) {
@@ -112,6 +118,9 @@ static pmsyncpkg_t *find_pkginsync(char *needle, alpm_list_t *haystack)
 static int istoonew(pmpkg_t *pkg)
 {
 	time_t t;
+
+	ALPM_LOG_FUNC;
+
 	if (!handle->upgradedelay)
 		return 0;
 	time(&t);
@@ -125,6 +134,8 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 														 alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i, *j, *k;
+
+	ALPM_LOG_FUNC;
 
 	/* check for "recommended" package replacements */
 	_alpm_log(PM_LOG_FLOW1, _("checking for package replacements"));
@@ -190,6 +201,8 @@ error:
 int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i, *j;
+
+	ALPM_LOG_FUNC;
 
 	/* check for "recommended" package replacements */
 	_alpm_log(PM_LOG_FLOW1, _("checking for package replacements"));
@@ -280,6 +293,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	pmpkg_t *spkg = NULL;
 	pmsyncpkg_t *sync;
 	int cmp, repo_found = 0;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -402,6 +417,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	alpm_list_t *asked = NULL; 
 	alpm_list_t *i, *j, *k, *l;
 	int ret = 0;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -787,6 +804,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	int replaces = 0, retval = 0;
 	char ldir[PATH_MAX];
 	int varcache = 1;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));

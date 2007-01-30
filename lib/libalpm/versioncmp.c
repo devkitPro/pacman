@@ -158,6 +158,8 @@ int SYMEXPORT alpm_versioncmp(const char *a, const char *b)
 	int is1num, is2num;
 	int rc;
 
+	ALPM_LOG_FUNC;
+
 	if(!strcmp(a,b)) {
 		return(0);
 	}
@@ -246,6 +248,8 @@ int SYMEXPORT alpm_versioncmp(const char *a, const char *b)
 int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	int equal = 0;
+
+	ALPM_LOG_FUNC;
 
   if(strcmp(pkg->name, dep->name) == 0
 	    || alpm_list_find_str(pkg->provides, dep->name)) {

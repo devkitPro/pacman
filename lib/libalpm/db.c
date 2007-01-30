@@ -55,6 +55,8 @@ pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
 {
 	pmdb_t *db;
 
+	ALPM_LOG_FUNC;
+
 	db = calloc(1, sizeof(pmdb_t));
 	if(db == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
@@ -80,6 +82,8 @@ void _alpm_db_free(void *data)
 {
 	pmdb_t *db = data;
 
+	ALPM_LOG_FUNC;
+
 	FREELISTSERVERS(db->servers);
 	FREE(db->path);
 	FREE(db);
@@ -89,12 +93,15 @@ void _alpm_db_free(void *data)
 
 int _alpm_db_cmp(const void *db1, const void *db2)
 {
+	ALPM_LOG_FUNC;
 	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
 }
 
 alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 {
 	alpm_list_t *i, *j, *k, *ret = NULL;
+
+	ALPM_LOG_FUNC;
 
 	for(i = needles; i; i = i->next) {
 		char *targ;
@@ -149,6 +156,8 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 	pmdb_t *db;
 	char path[PATH_MAX];
 
+	ALPM_LOG_FUNC;
+
 	if(strcmp(treename, "local") == 0) {
 		if(handle->db_local != NULL) {
 			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB"));
@@ -201,6 +210,8 @@ pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
 
 const char SYMEXPORT *alpm_db_get_name(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
@@ -212,6 +223,8 @@ const char *alpm_db_get_url(pmdb_t *db)
 {
 	char path[PATH_MAX];
 	pmserver_t *s;
+
+	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

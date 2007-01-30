@@ -27,6 +27,8 @@
 #endif
 #include <libintl.h>
 
+#include "alpm.h"
+#include "log.h"
 #include "util.h"
 #include "sha1.h"
 
@@ -390,6 +392,8 @@ char* _alpm_SHAFile(char *filename) {
     unsigned char buffer[1024], digest[20];
     char *ret;
     
+		ALPM_LOG_FUNC;
+
     if((file = fopen(filename, "rb")) == NULL) {
 	fprintf(stderr, _("%s can't be opened\n"), filename);
     } else {

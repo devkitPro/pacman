@@ -48,6 +48,8 @@ int _alpm_db_load_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 	/* The group cache needs INFRQ_DESC as well */
 	/* pmdbinfrq_t infolevel = INFRQ_DEPENDS | INFRQ_DESC;*/
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return(-1);
 	}
@@ -72,6 +74,8 @@ int _alpm_db_load_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 
 void _alpm_db_free_pkgcache(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || db->pkgcache == NULL) {
 		return;
 	}
@@ -88,6 +92,8 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 
 alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return(NULL);
 	}
@@ -107,6 +113,8 @@ int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 	/* for each pkg, check and reload if the requested
 	 * info is not already cached
 	 */
+
+	ALPM_LOG_FUNC;
 
   alpm_list_t *p;
 	for(p = db->pkgcache; p; p = p->next) {
@@ -132,6 +140,8 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || pkg == NULL) {
 		return(-1);
 	}
@@ -152,6 +162,8 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 {
 	void *vdata;
 	pmpkg_t *data;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL || pkg == NULL) {
 		return(-1);
@@ -174,6 +186,8 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 
 pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return(NULL);
 	}
@@ -186,6 +200,8 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 int _alpm_db_load_grpcache(pmdb_t *db)
 {
 	alpm_list_t *lp;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		return(-1);
@@ -231,6 +247,8 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 {
 	alpm_list_t *lg;
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || db->grpcache == NULL) {
 		return;
 	}
@@ -246,6 +264,8 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 
 alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return(NULL);
 	}
@@ -260,6 +280,8 @@ alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
 pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, char *target)
 {
 	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL || target == NULL || strlen(target) == 0) {
 		return(NULL);

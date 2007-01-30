@@ -50,6 +50,8 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 {
 	pmdepmissing_t *miss;
 
+	ALPM_LOG_FUNC;
+
 	miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t));
 	if(miss == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
@@ -72,6 +74,8 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
 
 	for(i = haystack; i; i = i->next) {
 		pmdepmissing_t *miss = i->data;
@@ -107,6 +111,8 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode)
 	int numscans = 0;
 	int numtargs = 0;
 	int maxscans;
+
+	ALPM_LOG_FUNC;
 
 	if(targets == NULL) {
 		return(NULL);
@@ -195,6 +201,8 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 	int found = 0;
 	alpm_list_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		return(NULL);
@@ -439,6 +447,8 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 	alpm_list_t *i, *j, *k;
 	alpm_list_t *newtargs = targs;
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return(newtargs);
 	}
@@ -526,6 +536,8 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 	alpm_list_t *i, *j;
 	alpm_list_t *targ;
 	alpm_list_t *deps = NULL;
+
+	ALPM_LOG_FUNC;
 
 	if(local == NULL || dbs_sync == NULL || syncpkg == NULL) {
 		return(-1);
@@ -648,6 +660,8 @@ error:
 
 const char SYMEXPORT *alpm_dep_get_target(pmdepmissing_t *miss)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(miss != NULL, return(NULL));
@@ -657,6 +671,8 @@ const char SYMEXPORT *alpm_dep_get_target(pmdepmissing_t *miss)
 
 pmdeptype_t SYMEXPORT alpm_dep_get_type(pmdepmissing_t *miss)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(miss != NULL, return(-1));
@@ -666,6 +682,8 @@ pmdeptype_t SYMEXPORT alpm_dep_get_type(pmdepmissing_t *miss)
 
 pmdepmod_t SYMEXPORT alpm_dep_get_mod(pmdepmissing_t *miss)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(miss != NULL, return(-1));
@@ -675,6 +693,8 @@ pmdepmod_t SYMEXPORT alpm_dep_get_mod(pmdepmissing_t *miss)
 
 const char SYMEXPORT *alpm_dep_get_name(pmdepmissing_t *miss)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(miss != NULL, return(NULL));
@@ -684,6 +704,8 @@ const char SYMEXPORT *alpm_dep_get_name(pmdepmissing_t *miss)
 
 const char SYMEXPORT *alpm_dep_get_version(pmdepmissing_t *miss)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(miss != NULL, return(NULL));

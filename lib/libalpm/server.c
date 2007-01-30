@@ -43,6 +43,8 @@ pmserver_t *_alpm_server_new(const char *url)
 	struct url *u;
 	pmserver_t *server;
 
+	ALPM_LOG_FUNC;
+
 	server = (pmserver_t *)malloc(sizeof(pmserver_t));
 	if(server == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));
@@ -78,6 +80,8 @@ void _alpm_server_free(void *data)
 {
 	pmserver_t *server = data;
 
+	ALPM_LOG_FUNC;
+
 	if(server == NULL) {
 		return;
 	}
@@ -96,6 +100,7 @@ void _alpm_server_free(void *data)
  */
 int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath, alpm_list_t *files)
 {
+	ALPM_LOG_FUNC;
 	return(_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL));
 }
 
@@ -120,6 +125,8 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 	int done = 0;
 	alpm_list_t *complete = NULL;
 	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
 
 	if(files == NULL) {
 		return(0);
@@ -323,6 +330,8 @@ char *_alpm_fetch_pkgurl(char *target)
 	char *p = NULL;
 	struct stat st;
 	struct url *s_url;
+
+	ALPM_LOG_FUNC;
 
 	s_url = downloadParseURL(target);
 	if(!s_url) {

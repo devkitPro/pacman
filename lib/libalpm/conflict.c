@@ -57,6 +57,8 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 	alpm_list_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return(NULL);
 	}
@@ -220,6 +222,8 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 	alpm_list_t *targets = trans->packages;
 	double percent;
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || targets == NULL || root == NULL) {
 		return(NULL);
 	}
@@ -362,6 +366,8 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 
 const char SYMEXPORT *alpm_conflict_get_target(pmconflict_t *conflict)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(conflict != NULL, return(NULL));
@@ -371,6 +377,8 @@ const char SYMEXPORT *alpm_conflict_get_target(pmconflict_t *conflict)
 
 pmconflicttype_t SYMEXPORT alpm_conflict_get_type(pmconflict_t *conflict)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(conflict != NULL, return(-1));
@@ -380,6 +388,8 @@ pmconflicttype_t SYMEXPORT alpm_conflict_get_type(pmconflict_t *conflict)
 
 const char SYMEXPORT *alpm_conflict_get_file(pmconflict_t *conflict)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(conflict != NULL, return(NULL));
@@ -389,6 +399,8 @@ const char SYMEXPORT *alpm_conflict_get_file(pmconflict_t *conflict)
 
 const char SYMEXPORT *alpm_conflict_get_ctarget(pmconflict_t *conflict)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(conflict != NULL, return(NULL));

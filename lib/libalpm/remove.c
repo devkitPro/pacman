@@ -63,6 +63,8 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info;
 
+	ALPM_LOG_FUNC;
+
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -96,6 +98,8 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
 	alpm_list_t *lp;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -171,6 +175,8 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 	char line[PATH_MAX+1];
 	char *checksum = _alpm_needbackup(lp->data, info->backup);
 
+	ALPM_LOG_FUNC;
+
 	if ( *position != 0 ) {
 		percent = (double)*position / filenum;
 	} if ( checksum ) {
@@ -239,6 +245,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info;
 	alpm_list_t *targ, *lp;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));

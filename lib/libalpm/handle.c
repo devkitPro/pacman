@@ -85,6 +85,8 @@ pmhandle_t *_alpm_handle_new()
 
 int _alpm_handle_free(pmhandle_t *handle)
 {
+  ALPM_LOG_FUNC;
+
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	/* close logfiles */
@@ -166,6 +168,8 @@ void alpm_option_set_cachedir(const char *cachedir)
 
 void alpm_option_set_logfile(const char *logfile)
 {
+  ALPM_LOG_FUNC;
+
 	if(handle->logfile) {
 		FREE(handle->logfile);
 		if(handle->logfd) {

@@ -26,6 +26,7 @@
 #include "cache.h"
 #include "alpm_list.h"
 #include "db.h"
+#include "log.h"
 #include "provide.h"
 
 /* return a alpm_list_t of packages in "db" that provide "package"
@@ -34,6 +35,8 @@ alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, char *package)
 {
 	alpm_list_t *pkgs = NULL;
 	alpm_list_t *lp;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL || package == NULL || strlen(package) == 0) {
 		return(NULL);

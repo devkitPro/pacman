@@ -266,6 +266,8 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	struct archive_entry *entry;
 	char expath[PATH_MAX];
 
+	ALPM_LOG_FUNC;
+
 	if((_archive = archive_read_new()) == NULL)
 		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
 
@@ -422,6 +424,8 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 	pid_t pid;
 	int retval = 0;
 
+	ALPM_LOG_FUNC;
+
 	if(stat(installfn, &buf)) {
 		/* not found */
 		return(0);
@@ -568,6 +572,8 @@ int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data)
 {
 	alpm_list_t *i;
 	long long pkgsize=0, freespace;
+
+	ALPM_LOG_FUNC;
 
 	for(i = trans->packages; i; i = i->next) {
 		if(trans->type == PM_TRANS_TYPE_SYNC)

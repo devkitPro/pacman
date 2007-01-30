@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 /* pacman */
+#include "log.h"
 #include "backup.h"
 #include "util.h"
 
@@ -35,6 +36,8 @@
 char *_alpm_needbackup(char *file, alpm_list_t *backup)
 {
 	alpm_list_t *lp;
+
+	ALPM_LOG_FUNC;
 
 	if(file == NULL || backup == NULL) {
 		return(NULL);

@@ -44,6 +44,8 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 {
 	pmpkg_t* pkg;
 
+	ALPM_LOG_FUNC;
+
 	if((pkg = calloc(1,sizeof(pmpkg_t))) == NULL) {
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
@@ -65,6 +67,8 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 {
 	pmpkg_t* newpkg;
+
+	ALPM_LOG_FUNC;
 
 	if((newpkg = calloc(1, sizeof(pmpkg_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmpkg_t));
@@ -92,6 +96,8 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 void _alpm_pkg_free(void *data)
 {
 	pmpkg_t *pkg = data;
+
+	ALPM_LOG_FUNC;
 
 	if(pkg == NULL) {
 		return;
@@ -135,6 +141,8 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 	char* ptr = NULL;
 	char* key = NULL;
 	int linenum = 0;
+
+	ALPM_LOG_FUNC;
 
 	if((fp = fopen(descfile, "r")) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), descfile, strerror(errno));
@@ -238,6 +246,8 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	pmpkg_t *info = NULL;
 	char *descfile = NULL;
 	int fd = -1;
+
+	ALPM_LOG_FUNC;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
@@ -375,6 +385,8 @@ pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *lp;
 
+	ALPM_LOG_FUNC;
+
 	if(needle == NULL || haystack == NULL) {
 		return(NULL);
 	}
@@ -393,6 +405,8 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 {
 	char tmp[PKG_FULLNAME_LEN+7];
 	char *p, *q;
+
+	ALPM_LOG_FUNC;
 
 	if(target == NULL) {
 		return(-1);
@@ -441,6 +455,8 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 
 const char *alpm_pkg_get_filename(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -477,6 +493,8 @@ const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -489,6 +507,8 @@ const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -501,6 +521,8 @@ const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -525,6 +547,8 @@ const char SYMEXPORT *alpm_pkg_get_buildtype(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -537,6 +561,8 @@ const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -549,6 +575,8 @@ const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -561,6 +589,8 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -573,6 +603,8 @@ const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -585,6 +617,8 @@ const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 
 unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(pkg != NULL, return(-1));
@@ -597,6 +631,8 @@ unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 
 unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(pkg != NULL, return(-1));
@@ -609,6 +645,8 @@ unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 
 pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(pkg != NULL, return(-1));
@@ -621,6 +659,8 @@ pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -633,6 +673,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -646,6 +688,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 /* depends */
 alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -658,6 +702,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_removes(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -670,6 +716,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_removes(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -682,6 +730,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -694,6 +744,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -706,6 +758,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -718,6 +772,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -731,6 +787,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -744,6 +802,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 
 unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(pkg != NULL, return(-1));

@@ -25,6 +25,13 @@
 
 #define LOG_STR_LEN 1024
 
+#ifdef PACMAN_DEBUG
+/* Log funtion entry points if debugging is enabled */
+#define ALPM_LOG_FUNC _alpm_log(PM_LOG_FUNCTION, "Enter %s", __func__)
+#else
+#define ALPM_LOG_FUNC
+#endif
+
 void _alpm_log(pmloglevel_t flag, char *fmt, ...);
 
 #endif /* _ALPM_LOG_H */

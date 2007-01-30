@@ -51,6 +51,8 @@
  */
 int _alpm_db_install(pmdb_t *db, const char *dbfile)
 {
+	ALPM_LOG_FUNC;
+
 	/* ORE
 		 we should not simply unpack the archive, but better parse it and 
 		 db_write each entry (see sync_load_dbarchive to get archive content) */
@@ -65,6 +67,8 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile)
 
 int _alpm_db_open(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
@@ -79,6 +83,8 @@ int _alpm_db_open(pmdb_t *db)
 
 void _alpm_db_close(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL) {
 		return;
 	}
@@ -91,6 +97,8 @@ void _alpm_db_close(pmdb_t *db)
 
 void _alpm_db_rewind(pmdb_t *db)
 {
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || db->handle == NULL) {
 		return;
 	}
@@ -107,6 +115,8 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 	char *ptr = NULL;
 	int found = 0;
 	pmpkg_t *pkg;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, NULL);
@@ -183,6 +193,8 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	char line[513];
 	alpm_list_t *tmplist;
 	char *locale;
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
@@ -452,6 +464,8 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	int retval = 0;
 	int local = 0;
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || info == NULL) {
 		return(-1);
 	}
@@ -650,6 +664,8 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 {
 	char path[PATH_MAX];
 
+	ALPM_LOG_FUNC;
+
 	if(db == NULL || info == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
@@ -672,6 +688,8 @@ int _alpm_db_getlastupdate(pmdb_t *db, char *ts)
 {
 	FILE *fp;
 	char file[PATH_MAX];
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL || ts == NULL) {
 		return(-1);
@@ -702,6 +720,8 @@ int _alpm_db_setlastupdate(pmdb_t *db, char *ts)
 {
 	FILE *fp;
 	char file[PATH_MAX];
+
+	ALPM_LOG_FUNC;
 
 	if(db == NULL || ts == NULL || strlen(ts) == 0) {
 		return(-1);

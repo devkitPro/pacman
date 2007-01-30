@@ -43,6 +43,8 @@ pmtrans_t *_alpm_trans_new()
 {
 	pmtrans_t *trans;
 
+	ALPM_LOG_FUNC;
+
 	if((trans = (pmtrans_t *)malloc(sizeof(pmtrans_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmtrans_t));
 		return(NULL);
@@ -64,6 +66,8 @@ pmtrans_t *_alpm_trans_new()
 void _alpm_trans_free(void *data)
 {
 	pmtrans_t *trans = data;
+
+	ALPM_LOG_FUNC;
 
 	if(trans == NULL) {
 		return;
@@ -89,6 +93,8 @@ int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, unsigned int flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
@@ -104,6 +110,8 @@ int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, unsigned int flags,
 
 int _alpm_trans_sysupgrade(pmtrans_t *trans)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
@@ -112,6 +120,8 @@ int _alpm_trans_sysupgrade(pmtrans_t *trans)
 
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -151,6 +161,8 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 {
 	*data = NULL;
 
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
@@ -188,6 +200,8 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 
 int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 {
+	ALPM_LOG_FUNC;
+
 	if(data!=NULL)
 		*data = NULL;
 

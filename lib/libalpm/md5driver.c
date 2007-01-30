@@ -23,6 +23,8 @@ documentation and/or software.
 #include <stdio.h>
 #include <string.h>
 #include <libintl.h>
+#include "alpm.h"
+#include "log.h"
 #include "util.h"
 #include "md5.h"
 
@@ -42,6 +44,8 @@ char* _alpm_MDFile(char *filename)
 	MD_CTX context;
 	int len;
 	unsigned char buffer[1024], digest[16];
+
+	ALPM_LOG_FUNC;
 
 	if((file = fopen(filename, "rb")) == NULL) {
 		printf (_("%s can't be opened\n"), filename);

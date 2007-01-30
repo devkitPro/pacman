@@ -64,6 +64,8 @@ static int add_faketarget(pmtrans_t *trans, char *name)
 	char *str = NULL;
 	pmpkg_t *dummy = NULL;
 
+	ALPM_LOG_FUNC;
+
 	dummy = _alpm_pkg_new(NULL, NULL);
 	if(dummy == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
@@ -112,6 +114,8 @@ int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	char pkgname[PKG_NAME_LEN], pkgver[PKG_VERSION_LEN];
 	alpm_list_t *i;
 	struct stat buf;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -225,6 +229,8 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	alpm_list_t *rmlist = NULL;
 	char rm_fname[PATH_MAX];
 	pmpkg_t *info = NULL;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
@@ -353,6 +359,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	pmtransprog_t cb_state;
 	time_t t;
 	alpm_list_t *targ, *lp;
+
+	ALPM_LOG_FUNC;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
