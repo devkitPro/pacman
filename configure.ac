@@ -148,7 +148,7 @@ AC_ARG_WITH(config-file,
 dnl Help line for debug
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debugging support]),
-    [debug=$enableval], [debug=yes])
+    [debug=$enableval], [debug=no])
 
 dnl Help line for fakeroot
 AC_ARG_ENABLE(fakeroot,
