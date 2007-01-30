@@ -106,6 +106,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode)
 	int change = 1;
 	int numscans = 0;
 	int numtargs = 0;
+	int maxscans;
 
 	if(targets == NULL) {
 		return(NULL);
@@ -116,15 +117,13 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode)
 		numtargs++;
 	}
 
+	maxscans = (int)sqrt(numtargs);
+
 	_alpm_log(PM_LOG_DEBUG, _("started sorting dependencies"));
 	while(change) {
 		alpm_list_t *tmptargs = NULL;
 		change = 0;
-		/* TODO only use of a math.h function in entire libalpm,
-		 *      can we get rid of it? Former code line:
-		 *if(numscans > numtargs) {
-		 */
-		if(numscans > sqrt(numtargs)) {
+		if(numscans > maxscans) {
 			_alpm_log(PM_LOG_DEBUG, _("possible dependency cycle detected"));
 			continue;
 		}
@@ -321,9 +320,9 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as a dependency for %s"),
-							depend.name, tp->name);
+					                          depend.name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod,
-							depend.name, depend.version);
+					                         depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
 					} else {

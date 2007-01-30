@@ -1,8 +1,6 @@
 AUTOMAKE_OPTIONS = gnu
 DEFINES = -pedantic -D_GNU_SOURCE
-#libalpm isn't fully C99 safe with the strict aliasing rules
-# to be fixed in the future
-AM_CFLAGS = $(DEFINES) -fno-strict-aliasing
+AM_CFLAGS = $(DEFINES)
 SUBDIRS = po
 
 localedir = $(datadir)/locale

@@ -526,7 +526,6 @@ int pacman_sync(alpm_list_t *targets)
 						found++;
 						MSG(NL, _(":: group %s:\n"), targ);
 						/* remove dupe entries in case a package exists in multiple repos */
-						/*   (the dupe function takes a pmlist_t* and returns a list_t*) */
 						alpm_list_t *pkgs = alpm_list_remove_dupes(alpm_grp_get_packages(grp));
 						list_display("   ", pkgs);
 						if(yesno(_(":: Install whole content? [Y/n] "))) {
