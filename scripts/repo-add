@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 #   repo-add : add a package to a given repo database file
 #  
 #   Copyright (c) 2006 Aaron Griffin <aaron@archlinux.org>
@@ -18,6 +19,8 @@
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
 #   USA.
 
+myver='3.0.0'
+
 FORCE=0
 REPO_DB_FILE=""
 
@@ -25,12 +28,27 @@ DB_COMPRESSION="gz" #TODO this is gross
 DB_CHECKSUMS=(md5)
 TMP_DIR=""
 
-if [ $# -lt 2 ]; then
-	echo "repo-add /path/to/repo.db.tar.gz [--force] [packages-to-add]"
-	exit 1
-fi
+# print usage instructions
+usage() {
+	echo "repo-add $myver"
+	echo
+	echo "usage: repo-add <path-to-db> [--force] <package> ..."
+	echo
+	echo "repo-add will update a package database by reading a package file."
+	echo "Multiple packages to add can be specified on the command line."
+	echo
+	echo "The --force flag will add a 'force' entry to the sync database, which"
+	echo "tells pacman to skip its internal version number checking and update"
+	echo "the package regardless."
+	echo
+	echo "Example:"
+	echo "  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+	echo
+}
 
-
+# return calculated checksum of package
+#   arg1 - checksum type
+#   arg2 - path to package
 get_checksum () {
 	case "$(echo "$1" | tr A-Z a-z)" in
 		md5) sum=$(md5sum $2); echo ${sum% *} ;;
@@ -41,6 +59,8 @@ get_checksum () {
 	esac
 }
 
+# return PKGINFO string for checksum type
+#   arg1 - checksum type
 checksum_name () {
 	case "$(echo "$1" | tr A-Z a-z)" in
 		md5) echo "MD5SUM" ;;
@@ -51,6 +71,7 @@ checksum_name () {
 	esac
 }
 
+# test if a file is a repository DB
 test_repo_db_file () {
 	if [ -f "$REPO_DB_FILE" ]; then
 		[ "$(tar tf "$REPO_DB_FILE" | grep -c "/desc")" -gt 0 ] || return 1
@@ -59,8 +80,11 @@ test_repo_db_file () {
 	fi
 }
 
+# write an entry to the pacman database
+#   arg1 - path to package
 db_write_entry()
 {
+	# blank out all variables and set pkgfile
 	pkgfile=$(readlink -f $1)
 	export pkgname=""
 	pkgver=""
@@ -79,9 +103,10 @@ db_write_entry()
 	_conflicts=""
 
 	OLDIFS="$IFS"
-	#gross... IFS == new line
-	IFS='
-	'
+	# IFS (field seperator) is only the newline character
+	IFS=$(echo)
+
+	# read info from the zipped package
 	for i in $(tar xOf "$pkgfile" .PKGINFO | grep -v "^#" |sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
 		eval "${i}"
 		case "$i" in
@@ -94,28 +119,33 @@ db_write_entry()
 			conflicts=*) _conflicts="$_conflicts $conflicts" ;;
 		esac
 	done
+
 	IFS=$OLDIFS
 
+	# get compressed size of package
 	csize="$(du -b $pkgfile | cut -f1)"
 
 	cd $gstmpdir
 
+	# ensure $pkgname and $pkgver variables were found
 	if [ -z "$pkgname" -o -z "$pkgver" ]; then
 		echo "   error: invalid package file"
 		return 1
 	fi 
 
-	if [ ! -d "$pkgname-$pkgver" ]; then
-		[ -e "$pkgname-$pkgver" ] && rm -rf "$pkgname-$pkgver"
-		mkdir "$pkgname-$pkgver"
-		cd "$pkgname-$pkgver"
-	else
-		cd "$pkgname-$pkgver"
-		[ -e desc ] && rm desc
-		[ -e depends ] && rm depends
-	fi
+	# remove any other package in the DB with same name
+	for existing in *; do
+		if [ "${existing%-*-*}" = "$pkgname" ]; then
+			echo ":: removing existing package '$existing'"
+			rm -rf $existing
+		fi
+	done
 
-	# desc
+	# create package directory
+	mkdir "$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
+
+	# create desc entry
 	echo ":: creating 'desc' db entry"
 	echo -e "%FILENAME%\n$1\n" >> desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
@@ -131,6 +161,7 @@ db_write_entry()
 	[ -n $csize ] && echo -e "%CSIZE%\n$csize\n" >>desc
 	[ -n $size ] && echo -e "%ISIZE%\n$size\n" >>desc
 
+	# compute checksums
 	for chk in ${DB_CHECKSUMS[@]}; do
 		name="$(checksum_name $chk)"
 		echo ":: computing $name checksums"
@@ -156,7 +187,7 @@ db_write_entry()
 	fi
 	[ "$FORCE" = "1" ] && echo -e "%FORCE%\n" >>desc
 
-	# depends
+	# create depends entry
 	echo ":: creating 'depends' db entry"
 	if [ -n "$depends" ]; then
 		echo "%DEPENDS%" >>depends
@@ -176,21 +207,37 @@ db_write_entry()
 
 	# preserve the modification time
 	touch -r "$pkgfile" desc depends
-}
+} # end db_write_entry
 
+# PROGRAM START
+
+# check for help flags
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+	usage
+	exit 0
+fi
+
+# check for correct number of args
+if [ $# -lt 2 ]; then
+	usage
+	exit 1
+fi
+
+# main routine
 if [ $# -gt 1 ]; then
 	gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || (\
 	echo "cannot create temp directory for database building"; \
 	exit 1)
 
 	success=0
+	# parse arguements
 	for arg in $@; do
 		if [ "$arg" == "--force" -o "$arg" == "-f" ]; then
 			FORCE=1
-		elif [ "x$REPO_DB_FILE" == "x" ]; then
+		elif [ -z "$REPO_DB_FILE" ]; then
 			REPO_DB_FILE="$(readlink -f $arg)"
 			if ! test_repo_db_file; then
-				echo "   repository db file '$REPO_DB_FILE' is not a proper pacman db"
+				echo "error: repository file '$REPO_DB_FILE' is not a proper pacman db"
 				exit 1
 			elif [ -f "$REPO_DB_FILE" ]; then
 				echo ":: extracting database to a temporary location"
@@ -215,6 +262,7 @@ if [ $# -gt 1 ]; then
 		fi
 	done
 
+	# if all operations were a success, rezip database
 	if [ "$success" = "1" ]; then
 		echo ":: creating updated database file ${REPO_DB_FILE}"
 		cd $gstmpdir
@@ -233,6 +281,7 @@ if [ $# -gt 1 ]; then
 	fi
 fi
 
+# remove the temp directory used to unzip
 [ -d "$gstmpdir" ] && rm -rf $gstmpdir
 
 # vim: set ts=2 sw=2 noet:
