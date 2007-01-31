@@ -39,7 +39,7 @@
 extern config_t *config;
 extern pmdb_t *db_local;
 
-static int query_fileowner(pmdb_t *db, char *filename)
+static void query_fileowner(pmdb_t *db, char *filename)
 {
 	struct stat buf;
 	int gotcha = 0;
@@ -47,16 +47,16 @@ static int query_fileowner(pmdb_t *db, char *filename)
 	alpm_list_t *i, *j;
 
 	if(db == NULL) {
-		return(0);
+		return;
 	}
 	if(filename == NULL || strlen(filename) == 0) {
 		ERR(NL, _("no file was specified for --owns\n"));
-		return(1);
+		return;
 	}
 
 	if(stat(filename, &buf) == -1 || S_ISDIR(buf.st_mode) || realpath(filename, rpath) == NULL) {
-		ERR(NL, _("%s is not a file.\n"), filename);
-		return(1);
+		/* fail silently if we're a directory */
+		return;
 	}
 
 	for(i = alpm_db_getpkgcache(db); i && !gotcha; i = alpm_list_next(i)) {
@@ -76,10 +76,7 @@ static int query_fileowner(pmdb_t *db, char *filename)
 	}
 	if(!gotcha) {
 		ERR(NL, _("No package owns %s\n"), filename);
-		return(1);
 	}
-
-	return(0);
 }
 
 int pacman_query(alpm_list_t *targets)
@@ -195,7 +192,8 @@ int pacman_query(alpm_list_t *targets)
 
 		/* determine the owner of a file */
 		if(config->op_q_owns) {
-			return(query_fileowner(db_local, package));
+			query_fileowner(db_local, package);
+			continue;
 		}
 
 		/* find packages in the db */
