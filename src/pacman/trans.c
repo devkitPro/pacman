@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <math.h>
 #include <libintl.h>
 
 #include <alpm.h>
@@ -42,13 +41,79 @@ extern config_t *config;
 
 static int prevpercent=0; /* for less progressbar output */
 
+/* refactored function from cb_trans_evt */
+static void retrieve_local(void *data1, void *data2)
+{
+	const unsigned int maxcols = getcols();
+	char out[PATH_MAX];
+	unsigned int i;
+
+	MSG(NL, " %s [", (char*)data1);
+	STRNCPY(out, (char*)data2, maxcols-42);
+	MSG(CL, "%s", out);
+	for(i = strlen(out); i < maxcols-43; i++) {
+		MSG(CL, " ");
+	}
+	fputs(_("] 100%    LOCAL "), stdout);
+}
+
+/* refactored from cb_trans_progress */
+/* TODO with a little more work, we may be able to incorporate this
+ * into the download progress bar as well. */
+static void fill_progress(const int percent, const int proglen)
+{
+	const unsigned short chomp = alpm_option_get_chomp();
+	const unsigned int hashlen = proglen - 8;
+	const unsigned int hash = percent * hashlen / 100;
+	unsigned int lasthash = 0, mouth = 0;
+	unsigned int i;
+
+	printf(" [");
+	for(i = hashlen; i > 1; --i) {
+		/* if special progress bar enabled */
+		if(chomp) {
+			if(i > hashlen - hash) {
+				printf("-");
+			} else if(i == hashlen - hash) {
+				if(lasthash == hash) {
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
+				} else {
+					lasthash = hash;
+					mouth = mouth == 1 ? 0 : 1;
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
+				}
+			} else if(i%3 == 0) {
+				printf("\033[0;37mo\033[m");
+			} else {
+				printf("\033[0;37m \033[m");
+			}
+		} /* else regular progress bar */
+		else if(i > hashlen - hash) {
+			printf("#");
+		} else {
+			printf("-");
+		}
+	}
+	printf("] %3d%%\r", percent);
+
+	if(percent == 100) {
+		printf("\n");
+	}
+}
+
 /* Callback to handle transaction events
  */
 void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 {
 	char str[LOG_STR_LEN] = "";
-	char out[PATH_MAX];
-	int i;
 
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
@@ -155,14 +220,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			fflush(stdout);
 			break;
 		case PM_TRANS_EVT_RETRIEVE_LOCAL:
-			MSG(NL, " %s [", (char*)data1);
-			unsigned int maxcols = getcols();
-			STRNCPY(out, (char*)data2, maxcols-42);
-			MSG(CL, "%s", out);
-			for(i = strlen(out); i < maxcols-43; i++) {
-				MSG(CL, " ");
-			}
-			fputs(_("] 100%    LOCAL "), stdout);
+			retrieve_local(data1, data2);
 			break;
 	}
 }
@@ -286,14 +344,12 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 	}
 }
 
-void cb_trans_progress(pmtransprog_t event, char *pkgname, int percent,
-                       int howmany, int remain)
+void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
+                       const int howmany, const int remain)
 {
-	static int lasthash = 0, mouth = 0;
-	int i, hash;
-	long chomp = 0;
-	unsigned int maxcols = getcols();
-	unsigned int maxpkglen, progresslen = maxcols - 57;
+	/* size of line to allocate for text printing (e.g. not progressbar) */
+	const int infolen = 50;
+	int i, digits, textlen, pkglen, proglen;
 	char *ptr = NULL;
 
 	if(config->noprogressbar) {
@@ -306,103 +362,58 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, int percent,
 		set_output_padding(0); /* shut it off again */
 	}
 
-	if (!pkgname)
+	/* if no pkgname, percent is too high or unchanged, then return */
+	if (!pkgname || percent > 100 || percent == prevpercent) {
 		return;
-	if (percent > 100)
-		return;
-	if(percent == prevpercent)
-		return;
+	}
 
 	prevpercent=percent;
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
 			ptr = _("installing");
 			break;
-
 		case PM_TRANS_PROGRESS_UPGRADE_START:
 			ptr = _("upgrading");
 			break;
-
 		case PM_TRANS_PROGRESS_REMOVE_START:
 			ptr = _("removing");
 			break;
-
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			ptr = _("checking for file conflicts");
 			break;
 	}
-	hash=percent*progresslen/100;
 
-	// if the package name is too long, then slice the ending
-	maxpkglen=46-strlen(ptr)-(3+2*(int)log10(howmany));
-	if(strlen(pkgname)>maxpkglen)
-		pkgname[maxpkglen]='\0';
+	/* find # of digits in package counts to scale output */
+	digits = 1;
+	i = howmany;
+	while((i /= 10)) {
+		++digits;
+	}
+
+	/* determine room left for non-digits text [not ( 1/12) part] */
+	textlen = infolen - 3 - (2 * digits);
+	/* room left for package name */
+	pkglen = textlen - strlen(ptr) - 1;
 
 	switch (event) {
-	case PM_TRANS_PROGRESS_ADD_START:
-	case PM_TRANS_PROGRESS_UPGRADE_START:
-	case PM_TRANS_PROGRESS_REMOVE_START:
-		putchar('(');
-		for(i=0;i<(int)log10(howmany)-(int)log10(remain);i++)
-			putchar(' ');
-		printf("%d/%d) %s %s ", remain, howmany, ptr, pkgname);
-		if (strlen(pkgname)<maxpkglen)
-			for (i=maxpkglen-strlen(pkgname)-1; i>0; i--)
-				putchar(' ');
-		break;
+		case PM_TRANS_PROGRESS_ADD_START:
+		case PM_TRANS_PROGRESS_UPGRADE_START:
+		case PM_TRANS_PROGRESS_REMOVE_START:
+			/* TODO clean up so digits and pkglen aren't passed twice */
+			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
+			       ptr, pkglen, pkglen, pkgname);
+			break;
 
-	case PM_TRANS_PROGRESS_CONFLICTS_START:
-		printf("%s (", ptr);
-		for(i=0;i<(int)log10(howmany)-(int)log10(remain);i++)
-			putchar(' ');
-		printf("%d/%d) ", remain, howmany);
-		for (i=maxpkglen; i>0; i--)
-			putchar(' ');
-		break;
+		case PM_TRANS_PROGRESS_CONFLICTS_START:
+			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
+			       textlen, ptr);
+			break;
+
 	}
 
-	chomp = alpm_option_get_chomp();
-
-	/* hide the cursor, prevent flicker during fancy graphics 
-	printf("\033[?25l\033[?1c[");
-	*/
-	printf("[");
-	for(i = progresslen; i > 0; --i) {
-		if(chomp) {
-			if(i > progresslen - hash) {
-				printf("-");
-			} else if(i == progresslen - hash) {
-				if(lasthash == hash) {
-					if(mouth) {
-						printf("\033[1;33mC\033[m");
-					} else {
-						printf("\033[1;33mc\033[m");
-					}
-				} else {
-					lasthash = hash;
-					mouth = mouth == 1 ? 0 : 1;
-					if(mouth) {
-						printf("\033[1;33mC\033[m");
-					} else {
-						printf("\033[1;33mc\033[m");
-					}
-				}
-			} else if(i%3 == 0) {
-				printf("\033[0;37mo\033[m");
-			} else {
-				printf("\033[0;37m \033[m");
-			}
-		} else if(i > progresslen - hash) {
-			printf("#");
-		} else {
-			printf("-");
-		}
-	}
-	printf("] %3d%%\r", percent);
-
-	if(percent == 100) {
-		printf("\n");
-	}
+	/* call refactored fill progress function */
+	proglen = getcols() - infolen;
+	fill_progress(percent, proglen);
 }
 
 /* vim: set ts=2 sw=2 noet: */
