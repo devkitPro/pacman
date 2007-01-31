@@ -103,7 +103,7 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
  * This function returns the new alpm_list_t* target list.
  *
  */ 
-alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode)
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 {
 	alpm_list_t *newtargs = NULL;
 	alpm_list_t *i, *j, *k, *l;
