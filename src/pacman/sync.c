@@ -263,7 +263,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 				
 				indentprint(alpm_pkg_get_desc(pkg), 4);
-				printf("\n\n");
+				printf("\n");
 			}
 			alpm_list_free(ret);
 		} else {
