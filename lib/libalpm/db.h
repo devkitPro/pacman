@@ -45,6 +45,7 @@ struct __pmdb_t {
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 };
+
 /* db.c, database general calls */
 pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
 void _alpm_db_free(void *data);

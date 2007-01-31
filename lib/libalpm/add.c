@@ -276,8 +276,8 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 				if(lp == NULL) {
 					break;
 				}
- 			}
- 		}
+			}
+		}
 		/* Removal code should go here, as described above. Instead of simply
 		 * removing items, perhaps throw them in another list to be removed, then
 		 * proceed as sync.c would? I'm not sure because I'm not familiar enough

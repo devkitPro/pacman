@@ -401,7 +401,6 @@ const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
 /*
  * Helpers
  */
- 
 
 /* md5sums */
 char *alpm_get_md5sum(char *name);
