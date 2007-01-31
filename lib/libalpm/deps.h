@@ -46,7 +46,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
                                   pmdepmod_t depmod, const char *depname,
 																	const char *depversion);
 int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack);
-alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int mode);
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages);
 int _alpm_splitdep(char *depstr, pmdepend_t *depend);
