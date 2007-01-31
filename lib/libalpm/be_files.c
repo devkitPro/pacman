@@ -114,7 +114,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 	char name[PKG_FULLNAME_LEN];
 	char *ptr = NULL;
 	int found = 0;
-	pmpkg_t *pkg;
+	pmpkg_t *pkg = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -122,64 +122,71 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 		RET_ERR(PM_ERR_DB_NULL, NULL);
 	}
 
-	if(target != NULL) {
-		/* search for a specific package (by name only) */
-		rewinddir(db->handle);
-		while(!found && (ent = readdir(db->handle)) != NULL) {
-			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
-				continue;
+	/* We loop here until we read a valid package.  When an iteration of this loop
+	 * fails, it means alpm_db_read failed to read a valid package, so we'll read
+	 * the next so as not to abort whole-db operations early
+	 */
+	while(!pkg) {
+		if(target != NULL) {
+			/* search for a specific package (by name only) */
+			rewinddir(db->handle);
+			while(!found && (ent = readdir(db->handle)) != NULL) {
+				if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+					continue;
+				}
+				/* stat the entry, make sure it's a directory */
+				snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
+				if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
+					continue;
+				}
+				STRNCPY(name, ent->d_name, PKG_FULLNAME_LEN);
+				/* truncate the string at the second-to-last hyphen, */
+				/* which will give us the package name */
+				if((ptr = rindex(name, '-'))) {
+					*ptr = '\0';
+				}
+				if((ptr = rindex(name, '-'))) {
+					*ptr = '\0';
+				}
+				if(!strcmp(name, target)) {
+					found = 1;
+				}
 			}
-			/* stat the entry, make sure it's a directory */
-			snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
-			if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
-				continue;
-			}
-			STRNCPY(name, ent->d_name, PKG_FULLNAME_LEN);
-			/* truncate the string at the second-to-last hyphen, */
-			/* which will give us the package name */
-			if((ptr = rindex(name, '-'))) {
-				*ptr = '\0';
-			}
-			if((ptr = rindex(name, '-'))) {
-				*ptr = '\0';
-			}
-			if(!strcmp(name, target)) {
-				found = 1;
-			}
-		}
-		if(!found) {
-			return(NULL);
-		}
-	} else {
-		/* normal iteration */
-		int isdir = 0;
-		while(!isdir) {
-			ent = readdir(db->handle);
-			if(ent == NULL) {
+			if(!found) {
 				return(NULL);
 			}
-			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
-				isdir = 0;
-				continue;
-			}
-			/* stat the entry, make sure it's a directory */
-			snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
-			if(!stat(path, &sbuf) && S_ISDIR(sbuf.st_mode)) {
-				isdir = 1;
+		} else {
+			/* normal iteration */
+			int isdir = 0;
+			while(!isdir) {
+				ent = readdir(db->handle);
+				if(ent == NULL) {
+					return(NULL);
+				}
+				if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+					isdir = 0;
+					continue;
+				}
+				/* stat the entry, make sure it's a directory */
+				snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
+				if(!stat(path, &sbuf) && S_ISDIR(sbuf.st_mode)) {
+					isdir = 1;
+				}
 			}
 		}
-	}
 
-	pkg = _alpm_pkg_new(NULL, NULL);
-	if(pkg == NULL) {
-		return(NULL);
-	}
-	if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
-		return(NULL);
-	}
-	if(_alpm_db_read(db, inforeq, pkg) == -1) {
-		FREEPKG(pkg);
+		pkg = _alpm_pkg_new(NULL, NULL);
+		if(pkg == NULL) {
+			return(NULL);
+		}
+		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
+			_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
+			return(NULL);
+		}
+		if(_alpm_db_read(db, inforeq, pkg) == -1) {
+			/* TODO removed corrupt entry from the FS here */
+			FREEPKG(pkg);
+		}
 	}
 
 	return(pkg);
