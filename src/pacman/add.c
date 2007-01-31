@@ -67,7 +67,7 @@ int pacman_add(alpm_list_t *targets)
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-						    "       you can remove %s%s\n"), config->root, PM_LOCK);
+						    "       you can remove %s%s\n"), alpm_option_get_root(), PM_LOCK);
 		}
 		return(1);
 	}
@@ -124,7 +124,7 @@ int pacman_add(alpm_list_t *targets)
 					switch(alpm_conflict_get_type(conflict)) {
 						case PM_CONFLICT_TYPE_TARGET:
 							MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),
-											config->root,
+											alpm_option_get_root(),
 							        alpm_conflict_get_file(conflict),
 							        alpm_conflict_get_target(conflict),
 							        alpm_conflict_get_ctarget(conflict));
@@ -132,7 +132,7 @@ int pacman_add(alpm_list_t *targets)
 						case PM_CONFLICT_TYPE_FILE:
 							MSG(NL, _("%s: %s%s exists in filesystem"),
 							        alpm_conflict_get_target(conflict),
-											config->root,
+											alpm_option_get_root(),
 							        alpm_conflict_get_file(conflict));
 						break;
 					}

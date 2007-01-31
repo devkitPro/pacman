@@ -26,7 +26,6 @@
 #include <libintl.h>
 
 #include <alpm.h>
-#include <alpm_list.h>
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -51,9 +50,7 @@ int config_free(config_t *config)
 		return(-1);
 	}
 
-	FREE(config->root);
 	FREE(config->configfile);
-	FREELIST(config->op_s_ignore);
 	free(config);
 
 	return(0);

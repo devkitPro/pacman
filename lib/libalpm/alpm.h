@@ -63,7 +63,7 @@ typedef struct __pmconflict_t pmconflict_t;
  * Library
  */
 
-int alpm_initialize(const char *root);
+int alpm_initialize();
 int alpm_release(void);
 
 /*
@@ -72,13 +72,11 @@ int alpm_release(void);
 
 /* Levels */
 typedef enum _pmloglevel_t {
-	PM_LOG_DEBUG = 0x01,
-	PM_LOG_ERROR = 0x02,
-	PM_LOG_WARNING = 0x04,
-	PM_LOG_FLOW1 = 0x08,
-	PM_LOG_FLOW2 = 0x10,
-	PM_LOG_FUNCTION = 0x20,
-	PM_LOG_DOWNLOAD = 0x40
+	PM_LOG_ERROR    = 0x01,
+	PM_LOG_WARNING  = 0x02,
+	PM_LOG_DEBUG    = 0x04,
+	PM_LOG_DOWNLOAD = 0x08,
+	PM_LOG_FUNCTION = 0x10
 } pmloglevel_t;
 
 typedef void (*alpm_cb_log)(unsigned short, char *);

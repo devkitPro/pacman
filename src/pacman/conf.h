@@ -25,9 +25,6 @@
 
 typedef struct __config_t {
 	/* command line options */
-	char *root;
-	const char *dbpath;
-	const char *cachedir;
 	char *configfile;
 	unsigned short op;
 	unsigned short verbose;
@@ -49,14 +46,12 @@ typedef struct __config_t {
 	unsigned short op_s_clean;
 	unsigned short op_s_dependsonly;
 	unsigned short op_s_downloadonly;
-	alpm_list_t *op_s_ignore;
 	unsigned short op_s_info;
 	unsigned short op_s_sync;
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
 	unsigned short group;
 	unsigned int flags;
-	unsigned short debug;
 	unsigned short noask;
 	unsigned int ask;
 } config_t;

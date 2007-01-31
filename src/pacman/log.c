@@ -66,13 +66,10 @@ void cb_log(unsigned short level, char *msg)
 		case PM_LOG_WARNING:
 			sprintf(str, _("warning"));
 		break;
-		case PM_LOG_FLOW1:
-			sprintf(str, _("flow1"));
-		break;
-		case PM_LOG_FLOW2:
-			sprintf(str, _("flow2"));
-		break;
 		case PM_LOG_FUNCTION:
+		  /* TODO we should increase the indent level when this occurs so we can see
+			 * program flow easier.  It'll be fun
+			 */
 			sprintf(str, _("function"));
 		break;
 		default:
@@ -82,7 +79,7 @@ void cb_log(unsigned short level, char *msg)
 
 #ifdef PACMAN_DEBUG
 	/* If debug is on, we'll timestamp the output */
-  if(config->debug&PM_LOG_DEBUG) {
+  if(alpm_option_get_logmask() & PM_LOG_DEBUG) {
 		time_t t;
 		struct tm *tmp;
 		char timestr[10] = {0};

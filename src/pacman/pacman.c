@@ -251,7 +251,7 @@ static int parseargs(int argc, char *argv[])
 		{"noconfirm",  no_argument,       0, 1000},
 		{"config",     required_argument, 0, 1001},
 		{"ignore",     required_argument, 0, 1002},
-		{"debug",      required_argument, 0, 1003},
+		{"debug",      optional_argument, 0, 1003},
 		{"noprogressbar",  no_argument,   0, 1004},
 		{"noscriptlet", no_argument,      0, 1005},
 		{"ask",        required_argument, 0, 1006},
@@ -259,6 +259,7 @@ static int parseargs(int argc, char *argv[])
 	};
 	char root[PATH_MAX];
 	struct stat st;
+	unsigned short logmask;
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTDYr:b:vkhscVfmnoldepiuwyg", opts, &option_index))) {
 		if(opt < 0) {
@@ -277,8 +278,32 @@ static int parseargs(int argc, char *argv[])
 				config->configfile = strndup(optarg, PATH_MAX);
 				#endif
 				break;
-			case 1002: config->op_s_ignore = alpm_list_add(config->op_s_ignore, strdup(optarg)); break;
-			case 1003: config->debug = atoi(optarg); break;
+			case 1002: alpm_option_add_ignorepkg(strdup(optarg)); break;
+			case 1003:
+				/* debug levels are made more 'human readable' than using a raw logmask
+				 * here, we will ALWAYS set error and warning for now, though perhaps a
+				 * --quiet option will remove these later */
+				logmask = PM_LOG_ERROR | PM_LOG_WARNING;
+
+				if(optarg) {
+					unsigned short debug = atoi(optarg);
+					printf("setting logmask to %s\n", optarg);
+					switch(debug) {
+						case 3: logmask |= PM_LOG_FUNCTION; /* fall through */
+						case 2: logmask |= PM_LOG_DOWNLOAD; /*fall through */
+						case 1: logmask |= PM_LOG_DEBUG; break;
+						default:
+						  pm_fprintf(stderr, NL, _("error: '%s' is not a valid debug level"), optarg);
+							return(1);
+					}
+					printf("logmask = %d\n", logmask);
+				} else {
+					logmask |= PM_LOG_DEBUG;
+				}
+				/* progress bars get wonky with debug on, shut them off */
+				config->noprogressbar = 1;
+				alpm_option_set_logmask(logmask);
+				break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
 			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
@@ -305,10 +330,9 @@ static int parseargs(int argc, char *argv[])
 			case 'b':
 			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					pm_fprintf(stderr, NL, _("error: '%s' is not a valid db path\n"), optarg);
-					exit(EXIT_FAILURE);
+					return(1);
 				}
 				alpm_option_set_dbpath(optarg);
-				config->dbpath = alpm_option_get_dbpath(optarg);
 				break;
 			case 'c':
 				(config->op_s_clean)++;
@@ -334,12 +358,11 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_PRINTURIS;
 				break;
 			case 'r':
-			  printf("setting root path=%s\n", optarg);
 				if(realpath(optarg, root) == NULL) {
-					perror(_("bad root path"));
+					pm_fprintf(stderr, NL, _("error: '%s' is not a valid root path\n"), optarg);
 					return(1);
 				}
-				config->root = strdup(root);
+				alpm_option_set_root(strdup(root));
 				break;
 			case 's':
 				config->op_s_search = 1;
@@ -416,11 +439,15 @@ int main(int argc, char *argv[])
 	/* init config data */
 	config = config_new();
 	config->op = PM_OP_MAIN;
-	config->debug |= PM_LOG_ERROR;
-	config->debug |= PM_LOG_WARNING;
 	/* disable progressbar if the output is redirected */
 	if(!isatty(1)) {
 		config->noprogressbar = 1;
+	}
+
+	/* initialize pm library */
+	if(alpm_initialize() == -1) {
+		ERR(NL, _("failed to initilize alpm library (%s)\n"), alpm_strerror(pm_errno));
+		cleanup(1);
 	}
 
 	/* parse the command line */
@@ -447,7 +474,7 @@ int main(int argc, char *argv[])
 					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
 					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
 				 || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)
-				 || (config->root != NULL)) {
+				 || (strcmp(alpm_option_get_root(), PM_ROOT) != 0)) {
 				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
 				/* special case: ignore root user check if -r is specified, fall back on
 				 * normal FS checking */
@@ -460,18 +487,7 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	if(config->root == NULL) {
-		config->root = strdup(PM_ROOT);
-	}
-
-	/* initialize pm library */
-	if(alpm_initialize(config->root) == -1) {
-		ERR(NL, _("failed to initilize alpm library (%s)\n"), alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-
 	/* Setup logging as soon as possible, to print out maximum debugging info */
-	alpm_option_set_logmask(config->debug);
 	alpm_option_set_logcb(cb_log);
 
 	if(config->configfile == NULL) {
@@ -486,17 +502,9 @@ int main(int argc, char *argv[])
 	/* set library parameters */
 	alpm_option_set_dlcb(log_progress);
 
-	config->dbpath = alpm_option_get_dbpath();
-	config->cachedir = alpm_option_get_cachedir();
-
-	alpm_list_t *i;
-	for(i = config->op_s_ignore; i; i = alpm_list_next(i)) {
-		alpm_option_add_ignorepkg(alpm_list_getdata(i));
-	}
-	
 	if(config->verbose > 0) {
-		printf("Root  : %s\n", config->root);
-		printf("DBPath: %s\n", config->dbpath);
+		printf("Root  : %s\n", alpm_option_get_root());
+		printf("DBPath: %s\n", alpm_option_get_dbpath());
 		list_display(_("Targets:"), pm_targets);
 	}
 

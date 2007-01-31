@@ -89,7 +89,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		}
 	}
 
-	_alpm_log(PM_LOG_FLOW2, _("adding %s in the targets list"), info->name);
+	_alpm_log(PM_LOG_DEBUG, _("adding %s in the targets list"), info->name);
 	trans->packages = alpm_list_add(trans->packages, info);
 
 	return(0);
@@ -107,7 +107,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_FLOW1, _("looking for unsatisfied dependencies"));
+		_alpm_log(PM_LOG_DEBUG, _("looking for unsatisfied dependencies"));
 		lp = _alpm_checkdeps(trans, db, trans->type, trans->packages);
 		if(lp != NULL) {
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
@@ -117,7 +117,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 						pmpkg_t *info = _alpm_db_scan(db, miss->depend.name, INFRQ_ALL);
 						if(info) {
-							_alpm_log(PM_LOG_FLOW2, _("pulling %s in the targets list"), info->name);
+							_alpm_log(PM_LOG_DEBUG, _("pulling %s in the targets list"), info->name);
 							trans->packages = alpm_list_add(trans->packages, info);
 						} else {
 							_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping"),
@@ -138,12 +138,12 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 
 		if(trans->flags & PM_TRANS_FLAG_RECURSE) {
-			_alpm_log(PM_LOG_FLOW1, _("finding removable dependencies"));
+			_alpm_log(PM_LOG_DEBUG, _("finding removable dependencies"));
 			trans->packages = _alpm_removedeps(db, trans->packages);
 		}
 
 		/* re-order w.r.t. dependencies */ 
-		_alpm_log(PM_LOG_FLOW1, _("sorting by dependencies"));
+		_alpm_log(PM_LOG_DEBUG, _("sorting by dependencies"));
 		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 		/* free the old alltargs */
 		FREELISTPTR(trans->packages);
@@ -212,7 +212,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 			}
 		}
 		if ( skipit ) {
-			_alpm_log(PM_LOG_FLOW2, _("skipping removal of %s as it has moved to another package"),
+			_alpm_log(PM_LOG_DEBUG, _("skipping removal of %s as it has moved to another package"),
 								line);
 		} else {
 			/* if the file is flagged, back it up to .pacsave */
@@ -228,7 +228,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 					}
 				}
 			} else {
-				_alpm_log(PM_LOG_FLOW2, _("unlinking %s"), line);
+				_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), line);
 				int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
 				++(*position);
@@ -262,7 +262,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
-			_alpm_log(PM_LOG_FLOW1, _("removing package %s-%s"), info->name, info->version);
+			_alpm_log(PM_LOG_DEBUG, _("removing package %s-%s"), info->name, info->version);
 
 			/* run the pre-remove scriptlet if it exists  */
 			if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
@@ -273,7 +273,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 			int filenum = alpm_list_count(info->files);
-			_alpm_log(PM_LOG_FLOW1, _("removing files"));
+			_alpm_log(PM_LOG_DEBUG, _("removing files"));
 
 			/* iterate through the list backwards, unlinking files */
 			for(lp = alpm_list_last(info->files); lp; lp = lp->prev) {
@@ -290,8 +290,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* remove the package from the database */
-		_alpm_log(PM_LOG_FLOW1, _("updating database"));
-		_alpm_log(PM_LOG_FLOW2, _("removing database entry '%s'"), info->name);
+		_alpm_log(PM_LOG_DEBUG, _("updating database"));
+		_alpm_log(PM_LOG_DEBUG, _("removing database entry '%s'"), info->name);
 		if(_alpm_db_remove(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s"), info->name, info->version);
 		}
@@ -300,7 +300,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
-		_alpm_log(PM_LOG_FLOW2, _("updating dependency packages 'requiredby' fields"));
+		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields"));
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo = NULL;
 			pmdepend_t depend;
@@ -355,7 +355,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 	/* run ldconfig if it exists */
 	if((trans->type != PM_TRANS_TYPE_UPGRADE) && (handle->trans->state != STATE_INTERRUPTED)) {
-		_alpm_log(PM_LOG_FLOW1, _("running \"ldconfig -r %s\""), handle->root);
+		_alpm_log(PM_LOG_DEBUG, _("running \"ldconfig -r %s\""), handle->root);
 		_alpm_ldconfig(handle->root);
 	}
 

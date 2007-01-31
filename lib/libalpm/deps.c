@@ -495,7 +495,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 
 			/* see if it was explicitly installed */
 			if(dep->reason == PM_PKG_REASON_EXPLICIT) {
-				_alpm_log(PM_LOG_FLOW2, _("excluding %s -- explicitly installed"), dep->name);
+				_alpm_log(PM_LOG_DEBUG, _("excluding %s -- explicitly installed"), dep->name);
 				needed = 1;
 			}
 
@@ -515,7 +515,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 				_alpm_log(PM_LOG_DEBUG, _("loading ALL info for '%s'"), pkg->name);
 				_alpm_db_read(db, INFRQ_ALL, pkg);
 				newtargs = alpm_list_add(newtargs, pkg);
-				_alpm_log(PM_LOG_FLOW2, _("adding '%s' to the targets"), pkg->name);
+				_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
 				newtargs = _alpm_removedeps(db, newtargs);
 			}
 		}

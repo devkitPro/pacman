@@ -72,26 +72,16 @@ enum _pmerrno_t pm_errno SYMEXPORT;
 
 /** Initializes the library.  This must be called before any other
  * functions are called.
- * @param root the full path of the root we'll be installing to (usually /)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_initialize(const char *root)
+int SYMEXPORT alpm_initialize()
 {
-	char str[PATH_MAX];
-
 	ASSERT(handle == NULL, RET_ERR(PM_ERR_HANDLE_NOT_NULL, -1));
 
 	handle = _alpm_handle_new();
 	if(handle == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
-
-	STRNCPY(str, (root) ? root : PM_ROOT, PATH_MAX);
-	/* add a trailing '/' if there isn't one */
-	if(str[strlen(str)-1] != '/') {
-		strcat(str, "/");
-	}
-	handle->root = strdup(str);
 
 	return(0);
 }
@@ -185,7 +175,7 @@ int alpm_db_unregister(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	_alpm_log(PM_LOG_FLOW1, _("unregistering database '%s'"), db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("unregistering database '%s'"), db->treename);
 
 	/* Cleanup */
 	_alpm_db_free_pkgcache(db);
@@ -236,11 +226,11 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
 			return(-1);
 		}
 		db->servers = alpm_list_add(db->servers, server);
-		_alpm_log(PM_LOG_FLOW2, _("adding new server to database '%s': protocol '%s', server '%s', path '%s'"),
+		_alpm_log(PM_LOG_DEBUG, _("adding new server to database '%s': protocol '%s', server '%s', path '%s'"),
 				db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
 	} else {
 		FREELIST(db->servers);
-		_alpm_log(PM_LOG_FLOW2, _("serverlist flushed for '%s'"), db->treename);
+		_alpm_log(PM_LOG_DEBUG, _("serverlist flushed for '%s'"), db->treename);
 	}
 
 	return(0);
@@ -312,7 +302,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, handle->root, handle->dbpath, db->treename);
 
 		/* remove the old dir */
-		_alpm_log(PM_LOG_FLOW2, _("flushing database %s/%s"), handle->dbpath, db->treename);
+		_alpm_log(PM_LOG_DEBUG, _("flushing database %s/%s"), handle->dbpath, db->treename);
 		for(lp = _alpm_db_get_pkgcache(db, INFRQ_NONE); lp; lp = lp->next) {
 			if(_alpm_db_remove(db, lp->data) == -1) {
 				if(lp->data) {
@@ -497,7 +487,7 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 		}
 
 		if(strcmp(sha1sum, pkg->sha1sum) == 0) {
-			_alpm_log(PM_LOG_FLOW1, _("checksums for package %s-%s are matching"),
+			_alpm_log(PM_LOG_DEBUG, _("checksums for package %s-%s are matching"),
 			                        pkg->name, pkg->version);
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s"),
@@ -546,7 +536,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 		}
 
 		if(strcmp(md5sum, pkg->md5sum) == 0) {
-			_alpm_log(PM_LOG_FLOW1, _("checksums for package %s-%s are matching"),
+			_alpm_log(PM_LOG_DEBUG, _("checksums for package %s-%s are matching"),
 			                        pkg->name, pkg->version);
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s"),

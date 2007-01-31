@@ -468,7 +468,7 @@ int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, cha
 		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)"), root, strerror(errno));
 	}
 
-	_alpm_log(PM_LOG_FLOW2, _("executing %s script..."), script);
+	_alpm_log(PM_LOG_DEBUG, _("executing %s script..."), script);
 
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, "source %s %s %s %s",

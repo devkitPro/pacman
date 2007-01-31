@@ -67,7 +67,7 @@ int pacman_deptest(alpm_list_t *targets)
 		ERR(NL, "%s", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-			  			"       you can remove %s%s\n"), config->root, PM_LOCK);
+			  			"       you can remove %s%s\n"), alpm_option_get_root(), PM_LOCK);
 		}
 		return(1);
 	}

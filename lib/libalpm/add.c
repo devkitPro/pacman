@@ -126,7 +126,7 @@ int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		return(add_faketarget(trans, name));
 	}
 
-	_alpm_log(PM_LOG_FLOW2, _("loading target '%s'"), name);
+	_alpm_log(PM_LOG_DEBUG, _("loading target '%s'"), name);
 
 	/* TODO FS#5120 we need a better way to check if a package is a valid package,
 	 * and read the metadata instead of relying on the filename for package name
@@ -188,7 +188,7 @@ int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		}
 	}
 
-	_alpm_log(PM_LOG_FLOW2, _("reading '%s' metadata"), pkgname);
+	_alpm_log(PM_LOG_DEBUG, _("reading '%s' metadata"), pkgname);
 	info = _alpm_pkg_load(name);
 	if(info == NULL) {
 		/* pm_errno is already set by pkg_load() */
@@ -241,7 +241,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		/* look for unsatisfied dependencies */
-		_alpm_log(PM_LOG_FLOW1, _("looking for unsatisfied dependencies"));
+		_alpm_log(PM_LOG_DEBUG, _("looking for unsatisfied dependencies"));
 		lp = _alpm_checkdeps(trans, db, trans->type, trans->packages);
 		if(lp != NULL) {
 			if(data) {
@@ -253,7 +253,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 
 		/* no unsatisfied deps, so look for conflicts */
-		_alpm_log(PM_LOG_FLOW1, _("looking for conflicts"));
+		_alpm_log(PM_LOG_DEBUG, _("looking for conflicts"));
 		lp = _alpm_checkconflicts(db, trans->packages);
 		for(i = lp; i; i = i->next) {
 			int skip_this = 0;
@@ -292,7 +292,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 
 		/* re-order w.r.t. dependencies */
-		_alpm_log(PM_LOG_FLOW1, _("sorting by dependencies"));
+		_alpm_log(PM_LOG_DEBUG, _("sorting by dependencies"));
 		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_ADD);
 		/* free the old alltargs */
 		FREELISTPTR(trans->packages);
@@ -304,7 +304,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	/* Cleaning up
 	 */
 	EVENT(trans, PM_TRANS_EVT_CLEANUP_START, NULL, NULL);
-	_alpm_log(PM_LOG_FLOW1, _("cleaning up"));
+	_alpm_log(PM_LOG_DEBUG, _("cleaning up"));
 	for (lp=trans->packages; lp!=NULL; lp=lp->next) {
 		info=(pmpkg_t *)lp->data;
 		for (rmlist=info->removes; rmlist!=NULL; rmlist=rmlist->next) {
@@ -321,7 +321,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_FLOW1, _("looking for file conflicts"));
+		_alpm_log(PM_LOG_DEBUG, _("looking for file conflicts"));
 		lp = _alpm_db_find_conflicts(db, trans, handle->root, &skiplist);
 		if(lp != NULL) {
 			if(data) {
@@ -388,7 +388,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			if(local) {
 				EVENT(trans, PM_TRANS_EVT_UPGRADE_START, info, NULL);
 				cb_state = PM_TRANS_PROGRESS_UPGRADE_START;
-				_alpm_log(PM_LOG_FLOW1, _("upgrading package %s-%s"), info->name, info->version);
+				_alpm_log(PM_LOG_DEBUG, _("upgrading package %s-%s"), info->name, info->version);
 				if((what = (char *)malloc(strlen(info->name)+1)) == NULL) {
 					RET_ERR(PM_ERR_MEMORY, -1);
 				}
@@ -420,7 +420,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				if(oldpkg) {
 					pmtrans_t *tr;
-					_alpm_log(PM_LOG_FLOW1, _("removing old package first (%s-%s)"), oldpkg->name, oldpkg->version);
+					_alpm_log(PM_LOG_DEBUG, _("removing old package first (%s-%s)"), oldpkg->name, oldpkg->version);
 					tr = _alpm_trans_new();
 					if(tr == NULL) {
 						RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -450,7 +450,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		if(!pmo_upgrade) {
 			EVENT(trans, PM_TRANS_EVT_ADD_START, info, NULL);
 			cb_state = PM_TRANS_PROGRESS_ADD_START;
-			_alpm_log(PM_LOG_FLOW1, _("adding package %s-%s"), info->name, info->version);
+			_alpm_log(PM_LOG_DEBUG, _("adding package %s-%s"), info->name, info->version);
 			if((what = (char *)malloc(strlen(info->name)+1)) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
@@ -461,11 +461,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				_alpm_runscriptlet(handle->root, info->data, "pre_install", info->version, NULL, trans);
 			}
 		} else {
-			_alpm_log(PM_LOG_FLOW1, _("adding new package %s-%s"), info->name, info->version);
+			_alpm_log(PM_LOG_DEBUG, _("adding new package %s-%s"), info->name, info->version);
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
-			_alpm_log(PM_LOG_FLOW1, _("extracting files"));
+			_alpm_log(PM_LOG_DEBUG, _("extracting files"));
 
 			/* Extract the package */
 			if ((archive = archive_read_new ()) == NULL)
@@ -685,7 +685,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						}
 
 						if(installnew) {
-							_alpm_log(PM_LOG_FLOW2, _("extracting %s"), pathname);
+							_alpm_log(PM_LOG_DEBUG, _("extracting %s"), pathname);
 							if(_alpm_copyfile(temp, expath)) {
 								_alpm_log(PM_LOG_ERROR, _("could not copy %s to %s (%s)"), temp, pathname, strerror(errno));
 								errors++;
@@ -705,9 +705,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					close(fd);
 				} else {
 					if(!notouch) {
-						_alpm_log(PM_LOG_FLOW2, _("extracting %s"), pathname);
+						_alpm_log(PM_LOG_DEBUG, _("extracting %s"), pathname);
 					} else {
-						_alpm_log(PM_LOG_FLOW2, _("%s is in NoUpgrade -- skipping"), pathname);
+						_alpm_log(PM_LOG_DEBUG, _("%s is in NoUpgrade -- skipping"), pathname);
 						strncat(expath, ".pacnew", PATH_MAX);
 						_alpm_log(PM_LOG_WARNING, _("extracting %s as %s.pacnew"), pathname, pathname);
 						alpm_logaction(_("warning: extracting %s%s as %s"), handle->root, pathname, expath);
@@ -800,8 +800,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* remove the extra line feed appended by asctime() */
 		info->installdate[strlen(info->installdate)-1] = 0;
 
-		_alpm_log(PM_LOG_FLOW1, _("updating database"));
-		_alpm_log(PM_LOG_FLOW2, _("adding database entry '%s'"), info->name);
+		_alpm_log(PM_LOG_DEBUG, _("updating database"));
+		_alpm_log(PM_LOG_DEBUG, _("adding database entry '%s'"), info->name);
 		if(_alpm_db_write(db, info, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s"),
 			          info->name, info->version);
@@ -815,7 +815,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* XXX: This is copy-pasta from remove.c - refactor */
 		/* update dependency packages' REQUIREDBY fields */
 		if(info->depends) {
-			_alpm_log(PM_LOG_FLOW2, _("updating dependency packages 'requiredby' fields"));
+			_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields"));
 		}
 		for(lp = info->depends; lp; lp = lp->next) {
 			pmpkg_t *depinfo;
@@ -875,7 +875,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 	/* run ldconfig if it exists */
 	if(handle->trans->state != STATE_INTERRUPTED) {
-		_alpm_log(PM_LOG_FLOW1, _("running \"ldconfig -r %s\""), handle->root);
+		_alpm_log(PM_LOG_DEBUG, _("running \"ldconfig -r %s\""), handle->root);
 		_alpm_ldconfig(handle->root);
 	}
 
