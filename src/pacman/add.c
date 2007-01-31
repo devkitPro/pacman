@@ -38,7 +38,7 @@ extern config_t *config;
 
 int pacman_add(alpm_list_t *targets)
 {
-	alpm_list_t *i = targets, *data;
+	alpm_list_t *i = targets, *data = NULL;
 	int retval = 0;
 
 	if(targets == NULL) {

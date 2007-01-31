@@ -39,7 +39,7 @@ extern pmdb_t *db_local;
 
 int pacman_remove(alpm_list_t *targets)
 {
-	alpm_list_t *data, *i, *j, *finaltargs = NULL;
+	alpm_list_t *data = NULL, *i, *j, *finaltargs = NULL;
 	int retval = 0;
 
 	if(targets == NULL) {
