@@ -504,25 +504,17 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					PROGRESS(trans, cb_state, what, (int)(percent * 100), alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 				}
 
-				if(!strcmp(pathname, ".PKGINFO") || !strcmp(pathname, ".FILELIST")) {
+				if(strcmp(pathname, ".PKGINFO") == 0 || strcmp(pathname, ".FILELIST") == 0) {
 					archive_read_data_skip (archive);
 					continue;
-				}
-
-				/*if(!strcmp(pathname, "._install") || !strcmp(pathname, ".INSTALL")) {
-				*	 the install script goes inside the db 
-				*	snprintf(expath, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version); */
-				if(!strcmp(pathname, "._install") || !strcmp(pathname, ".INSTALL") ||
-					!strcmp(pathname, ".CHANGELOG")) {
-					if(!strcmp(pathname, ".CHANGELOG")) {
-						/* the changelog goes inside the db */
-						snprintf(expath, PATH_MAX, "%s/%s-%s/changelog", db->path,
-							info->name, info->version);
-					} else {
-						/* the install script goes inside the db */
-						snprintf(expath, PATH_MAX, "%s/%s-%s/install", db->path,
-							info->name, info->version);
-					}
+				} else if(strcmp(pathname, ".INSTALL") == 0) {
+					/* the install script goes inside the db */
+					snprintf(expath, PATH_MAX, "%s/%s-%s/install", db->path,
+									 info->name, info->version);
+				} else if(strcmp(pathname, ".CHANGELOG") == 0) {
+					/* the changelog goes inside the db */
+					snprintf(expath, PATH_MAX, "%s/%s-%s/changelog", db->path,
+									 info->name, info->version);
 				} else {
 					/* build the new pathname relative to handle->root */
 					snprintf(expath, PATH_MAX, "%s%s", handle->root, pathname);
