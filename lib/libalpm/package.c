@@ -268,12 +268,15 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
+	/* TODO there is no reason to make temp files to read
+	 * from a libarchive archive, it can be done by reading
+	 * directly from the archive */
 	for(i = 0; archive_read_next_header (archive, &entry) == ARCHIVE_OK; i++) {
 		if(config && filelist && scriptcheck) {
 			/* we have everything we need */
 			break;
 		}
-		if(!strcmp(archive_entry_pathname (entry), ".PKGINFO")) {
+		if(strcmp(archive_entry_pathname (entry), ".PKGINFO") == 0) {
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(descfile);
@@ -296,10 +299,10 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			FREE(descfile);
 			close(fd);
 			continue;
-		} else if(!strcmp(archive_entry_pathname (entry), "._install") || !strcmp(archive_entry_pathname (entry),  ".INSTALL")) {
+		} else if(strcmp(archive_entry_pathname (entry),  ".INSTALL") == 0) {
 			info->scriptlet = 1;
 			scriptcheck = 1;
-		} else if(!strcmp(archive_entry_pathname (entry), ".FILELIST")) {
+		} else if(strcmp(archive_entry_pathname (entry), ".FILELIST") == 0) {
 			/* Build info->files from the filelist */
 			FILE *fp;
 			char *fn;
