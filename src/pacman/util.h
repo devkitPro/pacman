@@ -52,7 +52,6 @@ unsigned int getcols();
 int makepath(char *path);
 int rmrf(char *path);
 void indentprint(const char *str, unsigned int indent);
-char *buildstring(alpm_list_t *strlist);
 char *strtoupper(char *str);
 char *strtrim(char *str);
 int reg_match(char *string, char *pattern);

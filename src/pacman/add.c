@@ -76,12 +76,13 @@ int pacman_add(alpm_list_t *targets)
 	MSG(NL, _("loading package data... "));
 	for(i = targets; i; i = i->next) {
 		if(alpm_trans_addtarget(i->data) == -1) {
+			MSG(NL, "\n");
 			ERR(NL, _("failed to add target '%s' (%s)\n"), (char *)i->data, alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
 	}
-	MSG(CL, _("done."));
+	MSG(CL, _("done.\n"));
 
 	/* Step 2: "compute" the transaction based on targets and flags
 	 */

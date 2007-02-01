@@ -194,32 +194,6 @@ void indentprint(const char *str, unsigned int indent)
 	}
 }
 
-/* Condense a list of strings into one long (space-delimited) string
- */
-char *buildstring(alpm_list_t *strlist)
-{
-	char *str;
-	size_t size = 1;
-	alpm_list_t *i;
-
-	for(i = strlist; i; i = alpm_list_next(i)) {
-		size += strlen(alpm_list_getdata(i)) + 1;
-	}
-	str = (char *)malloc(size);
-	if(str == NULL) {
-		ERR(NL, _("failed to allocate %d bytes\n"), size);
-	}
-	str[0] = '\0';
-	for(i = strlist; i; i = alpm_list_next(i)) {
-		strcat(str, alpm_list_getdata(i));
-		strcat(str, " ");
-	}
-	/* shave off the last space */
-	str[strlen(str)-1] = '\0';
-
-	return(str);
-}
-
 /* Convert a string to uppercase
  */
 char *strtoupper(char *str)
@@ -265,17 +239,17 @@ void list_display(const char *title, alpm_list_t *list)
 	if(list) {
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
-			int s = strlen(str)+1;
+			int s = strlen(str) + 2;
 			unsigned int maxcols = getcols();
 			if(s + cols >= maxcols) {
 				int i;
 				cols = len;
 				printf("\n");
-				for (i = 0; i < len+1; ++i) {
+				for (i = 0; i <= len; ++i) {
 					printf(" ");
 				}
 			}
-			printf("%s ", str);
+			printf("%s  ", str);
 			cols += s;
 		}
 		printf("\n");

@@ -292,6 +292,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 				pmgrp_t *grp = alpm_db_readgrp(db, grpname);
 
 				if(grp) {
+					/* TODO this should be a lot cleaner, why two outputs? */
 					MSG(NL, "%s\n", (char *)alpm_grp_get_name(grp));
 					list_display("   ", alpm_grp_get_packages(grp));
 				}
@@ -659,12 +660,9 @@ int pacman_sync(alpm_list_t *targets)
 			list_install = alpm_list_add(list_install, str);
 		}
 		if(list_remove) {
-			MSG(NL, _("\nRemove:  "));
-			str = buildstring(list_remove);
-			indentprint(str, 9);
-			MSG(CL, "\n");
+			MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */
+			list_display(_("Remove:"), list_remove);
 			FREELIST(list_remove);
-			FREE(str);
 		}
 		mb = (double)(totalsize / 1048576.0);
 		umb = (double)(totalisize / 1048576.0);
@@ -675,15 +673,13 @@ int pacman_sync(alpm_list_t *targets)
 		if(umb > 0 && umb < 0.1) {
 			umb = 0.1;
 		}
-		MSG(NL, _("\nTargets: "));
-		str = buildstring(list_install);
-		indentprint(str, 9);
+		MSG(NL, "\n");
+		list_display(_("Targets:"), list_install);
 		MSG(NL, _("\nTotal Package Size:   %.1f MB\n"), mb);
 		if(umb > 0) {
 		  MSG(NL, _("Total Installed Size:   %.1f MB\n"), umb);
 		}
 		FREELIST(list_install);
-		FREE(str);
 
 		if(config->op_s_downloadonly) {
 			if(config->noconfirm) {

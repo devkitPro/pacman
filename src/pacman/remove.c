@@ -121,7 +121,8 @@ int pacman_remove(alpm_list_t *targets)
 			pmpkg_t *pkg = alpm_list_getdata(i);
 			lst = alpm_list_add(lst, strdup(alpm_pkg_get_name(pkg)));
 		}
-		list_display(_("\nTargets:"), lst);
+		MSG(NL, "\n");
+		list_display(_("Targets:"), lst);
 		FREELIST(lst);
 		/* get confirmation */
 		if(yesno(_("\nDo you want to remove these packages? [Y/n] ")) == 0) {
