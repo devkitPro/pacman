@@ -5,5 +5,5 @@ $(dist_pkgsysconf_DATA): mirrorlist
 	sed "s|@@REPO@@|$@|g" <$< >$@
 
 clean:
-	rm $(dist_pkgsysconf_DATA)
+	rm -f $(dist_pkgsysconf_DATA)
 
