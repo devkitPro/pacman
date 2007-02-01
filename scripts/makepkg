@@ -626,7 +626,6 @@ else
 			msg "Generating ${integrity_name}s for source files"
 			plain ""
 			ct=0
-			newline=0
 			numsrc=${#source[@]}
 			for netfile in "${source[@]}"; do
 				file=$(strip_url "$netfile")
@@ -641,8 +640,7 @@ else
 				if [ $ct -eq $numsrc ]; then
 					echo ')'
 				else
-					echo ' \'
-					newline=0
+					echo
 				fi
 			done
 			plain ""
