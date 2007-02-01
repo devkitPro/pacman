@@ -924,7 +924,7 @@ msg "Compressing package..."
 cd "$startdir/pkg"
 
 pkg_file="$PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT}"
-comp_files=".PKGINFO .FILELIST ${install:+.INSTALL}"
+comp_files=".PKGINFO .FILELIST .INSTALL"
 [ $have_changelog -eq 1 ] && comp_files=".CHANGELOG $comp_files"
 
 if ! tar czf $pkg_file $comp_files *; then
