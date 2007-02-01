@@ -861,6 +861,11 @@ else
 fi
 size=$(du -cb $startdir/pkg | tail -n 1 | awk '{print $1}')
 
+# build a filelist - do this first to keep meta files out of the list
+msg "Generating .FILELIST file..."
+cd "$startdir/pkg"
+tar cvf /dev/null * | sort >.FILELIST
+
 # write the .PKGINFO file
 msg "Generating .PKGINFO file..."
 cd $startdir/pkg
@@ -913,11 +918,6 @@ if [ -f "$startdir/ChangeLog" ]; then
 	cp "$startdir/ChangeLog" "$startdir/pkg/.CHANGELOG"
 	have_changelog=1
 fi
-
-# build a filelist
-msg "Generating .FILELIST file..."
-cd "$startdir/pkg"
-tar cvf /dev/null * | sort >.FILELIST
 
 # tar it up
 msg "Compressing package..."
