@@ -524,7 +524,10 @@ msg "Making package: $pkgname $pkgver-$pkgrel ($(date))"
 unset deplist makedeplist
 # fix flyspray bug #5973
 if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
-	warning "skipping dependency checks"
+	if [ "$NODEPS" = "1" ]; then
+		warning "skipping dependency checks"
+	fi
+	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
 	msg "Checking Runtime Dependencies..."
 	deplist=$(checkdeps ${depends[@]})
