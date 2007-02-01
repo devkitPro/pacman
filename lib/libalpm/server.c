@@ -187,7 +187,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 
 				if(downloadLastErrCode != 0 || dlf == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s://%s: %s"), fn,
+					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s://%s : %s"), fn,
 										server->s_url->scheme, server->s_url->host, downloadLastErrString);
 					if(localf != NULL) {
 						fclose(localf);

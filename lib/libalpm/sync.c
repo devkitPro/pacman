@@ -1079,6 +1079,13 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			unlink(i->data);
 		}
 	}
+
+	/* run ldconfig if it exists */
+	if(handle->trans->state != STATE_INTERRUPTED) {
+		_alpm_log(PM_LOG_DEBUG, _("running \"ldconfig -r %s\""), handle->root);
+		_alpm_ldconfig(handle->root);
+	}
+
 	return(0);
 
 error:
