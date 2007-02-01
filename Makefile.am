@@ -1,15 +1,5 @@
 SUBDIRS = lib/libalpm src/util src/pacman scripts doc doc/hu etc 
 
-if HAS_PERL
-SUBDIRS += bindings/perl
-endif
-if HAS_PYTHON
-SUBDIRS += bindings/python
-endif
-if HAS_JAVA
-SUBDIRS += bindings/java
-endif
-
 EXTRA_DIST =		\
 	ChangeLog  	\
 	COPYING		\
