@@ -207,82 +207,6 @@ else
 fi
 AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
 
-dnl Check for swig binary
-AC_CHECK_PROGS([SWIG], [swig])
-
-dnl Check for python support
-AC_MSG_CHECKING(if Python bindings should be generated)
-if test x$wantpython = xyes ; then
-    AM_CONDITIONAL(HAS_PYTHON, test $SWIG)
-    if test $SWIG ; then
-        AC_DEFINE([HAS_PYTHON], [TRUE], [Enabled Python Support])
-	AC_MSG_RESULT(yes)
-	PYTHONSTATUS="yes, path: `which $SWIG`"
-    else
-        AC_DEFINE([HAS_PYTHON], [FALSE], [Disabled Python support])
-	AC_MSG_RESULT(no, swig missing)
-	PYTHONSTATUS="swig binary not found"
-    fi
-else
-    AM_CONDITIONAL(HAS_PYTHON, test $PYTHON)
-    AC_DEFINE([HAS_PYTHON], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
-    PYTHONSTATUS="no, disabled by configure"
-fi
-
-dnl Check for perl support
-AC_MSG_CHECKING(if Perl bindings should be generated)
-if test x$wantperl = xyes ; then
-    AM_CONDITIONAL(HAS_PERL, test $SWIG)
-    if test $SWIG ; then
-        AC_DEFINE([HAS_PERL], [TRUE], [Enabled Perl Support])
-	AC_MSG_RESULT(yes)
-	PERLSTATUS="yes, path: `which $SWIG`"
-    else
-        AC_DEFINE([HAS_PERL], [FALSE], [Disabled Perl support])
-	AC_MSG_RESULT(no, swig missing)
-	PERLSTATUS="swig binary not found"
-    fi
-else
-    AM_CONDITIONAL(HAS_PERL, test $PERL)
-    AC_DEFINE([HAS_PERL], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
-    PERLSTATUS="no, disabled by configure"
-fi
-
-dnl Check for java support
-AC_MSG_CHECKING(if Java bindings should be generated)
-if test x$wantjava = xyes ; then
- 	AC_CHECK_PROGS([JAVAC], [javac])
- 	AM_CONDITIONAL(HAS_JAVA, test "$JAVAC" -a "$SWIG")
- 	if test $JAVAC ; then
- 		if test $SWIG ; then
- 			AC_DEFINE([HAS_JAVA], [TRUE], [Enabled Java Support (javac=ok swig=ok)])
- 			AC_MSG_RESULT(yes)
- 			JAVASTATUS="yes, path: `which $JAVAC`"
- 		else
- 			AC_DEFINE([HAS_JAVA], [FALSE], [Java support disabled because swig not found (javac=ok swig=missing)])
- 			AC_MSG_RESULT(no, swig not found and that is need for java)
- 			JAVASTATUS="java compiler found, swig not found"
- 		fi
- 	else
- 		if test $SWIG ; then
- 			AC_DEFINE([HAS_JAVA], [FALSE], [Disabled Java support (javac=missing swig=ok])
- 			AC_MSG_RESULT(no, javac missing, swig ok)
- 			JAVASTATUS="java compiler not found, swig found"
- 		else
- 			AC_DEFINE([HAS_JAVA], [FALSE], [Disabled Java support (javac=missing swig=missing])
- 			AC_MSG_RESULT(no, javac missing, swig missing)
- 			JAVASTATUS="java compiler not found, swig not found"
- 		fi
- 	fi
-else
-    AM_CONDITIONAL(HAS_JAVA, test $JAVAC -a $SWIG)
-    AC_DEFINE([HAS_JAVA], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
-    JAVASTATUS="no, disabled by configure"
-fi
-
 dnl Check for math
 AC_CHECK_LIB([m], [sqrt], [AC_CHECK_HEADER([math.h], [LIBM='-lm'])])
 if test -z "$LIBM"; then
@@ -375,9 +299,6 @@ pacman-$VERSION:
 
     Doxygen support          : ${DOXYSTATUS}
     Manpage localization     : ${POSTATUS}
-    Perl bindings            : ${PERLSTATUS}
-    Python bindings          : ${PYTHONSTATUS}
-    Java bindings            : ${JAVASTATUS}
 
     debug support            : ${debug}
 "
