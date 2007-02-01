@@ -241,11 +241,12 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	int config = 0;
 	int filelist = 0;
 	int scriptcheck = 0;
-	register struct archive *archive;
+	struct archive *archive;
 	struct archive_entry *entry;
 	pmpkg_t *info = NULL;
 	char *descfile = NULL;
 	int fd = -1;
+	alpm_list_t *all_files = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -272,11 +273,14 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	 * from a libarchive archive, it can be done by reading
 	 * directly from the archive */
 	for(i = 0; archive_read_next_header (archive, &entry) == ARCHIVE_OK; i++) {
+		const char *entry_name = archive_entry_pathname(entry);
+
 		if(config && filelist && scriptcheck) {
 			/* we have everything we need */
 			break;
 		}
-		if(strcmp(archive_entry_pathname (entry), ".PKGINFO") == 0) {
+
+		if(strcmp(entry_name, ".PKGINFO") == 0) {
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(descfile);
@@ -299,10 +303,10 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			FREE(descfile);
 			close(fd);
 			continue;
-		} else if(strcmp(archive_entry_pathname (entry),  ".INSTALL") == 0) {
+		} else if(strcmp(entry_name,  ".INSTALL") == 0) {
 			info->scriptlet = 1;
 			scriptcheck = 1;
-		} else if(strcmp(archive_entry_pathname (entry), ".FILELIST") == 0) {
+		} else if(strcmp(entry_name, ".FILELIST") == 0) {
 			/* Build info->files from the filelist */
 			FILE *fp;
 			char *fn;
@@ -314,7 +318,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			}
 			fn = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(fn);
-			archive_read_data_into_fd (archive,fd);
+			archive_read_data_into_fd(archive,fd);
 			fp = fopen(fn, "r");
 			while(!feof(fp)) {
 				if(fgets(str, PATH_MAX, fp) == NULL) {
@@ -334,28 +338,29 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			continue;
 		} else {
 			scriptcheck = 1;
-			if(!filelist) {
-				/* no .FILELIST present in this package..  build the filelist the */
-				/* old-fashioned way, one at a time */
-				expath = strdup(archive_entry_pathname (entry));
-				info->files = alpm_list_add(info->files, expath);
-			}
+			/* Keep track of all files so we can generate a filelist later if missing */
+			all_files = alpm_list_add(all_files, strdup(entry_name));
 		}
 
-		if(archive_read_data_skip (archive)) {
+		if(archive_read_data_skip(archive)) {
 			_alpm_log(PM_LOG_ERROR, _("bad package file in %s"), pkgfile);
 			goto error;
 		}
 		expath = NULL;
 	}
-	archive_read_finish (archive);
+	archive_read_finish(archive);
 
 	if(!config) {
 		_alpm_log(PM_LOG_ERROR, _("missing package info file in %s"), pkgfile);
 		goto error;
-	} else if(!filelist) {
-		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s"), pkgfile);
-		goto error;
+	}
+	
+	if(!filelist) {
+		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s, generating one"), pkgfile);
+		info->files = all_files;
+	} else {
+		alpm_list_free_inner(all_files, free);
+		alpm_list_free(all_files);
 	}
 
 	/* internal */
@@ -376,7 +381,7 @@ pkg_invalid:
 	}
 error:
 	FREEPKG(info);
-	archive_read_finish (archive);
+	archive_read_finish(archive);
 
 	return(NULL);
 }
