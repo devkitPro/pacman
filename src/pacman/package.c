@@ -203,7 +203,8 @@ void dump_pkg_files(pmpkg_t *pkg)
 	pkgfiles = alpm_pkg_get_files(pkg);
 
 	for(i = pkgfiles; i; i = alpm_list_next(i)) {
-		fprintf(stdout, "%s %s\n", (char *)pkgname, (char *)alpm_list_getdata(i));
+		fprintf(stdout, "%s %s%s\n", pkgname, alpm_option_get_root(),
+						(char *)alpm_list_getdata(i));
 	}
 
 	fflush(stdout);
