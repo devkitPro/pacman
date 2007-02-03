@@ -718,14 +718,14 @@ int pacman_sync(alpm_list_t *targets)
 				pmconflict_t *conflict = alpm_list_getdata(i);
 				switch(alpm_conflict_get_type(conflict)) {
 				case PM_CONFLICT_TYPE_TARGET:
-					MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)"),
+					MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)\n"),
 							alpm_option_get_root(),
 							alpm_conflict_get_file(conflict),
 							alpm_conflict_get_target(conflict),
 							alpm_conflict_get_ctarget(conflict));
 					break;
 				case PM_CONFLICT_TYPE_FILE:
-					MSG(NL, _("%s: %s%s exists in filesystem"),
+					MSG(NL, _("%s: %s%s exists in filesystem\n"),
 							alpm_conflict_get_target(conflict),
 							alpm_option_get_root(),
 							alpm_conflict_get_file(conflict));
