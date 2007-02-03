@@ -314,9 +314,8 @@ usage() {
 ARGLIST=$@
 
 #preserve environment variables
-PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 _PKGDEST=${PKGDEST}
-_SRCDEST=$SRCDEST
+_SRCDEST=${SRCDEST}
 
 #Source makepkg.conf; fail if it is not found
 if [ -f /etc/makepkg.conf ]; then
@@ -333,7 +332,9 @@ fi
 
 # override settings with an environment variable for batch processing
 PKGDEST=${_PKGDEST:-$PKGDEST}
+PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 SRCDEST=${_SRCDEST:-$SRCDEST}
+SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 
 while [ "$#" -ne "0" ]; do
 	case $1 in
