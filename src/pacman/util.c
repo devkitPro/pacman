@@ -26,6 +26,7 @@
 
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <sys/time.h>
 
 #include "config.h"
 #include <stdio.h>
@@ -257,5 +258,166 @@ void list_display(const char *title, alpm_list_t *list)
 		printf(_("None\n"));
 	}
 }
+
+/* Display a list of transaction targets.
+ * `pkgs` should be a list of pmsyncpkg_t's,
+ * retrieved from a transaction object
+ */
+void display_targets(alpm_list_t *pkgs)
+{
+	char *str;
+	alpm_list_t *i, *j;
+	alpm_list_t *targets = NULL, *to_remove = NULL;
+	unsigned long totalsize = 0, totalisize = 0, totalrsize = 0;
+
+	for(i = pkgs; i; i = alpm_list_next(i)) {
+		pmsyncpkg_t *sync = alpm_list_getdata(i);
+		pmpkg_t *pkg = alpm_sync_get_package(sync);
+
+		/* If this sync record is a replacement, the data member contains
+		 * a list of packages to be removed due to the package that is being
+		 * installed. */
+		if(alpm_sync_get_type(sync) == PM_SYNC_TYPE_REPLACE) {
+			alpm_list_t *to_replace = alpm_sync_get_data(sync);
+			
+			for(j = to_replace; j; j = alpm_list_next(j)) {
+				pmpkg_t *rp = alpm_list_getdata(j);
+				const char *name = alpm_pkg_get_name(rp);
+
+				if(!alpm_list_find_str(to_remove, name)) {
+					totalrsize += alpm_pkg_get_isize(rp);
+					to_remove = alpm_list_add(to_remove, strdup(name));
+				}
+			}
+		}
+
+		totalsize += alpm_pkg_get_size(pkg);
+		totalisize += alpm_pkg_get_isize(pkg);
+
+		asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		targets = alpm_list_add(targets, str);
+	}
+
+	if(to_remove) {
+		MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */
+		list_display(_("Remove:"), to_remove);
+		FREELIST(to_remove);
+	
+		double rmb = (double)(totalrsize) / (1024.0 * 1024.0);
+		if(rmb > 0) {
+			if(rmb < 0.1) {
+				rmb = 0.1;
+			}
+			MSG(NL, _("\nTotal Removed Size:   %.2f MB\n"), rmb);
+		}
+	}
+
+	MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */ 
+	list_display(_("Targets:"), targets);
+
+	double mb = (double)(totalsize) / (1024.0 * 1024.0);
+	if(mb < 0.1) {
+		mb = 0.1;
+	}
+	MSG(NL, _("\nTotal Package Size:   %.2f MB\n"), mb);
+	
+	double umb = (double)(totalisize) / (1024.0 * 1024.0);
+	if(umb > 0) {
+		if(umb < 0.1) {
+			umb = 0.1;
+		}
+		MSG(NL, _("Total Installed Size:   %.2f MB\n"), umb);
+	}
+
+	FREELIST(targets);
+}
+
+/* Silly little helper function, determines if the caller needs a visual update
+ * since the last time this function was called.
+ * This is made for the two progress bar functions, to prevent flicker
+ *
+ * first_call indicates if this is the first time it is called, for
+ * initialization purposes */
+float get_update_timediff(int first_call)
+{
+	float retval = 0.0;
+	static struct timeval last_time = {0};
+	struct timeval this_time;
+
+	if(first_call) {
+		/* always update on the first call */
+		retval = 1.0;
+	} else {
+		gettimeofday(&this_time, NULL);
+
+		float diff_sec = this_time.tv_sec - last_time.tv_sec;
+		float diff_usec = this_time.tv_usec - last_time.tv_usec;
+
+		retval = diff_sec + (diff_usec / 1000000.0f);
+		/*printf("update time: %fs %fus = %f\n", diff_sec, diff_usec, retval);*/
+
+		if(retval < UPDATE_SPEED_SEC) {
+			/* maintain the last_time value for the next call */
+			return(0.0);
+		}
+	}
+
+	/* set the time for the next call */
+	gettimeofday(&last_time, NULL);
+
+	return(retval);
+}
+
+/* refactored from cb_trans_progress */
+void fill_progress(const int percent, const int proglen)
+{
+	const unsigned short chomp = alpm_option_get_chomp();
+	const unsigned int hashlen = proglen - 8;
+	const unsigned int hash = percent * hashlen / 100;
+	unsigned int lasthash = 0, mouth = 0;
+	unsigned int i;
+
+	printf(" [");
+	for(i = hashlen; i > 1; --i) {
+		/* if special progress bar enabled */
+		if(chomp) {
+			if(i > hashlen - hash) {
+				printf("-");
+			} else if(i == hashlen - hash) {
+				if(lasthash == hash) {
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
+				} else {
+					lasthash = hash;
+					mouth = mouth == 1 ? 0 : 1;
+					if(mouth) {
+						printf("\033[1;33mC\033[m");
+					} else {
+						printf("\033[1;33mc\033[m");
+					}
+				}
+			} else if(i%3 == 0) {
+				printf("\033[0;37mo\033[m");
+			} else {
+				printf("\033[0;37m \033[m");
+			}
+		} /* else regular progress bar */
+		else if(i > hashlen - hash) {
+			printf("#");
+		} else {
+			printf("-");
+		}
+	}
+	printf("] %3d%%\r", percent);
+
+	if(percent == 100) {
+		printf("\n");
+	}
+	fflush(stdout);
+}
+
 
 /* vim: set ts=2 sw=2 noet: */

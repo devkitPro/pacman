@@ -130,6 +130,7 @@ static void usage(int op, char *myname)
 			printf(_("  -o, --owns <file>   query the package that owns <file>\n"));
 			printf(_("  -p, --file          query the package file [package] instead of the database\n"));
 			printf(_("  -s, --search        search locally-installed packages for matching strings\n"));
+			printf(_("  -u, --upgrades      list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf(_("usage:  %s {-S --sync} [options] [package]\n"), myname);
 			printf(_("options:\n"));
@@ -369,7 +370,10 @@ static int parseargs(int argc, char *argv[])
 				config->op_q_search = 1;
 				config->flags |= PM_TRANS_FLAG_RECURSE;
 				break;
-			case 'u': config->op_s_upgrade = 1; break;
+			case 'u':
+				config->op_s_upgrade = 1;
+				/* TODO config->op_q_upgrade = 1; */
+				break;
 			case 'v': (config->verbose)++; break;
 			case 'w':
 				config->op_s_downloadonly = 1;

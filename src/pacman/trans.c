@@ -57,58 +57,6 @@ static void retrieve_local(void *data1, void *data2)
 	fputs(_("] 100%    LOCAL "), stdout);
 }
 
-/* refactored from cb_trans_progress */
-/* TODO with a little more work, we may be able to incorporate this
- * into the download progress bar as well. */
-static void fill_progress(const int percent, const int proglen)
-{
-	const unsigned short chomp = alpm_option_get_chomp();
-	const unsigned int hashlen = proglen - 8;
-	const unsigned int hash = percent * hashlen / 100;
-	unsigned int lasthash = 0, mouth = 0;
-	unsigned int i;
-
-	printf(" [");
-	for(i = hashlen; i > 1; --i) {
-		/* if special progress bar enabled */
-		if(chomp) {
-			if(i > hashlen - hash) {
-				printf("-");
-			} else if(i == hashlen - hash) {
-				if(lasthash == hash) {
-					if(mouth) {
-						printf("\033[1;33mC\033[m");
-					} else {
-						printf("\033[1;33mc\033[m");
-					}
-				} else {
-					lasthash = hash;
-					mouth = mouth == 1 ? 0 : 1;
-					if(mouth) {
-						printf("\033[1;33mC\033[m");
-					} else {
-						printf("\033[1;33mc\033[m");
-					}
-				}
-			} else if(i%3 == 0) {
-				printf("\033[0;37mo\033[m");
-			} else {
-				printf("\033[0;37m \033[m");
-			}
-		} /* else regular progress bar */
-		else if(i > hashlen - hash) {
-			printf("#");
-		} else {
-			printf("-");
-		}
-	}
-	printf("] %3d%%\r", percent);
-
-	if(percent == 100) {
-		printf("\n");
-	}
-}
-
 /* Callback to handle transaction events
  */
 void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
@@ -347,9 +295,11 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
                        const int howmany, const int remain)
 {
+	float timediff;
+
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	const int infolen = 50;
-	int i, digits, textlen, pkglen, proglen;
+	int i, digits, textlen, pkglen;
 	char *ptr = NULL;
 
 	if(config->noprogressbar) {
@@ -358,12 +308,22 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 
 	if(percent == 0) {
 		set_output_padding(1); /* turn on output padding with ' ' */
-	} else if(percent == 100) {
-		set_output_padding(0); /* shut it off again */
+		timediff = get_update_timediff(1);
+	} else {
+		timediff = get_update_timediff(0);
+	}
+
+	if(percent > 0 && percent < 100 && !timediff) {
+		/* only update the progress bar when
+		 * a) we first start
+		 * b) we end the progress
+		 * c) it has been long enough since the last call
+		 */
+		return;
 	}
 
 	/* if no pkgname, percent is too high or unchanged, then return */
-	if (!pkgname || percent > 100 || percent == prevpercent) {
+	if(!pkgname || percent == prevpercent) {
 		return;
 	}
 
@@ -403,17 +363,19 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
 			       ptr, pkglen, pkglen, pkgname);
 			break;
-
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
 			       textlen, ptr);
 			break;
-
 	}
 
 	/* call refactored fill progress function */
-	proglen = getcols() - infolen;
-	fill_progress(percent, proglen);
+	fill_progress(percent, getcols() - infolen);
+
+	if(percent >= 100) {
+		set_output_padding(0); /* restore padding */
+	}
+
 }
 
 /* vim: set ts=2 sw=2 noet: */

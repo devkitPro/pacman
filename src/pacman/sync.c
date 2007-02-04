@@ -626,60 +626,8 @@ int pacman_sync(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	/* list targets and get confirmation */
 	if(!(alpm_trans_get_flags() & PM_TRANS_FLAG_PRINTURIS)) {
-		alpm_list_t *list_install = NULL, *list_remove = NULL;
-
-		char *str;
-		unsigned long totalsize = 0;
-		unsigned long totalisize = 0;
-		double mb, umb;
-
-		for(i = packages; i; i = alpm_list_next(i)) {
-			pmsyncpkg_t *sync = alpm_list_getdata(i);
-			pmpkg_t *pkg = alpm_sync_get_package(sync);
-			const char *pkgname, *pkgver;
-
-			if(alpm_sync_get_type(sync) == PM_SYNC_TYPE_REPLACE) {
-				alpm_list_t *data = alpm_sync_get_data(sync);
-				for(j = data; j; j = alpm_list_next(j)) {
-					pmpkg_t *p = alpm_list_getdata(j);
-					const char *pkgname = alpm_pkg_get_name(p);
-					if(!alpm_list_find_str(list_remove, pkgname)) {
-						list_remove = alpm_list_add(list_remove, strdup(pkgname));
-					}
-				}
-			}
-
-			pkgname = alpm_pkg_get_name(pkg);
-			pkgver = alpm_pkg_get_version(pkg);
-			totalsize += alpm_pkg_get_size(pkg);
-			totalisize += alpm_pkg_get_isize(pkg);
-
-			asprintf(&str, "%s-%s", pkgname, pkgver);
-			list_install = alpm_list_add(list_install, str);
-		}
-		if(list_remove) {
-			MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */
-			list_display(_("Remove:"), list_remove);
-			FREELIST(list_remove);
-		}
-		mb = (double)(totalsize / 1048576.0);
-		umb = (double)(totalisize / 1048576.0);
-		/* round up to 0.1 */
-		if(mb < 0.1) {
-			mb = 0.1;
-		}
-		if(umb > 0 && umb < 0.1) {
-			umb = 0.1;
-		}
-		MSG(NL, "\n");
-		list_display(_("Targets:"), list_install);
-		MSG(NL, _("\nTotal Package Size:   %.1f MB\n"), mb);
-		if(umb > 0) {
-		  MSG(NL, _("Total Installed Size:   %.1f MB\n"), umb);
-		}
-		FREELIST(list_install);
+		display_targets(packages);
 
 		if(config->op_s_downloadonly) {
 			if(config->noconfirm) {

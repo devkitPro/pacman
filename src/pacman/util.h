@@ -47,6 +47,9 @@
 	s1[(len)-1] = 0; \
 } while(0)
 
+/* update speed for the fill_progress based functions */
+#define UPDATE_SPEED_SEC 0.2f
+
 #define _(str) gettext(str)
 unsigned int getcols();
 int makepath(char *path);
@@ -56,6 +59,9 @@ char *strtoupper(char *str);
 char *strtrim(char *str);
 int reg_match(char *string, char *pattern);
 void list_display(const char *title, alpm_list_t *list);
+void display_targets(alpm_list_t *pkgs);
+float get_update_timediff(int first_call);
+void fill_progress(const int percent, const int proglen);
 
 #endif /* _PM_UTIL_H */
 
