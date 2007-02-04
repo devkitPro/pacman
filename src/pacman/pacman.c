@@ -372,7 +372,7 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'u':
 				config->op_s_upgrade = 1;
-				/* TODO config->op_q_upgrade = 1; */
+				config->op_q_upgrade = 1;
 				break;
 			case 'v': (config->verbose)++; break;
 			case 'w':

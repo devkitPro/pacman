@@ -115,18 +115,6 @@ static pmsyncpkg_t *find_pkginsync(char *needle, alpm_list_t *haystack)
 	return(sync);
 }
 
-static int istoonew(pmpkg_t *pkg)
-{
-	time_t t;
-
-	ALPM_LOG_FUNC;
-
-	if (!handle->upgradedelay)
-		return 0;
-	time(&t);
-	return((pkg->date + handle->upgradedelay) > t);
-}
-
 /* Find recommended replacements for packages during a sync.
  * (refactored from _alpm_sync_prepare)
  */
@@ -198,6 +186,7 @@ error:
 	return(-1);
 }
 
+/* TODO reimplement this in terms of alpm_get_upgrades */
 int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i, *j;
@@ -252,7 +241,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 				/* package should be ignored (IgnorePkg) */
 				_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
 									local->name, local->version, spkg->version);
-			} else if(istoonew(spkg)) {
+			} else if(_alpm_pkg_istoonew(spkg)) {
 				/* package too new (UpgradeDelay) */
 				_alpm_log(PM_LOG_DEBUG, _("%s-%s: delaying upgrade of package (%s)"),
 									local->name, local->version, spkg->version);

@@ -1078,4 +1078,158 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 
 /** @} */
 
+/* This function is mostly the same as sync.c find_replacements and sysupgrade
+ * functions, and we should be able to combine them - this is an interim
+ * solution made for -Qu operation */
+alpm_list_t *alpm_get_upgrades()
+{
+	int found = 0;
+	alpm_list_t *syncpkgs = NULL;
+	alpm_list_t *i, *j, *k;
+
+	ALPM_LOG_FUNC;
+
+	/* TODO holy nested loops, Batman! */
+	/* check for "recommended" package replacements */
+	_alpm_log(PM_LOG_DEBUG, _("checking for package replacements"));
+	for(i = handle->dbs_sync; i; i = i->next) {
+		for(j = _alpm_db_get_pkgcache(i->data, INFRQ_DESC); j; j = j->next) {
+			pmpkg_t *spkg = j->data;
+			for(k = spkg->replaces; k; k = k->next) {
+				alpm_list_t *m;
+				for(m = _alpm_db_get_pkgcache(handle->db_local, INFRQ_NONE); m; m = m->next) {
+					pmpkg_t *lpkg = m->data;
+					if(strcmp(k->data, lpkg->name) == 0) {
+						_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), k->data, spkg->name);
+						if(alpm_list_find_str(handle->ignorepkg, lpkg->name)) {
+							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)"),
+												lpkg->name, lpkg->version, spkg->name, spkg->version);
+						} else {
+							/* assume all replaces=() packages are accepted */
+							pmsyncpkg_t *sync = NULL;
+							pmpkg_t *dummy = _alpm_pkg_new(lpkg->name, NULL);
+							if(dummy == NULL) {
+								pm_errno = PM_ERR_MEMORY;
+								goto error;
+							}
+							dummy->requiredby = alpm_list_strdup(lpkg->requiredby);
+							/* check if spkg->name is already in the packages list. */
+							alpm_list_t *s;
+							for(s = syncpkgs; s && !found; s = s->next) {
+								sync = i->data;
+								if(sync && !strcmp(sync->pkg->name, spkg->name)) {
+									found = 1;
+								}
+							}
+
+							if(found) {
+								/* found it -- just append to the replaces list */
+								sync->data = alpm_list_add(sync->data, dummy);
+							} else {
+								/* none found -- enter pkg into the final sync list */
+								sync = _alpm_sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
+								if(sync == NULL) {
+									FREEPKG(dummy);
+									pm_errno = PM_ERR_MEMORY;
+									goto error;
+								}
+								sync->data = alpm_list_add(NULL, dummy);
+								syncpkgs = alpm_list_add(syncpkgs, sync);
+							}
+							_alpm_log(PM_LOG_DEBUG, _("%s-%s elected for upgrade (to be replaced by %s-%s)"),
+												lpkg->name, lpkg->version, spkg->name, spkg->version);
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	/* now do normal upgrades */
+	for(i = _alpm_db_get_pkgcache(handle->db_local, INFRQ_NONE); i; i = i->next) {
+		int cmp;
+		int replace=0;
+		pmpkg_t *local = i->data;
+		pmpkg_t *spkg = NULL;
+		pmsyncpkg_t *sync;
+
+		for(j = handle->dbs_sync; !spkg && j; j = j->next) {
+			spkg = _alpm_db_get_pkgfromcache(j->data, local->name);
+		}
+		if(spkg == NULL) {
+			_alpm_log(PM_LOG_DEBUG, _("'%s' not found in sync db -- skipping"), local->name);
+			continue;
+		}
+
+		/* we don't care about a to-be-replaced package's newer version */
+		for(j = syncpkgs; j && !replace; j=j->next) {
+			sync = j->data;
+			if(sync->type == PM_SYNC_TYPE_REPLACE) {
+				if(_alpm_pkg_isin(spkg->name, sync->data)) {
+					replace=1;
+				}
+			}
+		}
+		if(replace) {
+			_alpm_log(PM_LOG_DEBUG, _("'%s' is already elected for removal -- skipping"),
+								local->name);
+			continue;
+		}
+
+		/* compare versions and see if we need to upgrade */
+		cmp = alpm_versioncmp(local->version, spkg->version);
+		if(cmp > 0 && !spkg->force) {
+			/* local version is newer */
+			pmdb_t *db = spkg->data;
+			_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
+								local->name, local->version, db->treename, spkg->version);
+		} else if(cmp == 0) {
+			/* versions are identical */
+		} else if(alpm_list_find_str(handle->ignorepkg, spkg->name)) {
+			/* package should be ignored (IgnorePkg) */
+			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
+								local->name, local->version, spkg->version);
+		} else if(_alpm_pkg_istoonew(spkg)) {
+			/* package too new (UpgradeDelay) */
+			_alpm_log(PM_LOG_DEBUG, _("%s-%s: delaying upgrade of package (%s)"),
+								local->name, local->version, spkg->version);
+			/* check if spkg->name is already in the packages list. */
+		} else {
+			_alpm_log(PM_LOG_DEBUG, _("%s-%s elected for upgrade (%s => %s)"),
+								local->name, local->version, local->version, spkg->version);
+			alpm_list_t *s;
+			pmsyncpkg_t *sync = NULL;
+			found = 0;
+			for(s = syncpkgs; s && !found; s = s->next) {
+				sync = i->data;
+				if(sync && strcmp(sync->pkg->name, local->name) == 0) {
+					found = 1;
+				}
+			}
+
+			if(!found) {
+				pmpkg_t *dummy = _alpm_pkg_new(local->name, local->version);
+				if(dummy == NULL) {
+					goto error;
+				}
+				sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
+				if(sync == NULL) {
+					FREEPKG(dummy);
+					goto error;
+				}
+				syncpkgs = alpm_list_add(syncpkgs, sync);
+			}
+		}
+	}
+
+	return(syncpkgs);
+error:
+	if(syncpkgs) {
+		alpm_list_free_inner(syncpkgs, _alpm_sync_free);
+		alpm_list_free(syncpkgs);
+	}
+	return(NULL);
+}
+
 /* vim: set ts=2 sw=2 noet: */

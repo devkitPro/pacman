@@ -834,4 +834,15 @@ unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 	return pkg->scriptlet;
 }
 
+int _alpm_pkg_istoonew(pmpkg_t *pkg)
+{
+	time_t t;
+
+	ALPM_LOG_FUNC;
+
+	if (!handle->upgradedelay)
+		return 0;
+	time(&t);
+	return((pkg->date + handle->upgradedelay) > t);
+}
 /* vim: set ts=2 sw=2 noet: */

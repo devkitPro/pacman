@@ -263,14 +263,14 @@ void list_display(const char *title, alpm_list_t *list)
  * `pkgs` should be a list of pmsyncpkg_t's,
  * retrieved from a transaction object
  */
-void display_targets(alpm_list_t *pkgs)
+void display_targets(alpm_list_t *syncpkgs)
 {
 	char *str;
 	alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
 	unsigned long totalsize = 0, totalisize = 0, totalrsize = 0;
 
-	for(i = pkgs; i; i = alpm_list_next(i)) {
+	for(i = syncpkgs; i; i = alpm_list_next(i)) {
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
 		pmpkg_t *pkg = alpm_sync_get_package(sync);
 

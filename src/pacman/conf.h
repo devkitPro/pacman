@@ -43,6 +43,7 @@ typedef struct __config_t {
 	unsigned short op_q_owns;
 	unsigned short op_q_search;
 	unsigned short op_q_changelog;
+	unsigned short op_q_upgrade;
 	unsigned short op_s_clean;
 	unsigned short op_s_dependsonly;
 	unsigned short op_s_downloadonly;
