@@ -77,7 +77,7 @@ int pacman_add(alpm_list_t *targets)
 	for(i = targets; i; i = i->next) {
 		if(alpm_trans_addtarget(i->data) == -1) {
 			MSG(NL, "\n");
-			ERR(NL, _("failed to add target '%s' (%s)\n"), (char *)i->data, alpm_strerror(pm_errno));
+			ERR(NL, _("failed to add target '%s' (%s)"), (char *)i->data, alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}

@@ -237,7 +237,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 pmpkg_t *_alpm_pkg_load(char *pkgfile)
 {
 	char *expath;
-	int i;
+	int ret = ARCHIVE_OK;
 	int config = 0;
 	int filelist = 0;
 	int scriptcheck = 0;
@@ -254,31 +254,35 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
-	if ((archive = archive_read_new ()) == NULL)
+	if((archive = archive_read_new()) == NULL) {
 		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, NULL);
+	}
 
-	archive_read_support_compression_all (archive);
-	archive_read_support_format_all (archive);
+	archive_read_support_compression_all(archive);
+	archive_read_support_format_all(archive);
 
-	if (archive_read_open_file (archive, pkgfile, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK)
+	if (archive_read_open_file(archive, pkgfile, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+	}
 
 	info = _alpm_pkg_new(NULL, NULL);
 	if(info == NULL) {
-		archive_read_finish (archive);
+		archive_read_finish(archive);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	/* TODO there is no reason to make temp files to read
 	 * from a libarchive archive, it can be done by reading
-	 * directly from the archive */
-	for(i = 0; archive_read_next_header (archive, &entry) == ARCHIVE_OK; i++) {
-		const char *entry_name = archive_entry_pathname(entry);
+	 * directly from the archive
+	 * See: archive_read_data_into_buffer
+	 * requires changes 'parse_descfile' as well
+	 * */
 
-		if(config && filelist && scriptcheck) {
-			/* we have everything we need */
-			break;
-		}
+	/* Read through the entire archive for metadata.  We will continue reading
+	 * even if all metadata is found, to verify the integrity of the archive in
+	 * full */
+	while((ret = archive_read_next_header (archive, &entry)) == ARCHIVE_OK) {
+		const char *entry_name = archive_entry_pathname(entry);
 
 		if(strcmp(entry_name, ".PKGINFO") == 0) {
 			/* extract this file into /tmp. it has info for us */
@@ -343,18 +347,25 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		}
 
 		if(archive_read_data_skip(archive)) {
-			_alpm_log(PM_LOG_ERROR, _("bad package file in %s"), pkgfile);
+			_alpm_log(PM_LOG_ERROR, _("error while reading package: %s"), archive_error_string(archive));
+			pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 			goto error;
 		}
 		expath = NULL;
 	}
-	archive_read_finish(archive);
+	if(ret != ARCHIVE_EOF) { /* An error occured */
+		_alpm_log(PM_LOG_ERROR, _("error while reading package: %s"), archive_error_string(archive));
+		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
+		goto error;
+	}
 
 	if(!config) {
-		_alpm_log(PM_LOG_ERROR, _("missing package info file in %s"), pkgfile);
+		_alpm_log(PM_LOG_ERROR, _("missing package metadata"), pkgfile);
 		goto error;
 	}
 	
+  archive_read_finish(archive);
+
 	if(!filelist) {
 		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s, generating one"), pkgfile);
 		info->files = all_files;
