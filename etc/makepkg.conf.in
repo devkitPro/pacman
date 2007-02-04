@@ -1,4 +1,4 @@
-# vim: set ft=sh ts=2 sw=2 et:
+#
 # /etc/makepkg.conf
 #
 
@@ -31,35 +31,37 @@ CXXFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
 # BUILD ENVIRONMENT
 #########################################################################
 #
-#-- Fakeroot: for building packages as a non-root user
-USE_FAKEROOT="y"
-#-- DistCC: a distributed C/C++/ObjC compiler (modify MAKEFLAGS too)
-USE_DISTCC="n"
-#-- A space-delimited list of hosts running in the DistCC cluster
-DISTCC_HOSTS=""
-#-- Colorized output messages
-USE_COLOR="y"
-#-- Use ccache when building
-USE_CCACHE=0
+# Defaults: ENVIRONMENT=(!fakeroot !distcc color !ccache)
+#
+#-- fakeroot: Allow building packages as a non-root user
+#-- distcc:   Use the Distributed C/C++/ObjC compiler
+#-- color:    Colorize output messages
+#-- ccache:   Use ccache to cache compilation
+#
+BUILDENV=(fakeroot !distcc color !ccache)
+#
+#-- If using DistCC, your MAKEFLAGS will also need modification. In addition,
+#-- specify a space-delimited list of hosts running in the DistCC cluster.
+#DISTCC_HOSTS=""
 
 #########################################################################
 # GLOBAL PACKAGE OPTIONS
 #   These are default values for the options=() settings
 #########################################################################
 #
-#-- Don't strip symbols from binaries/libraries
-NOSTRIP=0
-#-- Keep doc and info directories
-KEEPDOCS=0
-#-- Don't remove libtool files?
-NOLIBTOOL=0
-#-- Don't remove empty directories from package?
-NOEMPTYDIRS=0
-#-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
-INTEGRITY_CHECK=(md5)
-#-- Info and doc directories to be removed
-DOC_DIRS=(usr/{,share/}{info,doc} opt/gnome/{,share/}{info,doc,gtk-doc})
+# Default: OPTIONS=(strip !docs !libtool emptydirs)
+#
+#-- strip:     Strip symbols from binaries/libraries
+#-- docs:      Save doc and info directories
+#-- libtool:   Leave libtool (.la) files in binaries
+#-- emptydirs: Leave empty directories in binaries
+#
+OPTIONS=(strip !docs !libtool emptydirs)
 
+#-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
+INTEGRITY_CHECK=(md5 sha1)
+#-- Info and doc directories to remove (if option set correctly above)
+DOC_DIRS=(usr/{,share/}{info,doc} opt/gnome/{,share/}{info,doc,gtk-doc})
 
 #########################################################################
 # PACKAGE OUTPUT
@@ -71,3 +73,5 @@ DOC_DIRS=(usr/{,share/}{info,doc} opt/gnome/{,share/}{info,doc,gtk-doc})
 #SRCDEST=/var/cache/pacman/src
 #-- Packager: name/email of the person or organization building packages
 #PACKAGER="John Doe <john@doe.com>"
+
+# vim: set ft=sh ts=2 sw=2 et:

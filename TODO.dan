@@ -2,12 +2,6 @@ TODO.dan
 This is my personal TODO list. No guarantees if it is out of date and things
   no longer apply. If you want to help out with any of it, send me an email.
 
-* Variable names in makepkg.conf--confusing
-  - some use 'USE_', others do not
-  - some are 'NO', some are 'KEEP', etc.
-  - some options use 0/1, others are y/n
-* Should undocumented makepkg (and thus PKGBUILD) options be put in the
-  manpage, as well as including sections for them in the makepkg.conf file?
 * Go through all makepkg bugs in flyspray and see if they are rectified:
   http://bugs.archlinux.org/index.php?tasks=&project=1&string=makepkg
 
@@ -19,27 +13,19 @@ This is my personal TODO list. No guarantees if it is out of date and things
 * Port the libdownload (libfetch) manpage from BSD style to Linux style, or at
   very least change references to BSD.
 
-* Revise build system to a more static one (Aaron mentioned wmii system).
-
-* NEWS file updating and cleanup. Get rid of items that are bugfixes of never-
-  released code, etc.
-
-* New cache cleaning functionality in pacman - keep installed version, choose
-  number to keep, etc. Good python script in the forums that we should try to
-  emulate, perhaps.
-* pacman - downgrade feature - allow users to see cached packages and
+* Pacman 3.1 - New cache cleaning functionality in pacman - keep installed
+  version, choose number to keep, etc. Good python script in the forums that
+  we should try to emulate, perhaps.
+* Pacman 3.1 - downgrade feature - allow users to see cached packages and
   downgrade to (previous or any?) available options.
 
-* alpm_log_action & install script logging interaction - producing duplicate
-  entries in pacman logs (possibly fixed? needs more testing but looks good)
+* Pacman 3.1 - Extreme similarity between some of the sync and add code...we
+  have to be able to abstract more away from sync actions and add actions to
+  just 'actions' (example: sync,c, add.c, and deptest.c all contain a switch
+  on PM_DEP_MOD_*). Merge update, add, and sync code when possible, so we
+  reduce duplication.
 
-* Extreme similarity between some of the sync and add code...we have to be able
-  to abstract more away from sync actions and add actions to just 'actions'
-  (example: sync,c, add.c, and deptest.c all contain a switch on PM_DEP_MOD_*)
-
-* Merge update, add, and sync code when possible, so we reduce duplication.
-
-* For Pacman 3.1 - List every function, define, etc. in libalpm. Give one
+* Pacman 3.1 - List every function, define, etc. in libalpm. Give one
   sentence description of each. If it sounds like two are similar, find a way
   to combine or refactor them. If it is unnecessary- delete it. Stop keeping
   everything clustered in little add/sync/remove parts, allow transactions to
@@ -49,14 +35,28 @@ This is my personal TODO list. No guarantees if it is out of date and things
   are still relevant, etc. Ideas for -Re (#6273), changing meaning of -c (has
   two meanings, another FS bug), etc. 
 
-* Monotone suggestion- allow changing of a branch name after commit (example:
-  I meant to commit to a new branch, but I forgot --branch option on the
-  commit.  Can I remove the original branch cert and replace it with a new
-  one?)
+* Pacman 3.1 - Possible rewrite of make system. Options:
+  -- revise to be more static (Aaron mentioned wmii's system)
+  -- Cmake? It looks intriguing
+
+* Pacman 3.1 - Rewrite _alpm_sortbydeps to use Topological Sort. Should work
+  using a standard topo sort algorithm, once the crazy types can be fixed up
+  a bit. Include a cycle check - print a big error message if this happens.
+  -- http://en.wikipedia.org/wiki/Topological_sort
+  -- http://everything2.com/?node_id=556079
 
 Quick hits:
-* log_progress and cb_trans_progress - same function? not quite but commonality
+* log_progress and cb_trans_progress - same function? not quite but close
 * unsigned int vs. unsigned
 * 'ldd' & 'ldd -u' - many linkages
 * possibly split utilities/extras from pacman package
 * makepkg3 produces files with arch appended- gensync can't deal with it
+* FS #4185 - move where message is logged, perhaps?
+* Remove -A flag (and possibly -D, -T, and -Y?)
+* ideas mentioned here - http://bbs.archlinux.org/viewtopic.php?id=29450
+  add a .install message about mirrors, maybe comment whole file, encourage
+  rankmirrors usage
+* update copyrights
+* update pacman website
+* finish pacman coding style page
+* make indent.pro file for GNU indent
