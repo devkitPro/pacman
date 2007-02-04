@@ -245,6 +245,7 @@ static int parseargs(int argc, char *argv[])
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
+		{"upgrades",   no_argument,       0, 'u'},
 		{"sysupgrade", no_argument,       0, 'u'},
 		{"verbose",    no_argument,       0, 'v'},
 		{"downloadonly", no_argument,     0, 'w'},
