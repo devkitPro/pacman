@@ -862,7 +862,8 @@ if [ "$(check_option docs)" = "n" ]; then
 fi
 
 # move /usr/share/man files to /usr/man
-if [ -d pkg/usr/share/man ]; then
+if [ -d $startdir/pkg/usr/share/man ]; then
+	cd $startdir
 	mkdir -p pkg/usr/man 
 	cp -a pkg/usr/share/man/* pkg/usr/man/
 	rm -rf pkg/usr/share/man
@@ -963,6 +964,13 @@ done
 for it in "${backup[@]}"; do
 	echo "backup = $it" >>.PKGINFO
 done
+
+# TODO maybe remove this at some point
+# warn if license array is not present or empty
+if [ "$license" = "" ]; then
+	warning "Please add a license line to your $BUILDSCRIPT!"
+	plain "example for GPL'ed software: license=('GPL')."
+fi
 
 # check for an install script
 if [ "$install" != "" ]; then

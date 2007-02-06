@@ -98,9 +98,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	if(level > 1) {
 		/* call new backup function */
 		dump_pkg_backups(pkg);
+		printf("\n");
 	}
-
-	printf("\n");
 }
 
 /* Display the content of a sync package

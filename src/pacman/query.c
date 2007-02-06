@@ -125,7 +125,7 @@ int pacman_query(alpm_list_t *targets)
 	}
 
 	if(config->op_q_upgrade) {
-		MSG(NL, _("Checking for package upgrades"));
+		MSG(NL, _("Checking for package upgrades..."));
 		alpm_list_t *syncpkgs;
 
 		if((syncpkgs = alpm_get_upgrades()) != NULL) {
