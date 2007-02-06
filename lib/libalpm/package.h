@@ -82,7 +82,7 @@ struct __pmpkg_t {
 	alpm_list_t *conflicts;
 	alpm_list_t *provides;
 	/* internal */
-	unsigned short origin;
+	pmpkgfrom_t origin;
 	void *data;
 	pmdbinfrq_t infolevel;
 };
