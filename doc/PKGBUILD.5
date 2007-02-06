@@ -54,47 +54,6 @@ directory. \fBmakepkg\fR will check dependencies and look for the source files
 required to build.  If some are missing it will attempt to download them,
 provided there is a fully-qualified URL in the \fIsource()\fR array.
 
-.SS Install/Upgrade/Remove Scripting
-Pacman has the ability to store and execute a package-specific script when it
-installs, removes, or upgrades a package.  This allows a package to "configure
-itself" after installation and do the opposite right before it is removed.
-
-The exact time the script is run varies with each operation:
-
-.TP
-.B pre_install
-script is run right before files are extracted.
-
-.TP
-.B post_install
-script is run right after files are extracted.
-
-.TP
-.B pre_upgrade
-script is run right before files are extracted.
-
-.TP
-.B post_upgrade
-script is run after files are extracted.
-
-.TP
-.B pre_remove
-script is run right before files are removed.
-
-.TP
-.B post_remove
-script is run right after files are removed.
-
-.P
-To use this feature, just create a file (eg, pkgname.install) and put it in
-the same directory as the PKGBUILD script.  Then use the \fIinstall\fR
-directive:
-
-install=pkgname.install
-
-The install script does not need to be specified in the \fIsource\fR array.
-A template install file is  available in your ABS tree (/var/abs/install.proto).
-
 .SH OPTIONS AND DIRECTIVES
 .TP
 .B pkgname
@@ -114,11 +73,12 @@ maintainers to make updates to the package's configure flags, for example.
 .B pkgdesc
 This should be a brief description of the package and its functionality.
 
-." Is this applicable below?
-.TP
-.B pkgdesc_localized \fI(array)\fR
-Array of the localized package descriptions. The format is the following:
-pkgdesc_localized=('xx_YY foo' 'xx_YY bar')
+." Not entirely applicable, and we can do this better anyway.  pacman does
+." actuall support localized descriptions, though, but i don't think makepkg does.
+." .TP
+." .B pkgdesc_localized \fI(array)\fR
+." Array of the localized package descriptions. The format is the following:
+." pkgdesc_localized=('xx_YY foo' 'xx_YY bar')
 
 .TP
 .B url
@@ -130,9 +90,9 @@ software being packaged. This is typically the project's website.
 This field specifies the license(s) that apply to the package. Commonly-used
 licenses are typically found in \fI/usr/share/licenses/common\fR. If you
 see the package's license there, simply reference it in the license field
-(eg, \fBlicense="GPL"\fR). If the package provides a license not found in
+(eg, \fBlicense=("GPL")\fR). If the package provides a license not found in
 \fI/usr/share/licenses/common\fR, then you should include the license in
-the package itself and set \fBlicense="custom"\fR or 
+the package itself and set \fBlicense=("custom")\fR or 
 \fBlicense="custom:LicenseName"\fR. The license itself should be placed in a
 directory called \fI$startdir/pkg/usr/share/licenses/$pkgname\fR. If multiple
 licenses are applied, use the array form: \fBlicenses=('GPL' 'FDL')\fR
@@ -144,17 +104,18 @@ This file should reside in the same directory as the PKGBUILD, and will be
 copied into the package by makepkg. It does not need to be included in the
 \fIsource\fR array. (eg, install=pkgname.install)
 
-." Is this applicable below?
-.TP
-.B up2date
-This directive should contain a command that prints the current upstream stable
-version of the project.
-
 .TP
 .B source \fI(array)\fR
 The \fIsource\fR line is an array of source files required to build the
 package. Source files must reside in the same directory as the PKGBUILD
 file, unless they have a fully-qualified URL. 
+
+.TP
+.B noextract \fI(array)\fR
+The \fInoextract\fR line is an array of filenames corresponding to those from
+the \fIsource\fR array.  If a file is listed in the \fInoextract\fR array, it is
+not extracted with the rest of the source files.  This is useful for packages
+which use compressed data which id downloaded via the \fIsource\fR array.
 
 .TP
 .B md5sums \fI(array)\fR
@@ -164,15 +125,9 @@ this to verify source file integrity during subsequent builds. To easily
 generate md5sums, first build using the PKGBUILD then run
 \fBmakepkg -g >>PKGBUILD\fR. Then you can edit the PKGBUILD and move the
 \fImd5sums\fR line from the bottom to an appropriate location.
-
-." Is this applicable below?
-.TP
-.B signatures \fI(array)\fR
-If this field is present, it should contain an array of gpg signatures required
-to validate the source files. Where there is no signature available just leave
-it empty, like:
-
-signatures=(${source[0]}.asc '')
+\fBNOTE:\fR makepkg supports multiple integrity algorithms and their
+corresponding arrays (i.e. sha1sums for the SHA1 algorithm), however official
+packages use only md5sums for the time being.
 
 .TP
 .B groups \fI(array)\fR
@@ -181,7 +136,7 @@ you to install multiple packages by requesting a single target. For example,
 one could install all KDE packages by installing the 'kde' group.
 
 .TP
-.B archs \fI(array)\fR
+.B arch \fI(array)\fR
 This array defines on which architectures the given package is available.
 
 .TP
@@ -231,17 +186,48 @@ upgrade, due to the differing package names. \fIreplaces\fR handles this.
 This array allows you to override some of makepkg's default behaviour
 when building packages. To set an option, just include the option name
 in the \fBoptions\fR array.
-.RS
+See \fBmakepkg (8)\fR for details on the options array.
+
+.SS Install/Upgrade/Remove Scripting
+Pacman has the ability to store and execute a package-specific script when it
+installs, removes, or upgrades a package.  This allows a package to "configure
+itself" after installation and do the opposite right before it is removed.
+
+The exact time the script is run varies with each operation:
+
 .TP
-.B nostrip
-don't strip binaries/libraries.
+.B pre_install
+script is run right before files are extracted.
+
 .TP
-.B keepdocs
-keep /usr/share/doc and /usr/share/info directories.
+.B post_install
+script is run right after files are extracted.
+
 .TP
-.B force
-force the package to be upgraded by --sysupgrade, even if it's an older version.
-.RE
+.B pre_upgrade
+script is run right before files are extracted.
+
+.TP
+.B post_upgrade
+script is run after files are extracted.
+
+.TP
+.B pre_remove
+script is run right before files are removed.
+
+.TP
+.B post_remove
+script is run right after files are removed.
+
+.P
+To use this feature, just create a file (eg, pkgname.install) and put it in
+the same directory as the PKGBUILD script.  Then use the \fIinstall\fR
+directive:
+
+install=pkgname.install
+
+The install script does not need to be specified in the \fIsource\fR array.
+A template install file is  available in your ABS tree (/var/abs/install.proto).
 
 .SH EXAMPLE
 The following is an example PKGBUILD for the 'modutils' package. For more
@@ -249,6 +235,7 @@ examples, look through the ABS tree.
 
 .nf
 # Maintainer: John Doe <johndoe@archlinux.org>
+# Contributor: Bill Smith <billsmith@archlinux.org>
 pkgname=modutils
 pkgver=2.4.25
 pkgrel=1
@@ -259,8 +246,11 @@ depends=('glibc' 'zlib')
 backup=(etc/modules.conf)
 source=(ftp://ftp.kernel.org/pub/linux/utils/kernel/$pkgname/v2.4/$pkgname-$pkgver.tar.bz2 \\
         modules.conf)
+arch=('i686')
+license=('GPL' 'custom') #dual licensed
 md5sums=('2c0cca3ef6330a187c6ef4fe41ecaa4d' \\
          '35175bee593a7cc7d6205584a94d8625')
+options=('nolibtool')
 
 build() {
   cd $startdir/src/$pkgname-$pkgver
@@ -275,7 +265,9 @@ build() {
 
 .SH SEE ALSO
 .BR makepkg (8),
+.BR makepkg.conf (5),
 .BR pacman (8)
+.BR pacman.conf (5)
 
 See the Arch Linux website at <http://www.archlinux.org> for more current
 information on the distribution, and 
@@ -283,4 +275,7 @@ information on the distribution, and
 recommendations on packaging standards.
 .SH AUTHORS
 Judd Vinet <jvinet@zeroflux.org>
-and the Frugalware developers <frugalware-devel@frugalware.org>
+Aurelien Foret <aurelien@archlinux.org>
+Aaron Griffin <aaron@archlinux.org>
+Dan McGee <dan@archlinux.org>
+See the 'AUTHORS' file for additional contributors.
