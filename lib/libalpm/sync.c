@@ -229,24 +229,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 			}
 
 			/* compare versions and see if we need to upgrade */
-			cmp = alpm_versioncmp(local->version, spkg->version);
-			if(cmp > 0 && !spkg->force) {
-				/* local version is newer */
-				pmdb_t *db = spkg->data;
-				_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
-									local->name, local->version, db->treename, spkg->version);
-			} else if(cmp == 0) {
-				/* versions are identical */
-			} else if(alpm_list_find_str(handle->ignorepkg, spkg->name)) {
-				/* package should be ignored (IgnorePkg) */
-				_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
-									local->name, local->version, spkg->version);
-			} else if(_alpm_pkg_istoonew(spkg)) {
-				/* package too new (UpgradeDelay) */
-				_alpm_log(PM_LOG_DEBUG, _("%s-%s: delaying upgrade of package (%s)"),
-									local->name, local->version, spkg->version);
-				/* check if spkg->name is already in the packages list. */
-			} else {
+			if(alpm_pkg_compare_versions(local, spkg)) {
 				_alpm_log(PM_LOG_DEBUG, _("%s-%s elected for upgrade (%s => %s)"),
 									local->name, local->version, local->version, spkg->version);
 				if(!find_pkginsync(spkg->name, trans->packages)) {
@@ -260,8 +243,6 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 						goto error;
 					}
 					trans->packages = alpm_list_add(trans->packages, sync);
-				} else {
-					/* spkg->name is already in the packages list -- just ignore it */
 				}
 			}
 		}
@@ -344,17 +325,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 
 	local = _alpm_db_get_pkgfromcache(db_local, spkg->name);
 	if(local) {
-		cmp = alpm_versioncmp(local->version, spkg->version);
-		if(cmp > 0 && !spkg->force) {
-			/* local version is newer -- get confirmation before adding */
-			int resp = 0;
-			QUESTION(trans, PM_TRANS_CONV_LOCAL_NEWER, local, NULL, NULL, &resp);
-			if(!resp) {
-				_alpm_log(PM_LOG_WARNING, _("%s-%s: local version is newer -- skipping"), local->name, local->version);
-				return(0);
-			}
-		} else if(cmp == 0) {
-			/* versions are identical -- get confirmation before adding */
+		if(alpm_pkg_compare_versions(local, spkg) == 0) {
+			/* spkg is NOT an upgrade, get confirmation before adding */
 			int resp = 0;
 			QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
 			if(!resp) {

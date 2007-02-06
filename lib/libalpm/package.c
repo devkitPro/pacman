@@ -122,6 +122,38 @@ void _alpm_pkg_free(void *data)
 	return;
 }
 
+/* Is pkgB an upgrade for pkgA ? */
+int alpm_pkg_compare_versions(pmpkg_t *pkgA, pmpkg_t *pkgB)
+{
+	if(spkg->force) {
+		/* skip the version compare call if this is a 'force' package */
+		return(1);
+	}
+
+	/* compare versions and see if we need to upgrade */
+	int cmp = alpm_versioncmp(pkgA->version, pkgB->version);
+
+	if(cmp > 0 && !spkg->force) {
+		/* local version is newer */
+		pmdb_t *db = spkg->data;
+		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
+							local->name, local->version, db->treename, spkg->version);
+		cmp = 0;
+	} else if(alpm_list_find_str(handle->ignorepkg, spkg->name)) {
+		/* package should be ignored (IgnorePkg) */
+		_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
+							local->name, local->version, spkg->version);
+		cmp = 0;
+	} else if(_alpm_pkg_istoonew(spkg)) {
+		/* package too new (UpgradeDelay) */
+		_alpm_log(PM_LOG_DEBUG, _("%s-%s: delaying upgrade of package (%s)"),
+							local->name, local->version, spkg->version);
+		cmp = 0;
+	}
+
+	return(cmp);
+}
+
 /* Helper function for comparing packages
  */
 int _alpm_pkg_cmp(const void *p1, const void *p2)
