@@ -1,4 +1,4 @@
-all: po4a makepkg.8 PKGBUILD.8 pacman.8
+all: po4a makepkg.8 PKGBUILD.5 pacman.8
 
 SUBDIRS = hu
 
@@ -13,8 +13,8 @@ if HAS_MAN2HTML
 makepkg.8:
 	man2html makepkg.8 > html/makepkg.8.html
 
-PKGBUILD.8:
-	man2html PKGBUILD.8 > html/PKGBUILD.8.html
+PKGBUILD.5:
+	man2html PKGBUILD.5 > html/PKGBUILD.5.html
 
 pacman.8:
 	man2html pacman.8 > html/pacman.8.html
@@ -25,7 +25,7 @@ clean:
 	rm -f hu/*.8
 	rm -f man3/*.3
 
-man_MANS = pacman.8 makepkg.8 PKGBUILD.8 libalpm.3
+man_MANS = pacman.8 makepkg.8 PKGBUILD.5 libalpm.3
 
 if HAS_DOXYGEN
 man_MANS += *.3
