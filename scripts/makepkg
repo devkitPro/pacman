@@ -633,7 +633,7 @@ for netfile in ${source[@]}; do
 			exit 1
 		fi
 		msg2 "Downloading $file"
-		$FTPAGENT "$netfile" 2>&1
+		$FTPAGENT "$netfile"
 		# fix flyspray bug #3289
 		ftpret=$?
 		if [ $ftpret -gt 0 ]; then
@@ -750,8 +750,8 @@ else
 			# START REMOVE
 			# TODO remove this with release of file v4.20, temp bugfix
 			*application/empty*)
-			cmd="tar -xf $file" ;;
-			warning "file had trouble detecting type, assuming tar"
+			cmd="tar -xf $file"
+			warning "file had trouble detecting type, assuming tar" ;;
 			# END REMOVE
 			*application/x-tar*)
 			cmd="tar -xf $file" ;;
