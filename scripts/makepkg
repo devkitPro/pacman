@@ -120,6 +120,16 @@ check_option() {
 		elif [ "$lc" = "!$needle" ]; then
 			echo "n"
 			return
+		# START DEPRICATED
+		# TODO This code should be removed in the next release of makepkg
+		elif [ "$lc" = "no$needle" ]; then
+			warning "Options beginning with 'no' will be depricated in the next version of makepkg!"
+			plain "Please replace 'no' with '!': no$needle -> !$needle."
+			echo "n"
+			return
+		elif [ "$lc" = "keepdocs" -a "$needle" = "docs" ]; then
+			warning "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
+		# END DEPRICATED
 		fi
 	done
 	# fall back to makepkg.conf options
@@ -542,17 +552,16 @@ if [ "$EUID" != "0" ]; then
 			fakeroot -- $0 -F $ARGLIST
 			exit $?
 		else
-			warning "Fakeroot is not installed.  Building as an unprivileged user"
-			plain "will result in non-root ownership of the packaged files."
-			plain "Install the fakeroot package to correctly build as a non-root"
-			plain "user."
+			warning "Fakeroot is not installed. Building as an unprivileged user"
+			plain "will result in non-root ownership of the packaged files. Install"
+			plain "the fakeroot package to correctly build as a non-root user."
 			plain ""
 			sleep 1
 		fi
 	else
 		warning "Running makepkg as an unprivileged user will result in non-root"		
-		plain "ownership of the packaged files.  Try using the fakeroot"
-		plain "environment.  ('fakeroot' in BUILDENV in makepkg.conf)"
+		plain "ownership of the packaged files. Try using the fakeroot environment"
+		plain "by placing 'fakeroot' in the BUILDENV array in makepkg.conf."
 		plain ""
 		sleep 1
 	fi
@@ -738,6 +747,12 @@ else
 		file_type=$(file -biz "$file")
 		unset cmd
 		case "$file_type" in
+			# START REMOVE
+			# TODO remove this with release of file v4.20, temp bugfix
+			*application/empty*)
+			cmd="tar -xf $file" ;;
+			warning "file had trouble detecting type, assuming tar"
+			# END REMOVE
 			*application/x-tar*)
 			cmd="tar -xf $file" ;;
 			*application/x-zip*)
