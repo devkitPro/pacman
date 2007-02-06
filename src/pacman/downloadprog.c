@@ -73,7 +73,7 @@ void log_progress(const char *filename, int xfered, int total)
 		timediff = get_update_timediff(0);
 	}
 
-	if(percent > 0 && percent < 100 && !timediff) {
+	if(percent > 0 && percent <= 100 && !timediff) {
 		/* only update the progress bar when
 		 * a) we first start
 		 * b) we end the progress
@@ -84,17 +84,22 @@ void log_progress(const char *filename, int xfered, int total)
 
 	gettimeofday(&current_time, NULL);
 	total_timediff = current_time.tv_sec-initial_time.tv_sec
-		+ (float)(current_time.tv_usec-initial_time.tv_usec) / 1000000;
+		+ (float)(current_time.tv_usec-initial_time.tv_usec) / 1000000.0;
 
 	if(xfered == total) {
 		/* compute final values */
-		rate = (float)total / (total_timediff * 1024);
-		eta_s = (unsigned int)total_timediff;
+		rate = (float)total / (total_timediff * 1024.0);
+		if(total_timediff < 1.0 && total_timediff > 0.5) {
+			/* round up so we don't display 00:00:00 for quick downloads all the time*/
+			eta_s = 1;
+		} else {
+			eta_s = (unsigned int)total_timediff;
+		}
 		set_output_padding(0); /* shut off padding */
 	} else {
-		rate = (float)(xfered - xfered_last) / (timediff * 1024);
+		rate = (float)(xfered - xfered_last) / (timediff * 1024.0);
 		rate = (float)(rate + 2*rate_last) / 3;
-		eta_s = (unsigned int)(total - xfered) / (rate * 1024);
+		eta_s = (unsigned int)(total - xfered) / (rate * 1024.0);
 	}
 
 	rate_last = rate;
@@ -114,14 +119,35 @@ void log_progress(const char *filename, int xfered, int total)
 		fname[FILENAME_TRIM_LEN] = '\0';
 	}
 
-	/* DL rate cap, for printf formatting - this should be sane for a while
-	 * if anything we can change to MB/s if we need a higher rate */
-	if(rate > 9999.9) {
-		rate = 9999.9;
+	/* Awesome formatting for progress bar.  We need a mess of Kb->Mb->Gb stuff
+	 * here. We'll use limit of 2048 for each until we get some empirical */
+	char rate_size = 'K';
+	char xfered_size = 'K';
+	if(rate > 2048.0) {
+		rate /= 1024.0;
+		rate_size = 'M';
+		if(rate > 2048.0) {
+			rate /= 1024.0;
+			rate_size = 'G';
+			/* we should not go higher than this for a few years (9999.9 Gb/s?)*/
+		}
 	}
 
-	printf(" %-*s %6dK %#6.1fK/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname, 
-				 xfered/1024, rate, eta_h, eta_m, eta_s);
+	xfered /= 1024; /* convert to K by default */
+	if(xfered > 2048) {
+		xfered /= 1024;
+		xfered_size = 'M';
+		if(xfered > 2048) {
+			xfered /= 1024;
+			xfered_size = 'G';
+			/* I should seriously hope that archlinux packages never break
+			 * the 9999.9GB mark... we'd have more serious problems than the progress
+			 * bar in pacman */ 
+		}
+	}
+
+	printf(" %-*s %6d%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname, 
+				 xfered/1024, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
 
 	free(fname);
 	
