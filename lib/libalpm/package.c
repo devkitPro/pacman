@@ -125,7 +125,7 @@ void _alpm_pkg_free(void *data)
 /* Is pkgB an upgrade for pkgA ? */
 int alpm_pkg_compare_versions(pmpkg_t *pkgA, pmpkg_t *pkgB)
 {
-	if(spkg->origin == PKG_FROM_CACHE) {
+	if(pkgB->origin == PKG_FROM_CACHE) {
 		/* ensure we have the /desc file, which contains the 'force' option */
 		_alpm_db_read(pkgB->data, INFRQ_DESC, pkgB);
 	}
