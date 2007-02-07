@@ -54,30 +54,10 @@ AC_ARG_ENABLE(man2html,
     AC_HELP_STRING([--enable-man2html], [Build html docs via man2html]),
     [wantman2html=$enableval], [wantman2html=no])
 
-dnl Help line for po4a
-AC_ARG_ENABLE(po4a,
-    AC_HELP_STRING([--disable-po4a], [Build localized manpages via po4a]),
-    [wantpo4a=$enableval], [wantpo4a=yes])
-
 dnl Help line for doxygen
 AC_ARG_ENABLE(doxygen,
     AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
     [wantdoxygen=$enableval], [wantdoxygen=yes])
-
-dnl Help line for python
-AC_ARG_ENABLE(python,
-    AC_HELP_STRING([--disable-python], [Build Python bindings]),
-    [wantpython=$enableval], [wantpython=yes])
-
-dnl Help line for perl
-AC_ARG_ENABLE(perl,
-    AC_HELP_STRING([--disable-perl], [Build Perl bindings]),
-    [wantperl=$enableval], [wantperl=yes])
-
-dnl Help line for java
-AC_ARG_ENABLE(java,
-    AC_HELP_STRING([--disable-java], [Build Java bindings]),
-    [wantjava=$enableval], [wantjava=yes])
 
 dnl Check for architecture
 case "$host" in
@@ -171,27 +151,6 @@ else
     AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
     AC_DEFINE([HAS_MAN2HTML], [FALSE], [Not specified at configure line])
     AC_MSG_RESULT(not requested by configure)
-fi
-
-dnl Check for po4a binary
-AC_MSG_CHECKING(for support po4a)
-if test x$wantpo4a = xyes ; then
-    AC_CHECK_PROGS([PO4A], [po4a])
-    AM_CONDITIONAL(HAS_PO4A, test $PO4A)
-    if test $PO4A ; then
-        AC_DEFINE([HAS_PO4A], [TRUE], [Enabled PO4A (localization support for manpages)])
-	AC_MSG_RESULT(yes)
-	POSTATUS="yes, path: `which $PO4A`"
-    else
-        AC_DEFINE([HAS_PO4A], [FALSE], [Disabled PO4A (localization support for manpages)])
-	AC_MSG_RESULT(no, po4a binary missing)
-	POSTATUS="no, missing po4a binary"
-    fi
-else
-    AM_CONDITIONAL(HAS_PO4A, test $PO4A)
-    AC_DEFINE([HAS_PO4A], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
-    POSTATUS="no, disabled by configure"
 fi
 
 dnl Check for doxygen support
@@ -295,7 +254,6 @@ pacman-$VERSION:
     Architecture CHOST       : ${CHOST}
 
     Doxygen support          : ${DOXYSTATUS}
-    Manpage localization     : ${POSTATUS}
 
     debug support            : ${debug}
 "

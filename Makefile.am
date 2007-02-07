@@ -1,4 +1,4 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts doc doc/hu etc 
+SUBDIRS = lib/libalpm src/util src/pacman scripts doc etc 
 
 EXTRA_DIST =		\
 	ChangeLog  	\

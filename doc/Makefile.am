@@ -1,14 +1,5 @@
-all: po4a makepkg.8 PKGBUILD.5 pacman.8
+all: makepkg.8 PKGBUILD.5 pacman.8
 
-SUBDIRS = hu
-
-po4a:
-if HAS_PO4A
-	@$(NORMAL_INSTALL)
-	po4a -k 0 --variable srcdir=$(srcdir) $(srcdir)/po4a.cfg 
-endif
-
-# DIST_SUBDIRS 
 if HAS_MAN2HTML
 makepkg.8:
 	man2html makepkg.8 > html/makepkg.8.html
@@ -22,8 +13,9 @@ endif
 
 clean:
 	rm -f html/*.html
-	rm -f hu/*.8
 	rm -f man3/*.3
+	rm -f man5/*.5
+	rm -f man8/*.8
 
 man_MANS = pacman.8 makepkg.8 PKGBUILD.5 libalpm.3
 
@@ -31,4 +23,4 @@ if HAS_DOXYGEN
 man_MANS += *.3
 endif
 
-EXTRA_DIST = $(man_MANS) po4a.cfg
+EXTRA_DIST = $(man_MANS)
