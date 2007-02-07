@@ -1,0 +1,50 @@
+HOWTO: Help with translations
+-----------------------------
+
+This document is here to guide you in helping translate pacman messages,
+libalpm messages, and the manpages for the entire pacman package.
+
+A quick note- the gettext website is a very useful guide to read before
+embarking on translation work, as it describes many of the commands in more
+detail than I will here:
+<http://www.gnu.org/software/gettext/manual/html_node/gettext.html>
+
+In addition, this site presents a small tutorial that I found useful:
+<http://oriya.sarovar.org/docs/gettext/>
+
+Translating Messages
+--------------------
+
+The message files are located in two directories in pacman- lib/libalpm/po/
+and src/pacman/po/. Each language has a .po file associated with it; the .pot
+file is the template file for creating new .po files and updating the messages
+in them when the code changes.
+
+First things first. You will need to run ./autogen.sh and ./configure in the
+base directory to generate the correct Makefiles. To update the translation
+files, run this command:
+	make update-po
+
+At this point, the .pot file rereads the source code and updates its string
+list, and the existing po files are merged if necessary to add new messages
+or remove old ones. These po files can then either be hand edited, or modified
+with a tool such as gtranslator or kbabel.
+
+Making a new language is not too hard, but be sure to follow all the steps.
+You will have to do the following steps in both the lib/libalpm/po/ and
+src/pacman/po/ directories, substituting where approriate. First, edit the
+LINGUAS file and add your new language code at the bottom. Next, run the
+following command, substituting 'libalpm.pot' or 'pacman.pot' depending on
+which directory you are currently working in:
+	msginit -l <lang code> -o <lang code>.po -i <potfile>
+
+Look at the current message files for more guidance if necessary. Once you
+create the new language file, you may need to slightly modify the headers;
+try to make them look similar to the other .po file headers. In addition, for
+all new translations we would strongly recommend using UTF-8 encoding.
+
+Translating Manpages
+--------------------
+
+(To Be Announced)
+
