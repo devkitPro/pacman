@@ -81,7 +81,7 @@ static void query_fileowner(pmdb_t *db, char *filename)
 
 int pacman_query(alpm_list_t *targets)
 {
-	alpm_list_t *sync_dbs = NULL, *i, *j;;
+	alpm_list_t *sync_dbs = NULL, *i, *j, *k;
 	pmpkg_t *info = NULL;
 	char *package = NULL;
 	int done = 0;
@@ -224,69 +224,58 @@ int pacman_query(alpm_list_t *targets)
 					if(info == NULL) {
 						/* something weird happened */
 						ERR(NL, _("package \"%s\" not found\n"), pkgname);
-						/* do not return on query operations - let's just carry on */
-						/*return(1);*/
 						continue;
 					}
-					if(config->op_q_foreign) {
-						int match = 0;
-						for(i = sync_dbs; i; i = alpm_list_next(i)) {
-							pmdb_t *db = (pmdb_t *)alpm_list_getdata(i);
-							for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
-								pmpkg_t *pkg = alpm_list_getdata(j);
-								if(strcmp(alpm_pkg_get_name(pkg), alpm_pkg_get_name(info)) == 0) {
-									match = 1;
-								}
+				}
+				if(config->op_q_foreign) {
+					int match = 0;
+					for(j = sync_dbs; j; j = alpm_list_next(j)) {
+						pmdb_t *db = (pmdb_t *)alpm_list_getdata(j);
+						for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
+							pmpkg_t *pkg = alpm_list_getdata(k);
+							if(strcmp(alpm_pkg_get_name(pkg), alpm_pkg_get_name(info)) == 0) {
+								match = 1;
 							}
 						}
-						if(match==0) {
-							MSG(NL, "%s %s\n", pkgname, pkgver);
-						}
 					}
-					if(config->op_q_list) {
-						dump_pkg_files(info);
+					if(match==0) {
+						MSG(NL, "%s %s\n", pkgname, pkgver);
 					}
-					if(config->op_q_orphans) {
-						if(alpm_pkg_get_requiredby(info) == NULL
-						   && (long)alpm_pkg_get_reason(info) == PM_PKG_REASON_DEPEND) {
-							MSG(NL, "%s %s\n", pkgname, pkgver);
-						}
-					} 
+				} else if(config->op_q_list) {
+					dump_pkg_files(info);
+				} else if(config->op_q_orphans) {
+					if(alpm_pkg_get_requiredby(info) == NULL
+						 && (long)alpm_pkg_get_reason(info) == PM_PKG_REASON_DEPEND) {
+						MSG(NL, "%s %s\n", pkgname, pkgver);
+					}
 				} else {
 					MSG(NL, "%s %s\n", pkgname, pkgver);
 				}
 			}
 		} else {
-
 			info = alpm_db_readpkg(db_local, package);
 			if(info == NULL) {
 				ERR(NL, _("package \"%s\" not found\n"), package);
-				/* do not return on query operations - let's just carry on */
-				/*return(2);*/
 				continue;
 			}
 
 			/* find a target */
-			if(config->op_q_changelog || config->op_q_info || config->op_q_list) {
-				if(config->op_q_changelog) {
-					char changelog[PATH_MAX];
-					snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
-						alpm_option_get_root(), alpm_option_get_dbpath(),
-						alpm_db_get_name(db_local),
-						alpm_pkg_get_name(info),
-						alpm_pkg_get_version(info));
-					dump_pkg_changelog(changelog, alpm_pkg_get_name(info));
-				}
-				if(config->op_q_info) {
-					dump_pkg_full(info, config->op_q_info);
-				}
-				if(config->op_q_list) {
-					dump_pkg_files(info);
-				}
+			if(config->op_q_changelog) {
+				char changelog[PATH_MAX];
+				snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
+								 alpm_option_get_root(), alpm_option_get_dbpath(),
+								 alpm_db_get_name(db_local),
+								 alpm_pkg_get_name(info),
+								 alpm_pkg_get_version(info));
+				dump_pkg_changelog(changelog, alpm_pkg_get_name(info));
+			} else if(config->op_q_info) {
+				dump_pkg_full(info, config->op_q_info);
+			} else if(config->op_q_list) {
+				dump_pkg_files(info);
 			} else if(config->op_q_orphans) {
-					if(alpm_pkg_get_requiredby(info) == NULL) {
-						MSG(NL, "%s %s\n", alpm_pkg_get_name(info), alpm_pkg_get_version(info));
-					}
+				if(alpm_pkg_get_requiredby(info) == NULL) {
+					MSG(NL, "%s %s\n", alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+				}
 			} else {
 				MSG(NL, "%s %s\n", alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 			}

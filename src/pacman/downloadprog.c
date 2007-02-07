@@ -147,7 +147,7 @@ void log_progress(const char *filename, int xfered, int total)
 	}
 
 	printf(" %-*s %6d%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname, 
-				 xfered/1024, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
+				 xfered, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
 
 	free(fname);
 	
