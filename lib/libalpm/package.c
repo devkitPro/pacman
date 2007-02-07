@@ -134,15 +134,13 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
 	}
 
-	if(pkg->force) {
-		/* skip the version compare call if this is a 'force' package */
-		return(1);
-	}
-
 	/* compare versions and see if we need to upgrade */
 	cmp = alpm_versioncmp(local_pkg->version, pkg->version);
 
-	if(cmp > 0) {
+	if(cmp != 0 && pkg->force) {
+		cmp = 1;
+		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s"), local_pkg->name, pkg->version);
+	} else if(cmp > 0) {
 		/* local version is newer */
 		pmdb_t *db = pkg->data;
 		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
