@@ -820,19 +820,17 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
 
-	/* ORE
-	We should add a prefix to log strings depending on who called us.
-	If logaction was called by the frontend:
-		USER: <the frontend log>
-	and if called internally:
-		ALPM: <the library log>
-	Moreover, the frontend should be able to choose its prefix (USER by default?):
-		pacman: "PACMAN"
-		kpacman: "KPACMAN"
-		...
-	It allows to share the log file between several frontends and to actually 
-	know who does what */
-
+	/* TODO	We should add a prefix to log strings depending on who called us.
+	 * If logaction was called by the frontend:
+	 *   USER: <the frontend log>
+	 * and if called internally:
+	 *   ALPM: <the library log>
+	 * Moreover, the frontend should be able to choose its prefix
+	 * (USER by default?):
+	 *   pacman: "PACMAN"
+	 *   kpacman: "KPACMAN"
+	 * This would allow us to share the log file between several frontends
+	 * and know who does what */ 
 	return(_alpm_logaction(handle->usesyslog, handle->logfd, str));
 }
 /** @} */

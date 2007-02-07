@@ -1,61 +1,91 @@
 TODO.dan
-This is my personal TODO list. No guarantees if it is out of date and things
-  no longer apply. If you want to help out with any of it, send me an email.
+========
 
-* Go through all makepkg bugs in flyspray and see if they are rectified:
-  http://bugs.archlinux.org/index.php?tasks=&project=1&string=makepkg
+This is my personal TODO list. No guarantees if it is out of date and things no
+longer apply. If you want to help out with any of it, send me an email.
 
-* Documentation- no one likes to write it, but everyone reads it. Work on the
-  man pages and make sure they are up to date.
-* doc/PKGBUILD.5- continue cleanup work
-* PKGBUILD man page should be in section 5 and not section 8
+Go through all makepkg bugs in Flyspray and see if they are rectified:
+http://bugs.archlinux.org/index.php?tasks=&project=1&string=makepkg
 
-* Port the libdownload (libfetch) manpage from BSD style to Linux style, or at
-  very least change references to BSD.
+Documentation- no one likes to write it, but everyone reads it. Work on the man
+pages and make sure they are up to date. Perhaps move man page format to a more
+portable source format to make translation easier to keep up-to-date (something
+like txt2tags, docbook?) This will need some research.
 
-* Pacman 3.1 - New cache cleaning functionality in pacman - keep installed
-  version, choose number to keep, etc. Good python script in the forums that
-  we should try to emulate, perhaps.
-* Pacman 3.1 - downgrade feature - allow users to see cached packages and
-  downgrade to (previous or any?) available options.
+Port the libdownload (libfetch) manpage from BSD style to Linux style, or at
+very least change references to BSD.
 
-* Pacman 3.1 - Extreme similarity between some of the sync and add code...we
-  have to be able to abstract more away from sync actions and add actions to
-  just 'actions' (example: sync,c, add.c, and deptest.c all contain a switch
-  on PM_DEP_MOD_*). Merge update, add, and sync code when possible, so we
-  reduce duplication.
+Pacman 3.1:
+===========
 
-* Pacman 3.1 - List every function, define, etc. in libalpm. Give one
-  sentence description of each. If it sounds like two are similar, find a way
-  to combine or refactor them. If it is unnecessary- delete it. Stop keeping
-  everything clustered in little add/sync/remove parts, allow transactions to
-  share code.
+Updated cache cleaning functionality in pacman - keep installed version, choose
+number to keep, etc. Good python script in the forums that we should try to
+emulate, perhaps.
 
-* Pacman 3.1 - Go through options list. Decide if namings are good, all options
-  are still relevant, etc. Ideas for -Re (#6273), changing meaning of -c (has
-  two meanings, another FS bug), etc. 
+Downgrade feature - allow users to see cached packages and downgrade to
+(previous or any?) available options.
 
-* Pacman 3.1 - Possible rewrite of make system. Options:
-  -- revise to be more static (Aaron mentioned wmii's system)
-  -- Cmake? It looks intriguing
+Extreme similarity between some of the sync and add code...we have to be able
+to abstract more away from sync actions and add actions to just 'actions'
+(example: sync,c, add.c, and deptest.c all contain a switch on PM_DEP_MOD_*).
+Merge update, add, and sync code when possible, so we reduce duplication.
 
-* Pacman 3.1 - Rewrite _alpm_sortbydeps to use Topological Sort. Should work
-  using a standard topo sort algorithm, once the crazy types can be fixed up
-  a bit. Include a cycle check - print a big error message if this happens.
+Review progress /transaction event subsystem. (from TODO)
+
+Add Doxygen comments to every function in libalpm including private functions.
+Ensure functions are doing exactly their purpose and nothing more. Find
+functions that perform duplicate behavior and merge them. Combine and refactor
+others. Delete unnecessary functions. Stop keeping everything clustered in
+little add/sync/remove parts, allow transactions to share code.
+
+Go through options list. Decide if namings are good, all options are still
+relevant, etc. Ideas for -Re (#6273), changing meaning of -c (has two meanings,
+another FS bug), etc. Remove the -A flag and possibly -D, -T, and -Y if they
+can be done by other actions. Possible switch of -U --> -I (#5571).
+
+Rewrite _alpm_sortbydeps to use Topological Sort. Should work using a standard
+topo sort algorithm, once the crazy types can be fixed up a bit. Include a
+cycle check - print a big error message if this happens.
   -- http://en.wikipedia.org/wiki/Topological_sort
   -- http://everything2.com/?node_id=556079
 
+Review display and logging functions. There seems to be an abundance of them.
+Make it extensible to use color, review what verbose/debug means. Perhaps
+separate logging functionality- Pacman has its normal log, and alpm backend
+keeps a very simple log file - listing only adds (including syncs) and removes.
+This way a consistency list can be kept of what is currently installed and what
+isn't, without all the logging junk from the front end.
+
+If we stick with autotools, add more defines to configure.in, including
+CACHEDIR, PKGEXT, so these can be specified at configure time for ease of use
+by other distributions which may want to change the defaults. Also, review what
+needs to be in config.h and what does not. There may be excess #depends which
+are hard coded into the sources. (from TODO.autoconf)
+
 Quick hits:
-* unsigned int vs. unsigned
-* 'ldd' & 'ldd -u' - many linkages
-* possibly split utilities/extras from pacman package
-* makepkg3 produces files with arch appended- gensync can't deal with it
-* FS #4185 - move where message is logged, perhaps?
-* Remove -A flag (and possibly -D, -T, and -Y?)
-* ideas mentioned here - http://bbs.archlinux.org/viewtopic.php?id=29450
-  add a .install message about mirrors, maybe comment whole file, encourage
-  rankmirrors usage
-* update copyrights
-* update pacman website
-* finish pacman coding style page
-* make indent.pro file for GNU indent
+===========
+
+unsigned int vs. unsigned- determine a standard and stick with it
+
+Possibly split utilities/extras from pacman package
+
+Rewrite gensync/updatesync, and add a 'repo-remove' script
+
+FS #4185 - move where message is logged, perhaps?
+
+ideas mentioned here- http://bbs.archlinux.org/viewtopic.php?id=29450- add a
+.install message about mirrors, maybe comment whole file, encourage rankmirrors
+usage
+
+Update copyrights (2007)
+
+Update pacman website, and add/finish pacman coding style page
+
+Make .indent.pro file for GNU indent (started, but didn't finish)
+
+Pacman 3 packaging - perhaps include pacman2.static in case something goes
+terribly wrong, which I hope it won't
+
+autogen.sh / autoclean.sh - these seem messy. Can we clean this up?
+
+

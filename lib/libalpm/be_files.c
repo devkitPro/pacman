@@ -53,9 +53,8 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile)
 {
 	ALPM_LOG_FUNC;
 
-	/* ORE
-		 we should not simply unpack the archive, but better parse it and 
-		 db_write each entry (see sync_load_dbarchive to get archive content) */
+	/* TODO we should not simply unpack the archive, but better parse it and 
+	 * db_write each entry (see sync_load_dbarchive to get archive content) */
 	_alpm_log(PM_LOG_DEBUG, _("unpacking database '%s'"), dbfile);
 
 	if(_alpm_unpack(dbfile, db->path, NULL)) {
