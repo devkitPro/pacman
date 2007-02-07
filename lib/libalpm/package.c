@@ -123,38 +123,45 @@ void _alpm_pkg_free(void *data)
 }
 
 /* Is pkgB an upgrade for pkgA ? */
-int alpm_pkg_compare_versions(pmpkg_t *pkgA, pmpkg_t *pkgB)
+int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 {
-	if(pkgB->origin == PKG_FROM_CACHE) {
+	int cmp = 0;
+
+	ALPM_LOG_FUNC;
+
+	if(pkg->origin == PKG_FROM_CACHE) {
 		/* ensure we have the /desc file, which contains the 'force' option */
-		_alpm_db_read(pkgB->data, INFRQ_DESC, pkgB);
+		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
 	}
 
-	if(pkgB->force) {
+	if(pkg->force) {
 		/* skip the version compare call if this is a 'force' package */
 		return(1);
 	}
 
 	/* compare versions and see if we need to upgrade */
-	int cmp = alpm_versioncmp(pkgA->version, pkgB->version);
+	cmp = alpm_versioncmp(local_pkg->version, pkg->version);
 
 	if(cmp > 0) {
 		/* local version is newer */
-		pmdb_t *db = pkgB->data;
+		pmdb_t *db = pkg->data;
 		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
-							pkgA->name, pkgA->version, db->treename, pkgB->version);
+							local_pkg->name, local_pkg->version, db->treename, pkg->version);
 		cmp = 0;
-	} else if(alpm_list_find_str(handle->ignorepkg, pkgB->name)) {
+	} else if(alpm_list_find_str(handle->ignorepkg, pkg->name)) {
 		/* package should be ignored (IgnorePkg) */
 		_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
-							pkgA->name, pkgA->version, pkgB->version);
+							local_pkg->name, local_pkg->version, pkg->version);
 		cmp = 0;
-	} else if(_alpm_pkg_istoonew(pkgB)) {
+	} else if(_alpm_pkg_istoonew(pkg)) {
 		/* package too new (UpgradeDelay) */
 		_alpm_log(PM_LOG_DEBUG, _("%s-%s: delaying upgrade of package (%s)"),
-							pkgA->name, pkgA->version, pkgB->version);
+							local_pkg->name, local_pkg->version, pkg->version);
 		cmp = 0;
 	}
+
+  _alpm_log(PM_LOG_DEBUG, _("compare versions for %s: %s vs %s, result=%d"),
+						local_pkg->name, local_pkg->version, pkg->version, cmp);
 
 	return(cmp);
 }

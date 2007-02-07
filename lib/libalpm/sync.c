@@ -199,7 +199,6 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 		/* match installed packages with the sync dbs and compare versions */
 		_alpm_log(PM_LOG_DEBUG, _("checking for package upgrades"));
 		for(i = _alpm_db_get_pkgcache(db_local, INFRQ_NONE); i; i = i->next) {
-			int cmp;
 			int replace=0;
 			pmpkg_t *local = i->data;
 			pmpkg_t *spkg = NULL;
@@ -262,7 +261,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	pmpkg_t *local;
 	pmpkg_t *spkg = NULL;
 	pmsyncpkg_t *sync;
-	int cmp, repo_found = 0;
+	int repo_found = 0;
 
 	ALPM_LOG_FUNC;
 
