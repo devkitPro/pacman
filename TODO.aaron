@@ -1,5 +1,13 @@
 == This is my custom TODO file ==
 
+* Dan and I both have personal TODOs.  Perhaps we should kill off TODO and
+  TODO.autoconf
+
+* Look into other VCSs to use.  The main CVS repo will remain, but having a
+  distributed system to allow for easy patching/pushing/pulling would be nice
+  - monotone and mercurial look like the top contenders in my book, but I need
+    to evaluate both a bit more.
+
 * Make sure all the alpm_list_t changes are valid (especially alpm_list_free)
 
 * src/pacman:
@@ -40,6 +48,28 @@
      _alpm_sync_commit
 
 * pacman: fixup doxygen documentation for public interface
+
+* libalpm: just because a function is in alpm.h doesn't mean it needs to be in
+  alpm.c - we should move functions around where they should be.  In fact,
+  alpm.c might not be needed at all, if things were organized properly.
+
+* feature for 3.1: package file hooks *
+  I've been planning on this one for some time.  Here's a simple rundown:
+  in /etc/pacman.d/hooks:
+     Hook /usr/include/* : /usr/bin/ctags -R /usr/include/*.h -f /usr/include/systags
+  This will allow us to make "global hooks" to simplify a lot of repetitive
+  install files (scrollkeeper, depmod, etc).  This also allows us to move
+  ldconfig out of pacman entirely.
+  possible: /etc/pacman.hooks/* files for hooks, so packages can add them too
+
+* feature for 3.1: multiple search/match types
+  option: MatchType regex (current way)
+          MatchType fnmatch (use fnmatch to match things like 'pacman -S gnome*')
+          MatchType plain (no matching.  expect plain text).
+
+* feature for 3.1: revamp the autotools system.  I'd LOVE to use a manual system
+  like wmii and friends do.  It'd be real nice if we could just do away with
+  autotools altogether.
 
 **** BUGS ****
 * Removal of conflicts on -A and -U (INCOMPLETE)
