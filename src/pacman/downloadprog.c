@@ -73,7 +73,7 @@ void log_progress(const char *filename, int xfered, int total)
 		timediff = get_update_timediff(0);
 	}
 
-	if(percent > 0 && percent <= 100 && !timediff) {
+	if(percent > 0 && percent < 100 && !timediff) {
 		/* only update the progress bar when
 		 * a) we first start
 		 * b) we end the progress
