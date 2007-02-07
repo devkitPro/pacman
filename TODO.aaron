@@ -22,6 +22,14 @@
     - clear up list allocation/deallocation - some lists need to be free'd, some
       do not and there is no clear indication WHEN this should happen.
     - remove DB entries (directories) on a read error?
+    - Add a pm_errstr error string, which will allow us to do things like:
+        pm_errno = PM_ERR_LIBARCHIVE;
+        pm_errstr = archive_error_string(archive);
+      or:
+        pm_errno = PM_ERR_LIBDOWNLOAD;
+        pm_errstr = downloadLastErrString;
+      This way we don't break abstraction when returning specific errors in
+      cases like the above.
 
 * pacman: A LOT of functions are way too long.  There should be an upper limit of
   100-200 lines.  _alpm_add_commit is around 600 lines, and is far too complex.
