@@ -1202,7 +1202,7 @@ alpm_list_t *alpm_get_upgrades()
 			pmsyncpkg_t *sync = NULL;
 			found = 0;
 			for(s = syncpkgs; s && !found; s = s->next) {
-				sync = i->data;
+				sync = s->data;
 				if(sync && strcmp(sync->pkg->name, local->name) == 0) {
 					found = 1;
 				}
