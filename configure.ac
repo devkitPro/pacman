@@ -225,10 +225,6 @@ src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
 doc/Makefile
-doc/makepkg.8
-doc/libalpm.3
-doc/pacman.8
-doc/hu/Makefile
 etc/Makefile
 etc/makepkg.conf
 etc/pacman.conf
