@@ -29,6 +29,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <libintl.h>
+#include <math.h>
 
 #include <alpm.h>
 /* pacman */
@@ -52,59 +53,58 @@ void log_progress(const char *filename, int xfered, int total)
 	const int infolen = 50;
 	char *fname, *p; 
 
-	struct timeval current_time;
-	float rate = 0.0;
+	float rate = 0.0, timediff = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
-	float total_timediff, timediff;
+	int percent;
+	char rate_size = 'K', xfered_size = 'K';
 
 	if(config->noprogressbar) {
 		return;
 	}
 
-	int percent = (int)((float)xfered) / ((float)total) * 100;
-
-  if(xfered == 0) {
-		set_output_padding(1); /* we need padding from pm_fprintf output */
+	/* this is basically a switch on xferred: 0, total, and anything else */
+	if(xfered == 0) {
+		/* set default starting values */
 		gettimeofday(&initial_time, NULL);
 		xfered_last = 0;
 		rate_last = 0.0;
 		timediff = get_update_timediff(1);
-	} else {
-		timediff = get_update_timediff(0);
-	}
-
-	if(percent > 0 && percent < 100 && !timediff) {
-		/* only update the progress bar when
-		 * a) we first start
-		 * b) we end the progress
-		 * c) it has been long enough since the last call
-		 */
-		return;
-	}
-
-	gettimeofday(&current_time, NULL);
-	total_timediff = current_time.tv_sec-initial_time.tv_sec
-		+ (float)(current_time.tv_usec-initial_time.tv_usec) / 1000000.0;
-
-	if(xfered == total) {
+		rate = 0.0;
+		eta_s = 0;
+		set_output_padding(1); /* we need padding from pm_fprintf output */
+	} else if(xfered == total) {
 		/* compute final values */
-		rate = (float)total / (total_timediff * 1024.0);
-		if(total_timediff < 1.0 && total_timediff > 0.5) {
-			/* round up so we don't display 00:00:00 for quick downloads all the time*/
-			eta_s = 1;
-		} else {
-			eta_s = (unsigned int)total_timediff;
-		}
+		struct timeval current_time;
+		float diff_sec, diff_usec;
+		
+		gettimeofday(&current_time, NULL);
+		diff_sec = current_time.tv_sec - initial_time.tv_sec;
+		diff_usec = current_time.tv_usec - initial_time.tv_usec;
+		timediff = diff_sec + (diff_usec / 1000000.0);
+		rate = (float)total / (timediff * 1024.0);
+
+		/* round elapsed time to the nearest second */
+		eta_s = (int)floorf(timediff + 0.5);
+
 		set_output_padding(0); /* shut off padding */
 	} else {
+		/* compute current average values */
+		timediff = get_update_timediff(0);
+
+		if(timediff < UPDATE_SPEED_SEC) {
+			/* return if the calling interval was too short */
+			return;
+		}
 		rate = (float)(xfered - xfered_last) / (timediff * 1024.0);
+		/* average rate to reduce jumpiness */
 		rate = (float)(rate + 2*rate_last) / 3;
 		eta_s = (unsigned int)(total - xfered) / (rate * 1024.0);
+		rate_last = rate;
+		xfered_last = xfered;
 	}
 
-	rate_last = rate;
-	xfered_last = xfered;
-	
+	percent = (int)((float)xfered) / ((float)total) * 100;
+
 	/* fix up time for display */
 	eta_h = eta_s / 3600;
 	eta_s -= eta_h * 3600;
@@ -121,8 +121,7 @@ void log_progress(const char *filename, int xfered, int total)
 
 	/* Awesome formatting for progress bar.  We need a mess of Kb->Mb->Gb stuff
 	 * here. We'll use limit of 2048 for each until we get some empirical */
-	char rate_size = 'K';
-	char xfered_size = 'K';
+	/* rate_size = 'K'; was set above */
 	if(rate > 2048.0) {
 		rate /= 1024.0;
 		rate_size = 'M';
@@ -134,6 +133,7 @@ void log_progress(const char *filename, int xfered, int total)
 	}
 
 	xfered /= 1024; /* convert to K by default */
+	/* xfered_size = 'K'; was set above */
 	if(xfered > 2048) {
 		xfered /= 1024;
 		xfered_size = 'M';

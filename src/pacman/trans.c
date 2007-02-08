@@ -155,9 +155,9 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_SCRIPTLET_DONE:
 			if(!(long)data1) {
-				MSG(CL, _(" done.\n"));
+				MSG(CL, _("done.\n"));
 			} else {
-				MSG(CL, _(" failed.\n"));
+				MSG(CL, _("failed.\n"));
 			}
 			break;
 		case PM_TRANS_EVT_PRINTURI:

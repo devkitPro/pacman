@@ -268,7 +268,9 @@ void display_targets(alpm_list_t *syncpkgs)
 	char *str;
 	alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
-	unsigned long totalsize = 0, totalisize = 0, totalrsize = 0;
+	/* TODO these are some messy variable names */
+	unsigned long size = 0, isize = 0, rsize = 0;
+	double mbsize = 0.0, mbisize = 0.0, mbrsize = 0.0;
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
@@ -285,48 +287,53 @@ void display_targets(alpm_list_t *syncpkgs)
 				const char *name = alpm_pkg_get_name(rp);
 
 				if(!alpm_list_find_str(to_remove, name)) {
-					totalrsize += alpm_pkg_get_isize(rp);
+					rsize += alpm_pkg_get_isize(rp);
 					to_remove = alpm_list_add(to_remove, strdup(name));
 				}
 			}
 		}
 
-		totalsize += alpm_pkg_get_size(pkg);
-		totalisize += alpm_pkg_get_isize(pkg);
+		size += alpm_pkg_get_size(pkg);
+		isize += alpm_pkg_get_isize(pkg);
 
 		asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		targets = alpm_list_add(targets, str);
 	}
+
+	/* Convert byte sizes to MB */
+	mbsize = (double)(size) / (1024.0 * 1024.0);
+	mbisize = (double)(isize) / (1024.0 * 1024.0);
+	mbrsize = (double)(rsize) / (1024.0 * 1024.0);
 
 	if(to_remove) {
 		MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */
 		list_display(_("Remove:"), to_remove);
 		FREELIST(to_remove);
 	
-		double rmb = (double)(totalrsize) / (1024.0 * 1024.0);
-		if(rmb > 0) {
-			if(rmb < 0.1) {
-				rmb = 0.1;
+		if(mbrsize > 0) {
+			/* round up if size is really small */
+			if(mbrsize < 0.1) {
+				mbrsize = 0.1;
 			}
-			MSG(NL, _("\nTotal Removed Size:   %.2f MB\n"), rmb);
+			MSG(NL, _("\nTotal Removed Size:   %.2f MB\n"), mbrsize);
 		}
 	}
 
 	MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */ 
 	list_display(_("Targets:"), targets);
 
-	double mb = (double)(totalsize) / (1024.0 * 1024.0);
-	if(mb < 0.1) {
-		mb = 0.1;
+	/* round up if size is really small */
+	if(mbsize < 0.1) {
+		mbsize = 0.1;
 	}
-	MSG(NL, _("\nTotal Package Size:   %.2f MB\n"), mb);
+	MSG(NL, _("\nTotal Package Size:   %.2f MB\n"), mbsize);
 	
-	double umb = (double)(totalisize) / (1024.0 * 1024.0);
-	if(umb > 0) {
-		if(umb < 0.1) {
-			umb = 0.1;
+	if(mbisize > mbsize) {
+		/*round up if size is really small */
+		if(mbisize < 0.1) {
+			mbisize = 0.1;
 		}
-		MSG(NL, _("Total Installed Size:   %.2f MB\n"), umb);
+		MSG(NL, _("Total Installed Size:   %.2f MB\n"), mbisize);
 	}
 
 	FREELIST(targets);
@@ -342,29 +349,29 @@ float get_update_timediff(int first_call)
 {
 	float retval = 0.0;
 	static struct timeval last_time = {0};
-	struct timeval this_time;
 
+	/* on first call, simply set the last time and return */
 	if(first_call) {
-		/* always update on the first call */
-		retval = 1.0;
+		gettimeofday(&last_time, NULL);
 	} else {
+		struct timeval this_time;
+		float diff_sec, diff_usec;
+
 		gettimeofday(&this_time, NULL);
+		diff_sec = this_time.tv_sec - last_time.tv_sec;
+		diff_usec = this_time.tv_usec - last_time.tv_usec;
 
-		float diff_sec = this_time.tv_sec - last_time.tv_sec;
-		float diff_usec = this_time.tv_usec - last_time.tv_usec;
+		retval = diff_sec + (diff_usec / 1000000.0);
 
-		retval = diff_sec + (diff_usec / 1000000.0f);
-		/*printf("update time: %fs %fus = %f\n", diff_sec, diff_usec, retval);*/
-
+		/* return 0 and do not update last_time if interval was too short */
 		if(retval < UPDATE_SPEED_SEC) {
-			/* maintain the last_time value for the next call */
-			return(0.0);
+			retval = 0.0;
+		} else {
+			last_time = this_time;
+			/* printf("\nupdate retval: %f\n", retval); DEBUG*/
 		}
 	}
-
-	/* set the time for the next call */
-	gettimeofday(&last_time, NULL);
-
+	
 	return(retval);
 }
 
