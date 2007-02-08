@@ -62,8 +62,8 @@ by other distributions which may want to change the defaults. Also, review what
 needs to be in config.h and what does not. There may be excess #depends which
 are hard coded into the sources. (from TODO.autoconf)
 
-Quick hits:
-===========
+Other ideas:
+============
 
 unsigned int vs. unsigned- determine a standard and stick with it
 
@@ -88,4 +88,8 @@ terribly wrong, which I hope it won't
 
 autogen.sh / autoclean.sh - these seem messy. Can we clean this up?
 
-
+Refine makepkg error codes. Each kind of failure could have its own code:
+  --package already built
+  --failed integ checks
+  --failed build
+  --etc.

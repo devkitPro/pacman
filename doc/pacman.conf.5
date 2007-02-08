@@ -1,0 +1,137 @@
+." the string declarations are a start to try and make distro independent
+.ds DS Arch Linux
+.ds PB PKGBUILD
+.ds VR 3.0.0
+.TH \*(PB 5 "Feb 07, 2007" "pacman.conf version \*(VR" "\*(DS Files"
+.SH NAME
+pacman.conf \- pacman package manager configuration file
+
+.SH DESCRIPTION
+
+\fBpacman\fP will attempt to read \fBpacman.conf\fP each time it is invoked.
+This configuration file is divided into sections or \fIrepositories\fP. Each
+section defines a package repository that \fBpacman\fP can use when searching
+for packages in \fB--sync\fP mode. The exception to this is the \fIoptions\fP
+section, which defines global options.
+
+.SH EXAMPLE
+.RS
+.nf
+#
+# pacman.conf
+#
+[options]
+NoUpgrade = etc/passwd etc/group etc/shadow
+NoUpgrade = etc/fstab
+
+[current]
+Include = /etc/pacman.d/current
+
+[custom]
+Server = file:///home/pkgs
+.fi
+.RE
+
+.SH OPTIONS
+.TP
+.B DBPath = path/to/db/dir
+Overrides the default location of the toplevel database directory.  The default
+is \fIvar/lib/pacman\fP.
+.TP
+.B CacheDir = path/to/cache/dir
+Overrides the default location of the package cache directory. The default is
+\fIvar/cache/pacman\fP.
+.TP
+.B HoldPkg = \fIpackage\fP ...
+If a user tries to \fB--remove\fP a package that's listed in \fBHoldPkg\fI,
+\fBpacman\fP will ask for confirmation before proceeding.
+.TP
+.B IgnorePkg = \fIpackage\fP ...
+Instructs \fBpacman\fP to ignore any upgrades for this package when performing a
+\fB--sysupgrade\fP.
+.TP
+.B Include = \fIpath\fP
+Include another config file. This file can include repositories or general
+configuration options.
+.TP
+.B ProxyServer = <\fIhost\fP|\fIip\fP>[:\fIport\fP]
+If set, \fBpacman\fP will use this proxy server for all ftp/http transfers.
+.TP
+.B XferCommand = \fI/path/to/command %u\fP
+If set, an external program will be used to download all remote files.  All
+instances of \fB%u\fP will be replaced with the download URL. If present,
+instances of \fB%o\fP will be replaced with the local filename, plus a ".part"
+extension, which allows programs like wget to do file resumes properly.
+
+This option is useful for users who experience problems with built-in
+http/ftp support, or need the more advanced proxy support that comes with
+utilities like wget.
+.TP
+.B NoPassiveFtp
+Disables passive ftp connections when downloading packages. (aka Active Mode)
+.TP
+.B NoUpgrade = \fIfile\fP ...
+All files listed with a \fBNoUpgrade\fP directive will never be touched during
+a package install/upgrade. Do \fInot\fP include the leading slash when
+specifying files.
+.TP
+.B NoExtract = \fIfile\fP ...
+All files listed with a \fBNoExtract\fP directive will never be extracted from
+a package into the filesystem. This can be useful when you don't want part of a
+package to be installed. For example, if your httpd root uses an index.php,
+then you would not want the index.html file to be extracted from the
+\fBapache\fP package.
+.TP
+.B UseSyslog
+Log action messages through \fBsyslog()\fP. This will insert log entries into
+\fI/var/log/messages\fP or equivalent.
+.TP
+.B LogFile = \fI/path/to/file\fP
+Log actions directly to a file. Default is \fI/var/log/pacman.log\fP.
+
+.SH REPOSITORY SECTIONS
+Each repository section defines a section name and at least one location where
+the packages can be found. The section name is defined by the string within
+square brackets (the two above are 'current' and 'custom'). Locations are
+defined with the \fBServer\fP directive and follow a URL naming structure.  If
+you want to use a local directory, you can specify the full path with
+a 'file://' prefix, as shown above.
+
+The order of repositories in the file matters; repositories listed first will
+take precedence over those listed later in the file when packages in two
+repositories have identical names, regardless of version number.
+
+.SH USING YOUR OWN REPOSITORY
+If you have numerous custom packages of your own, it is often easier to generate your own custom local repository than install them all with the \fB--upgrade\fP option. All you need to do is generate a compressed package database in the directory with these packages so \fBpacman\fP can find it when run with \fB--refresh\fP.
+
+.RS
+.nf
+repo-add /home/pkgs/custom.db.tar.gz /home/pkgs/*.pkg.tar.gz
+.fi
+.RE
+
+The above command will generate a compressed database named
+\fI/home/pkgs/custom.db.tar.gz\fP. Note that the database must be of the form
+\fI{treename}.db.tar.gz\fP, where {treename} is the name of the section defined
+in the configuration file.  That's it!  Now configure your \fIcustom\fP section
+in the configuration file as shown in the config example above.  Pacman will
+now use your package repository.  If you add new packages to the repository,
+remember to re-generate the database and use \fBpacman\fP's --refresh option.
+
+For more information on the \fBrepo-add\fP command, use \fB repo-add --help\fP.
+
+.SH SEE ALSO
+.BR pacman (8),
+.BR libalpm (3)
+
+See the Arch Linux website at <http://www.archlinux.org> for more current
+information on the distribution and the \fBpacman\fP family of tools.
+
+.SH AUTHORS
+.nf
+Judd Vinet <jvinet@zeroflux.org>
+Aurelien Foret <aurelien@archlinux.org>
+Aaron Griffin <aaron@archlinux.org>
+Dan McGee <dan@archlinux.org>
+See the 'AUTHORS' file for additional contributors.
+.fi

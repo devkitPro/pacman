@@ -2,31 +2,32 @@
 .ds DS Arch Linux
 .ds PB PKGBUILD
 .ds VR 3.0.0
-.TH PKGBUILD 5 "Feb 06, 2007" "PKGBUILD version \*(VR" "\*(DS Files"
+.TH \*(PB 5 "Feb 07, 2007" "\*(PB version \*(VR" "\*(DS Files"
 .SH NAME
-PKGBUILD \- \*(DS package build description file
+\*(PB \- \*(DS package build description file
+
 .SH DESCRIPTION
-This manual page is meant to describe general rules about PKGBUILDs. Once
-a PKGBUILD is written, the actual package is built using \fBmakepkg\fR and 
+This manual page is meant to describe general rules about \*(PBs. Once
+a \*(PB is written, the actual package is built using \fBmakepkg\fR and 
 installed with \fBpacman\fR.
 
 \fBNOTE:\fR If you have a local copy of the Arch Build System (ABS) tree
-on your computer, you can copy the PKGBUILD.proto file to your new package
+on your computer, you can copy the \*(PB.proto file to your new package
 build directory and edit it from there.  To acquire/sync the ABS tree, use
 the \fBabs\fR script included with pacman/makepkg.
 
-.SS Quick PKGBUILD Explanation
-For an example of a PKGBUILD, see the \fBEXAMPLE\fR section.
+.SS Quick \*(PB Explanation
+For an example of a \*(PB, see the \fBEXAMPLE\fR section.
 
 \fIpkgname\fR defines the package name. It should not contain any uppercase
 letters. \fIpkgversion\fR defines the actual package version as given by the
 developers of the package. No dashes are allowed. \fIpkgrel\fR allows for
-\*(DS-specific changes to the package or corrections to a PKGBUILD
+\*(DS-specific changes to the package or corrections to a \*(PB
 without an upstream version change. The value should be an integer.
 \fIpkgdesc\fR is a short one-line description for the package, usually taken
 from the project's homepage or manpage. It is preferable to keep the length to
 one line for displaying during searches. These four variables are required in
-every PKGBUILD. \fIurl\fR is also highly recommended so users can find more
+every \*(PB. \fIurl\fR is also highly recommended so users can find more
 information on the package if needed.
 
 \fIdepends\fR and \fImakedepends\fR are bash arrays which define the
@@ -49,7 +50,7 @@ together. Sometimes this is as simple as a configure, make, make install (to
 $startdir/pkg). However, some customizations are often needed during the build
 process.
 
-Once your PKGBUILD is created, you can run \fBmakepkg\fR from the build
+Once your \*(PB is created, you can run \fBmakepkg\fR from the build
 directory. \fBmakepkg\fR will check dependencies and look for the source files
 required to build.  If some are missing it will attempt to download them,
 provided there is a fully-qualified URL in the \fIsource()\fR array.
@@ -100,14 +101,14 @@ licenses are applied, use the array form: \fBlicenses=('GPL' 'FDL')\fR
 .TP
 .B install
 Specifies a special install script that is to be included in the package.
-This file should reside in the same directory as the PKGBUILD, and will be
+This file should reside in the same directory as the \*(PB, and will be
 copied into the package by makepkg. It does not need to be included in the
 \fIsource\fR array. (eg, install=pkgname.install)
 
 .TP
 .B source \fI(array)\fR
 The \fIsource\fR line is an array of source files required to build the
-package. Source files must reside in the same directory as the PKGBUILD
+package. Source files must reside in the same directory as the \*(PB
 file, unless they have a fully-qualified URL. 
 
 .TP
@@ -122,8 +123,8 @@ which use compressed data which id downloaded via the \fIsource\fR array.
 If this field is present, it should contain an MD5 hash for every source file
 specified in the \fIsource\fR array (in the same order). \fImakepkg\fR will use
 this to verify source file integrity during subsequent builds. To easily
-generate md5sums, first build using the PKGBUILD then run
-\fBmakepkg -g >>PKGBUILD\fR. Then you can edit the PKGBUILD and move the
+generate md5sums, first build using the \*(PB then run
+\fBmakepkg -g >>\*(PB\fR. Then you can edit the \*(PB and move the
 \fImd5sums\fR line from the bottom to an appropriate location.
 \fBNOTE:\fR makepkg supports multiple integrity algorithms and their
 corresponding arrays (i.e. sha1sums for the SHA1 algorithm), however official
@@ -221,7 +222,7 @@ script is run right after files are removed.
 
 .P
 To use this feature, just create a file (eg, pkgname.install) and put it in
-the same directory as the PKGBUILD script.  Then use the \fIinstall\fR
+the same directory as the \*(PB script.  Then use the \fIinstall\fR
 directive:
 
 install=pkgname.install
@@ -230,7 +231,7 @@ The install script does not need to be specified in the \fIsource\fR array.
 A template install file is  available in your ABS tree (/var/abs/install.proto).
 
 .SH EXAMPLE
-The following is an example PKGBUILD for the 'modutils' package. For more
+The following is an example \*(PB for the 'modutils' package. For more
 examples, look through the ABS tree.
 
 .nf
@@ -265,17 +266,18 @@ build() {
 
 .SH SEE ALSO
 .BR makepkg (8),
-.BR makepkg.conf (5),
 .BR pacman (8)
-.BR pacman.conf (5)
 
 See the Arch Linux website at <http://www.archlinux.org> for more current
-information on the distribution, and 
+information on the distribution and the \fBpacman\fP family of tools, and
 <http://wiki.archlinux.org/index.php/Arch_Packaging_Standards> for
 recommendations on packaging standards.
+
 .SH AUTHORS
+.nf
 Judd Vinet <jvinet@zeroflux.org>
 Aurelien Foret <aurelien@archlinux.org>
 Aaron Griffin <aaron@archlinux.org>
 Dan McGee <dan@archlinux.org>
 See the 'AUTHORS' file for additional contributors.
+.fi

@@ -88,11 +88,11 @@ static void usage(int op, char *myname)
 		printf(_("usage:  %s {-h --help}\n"), myname);
 		printf(_("        %s {-V --version}\n"), myname);
 		printf(_("        %s {-A --add}     [options] <file>\n"), myname);
-		printf(_("        %s {-R --remove}  [options] <package>\n"), myname);
-		printf(_("        %s {-U --upgrade} [options] <file>\n"), myname);
 		printf(_("        %s {-F --freshen} [options] <file>\n"), myname);
 		printf(_("        %s {-Q --query}   [options] [package]\n"), myname);
+		printf(_("        %s {-R --remove}  [options] <package>\n"), myname);
 		printf(_("        %s {-S --sync}    [options] [package]\n"), myname);
+		printf(_("        %s {-U --upgrade} [options] <file>\n"), myname);
 		printf(_("\nuse '%s --help' with other options for more syntax\n"), myname);
 	} else {
 		if(op == PM_OP_ADD) {
