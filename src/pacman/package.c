@@ -97,9 +97,10 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	/* Print additional package info if info flag passed more than once */
 	if(level > 1) {
 		/* call new backup function */
-		dump_pkg_backups(pkg);
 		printf("\n");
+		dump_pkg_backups(pkg);
 	}
+	printf("\n");
 }
 
 /* Display the content of a sync package
@@ -145,7 +146,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 {
 	alpm_list_t *i;
 	const char *root = alpm_option_get_root();
-	printf("\nBackup Files :\n");
+	printf(_("Backup Files :\n"));
 	for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
 		struct stat buf;
 		char path[PATH_MAX];
