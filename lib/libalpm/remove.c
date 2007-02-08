@@ -162,8 +162,40 @@ static int str_cmp(const void *s1, const void *s2)
 	return(strcmp(s1, s2));
 }
 
+
+static int can_remove_file(const char *path)
+{
+	alpm_list_t *i;
+	char file[PATH_MAX+1];
+
+	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
+
+	for(i = handle->trans->skiplist; i; i = i->next) {
+		if(strcmp(file, i->data) == 0) {
+			/* skipping this file, return success because "removing" this
+			 * file does nothing */
+			return(1);
+		}
+	}
+	/* If we fail write permissions due to a read-only filesystem, abort.
+	 * Assume all other possible failures are covered somewhere else */
+	if(access(file, W_OK) == -1) {
+		if(access(file, F_OK) == 0) {
+			/* only return failure if the file ACTUALLY exists and we don't have
+			 * permissions */
+			_alpm_log(PM_LOG_WARNING, _("cannot remove file '%s': %s"), file, strerror(errno));
+			return(0);
+		}
+	}
+
+	return(1);
+}
+
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit
+ *
+ * TODO the parameters are a bit out of control here.  This function doesn't
+ * need to report PROGRESS, do it in the parent function.
 */
 static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 												pmtrans_t *trans, int filenum, int *position)
@@ -171,34 +203,35 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 	struct stat buf;
 	int nb = 0;
 	double percent = 0.0;
-	char *file = lp->data;
-	char line[PATH_MAX+1];
+	char file[PATH_MAX+1];
 	char *checksum = _alpm_needbackup(lp->data, info->backup);
 
 	ALPM_LOG_FUNC;
 
-	if ( *position != 0 ) {
+	if(*position != 0) {
 		percent = (double)*position / filenum;
-	} if ( checksum ) {
+	}
+	if(checksum) {
 		nb = 1;
 		FREE(checksum);
-	} if ( !nb && trans->type == PM_TRANS_TYPE_UPGRADE ) {
+	}
+	if(!nb && trans->type == PM_TRANS_TYPE_UPGRADE) {
 		/* check noupgrade */
-		if ( alpm_list_find_str(handle->noupgrade, file) ) {
+		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
 			nb = 1;
 		}
 	}
-	snprintf(line, PATH_MAX, "%s%s", handle->root, file);
-	if ( lstat(line, &buf) ) {
-		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), line);
+	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
+	if(lstat(file, &buf)) {
+		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
 		return;
 	}
-	if ( S_ISDIR(buf.st_mode) ) {
-		if ( rmdir(line) ) {
+	if(S_ISDIR(buf.st_mode)) {
+		if(rmdir(file)) {
 			/* this is okay, other pakcages are probably using it (like /usr) */
-			_alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), line);
+			_alpm_log(PM_LOG_DEBUG, _("keeping directory %s"), file);
 		} else {
-			_alpm_log(PM_LOG_DEBUG, _("removing directory %s"), line);
+			_alpm_log(PM_LOG_DEBUG, _("removing directory %s"), file);
 		}
 	} else {
 		/* check the "skip list" before removing the file.
@@ -206,35 +239,36 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		 * explanation. */
 		int skipit = 0;
 		alpm_list_t *j;
-		for ( j = trans->skiplist; j; j = j->next ) {
-			if ( !strcmp(file, (char*)j->data) ) {
+		for(j = trans->skiplist; j; j = j->next) {
+			if(!strcmp(lp->data, (char*)j->data)) {
 				skipit = 1;
 			}
 		}
-		if ( skipit ) {
-			_alpm_log(PM_LOG_DEBUG, _("skipping removal of %s as it has moved to another package"),
-								line);
+		if(skipit) {
+			_alpm_log(PM_LOG_WARNING, _("skipping removal of %s as it has moved to another package"),
+								file);
 		} else {
 			/* if the file is flagged, back it up to .pacsave */
-			if ( nb ) {
-				if ( !(trans->type == PM_TRANS_TYPE_UPGRADE) ) {
+			if(nb) {
+				if(!(trans->type == PM_TRANS_TYPE_UPGRADE)) {
 					/* if it was an upgrade, the file would be left alone because
 					 * pacman_add() would handle it */
-					if ( !(trans->type & PM_TRANS_FLAG_NOSAVE) ) {
+					if(!(trans->type & PM_TRANS_FLAG_NOSAVE)) {
 						char newpath[PATH_MAX];
-						snprintf(newpath, PATH_MAX, "%s.pacsave", line);
-						rename(line, newpath);
-						_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), line, newpath);
+						snprintf(newpath, PATH_MAX, "%s.pacsave", file);
+						rename(file, newpath);
+						_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file, newpath);
 					}
 				}
 			} else {
-				_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), line);
+				_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), file);
 				int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
+
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
 				++(*position);
 
-				if (unlink(line) == -1) {
-					_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), file, strerror(errno));
+				if(unlink(file) == -1) {
+					_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), lp->data, strerror(errno));
 				}
 			}
 		}
@@ -272,6 +306,13 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
+			for(lp = info->files; lp; lp = lp->next) {
+				if(!can_remove_file(lp->data)) {
+					_alpm_log(PM_LOG_DEBUG, _("not removing package '%s', can't remove all files"), info->name);
+					RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
+				}
+			}
+
 			int filenum = alpm_list_count(info->files);
 			_alpm_log(PM_LOG_DEBUG, _("removing files"));
 

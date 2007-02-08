@@ -97,6 +97,8 @@ char SYMEXPORT *alpm_strerror(int err)
 			return _("package already installed");
 		case PM_ERR_PKG_CANT_FRESH:
 			return _("package not installed or lesser version");
+		case PM_ERR_PKG_CANT_REMOVE:
+			return _("cannot remove all files for package");
 		case PM_ERR_PKG_INVALID_NAME:
 			return _("package name is not valid");
 		case PM_ERR_PKG_CORRUPTED:
