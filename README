@@ -1,58 +1,37 @@
-==========================================================================
-README:
-
-Overview and internals of the ALPM library and the PACMAN frontend.
-
-This document describes the state of the implementation before its CVS
-import.
-At this stage, the code is in pre-alpha state, but the design should not
-change that much.
-There's still need for some work to get the current code properly working.
-The tag "ORE" was added in various places in the code, each time a point
-remains unclear or is not yet implemented.
-
-==========================================================================
-
-
 ALPM library overview & internals
 =================================
 
-Here is a list of the main objects and files from the ALPM (i.e. Arch
-Linux Package Management) library.
-This document, whilst not exhaustive, also indicates some limitations
-(on purpose, or sometimes due to its poor design) of the library at the
-present time.
+Here is a list of the main objects and files from the ALPM (i.e. Arch Linux
+Package Management) library. This document, whilst not exhaustive, also
+indicates some limitations (on purpose, or sometimes due to its poor design) of
+the library at the present time.
 
-Note: there is one special file ("alpm.h") which is the public interface
-that should be distributed and installed on systems with the library.
-Only structures, data and functions declared within this file are made
-available to the frontend.
-Lots of structures are of an opaque type and their fields are only
-accessible in read-only mode, through some clearly defined functions.
+There is one special file,"alpm.h", which is the public interface that
+should be distributed and installed on systems with the library. Only
+structures, data and functions declared within this file are made available to
+the frontend. Lots of structures are of an opaque type and their fields are
+only accessible in read-only mode, through some clearly defined functions.
 
-Note: several structures and functions have been renamed compared to
-pacman 2.9 code.
-This was done at first for the sake of naming scheme consistency, and
-then primarily because of potential namespace conflicts between library
-and frontend spaces.
-Indeed, it is not possible to have two different functions with the same
-name declared in both spaces.
-To avoid such conflicts, some function names have been prepended with
-"_alpm_".
-In a general manner, public library functions are named
-"alpm_<type>_<action>" (examples: alpm_trans_commit(),
-alpm_lib_release(), alpm_pkg_getinfo(), ...).
-Internal (and thus private) functions should be named "_alpm_XXX" for
-instance (examples: _alpm_needbackup(), _alpm_runscriplet(), ...).
-As of now, this scheme is only applied to most sensitive functions
-(mainly the ones from util.c), which have generic names, and thus, which
-are likely to be redefined in the frontend.
-One can consider that the frontend should have the priority in function
-names choice, and that it is up to the library to hide its symbols to
-avoid conflicts with the frontend ones.
-Finally, functions defined and used inside a single file should be
-defined as "static".
+In addition to "alpm.h", the interfaces of "alpm_list.h" have also been made
+available to the frontend. It is not a requirement for the frontend to use
+these list functions; however, it prevents frontends from having to reimplement
+possibly useful functions.
 
+Several structures and functions have been renamed compared to pacman 2.9 code.
+This was done at first for the sake of naming scheme consistency, and then
+primarily because of potential namespace conflicts between library and frontend
+spaces. Indeed, it is not possible to have two different functions with the
+same name declared in both spaces. To avoid such conflicts, internal function
+names have been prepended with "_alpm_".
+
+In a general manner, public library functions are named "alpm_<type>_<action>"
+(examples: alpm_trans_commit(), alpm_lib_release(), alpm_pkg_getinfo(), ...).
+Internal (and thus private) functions should be named "_alpm_XXX" for instance
+(examples: _alpm_needbackup(), _alpm_runscriplet(), ...). Functions defined and
+used inside a single file should be defined as "static".
+
+NOTE: The below descriptions may be severely outdated. Yes it needs updating,
+but it may be better done by doxygen comments and generated documentation.
 
 [HANDLE] (see handle.c)
 
