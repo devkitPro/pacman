@@ -55,7 +55,7 @@ pmserver_t *_alpm_server_new(const char *url)
 	u = downloadParseURL(url);
 	if(!u) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring"), url);
-		return(NULL);
+		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
 	}
 	if(strlen(u->scheme) == 0) {
 		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming http"));
@@ -67,11 +67,7 @@ pmserver_t *_alpm_server_new(const char *url)
 		strcpy(u->pwd, "libalpm@guest");
 	}
 
-	/* This isn't needed... we can actually kill the whole pmserver_t interface
-	 * and replace it with libdownload's 'struct url'
-	 */
   server->s_url = u;
-	server->path = strdup(u->doc);
 
 	return server;
 }
@@ -87,9 +83,52 @@ void _alpm_server_free(void *data)
 	}
 
 	/* free memory */
-	FREE(server->path);
 	downloadFreeURL(server->s_url);
 	FREE(server);
+}
+
+/* remove filename info from "s_url->doc" and return it */
+static char *strip_filename(pmserver_t *server)
+{
+	char *p = NULL, *fname = NULL;
+	if(!server) {
+		return(NULL);
+	}
+
+	p = strrchr(server->s_url->doc, '/');
+	if(p && *(++p)) {
+		fname = strdup(p);
+		_alpm_log(PM_LOG_DEBUG, _("stripping '%s' from '%s'"), fname, server->s_url->doc);
+		*p = 0;
+	}
+
+	/* s_url->doc now contains ONLY path information.  return value
+	 * if the file information from the original URL */
+	return(fname);
+}
+
+/* Return a 'struct url' for this server, for downloading 'filename'. */
+static struct url *url_for_file(pmserver_t *server, const char *filename)
+{
+	struct url *ret = NULL;
+	char *doc = NULL;
+	int doclen = 0;
+
+	doclen = strlen(server->s_url->doc) + strlen(filename) + 2;
+	doc = calloc(doclen, sizeof(char));
+	if(!doc) {
+		RET_ERR(PM_ERR_MEMORY, NULL);
+	}
+
+	snprintf(doc, doclen, "%s/%s", server->s_url->doc, filename);
+	ret = downloadMakeURL(server->s_url->scheme,
+												server->s_url->host,
+												server->s_url->port,
+												doc,
+												server->s_url->user,
+												server->s_url->pwd);
+	free(doc);
+	return(ret);
 }
 
 /*
@@ -133,13 +172,19 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 	}
 
 	for(i = servers; i && !done; i = i->next) {
-		pmserver_t *server = (pmserver_t*)i->data;
+		pmserver_t *server = i->data;
 
 		/* get each file in the list */
 		for(lp = files; lp; lp = lp->next) {
+			struct url *fileurl = NULL;
 			char realfile[PATH_MAX];
 			char output[PATH_MAX];
 			char *fn = (char *)lp->data;
+
+			fileurl = url_for_file(server, fn);
+			if(!fileurl) {
+				return(-1);
+			}
 
 			snprintf(realfile, PATH_MAX, "%s/%s", localpath, fn);
 			snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
@@ -156,20 +201,15 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 				if(stat(output, &st) == 0 && st.st_size > 0) {
 					_alpm_log(PM_LOG_DEBUG, _("existing file found, using it"));
-					server->s_url->offset = (off_t)st.st_size;
+					fileurl->offset = (off_t)st.st_size;
 					dltotal_bytes = st.st_size;
 					localf = fopen(output, "a");
 					chk_resume = 1;
 				} else {
-					server->s_url->offset = (off_t)0;
+					fileurl->offset = (off_t)0;
 					dltotal_bytes = 0;
 				}
 				
-				FREE(server->s_url->doc);
-				int len = strlen(server->path) + strlen(fn) + 2;
-				server->s_url->doc = (char *)malloc(len);
-				snprintf(server->s_url->doc, len, "%s/%s", server->path, fn);
-
 				/* libdownload does not reset the error code, reset it in the case of previous errors */
 				downloadLastErrCode = 0;
 
@@ -181,21 +221,21 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						downloadDebug = 1;
 				}
 				if(alpm_option_get_logmask() & PM_LOG_DEBUG) {
-						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "v" : "vp"));
+						dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "v" : "vp"));
 				} else {
-						dlf = downloadXGet(server->s_url, &ust, (handle->nopassiveftp ? "" : "p"));
+						dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
 				}
 
 				if(downloadLastErrCode != 0 || dlf == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s://%s : %s"), fn,
-										server->s_url->scheme, server->s_url->host, downloadLastErrString);
+					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s"),
+										fn, fileurl->host, downloadLastErrString);
 					if(localf != NULL) {
 						fclose(localf);
 					}
 					/* try the next server */
 					continue;
 				} else {
-						_alpm_log(PM_LOG_DEBUG, _("server connection to %s complete"), server->s_url->host);
+						_alpm_log(PM_LOG_DEBUG, _("connected to %s successfully"), fileurl->host);
 				}
 				
 				if(ust.mtime && mtime1) {
@@ -218,7 +258,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					_alpm_time2string(ust.mtime, mtime2);
 				}
 
-				if(chk_resume && server->s_url->offset == 0) {
+				if(chk_resume && fileurl->offset == 0) {
 					_alpm_log(PM_LOG_WARNING, _("cannot resume download, starting over"));
 					if(localf != NULL) {
 						fclose(localf);
@@ -228,7 +268,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 				if(localf == NULL) {
 					_alpm_rmrf(output);
-					server->s_url->offset = (off_t)0;
+					fileurl->offset = (off_t)0;
 					dltotal_bytes = 0;
 					localf = fopen(output, "w");
 					if(localf == NULL) { /* still null? */
@@ -263,8 +303,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				char url[PATH_MAX];
 				char cwd[PATH_MAX];
 				/* build the full download url */
-				snprintf(url, PATH_MAX, "%s://%s%s/%s", server->s_url->scheme, server->s_url->host,
-						server->s_url->doc, fn);
+				snprintf(url, PATH_MAX, "%s://%s%s/%s", fileurl->scheme, fileurl->host, fileurl->doc, fn);
 				/* replace all occurrences of %o with fn.part */
 				strncpy(origCmd, handle->xfercommand, sizeof(origCmd));
 				ptr1 = origCmd;
@@ -315,6 +354,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 				chdir(cwd);
 			}
+			downloadFreeURL(fileurl);
 		}
 
 		if(alpm_list_count(complete) == alpm_list_count(files)) {
@@ -327,66 +367,44 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 char *_alpm_fetch_pkgurl(char *target)
 {
-	char *p = NULL;
+	pmserver_t *server;
+	char *filename;
 	struct stat st;
-	struct url *s_url;
 
 	ALPM_LOG_FUNC;
 
-	s_url = downloadParseURL(target);
-	if(!s_url) {
-		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring"), target);
+	server = _alpm_server_new(target);
+	if(!server) {
 		return(NULL);
 	}
-	if(strlen(s_url->scheme) == 0) {
-		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming http"));
-		strcpy(s_url->scheme, "http");
-	}
 
-	if(strcmp(s_url->scheme,"ftp") == 0 && strlen(s_url->user) == 0) {
-		strcpy(s_url->user, "anonymous");
-		strcpy(s_url->pwd, "libalpm@guest");
+	/* strip path information from the filename */
+	filename = strip_filename(server);
+	if(!filename) {
+		_alpm_log(PM_LOG_ERROR, _("URL does not contain a file for download"));
+		return(NULL);
 	}
 
 	/* do not download the file if it exists in the current dir */
-	if(stat(s_url->doc, &st) == 0) {
-		_alpm_log(PM_LOG_DEBUG, _(" %s is already in the current directory"), s_url->doc);
+	if(stat(filename, &st) == 0) {
+		_alpm_log(PM_LOG_DEBUG, _("%s has already been downloaded"), filename);
 	} else {
-		pmserver_t *server;
-		alpm_list_t *servers = NULL;
-		alpm_list_t *files;
+		alpm_list_t *servers = alpm_list_add(NULL, server);
+		alpm_list_t *files = alpm_list_add(NULL, filename);
 
-		if((server = (pmserver_t *)malloc(sizeof(pmserver_t))) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));
+		if(_alpm_downloadfiles(servers, ".", files)) {
+			_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
 			return(NULL);
 		}
-		if(s_url->doc && (p = strrchr(s_url->doc,'/'))) {
-			*p++ = '\0';
-			_alpm_log(PM_LOG_DEBUG, _("downloading '%s' from '%s://%s%s"), p, s_url->scheme, s_url->host, s_url->doc);
-
-			server->s_url = s_url;
-			server->path = strdup(s_url->doc);
-			servers = alpm_list_add(servers, server);
-
-			files = alpm_list_add(NULL, strdup(p));
-			if(_alpm_downloadfiles(servers, ".", files)) {
-				_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
-				return(NULL);
-			}
-			FREELISTPTR(files);
-			FREELIST(servers);
-		}
+		_alpm_log(PM_LOG_DEBUG, _("successfully downloaded %s"), filename);
+		alpm_list_free(files);
+		alpm_list_free(servers);
 	}
 
-	/* dupe before we free the URL struct...*/
-	if(p) {
-		p = strdup(p);
-	}
-
-	downloadFreeURL(s_url);
+	_alpm_server_free(server);
 
 	/* return the target with the raw filename, no URL */
-	return(p);
+	return(filename);
 }
 
 /* vim: set ts=2 sw=2 noet: */

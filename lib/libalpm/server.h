@@ -32,7 +32,7 @@
 
 /* Servers */
 struct __pmserver_t {
-	char *path;
+	/* useless abstraction now? */
 	struct url *s_url;
 };
 

@@ -36,10 +36,10 @@ char SYMEXPORT *alpm_strerror(int err)
 			return _("unexpected system error");
 		case PM_ERR_BADPERMS:
 			return _("insufficient privileges");
-		case PM_ERR_WRONG_ARGS:
-			return _("wrong or NULL argument passed");
 		case PM_ERR_NOT_A_FILE:
 			return _("could not find or read file");
+		case PM_ERR_WRONG_ARGS:
+			return _("wrong or NULL argument passed");
 		/* Interface */
 		case PM_ERR_HANDLE_NULL:
 			return _("library not initialized");
@@ -62,6 +62,9 @@ char SYMEXPORT *alpm_strerror(int err)
 			return _("could not update database");
 		case PM_ERR_DB_REMOVE:
 			return _("could not remove database entry");
+		/* Servers */
+		case PM_ERR_SERVER_BAD_URL:
+			return _("invalid url for server");
 		/* Configuration */
 		case PM_ERR_OPT_LOGFILE:
 		case PM_ERR_OPT_DBPATH:
@@ -70,10 +73,10 @@ char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_OPT_USESYSLOG:
 			return _("could not set parameter");
 		/* Transactions */
-		case PM_ERR_TRANS_NULL:
-			return _("transaction not initialized");
 		case PM_ERR_TRANS_NOT_NULL:
 			return _("transaction already initialized");
+		case PM_ERR_TRANS_NULL:
+			return _("transaction not initialized");
 		case PM_ERR_TRANS_DUP_TARGET:
 			return _("duplicate target");
 		case PM_ERR_TRANS_NOT_INITIALIZED:
@@ -84,6 +87,10 @@ char SYMEXPORT *alpm_strerror(int err)
 			return _("transaction aborted");
 		case PM_ERR_TRANS_TYPE:
 			return _("operation not compatible with the transaction type");
+		case PM_ERR_TRANS_COMMITING:
+			return _("could not commit transaction");
+		case PM_ERR_TRANS_DOWNLOADING:
+			return _("could not download all files");
 		/* Packages */
 		case PM_ERR_PKG_NOT_FOUND:
 			return _("could not find or read package");
@@ -117,30 +124,31 @@ char SYMEXPORT *alpm_strerror(int err)
 			return _("conflicting files");
 		/* Miscellaenous */
 		case PM_ERR_USER_ABORT:
-			return _("user aborted");
-		case PM_ERR_LIBARCHIVE_ERROR:
-			return _("libarchive error");
+			return _("user aborted the operation");
 		case PM_ERR_INTERNAL_ERROR:
 			return _("internal error");
+		case PM_ERR_LIBARCHIVE_ERROR:
+			return _("libarchive error");
 		case PM_ERR_DISK_FULL:
-			return _("not enough space");
+			return _("not enough space on disk");
 		case PM_ERR_PKG_HOLD:
+			/* TODO wow this is not descriptive at all... what does this mean? */
 			return _("not confirmed");
-		/* Config */
+		/* Configuration file */
 		case PM_ERR_CONF_BAD_SECTION:
-			return _("bad section name");
+			return _("bad configuration section name");
 		case PM_ERR_CONF_LOCAL:
-			return _("'local' is reserved and cannot be used as a package tree");
+			return _("'local' is reserved and cannot be used as a repository name");
 		case PM_ERR_CONF_BAD_SYNTAX:
-			return _("syntax error");
+			return _("syntax error in config file");
 		case PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION:
 			return _("all directives must belong to a section");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
+		/* Downloading */
 		case PM_ERR_CONNECT_FAILED:
 			return _("connection to remote host failed");
-		case PM_ERR_FORK_FAILED:
-			return _("forking process failed");
+		/* Unknown error! */
 		default:
 			return _("unexpected error");
 	}
