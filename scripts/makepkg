@@ -306,7 +306,7 @@ handledeps() {
 removedeps() {
 	if [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
 		msg "Removing installed dependencies..."
-		pacman3 $PACMAN_OPTS -R $makedeplist $deplist
+		pacman $PACMAN_OPTS -Rs $makedeplist $deplist
 		# fixes bug #6215
 	elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
 		msg "Removing installed dependencies..."
@@ -314,7 +314,7 @@ removedeps() {
 			export FAKEROOTKEY2=$FAKEROOTKEY
 			unset FAKEROOTKEY
 		fi
-		sudo pacman3 $PACMAN_OPTS -R $makedeplist $deplist
+		sudo pacman $PACMAN_OPTS -Rs $makedeplist $deplist
 		if [ "$INFAKEROOT" = "1" ]; then
 			export FAKEROOTKEY=$FAKEROOTKEY2
 			unset FAKEROOTKEY2
