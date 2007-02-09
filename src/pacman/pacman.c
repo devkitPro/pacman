@@ -184,6 +184,7 @@ static void cleanup(int signum)
 		return;
 	}
 	if(signum != 0 && config->op_d_vertest == 0) {
+		/* TODO why is this here? */
 		fprintf(stderr, "\n");
 	}
 
@@ -295,7 +296,7 @@ static int parseargs(int argc, char *argv[])
 						case 2: logmask |= PM_LOG_DOWNLOAD; /*fall through */
 						case 1: logmask |= PM_LOG_DEBUG; break;
 						default:
-						  pm_fprintf(stderr, NL, _("error: '%s' is not a valid debug level"), optarg);
+						  ERR(NL, _("error: '%s' is not a valid debug level"), optarg);
 							return(1);
 					}
 					printf("logmask = %d\n", logmask);
@@ -331,7 +332,7 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'b':
 			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					pm_fprintf(stderr, NL, _("error: '%s' is not a valid db path\n"), optarg);
+					ERR(NL, _("error: '%s' is not a valid db path\n"), optarg);
 					return(1);
 				}
 				alpm_option_set_dbpath(optarg);
@@ -361,7 +362,7 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'r':
 				if(realpath(optarg, root) == NULL) {
-					pm_fprintf(stderr, NL, _("error: '%s' is not a valid root path\n"), optarg);
+					ERR(NL, _("error: '%s' is not a valid root path\n"), optarg);
 					return(1);
 				}
 				alpm_option_set_root(strdup(root));

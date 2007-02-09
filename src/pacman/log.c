@@ -173,7 +173,9 @@ int yesno(char *fmt, ...)
 	va_start(args, fmt);
 	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
-	pm_fprintf(stderr, NL, str);
+
+	/* Use stderr so questions are always displayed when redirecting output */
+	ERR(NL, str);
 
 	if(fgets(response, 32, stdin)) {
 		/* trim whitespace and newlines */

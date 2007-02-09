@@ -41,22 +41,6 @@ extern config_t *config;
 
 static int prevpercent=0; /* for less progressbar output */
 
-/* refactored function from cb_trans_evt */
-static void retrieve_local(void *data1, void *data2)
-{
-	const unsigned int maxcols = getcols();
-	char out[PATH_MAX];
-	unsigned int i;
-
-	MSG(NL, " %s [", (char*)data1);
-	STRNCPY(out, (char*)data2, maxcols-42);
-	MSG(CL, "%s", out);
-	for(i = strlen(out); i < maxcols-43; i++) {
-		MSG(CL, " ");
-	}
-	fputs(_("] 100%    LOCAL "), stdout);
-}
-
 /* Callback to handle transaction events
  */
 void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
@@ -65,7 +49,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
-			pm_fprintf(stderr, NL, _("checking dependencies... "));
+		  MSG(NL, _("checking dependencies... "));
 			break;
 		case PM_TRANS_EVT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
@@ -73,13 +57,13 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_CLEANUP_START:
-			pm_fprintf(stderr, NL, _("cleaning up... "));
+			MSG(NL, _("cleaning up... "));
 			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
-			pm_fprintf(stderr, NL, _("resolving dependencies... "));
+			MSG(NL, _("resolving dependencies... "));
 			break;
 		case PM_TRANS_EVT_INTERCONFLICTS_START:
-			pm_fprintf(stderr, NL, _("looking for inter-conflicts... "));
+			MSG(NL, _("looking for inter-conflicts... "));
 			break;
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
 			if(config->noprogressbar) {
@@ -90,7 +74,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_CLEANUP_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
 		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
-			pm_fprintf(stderr, CL, _("done.\n"));
+			MSG(CL, _("done.\n"));
 			break;
 		case PM_TRANS_EVT_EXTRACT_DONE:
 			if(config->noprogressbar) {
@@ -166,9 +150,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_RETRIEVE_START:
 			MSG(NL, _(":: Retrieving packages from %s...\n"), (char*)data1);
 			fflush(stdout);
-			break;
-		case PM_TRANS_EVT_RETRIEVE_LOCAL:
-			retrieve_local(data1, data2);
 			break;
 	}
 }
