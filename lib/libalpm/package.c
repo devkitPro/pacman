@@ -135,7 +135,7 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	}
 
 	/* compare versions and see if we need to upgrade */
-	cmp = alpm_versioncmp(local_pkg->version, pkg->version);
+	cmp = _alpm_versioncmp(local_pkg->version, pkg->version);
 
 	if(cmp != 0 && pkg->force) {
 		cmp = 1;

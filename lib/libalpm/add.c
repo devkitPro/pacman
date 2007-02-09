@@ -158,7 +158,7 @@ int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
 			/* only upgrade/install this package if it is already installed and at a lesser version */
 			dummy = _alpm_db_get_pkgfromcache(db, pkgname);
-			if(dummy == NULL || alpm_versioncmp(dummy->version, pkgver) >= 0) {
+			if(dummy == NULL || _alpm_versioncmp(dummy->version, pkgver) >= 0) {
 				pm_errno = PM_ERR_PKG_CANT_FRESH;
 				goto error;
 			}
@@ -170,7 +170,7 @@ int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	for(i = trans->packages; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
 		if(strcmp(pkg->name, pkgname) == 0) {
-			if(alpm_versioncmp(pkg->version, pkgver) < 0) {
+			if(_alpm_versioncmp(pkg->version, pkgver) < 0) {
 				pmpkg_t *newpkg;
 				_alpm_log(PM_LOG_WARNING, _("replacing older version %s-%s by %s in target list"),
 				          pkg->name, pkg->version, pkgver);

@@ -561,7 +561,7 @@ int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
  	ALPM_LOG_FUNC;
 
-	return(alpm_versioncmp(ver1, ver2));
+	return(_alpm_versioncmp(ver1, ver2));
 }
 
 /* internal */
@@ -1175,25 +1175,7 @@ alpm_list_t *alpm_get_upgrades()
 			continue;
 		}
 
-		/* compare versions and see if we need to upgrade */
-		cmp = alpm_versioncmp(local->version, spkg->version);
-		if(cmp > 0 && !spkg->force) {
-			/* local version is newer */
-			pmdb_t *db = spkg->data;
-			_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
-								local->name, local->version, db->treename, spkg->version);
-		} else if(cmp == 0) {
-			/* versions are identical */
-		} else if(alpm_list_find_str(handle->ignorepkg, spkg->name)) {
-			/* package should be ignored (IgnorePkg) */
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
-								local->name, local->version, spkg->version);
-		} else if(_alpm_pkg_istoonew(spkg)) {
-			/* package too new (UpgradeDelay) */
-			_alpm_log(PM_LOG_DEBUG, _("%s-%s: delaying upgrade of package (%s)"),
-								local->name, local->version, spkg->version);
-			/* check if spkg->name is already in the packages list. */
-		} else {
+		if(alpm_pkg_compare_versions(local, spkg)) {
 			_alpm_log(PM_LOG_DEBUG, _("%s-%s elected for upgrade (%s => %s)"),
 								local->name, local->version, local->version, spkg->version);
 			alpm_list_t *s;
