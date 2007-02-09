@@ -55,17 +55,17 @@ enable or disable an option simply remove or place an "!" at the front of the
 option. Each works as follows:
 .RS
 .TP
-fakeroot
+.B fakeroot
 Allow building packages as a non-root user. This is \fIhighly\fP recommended.
 .TP
-distcc
+.B distcc
 Use the distributed C/C++/ObjC compiler to spread compilation among multiple
 machines. If this is enabled, \fBDISTCC_HOSTS\fP must be specified as well.
 .TP
-color
+.B color
 Colorize output messages, making output easier to read.
 .TP
-ccache
+.B ccache
 Use ccache to cache compilation by default. This allows for faster compiles if
 you are continuously recompiling the same packages. It can be disabled for
 individual packages by passing the \fB-B\fP or \fB--noccache\fP flag to
@@ -85,18 +85,18 @@ disable an option simply remove or place an "!" at the front of the option.
 Each works as follows:
 .RS
 .TP
-strip
+.B strip
 Strip symbols from binaries and libraries. If you frequently use a debugger on
 programs or libraries, it may be helpful to disable this option.
 .TP
-docs
+.B docs
 Save doc and info directories. If you wish to delete doc and info directories,
 specify "!docs" in the array.
 .TP
-libtool
+.B libtool
 Leave libtool (.la) files in packages. Specify "!libtool" to remove them.
 .TP
-emptydirs
+.B emptydirs
 Leave empty directories in packages.
 .RE
 .TP

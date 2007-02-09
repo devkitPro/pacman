@@ -144,12 +144,34 @@ though the package has moved.
 
 .TP
 .B options \fI(array)\fP
-This array allows you to override some of \fBmakepkg\fP's default behavior
-when building packages. To set an option, just include the option name
-in the \fBoptions\fP array.
-See
-.BR makepkg (8)
-for details on the options array.
+This array allows you to override some of \fBmakepkg\fP's default behavior when
+building packages. To set an option, just include the option name in the
+\fBoptions\fP array. To reverse the default behavior, place an "!" at the front
+of the option. Only specify the options you specifically want to override, the
+rest will be taken from \fBmakepkg.conf\fP. NOTE: 'force' is a special option
+only used in \fB\*(PB\fPs, do not use it unless you know what you are doing.
+.RS
+.TP
+.B strip
+Strip symbols from binaries and libraries. If you frequently use a debugger on
+programs or libraries, it may be helpful to disable this option.
+.TP
+.B docs
+Save doc and info directories. If you wish to delete doc and info directories,
+specify "!docs" in the array.
+.TP
+.B libtool
+Leave libtool (.la) files in packages. Specify "!libtool" to remove them.
+.TP
+.B emptydirs
+Leave empty directories in packages.
+.TP
+.B force
+Force the package to be upgraded by a \fBpacman\fP system upgrade operation,
+even if the version number would normally not trigger such an upgrade. This is
+useful when the version numbering scheme of a package changes (or is
+alphanumeric).
+.RE
 
 .SH INSTALL/UPGRADE/REMOVE SCRIPTING
 \fBPacman\fP has the ability to store and execute a package-specific script
