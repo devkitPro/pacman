@@ -1146,7 +1146,6 @@ alpm_list_t *alpm_get_upgrades()
 
 	/* now do normal upgrades */
 	for(i = _alpm_db_get_pkgcache(handle->db_local, INFRQ_NONE); i; i = i->next) {
-		int cmp;
 		int replace=0;
 		pmpkg_t *local = i->data;
 		pmpkg_t *spkg = NULL;

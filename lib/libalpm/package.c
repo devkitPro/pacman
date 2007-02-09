@@ -31,13 +31,14 @@
 #include <locale.h>
 #include <errno.h>
 /* pacman */
+#include "package.h"
 #include "log.h"
 #include "util.h"
 #include "error.h"
 #include "alpm_list.h"
-#include "package.h"
 #include "db.h"
 #include "handle.h"
+#include "versioncmp.h"
 #include "alpm.h"
 
 pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
