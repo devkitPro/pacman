@@ -1,8 +1,17 @@
-.TH libalpm 3 "07 Jan 2007" "libalpm @PM_VERSION@" ""
+." the string declarations are a start to try and make distro independent
+.ds DS Arch Linux
+.ds PB PKGBUILD
+.ds VR 3.0.0
+.ds LV 1.0.0
+.TH libalpm 3 "Feb 08, 2007" "libalpm version \*(LV" "\*(DS Utilities"
 .SH NAME
-	libalpm \- Arch Linux Package Management library
+	libalpm \- Arch Linux Package Management (ALPM) library
+
 .SH SYNOPSIS
 For ease of access, the libalpm manual has been split up into several sections.
+
+(TODO) Yes, this man page needs a lot of work. Once we get around to doing good
+Doxygen documentation, it will improve. We promise.
 
 .nf
 alpm_databases      Database Functions
@@ -15,7 +24,29 @@ alpm_sync           Sync Functions
 alpm_trans          Transaction Functions
 .fi
 
-.SH AUTHOR
+.SH CONFIGURATION
+See
+.BR pacman.conf (5)
+for more details on configuring \fBlibalpm\fP using the \fBpacman.conf\fP file.
+
+.SH BUGS
+Bugs? You must be kidding, there are no bugs in this software. But if we happen
+to be wrong, send us an email with as much detail as possible to
+<pacman-dev@archlinux.org>.
+
+.SH SEE ALSO
+.BR pacman (8),
+.BR makepkg (8),
+.BR pacman.conf (5)
+
+See the Arch Linux website at <http://www.archlinux.org> for more current
+information on the distribution and the \fBpacman\fP family of tools.
+
+.SH AUTHORS
 .nf
 Judd Vinet <jvinet@zeroflux.org>
+Aurelien Foret <aurelien@archlinux.org>
+Aaron Griffin <aaron@archlinux.org>
+Dan McGee <dan@archlinux.org>
+See the 'AUTHORS' file for additional contributors.
 .fi

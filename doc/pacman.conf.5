@@ -2,17 +2,17 @@
 .ds DS Arch Linux
 .ds PB PKGBUILD
 .ds VR 3.0.0
+.ds LV 1.0.0
 .TH \*(PB 5 "Feb 07, 2007" "pacman.conf version \*(VR" "\*(DS Files"
 .SH NAME
 pacman.conf \- pacman package manager configuration file
 
 .SH DESCRIPTION
-
-\fBpacman\fP will attempt to read \fBpacman.conf\fP each time it is invoked.
-This configuration file is divided into sections or \fIrepositories\fP. Each
-section defines a package repository that \fBpacman\fP can use when searching
-for packages in \fB--sync\fP mode. The exception to this is the \fIoptions\fP
-section, which defines global options.
+\fBpacman\fP, using \fBlibalpm\fP, will attempt to read \fBpacman.conf\fP each
+time it is invoked.  This configuration file is divided into sections or
+\fIrepositories\fP. Each section defines a package repository that \fBpacman\fP
+can use when searching for packages in \fB--sync\fP mode. The exception to this
+is the \fIoptions\fP section, which defines global options.
 
 .SH EXAMPLE
 .RS
@@ -34,11 +34,11 @@ Server = file:///home/pkgs
 
 .SH OPTIONS
 .TP
-.B DBPath = path/to/db/dir
+.B DBPath = \fIpath/to/db/dir\fP
 Overrides the default location of the toplevel database directory.  The default
 is \fIvar/lib/pacman\fP.
 .TP
-.B CacheDir = path/to/cache/dir
+.B CacheDir = \fIpath/to/cache/dir\fP
 Overrides the default location of the package cache directory. The default is
 \fIvar/cache/pacman\fP.
 .TP
@@ -102,7 +102,11 @@ take precedence over those listed later in the file when packages in two
 repositories have identical names, regardless of version number.
 
 .SH USING YOUR OWN REPOSITORY
-If you have numerous custom packages of your own, it is often easier to generate your own custom local repository than install them all with the \fB--upgrade\fP option. All you need to do is generate a compressed package database in the directory with these packages so \fBpacman\fP can find it when run with \fB--refresh\fP.
+If you have numerous custom packages of your own, it is often easier to
+generate your own custom local repository than install them all with the
+\fB--upgrade\fP option. All you need to do is generate a compressed package
+database in the directory with these packages so \fBpacman\fP can find it when
+run with \fB--refresh\fP.
 
 .RS
 .nf

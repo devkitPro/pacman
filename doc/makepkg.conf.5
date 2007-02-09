@@ -1,0 +1,146 @@
+." the string declarations are a start to try and make distro independent
+.ds DS Arch Linux
+.ds PB PKGBUILD
+.ds VR 3.0.0
+.TH \*(PB 5 "Feb 08, 2007" "makepkg.conf version \*(VR" "\*(DS Files"
+.SH NAME
+makepkg.conf \- makepkg configuration file
+
+.SH DESCRIPTION
+Configuration options for \fBmakekpg\fP are stored in \fBmakepkg.conf\fP. This
+file is sourced, so you can include any special compiler flags you wish to use.
+This is helpful for building for different architectures, or with different
+optimizations.
+
+\fBNOTE:\fP This does not guarantee that all package Makefiles will use your
+exported variables.  Some of them are non-standard...
+
+The default file is fairly well commented, so it may be easiest to simply
+follow directions given there for customization.
+
+.SH OPTIONS
+.TP
+.B FTPAGENT="\fI/path/to/command\fP [\fIoptions\fP]"
+Sets the download agent used to fetch source files specified with a URL in the
+\fB\*(PB\fP file. Flags can be specified as well; the download URL is then
+placed on the end of the command.
+.TP
+.B CARCH="\fIcarch\fP"
+Specifies your computer architecture; possible values include such things as
+"i686", "x86_64", "ppc", etc. This should be automatically set on installation.
+.TP
+.B CHOST="\fIchost\fP"
+A string such as "i686-pc-linux-gnu", do not touch unless you know what you are
+doing.
+.TP
+.B CFLAGS="\fIcflags\fP"
+Flags used for the C compiler. This is a key part to the use of makepkg.
+Usually several options are specified, and the most common string resembles
+something like this: "-march=i686 -O2 -pipe". Another useful option may be
+-mcpu in place of -march. Read
+.BR gcc (1)
+for more details on the wide variety of compiler flags available.
+.TP
+.B CXXFLAGS="\fIcxxflags\fP"
+Flags used for the C++ compiler; see \fBCFLAGS\fP for more info.
+.TP
+.B MAKEFLAGS="\fImakeflags\fP"
+This is often used to set the number of jobs used, for example, "-j2". Other
+flags that make accepts can also be passed.
+.TP
+.B BUILDENV=(fakeroot !distcc color !ccache)
+This array contains four options that affect the build environment, the
+defaults are shown here. All options should always be left in the array; to
+enable or disable an option simply remove or place an "!" at the front of the
+option. Each works as follows:
+.RS
+.TP
+fakeroot
+Allow building packages as a non-root user. This is \fIhighly\fP recommended.
+.TP
+distcc
+Use the distributed C/C++/ObjC compiler to spread compilation among multiple
+machines. If this is enabled, \fBDISTCC_HOSTS\fP must be specified as well.
+.TP
+color
+Colorize output messages, making output easier to read.
+.TP
+ccache
+Use ccache to cache compilation by default. This allows for faster compiles if
+you are continuously recompiling the same packages. It can be disabled for
+individual packages by passing the \fB-B\fP or \fB--noccache\fP flag to
+\fBmakepkg\fP.
+.RE
+.TP
+.B DISTCC_HOSTS="\fIhost1 ...\fP"
+If using DistCC, this is used to specify a space-delimited list of hosts
+running in the DistCC cluster. In addition, you will want to modify your
+\fBMAKEFLAGS\fP.
+.TP
+.B OPTIONS=(strip !docs libtool emptydirs)
+This array contains four options that affect the default packaging. All four
+are equivalent to options that can be placed in the PKGBUILD; the defaults are
+shown here. All options should always be left in the array; to enable or
+disable an option simply remove or place an "!" at the front of the option.
+Each works as follows:
+.RS
+.TP
+strip
+Strip symbols from binaries and libraries. If you frequently use a debugger on
+programs or libraries, it may be helpful to disable this option.
+.TP
+docs
+Save doc and info directories. If you wish to delete doc and info directories,
+specify "!docs" in the array.
+.TP
+libtool
+Leave libtool (.la) files in packages. Specify "!libtool" to remove them.
+.TP
+emptydirs
+Leave empty directories in packages.
+.RE
+.TP
+.B INTEGRITY_CHECK=(\fIcheck1 ...\fP)
+File integrity checks to use. Multiple checks may be specified; this affects
+both generation and checking. The current valid options are: md5, sha1, sha256,
+sha384, and sha512.
+.TP
+.B DOC_DIRS=(usr/{,share/}{info,doc} ...)
+If "!docs" is specified in the \fBOPTIONS\fP array, this variable will instruct
+makepkg where to look to remove docs. If you build packages that are located in
+opt/, you may need to add the directory to this array. NOTE: do not add the
+leading slash to the directory name.
+.TP
+.B PKGDEST=\fI/path/to/folder\fP
+If this value is not set, packages will by default be placed in the current
+directory (location of the \fB\*(PB\fP). Many people like to keep all their
+packages in one place so this option allows this behavior. A common location is
+"/home/packages".
+.TP
+.B SRCDEST=\fI/path/to/folder\fP
+If this value is not set, downloaded source files will only be stored in the
+current directory. Many people like to keep all source files in a central
+location for easy cleanup, so this path can be set here.
+.TP
+.B PACKAGER="\fIJohn Doe <john@doe.com>\fP"
+This value is used when querying a package to see who was the builder. It is
+recommended you change this to your name and email address.
+
+.SH SEE ALSO
+.BR makepkg (8),
+.BR pacman (8),
+.BR \*(PB (5)
+
+See the Arch Linux website at <http://www.archlinux.org> for more current
+information on the distribution and the \fBpacman\fP family of tools, and
+<http://wiki.archlinux.org/index.php/Arch_Packaging_Standards> for
+recommendations on packaging standards.
+
+.SH AUTHORS
+.nf
+Judd Vinet <jvinet@zeroflux.org>
+Aurelien Foret <aurelien@archlinux.org>
+Aaron Griffin <aaron@archlinux.org>
+Dan McGee <dan@archlinux.org>
+See the 'AUTHORS' file for additional contributors.
+.fi

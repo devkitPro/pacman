@@ -115,15 +115,14 @@ before proceeding with operations.
 useful if you are redirecting makepkg output to file.
 
 .SH CONFIGURATION
-Configuration options are stored in \fBmakepkg.conf\fP.  This file is sourced,
-so you can include any special compiler flags you wish to use. This is helpful
-for building for different architectures, or with different optimizations.
+See
+.BR makepkg.conf (5)
+for more details on configuring \fBmakepkg\fP using the \fBmakepkg.conf\fP file.
 
-\fBNOTE:\fP This does not guarantee that all package Makefiles will use your
-exported variables.  Some of them are non-standard...
-
-The file is fairly well commented, so follow directions given there for
-customization.
+.SH BUGS
+Bugs? You must be kidding, there are no bugs in this software. But if we happen
+to be wrong, send us an email with as much detail as possible to
+<pacman-dev@archlinux.org>.
 
 .SH SEE ALSO
 .BR makepkg.conf (5),

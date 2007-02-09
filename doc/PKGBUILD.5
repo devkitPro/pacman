@@ -14,7 +14,7 @@ installed with \fBpacman\fR.
 \fBNOTE:\fR If you have a local copy of the Arch Build System (ABS) tree
 on your computer, you can copy the \*(PB.proto file to your new package
 build directory and edit it from there.  To acquire/sync the ABS tree, use
-the \fBabs\fR script included with pacman/makepkg.
+the \fBabs\fR script included with \fBpacman\fP.
 
 .SS Quick \*(PB Explanation
 For an example of a \*(PB, see the \fBEXAMPLE\fR section.
@@ -41,9 +41,9 @@ The \fIbackup\fR array specifies files that should be treated specially
 when removing or upgrading packages.  See \fBHANDLING CONFIG FILES\fR in
 the \fIpacman\fR manpage for more information on this.
 
-The \fIsource()\fR array tells makepkg which files to download or extract before
-compiling begins. The \fImd5sums()\fR array provides md5sums for each of these
-files. These are used to validate the integrity of the source files.
+The \fIsource()\fR array tells \fBmakepkg\fP which files to download or extract
+before compiling begins. The \fImd5sums()\fR array provides md5sums for each of
+these files. These are used to validate the integrity of the source files.
 
 The \fIbuild\fR function is what actually does the work of putting the package
 together. Sometimes this is as simple as a configure, make, make install (to
@@ -74,8 +74,8 @@ maintainers to make updates to the package's configure flags, for example.
 .B pkgdesc
 This should be a brief description of the package and its functionality.
 
-." Not entirely applicable, and we can do this better anyway.  pacman does
-." actuall support localized descriptions, though, but i don't think makepkg does.
+." Not entirely applicable, and we can do this better anyway. pacman does
+." actuall support localized descriptions, though, but I don't think makepkg does.
 ." .TP
 ." .B pkgdesc_localized \fI(array)\fR
 ." Array of the localized package descriptions. The format is the following:
@@ -100,9 +100,9 @@ licenses are applied, use the array form: \fBlicenses=('GPL' 'FDL')\fR
 
 .TP
 .B install
-Specifies a special install script that is to be included in the package.
-This file should reside in the same directory as the \*(PB, and will be
-copied into the package by makepkg. It does not need to be included in the
+Specifies a special install script that is to be included in the package. This
+file should reside in the same directory as the \fB\*(PB\fP, and will be copied
+into the package by \fBmakepkg\fP. It does not need to be included in the
 \fIsource\fR array. (eg, install=pkgname.install)
 
 .TP
@@ -121,14 +121,18 @@ which use compressed data which id downloaded via the \fIsource\fR array.
 .TP
 .B md5sums \fI(array)\fR
 If this field is present, it should contain an MD5 hash for every source file
-specified in the \fIsource\fR array (in the same order). \fImakepkg\fR will use
+specified in the \fIsource\fR array (in the same order). \fBmakepkg\fR will use
 this to verify source file integrity during subsequent builds. To easily
-generate md5sums, first build using the \*(PB then run
-\fBmakepkg -g >>\*(PB\fR. Then you can edit the \*(PB and move the
-\fImd5sums\fR line from the bottom to an appropriate location.
-\fBNOTE:\fR makepkg supports multiple integrity algorithms and their
-corresponding arrays (i.e. sha1sums for the SHA1 algorithm), however official
+generate md5sums, first build using the \*(PB then run "makepkg -g >> \*(PB".
+Then edit the \*(PB and move the \fImd5sums\fR line to an appropriate location.
+NOTE: \fBmakepkg\fP supports multiple integrity algorithms and their
+corresponding arrays (i.e. sha1sums for the SHA1 algorithm); however, official
 packages use only md5sums for the time being.
+
+.TP
+.B sha1sums, etc.
+These are alternative integrity checks that \fBmakepkg\fP supports, as noted in
+\fBmd5sums\fP above.
 
 .TP
 .B groups \fI(array)\fR
@@ -144,9 +148,9 @@ This array defines on which architectures the given package is available.
 .B backup \fI(array)\fR 
 A space-delimited array of filenames (without a preceding slash). The
 \fIbackup\fR line will be propagated to the package meta-info file for
-pacman. This will designate all files listed there to be backed up if this
-package is ever removed from a system. See \fBHANDLING CONFIG FILES\fR in
-the \fIpacman\fR manpage for more information.
+\fBpacman\fP. This will designate all files listed there to be backed up if
+this package is ever removed from a system. See \fBHANDLING CONFIG FILES\fR in
+the \fBpacman\fR manpage for more information.
 
 .TP
 .B depends \fI(array)\fR 
@@ -184,15 +188,18 @@ upgrade, due to the differing package names. \fIreplaces\fR handles this.
 
 .TP
 .B options \fI(array)\fR
-This array allows you to override some of makepkg's default behaviour
+This array allows you to override some of \fBmakepkg\fP's default behavior
 when building packages. To set an option, just include the option name
 in the \fBoptions\fR array.
-See \fBmakepkg (8)\fR for details on the options array.
+See
+.BR makepkg (8)
+for details on the options array.
 
 .SS Install/Upgrade/Remove Scripting
-Pacman has the ability to store and execute a package-specific script when it
-installs, removes, or upgrades a package.  This allows a package to "configure
-itself" after installation and do the opposite right before it is removed.
+\fBPacman\fP has the ability to store and execute a package-specific script
+when it installs, removes, or upgrades a package.  This allows a package to
+"configure itself" after installation and do the opposite right before it is
+removed.
 
 The exact time the script is run varies with each operation:
 
