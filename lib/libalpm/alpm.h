@@ -314,7 +314,6 @@ typedef enum _pmtransevt_t {
 	PM_TRANS_EVT_SCRIPTLET_DONE,
 	PM_TRANS_EVT_PRINTURI,
 	PM_TRANS_EVT_RETRIEVE_START,
-	PM_TRANS_EVT_RETRIEVE_LOCAL
 } pmtransevt_t;
 
 /* Transaction Conversations (ie, questions) */
