@@ -7,53 +7,14 @@
 \*(PB \- \*(DS package build description file
 
 .SH DESCRIPTION
-This manual page is meant to describe general rules about \*(PBs. Once
-a \*(PB is written, the actual package is built using \fBmakepkg\fR and 
-installed with \fBpacman\fR.
+This manual page is meant to describe general rules about \fB\*(PB\fPs. Once
+a \fB\*(PB\fP is written, the actual package is built using \fBmakepkg\fP and 
+installed with \fBpacman\fP.
 
-\fBNOTE:\fR If you have a local copy of the Arch Build System (ABS) tree
+\fBNOTE:\fP If you have a local copy of the Arch Build System (ABS) tree
 on your computer, you can copy the \*(PB.proto file to your new package
 build directory and edit it from there.  To acquire/sync the ABS tree, use
-the \fBabs\fR script included with \fBpacman\fP.
-
-.SS Quick \*(PB Explanation
-For an example of a \*(PB, see the \fBEXAMPLE\fR section.
-
-\fIpkgname\fR defines the package name. It should not contain any uppercase
-letters. \fIpkgversion\fR defines the actual package version as given by the
-developers of the package. No dashes are allowed. \fIpkgrel\fR allows for
-\*(DS-specific changes to the package or corrections to a \*(PB
-without an upstream version change. The value should be an integer.
-\fIpkgdesc\fR is a short one-line description for the package, usually taken
-from the project's homepage or manpage. It is preferable to keep the length to
-one line for displaying during searches. These four variables are required in
-every \*(PB. \fIurl\fR is also highly recommended so users can find more
-information on the package if needed.
-
-\fIdepends\fR and \fImakedepends\fR are bash arrays which define the
-dependencies of the package. Packages listed in \fImakedepends\fR are required
-only for building the package, and not for runtime. \fIdepends\fR is used to
-list runtime depends. To build the package using \fBmakepkg\fR, ALL dependencies
-must be satisfied. For \fBpacman\fR to install the package, all runtime depends
-must be satisfied.
-
-The \fIbackup\fR array specifies files that should be treated specially
-when removing or upgrading packages.  See \fBHANDLING CONFIG FILES\fR in
-the \fIpacman\fR manpage for more information on this.
-
-The \fIsource()\fR array tells \fBmakepkg\fP which files to download or extract
-before compiling begins. The \fImd5sums()\fR array provides md5sums for each of
-these files. These are used to validate the integrity of the source files.
-
-The \fIbuild\fR function is what actually does the work of putting the package
-together. Sometimes this is as simple as a configure, make, make install (to
-$startdir/pkg). However, some customizations are often needed during the build
-process.
-
-Once your \*(PB is created, you can run \fBmakepkg\fR from the build
-directory. \fBmakepkg\fR will check dependencies and look for the source files
-required to build.  If some are missing it will attempt to download them,
-provided there is a fully-qualified URL in the \fIsource()\fR array.
+the \fBabs\fP script included with \fBpacman\fP.
 
 .SH OPTIONS AND DIRECTIVES
 .TP
@@ -63,142 +24,137 @@ used in the package filename.
 
 .TP
 .B pkgver
-This is the version of the software as released from the author (eg, 2.7.1).
+The version of the software as released from the author (e.g. 2.7.1).
 
 .TP
 .B pkgrel
-This is the release number specific to \*(DS's release. This allows package
+This is the release number specific to the \*(DSs release. This allows package
 maintainers to make updates to the package's configure flags, for example.
 
 .TP
 .B pkgdesc
-This should be a brief description of the package and its functionality.
-
-." Not entirely applicable, and we can do this better anyway. pacman does
-." actuall support localized descriptions, though, but I don't think makepkg does.
-." .TP
-." .B pkgdesc_localized \fI(array)\fR
-." Array of the localized package descriptions. The format is the following:
-." pkgdesc_localized=('xx_YY foo' 'xx_YY bar')
+This should be a brief description of the package and its functionality. Try to
+keep the description to one line of text.
 
 .TP
 .B url
-This field contains an optional URL that is associated with the piece of 
-software being packaged. This is typically the project's website.
+This field contains a URL that is associated with the software being packaged.
+This is typically the project's website.
 
 .TP
-.B license \fI(array)\fR
+.B license (array)
 This field specifies the license(s) that apply to the package. Commonly-used
-licenses are typically found in \fI/usr/share/licenses/common\fR. If you
-see the package's license there, simply reference it in the license field
-(eg, \fBlicense=("GPL")\fR). If the package provides a license not found in
-\fI/usr/share/licenses/common\fR, then you should include the license in
-the package itself and set \fBlicense=("custom")\fR or 
-\fBlicense="custom:LicenseName"\fR. The license itself should be placed in a
-directory called \fI$startdir/pkg/usr/share/licenses/$pkgname\fR. If multiple
-licenses are applied, use the array form: \fBlicenses=('GPL' 'FDL')\fR
+licenses are found in \fI/usr/share/licenses/common\fP. If you see the
+package's license there, simply reference it in the license field (e.g.
+\fBlicense=("GPL")\fP). If the package provides a license not found in
+\fI/usr/share/licenses/common\fP, then you should include the license in the
+package itself and set \fBlicense=("custom")\fP or
+\fBlicense=("custom:LicenseName")\fP. The license should be placed in
+\fI$startdir/pkg/usr/share/licenses/$pkgname\fP when building the package. If
+multiple licenses are applicable for a package, list all of them:
+\fBlicenses=('GPL' 'FDL')\fP.
 
 .TP
 .B install
 Specifies a special install script that is to be included in the package. This
 file should reside in the same directory as the \fB\*(PB\fP, and will be copied
 into the package by \fBmakepkg\fP. It does not need to be included in the
-\fIsource\fR array. (eg, install=pkgname.install)
+\fIsource\fP array. (e.g. \fBinstall=pkgname.install\fP)
 
 .TP
-.B source \fI(array)\fR
-The \fIsource\fR line is an array of source files required to build the
-package. Source files must reside in the same directory as the \*(PB
-file, unless they have a fully-qualified URL. 
+.B source \fI(array)\fP
+An array of source files required to build the package. Source files must
+either reside in the same directory as the \fB\*(PB file\fP, or be a
+fully-qualified URL that makepkg will use to download the file.  In order to
+make the PKGBUILD as useful as possible, use the \fB$pkgname\fP and
+\fB$pkgver\fP variables if possible when specifying the download location.
 
 .TP
-.B noextract \fI(array)\fR
-The \fInoextract\fR line is an array of filenames corresponding to those from
-the \fIsource\fR array.  If a file is listed in the \fInoextract\fR array, it is
-not extracted with the rest of the source files.  This is useful for packages
-which use compressed data which id downloaded via the \fIsource\fR array.
+.B noextract \fI(array)\fP
+An array of filenames corresponding to those from the \fBsource\fP array. Files
+listed here will not be extracted with the rest of the source files. This is
+useful for packages which use compressed data which is downloaded but not
+necessary to uncompress.
 
 .TP
-.B md5sums \fI(array)\fR
-If this field is present, it should contain an MD5 hash for every source file
-specified in the \fIsource\fR array (in the same order). \fBmakepkg\fR will use
-this to verify source file integrity during subsequent builds. To easily
-generate md5sums, first build using the \*(PB then run "makepkg -g >> \*(PB".
-Then edit the \*(PB and move the \fImd5sums\fR line to an appropriate location.
-NOTE: \fBmakepkg\fP supports multiple integrity algorithms and their
-corresponding arrays (i.e. sha1sums for the SHA1 algorithm); however, official
-packages use only md5sums for the time being.
+.B md5sums \fI(array)\fP
+This array contains an MD5 hash for every source file specified in the
+\fBsource\fP array (in the same order). \fBmakepkg\fP will use this to verify
+source file integrity during subsequent builds. To easily generate md5sums, run
+"makepkg -g >> \*(PB".  If desired, move the \fBmd5sums\fP line to an
+appropriate location.  NOTE: \fBmakepkg\fP supports multiple integrity
+algorithms and their corresponding arrays (i.e. sha1sums for the SHA1
+algorithm); however, official packages use only md5sums for the time being.
 
 .TP
 .B sha1sums, etc.
-These are alternative integrity checks that \fBmakepkg\fP supports, as noted in
+Alternative integrity checks that \fBmakepkg\fP supports, as noted in
 \fBmd5sums\fP above.
 
 .TP
-.B groups \fI(array)\fR
-This is an array of symbolic names that represent groups of packages, allowing
+.B groups \fI(array)\fP
+An array of symbolic names that represent groups of packages, allowing
 you to install multiple packages by requesting a single target. For example,
 one could install all KDE packages by installing the 'kde' group.
 
 .TP
-.B arch \fI(array)\fR
-This array defines on which architectures the given package is available.
+.B arch \fI(array)\fP
+Defines on which architectures the given package is available. (e.g.
+\fBarch=("i686" "x86_64")\fP) 
 
 .TP
-.B backup \fI(array)\fR 
-A space-delimited array of filenames (without a preceding slash). The
-\fIbackup\fR line will be propagated to the package meta-info file for
-\fBpacman\fP. This will designate all files listed there to be backed up if
-this package is ever removed from a system. See \fBHANDLING CONFIG FILES\fR in
-the \fBpacman\fR manpage for more information.
+.B backup \fI(array)\fP 
+A space-delimited array of filenames, \fIwithout\fP preceding slashes, that
+should be backed up if the package is removed or upgraded. This is commonly
+used for packages placing configuration files in /etc. See \fBHANDLING CONFIG
+FILES\fP in the \fBpacman\fP manpage for more information.
 
 .TP
-.B depends \fI(array)\fR 
-An array of packages that this package depends on to build and run. Packages
-in this list should be surrounded with single quotes and contain at least the
-package name. They can also include a version requirement of the form
-\fBname<>version\fR, where <> is one of these three comparisons:
-\fB>=\fR (greater than equal to), \fB<=\fR (less than or equal to), or 
-\fB=\fR (equal to).
+.B depends \fI(array)\fP 
+An array of packages that this package depends on to run. Packages in this list
+should be surrounded with single quotes and contain at least the package name.
+Entries can also include a version requirement of the form
+\fB'name<>version'\fP, where <> is one of three comparisons: \fI>=\fP (greater
+than or equal to), \fI<=\fP (less than or equal to), or \fI=\fP (equal to).
 
 .TP
-.B makedepends \fI(array)\fR
-An array of packages that this package depends on to build, but not at runtime.
-Packages in this list should follow the same format as \fIdepends\fR.
+.B makedepends \fI(array)\fP
+An array of packages that this package depends on to build, but are not needed
+at runtime.  Packages in this list follow the same format as \fBdepends\fP.
 
 .TP
-.B conflicts \fI(array)\fR 
-An array of packages that will conflict with this package (ie, they cannot both
-be installed at the same time). This directive follows the same format as
-\fIdepends\fR except you cannot specify versions.
+.B conflicts \fI(array)\fP
+An array of packages that will conflict with this package (i.e. they cannot
+both be installed at the same time). This directive follows the same format as
+\fIdepends\fP, except you cannot specify versions.
 
 .TP
-.B provides \fI(array)\fR 
+.B provides \fI(array)\fP
 An array of "virtual provisions" that this package provides. This allows a
 package to provide dependencies other than its own package name. For example,
-the kernel26beyond package can each provide 'kernel26' which allows packages
-to simply depend on 'kernel26' rather than "kernel26 OR kernel26beyond".
+the dcron package can provide 'cron', which allows packages to depend on 'cron'
+rather than 'dcron OR fcron'.
 
 .TP
-.B replaces \fI(array)\fR 
-This is an array of packages that this package should replace, and can be used
-to handle renamed/combined packages. For example, if the j2re package gets
-renamed to jre, then subsequent 'pacman -Syu' calls will not pick up the
-upgrade, due to the differing package names. \fIreplaces\fR handles this.
+.B replaces \fI(array)\fP
+An array of packages that this package should replace, and can be used to
+handle renamed/combined packages. For example, if the 'j2re' package is renamed
+to 'jre', this directive allows future upgrades to continue as expected even
+though the package has moved.
 
 .TP
-.B options \fI(array)\fR
+.B options \fI(array)\fP
 This array allows you to override some of \fBmakepkg\fP's default behavior
 when building packages. To set an option, just include the option name
-in the \fBoptions\fR array.
+in the \fBoptions\fP array.
 See
 .BR makepkg (8)
 for details on the options array.
 
-.SS Install/Upgrade/Remove Scripting
+.SH INSTALL/UPGRADE/REMOVE SCRIPTING
 \fBPacman\fP has the ability to store and execute a package-specific script
 when it installs, removes, or upgrades a package.  This allows a package to
-"configure itself" after installation and do the opposite right before it is
+configure itself after installation and do the opposite right before it is
 removed.
 
 The exact time the script is run varies with each operation:
@@ -228,17 +184,21 @@ script is run right before files are removed.
 script is run right after files are removed.
 
 .P
-To use this feature, just create a file (eg, pkgname.install) and put it in
-the same directory as the \*(PB script.  Then use the \fIinstall\fR
+To use this feature, create a file such as 'pkgname.install' and put it in
+the same directory as the \fB\*(PB\fP script.  Then use the \fBinstall\fP
 directive:
 
+.RS
+.nf
 install=pkgname.install
+.fi
+.RE
 
-The install script does not need to be specified in the \fIsource\fR array.
-A template install file is  available in your ABS tree (/var/abs/install.proto).
+The install script does not need to be specified in the \fBsource\fP array.
+A template install file is available in the ABS tree (/var/abs/install.proto).
 
 .SH EXAMPLE
-The following is an example \*(PB for the 'modutils' package. For more
+The following is an example \fB\*(PB\fP for the 'modutils' package. For more
 examples, look through the ABS tree.
 
 .nf
@@ -252,13 +212,13 @@ url="http://www.kernel.org"
 makedepends=('bash' 'mawk')
 depends=('glibc' 'zlib')
 backup=(etc/modules.conf)
-source=(ftp://ftp.kernel.org/pub/linux/utils/kernel/$pkgname/v2.4/$pkgname-$pkgver.tar.bz2 \\
+source=(ftp://ftp.kernel.org/pub/linux/utils/kernel/$pkgname/v2.4/$pkgname-$pkgver.tar.bz2
         modules.conf)
 arch=('i686')
-license=('GPL' 'custom') #dual licensed
-md5sums=('2c0cca3ef6330a187c6ef4fe41ecaa4d' \\
+license=('GPL' 'custom') # dual licensed
+md5sums=('2c0cca3ef6330a187c6ef4fe41ecaa4d'
          '35175bee593a7cc7d6205584a94d8625')
-options=('nolibtool')
+options=(!libtool)
 
 build() {
   cd $startdir/src/$pkgname-$pkgver
@@ -273,7 +233,8 @@ build() {
 
 .SH SEE ALSO
 .BR makepkg (8),
-.BR pacman (8)
+.BR pacman (8),
+.BR makepkg.conf (5)
 
 See the Arch Linux website at <http://www.archlinux.org> for more current
 information on the distribution and the \fBpacman\fP family of tools, and
