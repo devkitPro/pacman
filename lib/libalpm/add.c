@@ -496,10 +496,20 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				char pathname[PATH_MAX];
 				struct stat buf;
 
-				STRNCPY(pathname, archive_entry_pathname (entry), PATH_MAX);
+				STRNCPY(pathname, archive_entry_pathname(entry), PATH_MAX);
 
-				if (info->size != 0)
-		    			percent = (double)archive_position_uncompressed(archive) / info->size;
+				if (info->size != 0) {
+					/* There's a problem here.  These sizes don't match up.  info->size is
+					 * the COMPRESSED size, and info->isize is uncompressed.  It appears,
+					 * however, that these are the only two sizes available.  It appears
+					 * to be close enough, BUT easilly goes over 100%, so we'll stall
+					 * there for now */
+					percent = (double)archive_position_uncompressed(archive) / info->size;
+					if(percent >= 1.0) {
+						percent = 1.0;
+					}
+				}
+				
 				if (needdisp == 0) {
 					PROGRESS(trans, cb_state, what, (int)(percent * 100), alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 				}

@@ -37,6 +37,7 @@
 #include "util.h"
 #include "handle.h"
 #include "log.h"
+#include "package.h"
 
 pmserver_t *_alpm_server_new(const char *url)
 {
@@ -180,10 +181,20 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			char realfile[PATH_MAX];
 			char output[PATH_MAX];
 			char *fn = (char *)lp->data;
+			char pkgname[PKG_NAME_LEN];
+			char *p;
 
 			fileurl = url_for_file(server, fn);
 			if(!fileurl) {
 				return(-1);
+			}
+
+			/* Try to get JUST the name of the package from the filename */
+			p = alpm_pkg_name_hasarch(fn); /* TODO remove this later */
+			_alpm_pkg_splitname(fn, pkgname, NULL, (p != NULL));
+			if(!strlen(pkgname)) {
+				/* just use the raw filename if we can't find crap */
+				STRNCPY(pkgname, fn, PKG_NAME_LEN);
 			}
 
 			snprintf(realfile, PATH_MAX, "%s/%s", localpath, fn);
@@ -278,7 +289,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 
 				/* Progress 0 - initialize */
-				if(handle->dlcb) handle->dlcb(fn, 0, ust.size);
+				if(handle->dlcb) handle->dlcb(pkgname, 0, ust.size);
 
 				int nread = 0;
 				char buffer[PM_DLBUF_LEN];
@@ -287,7 +298,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					while((nwritten += fwrite(buffer, 1, (nread - nwritten), localf)) < nread) ;
 					dltotal_bytes += nread;
 
-					if(handle->dlcb) handle->dlcb(fn, dltotal_bytes, ust.size);
+					if(handle->dlcb) handle->dlcb(pkgname, dltotal_bytes, ust.size);
 				}
 
 				fclose(localf);

@@ -593,14 +593,15 @@ char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
 			arch = _supported_archs[i];
 
 			/* whee, case insensitive compare */
-
 			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
-			if(*arch || *cmp) continue;
+			if(*arch || *cmp) {
+				continue;
+			}
 
-			return p;
+			return(p);
 		}
 	}
-	return NULL;
+	return(NULL);
 }
 
 /** @} */
