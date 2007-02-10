@@ -1,11 +1,9 @@
 SUBDIRS = lib/libalpm src/util src/pacman scripts doc etc 
 
 EXTRA_DIST =		\
-	ChangeLog  	\
+	NEWS	  	\
 	COPYING		\
-	README 		\
-	TODO 		\
-	TODO.autoconf
+	README
 
 check: src/pacman
 	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman --debug=-1
