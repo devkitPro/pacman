@@ -84,6 +84,14 @@ struct __pmpkg_t {
 	/* internal */
 	pmpkgfrom_t origin;
 	void *data;
+	/* TODO replace 'data' with this:
+  origin == PKG_FROM_CACHE, use pkg->origin_data.db
+  origin == PKG_FROM_FILE, use pkg->origin_data.fd
+  union {
+		int fd;
+		pmdb_t *db;
+	} origin_data;
+	*/
 	pmdbinfrq_t infolevel;
 };
 
