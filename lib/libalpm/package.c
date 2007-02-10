@@ -30,6 +30,9 @@
 #include <libintl.h>
 #include <locale.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 /* pacman */
 #include "package.h"
 #include "log.h"
@@ -177,7 +180,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
  * Returns: 0 on success, 1 on error
  *
  */
-static int parse_descfile(char *descfile, pmpkg_t *info, int output)
+static int parse_descfile(char *descfile, pmpkg_t *info)
 {
 	FILE* fp = NULL;
 	char line[PATH_MAX];
@@ -199,14 +202,11 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 		if(strlen(line) == 0 || line[0] == '#') {
 			continue;
 		}
-		if(output) {
-			_alpm_log(PM_LOG_DEBUG, "%s", line);
-		}
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
 			_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
-				info->name[0] != '\0' ? info->name : "error", linenum);
+								info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
 			key = _alpm_strtoupper(key);
@@ -245,12 +245,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 			} else if(!strcmp(key, "ARCH")) {
 				STRNCPY(info->arch, ptr, sizeof(info->arch));
 			} else if(!strcmp(key, "SIZE")) {
-				char tmp[32];
-				STRNCPY(tmp, ptr, sizeof(tmp));
-				info->size = atol(ptr);
-			} else if(!strcmp(key, "ISIZE")) {
-				char tmp[32];
-				STRNCPY(tmp, ptr, sizeof(tmp));
+				/* size in the raw package is uncompressed (installed) size */
 				info->isize = atol(ptr);
 			} else if(!strcmp(key, "DEPEND")) {
 				info->depends = alpm_list_add(info->depends, strdup(ptr));
@@ -266,7 +261,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info, int output)
 				info->backup = alpm_list_add(info->backup, strdup(ptr));
 			} else {
 				_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
-					info->name[0] != '\0' ? info->name : "error", linenum);
+									info->name[0] != '\0' ? info->name : "error", linenum);
 			}
 		}
 		line[0] = '\0';
@@ -290,6 +285,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 	char *descfile = NULL;
 	int fd = -1;
 	alpm_list_t *all_files = NULL;
+	struct stat st;
 
 	ALPM_LOG_FUNC;
 
@@ -314,6 +310,10 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
+  if(stat(pkgfile, &st) == 0) {
+		info->size = st.st_size;
+	}
+
 	/* TODO there is no reason to make temp files to read
 	 * from a libarchive archive, it can be done by reading
 	 * directly from the archive
@@ -333,7 +333,7 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 			fd = mkstemp(descfile);
 			archive_read_data_into_fd (archive, fd);
 			/* parse the info file */
-			if(parse_descfile(descfile, info, 0) == -1) {
+			if(parse_descfile(descfile, info) == -1) {
 				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file"));
 				goto pkg_invalid;
 			}

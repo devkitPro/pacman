@@ -351,8 +351,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 {
-	int i, ret = 0, errors = 0, needdisp = 0;
-	double percent = 0.0;
+	int i, ret = 0, errors = 0, pkg_count = 0;
 	register struct archive *archive;
 	struct archive_entry *entry;
 	char expath[PATH_MAX], cwd[PATH_MAX] = "", *what;
@@ -369,7 +368,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		return(0);
 	}
 
+	pkg_count = alpm_list_count(trans->targets);
+	
 	for(targ = trans->packages; targ; targ = targ->next) {
+		int targ_count = 0;
+		double percent = 0.0;
 		unsigned short pmo_upgrade;
 		char pm_install[PATH_MAX];
 		pmpkg_t *info = (pmpkg_t *)targ->data;
@@ -468,13 +471,14 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_DEBUG, _("extracting files"));
 
 			/* Extract the package */
-			if ((archive = archive_read_new ()) == NULL)
+			if ((archive = archive_read_new()) == NULL) {
 				RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
+			}
 
-			archive_read_support_compression_all (archive);
-			archive_read_support_format_all (archive);
+			archive_read_support_compression_all(archive);
+			archive_read_support_format_all(archive);
 
-			if (archive_read_open_file (archive, info->data, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+			if(archive_read_open_file(archive, info->data, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 				RET_ERR(PM_ERR_PKG_OPEN, -1);
 			}
 
@@ -488,6 +492,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			/* libarchive requires this for extracting hard links */
 			chdir(handle->root);
 
+			targ_count = alpm_list_count(targ);
+			/* call PROGRESS once with 0 percent, as we sort-of skip that here */
+			PROGRESS(trans, cb_state, what, 0, pkg_count, (pkg_count - targ_count +1));
+
 			for(i = 0; archive_read_next_header (archive, &entry) == ARCHIVE_OK; i++) {
 				int nb = 0;
 				int notouch = 0;
@@ -498,21 +506,19 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				STRNCPY(pathname, archive_entry_pathname(entry), PATH_MAX);
 
-				if (info->size != 0) {
-					/* There's a problem here.  These sizes don't match up.  info->size is
-					 * the COMPRESSED size, and info->isize is uncompressed.  It appears,
-					 * however, that these are the only two sizes available.  It appears
-					 * to be close enough, BUT easilly goes over 100%, so we'll stall
-					 * there for now */
-					percent = (double)archive_position_uncompressed(archive) / info->size;
+				if(info->size != 0) {
+					/* Using compressed size for calculations here, as info->isize is not
+					 * exact when it comes to comparing to the ACTUAL uncompressed size
+					 * (missing metadata sizes) */
+					unsigned long pos = archive_position_compressed(archive);
+					percent = (double)pos / (double)info->size;
+					_alpm_log(PM_LOG_DEBUG, "decompression progress: %f%% (%ld / %ld)", percent*100.0, pos, info->size);
 					if(percent >= 1.0) {
 						percent = 1.0;
 					}
 				}
 				
-				if (needdisp == 0) {
-					PROGRESS(trans, cb_state, what, (int)(percent * 100), alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
-				}
+				PROGRESS(trans, cb_state, what, (int)(percent * 100), pkg_count, (pkg_count - targ_count +1));
 
 				if(strcmp(pathname, ".PKGINFO") == 0 || strcmp(pathname, ".FILELIST") == 0) {
 					archive_read_data_skip (archive);
@@ -855,8 +861,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
-		PROGRESS(trans, cb_state, what, 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
-		needdisp = 0;
+		PROGRESS(trans, cb_state, what, 100, pkg_count, (pkg_count - targ_count +1));
 		EVENT(trans, PM_TRANS_EVT_EXTRACT_DONE, NULL, NULL);
 		FREE(what);
 
