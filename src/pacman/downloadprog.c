@@ -53,7 +53,7 @@ void log_progress(const char *filename, int xfered, int total)
 	const int infolen = 50;
 	char *fname, *p; 
 
-	float rate = 0.0, timediff = 0.0;
+	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
 	int percent;
 	char rate_size = 'K', xfered_size = 'K';
@@ -112,11 +112,13 @@ void log_progress(const char *filename, int xfered, int total)
 	eta_s -= eta_m * 60;
 
 	fname = strdup(filename);
+	/* strip extension if it's there
+	 * NOTE: in the case of package files, only the pkgname is sent now */
 	if((p = strstr(fname, PM_EXT_PKG)) || (p = strstr(fname, PM_EXT_DB))) {
 			*p = '\0';
 	}
 	if(strlen(fname) > FILENAME_TRIM_LEN) {
-		fname[FILENAME_TRIM_LEN] = '\0';
+		strcpy(fname + FILENAME_TRIM_LEN -3,"...");
 	}
 
 	/* Awesome formatting for progress bar.  We need a mess of Kb->Mb->Gb stuff
@@ -132,13 +134,13 @@ void log_progress(const char *filename, int xfered, int total)
 		}
 	}
 
-	xfered /= 1024; /* convert to K by default */
+	f_xfered = (float) xfered / 1024.0; /* convert to K by default */
 	/* xfered_size = 'K'; was set above */
-	if(xfered > 2048) {
-		xfered /= 1024;
+	if(f_xfered > 2048.0) {
+		f_xfered /= 1024.0;
 		xfered_size = 'M';
-		if(xfered > 2048) {
-			xfered /= 1024;
+		if(f_xfered > 2048.0) {
+			f_xfered /= 1024.0;
 			xfered_size = 'G';
 			/* I should seriously hope that archlinux packages never break
 			 * the 9999.9GB mark... we'd have more serious problems than the progress
@@ -146,8 +148,8 @@ void log_progress(const char *filename, int xfered, int total)
 		}
 	}
 
-	printf(" %-*s %6d%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname, 
-				 xfered, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
+	printf(" %-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname, 
+				 f_xfered, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
 
 	free(fname);
 	

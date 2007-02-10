@@ -418,10 +418,12 @@ void fill_progress(const int percent, const int proglen)
 			printf("-");
 		}
 	}
-	printf("] %3d%%\r", percent);
+	printf("] %3d%%", percent);
 
 	if(percent == 100) {
 		printf("\n");
+	} else {
+		printf("\r");
 	}
 	fflush(stdout);
 }
