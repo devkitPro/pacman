@@ -13,18 +13,22 @@ pacman \- package manager utility
 
 .SH DESCRIPTION
 \fBpacman\fP is a \fIpackage management\fP utility that tracks installed
-packages on a Linux system. It has dependency support, package groups, install
-and uninstall hooks, and the ability to sync your local machine with a remote
-ftp server to automatically upgrade packages.  \fBpacman\fP packages are a
-zipped tar format.
+packages on a Linux system. It features dependency support, package groups,
+install and uninstall hooks, and the ability to sync your local machine with a
+remote ftp server to automatically upgrade packages. \fBpacman\fP packages are
+a zipped tar format.
+
+Since version 3.0.0, \fBpacman\fP has been the frontend to \fBlibalpm\fP, the
+"Arch Linux Package Management" library. This library allows alternative front
+ends to be written (for instance, a GUI front end).
 
 .SH OPERATIONS
 .TP
 .B \-A, --add (deprecated)
-Add a package to the system. Package will be uncompressed into the installation
-root and the database will be updated. The package will not be installed if
-another version is already installed. Please use \fB--upgrade\fP in place of
-this option.
+Add a package to the system. The package will be uncompressed into the
+installation root and the database will be updated. The package will not be
+installed if another version is already installed. Please use \fB--upgrade\fP
+in place of this option.
 .TP
 .B \-F, --freshen
 This is like \fB--upgrade\fP except it will only upgrade packages already
@@ -32,7 +36,7 @@ installed on the system.
 .TP
 .B \-Q, --query
 Query the package database. This operation allows you to view installed
-packages and their files, as well as meta-info about individual packages
+packages and their files, as well as meta-information about individual packages
 (dependencies, conflicts, install date, build date, size). This can be run
 against the local package database or can be used on individual .tar.gz
 packages. See \fBQUERY OPTIONS\fP below.
@@ -45,7 +49,7 @@ is used. See \fBREMOVE OPTIONS\fP below.
 .TP
 .B \-S, --sync
 Synchronize packages. Packages are installed directly from the ftp servers,
-complete with all dependencies required to run the packages.  For example,
+including all dependencies required to run the packages.  For example,
 \fBpacman -S qt\fP will download and install \fBqt\fP and all the packages it
 depends on. You can also use \fBpacman -Su\fP to upgrade all packages that are
 out of date. See \fBSYNC OPTIONS\fP below.
@@ -76,7 +80,7 @@ option will cause all those files to be overwritten.  This option should be
 used with care, ideally not at all.
 .TP
 .B \-r, --root \fIpath\fP
-Specify alternative installation root (default is "/"). However, this should
+Specify an alternative installation root (default is "/"). However, this should
 \fInot\fP be used as a way to install software into /usr/local instead of /usr,
 for example. This option should be used if you want to install a package on a
 temporary mounted partition, which is "owned" by another system. By using this
@@ -104,8 +108,8 @@ List all packages that were pulled in by a previously installed package but no
 longer required by any installed package.
 .TP
 .B \-g, --groups
-Display all package members of a named group, or all grouped packages if
-no name is specified.
+Display all packages that are members of a named group. If not name is
+specified, list all grouped packages.
 .TP
 .B \-i, --info
 Display information on a given package. The \fB-p\fP option can be used if
@@ -125,7 +129,7 @@ Search for the package that owns \fIfile\fP.
 .B \-p, --file
 Signifies that the package supplied on the command line is a file and not an
 entry in the database. The file will be decompressed and queried. This is
-useful with \fB--info\fP and \fB--list\fP.
+useful in combination with \fB--info\fP and \fB--list\fP.
 .TP
 .B \-s, --search \fIregexp\fP
 This will search each locally-installed package for names or descriptions that
@@ -150,10 +154,9 @@ removed from the system the database is checked to see if the file should be
 renamed with a .pacsave extension.
 .TP
 .B \-s, --recursive
-For each target specified, remove it and all its dependencies, provided that
-(A) they are not required by other packages; and (B) they were not explicitly
-installed by the user.  This option is analogous to a backwards \fB--sync\fP
-operation.
+Remove each target specified including all dependencies, provided that (A) they
+are not required by other packages; and (B) they were not explicitly installed
+by the user.  This option is analogous to a backwards \fB--sync\fP operation.
 
 .SH SYNC OPTIONS
 .TP
@@ -177,8 +180,8 @@ specified on the command line.
 .TP
 .B \-p, --print-uris
 Print out URIs for each package that will be installed, including any
-dependencies that have yet to be installed. These can be piped to a file and
-downloaded at a later time, using a program like wget.
+dependencies yet to be installed. These can be piped to a file and downloaded
+at a later time, using a program like wget.
 .TP
 .B \-s, --search \fIregexp\fP
 This will search each package in the sync databases for names or descriptions
