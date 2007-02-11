@@ -39,7 +39,7 @@ CLEANUP=0
 CLEANCACHE=0
 DEP_BIN=0
 DEP_SRC=0
-DEP_SUDO=0
+SUDO=0
 FORCE=0
 GENINTEG=0
 INSTALL=0
@@ -120,7 +120,7 @@ check_option() {
 		elif [ "$lc" = "!$needle" ]; then
 			echo "n"
 			return
-		# START DEPRICATED
+		# START DEPRECATED
 		# TODO This code should be removed in the next release of makepkg
 		elif [ "$lc" = "no$needle" ]; then
 			warning "Options beginning with 'no' will be depricated in the next version of makepkg!"
@@ -129,7 +129,7 @@ check_option() {
 			return
 		elif [ "$lc" = "keepdocs" -a "$needle" = "docs" ]; then
 			warning "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
-		# END DEPRICATED
+		# END DEPRECATED
 		fi
 	done
 	# fall back to makepkg.conf options
@@ -214,20 +214,12 @@ handledeps() {
 	local missingdeps=0
 	local deplist="$*"
 	local haveperm=0
-	if [ \( "$EUID" = "0" -a "$INFAKEROOT" != "1" \) -o "$DEP_SUDO" = 1 ]; then
+	if [ \( "$EUID" = "0" -a "$INFAKEROOT" != "1" \) -o "$SUDO" = 1 ]; then
 		haveperm=1
 	fi
 
 	if [ "$deplist" != "" -a $haveperm -eq 1 ]; then
-		if [ "$DEP_BIN" = "1" ]; then
-			# install missing deps from binary packages (using pacman -S)
-			msg "Installing missing dependencies..."
-			pacman $PACMAN_OPTS -D $deplist
-			if [ "$?" = "127" ]; then
-				error "Failed to install missing dependencies."
-				exit 1
-			fi
-		elif [ "$DEP_SUDO" = "1" ]; then
+		if [ "$DEP_BIN" = "1" -a "$SUDO" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S and sudo)
 			msg "Installing missing dependencies..."
 			if [ "$INFAKEROOT" = "1" ]; then
@@ -244,6 +236,14 @@ handledeps() {
 			if [ "$INFAKEROOT" = "1" ]; then
 				export FAKEROOTKEY=$FAKEROOTKEY2
 				unset FAKEROOTKEY2
+			fi
+		elif [ "$DEP_BIN" = "1" ]; then
+			# install missing deps from binary packages (using pacman -S)
+			msg "Installing missing dependencies..."
+			pacman $PACMAN_OPTS -D $deplist
+			if [ "$?" = "127" ]; then
+				error "Failed to install missing dependencies."
+				exit 1
 			fi
 		elif [ "$DEP_SRC" = "1" ]; then
 			# install missing deps by building them from source.
@@ -304,11 +304,7 @@ handledeps() {
 
 # fix flyspray bug #5923
 removedeps() {
-	if [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
-		msg "Removing installed dependencies..."
-		pacman $PACMAN_OPTS -Rs $makedeplist $deplist
-		# fixes bug #6215
-	elif [ "$RMDEPS" = "1" -a "$DEP_SUDO" = "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
+	if [ "$RMDEPS" = "1" -a "$SUDO" = "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
 		msg "Removing installed dependencies..."
 		if [ "$INFAKEROOT" = "1" ]; then
 			export FAKEROOTKEY2=$FAKEROOTKEY
@@ -319,9 +315,32 @@ removedeps() {
 			export FAKEROOTKEY=$FAKEROOTKEY2
 			unset FAKEROOTKEY2
 		fi
+	elif [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
+		msg "Removing installed dependencies..."
+		pacman $PACMAN_OPTS -Rs $makedeplist $deplist
 	fi
 }
 
+installpackage() {
+	if [ "$INSTALL" = "1" -a "$SUDO" = "1" ]; then
+		msg "Installing package with pacman -U..."
+		if [ "$INFAKEROOT" = "1" ]; then
+			FAKEROOTKEY2=$FAKEROOTKEY
+			unset FAKEROOTKEY
+		fi
+		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
+		local exitcode=$?
+		if [ "$INFAKEROOT" = "1" ]; then
+			export FAKEROOTKEY=$FAKEROOTKEY2
+			unset FAKEROOTKEY2
+		fi
+		exit $exitcode
+	elif [ "$INSTALL" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
+		msg "Installing package with pacman -U..."
+		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
+		exit $?
+	fi
+}
 
 usage() {
 	echo "makepkg version $myver"
@@ -348,7 +367,7 @@ usage() {
 	# fix flyspray feature request #2978
 	echo "  -R, --repackage  Repackage contents of pkg/ without building"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
-	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
+	echo "  -S, --usesudo    When calling pacman, use sudo"
 	echo
 	echo "These options can be passed to pacman:"
 	echo
@@ -393,7 +412,7 @@ while [ "$#" -ne "0" ]; do
 		--clean)      CLEANUP=1 ;;
 		--cleancache) CLEANCACHE=1 ;;
 		--syncdeps)   DEP_BIN=1 ;;
-		--sudosync)   DEP_SUDO=1 ;;
+		--usesudo)    SUDO=1 ;;
 		--builddeps)  DEP_SRC=1 ;;
 		--noccache)   USE_CCACHE="n" ;;
 		--nodeps)     NODEPS=1 ;;
@@ -438,7 +457,7 @@ while [ "$#" -ne "0" ]; do
 				r) RMDEPS=1 ;;
 				R) REPKG=1 ;;
 				s) DEP_BIN=1 ;;
-				S) DEP_SUDO=1 ;;
+				S) SUDO=1 ;;
 				-)
 						OPTIND=0
 						break
@@ -458,7 +477,7 @@ while [ "$#" -ne "0" ]; do
 done
 
 # check for sudo
-if [ "$DEP_SUDO" = "1" -a ! "$(type -p sudo)" ]; then
+if [ "$SUDO" = "1" -a ! "$(type -p sudo)" ]; then
 	error "Cannot find the sudo binary! Is sudo installed?"
 	exit 1
 fi
@@ -534,8 +553,7 @@ fi
 if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "a package has already been built, installing existing package."
-		echo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
-		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
+		installpackage
 		exit $?
 	else
 		error "a package has already been built.  (use -f to overwrite)"
@@ -1010,22 +1028,7 @@ removedeps
 
 msg "Finished making: $pkgname  ($(date))"
 
-if [ "$INSTALL" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
-	msg "Installing package with pacman -U..."
-	pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
-	exit $?
-elif [ "$INSTALL" = "1" -a "$DEP_SUDO" = "1" ]; then
-	msg "Installing package with pacman -U..."
-	if [ "$INFAKEROOT" = "1" ]; then
-		FAKEROOTKEY2=$FAKEROOTKEY
-		unset FAKEROOTKEY
-	fi
-	sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
-	if [ "$INFAKEROOT" = "1" ]; then
-		export FAKEROOTKEY=$FAKEROOTKEY2
-		unset FAKEROOTKEY2
-	fi
-fi
+installpackage
 
 exit 0
 # vim: set ts=2 sw=2 noet:
