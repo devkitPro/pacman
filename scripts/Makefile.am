@@ -7,4 +7,5 @@ bin_SCRIPTS = gensync \
 			  rankmirrors \
 			  abs \
 			  repo-add \
+			  repo-remove \
 			  re-pacman
