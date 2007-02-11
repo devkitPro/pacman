@@ -1,0 +1,136 @@
+#!/bin/bash
+#
+#   repo-remove : remove a package entry from a given repo database file
+#  
+#   Copyright (c) 2007 Dan McGee <dan@archlinux.org>
+#  
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+# 
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   USA.
+
+myver='3.0.0'
+
+FORCE=0
+REPO_DB_FILE=""
+
+DB_COMPRESSION="gz" #TODO this is gross
+DB_CHECKSUMS=(md5)
+TMP_DIR=""
+
+# print usage instructions
+usage() {
+	echo "repo-remove $myver"
+	echo
+	echo "usage: repo-remove <path-to-db> <packagename> ..."
+	echo
+	echo "repo-remove will update a package database by removing the package name"
+	echo "specified on the command line from the given repo database. Multiple"
+	echo "packages to remove can be specified on the command line."
+	echo
+	echo "Example:"
+	echo "  repo-remove /path/to/repo.db.tar.gz kernel26"
+	echo
+}
+
+# test if a file is a repository DB
+test_repo_db_file () {
+	if [ -f "$REPO_DB_FILE" ]; then
+		[ "$(tar tf "$REPO_DB_FILE" | grep -c "/desc")" -gt 0 ] || return 1
+	else
+		true
+	fi
+}
+
+# remove existing entries from the DB
+db_remove_entry()
+{
+	cd $gstmpdir
+
+	# remove any other package in the DB with same name
+	for existing in *; do
+		if [ "${existing%-*-*}" = "$1" ]; then
+			echo ":: removing existing package '$existing'"
+			rm -rf $existing
+		fi
+	done
+} # end db_remove_entry
+
+# PROGRAM START
+
+# check for help flags
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+	usage
+	exit 0
+fi
+
+# check for correct number of args
+if [ $# -lt 2 ]; then
+	usage
+	exit 1
+fi
+
+# main routine
+if [ $# -gt 1 ]; then
+	gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || (\
+	echo "cannot create temp directory for database building"; \
+	exit 1)
+
+	success=0
+	# parse arguements
+	for arg in $@; do
+		if [ -z "$REPO_DB_FILE" ]; then
+			REPO_DB_FILE="$(readlink -f $arg)"
+			if ! test_repo_db_file; then
+				echo "error: repository file '$REPO_DB_FILE' is not a proper pacman db"
+				exit 1
+			elif [ -f "$REPO_DB_FILE" ]; then
+				echo ":: extracting database to a temporary location"
+				tar xf "$REPO_DB_FILE" -C "$gstmpdir"
+			fi
+		else
+			echo ":: searching for package '$arg'"
+
+			this_dir="$(pwd)"
+			if db_remove_entry "$arg"; then
+				success=1
+			else
+			echo "error: package matching '$arg' not found"
+			fi
+			cd $this_dir
+		fi
+	done
+
+	# if all operations were a success, rezip database
+	if [ "$success" = "1" ]; then
+		echo ":: creating updated database file ${REPO_DB_FILE}"
+		cd $gstmpdir
+		if [ -n "$(ls)" ]; then
+			[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
+			[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+			case "$DB_COMPRESSION" in
+				gz) tar c * | gzip -9 >$REPO_DB_FILE ;;
+				bz2) tar c * | bzip2 -9 >$REPO_DB_FILE ;;
+				*) echo "warning: no compression set"
+				tar c * >$REPO_DB_FILE;;
+			esac
+		fi
+	else
+		echo ":: no packages modified, nothing to do"
+	fi
+fi
+
+# remove the temp directory used to unzip
+[ -d "$gstmpdir" ] && rm -rf $gstmpdir
+
+# vim: set ts=2 sw=2 noet:
