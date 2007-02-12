@@ -87,10 +87,7 @@ int pacman_query(alpm_list_t *targets)
 	int done = 0;
 
 	if(config->op_q_search) {
-		for(i = targets; i; i = alpm_list_next(i)) {
-			alpm_option_add_needle(alpm_list_getdata(i));
-		}
-		alpm_list_t *ret = alpm_db_search(db_local);
+		alpm_list_t *ret = alpm_db_search(db_local, targets);
 		if(ret == NULL) {
 			return(1);
 		}

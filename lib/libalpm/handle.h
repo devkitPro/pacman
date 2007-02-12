@@ -62,7 +62,6 @@ typedef struct _pmhandle_t {
 	char *xfercommand;				/* External download command */
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
 	unsigned short chomp;			/* I Love Candy! */
-	alpm_list_t *needles;				/* needles for searching */ /* TODO why is this here? */
 	unsigned short use_color; /* enable colorful output */
 } pmhandle_t;
 

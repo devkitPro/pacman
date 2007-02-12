@@ -615,17 +615,15 @@ char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
  * @param db pointer to the package database to search in
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, alpm_list_t* needles)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
-	ASSERT(handle->needles != NULL, return(NULL));
-	ASSERT(handle->needles->data != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	return(_alpm_db_search(db, handle->needles));
+	return(_alpm_db_search(db, needles));
 }
 
 /** @} */

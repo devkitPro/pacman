@@ -113,7 +113,6 @@ int _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->holdpkg);
-	FREELIST(handle->needles);
 	FREE(handle);
 
 	return(0);
@@ -135,7 +134,6 @@ time_t alpm_option_get_upgradedelay() { return handle->upgradedelay; }
 const char *alpm_option_get_xfercommand() { return handle->xfercommand; }
 unsigned short alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
 unsigned short SYMEXPORT alpm_option_get_chomp() { return handle->chomp; }
-alpm_list_t *alpm_option_get_needles() { return handle->needles; }
 unsigned short alpm_option_get_usecolor() { return handle->use_color; }
 
 pmdb_t *alpm_option_get_localdb() { return handle->db_local; }
@@ -249,15 +247,6 @@ void alpm_option_set_nopassiveftp(unsigned short nopasv)
 
 void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
 
-void SYMEXPORT alpm_option_add_needle(char *needle)
-{
-  handle->needles = alpm_list_add(handle->needles, strdup(needle));
-}
-void alpm_option_set_needles(alpm_list_t *needles)
-{
-	if(handle->needles) FREELIST(handle->needles);
-	if(needles) handle->needles = needles;
-}
 void alpm_option_set_usecolor(unsigned short usecolor)
 {
   handle->use_color = usecolor;

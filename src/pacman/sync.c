@@ -236,14 +236,10 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ret;
 
-	for(i = targets; i; i = alpm_list_next(i)) {
-		alpm_option_add_needle(alpm_list_getdata(i));
-	}
-
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		pmdb_t *db = (pmdb_t *)alpm_list_getdata(i);
 		if(targets) {
-			ret = alpm_db_search(db);
+			ret = alpm_db_search(db, targets);
 			if(ret == NULL) {
 				continue;
 			}
