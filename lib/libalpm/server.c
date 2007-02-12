@@ -190,12 +190,15 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			}
 
 			/* Try to get JUST the name of the package from the filename */
-			p = alpm_pkg_name_hasarch(fn); /* TODO remove this later */
-			_alpm_pkg_splitname(fn, pkgname, NULL, (p != NULL));
+			memset(pkgname, 0, PKG_NAME_LEN);
+			if((p = strstr(fn, PM_EXT_PKG))) {
+				_alpm_pkg_splitname(fn, pkgname, NULL, 1);
+			}
 			if(!strlen(pkgname)) {
 				/* just use the raw filename if we can't find crap */
-				STRNCPY(pkgname, fn, PKG_NAME_LEN);
+				STRNCPY(pkgname, fn, PKG_NAME_LEN+1);
 			}
+			_alpm_log(PM_LOG_DEBUG, _("using '%s' for download progress"), pkgname);
 
 			snprintf(realfile, PATH_MAX, "%s/%s", localpath, fn);
 			snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
