@@ -41,7 +41,7 @@
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
-	const char *bdate, *type, *idate, *reason;
+	const char *bdate, *type, *idate, *reason, *descheader;
 
 	if(pkg == NULL) {
 		return;
@@ -63,6 +63,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 			reason = _("Unknown");
 			break;
 	}
+
+	descheader = _("Description    : ");
 
 	/* actual output */
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
@@ -90,8 +92,9 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	printf(_("Install Script : %s\n"),
 	         alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
 
-	printf(_("Description    : "));
-	indentprint(alpm_pkg_get_desc(pkg), 17);
+	/* printed using a variable to make i18n safe */
+	printf("%s", descheader);
+	indentprint(alpm_pkg_get_desc(pkg), strlen(descheader));
 	printf("\n");
 
 	/* Print additional package info if info flag passed more than once */
@@ -107,10 +110,12 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
  */
 void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 {
-	char *md5sum, *sha1sum;
+	char *descheader, *md5sum, *sha1sum;
 	if(pkg == NULL) {
 		return;
 	}
+
+	descheader = _("Description    : ");
 
 	md5sum = (char *)alpm_pkg_get_md5sum(pkg);
 	sha1sum = (char *)alpm_pkg_get_sha1sum(pkg);
@@ -127,8 +132,9 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	printf(_("Download Size  : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
 	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_isize(pkg) / 1024.0);
 	
-	printf(_("Description    : "));
-	indentprint(alpm_pkg_get_desc(pkg), 17);
+	/* printed using a variable to make i18n safe */
+	printf("%s", descheader);
+	indentprint(alpm_pkg_get_desc(pkg), strlen(descheader));
 	printf("\n");
 	
 	if (md5sum != NULL && md5sum[0] != '\0') {
