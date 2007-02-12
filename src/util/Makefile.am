@@ -1,7 +1,9 @@
-bin_PROGRAMS = vercmp
+bin_PROGRAMS = vercmp testpkg
 
 AM_CFLAGS = -I$(top_srcdir)/lib/libalpm
 
 vercmp_SOURCES = vercmp.c
+vercmp_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.so
 
-vercmp_LDADD = $(top_builddir)/lib/libalpm/libalpm.la
+testpkg_SOURCES = testpkg.c
+testpkg_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.so
