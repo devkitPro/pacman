@@ -25,16 +25,20 @@ toplevel=$(pwd)
 
 usage() {
 	echo "makeworld version $version"
-	echo
-	echo "Usage: $0 [options] <destdir> <category> [category] ..."
-	echo
-	echo "Options:"
+	echo "usage: $0 [options] <destdir> <category> [category] ..."
+	echo "options:"
 	echo "  -b, --builddeps  Build missing dependencies from source"
+	echo "  -B, --noccache   Do not use ccache during build"
 	echo "  -c, --clean      Clean up work files after build"
+	echo "  -C, --cleancache Clean up source files from the cache"
 	echo "  -d, --nodeps     Skip all dependency checks"
+	echo "  -e, --noextract  Do not extract source files (use existing src/ dir)"
 	echo "  -f, --force      Overwrite existing packages"
 	echo "  -i, --install    Install package after successful build"
+	echo "  -m, --nocolor    Disable colorized output messages"
+	echo "  -n, --nostrip    Do not strip binaries/libraries"
 	echo "  -h, --help       This help"
+	echo "  -o, --nobuild    Download and extract files only"
 	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
 	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
@@ -79,16 +83,22 @@ for arg in $*; do
 		exit 1
 		;;
 		-*)
-		while getopts "chisSbdfr-" opt; do
+		while getopts "chisSbdfrBCemnoS-" opt; do
 			case $opt in
 				c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
 				i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
 				s) MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
-				S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
 				b) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
 				d) MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
 				f) MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
 				r) MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+				B) MAKEPKG_OPTS="$MAKEPKG_OPTS -B" ;;
+				C) MAKEPKG_OPTS="$MAKEPKG_OPTS -C" ;;
+				e) MAKEPKG_OPTS="$MAKEPKG_OPTS -e" ;;
+				m) MAKEPKG_OPTS="$MAKEPKG_OPTS -m" ;;
+				n) MAKEPKG_OPTS="$MAKEPKG_OPTS -n" ;;
+				o) MAKEPKG_OPTS="$MAKEPKG_OPTS -o" ;;
+				S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
 				h)
 				usage
 				exit 0
