@@ -62,6 +62,11 @@ by other distributions which may want to change the defaults. Also, review what
 needs to be in config.h and what does not. There may be excess #depends which
 are hard coded into the sources. (from TODO.autoconf)
 
+Profile the code. Find the functions that are being called a lot, and see what
+can be done about it. Find out if all these calls are necessary (e.g. excessive
+alpm_list_count calls), and maybe think about changing data structures to speed
+operations up (e.g. a 'count' field).
+
 Other ideas:
 ============
 
@@ -69,7 +74,7 @@ unsigned int vs. unsigned- determine a standard and stick with it
 
 Possibly split utilities/extras from pacman package
 
-Rewrite gensync/updatesync, and add a 'repo-remove' script
+Rewrite gensync/updatesync
 
 FS #4185 - move where message is logged, perhaps?
 
