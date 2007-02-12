@@ -40,8 +40,9 @@ little add/sync/remove parts, allow transactions to share code.
 
 Go through options list. Decide if namings are good, all options are still
 relevant, etc. Ideas for -Re (#6273), changing meaning of -c (has two meanings,
-another FS bug), etc. Remove the -A flag and possibly -D, -T, and -Y if they
-can be done by other actions. Possible switch of -U --> -I (#5571).
+another FS bug), etc. Remove the -A flag and possibly -D, -T, and -Y (-Y is
+killed now in favor of vercmp binary) if they can be done by other actions.
+Possible switch of -U --> -I (#5571).
 
 Rewrite _alpm_sortbydeps to use Topological Sort. Should work using a standard
 topo sort algorithm, once the crazy types can be fixed up a bit. Include a
