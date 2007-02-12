@@ -36,12 +36,11 @@ usage() {
 	echo "  -f, --force      Overwrite existing packages"
 	echo "  -i, --install    Install package after successful build"
 	echo "  -m, --nocolor    Disable colorized output messages"
-	echo "  -n, --nostrip    Do not strip binaries/libraries"
 	echo "  -h, --help       This help"
 	echo "  -o, --nobuild    Download and extract files only"
 	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
 	echo "  -s, --syncdeps   Install missing dependencies with pacman"
-	echo "  -S, --sudosync   Install missing dependencies with pacman and sudo"
+	echo "  -S, --usesudo    Use sudo when running pacman commands"
 	echo
 	echo "These options can be passed to pacman:"
 	echo
@@ -66,14 +65,19 @@ for arg in $*; do
 		--noconfirm)     MAKEPKG_OPTS="$MAKEPKG_OPTS --noconfirm" ;;
 		--noprogressbar) MAKEPKG_OPTS="$MAKEPKG_OPTS --noprogressbar" ;;
 		# makepkg
-		--clean)     MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
-		--install)   MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
-		--syncdeps)  MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
-		--sudosync)  MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
-		--builddeps) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
-		--nodeps)    MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
-		--force)     MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
-		--rmdeps)    MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+		--clean)      MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
+		--install)    MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
+		--syncdeps)   MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
+		--usesudo)    MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
+		--builddeps)  MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
+		--nodeps)     MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
+		--force)      MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
+		--rmdeps)     MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+		--noccache)   MAKEPKG_OPTS="$MAKEPKG_OPTS -B" ;;
+		--cleancache) MAKEPKG_OPTS="$MAKEPKG_OPTS -C" ;;
+		--noextract)  MAKEPKG_OPTS="$MAKEPKG_OPTS -e" ;;
+		--nobuild)    MAKEPKG_OPTS="$MAKEPKG_OPTS -o" ;;
+		--nocolor)    MAKEPKG_OPTS="$MAKEPKG_OPTS -m" ;;
 		--help)
 		usage
 		exit 0
@@ -83,7 +87,7 @@ for arg in $*; do
 		exit 1
 		;;
 		-*)
-		while getopts "chisSbdfrBCemnoS-" opt; do
+		while getopts "chisSbdfrBCemoS-" opt; do
 			case $opt in
 				c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
 				i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
@@ -96,7 +100,6 @@ for arg in $*; do
 				C) MAKEPKG_OPTS="$MAKEPKG_OPTS -C" ;;
 				e) MAKEPKG_OPTS="$MAKEPKG_OPTS -e" ;;
 				m) MAKEPKG_OPTS="$MAKEPKG_OPTS -m" ;;
-				n) MAKEPKG_OPTS="$MAKEPKG_OPTS -n" ;;
 				o) MAKEPKG_OPTS="$MAKEPKG_OPTS -o" ;;
 				S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
 				h)
