@@ -109,7 +109,7 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	fi
 
 	if [ ! -f "$pkgfile" ]; then
-		error "$BUILDSCRIPT does not have a corresponding package"
+		error "could not find $pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT - skipping"
 	else
 		if check_force; then
 			forcepkgs="$forcepkgs $pkgfile"
