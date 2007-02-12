@@ -98,16 +98,16 @@ static void usage(int op, char *myname)
 		if(op == PM_OP_ADD) {
 			printf(_("usage:  %s {-A --add} [options] <file>\n"), myname);
 			printf(_("options:\n"));
-			printf(_("  -d, --nodeps        skip dependency checks\n"));
-			printf(_("  -f, --force         force install, overwrite conflicting files\n"));
+			printf(_("  -d, --nodeps         skip dependency checks\n"));
+			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_REMOVE) {
 			printf(_("usage:  %s {-R --remove} [options] <package>\n"), myname);
 			printf(_("options:\n"));
-			printf(_("  -c, --cascade       remove packages and all packages that depend on them\n"));
-			printf(_("  -d, --nodeps        skip dependency checks\n"));
-			printf(_("  -k, --dbonly        only remove database entry, do not remove files\n"));
-			printf(_("  -n, --nosave        remove configuration files as well\n"));
-			printf(_("  -s, --recursive     remove dependencies also (that won't break packages)\n"));
+			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
+			printf(_("  -d, --nodeps         skip dependency checks\n"));
+			printf(_("  -k, --dbonly         only remove database entry, do not remove files\n"));
+			printf(_("  -n, --nosave         remove configuration files as well\n"));
+			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			if(config->flags & PM_TRANS_FLAG_FRESHEN) {
 				printf(_("usage:  %s {-F --freshen} [options] <file>\n"), myname);
@@ -115,46 +115,47 @@ static void usage(int op, char *myname)
 				printf(_("usage:  %s {-U --upgrade} [options] <file>\n"), myname);
 			}
 			printf(_("options:\n"));
-			printf(_("  -d, --nodeps        skip dependency checks\n"));
-			printf(_("  -f, --force         force install, overwrite conflicting files\n"));
+			printf(_("  -d, --nodeps         skip dependency checks\n"));
+			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_QUERY) {
 			printf(_("usage:  %s {-Q --query} [options] [package]\n"), myname);
 			printf(_("options:\n"));
-			printf(_("  -c, --changelog     view the changelog of a package\n"));
-			printf(_("  -e, --orphans       list all packages installed as dependencies but no longer\n"));
-			printf(_("                      required by any package\n"));
-			printf(_("  -g, --groups        view all members of a package group\n"));
-			printf(_("  -i, --info          view package information\n"));
-			printf(_("  -l, --list          list the contents of the queried package\n"));
-			printf(_("  -m, --foreign       list all packages that were not found in the sync db(s)\n"));
-			printf(_("  -o, --owns <file>   query the package that owns <file>\n"));
-			printf(_("  -p, --file          query the package file [package] instead of the database\n"));
-			printf(_("  -s, --search        search locally-installed packages for matching strings\n"));
-			printf(_("  -u, --upgrades      list all packages that can be upgraded\n"));
+			printf(_("  -c, --changelog      view the changelog of a package\n"));
+			printf(_("  -e, --orphans        list all packages installed as dependencies but no longer\n"));
+			printf(_("                       required by any package\n"));
+			printf(_("  -g, --groups         view all members of a package group\n"));
+			printf(_("  -i, --info           view package information\n"));
+			printf(_("  -l, --list           list the contents of the queried package\n"));
+			printf(_("  -m, --foreign        list all packages that were not found in the sync db(s)\n"));
+			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
+			printf(_("  -p, --file           query the package file [package] instead of the database\n"));
+			printf(_("  -s, --search         search locally-installed packages for matching strings\n"));
+			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf(_("usage:  %s {-S --sync} [options] [package]\n"), myname);
 			printf(_("options:\n"));
-			printf(_("  -c, --clean         remove old packages from cache directory (use -cc for all)\n"));
-			printf(_("  -d, --nodeps        skip dependency checks\n"));
-			printf(_("  -e, --dependsonly   install dependencies only\n"));
-			printf(_("  -f, --force         force install, overwrite conflicting files\n"));
-			printf(_("  -g, --groups        view all members of a package group\n"));
-			printf(_("  -i, --info          view package information\n"));
-			printf(_("  -p, --print-uris    print out URIs for given packages and their dependencies\n"));
-			printf(_("  -s, --search        search remote repositories for matching strings\n"));
-			printf(_("  -u, --sysupgrade    upgrade all packages that are out of date\n"));
-			printf(_("  -w, --downloadonly  download packages but do not install/upgrade anything\n"));
-			printf(_("  -y, --refresh       download fresh package databases from the server\n"));
-			printf(_("      --ignore <pkg>  ignore a package upgrade (can be used more than once)\n"));
+			printf(_("  -c, --clean          remove old packages from cache directory (use -cc for all)\n"));
+			printf(_("  -d, --nodeps         skip dependency checks\n"));
+			printf(_("  -e, --dependsonly    install dependencies only\n"));
+			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
+			printf(_("  -g, --groups         view all members of a package group\n"));
+			printf(_("  -i, --info           view package information\n"));
+			printf(_("  -p, --print-uris     print out URIs for given packages and their dependencies\n"));
+			printf(_("  -s, --search         search remote repositories for matching strings\n"));
+			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
+			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
+			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
+			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 		}
-		printf(_("      --config <path> set an alternate configuration file\n"));
-		printf(_("      --noconfirm     do not ask for anything confirmation\n"));
-		printf(_("      --ask  <number> pre-specify answers for questions (see manpage)\n"));
-		printf(_("      --noprogressbar do not show a progress bar when downloading files\n"));
-		printf(_("      --noscriptlet   do not execute the install scriptlet if there is any\n"));
-		printf(_("  -v, --verbose       be verbose\n"));
-		printf(_("  -r, --root <path>   set an alternate installation root\n"));
-		printf(_("  -b, --dbpath <path> set an alternate database location\n"));
+		printf(_("      --config <path>  set an alternate configuration file\n"));
+		printf(_("      --noconfirm      do not ask for anything confirmation\n"));
+		printf(_("      --ask <number>   pre-specify answers for questions (see manpage)\n"));
+		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
+		printf(_("      --noscriptlet    do not execute the install scriptlet if there is any\n"));
+		printf(_("  -v, --verbose        be verbose\n"));
+		printf(_("  -r, --root <path>    set an alternate installation root\n"));
+		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
+		printf(_("      --cachedir <dir> set an alternate database location\n"));
 	}
 }
 
@@ -257,9 +258,9 @@ static int parseargs(int argc, char *argv[])
 		{"noprogressbar",  no_argument,   0, 1004},
 		{"noscriptlet", no_argument,      0, 1005},
 		{"ask",        required_argument, 0, 1006},
+		{"cachedir",   required_argument, 0, 1007},
 		{0, 0, 0, 0}
 	};
-	char root[PATH_MAX];
 	struct stat st;
 	unsigned short logmask;
 
@@ -309,6 +310,13 @@ static int parseargs(int argc, char *argv[])
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
 			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
+			case 1007:
+				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
+					ERR(NL, _("'%s' is not a valid cache directory\n"), optarg);
+					return(1);
+				}
+				alpm_option_set_cachedir(optarg);
+				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'D':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
@@ -329,7 +337,7 @@ static int parseargs(int argc, char *argv[])
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
 				break;
 			case 'b':
-			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
+				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					ERR(NL, _("'%s' is not a valid db path\n"), optarg);
 					return(1);
 				}
@@ -359,11 +367,11 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_PRINTURIS;
 				break;
 			case 'r':
-				if(realpath(optarg, root) == NULL) {
+				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					ERR(NL, _("'%s' is not a valid root path\n"), optarg);
 					return(1);
 				}
-				alpm_option_set_root(strdup(root));
+				alpm_option_set_root(optarg);
 				break;
 			case 's':
 				config->op_s_search = 1;
