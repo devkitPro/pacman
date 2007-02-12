@@ -21,7 +21,7 @@
 #   USA.
 #
 
-myver='2.9.8'
+myver='3.0.0'
 
 usage() {
 	echo "updatesync $myver"
@@ -47,128 +47,29 @@ usage() {
 	exit 0
 }
 
-die()
-{
-	echo "updatesync: $*" >&2
-	rm -rf $ustmpdir
+BUILDSCRIPT="PKGBUILD"
+PKGEXT="pkg.tar.gz" 
+
+source /etc/makepkg.conf
+
+error () {
+	echo "==> ERROR: $*" >&2
+}
+
+die () {
+	error $*
 	exit 1
 }
 
-check_option() {
+check_force () {
 	local i
 	for i in ${options[@]}; do
-		local uc=`echo $i | tr [:lower:] [:upper:]`
-		local lc=`echo $i | tr [:upper:] [:lower:]`
-		if [ "$uc" = "$1" -o "$lc" = "$1" ]; then
-			echo $1
-			return
+		local lc=$(echo $i | tr [:upper:] [:lower:])
+		if [ "$lc" = "force" ]; then
+			true
 		fi
 	done
-}
-
-get_md5checksum()
-{
-	if [ "$pkgdir" != "" ]; then
-		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
-	else
-		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
-	fi
-	if [ -f $pkgfile ]; then
-		md5line=`md5sum $pkgfile`
-		[ ! -z "$md5line" ] && pkgmd5sum=${md5line%  *}
-		echo $pkgmd5sum
-	fi
-	return 0
-}
-
-db_write_entry()
-{
-	unset pkgname pkgver pkgrel pkgdesc force
-	unset groups replaces provides depends conflicts options
-	source $1 || return 1
-	cd $ustmpdir
-	mkdir $pkgname-$pkgver-$pkgrel || return 1
-	cd $pkgname-$pkgver-$pkgrel
-	# desc
-	: >desc
-	echo "%NAME%" >>desc
-	echo "$pkgname" >>desc
-	echo "" >>desc
-	echo "%VERSION%" >>desc
-	echo "$pkgver-$pkgrel" >>desc
-	echo "" >>desc
-	if [ -n "$pkgdesc" ]; then
-		echo "%DESC%" >>$entry
-		echo "$pkgdesc" >>$entry
-		echo "" >>$entry
-	fi
-	if [ ${#groups[*]} -gt 0 ]; then
-		echo "%GROUPS%" >>$entry
-		for it in "${groups[@]}"; do
-			echo "$it" >>$entry
-		done
-		echo "" >>$entry
-	fi
-	if [ -n $csize ]; then
-		echo "%CSIZE%" >>$entry
-		echo "$csize" >>$entry
-		echo "" >>$entry
-	fi
-	if [ ! -z $pkgmd5sum ]; then
-		echo "%MD5SUM%" >>$entry
-		echo "$pkgmd5sum" >>$entry
-		echo "" >>$entry
-	fi
-	if [ ${#replaces[*]} -gt 0 ]; then
-		echo "%REPLACES%" >>desc
-		for it in "${replaces[@]}"; do
-			echo "$it" >>desc
-		done
-		echo "" >>desc
-	fi
-	if [ "$force" = "y" -o "$force" = "Y" -o "`check_option FORCE`" ]; then
-		echo "%FORCE%" >>desc
-		echo "" >>desc
-	fi
-	# depends
-	: >depends
-	if [ ${#depends[*]} -gt 0 ]; then
-		echo "%DEPENDS%" >>depends
-		for it in "${depends[@]}"; do
-			echo "$it" >>depends
-		done
-		echo "" >>depends
-	fi
-	if [ ${#conflicts[*]} -gt 0 ]; then
-		echo "%CONFLICTS%" >>depends
-		for it in "${conflicts[@]}"; do
-			echo "$it" >>depends
-		done
-		echo "" >>depends
-	fi
-	if [ ${#provides[*]} -gt 0 ]; then
-		echo "%PROVIDES%" >>depends
-		for it in "${provides[@]}"; do
-			echo "$it" >>depends
-		done
-		echo "" >>depends
-	fi
-}
-
-delete_entry()
-{
-	echo $1 | grep PKGBUILD 2>&1 >/dev/null
-	if [ $? -eq 0 ]; then
-		source $1
-	else
-		pkgname=$1
-	fi
-	for i in *; do
-		if [ "${i%-*-*}" = "$pkgname" ]; then
-			echo "updatesync: deleting $i" >&2
-			rm -rf $i
-		fi
-	done
+	false
 }
 
 if [ $# -lt 3 ]; then
@@ -181,71 +82,50 @@ if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	exit 0
 fi
 
-action=$1
-pkgdb=$2
-option=$3
-curdir="`pwd`"
-pkgdir=$curdir
-if [ "$4" != "" ]; then
-	pkgdir=$4
-fi
-
-if [ "$action" != "upd" -a "$action" != "del" ]; then
+if [ "$1" != "upd" -a "$1" != "del" ]; then
 	usage
 	exit 1
 fi
 
-ustmpdir=$(mktemp -d /tmp/updatesync.XXXXXXXXXX) || exit 1
+action=$1
+pkgdb=$2
+option=$3
+pkgdir="$(pwd)"
+if [ "$4" != "" ]; then
+	pkgdir="$4"
+fi
+opt_force=""
 
-cd $ustmpdir
-if [ ! -f $pkgdb ]; then
-	if [ ! -f $curdir/$pkgdb ]; then
-		echo "updatesync: $pkgdb not found"
-		exit 1
-	fi
-	pkgdb=$curdir/$pkgdb
+if [ ! -f "$option" ]; then
+	die "$option not found"
 fi
 
-if [ "$action" = "upd" -a ! -f $option ]; then
-	if [ ! -f $curdir/$option ]; then
-		echo "updatesync: $option not found"
-		exit 1
+if [ "$action" = "upd" ]; then # INSERT / UPDATE
+	unset pkgname pkgver pkgrel options
+
+	source $option || die "failed to parse $option"
+	pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
+
+	if [ ! -f "$pkgfile" ]; then
+		die "could not find $pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT - aborting"
 	fi
-	option=$curdir/$option
-fi
 
-echo "updatesync: uncompressing to $ustmpdir..." >&2
-tar -xzf $pkgdb || die "error uncompressing $pkgdb"
-if [ "$action" = "upd" ]; then
-	# INSERT / UPDATE
-	delete_entry $option
+	if check_force; then
+		opt_force="--force"
+	fi
 
-	source $option || die "errors parsing $option"
-	if [ "$pkgdir" != "" ]; then
-		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+	repo-add "$pkgdb" $opt_force "$pkgfile"
+else # DELETE
+	fname="$(basename $option)"
+	if [ "$fname" = "PKGBUILD" ]; then
+		unset pkgname pkgver pkgrel options
+		source $option
 	else
-		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel.pkg.tar.gz"
+		pkgname=$1
 	fi
-	if [ -f $pkgfile ]; then
-		csize=`du -b $pkgfile | cut -f1`
-		pkgmd5sum=`get_md5checksum $pkgfile`
-		[ -z $pkgmd5sum ] && die "error generating checksum for $pkgfile"
-		echo "updatesync: creating entry for $option" >&2
-		db_write_entry $option || die "error writing entry for $option"
-	else
-		echo "updatesync: missing package: $pkgfile" >&2
-	fi
-else
-	# DELETE
-	delete_entry $option
+
+	repo-remove "$pkgdb" "$pkgname"
 fi
-
-echo "updatesync: compressing to $pkgdb..." >&2
-cd $ustmpdir
-tar c * | gzip -9 >$pkgdb || die "error writing to $pkgdb"
-
-cd $curdir
-rm -rf $ustmpdir
 
 exit 0
 # vim: set ts=2 sw=2 noet:

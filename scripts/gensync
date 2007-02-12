@@ -119,7 +119,7 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	fi
 done
 
-echo "successfuly found all packages, creating repo DB..."
+echo "creating repo DB..."
 
 # we'll trim the output just a tad, as gensync may be used on large repos
 repo-add $destfile $pkgs --force $force_pkgs \
