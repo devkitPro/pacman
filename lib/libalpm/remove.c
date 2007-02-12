@@ -183,7 +183,7 @@ static int can_remove_file(const char *path)
 		if(access(file, F_OK) == 0) {
 			/* only return failure if the file ACTUALLY exists and we don't have
 			 * permissions */
-			_alpm_log(PM_LOG_WARNING, _("cannot remove file '%s': %s"), file, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s"), file, strerror(errno));
 			return(0);
 		}
 	}
