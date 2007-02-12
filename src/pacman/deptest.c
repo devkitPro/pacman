@@ -49,18 +49,6 @@ int pacman_deptest(alpm_list_t *targets)
 		return(0);
 	}
 
-	if(config->op_d_vertest) {
-		const char *pkga, *pkgb;
-		pkga = alpm_list_getdata(targets);
-		i = alpm_list_next(targets);
-		if(pkga && i && (pkgb = alpm_list_getdata(i))) {
-			int ret = alpm_pkg_vercmp(pkga, pkgb);
-			printf("%d\n", ret);
-			return(ret);
-		}
-		return(0);
-	}
-
 	/* we create a transaction to hold a dummy package to be able to use
 	 * deps checkings from alpm_trans_prepare() */
 	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL, NULL, NULL) == -1) {

@@ -183,7 +183,7 @@ static void cleanup(int signum)
 						&& (pm_errno == PM_ERR_TRANS_COMMITING)) {
 		return;
 	}
-	if(signum != 0 && config->op_d_vertest == 0) {
+	if(signum != 0) {
 		/* TODO why is this here? */
 		fprintf(stderr, "\n");
 	}
@@ -224,7 +224,6 @@ static int parseargs(int argc, char *argv[])
 		{"deptest",    no_argument,       0, 'T'}, /* used by makepkg */
 		{"upgrade",    no_argument,       0, 'U'},
 		{"version",    no_argument,       0, 'V'},
-		{"vertest",    no_argument,       0, 'Y'}, /* does the same as the 'vercmp' binary */
 		{"dbpath",     required_argument, 0, 'b'},
 		{"cascade",    no_argument,       0, 'c'},
 		{"changelog",  no_argument,       0, 'c'},
@@ -328,7 +327,6 @@ static int parseargs(int argc, char *argv[])
 			case 'V': config->version = 1; break;
 			case 'Y':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
-				config->op_d_vertest = 1;
 				break;
 			case 'b':
 			  if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
@@ -479,7 +477,7 @@ int main(int argc, char *argv[])
 			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
 					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
 					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
-				 || (config->op == PM_OP_DEPTEST && !config->op_d_resolve)
+				 || (config->op == PM_OP_DEPTEST && config->op_d_resolve)
 				 || (strcmp(alpm_option_get_root(), PM_ROOT) != 0)) {
 				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
 				/* special case: ignore root user check if -r is specified, fall back on
