@@ -41,10 +41,11 @@ if [ "$1" == "--gettext-only" ]; then
 	exit 0
 fi
 
+cp -f $(dirname $(which automake))/../share/automake-*/mkinstalldirs ./
+cp -f $(dirname $(which automake))/../share/gettext/config.rpath ./
+
 libtoolize -f -c
 aclocal --force
 autoheader -f
 autoconf -f
 automake -a -c --gnu --foreign
-cp -f $(dirname $(which automake))/../share/automake-*/mkinstalldirs ./
-cp -f $(dirname $(which automake))/../share/gettext/config.rpath ./
