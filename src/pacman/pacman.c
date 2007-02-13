@@ -155,7 +155,7 @@ static void usage(int op, char *myname)
 		printf(_("  -v, --verbose        be verbose\n"));
 		printf(_("  -r, --root <path>    set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
-		printf(_("      --cachedir <dir> set an alternate database location\n"));
+		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
 	}
 }
 
@@ -435,13 +435,15 @@ int main(int argc, char *argv[])
 	signal(SIGSEGV, cleanup);
 
 	/* i18n init */
-	lang=getenv("LC_ALL");
-	if(lang==NULL || lang[0]=='\0')
-		lang=getenv("LC_MESSAGES");
-	if (lang==NULL || lang[0]=='\0')
-		lang=getenv("LANG");
+	lang = setlocale(LC_ALL, "");
+	/* if setlocale returns null, the locale was invalid- override it */
+	if (lang == NULL) {
+		lang = "C";
+		setlocale(LC_ALL, "C");
+		setenv("LC_ALL", lang, 1);
+		MSG(NL, _("warning: default locale is invalid; using default \"C\" locale"));
+	}
 
-	setlocale(LC_ALL, lang);
 	/* workaround for tr_TR */
 	if(lang && !strcmp(lang, "tr_TR"))
 		setlocale(LC_CTYPE, "C");
