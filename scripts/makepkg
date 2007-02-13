@@ -503,10 +503,6 @@ unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options noextract
 
-# some applications (eg, blackbox) will not build with some languages
-unset LC_ALL LANG
-umask 0022
-
 if [ ! -f $BUILDSCRIPT ]; then
 	error "$BUILDSCRIPT does not exist."
 	exit 1
@@ -829,6 +825,10 @@ else
 
 	# build
 	msg "Starting build()..."
+
+	# some applications (eg, blackbox) will not build with some languages
+	unset LC_ALL LANG
+	umask 0022
 
 	#check for "exit on syntax error" shell option
 	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
