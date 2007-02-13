@@ -63,51 +63,51 @@ dnl Check for architecture
 case "$host" in
 	i686-*) AC_DEFINE_UNQUOTED([CARCH], ["i686"], [Architecture])
 		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["i686"], [Architecture])
-		AC_DEFINE_UNQUOTED([MARCHFLAG], ["march"], [Architecture])
+		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
 		CARCH="i686"
 		CARCHFLAGS="i686"
-		MARCHFLAG="march"
+		ARCHSWITCH="march"
 		CHOST="${host}"
 		;;
 	x86_64-*) AC_DEFINE_UNQUOTED([CARCH], ["x86_64"], [Architecture])
 		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["x86-64"], [Architecture])
-		AC_DEFINE_UNQUOTED([MARCHFLAG], ["march"], [Architecture])
+		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
 		CARCH="x86_64"
 		CARCHFLAGS="x86-64"
-		MARCHFLAG="march"
+		ARCHSWITCH="march"
 		CHOST="${host}"
 		;;
 	ia64-*) AC_DEFINE_UNQUOTED([CARCH], ["ia64"], [Architecture])
 		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["ia64"], [Architecture])
-		AC_DEFINE_UNQUOTED([MARCHFLAG], ["march"], [Architecture])
+		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
 		CARCH="ia64"
 		CARCHFLAGS="ia64"
-		MARCHFLAG="march"
+		ARCHSWITCH="march"
 		CHOST="${host}"
 		;;
 	sparc-*) AC_DEFINE_UNQUOTED([CARCH], ["sparc"], [Architecture])
 		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["v9"], [Architecture])
-		AC_DEFINE_UNQUOTED([MARCHFLAG], ["mcpu"], [Architecture])
+		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["mcpu"], [Architecture])
 		CARCH="sparc"
 		CARCHFLAGS="v9"
-		MARCHFLAG="mcpu"
+		ARCHSWITCH="mcpu"
 		CHOST="${host}"
 		;;
 	ppc-* | powerpc-*)
 		AC_DEFINE_UNQUOTED([CARCH], ["ppc"], [Architecture])
 		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["750"], [Architecture])
-		AC_DEFINE_UNQUOTED([MARCHFLAG], ["mcpu"], [Architecture])
+		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["mcpu"], [Architecture])
 		CARCH="ppc"
 		CARCHFLAGS="750"
-		MARCHFLAG="mcpu"
+		ARCHSWITCH="mcpu"
 		CHOST="${host}"
 		;;
 	i386-*) AC_DEFINE_UNQUOTED([CARCH], ["i386"], [Architecture])
 		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["i386"], [Architecture])
-		AC_DEFINE_UNQUOTED([MARCHFLAG], ["march"], [Architecture])
+		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
 		CARCH="i386"
 		CARCHFLAGS="i386"
-		MARCHFLAG="march"
+		ARCHSWITCH="march"
 		CHOST="${host}"
 		;;
 	*)
@@ -117,7 +117,7 @@ esac
 
 AC_SUBST(CARCH)
 AC_SUBST(CARCHFLAGS)
-AC_SUBST(MARCHFLAG)
+AC_SUBST(ARCHSWITCH)
 AC_SUBST(CHOST)
 
 dnl Help line for config file

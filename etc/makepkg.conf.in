@@ -19,11 +19,10 @@ CARCH="@CARCH@"
 CHOST="@CHOST@"
 
 #-- Exclusive: will only run on @CARCHFLAGS@
-CFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
-CXXFLAGS="-@MARCHFLAG@=@CARCHFLAGS@ -O2 -pipe"
-#-- Optimized: will run on any x86, but optimized for i686
-#CFLAGS="-mcpu=i686 -O2 -pipe"
-#CXXFLAGS="-mcpu=i686 -O2 -pipe"
+# -mtune builds exclusively for an architecture
+# -mcpu optimizes for an architecture, but builds for the whole processor family
+CFLAGS="-@ARCHSWITCH@=@CARCHFLAGS@ -O2 -pipe"
+CXXFLAGS="-@ARCHSWITCH@=@CARCHFLAGS@ -O2 -pipe"
 #-- Make Flags: change this for DistCC/SMP systems
 #MAKEFLAGS="-j2"
 
