@@ -155,14 +155,6 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	return(0);
 }
 
-/* Helper function for comparing strings
- */
-static int str_cmp(const void *s1, const void *s2)
-{
-	return(strcmp(s1, s2));
-}
-
-
 static int can_remove_file(const char *path)
 {
 	alpm_list_t *i;
@@ -378,7 +370,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* Ensure package has the appropriate data */
 			_alpm_db_read(db, INFRQ_DEPENDS, depinfo);
 			/* splice out this entry from requiredby */
-			depinfo->requiredby = alpm_list_remove(depinfo->requiredby, info->name, str_cmp, &vdata);
+			depinfo->requiredby = alpm_list_remove(depinfo->requiredby, info->name, _alpm_str_cmp, &vdata);
 			data = vdata;
 			FREE(data);
 			_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), depinfo->name);

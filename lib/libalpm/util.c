@@ -634,4 +634,12 @@ void _alpm_time2string(time_t t, char *buffer)
 	}
 }
 
+/* Helper function for comparing strings using the
+ * alpm "compare func" signature */
+int _alpm_str_cmp(const void *s1, const void *s2)
+{
+	return(strcmp(s1, s2));
+}
+
+
 /* vim: set ts=2 sw=2 noet: */

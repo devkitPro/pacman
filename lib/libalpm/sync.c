@@ -393,8 +393,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		trail = alpm_list_new();
-
 		/* Resolve targets dependencies */
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_DEBUG, _("resolving target's dependencies"));

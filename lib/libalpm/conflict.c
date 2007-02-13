@@ -209,9 +209,37 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 }
 
 /* Returns a alpm_list_t* of file conflicts.
- *
- * adds list of files to skip to alpm_list_t** skip_list.
+ *  Hooray for set-intersects!
+ *  Pre-condition: both lists are sorted!
  */
+static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
+{
+	alpm_list_t *ret = NULL;
+	alpm_list_t *pA = filesA, *pB = filesB;
+
+	while(pA && pB) {
+		const char *strA = pA->data;
+		const char *strB = pB->data;
+		if(strA[strlen(strA)-1] == '/') {
+			pA = pA->next;
+		} else if(strB[strlen(strB)-1] == '/') {
+			pB = pB->next;
+		} else if(strcmp(strA, strB) == -1) {
+			pA = pA->next;
+		} else if(strcmp(strB, strA) == -1) {
+			pB = pB->next;
+		} else {
+			ret = alpm_list_add(ret, strdup(strA));
+			pA = pA->next;
+			pB = pB->next;
+	  }
+	}
+	for(alpm_list_t *i = ret; i; i = i->next) {
+		_alpm_log(PM_LOG_DEBUG, "found conflict = %s", i->data);
+	}
+	return(ret);
+}
+
 alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, alpm_list_t **skip_list)
 {
 	alpm_list_t *i, *j, *k;
@@ -232,31 +260,23 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 		pmpkg_t *p1 = (pmpkg_t*)i->data;
 		percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1) / alpm_list_count(targets);
 		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100), alpm_list_count(targets), (alpm_list_count(targets) - alpm_list_count(i) +1));
-		for(j = i; j; j = j->next) {
+		for(j = i->next; j; j = j->next) {
 			pmpkg_t *p2 = (pmpkg_t*)j->data;
-			if(strcmp(p1->name, p2->name)) {
-				for(k = p1->files; k; k = k->next) {
-					filestr = k->data;
-					if(filestr[strlen(filestr)-1] == '/') {
-						/* has a trailing '/', so it's a directory -- skip it. */
+			alpm_list_t *conffiles = chk_fileconflicts(p1->files, p2->files);
+
+			if(conffiles) {
+				for(k = conffiles; k; k = k->next) {
+					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
+					if(conflict == NULL) {
+						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
+											sizeof(pmconflict_t));
 						continue;
 					}
-					if(strcmp(filestr, ".INSTALL") == 0) {
-						continue;
-					}
-					if(alpm_list_find_str(p2->files, filestr)) {
-						pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
-						if(conflict == NULL) {
-							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
-							                        sizeof(pmconflict_t));
-							continue;
-						}
-						conflict->type = PM_CONFLICT_TYPE_TARGET;
-						STRNCPY(conflict->target, p1->name, PKG_NAME_LEN);
-						STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
-						STRNCPY(conflict->ctarget, p2->name, PKG_NAME_LEN);
-						conflicts = alpm_list_add(conflicts, conflict);
-					}
+					conflict->type = PM_CONFLICT_TYPE_TARGET;
+					STRNCPY(conflict->target, p1->name, PKG_NAME_LEN);
+					STRNCPY(conflict->file, k->data, CONFLICT_FILE_LEN);
+					STRNCPY(conflict->ctarget, p2->name, PKG_NAME_LEN);
+					conflicts = alpm_list_add(conflicts, conflict);
 				}
 			}
 		}
@@ -320,7 +340,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 								}
 								/* If it used to exist in there, but doesn't anymore */
 								if(dbpkg2 && !alpm_list_find_str(p1->files, filestr)
-								    && alpm_list_find_str(dbpkg2->files, filestr)) {
+									 && alpm_list_find_str(dbpkg2->files, filestr)) {
 									ok = 1;
 									/* Add to the "skip list" of files that we shouldn't remove during an upgrade.
 									 *
@@ -348,7 +368,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 					if(conflict == NULL) {
 						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
-						                        sizeof(pmconflict_t));
+											sizeof(pmconflict_t));
 						continue;
 					}
 					conflict->type = PM_CONFLICT_TYPE_FILE;

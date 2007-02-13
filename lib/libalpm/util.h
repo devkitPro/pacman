@@ -71,6 +71,8 @@ int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data);
 #endif
 #endif
 void _alpm_time2string(time_t t, char *buffer);
+int _alpm_str_cmp(const void *s1, const void *s2);
+
 #ifdef __sun__
 char* strsep(char** str, const char* delims);
 char* mkdtemp(char *template);

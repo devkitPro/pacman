@@ -421,6 +421,10 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile)
 		alpm_list_free(all_files);
 	}
 
+	/* this is IMPORTANT - "checking for conflicts" requires a sorted list, so we
+	 * ensure that here */
+	info->files = alpm_list_msort(info->files, alpm_list_count(info->files), _alpm_str_cmp);
+
 	/* internal */
 	info->origin = PKG_FROM_FILE;
 	info->data = strdup(pkgfile);
