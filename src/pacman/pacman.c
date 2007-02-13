@@ -405,7 +405,7 @@ static int parseargs(int argc, char *argv[])
 	}
 	if(config->version) {
 		version();
-		return(0);
+		return(2);
 	}
 
 	while(optind < argc) {
