@@ -613,6 +613,7 @@ char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
 
 /** Searches a database
  * @param db pointer to the package database to search in
+ * @param needles the list of strings to search for
  * @return the list of packages on success, NULL on error
  */
 alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, alpm_list_t* needles)

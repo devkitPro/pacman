@@ -197,8 +197,10 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 	struct stat buf;
 	char path[PATH_MAX+1];
 	char line[513];
+	/*
 	alpm_list_t *tmplist;
 	char *locale;
+	*/
 
 	ALPM_LOG_FUNC;
 
@@ -254,11 +256,16 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 				}
 				_alpm_strtrim(info->filename);
 		  } else if(!strcmp(line, "%DESC%")) {
+				if(fgets(info->desc, sizeof(info->desc), fp) == NULL) {
+					goto error;
+				}
+				/*
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->desc_localized = alpm_list_add(info->desc_localized, strdup(line));
+					PKG_
 				}
 
-				if((locale = setlocale(LC_ALL, "")) == NULL) { /* To fix segfault when locale invalid */
+				if((locale = setlocale(LC_ALL, "")) == NULL) { //To fix segfault when locale invalid
 					setenv("LC_ALL", "C", 1);
 					locale = setlocale(LC_ALL, "");
 				}
@@ -277,6 +284,7 @@ int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
 						}
 					}
 				}
+				*/
 				_alpm_strtrim(info->desc);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
@@ -485,7 +493,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 	if(strcmp(db->treename, "local") == 0) {
 		local = 1;
 	}
- 
+
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
 		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s DESC information back to db"), info->name, info->version);
@@ -496,13 +504,16 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			goto cleanup;
 		}
 		fprintf(fp, "%%NAME%%\n%s\n\n"
-			"%%VERSION%%\n%s\n\n", info->name, info->version);
+						"%%VERSION%%\n%s\n\n", info->name, info->version);
 		if(info->desc[0]) {
-			fputs("%DESC%\n", fp);
-			for(lp = info->desc_localized; lp; lp = lp->next) {
+			/*fputs("%DESC%\n", fp);
+				for(lp = info->desc_localized; lp; lp = lp->next) {
 				fprintf(fp, "%s\n", (char *)lp->data);
-			}
-			fprintf(fp, "\n");
+				}
+				fprintf(fp, "\n");
+				*/
+			fprintf(fp, "%%DESC%%\n"
+							"%s\n\n", info->desc);
 		}
 		if(info->groups) {
 			fputs("%GROUPS%\n", fp);
@@ -514,7 +525,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 		if(local) {
 			if(info->url[0]) {
 				fprintf(fp, "%%URL%%\n"
-					"%s\n\n", info->url);
+								"%s\n\n", info->url);
 			}
 			if(info->license) {
 				fputs("%LICENSE%\n", fp);
@@ -525,47 +536,47 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			if(info->arch[0]) {
 				fprintf(fp, "%%ARCH%%\n"
-					"%s\n\n", info->arch);
+								"%s\n\n", info->arch);
 			}
 			if(info->builddate[0]) {
 				fprintf(fp, "%%BUILDDATE%%\n"
-					"%s\n\n", info->builddate);
+								"%s\n\n", info->builddate);
 			}
 			if(info->buildtype[0]) {
 				fprintf(fp, "%%BUILDTYPE%%\n"
-					"%s\n\n", info->buildtype);
+								"%s\n\n", info->buildtype);
 			}
 			if(info->installdate[0]) {
 				fprintf(fp, "%%INSTALLDATE%%\n"
-					"%s\n\n", info->installdate);
+								"%s\n\n", info->installdate);
 			}
 			if(info->packager[0]) {
 				fprintf(fp, "%%PACKAGER%%\n"
-					"%s\n\n", info->packager);
+								"%s\n\n", info->packager);
 			}
 			if(info->size) {
 				fprintf(fp, "%%SIZE%%\n"
-					"%lu\n\n", info->size);
+								"%lu\n\n", info->size);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%REASON%%\n"
-					"%u\n\n", info->reason);
+								"%u\n\n", info->reason);
 			}
 		} else {
 			if(info->size) {
 				fprintf(fp, "%%CSIZE%%\n"
-					"%lu\n\n", info->size);
+								"%lu\n\n", info->size);
 			}
 			if(info->isize) {
 				fprintf(fp, "%%ISIZE%%\n"
-					"%lu\n\n", info->isize);
+								"%lu\n\n", info->isize);
 			}
 			if(info->sha1sum) {
 				fprintf(fp, "%%SHA1SUM%%\n"
-					"%s\n\n", info->sha1sum);
+								"%s\n\n", info->sha1sum);
 			} else if(info->md5sum) {
 				fprintf(fp, "%%MD5SUM%%\n"
-					"%s\n\n", info->md5sum);
+								"%s\n\n", info->md5sum);
 			}
 		}
 		fclose(fp);
@@ -646,7 +657,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
 			}
 			if(info->force) {
 				fprintf(fp, "%%FORCE%%\n"
-					"\n");
+								"\n");
 			}
 		}
 		fclose(fp);

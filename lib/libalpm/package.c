@@ -81,7 +81,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 	memcpy(newpkg, pkg, sizeof(pmpkg_t));
 	newpkg->license    = alpm_list_strdup(pkg->license);
-	newpkg->desc_localized = alpm_list_strdup(pkg->desc_localized);
+	/*newpkg->desc_localized = alpm_list_strdup(pkg->desc_localized);*/
 	newpkg->requiredby = alpm_list_strdup(pkg->requiredby);
 	newpkg->conflicts  = alpm_list_strdup(pkg->conflicts);
 	newpkg->files      = alpm_list_strdup(pkg->files);
@@ -108,7 +108,7 @@ void _alpm_pkg_free(void *data)
 	}
 
 	FREELIST(pkg->license);
-	FREELIST(pkg->desc_localized);
+  /*FREELIST(pkg->desc_localized);*/
 	FREELIST(pkg->files);
 	FREELIST(pkg->backup);
 	FREELIST(pkg->depends);
@@ -216,6 +216,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "PKGVER")) {
 				STRNCPY(info->version, ptr, sizeof(info->version));
 			} else if(!strcmp(key, "PKGDESC")) {
+				/*
 				char *lang_tmp;
 				info->desc_localized = alpm_list_add(info->desc_localized, strdup(ptr));
 				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
@@ -223,11 +224,14 @@ static int parse_descfile(char *descfile, pmpkg_t *info)
 				}
 				STRNCPY(lang_tmp, setlocale(LC_ALL, ""), strlen(setlocale(LC_ALL, "")));
 				if(info->desc_localized && !info->desc_localized->next) {
-					STRNCPY(info->desc, ptr, sizeof(info->desc));
+				*/
+				STRNCPY(info->desc, ptr, sizeof(info->desc));
+				/*
 				} else if (ptr && !strncmp(ptr, lang_tmp, strlen(lang_tmp))) {
 					STRNCPY(info->desc, ptr+strlen(lang_tmp)+1, sizeof(info->desc));
 				}
 				FREE(lang_tmp);
+				*/
 			} else if(!strcmp(key, "GROUP")) {
 				info->groups = alpm_list_add(info->groups, strdup(ptr));
 			} else if(!strcmp(key, "URL")) {

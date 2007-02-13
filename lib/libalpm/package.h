@@ -41,7 +41,7 @@ typedef enum _pmpkgfrom_t {
 #define PKG_FILENAME_LEN 512
 #define PKG_NAME_LEN     256
 #define PKG_VERSION_LEN  64
-#define PKG_FULLNAME_LEN (PKG_NAME_LEN-1)+1+(PKG_VERSION_LEN-1)+1
+#define PKG_FULLNAME_LEN (PKG_NAME_LEN + PKG_VERSION_LEN)
 #define PKG_DESC_LEN     512
 #define PKG_URL_LEN      256
 #define PKG_DATE_LEN     32
@@ -70,7 +70,7 @@ struct __pmpkg_t {
 	unsigned short force;
 	time_t date;
 	pmpkgreason_t reason;
-	alpm_list_t *desc_localized;
+	/* alpm_list_t *desc_localized;*/
 	alpm_list_t *license;
 	alpm_list_t *replaces;
 	alpm_list_t *groups;
