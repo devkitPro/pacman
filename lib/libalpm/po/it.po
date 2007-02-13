@@ -1,510 +1,521 @@
-# Italian translations for Pacman package manager package.
-# Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>
-# This file is distributed under the same license as the Pacman package manager package.
-# (First author here) <(email here)>, 2007.
+# Italian translation of libalpm.
+# Copyright (C) 2007 THE libalpm'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the libalpm package.
+# Giovanni 'voidnull' Scafora <linuxmania@gmail.com>, 2007.
+# Alessio 'mOLOk' Bolognino <themolok@gmail.com>, 2007.
+# Lorenzo '^zanDarK' Masini <lorenxo86@gmail.com>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.0.0\n"
+"Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-12 10:35-0500\n"
-"PO-Revision-Date: 2007-02-06 20:15-0500\n"
-"Last-Translator: Dan McGee <pacman-dev@archlinux.org>\n"
+"POT-Creation-Date: 2007-02-12 23:20+0100\n"
+"PO-Revision-Date: 2007-02-13 16:10+0100\n"
+"Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
+"Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Content-Transfer-Encoding: 8bitPlural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/libalpm/add.c:95
 #, c-format
 msgid "could not parse token %s"
-msgstr ""
+msgstr "impossibile analizzare il simbolo %s"
 
 #: lib/libalpm/add.c:129
 #, c-format
 msgid "loading target '%s'"
-msgstr ""
+msgstr "caricamento del pacchetto '%s' in corso"
 
 #: lib/libalpm/add.c:175
 #, c-format
 msgid "replacing older version %s-%s by %s in target list"
-msgstr ""
+msgstr "sostituzione in corso della vecchia versione %s-%s con %s"
 
 #: lib/libalpm/add.c:184
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping"
-msgstr ""
+msgstr "è presente una versione più recente di %s-%s -- verrà ignorata"
 
 #: lib/libalpm/add.c:191
 #, c-format
 msgid "reading '%s' metadata"
-msgstr ""
+msgstr "lettura dei metadate di '%s' in corso"
 
 #: lib/libalpm/add.c:244 lib/libalpm/remove.c:110
 msgid "looking for unsatisfied dependencies"
-msgstr ""
+msgstr "ricerca delle dipendenze non soddisfatte"
 
 #: lib/libalpm/add.c:256 lib/libalpm/sync.c:475
 msgid "looking for conflicts"
-msgstr ""
+msgstr "ricerca dei conflitti in corso"
 
 #: lib/libalpm/add.c:295 lib/libalpm/remove.c:146
 msgid "sorting by dependencies"
-msgstr ""
+msgstr "ordinamento per dipendenze in corso"
 
 #: lib/libalpm/add.c:307
 msgid "cleaning up"
-msgstr ""
+msgstr "pulizia in corso"
 
 #: lib/libalpm/add.c:324
 msgid "looking for file conflicts"
-msgstr ""
+msgstr "ricerca dei conflitti tra file in corso"
 
 #: lib/libalpm/add.c:394
 #, c-format
 msgid "upgrading package %s-%s"
-msgstr ""
+msgstr "aggiornamento del pacchetto %s-%s in corso"
 
 #: lib/libalpm/add.c:404 lib/libalpm/conflict.c:288 lib/libalpm/conflict.c:318
 #, c-format
 msgid "loading FILES info for '%s'"
-msgstr ""
+msgstr "caricamento delle informazioni dei FILE di '%s' in corso"
 
 #: lib/libalpm/add.c:426
 #, c-format
 msgid "removing old package first (%s-%s)"
-msgstr ""
+msgstr "rimozione del vecchio pacchetto (%s-%s) in corso"
 
 #: lib/libalpm/add.c:456
 #, c-format
 msgid "adding package %s-%s"
-msgstr ""
+msgstr "inclusione del pacchetto %s-%s in corso"
 
 #: lib/libalpm/add.c:467
 #, c-format
 msgid "adding new package %s-%s"
-msgstr ""
+msgstr "inclusione del nuovo pacchetto %s-%s in corso"
 
 #: lib/libalpm/add.c:471
 msgid "extracting files"
-msgstr ""
+msgstr "estrazione dei file in corso"
 
 #: lib/libalpm/add.c:487 lib/libalpm/util.c:461
 msgid "could not get current working directory"
-msgstr ""
+msgstr "impossibile utilizzare la directory corrente"
 
 #: lib/libalpm/add.c:545
 #, c-format
 msgid "notice: %s is in NoExtract -- skipping extraction"
-msgstr ""
+msgstr "avviso: %s è in NoExtract -- estrazione ignorata"
 
 #: lib/libalpm/add.c:581 lib/libalpm/add.c:734
 #, c-format
 msgid "could not extract %s (%s)"
-msgstr ""
+msgstr "impossibile estrarre %s (%s)"
 
 #: lib/libalpm/add.c:624
 #, c-format
 msgid "checking md5 hashes for %s"
-msgstr ""
+msgstr "controllo dell'hash md5 di %s"
 
 #: lib/libalpm/add.c:625 lib/libalpm/add.c:632
 #, c-format
 msgid "current:  %s"
-msgstr ""
+msgstr "attuale:  %s"
 
 #: lib/libalpm/add.c:626 lib/libalpm/add.c:633
 #, c-format
 msgid "new:      %s"
-msgstr ""
+msgstr "nuovo:      %s"
 
 #: lib/libalpm/add.c:628 lib/libalpm/add.c:635
 #, c-format
 msgid "original: %s"
-msgstr ""
+msgstr "originale: %s"
 
 #: lib/libalpm/add.c:631
 #, c-format
 msgid "checking sha1 hashes for %s"
-msgstr ""
+msgstr "controllo degli hash sha1 di %s"
 
 #: lib/libalpm/add.c:649
 #, c-format
 msgid "could not rename %s (%s)"
-msgstr ""
+msgstr "impossibile rinominare %s (%s)"
 
 #: lib/libalpm/add.c:650
 #, c-format
 msgid "error: could not rename %s (%s)"
-msgstr ""
+msgstr "errore: impossibile rinominare %s (%s)"
 
 #: lib/libalpm/add.c:654 lib/libalpm/add.c:698
 #, c-format
 msgid "could not copy %s to %s (%s)"
-msgstr ""
+msgstr "impossibile copiare %s in %s (%s)"
 
 #: lib/libalpm/add.c:655
 #, c-format
 msgid "error: could not copy %s to %s (%s)"
-msgstr ""
+msgstr "errore: impossibile copiare %s in %s (%s)"
 
 #: lib/libalpm/add.c:659
 #, c-format
 msgid "%s saved as %s.pacorig"
-msgstr ""
+msgstr "%s salvato come %s.pacorig"
 
 #: lib/libalpm/add.c:660
 #, c-format
 msgid "warning: %s saved as %s"
-msgstr ""
+msgstr "attenzione: %s salvato come %s"
 
 #: lib/libalpm/add.c:670 lib/libalpm/add.c:673 lib/libalpm/add.c:679
 msgid "action: installing new file"
-msgstr ""
+msgstr "azione: installazione del nuovo file in corso"
 
 #: lib/libalpm/add.c:677
 msgid "action: leaving existing file in place"
-msgstr ""
+msgstr "azione: il file non è stato spostato"
 
 #: lib/libalpm/add.c:683
 msgid "action: keeping current file and installing new one with .pacnew ending"
 msgstr ""
+"azione: il file attuale non è stato spostato e sarà installato un nuovo file "
+"con il suffisso .pacnew"
 
 #: lib/libalpm/add.c:687
 #, c-format
 msgid "could not install %s as %s: %s"
-msgstr ""
+msgstr "impossibile installare %s come %s: %s"
 
 #: lib/libalpm/add.c:688
 #, c-format
 msgid "error: could not install %s as %s: %s"
-msgstr ""
+msgstr "errore: impossibile installare %s come %s: %s"
 
 #: lib/libalpm/add.c:690
 #, c-format
 msgid "%s installed as %s"
-msgstr ""
+msgstr "%s installato come %s"
 
 #: lib/libalpm/add.c:691
 #, c-format
 msgid "warning: %s installed as %s"
-msgstr ""
+msgstr "attenzione: %s installato come %s"
 
 #: lib/libalpm/add.c:696 lib/libalpm/add.c:716
 #, c-format
 msgid "extracting %s"
-msgstr ""
+msgstr "estrazione di %s in corso"
 
 #: lib/libalpm/add.c:718
 #, c-format
 msgid "%s is in NoUpgrade -- skipping"
-msgstr ""
+msgstr "%s è in NoUpgrade -- verrà ignorato"
 
 #: lib/libalpm/add.c:720
 #, c-format
 msgid "extracting %s as %s.pacnew"
-msgstr ""
+msgstr "estrazione di %s come %s.pacnew"
 
 #: lib/libalpm/add.c:721
 #, c-format
 msgid "warning: extracting %s%s as %s"
-msgstr ""
+msgstr "attenzione: estrazione di %s%s come %s"
 
 #: lib/libalpm/add.c:735
 #, c-format
 msgid "error: could not extract %s (%s)"
-msgstr ""
+msgstr "errore: impossibile estrarre %s (%s)"
 
 #: lib/libalpm/add.c:745
 msgid "appending backup entry"
-msgstr ""
+msgstr "aggiungo la voce di backup"
 
 #: lib/libalpm/add.c:776 lib/libalpm/add.c:778
 #, c-format
 msgid "errors occurred while %s %s"
-msgstr ""
+msgstr "errori verificati in %s %s"
 
 #: lib/libalpm/add.c:777 lib/libalpm/add.c:779
 msgid "upgrading"
-msgstr ""
+msgstr "aggiornamento in corso"
 
 #: lib/libalpm/add.c:777 lib/libalpm/add.c:779
 msgid "installing"
-msgstr ""
+msgstr "installazione in corso"
 
 #: lib/libalpm/add.c:800 lib/libalpm/add.c:856
 #, c-format
 msgid "adding '%s' in requiredby field for '%s'"
-msgstr ""
+msgstr "inclusione di '%s' nel campo 'richiesto da' per '%s'"
 
 #: lib/libalpm/add.c:811 lib/libalpm/remove.c:334
 msgid "updating database"
-msgstr ""
+msgstr "aggiornamento del database in corso"
 
 #: lib/libalpm/add.c:812
 #, c-format
 msgid "adding database entry '%s'"
-msgstr ""
+msgstr "inclusione della voce '%s' nel database"
 
 #: lib/libalpm/add.c:814
 #, c-format
 msgid "could not update database entry %s-%s"
-msgstr ""
+msgstr "impossibile aggiornare la voce %s-%s nel database"
 
 #: lib/libalpm/add.c:816
 #, c-format
 msgid "error updating database for %s-%s!"
-msgstr ""
+msgstr "errore durante l'aggiornamento del database per %s-%s!"
 
 #: lib/libalpm/add.c:820
 #, c-format
 msgid "could not add entry '%s' in cache"
-msgstr ""
+msgstr "impossible includere la voce '%s' nella cache"
 
 #: lib/libalpm/add.c:826 lib/libalpm/remove.c:344
 msgid "updating dependency packages 'requiredby' fields"
-msgstr ""
+msgstr "aggiornamento dei campi 'richiesto da' delle dipendenze"
 
 #: lib/libalpm/add.c:848
 #, c-format
 msgid "could not find dependency '%s'"
-msgstr ""
+msgstr "impossibile trovare la dipendenza '%s'"
 
 #: lib/libalpm/add.c:859 lib/libalpm/remove.c:386
 #, c-format
 msgid "could not update 'requiredby' database entry %s-%s"
-msgstr ""
+msgstr "impossibile aggiornare la voce 'richiesto da' del database %s-%s"
 
 #: lib/libalpm/add.c:885 lib/libalpm/remove.c:399 lib/libalpm/sync.c:1045
 #, c-format
 msgid "running \"ldconfig -r %s\""
-msgstr ""
+msgstr "esecuzione in corso di \"ldconfig -r %s\""
 
 #: lib/libalpm/alpm.c:113
 #, c-format
 msgid "removing DB %s, %d remaining..."
-msgstr ""
+msgstr "rimozione in corso del DB %s, %d restante..."
 
 #: lib/libalpm/alpm.c:178
 #, c-format
 msgid "unregistering database '%s'"
-msgstr ""
+msgstr "cancellazione del database '%s' in corso"
 
 #: lib/libalpm/alpm.c:183
 #, c-format
 msgid "closing database '%s'"
-msgstr ""
+msgstr "chiusura del database '%s' in corso"
 
 #: lib/libalpm/alpm.c:229
 #, c-format
 msgid ""
 "adding new server to database '%s': protocol '%s', server '%s', path '%s'"
 msgstr ""
+"inclusione di un nuovo server per il database '%s': protocollo '%s', server "
+"'%s', path '%s'"
 
 #: lib/libalpm/alpm.c:233
 #, c-format
 msgid "serverlist flushed for '%s'"
-msgstr ""
+msgstr "aggiornata lista dei server per '%s'"
 
 #: lib/libalpm/alpm.c:276
 #, c-format
 msgid "failed to get lastupdate time for %s (no big deal)"
-msgstr ""
+msgstr "impossibile recuperare l'ultimo aggiornamento di %s (nulla di grave)"
 
 #: lib/libalpm/alpm.c:295
 #, c-format
 msgid "failed to sync db: %s [%d]"
-msgstr ""
+msgstr "impossibile sincronizzare il database: %s [%d]"
 
 #: lib/libalpm/alpm.c:299
 #, c-format
 msgid "sync: new mtime for %s: %s"
-msgstr ""
+msgstr "sync: nuovo mtime per %s: %s"
 
 #: lib/libalpm/alpm.c:305
 #, c-format
 msgid "flushing database %s/%s"
-msgstr ""
+msgstr "pulizia del database %s/%s"
 
 #: lib/libalpm/alpm.c:309
 #, c-format
 msgid "could not remove database entry %s/%s"
-msgstr ""
+msgstr "impossibile rimuovere la voce %s/%s dal database"
 
 #: lib/libalpm/alpm.c:479
 #, c-format
 msgid "could not get sha1 checksum for package %s-%s"
-msgstr ""
+msgstr "impossibile recuperare il checksum del pacchetto %s-%s"
 
 #: lib/libalpm/alpm.c:485 lib/libalpm/alpm.c:534
 #, c-format
 msgid "loading DESC info for '%s'"
-msgstr ""
+msgstr "caricamento delle informazioni DESC di '%s'"
 
 #: lib/libalpm/alpm.c:490 lib/libalpm/alpm.c:539
 #, c-format
 msgid "checksums for package %s-%s are matching"
-msgstr ""
+msgstr "i checksum del pacchetto %s-%s corrispondono"
 
 #: lib/libalpm/alpm.c:493
 #, c-format
 msgid "sha1sums do not match for package %s-%s"
-msgstr ""
+msgstr "la somma sha1 del pacchetto %s-%s non corrisponde"
 
 #: lib/libalpm/alpm.c:528
 #, c-format
 msgid "could not get md5 checksum for package %s-%s"
-msgstr ""
+msgstr "impossibile recuperare il checksum md5 del pacchetto %s-%s"
 
 #: lib/libalpm/alpm.c:542
 #, c-format
 msgid "md5sums do not match for package %s-%s"
-msgstr ""
+msgstr "la somma md5 del pacchetto %s-%s non corrisponde"
 
 #: lib/libalpm/alpm.c:790
 #, c-format
 msgid "could not remove lock file %s"
-msgstr ""
+msgstr "impossibile rimuovere il file lock di %s"
 
 #: lib/libalpm/alpm.c:791
 #, c-format
 msgid "warning: could not remove lock file %s"
-msgstr ""
+msgstr "attenzione: impossibile rimuovere il file lock di %s"
 
 #: lib/libalpm/alpm.c:926
 #, c-format
 msgid "config: new section '%s'"
-msgstr ""
+msgstr "config: nuova sezione '%s'"
 
 #: lib/libalpm/alpm.c:955
 msgid "config: nopassiveftp"
-msgstr ""
+msgstr "config: nopassiveftp"
 
 #: lib/libalpm/alpm.c:958
 msgid "config: usesyslog"
-msgstr ""
+msgstr "config: usesyslog"
 
 #: lib/libalpm/alpm.c:961
 msgid "config: chomp"
-msgstr ""
+msgstr "config: chomp"
 
 #: lib/libalpm/alpm.c:964
 msgid "config: usecolor"
-msgstr ""
+msgstr "config: usecolor"
 
 #: lib/libalpm/alpm.c:973
 #, c-format
 msgid "config: including %s"
-msgstr ""
+msgstr "config: including %s"
 
 #: lib/libalpm/alpm.c:983 lib/libalpm/alpm.c:988
 #, c-format
 msgid "config: noupgrade: %s"
-msgstr ""
+msgstr "config: noupgrade: %s"
 
 #: lib/libalpm/alpm.c:996 lib/libalpm/alpm.c:1001
 #, c-format
 msgid "config: noextract: %s"
-msgstr ""
+msgstr "config: noextract:·%s"
 
 #: lib/libalpm/alpm.c:1009 lib/libalpm/alpm.c:1014
 #, c-format
 msgid "config: ignorepkg: %s"
-msgstr ""
+msgstr "config: ignorepkg: %s"
 
 #: lib/libalpm/alpm.c:1022 lib/libalpm/alpm.c:1027
 #, c-format
 msgid "config: holdpkg: %s"
-msgstr ""
+msgstr "config: holdpkg: %s"
 
 #: lib/libalpm/alpm.c:1034
 #, c-format
 msgid "config: dbpath: %s"
-msgstr ""
+msgstr "config: dbpath: %s"
 
 #: lib/libalpm/alpm.c:1041
 #, c-format
 msgid "config: cachedir: %s"
-msgstr ""
+msgstr "config: cachedir: %s"
 
 #: lib/libalpm/alpm.c:1044
 #, c-format
 msgid "config: logfile: %s"
-msgstr ""
+msgstr "config: logfile: %s"
 
 #: lib/libalpm/alpm.c:1047
 #, c-format
 msgid "config: xfercommand: %s"
-msgstr ""
+msgstr "config: xfercommand: %s"
 
 #: lib/libalpm/alpm.c:1052
 #, c-format
 msgid "config: upgradedelay: %d"
-msgstr ""
+msgstr "config: upgradedelay: %d"
 
 #: lib/libalpm/alpm.c:1091 lib/libalpm/sync.c:129 lib/libalpm/sync.c:197
 msgid "checking for package replacements"
-msgstr ""
+msgstr "controllo delle sostituzioni dei pacchetti in corso"
 
 #: lib/libalpm/alpm.c:1100 lib/libalpm/sync.c:138
 #, c-format
 msgid "checking replacement '%s' for package '%s'"
-msgstr ""
+msgstr "controllo in corso della sostituzione di '%s' con il pacchetto '%s'"
 
 #: lib/libalpm/alpm.c:1102 lib/libalpm/sync.c:140
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)"
 msgstr ""
+"%s-%s: aggiornamento del pacchetto ignorato (per essere sostituito con %s-%s)"
 
 #: lib/libalpm/alpm.c:1136 lib/libalpm/sync.c:174
 #, c-format
 msgid "%s-%s elected for upgrade (to be replaced by %s-%s)"
 msgstr ""
+"%s-%s selezionato per l'aggiornamento (per essere sostituito con %s-%s)"
 
 #: lib/libalpm/alpm.c:1157 lib/libalpm/sync.c:211
 #, c-format
 msgid "'%s' not found in sync db -- skipping"
-msgstr ""
+msgstr "'%s' non trovato nel database -- ignorato"
 
 #: lib/libalpm/alpm.c:1171 lib/libalpm/sync.c:225 lib/libalpm/sync.c:501
 #, c-format
 msgid "'%s' is already elected for removal -- skipping"
-msgstr ""
+msgstr "'%s' è già selezionato per la rimozione -- ignorato"
 
 #: lib/libalpm/alpm.c:1177 lib/libalpm/sync.c:232
 #, c-format
 msgid "%s-%s elected for upgrade (%s => %s)"
-msgstr ""
+msgstr "%s-%s selezionato per l'aggiornamento (%s => %s)"
 
 #: lib/libalpm/be_files.c:58
 #, c-format
 msgid "unpacking database '%s'"
-msgstr ""
+msgstr "estrazione del database '%s' in corso"
 
 #: lib/libalpm/be_files.c:182
 #, c-format
 msgid "invalid name for dabatase entry '%s'"
-msgstr ""
+msgstr "nome non valido per la voce del database '%s'"
 
 #: lib/libalpm/be_files.c:210
 msgid "invalid package entry provided to _alpm_db_read, skipping"
 msgstr ""
+"nome non valido per il pacchetto fornito a _alpm_db_read, verrà ignorato"
 
 #: lib/libalpm/be_files.c:215
 #, c-format
 msgid ""
 "request to read database info for a file-based package '%s', skipping..."
 msgstr ""
+"richiesta di lettura del database per un pacchetto file-based '%s', verrà "
+"ignorato..."
 
 #: lib/libalpm/be_files.c:223
 #, c-format
 msgid "loading package data for %s : level=%d"
-msgstr ""
+msgstr "caricamento in corso dei dati del pacchetto %s : livello=%d"
 
 #: lib/libalpm/be_files.c:231
 #, c-format
 msgid "cannot find '%s-%s' in db '%s'"
-msgstr ""
+msgstr "impossibile trovare '%s-%s' nel database '%s'"
 
 #: lib/libalpm/be_files.c:239 lib/libalpm/be_files.c:383
 #: lib/libalpm/be_files.c:406 lib/libalpm/be_files.c:494
@@ -512,82 +523,85 @@ msgstr ""
 #: lib/libalpm/package.c:194
 #, c-format
 msgid "could not open file %s: %s"
-msgstr ""
+msgstr "impossibile aprire il file %s: %s"
 
 #: lib/libalpm/be_files.c:491
 #, c-format
 msgid "writing %s-%s DESC information back to db"
-msgstr ""
+msgstr "scrittura in corso di %s-%s"
 
 #: lib/libalpm/be_files.c:577
 #, c-format
 msgid "writing %s-%s FILES information back to db"
-msgstr ""
+msgstr "scrittura in corso di %s-%s"
 
 #: lib/libalpm/be_files.c:604
 #, c-format
 msgid "writing %s-%s DEPENDS information back to db"
-msgstr ""
+msgstr "scrittura in corso di %s-%s"
 
 #: lib/libalpm/cache.c:59
 #, c-format
 msgid "loading package cache (infolevel=%#x) for repository '%s'"
 msgstr ""
+"caricamento della cache del pacchetto (infolevel=%#x) per il repository '%s'"
 
 #: lib/libalpm/cache.c:83
 #, c-format
 msgid "freeing package cache for repository '%s'"
-msgstr ""
+msgstr "pulizia in corso della cache dei pacchetti per il repository '%s'"
 
 #: lib/libalpm/cache.c:132
 #, c-format
 msgid "package cache reloaded (infolevel=%#x) for repository '%s'"
 msgstr ""
+"ricaricamento della cache del pacchetto (infolevel=%#x) per il repository '%"
+"s'"
 
 #: lib/libalpm/cache.c:152
 #, c-format
 msgid "adding entry '%s' in '%s' cache"
-msgstr ""
+msgstr "inclusione della voce '%s' nella cache di '%s'"
 
 #: lib/libalpm/cache.c:178
 #, c-format
 msgid "removing entry '%s' from '%s' cache"
-msgstr ""
+msgstr "rimozione della voce '%s' dalla cache di '%s'"
 
 #: lib/libalpm/cache.c:213
 #, c-format
 msgid "loading group cache for repository '%s'"
-msgstr ""
+msgstr "caricamento della cache del gruppo per il repository '%s'"
 
 #: lib/libalpm/conflict.c:78
 #, c-format
 msgid "checkconflicts: targ '%s' vs db"
-msgstr ""
+msgstr "checkconflicts: targ '%s' vs db"
 
 #: lib/libalpm/conflict.c:87 lib/libalpm/conflict.c:101
 #, c-format
 msgid "targs vs db: found %s as a conflict for %s"
-msgstr ""
+msgstr "target vs db: trovato %s come conflitto per %s"
 
 #: lib/libalpm/conflict.c:114
 #, c-format
 msgid "checkconflicts: targ '%s' vs targs"
-msgstr ""
+msgstr "checkconflicts: targ '%s' vs targs"
 
 #: lib/libalpm/conflict.c:123 lib/libalpm/conflict.c:136
 #, c-format
 msgid "targs vs targs: found %s as a conflict for %s"
-msgstr ""
+msgstr "targs vs targs: trovato %s come conflitto per %s"
 
 #: lib/libalpm/conflict.c:150
 #, c-format
 msgid "checkconflicts: db vs targ '%s'"
-msgstr ""
+msgstr "checkconflicts: db vs targ '%s'"
 
 #: lib/libalpm/conflict.c:177 lib/libalpm/conflict.c:192
 #, c-format
 msgid "db vs targs: found %s as a conflict for %s"
-msgstr ""
+msgstr "db vs targs: trovato %s come conflitto per %s"
 
 #: lib/libalpm/conflict.c:250 lib/libalpm/conflict.c:350 lib/libalpm/deps.c:57
 #: lib/libalpm/deps.c:593 lib/libalpm/deps.c:633 lib/libalpm/group.c:43
@@ -596,783 +610,798 @@ msgstr ""
 #: lib/libalpm/trans.c:49 lib/libalpm/util.c:599 lib/libalpm/util.c:606
 #, c-format
 msgid "malloc failure: could not allocate %d bytes"
-msgstr ""
+msgstr "malloc failure: impossibile allocare %d byte"
 
 #: lib/libalpm/db.c:62 lib/libalpm/db.c:69
 #, c-format
 msgid "malloc failed: could not allocate %d bytes"
-msgstr ""
+msgstr "malloc failed: impossibile allocare %d byte"
 
 #: lib/libalpm/db.c:163
 msgid "attempt to re-register the 'local' DB"
-msgstr ""
+msgstr "tentativo in corso di registrare di nuovo il database locale"
 
 #: lib/libalpm/db.c:171
 #, c-format
 msgid "attempt to re-register the '%s' database, using existing"
 msgstr ""
+"tentativo in corso di registrare di nuovo il database '%s', usando quello "
+"esistente"
 
 #: lib/libalpm/db.c:177
 #, c-format
 msgid "registering database '%s'"
-msgstr ""
+msgstr "registrazione del database '%s'"
 
 #: lib/libalpm/db.c:182
 #, c-format
 msgid "database directory '%s' does not exist -- try creating it"
 msgstr ""
+"la directory del database '%s' non esiste -- verrà fatto un tentativo per "
+"crearla"
 
 #: lib/libalpm/db.c:193
 #, c-format
 msgid "opening database '%s'"
-msgstr ""
+msgstr "apertura del database '%s' in corso"
 
 #: lib/libalpm/deps.c:128
 msgid "started sorting dependencies"
-msgstr ""
+msgstr "avvio dell'ordinamento delle dipendenze"
 
 #: lib/libalpm/deps.c:133
 msgid "possible dependency cycle detected"
-msgstr ""
+msgstr "individuato un possibile ciclo di dipendenze"
 
 #: lib/libalpm/deps.c:178
 msgid "sorting dependencies finished"
-msgstr ""
+msgstr "ordinamento delle dipendenze terminato"
 
 #: lib/libalpm/deps.c:219 lib/libalpm/deps.c:276
 msgid "null package found in package list"
-msgstr ""
+msgstr "nessun pacchetto trovato"
 
 #: lib/libalpm/deps.c:224
 #, c-format
 msgid "cannot find package installed '%s'"
-msgstr ""
+msgstr "impossibile trovare il pacchetto installato '%s'"
 
 #: lib/libalpm/deps.c:258 lib/libalpm/deps.c:379
 #, c-format
 msgid "checkdeps: found %s as required by %s"
-msgstr ""
+msgstr "checkdeps: trovato %s come richiesto da %s"
 
 #: lib/libalpm/deps.c:284
 #, c-format
 msgid "no dependencies for target '%s'"
-msgstr ""
+msgstr "nessuna dipendenza richiesta dal pacchetto '%s'"
 
 #: lib/libalpm/deps.c:330
 #, c-format
 msgid "checkdeps: found %s as a dependency for %s"
-msgstr ""
+msgstr "checkdeps: trovato %s come dipendenza di %s"
 
 #: lib/libalpm/deps.c:478
 #, c-format
 msgid "cannot find package \"%s\" or anything that provides it!"
-msgstr ""
+msgstr "impossibile trovare il pacchetto \"%s\" o qualcosa che lo fornisca!"
 
 #: lib/libalpm/deps.c:483
 msgid "dep is NULL!"
-msgstr ""
+msgstr "dep è NULL!"
 
 #: lib/libalpm/deps.c:498
 #, c-format
 msgid "excluding %s -- explicitly installed"
-msgstr ""
+msgstr "esclusione di %s -- installato esplicitamente"
 
 #: lib/libalpm/deps.c:515
 #, c-format
 msgid "loading ALL info for '%s'"
-msgstr ""
+msgstr "caricamento in corso di tutte le informazioni di '%s'"
 
 #: lib/libalpm/deps.c:518
 #, c-format
 msgid "adding '%s' to the targets"
-msgstr ""
+msgstr "inclusione in corso di '%s' nei pacchetti"
 
 #: lib/libalpm/deps.c:546
 msgid "started resolving dependencies"
-msgstr ""
+msgstr "avvio risoluzione delle dipendenze"
 
 #: lib/libalpm/deps.c:564
 #, c-format
 msgid "%s provides dependency %s -- skipping"
-msgstr ""
+msgstr "%s fornisce la dipendenza %s -- verrà ignorato"
 
 #: lib/libalpm/deps.c:589
 #, c-format
 msgid ""
 "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
 msgstr ""
+"impossibile risolvere le dipendenze per \"%s\" (\"%s\" non è presente nella "
+"lista dei pacchetti)"
 
 #: lib/libalpm/deps.c:606
 #, c-format
 msgid "dependency %s is already in the target list -- skipping"
-msgstr ""
+msgstr "la dipendenza %s è già nella lista dei pacchetti -- verrà ignorata"
 
 #: lib/libalpm/deps.c:626
 #, c-format
 msgid "pulling dependency %s (needed by %s)"
-msgstr ""
+msgstr "aggiunta la dipendenza %s (richiesta da %s)"
 
 #: lib/libalpm/deps.c:630
 #, c-format
 msgid "cannot resolve dependencies for \"%s\""
-msgstr ""
+msgstr "impossibile risolvere le dipendenze per \"%s\""
 
 #: lib/libalpm/deps.c:646
 #, c-format
 msgid "dependency cycle detected: %s"
-msgstr ""
+msgstr "individuato un possibile ciclo di dipendenze: %s"
 
 #: lib/libalpm/deps.c:650
 msgid "finished resolving dependencies"
-msgstr ""
+msgstr "risoluzione delle dipendenze terminata"
 
 #: lib/libalpm/error.c:34
 msgid "out of memory!"
-msgstr ""
+msgstr "memoria insufficiente!"
 
 #: lib/libalpm/error.c:36
 msgid "unexpected system error"
-msgstr ""
+msgstr "errore di sistema"
 
 #: lib/libalpm/error.c:38
 msgid "insufficient privileges"
-msgstr ""
+msgstr "privilegi insufficienti"
 
 #: lib/libalpm/error.c:40
 msgid "could not find or read file"
-msgstr ""
+msgstr "impossibile trovare o leggere il file"
 
 #: lib/libalpm/error.c:42
 msgid "wrong or NULL argument passed"
-msgstr ""
+msgstr "è stato passato un argomento sbagliato o NULL"
 
 #: lib/libalpm/error.c:45
 msgid "library not initialized"
-msgstr ""
+msgstr "libreria non inizializzata"
 
 #: lib/libalpm/error.c:47
 msgid "library already initialized"
-msgstr ""
+msgstr "libreria già inizializzata"
 
 #: lib/libalpm/error.c:49
 msgid "unable to lock database"
-msgstr ""
+msgstr "impossibile effetturare il lock sul database"
 
 #: lib/libalpm/error.c:52
 msgid "could not open database"
-msgstr ""
+msgstr "impossibile aprire il database"
 
 #: lib/libalpm/error.c:54
 msgid "could not create database"
-msgstr ""
+msgstr "impossibile creare il database"
 
 #: lib/libalpm/error.c:56
 msgid "database not initialized"
-msgstr ""
+msgstr "database non inizializzato"
 
 #: lib/libalpm/error.c:58
 msgid "database already registered"
-msgstr ""
+msgstr "il database è già registrato"
 
 #: lib/libalpm/error.c:60
 msgid "could not find database"
-msgstr ""
+msgstr "impossibile trovare il database"
 
 #: lib/libalpm/error.c:62
 msgid "could not update database"
-msgstr ""
+msgstr "impossibile aggiornare il database"
 
 #: lib/libalpm/error.c:64
 msgid "could not remove database entry"
-msgstr ""
+msgstr "impossibile rimuovere la voce del database"
 
 #: lib/libalpm/error.c:67
 msgid "invalid url for server"
-msgstr ""
+msgstr "url non valido"
 
 #: lib/libalpm/error.c:74
 msgid "could not set parameter"
-msgstr ""
+msgstr "impossibile impostare il parametro"
 
 #: lib/libalpm/error.c:77
 msgid "transaction already initialized"
-msgstr ""
+msgstr "operazione già inizializzata"
 
 #: lib/libalpm/error.c:79 lib/libalpm/error.c:83
 msgid "transaction not initialized"
-msgstr ""
+msgstr "operazione non inizializzata"
 
 #: lib/libalpm/error.c:81
 msgid "duplicate target"
-msgstr ""
+msgstr "pacchetto doppio"
 
 #: lib/libalpm/error.c:85
 msgid "transaction not prepared"
-msgstr ""
+msgstr "operazione non preparata"
 
 #: lib/libalpm/error.c:87
 msgid "transaction aborted"
-msgstr ""
+msgstr "operazione annullata"
 
 #: lib/libalpm/error.c:89
 msgid "operation not compatible with the transaction type"
-msgstr ""
+msgstr "operazione non possibile"
 
 #: lib/libalpm/error.c:91 lib/libalpm/sync.c:984
 msgid "could not commit transaction"
-msgstr ""
+msgstr "impossibile eseguire l'operazione"
 
 #: lib/libalpm/error.c:93
 msgid "could not download all files"
-msgstr ""
+msgstr "impossibile prelevare tutti i file"
 
 #: lib/libalpm/error.c:96
 msgid "could not find or read package"
-msgstr ""
+msgstr "impossibile trovare o leggere il pacchetto"
 
 #: lib/libalpm/error.c:98
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "pacchetto non valido o corrotto"
 
 #: lib/libalpm/error.c:100
 msgid "cannot open package file"
-msgstr ""
+msgstr "impossibile aprire il pacchetto"
 
 #: lib/libalpm/error.c:102
 msgid "cannot load package data"
-msgstr ""
+msgstr "impossibile caricare i dati del pacchetto"
 
 #: lib/libalpm/error.c:104
 msgid "package already installed"
-msgstr ""
+msgstr "pacchetto già installato"
 
 #: lib/libalpm/error.c:106
 msgid "package not installed or lesser version"
-msgstr ""
+msgstr "pacchetto non installato o una versione precedente"
 
 #: lib/libalpm/error.c:108
 msgid "cannot remove all files for package"
-msgstr ""
+msgstr "impossibile rimuovere tutti i file del pacchetto"
 
 #: lib/libalpm/error.c:110
 msgid "package name is not valid"
-msgstr ""
+msgstr "il nome del pacchetto non è valido"
 
 #: lib/libalpm/error.c:112
 msgid "corrupted package"
-msgstr ""
+msgstr "pacchetto corrotto"
 
 #: lib/libalpm/error.c:114
 msgid "no such repository"
-msgstr ""
+msgstr "nessun repository"
 
 #: lib/libalpm/error.c:117
 msgid "group not found"
-msgstr ""
+msgstr "gruppo non trovato"
 
 #: lib/libalpm/error.c:120
 msgid "could not satisfy dependencies"
-msgstr ""
+msgstr "impossibile soddisfare le dipendenze"
 
 #: lib/libalpm/error.c:122
 msgid "conflicting dependencies"
-msgstr ""
+msgstr "dipendenze in conflitto"
 
 #: lib/libalpm/error.c:124
 msgid "conflicting files"
-msgstr ""
+msgstr "file in conflitto"
 
 #: lib/libalpm/error.c:127
 msgid "user aborted the operation"
-msgstr ""
+msgstr "operazione annullata"
 
 #: lib/libalpm/error.c:129
 msgid "internal error"
-msgstr ""
+msgstr "errore interno"
 
 #: lib/libalpm/error.c:131
 msgid "libarchive error"
-msgstr ""
+msgstr "errore di libarchive"
 
 #: lib/libalpm/error.c:133
 msgid "not enough space on disk"
-msgstr ""
+msgstr "spazio sul disco insufficiente"
 
 #: lib/libalpm/error.c:136
 msgid "not confirmed"
-msgstr ""
+msgstr "non confermato"
 
 #: lib/libalpm/error.c:139
 msgid "bad configuration section name"
-msgstr ""
+msgstr "nome della sezione errato"
 
 #: lib/libalpm/error.c:141
 msgid "'local' is reserved and cannot be used as a repository name"
-msgstr ""
+msgstr "'local' è riservato e non può essere usato come nome di un repository"
 
 #: lib/libalpm/error.c:143
 msgid "syntax error in config file"
-msgstr ""
+msgstr "errore di sintassi nel file di configurazione"
 
 #: lib/libalpm/error.c:145
 msgid "all directives must belong to a section"
-msgstr ""
+msgstr "tutte le direttive devono appartenere a una sezione"
 
 #: lib/libalpm/error.c:147
 msgid "invalid regular expression"
-msgstr ""
+msgstr "espressione regolare non valida"
 
 #: lib/libalpm/error.c:150
 msgid "connection to remote host failed"
-msgstr ""
+msgstr "impossibile stabilire una connessione con l'host remoto"
 
 #: lib/libalpm/error.c:153
 msgid "unexpected error"
-msgstr ""
+msgstr "errore inaspettato"
 
 #: lib/libalpm/md5driver.c:51 lib/libalpm/sha1.c:398
 #, c-format
 msgid "%s can't be opened\n"
-msgstr ""
+msgstr "impossibile aprire %s\n"
 
 #: lib/libalpm/package.c:146
 #, c-format
 msgid "%s: forcing upgrade to version %s"
-msgstr ""
+msgstr "%s: aggiornamento forzato alla versione %s"
 
 #: lib/libalpm/package.c:150
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)"
-msgstr ""
+msgstr "%s: la versione installata (%s) è più recente di %s (%s)"
 
 #: lib/libalpm/package.c:155
 #, c-format
 msgid "%s-%s: ignoring package upgrade (%s)"
-msgstr ""
+msgstr "%s-%s: aggiornamento del pacchetto (%s) ignorato"
 
 #: lib/libalpm/package.c:160
 #, c-format
 msgid "%s-%s: delaying upgrade of package (%s)"
-msgstr ""
+msgstr "%s-%s: ritardo durante l'aggiornamento del pacchetto (%s)"
 
 #: lib/libalpm/package.c:165
 #, c-format
 msgid "compare versions for %s: %s vs %s, result=%d"
-msgstr ""
+msgstr "confronto delle versioni di %s: %s vs %s, risultato=%d"
 
 #: lib/libalpm/package.c:208 lib/libalpm/package.c:263
 #, c-format
 msgid "%s: syntax error in description file line %d"
-msgstr ""
+msgstr "%s: errore di sintassi nel file di descrizione alla linea %d"
 
 #: lib/libalpm/package.c:337
 msgid "could not parse the package description file"
-msgstr ""
+msgstr "impossibile analizzare il file di descrizione del pacchetto"
 
 #: lib/libalpm/package.c:341
 #, c-format
 msgid "missing package name in %s"
-msgstr ""
+msgstr "manca il nome del pacchetto in %s"
 
 #: lib/libalpm/package.c:345
 #, c-format
 msgid "missing package version in %s"
-msgstr ""
+msgstr "manca la versione del pacchetto in %s"
 
 #: lib/libalpm/package.c:380
 #, c-format
 msgid "could not remove tempfile %s"
-msgstr ""
+msgstr "impossibile rimuovere il file temporaneo %s"
 
 #: lib/libalpm/package.c:393 lib/libalpm/package.c:400
 #, c-format
 msgid "error while reading package: %s"
-msgstr ""
+msgstr "si è verificato un errore durante la lettura del pacchetto: %s"
 
 #: lib/libalpm/package.c:406
 msgid "missing package metadata"
-msgstr ""
+msgstr "metadata mancante del pacchetto"
 
 #: lib/libalpm/package.c:413
 #, c-format
 msgid "missing package filelist in %s, generating one"
-msgstr ""
+msgstr "filelist del pacchetto mancante in %s, creazione in corso"
 
 #: lib/libalpm/remove.c:78
 #, c-format
 msgid "could not find %s in database"
-msgstr ""
+msgstr "impossibile trovare %s nel database"
 
 #: lib/libalpm/remove.c:92
 #, c-format
 msgid "adding %s in the targets list"
-msgstr ""
+msgstr "aggiunta in corso di %s nella lista dei pacchetti"
 
 #: lib/libalpm/remove.c:120
 #, c-format
 msgid "pulling %s in the targets list"
-msgstr ""
+msgstr "inserimento in corso di %s nella lista dei pacchetti"
 
 #: lib/libalpm/remove.c:123
 #, c-format
 msgid "could not find %s in database -- skipping"
-msgstr ""
+msgstr "impossibile trovare %s nel database -- verrà ignorato"
 
 #: lib/libalpm/remove.c:141
 msgid "finding removable dependencies"
-msgstr ""
+msgstr "ricerca delle dipendenze eliminabili"
 
 #: lib/libalpm/remove.c:186
 #, c-format
 msgid "cannot remove file '%s': %s"
-msgstr ""
+msgstr "impossibile rimuovere il file '%s': %s"
 
 #: lib/libalpm/remove.c:226
 #, c-format
 msgid "file %s does not exist"
-msgstr ""
+msgstr "il file %s non esiste"
 
 #: lib/libalpm/remove.c:232
 #, c-format
 msgid "keeping directory %s"
-msgstr ""
+msgstr "conservazione in corso della directory %s"
 
 #: lib/libalpm/remove.c:234
 #, c-format
 msgid "removing directory %s"
-msgstr ""
+msgstr "rimozione in corso della directory %s"
 
 #: lib/libalpm/remove.c:248
 #, c-format
 msgid "skipping removal of %s as it has moved to another package"
-msgstr ""
+msgstr "rimozione di %s ignorata poichè è stato spostato in un altro pacchetto"
 
 #: lib/libalpm/remove.c:260
 #, c-format
 msgid "%s saved as %s"
-msgstr ""
+msgstr "%s salvato come %s"
 
 #: lib/libalpm/remove.c:264
 #, c-format
 msgid "unlinking %s"
-msgstr ""
+msgstr "scollegamento in corso di %s"
 
 #: lib/libalpm/remove.c:271
 #, c-format
 msgid "cannot remove file %s: %s"
-msgstr ""
+msgstr "impossibile rimuovere il file %s: %s"
 
 #: lib/libalpm/remove.c:299
 #, c-format
 msgid "removing package %s-%s"
-msgstr ""
+msgstr "rimozione in corso del pacchetto %s-%s"
 
 #: lib/libalpm/remove.c:311
 #, c-format
 msgid "not removing package '%s', can't remove all files"
-msgstr ""
+msgstr "impossibile rimuovere il pacchetto '%s' e tutti i file"
 
 #: lib/libalpm/remove.c:317
 msgid "removing files"
-msgstr ""
+msgstr "rimozione dei file in corso"
 
 #: lib/libalpm/remove.c:335
 #, c-format
 msgid "removing database entry '%s'"
-msgstr ""
+msgstr "rimozione in corso della voce del database '%s'"
 
 #: lib/libalpm/remove.c:337
 #, c-format
 msgid "could not remove database entry %s-%s"
-msgstr ""
+msgstr "impossibile rimuovere la voce del database %s-%s"
 
 #: lib/libalpm/remove.c:340
 #, c-format
 msgid "could not remove entry '%s' from cache"
-msgstr ""
+msgstr "impossibile rimuovere la voce '%s' dalla cache"
 
 #: lib/libalpm/remove.c:374
 #, c-format
 msgid "could not find dependency '%s' for removal"
-msgstr ""
+msgstr "impossibile trovare la dipendenza '%s' per rimuoverla"
 
 #: lib/libalpm/remove.c:384
 #, c-format
 msgid "updating 'requiredby' field for package '%s'"
-msgstr ""
+msgstr "aggiornamento in corso del campo 'richiesto da' del pacchetto '%s'"
 
 #: lib/libalpm/sync.c:200
 msgid "checking for package upgrades"
-msgstr ""
+msgstr "controllo in corso degli aggiornamenti del pacchetto"
 
 #: lib/libalpm/sync.c:277
 #, c-format
 msgid "searching for target in repo '%s'"
-msgstr ""
+msgstr "ricerca in corso del pacchetto nel repository '%s'"
 
 #: lib/libalpm/sync.c:286 lib/libalpm/sync.c:309
 #, c-format
 msgid "target '%s' not found -- looking for provisions"
-msgstr ""
+msgstr "pacchetto '%s' non trovato -- ricerca delle alternative"
 
 #: lib/libalpm/sync.c:291 lib/libalpm/sync.c:314
 #, c-format
 msgid "found '%s' as a provision for '%s'"
-msgstr ""
+msgstr "trovato '%s' come alternativa a '%s'"
 
 #: lib/libalpm/sync.c:298
 #, c-format
 msgid "repository '%s' not found"
-msgstr ""
+msgstr "repository '%s' non trovato"
 
 #: lib/libalpm/sync.c:332
 #, c-format
 msgid "%s-%s is up to date -- skipping"
-msgstr ""
+msgstr "%s-%s è aggiornato -- verrà ignorato"
 
 #: lib/libalpm/sync.c:352
 #, c-format
 msgid "adding target '%s' to the transaction set"
-msgstr ""
+msgstr "aggiunta in corso di '%s'"
 
 #: lib/libalpm/sync.c:400
 msgid "resolving target's dependencies"
-msgstr ""
+msgstr "risoluzione in corso delle dipendenze dei pacchetti"
 
 #: lib/libalpm/sync.c:420
 #, c-format
 msgid "adding package %s-%s to the transaction targets"
-msgstr ""
+msgstr "aggiunta in corso del pacchetto %s-%s"
 
 #: lib/libalpm/sync.c:455
 msgid "looking for unresolvable dependencies"
-msgstr ""
+msgstr "ricerca in corso delle dipendenze irrisolvibili"
 
 #: lib/libalpm/sync.c:486
 #, c-format
 msgid "package '%s' is conflicting with '%s'"
-msgstr ""
+msgstr "il pacchetto '%s' va in conflitto con '%s'"
 
 #: lib/libalpm/sync.c:508
 #, c-format
 msgid "'%s' not found in transaction set -- skipping"
-msgstr ""
+msgstr "'%s' non trovato -- verrà ignorato"
 
 #: lib/libalpm/sync.c:519
 #, c-format
 msgid "package '%s' provides its own conflict"
-msgstr ""
+msgstr "il pacchetto '%s' fornisce il suo stesso conflitto"
 
 #: lib/libalpm/sync.c:542 lib/libalpm/sync.c:547
 #, c-format
 msgid "'%s' is in the target list -- keeping it"
-msgstr ""
+msgstr "'%s' è nella lista dei pacchetti -- verrà conservato"
 
 #: lib/libalpm/sync.c:559 lib/libalpm/sync.c:596
 #, c-format
 msgid "removing '%s' from target list"
-msgstr ""
+msgstr "rimozione in corso di '%s' dalla lista dei pacchetti"
 
 #: lib/libalpm/sync.c:568
 #, c-format
 msgid "resolving package '%s' conflict"
-msgstr ""
+msgstr "risoluzione in corso del conflitto del pacchetto '%s'"
 
 #: lib/libalpm/sync.c:591
 #, c-format
 msgid "electing '%s' for removal"
-msgstr ""
+msgstr "selezionato '%s' per la rimozione"
 
 #: lib/libalpm/sync.c:602 lib/libalpm/sync.c:618
 msgid "unresolvable package conflicts detected"
-msgstr ""
+msgstr "sono stati rilevati dei conflitti irrisolvibili"
 
 #: lib/libalpm/sync.c:670
 msgid "checking dependencies of packages designated for removal"
 msgstr ""
+"controllo in corso delle dipendenze dei pacchetti designati per la rimozione"
 
 #: lib/libalpm/sync.c:684
 msgid "something has gone horribly wrong"
-msgstr ""
+msgstr "qualcosa è andato orribilmente storto"
 
 #: lib/libalpm/sync.c:703
 #, c-format
 msgid "found '%s' as a provision for '%s' -- conflict aborted"
-msgstr ""
+msgstr "trovato '%s' come alternativa a '%s' -- conflitto annullato"
 
 #: lib/libalpm/sync.c:799
 #, c-format
 msgid "%s is already in the cache\n"
-msgstr ""
+msgstr "%s è già presente nella cache\n"
 
 #: lib/libalpm/sync.c:810
 #, c-format
 msgid "no %s cache exists.  creating...\n"
-msgstr ""
+msgstr "non esiste la cache %s.  creazione in corso...\n"
 
 #: lib/libalpm/sync.c:811
 #, c-format
 msgid "warning: no %s cache exists.  creating..."
-msgstr ""
+msgstr "attenzione: non esiste la cache %s.  creazione in corso..."
 
 #: lib/libalpm/sync.c:816
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
+"impossibile creare la cache del pacchetto, al suo posto verrà usata /tmp\n"
 
 #: lib/libalpm/sync.c:817
 msgid "warning: couldn't create package cache, using /tmp instead"
 msgstr ""
+"attenzione: impossibile creare la cache del pacchetto, al suo posto verrà "
+"usata /tmp"
 
 #: lib/libalpm/sync.c:824
 #, c-format
 msgid "failed to retrieve some files from %s\n"
-msgstr ""
+msgstr "impossibile recuperare alcuni file da %s\n"
 
 #: lib/libalpm/sync.c:853 lib/libalpm/sync.c:865
 #, c-format
 msgid "can't get md5 or sha1 checksum for package %s\n"
-msgstr ""
+msgstr "impossibile recuperare il checksum md5 o sha1 del pacchetto %s\n"
 
 #: lib/libalpm/sync.c:884
 #, c-format
 msgid "archive %s was corrupted (bad MD5 or SHA1 checksum)\n"
-msgstr ""
+msgstr "archivio %s era corrotto (MD5 o SHA1 checksum errato)\n"
 
 #: lib/libalpm/sync.c:886
 #, c-format
 msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
-msgstr ""
+msgstr "archivio %s è corrotto (MD5 o SHA1 checksum errato)\n"
 
 #: lib/libalpm/sync.c:907
 msgid "could not create removal transaction"
-msgstr ""
+msgstr "impossibile avviare l'operazione di rimozione"
 
 #: lib/libalpm/sync.c:913
 msgid "could not initialize the removal transaction"
-msgstr ""
+msgstr "impossibile inizializzare l'operazione di rimozione"
 
 #: lib/libalpm/sync.c:933
 msgid "removing conflicting and to-be-replaced packages"
-msgstr ""
+msgstr "rimozione in corso dei pacchetti in conflitto e da sostituire"
 
 #: lib/libalpm/sync.c:935
 msgid "could not prepare removal transaction"
-msgstr ""
+msgstr "impossibile preparare l'operazione di rimozione"
 
 #: lib/libalpm/sync.c:941
 msgid "could not commit removal transaction"
-msgstr ""
+msgstr "impossibile eseguire l'operazione di rimozione"
 
 #: lib/libalpm/sync.c:948
 msgid "installing packages"
-msgstr ""
+msgstr "installazione dei pacchetti in corso"
 
 #: lib/libalpm/sync.c:951
 msgid "could not create transaction"
-msgstr ""
+msgstr "impossibile avviare l'operazione"
 
 #: lib/libalpm/sync.c:956
 msgid "could not initialize transaction"
-msgstr ""
+msgstr "impossibile inizializzare l'operazione"
 
 #: lib/libalpm/sync.c:979
 msgid "could not prepare transaction"
-msgstr ""
+msgstr "impossibile preparare l'operazione"
 
 #: lib/libalpm/sync.c:991
 msgid "updating database for replaced packages' dependencies"
 msgstr ""
+"aggiornamento in corso del database per le dipendenze dei pacchetti "
+"sostituiti"
 
 #: lib/libalpm/sync.c:1020
 #, c-format
 msgid "could not update requiredby for database entry %s-%s"
 msgstr ""
+"impossibile aggiornare il campo 'richiesto da' per la voce del database %s-%s"
 
 #: lib/libalpm/sync.c:1029
 #, c-format
 msgid "could not update new database entry %s-%s"
-msgstr ""
+msgstr "impossibile aggiornare la nuova voce del database %s-%s"
 
 #: lib/libalpm/util.c:278
 #, c-format
 msgid "could not open %s: %s\n"
-msgstr ""
+msgstr "impossibile aprire %s: %s\n"
 
 #: lib/libalpm/util.c:291
 #, c-format
 msgid "could not extract %s: %s\n"
-msgstr ""
+msgstr "impossibile estrarre %s: %s\n"
 
 #: lib/libalpm/util.c:349
 #, c-format
 msgid "logaction called: %s"
-msgstr ""
+msgstr "logaction chiamata: %s"
 
 #: lib/libalpm/util.c:441
 msgid "could not create temp directory"
-msgstr ""
+msgstr "impossibile creare la directory temporanea"
 
 #: lib/libalpm/util.c:468
 #, c-format
 msgid "could not change directory to %s (%s)"
-msgstr ""
+msgstr "impossibile cambiare la directory in %s (%s)"
 
 #: lib/libalpm/util.c:471
 #, c-format
 msgid "executing %s script..."
-msgstr ""
+msgstr "esecuzione in corso dello script %s..."
 
 #: lib/libalpm/util.c:484
 #, c-format
 msgid "could not fork a new process (%s)"
-msgstr ""
+msgstr "impossibile effettuare il fork di un nuovo processo (%s)"
 
 #: lib/libalpm/util.c:491
 #, c-format
 msgid "chrooting in %s"
-msgstr ""
+msgstr "chroot in corso nella directory %s"
 
 #: lib/libalpm/util.c:493
 #, c-format
 msgid "could not change the root directory (%s)"
-msgstr ""
+msgstr "impossibile cambiare la directory radice (%s)"
 
 #: lib/libalpm/util.c:497
 #, c-format
 msgid "could not change directory to / (%s)"
-msgstr ""
+msgstr "impossibile cambiare la directory in / (%s)"
 
 #: lib/libalpm/util.c:501
 #, c-format
 msgid "executing \"%s\""
-msgstr ""
+msgstr "esecuzione in corso di \"%s\""
 
 #: lib/libalpm/util.c:504
 #, c-format
 msgid "call to popen failed (%s)"
-msgstr ""
+msgstr "chiamata a popen non riuscita (%s)"
 
 #: lib/libalpm/util.c:529
 #, c-format
 msgid "call to waitpid failed (%s)"
-msgstr ""
+msgstr "chiamata a waitpid non riuscita (%s)"
 
 #: lib/libalpm/util.c:537
 #, c-format
 msgid "could not remove tmpdir %s"
-msgstr ""
+msgstr "impossibile rimuovere la directory temporanea %s"
 
 #: lib/libalpm/util.c:594
 #, c-format
 msgid "check_freespace: total pkg size: %lld, disk space: %lld"
 msgstr ""
+"check_freespace: dimensione totale dei pacchetti: %lld, spazio disponibile: %"
+"lld"
 
 #: lib/libalpm/versioncmp.c:277
 #, c-format
 msgid "depcmp: %s-%s %s %s-%s => %s"
-msgstr ""
+msgstr "depcmp: %s-%s %s %s-%s => %s"
 
 #: lib/libalpm/versioncmp.c:281
 #, c-format
 msgid "depcmp: %s-%s %s %s => %s"
-msgstr ""
+msgstr "depcmp: %s-%s %s %s => %s"

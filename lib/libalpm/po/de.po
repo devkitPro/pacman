@@ -1,39 +1,44 @@
+# translation of de.po to Deutsch
+# translation of de.po to
 # German translations for Pacman package manager package.
 # Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package manager package.
 # Marcus Habermehl <bmh1980@frugalware.org>, 2006.
-#
+# Pierre Schmitz <pierre@archlinux.de>, 2007.
+# Niclas Pfeifer <macwolf@archlinux.de>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.0.0\n"
+"Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-12 10:35-0500\n"
-"PO-Revision-Date: 2006-05-06 14:31+0200\n"
-"Last-Translator: Marcus Habermehl <bmh1980@frugalware.org>\n"
+"POT-Creation-Date: 2007-02-13 13:06+0100\n"
+"PO-Revision-Date: 2007-02-13 14:13+0100\n"
+"Last-Translator: Pierre Schmitz <pierre@archlinux.de>\n"
+"Language-Team: Deutsch <archlinux.de>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: lib/libalpm/add.c:95
 #, c-format
 msgid "could not parse token %s"
-msgstr ""
+msgstr "Konnte Zeichen %s nicht lesen"
 
 #: lib/libalpm/add.c:129
 #, c-format
 msgid "loading target '%s'"
-msgstr "Lade Paket '%s'"
+msgstr "Lade Ziel '%s'"
 
 #: lib/libalpm/add.c:175
 #, c-format
 msgid "replacing older version %s-%s by %s in target list"
-msgstr "Ersetze ältere Version %s-%s durch %s in der Paketliste"
+msgstr "Ersetze ältere Version %s-%s durch %s in der Ziel-Liste"
 
 #: lib/libalpm/add.c:184
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping"
-msgstr "Neuere Version %s-%s ist in der Paketliste -- Überspringe"
+msgstr "Neuere Version %s-%s ist in der Ziel-liste -- Überspringe"
 
 #: lib/libalpm/add.c:191
 #, c-format
@@ -44,7 +49,7 @@ msgstr "Lese Metadaten von '%s'"
 msgid "looking for unsatisfied dependencies"
 msgstr "Suche nach ungelösten Abhängigkeiten"
 
-#: lib/libalpm/add.c:256 lib/libalpm/sync.c:475
+#: lib/libalpm/add.c:256 lib/libalpm/sync.c:473
 msgid "looking for conflicts"
 msgstr "Suche nach Konflikten"
 
@@ -65,7 +70,7 @@ msgstr "Suche nach Dateikonflikten"
 msgid "upgrading package %s-%s"
 msgstr "Aktualisiere Paket %s-%s"
 
-#: lib/libalpm/add.c:404 lib/libalpm/conflict.c:288 lib/libalpm/conflict.c:318
+#: lib/libalpm/add.c:404 lib/libalpm/conflict.c:308 lib/libalpm/conflict.c:338
 #, c-format
 msgid "loading FILES info for '%s'"
 msgstr "Lade FILES Informationen für '%s'"
@@ -91,7 +96,7 @@ msgstr "Entpacke Dateien"
 
 #: lib/libalpm/add.c:487 lib/libalpm/util.c:461
 msgid "could not get current working directory"
-msgstr "Kann aktuelles Arbeitsverzeichnis nicht ermitteln"
+msgstr "Konnte aktuelles Arbeitsverzeichnis nicht ermitteln"
 
 #: lib/libalpm/add.c:545
 #, c-format
@@ -101,7 +106,7 @@ msgstr "Hinweis: %s ist in NoExtract -- Wird nicht entpackt"
 #: lib/libalpm/add.c:581 lib/libalpm/add.c:734
 #, c-format
 msgid "could not extract %s (%s)"
-msgstr "Kann %s nicht entpacken (%s)"
+msgstr "Konnte %s nicht entpacken (%s)"
 
 #: lib/libalpm/add.c:624
 #, c-format
@@ -168,8 +173,7 @@ msgstr "Aktion: Lasse existierende Datei an ihrem Platz"
 
 #: lib/libalpm/add.c:683
 msgid "action: keeping current file and installing new one with .pacnew ending"
-msgstr ""
-"Aktion: Behalte aktuelle Datei und installiere Neue mit der Endung .pacnew"
+msgstr "Aktion: Behalte aktuelle Datei und installiere Neue mit der Endung .pacnew"
 
 #: lib/libalpm/add.c:687
 #, c-format
@@ -227,18 +231,18 @@ msgstr "Fehler traten auf, während %s %s"
 
 #: lib/libalpm/add.c:777 lib/libalpm/add.c:779
 msgid "upgrading"
-msgstr "der Aktualisierung von"
+msgstr "aktualisiere"
 
 #: lib/libalpm/add.c:777 lib/libalpm/add.c:779
 msgid "installing"
-msgstr "der Installation von"
+msgstr "installiere"
 
 #: lib/libalpm/add.c:800 lib/libalpm/add.c:856
 #, c-format
 msgid "adding '%s' in requiredby field for '%s'"
 msgstr "Füge '%s' zum requiredby Feld für '%s' hinzu"
 
-#: lib/libalpm/add.c:811 lib/libalpm/remove.c:334
+#: lib/libalpm/add.c:811 lib/libalpm/remove.c:326
 msgid "updating database"
 msgstr "Aktualisiere Datenbank"
 
@@ -260,9 +264,9 @@ msgstr "Fehler beim aktualisieren der Datenbank für %s-%s!"
 #: lib/libalpm/add.c:820
 #, c-format
 msgid "could not add entry '%s' in cache"
-msgstr "Konnte Eintrag '%s' nicht zum Cache hinzufügen"
+msgstr "Konnte Eintrag '%s' nicht zum Pufferspeicher hinzufügen"
 
-#: lib/libalpm/add.c:826 lib/libalpm/remove.c:344
+#: lib/libalpm/add.c:826 lib/libalpm/remove.c:336
 msgid "updating dependency packages 'requiredby' fields"
 msgstr "Aktualisiere 'requiredby' Felder abhängiger Pakete"
 
@@ -271,12 +275,12 @@ msgstr "Aktualisiere 'requiredby' Felder abhängiger Pakete"
 msgid "could not find dependency '%s'"
 msgstr "Konnte Abhängigkeit '%s' nicht finden"
 
-#: lib/libalpm/add.c:859 lib/libalpm/remove.c:386
+#: lib/libalpm/add.c:859 lib/libalpm/remove.c:378
 #, c-format
 msgid "could not update 'requiredby' database entry %s-%s"
 msgstr "Konnte 'requiredby' Eintrag %s-%s nicht aktualisieren"
 
-#: lib/libalpm/add.c:885 lib/libalpm/remove.c:399 lib/libalpm/sync.c:1045
+#: lib/libalpm/add.c:885 lib/libalpm/remove.c:391 lib/libalpm/sync.c:1043
 #, c-format
 msgid "running \"ldconfig -r %s\""
 msgstr "Führe \"ldconfig -r %s\" aus"
@@ -284,12 +288,12 @@ msgstr "Führe \"ldconfig -r %s\" aus"
 #: lib/libalpm/alpm.c:113
 #, c-format
 msgid "removing DB %s, %d remaining..."
-msgstr ""
+msgstr "Entferne Datenbank %s, %d verbleibend..."
 
 #: lib/libalpm/alpm.c:178
 #, c-format
 msgid "unregistering database '%s'"
-msgstr ""
+msgstr "Nicht registrierte Datenbank '%s'"
 
 #: lib/libalpm/alpm.c:183
 #, c-format
@@ -298,34 +302,35 @@ msgstr "Schließe Datenbank '%s'"
 
 #: lib/libalpm/alpm.c:229
 #, c-format
-msgid ""
-"adding new server to database '%s': protocol '%s', server '%s', path '%s'"
+msgid "adding new server to database '%s': protocol '%s', server '%s', path '%s'"
 msgstr ""
+"Füge neuen Server zur Datenbank '%s' hinzu: Protokoll '%s', Server '%s', "
+"Pfad '%s'"
 
 #: lib/libalpm/alpm.c:233
 #, c-format
 msgid "serverlist flushed for '%s'"
-msgstr ""
+msgstr "Server-Liste geleert für '%s'"
 
 #: lib/libalpm/alpm.c:276
 #, c-format
 msgid "failed to get lastupdate time for %s (no big deal)"
-msgstr ""
+msgstr "Konnte letzte Updatezeit für %s nicht ermitteln (nicht schlimm)"
 
 #: lib/libalpm/alpm.c:295
 #, c-format
 msgid "failed to sync db: %s [%d]"
-msgstr ""
+msgstr "Konnte Datenbank nicht synchronisieren: %s [%d]"
 
 #: lib/libalpm/alpm.c:299
 #, c-format
 msgid "sync: new mtime for %s: %s"
-msgstr ""
+msgstr "Synchronisation: Neue mtime für %s: %s"
 
 #: lib/libalpm/alpm.c:305
 #, c-format
 msgid "flushing database %s/%s"
-msgstr ""
+msgstr "Leere Datenbank %s/%s"
 
 #: lib/libalpm/alpm.c:309
 #, c-format
@@ -333,9 +338,9 @@ msgid "could not remove database entry %s/%s"
 msgstr "Konnte Datenbankeintrag %s/%s nicht entfernen"
 
 #: lib/libalpm/alpm.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "could not get sha1 checksum for package %s-%s"
-msgstr "Konnte SHA1 Prüfsumme für Paket %s-%s nicht ermitteln\n"
+msgstr "Konnte SHA1 Prüfsumme für Paket %s-%s nicht ermitteln"
 
 #: lib/libalpm/alpm.c:485 lib/libalpm/alpm.c:534
 #, c-format
@@ -348,202 +353,201 @@ msgid "checksums for package %s-%s are matching"
 msgstr "Prüfsummen für Paket %s-%s stimmen überein"
 
 #: lib/libalpm/alpm.c:493
-#, fuzzy, c-format
+#, c-format
 msgid "sha1sums do not match for package %s-%s"
-msgstr "SHA1 Summen für Paket %s-%s stimmen nicht überein\n"
+msgstr "SHA1 Summen für Paket %s-%s stimmen nicht überein"
 
 #: lib/libalpm/alpm.c:528
-#, fuzzy, c-format
+#, c-format
 msgid "could not get md5 checksum for package %s-%s"
-msgstr "Konnte MD5 Prüfsumme für Paket %s-%s nicht ermitteln\n"
+msgstr "Konnte MD5 Prüfsumme für Paket %s-%s nicht ermitteln"
 
 #: lib/libalpm/alpm.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "md5sums do not match for package %s-%s"
-msgstr "MD5 Summen für Paket %s-%s stimmen nicht überein\n"
+msgstr "MD5 Summen für Paket %s-%s stimmen nicht überein"
 
-#: lib/libalpm/alpm.c:790
+#: lib/libalpm/alpm.c:791
 #, c-format
 msgid "could not remove lock file %s"
 msgstr "Konnte Sperrdatei %s nicht entfernen"
 
-#: lib/libalpm/alpm.c:791
+#: lib/libalpm/alpm.c:792
 #, c-format
 msgid "warning: could not remove lock file %s"
 msgstr "Warnung: Konnte Sperrdatei %s nicht entfernen"
 
-#: lib/libalpm/alpm.c:926
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:927
+#, c-format
 msgid "config: new section '%s'"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: Neuer Abschnitt '%s'"
 
-#: lib/libalpm/alpm.c:955
+#: lib/libalpm/alpm.c:956
 msgid "config: nopassiveftp"
-msgstr ""
+msgstr "Konfiguration: nopassiveftp"
 
-#: lib/libalpm/alpm.c:958
+#: lib/libalpm/alpm.c:959
 msgid "config: usesyslog"
-msgstr ""
+msgstr "Konfiguration: usesyslog"
 
-#: lib/libalpm/alpm.c:961
+#: lib/libalpm/alpm.c:962
 msgid "config: chomp"
-msgstr ""
+msgstr "Konfiguration: chomp"
 
-#: lib/libalpm/alpm.c:964
+#: lib/libalpm/alpm.c:965
 msgid "config: usecolor"
-msgstr ""
+msgstr "Konfiguration: usecolor"
 
-#: lib/libalpm/alpm.c:973
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:974
+#, c-format
 msgid "config: including %s"
-msgstr "Kann Logdatei '%s' nicht öffnen"
+msgstr "Konfiguration: including %s"
 
-#: lib/libalpm/alpm.c:983 lib/libalpm/alpm.c:988
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:984 lib/libalpm/alpm.c:989
+#, c-format
 msgid "config: noupgrade: %s"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: noupgrade: %s"
 
-#: lib/libalpm/alpm.c:996 lib/libalpm/alpm.c:1001
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:997 lib/libalpm/alpm.c:1002
+#, c-format
 msgid "config: noextract: %s"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: noextract: %s"
 
-#: lib/libalpm/alpm.c:1009 lib/libalpm/alpm.c:1014
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:1010 lib/libalpm/alpm.c:1015
+#, c-format
 msgid "config: ignorepkg: %s"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: ignorepkg: %s"
 
-#: lib/libalpm/alpm.c:1022 lib/libalpm/alpm.c:1027
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:1023 lib/libalpm/alpm.c:1028
+#, c-format
 msgid "config: holdpkg: %s"
-msgstr "Kann Logdatei '%s' nicht öffnen"
+msgstr "Konfiguration: holdpkg: %s"
 
-#: lib/libalpm/alpm.c:1034
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:1035
+#, c-format
 msgid "config: dbpath: %s"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: dbpath: %s"
 
-#: lib/libalpm/alpm.c:1041
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:1042
+#, c-format
 msgid "config: cachedir: %s"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: cachedir: %s"
 
-#: lib/libalpm/alpm.c:1044
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:1045
+#, c-format
 msgid "config: logfile: %s"
-msgstr "Kann Logdatei '%s' nicht öffnen"
+msgstr "Konfiguration: logfile: %s"
 
-#: lib/libalpm/alpm.c:1047
-#, fuzzy, c-format
+#: lib/libalpm/alpm.c:1048
+#, c-format
 msgid "config: xfercommand: %s"
-msgstr "Konnte %s nicht entpacken: %s\n"
+msgstr "Konfiguration: xfercommand: %s"
 
-#: lib/libalpm/alpm.c:1052
+#: lib/libalpm/alpm.c:1053
 #, c-format
 msgid "config: upgradedelay: %d"
-msgstr ""
+msgstr "Konfiguration: upgradedelay: %d"
 
-#: lib/libalpm/alpm.c:1091 lib/libalpm/sync.c:129 lib/libalpm/sync.c:197
+#: lib/libalpm/alpm.c:1092 lib/libalpm/sync.c:129 lib/libalpm/sync.c:197
 msgid "checking for package replacements"
 msgstr "Prüfe auf Paketersetzungen"
 
-#: lib/libalpm/alpm.c:1100 lib/libalpm/sync.c:138
+#: lib/libalpm/alpm.c:1101 lib/libalpm/sync.c:138
 #, c-format
 msgid "checking replacement '%s' for package '%s'"
 msgstr "Prüfe Ersetzung '%s' für Paket '%s'"
 
-#: lib/libalpm/alpm.c:1102 lib/libalpm/sync.c:140
+#: lib/libalpm/alpm.c:1103 lib/libalpm/sync.c:140
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)"
-msgstr ""
+msgstr "%s-%s: Ignoriere zu aktualisierendes Packet (zu ersetzen durch %s-%s)"
 
-#: lib/libalpm/alpm.c:1136 lib/libalpm/sync.c:174
+#: lib/libalpm/alpm.c:1137 lib/libalpm/sync.c:174
 #, c-format
 msgid "%s-%s elected for upgrade (to be replaced by %s-%s)"
-msgstr ""
+msgstr "%s-%s wurde zum aktualisieren gewählt (wird durch %s-%s ersetzt)"
 
-#: lib/libalpm/alpm.c:1157 lib/libalpm/sync.c:211
+#: lib/libalpm/alpm.c:1158 lib/libalpm/sync.c:211
 #, c-format
 msgid "'%s' not found in sync db -- skipping"
 msgstr "'%s' nicht in sync DB gefunden -- Überspringe"
 
-#: lib/libalpm/alpm.c:1171 lib/libalpm/sync.c:225 lib/libalpm/sync.c:501
+#: lib/libalpm/alpm.c:1172 lib/libalpm/sync.c:225 lib/libalpm/sync.c:499
 #, c-format
 msgid "'%s' is already elected for removal -- skipping"
 msgstr "'%s' ist bereits zum Entfernen ausgewählt -- Überspringe"
 
-#: lib/libalpm/alpm.c:1177 lib/libalpm/sync.c:232
+#: lib/libalpm/alpm.c:1178 lib/libalpm/sync.c:232
 #, c-format
 msgid "%s-%s elected for upgrade (%s => %s)"
 msgstr "%s-%s ausgewählt für Aktualisierung (%s => %s)"
 
 #: lib/libalpm/be_files.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "unpacking database '%s'"
-msgstr "Öffne Datenbank '%s'"
+msgstr "Entpacke Datenbank '%s'"
 
 #: lib/libalpm/be_files.c:182
 #, c-format
 msgid "invalid name for dabatase entry '%s'"
 msgstr "Falscher Name für Datenbankeintrag '%s'"
 
-#: lib/libalpm/be_files.c:210
+#: lib/libalpm/be_files.c:212
 msgid "invalid package entry provided to _alpm_db_read, skipping"
-msgstr ""
+msgstr "Überspringe ungültigen an _alpm_db_read übergebenen Paket-Eintrag"
 
-#: lib/libalpm/be_files.c:215
+#: lib/libalpm/be_files.c:217
 #, c-format
-msgid ""
-"request to read database info for a file-based package '%s', skipping..."
-msgstr ""
+msgid "request to read database info for a file-based package '%s', skipping..."
+msgstr "Überspringe das Lesen der Datenbank für ein Datei-basiertes Paket '%s'..."
 
-#: lib/libalpm/be_files.c:223
+#: lib/libalpm/be_files.c:225
 #, c-format
 msgid "loading package data for %s : level=%d"
-msgstr ""
+msgstr "Lade Paket-Daten für %s : level=%d"
 
-#: lib/libalpm/be_files.c:231
-#, fuzzy, c-format
+#: lib/libalpm/be_files.c:233
+#, c-format
 msgid "cannot find '%s-%s' in db '%s'"
-msgstr "Konnte %s nicht in der Datenbank finden"
+msgstr "Kann %s-%s nicht in der Datenbank '%s' finden"
 
-#: lib/libalpm/be_files.c:239 lib/libalpm/be_files.c:383
-#: lib/libalpm/be_files.c:406 lib/libalpm/be_files.c:494
-#: lib/libalpm/be_files.c:580 lib/libalpm/be_files.c:607
+#: lib/libalpm/be_files.c:241 lib/libalpm/be_files.c:391
+#: lib/libalpm/be_files.c:414 lib/libalpm/be_files.c:502
+#: lib/libalpm/be_files.c:591 lib/libalpm/be_files.c:618
 #: lib/libalpm/package.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file %s: %s"
-msgstr "Konnte Datei %s nicht öffnen"
+msgstr "Konnte Datei %s nicht öffnen: %s"
 
-#: lib/libalpm/be_files.c:491
+#: lib/libalpm/be_files.c:499
 #, c-format
 msgid "writing %s-%s DESC information back to db"
-msgstr ""
+msgstr "schreibe %s-%s Beschreibungsinformationen zurück in die Datenbank"
 
-#: lib/libalpm/be_files.c:577
+#: lib/libalpm/be_files.c:588
 #, c-format
 msgid "writing %s-%s FILES information back to db"
-msgstr ""
+msgstr "schreibe %s-%s Dateiinformationen zurück in die Datenbank"
 
-#: lib/libalpm/be_files.c:604
+#: lib/libalpm/be_files.c:615
 #, c-format
 msgid "writing %s-%s DEPENDS information back to db"
-msgstr ""
+msgstr "schreibe %s-%s Abhängigkeitsinformationen zurück in die Datenbank"
 
 #: lib/libalpm/cache.c:59
 #, c-format
 msgid "loading package cache (infolevel=%#x) for repository '%s'"
-msgstr "Lade Paketcache (infolevel=%#x) für Repository '%s'"
+msgstr "Lade Paketpuffer (infolevel=%#x) für Repository '%s'"
 
 #: lib/libalpm/cache.c:83
 #, c-format
 msgid "freeing package cache for repository '%s'"
-msgstr ""
+msgstr "Lösche Paketpuffer für Repository '%s'"
 
 #: lib/libalpm/cache.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "package cache reloaded (infolevel=%#x) for repository '%s'"
-msgstr "Lade Paketcache (infolevel=%#x) für Repository '%s'"
+msgstr "Lade Paketpuffer (infolevel=%#x) für Repositorium '%s'"
 
 #: lib/libalpm/cache.c:152
 #, c-format
@@ -558,60 +562,62 @@ msgstr "Entferne Eintrag '%s' aus '%s' Cache"
 #: lib/libalpm/cache.c:213
 #, c-format
 msgid "loading group cache for repository '%s'"
-msgstr "Lade Gruppencache für repository '%s'"
+msgstr "Lade Gruppenpuffer für Repositorium '%s'"
 
 #: lib/libalpm/conflict.c:78
 #, c-format
 msgid "checkconflicts: targ '%s' vs db"
-msgstr ""
+msgstr "Konfliktprüfung: Paket '%s' gegen Datenbank"
 
 #: lib/libalpm/conflict.c:87 lib/libalpm/conflict.c:101
 #, c-format
 msgid "targs vs db: found %s as a conflict for %s"
-msgstr ""
+msgstr "Ziel gegen Datenbank: %s befindet sich im Konflikt mit %s"
 
 #: lib/libalpm/conflict.c:114
 #, c-format
 msgid "checkconflicts: targ '%s' vs targs"
-msgstr ""
+msgstr "Konfliktprüfung: Gewähltes Ziel '%s' gegen Ziel-Liste"
 
 #: lib/libalpm/conflict.c:123 lib/libalpm/conflict.c:136
 #, c-format
 msgid "targs vs targs: found %s as a conflict for %s"
-msgstr ""
+msgstr "Ziel-Liste gegen Ziel-Liste: %s befindet sich im Konflikt mit %s"
 
 #: lib/libalpm/conflict.c:150
 #, c-format
 msgid "checkconflicts: db vs targ '%s'"
-msgstr ""
+msgstr "Konfliktprüfung: Datenbank gegen Paket '%s'"
 
 #: lib/libalpm/conflict.c:177 lib/libalpm/conflict.c:192
 #, c-format
 msgid "db vs targs: found %s as a conflict for %s"
-msgstr ""
+msgstr "Datenbank gegen Paket: %s befindet sich im Konflikt mit %s"
 
-#: lib/libalpm/conflict.c:250 lib/libalpm/conflict.c:350 lib/libalpm/deps.c:57
+#: lib/libalpm/conflict.c:271 lib/libalpm/conflict.c:370 lib/libalpm/deps.c:57
 #: lib/libalpm/deps.c:593 lib/libalpm/deps.c:633 lib/libalpm/group.c:43
 #: lib/libalpm/handle.c:49 lib/libalpm/package.c:78 lib/libalpm/sync.c:65
-#: lib/libalpm/sync.c:606 lib/libalpm/sync.c:622 lib/libalpm/sync.c:718
+#: lib/libalpm/sync.c:604 lib/libalpm/sync.c:620 lib/libalpm/sync.c:716
 #: lib/libalpm/trans.c:49 lib/libalpm/util.c:599 lib/libalpm/util.c:606
 #, c-format
 msgid "malloc failure: could not allocate %d bytes"
-msgstr ""
+msgstr "malloc Fehler: Konnte %d Bytes nicht allozieren"
 
 #: lib/libalpm/db.c:62 lib/libalpm/db.c:69
 #, c-format
 msgid "malloc failed: could not allocate %d bytes"
-msgstr ""
+msgstr "malloc fehlgeschlagen: Konnte %d Bytes nicht allozieren"
 
 #: lib/libalpm/db.c:163
 msgid "attempt to re-register the 'local' DB"
-msgstr ""
+msgstr "Versuche die lokale Datenbank erneut zu registrieren"
 
 #: lib/libalpm/db.c:171
 #, c-format
 msgid "attempt to re-register the '%s' database, using existing"
 msgstr ""
+"Versuche die %s Datenbank, durch Nutzung der existierenden, erneut zu "
+"registrieren"
 
 #: lib/libalpm/db.c:177
 #, c-format
@@ -621,8 +627,7 @@ msgstr "Registriere Datenbank '%s'"
 #: lib/libalpm/db.c:182
 #, c-format
 msgid "database directory '%s' does not exist -- try creating it"
-msgstr ""
-"Datenbankverzeichnis '%s' ist nicht vorhanden - Versuche es zu erstellen"
+msgstr "Datenbankverzeichnis '%s' ist nicht vorhanden - Versuche es zu erstellen"
 
 #: lib/libalpm/db.c:193
 #, c-format
@@ -630,37 +635,35 @@ msgid "opening database '%s'"
 msgstr "Öffne Datenbank '%s'"
 
 #: lib/libalpm/deps.c:128
-#, fuzzy
 msgid "started sorting dependencies"
-msgstr "Sortiere nach Abhängigkeiten"
+msgstr "Sortieren von Abhängigkeiten gestartet"
 
 #: lib/libalpm/deps.c:133
 msgid "possible dependency cycle detected"
-msgstr ""
+msgstr "möglicher Abhängigkeitszyklus gefunden"
 
 #: lib/libalpm/deps.c:178
-#, fuzzy
 msgid "sorting dependencies finished"
-msgstr "Sortiere nach Abhängigkeiten"
+msgstr "Sortieren von Abhängigkeiten beendet"
 
 #: lib/libalpm/deps.c:219 lib/libalpm/deps.c:276
 msgid "null package found in package list"
-msgstr ""
+msgstr "ein leeres Paket wurde in der Paketliste gefunden"
 
 #: lib/libalpm/deps.c:224
-#, fuzzy, c-format
+#, c-format
 msgid "cannot find package installed '%s'"
-msgstr "Kann Paketdatei nicht öffnen"
+msgstr "Konnte installiertes Paket '%s' nicht finden"
 
 #: lib/libalpm/deps.c:258 lib/libalpm/deps.c:379
 #, c-format
 msgid "checkdeps: found %s as required by %s"
-msgstr ""
+msgstr "checkdeps: %s wird von %s benötigt"
 
 #: lib/libalpm/deps.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "no dependencies for target '%s'"
-msgstr "Kann Abhängigkeiten für \"%s\" nicht auflösen"
+msgstr "Keine Abhängigkeiten für Ziel '%s'"
 
 #: lib/libalpm/deps.c:330
 #, c-format
@@ -670,11 +673,11 @@ msgstr "checkdeps: %s als Abhängigkeit für %s gefunden"
 #: lib/libalpm/deps.c:478
 #, c-format
 msgid "cannot find package \"%s\" or anything that provides it!"
-msgstr ""
+msgstr "Kann Paket \"%s\" oder irgendwas, das es zur Verfügung stellt, nicht finden!"
 
 #: lib/libalpm/deps.c:483
 msgid "dep is NULL!"
-msgstr ""
+msgstr "die Abhängigkeit ist leer!"
 
 #: lib/libalpm/deps.c:498
 #, c-format
@@ -689,12 +692,11 @@ msgstr "Lade ALL Informationen für '%s'"
 #: lib/libalpm/deps.c:518
 #, c-format
 msgid "adding '%s' to the targets"
-msgstr "Füge '%s' zu den Paketen hinzu"
+msgstr "Füge '%s' zu der Ziel-Liste hinzu"
 
 #: lib/libalpm/deps.c:546
-#, fuzzy
 msgid "started resolving dependencies"
-msgstr "Sortiere nach Abhängigkeiten"
+msgstr "Starte das Auflösen der Abhängigkeiten"
 
 #: lib/libalpm/deps.c:564
 #, c-format
@@ -703,8 +705,7 @@ msgstr "%s stellt Abhängigkeit %s zur Verfügung -- Überspringe"
 
 #: lib/libalpm/deps.c:589
 #, c-format
-msgid ""
-"cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
+msgid "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
 msgstr ""
 "Kann Abhängigkeiten für \"%s\" nicht auflösen (\"%s\" ist nicht in "
 "Paketliste enthalten)"
@@ -712,7 +713,7 @@ msgstr ""
 #: lib/libalpm/deps.c:606
 #, c-format
 msgid "dependency %s is already in the target list -- skipping"
-msgstr "Abhängigkeit %s ist bereits in Paketliste -- Überspringe"
+msgstr "Abhängigkeit %s ist bereits in Ziel-Liste -- Überspringe"
 
 #: lib/libalpm/deps.c:626
 #, c-format
@@ -727,21 +728,19 @@ msgstr "Kann Abhängigkeiten für \"%s\" nicht auflösen"
 #: lib/libalpm/deps.c:646
 #, c-format
 msgid "dependency cycle detected: %s"
-msgstr ""
+msgstr "Abhängigkeitszyklus entdeckt: %s"
 
 #: lib/libalpm/deps.c:650
-#, fuzzy
 msgid "finished resolving dependencies"
-msgstr "Sortiere nach Abhängigkeiten"
+msgstr "Auflösen von Abhängigkeiten beendet"
 
 #: lib/libalpm/error.c:34
 msgid "out of memory!"
-msgstr ""
+msgstr "Speicher ist voll!"
 
 #: lib/libalpm/error.c:36
-#, fuzzy
 msgid "unexpected system error"
-msgstr "Unerwarteter Fehler"
+msgstr "Unerwarteter Systemfehler"
 
 #: lib/libalpm/error.c:38
 msgid "insufficient privileges"
@@ -765,7 +764,7 @@ msgstr "Bibliothek bereits initialisiert"
 
 #: lib/libalpm/error.c:49
 msgid "unable to lock database"
-msgstr "Konnte Datenbank nicht sperren"
+msgstr "Kann Datenbank nicht sperren"
 
 #: lib/libalpm/error.c:52
 msgid "could not open database"
@@ -797,7 +796,7 @@ msgstr "Konnte Datenbankeintrag nicht entfernen"
 
 #: lib/libalpm/error.c:67
 msgid "invalid url for server"
-msgstr ""
+msgstr "Ungültige URL für den Server"
 
 #: lib/libalpm/error.c:74
 msgid "could not set parameter"
@@ -805,36 +804,35 @@ msgstr "Konnte Parameter nicht setzen"
 
 #: lib/libalpm/error.c:77
 msgid "transaction already initialized"
-msgstr ""
+msgstr "Übertragung wurde schon gestartet"
 
 #: lib/libalpm/error.c:79 lib/libalpm/error.c:83
 msgid "transaction not initialized"
-msgstr ""
+msgstr "Übertragung nicht gestartet"
 
 #: lib/libalpm/error.c:81
 msgid "duplicate target"
-msgstr "Doppelte Pakete"
+msgstr "Doppelte Ziele"
 
 #: lib/libalpm/error.c:85
 msgid "transaction not prepared"
-msgstr ""
+msgstr "Übertragung nicht vorbereitet"
 
 #: lib/libalpm/error.c:87
 msgid "transaction aborted"
-msgstr ""
+msgstr "Übertragung abgebrochen"
 
 #: lib/libalpm/error.c:89
 msgid "operation not compatible with the transaction type"
-msgstr ""
+msgstr "Operation nicht mit dem Transaktionstyp kompatibel"
 
-#: lib/libalpm/error.c:91 lib/libalpm/sync.c:984
+#: lib/libalpm/error.c:91 lib/libalpm/sync.c:982
 msgid "could not commit transaction"
-msgstr ""
+msgstr "Konnte die Transaktion nicht übergeben"
 
 #: lib/libalpm/error.c:93
-#, fuzzy
 msgid "could not download all files"
-msgstr "Konnte Datei nicht finden oder lesen"
+msgstr "Konnte nicht alle Dateien herunterladen"
 
 #: lib/libalpm/error.c:96
 msgid "could not find or read package"
@@ -861,9 +859,8 @@ msgid "package not installed or lesser version"
 msgstr "Paket ist nicht installiert oder kleinere Version"
 
 #: lib/libalpm/error.c:108
-#, fuzzy
 msgid "cannot remove all files for package"
-msgstr "Kann Datei %s nicht entfernen"
+msgstr "Konnte nicht alle Dateien des Paketes entfernen"
 
 #: lib/libalpm/error.c:110
 msgid "package name is not valid"
@@ -875,7 +872,7 @@ msgstr "Beschädigtes Paket"
 
 #: lib/libalpm/error.c:114
 msgid "no such repository"
-msgstr ""
+msgstr "Kein solches Repository"
 
 #: lib/libalpm/error.c:117
 msgid "group not found"
@@ -894,7 +891,6 @@ msgid "conflicting files"
 msgstr "In Konflikt stehende Dateien"
 
 #: lib/libalpm/error.c:127
-#, fuzzy
 msgid "user aborted the operation"
 msgstr "Benutzerabbruch"
 
@@ -908,37 +904,35 @@ msgstr "libarchive Fehler"
 
 #: lib/libalpm/error.c:133
 msgid "not enough space on disk"
-msgstr ""
+msgstr "Nicht genügend Speicherplatz"
 
 #: lib/libalpm/error.c:136
 msgid "not confirmed"
-msgstr ""
+msgstr "Nicht bestätigt"
 
 #: lib/libalpm/error.c:139
 msgid "bad configuration section name"
-msgstr ""
+msgstr "Ungültiger Abschnittsname"
 
 #: lib/libalpm/error.c:141
 msgid "'local' is reserved and cannot be used as a repository name"
-msgstr ""
+msgstr "'local' ist reserviert und kann nicht als Repositorium benutzt werden"
 
 #: lib/libalpm/error.c:143
-#, fuzzy
 msgid "syntax error in config file"
-msgstr "%s: Falscher Syntax in Beschreibungsdatei, Zeile %d"
+msgstr "Falsche Syntax in Beschreibungsdatei"
 
 #: lib/libalpm/error.c:145
 msgid "all directives must belong to a section"
-msgstr ""
+msgstr "Alle Anweisungen müssen zu einem Abschnitt gehören"
 
 #: lib/libalpm/error.c:147
 msgid "invalid regular expression"
-msgstr ""
+msgstr "Ungültiger Regulärer Ausdruck"
 
 #: lib/libalpm/error.c:150
-#, fuzzy
 msgid "connection to remote host failed"
-msgstr "Kann Datei %s nicht entfernen"
+msgstr "Verbindung zum Server fehlgeschlagen"
 
 #: lib/libalpm/error.c:153
 msgid "unexpected error"
@@ -950,14 +944,14 @@ msgid "%s can't be opened\n"
 msgstr "%s kann nicht geöffnet werden\n"
 
 #: lib/libalpm/package.c:146
-#, fuzzy, c-format
+#, c-format
 msgid "%s: forcing upgrade to version %s"
-msgstr "Fehlende Paketversion in %s"
+msgstr "%s: Erzwungenes Update auf Version %s"
 
 #: lib/libalpm/package.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "%s: local (%s) is newer than %s (%s)"
-msgstr "%s-%s: Lokale Version ist neuer"
+msgstr "%s: Lokale Version (%s) ist neuer als %s (%s)"
 
 #: lib/libalpm/package.c:155
 #, c-format
@@ -965,53 +959,52 @@ msgid "%s-%s: ignoring package upgrade (%s)"
 msgstr "%s-%s: Ignoriere Paketaktualisierung (%s)"
 
 #: lib/libalpm/package.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "%s-%s: delaying upgrade of package (%s)"
-msgstr "%s-%s: Ignoriere Paketaktualisierung (%s)"
+msgstr "%s-%s: Verzögere Paketaktualisierung (%s)"
 
 #: lib/libalpm/package.c:165
 #, c-format
 msgid "compare versions for %s: %s vs %s, result=%d"
-msgstr ""
+msgstr "Vergleiche Versionen für %s: %s gegen %s, Ergebnis=%d"
 
-#: lib/libalpm/package.c:208 lib/libalpm/package.c:263
+#: lib/libalpm/package.c:208 lib/libalpm/package.c:267
 #, c-format
 msgid "%s: syntax error in description file line %d"
 msgstr "%s: Falscher Syntax in Beschreibungsdatei, Zeile %d"
 
-#: lib/libalpm/package.c:337
+#: lib/libalpm/package.c:341
 msgid "could not parse the package description file"
 msgstr "Konnte Paketbeschreibungsdatei nicht analysieren"
 
-#: lib/libalpm/package.c:341
+#: lib/libalpm/package.c:345
 #, c-format
 msgid "missing package name in %s"
 msgstr "Fehlender Paketname in %s"
 
-#: lib/libalpm/package.c:345
+#: lib/libalpm/package.c:349
 #, c-format
 msgid "missing package version in %s"
 msgstr "Fehlende Paketversion in %s"
 
-#: lib/libalpm/package.c:380
+#: lib/libalpm/package.c:384
 #, c-format
 msgid "could not remove tempfile %s"
 msgstr "Konnte tempfile %s nicht entfernen"
 
-#: lib/libalpm/package.c:393 lib/libalpm/package.c:400
-#, fuzzy, c-format
+#: lib/libalpm/package.c:397 lib/libalpm/package.c:404
+#, c-format
 msgid "error while reading package: %s"
-msgstr "Aktualisiere Paket %s-%s"
+msgstr "Fehler beim Paketlesen: %s"
 
-#: lib/libalpm/package.c:406
-#, fuzzy
+#: lib/libalpm/package.c:410
 msgid "missing package metadata"
-msgstr "Fehlender Paketname in %s"
+msgstr "Fehlende Paketdaten"
 
-#: lib/libalpm/package.c:413
-#, fuzzy, c-format
+#: lib/libalpm/package.c:417
+#, c-format
 msgid "missing package filelist in %s, generating one"
-msgstr "Fehlende Paketinfodatei in %s"
+msgstr "Fehlende Paketdateiliste in %s, erstelle eine"
 
 #: lib/libalpm/remove.c:78
 #, c-format
@@ -1021,12 +1014,12 @@ msgstr "Konnte %s nicht in der Datenbank finden"
 #: lib/libalpm/remove.c:92
 #, c-format
 msgid "adding %s in the targets list"
-msgstr ""
+msgstr "füge %s zur Liste hinzu"
 
 #: lib/libalpm/remove.c:120
 #, c-format
 msgid "pulling %s in the targets list"
-msgstr ""
+msgstr "Füge %s der Ziel-Liste hinzu"
 
 #: lib/libalpm/remove.c:123
 #, c-format
@@ -1037,81 +1030,81 @@ msgstr "Konnte %s nicht in Datenbank finden -- Überspringe"
 msgid "finding removable dependencies"
 msgstr "Finde entfernbare Abhängigkeiten"
 
-#: lib/libalpm/remove.c:186
-#, fuzzy, c-format
+#: lib/libalpm/remove.c:178
+#, c-format
 msgid "cannot remove file '%s': %s"
-msgstr "Kann Datei %s nicht entfernen"
+msgstr "Kann Datei '%s' nicht entfernen: %s"
 
-#: lib/libalpm/remove.c:226
+#: lib/libalpm/remove.c:218
 #, c-format
 msgid "file %s does not exist"
 msgstr "Datei %s existiert nicht"
 
-#: lib/libalpm/remove.c:232
+#: lib/libalpm/remove.c:224
 #, c-format
 msgid "keeping directory %s"
 msgstr "Behalte Verzeichnis %s"
 
-#: lib/libalpm/remove.c:234
+#: lib/libalpm/remove.c:226
 #, c-format
 msgid "removing directory %s"
 msgstr "Entferne Verzeichnis %s"
 
-#: lib/libalpm/remove.c:248
+#: lib/libalpm/remove.c:240
 #, c-format
 msgid "skipping removal of %s as it has moved to another package"
-msgstr ""
+msgstr "Überspringe das Entfernen von %s, da es in ein anderes Paket verschoben wurde"
 
-#: lib/libalpm/remove.c:260
+#: lib/libalpm/remove.c:252
 #, c-format
 msgid "%s saved as %s"
 msgstr "%s gespeichert als %s"
 
-#: lib/libalpm/remove.c:264
+#: lib/libalpm/remove.c:256
 #, c-format
 msgid "unlinking %s"
-msgstr ""
+msgstr "Lösche %s"
 
-#: lib/libalpm/remove.c:271
-#, fuzzy, c-format
+#: lib/libalpm/remove.c:263
+#, c-format
 msgid "cannot remove file %s: %s"
-msgstr "Kann Datei %s nicht entfernen"
+msgstr "Kann Datei %s nicht entfernen: %s"
 
-#: lib/libalpm/remove.c:299
+#: lib/libalpm/remove.c:291
 #, c-format
 msgid "removing package %s-%s"
 msgstr "Entferne Paket %s-%s"
 
-#: lib/libalpm/remove.c:311
+#: lib/libalpm/remove.c:303
 #, c-format
 msgid "not removing package '%s', can't remove all files"
-msgstr ""
+msgstr "Paket '%s' wird nicht entfernt, konnte nicht alle Dateien löschen"
 
-#: lib/libalpm/remove.c:317
+#: lib/libalpm/remove.c:309
 msgid "removing files"
 msgstr "Entferne Dateien"
 
-#: lib/libalpm/remove.c:335
+#: lib/libalpm/remove.c:327
 #, c-format
 msgid "removing database entry '%s'"
 msgstr "Entferne Datenbankeintrag '%s'"
 
-#: lib/libalpm/remove.c:337
+#: lib/libalpm/remove.c:329
 #, c-format
 msgid "could not remove database entry %s-%s"
 msgstr "Konnte Datenbankeintrag %s-%s nicht entfernen"
 
-#: lib/libalpm/remove.c:340
+#: lib/libalpm/remove.c:332
 #, c-format
 msgid "could not remove entry '%s' from cache"
 msgstr "Konnte Eintrag '%s' nicht aus dem Cache entfernen"
 
-#: lib/libalpm/remove.c:374
-#, fuzzy, c-format
+#: lib/libalpm/remove.c:366
+#, c-format
 msgid "could not find dependency '%s' for removal"
-msgstr "Konnte Abhängigkeit '%s' nicht finden"
+msgstr "Konnte Abhängigkeit '%s' zum Löschen nicht finden"
 
-#: lib/libalpm/remove.c:384
+#: lib/libalpm/remove.c:376
 #, c-format
 msgid "updating 'requiredby' field for package '%s'"
 msgstr "Aktualisiere 'requiredby' Feld für Paket '%s'"
@@ -1121,24 +1114,24 @@ msgid "checking for package upgrades"
 msgstr "Prüfe auf Paketaktualisierungen"
 
 #: lib/libalpm/sync.c:277
-#, fuzzy, c-format
+#, c-format
 msgid "searching for target in repo '%s'"
-msgstr "Lade Paket '%s'"
+msgstr "Suche nach Ziel in Repositorium '%s'"
 
 #: lib/libalpm/sync.c:286 lib/libalpm/sync.c:309
 #, c-format
 msgid "target '%s' not found -- looking for provisions"
-msgstr ""
+msgstr "Ziel '%s' wurde nicht gefunden -- suche nach Vorherigen"
 
 #: lib/libalpm/sync.c:291 lib/libalpm/sync.c:314
-#, c-format
+#, fuzzy, c-format
 msgid "found '%s' as a provision for '%s'"
-msgstr ""
+msgstr "'%s' stellt '%s' bereit"
 
 #: lib/libalpm/sync.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "repository '%s' not found"
-msgstr "Gruppe nicht gefunden"
+msgstr "Repositorium '%s' nicht gefunden"
 
 #: lib/libalpm/sync.c:332
 #, c-format
@@ -1148,172 +1141,171 @@ msgstr "%s-%s ist aktuell -- Überspringe"
 #: lib/libalpm/sync.c:352
 #, c-format
 msgid "adding target '%s' to the transaction set"
-msgstr ""
+msgstr "Füge das Ziel '%s' zur Transaktion hinzu"
 
-#: lib/libalpm/sync.c:400
-#, fuzzy
+#: lib/libalpm/sync.c:398
 msgid "resolving target's dependencies"
-msgstr "Sortiere nach Abhängigkeiten"
+msgstr "Auflösen von Ziel-Abhängigkeiten"
 
-#: lib/libalpm/sync.c:420
+#: lib/libalpm/sync.c:418
 #, c-format
 msgid "adding package %s-%s to the transaction targets"
-msgstr ""
+msgstr "Füge Ziel %s-%s zur Transaktion hinzu"
 
-#: lib/libalpm/sync.c:455
+#: lib/libalpm/sync.c:453
 msgid "looking for unresolvable dependencies"
 msgstr "Suche nach ungelösten Abhängigkeiten"
 
-#: lib/libalpm/sync.c:486
+#: lib/libalpm/sync.c:484
 #, c-format
 msgid "package '%s' is conflicting with '%s'"
 msgstr "Paket '%s' steht im Konflikt mit '%s'"
 
-#: lib/libalpm/sync.c:508
+#: lib/libalpm/sync.c:506
 #, c-format
 msgid "'%s' not found in transaction set -- skipping"
-msgstr ""
+msgstr "'%s' wurde nicht in der Übertragung gefunden -- überspringe"
 
-#: lib/libalpm/sync.c:519
+#: lib/libalpm/sync.c:517
 #, c-format
 msgid "package '%s' provides its own conflict"
 msgstr "Paket '%s' liefert seinen eigenen Konflikt"
 
-#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:547
+#: lib/libalpm/sync.c:540 lib/libalpm/sync.c:545
 #, c-format
 msgid "'%s' is in the target list -- keeping it"
-msgstr ""
+msgstr "'%s' ist in der Ziel-Liste -- behalte es"
 
-#: lib/libalpm/sync.c:559 lib/libalpm/sync.c:596
+#: lib/libalpm/sync.c:557 lib/libalpm/sync.c:594
 #, c-format
 msgid "removing '%s' from target list"
-msgstr "Entferne '%s' von Paketliste"
+msgstr "Entferne '%s' von Ziel-Liste"
 
-#: lib/libalpm/sync.c:568
+#: lib/libalpm/sync.c:566
 #, c-format
 msgid "resolving package '%s' conflict"
-msgstr ""
+msgstr "Löse Paket-Konflikt '%s'"
 
-#: lib/libalpm/sync.c:591
+#: lib/libalpm/sync.c:589
 #, c-format
 msgid "electing '%s' for removal"
 msgstr "Wähle '%s' zum Entfernen aus"
 
-#: lib/libalpm/sync.c:602 lib/libalpm/sync.c:618
+#: lib/libalpm/sync.c:600 lib/libalpm/sync.c:616
 msgid "unresolvable package conflicts detected"
 msgstr "Nicht lösbare Paketkonflikte gefunden"
 
-#: lib/libalpm/sync.c:670
+#: lib/libalpm/sync.c:668
 msgid "checking dependencies of packages designated for removal"
-msgstr ""
+msgstr "Überprüfe die Abhängigkeiten der zu entfernenden Pakete"
 
-#: lib/libalpm/sync.c:684
+#: lib/libalpm/sync.c:682
 msgid "something has gone horribly wrong"
-msgstr ""
+msgstr "etwas ist schief gegangen"
 
-#: lib/libalpm/sync.c:703
+#: lib/libalpm/sync.c:701
 #, c-format
 msgid "found '%s' as a provision for '%s' -- conflict aborted"
-msgstr ""
+msgstr "'%s' stellt '%s' bereit -- Konflikt abgewandt"
 
-#: lib/libalpm/sync.c:799
+#: lib/libalpm/sync.c:797
 #, c-format
 msgid "%s is already in the cache\n"
-msgstr ""
+msgstr "%s ist bereits im Puffer\n"
 
-#: lib/libalpm/sync.c:810
+#: lib/libalpm/sync.c:808
 #, c-format
 msgid "no %s cache exists.  creating...\n"
-msgstr ""
+msgstr "Es existiert kein %s-Cache. Erstelle ihn... \n"
 
-#: lib/libalpm/sync.c:811
+#: lib/libalpm/sync.c:809
 #, c-format
 msgid "warning: no %s cache exists.  creating..."
-msgstr ""
+msgstr "Warnung: Es existiert kein %s Puffer.  Erstellen..."
 
-#: lib/libalpm/sync.c:816
+#: lib/libalpm/sync.c:814
 msgid "couldn't create package cache, using /tmp instead\n"
-msgstr ""
+msgstr "Konnte Paketpuffer nicht erstellen, benutze /tmp stattdessen\n"
 
-#: lib/libalpm/sync.c:817
+#: lib/libalpm/sync.c:815
 msgid "warning: couldn't create package cache, using /tmp instead"
-msgstr ""
+msgstr "Warnung: Konnte Paketpuffer nicht erstellen; benutze /tmp stattdessen"
 
-#: lib/libalpm/sync.c:824
+#: lib/libalpm/sync.c:822
 #, c-format
 msgid "failed to retrieve some files from %s\n"
-msgstr ""
+msgstr "Konnte manche Dateien von %s nicht übertragen\n"
 
-#: lib/libalpm/sync.c:853 lib/libalpm/sync.c:865
+#: lib/libalpm/sync.c:851 lib/libalpm/sync.c:863
 #, c-format
 msgid "can't get md5 or sha1 checksum for package %s\n"
 msgstr "Kann MD5 oder SHA1 Prüfsumme für Paket %s nicht ermitteln\n"
 
-#: lib/libalpm/sync.c:884
+#: lib/libalpm/sync.c:882
 #, c-format
 msgid "archive %s was corrupted (bad MD5 or SHA1 checksum)\n"
-msgstr "Archive %s war beschädigt (falsche MD5 oder SHA1 Prüfsumme)\n"
+msgstr "Archiv %s war beschädigt (falsche MD5 oder SHA1 Prüfsumme)\n"
 
-#: lib/libalpm/sync.c:886
+#: lib/libalpm/sync.c:884
 #, c-format
 msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
 msgstr "Archiv %s ist beschädigt (falsche MD5 oder SHA1 Prüfsumme)\n"
 
-#: lib/libalpm/sync.c:907
+#: lib/libalpm/sync.c:905
 msgid "could not create removal transaction"
-msgstr ""
+msgstr "Konnte die Lösch-Transaktion nicht erstellen"
 
-#: lib/libalpm/sync.c:913
+#: lib/libalpm/sync.c:911
 msgid "could not initialize the removal transaction"
-msgstr ""
+msgstr "Konnte die Lösch-Transaktion nicht initialisieren"
 
-#: lib/libalpm/sync.c:933
+#: lib/libalpm/sync.c:931
 msgid "removing conflicting and to-be-replaced packages"
 msgstr "Entferne im Konflikt stehende und zu ersetzende Pakete"
 
-#: lib/libalpm/sync.c:935
+#: lib/libalpm/sync.c:933
 msgid "could not prepare removal transaction"
-msgstr ""
+msgstr "Konnte Lösch-Transaktion nicht vorbereiten"
 
-#: lib/libalpm/sync.c:941
+#: lib/libalpm/sync.c:939
 msgid "could not commit removal transaction"
-msgstr ""
+msgstr "Konnte Lösche-Transaktion nicht übergeben"
 
-#: lib/libalpm/sync.c:948
+#: lib/libalpm/sync.c:946
 msgid "installing packages"
 msgstr "Installiere Pakete"
 
-#: lib/libalpm/sync.c:951
+#: lib/libalpm/sync.c:949
 msgid "could not create transaction"
-msgstr ""
+msgstr "Konnte die Transaktion nicht erstellen"
 
-#: lib/libalpm/sync.c:956
+#: lib/libalpm/sync.c:954
 msgid "could not initialize transaction"
-msgstr ""
+msgstr "Konnte die Transaktion nicht initialisieren"
 
-#: lib/libalpm/sync.c:979
+#: lib/libalpm/sync.c:977
 msgid "could not prepare transaction"
-msgstr ""
+msgstr "Konnte die Transaktion nicht vorbereiten"
 
-#: lib/libalpm/sync.c:991
+#: lib/libalpm/sync.c:989
 #, fuzzy
 msgid "updating database for replaced packages' dependencies"
 msgstr "Aktualisiere Datenbank für ersetzte Paketabhängigkeiten"
 
-#: lib/libalpm/sync.c:1020
+#: lib/libalpm/sync.c:1018
 #, c-format
 msgid "could not update requiredby for database entry %s-%s"
 msgstr "Konnte requiredby für Datenbankeintrag %s-%s nicht aktualisieren"
 
-#: lib/libalpm/sync.c:1029
+#: lib/libalpm/sync.c:1027
 #, c-format
 msgid "could not update new database entry %s-%s"
 msgstr "Konnte neuen Datenbankeintrag %s-%s nicht aktualisieren"
 
 #: lib/libalpm/util.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "could not open %s: %s\n"
-msgstr "Konnte Datei %s nicht öffnen"
+msgstr "Konnte Datei %s nicht öffnen: %s\n"
 
 #: lib/libalpm/util.c:291
 #, c-format
@@ -1321,9 +1313,9 @@ msgid "could not extract %s: %s\n"
 msgstr "Konnte %s nicht entpacken: %s\n"
 
 #: lib/libalpm/util.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "logaction called: %s"
-msgstr "Original: %s"
+msgstr "Log-Aktion aufgerufen: %s"
 
 #: lib/libalpm/util.c:441
 msgid "could not create temp directory"
@@ -1365,14 +1357,14 @@ msgid "executing \"%s\""
 msgstr "Führe \"%s\" aus"
 
 #: lib/libalpm/util.c:504
-#, fuzzy, c-format
+#, c-format
 msgid "call to popen failed (%s)"
-msgstr "Konnte Datei %s nicht öffnen"
+msgstr "Aufruf von popen fehlgeschlagen (%s)"
 
 #: lib/libalpm/util.c:529
 #, c-format
 msgid "call to waitpid failed (%s)"
-msgstr ""
+msgstr "Aufruf von waitpid fehlgeschlagen (%s)"
 
 #: lib/libalpm/util.c:537
 #, c-format
@@ -1382,91 +1374,15 @@ msgstr "Konnte tmpdir %s nicht entfernen"
 #: lib/libalpm/util.c:594
 #, c-format
 msgid "check_freespace: total pkg size: %lld, disk space: %lld"
-msgstr ""
+msgstr "Prüfe freien Speicher: Gesamte pkg Größe: %lld, Speicherplatz: %lld"
 
 #: lib/libalpm/versioncmp.c:277
 #, c-format
 msgid "depcmp: %s-%s %s %s-%s => %s"
-msgstr ""
+msgstr "depcmp: %s-%s %s %s-%s => %s"
 
 #: lib/libalpm/versioncmp.c:281
 #, c-format
 msgid "depcmp: %s-%s %s %s => %s"
-msgstr ""
+msgstr "depcmp: %s-%s %s %s => %s"
 
-#, fuzzy
-#~ msgid "syntax error"
-#~ msgstr "Interner Fehler"
-
-#~ msgid "unpacking %s"
-#~ msgstr "Entpacke %s"
-
-#~ msgid "loading SCRIPLET info for '%s'"
-#~ msgstr "Lade SCRIPTLET Informationen für '%s'"
-
-#, fuzzy
-#~ msgid "config: %s: server: %s\n"
-#~ msgstr "Warnung: %s gesichert als %s"
-
-#~ msgid "db_write: could not open file %s/desc"
-#~ msgstr "db_write: Konnte Datei %s/desc nicht öffnen"
-
-#~ msgid "db_write: could not open file %s/files"
-#~ msgstr "db_write: Konnte Datei %s/files nicht öffnen"
-
-#~ msgid "db_write: could not open file %s/depends"
-#~ msgstr "db_write: Konnte Datei %s/depends nicht öffnen"
-
-#~ msgid "PM_OPT_DBPATH set to '%s'"
-#~ msgstr "PM_OPT_DBPATH auf '%s' gesetzt"
-
-#~ msgid "PM_OPT_CACHEDIR set to '%s'"
-#~ msgstr "PM_OPT_CACHEDIR auf '%s' gesetzt"
-
-#~ msgid "can't open log file %s"
-#~ msgstr "Kann Logdatei '%s' nicht öffnen"
-
-#~ msgid "PM_OPT_LOGFILE set to '%s'"
-#~ msgstr "PM_OPT_LOGFILE auf '%s' gesetzt"
-
-#~ msgid "'%s' added to PM_OPT_NOUPGRADE"
-#~ msgstr "'%s' zu PM_OPT_NOUPGRADE hinzugefügt"
-
-#~ msgid "'%s' added to PM_OPT_NOEXTRACT"
-#~ msgstr "'%s' zu PM_OPT_NOEXTRACT hinzugefügt"
-
-#~ msgid "'%s' added to PM_OPT_IGNOREPKG"
-#~ msgstr "'%s' zu PM_OPT_IGNOREPKG hinzugefügt"
-
-#, fuzzy
-#~ msgid "'%s' added to PM_OPT_HOLDPKG"
-#~ msgstr "'%s' zu PM_OPT_IGNOREPKG hinzugefügt"
-
-#~ msgid "PM_OPT_USESYSLOG set to '%d'"
-#~ msgstr "PM_OPT_USESYSLOG auf '%d' gesetzt"
-
-#~ msgid "PM_OPT_LOGMASK set to '%02x'"
-#~ msgstr "PM_OPT_LOGMASK auf '%02x' gesetzt"
-
-#, fuzzy
-#~ msgid "PM_OPT_PROXYHOST set to '%s'"
-#~ msgstr "PM_OPT_DBPATH auf '%s' gesetzt"
-
-#, fuzzy
-#~ msgid "PM_OPT_PROXYPORT set to '%d'"
-#~ msgstr "PM_OPT_DBPATH auf '%s' gesetzt"
-
-#, fuzzy
-#~ msgid "PM_OPT_XFERCOMMAND set to '%s'"
-#~ msgstr "PM_OPT_CACHEDIR auf '%s' gesetzt"
-
-#, fuzzy
-#~ msgid "PM_OPT_NOPASSIVEFTP set to '%d'"
-#~ msgstr "PM_OPT_DBPATH auf '%s' gesetzt"
-
-#, fuzzy
-#~ msgid "PM_OPT_CHOMP set to '%d'"
-#~ msgstr "PM_OPT_CACHEDIR auf '%s' gesetzt"
-
-#~ msgid "%s-%s: local version is newer -- skipping"
-#~ msgstr "%s-%s: Lokale Version ist neuer -- Überspringe"
