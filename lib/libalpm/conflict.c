@@ -247,14 +247,74 @@ static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
 	return(ret);
 }
 
-alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, alpm_list_t **skip_list)
+/* Returns a alpm_list_t* of files that are in filesA but *NOT* in filesB
+ *  This is an 'A minus B' set operation
+ *  Pre-condition: both lists are sorted!
+ */
+static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
+{
+	alpm_list_t *ret = NULL;
+	alpm_list_t *pA = filesA, *pB = filesB;
+
+	while(pA && pB) {
+		const char *strA = pA->data;
+		const char *strB = pB->data;
+		/* skip directories, we don't care about dir conflicts */
+		if(strA[strlen(strA)-1] == '/') {
+			pA = pA->next;
+		} else if(strB[strlen(strB)-1] == '/') {
+			pB = pB->next;
+		} else {
+			int cmp = strcmp(strA, strB);
+			if(cmp < 0) {
+				/* item only in filesA, record it */
+				ret = alpm_list_add(ret, strdup(strA));
+				pA = pA->next;
+			} else if(cmp > 0) {
+				/* item only in fileB, but this means nothing */
+				pB = pB->next;
+			} else {
+				/* item in both, ignore it */
+				pA = pA->next;
+				pB = pB->next;
+			}
+	  }
+	}
+	for(alpm_list_t *i = ret; i; i = i->next) {
+		_alpm_log(PM_LOG_DEBUG, "found conflict = %s", i->data);
+	}
+	return(ret);
+}
+
+/* Adds a PM_CONFLICT_TYPE_FILE to a conflicts list.
+ * Pass the conflicts list, package name, and a file string of the conflict.
+ */
+static alpm_list_t *add_fileconflict(alpm_list_t *conflicts, char *name,
+                                     char *filestr)
+{
+	pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
+	if(conflict == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
+				sizeof(pmconflict_t));
+		return(conflicts);
+	}
+	conflict->type = PM_CONFLICT_TYPE_FILE;
+	STRNCPY(conflict->target, name, PKG_NAME_LEN);
+	STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
+	conflict->ctarget[0] = 0;
+	conflicts = alpm_list_add(conflicts, conflict);
+
+	return(conflicts);
+}
+
+alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root,
+                                     alpm_list_t **skip_list)
 {
 	alpm_list_t *i, *j, *k;
-	char *filestr = NULL;
-	char path[PATH_MAX+1];
-	struct stat buf, buf2;
 	alpm_list_t *conflicts = NULL;
+	alpm_list_t *tmpfiles = NULL;
 	alpm_list_t *targets = trans->packages;
+	int numtargs = alpm_list_count(targets);
 	double percent;
 
 	ALPM_LOG_FUNC;
@@ -262,17 +322,25 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 	if(db == NULL || targets == NULL || root == NULL) {
 		return(NULL);
 	}
-	/* CHECK 1: check every target against every target */
-	for(i = targets; i; i = i->next) {
-		pmpkg_t *p1 = (pmpkg_t*)i->data;
-		percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1) / alpm_list_count(targets);
-		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100), alpm_list_count(targets), (alpm_list_count(targets) - alpm_list_count(i) +1));
-		for(j = i->next; j; j = j->next) {
-			pmpkg_t *p2 = (pmpkg_t*)j->data;
-			alpm_list_t *conffiles = chk_fileconflicts(p1->files, p2->files);
 
-			if(conffiles) {
-				for(k = conffiles; k; k = k->next) {
+	for(i = targets; i; i = i->next) {
+		pmpkg_t *p1, *p2, *dbpkg;
+		char *filestr = NULL;
+		char path[PATH_MAX+1];
+		struct stat buf;
+
+		p1 = (pmpkg_t*)i->data;
+		percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1)
+			                 / alpm_list_count(targets);
+		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100),
+		         numtargs, (numtargs - alpm_list_count(i) +1));
+		/* CHECK 1: check every target against every target */
+		for(j = i->next; j; j = j->next) {
+			p2 = (pmpkg_t*)j->data;
+			tmpfiles = chk_fileconflicts(p1->files, p2->files);
+
+			if(tmpfiles) {
+				for(k = tmpfiles; k; k = k->next) {
 					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 					if(conflict == NULL) {
 						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
@@ -285,104 +353,57 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root, a
 					STRNCPY(conflict->ctarget, p2->name, PKG_NAME_LEN);
 					conflicts = alpm_list_add(conflicts, conflict);
 				}
+				alpm_list_free_inner(tmpfiles, &free);
+				alpm_list_free(tmpfiles);
 			}
 		}
 
 		/* CHECK 2: check every target against the filesystem */
-		pmpkg_t *p = (pmpkg_t*)i->data;
-		pmpkg_t *dbpkg = NULL;
-		for(j = p->files; j; j = j->next) {
-			int isdir = 0;
-			filestr = (char*)j->data;
-			snprintf(path, PATH_MAX, "%s%s", root, filestr);
-			/* is this target a file or directory? */
-			if(path[strlen(path)-1] == '/') {
-				isdir = 1;
-				path[strlen(path)-1] = '\0';
-			}
-			if(!lstat(path, &buf)) {
-				int ok = 0;
-				/* re-fetch with stat() instead of lstat() */
-				stat(path, &buf);
-				if(S_ISDIR(buf.st_mode)) {
-					/* if it's a directory, then we have no conflict */
-					ok = 1;
-				} else {
-					if(dbpkg == NULL) {
-						dbpkg = _alpm_db_get_pkgfromcache(db, p->name);
-					}
-					if(dbpkg && !(dbpkg->infolevel & INFRQ_FILES)) {
-						_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), dbpkg->name);
-						_alpm_db_read(db, INFRQ_FILES, dbpkg);
-					}
-					if(dbpkg && alpm_list_find_str(dbpkg->files, j->data)) {
-						ok = 1;
-					}
-					/* Make sure that the supposedly-conflicting file is not actually just
-					 * a symlink that points to a path that used to exist in the package.
-					 */
-					/* Check if any part of the conflicting file's path is a symlink */
-					if(dbpkg && !ok) {
-						char str[PATH_MAX];
-						for(k = dbpkg->files; k; k = k->next) {
-							snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
-							stat(str, &buf2);
-							if(buf.st_ino == buf2.st_ino) {
-								ok = 1;
-							}
-						}
-					}
-					/* Check if the conflicting file has been moved to another package/target */
-					if(!ok) {
-						/* Look at all the targets */
-						for(k = targets; k && !ok; k = k->next) {
-							pmpkg_t *p1 = (pmpkg_t *)k->data;
-							/* As long as they're not the current package */
-							if(strcmp(p1->name, p->name)) {
-								pmpkg_t *dbpkg2 = NULL;
-								dbpkg2 = _alpm_db_get_pkgfromcache(db, p1->name);
-								if(dbpkg2 && !(dbpkg2->infolevel & INFRQ_FILES)) {
-									_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), dbpkg2->name);
-									_alpm_db_read(db, INFRQ_FILES, dbpkg2);
-								}
-								/* If it used to exist in there, but doesn't anymore */
-								if(dbpkg2 && !alpm_list_find_str(p1->files, filestr)
-									 && alpm_list_find_str(dbpkg2->files, filestr)) {
-									ok = 1;
-									/* Add to the "skip list" of files that we shouldn't remove during an upgrade.
-									 *
-									 * This is a workaround for the following scenario:
-									 *
-									 *    - the old package A provides file X
-									 *    - the new package A does not
-									 *    - the new package B provides file X
-									 *    - package A depends on B, so B is upgraded first
-									 *
-									 * Package B is upgraded, so file X is installed.  Then package A
-									 * is upgraded, and it *removes* file X, since it no longer exists
-									 * in package A.
-									 *
-									 * Our workaround is to scan through all "old" packages and all "new"
-									 * ones, looking for files that jump to different packages.
-									 */
-									*skip_list = alpm_list_add(*skip_list, strdup(filestr));
-								}
+		dbpkg = _alpm_db_get_pkgfromcache(db, p1->name);
+
+		/* Do two different checks here. f the package is currently installed,
+		 * then only check files that are new in the new package. If the package
+		 * is not currently installed, then simply stat the whole filelist */
+		if(dbpkg) {
+			/* older ver of package currently installed */
+			tmpfiles = chk_filedifference(p1->files, alpm_pkg_get_files(dbpkg));
+			for(j = tmpfiles; j; j = j->next) {
+				filestr = j->data;
+
+				snprintf(path, PATH_MAX, "%s%s", root, filestr);
+
+				/* stat the file - if it exists and is not a dir, do some checks */
+				if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
+					/* Look at all the targets to see if file has changed hands */
+					for(k = targets; k; k = k->next) {
+						pmpkg_t *p2 = (pmpkg_t *)k->data;
+						/* Ensure we aren't looking at current package */
+						if(strcmp(p2->name, p1->name)) {
+							pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
+							/* Check if it used to exist in a package, but doesn't anymore */
+							if(localp2 && !alpm_list_find_str(alpm_pkg_get_files(p2), filestr)
+									&& alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {
+								*skip_list = alpm_list_add(*skip_list, strdup(filestr));
+							} else {
+								conflicts = add_fileconflict(conflicts, p1->name, filestr);
+								break;
 							}
 						}
 					}
 				}
-				if(!ok) {
-					pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
-					if(conflict == NULL) {
-						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
-											sizeof(pmconflict_t));
-						continue;
-					}
-					conflict->type = PM_CONFLICT_TYPE_FILE;
-					STRNCPY(conflict->target, p->name, PKG_NAME_LEN);
-					STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
-					conflict->ctarget[0] = 0;
-					conflicts = alpm_list_add(conflicts, conflict);
+			}
+			alpm_list_free_inner(tmpfiles, &free);
+			alpm_list_free(tmpfiles);
+		} else {
+			/* no version of package currently installed */
+			for(j = p1->files; j; j = j->next) {
+				filestr = j->data;
+
+				snprintf(path, PATH_MAX, "%s%s", root, filestr);
+
+				/* stat the file - if it exists and is not a dir, report a conflict */
+				if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
+					conflicts = add_fileconflict(conflicts, p1->name, filestr);
 				}
 			}
 		}
