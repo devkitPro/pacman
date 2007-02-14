@@ -400,20 +400,13 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				/* we'll need to save some record for backup checks later */
 				oldpkg = _alpm_pkg_new(local->name, local->version);
 				if(oldpkg) {
-					if(!(local->infolevel & INFRQ_FILES)) {
-						_alpm_log(PM_LOG_DEBUG, _("loading FILES info for '%s'"), local->name);
-						_alpm_db_read(db, INFRQ_FILES, local);
-					}
-					oldpkg->backup = alpm_list_strdup(local->backup);
+					oldpkg->backup = alpm_list_strdup(alpm_pkg_get_backup(local));
 					strncpy(oldpkg->name, local->name, PKG_NAME_LEN);
 					strncpy(oldpkg->version, local->version, PKG_VERSION_LEN);
 				}
 
 				/* copy over the install reason */
-				if(!(local->infolevel & INFRQ_DESC)) {
-					_alpm_db_read(db, INFRQ_DESC, local);
-				}
-				info->reason = local->reason;
+				info->reason = alpm_pkg_get_reason(local);
 
 				/* pre_upgrade scriptlet */
 				if(info->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {

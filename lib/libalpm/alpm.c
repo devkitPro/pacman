@@ -476,18 +476,13 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 
 	sha1sum = _alpm_SHAFile(path);
 	if(sha1sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get sha1 checksum for package %s-%s"),
+		_alpm_log(PM_LOG_ERROR, _("could not get sha1sum for package %s-%s"),
 		          pkg->name, pkg->version);
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
 	} else {
-		if(!(pkg->infolevel & INFRQ_DESC)) {
-			_alpm_log(PM_LOG_DEBUG, _("loading DESC info for '%s'"), pkg->name);
-			_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
-		}
-
-		if(strcmp(sha1sum, pkg->sha1sum) == 0) {
-			_alpm_log(PM_LOG_DEBUG, _("checksums for package %s-%s are matching"),
+		if(strcmp(sha1sum, alpm_pkg_get_sha1sum(pkg)) == 0) {
+			_alpm_log(PM_LOG_DEBUG, _("sha1sums for package %s-%s match"),
 			                        pkg->name, pkg->version);
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s"),
@@ -525,18 +520,13 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	md5sum = _alpm_MDFile(path);
 	if(md5sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get md5 checksum for package %s-%s"),
+		_alpm_log(PM_LOG_ERROR, _("could not get md5sum for package %s-%s"),
 		          pkg->name, pkg->version);
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
 	} else {
-		if(!(pkg->infolevel & INFRQ_DESC)) {
-			_alpm_log(PM_LOG_DEBUG, _("loading DESC info for '%s'"), pkg->name);
-			_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
-		}
-
-		if(strcmp(md5sum, pkg->md5sum) == 0) {
-			_alpm_log(PM_LOG_DEBUG, _("checksums for package %s-%s are matching"),
+		if(strcmp(md5sum, alpm_pkg_get_md5sum(pkg)) == 0) {
+			_alpm_log(PM_LOG_DEBUG, _("md5sums for package %s-%s match"),
 			                        pkg->name, pkg->version);
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s"),
