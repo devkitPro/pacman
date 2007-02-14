@@ -4,13 +4,9 @@ TODO.dan
 This is my personal TODO list. No guarantees if it is out of date and things no
 longer apply. If you want to help out with any of it, send me an email.
 
-Go through all makepkg bugs in Flyspray and see if they are rectified:
-http://bugs.archlinux.org/index.php?tasks=&project=1&string=makepkg
-
-Documentation- no one likes to write it, but everyone reads it. Work on the man
-pages and make sure they are up to date. Perhaps move man page format to a more
-portable source format to make translation easier to keep up-to-date (something
-like txt2tags, docbook?) This will need some research.
+Documentation- look into moving man page format to a more portable source
+format to make translation easier to keep up-to-date (something like txt2tags,
+docbook, asciidoc) This will need some research.
 
 Port the libdownload (libfetch) manpage from BSD style to Linux style, or at
 very least change references to BSD.
@@ -66,7 +62,13 @@ are hard coded into the sources. (from TODO.autoconf)
 Profile the code. Find the functions that are being called a lot, and see what
 can be done about it. Find out if all these calls are necessary (e.g. excessive
 alpm_list_count calls), and maybe think about changing data structures to speed
-operations up (e.g. a 'count' field).
+operations up (e.g. a 'count' field). NOTE: already found two huge issues with
+quick profiling- excessive setlocale calls, and extremely excessive strcmp
+calls.
+
+Localize the date display done in --info output. Also, fix other localized
+issues- use non-printf when necessary, make sure all two line printed messages
+(especially usage instructions) are printed using one print statement.
 
 Other ideas:
 ============

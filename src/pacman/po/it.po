@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-13 15:47+0100\n"
-"PO-Revision-Date: 2007-02-13 16:10+0100\n"
+"POT-Creation-Date: 2007-02-14 18:25+0100\n"
+"PO-Revision-Date: 2007-02-14 18:30+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -59,10 +59,10 @@ msgstr ":: %s: richiede %s"
 msgid ":: %s: conflicts with %s"
 msgstr ":: %s: va in conflitto con %s"
 
-#: src/pacman/add.c:127 src/pacman/sync.c:665
+#: src/pacman/add.c:127
 #, c-format
-msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)\n"
-msgstr "%s%s è presente in \"%s\" e in \"%s\"\n"
+msgid "%s%s exists in both '%s' and '%s'\n"
+msgstr "%s%s è presente in '%s' e in '%s'\n"
 
 #: src/pacman/add.c:134 src/pacman/sync.c:672
 #, c-format
@@ -936,6 +936,11 @@ msgstr ""
 #: src/pacman/sync.c:646
 msgid "Proceed with installation? [Y/n] "
 msgstr "Procedere con l'installazione? [Y/n] "
+
+#: src/pacman/sync.c:665
+#, c-format
+msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)\n"
+msgstr "%s%s è presente in \"%s\" e in \"%s\"\n"
 
 #: src/pacman/trans.c:52
 msgid "checking dependencies... "

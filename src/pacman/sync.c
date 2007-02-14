@@ -662,7 +662,7 @@ int pacman_sync(alpm_list_t *targets)
 				pmconflict_t *conflict = alpm_list_getdata(i);
 				switch(alpm_conflict_get_type(conflict)) {
 				case PM_CONFLICT_TYPE_TARGET:
-					MSG(NL, _("%s%s exists in \"%s\" (target) and \"%s\" (target)\n"),
+					MSG(NL, _("%s%s exists in both '%s' and '%s'\n"),
 							alpm_option_get_root(),
 							alpm_conflict_get_file(conflict),
 							alpm_conflict_get_target(conflict),

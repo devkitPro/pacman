@@ -281,7 +281,7 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	const int infolen = 50;
 	int i, digits, textlen, pkglen;
-	char *ptr = NULL;
+	char *opr = NULL;
 
 	if(config->noprogressbar) {
 		return;
@@ -311,16 +311,16 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 	prevpercent=percent;
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
-			ptr = _("installing");
+			opr = _("installing");
 			break;
 		case PM_TRANS_PROGRESS_UPGRADE_START:
-			ptr = _("upgrading");
+			opr = _("upgrading");
 			break;
 		case PM_TRANS_PROGRESS_REMOVE_START:
-			ptr = _("removing");
+			opr = _("removing");
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
-			ptr = _("checking for file conflicts");
+			opr = _("checking for file conflicts");
 			break;
 	}
 
@@ -334,19 +334,21 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 	/* determine room left for non-digits text [not ( 1/12) part] */
 	textlen = infolen - 3 - (2 * digits);
 	/* room left for package name */
-	pkglen = textlen - mbstowcs(NULL, ptr, 0) - 1;
+	pkglen = textlen - mbstowcs(NULL, opr, 0) - 1;
 
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
 		case PM_TRANS_PROGRESS_UPGRADE_START:
 		case PM_TRANS_PROGRESS_REMOVE_START:
 			/* TODO clean up so digits and pkglen aren't passed twice */
+			/* TODO we may need some sort of wchar_t wprintf output here in order
+			 * to get the lengths right, prinf works on bytes and not chars */
 			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
-			       ptr, pkglen, pkglen, pkgname);
+			       opr, pkglen, pkglen, pkgname);
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
-			       textlen, ptr);
+			       textlen, opr);
 			break;
 	}
 
