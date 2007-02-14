@@ -220,18 +220,25 @@ static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
 	while(pA && pB) {
 		const char *strA = pA->data;
 		const char *strB = pB->data;
+		/* skip directories, we don't care about dir conflicts */
 		if(strA[strlen(strA)-1] == '/') {
 			pA = pA->next;
 		} else if(strB[strlen(strB)-1] == '/') {
 			pB = pB->next;
-		} else if(strcmp(strA, strB) == -1) {
-			pA = pA->next;
-		} else if(strcmp(strB, strA) == -1) {
-			pB = pB->next;
 		} else {
-			ret = alpm_list_add(ret, strdup(strA));
-			pA = pA->next;
-			pB = pB->next;
+			int cmp = strcmp(strA, strB);
+			if(cmp < 0) {
+				/* item only in filesA, ignore it */
+				pA = pA->next;
+			} else if(cmp > 0) {
+				/* item only in filesB, ignore it */
+				pB = pB->next;
+			} else {
+				/* item in both, record it */
+				ret = alpm_list_add(ret, strdup(strA));
+				pA = pA->next;
+				pB = pB->next;
+			}
 	  }
 	}
 	for(alpm_list_t *i = ret; i; i = i->next) {
