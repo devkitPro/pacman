@@ -182,32 +182,15 @@ checkdeps() {
 
 	[ $# -gt 0 ] || return
 
-	missdep=$(pacman $PACMAN_OPTS -T $*)
+	pmout=$(pacman $PACMAN_OPTS -T $*)
 	ret=$?
-	if [ "$ret" != "0" ]; then
-		if [ "$ret" = "127" ]; then
-			msg "Missing Dependencies:"
-			msg ""
-			nl=0
-			for dep in $missdep; do
-				echo -ne "$dep " >&2
-				if [ "$nl" = "1" ]; then
-					nl=0
-					echo -ne "\n" >&2
-					# add this dep to the list
-					depname=$(echo $dep | sed 's|=.*$||' | sed 's|>.*$||' | sed 's|<.*$||')
-					deplist="$deplist $depname"
-					continue
-				fi
-				nl=1
-			done
-			msg ""
-		else
-			error "pacman returned a fatal error."
-			exit 1
-		fi
+	if [ $ret -eq 127 ]; then #unresolved deps
+		#strip out the pacman prefix from "requires: xyz"
+		echo $pmout | sed 's|requires:||g'
+	elif [ $ret -ne 0 ]; then
+		error "pacman returned a fatal error ($ret): $pmout"
+		exit 1
 	fi
-	echo $deplist
 }
 
 handledeps() {
@@ -300,6 +283,30 @@ handledeps() {
 	done
 
 	return $missingdeps
+}
+
+resolvedeps() {
+	deplist=$(checkdeps $*)
+	if [ -n "${deplist}" ]; then
+		handledeps $deplist
+		if [ $? -eq 0 ]; then
+			# check deps again to make sure they were resolved
+			deplist=$(checkdeps ${depends[@]})
+			if [ -n "${deplist}" ]; then
+				error "Failed to install missing dependencies."
+			fi
+		fi
+	fi
+
+	if [ -n "${deplist}" ]; then
+		msg "Missing Dependencies:"
+		for dep in ${deplist}; do
+			msg2 "${dep}"
+		done
+		return 1
+	else
+		return 0
+	fi
 }
 
 # fix flyspray bug #5923
@@ -591,22 +598,22 @@ if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" 
 	fi
 	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
+	deperr=0
+
 	msg "Checking Runtime Dependencies..."
-	deplist=$(checkdeps ${depends[@]})
-	handledeps $deplist
-	if [ $? -gt 0 ]; then
-		exit 1
+	resolvedeps ${depends[@]}
+	if [ $? -ne 0 ]; then
+		deperr=1
 	fi
-	# check deps again to make sure they were resolved
-	deplist=$(checkdeps ${depends[@]})
-	if [ ! -z "$deplist" ]; then
-		error "Failed to install missing dependencies."
-		exit 1
-	fi
+
 	msg "Checking Buildtime Dependencies..."
-	makedeplist=$(checkdeps ${makedepends[@]})
-	handledeps $makedeplist
-	if [ $? -gt 0 ]; then
+	resolvedeps ${makedepends[@]}
+	if [ $? -ne 0 ]; then
+		deperr=1
+	fi
+
+	if [ $deperr -eq 1 ]; then
+		error "could not resolve all dependencies."
 		exit 1
 	fi
 else
