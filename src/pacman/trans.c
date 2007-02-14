@@ -334,7 +334,7 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 	/* determine room left for non-digits text [not ( 1/12) part] */
 	textlen = infolen - 3 - (2 * digits);
 	/* room left for package name */
-	pkglen = textlen - strlen(ptr) - 1;
+	pkglen = textlen - mbstowcs(NULL, ptr, 0) - 1;
 
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:

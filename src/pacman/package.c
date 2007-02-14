@@ -94,7 +94,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 	/* printed using a variable to make i18n safe */
 	printf("%s", descheader);
-	indentprint(alpm_pkg_get_desc(pkg), strlen(descheader));
+	indentprint(alpm_pkg_get_desc(pkg), mbstowcs(NULL, descheader, 0));
 	printf("\n");
 
 	/* Print additional package info if info flag passed more than once */
@@ -134,7 +134,7 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	
 	/* printed using a variable to make i18n safe */
 	printf("%s", descheader);
-	indentprint(alpm_pkg_get_desc(pkg), strlen(descheader));
+	indentprint(alpm_pkg_get_desc(pkg), mbstowcs(NULL, descheader, 0));
 	printf("\n");
 	
 	if (md5sum != NULL && md5sum[0] != '\0') {

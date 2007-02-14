@@ -51,6 +51,7 @@
 #define _(s) s
 #endif
 
+/*TODO wtf? why is this done like this? */
 #define SCRIPTLET_START "START "
 #define SCRIPTLET_DONE "DONE "
 
