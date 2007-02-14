@@ -1,19 +1,25 @@
-# Portuguese translations for Pacman package manager package.
+# translation of pt_BR.po to Português do Brasil
+# Brazilian Portuguese translations for Pacman package manager package.
 # Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package manager package.
-# (First author here) <(email here)>, 2007.
+# Douglas Soares de Andrade <douglas@archlinux-br.org>, 2007.
+# Hugo Doria <hugodoria@archlinux-br.org>, 2007.
+# Lincoln de Sousa <lincoln@archlinux-br.org>, 2007.
+# Leandro Inácio <leandro@archlinux-br.org>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.0.0\n"
+"Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2007-02-12 10:17-0500\n"
-"PO-Revision-Date: 2007-02-06 20:17-0500\n"
-"Last-Translator: Dan McGee <pacman-dev@archlinux.org>\n"
+"PO-Revision-Date: 2007-02-14 00:33-0200\n"
+"Last-Translator: Douglas Soares de Andrade <dsandrade@gmail.com>\n"
+"Language-Team: Português do Brasil <pt@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/pacman/add.c:69 src/pacman/deptest.c:57 src/pacman/remove.c:79
 #: src/pacman/sync.c:438 src/pacman/sync.c:487
@@ -22,341 +28,345 @@ msgid ""
 "       if you're sure a package manager is not already running,\n"
 "       you can remove %s%s\n"
 msgstr ""
+"       caso tenha certeza que um gerenciador de pacotes já está rodando,\n"
+"       você pode remover %s%s\n"
 
 #: src/pacman/add.c:76
 msgid "loading package data... "
-msgstr ""
+msgstr "carregando informações do pacote... "
 
 #: src/pacman/add.c:80
 #, c-format
 msgid "failed to add target '%s' (%s)"
-msgstr ""
+msgstr "falha ao adicionar objeto '%s' (%s)"
 
 #: src/pacman/add.c:85 src/pacman/sync.c:194 src/pacman/trans.c:70
 #: src/pacman/trans.c:77 src/pacman/trans.c:81 src/pacman/trans.c:91
 #: src/pacman/trans.c:105 src/pacman/trans.c:119 src/pacman/trans.c:131
 #: src/pacman/trans.c:142
 msgid "done.\n"
-msgstr ""
+msgstr "feito.\n"
 
 #: src/pacman/add.c:92 src/pacman/remove.c:98 src/pacman/sync.c:572
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
-msgstr ""
+msgstr "falha ao preparar transação (%s)\n"
 
 #: src/pacman/add.c:97
 #, c-format
 msgid ":: %s: requires %s"
-msgstr ""
+msgstr ":: %s: requer %s"
 
 #: src/pacman/add.c:118 src/pacman/sync.c:601
 #, c-format
 msgid ":: %s: conflicts with %s"
-msgstr ""
+msgstr ":: %s: conflita com %s"
 
 #: src/pacman/add.c:127 src/pacman/sync.c:665
 #, c-format
 msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)\n"
-msgstr ""
+msgstr "%s%s existe em \"%s\" (destino) and \"%s\" (destino)\n"
 
 #: src/pacman/add.c:134 src/pacman/sync.c:672
 #, c-format
 msgid "%s: %s%s exists in filesystem\n"
-msgstr ""
+msgstr "%s: %s%s existe no sistema de arquivos\n"
 
 #: src/pacman/add.c:141 src/pacman/sync.c:679 src/pacman/sync.c:685
 msgid ""
 "\n"
 "errors occurred, no packages were upgraded.\n"
 msgstr ""
+"\n"
+"ocorreram alguns erros, portanto, nenhum pacote foi atualizado.\n"
 
 #: src/pacman/add.c:151 src/pacman/sync.c:608
 #, c-format
 msgid ":: %.1f MB required, have %.1f MB"
-msgstr ""
+msgstr ":: %.1f MB requerido, possui %.1f MB"
 
 #: src/pacman/add.c:164 src/pacman/remove.c:138 src/pacman/sync.c:658
 #, c-format
 msgid "failed to commit transaction (%s)\n"
-msgstr ""
+msgstr "falha ao terminar a transação (%s)\n"
 
 #: src/pacman/add.c:174 src/pacman/remove.c:148 src/pacman/sync.c:480
 #: src/pacman/sync.c:701
 #, c-format
 msgid "failed to release transaction (%s)\n"
-msgstr ""
+msgstr "falha ao liberar a transação (%s)\n"
 
 #: src/pacman/deptest.c:70
 msgid "memory allocation failure\n"
-msgstr ""
+msgstr "falha de alocação de memória\n"
 
 #: src/pacman/deptest.c:81
 #, c-format
 msgid "add target %s\n"
-msgstr ""
+msgstr "adicionar objeto %s\n"
 
 #: src/pacman/deptest.c:84
 #, c-format
 msgid "could not add target (%s)\n"
-msgstr ""
+msgstr "não foi possível adicionar destino (%s)\n"
 
 #: src/pacman/deptest.c:103
 #, c-format
 msgid "requires: %s"
-msgstr ""
+msgstr "requer: %s"
 
 #: src/pacman/deptest.c:127
 #, c-format
 msgid "conflict: %s"
-msgstr ""
+msgstr "conflita: %s"
 
 #: src/pacman/deptest.c:141 src/pacman/deptest.c:159
 #, c-format
 msgid "could not release transaction (%s)"
-msgstr ""
+msgstr "não foi possível liberar a transação (%s)"
 
 #: src/pacman/log.c:61
 #, c-format
 msgid "debug"
-msgstr ""
+msgstr "depurar"
 
 #: src/pacman/log.c:64
 #, c-format
 msgid "error"
-msgstr ""
+msgstr "erro"
 
 #: src/pacman/log.c:67
 #, c-format
 msgid "warning"
-msgstr ""
+msgstr "aviso"
 
 #: src/pacman/log.c:73
 #, c-format
 msgid "function"
-msgstr ""
+msgstr "função"
 
 #: src/pacman/log.c:201
 msgid "Y"
-msgstr ""
+msgstr "S"
 
 #: src/pacman/log.c:201
 msgid "YES"
-msgstr ""
+msgstr "SIM"
 
 #: src/pacman/log.h:26
 msgid "error: "
-msgstr ""
+msgstr "erro: "
 
 #: src/pacman/log.h:30
 msgid "warning: "
-msgstr ""
+msgstr "aviso: "
 
 #: src/pacman/package.c:57
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Explicitamente Instalado"
 
 #: src/pacman/package.c:60
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Instalado como dependência de outro pacote"
 
 #: src/pacman/package.c:63 src/pacman/package.c:85
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: src/pacman/package.c:68 src/pacman/package.c:119
 #, c-format
 msgid "Name           : %s\n"
-msgstr ""
+msgstr "Nome           : %s\n"
 
 #: src/pacman/package.c:69 src/pacman/package.c:120
 #, c-format
 msgid "Version        : %s\n"
-msgstr ""
+msgstr "Versão        : %s\n"
 
 #: src/pacman/package.c:70
 #, c-format
 msgid "URL            : %s\n"
-msgstr ""
+msgstr "URL            : %s\n"
 
 #: src/pacman/package.c:71
 msgid "License        :"
-msgstr ""
+msgstr "Licença        :"
 
 #: src/pacman/package.c:72 src/pacman/package.c:121
 msgid "Groups         :"
-msgstr ""
+msgstr "Grupos         :"
 
 #: src/pacman/package.c:73 src/pacman/package.c:122
 msgid "Provides       :"
-msgstr ""
+msgstr "Provê       :"
 
 #: src/pacman/package.c:74 src/pacman/package.c:123
 msgid "Depends On     :"
-msgstr ""
+msgstr "Depende de     :"
 
 #: src/pacman/package.c:75 src/pacman/package.c:124
 msgid "Removes        :"
-msgstr ""
+msgstr "Remove        :"
 
 #: src/pacman/package.c:78
 msgid "Required By    :"
-msgstr ""
+msgstr "Requerido Por    :"
 
 #: src/pacman/package.c:80 src/pacman/package.c:125
 msgid "Conflicts With :"
-msgstr ""
+msgstr "Conflita Com :"
 
 #: src/pacman/package.c:81
 #, c-format
 msgid "Installed Size : %ld K\n"
-msgstr ""
+msgstr "Tamanho Instalado: %ld K\n"
 
 #: src/pacman/package.c:82
 #, c-format
 msgid "Packager       : %s\n"
-msgstr ""
+msgstr "Empacotador       : %s\n"
 
 #: src/pacman/package.c:83
 #, c-format
 msgid "Architecture   : %s\n"
-msgstr ""
+msgstr "Arquitetura   : %s\n"
 
 #: src/pacman/package.c:84
 #, c-format
 msgid "Build Date     : %s %s\n"
-msgstr ""
+msgstr "Compilado em     : %s %s\n"
 
 #: src/pacman/package.c:85
 #, c-format
 msgid "Build Type     : %s\n"
-msgstr ""
+msgstr "Tipo da compilação    : %s\n"
 
 #: src/pacman/package.c:87
 #, c-format
 msgid "Install Date   : %s %s\n"
-msgstr ""
+msgstr "Data da Instalação   : %s %s\n"
 
 #: src/pacman/package.c:88
 #, c-format
 msgid "Install Reason : %s\n"
-msgstr ""
+msgstr "Razão da instalação : %s\n"
 
 #: src/pacman/package.c:90
 #, c-format
 msgid "Install Script : %s\n"
-msgstr ""
+msgstr "Script de Instalação : %s\n"
 
 #: src/pacman/package.c:91
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: src/pacman/package.c:91
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: src/pacman/package.c:93 src/pacman/package.c:130
 #, c-format
 msgid "Description    : "
-msgstr ""
+msgstr "Descrição    : "
 
 #: src/pacman/package.c:118
 #, c-format
 msgid "Repository     : %s\n"
-msgstr ""
+msgstr "Repositório     : %s\n"
 
 #: src/pacman/package.c:126
 msgid "Replaces       :"
-msgstr ""
+msgstr "Substitui       :"
 
 #: src/pacman/package.c:127
 #, c-format
 msgid "Download Size  : %6.2f K\n"
-msgstr ""
+msgstr "Tamanho do Download  : %6.2f K\n"
 
 #: src/pacman/package.c:128
 #, c-format
 msgid "Installed Size : %6.2f K\n"
-msgstr ""
+msgstr "Tamanho Instalado: %6.2f K\n"
 
 #: src/pacman/package.c:135
 #, c-format
 msgid "MD5 Sum        : %s"
-msgstr ""
+msgstr "Soma MD5        : %s"
 
 #: src/pacman/package.c:138
 #, c-format
 msgid "SHA1 Sum       : %s"
-msgstr ""
+msgstr "Soma SHA1       : %s"
 
 #: src/pacman/package.c:149
 #, c-format
 msgid "Backup Files :\n"
-msgstr ""
+msgstr "Arquivos de Backup :\n"
 
 #: src/pacman/package.c:169
 #, c-format
 msgid "error calculating checksums for %s\n"
-msgstr ""
+msgstr "erro ao calcular as somas de verificação para %s\n"
 
 #: src/pacman/package.c:182
 #, c-format
 msgid "MODIFIED\t%s\n"
-msgstr ""
+msgstr "MODIFICADO\t%s\n"
 
 #: src/pacman/package.c:184
 #, c-format
 msgid "Not Modified\t%s\n"
-msgstr ""
+msgstr "Não modificado\t%s\n"
 
 #: src/pacman/package.c:189
 #, c-format
 msgid "MISSING\t\t%s\n"
-msgstr ""
+msgstr "NÃO ENCONTRADO\t\t%s\n"
 
 #: src/pacman/package.c:222
 #, c-format
 msgid "No changelog available for '%s'.\n"
-msgstr ""
+msgstr "changelog não disponível para '%s'.\n"
 
 #: src/pacman/pacman.c:88
 #, c-format
 msgid "usage:  %s {-h --help}\n"
-msgstr ""
+msgstr "modo de usar:  %s {-h --help}\n"
 
 #: src/pacman/pacman.c:89
 #, c-format
 msgid "        %s {-V --version}\n"
-msgstr ""
+msgstr "        %s {-V --version}\n"
 
 #: src/pacman/pacman.c:90
 #, c-format
 msgid "        %s {-A --add}     [options] <file>\n"
-msgstr ""
+msgstr "        %s {-A --add}     [opções] <arquivo>\n"
 
 #: src/pacman/pacman.c:91
 #, c-format
 msgid "        %s {-F --freshen} [options] <file>\n"
-msgstr ""
+msgstr "        %s {-F --freshen} [opções] <arquivo>\n"
 
 #: src/pacman/pacman.c:92
 #, c-format
 msgid "        %s {-Q --query}   [options] [package]\n"
-msgstr ""
+msgstr "        %s {-Q --query}   [opções] [pacote]\n"
 
 #: src/pacman/pacman.c:93
 #, c-format
 msgid "        %s {-R --remove}  [options] <package>\n"
-msgstr ""
+msgstr "        %s {-R --remove}  [opções] <pacote>\n"
 
 #: src/pacman/pacman.c:94
 #, c-format
 msgid "        %s {-S --sync}    [options] [package]\n"
-msgstr ""
+msgstr "        %s {-S --sync}    [opções] [pacote]\n"
 
 #: src/pacman/pacman.c:95
 #, c-format
 msgid "        %s {-U --upgrade} [options] <file>\n"
-msgstr ""
+msgstr "        %s {-U --upgrade} [opções] <arquivo>\n"
 
 #: src/pacman/pacman.c:96
 #, c-format
@@ -364,103 +374,106 @@ msgid ""
 "\n"
 "use '%s --help' with other options for more syntax\n"
 msgstr ""
+"\n"
+"use '%s --help' com outras opções para mais sintaxes\n"
 
 #: src/pacman/pacman.c:99
 #, c-format
 msgid "usage:  %s {-A --add} [options] <file>\n"
-msgstr ""
+msgstr "uso:  %s {-A --add} [opções] <arquivo>\n"
 
 #: src/pacman/pacman.c:100 src/pacman/pacman.c:105 src/pacman/pacman.c:117
 #: src/pacman/pacman.c:122 src/pacman/pacman.c:136
 #, c-format
 msgid "options:\n"
-msgstr ""
+msgstr "opções:\n"
 
 #: src/pacman/pacman.c:101 src/pacman/pacman.c:107 src/pacman/pacman.c:118
 #: src/pacman/pacman.c:138
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr ""
+msgstr "-d, --nodeps        ignora a verificação de dependências\n"
 
 #: src/pacman/pacman.c:102 src/pacman/pacman.c:119 src/pacman/pacman.c:140
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr ""
+msgstr "  -f, --force         forçar instalação, sobrescrever arquivos conflitantes\n"
 
 #: src/pacman/pacman.c:104
 #, c-format
 msgid "usage:  %s {-R --remove} [options] <package>\n"
-msgstr ""
+msgstr "uso:  %s {-R --remove} [opções] <pacote>\n"
 
 #: src/pacman/pacman.c:106
 #, c-format
-msgid ""
-"  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr ""
+msgid "  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr "  -c, --cascade        remove pacotes e todos os pacotes que dependem deles\n"
 
 #: src/pacman/pacman.c:108
 #, c-format
-msgid ""
-"  -k, --dbonly         only remove database entry, do not remove files\n"
+msgid "  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr ""
+"  -k, --dbonly         remove apenas a entrada na base de dados, mas não "
+"remove os arquivos\n"
 
 #: src/pacman/pacman.c:109
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr ""
+msgstr "  -n, --nosave         remove os arquivos de configuração também\n"
 
 #: src/pacman/pacman.c:110
 #, c-format
-msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
+msgid "  -s, --recursive      remove dependencies also (that won't break packages)\n"
 msgstr ""
+"  -s, --recursive      remove, também, as dependências (isso não quebrará os "
+"pacotes)\n"
 
 #: src/pacman/pacman.c:113
 #, c-format
 msgid "usage:  %s {-F --freshen} [options] <file>\n"
-msgstr ""
+msgstr "uso:  %s {-F --freshen} [opções] <arquivo>\n"
 
 #: src/pacman/pacman.c:115
 #, c-format
 msgid "usage:  %s {-U --upgrade} [options] <file>\n"
-msgstr ""
+msgstr "uso:  %s {-U --upgrade} [opções] <arquivo>\n"
 
 #: src/pacman/pacman.c:121
 #, c-format
 msgid "usage:  %s {-Q --query} [options] [package]\n"
-msgstr ""
+msgstr "usor:  %s {-Q --query} [opções] [pacote]\n"
 
 #: src/pacman/pacman.c:123
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr ""
+msgstr "  -c, --changelog      visualiza o changelog de um pacote\n"
 
 #: src/pacman/pacman.c:124
 #, c-format
 msgid ""
 "  -e, --orphans        list all packages installed as dependencies but no "
 "longer\n"
-msgstr ""
+msgstr "-e, --orphans lista todos os pacotes instalados como dependências, mas que não são mais usados\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
 msgid "                       required by any package\n"
-msgstr ""
+msgstr "                      requerido por qualquer pacote\n"
 
 #: src/pacman/pacman.c:126 src/pacman/pacman.c:141
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr ""
+msgstr "  -g, --groups         visualiza todos os membros de um grupos de pacotes\n"
 
 #: src/pacman/pacman.c:127 src/pacman/pacman.c:142
 #, c-format
 msgid "  -i, --info           view package information\n"
-msgstr ""
+msgstr "-i, --info           visualiza informações do pacote\n"
 
 #: src/pacman/pacman.c:128
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
-msgstr ""
+msgstr "  -l, --list           lista o conteúdo do pacote pesquisado\n"
 
 #: src/pacman/pacman.c:129
 #, c-format
@@ -468,11 +481,13 @@ msgid ""
 "  -m, --foreign        list all packages that were not found in the sync db"
 "(s)\n"
 msgstr ""
+"  -m, --foreign        lista todos os pacotes que não foram encontrados na(s)"
+"base(s) de dados sincronizada\n"
 
 #: src/pacman/pacman.c:130
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr ""
+msgstr "  -o, --owns <arquivo>    pesquisa o pacote que contém <arquivo>\n"
 
 #: src/pacman/pacman.c:131
 #, c-format
@@ -480,6 +495,8 @@ msgid ""
 "  -p, --file           query the package file [package] instead of the "
 "database\n"
 msgstr ""
+"  -p, --file           pesquisa o arquivo de pacote [pacote] ao invés da base "
+"de dados\n"
 
 #: src/pacman/pacman.c:132
 #, c-format
@@ -487,16 +504,18 @@ msgid ""
 "  -s, --search         search locally-installed packages for matching "
 "strings\n"
 msgstr ""
+"  -s, --search         busca em arquivos localmente instalados por textos "
+"coincidentes\n"
 
 #: src/pacman/pacman.c:133
 #, c-format
 msgid "  -u, --upgrades       list all packages that can be upgraded\n"
-msgstr ""
+msgstr "  -u, --upgrades       lista todos os pacotes que podem ser atualizados\n"
 
 #: src/pacman/pacman.c:135
 #, c-format
 msgid "usage:  %s {-S --sync} [options] [package]\n"
-msgstr ""
+msgstr "uso:  %s {-S --sync} [opções] [pacote]\n"
 
 #: src/pacman/pacman.c:137
 #, c-format
@@ -504,42 +523,46 @@ msgid ""
 "  -c, --clean          remove old packages from cache directory (use -cc for "
 "all)\n"
 msgstr ""
+"  -c, --clean        remove pacotes antigos do diretório de cache (use -cc "
+"para remover todos os pacotes que estão em cache)\n"
 
 #: src/pacman/pacman.c:139
 #, c-format
 msgid "  -e, --dependsonly    install dependencies only\n"
-msgstr ""
+msgstr "  -e, --dependsonly     instala apenas as dependências \n"
 
 #: src/pacman/pacman.c:143
 #, c-format
 msgid ""
 "  -p, --print-uris     print out URIs for given packages and their "
 "dependencies\n"
-msgstr ""
+msgstr "  -p, --print-uris     imprime as URIs dos pacotes e de suas dependências\n"
 
 #: src/pacman/pacman.c:144
 #, c-format
-msgid ""
-"  -s, --search         search remote repositories for matching strings\n"
+msgid "  -s, --search         search remote repositories for matching strings\n"
 msgstr ""
+"  -s, --search         procura em repositórios remotos por textos "
+"coincidentes\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
 msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
-msgstr ""
+msgstr "  -u, --sysupgrade     atualiza todos os pacotes que estão desatualizados\n"
 
 #: src/pacman/pacman.c:146
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr ""
+msgstr "  -w, --downloadonly  baixa os pacotes mas não instala/atualiza nenhum pacote\n"
 
 #: src/pacman/pacman.c:147
 #, c-format
-msgid ""
-"  -y, --refresh        download fresh package databases from the server\n"
+msgid "  -y, --refresh        download fresh package databases from the server\n"
 msgstr ""
+"  -y, --refresh       baixar bases de dados de pacotes atualizadas do "
+"servidor\n"
 
 #: src/pacman/pacman.c:148
 #, c-format
@@ -547,469 +570,486 @@ msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
+"       --ignore <pkg>  ignora a atualização de um pacote (pode ser usado mais "
+"de uma vez)\n"
 
 #: src/pacman/pacman.c:150
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr ""
+msgstr "      --config <caminho> define um arquivo de configuração alternativo\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
 msgid "      --noconfirm      do not ask for anything confirmation\n"
-msgstr ""
+msgstr "       --noconfirm     não pede nenhuma confirmação\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
-msgid ""
-"      --ask <number>   pre-specify answers for questions (see manpage)\n"
+msgid "      --ask <number>   pre-specify answers for questions (see manpage)\n"
 msgstr ""
+"       --ask  <número> pré-especificar respostas para as perguntas (veja o "
+"manpage)\n"
 
 #: src/pacman/pacman.c:153
 #, c-format
-msgid ""
-"      --noprogressbar  do not show a progress bar when downloading files\n"
+msgid "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
+"       --noprogressbar não mostra uma barra de progresso enquanto baixa os "
+"arquivos\n"
 
 #: src/pacman/pacman.c:154
 #, c-format
-msgid ""
-"      --noscriptlet    do not execute the install scriptlet if there is any\n"
+msgid "      --noscriptlet    do not execute the install scriptlet if there is any\n"
 msgstr ""
+"       --noscriptlet   não executar o scriptlet de instalação se o mesmo "
+"existir\n"
 
 #: src/pacman/pacman.c:155
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
-msgstr ""
+msgstr "  -v, --verbose        informações adicionais\n"
 
 #: src/pacman/pacman.c:156
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr ""
+msgstr "  -r, --root <caminho>    define um diretório de instalação alternativo\n"
 
 #: src/pacman/pacman.c:157
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr ""
+msgstr "  -b, --dbpath <caminho>  define uma localização diferente da base de dados\n"
 
 #: src/pacman/pacman.c:158
 #, c-format
 msgid "      --cachedir <dir> set an alternate database location\n"
-msgstr ""
+msgstr "      --cachedir <caminho> define uma localização diferente da base de dados\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
 msgid "                       This program may be freely redistributed under\n"
-msgstr ""
+msgstr "                       Este programa pode ser distribuído livremente sob\n"
 
 #: src/pacman/pacman.c:172
 #, c-format
 msgid "                       the terms of the GNU General Public License\n"
-msgstr ""
+msgstr "                       os termos da Licensa Pública Geral GPL\n"
 
 #: src/pacman/pacman.c:299
 #, c-format
 msgid "'%s' is not a valid debug level"
-msgstr ""
+msgstr "'%s' não é um nível de depuração válido"
 
 #: src/pacman/pacman.c:315
 #, c-format
 msgid "'%s' is not a valid cache directory\n"
-msgstr ""
+msgstr "'%s' não é um diretório de cache válido\n"
 
 #: src/pacman/pacman.c:341
 #, c-format
 msgid "'%s' is not a valid db path\n"
-msgstr ""
+msgstr "'%s' não é um caminho de base de dados válido\n"
 
 #: src/pacman/pacman.c:371
 #, c-format
 msgid "'%s' is not a valid root path\n"
-msgstr ""
+msgstr "'%s' não é uma caminho válido\n"
 
 #: src/pacman/pacman.c:398
 msgid "only one operation may be used at a time\n"
-msgstr ""
+msgstr "só uma operação pode ser usada de cada vez\n"
 
 #: src/pacman/pacman.c:461
 #, c-format
 msgid "failed to initilize alpm library (%s)\n"
-msgstr ""
+msgstr "falha ao iniciar biblioteca alpm (%s)\n"
 
 #: src/pacman/pacman.c:494
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr ""
+msgstr "você não pode realizar esta operação a menos que você seja root\n"
 
 #: src/pacman/pacman.c:510
 #, c-format
 msgid "failed to parse config (%s)\n"
-msgstr ""
+msgstr "falha ao interpretar configuração (%s)\n"
 
 #: src/pacman/pacman.c:520 src/pacman/remove.c:125 src/pacman/util.c:323
 msgid "Targets:"
-msgstr ""
+msgstr "Alvos:"
 
 #: src/pacman/pacman.c:526
 #, c-format
 msgid "could not register 'local' database (%s)\n"
-msgstr ""
+msgstr "não foi possível registar a base de dados local (%s)\n"
 
 #: src/pacman/pacman.c:533
 msgid "no targets specified (use -h for help)\n"
-msgstr ""
+msgstr "nenhum objeto definido (use -h para obter ajuda)\n"
 
 #: src/pacman/pacman.c:546
 msgid "no operation specified (use -h for help)\n"
-msgstr ""
+msgstr "nenhuma operação definida (use -h para obter ajuda)\n"
 
 #: src/pacman/query.c:53
 msgid "no file was specified for --owns\n"
-msgstr ""
+msgstr "nenhum arquivo especificado para --owns\n"
 
 #: src/pacman/query.c:71
 #, c-format
 msgid "%s is owned by %s %s\n"
-msgstr ""
+msgstr "%s pertence a %s %s\n"
 
 #: src/pacman/query.c:78
 #, c-format
 msgid "No package owns %s\n"
-msgstr ""
+msgstr "Nenhum pacote possui %s\n"
 
 #: src/pacman/query.c:119 src/pacman/sync.c:409
 msgid "no usable package repositories configured.\n"
-msgstr ""
+msgstr "nenhum repositório de pacotes configurado.\n"
 
 #: src/pacman/query.c:125
 msgid "Checking for package upgrades..."
-msgstr ""
+msgstr "Buscando atualizações de pacotes"
 
 #: src/pacman/query.c:132
 msgid "no upgrades found"
-msgstr ""
+msgstr "nenhuma atualização encontrada"
 
 #: src/pacman/query.c:170
 #, c-format
 msgid "group \"%s\" was not found\n"
-msgstr ""
+msgstr "grupo \"%s\" não encontrado\n"
 
 #: src/pacman/query.c:181
 msgid "no package file was specified for --file\n"
-msgstr ""
+msgstr "nenhum arquivo de pacote foi especificado para o --file\n"
 
 #: src/pacman/query.c:185
 #, c-format
 msgid "failed to load package '%s' (%s)\n"
-msgstr ""
+msgstr "falha ao carregar pacote '%s' (%s)\n"
 
 #: src/pacman/query.c:223 src/pacman/query.c:255
 #, c-format
 msgid "package \"%s\" not found\n"
-msgstr ""
+msgstr "pacote \"%s\" não encontrado\n"
 
 #: src/pacman/remove.c:58 src/pacman/sync.c:524
 #, c-format
 msgid ":: group %s:\n"
-msgstr ""
+msgstr ":: grupo %s:\n"
 
 #: src/pacman/remove.c:60
 msgid "    Remove whole content? [Y/n] "
-msgstr ""
+msgstr "    Remover todo o conteúdo? [S/n] "
 
 #: src/pacman/remove.c:64
 #, c-format
 msgid ":: Remove %s from group %s? [Y/n] "
-msgstr ""
+msgstr ":: Remover %s do grupo %s? [S/n] "
 
 #: src/pacman/remove.c:77 src/pacman/sync.c:436 src/pacman/sync.c:485
 #, c-format
 msgid "failed to init transaction (%s)\n"
-msgstr ""
+msgstr "falha ao iniciar transação (%s)\n"
 
 #: src/pacman/remove.c:89
 #, c-format
 msgid "failed to add target '%s' (%s)\n"
-msgstr ""
+msgstr "falha ao adicionar objeto '%s' (%s)\n"
 
 #: src/pacman/remove.c:103
 #, c-format
 msgid ":: %s is required by %s\n"
-msgstr ""
+msgstr ":: %s é necessário para %s\n"
 
 #: src/pacman/remove.c:128
 msgid ""
 "\n"
 "Do you want to remove these packages? [Y/n] "
 msgstr ""
+"\n"
+"Você deseja remover estes pacotes? [S/n]"
 
 #: src/pacman/sync.c:113
 msgid "Do you want to remove old packages from cache? [Y/n] "
-msgstr ""
+msgstr "Deseja remover os pacotes antigos do cache? [S/n]"
 
 #: src/pacman/sync.c:115
 msgid "removing old packages from cache... "
-msgstr ""
+msgstr "removendo pacotes antigos do cache... "
 
 #: src/pacman/sync.c:118
 msgid "could not access cache directory\n"
-msgstr ""
+msgstr "não foi possível acessar o diretório de cache\n"
 
 #: src/pacman/sync.c:179
 msgid "Do you want to remove all packages from cache? [Y/n] "
-msgstr ""
+msgstr "Você deseja remover todos os pacotes do diretório de cache? [S/n] "
 
 #: src/pacman/sync.c:181
 msgid "removing all packages from cache... "
-msgstr ""
+msgstr "removendo todos os pacotes do diretório de cache... "
 
 #: src/pacman/sync.c:184
 msgid "could not remove cache directory\n"
-msgstr ""
+msgstr "não foi possível remover o diretório de cache\n"
 
 #: src/pacman/sync.c:189
 msgid "could not create new cache directory\n"
-msgstr ""
+msgstr "não foi possível criar o novo diretório de cache\n"
 
 #: src/pacman/sync.c:216
 #, c-format
 msgid "failed to synchronize %s: %s\n"
-msgstr ""
+msgstr "falha ao sincronizar %s: %s\n"
 
 #: src/pacman/sync.c:218
 #, c-format
 msgid "failed to update %s (%s)\n"
-msgstr ""
+msgstr "falha ao atualizar %s (%s)\n"
 
 #: src/pacman/sync.c:221
 #, c-format
 msgid " %s is up to date\n"
-msgstr ""
+msgstr " %s está atualizado\n"
 
 #: src/pacman/sync.c:337
 #, c-format
 msgid "package \"%s\" was not found.\n"
-msgstr ""
+msgstr "pacote \"%s\" não encontrado.\n"
 
 #: src/pacman/sync.c:374
 #, c-format
 msgid "repository \"%s\" was not found.\n"
-msgstr ""
+msgstr "repositório \"%s\" não foi encontrado.\n"
 
 #: src/pacman/sync.c:446
 msgid ":: Synchronizing package databases...\n"
-msgstr ""
+msgstr ":: Sincronizando o banco de dados de pacotes...\n"
 
 #: src/pacman/sync.c:447
 msgid "synchronizing package lists"
-msgstr ""
+msgstr "sincronizando as listas de pacotes"
 
 #: src/pacman/sync.c:449
 msgid "failed to synchronize any databases"
-msgstr ""
+msgstr "falha ao sincronizar algumas bases de dados"
 
 #: src/pacman/sync.c:455
 msgid ":: Starting full system upgrade...\n"
-msgstr ""
+msgstr ":: Iniciando atualização de todo o sistema...\n"
 
 #: src/pacman/sync.c:456
 msgid "starting full system upgrade"
-msgstr ""
+msgstr "iniciando atualização de todo o sistema"
 
 #: src/pacman/sync.c:474
 msgid ""
 "\n"
 ":: pacman has detected a newer version of the \"pacman\" package.\n"
 msgstr ""
+"\n"
+":: pacman detectou uma nova versão do pacote \"pacman\".\n"
 
 #: src/pacman/sync.c:475
 msgid ":: It is recommended that you allow pacman to upgrade itself\n"
-msgstr ""
+msgstr ":: É recomendado que você permita que o pacman se atualize\n"
 
 #: src/pacman/sync.c:476
 msgid ":: first, then you can re-run the operation with the newer version.\n"
 msgstr ""
+":: primeiro, em seguida você pode executar a operação novamente com a nova "
+"versão.\n"
 
 #: src/pacman/sync.c:478
 msgid ":: Upgrade pacman first? [Y/n] "
-msgstr ""
+msgstr ":: Atualizar o pacman primeiro? [Y/n] "
 
 #: src/pacman/sync.c:493
 #, c-format
 msgid "pacman: %s\n"
-msgstr ""
+msgstr "pacman: %s\n"
 
 #: src/pacman/sync.c:513
 #, c-format
 msgid "'%s': %s\n"
-msgstr ""
+msgstr "'%s': %s\n"
 
 #: src/pacman/sync.c:528
 msgid ":: Install whole content? [Y/n] "
-msgstr ""
+msgstr ":: Instalar todo o conteúdo? [Y/n] "
 
 #: src/pacman/sync.c:535
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
-msgstr ""
+msgstr ":: Instalar %s do grupo %s? [Y/n] "
 
 #: src/pacman/sync.c:559
 #, c-format
 msgid "'%s': not found in sync db\n"
-msgstr ""
+msgstr "'%s': não encontrado no banco de dados sincronizado\n"
 
 #: src/pacman/sync.c:579
 msgid "requires"
-msgstr ""
+msgstr "requer"
 
 #: src/pacman/sync.c:579
 msgid "is required by"
-msgstr ""
+msgstr "é requerido por"
 
 #: src/pacman/sync.c:621
 msgid "local database is up to date\n"
-msgstr ""
+msgstr "banco de dados de pacotes está atualizado\n"
 
 #: src/pacman/sync.c:630
 msgid ""
 "\n"
 "Beginning download...\n"
 msgstr ""
+"\n"
+"Iniciando download...\n"
 
 #: src/pacman/sync.c:634
 msgid "Proceed with download? [Y/n] "
-msgstr ""
+msgstr "Continuar o download? [Y/n] "
 
 #: src/pacman/sync.c:642
 msgid ""
 "\n"
 "Beginning upgrade process...\n"
 msgstr ""
+"\n"
+"Iniciando processo de atualização...\n"
 
 #: src/pacman/sync.c:646
 msgid "Proceed with installation? [Y/n] "
-msgstr ""
+msgstr "Continuar com a instalação? [Y/n] "
 
 #: src/pacman/trans.c:52
 msgid "checking dependencies... "
-msgstr ""
+msgstr "verificando dependências... "
 
 #: src/pacman/trans.c:56
 msgid "checking for file conflicts... "
-msgstr ""
+msgstr "verificando conflitos de arquivos... "
 
 #: src/pacman/trans.c:60
 msgid "cleaning up... "
-msgstr ""
+msgstr "limpando..."
 
 #: src/pacman/trans.c:63
 msgid "resolving dependencies... "
-msgstr ""
+msgstr "resolvendo dependências... "
 
 #: src/pacman/trans.c:66
 msgid "looking for inter-conflicts... "
-msgstr ""
+msgstr "procurando por conflitos internos... "
 
 #: src/pacman/trans.c:86
 #, c-format
 msgid "installing %s... "
-msgstr ""
+msgstr "instalando %s... "
 
 #: src/pacman/trans.c:93
 #, c-format
 msgid "installed %s (%s)"
-msgstr ""
+msgstr "%s instalado (%s)"
 
 #: src/pacman/trans.c:100
 #, c-format
 msgid "removing %s... "
-msgstr ""
+msgstr "removendo %s... "
 
 #: src/pacman/trans.c:107
 #, c-format
 msgid "removed %s (%s)"
-msgstr ""
+msgstr "%s removido (%s)"
 
 #: src/pacman/trans.c:114
 #, c-format
 msgid "upgrading %s... "
-msgstr ""
+msgstr "atualizando %s... "
 
 #: src/pacman/trans.c:121
 #, c-format
 msgid "upgraded %s (%s -> %s)"
-msgstr ""
+msgstr "%s atualizado (%s -> %s)"
 
 #: src/pacman/trans.c:128
 msgid "checking package integrity... "
-msgstr ""
+msgstr "verificando a integridade do pacote... "
 
 #: src/pacman/trans.c:144
 msgid "failed.\n"
-msgstr ""
+msgstr "falhou.\n"
 
 #: src/pacman/trans.c:151
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
-msgstr ""
+msgstr ":: Obtendo pacotes do %s...\n"
 
 #: src/pacman/trans.c:171
 #, c-format
 msgid ":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "
-msgstr ""
+msgstr ":: %s requer %s, mas ele está em IgnorePkg. Instalar assim mesmo? [S/n]"
 
 #: src/pacman/trans.c:185
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
-msgstr ""
+msgstr ":: %s é designado como um HoldPkg Remover assim mesmo? [S/n]"
 
 #: src/pacman/trans.c:198
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
-msgstr ""
+msgstr ":: Substituir %s com %s/%s? [Y/n] "
 
 #: src/pacman/trans.c:213
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
-msgstr ""
+msgstr ":: %s conflita com %s. Remover %s? [Y/n] "
 
 #: src/pacman/trans.c:229
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
-msgstr ""
+msgstr ":: %s-%s: a versão local é mais recente. Deseja atualizar mesmo assim? [Y/n] "
 
 #: src/pacman/trans.c:247
 #, c-format
 msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
 msgstr ""
+":: %s-%s: a versão local está atualizada. Deseja atualizar mesmo assim? [Y/"
+"n] "
 
 #: src/pacman/trans.c:265
 #, c-format
 msgid ":: Archive %s is corrupted. Do you want to delete it? [Y/n] "
-msgstr ""
+msgstr ":: Arquivo %s está corrompido. Você gostaria de apagá-lo? [Y/n] "
 
 #: src/pacman/trans.c:314
 msgid "installing"
-msgstr ""
+msgstr "instalando"
 
 #: src/pacman/trans.c:317
 msgid "upgrading"
-msgstr ""
+msgstr "atualizando"
 
 #: src/pacman/trans.c:320
 msgid "removing"
-msgstr ""
+msgstr "removendo"
 
 #: src/pacman/trans.c:323
 msgid "checking for file conflicts"
-msgstr ""
+msgstr "verificando conflitos de arquivo"
 
 #: src/pacman/util.c:258
 #, c-format
 msgid "None\n"
-msgstr ""
+msgstr "Nenhum\n"
 
 #: src/pacman/util.c:310
 msgid "Remove:"
-msgstr ""
+msgstr "Remover:"
 
 #: src/pacman/util.c:318
 #, c-format
@@ -1017,6 +1057,8 @@ msgid ""
 "\n"
 "Total Removed Size:   %.2f MB\n"
 msgstr ""
+"\n"
+"Tamanho Total Removido:   %.2f MB\n"
 
 #: src/pacman/util.c:329
 #, c-format
@@ -1024,8 +1066,11 @@ msgid ""
 "\n"
 "Total Package Size:   %.2f MB\n"
 msgstr ""
+"\n"
+"Tamanho Total do Pacote:   %.2f MB\n"
 
 #: src/pacman/util.c:336
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
-msgstr ""
+msgstr "Tamanho total da instalação:   %.2f MB\n"
+
