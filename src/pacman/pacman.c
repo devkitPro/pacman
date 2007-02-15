@@ -441,7 +441,7 @@ int main(int argc, char *argv[])
 		lang = "C";
 		setlocale(LC_ALL, "C");
 		setenv("LC_ALL", lang, 1);
-		MSG(NL, _("warning: default locale is invalid; using default \"C\" locale"));
+		MSG(NL, _("warning: current locale is invalid; using default \"C\" locale"));
 	}
 
 	/* workaround for tr_TR */

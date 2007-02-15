@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-12 10:17-0500\n"
+"POT-Creation-Date: 2007-02-15 09:24-0500\n"
 "PO-Revision-Date: 2006-06-05 22:46+0100\n"
 "Last-Translator: Enda <enda@netou.com>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr ":: %s: conflit avec %s"
 
 #: src/pacman/add.c:127 src/pacman/sync.c:665
 #, fuzzy, c-format
-msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)\n"
+msgid "%s%s exists in both '%s' and '%s'\n"
 msgstr "%s%s existe dans \"%s\" (cible) and \"%s\" (cible)"
 
 #: src/pacman/add.c:134 src/pacman/sync.c:672
@@ -169,167 +169,166 @@ msgstr "Explicitement installé\n"
 msgid "Installed as a dependency for another package"
 msgstr "Installé comme dépendance un autre paquet\n"
 
-#: src/pacman/package.c:63 src/pacman/package.c:85
+#: src/pacman/package.c:63 src/pacman/package.c:87
 #, fuzzy
 msgid "Unknown"
 msgstr "Inconnu\n"
 
-#: src/pacman/package.c:68 src/pacman/package.c:119
+#: src/pacman/package.c:67 src/pacman/package.c:118
+msgid "Description    : "
+msgstr ""
+
+#: src/pacman/package.c:70 src/pacman/package.c:124
 #, c-format
 msgid "Name           : %s\n"
 msgstr "Nom            : %s\n"
 
-#: src/pacman/package.c:69 src/pacman/package.c:120
+#: src/pacman/package.c:71 src/pacman/package.c:125
 #, c-format
 msgid "Version        : %s\n"
 msgstr ""
 
-#: src/pacman/package.c:70
+#: src/pacman/package.c:72
 #, fuzzy, c-format
 msgid "URL            : %s\n"
 msgstr "Nom            : %s\n"
 
-#: src/pacman/package.c:71
+#: src/pacman/package.c:73
 msgid "License        :"
 msgstr ""
 
-#: src/pacman/package.c:72 src/pacman/package.c:121
+#: src/pacman/package.c:74 src/pacman/package.c:126
 msgid "Groups         :"
 msgstr "Groupes        :"
 
-#: src/pacman/package.c:73 src/pacman/package.c:122
+#: src/pacman/package.c:75 src/pacman/package.c:127
 msgid "Provides       :"
 msgstr "Fournit        :"
 
-#: src/pacman/package.c:74 src/pacman/package.c:123
+#: src/pacman/package.c:76 src/pacman/package.c:128
 msgid "Depends On     :"
 msgstr "Depend De      :"
 
-#: src/pacman/package.c:75 src/pacman/package.c:124
+#: src/pacman/package.c:77 src/pacman/package.c:129
 msgid "Removes        :"
 msgstr "Supprimer       :"
 
-#: src/pacman/package.c:78
+#: src/pacman/package.c:80
 msgid "Required By    :"
 msgstr "Requit par       :"
 
-#: src/pacman/package.c:80 src/pacman/package.c:125
+#: src/pacman/package.c:82 src/pacman/package.c:130
 msgid "Conflicts With :"
 msgstr "Conflit avec    :"
 
-#: src/pacman/package.c:81
+#: src/pacman/package.c:83
 #, fuzzy, c-format
 msgid "Installed Size : %ld K\n"
 msgstr "Script d'installation    : %s\n"
 
-#: src/pacman/package.c:82
+#: src/pacman/package.c:84
 #, c-format
 msgid "Packager       : %s\n"
 msgstr ""
 
-#: src/pacman/package.c:83
+#: src/pacman/package.c:85
 #, c-format
 msgid "Architecture   : %s\n"
 msgstr ""
 
-#: src/pacman/package.c:84
+#: src/pacman/package.c:86
 #, c-format
 msgid "Build Date     : %s %s\n"
 msgstr "Date de construction : %s %s\n"
 
-#: src/pacman/package.c:85
+#: src/pacman/package.c:87
 #, fuzzy, c-format
 msgid "Build Type     : %s\n"
 msgstr "Date de construction : %s %s\n"
 
-#: src/pacman/package.c:87
+#: src/pacman/package.c:89
 #, c-format
 msgid "Install Date   : %s %s\n"
 msgstr "Date d'installation     : %s %s\n"
 
-#: src/pacman/package.c:88
+#: src/pacman/package.c:90
 #, fuzzy, c-format
 msgid "Install Reason : %s\n"
 msgstr "Script d'installation    : %s\n"
 
-#: src/pacman/package.c:90
+#: src/pacman/package.c:92
 #, c-format
 msgid "Install Script : %s\n"
 msgstr "Script d'installation    : %s\n"
 
-#: src/pacman/package.c:91
+#: src/pacman/package.c:93
 msgid "Yes"
 msgstr "Oui"
 
-#: src/pacman/package.c:91
+#: src/pacman/package.c:93
 msgid "No"
 msgstr "Non"
 
-#: src/pacman/package.c:93 src/pacman/package.c:130
-#, c-format
-msgid "Description    : "
-msgstr ""
-
-#: src/pacman/package.c:118
+#: src/pacman/package.c:123
 #, fuzzy, c-format
 msgid "Repository     : %s\n"
 msgstr "Dépot                : %s\n"
 
-#: src/pacman/package.c:126
+#: src/pacman/package.c:131
 #, fuzzy
 msgid "Replaces       :"
 msgstr "Remplace          :"
 
-#: src/pacman/package.c:127
+#: src/pacman/package.c:132
 #, c-format
 msgid "Download Size  : %6.2f K\n"
 msgstr ""
 
-#: src/pacman/package.c:128
+#: src/pacman/package.c:133
 #, fuzzy, c-format
 msgid "Installed Size : %6.2f K\n"
 msgstr "Script d'installation    : %s\n"
 
-#: src/pacman/package.c:135
+#: src/pacman/package.c:141
 #, fuzzy, c-format
 msgid "MD5 Sum        : %s"
 msgstr ""
 "\n"
 "somme MD5           : %s"
 
-#: src/pacman/package.c:138
+#: src/pacman/package.c:144
 #, fuzzy, c-format
 msgid "SHA1 Sum       : %s"
 msgstr ""
 "\n"
 "Somme SHA1         : %s"
 
-#: src/pacman/package.c:149
+#: src/pacman/package.c:155
 #, c-format
 msgid "Backup Files :\n"
 msgstr ""
 
-#: src/pacman/package.c:169
+#: src/pacman/package.c:175
 #, fuzzy, c-format
 msgid "error calculating checksums for %s\n"
 msgstr "erreur lors du calcul des sommes md5 ou sha1 pour %s\n"
 
-#: src/pacman/package.c:182
+#: src/pacman/package.c:188
 #, fuzzy, c-format
 msgid "MODIFIED\t%s\n"
 msgstr "%sMODIFIE\t%s\n"
 
-#: src/pacman/package.c:184
+#: src/pacman/package.c:190
 #, c-format
 msgid "Not Modified\t%s\n"
 msgstr ""
 
-#: src/pacman/package.c:189
+#: src/pacman/package.c:195
 #, c-format
 msgid "MISSING\t\t%s\n"
 msgstr "MANQUANT\t\t%s\n"
 
-#: src/pacman/package.c:222
+#: src/pacman/package.c:228
 #, c-format
 msgid "No changelog available for '%s'.\n"
 msgstr "Aucun changelog disponible pour '%s'.\n"
@@ -643,7 +642,7 @@ msgstr ""
 
 #: src/pacman/pacman.c:158
 #, fuzzy, c-format
-msgid "      --cachedir <dir> set an alternate database location\n"
+msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 "  -b, --dbpath <path> défini un emplacement alternatif pour les bases de "
 "données\n"
@@ -683,34 +682,38 @@ msgstr "%s nest pas une expression régulière valide.\n"
 msgid "only one operation may be used at a time\n"
 msgstr "une seule opération peut être effectuée à la fois\n"
 
-#: src/pacman/pacman.c:461
+#: src/pacman/pacman.c:444
+msgid "warning: current locale is invalid; using default \"C\" locale"
+msgstr ""
+
+#: src/pacman/pacman.c:463
 #, c-format
 msgid "failed to initilize alpm library (%s)\n"
 msgstr "échec d'initialisation de la librairie alpm (%s)\n"
 
-#: src/pacman/pacman.c:494
+#: src/pacman/pacman.c:496
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "vous ne pouvez effectuer cette opération à moins d'être root.\n"
 
-#: src/pacman/pacman.c:510
+#: src/pacman/pacman.c:512
 #, fuzzy, c-format
 msgid "failed to parse config (%s)\n"
 msgstr "échec de préparation de la transaction (%s)\n"
 
-#: src/pacman/pacman.c:520 src/pacman/remove.c:125 src/pacman/util.c:323
+#: src/pacman/pacman.c:522 src/pacman/remove.c:125 src/pacman/util.c:323
 msgid "Targets:"
 msgstr "Cibles:"
 
-#: src/pacman/pacman.c:526
+#: src/pacman/pacman.c:528
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "n'a pas pu enregistrer la base de données 'locale' (%s)\n"
 
-#: src/pacman/pacman.c:533
+#: src/pacman/pacman.c:535
 msgid "no targets specified (use -h for help)\n"
 msgstr "aucune cible spécifiée (utiliser -h pour de l'aide)\n"
 
-#: src/pacman/pacman.c:546
+#: src/pacman/pacman.c:548
 msgid "no operation specified (use -h for help)\n"
 msgstr "aucune opération spécifiée (utiliser -h pour de l'aide)\n"
 

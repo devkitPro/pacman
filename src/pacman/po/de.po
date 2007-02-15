@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-13 13:07+0100\n"
+"POT-Creation-Date: 2007-02-15 09:24-0500\n"
 "PO-Revision-Date: 2007-02-13 23:15+0100\n"
 "Last-Translator: Pierre Schmitz <pierre@archlinux.de>\n"
 "Language-Team: Deutsch <archlinux.de>\n"
@@ -61,8 +61,8 @@ msgid ":: %s: conflicts with %s"
 msgstr ":: %s: Steht im Konflikt mit %s"
 
 #: src/pacman/add.c:127 src/pacman/sync.c:665
-#, c-format
-msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)\n"
+#, fuzzy, c-format
+msgid "%s%s exists in both '%s' and '%s'\n"
 msgstr "%s%s existiert in \"%s\" (Paket) und \"%s\" (Paket)\n"
 
 #: src/pacman/add.c:134 src/pacman/sync.c:672
@@ -394,7 +394,8 @@ msgstr "  -d, --nodeps         Überspringt die Abhängigkeitsprüfung\n"
 #: src/pacman/pacman.c:102 src/pacman/pacman.c:119 src/pacman/pacman.c:140
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          Installation erzwingen, Dateikonflikte überschreiben\n"
+msgstr ""
+"  -f, --force          Installation erzwingen, Dateikonflikte überschreiben\n"
 
 #: src/pacman/pacman.c:104
 #, c-format
@@ -403,12 +404,15 @@ msgstr "Benutzung:  %s {-R --remove} [Optionen] <Paket>\n"
 
 #: src/pacman/pacman.c:106
 #, c-format
-msgid "  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr "  -c, --cascade        Entfernt Pakete und alle, die von ihnen abhängen\n"
+msgid ""
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        Entfernt Pakete und alle, die von ihnen abhängen\n"
 
 #: src/pacman/pacman.c:108
 #, c-format
-msgid "  -k, --dbonly         only remove database entry, do not remove files\n"
+msgid ""
+"  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr "  -k, --dbonly         Nur Datenbankeintrag entfernen, keine Dateien\n"
 
 #: src/pacman/pacman.c:109
@@ -418,8 +422,11 @@ msgstr "  -n, --nosave         Auch Konfigurationsdateien entfernen\n"
 
 #: src/pacman/pacman.c:110
 #, c-format
-msgid "  -s, --recursive      remove dependencies also (that won't break packages)\n"
-msgstr "  -s, --recursive      Auch Abhängigkeiten entfernen (beschädigt keine Pakete)\n"
+msgid ""
+"  -s, --recursive      remove dependencies also (that won't break packages)\n"
+msgstr ""
+"  -s, --recursive      Auch Abhängigkeiten entfernen (beschädigt keine "
+"Pakete)\n"
 
 #: src/pacman/pacman.c:113
 #, c-format
@@ -446,7 +453,9 @@ msgstr "  -c, --changelog      Das Änderungsprotokoll des Paketes anzeigen\n"
 msgid ""
 "  -e, --orphans        list all packages installed as dependencies but no "
 "longer\n"
-msgstr "  -e, --orphans        Zeigt alle Pakete, die als Abhängigkeiten installiert\n"
+msgstr ""
+"  -e, --orphans        Zeigt alle Pakete, die als Abhängigkeiten "
+"installiert\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
@@ -487,14 +496,17 @@ msgstr "  -o, --owns <Datei>   Fragt das Paket ab, dass <Datei> enthält\n"
 msgid ""
 "  -p, --file           query the package file [package] instead of the "
 "database\n"
-msgstr "  -p, --file           Fragt die Paketdatei [Paket] anstatt der Datenbank ab\n"
+msgstr ""
+"  -p, --file           Fragt die Paketdatei [Paket] anstatt der Datenbank "
+"ab\n"
 
 #: src/pacman/pacman.c:132
 #, c-format
 msgid ""
 "  -s, --search         search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search         Durchsuche lokal installierte Pakete nach einem Wort\n"
+msgstr ""
+"  -s, --search         Durchsuche lokal installierte Pakete nach einem Wort\n"
 
 #: src/pacman/pacman.c:133
 #, c-format
@@ -511,7 +523,9 @@ msgstr "Benutzung:  %s {-S --sync} [Optionen] [Paket]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (use -cc for "
 "all)\n"
-msgstr "  -c, --clean          Entfernt alte Pakete aus dem Paketpuffer(-cc für alle)\n"
+msgstr ""
+"  -c, --clean          Entfernt alte Pakete aus dem Paketpuffer(-cc für "
+"alle)\n"
 
 #: src/pacman/pacman.c:139
 #, c-format
@@ -529,8 +543,10 @@ msgstr ""
 
 #: src/pacman/pacman.c:144
 #, c-format
-msgid "  -s, --search         search remote repositories for matching strings\n"
-msgstr "  -s, --search         Durchsuche entfernte Repositorien nach einem Wort\n"
+msgid ""
+"  -s, --search         search remote repositories for matching strings\n"
+msgstr ""
+"  -s, --search         Durchsuche entfernte Repositorien nach einem Wort\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
@@ -548,7 +564,8 @@ msgstr ""
 
 #: src/pacman/pacman.c:147
 #, c-format
-msgid "  -y, --refresh        download fresh package databases from the server\n"
+msgid ""
+"  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        Lade frische Paketdatenbank vom Server\n"
 
 #: src/pacman/pacman.c:148
@@ -572,20 +589,25 @@ msgstr "      --noconfirm      Niemals nach einer Bestätigung fragen\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
-msgid "      --ask <number>   pre-specify answers for questions (see manpage)\n"
-msgstr "      --ask <Nummer>   Antworten für Fragen vorherbestimmen (Siehe manpage)\n"
+msgid ""
+"      --ask <number>   pre-specify answers for questions (see manpage)\n"
+msgstr ""
+"      --ask <Nummer>   Antworten für Fragen vorherbestimmen (Siehe manpage)\n"
 
 #: src/pacman/pacman.c:153
 #, c-format
-msgid "      --noprogressbar  do not show a progress bar when downloading files\n"
+msgid ""
+"      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
 "      --noprogressbar  Keine Fortschrittsanzeige anzeigen, wenn Dateien\n"
 "                       heruntergeladen werden\n"
 
 #: src/pacman/pacman.c:154
 #, c-format
-msgid "      --noscriptlet    do not execute the install scriptlet if there is any\n"
-msgstr "      --noscriptlet    Installationskript nicht ausführen, falls vorhanden\n"
+msgid ""
+"      --noscriptlet    do not execute the install scriptlet if there is any\n"
+msgstr ""
+"      --noscriptlet    Installationskript nicht ausführen, falls vorhanden\n"
 
 #: src/pacman/pacman.c:155
 #, c-format
@@ -645,8 +667,10 @@ msgstr "Es ist nur eine Operation zur selben Zeit erlaubt\n"
 
 #: src/pacman/pacman.c:444
 #, fuzzy
-msgid "warning: default locale is invalid; using default \"C\" locale"
-msgstr "Warnung: Die Standard-Ortseinstellung ist ungültig; verwende Standard-\"C\"-Ortseinstellung"
+msgid "warning: current locale is invalid; using default \"C\" locale"
+msgstr ""
+"Warnung: Die Standard-Ortseinstellung ist ungültig; verwende Standard-\"C\"-"
+"Ortseinstellung"
 
 #: src/pacman/pacman.c:463
 #, c-format
@@ -980,7 +1004,9 @@ msgstr ":: Empfange Pakete von %s...\n"
 #: src/pacman/trans.c:171
 #, c-format
 msgid ":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "
-msgstr ":: %s ist in IgnorePkg, wird aber von %s benötigt. Trotzdem installieren? [J/n] "
+msgstr ""
+":: %s ist in IgnorePkg, wird aber von %s benötigt. Trotzdem installieren? [J/"
+"n] "
 
 #: src/pacman/trans.c:185
 #, c-format
@@ -1059,4 +1085,3 @@ msgstr ""
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
 msgstr "Gesamtgröße der installierten Pakete   : %.2f MB\n"
-

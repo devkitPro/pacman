@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-12 10:17-0500\n"
+"POT-Creation-Date: 2007-02-15 09:24-0500\n"
 "PO-Revision-Date: 2006-09-03 13:52+0200\n"
 "Last-Translator: Miklos Vajna <vmiklos@frugalware.org>\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr ":: %s: ütközik a következõvel: %s"
 
 #: src/pacman/add.c:127 src/pacman/sync.c:665
 #, fuzzy, c-format
-msgid "%s%s exists in \"%s\" (target) and \"%s\" (target)\n"
+msgid "%s%s exists in both '%s' and '%s'\n"
 msgstr "%s%s: létezik ebben: \"%s\" (cél) és ebben: \"%s\" (cél)"
 
 #: src/pacman/add.c:134 src/pacman/sync.c:672
@@ -166,166 +166,165 @@ msgstr "Kézzel telepítve\n"
 msgid "Installed as a dependency for another package"
 msgstr "Függõségként lett telepítve egy másik csomag miatt\n"
 
-#: src/pacman/package.c:63 src/pacman/package.c:85
+#: src/pacman/package.c:63 src/pacman/package.c:87
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/pacman/package.c:68 src/pacman/package.c:119
+#: src/pacman/package.c:67 src/pacman/package.c:118
+msgid "Description    : "
+msgstr "Leírás         : "
+
+#: src/pacman/package.c:70 src/pacman/package.c:124
 #, c-format
 msgid "Name           : %s\n"
 msgstr "Név            : %s\n"
 
-#: src/pacman/package.c:69 src/pacman/package.c:120
+#: src/pacman/package.c:71 src/pacman/package.c:125
 #, c-format
 msgid "Version        : %s\n"
 msgstr "Verzió         : %s\n"
 
-#: src/pacman/package.c:70
+#: src/pacman/package.c:72
 #, fuzzy, c-format
 msgid "URL            : %s\n"
 msgstr "Név            : %s\n"
 
-#: src/pacman/package.c:71
+#: src/pacman/package.c:73
 msgid "License        :"
 msgstr "Licenc         :"
 
-#: src/pacman/package.c:72 src/pacman/package.c:121
+#: src/pacman/package.c:74 src/pacman/package.c:126
 msgid "Groups         :"
 msgstr "Csoportok      :"
 
-#: src/pacman/package.c:73 src/pacman/package.c:122
+#: src/pacman/package.c:75 src/pacman/package.c:127
 msgid "Provides       :"
 msgstr "Szolgáltatja   :"
 
-#: src/pacman/package.c:74 src/pacman/package.c:123
+#: src/pacman/package.c:76 src/pacman/package.c:128
 msgid "Depends On     :"
 msgstr "Függ           :"
 
-#: src/pacman/package.c:75 src/pacman/package.c:124
+#: src/pacman/package.c:77 src/pacman/package.c:129
 msgid "Removes        :"
 msgstr "Eltávolítja    :"
 
-#: src/pacman/package.c:78
+#: src/pacman/package.c:80
 msgid "Required By    :"
 msgstr "Igényli        :"
 
-#: src/pacman/package.c:80 src/pacman/package.c:125
+#: src/pacman/package.c:82 src/pacman/package.c:130
 msgid "Conflicts With :"
 msgstr "Ütközik        :"
 
-#: src/pacman/package.c:81
+#: src/pacman/package.c:83
 #, fuzzy, c-format
 msgid "Installed Size : %ld K\n"
 msgstr "Telepítõ szkript:%s\n"
 
-#: src/pacman/package.c:82
+#: src/pacman/package.c:84
 #, c-format
 msgid "Packager       : %s\n"
 msgstr "Csomagoló      : %s\n"
 
-#: src/pacman/package.c:83
+#: src/pacman/package.c:85
 #, c-format
 msgid "Architecture   : %s\n"
 msgstr "Architektúra   : %s\n"
 
-#: src/pacman/package.c:84
+#: src/pacman/package.c:86
 #, c-format
 msgid "Build Date     : %s %s\n"
 msgstr "Fordítás ideje : %s %s\n"
 
-#: src/pacman/package.c:85
+#: src/pacman/package.c:87
 #, c-format
 msgid "Build Type     : %s\n"
 msgstr "Fordítás Típusa: %s\n"
 
-#: src/pacman/package.c:87
+#: src/pacman/package.c:89
 #, c-format
 msgid "Install Date   : %s %s\n"
 msgstr "Telepítés ideje: %s %s\n"
 
-#: src/pacman/package.c:88
+#: src/pacman/package.c:90
 #, fuzzy, c-format
 msgid "Install Reason : %s\n"
 msgstr "Telepítõ szkript:%s\n"
 
-#: src/pacman/package.c:90
+#: src/pacman/package.c:92
 #, c-format
 msgid "Install Script : %s\n"
 msgstr "Telepítõ szkript:%s\n"
 
-#: src/pacman/package.c:91
+#: src/pacman/package.c:93
 msgid "Yes"
 msgstr "Igen"
 
-#: src/pacman/package.c:91
+#: src/pacman/package.c:93
 msgid "No"
 msgstr "Nem"
 
-#: src/pacman/package.c:93 src/pacman/package.c:130
-#, c-format
-msgid "Description    : "
-msgstr "Leírás         : "
-
-#: src/pacman/package.c:118
+#: src/pacman/package.c:123
 #, fuzzy, c-format
 msgid "Repository     : %s\n"
 msgstr "Repó              : %s\n"
 
-#: src/pacman/package.c:126
+#: src/pacman/package.c:131
 #, fuzzy
 msgid "Replaces       :"
 msgstr "Lecseréli         :"
 
-#: src/pacman/package.c:127
+#: src/pacman/package.c:132
 #, c-format
 msgid "Download Size  : %6.2f K\n"
 msgstr ""
 
-#: src/pacman/package.c:128
+#: src/pacman/package.c:133
 #, fuzzy, c-format
 msgid "Installed Size : %6.2f K\n"
 msgstr "Telepítõ szkript:%s\n"
 
-#: src/pacman/package.c:135
+#: src/pacman/package.c:141
 #, fuzzy, c-format
 msgid "MD5 Sum        : %s"
 msgstr ""
 "\n"
 "MD5 Sum           : %s"
 
-#: src/pacman/package.c:138
+#: src/pacman/package.c:144
 #, fuzzy, c-format
 msgid "SHA1 Sum       : %s"
 msgstr ""
 "\n"
 "SHA1 Sum          : %s"
 
-#: src/pacman/package.c:149
+#: src/pacman/package.c:155
 #, c-format
 msgid "Backup Files :\n"
 msgstr ""
 
-#: src/pacman/package.c:169
+#: src/pacman/package.c:175
 #, fuzzy, c-format
 msgid "error calculating checksums for %s\n"
 msgstr "hiba a %s md5 vagy sha1 ellenõrzõ összegének számítása közben\n"
 
-#: src/pacman/package.c:182
+#: src/pacman/package.c:188
 #, fuzzy, c-format
 msgid "MODIFIED\t%s\n"
 msgstr "%sMÓDOSÍTVA\t%s\n"
 
-#: src/pacman/package.c:184
+#: src/pacman/package.c:190
 #, c-format
 msgid "Not Modified\t%s\n"
 msgstr ""
 
-#: src/pacman/package.c:189
+#: src/pacman/package.c:195
 #, c-format
 msgid "MISSING\t\t%s\n"
 msgstr "HIÁNYZIK\t\t%s\n"
 
-#: src/pacman/package.c:222
+#: src/pacman/package.c:228
 #, c-format
 msgid "No changelog available for '%s'.\n"
 msgstr "Nem áll rendelkezésre változási napló a '%s' csomaghoz.\n"
@@ -627,7 +626,7 @@ msgstr "  -b, --dbpath <útvonal> alternatív adatbázis hely beállítása\n"
 
 #: src/pacman/pacman.c:158
 #, fuzzy, c-format
-msgid "      --cachedir <dir> set an alternate database location\n"
+msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "  -b, --dbpath <útvonal> alternatív adatbázis hely beállítása\n"
 
 #: src/pacman/pacman.c:171
@@ -665,34 +664,38 @@ msgstr "%s: nem érvényes reguláris kifejezés.\n"
 msgid "only one operation may be used at a time\n"
 msgstr "csak egy mûvelet hajtható végre egyszerre\n"
 
-#: src/pacman/pacman.c:461
+#: src/pacman/pacman.c:444
+msgid "warning: current locale is invalid; using default \"C\" locale"
+msgstr ""
+
+#: src/pacman/pacman.c:463
 #, c-format
 msgid "failed to initilize alpm library (%s)\n"
 msgstr "nem sikerült inicializálni az alpm könyvtárat (%s)\n"
 
-#: src/pacman/pacman.c:494
+#: src/pacman/pacman.c:496
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "nem hajtható végre ez a mûvelet hacsak nem rendszergazda.\n"
 
-#: src/pacman/pacman.c:510
+#: src/pacman/pacman.c:512
 #, c-format
 msgid "failed to parse config (%s)\n"
 msgstr "nem sikerült értelmezni a beállítási fájlt (%s)\n"
 
-#: src/pacman/pacman.c:520 src/pacman/remove.c:125 src/pacman/util.c:323
+#: src/pacman/pacman.c:522 src/pacman/remove.c:125 src/pacman/util.c:323
 msgid "Targets:"
 msgstr "Célok:"
 
-#: src/pacman/pacman.c:526
+#: src/pacman/pacman.c:528
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "nem sikerült regisztrálni a 'local' adatbázist (%s)\n"
 
-#: src/pacman/pacman.c:533
+#: src/pacman/pacman.c:535
 msgid "no targets specified (use -h for help)\n"
 msgstr "nincs megadva egyetlen cél se (használja a '-h'-t segítségért)\n"
 
-#: src/pacman/pacman.c:546
+#: src/pacman/pacman.c:548
 msgid "no operation specified (use -h for help)\n"
 msgstr "nincs megadva egyetlen mûvelet se (használja a '-h'-t segítségért)\n"
 
