@@ -89,12 +89,12 @@ void cb_log(unsigned short level, char *msg)
 		strftime(timestr, 9, "%H:%M:%S", tmp);
 		timestr[8] = '\0';
 
-		MSG(NL, "[%s] %s: %s\n", timestr, str, msg);
+		MSG(NL, "[%s] %s: %s", timestr, str, msg);
 	} else {
-    MSG(NL, "%s: %s\n", str, msg);
+    MSG(NL, "%s: %s", str, msg);
 	}
 #else
-	MSG(NL, "%s: %s\n", str, msg);
+	MSG(NL, "%s: %s", str, msg);
 #endif
 }
 

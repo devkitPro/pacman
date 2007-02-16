@@ -340,7 +340,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 				
 				if(!db) {
-					ERR(NL, _("repository '%s' does not exist"), repo);
+					ERR(NL, _("repository '%s' does not exist\n"), repo);
 					return(1);
 				}
 				
@@ -356,7 +356,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 				
 				if(!foundpkg) {
-					ERR(NL, _("package '%s' was not found in repository '%s'"), pkgstr, repo);
+					ERR(NL, _("package '%s' was not found in repository '%s'\n"), pkgstr, repo);
 				}
 			} else {
 				pkgstr = target;
@@ -376,7 +376,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				}
 				if(!foundpkg) {
-					ERR(NL, _("package '%s' was not found."), pkgstr);
+					ERR(NL, _("package '%s' was not found\n"), pkgstr);
 				}
 			}
 		}
