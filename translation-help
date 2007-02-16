@@ -37,7 +37,7 @@ If you are working in the src/pacman tree, replace libalpm.pot with pacman.pot:
 
 Making a new language is not too hard, but be sure to follow all the steps.
 You will have to do the following steps in both the lib/libalpm/po/ and
-src/pacman/po/ directories, substituting where approriate. First, edit the
+src/pacman/po/ directories, substituting where appropriate. First, edit the
 LINGUAS file and add your new language code at the bottom. Next, run the
 following command, substituting 'libalpm.pot' or 'pacman.pot' depending on
 which directory you are currently working in:
@@ -47,6 +47,15 @@ Look at the current message files for more guidance if necessary. Once you
 create the new language file, you may need to slightly modify the headers;
 try to make them look similar to the other .po file headers. In addition, for
 all new translations we would strongly recommend using UTF-8 encoding.
+
+Some other notes:
+msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks are ignored- if you need a literal line break, use an '\n' in your string. The following two translations are equivalent:
+
+msgstr "This is a test translation"
+
+msgstr ""
+"This is a test translation"
+
 
 Translating Manpages
 --------------------
