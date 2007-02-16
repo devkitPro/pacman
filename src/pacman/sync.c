@@ -318,24 +318,66 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
-			int found = 0;
+			pmdb_t *db = NULL;
+			int foundpkg = 0;
 
-			for(j = syncs; j && !found; j = alpm_list_next(j)) {
-				pmdb_t *db = alpm_list_getdata(j);
+			char target[512]; /* TODO is this enough space? */
+			char *repo = NULL, *pkgstr = NULL;
 
-				for(k = alpm_db_getpkgcache(db); !found && k; k = alpm_list_next(k)) {
+			strncpy(target, i->data, 512);
+			pkgstr = strchr(target, '/');
+			if(pkgstr) {
+				repo = target;
+				*pkgstr = '\0';
+				++pkgstr;
+
+				for(j = syncs; j; j = alpm_list_next(j)) {
+					db = alpm_list_getdata(j);
+					if(strcmp(repo, alpm_db_get_name(db)) == 0) {
+						break;
+					}
+					db = NULL;
+				}
+				
+				if(!db) {
+					ERR(NL, _("repository '%s' does not exist"), repo);
+					return(1);
+				}
+				
+				for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
 					pmpkg_t *pkg = alpm_list_getdata(k);
 
-					if(!strcmp(alpm_pkg_get_name(pkg), alpm_list_getdata(i))) {
+					if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
 						dump_pkg_sync(pkg, alpm_db_get_name(db));
 						MSG(NL, "\n");
-						found = 1;
+						foundpkg = 1;
+						break;
 					}
 				}
-			}
-			if(!found) {
-				ERR(NL, _("package \"%s\" was not found.\n"), (char *)i->data);
-				break;
+				
+				if(!foundpkg) {
+					ERR(NL, _("package '%s' was not found in repository '%s'"), pkgstr, repo);
+				}
+			} else {
+				pkgstr = target;
+						
+				for(j = syncs; j; j = alpm_list_next(j)) {
+					pmdb_t *db = alpm_list_getdata(j);
+
+					for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
+						pmpkg_t *pkg = alpm_list_getdata(k);
+
+						if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
+							dump_pkg_sync(pkg, alpm_db_get_name(db));
+							MSG(NL, "\n");
+							foundpkg = 1;
+							break;
+						}
+					}
+				}
+				if(!foundpkg) {
+					ERR(NL, _("package '%s' was not found."), pkgstr);
+				}
 			}
 		}
 	} else {
