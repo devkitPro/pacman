@@ -60,7 +60,6 @@ alpm_list_t *alpm_list_nth(alpm_list_t *list, int n);
 alpm_list_t *alpm_list_next(alpm_list_t *list);
 alpm_list_t *alpm_list_last(alpm_list_t *list);
 void *alpm_list_getdata(const alpm_list_t *entry);
-#define alpm_list_data(type, list) (type)alpm_list_getdata((list))
 
 /* misc */
 int alpm_list_count(const alpm_list_t *list);

@@ -138,6 +138,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		for(i = newtargs; i; i = i->next) {
 			pmpkg_t *p = (pmpkg_t*)i->data;
 			_alpm_log(PM_LOG_DEBUG, "sorting %s", p->name);
+			/* TODO this may not always work if p->data is a fd, not db */
 			_alpm_db_read(p->data, INFRQ_DEPENDS, p);
 			for(j = p->depends; j; j = j->next) {
 				pmdepend_t dep;
