@@ -156,12 +156,10 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 			/* package should be ignored (IgnorePkg) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
 								local_pkg->name, local_pkg->version, pkg->version);
-			cmp = 0;
 		} else if(_alpm_pkg_istoonew(pkg)) {
 			/* package too new (UpgradeDelay) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)"),
 								local_pkg->name, local_pkg->version, pkg->version);
-			cmp = 0;
 		}
 	}
 
