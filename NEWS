@@ -15,19 +15,23 @@ VERSION         DESCRIPTION
               - reduced unnecessary calling of ldconfig
               - selective loading of database to speed up certain operations
               - switch to usage of libdownload and libarchive
+              - improved proxy support as a result of switch to libdownload
               - debugging output improved with --debug flag
               - added 'rankmirrors' - script to show best available mirrors
               - added 'repo-add' - the backbone script for building repos
               - added pactest testing suite
               - abs - supports cvsup/csup, expanded configuration
+              - abs - supports fetching of testing repository
               - makepkg fixes:
                 - new configuration file options format
                 - support alternate integrity checks
                 - extract files using filetype, not extension
                 - added noextract array
-                - added option to log build process
-                - added repackage option - repackage pkg/ w/o building
+                - new option to log build process
+                - new repackage option - repackage pkg/ w/o building
+                - user-selectable paths for doc stripping
                 - configurable source cache location
+                - dependencies now removed on a build success or failure
               - pacman-optimize - support DB's on separate filesystem
 2.9.8         - Changed behaviour with original=X,current=Y,new=Z scenario
                 - keep old in place, install new as .pacnew
