@@ -62,6 +62,11 @@ void log_progress(const char *filename, int xfered, int total)
 		return;
 	}
 
+	/* XXX: big fat hack: due to the fact that we switch out printf/pm_fprintf,
+	 * not everything honors our 'neednl' newline hackery.  This forces a newline
+	 * if we need one before drawing the progress bar */
+	MSG(NL,NULL);
+
 	/* this is basically a switch on xferred: 0, total, and anything else */
 	if(xfered == 0) {
 		/* set default starting values */

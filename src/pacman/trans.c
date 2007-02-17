@@ -287,6 +287,11 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 		return;
 	}
 
+	/* XXX: big fat hack: due to the fact that we switch out printf/pm_fprintf,
+	 * not everything honors our 'neednl' newline hackery.  This forces a newline
+	 * if we need one before drawing the progress bar */
+	MSG(NL,NULL);
+
 	if(percent == 0) {
 		set_output_padding(1); /* turn on output padding with ' ' */
 		timediff = get_update_timediff(1);

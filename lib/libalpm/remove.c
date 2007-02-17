@@ -193,31 +193,35 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 												pmtrans_t *trans, int filenum, int *position)
 {
 	struct stat buf;
-	int nb = 0;
+	int needbackup = 0;
 	double percent = 0.0;
 	char file[PATH_MAX+1];
-	char *checksum = _alpm_needbackup(lp->data, info->backup);
 
 	ALPM_LOG_FUNC;
 
 	if(*position != 0) {
 		percent = (double)*position / filenum;
 	}
-	if(checksum) {
-		nb = 1;
-		FREE(checksum);
+
+	char *hash = _alpm_needbackup(lp->data, info->backup);
+	if(hash) {
+		needbackup = 1;
+		FREE(hash);
 	}
-	if(!nb && trans->type == PM_TRANS_TYPE_UPGRADE) {
+	
+	if(!needbackup && trans->type == PM_TRANS_TYPE_UPGRADE) {
 		/* check noupgrade */
 		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
-			nb = 1;
+			needbackup = 1;
 		}
 	}
+
 	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
 	if(lstat(file, &buf)) {
 		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
 		return;
 	}
+	
 	if(S_ISDIR(buf.st_mode)) {
 		if(rmdir(file)) {
 			/* this is okay, other pakcages are probably using it (like /usr) */
@@ -239,29 +243,27 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		if(skipit) {
 			_alpm_log(PM_LOG_WARNING, _("skipping removal of %s as it has moved to another package"),
 								file);
-		} else {
+		} else if(needbackup) {
 			/* if the file is flagged, back it up to .pacsave */
-			if(nb) {
-				if(!(trans->type == PM_TRANS_TYPE_UPGRADE)) {
-					/* if it was an upgrade, the file would be left alone because
-					 * pacman_add() would handle it */
-					if(!(trans->type & PM_TRANS_FLAG_NOSAVE)) {
-						char newpath[PATH_MAX];
-						snprintf(newpath, PATH_MAX, "%s.pacsave", file);
-						rename(file, newpath);
-						_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file, newpath);
-					}
+			if(!(trans->type == PM_TRANS_TYPE_UPGRADE)) {
+				/* if it was an upgrade, the file would be left alone because
+				 * pacman_add() would handle it */
+				if(!(trans->type & PM_TRANS_FLAG_NOSAVE)) {
+					char newpath[PATH_MAX];
+					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
+					rename(file, newpath);
+					_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file, newpath);
 				}
-			} else {
-				_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), file);
-				int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
+			}
+		} else {
+			_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), file);
+			int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
 
-				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
-				++(*position);
+			PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
+			++(*position);
 
-				if(unlink(file) == -1) {
-					_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), lp->data, strerror(errno));
-				}
+			if(unlink(file) == -1) {
+				_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), lp->data, strerror(errno));
 			}
 		}
 	}
@@ -333,54 +335,9 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
-		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields"));
-		for(lp = info->depends; lp; lp = lp->next) {
-			pmpkg_t *depinfo = NULL;
-			pmdepend_t depend;
-			void *vdata;
-			char *data;
-			if(_alpm_splitdep((char*)lp->data, &depend)) {
-				continue;
-			}
-			/* if this dependency is in the transaction targets, no need to update 
-			 * its requiredby info: it is in the process of being removed (if not 
-			 * already done!)
-			 */
-			if(_alpm_pkg_isin(depend.name, trans->packages)) {
-				continue;
-			}
-			depinfo = _alpm_db_get_pkgfromcache(db, depend.name);
-			if(depinfo == NULL) {
-				/* look for a provides package */
-				alpm_list_t *provides = _alpm_db_whatprovides(db, depend.name);
-				if(provides) {
-					/* TODO: should check _all_ packages listed in provides, not just
-					 *       the first one.
-					 */
-					/* use the first one */
-					depinfo = _alpm_db_get_pkgfromcache(db, ((pmpkg_t *)provides->data)->name);
-					FREELISTPTR(provides);
-				}
-				if(depinfo == NULL) {
-					/* dep not installed... that's fine, carry on */
-					_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s' for removal"), depend.name);
-					continue;
-				}
-			}
-			/* Ensure package has the appropriate data */
-			_alpm_db_read(db, INFRQ_DEPENDS, depinfo);
-			/* splice out this entry from requiredby */
-			depinfo->requiredby = alpm_list_remove(depinfo->requiredby, info->name, _alpm_str_cmp, &vdata);
-			data = vdata;
-			FREE(data);
-			_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), depinfo->name);
-			if(_alpm_db_write(db, depinfo, INFRQ_DEPENDS)) {
-				_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
-				          depinfo->name, depinfo->version);
-			}
-		}
+		_alpm_pkg_update_depends(info, 1 /*is a remove*/);
 
-	    PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
+		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 		}

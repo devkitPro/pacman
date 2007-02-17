@@ -33,7 +33,7 @@
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
  * then we return the md5 or sha1 hash (parsed from the same line)
  */
-char *_alpm_needbackup(char *file, alpm_list_t *backup)
+char *_alpm_needbackup(const char *file, alpm_list_t *backup)
 {
 	alpm_list_t *lp;
 
@@ -57,7 +57,7 @@ char *_alpm_needbackup(char *file, alpm_list_t *backup)
 		*ptr = '\0';
 		ptr++;
 		/* now str points to the filename and ptr points to the md5 or sha1 hash */
-		if(!strcmp(file, str)) {
+		if(strcmp(file, str) == 0) {
 			char *hash = strdup(ptr);
 			FREE(str);
 			return(hash);

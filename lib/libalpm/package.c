@@ -40,6 +40,8 @@
 #include "error.h"
 #include "alpm_list.h"
 #include "db.h"
+#include "cache.h"
+#include "provide.h"
 #include "handle.h"
 #include "versioncmp.h"
 #include "alpm.h"
@@ -522,6 +524,118 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 	}
 
 	return(0);
+}
+
+
+void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
+{
+	alpm_list_t *i, *j;
+
+	pmdb_t *localdb = alpm_option_get_localdb();
+	for(i = _alpm_db_get_pkgcache(localdb, INFRQ_DEPENDS); i; i = i->next) {
+		if(!i->data) {
+			continue;
+		}
+		pmpkg_t *cachepkg = i->data;
+		for(j = cachepkg->depends; j; j = j->next) {
+			pmdepend_t dep;
+			if(!j->data) {
+				continue;
+			}
+			if(_alpm_splitdep(j->data, &dep) == 0
+				 && strcmp(dep.name, pkg->name) == 0) {
+				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"), cachepkg->name, pkg->name);
+				pkg->requiredby = alpm_list_add(pkg->requiredby, strdup(cachepkg->name));
+			}
+		}
+	}
+}
+
+void _alpm_pkg_update_depends(pmpkg_t *pkg, int remove)
+{
+	alpm_list_t *i, *j;
+	if(pkg->depends) {
+		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields"));
+	}
+
+	pmdb_t *localdb = alpm_option_get_localdb();
+	for(i = pkg->depends; i; i = i->next) {
+		pmdepend_t dep;
+		if(_alpm_splitdep(i->data, &dep) != 0) {
+			continue;
+		}
+
+		/* XXX: this is a hack...if this dependency is in the transaction targets
+		 * of a remove transaction no need to update its requiredby info:
+		 * it is in the process of being removed (if not already done!) */
+		/* TODO I wonder if we can just skip this, the few extra operations won't be
+		 * a huge deal either way */
+		if(handle->trans && handle->trans->packages
+			 && handle->trans->type == PM_TRANS_TYPE_REMOVE) {
+			if(_alpm_pkg_isin(dep.name, handle->trans->packages)) {
+				continue;
+			}
+		}
+
+		pmpkg_t *deppkg = _alpm_db_get_pkgfromcache(localdb, dep.name);
+		if(!deppkg) {
+			int found_provides = 0;
+			/* look for a provides package */
+			alpm_list_t *provides = _alpm_db_whatprovides(localdb, dep.name);
+			for(j = provides; j; j = j->next) {
+				if(!j->data) {
+					continue;
+				}
+				pmpkg_t *provpkg = j->data;
+				deppkg = _alpm_db_get_pkgfromcache(localdb, provpkg->name);
+
+				if(!deppkg) {
+					continue;
+				}
+
+				found_provides = 1;
+
+				/* Ensure package has the right newpkg */
+				_alpm_db_read(localdb, INFRQ_DEPENDS, deppkg);
+
+				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
+				if(remove) {
+					void *data = NULL;
+					deppkg->requiredby = alpm_list_remove(deppkg->requiredby, pkg->name, _alpm_str_cmp, &data);
+					FREE(data);
+				} else {
+					deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(pkg->name));
+				}
+
+				if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
+					_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"), deppkg->name, deppkg->version);
+				}
+			}
+			FREELISTPTR(provides);
+
+			if(!found_provides) {
+				_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), dep.name);
+				continue;
+			}
+		}
+
+		/* Ensure package has the right newpkg */
+		_alpm_db_read(localdb, INFRQ_DEPENDS, deppkg);
+
+		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
+		if(remove) {
+			void *data = NULL;
+			deppkg->requiredby = alpm_list_remove(deppkg->requiredby, pkg->name, _alpm_str_cmp, &data);
+			FREE(data);
+		} else {
+			deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(pkg->name));
+		}
+
+		if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
+			_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"), deppkg->name, deppkg->version);
+		}
+	}
+
 }
 
 const char *alpm_pkg_get_filename(pmpkg_t *pkg)

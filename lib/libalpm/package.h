@@ -107,6 +107,8 @@ pmpkg_t *_alpm_pkg_load(char *pkgfile);
 pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack);
 int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch);
 int _alpm_pkg_istoonew(pmpkg_t *pkg);
+void _alpm_pkg_update_requiredby(pmpkg_t *pkg);
+void _alpm_pkg_update_depends(pmpkg_t *pkg, int remove);
 
 #endif /* _ALPM_PACKAGE_H */
 

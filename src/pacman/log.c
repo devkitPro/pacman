@@ -113,6 +113,10 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 		neednl = 0;
 	}
 
+	if(!fmt) {
+		return;
+	}
+
 	va_start(args, fmt);
 	vsnprintf(str, LOG_STR_LEN, fmt, args);
 	va_end(args);
