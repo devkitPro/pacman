@@ -1,0 +1,77 @@
+#!/bin/bash
+# pacsearch - Adds color and install information to a 'pacman -Ss' search
+#
+# Copyright (C) 2006-2007 Dan McGee <dpmcgee@gmail.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+#TODO: colors flag on commandline
+
+readonly progname="pacsearch"
+
+readonly CLR1='\\\e[0;34m'
+readonly CLR2='\\\e[0;32m'
+readonly CLR3='\\\e[0;35m'
+readonly CLR4='\\\e[0;36m'
+readonly CLR5='\\\e[0;31m'
+readonly CLR6='\\\e[0;33m'
+readonly CLR7='\\\e[1;36m'
+readonly INST='\\\e[1;31m'
+readonly BASE='\\\e[0m'
+
+if [ -z "$1" ]; then
+	echo "Usage: $progname <pattern>"
+	echo "Ex:    $progname ^gnome"
+	exit 0
+fi
+
+# Make two temp files and send output of commands to these files
+querydump=$(mktemp)
+pacman -Qs $1 > $querydump
+syncdump=$(mktemp)
+pacman -Ss $1 > $syncdump
+
+# Strip descriptions and 'local/' from -Qs query
+instpkg=$(mktemp)
+egrep '^[^ ]' $querydump | sed -e 's@^local/@@' > $instpkg
+
+# Add pkgs not in sync db, mark pkgs that are installed
+cat $instpkg | while read -r pkg; do
+	if [ -z "$(grep "$pkg" $syncdump)" ]; then
+		# grep package name; pipe to another grep that prints at most one
+		#   line starting with 'local/', allows for comments >1 line
+		grep -A10 "$pkg" $querydump | grep -A10 -m1 "local/" >> $syncdump
+	fi
+	sed -i "s@^\(.\+/$pkg\)@\***\1@" $syncdump
+done
+
+# Print colorized package list and descriptions to screen
+echo -e "$(sed -r \
+	-e "s@current/.*@$CLR1&$BASE@" \
+	-e "s@extra/.*@$CLR2&$BASE@" \
+	-e "s@community/.*@$CLR3&$BASE@" \
+	-e "s@testing/.*@$CLR4&$BASE@" \
+	-e "s@unstable/.*@$CLR5&$BASE@" \
+	-e "s@custom/.*@$CLR6&$BASE@" \
+	-e "s@local/.*@$CLR7&$BASE@" \
+	-e "s@(^|\*\*\*)([[:alnum:]]*/.* .*)@\1$CLR6\2$BASE@" \
+	-e "s@\*\*\*@$INST&@" \
+	< $syncdump )"
+echo -en "\e[0m"
+
+rm $querydump
+rm $syncdump
+rm $instpkg
+
