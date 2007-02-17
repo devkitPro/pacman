@@ -70,14 +70,15 @@ Localize the date display done in --info output. Also, fix other localized
 issues- use non-printf when necessary, make sure all two line printed messages
 (especially usage instructions) are printed using one print statement.
 
+Rewrite makepkg to use terminal-safe coloring/bolding. tput utility should
+allow us to do this.
+
 Other ideas:
 ============
 
 unsigned int vs. unsigned- determine a standard and stick with it
 
 Possibly split utilities/extras from pacman package
-
-Rewrite gensync/updatesync
 
 FS #4185 - move where message is logged, perhaps?
 
@@ -108,3 +109,11 @@ to KB, MB, GB.
 Revamp the downloadprog function a bit. Seems kind of messy.
 
 Add localized pkgdesc variables to makepkg.
+
+Fix inconsistency of args- _alpm_db_read, _alpm_db_write
+
+--print-uri option to sync should not require saying yes or no to up to date
+
+Resurrect test scripts, and add ones as needed. Testing by scripts > testing by
+hand.
+
