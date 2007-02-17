@@ -1,0 +1,101 @@
+This is a project file for the vim-project
+plugin.  I like it, so decided to contribute
+this to the main repo.
+$ pacman -S vim-project
+change the pacman= path below
+$ vim
+:Project vimproject
+
+pacman=~/devel/pacman-lib CD=. flags=S {
+ Makefile.am
+ configure.ac
+ libalpm=lib/libalpm/ filter="*.c *.h *.am"{
+  add.c
+  alpm.c
+  alpm_list.c
+  backup.c
+  be_files.c
+  cache.c
+  conflict.c
+  db.c
+  deps.c
+  error.c
+  group.c
+  handle.c
+  log.c
+  md5.c
+  md5driver.c
+  package.c
+  provide.c
+  remove.c
+  server.c
+  sha1.c
+  sync.c
+  trans.c
+  util.c
+  versioncmp.c
+  add.h
+  alpm.h
+  alpm_list.h
+  backup.h
+  cache.h
+  conflict.h
+  db.h
+  deps.h
+  error.h
+  group.h
+  handle.h
+  log.h
+  md5.h
+  package.h
+  provide.h
+  remove.h
+  server.h
+  sha1.h
+  sync.h
+  trans.h
+  util.h
+  versioncmp.h
+  Makefile.am
+  Makefile.in
+ }
+ pacman=src/pacman/ filter="*.c *.h *.am" {
+  add.c
+  conf.c
+  deptest.c
+  downloadprog.c
+  log.c
+  package.c
+  pacman.c
+  query.c
+  remove.c
+  sync.c
+  trans.c
+  upgrade.c
+  util.c
+  add.h
+  conf.h
+  deptest.h
+  downloadprog.h
+  log.h
+  package.h
+  query.h
+  remove.h
+  sync.h
+  trans.h
+  upgrade.h
+  util.h
+  Makefile.am
+ }
+ utils=src/util filter="*.c *.h *.am" {
+  testpkg.c
+  vercmp.c
+  Makefile.am
+ }
+ contrib=contrib CD=. {
+  bash_completion
+  pacsearch
+  vimproject
+  zsh_completion
+ }
+}
