@@ -328,7 +328,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				}
 				/* else if still not found... */
 				if(!found) {
-					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as a dependency for %s"),
+					_alpm_log(PM_LOG_DEBUG, _("missing dependency '%s' for package '%s'"),
 					                          depend.name, tp->name);
 					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod,
 					                         depend.name, depend.version);
@@ -397,8 +397,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 
 int _alpm_splitdep(char *depstr, pmdepend_t *depend)
 {
-	char *str = NULL;
-	char *ptr = NULL;
+	char *str = NULL, *ptr = NULL;
 
 	if(depstr == NULL || depend == NULL) {
 		return(-1);
@@ -432,6 +431,7 @@ int _alpm_splitdep(char *depstr, pmdepend_t *depend)
 	if(depend->mod != PM_DEP_MOD_EQ) {
 		ptr++;
 	}
+
 	STRNCPY(depend->version, ptr, PKG_VERSION_LEN);
 	FREE(str);
 

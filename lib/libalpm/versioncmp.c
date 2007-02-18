@@ -238,7 +238,7 @@ int _alpm_versioncmp(const char *a, const char *b)
 
 	if((!*one) && (!*two)) {
 		/* compare release numbers */
-		if(rel1 && rel2) return(_alpm_versioncmp(rel1, rel2));
+		if(rel1 && rel2 && strlen(rel1) && strlen(rel2)) return(_alpm_versioncmp(rel1, rel2));
 		return(0);
 	}
 
