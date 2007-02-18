@@ -790,7 +790,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		 * looking for packages depending on the package to add */
 		_alpm_pkg_update_requiredby(newpkg);
 
-
 		/* make an install date (in UTC) */
 		time_t t = time(NULL);
 		strncpy(newpkg->installdate, asctime(gmtime(&t)), PKG_DATE_LEN);
@@ -813,7 +812,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
-		_alpm_pkg_update_depends(newpkg, 0 /*is an add*/);
+		_alpm_trans_update_depends(trans, newpkg);
 
 		PROGRESS(trans, (is_upgrade ? PM_TRANS_PROGRESS_UPGRADE_START : PM_TRANS_PROGRESS_ADD_START),
 						 newpkg->name, 100, pkg_count, (pkg_count - targ_count +1));

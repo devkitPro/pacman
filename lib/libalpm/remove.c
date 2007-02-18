@@ -335,7 +335,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
-		_alpm_pkg_update_depends(info, 1 /*is a remove*/);
+		_alpm_trans_update_depends(trans, info);
 
 		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {

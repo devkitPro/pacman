@@ -84,6 +84,7 @@ int _alpm_trans_sysupgrade(pmtrans_t *trans);
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
 int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data);
 int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data);
+int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg);
 
 #endif /* _ALPM_TRANS_H */
 

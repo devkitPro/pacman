@@ -38,6 +38,9 @@
 #include "remove.h"
 #include "sync.h"
 #include "alpm.h"
+#include "deps.h"
+#include "cache.h"
+#include "provide.h"
 
 pmtrans_t *_alpm_trans_new()
 {
@@ -241,6 +244,96 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 
 	return(0);
 }
+
+int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
+{
+	alpm_list_t *i, *j;
+	pmdb_t *localdb;
+
+	ALPM_LOG_FUNC;
+		
+	/* Sanity checks */
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_PKG_INVALID, -1));
+
+	if(pkg->depends) {
+		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields"));
+	}
+
+	localdb = alpm_option_get_localdb();
+	for(i = pkg->depends; i; i = i->next) {
+		pmdepend_t dep;
+		if(_alpm_splitdep(i->data, &dep) != 0) {
+			continue;
+		}
+
+		if(trans->packages && trans->type == PM_TRANS_TYPE_REMOVE) {
+			if(_alpm_pkg_isin(dep.name, handle->trans->packages)) {
+				continue;
+			}
+		}
+
+		pmpkg_t *deppkg = _alpm_db_get_pkgfromcache(localdb, dep.name);
+		if(!deppkg) {
+			int found_provides = 0;
+			/* look for a provides package */
+			alpm_list_t *provides = _alpm_db_whatprovides(localdb, dep.name);
+			for(j = provides; j; j = j->next) {
+				if(!j->data) {
+					continue;
+				}
+				pmpkg_t *provpkg = j->data;
+				deppkg = _alpm_db_get_pkgfromcache(localdb, provpkg->name);
+
+				if(!deppkg) {
+					continue;
+				}
+
+				found_provides = 1;
+
+				/* Ensure package has the right newpkg */
+				_alpm_db_read(localdb, INFRQ_DEPENDS, deppkg);
+
+				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
+				if(trans->type == PM_TRANS_TYPE_REMOVE) {
+					void *data = NULL;
+					deppkg->requiredby = alpm_list_remove(deppkg->requiredby, pkg->name, _alpm_str_cmp, &data);
+					FREE(data);
+				} else {
+					deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(pkg->name));
+				}
+
+				if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
+					_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"), deppkg->name, deppkg->version);
+				}
+			}
+			FREELISTPTR(provides);
+
+			if(!found_provides) {
+				_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), dep.name);
+				continue;
+			}
+		}
+
+		/* Ensure package has the right newpkg */
+		_alpm_db_read(localdb, INFRQ_DEPENDS, deppkg);
+
+		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
+		if(trans->type == PM_TRANS_TYPE_REMOVE) {
+			void *data = NULL;
+			deppkg->requiredby = alpm_list_remove(deppkg->requiredby, pkg->name, _alpm_str_cmp, &data);
+			FREE(data);
+		} else {
+			deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(pkg->name));
+		}
+
+		if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
+			_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"), deppkg->name, deppkg->version);
+		}
+	}
+	return(0);
+}
+
 
 pmtranstype_t alpm_trans_get_type()
 {
