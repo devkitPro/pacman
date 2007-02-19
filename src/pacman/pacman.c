@@ -134,7 +134,7 @@ static void usage(int op, char *myname)
 		} else if(op == PM_OP_SYNC) {
 			printf(_("usage:  %s {-S --sync} [options] [package]\n"), myname);
 			printf(_("options:\n"));
-			printf(_("  -c, --clean          remove old packages from cache directory (use -cc for all)\n"));
+			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -e, --dependsonly    install dependencies only\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));

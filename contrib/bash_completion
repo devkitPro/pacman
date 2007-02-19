@@ -1,25 +1,25 @@
-# vim: set ft=sh:
+# vim: set ft=sh ts=2 sw=2 et:
 # file: /etc/bash_completion.d/pacman
 
-# Bash completion for ArchLinux
-# Original: v.1.1 Manolis Tzanidakis <mtzanidakis@freemail.gr>
+# Bash completion for pacman
+# Original: Manolis Tzanidakis <mtzanidakis@freemail.gr>
 #
 # Distributed under the terms of the GNU General Public License, v2 or later.
 #
 
-## Changelog ####################################################
-#                                                               #
-# * 1.1 (20040117)                                              #
-#   - Code cleanup                                              #
-#   - Updated to pacman 2.7.2-2                                 #
-# * 20040216 (orelien)                                          #
-#   - Improved available_{pkgs,groups) functions                #
-#   - Added support for querying groups                         #
-#                                                               #
-#################################################################
+## ChangeLog ##
+#
+# * 3.0 (2007-02-18)
+#   - Updated to pacman 3.0.0 options
+# * 1.1 (2004-01-17)
+#   - Code cleanup
+#   - Updated to pacman 2.7.2-2
+# * 2004-02-16 (orelien)
+#   - Improved available_{pkgs,groups) functions
+#   - Added support for querying groups
+#
 
 ## initial functions
-#
 
 rem_selected ()
 {
@@ -36,7 +36,7 @@ rem_selected ()
       # remove word from list of completions
       COMPREPLY=(${COMPREPLY/ ${i%% *} / })
     done
-  echo ${COMPREPLY[@]})))
+    echo ${COMPREPLY[@]})))
   return 0
 }
 
@@ -83,14 +83,7 @@ _available_groups ()
   COMPREPLY=( $( compgen -W "$( for i in $available_groups; do echo ${i%-*-*}; done )" -- $cur ) )
 }
 
-## init (/etc/rc.d) script completion (quick 'n' dirty ;-)
-#
-
-complete -W "start stop restart" \
-  $(for i in /etc/rc.d/*; do echo ${i##*/}; done)
-
 ## makepkg completion
-#
 
 _makepkg ()
 {
@@ -100,30 +93,38 @@ _makepkg ()
   prev=${COMP_WORDS[COMP_CWORD-1]}
 
   case "$prev" in
-    -@(p|w))
+    -p)
       _filedir
       return 0
     ;;
-    --help|--cleancache|--genmd5)
+    --help|--cleancache)
       COMPREPLY=''
       return 0
     ;;
   esac
 
   if [[ "$cur" == -* ]]; then
-    COMPREPLY=( $( compgen -W '-b --builddeps \
+    COMPREPLY=( $( compgen -W '\
+      -b --builddeps \
+      -B --noccache \
       -c --clean \
       -C --cleancache \
       -d --nodeps \
+      -e --noextract \
       -f --force \
-      -g --genmd5 \
+      -g --geninteg \
       -h --help \
       -i --install \
+      -j \
+      -L --log \
       -m --nocolor \
-      -n --nostrip \
+      -o --nobuild \
+      -p \
       -r --rmdeps \
       -s --syncdeps \
-      -p -w' -- $cur ) )
+      -S --usesudo \
+      --noconfirm \
+      --noprogressbar' -- $cur ) )
   fi
 
   rem_selected
@@ -131,18 +132,17 @@ _makepkg ()
 complete -o default -F _makepkg makepkg
 
 ## pacman completion
-#
 
 _instring ()
 {
-    str="${1}"
-    shift 1
-    for c in "${@}"; do
-        if [ $(expr index "${str}" "${c}") -gt 0 ]; then
-            return 0
-        fi
-    done
-    return 1
+  str="${1}"
+  shift 1
+  for c in "${@}"; do
+    if [ $(expr index "${str}" "${c}") -gt 0 ]; then
+      return 0
+    fi
+  done
+  return 1
 }
 
 _pacman ()
@@ -153,7 +153,7 @@ _pacman ()
   # This argument parsing is done so we can check for flag existance later
   #  right now it's a tad crappy, but does the job
   for (( i=1; i < ${#COMP_WORDS[@]}-1; i++ )); do
-	a=${COMP_WORDS[i]}
+    a=${COMP_WORDS[i]}
     arg="${a:0:2}"
     toparse="${a:2}"
 
@@ -210,36 +210,39 @@ _pacman ()
   cur=${COMP_WORDS[COMP_CWORD]}
 
   if [ $COMP_CWORD -eq 1 ] && [[ "$cur" == -* ]]; then
-        COMPREPLY=( $( compgen -W '\
-            -A --add \
-            -F --freshen \
-            -h --help \
-            -Q --query \
-            -R --remove \
-            -S --sync \
-            -U --upgrade \
-            -V --version \
-            ' -- $cur ) )
-        rem_selected
-        return 0
+    COMPREPLY=( $( compgen -W '\
+      -A --add \
+      -F --freshen \
+      -h --help \
+      -Q --query \
+      -R --remove \
+      -S --sync \
+      -U --upgrade \
+      -V --version \
+      ' -- $cur ) )
+    rem_selected
+    return 0
   fi
 
   if [[ "$cur" == -* ]]; then
     case "${op}" in
       A|U|F)
         COMPREPLY=( $( compgen -W '\
-           -d --nodeps \
-           -f --force \
-           -h --help \
-           --config \
-           --noconfirm \
-           --noprogressbar \
-           -v --verbose \
-           -r --root \
-           -b --dbpath \
-           ' -- $cur ) )
+          -d --nodeps \
+          -f --force \
+          -h --help \
+          --config \
+          --noconfirm \
+          --ask \
+          --noprogressbar \
+          --noscriptlet \
+          -v --verbose \
+          -r --root \
+          -b --dbpath \
+          --cachedir \
+          ' -- $cur ) )
         return 0
-      ;;
+        ;;
       R)
         COMPREPLY=( $( compgen -W '\
           -c --cascade \
@@ -249,19 +252,23 @@ _pacman ()
           -k --dbonly \
           -n --nosave \
           -s --recursive \
-           --config \
-           --noconfirm \
-           --noprogressbar \
+          --config \
+          --noconfirm \
+          --ask \
+          --noprogressbar \
+          --noscriptlet \
           -v --verbose \
           -r --root \
           -b --dbpath \
+          --cachedir \
           ' -- $cur ) )
         return 0
-      ;;
+        ;;
       S)
         COMPREPLY=( $( compgen -W '\
           -c --clean \
           -d --nodeps \
+          -e --dependsonly \
           -f --force \
           -g --groups \
           -h --help \
@@ -272,17 +279,22 @@ _pacman ()
           -u --sysupgrade \
           -w --downloadonly \
           -y --refresh \
-           --config \
-           --noconfirm \
-           --noprogressbar \
+          --ignore \
+          --config \
+          --noconfirm \
+          --ask \
+          --noprogressbar \
+          --noscriptlet \
           -v --verbose \
           -r --root \
           -b --dbpath \
+          --cachedir \
           ' -- $cur ) )
         return 0
-      ;;
+        ;;
       Q)
         COMPREPLY=( $( compgen -W '\
+          -c --changelog \
           -e --orphans \
           -g --groups \
           -h --help \
@@ -292,54 +304,57 @@ _pacman ()
           -o --owns \
           -p --file \
           -s --search \
-           --config \
-           --noconfirm \
-           --noprogressbar \
+          --config \
+          --noconfirm \
+          --ask \
+          --noprogressbar \
+          --noscriptlet \
           -v --verbose \
           -r --root \
           -b --dbpath \
+          --cachedir \
           ' -- $cur ) )
         return 0
-      ;;
+        ;;
     esac
     rem_selected
   else
     case "${op}" in
       A|U)
-		COMPREPLY=( $( compgen -d -- "$cur" ) \
+        COMPREPLY=( $( compgen -d -- "$cur" ) \
                     $( compgen -f -X '!*.pkg.tar.gz' -- "$cur" ) )
         return 0
-      ;;
+        ;;
       h|V)
         COMPREPLY=''
         return 0
-      ;;
+        ;;
       Q)
         if _instring $mod g; then
-            _installed_groups
+          _installed_groups
         elif _instring $mod o; then
-			COMPREPLY=( $( compgen -d -- "$cur" ) \
-                        $( compgen -f -- "$cur" ) )
+          COMPREPLY=( $( compgen -d -- "$cur" ) \
+                      $( compgen -f -- "$cur" ) )
         elif _instring $mod p; then
-			COMPREPLY=( $( compgen -d -- "$cur" ) \
-                        $( compgen -f -X '!*.pkg.tar.gz' -- "$cur" ) )
+          COMPREPLY=( $( compgen -d -- "$cur" ) \
+                      $( compgen -f -X '!*.pkg.tar.gz' -- "$cur" ) )
         else
-            _installed_pkgs
+          _installed_pkgs
         fi
         return 0
-      ;;
+        ;;
       R)
         _installed_pkgs
         return 0
-      ;;
+        ;;
       S)
         if _instring $mod l; then
-            _available_repos
+          _available_repos
         else
-            _available_pkgs
+          _available_pkgs
         fi
         return 0
-      ;;
+        ;;
     esac
   fi
 

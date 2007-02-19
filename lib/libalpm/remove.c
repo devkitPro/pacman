@@ -241,7 +241,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 			}
 		}
 		if(skipit) {
-			_alpm_log(PM_LOG_WARNING, _("%s has moved packages, skipping removal"),
+			_alpm_log(PM_LOG_WARNING, _("%s has changed ownership, skipping removal"),
 								file);
 		} else if(needbackup) {
 			/* if the file is flagged, back it up to .pacsave */
