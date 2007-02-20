@@ -441,6 +441,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 			/* Add files in the NEW package's backup array to the noupgrade array
 			 * so this removal operation doesn't kill them */
+			/* TODO if we add here, all backup=() entries for all targets, new and
+			 * old, we cover all bases, including backup=() locations changing hands.
+			 * But is this viable? */
 			alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
 			for(b = newpkg->backup; b; b = b->next) {
 				_alpm_log(PM_LOG_DEBUG, _("adding %s to the NoUpgrade array temporarilly"), (char *)b->data);

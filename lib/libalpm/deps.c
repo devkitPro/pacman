@@ -138,9 +138,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		for(i = newtargs; i; i = i->next) {
 			pmpkg_t *p = (pmpkg_t*)i->data;
 			_alpm_log(PM_LOG_DEBUG, "sorting %s", p->name);
-			/* TODO this may not always work if p->data is a fd, not db */
-			_alpm_db_read(p->data, INFRQ_DEPENDS, p);
-			for(j = p->depends; j; j = j->next) {
+			for(j = alpm_pkg_get_depends(p); j; j = j->next) {
 				pmdepend_t dep;
 				pmpkg_t *q = NULL;
 				if(_alpm_splitdep(j->data, &dep)) {
@@ -438,6 +436,35 @@ int _alpm_splitdep(char *depstr, pmdepend_t *depend)
 	return(0);
 }
 
+/* These parameters are messy.  We check if this package, given a list of
+ * targets (and a db), is safe to remove.  We do NOT remove it if it is in the
+ * target list */
+static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
+{
+	alpm_list_t *i;
+
+	if(_alpm_pkg_isin(pkg->name, targets)) {
+		return(0);
+	}
+
+	/* see if it was explicitly installed */
+	if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
+		_alpm_log(PM_LOG_DEBUG, _("excluding %s -- explicitly installed"), pkg->name);
+		return(0);
+	}
+
+	/* see if other packages need it */
+	for(i = alpm_pkg_get_requiredby(pkg); i; i = i->next) {
+		pmpkg_t *reqpkg = _alpm_db_get_pkgfromcache(db, i->data);
+		if(reqpkg && !_alpm_pkg_isin(reqpkg->name, targets)) {
+			return(0);
+		}
+	}
+
+	/* it's ok to remove */
+	return(1);
+}
+
 /* return a new alpm_list_t target list containing all packages in the original
  * target list, as well as all their un-needed dependencies.  By un-needed,
  * I mean dependencies that are *only* required for packages in the target
@@ -456,67 +483,44 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 
 	for(i = targs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
-		if(pkg) {
-			_alpm_db_read(db, INFRQ_DEPENDS, pkg);
-		} else {
-			continue;
-		}
-		for(j = pkg->depends; j; j = j->next) {
+		for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
 			pmdepend_t depend;
 			pmpkg_t *dep;
-			int needed = 0;
-
 			if(_alpm_splitdep(j->data, &depend)) {
 				continue;
 			}
 
 			dep = _alpm_db_get_pkgfromcache(db, depend.name);
 			if(dep == NULL) {
-				/* package not found... look for a provisio instead */
-				k = _alpm_db_whatprovides(db, depend.name);
-				if(k == NULL) {
+				/* package not found... look for a provision instead */
+				alpm_list_t *provides = _alpm_db_whatprovides(db, depend.name);
+				if(!provides) {
 					/* Not found, that's fine, carry on */
 					_alpm_log(PM_LOG_DEBUG, _("cannot find package \"%s\" or anything that provides it!"), depend.name);
 					continue;
 				}
-				dep = _alpm_db_get_pkgfromcache(db, ((pmpkg_t *)k->data)->name);
-				if(dep == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("dep is NULL!"));
-					/* wtf */
-					continue;
+				for(k = provides; k; k = k->next) {
+					pmpkg_t *provpkg = k->data;
+					if(can_remove_package(db, provpkg, newtargs)) {
+						pmpkg_t *pkg = _alpm_pkg_new(provpkg->name, provpkg->version);
+						_alpm_db_read(db, INFRQ_ALL, pkg);
+
+						_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
+
+						/* add it to the target list */
+						newtargs = alpm_list_add(newtargs, pkg);
+						newtargs = _alpm_removedeps(db, newtargs);
+					}
 				}
-				FREELISTPTR(k);
-			}
-
-			_alpm_db_read(db, INFRQ_DEPENDS, dep);
-
-			if(_alpm_pkg_isin(dep->name, targs)) {
-				continue;
-			}
-
-			/* see if it was explicitly installed */
-			if(dep->reason == PM_PKG_REASON_EXPLICIT) {
-				_alpm_log(PM_LOG_DEBUG, _("excluding %s -- explicitly installed"), dep->name);
-				needed = 1;
-			}
-
-			/* see if other packages need it */
-			for(k = dep->requiredby; k && !needed; k = k->next) {
-				pmpkg_t *dummy = _alpm_db_get_pkgfromcache(db, k->data);
-				if(!_alpm_pkg_isin(dummy->name, targs)) {
-					needed = 1;
-				}
-			}
-			if(!needed) {
+				FREELISTPTR(provides);
+			} else if(can_remove_package(db, dep, newtargs)) {
 				pmpkg_t *pkg = _alpm_pkg_new(dep->name, dep->version);
-				if(pkg == NULL) {
-					continue;
-				}
-				/* add it to the target list */
-				_alpm_log(PM_LOG_DEBUG, _("loading ALL info for '%s'"), pkg->name);
 				_alpm_db_read(db, INFRQ_ALL, pkg);
-				newtargs = alpm_list_add(newtargs, pkg);
+
 				_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
+
+				/* add it to the target list */
+				newtargs = alpm_list_add(newtargs, pkg);
 				newtargs = _alpm_removedeps(db, newtargs);
 			}
 		}
