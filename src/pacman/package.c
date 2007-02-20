@@ -152,49 +152,55 @@ void dump_pkg_backups(pmpkg_t *pkg)
 {
 	alpm_list_t *i;
 	const char *root = alpm_option_get_root();
-	printf(_("Backup Files :\n"));
-	for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-		struct stat buf;
-		char path[PATH_MAX];
-		char *str = strdup(alpm_list_getdata(i));
-		char *ptr = index(str, '\t');
-		if(ptr == NULL) {
-			FREE(str);
-			continue;
-		}
-		*ptr = '\0';
-		ptr++;
-		snprintf(path, PATH_MAX-1, "%s%s", root, str);
-		/* if we find the file, calculate checksums, otherwise it is missing */
-		if(!stat(path, &buf)) {
-			char *sum;
-			char *md5sum = alpm_get_md5sum(path);
-			char *sha1sum = alpm_get_sha1sum(path);
-
-			if(md5sum == NULL || sha1sum == NULL) {
-				ERR(NL, _("error calculating checksums for %s\n"), path);
+	printf(_("Backup Files:\n"));
+	if(alpm_pkg_get_backup(pkg)) {
+		/* package has backup files, so print them */
+		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
+			struct stat buf;
+			char path[PATH_MAX];
+			char *str = strdup(alpm_list_getdata(i));
+			char *ptr = index(str, '\t');
+			if(ptr == NULL) {
 				FREE(str);
 				continue;
 			}
-			/* TODO Is this a good way to check type of backup stored?
-			 * We aren't storing it anywhere in the database. */
-			if (strlen(ptr) == 32) {
-				sum = md5sum;
-			} else { /*if (strlen(ptr) == 40) */
-				sum = sha1sum;
-			}
-			/* if checksums don't match, file has been modified */
-			if (strcmp(sum, ptr)) {
-				printf(_("MODIFIED\t%s\n"), path);
+			*ptr = '\0';
+			ptr++;
+			snprintf(path, PATH_MAX-1, "%s%s", root, str);
+			/* if we find the file, calculate checksums, otherwise it is missing */
+			if(!stat(path, &buf)) {
+				char *sum;
+				char *md5sum = alpm_get_md5sum(path);
+				char *sha1sum = alpm_get_sha1sum(path);
+
+				if(md5sum == NULL || sha1sum == NULL) {
+					ERR(NL, _("error calculating checksums for %s\n"), path);
+					FREE(str);
+					continue;
+				}
+				/* TODO Is this a good way to check type of backup stored?
+				 * We aren't storing it anywhere in the database. */
+				if (strlen(ptr) == 32) {
+					sum = md5sum;
+				} else { /*if (strlen(ptr) == 40) */
+					sum = sha1sum;
+				}
+				/* if checksums don't match, file has been modified */
+				if (strcmp(sum, ptr)) {
+					printf(_("MODIFIED\t%s\n"), path);
+				} else {
+					printf(_("Not Modified\t%s\n"), path);
+				}
+				FREE(md5sum);
+				FREE(sha1sum);
 			} else {
-				printf(_("Not Modified\t%s\n"), path);
+				printf(_("MISSING\t\t%s\n"), path);
 			}
-			FREE(md5sum);
-			FREE(sha1sum);
-		} else {
-			printf(_("MISSING\t\t%s\n"), path);
+			FREE(str);
 		}
-		FREE(str);
+	} else {
+		/* package had no backup files */
+		printf(_("(none)\n"));
 	}
 }
 	

@@ -313,8 +313,7 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 	return(conflicts);
 }
 
-alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root,
-                                     alpm_list_t **skip_list)
+alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 {
 	alpm_list_t *i, *j, *k;
 	alpm_list_t *conflicts = NULL;
@@ -366,50 +365,54 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root,
 		if(dbpkg) {
 			/* older ver of package currently installed */
 			tmpfiles = chk_filedifference(p1->files, alpm_pkg_get_files(dbpkg));
-			for(j = tmpfiles; j; j = j->next) {
-				filestr = j->data;
-				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", filestr);
+		} else {
+			/* no version of package currently installed */
+			tmpfiles = alpm_list_strdup(p1->files);
+		}
 
-				snprintf(path, PATH_MAX, "%s%s", root, filestr);
+		/* loop over each file to be installed */
+		for(j = tmpfiles; j; j = j->next) {
+			filestr = j->data;
+			_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", filestr);
 
-				/* stat the file - if it exists and is not a dir, do some checks */
-				if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
-					/* Look at all the targets to see if file has changed hands */
-					for(k = targets; k; k = k->next) {
-						p2 = (pmpkg_t *)k->data;
-						/* Ensure we aren't looking at current package */
-						if(strcmp(p2->name, p1->name)) {
-							pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
-							/* Check if it used to exist in a package, but doesn't anymore */
-							if(localp2 && !alpm_list_find_str(alpm_pkg_get_files(p2), filestr)
-									&& alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {
-								*skip_list = alpm_list_add(*skip_list, strdup(filestr));
-								_alpm_log(PM_LOG_DEBUG, "adding to skiplist: %s", filestr);
-							} else {
-								conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
-								                             filestr, p1->name, NULL);
-								break;
-							}
+			snprintf(path, PATH_MAX, "%s%s", root, filestr);
+
+			/* stat the file - if it exists and is not a dir, do some checks */
+			if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
+				/* Look at all the targets to see if file has changed hands */
+				for(k = targets; k; k = k->next) {
+					p2 = (pmpkg_t *)k->data;
+					/* Ensure we aren't looking at current package */
+					if(p2 == p1) {
+						continue;
+					}
+					pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
+					/* Check if it used to exist in a package, but doesn't anymore */
+					if(localp2 && !alpm_list_find_str(alpm_pkg_get_files(p2), filestr)
+							&& alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {
+						/* check if the file is now in the backup array */
+						if(alpm_list_find_str(alpm_pkg_get_backup(p1), filestr)) {
+							/* keep file intact if it is in backup array */
+							trans->skip_add = alpm_list_add(trans->skip_add, strdup(path));
+							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
+							_alpm_log(PM_LOG_DEBUG, "file in backup array, adding to add and remove skiplist: %s", filestr);
+						} else {
+							/* skip removal of file, but not add. this will prevent a second
+							 * package from removing the file when it was already installed
+							 * by its new owner */
+							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
+							_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s", filestr);
 						}
+					} else {
+						conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
+																				 filestr, p1->name, NULL);
+						break;
 					}
 				}
 			}
-			alpm_list_free_inner(tmpfiles, &free);
-			alpm_list_free(tmpfiles);
-		} else {
-			/* no version of package currently installed */
-			for(j = p1->files; j; j = j->next) {
-				filestr = j->data;
-
-				snprintf(path, PATH_MAX, "%s%s", root, filestr);
-
-				/* stat the file - if it exists and is not a dir, report a conflict */
-				if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
-					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
-					                             filestr, p1->name, NULL);
-				}
-			}
 		}
+		alpm_list_free_inner(tmpfiles, &free);
+		alpm_list_free(tmpfiles);
 	}
 
 	return(conflicts);

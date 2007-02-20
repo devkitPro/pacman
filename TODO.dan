@@ -117,3 +117,9 @@ Fix inconsistency of args- _alpm_db_read, _alpm_db_write
 Resurrect test scripts, and add ones as needed. Testing by scripts > testing by
 hand.
 
+Build a replacement for this, or at least standardize its use. We shouldn't
+always need to pass handle->root around, it is constant. Something like char*
+buildpath(file).
+	/* build the new entryname relative to handle->root */
+	snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
+

@@ -55,7 +55,8 @@ pmtrans_t *_alpm_trans_new()
 
 	trans->targets = NULL;
 	trans->packages = NULL;
-	trans->skiplist = NULL;
+	trans->skip_add = NULL;
+	trans->skip_remove = NULL;
 	trans->type = 0;
 	trans->flags = 0;
 	trans->cb_event = NULL;
@@ -87,7 +88,8 @@ void _alpm_trans_free(void *data)
 		FREELISTPKGS(trans->packages);
 	}
 
-	FREELIST(trans->skiplist);
+	FREELIST(trans->skip_add);
+	FREELIST(trans->skip_remove);
 
 	FREE(trans);
 }

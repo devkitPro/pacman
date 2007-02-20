@@ -316,24 +316,18 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	/* Check for file conflicts
 	 */
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		alpm_list_t *skiplist = NULL;
-
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, _("looking for file conflicts"));
-		lp = _alpm_db_find_conflicts(db, trans, handle->root, &skiplist);
+		lp = _alpm_db_find_conflicts(db, trans, handle->root);
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;
 			} else {
 				FREELIST(lp);
 			}
-			FREELIST(skiplist);
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
-
-		/* copy the file skiplist into the transaction */
-		trans->skiplist = skiplist;
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
 	}
@@ -423,7 +417,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		if(oldpkg) {
 			/* this is kinda odd.  If the old package exists, at this point we make a
 			 * NEW transaction, unrelated to handle->trans, and instantiate a "remove"
-			 * with the type PM_TRANS_TYPE_UPGRADE */
+			 * with the type PM_TRANS_TYPE_UPGRADE. TODO: kill this weird behavior. */
 			pmtrans_t *tr = _alpm_trans_new();
 			_alpm_log(PM_LOG_DEBUG, _("removing old package first (%s-%s)"), oldpkg->name, oldpkg->version);
 
@@ -441,8 +435,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				RET_ERR(PM_ERR_TRANS_ABORT, -1);
 			}
 
-			/* copy the skiplist over */
-			tr->skiplist = alpm_list_strdup(trans->skiplist);
+			/* copy the remove skiplist over */
+			tr->skip_remove = alpm_list_strdup(trans->skip_remove);
 			alpm_list_t *b;
 
 			/* Add files in the NEW package's backup array to the noupgrade array
@@ -538,7 +532,15 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				/* if a file is in NoExtract then we never extract it */
 				if(alpm_list_find_str(handle->noextract, entryname)) {
+					_alpm_log(PM_LOG_DEBUG, _("%s is in NoExtract, skipping extraction"), entryname);
 					alpm_logaction(_("notice: %s is in NoExtract -- skipping extraction"), entryname);
+					archive_read_data_skip(archive);
+					continue;
+				}
+
+				/* if a file is in the add skiplist we never extract it */
+				if(alpm_list_find_str(trans->skip_add, filename)) {
+					_alpm_log(PM_LOG_DEBUG, _("%s is in trans->skip_add, skipping extraction"), entryname);
 					archive_read_data_skip(archive);
 					continue;
 				}

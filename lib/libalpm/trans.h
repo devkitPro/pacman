@@ -41,9 +41,10 @@ struct __pmtrans_t {
 	pmtranstype_t type;
 	unsigned int flags;
 	pmtransstate_t state;
-	alpm_list_t *targets;     /* alpm_list_t of (char *) */
-	alpm_list_t *packages;    /* alpm_list_t of (pmpkg_t *) or (pmsyncpkg_t *) */
-	alpm_list_t *skiplist;    /* alpm_list_t of (char *) */
+	alpm_list_t *targets;       /* list of (char *) */
+	alpm_list_t *packages;      /* list of (pmpkg_t *) or (pmsyncpkg_t *) */
+	alpm_list_t *skip_add;      /* list of (char *) */
+	alpm_list_t *skip_remove;   /* list of (char *) */
 	alpm_trans_cb_event cb_event;
 	alpm_trans_cb_conv cb_conv;
 	alpm_trans_cb_progress cb_progress;

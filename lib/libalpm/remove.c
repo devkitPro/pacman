@@ -155,19 +155,15 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	return(0);
 }
 
-static int can_remove_file(const char *path)
+static int can_remove_file(pmtrans_t *trans, const char *path)
 {
-	alpm_list_t *i;
 	char file[PATH_MAX+1];
 
 	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
 
-	for(i = handle->trans->skiplist; i; i = i->next) {
-		if(strcmp(file, i->data) == 0) {
-			/* skipping this file, return success because "removing" this
-			 * file does nothing */
-			return(1);
-		}
+	if(alpm_list_find_str(trans->skip_remove, file)) {
+		/* return success because we will never actually remove this file */
+		return(1);
 	}
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
@@ -175,7 +171,8 @@ static int can_remove_file(const char *path)
 		if(access(file, F_OK) == 0) {
 			/* only return failure if the file ACTUALLY exists and we don't have
 			 * permissions */
-			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s"), file, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s"),
+			          file, strerror(errno));
 			return(0);
 		}
 	}
@@ -230,19 +227,11 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 			_alpm_log(PM_LOG_DEBUG, _("removing directory %s"), file);
 		}
 	} else {
-		/* check the "skip list" before removing the file.
+		/* check the remove skip list before removing the file.
 		 * see the big comment block in db_find_conflicts() for an
 		 * explanation. */
-		int skipit = 0;
-		alpm_list_t *j;
-		for(j = trans->skiplist; j; j = j->next) {
-			if(!strcmp(lp->data, (char*)j->data)) {
-				skipit = 1;
-			}
-		}
-		if(skipit) {
-			_alpm_log(PM_LOG_WARNING, _("%s has changed ownership, skipping removal"),
-								file);
+		if(alpm_list_find_str(trans->skip_remove, file)) {
+			_alpm_log(PM_LOG_DEBUG, _("%s is in trans->skip_remove, skipping removal"), file);
 		} else if(needbackup) {
 			/* if the file is flagged, back it up to .pacsave */
 			if(!(trans->type == PM_TRANS_TYPE_UPGRADE)) {
@@ -301,7 +290,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 			for(lp = info->files; lp; lp = lp->next) {
-				if(!can_remove_file(lp->data)) {
+				if(!can_remove_file(trans, lp->data)) {
 					_alpm_log(PM_LOG_DEBUG, _("not removing package '%s', can't remove all files"), info->name);
 					RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
 				}
