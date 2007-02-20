@@ -1,0 +1,62 @@
+Contributing to pacman
+======================
+
+Coding style
+------------
+
+1.  All code should be indented with tabs. (Ignore the use of only spaces in
+    this file) By default, source files contain the following VIM modeline:
+      /* vim: set ts=2 sw=2 noet: */
+
+2.  When opening new blocks such as 'while', 'if', or 'for', leave the opening
+    brace on the same line as the beginning of the codeblock. The closing brace
+    gets its own line (the only exception being 'else'). Do not use extra
+    spaces around the parentheses of the block. ALWAYS use opening/closing
+    braces, even if it's just a one-line block.
+
+    for(lp = list; lp; lp = lp->next) {
+      newlist = _alpm_list_add(newlist, strdup(lp->data));
+    }
+
+    while(it) {
+      ptr = it->next;
+      if(fn) {
+        fn(it->data);
+      } else {
+        return(1);
+      }
+      free(it);
+      it = ptr;
+    }
+
+3.  When declaring a new function, put the opening and closing braces on their
+    own line. Also, when declaring a pointer, do not put a space between the
+    asterisk and the variable name.
+
+    pmlist_t *_alpm_list_add(pmlist_t *list, void *data)
+    {
+      pmlist_t *ptr, *lp;
+
+      ptr = list;
+     if(ptr == NULL) {
+    ...
+    }
+
+4.  Comments should be ANSI-C89 compliant. That means no "// Comment" style;
+    use only "/* Comment */" style.
+
+5.  Return statements should be written like a function call.
+
+    return(0);
+       NOT
+    return 0;
+
+6.  The sizeof() operator should accept a type, not a value. (TODO: in certain
+    cases, it may be better- should this be a set guideline? Read "The Practice
+    of Programming")
+
+    sizeof(alpm_list_t);
+       NOT
+    sizeof(*mylist);
+
+vim: set ts=2 sw=2 et:
