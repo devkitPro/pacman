@@ -290,7 +290,6 @@ static int parseargs(int argc, char *argv[])
 
 				if(optarg) {
 					unsigned short debug = atoi(optarg);
-					printf("setting logmask to %s\n", optarg);
 					switch(debug) {
 						case 3: logmask |= PM_LOG_FUNCTION; /* fall through */
 						case 2: logmask |= PM_LOG_DOWNLOAD; /*fall through */
@@ -299,7 +298,6 @@ static int parseargs(int argc, char *argv[])
 						  ERR(NL, _("'%s' is not a valid debug level"), optarg);
 							return(1);
 					}
-					printf("logmask = %d\n", logmask);
 				} else {
 					logmask |= PM_LOG_DEBUG;
 				}
