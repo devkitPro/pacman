@@ -100,16 +100,19 @@ class pmenv:
                 passed += 1
             else:
                 print "[FAILED]",
-            print test.name.strip(".py").ljust(38),
+            print test.name.strip(".py").ljust(33),
             print "Rules:",
-            print " OK = %2u  FAIL = %2u  SKIP = %2u" % (success, fail, rules-(success+fail))
+            print "OK = %2u  FAIL = %2u  SKIP = %2u" % \
+                    (success, fail, rules - (success + fail))
         print "----------"*8
         total = len(self.testcases)
         failed = total - passed
         print "TOTAL  = %3u" % total
         if total:
-            print "PASSED = %3u (%6.2f%%)" % (passed, float(passed)*100/total)
-            print "FAILED = %3u (%6.2f%%)" % (failed, float(failed)*100/total)
+            print "PASSED = %3u (%6.2f%%)" % \
+                    (passed, float(passed) * 100 / total)
+            print "FAILED = %3u (%6.2f%%)" % \
+                    (failed, float(failed) * 100 / total)
         print
 
 
