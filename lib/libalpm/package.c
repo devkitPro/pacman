@@ -137,7 +137,7 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_CACHE) {
 		/* ensure we have the /desc file, which contains the 'force' option */
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 
 	/* compare versions and see if we need to upgrade */
@@ -598,7 +598,7 @@ const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->desc;
 }
@@ -612,7 +612,7 @@ const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->url;
 }
@@ -626,7 +626,7 @@ const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->builddate;
 }
@@ -638,7 +638,7 @@ const char SYMEXPORT *alpm_pkg_get_buildtype(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->buildtype;
 }
@@ -652,7 +652,7 @@ const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->installdate;
 }
@@ -666,7 +666,7 @@ const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->packager;
 }
@@ -680,7 +680,7 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->md5sum;
 }
@@ -694,7 +694,7 @@ const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->sha1sum;
 }
@@ -708,7 +708,7 @@ const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->arch;
 }
@@ -722,7 +722,7 @@ unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(-1));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->size;
 }
@@ -736,7 +736,7 @@ unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(-1));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->isize;
 }
@@ -750,7 +750,7 @@ pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(-1));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->reason;
 }
@@ -764,7 +764,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->license;
 }
@@ -778,7 +778,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, INFRQ_DESC, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->groups;
 }
@@ -793,7 +793,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->depends;
 }
@@ -807,7 +807,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_removes(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->removes;
 }
@@ -821,7 +821,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->requiredby;
 }
@@ -835,7 +835,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->conflicts;
 }
@@ -849,7 +849,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->provides;
 }
@@ -863,7 +863,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, return(NULL));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, INFRQ_DEPENDS, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->replaces;
 }
@@ -878,7 +878,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
 		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->data, INFRQ_FILES, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_FILES);
 	}
 	return pkg->files;
 }
@@ -893,7 +893,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
 		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->data, INFRQ_FILES, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_FILES);
 	}
 	return pkg->backup;
 }
@@ -908,7 +908,7 @@ unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
 		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
-		_alpm_db_read(pkg->data, INFRQ_SCRIPTLET, pkg);
+		_alpm_db_read(pkg->data, pkg, INFRQ_SCRIPTLET);
 	}
 	return pkg->scriptlet;
 }

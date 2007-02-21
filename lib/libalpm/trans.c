@@ -294,7 +294,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 				found_provides = 1;
 
 				/* Ensure package has the right newpkg */
-				_alpm_db_read(localdb, INFRQ_DEPENDS, deppkg);
+				_alpm_db_read(localdb, deppkg, INFRQ_DEPENDS);
 
 				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
 				if(trans->type == PM_TRANS_TYPE_REMOVE) {
@@ -318,7 +318,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 		}
 
 		/* Ensure package has the right newpkg */
-		_alpm_db_read(localdb, INFRQ_DEPENDS, deppkg);
+		_alpm_db_read(localdb, deppkg, INFRQ_DEPENDS);
 
 		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
 		if(trans->type == PM_TRANS_TYPE_REMOVE) {

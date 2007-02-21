@@ -124,7 +124,7 @@ int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 	for(p = db->pkgcache; p; p = p->next) {
 		pmpkg_t *pkg = (pmpkg_t *)p->data;
 		if(infolevel != INFRQ_NONE && !(pkg->infolevel & infolevel)) {
-			if(_alpm_db_read(db, infolevel, pkg) == -1) {
+			if(_alpm_db_read(db, pkg, infolevel) == -1) {
 				/* TODO should we actually remove from the filesystem here as well? */
 				_alpm_db_remove_pkgfromcache(db, pkg);
 			} else {

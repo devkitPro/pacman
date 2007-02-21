@@ -183,7 +183,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 			_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
 			return(NULL);
 		}
-		if(_alpm_db_read(db, inforeq, pkg) == -1) {
+		if(_alpm_db_read(db, pkg, inforeq) == -1) {
 			/* TODO removed corrupt entry from the FS here */
 			FREEPKG(pkg);
 		}
@@ -193,7 +193,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 	return(pkg);
 }
 
-int _alpm_db_read(pmdb_t *db, unsigned int inforeq, pmpkg_t *info)
+int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	struct stat buf;
@@ -471,7 +471,7 @@ error:
 	return(-1);
 }
 
-int _alpm_db_write(pmdb_t *db, pmpkg_t *info, unsigned int inforeq)
+int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];

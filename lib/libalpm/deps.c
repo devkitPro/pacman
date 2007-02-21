@@ -223,7 +223,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				_alpm_log(PM_LOG_DEBUG, _("cannot find package installed '%s'"), tp->name);
 				continue;
 			}
-			_alpm_db_read(db, INFRQ_DEPENDS, oldpkg);
+			_alpm_db_read(db, oldpkg, INFRQ_DEPENDS);
 			for(j = oldpkg->requiredby; j; j = j->next) {
 				pmpkg_t *p;
 				found = 0;
@@ -235,7 +235,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 					/* this package also in the upgrade list, so don't worry about it */
 					continue;
 				}
-				_alpm_db_read(db, INFRQ_DEPENDS, p);
+				_alpm_db_read(db, p, INFRQ_DEPENDS);
 				for(k = p->depends; k && !found; k = k->next) {
 					/* find the dependency info in p->depends */
 					_alpm_splitdep(k->data, &depend);
@@ -278,7 +278,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 
 			/* ensure package has depends data */
 			pmdb_t *pkgdb = tp->data;
-			_alpm_db_read(pkgdb, INFRQ_DEPENDS, tp);
+			_alpm_db_read(pkgdb, tp, INFRQ_DEPENDS);
 			if(!tp->depends) {
 				_alpm_log(PM_LOG_DEBUG, _("no dependencies for target '%s'"), tp->name);
 			}
@@ -503,7 +503,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 					pmpkg_t *provpkg = k->data;
 					if(can_remove_package(db, provpkg, newtargs)) {
 						pmpkg_t *pkg = _alpm_pkg_new(provpkg->name, provpkg->version);
-						_alpm_db_read(db, INFRQ_ALL, pkg);
+						_alpm_db_read(db, pkg, INFRQ_ALL);
 
 						_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
 
@@ -515,7 +515,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 				FREELISTPTR(provides);
 			} else if(can_remove_package(db, dep, newtargs)) {
 				pmpkg_t *pkg = _alpm_pkg_new(dep->name, dep->version);
-				_alpm_db_read(db, INFRQ_ALL, pkg);
+				_alpm_db_read(db, pkg, INFRQ_ALL);
 
 				_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
 
@@ -579,7 +579,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		/* check literals */
 		for(j = dbs_sync; !sync && j; j = j->next) {
 			sync = _alpm_db_get_pkgfromcache(j->data, miss->depend.name);
-			_alpm_db_read(j->data, INFRQ_DEPENDS, sync);
+			_alpm_db_read(j->data, sync, INFRQ_DEPENDS);
 		}
 		/* check provides */
 		for(j = dbs_sync; !sync && j; j = j->next) {
