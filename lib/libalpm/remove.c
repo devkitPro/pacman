@@ -206,10 +206,11 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		FREE(hash);
 	}
 	
-	if(!needbackup && trans->type == PM_TRANS_TYPE_UPGRADE) {
+	if(trans->type == PM_TRANS_TYPE_UPGRADE) {
 		/* check noupgrade */
 		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
-			needbackup = 1;
+			_alpm_log(PM_LOG_DEBUG, _("Skipping removal of '%s' due to NoUpgrade"), file);
+			return;
 		}
 	}
 
@@ -232,28 +233,31 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		 * explanation. */
 		if(alpm_list_find_str(trans->skip_remove, file)) {
 			_alpm_log(PM_LOG_DEBUG, _("%s is in trans->skip_remove, skipping removal"), file);
+			return;
 		} else if(needbackup) {
 			/* if the file is flagged, back it up to .pacsave */
 			if(!(trans->type == PM_TRANS_TYPE_UPGRADE)) {
 				/* if it was an upgrade, the file would be left alone because
 				 * pacman_add() would handle it */
-				if(!(trans->type & PM_TRANS_FLAG_NOSAVE)) {
+				if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
 					char newpath[PATH_MAX];
 					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
 					rename(file, newpath);
 					_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), file, newpath);
+					return;
+				} else {
+					_alpm_log(PM_LOG_DEBUG, _("transaction is set to NOSAVE, not backing up '%s'"), file);
 				}
 			}
-		} else {
-			_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), file);
-			int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
+		}
+		_alpm_log(PM_LOG_DEBUG, _("unlinking %s"), file);
+		int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
 
-			PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
-			++(*position);
+		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
+		++(*position);
 
-			if(unlink(file) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), lp->data, strerror(errno));
-			}
+		if(unlink(file) == -1) {
+			_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s"), lp->data, strerror(errno));
 		}
 	}
 }

@@ -72,6 +72,7 @@ int _alpm_db_open(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
+	_alpm_log(PM_LOG_DEBUG, _("opening database from path '%s'"), db->path);
 	db->handle = opendir(db->path);
 	if(db->handle == NULL) {
 		RET_ERR(PM_ERR_DB_OPEN, -1);
@@ -154,8 +155,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 			if(!found) {
 				return(NULL);
 			}
-		} else {
-			/* normal iteration */
+		} else { /* target == NULL, full scan */
 			int isdir = 0;
 			while(!isdir) {
 				ent = readdir(db->handle);
@@ -176,6 +176,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 
 		pkg = _alpm_pkg_new(NULL, NULL);
 		if(pkg == NULL) {
+			_alpm_log(PM_LOG_DEBUG, _("db scan could not find package: %s"), target);
 			return(NULL);
 		}
 		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
@@ -188,6 +189,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 		}
 	}
 
+	_alpm_log(PM_LOG_DEBUG, _("db scan found package: %s"), pkg->name);
 	return(pkg);
 }
 

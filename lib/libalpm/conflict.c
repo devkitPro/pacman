@@ -379,9 +379,16 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 
 			/* stat the file - if it exists and is not a dir, do some checks */
 			if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
+
 				/* Look at all the targets to see if file has changed hands */
 				for(k = targets; k; k = k->next) {
-					p2 = (pmpkg_t *)k->data;
+					pmsyncpkg_t *sync = k->data;
+					if(!sync) {
+						continue;
+					}
+
+					p2 = sync->pkg;
+
 					/* Ensure we aren't looking at current package */
 					if(p2 == p1) {
 						continue;
@@ -404,6 +411,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 							_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s", filestr);
 						}
 					} else {
+						_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s", filestr);
 						conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
 																				 filestr, p1->name, NULL);
 						break;

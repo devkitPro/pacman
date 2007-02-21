@@ -71,7 +71,7 @@ pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
-	sprintf(db->path, "%s%s/%s", root, dbpath, treename);
+	sprintf(db->path, "%s%s%s", root, dbpath, treename);
 
 	STRNCPY(db->treename, treename, PATH_MAX);
 

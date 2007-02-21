@@ -66,28 +66,29 @@ pmhandle_t *_alpm_handle_new()
 	/* see if we're root or not (fakeroot does not count) */
 #ifndef FAKEROOT
 	if(handle->uid == 0 && !getenv("FAKEROOTKEY")) {
+		/* } make vim indent work - stupid ifdef's */
 #else
-	if(handle->uid == 0) {
+		if(handle->uid == 0) {
 #endif
-		handle->access = PM_ACCESS_RW;
-	} else {
-		handle->access = PM_ACCESS_RO;
-	}
+			handle->access = PM_ACCESS_RW;
+		} else {
+			handle->access = PM_ACCESS_RO;
+		}
 #else
 	handle->access = PM_ACCESS_RW;
 #endif
 
-  handle->root = strdup(PM_ROOT);
+	handle->root = strdup(PM_ROOT);
 	handle->dbpath = strdup(PM_DBPATH);
 	handle->cachedir = strdup(PM_CACHEDIR);
-  handle->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
+	handle->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
 
 	return(handle);
 }
 
 int _alpm_handle_free(pmhandle_t *handle)
 {
-  ALPM_LOG_FUNC;
+	ALPM_LOG_FUNC;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -139,7 +140,7 @@ unsigned short alpm_option_get_usecolor() { return handle->use_color; }
 pmdb_t *alpm_option_get_localdb() { return handle->db_local; }
 alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
 {
-  return handle->dbs_sync;
+	return handle->dbs_sync;
 }
 
 void SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
@@ -151,24 +152,54 @@ void SYMEXPORT alpm_option_set_logmask(unsigned short mask) { handle->logmask = 
 void alpm_option_set_root(const char *root)
 {
 	if(handle->root) FREE(handle->root);
-	if(root) handle->root = strdup(root);
+	if(root) {
+		/* verify root ends in a '/' */
+		int rootlen = strlen(root);
+		if(root[rootlen-1] != '/') {
+			rootlen += 1;
+		}
+		handle->root = calloc(rootlen+1, sizeof(char));
+		strncpy(handle->root, root, rootlen);
+		handle->root[rootlen-1] = '/';
+		_alpm_log(PM_LOG_DEBUG, _("option 'root' = %s"), handle->root);
+	}
 }
 
 void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 {
-  if(handle->dbpath) FREE(handle->dbpath);
-  if(dbpath) handle->dbpath = strdup(dbpath);
+	if(handle->dbpath) FREE(handle->dbpath);
+	if(dbpath) {
+		/* verify dbpath ends in a '/' */
+		int dbpathlen = strlen(dbpath);
+		if(dbpath[dbpathlen-1] != '/') {
+			dbpathlen += 1;
+		}
+		handle->dbpath = calloc(dbpathlen+1, sizeof(char));
+		strncpy(handle->dbpath, dbpath, dbpathlen);
+		handle->dbpath[dbpathlen-1] = '/';
+		_alpm_log(PM_LOG_DEBUG, _("option 'dbpath' = %s"), handle->dbpath);
+	}
 }
 
 void alpm_option_set_cachedir(const char *cachedir)
 {
-  if(handle->cachedir) FREE(handle->cachedir);
-  if(cachedir) handle->cachedir = strdup(cachedir);
+	if(handle->cachedir) FREE(handle->cachedir);
+	if(cachedir) {
+		/* verify cachedir ends in a '/' */
+		int cachedirlen = strlen(cachedir);
+		if(cachedir[cachedirlen-1] != '/') {
+			cachedirlen += 1;
+		}
+		handle->cachedir = calloc(cachedirlen+1, sizeof(char));
+		strncpy(handle->cachedir, cachedir, cachedirlen);
+		handle->cachedir[cachedirlen-1] = '/';
+		_alpm_log(PM_LOG_DEBUG, _("option 'cachedir' = %s"), handle->cachedir);
+	}
 }
 
 void alpm_option_set_logfile(const char *logfile)
 {
-  ALPM_LOG_FUNC;
+	ALPM_LOG_FUNC;
 
 	if(handle->logfile) {
 		FREE(handle->logfile);
@@ -185,12 +216,12 @@ void alpm_option_set_logfile(const char *logfile)
 
 void alpm_option_set_usesyslog(unsigned short usesyslog)
 {
-  handle->usesyslog = usesyslog;
+	handle->usesyslog = usesyslog;
 }
 
 void alpm_option_add_noupgrade(char *pkg)
 {
-  handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
+	handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 }
 
 void alpm_option_set_noupgrades(alpm_list_t *noupgrade)
@@ -201,7 +232,7 @@ void alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 
 void alpm_option_add_noextract(char *pkg)
 {
-  handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
+	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
 }
 void alpm_option_set_noextracts(alpm_list_t *noextract)
 {
@@ -211,7 +242,7 @@ void alpm_option_set_noextracts(alpm_list_t *noextract)
 
 void SYMEXPORT alpm_option_add_ignorepkg(char *pkg)
 {
-  handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
+	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 }
 void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 {
@@ -221,7 +252,7 @@ void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 
 void alpm_option_add_holdpkg(char *pkg)
 {
-  handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
+	handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
 }
 void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 {
@@ -231,7 +262,7 @@ void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 
 void alpm_option_set_upgradedelay(time_t delay)
 {
-  handle->upgradedelay = delay;
+	handle->upgradedelay = delay;
 }
 
 void alpm_option_set_xfercommand(const char *cmd)
@@ -242,14 +273,14 @@ void alpm_option_set_xfercommand(const char *cmd)
 
 void alpm_option_set_nopassiveftp(unsigned short nopasv)
 {
-  handle->nopassiveftp = nopasv;
+	handle->nopassiveftp = nopasv;
 }
 
 void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
 
 void alpm_option_set_usecolor(unsigned short usecolor)
 {
-  handle->use_color = usecolor;
+	handle->use_color = usecolor;
 }
 
-/* vim: set ts=2 sw=2 et: */
+/* vim: set ts=2 sw=2 noet: */
