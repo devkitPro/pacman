@@ -32,42 +32,43 @@ __version__ = "0.3"
 
 
 def usage(retcode):
-	"""
-	"""
-	print "Usage: %s [options] [[--test=<path/to/testfile.py>] ...]\n\n" % __file__
-	sys.exit(retcode)
+    """
+    """
+    print "Usage: %s [options] [[--test=<path/to/testfile.py>] ...]\n\n" % __file__
+    sys.exit(retcode)
 
 if __name__ == "__main__":
-	env = pmenv.pmenv()
-	testcases = []
+    env = pmenv.pmenv()
+    testcases = []
 
-	try:
-		opts, args = getopt.getopt(sys.argv[1:],
-		                           "d:hp:t:v",
-		                           ["debug=", "gdb", "help", "pacman=", "test=", "valgrind", "verbose", "nolog"])
-	except getopt.GetoptError:
-		usage(1)
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],
+                                   "d:hp:t:v",
+                                   ["debug=", "gdb", "help", "pacman=", "test=", "valgrind", "verbose", "nolog"])
+    except getopt.GetoptError:
+        usage(1)
 
-	for (cmd, param) in opts:
-		if cmd == "-v" or cmd == "--verbose":
-			util.verbose += 1
-		elif cmd == "-d" or cmd == "--debug":
-			env.pacman["debug"] = int(param)
-		elif cmd == "-t" or cmd == "--test":
-			testcases.extend(glob.glob(param))
-		elif cmd == "-p" or cmd == "--pacman":
-			env.pacman["bin"] = os.path.abspath(param)
-		elif cmd == "-h" or cmd == "--help":
-			usage(0)
-		elif cmd == "--nolog":
-			env.pacman["nolog"] = 1
-		elif cmd == "--gdb":
-			env.pacman["gdb"] = 1
-		elif cmd == "--valgrind":
-			env.pacman["valgrind"] = 1
+    for (cmd, param) in opts:
+        if cmd == "-v" or cmd == "--verbose":
+            util.verbose += 1
+        elif cmd == "-d" or cmd == "--debug":
+            env.pacman["debug"] = int(param)
+        elif cmd == "-t" or cmd == "--test":
+            testcases.extend(glob.glob(param))
+        elif cmd == "-p" or cmd == "--pacman":
+            env.pacman["bin"] = os.path.abspath(param)
+        elif cmd == "-h" or cmd == "--help":
+            usage(0)
+        elif cmd == "--nolog":
+            env.pacman["nolog"] = 1
+        elif cmd == "--gdb":
+            env.pacman["gdb"] = 1
+        elif cmd == "--valgrind":
+            env.pacman["valgrind"] = 1
 
-	for i in testcases:
-		env.addtest(i)
+    for i in testcases:
+        env.addtest(i)
 
-	env.run()
-	env.results()
+    env.run()
+    env.results()
+# vim: set ts=4 sw=4 et:

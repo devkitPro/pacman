@@ -1,4 +1,4 @@
-self.description = "System upgrade"
+self.description = "System upgrade - conflict/provide with an installed package"
 
 sp1 = pmpkg("pkg1", "1.0-2")
 sp1.conflicts = ["pkg2"]

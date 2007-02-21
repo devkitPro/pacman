@@ -49,16 +49,16 @@ debug = 1
 
 
 def err(msg):
-	print "error: " + msg
-	sys.exit(1)
+    print "error: " + msg
+    sys.exit(1)
 
 def vprint(msg):
-	if verbose:
-		print msg
+    if verbose:
+        print msg
 
 def dbg(msg):
-	if debug:
-		print msg
+    if debug:
+        print msg
 
 
 #
@@ -66,133 +66,133 @@ def dbg(msg):
 #
 
 def getfilename(name):
-	"""
-	"""
-	filename = ""
-	link = ""
-	if not name.find(" -> ") == -1:
-		filename, link = name.split(" -> ")
-	elif name[-1] == "*":
-		filename = name.rstrip("*")
-	else:
-		filename = name
-	return filename
+    """
+    """
+    filename = ""
+    link = ""
+    if not name.find(" -> ") == -1:
+        filename, link = name.split(" -> ")
+    elif name[-1] == "*":
+        filename = name.rstrip("*")
+    else:
+        filename = name
+    return filename
 
 def mkfile(name, data = ""):
-	"""
-	"""
+    """
+    """
 
-	isaltered = 0
-	isdir = 0
-	islink = 0
-	link = ""
-	filename = ""
+    isaltered = 0
+    isdir = 0
+    islink = 0
+    link = ""
+    filename = ""
 
-	if not name.find(" -> ") == -1:
-		islink = 1
-		filename, link = name.split(" -> ")
-	elif name[-1] == "*":
-		isaltered = 1
-		filename = name.rstrip("*")
-	else:
-		filename = name
-	if name[-1] == "/":
-		isdir = 1
+    if not name.find(" -> ") == -1:
+        islink = 1
+        filename, link = name.split(" -> ")
+    elif name[-1] == "*":
+        isaltered = 1
+        filename = name.rstrip("*")
+    else:
+        filename = name
+    if name[-1] == "/":
+        isdir = 1
 
-	if isdir:
-		path = filename
-	else:
-		path = os.path.dirname(filename)
-	try:
-		if path and not os.path.isdir(path):
-			os.makedirs(path, 0755)
-	except:
-		error("mkfile: could not create directory hierarchy '%s'" % path)
+    if isdir:
+        path = filename
+    else:
+        path = os.path.dirname(filename)
+    try:
+        if path and not os.path.isdir(path):
+            os.makedirs(path, 0755)
+    except:
+        error("mkfile: could not create directory hierarchy '%s'" % path)
 
-	if isdir:
-		return
-	if islink:
-		curdir = os.getcwd()
-		os.chdir(path)
-		os.symlink(link, os.path.basename(filename))
-		os.chdir(curdir)
-	else:
-		fd = file(filename, "w")
-		if data:
-			fd.write(data)
-			if data[-1] != "\n":
-				fd.write("\n")
-		fd.close()
+    if isdir:
+        return
+    if islink:
+        curdir = os.getcwd()
+        os.chdir(path)
+        os.symlink(link, os.path.basename(filename))
+        os.chdir(curdir)
+    else:
+        fd = file(filename, "w")
+        if data:
+            fd.write(data)
+            if data[-1] != "\n":
+                fd.write("\n")
+        fd.close()
 
 def mkdescfile(filename, pkg):
-	"""
-	"""
+    """
+    """
 
-	data = []
+    data = []
 
-	# desc
-	#data.append("pkgname = %s" % pkg.name)
-	#data.append("pkgver = %s" % pkg.version)
-	if pkg.desc:
-		data.append("pkgdesc = %s" % pkg.desc)
-	if pkg.url:
-		data.append("url = %s" % pkg.url)
-	if pkg.builddate:
-		data.append("builddate = %s" % pkg.builddate)
-	if pkg.packager:
-		data.append("packager = %s" % pkg.packager)
-	if pkg.size:
-		data.append("size = %s" % pkg.size)
-	if pkg.arch:
-		data.append("arch = %s" % pkg.arch)
-	for i in pkg.groups:
-		data.append("group = %s" % i)
-	for i in pkg.license:
-		data.append("license = %s" % i)
-	if pkg.md5sum:
-		data.append("md5sum = %s" % pkg.md5sum)
+    # desc
+    #data.append("pkgname = %s" % pkg.name)
+    #data.append("pkgver = %s" % pkg.version)
+    if pkg.desc:
+        data.append("pkgdesc = %s" % pkg.desc)
+    if pkg.url:
+        data.append("url = %s" % pkg.url)
+    if pkg.builddate:
+        data.append("builddate = %s" % pkg.builddate)
+    if pkg.packager:
+        data.append("packager = %s" % pkg.packager)
+    if pkg.size:
+        data.append("size = %s" % pkg.size)
+    if pkg.arch:
+        data.append("arch = %s" % pkg.arch)
+    for i in pkg.groups:
+        data.append("group = %s" % i)
+    for i in pkg.license:
+        data.append("license = %s" % i)
+    if pkg.md5sum:
+        data.append("md5sum = %s" % pkg.md5sum)
 
-	# depends
-	for i in pkg.replaces:
-		data.append("replaces = %s" % i)
-	for i in pkg.depends:
-		data.append("depend = %s" % i)
-	for i in pkg.conflicts:
-		data.append("conflict = %s" % i)
-	for i in pkg.provides:
-		data.append("provides = %s" % i)
-	for i in pkg.backup:
-		data.append("backup = %s" % i)
-	if pkg.force:
-		data.append("force = 1")
+    # depends
+    for i in pkg.replaces:
+        data.append("replaces = %s" % i)
+    for i in pkg.depends:
+        data.append("depend = %s" % i)
+    for i in pkg.conflicts:
+        data.append("conflict = %s" % i)
+    for i in pkg.provides:
+        data.append("provides = %s" % i)
+    for i in pkg.backup:
+        data.append("backup = %s" % i)
+    if pkg.force:
+        data.append("force = 1")
 
-	mkfile(filename, "\n".join(data))
+    mkfile(filename, "\n".join(data))
 
 def mkinstallfile(filename, install):
-	"""
-	"""
-	data = []
-	for key, value in install.iteritems():
-		if value:
-			data.append("%s() {\n%s\n}" % (key, value))
-			
-	mkfile(filename, "\n".join(data))
+    """
+    """
+    data = []
+    for key, value in install.iteritems():
+        if value:
+            data.append("%s() {\n%s\n}" % (key, value))
+            
+    mkfile(filename, "\n".join(data))
 
 def mkcfgfile(filename, root, option, db):
-	"""
-	"""
-	# Options
-	data = ["[options]"]
-	for key, value in option.iteritems():
-		data.extend(["%s = %s" % (key, j) for j in value])
+    """
+    """
+    # Options
+    data = ["[options]"]
+    for key, value in option.iteritems():
+        data.extend(["%s = %s" % (key, j) for j in value])
 
-	# Repositories
-	data.extend(["[%s]\n" \
-	             "server = file://%s\n" \
-	             % (value.treename, os.path.join(root, SYNCREPO, value.treename)) \
-	             for key, value in db.iteritems() if not key == "local"])
+    # Repositories
+    data.extend(["[%s]\n" \
+                 "server = file://%s\n" \
+                 % (value.treename, os.path.join(root, SYNCREPO, value.treename)) \
+                 for key, value in db.iteritems() if not key == "local"])
 
-	mkfile(os.path.join(root, filename), "\n".join(data))
+    mkfile(os.path.join(root, filename), "\n".join(data))
 
 
 #
@@ -200,26 +200,26 @@ def mkcfgfile(filename, root, option, db):
 #
 
 def getmd5sum(filename):
-	"""
-	"""
-	fd = open(filename, "rb")
-	checksum = md5.new()
-	while 1:
-		block = fd.read(1048576)
-		if not block:
-			break
-		checksum.update(block)
-	fd.close()
-	digest = checksum.digest()
-	return "%02x"*len(digest) % tuple(map(ord, digest))
+    """
+    """
+    fd = open(filename, "rb")
+    checksum = md5.new()
+    while 1:
+        block = fd.read(1048576)
+        if not block:
+            break
+        checksum.update(block)
+    fd.close()
+    digest = checksum.digest()
+    return "%02x"*len(digest) % tuple(map(ord, digest))
 
 def mkmd5sum(data):
-	"""
-	"""
-	checksum = md5.new()
-	checksum.update("%s\n" % data)
-	digest = checksum.digest()
-	return "%02x"*len(digest) % tuple(map(ord, digest))
+    """
+    """
+    checksum = md5.new()
+    checksum.update("%s\n" % data)
+    digest = checksum.digest()
+    return "%02x"*len(digest) % tuple(map(ord, digest))
 
 
 #
@@ -227,15 +227,15 @@ def mkmd5sum(data):
 #
 
 def getmtime(filename):
-	"""
-	"""
-	st = os.stat(filename)
-	return st[stat.ST_ATIME], st[stat.ST_MTIME], st[stat.ST_CTIME]
+    """
+    """
+    st = os.stat(filename)
+    return st[stat.ST_ATIME], st[stat.ST_MTIME], st[stat.ST_CTIME]
 
 def diffmtime(mt1, mt2):
-	"""ORE: TBD
-	"""
-	return not mt1 == mt2
+    """ORE: TBD
+    """
+    return not mt1 == mt2
 
 
 #
@@ -243,17 +243,18 @@ def diffmtime(mt1, mt2):
 #
 
 def grep(filename, pattern):
-	found = 0
-	fd = file(filename, "r")
-	while 1 and not found:
-		line = fd.readline()
-		if not line:
-			break
-		if line.find(pattern) != -1:
-			found = 1
-	fd.close()
-	return found
+    found = 0
+    fd = file(filename, "r")
+    while 1 and not found:
+        line = fd.readline()
+        if not line:
+            break
+        if line.find(pattern) != -1:
+            found = 1
+    fd.close()
+    return found
 
 
 if __name__ == "__main__":
-	pass
+    pass
+# vim: set ts=4 sw=4 et:

@@ -24,42 +24,43 @@ from util import *
 
 
 class pmfile:
-	"""File object
-	"""
+    """File object
+    """
 
-	def __init__(self, root, name):
-		self.name = name
-		self.root = root
+    def __init__(self, root, name):
+        self.name = name
+        self.root = root
 
-		filename = os.path.join(self.root, self.name)
-		self.checksum = getmd5sum(filename)
-		self.mtime = getmtime(filename)
+        filename = os.path.join(self.root, self.name)
+        self.checksum = getmd5sum(filename)
+        self.mtime = getmtime(filename)
 
-	def __str__(self):
-		return "%s (%s / %lu)" % (self.name, self.checksum, self.mtime)
+    def __str__(self):
+        return "%s (%s / %lu)" % (self.name, self.checksum, self.mtime)
 
-	def ismodified(self):
-		"""
-		"""
+    def ismodified(self):
+        """
+        """
 
-		retval = 0
+        retval = 0
 
-		filename = os.path.join(self.root, self.name)
-		checksum = getmd5sum(filename)
-		mtime = getmtime(filename)
+        filename = os.path.join(self.root, self.name)
+        checksum = getmd5sum(filename)
+        mtime = getmtime(filename)
 
-		if debug:
-			print "ismodified(%s)" % self.name
-			print "old: %s / %s" % (self.checksum, self.mtime)
-			print "new: %s / %s" % (checksum, mtime)
+        if debug:
+            print "ismodified(%s)" % self.name
+            print "old: %s / %s" % (self.checksum, self.mtime)
+            print "new: %s / %s" % (checksum, mtime)
 
-		if not self.checksum == checksum \
-		   or not (self.mtime[1], self.mtime[2]) == (mtime[1], mtime[2]):
-			retval = 1
+        if not self.checksum == checksum \
+           or not (self.mtime[1], self.mtime[2]) == (mtime[1], mtime[2]):
+            retval = 1
 
-		return retval
+        return retval
 
 
 if __name__ == "__main__":
-	f = pmfile("/tmp", "foobar")
-	print f
+    f = pmfile("/tmp", "foobar")
+    print f
+# vim: set ts=4 sw=4 et:
