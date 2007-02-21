@@ -3,6 +3,16 @@
 * Dan and I both have personal TODOs.  Perhaps we should kill off TODO and
   TODO.autoconf
 
+* transaction object should contain two package list (install and remove)
+  instead of a single list of syncpkgs - this should allow us to get rid of that
+  type.  This also requires seperate functionality to return a list of
+  "replaces" packages to the front end, so the frontend can handle the QUESTION()
+  stuff in that case
+
+* _alpm_splitdep accepts a pre-allocated argument, instead of returning the
+  actual object like all the other function do... we should make the scheme the
+  same: pmdepend_t *_alpm_splitdep(const char *depstring);
+
 * Look into other VCSs to use.  The main CVS repo will remain, but having a
   distributed system to allow for easy patching/pushing/pulling would be nice
   - monotone and mercurial look like the top contenders in my book, but I need
@@ -79,8 +89,5 @@
 
 **** BUGS ****
 * Removal of conflicts on -A and -U (INCOMPLETE)
-* gensync: get all info from packages instead of PKGBUILDs
-  for now, we only need to check the PKGBUILD in case of a
-  'force' option
 * pacman: add pactest cases/functionality for all -Q operations and make sure
   the output is sane

@@ -6,4 +6,4 @@ EXTRA_DIST = \
 	README
 
 check: src/pacman
-	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman.static --debug=1
+	cd pactest; python pactest.py --test=tests/*.py -p ../src/pacman/pacman --debug=1
