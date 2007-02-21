@@ -16,7 +16,7 @@ pacman_SOURCES = util.c log.c package.c downloadprog.c trans.c add.c \
 
 pacman_static_SOURCES = $(pacman_SOURCES)
 
-pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.so \
+pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la \
 			   -ldownload
 
 pacman_static_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la \
