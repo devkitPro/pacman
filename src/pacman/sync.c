@@ -39,6 +39,8 @@
 #include <alpm.h>
 #include <alpm_list.h>
 #include <download.h> /* downloadLastErrString */
+/* TODO remove above download.h inclusion once we abstract more, and also
+ * remove it from Makefile.am on the pacman side */
 /* pacman */
 #include "util.h"
 #include "log.h"
@@ -660,7 +662,7 @@ int pacman_sync(alpm_list_t *targets)
 	packages = alpm_trans_get_packages();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
-		MSG(NL, _("local database is up to date\n"));
+		MSG(NL, _(" local database is up to date\n"));
 		goto cleanup;
 	}
 

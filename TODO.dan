@@ -4,19 +4,30 @@ TODO.dan
 This is my personal TODO list. No guarantees if it is out of date and things no
 longer apply. If you want to help out with any of it, send me an email.
 
-Documentation- look into moving man page format to a more portable source
-format to make translation easier to keep up-to-date (something like txt2tags,
-docbook, asciidoc) This will need some research.
+Only vaguely related to pacman:
+-------------------------------
 
 Port the libdownload (libfetch) manpage from BSD style to Linux style, or at
 very least change references to BSD.
 
-Pacman 3.1:
-===========
 
-Updated cache cleaning functionality in pacman - keep installed version, choose
-number to keep, etc. Good python script in the forums that we should try to
-emulate, perhaps.
+Pacman 3.0:
+-----------
+
+ideas mentioned here- http://bbs.archlinux.org/viewtopic.php?id=29450- add a
+.install message about mirrors, maybe comment whole file, encourage rankmirrors
+usage
+
+
+Pacman 3.1:
+-----------
+
+Documentation- look into moving man page format to a more portable source
+format to make translation easier to keep up-to-date (something like txt2tags,
+docbook, asciidoc) This will need some research.
+
+Update cache cleaning functionality - keep installed version, choose number to
+keep, etc. Good python script in the forums that we should try to emulate.
 
 Downgrade feature - allow users to see cached packages and downgrade to
 (previous or any?) available options.
@@ -26,7 +37,7 @@ to abstract more away from sync actions and add actions to just 'actions'
 (example: sync,c, add.c, and deptest.c all contain a switch on PM_DEP_MOD_*).
 Merge update, add, and sync code when possible, so we reduce duplication.
 
-Review progress /transaction event subsystem. (from TODO)
+Review progress/transaction event subsystem. (from TODO)
 
 Add Doxygen comments to every function in libalpm including private functions.
 Ensure functions are doing exactly their purpose and nothing more. Find
@@ -68,32 +79,23 @@ calls.
 
 Localize the date display done in --info output. Also, fix other localized
 issues- use non-printf when necessary, make sure all two line printed messages
-(especially usage instructions) are printed using one print statement.
+(especially usage instructions) are printed using one print statement. We
+may need to use some wchar_t output on the progress bar as char/byte counts
+differ here.
 
 Rewrite makepkg to use terminal-safe coloring/bolding. tput utility should
 allow us to do this.
 
-Other ideas:
-============
+Other smaller things:
+---------------------
 
 unsigned int vs. unsigned- determine a standard and stick with it
 
-Possibly split utilities/extras from pacman package
-
 FS #4185 - move where message is logged, perhaps?
-
-ideas mentioned here- http://bbs.archlinux.org/viewtopic.php?id=29450- add a
-.install message about mirrors, maybe comment whole file, encourage rankmirrors
-usage
 
 Update copyrights (2007)
 
 Update pacman website, and add/finish pacman coding style page
-
-Make .indent.pro file for GNU indent (started, but didn't finish)
-
-Pacman 3 packaging - perhaps include pacman2.static in case something goes
-terribly wrong, which I hope it won't
 
 autogen.sh / autoclean.sh - these seem messy. Can we clean this up?
 
@@ -114,12 +116,20 @@ Fix inconsistency of args- _alpm_db_read, _alpm_db_write
 
 --print-uri option to sync should not require saying yes or no to up to date
 
-Resurrect test scripts, and add ones as needed. Testing by scripts > testing by
-hand.
+Add testing scripts to pactest for issues we have been working on (especially 
+files moving between packages). Also, take a look at cleaning up the output and
+structure of the pactest.py program itself.
 
 Build a replacement for this, or at least standardize its use. We shouldn't
 always need to pass handle->root around, it is constant. Something like char*
 buildpath(file).
 	/* build the new entryname relative to handle->root */
 	snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
+
+Random ideas:
+-------------
+
+Possibly split utilities/extras from pacman package
+
+Make .indent.pro file for GNU indent (started, but didn't finish)
 
