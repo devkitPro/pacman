@@ -21,10 +21,14 @@ endif
 clean:
 	rm -f html/*.html
 	rm -f man3/*.3
-	rm -f man5/*.5
-	rm -f man8/*.8
 
-man_MANS = pacman.8 makepkg.8 PKGBUILD.5 makepkg.conf.5 pacman.conf.5 libalpm.3
+man_MANS = \
+	pacman.8 \
+	makepkg.8 \
+	PKGBUILD.5 \
+	makepkg.conf.5 \
+	pacman.conf.5 \
+	libalpm.3
 
 if HAS_DOXYGEN
 man_MANS += *.3

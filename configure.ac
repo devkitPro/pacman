@@ -11,16 +11,9 @@ AM_INIT_AUTOMAKE
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION(0.13.1)
 
-dnl Host dependant flags
-case "${host}" in
-	*-*-cygwin*)
-		ENV_CFLAGS="$ENV_CFLAGS -DCYGWIN"
-		;;
-esac
-
 dnl Define here the libalpm version number
-PM_MAJOR_VERSION=0
-PM_MINOR_VERSION=1
+PM_MAJOR_VERSION=1
+PM_MINOR_VERSION=0
 PM_MICRO_VERSION=0
 PM_VERSION=$PM_MAJOR_VERSION.$PM_MINOR_VERSION.$PM_MICRO_VERSION
 dnl Needed for libtool to create proper shared lib version
@@ -59,70 +52,9 @@ AC_ARG_ENABLE(doxygen,
     AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
     [wantdoxygen=$enableval], [wantdoxygen=yes])
 
-dnl Check for architecture
-case "$host" in
-	i686-*) AC_DEFINE_UNQUOTED([CARCH], ["i686"], [Architecture])
-		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["i686"], [Architecture])
-		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
-		CARCH="i686"
-		CARCHFLAGS="i686"
-		ARCHSWITCH="march"
-		CHOST="${host}"
-		;;
-	x86_64-*) AC_DEFINE_UNQUOTED([CARCH], ["x86_64"], [Architecture])
-		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["x86-64"], [Architecture])
-		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
-		CARCH="x86_64"
-		CARCHFLAGS="x86-64"
-		ARCHSWITCH="march"
-		CHOST="${host}"
-		;;
-	ia64-*) AC_DEFINE_UNQUOTED([CARCH], ["ia64"], [Architecture])
-		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["ia64"], [Architecture])
-		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
-		CARCH="ia64"
-		CARCHFLAGS="ia64"
-		ARCHSWITCH="march"
-		CHOST="${host}"
-		;;
-	sparc-*) AC_DEFINE_UNQUOTED([CARCH], ["sparc"], [Architecture])
-		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["v9"], [Architecture])
-		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["mcpu"], [Architecture])
-		CARCH="sparc"
-		CARCHFLAGS="v9"
-		ARCHSWITCH="mcpu"
-		CHOST="${host}"
-		;;
-	ppc-* | powerpc-*)
-		AC_DEFINE_UNQUOTED([CARCH], ["ppc"], [Architecture])
-		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["750"], [Architecture])
-		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["mcpu"], [Architecture])
-		CARCH="ppc"
-		CARCHFLAGS="750"
-		ARCHSWITCH="mcpu"
-		CHOST="${host}"
-		;;
-	i386-*) AC_DEFINE_UNQUOTED([CARCH], ["i386"], [Architecture])
-		AC_DEFINE_UNQUOTED([CARCHFLAGS], ["i386"], [Architecture])
-		AC_DEFINE_UNQUOTED([ARCHSWITCH], ["march"], [Architecture])
-		CARCH="i386"
-		CARCHFLAGS="i386"
-		ARCHSWITCH="march"
-		CHOST="${host}"
-		;;
-	*)
-		AC_MSG_ERROR([Your architecture is not supported])
-		;;
-esac
-
-AC_SUBST(CARCH)
-AC_SUBST(CARCHFLAGS)
-AC_SUBST(ARCHSWITCH)
-AC_SUBST(CHOST)
-
 dnl Help line for config file
 AC_ARG_WITH(config-file,
-    AC_HELP_STRING([  --with-config-file=path], [Set the name and path for pacman's config file]),
+    AC_HELP_STRING([  --with-config-file=path], [Set the location of pacman's config file]),
     [configfile=$withval], [configfile=/etc/pacman.conf])
 
 dnl Help line for debug
@@ -135,36 +67,94 @@ AC_ARG_ENABLE(fakeroot,
     AC_HELP_STRING([--disable-fakeroot], [Disable fakeroot proof support]),
     [fakeroot=$enableval], [fakeroot=yes])
 
+dnl Host dependant flags
+case "${host}" in
+	*-*-cygwin*)
+		ENV_CFLAGS="$ENV_CFLAGS -DCYGWIN"
+		;;
+esac
+
+dnl Check for architecture
+case "${host}" in
+	i686-*) 
+		CARCH="i686"
+		CARCHFLAGS="i686"
+		ARCHSWITCH="march"
+		;;
+	x86_64-*) 
+		CARCH="x86_64"
+		CARCHFLAGS="x86-64"
+		ARCHSWITCH="march"
+		;;
+	ia64-*) 
+		CARCH="ia64"
+		CARCHFLAGS="ia64"
+		ARCHSWITCH="march"
+		;;
+	sparc-*) 
+		CARCH="sparc"
+		CARCHFLAGS="v9"
+		ARCHSWITCH="mcpu"
+		;;
+	ppc-* | powerpc-*)
+		CARCH="ppc"
+		CARCHFLAGS="750"
+		ARCHSWITCH="mcpu"
+		;;
+	i386-*) 
+		CARCH="i386"
+		CARCHFLAGS="i386"
+		ARCHSWITCH="march"
+		;;
+	*)
+		AC_MSG_ERROR([Your architecture is not supported])
+		;;
+esac
+
+dnl Now do some things common to all architectures
+CHOST="${host}"
+AC_DEFINE_UNQUOTED([CARCH], ["$CARCH"], [Architecture])
+AC_DEFINE_UNQUOTED([CARCHFLAGS], ["$CARCHFLAGS"], [Architecture Flags])
+AC_DEFINE_UNQUOTED([ARCHSWITCH], ["$ARCHSWITCH"], [Architecture Switch (march/mcpu)])
+AC_DEFINE_UNQUOTED([CHOST], ["$CHOST"], [Host Type])
+AC_SUBST(CARCH)
+AC_SUBST(CARCHFLAGS)
+AC_SUBST(ARCHSWITCH)
+AC_SUBST(CHOST)
+
 dnl Check for man2html binary
-AC_MSG_CHECKING(for support man2html)
-if test x$wantman2html = xyes ; then
+AC_MSG_CHECKING(for man2html)
+if test "x$wantman2html" = "xyes" ; then
     AC_CHECK_PROGS([MAN2HTML], [man2html])
     AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
     if test $MAN2HTML ; then
-        AC_DEFINE([HAS_MAN2HTML], [TRUE], [Enabled HTML generation from man via man2html])
-	AC_MSG_RESULT(yes)
+        AC_DEFINE([HAS_MAN2HTML], [TRUE], [Enable HTML manpages using man2html])
+		AC_MSG_RESULT(yes)
     else
-        AC_DEFINE([HAS_MAN2HTML], [FALSE], [Disabled HTML generation from man via man2html])
-	AC_MSG_RESULT(no, man2html missing)
+		AC_MSG_RESULT(no, man2html missing)
     fi
 else
-    AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
-    AC_DEFINE([HAS_MAN2HTML], [FALSE], [Not specified at configure line])
-    AC_MSG_RESULT(not requested by configure)
+    AM_CONDITIONAL(HAS_MAN2HTML, false)
+    AC_MSG_RESULT(no, disabled by configure)
 fi
 
 dnl Check for doxygen support
-if test x$wantdoxygen = xyes ; then
+AC_MSG_CHECKING(for doxygen)
+if test "x$wantdoxygen" = "xyes" ; then
     AC_CHECK_PROGS([DOXYGEN], [doxygen])
+    AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
     if test $DOXYGEN ; then
-	DOXYSTATUS="yes, path: `which $DOXYGEN`"
+		DOXYSTATUS="yes, path: `which $DOXYGEN`"
+		AC_MSG_RESULT(yes)
     else
-	DOXYSTATUS="doxygen binary not found"
+		DOXYSTATUS="doxygen binary not found"
+		AC_MSG_RESULT(no, doxygen missing)
     fi
 else
+    AM_CONDITIONAL(HAS_DOXYGEN, false)
     DOXYSTATUS="no, disabled by configure"
+    AC_MSG_RESULT(no, disabled by configure)
 fi
-AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
 
 dnl Check for math
 AC_CHECK_LIB([m], [sqrt], [AC_CHECK_HEADER([math.h], [LIBM='-lm'])])
@@ -196,12 +186,12 @@ fi
 dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test "$debug" = "yes" ; then
-    AM_CONDITIONAL(PACMAN_DEBUG, test "$debug" = "yes")
+    AM_CONDITIONAL(PACMAN_DEBUG, test "x$debug" = "xyes")
 	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
 	LDFLAGS="$LDFLAGS -lmcheck"
     AC_MSG_RESULT(yes)
 else
-    AM_CONDITIONAL(PACMAN_DEBUG, test "$debug" = "no")
+    AM_CONDITIONAL(PACMAN_DEBUG, test "x$debug" = "xno")
 	CFLAGS="$CFLAGS -Wall -std=c99"
     AC_MSG_RESULT(no)
 fi

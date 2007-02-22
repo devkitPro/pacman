@@ -1,41 +1,42 @@
 AUTOMAKE_OPTIONS = gnu
-DEFINES = -pedantic -D_GNU_SOURCE
-AM_CFLAGS = $(DEFINES)
+
 SUBDIRS = po
+
+lib_LTLIBRARIES = libalpm.la
+include_HEADERS = alpm_list.h alpm.h
 
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-TARGETS = md5driver.c \
-	md5.c \
-	sha1.c \
-	util.c \
-	alpm_list.c \
-	log.c \
-	error.c \
-	package.c \
-	group.c \
-	db.c \
-	cache.c \
-	conflict.c \
-	deps.c \
-	provide.c \
-	versioncmp.c \
-	backup.c \
-	trans.c \
-	add.c \
-	remove.c \
-	sync.c \
-	handle.c \
-	server.c \
-	alpm.c \
-	be_files.c
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(CFLAGS)
 
-lib_LTLIBRARIES = libalpm.la
+EXTRA_DIST = Doxyfile
 
-include_HEADERS = alpm_list.h alpm.h
-
-libalpm_la_SOURCES = $(TARGETS)
+libalpm_la_SOURCES = \
+	add.h add.c \
+	alpm.h alpm.c \
+	alpm_list.h alpm_list.c \
+	backup.h backup.c \
+	be_files.c \
+	cache.h cache.c \
+	conflict.h conflict.c \
+	db.h db.c \
+	deps.h deps.c \
+	error.h error.c \
+	group.h group.c \
+	handle.h handle.c \
+	log.h log.c \
+	md5.h md5.c \
+	md5driver.c \
+	package.h package.c \
+	provide.h provide.c \
+	remove.h remove.c \
+	server.h server.c \
+	sha1.h sha1.c \
+	sync.h sync.c \
+	trans.h trans.c \
+	util.h util.c \
+	versioncmp.h versioncmp.c
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(PM_VERSION_INFO)
 libalpm_la_LIBADD = -larchive -ldownload -lm

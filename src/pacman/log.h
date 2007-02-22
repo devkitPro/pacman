@@ -21,6 +21,8 @@
 #ifndef _PM_LOG_H
 #define _PM_LOG_H
 
+/* TODO these are illegal in ISO C, thus the reason -pedantic was never used
+ * as a compile flag for the pacman side of things (named variadic macros) */
 #define MSG(line, fmt, args...) pm_fprintf(stdout, line, fmt, ##args)
 #define ERR(line, fmt, args...) do { \
 	pm_fprintf(stderr, line, _("error: ")); \
