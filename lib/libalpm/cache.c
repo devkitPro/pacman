@@ -106,7 +106,7 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 	_alpm_db_ensure_pkgcache(db, infolevel);
 
 	if(!db->pkgcache) {
-		_alpm_log(PM_LOG_DEBUG, _("error: pkgcache is NULL for db %s"), db->treename);
+		_alpm_log(PM_LOG_DEBUG, _("error: pkgcache is NULL for db '%s'"), db->treename);
 	}
 	return(db->pkgcache);
 }
@@ -197,7 +197,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 
 	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db, INFRQ_NONE);
 	if(!pkgcache) {
-		_alpm_log(PM_LOG_DEBUG, _("error: pkgcache is NULL for db '%s'"), db->treename);
+		_alpm_log(PM_LOG_DEBUG, _("error: failed to get '%s' from NULL pkgcache"), target);
 		return(NULL);
 	}
 

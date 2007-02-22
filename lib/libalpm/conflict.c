@@ -329,17 +329,12 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 	}
 
 	for(i = targets; i; i = i->next) {
-		pmsyncpkg_t *sync1, *sync2;
 		pmpkg_t *p1, *p2, *dbpkg;
 		char *filestr = NULL;
 		char path[PATH_MAX+1];
 		struct stat buf;
 
-		sync1 = i->data;
-		if(!sync1) {
-			continue;
-		}
-		p1 = sync1->pkg;
+		p1 = i->data;
 		if(!p1) {
 			continue;
 		}
@@ -350,14 +345,19 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		         numtargs, (numtargs - alpm_list_count(i) +1));
 		/* CHECK 1: check every target against every target */
 		for(j = i->next; j; j = j->next) {
-			p2 = (pmpkg_t*)j->data;
+			p2 = j->data;
+			if(!p2) {
+				continue;
+			}
 			_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s and %s", p1->name, p2->name);
 			tmpfiles = chk_fileconflicts(p1->files, p2->files);
 
 			if(tmpfiles) {
+				char path[PATH_MAX];
 				for(k = tmpfiles; k; k = k->next) {
+					snprintf(path, PATH_MAX, "%s%s", root, (char *)k->data);
 					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_TARGET,
-					                             k->data, p1->name, p2->name);
+					                             path, p1->name, p2->name);
 				}
 				alpm_list_free_inner(tmpfiles, &free);
 				alpm_list_free(tmpfiles);
@@ -387,46 +387,51 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 
 			/* stat the file - if it exists and is not a dir, do some checks */
 			if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
-				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s, %s", filestr, path);
+				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", path);
 
 				/* Look at all the targets to see if file has changed hands */
+				int resolved_conflict = 0; /* have we acted on this conflict? */
 				for(k = targets; k; k = k->next) {
-					sync2 = k->data;
-					if(!sync2) {
-						continue;
-					}
-					p2 = sync2->pkg;
-					if(!p2 || p2 == p1) {
+					p2 = k->data;
+					if(!p2 || strcmp(p1->name, p2->name) == 0) {
 						continue;
 					}
 
-					_alpm_log(PM_LOG_DEBUG, _("get pkg %s from %s"), p2->name, db->treename);
 					pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
+
 					/* Check if it used to exist in a package, but doesn't anymore */
-					if(localp2 && !alpm_list_find_str(alpm_pkg_get_files(p2), filestr)
-							&& alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {
+					alpm_list_t *pkgfiles, *localfiles; /* added for readability */
+					pkgfiles = alpm_pkg_get_files(p2);
+					localfiles = alpm_pkg_get_files(localp2);
+
+					if(localp2 && !alpm_list_find_str(pkgfiles, filestr)
+						 && alpm_list_find_str(localfiles, filestr)) {
 						/* check if the file is now in the backup array */
 						if(alpm_list_find_str(alpm_pkg_get_backup(p1), filestr)) {
 							/* keep file intact if it is in backup array */
 							trans->skip_add = alpm_list_add(trans->skip_add, strdup(path));
 							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
 							_alpm_log(PM_LOG_DEBUG, "file in backup array, adding to add and remove skiplist: %s", filestr);
+							resolved_conflict = 1;
+							break;
 						} else {
 							/* skip removal of file, but not add. this will prevent a second
 							 * package from removing the file when it was already installed
 							 * by its new owner */
 							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
 							_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s", filestr);
+							resolved_conflict = 1;
+							break;
 						}
-					} else {
-						_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s", filestr);
-						conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
-																				 filestr, p1->name, NULL);
-						break;
 					}
 				}
+				if(!resolved_conflict) {
+					_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s", path);
+					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
+																			 path, p1->name, NULL);
+				}
 			} else {
-				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", filestr);
+				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", path);
 			}
 		}
 		alpm_list_free_inner(tmpfiles, &free);
