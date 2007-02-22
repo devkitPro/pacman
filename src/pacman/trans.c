@@ -352,7 +352,7 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 			       opr, pkglen, pkgname);
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
-			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
+			printf("(%2$*1$d/%3$*1$d) %5$-*4$s", digits, remain, howmany,
 			       textlen, opr);
 			break;
 	}
