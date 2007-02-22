@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-14 14:32-0500\n"
+"POT-Creation-Date: 2007-02-22 11:13-0500\n"
 "PO-Revision-Date: 2006-09-03 13:49+0200\n"
 "Last-Translator: Miklos Vajna <vmiklos@frugalware.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,38 +26,47 @@ msgstr "értelmezhetetlen token %s"
 msgid "loading target '%s'"
 msgstr "cél betöltése '%s'"
 
-#: lib/libalpm/add.c:175
+#: lib/libalpm/add.c:174
 #, c-format
 msgid "replacing older version %s-%s by %s in target list"
 msgstr "a %s-%s-t lecseréli a %s a cél listában"
 
-#: lib/libalpm/add.c:184
+#: lib/libalpm/add.c:183
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping"
 msgstr "az újabb verzió (%s-%s) már elérhetõ a cél listában -- kihagyás"
 
-#: lib/libalpm/add.c:191
+#: lib/libalpm/add.c:190
 #, c-format
 msgid "reading '%s' metadata"
 msgstr "'%s' metaadat olvasása"
 
-#: lib/libalpm/add.c:244 lib/libalpm/remove.c:110
+#: lib/libalpm/add.c:243 lib/libalpm/remove.c:110
 msgid "looking for unsatisfied dependencies"
 msgstr "elégtelen függõségek keresése"
 
-#: lib/libalpm/add.c:256 lib/libalpm/sync.c:473
+#: lib/libalpm/add.c:255 lib/libalpm/sync.c:476
 msgid "looking for conflicts"
 msgstr "konfliktusok keresése"
 
-#: lib/libalpm/add.c:295 lib/libalpm/remove.c:146
+#: lib/libalpm/add.c:260
+msgid "replacing packages with -A and -U is not supported yet"
+msgstr ""
+
+#: lib/libalpm/add.c:261
+#, c-format
+msgid "please remove '%s' first, using -Rd"
+msgstr ""
+
+#: lib/libalpm/add.c:302 lib/libalpm/remove.c:146
 msgid "sorting by dependencies"
 msgstr "rendezés függõségek szerint"
 
-#: lib/libalpm/add.c:307
+#: lib/libalpm/add.c:314
 msgid "cleaning up"
 msgstr "tisztítás"
 
-#: lib/libalpm/add.c:324
+#: lib/libalpm/add.c:329
 msgid "looking for file conflicts"
 msgstr "fájl konfliktusok keresése"
 
@@ -66,214 +75,202 @@ msgstr "fájl konfliktusok keresése"
 msgid "upgrading package %s-%s"
 msgstr "csomag frissítése: %s-%s"
 
-#: lib/libalpm/add.c:419
-#, c-format
-msgid "removing old package first (%s-%s)"
-msgstr "elsõként a régi csomag eltávolítása (%s-%s)"
-
-#: lib/libalpm/add.c:449
+#: lib/libalpm/add.c:417
 #, c-format
 msgid "adding package %s-%s"
 msgstr "csomag hozzáadása %s-%s"
 
-#: lib/libalpm/add.c:460
+#: lib/libalpm/add.c:430
 #, c-format
-msgid "adding new package %s-%s"
-msgstr "új csomag hozzáadása %s-%s"
+msgid "removing old package first (%s-%s)"
+msgstr "elsõként a régi csomag eltávolítása (%s-%s)"
 
-#: lib/libalpm/add.c:464
+#: lib/libalpm/add.c:457
+#, c-format
+msgid "adding %s to the NoUpgrade array temporarilly"
+msgstr ""
+
+#: lib/libalpm/add.c:475
 msgid "extracting files"
 msgstr "fájlok kifejtése"
 
-#: lib/libalpm/add.c:480 lib/libalpm/util.c:461
+#: lib/libalpm/add.c:490 lib/libalpm/util.c:461
 msgid "could not get current working directory"
 msgstr "a jelenlegi munkakönyvtár nem kapható meg"
 
-#: lib/libalpm/add.c:538
+#: lib/libalpm/add.c:546
+#, fuzzy, c-format
+msgid "%s is in NoExtract, skipping extraction"
+msgstr "figyelmeztetés: %s a NoExtractben van -- kifejtés kihagyása"
+
+#: lib/libalpm/add.c:547
 #, c-format
 msgid "notice: %s is in NoExtract -- skipping extraction"
 msgstr "figyelmeztetés: %s a NoExtractben van -- kifejtés kihagyása"
 
-#: lib/libalpm/add.c:574 lib/libalpm/add.c:727
+#: lib/libalpm/add.c:554
+#, fuzzy, c-format
+msgid "%s is in trans->skip_add, skipping extraction"
+msgstr "figyelmeztetés: %s a NoExtractben van -- kifejtés kihagyása"
+
+#: lib/libalpm/add.c:600 lib/libalpm/add.c:601 lib/libalpm/add.c:750
 #, c-format
 msgid "could not extract %s (%s)"
 msgstr "nem sikerült kifejteni: %s (%s)"
 
-#: lib/libalpm/add.c:617
+#: lib/libalpm/add.c:644
 #, c-format
 msgid "checking md5 hashes for %s"
 msgstr "md5 összegek vizsgálata a %s számára"
 
-#: lib/libalpm/add.c:618 lib/libalpm/add.c:625
-#, c-format
-msgid "current:  %s"
-msgstr "jelenlegi: %s"
-
-#: lib/libalpm/add.c:619 lib/libalpm/add.c:626
-#, c-format
-msgid "new:      %s"
-msgstr "új:       %s"
-
-#: lib/libalpm/add.c:621 lib/libalpm/add.c:628
-#, c-format
-msgid "original: %s"
-msgstr "eredeti:  %s"
-
-#: lib/libalpm/add.c:624
+#: lib/libalpm/add.c:646
 #, c-format
 msgid "checking sha1 hashes for %s"
 msgstr "sha1 összegek vizsgálata a %s számára"
 
-#: lib/libalpm/add.c:642
+#: lib/libalpm/add.c:648
+#, c-format
+msgid "current:  %s"
+msgstr "jelenlegi: %s"
+
+#: lib/libalpm/add.c:649
+#, c-format
+msgid "new:      %s"
+msgstr "új:       %s"
+
+#: lib/libalpm/add.c:650
+#, c-format
+msgid "original: %s"
+msgstr "eredeti:  %s"
+
+#: lib/libalpm/add.c:662
 #, c-format
 msgid "could not rename %s (%s)"
 msgstr "nem sikerült átnevezni: %s (%s)"
 
-#: lib/libalpm/add.c:643
+#: lib/libalpm/add.c:663
 #, c-format
 msgid "error: could not rename %s (%s)"
 msgstr "hiba: nem sikerült átnevezni: %s (%s)"
 
-#: lib/libalpm/add.c:647 lib/libalpm/add.c:691
-#, c-format
-msgid "could not copy %s to %s (%s)"
+#: lib/libalpm/add.c:669 lib/libalpm/add.c:688
+#, fuzzy, c-format
+msgid "could not copy tempfile to %s (%s)"
 msgstr "nem sikerült másolni: %s-t ide: %s (%s)"
 
-#: lib/libalpm/add.c:648
-#, c-format
-msgid "error: could not copy %s to %s (%s)"
+#: lib/libalpm/add.c:670
+#, fuzzy, c-format
+msgid "error: could not copy tempfile to %s (%s)"
 msgstr "hiba: nem sikerült másolni: %s-t ide: %s (%s)"
 
-#: lib/libalpm/add.c:652
+#: lib/libalpm/add.c:674
 #, c-format
 msgid "%s saved as %s.pacorig"
 msgstr "a %s elmentve %s.pacorig néven"
 
-#: lib/libalpm/add.c:653
+#: lib/libalpm/add.c:675
 #, c-format
 msgid "warning: %s saved as %s"
 msgstr "figyelmeztetés: a %s elmentve %s néven"
 
-#: lib/libalpm/add.c:663 lib/libalpm/add.c:666 lib/libalpm/add.c:672
-msgid "action: installing new file"
+#: lib/libalpm/add.c:685
+#, fuzzy, c-format
+msgid "action: installing new file: %s"
 msgstr "folyamat: az új fájl telepítése"
 
-#: lib/libalpm/add.c:670
+#: lib/libalpm/add.c:695 lib/libalpm/add.c:701 lib/libalpm/add.c:706
 msgid "action: leaving existing file in place"
 msgstr "folyamat: a jelenlegi fájl megtartása"
 
-#: lib/libalpm/add.c:676
+#: lib/libalpm/add.c:709
 msgid "action: keeping current file and installing new one with .pacnew ending"
 msgstr ""
 "folyamat: a jelenlegi fájl megtartása és az új .pacnew végzõdéssel való "
 "telepítése"
 
-#: lib/libalpm/add.c:680
+#: lib/libalpm/add.c:712
 #, c-format
 msgid "could not install %s as %s: %s"
 msgstr "nem sikerült telepíteni a %s-t %s-ként: %s"
 
-#: lib/libalpm/add.c:681
+#: lib/libalpm/add.c:713
 #, c-format
 msgid "error: could not install %s as %s: %s"
 msgstr "hiba: nem sikerült telepíteni a %s-t %s-ként: %s"
 
-#: lib/libalpm/add.c:683
+#: lib/libalpm/add.c:715
 #, c-format
 msgid "%s installed as %s"
 msgstr "a %s %s néven lett telepítve"
 
-#: lib/libalpm/add.c:684
+#: lib/libalpm/add.c:716
 #, c-format
 msgid "warning: %s installed as %s"
 msgstr "figyelmeztetés: a %s néven %s lett telepítve"
 
-#: lib/libalpm/add.c:689 lib/libalpm/add.c:709
-#, c-format
-msgid "extracting %s"
-msgstr "a %s kifejtése"
-
-#: lib/libalpm/add.c:711
+#: lib/libalpm/add.c:730
 #, c-format
 msgid "%s is in NoUpgrade -- skipping"
 msgstr "%s a NoUpgrade-ben van -- kihagyás"
 
-#: lib/libalpm/add.c:713
+#: lib/libalpm/add.c:731
 #, c-format
 msgid "extracting %s as %s.pacnew"
 msgstr "%s kifejtése %s.pacnew néven"
 
-#: lib/libalpm/add.c:714
-#, c-format
-msgid "warning: extracting %s%s as %s"
+#: lib/libalpm/add.c:732
+#, fuzzy, c-format
+msgid "warning: extracting %s as %s.pacnew"
 msgstr "figyelmeztetés: %s%s kifejtése %s.pacnew néven"
 
-#: lib/libalpm/add.c:728
+#: lib/libalpm/add.c:735
+#, c-format
+msgid "extracting %s"
+msgstr "a %s kifejtése"
+
+#: lib/libalpm/add.c:751
 #, c-format
 msgid "error: could not extract %s (%s)"
 msgstr "hiba: nem sikerült kifejteni: %s (%s)"
 
-#: lib/libalpm/add.c:738
-msgid "appending backup entry"
+#: lib/libalpm/add.c:763
+#, fuzzy, c-format
+msgid "appending backup entry for %s"
 msgstr "hozzáfûzés a biztonsági bejegyzéshez"
 
-#: lib/libalpm/add.c:769 lib/libalpm/add.c:771
+#: lib/libalpm/add.c:795 lib/libalpm/add.c:797
 #, c-format
 msgid "errors occurred while %s %s"
 msgstr "hiba %s közben: %s"
 
-#: lib/libalpm/add.c:770 lib/libalpm/add.c:772
+#: lib/libalpm/add.c:796 lib/libalpm/add.c:798
 msgid "upgrading"
 msgstr "frissítés"
 
-#: lib/libalpm/add.c:770 lib/libalpm/add.c:772
+#: lib/libalpm/add.c:796 lib/libalpm/add.c:798
 msgid "installing"
 msgstr "telepítés"
 
-#: lib/libalpm/add.c:793 lib/libalpm/add.c:849
-#, c-format
-msgid "adding '%s' in requiredby field for '%s'"
-msgstr "a '%s' hozzáadása \"függ tõle\" mezõként a '%s' számára"
-
-#: lib/libalpm/add.c:804 lib/libalpm/remove.c:326
+#: lib/libalpm/add.c:812 lib/libalpm/remove.c:321
 msgid "updating database"
 msgstr "az adatbázis frissítése"
 
-#: lib/libalpm/add.c:805
+#: lib/libalpm/add.c:813
 #, c-format
 msgid "adding database entry '%s'"
 msgstr "adatbázis mezõ hozzáadása '%s'"
 
-#: lib/libalpm/add.c:807
+#: lib/libalpm/add.c:816 lib/libalpm/add.c:818
 #, c-format
 msgid "could not update database entry %s-%s"
 msgstr "sikertelen a '%s-%s' adatbázis-bejegyzés frissítése"
 
-#: lib/libalpm/add.c:809
-#, c-format
-msgid "error updating database for %s-%s!"
-msgstr "hiba a %s-%s adatbázis-frissítése során"
-
-#: lib/libalpm/add.c:813
+#: lib/libalpm/add.c:824
 #, c-format
 msgid "could not add entry '%s' in cache"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz"
 
-#: lib/libalpm/add.c:819 lib/libalpm/remove.c:336
-msgid "updating dependency packages 'requiredby' fields"
-msgstr "a függõ csomagok 'függ tõle' mezõjének frissítése"
-
-#: lib/libalpm/add.c:841
-#, c-format
-msgid "could not find dependency '%s'"
-msgstr "nem található a '%s' függõség"
-
-#: lib/libalpm/add.c:852 lib/libalpm/remove.c:378
-#, c-format
-msgid "could not update 'requiredby' database entry %s-%s"
-msgstr "sikertelen a %s-%s 'függ tõle' adatbázis-bejegyzésének frissítése"
-
-#: lib/libalpm/add.c:878 lib/libalpm/remove.c:391 lib/libalpm/sync.c:1043
+#: lib/libalpm/add.c:852 lib/libalpm/remove.c:341 lib/libalpm/sync.c:1046
 #, c-format
 msgid "running \"ldconfig -r %s\""
 msgstr "az \"ldconfig -r %s\" futtatása"
@@ -448,7 +445,7 @@ msgstr "beállítások: gyorsítótár könyvtára: %s\n"
 msgid "config: upgradedelay: %d"
 msgstr "beállítások: frissítés késleltetése: %i\n"
 
-#: lib/libalpm/alpm.c:1082 lib/libalpm/sync.c:129 lib/libalpm/sync.c:197
+#: lib/libalpm/alpm.c:1082 lib/libalpm/sync.c:129
 msgid "checking for package replacements"
 msgstr "csomagcserék ellenõrzése"
 
@@ -467,17 +464,17 @@ msgstr "%s-%s: frissítés figyelmen kívül hagyása (a %s-%s fogja lecserélni)"
 msgid "%s-%s elected for upgrade (to be replaced by %s-%s)"
 msgstr "a %s-%s kiválasztva frissítésre (a %s-%s fogja lecserélni)"
 
-#: lib/libalpm/alpm.c:1148 lib/libalpm/sync.c:211
+#: lib/libalpm/alpm.c:1148 lib/libalpm/sync.c:210
 #, c-format
 msgid "'%s' not found in sync db -- skipping"
 msgstr "a '%s' nem található a távoli adatbázisban -- kihagyás"
 
-#: lib/libalpm/alpm.c:1162 lib/libalpm/sync.c:225 lib/libalpm/sync.c:499
+#: lib/libalpm/alpm.c:1162 lib/libalpm/sync.c:224 lib/libalpm/sync.c:502
 #, c-format
 msgid "'%s' is already elected for removal -- skipping"
 msgstr "a '%s' már kijelölve eltávolításra -- kihagyás"
 
-#: lib/libalpm/alpm.c:1168 lib/libalpm/sync.c:232
+#: lib/libalpm/alpm.c:1168 lib/libalpm/sync.c:235
 #, c-format
 msgid "%s-%s elected for upgrade (%s => %s)"
 msgstr "%s-%s kiválasztva frissítésre (%s => %s)"
@@ -487,50 +484,60 @@ msgstr "%s-%s kiválasztva frissítésre (%s => %s)"
 msgid "unpacking database '%s'"
 msgstr "adatbázis megnyitása: '%s'"
 
-#: lib/libalpm/be_files.c:182
+#: lib/libalpm/be_files.c:75
+#, fuzzy, c-format
+msgid "opening database from path '%s'"
+msgstr "adatbázis megnyitása: '%s'"
+
+#: lib/libalpm/be_files.c:179
+#, fuzzy, c-format
+msgid "db scan could not find package: %s"
+msgstr "nem található vagy nem olvasható a csomag"
+
+#: lib/libalpm/be_files.c:183
 #, c-format
 msgid "invalid name for dabatase entry '%s'"
 msgstr "érvénytelen név a '%s' adatbázis-bejegyzés számára"
 
-#: lib/libalpm/be_files.c:212
+#: lib/libalpm/be_files.c:213
 msgid "invalid package entry provided to _alpm_db_read, skipping"
 msgstr ""
 
-#: lib/libalpm/be_files.c:217
+#: lib/libalpm/be_files.c:218
 #, c-format
 msgid ""
 "request to read database info for a file-based package '%s', skipping..."
 msgstr ""
 
-#: lib/libalpm/be_files.c:225
+#: lib/libalpm/be_files.c:226
 #, c-format
 msgid "loading package data for %s : level=%d"
 msgstr ""
 
-#: lib/libalpm/be_files.c:233
+#: lib/libalpm/be_files.c:234
 #, fuzzy, c-format
 msgid "cannot find '%s-%s' in db '%s'"
 msgstr "nem található a %s az adatbázisban"
 
-#: lib/libalpm/be_files.c:241 lib/libalpm/be_files.c:391
-#: lib/libalpm/be_files.c:414 lib/libalpm/be_files.c:502
-#: lib/libalpm/be_files.c:591 lib/libalpm/be_files.c:618
+#: lib/libalpm/be_files.c:242 lib/libalpm/be_files.c:392
+#: lib/libalpm/be_files.c:415 lib/libalpm/be_files.c:503
+#: lib/libalpm/be_files.c:592 lib/libalpm/be_files.c:619
 #: lib/libalpm/package.c:197
 #, fuzzy, c-format
 msgid "could not open file %s: %s"
 msgstr "nem sikerült megnyitni a %s fájlt"
 
-#: lib/libalpm/be_files.c:499
+#: lib/libalpm/be_files.c:500
 #, c-format
 msgid "writing %s-%s DESC information back to db"
 msgstr ""
 
-#: lib/libalpm/be_files.c:588
+#: lib/libalpm/be_files.c:589
 #, c-format
 msgid "writing %s-%s FILES information back to db"
 msgstr ""
 
-#: lib/libalpm/be_files.c:615
+#: lib/libalpm/be_files.c:616
 #, c-format
 msgid "writing %s-%s DEPENDS information back to db"
 msgstr ""
@@ -540,27 +547,42 @@ msgstr ""
 msgid "loading package cache (infolevel=%#x) for repository '%s'"
 msgstr "csomagok gyorsítótárának betöltése (infószint=%#x) a '%s' repó számára"
 
-#: lib/libalpm/cache.c:83
+#: lib/libalpm/cache.c:64
+#, fuzzy, c-format
+msgid "adding '%s' to package cache for db '%s'"
+msgstr "csomagok gyorsítótárának felszabadítása a '%s' repó számára"
+
+#: lib/libalpm/cache.c:84
 #, c-format
 msgid "freeing package cache for repository '%s'"
 msgstr "csomagok gyorsítótárának felszabadítása a '%s' repó számára"
 
-#: lib/libalpm/cache.c:132
+#: lib/libalpm/cache.c:109
+#, c-format
+msgid "error: pkgcache is NULL for db '%s'"
+msgstr ""
+
+#: lib/libalpm/cache.c:136
 #, fuzzy, c-format
 msgid "package cache reloaded (infolevel=%#x) for repository '%s'"
 msgstr "csomagok gyorsítótárának betöltése (infószint=%#x) a '%s' repó számára"
 
-#: lib/libalpm/cache.c:152
+#: lib/libalpm/cache.c:156
 #, c-format
 msgid "adding entry '%s' in '%s' cache"
 msgstr "a '%s' bejegyzés hozzáadása a '%s' gyorsítótárhoz"
 
-#: lib/libalpm/cache.c:178
+#: lib/libalpm/cache.c:182
 #, c-format
 msgid "removing entry '%s' from '%s' cache"
 msgstr "a '%s' bejegyzés eltávolítása a '%s' gyorsítótárból"
 
-#: lib/libalpm/cache.c:213
+#: lib/libalpm/cache.c:200
+#, fuzzy, c-format
+msgid "error: failed to get '%s' from NULL pkgcache"
+msgstr "nem sikerült eltávolítani a '%s' bejegyzést a gyorsítótárból"
+
+#: lib/libalpm/cache.c:223
 #, c-format
 msgid "loading group cache for repository '%s'"
 msgstr "csoportgyorsítótár betöltése a '%s' repó számára"
@@ -595,11 +617,11 @@ msgstr "checkconflicts: db vs cél '%s'"
 msgid "db vs targs: found %s as a conflict for %s"
 msgstr "db vs targs: a %s ütközik a következõvel: %s"
 
-#: lib/libalpm/conflict.c:297 lib/libalpm/conflict.c:346 lib/libalpm/deps.c:57
-#: lib/libalpm/deps.c:593 lib/libalpm/deps.c:633 lib/libalpm/group.c:43
-#: lib/libalpm/handle.c:49 lib/libalpm/package.c:78 lib/libalpm/sync.c:65
-#: lib/libalpm/sync.c:604 lib/libalpm/sync.c:620 lib/libalpm/sync.c:716
-#: lib/libalpm/trans.c:49 lib/libalpm/util.c:607 lib/libalpm/util.c:614
+#: lib/libalpm/conflict.c:296 lib/libalpm/deps.c:57 lib/libalpm/deps.c:598
+#: lib/libalpm/deps.c:638 lib/libalpm/group.c:43 lib/libalpm/handle.c:49
+#: lib/libalpm/package.c:80 lib/libalpm/sync.c:65 lib/libalpm/sync.c:607
+#: lib/libalpm/sync.c:623 lib/libalpm/sync.c:719 lib/libalpm/trans.c:52
+#: lib/libalpm/util.c:607 lib/libalpm/util.c:614
 #, c-format
 msgid "malloc failure: could not allocate %d bytes"
 msgstr "malloc probléma: nem sikerült allokálni %d byte-ot"
@@ -641,69 +663,60 @@ msgstr "a függõségek rendezése elkezdõdött"
 msgid "possible dependency cycle detected"
 msgstr "lehetséges körkörös függõségi probléma észlelve"
 
-#: lib/libalpm/deps.c:178
+#: lib/libalpm/deps.c:177
 msgid "sorting dependencies finished"
 msgstr "a függõségek rendezése befejezõdött"
 
-#: lib/libalpm/deps.c:219 lib/libalpm/deps.c:276
+#: lib/libalpm/deps.c:218 lib/libalpm/deps.c:275
 msgid "null package found in package list"
 msgstr ""
 
-#: lib/libalpm/deps.c:224
+#: lib/libalpm/deps.c:223
 #, fuzzy, c-format
 msgid "cannot find package installed '%s'"
 msgstr "nem sikerült megnyitni a csomagfájlt"
 
-#: lib/libalpm/deps.c:258 lib/libalpm/deps.c:379
+#: lib/libalpm/deps.c:257 lib/libalpm/deps.c:378
 #, c-format
 msgid "checkdeps: found %s as required by %s"
 msgstr "checkdeps: a %s igényelt a %s által"
 
-#: lib/libalpm/deps.c:284
+#: lib/libalpm/deps.c:283
 #, fuzzy, c-format
 msgid "no dependencies for target '%s'"
 msgstr "nem sikerült feloldani a függõségeket a \"%s\" számára"
 
-#: lib/libalpm/deps.c:330
-#, c-format
-msgid "checkdeps: found %s as a dependency for %s"
-msgstr "checkdeps: a %s egy függõség a %s számára"
+#: lib/libalpm/deps.c:329
+#, fuzzy, c-format
+msgid "missing dependency '%s' for package '%s'"
+msgstr "csere vizsgálata: '%s' -> '%s'"
 
-#: lib/libalpm/deps.c:478
-#, c-format
-msgid "cannot find package \"%s\" or anything that provides it!"
-msgstr "nem található a \"%s\" csomag és nem is szolgáltatja semmi!"
-
-#: lib/libalpm/deps.c:483
-msgid "dep is NULL!"
-msgstr "a dep NULL!"
-
-#: lib/libalpm/deps.c:498
+#: lib/libalpm/deps.c:452
 #, c-format
 msgid "excluding %s -- explicitly installed"
 msgstr "a %s kihagyása -- explicit módon lett telepítve"
 
-#: lib/libalpm/deps.c:515
+#: lib/libalpm/deps.c:499
 #, c-format
-msgid "loading ALL info for '%s'"
-msgstr "minden infó betöltése a '%s' számára"
+msgid "cannot find package \"%s\" or anything that provides it!"
+msgstr "nem található a \"%s\" csomag és nem is szolgáltatja semmi!"
 
-#: lib/libalpm/deps.c:518
+#: lib/libalpm/deps.c:508 lib/libalpm/deps.c:520
 #, c-format
 msgid "adding '%s' to the targets"
 msgstr "a '%s' hozzáadása a célcsomagokhoz"
 
-#: lib/libalpm/deps.c:546
+#: lib/libalpm/deps.c:551
 #, fuzzy
 msgid "started resolving dependencies"
 msgstr "a függõségek rendezése elkezdõdött"
 
-#: lib/libalpm/deps.c:564
+#: lib/libalpm/deps.c:569
 #, c-format
 msgid "%s provides dependency %s -- skipping"
 msgstr "a %s szolgáltatja a %s függõséget -- kihagyás"
 
-#: lib/libalpm/deps.c:589
+#: lib/libalpm/deps.c:594
 #, c-format
 msgid ""
 "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
@@ -711,27 +724,27 @@ msgstr ""
 "nem sikerült a függõségek feloldása a \"%s\" számára (nem található a \"%s\" "
 "a csomagok között)"
 
-#: lib/libalpm/deps.c:606
+#: lib/libalpm/deps.c:611
 #, c-format
 msgid "dependency %s is already in the target list -- skipping"
 msgstr "a %s függõség már a célcsomagok között szerepel -- kihagyás"
 
-#: lib/libalpm/deps.c:626
+#: lib/libalpm/deps.c:631
 #, c-format
 msgid "pulling dependency %s (needed by %s)"
 msgstr "a %s függõség behozása (a %s igényli)"
 
-#: lib/libalpm/deps.c:630
+#: lib/libalpm/deps.c:635
 #, c-format
 msgid "cannot resolve dependencies for \"%s\""
 msgstr "nem sikerült feloldani a függõségeket a \"%s\" számára"
 
-#: lib/libalpm/deps.c:646
+#: lib/libalpm/deps.c:651
 #, c-format
 msgid "dependency cycle detected: %s"
 msgstr "körkörös függõség észlelve: %s"
 
-#: lib/libalpm/deps.c:650
+#: lib/libalpm/deps.c:655
 #, fuzzy
 msgid "finished resolving dependencies"
 msgstr "a függõségek rendezése elkezdõdött"
@@ -829,7 +842,7 @@ msgstr "a tranzakció félbeszakítva"
 msgid "operation not compatible with the transaction type"
 msgstr "a mûvelet nem egyeztethetõ össze a jelenlegi tranzakciótípussal"
 
-#: lib/libalpm/error.c:91 lib/libalpm/sync.c:982
+#: lib/libalpm/error.c:91 lib/libalpm/sync.c:985
 #, fuzzy
 msgid "could not commit transaction"
 msgstr "nem sikerült létrehozni az adatbázist"
@@ -950,27 +963,42 @@ msgstr "nem sikerült eltávolítani a %s fájlt"
 msgid "unexpected error"
 msgstr "nemvárt hiba"
 
+#: lib/libalpm/handle.c:164
+#, c-format
+msgid "option 'root' = %s"
+msgstr ""
+
+#: lib/libalpm/handle.c:180
+#, fuzzy, c-format
+msgid "option 'dbpath' = %s"
+msgstr "beállítások: adatbázis útvonala: %s\n"
+
+#: lib/libalpm/handle.c:196
+#, fuzzy, c-format
+msgid "option 'cachedir' = %s"
+msgstr "beállítások: gyorsítótár könyvtára: %s\n"
+
 #: lib/libalpm/md5driver.c:51 lib/libalpm/sha1.c:398
 #, c-format
 msgid "%s can't be opened\n"
 msgstr "nem sikerült megnyitni a következõt: %s\n"
 
-#: lib/libalpm/package.c:146
+#: lib/libalpm/package.c:148
 #, fuzzy, c-format
 msgid "%s: forcing upgrade to version %s"
 msgstr "hiányzó csomagverzió itt: %s"
 
-#: lib/libalpm/package.c:150
+#: lib/libalpm/package.c:152
 #, fuzzy, c-format
 msgid "%s: local (%s) is newer than %s (%s)"
 msgstr "%s-%s: a helyi verzió újabb"
 
-#: lib/libalpm/package.c:157
+#: lib/libalpm/package.c:159
 #, c-format
 msgid "%s-%s: ignoring package upgrade (%s)"
 msgstr "%s-%s: a csomagfrissítés figyelmen kívül hagyása (%s)"
 
-#: lib/libalpm/package.c:162
+#: lib/libalpm/package.c:163
 #, fuzzy, c-format
 msgid "%s-%s: delaying upgrade of package (%s)"
 msgstr "%s-%s: a csomag frissítésének késleltetése (%s)\n"
@@ -1019,6 +1047,11 @@ msgstr "hiányzó csomagnév itt: %s"
 msgid "missing package filelist in %s, generating one"
 msgstr "hiányzó csomaginformáció-fájl ebben: %s"
 
+#: lib/libalpm/package.c:547
+#, c-format
+msgid "adding '%s' in requiredby field for '%s'"
+msgstr "a '%s' hozzáadása \"függ tõle\" mezõként a '%s' számára"
+
 #: lib/libalpm/remove.c:78
 #, c-format
 msgid "could not find %s in database"
@@ -1043,282 +1076,306 @@ msgstr "nem található a %s az adatbázisban -- kihagyás"
 msgid "finding removable dependencies"
 msgstr "eltávolítható függõségek keresése"
 
-#: lib/libalpm/remove.c:178
+#: lib/libalpm/remove.c:174
 #, fuzzy, c-format
 msgid "cannot remove file '%s': %s"
 msgstr "nem sikerült eltávolítani a %s fájlt"
 
-#: lib/libalpm/remove.c:218
+#: lib/libalpm/remove.c:212
+#, fuzzy, c-format
+msgid "Skipping removal of '%s' due to NoUpgrade"
+msgstr "a %s törlésének kihagyása, mivel az egy másik csomagba került át"
+
+#: lib/libalpm/remove.c:219
 #, c-format
 msgid "file %s does not exist"
 msgstr "a %s fájl nemlétezik"
 
-#: lib/libalpm/remove.c:224
+#: lib/libalpm/remove.c:226
 #, c-format
 msgid "keeping directory %s"
 msgstr "a %s könyvtár megtartása"
 
-#: lib/libalpm/remove.c:226
+#: lib/libalpm/remove.c:228
 #, c-format
 msgid "removing directory %s"
 msgstr "a %s könyvtár törlése"
 
-#: lib/libalpm/remove.c:240
+#: lib/libalpm/remove.c:235
 #, c-format
-msgid "skipping removal of %s as it has moved to another package"
-msgstr "a %s törlésének kihagyása, mivel az egy másik csomagba került át"
+msgid "%s is in trans->skip_remove, skipping removal"
+msgstr ""
 
-#: lib/libalpm/remove.c:252
+#: lib/libalpm/remove.c:246
 #, c-format
 msgid "%s saved as %s"
 msgstr "a %s elmentve %s néven"
 
-#: lib/libalpm/remove.c:256
+#: lib/libalpm/remove.c:249
+#, c-format
+msgid "transaction is set to NOSAVE, not backing up '%s'"
+msgstr ""
+
+#: lib/libalpm/remove.c:253
 #, c-format
 msgid "unlinking %s"
 msgstr "a %s törlése"
 
-#: lib/libalpm/remove.c:263
+#: lib/libalpm/remove.c:260
 #, fuzzy, c-format
 msgid "cannot remove file %s: %s"
 msgstr "nem sikerült eltávolítani a %s fájlt"
 
-#: lib/libalpm/remove.c:291
+#: lib/libalpm/remove.c:286
 #, c-format
 msgid "removing package %s-%s"
 msgstr "a %s-%s csomag eltávolítása"
 
-#: lib/libalpm/remove.c:303
+#: lib/libalpm/remove.c:298
 #, fuzzy, c-format
 msgid "not removing package '%s', can't remove all files"
 msgstr "a %s-%s csomag eltávolítása"
 
-#: lib/libalpm/remove.c:309
+#: lib/libalpm/remove.c:304
 msgid "removing files"
 msgstr "fájlok törlése"
 
-#: lib/libalpm/remove.c:327
+#: lib/libalpm/remove.c:322
 #, c-format
 msgid "removing database entry '%s'"
 msgstr "a '%s' adatbázis-bejegyzés eltávolítása"
 
-#: lib/libalpm/remove.c:329
+#: lib/libalpm/remove.c:324
 #, c-format
 msgid "could not remove database entry %s-%s"
 msgstr "nem sikerült eltávolítani a %s-%s adatbázis-bejegyzést"
 
-#: lib/libalpm/remove.c:332
+#: lib/libalpm/remove.c:327
 #, c-format
 msgid "could not remove entry '%s' from cache"
 msgstr "nem sikerült eltávolítani a '%s' bejegyzést a gyorsítótárból"
 
-#: lib/libalpm/remove.c:366
-#, fuzzy, c-format
-msgid "could not find dependency '%s' for removal"
-msgstr "nem található a '%s' függõség"
-
-#: lib/libalpm/remove.c:376
-#, c-format
-msgid "updating 'requiredby' field for package '%s'"
-msgstr "a '%s' csomag 'függ tõle' mezõjének frissítése"
-
-#: lib/libalpm/sync.c:200
+#: lib/libalpm/sync.c:199
 msgid "checking for package upgrades"
 msgstr "csomagfrissítések vizsgálata"
 
-#: lib/libalpm/sync.c:277
+#: lib/libalpm/sync.c:232
+#, fuzzy, c-format
+msgid "%s-%s: ignoring package upgrade (%s => %s)"
+msgstr "%s-%s: a csomagfrissítés figyelmen kívül hagyása (%s)"
+
+#: lib/libalpm/sync.c:281
 #, fuzzy, c-format
 msgid "searching for target in repo '%s'"
 msgstr "cél betöltése '%s'"
 
-#: lib/libalpm/sync.c:286 lib/libalpm/sync.c:309
+#: lib/libalpm/sync.c:290 lib/libalpm/sync.c:313
 #, c-format
 msgid "target '%s' not found -- looking for provisions"
 msgstr "a '%s' cél nem található -- csomagok keresése amik szolgáltatják"
 
-#: lib/libalpm/sync.c:291 lib/libalpm/sync.c:314
+#: lib/libalpm/sync.c:295 lib/libalpm/sync.c:318
 #, c-format
 msgid "found '%s' as a provision for '%s'"
 msgstr "a '%s' szolgáltatja a következõt: '%s'"
 
-#: lib/libalpm/sync.c:298
+#: lib/libalpm/sync.c:302
 #, fuzzy, c-format
 msgid "repository '%s' not found"
 msgstr "a csoport nem található"
 
-#: lib/libalpm/sync.c:332
+#: lib/libalpm/sync.c:336
 #, c-format
 msgid "%s-%s is up to date -- skipping"
 msgstr "%s-%s naprakész -- kihagyás"
 
-#: lib/libalpm/sync.c:352
+#: lib/libalpm/sync.c:356
 #, c-format
 msgid "adding target '%s' to the transaction set"
 msgstr "a '%s' cél hozzáadása a tranzakcióhoz"
 
-#: lib/libalpm/sync.c:398
+#: lib/libalpm/sync.c:401
 #, fuzzy
 msgid "resolving target's dependencies"
 msgstr "a célok függõségeinek feloldása"
 
-#: lib/libalpm/sync.c:418
+#: lib/libalpm/sync.c:421
 #, c-format
 msgid "adding package %s-%s to the transaction targets"
 msgstr "a %s-%s csomag hozzáadása a tranzakció céljaihoz"
 
-#: lib/libalpm/sync.c:453
+#: lib/libalpm/sync.c:456
 msgid "looking for unresolvable dependencies"
 msgstr "feloldhatatlan függõségek keresése"
 
-#: lib/libalpm/sync.c:484
+#: lib/libalpm/sync.c:487
 #, c-format
 msgid "package '%s' is conflicting with '%s'"
 msgstr ""
 
-#: lib/libalpm/sync.c:506
+#: lib/libalpm/sync.c:509
 #, fuzzy, c-format
 msgid "'%s' not found in transaction set -- skipping"
 msgstr "a '%s' nem található a távoli adatbázisban -- kihagyás"
 
-#: lib/libalpm/sync.c:517
+#: lib/libalpm/sync.c:520
 #, c-format
 msgid "package '%s' provides its own conflict"
 msgstr ""
 
-#: lib/libalpm/sync.c:540 lib/libalpm/sync.c:545
+#: lib/libalpm/sync.c:543 lib/libalpm/sync.c:548
 #, fuzzy, c-format
 msgid "'%s' is in the target list -- keeping it"
 msgstr "az újabb verzió (%s-%s) már elérhetõ a cél listában -- kihagyás"
 
-#: lib/libalpm/sync.c:557 lib/libalpm/sync.c:594
+#: lib/libalpm/sync.c:560 lib/libalpm/sync.c:597
 #, fuzzy, c-format
 msgid "removing '%s' from target list"
 msgstr "a '%s' bejegyzés eltávolítása a '%s' gyorsítótárból"
 
-#: lib/libalpm/sync.c:566
+#: lib/libalpm/sync.c:569
 #, fuzzy, c-format
 msgid "resolving package '%s' conflict"
 msgstr "a %s-%s csomag eltávolítása"
 
-#: lib/libalpm/sync.c:589
+#: lib/libalpm/sync.c:592
 #, c-format
 msgid "electing '%s' for removal"
 msgstr ""
 
-#: lib/libalpm/sync.c:600 lib/libalpm/sync.c:616
+#: lib/libalpm/sync.c:603 lib/libalpm/sync.c:619
 msgid "unresolvable package conflicts detected"
 msgstr ""
 
-#: lib/libalpm/sync.c:668
+#: lib/libalpm/sync.c:671
 msgid "checking dependencies of packages designated for removal"
 msgstr ""
 
-#: lib/libalpm/sync.c:682
+#: lib/libalpm/sync.c:685
 msgid "something has gone horribly wrong"
 msgstr ""
 
-#: lib/libalpm/sync.c:701
+#: lib/libalpm/sync.c:704
 #, fuzzy, c-format
 msgid "found '%s' as a provision for '%s' -- conflict aborted"
 msgstr "a '%s' szolgáltatja a következõt: '%s'"
 
-#: lib/libalpm/sync.c:797
+#: lib/libalpm/sync.c:800
 #, c-format
 msgid "%s is already in the cache\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:808
+#: lib/libalpm/sync.c:811
 #, c-format
 msgid "no %s cache exists.  creating...\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:809
+#: lib/libalpm/sync.c:812
 #, c-format
 msgid "warning: no %s cache exists.  creating..."
 msgstr ""
 
-#: lib/libalpm/sync.c:814
+#: lib/libalpm/sync.c:817
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:815
+#: lib/libalpm/sync.c:818
 msgid "warning: couldn't create package cache, using /tmp instead"
 msgstr ""
 
-#: lib/libalpm/sync.c:822
+#: lib/libalpm/sync.c:825
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:851 lib/libalpm/sync.c:863
+#: lib/libalpm/sync.c:854 lib/libalpm/sync.c:866
 #, fuzzy, c-format
 msgid "can't get md5 or sha1 checksum for package %s\n"
 msgstr "sikertelen az sha1 ellenõrzõ összeg elérése a %s-%s csomag számára\n"
 
-#: lib/libalpm/sync.c:882
+#: lib/libalpm/sync.c:885
 #, c-format
 msgid "archive %s was corrupted (bad MD5 or SHA1 checksum)\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:884
+#: lib/libalpm/sync.c:887
 #, c-format
 msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:905
+#: lib/libalpm/sync.c:908
 #, fuzzy
 msgid "could not create removal transaction"
 msgstr "nem sikerült létrehozni az adatbázist"
 
-#: lib/libalpm/sync.c:911
+#: lib/libalpm/sync.c:914
 msgid "could not initialize the removal transaction"
 msgstr ""
 
-#: lib/libalpm/sync.c:931
+#: lib/libalpm/sync.c:934
 msgid "removing conflicting and to-be-replaced packages"
 msgstr ""
 
-#: lib/libalpm/sync.c:933
+#: lib/libalpm/sync.c:936
 #, fuzzy
 msgid "could not prepare removal transaction"
 msgstr "nem sikerült létrehozni az adatbázist"
 
-#: lib/libalpm/sync.c:939
+#: lib/libalpm/sync.c:942
 msgid "could not commit removal transaction"
 msgstr ""
 
-#: lib/libalpm/sync.c:946
+#: lib/libalpm/sync.c:949
 #, fuzzy
 msgid "installing packages"
 msgstr "telepítés"
 
-#: lib/libalpm/sync.c:949
+#: lib/libalpm/sync.c:952
 #, fuzzy
 msgid "could not create transaction"
 msgstr "nem sikerült létrehozni az adatbázist"
 
-#: lib/libalpm/sync.c:954
+#: lib/libalpm/sync.c:957
 msgid "could not initialize transaction"
 msgstr ""
 
-#: lib/libalpm/sync.c:977
+#: lib/libalpm/sync.c:980
 #, fuzzy
 msgid "could not prepare transaction"
 msgstr "értelmezhetetlen token %s"
 
-#: lib/libalpm/sync.c:989
+#: lib/libalpm/sync.c:992
 msgid "updating database for replaced packages' dependencies"
 msgstr ""
 
-#: lib/libalpm/sync.c:1018
+#: lib/libalpm/sync.c:1021
 #, fuzzy, c-format
 msgid "could not update requiredby for database entry %s-%s"
 msgstr "sikertelen a %s-%s 'függ tõle' adatbázis-bejegyzésének frissítése"
 
-#: lib/libalpm/sync.c:1027
+#: lib/libalpm/sync.c:1030
 #, fuzzy, c-format
 msgid "could not update new database entry %s-%s"
 msgstr "sikertelen a '%s-%s' adatbázis-bejegyzés frissítése"
+
+#: lib/libalpm/trans.c:262
+msgid "updating dependency packages 'requiredby' fields"
+msgstr "a függõ csomagok 'függ tõle' mezõjének frissítése"
+
+#: lib/libalpm/trans.c:299 lib/libalpm/trans.c:323
+#, c-format
+msgid "updating 'requiredby' field for package '%s'"
+msgstr "a '%s' csomag 'függ tõle' mezõjének frissítése"
+
+#: lib/libalpm/trans.c:309 lib/libalpm/trans.c:333
+#, c-format
+msgid "could not update 'requiredby' database entry %s-%s"
+msgstr "sikertelen a %s-%s 'függ tõle' adatbázis-bejegyzésének frissítése"
+
+#: lib/libalpm/trans.c:315
+#, c-format
+msgid "could not find dependency '%s'"
+msgstr "nem található a '%s' függõség"
 
 #: lib/libalpm/util.c:278
 #, fuzzy, c-format
@@ -1404,6 +1461,25 @@ msgstr ""
 #, c-format
 msgid "depcmp: %s-%s %s %s => %s"
 msgstr ""
+
+#~ msgid "adding new package %s-%s"
+#~ msgstr "új csomag hozzáadása %s-%s"
+
+#~ msgid "error updating database for %s-%s!"
+#~ msgstr "hiba a %s-%s adatbázis-frissítése során"
+
+#~ msgid "checkdeps: found %s as a dependency for %s"
+#~ msgstr "checkdeps: a %s egy függõség a %s számára"
+
+#~ msgid "dep is NULL!"
+#~ msgstr "a dep NULL!"
+
+#~ msgid "loading ALL info for '%s'"
+#~ msgstr "minden infó betöltése a '%s' számára"
+
+#, fuzzy
+#~ msgid "could not find dependency '%s' for removal"
+#~ msgstr "nem található a '%s' függõség"
 
 #~ msgid "loading FILES info for '%s'"
 #~ msgstr "a FILE infó betöltése a '%s' számára"

@@ -3,30 +3,30 @@ CFLAGS=""
 
 AC_PREREQ(2.59)
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
-AC_INIT([Pacman package manager], 3.0.0, [pacman-dev@archlinux.org], pacman)
-AC_LANG(C)
-AM_CONFIG_HEADER(config.h)
-AC_CANONICAL_SYSTEM
+AC_INIT([Pacman package manager], 3.0.0, [pacman-dev@archlinux.org], [pacman])
+AC_LANG([C])
+AC_CONFIG_HEADERS(config.h)
+AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION(0.13.1)
 
-dnl Define here the libalpm version number
-PM_MAJOR_VERSION=1
-PM_MINOR_VERSION=0
-PM_MICRO_VERSION=0
-PM_VERSION=$PM_MAJOR_VERSION.$PM_MINOR_VERSION.$PM_MICRO_VERSION
-dnl Needed for libtool to create proper shared lib version
-PM_VERSION_INFO=`expr $PM_MAJOR_VERSION + $PM_MINOR_VERSION`:$PM_MICRO_VERSION:$PM_MINOR_VERSION
+dnl Define the libalpm version number here
+LIB_MAJOR_VERSION=1
+LIB_MINOR_VERSION=0
+LIB_MICRO_VERSION=0
+LIB_VERSION=$LIB_MAJOR_VERSION.$LIB_MINOR_VERSION.$LIB_MICRO_VERSION
+dnl Needed for libtool to create proper shared lib version.
+dnl This is not completely correct- see 
+dnl http://sourceware.org/autobook/autobook/autobook_91.html for details.
+LIB_VERSION_INFO=`expr $LIB_MAJOR_VERSION + $LIB_MINOR_VERSION`:$LIB_MICRO_VERSION:$LIB_MINOR_VERSION
 
-AC_SUBST(PM_MAJOR_VERSION)
-AC_SUBST(PM_MINOR_VERSION)
-AC_SUBST(PM_MICRO_VERSION)
-AC_SUBST(PM_VERSION)
-AC_SUBST(PM_VERSION_INFO)
+dnl Set subsitution values for version stuff in Makefiles and anywhere else
+AC_SUBST(LIB_VERSION)
+AC_SUBST(LIB_VERSION_INFO)
 
-dnl Put out version numbers to config.h
-AC_DEFINE_UNQUOTED([PM_VERSION], ["$PM_VERSION"], [libalpm version number])
+dnl Put version number in config.h
+AC_DEFINE_UNQUOTED([LIB_VERSION], ["$LIB_VERSION"], [libalpm version number])
 
 dnl Configuration files
 dnl AC_CONFIG_FILES([etc/makepkg.conf] [etc/pacman.conf])
@@ -37,10 +37,6 @@ AC_PROG_INSTALL
 AC_CHECK_FUNCS([strverscmp])
 AM_PROG_LIBTOOL
 AM_CONDITIONAL(LINKSTATIC, test "$enable_static" = "yes")
-
-dnl Humor lowers blood pressure
-AC_MSG_CHECKING(your blood pressure)
-AC_MSG_RESULT([a bit high, but we can proceed])
 
 dnl Help line for man2html
 AC_ARG_ENABLE(man2html,
@@ -54,7 +50,7 @@ AC_ARG_ENABLE(doxygen,
 
 dnl Help line for config file
 AC_ARG_WITH(config-file,
-    AC_HELP_STRING([  --with-config-file=path], [Set the location of pacman's config file]),
+    AC_HELP_STRING([--with-config-file=path], [Set the location of pacman's config file]),
     [configfile=$withval], [configfile=/etc/pacman.conf])
 
 dnl Help line for debug
@@ -67,7 +63,7 @@ AC_ARG_ENABLE(fakeroot,
     AC_HELP_STRING([--disable-fakeroot], [Disable fakeroot proof support]),
     [fakeroot=$enableval], [fakeroot=yes])
 
-dnl Host dependant flags
+dnl Host-dependant flags
 case "${host}" in
 	*-*-cygwin*)
 		ENV_CFLAGS="$ENV_CFLAGS -DCYGWIN"
@@ -113,48 +109,48 @@ esac
 
 dnl Now do some things common to all architectures
 CHOST="${host}"
-AC_DEFINE_UNQUOTED([CARCH], ["$CARCH"], [Architecture])
-AC_DEFINE_UNQUOTED([CARCHFLAGS], ["$CARCHFLAGS"], [Architecture Flags])
-AC_DEFINE_UNQUOTED([ARCHSWITCH], ["$ARCHSWITCH"], [Architecture Switch (march/mcpu)])
-AC_DEFINE_UNQUOTED([CHOST], ["$CHOST"], [Host Type])
 AC_SUBST(CARCH)
 AC_SUBST(CARCHFLAGS)
 AC_SUBST(ARCHSWITCH)
 AC_SUBST(CHOST)
 
+dnl Humor lowers blood pressure
+AC_MSG_CHECKING(your blood pressure)
+AC_MSG_RESULT([a bit high, but we can proceed])
+
 dnl Check for man2html binary
 AC_MSG_CHECKING(for man2html)
 if test "x$wantman2html" = "xyes" ; then
     AC_CHECK_PROGS([MAN2HTML], [man2html])
-    AM_CONDITIONAL(HAS_MAN2HTML, test $MAN2HTML)
     if test $MAN2HTML ; then
-        AC_DEFINE([HAS_MAN2HTML], [TRUE], [Enable HTML manpages using man2html])
 		AC_MSG_RESULT(yes)
+		useman2html=yes
     else
 		AC_MSG_RESULT(no, man2html missing)
+		useman2html=no
     fi
 else
-    AM_CONDITIONAL(HAS_MAN2HTML, false)
     AC_MSG_RESULT(no, disabled by configure)
+	useman2html=no
 fi
+AM_CONDITIONAL(HAS_MAN2HTML, test "x$useman2html" = "xyes")
 
 dnl Check for doxygen support
 AC_MSG_CHECKING(for doxygen)
 if test "x$wantdoxygen" = "xyes" ; then
     AC_CHECK_PROGS([DOXYGEN], [doxygen])
-    AM_CONDITIONAL(HAS_DOXYGEN, test $DOXYGEN)
     if test $DOXYGEN ; then
-		DOXYSTATUS="yes, path: `which $DOXYGEN`"
 		AC_MSG_RESULT(yes)
+		usedoxygen=yes
     else
-		DOXYSTATUS="doxygen binary not found"
 		AC_MSG_RESULT(no, doxygen missing)
+		usedoxygen=no
     fi
 else
-    AM_CONDITIONAL(HAS_DOXYGEN, false)
-    DOXYSTATUS="no, disabled by configure"
     AC_MSG_RESULT(no, disabled by configure)
+	usedoxygen=no
 fi
+AM_CONDITIONAL(HAS_DOXYGEN, test "x$usedoxygen" = "xyes")
 
 dnl Check for math
 AC_CHECK_LIB([m], [sqrt], [AC_CHECK_HEADER([math.h], [LIBM='-lm'])])
@@ -177,7 +173,7 @@ fi
 dnl Set config location
 AC_MSG_CHECKING(for configuration file name)
 if test -n "$configfile"; then
-    CFLAGS="$CFLAGS -D'PACCONF=\"$configfile\"'"
+	AC_DEFINE_UNQUOTED([PACCONF], "$configfile", [Location of pacman conf file])
     AC_MSG_RESULT(["$configfile"])
 else
     AC_MSG_ERROR(["pacman config file (--with-config-file is not set"])
@@ -185,25 +181,27 @@ fi
 
 dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
-if test "$debug" = "yes" ; then
-    AM_CONDITIONAL(PACMAN_DEBUG, test "x$debug" = "xyes")
-	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99 -DPACMAN_DEBUG"
+if test "x$debug" = "xyes" ; then
+	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
+	CFLAGS="$CFLAGS -g -Wall -Werror -std=c99"
 	LDFLAGS="$LDFLAGS -lmcheck"
     AC_MSG_RESULT(yes)
 else
-    AM_CONDITIONAL(PACMAN_DEBUG, test "x$debug" = "xno")
 	CFLAGS="$CFLAGS -Wall -std=c99"
     AC_MSG_RESULT(no)
 fi
 
 dnl Enable or disable fakeroot code
 AC_MSG_CHECKING(for fakeroot proof support)
-if test "$fakeroot" = "yes" ; then
+if test "x$fakeroot" = "xyes" ; then
 	AC_MSG_RESULT(yes)
 else
-	CFLAGS="$CFLAGS -DFAKEROOT"
+	AC_DEFINE([FAKEROOT], , [Disable fakeroot-proof code])
 	AC_MSG_RESULT(no)
 fi
+
+dnl Set CFLAGS to both $CFLAGS and ones from env ($ENV_CFLAGS)
+CFLAGS="$CFLAGS $ENV_CFLAGS"
 
 dnl ==========================================================================
 
@@ -221,25 +219,29 @@ etc/pacman.conf
 etc/pacman.d/Makefile
 etc/pacman.d/mirrorlist
 etc/abs/Makefile
+pactest/Makefile
 Makefile
 ])
 
 echo "
 pacman-$VERSION:
 
-    prefix                   : ${prefix}
-    source code location     : ${srcdir}
-    compiler                 : ${CC}
-    compiler flags           : ${CFLAGS}
+    prefix                 : ${prefix}
+    source code location   : ${srcdir}
+    compiler               : ${CC}
+    compiler flags         : ${CFLAGS}
+    defines                : ${DEFS}
 
-    libalpm version          : ${PM_VERSION}
-    pacman.conf location     : ${configfile}
+    Architecture           : ${CARCH}
+    Architecture flags     : -${ARCHSWITCH}=${CARCHFLAGS}
+    Host Type              : ${CHOST}
 
-    Architecture CARCH       : ${CARCH}
-    Architecture used cflag  : ${CARCHFLAGS}
-    Architecture CHOST       : ${CHOST}
+    libalpm version        : ${LIB_VERSION}
+    pacman version         : ${PACKAGE_VERSION}
+    pacman.conf location   : ${configfile}
 
-    Doxygen support          : ${DOXYSTATUS}
-
-    debug support            : ${debug}
+    Doxygen support        : ${usedoxygen}
+    man2html support       : ${useman2html}
+    debug support          : ${debug}
+    fakeroot-proof support : ${fakeroot}
 "

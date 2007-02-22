@@ -4,6 +4,6 @@ dist_pkgsysconf_DATA = community current extra release unstable
 $(dist_pkgsysconf_DATA): mirrorlist
 	sed "s|@@REPO@@|$@|g" <$< >$@
 
-clean:
+clean-local:
 	rm -f $(dist_pkgsysconf_DATA)
 

@@ -31,7 +31,7 @@ man_MANS = \
 	libalpm.3
 
 if HAS_DOXYGEN
-man_MANS += *.3
+man_MANS += $(wildcard man3/*.3)
 endif
 
 EXTRA_DIST = $(man_MANS)

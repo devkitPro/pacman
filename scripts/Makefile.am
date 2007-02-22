@@ -1,4 +1,6 @@
-AUTOMAKE_OPTIONS = std-options
+# TODO: this would be nice to enable, but we need --help and --version
+#       flags on all of our scripts first (this is what it checks)
+#AUTOMAKE_OPTIONS = std-options
 
 bin_SCRIPTS = \
 	abs \
@@ -11,5 +13,7 @@ bin_SCRIPTS = \
 	repo-remove \
 	re-pacman \
 	updatesync
+
+EXTRA_DIST = $(bin_SCRIPTS)
 
 abs gensync makepkg makeworld pacman-optimize rankmirrors repo-add repo-remove re-pacman updatesync:
