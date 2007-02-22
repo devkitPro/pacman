@@ -348,8 +348,8 @@ void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
 			/* TODO clean up so digits and pkglen aren't passed twice */
 			/* TODO we may need some sort of wchar_t wprintf output here in order
 			 * to get the lengths right, prinf works on bytes and not chars */
-			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
-			       opr, pkglen, pkglen, pkgname);
+			printf("(%2$*1$d/%3$*1$d) %4$s %6$-*5$.*5$s", digits, remain, howmany,
+			       opr, pkglen, pkgname);
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
