@@ -329,12 +329,21 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 	}
 
 	for(i = targets; i; i = i->next) {
+		pmsyncpkg_t *sync1, *sync2;
 		pmpkg_t *p1, *p2, *dbpkg;
 		char *filestr = NULL;
 		char path[PATH_MAX+1];
 		struct stat buf;
 
-		p1 = (pmpkg_t*)i->data;
+		sync1 = i->data;
+		if(!sync1) {
+			continue;
+		}
+		p1 = sync1->pkg;
+		if(!p1) {
+			continue;
+		}
+
 		percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1)
 			                 / alpm_list_count(targets);
 		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100),
@@ -373,26 +382,25 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		/* loop over each file to be installed */
 		for(j = tmpfiles; j; j = j->next) {
 			filestr = j->data;
-			_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", filestr);
 
 			snprintf(path, PATH_MAX, "%s%s", root, filestr);
 
 			/* stat the file - if it exists and is not a dir, do some checks */
 			if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
+				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s, %s", filestr, path);
 
 				/* Look at all the targets to see if file has changed hands */
 				for(k = targets; k; k = k->next) {
-					pmsyncpkg_t *sync = k->data;
-					if(!sync) {
+					sync2 = k->data;
+					if(!sync2) {
+						continue;
+					}
+					p2 = sync2->pkg;
+					if(!p2 || p2 == p1) {
 						continue;
 					}
 
-					p2 = sync->pkg;
-
-					/* Ensure we aren't looking at current package */
-					if(p2 == p1) {
-						continue;
-					}
+					_alpm_log(PM_LOG_DEBUG, _("get pkg %s from %s"), p2->name, db->treename);
 					pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
 					/* Check if it used to exist in a package, but doesn't anymore */
 					if(localp2 && !alpm_list_find_str(alpm_pkg_get_files(p2), filestr)
@@ -417,6 +425,8 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 						break;
 					}
 				}
+			} else {
+				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", filestr);
 			}
 		}
 		alpm_list_free_inner(tmpfiles, &free);

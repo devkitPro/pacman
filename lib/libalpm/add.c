@@ -216,11 +216,11 @@ error:
 
 /* This is still messy. We have a lot of compare functions, and we should
  * try to consolidate them as much as we can (between add and sync) */
-static int pkg_cmp(const void *p1, const void *p2)
+/*static int deppkg_cmp(const void *p1, const void *p2)
 {
 	return(strcmp(((pmdepmissing_t *)p1)->target,
 				        ((pmdepmissing_t *)p2)->target));
-}
+}*/
 
 int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
@@ -255,14 +255,20 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		_alpm_log(PM_LOG_DEBUG, _("looking for conflicts"));
 		lp = _alpm_checkconflicts(db, trans->packages);
 		for(i = lp; i; i = i->next) {
-			int skip_this = 0;
 			pmdepmissing_t *miss = i->data;
 
+			_alpm_log(PM_LOG_ERROR, _("replacing packages with -A and -U is not supported yet"));
+			_alpm_log(PM_LOG_ERROR, _("please remove '%s' first, using -Rd"), miss->depend.name);
+			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
+			
 			/* Attempt to resolve conflicts */
+			/*
+			int skip_this = 0;
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &skip_this);
 			if(skip_this) {
 				pmdepmissing_t *pkg = NULL;
-				lp = alpm_list_remove(lp, (void *)miss, pkg_cmp, (void*)&pkg);
+				lp = alpm_list_remove(lp, (void *)miss, deppkg_cmp, (void*)&pkg);
+				*/
 				/* TODO: We remove the conflict from the list but never actually remove
 				 * the package. Need to do this to fix FS #3492. The sync code should
 				 * provide an example of how to do this, as it handles replaces and
@@ -271,11 +277,13 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 				 * still not remove the original package designated here for removal.
 				 * Better yet, dump all this shitty duplicate code and somehow combine
 				 * it with the sync code. */
+				/*
 				FREE(pkg);
 				if(lp == NULL) {
 					break;
 				}
 			}
+			*/
 		}
 		/* Removal code should go here, as described above. Instead of simply
 		 * removing items, perhaps throw them in another list to be removed, then

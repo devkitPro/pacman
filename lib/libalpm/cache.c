@@ -61,7 +61,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 
 	_alpm_db_rewind(db);
 	while((info = _alpm_db_scan(db, NULL, infolevel)) != NULL) {
-		_alpm_log(PM_LOG_DEBUG, _("adding '%s' to package cache for db '%s'"), info->name, db->treename);
+		_alpm_log(PM_LOG_FUNCTION, _("adding '%s' to package cache for db '%s'"), info->name, db->treename);
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
 		/* add to the collection */
@@ -195,7 +195,13 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 		return(NULL);
 	}
 
-	return(_alpm_pkg_isin(target, _alpm_db_get_pkgcache(db, INFRQ_NONE)));
+	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db, INFRQ_NONE);
+	if(!pkgcache) {
+		_alpm_log(PM_LOG_DEBUG, _("error: pkgcache is NULL for db '%s'"), db->treename);
+		return(NULL);
+	}
+
+	return(_alpm_pkg_isin(target, pkgcache));
 }
 
 /* Returns a new group cache from db.

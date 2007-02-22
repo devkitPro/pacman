@@ -189,7 +189,6 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("db scan found package: %s"), pkg->name);
 	return(pkg);
 }
 

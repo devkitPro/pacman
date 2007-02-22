@@ -467,8 +467,8 @@ pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack)
 	for(lp = haystack; lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(info && !strcmp(info->name, needle)) {
-			return(lp->data);
+		if(info && strcmp(info->name, needle) == 0) {
+			return(info);
 		}
 	}
 	return(NULL);
