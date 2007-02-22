@@ -1,5 +1,7 @@
 #! /usr/bin/python
 #
+#  pactest : run automated testing on the pacman binary
+#
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
 # 
 #  This program is free software; you can redistribute it and/or modify
@@ -17,58 +19,75 @@
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
 #  USA.
 
-
-import getopt
-import sys
-import glob
-import os
+import os, sys, glob
+from optparse import OptionParser
 
 import pmenv
 import util
 
-
 __author__ = "Aurelien FORET"
-__version__ = "0.3"
+__version__ = "0.4"
 
+def resolveBinPath(option, opt_str, value, parser):
+    setattr(parser.values, option.dest, os.path.abspath(value))
 
-def usage(retcode):
-    """
-    """
-    print "Usage: %s [options] [[--test=<path/to/testfile.py>] ...]\n\n" % __file__
-    sys.exit(retcode)
+def globTests(option, opt_str, value, parser):
+    globlist = []
+    globlist.extend(glob.glob(value))
+    setattr(parser.values, option.dest, globlist)
 
-if __name__ == "__main__":
-    env = pmenv.pmenv()
+def createOptParser():
     testcases = []
+    usage = "usage: %prog [options] [[--test=<path/to/testfile.py>] ...]"
+    description = "Runs automated tests on the pacman binary. Tests are " \
+            "described using an easy python syntax, and several can be " \
+            "ran at once."
+    parser = OptionParser(usage = usage, description = description)
 
-    try:
-        opts, args = getopt.getopt(sys.argv[1:],
-                                   "d:hp:t:v",
-                                   ["debug=", "gdb", "help", "pacman=", "test=", "valgrind", "verbose", "nolog"])
-    except getopt.GetoptError:
-        usage(1)
+    parser.add_option("-v", "--verbose", action = "count",
+                      dest = "verbose", default = 0,
+                      help = "print verbose output")
+    parser.add_option("-d", "--debug", type = "int",
+                      dest = "debug", default = 0,
+                      help = "set debug level for pacman")
+    parser.add_option("-p", "--pacman", action = "callback",
+                      callback = resolveBinPath, type = "string",
+                      dest = "bin", default = "pacman",
+                      help = "specify location of the pacman binary")
+    parser.add_option("-t", "--test", action = "callback",
+                      callback = globTests, type = "string",
+                      dest = "testcases",
+                      help = "specify test case(s)")
+    parser.add_option("--nolog", action = "store_true",
+                      dest = "nolog", default = False,
+                      help = "do not log pacman messages")
+    parser.add_option("--gdb", action = "store_true",
+                      dest = "gdb", default = False,
+                      help = "use gdb while calling pacman")
+    parser.add_option("--valgrind", action = "store_true",
+                      dest = "valgrind", default = False,
+                      help = "use valgrind while calling pacman")
+    return parser
 
-    for (cmd, param) in opts:
-        if cmd == "-v" or cmd == "--verbose":
-            util.verbose += 1
-        elif cmd == "-d" or cmd == "--debug":
-            env.pacman["debug"] = int(param)
-        elif cmd == "-t" or cmd == "--test":
-            testcases.extend(glob.glob(param))
-        elif cmd == "-p" or cmd == "--pacman":
-            env.pacman["bin"] = os.path.abspath(param)
-        elif cmd == "-h" or cmd == "--help":
-            usage(0)
-        elif cmd == "--nolog":
-            env.pacman["nolog"] = 1
-        elif cmd == "--gdb":
-            env.pacman["gdb"] = 1
-        elif cmd == "--valgrind":
-            env.pacman["valgrind"] = 1
+ 
+if __name__ == "__main__":
+    # instantiate env and parser objects 
+    env = pmenv.pmenv()
+    parser = createOptParser()
+    (opts, args) = parser.parse_args()
 
-    for i in testcases:
+    # add parsed options to env object
+    util.verbose = opts.verbose
+    env.pacman["debug"] = opts.debug
+    env.pacman["bin"] = opts.bin
+    env.pacman["nolog"] = opts.nolog
+    env.pacman["gdb"] = opts.gdb
+    env.pacman["valgrind"] = opts.valgrind
+    for i in opts.testcases:
         env.addtest(i)
 
+    # run tests and print overall results
     env.run()
     env.results()
+
 # vim: set ts=4 sw=4 et:
