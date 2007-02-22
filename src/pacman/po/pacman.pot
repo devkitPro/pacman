@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-15 09:24-0500\n"
+"POT-Creation-Date: 2007-02-22 11:13-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/pacman/add.c:69 src/pacman/deptest.c:57 src/pacman/remove.c:79
-#: src/pacman/sync.c:438 src/pacman/sync.c:487
+#: src/pacman/sync.c:482 src/pacman/sync.c:531
 #, c-format
 msgid ""
 "       if you're sure a package manager is not already running,\n"
@@ -33,14 +33,14 @@ msgstr ""
 msgid "failed to add target '%s' (%s)"
 msgstr ""
 
-#: src/pacman/add.c:85 src/pacman/sync.c:194 src/pacman/trans.c:70
+#: src/pacman/add.c:85 src/pacman/sync.c:196 src/pacman/trans.c:70
 #: src/pacman/trans.c:77 src/pacman/trans.c:81 src/pacman/trans.c:91
 #: src/pacman/trans.c:105 src/pacman/trans.c:119 src/pacman/trans.c:131
 #: src/pacman/trans.c:142
 msgid "done.\n"
 msgstr ""
 
-#: src/pacman/add.c:92 src/pacman/remove.c:98 src/pacman/sync.c:572
+#: src/pacman/add.c:92 src/pacman/remove.c:98 src/pacman/sync.c:616
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr ""
@@ -50,39 +50,39 @@ msgstr ""
 msgid ":: %s: requires %s"
 msgstr ""
 
-#: src/pacman/add.c:118 src/pacman/sync.c:601
+#: src/pacman/add.c:118 src/pacman/sync.c:645
 #, c-format
 msgid ":: %s: conflicts with %s"
 msgstr ""
 
-#: src/pacman/add.c:127 src/pacman/sync.c:665
+#: src/pacman/add.c:127 src/pacman/sync.c:709
 #, c-format
 msgid "%s%s exists in both '%s' and '%s'\n"
 msgstr ""
 
-#: src/pacman/add.c:134 src/pacman/sync.c:672
+#: src/pacman/add.c:134 src/pacman/sync.c:716
 #, c-format
 msgid "%s: %s%s exists in filesystem\n"
 msgstr ""
 
-#: src/pacman/add.c:141 src/pacman/sync.c:679 src/pacman/sync.c:685
+#: src/pacman/add.c:141 src/pacman/sync.c:723 src/pacman/sync.c:729
 msgid ""
 "\n"
 "errors occurred, no packages were upgraded.\n"
 msgstr ""
 
-#: src/pacman/add.c:151 src/pacman/sync.c:608
+#: src/pacman/add.c:151 src/pacman/sync.c:652
 #, c-format
 msgid ":: %.1f MB required, have %.1f MB"
 msgstr ""
 
-#: src/pacman/add.c:164 src/pacman/remove.c:138 src/pacman/sync.c:658
+#: src/pacman/add.c:164 src/pacman/remove.c:138 src/pacman/sync.c:702
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr ""
 
-#: src/pacman/add.c:174 src/pacman/remove.c:148 src/pacman/sync.c:480
-#: src/pacman/sync.c:701
+#: src/pacman/add.c:174 src/pacman/remove.c:148 src/pacman/sync.c:524
+#: src/pacman/sync.c:745
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr ""
@@ -136,19 +136,19 @@ msgstr ""
 msgid "function"
 msgstr ""
 
-#: src/pacman/log.c:201
+#: src/pacman/log.c:205
 msgid "Y"
 msgstr ""
 
-#: src/pacman/log.c:201
+#: src/pacman/log.c:205
 msgid "YES"
 msgstr ""
 
-#: src/pacman/log.h:26
+#: src/pacman/log.h:28
 msgid "error: "
 msgstr ""
 
-#: src/pacman/log.h:30
+#: src/pacman/log.h:32
 msgid "warning: "
 msgstr ""
 
@@ -290,30 +290,35 @@ msgstr ""
 
 #: src/pacman/package.c:155
 #, c-format
-msgid "Backup Files :\n"
+msgid "Backup Files:\n"
 msgstr ""
 
-#: src/pacman/package.c:175
+#: src/pacman/package.c:177
 #, c-format
 msgid "error calculating checksums for %s\n"
 msgstr ""
 
-#: src/pacman/package.c:188
+#: src/pacman/package.c:190
 #, c-format
 msgid "MODIFIED\t%s\n"
 msgstr ""
 
-#: src/pacman/package.c:190
+#: src/pacman/package.c:192
 #, c-format
 msgid "Not Modified\t%s\n"
 msgstr ""
 
-#: src/pacman/package.c:195
+#: src/pacman/package.c:197
 #, c-format
 msgid "MISSING\t\t%s\n"
 msgstr ""
 
-#: src/pacman/package.c:228
+#: src/pacman/package.c:203
+#, c-format
+msgid "(none)\n"
+msgstr ""
+
+#: src/pacman/package.c:234
 #, c-format
 msgid "No changelog available for '%s'.\n"
 msgstr ""
@@ -501,7 +506,7 @@ msgstr ""
 #: src/pacman/pacman.c:137
 #, c-format
 msgid ""
-"  -c, --clean          remove old packages from cache directory (use -cc for "
+"  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
 
@@ -606,62 +611,62 @@ msgstr ""
 msgid "                       the terms of the GNU General Public License\n"
 msgstr ""
 
-#: src/pacman/pacman.c:299
+#: src/pacman/pacman.c:298
 #, c-format
 msgid "'%s' is not a valid debug level"
 msgstr ""
 
-#: src/pacman/pacman.c:315
+#: src/pacman/pacman.c:313
 #, c-format
 msgid "'%s' is not a valid cache directory\n"
 msgstr ""
 
-#: src/pacman/pacman.c:341
+#: src/pacman/pacman.c:339
 #, c-format
 msgid "'%s' is not a valid db path\n"
 msgstr ""
 
-#: src/pacman/pacman.c:371
+#: src/pacman/pacman.c:369
 #, c-format
 msgid "'%s' is not a valid root path\n"
 msgstr ""
 
-#: src/pacman/pacman.c:398
+#: src/pacman/pacman.c:396
 msgid "only one operation may be used at a time\n"
 msgstr ""
 
-#: src/pacman/pacman.c:444
+#: src/pacman/pacman.c:442
 msgid "warning: current locale is invalid; using default \"C\" locale"
 msgstr ""
 
-#: src/pacman/pacman.c:463
+#: src/pacman/pacman.c:461
 #, c-format
 msgid "failed to initilize alpm library (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:496
+#: src/pacman/pacman.c:494
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr ""
 
-#: src/pacman/pacman.c:512
+#: src/pacman/pacman.c:510
 #, c-format
 msgid "failed to parse config (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:522 src/pacman/remove.c:125 src/pacman/util.c:323
+#: src/pacman/pacman.c:520 src/pacman/remove.c:125 src/pacman/util.c:323
 msgid "Targets:"
 msgstr ""
 
-#: src/pacman/pacman.c:528
+#: src/pacman/pacman.c:526
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:535
+#: src/pacman/pacman.c:533
 msgid "no targets specified (use -h for help)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:548
+#: src/pacman/pacman.c:546
 msgid "no operation specified (use -h for help)\n"
 msgstr ""
 
@@ -679,7 +684,7 @@ msgstr ""
 msgid "No package owns %s\n"
 msgstr ""
 
-#: src/pacman/query.c:119 src/pacman/sync.c:409
+#: src/pacman/query.c:119 src/pacman/sync.c:453
 msgid "no usable package repositories configured.\n"
 msgstr ""
 
@@ -710,7 +715,7 @@ msgstr ""
 msgid "package \"%s\" not found\n"
 msgstr ""
 
-#: src/pacman/remove.c:58 src/pacman/sync.c:524
+#: src/pacman/remove.c:58 src/pacman/sync.c:568
 #, c-format
 msgid ":: group %s:\n"
 msgstr ""
@@ -724,7 +729,7 @@ msgstr ""
 msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ""
 
-#: src/pacman/remove.c:77 src/pacman/sync.c:436 src/pacman/sync.c:485
+#: src/pacman/remove.c:77 src/pacman/sync.c:480 src/pacman/sync.c:529
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr ""
@@ -745,150 +750,160 @@ msgid ""
 "Do you want to remove these packages? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:113
+#: src/pacman/sync.c:115
 msgid "Do you want to remove old packages from cache? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:115
+#: src/pacman/sync.c:117
 msgid "removing old packages from cache... "
 msgstr ""
 
-#: src/pacman/sync.c:118
+#: src/pacman/sync.c:120
 msgid "could not access cache directory\n"
 msgstr ""
 
-#: src/pacman/sync.c:179
+#: src/pacman/sync.c:181
 msgid "Do you want to remove all packages from cache? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:181
+#: src/pacman/sync.c:183
 msgid "removing all packages from cache... "
 msgstr ""
 
-#: src/pacman/sync.c:184
+#: src/pacman/sync.c:186
 msgid "could not remove cache directory\n"
 msgstr ""
 
-#: src/pacman/sync.c:189
+#: src/pacman/sync.c:191
 msgid "could not create new cache directory\n"
-msgstr ""
-
-#: src/pacman/sync.c:216
-#, c-format
-msgid "failed to synchronize %s: %s\n"
 msgstr ""
 
 #: src/pacman/sync.c:218
 #, c-format
+msgid "failed to synchronize %s: %s\n"
+msgstr ""
+
+#: src/pacman/sync.c:220
+#, c-format
 msgid "failed to update %s (%s)\n"
 msgstr ""
 
-#: src/pacman/sync.c:221
+#: src/pacman/sync.c:223
 #, c-format
 msgid " %s is up to date\n"
 msgstr ""
 
-#: src/pacman/sync.c:337
+#: src/pacman/sync.c:345
 #, c-format
-msgid "package \"%s\" was not found.\n"
+msgid "repository '%s' does not exist\n"
 msgstr ""
 
-#: src/pacman/sync.c:374
+#: src/pacman/sync.c:361
+#, c-format
+msgid "package '%s' was not found in repository '%s'\n"
+msgstr ""
+
+#: src/pacman/sync.c:381
+#, c-format
+msgid "package '%s' was not found\n"
+msgstr ""
+
+#: src/pacman/sync.c:418
 #, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr ""
 
-#: src/pacman/sync.c:446
+#: src/pacman/sync.c:490
 msgid ":: Synchronizing package databases...\n"
 msgstr ""
 
-#: src/pacman/sync.c:447
+#: src/pacman/sync.c:491
 msgid "synchronizing package lists"
 msgstr ""
 
-#: src/pacman/sync.c:449
+#: src/pacman/sync.c:493
 msgid "failed to synchronize any databases"
 msgstr ""
 
-#: src/pacman/sync.c:455
+#: src/pacman/sync.c:499
 msgid ":: Starting full system upgrade...\n"
 msgstr ""
 
-#: src/pacman/sync.c:456
+#: src/pacman/sync.c:500
 msgid "starting full system upgrade"
 msgstr ""
 
-#: src/pacman/sync.c:474
+#: src/pacman/sync.c:518
 msgid ""
 "\n"
 ":: pacman has detected a newer version of the \"pacman\" package.\n"
 msgstr ""
 
-#: src/pacman/sync.c:475
+#: src/pacman/sync.c:519
 msgid ":: It is recommended that you allow pacman to upgrade itself\n"
 msgstr ""
 
-#: src/pacman/sync.c:476
+#: src/pacman/sync.c:520
 msgid ":: first, then you can re-run the operation with the newer version.\n"
 msgstr ""
 
-#: src/pacman/sync.c:478
+#: src/pacman/sync.c:522
 msgid ":: Upgrade pacman first? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:493
+#: src/pacman/sync.c:537
 #, c-format
 msgid "pacman: %s\n"
 msgstr ""
 
-#: src/pacman/sync.c:513
+#: src/pacman/sync.c:557
 #, c-format
 msgid "'%s': %s\n"
 msgstr ""
 
-#: src/pacman/sync.c:528
+#: src/pacman/sync.c:572
 msgid ":: Install whole content? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:535
+#: src/pacman/sync.c:579
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:559
+#: src/pacman/sync.c:603
 #, c-format
 msgid "'%s': not found in sync db\n"
 msgstr ""
 
-#: src/pacman/sync.c:579
+#: src/pacman/sync.c:623
 msgid "requires"
 msgstr ""
 
-#: src/pacman/sync.c:579
+#: src/pacman/sync.c:623
 msgid "is required by"
 msgstr ""
 
-#: src/pacman/sync.c:621
-msgid "local database is up to date\n"
+#: src/pacman/sync.c:665
+msgid " local database is up to date\n"
 msgstr ""
 
-#: src/pacman/sync.c:630
+#: src/pacman/sync.c:674
 msgid ""
 "\n"
 "Beginning download...\n"
 msgstr ""
 
-#: src/pacman/sync.c:634
+#: src/pacman/sync.c:678
 msgid "Proceed with download? [Y/n] "
 msgstr ""
 
-#: src/pacman/sync.c:642
+#: src/pacman/sync.c:686
 msgid ""
 "\n"
 "Beginning upgrade process...\n"
 msgstr ""
 
-#: src/pacman/sync.c:646
+#: src/pacman/sync.c:690
 msgid "Proceed with installation? [Y/n] "
 msgstr ""
 
@@ -990,19 +1005,19 @@ msgstr ""
 msgid ":: Archive %s is corrupted. Do you want to delete it? [Y/n] "
 msgstr ""
 
-#: src/pacman/trans.c:314
+#: src/pacman/trans.c:319
 msgid "installing"
 msgstr ""
 
-#: src/pacman/trans.c:317
+#: src/pacman/trans.c:322
 msgid "upgrading"
 msgstr ""
 
-#: src/pacman/trans.c:320
+#: src/pacman/trans.c:325
 msgid "removing"
 msgstr ""
 
-#: src/pacman/trans.c:323
+#: src/pacman/trans.c:328
 msgid "checking for file conflicts"
 msgstr ""
 
