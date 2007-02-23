@@ -220,6 +220,7 @@ etc/pacman.d/Makefile
 etc/pacman.d/mirrorlist
 etc/abs/Makefile
 pactest/Makefile
+contrib/Makefile
 Makefile
 ])
 

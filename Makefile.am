@@ -1,8 +1,9 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts doc etc pactest
+SUBDIRS = lib/libalpm src/util src/pacman scripts doc etc pactest contrib
+
+DISTCHECK_CONFIGURE_FLAGS = --disable-fakeroot
 
 # Some files automatically included, so they aren't specified below:
 #   AUTHORS, COPYING, NEWS, README
-# TODO: move translation-help to ABOUT-NLS?
 EXTRA_DIST = HACKING
 
 # TODO : figure out a way to get 'make distcheck' to build with
