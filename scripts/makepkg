@@ -356,7 +356,6 @@ usage() {
 	echo
 	echo "Options:"
 	echo "  -b, --builddeps  Build missing dependencies from source"
-	echo "  -B, --noccache   Do not use ccache during build"
 	echo "  -c, --clean      Clean up work files after build"
 	echo "  -C, --cleancache Clean up source files from the cache"
 	echo "  -d, --nodeps     Skip all dependency checks"
@@ -365,7 +364,6 @@ usage() {
 	echo "  -g, --geninteg   Generate integrity checks for source files"
 	echo "  -h, --help       This help"
 	echo "  -i, --install    Install package after successful build"
-	echo "  -j <jobs>        Set MAKEFLAGS to \"-j<jobs>\" before building"
 	echo "  -L, --log        Log package build process"
 	echo "  -m, --nocolor    Disable colorized output messages"
 	echo "  -o, --nobuild    Download and extract files only"
@@ -421,7 +419,6 @@ while [ "$#" -ne "0" ]; do
 		--syncdeps)   DEP_BIN=1 ;;
 		--usesudo)    SUDO=1 ;;
 		--builddeps)  DEP_SRC=1 ;;
-		--noccache)   USE_CCACHE="n" ;;
 		--nodeps)     NODEPS=1 ;;
 		--noextract)  NOEXTRACT=1 ;;
 		--install)    INSTALL=1 ;;
@@ -441,10 +438,9 @@ while [ "$#" -ne "0" ]; do
 					exit 1
 					;;
 		-*)
-		while getopts "bBcCdefghij:Lmop:rRsS-" opt; do
+		while getopts "bcCdefghiLmop:rRsS-" opt; do
 			case $opt in
 				b) DEP_SRC=1 ;;
-				B) USE_CCACHE="n" ;;
 				c) CLEANUP=1 ;;
 				C) CLEANCACHE=1 ;;
 				d) NODEPS=1 ;;
@@ -456,7 +452,6 @@ while [ "$#" -ne "0" ]; do
 						exit 0
 						;;
 				i) INSTALL=1 ;;
-				j) export MAKEFLAGS="-j$OPTARG" ;;
 				L) LOGGING=1 ;;
 				m) USE_COLOR="n" ;;
 				o) NOBUILD=1 ;;
@@ -524,7 +519,7 @@ fi
 
 source $BUILDSCRIPT
 
-# check for no-no's
+# check for no-no's in the build script
 if [ -z "$pkgver" ]; then
 	error "pkgver is not allowed to be empty."
 	exit 1
@@ -553,7 +548,8 @@ if [ "$install" -a ! -f "$install" ]; then
 	exit 1
 fi
 
-if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
+if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} 
+     -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "a package has already been built, installing existing package."
 		installpackage
@@ -564,8 +560,9 @@ if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} -a "$FORCE" =
 	fi
 fi
 
-# Enter the fakeroot environment if necessary.  This will call the makepkg script again
-# as the fake root user.  We detect this by passing a sentinel option (-F) to makepkg
+# Enter the fakeroot environment if necessary.  This will call the makepkg
+# script again as the fake root user.  We detect this by passing a sentinel
+# option (-F) to makepkg.
 if [ "$EUID" != "0" ]; then
 	if [ "$(check_buildenv fakeroot)" = "y" ]; then
 		if [ $(type -p fakeroot) ]; then
@@ -819,15 +816,22 @@ else
 	fi
 	mkdir -p $startdir/pkg
 
-	# use distcc if requested
-	if [ "$(check_buildenv distcc)" = "y" ]; then
+	# use distcc if it is requested (check buildenv and PKGBUILD opts)
+	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
 		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
+	else if [ "$(check_option distcc)" = "n" ]; then
+		# if it is not wanted, clear the makeflags too
+		export MAKEFLAGS=""
 	fi
 
-	# use ccache if it's available
-	#  USE_CCACHE still here because it is a command line option
-	if [ ! "$USE_CCACHE" = "n" -a "$(check_buildenv ccache)" = "y" ]; then
+	# use ccache if it is requested (check buildenv and PKGBUILD opts)
+	if [ "$(check_buildenv ccache)" = "y" -a "$(check_option ccache)" != "n" ]; then
 		[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
+	fi
+
+	# clear user-specified makeflags if requested
+	if [ "$(check_option makeflags)" = "n" ]; then
+		export MAKEFLAGS=""
 	fi
 
 	# build

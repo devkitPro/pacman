@@ -68,8 +68,7 @@ Colorize output messages, making output easier to read.
 .B ccache
 Use ccache to cache compilation by default. This allows for faster compiles if
 you are continuously recompiling the same packages. It can be disabled for
-individual packages by passing the \fB-B\fP or \fB--noccache\fP flag to
-\fBmakepkg\fP.
+individual packages by placing \fB!ccache\fP in the \fB\*(PB\fP options array.
 .RE
 .TP
 .B DISTCC_HOSTS="\fIhost1 ...\fP"

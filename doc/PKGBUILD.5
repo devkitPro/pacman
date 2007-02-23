@@ -59,7 +59,7 @@ multiple licenses are applicable for a package, list all of them:
 Specifies a special install script that is to be included in the package. This
 file should reside in the same directory as the \fB\*(PB\fP, and will be copied
 into the package by \fBmakepkg\fP. It does not need to be included in the
-\fIsource\fP array. (e.g. \fBinstall=pkgname.install\fP)
+\fIsource\fP array (e.g. \fBinstall=pkgname.install\fP).
 
 .TP
 .B source \fI(array)\fP
@@ -99,8 +99,8 @@ one could install all KDE packages by installing the 'kde' group.
 
 .TP
 .B arch \fI(array)\fP
-Defines on which architectures the given package is available. (e.g.
-\fBarch=('i686' 'x86_64')\fP) 
+Defines on which architectures the given package is available (e.g.
+\fBarch=('i686' 'x86_64')\fP). 
 
 .TP
 .B backup \fI(array)\fP 
@@ -165,6 +165,20 @@ Leave libtool (.la) files in packages. Specify "!libtool" to remove them.
 .TP
 .B emptydirs
 Leave empty directories in packages.
+.TP
+.B ccache
+Allow the use of \fBccache\fP during build. More useful in its negative form
+"!ccache" with select packages that have problems building with \fBccache\fP.
+.TP
+.B distcc
+Allow the use of \fBdistcc\fP during build. More useful in its negative form
+"!distcc" with select packages that have problems building with \fBdistcc\fP.
+.TP
+.B makeflags
+Allow the use of user-specific makeflags during build as specified in
+\fBmakepkg.conf\fP. More useful in its negative form "!makeflags" with select
+packages that have problems building with custom makeflags such as "-j2" (or
+higher).
 .TP
 .B force
 Force the package to be upgraded by a \fBpacman\fP system upgrade operation,

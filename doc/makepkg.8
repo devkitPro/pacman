@@ -32,10 +32,6 @@ build-time or run-time dependencies, it will look for the dependencies'
 them it will call \fBmakepkg\fP to build and install the missing dependencies.
 The child calls will be made with the \fB-b\fP and \fB-i\fP options.
 .TP
-.B \-B, --noccache
-Disable the use of \fBccache\fP during build (useful for select packages that
-have problems with \fBccache\fP).
-.TP
 .B \-c, --clean
 Clean up leftover work files and directories after a successful build.
 .TP
@@ -71,10 +67,6 @@ Output syntax and command line options.
 .TP
 .B \-i, --install
 Install or upgrade the package after a successful build using \fBpacman\fP.
-.TP
-.B \-j \fIjobs\fP
-Sets MAKEFLAGS="-j\fIjobs\fP" before building the package. This is useful for
-overriding the \fIMAKEFLAGS\fP setting in \fBmakepkg.conf\fP.
 .TP
 .B \-m, --nocolor
 Disable color in output messages.
