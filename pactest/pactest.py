@@ -40,6 +40,7 @@ def globTests(option, opt_str, value, parser):
         globlist += glob.glob(parser.rargs[idx])
         idx += 1
 
+    print "tests: %s" % globlist
     parser.rargs = parser.rargs[idx:]
     setattr(parser.values, option.dest, globlist)
 

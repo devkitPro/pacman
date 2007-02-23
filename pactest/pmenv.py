@@ -59,7 +59,7 @@ class pmenv:
 
         for t in self.testcases:
             print "=========="*8
-            print "Running '%s'" % t.name.strip(".py")
+            print "Running '%s'" % t.name.replace(".py", "")
 
             t.load()
             print t.description
