@@ -166,7 +166,7 @@ static void version()
 	printf("\n");
 	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, LIB_VERSION);
 	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\n");
-	printf("\\  '-. '-'  '-'  '-'   & Frugalware developers <frugalware-devel@frugalware.org>\n");
+	printf("\\  '-. '-'  '-'  '-'\n");
 	printf(" '--'                  \n");
 	printf(_("                       This program may be freely redistributed under\n"));
 	printf(_("                       the terms of the GNU General Public License\n"));
