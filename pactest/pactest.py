@@ -34,7 +34,6 @@ def resolveBinPath(option, opt_str, value, parser):
 def globTests(option, opt_str, value, parser):
     globlist = []
     globlist.extend(glob.glob(value))
-    print "globlist=%s" % globlist
     setattr(parser.values, option.dest, globlist)
 
 def createOptParser():
@@ -68,6 +67,9 @@ def createOptParser():
     parser.add_option("--valgrind", action = "store_true",
                       dest = "valgrind", default = False,
                       help = "use valgrind while calling pacman")
+    parser.add_option("--manual-confirm", action = "store_true",
+                      dest = "manualconfirm", default = False,
+                      help = "do not use --noconfirm for pacman calls")
     return parser
 
  
@@ -84,11 +86,15 @@ if __name__ == "__main__":
     env.pacman["nolog"] = opts.nolog
     env.pacman["gdb"] = opts.gdb
     env.pacman["valgrind"] = opts.valgrind
-    for i in opts.testcases:
-        env.addtest(i)
+    env.pacman["manual-confirm"] = opts.manualconfirm
 
-    # run tests and print overall results
-    env.run()
-    env.results()
+    if len(opts.testcases) == 0:
+        print "no tests defined, nothing to do"
+    else:
+        for i in opts.testcases: env.addtest(i)
+
+        # run tests and print overall results
+        env.run()
+        env.results()
 
 # vim: set ts=4 sw=4 et:
