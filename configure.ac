@@ -38,11 +38,6 @@ AC_CHECK_FUNCS([strverscmp])
 AM_PROG_LIBTOOL
 AM_CONDITIONAL(LINKSTATIC, test "$enable_static" = "yes")
 
-dnl Help line for man2html
-AC_ARG_ENABLE(man2html,
-    AC_HELP_STRING([--enable-man2html], [Build html docs via man2html]),
-    [wantman2html=$enableval], [wantman2html=no])
-
 dnl Help line for doxygen
 AC_ARG_ENABLE(doxygen,
     AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
@@ -117,23 +112,6 @@ AC_SUBST(CHOST)
 dnl Humor lowers blood pressure
 AC_MSG_CHECKING(your blood pressure)
 AC_MSG_RESULT([a bit high, but we can proceed])
-
-dnl Check for man2html binary
-AC_MSG_CHECKING(for man2html)
-if test "x$wantman2html" = "xyes" ; then
-    AC_CHECK_PROGS([MAN2HTML], [man2html])
-    if test $MAN2HTML ; then
-		AC_MSG_RESULT(yes)
-		useman2html=yes
-    else
-		AC_MSG_RESULT(no, man2html missing)
-		useman2html=no
-    fi
-else
-    AC_MSG_RESULT(no, disabled by configure)
-	useman2html=no
-fi
-AM_CONDITIONAL(HAS_MAN2HTML, test "x$useman2html" = "xyes")
 
 dnl Check for doxygen support
 AC_MSG_CHECKING(for doxygen)
@@ -242,7 +220,6 @@ pacman-$VERSION:
     pacman.conf location   : ${configfile}
 
     Doxygen support        : ${usedoxygen}
-    man2html support       : ${useman2html}
     debug support          : ${debug}
     fakeroot-proof support : ${fakeroot}
 "
