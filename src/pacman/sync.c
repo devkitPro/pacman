@@ -511,7 +511,7 @@ int pacman_sync(alpm_list_t *targets)
 		 * when sysupgrade'ing with an older version of pacman.
 		 */
 		data = alpm_trans_get_packages();
-		for(i = alpm_list_first(data); i; i = alpm_list_next(i)) {
+		for(i = data; i; i = alpm_list_next(i)) {
 			pmsyncpkg_t *sync = alpm_list_getdata(i);
 			pmpkg_t *spkg = alpm_sync_get_package(sync);
 			if(strcmp("pacman", alpm_pkg_get_name(spkg)) == 0 && alpm_list_count(data) > 1) {
@@ -706,16 +706,14 @@ int pacman_sync(alpm_list_t *targets)
 				pmconflict_t *conflict = alpm_list_getdata(i);
 				switch(alpm_conflict_get_type(conflict)) {
 				case PM_CONFLICT_TYPE_TARGET:
-					MSG(NL, _("%s%s exists in both '%s' and '%s'\n"),
-							alpm_option_get_root(),
+					MSG(NL, _("%s exists in both '%s' and '%s'\n"),
 							alpm_conflict_get_file(conflict),
 							alpm_conflict_get_target(conflict),
 							alpm_conflict_get_ctarget(conflict));
 					break;
 				case PM_CONFLICT_TYPE_FILE:
-					MSG(NL, _("%s: %s%s exists in filesystem\n"),
+					MSG(NL, _("%s: %s exists in filesystem\n"),
 							alpm_conflict_get_target(conflict),
-							alpm_option_get_root(),
 							alpm_conflict_get_file(conflict));
 					break;
 				}
