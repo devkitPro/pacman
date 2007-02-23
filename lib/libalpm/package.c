@@ -141,27 +141,29 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	}
 
 	/* compare versions and see if we need to upgrade */
-	cmp = _alpm_versioncmp(local_pkg->version, pkg->version);
+	cmp = _alpm_versioncmp(pkg->version, local_pkg->version);
 
 	if(cmp != 0 && pkg->force) {
 		cmp = 1;
 		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s"), local_pkg->name, pkg->version);
-	} else if(cmp > 0) {
+	} else if(cmp < 0) {
 		/* local version is newer */
 		pmdb_t *db = pkg->data;
 		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
 							local_pkg->name, local_pkg->version, db->treename, pkg->version);
 		cmp = 0;
-	} else if(cmp < 0) {
+	} else if(cmp > 0) {
 		/* we have an upgrade, make sure we should actually do it */
 		if(alpm_list_find_str(handle->ignorepkg, pkg->name)) {
 			/* package should be ignored (IgnorePkg) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
 								local_pkg->name, local_pkg->version, pkg->version);
+			cmp = 0;
 		} else if(_alpm_pkg_istoonew(pkg)) {
 			/* package too new (UpgradeDelay) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)"),
 								local_pkg->name, local_pkg->version, pkg->version);
+			cmp = 0;
 		}
 	}
 

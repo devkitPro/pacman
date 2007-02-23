@@ -167,10 +167,14 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 				} else {
 					*response = 0;
 				}
-			} else {
+			} else if(data2) {
 				snprintf(str, LOG_STR_LEN, _(":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "),
 				         alpm_pkg_get_name(data1),
 				         alpm_pkg_get_name(data2));
+				*response = yesno(str);
+			} else {
+				snprintf(str, LOG_STR_LEN, _(":: %s is in IgnorePkg. Install anyway? [Y/n] "),
+				         alpm_pkg_get_name(data1));
 				*response = yesno(str);
 			}
 			break;

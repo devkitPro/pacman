@@ -228,24 +228,19 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 
 			/* compare versions and see if we need to upgrade */
 			if(alpm_pkg_compare_versions(local, spkg)) {
-				if(alpm_list_find_str(handle->ignorepkg, local->name)) {
-					_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s => %s)"),
-										local->name, local->version, local->version, spkg->version);
-				} else {
-					_alpm_log(PM_LOG_DEBUG, _("%s-%s elected for upgrade (%s => %s)"),
-										local->name, local->version, local->version, spkg->version);
-					if(!find_pkginsync(spkg->name, trans->packages)) {
-						pmpkg_t *dummy = _alpm_pkg_new(local->name, local->version);
-						if(dummy == NULL) {
-							goto error;
-						}
-						sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
-						if(sync == NULL) {
-							FREEPKG(dummy);
-							goto error;
-						}
-						trans->packages = alpm_list_add(trans->packages, sync);
+				_alpm_log(PM_LOG_DEBUG, _("%s-%s elected for upgrade (%s => %s)"),
+									local->name, local->version, local->version, spkg->version);
+				if(!find_pkginsync(spkg->name, trans->packages)) {
+					pmpkg_t *dummy = _alpm_pkg_new(local->name, local->version);
+					if(dummy == NULL) {
+						goto error;
 					}
+					sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
+					if(sync == NULL) {
+						FREEPKG(dummy);
+						goto error;
+					}
+					trans->packages = alpm_list_add(trans->packages, sync);
 				}
 			}
 		}
@@ -331,10 +326,17 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 		if(alpm_pkg_compare_versions(local, spkg) == 0) {
 			/* spkg is NOT an upgrade, get confirmation before adding */
 			int resp = 0;
-			QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
-			if(!resp) {
-				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping"), local->name, local->version);
-				return(0);
+			if(alpm_list_find_str(handle->ignorepkg, local->name)) {
+				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, local, NULL, NULL, &resp);
+				if(!resp) {
+					return(0);
+				}
+			} else {
+				QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
+				if(!resp) {
+					_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping"), local->name, local->version);
+					return(0);
+				}
 			}
 		}
 	}

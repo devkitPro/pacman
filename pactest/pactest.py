@@ -34,6 +34,7 @@ def resolveBinPath(option, opt_str, value, parser):
 def globTests(option, opt_str, value, parser):
     globlist = []
     globlist.extend(glob.glob(value))
+    print "globlist=%s" % globlist
     setattr(parser.values, option.dest, globlist)
 
 def createOptParser():
