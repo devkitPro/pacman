@@ -121,28 +121,34 @@ static pmsyncpkg_t *find_pkginsync(char *needle, alpm_list_t *haystack)
 static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 														 alpm_list_t *dbs_sync)
 {
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j, *k, *m; /* wow */
 
 	ALPM_LOG_FUNC;
 
 	/* check for "recommended" package replacements */
 	_alpm_log(PM_LOG_DEBUG, _("checking for package replacements"));
 	for(i = dbs_sync; i; i = i->next) {
-		for(j = _alpm_db_get_pkgcache(i->data, INFRQ_DEPENDS); j; j = j->next) {
+		pmdb_t *db = i->data;
+
+		/* for each db, check each package's REPLACES list */
+		for(j = _alpm_db_get_pkgcache(db, INFRQ_DESC); j; j = j->next) {
 			pmpkg_t *spkg = j->data;
-			for(k = spkg->replaces; k; k = k->next) {
-				alpm_list_t *m;
+
+			for(k = alpm_pkg_get_replaces(spkg); k; k = k->next) {
+				const char *replacement = k->data;
+				/* compare to local DB */
 				for(m = _alpm_db_get_pkgcache(db_local, INFRQ_NONE); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
-					if(strcmp(k->data, lpkg->name) == 0) {
-						_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), k->data, spkg->name);
+
+					if(strcmp(replacement, lpkg->name) == 0) {
+						_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), replacement, spkg->name);
 						if(alpm_list_find_str(handle->ignorepkg, lpkg->name)) {
 							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)"),
 								lpkg->name, lpkg->version, spkg->name, spkg->version);
 						} else {
 							/* get confirmation for the replacement */
 							int doreplace = 0;
-							QUESTION(trans, PM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, ((pmdb_t *)i->data)->treename, &doreplace);
+							QUESTION(trans, PM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, db->treename, &doreplace);
 
 							if(doreplace) {
 								/* if confirmed, add this to the 'final' list, designating 'lpkg' as

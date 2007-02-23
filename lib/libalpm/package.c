@@ -167,9 +167,6 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 		}
 	}
 
-  _alpm_log(PM_LOG_DEBUG, _("compare versions for %s: %s vs %s, result=%d"),
-						local_pkg->name, local_pkg->version, pkg->version, cmp);
-
 	return(cmp);
 }
 
