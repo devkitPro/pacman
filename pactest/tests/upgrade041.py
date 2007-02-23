@@ -1,21 +1,21 @@
-self.description = "File relocation between two packages"
+self.description = "File relocation between two packages (reverse order)"
 
 lp1 = pmpkg("dummy")
-lp1.files = ["bin/dummy",
-             "usr/share/file"]
+lp1.files = ["bin/dummy"]
 
 lp2 = pmpkg("foobar")
-lp2.files = ["bin/foobar"]
+lp2.files = ["bin/foobar"
+             "usr/share/file"]
 
 for p in lp1, lp2:
 	self.addpkg2db("local", p)
 
 p1 = pmpkg("dummy")
-p1.files = ["bin/dummy"]
+p1.files = ["bin/dummy",
+            "usr/share/file"]
 
 p2 = pmpkg("foobar")
-p2.files = ["bin/foobar",
-            "usr/share/file"]
+p2.files = ["bin/foobar"]
 
 for p in p1, p2:
 	self.addpkg(p)

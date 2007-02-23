@@ -17,3 +17,7 @@ self.args = "-A %s" % " ".join(_list)
 self.addrule("PACMAN_RETCODE=0")
 #for i in range(1000):
 #	self.addrule("PKG_EXIST=pkg%03d" %i)
+# picked 3 random packages to test for, since the loop is too much to handle
+self.addrule("PKG_EXIST=pkg050")
+self.addrule("PKG_EXIST=pkg674")
+self.addrule("PKG_EXIST=pkg999")

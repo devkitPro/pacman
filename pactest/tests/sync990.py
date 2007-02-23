@@ -12,7 +12,7 @@ sp3.provides = ["pkg2"]
 for p in sp1, sp2, sp3:
 	self.addpkg2db("sync", p)
 
-self.args = "-S pkg1 pkg2"
+self.args = "-S %s" % " ".join([p.name for p in sp1, sp2])
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")

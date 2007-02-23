@@ -1,4 +1,4 @@
-self.description = "Install a package with an existing file"
+self.description = "Install a package with an existing file (--force)"
 
 p = pmpkg("dummy")
 p.files = ["etc/dummy.conf"]

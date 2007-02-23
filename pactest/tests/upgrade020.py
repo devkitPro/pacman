@@ -1,4 +1,4 @@
-self.description = "Upgrade a package, with a file in 'backup' (new modified)"
+self.description = "Upgrade a package, with a file in 'backup' (local unchanged, new modified)"
 
 lp = pmpkg("dummy")
 lp.files = ["etc/dummy.conf"]

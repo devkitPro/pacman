@@ -1,4 +1,4 @@
-self.description = "dummy test case"
+self.description = "Dummy test case (modify for own use)"
 
 p1 = pmpkg("dummy")
 p1.files = ["etc/dummy.conf*",
@@ -17,3 +17,5 @@ self.addpkg(p1)
 #self.addpkg(p2)
 
 self.args = "-U %s" % p1.filename()
+
+self.addrule("PACMAN_RETCODE=0")

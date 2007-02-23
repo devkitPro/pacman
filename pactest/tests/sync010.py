@@ -1,4 +1,4 @@
-self.description = "Install a package from a sync db, with its dependencies"
+self.description = "Install a package from a sync db with cascaded dependencies"
 
 sp1 = pmpkg("dummy", "1.0-2")
 sp1.files = ["bin/dummy",
@@ -15,12 +15,15 @@ sp3.files = ["bin/dep2"]
 for p in sp1, sp2, sp3:
 	self.addpkg2db("sync", p);
 
-self.args = "-S dummy"
+self.args = "-S %s" % sp1.name
 
+self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=dummy|1.0-2")
 self.addrule("PKG_DEPENDS=dummy|dep1")
-for f in sp1.files:
-	self.addrule("FILE_EXIST=%s" % f)
+for p in sp1, sp2, sp3:
+	self.addrule("PKG_EXIST=%s" % p.name)
+	for f in p.files:
+		self.addrule("FILE_EXIST=%s" % f)
 self.addrule("PKG_DEPENDS=dep1|dep2")
 self.addrule("PKG_REQUIREDBY=dep1|dummy")
 self.addrule("PKG_REQUIREDBY=dep2|dep1")

@@ -1,4 +1,4 @@
-self.description = "Install a set of packages"
+self.description = "Install a set of three packages"
 
 p1 = pmpkg("pkg1")
 p1.files = ["bin/pkg1",

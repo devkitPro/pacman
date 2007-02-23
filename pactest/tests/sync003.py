@@ -7,6 +7,7 @@ self.addpkg2db("sync", sp)
 
 self.filesystem = ["bin/dummy"]
 
-self.args = "-S dummy"
+self.args = "-S %s" % sp.name
 
+self.addrule("PACMAN_RETCODE=1")
 self.addrule("!PKG_EXIST=dummy")

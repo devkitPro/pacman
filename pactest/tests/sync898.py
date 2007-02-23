@@ -1,4 +1,4 @@
-self.description = "System upgrade"
+self.description = "System upgrade with conflicts and provides"
 
 sp1 = pmpkg("pkg1", "1.0-2")
 sp1.conflicts = ["pkg2"]
@@ -11,7 +11,7 @@ self.addpkg2db("sync", sp2)
 lp1 = pmpkg("pkg1")
 self.addpkg2db("local", lp1)
 
-self.args = "-S pkg1 pkg2"
+self.args = "-S %s" % " ".join([p.name for p in sp1, sp2])
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_MODIFIED=pkg1")

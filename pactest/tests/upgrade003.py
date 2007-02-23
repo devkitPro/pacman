@@ -1,4 +1,4 @@
-self.description = "Upgrade a package (lesser version)"
+self.description = "Upgrade a package (older version)"
 
 lp = pmpkg("dummy", "1.0-2")
 lp.files = ["bin/dummy",

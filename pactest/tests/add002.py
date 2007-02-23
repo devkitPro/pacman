@@ -1,4 +1,4 @@
-self.description = "Install a package (already installed)"
+self.description = "Install an already-installed package"
 
 lp = pmpkg("dummy")
 lp.files = ["bin/dummy",

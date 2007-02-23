@@ -1,4 +1,4 @@
-self.description = "Freshen a package (installed is newer)"
+self.description = "Freshen a package (installed is same)"
 
 lp = pmpkg("dummy")
 lp.files = ["bin/dummy",

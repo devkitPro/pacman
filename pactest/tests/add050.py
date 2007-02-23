@@ -2,6 +2,7 @@ self.description = "Install a package with a file in NoUpgrade"
 
 p = pmpkg("dummy")
 p.files = ["etc/dummy.conf"]
+p.backup = ["etc/dummy.conf"]
 self.addpkg(p)
 
 self.filesystem = ["etc/dummy.conf"]

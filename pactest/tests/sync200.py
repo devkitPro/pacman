@@ -1,4 +1,4 @@
-self.description = "Synchronize database"
+self.description = "Synchronize the local database"
 
 sp1 = pmpkg("spkg1", "1.0-1")
 sp1.depends = ["spkg2"]

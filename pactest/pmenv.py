@@ -100,7 +100,7 @@ class pmenv:
                 passed += 1
             else:
                 print "[FAILED]",
-            print test.name.strip(".py").ljust(33),
+            print test.name.replace(".py", "").ljust(33),
             print "Rules:",
             print "OK = %2u  FAIL = %2u  SKIP = %2u" % \
                     (success, fail, rules - (success + fail))

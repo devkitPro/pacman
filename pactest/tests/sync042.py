@@ -7,7 +7,7 @@ self.addpkg2db("sync", sp);
 lp = pmpkg("pkg2")
 self.addpkg2db("local", lp);
 
-self.args = "-S pkg1"
+self.args = "-S %s" % sp.name
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")

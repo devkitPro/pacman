@@ -1,4 +1,4 @@
-self.description = "Install a group from a sync db, with a package in IgnorePkg"
+self.description = "Install a group from a sync db with a package in IgnorePkg"
 
 sp1 = pmpkg("pkg1")
 sp1.groups = ["grp"]
