@@ -19,49 +19,36 @@
     to evaluate both a bit more.
 
 * src/pacman:
-    - There's quite a few single function headers which contain the pacman_*
-      functions.  We should move these to a single header (pacman.h) to clean up
-      the source a bit.
+  There's quite a few single function headers which contain the pacman_*
+  functions.  We should move these to a single header (pacman.h) to clean up
+  the source a bit.
 
-* lib/libalpm:
-    - move logging (alpm_logaction) out of the library.  log files should be
-      written by the app, not the library.  Adding a PM_LOG_* constant that
-      frontends can recognize and send to a file is probably a good idea.
-    - clear up list allocation/deallocation - some lists need to be free'd, some
-      do not and there is no clear indication WHEN this should happen.
-    - remove DB entries (directories) on a read error?
-    - Add a pm_errstr error string, which will allow us to do things like:
-        pm_errno = PM_ERR_LIBARCHIVE;
-        pm_errstr = archive_error_string(archive);
-      or:
-        pm_errno = PM_ERR_LIBDOWNLOAD;
-        pm_errstr = downloadLastErrString;
-      This way we don't break abstraction when returning specific errors in
-      cases like the above.
+* libalpm -> front end communication needs a work-up.  Both progress functions
+  can be combined into one callback, IFF we adjust it to accept a prefix string
+  for the progress bars, and format it at the lib side.  Question functions
+  should also do the same - create the string at the library side, and simply
+  call some sort of int yes_no = ask_question("Do foo with bar?");
+
+* move logging (alpm_logaction) out of the library.  log files should be
+  written by the app, not the library.  Adding a PM_LOG_* constant that
+  frontends can recognize and send to a file is probably a good idea.
+
+* clear up list allocation/deallocation - some lists need to be free'd, some
+  do not and there is no clear indication WHEN this should happen.
+
+* remove DB entries (directories) on a read error?
+
+* Add a pm_errstr error string, which will allow us to do things like:
+    pm_errno = PM_ERR_LIBARCHIVE;
+    pm_errstr = archive_error_string(archive);
+  or:
+    pm_errno = PM_ERR_LIBDOWNLOAD;
+    pm_errstr = downloadLastErrString;
+  This way we don't break abstraction when returning specific errors in
+  cases like the above.
 
 * pacman: A LOT of functions are way too long.  There should be an upper limit of
   100-200 lines.  _alpm_add_commit is around 600 lines, and is far too complex.
-
-  Quite a lot of this needs to be refactored as we go.
-    Function list (from Dan McGee):
-     add.c:
-     _alpm_add_commit
-     be_files.c:
-     _alpm_db_read
-     _alpm_db_write
-     conflict.c:
-     _alpm_checkconflicts
-     _alpm_db_find_conflicts
-     package.c:
-     _alpm_pkg_load (getting a bit long)
-     remove.c:
-     _alpm_remove_commit
-     server.c:
-     _alpm_downloadfiles_forreal
-     sync.c:
-     _alpm_sync_sysupgrade (getting there)
-     _alpm_sync_prepare
-     _alpm_sync_commit
 
 * pacman: fixup doxygen documentation for public interface
 
@@ -89,5 +76,3 @@
 
 **** BUGS ****
 * Removal of conflicts on -A and -U (INCOMPLETE)
-* pacman: add pactest cases/functionality for all -Q operations and make sure
-  the output is sane
