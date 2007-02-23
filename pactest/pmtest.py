@@ -188,10 +188,10 @@ class pmtest:
             cmd.append("libtool gdb --args")
         if pacman["valgrind"]:
             cmd.append("valgrind --tool=memcheck --leak-check=full --show-reachable=yes")
-        if not pacman["manual-confirm"]:
-            cmd.append("--noconfirm")
         cmd.append("%s --config=%s --root=%s" \
                    % (pacman["bin"], os.path.join(self.root, PACCONF), self.root))
+        if not pacman["manual-confirm"]:
+            cmd.append("--noconfirm")
         if pacman["debug"]:
             cmd.append("--debug=%s" % pacman["debug"])
         cmd.append("%s" % self.args)

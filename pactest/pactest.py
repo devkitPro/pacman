@@ -32,13 +32,20 @@ def resolveBinPath(option, opt_str, value, parser):
     setattr(parser.values, option.dest, os.path.abspath(value))
 
 def globTests(option, opt_str, value, parser):
+    idx=0
     globlist = []
-    globlist.extend(glob.glob(value))
+
+    # maintain the idx so we can modify rargs
+    while not parser.rargs[idx].startswith('-'):
+        globlist += glob.glob(parser.rargs[idx])
+        idx += 1
+
+    parser.rargs = parser.rargs[idx:]
     setattr(parser.values, option.dest, globlist)
 
 def createOptParser():
     testcases = []
-    usage = "usage: %prog [options] [[--test=<path/to/testfile.py>] ...]"
+    usage = "usage: %prog [options] [[--test <path/to/testfile.py>] ...]"
     description = "Runs automated tests on the pacman binary. Tests are " \
             "described using an easy python syntax, and several can be " \
             "ran at once."
@@ -55,8 +62,7 @@ def createOptParser():
                       dest = "bin", default = "pacman",
                       help = "specify location of the pacman binary")
     parser.add_option("-t", "--test", action = "callback",
-                      callback = globTests, type = "string",
-                      dest = "testcases",
+                      callback = globTests, dest = "testcases",
                       help = "specify test case(s)")
     parser.add_option("--nolog", action = "store_true",
                       dest = "nolog", default = False,
