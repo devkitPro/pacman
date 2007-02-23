@@ -861,8 +861,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->replaces;
 }
