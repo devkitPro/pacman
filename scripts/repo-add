@@ -94,26 +94,27 @@ db_write_entry()
 	packager=""
 	csize=""
 	size="" 
-	groups=""
-	depends=""
-	backups=""
-	licenses=""
+	_groups=""
+	_depends=""
+	_backups=""
+	_licenses=""
 	_replaces=""
 	_provides=""
 	_conflicts=""
 
 	OLDIFS="$IFS"
 	# IFS (field seperator) is only the newline character
-	IFS=$(echo)
+	IFS="
+"
 
 	# read info from the zipped package
 	for i in $(tar xOf "$pkgfile" .PKGINFO | grep -v "^#" |sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
 		eval "${i}"
 		case "$i" in
-			group=*) groups="$groups $group" ;;
-			depend=*) depends="$depends $depend" ;;
-			backup=*) backups="$backups $backup" ;;
-			license=*) licenses="$licenses $license" ;;
+			group=*) _groups="$_groups $group" ;;
+			depend=*) _depends="$_depends $depend" ;;
+			backup=*) _backups="$_backups $backup" ;;
+			license=*) _licenses="$_licenses $license" ;;
 			replaces=*) _replaces="$_replaces $replaces" ;;
 			provides=*) _provides="$_provides $provides" ;;
 			conflicts=*) _conflicts="$_conflicts $conflicts" ;;
@@ -153,9 +154,9 @@ db_write_entry()
 	if [ -n "$pkgdesc" ]; then
 		echo -e "%DESC%\n$pkgdesc\n" >>desc
 	fi
-	if [ -n "$groups" ]; then
+	if [ -n "$_groups" ]; then
 		echo "%GROUPS%" >>desc
-		echo $groups | tr -s ' ' '\n' >>desc
+		echo $_groups | tr -s ' ' '\n' >>desc
 		echo "" >desc
 	fi
 	[ -n $csize ] && echo -e "%CSIZE%\n$csize\n" >>desc
@@ -171,9 +172,9 @@ db_write_entry()
 	done
 
 	[ -n "$url" ] && echo -e "%URL%\n$url\n" >>desc
-	if [ -n "$licenses" ]; then
+	if [ -n "$_licenses" ]; then
 		echo "%LICENSE%" >>desc
-		echo $licenses | tr -s ' ' '\n' >>desc
+		echo $_licenses | tr -s ' ' '\n' >>desc
 		echo "" >>desc
 	fi
 	[ -n "$arch" ] && echo -e "%ARCH%\n$arch\n" >>desc
@@ -189,9 +190,9 @@ db_write_entry()
 
 	# create depends entry
 	echo ":: creating 'depends' db entry"
-	if [ -n "$depends" ]; then
+	if [ -n "$_depends" ]; then
 		echo "%DEPENDS%" >>depends
-		echo $depends | tr -s ' ' '\n' >>depends
+		echo $_depends | tr -s ' ' '\n' >>depends
 		echo "" >>depends
 	fi
 	if [ -n "$_conflicts" ]; then
