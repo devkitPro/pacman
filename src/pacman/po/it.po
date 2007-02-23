@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-22 11:13-0500\n"
-"PO-Revision-Date: 2007-02-21 20:00+0100\n"
+"POT-Creation-Date: 2007-02-23 11:47+0100\n"
+"PO-Revision-Date: 2007-02-23 12:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -61,15 +61,15 @@ msgstr ":: %s: va in conflitto con %s"
 
 #: src/pacman/add.c:127 src/pacman/sync.c:709
 #, c-format
-msgid "%s%s exists in both '%s' and '%s'\n"
-msgstr "%s%s è presente in '%s' e in '%s'\n"
+msgid "%s exists in both '%s' and '%s'\n"
+msgstr "%s è già presente in '%s' e in '%s'\n"
 
-#: src/pacman/add.c:134 src/pacman/sync.c:716
+#: src/pacman/add.c:133 src/pacman/sync.c:715
 #, c-format
-msgid "%s: %s%s exists in filesystem\n"
-msgstr "%s: %s%s è già presente nel filesystem\n"
+msgid "%s: %s exists in filesystem\n"
+msgstr "%s: %s è già presente nel filesystem\n"
 
-#: src/pacman/add.c:141 src/pacman/sync.c:723 src/pacman/sync.c:729
+#: src/pacman/add.c:139 src/pacman/sync.c:721 src/pacman/sync.c:727
 msgid ""
 "\n"
 "errors occurred, no packages were upgraded.\n"
@@ -77,18 +77,18 @@ msgstr ""
 "\n"
 "si sono verificati degli errori, nessun pacchetto è stato aggiornato.\n"
 
-#: src/pacman/add.c:151 src/pacman/sync.c:652
+#: src/pacman/add.c:149 src/pacman/sync.c:652
 #, c-format
 msgid ":: %.1f MB required, have %.1f MB"
 msgstr ":: %.1f MB richiesti, spazio a disposizione %.1f MB"
 
-#: src/pacman/add.c:164 src/pacman/remove.c:138 src/pacman/sync.c:702
+#: src/pacman/add.c:162 src/pacman/remove.c:138 src/pacman/sync.c:702
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr "impossibile eseguire l'operazione richiesta (%s)\n"
 
-#: src/pacman/add.c:174 src/pacman/remove.c:148 src/pacman/sync.c:524
-#: src/pacman/sync.c:745
+#: src/pacman/add.c:172 src/pacman/remove.c:148 src/pacman/sync.c:524
+#: src/pacman/sync.c:743
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "impossibile annullare l'operazione richiesta (%s)\n"
@@ -1020,51 +1020,56 @@ msgstr ":: Recupero dei pacchetti da %s...\n"
 msgid ":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "
 msgstr ":: %s richiede %s, ma è in IgnorePkg. Installare ugualmente? [Y/n] "
 
-#: src/pacman/trans.c:185
+#: src/pacman/trans.c:176
+#, c-format
+msgid ":: %s is in IgnorePkg. Install anyway? [Y/n] "
+msgstr ":: %s è in IgnorePkg. Installare ugualmente? [Y/n] "
+
+#: src/pacman/trans.c:189
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
 msgstr ":: %s è in HoldPkg. Rimuovere ugualmente? [Y/n] "
 
-#: src/pacman/trans.c:198
+#: src/pacman/trans.c:202
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Sostituire %s con %s/%s? [Y/n] "
 
-#: src/pacman/trans.c:213
+#: src/pacman/trans.c:217
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
 msgstr ":: %s va in conflitto con %s. Rimuovere %s? [Y/n] "
 
-#: src/pacman/trans.c:229
+#: src/pacman/trans.c:233
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ""
 ":: %s-%s: la versione installata è più recente. Aggiornare ugualmente? [Y/n] "
 
-#: src/pacman/trans.c:247
+#: src/pacman/trans.c:251
 #, c-format
 msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
 msgstr ""
 ":: %s-%s: la versione installata è aggiornata. Aggiornare ugualmente? [Y/n] "
 
-#: src/pacman/trans.c:265
+#: src/pacman/trans.c:269
 #, c-format
 msgid ":: Archive %s is corrupted. Do you want to delete it? [Y/n] "
 msgstr ":: L'archivio %s è corrotto. Eliminarlo? [Y/n] "
 
-#: src/pacman/trans.c:319
+#: src/pacman/trans.c:323
 msgid "installing"
 msgstr "installazione in corso di "
 
-#: src/pacman/trans.c:322
+#: src/pacman/trans.c:326
 msgid "upgrading"
 msgstr "aggiornamento in corso di"
 
-#: src/pacman/trans.c:325
+#: src/pacman/trans.c:329
 msgid "removing"
 msgstr "rimozione in corso di"
 
-#: src/pacman/trans.c:328
+#: src/pacman/trans.c:332
 msgid "checking for file conflicts"
 msgstr "controllo dei conflitti in corso"
 
