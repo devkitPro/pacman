@@ -819,7 +819,7 @@ else
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
 	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
 		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
-	else if [ "$(check_option distcc)" = "n" ]; then
+	elif [ "$(check_option distcc)" = "n" ]; then
 		# if it is not wanted, clear the makeflags too
 		export MAKEFLAGS=""
 	fi
