@@ -548,7 +548,7 @@ if [ "$install" -a ! -f "$install" ]; then
 	exit 1
 fi
 
-if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} 
+if [ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT} \
      -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "a package has already been built, installing existing package."
