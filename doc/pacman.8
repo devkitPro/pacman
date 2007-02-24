@@ -25,10 +25,10 @@ ends to be written (for instance, a GUI front end).
 .SH OPERATIONS
 .TP
 .B \-A, --add (deprecated)
-Add a package to the system. The package will be uncompressed into the
-installation root and the database will be updated. The package will not be
-installed if another version is already installed. Please use \fB--upgrade\fP
-in place of this option.
+Add a package to the system. Either a URL or file path can be specified. The
+package will be uncompressed into the installation root and the database will
+be updated. The package will not be installed if another version is already
+installed. NOTE: please use \fB--upgrade\fP in place of this option.
 .TP
 .B \-F, --freshen
 This is like \fB--upgrade\fP except it will only upgrade packages already
@@ -42,22 +42,22 @@ against the local package database or can be used on individual .tar.gz
 packages. See \fBQUERY OPTIONS\fP below.
 .TP
 .B \-R, --remove
-Remove a package from the system.  Files belonging to the specified package
-will be deleted, and the database will be updated.  Most configuration files
+Remove a package from the system. Files belonging to the specified package
+will be deleted, and the database will be updated. Most configuration files
 will be saved with a \fI.pacsave\fP extension unless the \fB--nosave\fP option
 is used. See \fBREMOVE OPTIONS\fP below.
 .TP
 .B \-S, --sync
 Synchronize packages. Packages are installed directly from the ftp servers,
-including all dependencies required to run the packages.  For example,
+including all dependencies required to run the packages. For example,
 \fBpacman -S qt\fP will download and install \fBqt\fP and all the packages it
 depends on. You can also use \fBpacman -Su\fP to upgrade all packages that are
 out of date. See \fBSYNC OPTIONS\fP below.
 .TP
 .B \-U, --upgrade
-Upgrade or add a package to the system. This is a "remove-then-add" process.
-See \fBHANDLING CONFIG FILES\fP for an explanation on how pacman takes care of
-config files.
+Upgrade or add a package to the system. Either a URL or file path can be
+specified. This is a "remove-then-add" process. See \fBHANDLING CONFIG
+FILES\fP for an explanation on how pacman takes care of config files.
 .TP
 .B \-V, --version
 Display version and exit.
@@ -167,8 +167,9 @@ downloads packages, it saves them in \fI/var/cache/pacman/pkg\fP. Use one
 packages from the cache.
 .TP
 .B \-g, --groups
-Display all the members for each package group specified. If no group names are
-provided, all groups will be listed.
+Display all the members for each package group specified. If no group names
+are provided, all groups will be listed; pass the flag twice to view all
+groups and their members.
 .TP
 .B \-i, --info
 Display dependency and other information for a given package. This will search
@@ -199,8 +200,10 @@ Retrieve all packages from the server, but do not install/upgrade anything.
 .TP
 .B \-y, --refresh
 Download a fresh copy of the master package list from the server(s) defined in
-\fBpacman.conf\fP.  This should typically be used each time you use
-\fB--sysupgrade\fP.
+\fBpacman.conf\fP. This should typically be used each time you use
+\fB--sysupgrade\fP or \fB-u\fP. Passing two \fB--refresh\fP or \fB-y\fP flags
+will force a refresh of all package lists even if they are thought to be
+up to date.
 .TP
 .B \--ignore \fIpackage\fP
 Directs \fBpacman\fP to ignore upgrades of \fIpackage\fP even if there is one
