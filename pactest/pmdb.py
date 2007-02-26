@@ -251,6 +251,8 @@ class pmdb:
             if pkg.reason:
                 data.append(_mksection("REASON", pkg.reason))
         else:
+            if pkg.replaces:
+                data.append(_mksection("REPLACES", pkg.replaces))
             if pkg.csize:
                 data.append(_mksection("CSIZE", pkg.csize))
             if pkg.md5sum:
