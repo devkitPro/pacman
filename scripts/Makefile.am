@@ -11,7 +11,6 @@ bin_SCRIPTS = \
 	rankmirrors \
 	repo-add \
 	repo-remove \
-	re-pacman \
 	updatesync
 
 EXTRA_DIST = $(bin_SCRIPTS)

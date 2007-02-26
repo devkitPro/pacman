@@ -84,9 +84,20 @@ may need to use some wchar_t output on the progress bar as char/byte counts
 differ here.
 
 Rewrite makepkg to use terminal-safe coloring/bolding. tput utility should
-allow us to do this.
+allow us to do this. Make universal message functions for systemwide use,
+including all pacman utilites- abs, pacman-optimize, etc.
 
-Bugs/FRs to smash: 6468, 6437, 6430?, 6420, 6404, 6389, 6312?, 6284, 6273?, 6255?, 6208, 5987, 5885, 5571, 4182, 3492, 2810?, 1769, 1588, 1571
+Bugs/FRs to smash: 6468, 6437, 6430?, 6420, 6404, 6389, 6312?, 6284, 6273?,
+6255?, 6208, 5987, 5885, 5571, 4182, 3492, 2810?, 1769, 1588, 1571
+
+Remove _alpm from function names now that we have SYMHIDDEN and static
+declarations.
+
+Remove alpm.c, put functions where they should be.
+
+Update doxygen comments, they may need some work. Try to document all of the
+private internal functions too- it helps a ton for people just getting a
+start on pacman hacking.
 
 Other smaller things:
 ---------------------
