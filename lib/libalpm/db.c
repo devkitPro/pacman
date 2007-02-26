@@ -105,21 +105,21 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 
 	for(i = needles; i; i = i->next) {
 		char *targ;
+		regex_t reg;
 
 		if(i->data == NULL) {
 			continue;
 		}
 		targ = i->data;
 		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'", targ);
+		
+		if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
+			RET_ERR(PM_ERR_INVALID_REGEX, NULL);
+		}
 
 		for(j = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 			char *matched = NULL;
-			regex_t reg;
-
-			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
-				RET_ERR(PM_ERR_INVALID_REGEX, NULL);
-			}
 
 			/* check name */
 			if (regexec(&reg, pkg->name, 0, 0, 0) == 0) {
@@ -130,6 +130,8 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 				matched = pkg->desc;
 			}
 			/* check provides */
+			/* TODO: should we be doing this, and should we print something
+			 * differently when we do match it since it isn't currently printed? */
 			else {
 				for(k = pkg->provides; k; k = k->next) {
 					if (regexec(&reg, k->data, 0, 0, 0) == 0) {
@@ -138,13 +140,15 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 					}
 				}
 			}
-			regfree(&reg);
 
 			if(matched != NULL) {
-				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'", targ, matched);
+				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'",
+				          targ, matched);
 				ret = alpm_list_add(ret, pkg);
 			}
 		}
+
+		regfree(&reg);
 	}
 
 	return(ret);
