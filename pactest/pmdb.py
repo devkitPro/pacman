@@ -344,8 +344,8 @@ class pmdb:
         if not oldpkg:
             return 0
 
-        #dbg("oldpkg.checksum : %s" % oldpkg.checksum)
-        #dbg("oldpkg.mtime    : %s" % oldpkg.mtime)
+        vprint("\toldpkg.checksum : %s" % oldpkg.checksum)
+        vprint("\toldpkg.mtime    : %s" % oldpkg.mtime)
 
         for key in pkg.mtime.keys():
             if key == "install" \

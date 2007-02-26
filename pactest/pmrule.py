@@ -63,8 +63,8 @@ class pmrule:
             if not newpkg:
                 success = 0
             else:
-                #dbg("newpkg.checksum : %s" % newpkg.checksum)
-                #dbg("newpkg.mtime    : %s" % newpkg.mtime)
+                vprint("\tnewpkg.checksum : %s" % newpkg.checksum)
+                vprint("\tnewpkg.mtime    : %s" % newpkg.mtime)
                 if case == "EXIST":
                     success = 1
                 elif case == "MODIFIED":

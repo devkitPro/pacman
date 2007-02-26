@@ -19,6 +19,7 @@
 
 
 import os
+import os.path
 import shutil
 import time
 
@@ -35,11 +36,13 @@ class pmtest:
 
     def __init__(self, name, root):
         self.name = name
+        self.testname = os.path.basename(name).replace('.py', '')
         self.root = root
 
     def __str__(self):
         return "name = %s\n" \
-               "root = %s" % (self.name, self.root)
+               "testname = %s\n" \
+               "root = %s" % (self.name, self.testname, self.root)
 
     def addpkg2db(self, treename, pkg):
         """
@@ -197,7 +200,7 @@ class pmtest:
         cmd.append("%s" % self.args)
         if not pacman["gdb"] and not pacman["valgrind"] and not pacman["nolog"]: 
             cmd.append(">%s 2>&1" % os.path.join(self.root, LOGFILE))
-        dbg(" ".join(cmd))
+        vprint("\trunning: %s" % " ".join(cmd))
 
         # Change to the tmp dir before running pacman, so that local package
         # archives are made available more easily.
@@ -214,7 +217,7 @@ class pmtest:
             self.retcode = 0
         else:
             self.retcode /= 256
-        dbg("retcode = %s" % self.retcode)
+        vprint("\tretcode = %s" % self.retcode)
         os.chdir(curdir)
 
         # Check if pacman failed because of bad permissions

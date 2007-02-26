@@ -48,10 +48,9 @@ class pmfile:
         checksum = getmd5sum(filename)
         mtime = getmtime(filename)
 
-        if debug:
-            print "ismodified(%s)" % self.name
-            print "old: %s / %s" % (self.checksum, self.mtime)
-            print "new: %s / %s" % (checksum, mtime)
+        vprint("\tismodified(%s)" % self.name)
+        vprint("\t\told: %s / %s" % (self.checksum, self.mtime))
+        vprint("\t\tnew: %s / %s" % (checksum, mtime))
 
         if not self.checksum == checksum \
            or not (self.mtime[1], self.mtime[2]) == (mtime[1], mtime[2]):

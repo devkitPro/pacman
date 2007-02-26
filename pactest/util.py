@@ -43,10 +43,7 @@ TMPDIR      = "tmp"
 SYNCREPO    = "var/pub"
 LOGFILE     = "var/log/pactest.log"
 
-
 verbose = 0
-debug = 1
-
 
 def err(msg):
     print "error: " + msg
@@ -55,11 +52,6 @@ def err(msg):
 def vprint(msg):
     if verbose:
         print msg
-
-def dbg(msg):
-    if debug:
-        print msg
-
 
 #
 # Methods to generate files

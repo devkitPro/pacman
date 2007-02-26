@@ -19,6 +19,7 @@
 
 
 import os
+import os.path
 import time
 
 import pmtest
@@ -59,7 +60,7 @@ class pmenv:
 
         for t in self.testcases:
             print "=========="*8
-            print "Running '%s'" % t.name.replace(".py", "")
+            print "Running '%s'" % t.testname
 
             t.load()
             print t.description
@@ -88,33 +89,42 @@ class pmenv:
         """
         """
         passed = 0
-        print "=========="*8
-        print "Results"
-        print "----------"*8
+        tpassed = []
+        tfailed = []
         for test in self.testcases:
+            fail = test.result["fail"]
+            if fail == 0:
+                passed += 1
+                tpassed.append(test)
+            else:
+                tfailed.append(test)
+
+        def _printtest(t):
             success = test.result["success"]
             fail = test.result["fail"]
             rules = len(test.rules)
             if fail == 0:
                 print "[PASSED]",
-                passed += 1
             else:
                 print "[FAILED]",
-            print test.name.replace(".py", "").ljust(33),
-            print "Rules:",
-            print "OK = %2u  FAIL = %2u  SKIP = %2u" % \
-                    (success, fail, rules - (success + fail))
+            print "%s Rules:OK = %2u  FAIL = %2u  SKIP = %2u" \
+                    % (test.testname.ljust(32), success, fail, rules - (success + fail))
+
+        print "=========="*8
+        print "Results"
         print "----------"*8
+        for test in tpassed: _printtest(test)
+        print "----------"*8
+        for test in tfailed: _printtest(test)
+        print "----------"*8
+
         total = len(self.testcases)
         failed = total - passed
         print "TOTAL  = %3u" % total
         if total:
-            print "PASSED = %3u (%6.2f%%)" % \
-                    (passed, float(passed) * 100 / total)
-            print "FAILED = %3u (%6.2f%%)" % \
-                    (failed, float(failed) * 100 / total)
-        print
-
+            print "PASSED = %3u (%6.2f%%)" % (passed, float(passed) * 100 / total)
+            print "FAILED = %3u (%6.2f%%)" % (failed, float(failed) * 100 / total)
+        print ""
 
 if __name__ == "__main__":
     env = pmenv("/tmp")
