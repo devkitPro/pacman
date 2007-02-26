@@ -36,131 +36,36 @@
 
 extern config_t *config;
 
-/* TODO this function is fairly messy, with the obscure return codes and the odd
- * 'dummy' packages and all these messy FREELISTs of synctargs
- */
 int pacman_deptest(alpm_list_t *targets)
 {
-	alpm_list_t *data, *i;
-	char *str;
 	int retval = 0;
+	pmdb_t *local;
+	pmpkg_t *pkg;
+	alpm_list_t *i, *provides;
 
 	if(targets == NULL) {
 		return(0);
 	}
+	
+	local = alpm_option_get_localdb();
 
-	/* we create a transaction to hold a dummy package to be able to use
-	 * deps checkings from alpm_trans_prepare() */
-	if(alpm_trans_init(PM_TRANS_TYPE_ADD, 0, NULL, NULL, NULL) == -1) {
-		ERR(NL, "%s", alpm_strerror(pm_errno));
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-			  			"       you can remove %s%s\n"), alpm_option_get_root(), PM_LOCK);
-		}
-		return(1);
-	}
-
-	/* We use a hidden facility from alpm_trans_addtarget() to add a dummy
-	 * target to the transaction (see the library code for details).
-	 * It allows us to use alpm_trans_prepare() to check dependencies of the
-	 * given target.
-	 */
-	str = (char *)malloc(strlen("name=dummy|version=1.0-1")+1);
-	if(str == NULL) {
-		ERR(NL, _("memory allocation failure\n"));
-		retval = 1;
-		goto cleanup;
-	}
-	strcpy(str, "name=dummy|version=1.0-1");
 	for(i = targets; i; i = alpm_list_next(i)) {
-		const char *targ = alpm_list_getdata(i);
-		str = (char *)realloc(str, strlen(str)+8+strlen(targ)+1);
-		strcat(str, "|depend=");
-		strcat(str, targ);
-	}
-	vprint(_("add target %s\n"), str);
-	if(alpm_trans_addtarget(str) == -1) {
-		FREE(str);
-		ERR(NL, _("could not add target (%s)\n"), alpm_strerror(pm_errno));
-		retval = 1;
-		goto cleanup;
-	}
-	FREE(str);
+		const char *pkgname;
+	 
+		pkgname = alpm_list_getdata(i);
+		/* find this package in the local DB */
+		pkg = alpm_db_get_pkg(local, pkgname);
 
-	if(alpm_trans_prepare(&data) == -1) {
-		alpm_list_t *synctargs = NULL;
-		retval = 126;
-		/* return 126 = deps were missing, but successfully resolved
-		 * return 127 = deps were missing, and failed to resolve; OR
-		 *            = deps were missing, but no resolution was attempted; OR
-		 *            = unresolvable conflicts were found
-		 */
-		switch(pm_errno) {
-			case PM_ERR_UNSATISFIED_DEPS:
-				for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
-					if(!config->op_d_resolve) {
-						MSG(NL, _("requires: %s"), alpm_dep_get_name(miss));
-						switch(alpm_dep_get_mod(miss)) {
-							case PM_DEP_MOD_ANY:
-								break;
-							case PM_DEP_MOD_EQ:
-								MSG(CL, "=%s", alpm_dep_get_version(miss));
-								break;
-							case PM_DEP_MOD_GE:
-								MSG(CL, ">=%s", alpm_dep_get_version(miss));
-								break;
-							case PM_DEP_MOD_LE:
-								MSG(CL, "<=%s", alpm_dep_get_version(miss));
-								break;
-						}
-						MSG(CL, "\n");
-					}
-					synctargs = alpm_list_add(synctargs, strdup(alpm_dep_get_name(miss)));
-				}
-				alpm_list_free(data);
-			break;
-			case PM_ERR_CONFLICTING_DEPS:
-				/* we can't auto-resolve conflicts */
-				for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
-					MSG(NL, _("conflict: %s"), alpm_dep_get_name(miss));
-				}
-				retval = 127;
-				alpm_list_free(data);
-			break;
-			default:
-				retval = 127;
-			break;
-		}
-
-		/* attempt to resolve missing dependencies */
-		/* TODO: handle version comparators (eg, glibc>=2.2.5) */
-		if(retval == 126 && synctargs != NULL) {
-			if(alpm_trans_release() == -1) {
-				ERR(NL, _("could not release transaction (%s)"), alpm_strerror(pm_errno));
-				FREELIST(synctargs);
-				return(1);
+		if(!pkg) {
+			/* not found, can we find anything that provides this in the local DB? */
+			provides = alpm_db_whatprovides(local, pkgname);
+			if(!provides) {
+				/* nope, must be missing */
+				MSG(NL, _("requires: %s"), pkgname);
+				retval = 1;
 			}
-			if(!config->op_d_resolve || pacman_sync(synctargs) != 0) {
-				/* error (or -D not used) */
-				retval = 127;
-			}
-			FREELIST(synctargs);
-			return(retval);
-		}
-
-		FREELIST(synctargs);
-	}
-
-cleanup:
-	if(!config->op_d_resolve) {
-		if(alpm_trans_release() == -1) {
-			ERR(NL, _("could not release transaction (%s)"), alpm_strerror(pm_errno));
-			retval = 1;
 		}
 	}
-
 	return(retval);
 }
 

@@ -153,7 +153,7 @@ int pacman_query(alpm_list_t *targets)
 					const char *grpname;
 
 					grpname = alpm_grp_get_name(grp);
-					pkgnames = alpm_grp_get_packages(grp);
+					pkgnames = alpm_grp_get_pkgs(grp);
 
 					for(p = pkgnames; p; p = alpm_list_next(p)) {
 						MSG(NL, "%s %s\n", grpname, (char *)alpm_list_getdata(p));
@@ -162,7 +162,7 @@ int pacman_query(alpm_list_t *targets)
 			} else {
 				pmgrp_t *grp = alpm_db_readgrp(db_local, package);
 				if(grp) {
-					alpm_list_t *p, *pkgnames = alpm_grp_get_packages(grp);
+					alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
 					for(p = pkgnames; p; p = alpm_list_next(p)) {
 						MSG(NL, "%s %s\n", package, (char *)alpm_list_getdata(p));
 					}
@@ -217,7 +217,7 @@ int pacman_query(alpm_list_t *targets)
 				pkgver = alpm_pkg_get_version(tmpp);
 
 				if(config->op_q_list || config->op_q_orphans || config->op_q_foreign) {
-					info = alpm_db_readpkg(db_local, (char *)pkgname);
+					info = alpm_db_get_pkg(db_local, (char *)pkgname);
 					if(info == NULL) {
 						/* something weird happened */
 						ERR(NL, _("package \"%s\" not found\n"), pkgname);
@@ -250,7 +250,7 @@ int pacman_query(alpm_list_t *targets)
 				}
 			}
 		} else {
-			info = alpm_db_readpkg(db_local, package);
+			info = alpm_db_get_pkg(db_local, package);
 			if(info == NULL) {
 				ERR(NL, _("package \"%s\" not found\n"), package);
 				continue;

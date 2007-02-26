@@ -184,7 +184,7 @@ checkdeps() {
 
 	pmout=$(pacman $PACMAN_OPTS -T $*)
 	ret=$?
-	if [ $ret -eq 127 ]; then #unresolved deps
+	if [ $ret -eq 1 ]; then #unresolved deps
 		#strip out the pacman prefix from "requires: xyz"
 		echo $pmout | sed 's|requires:||g'
 	elif [ $ret -ne 0 ]; then
@@ -211,8 +211,8 @@ handledeps() {
 				FAKEROOTKEY2=$FAKEROOTKEY
 				unset FAKEROOTKEY
 			fi
-			sudo pacman $PACMAN_OPTS -D $deplist
-			if [ "$?" = "127" ]; then
+			sudo pacman $PACMAN_OPTS -S $deplist
+			if [ $? -eq 1 ]; then
 				error "Failed to install missing dependencies."
 				exit 1
 			fi
@@ -223,8 +223,8 @@ handledeps() {
 		elif [ "$DEP_BIN" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S)
 			msg "Installing missing dependencies..."
-			pacman $PACMAN_OPTS -D $deplist
-			if [ "$?" = "127" ]; then
+			pacman $PACMAN_OPTS -S $deplist
+			if [ $? -eq 1 ]; then
 				error "Failed to install missing dependencies."
 				exit 1
 			fi

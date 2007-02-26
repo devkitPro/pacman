@@ -53,7 +53,7 @@ int pacman_remove(alpm_list_t *targets)
 		pmgrp_t *grp = alpm_db_readgrp(db_local, alpm_list_getdata(i));
 		if(grp) {
 			int all;
-			alpm_list_t *pkgnames = alpm_grp_get_packages(grp);
+			alpm_list_t *pkgnames = alpm_grp_get_pkgs(grp);
 
 			MSG(NL, _(":: group %s:\n"), alpm_grp_get_name(grp));
 			list_display("   ", pkgnames);
@@ -117,7 +117,7 @@ int pacman_remove(alpm_list_t *targets)
 	if(config->flags & PM_TRANS_FLAG_RECURSE || config->flags & PM_TRANS_FLAG_CASCADE) {
 		/* list transaction targets */
 		alpm_list_t *lst = NULL;
-		for(i = alpm_trans_get_packages(); i; i = alpm_list_next(i)) {
+		for(i = alpm_trans_get_pkgs(); i; i = alpm_list_next(i)) {
 			pmpkg_t *pkg = alpm_list_getdata(i);
 			lst = alpm_list_add(lst, strdup(alpm_pkg_get_name(pkg)));
 		}

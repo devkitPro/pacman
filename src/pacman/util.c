@@ -274,7 +274,7 @@ void display_targets(alpm_list_t *syncpkgs)
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
-		pmpkg_t *pkg = alpm_sync_get_package(sync);
+		pmpkg_t *pkg = alpm_sync_get_pkg(sync);
 
 		/* If this sync record is a replacement, the data member contains
 		 * a list of packages to be removed due to the package that is being
@@ -381,8 +381,13 @@ void fill_progress(const int percent, const int proglen)
 	const unsigned short chomp = alpm_option_get_chomp();
 	const unsigned int hashlen = proglen - 8;
 	const unsigned int hash = percent * hashlen / 100;
-	unsigned int lasthash = 0, mouth = 0;
+	static unsigned int lasthash = 0, mouth = 0;
 	unsigned int i;
+
+	if(percent == 0) {
+		lasthash = 0;
+		mouth = 0;
+	}
 
 	printf(" [");
 	for(i = hashlen; i > 1; --i) {

@@ -217,7 +217,6 @@ static int parseargs(int argc, char *argv[])
 	static struct option opts[] =
 	{
 		{"add",        no_argument,       0, 'A'},
-		{"resolve",    no_argument,       0, 'D'}, /* used by 'makepkg -s' */
 		{"freshen",    no_argument,       0, 'F'},
 		{"query",      no_argument,       0, 'Q'},
 		{"remove",     no_argument,       0, 'R'},
@@ -264,7 +263,7 @@ static int parseargs(int argc, char *argv[])
 	struct stat st;
 	unsigned short logmask;
 
-	while((opt = getopt_long(argc, argv, "ARUFQSTDYr:b:vkhscVfmnoldepiuwyg", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepiuwyg", opts, &option_index))) {
 		if(opt < 0) {
 			break;
 		}
@@ -316,11 +315,6 @@ static int parseargs(int argc, char *argv[])
 				alpm_option_set_cachedir(optarg);
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
-			case 'D':
-				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
-				config->op_d_resolve = 1;
-				config->flags |= PM_TRANS_FLAG_ALLDEPS;
-				break;
 			case 'F':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
 				config->flags |= PM_TRANS_FLAG_FRESHEN;
@@ -331,9 +325,6 @@ static int parseargs(int argc, char *argv[])
 			case 'T': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
 			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
 			case 'V': config->version = 1; break;
-			case 'Y':
-				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST);
-				break;
 			case 'b':
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					ERR(NL, _("'%s' is not a valid db path\n"), optarg);

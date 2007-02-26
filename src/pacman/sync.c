@@ -292,7 +292,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 				if(grp) {
 					/* TODO this should be a lot cleaner, why two outputs? */
 					MSG(NL, "%s\n", (char *)alpm_grp_get_name(grp));
-					list_display("   ", alpm_grp_get_packages(grp));
+					list_display("   ", alpm_grp_get_pkgs(grp));
 				}
 			}
 		}
@@ -305,7 +305,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 
 				MSG(NL, "%s\n", (char *)alpm_grp_get_name(grp));
 				if(grp && level > 1) {
-					list_display("   ", alpm_grp_get_packages(grp));
+					list_display("   ", alpm_grp_get_pkgs(grp));
 				}
 			}
 		}
@@ -510,10 +510,10 @@ int pacman_sync(alpm_list_t *targets)
 		 * this can prevent some of the "syntax error" problems users can have
 		 * when sysupgrade'ing with an older version of pacman.
 		 */
-		data = alpm_trans_get_packages();
+		data = alpm_trans_get_pkgs();
 		for(i = data; i; i = alpm_list_next(i)) {
 			pmsyncpkg_t *sync = alpm_list_getdata(i);
-			pmpkg_t *spkg = alpm_sync_get_package(sync);
+			pmpkg_t *spkg = alpm_sync_get_pkg(sync);
 			if(strcmp("pacman", alpm_pkg_get_name(spkg)) == 0 && alpm_list_count(data) > 1) {
 				MSG(NL, _("\n:: pacman has detected a newer version of the \"pacman\" package.\n"));
 				MSG(NL, _(":: It is recommended that you allow pacman to upgrade itself\n"));
@@ -567,7 +567,7 @@ int pacman_sync(alpm_list_t *targets)
 						found++;
 						MSG(NL, _(":: group %s:\n"), targ);
 						/* remove dupe entries in case a package exists in multiple repos */
-						alpm_list_t *pkgs = alpm_list_remove_dupes(alpm_grp_get_packages(grp));
+						alpm_list_t *pkgs = alpm_list_remove_dupes(alpm_grp_get_pkgs(grp));
 						list_display("   ", pkgs);
 						if(yesno(_(":: Install whole content? [Y/n] "))) {
 							for(k = pkgs; k; k = alpm_list_next(k)) {
@@ -659,7 +659,7 @@ int pacman_sync(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	packages = alpm_trans_get_packages();
+	packages = alpm_trans_get_pkgs();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
 		MSG(NL, _(" local database is up to date\n"));
