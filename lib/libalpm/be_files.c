@@ -106,7 +106,7 @@ void _alpm_db_rewind(pmdb_t *db)
 	rewinddir(db->handle);
 }
 
-pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq)
+pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target, pmdbinfrq_t inforeq)
 {
 	struct dirent *ent = NULL;
 	struct stat sbuf;

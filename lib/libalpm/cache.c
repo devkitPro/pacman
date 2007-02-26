@@ -187,7 +187,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 	return(0);
 }
 
-pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
+pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 {
 	ALPM_LOG_FUNC;
 
@@ -201,7 +201,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target)
 		return(NULL);
 	}
 
-	return(_alpm_pkg_isin(target, pkgcache));
+	return(_alpm_pkg_find(target, pkgcache));
 }
 
 /* Returns a new group cache from db.
@@ -286,7 +286,7 @@ alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
 	return(db->grpcache);
 }
 
-pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, char *target)
+pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target)
 {
 	alpm_list_t *i;
 

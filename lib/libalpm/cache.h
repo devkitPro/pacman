@@ -33,12 +33,12 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
 int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
 alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
 int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
-pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, char *target);
+pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target);
 /* groups */
 int _alpm_db_load_grpcache(pmdb_t *db);
 void _alpm_db_free_grpcache(pmdb_t *db);
 alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db);
-pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, char *target);
+pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target);
 
 #endif /* _ALPM_CACHE_H */
 

@@ -84,7 +84,7 @@ const char SYMEXPORT *alpm_grp_get_name(pmgrp_t *grp)
 	return grp->name;
 }
 
-alpm_list_t SYMEXPORT *alpm_grp_get_packages(pmgrp_t *grp)
+alpm_list_t SYMEXPORT *alpm_grp_get_pkgs(pmgrp_t *grp)
 {
 	ALPM_LOG_FUNC;
 

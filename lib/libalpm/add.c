@@ -58,55 +58,6 @@
 #include "remove.h"
 #include "handle.h"
 
-static int add_faketarget(pmtrans_t *trans, char *name)
-{
-	char *ptr, *p;
-	char *str = NULL;
-	pmpkg_t *dummy = NULL;
-
-	ALPM_LOG_FUNC;
-
-	dummy = _alpm_pkg_new(NULL, NULL);
-	if(dummy == NULL) {
-		RET_ERR(PM_ERR_MEMORY, -1);
-	}
-
-	/* Format: field1=value1|field2=value2|...
-	 * Valid fields are "name", "version" and "depend"
-	 */
-	str = strdup(name);
-	ptr = str;
-	while((p = strsep(&ptr, "|")) != NULL) {
-		char *q;
-		if(p[0] == 0) {
-			continue;
-		}
-		q = strchr(p, '=');
-		if(q == NULL) { /* not a valid token */
-			continue;
-		}
-		if(strncmp("name", p, q-p) == 0) {
-			STRNCPY(dummy->name, q+1, PKG_NAME_LEN);
-		} else if(strncmp("version", p, q-p) == 0) {
-			STRNCPY(dummy->version, q+1, PKG_VERSION_LEN);
-		} else if(strncmp("depend", p, q-p) == 0) {
-			dummy->depends = alpm_list_add(dummy->depends, strdup(q+1));
-		} else {
-			_alpm_log(PM_LOG_ERROR, _("could not parse token %s"), p);
-		}
-	}
-	FREE(str);
-	if(dummy->name[0] == 0 || dummy->version[0] == 0) {
-		FREEPKG(dummy);
-		RET_ERR(PM_ERR_PKG_INVALID_NAME, -1);
-	}
-
-	/* add the package to the transaction */
-	trans->packages = alpm_list_add(trans->packages, dummy);
-
-	return(0);
-}
-
 int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info = NULL;
@@ -120,11 +71,6 @@ int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(name != NULL && strlen(name) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	/* Check if we need to add a fake target to the transaction. */
-	if(strchr(name, '|')) {
-		return(add_faketarget(trans, name));
-	}
 
 	_alpm_log(PM_LOG_DEBUG, _("loading target '%s'"), name);
 

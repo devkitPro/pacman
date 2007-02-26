@@ -69,7 +69,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(_alpm_pkg_isin(name, trans->packages)) {
+	if(_alpm_pkg_find(name, trans->packages)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 

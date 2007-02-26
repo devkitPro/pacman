@@ -51,7 +51,7 @@
 #include "cache.h"
 #include "alpm.h"
 
-pmdb_t *_alpm_db_new(char *root, char* dbpath, char *treename)
+pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename)
 {
 	pmdb_t *db;
 
@@ -150,7 +150,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 	return(ret);
 }
 
-pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback)
+pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback)
 {
 	struct stat buf;
 	pmdb_t *db;

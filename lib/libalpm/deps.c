@@ -150,7 +150,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 				for(k = i->next; k; k = k->next) {
 					q = (pmpkg_t *)k->data;
 					if(!strcmp(dep.name, q->name)) {
-						if(!_alpm_pkg_isin(q->name, tmptargs)) {
+						if(!_alpm_pkg_find(q->name, tmptargs)) {
 							change = 1;
 							tmptargs = alpm_list_add(tmptargs, q);
 						}
@@ -158,7 +158,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 					}
 					for(l = q->provides; l; l = l->next) {
 						if(!strcmp(dep.name, (char*)l->data)) {
-							if(!_alpm_pkg_isin((char*)l->data, tmptargs)) {
+							if(!_alpm_pkg_find((char*)l->data, tmptargs)) {
 								change = 1;
 								tmptargs = alpm_list_add(tmptargs, q);
 							}
@@ -167,7 +167,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 					}
 				}
 			}
-			if(!_alpm_pkg_isin(p->name, tmptargs)) {
+			if(!_alpm_pkg_find(p->name, tmptargs)) {
 				tmptargs = alpm_list_add(tmptargs, p);
 			}
 		}
@@ -231,7 +231,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 					/* hmmm... package isn't installed.. */
 					continue;
 				}
-				if(_alpm_pkg_isin(p->name, packages)) {
+				if(_alpm_pkg_find(p->name, packages)) {
 					/* this package also in the upgrade list, so don't worry about it */
 					continue;
 				}
@@ -443,7 +443,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
 {
 	alpm_list_t *i;
 
-	if(_alpm_pkg_isin(pkg->name, targets)) {
+	if(_alpm_pkg_find(pkg->name, targets)) {
 		return(0);
 	}
 
@@ -456,7 +456,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
 	/* see if other packages need it */
 	for(i = alpm_pkg_get_requiredby(pkg); i; i = i->next) {
 		pmpkg_t *reqpkg = _alpm_db_get_pkgfromcache(db, i->data);
-		if(reqpkg && !_alpm_pkg_isin(reqpkg->name, targets)) {
+		if(reqpkg && !_alpm_pkg_find(reqpkg->name, targets)) {
 			return(0);
 		}
 	}
@@ -606,14 +606,14 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
 		}
-		if(_alpm_pkg_isin(sync->name, list)) {
+		if(_alpm_pkg_find(sync->name, list)) {
 			/* this dep is already in the target list */
 			_alpm_log(PM_LOG_DEBUG, _("dependency %s is already in the target list -- skipping"),
 			          sync->name);
 			continue;
 		}
 
-		if(!_alpm_pkg_isin(sync->name, trail)) {
+		if(!_alpm_pkg_find(sync->name, trail)) {
 			/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
 			 * something we're not supposed to.
 			 */

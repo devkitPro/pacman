@@ -270,7 +270,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 		}
 
 		if(trans->packages && trans->type == PM_TRANS_TYPE_REMOVE) {
-			if(_alpm_pkg_isin(dep.name, handle->trans->packages)) {
+			if(_alpm_pkg_find(dep.name, handle->trans->packages)) {
 				continue;
 			}
 		}
@@ -364,7 +364,7 @@ alpm_list_t * alpm_trans_get_targets()
 	return handle->trans->targets;
 }
 
-alpm_list_t SYMEXPORT * alpm_trans_get_packages()
+alpm_list_t SYMEXPORT * alpm_trans_get_pkgs()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));

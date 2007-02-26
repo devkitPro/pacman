@@ -25,7 +25,7 @@
 #include "alpm_list.h"
 #include "config.h"
 
-alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, char *package);
+alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package);
 
 #endif /* _ALPM_PROVIDE_H */
 

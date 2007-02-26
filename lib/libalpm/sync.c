@@ -221,7 +221,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 			for(j = trans->packages; j && !replace; j=j->next) {
 				sync = j->data;
 				if(sync->type == PM_SYNC_TYPE_REPLACE) {
-					if(_alpm_pkg_isin(spkg->name, sync->data)) {
+					if(_alpm_pkg_find(spkg->name, sync->data)) {
 						replace=1;
 					}
 				}
@@ -501,7 +501,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				for(j = trans->packages; j && !found; j = j->next) {
 					sync = j->data;
 					if(sync->type == PM_SYNC_TYPE_REPLACE) {
-						if(_alpm_pkg_isin(miss->depend.name, sync->data)) {
+						if(_alpm_pkg_find(miss->depend.name, sync->data)) {
 							found = 1;
 						}
 					}
@@ -929,7 +929,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			alpm_list_t *j;
 			for(j = sync->data; j; j = j->next) {
 				pmpkg_t *pkg = j->data;
-				if(!_alpm_pkg_isin(pkg->name, tr->packages)) {
+				if(!_alpm_pkg_find(pkg->name, tr->packages)) {
 					if(_alpm_trans_addtarget(tr, pkg->name) == -1) {
 						goto error;
 					}
@@ -1072,7 +1072,7 @@ pmsynctype_t SYMEXPORT alpm_sync_get_type(pmsyncpkg_t *sync)
 	return sync->type;
 }
 
-pmpkg_t SYMEXPORT *alpm_sync_get_package(pmsyncpkg_t *sync)
+pmpkg_t SYMEXPORT *alpm_sync_get_pkg(pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(NULL));

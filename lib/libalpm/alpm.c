@@ -330,7 +330,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
  * @param name of the package
  * @return the package entry on success, NULL on error
  */
-pmpkg_t SYMEXPORT *alpm_db_readpkg(pmdb_t *db, char *name)
+pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 {
 	ALPM_LOG_FUNC;
 
@@ -362,7 +362,7 @@ alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
  * @param name name of the package
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, char *name)
+alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, const char *name)
 {
 	ALPM_LOG_FUNC;
 
@@ -379,7 +379,7 @@ alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, char *name)
  * @param name of the group
  * @return the groups entry on success, NULL on error
  */
-pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, char *name)
+pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 {
 	ALPM_LOG_FUNC;
 
@@ -1153,7 +1153,7 @@ alpm_list_t *alpm_get_upgrades()
 		for(j = syncpkgs; j && !replace; j=j->next) {
 			sync = j->data;
 			if(sync->type == PM_SYNC_TYPE_REPLACE) {
-				if(_alpm_pkg_isin(spkg->name, sync->data)) {
+				if(_alpm_pkg_find(spkg->name, sync->data)) {
 					replace=1;
 				}
 			}

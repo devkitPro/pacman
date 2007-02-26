@@ -103,9 +103,9 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
 void _alpm_pkg_free(void *data);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
-pmpkg_t *_alpm_pkg_load(char *pkgfile);
-pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack);
-int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch);
+pmpkg_t *_alpm_pkg_load(const char *pkgfile);
+pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack);
+int _alpm_pkg_splitname(const char *target, char *name, char *version, int witharch);
 int _alpm_pkg_istoonew(pmpkg_t *pkg);
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg);
 

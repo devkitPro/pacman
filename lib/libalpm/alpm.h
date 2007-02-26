@@ -161,7 +161,7 @@ alpm_list_t *alpm_option_get_syncdbs();
  */
 
 /* Database registration callback */
-typedef void (*alpm_cb_db_register)(char *, pmdb_t *);
+typedef void (*alpm_cb_db_register)(const char *, pmdb_t *);
 
 pmdb_t *alpm_db_register(char *treename);
 int alpm_db_unregister(pmdb_t *db);
@@ -173,11 +173,11 @@ int alpm_db_setserver(pmdb_t *db, const char *url);
 
 int alpm_db_update(int level, pmdb_t *db);
 
-pmpkg_t *alpm_db_readpkg(pmdb_t *db, char *name);
+pmpkg_t *alpm_db_get_pkg(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getpkgcache(pmdb_t *db);
-alpm_list_t *alpm_db_whatprovides(pmdb_t *db, char *name);
+alpm_list_t *alpm_db_whatprovides(pmdb_t *db, const char *name);
 
-pmgrp_t *alpm_db_readgrp(pmdb_t *db, char *name);
+pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
 alpm_list_t *alpm_db_search(pmdb_t *db, alpm_list_t* needles);
 
@@ -242,7 +242,7 @@ unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
  * Groups
  */
 const char *alpm_grp_get_name(pmgrp_t *grp);
-alpm_list_t *alpm_grp_get_packages(pmgrp_t *grp);
+alpm_list_t *alpm_grp_get_pkgs(pmgrp_t *grp);
 
 /*
  * Sync
@@ -256,7 +256,7 @@ typedef enum _pmsynctype_t {
 } pmsynctype_t;
 
 pmsynctype_t alpm_sync_get_type(pmsyncpkg_t *sync);
-pmpkg_t *alpm_sync_get_package(pmsyncpkg_t *sync);
+pmpkg_t *alpm_sync_get_pkg(pmsyncpkg_t *sync);
 void *alpm_sync_get_data(pmsyncpkg_t *sync);
 
 /*
@@ -348,7 +348,7 @@ typedef void (*alpm_trans_cb_progress)(pmtransprog_t, char *, int, int, int);
 pmtranstype_t alpm_trans_get_type();
 unsigned int alpm_trans_get_flags();
 alpm_list_t * alpm_trans_get_targets();
-alpm_list_t * alpm_trans_get_packages();
+alpm_list_t * alpm_trans_get_pkgs();
 int alpm_trans_init(pmtranstype_t type, unsigned int flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);

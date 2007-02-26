@@ -47,18 +47,18 @@ struct __pmdb_t {
 };
 
 /* db.c, database general calls */
-pmdb_t *_alpm_db_new(char *root, char *dbpath, char *treename);
+pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename);
 void _alpm_db_free(void *data);
 int _alpm_db_cmp(const void *db1, const void *db2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles);
-pmdb_t *_alpm_db_register(char *treename, alpm_cb_db_register callback);
+pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback);
 
 /* be.c, backend specific calls */
 int _alpm_db_install(pmdb_t *db, const char *dbfile);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
 void _alpm_db_rewind(pmdb_t *db);
-pmpkg_t *_alpm_db_scan(pmdb_t *db, char *target, pmdbinfrq_t inforeq);
+pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target, pmdbinfrq_t inforeq);
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);

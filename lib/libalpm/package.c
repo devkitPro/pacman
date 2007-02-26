@@ -182,12 +182,12 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
  * Returns: 0 on success, 1 on error
  *
  */
-static int parse_descfile(char *descfile, pmpkg_t *info)
+static int parse_descfile(const char *descfile, pmpkg_t *info)
 {
 	FILE* fp = NULL;
 	char line[PATH_MAX];
-	char* ptr = NULL;
-	char* key = NULL;
+	char *ptr = NULL;
+	char *key = NULL;
 	int linenum = 0;
 
 	ALPM_LOG_FUNC;
@@ -278,7 +278,7 @@ static int parse_descfile(char *descfile, pmpkg_t *info)
 	return(0);
 }
 
-pmpkg_t *_alpm_pkg_load(char *pkgfile)
+pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 {
 	char *expath;
 	int ret = ARCHIVE_OK;
@@ -453,7 +453,7 @@ error:
 /* Test for existence of a package in a alpm_list_t*
  * of pmpkg_t*
  */
-pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack)
+pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *lp;
 
@@ -473,9 +473,10 @@ pmpkg_t *_alpm_pkg_isin(char *needle, alpm_list_t *haystack)
 	return(NULL);
 }
 
-int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
+int _alpm_pkg_splitname(const char *target, char *name, char *version, int witharch)
 {
 	char tmp[PKG_FULLNAME_LEN+7];
+	const char *t;
 	char *p, *q;
 
 	ALPM_LOG_FUNC;
@@ -485,12 +486,12 @@ int _alpm_pkg_splitname(char *target, char *name, char *version, int witharch)
 	}
 
 	/* trim path name (if any) */
-	if((p = strrchr(target, '/')) == NULL) {
-		p = target;
+	if((t = strrchr(target, '/')) == NULL) {
+		t = target;
 	} else {
-		p++;
+		t++;
 	}
-	STRNCPY(tmp, p, PKG_FULLNAME_LEN+7);
+	STRNCPY(tmp, t, PKG_FULLNAME_LEN+7);
 	/* trim file extension (if any) */
 	if((p = strstr(tmp, PM_EXT_PKG))) {
 		*p = '\0';
