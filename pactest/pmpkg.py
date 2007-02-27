@@ -156,9 +156,8 @@ class pmpkg:
 
         # .INSTALL
         empty = 1
-        for value in self.install.values():
-            if value:
-                empty = 0
+        if len(self.install.values()) > 0:
+            empty = 0
         if not empty:
             mkinstallfile(".INSTALL", self.install)
             targets += " .INSTALL"
@@ -166,7 +165,11 @@ class pmpkg:
         # .FILELIST
         if self.files:
             os.system("tar cvf /dev/null * | sort >.FILELIST")
-            targets += " .FILELIST *"
+        else:
+            #prevent some pacman warnings... I expect a real package would
+            #always have at least one file...
+            os.system("touch .FILELIST")
+        targets += " .FILELIST *"
 
         # Generate package archive
         os.system("tar zcf %s %s" % (archive, targets))
