@@ -1,4 +1,4 @@
-self.description = "Nagy's bug (I think) -- in progress"
+self.description = "Upgrade to a package that provides less than before"
 
 lp1 = pmpkg("pkg1")
 lp1.depends = ["imaginary"]
