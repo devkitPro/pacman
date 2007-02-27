@@ -107,7 +107,7 @@ class pmenv:
                 print "[PASSED]",
             else:
                 print "[FAILED]",
-            print "%s Rules:OK = %2u  FAIL = %2u  SKIP = %2u" \
+            print "%s Rules: OK = %2u  FAIL = %2u  SKIP = %2u" \
                     % (test.testname.ljust(32), success, fail, rules - (success + fail))
 
         print "=========="*8
