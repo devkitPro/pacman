@@ -165,11 +165,12 @@ class pmpkg:
         # .FILELIST
         if self.files:
             os.system("tar cvf /dev/null * | sort >.FILELIST")
+            targets += " .FILELIST *"
         else:
             #prevent some pacman warnings... I expect a real package would
             #always have at least one file...
             os.system("touch .FILELIST")
-        targets += " .FILELIST *"
+            targets += " .FILELIST"
 
         # Generate package archive
         os.system("tar zcf %s %s" % (archive, targets))
