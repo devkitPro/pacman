@@ -675,6 +675,12 @@ done
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "Skipping source integrity checks -- using existing src/ tree"
 else
+	# TODO we end up checking $GENINTEG 3 times, could probably be refactored
+	if [ "$GENINTEG" = "1" ]; then
+		msg "Generating checksums for source files"
+		plain ""
+	fi
+
 	for integ in ${INTEGRITY_CHECK[@]}; do
 		integ="$(echo $integ | tr A-Z a-z)"
 		case "$integ" in
@@ -692,8 +698,6 @@ else
 
 		#Generate integrity checks
 		if [ "$GENINTEG" = "1" ]; then
-			msg "Generating ${integrity_name}s for source files"
-			plain ""
 			ct=0
 			numsrc=${#source[@]}
 			for netfile in "${source[@]}"; do
@@ -712,7 +716,6 @@ else
 					echo
 				fi
 			done
-			plain ""
 		#Validate integrity checks
 		else 
 			integrity_sums=($(eval echo \${${integrity_name}s[@]}))
@@ -744,6 +747,7 @@ else
 	done
 
 	if [ "$GENINTEG" = "1" ]; then
+		plain ""
 		exit 0
 	fi
 fi
