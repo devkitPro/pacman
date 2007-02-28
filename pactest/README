@@ -102,7 +102,7 @@ Example:
 	option
 	------
 
-A dictionnary that holds the data used in the pacman configuration file.
+A dictionary that holds the data used in the pacman configuration file.
 It has 3 keys, each one of them pointing at a list of strings:
   - noupgrade
   - noextract
@@ -269,9 +269,8 @@ Possible rules are:
   PACMAN_RETCODE=value
   PACMAN_OUTPUT=value
 
-For the RETCODE one, pactest will compare pacman return code with the value
-provided as an item.
-For the OUTPUT one, pactest will grep pacman outputs for the given value.
+For RETCODE, pactest will ensure the pacman return code is the value given.
+For OUTPUT, pactest will grep pacman outputs for the given value.
 
 Note: PACMAN_OUTPUT should not be used. Pacman outputs are likely to change 
 from one release to another, so that it's reliability is quite low.
@@ -286,14 +285,19 @@ Possible rules are:
   PKG_EXIST=name
   PKG_MODIFIED=name
   PKG_VERSION=name|version
+  PKG_GROUPS=name|group
+  PKG_PROVIDES=name|providename
   PKG_DEPENDS=name|depname
   PKG_REQUIREDBY=name|reqbyname
+  PKG_REASON=name|intvalue
+  PKG_FILES=name|filename
+  PKG_BACKUP=name|backupname
 
 Example:
 	PKG_DEPENDS=ncurses|glibc
 
-pactest will test the local database entry "ncurses" has "glibc" in its 
-DEPENDS field.
+pactest will test to ensure the local database entry "ncurses" has "glibc" in
+its DEPENDS field.
 
 	. FILE rules
 
@@ -302,3 +306,9 @@ DEPENDS field.
   FILE_PACNEW=path/to/file
   FILE_PACSAVE=path/to/file
   FILE_PACORIG=path/to/file
+
+Example:
+	FILE_EXIST=etc/test.conf
+
+pactest will ensure the file /etc/test.conf exists in the filesystem.
+

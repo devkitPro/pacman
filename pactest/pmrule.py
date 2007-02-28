@@ -76,6 +76,9 @@ class pmrule:
                 elif case == "GROUPS":
                     if not value in newpkg.groups:
                         success = 0
+                elif case == "PROVIDES":
+                    if not value in newpkg.provides:
+                        success = 0
                 elif case == "DEPENDS":
                     if not value in newpkg.depends:
                         success = 0

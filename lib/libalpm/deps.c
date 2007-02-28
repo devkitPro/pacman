@@ -187,10 +187,12 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 	return(newtargs);
 }
 
-/* Returns a alpm_list_t* of missing_t pointers.
- *
- * dependencies can include versions with depmod operators.
- *
+/** Checks dependencies and returns missing ones in a list. Dependencies can include versions with depmod operators.
+ * @param trans pointer to the transaction object
+ * @param db pointer to the local package database
+ * @param op transaction type
+ * @param packages an alpm_list_t* of packages to be checked
+ * @return an alpm_list_t* of missing_t pointers.
  */
 alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages)
@@ -236,32 +238,19 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 					continue;
 				}
 				_alpm_db_read(db, p, INFRQ_DEPENDS);
-				for(k = p->depends; k && !found; k = k->next) {
-					/* find the dependency info in p->depends */
-					_alpm_splitdep(k->data, &depend);
-					if(!strcmp(depend.name, oldpkg->name)) {
-						found = 1;
-					}
-				}
-				if(found == 0) {
-					/* look for packages that list depend.name as a "provide" */
-					alpm_list_t *provides = _alpm_db_whatprovides(db, depend.name);
-					if(provides == NULL) {
-						/* not found */
-						continue;
-					}
-					/* we found an installed package that provides depend.name */
-					FREELISTPTR(provides);
-				}
-				if(!_alpm_depcmp(tp, &depend)) {
-					_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
-										depend.name, p->name);
-					miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
-																	 depend.name, depend.version);
-					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = alpm_list_add(baddeps, miss);
-					} else {
-						FREE(miss);
+				for(k = p->depends; k; k = k->next) {
+					/* don't break any existing dependencies (possible provides) */
+					_alpm_splitdep(k->data, &depend);					
+					if(_alpm_depcmp(oldpkg, &depend) && !_alpm_depcmp(tp, &depend)) {
+						_alpm_log(PM_LOG_DEBUG, _("checkdeps: updated '%s' won't satisfy a dependency of '%s'"),
+										oldpkg->name, p->name);
+						miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
+									 depend.name, depend.version);
+						if(!_alpm_depmiss_isin(miss, baddeps)) {
+							baddeps = alpm_list_add(baddeps, miss);
+						} else {
+							FREE(miss);
+						}
 					}
 				}
 			}
