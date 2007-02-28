@@ -193,11 +193,12 @@ class pmdb:
                 pkg.conflicts = _getsection(fd)
             elif line == "%PROVIDES%":
                 pkg.provides = _getsection(fd)
-            elif line == "%REPLACES%":
-                pkg.replaces = _getsection(fd)
-            elif line == "%FORCE%":
-                fd.readline()
-                pkg.force = 1
+            # TODO this was going to be changed, but isn't anymore
+            #elif line == "%REPLACES%":
+            #    pkg.replaces = _getsection(fd)
+            #elif line == "%FORCE%":
+            #    fd.readline()
+            #    pkg.force = 1
         fd.close()
         pkg.checksum["depends"] = getmd5sum(filename)
         pkg.mtime["depends"] = getmtime(filename)
@@ -253,6 +254,8 @@ class pmdb:
         else:
             if pkg.replaces:
                 data.append(_mksection("REPLACES", pkg.replaces))
+            if pkg.force:
+                data.append(_mksection("FORCE", ""))
             if pkg.csize:
                 data.append(_mksection("CSIZE", pkg.csize))
             if pkg.md5sum:
@@ -293,11 +296,11 @@ class pmdb:
             data.append(_mksection("CONFLICTS", pkg.conflicts))
         if pkg.provides:
             data.append(_mksection("PROVIDES", pkg.provides))
-        if not self.treename == "local":
-            if pkg.replaces:
-                data.append(_mksection("REPLACES", pkg.replaces))
-            if pkg.force:
-                data.append(_mksection("FORCE", ""))
+        #if self.treename != "local":
+        #    if pkg.replaces:
+        #        data.append(_mksection("REPLACES", pkg.replaces))
+        #    if pkg.force:
+        #        data.append(_mksection("FORCE", ""))
         if data:
             data.append("")
         filename = os.path.join(path, "depends")
@@ -354,7 +357,7 @@ class pmdb:
                and oldpkg.mtime[key] == (0, 0, 0) \
                and pkg.mtime[key] == (0, 0, 0):
                 continue
-            if not oldpkg.mtime[key][1:3] == pkg.mtime[key][1:3]:
+            if oldpkg.mtime[key][1:3] != pkg.mtime[key][1:3]:
                 modified += 1
 
         return modified

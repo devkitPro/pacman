@@ -178,7 +178,8 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 }
 
 /* Parses the package description file for the current package
- *
+ * TODO: this should ALL be in a backend interface (be_files), we should
+ *       be dealing with the abstracted concepts only in this file
  * Returns: 0 on success, 1 on error
  *
  */

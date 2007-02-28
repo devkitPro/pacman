@@ -62,7 +62,7 @@ def getfilename(name):
     """
     filename = ""
     link = ""
-    if not name.find(" -> ") == -1:
+    if name.find(" -> ") != -1:
         filename, link = name.split(" -> ")
     elif name[-1] == "*":
         filename = name.rstrip("*")
@@ -80,7 +80,7 @@ def mkfile(name, data = ""):
     link = ""
     filename = ""
 
-    if not name.find(" -> ") == -1:
+    if name.find(" -> ") != -1:
         islink = 1
         filename, link = name.split(" -> ")
     elif name[-1] == "*":
@@ -181,8 +181,9 @@ def mkcfgfile(filename, root, option, db):
     # Repositories
     data.extend(["[%s]\n" \
                  "server = file://%s\n" \
-                 % (value.treename, os.path.join(root, SYNCREPO, value.treename)) \
-                 for key, value in db.iteritems() if not key == "local"])
+                 % (value.treename, \
+                    os.path.join(root, SYNCREPO, value.treename)) \
+                 for key, value in db.iteritems() if key != "local"])
 
     mkfile(os.path.join(root, filename), "\n".join(data))
 

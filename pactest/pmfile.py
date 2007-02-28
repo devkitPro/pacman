@@ -52,8 +52,8 @@ class pmfile:
         vprint("\t\told: %s / %s" % (self.checksum, self.mtime))
         vprint("\t\tnew: %s / %s" % (checksum, mtime))
 
-        if not self.checksum == checksum \
-           or not (self.mtime[1], self.mtime[2]) == (mtime[1], mtime[2]):
+        if self.checksum != checksum \
+           or (self.mtime[1], self.mtime[2]) != (mtime[1], mtime[2]):
             retval = 1
 
         return retval

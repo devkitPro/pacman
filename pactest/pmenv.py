@@ -104,11 +104,16 @@ class pmenv:
             fail = test.result["fail"]
             rules = len(test.rules)
             if fail == 0:
-                print "[PASSED]",
+                result = "[PASSED]"
             else:
-                print "[FAILED]",
+                result = "[FAILED]"
+            print result,
             print "%s Rules: OK = %2u  FAIL = %2u  SKIP = %2u" \
-                    % (test.testname.ljust(32), success, fail, rules - (success + fail))
+                    % (test.testname.ljust(32), success, fail, \
+                       rules - (success + fail))
+            if fail != 0:
+                # print test description if test failed
+                print "   ", test.description
 
         print "=========="*8
         print "Results"

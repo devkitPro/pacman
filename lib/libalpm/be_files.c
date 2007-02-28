@@ -365,10 +365,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				if(fgets(info->md5sum, sizeof(info->md5sum), fp) == NULL) {
 					goto error;
 				}
-			/* XXX: these are only here as backwards-compatibility for pacman 2.x
-			 * sync repos.... in pacman3, they have been moved to DEPENDS.
-			 * Remove this when we move to pacman3 repos.
-			 */
 			} else if(!strcmp(line, "%REPLACES%")) {
 				/* the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. */
@@ -434,17 +430,20 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->provides = alpm_list_add(info->provides, strdup(line));
 				}
-			} else if(!strcmp(line, "%REPLACES%")) {
-				/* the REPLACES tag is special -- it only appears in sync repositories,
-				 * not the local one. */
+			}
+			/* TODO: we were going to move these things here, but it should wait.
+			 * A better change would be to figure out how to restructure the DB. */
+				/* else if(!strcmp(line, "%REPLACES%")) {
+				 * the REPLACES tag is special -- it only appears in sync repositories,
+				 * not the local one. *
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->replaces = alpm_list_add(info->replaces, strdup(line));
-				}
+				} 
 			} else if(!strcmp(line, "%FORCE%")) {
-				/* FORCE tag only appears in sync repositories,
-				 * not the local one. */
+				 * FORCE tag only appears in sync repositories,
+				 * not the local one. *
 				info->force = 1;
-			}
+			} */
 		}
 		fclose(fp);
 		fp = NULL;

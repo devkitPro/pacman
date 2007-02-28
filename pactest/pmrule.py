@@ -86,7 +86,7 @@ class pmrule:
                     if not value in newpkg.requiredby:
                         success = 0
                 elif case == "REASON":
-                    if not newpkg.reason == int(value):
+                    if newpkg.reason != int(value):
                         success = 0
                 elif case == "FILES":
                     if not value in newpkg.files:
