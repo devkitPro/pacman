@@ -7,6 +7,7 @@ self.addpkg2db("sync", sp)
 
 lp1 = pmpkg("pkg1")
 lp1.provides = ["foo"]
+lp1.requiredby = ["pkg2"]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2")
@@ -19,3 +20,4 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("!PKG_EXIST=pkg1")
 self.addrule("PKG_EXIST=pkg2")
 self.addrule("PKG_EXIST=pkg3")
+self.addrule("PKG_REQUIREDBY=pkg3|pkg2")
