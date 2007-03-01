@@ -208,15 +208,24 @@ void dump_pkg_backups(pmpkg_t *pkg)
  */
 void dump_pkg_files(pmpkg_t *pkg)
 {
-	const char *pkgname;
+	const char *pkgname, *root, *filestr;
 	alpm_list_t *i, *pkgfiles;
+	struct stat buf;
+	char path[PATH_MAX];
 
 	pkgname = alpm_pkg_get_name(pkg);
 	pkgfiles = alpm_pkg_get_files(pkg);
+	root = alpm_option_get_root();
 
 	for(i = pkgfiles; i; i = alpm_list_next(i)) {
-		fprintf(stdout, "%s %s%s\n", pkgname, alpm_option_get_root(),
-						(char *)alpm_list_getdata(i));
+		filestr = (char*)alpm_list_getdata(i);
+		/* build a path so we can stat the filename */
+		snprintf(path, PATH_MAX-1, "%s%s", root, filestr);
+		if(!stat(path, &buf) && S_ISDIR(buf.st_mode)) {
+			/* if we stat it and it is a dir, don't print */
+		} else {
+			fprintf(stdout, "%s %s\n", pkgname, path);
+		}
 	}
 
 	fflush(stdout);
