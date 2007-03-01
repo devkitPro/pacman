@@ -263,9 +263,10 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 								pmpkg_t *pkg = l->data;
 
 								if(strcmp(pkg->name, oldpkg->name) == 0) {
-									/* well, we know this one fails... skip it */
+									/* well, we know this one succeeds, but we're removing it... skip it */
 									continue;
 								}
+
 								if(_alpm_depcmp(pkg, &depend)) {
 									_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' satisfied by installed package '%s'"),
 														depend.name, pkg->name);
