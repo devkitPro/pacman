@@ -1,4 +1,4 @@
-self.description = "Upgrade a package that removes a provide but another package still does"
+self.description = "Upgrade a package that removes a provide but another package still provides it"
 
 lp1 = pmpkg("pkg1")
 lp1.depends = ["imaginary"]
@@ -22,5 +22,5 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")
 self.addrule("PKG_VERSION=pkg2|1.0-2")
 self.addrule("PKG_EXIST=pkg3")
-self.addrule("!PKG_REQUIREDBY=pkg1|pkg2")
-self.addrule("PKG_REQUIREDBY=pkg1|pkg3")
+self.addrule("!PKG_REQUIREDBY=pkg2|pkg1")
+self.addrule("PKG_REQUIREDBY=pkg3|pkg1")
