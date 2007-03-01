@@ -65,6 +65,7 @@ void *alpm_list_getdata(const alpm_list_t *entry);
 int alpm_list_count(const alpm_list_t *list);
 int alpm_list_find(alpm_list_t *haystack, const void *needle);
 int alpm_list_find_str(alpm_list_t *haystack,const char *needle);
+alpm_list_t *alpm_list_diff(alpm_list_t *lhs, alpm_list_t *rhs, alpm_list_fn_cmp fn);
 
 #endif /* _ALPM_LIST_H */
 

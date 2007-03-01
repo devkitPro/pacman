@@ -457,6 +457,33 @@ int alpm_list_find_str(alpm_list_t *haystack, const char *needle)
 	return(0);
 }
 
+/** 
+ * Calculate the items in list `lhs` that are not present in list `rhs`
+ * @note Entries are not duplicated
+ * @param lhs the first list
+ * @param rhs the second list
+ * @param fn the comparisson function
+ * @return a list containing all items in lhs not present in rhs
+ */
+alpm_list_t *alpm_list_diff(alpm_list_t *lhs, alpm_list_t *rhs, alpm_list_fn_cmp fn)
+{
+	alpm_list_t *i, *j, *ret = NULL;
+	for(i = lhs; i; i = i->next) {
+		int found = 0;
+		for(j = rhs; j; j = j->next) {
+			if(fn(i->data, j->data) == 0) {
+				found = 1;
+				break;
+			}
+		}
+		if(!found) {
+			ret = alpm_list_add(ret, i->data);
+		}
+	}
+
+	return(ret);
+}
+
 /** @} */
 
 /* vim: set ts=2 sw=2 noet: */

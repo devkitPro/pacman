@@ -198,7 +198,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages)
 {
 	pmdepend_t depend;
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j, *k, *l;
 	int found = 0;
 	alpm_list_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
@@ -214,19 +214,18 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 		 * listed in the requiredby field.
 		 */
 		for(i = packages; i; i = i->next) {
-			pmpkg_t *tp = i->data;
+			pmpkg_t *newpkg = i->data;
 			pmpkg_t *oldpkg;
-			if(tp == NULL) {
+			if(newpkg == NULL) {
 				_alpm_log(PM_LOG_DEBUG, _("null package found in package list"));
 				continue;
 			}
 
-			if((oldpkg = _alpm_db_get_pkgfromcache(db, tp->name)) == NULL) {
-				_alpm_log(PM_LOG_DEBUG, _("cannot find package installed '%s'"), tp->name);
+			if((oldpkg = _alpm_db_get_pkgfromcache(db, newpkg->name)) == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("cannot find package installed '%s'"), newpkg->name);
 				continue;
 			}
-			_alpm_db_read(db, oldpkg, INFRQ_DEPENDS);
-			for(j = oldpkg->requiredby; j; j = j->next) {
+			for(j = alpm_pkg_get_requiredby(oldpkg); j; j = j->next) {
 				pmpkg_t *p;
 				found = 0;
 				if((p = _alpm_db_get_pkgfromcache(db, j->data)) == NULL) {
@@ -237,19 +236,55 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 					/* this package also in the upgrade list, so don't worry about it */
 					continue;
 				}
-				_alpm_db_read(db, p, INFRQ_DEPENDS);
-				for(k = p->depends; k; k = k->next) {
+				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
 					/* don't break any existing dependencies (possible provides) */
 					_alpm_splitdep(k->data, &depend);					
-					if(_alpm_depcmp(oldpkg, &depend) && !_alpm_depcmp(tp, &depend)) {
-						_alpm_log(PM_LOG_DEBUG, _("checkdeps: updated '%s' won't satisfy a dependency of '%s'"),
-										oldpkg->name, p->name);
-						miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
-									 depend.name, depend.version);
-						if(!_alpm_depmiss_isin(miss, baddeps)) {
-							baddeps = alpm_list_add(baddeps, miss);
-						} else {
-							FREE(miss);
+
+					/* if oldpkg satisfied this dep, and newpkg doesn't */
+					if(_alpm_depcmp(oldpkg, &depend) && !_alpm_depcmp(newpkg, &depend)) {
+						/* we've found a dep that was removed... see if any other package
+						 * still contains/provides the dep */
+						int satisfied = 0;
+						for(l = packages; l; l = l->next) {
+							pmpkg_t *pkg = l->data;
+
+							if(_alpm_depcmp(pkg, &depend)) {
+								_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' has moved from '%s' to '%s'"),
+													depend.name, oldpkg->name, pkg->name);
+								satisfied = 1;
+								break;
+							}
+						}
+
+						if(!satisfied) {
+							/* worst case... check installed packages to see if anything else
+							 * satisfies this... */
+							for(l = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); l; l = l->next) {
+								pmpkg_t *pkg = l->data;
+
+								if(strcmp(pkg->name, oldpkg->name) == 0) {
+									/* well, we know this one fails... skip it */
+									continue;
+								}
+								if(_alpm_depcmp(pkg, &depend)) {
+									_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' satisfied by installed package '%s'"),
+														depend.name, pkg->name);
+									satisfied = 1;
+									break;
+								}
+							}
+						}
+
+						if(!satisfied) {
+							_alpm_log(PM_LOG_DEBUG, _("checkdeps: updated '%s' won't satisfy a dependency of '%s'"),
+												oldpkg->name, p->name);
+							miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
+																			 depend.name, depend.version);
+							if(!_alpm_depmiss_isin(miss, baddeps)) {
+								baddeps = alpm_list_add(baddeps, miss);
+							} else {
+								FREE(miss);
+							}
 						}
 					}
 				}

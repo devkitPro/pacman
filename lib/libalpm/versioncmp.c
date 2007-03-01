@@ -252,7 +252,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 	ALPM_LOG_FUNC;
 
   if(strcmp(pkg->name, dep->name) == 0
-	    || alpm_list_find_str(pkg->provides, dep->name)) {
+	    || alpm_list_find_str(alpm_pkg_get_provides(pkg), dep->name)) {
 		if(dep->mod == PM_DEP_MOD_ANY) {
 			equal = 1;
 		} else {

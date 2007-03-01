@@ -343,6 +343,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			oldpkg = _alpm_pkg_new(local->name, local->version);
 			if(oldpkg) {
 				oldpkg->backup = alpm_list_strdup(alpm_pkg_get_backup(local));
+				oldpkg->provides = alpm_list_strdup(alpm_pkg_get_provides(local));
 				strncpy(oldpkg->name, local->name, PKG_NAME_LEN);
 				strncpy(oldpkg->version, local->version, PKG_VERSION_LEN);
 			} else {
@@ -748,6 +749,35 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* Update the requiredby field by scanning the whole database 
 		 * looking for packages depending on the package to add */
 		_alpm_pkg_update_requiredby(newpkg);
+
+		/* special case: if our provides list has changed from oldpkg to newpkg AND
+		 * we get here, we need to make sure we find the actual provision that
+		 * still satisfies this case, and update its 'requiredby' field... ugh */
+		alpm_list_t *provdiff, *prov;
+		provdiff = alpm_list_diff(alpm_pkg_get_provides(oldpkg),
+														 	alpm_pkg_get_provides(newpkg),
+															_alpm_str_cmp);
+		for(prov = provdiff; prov; prov = prov->next) {
+			const char *provname = prov->data;
+			_alpm_log(PM_LOG_DEBUG, _("provision '%s' has been removed from package %s (%s => %s)"),
+								provname, oldpkg->name, oldpkg->version, newpkg->version);
+
+			alpm_list_t *p = _alpm_db_whatprovides(handle->db_local, provname);
+			if(p) {
+				/* we now have all the provisions in the local DB for this virtual
+				 * package... seeing as we can't really determine which is the 'correct'
+				 * provision, we'll use the FIRST for now.
+				 * TODO figure out a way to find a "correct" provision */
+				pmpkg_t *provpkg = p->data;
+				_alpm_log(PM_LOG_DEBUG, _("updating '%s' due to provision change (%s)"), provpkg->name, provname);
+				_alpm_pkg_update_requiredby(provpkg);
+				if(_alpm_db_write(db, provpkg, INFRQ_DEPENDS)) {
+					_alpm_log(PM_LOG_ERROR, _("could not update provision '%s' from '%s'"), provname, provpkg->name);
+					alpm_logaction(_("could not update provision '%s' from '%s'"), provname, provpkg->name);
+					RET_ERR(PM_ERR_DB_WRITE, -1);
+				}
+			}
+		}
 
 		/* make an install date (in UTC) */
 		time_t t = time(NULL);
