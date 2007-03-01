@@ -78,13 +78,11 @@ pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename)
 	return(db);
 }
 
-void _alpm_db_free(void *data)
+void _alpm_db_free(pmdb_t *db)
 {
-	pmdb_t *db = data;
-
 	ALPM_LOG_FUNC;
 
-	FREELISTSERVERS(db->servers);
+	_FREELIST(db->servers, _alpm_server_free);
 	FREE(db->path);
 	FREE(db);
 

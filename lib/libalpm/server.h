@@ -28,7 +28,6 @@
 #include <download.h>
 
 #define FREESERVER(p) do { if(p){_alpm_server_free(p); p = NULL;}} while(0)
-#define FREELISTSERVERS(p) _FREELIST(p, _alpm_server_free)
 
 /* Servers */
 struct __pmserver_t {
