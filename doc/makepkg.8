@@ -13,12 +13,16 @@ makepkg \- package build utility
 .SH DESCRIPTION
 \fBmakepkg\fP is a script to automate the building of packages. All it needs is
 a build-capable Linux platform and a custom build script for each package you
-wish to build (known as a \fB\*(PB\fP). The advantage to a script-based build
-is that the work is only done once. Once you have the build script for a
-package, makepkg will do the rest: download and validate source files, check
-dependencies, configure the build-time settings, build the package, install the
-package into a temporary root, make customizations, generate meta-info, and
-package the whole thing up for \fBpacman\fP to use.
+wish to build (known as a \fB\*(PB\fP). See
+.BR \*(PB (5)
+for details on creating your own build scripts.
+
+The advantage to a script-based build is that the work is only done once. Once
+you have the build script for a package, makepkg will do the rest: download and
+validate source files, check dependencies, configure the build-time settings,
+build the package, install the package into a temporary root, make
+customizations, generate meta-info, and package the whole thing up for
+\fBpacman\fP to use.
 
 \fBmakeworld\fP can be used to rebuild an entire package group or the entire
 build tree. See \fBmakeworld --help\fP for syntax.
