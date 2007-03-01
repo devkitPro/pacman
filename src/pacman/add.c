@@ -94,6 +94,10 @@ int pacman_add(alpm_list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
+				
+					/* TODO indicate if the error was a virtual package or not:
+					 *		:: %s: requires %s, provided by %s
+					 */
 					MSG(NL, _(":: %s: requires %s"), alpm_dep_get_target(miss),
 					                              alpm_dep_get_name(miss));
 					switch(alpm_dep_get_mod(miss)) {
