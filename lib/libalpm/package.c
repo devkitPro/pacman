@@ -567,7 +567,7 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 	}
 }
 
-const char *alpm_pkg_get_filename(pmpkg_t *pkg)
+const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -577,10 +577,15 @@ const char *alpm_pkg_get_filename(pmpkg_t *pkg)
 
 	if(!strlen(pkg->filename)) {
 		/* construct the file name, it's not in the desc file */
+		if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+			_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+		}
 		if(pkg->arch && strlen(pkg->arch) > 0) {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PM_EXT_PKG, pkg->name, pkg->version, pkg->arch);
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PM_EXT_PKG,
+			         pkg->name, pkg->version, pkg->arch);
 		} else {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PM_EXT_PKG, pkg->name, pkg->version);
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PM_EXT_PKG,
+			         pkg->name, pkg->version);
 		}
 	}
 
@@ -589,19 +594,29 @@ const char *alpm_pkg_get_filename(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_BASE);
+	}
 	return pkg->name;
 }
 
 const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_BASE);
+	}
 	return pkg->version;
 }
 
@@ -649,6 +664,8 @@ const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_buildtype(pmpkg_t *pkg)
 {
+	ALPM_LOG_FUNC;
+
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
@@ -929,6 +946,7 @@ unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 	return pkg->scriptlet;
 }
 
+/* TODO this should either be public, or done somewhere else */
 int _alpm_pkg_istoonew(pmpkg_t *pkg)
 {
 	time_t t;

@@ -303,7 +303,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 		/* remove the old dir */
 		_alpm_log(PM_LOG_DEBUG, _("flushing database %s/%s"), handle->dbpath, db->treename);
-		for(lp = _alpm_db_get_pkgcache(db, INFRQ_NONE); lp; lp = lp->next) {
+		for(lp = _alpm_db_get_pkgcache(db, INFRQ_BASE); lp; lp = lp->next) {
 			if(_alpm_db_remove(db, lp->data) == -1) {
 				if(lp->data) {
 					_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s/%s"), db->treename,
@@ -354,7 +354,7 @@ alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	return(_alpm_db_get_pkgcache(db, INFRQ_NONE));
+	return(_alpm_db_get_pkgcache(db, INFRQ_BASE));
 }
 
 /** Get the list of packages that a package provides
@@ -1085,7 +1085,7 @@ alpm_list_t *alpm_get_upgrades()
 			pmpkg_t *spkg = j->data;
 			for(k = spkg->replaces; k; k = k->next) {
 				alpm_list_t *m;
-				for(m = _alpm_db_get_pkgcache(handle->db_local, INFRQ_NONE); m; m = m->next) {
+				for(m = _alpm_db_get_pkgcache(handle->db_local, INFRQ_BASE); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
 					if(strcmp(k->data, lpkg->name) == 0) {
 						_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), k->data, spkg->name);
@@ -1135,7 +1135,7 @@ alpm_list_t *alpm_get_upgrades()
 	}
 
 	/* now do normal upgrades */
-	for(i = _alpm_db_get_pkgcache(handle->db_local, INFRQ_NONE); i; i = i->next) {
+	for(i = _alpm_db_get_pkgcache(handle->db_local, INFRQ_BASE); i; i = i->next) {
 		int replace=0;
 		pmpkg_t *local = i->data;
 		pmpkg_t *spkg = NULL;

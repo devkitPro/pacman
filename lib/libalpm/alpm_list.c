@@ -462,7 +462,7 @@ int alpm_list_find_str(alpm_list_t *haystack, const char *needle)
  * @note Entries are not duplicated
  * @param lhs the first list
  * @param rhs the second list
- * @param fn the comparisson function
+ * @param fn the comparison function
  * @return a list containing all items in lhs not present in rhs
  */
 alpm_list_t *alpm_list_diff(alpm_list_t *lhs, alpm_list_t *rhs, alpm_list_fn_cmp fn)

@@ -123,7 +123,7 @@ int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
   alpm_list_t *p;
 	for(p = db->pkgcache; p; p = p->next) {
 		pmpkg_t *pkg = (pmpkg_t *)p->data;
-		if(infolevel != INFRQ_NONE && !(pkg->infolevel & infolevel)) {
+		if(infolevel != INFRQ_BASE && !(pkg->infolevel & infolevel)) {
 			if(_alpm_db_read(db, pkg, infolevel) == -1) {
 				/* TODO should we actually remove from the filesystem here as well? */
 				_alpm_db_remove_pkgfromcache(db, pkg);
@@ -195,7 +195,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 		return(NULL);
 	}
 
-	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db, INFRQ_NONE);
+	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db, INFRQ_BASE);
 	if(!pkgcache) {
 		_alpm_log(PM_LOG_DEBUG, _("error: failed to get '%s' from NULL pkgcache"), target);
 		return(NULL);

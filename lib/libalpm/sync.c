@@ -137,7 +137,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 			for(k = alpm_pkg_get_replaces(spkg); k; k = k->next) {
 				const char *replacement = k->data;
 				/* compare to local DB */
-				for(m = _alpm_db_get_pkgcache(db_local, INFRQ_NONE); m; m = m->next) {
+				for(m = _alpm_db_get_pkgcache(db_local, INFRQ_BASE); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
 
 					if(strcmp(replacement, lpkg->name) == 0) {
@@ -203,7 +203,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 	if( find_replacements(trans, db_local, dbs_sync) == 0 ) {
 		/* match installed packages with the sync dbs and compare versions */
 		_alpm_log(PM_LOG_DEBUG, _("checking for package upgrades"));
-		for(i = _alpm_db_get_pkgcache(db_local, INFRQ_NONE); i; i = i->next) {
+		for(i = _alpm_db_get_pkgcache(db_local, INFRQ_BASE); i; i = i->next) {
 			int replace=0;
 			pmpkg_t *local = i->data;
 			pmpkg_t *spkg = NULL;

@@ -80,9 +80,9 @@ class pmenv:
             t.check()
             print "==> Test result"
             if t.result["fail"] == 0:
-                print "\tPASSED"
+                print "\tPASS"
             else:
-                print "\tFAILED"
+                print "\tFAIL"
             print
 
     def results(self):
@@ -104,16 +104,16 @@ class pmenv:
             fail = test.result["fail"]
             rules = len(test.rules)
             if fail == 0:
-                result = "[PASSED]"
+                result = "[PASS]"
             else:
-                result = "[FAILED]"
+                result = "[FAIL]"
             print result,
             print "%s Rules: OK = %2u  FAIL = %2u  SKIP = %2u" \
-                    % (test.testname.ljust(32), success, fail, \
+                    % (test.testname.ljust(34), success, fail, \
                        rules - (success + fail))
             if fail != 0:
                 # print test description if test failed
-                print "   ", test.description
+                print "      ", test.description
 
         print "=========="*8
         print "Results"
@@ -125,10 +125,10 @@ class pmenv:
 
         total = len(self.testcases)
         failed = total - passed
-        print "TOTAL  = %3u" % total
+        print "TOTAL = %3u" % total
         if total:
-            print "PASSED = %3u (%6.2f%%)" % (passed, float(passed) * 100 / total)
-            print "FAILED = %3u (%6.2f%%)" % (failed, float(failed) * 100 / total)
+            print "PASS  = %3u (%6.2f%%)" % (passed, float(passed) * 100 / total)
+            print "FAIL  = %3u (%6.2f%%)" % (failed, float(failed) * 100 / total)
         print ""
 
 if __name__ == "__main__":
