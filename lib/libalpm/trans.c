@@ -259,7 +259,10 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
 	if(pkg->depends) {
-		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields"));
+		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields for %s-%s"),
+							pkg->name, pkg->version);
+	} else {
+		_alpm_log(PM_LOG_DEBUG, _("package has no dependencies, no other packages to update"));
 	}
 
 	localdb = alpm_option_get_localdb();

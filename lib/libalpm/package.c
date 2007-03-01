@@ -530,7 +530,7 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 {
-	alpm_list_t *i, *j;
+	alpm_list_t *i, *j, *k;
 
 	pmdb_t *localdb = alpm_option_get_localdb();
 	for(i = _alpm_db_get_pkgcache(localdb, INFRQ_DEPENDS); i; i = i->next) {
@@ -543,10 +543,25 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			if(!j->data) {
 				continue;
 			}
-			if(_alpm_splitdep(j->data, &dep) == 0
-				 && strcmp(dep.name, pkg->name) == 0) {
-				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"), cachepkg->name, pkg->name);
+			if(_alpm_splitdep(j->data, &dep) != 0) {
+				continue;
+			}
+
+			/* check the actual package itself */
+			if(strcmp(dep.name, pkg->name) == 0) {
+				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
+									cachepkg->name, pkg->name);
 				pkg->requiredby = alpm_list_add(pkg->requiredby, strdup(cachepkg->name));
+			}
+
+			/* check for provisions as well */
+			for(k = pkg->provides; k; k = k->next) {
+				const char *provname = k->data;
+				if(strcmp(dep.name, provname) == 0) {
+					_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s' (provides: %s)"),
+										cachepkg->name, pkg->name, provname);
+					pkg->requiredby = alpm_list_add(pkg->requiredby, strdup(cachepkg->name));
+				}
 			}
 		}
 	}
