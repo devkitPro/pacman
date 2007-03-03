@@ -250,6 +250,7 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 {
 	alpm_list_t *i, *j;
+	alpm_list_t *depends = NULL;
 	pmdb_t *localdb;
 
 	ALPM_LOG_FUNC;
@@ -258,7 +259,8 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	if(pkg->depends) {
+	depends = alpm_pkg_get_depends(pkg);
+	if(depends) {
 		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields for %s-%s"),
 							pkg->name, pkg->version);
 	} else {
@@ -266,7 +268,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 	}
 
 	localdb = alpm_option_get_localdb();
-	for(i = pkg->depends; i; i = i->next) {
+	for(i = depends; i; i = i->next) {
 		pmdepend_t dep;
 		if(_alpm_splitdep(i->data, &dep) != 0) {
 			continue;
@@ -288,7 +290,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 					continue;
 				}
 				pmpkg_t *provpkg = j->data;
-				deppkg = _alpm_db_get_pkgfromcache(localdb, provpkg->name);
+				deppkg = _alpm_db_get_pkgfromcache(localdb, alpm_pkg_get_name(provpkg));
 
 				if(!deppkg) {
 					continue;
@@ -296,20 +298,22 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 
 				found_provides = 1;
 
-				/* Ensure package has the right newpkg */
-				_alpm_db_read(localdb, deppkg, INFRQ_DEPENDS);
+				/* this is cheating... we call this function to populate the package */
+				alpm_pkg_get_requiredby(deppkg);
 
-				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
+				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), alpm_pkg_get_name(deppkg));
 				if(trans->type == PM_TRANS_TYPE_REMOVE) {
 					void *data = NULL;
-					deppkg->requiredby = alpm_list_remove(deppkg->requiredby, pkg->name, _alpm_str_cmp, &data);
+					deppkg->requiredby = alpm_list_remove(deppkg->requiredby,
+																								alpm_pkg_get_name(pkg), _alpm_str_cmp, &data);
 					FREE(data);
 				} else {
-					deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(pkg->name));
+					deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(alpm_pkg_get_name(pkg)));
 				}
 
 				if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
-					_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"), deppkg->name, deppkg->version);
+					_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
+										alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
 				}
 			}
 			FREELISTPTR(provides);
@@ -320,20 +324,22 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 			}
 		}
 
-		/* Ensure package has the right newpkg */
-		_alpm_db_read(localdb, deppkg, INFRQ_DEPENDS);
+		/* this is cheating... we call this function to populate the package */
+		alpm_pkg_get_requiredby(deppkg);
 
 		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
 		if(trans->type == PM_TRANS_TYPE_REMOVE) {
 			void *data = NULL;
-			deppkg->requiredby = alpm_list_remove(deppkg->requiredby, pkg->name, _alpm_str_cmp, &data);
+			deppkg->requiredby = alpm_list_remove(deppkg->requiredby,
+																						alpm_pkg_get_name(pkg), _alpm_str_cmp, &data);
 			FREE(data);
 		} else {
-			deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(pkg->name));
+			deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(alpm_pkg_get_name(pkg)));
 		}
 
 		if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
-			_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"), deppkg->name, deppkg->version);
+			_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
+								alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
 		}
 	}
 	return(0);

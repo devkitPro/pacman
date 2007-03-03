@@ -55,18 +55,20 @@
 #define SCRIPTLET_START "START "
 #define SCRIPTLET_DONE "DONE "
 
-int _alpm_makepath(char *path);
-int _alpm_copyfile(char *src, char *dest);
+int _alpm_makepath(const char *path);
+int _alpm_copyfile(const char *src, const char *dest);
 char *_alpm_strtoupper(char *str);
 char *_alpm_strtrim(char *str);
-int _alpm_lckmk(char *file);
-int _alpm_lckrm(char *file);
+int _alpm_lckmk(const char *file);
+int _alpm_lckrm(const char *file);
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn);
-int _alpm_rmrf(char *path);
+int _alpm_rmrf(const char *path);
 int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str);
-int _alpm_ldconfig(char *root);
+int _alpm_ldconfig(const char *root);
 #ifdef _ALPM_TRANS_H
-int _alpm_runscriptlet(char *util, char *installfn, char *script, char *ver, char *oldver, pmtrans_t *trans);
+int _alpm_runscriptlet(const char *root, const char *installfn,
+											 const char *script, const char *ver,
+											 const char *oldver, pmtrans_t *trans);
 #ifndef __sun__
 int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data);
 #endif

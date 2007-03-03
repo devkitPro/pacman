@@ -82,17 +82,17 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	}
 
 	memcpy(newpkg, pkg, sizeof(pmpkg_t));
-	newpkg->license    = alpm_list_strdup(pkg->license);
+	newpkg->licenses    = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
 	/*newpkg->desc_localized = alpm_list_strdup(pkg->desc_localized);*/
-	newpkg->requiredby = alpm_list_strdup(pkg->requiredby);
-	newpkg->conflicts  = alpm_list_strdup(pkg->conflicts);
-	newpkg->files      = alpm_list_strdup(pkg->files);
-	newpkg->backup     = alpm_list_strdup(pkg->backup);
-	newpkg->depends    = alpm_list_strdup(pkg->depends);
-	newpkg->removes    = alpm_list_strdup(pkg->removes);
-	newpkg->groups     = alpm_list_strdup(pkg->groups);
-	newpkg->provides   = alpm_list_strdup(pkg->provides);
-	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
+	newpkg->requiredby = alpm_list_strdup(alpm_pkg_get_requiredby(pkg));
+	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
+	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
+	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
+	newpkg->depends    = alpm_list_strdup(alpm_pkg_get_depends(pkg));
+	newpkg->removes    = alpm_list_strdup(alpm_pkg_get_removes(pkg));
+	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
+	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
+	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
 	/* internal */
 	newpkg->data = (newpkg->origin == PKG_FROM_FILE) ? strdup(pkg->data) : pkg->data;
 
@@ -109,7 +109,7 @@ void _alpm_pkg_free(void *data)
 		return;
 	}
 
-	FREELIST(pkg->license);
+	FREELIST(pkg->licenses);
   /*FREELIST(pkg->desc_localized);*/
 	FREELIST(pkg->files);
 	FREELIST(pkg->backup);
@@ -141,28 +141,32 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	}
 
 	/* compare versions and see if we need to upgrade */
-	cmp = _alpm_versioncmp(pkg->version, local_pkg->version);
+	cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
 
 	if(cmp != 0 && pkg->force) {
 		cmp = 1;
-		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s"), local_pkg->name, pkg->version);
+		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s"),
+							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 	} else if(cmp < 0) {
 		/* local version is newer */
 		pmdb_t *db = pkg->data;
 		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
-							local_pkg->name, local_pkg->version, db->treename, pkg->version);
+							alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
+							alpm_db_get_name(db), alpm_pkg_get_version(pkg));
 		cmp = 0;
 	} else if(cmp > 0) {
 		/* we have an upgrade, make sure we should actually do it */
-		if(alpm_list_find_str(handle->ignorepkg, pkg->name)) {
+		if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
 			/* package should be ignored (IgnorePkg) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
-								local_pkg->name, local_pkg->version, pkg->version);
+								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
+								alpm_pkg_get_version(pkg));
 			cmp = 0;
 		} else if(_alpm_pkg_istoonew(pkg)) {
 			/* package too new (UpgradeDelay) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)"),
-								local_pkg->name, local_pkg->version, pkg->version);
+								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
+								alpm_pkg_get_version(pkg));
 			cmp = 0;
 		}
 	}
@@ -174,7 +178,10 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
  */
 int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
-	return(strcmp(((pmpkg_t *)p1)->name, ((pmpkg_t *)p2)->name));
+	pmpkg_t *pk1 = (pmpkg_t *)p1;
+	pmpkg_t *pk2 = (pmpkg_t *)p2;
+	
+	return(strcmp(alpm_pkg_get_name(pk1), alpm_pkg_get_name(pk2)));
 }
 
 /* Parses the package description file for the current package
@@ -240,7 +247,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "URL")) {
 				STRNCPY(info->url, ptr, sizeof(info->url));
 			} else if(!strcmp(key, "LICENSE")) {
-				info->license = alpm_list_add(info->license, strdup(ptr));
+				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "BUILDDATE")) {
 				STRNCPY(info->builddate, ptr, sizeof(info->builddate));
 			} else if(!strcmp(key, "BUILDTYPE")) {
@@ -467,7 +474,7 @@ pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack)
 	for(lp = haystack; lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(info && strcmp(info->name, needle) == 0) {
+		if(info && strcmp(alpm_pkg_get_name(info), needle) == 0) {
 			return(info);
 		}
 	}
@@ -533,12 +540,12 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 	alpm_list_t *i, *j, *k;
 
 	pmdb_t *localdb = alpm_option_get_localdb();
-	for(i = _alpm_db_get_pkgcache(localdb, INFRQ_DEPENDS); i; i = i->next) {
+	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {
 		if(!i->data) {
 			continue;
 		}
 		pmpkg_t *cachepkg = i->data;
-		for(j = cachepkg->depends; j; j = j->next) {
+		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
 			pmdepend_t dep;
 			if(!j->data) {
 				continue;
@@ -548,19 +555,23 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			}
 
 			/* check the actual package itself */
-			if(strcmp(dep.name, pkg->name) == 0) {
+			if(strcmp(dep.name, alpm_pkg_get_name(pkg)) == 0) {
 				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
 									cachepkg->name, pkg->name);
-				pkg->requiredby = alpm_list_add(pkg->requiredby, strdup(cachepkg->name));
+				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
+				reqs = alpm_list_add(reqs, strdup(alpm_pkg_get_name(cachepkg)));
+				pkg->requiredby = reqs;
 			}
 
 			/* check for provisions as well */
-			for(k = pkg->provides; k; k = k->next) {
+			for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
 				const char *provname = k->data;
 				if(strcmp(dep.name, provname) == 0) {
 					_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s' (provides: %s)"),
-										cachepkg->name, pkg->name, provname);
-					pkg->requiredby = alpm_list_add(pkg->requiredby, strdup(cachepkg->name));
+										alpm_pkg_get_name(cachepkg), alpm_pkg_get_name(pkg), provname);
+					alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
+					reqs = alpm_list_add(reqs, strdup(alpm_pkg_get_name(cachepkg)));
+					pkg->requiredby = reqs;
 				}
 			}
 		}
@@ -799,7 +810,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
 		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
-	return pkg->license;
+	return pkg->licenses;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)

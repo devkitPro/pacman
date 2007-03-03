@@ -236,7 +236,7 @@ alpm_list_t* alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn)
  *  @param data output parameter containing the data member of the item removed
  *  @return the resultant list, or NULL on failure
  */
-alpm_list_t *alpm_list_remove(alpm_list_t *haystack, void *needle, alpm_list_fn_cmp fn, void **data)
+alpm_list_t *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data)
 { /* TODO I modified this to remove ALL matching items.  Do we need a remove_first? */
 	alpm_list_t *i = haystack, *tmp = NULL;
 

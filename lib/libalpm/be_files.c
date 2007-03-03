@@ -106,7 +106,7 @@ void _alpm_db_rewind(pmdb_t *db)
 	rewinddir(db->handle);
 }
 
-pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target, pmdbinfrq_t inforeq)
+pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 {
 	struct dirent *ent = NULL;
 	struct stat sbuf;
@@ -183,9 +183,14 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target, pmdbinfrq_t inforeq)
 			_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
 			return(NULL);
 		}
-		if(_alpm_db_read(db, pkg, inforeq) == -1) {
+
+		/* explicitly read with only 'BASE' data, accessors will handle the rest */
+		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
 			/* TODO removed corrupt entry from the FS here */
 			FREEPKG(pkg);
+		} else {
+			pkg->data = db;
+			pkg->origin = PKG_FROM_CACHE;
 		}
 	}
 
@@ -298,7 +303,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				_alpm_strtrim(info->url);
 			} else if(!strcmp(line, "%LICENSE%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->license = alpm_list_add(info->license, strdup(line));
+					info->licenses = alpm_list_add(info->licenses, strdup(line));
 				}
 			} else if(!strcmp(line, "%ARCH%")) {
 				if(fgets(info->arch, sizeof(info->arch), fp) == NULL) {
@@ -527,9 +532,9 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%%URL%%\n"
 								"%s\n\n", info->url);
 			}
-			if(info->license) {
+			if(info->licenses) {
 				fputs("%LICENSE%\n", fp);
-				for(lp = info->license; lp; lp = lp->next) {
+				for(lp = info->licenses; lp; lp = lp->next) {
 					fprintf(fp, "%s\n", (char *)lp->data);
 				}
 				fprintf(fp, "\n");
@@ -687,7 +692,7 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
+	snprintf(path, PATH_MAX, "%s%s-%s", db->path, info->name, info->version);
 	if(_alpm_rmrf(path) == -1) {
 		return(-1);
 	}

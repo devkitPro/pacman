@@ -42,6 +42,9 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data);
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data);
 
+/* typically trans->packages */
+pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname);
+
 #endif /* _ALPM_SYNC_H */
 
 /* vim: set ts=2 sw=2 noet: */

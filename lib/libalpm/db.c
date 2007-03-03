@@ -71,7 +71,7 @@ pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename)
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
-	sprintf(db->path, "%s%s%s", root, dbpath, treename);
+	sprintf(db->path, "%s%s%s/", root, dbpath, treename);
 
 	STRNCPY(db->treename, treename, PATH_MAX);
 
@@ -115,23 +115,23 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 			RET_ERR(PM_ERR_INVALID_REGEX, NULL);
 		}
 
-		for(j = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS); j; j = j->next) {
+		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			char *matched = NULL;
+			const char *matched = NULL;
 
 			/* check name */
-			if (regexec(&reg, pkg->name, 0, 0, 0) == 0) {
-				matched = pkg->name;
+			if (regexec(&reg, alpm_pkg_get_name(pkg), 0, 0, 0) == 0) {
+				matched = alpm_pkg_get_name(pkg);
 			}
 			/* check desc */
-			else if (regexec(&reg, pkg->desc, 0, 0, 0) == 0) {
-				matched = pkg->desc;
+			else if (regexec(&reg, alpm_pkg_get_desc(pkg), 0, 0, 0) == 0) {
+				matched = alpm_pkg_get_desc(pkg);
 			}
 			/* check provides */
 			/* TODO: should we be doing this, and should we print something
 			 * differently when we do match it since it isn't currently printed? */
 			else {
-				for(k = pkg->provides; k; k = k->next) {
+				for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
 					if (regexec(&reg, k->data, 0, 0, 0) == 0) {
 						matched = k->data;
 						break;

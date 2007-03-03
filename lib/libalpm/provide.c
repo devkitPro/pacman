@@ -42,7 +42,7 @@ alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package)
 		return(NULL);
 	}
 
-	for(lp = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); lp; lp = lp->next) {
+	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
 		if(alpm_list_find_str(alpm_pkg_get_provides(info), package)) {

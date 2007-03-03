@@ -41,12 +41,10 @@
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.
  */
-int _alpm_db_load_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
+int _alpm_db_load_pkgcache(pmdb_t *db)
 {
 	pmpkg_t *info;
 	int count = 0;
-	/* The group cache needs INFRQ_DESC as well */
-	/* pmdbinfrq_t infolevel = INFRQ_DEPENDS | INFRQ_DESC;*/
 
 	ALPM_LOG_FUNC;
 
@@ -56,12 +54,13 @@ int _alpm_db_load_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 
 	_alpm_db_free_pkgcache(db);
 
-	_alpm_log(PM_LOG_DEBUG, _("loading package cache (infolevel=%#x) for repository '%s'"),
-	                        infolevel, db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("loading package cache for repository '%s'"),
+	          db->treename);
 
 	_alpm_db_rewind(db);
-	while((info = _alpm_db_scan(db, NULL, infolevel)) != NULL) {
-		_alpm_log(PM_LOG_FUNCTION, _("adding '%s' to package cache for db '%s'"), info->name, db->treename);
+	while((info = _alpm_db_scan(db, NULL)) != NULL) {
+		_alpm_log(PM_LOG_FUNCTION, _("adding '%s' to package cache for db '%s'"),
+							alpm_pkg_get_name(info), db->treename);
 		info->origin = PKG_FROM_CACHE;
 		info->data = db;
 		/* add to the collection */
@@ -91,7 +90,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	}
 }
 
-alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
+alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -99,44 +98,16 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
 		return(NULL);
 	}
 
-	if(db->pkgcache == NULL) {
-		_alpm_db_load_pkgcache(db, infolevel);
+	if(!db->pkgcache) {
+		_alpm_db_load_pkgcache(db);
 	}
 
-	_alpm_db_ensure_pkgcache(db, infolevel);
-
+	/* hmmm, still NULL ?*/
 	if(!db->pkgcache) {
 		_alpm_log(PM_LOG_DEBUG, _("error: pkgcache is NULL for db '%s'"), db->treename);
 	}
+
 	return(db->pkgcache);
-}
-
-int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel)
-{
-	int reloaded = 0;
-	/* for each pkg, check and reload if the requested
-	 * info is not already cached
-	 */
-
-	ALPM_LOG_FUNC;
-
-  alpm_list_t *p;
-	for(p = db->pkgcache; p; p = p->next) {
-		pmpkg_t *pkg = (pmpkg_t *)p->data;
-		if(infolevel != INFRQ_BASE && !(pkg->infolevel & infolevel)) {
-			if(_alpm_db_read(db, pkg, infolevel) == -1) {
-				/* TODO should we actually remove from the filesystem here as well? */
-				_alpm_db_remove_pkgfromcache(db, pkg);
-			} else {
-				reloaded = 1;
-			}
-		}
-	}
-	if(reloaded) {
-		_alpm_log(PM_LOG_DEBUG, _("package cache reloaded (infolevel=%#x) for repository '%s'"),
-							infolevel, db->treename);
-	}
-	return(0);
 }
 
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
@@ -153,7 +124,8 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 	if(newpkg == NULL) {
 		return(-1);
 	}
-	_alpm_log(PM_LOG_DEBUG, _("adding entry '%s' in '%s' cache"), newpkg->name, db->treename);
+	_alpm_log(PM_LOG_DEBUG, _("adding entry '%s' in '%s' cache"),
+						alpm_pkg_get_name(newpkg), db->treename);
 	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
 
 	_alpm_db_free_grpcache(db);
@@ -172,14 +144,18 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
+	_alpm_log(PM_LOG_DEBUG, _("removing entry '%s' from '%s' cache"),
+						alpm_pkg_get_name(pkg), db->treename);
+
 	db->pkgcache = alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
 	data = vdata;
 	if(data == NULL) {
 		/* package not found */
+		_alpm_log(PM_LOG_DEBUG, _("cannot remove entry '%s' from '%s' cache: not found"),
+							alpm_pkg_get_name(pkg), db->treename);
 		return(-1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("removing entry '%s' from '%s' cache"), pkg->name, db->treename);
 	FREEPKG(data);
 
 	_alpm_db_free_grpcache(db);
@@ -195,7 +171,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 		return(NULL);
 	}
 
-	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db, INFRQ_BASE);
+	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db);
 	if(!pkgcache) {
 		_alpm_log(PM_LOG_DEBUG, _("error: failed to get '%s' from NULL pkgcache"), target);
 		return(NULL);
@@ -217,21 +193,26 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 	}
 
 	if(db->pkgcache == NULL) {
-		_alpm_db_load_pkgcache(db, INFRQ_DESC);
+		_alpm_db_load_pkgcache(db);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, _("loading group cache for repository '%s'"), db->treename);
 
-	for(lp = _alpm_db_get_pkgcache(db, INFRQ_DESC); lp; lp = lp->next) {
+	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		alpm_list_t *i;
 		pmpkg_t *pkg = lp->data;
 
-		for(i = pkg->groups; i; i = i->next) {
+		for(i = alpm_pkg_get_groups(pkg); i; i = i->next) {
 			if(!alpm_list_find_str(db->grpcache, i->data)) {
 				pmgrp_t *grp = _alpm_grp_new();
 
-				STRNCPY(grp->name, (char *)i->data, GRP_NAME_LEN);
-				grp->packages = alpm_list_add_sorted(grp->packages, pkg->name, _alpm_grp_cmp);
+				strncpy(grp->name, i->data, GRP_NAME_LEN);
+				grp->name[GRP_NAME_LEN-1] = '\0';
+				grp->packages = alpm_list_add_sorted(grp->packages,
+																						 /* gross signature forces us to
+																							* discard const */
+																						 (void *)alpm_pkg_get_name(pkg),
+																						 _alpm_grp_cmp);
 				db->grpcache = alpm_list_add_sorted(db->grpcache, grp, _alpm_grp_cmp);
 			} else {
 				alpm_list_t *j;
@@ -240,8 +221,9 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 					pmgrp_t *grp = j->data;
 
 					if(strcmp(grp->name, i->data) == 0) {
-						if(!alpm_list_find_str(grp->packages, pkg->name)) {
-							grp->packages = alpm_list_add_sorted(grp->packages, (char *)pkg->name, _alpm_grp_cmp);
+						const char *pkgname = alpm_pkg_get_name(pkg);
+						if(!alpm_list_find_str(grp->packages, pkgname)) {
+							grp->packages = alpm_list_add_sorted(grp->packages, (void *)pkgname, _alpm_grp_cmp);
 						}
 					}
 				}

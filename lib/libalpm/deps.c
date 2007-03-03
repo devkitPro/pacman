@@ -136,8 +136,8 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		numscans++;
 		/* run thru targets, moving up packages as necessary */
 		for(i = newtargs; i; i = i->next) {
-			pmpkg_t *p = (pmpkg_t*)i->data;
-			_alpm_log(PM_LOG_DEBUG, "sorting %s", p->name);
+			pmpkg_t *p = i->data;
+			_alpm_log(PM_LOG_DEBUG, "   sorting %s", alpm_pkg_get_name(p));
 			for(j = alpm_pkg_get_depends(p); j; j = j->next) {
 				pmdepend_t dep;
 				pmpkg_t *q = NULL;
@@ -148,17 +148,19 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 				 * move it up above p
 				 */
 				for(k = i->next; k; k = k->next) {
-					q = (pmpkg_t *)k->data;
-					if(!strcmp(dep.name, q->name)) {
-						if(!_alpm_pkg_find(q->name, tmptargs)) {
+					q = k->data;
+					const char *qname = alpm_pkg_get_name(q);
+					if(!strcmp(dep.name, qname)) {
+						if(!_alpm_pkg_find(qname, tmptargs)) {
 							change = 1;
 							tmptargs = alpm_list_add(tmptargs, q);
 						}
 						break;
 					}
-					for(l = q->provides; l; l = l->next) {
-						if(!strcmp(dep.name, (char*)l->data)) {
-							if(!_alpm_pkg_find((char*)l->data, tmptargs)) {
+					for(l = alpm_pkg_get_provides(q); l; l = l->next) {
+						const char *provname = l->data;
+						if(!strcmp(dep.name, provname)) {
+							if(!_alpm_pkg_find(provname, tmptargs)) {
 								change = 1;
 								tmptargs = alpm_list_add(tmptargs, q);
 							}
@@ -167,7 +169,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 					}
 				}
 			}
-			if(!_alpm_pkg_find(p->name, tmptargs)) {
+			if(!_alpm_pkg_find(alpm_pkg_get_name(p), tmptargs)) {
 				tmptargs = alpm_list_add(tmptargs, p);
 			}
 		}
@@ -221,8 +223,9 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				continue;
 			}
 
-			if((oldpkg = _alpm_db_get_pkgfromcache(db, newpkg->name)) == NULL) {
-				_alpm_log(PM_LOG_DEBUG, _("cannot find package installed '%s'"), newpkg->name);
+			if((oldpkg = _alpm_db_get_pkgfromcache(db, alpm_pkg_get_name(newpkg))) == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("cannot find package installed '%s'"),
+									alpm_pkg_get_name(newpkg));
 				continue;
 			}
 			for(j = alpm_pkg_get_requiredby(oldpkg); j; j = j->next) {
@@ -232,7 +235,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 					/* hmmm... package isn't installed.. */
 					continue;
 				}
-				if(_alpm_pkg_find(p->name, packages)) {
+				if(_alpm_pkg_find(alpm_pkg_get_name(p), packages)) {
 					/* this package also in the upgrade list, so don't worry about it */
 					continue;
 				}
@@ -250,7 +253,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 
 							if(_alpm_depcmp(pkg, &depend)) {
 								_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' has moved from '%s' to '%s'"),
-													depend.name, oldpkg->name, pkg->name);
+													depend.name, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
 							}
@@ -259,17 +262,17 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 						if(!satisfied) {
 							/* worst case... check installed packages to see if anything else
 							 * satisfies this... */
-							for(l = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); l; l = l->next) {
+							for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
 								pmpkg_t *pkg = l->data;
 
-								if(strcmp(pkg->name, oldpkg->name) == 0) {
+								if(strcmp(alpm_pkg_get_name(pkg), alpm_pkg_get_name(oldpkg)) == 0) {
 									/* well, we know this one succeeds, but we're removing it... skip it */
 									continue;
 								}
 
 								if(_alpm_depcmp(pkg, &depend)) {
 									_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' satisfied by installed package '%s'"),
-														depend.name, pkg->name);
+														depend.name, alpm_pkg_get_name(pkg));
 									satisfied = 1;
 									break;
 								}
@@ -278,7 +281,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 
 						if(!satisfied) {
 							_alpm_log(PM_LOG_DEBUG, _("checkdeps: updated '%s' won't satisfy a dependency of '%s'"),
-												oldpkg->name, p->name);
+												alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(p));
 							miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend.mod,
 																			 depend.name, depend.version);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -301,28 +304,19 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				continue;
 			}
 
-			/* ensure package has depends data */
-			pmdb_t *pkgdb = tp->data;
-			_alpm_db_read(pkgdb, tp, INFRQ_DEPENDS);
-			if(!tp->depends) {
-				_alpm_log(PM_LOG_DEBUG, _("no dependencies for target '%s'"), tp->name);
-			}
-
-			for(j = tp->depends; j; j = j->next) {
+			for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 				/* split into name/version pairs */
 				_alpm_splitdep((char *)j->data, &depend);
 				found = 0;
 				/* check database for literal packages */
-				for(k = _alpm_db_get_pkgcache(db, INFRQ_DESC|INFRQ_DEPENDS);
-						k && !found; k = k->next) {
+				for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
 					found = _alpm_depcmp(p, &depend);
 				}
  				/* check database for provides matches */
  				if(!found) {
  					alpm_list_t *m;
- 					k = _alpm_db_whatprovides(db, depend.name);
- 					for(m = k; m && !found; m = m->next) {
+ 					for(m = _alpm_db_whatprovides(db, depend.name); m && !found; m = m->next) {
  						/* look for a match that isn't one of the packages we're trying
  						 * to install.  this way, if we match against a to-be-installed
  						 * package, we'll defer to the NEW one, not the one already
@@ -332,7 +326,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
  						int skip = 0;
  						for(n = packages; n && !skip; n = n->next) {
  							pmpkg_t *ptp = n->data;
- 							if(!strcmp(ptp->name, p->name)) {
+ 							if(strcmp(alpm_pkg_get_name(ptp), alpm_pkg_get_name(p)) == 0) {
  								skip = 1;
  							}
  						}
@@ -346,14 +340,14 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				}
  				/* check other targets */
  				for(k = packages; k && !found; k = k->next) {
- 					pmpkg_t *p = (pmpkg_t *)k->data;
+ 					pmpkg_t *p = k->data;
 					found = _alpm_depcmp(p, &depend);
 				}
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, _("missing dependency '%s' for package '%s'"),
-					                          depend.name, tp->name);
-					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_DEPEND, depend.mod,
+					                          depend.name, alpm_pkg_get_name(tp));
+					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND, depend.mod,
 					                         depend.name, depend.version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
@@ -372,20 +366,20 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 			}
 
 			found=0;
-			for(j = tp->requiredby; j; j = j->next) {
+			for(j = alpm_pkg_get_requiredby(tp); j; j = j->next) {
 				/* Search for 'reqname' in packages for removal */
 				char *reqname = j->data;
 				alpm_list_t *x = NULL;
 				for(x = packages; x; x = x->next) {
 					pmpkg_t *xp = x->data;
-					if(strcmp(reqname, xp->name) == 0) {
+					if(strcmp(reqname, alpm_pkg_get_name(xp)) == 0) {
 						found = 1;
 						break;
 					}
 				}
 				if(!found) {
 					/* check if a package in trans->packages provides this package */
-					for(k=trans->packages; !found && k; k=k->next) {
+					for(k = trans->packages; !found && k; k=k->next) {
 						pmpkg_t *spkg = NULL;
 						if(trans->type == PM_TRANS_TYPE_SYNC) {
 							pmsyncpkg_t *sync = k->data;
@@ -394,16 +388,16 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 							spkg = k->data;
 						}
 						if(spkg) {
-							if(alpm_list_find_str(spkg->provides, tp->name)) {
+							if(alpm_list_find_str(alpm_pkg_get_provides(spkg), tp->name)) {
 								found = 1;
 							}
 						}
 					}
 					if(!found) {
 						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
-								reqname, tp->name);
-						miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_REQUIRED,
-								PM_DEP_MOD_ANY, j->data, NULL);
+								reqname, alpm_pkg_get_name(tp));
+						miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_REQUIRED,
+																		 PM_DEP_MOD_ANY, j->data, NULL);
 						if(!_alpm_depmiss_isin(miss, baddeps)) {
 							baddeps = alpm_list_add(baddeps, miss);
 						} else {
@@ -468,20 +462,20 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
 {
 	alpm_list_t *i;
 
-	if(_alpm_pkg_find(pkg->name, targets)) {
+	if(_alpm_pkg_find(alpm_pkg_get_name(pkg), targets)) {
 		return(0);
 	}
 
 	/* see if it was explicitly installed */
 	if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
-		_alpm_log(PM_LOG_DEBUG, _("excluding %s -- explicitly installed"), pkg->name);
+		_alpm_log(PM_LOG_DEBUG, _("excluding %s -- explicitly installed"), alpm_pkg_get_name(pkg));
 		return(0);
 	}
 
 	/* see if other packages need it */
 	for(i = alpm_pkg_get_requiredby(pkg); i; i = i->next) {
 		pmpkg_t *reqpkg = _alpm_db_get_pkgfromcache(db, i->data);
-		if(reqpkg && !_alpm_pkg_find(reqpkg->name, targets)) {
+		if(reqpkg && !_alpm_pkg_find(alpm_pkg_get_name(reqpkg), targets)) {
 			return(0);
 		}
 	}
@@ -527,10 +521,9 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 				for(k = provides; k; k = k->next) {
 					pmpkg_t *provpkg = k->data;
 					if(can_remove_package(db, provpkg, newtargs)) {
-						pmpkg_t *pkg = _alpm_pkg_new(provpkg->name, provpkg->version);
-						_alpm_db_read(db, pkg, INFRQ_ALL);
+						pmpkg_t *pkg = _alpm_pkg_new(alpm_pkg_get_name(provpkg), alpm_pkg_get_version(provpkg));
 
-						_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
+						_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), alpm_pkg_get_name(pkg));
 
 						/* add it to the target list */
 						newtargs = alpm_list_add(newtargs, pkg);
@@ -540,9 +533,8 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 				FREELISTPTR(provides);
 			} else if(can_remove_package(db, dep, newtargs)) {
 				pmpkg_t *pkg = _alpm_pkg_new(dep->name, dep->version);
-				_alpm_db_read(db, pkg, INFRQ_ALL);
 
-				_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), pkg->name);
+				_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), alpm_pkg_get_name(pkg));
 
 				/* add it to the target list */
 				newtargs = alpm_list_add(newtargs, pkg);
@@ -589,10 +581,10 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 
 		/* check if one of the packages in *list already provides this dependency */
 		for(j = list; j && !found; j = j->next) {
-			pmpkg_t *sp = (pmpkg_t *)j->data;
-			if(alpm_list_find_str(sp->provides, miss->depend.name)) {
+			pmpkg_t *sp = j->data;
+			if(alpm_list_find_str(alpm_pkg_get_provides(sp), miss->depend.name)) {
 				_alpm_log(PM_LOG_DEBUG, _("%s provides dependency %s -- skipping"),
-				          sp->name, miss->depend.name);
+				          alpm_pkg_get_name(sp), miss->depend.name);
 				found = 1;
 			}
 		}
@@ -604,18 +596,22 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		/* check literals */
 		for(j = dbs_sync; !sync && j; j = j->next) {
 			sync = _alpm_db_get_pkgfromcache(j->data, miss->depend.name);
-			_alpm_db_read(j->data, sync, INFRQ_DEPENDS);
 		}
+		/*TODO this autoresolves the first 'provides' package... we should fix this
+		 * somehow */
 		/* check provides */
-		for(j = dbs_sync; !sync && j; j = j->next) {
-			alpm_list_t *provides;
-			provides = _alpm_db_whatprovides(j->data, miss->depend.name);
-			if(provides) {
-				sync = provides->data;
+		if(!sync) {
+			for(j = dbs_sync; !sync && j; j = j->next) {
+				alpm_list_t *provides;
+				provides = _alpm_db_whatprovides(j->data, miss->depend.name);
+				if(provides) {
+					sync = provides->data;
+				}
+				FREELISTPTR(provides);
 			}
-			FREELISTPTR(provides);
 		}
-		if(sync == NULL) {
+
+		if(!sync) {
 			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"),
 			          miss->target, miss->depend.name);
 			if(data) {
@@ -631,19 +627,19 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
 		}
-		if(_alpm_pkg_find(sync->name, list)) {
+		if(_alpm_pkg_find(alpm_pkg_get_name(sync), list)) {
 			/* this dep is already in the target list */
 			_alpm_log(PM_LOG_DEBUG, _("dependency %s is already in the target list -- skipping"),
-			          sync->name);
+								alpm_pkg_get_name(sync));
 			continue;
 		}
 
-		if(!_alpm_pkg_find(sync->name, trail)) {
+		if(!_alpm_pkg_find(alpm_pkg_get_name(sync), trail)) {
 			/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
 			 * something we're not supposed to.
 			 */
 			int usedep = 1;
-			if(alpm_list_find_str(handle->ignorepkg, sync->name)) {
+			if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(sync))) {
 				pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
 				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
 				FREEPKG(dummypkg);
@@ -654,7 +650,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 					goto error;
 				}
 				_alpm_log(PM_LOG_DEBUG, _("pulling dependency %s (needed by %s)"),
-				          sync->name, syncpkg->name);
+									alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
 				list = alpm_list_add(list, sync);
 			} else {
 				_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);

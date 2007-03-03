@@ -260,7 +260,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	_alpm_log(PM_LOG_DEBUG, _("cleaning up"));
 	for (lp=trans->packages; lp!=NULL; lp=lp->next) {
 		info=(pmpkg_t *)lp->data;
-		for (rmlist=info->removes; rmlist!=NULL; rmlist=rmlist->next) {
+		for (rmlist = alpm_pkg_get_removes(info); rmlist; rmlist = rmlist->next) {
 			snprintf(rm_fname, PATH_MAX, "%s%s", handle->root, (char *)rmlist->data);
 			remove(rm_fname);
 		}
@@ -354,7 +354,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			newpkg->reason = alpm_pkg_get_reason(local);
 
 			/* pre_upgrade scriptlet */
-			if(newpkg->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				_alpm_runscriptlet(handle->root, newpkg->data, "pre_upgrade", newpkg->version, oldpkg->version, trans);
 			}
 		} else {
@@ -364,7 +364,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_DEBUG, _("adding package %s-%s"), newpkg->name, newpkg->version);
 			
 			/* pre_install scriptlet */
-			if(newpkg->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				_alpm_runscriptlet(handle->root, newpkg->data, "pre_install", newpkg->version, NULL, trans);
 			}
 		}
@@ -400,9 +400,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			 * old, we cover all bases, including backup=() locations changing hands.
 			 * But is this viable? */
 			alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
-			for(b = newpkg->backup; b; b = b->next) {
-				_alpm_log(PM_LOG_DEBUG, _("adding %s to the NoUpgrade array temporarilly"), (char *)b->data);
-				handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(b->data));
+			for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
+				const char *backup = b->data;
+				_alpm_log(PM_LOG_DEBUG, _("adding %s to the NoUpgrade array temporarilly"), backup);
+				handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
 			}
 
 			int ret = _alpm_remove_commit(tr, db);
@@ -491,7 +492,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				/* if a file is in NoExtract then we never extract it */
 				if(alpm_list_find_str(handle->noextract, entryname)) {
 					_alpm_log(PM_LOG_DEBUG, _("%s is in NoExtract, skipping extraction"), entryname);
-					alpm_logaction(_("notice: %s is in NoExtract -- skipping extraction"), entryname);
+					alpm_logaction(_("%s is in NoExtract, skipping extraction"), entryname);
 					archive_read_data_skip(archive);
 					continue;
 				}
@@ -508,10 +509,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					/* it does, is it a backup=() file?
 					 * always check the newpkg first, so when we do add a backup=() file,
 					 * we don't have to wait a full upgrade cycle */
-					needbackup = alpm_list_find_str(newpkg->backup, entryname);
+					needbackup = alpm_list_find_str(alpm_pkg_get_backup(newpkg), entryname);
 
 					if(is_upgrade) {
-						hash_orig = _alpm_needbackup(entryname, oldpkg->backup);
+						hash_orig = _alpm_needbackup(entryname, alpm_pkg_get_backup(oldpkg));
 						if(hash_orig) {
 							needbackup = 1;
 						}
@@ -561,9 +562,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						hash_pkg = _alpm_SHAFile(tempfile);
 					}
 
-					/* append the new md5 or sha1 hash to it's respective entry in newpkg->backup
+					/* append the new md5 or sha1 hash to it's respective entry in newpkg's backup
 					 * (it will be the new orginal) */
-					for(lp = newpkg->backup; lp; lp = lp->next) {
+					for(lp = alpm_pkg_get_backup(newpkg); lp; lp = lp->next) {
 						if(!lp->data || strcmp(lp->data, entryname) != 0) {
 							continue;
 						}
@@ -699,8 +700,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						errors++;
 					}
 
-					/* calculate an hash if this is in newpkg->backup */
-					for(lp = newpkg->backup; lp; lp = lp->next) {
+					/* calculate an hash if this is in newpkg's backup */
+					for(lp = alpm_pkg_get_backup(newpkg); lp; lp = lp->next) {
 						char *backup = NULL, *hash = NULL;
 						int backup_len = strlen(lp->data) + 2; /* tab char and null byte */
 
@@ -760,7 +761,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		for(prov = provdiff; prov; prov = prov->next) {
 			const char *provname = prov->data;
 			_alpm_log(PM_LOG_DEBUG, _("provision '%s' has been removed from package %s (%s => %s)"),
-								provname, oldpkg->name, oldpkg->version, newpkg->version);
+								provname, alpm_pkg_get_name(oldpkg),
+								alpm_pkg_get_version(oldpkg), alpm_pkg_get_version(newpkg));
 
 			alpm_list_t *p = _alpm_db_whatprovides(handle->db_local, provname);
 			if(p) {
@@ -769,15 +771,18 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				 * provision, we'll use the FIRST for now.
 				 * TODO figure out a way to find a "correct" provision */
 				pmpkg_t *provpkg = p->data;
-				_alpm_log(PM_LOG_DEBUG, _("updating '%s' due to provision change (%s)"), provpkg->name, provname);
+				const char *pkgname = alpm_pkg_get_name(provpkg);
+				_alpm_log(PM_LOG_DEBUG, _("updating '%s' due to provision change (%s)"), pkgname, provname);
 				_alpm_pkg_update_requiredby(provpkg);
+
 				if(_alpm_db_write(db, provpkg, INFRQ_DEPENDS)) {
-					_alpm_log(PM_LOG_ERROR, _("could not update provision '%s' from '%s'"), provname, provpkg->name);
-					alpm_logaction(_("could not update provision '%s' from '%s'"), provname, provpkg->name);
+					_alpm_log(PM_LOG_ERROR, _("could not update provision '%s' from '%s'"), provname, pkgname);
+					alpm_logaction(_("could not update provision '%s' from '%s'"), provname, pkgname);
 					RET_ERR(PM_ERR_DB_WRITE, -1);
 				}
 			}
 		}
+		alpm_list_free(provdiff);
 
 		/* make an install date (in UTC) */
 		time_t t = time(NULL);
@@ -790,31 +795,36 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 		if(_alpm_db_write(db, newpkg, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s"),
-								newpkg->name, newpkg->version);
+								alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 			alpm_logaction(_("could not update database entry %s-%s"),
-										 newpkg->name, newpkg->version);
+										 alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 			RET_ERR(PM_ERR_DB_WRITE, -1);
 		}
 		
 		if(_alpm_db_add_pkgincache(db, newpkg) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("could not add entry '%s' in cache"), newpkg->name);
+			_alpm_log(PM_LOG_ERROR, _("could not add entry '%s' in cache"),
+										 alpm_pkg_get_name(newpkg));
 		}
 
 		/* update dependency packages' REQUIREDBY fields */
 		_alpm_trans_update_depends(trans, newpkg);
 
 		PROGRESS(trans, (is_upgrade ? PM_TRANS_PROGRESS_UPGRADE_START : PM_TRANS_PROGRESS_ADD_START),
-						 newpkg->name, 100, pkg_count, (pkg_count - targ_count +1));
+						 alpm_pkg_get_name(newpkg), 100, pkg_count, (pkg_count - targ_count +1));
 		EVENT(trans, PM_TRANS_EVT_EXTRACT_DONE, NULL, NULL);
 
 		/* run the post-install script if it exists  */
-		if(newpkg->scriptlet && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 			char pm_install[PATH_MAX];
-			snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename, newpkg->name, newpkg->version);
+			snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename,
+							 alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 			if(is_upgrade) {
-				_alpm_runscriptlet(handle->root, pm_install, "post_upgrade", newpkg->version, oldpkg ? oldpkg->version : NULL, trans);
+				_alpm_runscriptlet(handle->root, pm_install, "post_upgrade",
+													alpm_pkg_get_version(newpkg), oldpkg ? alpm_pkg_get_version(oldpkg) : NULL,
+													trans);
 			} else {
-				_alpm_runscriptlet(handle->root, pm_install, "post_install", newpkg->version, NULL, trans);
+				_alpm_runscriptlet(handle->root, pm_install, "post_install",
+													 alpm_pkg_get_version(newpkg), NULL, trans);
 			}
 		}
 

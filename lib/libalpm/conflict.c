@@ -46,16 +46,191 @@
 #include "deps.h"
 #include "conflict.h"
 
+
+/** See if potential conflict 'name' matches package 'pkg'
+ * @param target the name of the parent package we're checking
+ * @param depname the name of the dependency we're checking
+ * @param pkg the package to check
+ * @param conflict the name of the possible conflict
+ * @return A depmissing struct indicating the conflict
+ * @note The first two paramters are here to simplify the addition
+ *			 of new 'depmiss' objects
+ *
+ * TODO WTF is a 'depmissing' doing indicating a conflict??
+ */
+static pmdepmissing_t *does_conflict(const char *target, const char *depname,
+																		 pmpkg_t *pkg, const char *conflict)
+{
+	alpm_list_t *i;
+
+	/* check the actual package name, easy */
+	if(strcmp(alpm_pkg_get_name(pkg), conflict) == 0) {
+		_alpm_log(PM_LOG_DEBUG, _("   found conflict '%s' : package '%s'"), conflict, target);
+		return(_alpm_depmiss_new(target, PM_DEP_TYPE_CONFLICT,
+														 PM_DEP_MOD_ANY, depname, NULL));
+	} else {
+		/* check what this package provides, harder */
+		for(i = alpm_pkg_get_provides(pkg); i; i = i->next) {
+			const char *provision = i->data;
+
+			if(strcmp(provision, conflict) == 0) {
+				_alpm_log(PM_LOG_DEBUG, _("   found conflict '%s' : package '%s' provides '%s'"),
+									conflict, target, provision);
+				return(_alpm_depmiss_new(target, PM_DEP_TYPE_CONFLICT,
+																 PM_DEP_MOD_ANY, depname, NULL));
+			}
+		}
+	}
+	return(NULL); /* not a conflict */
+}
+
+static alpm_list_t *chk_pkg_vs_db(alpm_list_t *baddeps, pmpkg_t *pkg, pmdb_t *db)
+{
+	pmdepmissing_t *miss = NULL;
+	const char *pkgname;
+	alpm_list_t *i, *j;
+
+  pkgname = alpm_pkg_get_name(pkg);
+
+	for(i = alpm_pkg_get_conflicts(pkg); i; i = i->next) {
+		const char *conflict = i->data;
+
+		if(strcmp(pkgname, conflict) == 0) {
+			/* a package cannot conflict with itself -- that's just not nice */
+			_alpm_log(PM_LOG_DEBUG, _("package '%s' conflicts with itself - packaging error"),
+								pkgname);
+			continue;
+		}
+
+		/* CHECK 1: check targets against database */
+		_alpm_log(PM_LOG_DEBUG, _("checkconflicts: target '%s' vs db"), pkgname);
+
+		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
+			pmpkg_t *dbpkg = j->data;
+
+			if(strcmp(alpm_pkg_get_name(dbpkg), pkgname) == 0) {
+				/* skip the package we're currently processing */
+				continue;
+			}
+
+			miss = does_conflict(pkgname, alpm_pkg_get_name(dbpkg), dbpkg, conflict);
+			if(miss && !_alpm_depmiss_isin(miss, baddeps)) {
+				baddeps = alpm_list_add(baddeps, miss);
+			} else {
+				FREE(miss);
+			}
+		}
+	}
+	return(baddeps);
+}
+
+static alpm_list_t *chk_pkg_vs_targets(alpm_list_t *baddeps,
+															 pmpkg_t *pkg, pmdb_t *db,
+															 alpm_list_t *targets)
+{
+	pmdepmissing_t *miss = NULL;
+	const char *pkgname;
+	alpm_list_t *i, *j;
+
+  pkgname = alpm_pkg_get_name(pkg);
+
+	for(i = alpm_pkg_get_conflicts(pkg); i; i = i->next) {
+		const char *conflict = i->data;
+
+		if(strcmp(pkgname, conflict) == 0) {
+			/* a package cannot conflict with itself -- that's just not nice */
+			_alpm_log(PM_LOG_DEBUG, _("package '%s' conflicts with itself - packaging error"),
+								pkgname);
+			continue;
+		}
+
+		/* CHECK 2: check targets against targets */
+		_alpm_log(PM_LOG_DEBUG, _("checkconflicts: target '%s' vs all targets"), pkgname);
+
+		for(j = targets; j; j = j->next) {
+			const char *targetname;
+			pmpkg_t *target = j->data;
+			targetname = alpm_pkg_get_name(target);
+
+			if(strcmp(targetname, pkgname) == 0) {
+				/* skip the package we're currently processing */
+				continue;
+			}
+
+			miss = does_conflict(pkgname, targetname, target, conflict);
+			if(miss && !_alpm_depmiss_isin(miss, baddeps)) {
+				baddeps = alpm_list_add(baddeps, miss);
+			} else {
+				FREE(miss);
+			}
+		}
+	}
+	return(baddeps);
+}
+
+static alpm_list_t *chk_db_vs_targets(alpm_list_t *baddeps, pmpkg_t *pkg,
+																			pmdb_t *db, alpm_list_t *targets)
+{
+	pmdepmissing_t *miss = NULL;
+	const char *pkgname;
+	alpm_list_t *i, *j;
+
+	pkgname = alpm_pkg_get_name(pkg);
+
+	_alpm_log(PM_LOG_DEBUG, _("checkconflicts: db vs target '%s'"), pkgname);
+	
+	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
+		alpm_list_t *conflicts = NULL;
+		const char *dbpkgname;
+
+		pmpkg_t *dbpkg = i->data;
+		dbpkgname = alpm_pkg_get_name(dbpkg);
+
+		if(strcmp(dbpkgname, pkgname) == 0) {
+			/* skip the package we're currently processing */
+			continue;
+		}
+
+		/* is this db package in the targets? if so use the
+		 * new package's conflict list to pick up new changes */
+		int use_newconflicts = 0;
+		for(j = targets; j; j = j->next) {
+			pmpkg_t *targ = j->data;
+			if(strcmp(alpm_pkg_get_name(targ), dbpkgname) == 0) {
+				_alpm_log(PM_LOG_DEBUG, _("target '%s' is also in target list, using NEW conflicts"),
+									dbpkgname);
+				conflicts = alpm_pkg_get_conflicts(targ);
+				use_newconflicts = 1;
+				break;
+			}
+		}
+		/* if we didn't find newer conflicts, use the original list */
+		if(!use_newconflicts) {
+			conflicts = alpm_pkg_get_conflicts(dbpkg);
+		}
+
+		for(j = conflicts; j; j = j->next) {
+			const char *conflict = j->data;
+
+
+			miss = does_conflict(pkgname, dbpkgname, pkg, conflict);
+			if(miss && !_alpm_depmiss_isin(miss, baddeps)) {
+				baddeps = alpm_list_add(baddeps, miss);
+			} else {
+				FREE(miss);
+			}
+		}
+	}
+	return(baddeps);
+}
+
 /* Returns a alpm_list_t* of pmdepmissing_t pointers.
  *
  * conflicts are always name only
  */
 alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 {
-	pmpkg_t *info = NULL;
-	alpm_list_t *i, *j, *k;
-	alpm_list_t *baddeps = NULL;
-	pmdepmissing_t *miss = NULL;
+	alpm_list_t *i, *baddeps = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -64,149 +239,24 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 	}
 
 	for(i = packages; i; i = i->next) {
-		pmpkg_t *tp = i->data;
-		if(tp == NULL) {
+		pmpkg_t *pkg = i->data;
+		if(pkg == NULL) {
 			continue;
 		}
 
-		for(j = tp->conflicts; j; j = j->next) {
-			if(!strcmp(tp->name, j->data)) {
-				/* a package cannot conflict with itself -- that's just not nice */
-				continue;
-			}
-			/* CHECK 1: check targets against database */
-			_alpm_log(PM_LOG_DEBUG, _("checkconflicts: targ '%s' vs db"), tp->name);
-			for(k = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); k; k = k->next) {
-				pmpkg_t *dp = (pmpkg_t *)k->data;
-				if(!strcmp(dp->name, tp->name)) {
-					/* a package cannot conflict with itself -- that's just not nice */
-					continue;
-				}
-				if(!strcmp(j->data, dp->name)) {
-					/* conflict */
-					_alpm_log(PM_LOG_DEBUG, _("targs vs db: found %s as a conflict for %s"),
-					          dp->name, tp->name);
-					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, dp->name, NULL);
-					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = alpm_list_add(baddeps, miss);
-					} else {
-						FREE(miss);
-					}
-				} else {
-					/* see if dp provides something in tp's conflict list */
-					alpm_list_t *m;
-					for(m = dp->provides; m; m = m->next) {
-						if(!strcmp(m->data, j->data)) {
-							/* confict */
-							_alpm_log(PM_LOG_DEBUG, _("targs vs db: found %s as a conflict for %s"),
-							          dp->name, tp->name);
-							miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, dp->name, NULL);
-							if(!_alpm_depmiss_isin(miss, baddeps)) {
-								baddeps = alpm_list_add(baddeps, miss);
-							} else {
-								FREE(miss);
-							}
-						}
-					}
-				}
-			}
-			/* CHECK 2: check targets against targets */
-			_alpm_log(PM_LOG_DEBUG, _("checkconflicts: targ '%s' vs targs"), tp->name);
-			for(k = packages; k; k = k->next) {
-				pmpkg_t *otp = (pmpkg_t *)k->data;
-				if(!strcmp(otp->name, tp->name)) {
-					/* a package cannot conflict with itself -- that's just not nice */
-					continue;
-				}
-				if(!strcmp(otp->name, (char *)j->data)) {
-					/* otp is listed in tp's conflict list */
-					_alpm_log(PM_LOG_DEBUG, _("targs vs targs: found %s as a conflict for %s"),
-					          otp->name, tp->name);
-					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, otp->name, NULL);
-					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = alpm_list_add(baddeps, miss);
-					} else {
-						FREE(miss);
-					}
-				} else {
-					/* see if otp provides something in tp's conflict list */ 
-					alpm_list_t *m;
-					for(m = otp->provides; m; m = m->next) {
-						if(!strcmp(m->data, j->data)) {
-							_alpm_log(PM_LOG_DEBUG, _("targs vs targs: found %s as a conflict for %s"),
-							          otp->name, tp->name);
-							miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, otp->name, NULL);
-							if(!_alpm_depmiss_isin(miss, baddeps)) {
-								baddeps = alpm_list_add(baddeps, miss);
-							} else {
-								FREE(miss);
-							}
-						}
-					}
-				}
-			}
-		}
-		/* CHECK 3: check database against targets */
-		_alpm_log(PM_LOG_DEBUG, _("checkconflicts: db vs targ '%s'"), tp->name);
-		for(k = _alpm_db_get_pkgcache(db, INFRQ_DEPENDS); k; k = k->next) {
-			alpm_list_t *conflicts = NULL;
-			int usenewconflicts = 0;
+		baddeps = chk_pkg_vs_db(baddeps, pkg, db);
+		baddeps = chk_pkg_vs_targets(baddeps, pkg, db, packages);
+		baddeps = chk_db_vs_targets(baddeps, pkg, db, packages);
+	}
 
-			info = k->data;
-			if(!strcmp(info->name, tp->name)) {
-				/* a package cannot conflict with itself -- that's just not nice */
-				continue;
-			}
-			/* If this package (*info) is also in our packages alpm_list_t, use the
-			 * conflicts list from the new package, not the old one (*info)
-			 */
-			for(j = packages; j; j = j->next) {
-				pmpkg_t *pkg = j->data;
-				if(!strcmp(pkg->name, info->name)) {
-					/* Use the new, to-be-installed package's conflicts */
-					conflicts = pkg->conflicts;
-					usenewconflicts = 1;
-				}
-			}
-			if(!usenewconflicts) {
-				/* Use the old package's conflicts, it's the only set we have */
-				conflicts = info->conflicts;
-			}
-			for(j = conflicts; j; j = j->next) {
-				if(!strcmp((char *)j->data, tp->name)) {
-					_alpm_log(PM_LOG_DEBUG, _("db vs targs: found %s as a conflict for %s"),
-					          info->name, tp->name);
-					miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, info->name, NULL);
-					if(!_alpm_depmiss_isin(miss, baddeps)) {
-						baddeps = alpm_list_add(baddeps, miss);
-					} else {
-						FREE(miss);
-					}
-				} else {
-					/* see if the db package conflicts with something we provide */
-					alpm_list_t *m;
-					for(m = conflicts; m; m = m->next) {
-						alpm_list_t *n;
-						for(n = tp->provides; n; n = n->next) {
-							if(!strcmp(m->data, n->data)) {
-								_alpm_log(PM_LOG_DEBUG, _("db vs targs: found %s as a conflict for %s"),
-								          info->name, tp->name);
-								miss = _alpm_depmiss_new(tp->name, PM_DEP_TYPE_CONFLICT, PM_DEP_MOD_ANY, info->name, NULL);
-								if(!_alpm_depmiss_isin(miss, baddeps)) {
-									baddeps = alpm_list_add(baddeps, miss);
-								} else {
-									FREE(miss);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+	for(i = baddeps; i; i = i->next) {
+		pmdepmissing_t *miss = i->data;
+		_alpm_log(PM_LOG_DEBUG, _("\tCONFLICTS:: %s conflicts with %s"), miss->target, miss->depend.name);
 	}
 
 	return(baddeps);
 }
+
 
 /* Returns a alpm_list_t* of file conflicts.
  *  Hooray for set-intersects!
@@ -288,8 +338,8 @@ static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
  * functionality that was done inline.
  */
 static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
-                    pmconflicttype_t type, char *filestr, char* name1,
-                    char* name2)
+                    pmconflicttype_t type, const char *filestr,
+										const char* name1, const char* name2)
 {
 	pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 	if(conflict == NULL) {
@@ -349,15 +399,16 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			if(!p2) {
 				continue;
 			}
-			_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s and %s", p1->name, p2->name);
-			tmpfiles = chk_fileconflicts(p1->files, p2->files);
+			_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s and %s",
+								alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
+			tmpfiles = chk_fileconflicts(alpm_pkg_get_files(p1), alpm_pkg_get_files(p2));
 
 			if(tmpfiles) {
 				char path[PATH_MAX];
 				for(k = tmpfiles; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", root, (char *)k->data);
-					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_TARGET,
-					                             path, p1->name, p2->name);
+					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_TARGET, path,
+																			 alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 				}
 				alpm_list_free_inner(tmpfiles, &free);
 				alpm_list_free(tmpfiles);
@@ -373,10 +424,10 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		 * is not currently installed, then simply stat the whole filelist */
 		if(dbpkg) {
 			/* older ver of package currently installed */
-			tmpfiles = chk_filedifference(p1->files, alpm_pkg_get_files(dbpkg));
+			tmpfiles = chk_filedifference(alpm_pkg_get_files(p1), alpm_pkg_get_files(dbpkg));
 		} else {
 			/* no version of package currently installed */
-			tmpfiles = alpm_list_strdup(p1->files);
+			tmpfiles = alpm_list_strdup(alpm_pkg_get_files(p1));
 		}
 
 		/* loop over each file to be installed */

@@ -277,8 +277,8 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 	}
 }
 
-void cb_trans_progress(pmtransprog_t event, char *pkgname, const int percent,
-                       const int howmany, const int remain)
+void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
+                       int howmany, int remain)
 {
 	float timediff;
 

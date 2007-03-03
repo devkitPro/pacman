@@ -256,7 +256,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		if(dep->mod == PM_DEP_MOD_ANY) {
 			equal = 1;
 		} else {
-			int cmp = _alpm_versioncmp(pkg->version, dep->version);
+			int cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), dep->version);
 			switch(dep->mod) {
 				case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
 				case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
@@ -275,11 +275,13 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 
 		if(strlen(dep->version) > 0) {
 			_alpm_log(PM_LOG_DEBUG, _("depcmp: %s-%s %s %s-%s => %s"),
-								pkg->name, pkg->version, mod, dep->name, dep->version,
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+								mod, dep->name, dep->version,
 								(equal ? "match" : "no match"));
 		} else {
 			_alpm_log(PM_LOG_DEBUG, _("depcmp: %s-%s %s %s => %s"),
-								pkg->name, pkg->version, mod, dep->name,
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+								mod, dep->name, 
 								(equal ? "match" : "no match"));
 		}
 	}

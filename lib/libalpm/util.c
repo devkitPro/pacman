@@ -92,7 +92,7 @@ char* strsep(char** str, const char* delims)
 
 /* Backported from Solaris Express 4/06
  * Copyright (c) 2006 Sun Microsystems, Inc. */
-char * mkdtemp(char *template)
+char *mkdtemp(char *template)
 {
 	char *t = alloca(strlen(template) + 1);
 	char *r;
@@ -119,7 +119,7 @@ char * mkdtemp(char *template)
 #endif
 
 /* does the same thing as 'mkdir -p' */
-int _alpm_makepath(char *path)
+int _alpm_makepath(const char *path)
 {
 	char *orig, *str, *ptr;
 	char full[PATH_MAX] = "";
@@ -149,7 +149,7 @@ int _alpm_makepath(char *path)
 	return(0);
 }
 
-int _alpm_copyfile(char *src, char *dest)
+int _alpm_copyfile(const char *src, const char *dest)
 {
 	FILE *in, *out;
 	size_t len;
@@ -184,7 +184,7 @@ char *_alpm_strtoupper(char *str)
 		(*ptr) = toupper(*ptr);
 		ptr++;
 	}
-	return str;
+	return(str);
 }
 
 /* Trim whitespace and newlines from a string
@@ -221,7 +221,7 @@ char *_alpm_strtrim(char *str)
 
 /* Create a lock file
  */
-int _alpm_lckmk(char *file)
+int _alpm_lckmk(const char *file)
 {
 	int fd, count = 0;
 	char *dir, *ptr;
@@ -249,7 +249,7 @@ int _alpm_lckmk(char *file)
 
 /* Remove a lock file
  */
-int _alpm_lckrm(char *file)
+int _alpm_lckrm(const char *file)
 {
 	if(unlink(file) == -1 && errno != ENOENT) {
 		return(-1);
@@ -302,7 +302,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 }
 
 /* does the same thing as 'rm -rf' */
-int _alpm_rmrf(char *path)
+int _alpm_rmrf(const char *path)
 {
 	int errflag = 0;
 	struct dirent *dp;
@@ -370,15 +370,15 @@ int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str)
 	return(0);
 }
 
-int _alpm_ldconfig(char *root)
+int _alpm_ldconfig(const char *root)
 {
 	char line[PATH_MAX];
 	struct stat buf;
 
 	snprintf(line, PATH_MAX, "%setc/ld.so.conf", root);
-	if(!stat(line, &buf)) {
+	if(stat(line, &buf) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
-		if(!stat(line, &buf)) {
+		if(stat(line, &buf) == 0) {
 			char cmd[PATH_MAX];
 			snprintf(cmd, PATH_MAX, "%s -r %s", line, root);
 			system(cmd);
@@ -413,7 +413,9 @@ static int grep(const char *fn, const char *needle)
 	return(0);
 }
 
-int _alpm_runscriptlet(char *root, char *installfn, char *script, char *ver, char *oldver, pmtrans_t *trans)
+int _alpm_runscriptlet(const char *root, const char *installfn,
+											 const char *script, const char *ver,
+											 const char *oldver, pmtrans_t *trans)
 {
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
@@ -589,13 +591,13 @@ int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data)
 			pmsyncpkg_t *sync = i->data;
 			if(sync->type != PM_SYNC_TYPE_REPLACE) {
 				pmpkg_t *pkg = sync->pkg;
-				pkgsize += pkg->isize;
+				pkgsize += alpm_pkg_get_isize(pkg);
 			}
 		}
 		else
 		{
 			pmpkg_t *pkg = i->data;
-			pkgsize += pkg->size;
+			pkgsize += alpm_pkg_get_size(pkg);
 		}
 	}
 	freespace = get_freespace();

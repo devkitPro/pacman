@@ -71,7 +71,7 @@ struct __pmpkg_t {
 	time_t date;
 	pmpkgreason_t reason;
 	/* alpm_list_t *desc_localized;*/
-	alpm_list_t *license;
+	alpm_list_t *licenses;
 	alpm_list_t *replaces;
 	alpm_list_t *groups;
 	alpm_list_t *files;
