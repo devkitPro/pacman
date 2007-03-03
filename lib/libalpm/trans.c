@@ -269,22 +269,22 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 
 	localdb = alpm_option_get_localdb();
 	for(i = depends; i; i = i->next) {
-		pmdepend_t dep;
-		if(_alpm_splitdep(i->data, &dep) != 0) {
+		pmdepend_t* dep = _alpm_splitdep(i->data);
+		if(dep == NULL) {
 			continue;
 		}
-
+	
 		if(trans->packages && trans->type == PM_TRANS_TYPE_REMOVE) {
-			if(_alpm_pkg_find(dep.name, handle->trans->packages)) {
+			if(_alpm_pkg_find(dep->name, handle->trans->packages)) {
 				continue;
 			}
 		}
 
-		pmpkg_t *deppkg = _alpm_db_get_pkgfromcache(localdb, dep.name);
+		pmpkg_t *deppkg = _alpm_db_get_pkgfromcache(localdb, dep->name);
 		if(!deppkg) {
 			int found_provides = 0;
 			/* look for a provides package */
-			alpm_list_t *provides = _alpm_db_whatprovides(localdb, dep.name);
+			alpm_list_t *provides = _alpm_db_whatprovides(localdb, dep->name);
 			for(j = provides; j; j = j->next) {
 				if(!j->data) {
 					continue;
@@ -319,7 +319,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 			FREELISTPTR(provides);
 
 			if(!found_provides) {
-				_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), dep.name);
+				_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), dep->name);
 				continue;
 			}
 		}
@@ -341,6 +341,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 			_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
 								alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
 		}
+		free(dep);
 	}
 	return(0);
 }

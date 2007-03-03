@@ -47,14 +47,14 @@
 #include "conflict.h"
 
 
-/** See if potential conflict 'name' matches package 'pkg'
+/** See if potential conflict 'name' matches package 'pkg'.
  * @param target the name of the parent package we're checking
  * @param depname the name of the dependency we're checking
  * @param pkg the package to check
  * @param conflict the name of the possible conflict
  * @return A depmissing struct indicating the conflict
  * @note The first two paramters are here to simplify the addition
- *			 of new 'depmiss' objects
+ *			 of new 'depmiss' objects.
  *
  * TODO WTF is a 'depmissing' doing indicating a conflict??
  */

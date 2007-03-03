@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <libintl.h>
+#include <wchar.h>
 
 #include <alpm.h>
 /* pacman */
@@ -284,8 +285,9 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	const int infolen = 50;
-	int i, digits, textlen, pkglen;
+	int tmp, digits, oprlen, textlen, pkglen;
 	char *opr = NULL;
+	wchar_t *wcopr = NULL;
 
 	if(config->noprogressbar) {
 		return;
@@ -318,6 +320,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	}
 
 	prevpercent=percent;
+	/* set text of message to display */
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
 			opr = _("installing");
@@ -332,26 +335,31 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			opr = _("checking for file conflicts");
 			break;
 	}
+	/* convert above strings to wide chars */
+	oprlen = strlen(opr);
+	wcopr = (wchar_t*)calloc(oprlen, sizeof(wchar_t));
+	if(!wcopr) {
+		fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
+		        strlen(opr) * sizeof(wchar_t));
+	}
+	oprlen = mbstowcs(wcopr, opr, oprlen);
 
 	/* find # of digits in package counts to scale output */
 	digits = 1;
-	i = howmany;
-	while((i /= 10)) {
+	tmp = howmany;
+	while((tmp /= 10)) {
 		++digits;
 	}
 
 	/* determine room left for non-digits text [not ( 1/12) part] */
 	textlen = infolen - 3 - (2 * digits);
 	/* room left for package name */
-	pkglen = textlen - mbstowcs(NULL, opr, 0) - 1;
+	pkglen = textlen - oprlen - 1;
 
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
 		case PM_TRANS_PROGRESS_UPGRADE_START:
 		case PM_TRANS_PROGRESS_REMOVE_START:
-			/* TODO clean up so digits and pkglen aren't passed twice */
-			/* TODO we may need some sort of wchar_t wprintf output here in order
-			 * to get the lengths right, prinf works on bytes and not chars */
 			printf("(%2$*1$d/%3$*1$d) %4$s %6$-*5$.*5$s", digits, remain, howmany,
 			       opr, pkglen, pkgname);
 			break;
@@ -360,6 +368,8 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			       textlen, opr);
 			break;
 	}
+
+	free(wcopr);
 
 	/* call refactored fill progress function */
 	fill_progress(percent, getcols() - infolen);
