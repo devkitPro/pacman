@@ -769,23 +769,17 @@ else
 		file_type=$(file -biz "$file")
 		unset cmd
 		case "$file_type" in
-			# START REMOVE
-			# TODO remove this with release of file v4.20, temp bugfix
-			*application/empty*)
-			cmd="tar -xf $file"
-			warning "file had trouble detecting type, assuming tar" ;;
-			# END REMOVE
 			*application/x-tar*)
-			cmd="tar -xf $file" ;;
+				cmd="tar -xf $file" ;;
 			*application/x-zip*)
-			unziphack=1
-			cmd="unzip -qqo $file" ;;
+				unziphack=1
+				cmd="unzip -qqo $file" ;;
 			*application/x-cpio*)
-			cmd="bsdtar -x -f $file" ;;
+				cmd="bsdtar -x -f $file" ;;
 			*application/x-gzip*)
-			cmd="gunzip -f $file" ;;
+				cmd="gunzip -f $file" ;;
 			*application/x-bzip*)
-			cmd="bunzip2 -f $file" ;;
+				cmd="bunzip2 -f $file" ;;
 		esac
 		if [ "$cmd" != "" ]; then
 			msg2 "$cmd"
