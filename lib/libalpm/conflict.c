@@ -244,11 +244,13 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 			continue;
 		}
 
+		/* run three different conflict checks on each package */
 		baddeps = chk_pkg_vs_db(baddeps, pkg, db);
 		baddeps = chk_pkg_vs_targets(baddeps, pkg, db, packages);
 		baddeps = chk_db_vs_targets(baddeps, pkg, db, packages);
 	}
 
+	/* debug loop */
 	for(i = baddeps; i; i = i->next) {
 		pmdepmissing_t *miss = i->data;
 		_alpm_log(PM_LOG_DEBUG, _("\tCONFLICTS:: %s conflicts with %s"), miss->target, miss->depend.name);

@@ -277,22 +277,26 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		char pm_install[PATH_MAX];
 		alpm_list_t *files;
 		info = (pmpkg_t*)targ->data;
+		const char *pkgname = NULL;
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			break;
 		}
 
+		/* get the name now so we can use it after package is removed */
+		pkgname = alpm_pkg_get_name(info);
+
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 			_alpm_log(PM_LOG_DEBUG, _("removing package %s-%s"),
-								alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+								pkgname, alpm_pkg_get_version(info));
 
 			/* run the pre-remove scriptlet if it exists  */
 			if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path,
-										alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+				         pkgname, alpm_pkg_get_version(info));
 				_alpm_runscriptlet(handle->root, pm_install, "pre_remove",
-													 alpm_pkg_get_version(info), NULL, trans);
+				                   alpm_pkg_get_version(info), NULL, trans);
 			}
 		}
 
@@ -302,7 +306,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			for(lp = files; lp; lp = lp->next) {
 				if(!can_remove_file(trans, lp->data)) {
 					_alpm_log(PM_LOG_DEBUG, _("not removing package '%s', can't remove all files"),
-										alpm_pkg_get_name(info));
+					          pkgname);
 					RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
 				}
 			}
@@ -320,7 +324,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* run the post-remove script if it exists  */
 			if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path,
-								 alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+				         pkgname, alpm_pkg_get_version(info));
 				_alpm_runscriptlet(handle->root, pm_install, "post_remove",
 													 alpm_pkg_get_version(info), NULL, trans);
 			}
@@ -328,19 +332,20 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 		/* remove the package from the database */
 		_alpm_log(PM_LOG_DEBUG, _("updating database"));
-		_alpm_log(PM_LOG_DEBUG, _("removing database entry '%s'"), alpm_pkg_get_name(info));
+		_alpm_log(PM_LOG_DEBUG, _("removing database entry '%s'"), pkgname);
 		if(_alpm_db_remove(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s"),
-								alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+			          pkgname, alpm_pkg_get_version(info));
 		}
+		/* remove the package from the cache */
 		if(_alpm_db_remove_pkgfromcache(db, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache"), alpm_pkg_get_name(info));
+			_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache"),
+			          pkgname);
 		}
-
-		/* update dependency packages' REQUIREDBY fields */
-		_alpm_trans_update_depends(trans, info);
-
-		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, alpm_pkg_get_name(info), 100, alpm_list_count(trans->packages), (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
+		
+		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
+		         alpm_list_count(trans->packages),
+		         (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 		}

@@ -402,7 +402,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
 			for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 				const char *backup = b->data;
-				_alpm_log(PM_LOG_DEBUG, _("adding %s to the NoUpgrade array temporarilly"), backup);
+				_alpm_log(PM_LOG_DEBUG, _("adding %s to the NoUpgrade array temporarily"), backup);
 				handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
 			}
 
