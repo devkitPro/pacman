@@ -56,25 +56,25 @@ pmhandle_t *_alpm_handle_new()
 #ifndef CYGWIN
 	/* see if we're root or not */
 	handle->uid = geteuid();
-#ifndef FAKEROOT
-	if(!handle->uid && getenv("FAKEROOTKEY")) {
-		/* fakeroot doesn't count, we're non-root */
-		handle->uid = 99;
-	}
-#endif
-
-	/* see if we're root or not (fakeroot does not count) */
-#ifndef FAKEROOT
-	if(handle->uid == 0 && !getenv("FAKEROOTKEY")) {
-		/* } make vim indent work - stupid ifdef's */
-#else
-		if(handle->uid == 0) {
-#endif
-			handle->access = PM_ACCESS_RW;
-		} else {
-			handle->access = PM_ACCESS_RO;
-		}
-#else
+//#ifndef FAKEROOT
+//	if(!handle->uid && getenv("FAKEROOTKEY")) {
+//		/* fakeroot doesn't count, we're non-root */
+//		handle->uid = 99;
+//	}
+//#endif
+//
+//	/* see if we're root or not (fakeroot does not count) */
+//#ifndef FAKEROOT
+//	if(handle->uid == 0 && !getenv("FAKEROOTKEY")) {
+//		/* } make vim indent work - stupid ifdef's */
+//#else
+//		if(handle->uid == 0) {
+//#endif
+//			handle->access = PM_ACCESS_RW;
+//		} else {
+//			handle->access = PM_ACCESS_RO;
+//		}
+//#else
 	handle->access = PM_ACCESS_RW;
 #endif
 
@@ -152,16 +152,27 @@ void SYMEXPORT alpm_option_set_logmask(unsigned short mask) { handle->logmask = 
 void alpm_option_set_root(const char *root)
 {
 	if(handle->root) FREE(handle->root);
-	if(root) {
+	/* According to the man page, realpath is safe to use IFF the second arg is
+	 * NULL. */
+	char *realroot = realpath(root, NULL);
+	if(!realroot) {
+		realroot = root;
+		_alpm_log(PM_LOG_ERROR, _("cannot canonicalize specified root path '%s'"), root);
+	}
+
+	/* check again, in case both are null */
+	if(realroot) {
 		/* verify root ends in a '/' */
-		int rootlen = strlen(root);
-		if(root[rootlen-1] != '/') {
+		int rootlen = strlen(realroot);
+		if(realroot[rootlen-1] != '/') {
 			rootlen += 1;
 		}
 		handle->root = calloc(rootlen+1, sizeof(char));
-		strncpy(handle->root, root, rootlen);
+		strncpy(handle->root, realroot, rootlen);
 		handle->root[rootlen-1] = '/';
 		_alpm_log(PM_LOG_DEBUG, _("option 'root' = %s"), handle->root);
+
+		free(realroot);
 	}
 }
 

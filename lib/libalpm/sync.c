@@ -800,8 +800,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
 			if(stat(ldir, &buf)) {
 				/* no cache directory.... try creating it */
-				_alpm_log(PM_LOG_WARNING, _("no %s cache exists.  creating...\n"), ldir);
-				alpm_logaction(_("warning: no %s cache exists.  creating..."), ldir);
+				_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"), ldir);
+				alpm_logaction(_("warning: no %s cache exists, creating..."), ldir);
 				if(_alpm_makepath(ldir)) {
 					/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
 					 * the package afterwards.
@@ -840,6 +840,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		sha1sum1 = spkg->sha1sum;
 
 		if((md5sum1 == NULL) && (sha1sum1 == NULL)) {
+			/* TODO wtf is this? malloc'd strings for error messages? */
 			if((ptr = (char *)malloc(512)) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
@@ -848,7 +849,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			retval = 1;
 			continue;
 		}
-		snprintf(str, PATH_MAX, "%s/%s/%s", handle->root, handle->cachedir, pkgname);
+		snprintf(str, PATH_MAX, "%s%s%s", handle->root, handle->cachedir, pkgname);
 		md5sum2 = _alpm_MDFile(str);
 		sha1sum2 = _alpm_SHAFile(str);
 		if(md5sum2 == NULL && sha1sum2 == NULL) {
@@ -872,7 +873,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			}
 			if(doremove) {
 				char str[PATH_MAX];
-				snprintf(str, PATH_MAX, "%s%s/%s", handle->root, handle->cachedir, pkgname);
+				snprintf(str, PATH_MAX, "%s%s%s", handle->root, handle->cachedir, pkgname);
 				unlink(str);
 				snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 or SHA1 checksum)\n"), pkgname);
 			} else {
@@ -957,7 +958,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		char str[PATH_MAX];
 
 		fname = alpm_pkg_get_filename(spkg);
-		snprintf(str, PATH_MAX, "%s%s/%s", handle->root, handle->cachedir, fname);
+		snprintf(str, PATH_MAX, "%s%s%s", handle->root, handle->cachedir, fname);
 		if(_alpm_trans_addtarget(tr, str) == -1) {
 			goto error;
 		}

@@ -48,7 +48,7 @@ char* _alpm_MDFile(char *filename)
 	ALPM_LOG_FUNC;
 
 	if((file = fopen(filename, "rb")) == NULL) {
-		printf (_("%s can't be opened\n"), filename);
+		_alpm_log(PM_LOG_ERROR, _("%s can't be opened\n"), filename);
 	} else {
 		char *ret;
 		int i;
@@ -59,28 +59,16 @@ char* _alpm_MDFile(char *filename)
 		}
 		MDFinal(digest, &context);
 		fclose(file);
-		/*printf("MD5 (%s) = ", filename);
-		MDPrint(digest);
-		printf("\n");*/
 
-		ret = (char*)malloc(33);
-		ret[0] = '\0';
+		ret = calloc(33, sizeof(char));
 		for(i = 0; i < 16; i++) {
-			sprintf(ret, "%s%02x", ret, digest[i]);
+			sprintf(ret+(i*2), "%02x", digest[i]);
 		}
 
+		_alpm_log(PM_LOG_DEBUG, _("sha1(%s) = %s"), filename, ret);
 		return(ret);
 	}
 	return(NULL);
-}
-
-/* Prints a message digest in hexadecimal.
- */
-void _alpm_MDPrint(unsigned char digest[16])
-{
-	unsigned int i;
-	for (i = 0; i < 16; i++)
-	printf ("%02x", digest[i]);
 }
 
 /* vim: set ts=2 sw=2 noet: */

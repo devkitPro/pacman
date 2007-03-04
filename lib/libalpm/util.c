@@ -139,6 +139,8 @@ int _alpm_makepath(const char *path)
 				if(mkdir(full, 0755)) {
 					FREE(orig);
 					umask(oldmask);
+					_alpm_log(PM_LOG_ERROR, _("failed to make path '%s' : %s"),
+										path, strerror(errno));
 					return(1);
 				}
 			}

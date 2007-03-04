@@ -386,35 +386,34 @@ documentation and/or software.
 
 
 char* _alpm_SHAFile(char *filename) {
-    FILE *file;
-    struct sha_ctx context;
-    int len, i;
-    unsigned char buffer[1024], digest[20];
-    char *ret;
-    
-		ALPM_LOG_FUNC;
+	FILE *file;
+	struct sha_ctx context;
+	int len, i;
+	unsigned char buffer[1024], digest[20];
+	char *ret;
 
-    if((file = fopen(filename, "rb")) == NULL) {
-	fprintf(stderr, _("%s can't be opened\n"), filename);
-    } else {
-	sha_init_ctx(&context);
-	while((len = fread(buffer, 1, 1024, file))) {
-	    sha_process_bytes(buffer, len, &context);
-	}
-	sha_finish_ctx(&context, digest);
-	fclose(file);
-#ifdef DEBUG
-	SHAPrint(digest);
-#endif
-	ret = (char*)malloc(41);
-	ret[0] = '\0';
-	for(i = 0; i < 20; i++) {
-	    sprintf(ret, "%s%02x", ret, digest[i]);
-	}
-	return(ret);
-    }
+	ALPM_LOG_FUNC;
 
-    return(NULL);
+	if((file = fopen(filename, "rb")) == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("sha1: %s can't be opened\n"), filename);
+	} else {
+		sha_init_ctx(&context);
+		while((len = fread(buffer, 1, 1024, file))) {
+			sha_process_bytes(buffer, len, &context);
+		}
+		sha_finish_ctx(&context, digest);
+		fclose(file);
+
+		ret = (char*)malloc(41);
+		ret[0] = '\0';
+		for(i = 0; i < 20; i++) {
+			sprintf(ret+(i*2), "%02x", digest[i]);
+		}
+		_alpm_log(PM_LOG_DEBUG, _("sha1(%s) = %s"), filename, ret);
+		return(ret);
+	}
+
+	return(NULL);
 }
 
 /* vim: set ts=2 sw=2 noet: */

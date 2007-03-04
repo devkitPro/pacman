@@ -717,7 +717,7 @@ int _alpm_db_getlastupdate(pmdb_t *db, char *ts)
 		return(-1);
 	}
 
-	snprintf(file, PATH_MAX, "%s%s/%s/.lastupdate", handle->root, handle->dbpath, db->treename);
+	snprintf(file, PATH_MAX, "%s%s.lastupdate", handle->root, db->path);
 
 	/* get the last update time, if it's there */
 	if((fp = fopen(file, "r")) == NULL) {
@@ -749,7 +749,7 @@ int _alpm_db_setlastupdate(pmdb_t *db, char *ts)
 		return(-1);
 	}
 
-	snprintf(file, PATH_MAX, "%s%s/%s/.lastupdate", handle->root, handle->dbpath, db->treename);
+	snprintf(file, PATH_MAX, "%s%s.lastupdate", handle->root, db->path);
 
 	if((fp = fopen(file, "w")) == NULL) {
 		return(-1);

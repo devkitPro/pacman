@@ -816,7 +816,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* run the post-install script if it exists  */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 			char pm_install[PATH_MAX];
-			snprintf(pm_install, PATH_MAX, "%s%s/%s/%s-%s/install", handle->root, handle->dbpath, db->treename,
+			snprintf(pm_install, PATH_MAX, "%s%s%s-%s/install", handle->root, db->path,
 							 alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 			if(is_upgrade) {
 				_alpm_runscriptlet(handle->root, pm_install, "post_upgrade",

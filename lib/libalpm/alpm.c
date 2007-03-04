@@ -299,10 +299,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 			_alpm_log(PM_LOG_DEBUG, _("sync: new mtime for %s: %s"), db->treename, newmtime);
 			_alpm_db_setlastupdate(db, newmtime);
 		}
-		snprintf(path, PATH_MAX, "%s%s/%s" PM_EXT_DB, handle->root, handle->dbpath, db->treename);
+		snprintf(path, PATH_MAX, "%s%s%s" PM_EXT_DB, handle->root, handle->dbpath, db->treename);
 
 		/* remove the old dir */
-		_alpm_log(PM_LOG_DEBUG, _("flushing database %s%s"), handle->dbpath, db->treename);
+		_alpm_log(PM_LOG_DEBUG, _("flushing database %s%s"), db->path);
 		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *pkg = lp->data;
 			if(pkg && _alpm_db_remove(db, pkg) == -1) {
