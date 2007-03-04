@@ -236,7 +236,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
 		/* directory doesn't exist or can't be opened */
-		_alpm_log(PM_LOG_ERROR, _("cannot find '%s-%s' in db '%s'"), info->name, info->version, db->treename);
+		_alpm_log(PM_LOG_DEBUG, _("cannot find '%s-%s' in db '%s'"), info->name, info->version, db->treename);
 		return(-1);
 	}
 

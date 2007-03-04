@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-03 09:17+0100\n"
+"POT-Creation-Date: 2007-03-03 23:42-0600\n"
 "PO-Revision-Date: 2007-03-03 09:35+0100\n"
 "Last-Translator: Pierre Schmitz <pierre@archlinux.de>\n"
 "Language-Team: Deutsch <archlinux.de>\n"
@@ -85,8 +85,8 @@ msgid "removing old package first (%s-%s)"
 msgstr "Entferne zuerst altes Paket (%s-%s)"
 
 #: lib/libalpm/add.c:405
-#, c-format
-msgid "adding %s to the NoUpgrade array temporarilly"
+#, fuzzy, c-format
+msgid "adding %s to the NoUpgrade array temporarily"
 msgstr "Füge %s temporär zum NoUpgrade-Array hinzu"
 
 #: lib/libalpm/add.c:423
@@ -178,7 +178,8 @@ msgstr "Aktion: Lasse existierende Datei an ihrem Platz"
 
 #: lib/libalpm/add.c:657
 msgid "action: keeping current file and installing new one with .pacnew ending"
-msgstr "Aktion: Behalte aktuelle Datei und installiere Neue mit der Endung .pacnew"
+msgstr ""
+"Aktion: Behalte aktuelle Datei und installiere Neue mit der Endung .pacnew"
 
 #: lib/libalpm/add.c:660
 #, c-format
@@ -249,18 +250,16 @@ msgid "provision '%s' has been removed from package %s (%s => %s)"
 msgstr "'%s' wird nicht mehr von %s bereitgestellt (%s => %s)"
 
 #: lib/libalpm/add.c:775
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "updating '%s' due to provision change (%s)"
 msgstr "aktualisiere '%s' aufgrund einer Bereitstellungsänderung (%s)"
 
 #: lib/libalpm/add.c:779 lib/libalpm/add.c:780
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "could not update provision '%s' from '%s'"
 msgstr "konnte Bereitstellung '%s' von '%s' nicht aktualisieren"
 
-#: lib/libalpm/add.c:793 lib/libalpm/remove.c:330
+#: lib/libalpm/add.c:793 lib/libalpm/remove.c:337
 msgid "updating database"
 msgstr "Aktualisiere Datenbank"
 
@@ -279,7 +278,7 @@ msgstr "Konnte Datenbankeintrag %s-%s nicht aktualisieren"
 msgid "could not add entry '%s' in cache"
 msgstr "Konnte Eintrag '%s' nicht zum Pufferspeicher hinzufügen"
 
-#: lib/libalpm/add.c:838 lib/libalpm/remove.c:351 lib/libalpm/sync.c:1038
+#: lib/libalpm/add.c:838 lib/libalpm/remove.c:364 lib/libalpm/sync.c:1038
 #, c-format
 msgid "running \"ldconfig -r %s\""
 msgstr "Führe \"ldconfig -r %s\" aus"
@@ -301,7 +300,8 @@ msgstr "Schließe Datenbank '%s'"
 
 #: lib/libalpm/alpm.c:229
 #, c-format
-msgid "adding new server to database '%s': protocol '%s', server '%s', path '%s'"
+msgid ""
+"adding new server to database '%s': protocol '%s', server '%s', path '%s'"
 msgstr ""
 "Füge neuen Server zur Datenbank '%s' hinzu: Protokoll '%s', Server '%s', "
 "Pfad '%s'"
@@ -507,8 +507,10 @@ msgstr "Überspringe ungültigen an _alpm_db_read übergebenen Paket-Eintrag"
 
 #: lib/libalpm/be_files.c:223
 #, c-format
-msgid "request to read database info for a file-based package '%s', skipping..."
-msgstr "Überspringe das Lesen der Datenbank für ein Datei-basiertes Paket '%s'..."
+msgid ""
+"request to read database info for a file-based package '%s', skipping..."
+msgstr ""
+"Überspringe das Lesen der Datenbank für ein Datei-basiertes Paket '%s'..."
 
 #: lib/libalpm/be_files.c:231
 #, c-format
@@ -599,8 +601,7 @@ msgid "   found conflict '%s' : package '%s' provides '%s'"
 msgstr "   Konflikt gefunden '%s' : Paket '%s' stellt '%s' bereit"
 
 #: lib/libalpm/conflict.c:100 lib/libalpm/conflict.c:142
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "package '%s' conflicts with itself - packaging error"
 msgstr "Paket '%s' steht im Konflikt mit sich selbst - Verpackungsfehler"
 
@@ -624,16 +625,16 @@ msgstr "checkconflicts: Datenbank gegen Ziel '%s'"
 msgid "target '%s' is also in target list, using NEW conflicts"
 msgstr "Ziel '%s' ist auch in der Ziel-Liste, benutze neue Konflikte"
 
-#: lib/libalpm/conflict.c:254
+#: lib/libalpm/conflict.c:256
 #, c-format
 msgid "\tCONFLICTS:: %s conflicts with %s"
 msgstr "\tCONFLICTS:: %s steht im Konflikt mit %s"
 
-#: lib/libalpm/conflict.c:346 lib/libalpm/deps.c:57 lib/libalpm/deps.c:619
-#: lib/libalpm/deps.c:659 lib/libalpm/group.c:43 lib/libalpm/handle.c:49
-#: lib/libalpm/package.c:80 lib/libalpm/sync.c:65 lib/libalpm/sync.c:598
-#: lib/libalpm/sync.c:614 lib/libalpm/sync.c:711 lib/libalpm/trans.c:52
-#: lib/libalpm/util.c:609 lib/libalpm/util.c:616
+#: lib/libalpm/conflict.c:348 lib/libalpm/deps.c:57 lib/libalpm/deps.c:435
+#: lib/libalpm/deps.c:631 lib/libalpm/deps.c:671 lib/libalpm/group.c:43
+#: lib/libalpm/handle.c:49 lib/libalpm/package.c:80 lib/libalpm/sync.c:65
+#: lib/libalpm/sync.c:598 lib/libalpm/sync.c:614 lib/libalpm/sync.c:711
+#: lib/libalpm/trans.c:52 lib/libalpm/util.c:609 lib/libalpm/util.c:616
 #, c-format
 msgid "malloc failure: could not allocate %d bytes"
 msgstr "malloc Fehler: Konnte %d Bytes nicht allozieren"
@@ -662,7 +663,8 @@ msgstr "Registriere Datenbank '%s'"
 #: lib/libalpm/db.c:184
 #, c-format
 msgid "database directory '%s' does not exist -- try creating it"
-msgstr "Datenbankverzeichnis '%s' ist nicht vorhanden - Versuche es zu erstellen"
+msgstr ""
+"Datenbankverzeichnis '%s' ist nicht vorhanden - Versuche es zu erstellen"
 
 #: lib/libalpm/db.c:195
 #, c-format
@@ -677,11 +679,11 @@ msgstr "Sortieren von Abhängigkeiten gestartet"
 msgid "possible dependency cycle detected"
 msgstr "möglicher Abhängigkeitszyklus gefunden"
 
-#: lib/libalpm/deps.c:179
+#: lib/libalpm/deps.c:180
 msgid "sorting dependencies finished"
 msgstr "Sortieren von Abhängigkeiten beendet"
 
-#: lib/libalpm/deps.c:222 lib/libalpm/deps.c:303
+#: lib/libalpm/deps.c:222 lib/libalpm/deps.c:307
 msgid "null package found in package list"
 msgstr "ein leeres Paket wurde in der Paketliste gefunden"
 
@@ -690,83 +692,88 @@ msgstr "ein leeres Paket wurde in der Paketliste gefunden"
 msgid "cannot find package installed '%s'"
 msgstr "Konnte installiertes Paket '%s' nicht finden"
 
-#: lib/libalpm/deps.c:255
+#: lib/libalpm/deps.c:258
 #, c-format
 msgid "checkdeps: dependency '%s' has moved from '%s' to '%s'"
 msgstr "checkdeps: Abhängigkeit'%s' wurde von '%s' nach '%s' verschoben"
 
-#: lib/libalpm/deps.c:274
+#: lib/libalpm/deps.c:277
 #, c-format
 msgid "checkdeps: dependency '%s' satisfied by installed package '%s'"
-msgstr "checkdeps: Abhängigkeit '%s' von installiertem Paket '%s' bereitgestellt"
+msgstr ""
+"checkdeps: Abhängigkeit '%s' von installiertem Paket '%s' bereitgestellt"
 
-#: lib/libalpm/deps.c:283
+#: lib/libalpm/deps.c:286
 #, c-format
 msgid "checkdeps: updated '%s' won't satisfy a dependency of '%s'"
-msgstr "checkdeps: aktualisiertes '%s' wird die Abhängigkeit von '%s' nicht zufriedenstellen"
+msgstr ""
+"checkdeps: aktualisiertes '%s' wird die Abhängigkeit von '%s' nicht "
+"zufriedenstellen"
 
-#: lib/libalpm/deps.c:348
+#: lib/libalpm/deps.c:356
 #, c-format
 msgid "missing dependency '%s' for package '%s'"
 msgstr "Abhängigkeit '%s' für Paket '%s' fehlt"
 
-#: lib/libalpm/deps.c:397
+#: lib/libalpm/deps.c:406
 #, c-format
 msgid "checkdeps: found %s as required by %s"
 msgstr "checkdeps: %s wird von %s benötigt"
 
-#: lib/libalpm/deps.c:471
+#: lib/libalpm/deps.c:482
 #, c-format
 msgid "excluding %s -- explicitly installed"
 msgstr "Schließe %s aus -- Ausdrücklich installiert"
 
-#: lib/libalpm/deps.c:518
+#: lib/libalpm/deps.c:529
 #, c-format
 msgid "cannot find package \"%s\" or anything that provides it!"
-msgstr "Kann Paket \"%s\" oder irgendwas, das es zur Verfügung stellt, nicht finden!"
+msgstr ""
+"Kann Paket \"%s\" oder irgendwas, das es zur Verfügung stellt, nicht finden!"
 
-#: lib/libalpm/deps.c:526 lib/libalpm/deps.c:537
+#: lib/libalpm/deps.c:537 lib/libalpm/deps.c:548
 #, c-format
 msgid "adding '%s' to the targets"
 msgstr "Füge '%s' zu der Ziel-Liste hinzu"
 
-#: lib/libalpm/deps.c:568
+#: lib/libalpm/deps.c:580
 msgid "started resolving dependencies"
 msgstr "Starte das Auflösen der Abhängigkeiten"
 
-#: lib/libalpm/deps.c:586
+#: lib/libalpm/deps.c:598
 #, c-format
 msgid "%s provides dependency %s -- skipping"
 msgstr "%s stellt Abhängigkeit %s zur Verfügung -- Überspringe"
 
-#: lib/libalpm/deps.c:615
+#: lib/libalpm/deps.c:627
 #, c-format
-msgid "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
+msgid ""
+"cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
 msgstr ""
 "Kann Abhängigkeiten für \"%s\" nicht auflösen (\"%s\" ist nicht in "
 "Paketliste enthalten)"
 
-#: lib/libalpm/deps.c:632
+#: lib/libalpm/deps.c:644
 #, c-format
 msgid "dependency %s is already in the target list -- skipping"
 msgstr "Abhängigkeit %s ist bereits in Ziel-Liste -- Überspringe"
 
-#: lib/libalpm/deps.c:652
+#: lib/libalpm/deps.c:664
 #, c-format
 msgid "pulling dependency %s (needed by %s)"
 msgstr "Ziehe Abhängigkeit %s (benötigt von %s)"
 
-#: lib/libalpm/deps.c:656
+#: lib/libalpm/deps.c:668
 #, c-format
 msgid "cannot resolve dependencies for \"%s\""
 msgstr "Kann Abhängigkeiten für \"%s\" nicht auflösen"
 
-#: lib/libalpm/deps.c:672
+#: lib/libalpm/deps.c:684
 #, c-format
 msgid "dependency cycle detected: %s"
 msgstr "Abhängigkeitszyklus entdeckt: %s"
 
-#: lib/libalpm/deps.c:676
+#: lib/libalpm/deps.c:688
 msgid "finished resolving dependencies"
 msgstr "Auflösen von Abhängigkeiten beendet"
 
@@ -1052,12 +1059,12 @@ msgstr "Fehlende Paketdaten"
 msgid "missing package filelist in %s, generating one"
 msgstr "Fehlende Paketdateiliste in %s, erstelle eine"
 
-#: lib/libalpm/package.c:559
+#: lib/libalpm/package.c:560
 #, c-format
 msgid "adding '%s' in requiredby field for '%s'"
 msgstr "Füge '%s' zum requiredby Feld für '%s' hinzu"
 
-#: lib/libalpm/package.c:570
+#: lib/libalpm/package.c:571
 #, c-format
 msgid "adding '%s' in requiredby field for '%s' (provides: %s)"
 msgstr "Füge '%s' zum requiredby Feld für '%s' hinzu (stellt bereit: %s)"
@@ -1136,32 +1143,32 @@ msgstr "Lösche %s"
 msgid "cannot remove file %s: %s"
 msgstr "Kann Datei %s nicht entfernen: %s"
 
-#: lib/libalpm/remove.c:287
+#: lib/libalpm/remove.c:291
 #, c-format
 msgid "removing package %s-%s"
 msgstr "Entferne Paket %s-%s"
 
-#: lib/libalpm/remove.c:304
+#: lib/libalpm/remove.c:308
 #, c-format
 msgid "not removing package '%s', can't remove all files"
 msgstr "Paket '%s' wird nicht entfernt, konnte nicht alle Dateien löschen"
 
-#: lib/libalpm/remove.c:311
+#: lib/libalpm/remove.c:315
 #, c-format
 msgid "removing %d files"
 msgstr "Entferne %d Dateien"
 
-#: lib/libalpm/remove.c:331
+#: lib/libalpm/remove.c:338
 #, c-format
 msgid "removing database entry '%s'"
 msgstr "Entferne Datenbankeintrag '%s'"
 
-#: lib/libalpm/remove.c:333
+#: lib/libalpm/remove.c:340
 #, c-format
 msgid "could not remove database entry %s-%s"
 msgstr "Konnte Datenbankeintrag %s-%s nicht entfernen"
 
-#: lib/libalpm/remove.c:337
+#: lib/libalpm/remove.c:345
 #, c-format
 msgid "could not remove entry '%s' from cache"
 msgstr "Konnte Eintrag '%s' nicht aus dem Cache entfernen"
@@ -1365,15 +1372,13 @@ msgid "could not update new database entry %s-%s"
 msgstr "Konnte neuen Datenbankeintrag %s-%s nicht aktualisieren"
 
 #: lib/libalpm/sync.c:1062
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "found package '%s-%s' in sync"
 msgstr "Paket '%s-%s' gefunden"
 
 #: lib/libalpm/sync.c:1068
-#, c-format
-#, fuzzy
-msgid "package '%s not found in sync"
+#, fuzzy, c-format
+msgid "package '%s' not found in sync"
 msgstr "Paket '%s' nicht gefunden"
 
 #: lib/libalpm/trans.c:264
@@ -1383,7 +1388,9 @@ msgstr "Aktualisiere 'requiredby' Felder abhängiger Pakete für %s-%s"
 
 #: lib/libalpm/trans.c:267
 msgid "package has no dependencies, no other packages to update"
-msgstr "Paket besitzt keine Abhängigkeiten, kein anderes Paket muß aktualisiert werden"
+msgstr ""
+"Paket besitzt keine Abhängigkeiten, kein anderes Paket muß aktualisiert "
+"werden"
 
 #: lib/libalpm/trans.c:304 lib/libalpm/trans.c:330
 #, c-format
@@ -1483,4 +1490,3 @@ msgstr "depcmp: %s-%s %s %s-%s => %s"
 #, c-format
 msgid "depcmp: %s-%s %s %s => %s"
 msgstr "depcmp: %s-%s %s %s => %s"
-

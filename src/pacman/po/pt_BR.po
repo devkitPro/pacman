@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-02-22 11:13-0500\n"
+"POT-Creation-Date: 2007-03-03 23:42-0600\n"
 "PO-Revision-Date: 2007-02-15 08:55-0200\n"
 "Last-Translator: Lincoln de Sousa <lincoln@archlinux-br.org>\n"
 "Language-Team: Português do Brasil <pt@li.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/pacman/add.c:69 src/pacman/deptest.c:57 src/pacman/remove.c:79
-#: src/pacman/sync.c:482 src/pacman/sync.c:531
+#: src/pacman/add.c:69 src/pacman/remove.c:79 src/pacman/sync.c:482
+#: src/pacman/sync.c:531
 #, c-format
 msgid ""
 "       if you're sure a package manager is not already running,\n"
@@ -40,10 +40,10 @@ msgstr "carregando informações do pacote... "
 msgid "failed to add target '%s' (%s)"
 msgstr "falha com o parametro'%s' (%s)"
 
-#: src/pacman/add.c:85 src/pacman/sync.c:196 src/pacman/trans.c:70
-#: src/pacman/trans.c:77 src/pacman/trans.c:81 src/pacman/trans.c:91
-#: src/pacman/trans.c:105 src/pacman/trans.c:119 src/pacman/trans.c:131
-#: src/pacman/trans.c:142
+#: src/pacman/add.c:85 src/pacman/sync.c:196 src/pacman/trans.c:71
+#: src/pacman/trans.c:78 src/pacman/trans.c:82 src/pacman/trans.c:92
+#: src/pacman/trans.c:106 src/pacman/trans.c:120 src/pacman/trans.c:132
+#: src/pacman/trans.c:143
 msgid "done.\n"
 msgstr "concluído.\n"
 
@@ -52,27 +52,27 @@ msgstr "concluído.\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "falha ao preparar transação (%s)\n"
 
-#: src/pacman/add.c:97
+#: src/pacman/add.c:101
 #, c-format
 msgid ":: %s: requires %s"
 msgstr ":: %s: requer %s"
 
-#: src/pacman/add.c:118 src/pacman/sync.c:645
+#: src/pacman/add.c:122 src/pacman/sync.c:645
 #, c-format
 msgid ":: %s: conflicts with %s"
 msgstr ":: %s: conflita com %s"
 
-#: src/pacman/add.c:127 src/pacman/sync.c:709
+#: src/pacman/add.c:131 src/pacman/sync.c:709
 #, fuzzy, c-format
-msgid "%s%s exists in both '%s' and '%s'\n"
+msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s%s existe em \"%s\" (pacote) e em \"%s\" (pacote)\n"
 
-#: src/pacman/add.c:134 src/pacman/sync.c:716
-#, c-format
-msgid "%s: %s%s exists in filesystem\n"
+#: src/pacman/add.c:137 src/pacman/sync.c:715
+#, fuzzy, c-format
+msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s%s existe no sistema de arquivos\n"
 
-#: src/pacman/add.c:141 src/pacman/sync.c:723 src/pacman/sync.c:729
+#: src/pacman/add.c:143 src/pacman/sync.c:721 src/pacman/sync.c:727
 msgid ""
 "\n"
 "errors occurred, no packages were upgraded.\n"
@@ -80,50 +80,26 @@ msgstr ""
 "\n"
 "ocorreram alguns erros, portanto, nenhum pacote foi atualizado.\n"
 
-#: src/pacman/add.c:151 src/pacman/sync.c:652
+#: src/pacman/add.c:153 src/pacman/sync.c:652
 #, c-format
 msgid ":: %.1f MB required, have %.1f MB"
 msgstr ":: %.1f MB requerido, possui %.1f MB"
 
-#: src/pacman/add.c:164 src/pacman/remove.c:138 src/pacman/sync.c:702
+#: src/pacman/add.c:166 src/pacman/remove.c:138 src/pacman/sync.c:702
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr "falha ao terminar a transação (%s)\n"
 
-#: src/pacman/add.c:174 src/pacman/remove.c:148 src/pacman/sync.c:524
-#: src/pacman/sync.c:745
+#: src/pacman/add.c:176 src/pacman/remove.c:148 src/pacman/sync.c:524
+#: src/pacman/sync.c:743
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "falha ao liberar a transação (%s)\n"
 
-#: src/pacman/deptest.c:70
-msgid "memory allocation failure\n"
-msgstr "falha de alocação de memória\n"
-
-#: src/pacman/deptest.c:81
-#, c-format
-msgid "add target %s\n"
-msgstr "adicionar pacote %s\n"
-
-#: src/pacman/deptest.c:84
-#, c-format
-msgid "could not add target (%s)\n"
-msgstr "não foi possível adicionar o pacote (%s)\n"
-
-#: src/pacman/deptest.c:103
+#: src/pacman/deptest.c:64
 #, c-format
 msgid "requires: %s"
 msgstr "requer: %s"
-
-#: src/pacman/deptest.c:127
-#, c-format
-msgid "conflict: %s"
-msgstr "conflita: %s"
-
-#: src/pacman/deptest.c:141 src/pacman/deptest.c:159
-#, c-format
-msgid "could not release transaction (%s)"
-msgstr "não foi possível liberar a transação (%s)"
 
 #: src/pacman/log.c:61
 #, c-format
@@ -327,7 +303,7 @@ msgstr "NÃO ENCONTRADO\t\t%s\n"
 msgid "(none)\n"
 msgstr "Nenhum\n"
 
-#: src/pacman/package.c:234
+#: src/pacman/package.c:243
 #, c-format
 msgid "No changelog available for '%s'.\n"
 msgstr "changelog não disponível para '%s'.\n"
@@ -661,62 +637,62 @@ msgid "                       the terms of the GNU General Public License\n"
 msgstr ""
 "                       os termos da Licença GPL - General Public License\n"
 
-#: src/pacman/pacman.c:298
+#: src/pacman/pacman.c:297
 #, c-format
 msgid "'%s' is not a valid debug level"
 msgstr "'%s' não é um nível de depuração válido"
 
-#: src/pacman/pacman.c:313
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "'%s' is not a valid cache directory\n"
 msgstr "'%s' não é um diretório de cache válido\n"
 
-#: src/pacman/pacman.c:339
+#: src/pacman/pacman.c:330
 #, c-format
 msgid "'%s' is not a valid db path\n"
 msgstr "'%s' não é um caminho de base de dados válido\n"
 
-#: src/pacman/pacman.c:369
+#: src/pacman/pacman.c:360
 #, c-format
 msgid "'%s' is not a valid root path\n"
 msgstr "'%s' não é uma caminho válido\n"
 
-#: src/pacman/pacman.c:396
+#: src/pacman/pacman.c:387
 msgid "only one operation may be used at a time\n"
 msgstr "só uma operação pode ser usada de cada vez\n"
 
-#: src/pacman/pacman.c:442
+#: src/pacman/pacman.c:433
 msgid "warning: current locale is invalid; using default \"C\" locale"
 msgstr ""
 
-#: src/pacman/pacman.c:461
+#: src/pacman/pacman.c:452
 #, c-format
 msgid "failed to initilize alpm library (%s)\n"
 msgstr "falha ao iniciar biblioteca alpm (%s)\n"
 
-#: src/pacman/pacman.c:494
+#: src/pacman/pacman.c:485
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "você não pode realizar esta operação a menos que você seja root\n"
 
-#: src/pacman/pacman.c:510
+#: src/pacman/pacman.c:501
 #, c-format
 msgid "failed to parse config (%s)\n"
 msgstr "falha ao interpretar configuração (%s)\n"
 
-#: src/pacman/pacman.c:520 src/pacman/remove.c:125 src/pacman/util.c:323
+#: src/pacman/pacman.c:511 src/pacman/remove.c:125 src/pacman/util.c:323
 msgid "Targets:"
 msgstr "Pacotes:"
 
-#: src/pacman/pacman.c:526
+#: src/pacman/pacman.c:517
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "não foi possível registar a base de dados local (%s)\n"
 
-#: src/pacman/pacman.c:533
+#: src/pacman/pacman.c:524
 msgid "no targets specified (use -h for help)\n"
 msgstr "nenhum arquivo definido (use -h para obter ajuda)\n"
 
-#: src/pacman/pacman.c:546
+#: src/pacman/pacman.c:537
 msgid "no operation specified (use -h for help)\n"
 msgstr "nenhuma operação definida (use -h para obter ajuda)\n"
 
@@ -968,121 +944,127 @@ msgstr ""
 msgid "Proceed with installation? [Y/n] "
 msgstr "Continuar a instalação? [S/n] "
 
-#: src/pacman/trans.c:52
+#: src/pacman/trans.c:53
 msgid "checking dependencies... "
 msgstr "verificando dependências... "
 
-#: src/pacman/trans.c:56
+#: src/pacman/trans.c:57
 msgid "checking for file conflicts... "
 msgstr "verificando conflitos de arquivos... "
 
-#: src/pacman/trans.c:60
+#: src/pacman/trans.c:61
 msgid "cleaning up... "
 msgstr "limpando..."
 
-#: src/pacman/trans.c:63
+#: src/pacman/trans.c:64
 msgid "resolving dependencies... "
 msgstr "resolvendo dependências... "
 
-#: src/pacman/trans.c:66
+#: src/pacman/trans.c:67
 msgid "looking for inter-conflicts... "
 msgstr "procurando por conflitos internos... "
 
-#: src/pacman/trans.c:86
+#: src/pacman/trans.c:87
 #, c-format
 msgid "installing %s... "
 msgstr "instalando %s... "
 
-#: src/pacman/trans.c:93
+#: src/pacman/trans.c:94
 #, c-format
 msgid "installed %s (%s)"
 msgstr "%s instalado (%s)"
 
-#: src/pacman/trans.c:100
+#: src/pacman/trans.c:101
 #, c-format
 msgid "removing %s... "
 msgstr "removendo %s... "
 
-#: src/pacman/trans.c:107
+#: src/pacman/trans.c:108
 #, c-format
 msgid "removed %s (%s)"
 msgstr "%s removido (%s)"
 
-#: src/pacman/trans.c:114
+#: src/pacman/trans.c:115
 #, c-format
 msgid "upgrading %s... "
 msgstr "atualizando %s... "
 
-#: src/pacman/trans.c:121
+#: src/pacman/trans.c:122
 #, c-format
 msgid "upgraded %s (%s -> %s)"
 msgstr "%s atualizado (%s -> %s)"
 
-#: src/pacman/trans.c:128
+#: src/pacman/trans.c:129
 msgid "checking package integrity... "
 msgstr "verificando a integridade do pacote... "
 
-#: src/pacman/trans.c:144
+#: src/pacman/trans.c:145
 msgid "failed.\n"
 msgstr "falhou.\n"
 
-#: src/pacman/trans.c:151
+#: src/pacman/trans.c:152
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Obtendo pacotes do %s...\n"
 
-#: src/pacman/trans.c:171
+#: src/pacman/trans.c:172
 #, c-format
 msgid ":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "
 msgstr ""
 ":: %s requer %s, mas ele está em IgnorePkg. Instalar assim mesmo? [S/n] "
 
-#: src/pacman/trans.c:185
+#: src/pacman/trans.c:177
+#, fuzzy, c-format
+msgid ":: %s is in IgnorePkg. Install anyway? [Y/n] "
+msgstr ""
+":: %s requer %s, mas ele está em IgnorePkg. Instalar assim mesmo? [S/n] "
+
+#: src/pacman/trans.c:190
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
 msgstr ":: %s é designado como um HoldPkg Remover assim mesmo? [S/n] "
 
-#: src/pacman/trans.c:198
+#: src/pacman/trans.c:203
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Substituir %s com %s/%s? [S/n] "
 
-#: src/pacman/trans.c:213
+#: src/pacman/trans.c:218
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
 msgstr ":: %s conflita com %s. Remover %s? [S/n] "
 
-#: src/pacman/trans.c:229
+#: src/pacman/trans.c:234
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ""
 ":: %s-%s: a versão local é mais recente. Deseja atualizar mesmo assim? [S/n] "
 
-#: src/pacman/trans.c:247
+#: src/pacman/trans.c:252
 #, c-format
 msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
 msgstr ""
 ":: %s-%s: a versão local está atualizada. Deseja atualizar mesmo assim? [S/"
 "n] "
 
-#: src/pacman/trans.c:265
+#: src/pacman/trans.c:270
 #, c-format
 msgid ":: Archive %s is corrupted. Do you want to delete it? [Y/n] "
 msgstr ":: Arquivo %s está corrompido. Você gostaria de apagá-lo? [S/n] "
 
-#: src/pacman/trans.c:319
+#: src/pacman/trans.c:326
 msgid "installing"
 msgstr "instalando"
 
-#: src/pacman/trans.c:322
+#: src/pacman/trans.c:329
 msgid "upgrading"
 msgstr "atualizando"
 
-#: src/pacman/trans.c:325
+#: src/pacman/trans.c:332
 msgid "removing"
 msgstr "removendo"
 
-#: src/pacman/trans.c:328
+#: src/pacman/trans.c:335
 msgid "checking for file conflicts"
 msgstr "verificando conflitos de arquivo"
 
@@ -1117,3 +1099,18 @@ msgstr ""
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
 msgstr "Tamanho total da instalação:   %.2f MB\n"
+
+#~ msgid "memory allocation failure\n"
+#~ msgstr "falha de alocação de memória\n"
+
+#~ msgid "add target %s\n"
+#~ msgstr "adicionar pacote %s\n"
+
+#~ msgid "could not add target (%s)\n"
+#~ msgstr "não foi possível adicionar o pacote (%s)\n"
+
+#~ msgid "conflict: %s"
+#~ msgstr "conflita: %s"
+
+#~ msgid "could not release transaction (%s)"
+#~ msgstr "não foi possível liberar a transação (%s)"

@@ -119,8 +119,8 @@ int _alpm_handle_free(pmhandle_t *handle)
 	return(0);
 }
 
-alpm_cb_log alpm_option_get_logcb() { return handle->logcb; }
-alpm_cb_download alpm_option_get_dlcb() { return handle->dlcb; }
+alpm_cb_log alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
+alpm_cb_download alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
 unsigned short alpm_option_get_logmask() { return handle->logmask; }
 const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
 const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }

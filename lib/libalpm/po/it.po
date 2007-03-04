@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-03 16:40+0100\n"
+"POT-Creation-Date: 2007-03-03 23:42-0600\n"
 "PO-Revision-Date: 2007-03-03 17:30+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
@@ -82,8 +82,8 @@ msgid "removing old package first (%s-%s)"
 msgstr "rimozione del vecchio pacchetto (%s-%s) in corso"
 
 #: lib/libalpm/add.c:405
-#, c-format
-msgid "adding %s to the NoUpgrade array temporarilly"
+#, fuzzy, c-format
+msgid "adding %s to the NoUpgrade array temporarily"
 msgstr "aggiunta in corso di %s nell'array temporaneo NoUpgrade"
 
 #: lib/libalpm/add.c:423
@@ -257,7 +257,7 @@ msgstr "aggiornamento in corso di '%s' dovuto ad un cambiamento (%s)"
 msgid "could not update provision '%s' from '%s'"
 msgstr "impossibile aggiornare '%s' da '%s'"
 
-#: lib/libalpm/add.c:793 lib/libalpm/remove.c:330
+#: lib/libalpm/add.c:793 lib/libalpm/remove.c:337
 msgid "updating database"
 msgstr "aggiornamento del database in corso"
 
@@ -276,7 +276,7 @@ msgstr "impossibile aggiornare la voce %s-%s nel database"
 msgid "could not add entry '%s' in cache"
 msgstr "impossible includere la voce '%s' nella cache"
 
-#: lib/libalpm/add.c:838 lib/libalpm/remove.c:351 lib/libalpm/sync.c:1038
+#: lib/libalpm/add.c:838 lib/libalpm/remove.c:364 lib/libalpm/sync.c:1038
 #, c-format
 msgid "running \"ldconfig -r %s\""
 msgstr "esecuzione in corso di \"ldconfig -r %s\""
@@ -605,7 +605,8 @@ msgstr "   trovato il conflitto '%s' : il pacchetto '%s' fornisce '%s'"
 #: lib/libalpm/conflict.c:100 lib/libalpm/conflict.c:142
 #, c-format
 msgid "package '%s' conflicts with itself - packaging error"
-msgstr "il pacchetto '%s' va in conflitto con se stesso - errore di pacchettizzazione"
+msgstr ""
+"il pacchetto '%s' va in conflitto con se stesso - errore di pacchettizzazione"
 
 #: lib/libalpm/conflict.c:106
 #, c-format
@@ -627,12 +628,12 @@ msgstr "checkconflicts: db vs target '%s'"
 msgid "target '%s' is also in target list, using NEW conflicts"
 msgstr "il pacchetto '%s' è già presente nella lista, usando nuovi conflitti"
 
-#: lib/libalpm/conflict.c:254
+#: lib/libalpm/conflict.c:256
 #, c-format
 msgid "\tCONFLICTS:: %s conflicts with %s"
 msgstr "\tCONFLITTI:: %s va in conflitto con %s"
 
-#: lib/libalpm/conflict.c:346 lib/libalpm/deps.c:57 lib/libalpm/deps.c:435
+#: lib/libalpm/conflict.c:348 lib/libalpm/deps.c:57 lib/libalpm/deps.c:435
 #: lib/libalpm/deps.c:631 lib/libalpm/deps.c:671 lib/libalpm/group.c:43
 #: lib/libalpm/handle.c:49 lib/libalpm/package.c:80 lib/libalpm/sync.c:65
 #: lib/libalpm/sync.c:598 lib/libalpm/sync.c:614 lib/libalpm/sync.c:711
@@ -757,7 +758,8 @@ msgstr ""
 #: lib/libalpm/deps.c:644
 #, c-format
 msgid "dependency %s is already in the target list -- skipping"
-msgstr "la dipendenza %s è già presente nella lista dei pacchetti -- verrà ignorata"
+msgstr ""
+"la dipendenza %s è già presente nella lista dei pacchetti -- verrà ignorata"
 
 #: lib/libalpm/deps.c:664
 #, c-format
@@ -1144,32 +1146,32 @@ msgstr "scollegamento in corso da %s"
 msgid "cannot remove file %s: %s"
 msgstr "impossibile rimuovere il file %s: %s"
 
-#: lib/libalpm/remove.c:287
+#: lib/libalpm/remove.c:291
 #, c-format
 msgid "removing package %s-%s"
 msgstr "rimozione in corso del pacchetto %s-%s"
 
-#: lib/libalpm/remove.c:304
+#: lib/libalpm/remove.c:308
 #, c-format
 msgid "not removing package '%s', can't remove all files"
 msgstr "impossibile rimuovere il pacchetto '%s' e tutti i file"
 
-#: lib/libalpm/remove.c:311
+#: lib/libalpm/remove.c:315
 #, c-format
 msgid "removing %d files"
 msgstr "rimozione in corso di %d file"
 
-#: lib/libalpm/remove.c:331
+#: lib/libalpm/remove.c:338
 #, c-format
 msgid "removing database entry '%s'"
 msgstr "rimozione in corso della voce '%s' dal database"
 
-#: lib/libalpm/remove.c:333
+#: lib/libalpm/remove.c:340
 #, c-format
 msgid "could not remove database entry %s-%s"
 msgstr "impossibile rimuovere la voce %s-%s dal database"
 
-#: lib/libalpm/remove.c:337
+#: lib/libalpm/remove.c:345
 #, c-format
 msgid "could not remove entry '%s' from cache"
 msgstr "impossibile rimuovere '%s' dalla cache"
@@ -1384,8 +1386,8 @@ msgid "found package '%s-%s' in sync"
 msgstr "trovato il pacchetto '%s-%s' nel database"
 
 #: lib/libalpm/sync.c:1068
-#, c-format
-msgid "package '%s not found in sync"
+#, fuzzy, c-format
+msgid "package '%s' not found in sync"
 msgstr "impossibile trovare il pacchetto '%s'"
 
 #: lib/libalpm/trans.c:264
