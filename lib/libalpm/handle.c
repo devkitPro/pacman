@@ -155,13 +155,13 @@ void alpm_option_set_root(const char *root)
 	/* According to the man page, realpath is safe to use IFF the second arg is
 	 * NULL. */
 	char *realroot = realpath(root, NULL);
-	if(!realroot) {
-		realroot = root;
+	if(realroot) {
+		root = realroot;
+	} else {
 		_alpm_log(PM_LOG_ERROR, _("cannot canonicalize specified root path '%s'"), root);
 	}
 
-	/* check again, in case both are null */
-	if(realroot) {
+	if(root) {
 		/* verify root ends in a '/' */
 		int rootlen = strlen(realroot);
 		if(realroot[rootlen-1] != '/') {
@@ -172,6 +172,8 @@ void alpm_option_set_root(const char *root)
 		handle->root[rootlen-1] = '/';
 		_alpm_log(PM_LOG_DEBUG, _("option 'root' = %s"), handle->root);
 
+	}
+	if(realroot) {
 		free(realroot);
 	}
 }

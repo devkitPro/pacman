@@ -434,8 +434,9 @@ int main(int argc, char *argv[])
 	}
 
 	/* workaround for tr_TR */
-	if(lang && !strcmp(lang, "tr_TR"))
+	if(lang && !strcmp(lang, "tr_TR")) {
 		setlocale(LC_CTYPE, "C");
+	}
 	bindtextdomain("pacman", "/usr/share/locale");
 	textdomain("pacman");
 
