@@ -1065,7 +1065,7 @@ pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname)
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("package '%s not found in sync"), pkgname);
+	_alpm_log(PM_LOG_DEBUG, _("package '%s' not found in sync"), pkgname);
 	return(NULL); /* not found */
 }
 
