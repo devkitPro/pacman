@@ -37,6 +37,7 @@
 #include <stdarg.h>
 #include <libintl.h>
 /* pacman */
+#include "config.h"
 #include "log.h"
 #include "error.h"
 #include "versioncmp.h"
