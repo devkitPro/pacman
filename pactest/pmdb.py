@@ -219,8 +219,7 @@ class pmdb:
         """
 
         path = os.path.join(self.dbdir, self.treename, pkg.fullname())
-        if not os.path.isdir(path):
-            os.makedirs(path);
+        mkdir(path)
 
         # desc
         # for local db entries: name, version, desc, groups, url, license,
@@ -332,7 +331,7 @@ class pmdb:
             mkdescfile(pkg.fullname(), pkg)
 
         # Generate database archive
-        os.makedirs(path, 0755)
+        mkdir(path)
         archive = os.path.join(path, "%s%s" % (self.treename, PM_EXT_DB))
         os.system("tar zcf %s *" % archive)
 

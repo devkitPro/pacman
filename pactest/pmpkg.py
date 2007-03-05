@@ -33,6 +33,7 @@ class pmpkg:
     """
 
     def __init__(self, name, version = "1.0-1"):
+        self.path = "" #the path of the generated package
         # desc
         self.name = name
         self.version = version
@@ -116,7 +117,7 @@ class pmpkg:
         A package archive is generated in the location 'path', based on the data
         from the object.
         """
-        archive = os.path.join(path, self.filename())
+        self.path = os.path.join(path, self.filename())
 
         curdir = os.getcwd()
         tmpdir = tempfile.mkdtemp()
@@ -172,8 +173,11 @@ class pmpkg:
             os.system("touch .FILELIST")
             targets += " .FILELIST"
 
+        #safely create the dir
+        mkdir(os.path.dirname(self.path))
+
         # Generate package archive
-        os.system("tar zcf %s %s" % (archive, targets))
+        os.system("tar zcf %s %s" % (self.path, targets))
 
         os.chdir(curdir)
         shutil.rmtree(tmpdir)

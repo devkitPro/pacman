@@ -38,6 +38,7 @@ class pmtest:
         self.name = name
         self.testname = os.path.basename(name).replace('.py', '')
         self.root = root
+        self.cachepkgs = True
 
     def __str__(self):
         return "name = %s\n" \
@@ -130,14 +131,15 @@ class pmtest:
             vprint("\t%s" % os.path.join(TMPDIR, pkg.filename()))
             pkg.makepkg(tmpdir)
         for key, value in self.db.iteritems():
-            if key == "local":
-                continue
+            if key == "local": continue
             for pkg in value.pkgs:
-                archive = pkg.filename()
-                vprint("\t%s" % os.path.join(PM_CACHEDIR, archive))
-                pkg.makepkg(cachedir)
-                pkg.md5sum = getmd5sum(os.path.join(cachedir, archive))
-                pkg.csize = os.stat(os.path.join(cachedir, archive))[stat.ST_SIZE]
+                vprint("\t%s" % os.path.join(PM_CACHEDIR, pkg.filename()))
+                if self.cachepkgs:
+                    pkg.makepkg(cachedir)
+                else:
+                    pkg.makepkg(os.path.join(syncdir, value.treename))
+                pkg.md5sum = getmd5sum(pkg.path)
+                pkg.csize = os.stat(pkg.path)[stat.ST_SIZE]
 
         # Populating databases
         vprint("    Populating databases")
@@ -151,8 +153,7 @@ class pmtest:
         # Creating sync database archives
         vprint("    Creating sync database archives")
         for key, value in self.db.iteritems():
-            if key == "local":
-                continue
+            if key == "local": continue
             archive = value.treename + PM_EXT_DB
             vprint("\t" + os.path.join(SYNCREPO, archive))
             value.gensync(os.path.join(syncdir, value.treename))

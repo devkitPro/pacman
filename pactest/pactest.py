@@ -36,7 +36,8 @@ def globTests(option, opt_str, value, parser):
     globlist = []
 
     # maintain the idx so we can modify rargs
-    while not parser.rargs[idx].startswith('-'):
+    while idx < len(parser.rargs) and \
+            not parser.rargs[idx].startswith('-'):
         globlist += glob.glob(parser.rargs[idx])
         idx += 1
 

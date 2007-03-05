@@ -247,6 +247,16 @@ def grep(filename, pattern):
     fd.close()
     return found
 
+def mkdir(dir):
+    if os.path.isdir(dir):
+        return
+    elif os.path.isfile(dir):
+        raise OSError("'%s' already exists and is not a directory" % dir)
+    else:
+        parent, thisdir = os.path.split(dir)
+        if parent: mkdir(parent) #recurse to make all parents
+        print "making dir %s" % thisdir
+        if thisdir: os.mkdir(dir)
 
 if __name__ == "__main__":
     pass

@@ -57,6 +57,7 @@ class pmrule:
                 if not grep(os.path.join(root, LOGFILE), key):
                     success = 0
             else:
+                print "PACMAN rule '%s' not found" % case
                 success = -1
         elif kind == "PKG":
             newpkg = localdb.db_read(key)
@@ -100,6 +101,7 @@ class pmrule:
                     if not found:
                         success = 0
                 else:
+                    print "PKG rule '%s' not found" % case
                     success = -1
         elif kind == "FILE":
             filename = os.path.join(root, key)
@@ -122,8 +124,10 @@ class pmrule:
                     if not os.path.isfile("%s%s" % (filename, PM_PACSAVE)):
                         success = 0
                 else:
+                    print "FILE rule '%s' not found" % case
                     success = -1
         else:
+            print "Rule kind '%s' not found" % kind
             success = -1
 
         if self.false and success != -1:
