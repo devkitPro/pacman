@@ -19,6 +19,8 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
@@ -28,9 +30,10 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
-#include "package.h"
 #include "query.h"
+#include "package.h"
 #include "log.h"
 #include "conf.h"
 #include "sync.h"

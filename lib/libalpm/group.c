@@ -20,16 +20,18 @@
  */
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <libintl.h>
-/* pacman */
+
+/* libalpm */
+#include "group.h"
+#include "alpm_list.h"
 #include "util.h"
 #include "error.h"
 #include "log.h"
-#include "group.h"
-#include "alpm_list.h"
 #include "alpm.h"
 
 pmgrp_t *_alpm_grp_new()

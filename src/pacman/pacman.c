@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
@@ -44,6 +45,7 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
 #include "util.h"
 #include "log.h"

@@ -20,14 +20,16 @@
  */
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
-/* pacman */
-#include "cache.h"
+
+/* libalpm */
+#include "provide.h"
 #include "alpm_list.h"
+#include "cache.h"
 #include "db.h"
 #include "log.h"
-#include "provide.h"
 
 /* return a alpm_list_t of packages in "db" that provide "package"
  */

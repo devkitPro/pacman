@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,10 +33,11 @@
 #include <math.h>
 
 #include <alpm.h>
+
 /* pacman */
+#include "downloadprog.h"
 #include "util.h"
 #include "log.h"
-#include "downloadprog.h"
 #include "conf.h"
 
 /* progress bar */

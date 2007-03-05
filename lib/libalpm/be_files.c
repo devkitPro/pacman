@@ -21,6 +21,7 @@
  */
 
 #include "config.h"
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,10 +37,12 @@
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
-/* pacman */
+
+/* libalpm */
+#include "db.h"
+#include "alpm_list.h"
 #include "log.h"
 #include "util.h"
-#include "db.h"
 #include "alpm.h"
 #include "error.h"
 #include "handle.h"

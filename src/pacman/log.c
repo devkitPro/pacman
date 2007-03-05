@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -28,6 +29,7 @@
 #include <libintl.h>
 
 #include <alpm.h>
+
 /* pacman */
 #include "log.h"
 #include "conf.h"

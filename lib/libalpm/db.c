@@ -23,30 +23,32 @@
  *  USA.
  */
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#include <sys/stat.h>
-#endif
-
 #include "config.h"
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#include <sys/stat.h>
+#endif
 #include <dirent.h>
 #include <libintl.h>
 #include <regex.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
-/* pacman */
+
+/* libalpm */
+#include "db.h"
+#include "alpm_list.h"
 #include "log.h"
 #include "util.h"
 #include "error.h"
 #include "server.h"
-#include "db.h"
 #include "handle.h"
 #include "cache.h"
 #include "alpm.h"

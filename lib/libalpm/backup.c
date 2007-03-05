@@ -23,11 +23,14 @@
  */
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
-/* pacman */
-#include "log.h"
+
+/* libalpm */
 #include "backup.h"
+#include "alpm_list.h"
+#include "log.h"
 #include "util.h"
 
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,

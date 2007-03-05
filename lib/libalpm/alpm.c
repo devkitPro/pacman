@@ -22,6 +22,8 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -36,14 +38,15 @@
 #include <limits.h> /* PATH_MAX */
 #include <stdarg.h>
 #include <libintl.h>
-/* pacman */
-#include "config.h"
+
+/* libalpm */
+#include "alpm.h"
+#include "alpm_list.h"
 #include "log.h"
 #include "error.h"
 #include "versioncmp.h"
 #include "md5.h"
 #include "sha1.h"
-#include "alpm_list.h"
 #include "package.h"
 #include "group.h"
 #include "util.h"
@@ -58,7 +61,6 @@
 #include "handle.h"
 #include "provide.h"
 #include "server.h"
-#include "alpm.h"
 
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 

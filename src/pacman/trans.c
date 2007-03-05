@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,10 +31,11 @@
 #include <wchar.h>
 
 #include <alpm.h>
+
 /* pacman */
+#include "trans.h"
 #include "util.h"
 #include "log.h"
-#include "trans.h"
 #include "conf.h"
 
 #define LOG_STR_LEN 256

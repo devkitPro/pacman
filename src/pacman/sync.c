@@ -19,16 +19,15 @@
  *  USA.
  */
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#include <sys/stat.h>
-#endif
-
 #include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#endif
 #include <unistd.h>
 #include <dirent.h>
 #include <libintl.h>
@@ -41,13 +40,14 @@
 #include <download.h> /* downloadLastErrString */
 /* TODO remove above download.h inclusion once we abstract more, and also
  * remove it from Makefile.am on the pacman side */
+
 /* pacman */
+#include "sync.h"
 #include "util.h"
 #include "log.h"
 #include "downloadprog.h"
 #include "package.h"
 #include "trans.h"
-#include "sync.h"
 #include "conf.h"
 
 extern config_t *config;

@@ -21,8 +21,9 @@
 #ifndef _ALPM_CONFLICT_H
 #define _ALPM_CONFLICT_H
 
-#include "db.h"
 #include "alpm.h"
+#include "db.h"
+#include "package.h"
 
 #define CONFLICT_FILE_LEN 512
 

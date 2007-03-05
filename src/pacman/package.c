@@ -19,6 +19,8 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -28,10 +30,11 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
+#include "package.h"
 #include "log.h"
 #include "util.h"
-#include "package.h"
 
 /* Display the content of an installed package
  *

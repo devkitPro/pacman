@@ -21,6 +21,8 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -29,16 +31,17 @@
 #endif
 #include <libintl.h>
 #include <math.h>
-/* pacman */
+
+/* libalpm */
+#include "deps.h"
+#include "alpm_list.h"
 #include "util.h"
 #include "log.h"
 #include "error.h"
-#include "alpm_list.h"
 #include "package.h"
 #include "db.h"
 #include "cache.h"
 #include "provide.h"
-#include "deps.h"
 #include "versioncmp.h"
 #include "handle.h"
 

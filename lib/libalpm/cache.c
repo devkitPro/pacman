@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,16 +28,17 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <libintl.h>
-/* pacman */
+
+/* libalpm */
+#include "cache.h"
+#include "alpm_list.h"
 #include "log.h"
 #include "alpm.h"
-#include "alpm_list.h"
 #include "util.h"
 #include "error.h"
 #include "package.h"
 #include "group.h"
 #include "db.h"
-#include "cache.h"
 
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.

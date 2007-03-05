@@ -19,15 +19,16 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
-#include "add.h"
 #include "upgrade.h"
+#include "add.h"
 #include "conf.h"
 
 extern config_t *config;

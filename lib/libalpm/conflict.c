@@ -23,28 +23,29 @@
  *  USA.
  */
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
-
 #include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#endif
 #include <sys/stat.h>
 #include <libintl.h>
-/* pacman */
-#include "handle.h"
+
+/* libalpm */
+#include "conflict.h"
 #include "alpm_list.h"
+#include "handle.h"
 #include "trans.h"
 #include "util.h"
 #include "error.h"
 #include "log.h"
 #include "cache.h"
 #include "deps.h"
-#include "conflict.h"
 
 
 /** See if potential conflict 'name' matches package 'pkg'.

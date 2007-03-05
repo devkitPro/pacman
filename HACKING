@@ -1,8 +1,8 @@
 Contributing to pacman
 ======================
 
-Please read 'submitting-patches' and 'translation-help' in the same directory as
-this file.
+Please read 'submitting-patches' and 'translation-help' in the same directory
+as this file.
 
 Coding style
 ------------
@@ -61,5 +61,35 @@ Coding style
     sizeof(alpm_list_t);
        NOT
     sizeof(*mylist);
+
+Other Concerns
+--------------
+
+Currently our #include usage is in messy shape, but this is no reason to
+continue down this messy path. When adding an include to a file, follow this
+general pattern, including blank lines:
+
+#include "config.h"
+
+#include <standardheader.h>
+#include <another.h>
+#include <...>
+
+Follow this with some more headers, depending on whether the file is in libalpm
+or pacman proper. For libalpm:
+
+/* libalpm */
+#include "yourfile.h"
+#include "alpm_list.h"
+#include "anythingelse.h"
+
+For pacman:
+
+#include <alpm.h>
+#include <alpm_list.h>
+
+/* pacman */
+#include "yourfile.h"
+#include "anythingelse.h"
 
 vim: set ts=2 sw=2 et:

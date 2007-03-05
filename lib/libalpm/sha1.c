@@ -22,20 +22,18 @@
       Robert Klep <robert@ilse.nl>  -- Expansion function fix
 */
 
-#ifdef HAVE_CONFIG_H
-# include <config.h>
-#endif
+#include "config.h"
+
+#include <sys/types.h>
+#include <stdlib.h>
+#include <string.h>
 #include <libintl.h>
 
+/* libalpm */
+#include "sha1.h"
 #include "alpm.h"
 #include "log.h"
 #include "util.h"
-#include "sha1.h"
-
-#include <sys/types.h>
-
-#include <stdlib.h>
-#include <string.h>
 
 /*
   Not-swap is a macro that does an endian swap on architectures that are

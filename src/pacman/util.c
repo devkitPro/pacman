@@ -19,16 +19,16 @@
  *  USA.
  */
 
+#include "config.h"
+
 #if defined(__APPLE__) || defined(__OpenBSD__)
 #include <sys/syslimits.h>
 #include <sys/stat.h>
 #endif
-
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
 
-#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,6 +44,7 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
 #include "util.h"
 #include "conf.h"

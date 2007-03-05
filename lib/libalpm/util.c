@@ -23,14 +23,8 @@
  *  USA.
  */
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
-#include <sys/stat.h>
-#endif
-
 #include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef __sun__
@@ -45,6 +39,12 @@
 #include <time.h>
 #include <syslog.h>
 #include <sys/wait.h>
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#endif
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
+#include <sys/stat.h>
+#endif
 #include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
@@ -54,12 +54,12 @@
 #include <mntent.h>
 #endif
 
-/* pacman */
+/* libalpm */
+#include "util.h"
 #include "alpm_list.h"
 #include "log.h"
 #include "trans.h"
 #include "sync.h"
-#include "util.h"
 #include "error.h"
 #include "package.h"
 #include "alpm.h"

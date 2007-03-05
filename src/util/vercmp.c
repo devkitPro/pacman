@@ -19,14 +19,18 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include <limits.h>
+/* TODO this is probably not the best way to do this */
 #ifndef PATH_MAX
 #define PATH_MAX 1024
 #endif
+
 #include <alpm.h>
 
 int main(int argc, char *argv[])

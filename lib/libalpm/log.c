@@ -20,12 +20,14 @@
  */
 
 #include "config.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
-/* pacman */
-#include "alpm.h"
+
+/* libalpm */
 #include "log.h"
+#include "alpm.h"
 
 void _alpm_log(pmloglevel_t flag, char *fmt, ...)
 {

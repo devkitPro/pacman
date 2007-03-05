@@ -23,24 +23,26 @@
  *  USA.
  */
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
-#include <sys/stat.h>
-#endif
-
 #include "config.h"
+
 #include <stdlib.h>
 #include <errno.h>
 #include <time.h>
 #include <fcntl.h>
 #include <string.h>
 #include <limits.h>
+#if defined(__APPLE__) || defined(__OpenBSD__)
+#include <sys/syslimits.h>
+#endif
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
+#include <sys/stat.h>
+#endif
 #include <unistd.h>
 #include <errno.h>
 #include <libintl.h>
-/* pacman */
+
+/* libalpm */
+#include "remove.h"
 #include "alpm_list.h"
 #include "trans.h"
 #include "util.h"
@@ -55,7 +57,6 @@
 #include "cache.h"
 #include "deps.h"
 #include "provide.h"
-#include "remove.h"
 #include "handle.h"
 #include "alpm.h"
 

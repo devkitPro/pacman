@@ -19,6 +19,8 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -26,11 +28,12 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
+#include "remove.h"
 #include "util.h"
 #include "log.h"
 #include "trans.h"
-#include "remove.h"
 #include "conf.h"
 
 extern config_t *config;

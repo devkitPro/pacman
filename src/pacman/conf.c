@@ -19,6 +19,8 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -26,12 +28,13 @@
 #include <libintl.h>
 
 #include <alpm.h>
+
 /* pacman */
+#include "conf.h"
 #include "util.h"
 #include "log.h"
 #include "sync.h"
 #include "downloadprog.h"
-#include "conf.h"
 
 config_t *config_new()
 {

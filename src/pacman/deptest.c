@@ -25,14 +25,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <libintl.h>
+
 #include <alpm.h>
 #include <alpm_list.h>
+
 /* pacman */
+#include "deptest.h"
 #include "util.h"
 #include "conf.h"
 #include "log.h"
 #include "sync.h"
-#include "deptest.h"
 
 extern config_t *config;
 

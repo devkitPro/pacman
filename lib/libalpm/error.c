@@ -22,10 +22,16 @@
  *  USA.
  */
 
+#include "config.h"
+
 #include <libintl.h>
+
+/* libalpm */
+#include "error.h"
 #include "util.h"
 #include "alpm.h"
 
+/* TODO does this really need a file all on its own? */
 char SYMEXPORT *alpm_strerror(int err)
 {
 	switch(err) {

@@ -22,17 +22,19 @@
  */
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include <libintl.h>
-/* pacman */
+
+/* libalpm */
+#include "versioncmp.h"
+#include "alpm_list.h"
 #include "alpm.h"
 #include "log.h"
 #include "util.h"
-#include "alpm_list.h"
-#include "versioncmp.h"
 
 #ifndef HAVE_STRVERSCMP
 /* GNU's strverscmp() function, taken from glibc 2.3.2 sources

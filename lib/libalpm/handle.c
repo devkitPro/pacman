@@ -22,6 +22,7 @@
  */
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -30,15 +31,16 @@
 #include <syslog.h>
 #include <libintl.h>
 #include <time.h>
-/* pacman */
+
+/* libalpm */
+#include "handle.h"
+#include "alpm_list.h"
 #include "util.h"
 #include "log.h"
-#include "alpm_list.h"
 #include "error.h"
 #include "trans.h"
 #include "alpm.h"
 #include "server.h"
-#include "handle.h"
 
 pmhandle_t *_alpm_handle_new()
 {

@@ -19,10 +19,14 @@ documentation and/or software.
  */
 #define MD MD5
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <libintl.h>
+
+/* libalpm */
 #include "alpm.h"
 #include "log.h"
 #include "util.h"

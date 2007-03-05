@@ -21,9 +21,11 @@
 #ifndef _ALPM_HANDLE_H
 #define _ALPM_HANDLE_H
 
+#include <stdio.h> 
+
+#include "alpm_list.h"
 #include "db.h"
 #include "log.h"
-#include "alpm_list.h"
 #include "alpm.h"
 #include "trans.h"
 

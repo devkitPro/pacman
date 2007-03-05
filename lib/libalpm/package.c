@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -33,12 +34,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-/* pacman */
+
+/* libalpm */
 #include "package.h"
+#include "alpm_list.h"
 #include "log.h"
 #include "util.h"
 #include "error.h"
-#include "alpm_list.h"
 #include "db.h"
 #include "cache.h"
 #include "provide.h"

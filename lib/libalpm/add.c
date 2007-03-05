@@ -31,6 +31,7 @@
 #endif
 
 #include "config.h"
+
 #include <stdlib.h>
 #include <errno.h>
 #include <time.h>
@@ -38,7 +39,9 @@
 #include <string.h>
 #include <limits.h>
 #include <libintl.h>
-/* pacman */
+
+/* libalpm */
+#include "add.h"
 #include "alpm_list.h"
 #include "trans.h"
 #include "util.h"
@@ -54,7 +57,6 @@
 #include "provide.h"
 #include "conflict.h"
 #include "deps.h"
-#include "add.h"
 #include "remove.h"
 #include "handle.h"
 
