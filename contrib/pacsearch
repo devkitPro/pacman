@@ -20,6 +20,7 @@
 #TODO: colors flag on commandline
 
 readonly progname="pacsearch"
+readonly version="1.0"
 
 readonly CLR1='\\\e[0;34m'
 readonly CLR2='\\\e[0;32m'
@@ -31,21 +32,36 @@ readonly CLR7='\\\e[1;36m'
 readonly INST='\\\e[1;31m'
 readonly BASE='\\\e[0m'
 
-if [ -z "$1" ]; then
+if [ "$1" = "--help" -o "$1" = "-h" ]; then
 	echo "Usage: $progname <pattern>"
 	echo "Ex:    $progname ^gnome"
 	exit 0
 fi
 
+if [ "$1" = "--version" -o "$1" = "-v" ]; then
+	echo "$progname version $version"
+	echo "Copyright (C) 2006-2007 Dan McGee"
+	exit 0
+fi
+
+if [ -z "$1" -o "${1:0:1}" = "-" ]; then
+	echo "Usage: $progname <pattern>"
+	echo "Ex:    $progname ^gnome"
+	exit 1
+fi
+
+echo "debug 1"
 # Make two temp files and send output of commands to these files
 querydump=$(mktemp)
 pacman -Qs $1 > $querydump
 syncdump=$(mktemp)
 pacman -Ss $1 > $syncdump
+echo "debug 2"
 
 # Strip descriptions and 'local/' from -Qs query
 instpkg=$(mktemp)
 egrep '^[^ ]' $querydump | sed -e 's@^local/@@' > $instpkg
+echo "debug 3"
 
 # Add pkgs not in sync db, mark pkgs that are installed
 cat $instpkg | while read -r pkg; do
@@ -57,6 +73,7 @@ cat $instpkg | while read -r pkg; do
 	sed -i "s@^\(.\+/$pkg\)@\***\1@" $syncdump
 done
 
+echo "debug 4"
 # Print colorized package list and descriptions to screen
 echo -e "$(sed -r \
 	-e "s@current/.*@$CLR1&$BASE@" \
@@ -71,6 +88,7 @@ echo -e "$(sed -r \
 	< $syncdump )"
 echo -en "\e[0m"
 
+echo "debug 5"
 rm $querydump
 rm $syncdump
 rm $instpkg

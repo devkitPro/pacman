@@ -92,7 +92,7 @@ int pacman_query(alpm_list_t *targets)
 	if(config->op_q_search) {
 		alpm_list_t *ret = alpm_db_search(db_local, targets);
 		if(ret == NULL) {
-			return(1);
+			return(0);
 		}
 		for(i = ret; i; i = alpm_list_next(i)) {
 			char *group = NULL;
