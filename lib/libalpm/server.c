@@ -319,8 +319,10 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				char parsedCmd[PATH_MAX] = "";
 				char url[PATH_MAX];
 				char cwd[PATH_MAX];
+
 				/* build the full download url */
-				snprintf(url, PATH_MAX, "%s://%s%s/%s", fileurl->scheme, fileurl->host, fileurl->doc, fn);
+				snprintf(url, PATH_MAX, "%s://%s%s", fileurl->scheme, fileurl->host, fileurl->doc);
+
 				/* replace all occurrences of %o with fn.part */
 				strncpy(origCmd, handle->xfercommand, sizeof(origCmd));
 				ptr1 = origCmd;
@@ -328,8 +330,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					usepart = 1;
 					ptr2[0] = '\0';
 					strcat(parsedCmd, ptr1);
-					strcat(parsedCmd, fn);
-					strcat(parsedCmd, ".part");
+					strcat(parsedCmd, output);
 					ptr1 = ptr2 + 2;
 				}
 				strcat(parsedCmd, ptr1);
@@ -363,10 +364,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					/* download was successful */
 					complete = alpm_list_add(complete, fn);
 					if(usepart) {
-						char fnpart[PATH_MAX];
-						/* rename "output.part" file to "output" file */
-						snprintf(fnpart, PATH_MAX, "%s.part", fn);
-						rename(fnpart, fn);
+						rename(output, realfile);
 					}
 				}
 				chdir(cwd);

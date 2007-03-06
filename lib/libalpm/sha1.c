@@ -387,6 +387,7 @@ char* _alpm_SHAFile(char *filename) {
 	FILE *file;
 	struct sha_ctx context;
 	int len, i;
+	char hex[3];
 	unsigned char buffer[1024], digest[20];
 	char *ret;
 
@@ -405,7 +406,8 @@ char* _alpm_SHAFile(char *filename) {
 		ret = (char*)malloc(41);
 		ret[0] = '\0';
 		for(i = 0; i < 20; i++) {
-			sprintf(ret+(i*2), "%02x", digest[i]);
+			snprintf(hex, 3, "%02x", digest[i]);
+			strncat(ret, hex, 2);
 		}
 		_alpm_log(PM_LOG_DEBUG, _("sha1(%s) = %s"), filename, ret);
 		return(ret);

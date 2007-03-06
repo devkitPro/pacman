@@ -47,6 +47,7 @@ char* _alpm_MDFile(char *filename)
 	FILE *file;
 	MD_CTX context;
 	int len;
+	char hex[3];
 	unsigned char buffer[1024], digest[16];
 
 	ALPM_LOG_FUNC;
@@ -66,10 +67,11 @@ char* _alpm_MDFile(char *filename)
 
 		ret = calloc(33, sizeof(char));
 		for(i = 0; i < 16; i++) {
-			sprintf(ret+(i*2), "%02x", digest[i]);
+			snprintf(hex, 3, "%02x", digest[i]);
+			strncat(ret, hex, 2);
 		}
 
-		_alpm_log(PM_LOG_DEBUG, _("sha1(%s) = %s"), filename, ret);
+		_alpm_log(PM_LOG_DEBUG, _("md5(%s) = %s"), filename, ret);
 		return(ret);
 	}
 	return(NULL);
