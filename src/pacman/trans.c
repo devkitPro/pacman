@@ -171,7 +171,8 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 					*response = 0;
 				}
 			} else if(data2) {
-				snprintf(str, LOG_STR_LEN, _(":: %s requires %s, but it is in IgnorePkg. Install anyway? [Y/n] "),
+				/* TODO we take this route based on data2 being not null? WTF */
+				snprintf(str, LOG_STR_LEN, _(":: %1$s requires %2$s from IgnorePkg. Install %2$s? [Y/n] "),
 				         alpm_pkg_get_name(data1),
 				         alpm_pkg_get_name(data2));
 				*response = yesno(str);
