@@ -51,7 +51,7 @@ typedef struct __config_t {
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
 	unsigned short group;
-	unsigned int flags;
+	pmtransflag_t flags;
 	unsigned short noask;
 	unsigned int ask;
 } config_t;

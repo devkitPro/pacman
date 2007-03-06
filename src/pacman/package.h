@@ -21,6 +21,8 @@
 #ifndef _PM_PACKAGE_H
 #define _PM_PACKAGE_H
 
+#include <alpm.h>
+
 void dump_pkg_full(pmpkg_t *pkg, int level);
 void dump_pkg_sync(pmpkg_t *pkg, const char *treename);
 

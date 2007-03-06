@@ -20,8 +20,9 @@ software for any particular purpose. It is provided "as is"
 without express or implied warranty of any kind.
 
 These notices must be retained in any copies of any part of this
-documentation and/or software.
- */
+documentation and/or software. */
+#ifndef _ALPM_MD5_H
+#define _ALPM_MD5_H
 
 /* POINTER defines a generic pointer type */
 typedef unsigned char *POINTER;
@@ -46,5 +47,7 @@ void _alpm_MD5Final(unsigned char [16], MD5_CTX *);
 
 char* _alpm_MDFile(char *);
 void  _alpm_MDPrint(unsigned char [16]);
+
+#endif /* _ALPM_MD5_H */
 
 /* vim: set ts=2 sw=2 noet: */

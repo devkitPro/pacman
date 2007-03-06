@@ -203,8 +203,8 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			}
 			_alpm_log(PM_LOG_DEBUG, _("using '%s' for download progress"), pkgname);
 
-			snprintf(realfile, PATH_MAX, "%s/%s", localpath, fn);
-			snprintf(output, PATH_MAX, "%s/%s.part", localpath, fn);
+			snprintf(realfile, PATH_MAX, "%s%s", localpath, fn);
+			snprintf(output, PATH_MAX, "%s%s.part", localpath, fn);
 
 			if(alpm_list_find_str(complete, fn)) {
 				continue;

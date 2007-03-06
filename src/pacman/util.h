@@ -25,7 +25,6 @@
 #include <string.h>
 #include <libintl.h>
 
-#include <alpm.h>
 #include <alpm_list.h>
 
 #define MALLOC(p, b) do { \

@@ -21,7 +21,7 @@
 #ifndef _PM_QUERY_H
 #define _PM_QUERY_H
 
-#include <alpm.h>
+#include <alpm_list.h>
 
 int pacman_query(alpm_list_t *targets);
 

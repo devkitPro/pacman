@@ -21,6 +21,8 @@
 #ifndef _PM_TRANS_H
 #define _PM_TRANS_H
 
+#include <alpm.h>
+
 /* callback to handle messages/notifications from pacman transactions */
 void cb_trans_evt(pmtransevt_t event, void *data1, void *data2);
 

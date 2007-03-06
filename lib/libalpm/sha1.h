@@ -15,6 +15,8 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software Foundation,
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+#ifndef _ALPM_SHA1_H
+#define _ALPM_SHA1_H
 
 #include <stdio.h>
 #include <limits.h>
@@ -64,5 +66,7 @@ struct sha_ctx
 
 /* Needed for pacman */
 char *_alpm_SHAFile (char *);
+
+#endif /* _ALPM_SHA1_H */
 
 /* vim: set ts=2 sw=2 noet: */

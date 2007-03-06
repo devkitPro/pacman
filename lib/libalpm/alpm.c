@@ -634,7 +634,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, alpm_list_t* needles)
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_trans_init(pmtranstype_t type, unsigned int flags,
+int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
                     alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress progress)
 {

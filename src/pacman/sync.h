@@ -21,7 +21,7 @@
 #ifndef _PM_SYNC_H
 #define _PM_SYNC_H
 
-#include <alpm.h>
+#include <alpm_list.h>
 
 int pacman_sync(alpm_list_t *targets);
 

@@ -97,7 +97,7 @@ void _alpm_trans_free(void *data)
 	FREE(trans);
 }
 
-int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, unsigned int flags,
+int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress)
 {

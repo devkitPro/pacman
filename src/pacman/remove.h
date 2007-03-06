@@ -21,7 +21,7 @@
 #ifndef _PM_REMOVE_H
 #define _PM_REMOVE_H
 
-#include <alpm.h>
+#include <alpm_list.h>
 
 int pacman_remove(alpm_list_t *targets);
 

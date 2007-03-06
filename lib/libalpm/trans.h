@@ -39,7 +39,7 @@ typedef enum _pmtransstate_t {
 /* Transaction */
 struct __pmtrans_t {
 	pmtranstype_t type;
-	unsigned int flags;
+	pmtransflag_t flags;
 	pmtransstate_t state;
 	alpm_list_t *targets;       /* list of (char *) */
 	alpm_list_t *packages;      /* list of (pmpkg_t *) or (pmsyncpkg_t *) */
@@ -78,7 +78,7 @@ do { \
 
 pmtrans_t *_alpm_trans_new(void);
 void _alpm_trans_free(void *data);
-int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, unsigned int flags,
+int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);
 int _alpm_trans_sysupgrade(pmtrans_t *trans);

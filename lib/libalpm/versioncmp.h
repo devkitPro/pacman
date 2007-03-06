@@ -20,8 +20,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
  *  USA.
  */
-#ifndef _PM_RPMVERCMP_H
-#define _PM_RPMVERCMP_H
+#ifndef _ALPM_VERSIONCMP_H
+#define _ALPM_VERSIONCMP_H
 
 #include "deps.h"
 #include "package.h"
@@ -30,6 +30,6 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 int _alpm_versioncmp(const char *a, const char *b);
 
 
-#endif
+#endif /* _ALPM_VERSIONCMP_H */
 
 /* vim: set ts=2 sw=2 noet: */
