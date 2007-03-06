@@ -621,7 +621,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 									errors++;
 								} else {
 									archive_entry_set_pathname(entry, filename);
-									_alpm_log(PM_LOG_WARNING, _("%s saved as %s.pacorig"), filename, newpath);
+									_alpm_log(PM_LOG_WARNING, _("%s saved as %s"), filename, newpath);
 									alpm_logaction(_("warning: %s saved as %s"), filename, newpath);
 								}
 							}
