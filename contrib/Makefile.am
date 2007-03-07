@@ -3,5 +3,6 @@ EXTRA_DIST = \
 	pacsearch \
 	pacdiff \
 	re-pacman \
-	zsh_completion
+	zsh_completion \
+	README
 
