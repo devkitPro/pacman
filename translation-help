@@ -43,13 +43,21 @@ following command, substituting 'libalpm.pot' or 'pacman.pot' depending on
 which directory you are currently working in:
 	msginit -l <lang code> -o <lang code>.po -i <potfile>
 
+You can then also add your language code to the end of the LINGUAS file located
+in each po directory.
+
 Look at the current message files for more guidance if necessary. Once you
 create the new language file, you may need to slightly modify the headers;
 try to make them look similar to the other .po file headers. In addition, for
 all new translations we would strongly recommend using UTF-8 encoding.
 
+Finally, submitting your translations in patch form is not essential for new
+languages, but highly recommended for future updates to the translations.
+
 Some other notes:
-msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks are ignored- if you need a literal line break, use an '\n' in your string. The following two translations are equivalent:
+msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks
+are ignored- if you need a literal line break, use an '\n' in your string. The
+following two translations are equivalent:
 
 msgstr "This is a test translation"
 

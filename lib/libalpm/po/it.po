@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-06 08:59+0100\n"
+"POT-Creation-Date: 2007-03-07 11:45-0500\n"
 "PO-Revision-Date: 2007-03-06 10:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
@@ -154,10 +154,10 @@ msgstr "impossibile copiare il file temporaneo in %s (%s)"
 msgid "error: could not copy tempfile to %s (%s)"
 msgstr "errore: impossibile copiare il file temporaneo in %s (%s)"
 
-#: lib/libalpm/add.c:624
+#: lib/libalpm/add.c:624 lib/libalpm/remove.c:247
 #, c-format
-msgid "%s saved as %s.pacorig"
-msgstr "%s salvato come %s.pacorig"
+msgid "%s saved as %s"
+msgstr "%s salvato come %s"
 
 #: lib/libalpm/add.c:625
 #, c-format
@@ -1136,11 +1136,6 @@ msgstr "rimozione in corso della directory %s"
 msgid "%s is in trans->skip_remove, skipping removal"
 msgstr "%s è in trans->skip_remove, rimozione ignorata"
 
-#: lib/libalpm/remove.c:247
-#, c-format
-msgid "%s saved as %s"
-msgstr "%s salvato come %s"
-
 #: lib/libalpm/remove.c:250
 #, c-format
 msgid "transaction is set to NOSAVE, not backing up '%s'"
@@ -1524,6 +1519,9 @@ msgstr "depcmp: %s-%s %s %s-%s => %s"
 #, c-format
 msgid "depcmp: %s-%s %s %s => %s"
 msgstr "depcmp: %s-%s %s %s => %s"
+
+#~ msgid "%s saved as %s.pacorig"
+#~ msgstr "%s salvato come %s.pacorig"
 
 #~ msgid "notice: %s is in NoExtract -- skipping extraction"
 #~ msgstr "avviso: %s è in NoExtract -- estrazione ignorata"
