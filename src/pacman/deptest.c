@@ -38,7 +38,7 @@
 
 extern config_t *config;
 
-int chk_package(const char *pkgname, pmdepend_t *dep)
+static int chk_package(const char *pkgname, pmdepend_t *dep)
 {
 	pmpkg_t *pkg;
 	pkg = alpm_db_get_pkg(alpm_option_get_localdb(), pkgname);
