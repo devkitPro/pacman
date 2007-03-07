@@ -552,7 +552,7 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			if(!j->data) {
 				continue;
 			}
-			dep = _alpm_splitdep(j->data);
+			dep = alpm_splitdep(j->data);
 			if(dep == NULL) {
 					continue;
 			}

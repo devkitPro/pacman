@@ -142,7 +142,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 			pmpkg_t *p = i->data;
 			_alpm_log(PM_LOG_DEBUG, "   sorting %s", alpm_pkg_get_name(p));
 			for(j = alpm_pkg_get_depends(p); j; j = j->next) {
-				pmdepend_t *depend = _alpm_splitdep(j->data);
+				pmdepend_t *depend = alpm_splitdep(j->data);
 				pmpkg_t *q = NULL;
 				if(depend == NULL) {
 					continue;
@@ -244,20 +244,20 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				}
 				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
 					/* don't break any existing dependencies (possible provides) */
-					pmdepend_t *depend = _alpm_splitdep(k->data);
+					pmdepend_t *depend = alpm_splitdep(k->data);
 					if(depend == NULL) {
 						continue;
 					}
 
 					/* if oldpkg satisfied this dep, and newpkg doesn't */
-					if(_alpm_depcmp(oldpkg, depend) && !_alpm_depcmp(newpkg, depend)) {
+					if(alpm_depcmp(oldpkg, depend) && !alpm_depcmp(newpkg, depend)) {
 						/* we've found a dep that was removed... see if any other package
 						 * still contains/provides the dep */
 						int satisfied = 0;
 						for(l = packages; l; l = l->next) {
 							pmpkg_t *pkg = l->data;
 
-							if(_alpm_depcmp(pkg, depend)) {
+							if(alpm_depcmp(pkg, depend)) {
 								_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' has moved from '%s' to '%s'"),
 													depend->name, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
 								satisfied = 1;
@@ -276,7 +276,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 									continue;
 								}
 
-								if(_alpm_depcmp(pkg, depend)) {
+								if(alpm_depcmp(pkg, depend)) {
 									_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' satisfied by installed package '%s'"),
 														depend->name, alpm_pkg_get_name(pkg));
 									satisfied = 1;
@@ -313,7 +313,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 
 			for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 				/* split into name/version pairs */
-				pmdepend_t *depend = _alpm_splitdep((char*)j->data);
+				pmdepend_t *depend = alpm_splitdep((char*)j->data);
 				if(depend == NULL) {
 					continue;
 				}
@@ -322,7 +322,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				/* check database for literal packages */
 				for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
 					pmpkg_t *p = (pmpkg_t *)k->data;
-					found = _alpm_depcmp(p, depend);
+					found = alpm_depcmp(p, depend);
 				}
  				/* check database for provides matches */
  				if(!found) {
@@ -345,14 +345,14 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
  							continue;
  						}
 
-						found = _alpm_depcmp(p, depend);
+						found = alpm_depcmp(p, depend);
 					}
 					FREELISTPTR(k);
 				}
  				/* check other targets */
  				for(k = packages; k && !found; k = k->next) {
  					pmpkg_t *p = k->data;
-					found = _alpm_depcmp(p, depend);
+					found = alpm_depcmp(p, depend);
 				}
 				/* else if still not found... */
 				if(!found) {
@@ -424,7 +424,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 	return(baddeps);
 }
 
-pmdepend_t *_alpm_splitdep(const char *depstring)
+pmdepend_t *alpm_splitdep(const char *depstring)
 {
 	pmdepend_t *depend;
 	char *ptr = NULL;
@@ -517,7 +517,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 	for(i = targs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
 		for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
-			pmdepend_t *depend = _alpm_splitdep(j->data);
+			pmdepend_t *depend = alpm_splitdep(j->data);
 			pmpkg_t *deppkg;
 			if(depend == NULL) {
 				continue;

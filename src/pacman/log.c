@@ -184,19 +184,6 @@ int yesno(char *fmt, ...)
 	pm_fprintf(stderr, NL, str); \
 
 	if(fgets(response, 32, stdin)) {
-		/* trim whitespace and newlines */
-		char *pch = response;
-		while(isspace(*pch)) {
-			pch++;
-		}
-		if(pch != response) {
-			memmove(response, pch, strlen(pch) + 1);
-		}
-		pch = response + strlen(response) - 1;
-		while(isspace(*pch)) {
-			pch--;
-		}
-		*++pch = 0;
 		if(strlen(response) != 0) {
 			strtrim(response);
 		}

@@ -38,34 +38,53 @@
 
 extern config_t *config;
 
+int chk_package(const char *pkgname, pmdepend_t *dep)
+{
+	pmpkg_t *pkg;
+	pkg = alpm_db_get_pkg(alpm_option_get_localdb(), pkgname);
+
+	if(!pkg || !alpm_depcmp(pkg, dep)) {
+		return(1);
+	}
+	return(0);
+}
+
 int pacman_deptest(alpm_list_t *targets)
 {
 	int retval = 0;
-	pmdb_t *local;
-	pmpkg_t *pkg;
-	alpm_list_t *i, *provides;
+	alpm_list_t *i;
 
 	if(targets == NULL) {
 		return(0);
 	}
 	
-	local = alpm_option_get_localdb();
-
 	for(i = targets; i; i = alpm_list_next(i)) {
-		const char *pkgname;
-	 
-		pkgname = alpm_list_getdata(i);
-		/* find this package in the local DB */
-		pkg = alpm_db_get_pkg(local, pkgname);
+		int found = 0;
+		pmdepend_t *dep;
+		const char *target;
+		alpm_list_t *j, *provides;
 
-		if(!pkg) {
+		target = alpm_list_getdata(i);
+		dep = alpm_splitdep(target);
+
+		if(chk_package(target, dep) == 0) {
+			found = 1;
+		} else {
 			/* not found, can we find anything that provides this in the local DB? */
-			provides = alpm_db_whatprovides(local, pkgname);
-			if(!provides) {
-				/* nope, must be missing */
-				MSG(NL, _("requires: %s"), pkgname);
-				retval = 1;
+			provides = alpm_db_whatprovides(alpm_option_get_localdb(), target);
+			for(j = provides; j; j = alpm_list_next(j)) {
+				const char *provide;
+				provide = alpm_list_getdata(j);
+
+				if(chk_package(provide, dep) == 0) {
+					found = 1;
+				}
 			}
+		}
+
+		if(!found) {
+			MSG(NL, _("requires: %s"), target);
+			retval = 1;
 		}
 	}
 	return(retval);

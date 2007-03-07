@@ -49,7 +49,6 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages);
-pmdepend_t *_alpm_splitdep(const char *depstring);
 alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs);
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
                       alpm_list_t *list, alpm_list_t *trail, pmtrans_t *trans,

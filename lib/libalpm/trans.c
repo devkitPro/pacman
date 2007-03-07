@@ -272,7 +272,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 
 	localdb = alpm_option_get_localdb();
 	for(i = depends; i; i = i->next) {
-		pmdepend_t* dep = _alpm_splitdep(i->data);
+		pmdepend_t* dep = alpm_splitdep(i->data);
 		if(dep == NULL) {
 			continue;
 		}

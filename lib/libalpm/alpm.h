@@ -375,6 +375,9 @@ typedef enum _pmdeptype_t {
 	PM_DEP_TYPE_CONFLICT
 } pmdeptype_t;
 
+pmdepend_t *alpm_splitdep(const char *depstring);
+int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
+
 const char *alpm_dep_get_target(pmdepmissing_t *miss);
 pmdeptype_t alpm_dep_get_type(pmdepmissing_t *miss);
 pmdepmod_t alpm_dep_get_mod(pmdepmissing_t *miss);
