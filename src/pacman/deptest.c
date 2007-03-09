@@ -38,17 +38,6 @@
 
 extern config_t *config;
 
-static int chk_package(const char *pkgname, pmdepend_t *dep)
-{
-	pmpkg_t *pkg;
-	pkg = alpm_db_get_pkg(alpm_option_get_localdb(), pkgname);
-
-	if(!pkg || !alpm_depcmp(pkg, dep)) {
-		return(1);
-	}
-	return(0);
-}
-
 int pacman_deptest(alpm_list_t *targets)
 {
 	int retval = 0;
@@ -60,32 +49,42 @@ int pacman_deptest(alpm_list_t *targets)
 	
 	for(i = targets; i; i = alpm_list_next(i)) {
 		int found = 0;
+		pmpkg_t *pkg;
 		pmdepend_t *dep;
 		const char *target;
 		alpm_list_t *j, *provides;
 
 		target = alpm_list_getdata(i);
+
+		/* splitdep modifies the string... we'll compensate for now */
+		char *saved_target = NULL;
+		saved_target = calloc(strlen(target)+1, sizeof(char));
+		strncpy(saved_target, target, strlen(target));
+
 		dep = alpm_splitdep(target);
 
-		if(chk_package(target, dep) == 0) {
+		pkg = alpm_db_get_pkg(alpm_option_get_localdb(), target);
+		if(pkg && alpm_depcmp(pkg, dep)) {
 			found = 1;
 		} else {
 			/* not found, can we find anything that provides this in the local DB? */
 			provides = alpm_db_whatprovides(alpm_option_get_localdb(), target);
 			for(j = provides; j; j = alpm_list_next(j)) {
-				const char *provide;
-				provide = alpm_list_getdata(j);
+				pmpkg_t *pkg;
+				pkg = alpm_list_getdata(j);
 
-				if(chk_package(provide, dep) == 0) {
+				if(pkg && alpm_depcmp(pkg, dep)) {
 					found = 1;
+					break;
 				}
 			}
 		}
 
 		if(!found) {
-			MSG(NL, _("requires: %s"), target);
+			MSG(NL, _("requires: %s"), saved_target);
 			retval = 1;
 		}
+		free(saved_target);
 	}
 	return(retval);
 }

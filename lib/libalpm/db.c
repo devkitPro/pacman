@@ -183,7 +183,7 @@ pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback)
 	/* make sure the database directory exists */
 	snprintf(path, PATH_MAX, "%s%s/%s", handle->root, handle->dbpath, treename);
 	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_ERROR, _("database directory '%s' does not exist, try creating it"), path);
+		_alpm_log(PM_LOG_DEBUG, _("database directory '%s' does not exist, creating it"), path);
 		if(_alpm_makepath(path) != 0) {
 			RET_ERR(PM_ERR_SYSTEM, NULL);
 		}

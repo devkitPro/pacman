@@ -169,9 +169,9 @@ static int can_remove_file(pmtrans_t *trans, const char *path)
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
 	if(access(file, W_OK) == -1) {
-		if(access(file, F_OK) == 0) {
-			/* only return failure if the file ACTUALLY exists and we don't have
-			 * permissions */
+		if(errno != EACCES && access(file, F_OK) == 0) {
+			/* only return failure if the file ACTUALLY exists and we can't write to
+			 * it - ignore "chmod -w" simple permission failures */
 			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s"),
 			          file, strerror(errno));
 			return(0);
