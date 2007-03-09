@@ -492,7 +492,7 @@ if [ "$CLEANCACHE" = "1" ]; then
 		read answer
 		answer=$(echo $answer | tr [:upper:] [:lower:])
 		if [ "$answer" = "yes" -o "$answer" = "y" ]; then
-			rm -rf "$SRCDEST"/*
+			rm "$SRCDEST"/*
 			if [ $? -ne 0 ]; then
 				error "Problem removing files; you may not have correct permissions in $SRCDEST"
 				exit 1
@@ -507,8 +507,9 @@ if [ "$CLEANCACHE" = "1" ]; then
 			exit 0
 		fi
 	else
-		# SRCDEST undefined (should never happen)
+		# $SRCDEST is $startdir, two possibilities
 		error "Source destination must be defined in makepkg.conf."
+		plain "In addition, please run makepkg -C outside of your cache directory."
 		exit 1
 	fi
 fi
