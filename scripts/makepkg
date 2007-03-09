@@ -486,16 +486,28 @@ fi
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
-	if [ -n "$SRCDEST" ]; then
-		msg "Cleaning up source files from the cache."
-		rm -rf "$SRCDEST"/*
-		if [ $? -ne 0 ]; then
-			error "Problem removing files; you may not have correct permissions in $SRCDEST"
-			exit 1
+	if [ -n "$SRCDEST" -a "$SRCDEST" != "$startdir" ]; then
+		msg "Cleaning up ALL files from $SRCDEST."
+		echo -n "    Are you sure you wish to do this? [Y/n] "
+		read answer
+		answer=$(echo $answer | tr [:upper:] [:lower:])
+		if [ "$answer" = "yes" -o "$answer" = "y" ]; then
+			rm -rf "$SRCDEST"/*
+			if [ $? -ne 0 ]; then
+				error "Problem removing files; you may not have correct permissions in $SRCDEST"
+				exit 1
+			else
+				# removal worked
+				msg "Source cache cleaned."
+				exit 0
+			fi
 		else
+			# answer = no
+			"No files have been removed."
 			exit 0
 		fi
 	else
+		# SRCDEST undefined (should never happen)
 		error "Source destination must be defined in makepkg.conf."
 		exit 1
 	fi
