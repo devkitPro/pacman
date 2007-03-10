@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-07 11:45-0500\n"
-"PO-Revision-Date: 2007-03-06 10:00+0100\n"
+"POT-Creation-Date: 2007-03-10 20:25+0100\n"
+"PO-Revision-Date: 2007-03-10 21:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "sostituzione in corso della vecchia versione %s-%s con %s"
 #: lib/libalpm/add.c:131
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping"
-msgstr "è presente una versione più recente di %s-%s -- verrà ignorata"
+msgstr "è presente una versione più recente di %s-%s e verrà ignorata"
 
 #: lib/libalpm/add.c:138
 #, c-format
@@ -202,7 +202,7 @@ msgstr "attenzione: %s installato come %s"
 #: lib/libalpm/add.c:680
 #, c-format
 msgid "%s is in NoUpgrade -- skipping"
-msgstr "%s è in NoUpgrade -- verrà ignorato"
+msgstr "%s è in NoUpgrade e verrà ignorato"
 
 #: lib/libalpm/add.c:681
 #, c-format
@@ -469,12 +469,12 @@ msgstr ""
 #: lib/libalpm/alpm.c:1149 lib/libalpm/sync.c:194
 #, c-format
 msgid "'%s' not found in sync db -- skipping"
-msgstr "'%s' non trovato nel database -- ignorato"
+msgstr "impossibile trovare '%s' nel database, verrà ignorato"
 
 #: lib/libalpm/alpm.c:1163 lib/libalpm/sync.c:208 lib/libalpm/sync.c:495
 #, c-format
 msgid "'%s' is already elected for removal -- skipping"
-msgstr "'%s' è già selezionato per la rimozione -- ignorato"
+msgstr "'%s' è già selezionato per la rimozione, verrà ignorato"
 
 #: lib/libalpm/alpm.c:1169
 #, c-format
@@ -665,10 +665,8 @@ msgstr "registrazione del database '%s'"
 
 #: lib/libalpm/db.c:186
 #, c-format
-msgid "database directory '%s' does not exist, try creating it"
-msgstr ""
-"la directory del database '%s' non esiste, verrà fatto un tentativo per "
-"crearla"
+msgid "database directory '%s' does not exist, creating it"
+msgstr "la directory del database '%s' non esiste e verrà creata"
 
 #: lib/libalpm/db.c:197
 #, c-format
@@ -726,7 +724,7 @@ msgstr "checkdeps: trovato %s come richiesto da %s"
 #: lib/libalpm/deps.c:485
 #, c-format
 msgid "excluding %s -- explicitly installed"
-msgstr "esclusione di %s -- installato esplicitamente"
+msgstr "esclusione di %s in corso, installato esplicitamente"
 
 #: lib/libalpm/deps.c:532
 #, c-format
@@ -745,7 +743,7 @@ msgstr "avvio risoluzione delle dipendenze"
 #: lib/libalpm/deps.c:601
 #, c-format
 msgid "%s provides dependency %s -- skipping"
-msgstr "%s fornisce la dipendenza %s -- verrà ignorato"
+msgstr "%s fornisce la dipendenza %s, verrà ignorato"
 
 #: lib/libalpm/deps.c:630
 #, c-format
@@ -759,7 +757,7 @@ msgstr ""
 #, c-format
 msgid "dependency %s is already in the target list -- skipping"
 msgstr ""
-"la dipendenza %s è già presente nella lista dei pacchetti -- verrà ignorata"
+"la dipendenza %s è già presente nella lista dei pacchetti e verrà ignorata"
 
 #: lib/libalpm/deps.c:667
 #, c-format
@@ -1100,7 +1098,7 @@ msgstr "estrazione in corso di %s nella lista dei pacchetti"
 #: lib/libalpm/remove.c:124
 #, c-format
 msgid "could not find %s in database -- skipping"
-msgstr "impossibile trovare %s nel database -- verrà ignorato"
+msgstr "impossibile trovare %s nel database, verrà ignorato"
 
 #: lib/libalpm/remove.c:142
 msgid "finding removable dependencies"
@@ -1208,7 +1206,7 @@ msgstr "ricerca in corso del pacchetto nel repository '%s'"
 #: lib/libalpm/sync.c:270 lib/libalpm/sync.c:293
 #, c-format
 msgid "target '%s' not found -- looking for provisions"
-msgstr "pacchetto '%s' non trovato -- ricerca delle alternative"
+msgstr "pacchetto '%s' non trovato, ricerca delle alternative in corso"
 
 #: lib/libalpm/sync.c:275 lib/libalpm/sync.c:298
 #, c-format
@@ -1223,7 +1221,7 @@ msgstr "impossibile trovare il repository '%s'"
 #: lib/libalpm/sync.c:323
 #, c-format
 msgid "%s-%s is up to date -- skipping"
-msgstr "%s-%s è aggiornato -- verrà ignorato"
+msgstr "%s-%s è aggiornato, verrà ignorato"
 
 #: lib/libalpm/sync.c:346
 #, c-format
@@ -1251,7 +1249,7 @@ msgstr "il pacchetto '%s' va in conflitto con '%s'"
 #: lib/libalpm/sync.c:502
 #, c-format
 msgid "'%s' not found in transaction set -- skipping"
-msgstr "impossibile trovare '%s' -- verrà ignorato"
+msgstr "impossibile trovare '%s', verrà ignorato"
 
 #: lib/libalpm/sync.c:513
 #, c-format
@@ -1261,7 +1259,7 @@ msgstr "il pacchetto '%s' fornisce il suo stesso conflitto"
 #: lib/libalpm/sync.c:536 lib/libalpm/sync.c:541
 #, c-format
 msgid "'%s' is in the target list -- keeping it"
-msgstr "'%s' è nella lista dei pacchetti -- verrà conservato"
+msgstr "'%s' è nella lista dei pacchetti e verrà conservato"
 
 #: lib/libalpm/sync.c:553 lib/libalpm/sync.c:590
 #, c-format
@@ -1294,7 +1292,7 @@ msgstr "qualcosa è andato orribilmente storto"
 #: lib/libalpm/sync.c:698
 #, c-format
 msgid "found '%s' as a provision for '%s' -- conflict aborted"
-msgstr "trovato '%s' come alternativa a '%s' -- conflitto annullato"
+msgstr "trovato '%s' come alternativa a '%s', conflitto annullato"
 
 #: lib/libalpm/sync.c:794
 #, c-format

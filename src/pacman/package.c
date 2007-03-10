@@ -83,7 +83,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 		list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
-	printf(_("Installed Size : %ld K\n"), (long)alpm_pkg_get_size(pkg) / 1024);
+	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
 	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
