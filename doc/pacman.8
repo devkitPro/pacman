@@ -68,6 +68,10 @@ general syntax is shown.
 
 .SH OPTIONS
 .TP
+.B \-b, --dbpath \fIpath\fP
+Specify an alternative database location (default is "/var/lib/pacman/"). This
+should not be used unless you know what you are doing.
+.TP
 .B \-d, --nodeps
 Skips all dependency checks. Normally, pacman will always check a package's
 dependency fields to ensure that all dependencies are installed and there are
@@ -80,15 +84,20 @@ option will cause all those files to be overwritten.  This option should be
 used with care, ideally not at all.
 .TP
 .B \-r, --root \fIpath\fP
-Specify an alternative installation root (default is "/"). However, this should
-\fInot\fP be used as a way to install software into /usr/local instead of /usr,
-for example. This option should be used if you want to install a package on a
-temporary mounted partition, which is "owned" by another system. By using this
-option you not only specify where the software should be installed, but you
-also specify which package database to use.
+Specify an alternative installation root (default is "/"). This should
+\fInot\fP be used as a way to install software into /usr/local instead of /usr.
+This option is used if you want to install a package on a temporary mounted
+partition which is "owned" by another system. By using this option you not only
+specify where the software should be installed, but you also specify which
+package database and cache location to use.
 .TP
 .B \-v, --verbose
 Output more status messages, such as the Root and DBPath.
+.TP
+.B \--cachedir \fIdir\fP
+Specify an alternative package cache location (default is
+"/var/cache/pacman/pkg/"). This should not be used unless you know what you are
+doing.
 .TP
 .B \--config \fIfilepath\fP
 Specify an alternate configuration file.
