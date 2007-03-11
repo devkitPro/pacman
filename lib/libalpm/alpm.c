@@ -1071,7 +1071,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 /* This function is mostly the same as sync.c find_replacements and sysupgrade
  * functions, and we should be able to combine them - this is an interim
  * solution made for -Qu operation */
-alpm_list_t *alpm_get_upgrades()
+alpm_list_t SYMEXPORT *alpm_get_upgrades()
 {
 	alpm_list_t *syncpkgs = NULL;
 	alpm_list_t *i, *j, *k, *m;

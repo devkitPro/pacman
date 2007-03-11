@@ -247,7 +247,7 @@ int _alpm_versioncmp(const char *a, const char *b)
 	return(*one ? 1 : -1);
 }
 
-int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
+int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	int equal = 0;
 

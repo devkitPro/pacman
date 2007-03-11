@@ -427,7 +427,7 @@ int SYMEXPORT alpm_list_count(const alpm_list_t *list)
  *  @param haystack the list to search
  *  @return 1 if `needle` is found, 0 otherwise
  */
-int alpm_list_find(alpm_list_t *haystack, const void *needle)
+int SYMEXPORT alpm_list_find(alpm_list_t *haystack, const void *needle)
 {
 	alpm_list_t *lp = haystack;
 	while(lp) {
@@ -446,7 +446,7 @@ int alpm_list_find(alpm_list_t *haystack, const void *needle)
  *  @param haystack the list to search
  *  @return 1 if `needle` is found, 0 otherwise
  */
-int alpm_list_find_str(alpm_list_t *haystack, const char *needle)
+int SYMEXPORT alpm_list_find_str(alpm_list_t *haystack, const char *needle)
 {
 	alpm_list_t *lp = haystack;
 	while(lp) {

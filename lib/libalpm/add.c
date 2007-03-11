@@ -60,7 +60,7 @@
 #include "remove.h"
 #include "handle.h"
 
-int SYMHIDDEN _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
+int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info = NULL;
 	pmpkg_t *dummy;

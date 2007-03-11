@@ -123,7 +123,7 @@ int _alpm_handle_free(pmhandle_t *handle)
 
 alpm_cb_log alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
 alpm_cb_download alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
-unsigned short alpm_option_get_logmask() { return handle->logmask; }
+unsigned short SYMEXPORT alpm_option_get_logmask() { return handle->logmask; }
 const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
 const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
 const char SYMEXPORT *alpm_option_get_cachedir() { return handle->cachedir; }
@@ -139,7 +139,7 @@ unsigned short alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
 unsigned short SYMEXPORT alpm_option_get_chomp() { return handle->chomp; }
 unsigned short alpm_option_get_usecolor() { return handle->use_color; }
 
-pmdb_t *alpm_option_get_localdb() { return handle->db_local; }
+pmdb_t SYMEXPORT *alpm_option_get_localdb() { return handle->db_local; }
 alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
 {
 	return handle->dbs_sync;
@@ -151,7 +151,7 @@ void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
 
 void SYMEXPORT alpm_option_set_logmask(unsigned short mask) { handle->logmask = mask; }
 
-void alpm_option_set_root(const char *root)
+void SYMEXPORT alpm_option_set_root(const char *root)
 {
 	if(handle->root) FREE(handle->root);
 	/* According to the man page, realpath is safe to use IFF the second arg is
@@ -196,7 +196,7 @@ void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 	}
 }
 
-void alpm_option_set_cachedir(const char *cachedir)
+void SYMEXPORT alpm_option_set_cachedir(const char *cachedir)
 {
 	if(handle->cachedir) FREE(handle->cachedir);
 	if(cachedir) {

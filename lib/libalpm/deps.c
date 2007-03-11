@@ -424,7 +424,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 	return(baddeps);
 }
 
-pmdepend_t *alpm_splitdep(const char *depstring)
+pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 {
 	pmdepend_t *depend;
 	char *ptr = NULL;

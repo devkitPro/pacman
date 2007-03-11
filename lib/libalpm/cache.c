@@ -213,8 +213,8 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 				grp->packages = alpm_list_add_sorted(grp->packages,
 																						 /* gross signature forces us to
 																							* discard const */
-																						 (void *)alpm_pkg_get_name(pkg),
-																						 strcmp);
+																						 (void*)alpm_pkg_get_name(pkg),
+																						 _alpm_str_cmp);
 				db->grpcache = alpm_list_add_sorted(db->grpcache, grp, _alpm_grp_cmp);
 			} else {
 				alpm_list_t *j;
@@ -225,7 +225,9 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 					if(strcmp(grp->name, i->data) == 0) {
 						const char *pkgname = alpm_pkg_get_name(pkg);
 						if(!alpm_list_find_str(grp->packages, pkgname)) {
-							grp->packages = alpm_list_add_sorted(grp->packages, (void *)pkgname, strcmp);
+							grp->packages = alpm_list_add_sorted(grp->packages,
+							                                     (void*)pkgname,
+																									 _alpm_str_cmp);
 						}
 					}
 				}
