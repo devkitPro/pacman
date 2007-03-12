@@ -189,8 +189,7 @@ int pacman_query(alpm_list_t *targets)
 				return(1);
 			}
 			if(config->op_q_info) {
-				dump_pkg_full(info, 0);
-				MSG(NL, "\n");
+				dump_pkg_full(info, config->op_q_info);
 			}
 			if(config->op_q_list) {
 				dump_pkg_files(info);
@@ -260,6 +259,16 @@ int pacman_query(alpm_list_t *targets)
 			}
 
 			/* find a target */
+			if(config->op_q_info) {
+				dump_pkg_full(info, config->op_q_info);
+			}
+			if(config->op_q_list) {
+				dump_pkg_files(info);
+			}
+			if(!config->op_q_info && !config->op_q_list) {
+				MSG(NL, "%s %s\n", alpm_pkg_get_name(info),
+				                   alpm_pkg_get_version(info));
+			}
 			if(config->op_q_changelog) {
 				char changelog[PATH_MAX];
 				snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
@@ -268,16 +277,6 @@ int pacman_query(alpm_list_t *targets)
 								 alpm_pkg_get_name(info),
 								 alpm_pkg_get_version(info));
 				dump_pkg_changelog(changelog, alpm_pkg_get_name(info));
-			} else if(config->op_q_info) {
-				dump_pkg_full(info, config->op_q_info);
-			} else if(config->op_q_list) {
-				dump_pkg_files(info);
-			} else if(config->op_q_orphans) {
-				if(alpm_pkg_get_requiredby(info) == NULL) {
-					MSG(NL, "%s %s\n", alpm_pkg_get_name(info), alpm_pkg_get_version(info));
-				}
-			} else {
-				MSG(NL, "%s %s\n", alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 			}
 		}
 	}
