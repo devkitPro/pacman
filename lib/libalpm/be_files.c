@@ -568,8 +568,9 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 								"%s\n\n", info->packager);
 			}
 			if(info->size) {
+				/* only write installed size, csize is irrelevant once installed */
 				fprintf(fp, "%%SIZE%%\n"
-								"%lu\n\n", info->size);
+								"%lu\n\n", info->isize);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%REASON%%\n"
