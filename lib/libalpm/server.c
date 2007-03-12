@@ -407,7 +407,7 @@ char *_alpm_fetch_pkgurl(char *target)
 		alpm_list_t *servers = alpm_list_add(NULL, server);
 		alpm_list_t *files = alpm_list_add(NULL, filename);
 
-		if(_alpm_downloadfiles(servers, ".", files)) {
+		if(_alpm_downloadfiles(servers, "./", files)) {
 			_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
 			return(NULL);
 		}
