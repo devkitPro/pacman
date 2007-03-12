@@ -23,9 +23,6 @@
 import os, sys, datetime, time, socket, urllib2
 from optparse import OptionParser
 
-# TODO: handle KeyboardInterrupt better, print list of already timed
-#       servers and then exit. Easier if program is function-ized.
-
 def createOptParser():
     usage = "usage: %prog [options] MIRRORFILE | URL"
     description = "Ranks pacman mirrors by their connection and opening " \
@@ -33,27 +30,28 @@ def createOptParser():
             "can also rank one mirror if the URL is provided."
     parser = OptionParser(usage = usage, description = description)
     parser.add_option("-n", type = "int", dest = "num", default = 0,
-            help = "number of servers to output, 0 for all")
+                      help = "number of servers to output, 0 for all")
     parser.add_option("-t", "--times", action = "store_true",
-            dest = "times", default = False,
-            help = "only output mirrors and their response times")
+                      dest = "times", default = False,
+                      help = "only output mirrors and their response times")
     parser.add_option("-u", "--url", action = "store_true", dest = "url",
-             default=False, help="test a specific url")
+                      default = False, help = "test a specific url")
     parser.add_option("-v", "--verbose", action = "store_true",
-            dest = "verbose", default = False, help ="be verbose in output")
+                      dest = "verbose", default = False,
+                      help = "be verbose in ouptut")
     return parser
 
 def timeCmd(cmd):
-    before = time.time();
+    before = time.time()
     try:
-        cmd();
+        cmd()
     except KeyboardInterrupt, ki:
         raise ki
     except socket.timeout, ioe:
         return 'timeout'
     except Exception, e:
         return 'unreachable'
-    return time.time() - before;
+    return time.time() - before
 
 def talkToServer(serverUrl):
     opener = urllib2.build_opener()
@@ -63,9 +61,31 @@ def getFuncToTime(serverUrl):
     return lambda : talkToServer(serverUrl)
 
 def cmpPairBySecond(p1, p2):
-    if p1[1] == p2[1]: return 0
-    if p1[1] < p2[1]: return -1
+    if p1[1] == p2[1]:
+        return 0
+    if p1[1] < p2[1]:
+        return -1
     return 1
+
+def printResults(servers, time, verbose, num):
+    items = servers.items()
+    items.sort(cmpPairBySecond)
+    itemsLen = len(items)
+    numToShow = num
+    if numToShow > itemsLen or numToShow == 0:
+        numToShow = itemsLen
+    if itemsLen > 0:
+        if time:
+            print
+            print ' Servers sorted by time (seconds):'
+            for i in items[0:numToShow]:
+                if i[1] == 'timeout' or i[1] == 'unreachable':
+                    print i[0], ':', i[1]
+                else:
+                    print i[0], ':', "%.2f" % i[1]
+        else:
+            for i in items[0:numToShow]:
+                print 'Server =', i[0]
 
 if __name__ == "__main__":
     parser = createOptParser()
@@ -81,12 +101,18 @@ if __name__ == "__main__":
     if options.url:
         if options.verbose:
             print 'Testing', args[0] + '...'
-        serverToTime = timeCmd(getFuncToTime(args[0]))
-        print args[0], ':', serverToTime
+        try:
+            serverToTime = timeCmd(getFuncToTime(args[0]))
+        except KeyboardInterrupt, ki:
+            sys.exit(1)
+        if serverToTime == 'timeout' or serverToTime == 'unreachable':
+            print args[0], ':', serverToTime
+        else:
+            print args[0], ':', "%.2f" % serverToTime
         sys.exit(0)
 
     if not os.path.isfile(args[0]):
-        print 'file', args[0], 'does not exist.'
+        print >>sys.stderr, 'rankmirrors: file', args[0], 'does not exist.'
         sys.exit(1)
 
     fl = open(args[0], 'r')
@@ -104,36 +130,28 @@ if __name__ == "__main__":
             continue
 
         serverUrl = splitted[1].strip()
-        if serverUrl[-1] == '\n': serverUrl = serverUrl[0:-1]
+        if serverUrl[-1] == '\n':
+            serverUrl = serverUrl[0:-1]
         if options.verbose and options.times:
-            print serverUrl,'...',
+            print serverUrl, '...',
         elif options.verbose:
-            print '#',serverUrl,'...',
+            print '#', serverUrl, '...',
         elif options.times:
             print ' * ',
         sys.stdout.flush()
-        serverToTime[serverUrl] = timeCmd(getFuncToTime(serverUrl))
-        if options.verbose:
-            try:
-                print "%.2f" % serverToTime[serverUrl]
-            except:
-                print serverToTime[serverUrl]
-
-    items = serverToTime.items()
-    items.sort(cmpPairBySecond)
-    numToShow = int(options.num)
-    if numToShow == 0: numToShow = len(items)
-    if len(items) > 0:
-        if options.times:
-            print
-            print ' Servers sorted by time (seconds):'
-            for i in items[0:numToShow]:
+        try:
+            serverToTime[serverUrl] = timeCmd(getFuncToTime(serverUrl))
+            if options.verbose:
                 try:
-                    print "%.2f" % i[1], ':', i[0]
+                    print "%.2f" % serverToTime[serverUrl]
                 except:
-                    print i[1], ':', i[0]
-        else:
-            for i in items[0:numToShow]:
-                print 'Server =', i[0]
+                    print serverToTime[serverUrl]
+        except:
+            print
+            printResults(serverToTime, options.times, options.verbose,
+                         options.num)
+            sys.exit(0)
+
+    printResults(serverToTime, options.times, options.verbose, options.num)
 
 # vim: set ts=4 sw=4 et:

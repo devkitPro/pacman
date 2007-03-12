@@ -33,7 +33,8 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_DEPENDS = 0x04,
 	INFRQ_FILES = 0x08,
 	INFRQ_SCRIPTLET = 0x10,
-	INFRQ_ALL = 0xFF
+	/* ALL should be sum of all above */
+	INFRQ_ALL = 0x1F
 } pmdbinfrq_t;
 
 /* Database */

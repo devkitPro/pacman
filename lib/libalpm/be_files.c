@@ -227,7 +227,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		return(-1);
 	}
 
-	if(info->infolevel & inforeq) {
+	/* bitmask logic here:
+	 * infolevel: 00001111
+	 * inforeq:   00010100
+	 * & result:  00000100
+	 * == to inforeq? nope, we need to load more info. */
+	if((info->infolevel & inforeq) == inforeq) {
 		/* already loaded this info, do nothing */
 		return(0);
 	}

@@ -8,7 +8,7 @@ include_HEADERS = alpm_list.h alpm.h
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-AM_CFLAGS = -fvisibility=hidden -pedantic -D_GNU_SOURCE $(CFLAGS)
+AM_CFLAGS = -fvisibility=hidden -pedantic -D_GNU_SOURCE
 
 EXTRA_DIST = Doxyfile
 
