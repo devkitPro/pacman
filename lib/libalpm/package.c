@@ -540,6 +540,7 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 {
 	alpm_list_t *i, *j, *k;
+	const char *pkgname = alpm_pkg_get_name(pkg);
 
 	pmdb_t *localdb = alpm_option_get_localdb();
 	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {
@@ -547,6 +548,8 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			continue;
 		}
 		pmpkg_t *cachepkg = i->data;
+		const char *cachepkgname = alpm_pkg_get_name(cachepkg);
+
 		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
 			pmdepend_t *dep;
 			if(!j->data) {
@@ -558,23 +561,29 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			}
 			
 			/* check the actual package itself */
-			if(strcmp(dep->name, alpm_pkg_get_name(pkg)) == 0) {
-				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
-									cachepkg->name, pkg->name);
+			if(strcmp(dep->name, pkgname) == 0) {
 				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-				reqs = alpm_list_add(reqs, strdup(alpm_pkg_get_name(cachepkg)));
-				pkg->requiredby = reqs;
+
+				if(!alpm_list_find_str(reqs, cachepkgname)) {
+					_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
+					          cachepkgname, pkg->name);
+					reqs = alpm_list_add(reqs, strdup(cachepkgname));
+					pkg->requiredby = reqs;
+				}
 			}
 
 			/* check for provisions as well */
 			for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
 				const char *provname = k->data;
 				if(strcmp(dep->name, provname) == 0) {
-					_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s' (provides: %s)"),
-										alpm_pkg_get_name(cachepkg), alpm_pkg_get_name(pkg), provname);
 					alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-					reqs = alpm_list_add(reqs, strdup(alpm_pkg_get_name(cachepkg)));
-					pkg->requiredby = reqs;
+
+					if(!alpm_list_find_str(reqs, cachepkgname)) {
+						_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s' (provides: %s)"),
+						          cachepkgname, pkgname, provname);
+						reqs = alpm_list_add(reqs, strdup(cachepkgname));
+						pkg->requiredby = reqs;
+					}
 				}
 			}
 			free(dep);

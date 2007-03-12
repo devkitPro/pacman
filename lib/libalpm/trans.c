@@ -254,6 +254,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *depends = NULL;
+	const char *pkgname;
 	pmdb_t *localdb;
 
 	ALPM_LOG_FUNC;
@@ -262,10 +263,12 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
+	pkgname = alpm_pkg_get_name(pkg);
 	depends = alpm_pkg_get_depends(pkg);
+
 	if(depends) {
 		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields for %s-%s"),
-							pkg->name, pkg->version);
+		          pkgname, pkg->version);
 	} else {
 		_alpm_log(PM_LOG_DEBUG, _("package has no dependencies, no other packages to update"));
 	}
@@ -302,16 +305,20 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 				found_provides = 1;
 
 				/* this is cheating... we call this function to populate the package */
-				alpm_pkg_get_requiredby(deppkg);
+				alpm_list_t *rqdby = alpm_pkg_get_requiredby(deppkg);
 
-				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), alpm_pkg_get_name(deppkg));
+				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"),
+				          alpm_pkg_get_name(deppkg));
 				if(trans->type == PM_TRANS_TYPE_REMOVE) {
 					void *data = NULL;
-					deppkg->requiredby = alpm_list_remove(deppkg->requiredby,
-																								alpm_pkg_get_name(pkg), _alpm_str_cmp, &data);
+					rqdby = alpm_list_remove(rqdby,	pkgname, _alpm_str_cmp, &data);
 					FREE(data);
+					deppkg->requiredby = rqdby;
 				} else {
-					deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(alpm_pkg_get_name(pkg)));
+					if(!alpm_list_find_str(rqdby, pkgname)) {
+						rqdby = alpm_list_add(rqdby, strdup(pkgname));
+						deppkg->requiredby = rqdby;
+					}
 				}
 
 				if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
@@ -328,16 +335,20 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 		}
 
 		/* this is cheating... we call this function to populate the package */
-		alpm_pkg_get_requiredby(deppkg);
+		alpm_list_t *rqdby = alpm_pkg_get_requiredby(deppkg);
 
-		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"), deppkg->name);
+		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"),
+		          alpm_pkg_get_name(deppkg));
 		if(trans->type == PM_TRANS_TYPE_REMOVE) {
 			void *data = NULL;
-			deppkg->requiredby = alpm_list_remove(deppkg->requiredby,
-																						alpm_pkg_get_name(pkg), _alpm_str_cmp, &data);
+			rqdby = alpm_list_remove(rqdby, pkgname, _alpm_str_cmp, &data);
 			FREE(data);
+			deppkg->requiredby = rqdby;
 		} else {
-			deppkg->requiredby = alpm_list_add(deppkg->requiredby, strdup(alpm_pkg_get_name(pkg)));
+			if(!alpm_list_find_str(rqdby, pkgname)) {
+				rqdby = alpm_list_add(rqdby, strdup(pkgname));
+				deppkg->requiredby = rqdby;
+			}
 		}
 
 		if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
