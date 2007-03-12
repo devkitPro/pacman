@@ -535,7 +535,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 				for(k = provides; k; k = k->next) {
 					pmpkg_t *provpkg = k->data;
 					if(can_remove_package(db, provpkg, newtargs)) {
-						pmpkg_t *pkg = _alpm_pkg_new(alpm_pkg_get_name(provpkg), alpm_pkg_get_version(provpkg));
+						pmpkg_t *pkg = _alpm_pkg_dup(provpkg);
 
 						_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), alpm_pkg_get_name(pkg));
 
@@ -546,7 +546,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 				}
 				FREELISTPTR(provides);
 			} else if(can_remove_package(db, deppkg, newtargs)) {
-				pmpkg_t *pkg = _alpm_pkg_new(deppkg->name, deppkg->version);
+				pmpkg_t *pkg = _alpm_pkg_dup(deppkg);
 
 				_alpm_log(PM_LOG_DEBUG, _("adding '%s' to the targets"), alpm_pkg_get_name(pkg));
 
