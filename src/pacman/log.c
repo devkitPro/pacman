@@ -134,7 +134,7 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 	fprintf(file, str);
 
 	if(needpad == 1) {
-		unsigned int i, cols = getcols();
+		int i, cols = getcols();
 		for(i=len; i < cols; ++i) {
 			fprintf(file, " ");
 		}

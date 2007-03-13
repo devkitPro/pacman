@@ -53,7 +53,7 @@
 extern config_t *config;
 
 /* gets the current screen column width */
-unsigned int getcols()
+int getcols()
 {
 	if(!isatty(1)) {
 		/* We will default to 80 columns if we're not a tty
@@ -161,10 +161,10 @@ int rmrf(char *path)
 
 /* output a string, but wrap words properly with a specified indentation
  */
-void indentprint(const char *str, unsigned int indent)
+void indentprint(const char *str, int indent)
 {
 	const char *p = str;
-	unsigned int cidx = indent;
+	int cidx = indent;
 
 	while(*p) {
 		if(*p == ' ') {
@@ -177,9 +177,9 @@ void indentprint(const char *str, unsigned int indent)
 				next = p + strlen(p);
 			}
 			len = next - p;
-			if(len > (getcols()-cidx-1)) {
+			if(len > (getcols() - cidx - 1)) {
 				/* newline */
-				unsigned int i;
+				int i;
 				fprintf(stdout, "\n");
 				for(i = 0; i < indent; i++) {
 					fprintf(stdout, " ");
@@ -242,7 +242,7 @@ void list_display(const char *title, alpm_list_t *list)
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
 			int s = strlen(str) + 2;
-			unsigned int maxcols = getcols();
+			int maxcols = getcols();
 			if(s + cols >= maxcols) {
 				int i;
 				cols = len;
@@ -385,46 +385,55 @@ void fill_progress(const int percent, const int proglen)
 	static unsigned int lasthash = 0, mouth = 0;
 	unsigned int i;
 
+	/* printf("\ndebug: proglen: %i\n", proglen); DEBUG*/
+
 	if(percent == 0) {
 		lasthash = 0;
 		mouth = 0;
 	}
 
-	printf(" [");
-	for(i = hashlen; i > 1; --i) {
-		/* if special progress bar enabled */
-		if(chomp) {
-			if(i > hashlen - hash) {
-				printf("-");
-			} else if(i == hashlen - hash) {
-				if(lasthash == hash) {
-					if(mouth) {
-						printf("\033[1;33mC\033[m");
+	/* magic numbers, how I loathe thee */
+	if(proglen > 8) {
+		printf(" [");
+		for(i = hashlen; i > 1; --i) {
+			/* if special progress bar enabled */
+			if(chomp) {
+				if(i > hashlen - hash) {
+					printf("-");
+				} else if(i == hashlen - hash) {
+					if(lasthash == hash) {
+						if(mouth) {
+							printf("\033[1;33mC\033[m");
+						} else {
+							printf("\033[1;33mc\033[m");
+						}
 					} else {
-						printf("\033[1;33mc\033[m");
+						lasthash = hash;
+						mouth = mouth == 1 ? 0 : 1;
+						if(mouth) {
+							printf("\033[1;33mC\033[m");
+						} else {
+							printf("\033[1;33mc\033[m");
+						}
 					}
+				} else if(i%3 == 0) {
+					printf("\033[0;37mo\033[m");
 				} else {
-					lasthash = hash;
-					mouth = mouth == 1 ? 0 : 1;
-					if(mouth) {
-						printf("\033[1;33mC\033[m");
-					} else {
-						printf("\033[1;33mc\033[m");
-					}
+					printf("\033[0;37m \033[m");
 				}
-			} else if(i%3 == 0) {
-				printf("\033[0;37mo\033[m");
+			} /* else regular progress bar */
+			else if(i > hashlen - hash) {
+				printf("#");
 			} else {
-				printf("\033[0;37m \033[m");
+				printf("-");
 			}
-		} /* else regular progress bar */
-		else if(i > hashlen - hash) {
-			printf("#");
-		} else {
-			printf("-");
 		}
+		printf("]");
 	}
-	printf("] %3d%%", percent);
+	/* print percent after progress bar */
+	if(proglen > 5) {
+		printf(" %3d%%", percent);
+	}
 
 	if(percent == 100) {
 		printf("\n");
@@ -433,6 +442,5 @@ void fill_progress(const int percent, const int proglen)
 	}
 	fflush(stdout);
 }
-
 
 /* vim: set ts=2 sw=2 noet: */

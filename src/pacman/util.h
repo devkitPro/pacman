@@ -50,10 +50,10 @@
 #define UPDATE_SPEED_SEC 0.2f
 
 #define _(str) gettext(str)
-unsigned int getcols();
+int getcols();
 int makepath(char *path);
 int rmrf(char *path);
-void indentprint(const char *str, unsigned int indent);
+void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
 char *strtrim(char *str);
 int reg_match(char *string, char *pattern);
