@@ -148,7 +148,7 @@ db_write_entry()
 
 	# create desc entry
 	echo ":: creating 'desc' db entry"
-	echo -e "%FILENAME%\n$1\n" >> desc
+	echo -e "%FILENAME%\n$(basename $1)\n" >> desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
 	if [ -n "$pkgdesc" ]; then
