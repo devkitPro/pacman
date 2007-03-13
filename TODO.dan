@@ -81,7 +81,8 @@ Localize the date display done in --info output. Also, fix other localized
 issues- use non-printf when necessary, make sure all two line printed messages
 (especially usage instructions) are printed using one print statement. We
 may need to use some wchar_t output on the progress bar as char/byte counts
-differ here.
+differ here. Sizes of packages (e.g. 10,400.23 MB) should all be localized with
+correct seperators.
 
 Rewrite makepkg to use terminal-safe coloring/bolding. tput utility should
 allow us to do this. Make universal message functions for systemwide use,
