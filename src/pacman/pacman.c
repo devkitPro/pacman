@@ -142,6 +142,7 @@ static void usage(int op, char *myname)
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
+			printf(_("  -l. --list <repo>    view a list of packages in a repo\n"));
 			printf(_("  -p, --print-uris     print out URIs for given packages and their dependencies\n"));
 			printf(_("  -s, --search         search remote repositories for matching strings\n"));
 			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
