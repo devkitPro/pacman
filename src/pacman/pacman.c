@@ -151,7 +151,7 @@ static void usage(int op, char *myname)
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
-		printf(_("      --noconfirm      do not ask for anything confirmation\n"));
+		printf(_("      --noconfirm      do not ask for any confirmation\n"));
 		printf(_("      --ask <number>   pre-specify answers for questions (see manpage)\n"));
 		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 		printf(_("      --noscriptlet    do not execute the install scriptlet if there is any\n"));

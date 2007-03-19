@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-19 00:46+0100\n"
-"PO-Revision-Date: 2007-03-19 01:00+0100\n"
+"POT-Creation-Date: 2007-03-19 02:42+0100\n"
+"PO-Revision-Date: 2007-03-19 03:30+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -383,7 +383,7 @@ msgstr "uso:  %s {-R --remove} [opzioni] <pacchetto>\n"
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        rimuove i pacchetti e quelli che dipendono da questi\n"
+"  -c, --cascade        rimuove tutte le dipendenze a cascata\n"
 
 #: src/pacman/pacman.c:110
 #, c-format
@@ -402,7 +402,7 @@ msgstr "  -n, --nosave         rimuove anche i file di configurazione\n"
 #, c-format
 msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
-msgstr "  -s, --recursive      rimuove anche le dipendenze (non richieste)\n"
+msgstr "  -s, --recursive      rimuove anche le dipendenze (non richieste altrove)\n"
 
 #: src/pacman/pacman.c:115
 #, c-format
@@ -515,7 +515,7 @@ msgstr "  -e, --dependsonly    installa solo le dipendenze\n"
 #: src/pacman/pacman.c:145
 #, c-format
 msgid "  -l. --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <repo>    visualizza la lista dei pacchetti di un repo\n"
+msgstr "  -l, --list <repo>    visualizza la lista dei pacchetti di un repository\n"
 
 #: src/pacman/pacman.c:146
 #, c-format
@@ -569,14 +569,14 @@ msgstr "      --config <path>  imposta un file di configurazione alternativo\n"
 
 #: src/pacman/pacman.c:154
 #, c-format
-msgid "      --noconfirm      do not ask for anything confirmation\n"
+msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      non chiede alcuna conferma\n"
 
 #: src/pacman/pacman.c:155
 #, c-format
 msgid ""
 "      --ask <number>   pre-specify answers for questions (see manpage)\n"
-msgstr "      --ask <numero>   pre-specifica delle risposte alle domande\n"
+msgstr "      --ask <numero>   specifica in anticipo le risposte alle domande\n"
 
 #: src/pacman/pacman.c:156
 #, c-format

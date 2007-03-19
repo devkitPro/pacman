@@ -68,6 +68,11 @@ general syntax is shown.
 
 .SH OPTIONS
 .TP
+.B \--ask \fInumber\fP
+Pre-specify answers to questions. It is doubtful whether this option even
+works, so I would not recommend using it. TODO: document this more, as I have
+no idea how it works or when you would use it, or if we should just dump it.
+.TP
 .B \-b, --dbpath \fIpath\fP
 Specify an alternative database location (default is "/var/lib/pacman/"). This
 should not be used unless you know what you are doing.
@@ -109,8 +114,16 @@ unless you want to run pacman from a script.
 .B \--noprogressbar
 Do not show a progress bar when downloading files. This can be useful for
 scripts that call pacman and capture the output.
+.TP
+.B \--noscriptlet
+If an install scriptlet exists, do not execute it. Do not use this unless you
+know what you are doing.
 
 .SH QUERY OPTIONS
+.TP
+.B \-c, --changelog
+View the ChangeLog of a package. Not every package will provide one but it
+will be shown if available.
 .TP
 .B \-e, --orphans
 List all packages that were pulled in by a previously installed package but no

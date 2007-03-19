@@ -80,9 +80,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			MSG(CL, _("done.\n"));
 			break;
 		case PM_TRANS_EVT_EXTRACT_DONE:
-			if(config->noprogressbar) {
-				MSG(CL, _("done.\n"));
-			}
 			break;
 		case PM_TRANS_EVT_ADD_START:
 			if(config->noprogressbar) {
