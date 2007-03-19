@@ -201,6 +201,11 @@ handledeps() {
 		haveperm=1
 	fi
 
+	for dep in $deplist; do
+		depstrip=$(echo $dep | sed 's|=.*$||' | sed 's|>.*$||' | sed 's|<.*$||')
+		striplist="$striplist $depstrip"
+	done
+
 	if [ "$deplist" != "" -a $haveperm -eq 1 ]; then
 		if [ "$DEP_BIN" = "1" -a "$SUDO" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S and sudo)
@@ -211,7 +216,7 @@ handledeps() {
 				FAKEROOTKEY2=$FAKEROOTKEY
 				unset FAKEROOTKEY
 			fi
-			sudo pacman $PACMAN_OPTS -S $deplist
+			sudo pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
 				error "Failed to install missing dependencies."
 				exit 1
@@ -223,7 +228,7 @@ handledeps() {
 		elif [ "$DEP_BIN" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S)
 			msg "Installing missing dependencies..."
-			pacman $PACMAN_OPTS -S $deplist
+			pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
 				error "Failed to install missing dependencies."
 				exit 1
@@ -237,7 +242,7 @@ handledeps() {
 			fi
 			# TODO: handle version comparators (eg, glibc>=2.2.5)
 			msg "Building missing dependencies..."
-			for dep in $deplist; do
+			for dep in $striplist; do
 				candidates=$(find $SRCROOT -type d -name "$dep")
 				if [ "$candidates" = "" ]; then
 					error "Could not find \"$dep\" under $SRCROOT"
