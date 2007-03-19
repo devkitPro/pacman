@@ -310,21 +310,20 @@ int _alpm_rmrf(const char *path)
 	struct dirent *dp;
 	DIR *dirp;
 	char name[PATH_MAX];
-  struct stat st;
+	struct stat st;
 
-	if(stat(path, &st) == 0) {
-		if(S_ISREG(st.st_mode)) {
+	if(lstat(path, &st) == 0) {
+		if(!S_ISDIR(st.st_mode)) {
 			if(!unlink(path)) {
 				return(0);
 			} else {
 				if(errno == ENOENT) {
 					return(0);
 				} else {
-					/* not a directory */
 					return(1);
 				}
 			}
-		} else if(S_ISDIR(st.st_mode)) {
+		} else {
 			if((dirp = opendir(path)) == (DIR *)-1) {
 				return(1);
 			}
