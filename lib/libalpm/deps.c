@@ -288,7 +288,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 						if(!satisfied) {
 							_alpm_log(PM_LOG_DEBUG, _("checkdeps: updated '%s' won't satisfy a dependency of '%s'"),
 												alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(p));
-							miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_REQUIRED, depend->mod,
+							miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_DEPEND, depend->mod,
 																			 depend->name, depend->version);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
 								baddeps = alpm_list_add(baddeps, miss);
@@ -408,7 +408,7 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 					if(!found) {
 						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
 								reqname, alpm_pkg_get_name(tp));
-						miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_REQUIRED,
+						miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND,
 																		 PM_DEP_MOD_ANY, j->data, NULL);
 						if(!_alpm_depmiss_isin(miss, baddeps)) {
 							baddeps = alpm_list_add(baddeps, miss);

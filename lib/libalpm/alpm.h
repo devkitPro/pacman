@@ -371,7 +371,6 @@ typedef enum _pmdepmod_t {
 
 typedef enum _pmdeptype_t {
 	PM_DEP_TYPE_DEPEND = 1,
-	PM_DEP_TYPE_REQUIRED,
 	PM_DEP_TYPE_CONFLICT
 } pmdeptype_t;
 
