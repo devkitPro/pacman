@@ -131,20 +131,20 @@ if [ "$dest" = "" ]; then
 fi
 
 # convert a (possibly) relative path to absolute
-cd $dest
-dest=$(pwd)
+cd "$dest"
+dest="$(pwd)"
 cd - &>/dev/null
 
 sd=$(date +"[%b %d %H:%M]")
 
 for category in $*; do
-	for port in $(find $toplevel/$category -maxdepth 1 -mindepth 1 -type d | sort); do
+	for port in $(find "$toplevel/$category" -maxdepth 1 -mindepth 1 -type d | sort); do
 		cd $port
 		if [ -f PKGBUILD ]; then
 			. PKGBUILD
 			buildstatus=0
-			if [ ! -f $dest/$pkgname-$pkgver-$pkgrel.pkg.tar.gz ]; then
-				makepkg $MAKEPKG_OPTS -m -w $dest 2>>$toplevel/makepkg.log
+			if [ ! -f "$dest/$pkgname-$pkgver-$pkgrel.pkg.tar.gz" ]; then
+				PKGDEST="$dest" makepkg $MAKEPKG_OPTS -m 2>>$toplevel/makepkg.log
 				if [ $? -gt 0 ]; then
 					buildstatus=2
 				else
