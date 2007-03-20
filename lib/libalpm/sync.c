@@ -416,11 +416,17 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			} else {
 				/* remove the original targets from the list if requested */
 				if((trans->flags & PM_TRANS_FLAG_DEPENDSONLY)) {
-					void *vp;
-					pmpkg_t *p;
-					trans->packages = alpm_list_remove(trans->packages, spkg, _alpm_pkg_cmp, &vp);
-					p = vp;
-					FREEPKG(p);
+					void *vpkg;
+					pmsyncpkg_t *sync;
+					const char *pkgname;
+
+					pkgname = alpm_pkg_get_name(spkg);
+					_alpm_log(PM_LOG_DEBUG, "removing package %s-%s from the transaction targets",
+										pkgname, alpm_pkg_get_version(spkg));
+
+					sync = _alpm_sync_find(trans->packages, pkgname);
+					trans->packages = alpm_list_remove(trans->packages, sync, syncpkg_cmp, &vpkg);
+					FREESYNC(vpkg);
 				}
 			}
 		}
