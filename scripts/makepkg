@@ -177,9 +177,6 @@ in_array() {
 }
 
 checkdeps() {
-	local missdep=""
-	local deplist=""
-
 	[ $# -gt 0 ] || return
 
 	pmout=$(pacman $PACMAN_OPTS -T $*)
@@ -196,6 +193,8 @@ checkdeps() {
 handledeps() {
 	local missingdeps=0
 	local deplist="$*"
+	local depstrip=""
+	local striplist=""
 	local haveperm=0
 	if [ \( "$EUID" = "0" -a "$INFAKEROOT" != "1" \) -o "$SUDO" = 1 ]; then
 		haveperm=1
@@ -296,16 +295,16 @@ resolvedeps() {
 		handledeps $deplist
 		if [ $? -eq 0 ]; then
 			# check deps again to make sure they were resolved
-			deplist=$(checkdeps ${depends[@]})
-			if [ -n "${deplist}" ]; then
+			newdeplist=$(checkdeps ${depends[@]})
+			if [ -n "${newdeplist}" ]; then
 				error "Failed to install missing dependencies."
 			fi
 		fi
 	fi
 
-	if [ -n "${deplist}" ]; then
+	if [ -n "${newdeplist}" ]; then
 		msg "Missing Dependencies:"
-		for dep in ${deplist}; do
+		for dep in ${newdeplist}; do
 			msg2 "${dep}"
 		done
 		return 1
@@ -316,20 +315,30 @@ resolvedeps() {
 
 # fix flyspray bug #5923
 removedeps() {
-	if [ "$RMDEPS" = "1" -a "$SUDO" = "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
+	# runtimedeps and makedeps are set when resolving deps
+	local deplist="$runtimedeps $makedeps"
+	local depstrip=""
+	local striplist=""
+
+	for dep in $deplist; do
+		depstrip=$(echo $dep | sed 's|=.*$||' | sed 's|>.*$||' | sed 's|<.*$||')
+		striplist="$striplist $depstrip"
+	done
+
+	if [ "$RMDEPS" = "1" -a "$SUDO" = "1" -a -n "$deplist" ]; then
 		msg "Removing installed dependencies..."
 		if [ "$INFAKEROOT" = "1" ]; then
 			export FAKEROOTKEY2=$FAKEROOTKEY
 			unset FAKEROOTKEY
 		fi
-		sudo pacman $PACMAN_OPTS -Rs $makedeplist $deplist
+		sudo pacman $PACMAN_OPTS -Rs $striplist
 		if [ "$INFAKEROOT" = "1" ]; then
 			export FAKEROOTKEY=$FAKEROOTKEY2
 			unset FAKEROOTKEY2
 		fi
-	elif [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a \( ! -z "$deplist" -o ! -z "$makedeplist" \) ]; then
+	elif [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a -n "$deplist" ]; then
 		msg "Removing installed dependencies..."
-		pacman $PACMAN_OPTS -Rs $makedeplist $deplist
+		pacman $PACMAN_OPTS -Rs $striplist
 	fi
 }
 
@@ -605,7 +614,6 @@ fi
 
 msg "Making package: $pkgname $pkgver-$pkgrel ($(date))"
 
-unset deplist makedeplist
 # fix flyspray bug #5973
 if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
 	if [ "$NODEPS" = "1" ]; then
@@ -614,15 +622,21 @@ if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" 
 	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
 	deperr=0
+	# these two variables are needed later by removedeps
+	unset runtimedeps makedeps
 
 	msg "Checking Runtime Dependencies..."
 	resolvedeps ${depends[@]}
+	# deplist is a global variable set by resolvedeps
+	runtimedeps="$deplist"
 	if [ $? -ne 0 ]; then
 		deperr=1
 	fi
 
 	msg "Checking Buildtime Dependencies..."
 	resolvedeps ${makedepends[@]}
+	# deplist is a global variable set by resolvedeps
+	makedeps="$deplist"
 	if [ $? -ne 0 ]; then
 		deperr=1
 	fi
