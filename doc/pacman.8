@@ -188,6 +188,10 @@ downloads packages, it saves them in \fI/var/cache/pacman/pkg\fP. Use one
 \fB--clean\fP switch to remove \fIold\fP packages; use two to remove \fIall\fP
 packages from the cache.
 .TP
+.B \-e, --dependsonly
+Install all dependencies of a package, but not the specified package itself.
+This is pretty useless and we're not sure why it even exists.
+.TP
 .B \-g, --groups
 Display all the members for each package group specified. If no group names
 are provided, all groups will be listed; pass the flag twice to view all
