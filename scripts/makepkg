@@ -217,7 +217,7 @@ handledeps() {
 			fi
 			sudo pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
-				error "Failed to install missing dependencies."
+				error "Pacman failed to install missing dependencies."
 				exit 1
 			fi
 			if [ "$INFAKEROOT" = "1" ]; then
@@ -229,7 +229,7 @@ handledeps() {
 			msg "Installing missing dependencies..."
 			pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
-				error "Failed to install missing dependencies."
+				error "Pacman failed to install missing dependencies."
 				exit 1
 			fi
 		elif [ "$DEP_SRC" = "1" ]; then
@@ -290,18 +290,24 @@ handledeps() {
 }
 
 resolvedeps() {
+	deplist=""
+	newdeplist=""
+
 	deplist=$(checkdeps $*)
 	if [ -n "${deplist}" ]; then
 		handledeps $deplist
 		if [ $? -eq 0 ]; then
 			# check deps again to make sure they were resolved
-			newdeplist=$(checkdeps ${depends[@]})
+			newdeplist=$(checkdeps $*)
 			if [ -n "${newdeplist}" ]; then
-				error "Failed to install missing dependencies."
+				error "Failed to install all missing dependencies."
 			fi
+		else
+			newdeplist="$deplist"
 		fi
 	fi
 
+	# if new dep list is not empty, print the list
 	if [ -n "${newdeplist}" ]; then
 		msg "Missing Dependencies:"
 		for dep in ${newdeplist}; do
@@ -315,8 +321,8 @@ resolvedeps() {
 
 # fix flyspray bug #5923
 removedeps() {
-	# runtimedeps and makedeps are set when resolving deps
-	local deplist="$runtimedeps $makedeps"
+	# runtimedeps and buildtimedeps are set when resolving deps
+	local deplist="$runtimedeps $buildtimedeps"
 	local depstrip=""
 	local striplist=""
 
@@ -623,21 +629,23 @@ if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" 
 elif [ $(type -p pacman) ]; then
 	deperr=0
 	# these two variables are needed later by removedeps
-	unset runtimedeps makedeps
+	unset runtimedeps buildtimedeps
 
 	msg "Checking Runtime Dependencies..."
 	resolvedeps ${depends[@]}
+	ret=$?
 	# deplist is a global variable set by resolvedeps
 	runtimedeps="$deplist"
-	if [ $? -ne 0 ]; then
+	if [ "$ret" != "0" ]; then
 		deperr=1
 	fi
 
 	msg "Checking Buildtime Dependencies..."
 	resolvedeps ${makedepends[@]}
+	ret=$?
 	# deplist is a global variable set by resolvedeps
-	makedeps="$deplist"
-	if [ $? -ne 0 ]; then
+	buildtimedeps="$deplist"
+	if [ "$ret" != "0" ]; then
 		deperr=1
 	fi
 
