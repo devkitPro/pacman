@@ -211,7 +211,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				continue;
 			}
 
-			if(!handle->xfercommand) {
+			if(!handle->xfercommand || !strcmp(fileurl->scheme, "file")) {
 				FILE *dlf, *localf = NULL;
 				struct url_stat ust;
 				struct stat st;
