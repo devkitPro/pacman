@@ -510,9 +510,10 @@ int main(int argc, char *argv[])
 	alpm_option_set_dlcb(log_progress);
 
 	if(config->verbose > 0) {
-		printf("Root  : %s\n", alpm_option_get_root());
-		printf("DBPath: %s\n", alpm_option_get_dbpath());
-		list_display(_("Targets:"), pm_targets);
+		printf("Root     : %s\n", alpm_option_get_root());
+		printf("DBPath   : %s\n", alpm_option_get_dbpath());
+		printf("CacheDir : %s\n", alpm_option_get_cachedir());
+		list_display(_("Targets  :"), pm_targets);
 	}
 
 	/* Opening local database */
