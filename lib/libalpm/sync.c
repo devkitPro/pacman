@@ -317,7 +317,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 				if(!resp) {
 					return(0);
 				}
-			} else {
+			} else if(!(trans->flags & PM_TRANS_FLAG_PRINTURIS)) {
 				QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
 				if(!resp) {
 					_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping"),

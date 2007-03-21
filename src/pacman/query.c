@@ -27,6 +27,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <libintl.h>
+#include <errno.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -57,8 +58,18 @@ static void query_fileowner(pmdb_t *db, char *filename)
 		return;
 	}
 
-	if(stat(filename, &buf) == -1 || S_ISDIR(buf.st_mode) || realpath(filename, rpath) == NULL) {
-		/* fail silently if we're a directory */
+	if(stat(filename, &buf) == -1) {
+		ERR(NL, _("failed to read file '%s': %s"), filename, strerror(errno));
+		return;
+	}
+	
+	if(S_ISDIR(buf.st_mode)) {
+		ERR(NL, _("can not determine ownership of a directory"));
+		return;
+	}
+
+	if(realpath(filename, rpath) == NULL) {
+		ERR(NL, _("cannot determine real path for '%s': %s"), filename, strerror(errno));
 		return;
 	}
 

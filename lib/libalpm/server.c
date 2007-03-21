@@ -29,6 +29,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <time.h>
+#include <errno.h>
 #include <download.h>
 
 /* libalpm */
@@ -290,6 +291,9 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					localf = fopen(output, "w");
 					if(localf == NULL) { /* still null? */
 						_alpm_log(PM_LOG_ERROR, _("cannot write to file '%s'"), output);
+						if(dlf != NULL) {
+							fclose(dlf);
+						}
 						return -1;
 					}
 				}
@@ -300,8 +304,29 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				int nread = 0;
 				char buffer[PM_DLBUF_LEN];
 				while((nread = fread(buffer, 1, PM_DLBUF_LEN, dlf)) > 0) {
+					if(ferror(dlf)) {
+						_alpm_log(PM_LOG_ERROR, _("error downloading '%s': %s"),
+											fn, downloadLastErrString);
+						fclose(localf);
+						fclose(dlf);
+						return(-1);
+					}
+					
 					int nwritten = 0;
-					while((nwritten += fwrite(buffer, 1, (nread - nwritten), localf)) < nread) ;
+					while(nwritten < nread) {
+						nwritten += fwrite(buffer, 1, (nread - nwritten), localf);
+						if(ferror(localf)) {
+							_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s"),
+												realfile, strerror(errno));
+							fclose(localf);
+							fclose(dlf);
+							return(-1);
+						}
+					}
+
+					if(nwritten != nread) {
+						
+					}
 					dltotal_bytes += nread;
 
 					if(handle->dlcb) handle->dlcb(pkgname, dltotal_bytes, ust.size);
