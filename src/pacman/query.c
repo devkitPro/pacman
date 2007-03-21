@@ -64,7 +64,7 @@ static void query_fileowner(pmdb_t *db, char *filename)
 	}
 	
 	if(S_ISDIR(buf.st_mode)) {
-		ERR(NL, _("can not determine ownership of a directory"));
+		ERR(NL, _("cannot determine ownership of a directory"));
 		return;
 	}
 
