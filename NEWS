@@ -1,40 +1,53 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
 3.0.0         - first release based on libalpm backend
-              - added internationalization (gettext) support
-              - prompt to delete corrupted packages
+              - added internationalization (gettext) support:
+                - de, fr, hu, it, pt_BR, en_GB, ru_RU translations
+              - switch to usage of libdownload and libarchive
+              - improved proxy support using libdownload
               - documentation - man pages updated, new conf manpages added
+              - repository mirror list updates
               - added support for package changelogs
               - logging of all install scriptlet messages to pacman.log
-              - repository mirror list updates
               - orphans search (-Qe) now shows true orphans
-              - new -Qu option- show all packages that can be upgraded
+              - new -Qu option - show all packages that can be upgraded
+              - new -Se option - install only dependencies
               - dependency sorting on install and removal
-              - improved backup handling- backup array is proactive on upgrade
-              - new uncompressed size field, shown on sync upgrade
               - check for free space before installing packages
+              - prompt to delete corrupted packages
+              - improved backup handling - backup array proactive on upgrade
+              - removed NoUpgrade lines from default pacman.conf
+              - new uncompressed size field, shown on sync upgrade
               - improved progress and progressbar output
               - reduced unnecessary calling of ldconfig
               - selective loading of database to speed up certain operations
-              - switch to usage of libdownload and libarchive
-              - improved proxy support as a result of switch to libdownload
               - debugging output improved with --debug flag
-              - added 'rankmirrors' - script to show best available mirrors
-              - added 'repo-add' - the backbone script for building repos
-              - added pactest testing suite
-              - abs - supports cvsup/csup, expanded configuration
-              - abs - supports fetching of testing repository
-              - makepkg fixes:
+              - pacman-optimize - now supports DBs on separate filesystem
+              - makepkg and abs now support conf files in home directory
+              - makepkg changes:
+                - arch field is required
+                - added -arch suffix to generated package filenames
                 - new configuration file options format
+                - changed default configuration
                 - support alternate integrity checks
                 - extract files using filetype, not extension
                 - added noextract array
+                - new options array format
                 - new option to log build process
-                - new repackage option - repackage pkg/ w/o building
+                - new --repackage option - repackage pkg/ without building
                 - user-selectable paths for doc stripping
                 - configurable source cache location
                 - dependencies now removed on a build success or failure
-              - pacman-optimize - support DB's on separate filesystem
+              - abs changes:
+                - supports both cvsup and csup
+                - expanded configuration
+                - added support for testing repository
+              - new helper scripts:
+                - rankmirrors - shows best available mirrors
+                - repo-add - adds a package to a repo database file
+                - repo-remove - removes a package from a repo database file
+              - added pactest testing suite
+              - MANY fixes and small inprovements everywhere
 2.9.8         - Changed behaviour with original=X,current=Y,new=Z scenario
                 - keep old in place, install new as .pacnew
               - Search package provides when finding matching targets with -S
