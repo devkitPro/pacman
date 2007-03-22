@@ -236,16 +236,12 @@ def diffmtime(mt1, mt2):
 #
 
 def grep(filename, pattern):
-    found = 0
-    fd = file(filename, "r")
-    while 1 and not found:
-        line = fd.readline()
-        if not line:
-            break
+    lines = file(filename, 'r').readlines()
+    for line in lines:
+        if not line: break
         if line.find(pattern) != -1:
-            found = 1
-    fd.close()
-    return found
+            return True
+    return False
 
 def mkdir(dir):
     if os.path.isdir(dir):
