@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-21 10:44+0100\n"
-"PO-Revision-Date: 2007-03-21 11:40+0100\n"
+"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"PO-Revision-Date: 2007-03-22 12:40+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -421,7 +421,7 @@ msgstr "uso:  %s {-Q --query} [opzioni] [pacchetto]\n"
 #: src/pacman/pacman.c:125
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr "  -c, --changelog      visualizza il changelog di un pacchetto\n"
+msgstr "  -c, --changelog      mostra il changelog di un pacchetto\n"
 
 #: src/pacman/pacman.c:126
 #, c-format
@@ -429,7 +429,7 @@ msgid ""
 "  -e, --orphans        list all packages installed as dependencies but no "
 "longer\n"
 msgstr ""
-"  -e, --orphans        elenca i pacchetti installati che non sono dipendenze\n"
+"  -e, --orphans        elenca i pacchetti installati che erano dipendenze\n"
 
 #: src/pacman/pacman.c:127
 #, c-format
@@ -472,7 +472,7 @@ msgid ""
 "  -p, --file           query the package file [package] instead of the "
 "database\n"
 msgstr ""
-"  -p, --file           interroga il file del pacchetto invece del database\n"
+"  -p, --file           interroga il file di pacchetto invece del database\n"
 
 #: src/pacman/pacman.c:134
 #, c-format
@@ -480,7 +480,8 @@ msgid ""
 "  -s, --search         search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search         cerca nei pacchetti installati le stringhe corrispondenti\n"
+"  -s, --search         cerca nei pacchetti installati le stringhe "
+"corrispondenti\n"
 
 #: src/pacman/pacman.c:135
 #, c-format
@@ -648,7 +649,7 @@ msgstr "è consentito eseguire solo un'operazione per volta\n"
 
 #: src/pacman/pacman.c:436
 msgid "warning: current locale is invalid; using default \"C\" locale"
-msgstr "attenzione: locale non valido, verrà utilizzato il locale \"C\""
+msgstr "attenzione: locale non valido, sarà utilizzato il locale \"C\""
 
 #: src/pacman/pacman.c:456
 #, c-format
@@ -657,7 +658,7 @@ msgstr "impossibile inizializzare la libreria alpm (%s)\n"
 
 #: src/pacman/pacman.c:489
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "operazione possibile solo da root.\n"
+msgstr "operazione possibile solo come root.\n"
 
 #: src/pacman/pacman.c:505
 #, c-format
@@ -671,7 +672,7 @@ msgstr "Pacchetti  :"
 #: src/pacman/pacman.c:522
 #, c-format
 msgid "could not register 'local' database (%s)\n"
-msgstr "impossibile registrare il database 'locale' (%s)\n"
+msgstr "impossibile registrare il database 'local' (%s)\n"
 
 #: src/pacman/pacman.c:529
 msgid "no targets specified (use -h for help)\n"
@@ -681,61 +682,61 @@ msgstr "nessun pacchetto specificato (usare -h per un aiuto)\n"
 msgid "no operation specified (use -h for help)\n"
 msgstr "nessuna operazione specificata (usare -h per un aiuto)\n"
 
-#: src/pacman/query.c:57
+#: src/pacman/query.c:90
 msgid "no file was specified for --owns\n"
 msgstr "nessun file specificato per --owns\n"
 
-#: src/pacman/query.c:62
+#: src/pacman/query.c:95
 #, c-format
 msgid "failed to read file '%s': %s"
 msgstr "impossibile leggere il file '%s': %s"
 
-#: src/pacman/query.c:67
+#: src/pacman/query.c:100
 msgid "cannot determine ownership of a directory"
 msgstr "impossibile determinare il proprietario di una directory"
 
-#: src/pacman/query.c:72
+#: src/pacman/query.c:105
 #, c-format
 msgid "cannot determine real path for '%s': %s"
 msgstr "impossibile determinare la posizione reale di '%s': %s"
 
-#: src/pacman/query.c:85
+#: src/pacman/query.c:119
 #, c-format
 msgid "%s is owned by %s %s\n"
 msgstr "%s è contenuto in %s %s\n"
 
-#: src/pacman/query.c:92
+#: src/pacman/query.c:127
 #, c-format
 msgid "No package owns %s\n"
 msgstr "Nessun pacchetto contiene %s\n"
 
-#: src/pacman/query.c:133 src/pacman/sync.c:453
+#: src/pacman/query.c:170 src/pacman/sync.c:453
 msgid "no usable package repositories configured.\n"
 msgstr "non è stato configurato nessun repository di pacchetti valido.\n"
 
-#: src/pacman/query.c:139
+#: src/pacman/query.c:176
 msgid "Checking for package upgrades..."
 msgstr "Controllo degli aggiornamenti dei pacchetti in corso..."
 
-#: src/pacman/query.c:146
+#: src/pacman/query.c:183
 msgid "no upgrades found"
 msgstr "nessun aggiornamento trovato"
 
-#: src/pacman/query.c:184
+#: src/pacman/query.c:221
 #, c-format
 msgid "group \"%s\" was not found\n"
 msgstr "gruppo \"%s\" non trovato\n"
 
-#: src/pacman/query.c:195
+#: src/pacman/query.c:232
 msgid "no package file was specified for --file\n"
 msgstr "nessun file di pacchetto specificato per --file\n"
 
-#: src/pacman/query.c:199
+#: src/pacman/query.c:236
 #, c-format
 msgid "failed to load package '%s' (%s)\n"
 msgstr "impossibile caricare il pacchetto '%s' (%s)\n"
 
-#: src/pacman/query.c:236 src/pacman/query.c:268
+#: src/pacman/query.c:273 src/pacman/query.c:305
 #, c-format
 msgid "package \"%s\" not found\n"
 msgstr "pacchetto \"%s\" non trovato\n"
@@ -882,7 +883,7 @@ msgstr ":: prima e poi riavviare l'operazione con la versione più recente.\n"
 
 #: src/pacman/sync.c:522
 msgid ":: Upgrade pacman first? [Y/n] "
-msgstr ":: Aggiornare adesso pacman? [Y/n] "
+msgstr ":: Aggiornare pacman adesso? [Y/n] "
 
 #: src/pacman/sync.c:537
 #, c-format
@@ -968,7 +969,7 @@ msgstr "installazione di %s in corso... "
 #: src/pacman/trans.c:93
 #, c-format
 msgid "installed %s (%s)"
-msgstr "installato %s (%s)"
+msgstr "%s installato (%s)"
 
 #: src/pacman/trans.c:100
 #, c-format
@@ -978,7 +979,7 @@ msgstr "rimozione di %s in corso... "
 #: src/pacman/trans.c:107
 #, c-format
 msgid "removed %s (%s)"
-msgstr "rimosso %s (%s)"
+msgstr "%s rimosso (%s)"
 
 #: src/pacman/trans.c:114
 #, c-format
@@ -988,7 +989,7 @@ msgstr "aggiornamento di %s in corso... "
 #: src/pacman/trans.c:121
 #, c-format
 msgid "upgraded %s (%s -> %s)"
-msgstr "aggiornato %s (%s -> %s)"
+msgstr "%s aggiornato (%s -> %s)"
 
 #: src/pacman/trans.c:128
 msgid "checking package integrity... "
