@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <libintl.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -43,11 +44,43 @@
 extern config_t *config;
 extern pmdb_t *db_local;
 
+static char *resolve_path(const char* file)
+{
+	char *copy, *p, *str = NULL;
+
+	if(!(copy = strdup(file))) {
+		return(NULL);
+	}
+
+	if((p = strrchr(copy, '/')) == NULL) {
+		return(copy);
+	} else {
+		*p = '\0'; ++p;
+
+		str = calloc(PATH_MAX+1, sizeof(char));
+		if(!str) {
+			/* null hmmm.... */
+			return(NULL);
+		}
+
+		if(!realpath(copy, str)) {
+			return(NULL);
+		}
+
+		str[strlen(str)] = '/';
+		strcat(str, p);
+	}
+
+	free(copy);
+	return(str);
+}
+
+
 static void query_fileowner(pmdb_t *db, char *filename)
 {
 	struct stat buf;
 	int gotcha = 0;
-	char rpath[PATH_MAX];
+	char *rpath;
 	alpm_list_t *i, *j;
 
 	if(db == NULL) {
@@ -68,7 +101,7 @@ static void query_fileowner(pmdb_t *db, char *filename)
 		return;
 	}
 
-	if(realpath(filename, rpath) == NULL) {
+	if(!(rpath = resolve_path(filename))) {
 		ERR(NL, _("cannot determine real path for '%s': %s"), filename, strerror(errno));
 		return;
 	}
@@ -77,20 +110,24 @@ static void query_fileowner(pmdb_t *db, char *filename)
 		pmpkg_t *info = alpm_list_getdata(i);
 
 		for(j = alpm_pkg_get_files(info); j && !gotcha; j = alpm_list_next(j)) {
-			char path[PATH_MAX];
-			char *filename = alpm_list_getdata(j);
-			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), filename);
+			char path[PATH_MAX], *ppath;
+			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), (const char *)alpm_list_getdata(j));
 
-			if(strcmp(path, rpath) == 0) {
-				printf(_("%s is owned by %s %s\n"), path, alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+			ppath = resolve_path(path);
+
+			if(ppath && strcmp(ppath, rpath) == 0) {
+				printf(_("%s is owned by %s %s\n"), filename, alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 				gotcha = 1;
-				break;
 			}
+
+			free(ppath);
 		}
 	}
 	if(!gotcha) {
 		ERR(NL, _("No package owns %s\n"), filename);
 	}
+
+	free(rpath);
 }
 
 int pacman_query(alpm_list_t *targets)
