@@ -318,6 +318,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	pkg_count = alpm_list_count(trans->targets);
 	
 	for(targ = trans->packages; targ; targ = targ->next) {
+		char scriptlet[PATH_MAX+1];
 		int targ_count = 0, is_upgrade = 0, use_md5 = 0;
 		double percent = 0.0;
 		pmpkg_t *newpkg = (pmpkg_t *)targ->data;
@@ -327,6 +328,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			break;
 		}
+
+		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
+						 alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 
 		/* check if we have a valid sha1sum, if not, use MD5 */
 		if(strlen(newpkg->sha1sum) == 0) {
@@ -357,7 +361,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 			/* pre_upgrade scriptlet */
 			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-				_alpm_runscriptlet(handle->root, newpkg->data, "pre_upgrade", newpkg->version, oldpkg->version, trans);
+				_alpm_runscriptlet(handle->root, scriptlet, "pre_upgrade", newpkg->version, oldpkg->version, trans);
 			}
 		} else {
 			is_upgrade = 0;
@@ -367,7 +371,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			
 			/* pre_install scriptlet */
 			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-				_alpm_runscriptlet(handle->root, newpkg->data, "pre_install", newpkg->version, NULL, trans);
+				_alpm_runscriptlet(handle->root, scriptlet, "pre_install", newpkg->version, NULL, trans);
 			}
 		}
 
@@ -817,15 +821,12 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 		/* run the post-install script if it exists  */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			char pm_install[PATH_MAX];
-			snprintf(pm_install, PATH_MAX, "%s%s%s-%s/install", handle->root, db->path,
-							 alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 			if(is_upgrade) {
-				_alpm_runscriptlet(handle->root, pm_install, "post_upgrade",
+				_alpm_runscriptlet(handle->root, scriptlet, "post_upgrade",
 													alpm_pkg_get_version(newpkg), oldpkg ? alpm_pkg_get_version(oldpkg) : NULL,
 													trans);
 			} else {
-				_alpm_runscriptlet(handle->root, pm_install, "post_install",
+				_alpm_runscriptlet(handle->root, scriptlet, "post_install",
 													 alpm_pkg_get_version(newpkg), NULL, trans);
 			}
 		}

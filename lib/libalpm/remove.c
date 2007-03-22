@@ -275,7 +275,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 	for(targ = trans->packages; targ; targ = targ->next) {
 		int position = 0;
-		char pm_install[PATH_MAX];
+		char scriptlet[PATH_MAX];
 		alpm_list_t *files;
 		info = (pmpkg_t*)targ->data;
 		const char *pkgname = NULL;
@@ -284,6 +284,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			break;
 		}
 
+		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
+						 pkgname, alpm_pkg_get_version(info));
 		/* get the name now so we can use it after package is removed */
 		pkgname = alpm_pkg_get_name(info);
 
@@ -294,9 +296,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 			/* run the pre-remove scriptlet if it exists  */
 			if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path,
-				         pkgname, alpm_pkg_get_version(info));
-				_alpm_runscriptlet(handle->root, pm_install, "pre_remove",
+				_alpm_runscriptlet(handle->root, scriptlet, "pre_remove",
 				                   alpm_pkg_get_version(info), NULL, trans);
 			}
 		}
@@ -324,9 +324,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			/* run the post-remove script if it exists  */
 			if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-				snprintf(pm_install, PATH_MAX, "%s/%s-%s/install", db->path,
-				         pkgname, alpm_pkg_get_version(info));
-				_alpm_runscriptlet(handle->root, pm_install, "post_remove",
+				_alpm_runscriptlet(handle->root, scriptlet, "post_remove",
 													 alpm_pkg_get_version(info), NULL, trans);
 			}
 		}

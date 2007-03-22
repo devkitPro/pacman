@@ -431,6 +431,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 	if(stat(installfn, &buf)) {
 		/* not found */
+		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found", installfn);
 		return(0);
 	}
 
@@ -469,6 +470,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	/* just in case our cwd was removed in the upgrade operation */
 	if(chdir(root) != 0) {
 		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)"), root, strerror(errno));
+		goto cleanup;
 	}
 
 	_alpm_log(PM_LOG_DEBUG, _("executing %s script..."), script);
