@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"POT-Creation-Date: 2007-03-22 14:16-0400\n"
 "PO-Revision-Date: 2007-03-22 12:50+0100\n"
 "Last-Translator: solsTiCe d'hiver <solstice.dhiver@laposte.net>\n"
 "Language-Team: \n"
@@ -458,8 +458,7 @@ msgstr "  -l, --list          lister le contenu du paquet interrogé\n"
 #: src/pacman/pacman.c:131
 #, c-format
 msgid ""
-"  -m, --foreign        list all packages that were not found in the sync db"
-"(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s)\n"
 msgstr ""
 "  -m, --foreign       liste les paquets non trouvés dans la/les base(s) de "
 "données de synchronisation\n"
@@ -473,20 +472,18 @@ msgstr ""
 
 #: src/pacman/pacman.c:133
 #, c-format
-msgid ""
-"  -p, --file           query the package file [package] instead of the "
-"database\n"
+msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file          utilise le fichier [paquet] au lieu de la base de "
+"  -p, --file <paquet> utilise le fichier [paquet] au lieu de la base de "
 "données\n"
 
 #: src/pacman/pacman.c:134
 #, c-format
 msgid ""
-"  -s, --search         search locally-installed packages for matching "
+"  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search        recherche dans les paquets installés localement ceux "
+"  -s, --search <regex> recherche dans les paquets installés localement ceux "
 "qui contiennent la chaine\n"
 
 #: src/pacman/pacman.c:135
@@ -514,10 +511,9 @@ msgid "  -e, --dependsonly    install dependencies only\n"
 msgstr "  -e, --dependsonly   installe les dépendances uniquement\n"
 
 #: src/pacman/pacman.c:145
-#, fuzzy, c-format
-msgid "  -l. --list <repo>    view a list of packages in a repo\n"
+#, c-format
+msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
-"  -g, --groups        afficher tous les éléments d'un groupe de paquet\n"
 
 #: src/pacman/pacman.c:146
 #, c-format
@@ -531,8 +527,8 @@ msgstr ""
 #: src/pacman/pacman.c:147
 #, c-format
 msgid ""
-"  -s, --search         search remote repositories for matching strings\n"
-msgstr "  -s, --search        recherche la chaîne dans les dépôts distants\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr "  -s, --search <regex> recherche la chaîne dans les dépôts distants\n"
 
 #: src/pacman/pacman.c:148
 #, c-format
@@ -676,9 +672,8 @@ msgid "failed to parse config (%s)\n"
 msgstr "échec de lecture de la configuration (%s)\n"
 
 #: src/pacman/pacman.c:516
-#, fuzzy
 msgid "Targets  :"
-msgstr "Cibles:"
+msgstr "Cibles   :"
 
 #: src/pacman/pacman.c:522
 #, c-format
@@ -698,9 +693,9 @@ msgid "no file was specified for --owns\n"
 msgstr "aucun fichier spécifié pour --owns\n"
 
 #: src/pacman/query.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read file '%s': %s"
-msgstr "échec d'ajout de la cible '%s' (%s)"
+msgstr "échec d'ajout de la cible '%s': %s"
 
 #: src/pacman/query.c:100
 msgid "cannot determine ownership of a directory"
@@ -1129,13 +1124,6 @@ msgstr "Taille totale du paquet:   %.2f Mo\n"
 
 #~ msgid "could not release transaction (%s)"
 #~ msgstr "n'a pas pu libérer la transaction (%s)"
-
-#, fuzzy
-#~ msgid " done.\n"
-#~ msgstr "fait.\n"
-
-#~ msgid "done."
-#~ msgstr "fait."
 
 #~ msgid "Size           : %ld\n"
 #~ msgstr "Taille         : %ld\n"

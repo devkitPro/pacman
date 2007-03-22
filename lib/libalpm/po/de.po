@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"POT-Creation-Date: 2007-03-22 14:15-0400\n"
 "PO-Revision-Date: 2007-03-07 09:12+0100\n"
 "Last-Translator: Pierre Schmitz <pierre@archlinux.de>\n"
 "Language-Team: Deutsch <archlinux.de>\n"
@@ -250,12 +250,12 @@ msgid "provision '%s' has been removed from package %s (%s => %s)"
 msgstr "'%s' wird nicht mehr von %s bereitgestellt (%s => %s)"
 
 #: lib/libalpm/add.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "updating '%s' due to provision change (%s)"
 msgstr "aktualisiere '%s' aufgrund einer Bereitstellungsänderung (%s)"
 
 #: lib/libalpm/add.c:785 lib/libalpm/add.c:786
-#, fuzzy, c-format
+#, c-format
 msgid "could not update provision '%s' from '%s'"
 msgstr "konnte Bereitstellung '%s' von '%s' nicht aktualisieren"
 
@@ -496,51 +496,51 @@ msgstr "Öffne Datenbank aus Pfad '%s'"
 msgid "db scan could not find package: %s"
 msgstr "Konnte Paket nicht in Datenbank finden: %s"
 
-#: lib/libalpm/be_files.c:188
+#: lib/libalpm/be_files.c:186
 #, c-format
-msgid "invalid name for dabatase entry '%s'"
+msgid "invalid name for database entry '%s'"
 msgstr "Falscher Name für Datenbankeintrag '%s'"
 
-#: lib/libalpm/be_files.c:223
+#: lib/libalpm/be_files.c:221
 msgid "invalid package entry provided to _alpm_db_read, skipping"
 msgstr "Überspringe ungültigen an _alpm_db_read übergebenen Paket-Eintrag"
 
-#: lib/libalpm/be_files.c:228
+#: lib/libalpm/be_files.c:226
 #, c-format
 msgid ""
 "request to read database info for a file-based package '%s', skipping..."
 msgstr ""
 "Überspringe das Lesen der Datenbank für ein Datei-basiertes Paket '%s'..."
 
-#: lib/libalpm/be_files.c:241
+#: lib/libalpm/be_files.c:239
 #, c-format
 msgid "loading package data for %s : level=%d"
 msgstr "Lade Paket-Daten für %s : level=%d"
 
-#: lib/libalpm/be_files.c:249
+#: lib/libalpm/be_files.c:247
 #, c-format
 msgid "cannot find '%s-%s' in db '%s'"
 msgstr "Kann %s-%s nicht in der Datenbank '%s' finden"
 
-#: lib/libalpm/be_files.c:257 lib/libalpm/be_files.c:403
-#: lib/libalpm/be_files.c:426 lib/libalpm/be_files.c:517
-#: lib/libalpm/be_files.c:607 lib/libalpm/be_files.c:634
+#: lib/libalpm/be_files.c:255 lib/libalpm/be_files.c:401
+#: lib/libalpm/be_files.c:424 lib/libalpm/be_files.c:515
+#: lib/libalpm/be_files.c:605 lib/libalpm/be_files.c:632
 #: lib/libalpm/package.c:206
 #, c-format
 msgid "could not open file %s: %s"
 msgstr "Konnte Datei %s nicht öffnen: %s"
 
-#: lib/libalpm/be_files.c:514
+#: lib/libalpm/be_files.c:512
 #, c-format
 msgid "writing %s-%s DESC information back to db"
 msgstr "schreibe %s-%s Beschreibungsinformationen zurück in die Datenbank"
 
-#: lib/libalpm/be_files.c:604
+#: lib/libalpm/be_files.c:602
 #, c-format
 msgid "writing %s-%s FILES information back to db"
 msgstr "schreibe %s-%s Dateiinformationen zurück in die Datenbank"
 
-#: lib/libalpm/be_files.c:631
+#: lib/libalpm/be_files.c:629
 #, c-format
 msgid "writing %s-%s DEPENDS information back to db"
 msgstr "schreibe %s-%s Abhängigkeitsinformationen zurück in die Datenbank"
@@ -601,7 +601,7 @@ msgid "   found conflict '%s' : package '%s' provides '%s'"
 msgstr "   Konflikt gefunden '%s' : Paket '%s' stellt '%s' bereit"
 
 #: lib/libalpm/conflict.c:101 lib/libalpm/conflict.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "package '%s' conflicts with itself - packaging error"
 msgstr "Paket '%s' steht im Konflikt mit sich selbst - Verpackungsfehler"
 
@@ -661,7 +661,7 @@ msgid "registering database '%s'"
 msgstr "Registriere Datenbank '%s'"
 
 #: lib/libalpm/db.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "database directory '%s' does not exist, creating it"
 msgstr ""
 "Datenbankverzeichnis '%s' ist nicht vorhanden, versuche es zu erstellen"
@@ -982,7 +982,7 @@ msgid "unexpected error"
 msgstr "Unerwarteter Fehler"
 
 #: lib/libalpm/handle.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "cannot canonicalize specified root path '%s'"
 msgstr "kann das spezifizierte Wurzelverzeichnis nicht anerkennen '%s'"
 
@@ -1372,7 +1372,6 @@ msgid "could not prepare transaction"
 msgstr "Konnte die Transaktion nicht vorbereiten"
 
 #: lib/libalpm/sync.c:993
-#, fuzzy
 msgid "updating database for replaced packages' dependencies"
 msgstr "Aktualisiere Datenbank für ersetzte Paketabhängigkeiten"
 
@@ -1387,12 +1386,12 @@ msgid "could not update new database entry %s-%s"
 msgstr "Konnte neuen Datenbankeintrag %s-%s nicht aktualisieren"
 
 #: lib/libalpm/sync.c:1071
-#, fuzzy, c-format
+#, c-format
 msgid "found package '%s-%s' in sync"
 msgstr "Paket '%s-%s' gefunden"
 
 #: lib/libalpm/sync.c:1077
-#, fuzzy, c-format
+#, c-format
 msgid "package '%s' not found in sync"
 msgstr "Paket '%s' nicht gefunden"
 

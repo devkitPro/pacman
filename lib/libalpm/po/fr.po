@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"POT-Creation-Date: 2007-03-22 14:15-0400\n"
 "PO-Revision-Date: 2007-03-22 12:20+0100\n"
 "Last-Translator: solsTiCe d'hiver <solstice.dhiver@laposte.net>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
@@ -244,9 +244,9 @@ msgid "installing"
 msgstr "installation"
 
 #: lib/libalpm/add.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "provision '%s' has been removed from package %s (%s => %s)"
-msgstr "supposant que '%s' a été supprimé du paquet %s (% => %s)"
+msgstr "supposant que '%s' a été supprimé du paquet %s (%s => %s)"
 
 #: lib/libalpm/add.c:781
 #, c-format
@@ -488,7 +488,7 @@ msgid "unpacking database '%s'"
 msgstr "déballe la base de données '%s'"
 
 #: lib/libalpm/be_files.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "opening database from path '%s'"
 msgstr "ouvre la base de données '%s'"
 
@@ -497,16 +497,16 @@ msgstr "ouvre la base de données '%s'"
 msgid "db scan could not find package: %s"
 msgstr "la db ne peut trouver le paquet: %s"
 
-#: lib/libalpm/be_files.c:188
+#: lib/libalpm/be_files.c:186
 #, c-format
-msgid "invalid name for dabatase entry '%s'"
+msgid "invalid name for database entry '%s'"
 msgstr "nom invalide pour l'entrée de base de données '%s'"
 
-#: lib/libalpm/be_files.c:223
+#: lib/libalpm/be_files.c:221
 msgid "invalid package entry provided to _alpm_db_read, skipping"
 msgstr "paquet invalide fournit à _alpm_db_read, et ignoré"
 
-#: lib/libalpm/be_files.c:228
+#: lib/libalpm/be_files.c:226
 #, c-format
 msgid ""
 "request to read database info for a file-based package '%s', skipping..."
@@ -514,35 +514,35 @@ msgstr ""
 "requête pour lire information de la db pour un paquet bas\" sur un fichier '%"
 "s', ignoré..."
 
-#: lib/libalpm/be_files.c:241
+#: lib/libalpm/be_files.c:239
 #, c-format
 msgid "loading package data for %s : level=%d"
 msgstr "chargement des données du paquet %s: niveau=%d"
 
-#: lib/libalpm/be_files.c:249
+#: lib/libalpm/be_files.c:247
 #, c-format
 msgid "cannot find '%s-%s' in db '%s'"
 msgstr "ne peut trouver %s-%s dans la base de données '%s'"
 
-#: lib/libalpm/be_files.c:257 lib/libalpm/be_files.c:403
-#: lib/libalpm/be_files.c:426 lib/libalpm/be_files.c:517
-#: lib/libalpm/be_files.c:607 lib/libalpm/be_files.c:634
+#: lib/libalpm/be_files.c:255 lib/libalpm/be_files.c:401
+#: lib/libalpm/be_files.c:424 lib/libalpm/be_files.c:515
+#: lib/libalpm/be_files.c:605 lib/libalpm/be_files.c:632
 #: lib/libalpm/package.c:206
 #, c-format
 msgid "could not open file %s: %s"
 msgstr "ne peut ouvrir le fichier %s: %s"
 
-#: lib/libalpm/be_files.c:514
+#: lib/libalpm/be_files.c:512
 #, c-format
 msgid "writing %s-%s DESC information back to db"
 msgstr "écriture des informations DESC pour %s-%s dans la db"
 
-#: lib/libalpm/be_files.c:604
+#: lib/libalpm/be_files.c:602
 #, c-format
 msgid "writing %s-%s FILES information back to db"
 msgstr "écriture des informations FILES pour %s-%s dans la db"
 
-#: lib/libalpm/be_files.c:631
+#: lib/libalpm/be_files.c:629
 #, c-format
 msgid "writing %s-%s DEPENDS information back to db"
 msgstr "écriture des informations DEPENDS pour %s-%s dans la db"
@@ -624,7 +624,7 @@ msgid "checkconflicts: db vs target '%s'"
 msgstr "analyse des conflits: base de données comparée a la cible '%s'"
 
 #: lib/libalpm/conflict.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "target '%s' is also in target list, using NEW conflicts"
 msgstr "'%s' est dans la la liste de cibles -- using NEW conflicts"
 
@@ -734,7 +734,6 @@ msgid "adding '%s' to the targets"
 msgstr "ajoute '%s' aux cibles"
 
 #: lib/libalpm/deps.c:583
-#, fuzzy
 msgid "started resolving dependencies"
 msgstr "début du tri des dépendances"
 
@@ -952,7 +951,6 @@ msgid "not confirmed"
 msgstr "non confirmé"
 
 #: lib/libalpm/error.c:145
-#, fuzzy
 msgid "bad configuration section name"
 msgstr "mauvaise configuration du nom de la section"
 

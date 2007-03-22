@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"POT-Creation-Date: 2007-03-22 14:16-0400\n"
 "PO-Revision-Date: 2007-03-07 11:45-0500\n"
 "Last-Translator: Vladimir Bayrakovskiy <4rayven@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,6 @@ msgid "warning: "
 msgstr "предупреждение: "
 
 #: src/pacman/package.c:60
-#, fuzzy
 msgid "Explicitly installed"
 msgstr "Неявно установлен"
 
@@ -453,8 +452,7 @@ msgstr "  -l, --list           показать содержимое запра�
 #: src/pacman/pacman.c:131
 #, c-format
 msgid ""
-"  -m, --foreign        list all packages that were not found in the sync db"
-"(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s)\n"
 msgstr ""
 "  -m, --foreign        показать все пакеты не найденные в базе данных(s)\n"
 
@@ -465,20 +463,18 @@ msgstr "  -o, --owns <файл>    найти пакет содержащий <�
 
 #: src/pacman/pacman.c:133
 #, c-format
-msgid ""
-"  -p, --file           query the package file [package] instead of the "
-"database\n"
+msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file           извлечь информацию из файла пакета [пакет], а не из "
+"  -p, --file <пакет>   извлечь информацию из файла пакета <пакет>, а не из "
 "базы данных\n"
 
 #: src/pacman/pacman.c:134
 #, c-format
 msgid ""
-"  -s, --search         search locally-installed packages for matching "
+"  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search         искать указанную строку в локально установленных "
+"  -s, --search <regex> искать указанную строку в локально установленных "
 "пакетах\n"
 
 #: src/pacman/pacman.c:135
@@ -509,9 +505,9 @@ msgstr "  -e, --dependsonly    установить только зависим�
 
 #: src/pacman/pacman.c:145
 #, c-format
-msgid "  -l. --list <repo>    view a list of packages in a repo\n"
+msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
-"  -l. --list <repo>    показать список всех пакетов в репозитории repo\n"
+"  -l, --list <repo>    показать список всех пакетов в репозитории repo\n"
 
 #: src/pacman/pacman.c:146
 #, c-format
@@ -525,9 +521,9 @@ msgstr ""
 #: src/pacman/pacman.c:147
 #, c-format
 msgid ""
-"  -s, --search         search remote repositories for matching strings\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search         искать указанную строку в репозиториях на удаленных "
+"  -s, --search <regex> искать указанную строку в репозиториях на удаленных "
 "серверах\n"
 
 #: src/pacman/pacman.c:148
@@ -669,9 +665,8 @@ msgid "failed to parse config (%s)\n"
 msgstr "не удалось разобрать конфигурационный файл (%s)\n"
 
 #: src/pacman/pacman.c:516
-#, fuzzy
 msgid "Targets  :"
-msgstr "Цели:"
+msgstr "Цели     :"
 
 #: src/pacman/pacman.c:522
 #, c-format

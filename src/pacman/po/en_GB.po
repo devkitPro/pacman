@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"POT-Creation-Date: 2007-03-22 14:16-0400\n"
 "PO-Revision-Date: 2007-03-07 21:16+1100\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
@@ -451,10 +451,9 @@ msgstr "  -l, --list           list the contents of the queried package\n"
 #: src/pacman/pacman.c:131
 #, c-format
 msgid ""
-"  -m, --foreign        list all packages that were not found in the sync db"
-"(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s)\n"
 msgstr ""
-"  -m, --foreign        list all packages that were not found in the sync db"
+"  -m, --foreign        list installed packages not found in sync db(s)\n"
 "(s)\n"
 
 #: src/pacman/pacman.c:132
@@ -464,20 +463,16 @@ msgstr "  -o, --owns <file>    query the package that owns <file>\n"
 
 #: src/pacman/pacman.c:133
 #, c-format
-msgid ""
-"  -p, --file           query the package file [package] instead of the "
-"database\n"
-msgstr ""
-"  -p, --file           query the package file [package] instead of the "
-"database\n"
+msgid "  -p, --file <package> query a package file instead of the database\n"
+msgstr "  -p, --file <package> query a package file instead of the database\n"
 
 #: src/pacman/pacman.c:134
 #, c-format
 msgid ""
-"  -s, --search         search locally-installed packages for matching "
+"  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search         search locally-installed packages for matching "
+"  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 
 #: src/pacman/pacman.c:135
@@ -505,9 +500,9 @@ msgid "  -e, --dependsonly    install dependencies only\n"
 msgstr "  -e, --dependsonly    install dependencies only\n"
 
 #: src/pacman/pacman.c:145
-#, fuzzy, c-format
-msgid "  -l. --list <repo>    view a list of packages in a repo\n"
-msgstr "  -g, --groups         view all members of a package group\n"
+#, c-format
+msgid "  -l, --list <repo>    view a list of packages in a repo\n"
+msgstr ""
 
 #: src/pacman/pacman.c:146
 #, c-format
@@ -521,9 +516,9 @@ msgstr ""
 #: src/pacman/pacman.c:147
 #, c-format
 msgid ""
-"  -s, --search         search remote repositories for matching strings\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search         search remote repositories for matching strings\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
 
 #: src/pacman/pacman.c:148
 #, c-format
@@ -660,9 +655,8 @@ msgid "failed to parse config (%s)\n"
 msgstr "failed to parse config (%s)\n"
 
 #: src/pacman/pacman.c:516
-#, fuzzy
 msgid "Targets  :"
-msgstr "Targets:"
+msgstr "Targets  :"
 
 #: src/pacman/pacman.c:522
 #, c-format
@@ -682,9 +676,9 @@ msgid "no file was specified for --owns\n"
 msgstr "no file was specified for --owns\n"
 
 #: src/pacman/query.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read file '%s': %s"
-msgstr "failed to add target '%s' (%s)"
+msgstr "failed to read file '%s': %s"
 
 #: src/pacman/query.c:100
 msgid "cannot determine ownership of a directory"

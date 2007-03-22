@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-22 10:16-0400\n"
+"POT-Creation-Date: 2007-03-22 14:16-0400\n"
 "PO-Revision-Date: 2007-03-07 09:13+0100\n"
 "Last-Translator: Pierre Schmitz <pierre@archlinux.de>\n"
 "Language-Team: Deutsch <archlinux.de>\n"
@@ -455,8 +455,7 @@ msgstr "  -l, --list           Zeigt den Inhalt des abgefragten Paketes an\n"
 #: src/pacman/pacman.c:131
 #, c-format
 msgid ""
-"  -m, --foreign        list all packages that were not found in the sync db"
-"(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s)\n"
 msgstr ""
 "  -m, --foreign        Zeigt alle Pakete an, die nicht in den Sync db(s)\n"
 "                       gefunden wurden\n"
@@ -468,20 +467,18 @@ msgstr "  -o, --owns <Datei>   Fragt das Paket ab, dass <Datei> enthält\n"
 
 #: src/pacman/pacman.c:133
 #, c-format
-msgid ""
-"  -p, --file           query the package file [package] instead of the "
-"database\n"
+msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file           Fragt die Paketdatei [Paket] anstatt der Datenbank "
+"  -p, --file <Paket>   Fragt die Paketdatei <Paket> anstatt der Datenbank "
 "ab\n"
 
 #: src/pacman/pacman.c:134
 #, c-format
 msgid ""
-"  -s, --search         search locally-installed packages for matching "
+"  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search         Durchsuche lokal installierte Pakete nach einem Wort\n"
+"  -s, --search <regex> Durchsuche lokal installierte Pakete nach einem Wort\n"
 
 #: src/pacman/pacman.c:135
 #, c-format
@@ -508,9 +505,9 @@ msgid "  -e, --dependsonly    install dependencies only\n"
 msgstr "  -e, --dependsonly    Nur Abhängigkeiten installieren\n"
 
 #: src/pacman/pacman.c:145
-#, fuzzy, c-format
-msgid "  -l. --list <repo>    view a list of packages in a repo\n"
-msgstr "  -g, --groups         Zeige alle Mitglieder einer Paket-Gruppe an\n"
+#, c-format
+msgid "  -l, --list <repo>    view a list of packages in a repo\n"
+msgstr ""
 
 #: src/pacman/pacman.c:146
 #, c-format
@@ -524,9 +521,9 @@ msgstr ""
 #: src/pacman/pacman.c:147
 #, c-format
 msgid ""
-"  -s, --search         search remote repositories for matching strings\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search         Durchsuche entfernte Repositorien nach einem Wort\n"
+"  -s, --search <regex> Durchsuche entfernte Repositorien nach einem Wort\n"
 
 #: src/pacman/pacman.c:148
 #, c-format
@@ -646,7 +643,6 @@ msgid "only one operation may be used at a time\n"
 msgstr "Es ist nur eine Operation zur selben Zeit erlaubt\n"
 
 #: src/pacman/pacman.c:436
-#, fuzzy
 msgid "warning: current locale is invalid; using default \"C\" locale"
 msgstr ""
 "Warnung: Die Standard-Ortseinstellung ist ungültig; verwende Standard-\"C\"-"
@@ -667,9 +663,8 @@ msgid "failed to parse config (%s)\n"
 msgstr "Konnte Konfiguration nicht lesen (%s)\n"
 
 #: src/pacman/pacman.c:516
-#, fuzzy
 msgid "Targets  :"
-msgstr "Pakete:"
+msgstr "Pakete   :"
 
 #: src/pacman/pacman.c:522
 #, c-format

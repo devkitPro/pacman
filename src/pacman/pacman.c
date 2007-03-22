@@ -128,10 +128,10 @@ static void usage(int op, char *myname)
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
-			printf(_("  -m, --foreign        list all packages that were not found in the sync db(s)\n"));
+			printf(_("  -m, --foreign        list installed packages not found in sync db(s)\n"));
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
-			printf(_("  -p, --file           query the package file [package] instead of the database\n"));
-			printf(_("  -s, --search         search locally-installed packages for matching strings\n"));
+			printf(_("  -p, --file <package> query a package file instead of the database\n"));
+			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf(_("usage:  %s {-S --sync} [options] [package]\n"), myname);
@@ -142,9 +142,9 @@ static void usage(int op, char *myname)
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
-			printf(_("  -l. --list <repo>    view a list of packages in a repo\n"));
+			printf(_("  -l, --list <repo>    view a list of packages in a repo\n"));
 			printf(_("  -p, --print-uris     print out URIs for given packages and their dependencies\n"));
-			printf(_("  -s, --search         search remote repositories for matching strings\n"));
+			printf(_("  -s, --search <regex> search remote repositories for matching strings\n"));
 			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));

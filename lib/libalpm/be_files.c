@@ -183,9 +183,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 			return(NULL);
 		}
 		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
-			/* TODO wow, string freeze so correct the below later: dabatase -> database */
-			/*_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'"), ent->d_name);*/
-			_alpm_log(PM_LOG_ERROR, _("invalid name for dabatase entry '%s'"), ent->d_name);
+			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'"), ent->d_name);
 			return(NULL);
 		}
 
