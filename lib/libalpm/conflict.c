@@ -366,14 +366,14 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 	return(conflicts);
 }
 
+/* Find file conflicts that may occur during the transaction with two checks:
+ * 1: check every target against every target
+ * 2: check every target against the filesystem */
 alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 {
-	alpm_list_t *i, *j, *k;
-	alpm_list_t *conflicts = NULL;
-	alpm_list_t *tmpfiles = NULL;
+	alpm_list_t *i, *conflicts = NULL;
 	alpm_list_t *targets = trans->packages;
 	int numtargs = alpm_list_count(targets);
-	double percent;
 
 	ALPM_LOG_FUNC;
 
@@ -382,17 +382,16 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 	}
 
 	for(i = targets; i; i = i->next) {
+		alpm_list_t *j, *k, *tmpfiles = NULL;
 		pmpkg_t *p1, *p2, *dbpkg;
-		char *filestr = NULL;
 		char path[PATH_MAX+1];
-		struct stat buf;
 
 		p1 = i->data;
 		if(!p1) {
 			continue;
 		}
 
-		percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1)
+		double percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1)
 			                 / alpm_list_count(targets);
 		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100),
 		         numtargs, (numtargs - alpm_list_count(i) +1));
@@ -407,7 +406,6 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			tmpfiles = chk_fileconflicts(alpm_pkg_get_files(p1), alpm_pkg_get_files(p2));
 
 			if(tmpfiles) {
-				char path[PATH_MAX];
 				for(k = tmpfiles; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", root, (char *)k->data);
 					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_TARGET, path,
@@ -417,6 +415,10 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 				alpm_list_free(tmpfiles);
 			}
 		}
+
+		/* declarations for second check */
+		struct stat buf;
+		char *filestr = NULL;
 
 		/* CHECK 2: check every target against the filesystem */
 		_alpm_log(PM_LOG_DEBUG, "searching for filesystem conflicts: %s", p1->name);
@@ -442,6 +444,26 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			/* stat the file - if it exists and is not a dir, do some checks */
 			if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
 				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", path);
+
+				/* Make sure the possible conflict is not a symlink that points to a
+				 * path in the old package. This is kind of dirty with inode usage */
+				if(dbpkg) {
+					struct stat buf2;
+					char str[PATH_MAX+1];
+					unsigned ok = 0;
+					for(k = dbpkg->files; k; k = k->next) {
+						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
+						lstat(str, &buf2);
+						if(buf.st_ino == buf2.st_ino) {
+							ok = 1;
+							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s", path);
+							break;
+						}
+					}
+					if(ok == 1) {
+						continue;
+					}
+				}
 
 				/* Look at all the targets to see if file has changed hands */
 				int resolved_conflict = 0; /* have we acted on this conflict? */
