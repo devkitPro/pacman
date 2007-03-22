@@ -129,7 +129,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 				i->data = newpkg;
 			} else {
 				_alpm_log(PM_LOG_WARNING, _("newer version %s-%s is in the target list -- skipping"),
-				          pkg->name, pkg->version, pkgver);
+				          pkg->name, pkg->version);
 			}
 			return(0);
 		}
