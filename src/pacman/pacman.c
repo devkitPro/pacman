@@ -453,7 +453,7 @@ int main(int argc, char *argv[])
 
 	/* initialize pm library */
 	if(alpm_initialize() == -1) {
-		ERR(NL, _("failed to initilize alpm library (%s)\n"), alpm_strerror(pm_errno));
+		ERR(NL, _("failed to initialize alpm library (%s)\n"), alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 
