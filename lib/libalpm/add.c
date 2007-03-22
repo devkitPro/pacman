@@ -361,7 +361,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 			/* pre_upgrade scriptlet */
 			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-				_alpm_runscriptlet(handle->root, scriptlet, "pre_upgrade", newpkg->version, oldpkg->version, trans);
+				_alpm_runscriptlet(handle->root, newpkg->data, "pre_upgrade", newpkg->version, oldpkg->version, trans);
 			}
 		} else {
 			is_upgrade = 0;
@@ -371,7 +371,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			
 			/* pre_install scriptlet */
 			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-				_alpm_runscriptlet(handle->root, scriptlet, "pre_install", newpkg->version, NULL, trans);
+				_alpm_runscriptlet(handle->root, newpkg->data, "pre_install", newpkg->version, NULL, trans);
 			}
 		}
 
