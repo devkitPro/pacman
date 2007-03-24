@@ -7,6 +7,8 @@ SUBDIRS = lib/libalpm src/util src/pacman scripts doc etc pactest contrib
 EXTRA_DIST = HACKING
 
 check-local:  src/pacman
-	python $(top_srcdir)/pactest/pactest.py --test $(top_srcdir)/pactest/tests/*.py -p $(top_builddir)/src/pacman/pacman
+	python $(top_srcdir)/pactest/pactest.py --debug=1 \
+		--test $(top_srcdir)/pactest/tests/*.py \
+		-p $(top_builddir)/src/pacman/pacman
 	rm -rf $(top_builddir)/root
 
