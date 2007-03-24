@@ -252,9 +252,9 @@ handledeps() {
 					if [ -f "$pkgdir/$BUILDSCRIPT" ]; then
 						cd "$pkgdir"
 						if [ "$RMDEPS" = "1" ]; then
-							makepkg -i -c -b -r -w $PKGDEST
+							PKGDEST="$PKGDEST" makepkg -i -c -b -r
 						else
-							makepkg -i -c -b -w $PKGDEST
+							PKGDEST="$PKGDEST" makepkg -i -c -b
 						fi
 						if [ $? -eq 0 ]; then
 							success=1
