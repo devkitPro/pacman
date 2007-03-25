@@ -883,6 +883,7 @@ else
 	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
 	set_e=$?
 
+	ret=0
 	if [ "$LOGGING" = "1" ]; then
 		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
 		if [ -f "$BUILDLOG" ]; then
@@ -899,24 +900,18 @@ else
 
 		#use 'errexit' to bail on syntax error
 		[ $set_e -eq 1 ] && set -e
-		build 2>&1 | tee "$BUILDLOG"
+		build 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
 		[ $set_e -eq 1 ] && set +e
-
-		if [ ${PIPESTATUS[0]} -gt 0 ]; then
-			error "Build Failed.  Aborting..."
-			removedeps
-			exit 2
-		fi
 	else
 		#use 'errexit' to bail on syntax error
 		[ $set_e -eq 1 ] && set -e
-		build 2>&1
+		build 2>&1 || ret=$?
 		[ $set_e -eq 1 ] && set +e
-		if [ $? -gt 0 ]; then
-			error "Build Failed.  Aborting..."
-			removedeps
-			exit 2
-		fi
+	fi
+	if [ $ret -gt 0 ]; then
+		error "Build Failed.  Aborting..."
+		removedeps
+		exit 2
 	fi
 fi
 

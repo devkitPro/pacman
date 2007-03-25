@@ -8,7 +8,8 @@ p1.install['pre_install'] = "ls /etc";
 p1.install['post_install'] = "ls /etc";
 self.addpkg(p1)
 
-self.args = "-U %s" % p1.filename()
+# --debug is necessary to check PACMAN_OUTPUT
+self.args = "--debug -U %s" % p1.filename()
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PACMAN_OUTPUT=pre_install")
