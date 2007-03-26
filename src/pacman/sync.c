@@ -554,7 +554,7 @@ int pacman_sync(alpm_list_t *targets)
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-					ERR(NL, _("'%s': %s\n"), (char *)i->data, alpm_strerror(pm_errno));
+					ERR(NL, "'%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
 					retval = 1;
 					goto cleanup;
 				}

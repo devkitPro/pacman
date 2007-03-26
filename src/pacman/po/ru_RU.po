@@ -1,5 +1,5 @@
 # Pacman Russian Translation
-# Copyright (C) YEAR Judd Vinet <jvinet@zeroflux.org>
+# Copyright (C) 2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package.
 # Vladimir Bayrakovskiy <4rayven@gmail.com>, 2007
 #
@@ -7,12 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-03-23 20:46-0500\n"
+"POT-Creation-Date: 2007-03-25 17:41+0600\n"
 "PO-Revision-Date: 2007-03-07 11:45-0500\n"
 "Last-Translator: Vladimir Bayrakovskiy <4rayven@gmail.com>\n"
+"Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/pacman/add.c:72 src/pacman/remove.c:82 src/pacman/sync.c:482
 #: src/pacman/sync.c:531
@@ -31,7 +34,7 @@ msgstr "чтение информации о пакете... "
 #: src/pacman/add.c:83
 #, c-format
 msgid "failed to add target '%s' (%s)"
-msgstr ""
+msgstr "не удалось добавить цель '%s' (%s)"
 
 #: src/pacman/add.c:88 src/pacman/sync.c:196 src/pacman/trans.c:73
 #: src/pacman/trans.c:80 src/pacman/trans.c:91 src/pacman/trans.c:105
@@ -115,11 +118,11 @@ msgstr "функция"
 
 #: src/pacman/log.c:194
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/pacman/log.c:194
 msgid "YES"
-msgstr ""
+msgstr "YES"
 
 #: src/pacman/log.h:30
 msgid "error: "
@@ -230,11 +233,11 @@ msgstr "Скрипт при установке    : %s\n"
 
 #: src/pacman/package.c:96
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 #: src/pacman/package.c:96
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/pacman/package.c:126
 #, c-format
@@ -303,7 +306,7 @@ msgstr "использование:  %s {-h --help}\n"
 #: src/pacman/pacman.c:91
 #, c-format
 msgid "        %s {-V --version}\n"
-msgstr ""
+msgstr "        %s {-V --version}\n"
 
 #: src/pacman/pacman.c:92
 #, c-format
@@ -454,7 +457,7 @@ msgstr "  -l, --list           показать содержимое запра�
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s)\n"
 msgstr ""
-"  -m, --foreign        показать все пакеты не найденные в базе данных(s)\n"
+"  -m, --foreign        показать все пакеты не найденные в базе(ах) данных\n"
 
 #: src/pacman/pacman.c:132
 #, c-format
@@ -465,7 +468,7 @@ msgstr "  -o, --owns <файл>    найти пакет содержащий <�
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file <пакет>   извлечь информацию из файла пакета <пакет>, а не из "
+"  -p, --file <пакет>    извлечь информацию из файла пакета <пакет>, а не из "
 "базы данных\n"
 
 #: src/pacman/pacman.c:134
@@ -474,7 +477,7 @@ msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search <regex> искать указанную строку в локально установленных "
+"  -s, --search <regex>  искать указанную строку в локально установленных "
 "пакетах\n"
 
 #: src/pacman/pacman.c:135
@@ -506,8 +509,7 @@ msgstr "  -e, --dependsonly    установить только зависим�
 #: src/pacman/pacman.c:145
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr ""
-"  -l, --list <repo>    показать список всех пакетов в репозитории repo\n"
+msgstr "  -l, --list <repo>    показать все пакеты данного репозитория\n"
 
 #: src/pacman/pacman.c:146
 #, c-format
@@ -553,14 +555,14 @@ msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignore <pkg>   игнорировать пакет при обновлении (может быть "
+"      --ignore <пакет> игнорировать пакет при обновлении (может быть "
 "использовано неоднократно)\n"
 
 #: src/pacman/pacman.c:153
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr ""
-"      --config <path>  использовать альтернативный конфигурационный файл\n"
+"      --config <путь>  использовать альтернативный конфигурационный файл\n"
 
 #: src/pacman/pacman.c:154
 #, c-format
@@ -572,7 +574,7 @@ msgstr "      --noconfirm      не спрашивать подтвержден�
 msgid ""
 "      --ask <number>   pre-specify answers for questions (see manpage)\n"
 msgstr ""
-"      --ask <number>   заранее подготовленные ответы на вопросы (смотрите "
+"      --ask <число>    заранее подготовленные ответы на вопросы (смотрите "
 "man-страницу)\n"
 
 #: src/pacman/pacman.c:156
@@ -597,30 +599,30 @@ msgstr "  -v, --verbose        выводить больше информаци�
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr ""
-"  -r, --root <path>    указать алтернативную корневую директорию для "
+"  -r, --root <путь>    указать альтернативную корневую директорию для "
 "установки\n"
 
 #: src/pacman/pacman.c:160
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr ""
-"  -b, --dbpath <path>  указать альтернативное расположение базы данных\n"
+"  -b, --dbpath <путь>  указать альтернативное расположение базы данных\n"
 
 #: src/pacman/pacman.c:161
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr ""
-"      --cachedir <директория> указать альтернативное расположение кэша\n"
+msgstr "      --cachedir <dir> указать альтернативное расположение кэша\n"
 
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "                       This program may be freely redistributed under\n"
 msgstr ""
+"                       This program may be freely redistributed under\n"
 
 #: src/pacman/pacman.c:175
 #, c-format
 msgid "                       the terms of the GNU General Public License\n"
-msgstr ""
+msgstr "                       the terms of the GNU General Public License\n"
 
 #: src/pacman/pacman.c:300
 #, c-format
@@ -648,7 +650,7 @@ msgstr "одновременно может выполняться только 
 
 #: src/pacman/pacman.c:436
 msgid "warning: current locale is invalid; using default \"C\" locale"
-msgstr ""
+msgstr "warning: current locale is invalid; using default \"C\" locale"
 
 #: src/pacman/pacman.c:456
 #, c-format
@@ -692,12 +694,12 @@ msgstr "не удалось прочитать файл '%s': %s"
 
 #: src/pacman/query.c:100
 msgid "cannot determine ownership of a directory"
-msgstr "не удается определить владельца директории"
+msgstr "не удалось определить владельца каталога"
 
 #: src/pacman/query.c:105
 #, c-format
 msgid "cannot determine real path for '%s': %s"
-msgstr ""
+msgstr "не удалось определить настоящий путь для '%s': %s"
 
 #: src/pacman/query.c:119
 #, c-format
@@ -887,12 +889,12 @@ msgstr ":: Сначала обновить pacman? [Y/n] "
 #: src/pacman/sync.c:537
 #, c-format
 msgid "pacman: %s\n"
-msgstr ""
+msgstr "pacman: %s\n"
 
 #: src/pacman/sync.c:557
 #, c-format
 msgid "'%s': %s\n"
-msgstr ""
+msgstr "'%s': %s\n"
 
 #: src/pacman/sync.c:572
 msgid ":: Install whole content? [Y/n] "
