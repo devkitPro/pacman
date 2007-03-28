@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+/* TODO hard to believe all these are needed just for this file */
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
@@ -86,25 +87,34 @@ static alpm_list_t *pm_targets;
  */
 static void usage(int op, char *myname)
 {
+	/* prefetch some strings for usage below, which moves a lot of calls
+	 * out of gettext. */
+	char * const str_opt = _("options");
+	char * const str_file = _("file");
+	char * const str_pkg = _("package");
+	char * const str_usg = _("usage");
+
 	if(op == PM_OP_MAIN) {
-		printf(_("usage:  %s {-h --help}\n"), myname);
-		printf(_("        %s {-V --version}\n"), myname);
-		printf(_("        %s {-A --add}     [options] <file>\n"), myname);
-		printf(_("        %s {-F --freshen} [options] <file>\n"), myname);
-		printf(_("        %s {-Q --query}   [options] [package]\n"), myname);
-		printf(_("        %s {-R --remove}  [options] <package>\n"), myname);
-		printf(_("        %s {-S --sync}    [options] [package]\n"), myname);
-		printf(_("        %s {-U --upgrade} [options] <file>\n"), myname);
+		printf("%s:", str_usg);
+		printf("    %s {-h --help}\n", myname);
+		printf("    %s {-V --version}\n", myname);
+		printf("    %s {-A --add}     [%s] <%s>\n", myname, str_opt, str_file);
+		printf("    %s {-F --freshen} [%s] <%s>\n", myname, str_opt, str_file);
+		printf("    %s {-Q --query}   [%s] [%s]\n", myname, str_opt, str_pkg);
+		printf("    %s {-R --remove}  [%s] <%s>\n", myname, str_opt, str_pkg);
+		printf("    %s {-S --sync}    [%s] [%s]\n", myname, str_opt, str_pkg);
+		printf("    %s {-U --upgrade} [%s] <%s>\n", myname, str_opt, str_file);
 		printf(_("\nuse '%s --help' with other options for more syntax\n"), myname);
 	} else {
 		if(op == PM_OP_ADD) {
-			printf(_("usage:  %s {-A --add} [options] <file>\n"), myname);
-			printf(_("options:\n"));
+			printf("%s:  %s {-A --add} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
+			printf("%s:\n", str_opt);
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_REMOVE) {
+			printf("%s:  %s {-R --remove}  [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf(_("usage:  %s {-R --remove} [options] <package>\n"), myname);
-			printf(_("options:\n"));
+			printf("%s:\n", str_opt);
 			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -k, --dbonly         only remove database entry, do not remove files\n"));
@@ -112,19 +122,19 @@ static void usage(int op, char *myname)
 			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			if(config->flags & PM_TRANS_FLAG_FRESHEN) {
-				printf(_("usage:  %s {-F --freshen} [options] <file>\n"), myname);
+				printf("%s:  %s {-F --freshen} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			} else {
-				printf(_("usage:  %s {-U --upgrade} [options] <file>\n"), myname);
+				printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			}
-			printf(_("options:\n"));
+			printf("%s:\n", str_opt);
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_QUERY) {
-			printf(_("usage:  %s {-Q --query} [options] [package]\n"), myname);
-			printf(_("options:\n"));
+			printf("%s:  %s {-Q --query}   [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:\n", str_opt);
 			printf(_("  -c, --changelog      view the changelog of a package\n"));
-			printf(_("  -e, --orphans        list all packages installed as dependencies but no longer\n"));
-			printf(_("                       required by any package\n"));
+			printf(_("  -e, --orphans        list all packages installed as dependencies but no longer\n"
+			         "                       required by any package\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
@@ -134,8 +144,8 @@ static void usage(int op, char *myname)
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
-			printf(_("usage:  %s {-S --sync} [options] [package]\n"), myname);
-			printf(_("options:\n"));
+			printf("%s:  %s {-S --sync}    [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:\n", str_opt);
 			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -e, --dependsonly    install dependencies only\n"));
@@ -154,7 +164,7 @@ static void usage(int op, char *myname)
 		printf(_("      --noconfirm      do not ask for any confirmation\n"));
 		printf(_("      --ask <number>   pre-specify answers for questions (see manpage)\n"));
 		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
-		printf(_("      --noscriptlet    do not execute the install scriptlet if there is any\n"));
+		printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
 		printf(_("  -v, --verbose        be verbose\n"));
 		printf(_("  -r, --root <path>    set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
@@ -170,9 +180,9 @@ static void version()
 	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, LIB_VERSION);
 	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>\n");
 	printf("\\  '-. '-'  '-'  '-'\n");
-	printf(" '--'                  \n");
-	printf(_("                       This program may be freely redistributed under\n"));
-	printf(_("                       the terms of the GNU General Public License\n"));
+	printf(" '--'\n");
+	printf(_("                       This program may be freely redistributed under\n"
+	         "                       the terms of the GNU General Public License\n"));
 	printf("\n");
 }
 
