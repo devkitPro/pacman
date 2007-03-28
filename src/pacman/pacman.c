@@ -81,9 +81,11 @@ pmdb_t *db_local;
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;
 
-/* Display usage/syntax for the specified operation.
- *     op:     the operation code requested
- *     myname: basename(argv[0])
+/**
+ * @brief Display usage/syntax for the specified operation.
+ *
+ * @param op     the operation code requested
+ * @param myname basename(argv[0])
  */
 static void usage(int op, char *myname)
 {
@@ -174,7 +176,8 @@ static void usage(int op, char *myname)
 	}
 }
 
-/* Version
+/**
+ * @brief Output pacman version and copyright.
  */
 static void version()
 {
@@ -188,6 +191,31 @@ static void version()
 	printf("\n");
 }
 
+/**
+ * @brief Sets up gettext localization.
+ *        Safe to call multiple times.
+ */
+/* Inspired by the monotone function localize_monotone. */
+static void localize()
+{
+	static int init = 0;
+	if (!init) {
+		printf("debug: PACKAGE: %s\n", PACKAGE);
+		printf("debug: LOCALEDIR: %s\n", LOCALEDIR);
+		setlocale(LC_ALL, "");
+		bindtextdomain(PACKAGE, LOCALEDIR);
+		textdomain(PACKAGE);
+		init = 1;
+	}
+}
+
+/**
+ * @brief Catches thrown signals.
+ *        Performs necessary cleanup to ensure database is in a consistant
+ *        state.
+ *
+ * @param signum the thrown signal
+ */
 static void cleanup(int signum)
 {
 	if(signum==SIGSEGV)
@@ -219,11 +247,13 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
-/* Parse command-line arguments for each operation
- *     argc: argc
- *     argv: argv
- *     
- * Returns: 0 on success, 1 on error
+/**
+ * @brief Parse command-line arguments for each operation
+ *
+ * @param argc argc
+ * @param argv argv
+ *
+ * @return 0 on success, 1 on error
  */
 static int parseargs(int argc, char *argv[])
 {
@@ -421,10 +451,17 @@ static int parseargs(int argc, char *argv[])
 	return(0);
 }
 
+/**
+ * @brief Main function.
+ *
+ * @param argc argc
+ * @param argv argv
+ *
+ * @return A return code indicating success, failure, etc.
+ */
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	char *lang = NULL;
 #ifndef CYGWIN
 	uid_t myuid;
 #endif
@@ -439,21 +476,7 @@ int main(int argc, char *argv[])
 	signal(SIGSEGV, cleanup);
 
 	/* i18n init */
-	lang = setlocale(LC_ALL, "");
-	/* if setlocale returns null, the locale was invalid- override it */
-	if (lang == NULL) {
-		lang = "C";
-		setlocale(LC_ALL, "C");
-		setenv("LC_ALL", lang, 1);
-		MSG(NL, _("warning: current locale is invalid; using default \"C\" locale"));
-	}
-
-	/* workaround for tr_TR */
-	if(lang && !strcmp(lang, "tr_TR")) {
-		setlocale(LC_CTYPE, "C");
-	}
-	bindtextdomain("pacman", "/usr/share/locale");
-	textdomain("pacman");
+	localize();
 
 	/* init config data */
 	config = config_new();
