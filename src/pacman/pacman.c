@@ -93,9 +93,11 @@ static void usage(int op, char *myname)
 	char * const str_file = _("file");
 	char * const str_pkg = _("package");
 	char * const str_usg = _("usage");
+	char * const str_opr = _("operation");
 
 	if(op == PM_OP_MAIN) {
-		printf("%s:", str_usg);
+		printf("%s:  %s <%s> [...]\n", str_usg, myname, str_opr);
+		printf("%s:\n", str_opt);
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
 		printf("    %s {-A --add}     [%s] <%s>\n", myname, str_opt, str_file);
@@ -112,7 +114,7 @@ static void usage(int op, char *myname)
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_REMOVE) {
-			printf("%s:  %s {-R --remove}  [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf(_("usage:  %s {-R --remove} [options] <package>\n"), myname);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
@@ -130,7 +132,7 @@ static void usage(int op, char *myname)
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_QUERY) {
-			printf("%s:  %s {-Q --query}   [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --changelog      view the changelog of a package\n"));
 			printf(_("  -e, --orphans        list all packages installed as dependencies but no longer\n"
@@ -144,7 +146,7 @@ static void usage(int op, char *myname)
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
-			printf("%s:  %s {-S --sync}    [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
