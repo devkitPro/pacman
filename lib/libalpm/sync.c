@@ -216,14 +216,22 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 									alpm_pkg_get_name(local), alpm_pkg_get_version(local),
 									alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 				if(!_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
-					pmpkg_t *dummy = _alpm_pkg_new(alpm_pkg_get_name(local),
-																				 alpm_pkg_get_version(local));
-					if(dummy == NULL) {
+					/* If package is in the ignorepkg list, ask before we add it to
+					 * the transaction */
+					if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(local))) {
+						int resp = 0;
+						QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, local, NULL, NULL, &resp);
+						if(!resp) {
+							continue;
+						}
+					}
+					pmpkg_t *tmp = _alpm_pkg_dup(local);
+					if(tmp == NULL) {
 						goto error;
 					}
-					sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
+					sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, tmp);
 					if(sync == NULL) {
-						FREEPKG(dummy);
+						FREEPKG(tmp);
 						goto error;
 					}
 					trans->packages = alpm_list_add(trans->packages, sync);
