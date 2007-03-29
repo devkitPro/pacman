@@ -1,6 +1,3 @@
-ENV_CFLAGS=$CFLAGS
-CFLAGS=""
-
 AC_PREREQ(2.59)
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
 AC_INIT([Pacman package manager], 3.0.0, [pacman-dev@archlinux.org], [pacman])
@@ -61,7 +58,7 @@ AC_ARG_ENABLE(fakeroot,
 dnl Host-dependant flags
 case "${host}" in
 	*-*-cygwin*)
-		ENV_CFLAGS="$ENV_CFLAGS -DCYGWIN"
+		CFLAGS="$CFLAGS -DCYGWIN"
 		;;
 esac
 
@@ -177,9 +174,6 @@ else
 	AC_DEFINE([FAKEROOT], , [Disable fakeroot-proof code])
 	AC_MSG_RESULT(no)
 fi
-
-dnl Set CFLAGS to both $CFLAGS and ones from env ($ENV_CFLAGS)
-CFLAGS="$CFLAGS $ENV_CFLAGS"
 
 dnl ==========================================================================
 
