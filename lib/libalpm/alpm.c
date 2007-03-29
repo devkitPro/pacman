@@ -564,6 +564,13 @@ static char *_supported_archs[] = {
 	"x86_64",
 };
 
+/**
+ * @brief Determine if a package name has -ARCH tacked on.
+ *
+ * @param pkgname name of the package to parse
+ *
+ * @return pointer to start of -ARCH text if it exists, else NULL
+ */
 char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
 {
 	/* TODO remove this when we transfer everything over to -ARCH

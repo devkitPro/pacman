@@ -1,5 +1,5 @@
 /*
- *  alpm_alpm_list.h
+ *  alpm_list.h
  * 
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  * 
@@ -21,12 +21,25 @@
 #ifndef _ALPM_LIST_H
 #define _ALPM_LIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "alpm.h"
 
-/* Chained list struct */
+/**
+ * @brief Linked list type used by libalpm.
+ *
+ * It is exposed so front ends can use it to prevent the need to reimplement
+ * lists of their own; however, it is not required that the front end uses
+ * it.
+ */
 struct __alpm_list_t {
+	/** data held by the list node */
 	void *data;
+	/** pointer to the previous node */
 	struct __alpm_list_t *prev;
+	/** pointer to the next node */
 	struct __alpm_list_t *next;
 };
 
@@ -67,6 +80,9 @@ int alpm_list_find(alpm_list_t *haystack, const void *needle);
 int alpm_list_find_str(alpm_list_t *haystack,const char *needle);
 alpm_list_t *alpm_list_diff(alpm_list_t *lhs, alpm_list_t *rhs, alpm_list_fn_cmp fn);
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* _ALPM_LIST_H */
 
 /* vim: set ts=2 sw=2 noet: */
