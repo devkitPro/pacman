@@ -510,7 +510,7 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 	if(witharch) {
 		/* trim architecture */
 		if((p = alpm_pkg_name_hasarch(tmp))) {
-			*p = 0;
+			*p = '\0';
 		}
 	}
 
