@@ -34,16 +34,6 @@ extern "C" {
  * Arch Linux Package Management library
  */
 
-/* TODO these should all be defined in config.h */
-#define PM_ROOT     "/"
-#define PM_DBPATH   "var/lib/pacman/"
-#define PM_CACHEDIR "var/cache/pacman/pkg/"
-#define PM_LOCK     "tmp/pacman.lck"
-
-
-#define PM_EXT_PKG ".pkg.tar.gz"
-#define PM_EXT_DB  ".db.tar.gz"
-
 /* 
  * Structures
  */

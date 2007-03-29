@@ -510,7 +510,7 @@ int main(int argc, char *argv[])
 	alpm_option_set_logcb(cb_log);
 
 	if(config->configfile == NULL) {
-		config->configfile = strdup(PACCONF);
+		config->configfile = strdup(PM_ROOT PM_CONF);
 	}
 
 	if(alpm_parse_config(config->configfile, NULL, "") != 0) {

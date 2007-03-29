@@ -35,15 +35,45 @@ AC_CHECK_FUNCS([strverscmp])
 AM_PROG_LIBTOOL
 AM_CONDITIONAL(LINKSTATIC, test "$enable_static" = "yes")
 
-dnl Help line for doxygen
-AC_ARG_ENABLE(doxygen,
-    AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
-    [wantdoxygen=$enableval], [wantdoxygen=yes])
+dnl Help line for root directory
+AC_ARG_WITH(root-dir,
+    AC_HELP_STRING([--with-root-dir=path], [Set the location of pacman's root operating directory]),
+    [rootdir=$withval], [rootdir=/])
+
+dnl Help line for database path
+AC_ARG_WITH(db-path,
+    AC_HELP_STRING([--with-db-path=path], [Set the location of pacman's database]),
+    [dbpath=$withval], [dbpath=var/lib/pacman/])
+
+dnl Help line for cache directory
+AC_ARG_WITH(cache-dir,
+    AC_HELP_STRING([--with-cache-dir=path], [Set the location of pacman's cache directory]),
+    [cachedir=$withval], [cachedir=var/cache/pacman/pkg/])
+
+dnl Help line for lock file
+AC_ARG_WITH(lock-file,
+    AC_HELP_STRING([--with-lock-file=path], [Set the location of pacman's lock file]),
+    [lockfile=$withval], [lockfile=var/run/pacman.lck])
 
 dnl Help line for config file
 AC_ARG_WITH(config-file,
     AC_HELP_STRING([--with-config-file=path], [Set the location of pacman's config file]),
-    [configfile=$withval], [configfile=/etc/pacman.conf])
+    [configfile=$withval], [configfile=etc/pacman.conf])
+
+dnl Help line for package extension
+AC_ARG_WITH(pkg-ext,
+			AC_HELP_STRING([--with-pkg-ext=ext], [Set the file extension used by packages]),
+    [pkgext=$withval], [pkgext=.pkg.tar.gz])
+
+dnl Help line for database extension
+AC_ARG_WITH(db-ext,
+			AC_HELP_STRING([--with-db-ext=ext], [Set the file extension used by the database]),
+    [dbext=$withval], [dbext=.db.tar.gz])
+
+dnl Help line for doxygen
+AC_ARG_ENABLE(doxygen,
+    AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
+    [wantdoxygen=$enableval], [wantdoxygen=yes])
 
 dnl Help line for debug
 AC_ARG_ENABLE(debug,
@@ -145,15 +175,6 @@ if test -z "$LIBDOWNLOAD"; then
     AC_MSG_ERROR("libdownload is needed to compile pacman!");
 fi
 
-dnl Set config location
-AC_MSG_CHECKING(for configuration file name)
-if test -n "$configfile"; then
-	AC_DEFINE_UNQUOTED([PACCONF], "$configfile", [Location of pacman conf file])
-    AC_MSG_RESULT(["$configfile"])
-else
-    AC_MSG_ERROR(["pacman config file (--with-config-file is not set"])
-fi
-
 dnl Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test "x$debug" = "xyes" ; then
@@ -174,6 +195,27 @@ else
 	AC_DEFINE([FAKEROOT], , [Disable fakeroot-proof code])
 	AC_MSG_RESULT(no)
 fi
+
+dnl Set root directory
+AC_DEFINE_UNQUOTED([PM_ROOT], "$rootdir", [Location of pacman's default root directory])
+
+dnl Set database path
+AC_DEFINE_UNQUOTED([PM_DBPATH], "$dbpath", [Location of pacman database])
+
+dnl Set cache directory
+AC_DEFINE_UNQUOTED([PM_CACHEDIR], "$cachedir", [Location of pacman's package cache])
+
+dnl Set lock file location
+AC_DEFINE_UNQUOTED([PM_LOCK], "$lockfile", [Location of pacman lock file])
+
+dnl Set configuration file location
+AC_DEFINE_UNQUOTED([PM_CONF], "$configfile", [Location of pacman configuration file])
+
+dnl Set package file extension
+AC_DEFINE_UNQUOTED([PM_EXT_PKG], "$pkgext", [The file extension used by pacman packages])
+
+dnl Set database file extension
+AC_DEFINE_UNQUOTED([PM_EXT_DB], "$dbext", [The file extension used by pacman databases])
 
 dnl ==========================================================================
 
@@ -211,8 +253,17 @@ pacman-$VERSION:
 
     libalpm version        : ${LIB_VERSION}
     pacman version         : ${PACKAGE_VERSION}
-    pacman.conf location   : ${configfile}
 
+  Directory and file information:
+    root directory         : ${rootdir}
+    database path          : ${rootdir}${dbpath}
+    cache directory        : ${rootdir}${cachedir}
+    lock file location     : ${rootdir}${lockfile}
+    conf file location     : ${rootdir}${configfile}
+    package extension      : ${pkgext}
+    database extension     : ${dbext}
+
+  Compilation options:
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
     fakeroot-proof support : ${fakeroot}
