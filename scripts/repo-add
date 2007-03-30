@@ -246,7 +246,7 @@ if [ $# -gt 1 ]; then
 			fi
 		else
 			if [ -f "$arg" ]; then
-				if ! tar xf "$arg" .PKGINFO 2>&1 >/dev/null; then
+				if ! tar tf "$arg" .PKGINFO 2>&1 >/dev/null; then
 					echo "error: '$arg' is not a package file, skipping"
 				else
 					echo ":: adding package '$arg'"
