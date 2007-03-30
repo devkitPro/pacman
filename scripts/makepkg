@@ -809,6 +809,8 @@ else
 		file_type=$(file -biz "$file")
 		unset cmd
 		case "$file_type" in
+			*application/x-tar*application/x-compress*)
+				cmd="tar -xzf $file" ;;
 			*application/x-tar*)
 				cmd="tar -xf $file" ;;
 			*application/x-zip*)
