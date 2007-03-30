@@ -560,11 +560,13 @@ cleanup:
 static long long get_freespace()
 {
 	struct mntent *mnt;
-	char *table = MOUNTED;
+	const char *table = MOUNTED;
 	FILE *fp;
 	long long ret=0;
 
 	if((fp = setmntent(table, "r")) == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("cannot read disk space information from %s: %s"),
+							table, strerror(errno));
 		return(-1);
 	}
 
