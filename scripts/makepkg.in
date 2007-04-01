@@ -25,6 +25,14 @@
 #   USA.
 #
 
+# gettext initialization
+source gettext.sh
+
+TEXTDOMAIN=makepkg
+export TEXTDOMAIN
+TEXTDOMAINDIR='@LOCALEDIR@'
+export TEXTDOMAINDIR
+
 myver='3.0.0'
 startdir=$(pwd)
 
@@ -123,12 +131,12 @@ check_option() {
 		# START DEPRECATED
 		# TODO This code should be removed in the next release of makepkg
 		elif [ "$lc" = "no$needle" ]; then
-			warning "Options beginning with 'no' will be depricated in the next version of makepkg!"
-			plain "Please replace 'no' with '!': no$needle -> !$needle."
+			warning "$(gettext "Options beginning with 'no' will be depricated in the next version of makepkg!")"
+			plain "$(eval_gettext "Please replace 'no' with '!': no\$needle -> !\$needle.")"
 			echo "n"
 			return
 		elif [ "$lc" = "keepdocs" -a "$needle" = "docs" ]; then
-			warning "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
+			warning "$(gettext "Option 'keepdocs' may not work as intended. Please replace with 'docs'.")"
 		# END DEPRECATED
 		fi
 	done
@@ -143,7 +151,7 @@ check_option() {
 			return
 		fi
 	done
-	echo "unknown"
+	echo "$(gettext "unknown")"
 	return
 }
 
@@ -162,7 +170,7 @@ check_buildenv() {
 			return
 		fi
 	done
-	echo "unknown"
+	echo "$(gettext "unknown")"
 	return
 }
 
@@ -185,7 +193,7 @@ checkdeps() {
 		#strip out the pacman prefix from "requires: xyz"
 		echo $pmout | sed 's|requires:||g'
 	elif [ $ret -ne 0 ]; then
-		error "pacman returned a fatal error ($ret): $pmout"
+		error "$(eval_gettext "pacman returned a fatal error (\$ret): \$pmout")"
 		exit 1
 	fi
 }
@@ -208,7 +216,7 @@ handledeps() {
 	if [ "$deplist" != "" -a $haveperm -eq 1 ]; then
 		if [ "$DEP_BIN" = "1" -a "$SUDO" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S and sudo)
-			msg "Installing missing dependencies..."
+			msg "$(gettext "Installing missing dependencies...")"
 			if [ "$INFAKEROOT" = "1" ]; then
 				# kinda hacky, but we need to make pacman think that we're NOT
 				# in fakeroot so it will go ahead and install the dependencies.
@@ -217,7 +225,7 @@ handledeps() {
 			fi
 			sudo pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
-				error "Pacman failed to install missing dependencies."
+				error "$(gettext "Pacman failed to install missing dependencies.")"
 				exit 1
 			fi
 			if [ "$INFAKEROOT" = "1" ]; then
@@ -226,25 +234,25 @@ handledeps() {
 			fi
 		elif [ "$DEP_BIN" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S)
-			msg "Installing missing dependencies..."
+			msg "$(gettext "Installing missing dependencies...")"
 			pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
-				error "Pacman failed to install missing dependencies."
+				error "$(gettext "Pacman failed to install missing dependencies.")"
 				exit 1
 			fi
 		elif [ "$DEP_SRC" = "1" ]; then
 			# install missing deps by building them from source.
 			# we look for each package name in $SRCROOT and build it.
 			if [ "$SRCROOT" = "" ]; then
-				error "Source root cannot be found - please make sure it is specified in /etc/makepkg.conf"
+				error "$(gettext "Source root cannot be found - please make sure it is specified in /etc/makepkg.conf")"
 				exit 1
 			fi
 			# TODO: handle version comparators (eg, glibc>=2.2.5)
-			msg "Building missing dependencies..."
+			msg "$(gettext "Building missing dependencies...")"
 			for dep in $striplist; do
 				candidates=$(find $SRCROOT -type d -name "$dep")
 				if [ "$candidates" = "" ]; then
-					error "Could not find \"$dep\" under $SRCROOT"
+					error "$(eval_gettext "Could not find \"\$dep\" under \$SRCROOT")"
 					exit 1
 				fi
 				success=0
@@ -263,7 +271,7 @@ handledeps() {
 					fi
 				done
 				if [ "$success" = "0" ]; then
-					error "Failed to build \"$dep\""
+					error "$(eval_gettext "Failed to build \"\$dep\"")"
 					exit 1
 				fi
 			done
@@ -272,8 +280,8 @@ handledeps() {
 		fi
 	elif [ "$deplist" != "" -a $haveperm -eq 0 ]; then
 		if [ "$DEP_SRC" = "1" -o "$DEP_BIN" = "1" ]; then
-			warning "Cannot auto-install missing dependencies as a normal user without sudo!"
-			plain "Run makepkg as root or with -S to resolve dependencies automatically."
+			warning "$(gettext "Cannot auto-install missing dependencies as a normal user without sudo!")"
+			plain "$(gettext "Run makepkg as root or with -S to resolve dependencies automatically.")"
 		fi
 		missingdeps=1
 	fi
@@ -300,7 +308,7 @@ resolvedeps() {
 			# check deps again to make sure they were resolved
 			newdeplist=$(checkdeps $*)
 			if [ -n "${newdeplist}" ]; then
-				error "Failed to install all missing dependencies."
+				error "$(gettext "Failed to install all missing dependencies.")"
 			fi
 		else
 			newdeplist="$deplist"
@@ -309,7 +317,7 @@ resolvedeps() {
 
 	# if new dep list is not empty, print the list
 	if [ -n "${newdeplist}" ]; then
-		msg "Missing Dependencies:"
+		msg "$(gettext "Missing Dependencies:")"
 		for dep in ${newdeplist}; do
 			msg2 "${dep}"
 		done
@@ -332,7 +340,7 @@ removedeps() {
 	done
 
 	if [ "$RMDEPS" = "1" -a "$SUDO" = "1" -a -n "$deplist" ]; then
-		msg "Removing installed dependencies..."
+		msg "$(gettext "Removing installed dependencies...")"
 		if [ "$INFAKEROOT" = "1" ]; then
 			export FAKEROOTKEY2=$FAKEROOTKEY
 			unset FAKEROOTKEY
@@ -343,14 +351,14 @@ removedeps() {
 			unset FAKEROOTKEY2
 		fi
 	elif [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a -n "$deplist" ]; then
-		msg "Removing installed dependencies..."
+		msg "$(gettext "Removing installed dependencies...")"
 		pacman $PACMAN_OPTS -Rs $striplist
 	fi
 }
 
 installpackage() {
 	if [ "$INSTALL" = "1" -a "$SUDO" = "1" ]; then
-		msg "Installing package with pacman -U..."
+		msg "$(gettext "Installing package with pacman -U...")"
 		if [ "$INFAKEROOT" = "1" ]; then
 			FAKEROOTKEY2=$FAKEROOTKEY
 			unset FAKEROOTKEY
@@ -363,43 +371,44 @@ installpackage() {
 		fi
 		exit $exitcode
 	elif [ "$INSTALL" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
-		msg "Installing package with pacman -U..."
+		msg "$(gettext "Installing package with pacman -U...")"
 		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
 		exit $?
 	fi
 }
 
 usage() {
-	echo "makepkg version $myver"
+	echo "$(eval_gettext "makepkg version \$myver")"
 	echo
-	echo "Usage: $0 [options]"
+	makepkg=$0
+	echo "$(eval_gettext "Usage: \$makepkg [options]")"
 	echo
-	echo "Options:"
-	echo "  -b, --builddeps  Build missing dependencies from source"
-	echo "  -c, --clean      Clean up work files after build"
-	echo "  -C, --cleancache Clean up source files from the cache"
-	echo "  -d, --nodeps     Skip all dependency checks"
-	echo "  -e, --noextract  Do not extract source files (use existing src/ dir)"
-	echo "  -f, --force      Overwrite existing package"
-	echo "  -g, --geninteg   Generate integrity checks for source files"
-	echo "  -h, --help       This help"
-	echo "  -i, --install    Install package after successful build"
-	echo "  -L, --log        Log package build process"
-	echo "  -m, --nocolor    Disable colorized output messages"
-	echo "  -o, --nobuild    Download and extract files only"
-	echo "  -p <buildscript> Use an alternate build script (instead of '$BUILDSCRIPT')"
-	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
+	echo "$(gettext "Options:")"
+	echo "$(gettext "  -b, --builddeps  Build missing dependencies from source")"
+	echo "$(gettext "  -c, --clean      Clean up work files after build")"
+	echo "$(gettext "  -C, --cleancache Clean up source files from the cache")"
+	echo "$(gettext "  -d, --nodeps     Skip all dependency checks")"
+	echo "$(gettext "  -e, --noextract  Do not extract source files (use existing src/ dir)")"
+	echo "$(gettext "  -f, --force      Overwrite existing package")"
+	echo "$(gettext "  -g, --geninteg   Generate integrity checks for source files")"
+	echo "$(gettext "  -h, --help       This help")"
+	echo "$(gettext "  -i, --install    Install package after successful build")"
+	echo "$(gettext "  -L, --log        Log package build process")"
+	echo "$(gettext "  -m, --nocolor    Disable colorized output messages")"
+	echo "$(gettext "  -o, --nobuild    Download and extract files only")"
+	echo "$(eval_gettext "  -p <buildscript> Use an alternate build script (instead of \'\$BUILDSCRIPT\')")"
+	echo "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")"
 	# fix flyspray feature request #2978
-	echo "  -R, --repackage  Repackage contents of pkg/ without building"
-	echo "  -s, --syncdeps   Install missing dependencies with pacman"
-	echo "  -S, --usesudo    When calling pacman, use sudo"
+	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
+	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
+	echo "$(gettext "  -S, --usesudo    When calling pacman, use sudo")"
 	echo
-	echo "These options can be passed to pacman:"
+	echo "$(gettext "These options can be passed to pacman:")"
 	echo
-	echo "  --noconfirm      Do not ask for confirmation when resolving dependencies"
-	echo "  --noprogressbar  Do not show a progress bar when downloading files"
+	echo "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")"
+	echo "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")"
 	echo
-	echo "If -p is not specified, makepkg will look for '$BUILDSCRIPT'"
+	echo "$(eval_gettext "If -p is not specified, makepkg will look for \'\$BUILDSCRIPT\'")"
 	echo
 }
 
@@ -413,7 +422,7 @@ _SRCDEST=${SRCDEST}
 if [ -f /etc/makepkg.conf ]; then
 	source /etc/makepkg.conf
 else
-	error "/etc/makepkg.conf not found. cannot continue"
+	error "$(gettext "/etc/makepkg.conf not found. cannot continue")"
 	exit 1
 fi
 
@@ -500,36 +509,36 @@ done
 
 # check for sudo
 if [ "$SUDO" = "1" -a ! "$(type -p sudo)" ]; then
-	error "Cannot find the sudo binary! Is sudo installed?"
+	error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"
 	exit 1
 fi
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
 	if [ -n "$SRCDEST" -a "$SRCDEST" != "$startdir" ]; then
-		msg "Cleaning up ALL files from $SRCDEST."
-		echo -n "    Are you sure you wish to do this? [Y/n] "
+		msg "$(eval_gettext "Cleaning up ALL files from \$SRCDEST.")"
+		echo -n "$(gettext "    Are you sure you wish to do this? [Y/n] ")"
 		read answer
 		answer=$(echo $answer | tr [:upper:] [:lower:])
 		if [ "$answer" = "yes" -o "$answer" = "y" ]; then
 			rm "$SRCDEST"/*
 			if [ $? -ne 0 ]; then
-				error "Problem removing files; you may not have correct permissions in $SRCDEST"
+				error "$(eval_gettext "Problem removing files; you may not have correct permissions in \$SRCDEST")"
 				exit 1
 			else
 				# removal worked
-				msg "Source cache cleaned."
+				msg "$(gettext "Source cache cleaned.")"
 				exit 0
 			fi
 		else
 			# answer = no
-			msg "No files have been removed."
+			msg "$(gettext "No files have been removed.")"
 			exit 0
 		fi
 	else
 		# $SRCDEST is $startdir, two possibilities
-		error "Source destination must be defined in makepkg.conf."
-		plain "In addition, please run makepkg -C outside of your cache directory."
+		error "$(gettext "Source destination must be defined in makepkg.conf.")"
+		plain "$(gettext "In addition, please run makepkg -C outside of your cache directory.")"
 		exit 1
 	fi
 fi
@@ -539,7 +548,7 @@ unset replaces depends conflicts backup source install build makedepends
 unset options noextract
 
 if [ ! -f $BUILDSCRIPT ]; then
-	error "$BUILDSCRIPT does not exist."
+	error "$(eval_gettext "\$BUILDSCRIPT does not exist.")"
 	exit 1
 	#TODO this is an attempt at a generic way to unset all package specific
 	#variables in a PKGBUILD
@@ -554,41 +563,41 @@ source $BUILDSCRIPT
 
 # check for no-no's in the build script
 if [ -z "$pkgver" ]; then
-	error "pkgver is not allowed to be empty."
+	error "$(gettext "pkgver is not allowed to be empty.")"
 	exit 1
 fi
 if [ -z "$pkgrel" ]; then
-	error "pkgrel is not allowed to be empty."
+	error "$(gettext "pkgrel is not allowed to be empty.")"
 	exit 1
 fi
 if [ $(echo "$pkgver" | grep '-') ]; then
-	error "pkgver is not allowed to contain hyphens."
+	error "$(gettext "pkgver is not allowed to contain hyphens.")"
 	exit 1
 fi
 if [ $(echo "$pkgrel" | grep '-') ]; then
-	error "pkgrel is not allowed to contain hyphens."
+	error "$(gettext "pkgrel is not allowed to contain hyphens.")"
 	exit 1
 fi
 if ! in_array $CARCH ${arch[@]}; then
-	error "$pkgname is not available for the '$CARCH' architecture."
-	plain "Note that many packages may need a line added to their $BUILDSCRIPT"
-	plain "such as arch=('$CARCH')."
+	error "$(eval_gettext "\$pkgname is not available for the \'\$CARCH\' architecture.")"
+	plain "$(eval_gettext "Note that many packages may need a line added to their \$BUILDSCRIPT")"
+	plain "$(eval_gettext "such as arch=(\'\$CARCH\').")"
 	exit 1
 fi
 
 if [ "$install" -a ! -f "$install" ]; then
-	error "install scriptlet ($install) does not exist."
+	error "$(eval_gettext "install scriptlet (\$install) does not exist.")"
 	exit 1
 fi
 
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}" \
      -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
-		warning "a package has already been built, installing existing package."
+		warning "$(gettext "a package has already been built, installing existing package.")"
 		installpackage
 		exit $?
 	else
-		error "a package has already been built.  (use -f to overwrite)"
+		error "$(gettext "a package has already been built.  (use -f to overwrite)")"
 		exit 1
 	fi
 fi
@@ -599,31 +608,32 @@ fi
 if [ "$EUID" != "0" ]; then
 	if [ "$(check_buildenv fakeroot)" = "y" ]; then
 		if [ $(type -p fakeroot) ]; then
-			msg "Entering fakeroot environment"
+			msg "$(gettext "Entering fakeroot environment")"
 			fakeroot -- $0 -F $ARGLIST
 			exit $?
 		else
-			warning "Fakeroot is not installed. Building as an unprivileged user"
-			plain "will result in non-root ownership of the packaged files. Install"
-			plain "the fakeroot package to correctly build as a non-root user."
+			warning "$(gettext "Fakeroot is not installed. Building as an unprivileged user")"
+			plain "$(gettext "will result in non-root ownership of the packaged files. Install")"
+			plain "$(gettext "the fakeroot package to correctly build as a non-root user.")"
 			plain ""
 			sleep 1
 		fi
 	else
-		warning "Running makepkg as an unprivileged user will result in non-root"		
-		plain "ownership of the packaged files. Try using the fakeroot environment"
-		plain "by placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
+		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment")"
+		plain "$(gettext "by placing 'fakeroot' in the BUILDENV array in makepkg.conf.")"
 		plain ""
 		sleep 1
 	fi
 fi
 
-msg "Making package: $pkgname $pkgver-$pkgrel ($(date))"
+date=$(date)
+msg "$(eval_gettext "Making package: \$pkgname \$pkgver-\$pkgrel (\$date)")"
 
 # fix flyspray bug #5973
 if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
 	if [ "$NODEPS" = "1" ]; then
-		warning "skipping dependency checks"
+		warning "$(gettext "skipping dependency checks")"
 	fi
 	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
@@ -631,7 +641,7 @@ elif [ $(type -p pacman) ]; then
 	# these two variables are needed later by removedeps
 	unset runtimedeps buildtimedeps
 
-	msg "Checking Runtime Dependencies..."
+	msg "$(gettext "Checking Runtime Dependencies...")"
 	resolvedeps ${depends[@]}
 	ret=$?
 	# deplist is a global variable set by resolvedeps
@@ -640,7 +650,7 @@ elif [ $(type -p pacman) ]; then
 		deperr=1
 	fi
 
-	msg "Checking Buildtime Dependencies..."
+	msg "$(gettext "Checking Buildtime Dependencies...")"
 	resolvedeps ${makedepends[@]}
 	ret=$?
 	# deplist is a global variable set by resolvedeps
@@ -650,60 +660,61 @@ elif [ $(type -p pacman) ]; then
 	fi
 
 	if [ $deperr -eq 1 ]; then
-		error "could not resolve all dependencies."
+		error "$(gettext "could not resolve all dependencies.")"
 		exit 1
 	fi
 else
-	warning "pacman was not found in PATH. skipping dependency checks."
+	warning "$(gettext "pacman was not found in PATH. skipping dependency checks.")"
 fi
 
 cd "$startdir"
 
 # retrieve sources
-msg "Retrieving Sources..."
+msg "$(gettext "Retrieving Sources...")"
 mkdir -p src
 cd "$startdir/src"
 for netfile in ${source[@]}; do
 	file=$(strip_url "$netfile")
 	if [ -f "../$file" ]; then
-		msg2 "Found $file in build dir"
+		msg2 "$(eval_gettext "Found \$file in build dir")"
 		cp "../$file" .
 	elif [ -f "$SRCDEST/$file" ]; then
-		msg2 "Using cached copy of $file"
+		msg2 "$(eval_gettext "Using cached copy of \$file")"
 		cp "$SRCDEST/$file" .
 	else
 		# check for a download utility
 		if [ -z "$FTPAGENT" ]; then
-			error "FTPAGENT is not configured. Check the /etc/makepkg.conf file."
-			msg "Aborting..."
+			error "$(gettext "FTPAGENT is not configured. Check the /etc/makepkg.conf file.")"
+			msg "$(gettext "Aborting...")"
 			exit 1
 		fi
 		ftpclient=$(echo $FTPAGENT | awk {'print $1'})
 		if [ ! -x "$ftpclient" ]; then
-			error "ftpclient $(basename $ftpclient) is not installed."
-			msg "Aborting..."
+			local clientname=$(basename $ftpclient)
+			error "$(eval_gettext "ftpclient \$clientname is not installed.")"
+			msg "$(gettext "Aborting...")"
 			exit 1
 		fi
 		proto=$(echo "$netfile" | sed 's|://.*||')
 		if [ "$proto" != "ftp" -a "$proto" != "http" -a "$proto" != "https" ]; then
-			error "$netfile was not found in the build directory and is not a proper URL."
-			msg "Aborting..."
+			error "$(eval_gettext "\$netfile was not found in the build directory and is not a proper URL.")"
+			msg "$(gettext "Aborting...")"
 			exit 1
 		fi
-		msg2 "Downloading $file"
+		msg2 "$(eval_gettext "Downloading \$file")"
 		$FTPAGENT "$netfile"
 		# fix flyspray bug #3289
 		ftpret=$?
 		if [ $ftpret -gt 0 ]; then
-			error "Failure while downloading $file"
-			msg "Aborting..."
+			error "$(eval_gettext "Failure while downloading \$file")"
+			msg "$(gettext "Aborting...")"
 			#rm "$file"
 			exit 1
 		fi
 		if [ -n "$SRCDEST" ]; then
 			mkdir -p $SRCDEST && cp "$file" $SRCDEST
 			if [ $? -ne 0 ]; then
-				warning "You do not have correct permissions to cache source in $SRCDEST"
+				warning "$(eval_gettext "You do not have correct permissions to cache source in \$SRCDEST")"
 				cp "$file" ..
 			fi
 		else
@@ -713,11 +724,11 @@ for netfile in ${source[@]}; do
 done
 
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
-	warning "Skipping source integrity checks -- using existing src/ tree"
+	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
 else
 	# TODO we end up checking $GENINTEG 3 times, could probably be refactored
 	if [ "$GENINTEG" = "1" ]; then
-		msg "Generating checksums for source files"
+		msg "$(gettext "Generating checksums for source files")"
 		plain ""
 	fi
 
@@ -729,10 +740,10 @@ else
 			sha256) integrity_name="sha256sum" ;;
 			sha384) integrity_name="sha384sum" ;;
 			sha512) integrity_name="sha512sum" ;;
-			*) error "Invalid integrity algorithm '$integ' specified"; exit 1;;
+			*) error "$(eval_gettext "Invalid integrity algorithm \'\$integ\' specified")"; exit 1;;
 		esac
 		if [ ! $(type -p $integrity_name) ]; then
-			error "Cannot find the $integrity_name program."
+			error "$(eval_gettext "Cannot find the \$integrity_name program.")"
 			exit 1
 		fi
 
@@ -761,7 +772,7 @@ else
 			integrity_sums=($(eval echo \${${integrity_name}s[@]}))
 
 			if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
-				msg "Validating source files with ${integrity_name}s"
+				msg "$(eval_gettext "Validating source files with \${integrity_name}s")"
 				errors=0
 				idx=0
 				for netfile in "${source[@]}"; do
@@ -769,19 +780,19 @@ else
 					echo -n "    $file ... " >&2
 					echo "${integrity_sums[$idx]}  $file" | $integrity_name -c - >/dev/null 2>&1
 					if [ $? -ne 0 ]; then
-						echo "FAILED" >&2
+						echo "$(gettext "FAILED")" >&2
 						errors=1
 					else
-						echo "Passed" >&2
+						echo "$(gettext "Passed")" >&2
 					fi
 					idx=$(($idx+1))
 				done
 				if [ $errors -gt 0 ]; then
-					error "One or more files did not pass the validity check!"
+					error "$(gettext "One or more files did not pass the validity check!")"
 					exit 1
 				fi
 			else
-				warning "Integrity checks ($integ) are missing or incomplete."
+				warning "$(eval_gettext "Integrity checks (\$integ) are missing or incomplete.")"
 			fi
 		fi
 	done
@@ -794,9 +805,9 @@ fi
 
 #Extract sources
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
-	warning "Skipping source extraction       -- using existing src/ tree"
+	warning "$(gettext "Skipping source extraction       -- using existing src/ tree")"
 else
-	msg "Extracting Sources..."
+	msg "$(gettext "Extracting Sources...")"
 	for netfile in "${source[@]}"; do
 		unziphack=0
 		file=$(strip_url "$netfile")
@@ -829,8 +840,8 @@ else
 			if [ $? -ne 0 ]; then
 				# unzip will return a 1 as a warning, it is not an error
 				if [ "$unziphack" != "1" -o $? -ne 1 ]; then
-					error "Failed to extract $file"
-					msg "Aborting..."
+					error "$(eval_gettext "Failed to extract \$file")"
+					msg "$(gettext "Aborting...")"
 					exit 1
 				fi
 			fi
@@ -844,14 +855,14 @@ else
 fi
 
 if [ "$NOBUILD" = "1" ]; then
-	msg "Sources are ready."
+	msg "$(gettext "Sources are ready.")"
 	exit 0
 elif [ "$REPKG" = "1" ]; then
-	warning "Skipping build"
+	warning "$(gettext "Skipping build")"
 else
 	# check for existing pkg directory
 	if [ -d "$startdir/pkg" ]; then
-		msg "Removing existing pkg/ directory..."
+		msg "$(gettext "Removing existing pkg/ directory...")"
 		rm -rf "$startdir/pkg"
 	fi
 	mkdir -p "$startdir/pkg"
@@ -875,7 +886,7 @@ else
 	fi
 
 	# build
-	msg "Starting build()..."
+	msg "$(gettext "Starting build()...")"
 
 	# some applications (eg, blackbox) will not build with some languages
 	unset LC_ALL LANG
@@ -911,7 +922,7 @@ else
 		[ $set_e -eq 1 ] && set +e
 	fi
 	if [ $ret -gt 0 ]; then
-		error "Build Failed.  Aborting..."
+		error "$(gettext "Build Failed.  Aborting...")"
 		removedeps
 		exit 2
 	fi
@@ -919,7 +930,7 @@ fi
 
 if [ "$(check_option docs)" = "n" ]; then
 	# remove info/doc files
-	msg "Removing info/doc files..."
+	msg "$(gettext "Removing info/doc files...")"
 	cd "$startdir/pkg"
 	#fix flyspray bug #5021
 	rm -rf ${DOC_DIRS[@]}
@@ -934,7 +945,7 @@ if [ -d $startdir/pkg/usr/share/man ]; then
 fi
 
 # compress man pages
-msg "Compressing man pages..."
+msg "$(gettext "Compressing man pages...")"
 find "$startdir"/pkg/{usr{,/local},opt/*}/man -type f 2>/dev/null | while read i ; do
 	ext="${i##*.}"
 	fn="${i##*/}"
@@ -953,11 +964,11 @@ cd "$startdir"
 
 # strip binaries
 if [ "$(check_option strip)" = "y" ]; then
-	msg "Stripping debugging symbols from libraries..."
+	msg "$(gettext "Stripping debugging symbols from libraries...")"
 	find pkg/{,usr,usr/local,opt/*}/lib -type f -not -name "*.dll" -not -name "*.exe" \
 	-exec /usr/bin/strip --strip-debug '{}' \; 2>&1 \
 	| grep -v "No such file" | grep -v "format not recognized"
-	msg "Stripping symbols from binaries..."
+	msg "$(gettext "Stripping symbols from binaries...")"
 	find pkg/{,usr,usr/local,opt/*}/{bin,sbin} -type f -not -name "*.dll" -not -name "*.exe" \
 	-exec /usr/bin/strip '{}' \; 2>&1 \
 	| grep -v "No such file" | grep -v "format not recognized"
@@ -965,13 +976,13 @@ fi
 
 # remove libtool (.la) files
 if [ "$(check_option libtool)" = "n" ]; then
-	msg "Removing libtool .la files..."
+	msg "$(gettext "Removing libtool .la files...")"
 	find pkg -type f -name "*.la" -exec rm -f -- '{}' \;
 fi
 
 # remove empty directories
 if [ "$(check_option emptydirs)" = "n" ]; then
-	msg "Removing empty directories..."
+	msg "$(gettext "Removing empty directories...")"
 	cd "$startdir/pkg"
 	find -depth -type d -empty -delete;
 fi
@@ -986,12 +997,12 @@ fi
 size=$(du -cb "$startdir/pkg" | tail -n 1 | awk '{print $1}')
 
 # build a filelist - do this first to keep meta files out of the list
-msg "Generating .FILELIST file..."
+msg "$(gettext "Generating .FILELIST file...")"
 cd "$startdir/pkg"
 tar cvf /dev/null * | sort >.FILELIST
 
 # write the .PKGINFO file
-msg "Generating .PKGINFO file..."
+msg "$(gettext "Generating .PKGINFO file...")"
 cd "$startdir/pkg"
 echo "# Generated by makepkg $myver" >.PKGINFO
 echo -n "# " >>.PKGINFO
@@ -1032,26 +1043,26 @@ done
 # TODO maybe remove this at some point
 # warn if license array is not present or empty
 if [ "$license" = "" ]; then
-	warning "Please add a license line to your $BUILDSCRIPT!"
-	plain "example for GPL'ed software: license=('GPL')."
+	warning "$(eval_gettext "Please add a license line to your \$BUILDSCRIPT!")"
+	plain "$(gettext "example for GPL\'ed software: license=(\'GPL\').")"
 fi
 
 # check for an install script
 if [ "$install" != "" ]; then
-	msg "Copying install script..."
+	msg "$(gettext "Copying install script...")"
 	cp "$startdir/$install" "$startdir/pkg/.INSTALL"
 fi
 
 # do we have a changelog?
 have_changelog=0
 if [ -f "$startdir/ChangeLog" ]; then
-	msg "Copying package changelog"
+	msg "$(gettext "Copying package changelog")"
 	cp "$startdir/ChangeLog" "$startdir/pkg/.CHANGELOG"
 	have_changelog=1
 fi
 
 # tar it up
-msg "Compressing package..."
+msg "$(gettext "Compressing package...")"
 cd "$startdir/pkg"
 
 pkg_file="$PKGDEST/$pkgname-$pkgver-$pkgrel-${CARCH}.${PKGEXT}"
@@ -1059,23 +1070,25 @@ comp_files=".PKGINFO .FILELIST ${install:+.INSTALL}"
 [ $have_changelog -eq 1 ] && comp_files=".CHANGELOG $comp_files"
 
 if ! tar czf $pkg_file $comp_files *; then
-	error "Failed to create package file." 
+	error "$(gettext "Failed to create package file.")"
 	exit 1
 fi
 
 cd "$startdir"
 if [ "$CLEANUP" = "1" ]; then
-	msg "Cleaning up..."
+	msg "$(gettext "Cleaning up...")"
 	rm -rf src pkg
 	rm -rf ${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*
 fi
 
 removedeps
 
-msg "Finished making: $pkgname  ($(date))"
+date=$(date)
+msg "$(eval_gettext "Finished making: \$pkgname  (\$date)")"
 
 installpackage
 
 exit 0
+
 # vim: set ts=2 sw=2 noet:
 

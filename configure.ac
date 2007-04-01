@@ -203,6 +203,11 @@ AC_DEFINE_UNQUOTED([PM_EXT_PKG], "$pkgext", [The file extension used by pacman p
 dnl Set database file extension
 AC_DEFINE_UNQUOTED([PM_EXT_DB], "$dbext", [The file extension used by pacman databases])
 
+dnl Set up localedir substitution, double eval to get full path
+localedir="$(eval echo ${localedir})"
+LOCALEDIR="$(eval echo ${localedir})"
+AC_SUBST(LOCALEDIR)
+
 dnl ==========================================================================
 
 AC_OUTPUT([
