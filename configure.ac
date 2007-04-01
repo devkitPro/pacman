@@ -80,11 +80,6 @@ AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debugging support]),
     [debug=$enableval], [debug=no])
 
-dnl Help line for fakeroot
-AC_ARG_ENABLE(fakeroot,
-    AC_HELP_STRING([--disable-fakeroot], [Disable fakeroot proof support]),
-    [fakeroot=$enableval], [fakeroot=yes])
-
 dnl Host-dependant flags
 case "${host}" in
 	*-*-cygwin*)
@@ -187,15 +182,6 @@ else
     AC_MSG_RESULT(no)
 fi
 
-dnl Enable or disable fakeroot code
-AC_MSG_CHECKING(for fakeroot proof support)
-if test "x$fakeroot" = "xyes" ; then
-	AC_MSG_RESULT(yes)
-else
-	AC_DEFINE([FAKEROOT], , [Disable fakeroot-proof code])
-	AC_MSG_RESULT(no)
-fi
-
 dnl Set root directory
 AC_DEFINE_UNQUOTED([PM_ROOT], "$rootdir", [Location of pacman's default root directory])
 
@@ -266,5 +252,4 @@ pacman-$VERSION:
   Compilation options:
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
-    fakeroot-proof support : ${fakeroot}
 "
