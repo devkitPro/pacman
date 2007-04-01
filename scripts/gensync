@@ -22,6 +22,8 @@
 
 myver='3.0.0'
 
+# functions
+
 usage() {
 	echo "gensync $myver"
 	echo "usage: $0 <root> <destfile> [package_directory]"
@@ -45,11 +47,6 @@ usage() {
 	exit 0
 }
 
-BUILDSCRIPT="PKGBUILD"
-PKGEXT="pkg.tar.gz" 
-
-source /etc/makepkg.conf
-
 error () {
 	echo "==> ERROR: $*" >&2
 }
@@ -70,6 +67,8 @@ check_force () {
 	false
 }
 
+# PROGRAM START
+
 if [ $# -lt 2 ]; then
 	usage
 	exit 1
@@ -79,6 +78,19 @@ if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
 	exit 0
 fi
+
+# source system and user makepkg.conf
+if [ -r /etc/makepkg.conf ]; then
+	source /etc/makepkg.conf
+else
+	echo "ERROR: /etc/makepkg.conf not found. Can not continue." >&2
+	exit 1 # $E_CONFIG_ERROR # TODO: error codes
+fi
+
+if [ -r ~/.makepkg.conf ]; then
+	source ~/.makepkg.conf
+fi
+
 
 d=$(dirname $1)
 rootdir="$(cd $d && pwd)/$(basename $1)"

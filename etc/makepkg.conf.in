@@ -75,4 +75,16 @@ DOC_DIRS=(usr/{,share/}{info,doc,gtk-doc} opt/gnome/{,share/}{info,doc,gtk-doc})
 #-- Packager: name/email of the person or organization building packages
 #PACKAGER="John Doe <john@doe.com>"
 
+#########################################################################
+# BUILDSCRIPT/EXTENSION DEFAULTS
+#########################################################################
+#
+# WARNING: Do NOT modify these variables unless you know what you are
+#          doing.
+#
+BUILDSCRIPT="PKGBUILD"
+PKGEXT=".pkg.tar.gz"
+DB_COMPRESSION="gz"
+DB_CHECKSUMS=(md5)
+
 # vim: set ft=sh ts=2 sw=2 et:
