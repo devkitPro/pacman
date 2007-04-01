@@ -200,8 +200,6 @@ static void localize()
 {
 	static int init = 0;
 	if (!init) {
-		printf("debug: PACKAGE: %s\n", PACKAGE);
-		printf("debug: LOCALEDIR: %s\n", LOCALEDIR);
 		setlocale(LC_ALL, "");
 		bindtextdomain(PACKAGE, LOCALEDIR);
 		textdomain(PACKAGE);
