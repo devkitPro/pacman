@@ -321,6 +321,11 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
+		/* set progress to 100% after we finish unlinking files */
+		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
+		         alpm_list_count(trans->packages),
+		         (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
+
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			/* run the post-remove script if it exists  */
 			if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
@@ -349,10 +354,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		_alpm_trans_update_depends(trans, infodup);
 		_alpm_pkg_free(infodup);
 
-
-		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
-		         alpm_list_count(trans->packages),
-		         (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
+		/* call a done event if this isn't an upgrade */
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 		}
