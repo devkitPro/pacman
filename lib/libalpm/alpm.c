@@ -891,6 +891,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 	char *ptr = NULL;
 	char *key = NULL;
 	int linenum = 0;
+	char origkey[256];
 	char section[256] = "";
 	pmdb_t *db = NULL;
 
@@ -945,21 +946,22 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 				RET_ERR(PM_ERR_CONF_BAD_SYNTAX, -1);
 			}
 			_alpm_strtrim(key);
+			strncpy(origkey, key, min(255, strlen(key)));
 			key = _alpm_strtoupper(key);
 			if(!strlen(section) && strcmp(key, "INCLUDE")) {
 				RET_ERR(PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION, -1);
 			}
 			if(ptr == NULL) {
-				if(!strcmp(key, "NOPASSIVEFTP")) {
+				if(strcmp(origkey, "NoPassiveFTP") == 0 || strcmp(key, "NOPASSIVEFTP") == 0) {
 					alpm_option_set_nopassiveftp(1);
 					_alpm_log(PM_LOG_DEBUG, _("config: nopassiveftp"));
-				} else if(!strcmp(key, "USESYSLOG")) {
+				} else if(strcmp(origkey, "UseSyslog") == 0 || strcmp(key, "USESYSLOG") == 0) {
 					alpm_option_set_usesyslog(1);
 					_alpm_log(PM_LOG_DEBUG, _("config: usesyslog"));
-				} else if(!strcmp(key, "ILOVECANDY")) {
+				} else if(strcmp(origkey, "ILoveCandy") == 0 || strcmp(key, "ILOVECANDY") == 0) {
 					alpm_option_set_chomp(1);
 					_alpm_log(PM_LOG_DEBUG, _("config: chomp"));
-				} else if(!strcmp(key, "USECOLOR")) {
+				} else if(strcmp(origkey, "UseColor") == 0 || strcmp(key, "USECOLOR") == 0) {
 					alpm_option_set_usecolor(1);
 					_alpm_log(PM_LOG_DEBUG, _("config: usecolor"));
 				} else {
@@ -967,13 +969,13 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 				}
 			} else {
 				_alpm_strtrim(ptr);
-				if(!strcmp(key, "INCLUDE")) {
+				if(strcmp(origkey, "Include") == 0 || strcmp(key, "INCLUDE") == 0) {
 					char conf[PATH_MAX];
 					strncpy(conf, ptr, PATH_MAX);
 					_alpm_log(PM_LOG_DEBUG, _("config: including %s"), conf);
 					alpm_parse_config(conf, callback, section);
-				} else if(!strcmp(section, "options")) {
-					if(!strcmp(key, "NOUPGRADE")) {
+				} else if(strcmp(section, "options") == 0) {
+					if(strcmp(origkey, "NoUpgrade") == 0 || strcmp(key, "NOUPGRADE") == 0) {
 						char *p = ptr;
 						char *q;
 
@@ -986,7 +988,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 						}
 						alpm_option_add_noupgrade(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: noupgrade: %s"), p);
-					} else if(!strcmp(key, "NOEXTRACT")) {
+					} else if(strcmp(origkey, "NoExtract") == 0 || strcmp(key, "NOEXTRACT") == 0) {
 						char *p = ptr;
 						char *q;
 
@@ -999,7 +1001,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 						}
 						alpm_option_add_noextract(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: noextract: %s"), p);
-					} else if(!strcmp(key, "IGNOREPKG")) {
+					} else if(strcmp(origkey, "IgnorePkg") == 0 || strcmp(key, "IGNOREPKG") == 0) {
 						char *p = ptr;
 						char *q;
 
@@ -1012,7 +1014,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 						}
 						alpm_option_add_ignorepkg(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
-					} else if(!strcmp(key, "HOLDPKG")) {
+					} else if(strcmp(origkey, "HoldPkg") == 0 || strcmp(key, "HOLDPKG") == 0) {
 						char *p = ptr;
 						char *q;
 
@@ -1025,27 +1027,34 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 						}
 						alpm_option_add_holdpkg(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s"), p);
-					} else if(!strcmp(key, "DBPATH")) {
+					} else if(strcmp(origkey, "DBPath") == 0 || strcmp(key, "DBPATH") == 0) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
 							ptr++;
 						}
 						alpm_option_set_dbpath(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: dbpath: %s"), ptr);
-					} else if(!strcmp(key, "CACHEDIR")) {
+					} else if(strcmp(origkey, "CacheDir") == 0 || strcmp(key, "CACHEDIR") == 0) {
 						/* shave off the leading slash, if there is one */
 						if(*ptr == '/') {
 							ptr++;
 						}
 						alpm_option_set_cachedir(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: cachedir: %s"), ptr);
-					} else if (!strcmp(key, "LOGFILE")) {
+					} else if(strcmp(origkey, "RootDir") == 0 || strcmp(key, "ROOTDIR") == 0) {
+						/* shave off the leading slash, if there is one */
+						if(*ptr == '/') {
+							ptr++;
+						}
+						alpm_option_set_root(ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: rootdir: %s"), ptr);
+					} else if (strcmp(origkey, "LogFile") == 0 || strcmp(key, "LOGFILE") == 0) {
 						alpm_option_set_logfile(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: logfile: %s"), ptr);
-					} else if (!strcmp(key, "XFERCOMMAND")) {
+					} else if (strcmp(origkey, "XferCommand") == 0 || strcmp(key, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: xfercommand: %s"), ptr);
-					} else if (!strcmp(key, "UPGRADEDELAY")) {
+					} else if (strcmp(origkey, "UpgradeDelay") == 0 || strcmp(key, "UPGRADEDELAY") == 0) {
 						/* The config value is in days, we use seconds */
 						time_t ud = atol(ptr) * 60 * 60 *24;
 						alpm_option_set_upgradedelay(ud);
@@ -1054,7 +1063,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 						RET_ERR(PM_ERR_CONF_BAD_SYNTAX, -1);
 					}
 				} else {
-					if(!strcmp(key, "SERVER")) {
+					if(strcmp(origkey, "Server") == 0 || strcmp(key, "SERVER") == 0) {
 						/* add to the list */
 						if(alpm_db_setserver(db, ptr) != 0) {
 							/* pm_errno is set by alpm_db_setserver */

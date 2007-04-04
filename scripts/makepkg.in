@@ -762,7 +762,11 @@ else
 				if [ $ct -eq 0 ]; then
 					echo -n "${integrity_name}s=("
 				else
-					echo -ne "\t  "
+					indent=0
+					while [ $indent -lt $((${#integrity_name}+3)) ]; do
+						echo -n " "
+						indent=$(($indent+1))
+					done
 				fi
 				echo -n "'$sum'"
 				ct=$(($ct+1))
