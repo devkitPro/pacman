@@ -284,10 +284,10 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			break;
 		}
 
-		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
-						 pkgname, alpm_pkg_get_version(info));
 		/* get the name now so we can use it after package is removed */
 		pkgname = alpm_pkg_get_name(info);
+		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
+						 pkgname, alpm_pkg_get_version(info));
 
 		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
