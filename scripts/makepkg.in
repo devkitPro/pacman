@@ -136,7 +136,7 @@ check_option() {
 		# START DEPRECATED
 		# TODO This code should be removed in the next release of makepkg
 		elif [ "$lc" = "no$needle" ]; then
-			warning "$(gettext "Options beginning with 'no' will be depricated in the next version of makepkg!")"
+			warning "$(gettext "Options beginning with 'no' will be deprecated in the next version of makepkg!")"
 			plain "$(eval_gettext "Please replace 'no' with '!': no\$needle -> !\$needle.")"
 			echo "n"
 			return
