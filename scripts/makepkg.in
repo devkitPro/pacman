@@ -189,6 +189,39 @@ in_array() {
 	return 1
 }
 
+getdownloadclient() {
+	# $1 = url with valid protocol prefix
+	local url=$1
+	local proto=$(echo $netfile | sed 's|://.*||')
+
+	# loop through DOWNLOAD_AGENTS variable looking for protocol
+	for i in "${DLAGENTS[@]}"; do
+		local handler=$(echo $i | sed 's|::.*||')
+		if [ "$proto" == "$handler" ]; then
+			agent=$(echo $i | sed 's|^.*::||')
+			break
+		fi
+	done
+
+	# if we didn't find an agent, return an error
+	if [ -z "$agent" ]; then
+		error "$(eval_gettext "There is no agent set up to handle \$proto URLs. Check /etc/makepkg.conf.")"
+		error "$(gettext "Aborting...")"
+		exit 1 # $E_CONFIG_ERROR # TODO: error code
+	fi
+
+	# ensure specified program is installed
+	local program="$(echo $agent | awk '{print $1 }')"
+	if [ ! -x "$program" ]; then
+		local baseprog=$(basename $program)
+		error "$(eval_gettext "The download program \$baseprog is not installed.")"
+		error "$(gettext "Aborting...")"
+		exit 1 # $E_MISSING_PROGRAM # TODO: error code
+	fi
+
+	echo "$agent"
+}
+
 checkdeps() {
 	[ $# -gt 0 ] || return
 
@@ -674,59 +707,46 @@ fi
 
 cd "$startdir"
 
-# retrieve sources
-msg "$(gettext "Retrieving Sources...")"
 mkdir -p src
 cd "$startdir/src"
+
+msg "$(gettext "Retrieving Sources...")"
 for netfile in ${source[@]}; do
 	file=$(strip_url "$netfile")
 	if [ -f "../$file" ]; then
 		msg2 "$(eval_gettext "Found \$file in build dir")"
 		cp "../$file" .
+		continue
 	elif [ -f "$SRCDEST/$file" ]; then
 		msg2 "$(eval_gettext "Using cached copy of \$file")"
 		cp "$SRCDEST/$file" .
-	else
-		# check for a download utility
-		if [ -z "$FTPAGENT" ]; then
-			error "$(gettext "FTPAGENT is not configured. Check the /etc/makepkg.conf file.")"
-			msg "$(gettext "Aborting...")"
-			exit 1
-		fi
-		ftpclient=$(echo $FTPAGENT | awk {'print $1'})
-		if [ ! -x "$ftpclient" ]; then
-			local clientname=$(basename $ftpclient)
-			error "$(eval_gettext "ftpclient \$clientname is not installed.")"
-			msg "$(gettext "Aborting...")"
-			exit 1
-		fi
-		proto=$(echo "$netfile" | sed 's|://.*||')
-		if [ "$proto" != "ftp" -a "$proto" != "http" -a "$proto" != "https" ]; then
-			error "$(eval_gettext "\$netfile was not found in the build directory and is not a proper URL.")"
-			msg "$(gettext "Aborting...")"
-			exit 1
-		fi
-		msg2 "$(eval_gettext "Downloading \$file")"
-		$FTPAGENT "$netfile"
-		# fix flyspray bug #3289
-		ftpret=$?
-		if [ $ftpret -gt 0 ]; then
-			error "$(eval_gettext "Failure while downloading \$file")"
-			msg "$(gettext "Aborting...")"
-			#rm "$file"
-			exit 1
-		fi
-		if [ -n "$SRCDEST" ]; then
-			mkdir -p $SRCDEST && cp "$file" $SRCDEST
-			if [ $? -ne 0 ]; then
-				warning "$(eval_gettext "You do not have correct permissions to cache source in \$SRCDEST")"
-				cp "$file" ..
-			fi
-		else
+		continue
+	fi
+
+	# find the client we should use for this URL
+	dlclient=$(getdownloadclient $netfile) || exit $?
+
+	msg2 "$(eval_gettext "Downloading \$file")"
+	# fix flyspray bug #3289
+	ret=0
+	$dlclient "$netfile" || ret=$?
+	if [ $ret -gt 0 ]; then
+		error "$(gettext "Failure while downloading $file")"
+		msg "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	if [ -n "$SRCDEST" ]; then
+		mkdir -p "$SRCDEST" && cp "$file" "$SRCDEST" || ret=$?
+		if [ $ret -gt 0 ]; then
+			warning "$(eval_gettext "You do not have correct permissions to cache source in \$SRCDEST")"
 			cp "$file" ..
 		fi
+	else
+		cp "$file" ..
 	fi
 done
+unset netfile file dlclient ret
 
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
