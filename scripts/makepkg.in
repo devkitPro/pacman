@@ -393,6 +393,68 @@ removedeps() {
 	fi
 }
 
+tidy_install() {
+	if [ "$(check_option docs)" = "n" ]; then
+		# remove info/doc files
+		msg "$(gettext "Removing info/doc files...")"
+		cd "$startdir/pkg"
+		#fix flyspray bug #5021
+		rm -rf ${DOC_DIRS[@]}
+	fi
+
+	# move /usr/share/man files to /usr/man
+	if [ -d $startdir/pkg/usr/share/man ]; then
+		cd "$startdir"
+		mkdir -p pkg/usr/man 
+		cp -a pkg/usr/share/man/* pkg/usr/man/
+		rm -rf pkg/usr/share/man
+	fi
+
+	# compress man pages
+	msg "$(gettext "Compressing man pages...")"
+	find "$startdir"/pkg/{usr{,/local},opt/*}/man -type f 2>/dev/null | while read i ; do
+		ext="${i##*.}"
+		fn="${i##*/}"
+		if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
+			# update symlinks to this manpage
+			find "$startdir"/pkg/{usr{,/local},opt/*}/man -lname "$fn" 2> /dev/null | while read ln ; do
+				rm -f "$ln"
+				ln -sf "${fn}.gz" "${ln}.gz"
+			done
+			# compress the original
+			gzip -9 "$i"
+		fi
+	done
+
+	cd "$startdir"
+
+	# strip binaries
+	if [ "$(check_option strip)" = "y" ]; then
+		msg "$(gettext "Stripping debugging symbols from binaries and libraries...")"
+		for file in $(find pkg/*/{bin,lib,sbin} -type f 2>/dev/null || true); do
+			case "$(file -biz "$file")" in
+				*application/x-sharedlib*)  # Libraries
+					/usr/bin/strip --strip-debug "$file";;
+				*application/x-executable*) # Binaries
+				  /usr/bin/strip "$file";;
+			esac
+		done
+	fi
+
+	# remove libtool (.la) files
+	if [ "$(check_option libtool)" = "n" ]; then
+		msg "$(gettext "Removing libtool .la files...")"
+		find pkg -type f -name "*.la" -exec rm -f -- '{}' \;
+	fi
+
+	# remove empty directories
+	if [ "$(check_option emptydirs)" = "n" ]; then
+		msg "$(gettext "Removing empty directories...")"
+		cd "$startdir/pkg"
+		find -depth -type d -empty -delete;
+	fi
+}
+
 create_package() {
 	cd "$startdir"/pkg
 	msg "$(gettext "Creating package...")"	# get some package meta info
@@ -1051,66 +1113,7 @@ else
 	fi
 fi
 
-if [ "$(check_option docs)" = "n" ]; then
-	# remove info/doc files
-	msg "$(gettext "Removing info/doc files...")"
-	cd "$startdir/pkg"
-	#fix flyspray bug #5021
-	rm -rf ${DOC_DIRS[@]}
-fi
-
-# move /usr/share/man files to /usr/man
-if [ -d $startdir/pkg/usr/share/man ]; then
-	cd "$startdir"
-	mkdir -p pkg/usr/man 
-	cp -a pkg/usr/share/man/* pkg/usr/man/
-	rm -rf pkg/usr/share/man
-fi
-
-# compress man pages
-msg "$(gettext "Compressing man pages...")"
-find "$startdir"/pkg/{usr{,/local},opt/*}/man -type f 2>/dev/null | while read i ; do
-	ext="${i##*.}"
-	fn="${i##*/}"
-	if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
-		# update symlinks to this manpage
-		find "$startdir"/pkg/{usr{,/local},opt/*}/man -lname "$fn" 2> /dev/null | while read ln ; do
-			rm -f "$ln"
-			ln -sf "${fn}.gz" "${ln}.gz"
-		done
-		# compress the original
-		gzip -9 "$i"
-	fi
-done
-
-cd "$startdir"
-
-# strip binaries
-if [ "$(check_option strip)" = "y" ]; then
-	msg "$(gettext "Stripping symbols from binaries and libraries...")"
-	for file in $(find pkg/*/{bin,lib,sbin} -type f 2>/dev/null || true ); do
-		case "$(file -biz "$file")" in
-			*application/x-sharedlib*)  # Libraries
-				/usr/bin/strip --strip-debug "$file";;
-			*application/x-executable*) # Binaries
-				/usr/bin/strip "$file";;
-		esac
-	done
-fi
-
-# remove libtool (.la) files
-if [ "$(check_option libtool)" = "n" ]; then
-	msg "$(gettext "Removing libtool .la files...")"
-	find pkg -type f -name "*.la" -exec rm -f -- '{}' \;
-fi
-
-# remove empty directories
-if [ "$(check_option emptydirs)" = "n" ]; then
-	msg "$(gettext "Removing empty directories...")"
-	cd "$startdir/pkg"
-	find -depth -type d -empty -delete;
-fi
-
+tidy_install
 create_package
 
 cd "$startdir"
