@@ -16,7 +16,7 @@ bin_SCRIPTS = \
 EXTRA_DIST = abs.in \
 	     gensync.in \
 	     makepkg.in \
-	     makeworld \
+	     makeworld.in \
 	     pacman-optimize \
 	     rankmirrors \
 	     repo-add \

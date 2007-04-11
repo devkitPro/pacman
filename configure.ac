@@ -220,6 +220,7 @@ scripts/Makefile
 scripts/abs
 scripts/gensync
 scripts/makepkg
+scripts/makeworld
 doc/Makefile
 etc/Makefile
 etc/makepkg.conf
