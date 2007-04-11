@@ -217,6 +217,7 @@ src/pacman/Makefile
 src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
+scripts/abs
 scripts/makepkg
 doc/Makefile
 etc/Makefile

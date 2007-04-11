@@ -1,5 +1,6 @@
 #!/bin/bash
 
+myver='@PACKAGE_VERSION@'
 CONFDIR="/etc/abs"
 CONNMODE="m"
 
@@ -17,6 +18,15 @@ usage() {
 	echo "editing /etc/abs/supfile.* files.  If no argument is given, abs "
 	echo "will synchronize from supfiles specified in /etc/abs/abs.conf."
 	echo "If -p is specified, the connection is opened in passive mode."
+}
+
+version() {
+	printf "abs (pacman) %s\n" "$myver"
+	printf "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n"
+	echo
+	printf "This is free software; see the source for copying conditions.\n"
+	printf "There is NO WARRANTY, to the extent permitted by law.\n"
+	echo
 }
 
 update() {
@@ -39,6 +49,11 @@ update() {
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 	usage
+	exit 0
+fi
+
+if [ "$1" = "-V" ] || [ "$1" = "--version" ]; then
+	version
 	exit 0
 fi
 

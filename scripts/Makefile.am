@@ -13,7 +13,7 @@ bin_SCRIPTS = \
 	repo-remove \
 	updatesync
 
-EXTRA_DIST = abs \
+EXTRA_DIST = abs.in \
 	     gensync \
 	     makepkg.in \
 	     makeworld \
