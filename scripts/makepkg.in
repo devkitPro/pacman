@@ -396,7 +396,7 @@ removedeps() {
 run_build() {
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
 	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
-		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
+		[ -d /usr/lib/distcc/bin ] && export PATH="/usr/lib/distcc/bin:$PATH"
 	elif [ "$(check_option distcc)" = "n" ]; then
 		# if it is not wanted, clear the makeflags too
 		MAKEFLAGS=""
@@ -404,7 +404,7 @@ run_build() {
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
 	if [ "$(check_buildenv ccache)" = "y" -a "$(check_option ccache)" != "n" ]; then
-		[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
+		[ -d /usr/lib/ccache/bin ] && export PATH="/usr/lib/ccache/bin:$PATH"
 	fi
 
 	# clear user-specified makeflags if requested
@@ -412,11 +412,13 @@ run_build() {
 		MAKEFLAGS=""
 	fi
 
-	# build
 	msg "$(gettext "Starting build()...")"
+	cd "$startdir"/src
 
 	# some applications (eg, blackbox) will not build with some languages
-	unset LC_ALL LC_MESSAGES LANG
+	local _LC_ALL="$LC_ALL"; export LC_ALL=C
+	local _LC_MESSAGES="$LC_MESSAGES"; unset LC_MESSAGES
+	local _LANG="$LANG";     export LANG=C
 	umask 0022
 
 	# ensure CFLAGS and CXXFLAGS are used
@@ -424,15 +426,14 @@ run_build() {
 	export CXXFLAGS
 	export MAKEFLAGS
 
-	#check for "exit on syntax error" shell option
-	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
-	set_e=$?
+	# check for "exit on syntax error" shell option
+	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null; set_e=$?
 
-	ret=0
+	local ret=0
 	if [ "$LOGGING" = "1" ]; then
 		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
 		if [ -f "$BUILDLOG" ]; then
-			i=1
+			local i=1
 			while true; do
 				if [ -f "$BUILDLOG.$i" ]; then
 					i=$(($i +1))
@@ -443,20 +444,26 @@ run_build() {
 			mv "$BUILDLOG" "$BUILDLOG.$i"
 		fi
 
-		#use 'errexit' to bail on syntax error
+		# use 'errexit' to bail on syntax error
 		[ $set_e -eq 1 ] && set -e
 		build 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
 		[ $set_e -eq 1 ] && set +e
 	else
-		#use 'errexit' to bail on syntax error
+		# use 'errexit' to bail on syntax error
 		[ $set_e -eq 1 ] && set -e
 		build 2>&1 || ret=$?
 		[ $set_e -eq 1 ] && set +e
 	fi
+
+	# restore LC_ALL & LANG
+	export LC_ALL="$_LC_ALL"
+	export LC_MESSAGES="$_LC_MESSAGES"
+	export LANG="$_LANG"
+
 	if [ $ret -gt 0 ]; then
 		error "$(gettext "Build Failed.  Aborting...")"
 		removedeps
-		exit 2
+		exit 2 # $E_BUILD_FAILED # TODO: error code
 	fi
 }
 
