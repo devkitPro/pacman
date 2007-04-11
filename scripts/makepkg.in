@@ -393,6 +393,73 @@ removedeps() {
 	fi
 }
 
+run_build() {
+	# use distcc if it is requested (check buildenv and PKGBUILD opts)
+	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
+		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
+	elif [ "$(check_option distcc)" = "n" ]; then
+		# if it is not wanted, clear the makeflags too
+		MAKEFLAGS=""
+	fi
+
+	# use ccache if it is requested (check buildenv and PKGBUILD opts)
+	if [ "$(check_buildenv ccache)" = "y" -a "$(check_option ccache)" != "n" ]; then
+		[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
+	fi
+
+	# clear user-specified makeflags if requested
+	if [ "$(check_option makeflags)" = "n" ]; then
+		MAKEFLAGS=""
+	fi
+
+	# build
+	msg "$(gettext "Starting build()...")"
+
+	# some applications (eg, blackbox) will not build with some languages
+	unset LC_ALL LC_MESSAGES LANG
+	umask 0022
+
+	# ensure CFLAGS and CXXFLAGS are used
+	export CFLAGS
+	export CXXFLAGS
+	export MAKEFLAGS
+
+	#check for "exit on syntax error" shell option
+	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
+	set_e=$?
+
+	ret=0
+	if [ "$LOGGING" = "1" ]; then
+		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
+		if [ -f "$BUILDLOG" ]; then
+			i=1
+			while true; do
+				if [ -f "$BUILDLOG.$i" ]; then
+					i=$(($i +1))
+				else
+					break
+				fi
+			done
+			mv "$BUILDLOG" "$BUILDLOG.$i"
+		fi
+
+		#use 'errexit' to bail on syntax error
+		[ $set_e -eq 1 ] && set -e
+		build 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
+		[ $set_e -eq 1 ] && set +e
+	else
+		#use 'errexit' to bail on syntax error
+		[ $set_e -eq 1 ] && set -e
+		build 2>&1 || ret=$?
+		[ $set_e -eq 1 ] && set +e
+	fi
+	if [ $ret -gt 0 ]; then
+		error "$(gettext "Build Failed.  Aborting...")"
+		removedeps
+		exit 2
+	fi
+}
+
 tidy_install() {
 	cd "$startdir"/pkg
 	msg2 "$(gettext "Tidying install...")"
@@ -1043,70 +1110,7 @@ else
 	fi
 	mkdir -p "$startdir/pkg"
 
-	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
-		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
-	elif [ "$(check_option distcc)" = "n" ]; then
-		# if it is not wanted, clear the makeflags too
-		MAKEFLAGS=""
-	fi
-
-	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if [ "$(check_buildenv ccache)" = "y" -a "$(check_option ccache)" != "n" ]; then
-		[ -d /usr/lib/ccache/bin ] && export PATH=/usr/lib/ccache/bin:$PATH
-	fi
-
-	# clear user-specified makeflags if requested
-	if [ "$(check_option makeflags)" = "n" ]; then
-		MAKEFLAGS=""
-	fi
-
-	# build
-	msg "$(gettext "Starting build()...")"
-
-	# some applications (eg, blackbox) will not build with some languages
-	unset LC_ALL LC_MESSAGES LANG
-	umask 0022
-
-	# ensure CFLAGS and CXXFLAGS are used
-	export CFLAGS
-	export CXXFLAGS
-	export MAKEFLAGS
-
-	#check for "exit on syntax error" shell option
-	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
-	set_e=$?
-
-	ret=0
-	if [ "$LOGGING" = "1" ]; then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
-		if [ -f "$BUILDLOG" ]; then
-			i=1
-			while true; do
-				if [ -f "$BUILDLOG.$i" ]; then
-					i=$(($i +1))
-				else
-					break
-				fi
-			done
-			mv "$BUILDLOG" "$BUILDLOG.$i"
-		fi
-
-		#use 'errexit' to bail on syntax error
-		[ $set_e -eq 1 ] && set -e
-		build 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
-		[ $set_e -eq 1 ] && set +e
-	else
-		#use 'errexit' to bail on syntax error
-		[ $set_e -eq 1 ] && set -e
-		build 2>&1 || ret=$?
-		[ $set_e -eq 1 ] && set +e
-	fi
-	if [ $ret -gt 0 ]; then
-		error "$(gettext "Build Failed.  Aborting...")"
-		removedeps
-		exit 2
-	fi
+	run_build
 fi
 
 tidy_install
