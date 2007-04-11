@@ -13,14 +13,4 @@ bin_SCRIPTS = \
 	repo-remove \
 	updatesync
 
-EXTRA_DIST = abs.in \
-	     gensync.in \
-	     makepkg.in \
-	     makeworld.in \
-	     pacman-optimize.in \
-	     rankmirrors \
-	     repo-add.in \
-	     repo-remove.in \
-	     updatesync.in
-
 abs gensync makepkg makeworld pacman-optimize rankmirrors repo-add repo-remove re-pacman updatesync:
