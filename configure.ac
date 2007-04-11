@@ -224,6 +224,7 @@ scripts/makeworld
 scripts/pacman-optimize
 scripts/repo-add
 scripts/repo-remove
+scripts/updatesync
 doc/Makefile
 etc/Makefile
 etc/makepkg.conf

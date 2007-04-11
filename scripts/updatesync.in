@@ -21,7 +21,7 @@
 #   USA.
 #
 
-myver='3.0.0'
+myver='@PACKAGE_VERSION@'
 
 # functions
 
@@ -49,6 +49,15 @@ usage() {
 	exit 0
 }
 
+version() {
+	printf "updatesync (pacman) %s\n" "$myver"
+	printf "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\n"
+	echo
+	printf "This is free software; see the source for copying conditions.\n"
+	printf "There is NO WARRANTY, to the extent permitted by law.\n"
+	echo
+}
+
 error () {
 	echo "==> ERROR: $*" >&2
 }
@@ -71,14 +80,19 @@ check_force () {
 
 # PROGRAM START
 
-if [ $# -lt 3 ]; then
-	usage
-	exit 1
-fi
-
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
 	exit 0
+fi
+
+if [ "$1" = "-V" -o "$1" = "--version" ]; then
+	version
+	exit 0
+fi
+
+if [ $# -lt 3 ]; then
+	usage
+	exit 1
 fi
 
 # source system and user makepkg.conf

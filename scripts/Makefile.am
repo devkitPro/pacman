@@ -21,6 +21,6 @@ EXTRA_DIST = abs.in \
 	     rankmirrors \
 	     repo-add.in \
 	     repo-remove.in \
-	     updatesync
+	     updatesync.in
 
 abs gensync makepkg makeworld pacman-optimize rankmirrors repo-add repo-remove re-pacman updatesync:
