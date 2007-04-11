@@ -62,11 +62,6 @@ version() {
 	echo
 }
 
-if [ $# -lt 2 ]; then
-	usage
-	exit 1
-fi
-
 MAKEPKG_OPTS=
 for arg in $*; do
 	case $arg in
@@ -143,6 +138,11 @@ for arg in $*; do
 done
 
 if [ "$dest" = "" ]; then
+	usage
+	exit 1
+fi
+
+if [ $# -lt 1 ]; then
 	usage
 	exit 1
 fi
