@@ -19,7 +19,7 @@
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
 #   USA.
 
-myver='3.0.0'
+myver='@PACKAGE_VERSION@'
 
 FORCE=0
 REPO_DB_FILE=""
@@ -37,6 +37,15 @@ usage() {
 	echo
 	echo "Example:"
 	echo "  repo-remove /path/to/repo.db.tar.gz kernel26"
+	echo
+}
+
+version() {
+	printf "repo-remove (pacman) %s\n" "$myver"
+	printf "Copyright (C) 2007 Dan McGee <dan@archlinux.org>.\n"
+	echo
+	printf "This is free software; see the source for copying conditions.\n"
+	printf "There is NO WARRANTY, to the extent permitted by law.\n"
 	echo
 }
 
@@ -68,6 +77,12 @@ db_remove_entry()
 # check for help flags
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
+	exit 0
+fi
+
+# check for version flags
+if [ "$1" = "-V" -o "$1" = "--version" ]; thhen
+	version
 	exit 0
 fi
 
