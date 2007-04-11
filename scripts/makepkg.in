@@ -48,12 +48,14 @@ if [ -z "$SRCROOT" ]; then
 fi	
 
 # Options
+ASROOT=0
 CLEANUP=0
 CLEANCACHE=0
 DEP_BIN=0
 DEP_SRC=0
 SUDO=0
 FORCE=0
+INFAKEROOT=0
 GENINTEG=0
 INSTALL=0
 NOBUILD=0
@@ -64,14 +66,6 @@ REPKG=0
 LOGGING=0
 
 PACMAN_OPTS=
-
-#determine if we are running with fakeroot
-if [ "$1" = "-F" ]; then
-	INFAKEROOT=1
-	shift
-else
-	INFAKEROOT=0
-fi
 
 ### SUBROUTINES ###
 
@@ -693,6 +687,7 @@ while [ "$#" -ne "0" ]; do
 		--noconfirm)      PACMAN_OPTS="$PACMAN_OPTS --noconfirm" ;;
 		--noprogressbar)  PACMAN_OPTS="$PACMAN_OPTS --noprogressbar" ;;
 		# makepkg
+		--asroot)     ASROOT=1 ;;
 		--clean)      CLEANUP=1 ;;
 		--cleancache) CLEANCACHE=1 ;;
 		--syncdeps)   DEP_BIN=1 ;;
@@ -717,7 +712,7 @@ while [ "$#" -ne "0" ]; do
 					exit 1
 					;;
 		-*)
-		while getopts "bcCdefghiLmop:rRsS-" opt; do
+		while getopts "bcCdefFghiLmop:rRsS-" opt; do
 			case $opt in
 				b) DEP_SRC=1 ;;
 				c) CLEANUP=1 ;;
@@ -725,6 +720,7 @@ while [ "$#" -ne "0" ]; do
 				d) NODEPS=1 ;;
 				e) NOEXTRACT=1 ;;
 				f) FORCE=1 ;;
+				F) INFAKEROOT=1 ;;
 				g) GENINTEG=1 ;;
 				h)
 						usage
@@ -793,6 +789,34 @@ if [ "$CLEANCACHE" = "1" ]; then
 	fi
 fi
 
+if [ "$INFAKEROOT" = "0" ]; then
+	if [ $EUID -eq 0 -a $ASROOT -eq 0 ]; then
+		# Warn those who like to live dangerously.
+		warning "$(gettext "Running makepkg as root is a BAD idea and can cause")"
+		plain "$(gettext "permanent, catastrophic damage to your system. If you")"
+		plain "$(gettext "you wish to run as root, please use the --asroot option.")"
+		plain ""
+		exit 1 # $E_USER_ABORT
+	elif [ "$(check_buildenv fakeroot)" = "y" -a ! $(type -p fakeroot) ]; then
+			warning "$(gettext "Fakeroot is not installed. Building as an unprivileged user")"
+			plain "$(gettext "will result in non-root ownership of the packaged files. Install")"
+			plain "$(gettext "the fakeroot package to correctly build as a non-root user.")"
+			plain ""
+			sleep 1
+	else
+		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
+		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
+		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in makepkg.conf")"
+		plain ""
+		sleep 1
+	fi
+else
+	if [ "$FAKEROOTKEY" = "" ]; then
+		error "$(gettext "Do not use the '-F' option. This option is only for use by makepkg.")"
+		exit 1 # TODO: error code
+	fi
+fi
+
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options noextract
@@ -857,29 +881,20 @@ if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}" \
 	fi
 fi
 
-# Enter the fakeroot environment if necessary.  This will call the makepkg
-# script again as the fake root user.  We detect this by passing a sentinel
-# option (-F) to makepkg.
-if [ "$EUID" != "0" ]; then
-	if [ "$(check_buildenv fakeroot)" = "y" ]; then
-		if [ $(type -p fakeroot) ]; then
-			msg "$(gettext "Entering fakeroot environment")"
-			fakeroot -- $0 -F $ARGLIST
-			exit $?
-		else
-			warning "$(gettext "Fakeroot is not installed. Building as an unprivileged user")"
-			plain "$(gettext "will result in non-root ownership of the packaged files. Install")"
-			plain "$(gettext "the fakeroot package to correctly build as a non-root user.")"
-			plain ""
-			sleep 1
-		fi
+# Run the bear minimum in fakeroot
+# fix flyspray bug 6208 -- using makepkg with fakeroot gives an error
+if [ "$INFAKEROOT" = "1" ]; then
+	if [ "$REPKG" = "1" ]; then
+		warning "$(gettext "Skipping build.")"
 	else
-		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
-		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment")"
-		plain "$(gettext "by placing 'fakeroot' in the BUILDENV array in makepkg.conf.")"
-		plain ""
-		sleep 1
+		run_build
+		tidy_install
 	fi
+
+	create_package
+
+	msg "$(gettext "Leaving fakeroot environment.")"
+	exit 0 # $E_OK
 fi
 
 date=$(date)
@@ -919,7 +934,7 @@ elif [ $(type -p pacman) ]; then
 		exit 1
 	fi
 else
-	warning "$(gettext "pacman was not found in PATH. skipping dependency checks.")"
+	warning "$(gettext "pacman was not found in PATH; skipping dependency checks.")"
 fi
 
 cd "$startdir"
@@ -1103,21 +1118,34 @@ fi
 if [ "$NOBUILD" = "1" ]; then
 	msg "$(gettext "Sources are ready.")"
 	exit 0
-elif [ "$REPKG" = "1" ]; then
-	warning "$(gettext "Skipping build")"
 else
-	# check for existing pkg directory
-	if [ -d "$startdir/pkg" ]; then
+	# check for existing pkg directory; don't remove if we are repackaging
+	if [ -d "$startdir/pkg" -a "$REPKG" = "0" ]; then
 		msg "$(gettext "Removing existing pkg/ directory...")"
 		rm -rf "$startdir/pkg"
 	fi
 	mkdir -p "$startdir/pkg"
 
-	run_build
-fi
+	if [ $EUID -eq 0 ]; then
+		# if we are root, then we don't need to recall makepkg with fakeroot
+		if [ "$REPKG" = "1" ]; then
+			warning "$(gettext "Skipping build.")"
+		else
+			run_build
+			tidy_install
+		fi
 
-tidy_install
-create_package
+		create_package
+	else
+		msg "$(gettext "Entering fakeroot environment...")"
+		cd "$startdir"
+
+		ret=0
+		fakeroot -- $0 -F $ARGLIST || ret=$?
+		[ $ret -ne 0 ] && exit $ret
+		unset ret
+	fi
+fi
 
 cd "$startdir"
 if [ "$CLEANUP" = "1" ]; then
