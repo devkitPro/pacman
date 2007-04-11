@@ -19,7 +19,7 @@ EXTRA_DIST = abs.in \
 	     makeworld.in \
 	     pacman-optimize.in \
 	     rankmirrors \
-	     repo-add \
+	     repo-add.in \
 	     repo-remove \
 	     updatesync
 

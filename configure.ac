@@ -222,6 +222,7 @@ scripts/gensync
 scripts/makepkg
 scripts/makeworld
 scripts/pacman-optimize
+scripts/repo-add
 doc/Makefile
 etc/Makefile
 etc/makepkg.conf
