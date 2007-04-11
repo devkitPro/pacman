@@ -885,6 +885,10 @@ else
 	unset LC_ALL LANG
 	umask 0022
 
+	# ensure CFLAGS and CXXFLAGS are used
+	export CFLAGS
+	export CXXFLAGS
+
 	#check for "exit on syntax error" shell option
 	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
 	set_e=$?
