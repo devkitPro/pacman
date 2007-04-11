@@ -901,7 +901,7 @@ else
 		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
 	elif [ "$(check_option distcc)" = "n" ]; then
 		# if it is not wanted, clear the makeflags too
-		export MAKEFLAGS=""
+		MAKEFLAGS=""
 	fi
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
@@ -911,7 +911,7 @@ else
 
 	# clear user-specified makeflags if requested
 	if [ "$(check_option makeflags)" = "n" ]; then
-		export MAKEFLAGS=""
+		MAKEFLAGS=""
 	fi
 
 	# build
@@ -920,6 +920,11 @@ else
 	# some applications (eg, blackbox) will not build with some languages
 	unset LC_ALL LANG
 	umask 0022
+
+	# ensure CFLAGS and CXXFLAGS are used
+	export CFLAGS
+	export CXXFLAGS
+	export MAKEFLAGS
 
 	#check for "exit on syntax error" shell option
 	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
