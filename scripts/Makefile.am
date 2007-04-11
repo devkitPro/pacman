@@ -14,7 +14,7 @@ bin_SCRIPTS = \
 	updatesync
 
 EXTRA_DIST = abs.in \
-	     gensync \
+	     gensync.in \
 	     makepkg.in \
 	     makeworld \
 	     pacman-optimize \

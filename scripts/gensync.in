@@ -2,7 +2,7 @@
 # 
 #   gensync
 #  
-#   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
 #  
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #   USA.
 #
 
-myver='3.0.0'
+myver='@PACKAGE_VERSION@'
 
 # functions
 
@@ -45,6 +45,15 @@ usage() {
 	echo
 	echo
 	exit 0
+}
+
+version() {
+	printf "gensync (pacman) %s\n" "$myver"
+	printf "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n"
+	echo
+	printf "This is free software; see the source for copying conditions.\n"
+	printf "There is NO WARRANTY, to the extent permitted by law.\n"
+	echo
 }
 
 error () {
@@ -76,6 +85,11 @@ fi
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
+	exit 0
+fi
+
+if [ "$1" = "-V" -o "$1" = "--version" ]; then
+	version
 	exit 0
 fi
 
