@@ -235,7 +235,7 @@ handledeps() {
 	local depstrip=""
 	local striplist=""
 	local haveperm=0
-	if [ \( "$EUID" = "0" -a "$INFAKEROOT" != "1" \) -o "$SUDO" = 1 ]; then
+	if [ "$EUID" = "0" -o "$SUDO" = 1 ]; then
 		haveperm=1
 	fi
 
@@ -248,20 +248,10 @@ handledeps() {
 		if [ "$DEP_BIN" = "1" -a "$SUDO" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S and sudo)
 			msg "$(gettext "Installing missing dependencies...")"
-			if [ "$INFAKEROOT" = "1" ]; then
-				# kinda hacky, but we need to make pacman think that we're NOT
-				# in fakeroot so it will go ahead and install the dependencies.
-				FAKEROOTKEY2=$FAKEROOTKEY
-				unset FAKEROOTKEY
-			fi
 			sudo pacman $PACMAN_OPTS -S $striplist
 			if [ $? -eq 1 ]; then
 				error "$(gettext "Pacman failed to install missing dependencies.")"
 				exit 1
-			fi
-			if [ "$INFAKEROOT" = "1" ]; then
-				export FAKEROOTKEY=$FAKEROOTKEY2
-				unset FAKEROOTKEY2
 			fi
 		elif [ "$DEP_BIN" = "1" ]; then
 			# install missing deps from binary packages (using pacman -S)
@@ -372,15 +362,7 @@ removedeps() {
 
 	if [ "$RMDEPS" = "1" -a "$SUDO" = "1" -a -n "$deplist" ]; then
 		msg "$(gettext "Removing installed dependencies...")"
-		if [ "$INFAKEROOT" = "1" ]; then
-			export FAKEROOTKEY2=$FAKEROOTKEY
-			unset FAKEROOTKEY
-		fi
 		sudo pacman $PACMAN_OPTS -Rs $striplist
-		if [ "$INFAKEROOT" = "1" ]; then
-			export FAKEROOTKEY=$FAKEROOTKEY2
-			unset FAKEROOTKEY2
-		fi
 	elif [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a -n "$deplist" ]; then
 		msg "$(gettext "Removing installed dependencies...")"
 		pacman $PACMAN_OPTS -Rs $striplist
@@ -603,17 +585,8 @@ create_package() {
 installpackage() {
 	if [ "$INSTALL" = "1" -a "$SUDO" = "1" ]; then
 		msg "$(gettext "Installing package with pacman -U...")"
-		if [ "$INFAKEROOT" = "1" ]; then
-			FAKEROOTKEY2=$FAKEROOTKEY
-			unset FAKEROOTKEY
-		fi
 		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
-		local exitcode=$?
-		if [ "$INFAKEROOT" = "1" ]; then
-			export FAKEROOTKEY=$FAKEROOTKEY2
-			unset FAKEROOTKEY2
-		fi
-		exit $exitcode
+		exit $?
 	elif [ "$INSTALL" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
 		msg "$(gettext "Installing package with pacman -U...")"
 		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
