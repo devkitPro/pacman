@@ -179,7 +179,7 @@ static void usage(int op, char *myname)
 /**
  * @brief Output pacman version and copyright.
  */
-static void version()
+static void version(void)
 {
 	printf("\n");
 	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, LIB_VERSION);
@@ -196,7 +196,7 @@ static void version()
  *        Safe to call multiple times.
  */
 /* Inspired by the monotone function localize_monotone. */
-static void localize()
+static void localize(void)
 {
 	static int init = 0;
 	if (!init) {

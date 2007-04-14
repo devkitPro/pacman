@@ -36,7 +36,7 @@
 #include "sync.h"
 #include "downloadprog.h"
 
-config_t *config_new()
+config_t *config_new(void)
 {
 	config_t *config;
 
