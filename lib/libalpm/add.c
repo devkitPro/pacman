@@ -837,7 +837,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	if((trans->type != PM_TRANS_TYPE_UPGRADE) && (handle->trans->state != STATE_INTERRUPTED)) {
+	if(handle->trans->state != STATE_INTERRUPTED) {
 		_alpm_log(PM_LOG_DEBUG, _("running \"ldconfig -r %s\""), handle->root);
 		_alpm_ldconfig(handle->root);
 	}
