@@ -917,7 +917,7 @@ else
 	msg "$(gettext "Starting build()...")"
 
 	# some applications (eg, blackbox) will not build with some languages
-	unset LC_ALL LANG
+	unset LC_ALL LC_MESSAGES LANG
 	umask 0022
 
 	# ensure CFLAGS and CXXFLAGS are used
