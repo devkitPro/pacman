@@ -182,8 +182,7 @@ checkdeps() {
 	pmout=$(pacman $PACMAN_OPTS -T $*)
 	ret=$?
 	if [ $ret -eq 1 ]; then #unresolved deps
-		#strip out the pacman prefix from "requires: xyz"
-		echo $pmout | sed 's|requires:||g'
+		echo $pmout
 	elif [ $ret -ne 0 ]; then
 		error "pacman returned a fatal error ($ret): $pmout"
 		exit 1

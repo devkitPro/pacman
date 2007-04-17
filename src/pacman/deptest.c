@@ -81,7 +81,7 @@ int pacman_deptest(alpm_list_t *targets)
 		}
 
 		if(!found) {
-			MSG(NL, _("requires: %s"), saved_target);
+			MSG(NL, "%s", saved_target);
 			retval = 1;
 		}
 		free(saved_target);
