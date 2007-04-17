@@ -997,14 +997,15 @@ cd "$startdir"
 
 # strip binaries
 if [ "$(check_option strip)" = "y" ]; then
-	msg "$(gettext "Stripping debugging symbols from libraries...")"
-	find pkg/{,usr,usr/local,opt/*}/lib -type f -not -name "*.dll" -not -name "*.exe" \
-	-exec /usr/bin/strip --strip-debug '{}' \; 2>&1 \
-	| grep -v "No such file" | grep -v "format not recognized"
-	msg "$(gettext "Stripping symbols from binaries...")"
-	find pkg/{,usr,usr/local,opt/*}/{bin,sbin} -type f -not -name "*.dll" -not -name "*.exe" \
-	-exec /usr/bin/strip '{}' \; 2>&1 \
-	| grep -v "No such file" | grep -v "format not recognized"
+	msg "$(gettext "Stripping symbols from binaries and libraries...")"
+	for file in $(find pkg/*/{bin,lib,sbin} -type f 2>/dev/null || true ); do
+		case "$(file -biz "$file")" in
+			*application/x-sharedlib*)  # Libraries
+				/usr/bin/strip --strip-debug "$file";;
+			*application/x-executable*) # Binaries
+				/usr/bin/strip "$file";;
+		esac
+	done
 fi
 
 # remove libtool (.la) files
