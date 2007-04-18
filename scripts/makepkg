@@ -822,7 +822,7 @@ else
 			*application/x-cpio*)
 				cmd="bsdtar -x -f $file" ;;
 			*application/x-gzip*)
-				cmd="gunzip -f $file" ;;
+				cmd="gunzip -d -f $file" ;;
 			*application/x-bzip*)
 				cmd="bunzip2 -f $file" ;;
 		esac
