@@ -163,7 +163,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 					for(l = alpm_pkg_get_provides(q); l; l = l->next) {
 						const char *provname = l->data;
 						if(!strcmp(depend->name, provname)) {
-							if(!_alpm_pkg_find(provname, tmptargs)) {
+							if(!_alpm_pkg_find(qname, tmptargs)) {
 								change = 1;
 								tmptargs = alpm_list_add(tmptargs, q);
 							}
