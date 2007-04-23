@@ -1,5 +1,10 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.0.2         - fix a bug where pre/post_remove scriptlets were not ran
+              - ensure ldconfig is ran in all operations
+              - added a few new translations, updated existing ones
+              - updated mirror lists
+              - makepkg: ensure CFLAGS are exported to build function
 3.0.1         - fix a locale issue with tr_TR upper/lower-case conversion
               - allow removal when listing the same package multiple times
               - fix a repo-add bug that left a .PKGINFO file in the current
