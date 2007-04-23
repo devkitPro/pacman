@@ -55,7 +55,8 @@ def timeCmd(cmd):
 
 def talkToServer(serverUrl):
     opener = urllib2.build_opener()
-    tmp = opener.open(serverUrl).read()
+    # retrieve first 50,000 bytes only
+    tmp = opener.open(serverUrl).read(50000)
 
 def getFuncToTime(serverUrl):
     return lambda : talkToServer(serverUrl)
@@ -139,8 +140,23 @@ if __name__ == "__main__":
         elif options.times:
             print ' * ',
         sys.stdout.flush()
+
+        # add *.db.tar.gz to server name. the repo name is parsed
+        # from the mirror url; it is the third (or fourth) dir
+        # from the end, where the url is http://foo/bar/REPO/os/arch
         try:
-            serverToTime[serverUrl] = timeCmd(getFuncToTime(serverUrl))
+            splitted2 = serverUrl.split('/')
+            if serverUrl[-1] != '/':
+                repoName = splitted2[-3]
+                dbFileName = '/' + repoName + '.db.tar.gz'
+            else:
+                repoName = splitted2[-4]
+                dbFileName = repoName + '.db.tar.gz'
+        except:
+            dbFileName = ''
+
+        try:
+            serverToTime[serverUrl] = timeCmd(getFuncToTime(serverUrl + dbFileName))
             if options.verbose:
                 try:
                     print "%.2f" % serverToTime[serverUrl]
