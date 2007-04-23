@@ -142,6 +142,14 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 
+	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
+		/* package should be ignored (IgnorePkg) */
+		_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
+							alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
+							alpm_pkg_get_version(pkg));
+		return(0);
+	}
+
 	/* compare versions and see if we need to upgrade */
 	cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
 
@@ -158,13 +166,7 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 		cmp = 0;
 	} else if(cmp > 0) {
 		/* we have an upgrade, make sure we should actually do it */
-		if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
-			/* package should be ignored (IgnorePkg) */
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
-								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
-								alpm_pkg_get_version(pkg));
-			cmp = 0;
-		} else if(_alpm_pkg_istoonew(pkg)) {
+		if(_alpm_pkg_istoonew(pkg)) {
 			/* package too new (UpgradeDelay) */
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)"),
 								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
