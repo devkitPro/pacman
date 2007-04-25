@@ -31,9 +31,9 @@
 
 /* pacman */
 #include "conf.h"
+#include "pacman.h"
 #include "util.h"
 #include "log.h"
-#include "sync.h"
 #include "downloadprog.h"
 
 config_t *config_new(void)

@@ -42,7 +42,7 @@
  * remove it from Makefile.am on the pacman side */
 
 /* pacman */
-#include "sync.h"
+#include "pacman.h"
 #include "util.h"
 #include "log.h"
 #include "downloadprog.h"

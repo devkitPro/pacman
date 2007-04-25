@@ -13,18 +13,18 @@ INCLUDES = -I$(top_srcdir)/lib/libalpm
 AM_CFLAGS = -D_GNU_SOURCE
 
 pacman_SOURCES = \
-	add.h add.c \
+	add.c \
 	conf.h conf.c \
-	deptest.h deptest.c \
+	deptest.c \
 	downloadprog.h downloadprog.c \
 	log.h log.c \
 	package.h package.c \
-	pacman.c \
-	query.h query.c \
-	remove.h remove.c \
-	sync.h sync.c \
+	pacman.h pacman.c \
+	query.c \
+	remove.c \
+	sync.c \
 	trans.h trans.c \
-	upgrade.h upgrade.c \
+	upgrade.c \
 	util.h util.c
 
 pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la \

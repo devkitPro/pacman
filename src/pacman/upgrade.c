@@ -27,8 +27,7 @@
 #include <alpm_list.h>
 
 /* pacman */
-#include "upgrade.h"
-#include "add.h"
+#include "pacman.h"
 #include "conf.h"
 
 extern config_t *config;

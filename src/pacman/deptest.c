@@ -30,11 +30,10 @@
 #include <alpm_list.h>
 
 /* pacman */
-#include "deptest.h"
+#include "pacman.h"
 #include "util.h"
 #include "conf.h"
 #include "log.h"
-#include "sync.h"
 
 extern config_t *config;
 

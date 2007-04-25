@@ -28,9 +28,9 @@
 #include <getopt.h>
 #include <string.h>
 #include <signal.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <libintl.h>
 #include <locale.h>
 #if defined(__APPLE__)
@@ -44,21 +44,17 @@
 #endif
 #include <time.h>
 
+/* alpm */
 #include <alpm.h>
 #include <alpm_list.h>
 
 /* pacman */
+#include "pacman.h"
 #include "util.h"
 #include "log.h"
 #include "downloadprog.h"
 #include "conf.h"
 #include "package.h"
-#include "add.h"
-#include "remove.h"
-#include "upgrade.h"
-#include "query.h"
-#include "sync.h"
-#include "deptest.h"
 
 #if defined(__OpenBSD__) || defined(__APPLE__)
 #define BSD

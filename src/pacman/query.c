@@ -34,11 +34,10 @@
 #include <alpm_list.h>
 
 /* pacman */
-#include "query.h"
+#include "pacman.h"
 #include "package.h"
 #include "log.h"
 #include "conf.h"
-#include "sync.h"
 #include "util.h"
 
 extern config_t *config;
