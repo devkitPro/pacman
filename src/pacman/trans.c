@@ -37,6 +37,7 @@
 #include "log.h"
 #include "conf.h"
 
+/* TODO this should not have to be defined twice- trans.c & log.c */
 #define LOG_STR_LEN 256
 
 extern config_t *config;

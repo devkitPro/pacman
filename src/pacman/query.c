@@ -244,7 +244,8 @@ int pacman_query(alpm_list_t *targets)
 				MSG(NL, "%s %s\n", alpm_pkg_get_name(info),
 				                   alpm_pkg_get_version(info));
 			}
-			FREEPKG(info);
+			alpm_pkg_free(info);
+			info = NULL;
 			continue;
 		}
 

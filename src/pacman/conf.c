@@ -24,21 +24,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <alpm.h>
-
 /* pacman */
 #include "conf.h"
-#include "pacman.h"
-#include "util.h"
-#include "log.h"
 
 config_t *config_new(void)
 {
-	config_t *config;
-
-	MALLOC(config, sizeof(config_t));
-
-	memset(config, 0, sizeof(config_t));
+	config_t *config = calloc(1, sizeof(config_t));
+	if(!config) {
+			fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
+			        sizeof(config_t));
+	}
 
 	return(config);
 }
@@ -49,8 +44,9 @@ int config_free(config_t *config)
 		return(-1);
 	}
 
-	FREE(config->configfile);
+	free(config->configfile);
 	free(config);
+	config = NULL;
 
 	return(0);
 }

@@ -30,8 +30,6 @@ void dump_pkg_backups(pmpkg_t *pkg);
 void dump_pkg_files(pmpkg_t *pkg);
 void dump_pkg_changelog(char *clfile, const char *pkgname);
 
-#define FREEPKG(p) { alpm_pkg_free(p); p = NULL; }
-
 #endif /* _PM_PACKAGE_H */
 
 /* vim: set ts=2 sw=2 noet: */

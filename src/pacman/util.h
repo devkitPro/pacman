@@ -27,25 +27,6 @@
 
 #include <alpm_list.h>
 
-#define MALLOC(p, b) do { \
-	if((b) > 0) { \
-		p = malloc(b); \
-		if (!(p)) { \
-			fprintf(stderr, "malloc failure: could not allocate %d bytes\n", (int)b); \
-			exit(EXIT_FAILURE); \
-		} \
-	} else { \
-		p = NULL; \
-	} \
-} while(0)
-
-#define FREE(p) do { if (p) { free(p); (p) = NULL; }} while(0)
-
-#define STRNCPY(s1, s2, len) do { \
-	strncpy(s1, s2, (len)-1); \
-	s1[(len)-1] = 0; \
-} while(0)
-
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 

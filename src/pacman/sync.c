@@ -25,14 +25,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
 #include <unistd.h>
 #include <dirent.h>
-#ifdef CYGWIN
-#include <limits.h> /* PATH_MAX */
-#endif
 
 #include <alpm.h>
 #include <alpm_list.h>

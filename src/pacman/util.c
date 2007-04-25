@@ -21,10 +21,6 @@
 
 #include "config.h"
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#include <sys/stat.h>
-#endif
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
@@ -37,9 +33,6 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>
-#ifdef CYGWIN
-#include <limits.h> /* PATH_MAX */
-#endif
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -88,7 +81,7 @@ int getcols()
 int makepath(char *path)
 {
 	char *orig, *str, *ptr;
-	char full[PATH_MAX] = "";
+	char full[PATH_MAX+1] = "";
 	mode_t oldmask;
 
 	oldmask = umask(0000);
@@ -99,6 +92,7 @@ int makepath(char *path)
 		if(strlen(ptr)) {
 			struct stat buf;
 
+			/* TODO we should use strncat */
 			strcat(full, "/");
 			strcat(full, ptr);
 			if(stat(full, &buf)) {

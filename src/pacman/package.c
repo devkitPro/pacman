@@ -164,7 +164,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 			char *str = strdup(alpm_list_getdata(i));
 			char *ptr = index(str, '\t');
 			if(ptr == NULL) {
-				FREE(str);
+				free(str);
 				continue;
 			}
 			*ptr = '\0';
@@ -178,7 +178,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 
 				if(md5sum == NULL || sha1sum == NULL) {
 					ERR(NL, _("error calculating checksums for %s\n"), path);
-					FREE(str);
+					free(str);
 					continue;
 				}
 				/* TODO Is this a good way to check type of backup stored?
@@ -194,12 +194,12 @@ void dump_pkg_backups(pmpkg_t *pkg)
 				} else {
 					printf(_("Not Modified\t%s\n"), path);
 				}
-				FREE(md5sum);
-				FREE(sha1sum);
+				free(md5sum);
+				free(sha1sum);
 			} else {
 				printf(_("MISSING\t\t%s\n"), path);
 			}
-			FREE(str);
+			free(str);
 		}
 	} else {
 		/* package had no backup files */

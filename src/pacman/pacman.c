@@ -33,15 +33,7 @@
 #include <sys/stat.h>
 #include <libintl.h>
 #include <locale.h>
-#if defined(__APPLE__)
-#include <malloc/malloc.h>
-#elif defined(__OpenBSD__) || defined(__APPLE__)
-#include <sys/malloc.h>
-#elif defined(CYGWIN)
-#include <libgen.h> /* basename */
-#else
-#include <mcheck.h> /* debug */
-#endif
+#include <mcheck.h> /* debug tracing (mtrace) */
 #include <time.h>
 
 /* alpm */
@@ -55,10 +47,6 @@
 #include "downloadprog.h"
 #include "conf.h"
 #include "package.h"
-
-#if defined(__OpenBSD__) || defined(__APPLE__)
-#define BSD
-#endif
 
 /* Operations */
 enum {
@@ -316,11 +304,7 @@ static int parseargs(int argc, char *argv[])
 				if(config->configfile) {
 					free(config->configfile);
 				}
-				#if defined(__OpenBSD__) || defined(__APPLE__)
-				config->configfile = strdup(optarg);
-				#else
 				config->configfile = strndup(optarg, PATH_MAX);
-				#endif
 				break;
 			case 1002: alpm_option_add_ignorepkg(strdup(optarg)); break;
 			case 1003:
@@ -459,14 +443,15 @@ static int parseargs(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-#ifndef CYGWIN
+	/* may not work with CYGWIN */
 	uid_t myuid;
-#endif
 
-#if defined(PACMAN_DEBUG) && !defined(CYGWIN) && !defined(BSD)
+#if defined(PACMAN_DEBUG)
+	/* need to ensure we have mcheck installed */
 	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
 	mtrace();
 #endif
+
 	/* set signal handlers */
 	signal(SIGINT, cleanup);
 	signal(SIGTERM, cleanup);
@@ -478,6 +463,7 @@ int main(int argc, char *argv[])
 	/* init config data */
 	config = config_new();
 	config->op = PM_OP_MAIN;
+
 	/* disable progressbar if the output is redirected */
 	if(!isatty(1)) {
 		config->noprogressbar = 1;
@@ -496,15 +482,8 @@ int main(int argc, char *argv[])
 		exit(ret);
 	}
 
-#ifndef CYGWIN
 	/* see if we're root or not */
 	myuid = geteuid();
-#ifndef FAKEROOT
-	if(!myuid && getenv("FAKEROOTKEY")) {
-		/* fakeroot doesn't count, we're non-root */
-		myuid = 99;
-	}
-#endif
 
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0) {
@@ -524,7 +503,6 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-#endif
 
 	/* Setup logging as soon as possible, to print out maximum debugging info */
 	alpm_option_set_logcb(cb_log);
@@ -569,12 +547,24 @@ int main(int argc, char *argv[])
 
 	/* start the requested operation */
 	switch(config->op) {
-		case PM_OP_ADD:     ret = pacman_add(pm_targets);     break;
-		case PM_OP_REMOVE:  ret = pacman_remove(pm_targets);  break;
-		case PM_OP_UPGRADE: ret = pacman_upgrade(pm_targets); break;
-		case PM_OP_QUERY:   ret = pacman_query(pm_targets);   break;
-		case PM_OP_SYNC:    ret = pacman_sync(pm_targets);    break;
-		case PM_OP_DEPTEST: ret = pacman_deptest(pm_targets); break;
+		case PM_OP_ADD:
+			ret = pacman_add(pm_targets);
+			break;
+		case PM_OP_REMOVE:
+			ret = pacman_remove(pm_targets);
+			break;
+		case PM_OP_UPGRADE:
+			ret = pacman_upgrade(pm_targets);
+			break;
+		case PM_OP_QUERY:
+			ret = pacman_query(pm_targets);
+			break;
+		case PM_OP_SYNC:
+			ret = pacman_sync(pm_targets);
+			break;
+		case PM_OP_DEPTEST:
+			ret = pacman_deptest(pm_targets);
+			break;
 		default:
 			ERR(NL, _("no operation specified (use -h for help)\n"));
 			ret = 1;
