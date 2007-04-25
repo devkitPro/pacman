@@ -145,7 +145,7 @@ db_write_entry()
 
 	# create desc entry
 	echo ":: creating 'desc' db entry"
-	echo -e "%FILENAME%\n$(basename $1)\n" >> desc
+	echo -e "%FILENAME%\n$(basename $1)\n" >>desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
 	if [ -n "$pkgdesc" ]; then
@@ -154,7 +154,7 @@ db_write_entry()
 	if [ -n "$_groups" ]; then
 		echo "%GROUPS%" >>desc
 		echo $_groups | tr -s ' ' '\n' >>desc
-		echo "" >desc
+		echo "" >>desc
 	fi
 	[ -n $csize ] && echo -e "%CSIZE%\n$csize\n" >>desc
 	[ -n $size ] && echo -e "%ISIZE%\n$size\n" >>desc
