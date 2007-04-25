@@ -34,7 +34,6 @@
 #include "pacman.h"
 #include "util.h"
 #include "log.h"
-#include "downloadprog.h"
 
 config_t *config_new(void)
 {

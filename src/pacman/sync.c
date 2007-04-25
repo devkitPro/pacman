@@ -45,7 +45,6 @@
 #include "pacman.h"
 #include "util.h"
 #include "log.h"
-#include "downloadprog.h"
 #include "package.h"
 #include "trans.h"
 #include "conf.h"

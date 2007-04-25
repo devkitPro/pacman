@@ -32,7 +32,6 @@
 /* pacman */
 #include "pacman.h"
 #include "log.h"
-#include "downloadprog.h"
 #include "trans.h"
 #include "conf.h"
 #include "util.h"
