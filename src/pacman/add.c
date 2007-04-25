@@ -37,6 +37,13 @@
 
 extern config_t *config;
 
+/**
+ * @brief Upgrade a specified list of packages.
+ *
+ * @param targets a list of packages (as strings) to upgrade
+ *
+ * @return 0 on success, 1 on failure
+ */
 int pacman_upgrade(alpm_list_t *targets)
 {
 	/* this is basically just a remove-then-add process. pacman_add() will */
@@ -45,9 +52,17 @@ int pacman_upgrade(alpm_list_t *targets)
 	return(pacman_add(targets));
 }
 
+/**
+ * @brief Add a specified list of packages which cannot already be installed.
+ *
+ * @param targets a list of packages (as strings) to add
+ *
+ * @return 0 on success, 1 on failure
+ */
 int pacman_add(alpm_list_t *targets)
 {
-	alpm_list_t *i = targets, *data = NULL;
+	alpm_list_t *i, *data = NULL;
+	pmtranstype_t transtype = PM_TRANS_TYPE_ADD;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -56,7 +71,7 @@ int pacman_add(alpm_list_t *targets)
 
 	/* Check for URL targets and process them
 	 */
-	while(i) {
+	for(i = targets; i; i = alpm_list_next(i)) {
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(i->data);
 			if(str == NULL) {
@@ -66,13 +81,17 @@ int pacman_add(alpm_list_t *targets)
 				i->data = str;
 			}
 		}
-		i = i->next;
 	}
 
-	/* Step 1: create a new transaction
-	 */
-	if(alpm_trans_init((config->upgrade == 0) ? PM_TRANS_TYPE_ADD : PM_TRANS_TYPE_UPGRADE,
-	                   config->flags, cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
+	/* Step 1: create a new transaction */
+	if(config->upgrade == 1) {
+		/* if upgrade flag was set, change this to an upgrade transaction */
+		transtype = PM_TRANS_TYPE_UPGRADE;
+	}
+
+	if(alpm_trans_init(transtype, config->flags, cb_trans_evt,
+	   cb_trans_conv, cb_trans_progress) == -1) {
+		/* TODO: error messages should be in the front end, not the back */
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
@@ -81,20 +100,23 @@ int pacman_add(alpm_list_t *targets)
 		return(1);
 	}
 
-	/* and add targets to it */
+	/* add targets to the created transaction */
 	MSG(NL, _("loading package data... "));
-	for(i = targets; i; i = i->next) {
-		if(alpm_trans_addtarget(i->data) == -1) {
+	for(i = targets; i; i = alpm_list_next(i)) {
+		char *targ = alpm_list_getdata(i);
+		if(alpm_trans_addtarget(targ) == -1) {
+			/* TODO: glad this output is hacky */
 			MSG(NL, "\n");
-			ERR(NL, _("failed to add target '%s' (%s)"), (char *)i->data, alpm_strerror(pm_errno));
+			ERR(NL, _("failed to add target '%s' (%s)"), targ,
+			    alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
 	}
 	MSG(CL, _("done.\n"));
 
-	/* Step 2: "compute" the transaction based on targets and flags
-	 */
+	/* Step 2: "compute" the transaction based on targets and flags */
+	/* TODO: No, compute nothing. This is stupid. */
 	if(alpm_trans_prepare(&data) == -1) {
 		long long *pkgsize, *freespace;
 
@@ -124,14 +146,14 @@ int pacman_add(alpm_list_t *targets)
 					}
 					MSG(CL, "\n");
 				}
-			break;
+				break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
 					MSG(NL, _(":: %s: conflicts with %s"),
 						alpm_dep_get_target(miss), alpm_dep_get_name(miss));
 				}
-			break;
+				break;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
@@ -150,9 +172,9 @@ int pacman_add(alpm_list_t *targets)
 					}
 				}
 				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
-			break;
-			/* TODO This is gross... we should not return these values in the same list we
-			 * would get conflicts and such with... it's just silly
+				break;
+			/* TODO This is gross... we should not return these values in the same
+			 * list we would get conflicts and such with... it's just silly
 			 */
 			case PM_ERR_DISK_FULL:
 				i = data;
@@ -160,17 +182,17 @@ int pacman_add(alpm_list_t *targets)
 				i = alpm_list_next(i);
 				freespace = alpm_list_getdata(i);
 					MSG(NL, _(":: %.1f MB required, have %.1f MB"),
-						(double)(*pkgsize / (1024.0*1024.0)), (double)(*freespace / (1024.0*1024.0)));
-			break;
+					    (double)(*pkgsize / (1024.0*1024.0)),
+					    (double)(*freespace / (1024.0*1024.0)));
+				break;
 			default:
-			break;
+				break;
 		}
 		retval=1;
 		goto cleanup;
 	}
 
-	/* Step 3: actually perform the installation
-	 */
+	/* Step 3: perform the installation */
 	if(alpm_trans_commit(NULL) == -1) {
 		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval=1;

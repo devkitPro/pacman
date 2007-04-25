@@ -39,9 +39,16 @@ extern config_t *config;
 
 extern pmdb_t *db_local;
 
+/**
+ * @brief Remove a specified list of packages.
+ *
+ * @param targets a list of packages (as strings) to remove from the system
+ *
+ * @return 0 on success, 1 on failure
+ */
 int pacman_remove(alpm_list_t *targets)
 {
-	alpm_list_t *data = NULL, *i, *j, *finaltargs = NULL;
+	alpm_list_t *i, *j, *data = NULL, *finaltargs = NULL;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -73,9 +80,9 @@ int pacman_remove(alpm_list_t *targets)
 		}
 	}
 
-	/* Step 1: create a new transaction
-	 */
-	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags, cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
+	/* Step 1: create a new transaction */
+	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags,
+	   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
 		ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			MSG(NL, _("       if you're sure a package manager is not already running,\n"
@@ -84,18 +91,22 @@ int pacman_remove(alpm_list_t *targets)
 		FREELIST(finaltargs);
 		return(1);
 	}
-	/* and add targets to it */
+
+	/* add targets to the created transaction */
+	MSG(NL, _("loading package data... "));
 	for(i = finaltargs; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			ERR(NL, _("failed to add target '%s' (%s)\n"), targ, alpm_strerror(pm_errno));
+			/* TODO: glad this output is hacky */
+			MSG(NL, "\n");
+			ERR(NL, _("failed to add target '%s' (%s)\n"), targ,
+			    alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
 	}
 
-	/* Step 2: prepare the transaction based on its type, targets and flags
-	 */
+	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
 		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
 		switch(pm_errno) {
@@ -106,19 +117,20 @@ int pacman_remove(alpm_list_t *targets)
 					    alpm_dep_get_name(miss));
 				}
 				alpm_list_free(data);
-			break;
+				break;
 			default:
-			break;
+				break;
 		}
 		retval = 1;
 		goto cleanup;
 	}
 
-	/* Warn user in case of dangerous operation
-	 */
-	if(config->flags & PM_TRANS_FLAG_RECURSE || config->flags & PM_TRANS_FLAG_CASCADE) {
+	/* Warn user in case of dangerous operation */
+	if(config->flags & PM_TRANS_FLAG_RECURSE ||
+	   config->flags & PM_TRANS_FLAG_CASCADE) {
 		/* list transaction targets */
 		alpm_list_t *lst = NULL;
+		/* create a new list of package names only */
 		for(i = alpm_trans_get_pkgs(); i; i = alpm_list_next(i)) {
 			pmpkg_t *pkg = alpm_list_getdata(i);
 			lst = alpm_list_add(lst, strdup(alpm_pkg_get_name(pkg)));
@@ -134,16 +146,14 @@ int pacman_remove(alpm_list_t *targets)
 		MSG(NL, "\n");
 	}
 
-	/* Step 3: actually perform the removal
-	 */
+	/* Step 3: actually perform the removal */
 	if(alpm_trans_commit(NULL) == -1) {
 		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
 	}
 
-	/* Step 4: release transaction resources
-	 */
+	/* Step 4: release transaction resources */
 cleanup:
 	FREELIST(finaltargs);
 	if(alpm_trans_release() == -1) {

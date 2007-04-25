@@ -710,7 +710,7 @@ int SYMEXPORT alpm_trans_addtarget(char *target)
 }
 
 /** Prepare a transaction.
- * @param data the address of a PM_LIST where detailed description
+ * @param data the address of an alpm_list where detailed description
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
@@ -729,7 +729,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 }
 
 /** Commit a transaction.
- * @param data the address of a PM_LIST where detailed description
+ * @param data the address of an alpm_list where detailed description
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
