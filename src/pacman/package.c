@@ -26,7 +26,6 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
-#include <libintl.h>
 
 #include <alpm.h>
 #include <alpm_list.h>

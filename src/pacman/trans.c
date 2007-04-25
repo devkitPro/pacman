@@ -27,7 +27,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <libintl.h>
 #include <wchar.h>
 
 #include <alpm.h>

@@ -21,15 +21,10 @@
 
 #include "config.h"
 
-#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <time.h>
 #include <sys/time.h>
-#include <libintl.h>
 #include <math.h>
 
 #include <alpm.h>

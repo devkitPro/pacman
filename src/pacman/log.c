@@ -26,7 +26,6 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <time.h>
-#include <libintl.h>
 
 #include <alpm.h>
 

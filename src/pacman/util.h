@@ -23,7 +23,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <libintl.h>
+#include <libintl.h> /* here so it doesn't need to be included elsewhere */
 
 #include <alpm_list.h>
 
@@ -49,7 +49,9 @@
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 
+/* define _() as shortcut for gettext() */
 #define _(str) gettext(str)
+
 int getcols();
 int makepath(char *path);
 int rmrf(char *path);

@@ -56,8 +56,6 @@ typedef struct __config_t {
 	unsigned int ask;
 } config_t;
 
-#define FREECONF(p) do { if(p) { config_free(p); p = NULL; } } while(0)
-
 config_t *config_new(void);
 int config_free(config_t *config);
 

@@ -233,7 +233,10 @@ static void cleanup(int signum)
 
 	/* free memory */
 	FREELIST(pm_targets);
-	FREECONF(config);
+	if(config) {
+		config_free(config);
+		config = NULL;
+	}
 
 	/* This fixes up any missing newlines (neednl) */
 	MSG(NL, "");
