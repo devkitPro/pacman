@@ -1,7 +1,7 @@
 /*
  *  add.c
  * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -38,6 +38,14 @@
 #include "util.h"
 
 extern config_t *config;
+
+int pacman_upgrade(alpm_list_t *targets)
+{
+	/* this is basically just a remove-then-add process. pacman_add() will */
+	/* handle it */
+	config->upgrade = 1;
+	return(pacman_add(targets));
+}
 
 int pacman_add(alpm_list_t *targets)
 {

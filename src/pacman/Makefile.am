@@ -24,7 +24,6 @@ pacman_SOURCES = \
 	remove.c \
 	sync.c \
 	trans.h trans.c \
-	upgrade.c \
 	util.h util.c
 
 pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la \
