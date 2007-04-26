@@ -1,8 +1,8 @@
 /*
- *  log.h
- * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *  output.h
+ *
+ *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,11 +15,11 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
-#ifndef _PM_LOG_H
-#define _PM_LOG_H
+#ifndef _PM_OUTPUT_H
+#define _PM_OUTPUT_H
 
 #include <stdio.h>
 
@@ -46,6 +46,6 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...);
 
 int yesno(char *fmt, ...);
 
-#endif /* _PM_LOG_H */
+#endif /* _PM_OUTPUT_H */
 
 /* vim: set ts=2 sw=2 noet: */

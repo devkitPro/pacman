@@ -32,7 +32,7 @@
 
 /* pacman */
 #include "package.h"
-#include "log.h"
+#include "output.h"
 #include "util.h"
 
 /* Display the content of an installed package

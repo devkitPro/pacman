@@ -16,7 +16,7 @@ pacman_SOURCES = \
 	add.c \
 	conf.h conf.c \
 	deptest.c \
-	log.h log.c \
+	output.h output.c \
 	package.h package.c \
 	pacman.h pacman.c \
 	query.c \

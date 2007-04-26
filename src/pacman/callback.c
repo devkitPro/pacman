@@ -36,7 +36,7 @@
 /* pacman */
 #include "callback.h"
 #include "util.h"
-#include "log.h"
+#include "output.h"
 #include "conf.h"
 
 /* TODO this should not have to be defined twice- trans.c & log.c */
