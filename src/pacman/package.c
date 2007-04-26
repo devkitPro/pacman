@@ -32,7 +32,6 @@
 
 /* pacman */
 #include "package.h"
-#include "output.h"
 #include "util.h"
 
 /* Display the content of an installed package

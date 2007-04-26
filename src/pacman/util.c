@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -40,7 +41,8 @@
 /* pacman */
 #include "util.h"
 #include "conf.h"
-#include "output.h"
+
+#define LOG_STR_LEN 256
 
 extern config_t *config;
 
@@ -334,6 +336,37 @@ void display_targets(alpm_list_t *syncpkgs)
 	}
 
 	FREELIST(targets);
+}
+
+/* presents a prompt and gets a Y/N answer */
+/* TODO there must be a better way */
+int yesno(char *fmt, ...)
+{
+	char str[LOG_STR_LEN];
+	char response[32];
+	va_list args;
+
+	if(config->noconfirm) {
+		return(1);
+	}
+
+	va_start(args, fmt);
+	vsnprintf(str, LOG_STR_LEN, fmt, args);
+	va_end(args);
+
+	/* Use stderr so questions are always displayed when redirecting output */
+	fprintf(stderr, str);
+
+	if(fgets(response, 32, stdin)) {
+		if(strlen(response) != 0) {
+			strtrim(response);
+		}
+
+		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES")) || strlen(response) == 0) {
+			return(1);
+		}
+	}
+	return(0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
