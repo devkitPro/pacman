@@ -386,12 +386,14 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 
 			if(_alpm_trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags, NULL, NULL, NULL) == -1) {
-				FREETRANS(tr);
+				_alpm_trans_free(tr);
+				tr = NULL;
 				RET_ERR(PM_ERR_TRANS_ABORT, -1);
 			}
 
 			if(_alpm_remove_loadtarget(tr, db, newpkg->name) == -1) {
-				FREETRANS(tr);
+				_alpm_trans_free(tr);
+				tr = NULL;
 				RET_ERR(PM_ERR_TRANS_ABORT, -1);
 			}
 
@@ -413,7 +415,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 			int ret = _alpm_remove_commit(tr, db);
 
-			FREETRANS(tr);
+			_alpm_trans_free(tr);
+			tr = NULL;
+
 			/* restore our "NoUpgrade" list to previous state */
 			alpm_list_free_inner(handle->noupgrade, free);
 			alpm_list_free(handle->noupgrade);

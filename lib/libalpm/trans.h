@@ -50,13 +50,6 @@ struct __pmtrans_t {
 	alpm_trans_cb_progress cb_progress;
 };
 
-#define FREETRANS(p) \
-do { \
-	if(p) { \
-		_alpm_trans_free(p); \
-		p = NULL; \
-	} \
-} while (0)
 #define EVENT(t, e, d1, d2) \
 do { \
 	if((t) && (t)->cb_event) { \
@@ -77,7 +70,7 @@ do { \
 } while(0)
 
 pmtrans_t *_alpm_trans_new(void);
-void _alpm_trans_free(void *data);
+void _alpm_trans_free(pmtrans_t *trans);
 int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);

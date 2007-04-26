@@ -951,7 +951,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			goto error;
 		}
 	}
-	FREETRANS(tr);
+	_alpm_trans_free(tr);
+	tr = NULL;
 
 	/* install targets */
 	_alpm_log(PM_LOG_DEBUG, _("installing packages"));
@@ -993,7 +994,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		_alpm_log(PM_LOG_ERROR, _("could not commit transaction"));
 		goto error;
 	}
-	FREETRANS(tr);
+	_alpm_trans_free(tr);
+	tr = NULL;
 
 	/* propagate replaced packages' requiredby fields to their new owners */
 	if(replaces) {
@@ -1058,7 +1060,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	return(0);
 
 error:
-	FREETRANS(tr);
+	_alpm_trans_free(tr);
+	tr = NULL;
 	/* commiting failed, so this is still just a prepared transaction */
 	trans->state = STATE_PREPARED;
 	return(-1);

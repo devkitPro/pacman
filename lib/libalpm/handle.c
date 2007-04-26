@@ -104,7 +104,7 @@ int _alpm_handle_free(pmhandle_t *handle)
 	}
 
 	/* free memory */
-	FREETRANS(handle->trans);
+	_alpm_trans_free(handle->trans);
 	FREE(handle->root);
 	FREE(handle->dbpath);
 	FREE(handle->cachedir);

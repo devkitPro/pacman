@@ -99,11 +99,6 @@ int SYMEXPORT alpm_release()
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
-	/* free the transaction if there is any */
-	if(handle->trans) {
-		alpm_trans_release();
-	}
-
 	/* close local database */
 	if(handle->db_local) {
 		alpm_db_unregister(handle->db_local);
@@ -768,7 +763,7 @@ int SYMEXPORT alpm_trans_release()
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	/* during a commit do not interrupt inmediatelly, just after a target */
+	/* during a commit do not interrupt immediately, just after a target */
 	if(trans->state == STATE_COMMITING || trans->state == STATE_INTERRUPTED) {
 		if(trans->state == STATE_COMMITING) {
 			trans->state = STATE_INTERRUPTED;
@@ -777,7 +772,8 @@ int SYMEXPORT alpm_trans_release()
 		return(-1);
 	}
 
-	FREETRANS(handle->trans);
+	_alpm_trans_free(trans);
+	handle->trans = NULL;
 
 	/* unlock db */
 	if(handle->lckfd != -1) {
