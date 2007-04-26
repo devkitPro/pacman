@@ -202,16 +202,12 @@ static void cleanup(int signum)
 {
 	if(signum==SIGSEGV)
 	{
-		fprintf(stderr, "Internal pacman error: Segmentation fault\n"
-			"Please submit a full bug report, with the given package if appropriate.\n");
+		fprintf(stderr, "Internal pacman error: Segmentation fault.\n"
+		        "Please submit a full bug report with --debug if appropriate.\n");
 		exit(signum);
 	} else if((signum == SIGINT) && (alpm_trans_release() == -1)
 						&& (pm_errno == PM_ERR_TRANS_COMMITING)) {
 		return;
-	}
-	if(signum != 0) {
-		/* TODO why is this here? */
-		fprintf(stderr, "\n");
 	}
 
 	/* free alpm library resources */
@@ -225,9 +221,6 @@ static void cleanup(int signum)
 		config_free(config);
 		config = NULL;
 	}
-
-	/* This fixes up any missing newlines (neednl) */
-	MSG(NL, "");
 
 	exit(signum);
 }

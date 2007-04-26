@@ -171,14 +171,14 @@ int pacman_query(alpm_list_t *targets)
 	}
 
 	if(config->op_q_upgrade) {
-		MSG(NL, _("Checking for package upgrades..."));
+		printf(_("Checking for package upgrades..."));
 		alpm_list_t *syncpkgs;
 
 		if((syncpkgs = alpm_get_upgrades()) != NULL) {
 				display_targets(syncpkgs);
 				return(0);
 		} else {
-			MSG(NL, _("no upgrades found"));
+			printf(_("no upgrades found"));
 			return(1);
 		}
 	}
@@ -205,7 +205,7 @@ int pacman_query(alpm_list_t *targets)
 					pkgnames = alpm_grp_get_pkgs(grp);
 
 					for(p = pkgnames; p; p = alpm_list_next(p)) {
-						MSG(NL, "%s %s\n", grpname, (char *)alpm_list_getdata(p));
+						printf("%s %s\n", grpname, (char *)alpm_list_getdata(p));
 					}
 				}
 			} else {
@@ -213,7 +213,7 @@ int pacman_query(alpm_list_t *targets)
 				if(grp) {
 					alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
 					for(p = pkgnames; p; p = alpm_list_next(p)) {
-						MSG(NL, "%s %s\n", package, (char *)alpm_list_getdata(p));
+						printf("%s %s\n", package, (char *)alpm_list_getdata(p));
 					}
 				} else {
 					ERR(NL, _("group \"%s\" was not found\n"), package);
@@ -241,8 +241,8 @@ int pacman_query(alpm_list_t *targets)
 				dump_pkg_files(info);
 			}
 			if(!config->op_q_info && !config->op_q_list) {
-				MSG(NL, "%s %s\n", alpm_pkg_get_name(info),
-				                   alpm_pkg_get_version(info));
+				printf("%s %s\n", alpm_pkg_get_name(info),
+				       alpm_pkg_get_version(info));
 			}
 			alpm_pkg_free(info);
 			info = NULL;
@@ -285,17 +285,17 @@ int pacman_query(alpm_list_t *targets)
 						}
 					}
 					if(match==0) {
-						MSG(NL, "%s %s\n", pkgname, pkgver);
+						printf("%s %s\n", pkgname, pkgver);
 					}
 				} else if(config->op_q_list) {
 					dump_pkg_files(info);
 				} else if(config->op_q_orphans) {
 					if(alpm_pkg_get_requiredby(info) == NULL
 						 && (long)alpm_pkg_get_reason(info) == PM_PKG_REASON_DEPEND) {
-						MSG(NL, "%s %s\n", pkgname, pkgver);
+						printf("%s %s\n", pkgname, pkgver);
 					}
 				} else {
-					MSG(NL, "%s %s\n", pkgname, pkgver);
+					printf("%s %s\n", pkgname, pkgver);
 				}
 			}
 		} else {
@@ -313,8 +313,8 @@ int pacman_query(alpm_list_t *targets)
 				dump_pkg_files(info);
 			}
 			if(!config->op_q_info && !config->op_q_list) {
-				MSG(NL, "%s %s\n", alpm_pkg_get_name(info),
-				                   alpm_pkg_get_version(info));
+				printf("%s %s\n", alpm_pkg_get_name(info),
+				       alpm_pkg_get_version(info));
 			}
 			if(config->op_q_changelog) {
 				char changelog[PATH_MAX];

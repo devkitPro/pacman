@@ -41,12 +41,6 @@ extern config_t *config;
 static int neednl = 0; /* for cleaner message output */
 static int needpad = 0; /* pad blanks to terminal width */
 
-/* simple helper for needpad */
-void set_output_padding(int on)
-{
-	needpad = on;
-}
-
 /* Wrapper to fprintf() that allows to choose if we want the output
  * to be appended on the current line, or written to a new one
  */

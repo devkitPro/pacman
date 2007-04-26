@@ -257,6 +257,7 @@ void list_display(const char *title, alpm_list_t *list)
  * `pkgs` should be a list of pmsyncpkg_t's,
  * retrieved from a transaction object
  */
+/* TODO move to output.c? or just combine util and output */
 void display_targets(alpm_list_t *syncpkgs)
 {
 	char *str;
@@ -299,35 +300,37 @@ void display_targets(alpm_list_t *syncpkgs)
 	mbisize = (double)(isize) / (1024.0 * 1024.0);
 	mbrsize = (double)(rsize) / (1024.0 * 1024.0);
 
+	/* start displaying information */
+	printf("\n");
+
 	if(to_remove) {
-		MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */
 		list_display(_("Remove:"), to_remove);
+		printf("\n");
 		FREELIST(to_remove);
 	
-		if(mbrsize > 0) {
-			/* round up if size is really small */
-			if(mbrsize < 0.1) {
-				mbrsize = 0.1;
-			}
-			MSG(NL, _("\nTotal Removed Size:   %.2f MB\n"), mbrsize);
+		/* round up if size is really small */
+		if(mbrsize < 0.1) {
+			mbrsize = 0.1;
 		}
+		printf(_("Total Removed Size:   %.2f MB\n"), mbrsize);
 	}
 
-	MSG(NL, "\n"); /* TODO ugly hack. printing a single NL should be easy */ 
 	list_display(_("Targets:"), targets);
+	printf("\n");
 
 	/* round up if size is really small */
 	if(mbsize < 0.1) {
 		mbsize = 0.1;
 	}
-	MSG(NL, _("\nTotal Package Size:   %.2f MB\n"), mbsize);
+	printf(_("Total Package Size:   %.2f MB\n"), mbsize);
 	
+	/* TODO because all pkgs don't include isize, this is a crude hack */
 	if(mbisize > mbsize) {
 		/*round up if size is really small */
 		if(mbisize < 0.1) {
 			mbisize = 0.1;
 		}
-		MSG(NL, _("Total Installed Size:   %.2f MB\n"), mbisize);
+		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
 	}
 
 	FREELIST(targets);

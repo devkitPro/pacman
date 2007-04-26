@@ -94,26 +94,27 @@ int pacman_add(alpm_list_t *targets)
 		/* TODO: error messages should be in the front end, not the back */
 		ERR(NL, "%s\n", alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-						    "       you can remove %s%s\n"), alpm_option_get_root(), PM_LOCK);
+			/* TODO this and the 2 other places should probably be on stderr */
+			printf(_("  if you're sure a package manager is not already\n"
+			         "  running, you can remove %s%s.\n"),
+			         alpm_option_get_root(), PM_LOCK);
 		}
 		return(1);
 	}
 
 	/* add targets to the created transaction */
-	MSG(NL, _("loading package data... "));
+	printf(_("loading package data... "));
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
 			/* TODO: glad this output is hacky */
-			MSG(NL, "\n");
 			ERR(NL, _("failed to add target '%s' (%s)"), targ,
 			    alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
 	}
-	MSG(CL, _("done.\n"));
+	printf(_("done.\n"));
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	/* TODO: No, compute nothing. This is stupid. */
@@ -129,28 +130,28 @@ int pacman_add(alpm_list_t *targets)
 					/* TODO indicate if the error was a virtual package or not:
 					 *		:: %s: requires %s, provided by %s
 					 */
-					MSG(NL, _(":: %s: requires %s"), alpm_dep_get_target(miss),
+					printf(_(":: %s: requires %s"), alpm_dep_get_target(miss),
 					                              alpm_dep_get_name(miss));
 					switch(alpm_dep_get_mod(miss)) {
 						case PM_DEP_MOD_ANY:
 							break;
 						case PM_DEP_MOD_EQ:
-							MSG(CL, "=%s", alpm_dep_get_version(miss));
+							printf("=%s", alpm_dep_get_version(miss));
 							break;
 						case PM_DEP_MOD_GE:
-							MSG(CL, ">=%s", alpm_dep_get_version(miss));
+							printf(">=%s", alpm_dep_get_version(miss));
 							break;
 						case PM_DEP_MOD_LE:
-							MSG(CL, "<=%s", alpm_dep_get_version(miss));
+							printf("<=%s", alpm_dep_get_version(miss));
 							break;
 					}
-					MSG(CL, "\n");
+					printf("\n");
 				}
 				break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
-					MSG(NL, _(":: %s: conflicts with %s"),
+					printf(_(":: %s: conflicts with %s"),
 						alpm_dep_get_target(miss), alpm_dep_get_name(miss));
 				}
 				break;
@@ -159,19 +160,19 @@ int pacman_add(alpm_list_t *targets)
 					pmconflict_t *conflict = alpm_list_getdata(i);
 					switch(alpm_conflict_get_type(conflict)) {
 						case PM_CONFLICT_TYPE_TARGET:
-							MSG(NL, _("%s exists in both '%s' and '%s'\n"),
+							printf(_("%s exists in both '%s' and '%s'\n"),
 							        alpm_conflict_get_file(conflict),
 							        alpm_conflict_get_target(conflict),
 							        alpm_conflict_get_ctarget(conflict));
 						break;
 						case PM_CONFLICT_TYPE_FILE:
-							MSG(NL, _("%s: %s exists in filesystem\n"),
+							printf(_("%s: %s exists in filesystem\n"),
 							        alpm_conflict_get_target(conflict),
 							        alpm_conflict_get_file(conflict));
 						break;
 					}
 				}
-				MSG(NL, _("\nerrors occurred, no packages were upgraded.\n"));
+				printf(_("\nerrors occurred, no packages were upgraded.\n"));
 				break;
 			/* TODO This is gross... we should not return these values in the same
 			 * list we would get conflicts and such with... it's just silly
@@ -181,7 +182,7 @@ int pacman_add(alpm_list_t *targets)
 				pkgsize = alpm_list_getdata(i);
 				i = alpm_list_next(i);
 				freespace = alpm_list_getdata(i);
-					MSG(NL, _(":: %.1f MB required, have %.1f MB"),
+					printf(_(":: %.1f MB required, have %.1f MB"),
 					    (double)(*pkgsize / (1024.0*1024.0)),
 					    (double)(*freespace / (1024.0*1024.0)));
 				break;

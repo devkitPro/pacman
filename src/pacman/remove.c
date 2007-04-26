@@ -64,7 +64,7 @@ int pacman_remove(alpm_list_t *targets)
 			int all;
 			alpm_list_t *pkgnames = alpm_grp_get_pkgs(grp);
 
-			MSG(NL, _(":: group %s:\n"), alpm_grp_get_name(grp));
+			printf(_(":: group %s:\n"), alpm_grp_get_name(grp));
 			list_display("   ", pkgnames);
 			all = yesno(_("    Remove whole content? [Y/n] "));
 
@@ -85,20 +85,20 @@ int pacman_remove(alpm_list_t *targets)
 	   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
 		ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			MSG(NL, _("       if you're sure a package manager is not already running,\n"
-			  			"       you can remove %s%s\n"), alpm_option_get_root(), PM_LOCK);
+			printf(_("  if you're sure a package manager is not already\n"
+			         "  running, you can remove %s%s.\n"),
+			         alpm_option_get_root(), PM_LOCK);
 		}
 		FREELIST(finaltargs);
 		return(1);
 	}
 
 	/* add targets to the created transaction */
-	MSG(NL, _("loading package data... "));
+	printf(_("loading package data... "));
 	for(i = finaltargs; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			/* TODO: glad this output is hacky */
-			MSG(NL, "\n");
+			printf("failed.\n");
 			ERR(NL, _("failed to add target '%s' (%s)\n"), targ,
 			    alpm_strerror(pm_errno));
 			retval = 1;
@@ -113,8 +113,8 @@ int pacman_remove(alpm_list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
-					MSG(NL, _(":: %s is required by %s\n"), alpm_dep_get_target(miss),
-					    alpm_dep_get_name(miss));
+					printf(_(":: %s is required by %s\n"), alpm_dep_get_target(miss),
+					       alpm_dep_get_name(miss));
 				}
 				alpm_list_free(data);
 				break;
@@ -135,7 +135,7 @@ int pacman_remove(alpm_list_t *targets)
 			pmpkg_t *pkg = alpm_list_getdata(i);
 			lst = alpm_list_add(lst, strdup(alpm_pkg_get_name(pkg)));
 		}
-		MSG(NL, "\n");
+		printf("\n");
 		list_display(_("Targets:"), lst);
 		FREELIST(lst);
 		/* get confirmation */
@@ -143,7 +143,7 @@ int pacman_remove(alpm_list_t *targets)
 			retval = 1;
 			goto cleanup;
 		}
-		MSG(NL, "\n");
+		printf("\n");
 	}
 
 	/* Step 3: actually perform the removal */

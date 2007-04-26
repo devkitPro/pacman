@@ -129,43 +129,43 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
-		  MSG(NL, _("checking dependencies... "));
+		  printf(_("checking dependencies... "));
 			break;
 		case PM_TRANS_EVT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
-			MSG(NL, _("checking for file conflicts... "));
+			printf(_("checking for file conflicts... "));
 			}
 			break;
 		case PM_TRANS_EVT_CLEANUP_START:
-			MSG(NL, _("cleaning up... "));
+			printf(_("cleaning up... "));
 			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
-			MSG(NL, _("resolving dependencies... "));
+			printf(_("resolving dependencies... "));
 			break;
 		case PM_TRANS_EVT_INTERCONFLICTS_START:
-			MSG(NL, _("looking for inter-conflicts... "));
+			printf(_("looking for inter-conflicts... "));
 			break;
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
 			if(config->noprogressbar) {
-				MSG(CL, _("done.\n"));
+				printf(_("done.\n"));
 			}
 			break;
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
 		case PM_TRANS_EVT_CLEANUP_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
 		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
-			MSG(CL, _("done.\n"));
+			printf(_("done.\n"));
 			break;
 		case PM_TRANS_EVT_EXTRACT_DONE:
 			break;
 		case PM_TRANS_EVT_ADD_START:
 			if(config->noprogressbar) {
-				MSG(NL, _("installing %s... "), alpm_pkg_get_name(data1));
+				printf(_("installing %s... "), alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_EVT_ADD_DONE:
 			if(config->noprogressbar) {
-				MSG(CL, _("done.\n"));
+				printf(_("done.\n"));
 			}
 			snprintf(str, LOG_STR_LEN, _("installed %s (%s)"),
 			         alpm_pkg_get_name(data1),
@@ -174,12 +174,12 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_REMOVE_START:
 			if(config->noprogressbar) {
-			MSG(NL, _("removing %s... "), alpm_pkg_get_name(data1));
+			printf(_("removing %s... "), alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_EVT_REMOVE_DONE:
 			if(config->noprogressbar) {
-			    MSG(CL, _("done.\n"));
+			    printf(_("done.\n"));
 			}
 			snprintf(str, LOG_STR_LEN, _("removed %s (%s)"),
 			         alpm_pkg_get_name(data1),
@@ -188,12 +188,12 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_UPGRADE_START:
 			if(config->noprogressbar) {
-				MSG(NL, _("upgrading %s... "), alpm_pkg_get_name(data1));
+				printf(_("upgrading %s... "), alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_EVT_UPGRADE_DONE:
 			if(config->noprogressbar) {
-				MSG(CL, _("done.\n"));
+				printf(_("done.\n"));
 			}
 			snprintf(str, LOG_STR_LEN, _("upgraded %s (%s -> %s)"),
 			         (char *)alpm_pkg_get_name(data1),
@@ -202,30 +202,30 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			alpm_logaction(str);
 			break;
 		case PM_TRANS_EVT_INTEGRITY_START:
-			MSG(NL, _("checking package integrity... "));
+			printf(_("checking package integrity... "));
 			break;
 		case PM_TRANS_EVT_INTEGRITY_DONE:
-			MSG(CL, _("done.\n"));
+			printf(_("done.\n"));
 			break;
 		case PM_TRANS_EVT_SCRIPTLET_INFO:
-			MSG(NL, "%s\n", (char*)data1);
+			printf("%s\n", (char*)data1);
 			break;
 		case PM_TRANS_EVT_SCRIPTLET_START:
-			MSG(NL, (char*)data1);
-			MSG(CL, "...");
+			printf((char*)data1);
+			printf("...");
 			break;
 		case PM_TRANS_EVT_SCRIPTLET_DONE:
 			if(!(long)data1) {
-				MSG(CL, _("done.\n"));
+				printf(_("done.\n"));
 			} else {
-				MSG(CL, _("failed.\n"));
+				printf(_("failed.\n"));
 			}
 			break;
 		case PM_TRANS_EVT_PRINTURI:
-			MSG(NL, "%s/%s\n", (char*)data1, (char*)data2);
+			printf("%s/%s\n", (char*)data1, (char*)data2);
 			break;
 		case PM_TRANS_EVT_RETRIEVE_START:
-			MSG(NL, _(":: Retrieving packages from %s...\n"), (char*)data1);
+			printf(_(":: Retrieving packages from %s...\n"), (char*)data1);
 			fflush(stdout);
 			break;
 	}
@@ -372,13 +372,9 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 		return;
 	}
 
-	/* XXX: big fat hack: due to the fact that we switch out printf/pm_fprintf,
-	 * not everything honors our 'neednl' newline hackery.  This forces a newline
-	 * if we need one before drawing the progress bar */
-	MSG(NL,NULL);
-
 	if(percent == 0) {
-		set_output_padding(1); /* turn on output padding with ' ' */
+		/* print a newline before we start our progressbar */
+		printf("\n");
 		timediff = get_update_timediff(1);
 	} else {
 		timediff = get_update_timediff(0);
@@ -452,10 +448,6 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	/* call refactored fill progress function */
 	fill_progress(percent, getcols() - infolen);
-
-	if(percent >= 100) {
-		set_output_padding(0); /* restore padding */
-	}
 }
 
 /* callback to handle display of download progress */
@@ -473,13 +465,10 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		return;
 	}
 
-	/* XXX: big fat hack: due to the fact that we switch out printf/pm_fprintf,
-	 * not everything honors our 'neednl' newline hackery.  This forces a newline
-	 * if we need one before drawing the progress bar */
-	MSG(NL,NULL);
-
 	/* this is basically a switch on xferred: 0, total, and anything else */
 	if(xfered == 0) {
+		/* print a newline before we start our progressbar */
+		printf("\n");
 		/* set default starting values */
 		gettimeofday(&initial_time, NULL);
 		xfered_last = 0;
@@ -487,7 +476,6 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		timediff = get_update_timediff(1);
 		rate = 0.0;
 		eta_s = 0;
-		set_output_padding(1); /* we need padding from pm_fprintf output */
 	} else if(xfered == total) {
 		/* compute final values */
 		struct timeval current_time;
@@ -501,8 +489,6 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 
 		/* round elapsed time to the nearest second */
 		eta_s = (int)floorf(timediff + 0.5);
-
-		set_output_padding(0); /* shut off padding */
 	} else {
 		/* compute current average values */
 		timediff = get_update_timediff(0);
@@ -615,12 +601,12 @@ void cb_log(unsigned short level, char *msg)
 		strftime(timestr, 9, "%H:%M:%S", tmp);
 		timestr[8] = '\0';
 
-		MSG(NL, "[%s] %s: %s", timestr, str, msg);
+		printf("[%s] %s: %s", timestr, str, msg);
 	} else {
-    MSG(NL, "%s: %s", str, msg);
+    printf("%s: %s", str, msg);
 	}
 #else
-	MSG(NL, "%s: %s", str, msg);
+	printf("%s: %s", str, msg);
 #endif
 }
 

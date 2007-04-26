@@ -79,7 +79,7 @@ int pacman_deptest(alpm_list_t *targets)
 		}
 
 		if(!found) {
-			MSG(NL, "%s", saved_target);
+			printf("%s", saved_target);
 			retval = 1;
 		}
 		free(saved_target);
