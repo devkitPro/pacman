@@ -109,7 +109,7 @@ static int sync_cleancache(int level)
 		printf(_("removing old packages from cache... "));
 		dir = opendir(dirpath);
 		if(dir == NULL) {
-			ERR(NL, _("could not access cache directory\n"));
+			fprintf(stderr, _("error: could not access cache directory\n"));
 			return(1);
 		}
 		rewinddir(dir);
@@ -175,12 +175,12 @@ static int sync_cleancache(int level)
 		printf(_("removing all packages from cache... "));
 
 		if(rmrf(dirpath)) {
-			ERR(NL, _("could not remove cache directory\n"));
+			fprintf(stderr, _("error: could not remove cache directory\n"));
 			return(1);
 		}
 
 		if(makepath(dirpath)) {
-			ERR(NL, _("could not create new cache directory\n"));
+			fprintf(stderr, _("error: could not create new cache directory\n"));
 			return(1);
 		}
 	}
@@ -207,9 +207,11 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 				 * Yes.  This will be here until we add a nice pacman "pm_errstr" or
 				 * something, OR add all libdownload error codes into the pm_error enum
 				 */
-				ERR(NL, _("failed to synchronize %s: %s\n"), alpm_db_get_name(db), downloadLastErrString);
+				fprintf(stderr, _("error: failed to synchronize %s: %s\n"),
+				        alpm_db_get_name(db), downloadLastErrString);
 			} else {
-				ERR(NL, _("failed to update %s (%s)\n"), alpm_db_get_name(db), alpm_strerror(pm_errno));
+				fprintf(stderr, _("error: failed to update %s (%s)\n"),
+				        alpm_db_get_name(db), alpm_strerror(pm_errno));
 			}
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
@@ -338,7 +340,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 				
 				if(!db) {
-					ERR(NL, _("repository '%s' does not exist\n"), repo);
+					fprintf(stderr, _("error: repository '%s' does not exist\n"), repo);
 					return(1);
 				}
 				
@@ -354,7 +356,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 				
 				if(!foundpkg) {
-					ERR(NL, _("package '%s' was not found in repository '%s'\n"), pkgstr, repo);
+					fprintf(stderr, _("error: package '%s' was not found in repository '%s'\n"), pkgstr, repo);
 				}
 			} else {
 				pkgstr = target;
@@ -374,7 +376,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				}
 				if(!foundpkg) {
-					ERR(NL, _("package '%s' was not found\n"), pkgstr);
+					fprintf(stderr, _("error: package '%s' was not found\n"), pkgstr);
 				}
 			}
 		}
@@ -411,7 +413,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			}
 
 			if(db == NULL) {
-				ERR(NL, _("repository \"%s\" was not found.\n"),repo);
+				fprintf(stderr, _("error: repository \"%s\" was not found.\n"),repo);
 				alpm_list_free(ls);
 				return(1);
 			}
@@ -447,7 +449,7 @@ int pacman_sync(alpm_list_t *targets)
 
 	sync_dbs = alpm_option_get_syncdbs();
 	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
-		ERR(NL, _("no usable package repositories configured.\n"));
+		fprintf(stderr, _("error: no usable package repositories configured.\n"));
 		return(1);
 	}
 
@@ -473,7 +475,8 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* Step 1: create a new transaction... */
 	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-		ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			printf(_("  if you're sure a package manager is not already\n"
 			         "  running, you can remove %s%s.\n"),
@@ -487,7 +490,7 @@ int pacman_sync(alpm_list_t *targets)
 		printf(_(":: Synchronizing package databases...\n"));
 		alpm_logaction(_("synchronizing package lists"));
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
-			ERR(NL, _("failed to synchronize any databases"));
+			fprintf(stderr, _("error: failed to synchronize any databases\n"));
 			return(1);
 		}
 	}
@@ -496,7 +499,7 @@ int pacman_sync(alpm_list_t *targets)
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction(_("starting full system upgrade"));
 		if(alpm_trans_sysupgrade() == -1) {
-			ERR(NL, "%s\n", alpm_strerror(pm_errno));
+			fprintf(stderr, _("error: %s\n"), alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
@@ -521,19 +524,19 @@ int pacman_sync(alpm_list_t *targets)
 				         ":: not upgrade pacman seperately, answer no.\n"));
 				if(yesno(_(":: Cancel current operation? [Y/n] "))) {
 					if(alpm_trans_release() == -1) {
-						ERR(NL, _("failed to release transaction (%s)\n"),
+						fprintf(stderr, _("error: failed to release transaction (%s)\n"),
 						    alpm_strerror(pm_errno));
 						retval = 1;
 						goto cleanup;
 					}
 					if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags,
 					   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-						ERR(NL, _("failed to init transaction (%s)\n"),
+						fprintf(stderr, _("error: failed to init transaction (%s)\n"),
 						    alpm_strerror(pm_errno));
 						return(1);
 					}
 					if(alpm_trans_addtarget("pacman") == -1) {
-						ERR(NL, _("pacman: %s\n"), alpm_strerror(pm_errno));
+						fprintf(stderr, _("error: pacman: %s\n"), alpm_strerror(pm_errno));
 						retval = 1;
 						goto cleanup;
 					}
@@ -553,7 +556,8 @@ int pacman_sync(alpm_list_t *targets)
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-					ERR(NL, "'%s': %s\n", (char *)i->data, alpm_strerror(pm_errno));
+					fprintf(stderr, _("'error: %s': %s\n"),
+					        (char *)i->data, alpm_strerror(pm_errno));
 					retval = 1;
 					goto cleanup;
 				}
@@ -599,7 +603,7 @@ int pacman_sync(alpm_list_t *targets)
 						/* targ is provided by pname */
 						targets = alpm_list_add(targets, strdup(pname));
 					} else {
-						ERR(NL, _("'%s': not found in sync db\n"), targ);
+						fprintf(stderr, _("error: '%s': not found in sync db\n"), targ);
 						retval = 1;
 						goto cleanup;
 					}
@@ -611,7 +615,8 @@ int pacman_sync(alpm_list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
 		long long *pkgsize, *freespace;
-		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
@@ -693,7 +698,8 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* Step 3: actually perform the installation */
 	if(alpm_trans_commit(&data) == -1) {
-		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
@@ -733,7 +739,8 @@ cleanup:
 		alpm_list_free(data);
 	}
 	if(alpm_trans_release() == -1) {
-		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		retval = 1;
 	}
 

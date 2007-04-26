@@ -212,7 +212,7 @@ static void cleanup(int signum)
 
 	/* free alpm library resources */
 	if(alpm_release() == -1) {
-		ERR(NL, "%s\n", alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: %s\n"), alpm_strerror(pm_errno));
 	}
 
 	/* free memory */
@@ -309,11 +309,16 @@ static int parseargs(int argc, char *argv[])
 				if(optarg) {
 					unsigned short debug = atoi(optarg);
 					switch(debug) {
-						case 3: logmask |= PM_LOG_FUNCTION; /* fall through */
-						case 2: logmask |= PM_LOG_DOWNLOAD; /*fall through */
-						case 1: logmask |= PM_LOG_DEBUG; break;
+						case 3:
+							logmask |= PM_LOG_FUNCTION; /* fall through */
+						case 2:
+							logmask |= PM_LOG_DOWNLOAD; /*fall through */
+						case 1:
+							logmask |= PM_LOG_DEBUG;
+							break;
 						default:
-						  ERR(NL, _("'%s' is not a valid debug level"), optarg);
+						  fprintf(stderr, _("error: '%s' is not a valid debug level"),
+							        optarg);
 							return(1);
 					}
 				} else {
@@ -328,7 +333,8 @@ static int parseargs(int argc, char *argv[])
 			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
 			case 1007:
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					ERR(NL, _("'%s' is not a valid cache directory\n"), optarg);
+					fprintf(stderr, _("error: '%s' is not a valid cache directory\n"),
+					        optarg);
 					return(1);
 				}
 				alpm_option_set_cachedir(optarg);
@@ -346,7 +352,8 @@ static int parseargs(int argc, char *argv[])
 			case 'V': config->version = 1; break;
 			case 'b':
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					ERR(NL, _("'%s' is not a valid db path\n"), optarg);
+					fprintf(stderr, _("error: '%s' is not a valid db path\n"),
+					        optarg);
 					return(1);
 				}
 				alpm_option_set_dbpath(optarg);
@@ -376,7 +383,8 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'r':
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					ERR(NL, _("'%s' is not a valid root path\n"), optarg);
+					fprintf(stderr, _("error: '%s' is not a valid root path\n"),
+					        optarg);
 					return(1);
 				}
 				alpm_option_set_root(optarg);
@@ -403,7 +411,7 @@ static int parseargs(int argc, char *argv[])
 	}
 
 	if(config->op == 0) {
-		ERR(NL, _("only one operation may be used at a time\n"));
+		fprintf(stderr, _("error: only one operation may be used at a time\n"));
 		return(1);
 	}
 
@@ -464,7 +472,8 @@ int main(int argc, char *argv[])
 
 	/* initialize pm library */
 	if(alpm_initialize() == -1) {
-		ERR(NL, _("failed to initialize alpm library (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to initialize alpm library (%s)\n"),
+		        alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 
@@ -490,7 +499,7 @@ int main(int argc, char *argv[])
 				/* special case: ignore root user check if -r is specified, fall back on
 				 * normal FS checking */
 			} else {
-				ERR(NL, _("you cannot perform this operation unless you are root.\n"));
+				fprintf(stderr, _("error: you cannot perform this operation unless you are root.\n"));
 				config_free(config);
 				exit(EXIT_FAILURE);
 			}
@@ -505,7 +514,8 @@ int main(int argc, char *argv[])
 	}
 
 	if(alpm_parse_config(config->configfile, NULL, "") != 0) {
-		ERR(NL, _("failed to parse config (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to parse config (%s)\n"),
+		        alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 
@@ -522,7 +532,8 @@ int main(int argc, char *argv[])
 	/* Opening local database */
 	db_local = alpm_db_register("local");
 	if(db_local == NULL) {
-		ERR(NL, _("could not register 'local' database (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: could not register 'local' database (%s)\n"),
+		        alpm_strerror(pm_errno));
 		cleanup(1);
 	}
 
@@ -534,7 +545,7 @@ int main(int argc, char *argv[])
 							&& (config->op_s_sync || config->op_s_upgrade || config->op_s_search
 								  || config->op_s_clean || config->group
 									|| config->op_q_list)))) {
-		ERR(NL, _("no targets specified (use -h for help)\n"));
+		fprintf(stderr, _("error: no targets specified (use -h for help)\n"));
 		cleanup(1);
 	}
 
@@ -559,7 +570,7 @@ int main(int argc, char *argv[])
 			ret = pacman_deptest(pm_targets);
 			break;
 		default:
-			ERR(NL, _("no operation specified (use -h for help)\n"));
+			fprintf(stderr, _("error: no operation specified (use -h for help)\n"));
 			ret = 1;
 	}
 

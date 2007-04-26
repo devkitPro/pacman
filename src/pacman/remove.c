@@ -83,7 +83,8 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 1: create a new transaction */
 	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags,
 	   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-		ERR(NL, _("failed to init transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			printf(_("  if you're sure a package manager is not already\n"
 			         "  running, you can remove %s%s.\n"),
@@ -99,8 +100,8 @@ int pacman_remove(alpm_list_t *targets)
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
 			printf("failed.\n");
-			ERR(NL, _("failed to add target '%s' (%s)\n"), targ,
-			    alpm_strerror(pm_errno));
+			fprintf(stderr, _("error: failed to add target '%s' (%s)\n"), targ,
+			        alpm_strerror(pm_errno));
 			retval = 1;
 			goto cleanup;
 		}
@@ -108,7 +109,8 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
-		ERR(NL, _("failed to prepare transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
@@ -148,7 +150,8 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 3: actually perform the removal */
 	if(alpm_trans_commit(NULL) == -1) {
-		ERR(NL, _("failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		retval = 1;
 		goto cleanup;
 	}
@@ -157,7 +160,8 @@ int pacman_remove(alpm_list_t *targets)
 cleanup:
 	FREELIST(finaltargs);
 	if(alpm_trans_release() == -1) {
-		ERR(NL, _("failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
 		retval = 1;
 	}
 

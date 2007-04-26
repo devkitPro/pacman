@@ -177,7 +177,8 @@ void dump_pkg_backups(pmpkg_t *pkg)
 				char *sha1sum = alpm_get_sha1sum(path);
 
 				if(md5sum == NULL || sha1sum == NULL) {
-					ERR(NL, _("error calculating checksums for %s\n"), path);
+					fprintf(stderr, _("error: could not calculate checksums for %s\n"),
+					        path);
 					free(str);
 					continue;
 				}
@@ -243,7 +244,7 @@ void dump_pkg_changelog(char *clfile, const char *pkgname)
 
 	if((fp = fopen(clfile, "r")) == NULL)
 	{
-		ERR(NL, _("No changelog available for '%s'.\n"), pkgname);
+		fprintf(stderr, _("error: no changelog available for '%s'.\n"), pkgname);
 		return;
 	}
 	else
