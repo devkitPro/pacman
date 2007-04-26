@@ -36,7 +36,6 @@
 #include <sys/stat.h>
 #endif
 #include <dirent.h>
-#include <libintl.h>
 #include <regex.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */

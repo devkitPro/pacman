@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <libintl.h>
-
 /* libalpm */
 #include "error.h"
 #include "util.h"

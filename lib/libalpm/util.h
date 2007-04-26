@@ -26,13 +26,9 @@
 #define _ALPM_UTIL_H
 
 #include <stdio.h>
-#if defined(__OpenBSD__)
-#include "/usr/local/include/archive.h"
-#include "/usr/local/include/archive_entry.h"
-#else
+#include <libintl.h> /* here so it doesn't need to be included elsewhere */
 #include <archive.h>
 #include <archive_entry.h>
-#endif
 
 #define FREE(p) do { if (p) { free(p); p = NULL; } } while(0)
 
@@ -45,6 +41,7 @@
 
 #define ARCHIVE_EXTRACT_FLAGS ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_TIME
 
+/* define _() as shortcut for gettext() */
 #ifdef ENABLE_NLS
 #define _(str) dgettext ("libalpm", str)
 #else

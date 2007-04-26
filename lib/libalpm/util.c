@@ -45,7 +45,6 @@
 #if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
 #include <sys/stat.h>
 #endif
-#include <libintl.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif

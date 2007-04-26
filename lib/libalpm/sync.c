@@ -33,7 +33,6 @@
 #include <limits.h> /* PATH_MAX */
 #endif
 #include <dirent.h>
-#include <libintl.h>
 
 /* libalpm */
 #include "sync.h"

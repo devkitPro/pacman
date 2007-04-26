@@ -31,7 +31,11 @@
 #define UPDATE_SPEED_SEC 0.2f
 
 /* define _() as shortcut for gettext() */
+#ifdef ENABLE_NLS
 #define _(str) gettext(str)
+#else
+#define _(str) str
+#endif
 
 int getcols();
 int makepath(char *path);

@@ -38,7 +38,6 @@
 #include <fcntl.h>
 #include <string.h>
 #include <limits.h>
-#include <libintl.h>
 
 /* libalpm */
 #include "add.h"

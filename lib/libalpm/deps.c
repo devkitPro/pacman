@@ -29,7 +29,6 @@
 #ifdef __sun__
 #include <strings.h>
 #endif
-#include <libintl.h>
 #include <math.h>
 
 /* libalpm */

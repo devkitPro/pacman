@@ -34,7 +34,6 @@
 #include <sys/syslimits.h>
 #endif
 #include <sys/stat.h>
-#include <libintl.h>
 
 /* libalpm */
 #include "conflict.h"

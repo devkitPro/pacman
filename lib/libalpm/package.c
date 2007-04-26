@@ -28,7 +28,6 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
-#include <libintl.h>
 #include <locale.h>
 #include <errno.h>
 #include <sys/types.h>

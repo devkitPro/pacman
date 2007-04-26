@@ -24,7 +24,6 @@ documentation and/or software.
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <libintl.h>
 
 /* libalpm */
 #include "alpm.h"

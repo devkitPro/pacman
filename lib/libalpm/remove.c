@@ -39,7 +39,6 @@
 #endif
 #include <unistd.h>
 #include <errno.h>
-#include <libintl.h>
 
 /* libalpm */
 #include "remove.h"

@@ -29,7 +29,6 @@
 #include <limits.h>
 #include <sys/types.h>
 #include <syslog.h>
-#include <libintl.h>
 #include <time.h>
 
 /* libalpm */
