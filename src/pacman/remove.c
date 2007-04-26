@@ -32,7 +32,7 @@
 #include "pacman.h"
 #include "util.h"
 #include "log.h"
-#include "trans.h"
+#include "callback.h"
 #include "conf.h"
 
 extern config_t *config;

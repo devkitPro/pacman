@@ -16,14 +16,13 @@ pacman_SOURCES = \
 	add.c \
 	conf.h conf.c \
 	deptest.c \
-	downloadprog.h downloadprog.c \
 	log.h log.c \
 	package.h package.c \
 	pacman.h pacman.c \
 	query.c \
 	remove.c \
 	sync.c \
-	trans.h trans.c \
+	callback.h callback.c \
 	util.h util.c
 
 pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la \

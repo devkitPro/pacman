@@ -44,7 +44,7 @@
 #include "pacman.h"
 #include "util.h"
 #include "log.h"
-#include "downloadprog.h"
+#include "callback.h"
 #include "conf.h"
 #include "package.h"
 
@@ -517,7 +517,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* set library parameters */
-	alpm_option_set_dlcb(log_progress);
+	alpm_option_set_dlcb(cb_dl_progress);
 
 	if(config->verbose > 0) {
 		printf("Root     : %s\n", alpm_option_get_root());

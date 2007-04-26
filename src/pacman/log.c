@@ -47,58 +47,6 @@ void set_output_padding(int on)
 	needpad = on;
 }
 
-/* Callback to handle notifications from the library
- */
-void cb_log(unsigned short level, char *msg)
-{
-	char str[LOG_STR_LEN] = "";
-
-	if(!strlen(msg)) {
-		return;
-	}
-
-	switch(level) {
-		case PM_LOG_DEBUG:
-			sprintf(str, _("debug"));
-		break;
-		case PM_LOG_ERROR:
-			sprintf(str, _("error"));
-		break;
-		case PM_LOG_WARNING:
-			sprintf(str, _("warning"));
-		break;
-		case PM_LOG_FUNCTION:
-		  /* TODO we should increase the indent level when this occurs so we can see
-			 * program flow easier.  It'll be fun
-			 */
-			sprintf(str, _("function"));
-		break;
-		default:
-			sprintf(str, "???");
-		break;
-	}
-
-#ifdef PACMAN_DEBUG
-	/* If debug is on, we'll timestamp the output */
-  if(alpm_option_get_logmask() & PM_LOG_DEBUG) {
-		time_t t;
-		struct tm *tmp;
-		char timestr[10] = {0};
-
-		t = time(NULL);
-		tmp = localtime(&t);
-		strftime(timestr, 9, "%H:%M:%S", tmp);
-		timestr[8] = '\0';
-
-		MSG(NL, "[%s] %s: %s", timestr, str, msg);
-	} else {
-    MSG(NL, "%s: %s", str, msg);
-	}
-#else
-	MSG(NL, "%s: %s", str, msg);
-#endif
-}
-
 /* Wrapper to fprintf() that allows to choose if we want the output
  * to be appended on the current line, or written to a new one
  */
@@ -146,25 +94,8 @@ void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
 	neednl = (str[strlen(str)-1] == '\n') ? 0 : 1;
 }
 
-/* Check verbosity option and, if set, print the
- * string to stdout
- */
-void vprint(char *fmt, ...)
-{
-	va_list args;
-
-	char str[LOG_STR_LEN];
-
-	if(config->verbose > 0) {
-		va_start(args, fmt);
-		vsnprintf(str, LOG_STR_LEN, fmt, args);
-		va_end(args);
-		pm_fprintf(stdout, NL, str);
-	}
-}
-
-/* presents a prompt and gets a Y/N answer
- */
+/* presents a prompt and gets a Y/N answer */
+/* TODO there must be a better way */
 int yesno(char *fmt, ...)
 {
 	char str[LOG_STR_LEN];

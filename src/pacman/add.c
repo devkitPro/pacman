@@ -31,7 +31,7 @@
 /* pacman */
 #include "pacman.h"
 #include "log.h"
-#include "trans.h"
+#include "callback.h"
 #include "conf.h"
 #include "util.h"
 

@@ -42,11 +42,7 @@ enum {
 
 void set_output_padding(int on);
 
-/* callback to handle messages/notifications from pacman library */
-void cb_log(unsigned short level, char *msg);
-
 void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...);
-void vprint(char *fmt, ...);
 
 int yesno(char *fmt, ...);
 
