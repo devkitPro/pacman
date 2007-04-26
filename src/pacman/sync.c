@@ -235,41 +235,45 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ret;
+	int freelist;
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
-		pmdb_t *db = (pmdb_t *)alpm_list_getdata(i);
+		pmdb_t *db = alpm_list_getdata(i);
+		/* if we have a targets list, search for packages matching it */
 		if(targets) {
 			ret = alpm_db_search(db, targets);
-			if(ret == NULL) {
-				continue;
-			}
-			for(j = ret; j; j = alpm_list_next(j)) {
-				char *group = NULL;
-				alpm_list_t *grp;
-				pmpkg_t *pkg = alpm_list_getdata(j);
+			freelist = 1;
+		} else {
+			ret = alpm_db_getpkgcache(db);
+			freelist = 0;
+		}
+		if(ret == NULL) {
+			continue;
+		}
+		for(j = ret; j; j = alpm_list_next(j)) {
+			/* print repo/name (group) info about each package in our list */
+			char *group = NULL;
+			alpm_list_t *grp;
+			pmpkg_t *pkg = alpm_list_getdata(j);
 
-				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-						   alpm_pkg_get_version(pkg));
+			printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
+			       alpm_pkg_get_version(pkg));
 
-				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-						group = alpm_list_getdata(grp);
-						printf(" (%s)\n    ", (char *)alpm_list_getdata(grp));
-				} else {
-					printf("\n    ");
-				}
-				
-				indentprint(alpm_pkg_get_desc(pkg), 4);
+			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
+					group = alpm_list_getdata(grp);
+					printf(" (%s)\n", (char *)alpm_list_getdata(grp));
+			} else {
 				printf("\n");
 			}
-			alpm_list_free(ret);
-		} else {
-			for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
-				pmpkg_t *pkg = alpm_list_getdata(j);
 
-				MSG(NL, "%s/%s %s\n    ", alpm_db_get_name(db), alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-				indentprint(alpm_pkg_get_desc(pkg), 4);
-				MSG(NL, "\n");
-			}
+			/* we need an initial indent first */
+			printf("    ");
+			indentprint(alpm_pkg_get_desc(pkg), 4);
+			printf("\n");
+		}
+		/* we only want to free if the list was a search list */
+		if(freelist) {
+			alpm_list_free(ret);
 		}
 	}
 

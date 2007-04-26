@@ -555,9 +555,14 @@ int main(int argc, char *argv[])
 		cleanup(1);
 	}
 
-	if(alpm_list_count(pm_targets) == 0 && !(config->op == PM_OP_QUERY || (config->op == PM_OP_SYNC
-	   && (config->op_s_sync || config->op_s_upgrade || config->op_s_clean || config->group 
-	   || config->op_q_list)))) {
+	/* TODO This is pretty messy, shouldn't checking be done later in the ops
+	 * themselves? I can't even digest this if statement. */
+	if(alpm_list_count(pm_targets) == 0
+			&& !(config->op == PM_OP_QUERY
+					|| (config->op == PM_OP_SYNC
+							&& (config->op_s_sync || config->op_s_upgrade || config->op_s_search
+								  || config->op_s_clean || config->group
+									|| config->op_q_list)))) {
 		ERR(NL, _("no targets specified (use -h for help)\n"));
 		cleanup(1);
 	}
