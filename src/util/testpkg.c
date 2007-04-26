@@ -28,12 +28,13 @@
 
 #include <alpm.h>
 
-void output_cb(unsigned short level, char *msg)
+void output_cb(pmloglevel_t level, char *msg)
 {
 	if(strlen(msg)) {
         switch(level) {
         case PM_LOG_ERROR: printf("error: "); break;
         case PM_LOG_WARNING: printf("warning: "); break;
+		default: break;
         }
         puts(msg);
     }

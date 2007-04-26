@@ -38,7 +38,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 void cb_dl_progress(const char *filename, int xfered, int total);
 
 /* callback to handle messages/notifications from pacman library */
-void cb_log(unsigned short level, char *msg);
+void cb_log(pmloglevel_t level, char *msg);
 
 #endif /* _PM_CALLBACK_H */
 

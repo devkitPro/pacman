@@ -567,7 +567,7 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 }
 
 /* Callback to handle notifications from the library */
-void cb_log(unsigned short level, char *msg)
+void cb_log(pmloglevel_t level, char *msg)
 {
 	char str[LOG_STR_LEN] = "";
 

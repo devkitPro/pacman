@@ -70,7 +70,7 @@ typedef enum _pmloglevel_t {
 	PM_LOG_FUNCTION = 0x10
 } pmloglevel_t;
 
-typedef void (*alpm_cb_log)(unsigned short, char *);
+typedef void (*alpm_cb_log)(pmloglevel_t, char *);
 int alpm_logaction(char *fmt, ...);
 
 /*
