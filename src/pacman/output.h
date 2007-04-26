@@ -23,26 +23,6 @@
 
 #include <stdio.h>
 
-/* TODO these are illegal in ISO C, thus the reason -pedantic was never used
- * as a compile flag for the pacman side of things (named variadic macros) */
-#define ERR(line, fmt, args...) do { \
-	pm_fprintf(stderr, line, _("error: ")); \
-	pm_fprintf(stderr, CL, fmt, ##args); \
-} while(0)
-#define WARN(line, fmt, args...) do { \
-	pm_fprintf(stderr, line, _("warning: ")); \
-	pm_fprintf(stderr, CL, fmt, ##args); \
-} while(0)
-
-enum {
-	NL, /* new line */
-	CL  /* current line */
-};
-
-void set_output_padding(int on);
-
-void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...);
-
 int yesno(char *fmt, ...);
 
 #endif /* _PM_OUTPUT_H */

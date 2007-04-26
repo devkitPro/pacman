@@ -38,56 +38,6 @@
 
 extern config_t *config;
 
-static int neednl = 0; /* for cleaner message output */
-static int needpad = 0; /* pad blanks to terminal width */
-
-/* Wrapper to fprintf() that allows to choose if we want the output
- * to be appended on the current line, or written to a new one
- */
-void pm_fprintf(FILE *file, unsigned short line, char *fmt, ...)
-{
-	va_list args;
-
-	char str[LOG_STR_LEN];
-	int len = 0;
-
-	if(neednl == 1 && line == NL) {
-		fprintf(file, "\n");
-		neednl = 0;
-	}
-
-	if(!fmt) {
-		return;
-	}
-
-	va_start(args, fmt);
-	vsnprintf(str, LOG_STR_LEN, fmt, args);
-	va_end(args);
-
-	len = strlen(str);
-
-  if(needpad == 1 && str[len-1] == '\n') {
-		/* we want this removed so we can pad */
-		str[len-1] = ' ';
-		neednl = 1;
-	}
-
-	fprintf(file, str);
-
-	if(needpad == 1) {
-		int i, cols = getcols();
-		for(i=len; i < cols; ++i) {
-			fprintf(file, " ");
-		}
-		if(neednl == 1 && line == NL) {
-			fprintf(file, "\n");
-			neednl = 0;
-		}
-	}
-	fflush(file);
-	neednl = (str[strlen(str)-1] == '\n') ? 0 : 1;
-}
-
 /* presents a prompt and gets a Y/N answer */
 /* TODO there must be a better way */
 int yesno(char *fmt, ...)
@@ -105,7 +55,7 @@ int yesno(char *fmt, ...)
 	va_end(args);
 
 	/* Use stderr so questions are always displayed when redirecting output */
-	pm_fprintf(stderr, NL, str); \
+	fprintf(stderr, str);
 
 	if(fgets(response, 32, stdin)) {
 		if(strlen(response) != 0) {
