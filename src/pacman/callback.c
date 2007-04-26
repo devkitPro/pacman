@@ -53,6 +53,42 @@ static struct timeval initial_time;
 /* transaction progress bar ? */
 static int prevpercent=0; /* for less progressbar output */
 
+/* Silly little helper function, determines if the caller needs a visual update
+ * since the last time this function was called.
+ * This is made for the two progress bar functions, to prevent flicker
+ *
+ * first_call indicates if this is the first time it is called, for
+ * initialization purposes */
+static float get_update_timediff(int first_call)
+{
+	float retval = 0.0;
+	static struct timeval last_time = {0};
+
+	/* on first call, simply set the last time and return */
+	if(first_call) {
+		gettimeofday(&last_time, NULL);
+	} else {
+		struct timeval this_time;
+		float diff_sec, diff_usec;
+
+		gettimeofday(&this_time, NULL);
+		diff_sec = this_time.tv_sec - last_time.tv_sec;
+		diff_usec = this_time.tv_usec - last_time.tv_usec;
+
+		retval = diff_sec + (diff_usec / 1000000.0);
+
+		/* return 0 and do not update last_time if interval was too short */
+		if(retval < UPDATE_SPEED_SEC) {
+			retval = 0.0;
+		} else {
+			last_time = this_time;
+			/* printf("\nupdate retval: %f\n", retval); DEBUG*/
+		}
+	}
+
+	return(retval);
+}
+
 /* refactored from cb_trans_progress */
 static void fill_progress(const int percent, const int proglen)
 {
@@ -374,8 +410,6 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	}
 
 	if(percent == 0) {
-		/* print a newline before we start our progressbar */
-		printf("\n");
 		timediff = get_update_timediff(1);
 	} else {
 		timediff = get_update_timediff(0);
@@ -474,8 +508,6 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 
 	/* this is basically a switch on xferred: 0, total, and anything else */
 	if(xfered == 0) {
-		/* print a newline before we start our progressbar */
-		printf("\n");
 		/* set default starting values */
 		gettimeofday(&initial_time, NULL);
 		xfered_last = 0;
@@ -608,12 +640,12 @@ void cb_log(pmloglevel_t level, char *msg)
 		strftime(timestr, 9, "%H:%M:%S", tmp);
 		timestr[8] = '\0';
 
-		printf("[%s] %s: %s", timestr, str, msg);
+		printf("[%s] %s: %s\n", timestr, str, msg);
 	} else {
-    printf("%s: %s", str, msg);
+    printf("%s: %s\n", str, msg);
 	}
 #else
-	printf("%s: %s", str, msg);
+	printf("%s: %s\n", str, msg);
 #endif
 }
 

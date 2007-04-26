@@ -336,40 +336,4 @@ void display_targets(alpm_list_t *syncpkgs)
 	FREELIST(targets);
 }
 
-/* Silly little helper function, determines if the caller needs a visual update
- * since the last time this function was called.
- * This is made for the two progress bar functions, to prevent flicker
- *
- * first_call indicates if this is the first time it is called, for
- * initialization purposes */
-float get_update_timediff(int first_call)
-{
-	float retval = 0.0;
-	static struct timeval last_time = {0};
-
-	/* on first call, simply set the last time and return */
-	if(first_call) {
-		gettimeofday(&last_time, NULL);
-	} else {
-		struct timeval this_time;
-		float diff_sec, diff_usec;
-
-		gettimeofday(&this_time, NULL);
-		diff_sec = this_time.tv_sec - last_time.tv_sec;
-		diff_usec = this_time.tv_usec - last_time.tv_usec;
-
-		retval = diff_sec + (diff_usec / 1000000.0);
-
-		/* return 0 and do not update last_time if interval was too short */
-		if(retval < UPDATE_SPEED_SEC) {
-			retval = 0.0;
-		} else {
-			last_time = this_time;
-			/* printf("\nupdate retval: %f\n", retval); DEBUG*/
-		}
-	}
-	
-	return(retval);
-}
-
 /* vim: set ts=2 sw=2 noet: */

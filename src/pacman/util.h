@@ -42,7 +42,6 @@ char *strtrim(char *str);
 int reg_match(char *string, char *pattern);
 void list_display(const char *title, alpm_list_t *list);
 void display_targets(alpm_list_t *syncpkgs);
-float get_update_timediff(int first_call);
 
 #endif /* _PM_UTIL_H */
 
