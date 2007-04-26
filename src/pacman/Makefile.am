@@ -10,7 +10,7 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 INCLUDES = -I$(top_srcdir)/lib/libalpm
 
-AM_CFLAGS = -D_GNU_SOURCE
+AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
 pacman_SOURCES = \
 	add.c \

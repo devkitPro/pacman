@@ -232,6 +232,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 }
 
 /* callback to handle questions from libalpm transactions (yes/no) */
+/* TODO this is one of the worst ever functions written. void *data ? wtf */
 void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
@@ -247,7 +248,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 				}
 			} else if(data2) {
 				/* TODO we take this route based on data2 being not null? WTF */
-				snprintf(str, LOG_STR_LEN, _(":: %1$s requires %2$s from IgnorePkg. Install %2$s? [Y/n] "),
+				snprintf(str, LOG_STR_LEN, _(":: %s requires installing %s from IgnorePkg. Install anyway? [Y/n] "),
 				         alpm_pkg_get_name(data1),
 				         alpm_pkg_get_name(data2));
 				*response = yesno(str);
@@ -435,11 +436,17 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 		case PM_TRANS_PROGRESS_ADD_START:
 		case PM_TRANS_PROGRESS_UPGRADE_START:
 		case PM_TRANS_PROGRESS_REMOVE_START:
+			/* old way of doing it, but ISO C does not recognize it
 			printf("(%2$*1$d/%3$*1$d) %4$s %6$-*5$.*5$s", digits, remain, howmany,
-			       opr, pkglen, pkgname);
+			       opr, pkglen, pkgname);*/
+			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
+			       opr, pkglen, pkglen, pkgname);
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
+			/* old way of doing it, but ISO C does not recognize it
 			printf("(%2$*1$d/%3$*1$d) %5$-*4$s", digits, remain, howmany,
+			       textlen, opr);*/
+			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
 			       textlen, opr);
 			break;
 	}
