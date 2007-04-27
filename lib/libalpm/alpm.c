@@ -112,7 +112,7 @@ int SYMEXPORT alpm_release()
 		db = NULL;
 	}
 
-	FREEHANDLE(handle);
+	_alpm_handle_free(handle);
 
 	return(0);
 }

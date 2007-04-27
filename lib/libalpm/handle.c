@@ -87,11 +87,13 @@ pmhandle_t *_alpm_handle_new()
 	return(handle);
 }
 
-int _alpm_handle_free(pmhandle_t *handle)
+void _alpm_handle_free(pmhandle_t *handle)
 {
 	ALPM_LOG_FUNC;
 
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	if(handle == NULL) {
+		return;
+	}
 
 	/* close logfiles */
 	if(handle->logfd) {
@@ -116,8 +118,6 @@ int _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->holdpkg);
 	FREE(handle);
-
-	return(0);
 }
 
 alpm_cb_log alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
