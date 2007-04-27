@@ -74,10 +74,8 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 	return(sync);
 }
 
-void _alpm_sync_free(void *data)
+void _alpm_sync_free(pmsyncpkg_t *sync)
 {
-	pmsyncpkg_t *sync = data;
-
 	ALPM_LOG_FUNC;
 
 	if(sync == NULL) {
@@ -90,6 +88,7 @@ void _alpm_sync_free(void *data)
 		FREEPKG(sync->data);
 	}
 	FREE(sync);
+	sync = NULL;
 }
 
 /* Find recommended replacements for packages during a sync.
@@ -433,7 +432,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 
 					sync = _alpm_sync_find(trans->packages, pkgname);
 					trans->packages = alpm_list_remove(trans->packages, sync, syncpkg_cmp, &vpkg);
-					FREESYNC(vpkg);
+					_alpm_sync_free(vpkg);
 				}
 			}
 		}
@@ -565,7 +564,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							void *vpkg;
 							_alpm_log(PM_LOG_DEBUG, _("removing '%s' from target list"), rsync->pkg->name);
 							trans->packages = alpm_list_remove(trans->packages, rsync, syncpkg_cmp, &vpkg);
-							FREESYNC(vpkg);
+							_alpm_sync_free(vpkg);
 							continue;
 						}
 					}
@@ -602,7 +601,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 								void *vpkg;
 								_alpm_log(PM_LOG_DEBUG, _("removing '%s' from target list"), miss->depend.name);
 								trans->packages = alpm_list_remove(trans->packages, rsync, syncpkg_cmp, &vpkg);
-								FREESYNC(vpkg);
+								_alpm_sync_free(vpkg);
 							}
 						} else {
 							/* abort */

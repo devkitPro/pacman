@@ -81,7 +81,7 @@ void _alpm_trans_free(pmtrans_t *trans)
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
 		alpm_list_t *i;
 		for(i = trans->packages; i; i = i->next) {
-			FREESYNC(i->data);
+			_alpm_sync_free(i->data);
 		}
 		FREELIST(trans->packages);
 	} else {
@@ -92,6 +92,7 @@ void _alpm_trans_free(pmtrans_t *trans)
 	FREELIST(trans->skip_remove);
 
 	FREE(trans);
+	trans = NULL;
 }
 
 int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,

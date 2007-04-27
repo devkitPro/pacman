@@ -32,10 +32,8 @@ struct __pmsyncpkg_t {
 	void *data;
 };
 
-#define FREESYNC(p) do { if(p) { _alpm_sync_free(p); p = NULL; } } while(0)
-
 pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data);
-void _alpm_sync_free(void *data);
+void _alpm_sync_free(pmsyncpkg_t *data);
 
 int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync);
 int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, char *name);

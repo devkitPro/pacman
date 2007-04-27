@@ -1203,7 +1203,12 @@ alpm_list_t SYMEXPORT *alpm_get_upgrades()
 	return(syncpkgs);
 error:
 	if(syncpkgs) {
-		alpm_list_free_inner(syncpkgs, _alpm_sync_free);
+		alpm_list_t *tmp;
+		for(tmp = syncpkgs; tmp; tmp = alpm_list_next(tmp)) {
+			if(tmp->data) {
+				_alpm_sync_free(tmp->data);
+			}
+		}
 		alpm_list_free(syncpkgs);
 	}
 	return(NULL);
