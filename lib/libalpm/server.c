@@ -76,10 +76,8 @@ pmserver_t *_alpm_server_new(const char *url)
 	return server;
 }
 
-void _alpm_server_free(void *data)
+void _alpm_server_free(pmserver_t *server)
 {
-	pmserver_t *server = data;
-
 	ALPM_LOG_FUNC;
 
 	if(server == NULL) {

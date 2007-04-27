@@ -404,7 +404,7 @@ alpm_list_t *alpm_list_reverse(alpm_list_t *list)
  *
  * @return the first element in the list
  */
-alpm_list_t SYMEXPORT *alpm_list_first(alpm_list_t *list)
+inline alpm_list_t SYMEXPORT *alpm_list_first(alpm_list_t *list)
 {
 	return(list);
 }

@@ -27,8 +27,6 @@
 #include <time.h>
 #include <download.h>
 
-#define FREESERVER(p) do { if(p){_alpm_server_free(p); p = NULL;}} while(0)
-
 /* Servers */
 struct __pmserver_t {
 	/* useless abstraction now? */
@@ -38,7 +36,7 @@ struct __pmserver_t {
 #define PM_DLBUF_LEN (1024 * 10)
 
 pmserver_t *_alpm_server_new(const char *url);
-void _alpm_server_free(void *data);
+void _alpm_server_free(pmserver_t *server);
 int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath, alpm_list_t *files);
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 	alpm_list_t *files, const char *mtime1, char *mtime2);

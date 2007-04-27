@@ -83,7 +83,10 @@ void _alpm_db_free(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
-	_FREELIST(db->servers, _alpm_server_free);
+	alpm_list_t *tmp;
+	for(tmp = db->servers; tmp; tmp = alpm_list_next(tmp)) {
+		_alpm_server_free(tmp->data);
+	}
 	FREE(db->path);
 	FREE(db);
 
