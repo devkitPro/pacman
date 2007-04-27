@@ -49,10 +49,8 @@ pmgrp_t *_alpm_grp_new()
 	return(grp);
 }
 
-void _alpm_grp_free(void *data)
+void _alpm_grp_free(pmgrp_t *grp)
 {
-	pmgrp_t *grp = data;
-
 	ALPM_LOG_FUNC;
 
 	if(grp == NULL) {
@@ -61,8 +59,6 @@ void _alpm_grp_free(void *data)
 
 	FREELIST(grp->packages);
 	FREE(grp);
-
-	return;
 }
 
 /* Helper function for sorting groups

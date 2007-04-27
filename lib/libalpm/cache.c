@@ -251,7 +251,8 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 		pmgrp_t *grp = lg->data;
 
 		FREELISTPTR(grp->packages);
-		FREEGRP(lg->data);
+		_alpm_grp_free(lg->data);
+		lg->data = NULL;
 	}
 	FREELIST(db->grpcache);
 }

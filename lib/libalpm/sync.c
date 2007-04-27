@@ -82,13 +82,13 @@ void _alpm_sync_free(pmsyncpkg_t *sync)
 		return;
 	}
 
+	/* TODO wow this is ugly */
 	if(sync->type == PM_SYNC_TYPE_REPLACE) {
 		FREELISTPKGS(sync->data);
 	} else {
 		FREEPKG(sync->data);
 	}
 	FREE(sync);
-	sync = NULL;
 }
 
 /* Find recommended replacements for packages during a sync.

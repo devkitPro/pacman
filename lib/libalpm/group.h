@@ -31,11 +31,8 @@ struct __pmgrp_t {
 	alpm_list_t *packages; /* List of strings */
 };
 
-#define FREEGRP(p) do { if(p) { _alpm_grp_free(p); p = NULL; } } while(0)
-#define FREELISTGRPS(p) _FREELIST(p, _alpm_grp_free)
-
 pmgrp_t *_alpm_grp_new(void);
-void _alpm_grp_free(void *data);
+void _alpm_grp_free(pmgrp_t *grp);
 int _alpm_grp_cmp(const void *g1, const void *g2);
 
 #endif /* _ALPM_GROUP_H */
