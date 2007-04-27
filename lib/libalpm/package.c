@@ -100,10 +100,8 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	return(newpkg);
 }
 
-void _alpm_pkg_free(void *data)
+void _alpm_pkg_free(pmpkg_t *pkg)
 {
-	pmpkg_t *pkg = data;
-
 	ALPM_LOG_FUNC;
 
 	if(pkg == NULL) {
@@ -125,8 +123,6 @@ void _alpm_pkg_free(void *data)
 		FREE(pkg->data);
 	}
 	FREE(pkg);
-
-	return;
 }
 
 /* Is pkgB an upgrade for pkgA ? */
@@ -455,7 +451,7 @@ pkg_invalid:
 		close(fd);
 	}
 error:
-	FREEPKG(info);
+	_alpm_pkg_free(info);
 	archive_read_finish(archive);
 
 	return(NULL);

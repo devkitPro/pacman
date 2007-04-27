@@ -86,8 +86,13 @@ void _alpm_trans_free(pmtrans_t *trans)
 		}
 		FREELIST(trans->packages);
 	} else {
-		FREELISTPKGS(trans->packages);
+		alpm_list_t *tmp;
+		for(tmp = trans->packages; tmp; tmp = alpm_list_next(tmp)) {
+			_alpm_pkg_free(tmp->data);
+			tmp->data = NULL;
+		}
 	}
+	trans->packages = NULL;
 
 	FREELIST(trans->skip_add);
 	FREELIST(trans->skip_remove);

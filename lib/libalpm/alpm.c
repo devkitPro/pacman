@@ -1128,7 +1128,7 @@ alpm_list_t SYMEXPORT *alpm_get_upgrades()
 								/* none found -- enter pkg into the final sync list */
 								sync = _alpm_sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
 								if(sync == NULL) {
-									FREEPKG(dummy);
+									_alpm_pkg_free(dummy);
 									pm_errno = PM_ERR_MEMORY;
 									goto error;
 								}
@@ -1192,7 +1192,7 @@ alpm_list_t SYMEXPORT *alpm_get_upgrades()
 				}
 				sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 				if(sync == NULL) {
-					FREEPKG(dummy);
+					_alpm_pkg_free(dummy);
 					goto error;
 				}
 				syncpkgs = alpm_list_add(syncpkgs, sync);

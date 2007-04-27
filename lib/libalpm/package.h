@@ -95,12 +95,9 @@ struct __pmpkg_t {
 	pmdbinfrq_t infolevel;
 };
 
-#define FREEPKG(p) do { if(p){_alpm_pkg_free(p); p = NULL;}} while(0)
-#define FREELISTPKGS(p) _FREELIST(p, _alpm_pkg_free)
-
 pmpkg_t* _alpm_pkg_new(const char *name, const char *version);
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
-void _alpm_pkg_free(void *data);
+void _alpm_pkg_free(pmpkg_t *pkg);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
 pmpkg_t *_alpm_pkg_load(const char *pkgfile);

@@ -189,7 +189,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
 		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
 			/* TODO removed corrupt entry from the FS here */
-			FREEPKG(pkg);
+			_alpm_pkg_free(pkg);
 		} else {
 			pkg->data = db;
 			pkg->origin = PKG_FROM_CACHE;

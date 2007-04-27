@@ -124,7 +124,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 					/* pm_errno is already set by pkg_load() */
 					goto error;
 				}
-				FREEPKG(i->data);
+				_alpm_pkg_free(i->data);
 				i->data = newpkg;
 			} else {
 				_alpm_log(PM_LOG_WARNING, _("newer version %s-%s is in the target list -- skipping"),
@@ -156,7 +156,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	return(0);
 
 error:
-	FREEPKG(info);
+	_alpm_pkg_free(info);
 	return(-1);
 }
 
@@ -836,7 +836,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 		EVENT(trans, (is_upgrade) ? PM_TRANS_EVT_UPGRADE_DONE : PM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
 
-		FREEPKG(oldpkg);
+		_alpm_pkg_free(oldpkg);
 	}
 
 	/* run ldconfig if it exists */

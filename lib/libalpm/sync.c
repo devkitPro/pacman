@@ -84,9 +84,15 @@ void _alpm_sync_free(pmsyncpkg_t *sync)
 
 	/* TODO wow this is ugly */
 	if(sync->type == PM_SYNC_TYPE_REPLACE) {
-		FREELISTPKGS(sync->data);
+		alpm_list_t *tmp;
+		for(tmp = sync->data; tmp; tmp = alpm_list_next(tmp)) {
+			_alpm_pkg_free(tmp->data);
+			tmp->data = NULL;
+		}
+		sync->data = NULL;
 	} else {
-		FREEPKG(sync->data);
+		_alpm_pkg_free(sync->data);
+		sync->data = NULL;
 	}
 	FREE(sync);
 }
@@ -148,7 +154,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 							/* none found -- enter pkg into the final sync list */
 							sync = _alpm_sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
 							if(sync == NULL) {
-								FREEPKG(dummy);
+								_alpm_pkg_free(dummy);
 								pm_errno = PM_ERR_MEMORY;
 								goto error;
 							}
@@ -229,7 +235,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 					}
 					sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, tmp);
 					if(sync == NULL) {
-						FREEPKG(tmp);
+						_alpm_pkg_free(tmp);
 						goto error;
 					}
 					trans->packages = alpm_list_add(trans->packages, sync);
@@ -346,7 +352,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 		}
 		sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, dummy);
 		if(sync == NULL) {
-			FREEPKG(dummy);
+			_alpm_pkg_free(dummy);
 			RET_ERR(PM_ERR_MEMORY, -1);
 		}
 		_alpm_log(PM_LOG_DEBUG, _("adding target '%s' to the transaction set"),
@@ -591,7 +597,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							if(sync->type != PM_SYNC_TYPE_REPLACE) {
 								/* switch this sync type to REPLACE */
 								sync->type = PM_SYNC_TYPE_REPLACE;
-								FREEPKG(sync->data);
+								_alpm_pkg_free(sync->data);
+								sync->data = NULL;
 							}
 							/* append to the replaces list */
 							_alpm_log(PM_LOG_DEBUG, _("electing '%s' for removal"), miss->depend.name);

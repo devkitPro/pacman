@@ -656,7 +656,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(sync))) {
 				pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
 				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
-				FREEPKG(dummypkg);
+				_alpm_pkg_free(dummypkg);
 			}
 			if(usedep) {
 				trail = alpm_list_add(trail, sync);

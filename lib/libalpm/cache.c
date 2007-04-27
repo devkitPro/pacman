@@ -84,7 +84,11 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, _("freeing package cache for repository '%s'"),
 	                        db->treename);
 
-	FREELISTPKGS(db->pkgcache);
+	alpm_list_t *tmp;
+	for(tmp = db->pkgcache; tmp; tmp = alpm_list_next(tmp)) {
+		_alpm_pkg_free(tmp->data);
+	}
+	db->pkgcache = NULL;
 
 	if(db->grpcache) {
 		_alpm_db_free_grpcache(db);
@@ -157,7 +161,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
-	FREEPKG(data);
+	_alpm_pkg_free(data);
 
 	_alpm_db_free_grpcache(db);
 
