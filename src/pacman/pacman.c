@@ -201,6 +201,8 @@ static void cleanup(int signum)
 {
 	if(signum==SIGSEGV)
 	{
+		/* write a log message and write to stderr */
+		cb_log(PM_LOG_ERROR, "segmentation fault");
 		fprintf(stderr, "Internal pacman error: Segmentation fault.\n"
 		        "Please submit a full bug report with --debug if appropriate.\n");
 		exit(signum);
