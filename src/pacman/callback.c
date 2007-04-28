@@ -171,9 +171,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			printf(_("checking for file conflicts... "));
 			}
 			break;
-		case PM_TRANS_EVT_CLEANUP_START:
-			printf(_("cleaning up... "));
-			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
 			printf(_("resolving dependencies... "));
 			break;
@@ -186,7 +183,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
-		case PM_TRANS_EVT_CLEANUP_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
 		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
 			printf(_("done.\n"));

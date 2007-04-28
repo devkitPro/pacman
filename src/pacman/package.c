@@ -75,7 +75,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
-	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
 	/* Only applicable if installed */
 	if(level > 0) {
 		list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
@@ -128,7 +127,6 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
-	list_display(_("Removes        :"), alpm_pkg_get_removes(pkg));
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 	printf(_("Download Size  : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);

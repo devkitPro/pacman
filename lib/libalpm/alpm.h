@@ -220,7 +220,6 @@ pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg);
-alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_requiredby(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg);
@@ -285,8 +284,6 @@ typedef enum _pmtransevt_t {
 	PM_TRANS_EVT_CHECKDEPS_DONE,
 	PM_TRANS_EVT_FILECONFLICTS_START,
 	PM_TRANS_EVT_FILECONFLICTS_DONE,
-	PM_TRANS_EVT_CLEANUP_START,
-	PM_TRANS_EVT_CLEANUP_DONE,
 	PM_TRANS_EVT_RESOLVEDEPS_START,
 	PM_TRANS_EVT_RESOLVEDEPS_DONE,
 	PM_TRANS_EVT_INTERCONFLICTS_START,
