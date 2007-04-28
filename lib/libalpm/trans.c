@@ -330,7 +330,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 										alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
 				}
 			}
-			FREELISTPTR(provides);
+			alpm_list_free(provides);
 
 			if(!found_provides) {
 				_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), dep->name);

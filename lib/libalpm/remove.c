@@ -146,7 +146,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		_alpm_log(PM_LOG_DEBUG, _("sorting by dependencies"));
 		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 		/* free the old alltargs */
-		FREELISTPTR(trans->packages);
+		alpm_list_free(trans->packages);
 		trans->packages = lp;
 
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);

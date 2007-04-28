@@ -176,7 +176,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 				tmptargs = alpm_list_add(tmptargs, p);
 			}
 		}
-		FREELISTPTR(newtargs);
+		alpm_list_free(newtargs);
 		newtargs = tmptargs;
 	}
 	_alpm_log(PM_LOG_DEBUG, _("sorting dependencies finished"));
@@ -185,7 +185,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		/* we're removing packages, so reverse the order */
 		alpm_list_t *tmptargs = alpm_list_reverse(newtargs);
 		/* free the old one */
-		FREELISTPTR(newtargs);
+		alpm_list_free(newtargs);
 		newtargs = tmptargs;
 	}
 
@@ -346,7 +346,6 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 
 						found = alpm_depcmp(p, depend);
 					}
-					FREELISTPTR(k);
 				}
  				/* check other targets */
  				for(k = packages; k && !found; k = k->next) {
@@ -543,7 +542,7 @@ alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
 						newtargs = _alpm_removedeps(db, newtargs);
 					}
 				}
-				FREELISTPTR(provides);
+				alpm_list_free(provides);
 			} else if(can_remove_package(db, deppkg, newtargs)) {
 				pmpkg_t *pkg = _alpm_pkg_dup(deppkg);
 
@@ -582,7 +581,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 	_alpm_log(PM_LOG_DEBUG, _("started resolving dependencies"));
 	targ = alpm_list_add(NULL, syncpkg);
 	deps = _alpm_checkdeps(trans, local, PM_TRANS_TYPE_ADD, targ);
-	FREELISTPTR(targ);
+	alpm_list_free(targ);
 
 	if(deps == NULL) {
 		return(0);
@@ -621,7 +620,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 				if(provides) {
 					sync = provides->data;
 				}
-				FREELISTPTR(provides);
+				alpm_list_free(provides);
 			}
 		}
 

@@ -43,10 +43,7 @@ struct __alpm_list_t {
 	struct __alpm_list_t *next;
 };
 
-/* TODO we should do away with these... they're messy*/
-#define _FREELIST(p, f) do { alpm_list_free_inner(p, f); alpm_list_free(p); p = NULL; } while(0)
-#define FREELIST(p)     _FREELIST(p, free)
-#define FREELISTPTR(p)  do { alpm_list_free(p); p = NULL; } while(0)
+#define FREELIST(p) do { alpm_list_free_inner(p, free); alpm_list_free(p); p = NULL; } while(0)
 
 typedef void (*alpm_list_fn_free)(void *); /* item deallocation callback */
 typedef int (*alpm_list_fn_cmp)(const void *, const void *); /* item comparison callback */

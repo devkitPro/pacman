@@ -286,7 +286,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 					}
 					_alpm_log(PM_LOG_DEBUG, _("found '%s' as a provision for '%s'"), p->data, targ);
 					spkg = _alpm_db_get_pkgfromcache(db, p->data);
-					FREELISTPTR(p);
+					alpm_list_free(p);
 				}
 			}
 		}
@@ -309,7 +309,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 				if(p) {
 					_alpm_log(PM_LOG_DEBUG, _("found '%s' as a provision for '%s'"), p->data, targ);
 					spkg = _alpm_db_get_pkgfromcache(db, p->data);
-					FREELISTPTR(p);
+					alpm_list_free(p);
 				}
 			}
 		}
@@ -458,8 +458,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				}
 			}
 		}
-		FREELISTPTR(k);
-		FREELISTPTR(trans->packages);
+		alpm_list_free(k);
+		alpm_list_free(trans->packages);
 		trans->packages = l;
 
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
@@ -476,7 +476,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			goto cleanup;
 		}
 
-		FREELISTPTR(trail);
+		alpm_list_free(trail);
 	}
 
 	/* We don't care about conflicts if we're just printing uris */
@@ -654,7 +654,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 	}
 
-	FREELISTPTR(list);
+	alpm_list_free(list);
+	list = NULL;
 
 	/* XXX: this fails for cases where a requested package wants
 	 *      a dependency that conflicts with an older version of
@@ -764,8 +765,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 #endif
 
 cleanup:
-	FREELISTPTR(list);
-	FREELISTPTR(trail);
+	alpm_list_free(list);
+	alpm_list_free(trail);
 	FREELIST(asked);
 
 	return(ret);
