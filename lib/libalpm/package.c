@@ -34,6 +34,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
+
 /* libalpm */
 #include "package.h"
 #include "alpm_list.h"

@@ -27,38 +27,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef __sun__
-#include <alloca.h>
-#endif
 #include <string.h>
-#include <unistd.h>
-#include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <ctype.h>
 #include <dirent.h>
 #include <time.h>
 #include <syslog.h>
-#include <sys/wait.h>
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
-#include <sys/stat.h>
-#endif
-#ifdef CYGWIN
-#include <limits.h> /* PATH_MAX */
-#endif
-#include <sys/statvfs.h>
-#ifndef __sun__
-#include <mntent.h>
-#endif
+#include <errno.h>
+
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
 
 /* libalpm */
 #include "util.h"
 #include "alpm_list.h"
 #include "log.h"
-#include "trans.h"
-#include "sync.h"
 #include "error.h"
 #include "package.h"
 #include "alpm.h"
@@ -266,6 +251,9 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	register struct archive *_archive;
 	struct archive_entry *entry;
 	char expath[PATH_MAX];
+	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
+	                          ARCHIVE_EXTRACT_PERM |
+	                          ARCHIVE_EXTRACT_TIME;
 
 	ALPM_LOG_FUNC;
 
@@ -288,7 +276,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		}
 		snprintf(expath, PATH_MAX, "%s/%s", prefix, archive_entry_pathname(entry));
 		archive_entry_set_pathname(entry, expath);
-		if(archive_read_extract(_archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
+		if(archive_read_extract(_archive, entry, archive_flags) != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s: %s\n"), archive_entry_pathname(entry), archive_error_string(_archive));
 			 return(1);
 		}
@@ -387,252 +375,6 @@ int _alpm_ldconfig(const char *root)
 
 	return(0);
 }
-
-/* A cheap grep for text files, returns 1 if a substring
- * was found in the text file fn, 0 if it wasn't
- */
-static int grep(const char *fn, const char *needle)
-{
-	FILE *fp;
-
-	if((fp = fopen(fn, "r")) == NULL) {
-		return(0);
-	}
-	while(!feof(fp)) {
-		char line[1024];
-		fgets(line, 1024, fp);
-		if(feof(fp)) {
-			continue;
-		}
-		if(strstr(line, needle)) {
-			fclose(fp);
-			return(1);
-		}
-	}
-	fclose(fp);
-	return(0);
-}
-
-int _alpm_runscriptlet(const char *root, const char *installfn,
-											 const char *script, const char *ver,
-											 const char *oldver, pmtrans_t *trans)
-{
-	char scriptfn[PATH_MAX];
-	char cmdline[PATH_MAX];
-	char tmpdir[PATH_MAX] = "";
-	char *scriptpath;
-	struct stat buf;
-	char cwd[PATH_MAX] = "";
-	pid_t pid;
-	int retval = 0;
-
-	ALPM_LOG_FUNC;
-
-	if(stat(installfn, &buf)) {
-		/* not found */
-		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found", installfn);
-		return(0);
-	}
-
-	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
-		snprintf(tmpdir, PATH_MAX, "%stmp/", root);
-		if(stat(tmpdir, &buf)) {
-			_alpm_makepath(tmpdir);
-		}
-		snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
-		if(mkdtemp(tmpdir) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not create temp directory"));
-			return(1);
-		}
-		_alpm_unpack(installfn, tmpdir, ".INSTALL");
-		snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
-		/* chop off the root so we can find the tmpdir in the chroot */
-		scriptpath = scriptfn + strlen(root) - 1;
-	} else {
-		strncpy(scriptfn, installfn, PATH_MAX);
-		/* chop off the root so we can find the tmpdir in the chroot */
-		scriptpath = scriptfn + strlen(root) - 1;
-	}
-
-	if(!grep(scriptfn, script)) {
-		/* script not found in scriptlet file */
-		goto cleanup;
-	}
-
-	/* save the cwd so we can restore it later */
-	if(getcwd(cwd, PATH_MAX) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get current working directory"));
-		/* in case of error, cwd content is undefined: so we set it to something */
-		cwd[0] = 0;
-	}
-
-	/* just in case our cwd was removed in the upgrade operation */
-	if(chdir(root) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)"), root, strerror(errno));
-		goto cleanup;
-	}
-
-	_alpm_log(PM_LOG_DEBUG, _("executing %s script..."), script);
-
-	if(oldver) {
-		snprintf(cmdline, PATH_MAX, "source %s %s %s %s",
-				scriptpath, script, ver, oldver);
-	} else {
-		snprintf(cmdline, PATH_MAX, "source %s %s %s",
-				scriptpath, script, ver);
-	}
-	_alpm_log(PM_LOG_DEBUG, "%s", cmdline);
-
-	pid = fork();
-	if(pid == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not fork a new process (%s)"), strerror(errno));
-		retval = 1;
-		goto cleanup;
-	}
-
-	if(pid == 0) {
-		FILE *pp;
-		_alpm_log(PM_LOG_DEBUG, _("chrooting in %s"), root);
-		if(chroot(root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)"), strerror(errno));
-			return(1);
-		}
-		if(chdir("/") != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)"), strerror(errno));
-			return(1);
-		}
-		umask(0022);
-		_alpm_log(PM_LOG_DEBUG, _("executing \"%s\""), cmdline);
-		pp = popen(cmdline, "r");
-		if(!pp) {
-			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"), strerror(errno));
-			retval = 1;
-			goto cleanup;
-		}
-		while(!feof(pp)) {
-			char line[1024];
-			if(fgets(line, 1024, pp) == NULL)
-				break;
-			/*TODO clean this code up, remove weird SCRIPTLET_START/DONE,
-			 * (void*)atol call, etc. */
-			/* "START <event desc>" */
-			if((strlen(line) > strlen(SCRIPTLET_START))
-			   && !strncmp(line, SCRIPTLET_START, strlen(SCRIPTLET_START))) {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_START,
-				      _alpm_strtrim(line + strlen(SCRIPTLET_START)), NULL);
-			/* "DONE <ret code>" */
-			} else if((strlen(line) > strlen(SCRIPTLET_DONE))
-			          && !strncmp(line, SCRIPTLET_DONE, strlen(SCRIPTLET_DONE))) {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_DONE,
-				      (void*)atol(_alpm_strtrim(line + strlen(SCRIPTLET_DONE))),
-				      NULL);
-			} else {
-				_alpm_strtrim(line);
-				/* log our script output */
-				alpm_logaction(line);
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
-			}
-		}
-		pclose(pp);
-		exit(0);
-	} else {
-		if(waitpid(pid, 0, 0) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)"),
-			          strerror(errno));
-			retval = 1;
-			goto cleanup;
-		}
-	}
-
-cleanup:
-	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
-		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s"), tmpdir);
-	}
-	if(strlen(cwd)) {
-		chdir(cwd);
-	}
-
-	return(retval);
-}
-
-#ifndef __sun__
-static long long get_freespace()
-{
-	struct mntent *mnt;
-	const char *table = MOUNTED;
-	FILE *fp;
-	long long ret=0;
-
-	if((fp = setmntent(table, "r")) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("cannot read disk space information from %s: %s"),
-							table, strerror(errno));
-		return(-1);
-	}
-
-	while ((mnt = getmntent(fp)))
-	{
-		struct statvfs64 buf;
-
-		statvfs64(mnt->mnt_dir, &buf);
-		ret += buf.f_bavail * buf.f_bsize;
-	}
-
-	endmntent(fp);
-
-	return(ret);
-}
-
-int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data)
-{
-	alpm_list_t *i;
-	long long pkgsize=0, freespace;
-
-	ALPM_LOG_FUNC;
-
-	for(i = trans->packages; i; i = i->next) {
-		if(trans->type == PM_TRANS_TYPE_SYNC)
-		{
-			pmsyncpkg_t *sync = i->data;
-			if(sync->type != PM_SYNC_TYPE_REPLACE) {
-				pmpkg_t *pkg = sync->pkg;
-				pkgsize += alpm_pkg_get_isize(pkg);
-			}
-		}
-		else
-		{
-			pmpkg_t *pkg = i->data;
-			pkgsize += alpm_pkg_get_size(pkg);
-		}
-	}
-	freespace = get_freespace();
-	_alpm_log(PM_LOG_DEBUG, _("check_freespace: total pkg size: %lld, disk space: %lld"), pkgsize, freespace);
-	if(pkgsize > freespace) {
-		if(data) {
-			long long *ptr;
-			if((ptr = (long long*)malloc(sizeof(long long)))==NULL) {
-				_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(long long));
-				pm_errno = PM_ERR_MEMORY;
-				return(-1);
-			}
-			*ptr = pkgsize;
-			*data = alpm_list_add(*data, ptr);
-			if((ptr = (long long*)malloc(sizeof(long long)))==NULL) {
-				_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(long long));
-				FREELIST(*data);
-				pm_errno = PM_ERR_MEMORY;
-				return(-1);
-			}
-			*ptr = freespace;
-			*data = alpm_list_add(*data, ptr);
-		}
-		pm_errno = PM_ERR_DISK_FULL;
-		return(-1);
-	}
-	else {
-		return(0);
-	}
-}
-#endif
 
 /* convert a time_t to a string - buffer MUST be large enough for
  * YYYYMMDDHHMMSS - 15 chars */

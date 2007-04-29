@@ -79,6 +79,12 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
 int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data);
 int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data);
 int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg);
+int _alpm_runscriptlet(const char *root, const char *installfn,
+                       const char *script, const char *ver,
+                       const char *oldver, pmtrans_t *trans);
+#ifndef __sun__
+int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data);
+#endif
 
 #endif /* _ALPM_TRANS_H */
 

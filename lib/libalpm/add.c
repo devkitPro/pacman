@@ -39,6 +39,10 @@
 #include <string.h>
 #include <limits.h>
 
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
+
 /* libalpm */
 #include "add.h"
 #include "alpm_list.h"
@@ -280,6 +284,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	return(0);
 }
 
+/* TODO clean up this monster 554 line function */
 int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0, pkg_count = 0;
@@ -287,6 +292,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	struct archive_entry *entry;
 	char cwd[PATH_MAX] = "";
 	alpm_list_t *targ, *lp;
+	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
+	                          ARCHIVE_EXTRACT_PERM |
+	                          ARCHIVE_EXTRACT_TIME;
 
 	ALPM_LOG_FUNC;
 
@@ -536,9 +544,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					
 					archive_entry_set_pathname(entry, tempfile);
 
-					if(archive_read_extract(archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
-						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), entryname, strerror(errno));
-						alpm_logaction(_("could not extract %s (%s)"), entryname, strerror(errno));
+					if(archive_read_extract(archive, entry, archive_flags) != ARCHIVE_OK) {
+						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
+						          entryname, strerror(errno));
+						alpm_logaction(_("could not extract %s (%s)"),
+						               entryname, strerror(errno));
 						errors++;
 						unlink(tempfile);
 						FREE(hash_orig);
@@ -686,7 +696,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 					archive_entry_set_pathname(entry, filename);
 
-					if(archive_read_extract(archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
+					if(archive_read_extract(archive, entry, archive_flags) != ARCHIVE_OK) {
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), filename, strerror(errno));
 						alpm_logaction(_("error: could not extract %s (%s)"), filename, strerror(errno));
 						errors++;

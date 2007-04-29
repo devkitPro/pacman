@@ -28,10 +28,8 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
-#ifdef CYGWIN
-#include <limits.h> /* PATH_MAX */
-#endif
 #include <dirent.h>
 
 /* libalpm */
