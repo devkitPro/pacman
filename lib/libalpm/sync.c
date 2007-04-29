@@ -266,7 +266,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	STRNCPY(targline, name, PKG_FULLNAME_LEN);
+	strncpy(targline, name, PKG_FULLNAME_LEN);
 	targ = strchr(targline, '/');
 	if(targ) {
 		*targ = '\0';

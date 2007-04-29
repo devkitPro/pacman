@@ -197,7 +197,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			}
 			if(!strlen(pkgname)) {
 				/* just use the raw filename if we can't find crap */
-				STRNCPY(pkgname, fn, PKG_NAME_LEN+1);
+				strncpy(pkgname, fn, PKG_NAME_LEN);
 			}
 			_alpm_log(PM_LOG_DEBUG, _("using '%s' for download progress"), pkgname);
 

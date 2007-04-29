@@ -449,7 +449,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		/* chop off the root so we can find the tmpdir in the chroot */
 		scriptpath = scriptfn + strlen(root) - 1;
 	} else {
-		STRNCPY(scriptfn, installfn, PATH_MAX);
+		strncpy(scriptfn, installfn, PATH_MAX);
 		/* chop off the root so we can find the tmpdir in the chroot */
 		scriptpath = scriptfn + strlen(root) - 1;
 	}

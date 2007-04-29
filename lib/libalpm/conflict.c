@@ -350,10 +350,10 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 		return(conflicts);
 	}
 	conflict->type = type;
-	STRNCPY(conflict->target, name1, PKG_NAME_LEN);
-	STRNCPY(conflict->file, filestr, CONFLICT_FILE_LEN);
+	strncpy(conflict->target, name1, PKG_NAME_LEN);
+	strncpy(conflict->file, filestr, CONFLICT_FILE_LEN);
 	if(name2) {
-		STRNCPY(conflict->ctarget, name2, PKG_NAME_LEN);
+		strncpy(conflict->ctarget, name2, PKG_NAME_LEN);
 	} else {
 		conflict->ctarget[0] = '\0';
 	}

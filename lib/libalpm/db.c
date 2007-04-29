@@ -74,7 +74,7 @@ pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename)
 	}
 	sprintf(db->path, "%s%s%s/", root, dbpath, treename);
 
-	STRNCPY(db->treename, treename, PATH_MAX);
+	strncpy(db->treename, treename, PATH_MAX);
 
 	return(db);
 }

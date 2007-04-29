@@ -141,7 +141,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 				if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
 					continue;
 				}
-				STRNCPY(name, ent->d_name, PKG_FULLNAME_LEN);
+				strncpy(name, ent->d_name, PKG_FULLNAME_LEN);
 				/* truncate the string at the second-to-last hyphen, */
 				/* which will give us the package name */
 				if((ptr = rindex(name, '-'))) {
@@ -733,7 +733,7 @@ int _alpm_db_getlastupdate(pmdb_t *db, char *ts)
 	} else {
 		char line[256];
 		if(fgets(line, sizeof(line), fp)) {
-			STRNCPY(ts, line, 15); /* YYYYMMDDHHMMSS */
+			strncpy(ts, line, 14); /* YYYYMMDDHHMMSS */
 			ts[14] = '\0';
 		} else {
 			fclose(fp);

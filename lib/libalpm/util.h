@@ -34,11 +34,6 @@
 
 #define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
-#define STRNCPY(s1, s2, len) do { \
-	strncpy(s1, s2, (len)-1); \
-	s1[(len)-1] = 0; \
-} while(0)
-
 #define ARCHIVE_EXTRACT_FLAGS ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_TIME
 
 /* define _() as shortcut for gettext() */
@@ -62,6 +57,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn);
 int _alpm_rmrf(const char *path);
 int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str);
 int _alpm_ldconfig(const char *root);
+/* TODO wtf? this can't be right */
 #ifdef _ALPM_TRANS_H
 int _alpm_runscriptlet(const char *root, const char *installfn,
 											 const char *script, const char *ver,

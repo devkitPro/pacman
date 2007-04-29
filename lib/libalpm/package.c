@@ -58,12 +58,12 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	}
 
 	if(name && name[0] != 0) {
-		STRNCPY(pkg->name, name, PKG_NAME_LEN);
+		strncpy(pkg->name, name, PKG_NAME_LEN);
 	} else {
 		pkg->name[0]        = '\0';
 	}
 	if(version && version[0] != 0) {
-		STRNCPY(pkg->version, version, PKG_VERSION_LEN);
+		strncpy(pkg->version, version, PKG_VERSION_LEN);
 	} else {
 		pkg->version[0]     = '\0';
 	}
@@ -219,9 +219,9 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			key = _alpm_strtoupper(key);
 			_alpm_strtrim(ptr);
 			if(!strcmp(key, "PKGNAME")) {
-				STRNCPY(info->name, ptr, sizeof(info->name));
+				strncpy(info->name, ptr, sizeof(info->name));
 			} else if(!strcmp(key, "PKGVER")) {
-				STRNCPY(info->version, ptr, sizeof(info->version));
+				strncpy(info->version, ptr, sizeof(info->version));
 			} else if(!strcmp(key, "PKGDESC")) {
 				/*
 				char *lang_tmp;
@@ -229,32 +229,32 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
 					RET_ERR(PM_ERR_MEMORY, -1);
 				}
-				STRNCPY(lang_tmp, setlocale(LC_ALL, ""), strlen(setlocale(LC_ALL, "")));
+				strncpy(lang_tmp, setlocale(LC_ALL, ""), strlen(setlocale(LC_ALL, "")));
 				if(info->desc_localized && !info->desc_localized->next) {
 				*/
-				STRNCPY(info->desc, ptr, sizeof(info->desc));
+				strncpy(info->desc, ptr, sizeof(info->desc));
 				/*
 				} else if (ptr && !strncmp(ptr, lang_tmp, strlen(lang_tmp))) {
-					STRNCPY(info->desc, ptr+strlen(lang_tmp)+1, sizeof(info->desc));
+					strncpy(info->desc, ptr+strlen(lang_tmp)+1, sizeof(info->desc));
 				}
 				FREE(lang_tmp);
 				*/
 			} else if(!strcmp(key, "GROUP")) {
 				info->groups = alpm_list_add(info->groups, strdup(ptr));
 			} else if(!strcmp(key, "URL")) {
-				STRNCPY(info->url, ptr, sizeof(info->url));
+				strncpy(info->url, ptr, sizeof(info->url));
 			} else if(!strcmp(key, "LICENSE")) {
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "BUILDDATE")) {
-				STRNCPY(info->builddate, ptr, sizeof(info->builddate));
+				strncpy(info->builddate, ptr, sizeof(info->builddate));
 			} else if(!strcmp(key, "BUILDTYPE")) {
-				STRNCPY(info->buildtype, ptr, sizeof(info->buildtype));
+				strncpy(info->buildtype, ptr, sizeof(info->buildtype));
 			} else if(!strcmp(key, "INSTALLDATE")) {
-				STRNCPY(info->installdate, ptr, sizeof(info->installdate));
+				strncpy(info->installdate, ptr, sizeof(info->installdate));
 			} else if(!strcmp(key, "PACKAGER")) {
-				STRNCPY(info->packager, ptr, sizeof(info->packager));
+				strncpy(info->packager, ptr, sizeof(info->packager));
 			} else if(!strcmp(key, "ARCH")) {
-				STRNCPY(info->arch, ptr, sizeof(info->arch));
+				strncpy(info->arch, ptr, sizeof(info->arch));
 			} else if(!strcmp(key, "SIZE")) {
 				/* size in the raw package is uncompressed (installed) size */
 				info->isize = atol(ptr);
@@ -494,7 +494,7 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 	} else {
 		t++;
 	}
-	STRNCPY(tmp, t, PKG_FULLNAME_LEN+7);
+	strncpy(tmp, t, PKG_FULLNAME_LEN+7);
 	/* trim file extension (if any) */
 	if((p = strstr(tmp, PM_EXT_PKG))) {
 		*p = '\0';
@@ -518,12 +518,12 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 		return(-1);
 	}
 	if(version) {
-		STRNCPY(version, p+1, PKG_VERSION_LEN);
+		strncpy(version, p+1, PKG_VERSION_LEN);
 	}
 	*p = '\0';
 
 	if(name) {
-		STRNCPY(name, tmp, PKG_NAME_LEN);
+		strncpy(name, tmp, PKG_NAME_LEN);
 	}
 
 	return(0);

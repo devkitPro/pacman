@@ -60,12 +60,12 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
-	STRNCPY(miss->target, target, PKG_NAME_LEN);
+	strncpy(miss->target, target, PKG_NAME_LEN);
 	miss->type = type;
 	miss->depend.mod = depmod;
-	STRNCPY(miss->depend.name, depname, PKG_NAME_LEN);
+	strncpy(miss->depend.name, depname, PKG_NAME_LEN);
 	if(depversion) {
-		STRNCPY(miss->depend.version, depversion, PKG_VERSION_LEN);
+		strncpy(miss->depend.version, depversion, PKG_VERSION_LEN);
 	} else {
 		miss->depend.version[0] = 0;
 	}
