@@ -1,6 +1,6 @@
 AC_PREREQ(2.59)
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
-AC_INIT([Pacman package manager], 3.0.1, [pacman-dev@archlinux.org], [pacman])
+AC_INIT([Pacman package manager], 3.1.0-dev, [pacman-dev@archlinux.org], [pacman])
 AC_LANG([C])
 AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_HOST
@@ -10,8 +10,8 @@ AM_GNU_GETTEXT_VERSION(0.13.1)
 
 dnl Define the libalpm version number here
 LIB_MAJOR_VERSION=1
-LIB_MINOR_VERSION=0
-LIB_MICRO_VERSION=0
+LIB_MINOR_VERSION=1
+LIB_MICRO_VERSION=1
 LIB_VERSION=$LIB_MAJOR_VERSION.$LIB_MINOR_VERSION.$LIB_MICRO_VERSION
 dnl Needed for libtool to create proper shared lib version.
 dnl This is not completely correct- see 
