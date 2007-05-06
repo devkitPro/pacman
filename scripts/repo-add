@@ -121,7 +121,7 @@ db_write_entry()
 	IFS=$OLDIFS
 
 	# get compressed size of package
-	csize="$(du -b $pkgfile | cut -f1)"
+	csize="$(du -b -L $pkgfile | cut -f1)"
 
 	cd $gstmpdir
 
