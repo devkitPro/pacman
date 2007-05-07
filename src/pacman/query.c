@@ -76,7 +76,7 @@ static char *resolve_path(const char* file)
 static void query_fileowner(pmdb_t *db, char *filename)
 {
 	struct stat buf;
-	int gotcha = 0;
+	int found = 0;
 	char *rpath;
 	alpm_list_t *i, *j;
 
@@ -89,26 +89,26 @@ static void query_fileowner(pmdb_t *db, char *filename)
 	}
 
 	if(stat(filename, &buf) == -1) {
-		fprintf(stderr, _("error: failed to read file '%s': %s"),
+		fprintf(stderr, _("error: failed to read file '%s': %s\n"),
 		        filename, strerror(errno));
 		return;
 	}
 	
 	if(S_ISDIR(buf.st_mode)) {
-		fprintf(stderr, _("error: cannot determine ownership of a directory"));
+		fprintf(stderr, _("error: cannot determine ownership of a directory\n"));
 		return;
 	}
 
 	if(!(rpath = resolve_path(filename))) {
-		fprintf(stderr, _("error: cannot determine real path for '%s': %s"),
+		fprintf(stderr, _("error: cannot determine real path for '%s': %s\n"),
 		        filename, strerror(errno));
 		return;
 	}
 
-	for(i = alpm_db_getpkgcache(db); i && !gotcha; i = alpm_list_next(i)) {
+	for(i = alpm_db_getpkgcache(db); i && !found; i = alpm_list_next(i)) {
 		pmpkg_t *info = alpm_list_getdata(i);
 
-		for(j = alpm_pkg_get_files(info); j && !gotcha; j = alpm_list_next(j)) {
+		for(j = alpm_pkg_get_files(info); j && !found; j = alpm_list_next(j)) {
 			char path[PATH_MAX], *ppath;
 			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), (const char *)alpm_list_getdata(j));
 
@@ -116,13 +116,13 @@ static void query_fileowner(pmdb_t *db, char *filename)
 
 			if(ppath && strcmp(ppath, rpath) == 0) {
 				printf(_("%s is owned by %s %s\n"), filename, alpm_pkg_get_name(info), alpm_pkg_get_version(info));
-				gotcha = 1;
+				found = 1;
 			}
 
 			free(ppath);
 		}
 	}
-	if(!gotcha) {
+	if(!found) {
 		fprintf(stderr, _("error: No package owns %s\n"), filename);
 	}
 
