@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-04-17 20:23+0200\n"
+"POT-Creation-Date: 2007-05-07 23:36-0400\n"
 "PO-Revision-Date: 2007-04-17 20:26+0200\n"
 "Last-Translator: Pierre Schmitz <pierre@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
@@ -301,7 +301,8 @@ msgstr "Schließe Datenbank '%s'"
 
 #: lib/libalpm/alpm.c:232
 #, c-format
-msgid "adding new server to database '%s': protocol '%s', server '%s', path '%s'"
+msgid ""
+"adding new server to database '%s': protocol '%s', server '%s', path '%s'"
 msgstr ""
 "Füge neuen Server zur Datenbank '%s' hinzu: Protokoll '%s', Server '%s', "
 "Pfad '%s'"
@@ -512,7 +513,8 @@ msgstr "Ungültiger Paket-Eintrag wurde an _alpm_db_read übergeben, überspring
 
 #: lib/libalpm/be_files.c:226
 #, c-format
-msgid "request to read database info for a file-based package '%s', skipping..."
+msgid ""
+"request to read database info for a file-based package '%s', skipping..."
 msgstr ""
 "Überspringe das Lesen der Datenbank-Information für das Datei-basierte Paket "
 "'%s'..."
@@ -530,7 +532,7 @@ msgstr "Kann %s-%s nicht in der Datenbank '%s' finden"
 #: lib/libalpm/be_files.c:255 lib/libalpm/be_files.c:401
 #: lib/libalpm/be_files.c:424 lib/libalpm/be_files.c:515
 #: lib/libalpm/be_files.c:605 lib/libalpm/be_files.c:632
-#: lib/libalpm/package.c:206
+#: lib/libalpm/package.c:208
 #, c-format
 msgid "could not open file %s: %s"
 msgstr "Konnte Datei %s nicht öffnen: %s"
@@ -707,7 +709,8 @@ msgstr "checkdeps: Abhängigkeit '%s' von installiertem Paket '%s' erfüllt"
 #: lib/libalpm/deps.c:289
 #, c-format
 msgid "checkdeps: updated '%s' won't satisfy a dependency of '%s'"
-msgstr "checkdeps: aktualisiertes '%s' wird die Abhängigkeit von '%s' nicht erfüllen"
+msgstr ""
+"checkdeps: aktualisiertes '%s' wird die Abhängigkeit von '%s' nicht erfüllen"
 
 #: lib/libalpm/deps.c:359
 #, c-format
@@ -727,7 +730,8 @@ msgstr "Schließe %s aus -- Ausdrücklich installiert"
 #: lib/libalpm/deps.c:532
 #, c-format
 msgid "cannot find package \"%s\" or anything that provides it!"
-msgstr "Kann Paket \"%s\" oder irgendwas, das es zur Verfügung stellt, nicht finden!"
+msgstr ""
+"Kann Paket \"%s\" oder irgendwas, das es zur Verfügung stellt, nicht finden!"
 
 #: lib/libalpm/deps.c:540 lib/libalpm/deps.c:551
 #, c-format
@@ -745,7 +749,8 @@ msgstr "%s stellt Abhängigkeit %s zur Verfügung -- Überspringe"
 
 #: lib/libalpm/deps.c:630
 #, c-format
-msgid "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
+msgid ""
+"cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
 msgstr ""
 "Kann Abhängigkeiten für \"%s\" nicht auflösen (\"%s\" ist nicht in "
 "Paketliste enthalten)"
@@ -1008,70 +1013,70 @@ msgstr "%s kann nicht geöffnet werden\n"
 msgid "md5(%s) = %s"
 msgstr "MD5(%s) = %s"
 
-#: lib/libalpm/package.c:150
-#, c-format
-msgid "%s: forcing upgrade to version %s"
-msgstr "%s: Erzwungene Aktualisierung auf Version %s"
-
-#: lib/libalpm/package.c:155
-#, c-format
-msgid "%s: local (%s) is newer than %s (%s)"
-msgstr "%s: Lokale Version (%s) ist neuer als %s (%s)"
-
-#: lib/libalpm/package.c:163
+#: lib/libalpm/package.c:147
 #, c-format
 msgid "%s-%s: ignoring package upgrade (%s)"
 msgstr "%s-%s: Ignoriere Paketaktualisierung (%s)"
 
-#: lib/libalpm/package.c:169
+#: lib/libalpm/package.c:158
+#, c-format
+msgid "%s: forcing upgrade to version %s"
+msgstr "%s: Erzwungene Aktualisierung auf Version %s"
+
+#: lib/libalpm/package.c:163
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)"
+msgstr "%s: Lokale Version (%s) ist neuer als %s (%s)"
+
+#: lib/libalpm/package.c:171
 #, c-format
 msgid "%s-%s: delaying upgrade of package (%s)"
 msgstr "%s-%s: Verzögere die Aktualisierung von Paket (%s)"
 
-#: lib/libalpm/package.c:220 lib/libalpm/package.c:279
+#: lib/libalpm/package.c:222 lib/libalpm/package.c:281
 #, c-format
 msgid "%s: syntax error in description file line %d"
 msgstr "%s: Falscher Syntax in Beschreibungsdatei, Zeile %d"
 
-#: lib/libalpm/package.c:353
+#: lib/libalpm/package.c:355
 msgid "could not parse the package description file"
 msgstr "Konnte Paket-Beschreibungsdatei nicht analysieren"
 
-#: lib/libalpm/package.c:357
+#: lib/libalpm/package.c:359
 #, c-format
 msgid "missing package name in %s"
 msgstr "Fehlender Paketname in %s"
 
-#: lib/libalpm/package.c:361
+#: lib/libalpm/package.c:363
 #, c-format
 msgid "missing package version in %s"
 msgstr "Fehlende Paketversion in %s"
 
-#: lib/libalpm/package.c:396
+#: lib/libalpm/package.c:398
 #, c-format
 msgid "could not remove tempfile %s"
 msgstr "Konnte tempfile %s nicht entfernen"
 
-#: lib/libalpm/package.c:409 lib/libalpm/package.c:416
+#: lib/libalpm/package.c:411 lib/libalpm/package.c:418
 #, c-format
 msgid "error while reading package: %s"
 msgstr "Fehler beim Lesen des Paketes: %s"
 
-#: lib/libalpm/package.c:422
+#: lib/libalpm/package.c:424
 msgid "missing package metadata"
 msgstr "Fehlende Paket-Metadaten"
 
-#: lib/libalpm/package.c:429
+#: lib/libalpm/package.c:431
 #, c-format
 msgid "missing package filelist in %s, generating one"
 msgstr "Fehlende Paket-Dateiliste in %s, erstelle eine"
 
-#: lib/libalpm/package.c:568
+#: lib/libalpm/package.c:570
 #, c-format
 msgid "adding '%s' in requiredby field for '%s'"
 msgstr "Füge '%s' zum requiredby-Feld für '%s' hinzu"
 
-#: lib/libalpm/package.c:582
+#: lib/libalpm/package.c:584
 #, c-format
 msgid "adding '%s' in requiredby field for '%s' (provides: %s)"
 msgstr "Füge '%s' zum requiredby-Feld für '%s' hinzu (stellt bereit: %s)"
@@ -1511,4 +1516,3 @@ msgstr "depcmp: %s-%s %s %s-%s => %s"
 #, c-format
 msgid "depcmp: %s-%s %s %s => %s"
 msgstr "depcmp: %s-%s %s %s => %s"
-

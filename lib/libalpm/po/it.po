@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-04-17 21:34+0200\n"
+"POT-Creation-Date: 2007-05-07 23:36-0400\n"
 "PO-Revision-Date: 2007-04-17 22:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
@@ -534,7 +534,7 @@ msgstr "impossibile trovare '%s-%s' nel database '%s'"
 #: lib/libalpm/be_files.c:255 lib/libalpm/be_files.c:401
 #: lib/libalpm/be_files.c:424 lib/libalpm/be_files.c:515
 #: lib/libalpm/be_files.c:605 lib/libalpm/be_files.c:632
-#: lib/libalpm/package.c:206
+#: lib/libalpm/package.c:208
 #, c-format
 msgid "could not open file %s: %s"
 msgstr "impossibile aprire il file %s: %s"
@@ -1019,70 +1019,70 @@ msgstr "impossibile aprire %s\n"
 msgid "md5(%s) = %s"
 msgstr "md5(%s) = %s"
 
-#: lib/libalpm/package.c:150
-#, c-format
-msgid "%s: forcing upgrade to version %s"
-msgstr "%s: aggiornamento forzato alla versione %s"
-
-#: lib/libalpm/package.c:155
-#, c-format
-msgid "%s: local (%s) is newer than %s (%s)"
-msgstr "%s: la versione installata (%s) è più recente di %s (%s)"
-
-#: lib/libalpm/package.c:163
+#: lib/libalpm/package.c:147
 #, c-format
 msgid "%s-%s: ignoring package upgrade (%s)"
 msgstr "%s-%s: aggiornamento del pacchetto (%s) ignorato"
 
-#: lib/libalpm/package.c:169
+#: lib/libalpm/package.c:158
+#, c-format
+msgid "%s: forcing upgrade to version %s"
+msgstr "%s: aggiornamento forzato alla versione %s"
+
+#: lib/libalpm/package.c:163
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)"
+msgstr "%s: la versione installata (%s) è più recente di %s (%s)"
+
+#: lib/libalpm/package.c:171
 #, c-format
 msgid "%s-%s: delaying upgrade of package (%s)"
 msgstr "%s-%s: ritardo durante l'aggiornamento del pacchetto (%s)"
 
-#: lib/libalpm/package.c:220 lib/libalpm/package.c:279
+#: lib/libalpm/package.c:222 lib/libalpm/package.c:281
 #, c-format
 msgid "%s: syntax error in description file line %d"
 msgstr "%s: errore di sintassi nel file di descrizione alla linea %d"
 
-#: lib/libalpm/package.c:353
+#: lib/libalpm/package.c:355
 msgid "could not parse the package description file"
 msgstr "impossibile analizzare il file di descrizione del pacchetto"
 
-#: lib/libalpm/package.c:357
+#: lib/libalpm/package.c:359
 #, c-format
 msgid "missing package name in %s"
 msgstr "manca il nome del pacchetto in %s"
 
-#: lib/libalpm/package.c:361
+#: lib/libalpm/package.c:363
 #, c-format
 msgid "missing package version in %s"
 msgstr "manca la versione del pacchetto in %s"
 
-#: lib/libalpm/package.c:396
+#: lib/libalpm/package.c:398
 #, c-format
 msgid "could not remove tempfile %s"
 msgstr "impossibile rimuovere il file temporaneo %s"
 
-#: lib/libalpm/package.c:409 lib/libalpm/package.c:416
+#: lib/libalpm/package.c:411 lib/libalpm/package.c:418
 #, c-format
 msgid "error while reading package: %s"
 msgstr "si è verificato un errore durante la lettura del pacchetto: %s"
 
-#: lib/libalpm/package.c:422
+#: lib/libalpm/package.c:424
 msgid "missing package metadata"
 msgstr "manca il metadata del pacchetto"
 
-#: lib/libalpm/package.c:429
+#: lib/libalpm/package.c:431
 #, c-format
 msgid "missing package filelist in %s, generating one"
 msgstr "manca il filelist nel pacchetto %s, creazione in corso"
 
-#: lib/libalpm/package.c:568
+#: lib/libalpm/package.c:570
 #, c-format
 msgid "adding '%s' in requiredby field for '%s'"
 msgstr "inclusione di '%s' nel campo 'richiesto da' di '%s'"
 
-#: lib/libalpm/package.c:582
+#: lib/libalpm/package.c:584
 #, c-format
 msgid "adding '%s' in requiredby field for '%s' (provides: %s)"
 msgstr "inclusione di '%s' nel campo 'richiesto da' di '%s' (fornisce: %s)"
