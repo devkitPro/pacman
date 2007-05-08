@@ -72,6 +72,10 @@ pmserver_t *_alpm_server_new(const char *url)
 		strcpy(u->pwd, "libalpm@guest");
 	}
 
+	/* remove trailing slashes, just to clean up the rest of the code */
+	for(int i = strlen(u->doc) - 1; u->doc[i] == '/'; --i)
+		u->doc[i] = '\0';
+
   server->s_url = u;
 
 	return server;
@@ -126,6 +130,7 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
 	}
 
 	snprintf(doc, doclen, "%s/%s", server->s_url->doc, filename);
+	_alpm_log(PM_LOG_DEBUG, "file path: '%s'", doc);
 	ret = downloadMakeURL(server->s_url->scheme,
 												server->s_url->host,
 												server->s_url->port,
