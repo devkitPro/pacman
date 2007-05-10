@@ -123,7 +123,9 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 				}
 
 				_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), replacement, spkg->name);
-				if(alpm_list_find_str(handle->ignorepkg, lpkg->name)) {
+				/* ignore if EITHER the local or replacement package are to be ignored */
+				if(alpm_list_find_str(handle->ignorepkg, spkg->name)
+					 || alpm_list_find_str(handle->ignorepkg, lpkg->name)) {
 					_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)"),
 										alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 										alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
