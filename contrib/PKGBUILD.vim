@@ -82,7 +82,7 @@ syn region pbDependsGroup start=/^depends=(/ end=/)/ contains=pb_k_depends,pbVal
 
 " XXX little hack to color conflicts/provides/replaces keyword even without =()
 syn match  pbkw /^\(conflicts\|provides\|replaces\)/ contains=pb_k_conflicts,pb_k_provides,pb_k_replaces
-hi link pbkw keyword
+hi def link pbkw keyword
 
 " conflicts
 syn keyword pb_k_conflicts conflicts contained
@@ -118,7 +118,7 @@ syn keyword pb_k_source source contained
 syn match pbIllegalSource /\(http\|ftp\|https\).*\.\+\(dl\|download.\?\)\.\(sourceforge\|sf\).net/
 syn region pbSourceGroup  start=/^source=(/ end=/)/ contains=pb_k_source,pbIllegalSource,shNumber,shDoubleQuote,shSingleQuote,pbDerefEmulation
 syn match pbDerefEmulation /\$[{]\?[[:alnum:]_]*[}]\?/ contained
-hi link pbDerefEmulation PreProc
+hi def link pbDerefEmulation PreProc
 
 " md5sums
 
@@ -128,9 +128,9 @@ syn match pbValidMd5sums /[[:alnum:]]\{32\}/ contained
 syn region pbMd5sumsGroup start=/^md5sums/ end=/)/ contains=pb_k_md5sums,pbMd5Quotes,pbMd5Hash,pbIllegalMd5sums
 syn match pbMd5Quotes /'.*'\|".*"/ contained contains=pbMd5Hash,pbIllegalMd5sums
 syn match pbMd5Hash /[[:alnum:]]\+/ contained contains=pbValidMd5sums
-hi link pbMd5Quotes Keyword
-hi link pbMd5Hash Error
-hi link pbValidMd5sums  Number
+hi def link pbMd5Quotes Keyword
+hi def link pbMd5Hash Error
+hi def link pbValidMd5sums  Number
 
 " sha1sums
 syn keyword pb_k_sha1sums sha1sums contained
@@ -139,9 +139,9 @@ syn match pbValidSha1sums /[[:alnum:]]\{40\}/ contained
 syn region pbSha1sumsGroup start=/^sha1sums/ end=/)/ contains=pb_k_sha1sums,pbSha1Quotes,pbSha1Hash,pbIllegalSha1sums
 syn match pbSha1Quotes /'.*'\|".*"/ contained contains=pbSha1Hash,pbIllegalSha1sums
 syn match pbSha1Hash /[[:alnum:]]\+/ contained contains=pbValidSha1sums
-hi link pbSha1Quotes Keyword
-hi link pbSha1Hash Error
-hi link pbValidSha1sums  Number
+hi def link pbSha1Quotes Keyword
+hi def link pbSha1Hash Error
+hi def link pbValidSha1sums  Number
 
 " options
 syn keyword pb_k_options options contained
@@ -167,69 +167,64 @@ syn keyword    pbTodo	contained	COMBAK FIXME TODO XXX
 syn match      pbComment	"^#.*$"	contains=@pbCommentGroup
 syn match      pbComment	"[^0-9]#.*$"	contains=@pbCommentGroup
 
-" quote
-syn region  shExSingleQuote	matchGroup=Error start=+\$'+ skip=+\\\\\|\\.+ end=+'+	contains=shStringSpecial contained
-syn region  shSingleQuote	matchgroup=shOperator start=+'+ end=+'+		contains=shStringSpecial, at Spell contained
-syn region  shDoubleQuote	matchgroup=shOperator start=+"+ skip=+\\"+ end=+"+	contains=@shDblQuoteList,shStringSpecial, at Spell contained
-syn match   shStringSpecial	"[^[:print:]]"	contained
-syn match   shSpecial	"\\[\\\"\'`$()#]" contained
+" quotes are handled by sh.vim
 
-hi link pbComment Comment
-hi link pbTodo Todo
+hi def link pbComment Comment
+hi def link pbTodo Todo
 
-hi link pbIllegalPkgname Error
-hi link pb_k_pkgname pbKeywords
+hi def link pbIllegalPkgname Error
+hi def link pb_k_pkgname pbKeywords
 
-hi link pbIllegalPkgver Error
-hi link pb_k_pkgver pbKeywords
+hi def link pbIllegalPkgver Error
+hi def link pb_k_pkgver pbKeywords
 
-hi link pbIllegalPkgrel Error
-hi link pb_k_pkgrel pbKeywords
+hi def link pbIllegalPkgrel Error
+hi def link pb_k_pkgrel pbKeywords
 
-hi link pbIllegalPkgdesc Error
-hi link pb_k_desc pbKeywords
+hi def link pbIllegalPkgdesc Error
+hi def link pb_k_desc pbKeywords
 
-hi link pbIllegalUrl Error
-hi link pb_k_url pbKeywords
+hi def link pbIllegalUrl Error
+hi def link pb_k_url pbKeywords
 
-hi link pb_k_license pbKeywords
-hi link pbIllegalLicense Error
+hi def link pb_k_license pbKeywords
+hi def link pbIllegalLicense Error
 
-hi link pb_k_backup pbKeywords
+hi def link pb_k_backup pbKeywords
 
-hi link pb_k_arch pbKeywords
-hi link pbIllegalArch Error
+hi def link pb_k_arch pbKeywords
+hi def link pbIllegalArch Error
 
-hi link pb_k_makedepends pbKeywords
-hi link pb_k_depends pbKeywords
-hi link pb_k_replaces pbKeywords
-hi link pb_k_conflicts pbKeywords
-hi link pb_k_provides pbKeywords
+hi def link pb_k_makedepends pbKeywords
+hi def link pb_k_depends pbKeywords
+hi def link pb_k_replaces pbKeywords
+hi def link pb_k_conflicts pbKeywords
+hi def link pb_k_provides pbKeywords
 
-hi link pbIllegalInstall Error
-hi link pb_k_install pbKeywords
+hi def link pbIllegalInstall Error
+hi def link pb_k_install pbKeywords
 
-hi link pb_k_source pbKeywords
-hi link pbIllegalSource Error
+hi def link pb_k_source pbKeywords
+hi def link pbIllegalSource Error
 
-hi link pb_k_md5sums pbKeywords
-hi link pbIllegalMd5sums Error
+hi def link pb_k_md5sums pbKeywords
+hi def link pbIllegalMd5sums Error
 
-hi link pb_k_sha1sums pbKeywords
-hi link pbIllegalSha1sums Error
+hi def link pb_k_sha1sums pbKeywords
+hi def link pbIllegalSha1sums Error
 
-hi link pb_k_options pbKeywords
-hi link pbOptionsDeprec Todo
-hi link pbIllegalOption Error
+hi def link pb_k_options pbKeywords
+hi def link pbOptionsDeprec Todo
+hi def link pbIllegalOption Error
 
-hi link pb_k_noextract pbKeywords
-hi link pbNoextract Normal
+hi def link pb_k_noextract pbKeywords
+hi def link pbNoextract Normal
 
-hi link pb_k_maintainer pbKeywords
+hi def link pb_k_maintainer pbKeywords
 
-hi link pbKeywords Keyword
+hi def link pbKeywords Keyword
 
-hi link pbDate Special
+hi def link pbDate Special
 
 "syntax include @SHELL syntax/sh.vim
 "syntax region BUILD start=/^build()/ end=/^}/ contains=@SHELL
