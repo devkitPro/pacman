@@ -415,10 +415,7 @@ run_build() {
 	msg "$(gettext "Starting build()...")"
 	cd "$startdir"/src
 
-	# some applications (eg, blackbox) will not build with some languages
-	local _LC_ALL="$LC_ALL"; export LC_ALL=C
-	local _LC_MESSAGES="$LC_MESSAGES"; unset LC_MESSAGES
-	local _LANG="$LANG";     export LANG=C
+	# ensure we have a sane umask set
 	umask 0022
 
 	# ensure CFLAGS and CXXFLAGS are used
@@ -455,11 +452,6 @@ run_build() {
 		[ $set_e -eq 1 ] && set +e
 	fi
 
-	# restore LC_ALL & LANG
-	export LC_ALL="$_LC_ALL"
-	export LC_MESSAGES="$_LC_MESSAGES"
-	export LANG="$_LANG"
-
 	if [ $ret -gt 0 ]; then
 		error "$(gettext "Build Failed.  Aborting...")"
 		removedeps
@@ -469,7 +461,7 @@ run_build() {
 
 tidy_install() {
 	cd "$startdir"/pkg
-	msg2 "$(gettext "Tidying install...")"
+	msg "$(gettext "Tidying install...")"
 
 	if [ "$(check_option docs)" = "n" ]; then
 		msg2 "$(gettext "Removing info/doc files...")"
@@ -527,7 +519,7 @@ tidy_install() {
 
 create_package() {
 	cd "$startdir"/pkg
-	msg "$(gettext "Creating package...")"	# get some package meta info
+	msg "$(gettext "Creating package...")"
 
 	local builddate=$(LC_ALL= LANG= date -u "+%a %b %e %H:%M:%S %Y")
 	if [ "$PACKAGER" != "" ]; then
@@ -655,7 +647,7 @@ usage() {
 	echo "$(gettext "  -L, --log        Log package build process")"
 	echo "$(gettext "  -m, --nocolor    Disable colorized output messages")"
 	echo "$(gettext "  -o, --nobuild    Download and extract files only")"
-	echo "$(eval_gettext "  -p <buildscript> Use an alternate build script (instead of \'\$BUILDSCRIPT\')")"
+	echo "$(eval_gettext "  -p <buildscript> Use an alternate build script (instead of '\$BUILDSCRIPT')")"
 	echo "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")"
 	# fix flyspray feature request #2978
 	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
@@ -667,7 +659,7 @@ usage() {
 	echo "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")"
 	echo "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")"
 	echo
-	echo "$(eval_gettext "If -p is not specified, makepkg will look for \'\$BUILDSCRIPT\'")"
+	echo "$(eval_gettext "If -p is not specified, makepkg will look for '\$BUILDSCRIPT'")"
 	echo
 }
 
@@ -805,6 +797,11 @@ fi
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options noextract
+
+if [ -z $BUILDSCRIPT ]; then
+	error "$(eval_gettext "BUILDSCRIPT is undefined! Ensure you have updated makepkg.conf.")"
+	exit 1
+fi
 
 if [ ! -f $BUILDSCRIPT ]; then
 	error "$(eval_gettext "\$BUILDSCRIPT does not exist.")"
