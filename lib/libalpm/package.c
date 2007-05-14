@@ -533,11 +533,11 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 	return(0);
 }
 
-
+/* scan the local db to fill in requiredby field of package,
+ * used when we want to install or add a package */
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 {
-	alpm_list_t *i, *j, *k;
-	const char *pkgname = alpm_pkg_get_name(pkg);
+	alpm_list_t *i, *j;
 
 	pmdb_t *localdb = alpm_option_get_localdb();
 	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {
@@ -549,6 +549,8 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 
 		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
 			pmdepend_t *dep;
+			int satisfies;
+
 			if(!j->data) {
 				continue;
 			}
@@ -557,33 +559,16 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 					continue;
 			}
 			
-			/* check the actual package itself */
-			if(strcmp(dep->name, pkgname) == 0) {
-				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-
-				if(!alpm_list_find_str(reqs, cachepkgname)) {
-					_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
-					          cachepkgname, pkg->name);
-					reqs = alpm_list_add(reqs, strdup(cachepkgname));
-					pkg->requiredby = reqs;
-				}
-			}
-
-			/* check for provisions as well */
-			for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
-				const char *provname = k->data;
-				if(strcmp(dep->name, provname) == 0) {
-					alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-
-					if(!alpm_list_find_str(reqs, cachepkgname)) {
-						_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s' (provides: %s)"),
-						          cachepkgname, pkgname, provname);
-						reqs = alpm_list_add(reqs, strdup(cachepkgname));
-						pkg->requiredby = reqs;
-					}
-				}
-			}
+			satisfies = alpm_depcmp(pkg, dep);
 			free(dep);
+			if(satisfies) {
+				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
+				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
+				          cachepkgname, pkg->name);
+				reqs = alpm_list_add(reqs, strdup(cachepkgname));
+				pkg->requiredby = reqs;
+				break;
+			}
 		}
 	}
 }
