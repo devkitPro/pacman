@@ -59,7 +59,7 @@ pmtrans_t *_alpm_trans_new()
 
 	ALPM_LOG_FUNC;
 
-	if((trans = (pmtrans_t *)malloc(sizeof(pmtrans_t))) == NULL) {
+	if((trans = malloc(sizeof(pmtrans_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmtrans_t));
 		return(NULL);
 	}
@@ -594,14 +594,14 @@ int _alpm_check_freespace(pmtrans_t *trans, alpm_list_t **data)
 	if(pkgsize > freespace) {
 		if(data) {
 			long long *ptr;
-			if((ptr = (long long*)malloc(sizeof(long long)))==NULL) {
+			if((ptr = malloc(sizeof(long long)))==NULL) {
 				_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(long long));
 				pm_errno = PM_ERR_MEMORY;
 				return(-1);
 			}
 			*ptr = pkgsize;
 			*data = alpm_list_add(*data, ptr);
-			if((ptr = (long long*)malloc(sizeof(long long)))==NULL) {
+			if((ptr = malloc(sizeof(long long)))==NULL) {
 				_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(long long));
 				FREELIST(*data);
 				pm_errno = PM_ERR_MEMORY;

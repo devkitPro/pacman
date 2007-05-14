@@ -196,7 +196,7 @@ char *_alpm_strtrim(char *str)
 		return(str);
 	}
 
-	pch = (char *)(str + (strlen(str) - 1));
+	pch = (str + (strlen(str) - 1));
 	while(isspace((int)*pch)) {
 		pch--;
 	}

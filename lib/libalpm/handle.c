@@ -45,7 +45,7 @@ pmhandle_t *_alpm_handle_new()
 {
 	pmhandle_t *handle;
 
-	handle = (pmhandle_t *)malloc(sizeof(pmhandle_t));
+	handle = malloc(sizeof(pmhandle_t));
 	if(handle == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmhandle_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);

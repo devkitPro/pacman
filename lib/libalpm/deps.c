@@ -54,7 +54,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 
 	ALPM_LOG_FUNC;
 
-	miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t));
+	miss = malloc(sizeof(pmdepmissing_t));
 	if(miss == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
@@ -431,7 +431,7 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 		return(NULL);
 	}
 	
-	depend = (pmdepend_t *)malloc(sizeof(pmdepend_t));
+	depend = malloc(sizeof(pmdepend_t));
 	if(depend == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepend_t));
 		return(NULL);
@@ -628,7 +628,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"),
 			          miss->target, miss->depend.name);
 			if(data) {
-				if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 					FREELIST(*data);
 					pm_errno = PM_ERR_MEMORY;
@@ -668,7 +668,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			} else {
 				_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);
 				if(data) {
-					if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+					if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 						FREELIST(*data);
 						pm_errno = PM_ERR_MEMORY;

@@ -230,7 +230,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				/*
 				char *lang_tmp;
 				info->desc_localized = alpm_list_add(info->desc_localized, strdup(ptr));
-				if((lang_tmp = (char *)malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
+				if((lang_tmp = malloc(strlen(setlocale(LC_ALL, "")))) == NULL) {
 					RET_ERR(PM_ERR_MEMORY, -1);
 				}
 				strncpy(lang_tmp, setlocale(LC_ALL, ""), strlen(setlocale(LC_ALL, "")));
@@ -373,7 +373,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			char *str;
 			int fd;
 			
-			if((str = (char *)malloc(PATH_MAX)) == NULL) {
+			if((str = malloc(PATH_MAX)) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, (pmpkg_t *)-1);
 			}
 			fn = strdup("/tmp/alpm_XXXXXX");

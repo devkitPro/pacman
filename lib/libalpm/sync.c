@@ -60,7 +60,7 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 
 	ALPM_LOG_FUNC;
 
-	if((sync = (pmsyncpkg_t *)malloc(sizeof(pmsyncpkg_t))) == NULL) {
+	if((sync = malloc(sizeof(pmsyncpkg_t))) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmsyncpkg_t));
 		return(NULL);
 	}
@@ -615,7 +615,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected"));
 							errorout = 1;
 							if(data) {
-								if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+								if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 									_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
@@ -631,7 +631,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 					_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected"));
 					errorout = 1;
 					if(data) {
-						if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+						if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 							FREELIST(*data);
 							pm_errno = PM_ERR_MEMORY;
@@ -729,7 +729,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 								errorout = 1;
 							}
 							if(data) {
-								if((miss = (pmdepmissing_t *)malloc(sizeof(pmdepmissing_t))) == NULL) {
+								if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 									_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
@@ -863,7 +863,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		if((md5sum1 == NULL) && (sha1sum1 == NULL)) {
 			/* TODO wtf is this? malloc'd strings for error messages? */
-			if((ptr = (char *)malloc(512)) == NULL) {
+			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
 			snprintf(ptr, 512, _("can't get md5 or sha1 checksum for package %s\n"), pkgname);
@@ -875,7 +875,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		md5sum2 = _alpm_MDFile(str);
 		sha1sum2 = _alpm_SHAFile(str);
 		if(md5sum2 == NULL && sha1sum2 == NULL) {
-			if((ptr = (char *)malloc(512)) == NULL) {
+			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
 			snprintf(ptr, 512, _("can't get md5 or sha1 checksum for package %s\n"), pkgname);
@@ -885,7 +885,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		}
 		if((strcmp(md5sum1, md5sum2) != 0) && (strcmp(sha1sum1, sha1sum2) != 0)) {
 			int doremove=0;
-			if((ptr = (char *)malloc(512)) == NULL) {
+			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
 			if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {

@@ -49,7 +49,7 @@ pmserver_t *_alpm_server_new(const char *url)
 
 	ALPM_LOG_FUNC;
 
-	server = (pmserver_t *)malloc(sizeof(pmserver_t));
+	server = malloc(sizeof(pmserver_t));
 	if(server == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);

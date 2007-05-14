@@ -111,15 +111,15 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
  */
 void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 {
-	char *descheader, *md5sum, *sha1sum;
+	const char *descheader, *md5sum, *sha1sum;
 	if(pkg == NULL) {
 		return;
 	}
 
 	descheader = _("Description    : ");
 
-	md5sum = (char *)alpm_pkg_get_md5sum(pkg);
-	sha1sum = (char *)alpm_pkg_get_sha1sum(pkg);
+	md5sum = alpm_pkg_get_md5sum(pkg);
+	sha1sum = alpm_pkg_get_sha1sum(pkg);
 	
 	printf(_("Repository     : %s\n"), treename);
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));

@@ -50,7 +50,7 @@ alpm_list_t *alpm_list_new()
 {
 	alpm_list_t *list = NULL;
 
-	list = (alpm_list_t *)malloc(sizeof(alpm_list_t));
+	list = malloc(sizeof(alpm_list_t));
 	if(list) {
 		list->data = NULL;
 		list->prev = NULL;

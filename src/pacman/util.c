@@ -216,7 +216,7 @@ char *strtrim(char *str)
 		memmove(str, pch, (strlen(pch) + 1));
 	}
 	
-	pch = (char *)(str + (strlen(str) - 1));
+	pch = (str + (strlen(str) - 1));
 	while(isspace(*pch)) {
 		pch--;
 	}

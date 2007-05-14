@@ -442,7 +442,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	}
 	/* convert above strings to wide chars */
 	oprlen = strlen(opr);
-	wcopr = (wchar_t*)calloc(oprlen, sizeof(wchar_t));
+	wcopr = calloc(oprlen, sizeof(wchar_t));
 	if(!wcopr) {
 		fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
 		        strlen(opr) * sizeof(wchar_t));
@@ -519,10 +519,10 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
 		timediff = diff_sec + (diff_usec / 1000000.0);
-		rate = (float)total / (timediff * 1024.0);
+		rate = total / (timediff * 1024.0);
 
 		/* round elapsed time to the nearest second */
-		eta_s = (int)floorf(timediff + 0.5);
+		eta_s = floorf(timediff + 0.5);
 	} else {
 		/* compute current average values */
 		timediff = get_update_timediff(0);
@@ -531,10 +531,10 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 			/* return if the calling interval was too short */
 			return;
 		}
-		rate = (float)(xfered - xfered_last) / (timediff * 1024.0);
+		rate = (xfered - xfered_last) / (timediff * 1024.0);
 		/* average rate to reduce jumpiness */
-		rate = (float)(rate + 2*rate_last) / 3;
-		eta_s = (unsigned int)(total - xfered) / (rate * 1024.0);
+		rate = (rate + 2*rate_last) / 3;
+		eta_s = (total - xfered) / (rate * 1024.0);
 		rate_last = rate;
 		xfered_last = xfered;
 	}
@@ -570,7 +570,7 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		}
 	}
 
-	f_xfered = (float) xfered / 1024.0; /* convert to K by default */
+	f_xfered = xfered / 1024.0; /* convert to K by default */
 	/* xfered_size = 'K'; was set above */
 	if(f_xfered > 2048.0) {
 		f_xfered /= 1024.0;
