@@ -146,7 +146,17 @@ int pacman_query(alpm_list_t *targets)
 			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(i);
 
-			printf("local/%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			/* print the package size with the output if -z option passed */
+			if(config->showsize) {
+				/* Convert byte size to MB */
+				double mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
+
+				printf("local/%s %s [%.2f MB]", alpm_pkg_get_name(pkg),
+						alpm_pkg_get_version(pkg), mbsize);
+			} else {
+				printf("local/%s %s", alpm_pkg_get_name(pkg),
+						alpm_pkg_get_version(pkg));
+			}
 
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 				group = alpm_list_getdata(grp);

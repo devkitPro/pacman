@@ -266,8 +266,8 @@ void display_targets(alpm_list_t *syncpkgs)
 	alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
 	/* TODO these are some messy variable names */
-	unsigned long size = 0, isize = 0, rsize = 0;
-	double mbsize = 0.0, mbisize = 0.0, mbrsize = 0.0;
+	unsigned long size = 0, isize = 0, rsize = 0, dispsize = 0;
+	double mbsize = 0.0, mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0;
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
@@ -290,17 +290,27 @@ void display_targets(alpm_list_t *syncpkgs)
 			}
 		}
 
-		size += alpm_pkg_get_size(pkg);
+		dispsize = alpm_pkg_get_size(pkg);
+		size += dispsize;
 		isize += alpm_pkg_get_isize(pkg);
 
-		asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		if(config->showsize) {
+			/* Convert byte size to MB */
+			mbdispsize = dispsize / (1024.0 * 1024.0);
+
+			asprintf(&str, "%s-%s [%.1f MB]", alpm_pkg_get_name(pkg),
+					alpm_pkg_get_version(pkg), (mbdispsize < 0.1 ? 0.1 : mbdispsize));
+		} else {
+			asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
+					alpm_pkg_get_version(pkg));
+		}
 		targets = alpm_list_add(targets, str);
 	}
 
 	/* Convert byte sizes to MB */
-	mbsize = (double)(size) / (1024.0 * 1024.0);
-	mbisize = (double)(isize) / (1024.0 * 1024.0);
-	mbrsize = (double)(rsize) / (1024.0 * 1024.0);
+	mbsize = size / (1024.0 * 1024.0);
+	mbisize = isize / (1024.0 * 1024.0);
+	mbrsize = rsize / (1024.0 * 1024.0);
 
 	/* start displaying information */
 	printf("\n");

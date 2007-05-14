@@ -251,8 +251,19 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(j);
 
-			printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-			       alpm_pkg_get_version(pkg));
+			/* print the package size with the output if -z option passed */
+			if(config->showsize) {
+				/* Convert byte size to MB */
+				double mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
+
+				printf("%s/%s %s [%.2f MB]", alpm_db_get_name(db),
+						alpm_pkg_get_name(pkg),
+						alpm_pkg_get_version(pkg), mbsize);
+			} else {
+				printf("%s/%s %s", alpm_db_get_name(db),
+						alpm_pkg_get_name(pkg),
+						alpm_pkg_get_version(pkg));
+			}
 
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					group = alpm_list_getdata(grp);
