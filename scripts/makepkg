@@ -862,9 +862,10 @@ else
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
 	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
 		[ -d /usr/lib/distcc/bin ] && export PATH=/usr/lib/distcc/bin:$PATH
+		export DISTCC_HOSTS
 	elif [ "$(check_option distcc)" = "n" ]; then
 		# if it is not wanted, clear the makeflags too
-		export MAKEFLAGS=""
+		MAKEFLAGS=""
 	fi
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
@@ -874,7 +875,7 @@ else
 
 	# clear user-specified makeflags if requested
 	if [ "$(check_option makeflags)" = "n" ]; then
-		export MAKEFLAGS=""
+		MAKEFLAGS=""
 	fi
 
 	# build
@@ -884,9 +885,8 @@ else
 	unset LC_ALL LC_MESSAGES LANG
 	umask 0022
 
-	# ensure CFLAGS and CXXFLAGS are used
-	export CFLAGS
-	export CXXFLAGS
+	# ensure all necessary build variables are exported
+	export CFLAGS CXXFLAGS MAKEFLAGS
 
 	#check for "exit on syntax error" shell option
 	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null
