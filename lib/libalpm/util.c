@@ -161,7 +161,7 @@ int _alpm_copyfile(const char *src, const char *dest)
 }
 
 /* Convert a string to uppercase
- */
+*/
 char *_alpm_strtoupper(char *str)
 {
 	char *ptr = str;
@@ -174,7 +174,7 @@ char *_alpm_strtoupper(char *str)
 }
 
 /* Trim whitespace and newlines from a string
- */
+*/
 char *_alpm_strtrim(char *str)
 {
 	char *pch = str;
@@ -205,8 +205,53 @@ char *_alpm_strtrim(char *str)
 	return(str);
 }
 
+/* Helper function for _alpm_strreplace */
+static void _strnadd(char **str, const char *append, unsigned int count)
+{
+	if(*str) {
+		*str = realloc(*str, strlen(*str) + count + 1);
+	} else {
+		*str = calloc(sizeof(char), count + 1);
+	}
+
+	strncat(*str, append, count);
+}
+
+/* Replace all occurances of 'needle' with 'replace' in 'str', returning
+ * a new string (must be free'd) */
+char *_alpm_strreplace(const char *str, const char *needle, const char *replace)
+{
+	const char *p, *q;
+	p = q = str;
+
+	char *newstr = NULL;
+	unsigned int needlesz = strlen(needle),
+							 replacesz = strlen(replace);
+
+	while (1) {
+		q = strstr(p, needle);
+		if(!q) { /* not found */ 
+			if(*p) {
+				/* add the rest of 'p' */
+				_strnadd(&newstr, p, strlen(p));
+			}
+			break;
+		} else { /* found match */
+			if(q > p){
+				/* add chars between this occurance and last occurance, if any */
+				_strnadd(&newstr, p, q - p);
+			}
+			_strnadd(&newstr, replace, replacesz);
+			p = q + needlesz;
+		}
+	}
+
+	return newstr;
+}
+
+
 /* Create a lock file
- */
+*/
 int _alpm_lckmk(const char *file)
 {
 	int fd, count = 0;
@@ -234,7 +279,7 @@ int _alpm_lckmk(const char *file)
 }
 
 /* Remove a lock file
- */
+*/
 int _alpm_lckrm(const char *file)
 {
 	if(unlink(file) == -1 && errno != ENOENT) {
@@ -244,7 +289,7 @@ int _alpm_lckrm(const char *file)
 }
 
 /* Compression functions
- */
+*/
 
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {
@@ -252,8 +297,8 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	struct archive_entry *entry;
 	char expath[PATH_MAX];
 	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
-	                          ARCHIVE_EXTRACT_PERM |
-	                          ARCHIVE_EXTRACT_TIME;
+		ARCHIVE_EXTRACT_PERM |
+		ARCHIVE_EXTRACT_TIME;
 
 	ALPM_LOG_FUNC;
 
@@ -278,14 +323,14 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		archive_entry_set_pathname(entry, expath);
 		if(archive_read_extract(_archive, entry, archive_flags) != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s: %s\n"), archive_entry_pathname(entry), archive_error_string(_archive));
-			 return(1);
+			return(1);
 		}
 
 		if(fn) {
 			break;
 		}
 	}
-	
+
 	archive_read_finish(_archive);
 	return(0);
 }
@@ -349,8 +394,8 @@ int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str)
 
 		/* Use ISO-8601 date format */
 		fprintf(f, "[%04d-%02d-%02d %02d:%02d] %s\n",
-		        tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
-		        tm->tm_hour, tm->tm_min, str);
+						tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
+						tm->tm_hour, tm->tm_min, str);
 
 		fflush(f);
 	}

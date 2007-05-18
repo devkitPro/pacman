@@ -224,7 +224,7 @@ int alpm_db_setserver(pmdb_t *db, const char *url)
 		}
 		db->servers = alpm_list_add(db->servers, server);
 		_alpm_log(PM_LOG_DEBUG, _("adding new server to database '%s': protocol '%s', server '%s', path '%s'"),
-				db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
+							db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
 	} else {
 		FREELIST(db->servers);
 		_alpm_log(PM_LOG_DEBUG, _("serverlist flushed for '%s'"), db->treename);
@@ -467,8 +467,8 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
 	snprintf(path, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG,
-	                handle->root, handle->cachedir,
-	                alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+					 handle->root, handle->cachedir,
+					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 
 	sha1sum = _alpm_SHAFile(path);
 	if(sha1sum == NULL) {
@@ -511,8 +511,8 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
 	snprintf(path, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG,
-	                handle->root, handle->cachedir,
-									alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+					 handle->root, handle->cachedir,
+					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 
 	md5sum = _alpm_MDFile(path);
 	if(md5sum == NULL) {
@@ -545,7 +545,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
  */
 int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
 {
- 	ALPM_LOG_FUNC;
+	ALPM_LOG_FUNC;
 
 	return(_alpm_versioncmp(ver1, ver2));
 }
@@ -636,8 +636,8 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, alpm_list_t* needles)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
-                    alpm_trans_cb_event event, alpm_trans_cb_conv conv,
-                    alpm_trans_cb_progress progress)
+															alpm_trans_cb_event event, alpm_trans_cb_conv conv,
+															alpm_trans_cb_progress progress)
 {
 	char path[PATH_MAX];
 
@@ -1059,11 +1059,15 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 					}
 				} else {
 					if(strcmp(origkey, "Server") == 0 || strcmp(key, "SERVER") == 0) {
-						/* add to the list */
-						if(alpm_db_setserver(db, ptr) != 0) {
+						/* let's attempt a replacement for the current repo */
+						char *server = _alpm_strreplace(ptr, "$repo", section);
+
+						if(alpm_db_setserver(db, server) != 0) {
 							/* pm_errno is set by alpm_db_setserver */
 							return(-1);
 						}
+
+						free(server);
 					} else {
 						RET_ERR(PM_ERR_CONF_BAD_SYNTAX, -1);
 					}
@@ -1100,7 +1104,7 @@ alpm_list_t SYMEXPORT *alpm_get_upgrades()
 
 				for(m = _alpm_db_get_pkgcache(handle->db_local); m; m = m->next) {
 					pmpkg_t *lpkg = m->data;
-					
+
 					if(strcmp(k->data, alpm_pkg_get_name(lpkg)) == 0) {
 						_alpm_log(PM_LOG_DEBUG, _("checking replacement '%s' for package '%s'"), k->data,
 											alpm_pkg_get_name(spkg));
