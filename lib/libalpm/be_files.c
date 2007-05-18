@@ -183,7 +183,9 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 		}
 		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'"), ent->d_name);
-			return(NULL);
+			alpm_pkg_free(pkg);
+			pkg = NULL;
+			continue;
 		}
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
