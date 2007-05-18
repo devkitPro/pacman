@@ -71,6 +71,10 @@ pmserver_t *_alpm_server_new(const char *url)
 		strcpy(u->pwd, "libalpm@guest");
 	}
 
+	/* remove trailing slashes, just to clean up the rest of the code */
+	for(int i = strlen(u->doc) - 1; u->doc[i] == '/'; --i)
+		u->doc[i] = '\0';
+
   server->s_url = u;
 
 	return server;
