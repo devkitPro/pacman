@@ -43,32 +43,18 @@ extern pmdb_t *db_local;
 
 static char *resolve_path(const char* file)
 {
-	char *copy, *p, *str = NULL;
+	char *str = NULL;
 
-	if(!(copy = strdup(file))) {
+	str = calloc(PATH_MAX+1, sizeof(char));
+	if(!str) {
+		/* null hmmm.... */
 		return(NULL);
 	}
 
-	if((p = strrchr(copy, '/')) == NULL) {
-		return(copy);
-	} else {
-		*p = '\0'; ++p;
-
-		str = calloc(PATH_MAX+1, sizeof(char));
-		if(!str) {
-			/* null hmmm.... */
-			return(NULL);
-		}
-
-		if(!realpath(copy, str)) {
-			return(NULL);
-		}
-
-		str[strlen(str)] = '/';
-		strcat(str, p);
+	if(!realpath(copy, str)) {
+		return(NULL);
 	}
 
-	free(copy);
 	return(str);
 }
 
@@ -115,7 +101,7 @@ static void query_fileowner(pmdb_t *db, char *filename)
 			ppath = resolve_path(path);
 
 			if(ppath && strcmp(ppath, rpath) == 0) {
-				printf(_("%s is owned by %s %s\n"), filename, alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+				printf(_("%s is owned by %s %s\n"), rpath, alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 				found = 1;
 			}
 
