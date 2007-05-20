@@ -386,7 +386,7 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
 			case 'e':
-				config->op_q_orphans = 1;
+				config->op_q_orphans++;
 				config->flags |= PM_TRANS_FLAG_DEPENDSONLY;
 				break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;

@@ -51,7 +51,7 @@ static char *resolve_path(const char* file)
 		return(NULL);
 	}
 
-	if(!realpath(copy, str)) {
+	if(!realpath(file, str)) {
 		return(NULL);
 	}
 
@@ -289,7 +289,8 @@ int pacman_query(alpm_list_t *targets)
 					dump_pkg_files(info);
 				} else if(config->op_q_orphans) {
 					if(alpm_pkg_get_requiredby(info) == NULL
-						 && (long)alpm_pkg_get_reason(info) == PM_PKG_REASON_DEPEND) {
+						 && ((long)alpm_pkg_get_reason(info) == PM_PKG_REASON_DEPEND
+								 || config->op_q_orphans > 1)) {
 						printf("%s %s\n", pkgname, pkgver);
 					}
 				} else {
