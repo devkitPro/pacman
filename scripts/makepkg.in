@@ -199,7 +199,7 @@ getdownloadclient() {
 
 	# if we didn't find an agent, return an error
 	if [ -z "$agent" ]; then
-		error "$(eval_gettext "There is no agent set up to handle \$proto URLs. Check /etc/makepkg.conf.")"
+		error "$(eval_gettext "There is no agent set up to handle \$proto URLs. Check makepkg.conf.")"
 		error "$(gettext "Aborting...")"
 		exit 1 # $E_CONFIG_ERROR # TODO: error code
 	fi
@@ -265,7 +265,7 @@ handledeps() {
 			# install missing deps by building them from source.
 			# we look for each package name in $SRCROOT and build it.
 			if [ "$SRCROOT" = "" ]; then
-				error "$(gettext "Source root cannot be found - please make sure it is specified in /etc/makepkg.conf")"
+				error "$(gettext "Source root cannot be found - ensure it is specified in makepkg.conf.")"
 				exit 1
 			fi
 			# TODO: handle version comparators (eg, glibc>=2.2.5)
@@ -762,24 +762,30 @@ if [ "$CLEANCACHE" = "1" ]; then
 	fi
 fi
 
+if [ -z $BUILDSCRIPT ]; then
+	error "$(eval_gettext "BUILDSCRIPT is undefined! Ensure you have updated makepkg.conf.")"
+	exit 1
+fi
+
 if [ "$INFAKEROOT" = "0" ]; then
 	if [ $EUID -eq 0 -a $ASROOT -eq 0 ]; then
 		# Warn those who like to live dangerously.
-		warning "$(gettext "Running makepkg as root is a BAD idea and can cause")"
+		error "$(gettext "Running makepkg as root is a BAD idea and can cause")"
 		plain "$(gettext "permanent, catastrophic damage to your system. If you")"
 		plain "$(gettext "you wish to run as root, please use the --asroot option.")"
 		plain ""
 		exit 1 # $E_USER_ABORT
-	elif [ "$(check_buildenv fakeroot)" = "y" -a ! $(type -p fakeroot) ]; then
-			warning "$(gettext "Fakeroot is not installed. Building as an unprivileged user")"
-			plain "$(gettext "will result in non-root ownership of the packaged files. Install")"
-			plain "$(gettext "the fakeroot package to correctly build as a non-root user.")"
+	elif [ "$(check_buildenv fakeroot)" = "y" ]; then
+		if [ ! $(type -p fakeroot) ]; then
+			error "$(gettext "fakeroot must be installed if using the 'fakeroot' option")"
+			plain "$(gettext "in the BUILDENV array in makepkg.conf.")"
 			plain ""
-			sleep 1
+			exit 1
+		fi
 	else
 		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
 		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
-		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in makepkg.conf")"
+		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in makepkg.conf.")"
 		plain ""
 		sleep 1
 	fi
@@ -793,11 +799,6 @@ fi
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options noextract
-
-if [ -z $BUILDSCRIPT ]; then
-	error "$(eval_gettext "BUILDSCRIPT is undefined! Ensure you have updated makepkg.conf.")"
-	exit 1
-fi
 
 if [ ! -f $BUILDSCRIPT ]; then
 	error "$(eval_gettext "\$BUILDSCRIPT does not exist.")"
