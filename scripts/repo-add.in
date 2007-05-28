@@ -237,8 +237,8 @@ if [ $# -lt 2 ]; then
 fi
 
 # source system and user makepkg.conf
-if [ -r /etc/makepkg.conf ]; then
-	source /etc/makepkg.conf
+if [ -r @SYSCONFDIR@/makepkg.conf ]; then
+	source @SYSCONFDIR@/makepkg.conf
 else
 	echo "ERROR: /etc/makepkg.conf not found. Can not continue." >&2
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes

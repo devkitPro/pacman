@@ -37,9 +37,9 @@ usage() {
 	echo
 	echo "note: The <destfile> name is important.  It must be of the form"
 	echo "      {treename}.db.tar.gz where {treename} is the name of the custom"
-	echo "      package repository you configured in /etc/pacman.conf.  The"
+	echo "      package repository you configured in @SYSCONFDIR@/pacman.conf.  The"
 	echo "      generated database must reside in the same directory as your"
-	echo "      custom packages (also configured in /etc/pacman.conf)"
+	echo "      custom packages (also configured in @SYSCONFDIR@/pacman.conf)"
 	echo
 	echo "example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
 	echo
@@ -94,10 +94,10 @@ if [ $# -lt 2 ]; then
 fi
 
 # source system and user makepkg.conf
-if [ -r /etc/makepkg.conf ]; then
-	source /etc/makepkg.conf
+if [ -r @SYSCONFDIR@/makepkg.conf ]; then
+	source @SYSCONFDIR@/makepkg.conf
 else
-	echo "ERROR: /etc/makepkg.conf not found. Can not continue." >&2
+	echo "ERROR: @SYSCONFDIR@/makepkg.conf not found. Can not continue." >&2
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes
 fi
 

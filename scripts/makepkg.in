@@ -38,8 +38,8 @@ startdir=$(pwd)
 
 # Only use ABSROOT if we haven't been passed a SRCROOT on the command line.
 if [ -z "$SRCROOT" ]; then
-	if [ -r /etc/abs/abs.conf ]; then
-		source /etc/abs/abs.conf
+	if [ -r @SYSCONFDIR@/abs/abs.conf ]; then
+		source @SYSCONFDIR@/abs/abs.conf
 	fi
 	if [ -r ~/.abs.conf ]; then
 		source ~/.abs.conf
@@ -649,8 +649,8 @@ _PKGDEST=${PKGDEST}
 _SRCDEST=${SRCDEST}
 
 # Source makepkg.conf; fail if it is not found
-if [ -r /etc/makepkg.conf ]; then
-	source /etc/makepkg.conf
+if [ -r @SYSCONFDIR@/makepkg.conf ]; then
+	source @SYSCONFDIR@/makepkg.conf
 else
 	error "$(gettext "/etc/makepkg.conf not found. cannot continue")"
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes

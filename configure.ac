@@ -218,6 +218,10 @@ localedir="$(eval echo ${localedir})"
 LOCALEDIR="$(eval echo ${localedir})"
 AC_SUBST(LOCALEDIR)
 
+sysconfdir="$(eval echo ${sysconfdir})"
+SYSCONFDIR="$(eval echo ${sysconfdir})"
+AC_SUBST(SYSCONFDIR)
+
 dnl ==========================================================================
 
 AC_OUTPUT([

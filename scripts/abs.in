@@ -21,7 +21,7 @@
 #
 
 myver='@PACKAGE_VERSION@'
-CONFDIR="/etc/abs"
+CONFDIR="@SYSCONFDIR@/abs"
 CONNMODE="m"
 
 [ -f "$CONFDIR/abs.conf" ] && source "$CONFDIR/abs.conf"
@@ -35,8 +35,8 @@ usage() {
 	echo
 	echo "abs will synchronize PKGBUILD scripts from the CVS repository"
 	echo "into $ABSROOT.  You can follow different package trees by"
-	echo "editing /etc/abs/supfile.* files.  If no argument is given, abs "
-	echo "will synchronize from supfiles specified in /etc/abs/abs.conf."
+	echo "editing @SYSCONFDIR@/abs/supfile.* files.  If no argument is given, abs "
+	echo "will synchronize from supfiles specified in @SYSCONFDIR@/abs/abs.conf."
 	echo "If -p is specified, the connection is opened in passive mode."
 }
 
