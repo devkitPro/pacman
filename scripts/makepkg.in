@@ -578,7 +578,7 @@ create_package() {
 	# tar it up
 	msg2 "$(gettext "Compressing package...")"
 
-	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}"
+	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 	comp_files="$comp_files .PKGINFO .FILELIST"
 
 	if ! tar -czf "$pkg_file" $comp_files *; then
@@ -590,11 +590,11 @@ create_package() {
 installpackage() {
 	if [ "$INSTALL" = "1" -a "$SUDO" = "1" ]; then
 		msg "$(gettext "Installing package with pacman -U...")"
-		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
+		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}
 		exit $?
 	elif [ "$INSTALL" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
 		msg "$(gettext "Installing package with pacman -U...")"
-		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}
+		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}
 		exit $?
 	fi
 }
@@ -864,7 +864,7 @@ if [ "$install" -a ! -f "$install" ]; then
 	exit 1
 fi
 
-if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.${PKGEXT}" \
+if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
      -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "$(gettext "a package has already been built, installing existing package.")"

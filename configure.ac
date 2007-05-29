@@ -41,37 +41,37 @@ AM_CONDITIONAL(LINKSTATIC, test "$enable_static" = "yes")
 dnl Help line for root directory
 AC_ARG_WITH(root-dir,
     AC_HELP_STRING([--with-root-dir=path], [Set the location of pacman's root operating directory]),
-    [rootdir=$withval], [rootdir=/])
+    [ROOTDIR=$withval], [ROOTDIR=/])
 
 dnl Help line for database path
 AC_ARG_WITH(db-path,
     AC_HELP_STRING([--with-db-path=path], [Set the location of pacman's database]),
-    [dbpath=$withval], [dbpath=var/lib/pacman/])
+    [DBPATH=$withval], [DBPATH=var/lib/pacman/])
 
 dnl Help line for cache directory
 AC_ARG_WITH(cache-dir,
     AC_HELP_STRING([--with-cache-dir=path], [Set the location of pacman's cache directory]),
-    [cachedir=$withval], [cachedir=var/cache/pacman/pkg/])
+    [CACHEDIR=$withval], [CACHEDIR=var/cache/pacman/pkg/])
 
 dnl Help line for lock file
 AC_ARG_WITH(lock-file,
     AC_HELP_STRING([--with-lock-file=path], [Set the location of pacman's lock file]),
-    [lockfile=$withval], [lockfile=var/run/pacman.lck])
+    [LOCKFILE=$withval], [LOCKFILE=var/run/pacman.lck])
 
 dnl Help line for config file
 AC_ARG_WITH(config-file,
     AC_HELP_STRING([--with-config-file=path], [Set the location of pacman's config file]),
-    [configfile=$withval], [configfile=etc/pacman.conf])
+    [CONFIGFILE=$withval], [CONFIGFILE=etc/pacman.conf])
 
 dnl Help line for package extension
 AC_ARG_WITH(pkg-ext,
 			AC_HELP_STRING([--with-pkg-ext=ext], [Set the file extension used by packages]),
-    [pkgext=$withval], [pkgext=.pkg.tar.gz])
+    [PKGEXT=$withval], [PKGEXT=.pkg.tar.gz])
 
 dnl Help line for database extension
 AC_ARG_WITH(db-ext,
 			AC_HELP_STRING([--with-db-ext=ext], [Set the file extension used by the database]),
-    [dbext=$withval], [dbext=.db.tar.gz])
+    [DBEXT=$withval], [DBEXT=.db.tar.gz])
 
 dnl Help line for doxygen
 AC_ARG_ENABLE(doxygen,
@@ -186,25 +186,32 @@ else
 fi
 
 dnl Set root directory
-AC_DEFINE_UNQUOTED([PM_ROOT], "$rootdir", [Location of pacman's default root directory])
+AC_DEFINE_UNQUOTED([PM_ROOT], "$ROOTDIR", [Location of pacman's default root directory])
+AC_SUBST(ROOTDIR)
 
 dnl Set database path
-AC_DEFINE_UNQUOTED([PM_DBPATH], "$dbpath", [Location of pacman database])
+AC_DEFINE_UNQUOTED([PM_DBPATH], "$DBPATH", [Location of pacman database])
+AC_SUBST(DBPATH)
 
 dnl Set cache directory
-AC_DEFINE_UNQUOTED([PM_CACHEDIR], "$cachedir", [Location of pacman's package cache])
+AC_DEFINE_UNQUOTED([PM_CACHEDIR], "$CACHEDIR", [Location of pacman's package cache])
+AC_SUBST(CACHEDIR)
 
 dnl Set lock file location
-AC_DEFINE_UNQUOTED([PM_LOCK], "$lockfile", [Location of pacman lock file])
+AC_DEFINE_UNQUOTED([PM_LOCK], "$LOCKFILE", [Location of pacman lock file])
+AC_SUBST(LOCKFILE)
 
 dnl Set configuration file location
-AC_DEFINE_UNQUOTED([PM_CONF], "$configfile", [Location of pacman configuration file])
+AC_DEFINE_UNQUOTED([PM_CONF], "$CONFIGFILE", [Location of pacman configuration file])
+AC_SUBST(CONFIGFILE)
 
 dnl Set package file extension
-AC_DEFINE_UNQUOTED([PM_EXT_PKG], "$pkgext", [The file extension used by pacman packages])
+AC_DEFINE_UNQUOTED([PM_EXT_PKG], "$PKGEXT", [The file extension used by pacman packages])
+AC_SUBST(PKGEXT)
 
 dnl Set database file extension
-AC_DEFINE_UNQUOTED([PM_EXT_DB], "$dbext", [The file extension used by pacman databases])
+AC_DEFINE_UNQUOTED([PM_EXT_DB], "$DBEXT", [The file extension used by pacman databases])
+AC_SUBST(DBEXT)
 
 dnl Set up localedir substitution, double eval to get full path
 localedir="$(eval echo ${localedir})"
@@ -258,13 +265,13 @@ pacman-$VERSION:
     pacman version         : ${PACKAGE_VERSION}
 
   Directory and file information:
-    root directory         : ${rootdir}
-    database path          : ${rootdir}${dbpath}
-    cache directory        : ${rootdir}${cachedir}
-    lock file location     : ${rootdir}${lockfile}
-    conf file location     : ${rootdir}${configfile}
-    package extension      : ${pkgext}
-    database extension     : ${dbext}
+    root directory         : ${ROOTDIR}
+    database path          : ${ROOTDIR}${DBPATH}
+    cache directory        : ${ROOTDIR}${CACHEDIR}
+    lock file location     : ${ROOTDIR}${LOCKFILE}
+    conf file location     : ${ROOTDIR}${CONFIGFILE}
+    package extension      : ${PKGEXT}
+    database extension     : ${DBEXT}
 
   Compilation options:
     Doxygen support        : ${usedoxygen}

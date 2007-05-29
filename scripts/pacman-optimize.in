@@ -21,11 +21,8 @@
 #
 
 myver='@PACKAGE_VERSION@'
-#TODO replace with configure-time db location
-dbroot="/var/lib/pacman"
-#TODO replace with configure-time lockfile location
-lockfile="/tmp/pacman.lck"
-
+dbroot='@ROOTDIR@@DBPATH@'
+lockfile='@ROOTDIR@@LOCKFILE@'
 
 error() {
 	if [ "$USECOLOR" = "YES" -o "$USECOLOR" = "yes" ]; then
@@ -36,8 +33,8 @@ error() {
 }
 
 # determine current USECOLOR setting
-#[ -f "/etc/rc.conf" ] && source /etc/rc.conf
-#[ -f "/etc/rc.d/functions" ] && source /etc/rc.d/functions
+[ -f "/etc/rc.conf" ] && source /etc/rc.conf
+[ -f "/etc/rc.d/functions" ] && source /etc/rc.d/functions
 
 usage() {
 	echo "pacman-optimize (pacman) $myver"
