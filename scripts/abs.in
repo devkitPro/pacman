@@ -67,12 +67,12 @@ update() {
 	done
 } 
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
 	exit 0
 fi
 
-if [ "$1" = "-V" ] || [ "$1" = "--version" ]; then
+if [ "$1" = "-V" -o "$1" = "--version" ]; then
 	version
 	exit 0
 fi

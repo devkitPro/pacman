@@ -58,7 +58,7 @@ version() {
 	printf "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n"
 	echo
 	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by the law.\n"
+	printf "There is NO WARRANTY, to the extent permitted by law.\n"
 	echo
 }
 
@@ -83,53 +83,53 @@ for arg in $*; do
 		--nobuild)    MAKEPKG_OPTS="$MAKEPKG_OPTS -o" ;;
 		--nocolor)    MAKEPKG_OPTS="$MAKEPKG_OPTS -m" ;;
 		--help)
-		usage
-		exit 0
-		;;
+			usage
+			exit 0
+			;;
 		--version)
-		version
-		exit 0
-		;;
+			version
+			exit 0
+			;;
 		--*)
-		usage
-		exit 1
-		;;
+			usage
+			exit 1
+			;;
 		-*)
-		while getopts "chisSbdfrBCemoSV-" opt; do
-			case $opt in
-				c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
-				i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
-				s) MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
-				b) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
-				d) MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
-				f) MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
-				r) MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
-				B) MAKEPKG_OPTS="$MAKEPKG_OPTS -B" ;;
-				C) MAKEPKG_OPTS="$MAKEPKG_OPTS -C" ;;
-				e) MAKEPKG_OPTS="$MAKEPKG_OPTS -e" ;;
-				m) MAKEPKG_OPTS="$MAKEPKG_OPTS -m" ;;
-				o) MAKEPKG_OPTS="$MAKEPKG_OPTS -o" ;;
-				S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
-				h)
-				usage
-				exit 0
-				;;
-				V)
-				version
-				exit 0
-				;;
-				-)
-				OPTIND=0
-				break
-				;;
-			esac
-		done
-		;;
+			while getopts "chisSbdfrBCemoSV-" opt; do
+				case $opt in
+					c) MAKEPKG_OPTS="$MAKEPKG_OPTS -c" ;;
+					i) MAKEPKG_OPTS="$MAKEPKG_OPTS -i" ;;
+					s) MAKEPKG_OPTS="$MAKEPKG_OPTS -s" ;;
+					b) MAKEPKG_OPTS="$MAKEPKG_OPTS -b" ;;
+					d) MAKEPKG_OPTS="$MAKEPKG_OPTS -d" ;;
+					f) MAKEPKG_OPTS="$MAKEPKG_OPTS -f" ;;
+					r) MAKEPKG_OPTS="$MAKEPKG_OPTS -r" ;;
+					B) MAKEPKG_OPTS="$MAKEPKG_OPTS -B" ;;
+					C) MAKEPKG_OPTS="$MAKEPKG_OPTS -C" ;;
+					e) MAKEPKG_OPTS="$MAKEPKG_OPTS -e" ;;
+					m) MAKEPKG_OPTS="$MAKEPKG_OPTS -m" ;;
+					o) MAKEPKG_OPTS="$MAKEPKG_OPTS -o" ;;
+					S) MAKEPKG_OPTS="$MAKEPKG_OPTS -S" ;;
+					h)
+						usage
+						exit 0
+						;;
+					V)
+						version
+						exit 0
+						;;
+					-)
+						OPTIND=0
+						break
+						;;
+				esac
+			done
+			;;
 		*)
-		dest=$arg
-		shift
-		break
-		;;
+			dest=$arg
+			shift
+			break
+			;;
 	esac
 	shift
 	if [ "$dest" != "" ]; then

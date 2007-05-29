@@ -25,10 +25,12 @@ from optparse import OptionParser
 
 def createOptParser():
     usage = "usage: %prog [options] MIRRORFILE | URL"
+    version = '%prog (pacman) @PACKAGE_VERSION@'
     description = "Ranks pacman mirrors by their connection and opening " \
             "speed. Pacman mirror files are located in /etc/pacman.d/. It " \
             "can also rank one mirror if the URL is provided."
-    parser = OptionParser(usage = usage, description = description)
+    parser = OptionParser(usage = usage, version = version,
+                          description = description)
     parser.add_option("-n", type = "int", dest = "num", default = 0,
                       help = "number of servers to output, 0 for all")
     parser.add_option("-t", "--times", action = "store_true",
@@ -39,6 +41,9 @@ def createOptParser():
     parser.add_option("-v", "--verbose", action = "store_true",
                       dest = "verbose", default = False,
                       help = "be verbose in ouptut")
+    # The following two options should be automatic
+    #parser.add_option("-h", "--help", action = "help")
+    #parser.add_option("-V", "--version", action = "version")
     return parser
 
 def timeCmd(cmd):

@@ -600,7 +600,7 @@ installpackage() {
 }
 
 usage() {
-	printf "$(gettext "makepkg version %s")\n" "$myver"
+	printf "$(gettext "makepkg (pacman) %s")\n" "$myver"
 	echo
 	printf "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
@@ -630,6 +630,15 @@ usage() {
 	echo "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")"
 	echo
 	printf "$(gettext "If -p is not specified, makepkg will look for '%s'")\n" "$BUILDSCRIPT"
+	echo
+}
+
+version() {
+	printf "$(gettext "makepkg (pacman) %s")\n" "$myver"
+	echo "$(gettext "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.")"
+	echo
+	echo "$(gettext "This is free software; see the source for copying conditions.")"
+	echo "$(gettext "There is NO WARRANTY, to the extent permitted by law.")"
 	echo
 }
 
@@ -684,6 +693,10 @@ while [ "$#" -ne "0" ]; do
 					usage
 					exit 0
 					;;
+		--version)
+					version
+					exit 0
+					;;
 		--*)
 					usage
 					exit 1
@@ -699,10 +712,6 @@ while [ "$#" -ne "0" ]; do
 				f) FORCE=1 ;;
 				F) INFAKEROOT=1 ;;
 				g) GENINTEG=1 ;;
-				h)
-						usage
-						exit 0
-						;;
 				i) INSTALL=1 ;;
 				L) LOGGING=1 ;;
 				m) USE_COLOR="n" ;;
@@ -712,6 +721,14 @@ while [ "$#" -ne "0" ]; do
 				R) REPKG=1 ;;
 				s) DEP_BIN=1 ;;
 				S) SUDO=1 ;;
+				h)
+						usage
+						exit 0
+						;;
+				V)
+						version
+						exit 0
+						;;
 				-)
 						OPTIND=0
 						break

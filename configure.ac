@@ -1,4 +1,7 @@
+dnl Process this file with autoconf to produce a configure script.
+dnl Minimum version of autoconf required
 AC_PREREQ(2.59)
+
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
 AC_INIT([Pacman package manager], 3.1.0-dev, [pacman-dev@archlinux.org], [pacman])
 AC_LANG([C])
@@ -222,6 +225,7 @@ scripts/gensync
 scripts/makepkg
 scripts/makeworld
 scripts/pacman-optimize
+scripts/rankmirrors
 scripts/repo-add
 scripts/repo-remove
 scripts/updatesync

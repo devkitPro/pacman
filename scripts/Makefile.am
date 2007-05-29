@@ -1,6 +1,5 @@
-# TODO: this would be nice to enable, but we need --help and --version
-#       flags on all of our scripts first (this is what it checks)
-#AUTOMAKE_OPTIONS = std-options
+# enforce that all scripts have a --help and --version option
+AUTOMAKE_OPTIONS = std-options
 
 bin_SCRIPTS = \
 	abs \
