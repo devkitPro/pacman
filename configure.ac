@@ -246,10 +246,7 @@ src/util/Makefile
 scripts/Makefile
 doc/Makefile
 etc/Makefile
-etc/makepkg.conf
-etc/pacman.conf
 etc/pacman.d/Makefile
-etc/pacman.d/mirrorlist
 etc/abs/Makefile
 pactest/Makefile
 contrib/Makefile
