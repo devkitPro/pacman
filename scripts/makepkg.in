@@ -835,7 +835,7 @@ if [ "$INFAKEROOT" = "0" ]; then
 		# Warn those who like to live dangerously.
 		error "$(gettext "Running makepkg as root is a BAD idea and can cause")"
 		plain "$(gettext "permanent, catastrophic damage to your system. If you")"
-		plain "$(gettext "you wish to run as root, please use the --asroot option.")"
+		plain "$(gettext "wish to run as root, please use the --asroot option.")"
 		plain ""
 		exit 1 # $E_USER_ABORT
 	elif [ "$(check_buildenv fakeroot)" = "y" ]; then
