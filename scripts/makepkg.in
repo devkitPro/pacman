@@ -65,6 +65,7 @@ NOEXTRACT=0
 RMDEPS=0
 REPKG=0
 LOGGING=0
+SOURCEONLY=0
 
 PACMAN_OPTS=
 
@@ -588,6 +589,40 @@ create_package() {
 	fi
 }
 
+create_srcpackage() {
+	cd "$startdir"
+	msg "$(gettext "Creating source package...")"
+	local comp_files="PKGBUILD"
+	msg2 "$(gettext "Adding PKGBUILD")"
+
+	if [ "$install" != "" ]; then
+		if [ -f $install ]; then
+			msg2 "$(gettext "Adding install script")"
+			comp_files="$comp_files $install"
+		else
+			error "$(gettext "Install script $install not found.")"
+		fi
+	fi
+
+	local i
+	for i in ${source[@]}; do
+		if [ -f $i ]; then
+			msg2 "$(gettext "Adding %s")" $i
+			comp_files="$comp_files $i"
+		fi
+	done
+
+	# TODO make package extension configurable like $PKGEXT
+	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}.src.tar.gz"
+
+	# tar it up
+	msg2 "$(gettext "Compressing source package...")"
+	if ! tar -czf "$pkg_file" $comp_files; then
+		error "$(gettext "Failed to create source package file.")"
+		exit 1 # TODO: error code
+	fi
+}
+
 installpackage() {
 	if [ "$INSTALL" = "1" -a "$SUDO" = "1" ]; then
 		msg "$(gettext "Installing package with pacman -U...")"
@@ -624,11 +659,12 @@ usage() {
 	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
 	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
 	echo "$(gettext "  -S, --usesudo    When calling pacman, use sudo")"
+	echo "$(gettext "      --source     Do not build package; generate a source-only tarball")"
 	echo
 	echo "$(gettext "These options can be passed to pacman:")"
 	echo
-	echo "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")"
-	echo "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")"
+	echo "$(gettext "      --noconfirm      Do not ask for confirmation when resolving dependencies")"
+	echo "$(gettext "      --noprogressbar  Do not show a progress bar when downloading files")"
 	echo
 	printf "$(gettext "If -p is not specified, makepkg will look for '%s'")\n" "$BUILDSCRIPT"
 	echo
@@ -650,12 +686,14 @@ _PKGDEST=${PKGDEST}
 _SRCDEST=${SRCDEST}
 
 # Source makepkg.conf; fail if it is not found
-if [ -r @sysconfdir@/makepkg.conf ]; then
-	source @sysconfdir@/makepkg.conf
+conffile="@sysconfdir@/makepkg.conf"
+if [ -r $conffile ]; then
+	source $conffile
 else
-	error "$(gettext "/etc/makepkg.conf not found. cannot continue")"
+	error "$(gettext "%s not found. cannot continue")" $conffile
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes
 fi
+unset conffile
 
 # Source user-specific makepkg.conf overrides
 if [ -r ~/.makepkg.conf ]; then
@@ -690,6 +728,7 @@ while [ "$#" -ne "0" ]; do
 		--rmdeps)     RMDEPS=1 ;;
 		--repackage)  REPKG=1 ;;
 		--log)        LOGGING=1 ;;
+		--source)     SOURCEONLY=1 ;;
 		--help)
 					usage
 					exit 0
@@ -866,13 +905,13 @@ if [ "$install" -a ! -f "$install" ]; then
 fi
 
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-     -a "$FORCE" = "0" -a "$GENINTEG" = "0" ]; then
+     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "$(gettext "a package has already been built, installing existing package.")"
 		installpackage
 		exit $?
 	else
-		error "$(gettext "a package has already been built.  (use -f to overwrite)")"
+		error "$(gettext "a package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
 fi
@@ -895,6 +934,19 @@ fi
 
 date=$(date)
 msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel  ($date)"
+
+# if we are creating a source-only package, go no further
+if [ "$SOURCEONLY" = "1" ]; then
+	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}.src.tar.gz" \
+	     -a "$FORCE" = "0" ]; then
+		error "$(gettext "a package has already been built. (use -f to overwrite)")"
+		exit 1
+	fi
+	create_srcpackage
+	date=$(date)
+	msg "$(gettext "Source package created: %s")" "$pkgname ($date)"
+	exit 0
+fi
 
 # fix flyspray bug #5973
 if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
