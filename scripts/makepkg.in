@@ -35,7 +35,9 @@ TEXTDOMAINDIR='@localedir@'
 export TEXTDOMAINDIR
 
 myver='@PACKAGE_VERSION@'
-startdir=$(pwd)
+startdir="$(pwd)"
+srcdir="$startdir/src"
+pkgdir="$startdir/pkg"
 
 # Only use ABSROOT if we haven't been passed a SRCROOT on the command line.
 if [ -z "$SRCROOT" ]; then
@@ -284,9 +286,9 @@ handledeps() {
 					exit 1
 				fi
 				success=0
-				for pkgdir in $candidates; do
-					if [ -f "$pkgdir/$BUILDSCRIPT" ]; then
-						cd "$pkgdir"
+				for packagedir in $candidates; do
+					if [ -f "$packagedir/$BUILDSCRIPT" ]; then
+						cd "$packagedir"
 						if [ "$RMDEPS" = "1" ]; then
 							PKGDEST="$PKGDEST" makepkg -i -c -b -r
 						else
