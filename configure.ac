@@ -1,96 +1,141 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Minimum version of autoconf required
-AC_PREREQ(2.59)
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+# Minimum version of autoconf required
+AC_PREREQ(2.61)
 
-dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
-AC_INIT([Pacman package manager], 3.1.0-dev, [pacman-dev@archlinux.org], [pacman])
-AC_LANG([C])
-AC_CONFIG_HEADERS(config.h)
+# Autoconf initialization
+# AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
+AC_INIT([Pacman Package Manager], 3.1.0-dev, [pacman-dev@archlinux.org], [pacman])
+AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_HEADERS([config.h])
+
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION(0.13.1)
 
-dnl Define the libalpm version number here
+# Define the libalpm version number here
 LIB_MAJOR_VERSION=1
 LIB_MINOR_VERSION=1
 LIB_MICRO_VERSION=1
 LIB_VERSION=$LIB_MAJOR_VERSION.$LIB_MINOR_VERSION.$LIB_MICRO_VERSION
-dnl Needed for libtool to create proper shared lib version.
-dnl This is not completely correct- see 
-dnl http://sourceware.org/autobook/autobook/autobook_91.html for details.
+# Needed for libtool to create proper shared lib version.
+# This is not completely correct- see
+# http://sourceware.org/autobook/autobook/autobook_91.html for details.
 LIB_VERSION_INFO=`expr $LIB_MAJOR_VERSION + $LIB_MINOR_VERSION`:$LIB_MICRO_VERSION:$LIB_MINOR_VERSION
 
-dnl Set subsitution values for version stuff in Makefiles and anywhere else
+# Set subsitution values for version stuff in Makefiles and anywhere else,
+# and put LIB_VERSION in config.h
 AC_SUBST(LIB_VERSION)
 AC_SUBST(LIB_VERSION_INFO)
-
-dnl Put version number in config.h
 AC_DEFINE_UNQUOTED([LIB_VERSION], ["$LIB_VERSION"], [libalpm version number])
 
-dnl Configuration files
-dnl AC_CONFIG_FILES([etc/makepkg.conf] [etc/pacman.conf])
-
-AC_PROG_CC
-AC_HEADER_STDC
-AC_PROG_INSTALL
-AC_CHECK_FUNCS([strverscmp])
-AM_PROG_LIBTOOL
-AM_CONDITIONAL(LINKSTATIC, test "$enable_static" = "yes")
-
-dnl Help line for root directory
+# Help line for root directory
 AC_ARG_WITH(root-dir,
     AC_HELP_STRING([--with-root-dir=path], [Set the location of pacman's root operating directory]),
     [ROOTDIR=$withval], [ROOTDIR=/])
 
-dnl Help line for database path
+# Help line for database path
 AC_ARG_WITH(db-path,
     AC_HELP_STRING([--with-db-path=path], [Set the location of pacman's database]),
     [DBPATH=$withval], [DBPATH=var/lib/pacman/])
 
-dnl Help line for cache directory
+# Help line for cache directory
 AC_ARG_WITH(cache-dir,
     AC_HELP_STRING([--with-cache-dir=path], [Set the location of pacman's cache directory]),
     [CACHEDIR=$withval], [CACHEDIR=var/cache/pacman/pkg/])
 
-dnl Help line for lock file
+# Help line for lock file
 AC_ARG_WITH(lock-file,
     AC_HELP_STRING([--with-lock-file=path], [Set the location of pacman's lock file]),
     [LOCKFILE=$withval], [LOCKFILE=var/run/pacman.lck])
 
-dnl Help line for config file
+# Help line for config file
 AC_ARG_WITH(config-file,
     AC_HELP_STRING([--with-config-file=path], [Set the location of pacman's config file]),
     [CONFIGFILE=$withval], [CONFIGFILE=etc/pacman.conf])
 
-dnl Help line for package extension
+# Help line for package extension
 AC_ARG_WITH(pkg-ext,
 			AC_HELP_STRING([--with-pkg-ext=ext], [Set the file extension used by packages]),
     [PKGEXT=$withval], [PKGEXT=.pkg.tar.gz])
 
-dnl Help line for database extension
+# Help line for database extension
 AC_ARG_WITH(db-ext,
 			AC_HELP_STRING([--with-db-ext=ext], [Set the file extension used by the database]),
     [DBEXT=$withval], [DBEXT=.db.tar.gz])
 
-dnl Help line for doxygen
+# Help line for doxygen
 AC_ARG_ENABLE(doxygen,
     AC_HELP_STRING([--disable-doxygen], [Build API docs via Doxygen]),
     [wantdoxygen=$enableval], [wantdoxygen=yes])
 
-dnl Help line for debug
+# Help line for debug
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debugging support]),
     [debug=$enableval], [debug=no])
 
-dnl Host-dependant flags
+# Checks for programs.
+AC_PROG_AWK
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_RANLIB
+AM_PROG_LIBTOOL
+
+# find installed gettext
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.13.1)
+
+# Check for math
+AC_CHECK_LIB([m], [sqrt], , AC_MSG_ERROR([math library is needed to compile pacman!]))
+
+# Check for libarchive
+AC_CHECK_LIB([archive], [archive_read_data], , AC_MSG_ERROR([libarchive is needed to compile pacman!]))
+
+# Check for libdownload
+AC_CHECK_LIB([download], [downloadParseURL], , AC_MSG_ERROR([libdownload is needed to compile pacman!]))
+
+# Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h mntent.h stdlib.h string.h strings.h sys/ioctl.h sys/statvfs.h sys/time.h syslog.h unistd.h wchar.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_MODE_T
+AC_TYPE_OFF_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+AC_STRUCT_TM
+AC_TYPE_UID_T
+
+# Checks for library functions.
+AC_FUNC_ALLOCA
+AC_FUNC_CLOSEDIR_VOID
+AC_FUNC_FORK
+AC_FUNC_GETMNTENT
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_LSTAT
+AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
+AC_FUNC_MALLOC
+AC_FUNC_MEMCMP
+AC_FUNC_REALLOC
+AC_TYPE_SIGNAL
+AC_FUNC_STAT
+AC_FUNC_STRFTIME
+AC_CHECK_FUNCS([getcwd getmntent gettimeofday memmove memset mkdir realpath regcomp rmdir setenv setlocale sqrt strcasecmp strchr strdup strerror strndup strrchr strstr strverscmp uname])
+
+# Host-dependant flags
 case "${host}" in
 	*-*-cygwin*)
 		CFLAGS="$CFLAGS -DCYGWIN"
 		;;
 esac
 
-dnl Check for architecture
+# Check for architecture
 case "${host}" in
 	i686-*) 
 		CARCH="i686"
@@ -123,57 +168,35 @@ case "${host}" in
 		ARCHSWITCH="march"
 		;;
 	*)
-		AC_MSG_ERROR([Your architecture is not supported])
+		AC_MSG_ERROR([[Your architecture is not supported; consider adding it to configure.ac]])
 		;;
 esac
 
-dnl Now do some things common to all architectures
+# Now do some things common to all architectures
 CHOST="${host}"
 AC_SUBST(CARCH)
 AC_SUBST(CARCHFLAGS)
 AC_SUBST(ARCHSWITCH)
 AC_SUBST(CHOST)
 
-dnl Humor lowers blood pressure
-AC_MSG_CHECKING(your blood pressure)
-AC_MSG_RESULT([a bit high, but we can proceed])
-
-dnl Check for doxygen support
-AC_MSG_CHECKING(for doxygen)
+# Check for doxygen support
+AC_MSG_CHECKING([for doxygen])
 if test "x$wantdoxygen" = "xyes" ; then
     AC_CHECK_PROGS([DOXYGEN], [doxygen])
     if test $DOXYGEN ; then
-		AC_MSG_RESULT(yes)
+		AC_MSG_RESULT([yes])
 		usedoxygen=yes
     else
-		AC_MSG_RESULT(no, doxygen missing)
+		AC_MSG_RESULT([no, doxygen missing])
 		usedoxygen=no
     fi
 else
-    AC_MSG_RESULT(no, disabled by configure)
+    AC_MSG_RESULT([no, disabled by configure])
 	usedoxygen=no
 fi
 AM_CONDITIONAL(HAS_DOXYGEN, test "x$usedoxygen" = "xyes")
 
-dnl Check for math
-AC_CHECK_LIB([m], [sqrt], [AC_CHECK_HEADER([math.h], [LIBM='-lm'])])
-if test -z "$LIBM"; then
-    AC_MSG_ERROR("math library needed to compile pacman!");
-fi
-
-dnl Check for libarchive
-AC_CHECK_LIB([archive], [archive_read_data], [AC_CHECK_HEADER([archive.h], [LIBARCHIVE='-larchive'])])
-if test -z "$LIBARCHIVE"; then
-    AC_MSG_ERROR("libarchive is needed to compile pacman!");
-fi
-
-dnl Check for libdownload
-AC_CHECK_LIB([download], [downloadParseURL], [AC_CHECK_HEADER([download.h], [LIBDOWNLOAD='-ldownload'])])
-if test -z "$LIBDOWNLOAD"; then
-    AC_MSG_ERROR("libdownload is needed to compile pacman!");
-fi
-
-dnl Enable or disable debug code
+# Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test "x$debug" = "xyes" ; then
 	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
@@ -185,35 +208,35 @@ else
     AC_MSG_RESULT(no)
 fi
 
-dnl Set root directory
+# Set root directory
 AC_DEFINE_UNQUOTED([PM_ROOT], "$ROOTDIR", [Location of pacman's default root directory])
 AC_SUBST(ROOTDIR)
 
-dnl Set database path
+# Set database path
 AC_DEFINE_UNQUOTED([PM_DBPATH], "$DBPATH", [Location of pacman database])
 AC_SUBST(DBPATH)
 
-dnl Set cache directory
+# Set cache directory
 AC_DEFINE_UNQUOTED([PM_CACHEDIR], "$CACHEDIR", [Location of pacman's package cache])
 AC_SUBST(CACHEDIR)
 
-dnl Set lock file location
+# Set lock file location
 AC_DEFINE_UNQUOTED([PM_LOCK], "$LOCKFILE", [Location of pacman lock file])
 AC_SUBST(LOCKFILE)
 
-dnl Set configuration file location
+# Set configuration file location
 AC_DEFINE_UNQUOTED([PM_CONF], "$CONFIGFILE", [Location of pacman configuration file])
 AC_SUBST(CONFIGFILE)
 
-dnl Set package file extension
+# Set package file extension
 AC_DEFINE_UNQUOTED([PM_EXT_PKG], "$PKGEXT", [The file extension used by pacman packages])
 AC_SUBST(PKGEXT)
 
-dnl Set database file extension
+# Set database file extension
 AC_DEFINE_UNQUOTED([PM_EXT_DB], "$DBEXT", [The file extension used by pacman databases])
 AC_SUBST(DBEXT)
 
-dnl Set up localedir substitution, double eval to get full path
+# Set up localedir substitution, double eval to get full path
 localedir="$(eval echo ${localedir})"
 LOCALEDIR="$(eval echo ${localedir})"
 AC_SUBST(LOCALEDIR)
@@ -222,9 +245,8 @@ sysconfdir="$(eval echo ${sysconfdir})"
 SYSCONFDIR="$(eval echo ${sysconfdir})"
 AC_SUBST(SYSCONFDIR)
 
-dnl ==========================================================================
-
-AC_OUTPUT([
+# Configuration files
+AC_CONFIG_FILES([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
 src/pacman/Makefile
@@ -251,9 +273,10 @@ pactest/Makefile
 contrib/Makefile
 Makefile
 ])
+AC_OUTPUT
 
 echo "
-pacman-$VERSION:
+$PACKAGE_STRING:
 
     prefix                 : ${prefix}
     source code location   : ${srcdir}

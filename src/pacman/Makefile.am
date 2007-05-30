@@ -1,10 +1,6 @@
 SUBDIRS = po
 
-bin_PROGRAMS = pacman
-
-if LINKSTATIC
-bin_PROGRAMS += pacman.static
-endif
+bin_PROGRAMS = pacman pacman.static
 
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
