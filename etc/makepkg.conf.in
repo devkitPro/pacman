@@ -46,7 +46,7 @@ CXXFLAGS="-@ARCHSWITCH@=@CARCHFLAGS@ -mtune=generic -O2 -pipe"
 #-- color:    Colorize output messages
 #-- ccache:   Use ccache to cache compilation
 #
-BUILDENV=(fakeroot !distcc color !ccache)
+BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #
 #-- If using DistCC, your MAKEFLAGS will also need modification. In addition,
 #-- specify a space-delimited list of hosts running in the DistCC cluster.

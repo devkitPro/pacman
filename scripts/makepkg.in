@@ -594,6 +594,53 @@ create_package() {
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
+
+	create_xdelta "$pkg_file"
+}
+
+create_xdelta() {
+	if [ "$(check_buildenv xdelta)" != "y" ]; then
+		return
+	fi
+
+	# Check to see if we have any old versions to create deltas with
+	local pkg_file=$1
+	local base_file=""
+	local delta_file=""
+	local cache_dir="/var/cache/pacman/pkg"
+	local latest_version=""
+	local old_versions=( $(ls ${cache_dir}/${pkgname}-*-${CARCH}.${PKGEXT} 2>/dev/null; ls ${PKGDEST}/${pkgname}-*-${CARCH}.${PKGEXT} 2>/dev/null) )
+
+	local old_file dirname filename namend old_version
+	for old_file in "${old_versions[@]}"; do
+		dirname=$(dirname $old_file)
+		filename=$(basename $old_file)
+		namend=${filename#"$pkgname-"}
+		old_version=${namend%-"${CARCH}.${PKGEXT}"}
+
+		# old_version may include the target package, only use the old versions
+		if [ "$old_version" != "$pkgver-$pkgrel" ] && [[ "$old_version" > "$latest_version" ]]; then
+			latest_version=$old_version
+			base_file=$old_file
+			delta_file=$PKGDEST/$pkgname-${old_version}_to_$pkgver-$pkgrel-${CARCH}.delta
+		fi
+	done
+
+	if [ "$delta_file" != "" ]; then
+		msg "Making delta from version $latest_version"
+		# xdelta will decompress base_file & pkg_file into TMP_DIR (or /tmp if TMP_DIR is unset)
+		# then perform the delta on the resulting tars
+		xdelta delta $base_file $pkg_file $delta_file
+		# Generate the final gz using xdelta for compression. xdelta will be our common
+		# denominator compression utility between the packager and the users
+		#
+		# makepkg and pacman must use the same compression algorithm or the delta generated
+		# package may not match, producing md5 checksum errors.
+		#
+		xdelta patch $delta_file $base_file $pkg_file
+	else
+		msg "No previous version found, skipping xdelta"
+	fi
 }
 
 create_srcpackage() {
