@@ -239,141 +239,131 @@ checkdeps() {
 }
 
 handledeps() {
-	local missingdeps=0
-	local deplist="$*"
-	local depstrip=""
-	local striplist=""
-	local haveperm=0
-	if [ "$EUID" = "0" -o "$SUDO" = 1 ]; then
-		haveperm=1
-	fi
+	local R_DEPS_SATISFIED=0
+	local R_DEPS_MISSING=1
 
+	[ $# -eq 0 ] && return $R_DEPS_SATISFIED
+
+	local deplist="$*"
+	local striplist dep depstrip
 	for dep in $deplist; do
-		depstrip=$(echo $dep | sed 's|=.*$||' | sed 's|>.*$||' | sed 's|<.*$||')
+		depstrip="$(echo $dep | sed -e 's|=.*$||' -e 's|>.&$||' -e 's|<.*$||')"
 		striplist="$striplist $depstrip"
 	done
 
-	if [ "$deplist" != "" -a $haveperm -eq 1 ]; then
-		if [ "$DEP_BIN" = "1" -a "$SUDO" = "1" ]; then
-			# install missing deps from binary packages (using pacman -S and sudo)
-			msg "$(gettext "Installing missing dependencies...")"
-			sudo pacman $PACMAN_OPTS -S $striplist
-			if [ $? -eq 1 ]; then
-				error "$(gettext "Pacman failed to install missing dependencies.")"
-				exit 1
+	if [ "$DEP_SRC" = "0" -a "$DEP_BIN" = "0" ]; then
+		return $R_DEPS_MISSING
+	elif [ "$SUDO" = 0 -a $EUID -gt 0 ]; then
+		warning "$(gettext "Cannot auto-install missing dependencies as a normal user without sudo!")"
+		plain "$(gettext "Run makepkg as root or with -S to resolve dependencies automatically.")"
+		return $R_DEPS_MISSING
+	fi
+
+	if [ "$DEP_BIN" = "1" ]; then
+		# install missing deps from binary packages (using pacman -S)
+		msg "$(gettext "Installing missing dependencies...")"
+		local ret=0
+
+		if [ "$SUDO" = 1 ]; then
+			sudo pacman $PACMAN_OPTS -S $striplist || ret=$?
+		else
+			pacman $PACMAN_OPTS -S $striplist || ret=$?
+		fi
+
+		if [ $ret -ne 0 ]; then
+			error "$(gettext "Pacman failed to install missing dependencies.")"
+			exit 1 # TODO: error code
+		fi
+	elif [ "$DEP_SRC" = "1" ]; then
+		msg "$(gettext "Building missing dependencies...")"
+
+		# install missing deps by building them from source.
+		# we look for each package name in $SRCROOT and build it.
+		if [ "$SRCROOT" = "" ]; then
+			error "$(gettext "Source root cannot be found - please make sure it is specified in makepkg.conf")"
+			exit 1 # TODO: error code
+		fi
+
+		# TODO: handle version comparators (eg, glibc>=2.2.5)
+		for dep in $striplist; do
+			local candidates="$(find "$SRCROOT" -type d -name "$dep")"
+			if [ "$candidates" = "" ]; then
+				error "$(gettext "Could not find '%s' under %s")" "$dep" "$SRCROOT"
+				exit 1 # TODO: error code
 			fi
-		elif [ "$DEP_BIN" = "1" ]; then
-			# install missing deps from binary packages (using pacman -S)
-			msg "$(gettext "Installing missing dependencies...")"
-			pacman $PACMAN_OPTS -S $striplist
-			if [ $? -eq 1 ]; then
-				error "$(gettext "Pacman failed to install missing dependencies.")"
-				exit 1
-			fi
-		elif [ "$DEP_SRC" = "1" ]; then
-			# install missing deps by building them from source.
-			# we look for each package name in $SRCROOT and build it.
-			if [ "$SRCROOT" = "" ]; then
-				error "$(gettext "Source root cannot be found - ensure it is specified in makepkg.conf.")"
-				exit 1
-			fi
-			# TODO: handle version comparators (eg, glibc>=2.2.5)
-			msg "$(gettext "Building missing dependencies...")"
-			for dep in $striplist; do
-				candidates=$(find $SRCROOT -type d -name "$dep")
-				if [ "$candidates" = "" ]; then
-					error "$(gettext "Could not find \"%s\" under %s")" "$dep" "$SRCROOT"
-					exit 1
-				fi
-				success=0
-				for packagedir in $candidates; do
-					if [ -f "$packagedir/$BUILDSCRIPT" ]; then
-						cd "$packagedir"
-						if [ "$RMDEPS" = "1" ]; then
-							PKGDEST="$PKGDEST" makepkg -i -c -b -r
-						else
-							PKGDEST="$PKGDEST" makepkg -i -c -b
-						fi
-						if [ $? -eq 0 ]; then
-							success=1
-							break
-						fi
-					fi
-				done
-				if [ "$success" = "0" ]; then
-					error "$(gettext "Failed to build \"%s\"")" "$dep"
-					exit 1
+
+			local makepkg_opts='-i -c -b'
+			[ "$RMDEPS" = "1" ] && makepkg_opts="$makepkg_opts -r"
+			local ret packagedir
+			for packagedir in $candidates; do
+				if [ -f "$packagedir/$BUILDSCRIPT" ]; then
+					cd "$packagedir"
+					ret=0
+					PKGDEST="$PKGDEST" makepkg $makepkg_opts || ret=$?
+					[ $ret -eq 0 ] && continue 2
 				fi
 			done
-		else
-			missingdeps=1
-		fi
-	elif [ "$deplist" != "" -a $haveperm -eq 0 ]; then
-		if [ "$DEP_SRC" = "1" -o "$DEP_BIN" = "1" ]; then
-			warning "$(gettext "Cannot auto-install missing dependencies as a normal user without sudo!")"
-			plain "$(gettext "Run makepkg as root or with -S to resolve dependencies automatically.")"
-		fi
-		missingdeps=1
+
+			error "$(gettext "Failed to build '%s'")" "$dep"
+			exit 1 # TODO: error code
+		done
 	fi
 
 	# rerun any additional sh scripts found in /etc/profile.d/
-	for i in /etc/profile.d/*.sh
-	do
-		if [ -x $i ]; then
-			. $i &>/dev/null
+	local script
+	for script in /etc/profile.d/*.sh; do
+		if [ -x $script ]; then
+			source $script &>/dev/null
 		fi
 	done
 
-	return $missingdeps
+	return $R_DEPS_SATISFIED
 }
 
 resolvedeps() {
-	deplist=""
-	newdeplist=""
+	local R_DEPS_SATISFIED=0
+	local R_DEPS_MISSING=0
 
-	deplist=$(checkdeps $*)
-	if [ -n "${deplist}" ]; then
-		handledeps $deplist
-		if [ $? -eq 0 ]; then
-			# check deps again to make sure they were resolved
-			newdeplist=$(checkdeps $*)
-			if [ -n "${newdeplist}" ]; then
-				error "$(gettext "Failed to install all missing dependencies.")"
-			fi
-		else
-			newdeplist="$deplist"
-		fi
+	deplist="$(checkdeps $*)"
+	[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
+
+	if handledeps $deplist; then
+		# check deps again to make sure they were resolved
+		deplist="$(checkdeps $*)"
+		[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
+	elif [ "$DEP_BIN" = "1" -o "$DEP_SRC" = "1" ]; then
+		error "$(gettext "Failed to install all missing dependencies.")"
 	fi
 
-	# if new dep list is not empty, print the list
-	if [ -n "${newdeplist}" ]; then
-		msg "$(gettext "Missing Dependencies:")"
-		for dep in ${newdeplist}; do
-			msg2 "${dep}"
-		done
-		return 1
-	else
-		return 0
-	fi
+	msg "$(gettext "Missing Dependencies:")"
+	local dep
+	for dep in $deplist; do
+		msg2 "$dep"
+	done
+
+	return $R_DEPS_MISSING
 }
 
 # fix flyspray bug #5923
 removedeps() {
+	[ "$RMDEPS" = "0" ] && return
+	[ "$SUDO" = "0" -a $EUID -gt 0 ] && return
+
 	# runtimedeps and buildtimedeps are set when resolving deps
 	local deplist="$runtimedeps $buildtimedeps"
-	local depstrip=""
-	local striplist=""
 
+	[ "$deplist" = "" ] && return
+
+	local striplist dep depstrip
 	for dep in $deplist; do
-		depstrip=$(echo $dep | sed 's|=.*$||' | sed 's|>.*$||' | sed 's|<.*$||')
+		depstrip="$(echo $dep | sed -e 's|=.*$||' -e 's|>.&$||' -e 's|<.*$||')"
 		striplist="$striplist $depstrip"
 	done
 
-	if [ "$RMDEPS" = "1" -a "$SUDO" = "1" -a -n "$deplist" ]; then
-		msg "$(gettext "Removing installed dependencies...")"
+	msg "Removing installed dependencies..."
+	if [ "$SUDO" = "1" ]; then
 		sudo pacman $PACMAN_OPTS -Rs $striplist
-	elif [ "$RMDEPS" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" -a -n "$deplist" ]; then
-		msg "$(gettext "Removing installed dependencies...")"
+	else
 		pacman $PACMAN_OPTS -Rs $striplist
 	fi
 }
