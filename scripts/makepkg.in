@@ -502,6 +502,11 @@ tidy_install() {
 }
 
 create_package() {
+	if [ ! -d "$pkgdir" ]; then
+		error "$(gettext "Missing pkg/ directory, aborting...")"
+		exit 1 # $E_MISSING_PKGDIR # TODO: error code
+	fi
+
 	cd "$startdir"/pkg
 	msg "$(gettext "Creating package...")"
 
