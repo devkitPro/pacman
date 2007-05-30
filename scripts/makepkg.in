@@ -997,43 +997,47 @@ cd "$startdir"
 mkdir -p src
 cd "$srcdir"
 
-msg "$(gettext "Retrieving Sources...")"
-for netfile in ${source[@]}; do
-	file=$(strip_url "$netfile")
-	if [ -f "../$file" ]; then
-		msg2 "$(gettext "Found %s in build dir")" "$file"
-		cp "../$file" .
-		continue
-	elif [ -f "$SRCDEST/$file" ]; then
-		msg2 "$(gettext "Using cached copy of %s")" "$file"
-		cp "$SRCDEST/$file" .
-		continue
-	fi
-
-	# find the client we should use for this URL
-	dlclient=$(getdownloadclient $netfile) || exit $?
-
-	msg2 "$(gettext "Downloading %s")" "$file"
-	# fix flyspray bug #3289
-	ret=0
-	$dlclient "$netfile" || ret=$?
-	if [ $ret -gt 0 ]; then
-		error "$(gettext "Failure while downloading %s")" "$file"
-		msg "$(gettext "Aborting...")"
-		exit 1
-	fi
-
-	if [ -n "$SRCDEST" ]; then
-		mkdir -p "$SRCDEST" && cp "$file" "$SRCDEST" || ret=$?
+if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
+	warning "$(gettext "Skipping source retrieval        -- using existing src/ tree")"
+else
+	msg "$(gettext "Retrieving Sources...")"
+	for netfile in ${source[@]}; do
+		file=$(strip_url "$netfile")
+		if [ -f "../$file" ]; then
+			msg2 "$(gettext "Found %s in build dir")" "$file"
+			cp "../$file" .
+			continue
+		elif [ -f "$SRCDEST/$file" ]; then
+			msg2 "$(gettext "Using cached copy of %s")" "$file"
+			cp "$SRCDEST/$file" .
+			continue
+		fi
+	
+		# find the client we should use for this URL
+		dlclient=$(getdownloadclient $netfile) || exit $?
+	
+		msg2 "$(gettext "Downloading %s")" "$file"
+		# fix flyspray bug #3289
+		ret=0
+		$dlclient "$netfile" || ret=$?
 		if [ $ret -gt 0 ]; then
-			warning "$(gettext "You do not have correct permissions to cache source in %s")" "$SRCDEST"
+			error "$(gettext "Failure while downloading %s")" "$file"
+			msg "$(gettext "Aborting...")"
+			exit 1
+		fi
+	
+		if [ -n "$SRCDEST" ]; then
+			mkdir -p "$SRCDEST" && cp "$file" "$SRCDEST" || ret=$?
+			if [ $ret -gt 0 ]; then
+				warning "$(gettext "You do not have correct permissions to cache source in %s")" "$SRCDEST"
+				cp "$file" ..
+			fi
+		else
 			cp "$file" ..
 		fi
-	else
-		cp "$file" ..
-	fi
-done
-unset netfile file dlclient ret
+	done
+	unset netfile file dlclient ret
+fi
 
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
