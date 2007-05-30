@@ -137,22 +137,22 @@ esac
 
 # Check for architecture
 case "${host}" in
-	i686-*) 
+	i686-*)
 		CARCH="i686"
 		CARCHFLAGS="i686"
 		ARCHSWITCH="march"
 		;;
-	x86_64-*) 
+	x86_64-*)
 		CARCH="x86_64"
 		CARCHFLAGS="x86-64"
 		ARCHSWITCH="march"
 		;;
-	ia64-*) 
+	ia64-*)
 		CARCH="ia64"
 		CARCHFLAGS="ia64"
 		ARCHSWITCH="march"
 		;;
-	sparc-*) 
+	sparc-*)
 		CARCH="sparc"
 		CARCHFLAGS="v9"
 		ARCHSWITCH="mcpu"
@@ -162,7 +162,7 @@ case "${host}" in
 		CARCHFLAGS="750"
 		ARCHSWITCH="mcpu"
 		;;
-	i386-*) 
+	i386-*)
 		CARCH="i386"
 		CARCHFLAGS="i386"
 		ARCHSWITCH="march"
@@ -236,15 +236,6 @@ AC_SUBST(PKGEXT)
 AC_DEFINE_UNQUOTED([PM_EXT_DB], "$DBEXT", [The file extension used by pacman databases])
 AC_SUBST(DBEXT)
 
-# Set up localedir substitution, double eval to get full path
-localedir="$(eval echo ${localedir})"
-LOCALEDIR="$(eval echo ${localedir})"
-AC_SUBST(LOCALEDIR)
-
-sysconfdir="$(eval echo ${sysconfdir})"
-SYSCONFDIR="$(eval echo ${sysconfdir})"
-AC_SUBST(SYSCONFDIR)
-
 # Configuration files
 AC_CONFIG_FILES([
 lib/libalpm/Makefile
@@ -253,15 +244,6 @@ src/pacman/Makefile
 src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
-scripts/abs
-scripts/gensync
-scripts/makepkg
-scripts/makeworld
-scripts/pacman-optimize
-scripts/rankmirrors
-scripts/repo-add
-scripts/repo-remove
-scripts/updatesync
 doc/Makefile
 etc/Makefile
 etc/makepkg.conf
@@ -279,6 +261,7 @@ echo "
 $PACKAGE_STRING:
 
     prefix                 : ${prefix}
+    sysconfdir             : $(eval echo ${sysconfdir})
     source code location   : ${srcdir}
     compiler               : ${CC}
     compiler flags         : ${CFLAGS}

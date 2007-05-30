@@ -1,8 +1,9 @@
 #!/bin/bash
 #
 #   makepkg - make packages compatable for use with pacman
+#   @configure_input@
 #
-#   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
 #   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
 #   Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
 #   Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
@@ -21,7 +22,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program; if not, write to the Free Software
-#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 #   USA.
 #
 
@@ -30,7 +31,7 @@ source gettext.sh
 
 TEXTDOMAIN=makepkg
 export TEXTDOMAIN
-TEXTDOMAINDIR='@LOCALEDIR@'
+TEXTDOMAINDIR='@localedir@'
 export TEXTDOMAINDIR
 
 myver='@PACKAGE_VERSION@'
@@ -38,14 +39,14 @@ startdir=$(pwd)
 
 # Only use ABSROOT if we haven't been passed a SRCROOT on the command line.
 if [ -z "$SRCROOT" ]; then
-	if [ -r @SYSCONFDIR@/abs/abs.conf ]; then
-		source @SYSCONFDIR@/abs/abs.conf
+	if [ -r @sysconfdir@/abs/abs.conf ]; then
+		source @sysconfdir@/abs/abs.conf
 	fi
 	if [ -r ~/.abs.conf ]; then
 		source ~/.abs.conf
 	fi
 	SRCROOT=$ABSROOT
-fi	
+fi
 
 # Options
 ASROOT=0
@@ -649,8 +650,8 @@ _PKGDEST=${PKGDEST}
 _SRCDEST=${SRCDEST}
 
 # Source makepkg.conf; fail if it is not found
-if [ -r @SYSCONFDIR@/makepkg.conf ]; then
-	source @SYSCONFDIR@/makepkg.conf
+if [ -r @sysconfdir@/makepkg.conf ]; then
+	source @sysconfdir@/makepkg.conf
 else
 	error "$(gettext "/etc/makepkg.conf not found. cannot continue")"
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes
@@ -1024,7 +1025,7 @@ else
 				fi
 			done
 		#Validate integrity checks
-		else 
+		else
 			integrity_sums=($(eval echo \${${integrity_name}s[@]}))
 
 			if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
@@ -1103,7 +1104,7 @@ else
 			fi
 		fi
 	done
-	
+
 	if [ "$EUID" = "0" ]; then
 		# chown all source files to root.root
 		chown -R root.root "$startdir/src"
