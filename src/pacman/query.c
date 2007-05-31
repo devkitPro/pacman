@@ -257,6 +257,26 @@ int pacman_query(alpm_list_t *targets)
 		return(ret);
 	}
 
+	if(config->op_q_test) {
+		alpm_list_t *testlist;
+		printf(_("Checking database for consistency..."));
+		testlist = alpm_db_test(db_local);
+		if(testlist == NULL) {
+			printf(_("check complete.\n"));
+			return(0);
+		} else {
+			/* on failure, increment the ret val by 1 for each failure */
+			ret = 0;
+			printf(_("check failed!\n"));
+			fflush(stdout);
+			for(i = testlist; i; i = alpm_list_next(i)) {
+				fprintf(stderr, "%s\n", (char*)alpm_list_getdata(i));
+				ret++;
+			}
+			return(ret);
+		}
+	}
+
 	if(config->op_q_foreign) {
 		sync_dbs = alpm_option_get_syncdbs();
 

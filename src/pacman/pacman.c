@@ -121,6 +121,7 @@ static void usage(int op, char *myname)
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
+			printf(_("  -t, --test           check the consistency of the local database\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
@@ -278,6 +279,7 @@ static int parseargs(int argc, char *argv[])
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
+		{"test",       no_argument,       0, 't'},
 		{"upgrades",   no_argument,       0, 'u'},
 		{"sysupgrade", no_argument,       0, 'u'},
 		{"verbose",    no_argument,       0, 'v'},
@@ -296,7 +298,7 @@ static int parseargs(int argc, char *argv[])
 	};
 	struct stat st;
 
-	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepiuwygz", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepituwygz", opts, &option_index))) {
 		if(opt < 0) {
 			break;
 		}
@@ -401,6 +403,9 @@ static int parseargs(int argc, char *argv[])
 				config->op_s_search = 1;
 				config->op_q_search = 1;
 				config->flags |= PM_TRANS_FLAG_RECURSE;
+				break;
+			case 't':
+				config->op_q_test = 1;
 				break;
 			case 'u':
 				config->op_s_upgrade = 1;
