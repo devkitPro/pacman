@@ -1071,88 +1071,87 @@ else
 	unset netfile file dlclient ret
 fi
 
+if [ "$GENINTEG" = "1" ]; then
+	msg "$(gettext "Generating checksums for source files...")"
+	plain ""
+
+	for integ in ${INTEGRITY_CHECK[@]}; do
+		integ="$(echo $integ | tr [:upper:] [:lower:])"
+		case "$integ" in
+			md5|sha1|sha256|sha384|sha512) : ;;
+			*) error "$(gettext "Invalid integrity algorithm '%s' specified.")" "$integ"; exit 1;; # $E_CONFIG_ERROR
+		esac
+
+		if [ ! $(type -p "${integ}sum") ]; then
+			error "$(gettext "Cannot fin the '%s' program.")" "${integ}sum"
+			exit 1 # $E_MISSING_PROGRAM
+		fi
+
+		ct=0
+		numsrc=${#source[@]}
+		echo -n "${integ}sums=("
+		i=0; indent=''
+		while [ $i -lt $((${#integ}+6)) ]; do
+			indent="$indent "
+			i=$(($i+1))
+		done
+
+		for netfile in ${source[@]}; do
+			file="$(strip_url "$netfile")"
+			sum="$(${integ}sum "$file" | cut -d ' ' -f 1)"
+			[ $ct -gt 0 ] && echo -n "$indent"
+			echo -n "'$sum'"
+			ct=$(($ct+1))
+			[ $ct -lt $numsrc ] && echo
+		done
+
+		echo ")"
+	done
+
+	exit 0 # $E_OK
+fi
+
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
 else
-	# TODO we end up checking $GENINTEG 3 times, could probably be refactored
-	if [ "$GENINTEG" = "1" ]; then
-		msg "$(gettext "Generating checksums for source files")"
-		plain ""
-	fi
-
 	for integ in ${INTEGRITY_CHECK[@]}; do
-		integ="$(echo $integ | tr A-Z a-z)"
+		integ="$(echo $integ | tr [:upper:] [:lower:])"
 		case "$integ" in
-			md5) integrity_name="md5sum" ;;
-			sha1) integrity_name="sha1sum" ;;
-			sha256) integrity_name="sha256sum" ;;
-			sha384) integrity_name="sha384sum" ;;
-			sha512) integrity_name="sha512sum" ;;
-			*) error "$(gettext "Invalid integrity algorithm '%s' specified")" "$integ"; exit 1;;
+			md5|sha1|sha256|sha384|sha512) : ;;
+			*) error "$(gettext "Invalid integrity algorithm '%s' specified")" "$integ"; exit 1;; # $E_CONFIG_ERROR
 		esac
-		if [ ! $(type -p $integrity_name) ]; then
-			error "$(gettext "Cannot find the %s program.")" "$integrity_name"
-			exit 1
+
+		if [ ! $(type -p "${integ}sum") ]; then
+			error "$(gettext "Cannot find the %s program.")" "${integ}sum"
+			exit 1 # $E_MISSING_PROGRAM
 		fi
 
-		#Generate integrity checks
-		if [ "$GENINTEG" = "1" ]; then
-			ct=0
-			numsrc=${#source[@]}
-			for netfile in "${source[@]}"; do
-				file=$(strip_url "$netfile")
-				sum=$(eval "$integrity_name '$file' | cut -d' ' -f 1")
-				if [ $ct -eq 0 ]; then
-					echo -n "${integrity_name}s=("
+		integrity_sums=($(eval echo \${${integ}sums[@]}))
+		if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
+			msg "$(gettext "Validating source files with %s")" "${integ}sums"
+			errors=0
+			idx=0
+			for file in "${source[@]}"; do
+				file="$(strip_url "$file")"
+				echo -n "    $file ... " >&2
+				if echo "${integrity_sums[$idx]}  $file" | ${integ}sum --status -c - &>/dev/null; then
+					echo "$(gettext "Passed")" >&2
 				else
-					indent=0
-					while [ $indent -lt $((${#integrity_name}+3)) ]; do
-						echo -n " "
-						indent=$(($indent+1))
-					done
+					echo "$(gettext "FAILED")" >&2
+					errors=1
 				fi
-				echo -n "'$sum'"
-				ct=$(($ct+1))
-				if [ $ct -eq $numsrc ]; then
-					echo ')'
-				else
-					echo
-				fi
+				idx=$(($idx+1))
 			done
-		#Validate integrity checks
-		else
-			integrity_sums=($(eval echo \${${integrity_name}s[@]}))
 
-			if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
-				msg "$(gettext "Validating source files with %s")" "${integrity_name}s"
-				errors=0
-				idx=0
-				for netfile in "${source[@]}"; do
-					file=$(strip_url "$netfile")
-					echo -n "    $file ... " >&2
-					echo "${integrity_sums[$idx]}  $file" | $integrity_name -c - >/dev/null 2>&1
-					if [ $? -ne 0 ]; then
-						echo "$(gettext "FAILED")" >&2
-						errors=1
-					else
-						echo "$(gettext "Passed")" >&2
-					fi
-					idx=$(($idx+1))
-				done
-				if [ $errors -gt 0 ]; then
-					error "$(gettext "One or more files did not pass the validity check!")"
-					exit 1
-				fi
-			else
-				warning "$(gettext "Integrity checks (%s) are missing or incomplete.")" "$integ"
+			if [ $errors -gt 0 ]; then
+				error "$(gettext "One or more files did not pass the validity check!")"
+				exit 1 # TODO: error code
 			fi
+		else
+			warning "$(gettext "Integrity checks (%s) are missing or incomplete.")" "$integ"
 		fi
 	done
-
-	if [ "$GENINTEG" = "1" ]; then
-		plain ""
-		exit 0
-	fi
+	unset integ integrity_sums errors idx file
 fi
 
 #Extract sources
