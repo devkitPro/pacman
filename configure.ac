@@ -38,6 +38,11 @@ AC_ARG_WITH(pkg-ext,
 			AC_HELP_STRING([--with-pkg-ext=ext], [Set the file extension used by packages]),
     [PKGEXT=$withval], [PKGEXT=.pkg.tar.gz])
 
+# Help line for source package directory
+AC_ARG_WITH(src-ext,
+	    AC_HELP_STRING([--with-src-ext=ext], [Set the file extension used by source packages]),
+	    [SRCEXT=$withval], [SRCEXT=.src.tar.gz])
+
 # Help line for database extension
 AC_ARG_WITH(db-ext,
 			AC_HELP_STRING([--with-db-ext=ext], [Set the file extension used by the database]),
@@ -195,6 +200,9 @@ rectory])
 # Set package file extension
 AC_SUBST(PKGEXT)
 AC_DEFINE_UNQUOTED([PKGEXT], "$PKGEXT", [The file extension used by pacman packages])
+# Set source package file extension
+AC_SUBST(SRCEXT)
+AC_DEFINE_UNQUOTED([SRCEXT], "$SRCEXT", [The file extension used by pacman source packages])
 # Set database file extension
 AC_SUBST(DBEXT)
 AC_DEFINE_UNQUOTED([DBEXT], "$DBEXT", [The file extension used by pacman databases])
@@ -243,6 +251,7 @@ $PACKAGE_STRING:
   Directory and file information:
     root working directory : ${ROOTDIR}
     package extension      : ${PKGEXT}
+    source pkg extension   : ${SRCEXT}
     database extension     : ${DBEXT}
 
   Compilation options:

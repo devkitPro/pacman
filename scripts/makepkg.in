@@ -666,7 +666,7 @@ create_srcpackage() {
 	done
 
 	# TODO make package extension configurable like $PKGEXT
-	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}.src.tar.gz"
+	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}"
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
@@ -990,7 +990,7 @@ msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel  ($date)"
 
 # if we are creating a source-only package, go no further
 if [ "$SOURCEONLY" = "1" ]; then
-	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}.src.tar.gz" \
+	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}" \
 	     -a "$FORCE" = "0" ]; then
 		error "$(gettext "a package has already been built. (use -f to overwrite)")"
 		exit 1
