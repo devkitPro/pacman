@@ -325,6 +325,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *k;
+	int ret = 0;
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -367,6 +368,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				
 				if(!foundpkg) {
 					fprintf(stderr, _("error: package '%s' was not found in repository '%s'\n"), pkgstr, repo);
+					ret++;
 				}
 			} else {
 				pkgstr = target;
@@ -387,6 +389,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 				if(!foundpkg) {
 					fprintf(stderr, _("error: package '%s' was not found\n"), pkgstr);
+					ret++;
 				}
 			}
 		}
@@ -401,7 +404,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 		}
 	}
 
-	return(0);
+	return(ret);
 }
 
 static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)

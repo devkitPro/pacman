@@ -120,14 +120,14 @@ int pacman_query(alpm_list_t *targets)
 	alpm_list_t *sync_dbs = NULL, *i, *j, *k;
 	pmpkg_t *info = NULL;
 	char *package = NULL;
-	int done = 0;
+	int ret = 0;
 
 	if(config->op_q_search) {
-		alpm_list_t *ret = alpm_db_search(db_local, targets);
-		if(ret == NULL) {
+		alpm_list_t *searchlist = alpm_db_search(db_local, targets);
+		if(searchlist == NULL) {
 			return(0);
 		}
-		for(i = ret; i; i = alpm_list_next(i)) {
+		for(i = searchlist; i; i = alpm_list_next(i)) {
 			char *group = NULL;
 			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(i);
@@ -154,7 +154,7 @@ int pacman_query(alpm_list_t *targets)
 			indentprint(alpm_pkg_get_desc(pkg), 4);
 			printf("\n");
 		}
-		alpm_list_free(ret);
+		alpm_list_free(searchlist);
 		return(0);
 	}
 
@@ -180,15 +180,8 @@ int pacman_query(alpm_list_t *targets)
 		}
 	}
 
-	for(i = targets; !done; i = (i ? alpm_list_next(i) : NULL)) {
-		if(targets == NULL) {
-			done = 1;
-		} else {
-			if(alpm_list_next(i) == NULL) {
-				done = 1;
-			}
-			package = alpm_list_getdata(i);
-		}
+	for(i = targets; i; i = alpm_list_next(i)) {
+		package = alpm_list_getdata(i);
 
 		/* looking for groups */
 		if(config->group) {
@@ -214,8 +207,7 @@ int pacman_query(alpm_list_t *targets)
 					}
 				} else {
 					fprintf(stderr, _("error: group \"%s\" was not found\n"), package);
-					/* do not return on query operations - let's just carry on */
-					/*return(2);*/
+					ret++;
 				}
 			}
 			continue;
@@ -268,6 +260,7 @@ int pacman_query(alpm_list_t *targets)
 					if(info == NULL) {
 						/* something weird happened */
 						fprintf(stderr, _("error: package \"%s\" not found\n"), pkgname);
+						ret++;
 						continue;
 					}
 				}
@@ -301,6 +294,7 @@ int pacman_query(alpm_list_t *targets)
 			info = alpm_db_get_pkg(db_local, package);
 			if(info == NULL) {
 				fprintf(stderr, _("error: package \"%s\" not found\n"), package);
+				ret++;
 				continue;
 			}
 
@@ -327,7 +321,7 @@ int pacman_query(alpm_list_t *targets)
 		}
 	}
 
-	return(0);
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */
