@@ -2,7 +2,6 @@
 AUTOMAKE_OPTIONS = std-options
 
 bin_SCRIPTS = \
-	abs \
 	gensync \
 	makepkg \
 	makeworld \
@@ -11,6 +10,10 @@ bin_SCRIPTS = \
 	repo-add \
 	repo-remove \
 	updatesync
+
+if INCLUDE_ABS
+bin_SCRIPTS += abs
+endif
 
 EXTRA_DIST = \
 	abs.in \

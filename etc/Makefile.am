@@ -1,4 +1,8 @@
-SUBDIRS = pacman.d abs
+SUBDIRS = pacman.d
+
+if INCLUDE_ABS
+SUBDIRS += abs
+endif
 
 dist_sysconf_DATA = makepkg.conf pacman.conf
 EXTRA_DIST = makepkg.conf.in pacman.conf.in

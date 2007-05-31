@@ -58,6 +58,11 @@ AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debugging support]),
     [debug=$enableval], [debug=no])
 
+# Help line for abs
+AC_ARG_ENABLE(abs,
+             AC_HELP_STRING([--disable-abs], [Include Arch Linux Build System script]),
+             [includeabs=$enableval], [includeabs=yes])
+
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
@@ -193,6 +198,16 @@ else
     AC_MSG_RESULT(no)
 fi
 
+# Enable or disable inclusion of abs script
+AC_MSG_CHECKING(for inclusion of abs script)
+if test "x$includeabs" = "xyes" ; then
+       AC_DEFINE([INCLUDE_ABS], , [Include abs script])
+       AC_MSG_RESULT(yes)
+else
+       AC_MSG_RESULT(no)
+fi
+AM_CONDITIONAL(INCLUDE_ABS, test "x$includeabs" = "xyes")
+
 # Set root directory
 AC_SUBST(ROOTDIR)
 AC_DEFINE_UNQUOTED([ROOTDIR], "$ROOTDIR", [Location of pacman's default root di
@@ -257,4 +272,5 @@ $PACKAGE_STRING:
   Compilation options:
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
+    include abs            : ${includeabs}
 "
