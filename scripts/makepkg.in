@@ -399,7 +399,7 @@ run_build() {
 	fi
 
 	msg "$(gettext "Starting build()...")"
-	cd "$startdir"/src
+	cd "$srcdir"
 
 	# ensure we have a sane umask set
 	umask 0022
@@ -444,7 +444,7 @@ run_build() {
 }
 
 tidy_install() {
-	cd "$startdir"/pkg
+	cd "$pkgdir"
 	msg "$(gettext "Tidying install...")"
 
 	if [ "$(check_option docs)" = "n" ]; then
@@ -507,7 +507,7 @@ create_package() {
 		exit 1 # $E_MISSING_PKGDIR # TODO: error code
 	fi
 
-	cd "$startdir"/pkg
+	cd "$pkgdir"
 	msg "$(gettext "Creating package...")"
 
 	local builddate=$(LC_ALL= LANG= date -u "+%a %b %e %H:%M:%S %Y")
@@ -995,7 +995,7 @@ fi
 cd "$startdir"
 
 mkdir -p src
-cd "$startdir/src"
+cd "$srcdir"
 
 msg "$(gettext "Retrieving Sources...")"
 for netfile in ${source[@]}; do
@@ -1166,7 +1166,7 @@ else
 
 	if [ "$EUID" = "0" ]; then
 		# chown all source files to root.root
-		chown -R root.root "$startdir/src"
+		chown -R root.root "$srcdir"
 	fi
 fi
 
@@ -1175,11 +1175,11 @@ if [ "$NOBUILD" = "1" ]; then
 	exit 0
 else
 	# check for existing pkg directory; don't remove if we are repackaging
-	if [ -d "$startdir/pkg" -a "$REPKG" = "0" ]; then
+	if [ -d "$pkgdir" -a "$REPKG" = "0" ]; then
 		msg "$(gettext "Removing existing pkg/ directory...")"
-		rm -rf "$startdir/pkg"
+		rm -rf "$pkgdir"
 	fi
-	mkdir -p "$startdir/pkg"
+	mkdir -p "$pkgdir"
 
 	if [ $EUID -eq 0 ]; then
 		# if we are root, then we don't need to recall makepkg with fakeroot
