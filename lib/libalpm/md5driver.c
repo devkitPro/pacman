@@ -52,7 +52,7 @@ char* _alpm_MDFile(char *filename)
 	ALPM_LOG_FUNC;
 
 	if((file = fopen(filename, "rb")) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("%s can't be opened\n"), filename);
+		_alpm_log(PM_LOG_ERROR, _("md5: %s can't be opened\n"), filename);
 	} else {
 		char *ret;
 		int i;

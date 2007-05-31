@@ -33,26 +33,6 @@ AC_ARG_WITH(root-dir,
     AC_HELP_STRING([--with-root-dir=path], [Set the location of pacman's root operating directory]),
     [ROOTDIR=$withval], [ROOTDIR=/])
 
-# Help line for database path
-AC_ARG_WITH(db-path,
-    AC_HELP_STRING([--with-db-path=path], [Set the location of pacman's database]),
-    [DBPATH=$withval], [DBPATH=var/lib/pacman/])
-
-# Help line for cache directory
-AC_ARG_WITH(cache-dir,
-    AC_HELP_STRING([--with-cache-dir=path], [Set the location of pacman's cache directory]),
-    [CACHEDIR=$withval], [CACHEDIR=var/cache/pacman/pkg/])
-
-# Help line for lock file
-AC_ARG_WITH(lock-file,
-    AC_HELP_STRING([--with-lock-file=path], [Set the location of pacman's lock file]),
-    [LOCKFILE=$withval], [LOCKFILE=var/run/pacman.lck])
-
-# Help line for config file
-AC_ARG_WITH(config-file,
-    AC_HELP_STRING([--with-config-file=path], [Set the location of pacman's config file]),
-    [CONFIGFILE=$withval], [CONFIGFILE=etc/pacman.conf])
-
 # Help line for package extension
 AC_ARG_WITH(pkg-ext,
 			AC_HELP_STRING([--with-pkg-ext=ext], [Set the file extension used by packages]),
@@ -209,32 +189,12 @@ else
 fi
 
 # Set root directory
-AC_DEFINE_UNQUOTED([PM_ROOT], "$ROOTDIR", [Location of pacman's default root directory])
-AC_SUBST(ROOTDIR)
-
-# Set database path
-AC_DEFINE_UNQUOTED([PM_DBPATH], "$DBPATH", [Location of pacman database])
-AC_SUBST(DBPATH)
-
-# Set cache directory
-AC_DEFINE_UNQUOTED([PM_CACHEDIR], "$CACHEDIR", [Location of pacman's package cache])
-AC_SUBST(CACHEDIR)
-
-# Set lock file location
-AC_DEFINE_UNQUOTED([PM_LOCK], "$LOCKFILE", [Location of pacman lock file])
-AC_SUBST(LOCKFILE)
-
-# Set configuration file location
-AC_DEFINE_UNQUOTED([PM_CONF], "$CONFIGFILE", [Location of pacman configuration file])
-AC_SUBST(CONFIGFILE)
-
+AC_DEFINE_UNQUOTED([ROOTDIR], "$ROOTDIR", [Location of pacman's default root di
+rectory])
 # Set package file extension
-AC_DEFINE_UNQUOTED([PM_EXT_PKG], "$PKGEXT", [The file extension used by pacman packages])
-AC_SUBST(PKGEXT)
-
+AC_DEFINE_UNQUOTED([PKGEXT], "$PKGEXT", [The file extension used by pacman packages])
 # Set database file extension
-AC_DEFINE_UNQUOTED([PM_EXT_DB], "$DBEXT", [The file extension used by pacman databases])
-AC_SUBST(DBEXT)
+AC_DEFINE_UNQUOTED([DBEXT], "$DBEXT", [The file extension used by pacman databases])
 
 # Configuration files
 AC_CONFIG_FILES([
@@ -257,9 +217,15 @@ AC_OUTPUT
 echo "
 $PACKAGE_STRING:
 
+  Build information:
+    source code location   : ${srcdir}
     prefix                 : ${prefix}
     sysconfdir             : $(eval echo ${sysconfdir})
-    source code location   : ${srcdir}
+       conf file           : $(eval echo ${sysconfdir})/pacman.conf
+    localstatedir          : $(eval echo ${localstatedir})
+       lock file           : $(eval echo ${localstatedir})/run/pacman.lck
+       database dir        : $(eval echo ${localstatedir})/lib/pacman/
+       cache dir           : $(eval echo ${localstatedir})/cache/pacman/pkg/
     compiler               : ${CC}
     compiler flags         : ${CFLAGS}
     defines                : ${DEFS}
@@ -272,11 +238,7 @@ $PACKAGE_STRING:
     pacman version         : ${PACKAGE_VERSION}
 
   Directory and file information:
-    root directory         : ${ROOTDIR}
-    database path          : ${ROOTDIR}${DBPATH}
-    cache directory        : ${ROOTDIR}${CACHEDIR}
-    lock file location     : ${ROOTDIR}${LOCKFILE}
-    conf file location     : ${ROOTDIR}${CONFIGFILE}
+    root working directory : ${ROOTDIR}
     package extension      : ${PKGEXT}
     database extension     : ${DBEXT}
 

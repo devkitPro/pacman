@@ -252,10 +252,11 @@ char *_alpm_strreplace(const char *str, const char *needle, const char *replace)
 
 /* Create a lock file
 */
-int _alpm_lckmk(const char *file)
+int _alpm_lckmk()
 {
 	int fd, count = 0;
 	char *dir, *ptr;
+	const char *file = alpm_option_get_lockfile();
 
 	/* create the dir of the lockfile first */
 	dir = strdup(file);
@@ -280,8 +281,9 @@ int _alpm_lckmk(const char *file)
 
 /* Remove a lock file
 */
-int _alpm_lckrm(const char *file)
+int _alpm_lckrm()
 {
+	const char *file = alpm_option_get_lockfile();
 	if(unlink(file) == -1 && errno != ENOENT) {
 		return(-1);
 	}

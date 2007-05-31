@@ -247,6 +247,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	alpm_list_t *files = NULL;
 	char newmtime[16] = "";
 	char lastupdate[16] = "";
+	const char *dbpath;
 	int ret;
 
 	ALPM_LOG_FUNC;
@@ -275,12 +276,12 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	}
 
 	/* build a one-element list */
-	snprintf(path, PATH_MAX, "%s" PM_EXT_DB, db->treename);
+	snprintf(path, PATH_MAX, "%s" DBEXT, db->treename);
 	files = alpm_list_add(files, strdup(path));
 
-	snprintf(path, PATH_MAX, "%s%s", handle->root, handle->dbpath);
+	dbpath = alpm_option_get_dbpath();
 
-	ret = _alpm_downloadfiles_forreal(db->servers, path, files, lastupdate, newmtime);
+	ret = _alpm_downloadfiles_forreal(db->servers, dbpath, files, lastupdate, newmtime);
 	FREELIST(files);
 	if(ret == 1) {
 		/* mtimes match, do nothing */
@@ -296,7 +297,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 			_alpm_log(PM_LOG_DEBUG, _("sync: new mtime for %s: %s"), db->treename, newmtime);
 			_alpm_db_setlastupdate(db, newmtime);
 		}
-		snprintf(path, PATH_MAX, "%s%s%s" PM_EXT_DB, handle->root, handle->dbpath, db->treename);
+		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
 
 		/* remove the old dir */
 		_alpm_log(PM_LOG_DEBUG, _("flushing database %s%s"), db->path);
@@ -466,8 +467,7 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
 	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	snprintf(path, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG,
-					 handle->root, handle->cachedir,
+	snprintf(path, PATH_MAX, "%s/%s-%s" PKGEXT, handle->cachedir,
 					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 
 	sha1sum = _alpm_SHAFile(path);
@@ -510,8 +510,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
 	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	snprintf(path, PATH_MAX, "%s%s/%s-%s" PM_EXT_PKG,
-					 handle->root, handle->cachedir,
+	snprintf(path, PATH_MAX, "%s/%s-%s" PKGEXT, handle->cachedir,
 					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 
 	md5sum = _alpm_MDFile(path);
@@ -639,8 +638,6 @@ int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
 															alpm_trans_cb_event event, alpm_trans_cb_conv conv,
 															alpm_trans_cb_progress progress)
 {
-	char path[PATH_MAX];
-
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
@@ -649,8 +646,7 @@ int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* lock db */
-	snprintf(path, PATH_MAX, "%s%s", handle->root, PM_LOCK);
-	handle->lckfd = _alpm_lckmk(path);
+	handle->lckfd = _alpm_lckmk();
 	if(handle->lckfd == -1) {
 		RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 	}
@@ -752,7 +748,6 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 int SYMEXPORT alpm_trans_release()
 {
 	pmtrans_t *trans;
-	char path[PATH_MAX];
 
 	ALPM_LOG_FUNC;
 
@@ -780,10 +775,11 @@ int SYMEXPORT alpm_trans_release()
 		close(handle->lckfd);
 		handle->lckfd = -1;
 	}
-	snprintf(path, PATH_MAX, "%s%s", handle->root, PM_LOCK);
-	if(_alpm_lckrm(path)) {
-		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s"), path);
-		alpm_logaction(_("warning: could not remove lock file %s"), path);
+	if(_alpm_lckrm()) {
+		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s"),
+				alpm_option_get_lockfile());
+		alpm_logaction(_("warning: could not remove lock file %s"),
+				alpm_option_get_lockfile());
 	}
 
 	return(0);

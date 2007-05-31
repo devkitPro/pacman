@@ -1,9 +1,15 @@
 SUBDIRS = po
 
+# paths set at make time
+conffile  = ${sysconfdir}/pacman.conf
+lockfile  = ${localstatedir}/run/pacman.lck
+
 bin_PROGRAMS = pacman pacman.static
 
-localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"@localedir@\" \
+       -DCONFFILE=\"$(conffile)\" \
+       -DLOCKFILE=\"$(lockfile)\" \
+       @DEFS@
 INCLUDES = -I$(top_srcdir)/lib/libalpm
 
 AM_CFLAGS = -pedantic -D_GNU_SOURCE

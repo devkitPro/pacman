@@ -159,6 +159,7 @@ static void usage(int op, char *myname)
 		printf(_("  -r, --root <path>    set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
 		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
+		printf(_("      --lock <file>    set an alternate lockfile location\n"));
 	}
 }
 
@@ -302,6 +303,7 @@ static int parseargs(int argc, char *argv[])
 		{"noscriptlet", no_argument,      0, 1005},
 		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
+		{"lock",       required_argument, 0, 1008},
 		{0, 0, 0, 0}
 	};
 	struct stat st;
@@ -359,6 +361,9 @@ static int parseargs(int argc, char *argv[])
 					return(1);
 				}
 				alpm_option_set_cachedir(optarg);
+				break;
+			case 1008:
+				alpm_option_set_lockfile(optarg);
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
@@ -519,7 +524,7 @@ int main(int argc, char *argv[])
 					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
 					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
 				 || (config->op == PM_OP_DEPTEST && config->op_d_resolve)
-				 || (strcmp(alpm_option_get_root(), PM_ROOT) != 0)) {
+				 || (strcmp(alpm_option_get_root(), ROOTDIR) != 0)) {
 				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
 				/* special case: ignore root user check if -r is specified, fall back on
 				 * normal FS checking */
@@ -535,7 +540,7 @@ int main(int argc, char *argv[])
 	alpm_option_set_logcb(cb_log);
 
 	if(config->configfile == NULL) {
-		config->configfile = strdup(PM_ROOT PM_CONF);
+		config->configfile = strdup(CONFFILE);
 	}
 
 	if(alpm_parse_config(config->configfile, NULL, "") != 0) {
@@ -548,10 +553,13 @@ int main(int argc, char *argv[])
 	alpm_option_set_dlcb(cb_dl_progress);
 
 	if(config->verbose > 0) {
-		printf("Root     : %s\n", alpm_option_get_root());
-		printf("DBPath   : %s\n", alpm_option_get_dbpath());
-		printf("CacheDir : %s\n", alpm_option_get_cachedir());
-		list_display(_("Targets  :"), pm_targets);
+		printf("Root      : %s\n", alpm_option_get_root());
+		printf("Conf File : %s\n", config->configfile);
+		printf("Lock File : %s\n", alpm_option_get_lockfile());
+		printf("Root      : %s\n", alpm_option_get_root());
+		printf("DBPath    : %s\n", alpm_option_get_dbpath());
+		printf("CacheDir  : %s\n", alpm_option_get_cachedir());
+		list_display("Targets   :", pm_targets);
 	}
 
 	/* Opening local database */

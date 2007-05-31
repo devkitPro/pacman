@@ -311,8 +311,9 @@ int pacman_query(alpm_list_t *targets)
 			}
 			if(config->op_q_changelog) {
 				char changelog[PATH_MAX];
-				snprintf(changelog, PATH_MAX, "%s%s/%s/%s-%s/changelog",
-								 alpm_option_get_root(), alpm_option_get_dbpath(),
+				/* TODO should be done in the backend- no raw DB stuff up front */
+				snprintf(changelog, PATH_MAX, "%s/%s/%s-%s/changelog",
+								 alpm_option_get_dbpath(),
 								 alpm_db_get_name(db_local),
 								 alpm_pkg_get_name(info),
 								 alpm_pkg_get_version(info));

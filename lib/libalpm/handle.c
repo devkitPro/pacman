@@ -79,9 +79,10 @@ pmhandle_t *_alpm_handle_new()
 	handle->access = PM_ACCESS_RW;
 #endif
 
-	handle->root = strdup(PM_ROOT);
-	handle->dbpath = strdup(PM_DBPATH);
-	handle->cachedir = strdup(PM_CACHEDIR);
+	handle->root = strdup(ROOTDIR);
+	handle->dbpath = strdup(DBPATH);
+	handle->cachedir = strdup(CACHEDIR);
+	handle->lockfile = strdup(LOCKFILE);
 	handle->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
 
 	return(handle);
@@ -111,6 +112,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREE(handle->dbpath);
 	FREE(handle->cachedir);
 	FREE(handle->logfile);
+	FREE(handle->lockfile);
 	FREE(handle->xfercommand);
 	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
@@ -126,7 +128,8 @@ unsigned short SYMEXPORT alpm_option_get_logmask() { return handle->logmask; }
 const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
 const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
 const char SYMEXPORT *alpm_option_get_cachedir() { return handle->cachedir; }
-const char *alpm_option_get_logfile() { return handle->logfile; }
+const char SYMEXPORT *alpm_option_get_logfile() { return handle->logfile; }
+const char SYMEXPORT *alpm_option_get_lockfile() { return handle->lockfile; }
 unsigned short alpm_option_get_usesyslog() { return handle->usesyslog; }
 alpm_list_t *alpm_option_get_noupgrades() { return handle->noupgrade; }
 alpm_list_t *alpm_option_get_noextracts() { return handle->noextract; }
@@ -225,6 +228,14 @@ void alpm_option_set_logfile(const char *logfile)
 	if(logfile) {
 		handle->logfile = strdup(logfile);
 		handle->logfd = fopen(logfile, "a");
+	}
+}
+
+void SYMEXPORT alpm_option_set_lockfile(const char *lockfile)
+{
+	if(handle->lockfile) FREE(handle->lockfile);
+	if(lockfile) {
+		handle->lockfile = strdup(lockfile);
 	}
 }
 

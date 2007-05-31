@@ -2,11 +2,19 @@ AUTOMAKE_OPTIONS = gnu
 
 SUBDIRS = po
 
+# paths set at make time
+lockfile  = ${localstatedir}/run/pacman.lck
+dbpath    = ${localstatedir}/lib/pacman/
+cachedir  = ${localstatedir}/cache/pacman/pkg/
+
 lib_LTLIBRARIES = libalpm.la
 include_HEADERS = alpm_list.h alpm.h
 
-localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"@localedir@\" \
+       -DLOCKFILE=\"$(lockfile)\" \
+       -DDBPATH=\"$(dbpath)\" \
+       -DCACHEDIR=\"$(cachedir)\" \
+       @DEFS@
 
 AM_CFLAGS = -fvisibility=hidden -pedantic -D_GNU_SOURCE
 

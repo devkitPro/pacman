@@ -80,7 +80,7 @@ int getcols()
 }
 
 /* does the same thing as 'mkdir -p' */
-int makepath(char *path)
+int makepath(const char *path)
 {
 	char *orig, *str, *ptr;
 	char full[PATH_MAX+1] = "";
@@ -112,7 +112,7 @@ int makepath(char *path)
 }
 
 /* does the same thing as 'rm -rf' */
-int rmrf(char *path)
+int rmrf(const char *path)
 {
 	int errflag = 0;
 	struct dirent *dp;

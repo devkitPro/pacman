@@ -52,6 +52,7 @@ typedef struct _pmhandle_t {
 	char *dbpath;							/* Base path to pacman's DBs */
 	char *cachedir;						/* Base path to pacman's cache */
 	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
+	char *lockfile;						/* Name of the lock file */
 	unsigned short usesyslog;	/* Use syslog instead of logfile? */
 	
 	alpm_list_t *noupgrade;			/* List of packages NOT to be upgraded */

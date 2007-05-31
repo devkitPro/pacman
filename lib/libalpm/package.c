@@ -502,7 +502,7 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 	}
 	strncpy(tmp, t, PKG_FULLNAME_LEN+7);
 	/* trim file extension (if any) */
-	if((p = strstr(tmp, PM_EXT_PKG))) {
+	if((p = strstr(tmp, PKGEXT))) {
 		*p = '\0';
 	}
 
@@ -589,10 +589,10 @@ const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 			_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 		}
 		if(pkg->arch && strlen(pkg->arch) > 0) {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PM_EXT_PKG,
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PKGEXT,
 			         pkg->name, pkg->version, pkg->arch);
 		} else {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PM_EXT_PKG,
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PKGEXT,
 			         pkg->name, pkg->version);
 		}
 	}

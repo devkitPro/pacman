@@ -550,7 +550,7 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 	fname = strdup(filename);
 	/* strip extension if it's there
 	 * NOTE: in the case of package files, only the pkgname is sent now */
-	if((p = strstr(fname, PM_EXT_PKG)) || (p = strstr(fname, PM_EXT_DB))) {
+	if((p = strstr(fname, PKGEXT)) || (p = strstr(fname, DBEXT))) {
 			*p = '\0';
 	}
 	if(strlen(fname) > FILENAME_TRIM_LEN) {

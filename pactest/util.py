@@ -28,7 +28,7 @@ import stat
 PM_ROOT     = "/"
 PM_DBPATH   = "var/lib/pacman"
 PM_CACHEDIR = "var/cache/pacman/pkg"
-PM_LOCK     = "/tmp/pacman.lck"
+PM_LOCK     = "var/run/pacman.lck"
 PM_EXT_PKG  = ".pkg.tar.gz"
 PM_EXT_DB   = ".db.tar.gz"
 PM_PACNEW   = ".pacnew"

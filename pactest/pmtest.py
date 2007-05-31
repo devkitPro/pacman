@@ -192,8 +192,13 @@ class pmtest:
             cmd.append("libtool gdb --args")
         if pacman["valgrind"]:
             cmd.append("valgrind --tool=memcheck --leak-check=full --show-reachable=yes")
-        cmd.append("%s --config=%s --root=%s" \
-                   % (pacman["bin"], os.path.join(self.root, PACCONF), self.root))
+        cmd.append("%s --config=%s --root=%s --dbpath=%s --cachedir=%s --lock=%s" \
+                   % (pacman["bin"],
+                       os.path.join(self.root, PACCONF),
+                       self.root,
+                       os.path.join(self.root, PM_DBPATH),
+                       os.path.join(self.root, PM_CACHEDIR),
+                       os.path.join(self.root, PM_LOCK) ))
         if not pacman["manual-confirm"]:
             cmd.append("--noconfirm")
         if pacman["debug"]:

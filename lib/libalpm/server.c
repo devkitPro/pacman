@@ -196,7 +196,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 			/* Try to get JUST the name of the package from the filename */
 			memset(pkgname, 0, PKG_NAME_LEN);
-			if((p = strstr(fn, PM_EXT_PKG))) {
+			if((p = strstr(fn, PKGEXT))) {
 				_alpm_pkg_splitname(fn, pkgname, NULL, 1);
 			}
 			if(!strlen(pkgname)) {

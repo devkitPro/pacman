@@ -61,7 +61,7 @@ static int split_pkgname(char *target, char *name, char *version)
 	}
 	strncpy(tmp, p, 512);
 	/* trim file extension (if any) */
-	if((p = strstr(tmp, PM_EXT_PKG))) {
+	if((p = strstr(tmp, PKGEXT))) {
 		*p = '\0';
 	}
 	/* trim architecture */
@@ -89,13 +89,7 @@ static int split_pkgname(char *target, char *name, char *version)
 
 static int sync_cleancache(int level)
 {
-	const char *root, *cachedir;
-	char dirpath[PATH_MAX];
-
-	root = alpm_option_get_root();
-	cachedir = alpm_option_get_cachedir();
-
-	snprintf(dirpath, PATH_MAX, "%s%s", root, cachedir);
+	const char *cachedir = alpm_option_get_cachedir();
 
 	if(level == 1) {
 		/* incomplete cleanup: we keep latest packages and partial downloads */
@@ -106,7 +100,7 @@ static int sync_cleancache(int level)
 		if(!yesno(_("Do you want to remove old packages from cache? [Y/n] ")))
 			return(0);
 		printf(_("removing old packages from cache... "));
-		dir = opendir(dirpath);
+		dir = opendir(cachedir);
 		if(dir == NULL) {
 			fprintf(stderr, _("error: could not access cache directory\n"));
 			return(1);
@@ -124,12 +118,12 @@ static int sync_cleancache(int level)
 			char *str = alpm_list_getdata(i);
 			char name[256], version[64];
 
-			if(strstr(str, PM_EXT_PKG) == NULL) {
+			if(strstr(str, PKGEXT) == NULL) {
 				clean = alpm_list_add(clean, strdup(str));
 				continue;
 			}
 			/* we keep partially downloaded files */
-			if(strstr(str, PM_EXT_PKG ".part")) {
+			if(strstr(str, PKGEXT ".part")) {
 				continue;
 			}
 			if(split_pkgname(str, name, version) != 0) {
@@ -140,10 +134,10 @@ static int sync_cleancache(int level)
 				char *s = alpm_list_getdata(j);
 				char n[256], v[64];
 
-				if(strstr(s, PM_EXT_PKG) == NULL) {
+				if(strstr(s, PKGEXT) == NULL) {
 					continue;
 				}
-				if(strstr(s, PM_EXT_PKG ".part")) {
+				if(strstr(s, PKGEXT ".part")) {
 					continue;
 				}
 				if(split_pkgname(s, n, v) != 0) {
@@ -163,7 +157,7 @@ static int sync_cleancache(int level)
 		for(i = clean; i; i = alpm_list_next(i)) {
 			char path[PATH_MAX];
 
-			snprintf(path, PATH_MAX, "%s/%s", dirpath, (char *)alpm_list_getdata(i));
+			snprintf(path, PATH_MAX, "%s/%s", cachedir, (char *)alpm_list_getdata(i));
 			unlink(path);
 		}
 		FREELIST(clean);
@@ -173,12 +167,12 @@ static int sync_cleancache(int level)
 			return(0);
 		printf(_("removing all packages from cache... "));
 
-		if(rmrf(dirpath)) {
+		if(rmrf(cachedir)) {
 			fprintf(stderr, _("error: could not remove cache directory\n"));
 			return(1);
 		}
 
-		if(makepath(dirpath)) {
+		if(makepath(cachedir)) {
 			fprintf(stderr, _("error: could not create new cache directory\n"));
 			return(1);
 		}
@@ -492,8 +486,7 @@ int pacman_sync(alpm_list_t *targets)
 		        alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s%s.\n"),
-			         alpm_option_get_root(), PM_LOCK);
+			         "  running, you can remove %s.\n"), LOCKFILE);
 		}
 		return(1);
 	}

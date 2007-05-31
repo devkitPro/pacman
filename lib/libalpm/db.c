@@ -52,9 +52,10 @@
 #include "cache.h"
 #include "alpm.h"
 
-pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename)
+pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 {
 	pmdb_t *db;
+	const size_t pathsize = strlen(dbpath) + strlen(treename) + 2;
 
 	ALPM_LOG_FUNC;
 
@@ -65,14 +66,14 @@ pmdb_t *_alpm_db_new(const char *root, const char *dbpath, const char *treename)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
-	db->path = calloc(1, strlen(root)+strlen(dbpath)+strlen(treename)+2);
+	db->path = calloc(1, pathsize);
 	if(db->path == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
-				  strlen(root)+strlen(dbpath)+strlen(treename)+2);
+				  pathsize);
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
-	sprintf(db->path, "%s%s%s/", root, dbpath, treename);
+	sprintf(db->path, "%s%s/", dbpath, treename);
 
 	strncpy(db->treename, treename, PATH_MAX);
 
@@ -160,6 +161,7 @@ pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback)
 {
 	struct stat buf;
 	pmdb_t *db;
+	const char *dbpath;
 	char path[PATH_MAX];
 
 	ALPM_LOG_FUNC;
@@ -183,15 +185,17 @@ pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback)
 	_alpm_log(PM_LOG_DEBUG, _("registering database '%s'"), treename);
 
 	/* make sure the database directory exists */
-	snprintf(path, PATH_MAX, "%s%s/%s", handle->root, handle->dbpath, treename);
+	dbpath = alpm_option_get_dbpath();
+	snprintf(path, PATH_MAX, "%s%s", dbpath, treename);
 	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_DEBUG, _("database directory '%s' does not exist, creating it"), path);
+		_alpm_log(PM_LOG_DEBUG, _("database directory '%s' does not exist, creating it"),
+				path);
 		if(_alpm_makepath(path) != 0) {
 			RET_ERR(PM_ERR_SYSTEM, NULL);
 		}
 	}
 
-	db = _alpm_db_new(handle->root, handle->dbpath, treename);
+	db = _alpm_db_new(handle->dbpath, treename);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}

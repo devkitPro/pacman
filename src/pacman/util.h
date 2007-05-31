@@ -38,8 +38,8 @@
 #endif
 
 int getcols();
-int makepath(char *path);
-int rmrf(char *path);
+int makepath(const char *path);
+int rmrf(const char *path);
 void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
 char *strtrim(char *str);
