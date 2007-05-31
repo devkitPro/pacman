@@ -909,6 +909,9 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 		if(strlen(line) == 0 || line[0] == '#') {
 			continue;
 		}
+		if((ptr = strchr(line, '#'))) {
+			*ptr = '\0';
+		}
 		if(line[0] == '[' && line[strlen(line)-1] == ']') {
 			/* new config section */
 			ptr = line;
