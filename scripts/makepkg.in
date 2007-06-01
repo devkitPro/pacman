@@ -1030,7 +1030,7 @@ if [ "$CLEANCACHE" = "1" ]; then
 fi
 
 if [ -z $BUILDSCRIPT ]; then
-	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated makepkg.conf.")"
+	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated %s.")" "$confdir/makepkg.conf"
 	exit 1
 fi
 
@@ -1151,8 +1151,7 @@ if [ "$INFAKEROOT" = "1" ]; then
 	exit 0 # $E_OK
 fi
 
-date=$(date)
-msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel  ($date)"
+msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel  ($(date))"
 
 if [ $EUID -eq 0 ]; then
 	warning "$(gettext "Running makepkg as root...")"
@@ -1166,8 +1165,7 @@ if [ "$SOURCEONLY" = "1" ]; then
 		exit 1
 	fi
 	create_srcpackage
-	date=$(date)
-	msg "$(gettext "Source package created: %s")" "$pkgname ($date)"
+	msg "$(gettext "Source package created: %s")" "$pkgname ($(date))"
 	exit 0
 fi
 
@@ -1270,8 +1268,7 @@ fi
 
 removedeps
 
-date=$(date)
-msg "$(gettext "Finished making: %s")" "$pkgname ($date)"
+msg "$(gettext "Finished making: %s")" "$pkgname ($(date))"
 
 installpackage
 
