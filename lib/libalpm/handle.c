@@ -140,6 +140,7 @@ const char *alpm_option_get_xfercommand() { return handle->xfercommand; }
 unsigned short alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
 unsigned short SYMEXPORT alpm_option_get_chomp() { return handle->chomp; }
 unsigned short alpm_option_get_usecolor() { return handle->use_color; }
+unsigned short SYMEXPORT alpm_option_get_showsize() { return handle->showsize; }
 
 pmdb_t SYMEXPORT *alpm_option_get_localdb() { return handle->db_local; }
 alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
@@ -306,6 +307,11 @@ void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
 void alpm_option_set_usecolor(unsigned short usecolor)
 {
 	handle->use_color = usecolor;
+}
+
+void alpm_option_set_showsize(unsigned short showsize)
+{
+	handle->showsize = showsize;
 }
 
 /* vim: set ts=2 sw=2 noet: */

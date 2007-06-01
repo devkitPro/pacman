@@ -131,7 +131,6 @@ static void usage(int op, char *myname)
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
-			printf(_("  -z, --showsize       display installed size of each package\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -147,7 +146,6 @@ static void usage(int op, char *myname)
 			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
-			printf(_("  -z, --showsize       display download size of each package\n"));
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
@@ -294,7 +292,6 @@ static int parseargs(int argc, char *argv[])
 		{"verbose",    no_argument,       0, 'v'},
 		{"downloadonly", no_argument,     0, 'w'},
 		{"refresh",    no_argument,       0, 'y'},
-		{"showsize",   no_argument,       0, 'z'},
 		{"noconfirm",  no_argument,       0, 1000},
 		{"config",     required_argument, 0, 1001},
 		{"ignore",     required_argument, 0, 1002},
@@ -431,7 +428,6 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 				break;
 			case 'y': (config->op_s_sync)++; break;
-			case 'z': config->showsize = 1; break;
 			case '?': return(1);
 			default: return(1);
 		}

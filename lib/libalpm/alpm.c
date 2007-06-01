@@ -958,6 +958,9 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 				} else if(strcmp(origkey, "UseColor") == 0 || strcmp(key, "USECOLOR") == 0) {
 					alpm_option_set_usecolor(1);
 					_alpm_log(PM_LOG_DEBUG, _("config: usecolor"));
+				} else if(strcmp(origkey, "ShowSize") == 0 || strcmp(key, "SHOWSIZE") == 0) {
+					alpm_option_set_showsize(1);
+					_alpm_log(PM_LOG_DEBUG, _("config: showsize"));
 				} else {
 					RET_ERR(PM_ERR_CONF_BAD_SYNTAX, -1);
 				}

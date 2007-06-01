@@ -85,6 +85,10 @@ Log action messages through \fBsyslog()\fP. This will insert log entries into
 .TP
 .B LogFile = \fI/path/to/file\fP
 Log actions directly to a file. Default is \fI/var/log/pacman.log\fP.
+.TP
+.B ShowSize
+Display the size of individual packages for \fB--sync\fP and \fB--query\fP
+modes.
 
 .SH REPOSITORY SECTIONS
 Each repository section defines a section name and at least one location where

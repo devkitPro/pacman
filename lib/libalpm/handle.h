@@ -66,6 +66,7 @@ typedef struct _pmhandle_t {
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
 	unsigned short chomp;			/* I Love Candy! */
 	unsigned short use_color; /* enable colorful output */
+	unsigned short showsize;  /* Show individual package sizes */
 } pmhandle_t;
 
 extern pmhandle_t *handle;

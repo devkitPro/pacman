@@ -294,7 +294,8 @@ void display_targets(alpm_list_t *syncpkgs)
 		size += dispsize;
 		isize += alpm_pkg_get_isize(pkg);
 
-		if(config->showsize) {
+		/* print the package size with the output if ShowSize option set */
+		if(alpm_option_get_showsize()) {
 			/* Convert byte size to MB */
 			mbdispsize = dispsize / (1024.0 * 1024.0);
 

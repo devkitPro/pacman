@@ -147,6 +147,9 @@ void alpm_option_set_needles(alpm_list_t *needles);
 unsigned short alpm_option_get_usecolor();
 void alpm_option_set_usecolor(unsigned short usecolor);
 
+unsigned short alpm_option_get_showsize();
+void alpm_option_set_showsize(unsigned short showsize);
+
 pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
 

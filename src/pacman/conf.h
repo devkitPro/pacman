@@ -54,7 +54,6 @@ typedef struct __config_t {
 	pmtransflag_t flags;
 	unsigned short noask;
 	unsigned int ask;
-	unsigned short showsize;
 } config_t;
 
 config_t *config_new(void);
