@@ -101,11 +101,11 @@ Install missing dependencies using \fBpacman\fP. When missing build-time or
 run-time dependencies are found, \fBpacman\fP will try to resolve them. If
 successful, the missing packages will be downloaded and installed.
 .TP
-.B \-S, --usesudo
-Use \fBsudo\fP to perform all operations that require \fBpacman\fP. This is
-useful for \fB--install\fP, \fB--rmdeps\fP, and \fB--syncdeps\fP. If you are
-building packages as a non-root user as recommended, this option should be used
-if using any option that calls \fBpacman\fP.
+.B \--asroot
+This option allows you to run \fBmakepkg\fP as root. You should not normally
+run \fBmakepkg\fP as root unless you know what you are doing. For any
+operations that require \fBpacman\fP, \fBsudo\fP is normally used; this switch
+will call \fBpacman\fP directly.
 .TP
 .B \--noconfirm
 (Passed to \fBpacman\fP) Prevent \fBpacman\fP from waiting for user input

@@ -43,7 +43,6 @@ CLEANUP=0
 CLEANCACHE=0
 DEP_BIN=0
 DEP_SRC=0
-SUDO=0
 FORCE=0
 INFAKEROOT=0
 GENINTEG=0
@@ -241,10 +240,6 @@ handledeps() {
 
 	if [ "$DEP_SRC" = "0" -a "$DEP_BIN" = "0" ]; then
 		return $R_DEPS_MISSING
-	elif [ "$SUDO" = 0 -a $EUID -gt 0 ]; then
-		warning "$(gettext "Cannot auto-install missing dependencies as a normal user without sudo!")"
-		plain "$(gettext "Run makepkg as root or with -S to resolve dependencies automatically.")"
-		return $R_DEPS_MISSING
 	fi
 
 	if [ "$DEP_BIN" = "1" ]; then
@@ -252,7 +247,7 @@ handledeps() {
 		msg "$(gettext "Installing missing dependencies...")"
 		local ret=0
 
-		if [ "$SUDO" = 1 ]; then
+		if [ "$ASROOT" = 0 ]; then
 			sudo pacman $PACMAN_OPTS -S $striplist || ret=$?
 		else
 			pacman $PACMAN_OPTS -S $striplist || ret=$?
@@ -335,7 +330,6 @@ resolvedeps() {
 # fix flyspray bug #5923
 removedeps() {
 	[ "$RMDEPS" = "0" ] && return
-	[ "$SUDO" = "0" -a $EUID -gt 0 ] && return
 
 	# runtimedeps and buildtimedeps are set when resolving deps
 	local deplist="$runtimedeps $buildtimedeps"
@@ -349,7 +343,7 @@ removedeps() {
 	done
 
 	msg "Removing installed dependencies..."
-	if [ "$SUDO" = "1" ]; then
+	if [ "$ASROOT" = "0" ]; then
 		sudo pacman $PACMAN_OPTS -Rs $striplist
 	else
 		pacman $PACMAN_OPTS -Rs $striplist
@@ -463,7 +457,7 @@ tidy_install() {
 				*application/x-sharedlib*)  # Libraries
 					/usr/bin/strip --strip-debug "$file";;
 				*application/x-executable*) # Binaries
-				  /usr/bin/strip "$file";;
+					/usr/bin/strip "$file";;
 			esac
 		done
 	fi
@@ -654,12 +648,13 @@ create_srcpackage() {
 }
 
 installpackage() {
-	if [ "$INSTALL" = "1" -a "$SUDO" = "1" ]; then
-		msg "$(gettext "Installing package with pacman -U...")"
+	[ "$INSTALL" = "0" ] && return
+
+	msg "$(gettext "Installing package with pacman -U...")"
+	if [ "$ASROOT" = "0" ]; then
 		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}
 		exit $?
-	elif [ "$INSTALL" = "1" -a "$EUID" = "0" -a "$INFAKEROOT" != "1" ]; then
-		msg "$(gettext "Installing package with pacman -U...")"
+	else
 		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}
 		exit $?
 	fi
@@ -688,7 +683,7 @@ usage() {
 	# fix flyspray feature request #2978
 	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
 	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
-	echo "$(gettext "  -S, --usesudo    When calling pacman, use sudo")"
+	echo "$(gettext "      --asroot     Allow makepkg to run as root user")"
 	echo "$(gettext "      --source     Do not build package; generate a source-only tarball")"
 	echo
 	echo "$(gettext "These options can be passed to pacman:")"
@@ -717,7 +712,7 @@ _SRCDEST=${SRCDEST}
 
 # Source makepkg.conf; fail if it is not found
 if [ -r "$confdir/makepkg.conf" ]; then
-	source "$condir/makepkg.conf"
+	source "$confdir/makepkg.conf"
 else
 	error "$(gettext "%s not found. cannot continue")" "$confdir/makepkg.conf"
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes
@@ -755,7 +750,6 @@ while [ "$#" -ne "0" ]; do
 		--clean)      CLEANUP=1 ;;
 		--cleancache) CLEANCACHE=1 ;;
 		--syncdeps)   DEP_BIN=1 ;;
-		--usesudo)    SUDO=1 ;;
 		--builddeps)  DEP_SRC=1 ;;
 		--nodeps)     NODEPS=1 ;;
 		--noextract)  NOEXTRACT=1 ;;
@@ -799,7 +793,6 @@ while [ "$#" -ne "0" ]; do
 				r) RMDEPS=1 ;;
 				R) REPKG=1 ;;
 				s) DEP_BIN=1 ;;
-				S) SUDO=1 ;;
 				h)
 						usage
 						exit 0
@@ -825,12 +818,6 @@ while [ "$#" -ne "0" ]; do
 	esac
 	shift
 done
-
-# check for sudo
-if [ "$SUDO" = "1" -a ! "$(type -p sudo)" ]; then
-	error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"
-	exit 1
-fi
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
@@ -868,31 +855,44 @@ if [ -z $BUILDSCRIPT ]; then
 fi
 
 if [ "$INFAKEROOT" = "0" ]; then
-	if [ $EUID -eq 0 -a $ASROOT -eq 0 ]; then
+	if [ $EUID -eq 0 -a "$ASROOT" = "0" ]; then
 		# Warn those who like to live dangerously.
 		error "$(gettext "Running makepkg as root is a BAD idea and can cause")"
 		plain "$(gettext "permanent, catastrophic damage to your system. If you")"
 		plain "$(gettext "wish to run as root, please use the --asroot option.")"
-		plain ""
+		exit 1 # $E_USER_ABORT
+	elif [ $EUID -gt 0 -a "$ASROOT" = "1" ]; then
+		# Warn those who try to use the --asroot option when they are not root
+		error "$(gettext "The --asroot option is meant for the root user only.")"
+		plain "$(gettext "Please rerun makepkg without the --asroot flag.")"
 		exit 1 # $E_USER_ABORT
 	elif [ "$(check_buildenv fakeroot)" = "y" ]; then
 		if [ ! $(type -p fakeroot) ]; then
 			error "$(gettext "fakeroot must be installed if using the 'fakeroot' option")"
 			plain "$(gettext "in the BUILDENV array in makepkg.conf.")"
-			plain ""
 			exit 1
 		fi
 	else
 		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
 		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
 		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in makepkg.conf.")"
-		plain ""
 		sleep 1
 	fi
 else
 	if [ "$FAKEROOTKEY" = "" ]; then
 		error "$(gettext "Do not use the '-F' option. This option is only for use by makepkg.")"
 		exit 1 # TODO: error code
+	fi
+fi
+
+# check for sudo if we will need it during makepkg execution
+if [ "$ASROOT" = "0" -a \( "$DEP_BIN" = "1" -o "$DEP_SRC" = "1" \
+	                        -o "$RMDEPS" = "1" -o "$INSTALL" = "1" \) ]; then
+	if [ ! "$(type -p sudo)" ]; then
+		error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"
+		plain "$(gettext "Missing dependencies cannot be installed or removed as a normal user")"
+		plain "$(gettext "without sudo; install and configure sudo to auto-resolve dependencies.")"
+		exit 1
 	fi
 fi
 
@@ -973,6 +973,10 @@ fi
 
 date=$(date)
 msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel  ($date)"
+
+if [ $EUID -eq 0 ]; then
+	warning "$(gettext "Running makepkg as root...")"
+fi
 
 # if we are creating a source-only package, go no further
 if [ "$SOURCEONLY" = "1" ]; then
@@ -1199,7 +1203,7 @@ else
 		fi
 	done
 
-	if [ "$EUID" = "0" ]; then
+	if [ $EUID -eq 0 ]; then
 		# chown all source files to root.root
 		chown -R root.root "$srcdir"
 	fi
