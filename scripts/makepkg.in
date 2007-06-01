@@ -27,7 +27,6 @@
 #
 
 # gettext initialization
-source gettext.sh
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
 
@@ -850,7 +849,7 @@ if [ "$CLEANCACHE" = "1" ]; then
 fi
 
 if [ -z $BUILDSCRIPT ]; then
-	error "$(eval_gettext "BUILDSCRIPT is undefined! Ensure you have updated makepkg.conf.")"
+	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated makepkg.conf.")"
 	exit 1
 fi
 
