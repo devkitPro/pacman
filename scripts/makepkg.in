@@ -28,27 +28,14 @@
 
 # gettext initialization
 source gettext.sh
-
-TEXTDOMAIN=makepkg
-export TEXTDOMAIN
-TEXTDOMAINDIR='@localedir@'
-export TEXTDOMAINDIR
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
-startdir="$(pwd)"
+confdir='@sysconfdir@'
+startdir="$PWD"
 srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
-
-# Only use ABSROOT if we haven't been passed a SRCROOT on the command line.
-if [ -z "$SRCROOT" ]; then
-	if [ -r @sysconfdir@/abs/abs.conf ]; then
-		source @sysconfdir@/abs/abs.conf
-	fi
-	if [ -r ~/.abs.conf ]; then
-		source ~/.abs.conf
-	fi
-	SRCROOT=$ABSROOT
-fi
 
 # Options
 ASROOT=0
@@ -198,6 +185,7 @@ getdownloadclient() {
 	local proto=$(echo $netfile | sed 's|://.*||')
 
 	# loop through DOWNLOAD_AGENTS variable looking for protocol
+	local i
 	for i in "${DLAGENTS[@]}"; do
 		local handler=$(echo $i | sed 's|::.*||')
 		if [ "$proto" == "$handler" ]; then
@@ -208,7 +196,7 @@ getdownloadclient() {
 
 	# if we didn't find an agent, return an error
 	if [ -z "$agent" ]; then
-		error "$(eval_gettext "There is no agent set up to handle \$proto URLs. Check makepkg.conf.")"
+		error "$(gettext "There is no agent set up to handle %s URLs. Check makepkg.conf.")" "$proto"
 		error "$(gettext "Aborting...")"
 		exit 1 # $E_CONFIG_ERROR # TODO: error code
 	fi
@@ -643,19 +631,18 @@ create_srcpackage() {
 			msg2 "$(gettext "Adding install script")"
 			comp_files="$comp_files $install"
 		else
-			error "$(gettext "Install script $install not found.")"
+			error "$(gettext "Install script %s not found.")" "$install"
 		fi
 	fi
 
 	local i
 	for i in ${source[@]}; do
 		if [ -f $i ]; then
-			msg2 "$(gettext "Adding %s")" $i
+			msg2 "$(gettext "Adding %s")" "$i"
 			comp_files="$comp_files $i"
 		fi
 	done
 
-	# TODO make package extension configurable like $PKGEXT
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}"
 
 	# tar it up
@@ -729,14 +716,12 @@ _PKGDEST=${PKGDEST}
 _SRCDEST=${SRCDEST}
 
 # Source makepkg.conf; fail if it is not found
-conffile="@sysconfdir@/makepkg.conf"
-if [ -r $conffile ]; then
-	source $conffile
+if [ -r "$confdir/makepkg.conf" ]; then
+	source "$condir/makepkg.conf"
 else
-	error "$(gettext "%s not found. cannot continue")" $conffile
+	error "$(gettext "%s not found. cannot continue")" "$confdir/makepkg.conf"
 	exit 1 # $E_CONFIG_ERROR # TODO: error codes
 fi
-unset conffile
 
 # Source user-specific makepkg.conf overrides
 if [ -r ~/.makepkg.conf ]; then
@@ -748,6 +733,17 @@ PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 SRCDEST=${_SRCDEST:-$SRCDEST}
 SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
+
+# Only use ABSROOT if we haven't been passed a SRCROOT on the command line.
+if [ -z "$SRCROOT" ]; then
+       if [ -r "$confdir/abs/abs.conf" ]; then
+               source "$confdir/abs/abs.conf"
+       fi
+       if [ -r ~/.abs.conf ]; then
+               source ~/.abs.conf
+       fi
+       SRCROOT=$ABSROOT
+fi
 
 while [ "$#" -ne "0" ]; do
 	case $1 in

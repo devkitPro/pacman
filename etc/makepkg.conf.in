@@ -38,13 +38,14 @@ CXXFLAGS="-@ARCHSWITCH@=@CARCHFLAGS@ -mtune=generic -O2 -pipe"
 # BUILD ENVIRONMENT
 #########################################################################
 #
-# Defaults: BUILDENV=(fakeroot !distcc color !ccache)
+# Defaults: BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #  A negated environment option will do the opposite of the comments below.
 #
 #-- fakeroot: Allow building packages as a non-root user
 #-- distcc:   Use the Distributed C/C++/ObjC compiler
 #-- color:    Colorize output messages
 #-- ccache:   Use ccache to cache compilation
+#-- xdelta:   Generate delta patch from previous to current package
 #
 BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #

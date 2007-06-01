@@ -48,11 +48,11 @@ Flags used for the C++ compiler; see \fBCFLAGS\fP for more info.
 This is often used to set the number of jobs used, for example, "-j2". Other
 flags that make accepts can also be passed.
 .TP
-.B BUILDENV=(fakeroot !distcc color !ccache)
-This array contains four options that affect the build environment, the
-defaults are shown here. All options should always be left in the array; to
-enable or disable an option simply remove or place an "!" at the front of the
-option. Each works as follows:
+.B BUILDENV=(fakeroot !distcc color !ccache !xdelta)
+This array contains options that affect the build environment, the defaults
+are shown here. All options should always be left in the array; to enable or
+disable an option simply remove or place an "!" at the front of the option.
+Each works as follows:
 .RS
 .TP
 .B fakeroot
@@ -69,6 +69,12 @@ Colorize output messages, making output easier to read.
 Use ccache to cache compilation by default. This allows for faster compiles if
 you are continuously recompiling the same packages. It can be disabled for
 individual packages by placing \fB!ccache\fP in the \fB\*(PB\fP options array.
+.TP
+.B xdelta
+Generate delta patch from previous to current package. This is mainly useful
+for large package upgrades that have only minor changes between versions where
+a binary diff will be a much smaller download. This is only useful if using
+the xdelta download script for pacman.
 .RE
 .TP
 .B DISTCC_HOSTS="\fIhost1 ...\fP"
