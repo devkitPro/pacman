@@ -224,9 +224,9 @@ get_downloadclient() {
 
 	# if we didn't find an agent, return an error
 	if [ -z "$agent" ]; then
-		error "$(gettext "There is no agent set up to handle %s URLs. Check makepkg.conf.")" "$proto"
-		error "$(gettext "Aborting...")"
-		exit 1 # $E_CONFIG_ERROR # TODO: error code
+		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$confdir/makepkg.conf"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_CONFIG_ERROR
 	fi
 
 	# ensure specified program is installed
@@ -234,8 +234,8 @@ get_downloadclient() {
 	if [ ! -x "$program" ]; then
 		local baseprog=$(basename $program)
 		error "$(gettext "The download program %s is not installed.")" "$baseprog"
-		error "$(gettext "Aborting...")"
-		exit 1 # $E_MISSING_PROGRAM # TODO: error code
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_MISSING_PROGRAM
 	fi
 
 	echo "$agent"
@@ -249,7 +249,7 @@ check_deps() {
 	if [ $ret -eq 1 ]; then #unresolved deps
 		echo "$pmout"
 	elif [ $ret -ne 0 ]; then
-		error "$(gettext "pacman returned a fatal error (%i): %s")" "$ret" "$pmout"
+		error "$(gettext "Pacman returned a fatal error (%i): %s")" "$ret" "$pmout"
 		exit 1
 	fi
 }
@@ -292,7 +292,7 @@ handledeps() {
 		# install missing deps by building them from source.
 		# we look for each package name in $SRCROOT and build it.
 		if [ "$SRCROOT" = "" ]; then
-			error "$(gettext "Source root cannot be found - please make sure it is specified in makepkg.conf")"
+			error "$(gettext "Source root cannot be found - please make sure it is specified in %s.")" "$confdir/makepkg.conf"
 			exit 1 # TODO: error code
 		fi
 
@@ -399,13 +399,13 @@ download_sources() {
 		# find the client we should use for this URL
 		local dlclient=$(get_downloadclient $netfile) || exit $?
 
-		msg2 "$(gettext "Downloading %s")" "$file"
+		msg2 "$(gettext "Downloading %s...")" "$file"
 		# fix flyspray bug #3289
 		local ret=0
 		$dlclient "$netfile" || ret=$?
 		if [ $ret -gt 0 ]; then
 			error "$(gettext "Failure while downloading %s")" "$file"
-			msg "$(gettext "Aborting...")"
+			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
 
@@ -436,7 +436,7 @@ generate_checksums() {
 		esac
 
 		if [ ! $(type -p "${integ}sum") ]; then
-			error "$(gettext "Cannot fin the '%s' program.")" "${integ}sum"
+			error "$(gettext "Cannot find the '%s' program.")" "${integ}sum"
 			exit 1 # $E_MISSING_PROGRAM
 		fi
 
@@ -477,13 +477,13 @@ check_checksums() {
 		esac
 
 		if [ ! $(type -p "${integ}sum") ]; then
-			error "$(gettext "Cannot find the %s program.")" "${integ}sum"
+			error "$(gettext "Cannot find the '%s' program.")" "${integ}sum"
 			exit 1 # $E_MISSING_PROGRAM
 		fi
 
 		local integrity_sums=($(eval echo \${${integ}sums[@]}))
 		if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
-			msg "$(gettext "Validating source files with %s")" "${integ}sums"
+			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
 			local errors=0
 			local idx=0
 			local file
@@ -553,7 +553,7 @@ extract_sources() {
 			# unzip will return a 1 as a warning, it is not an error
 			if [ $unziphack -ne 1 -o $ret -ne 1 ]; then
 				error "$(gettext "Failed to extract %s")" "$file"
-				msg "$(gettext "Aborting...")"
+				plain "$(gettext "Aborting...")"
 				exit 1
 			fi
 		fi
@@ -624,9 +624,10 @@ run_build() {
 	fi
 
 	if [ $ret -gt 0 ]; then
-		error "$(gettext "Build Failed.  Aborting...")"
+		error "$(gettext "Build Failed.")"
+		plain "$(gettext "Aborting...")"
 		remove_deps
-		exit 2 # $E_BUILD_FAILED # TODO: error code
+		exit 2 # $E_BUILD_FAILED
 	fi
 }
 
@@ -641,7 +642,7 @@ tidy_install() {
 	fi
 
 	if [ -d usr/share/man ]; then
-		msg2 "$(gettext "Moving usr/share/man files to usr/man")"
+		msg2 "$(gettext "Moving usr/share/man files to usr/man...")"
 		mkdir -p usr/man
 		cp -a usr/share/man/* usr/man/
 		rm -rf usr/share/man
@@ -666,7 +667,7 @@ tidy_install() {
 
 
 	if [ "$(check_option strip)" = "y" ]; then
-		msg "$(gettext "Stripping debugging symbols from binaries and libraries...")"
+		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"
 		for file in $(find {,*/}{bin,lib,sbin} -type f 2>/dev/null || true); do
 			case "$(file -biz "$file")" in
 				*application/x-sharedlib*)  # Libraries
@@ -690,8 +691,9 @@ tidy_install() {
 
 create_package() {
 	if [ ! -d "$pkgdir" ]; then
-		error "$(gettext "Missing pkg/ directory, aborting...")"
-		exit 1 # $E_MISSING_PKGDIR # TODO: error code
+		error "$(gettext "Missing pkg/ directory.")"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_MISSING_PKGDIR
 	fi
 
 	cd "$pkgdir"
@@ -751,7 +753,7 @@ create_package() {
 	# warn if license array is not present or empty
 	if [ "$license" = "" ]; then
 		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
-		plain "$(gettext "example for GPL'ed software: license=('GPL').")"
+		plain "$(gettext "Example for GPL'ed software: license=('GPL').")"
 	fi
 
 	local comp_files
@@ -759,14 +761,14 @@ create_package() {
 	# check for an install script
 	# TODO: should we include ${pkgname}.install if it exists and $install is unset?
 	if [ "$install" != "" ]; then
-		msg2 "$(gettext "Copying install script...")"
+		msg2 "$(gettext "Adding install script...")"
 		cp "$startdir/$install" .INSTALL
 		comp_files="$comp_files .INSTALL"
 	fi
 
 	# do we have a changelog?
 	if [ -f "$startdir/ChangeLog" ]; then
-		msg2 "$(gettext "Copying package changelog")"
+		msg2 "$(gettext "Adding package changelog...")"
 		cp "$startdir/ChangeLog" .CHANGELOG
 		comp_files="$comp_files .CHANGELOG"
 	fi
@@ -832,11 +834,11 @@ create_srcpackage() {
 	cd "$startdir"
 	msg "$(gettext "Creating source package...")"
 	local comp_files="PKGBUILD"
-	msg2 "$(gettext "Adding PKGBUILD")"
+	msg2 "$(gettext "Adding %s...")" "PKGBUILD"
 
 	if [ "$install" != "" ]; then
 		if [ -f $install ]; then
-			msg2 "$(gettext "Adding install script")"
+			msg2 "$(gettext "Adding install script...")"
 			comp_files="$comp_files $install"
 		else
 			error "$(gettext "Install script %s not found.")" "$install"
@@ -846,7 +848,7 @@ create_srcpackage() {
 	local i
 	for i in ${source[@]}; do
 		if [ -f $i ]; then
-			msg2 "$(gettext "Adding %s")" "$i"
+			msg2 "$(gettext "Adding %s...")" "$i"
 			comp_files="$comp_files $i"
 		fi
 	done
@@ -928,8 +930,9 @@ _SRCDEST=${SRCDEST}
 if [ -r "$confdir/makepkg.conf" ]; then
 	source "$confdir/makepkg.conf"
 else
-	error "$(gettext "%s not found. cannot continue")" "$confdir/makepkg.conf"
-	exit 1 # $E_CONFIG_ERROR # TODO: error codes
+	error "$(gettext "%s not found.")" "$confdir/makepkg.conf"
+	plain "$(gettext "Aborting...")"
+	exit 1 # $E_CONFIG_ERROR
 fi
 
 # Source user-specific makepkg.conf overrides
@@ -976,6 +979,12 @@ while [ "$#" -ne "0" ]; do
 		--repackage)  REPKG=1 ;;
 		--log)        LOGGING=1 ;;
 		--source)     SOURCEONLY=1 ;;
+
+		# BEGIN DEPRECATED
+		--usesudo)
+			warning "$(gettext "Sudo is used by default now. The --usesudo option is deprecated!")" ;;
+		# END DEPRECATED
+
 		--help)
 					usage
 					exit 0 #E_OK
@@ -989,7 +998,7 @@ while [ "$#" -ne "0" ]; do
 					exit 1 #E_INVALID_OPTION
 					;;
 		-*)
-		while getopts "bcCdefFghiLmop:rRsS-" opt; do
+		while getopts "bcCdefFghiLmop:rRsSV-" opt; do
 			case $opt in
 				b) DEP_SRC=1 ;;
 				c) CLEANUP=1 ;;
@@ -1007,6 +1016,11 @@ while [ "$#" -ne "0" ]; do
 				r) RMDEPS=1 ;;
 				R) REPKG=1 ;;
 				s) DEP_BIN=1 ;;
+
+				# BEGIN DEPRECATED
+				S)
+					warning "$(gettext "Sudo is used by default now. The --usesudo option is deprecated!")" ;;
+				# END DEPRECATED
 				h)
 						usage
 						exit 0 #E_OK
@@ -1082,8 +1096,8 @@ if [ "$INFAKEROOT" = "0" ]; then
 		exit 1 # $E_USER_ABORT
 	elif [ "$(check_buildenv fakeroot)" = "y" ]; then
 		if [ ! $(type -p fakeroot) ]; then
-			error "$(gettext "fakeroot must be installed if using the 'fakeroot' option")"
-			plain "$(gettext "in the BUILDENV array in makepkg.conf.")"
+			error "$(gettext "Fakeroot must be installed if using the 'fakeroot' option")"
+			plain "$(gettext "in the BUILDENV array in %s.")" "$confdir/makepkg.conf"
 			exit 1
 		fi
 	else
@@ -1130,19 +1144,19 @@ source $BUILDSCRIPT
 
 # check for no-no's in the build script
 if [ -z "$pkgver" ]; then
-	error "$(gettext "pkgver is not allowed to be empty.")"
+	error "$(gettext "%s is not allowed to be empty.")" "pkgver"
 	exit 1
 fi
 if [ -z "$pkgrel" ]; then
-	error "$(gettext "pkgrel is not allowed to be empty.")"
+	error "$(gettext "%s is not allowed to be empty.")" "pkgrel"
 	exit 1
 fi
 if [ $(echo "$pkgver" | grep '-') ]; then
-	error "$(gettext "pkgver is not allowed to contain hyphens.")"
+	error "$(gettext "%s is not allowed to contain hyphens.")" "pkgver"
 	exit 1
 fi
 if [ $(echo "$pkgrel" | grep '-') ]; then
-	error "$(gettext "pkgrel is not allowed to contain hyphens.")"
+	error "$(gettext "%s is not allowed to contain hyphens.")" "pkgrel"
 	exit 1
 fi
 if ! in_array $CARCH ${arch[@]}; then
@@ -1153,18 +1167,18 @@ if ! in_array $CARCH ${arch[@]}; then
 fi
 
 if [ "$install" -a ! -f "$install" ]; then
-	error "$(gettext "install scriptlet (%s) does not exist.")" "$install"
+	error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
 	exit 1
 fi
 
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
      -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
-		warning "$(gettext "a package has already been built, installing existing package.")"
+		warning "$(gettext "A package has already been built, installing existing package...")"
 		install_package
 		exit $?
 	else
-		error "$(gettext "a package has already been built. (use -f to overwrite)")"
+		error "$(gettext "A package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
 fi
@@ -1195,7 +1209,7 @@ fi
 if [ "$SOURCEONLY" = "1" ]; then
 	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}" \
 	     -a "$FORCE" = "0" ]; then
-		error "$(gettext "a package has already been built. (use -f to overwrite)")"
+		error "$(gettext "A package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
 	create_srcpackage
@@ -1206,7 +1220,7 @@ fi
 # fix flyspray bug #5973
 if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
 	if [ "$NODEPS" = "1" ]; then
-		warning "$(gettext "skipping dependency checks")"
+		warning "$(gettext "Skipping dependency checks.")"
 	fi
 	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
@@ -1220,7 +1234,7 @@ elif [ $(type -p pacman) ]; then
 	resolve_deps ${makedepends[@]} || deperr=1
 
 	if [ $deperr -eq 1 ]; then
-		error "$(gettext "could not resolve all dependencies.")"
+		error "$(gettext "Could not resolve all dependencies.")"
 		exit 1
 	fi
 else
