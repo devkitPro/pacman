@@ -231,9 +231,9 @@ handledeps() {
 	[ $# -eq 0 ] && return $R_DEPS_SATISFIED
 
 	local deplist="$*"
-	local striplist dep depstrip
+	local dep depstrip striplist
 	for dep in $deplist; do
-		depstrip="$(echo $dep | sed -e 's|=.*$||' -e 's|>.&$||' -e 's|<.*$||')"
+		depstrip="$(echo $dep | sed -e 's|=.*$||' -e 's|>.*$||' -e 's|<.*$||')"
 		striplist="$striplist $depstrip"
 	done
 
@@ -303,11 +303,16 @@ handledeps() {
 }
 
 resolve_deps() {
+	# $pkgdeps is a GLOBAL variable, used by remove_deps()
 	local R_DEPS_SATISFIED=0
-	local R_DEPS_MISSING=0
+	local R_DEPS_MISSING=1
 
-	deplist="$(check_deps $*)"
-	[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
+	local deplist="$(check_deps $*)"
+	if [ "$deplist" = "" ]; then
+		return $R_DEPS_SATISFIED
+	else
+		pkgdeps="$pkgdeps $deplist"
+	fi
 
 	if handledeps $deplist; then
 		# check deps again to make sure they were resolved
@@ -328,24 +333,21 @@ resolve_deps() {
 
 # fix flyspray bug #5923
 remove_deps() {
+	# $pkgdeps is a GLOBAL variable, set by resolve_deps()
 	[ "$RMDEPS" = "0" ] && return
+	[ "$pkgdeps" = "" ] && return
 
-	# runtimedeps and buildtimedeps are set when resolving deps
-	local deplist="$runtimedeps $buildtimedeps"
-
-	[ "$deplist" = "" ] && return
-
-	local striplist dep depstrip
-	for dep in $deplist; do
-		depstrip="$(echo $dep | sed -e 's|=.*$||' -e 's|>.&$||' -e 's|<.*$||')"
-		striplist="$striplist $depstrip"
+	local dep depstrip deplist
+	for dep in $pkgdeps; do
+		depstrip=$(echo $dep | sed -e 's|=.*$||' -e 's|>.*$||' -e 's|<.*$||')
+		deplist="$deplist $depstrip"
 	done
 
 	msg "Removing installed dependencies..."
 	if [ "$ASROOT" = "0" ]; then
-		sudo pacman $PACMAN_OPTS -Rs $striplist
+		sudo pacman $PACMAN_OPTS -Rs $deplist
 	else
-		pacman $PACMAN_OPTS -Rs $striplist
+		pacman $PACMAN_OPTS -Rs $deplist
 	fi
 }
 
@@ -508,18 +510,21 @@ extract_sources() {
 				cmd="gunzip -d -f $file" ;;
 			*application/x-bzip*)
 				cmd="bunzip2 -f $file" ;;
+			*)
+				# Don't know what to use to extract this file,
+				# skip to the next file
+				continue;;
 		esac
 
-		if [ "$cmd" != "" ]; then
-			msg2 "$cmd"
-			$cmd
-			if [ $? -ne 0 ]; then
-				# unzip will return a 1 as a warning, it is not an error
-				if [ "$unziphack" != "1" -o $? -ne 1 ]; then
-					error "$(gettext "Failed to extract %s")" "$file"
-					msg "$(gettext "Aborting...")"
-					exit 1
-				fi
+		local ret=0
+		msg2 "$cmd"
+		$cmd || ret=$?
+		if [ $ret -ne 0 ]; then
+			# unzip will return a 1 as a warning, it is not an error
+			if [ $unziphack -ne 1 -o $ret -ne 1 ]; then
+				error "$(gettext "Failed to extract %s")" "$file"
+				msg "$(gettext "Aborting...")"
+				exit 1
 			fi
 		fi
 	done
@@ -746,8 +751,6 @@ create_package() {
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
-
-	create_xdelta "$pkg_file"
 }
 
 create_xdelta() {
@@ -1177,27 +1180,14 @@ if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" 
 	fi
 	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
+	unset pkgdeps # Set by resolve_deps() and used by remove_deps()
 	deperr=0
-	# these two variables are needed later by remove_deps
-	unset runtimedeps buildtimedeps
 
 	msg "$(gettext "Checking Runtime Dependencies...")"
-	resolve_deps ${depends[@]}
-	ret=$?
-	# deplist is a global variable set by resolve_deps
-	runtimedeps="$deplist"
-	if [ "$ret" != "0" ]; then
-		deperr=1
-	fi
+	resolve_deps ${depends[@]} || deperr=1
 
 	msg "$(gettext "Checking Buildtime Dependencies...")"
-	resolve_deps ${makedepends[@]}
-	ret=$?
-	# deplist is a global variable set by resolve_deps
-	buildtimedeps="$deplist"
-	if [ "$ret" != "0" ]; then
-		deperr=1
-	fi
+	resolve_deps ${makedepends[@]} || deperr=1
 
 	if [ $deperr -eq 1 ]; then
 		error "$(gettext "could not resolve all dependencies.")"
@@ -1258,6 +1248,8 @@ else
 		[ $ret -ne 0 ] && exit $ret
 		unset ret
 	fi
+
+	create_xdelta "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 fi
 
 cd "$startdir"
