@@ -753,17 +753,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		/*EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);*/
 	}
 
-#ifndef __sun__
-	/* check for free space only in case the packages will be extracted */
-	if(!(trans->flags & PM_TRANS_FLAG_NOCONFLICTS)) {
-		if(_alpm_check_freespace(trans, data) == -1) {
-				/* pm_errno is set by check_freespace */
-				ret = -1;
-				goto cleanup;
-		}
-	}
-#endif
-
 cleanup:
 	alpm_list_free(list);
 	alpm_list_free(trail);
