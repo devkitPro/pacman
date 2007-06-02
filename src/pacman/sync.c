@@ -1,8 +1,8 @@
 /*
  *  sync.c
- * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
+ *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -221,6 +221,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	return(success > 0);
 }
 
+/* search the sync dbs for a matching package */
 static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ret;
@@ -259,12 +260,10 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					group = alpm_list_getdata(grp);
 					printf(" (%s)\n", (char *)alpm_list_getdata(grp));
-			} else {
-				printf("\n");
 			}
 
-			/* we need an initial indent first */
-			printf("    ");
+			/* we need a newline and initial indent first */
+			printf("\n    ");
 			indentprint(alpm_pkg_get_desc(pkg), 4);
 			printf("\n");
 		}
@@ -340,12 +339,12 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					}
 					db = NULL;
 				}
-				
+
 				if(!db) {
 					fprintf(stderr, _("error: repository '%s' does not exist\n"), repo);
 					return(1);
 				}
-				
+
 				for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
 					pmpkg_t *pkg = alpm_list_getdata(k);
 
@@ -356,14 +355,14 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 						break;
 					}
 				}
-				
+
 				if(!foundpkg) {
 					fprintf(stderr, _("error: package '%s' was not found in repository '%s'\n"), pkgstr, repo);
 					ret++;
 				}
 			} else {
 				pkgstr = target;
-						
+
 				for(j = syncs; j; j = alpm_list_next(j)) {
 					pmdb_t *db = alpm_list_getdata(j);
 
@@ -387,7 +386,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 	} else {
 		for(i = syncs; i; i = alpm_list_next(i)) {
 			pmdb_t *db = alpm_list_getdata(i);
-			
+
 			for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
 				dump_pkg_sync(alpm_list_getdata(j), alpm_db_get_name(db));
 				printf("\n");
@@ -565,7 +564,7 @@ int pacman_sync(alpm_list_t *targets)
 					goto cleanup;
 				}
 				/* target not found: check if it's a group */
-				
+
 				for(j = alpm_option_get_syncdbs(); j; j = alpm_list_next(j)) {
 					pmdb_t *db = alpm_list_getdata(j);
 					grp = alpm_db_readgrp(db, targ);
