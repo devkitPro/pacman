@@ -760,12 +760,12 @@ create_xdelta() {
 
 	local pkg_file=$1
 	local cache_dir="/var/cache/pacman/pkg" # TODO: autoconf me
-	local old_versions=( $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-${CARCH}.${PKGEXT} 2>/dev/null) )
+	local old_versions=( $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-${CARCH}${PKGEXT} 2>/dev/null) )
 
 	# Check to see if we have any old versions to create deltas with
 	local old_file old_version latest_version base_file
 	for old_file in "${old_versions[@]}"; do
-		old_version=$(basename "${old_file%-$CARCH.$PKGEXT}")
+		old_version=$(basename "${old_file%-$CARCH$PKGEXT}")
 		old_version=${old_version#$pkgname-}
 	
 		# old_version may include the target package, only use the old versions
@@ -776,21 +776,22 @@ create_xdelta() {
 	done
 
 	if [ "$base_file" != "" ]; then
-		msg "Making delta from version $latest_version"
+		msg "$(gettext "Making delta from version %s...")" "$latest_version"
 		local delta_file="$PKGDEST/$pkgname-${old_version}_to_$pkgver-$pkgrel-$CARCH.delta"
 
-		# xdelta will decompress base_file & pkg_file into TMP_DIR (or /tmp if TMP_DIR is unset)
-		# then perform the delta on the resulting tars
+		# xdelta will decompress base_file & pkg_file into TMP_DIR (or /tmp if
+		# TMP_DIR is unset) then perform the delta on the resulting tars
 		xdelta delta "$base_file" "$pkg_file" "$delta_file"
 
-		# Generate the final gz using xdelta for compression. xdelta will be our common
-		# denominator compression utility between the packager and the users
-		#
-		# makepkg and pacman must use the same compression algorithm or the delta generated
-		# package may not match, producing md5 checksum errors.
+		# Generate the final gz using xdelta for compression. xdelta will be our
+		# common denominator compression utility between the packager and the users
+		# makepkg and pacman must use the same compression algorithm or the delta
+		# generated package may not match, producing md5 checksum errors.
+		msg2 "$(gettext "Recreating package tarball from delta to match md5 signatures")"
+		msg2 "$(gettext "NOTE: the delta should ONLY be distributed with this tarball")"
 		xdelta patch "$delta_file" "$base_file" "$pkg_file"
 	else
-		msg "No previous version found, skipping xdelta"
+		warning "$(gettext "No previous version found, skipping xdelta.")"
 	fi
 }
 
