@@ -431,8 +431,6 @@ generate_checksums() {
 
 		echo ")"
 	done
-
-	exit 0 # $E_OK
 }
 
 check_checksums() {
@@ -946,15 +944,15 @@ while [ "$#" -ne "0" ]; do
 		--source)     SOURCEONLY=1 ;;
 		--help)
 					usage
-					exit 0
+					exit 0 #E_OK
 					;;
 		--version)
 					version
-					exit 0
+					exit 0 #E_OK
 					;;
 		--*)
 					usage
-					exit 1
+					exit 1 #E_INVALID_OPTION
 					;;
 		-*)
 		while getopts "bcCdefFghiLmop:rRsS-" opt; do
@@ -977,11 +975,11 @@ while [ "$#" -ne "0" ]; do
 				s) DEP_BIN=1 ;;
 				h)
 						usage
-						exit 0
+						exit 0 #E_OK
 						;;
 				V)
 						version
-						exit 0
+						exit 0 #E_OK
 						;;
 				-)
 						OPTIND=0
@@ -989,7 +987,7 @@ while [ "$#" -ne "0" ]; do
 						;;
 				*)
 						usage
-						exit 1
+						exit 1 #E_INVALID_OPTION
 						;;
 			esac
 		done
@@ -1210,37 +1208,30 @@ else
 	warning "$(gettext "pacman was not found in PATH; skipping dependency checks.")"
 fi
 
+# get back to our src directory so we can begin with sources
 cd "$startdir"
-
 mkdir -p src
 cd "$srcdir"
 
+if [ "$GENINTEG" = "1" ]; then
+	download_sources
+	generate_checksums
+	exit 0 # $E_OK
+fi
+
 if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source retrieval        -- using existing src/ tree")"
-else
-	download_sources
-fi
-
-if [ "$GENINTEG" = "1" ]; then
-	generate_checksums
-fi
-
-if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
-else
-	check_checksums
-fi
-
-#Extract sources
-if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source extraction       -- using existing src/ tree")"
 else
+	download_sources
+	check_checksums
 	extract_sources
 fi
 
 if [ "$NOBUILD" = "1" ]; then
 	msg "$(gettext "Sources are ready.")"
-	exit 0
+	exit 0 #E_OK
 else
 	# check for existing pkg directory; don't remove if we are repackaging
 	if [ -d "$pkgdir" -a "$REPKG" = "0" ]; then
@@ -1284,6 +1275,6 @@ msg "$(gettext "Finished making: %s")" "$pkgname ($date)"
 
 installpackage
 
-exit 0
+exit 0 #E_OK
 
 # vim: set ts=2 sw=2 noet:
