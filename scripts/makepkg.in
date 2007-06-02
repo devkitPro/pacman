@@ -177,7 +177,7 @@ in_array() {
 	return 1
 }
 
-getdownloadclient() {
+get_downloadclient() {
 	# $1 = url with valid protocol prefix
 	local url=$1
 	local proto=$(echo $netfile | sed 's|://.*||')
@@ -211,7 +211,7 @@ getdownloadclient() {
 	echo "$agent"
 }
 
-checkdeps() {
+check_deps() {
 	[ $# -gt 0 ] || return
 
 	pmout=$(pacman $PACMAN_OPTS -T $*)
@@ -302,16 +302,16 @@ handledeps() {
 	return $R_DEPS_SATISFIED
 }
 
-resolvedeps() {
+resolve_deps() {
 	local R_DEPS_SATISFIED=0
 	local R_DEPS_MISSING=0
 
-	deplist="$(checkdeps $*)"
+	deplist="$(check_deps $*)"
 	[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
 
 	if handledeps $deplist; then
 		# check deps again to make sure they were resolved
-		deplist="$(checkdeps $*)"
+		deplist="$(check_deps $*)"
 		[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
 	elif [ "$DEP_BIN" = "1" -o "$DEP_SRC" = "1" ]; then
 		error "$(gettext "Failed to install all missing dependencies.")"
@@ -327,7 +327,7 @@ resolvedeps() {
 }
 
 # fix flyspray bug #5923
-removedeps() {
+remove_deps() {
 	[ "$RMDEPS" = "0" ] && return
 
 	# runtimedeps and buildtimedeps are set when resolving deps
@@ -365,7 +365,7 @@ download_sources() {
 		fi
 
 		# find the client we should use for this URL
-		local dlclient=$(getdownloadclient $netfile) || exit $?
+		local dlclient=$(get_downloadclient $netfile) || exit $?
 
 		msg2 "$(gettext "Downloading %s")" "$file"
 		# fix flyspray bug #3289
@@ -590,7 +590,7 @@ run_build() {
 
 	if [ $ret -gt 0 ]; then
 		error "$(gettext "Build Failed.  Aborting...")"
-		removedeps
+		remove_deps
 		exit 2 # $E_BUILD_FAILED # TODO: error code
 	fi
 }
@@ -828,7 +828,7 @@ create_srcpackage() {
 	fi
 }
 
-installpackage() {
+install_package() {
 	[ "$INSTALL" = "0" ] && return
 
 	msg "$(gettext "Installing package with pacman -U...")"
@@ -1128,7 +1128,7 @@ if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
      -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "$(gettext "a package has already been built, installing existing package.")"
-		installpackage
+		install_package
 		exit $?
 	else
 		error "$(gettext "a package has already been built. (use -f to overwrite)")"
@@ -1178,22 +1178,22 @@ if [ "$NODEPS" = "1" -o "$GENINTEG" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" 
 	# skip printing a warning message for the others: geninteg, nobuild, repkg
 elif [ $(type -p pacman) ]; then
 	deperr=0
-	# these two variables are needed later by removedeps
+	# these two variables are needed later by remove_deps
 	unset runtimedeps buildtimedeps
 
 	msg "$(gettext "Checking Runtime Dependencies...")"
-	resolvedeps ${depends[@]}
+	resolve_deps ${depends[@]}
 	ret=$?
-	# deplist is a global variable set by resolvedeps
+	# deplist is a global variable set by resolve_deps
 	runtimedeps="$deplist"
 	if [ "$ret" != "0" ]; then
 		deperr=1
 	fi
 
 	msg "$(gettext "Checking Buildtime Dependencies...")"
-	resolvedeps ${makedepends[@]}
+	resolve_deps ${makedepends[@]}
 	ret=$?
-	# deplist is a global variable set by resolvedeps
+	# deplist is a global variable set by resolve_deps
 	buildtimedeps="$deplist"
 	if [ "$ret" != "0" ]; then
 		deperr=1
@@ -1267,11 +1267,11 @@ if [ "$CLEANUP" = "1" ]; then
 	rm -rf ${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*
 fi
 
-removedeps
+remove_deps
 
 msg "$(gettext "Finished making: %s")" "$pkgname ($(date))"
 
-installpackage
+install_package
 
 exit 0 #E_OK
 
