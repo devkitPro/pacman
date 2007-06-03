@@ -835,24 +835,32 @@ create_xdelta() {
 
 	local pkg_file=$1
 	local cache_dir="/var/cache/pacman/pkg" # TODO: autoconf me
-	local old_versions=( $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-${CARCH}${PKGEXT} 2>/dev/null) )
 
-	# Check to see if we have any old versions to create deltas with
-	local old_file old_version latest_version base_file
-	for old_file in "${old_versions[@]}"; do
-		old_version=$(basename "${old_file%-$CARCH$PKGEXT}")
-		old_version=${old_version#$pkgname-}
-	
+	local old_file old_version
+	for old_file in $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-*{,-$CARCH}$PKGEXT 2>/dev/null); do
+		if [[ "$old_file" =~ "$CARCH" ]]; then
+			old_version=${old_file%-$CARCH$PKGEXT}
+		else
+			old_version=${old_file%$PKGEXT}
+		fi
+
+		old_version=$(echo $old_version | \
+			sed "s|^.*/${pkgname}-\([[:alnum:]_\.]*-[[:alnum:]_\.]*\)$|\1|" | \
+			grep -v -e "^$cache_dir" -e "^$PKGDEST")
+
+		[ "$old_version" = "" ] && continue
+
 		# old_version may include the target package, only use the old versions
-		if [ "$old_version" != "$pkgver-$pkgrel" ] && [[ "$old_version" > "$latest_version" ]]; then
-			latest_version=$old_version
-			base_file=$old_file
+		local vercmp=$(vercmp "$old_version" "$latest_version")
+		if [ "$old_version" != "$pkgver-$pkgrel" -a $vercmp -gt 0 ]; then
+			local latest_version=$old_version
+			local base_file=$old_file
 		fi
 	done
 
 	if [ "$base_file" != "" ]; then
 		msg "$(gettext "Making delta from version %s...")" "$latest_version"
-		local delta_file="$PKGDEST/$pkgname-${old_version}_to_$pkgver-$pkgrel-$CARCH.delta"
+		local delta_file="$PKGDEST/$pkgname-${latest_version}_to_$pkgver-$pkgrel-$CARCH.delta"
 
 		# xdelta will decompress base_file & pkg_file into TMP_DIR (or /tmp if
 		# TMP_DIR is unset) then perform the delta on the resulting tars
