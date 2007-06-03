@@ -885,6 +885,11 @@ create_srcpackage() {
 		fi
 	fi
 
+	if [ -f ChangeLog ]; then
+		msg2 "$(gettext "Adding %s...")" "ChangeLog"
+		comp_files="$comp_files ChangeLog"
+	fi
+
 	local i
 	for i in ${source[@]}; do
 		if [ -f $i ]; then
@@ -908,11 +913,9 @@ install_package() {
 
 	msg "$(gettext "Installing package with pacman -U...")"
 	if [ "$ASROOT" = "0" ]; then
-		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}
-		exit $?
+		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
 	else
-		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}
-		exit $?
+		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
 	fi
 }
 
@@ -1168,7 +1171,7 @@ unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
 unset options noextract
 
-if [ ! -f $BUILDSCRIPT ]; then
+if [ ! -f "$BUILDSCRIPT" ]; then
 	error "$(gettext "%s does not exist.")" "$BUILDSCRIPT"
 	exit 1
 	#TODO this is an attempt at a generic way to unset all package specific
@@ -1180,7 +1183,7 @@ if [ ! -f $BUILDSCRIPT ]; then
 	#    done
 fi
 
-source $BUILDSCRIPT
+source "$BUILDSCRIPT"
 
 # check for no-no's in the build script
 if [ -z "$pkgver" ]; then
@@ -1282,8 +1285,7 @@ else
 fi
 
 # get back to our src directory so we can begin with sources
-cd "$startdir"
-mkdir -p src
+mkdir -p "$srcdir"
 cd "$srcdir"
 
 if [ "$GENINTEG" = "1" ]; then
@@ -1296,6 +1298,16 @@ if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 	warning "$(gettext "Skipping source retrieval        -- using existing src/ tree")"
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
 	warning "$(gettext "Skipping source extraction       -- using existing src/ tree")"
+
+	if [ "$NOEXTRACT" = "1" -a "$(ls "$srcdir" 2>/dev/null)" = "" ]; then
+		error "$(gettext "The source directory is empty, there is nothing to build!")"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	elif [ "$REPKG" = "1" -a \( ! -d "$pkgdir" -o "$(ls "$pkgdir" 2>/dev/null)" = "" \) ]; then
+		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
 else
 	download_sources
 	check_checksums
@@ -1327,10 +1339,7 @@ else
 		msg "$(gettext "Entering fakeroot environment...")"
 		cd "$startdir"
 
-		ret=0
-		fakeroot -- $0 -F $ARGLIST || ret=$?
-		[ $ret -ne 0 ] && exit $ret
-		unset ret
+		fakeroot -- $0 -F $ARGLIST || exit $?
 	fi
 
 	create_xdelta "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
