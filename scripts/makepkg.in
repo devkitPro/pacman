@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 #   makepkg - make packages compatable for use with pacman
 #   @configure_input@
@@ -102,6 +102,55 @@ error() {
 		printf "==> ERROR: ${mesg}\n" "$@" >&2
 	fi
 }
+
+
+##
+# Special exit call for traps, Don't print any error messages when inside,
+# the fakeroot call, the error message will be printed by the main call.
+##
+trap_exit() {
+	if [ "$INFAKEROOT" = "0" ]; then
+		echo
+		error "$@"
+	fi
+	exit 1
+}
+
+
+##
+# Clean up function. Called automatically when the script exits.
+##
+clean_up() {
+	local EXIT_CODE=$?
+
+	if [ "$INFAKEROOT" = "1" ]; then
+		# Don't clean up when leaving fakeroot, we're not done yet.
+		return
+	fi
+
+	if [ $EXIT_CODE -eq 0 -a "$CLEANUP" = "1" ]; then
+		# If it's a clean exit and -c/--clean has been passed...
+		msg "$(gettext "Cleaning up...")"
+		cd "$startdir"
+		rm -rf pkg src
+		if [ "$pkgname" != "" ]; then
+			# Can't do this unless the BUILDSCRIPT has been sourced.
+			rm -f "${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*"
+		fi
+	fi
+
+	remove_deps
+}
+
+
+##
+# Signal Traps
+##
+trap 'clean_up' 0
+trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
+trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
+trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
+
 
 strip_url() {
 	echo "$1" | sed 's|^.*://.*/||g'
@@ -594,9 +643,6 @@ run_build() {
 	# ensure all necessary build variables are exported
 	export CFLAGS CXXFLAGS MAKEFLAGS
 
-	# check for "exit on syntax error" shell option
-	echo $SHELLOPTS | grep errexit 2>&1 >/dev/null; set_e=$?
-
 	local ret=0
 	if [ "$LOGGING" = "1" ]; then
 		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
@@ -612,15 +658,9 @@ run_build() {
 			mv "$BUILDLOG" "$BUILDLOG.$i"
 		fi
 
-		# use 'errexit' to bail on syntax error
-		[ $set_e -eq 1 ] && set -e
 		build 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
-		[ $set_e -eq 1 ] && set +e
 	else
-		# use 'errexit' to bail on syntax error
-		[ $set_e -eq 1 ] && set -e
 		build 2>&1 || ret=$?
-		[ $set_e -eq 1 ] && set +e
 	fi
 
 	if [ $ret -gt 0 ]; then
@@ -1295,15 +1335,6 @@ else
 
 	create_xdelta "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 fi
-
-cd "$startdir"
-if [ "$CLEANUP" = "1" ]; then
-	msg "$(gettext "Cleaning up...")"
-	rm -rf src pkg
-	rm -rf ${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*
-fi
-
-remove_deps
 
 msg "$(gettext "Finished making: %s")" "$pkgname ($(date))"
 
