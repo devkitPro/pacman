@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 #   abs - download a PKGBUILD tree from a CVS repository
 #   @configure_input@
@@ -21,99 +21,155 @@
 #   USA.
 #
 
+##
+# Script Exit Reasons
+# -------------------
+#              E_OK : Everything worked :)
+# E_MISSING_PROGRAM : A program the script depends on is not installed.
+#    E_CONFIG_ERROR : Missing/incorrect configuration.
+#  E_INVALID_OPTION : User has passed unknow/invalid option to script.
+##
+
 # gettext initialization
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
+BUG_REPORT_EMAIL='@PACKAGE_BUGREPORT@'
 CONFDIR="@sysconfdir@/abs"
-CONNMODE="m"
+PASSIVE='m'
 
-[ -f "$CONFDIR/abs.conf" ] && source "$CONFDIR/abs.conf"
+# Source config files
+if [ -r "$CONFDIR/abs.conf" ]; then
+	source "$CONFDIR/abs.conf"
+fi
 
-#user based overrides
-[ -f ~/.abs.conf ] && source ~/.abs.conf
+# User based overrides
+if [ -r ~/.abs.conf ]; then
+	source ~/.abs.conf
+fi
+
+
+msg() {
+	local mesg=$1; shift
+	printf "==> ${mesg}\n" "$@" >&2
+}
+
+error() {
+	local mesg=$1; shift
+	printf  "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+}
+
 
 usage() {
-	printf "abs (pacman) %s\n" "$myver"
+	printf "$(gettext "abs (pacman) %s - download a PKGBUILD tree from a CVS repository")\n" "$myver"
 	echo
-	printf "$(gettext "Usage: %s [-p] [repository1 [repository2 ...]]")\n" "$0"
+	printf "$(gettext "Usage %s [options] [repository...]")\n" "$0"
 	echo
-	printf "$(gettext "abs will synchronize PKGBUILD scripts from the CVS repository")\n"
+	printf "$(gettext "Options:")\n"
+	printf "$(gettext "  -p, --passive  The connection is opened in passive mode.")\n"
+	echo
+	printf "$(gettext "  -h, --help     Display this help message then exit.")\n"
+	printf "$(gettext "  -V, --version  Display version information then exit.")\n"
+	echo
+	printf "$(gettext "abs will synchronize build scripts from the CVS repository")\n"
 	printf "$(gettext "into %s. You can follow different package trees by")\n" "$ABSROOT"
 	printf "$(gettext "editing %s files. If no argument is given, abs")\n" "$CONFDIR/supfile.*"
 	printf "$(gettext "will synchronize from supfiles specified in %s.")\n" "$CONFDIR/abs.conf"
-	printf "$(gettext "If -p is specified, the connection is opened in passive mode.")\n"
 	echo
+	printf "$(gettext "Report bugs to <%s>.")\n" "$BUG_REPORT_EMAIL"
 }
 
 version() {
 	printf "abs (pacman) %s\n" "$myver"
-	printf "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n"
+	printf "$(gettext "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>").\n"
 	echo
-	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by law.\n"
+	printf "$(gettext "This is free software; see the source for copying conditions.")\n"
+	printf "$(gettext "There is NO WARRANTY, to the extent permitted by law.")\n"
 	echo
 }
 
-update() {
-	cd "$ABSROOT"
-	for sup in "${SUPFILES[@]}"; do
-		if [ "$sup" != "testing" ]; then
-			if [ "$sup" = "${sup#!}" ]; then
-				$CVSUP -L 1 -r 0 -g -b "$ABSROOT" -P $CONNMODE -c .sup "$CONFDIR/supfile.$sup"
-			fi
-		elif [ "$sup" = "testing" ]; then
-			if [ ! -d "$ABSROOT/testing" ]; then
-				mkdir "$ABSROOT/testing"
-			fi
-			cd "$ABSROOT/testing"
-			$CVSUP -L 1 -r 0 -g -b "$ABSROOT/testing" -P $CONNMODE -c .sup "$CONFDIR/supfile.testing"
-			cd "$ABSROOT"
-		fi
-	done
-}
 
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	usage
-	exit 0
+##
+# Signal Traps
+##
+trap 'error "$(gettext "TERM signal caught. Exiting...")"; exit 1' TERM HUP QUIT
+trap 'error "$(gettext "Aborted by user! Exiting...")"; exit 1' INT
+trap 'error "$(gettext "An unknown error has occured. Exiting...")"; exit 1' ERR
+
+
+# Parse Command Line Options.
+OPT_SHORT="hpV"
+OPT_LONG="help,passive,version"
+OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
+if echo "$OPT_TEMP" | grep -q 'GETOPT GO BANG!'; then
+	# This is a small hack to stop the script bailing with 'set -e'
+	echo; usage; exit 1 # E_INVALID_OPTION;
+fi
+eval set -- "$OPT_TEMP"
+unset OPT_SHORT OPT_LONG OPT_TEMP
+
+while true; do
+	case "$1" in
+		-p|--passive)  PASSIVE='-';;
+
+		-h|--help)     usage; exit 0;; # E_OK
+		-V|--version)  version; exit 0;; # E_OK
+
+		--)            OPT_IND=0; shift; break;;
+		*)             usage; exit 1;; # E_INVALID_OPTION
+	esac
+	shift
+done
+
+if [ $# -gt 0 ]; then
+	SUPFILES=("$@")
 fi
 
-if [ "$1" = "-V" -o "$1" = "--version" ]; then
-	version
-	exit 0
-fi
 
+# Check permissions and programs.
 if [ ! -d "$ABSROOT" ]; then
-	echo "$(gettext "abs: %s does not exist (or is not a directory).")" "$ABSROOT"
-	exit 1
+	error "$(gettext "%s does not exist or is not a directory.")" "$ABSROOT"
+	exit 1 # E_CONFIG_ERROR
+elif [ ! -w "$ABSROOT" ]; then
+	error "$(gettext "You do not have write permissions in %s.")" "$ABSROOT"
+	exit 1 # E_CONFIG_ERROR
 fi
-if [ ! -w "$ABSROOT" ]; then
-	echo "$(gettext "abs: no write permissions in %s.")" "$ABSROOT"
-	exit 1
-fi
+
 
 if [ "$(type -p cvsup)" ]; then
 	CVSUP="cvsup"
 elif [ "$(type -p csup)" ]; then
 	CVSUP="csup"
 else
-	echo "$(gettext "abs: missing CVS synchronization utility. Install cvsup or csup.")"
-	exit 1
+	error "$(gettext "Missing CVS synchronization utility. Install cvsup or csup.")"
+	exit 1 # E_MISSING_PROGRAM
 fi
 
-if [ "$1" = "-p" ] || [ "$1" = "--passive" ]; then
-	CONNMODE="-"
-	shift
-else
-	CONNMODE="m"
-fi
 
-if [ "$#" -ne "0" ]; then
-	SUPFILES=("$@")
-fi
+# Begin script.
+for sup in ${SUPFILES[@]}; do
+	case "$sup" in
+		testing)
+			if [ ! -d "$ABSROOT/$sup" ]; then
+				mkdir "$ABSROOT/$sup"
+			fi
+			workdir="$ABSROOT/$sup"
+			;;
 
-update
+		*)
+			if [ "$sup" != "${sup#!}" ]; then
+				continue
+			fi
+			workdir="$ABSROOT"
+			;;
+	esac
 
-exit 0
+	msg "$(gettext "Updating %s...")" "$sup"
+	cd "$workdir"
+	$CVSUP -L 1 -r 0 -g -b "$workdir" -P "$PASSIVE" -c .sup "$CONFDIR/supfile.$sup"
+done
+
+exit 0 # E_OK
+
 # vim: set ts=2 sw=2 noet:
