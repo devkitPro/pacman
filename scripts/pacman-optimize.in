@@ -26,9 +26,8 @@ export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
-# TODO fix these paths
-dbroot='@ROOTDIR@@DBPATH@'
-lockfile='@ROOTDIR@@LOCKFILE@'
+dbroot='@localstatedir@/lib/pacman/'
+lockfile='@localstatedir@/run/pacman.lck'
 
 msg() {
 	local mesg=$1; shift
