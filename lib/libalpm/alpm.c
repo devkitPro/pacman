@@ -1025,29 +1025,20 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 						alpm_option_add_holdpkg(p);
 						_alpm_log(PM_LOG_DEBUG, _("config: holdpkg: %s"), p);
 					} else if(strcmp(origkey, "DBPath") == 0 || strcmp(key, "DBPATH") == 0) {
-						/* shave off the leading slash, if there is one */
-						if(*ptr == '/') {
-							ptr++;
-						}
 						alpm_option_set_dbpath(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: dbpath: %s"), ptr);
 					} else if(strcmp(origkey, "CacheDir") == 0 || strcmp(key, "CACHEDIR") == 0) {
-						/* shave off the leading slash, if there is one */
-						if(*ptr == '/') {
-							ptr++;
-						}
 						alpm_option_set_cachedir(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: cachedir: %s"), ptr);
 					} else if(strcmp(origkey, "RootDir") == 0 || strcmp(key, "ROOTDIR") == 0) {
-						/* shave off the leading slash, if there is one */
-						if(*ptr == '/') {
-							ptr++;
-						}
 						alpm_option_set_root(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: rootdir: %s"), ptr);
 					} else if (strcmp(origkey, "LogFile") == 0 || strcmp(key, "LOGFILE") == 0) {
 						alpm_option_set_logfile(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: logfile: %s"), ptr);
+					} else if (strcmp(origkey, "LockFile") == 0 || strcmp(key, "LOCKFILE") == 0) {
+						alpm_option_set_lockfile(ptr);
+						_alpm_log(PM_LOG_DEBUG, _("config: lockfile: %s"), ptr);
 					} else if (strcmp(origkey, "XferCommand") == 0 || strcmp(key, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);
 						_alpm_log(PM_LOG_DEBUG, _("config: xfercommand: %s"), ptr);
