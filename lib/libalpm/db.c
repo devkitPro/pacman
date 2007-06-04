@@ -157,7 +157,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
 	return(ret);
 }
 
-pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback)
+pmdb_t *_alpm_db_register(const char *treename)
 {
 	struct stat buf;
 	pmdb_t *db;
@@ -205,9 +205,6 @@ pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback)
 		_alpm_db_free(db);
 		RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
-
-	/* Only call callback on NEW registration. */
-	if(callback) callback(treename, db);
 
 	if(strcmp(treename, "local") == 0) {
 		handle->db_local = db;

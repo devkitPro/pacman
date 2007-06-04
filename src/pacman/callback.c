@@ -91,7 +91,6 @@ static float get_update_timediff(int first_call)
 /* refactored from cb_trans_progress */
 static void fill_progress(const int percent, const int proglen)
 {
-	const unsigned short chomp = alpm_option_get_chomp();
 	const unsigned int hashlen = proglen - 8;
 	const unsigned int hash = percent * hashlen / 100;
 	static unsigned int lasthash = 0, mouth = 0;
@@ -109,7 +108,7 @@ static void fill_progress(const int percent, const int proglen)
 		printf(" [");
 		for(i = hashlen; i > 1; --i) {
 			/* if special progress bar enabled */
-			if(chomp) {
+			if(config->chomp) {
 				if(i > hashlen - hash) {
 					printf("-");
 				} else if(i == hashlen - hash) {

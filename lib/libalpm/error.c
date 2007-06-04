@@ -138,15 +138,6 @@ char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_PKG_HOLD:
 			/* TODO wow this is not descriptive at all... what does this mean? */
 			return _("not confirmed");
-		/* Configuration file */
-		case PM_ERR_CONF_BAD_SECTION:
-			return _("bad configuration section name");
-		case PM_ERR_CONF_LOCAL:
-			return _("'local' is reserved and cannot be used as a repository name");
-		case PM_ERR_CONF_BAD_SYNTAX:
-			return _("syntax error in config file");
-		case PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION:
-			return _("all directives must belong to a section");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
 		/* Downloading */

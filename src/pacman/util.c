@@ -210,7 +210,7 @@ char *strtrim(char *str)
 {
 	char *pch = str;
 
-	if(*str == '\0') {
+	if(str == NULL || *str == '\0') {
 		/* string is empty, so we're done. */
 		return(str);
 	}
@@ -350,7 +350,7 @@ void display_targets(alpm_list_t *syncpkgs)
 		isize += alpm_pkg_get_isize(pkg);
 
 		/* print the package size with the output if ShowSize option set */
-		if(alpm_option_get_showsize()) {
+		if(config->showsize) {
 			/* Convert byte size to MB */
 			mbdispsize = dispsize / (1024.0 * 1024.0);
 

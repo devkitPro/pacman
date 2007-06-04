@@ -150,7 +150,7 @@ static int query_search(alpm_list_t *targets)
 		printf("local/%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 
 		/* print the package size with the output if ShowSize option set */
-		if(alpm_option_get_showsize()) {
+		if(config->showsize) {
 			/* Convert byte size to MB */
 			double mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 

@@ -137,18 +137,9 @@ void alpm_option_set_xfercommand(const char *cmd);
 unsigned short alpm_option_get_nopassiveftp();
 void alpm_option_set_nopassiveftp(unsigned short nopasv);
 
-unsigned short alpm_option_get_chomp();
-void alpm_option_set_chomp(unsigned short chomp);
-
 alpm_list_t *alpm_option_get_needles();
 void alpm_option_add_needle(char *needle);
 void alpm_option_set_needles(alpm_list_t *needles);
-
-unsigned short alpm_option_get_usecolor();
-void alpm_option_set_usecolor(unsigned short usecolor);
-
-unsigned short alpm_option_get_showsize();
-void alpm_option_set_showsize(unsigned short showsize);
 
 pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
@@ -156,9 +147,6 @@ alpm_list_t *alpm_option_get_syncdbs();
 /*
  * Databases
  */
-
-/* Database registration callback */
-typedef void (*alpm_cb_db_register)(const char *, pmdb_t *);
 
 pmdb_t *alpm_db_register(char *treename);
 int alpm_db_unregister(pmdb_t *db);
@@ -203,8 +191,6 @@ int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 int alpm_pkg_checksha1sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(char *url);
-int alpm_parse_config(char *file, alpm_cb_db_register callback,
-                      const char *this_section);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 char *alpm_pkg_name_hasarch(char *pkgname);
 
@@ -463,11 +449,6 @@ enum _pmerrno_t {
 	PM_ERR_DB_SYNC,
 	PM_ERR_RETRIEVE,
 	PM_ERR_PKG_HOLD,
-	/* Configuration file */
-	PM_ERR_CONF_BAD_SECTION,
-	PM_ERR_CONF_LOCAL,
-	PM_ERR_CONF_BAD_SYNTAX,
-	PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION,
 	PM_ERR_INVALID_REGEX,
   /* Downloading */
 	PM_ERR_CONNECT_FAILED,

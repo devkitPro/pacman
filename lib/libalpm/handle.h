@@ -47,26 +47,23 @@ typedef struct _pmhandle_t {
 	/* options */
   alpm_cb_log logcb;				/* Log callback function */
 	alpm_cb_download dlcb;    /* Download callback function */
-  unsigned short logmask;		/* Output mask for logging functions */
+  unsigned short logmask;		/* Output mask for logging functions */ /* TODO move to frontend */
 	char *root;								/* Root path, default '/' */
 	char *dbpath;							/* Base path to pacman's DBs */
 	char *cachedir;						/* Base path to pacman's cache */
 	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
 	char *lockfile;						/* Name of the lock file */
-	unsigned short usesyslog;	/* Use syslog instead of logfile? */
+	unsigned short usesyslog;	/* Use syslog instead of logfile? */ /* TODO move to frontend */
 	
 	alpm_list_t *noupgrade;			/* List of packages NOT to be upgraded */
-	alpm_list_t *noextract;			/* List of packages NOT to extrace */ /*TODO is this used?*/
+	alpm_list_t *noextract;			/* List of packages NOT to extract */ /*TODO is this used?*/
 	alpm_list_t *ignorepkg;			/* List of packages to ignore */
 	alpm_list_t *holdpkg;				/* List of packages which 'hold' pacman */
 
-	time_t upgradedelay;			/* Amount of time to wait before upgrading a package*/
+	time_t upgradedelay;			/* Amount of time to wait before upgrading a package */
 	/* servers */
 	char *xfercommand;				/* External download command */
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
-	unsigned short chomp;			/* I Love Candy! */
-	unsigned short use_color; /* enable colorful output */
-	unsigned short showsize;  /* Show individual package sizes */
 } pmhandle_t;
 
 extern pmhandle_t *handle;

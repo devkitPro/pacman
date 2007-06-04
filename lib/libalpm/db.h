@@ -52,7 +52,7 @@ pmdb_t *_alpm_db_new(const char *dbpath, const char *treename);
 void _alpm_db_free(pmdb_t *db);
 int _alpm_db_cmp(const void *db1, const void *db2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles);
-pmdb_t *_alpm_db_register(const char *treename, alpm_cb_db_register callback);
+pmdb_t *_alpm_db_register(const char *treename);
 
 /* be.c, backend specific calls */
 int _alpm_db_install(pmdb_t *db, const char *dbfile);
