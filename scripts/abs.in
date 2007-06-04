@@ -21,6 +21,10 @@
 #   USA.
 #
 
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
 myver='@PACKAGE_VERSION@'
 CONFDIR="@sysconfdir@/abs"
 CONNMODE="m"
@@ -31,14 +35,16 @@ CONNMODE="m"
 [ -f ~/.abs.conf ] && source ~/.abs.conf
 
 usage() {
-	echo "Arch Build System -- synchronization utility"
-	echo "usage: $0 [-p] [repository1 [repository2 ...]]"
+	printf "abs (pacman) %s\n" "$myver"
 	echo
-	echo "abs will synchronize PKGBUILD scripts from the CVS repository"
-	echo "into $ABSROOT.  You can follow different package trees by"
-	echo "editing @SYSCONFDIR@/abs/supfile.* files.  If no argument is given, abs "
-	echo "will synchronize from supfiles specified in @SYSCONFDIR@/abs/abs.conf."
-	echo "If -p is specified, the connection is opened in passive mode."
+	printf "$(gettext "Usage: %s [-p] [repository1 [repository2 ...]]")\n" "$0"
+	echo
+	printf "$(gettext "abs will synchronize PKGBUILD scripts from the CVS repository")\n"
+	printf "$(gettext "into %s. You can follow different package trees by")\n" "$ABSROOT"
+	printf "$(gettext "editing %s files. If no argument is given, abs")\n" "$CONFDIR/supfile.*"
+	printf "$(gettext "will synchronize from supfiles specified in %s.")\n" "$CONFDIR/abs.conf"
+	printf "$(gettext "If -p is specified, the connection is opened in passive mode.")\n"
+	echo
 }
 
 version() {
@@ -79,11 +85,11 @@ if [ "$1" = "-V" -o "$1" = "--version" ]; then
 fi
 
 if [ ! -d "$ABSROOT" ]; then
-	echo "abs: $ABSROOT does not exist (or is not a directory)"
+	echo "$(gettext "abs: %s does not exist (or is not a directory).")" "$ABSROOT"
 	exit 1
 fi
 if [ ! -w "$ABSROOT" ]; then
-	echo "abs: no write permissions in $ABSROOT"
+	echo "$(gettext "abs: no write permissions in %s.")" "$ABSROOT"
 	exit 1
 fi
 
@@ -92,7 +98,7 @@ if [ "$(type -p cvsup)" ]; then
 elif [ "$(type -p csup)" ]; then
 	CVSUP="csup"
 else
-	echo "abs: missing CVS synchronization utility.  Install cvsup or csup."
+	echo "$(gettext "abs: missing CVS synchronization utility. Install cvsup or csup.")"
 	exit 1
 fi
 

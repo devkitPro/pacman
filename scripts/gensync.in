@@ -21,29 +21,33 @@
 #   USA.
 #
 
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
 myver='@PACKAGE_VERSION@'
 
 # functions
 
 usage() {
-	echo "gensync $myver"
-	echo "usage: $0 <root> <destfile> [package_directory]"
+	printf "gensync (pacman) %s\n" "$myver"
 	echo
-	echo "gensync will generate a sync database by reading all PKGBUILD files"
-	echo "from <root>.  gensync builds the database in a temporary directory"
-	echo "and then compresses it to <destfile>."
+	printf "$(gettext "Usage: %s <root> <destfile> [package_directory]")\n" "$0"
 	echo
-	echo "gensync will calculate md5sums of packages in the same directory as"
-	echo "<destfile>, unless an alternate [package_directory] is specified."
+	echo "$(gettext "gensync will generate a sync database by reading all PKGBUILD files")"
+	echo "$(gettext "from <root>. gensync builds the database in a temporary directory")"
+	echo "$(gettext "and then compresses it to <destfile>.")"
 	echo
-	echo "note: The <destfile> name is important.  It must be of the form"
-	echo "      {treename}.db.tar.gz where {treename} is the name of the custom"
-	echo "      package repository you configured in @sysconfdir@/pacman.conf.  The"
-	echo "      generated database must reside in the same directory as your"
-	echo "      custom packages (also configured in @sysconfdir@/pacman.conf)"
+	echo "$(gettext "gensync will calculate md5sums of packages in the same directory as")"
+	echo "$(gettext "<destfile>, unless an alternate [package_directory] is specified.")"
 	echo
-	echo "example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
+	echo "$(gettext "note: The <destfile> name is important. It must be of the form")"
+	echo "$(gettext "      {treename}.db.tar.gz where {treename} is the name of the custom")"
+	echo "$(gettext "      package repository you configured in /etc/pacman.conf. The")"
+	echo "$(gettext "      generated database must reside in the same directory as your")"
+	echo "$(gettext "      custom packages (also configured in /etc/pacman.conf)")"
 	echo
+	echo "$(gettext "example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz")"
 	echo
 	exit 0
 }
@@ -58,7 +62,8 @@ version() {
 }
 
 error () {
-	echo "==> ERROR: $*" >&2
+	local mesg=$1; shift
+	printf "==> ERROR: ${mesg}\n" "$@" >&2
 }
 
 die () {
@@ -98,8 +103,7 @@ fi
 if [ -r @sysconfdir@/makepkg.conf ]; then
 	source @sysconfdir@/makepkg.conf
 else
-	echo "ERROR: @sysconfdir@/makepkg.conf not found. Can not continue." >&2
-	exit 1 # $E_CONFIG_ERROR # TODO: error codes
+	die "$(gettext "%s not found. Can not continue.")" "@sysconfdir@/makepkg.conf"
 fi
 
 if [ -r ~/.makepkg.conf ]; then
@@ -117,9 +121,9 @@ if [ "$3" != "" ]; then
 	pkgdir="$3"
 fi
 
-[ ! -d "$rootdir" ] && die "invalid root dir: $rootdir"
+[ ! -d "$rootdir" ] && die "$(gettext "invalid root dir: %s")" $rootdir
 
-echo "gensync: building database entries, generating md5sums..." >&2
+echo "$(gettext "gensync: building database entries, generating md5sums...")" >&2
 cd "$destdir"
 
 pkgs=""
@@ -128,7 +132,7 @@ forcepkgs=""
 for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	unset pkgname pkgver pkgrel options
 
-	source $file || die "failed to parse parse $file"
+	source $file || die "$(gettext "failed to parse parse %s")" $file
 	if [ "$pkgdir" != "" ]; then
 		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
 	else
@@ -136,7 +140,7 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	fi
 
 	if [ ! -f "$pkgfile" ]; then
-		error "could not find $pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT - skipping"
+		error "$(gettext "could not find %s-%s-%s-%s.%s - skipping")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	else
 		if check_force; then
 			forcepkgs="$forcepkgs $pkgfile"
@@ -146,7 +150,7 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	fi
 done
 
-echo "creating repo DB..."
+echo "$(gettext "creating repo DB...")"
 
 # we'll trim the output just a tad, as gensync may be used on large repos
 repo-add $destfile $pkgs --force $force_pkgs \

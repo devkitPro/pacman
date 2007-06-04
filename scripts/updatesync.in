@@ -22,30 +22,34 @@
 #   USA.
 #
 
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
 myver='@PACKAGE_VERSION@'
 
 # functions
 
 usage() {
-	echo "updatesync $myver"
-	echo "usage: $0 <action> <destfile> <option> [package_directory]"
+	printf "updatesync (pacman) %s\n" "$myver"
 	echo
-	echo "updatesync will update a sync database by reading a PKGBUILD and"
-	echo "modifying the destfile. updatesync updates the database in a temporary"
-	echo "directory and then compresses it to <destfile>."
+	printf "$(gettext "Usage: %s <action> <destfile> <option> [package_directory]")\n" "$0"
 	echo
-	echo "There are two types of actions:"
+	echo "$(gettext "updatesync will update a sync database by reading a PKGBUILD and")"
+	echo "$(gettext "modifying the destfile. updatesync updates the database in a temporary")"
+	echo "$(gettext "directory and then compresses it to <destfile>.")"
 	echo
-	echo "upd - Will update a package's entry or create it if it doesn't exist."
-	echo "      It takes the package's PKGBUILD as an option."
-	echo "del - Will remove a package's entry from the db."
-	echo "      It takes the package's name as an option."
+	echo "$(gettext "There are two types of actions:")"
 	echo
-	echo "updatesync will calculate md5sums of packages in the same directory as"
-	echo "<destfile>, unless an alternate [package_directory] is specified."
+	echo "$(gettext "upd - Will update a package's entry or create it if it doesn't exist.")"
+	echo "$(gettext "      It takes the package's PKGBUILD as an option.")"
+	echo "$(gettext "del - Will remove a package's entry from the db.")"
+	echo "$(gettext "      It takes the package's name as an option.")"
 	echo
-	echo "example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
+	echo "$(gettext "updatesync will calculate md5sums of packages in the same directory as")"
+	echo "$(gettext "<destfile>, unless an alternate [package_directory] is specified.")"
 	echo
+	echo "$(gettext "example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD")"
 	echo
 	exit 0
 }
@@ -60,7 +64,8 @@ version() {
 }
 
 error () {
-	echo "==> ERROR: $*" >&2
+	local mesg=$1; shift
+	printf "==> ERROR: ${mesg}\n" "$@" >&2
 }
 
 die () {
@@ -100,8 +105,7 @@ fi
 if [ -r @sysconfdir@/makepkg.conf ]; then
 	source @sysconfdir@/makepkg.conf
 else
-	echo "ERROR: /etc/makepkg.conf not found. Can not continue." >&2
-	exit 1 # $E_CONFIG_ERROR # TODO: error codes
+	die "$(gettext "%s not found. Can not continue.")" "@sysconfdir@/makepkg.conf"
 fi
 
 if [ -r ~/.makepkg.conf ]; then
@@ -123,17 +127,17 @@ fi
 opt_force=""
 
 if [ ! -f "$option" ]; then
-	die "$option not found"
+	die "$(gettext "%s not found")" $option
 fi
 
 if [ "$action" = "upd" ]; then # INSERT / UPDATE
 	unset pkgname pkgver pkgrel options
 
-	source $option || die "failed to parse $option"
+	source $option || die "$(gettext "failed to parse %s")" $option
 	pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
 
 	if [ ! -f "$pkgfile" ]; then
-		die "could not find $pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT - aborting"
+		die "$(gettext "could not find %s-%s-%s-%s.%s - aborting")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	fi
 
 	if check_force; then

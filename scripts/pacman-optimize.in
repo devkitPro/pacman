@@ -21,35 +21,39 @@
 #   USA.
 #
 
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
 myver='@PACKAGE_VERSION@'
+# TODO fix these paths
 dbroot='@ROOTDIR@@DBPATH@'
 lockfile='@ROOTDIR@@LOCKFILE@'
 
-error() {
-	if [ "$USECOLOR" = "YES" -o "$USECOLOR" = "yes" ]; then
-		echo -e "\033[1;31m:: ERROR:\033[1;0m \033[1;1m$@\033[1;0m" >&2
-	else
-		echo ":: ERROR: $@" >&2
-	fi
+msg() {
+	local mesg=$1; shift
+	printf "==> ${mesg}\n" "$@" >&2
 }
 
-# determine current USECOLOR setting
-[ -f "/etc/rc.conf" ] && source /etc/rc.conf
-[ -f "/etc/rc.d/functions" ] && source /etc/rc.d/functions
+error () {
+	local mesg=$1; shift
+	printf "==> ERROR: ${mesg}\n" "$@" >&2
+}
 
 usage() {
-	echo "pacman-optimize (pacman) $myver"
-	echo "usage: $0 [pacman_db_root]"
+	printf "pacman-optimize (pacman) %s\n" "$myver"
 	echo
-	echo "pacman-optimize is a little hack that should improve the performance"
-	echo "of pacman when reading/writing to its filesystem-based database."
+	printf "$(gettext "Usage: %s[pacman_db_root]")\n" "$0"
 	echo
-	echo "Because pacman uses many small files to keep track of packages,"
-	echo "there is a tendency for these files to become fragmented over time."
-	echo "This script attempts to relocate these small files into one"
-	echo "continuous location on your hard drive.  The result is that the hard"
-	echo "drive should be able to read them faster, since the hard drive head"
-	echo "does not have to move around the disk as much."
+	echo "$(gettext "pacman-optimize is a little hack that should improve the performance")"
+	echo "$(gettext "of pacman when reading/writing to its filesystem-based database.")"
+	echo
+	echo "$(gettext "Because pacman uses many small files to keep track of packages,")"
+	echo "$(gettext "there is a tendency for these files to become fragmented over time.")"
+	echo "$(gettext "This script attempts to relocate these small files into one")"
+	echo "$(gettext "continuous location on your hard drive. The result is that the hard")"
+	echo "$(gettext "drive should be able to read them faster, since the hard drive head")"
+	echo "$(gettext "does not have to move around the disk as much.")"
 	echo
 }
 
@@ -88,73 +92,66 @@ fi
 
 # make sure pacman isn't running
 if [ -f $lockfile ]; then
-	die "Pacman lockfile was found.  Cannot run while pacman is running."
+	die "$(gettext "Pacman lockfile was found. Cannot run while pacman is running.")"
 fi
 
 if [ ! -d "$dbroot" ]; then
-	die "$dbroot does not exist or is not a directory"
+	die "$(gettext "%s does not exist or is not a directory.")" "$dbroot"
 fi
 
 if [ ! -w "$dbroot" ]; then
-	die "You must have correct permissions to optimize the database"
+	die "$(gettext "You must have correct permissions to optimize the database.")"
 fi
 
 # do not let pacman run while we do this
 touch $lockfile
 
 # step 1: sum the old db
-stat_busy "Md5sum'ing the old database"
+msg "$(gettext "MD5sum'ing the old database...")"
 find $dbroot -type f | sort | xargs md5sum > /tmp/pacsums.old
-stat_done
 
 # step 2: tar it up
-stat_busy "Tar'ing up $dbroot"
+msg "$(gettext "Tar'ing up %s...")" "$dbroot"
 cd $dbroot
 tar -czf /tmp/pacmanDB.tgz ./
 if [ $? -ne 0 ]; then
-	stat_fail
 	rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
-	die_r "tar'ing up $dbroot failed"
+	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"
 fi
-stat_done
 
 # step 3: make and sum the new db
-stat_busy "Making and md5sum'ing the new db"
+msg "$(gettext "Making and MD5sum'ing the new db...")"
 mkdir $dbroot.new
 tar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/
 if [ $? -ne 0 ]; then
        rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
        rm -rf "$dbroot.new"
-       die_r "untar'ing $dbroot failed"
+       die_r "$(gettext "Untar'ing $dbroot failed.")"
 fi
-find "$dbroot.new" -type f | sort | sed -e 's/pacman.new/pacman/g' |\
+find "$dbroot.new" -type f | sort | sed -e 's/pacman.new/pacman/g' | \
 		xargs md5sum > /tmp/pacsums.new
-stat_done
 
 # step 4: compare the sums
-stat_busy "Checking integrity"
+msg "$(gettext "Checking integrity...")"
 diff /tmp/pacsums.old /tmp/pacsums.new >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	# failed
-	stat_fail
 	# leave /tmp/pacsums.old and .new for checking to see what doesn't match up
 	rm -rf "$dbroot.new" $lockfile /tmp/pacmanDB.tgz
-	die_r "integrity check FAILED, reverting to old database"
+	die_r "$(gettext "integrity check FAILED, reverting to old database.")"
 fi
-stat_done
 
 # step 5: remove the new temporary database and the old one
 #         and use the .tgz to replace the old one
-stat_busy "Putting the new database in place"
+msg "$(gettext "Putting the new database in place...")"
 rm -rf "$dbroot.new" "$dbroot"/*
 tar -zxpf /tmp/pacmanDB.tgz -C "$dbroot"/
-stat_done
 
 # remove the lock file, sum files, and .tgz of database
 rm -f $lockfile /tmp/pacsums.old /tmp/pacsums.new /tmp/pacmanDB.tgz
 
 echo
-echo "Finished.  Your pacman database has been optimized."
+echo "$(gettext "Finished. Your pacman database has been optimized.")"
 echo
 
 exit 0

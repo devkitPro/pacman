@@ -20,6 +20,10 @@
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 #   USA.
 
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
 myver='@PACKAGE_VERSION@'
 
 FORCE=0
@@ -28,19 +32,19 @@ TMP_DIR=""
 
 # print usage instructions
 usage() {
-	echo "repo-add $myver"
+	printf "repo-add (pacman) %s\n" "$myver"
 	echo
-	echo "usage: repo-add <path-to-db> [--force] <package> ..."
+	echo "$(gettext "usage: repo-add <path-to-db> [--force] <package> ...")"
 	echo
-	echo "repo-add will update a package database by reading a package file."
-	echo "Multiple packages to add can be specified on the command line."
+	echo "$(gettext "repo-add will update a package database by reading a package file.")"
+	echo "$(gettext "Multiple packages to add can be specified on the command line.")"
 	echo
-	echo "The --force flag will add a 'force' entry to the sync database, which"
-	echo "tells pacman to skip its internal version number checking and update"
-	echo "the package regardless."
+	echo "$(gettext "The --force flag will add a 'force' entry to the sync database, which")"
+	echo "$(gettext "tells pacman to skip its internal version number checking and update")"
+	echo "$(gettext "the package regardless.")"
 	echo
-	echo "Example:"
-	echo "  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+	echo "$(gettext "Example:")"
+	echo "$(gettext "  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo
 }
 
@@ -137,14 +141,14 @@ db_write_entry()
 
 	# ensure $pkgname and $pkgver variables were found
 	if [ -z "$pkgname" -o -z "$pkgver" ]; then
-		echo "   error: invalid package file"
+		echo "$(gettext "   error: invalid package file")"
 		return 1
 	fi
 
 	# remove any other package in the DB with same name
 	for existing in *; do
 		if [ "${existing%-*-*}" = "$pkgname" ]; then
-			echo ":: removing existing package '$existing'"
+			echo "$(gettext ":: removing existing package '%s'")" $existing
 			rm -rf $existing
 		fi
 	done
@@ -154,7 +158,7 @@ db_write_entry()
 	cd "$pkgname-$pkgver"
 
 	# create desc entry
-	echo ":: creating 'desc' db entry"
+	echo "$(gettext ":: creating 'desc' db entry")"
 	echo -e "%FILENAME%\n$(basename $1)\n" >>desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
@@ -172,7 +176,7 @@ db_write_entry()
 	# compute checksums
 	for chk in ${DB_CHECKSUMS[@]}; do
 		name="$(checksum_name $chk)"
-		echo ":: computing $name checksums"
+		echo "$(gettext ":: computing %s checksums")" $name
 		if [ -n "$name" ]; then
 			echo -e "%$name%\n$(get_checksum $chk $pkgfile)\n" >>desc
 		fi
@@ -241,8 +245,8 @@ fi
 if [ -r @sysconfdir@/makepkg.conf ]; then
 	source @sysconfdir@/makepkg.conf
 else
-	echo "ERROR: /etc/makepkg.conf not found. Can not continue." >&2
-	exit 1 # $E_CONFIG_ERROR # TODO: error codes
+	echo "$(gettext "ERROR: /etc/makepkg.conf not found. Can not continue.")" >&2
+	exit 1 # $E_CONFIG_ERROR
 fi
 
 if [ -r ~/.makepkg.conf ]; then
@@ -252,7 +256,7 @@ fi
 # main routine
 if [ $# -gt 1 ]; then
 	gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || (\
-	echo "cannot create temp directory for database building"; \
+	echo "$(gettext "cannot create temp directory for database building")"; \
 	exit 1)
 
 	success=0
@@ -263,18 +267,18 @@ if [ $# -gt 1 ]; then
 		elif [ -z "$REPO_DB_FILE" ]; then
 			REPO_DB_FILE="$(readlink -f $arg)"
 			if ! test_repo_db_file; then
-				echo "error: repository file '$REPO_DB_FILE' is not a proper pacman db"
+				echo "$(gettext "error: repository file '%s' is not a proper pacman db")" $REPO_DB_FILE
 				exit 1
 			elif [ -f "$REPO_DB_FILE" ]; then
-				echo ":: extracting database to a temporary location"
+				echo "$(gettext ":: extracting database to a temporary location")"
 				tar xf "$REPO_DB_FILE" -C "$gstmpdir"
 			fi
 		else
 			if [ -f "$arg" ]; then
 				if ! tar tf "$arg" .PKGINFO 2>&1 >/dev/null; then
-					echo "error: '$arg' is not a package file, skipping"
+					echo "$(gettext "error: '%s' is not a package file, skipping")" $arg
 				else
-					echo ":: adding package '$arg'"
+					echo "$(gettext ":: adding package '%s'")" $arg
 
 					this_dir="$(pwd)"
 					if db_write_entry "$arg"; then
@@ -283,14 +287,14 @@ if [ $# -gt 1 ]; then
 					cd $this_dir
 				fi
 			else
-				echo "error: package '$arg' not found"
+				echo "$(gettext "error: package '%s' not found")" $arg
 			fi
 		fi
 	done
 
 	# if all operations were a success, rezip database
 	if [ "$success" = "1" ]; then
-		echo ":: creating updated database file ${REPO_DB_FILE}"
+		echo "$(gettext ":: creating updated database file %s")" ${REPO_DB_FILE}
 		cd $gstmpdir
 		if [ -n "$(ls)" ]; then
 			[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
@@ -298,12 +302,12 @@ if [ $# -gt 1 ]; then
 			case "$DB_COMPRESSION" in
 				gz) tar c * | gzip -9 >$REPO_DB_FILE ;;
 				bz2) tar c * | bzip2 -9 >$REPO_DB_FILE ;;
-				*) echo "warning: no compression set"
+				*) echo "$(gettext "warning: no compression set")"
 				tar c * >$REPO_DB_FILE;;
 			esac
 		fi
 	else
-		echo ":: no packages modified, nothing to do"
+		echo "$(gettext ":: no packages modified, nothing to do")"
 	fi
 fi
 
