@@ -482,7 +482,7 @@ int pacman_sync(alpm_list_t *targets)
 		        alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s.\n"), LOCKFILE);
+			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
 		}
 		return(1);
 	}

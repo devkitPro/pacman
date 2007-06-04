@@ -210,8 +210,6 @@ AM_CONDITIONAL(INCLUDE_ABS, test "x$includeabs" = "xyes")
 
 # Set root directory
 AC_SUBST(ROOTDIR)
-AC_DEFINE_UNQUOTED([ROOTDIR], "$ROOTDIR", [Location of pacman's default root di
-rectory])
 # Set package file extension
 AC_SUBST(PKGEXT)
 AC_DEFINE_UNQUOTED([PKGEXT], "$PKGEXT", [The file extension used by pacman packages])

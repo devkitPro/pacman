@@ -78,12 +78,12 @@ pmhandle_t *_alpm_handle_new()
 //#else
 	handle->access = PM_ACCESS_RW;
 #endif
-
-	handle->root = strdup(ROOTDIR);
-	handle->dbpath = strdup(DBPATH);
-	handle->cachedir = strdup(CACHEDIR);
-	handle->lockfile = strdup(LOCKFILE);
 	handle->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
+	handle->root = NULL;
+	handle->dbpath = NULL;
+	handle->cachedir = NULL;
+	handle->lockfile = NULL;
+	handle->logfile = NULL;
 
 	return(handle);
 }

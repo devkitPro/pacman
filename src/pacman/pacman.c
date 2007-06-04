@@ -520,7 +520,7 @@ int main(int argc, char *argv[])
 					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
 					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
 				 || (config->op == PM_OP_DEPTEST && config->op_d_resolve)
-				 || (strcmp(alpm_option_get_root(), ROOTDIR) != 0)) {
+				 || (strcmp(alpm_option_get_root(), "/") != 0)) {
 				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
 				/* special case: ignore root user check if -r is specified, fall back on
 				 * normal FS checking */
@@ -551,10 +551,10 @@ int main(int argc, char *argv[])
 	if(config->verbose > 0) {
 		printf("Root      : %s\n", alpm_option_get_root());
 		printf("Conf File : %s\n", config->configfile);
-		printf("Lock File : %s\n", alpm_option_get_lockfile());
-		printf("Root      : %s\n", alpm_option_get_root());
 		printf("DBPath    : %s\n", alpm_option_get_dbpath());
 		printf("CacheDir  : %s\n", alpm_option_get_cachedir());
+		printf("Lock File : %s\n", alpm_option_get_lockfile());
+		printf("Log File  : %s\n", alpm_option_get_logfile());
 		list_display("Targets   :", pm_targets);
 	}
 

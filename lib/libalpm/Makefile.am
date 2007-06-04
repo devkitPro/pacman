@@ -10,11 +10,7 @@ cachedir  = ${localstatedir}/cache/pacman/pkg/
 lib_LTLIBRARIES = libalpm.la
 include_HEADERS = alpm_list.h alpm.h
 
-DEFS = -DLOCALEDIR=\"@localedir@\" \
-       -DLOCKFILE=\"$(lockfile)\" \
-       -DDBPATH=\"$(dbpath)\" \
-       -DCACHEDIR=\"$(cachedir)\" \
-       @DEFS@
+DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 
 AM_CFLAGS = -fvisibility=hidden -pedantic -D_GNU_SOURCE
 

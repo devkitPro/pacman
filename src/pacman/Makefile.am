@@ -8,7 +8,6 @@ bin_PROGRAMS = pacman pacman.static
 
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
-       -DLOCKFILE=\"$(lockfile)\" \
        @DEFS@
 INCLUDES = -I$(top_srcdir)/lib/libalpm
 

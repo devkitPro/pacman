@@ -95,7 +95,7 @@ int pacman_add(alpm_list_t *targets)
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			/* TODO this and the 2 other places should probably be on stderr */
 			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s.\n"), LOCKFILE);
+			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
 		}
 		return(1);
 	}
