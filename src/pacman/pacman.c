@@ -458,7 +458,8 @@ static int parseargs(int argc, char *argv[])
 
 /* The real parseconfig. Called with a null section argument by the publicly
  * visible parseconfig so we can recall from within ourself on an include */
-static int _parseconfig(const char *file, const char *givensection)
+static int _parseconfig(const char *file, const char *givensection,
+                        pmdb_t * const givendb)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];
@@ -471,8 +472,13 @@ static int _parseconfig(const char *file, const char *givensection)
 		return(1);
 	}
 
+	/* if we are passed a section, use it as our starting point */
 	if(givensection != NULL) {
 		section = strdup(givensection);
+	}
+	/* if we are passed a db, use it as our starting point */
+	if(givendb != NULL) {
+		db = givendb;
 	}
 
 	while(fgets(line, PATH_MAX, fp)) {
@@ -507,7 +513,7 @@ static int _parseconfig(const char *file, const char *givensection)
 			}
 			/* if we are not looking at the options section, register a db */
 			if(strcmp(section, "options") != 0) {
-				alpm_db_register(section);
+				db = alpm_db_register(section);
 			}
 		} else {
 			/* directive */
@@ -554,8 +560,12 @@ static int _parseconfig(const char *file, const char *givensection)
 			} else {
 				/* directives with settings */
 				if(strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0) {
+					int ret;
 					printf(_("config: including %s\n"), ptr);
-					_parseconfig(ptr, section);
+					ret = _parseconfig(ptr, section, db);
+					if(ret != 0) {
+						return(ret);
+					}
 				} else if(strcmp(section, "options") == 0) {
 					if(strcmp(key, "NoUpgrade") == 0 || strcmp(upperkey, "NOUPGRADE") == 0) {
 						/* TODO functionalize this */
@@ -637,21 +647,19 @@ static int _parseconfig(const char *file, const char *givensection)
 						printf("PM_ERR_CONF_BAD_SYNTAX\n");
 						return(1);
 					}
-				} else {
-					if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
-						/* let's attempt a replacement for the current repo */
-						char *server = strreplace(ptr, "$repo", section);
+				} else if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
+					/* let's attempt a replacement for the current repo */
+					char *server = strreplace(ptr, "$repo", section);
 
-						if(alpm_db_setserver(db, server) != 0) {
-							/* pm_errno is set by alpm_db_setserver */
-							return(1);
-						}
-
-						free(server);
-					} else {
-						printf("PM_ERR_CONF_BAD_SYNTAX\n");
+					if(alpm_db_setserver(db, server) != 0) {
+						/* pm_errno is set by alpm_db_setserver */
 						return(1);
 					}
+
+					free(server);
+				} else {
+					printf("PM_ERR_CONF_BAD_SYNTAX\n");
+					return(1);
 				}
 			}
 		}
@@ -667,8 +675,8 @@ static int _parseconfig(const char *file, const char *givensection)
  */
 int parseconfig(const char *file)
 {
-	/* call the real parseconfig function with a null section argument */
-	return(_parseconfig(file, NULL));
+	/* call the real parseconfig function with a null section & db argument */
+	return(_parseconfig(file, NULL, NULL));
 }
 
 /**

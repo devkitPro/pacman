@@ -128,7 +128,7 @@ int SYMEXPORT alpm_release()
  * @param treename the name of the repository
  * @return a pmdb_t* on success (the value), NULL on error
  */
-pmdb_t SYMEXPORT *alpm_db_register(char *treename)
+pmdb_t SYMEXPORT *alpm_db_register(const char *treename)
 {
 	ALPM_LOG_FUNC;
 
