@@ -54,6 +54,10 @@ typedef struct __config_t {
 	pmtransflag_t flags;
 	unsigned short noask;
 	unsigned int ask;
+	/* conf file options */
+	unsigned short chomp; /* I Love Candy! */
+	unsigned short usecolor; /* enable colorful output */
+	unsigned short showsize; /* show individual package sizes */
 } config_t;
 
 config_t *config_new(void);

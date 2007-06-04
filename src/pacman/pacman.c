@@ -535,13 +535,13 @@ static int _parseconfig(const char *file, const char *givensection)
 					alpm_option_set_usesyslog(1);
 					printf(_("config: usesyslog"));
 				} else if(strcmp(key, "ILoveCandy") == 0 || strcmp(upperkey, "ILOVECANDY") == 0) {
-					alpm_option_set_chomp(1);
+					config->chomp = 1;
 					printf(_("config: chomp"));
 				} else if(strcmp(key, "UseColor") == 0 || strcmp(upperkey, "USECOLOR") == 0) {
-					alpm_option_set_usecolor(1);
+					config->usecolor = 1;
 					printf(_("config: usecolor"));
 				} else if(strcmp(key, "ShowSize") == 0 || strcmp(upperkey, "SHOWSIZE") == 0) {
-					alpm_option_set_showsize(1);
+					config->showsize= 1;
 					printf(_("config: showsize"));
 				} else {
 					printf("PM_ERR_CONF_BAD_SYNTAX");
