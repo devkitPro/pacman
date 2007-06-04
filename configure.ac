@@ -30,38 +30,38 @@ AC_DEFINE_UNQUOTED([LIB_VERSION], ["$LIB_VERSION"], [libalpm version number])
 
 # Help line for root directory
 AC_ARG_WITH(root-dir,
-    AC_HELP_STRING([--with-root-dir=path], [set the location of pacman's root operating directory]),
-    [ROOTDIR=$withval], [ROOTDIR=/])
+	AC_HELP_STRING([--with-root-dir=path], [set the location of pacman's root operating directory]),
+	[ROOTDIR=$withval], [ROOTDIR=/])
 
 # Help line for package extension
 AC_ARG_WITH(pkg-ext,
-			AC_HELP_STRING([--with-pkg-ext=ext], [set the file extension used by packages]),
-    [PKGEXT=$withval], [PKGEXT=.pkg.tar.gz])
+	AC_HELP_STRING([--with-pkg-ext=ext], [set the file extension used by packages]),
+	[PKGEXT=$withval], [PKGEXT=.pkg.tar.gz])
 
 # Help line for source package directory
 AC_ARG_WITH(src-ext,
-	    AC_HELP_STRING([--with-src-ext=ext], [set the file extension used by source packages]),
-	    [SRCEXT=$withval], [SRCEXT=.src.tar.gz])
+	AC_HELP_STRING([--with-src-ext=ext], [set the file extension used by source packages]),
+	[SRCEXT=$withval], [SRCEXT=.src.tar.gz])
 
 # Help line for database extension
 AC_ARG_WITH(db-ext,
-			AC_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
-    [DBEXT=$withval], [DBEXT=.db.tar.gz])
+	AC_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
+	[DBEXT=$withval], [DBEXT=.db.tar.gz])
 
 # Help line for doxygen
 AC_ARG_ENABLE(doxygen,
-    AC_HELP_STRING([--disable-doxygen], [do not build API docs via Doxygen]),
-    [wantdoxygen=$enableval], [wantdoxygen=yes])
+	AC_HELP_STRING([--disable-doxygen], [do not build API docs via Doxygen]),
+	[wantdoxygen=$enableval], [wantdoxygen=yes])
 
 # Help line for debug
 AC_ARG_ENABLE(debug,
-    AC_HELP_STRING([--enable-debug], [enable debugging support]),
-    [debug=$enableval], [debug=no])
+	AC_HELP_STRING([--enable-debug], [enable debugging support]),
+	[debug=$enableval], [debug=no])
 
 # Help line for abs
 AC_ARG_ENABLE(abs,
-             AC_HELP_STRING([--disable-abs], [do not include Arch Linux Build System script]),
-             [includeabs=$enableval], [includeabs=yes])
+	AC_HELP_STRING([--disable-abs], [do not include Arch Linux Build System script]),
+	[includeabs=$enableval], [includeabs=yes])
 
 # Checks for programs.
 AC_PROG_AWK
@@ -172,16 +172,16 @@ AC_SUBST(CHOST)
 # Check for doxygen support
 AC_MSG_CHECKING([for doxygen])
 if test "x$wantdoxygen" = "xyes" ; then
-    AC_CHECK_PROGS([DOXYGEN], [doxygen])
-    if test $DOXYGEN ; then
+	AC_CHECK_PROGS([DOXYGEN], [doxygen])
+	if test $DOXYGEN ; then
 		AC_MSG_RESULT([yes])
 		usedoxygen=yes
-    else
+	else
 		AC_MSG_RESULT([no, doxygen missing])
 		usedoxygen=no
-    fi
+	fi
 else
-    AC_MSG_RESULT([no, disabled by configure])
+	AC_MSG_RESULT([no, disabled by configure])
 	usedoxygen=no
 fi
 AM_CONDITIONAL(HAS_DOXYGEN, test "x$usedoxygen" = "xyes")
@@ -192,19 +192,19 @@ if test "x$debug" = "xyes" ; then
 	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
 	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector -std=c99"
 	LDFLAGS="$LDFLAGS -lmcheck"
-    AC_MSG_RESULT(yes)
+	AC_MSG_RESULT(yes)
 else
 	CFLAGS="$CFLAGS -Wall -std=c99"
-    AC_MSG_RESULT(no)
+	AC_MSG_RESULT(no)
 fi
 
 # Enable or disable inclusion of abs script
 AC_MSG_CHECKING(for inclusion of abs script)
 if test "x$includeabs" = "xyes" ; then
-       AC_DEFINE([INCLUDE_ABS], , [Include abs script])
-       AC_MSG_RESULT(yes)
+	AC_DEFINE([INCLUDE_ABS], , [Include abs script])
+	AC_MSG_RESULT(yes)
 else
-       AC_MSG_RESULT(no)
+	AC_MSG_RESULT(no)
 fi
 AM_CONDITIONAL(INCLUDE_ABS, test "x$includeabs" = "xyes")
 
@@ -272,3 +272,5 @@ $PACKAGE_STRING:
     debug support          : ${debug}
     include abs            : ${includeabs}
 "
+
+# vim:set ts=2 sw=2 noet:

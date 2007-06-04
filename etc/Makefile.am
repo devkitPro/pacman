@@ -32,3 +32,5 @@ $(dist_sysconf_DATA): Makefile
 
 makepkg.conf: $(srcdir)/makepkg.conf.in
 pacman.conf: $(srcdir)/pacman.conf.in
+
+# vim:set ts=2 sw=2 noet:

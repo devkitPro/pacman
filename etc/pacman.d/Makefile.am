@@ -13,10 +13,11 @@ $(dist_pkgsysconf_DATA): Makefile
 		$(srcdir)/mirrorlist.in >$@.tmp
 	mv $@.tmp $@
 
-
 community: $(srcdir)/mirrorlist.in
 current: $(srcdir)/mirrorlist.in
 extra: $(srcdir)/mirrorlist.in
 release: $(srcdir)/mirrorlist.in
 testing: $(srcdir)/mirrorlist.in
 unstable: $(srcdir)/mirrorlist.in
+
+# vim:set ts=2 sw=2 noet:

@@ -15,3 +15,4 @@ EXTRA_DIST = $(man_MANS)
 clean-local:
 	$(RM) man3/*.3
 
+# vim:set ts=2 sw=2 noet:

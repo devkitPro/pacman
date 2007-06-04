@@ -37,7 +37,7 @@ edit = sed \
 	-e 's|@prefix[@]|$(prefix)|g' \
 	-e 's|@PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
 	-e 's|@PACKAGE_BUGREPORT[@]|$(PACKAGE_BUGREPORT)|g' \
-    -e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+	-e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 	-e 's|@configure_input[@]|Generated from $@.in; do not edit by hand.|g'
 
 ## All the scripts depend on Makefile so that they are rebuilt when the
@@ -60,3 +60,5 @@ repo-add: $(srcdir)/repo-add.in
 repo-remove: $(srcdir)/repo-remove.in
 re-pacman: $(srcdir)/re-pacman.in
 updatesync: $(srcdir)/updatesync.in
+
+# vim:set ts=2 sw=2 noet:

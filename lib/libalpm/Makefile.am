@@ -52,3 +52,5 @@ doxygen.in:
 	doxygen $(srcdir)/Doxyfile
 
 endif
+
+# vim:set ts=2 sw=2 noet:

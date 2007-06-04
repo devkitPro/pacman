@@ -12,3 +12,4 @@ check-local:  src/pacman
 		-p $(top_builddir)/src/pacman/pacman
 	rm -rf $(top_builddir)/root
 
+# vim:set ts=2 sw=2 noet:
