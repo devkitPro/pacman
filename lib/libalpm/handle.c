@@ -122,24 +122,24 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREE(handle);
 }
 
-alpm_cb_log alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
-alpm_cb_download alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
+alpm_cb_log SYMEXPORT alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
+alpm_cb_download SYMEXPORT alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
 unsigned short SYMEXPORT alpm_option_get_logmask() { return handle->logmask; }
 const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
 const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
 const char SYMEXPORT *alpm_option_get_cachedir() { return handle->cachedir; }
 const char SYMEXPORT *alpm_option_get_logfile() { return handle->logfile; }
 const char SYMEXPORT *alpm_option_get_lockfile() { return handle->lockfile; }
-unsigned short alpm_option_get_usesyslog() { return handle->usesyslog; }
-alpm_list_t *alpm_option_get_noupgrades() { return handle->noupgrade; }
-alpm_list_t *alpm_option_get_noextracts() { return handle->noextract; }
-alpm_list_t *alpm_option_get_ignorepkgs() { return handle->ignorepkg; }
-alpm_list_t *alpm_option_get_holdpkgs() { return handle->holdpkg; }
-time_t alpm_option_get_upgradedelay() { return handle->upgradedelay; }
-const char *alpm_option_get_xfercommand() { return handle->xfercommand; }
-unsigned short alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
+unsigned short SYMEXPORT alpm_option_get_usesyslog() { return handle->usesyslog; }
+alpm_list_t SYMEXPORT *alpm_option_get_noupgrades() { return handle->noupgrade; }
+alpm_list_t SYMEXPORT *alpm_option_get_noextracts() { return handle->noextract; }
+alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs() { return handle->ignorepkg; }
+alpm_list_t SYMEXPORT *alpm_option_get_holdpkgs() { return handle->holdpkg; }
+time_t SYMEXPORT alpm_option_get_upgradedelay() { return handle->upgradedelay; }
+const char SYMEXPORT *alpm_option_get_xfercommand() { return handle->xfercommand; }
+unsigned short SYMEXPORT alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
 unsigned short SYMEXPORT alpm_option_get_chomp() { return handle->chomp; }
-unsigned short alpm_option_get_usecolor() { return handle->use_color; }
+unsigned short SYMEXPORT alpm_option_get_usecolor() { return handle->use_color; }
 unsigned short SYMEXPORT alpm_option_get_showsize() { return handle->showsize; }
 
 pmdb_t SYMEXPORT *alpm_option_get_localdb() { return handle->db_local; }
@@ -215,7 +215,7 @@ void SYMEXPORT alpm_option_set_cachedir(const char *cachedir)
 	}
 }
 
-void alpm_option_set_logfile(const char *logfile)
+void SYMEXPORT alpm_option_set_logfile(const char *logfile)
 {
 	ALPM_LOG_FUNC;
 
@@ -240,27 +240,27 @@ void SYMEXPORT alpm_option_set_lockfile(const char *lockfile)
 	}
 }
 
-void alpm_option_set_usesyslog(unsigned short usesyslog)
+void SYMEXPORT alpm_option_set_usesyslog(unsigned short usesyslog)
 {
 	handle->usesyslog = usesyslog;
 }
 
-void alpm_option_add_noupgrade(char *pkg)
+void SYMEXPORT alpm_option_add_noupgrade(char *pkg)
 {
 	handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 }
 
-void alpm_option_set_noupgrades(alpm_list_t *noupgrade)
+void SYMEXPORT alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 {
 	if(handle->noupgrade) FREELIST(handle->noupgrade);
 	if(noupgrade) handle->noupgrade = noupgrade;
 }
 
-void alpm_option_add_noextract(char *pkg)
+void SYMEXPORT alpm_option_add_noextract(char *pkg)
 {
 	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
 }
-void alpm_option_set_noextracts(alpm_list_t *noextract)
+void SYMEXPORT alpm_option_set_noextracts(alpm_list_t *noextract)
 {
 	if(handle->noextract) FREELIST(handle->noextract);
 	if(noextract) handle->noextract = noextract;
@@ -276,40 +276,43 @@ void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 	if(ignorepkgs) handle->ignorepkg = ignorepkgs;
 }
 
-void alpm_option_add_holdpkg(char *pkg)
+void SYMEXPORT alpm_option_add_holdpkg(char *pkg)
 {
 	handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
 }
-void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
+void SYMEXPORT alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 {
 	if(handle->holdpkg) FREELIST(handle->holdpkg);
 	if(holdpkgs) handle->holdpkg = holdpkgs;
 }
 
-void alpm_option_set_upgradedelay(time_t delay)
+void SYMEXPORT alpm_option_set_upgradedelay(time_t delay)
 {
 	handle->upgradedelay = delay;
 }
 
-void alpm_option_set_xfercommand(const char *cmd)
+void SYMEXPORT alpm_option_set_xfercommand(const char *cmd)
 {
 	if(handle->xfercommand) FREE(handle->xfercommand);
 	if(cmd) handle->xfercommand = strdup(cmd);
 }
 
-void alpm_option_set_nopassiveftp(unsigned short nopasv)
+void SYMEXPORT alpm_option_set_nopassiveftp(unsigned short nopasv)
 {
 	handle->nopassiveftp = nopasv;
 }
 
-void alpm_option_set_chomp(unsigned short chomp) { handle->chomp = chomp; }
+void SYMEXPORT alpm_option_set_chomp(unsigned short chomp)
+{
+	handle->chomp = chomp;
+}
 
-void alpm_option_set_usecolor(unsigned short usecolor)
+void SYMEXPORT alpm_option_set_usecolor(unsigned short usecolor)
 {
 	handle->use_color = usecolor;
 }
 
-void alpm_option_set_showsize(unsigned short showsize)
+void SYMEXPORT alpm_option_set_showsize(unsigned short showsize)
 {
 	handle->showsize = showsize;
 }

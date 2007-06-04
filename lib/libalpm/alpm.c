@@ -190,7 +190,7 @@ int alpm_db_unregister(pmdb_t *db)
  * @param url url of the server
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_setserver(pmdb_t *db, const char *url)
+int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 {
 	int found = 0;
 

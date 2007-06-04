@@ -43,7 +43,7 @@ int rmrf(const char *path);
 void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
 char *strtrim(char *str);
-int reg_match(char *string, char *pattern);
+char *strreplace(const char *str, const char *needle, const char *replace);
 void list_display(const char *title, alpm_list_t *list);
 void display_targets(alpm_list_t *syncpkgs);
 int yesno(char *fmt, ...);

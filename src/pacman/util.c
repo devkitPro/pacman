@@ -209,6 +209,12 @@ char *strtoupper(char *str)
 char *strtrim(char *str)
 {
 	char *pch = str;
+
+	if(*str == '\0') {
+		/* string is empty, so we're done. */
+		return(str);
+	}
+
 	while(isspace(*pch)) {
 		pch++;
 	}
@@ -216,13 +222,62 @@ char *strtrim(char *str)
 		memmove(str, pch, (strlen(pch) + 1));
 	}
 	
+	/* check if there wasn't anything but whitespace in the string. */
+	if(*str == '\0') {
+		return(str);
+	}
+
 	pch = (str + (strlen(str) - 1));
 	while(isspace(*pch)) {
 		pch--;
 	}
 	*++pch = '\0';
 
-	return str;
+	return(str);
+}
+
+/* Helper function for strreplace */
+static void _strnadd(char **str, const char *append, unsigned int count)
+{
+	if(*str) {
+		*str = realloc(*str, strlen(*str) + count + 1);
+	} else {
+		*str = calloc(sizeof(char), count + 1);
+	}
+
+	strncat(*str, append, count);
+}
+
+/* Replace all occurances of 'needle' with 'replace' in 'str', returning
+ * a new string (must be free'd) */
+char *strreplace(const char *str, const char *needle, const char *replace)
+{
+	const char *p, *q;
+	p = q = str;
+
+	char *newstr = NULL;
+	unsigned int needlesz = strlen(needle),
+							 replacesz = strlen(replace);
+
+	while (1) {
+		q = strstr(p, needle);
+		if(!q) { /* not found */
+			if(*p) {
+				/* add the rest of 'p' */
+				_strnadd(&newstr, p, strlen(p));
+			}
+			break;
+		} else { /* found match */
+			if(q > p){
+				/* add chars between this occurance and last occurance, if any */
+				_strnadd(&newstr, p, q - p);
+			}
+			_strnadd(&newstr, replace, replacesz);
+			p = q + needlesz;
+		}
+	}
+
+	return newstr;
 }
 
 void list_display(const char *title, alpm_list_t *list)

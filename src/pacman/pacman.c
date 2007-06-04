@@ -456,6 +456,218 @@ static int parseargs(int argc, char *argv[])
 	return(0);
 }
 
+/* The real parseconfig. Called with a null section argument by the publicly
+ * visible parseconfig so we can recall from within ourself on an include */
+static int _parseconfig(const char *file, const char *givensection)
+{
+	FILE *fp = NULL;
+	char line[PATH_MAX+1];
+	int linenum = 0;
+	char *ptr, *section = NULL;
+	pmdb_t *db = NULL;
+
+	fp = fopen(file, "r");
+	if(fp == NULL) {
+		return(1);
+	}
+
+	if(givensection != NULL) {
+		section = strdup(givensection);
+	}
+
+	while(fgets(line, PATH_MAX, fp)) {
+		linenum++;
+		strtrim(line);
+
+		/* ignore whole line and end of line comments */
+		if(strlen(line) == 0 || line[0] == '#') {
+			continue;
+		}
+		if((ptr = strchr(line, '#'))) {
+			*ptr = '\0';
+		}
+
+		if(line[0] == '[' && line[strlen(line)-1] == ']') {
+			/* new config section, skip the '[' */
+			ptr = &line[1];
+			if(section) {
+				free(section);
+			}
+			section = strdup(ptr);
+			section[strlen(section)-1] = '\0';
+			printf(_("config: new section '%s'"), section);
+			if(!strlen(section)) {
+				printf("PM_ERR_CONF_BAD_SECTION");
+				return(1);
+			}
+			if(!strcmp(section, "local")) {
+				printf("PM_ERR_CONF_LOCAL");
+				return(1);
+			}
+		} else {
+			/* directive */
+			char *key;
+			const char *upperkey;
+
+			/* strsep modifies the 'line' string: 'key \0 ptr' */
+			key = line;
+			ptr = line;
+			strsep(&ptr, "=");
+			strtrim(key);
+			strtrim(ptr);
+
+			if(key == NULL) {
+				printf("PM_ERR_CONF_BAD_SYNTAX");
+				return(1);
+			}
+			upperkey = strtoupper(strdup(key));
+			if(!strlen(section) && strcmp(key, "INCLUDE")) {
+				printf("PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION");
+				return(1);
+			}
+			if(ptr == NULL) {
+				/* directives without settings */
+				/* TODO shouldn't we check if these are in the [options] section? */
+				if(strcmp(key, "NoPassiveFTP") == 0 || strcmp(upperkey, "NOPASSIVEFTP") == 0) {
+					alpm_option_set_nopassiveftp(1);
+					printf(_("config: nopassiveftp"));
+				} else if(strcmp(key, "UseSyslog") == 0 || strcmp(upperkey, "USESYSLOG") == 0) {
+					alpm_option_set_usesyslog(1);
+					printf(_("config: usesyslog"));
+				} else if(strcmp(key, "ILoveCandy") == 0 || strcmp(upperkey, "ILOVECANDY") == 0) {
+					alpm_option_set_chomp(1);
+					printf(_("config: chomp"));
+				} else if(strcmp(key, "UseColor") == 0 || strcmp(upperkey, "USECOLOR") == 0) {
+					alpm_option_set_usecolor(1);
+					printf(_("config: usecolor"));
+				} else if(strcmp(key, "ShowSize") == 0 || strcmp(upperkey, "SHOWSIZE") == 0) {
+					alpm_option_set_showsize(1);
+					printf(_("config: showsize"));
+				} else {
+					printf("PM_ERR_CONF_BAD_SYNTAX");
+					return(1);
+				}
+			} else {
+				/* directives with settings */
+				if(strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0) {
+					printf(_("config: including %s"), ptr);
+					_parseconfig(ptr, section);
+				} else if(strcmp(section, "options") == 0) {
+					if(strcmp(key, "NoUpgrade") == 0 || strcmp(upperkey, "NOUPGRADE") == 0) {
+						/* TODO functionalize this */
+						char *p = ptr;
+						char *q;
+
+						while((q = strchr(p, ' '))) {
+							*q = '\0';
+							alpm_option_add_noupgrade(p);
+							printf(_("config: noupgrade: %s"), p);
+							p = q;
+							p++;
+						}
+						alpm_option_add_noupgrade(p);
+						printf(_("config: noupgrade: %s"), p);
+					} else if(strcmp(key, "NoExtract") == 0 || strcmp(upperkey, "NOEXTRACT") == 0) {
+						char *p = ptr;
+						char *q;
+
+						while((q = strchr(p, ' '))) {
+							*q = '\0';
+							alpm_option_add_noextract(p);
+							printf(_("config: noextract: %s"), p);
+							p = q;
+							p++;
+						}
+						alpm_option_add_noextract(p);
+						printf(_("config: noextract: %s"), p);
+					} else if(strcmp(key, "IgnorePkg") == 0 || strcmp(upperkey, "IGNOREPKG") == 0) {
+						char *p = ptr;
+						char *q;
+
+						while((q = strchr(p, ' '))) {
+							*q = '\0';
+							alpm_option_add_ignorepkg(p);
+							printf(_("config: ignorepkg: %s"), p);
+							p = q;
+							p++;
+						}
+						alpm_option_add_ignorepkg(p);
+						printf(_("config: ignorepkg: %s"), p);
+					} else if(strcmp(key, "HoldPkg") == 0 || strcmp(upperkey, "HOLDPKG") == 0) {
+						char *p = ptr;
+						char *q;
+
+						while((q = strchr(p, ' '))) {
+							*q = '\0';
+							alpm_option_add_holdpkg(p);
+							printf(_("config: holdpkg: %s"), p);
+							p = q;
+							p++;
+						}
+						alpm_option_add_holdpkg(p);
+						printf(_("config: holdpkg: %s"), p);
+					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
+						alpm_option_set_dbpath(ptr);
+						printf(_("config: dbpath: %s"), ptr);
+					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
+						alpm_option_set_cachedir(ptr);
+						printf(_("config: cachedir: %s"), ptr);
+					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
+						alpm_option_set_root(ptr);
+						printf(_("config: rootdir: %s"), ptr);
+					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
+						alpm_option_set_logfile(ptr);
+						printf(_("config: logfile: %s"), ptr);
+					} else if (strcmp(key, "LockFile") == 0 || strcmp(upperkey, "LOCKFILE") == 0) {
+						alpm_option_set_lockfile(ptr);
+						printf(_("config: lockfile: %s"), ptr);
+					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
+						alpm_option_set_xfercommand(ptr);
+						printf(_("config: xfercommand: %s"), ptr);
+					} else if (strcmp(key, "UpgradeDelay") == 0 || strcmp(upperkey, "UPGRADEDELAY") == 0) {
+						/* The config value is in days, we use seconds */
+						time_t ud = atol(ptr) * 60 * 60 *24;
+						alpm_option_set_upgradedelay(ud);
+						printf(_("config: upgradedelay: %d"), (int)ud);
+					} else {
+						printf("PM_ERR_CONF_BAD_SYNTAX");
+						return(1);
+					}
+				} else {
+					if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
+						/* let's attempt a replacement for the current repo */
+						char *server = strreplace(ptr, "$repo", section);
+
+						if(alpm_db_setserver(db, server) != 0) {
+							/* pm_errno is set by alpm_db_setserver */
+							return(-1);
+						}
+
+						free(server);
+					} else {
+						printf("PM_ERR_CONF_BAD_SYNTAX");
+						return(1);
+					}
+				}
+				line[0] = '\0';
+			}
+		}
+	}
+	fclose(fp);
+
+	return(0);
+}
+
+/** Parse a configuration file.
+ * @param file path to the config file.
+ * @return 0 on success, non-zero on error
+ */
+int parseconfig(const char *file)
+{
+	/* call the real parseconfig function with a null section argument */
+	return(_parseconfig(file, NULL));
+}
+
 /**
  * @brief Main function.
  *
