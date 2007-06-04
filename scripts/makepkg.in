@@ -53,6 +53,7 @@ RMDEPS=0
 REPKG=0
 LOGGING=0
 SOURCEONLY=0
+IGNOREARCH=0
 
 PACMAN_OPTS=
 
@@ -933,6 +934,7 @@ usage() {
 	printf "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
 	echo "$(gettext "Options:")"
+	printf "$(gettext "  -A, --ignorearch Ignore incomplete arch field in %s")\n" "$BUILDSCRIPT"
 	echo "$(gettext "  -b, --builddeps  Build missing dependencies from source")"
 	echo "$(gettext "  -c, --clean      Clean up work files after build")"
 	echo "$(gettext "  -C, --cleancache Clean up source files from the cache")"
@@ -1021,6 +1023,7 @@ while [ "$#" -ne "0" ]; do
 		--builddeps)  DEP_SRC=1 ;;
 		--nodeps)     NODEPS=1 ;;
 		--noextract)  NOEXTRACT=1 ;;
+		--ignorearch) IGNOREARCH=1 ;;
 		--install)    INSTALL=1 ;;
 		--force)      FORCE=1 ;;
 		--nobuild)    NOBUILD=1 ;;
@@ -1049,8 +1052,9 @@ while [ "$#" -ne "0" ]; do
 					exit 1 #E_INVALID_OPTION
 					;;
 		-*)
-		while getopts "bcCdefFghiLmop:rRsSV-" opt; do
+		while getopts "AbcCdefFghiLmop:rRsSV-" opt; do
 			case $opt in
+				A) IGNOREARCH=1 ;;
 				b) DEP_SRC=1 ;;
 				c) CLEANUP=1 ;;
 				C) CLEANCACHE=1 ;;
@@ -1210,11 +1214,18 @@ if [ $(echo "$pkgrel" | grep '-') ]; then
 	error "$(gettext "%s is not allowed to contain hyphens.")" "pkgrel"
 	exit 1
 fi
+
 if ! in_array $CARCH ${arch[@]}; then
-	error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
-	plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
-	plain "$(gettext "such as arch=('%s').")" "$CARCH"
-	exit 1
+	if "$IGNOREARCH" = "0" ]; then
+		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
+		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
+		plain "$(gettext "such as arch=('%s').")" "$CARCH"
+		exit 1
+	else
+		warning "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
+		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
+		plain "$(gettext "such as arch=('%s').")" "$CARCH"
+	fi
 fi
 
 if [ "$install" -a ! -f "$install" ]; then
