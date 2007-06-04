@@ -103,7 +103,9 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 {
 	char path[PATH_MAX];
+	struct stat buf;
 	char *sha1sum = NULL;
+	alpm_list_t *i;
 	int retval = 0;
 
 	ALPM_LOG_FUNC;
@@ -113,8 +115,14 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
 	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	snprintf(path, PATH_MAX, "%s/%s-%s" PKGEXT, handle->cachedir,
-					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+	/* Loop through the cache dirs until we find a matching file */
+	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		snprintf(path, PATH_MAX, "%s%s-%s" PKGEXT, (char*)alpm_list_getdata(i),
+		         alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		if(stat(path, &buf) == 0) {
+			break;
+		}
+	}
 
 	sha1sum = alpm_get_sha1sum(path);
 	if(sha1sum == NULL) {
@@ -146,7 +154,9 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 {
 	char path[PATH_MAX];
+	struct stat buf;
 	char *md5sum = NULL;
+	alpm_list_t *i;
 	int retval = 0;
 
 	ALPM_LOG_FUNC;
@@ -156,8 +166,14 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
 	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	snprintf(path, PATH_MAX, "%s/%s-%s" PKGEXT, handle->cachedir,
-					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+	/* Loop through the cache dirs until we find a matching file */
+	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		snprintf(path, PATH_MAX, "%s%s-%s" PKGEXT, (char*)alpm_list_getdata(i),
+		         alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		if(stat(path, &buf) == 0) {
+			break;
+		}
+	}
 
 	md5sum = alpm_get_md5sum(path);
 	if(md5sum == NULL) {
@@ -181,6 +197,9 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	return(retval);
 }
+
+
+
 
 /** Compare versions.
  * @param ver1 first version

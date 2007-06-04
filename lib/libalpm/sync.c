@@ -766,8 +766,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	alpm_list_t *i, *j, *files = NULL;
 	pmtrans_t *tr = NULL;
 	int replaces = 0, retval = 0;
-	const char *cachedir;
-	int varcache = 1;
+	int validcache = 0;
+	const char *maincachedir = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -776,8 +776,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 	trans->state = STATE_DOWNLOADING;
 	/* group sync records by repository and download */
-	cachedir = alpm_option_get_cachedir();
-
 	for(i = handle->dbs_sync; i; i = i->next) {
 		pmdb_t *current = i->data;
 
@@ -795,12 +793,20 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current), (char *)fname);
 				} else {
 					struct stat buf;
-					snprintf(path, PATH_MAX, "%s/%s", cachedir, fname);
-					if(stat(path, &buf)) {
+					int found = 0;
+					/* Loop through the cache dirs until we find a matching file */
+					for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+						snprintf(path, PATH_MAX, "%s%s", (char*)alpm_list_getdata(i),
+						         fname);
+						if(stat(path, &buf) == 0) {
+							found = 1;
+							_alpm_log(PM_LOG_DEBUG, _("found cached pkg: %s"), path);
+							break;
+						}
+					}
+					if(!found) {
 						/* file is not in the cache dir, so add it to the list */
 						files = alpm_list_add(files, strdup(fname));
-					} else {
-						_alpm_log(PM_LOG_DEBUG, _("%s is already in the cache\n"), fname);
 					}
 				}
 			}
@@ -808,24 +814,42 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		if(files) {
 			struct stat buf;
+			char *cachedir;
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
-			if(stat(cachedir, &buf)) {
-				/* no cache directory.... try creating it */
-				_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"), cachedir);
-				alpm_logaction(_("warning: no %s cache exists, creating..."), cachedir);
-				if(_alpm_makepath(cachedir)) {
-					/* couldn't mkdir the cache directory, so fall back to /tmp and unlink
-					 * the package afterwards.
-					 */
-					_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
-					alpm_logaction(_("warning: couldn't create package cache, using /tmp instead"));
-					alpm_option_set_cachedir("/tmp");
-					cachedir = alpm_option_get_cachedir();
-					varcache = 0;
+			for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+				cachedir = alpm_list_getdata(i);
+				if(stat(cachedir, &buf) != 0) {
+					/* cache directory does not exist.... try creating it */
+					_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"),
+							cachedir);
+					alpm_logaction(_("warning: no %s cache exists, creating..."),
+							cachedir);
+					if(_alpm_makepath(cachedir) == 0) {
+						_alpm_log(PM_LOG_DEBUG, _("setting main cachedir: %s"), cachedir);
+						maincachedir = cachedir;
+						validcache = 1;
+						break;
+					}
+				} else if(S_ISDIR(buf.st_mode) && (buf.st_mode & S_IWUSR)) {
+					_alpm_log(PM_LOG_DEBUG, _("setting main cachedir: %s"), cachedir);
+					maincachedir = cachedir;
+					validcache = 1;
+					break;
 				}
 			}
-			if(_alpm_downloadfiles(current->servers, alpm_option_get_cachedir(),
-						files)) {
+			if(!validcache) {
+				/* we had no valid cache directories, so fall back to /tmp and
+				 * unlink the packages afterwards. */
+				alpm_list_t *oldcachedirs = alpm_option_get_cachedirs();
+				alpm_list_t *cachetmp = alpm_list_add(NULL, strdup("/tmp/"));
+				FREELIST(oldcachedirs);
+				alpm_option_set_cachedirs(cachetmp);
+					_alpm_log(PM_LOG_DEBUG, _("setting main cachedir: %s"), "/tmp/");
+				maincachedir = alpm_list_getdata(cachetmp);
+				_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead"));
+				alpm_logaction(_("warning: couldn't create package cache, using /tmp instead"));
+			}
+			if(_alpm_downloadfiles(current->servers, maincachedir, files)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"), current->treename);
 				RET_ERR(PM_ERR_RETRIEVE, -1);
 			}
@@ -843,6 +867,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
 		char str[PATH_MAX];
+		struct stat buf;
 		const char *pkgname;
 		char *md5sum1, *md5sum2, *sha1sum1, *sha1sum2;
 		char *ptr=NULL;
@@ -861,9 +886,19 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			retval = 1;
 			continue;
 		}
-		snprintf(str, PATH_MAX, "%s%s", alpm_option_get_cachedir(), pkgname);
-		md5sum2 = _alpm_MDFile(str);
-		sha1sum2 = _alpm_SHAFile(str);
+
+		/* Loop through the cache dirs until we find a matching file */
+		for(j = alpm_option_get_cachedirs(); j; j = alpm_list_next(j)) {
+			snprintf(str, PATH_MAX, "%s%s", (char*)alpm_list_getdata(j), pkgname);
+			if(stat(str, &buf) == 0) {
+				_alpm_log(PM_LOG_DEBUG, _("package found for integrity check: %s"),
+						str);
+				break;
+			}
+		}
+
+		md5sum2 = alpm_get_md5sum(str);
+		sha1sum2 = alpm_get_sha1sum(str);
 		if(md5sum2 == NULL && sha1sum2 == NULL) {
 			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
@@ -884,8 +919,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)pkgname, NULL, NULL, &doremove);
 			}
 			if(doremove) {
-				char str[PATH_MAX];
-				snprintf(str, PATH_MAX, "%s%s", alpm_option_get_cachedir(), pkgname);
 				unlink(str);
 				snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 or SHA1 checksum)\n"), pkgname);
 			} else {
@@ -966,12 +999,18 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
-
+		struct stat buf;
 		const char *fname = NULL;
 		char str[PATH_MAX];
 
 		fname = alpm_pkg_get_filename(spkg);
-		snprintf(str, PATH_MAX, "%s%s", alpm_option_get_cachedir(), fname);
+		/* Loop through the cache dirs until we find a matching file */
+		for(j = alpm_option_get_cachedirs(); j; j = alpm_list_next(j)) {
+			snprintf(str, PATH_MAX, "%s%s", (char*)alpm_list_getdata(j), fname);
+			if(stat(str, &buf) == 0) {
+				break;
+			}
+		}
 		if(_alpm_trans_addtarget(tr, str) == -1) {
 			goto error;
 		}
@@ -1041,7 +1080,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		}
 	}
 
-	if(!varcache && !(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
+	if(!validcache && !(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
 		/* delete packages */
 		for(i = files; i; i = i->next) {
 			unlink(i->data);

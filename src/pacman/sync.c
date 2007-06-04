@@ -89,7 +89,9 @@ static int split_pkgname(char *target, char *name, char *version)
 
 static int sync_cleancache(int level)
 {
-	const char *cachedir = alpm_option_get_cachedir();
+	/* TODO for now, just mess with the first cache directory */
+	alpm_list_t* cachedirs = alpm_option_get_cachedirs();
+	const char *cachedir = alpm_list_getdata(cachedirs);
 
 	if(level == 1) {
 		/* incomplete cleanup: we keep latest packages and partial downloads */

@@ -50,7 +50,7 @@ typedef struct _pmhandle_t {
 	alpm_cb_download dlcb;    /* Download callback function */
 	char *root;								/* Root path, default '/' */
 	char *dbpath;							/* Base path to pacman's DBs */
-	char *cachedir;						/* Base path to pacman's cache */
+	alpm_list_t *cachedirs; /* Paths to pacman cache directories */
 	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
 	char *lockfile;						/* Name of the lock file */
 	unsigned short usesyslog;	/* Use syslog instead of logfile? */ /* TODO move to frontend */

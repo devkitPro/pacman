@@ -80,7 +80,7 @@ pmhandle_t *_alpm_handle_new()
 #endif
 	handle->root = NULL;
 	handle->dbpath = NULL;
-	handle->cachedir = NULL;
+	handle->cachedirs = NULL;
 	handle->lockfile = NULL;
 	handle->logfile = NULL;
 
@@ -109,7 +109,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	_alpm_trans_free(handle->trans);
 	FREE(handle->root);
 	FREE(handle->dbpath);
-	FREE(handle->cachedir);
+	FREELIST(handle->cachedirs);
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
 	FREE(handle->xfercommand);
@@ -125,7 +125,7 @@ alpm_cb_log SYMEXPORT alpm_option_get_logcb() { return (handle ? handle->logcb :
 alpm_cb_download SYMEXPORT alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
 const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
 const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
-const char SYMEXPORT *alpm_option_get_cachedir() { return handle->cachedir; }
+alpm_list_t SYMEXPORT *alpm_option_get_cachedirs() { return handle->cachedirs; }
 const char SYMEXPORT *alpm_option_get_logfile() { return handle->logfile; }
 const char SYMEXPORT *alpm_option_get_lockfile() { return handle->lockfile; }
 unsigned short SYMEXPORT alpm_option_get_usesyslog() { return handle->usesyslog; }
@@ -193,21 +193,29 @@ void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 	}
 }
 
-void SYMEXPORT alpm_option_set_cachedir(const char *cachedir)
+void SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 {
 	ALPM_LOG_FUNC;
 
-	if(handle->cachedir) FREE(handle->cachedir);
 	if(cachedir) {
+		char *newcachedir;
 		/* verify cachedir ends in a '/' */
 		int cachedirlen = strlen(cachedir);
 		if(cachedir[cachedirlen-1] != '/') {
 			cachedirlen += 1;
 		}
-		handle->cachedir = calloc(cachedirlen+1, sizeof(char));
-		strncpy(handle->cachedir, cachedir, cachedirlen);
-		handle->cachedir[cachedirlen-1] = '/';
+		newcachedir = calloc(cachedirlen + 1, sizeof(char));
+		strncpy(newcachedir, cachedir, cachedirlen);
+		newcachedir[cachedirlen-1] = '/';
+		handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
+		_alpm_log(PM_LOG_DEBUG, _("option 'cachedir' = %s"), newcachedir);
 	}
+}
+
+void SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
+{
+	if(handle->cachedirs) FREELIST(handle->cachedirs);
+	if(cachedirs) handle->cachedirs = cachedirs;
 }
 
 void SYMEXPORT alpm_option_set_logfile(const char *logfile)

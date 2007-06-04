@@ -339,12 +339,13 @@ static int parseargs(int argc, char *argv[])
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
 			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
 			case 1007:
+				/* TODO redo this logic- check path somewhere else, delete other cachedirs, etc */
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
 					fprintf(stderr, _("error: '%s' is not a valid cache directory\n"),
 					        optarg);
 					return(1);
 				}
-				alpm_option_set_cachedir(optarg);
+				alpm_option_add_cachedir(optarg);
 				break;
 			case 1008:
 				alpm_option_set_lockfile(optarg);
@@ -616,7 +617,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						alpm_option_set_dbpath(ptr);
 						pm_printf(PM_LOG_DEBUG, _("config: dbpath: %s\n"), ptr);
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
-						alpm_option_set_cachedir(ptr);
+						alpm_option_add_cachedir(ptr);
 						pm_printf(PM_LOG_DEBUG, _("config: cachedir: %s\n"), ptr);
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
 						alpm_option_set_root(ptr);
@@ -762,10 +763,15 @@ if(0) {
 #endif
 
 	if(config->verbose > 0) {
+		alpm_list_t *i;
 		printf("Root      : %s\n", alpm_option_get_root());
 		printf("Conf File : %s\n", config->configfile);
-		printf("DBPath    : %s\n", alpm_option_get_dbpath());
-		printf("CacheDir  : %s\n", alpm_option_get_cachedir());
+		printf("DB Path   : %s\n", alpm_option_get_dbpath());
+		printf("Cache Dirs: ");
+		for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+			printf("%s  ", (char*)alpm_list_getdata(i));
+		}
+		printf("\n");
 		printf("Lock File : %s\n", alpm_option_get_lockfile());
 		printf("Log File  : %s\n", alpm_option_get_logfile());
 		list_display("Targets   :", pm_targets);

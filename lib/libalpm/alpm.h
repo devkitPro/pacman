@@ -97,8 +97,9 @@ void alpm_option_set_root(const char *root);
 const char *alpm_option_get_dbpath();
 void alpm_option_set_dbpath(const char *dbpath);
 
-const char *alpm_option_get_cachedir();
-void alpm_option_set_cachedir(const char *cachedir);
+alpm_list_t *alpm_option_get_cachedirs();
+void alpm_option_add_cachedir(const char *cachedir);
+void alpm_option_set_cachedirs(alpm_list_t *cachedirs);
 
 const char *alpm_option_get_logfile();
 void alpm_option_set_logfile(const char *logfile);
