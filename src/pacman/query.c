@@ -270,7 +270,7 @@ int pacman_query(alpm_list_t *targets)
 		printf(_("Checking for package upgrades..."));
 		alpm_list_t *syncpkgs;
 
-		if((syncpkgs = alpm_get_upgrades()) != NULL) {
+		if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
 			display_targets(syncpkgs);
 			return(0);
 		} else {

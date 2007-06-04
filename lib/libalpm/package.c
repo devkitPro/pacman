@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
-#include <locale.h>
+#include <ctype.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -50,6 +50,199 @@
 #include "handle.h"
 #include "versioncmp.h"
 #include "alpm.h"
+
+/** \addtogroup alpm_packages Package Functions
+ * @brief Functions to manipulate libalpm packages
+ * @{
+ */
+
+/** Create a package from a file.
+ * @param filename location of the package tarball
+ * @param pkg address of the package pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_pkg_load(char *filename, pmpkg_t **pkg)
+{
+	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load");
+
+	/* Sanity checks */
+	ASSERT(filename != NULL && strlen(filename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	*pkg = _alpm_pkg_load(filename);
+	if(*pkg == NULL) {
+		/* pm_errno is set by pkg_load */
+		return(-1);
+	}
+
+	return(0);
+}
+
+/** Free a package.
+ * @param pkg package pointer to free
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
+{
+	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_free");
+
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	/* Only free packages loaded in user space */
+	if(pkg->origin != PKG_FROM_CACHE) {
+		_alpm_pkg_free(pkg);
+	}
+
+	return(0);
+}
+
+/** Check the integrity (with sha1) of a package from the sync cache.
+ * @param pkg package pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_pkg_checksha1sum(pmpkg_t *pkg)
+{
+	char path[PATH_MAX];
+	char *sha1sum = NULL;
+	int retval = 0;
+
+	ALPM_LOG_FUNC;
+
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	/* We only inspect packages from sync repositories */
+	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
+	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
+
+	snprintf(path, PATH_MAX, "%s/%s-%s" PKGEXT, handle->cachedir,
+					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+
+	sha1sum = alpm_get_sha1sum(path);
+	if(sha1sum == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not get sha1sum for package %s-%s"),
+							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		pm_errno = PM_ERR_NOT_A_FILE;
+		retval = -1;
+	} else {
+		if(strcmp(sha1sum, alpm_pkg_get_sha1sum(pkg)) == 0) {
+			_alpm_log(PM_LOG_DEBUG, _("sha1sums for package %s-%s match"),
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		} else {
+			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s"),
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			pm_errno = PM_ERR_PKG_INVALID;
+			retval = -1;
+		}
+	}
+
+	FREE(sha1sum);
+
+	return(retval);
+}
+
+/** Check the integrity (with md5) of a package from the sync cache.
+ * @param pkg package pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
+{
+	char path[PATH_MAX];
+	char *md5sum = NULL;
+	int retval = 0;
+
+	ALPM_LOG_FUNC;
+
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	/* We only inspect packages from sync repositories */
+	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
+	ASSERT(pkg->data != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
+
+	snprintf(path, PATH_MAX, "%s/%s-%s" PKGEXT, handle->cachedir,
+					 alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+
+	md5sum = alpm_get_md5sum(path);
+	if(md5sum == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not get md5sum for package %s-%s"),
+							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		pm_errno = PM_ERR_NOT_A_FILE;
+		retval = -1;
+	} else {
+		if(strcmp(md5sum, alpm_pkg_get_md5sum(pkg)) == 0) {
+			_alpm_log(PM_LOG_DEBUG, _("md5sums for package %s-%s match"),
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+		} else {
+			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s"),
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			pm_errno = PM_ERR_PKG_INVALID;
+			retval = -1;
+		}
+	}
+
+	FREE(md5sum);
+
+	return(retval);
+}
+
+/** Compare versions.
+ * @param ver1 first version
+ * @param ver2 secont version
+ * @return postive, 0 or negative if ver1 is less, equal or more
+ * than ver2, respectively.
+ */
+int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
+{
+	ALPM_LOG_FUNC;
+
+	return(_alpm_versioncmp(ver1, ver2));
+}
+
+/* internal */
+static char *_supported_archs[] = {
+	"i586",
+	"i686",
+	"ppc",
+	"x86_64",
+};
+
+/**
+ * @brief Determine if a package name has -ARCH tacked on.
+ *
+ * @param pkgname name of the package to parse
+ *
+ * @return pointer to start of -ARCH text if it exists, else NULL
+ */
+char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
+{
+	/* TODO remove this when we transfer everything over to -ARCH
+	 *
+	 * this parsing sucks... it's done to support
+	 * two package formats for the time being:
+	 *    package-name-foo-1.0.0-1-i686
+	 * and
+	 *    package-name-bar-1.2.3-1
+	 */
+	size_t i = 0;
+	char *arch, *cmp, *p;
+
+	ALPM_LOG_FUNC;
+
+	if((p = strrchr(pkgname, '-'))) {
+		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
+			cmp = p+1;
+			arch = _supported_archs[i];
+
+			/* whee, case insensitive compare */
+			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
+			if(*arch || *cmp) {
+				continue;
+			}
+
+			return(p);
+		}
+	}
+	return(NULL);
+}
+
+/** @} */
 
 pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 {

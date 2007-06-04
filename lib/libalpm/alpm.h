@@ -178,6 +178,8 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
 alpm_list_t *alpm_db_search(pmdb_t *db, alpm_list_t* needles);
 
+alpm_list_t *alpm_db_get_upgrades();
+
 /*
  * Packages
  */
@@ -477,8 +479,6 @@ enum _pmerrno_t {
 extern enum _pmerrno_t pm_errno;
 
 char *alpm_strerror(int err);
-
-alpm_list_t *alpm_get_upgrades();
 
 #ifdef __cplusplus
 }

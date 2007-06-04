@@ -53,6 +53,172 @@
 #include "cache.h"
 #include "provide.h"
 
+/** \addtogroup alpm_trans Transaction Functions
+ * @brief Functions to manipulate libalpm transactions
+ * @{
+ */
+
+/** Initialize the transaction.
+ * @param type type of the transaction
+ * @param flags flags of the transaction (like nodeps, etc)
+ * @param event event callback function pointer
+ * @param conv question callback function pointer
+ * @param progress progress callback function pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
+                              alpm_trans_cb_event event, alpm_trans_cb_conv conv,
+                              alpm_trans_cb_progress progress)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+
+	/* lock db */
+	handle->lckfd = _alpm_lckmk();
+	if(handle->lckfd == -1) {
+		RET_ERR(PM_ERR_HANDLE_LOCK, -1);
+	}
+
+	handle->trans = _alpm_trans_new();
+	if(handle->trans == NULL) {
+		RET_ERR(PM_ERR_MEMORY, -1);
+	}
+
+	return(_alpm_trans_init(handle->trans, type, flags, event, conv, progress));
+}
+
+/** Search for packages to upgrade and add them to the transaction.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_sysupgrade()
+{
+	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
+
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
+
+	return(_alpm_trans_sysupgrade(trans));
+}
+
+/** Add a target to the transaction.
+ * @param target the name of the target to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_addtarget(char *target)
+{
+	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+
+	return(_alpm_trans_addtarget(trans, target));
+}
+
+/** Prepare a transaction.
+ * @param data the address of an alpm_list where detailed description
+ * of an error can be dumped (ie. list of conflicting files)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+
+	return(_alpm_trans_prepare(handle->trans, data));
+}
+
+/** Commit a transaction.
+ * @param data the address of an alpm_list where detailed description
+ * of an error can be dumped (ie. list of conflicting files)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(handle->trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
+
+	/* Check for database R/W permission */
+	if(!(handle->trans->flags & PM_TRANS_FLAG_PRINTURIS)) {
+		/* The print-uris operation is a bit odd. So we explicitly check for it */
+		ASSERT(handle->access == PM_ACCESS_RW, RET_ERR(PM_ERR_BADPERMS, -1));
+	}
+
+	return(_alpm_trans_commit(handle->trans, data));
+}
+
+/** Release a transaction.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_release()
+{
+	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
+
+	/* during a commit do not interrupt immediately, just after a target */
+	if(trans->state == STATE_COMMITING || trans->state == STATE_INTERRUPTED) {
+		if(trans->state == STATE_COMMITING) {
+			trans->state = STATE_INTERRUPTED;
+		}
+		pm_errno = PM_ERR_TRANS_COMMITING;
+		return(-1);
+	}
+
+	_alpm_trans_free(trans);
+	handle->trans = NULL;
+
+	/* unlock db */
+	if(handle->lckfd != -1) {
+		close(handle->lckfd);
+		handle->lckfd = -1;
+	}
+	if(_alpm_lckrm()) {
+		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s"),
+				alpm_option_get_lockfile());
+		alpm_logaction(_("warning: could not remove lock file %s"),
+				alpm_option_get_lockfile());
+	}
+
+	return(0);
+}
+
+/** @} */
+
 pmtrans_t *_alpm_trans_new()
 {
 	pmtrans_t *trans;

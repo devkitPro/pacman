@@ -42,6 +42,20 @@
 #include "log.h"
 #include "package.h"
 
+/** Fetch a remote pkg.
+ * @param url
+ * @return the downloaded filename on success, NULL on error
+ * @addtogroup alpm_misc
+ */
+char SYMEXPORT *alpm_fetch_pkgurl(char *url)
+{
+	ALPM_LOG_FUNC;
+
+	ASSERT(strstr(url, "://"), return(NULL));
+
+	return(_alpm_fetch_pkgurl(url));
+}
+
 pmserver_t *_alpm_server_new(const char *url)
 {
 	struct url *u;

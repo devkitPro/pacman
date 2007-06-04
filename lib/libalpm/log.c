@@ -27,7 +27,49 @@
 
 /* libalpm */
 #include "log.h"
+#include "handle.h"
+#include "util.h"
+#include "error.h"
 #include "alpm.h"
+
+/** \addtogroup alpm_log Logging Functions
+ * @brief Functions to log using libalpm
+ * @{
+ */
+
+/** A printf-like function for logging.
+ * @param fmt output format
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_logaction(char *fmt, ...)
+{
+	char str[LOG_STR_LEN];
+	va_list args;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	va_start(args, fmt);
+	vsnprintf(str, LOG_STR_LEN, fmt, args);
+	va_end(args);
+
+	/* TODO	We should add a prefix to log strings depending on who called us.
+	 * If logaction was called by the frontend:
+	 *   USER: <the frontend log>
+	 * and if called internally:
+	 *   ALPM: <the library log>
+	 * Moreover, the frontend should be able to choose its prefix
+	 * (USER by default?):
+	 *   pacman: "PACMAN"
+	 *   kpacman: "KPACMAN"
+	 * This would allow us to share the log file between several frontends
+	 * and know who does what */
+	return(_alpm_logaction(handle->usesyslog, handle->logfd, str));
+}
+
+/** @} */
 
 void _alpm_log(pmloglevel_t flag, char *fmt, ...)
 {
