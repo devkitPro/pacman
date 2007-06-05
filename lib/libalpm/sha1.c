@@ -381,6 +381,19 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
 
+/** Get the sha1 sum of file.
+ * @param name name of the file
+ * @return the checksum on success, NULL on error
+ * @addtogroup alpm_misc
+ */
+char SYMEXPORT *alpm_get_sha1sum(char *name)
+{
+	ALPM_LOG_FUNC;
+
+	ASSERT(name != NULL, return(NULL));
+
+	return(_alpm_SHAFile(name));
+}
 
 char* _alpm_SHAFile(char *filename) {
 	FILE *file;

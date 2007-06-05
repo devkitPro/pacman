@@ -41,6 +41,20 @@ documentation and/or software.
 #define MDUpdate _alpm_MD5Update
 #define MDFinal _alpm_MD5Final
 
+/** Get the md5 sum of file.
+ * @param name name of the file
+ * @return the checksum on success, NULL on error
+ * @addtogroup alpm_misc
+ */
+char SYMEXPORT *alpm_get_md5sum(char *name)
+{
+	ALPM_LOG_FUNC;
+
+	ASSERT(name != NULL, return(NULL));
+
+	return(_alpm_MDFile(name));
+}
+
 char* _alpm_MDFile(char *filename)
 {
 	FILE *file;

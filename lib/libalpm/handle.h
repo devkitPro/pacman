@@ -22,6 +22,7 @@
 #define _ALPM_HANDLE_H
 
 #include <stdio.h> 
+#include <sys/types.h>
 
 #include "alpm_list.h"
 #include "db.h"
