@@ -61,7 +61,7 @@
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_pkg_load(char *filename, pmpkg_t **pkg)
+int SYMEXPORT alpm_pkg_load(const char *filename, pmpkg_t **pkg)
 {
 	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load");
 
@@ -210,7 +210,7 @@ static char *_supported_archs[] = {
  *
  * @return pointer to start of -ARCH text if it exists, else NULL
  */
-char SYMEXPORT *alpm_pkg_name_hasarch(char *pkgname)
+char SYMEXPORT *alpm_pkg_name_hasarch(const char *pkgname)
 {
 	/* TODO remove this when we transfer everything over to -ARCH
 	 *
@@ -732,7 +732,7 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
  * used when we want to install or add a package */
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 {
-	alpm_list_t *i, *j;
+	const alpm_list_t *i, *j;
 
 	pmdb_t *localdb = alpm_option_get_localdb();
 	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {

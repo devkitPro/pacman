@@ -284,7 +284,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	struct archive *archive;
 	struct archive_entry *entry;
 	char cwd[PATH_MAX] = "";
-	alpm_list_t *targ, *lp;
+	alpm_list_t *targ;
 	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME;
@@ -383,7 +383,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 			/* copy the remove skiplist over */
 			tr->skip_remove = alpm_list_strdup(trans->skip_remove);
-			alpm_list_t *b;
+			const alpm_list_t *b;
 
 			/* Add files in the NEW package's backup array to the noupgrade array
 			 * so this removal operation doesn't kill them */
@@ -557,14 +557,17 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						hash_pkg = _alpm_SHAFile(tempfile);
 					}
 
-					/* append the new md5 or sha1 hash to it's respective entry in newpkg's backup
-					 * (it will be the new orginal) */
-					for(lp = alpm_pkg_get_backup(newpkg); lp; lp = lp->next) {
-						if(!lp->data || strcmp(lp->data, entryname) != 0) {
+					/* append the new md5 or sha1 hash to it's respective entry
+					 * in newpkg's backup (it will be the new orginal) */
+					alpm_list_t *backups;
+					for(backups = alpm_pkg_get_backup(newpkg); backups;
+							backups = alpm_list_next(backups)) {
+						char *oldbackup = alpm_list_getdata(backups);
+						if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
 							continue;
 						}
 						char *backup = NULL;
-						int backup_len = strlen(lp->data) + 2; /* tab char and null byte */
+						int backup_len = strlen(oldbackup) + 2; /* tab char and null byte */
 
 						if(use_md5) {
 							backup_len += 32; /* MD5s are 32 chars in length */
@@ -577,10 +580,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							RET_ERR(PM_ERR_MEMORY, -1);
 						}
 
-						sprintf(backup, "%s\t%s", (char *)lp->data, hash_pkg);
+						sprintf(backup, "%s\t%s", oldbackup, hash_pkg);
 						backup[backup_len-1] = '\0';
-						FREE(lp->data);
-						lp->data = backup;
+						FREE(oldbackup);
+						backups->data = backup;
 					}
 
 					if(use_md5) {
@@ -698,11 +701,13 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					}
 
 					/* calculate an hash if this is in newpkg's backup */
-					for(lp = alpm_pkg_get_backup(newpkg); lp; lp = lp->next) {
+					alpm_list_t *b;
+					for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 						char *backup = NULL, *hash = NULL;
-						int backup_len = strlen(lp->data) + 2; /* tab char and null byte */
+						char *oldbackup = alpm_list_getdata(b);
+						int backup_len = strlen(oldbackup) + 2; /* tab char and null byte */
 
-						if(!lp->data || strcmp(lp->data, entryname) != 0) {
+						if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
 							continue;
 						}
 						_alpm_log(PM_LOG_DEBUG, _("appending backup entry for %s"), filename);
@@ -720,11 +725,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							RET_ERR(PM_ERR_MEMORY, -1);
 						}
 
-						sprintf(backup, "%s\t%s", (char *)lp->data, hash);
+						sprintf(backup, "%s\t%s", oldbackup, hash);
 						backup[backup_len-1] = '\0';
 						FREE(hash);
-						FREE(lp->data);
-						lp->data = backup;
+						FREE(oldbackup);
+						b->data = backup;
 					}
 				}
 			}

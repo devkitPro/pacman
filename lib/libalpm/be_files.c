@@ -715,7 +715,7 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
  * Returns 0 on success, 1 on error
  *
  */
-int _alpm_db_getlastupdate(pmdb_t *db, char *ts)
+int _alpm_db_getlastupdate(const pmdb_t *db, char *ts)
 {
 	FILE *fp;
 	char file[PATH_MAX];
@@ -747,7 +747,7 @@ int _alpm_db_getlastupdate(pmdb_t *db, char *ts)
 
 /* writes the dbpath/.lastupdate with the contents of *ts
  */
-int _alpm_db_setlastupdate(pmdb_t *db, char *ts)
+int _alpm_db_setlastupdate(const pmdb_t *db, char *ts)
 {
 	FILE *fp;
 	char file[PATH_MAX];

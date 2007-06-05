@@ -345,9 +345,10 @@ alpm_list_t *alpm_list_remove_node(alpm_list_t *node)
  *
  * @return a new list containing non-duplicate items
  */
-alpm_list_t SYMEXPORT *alpm_list_remove_dupes(alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 { /* TODO does removing the strdup here cause invalid free's anywhere? */
-	alpm_list_t *lp = list, *newlist = NULL;
+	const alpm_list_t *lp = list;
+	alpm_list_t *newlist = NULL;
 	while(lp) {
 		if(!alpm_list_find(newlist, lp->data)) {
 			newlist = alpm_list_add(newlist, lp->data);
@@ -366,9 +367,10 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(alpm_list_t *list)
  *
  * @return a copy of the original list
  */
-alpm_list_t *alpm_list_strdup(alpm_list_t *list)
+alpm_list_t *alpm_list_strdup(const alpm_list_t *list)
 {
-	alpm_list_t *lp = list, *newlist = NULL;
+	const alpm_list_t *lp = list;
+	alpm_list_t *newlist = NULL;
 	while(lp) {
 		newlist = alpm_list_add(newlist, strdup(lp->data));
 		lp = lp->next;
@@ -404,9 +406,9 @@ alpm_list_t *alpm_list_reverse(alpm_list_t *list)
  *
  * @return the first element in the list
  */
-inline alpm_list_t SYMEXPORT *alpm_list_first(alpm_list_t *list)
+inline alpm_list_t SYMEXPORT *alpm_list_first(const alpm_list_t *list)
 {
-	return(list);
+	return((alpm_list_t*)list);
 }
 
 /**
@@ -417,13 +419,13 @@ inline alpm_list_t SYMEXPORT *alpm_list_first(alpm_list_t *list)
  *
  * @return an alpm_list_t node for index `n`
  */
-alpm_list_t *alpm_list_nth(alpm_list_t *list, int n)
+alpm_list_t *alpm_list_nth(const alpm_list_t *list, int n)
 {
-	alpm_list_t *i = list;
+	const alpm_list_t *i = list;
 	while(n--) {
 		i = i->next;
 	}
-	return(i);
+	return((alpm_list_t*)i);
 }
 
 /**
@@ -433,7 +435,7 @@ alpm_list_t *alpm_list_nth(alpm_list_t *list, int n)
  *
  * @return the next element, or NULL when no more elements exist
  */
-inline alpm_list_t SYMEXPORT *alpm_list_next(alpm_list_t *node)
+inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
 {
 	return(node->next);
 }
@@ -445,13 +447,13 @@ inline alpm_list_t SYMEXPORT *alpm_list_next(alpm_list_t *node)
  *
  * @return the last element in the list
  */
-alpm_list_t *alpm_list_last(alpm_list_t *list)
+alpm_list_t *alpm_list_last(const alpm_list_t *list)
 {
-	alpm_list_t *i = list;
+	const alpm_list_t *i = list;
 	while(i && i->next) {
 		i = i->next;
 	}
-	return(i);
+	return((alpm_list_t*)i);
 }
 
 /**
@@ -497,9 +499,9 @@ int SYMEXPORT alpm_list_count(const alpm_list_t *list)
  *
  * @return 1 if `needle` is found, 0 otherwise
  */
-int SYMEXPORT alpm_list_find(alpm_list_t *haystack, const void *needle)
+int SYMEXPORT alpm_list_find(const alpm_list_t *haystack, const void *needle)
 {
-	alpm_list_t *lp = haystack;
+	const alpm_list_t *lp = haystack;
 	while(lp) {
 		if(lp->data == needle) {
 			return(1);
@@ -518,9 +520,9 @@ int SYMEXPORT alpm_list_find(alpm_list_t *haystack, const void *needle)
  *
  * @return 1 if `needle` is found, 0 otherwise
  */
-int SYMEXPORT alpm_list_find_str(alpm_list_t *haystack, const char *needle)
+int SYMEXPORT alpm_list_find_str(const alpm_list_t *haystack, const char *needle)
 {
-	alpm_list_t *lp = haystack;
+	const alpm_list_t *lp = haystack;
 	while(lp) {
 		if(lp->data && strcmp((const char *)lp->data, needle) == 0) {
 			return(1);
@@ -543,9 +545,11 @@ int SYMEXPORT alpm_list_find_str(alpm_list_t *haystack, const char *needle)
  *
  * @return a list containing all items in `lhs` not present in `rhs`
  */
-alpm_list_t *alpm_list_diff(alpm_list_t *lhs, alpm_list_t *rhs, alpm_list_fn_cmp fn)
+alpm_list_t *alpm_list_diff(const alpm_list_t *lhs,
+		const alpm_list_t *rhs, alpm_list_fn_cmp fn)
 {
-	alpm_list_t *i, *j, *ret = NULL;
+	const alpm_list_t *i, *j;
+	alpm_list_t *ret = NULL;
 	for(i = lhs; i; i = i->next) {
 		int found = 0;
 		for(j = rhs; j; j = j->next) {

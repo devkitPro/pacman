@@ -258,6 +258,35 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	return(0);
 }
 
+const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(db != NULL, return(NULL));
+
+	return db->treename;
+}
+
+const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
+{
+	char path[PATH_MAX];
+	pmserver_t *s;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(db != NULL, return(NULL));
+
+	s = (pmserver_t*)db->servers->data;
+
+	snprintf(path, PATH_MAX, "%s://%s%s", s->s_url->scheme, s->s_url->host, s->s_url->doc);
+	return strdup(path);
+}
+
+
 /** Get a package entry from a package database
  * @param db pointer to the package database to get the package from
  * @param name of the package
@@ -344,7 +373,7 @@ alpm_list_t SYMEXPORT *alpm_db_getgrpcache(pmdb_t *db)
  * @param needles the list of strings to search for
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, alpm_list_t* needles)
+alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 {
 	ALPM_LOG_FUNC;
 
@@ -361,7 +390,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, alpm_list_t* needles)
 alpm_list_t SYMEXPORT *alpm_db_get_upgrades()
 {
 	alpm_list_t *syncpkgs = NULL;
-	alpm_list_t *i, *j, *k, *m;
+	const alpm_list_t *i, *j, *k, *m;
 
 	ALPM_LOG_FUNC;
 
@@ -540,9 +569,10 @@ int _alpm_db_cmp(const void *db1, const void *db2)
 	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
 }
 
-alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles)
+alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 {
-	alpm_list_t *i, *j, *k, *ret = NULL;
+	const alpm_list_t *i, *j, *k;
+	alpm_list_t *ret = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -657,34 +687,6 @@ pmdb_t *_alpm_db_register(const char *treename)
 	}
 
 	return(db);
-}
-
-const char SYMEXPORT *alpm_db_get_name(pmdb_t *db)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(db != NULL, return(NULL));
-
-	return db->treename;
-}
-
-const char *alpm_db_get_url(pmdb_t *db)
-{
-	char path[PATH_MAX];
-	pmserver_t *s;
-
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(db != NULL, return(NULL));
-
-	s = (pmserver_t*)db->servers->data;
-
-	snprintf(path, PATH_MAX, "%s://%s%s", s->s_url->scheme, s->s_url->host, s->s_url->doc);
-	return strdup(path);
 }
 
 /* vim: set ts=2 sw=2 noet: */

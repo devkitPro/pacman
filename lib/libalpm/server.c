@@ -47,7 +47,7 @@
  * @return the downloaded filename on success, NULL on error
  * @addtogroup alpm_misc
  */
-char SYMEXPORT *alpm_fetch_pkgurl(char *url)
+char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 {
 	ALPM_LOG_FUNC;
 
@@ -420,7 +420,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 	return(done ? 0 : -1);
 }
 
-char *_alpm_fetch_pkgurl(char *target)
+char *_alpm_fetch_pkgurl(const char *target)
 {
 	pmserver_t *server;
 	char *filename;

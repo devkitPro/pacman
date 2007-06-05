@@ -367,8 +367,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
  */
 static int syncpkg_cmp(const void *s1, const void *s2)
 {
-	pmsyncpkg_t *sp1 = (pmsyncpkg_t *)s1;
-	pmsyncpkg_t *sp2 = (pmsyncpkg_t *)s2;
+	const pmsyncpkg_t *sp1 = s1;
+	const pmsyncpkg_t *sp2 = s2;
 	pmpkg_t *p1, *p2;
 
   p1 = alpm_sync_get_pkg(sp1);
@@ -1085,7 +1085,7 @@ pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname)
 	return(NULL); /* not found */
 }
 
-pmsynctype_t SYMEXPORT alpm_sync_get_type(pmsyncpkg_t *sync)
+pmsynctype_t SYMEXPORT alpm_sync_get_type(const pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(-1));
@@ -1093,7 +1093,7 @@ pmsynctype_t SYMEXPORT alpm_sync_get_type(pmsyncpkg_t *sync)
 	return sync->type;
 }
 
-pmpkg_t SYMEXPORT *alpm_sync_get_pkg(pmsyncpkg_t *sync)
+pmpkg_t SYMEXPORT *alpm_sync_get_pkg(const pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(NULL));
@@ -1101,7 +1101,7 @@ pmpkg_t SYMEXPORT *alpm_sync_get_pkg(pmsyncpkg_t *sync)
 	return sync->pkg;
 }
 
-void SYMEXPORT *alpm_sync_get_data(pmsyncpkg_t *sync)
+void SYMEXPORT *alpm_sync_get_data(const pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
 	ASSERT(sync != NULL, return(NULL));

@@ -280,9 +280,9 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	return newstr;
 }
 
-void list_display(const char *title, alpm_list_t *list)
+void list_display(const char *title, const alpm_list_t *list)
 {
-	alpm_list_t *i;
+	const alpm_list_t *i;
 	int cols, len;
 
 	len = strlen(title);
@@ -315,10 +315,10 @@ void list_display(const char *title, alpm_list_t *list)
  * retrieved from a transaction object
  */
 /* TODO move to output.c? or just combine util and output */
-void display_targets(alpm_list_t *syncpkgs)
+void display_targets(const alpm_list_t *syncpkgs)
 {
 	char *str;
-	alpm_list_t *i, *j;
+	const alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
 	/* TODO these are some messy variable names */
 	unsigned long size = 0, isize = 0, rsize = 0, dispsize = 0;

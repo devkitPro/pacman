@@ -204,7 +204,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, _("loading group cache for repository '%s'"), db->treename);
 
 	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
-		alpm_list_t *i;
+		const alpm_list_t *i;
 		pmpkg_t *pkg = lp->data;
 
 		for(i = alpm_pkg_get_groups(pkg); i; i = i->next) {

@@ -60,22 +60,22 @@ alpm_list_t *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_f
 alpm_list_t *alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn);
 alpm_list_t *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data);
 alpm_list_t *alpm_list_remove_node(alpm_list_t *node);
-alpm_list_t *alpm_list_remove_dupes(alpm_list_t *list);
-alpm_list_t *alpm_list_strdup(alpm_list_t *list);
+alpm_list_t *alpm_list_remove_dupes(const alpm_list_t *list);
+alpm_list_t *alpm_list_strdup(const alpm_list_t *list);
 alpm_list_t *alpm_list_reverse(alpm_list_t *list);
 
 /* item accessors */
-alpm_list_t *alpm_list_first(alpm_list_t *list);
-alpm_list_t *alpm_list_nth(alpm_list_t *list, int n);
-alpm_list_t *alpm_list_next(alpm_list_t *list);
-alpm_list_t *alpm_list_last(alpm_list_t *list);
+alpm_list_t *alpm_list_first(const alpm_list_t *list);
+alpm_list_t *alpm_list_nth(const alpm_list_t *list, int n);
+alpm_list_t *alpm_list_next(const alpm_list_t *list);
+alpm_list_t *alpm_list_last(const alpm_list_t *list);
 void *alpm_list_getdata(const alpm_list_t *entry);
 
 /* misc */
 int alpm_list_count(const alpm_list_t *list);
-int alpm_list_find(alpm_list_t *haystack, const void *needle);
-int alpm_list_find_str(alpm_list_t *haystack,const char *needle);
-alpm_list_t *alpm_list_diff(alpm_list_t *lhs, alpm_list_t *rhs, alpm_list_fn_cmp fn);
+int alpm_list_find(const alpm_list_t *haystack, const void *needle);
+int alpm_list_find_str(const alpm_list_t *haystack,const char *needle);
+alpm_list_t *alpm_list_diff(const alpm_list_t *lhs, const alpm_list_t *rhs, alpm_list_fn_cmp fn);
 
 #ifdef __cplusplus
 }

@@ -182,7 +182,7 @@ static int query_group(alpm_list_t *targets)
 	if(targets == NULL) {
 		for(j = alpm_db_getgrpcache(db_local); j; j = alpm_list_next(j)) {
 			pmgrp_t *grp = alpm_list_getdata(j);
-			alpm_list_t *p, *pkgnames;
+			const alpm_list_t *p, *pkgnames;
 			const char *grpname;
 
 			grpname = alpm_grp_get_name(grp);
@@ -197,7 +197,7 @@ static int query_group(alpm_list_t *targets)
 			package = alpm_list_getdata(i);
 			pmgrp_t *grp = alpm_db_readgrp(db_local, package);
 			if(grp) {
-				alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
+				const alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
 				for(p = pkgnames; p; p = alpm_list_next(p)) {
 					printf("%s %s\n", package, (char *)alpm_list_getdata(p));
 				}

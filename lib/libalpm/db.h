@@ -51,7 +51,7 @@ struct __pmdb_t {
 pmdb_t *_alpm_db_new(const char *dbpath, const char *treename);
 void _alpm_db_free(pmdb_t *db);
 int _alpm_db_cmp(const void *db1, const void *db2);
-alpm_list_t *_alpm_db_search(pmdb_t *db, alpm_list_t *needles);
+alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register(const char *treename);
 
 /* be.c, backend specific calls */
@@ -63,8 +63,8 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target);
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
-int _alpm_db_getlastupdate(pmdb_t *db, char *ts);
-int _alpm_db_setlastupdate(pmdb_t *db, char *ts);
+int _alpm_db_getlastupdate(const pmdb_t *db, char *ts);
+int _alpm_db_setlastupdate(const pmdb_t *db, char *ts);
 
 #endif /* _ALPM_DB_H */
 

@@ -44,8 +44,8 @@ void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
 char *strtrim(char *str);
 char *strreplace(const char *str, const char *needle, const char *replace);
-void list_display(const char *title, alpm_list_t *list);
-void display_targets(alpm_list_t *syncpkgs);
+void list_display(const char *title, const alpm_list_t *list);
+void display_targets(const alpm_list_t *syncpkgs);
 int yesno(char *fmt, ...);
 
 #endif /* _PM_UTIL_H */

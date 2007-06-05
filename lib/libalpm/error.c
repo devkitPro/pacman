@@ -30,7 +30,7 @@
 #include "alpm.h"
 
 /* TODO does this really need a file all on its own? */
-char SYMEXPORT *alpm_strerror(int err)
+const char SYMEXPORT *alpm_strerror(int err)
 {
 	switch(err) {
 		/* System */

@@ -113,19 +113,19 @@ unsigned short alpm_option_get_usesyslog();
 void alpm_option_set_usesyslog(unsigned short usesyslog);
 
 alpm_list_t *alpm_option_get_noupgrades();
-void alpm_option_add_noupgrade(char *pkg);
+void alpm_option_add_noupgrade(const char *pkg);
 void alpm_option_set_noupgrades(alpm_list_t *noupgrade);
 
 alpm_list_t *alpm_option_get_noextracts();
-void alpm_option_add_noextract(char *pkg);
+void alpm_option_add_noextract(const char *pkg);
 void alpm_option_set_noextracts(alpm_list_t *noextract);
 
 alpm_list_t *alpm_option_get_ignorepkgs();
-void alpm_option_add_ignorepkg(char *pkg);
+void alpm_option_add_ignorepkg(const char *pkg);
 void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
 
 alpm_list_t *alpm_option_get_holdpkgs();
-void alpm_option_add_holdpkg(char *pkg);
+void alpm_option_add_holdpkg(const char *pkg);
 void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs);
 
 time_t alpm_option_get_upgradedelay();
@@ -137,10 +137,6 @@ void alpm_option_set_xfercommand(const char *cmd);
 unsigned short alpm_option_get_nopassiveftp();
 void alpm_option_set_nopassiveftp(unsigned short nopasv);
 
-alpm_list_t *alpm_option_get_needles();
-void alpm_option_add_needle(char *needle);
-void alpm_option_set_needles(alpm_list_t *needles);
-
 pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
 
@@ -151,8 +147,8 @@ alpm_list_t *alpm_option_get_syncdbs();
 pmdb_t *alpm_db_register(const char *treename);
 int alpm_db_unregister(pmdb_t *db);
 
-const char *alpm_db_get_name(pmdb_t *db);
-const char *alpm_db_get_url(pmdb_t *db);
+const char *alpm_db_get_name(const pmdb_t *db);
+const char *alpm_db_get_url(const pmdb_t *db);
 
 int alpm_db_setserver(pmdb_t *db, const char *url);
 
@@ -164,7 +160,7 @@ alpm_list_t *alpm_db_whatprovides(pmdb_t *db, const char *name);
 
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
-alpm_list_t *alpm_db_search(pmdb_t *db, alpm_list_t* needles);
+alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
 
 alpm_list_t *alpm_db_get_upgrades();
 
@@ -188,13 +184,13 @@ typedef enum _pmpkghasarch_t {
 } pmpkghasarch_t;
 */
 
-int alpm_pkg_load(char *filename, pmpkg_t **pkg);
+int alpm_pkg_load(const char *filename, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 int alpm_pkg_checksha1sum(pmpkg_t *pkg);
-char *alpm_fetch_pkgurl(char *url);
+char *alpm_fetch_pkgurl(const char *url);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
-char *alpm_pkg_name_hasarch(char *pkgname);
+char *alpm_pkg_name_hasarch(const char *pkgname);
 
 const char *alpm_pkg_get_filename(pmpkg_t *pkg);
 const char *alpm_pkg_get_name(pmpkg_t *pkg);
@@ -225,8 +221,8 @@ unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 /*
  * Groups
  */
-const char *alpm_grp_get_name(pmgrp_t *grp);
-alpm_list_t *alpm_grp_get_pkgs(pmgrp_t *grp);
+const char *alpm_grp_get_name(const pmgrp_t *grp);
+const alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
 
 /*
  * Sync
@@ -239,9 +235,9 @@ typedef enum _pmsynctype_t {
 	PM_SYNC_TYPE_DEPEND
 } pmsynctype_t;
 
-pmsynctype_t alpm_sync_get_type(pmsyncpkg_t *sync);
-pmpkg_t *alpm_sync_get_pkg(pmsyncpkg_t *sync);
-void *alpm_sync_get_data(pmsyncpkg_t *sync);
+pmsynctype_t alpm_sync_get_type(const pmsyncpkg_t *sync);
+pmpkg_t *alpm_sync_get_pkg(const pmsyncpkg_t *sync);
+void *alpm_sync_get_data(const pmsyncpkg_t *sync);
 
 /*
  * Transactions
@@ -383,7 +379,7 @@ const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
  * Helpers
  */
 
-/* md5sums */
+/* checksums */
 char *alpm_get_md5sum(char *name);
 char *alpm_get_sha1sum(char *name);
 
@@ -459,7 +455,7 @@ enum _pmerrno_t {
 
 extern enum _pmerrno_t pm_errno;
 
-char *alpm_strerror(int err);
+const char *alpm_strerror(int err);
 
 #ifdef __cplusplus
 }

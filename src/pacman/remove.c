@@ -47,7 +47,7 @@ extern pmdb_t *db_local;
  */
 int pacman_remove(alpm_list_t *targets)
 {
-	alpm_list_t *i, *j, *data = NULL, *finaltargs = NULL;
+	alpm_list_t *i, *data = NULL, *finaltargs = NULL;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -61,14 +61,14 @@ int pacman_remove(alpm_list_t *targets)
 		pmgrp_t *grp = alpm_db_readgrp(db_local, alpm_list_getdata(i));
 		if(grp) {
 			int all;
-			alpm_list_t *pkgnames = alpm_grp_get_pkgs(grp);
+			const alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
 
 			printf(_(":: group %s:\n"), alpm_grp_get_name(grp));
 			list_display("   ", pkgnames);
 			all = yesno(_("    Remove whole content? [Y/n] "));
 
-			for(j = pkgnames; j; j = alpm_list_next(j)) {
-				char *pkg = alpm_list_getdata(j);
+			for(p = pkgnames; p; p = alpm_list_next(p)) {
+				char *pkg = alpm_list_getdata(p);
 				if(all || yesno(_(":: Remove %s from group %s? [Y/n] "), pkg, (char *)alpm_list_getdata(i))) {
 					finaltargs = alpm_list_add(finaltargs, strdup(pkg));
 				}

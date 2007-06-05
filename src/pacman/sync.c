@@ -572,7 +572,8 @@ int pacman_sync(alpm_list_t *targets)
 						found++;
 						printf(_(":: group %s:\n"), targ);
 						/* remove dupe entries in case a package exists in multiple repos */
-						alpm_list_t *pkgs = alpm_list_remove_dupes(alpm_grp_get_pkgs(grp));
+						const alpm_list_t *grppkgs = alpm_grp_get_pkgs(grp);
+						alpm_list_t *pkgs = alpm_list_remove_dupes(grppkgs);
 						list_display("   ", pkgs);
 						if(yesno(_(":: Install whole content? [Y/n] "))) {
 							for(k = pkgs; k; k = alpm_list_next(k)) {

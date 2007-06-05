@@ -242,7 +242,7 @@ void SYMEXPORT alpm_option_set_usesyslog(unsigned short usesyslog)
 	handle->usesyslog = usesyslog;
 }
 
-void SYMEXPORT alpm_option_add_noupgrade(char *pkg)
+void SYMEXPORT alpm_option_add_noupgrade(const char *pkg)
 {
 	handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 }
@@ -253,17 +253,18 @@ void SYMEXPORT alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 	if(noupgrade) handle->noupgrade = noupgrade;
 }
 
-void SYMEXPORT alpm_option_add_noextract(char *pkg)
+void SYMEXPORT alpm_option_add_noextract(const char *pkg)
 {
 	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
 }
+
 void SYMEXPORT alpm_option_set_noextracts(alpm_list_t *noextract)
 {
 	if(handle->noextract) FREELIST(handle->noextract);
 	if(noextract) handle->noextract = noextract;
 }
 
-void SYMEXPORT alpm_option_add_ignorepkg(char *pkg)
+void SYMEXPORT alpm_option_add_ignorepkg(const char *pkg)
 {
 	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 }
@@ -273,7 +274,7 @@ void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 	if(ignorepkgs) handle->ignorepkg = ignorepkgs;
 }
 
-void SYMEXPORT alpm_option_add_holdpkg(char *pkg)
+void SYMEXPORT alpm_option_add_holdpkg(const char *pkg)
 {
 	handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
 }
