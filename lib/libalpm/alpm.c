@@ -1,7 +1,7 @@
 /*
  *  alpm.c
  * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
  *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
@@ -24,21 +24,12 @@
 
 #include "config.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <limits.h> /* PATH_MAX */
-#include <stdarg.h>
-
 /* libalpm */
 #include "alpm.h"
 #include "alpm_list.h"
 #include "error.h"
 #include "handle.h"
 #include "util.h"
-
-#define min(X, Y)  ((X) < (Y) ? (X) : (Y))
 
 /* Globals */
 pmhandle_t *handle = NULL;
