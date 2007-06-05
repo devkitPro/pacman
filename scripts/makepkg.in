@@ -1010,97 +1010,61 @@ if [ -z "$SRCROOT" ]; then
 	SRCROOT=$ABSROOT
 fi
 
-while [ "$#" -ne "0" ]; do
-	case $1 in
-		# pacman
+
+
+# Parse Command Line Options.
+OPT_SHORT="bcCdefghiLmop:rRsSV"
+OPT_LONG="asroot,builddeps,clean,cleancache,nodeps,noextract,force,geninteg,help,install,log"
+OPT_LONG="$OPT_LONG,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version"
+# Pacman Options
+OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
+OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
+if echo "$OPT_TEMP" | grep -q 'GETOPT GO BANG!'; then
+	# This is a small hack to stop the script bailing with 'set -e'
+	echo; usage; exit 1 # E_INVALID_OPTION;
+fi
+eval set -- "$OPT_TEMP"
+unset OPT_SHORT OPT_LONG OPT_TEMP
+
+while true; do
+	case "$1" in
+		# Pacman Options
 		--noconfirm)      PACMAN_OPTS="$PACMAN_OPTS --noconfirm" ;;
 		--noprogressbar)  PACMAN_OPTS="$PACMAN_OPTS --noprogressbar" ;;
-		# makepkg
-		--asroot)     ASROOT=1 ;;
-		--clean)      CLEANUP=1 ;;
-		--cleancache) CLEANCACHE=1 ;;
-		--syncdeps)   DEP_BIN=1 ;;
-		--builddeps)  DEP_SRC=1 ;;
-		--nodeps)     NODEPS=1 ;;
-		--noextract)  NOEXTRACT=1 ;;
-		--ignorearch) IGNOREARCH=1 ;;
-		--install)    INSTALL=1 ;;
-		--force)      FORCE=1 ;;
-		--nobuild)    NOBUILD=1 ;;
-		--nocolor)    USE_COLOR="n" ;;
-		--geninteg)   GENINTEG=1 ;;
-		--rmdeps)     RMDEPS=1 ;;
-		--repackage)  REPKG=1 ;;
-		--log)        LOGGING=1 ;;
-		--source)     SOURCEONLY=1 ;;
+
+		# Makepkg Options
+		--asroot)         ASROOT=1 ;;
+		-A|--ignorearch)  IGNOREARCH=1 ;;
+		-b|--builddeps)   DEP_SRC=1 ;;
+		-c|--clean)       CLEANUP=1 ;;
+		-C|--cleancache)  CLEANCACHE=1 ;;
+		-d|--nodeps)      NODEPS=1 ;;
+		-e|--noextract)   NOEXTRACT=1 ;;
+		-f|--force)       FORCE=1 ;;
+		-g|--geninteg)    GENINTEG=1 ;;
+		-i|--install)     INSTALL=1 ;;
+		-L|--log)         LOGGING=1 ;;
+		-m|--nocolor)     USE_COLOR='n' ;;
+		-o|--nobuild)     NOBUILD=1 ;;
+		-r|--rmdeps)      RMDEPS=1 ;;
+		-R|--repackage)   REPKG=1 ;;
+		--source)         SOURCEONLY=1 ;;
+		-s|--syncdeps)    DEP_BIN=1 ;;
 
 		# BEGIN DEPRECATED
-		--usesudo)
+		-S|--usesudo)
 			warning "$(gettext "Sudo is used by default now. The --usesudo option is deprecated!")" ;;
 		# END DEPRECATED
 
-		--help)
-					usage
-					exit 0 #E_OK
-					;;
-		--version)
-					version
-					exit 0 #E_OK
-					;;
-		--*)
-					usage
-					exit 1 #E_INVALID_OPTION
-					;;
-		-*)
-		while getopts "AbcCdefFghiLmop:rRsSV-" opt; do
-			case $opt in
-				A) IGNOREARCH=1 ;;
-				b) DEP_SRC=1 ;;
-				c) CLEANUP=1 ;;
-				C) CLEANCACHE=1 ;;
-				d) NODEPS=1 ;;
-				e) NOEXTRACT=1 ;;
-				f) FORCE=1 ;;
-				F) INFAKEROOT=1 ;;
-				g) GENINTEG=1 ;;
-				i) INSTALL=1 ;;
-				L) LOGGING=1 ;;
-				m) USE_COLOR="n" ;;
-				o) NOBUILD=1 ;;
-				p) BUILDSCRIPT=$OPTARG ;;
-				r) RMDEPS=1 ;;
-				R) REPKG=1 ;;
-				s) DEP_BIN=1 ;;
+		-h|--help)        usage; exit 0 ;; # E_OK
+		-V|--version)     version; exit 0 ;; # E_OK
 
-				# BEGIN DEPRECATED
-				S)
-					warning "$(gettext "Sudo is used by default now. The --usesudo option is deprecated!")" ;;
-				# END DEPRECATED
-				h)
-						usage
-						exit 0 #E_OK
-						;;
-				V)
-						version
-						exit 0 #E_OK
-						;;
-				-)
-						OPTIND=0
-						break
-						;;
-				*)
-						usage
-						exit 1 #E_INVALID_OPTION
-						;;
-			esac
-		done
-		;;
-		*)
-				true
-				;;
+		--)               OPT_IND=0; shift; break;
+		*)                usage; exit 1 ;; # E_INVALID_OPTION
 	esac
 	shift
 done
+
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
