@@ -116,7 +116,10 @@ AC_FUNC_REALLOC
 AC_TYPE_SIGNAL
 AC_FUNC_STAT
 AC_FUNC_STRFTIME
-AC_CHECK_FUNCS([getcwd getmntent gettimeofday memmove memset mkdir realpath regcomp rmdir setenv setlocale sqrt strcasecmp strchr strdup strerror strndup strrchr strstr strverscmp uname])
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS([getcwd gettimeofday memmove memset mkdir realpath regcomp \
+								rmdir setenv setlocale sqrt strcasecmp strchr strdup strerror \
+								strndup strrchr strstr strverscmp uname mtrace geteuid])
 
 # Host-dependant flags
 case "${host}" in
