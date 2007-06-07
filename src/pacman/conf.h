@@ -33,6 +33,9 @@ typedef struct __config_t {
 	unsigned short upgrade;
 	unsigned short noconfirm;
 	unsigned short noprogressbar;
+	unsigned short logmask;
+
+	/* command line options */
 	unsigned short op_d_resolve;
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;

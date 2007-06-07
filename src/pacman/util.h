@@ -47,6 +47,9 @@ char *strreplace(const char *str, const char *needle, const char *replace);
 void list_display(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *syncpkgs);
 int yesno(char *fmt, ...);
+int pm_printf(pmloglevel_t level, const char *format, ...);
+int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...);
+int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args);
 
 #endif /* _PM_UTIL_H */
 

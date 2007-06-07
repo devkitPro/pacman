@@ -42,8 +42,6 @@
 #include "util.h"
 #include "conf.h"
 
-#define LOG_STR_LEN 256
-
 extern config_t *config;
 
 /* gets the current screen column width */
@@ -408,7 +406,6 @@ void display_targets(const alpm_list_t *syncpkgs)
 /* TODO there must be a better way */
 int yesno(char *fmt, ...)
 {
-	char str[LOG_STR_LEN];
 	char response[32];
 	va_list args;
 
@@ -417,11 +414,9 @@ int yesno(char *fmt, ...)
 	}
 
 	va_start(args, fmt);
-	vsnprintf(str, LOG_STR_LEN, fmt, args);
-	va_end(args);
-
 	/* Use stderr so questions are always displayed when redirecting output */
-	fprintf(stderr, str);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
 
 	if(fgets(response, 32, stdin)) {
 		if(strlen(response) != 0) {
@@ -433,6 +428,84 @@ int yesno(char *fmt, ...)
 		}
 	}
 	return(0);
+}
+
+int pm_printf(pmloglevel_t level, const char *format, ...)
+{
+	int ret;
+	va_list args;
+
+	/* print the message using va_arg list */
+	va_start(args, format);
+	ret = pm_vfprintf(stdout, level, format, args);
+	va_end(args);
+
+	return(ret);
+}
+
+int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...)
+{
+	int ret;
+	va_list args;
+
+	/* print the message using va_arg list */
+	va_start(args, format);
+	ret = pm_vfprintf(stream, level, format, args);
+	va_end(args);
+
+	return(ret);
+}
+
+int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args)
+{
+	int ret = 0;
+
+	/* if current logmask does not overlap with level, do not print msg */
+	if(!(config->logmask & level)) {
+		return ret;
+	}
+
+#if defined(PACMAN_DEBUG)
+	/* If debug is on, we'll timestamp the output */
+  if(config->logmask & PM_LOG_DEBUG) {
+		time_t t;
+		struct tm *tmp;
+		char timestr[10] = {0};
+
+		t = time(NULL);
+		tmp = localtime(&t);
+		strftime(timestr, 9, "%H:%M:%S", tmp);
+		timestr[8] = '\0';
+
+		printf("[%s] ", timestr);
+	}
+#endif
+
+	/* print a prefix to the message */
+	switch(level) {
+		case PM_LOG_DEBUG:
+			fprintf(stream, _("debug: "));
+			break;
+		case PM_LOG_ERROR:
+			fprintf(stream, _("error: "));
+			break;
+		case PM_LOG_WARNING:
+			fprintf(stream, _("warning: "));
+			break;
+		case PM_LOG_FUNCTION:
+		  /* TODO we should increase the indent level when this occurs so we can see
+			 * program flow easier.  It'll be fun */
+			fprintf(stream, _("function: "));
+			break;
+		default:
+			break;
+	}
+
+	/* print the message using va_arg list */
+	ret = vfprintf(stream, format, args);
+	/* TEMP HACK because libalpm strings don't have \n */
+	fprintf(stream, "\n");
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */
