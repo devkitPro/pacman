@@ -34,8 +34,10 @@
 #include <sys/utsname.h>
 #include <libintl.h>
 #include <locale.h>
-#include <mcheck.h> /* debug tracing (mtrace) */
 #include <time.h>
+#if defined(PACMAN_DEBUG) && defined(HAVE_MTRACE)
+#include <mcheck.h> /* debug tracing (mtrace) */
+#endif
 
 /* alpm */
 #include <alpm.h>
@@ -220,8 +222,8 @@ static void cleanup(int signum)
 	if(signum==SIGSEGV)
 	{
 		/* write a log message and write to stderr */
-		cb_log(PM_LOG_ERROR, "segmentation fault");
-		fprintf(stderr, "Internal pacman error: Segmentation fault.\n"
+		pm_printf(PM_LOG_ERROR, "segmentation fault\n");
+		pm_fprintf(stderr, PM_LOG_ERROR, "Internal pacman error: Segmentation fault.\n"
 		        "Please submit a full bug report with --debug if appropriate.\n");
 		exit(signum);
 	} else if((signum == SIGINT) && (alpm_trans_release() == -1)
@@ -346,7 +348,7 @@ static int parseargs(int argc, char *argv[])
 				}
 				/* progress bars get wonky with debug on, shut them off */
 				config->noprogressbar = 1;
-				alpm_option_set_logmask(logmask);
+				config->logmask = logmask;
 				break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
@@ -467,6 +469,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	char *ptr, *section = NULL;
 	pmdb_t *db = NULL;
 
+	pm_printf(PM_LOG_DEBUG, _("config: attempting to read file %s\n"), file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
 		return(1);
@@ -501,14 +504,14 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 			section = strdup(ptr);
 			section[strlen(section)-1] = '\0';
-			printf(_("config: new section '%s'\n"), section);
+			pm_printf(PM_LOG_DEBUG, _("config: new section '%s'\n"), section);
 			if(!strlen(section)) {
-				printf("PM_ERR_CONF_BAD_SECTION\n");
+				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SECTION\n");
 				return(1);
 			}
 			/* a section/database named local is not allowed */
 			if(!strcmp(section, "local")) {
-				printf("PM_ERR_CONF_LOCAL\n");
+				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_LOCAL\n");
 				return(1);
 			}
 			/* if we are not looking at the options section, register a db */
@@ -527,12 +530,12 @@ static int _parseconfig(const char *file, const char *givensection,
 			strtrim(ptr);
 
 			if(key == NULL) {
-				printf("PM_ERR_CONF_BAD_SYNTAX\n");
+				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
 				return(1);
 			}
 			upperkey = strtoupper(strdup(key));
 			if(section == NULL && (strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0)) {
-				printf("PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION\n");
+				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION\n");
 				return(1);
 			}
 			if(ptr == NULL) {
@@ -540,28 +543,28 @@ static int _parseconfig(const char *file, const char *givensection,
 				/* TODO shouldn't we check if these are in the [options] section? */
 				if(strcmp(key, "NoPassiveFTP") == 0 || strcmp(upperkey, "NOPASSIVEFTP") == 0) {
 					alpm_option_set_nopassiveftp(1);
-					printf(_("config: nopassiveftp\n"));
+					pm_printf(PM_LOG_DEBUG, _("config: nopassiveftp\n"));
 				} else if(strcmp(key, "UseSyslog") == 0 || strcmp(upperkey, "USESYSLOG") == 0) {
 					alpm_option_set_usesyslog(1);
-					printf(_("config: usesyslog\n"));
+					pm_printf(PM_LOG_DEBUG, _("config: usesyslog\n"));
 				} else if(strcmp(key, "ILoveCandy") == 0 || strcmp(upperkey, "ILOVECANDY") == 0) {
 					config->chomp = 1;
-					printf(_("config: chomp\n"));
+					pm_printf(PM_LOG_DEBUG, _("config: chomp\n"));
 				} else if(strcmp(key, "UseColor") == 0 || strcmp(upperkey, "USECOLOR") == 0) {
 					config->usecolor = 1;
-					printf(_("config: usecolor\n"));
+					pm_printf(PM_LOG_DEBUG, _("config: usecolor\n"));
 				} else if(strcmp(key, "ShowSize") == 0 || strcmp(upperkey, "SHOWSIZE") == 0) {
 					config->showsize= 1;
-					printf(_("config: showsize\n"));
+					pm_printf(PM_LOG_DEBUG, _("config: showsize\n"));
 				} else {
-					printf("PM_ERR_CONF_BAD_SYNTAX\n");
+					pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
 					return(1);
 				}
 			} else {
 				/* directives with settings */
 				if(strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0) {
 					int ret;
-					printf(_("config: including %s\n"), ptr);
+					pm_printf(PM_LOG_DEBUG, _("config: including %s\n"), ptr);
 					ret = _parseconfig(ptr, section, db);
 					if(ret != 0) {
 						return(ret);
@@ -575,12 +578,12 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_noupgrade(p);
-							printf(_("config: noupgrade: %s\n"), p);
+							pm_printf(PM_LOG_DEBUG, _("config: noupgrade: %s\n"), p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_noupgrade(p);
-						printf(_("config: noupgrade: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, _("config: noupgrade: %s\n"), p);
 					} else if(strcmp(key, "NoExtract") == 0 || strcmp(upperkey, "NOEXTRACT") == 0) {
 						char *p = ptr;
 						char *q;
@@ -588,12 +591,12 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_noextract(p);
-							printf(_("config: noextract: %s\n"), p);
+							pm_printf(PM_LOG_DEBUG, _("config: noextract: %s\n"), p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_noextract(p);
-						printf(_("config: noextract: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, _("config: noextract: %s\n"), p);
 					} else if(strcmp(key, "IgnorePkg") == 0 || strcmp(upperkey, "IGNOREPKG") == 0) {
 						char *p = ptr;
 						char *q;
@@ -601,12 +604,12 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_ignorepkg(p);
-							printf(_("config: ignorepkg: %s"), p);
+							pm_printf(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_ignorepkg(p);
-						printf(_("config: ignorepkg: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, _("config: ignorepkg: %s\n"), p);
 					} else if(strcmp(key, "HoldPkg") == 0 || strcmp(upperkey, "HOLDPKG") == 0) {
 						char *p = ptr;
 						char *q;
@@ -614,37 +617,37 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_holdpkg(p);
-							printf(_("config: holdpkg: %s\n"), p);
+							pm_printf(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_holdpkg(p);
-						printf(_("config: holdpkg: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
 						alpm_option_set_dbpath(ptr);
-						printf(_("config: dbpath: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, _("config: dbpath: %s\n"), ptr);
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
 						alpm_option_set_cachedir(ptr);
-						printf(_("config: cachedir: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, _("config: cachedir: %s\n"), ptr);
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
 						alpm_option_set_root(ptr);
-						printf(_("config: rootdir: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, _("config: rootdir: %s\n"), ptr);
 					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
 						alpm_option_set_logfile(ptr);
-						printf(_("config: logfile: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, _("config: logfile: %s\n"), ptr);
 					} else if (strcmp(key, "LockFile") == 0 || strcmp(upperkey, "LOCKFILE") == 0) {
 						alpm_option_set_lockfile(ptr);
-						printf(_("config: lockfile: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, _("config: lockfile: %s\n"), ptr);
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);
-						printf(_("config: xfercommand: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, _("config: xfercommand: %s\n"), ptr);
 					} else if (strcmp(key, "UpgradeDelay") == 0 || strcmp(upperkey, "UPGRADEDELAY") == 0) {
 						/* The config value is in days, we use seconds */
 						time_t ud = atol(ptr) * 60 * 60 *24;
 						alpm_option_set_upgradedelay(ud);
-						printf(_("config: upgradedelay: %d\n"), (int)ud);
+						pm_printf(PM_LOG_DEBUG, _("config: upgradedelay: %d\n"), (int)ud);
 					} else {
-						printf("PM_ERR_CONF_BAD_SYNTAX\n");
+						pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
 						return(1);
 					}
 				} else if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
@@ -658,7 +661,7 @@ static int _parseconfig(const char *file, const char *givensection,
 
 					free(server);
 				} else {
-					printf("PM_ERR_CONF_BAD_SYNTAX\n");
+					pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
 					return(1);
 				}
 			}
@@ -690,11 +693,12 @@ int parseconfig(const char *file)
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	/* may not work with CYGWIN */
-	uid_t myuid;
+#if defined(HAVE_GETEUID)
+	/* geteuid undefined in CYGWIN */
+	uid_t myuid = geteuid();
+#endif
 
-#if defined(PACMAN_DEBUG)
-	/* need to ensure we have mcheck installed */
+#if defined(PACMAN_DEBUG) && defined(HAVE_MTRACE)
 	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
 	mtrace();
 #endif
@@ -723,18 +727,30 @@ int main(int argc, char *argv[])
 	if(alpm_initialize() == -1) {
 		fprintf(stderr, _("error: failed to initialize alpm library (%s)\n"),
 		        alpm_strerror(pm_errno));
-		cleanup(1);
+		cleanup(EXIT_FAILURE);
 	}
+
+	/* Setup logging as soon as possible, to print out maximum debugging info */
+	alpm_option_set_logcb(cb_log);
+	alpm_option_set_dlcb(cb_dl_progress);
 
 	/* parse the command line */
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
-		config_free(config);
-		exit(ret);
+		fprintf(stderr, _("error: failed to parse command line\n"));
+		cleanup(EXIT_FAILURE);
 	}
 
-	/* see if we're root or not */
-	myuid = geteuid();
+	if(config->configfile == NULL) {
+		config->configfile = strdup(CONFFILE);
+	}
+
+	/* parse the config file */
+	if(parseconfig(config->configfile) != 0) {
+		fprintf(stderr, _("error: failed to parse config (%s)\n"),
+		        alpm_strerror(pm_errno));
+		cleanup(EXIT_FAILURE);
+	}
 
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0) {
@@ -749,27 +765,10 @@ int main(int argc, char *argv[])
 				 * normal FS checking */
 			} else {
 				fprintf(stderr, _("error: you cannot perform this operation unless you are root.\n"));
-				config_free(config);
-				exit(EXIT_FAILURE);
+				cleanup(EXIT_FAILURE);
 			}
 		}
 	}
-
-	/* Setup logging as soon as possible, to print out maximum debugging info */
-	alpm_option_set_logcb(cb_log);
-
-	if(config->configfile == NULL) {
-		config->configfile = strdup(CONFFILE);
-	}
-
-	if(parseconfig(config->configfile) != 0) {
-		fprintf(stderr, _("error: failed to parse config (%s)\n"),
-		        alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-
-	/* set library parameters */
-	alpm_option_set_dlcb(cb_dl_progress);
 
 	if(config->verbose > 0) {
 		printf("Root      : %s\n", alpm_option_get_root());
@@ -786,19 +785,7 @@ int main(int argc, char *argv[])
 	if(db_local == NULL) {
 		fprintf(stderr, _("error: could not register 'local' database (%s)\n"),
 		        alpm_strerror(pm_errno));
-		cleanup(1);
-	}
-
-	/* TODO This is pretty messy, shouldn't checking be done later in the ops
-	 * themselves? I can't even digest this if statement. */
-	if(alpm_list_count(pm_targets) == 0
-			&& !(config->op == PM_OP_QUERY
-					|| (config->op == PM_OP_SYNC
-							&& (config->op_s_sync || config->op_s_upgrade || config->op_s_search
-								  || config->op_s_clean || config->group
-									|| config->op_q_list)))) {
-		fprintf(stderr, _("error: no targets specified (use -h for help)\n"));
-		cleanup(1);
+		cleanup(EXIT_FAILURE);
 	}
 
 	/* start the requested operation */
@@ -823,12 +810,12 @@ int main(int argc, char *argv[])
 			break;
 		default:
 			fprintf(stderr, _("error: no operation specified (use -h for help)\n"));
-			ret = 1;
+			ret = EXIT_FAILURE;
 	}
 
 	cleanup(ret);
 	/* not reached */
-	return(0);
+	return(EXIT_SUCCESS);
 }
 
 /* vim: set ts=2 sw=2 noet: */
