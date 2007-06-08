@@ -78,7 +78,6 @@ pmhandle_t *_alpm_handle_new()
 //#else
 	handle->access = PM_ACCESS_RW;
 #endif
-	handle->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
 	handle->root = NULL;
 	handle->dbpath = NULL;
 	handle->cachedir = NULL;
@@ -124,7 +123,6 @@ void _alpm_handle_free(pmhandle_t *handle)
 
 alpm_cb_log SYMEXPORT alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
 alpm_cb_download SYMEXPORT alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
-unsigned short SYMEXPORT alpm_option_get_logmask() { return handle->logmask; }
 const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
 const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
 const char SYMEXPORT *alpm_option_get_cachedir() { return handle->cachedir; }
@@ -149,10 +147,10 @@ void SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
 
 void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
 
-void SYMEXPORT alpm_option_set_logmask(unsigned short mask) { handle->logmask = mask; }
-
 void SYMEXPORT alpm_option_set_root(const char *root)
 {
+	ALPM_LOG_FUNC;
+
 	if(handle->root) FREE(handle->root);
 	/* According to the man page, realpath is safe to use IFF the second arg is
 	 * NULL. */
@@ -172,8 +170,6 @@ void SYMEXPORT alpm_option_set_root(const char *root)
 		handle->root = calloc(rootlen+1, sizeof(char));
 		strncpy(handle->root, realroot, rootlen);
 		handle->root[rootlen-1] = '/';
-		_alpm_log(PM_LOG_DEBUG, _("option 'root' = %s"), handle->root);
-
 	}
 	if(realroot) {
 		free(realroot);
@@ -182,6 +178,8 @@ void SYMEXPORT alpm_option_set_root(const char *root)
 
 void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 {
+	ALPM_LOG_FUNC;
+
 	if(handle->dbpath) FREE(handle->dbpath);
 	if(dbpath) {
 		/* verify dbpath ends in a '/' */
@@ -192,12 +190,13 @@ void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 		handle->dbpath = calloc(dbpathlen+1, sizeof(char));
 		strncpy(handle->dbpath, dbpath, dbpathlen);
 		handle->dbpath[dbpathlen-1] = '/';
-		_alpm_log(PM_LOG_DEBUG, _("option 'dbpath' = %s"), handle->dbpath);
 	}
 }
 
 void SYMEXPORT alpm_option_set_cachedir(const char *cachedir)
 {
+	ALPM_LOG_FUNC;
+
 	if(handle->cachedir) FREE(handle->cachedir);
 	if(cachedir) {
 		/* verify cachedir ends in a '/' */
@@ -208,7 +207,6 @@ void SYMEXPORT alpm_option_set_cachedir(const char *cachedir)
 		handle->cachedir = calloc(cachedirlen+1, sizeof(char));
 		strncpy(handle->cachedir, cachedir, cachedirlen);
 		handle->cachedir[cachedirlen-1] = '/';
-		_alpm_log(PM_LOG_DEBUG, _("option 'cachedir' = %s"), handle->cachedir);
 	}
 }
 
@@ -231,6 +229,8 @@ void SYMEXPORT alpm_option_set_logfile(const char *logfile)
 
 void SYMEXPORT alpm_option_set_lockfile(const char *lockfile)
 {
+	ALPM_LOG_FUNC;
+
 	if(handle->lockfile) FREE(handle->lockfile);
 	if(lockfile) {
 		handle->lockfile = strdup(lockfile);

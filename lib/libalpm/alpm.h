@@ -29,6 +29,7 @@ extern "C" {
 #endif
 
 #include <time.h> /* for time_t */
+#include <stdarg.h> /* for va_list */
 
 /*
  * Arch Linux Package Management library
@@ -70,7 +71,7 @@ typedef enum _pmloglevel_t {
 	PM_LOG_FUNCTION = 0x10
 } pmloglevel_t;
 
-typedef void (*alpm_cb_log)(pmloglevel_t, char *);
+typedef void (*alpm_cb_log)(pmloglevel_t, char *, va_list);
 int alpm_logaction(char *fmt, ...);
 
 /*
@@ -90,9 +91,6 @@ void alpm_option_set_logcb(alpm_cb_log cb);
 
 alpm_cb_download alpm_option_get_dlcb();
 void alpm_option_set_dlcb(alpm_cb_download cb);
-
-unsigned short alpm_option_get_logmask();
-void alpm_option_set_logmask(unsigned short mask);
 
 const char *alpm_option_get_root();
 void alpm_option_set_root(const char *root);

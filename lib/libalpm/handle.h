@@ -48,7 +48,6 @@ typedef struct _pmhandle_t {
 	/* options */
   alpm_cb_log logcb;				/* Log callback function */
 	alpm_cb_download dlcb;    /* Download callback function */
-  unsigned short logmask;		/* Output mask for logging functions */ /* TODO move to frontend */
 	char *root;								/* Root path, default '/' */
 	char *dbpath;							/* Base path to pacman's DBs */
 	char *cachedir;						/* Base path to pacman's cache */

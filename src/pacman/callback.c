@@ -593,54 +593,13 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 }
 
 /* Callback to handle notifications from the library */
-void cb_log(pmloglevel_t level, char *msg)
+void cb_log(pmloglevel_t level, char *fmt, va_list args)
 {
-	char str[LOG_STR_LEN] = "";
-
-	if(!strlen(msg)) {
+	if(!strlen(fmt)) {
 		return;
 	}
 
-	switch(level) {
-		case PM_LOG_DEBUG:
-			sprintf(str, _("debug"));
-		break;
-		case PM_LOG_ERROR:
-			sprintf(str, _("error"));
-		break;
-		case PM_LOG_WARNING:
-			sprintf(str, _("warning"));
-		break;
-		case PM_LOG_FUNCTION:
-		  /* TODO we should increase the indent level when this occurs so we can see
-			 * program flow easier.  It'll be fun
-			 */
-			sprintf(str, _("function"));
-		break;
-		default:
-			sprintf(str, "???");
-		break;
-	}
-
-#ifdef PACMAN_DEBUG
-	/* If debug is on, we'll timestamp the output */
-  if(alpm_option_get_logmask() & PM_LOG_DEBUG) {
-		time_t t;
-		struct tm *tmp;
-		char timestr[10] = {0};
-
-		t = time(NULL);
-		tmp = localtime(&t);
-		strftime(timestr, 9, "%H:%M:%S", tmp);
-		timestr[8] = '\0';
-
-		printf("[%s] %s: %s\n", timestr, str, msg);
-	} else {
-    printf("%s: %s\n", str, msg);
-	}
-#else
-	printf("%s: %s\n", str, msg);
-#endif
+	pm_vfprintf(stdout, level, fmt, args);
 }
 
 /* vim: set ts=2 sw=2 noet: */

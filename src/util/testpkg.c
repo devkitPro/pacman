@@ -23,20 +23,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <libgen.h>
 
 #include <alpm.h>
 
-void output_cb(pmloglevel_t level, char *msg)
+void output_cb(pmloglevel_t level, char *fmt, va_list args)
 {
-	if(strlen(msg)) {
+	if(strlen(fmt)) {
         switch(level) {
         case PM_LOG_ERROR: printf("error: "); break;
         case PM_LOG_WARNING: printf("warning: "); break;
 		default: break;
         }
-        puts(msg);
+		vprintf(fmt, args);
     }
 }
 

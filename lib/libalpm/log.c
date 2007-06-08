@@ -43,7 +43,7 @@
  */
 int SYMEXPORT alpm_logaction(char *fmt, ...)
 {
-	char str[LOG_STR_LEN];
+	int ret;
 	va_list args;
 
 	ALPM_LOG_FUNC;
@@ -52,7 +52,7 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	va_start(args, fmt);
-	vsnprintf(str, LOG_STR_LEN, fmt, args);
+	ret = _alpm_logaction(handle->usesyslog, handle->logfd, fmt, args);
 	va_end(args);
 
 	/* TODO	We should add a prefix to log strings depending on who called us.
@@ -66,28 +66,23 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 	 *   kpacman: "KPACMAN"
 	 * This would allow us to share the log file between several frontends
 	 * and know who does what */
-	return(_alpm_logaction(handle->usesyslog, handle->logfd, str));
+	return(ret);
 }
 
 /** @} */
 
 void _alpm_log(pmloglevel_t flag, char *fmt, ...)
 {
+	va_list args;
 	alpm_cb_log logcb = alpm_option_get_logcb();
+
 	if(logcb == NULL) {
 		return;
 	}
 
-	if(flag & alpm_option_get_logmask()) {
-		char str[LOG_STR_LEN];
-		va_list args;
-
-		va_start(args, fmt);
-		vsnprintf(str, LOG_STR_LEN, fmt, args);
-		va_end(args);
-
-		logcb(flag, str);
-	}
+	va_start(args, fmt);
+	logcb(flag, fmt, args);
+	va_end(args);
 }
 
 /* vim: set ts=2 sw=2 noet: */

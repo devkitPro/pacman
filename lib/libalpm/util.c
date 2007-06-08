@@ -379,12 +379,12 @@ int _alpm_rmrf(const char *path)
 	return(0);
 }
 
-int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str)
+int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *fmt, va_list args)
 {
-	_alpm_log(PM_LOG_DEBUG, _("logaction called: %s"), str);
+	int ret = 0;
 
 	if(usesyslog) {
-		syslog(LOG_WARNING, "%s", str);
+		vsyslog(LOG_WARNING, fmt, args);
 	}
 
 	if(f) {
@@ -395,14 +395,15 @@ int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *str)
 		tm = localtime(&t);
 
 		/* Use ISO-8601 date format */
-		fprintf(f, "[%04d-%02d-%02d %02d:%02d] %s\n",
+		fprintf(f, "[%04d-%02d-%02d %02d:%02d] ",
 						tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
-						tm->tm_hour, tm->tm_min, str);
-
+						tm->tm_hour, tm->tm_min);
+		ret = vfprintf(f, fmt, args);
+		fprintf(f, "\n");
 		fflush(f);
 	}
 
-	return(0);
+	return(ret);
 }
 
 int _alpm_ldconfig(const char *root)

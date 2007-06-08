@@ -249,15 +249,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				/* 10s timeout - TODO make a config option */
 				downloadTimeout = 10000;
 
-			 	/* Make libdownload super verbose... worthwhile for testing */
-				if(alpm_option_get_logmask() & PM_LOG_DOWNLOAD) {
-						downloadDebug = 1;
-				}
-				if(alpm_option_get_logmask() & PM_LOG_DEBUG) {
-						dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "v" : "vp"));
-				} else {
-						dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
-				}
+				dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
 
 				if(downloadLastErrCode != 0 || dlf == NULL) {
 					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s"),
