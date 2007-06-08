@@ -51,7 +51,8 @@ int pacman_remove(alpm_list_t *targets)
 	int retval = 0;
 
 	if(targets == NULL) {
-		return(0);
+		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		return(1);
 	}
 
 	/* If the target is a group, ask if its packages should be removed 

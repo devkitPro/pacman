@@ -50,17 +50,6 @@
 #include "conf.h"
 #include "package.h"
 
-/* Operations */
-enum {
-	PM_OP_MAIN = 1,
-	PM_OP_ADD,
-	PM_OP_REMOVE,
-	PM_OP_UPGRADE,
-	PM_OP_QUERY,
-	PM_OP_SYNC,
-	PM_OP_DEPTEST
-};
-
 config_t *config;
 
 pmdb_t *db_local;
@@ -306,7 +295,6 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 	struct stat st;
-	unsigned short logmask;
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepiuwygz", opts, &option_index))) {
 		if(opt < 0) {
@@ -324,31 +312,26 @@ static int parseargs(int argc, char *argv[])
 			case 1002: alpm_option_add_ignorepkg(strdup(optarg)); break;
 			case 1003:
 				/* debug levels are made more 'human readable' than using a raw logmask
-				 * here, we will ALWAYS set error and warning for now, though perhaps a
+				 * here, error and warning are set in config_new, though perhaps a
 				 * --quiet option will remove these later */
-				logmask = PM_LOG_ERROR | PM_LOG_WARNING;
-
 				if(optarg) {
 					unsigned short debug = atoi(optarg);
 					switch(debug) {
-						case 3:
-							logmask |= PM_LOG_FUNCTION; /* fall through */
 						case 2:
-							logmask |= PM_LOG_DOWNLOAD; /*fall through */
+							config->logmask |= PM_LOG_FUNCTION; /* fall through */
 						case 1:
-							logmask |= PM_LOG_DEBUG;
+							config->logmask |= PM_LOG_DEBUG;
 							break;
 						default:
-						  fprintf(stderr, _("error: '%s' is not a valid debug level"),
+						  fprintf(stderr, _("error: '%s' is not a valid debug level\n"),
 							        optarg);
 							return(1);
 					}
 				} else {
-					logmask |= PM_LOG_DEBUG;
+					config->logmask |= PM_LOG_DEBUG;
 				}
 				/* progress bars get wonky with debug on, shut them off */
 				config->noprogressbar = 1;
-				config->logmask = logmask;
 				break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
@@ -472,6 +455,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	pm_printf(PM_LOG_DEBUG, _("config: attempting to read file %s\n"), file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
+		pm_printf(PM_LOG_ERROR, _("config file %s could not be read.\n"), file);
 		return(1);
 	}
 
@@ -506,12 +490,12 @@ static int _parseconfig(const char *file, const char *givensection,
 			section[strlen(section)-1] = '\0';
 			pm_printf(PM_LOG_DEBUG, _("config: new section '%s'\n"), section);
 			if(!strlen(section)) {
-				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SECTION\n");
+				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SECTION\n");
 				return(1);
 			}
 			/* a section/database named local is not allowed */
 			if(!strcmp(section, "local")) {
-				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_LOCAL\n");
+				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_LOCAL\n");
 				return(1);
 			}
 			/* if we are not looking at the options section, register a db */
@@ -530,12 +514,12 @@ static int _parseconfig(const char *file, const char *givensection,
 			strtrim(ptr);
 
 			if(key == NULL) {
-				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
+				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
 				return(1);
 			}
 			upperkey = strtoupper(strdup(key));
 			if(section == NULL && (strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0)) {
-				pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION\n");
+				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION\n");
 				return(1);
 			}
 			if(ptr == NULL) {
@@ -557,7 +541,7 @@ static int _parseconfig(const char *file, const char *givensection,
 					config->showsize= 1;
 					pm_printf(PM_LOG_DEBUG, _("config: showsize\n"));
 				} else {
-					pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
+					pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
 					return(1);
 				}
 			} else {
@@ -647,7 +631,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						alpm_option_set_upgradedelay(ud);
 						pm_printf(PM_LOG_DEBUG, _("config: upgradedelay: %d\n"), (int)ud);
 					} else {
-						pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
+						pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
 						return(1);
 					}
 				} else if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
@@ -661,7 +645,7 @@ static int _parseconfig(const char *file, const char *givensection,
 
 					free(server);
 				} else {
-					pm_printf(PM_LOG_DEBUG, "PM_ERR_CONF_BAD_SYNTAX\n");
+					pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
 					return(1);
 				}
 			}
@@ -669,6 +653,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	}
 	fclose(fp);
 
+	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return(0);
 }
 
@@ -716,7 +701,6 @@ int main(int argc, char *argv[])
 
 	/* init config data */
 	config = config_new();
-	config->op = PM_OP_MAIN;
 
 	/* disable progressbar if the output is redirected */
 	if(!isatty(1)) {
@@ -737,8 +721,7 @@ int main(int argc, char *argv[])
 	/* parse the command line */
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
-		fprintf(stderr, _("error: failed to parse command line\n"));
-		cleanup(EXIT_FAILURE);
+		cleanup(ret);
 	}
 
 	if(config->configfile == NULL) {
@@ -746,13 +729,14 @@ int main(int argc, char *argv[])
 	}
 
 	/* parse the config file */
-	if(parseconfig(config->configfile) != 0) {
-		fprintf(stderr, _("error: failed to parse config (%s)\n"),
-		        alpm_strerror(pm_errno));
-		cleanup(EXIT_FAILURE);
+	ret = parseconfig(config->configfile);
+	if(ret != 0) {
+		cleanup(ret);
 	}
 
+#if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
+if(0) {
 	if(myuid > 0) {
 		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
 			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
@@ -769,6 +753,8 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+}
+#endif
 
 	if(config->verbose > 0) {
 		printf("Root      : %s\n", alpm_option_get_root());

@@ -34,6 +34,8 @@ config_t *config_new(void)
 			fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
 			        sizeof(config_t));
 	}
+	config->op = PM_OP_MAIN;
+	config->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
 
 	return(config);
 }

@@ -63,6 +63,17 @@ typedef struct __config_t {
 	unsigned short showsize; /* show individual package sizes */
 } config_t;
 
+/* Operations */
+enum {
+	PM_OP_MAIN = 1,
+	PM_OP_ADD,
+	PM_OP_REMOVE,
+	PM_OP_UPGRADE,
+	PM_OP_QUERY,
+	PM_OP_SYNC,
+	PM_OP_DEPTEST
+};
+
 config_t *config_new(void);
 int config_free(config_t *config);
 

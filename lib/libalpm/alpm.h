@@ -67,8 +67,7 @@ typedef enum _pmloglevel_t {
 	PM_LOG_ERROR    = 0x01,
 	PM_LOG_WARNING  = 0x02,
 	PM_LOG_DEBUG    = 0x04,
-	PM_LOG_DOWNLOAD = 0x08,
-	PM_LOG_FUNCTION = 0x10
+	PM_LOG_FUNCTION = 0x08
 } pmloglevel_t;
 
 typedef void (*alpm_cb_log)(pmloglevel_t, char *, va_list);
