@@ -749,7 +749,7 @@ create_package() {
 
 	# build a filelist - do this first to keep meta files out of the list
 	msg2 "$(gettext "Generating .FILELIST file...")"
-	tar -cvf /dev/null * | sort >.FILELIST
+	find * 2>/dev/null | sort >.FILELIST
 
 	# write the .PKGINFO file
 	msg2 "$(gettext "Generating .PKGINFO file...")"
@@ -819,7 +819,7 @@ create_package() {
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 	comp_files="$comp_files .PKGINFO .FILELIST"
 
-	if ! tar -czf "$pkg_file" $comp_files *; then
+	if ! tar -czf "$pkg_file" $comp_files $(ls); then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
