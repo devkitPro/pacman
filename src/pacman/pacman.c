@@ -496,12 +496,14 @@ static int _parseconfig(const char *file, const char *givensection,
 			section[strlen(section)-1] = '\0';
 			pm_printf(PM_LOG_DEBUG, _("config: new section '%s'\n"), section);
 			if(!strlen(section)) {
-				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SECTION\n");
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
+						file, linenum);
 				return(1);
 			}
 			/* a section/database named local is not allowed */
 			if(!strcmp(section, "local")) {
-				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_LOCAL\n");
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: 'local' cannot be used as section name.\n"),
+						file, linenum);
 				return(1);
 			}
 			/* if we are not looking at the options section, register a db */
@@ -520,12 +522,14 @@ static int _parseconfig(const char *file, const char *givensection,
 			strtrim(ptr);
 
 			if(key == NULL) {
-				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
+						file, linenum);
 				return(1);
 			}
 			upperkey = strtoupper(strdup(key));
 			if(section == NULL && (strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0)) {
-				pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION\n");
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: 'Include' directive must belong to a section.\n"),
+						file, linenum);
 				return(1);
 			}
 			if(ptr == NULL) {
@@ -547,7 +551,8 @@ static int _parseconfig(const char *file, const char *givensection,
 					config->showsize= 1;
 					pm_printf(PM_LOG_DEBUG, _("config: showsize\n"));
 				} else {
-					pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
+					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
+							file, linenum, key);
 					return(1);
 				}
 			} else {
@@ -637,7 +642,8 @@ static int _parseconfig(const char *file, const char *givensection,
 						alpm_option_set_upgradedelay(ud);
 						pm_printf(PM_LOG_DEBUG, _("config: upgradedelay: %d\n"), (int)ud);
 					} else {
-						pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
+						pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
+								file, linenum, key);
 						return(1);
 					}
 				} else if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
@@ -651,7 +657,8 @@ static int _parseconfig(const char *file, const char *givensection,
 
 					free(server);
 				} else {
-					pm_printf(PM_LOG_ERROR, "PM_ERR_CONF_BAD_SYNTAX\n");
+					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
+							file, linenum, key);
 					return(1);
 				}
 			}
