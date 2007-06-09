@@ -233,14 +233,16 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 			for(j = alpm_pkg_get_requiredby(oldpkg); j; j = j->next) {
 				pmpkg_t *p;
 				found = 0;
+
+				if(_alpm_pkg_find(j->data, packages)) {
+					/* this package also in the upgrade list, so don't worry about it */
+					continue;
+				}
 				if((p = _alpm_db_get_pkgfromcache(db, j->data)) == NULL) {
 					/* hmmm... package isn't installed.. */
 					continue;
 				}
-				if(_alpm_pkg_find(alpm_pkg_get_name(p), packages)) {
-					/* this package also in the upgrade list, so don't worry about it */
-					continue;
-				}
+
 				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
 					/* don't break any existing dependencies (possible provides) */
 					pmdepend_t *depend = alpm_splitdep(k->data);
