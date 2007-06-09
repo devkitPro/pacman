@@ -270,12 +270,9 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 							for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
 								pmpkg_t *pkg = l->data;
 
-								if(strcmp(alpm_pkg_get_name(pkg), alpm_pkg_get_name(oldpkg)) == 0) {
-									/* well, we know this one succeeds, but we're removing it... skip it */
-									continue;
-								}
-
-								if(alpm_depcmp(pkg, depend)) {
+								if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
+									/* we ignore packages that will be updated because we know
+									 * that the updated ones don't satisfy depend */
 									_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' satisfied by installed package '%s'"),
 														depend->name, alpm_pkg_get_name(pkg));
 									satisfied = 1;
