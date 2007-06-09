@@ -315,40 +315,20 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 				}
 				
 				found = 0;
-				/* check database for literal packages */
-				for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
-					pmpkg_t *p = (pmpkg_t *)k->data;
-					found = alpm_depcmp(p, depend);
-				}
- 				/* check database for provides matches */
- 				if(!found) {
- 					alpm_list_t *m;
- 					for(m = _alpm_db_whatprovides(db, depend->name); m && !found; m = m->next) {
- 						/* look for a match that isn't one of the packages we're trying
- 						 * to install.  this way, if we match against a to-be-installed
- 						 * package, we'll defer to the NEW one, not the one already
- 						 * installed. */
- 						pmpkg_t *p = m->data;
- 						alpm_list_t *n;
- 						int skip = 0;
- 						for(n = packages; n && !skip; n = n->next) {
- 							pmpkg_t *ptp = n->data;
- 							if(strcmp(alpm_pkg_get_name(ptp), alpm_pkg_get_name(p)) == 0) {
- 								skip = 1;
- 							}
- 						}
- 						if(skip) {
- 							continue;
- 						}
-
-						found = alpm_depcmp(p, depend);
-					}
-				}
  				/* check other targets */
  				for(k = packages; k && !found; k = k->next) {
  					pmpkg_t *p = k->data;
 					found = alpm_depcmp(p, depend);
 				}
+
+				/* check database for satisfying packages */
+				/* we can ignore packages being updated, they were checked above */
+				for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
+					pmpkg_t *p = k->data;
+					found = alpm_depcmp(p, depend)
+						&& !_alpm_pkg_find(alpm_pkg_get_name(p), packages);
+				}
+
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, _("missing dependency '%s' for package '%s'"),
