@@ -43,7 +43,7 @@ libalpm_la_SOURCES = \
 	versioncmp.h versioncmp.c
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
-libalpm_la_LIBADD = -larchive -ldownload -lm
+libalpm_la_LIBADD = -larchive -ldownload
 
 if HAS_DOXYGEN
 all: doxygen.in

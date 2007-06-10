@@ -42,6 +42,15 @@ struct __pmdepmissing_t {
 	pmdepend_t depend;
 };
 
+/* Graphs */
+struct __pmgraph_t {
+	int state; /* 0: untouched, -1: entered, other: leaving time */
+	void *data;
+	struct __pmgraph_t *parent; /* where did we come from? */
+	alpm_list_t *children;
+	alpm_list_t *childptr; /* points to a child in children list */
+};
+
 pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
                                   pmdepmod_t depmod, const char *depname,
 																	const char *depversion);

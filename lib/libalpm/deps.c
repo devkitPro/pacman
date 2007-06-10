@@ -29,7 +29,6 @@
 #ifdef __sun__
 #include <strings.h>
 #endif
-#include <math.h>
 
 /* libalpm */
 #include "deps.h"
@@ -45,6 +44,28 @@
 #include "handle.h"
 
 extern pmhandle_t *handle;
+
+static pmgraph_t *_alpm_graph_new(void)
+{
+	pmgraph_t *graph = NULL;
+
+	graph = (pmgraph_t *)malloc(sizeof(pmgraph_t));
+	if(graph) {
+		graph->state = 0;
+		graph->data = NULL;
+		graph->parent = NULL;
+		graph->children = NULL;
+		graph->childptr = NULL;
+	}
+	return(graph);
+}
+
+static void _alpm_graph_free(void *data)
+{
+	pmgraph_t *graph = data;
+	alpm_list_free(graph->children);
+	free(graph);
+}
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
                                   pmdepmod_t depmod, const char *depname,
@@ -108,11 +129,10 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 {
 	alpm_list_t *newtargs = NULL;
-	alpm_list_t *i, *j, *k, *l;
-	int change = 1;
-	int numscans = 0;
-	int numtargs = 0;
-	int maxscans;
+	alpm_list_t *i, *j, *k;
+	alpm_list_t *vertices = NULL;
+	alpm_list_t *vptr;
+	pmgraph_t *vertex;
 
 	ALPM_LOG_FUNC;
 
@@ -120,65 +140,69 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		return(NULL);
 	}
 
+	_alpm_log(PM_LOG_DEBUG, _("started sorting dependencies"));
+
+	/* We create the vertices */
 	for(i = targets; i; i = i->next) {
-		newtargs = alpm_list_add(newtargs, i->data);
-		numtargs++;
+		pmgraph_t *vertex = _alpm_graph_new();
+		vertex->data = (void *)i->data;
+		vertices = alpm_list_add(vertices, vertex);
 	}
 
-	maxscans = (int)sqrt(numtargs);
-
-	_alpm_log(PM_LOG_DEBUG, _("started sorting dependencies"));
-	while(change) {
-		alpm_list_t *tmptargs = NULL;
-		change = 0;
-		if(numscans > maxscans) {
-			_alpm_log(PM_LOG_DEBUG, _("possible dependency cycle detected"));
-			continue;
-		}
-		numscans++;
-		/* run thru targets, moving up packages as necessary */
-		for(i = newtargs; i; i = i->next) {
-			pmpkg_t *p = i->data;
-			_alpm_log(PM_LOG_DEBUG, "   sorting %s", alpm_pkg_get_name(p));
-			for(j = alpm_pkg_get_depends(p); j; j = j->next) {
-				pmdepend_t *depend = alpm_splitdep(j->data);
-				pmpkg_t *q = NULL;
-				if(depend == NULL) {
-					continue;
-				}
-				/* look for depend->name -- if it's farther down in the list, then
-				 * move it up above p
-				 */
-				for(k = i->next; k; k = k->next) {
-					q = k->data;
-					const char *qname = alpm_pkg_get_name(q);
-					if(!strcmp(depend->name, qname)) {
-						if(!_alpm_pkg_find(qname, tmptargs)) {
-							change = 1;
-							tmptargs = alpm_list_add(tmptargs, q);
-						}
-						break;
-					}
-					for(l = alpm_pkg_get_provides(q); l; l = l->next) {
-						const char *provname = l->data;
-						if(!strcmp(depend->name, provname)) {
-							if(!_alpm_pkg_find(qname, tmptargs)) {
-								change = 1;
-								tmptargs = alpm_list_add(tmptargs, q);
-							}
-							break;
-						}
-					}
-				}
+	/* We compute the edges */
+	for(i = vertices; i; i = i->next) {
+		pmgraph_t *vertex_i = i->data;
+		pmpkg_t *p_i = vertex_i->data;
+		/* TODO this should be somehow combined with _alpm_checkdeps */
+		for(j = vertices; j; j = j->next) {
+			pmgraph_t *vertex_j = j->data;
+			pmpkg_t *p_j = vertex_j->data;
+			int child = 0;
+			for(k = alpm_pkg_get_depends(p_i); k && !child; k = k->next) {
+				pmdepend_t *depend = alpm_splitdep(k->data);
+				child = alpm_depcmp(p_j, depend);
 				free(depend);
 			}
-			if(!_alpm_pkg_find(alpm_pkg_get_name(p), tmptargs)) {
-				tmptargs = alpm_list_add(tmptargs, p);
+			if(child) vertex_i->children =
+				alpm_list_add(vertex_i->children, vertex_j);
+		}
+		vertex_i->childptr = vertex_i->children;
+	}
+
+	vptr = vertices;
+	vertex = vertices->data;
+	while(vptr) {
+		/* mark that we touched the vertex */
+		vertex->state = -1;
+		int found = 0;
+		while(vertex->childptr && !found) {
+			pmgraph_t *nextchild = (vertex->childptr)->data;
+			vertex->childptr = (vertex->childptr)->next;
+			if (nextchild->state == 0) {
+				found = 1;
+				nextchild->parent = vertex;
+				vertex = nextchild;
+			}
+			else if(nextchild->state == -1) {
+				_alpm_log(PM_LOG_WARNING, _("dependency cycle detected\n"));
 			}
 		}
-		alpm_list_free(newtargs);
-		newtargs = tmptargs;
+		if(!found) {
+			newtargs = alpm_list_add(newtargs, vertex->data);
+			/* mark that we've left this vertex */
+			vertex->state = 1;
+			vertex = vertex->parent;
+			if(!vertex) {
+				vptr = vptr->next;
+				while(vptr) {
+					vertex = vptr->data;
+					if (vertex->state == 0) break;
+					vptr = vptr->next;
+				}
+			}
+		}
 	}
+
 	_alpm_log(PM_LOG_DEBUG, _("sorting dependencies finished"));
 
 	if(mode == PM_TRANS_TYPE_REMOVE) {
@@ -188,6 +212,8 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		alpm_list_free(newtargs);
 		newtargs = tmptargs;
 	}
+
+	alpm_list_free_inner(vertices, _alpm_graph_free);
 
 	return(newtargs);
 }
