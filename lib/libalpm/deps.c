@@ -349,50 +349,56 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 	} else if(op == PM_TRANS_TYPE_REMOVE) {
 		/* check requiredby fields */
 		for(i = packages; i; i = i->next) {
-			pmpkg_t *tp = i->data;
-			if(tp == NULL) {
+			pmpkg_t *rmpkg = alpm_list_getdata(i);
+
+			if(rmpkg == NULL) {
+				_alpm_log(PM_LOG_DEBUG, _("null package found in package list"));
 				continue;
 			}
-
-			found=0;
-			for(j = alpm_pkg_get_requiredby(tp); j; j = j->next) {
-				/* Search for 'reqname' in packages for removal */
-				char *reqname = j->data;
-				alpm_list_t *x = NULL;
-				for(x = packages; x; x = x->next) {
-					pmpkg_t *xp = x->data;
-					if(strcmp(reqname, alpm_pkg_get_name(xp)) == 0) {
-						found = 1;
-						break;
-					}
+			for(j = alpm_pkg_get_requiredby(rmpkg); j; j = j->next) {
+				pmpkg_t *p;
+				found = 0;
+				if(_alpm_pkg_find(j->data, packages)) {
+					/* package also in the remove list, so don't worry about it */
+					continue;
 				}
-				if(!found) {
-					/* check if a package in trans->packages provides this package */
-					for(k = trans->packages; !found && k; k=k->next) {
-						pmpkg_t *spkg = NULL;
-						if(trans->type == PM_TRANS_TYPE_SYNC) {
-							pmsyncpkg_t *sync = k->data;
-							spkg = sync->pkg;
-						} else {
-							spkg = k->data;
+
+				if((p = _alpm_db_get_pkgfromcache(db, j->data)) == NULL) {
+					/* hmmm... package isn't installed... */
+					continue;
+				}
+				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
+					pmdepend_t *depend = alpm_splitdep(k->data);
+					if(depend == NULL) {
+						continue;
+					}
+					/* if rmpkg satisfied this dep, try to find an other satisfier
+					 * (which won't be removed)*/
+					if(alpm_depcmp(rmpkg, depend)) {
+						int satisfied = 0;
+						for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
+							pmpkg_t *pkg = l->data;
+							if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
+								_alpm_log(PM_LOG_DEBUG, _("checkdeps: dependency '%s' satisfied by installed package '%s'"),
+										depend->name, alpm_pkg_get_name(pkg));
+								satisfied = 1;
+								break;
+							}
 						}
-						if(spkg) {
-							if(alpm_list_find_str(alpm_pkg_get_provides(spkg), tp->name)) {
-								found = 1;
+
+						if(!satisfied) {
+							_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s which requires %s"),
+									alpm_pkg_get_name(p), alpm_pkg_get_name(rmpkg));
+							miss = _alpm_depmiss_new(alpm_pkg_get_name(rmpkg), PM_DEP_TYPE_DEPEND,
+									PM_DEP_MOD_ANY, alpm_pkg_get_name(p), NULL);
+							if(!_alpm_depmiss_isin(miss, baddeps)) {
+								baddeps = alpm_list_add(baddeps, miss);
+							} else {
+								FREE(miss);
 							}
 						}
 					}
-					if(!found) {
-						_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s as required by %s"),
-								reqname, alpm_pkg_get_name(tp));
-						miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND,
-																		 PM_DEP_MOD_ANY, j->data, NULL);
-						if(!_alpm_depmiss_isin(miss, baddeps)) {
-							baddeps = alpm_list_add(baddeps, miss);
-						} else {
-							FREE(miss);
-						}
-					}
+					free(depend);
 				}
 			}
 		}
