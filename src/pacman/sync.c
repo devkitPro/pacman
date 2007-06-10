@@ -626,8 +626,8 @@ int pacman_sync(alpm_list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
-					printf(":: %s %s %s", alpm_dep_get_target(miss), _("requires"),
-							    alpm_dep_get_name(miss));
+					printf(_(":: %s depends on %s\n"), alpm_dep_get_target(miss),
+					       alpm_dep_get_name(miss));
 					switch(alpm_dep_get_mod(miss)) {
 						case PM_DEP_MOD_ANY:
 							break;

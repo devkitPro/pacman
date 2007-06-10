@@ -115,7 +115,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 					alpm_list_t *i;
 					for(i = lp; i; i = i->next) {
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
-						pmpkg_t *info = _alpm_db_scan(db, miss->depend.name);
+						pmpkg_t *info = _alpm_db_scan(db, miss->target);
 						if(info) {
 							_alpm_log(PM_LOG_DEBUG, _("pulling %s in the targets list"), alpm_pkg_get_name(info));
 							trans->packages = alpm_list_add(trans->packages, info);

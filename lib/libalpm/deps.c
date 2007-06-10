@@ -389,8 +389,9 @@ alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
 						if(!satisfied) {
 							_alpm_log(PM_LOG_DEBUG, _("checkdeps: found %s which requires %s"),
 									alpm_pkg_get_name(p), alpm_pkg_get_name(rmpkg));
-							miss = _alpm_depmiss_new(alpm_pkg_get_name(rmpkg), PM_DEP_TYPE_DEPEND,
-									PM_DEP_MOD_ANY, alpm_pkg_get_name(p), NULL);
+							miss = _alpm_depmiss_new(alpm_pkg_get_name(p),
+									PM_DEP_TYPE_DEPEND, depend->mod, depend->name,
+									depend->version);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
 								baddeps = alpm_list_add(baddeps, miss);
 							} else {

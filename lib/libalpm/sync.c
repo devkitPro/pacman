@@ -684,62 +684,25 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			_alpm_log(PM_LOG_DEBUG, _("checking dependencies of packages designated for removal"));
 			deps = _alpm_checkdeps(trans, db_local, PM_TRANS_TYPE_REMOVE, list);
 			if(deps) {
+				/* Check if broken dependencies are fixed by packages we are installing */
 				int errorout = 0;
 				for(i = deps; i; i = i->next) {
 					pmdepmissing_t *miss = i->data;
-					if(!_alpm_sync_find(trans->packages, miss->depend.name)) {
-						int pfound = 0;
-						alpm_list_t *k;
-						/* If miss->depend.name depends on something that miss->target and a
-						 * package in final both provide, then it's okay...  */
-						pmpkg_t *leavingp  = _alpm_db_get_pkgfromcache(db_local, miss->target);
-						pmpkg_t *conflictp = _alpm_db_get_pkgfromcache(db_local, miss->depend.name);
-						if(!leavingp || !conflictp) {
-							_alpm_log(PM_LOG_ERROR, _("something has gone horribly wrong"));
-							ret = -1;
-							goto cleanup;
+
+					alpm_list_t *l;
+					int satisfied = 0;
+					for(l = trans->packages; l && !satisfied; l = l->next) {
+						pmsyncpkg_t *sp = l->data;
+						pmpkg_t *sppkg = sp->pkg;
+						if(alpm_depcmp(sppkg, &(miss->depend))) {
+							_alpm_log(PM_LOG_DEBUG, _("sync: dependency '%s' satisfied by package '%s'"),
+									miss->depend.name, alpm_pkg_get_name(sppkg));
+							satisfied = 1;
 						}
-						/* Look through the upset package's dependencies and try to match one up
-						 * to a provisio from the package we want to remove */
-						for(k = alpm_pkg_get_depends(conflictp); k && !pfound; k = k->next) {
-							alpm_list_t *m;
-							for(m = alpm_pkg_get_provides(leavingp); m && !pfound; m = m->next) {
-								if(!strcmp(k->data, m->data)) {
-									/* Found a match -- now look through final for a package that
-									 * provides the same thing.  If none are found, then it truly
-									 * is an unresolvable conflict. */
-									alpm_list_t *n, *o;
-									for(n = trans->packages; n && !pfound; n = n->next) {
-										pmsyncpkg_t *sp = n->data;
-										pmpkg_t *sppkg = sp->pkg;
-										for(o = alpm_pkg_get_provides(sppkg); o && !pfound; o = o->next) {
-											if(!strcmp(m->data, o->data)) {
-												/* found matching provisio -- we're good to go */
-												_alpm_log(PM_LOG_DEBUG, _("found '%s' as a provision for '%s' -- conflict aborted"),
-														alpm_pkg_get_name(sppkg), (char *)o->data);
-												pfound = 1;
-											}
-										}
-									}
-								}
-							}
-						}
-						if(!pfound) {
-							if(!errorout) {
-								errorout = 1;
-							}
-							if(data) {
-								if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-									_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
-									FREELIST(*data);
-									pm_errno = PM_ERR_MEMORY;
-									ret = -1;
-									goto cleanup;
-								}
-								*miss = *(pmdepmissing_t *)i->data;
-								*data = alpm_list_add(*data, miss);
-							}
-						}
+					}
+					if(!satisfied) {
+						errorout++;
+						*data = alpm_list_add(*data, miss);
 					}
 				}
 				if(errorout) {
