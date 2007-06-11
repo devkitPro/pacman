@@ -1,4 +1,4 @@
-self.description = "Remove a package required by another package"
+self.description = "Remove a package that requires another package"
 
 lp1 = pmpkg("pkg1")
 lp1.depends = ["imaginary"]
