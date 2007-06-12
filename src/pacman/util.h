@@ -22,6 +22,7 @@
 #define _PM_UTIL_H
 
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
 
