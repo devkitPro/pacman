@@ -36,6 +36,19 @@
 
 extern config_t *config;
 
+/* Free the current transaction and print an error if unsuccessful */
+static int add_cleanup(void)
+{
+	int ret = alpm_trans_release();
+	if(ret != 0) {
+		pm_printf(PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
+		ret = 1;
+	}
+
+	return(ret);
+}
+
 /**
  * @brief Upgrade a specified list of packages.
  *
@@ -108,8 +121,8 @@ int pacman_add(alpm_list_t *targets)
 		if(alpm_trans_addtarget(targ) == -1) {
 			fprintf(stderr, _("error: failed to add target '%s' (%s)"), targ,
 			        alpm_strerror(pm_errno));
-			retval = 1;
-			goto cleanup;
+			add_cleanup();
+			return(1);
 		}
 	}
 	printf(_("done.\n"));
@@ -174,26 +187,20 @@ int pacman_add(alpm_list_t *targets)
 			default:
 				break;
 		}
-		retval=1;
-		goto cleanup;
+		add_cleanup();
+		alpm_list_free(data);
+		return(1);
 	}
+	alpm_list_free(data);
 
 	/* Step 3: perform the installation */
 	if(alpm_trans_commit(NULL) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
-		retval=1;
-		goto cleanup;
+		add_cleanup();
+		return(1);
 	}
 
-cleanup:
-	if(data) {
-		alpm_list_free(data);
-	}
-	if(alpm_trans_release() == -1) {
-		fprintf(stderr, _("error: failed to release transaction (%s)\n"), alpm_strerror(pm_errno));
-		retval=1;
-	}
-
+	retval = add_cleanup();
 	return(retval);
 }
 

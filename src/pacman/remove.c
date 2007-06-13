@@ -38,6 +38,19 @@ extern config_t *config;
 
 extern pmdb_t *db_local;
 
+/* Free the current transaction and print an error if unsuccessful */
+static int remove_cleanup(void)
+{
+	int ret = alpm_trans_release();
+	if(ret != 0) {
+		pm_printf(PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
+		        alpm_strerror(pm_errno));
+		ret = 1;
+	}
+
+	return(ret);
+}
+
 /**
  * @brief Remove a specified list of packages.
  *
@@ -101,8 +114,9 @@ int pacman_remove(alpm_list_t *targets)
 			printf("failed.\n");
 			fprintf(stderr, _("error: failed to add target '%s' (%s)\n"), targ,
 			        alpm_strerror(pm_errno));
-			retval = 1;
-			goto cleanup;
+			remove_cleanup();
+			FREELIST(finaltargs);
+			return(1);
 		}
 	}
 
@@ -122,8 +136,9 @@ int pacman_remove(alpm_list_t *targets)
 			default:
 				break;
 		}
-		retval = 1;
-		goto cleanup;
+		remove_cleanup();
+		FREELIST(finaltargs);
+		return(1);
 	}
 
 	/* Warn user in case of dangerous operation */
@@ -141,8 +156,9 @@ int pacman_remove(alpm_list_t *targets)
 		FREELIST(lst);
 		/* get confirmation */
 		if(yesno(_("\nDo you want to remove these packages? [Y/n] ")) == 0) {
-			retval = 1;
-			goto cleanup;
+			remove_cleanup();
+			FREELIST(finaltargs);
+			return(1);
 		}
 		printf("\n");
 	}
@@ -151,19 +167,14 @@ int pacman_remove(alpm_list_t *targets)
 	if(alpm_trans_commit(NULL) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
 		        alpm_strerror(pm_errno));
-		retval = 1;
-		goto cleanup;
+		remove_cleanup();
+		FREELIST(finaltargs);
+		return(1);
 	}
 
 	/* Step 4: release transaction resources */
-cleanup:
+	retval = remove_cleanup();
 	FREELIST(finaltargs);
-	if(alpm_trans_release() == -1) {
-		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
-		retval = 1;
-	}
-
 	return(retval);
 }
 
