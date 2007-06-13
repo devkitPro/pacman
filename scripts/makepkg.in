@@ -1016,7 +1016,7 @@ fi
 
 
 # Parse Command Line Options.
-OPT_SHORT="bcCdefghiLmop:rRsSV"
+OPT_SHORT="bcCdefFghiLmop:rRsSV"
 OPT_LONG="asroot,builddeps,clean,cleancache,nodeps,noextract,force,geninteg,help,install,log"
 OPT_LONG="$OPT_LONG,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version"
 # Pacman Options
@@ -1044,6 +1044,7 @@ while true; do
 		-d|--nodeps)      NODEPS=1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
+		-F)               INFAKEROOT=1 ;;
 		-g|--geninteg)    GENINTEG=1 ;;
 		-i|--install)     INSTALL=1 ;;
 		-L|--log)         LOGGING=1 ;;
@@ -1062,7 +1063,7 @@ while true; do
 		-h|--help)        usage; exit 0 ;; # E_OK
 		-V|--version)     version; exit 0 ;; # E_OK
 
-		--)               OPT_IND=0; shift; break;
+		--)               OPT_IND=0; shift; break;;
 		*)                usage; exit 1 ;; # E_INVALID_OPTION
 	esac
 	shift
