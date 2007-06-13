@@ -7,18 +7,6 @@
 # Distributed under the terms of the GNU General Public License, v2 or later.
 #
 
-## ChangeLog ##
-#
-# * 3.0 (2007-02-18)
-#   - Updated to pacman 3.0.0 options
-# * 1.1 (2004-01-17)
-#   - Code cleanup
-#   - Updated to pacman 2.7.2-2
-# * 2004-02-16 (orelien)
-#   - Improved available_{pkgs,groups) functions
-#   - Added support for querying groups
-#
-
 ## initial functions
 
 rem_selected ()
@@ -105,8 +93,8 @@ _makepkg ()
 
   if [[ "$cur" == -* ]]; then
     COMPREPLY=( $( compgen -W '\
+      -A --ignorearch \
       -b --builddeps \
-      -B --noccache \
       -c --clean \
       -C --cleancache \
       -d --nodeps \
@@ -115,14 +103,14 @@ _makepkg ()
       -g --geninteg \
       -h --help \
       -i --install \
-      -j \
       -L --log \
       -m --nocolor \
       -o --nobuild \
       -p \
       -r --rmdeps \
       -s --syncdeps \
-      -S --usesudo \
+      --asroot \
+      --source \
       --noconfirm \
       --noprogressbar' -- $cur ) )
   fi
@@ -184,6 +172,7 @@ _pacman ()
           print-uris) mod="${mod}p" ;;
           search) mod="${mod}s" ;;
           sysupgrade) mod="${mod}u" ;;
+          upgrades) mod="${mod}u" ;;
           downloadonly) mod="${mod}w" ;;
           refresh) mod="${mod}y" ;;
           orphans) mod="${mod}e" ;;
@@ -192,7 +181,6 @@ _pacman ()
           file) mod="${mod}p" ;;
           search) mod="${mod}s" ;;
           cascade) mod="${mod}c" ;;
-          nodeps) mod="${mod}d" ;;
           dbonly) mod="${mod}k" ;;
           nosave) mod="${mod}n" ;;
           recursive) mod="${mod}s" ;;
@@ -304,6 +292,8 @@ _pacman ()
           -o --owns \
           -p --file \
           -s --search \
+          -t --test \
+          -u --upgrades \
           --config \
           --noconfirm \
           --ask \
@@ -338,6 +328,9 @@ _pacman ()
         elif _instring $mod p; then
           COMPREPLY=( $( compgen -d -- "$cur" ) \
                       $( compgen -f -X '!*.pkg.tar.gz' -- "$cur" ) )
+        elif _instring $mod u; then
+          COMPREPLY=''
+          return 0
         else
           _installed_pkgs
         fi
