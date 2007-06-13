@@ -133,8 +133,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("internal error");
 		case PM_ERR_LIBARCHIVE_ERROR:
 			return _("libarchive error");
-		case PM_ERR_DISK_FULL:
-			return _("not enough space on disk");
 		case PM_ERR_PKG_HOLD:
 			/* TODO wow this is not descriptive at all... what does this mean? */
 			return _("not confirmed");

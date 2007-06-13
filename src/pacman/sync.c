@@ -619,7 +619,6 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
-		long long *pkgsize, *freespace;
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
 		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
@@ -643,7 +642,7 @@ int pacman_sync(alpm_list_t *targets)
 					}
 					printf("\n");
 				}
-			break;
+				break;
 			case PM_ERR_CONFLICTING_DEPS:
 			  for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
@@ -651,15 +650,9 @@ int pacman_sync(alpm_list_t *targets)
 					printf(_(":: %s: conflicts with %s"),
 							alpm_dep_get_target(miss), alpm_dep_get_name(miss));
 				}
-			break;
-			case PM_ERR_DISK_FULL:
-				pkgsize = alpm_list_getdata(data);
-				freespace = alpm_list_getdata(alpm_list_next(data));
-				printf(_(":: %.1f MB required, have %.1f MB"),
-							(double)(*pkgsize / 1048576.0), (double)(*freespace / 1048576.0));
-			break;
+				break;
 			default:
-			break;
+				break;
 		}
 		retval = 1;
 		goto cleanup;

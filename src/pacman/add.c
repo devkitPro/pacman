@@ -117,8 +117,6 @@ int pacman_add(alpm_list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	/* TODO: No, compute nothing. This is stupid. */
 	if(alpm_trans_prepare(&data) == -1) {
-		long long *pkgsize, *freespace;
-
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
 		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
@@ -172,18 +170,6 @@ int pacman_add(alpm_list_t *targets)
 					}
 				}
 				printf(_("\nerrors occurred, no packages were upgraded.\n"));
-				break;
-			/* TODO This is gross... we should not return these values in the same
-			 * list we would get conflicts and such with... it's just silly
-			 */
-			case PM_ERR_DISK_FULL:
-				i = data;
-				pkgsize = alpm_list_getdata(i);
-				i = alpm_list_next(i);
-				freespace = alpm_list_getdata(i);
-					printf(_(":: %.1f MB required, have %.1f MB"),
-					    (double)(*pkgsize / (1024.0*1024.0)),
-					    (double)(*freespace / (1024.0*1024.0)));
 				break;
 			default:
 				break;
