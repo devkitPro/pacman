@@ -160,6 +160,11 @@ case "${host}" in
 		CARCHFLAGS="i386"
 		ARCHSWITCH="march"
 		;;
+	arm-*)
+		CARCH="arm"
+		CARCHFLAGS="armv4"
+		ARCHSWITCH="march"
+		;;
 	*)
 		AC_MSG_ERROR([[Your architecture is not supported; consider adding it to configure.ac]])
 		;;
