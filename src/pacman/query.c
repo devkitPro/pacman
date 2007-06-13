@@ -288,9 +288,10 @@ static int query_foreign(void)
 	alpm_list_t *sync_dbs = NULL;
 	alpm_list_t *i;
 
+	/* ensure we have at least one valid sync db set up */
 	sync_dbs = alpm_option_get_syncdbs();
 	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
-		fprintf(stderr, _("error: no usable package repositories configured.\n"));
+		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
 		return(1);
 	}
 

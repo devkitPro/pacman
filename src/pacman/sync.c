@@ -448,38 +448,53 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 int pacman_sync(alpm_list_t *targets)
 {
-	int confirm = 0;
 	int retval = 0;
-	alpm_list_t *packages, *data = NULL, *i, *j, *k, *sync_dbs;
+	alpm_list_t *sync_dbs = NULL;
 
-	sync_dbs = alpm_option_get_syncdbs();
-	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
-		fprintf(stderr, _("error: no usable package repositories configured.\n"));
-		return(1);
-	}
-
+	/* clean the cache */
 	if(config->op_s_clean) {
 		return(sync_cleancache(config->op_s_clean));
 	}
 
+	/* ensure we have at least one valid sync db set up */
+	sync_dbs = alpm_option_get_syncdbs();
+	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
+		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
+		return(1);
+	}
+
+	/* First: operations that do not require targets */
+
+	/* search for a package */
 	if(config->op_s_search) {
 		return(sync_search(sync_dbs, targets));
 	}
 
+	/* look for groups */
 	if(config->group) {
 		return(sync_group(config->group, sync_dbs, targets));
 	}
 
+	/* get package info */
 	if(config->op_s_info) {
 		return(sync_info(sync_dbs, targets));
 	}
 
+	/* get a listing of files in sync DBs */
 	if(config->op_q_list) {
 		return(sync_list(sync_dbs, targets));
 	}
 
+	/* don't proceed here unless we have an operation that doesn't require
+	 * a target list */
+	if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade)) {
+		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		return(1);
+	}
+
 	/* Step 1: create a new transaction... */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
+				cb_trans_conv, cb_trans_progress) == -1) {
 		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
 		        alpm_strerror(pm_errno));
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
@@ -500,6 +515,8 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	if(config->op_s_upgrade) {
+		alpm_list_t *pkgs, *i;
+
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction(_("starting full system upgrade"));
 		if(alpm_trans_sysupgrade() == -1) {
@@ -512,8 +529,8 @@ int pacman_sync(alpm_list_t *targets)
 		 * this can prevent some of the "syntax error" problems users can have
 		 * when sysupgrade'ing with an older version of pacman.
 		 */
-		data = alpm_trans_get_pkgs();
-		for(i = data; i; i = alpm_list_next(i)) {
+		pkgs = alpm_trans_get_pkgs();
+		for(i = pkgs; i; i = alpm_list_next(i)) {
 			pmsyncpkg_t *sync = alpm_list_getdata(i);
 			pmpkg_t *spkg = alpm_sync_get_pkg(sync);
 			/* TODO pacman name should probably not be hardcoded. In addition, we
@@ -549,12 +566,16 @@ int pacman_sync(alpm_list_t *targets)
 			}
 		}
 	} else {
+		alpm_list_t *i;
+
 		/* process targets */
 		for(i = targets; i; i = alpm_list_next(i)) {
 			char *targ = alpm_list_getdata(i);
 			if(alpm_trans_addtarget(targ) == -1) {
 				pmgrp_t *grp = NULL;
 				int found=0;
+				alpm_list_t *j;
+
 				if(pm_errno == PM_ERR_TRANS_DUP_TARGET) {
 					/* just ignore duplicate targets */
 					continue;
@@ -571,6 +592,8 @@ int pacman_sync(alpm_list_t *targets)
 					pmdb_t *db = alpm_list_getdata(j);
 					grp = alpm_db_readgrp(db, targ);
 					if(grp) {
+						alpm_list_t *k;
+
 						found++;
 						printf(_(":: group %s:\n"), targ);
 						/* remove dupe entries in case a package exists in multiple repos */
@@ -618,10 +641,12 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	/* Step 2: "compute" the transaction based on targets and flags */
+	alpm_list_t *data;
 	if(alpm_trans_prepare(&data) == -1) {
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
 		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
+			alpm_list_t *i;
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
@@ -658,7 +683,7 @@ int pacman_sync(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	packages = alpm_trans_get_pkgs();
+	alpm_list_t *packages = alpm_trans_get_pkgs();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
 		printf(_(" local database is up to date\n"));
@@ -666,6 +691,8 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	if(!(alpm_trans_get_flags() & PM_TRANS_FLAG_PRINTURIS)) {
+		int confirm;
+
 		display_targets(packages);
 		printf("\n");
 
@@ -699,6 +726,7 @@ int pacman_sync(alpm_list_t *targets)
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
 		        alpm_strerror(pm_errno));
 		switch(pm_errno) {
+			alpm_list_t *i;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
