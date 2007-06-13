@@ -64,6 +64,7 @@ static int query_fileowner(alpm_list_t *targets)
 	int ret = 0;
 	alpm_list_t *t;
 
+	/* This code is here for safety only */
 	if(targets == NULL) {
 		fprintf(stderr, _("error: no file was specified for --owns\n"));
 		return(1);
@@ -245,64 +246,166 @@ static int query_isfile(alpm_list_t *targets)
 	return(ret);
 }
 
+static int query_test(void)
+{
+	int ret = 0;
+	alpm_list_t *testlist;
+
+	printf(_("Checking database for consistency..."));
+	testlist = alpm_db_test(db_local);
+	if(testlist == NULL) {
+		printf(_("check complete.\n"));
+		return(0);
+	} else {
+		/* on failure, increment the ret val by 1 for each failure */
+		alpm_list_t *i;
+		printf(_("check failed!\n"));
+		fflush(stdout);
+		for(i = testlist; i; i = alpm_list_next(i)) {
+			fprintf(stderr, "%s\n", (char*)alpm_list_getdata(i));
+			ret++;
+		}
+		return(ret);
+	}
+}
+
+static int query_upgrades(void)
+{
+	printf(_("Checking for package upgrades..."));
+	alpm_list_t *syncpkgs;
+
+	if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
+		display_targets(syncpkgs);
+		return(0);
+	}
+
+	printf(_("no upgrades found"));
+	return(1);
+}
+
+static int query_foreign(void)
+{
+	alpm_list_t *sync_dbs = NULL;
+	alpm_list_t *i;
+
+	sync_dbs = alpm_option_get_syncdbs();
+	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
+		fprintf(stderr, _("error: no usable package repositories configured.\n"));
+		return(1);
+	}
+
+	for(i = alpm_db_getpkgcache(db_local); i; i = alpm_list_next(i)) {
+		pmpkg_t *pkg = alpm_list_getdata(i);
+		const char *pkgname = alpm_pkg_get_name(pkg);
+		const char *pkgver = alpm_pkg_get_version(pkg);
+		alpm_list_t *j;
+
+		int match = 0;
+		for(j = sync_dbs; j; j = alpm_list_next(j)) {
+			pmdb_t *db = alpm_list_getdata(j);
+			pmpkg_t *pkg = alpm_db_get_pkg(db, pkgname);
+			if(pkg) {
+				match = 1;
+				break;
+			}
+		}
+		if(match == 0) {
+			printf("%s %s\n", pkgname, pkgver);
+		}
+	}
+	return(0);
+}
+
+static int query_orphans(void)
+{
+	alpm_list_t *i;
+
+	for(i = alpm_db_getpkgcache(db_local); i; i = alpm_list_next(i)) {
+		pmpkg_t *pkg = alpm_list_getdata(i);
+		const char *pkgname = alpm_pkg_get_name(pkg);
+		const char *pkgver = alpm_pkg_get_version(pkg);
+
+		/* two cases here:
+		 * 1. one -e option was specified, return only those installed as dep
+		 * 2. more than one -e specified, return all with empty requiredby */
+		if(alpm_pkg_get_requiredby(pkg) == NULL
+				&& (alpm_pkg_get_reason(pkg) == PM_PKG_REASON_DEPEND
+					|| config->op_q_orphans > 1)) {
+			printf("%s %s\n", pkgname, pkgver);
+		}
+	}
+	return(0);
+}
+
 int pacman_query(alpm_list_t *targets)
 {
-	alpm_list_t *sync_dbs = NULL, *i, *j, *k;
-	pmpkg_t *info = NULL;
-	char *package = NULL;
 	int ret = 0;
+	alpm_list_t *i;
 
+	/* First: operations that do not require targets */
+
+	/* search for a package */
 	if(config->op_q_search) {
 		ret = query_search(targets);
 		return(ret);
 	}
 
+	/* check DB consistancy */
 	if(config->op_q_test) {
-		alpm_list_t *testlist;
-		printf(_("Checking database for consistency..."));
-		testlist = alpm_db_test(db_local);
-		if(testlist == NULL) {
-			printf(_("check complete.\n"));
-			return(0);
-		} else {
-			/* on failure, increment the ret val by 1 for each failure */
-			ret = 0;
-			printf(_("check failed!\n"));
-			fflush(stdout);
-			for(i = testlist; i; i = alpm_list_next(i)) {
-				fprintf(stderr, "%s\n", (char*)alpm_list_getdata(i));
-				ret++;
-			}
-			return(ret);
-		}
+		ret = query_test();
+		return(ret);
 	}
 
-	if(config->op_q_foreign) {
-		sync_dbs = alpm_option_get_syncdbs();
-
-		if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
-			fprintf(stderr, _("error: no usable package repositories configured.\n"));
-			return(1);
-		}
-	}
-
+	/* check for package upgrades */
 	if(config->op_q_upgrade) {
-		printf(_("Checking for package upgrades..."));
-		alpm_list_t *syncpkgs;
-
-		if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
-			display_targets(syncpkgs);
-			return(0);
-		} else {
-			printf(_("no upgrades found"));
-			return(1);
-		}
+		ret = query_upgrades();
+		return(ret);
 	}
 
 	/* looking for groups */
 	if(config->group) {
 		ret = query_group(targets);
 		return(ret);
+	}
+
+	/* search for installed packages not in a sync DB */
+	if(config->op_q_foreign) {
+		ret = query_foreign();
+		return(ret);
+	}
+
+	/* list orphaned packages */
+	if(config->op_q_orphans) {
+		ret = query_orphans();
+		return(ret);
+	}
+
+	/* operations on all packages in the local DB
+	 * valid: no-op (plain -Q), list, info
+	 * invalid: isfile, owns */
+	if(targets == NULL && !(config->op_q_isfile || config->op_q_owns)) {
+		for(i = alpm_db_getpkgcache(db_local); i; i = alpm_list_next(i)) {
+			pmpkg_t *pkg = alpm_list_getdata(i);
+			const char *pkgname = alpm_pkg_get_name(pkg);
+			const char *pkgver = alpm_pkg_get_version(pkg);
+
+			if(config->op_q_info) {
+				dump_pkg_full(pkg, config->op_q_info);
+			}
+			if(config->op_q_list) {
+				dump_pkg_files(pkg);
+			}
+			if(!config->op_q_info && !config->op_q_list) {
+				printf("%s %s\n", pkgname, pkgver);
+			}
+		}
+	}
+
+	/* Second: operations that require target(s) */
+
+	if(targets == NULL) {
+		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		return(1);
 	}
 
 	/* output info for a .tar.gz package */
@@ -317,82 +420,36 @@ int pacman_query(alpm_list_t *targets)
 		return(ret);
 	}
 
-	/* find packages in the db */
-	if(targets == NULL) {
-		/* no target */
-		for(i = alpm_db_getpkgcache(db_local); i; i = alpm_list_next(i)) {
-			pmpkg_t *tmpp = alpm_list_getdata(i);
-			const char *pkgname, *pkgver;
-
-			pkgname = alpm_pkg_get_name(tmpp);
-			pkgver = alpm_pkg_get_version(tmpp);
-
-			if(config->op_q_list || config->op_q_orphans || config->op_q_foreign) {
-				info = alpm_db_get_pkg(db_local, (char *)pkgname);
-				if(info == NULL) {
-					/* something weird happened */
-					fprintf(stderr, _("error: package \"%s\" not found\n"), pkgname);
-					ret++;
-					continue;
-				}
-			}
-			if(config->op_q_foreign) {
-				int match = 0;
-				for(j = sync_dbs; j; j = alpm_list_next(j)) {
-					pmdb_t *db = (pmdb_t *)alpm_list_getdata(j);
-					for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
-						pmpkg_t *pkg = alpm_list_getdata(k);
-						if(strcmp(alpm_pkg_get_name(pkg), alpm_pkg_get_name(info)) == 0) {
-							match = 1;
-						}
-					}
-				}
-				if(match==0) {
-					printf("%s %s\n", pkgname, pkgver);
-				}
-			} else if(config->op_q_list) {
-				dump_pkg_files(info);
-			} else if(config->op_q_orphans) {
-				if(alpm_pkg_get_requiredby(info) == NULL
-						&& ((long)alpm_pkg_get_reason(info) == PM_PKG_REASON_DEPEND
-							|| config->op_q_orphans > 1)) {
-					printf("%s %s\n", pkgname, pkgver);
-				}
-			} else {
-				printf("%s %s\n", pkgname, pkgver);
-			}
+	/* operations on named packages in the local DB
+	 * valid: no-op (plain -Q), list, info */
+	for(i = targets; i; i = alpm_list_next(i)) {
+		char *strname = alpm_list_getdata(i);
+		pmpkg_t *pkg = alpm_db_get_pkg(db_local, strname);
+		if(pkg == NULL) {
+			fprintf(stderr, _("error: package \"%s\" not found\n"), strname);
+			ret++;
+			continue;
 		}
-	} else {
-		for(i = targets; i; i = alpm_list_next(i)) {
-			package = alpm_list_getdata(i);
-			info = alpm_db_get_pkg(db_local, package);
-			if(info == NULL) {
-				fprintf(stderr, _("error: package \"%s\" not found\n"), package);
-				ret++;
-				continue;
-			}
 
-			/* find a target */
-			if(config->op_q_info) {
-				dump_pkg_full(info, config->op_q_info);
-			}
-			if(config->op_q_list) {
-				dump_pkg_files(info);
-			}
-			if(!config->op_q_info && !config->op_q_list) {
-				printf("%s %s\n", alpm_pkg_get_name(info),
-						alpm_pkg_get_version(info));
-			}
-			if(config->op_q_changelog) {
-				char changelog[PATH_MAX];
-				/* TODO should be done in the backend- no raw DB stuff up front */
-				snprintf(changelog, PATH_MAX, "%s/%s/%s-%s/changelog",
-				         alpm_option_get_dbpath(),
-				         alpm_db_get_name(db_local),
-				         alpm_pkg_get_name(info),
-				         alpm_pkg_get_version(info));
-				dump_pkg_changelog(changelog, alpm_pkg_get_name(info));
-			}
+		/* find a target */
+		if(config->op_q_info) {
+			dump_pkg_full(pkg, config->op_q_info);
+		}
+		if(config->op_q_list) {
+			dump_pkg_files(pkg);
+		}
+		if(config->op_q_changelog) {
+			char changelog[PATH_MAX];
+			/* TODO should be done in the backend- no raw DB stuff up front */
+			snprintf(changelog, PATH_MAX, "%s/%s/%s-%s/changelog",
+					alpm_option_get_dbpath(),
+					alpm_db_get_name(db_local),
+					alpm_pkg_get_name(pkg),
+					alpm_pkg_get_version(pkg));
+			dump_pkg_changelog(changelog, alpm_pkg_get_name(pkg));
+		}
+		if(!config->op_q_info && !config->op_q_list && !config->op_q_changelog) {
+			printf("%s %s\n", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		}
 	}
 
