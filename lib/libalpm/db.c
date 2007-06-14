@@ -258,6 +258,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	return(0);
 }
 
+/** Get the name of a package database
+ * @param db pointer to the package database
+ * @return the name of the package database, NULL on error
+ */
 const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
@@ -269,6 +273,10 @@ const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 	return db->treename;
 }
 
+/** Get a download URL for the package database
+ * @param db pointer to the package database
+ * @return a fully-specified download URL, NULL on error
+ */
 const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 {
 	char path[PATH_MAX];
@@ -400,6 +408,9 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 /* This function is mostly the same as sync.c find_replacements and sysupgrade
  * functions, and we should be able to combine them - this is an interim
  * solution made for -Qu operation */
+/** Get a list of upgradable packages on the current system
+ * @return a pmsyncpkg_t list of packages that are out of date
+ */
 alpm_list_t SYMEXPORT *alpm_db_get_upgrades()
 {
 	alpm_list_t *syncpkgs = NULL;
