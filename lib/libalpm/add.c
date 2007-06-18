@@ -189,7 +189,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 		/* look for unsatisfied dependencies */
 		_alpm_log(PM_LOG_DEBUG, _("looking for unsatisfied dependencies"));
-		lp = _alpm_checkdeps(trans, db, trans->type, trans->packages);
+		lp = _alpm_checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;

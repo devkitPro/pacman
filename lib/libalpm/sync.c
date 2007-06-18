@@ -464,7 +464,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, _("looking for unresolvable dependencies"));
-		deps = _alpm_checkdeps(trans, db_local, PM_TRANS_TYPE_UPGRADE, list);
+		deps = _alpm_checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
 		if(deps) {
 			if(data) {
 				*data = deps;
@@ -675,7 +675,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		}
 		if(list) {
 			_alpm_log(PM_LOG_DEBUG, _("checking dependencies of packages designated for removal"));
-			deps = _alpm_checkdeps(trans, db_local, PM_TRANS_TYPE_REMOVE, list);
+			deps = _alpm_checkdeps(db_local, PM_TRANS_TYPE_REMOVE, list);
 			if(deps) {
 				/* Check if broken dependencies are fixed by packages we are installing */
 				int errorout = 0;

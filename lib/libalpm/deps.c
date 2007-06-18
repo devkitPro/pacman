@@ -219,13 +219,12 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 }
 
 /** Checks dependencies and returns missing ones in a list. Dependencies can include versions with depmod operators.
- * @param trans pointer to the transaction object
  * @param db pointer to the local package database
  * @param op transaction type
  * @param packages an alpm_list_t* of packages to be checked
  * @return an alpm_list_t* of missing_t pointers.
  */
-alpm_list_t *_alpm_checkdeps(pmtrans_t *trans, pmdb_t *db, pmtranstype_t op,
+alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages)
 {
 	alpm_list_t *i, *j, *k, *l;
@@ -592,7 +591,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 
 	_alpm_log(PM_LOG_DEBUG, _("started resolving dependencies"));
 	targ = alpm_list_add(NULL, syncpkg);
-	deps = _alpm_checkdeps(trans, local, PM_TRANS_TYPE_ADD, targ);
+	deps = _alpm_checkdeps(local, PM_TRANS_TYPE_ADD, targ);
 	alpm_list_free(targ);
 
 	if(deps == NULL) {
