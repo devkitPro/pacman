@@ -65,7 +65,8 @@ int SYMEXPORT alpm_pkg_load(const char *filename, pmpkg_t **pkg)
 	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load\n");
 
 	/* Sanity checks */
-	ASSERT(filename != NULL && strlen(filename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(filename != NULL && strlen(filename) != 0,
+			RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	*pkg = _alpm_pkg_load(filename);
@@ -149,51 +150,6 @@ int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
 	ALPM_LOG_FUNC;
 
 	return(_alpm_versioncmp(ver1, ver2));
-}
-
-/* internal */
-static char *_supported_archs[] = {
-	"i586",
-	"i686",
-	"ppc",
-	"x86_64",
-};
-
-/**
- * @brief Determine if a package name has -ARCH tacked on.
- * @param pkgname name of the package to parse
- * @return pointer to start of -ARCH text if it exists, else NULL
- */
-char SYMEXPORT *alpm_pkg_name_hasarch(const char *pkgname)
-{
-	/* TODO remove this when we transfer everything over to -ARCH
-	 *
-	 * this parsing sucks... it's done to support
-	 * two package formats for the time being:
-	 *    package-name-foo-1.0.0-1-i686
-	 * and
-	 *    package-name-bar-1.2.3-1
-	 */
-	size_t i = 0;
-	char *arch, *cmp, *p;
-
-	ALPM_LOG_FUNC;
-
-	if((p = strrchr(pkgname, '-'))) {
-		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
-			cmp = p+1;
-			arch = _supported_archs[i];
-
-			/* whee, case insensitive compare */
-			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
-			if(*arch || *cmp) {
-				continue;
-			}
-
-			return(p);
-		}
-	}
-	return(NULL);
 }
 
 const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
@@ -1111,59 +1067,6 @@ pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack)
 		}
 	}
 	return(NULL);
-}
-
-int _alpm_pkg_splitname(const char *target, char *name, char *version, int witharch)
-{
-	char tmp[PKG_FULLNAME_LEN+7];
-	const char *t;
-	char *p, *q;
-
-	ALPM_LOG_FUNC;
-
-	if(target == NULL) {
-		return(-1);
-	}
-
-	/* trim path name (if any) */
-	if((t = strrchr(target, '/')) == NULL) {
-		t = target;
-	} else {
-		t++;
-	}
-	strncpy(tmp, t, PKG_FULLNAME_LEN+7);
-	/* trim file extension (if any) */
-	if((p = strstr(tmp, PKGEXT))) {
-		*p = '\0';
-	}
-
-	if(witharch) {
-		/* trim architecture */
-		if((p = alpm_pkg_name_hasarch(tmp))) {
-			*p = '\0';
-		}
-	}
-
-	p = tmp + strlen(tmp);
-
-	for(q = --p; *q && *q != '-'; q--);
-	if(*q != '-' || q == tmp) {
-		return(-1);
-	}
-	for(p = --q; *p && *p != '-'; p--);
-	if(*p != '-' || p == tmp) {
-		return(-1);
-	}
-	if(version) {
-		strncpy(version, p+1, PKG_VERSION_LEN);
-	}
-	*p = '\0';
-
-	if(name) {
-		strncpy(name, tmp, PKG_NAME_LEN);
-	}
-
-	return(0);
 }
 
 /* fill in requiredby field of package,

@@ -104,6 +104,43 @@ void _alpm_db_rewind(pmdb_t *db)
 	rewinddir(db->handle);
 }
 
+static int _alpm_db_splitname(const char *target, char *name, char *version)
+{
+	/* the format of a db entry is as follows:
+	 *    package-version-rel/
+	 * package name can contain hyphens, so parse from the back- go back
+	 * two hyphens and we have split the version from the name.
+	 */
+	char *tmp, *p, *q;
+
+	if(target == NULL) {
+		return(-1);
+	}
+	tmp = strdup(target);
+	p = tmp + strlen(tmp);
+
+	/* do the magic parsing- find the beginning of the version string
+	 * by doing two iterations of same loop to lop off two hyphens */
+	for(q = --p; *q && *q != '-'; q--);
+	for(p = --q; *p && *p != '-'; p--);
+	if(*p != '-' || p == tmp) {
+		return(-1);
+	}
+
+	/* copy into fields and return */
+	if(version) {
+		strncpy(version, p+1, PKG_VERSION_LEN);
+	}
+	/* insert a terminator at the end of the name (on hyphen)- then copy it */
+	*p = '\0';
+	if(name) {
+		strncpy(name, tmp, PKG_NAME_LEN);
+	}
+
+	free(tmp);
+	return(0);
+}
+
 pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 {
 	struct dirent *ent = NULL;
@@ -177,8 +214,10 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 			_alpm_log(PM_LOG_DEBUG, "db scan could not find package: %s\n", target);
 			return(NULL);
 		}
-		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"), ent->d_name);
+		/* split the db entry name */
+		if(_alpm_db_splitname(ent->d_name, pkg->name, pkg->version) != 0) {
+			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
+					ent->d_name);
 			alpm_pkg_free(pkg);
 			pkg = NULL;
 			continue;

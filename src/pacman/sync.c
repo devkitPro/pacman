@@ -42,50 +42,6 @@
 
 extern config_t *config;
 
-/* splits package name into its respective parts */
-static int split_pkgname(char *target, char *name, char *version)
-{
-	char tmp[512];
-	char *p, *q;
-
-	if(target == NULL) {
-		return(-1);
-	}
-
-	/* trim path name (if any) */
-	if((p = strrchr(target, '/')) == NULL) {
-		p = target;
-	} else {
-		p++;
-	}
-	strncpy(tmp, p, 512);
-	/* trim file extension (if any) */
-	if((p = strstr(tmp, PKGEXT))) {
-		*p = '\0';
-	}
-	/* trim architecture */
-	if((p = alpm_pkg_name_hasarch(tmp))) {
-		*p = '\0';
-	}
-
-	p = tmp + strlen(tmp);
-
-	for(q = --p; *q && *q != '-'; q--);
-	if(*q != '-' || q == tmp) {
-		return(-1);
-	}
-	for(p = --q; *p && *p != '-'; p--);
-	if(*p != '-' || p == tmp) {
-		return(-1);
-	}
-	strncpy(version, p+1, 64);
-	*p = '\0';
-
-	strncpy(name, tmp, 256);
-
-	return(0);
-}
-
 static int sync_cleancache(int level)
 {
 	/* TODO for now, just mess with the first cache directory */
@@ -93,75 +49,11 @@ static int sync_cleancache(int level)
 	const char *cachedir = alpm_list_getdata(cachedirs);
 
 	if(level == 1) {
-		/* incomplete cleanup: we keep latest packages and partial downloads */
-		DIR *dir;
-		struct dirent *ent;
-		alpm_list_t *cache = NULL, *clean = NULL, *i, *j;
-
-		if(!yesno(_("Do you want to remove old packages from cache? [Y/n] ")))
-			return(0);
-		printf(_("removing old packages from cache... "));
-		dir = opendir(cachedir);
-		if(dir == NULL) {
-			fprintf(stderr, _("error: could not access cache directory\n"));
-			return(1);
-		}
-		rewinddir(dir);
-		while((ent = readdir(dir)) != NULL) {
-			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
-				continue;
-			}
-			cache = alpm_list_add(cache, strdup(ent->d_name));
-		}
-		closedir(dir);
-
-		for(i = cache; i; i = alpm_list_next(i)) {
-			char *str = alpm_list_getdata(i);
-			char name[256], version[64];
-
-			if(strstr(str, PKGEXT) == NULL) {
-				clean = alpm_list_add(clean, strdup(str));
-				continue;
-			}
-			/* we keep partially downloaded files */
-			if(strstr(str, PKGEXT ".part")) {
-				continue;
-			}
-			if(split_pkgname(str, name, version) != 0) {
-				clean = alpm_list_add(clean, strdup(str));
-				continue;
-			}
-			for(j = alpm_list_next(i); j; j = alpm_list_next(j)) {
-				char *s = alpm_list_getdata(j);
-				char n[256], v[64];
-
-				if(strstr(s, PKGEXT) == NULL) {
-					continue;
-				}
-				if(strstr(s, PKGEXT ".part")) {
-					continue;
-				}
-				if(split_pkgname(s, n, v) != 0) {
-					continue;
-				}
-				/* TODO Do not remove the currently installed version EITHER */
-				if(!strcmp(name, n)) {
-					char *ptr = (alpm_pkg_vercmp(version, v) < 0) ? str : s;
-					if(!alpm_list_find_str(clean, ptr)) {
-						clean = alpm_list_add(clean, strdup(ptr));
-					}
-				}
-			}
-		}
-		FREELIST(cache);
-
-		for(i = clean; i; i = alpm_list_next(i)) {
-			char path[PATH_MAX];
-
-			snprintf(path, PATH_MAX, "%s/%s", cachedir, (char *)alpm_list_getdata(i));
-			unlink(path);
-		}
-		FREELIST(clean);
+		/* incomplete cleanup */
+		printf(_("Partial cache cleaning functionality in pacman needs a lot of work.\n"
+					"For now it is recommended to use one of the many external tools, such\n"
+					"as a python script, to do so.\n"));
+		return(1);
 	} else {
 		/* full cleanup */
 		if(!yesno(_("Do you want to remove all packages from cache? [Y/n] ")))
@@ -177,9 +69,9 @@ static int sync_cleancache(int level)
 			fprintf(stderr, _("error: could not create new cache directory\n"));
 			return(1);
 		}
+		printf(_("done.\n"));
 	}
 
-	printf(_("done.\n"));
 	return(0);
 }
 

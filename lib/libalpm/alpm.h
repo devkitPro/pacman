@@ -180,20 +180,11 @@ typedef enum _pmpkgreason_t {
 	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
 } pmpkgreason_t;
 
-/* package name formats */
-/*
-typedef enum _pmpkghasarch_t {
-  PM_PKG_WITHOUT_ARCH = 0,  / pkgname-pkgver-pkgrel, used under PM_DBPATH /
-  PM_PKG_WITH_ARCH = 1  / pkgname-pkgver-pkgrel-arch, used under PM_CACHEDIR /
-} pmpkghasarch_t;
-*/
-
 int alpm_pkg_load(const char *filename, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(const char *url);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
-char *alpm_pkg_name_hasarch(const char *pkgname);
 alpm_list_t *alpm_pkg_compute_requiredby(pmpkg_t *pkg);
 
 const char *alpm_pkg_get_filename(pmpkg_t *pkg);

@@ -187,22 +187,15 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			char output[PATH_MAX];
 			char *fn = (char *)lp->data;
 			char pkgname[PKG_NAME_LEN];
-			char *p;
 
 			fileurl = url_for_file(server, fn);
 			if(!fileurl) {
 				return(-1);
 			}
 
-			/* Try to get JUST the name of the package from the filename */
-			memset(pkgname, 0, PKG_NAME_LEN);
-			if((p = strstr(fn, PKGEXT))) {
-				_alpm_pkg_splitname(fn, pkgname, NULL, 1);
-			}
-			if(!strlen(pkgname)) {
-				/* just use the raw filename if we can't find crap */
-				strncpy(pkgname, fn, PKG_NAME_LEN);
-			}
+			/* use the raw filename for download progress */
+			/* TODO maybe strip the normal pkg.tar.gz extension? */
+			strncpy(pkgname, fn, PKG_NAME_LEN);
 			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", pkgname);
 
 			snprintf(realfile, PATH_MAX, "%s%s", localpath, fn);

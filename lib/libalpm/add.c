@@ -53,11 +53,9 @@
 
 int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
-	pmpkg_t *info = NULL;
-	pmpkg_t *dummy;
-	char pkgname[PKG_NAME_LEN], pkgver[PKG_VERSION_LEN];
+	pmpkg_t *pkg = NULL;
+	const char *pkgname, *pkgver;
 	alpm_list_t *i;
-	struct stat buf;
 
 	ALPM_LOG_FUNC;
 
@@ -67,24 +65,11 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	_alpm_log(PM_LOG_DEBUG, "loading target '%s'\n", name);
 
-	/* TODO FS#5120 we need a better way to check if a package is a valid package,
-	 * and read the metadata instead of relying on the filename for package name
-	 * and version */
-	if(stat(name, &buf)) {
-		pm_errno = PM_ERR_NOT_A_FILE;
+	if(alpm_pkg_load(name, &pkg) != 0) {
 		goto error;
 	}
-
-	if(_alpm_pkg_splitname(name, pkgname, pkgver, 1) == -1) {
-		pm_errno = PM_ERR_PKG_INVALID_NAME;
-		goto error;
-	}
-
-	/* no additional hyphens in version strings */
-	if(strchr(pkgver, '-') != strrchr(pkgver, '-')) {
-		pm_errno = PM_ERR_PKG_INVALID_NAME;
-		goto error;
-	}
+	pkgname = alpm_pkg_get_name(pkg);
+	pkgver = alpm_pkg_get_version(pkg);
 
 	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
 		/* only install this package if it is not already installed */
@@ -95,7 +80,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	} else {
 		if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
 			/* only upgrade/install this package if it is already installed and at a lesser version */
-			dummy = _alpm_db_get_pkgfromcache(db, pkgname);
+			pmpkg_t *dummy = _alpm_db_get_pkgfromcache(db, pkgname);
 			if(dummy == NULL || _alpm_versioncmp(dummy->version, pkgver) >= 0) {
 				pm_errno = PM_ERR_PKG_CANT_FRESH;
 				goto error;
@@ -126,29 +111,17 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "reading '%s' metadata\n", pkgname);
-	info = _alpm_pkg_load(name);
-	if(info == NULL) {
-		/* pm_errno is already set by pkg_load() */
-		goto error;
-	}
-	/* check to verify we're not getting fooled by a corrupted package */
-	if(strcmp(pkgname, info->name) != 0 || strcmp(pkgver, info->version) != 0) {
-		pm_errno = PM_ERR_PKG_INVALID;
-		goto error;
-	}
-
 	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
-		info->reason = PM_PKG_REASON_DEPEND;
+		pkg->reason = PM_PKG_REASON_DEPEND;
 	}
 
 	/* add the package to the transaction */
-	trans->packages = alpm_list_add(trans->packages, info);
+	trans->packages = alpm_list_add(trans->packages, pkg);
 
 	return(0);
 
 error:
-	_alpm_pkg_free(info);
+	_alpm_pkg_free(pkg);
 	return(-1);
 }
 
