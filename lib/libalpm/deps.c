@@ -437,10 +437,12 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 {
 	pmdepend_t *depend;
 	char *ptr = NULL;
+	char *newstr = NULL;
 
 	if(depstring == NULL) {
 		return(NULL);
 	}
+	newstr = strdup(depstring);
 	
 	depend = malloc(sizeof(pmdepend_t));
 	if(depend == NULL) {
@@ -450,30 +452,32 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
-	if((ptr = strstr(depstring, ">="))) {
+	if((ptr = strstr(newstr, ">="))) {
 		depend->mod = PM_DEP_MOD_GE;
 		*ptr = '\0';
 		ptr += 2;
-	} else if((ptr = strstr(depstring, "<="))) {
+	} else if((ptr = strstr(newstr, "<="))) {
 		depend->mod = PM_DEP_MOD_LE;
 		*ptr = '\0';
 		ptr += 2;
-	} else if((ptr = strstr(depstring, "="))) {
+	} else if((ptr = strstr(newstr, "="))) {
 		depend->mod = PM_DEP_MOD_EQ;
 		*ptr = '\0';
 		ptr += 1;
 	} else {
 		/* no version specified - copy in the name and return it */
 		depend->mod = PM_DEP_MOD_ANY;
-		strncpy(depend->name, depstring, PKG_NAME_LEN);
+		strncpy(depend->name, newstr, PKG_NAME_LEN);
 		depend->version[0] = '\0';
+		free(newstr);
 		return(depend);
 	}
 
 	/* if we get here, we have a version comparator, copy the right parts
 	 * to the right places */
-	strncpy(depend->name, depstring, PKG_NAME_LEN);
+	strncpy(depend->name, newstr, PKG_NAME_LEN);
 	strncpy(depend->version, ptr, PKG_VERSION_LEN);
+	free(newstr);
 
 	return(depend);
 }
