@@ -466,7 +466,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				memset(filename, 0, PATH_MAX); /* just to be sure */
 
-				if(strcmp(entryname, ".PKGINFO") == 0 || strcmp(entryname, ".FILELIST") == 0) {
+				if(strcmp(entryname, ".PKGINFO") == 0
+						|| strcmp(entryname, ".FILELIST") == 0) {
 					archive_read_data_skip(archive);
 					continue;
 				} else if(strcmp(entryname, ".INSTALL") == 0) {
@@ -477,6 +478,12 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					/* the changelog goes inside the db */
 					snprintf(filename, PATH_MAX, "%s/%s-%s/changelog", db->path,
 									 newpkg->name, newpkg->version);
+				} else if(*entryname == '.') {
+					/* for now, ignore all files starting with '.' that haven't
+					 * already been handled (for future possibilities) */
+					_alpm_log(PM_LOG_DEBUG, _("skipping extraction of '%s'"), entryname);
+					archive_read_data_skip(archive);
+					continue;
 				} else {
 					/* build the new entryname relative to handle->root */
 					snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
