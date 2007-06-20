@@ -704,8 +704,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), filename, strerror(errno));
 						alpm_logaction(_("error: could not extract %s (%s)"), filename, strerror(errno));
 						errors++;
-					} else {
-						chmod(filename, archive_entry_mode(entry));
 					}
 
 					/* calculate an hash if this is in newpkg's backup */
