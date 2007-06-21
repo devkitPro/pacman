@@ -192,27 +192,17 @@ static alpm_list_t *chk_db_vs_targets(alpm_list_t *baddeps, pmpkg_t *pkg,
 			continue;
 		}
 
-		/* is this db package in the targets? if so use the
-		 * new package's conflict list to pick up new changes */
-		int use_newconflicts = 0;
-		for(j = targets; j; j = j->next) {
-			pmpkg_t *targ = j->data;
-			if(strcmp(alpm_pkg_get_name(targ), dbpkgname) == 0) {
-				_alpm_log(PM_LOG_DEBUG, "target '%s' is also in target list, using NEW conflicts",
-									dbpkgname);
-				conflicts = alpm_pkg_get_conflicts(targ);
-				use_newconflicts = 1;
-				break;
-			}
+		if(_alpm_pkg_find(dbpkgname, targets)) {
+			/* skip targets, already handled by chk_pkg_vs_targets in checkconflicts */
+			_alpm_log(PM_LOG_DEBUG, "target '%s' is also in target list, ignoring it",
+				dbpkgname);
+			continue;
 		}
-		/* if we didn't find newer conflicts, use the original list */
-		if(!use_newconflicts) {
-			conflicts = alpm_pkg_get_conflicts(dbpkg);
-		}
+
+		conflicts = alpm_pkg_get_conflicts(dbpkg);
 
 		for(j = conflicts; j; j = j->next) {
 			const char *conflict = j->data;
-
 
 			miss = does_conflict(pkgname, dbpkgname, pkg, conflict);
 			if(miss && !_alpm_depmiss_isin(miss, baddeps)) {
