@@ -565,7 +565,6 @@ extract_sources() {
 	msg "$(gettext "Extracting Sources...")"
 	local netfile
 	for netfile in "${source[@]}"; do
-		unziphack=0
 		file=$(strip_url "$netfile")
 		if in_array "$file" ${noextract[@]}; then
 			#skip source files in the noextract=() array
@@ -577,14 +576,7 @@ extract_sources() {
 		local file_type=$(file -biz "$file")
 		local cmd=''
 		case "$file_type" in
-			*application/x-tar*application/x-compress*)
-				cmd="tar -xzf $file" ;;
-			*application/x-tar*)
-				cmd="tar -xf $file" ;;
-			*application/x-zip*)
-				unziphack=1
-				cmd="unzip -qqo $file" ;;
-			*application/x-cpio*)
+			*application/x-tar*|*application/x-zip*|*application/x-cpio*)
 				cmd="bsdtar -x -f $file" ;;
 			*application/x-gzip*)
 				cmd="gunzip -d -f $file" ;;
@@ -600,12 +592,8 @@ extract_sources() {
 		msg2 "$cmd"
 		$cmd || ret=$?
 		if [ $ret -ne 0 ]; then
-			# unzip will return a 1 as a warning, it is not an error
-			if [ $unziphack -ne 1 -o $ret -ne 1 ]; then
-				error "$(gettext "Failed to extract %s")" "$file"
-				plain "$(gettext "Aborting...")"
-				exit 1
-			fi
+			error "$(gettext "Failed to extract %s")" "$file"
+			plain "$(gettext "Aborting...")"
 		fi
 	done
 
@@ -823,7 +811,7 @@ create_package() {
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 	comp_files="$comp_files .PKGINFO .FILELIST"
 
-	if ! tar -czf "$pkg_file" $comp_files $(ls); then
+	if ! bsdtar -czf "$pkg_file" $comp_files $(ls); then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
@@ -914,7 +902,7 @@ create_srcpackage() {
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
-	if ! tar -czf "$pkg_file" $comp_files; then
+	if ! bsdtar -czf "$pkg_file" $comp_files; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
