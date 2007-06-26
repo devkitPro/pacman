@@ -940,6 +940,7 @@ int SYMEXPORT alpm_parse_config(char *file, alpm_cb_db_register callback, const 
 			}
 			_alpm_strtrim(key);
 			strncpy(origkey, key, min(255, strlen(key)));
+			origkey[min(255, strlen(key))] = '\0';
 			key = _alpm_strtoupper(key);
 			if(!strlen(section) && strcmp(key, "INCLUDE")) {
 				RET_ERR(PM_ERR_CONF_DIRECTIVE_OUTSIDE_SECTION, -1);
