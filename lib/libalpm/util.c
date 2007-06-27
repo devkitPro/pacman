@@ -35,6 +35,8 @@
 #include <time.h>
 #include <syslog.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /* libarchive */
 #include <archive.h>
@@ -150,12 +152,25 @@ int _alpm_copyfile(const char *src, const char *dest)
 		return(1);
 	}
 
+	/* do the actual file copy */
 	while((len = fread(buf, 1, 4096, in))) {
 		fwrite(buf, 1, len, out);
 	}
 
 	fclose(in);
 	fclose(out);
+
+	/* chmod dest to permissions of src, as long as it is not a symlink */
+	struct stat statbuf;
+	if(stat(src, &statbuf)) {
+		if(! S_ISLNK(statbuf.st_mode)) {
+			chmod(dest, statbuf.st_mode);
+		}
+	} else {
+		/* stat was unsuccessful */
+		return(1);
+	}
+
 	return(0);
 }
 
