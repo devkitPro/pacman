@@ -594,6 +594,7 @@ extract_sources() {
 		if [ $ret -ne 0 ]; then
 			error "$(gettext "Failed to extract %s")" "$file"
 			plain "$(gettext "Aborting...")"
+			exit 1
 		fi
 	done
 
@@ -828,20 +829,18 @@ create_xdelta() {
 
 	local pkg_file=$1
 	local cache_dir="/var/cache/pacman/pkg" # TODO: autoconf me
+	local pkginfo="$(mktemp "$startdir"/xdelta-pkginfo.XXXXXXXXX)"
 
 	local old_file old_version
 	for old_file in $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-*{,-$CARCH}$PKGEXT 2>/dev/null); do
-		if [[ "$old_file" =~ "$CARCH" ]]; then
-			old_version=${old_file%-$CARCH$PKGEXT}
-		else
-			old_version=${old_file%$PKGEXT}
+		bsdtar -xOf "$oldfile" .PKGINFO > "$pkginfo" || continue
+		if [ "$(cat "$pkginfo" | grep '^pkgname = ')" != "pkgname = $pkgname" ]; then
+			continue # Package name does not match.
+		elif [ "$(cat "$pkginfo" | grep '^arch = ')" != "arch = $CARCH" ] ; then
+			continue # Not same arch.
 		fi
 
-		old_version=$(echo $old_version | \
-			sed "s|^.*/${pkgname}-\([[:alnum:]_\.]*-[[:alnum:]_\.]*\)$|\1|" | \
-			grep -v -e "^$cache_dir" -e "^$PKGDEST")
-
-		[ "$old_version" = "" ] && continue
+		old_version="$(cat "$pkginfo" | grep '^pkgver = ' | sed 's/^pkgver = //')"
 
 		# old_version may include the target package, only use the old versions
 		local vercmp=$(vercmp "$old_version" "$latest_version")
@@ -850,6 +849,8 @@ create_xdelta() {
 			local base_file=$old_file
 		fi
 	done
+
+	rm -f "$pkginfo"
 
 	if [ "$base_file" != "" ]; then
 		msg "$(gettext "Making delta from version %s...")" "$latest_version"
