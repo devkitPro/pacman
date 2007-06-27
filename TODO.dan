@@ -46,24 +46,12 @@ another FS bug), etc. Remove the -A flag and possibly -D, -T, and -Y (-Y is
 killed now in favor of vercmp binary) if they can be done by other actions.
 Possible switch of -U --> -I (#5571).
 
-Rewrite _alpm_sortbydeps to use Topological Sort. Should work using a standard
-topo sort algorithm, once the crazy types can be fixed up a bit. Include a
-cycle check - print a big error message if this happens.
-  -- http://en.wikipedia.org/wiki/Topological_sort
-  -- http://everything2.com/?node_id=556079
-
 Review display and logging functions. There seems to be an abundance of them.
 Make it extensible to use color, review what verbose/debug means. Perhaps
 separate logging functionality- Pacman has its normal log, and alpm backend
 keeps a very simple log file - listing only adds (including syncs) and removes.
 This way a consistency list can be kept of what is currently installed and what
 isn't, without all the logging junk from the front end.
-
-If we stick with autotools, add more defines to configure.in, including
-CACHEDIR, PKGEXT, so these can be specified at configure time for ease of use
-by other distributions which may want to change the defaults. Also, review what
-needs to be in config.h and what does not. There may be excess #depends which
-are hard coded into the sources. (from TODO.autoconf)
 
 Profile the code. Find the functions that are being called a lot, and see what
 can be done about it. Find out if all these calls are necessary (e.g. excessive
@@ -85,11 +73,6 @@ including all pacman utilites- abs, pacman-optimize, etc.
 
 Bugs/FRs to smash: 6468, 6437, 6430?, 6420, 6404, 6389, 6312?, 6284, 6273?,
 6255?, 6208, 5987, 5885, 5571, 4182, 3492, 2810?, 1769, 1588, 1571
-
-Remove _alpm from function names now that we have SYMHIDDEN and static
-declarations.
-
-Remove alpm.c, put functions where they should be.
 
 Update doxygen comments, they may need some work. Try to document all of the
 private internal functions too- it helps a ton for people just getting a
