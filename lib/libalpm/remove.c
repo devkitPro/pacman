@@ -206,6 +206,8 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		FREE(hash);
 	}
 	
+	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
+
 	if(trans->type == PM_TRANS_TYPE_UPGRADE) {
 		/* check noupgrade */
 		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
@@ -214,7 +216,6 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 		}
 	}
 
-	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
 	if(lstat(file, &buf)) {
 		_alpm_log(PM_LOG_DEBUG, _("file %s does not exist"), file);
 		return;
