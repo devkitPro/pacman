@@ -162,7 +162,7 @@ int _alpm_copyfile(const char *src, const char *dest)
 
 	/* chmod dest to permissions of src, as long as it is not a symlink */
 	struct stat statbuf;
-	if(stat(src, &statbuf)) {
+	if(!stat(src, &statbuf)) {
 		if(! S_ISLNK(statbuf.st_mode)) {
 			chmod(dest, statbuf.st_mode);
 		}
