@@ -488,7 +488,8 @@ static int _parseconfig(const char *file, const char *givensection,
 
 		if(line[0] == '[' && line[strlen(line)-1] == ']') {
 			/* new config section, skip the '[' */
-			ptr = &line[1];
+			ptr = line;
+			ptr++;
 			if(section) {
 				free(section);
 			}
@@ -532,9 +533,8 @@ static int _parseconfig(const char *file, const char *givensection,
 						file, linenum);
 				return(1);
 			}
-			if(ptr == NULL) {
-				/* directives without settings */
-				/* TODO shouldn't we check if these are in the [options] section? */
+			if(ptr == NULL && strcmp(section, "options") == 0) {
+				/* directives without settings, all in [options] */
 				if(strcmp(key, "NoPassiveFTP") == 0 || strcmp(upperkey, "NOPASSIVEFTP") == 0) {
 					alpm_option_set_nopassiveftp(1);
 					pm_printf(PM_LOG_DEBUG, _("config: nopassiveftp\n"));
@@ -619,20 +619,28 @@ static int _parseconfig(const char *file, const char *givensection,
 						alpm_option_add_holdpkg(p);
 						pm_printf(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
-						alpm_option_set_dbpath(ptr);
-						pm_printf(PM_LOG_DEBUG, _("config: dbpath: %s\n"), ptr);
+						if(alpm_option_get_dbpath() == NULL) {
+							alpm_option_set_dbpath(ptr);
+							pm_printf(PM_LOG_DEBUG, _("config: dbpath: %s\n"), ptr);
+						}
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
 						alpm_option_add_cachedir(ptr);
 						pm_printf(PM_LOG_DEBUG, _("config: cachedir: %s\n"), ptr);
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
-						alpm_option_set_root(ptr);
-						pm_printf(PM_LOG_DEBUG, _("config: rootdir: %s\n"), ptr);
+						if(alpm_option_get_root() == NULL) {
+							alpm_option_set_root(ptr);
+							pm_printf(PM_LOG_DEBUG, _("config: rootdir: %s\n"), ptr);
+						}
 					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
-						alpm_option_set_logfile(ptr);
-						pm_printf(PM_LOG_DEBUG, _("config: logfile: %s\n"), ptr);
+						if(alpm_option_get_logfile() == NULL) {
+							alpm_option_set_logfile(ptr);
+							pm_printf(PM_LOG_DEBUG, _("config: logfile: %s\n"), ptr);
+						}
 					} else if (strcmp(key, "LockFile") == 0 || strcmp(upperkey, "LOCKFILE") == 0) {
-						alpm_option_set_lockfile(ptr);
-						pm_printf(PM_LOG_DEBUG, _("config: lockfile: %s\n"), ptr);
+						if(alpm_option_get_lockfile() == NULL) {
+							alpm_option_set_lockfile(ptr);
+							pm_printf(PM_LOG_DEBUG, _("config: lockfile: %s\n"), ptr);
+						}
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);
 						pm_printf(PM_LOG_DEBUG, _("config: xfercommand: %s\n"), ptr);
@@ -737,6 +745,7 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
+	/* use default config file if location wasn't specified on cmdline */
 	if(config->configfile == NULL) {
 		config->configfile = strdup(CONFFILE);
 	}
