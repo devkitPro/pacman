@@ -27,7 +27,7 @@ export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
 dbroot='@localstatedir@/lib/pacman/'
-lockfile='@localstatedir@/run/pacman.lck'
+lockfile="${dbroot}db.lck"
 
 msg() {
 	local mesg=$1; shift

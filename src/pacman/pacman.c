@@ -149,7 +149,6 @@ static void usage(int op, char *myname)
 		printf(_("  -r, --root <path>    set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
 		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
-		printf(_("      --lock <file>    set an alternate lockfile location\n"));
 	}
 }
 
@@ -293,7 +292,6 @@ static int parseargs(int argc, char *argv[])
 		{"noscriptlet", no_argument,      0, 1005},
 		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
-		{"lock",       required_argument, 0, 1008},
 		{0, 0, 0, 0}
 	};
 	struct stat st;
@@ -346,9 +344,6 @@ static int parseargs(int argc, char *argv[])
 					return(1);
 				}
 				alpm_option_add_cachedir(optarg);
-				break;
-			case 1008:
-				alpm_option_set_lockfile(optarg);
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
@@ -635,11 +630,6 @@ static int _parseconfig(const char *file, const char *givensection,
 						if(alpm_option_get_logfile() == NULL) {
 							alpm_option_set_logfile(ptr);
 							pm_printf(PM_LOG_DEBUG, _("config: logfile: %s\n"), ptr);
-						}
-					} else if (strcmp(key, "LockFile") == 0 || strcmp(upperkey, "LOCKFILE") == 0) {
-						if(alpm_option_get_lockfile() == NULL) {
-							alpm_option_set_lockfile(ptr);
-							pm_printf(PM_LOG_DEBUG, _("config: lockfile: %s\n"), ptr);
 						}
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);

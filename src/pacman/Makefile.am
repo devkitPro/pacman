@@ -2,7 +2,6 @@ SUBDIRS = po
 
 # paths set at make time
 conffile  = ${sysconfdir}/pacman.conf
-lockfile  = ${localstatedir}/run/pacman.lck
 
 bin_PROGRAMS = pacman pacman.static
 

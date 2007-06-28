@@ -264,8 +264,7 @@ char *_alpm_strreplace(const char *str, const char *needle, const char *replace)
 }
 
 
-/* Create a lock file
-*/
+/* Create a lock file */
 int _alpm_lckmk()
 {
 	int fd, count = 0;
@@ -293,8 +292,7 @@ int _alpm_lckmk()
 	return(fd > 0 ? fd : -1);
 }
 
-/* Remove a lock file
-*/
+/* Remove a lock file */
 int _alpm_lckrm()
 {
 	const char *file = alpm_option_get_lockfile();
@@ -304,8 +302,7 @@ int _alpm_lckrm()
 	return(0);
 }
 
-/* Compression functions
-*/
+/* Compression functions */
 
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {

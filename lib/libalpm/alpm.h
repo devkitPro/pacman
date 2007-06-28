@@ -106,7 +106,7 @@ const char *alpm_option_get_logfile();
 void alpm_option_set_logfile(const char *logfile);
 
 const char *alpm_option_get_lockfile();
-void alpm_option_set_lockfile(const char *lockfile);
+/* no set_lockfile, path is determined from dbpath */
 
 unsigned short alpm_option_get_usesyslog();
 void alpm_option_set_usesyslog(unsigned short usesyslog);

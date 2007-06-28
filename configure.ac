@@ -255,7 +255,6 @@ $PACKAGE_STRING:
     sysconfdir             : $(eval echo ${sysconfdir})
        conf file           : $(eval echo ${sysconfdir})/pacman.conf
     localstatedir          : $(eval echo ${localstatedir})
-       lock file           : $(eval echo ${localstatedir})/run/pacman.lck
        database dir        : $(eval echo ${localstatedir})/lib/pacman/
        cache dir           : $(eval echo ${localstatedir})/cache/pacman/pkg/
     compiler               : ${CC}
