@@ -544,11 +544,12 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					
 					archive_entry_set_pathname(entry, tempfile);
 
-					if(archive_read_extract(archive, entry, archive_flags) != ARCHIVE_OK) {
+					int ret = archive_read_extract(archive, entry, archive_flags);
+					if(ret != ARCHIVE_OK && ret != ARCHIVE_WARN) {
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
-						          entryname, strerror(errno));
+								entryname, archive_error_string(archive));
 						alpm_logaction(_("could not extract %s (%s)"),
-						               entryname, strerror(errno));
+								entryname, archive_error_string(archive));
 						errors++;
 						unlink(tempfile);
 						FREE(hash_orig);
@@ -699,10 +700,14 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 					archive_entry_set_pathname(entry, filename);
 
-					if(archive_read_extract(archive, entry, archive_flags) != ARCHIVE_OK) {
-						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), filename, strerror(errno));
-						alpm_logaction(_("error: could not extract %s (%s)"), filename, strerror(errno));
+					int ret = archive_read_extract(archive, entry, archive_flags);
+					if(ret != ARCHIVE_OK && ret != ARCHIVE_WARN) {
+						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
+								entryname, archive_error_string(archive));
+						alpm_logaction(_("could not extract %s (%s)"),
+								entryname, archive_error_string(archive));
 						errors++;
+						continue;
 					}
 
 					/* calculate an hash if this is in newpkg's backup */
