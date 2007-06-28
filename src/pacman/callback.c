@@ -237,20 +237,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_INTEGRITY_DONE:
 			printf(_("done.\n"));
 			break;
-		case PM_TRANS_EVT_SCRIPTLET_INFO:
-			printf("%s\n", (char*)data1);
-			break;
-		case PM_TRANS_EVT_SCRIPTLET_START:
-			printf((char*)data1);
-			printf("...");
-			break;
-		case PM_TRANS_EVT_SCRIPTLET_DONE:
-			if(!(long)data1) {
-				printf(_("done.\n"));
-			} else {
-				printf(_("failed.\n"));
-			}
-			break;
 		case PM_TRANS_EVT_PRINTURI:
 			printf("%s/%s\n", (char*)data1, (char*)data2);
 			break;

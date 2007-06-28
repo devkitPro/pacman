@@ -642,7 +642,6 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 	if(pid == 0) {
-		FILE *pp;
 		_alpm_log(PM_LOG_DEBUG, _("chrooting in %s"), root);
 		if(chroot(root) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)"), strerror(errno));
@@ -654,37 +653,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		}
 		umask(0022);
 		_alpm_log(PM_LOG_DEBUG, _("executing \"%s\""), cmdline);
-		pp = popen(cmdline, "r");
-		if(!pp) {
-			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"), strerror(errno));
-			retval = 1;
-			goto cleanup;
-		}
-		while(!feof(pp)) {
-			char line[1024];
-			if(fgets(line, 1024, pp) == NULL)
-				break;
-			/*TODO clean this code up, remove weird SCRIPTLET_START/DONE,
-			 * (void*)atol call, etc. */
-			/* "START <event desc>" */
-			if((strlen(line) > strlen(SCRIPTLET_START))
-			   && !strncmp(line, SCRIPTLET_START, strlen(SCRIPTLET_START))) {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_START,
-				      _alpm_strtrim(line + strlen(SCRIPTLET_START)), NULL);
-			/* "DONE <ret code>" */
-			} else if((strlen(line) > strlen(SCRIPTLET_DONE))
-			          && !strncmp(line, SCRIPTLET_DONE, strlen(SCRIPTLET_DONE))) {
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_DONE,
-				      (void*)atol(_alpm_strtrim(line + strlen(SCRIPTLET_DONE))),
-				      NULL);
-			} else {
-				_alpm_strtrim(line);
-				/* log our script output */
-				alpm_logaction(line);
-				EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
-			}
-		}
-		pclose(pp);
+		execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL);
 		exit(0);
 	} else {
 		if(waitpid(pid, 0, 0) == -1) {

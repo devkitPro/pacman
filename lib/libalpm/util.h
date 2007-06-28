@@ -40,10 +40,6 @@
 #define _(s) s
 #endif
 
-/*TODO wtf? why is this done like this? */
-#define SCRIPTLET_START "START "
-#define SCRIPTLET_DONE "DONE "
-
 int _alpm_makepath(const char *path);
 int _alpm_copyfile(const char *src, const char *dest);
 char *_alpm_strtoupper(char *str);
