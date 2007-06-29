@@ -704,7 +704,15 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 					archive_entry_set_pathname(entry, filename);
 
-					int ret = archive_read_extract(archive, entry, archive_flags);
+					/* FS #7484 
+					 * By default, libarchive 2.2.3 overwrites existing symlinks by directories from the archive,
+					 * which isn't the behavior we want.
+					 * This can be avoided by using the ARCHIVE_EXTRACT_NO_OVERWRITE flag, and this works
+					 * fine because all files where an overwrite could be needed are deleted first :
+					 * 1) if it's an upgrade, existing files are removed when the old pkg is removed
+					 * 2) if there is a file conflict, but --force is used, then files are also removed : see above
+					 */
+					int ret = archive_read_extract(archive, entry, archive_flags | ARCHIVE_EXTRACT_NO_OVERWRITE);
 					if(ret == ARCHIVE_WARN) {
 						/* operation succeeded but a non-critical error was encountered */
 						_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)"),
