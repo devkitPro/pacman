@@ -294,7 +294,7 @@ get_downloadclient() {
 check_deps() {
 	[ $# -gt 0 ] || return
 
-	pmout=$(pacman $PACMAN_OPTS -T $*)
+	pmout=$(pacman $PACMAN_OPTS -T "$@")
 	ret=$?
 	if [ $ret -eq 127 ]; then #unresolved deps
 		echo "$pmout"

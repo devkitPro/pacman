@@ -766,4 +766,16 @@ const char SYMEXPORT *alpm_dep_get_version(pmdepmissing_t *miss)
 
 	return miss->depend.version;
 }
+
+const char SYMEXPORT *alpm_depend_get_name(pmdepend_t *dep)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(dep != NULL, return(NULL));
+
+	return dep->name;
+}
+
 /* vim: set ts=2 sw=2 noet: */

@@ -35,6 +35,7 @@
 
 extern config_t *config;
 
+/* TODO: This should use _alpm_checkdeps() */
 int pacman_deptest(alpm_list_t *targets)
 {
 	int retval = 0;
@@ -52,20 +53,16 @@ int pacman_deptest(alpm_list_t *targets)
 		alpm_list_t *j, *provides;
 
 		target = alpm_list_getdata(i);
-
-		/* splitdep modifies the string... we'll compensate for now */
-		char *saved_target = NULL;
-		saved_target = calloc(strlen(target)+1, sizeof(char));
-		strncpy(saved_target, target, strlen(target));
-
 		dep = alpm_splitdep(target);
 
-		pkg = alpm_db_get_pkg(alpm_option_get_localdb(), target);
+		pkg = alpm_db_get_pkg(alpm_option_get_localdb(),
+				alpm_depend_get_name(dep));
 		if(pkg && alpm_depcmp(pkg, dep)) {
 			found = 1;
 		} else {
 			/* not found, can we find anything that provides this in the local DB? */
-			provides = alpm_db_whatprovides(alpm_option_get_localdb(), target);
+			provides = alpm_db_whatprovides(alpm_option_get_localdb(),
+					alpm_depend_get_name(dep));
 			for(j = provides; j; j = alpm_list_next(j)) {
 				pmpkg_t *pkg;
 				pkg = alpm_list_getdata(j);
@@ -78,10 +75,10 @@ int pacman_deptest(alpm_list_t *targets)
 		}
 
 		if(!found) {
-			printf("%s\n", saved_target);
+			printf("%s\n", target);
 			retval = 127;
 		}
-		free(saved_target);
+		free(dep);
 	}
 	return(retval);
 }
