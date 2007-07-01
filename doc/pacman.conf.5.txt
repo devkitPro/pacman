@@ -1,0 +1,135 @@
+pacman.conf(5)
+==============
+
+NAME
+----
+pacman.conf - pacman package manager configuration file
+
+
+DESCRIPTION
+-----------
+Pacman, using manlink:libalpm[3], will attempt to read `pacman.conf` each
+time it is invoked. This configuration file is divided into sections or
+repositories. Each section defines a package repository that pacman can use
+when searching for packages in `--sync` mode. The exception to this is the
+options section, which defines global options.
+
+
+EXAMPLE
+-------
+--------
+#
+# pacman.conf
+#
+[options]
+NoUpgrade = etc/passwd etc/group etc/shadow
+NoUpgrade = etc/fstab
+
+[current]
+Include = /etc/pacman.d/current
+
+[custom]
+Server = file:///home/pkgs
+--------
+
+
+OPTIONS
+-------
+DBPath = path/to/db/dir::
+	Overrides the default location of the toplevel database directory.
+	The default is `var/lib/pacman`.
+
+CacheDir = path/to/cache/dir::
+	Overrides the default location of the package cache directory. The
+	default is `var/cache/pacman`.
+
+HoldPkg = package ...::
+	If a user tries to `--remove` a package that's listed in `HoldPkg`,
+	pacman will ask for confirmation before proceeding.
+
+IgnorePkg = package ...::
+	Instructs pacman to ignore any upgrades for this package when performing
+	a `--sysupgrade`.
+
+Include = path::
+	Include another config file. This file can include repositories or
+	general configuration  options.
+
+XferCommand = /path/to/command %u::
+	If set, an external program will be used to download all remote files.
+	All instances of `%u` will be replaced with the download URL. If present,
+	instances of `%o` will be replaced with the local filename, plus a
+	".part" extension, which allows programs like wget to do file resumes
+	properly.
+	This option is useful for users who experience problems with built-in
+	http/ftp support, or need the more advanced proxy support that comes with
+	utilities like wget.
+
+NoPassiveFtp::
+	Disables passive ftp connections when downloading packages. (aka Active Mode)
+
+NoUpgrade = file ...::
+	All files listed with a `NoUpgrade` directive will never be touched during
+	a package install/upgrade. Do not include the leading slash when specifying
+	files.
+
+NoExtract = file ...::
+	All files listed with a `NoExtract` directive will never be extracted from
+	a package into the filesystem. This can be useful when you don't want part
+	of a package to be installed. For example, if your httpd root uses an
+	index.php, then you would not want the index.html file to be extracted from
+	the apache package.
+
+UseSyslog::
+	Log action messages through syslog(). This will insert log entries into
+	`/var/log/messages` or equivalent.
+
+LogFile = /path/to/file::
+	Log actions directly to a file. Default is `/var/log/pacman.log`.
+
+ShowSize::
+	Display the size of individual packages for `--sync` and `--query` modes.
+
+
+Repository Sections
+-------------------
+Each repository section defines a section name and at least one location where
+the packages can be found. The section name is defined by the string within
+square brackets (the two above are 'current'  and  'custom'). Locations are
+defined with the `Server` directive and follow a URL naming structure. If you
+want to use a local directory, you can specify the full path with a `file://`
+prefix, as shown above.
+
+The order of repositories in the file matters; repositories listed first will
+take precedence over those listed  later  in  the file when packages in two
+repositories have identical names, regardless of version number.
+
+Using Your Own Repository
+-------------------------
+If you have numerous custom packages of your own, it is often easier to generate
+your own custom local repository than install them all with the `--upgrade`
+option. All you need to do is generate a compressed package database in the
+directory with these packages so pacman can find it when run with `--refresh`.
+
+	repo-add /home/pkgs/custom.db.tar.gz /home/pkgs/*.pkg.tar.gz
+
+The above command will generate a compressed database named
+`/home/pkgs/custom.db.tar.gz`. Note that the database must be of the form
+`{treename}.db.tar.gz`, where `{treename}` is the name of the section defined in
+the configuration file. That's it! Now configure your custom section in the
+configuration file as shown in the config example above. Pacman will now use your
+package repository. If you add new packages to the repository, remember to
+re-generate the database and use pacman's `--refresh` option.
+
+For more information on the repo-add command, use  `repo-add --help`.
+
+
+See Also
+--------
+manlink:pacman[8], manlink:libalpm[3]
+
+See the Arch Linux website at http://www.archlinux.org for more current
+information on the distribution and the pacman family of tools.
+
+
+include::footer.txt[]
