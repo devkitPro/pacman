@@ -26,6 +26,7 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -222,14 +223,18 @@ void dump_pkg_files(pmpkg_t *pkg)
 		filestr = (char*)alpm_list_getdata(i);
 		/* build a path so we can stat the filename */
 		snprintf(path, PATH_MAX-1, "%s%s", root, filestr);
-		if(!stat(path, &buf) && S_ISDIR(buf.st_mode)) {
-			/* if we stat it and it is a dir, don't print */
+		if(!lstat(path, &buf)) {
+			if(!S_ISDIR(buf.st_mode)) {
+				/* don't print directories */
+				fprintf(stdout, "%s %s\n", pkgname, path);
+			}
 		} else {
-			fprintf(stdout, "%s %s\n", pkgname, path);
+			fprintf(stderr, "%s %s : %s\n", pkgname, path, strerror(errno));
 		}
 	}
 
 	fflush(stdout);
+	fflush(stderr);
 }
 
 /* Display the changelog of an installed package
