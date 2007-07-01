@@ -10,7 +10,14 @@ if HAS_DOXYGEN
 man_MANS += $(wildcard man3/*.3)
 endif
 
-EXTRA_DIST = $(man_MANS)
+EXTRA_DIST = $(man_MANS) Doxyfile
+
+if HAS_DOXYGEN
+all: doxygen.in
+
+doxygen.in:
+	doxygen $(srcdir)/Doxyfile
+endif
 
 clean-local:
 	$(RM) man3/*.3

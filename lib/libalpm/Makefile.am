@@ -9,8 +9,6 @@ DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 
 AM_CFLAGS = -fvisibility=hidden -pedantic -D_GNU_SOURCE -fgnu89-inline
 
-EXTRA_DIST = Doxyfile
-
 libalpm_la_SOURCES = \
 	add.h add.c \
 	alpm.h alpm.c \
@@ -39,13 +37,5 @@ libalpm_la_SOURCES = \
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
 libalpm_la_LIBADD = -larchive -ldownload
-
-if HAS_DOXYGEN
-all: doxygen.in
-
-doxygen.in:
-	doxygen $(srcdir)/Doxyfile
-
-endif
 
 # vim:set ts=2 sw=2 noet:
