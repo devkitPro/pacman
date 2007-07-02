@@ -1,12 +1,12 @@
 pacman.conf(5)
 ==============
 
-NAME
+Name
 ----
 pacman.conf - pacman package manager configuration file
 
 
-DESCRIPTION
+Description
 -----------
 Pacman, using manlink:libalpm[3], will attempt to read `pacman.conf` each
 time it is invoked. This configuration file is divided into sections or
@@ -15,7 +15,7 @@ when searching for packages in `--sync` mode. The exception to this is the
 options section, which defines global options.
 
 
-EXAMPLE
+Example
 -------
 --------
 #
@@ -33,29 +33,29 @@ Server = file:///home/pkgs
 --------
 
 
-OPTIONS
+Options
 -------
-DBPath = path/to/db/dir::
+*DBPath =* 'path/to/db/dir'::
 	Overrides the default location of the toplevel database directory.
 	The default is `var/lib/pacman`.
 
-CacheDir = path/to/cache/dir::
+*CacheDir =* 'path/to/cache/dir'::
 	Overrides the default location of the package cache directory. The
 	default is `var/cache/pacman`.
 
-HoldPkg = package ...::
+*HoldPkg =* 'package' ...::
 	If a user tries to `--remove` a package that's listed in `HoldPkg`,
 	pacman will ask for confirmation before proceeding.
 
-IgnorePkg = package ...::
+*IgnorePkg =* 'package' ...::
 	Instructs pacman to ignore any upgrades for this package when performing
 	a `--sysupgrade`.
 
-Include = path::
+*Include =* 'path'::
 	Include another config file. This file can include repositories or
 	general configuration  options.
 
-XferCommand = /path/to/command %u::
+*XferCommand =* '/path/to/command %u'::
 	If set, an external program will be used to download all remote files.
 	All instances of `%u` will be replaced with the download URL. If present,
 	instances of `%o` will be replaced with the local filename, plus a
@@ -65,29 +65,29 @@ XferCommand = /path/to/command %u::
 	http/ftp support, or need the more advanced proxy support that comes with
 	utilities like wget.
 
-NoPassiveFtp::
+*NoPassiveFtp*::
 	Disables passive ftp connections when downloading packages. (aka Active Mode)
 
-NoUpgrade = file ...::
+*NoUpgrade =* 'file' ...::
 	All files listed with a `NoUpgrade` directive will never be touched during
 	a package install/upgrade. Do not include the leading slash when specifying
 	files.
 
-NoExtract = file ...::
+*NoExtract =* 'file' ...::
 	All files listed with a `NoExtract` directive will never be extracted from
 	a package into the filesystem. This can be useful when you don't want part
 	of a package to be installed. For example, if your httpd root uses an
 	index.php, then you would not want the index.html file to be extracted from
 	the apache package.
 
-UseSyslog::
+*UseSyslog*::
 	Log action messages through syslog(). This will insert log entries into
 	`/var/log/messages` or equivalent.
 
-LogFile = /path/to/file::
+*LogFile =* '/path/to/file'::
 	Log actions directly to a file. Default is `/var/log/pacman.log`.
 
-ShowSize::
+*ShowSize*::
 	Display the size of individual packages for `--sync` and `--query` modes.
 
 
@@ -127,9 +127,5 @@ For more information on the repo-add command, use  `repo-add --help`.
 See Also
 --------
 manlink:pacman[8], manlink:libalpm[3]
-
-See the Arch Linux website at http://www.archlinux.org for more current
-information on the distribution and the pacman family of tools.
-
 
 include::footer.txt[]
