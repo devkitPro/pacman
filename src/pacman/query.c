@@ -400,6 +400,7 @@ int pacman_query(alpm_list_t *targets)
 				printf("%s %s\n", pkgname, pkgver);
 			}
 		}
+		return(0);
 	}
 
 	/* Second: operations that require target(s) */
