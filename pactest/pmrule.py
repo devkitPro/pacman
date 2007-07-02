@@ -19,7 +19,7 @@
 
 
 from util import *
-
+from stat import *
 
 class pmrule:
     """Rule object
@@ -108,24 +108,37 @@ class pmrule:
             if case == "EXIST":
                 if not os.path.isfile(filename):
                     success = 0
+            elif case == "MODIFIED":
+                for f in files:
+                    if f.name == key:
+                        if not f.ismodified():
+                            success = 0
+            elif case == "MODE":
+                mode = os.lstat(filename)[ST_MODE]
+                if int(value,8) != S_IMODE(mode):
+                    success = 0
+            elif case == "TYPE":
+                if value == "dir":
+                    if not os.path.isdir(filename):
+                        success = 0
+                elif value == "file":
+                    if not os.path.isfile(filename):
+                        success = 0
+                elif value == "link":
+                    if not os.path.islink(filename):
+                        success = 0
+            elif case == "PACNEW":
+                if not os.path.isfile("%s%s" % (filename, PM_PACNEW)):
+                    success = 0
+            elif case == "PACORIG":
+                if not os.path.isfile("%s%s" % (filename, PM_PACORIG)):
+                    success = 0
+            elif case == "PACSAVE":
+                if not os.path.isfile("%s%s" % (filename, PM_PACSAVE)):
+                    success = 0
             else:
-                if case == "MODIFIED":
-                    for f in files:
-                        if f.name == key:
-                            if not f.ismodified():
-                                success = 0
-                elif case == "PACNEW":
-                    if not os.path.isfile("%s%s" % (filename, PM_PACNEW)):
-                        success = 0
-                elif case == "PACORIG":
-                    if not os.path.isfile("%s%s" % (filename, PM_PACORIG)):
-                        success = 0
-                elif case == "PACSAVE":
-                    if not os.path.isfile("%s%s" % (filename, PM_PACSAVE)):
-                        success = 0
-                else:
-                    print "FILE rule '%s' not found" % case
-                    success = -1
+                print "FILE rule '%s' not found" % case
+                success = -1
         else:
             print "Rule kind '%s' not found" % kind
             success = -1
