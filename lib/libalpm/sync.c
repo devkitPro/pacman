@@ -47,11 +47,9 @@
 #include "util.h"
 #include "versioncmp.h"
 #include "handle.h"
-#include "util.h"
 #include "alpm.h"
 #include "md5.h"
 #include "sha1.h"
-#include "handle.h"
 #include "server.h"
 
 pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)

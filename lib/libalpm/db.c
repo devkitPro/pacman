@@ -31,15 +31,8 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#include <sys/stat.h>
-#endif
 #include <dirent.h>
 #include <regex.h>
-#ifdef CYGWIN
-#include <limits.h> /* PATH_MAX */
-#endif
 
 /* libalpm */
 #include "db.h"

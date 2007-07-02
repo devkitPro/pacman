@@ -31,14 +31,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <limits.h>
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
-#include <sys/stat.h>
-#endif
 #include <unistd.h>
-#include <errno.h>
 
 /* libalpm */
 #include "remove.h"

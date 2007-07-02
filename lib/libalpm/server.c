@@ -39,7 +39,6 @@
 #include "alpm.h"
 #include "util.h"
 #include "handle.h"
-#include "log.h"
 #include "package.h"
 
 /** Fetch a remote pkg.
