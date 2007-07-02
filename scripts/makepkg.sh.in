@@ -296,7 +296,7 @@ check_deps() {
 
 	pmout=$(pacman $PACMAN_OPTS -T $*)
 	ret=$?
-	if [ $ret -eq 1 ]; then #unresolved deps
+	if [ $ret -eq 127 ]; then #unresolved deps
 		echo "$pmout"
 	elif [ $ret -ne 0 ]; then
 		error "$(gettext "Pacman returned a fatal error (%i): %s")" "$ret" "$pmout"
