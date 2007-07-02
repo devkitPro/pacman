@@ -327,15 +327,24 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	}
 
 	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
-		if (fn && strcmp(fn, archive_entry_pathname(entry))) {
+		const char *entryname; /* the name of the file in the archive */
+		entryname = archive_entry_pathname(entry);
+
+		if (fn && strcmp(fn, entryname)) {
 			if (archive_read_data_skip(_archive) != ARCHIVE_OK)
 				return(1);
 			continue;
 		}
-		snprintf(expath, PATH_MAX, "%s/%s", prefix, archive_entry_pathname(entry));
+		snprintf(expath, PATH_MAX, "%s/%s", prefix, entryname);
 		archive_entry_set_pathname(entry, expath);
-		if(archive_read_extract(_archive, entry, archive_flags) != ARCHIVE_OK) {
-			_alpm_log(PM_LOG_ERROR, _("could not extract %s: %s\n"), archive_entry_pathname(entry), archive_error_string(_archive));
+		int ret = archive_read_extract(_archive, entry, archive_flags);
+		if(ret == ARCHIVE_WARN) {
+			/* operation succeeded but a non-critical error was encountered */
+			_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)\n"),
+					entryname, archive_error_string(_archive));
+		} else if(ret != ARCHIVE_OK) {
+			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
+					entryname, archive_error_string(_archive));
 			return(1);
 		}
 

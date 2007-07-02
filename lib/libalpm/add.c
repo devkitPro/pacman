@@ -545,7 +545,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					archive_entry_set_pathname(entry, tempfile);
 
 					int ret = archive_read_extract(archive, entry, archive_flags);
-					if(ret != ARCHIVE_OK && ret != ARCHIVE_WARN) {
+					if(ret == ARCHIVE_WARN) {
+						/* operation succeeded but a non-critical error was encountered */
+						_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)"),
+								entryname, archive_error_string(archive));
+					} else if(ret != ARCHIVE_OK) {
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
 								entryname, archive_error_string(archive));
 						alpm_logaction(_("could not extract %s (%s)"),
@@ -701,7 +705,11 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					archive_entry_set_pathname(entry, filename);
 
 					int ret = archive_read_extract(archive, entry, archive_flags);
-					if(ret != ARCHIVE_OK && ret != ARCHIVE_WARN) {
+					if(ret == ARCHIVE_WARN) {
+						/* operation succeeded but a non-critical error was encountered */
+						_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)"),
+								entryname, archive_error_string(archive));
+					} else if(ret != ARCHIVE_OK) {
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
 								entryname, archive_error_string(archive));
 						alpm_logaction(_("could not extract %s (%s)"),
