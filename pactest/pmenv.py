@@ -68,12 +68,10 @@ class pmenv:
 
             t.generate()
             # Hack for mtimes consistency
-            modified = 0
             for i in t.rules:
                 if i.rule.find("MODIFIED") != -1:
-                    modified = 1
-            if modified:
-                time.sleep(3)
+                    time.sleep(1.5)
+                    break
 
             t.run(self.pacman)
 
