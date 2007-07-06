@@ -56,7 +56,7 @@ typedef struct __pmgraph_t pmgraph_t;
  * Library
  */
 
-int alpm_initialize();
+int alpm_initialize(void);
 int alpm_release(void);
 
 /*

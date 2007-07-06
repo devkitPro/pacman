@@ -85,7 +85,7 @@ char *mkdtemp(char *template)
 	/* Save template */
 	(void) strcpy(t, template);
 	for (; ; ) {
-		r = mktemp(template);
+		r = mkstemp(template);
 
 		if (*r == '\0')
 			return (NULL);
@@ -156,21 +156,21 @@ int _alpm_copyfile(const char *src, const char *dest)
 	while((len = fread(buf, 1, 4096, in))) {
 		fwrite(buf, 1, len, out);
 	}
-
 	fclose(in);
-	fclose(out);
 
 	/* chmod dest to permissions of src, as long as it is not a symlink */
 	struct stat statbuf;
 	if(!stat(src, &statbuf)) {
 		if(! S_ISLNK(statbuf.st_mode)) {
-			chmod(dest, statbuf.st_mode);
+			fchmod(fileno(out), statbuf.st_mode);
 		}
 	} else {
 		/* stat was unsuccessful */
+		fclose(out);
 		return(1);
 	}
 
+	fclose(out);
 	return(0);
 }
 

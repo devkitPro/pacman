@@ -44,7 +44,7 @@ enum _pmerrno_t pm_errno SYMEXPORT;
  * functions are called.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_initialize()
+int SYMEXPORT alpm_initialize(void)
 {
 	ASSERT(handle == NULL, RET_ERR(PM_ERR_HANDLE_NOT_NULL, -1));
 
@@ -59,7 +59,7 @@ int SYMEXPORT alpm_initialize()
 /** Release the library.  This should be the last alpm call you make.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_release()
+int SYMEXPORT alpm_release(void)
 {
 	int dbs_left = 0;
 

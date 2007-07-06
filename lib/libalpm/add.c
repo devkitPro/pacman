@@ -23,13 +23,6 @@
  *  USA.
  */
 
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__sun__)
-#include <sys/stat.h>
-#endif
-
 #include "config.h"
 
 #include <stdlib.h>
