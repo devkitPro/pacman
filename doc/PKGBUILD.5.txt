@@ -1,3 +1,6 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
 PKGBUILD(5)
 ===========
 
@@ -30,7 +33,7 @@ Options and Directives
 	used in the package filename.
 
 *pkgver*::
-	The version of the software as released from the author (e.g. 2.7.1).
+	The version of the software as released from the author (e.g. `2.7.1`).
 
 *pkgrel*::
 	This is the release number specific to the Arch Linuxs release. This
@@ -48,21 +51,21 @@ Options and Directives
 
 *license (array)*::
 	This field specifies the license(s) that apply to the package.
-	Commonly-used licenses are found in /usr/share/licenses/common. If you
+	Commonly-used licenses are found in `/usr/share/licenses/common`. If you
 	see the package's license there, simply reference it in the license
-	field (e.g. license=("GPL")). If the package provides a license not
-	found in /usr/share/licenses/common, then you should include the license
-	in the package itself and set license=("custom") or
-	license=("custom:LicenseName"). The license should be placed in
-	$pkgdir/usr/share/licenses/$pkgname when building the package. If
+	field (e.g. `$$license=('GPL')$$`). If the package provides a license not
+	found in `/usr/share/licenses/common`, then you should include the license
+	in the package itself and set `$$license=('custom')$$` or
+	`$$license=('custom:LicenseName')$$`. The license should be placed in
+	`$pkgdir/usr/share/licenses/$pkgname` when building the package. If
 	multiple licenses are applicable for a package, list all of them:
-	licenses=('GPL' 'FDL').
+	`$$license=('GPL' 'FDL')$$`.
 
 *install*::
 	Specifies a special install script that is to be included in the package.
 	This file should reside in the same directory as the PKGBUILD, and will
 	be copied into the package by makepkg. It does not need to be included
-	in the source array (e.g. install=pkgname.install).
+	in the source array (e.g. `$$install=pkgname.install$$`).
 
 *source (array)*::
 	An array of source files required to build the package. Source files
@@ -94,11 +97,11 @@ Options and Directives
 *groups (array)*::
 	An array of symbolic names that represent groups of packages, allowing
 	you to install multiple packages by requesting a single target. For
-	example, one could install all KDE packages by installing the 'kde' group.
+	example, one could install all KDE packages by installing the `kde` group.
 
 *arch (array)*::
 	Defines on which architectures the given package is available (e.g.
-	arch=('i686' 'x86_64')).
+	`$$arch=('i686' 'x86_64')).
 
 *backup (array)*::
 	A space-delimited array of filenames, without preceding slashes, that

@@ -1,10 +1,12 @@
-man_MANS = \
+ASCIIDOC_MANS = \
 	pacman.8 \
 	makepkg.8 \
 	PKGBUILD.5 \
 	makepkg.conf.5 \
 	pacman.conf.5 \
 	libalpm.3
+
+man_MANS = $(ASCIIDOC_MANS)
 
 if HAS_DOXYGEN
 man_MANS += $(wildcard man3/*.3)
@@ -37,9 +39,16 @@ doxygen.in:
 	doxygen $(srcdir)/Doxyfile
 endif
 
-$(man_MANS): footer.txt
+$(ASCIIDOC_MANS):
 	a2x -d manpage -f manpage --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
-PKGBUILD.5: PKGBUILD-example.txt
+# These rules are due to the includes and files of the asciidoc text
+$(ASCIIDOC_MANS): footer.txt
+pacman.8: pacman.8.txt
+makepkg.8: makepkg.8.txt
+PKGBUILD.5: PKGBUILD.5.txt PKGBUILD-example.txt
+makepkg.conf.5: makepkg.conf.5.txt
+pacman.conf.5: pacman.conf.5.txt
+libalpm.3: libalpm.3.txt
 
 # vim:set ts=2 sw=2 noet:
