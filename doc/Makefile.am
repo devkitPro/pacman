@@ -14,6 +14,7 @@ EXTRA_DIST = \
 	pacman.8.txt \
 	makepkg.8.txt \
 	PKGBUILD.5.txt \
+	PKGBUILD-example.txt \
 	makepkg.conf.5.txt \
 	pacman.conf.5.txt \
 	libalpm.3.txt \
@@ -38,5 +39,7 @@ endif
 
 $(man_MANS): footer.txt
 	a2x -d manpage -f manpage --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
+
+PKGBUILD.5: PKGBUILD-example.txt
 
 # vim:set ts=2 sw=2 noet:
