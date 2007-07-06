@@ -23,6 +23,11 @@ EXTRA_DIST = \
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(man_MANS) man3/*.3 *.xml
 
+ASCIIDOC_OPTS = \
+	-f asciidoc.conf \
+	-apacman_version="$(PACKAGE_VERSION)" \
+	-apacman_date="`date +%Y-%m-%d`"
+
 if HAS_DOXYGEN
 all: doxygen.in
 
@@ -31,6 +36,6 @@ doxygen.in:
 endif
 
 $(man_MANS):
-	a2x -d manpage -f manpage --asciidoc-opts="-f asciidoc.conf" $@.txt
+	a2x -d manpage -f manpage --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
 # vim:set ts=2 sw=2 noet:
