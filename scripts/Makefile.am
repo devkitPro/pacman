@@ -16,15 +16,15 @@ bin_SCRIPTS += abs
 endif
 
 EXTRA_DIST = \
-	abs.in \
-	gensync.in \
-	makepkg.in \
-	makeworld.in \
-	pacman-optimize.in \
-	rankmirrors.in \
-	repo-add.in \
-	repo-remove.in \
-	updatesync.in
+	abs.sh.in \
+	gensync.sh.in \
+	makepkg.sh.in \
+	makeworld.sh.in \
+	pacman-optimize.sh.in \
+	rankmirrors.py.in \
+	repo-add.sh.in \
+	repo-remove.sh.in \
+	updatesync.sh.in
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
@@ -43,22 +43,26 @@ edit = sed \
 ## All the scripts depend on Makefile so that they are rebuilt when the
 ## prefix etc. changes. Use chmod -w to prevent people from editing the
 ## wrong file by accident.
+# two 'test' lines- make sure we can handle both sh and py type scripts
+# third 'test' line- make sure one of the two checks succeeded
 $(bin_SCRIPTS): Makefile
 	rm -f $@ $@.tmp
-	$(edit) `test -f ./$@.in || echo $(srcdir)/`$@.in >$@.tmp
+	test -f $(srcdir)/$@.sh.in && $(edit) $(srcdir)/$@.sh.in >$@.tmp || true
+	test -f $(srcdir)/$@.py.in && $(edit) $(srcdir)/$@.py.in >$@.tmp || true
+	test -f $@.tmp || false
 	chmod +x $@.tmp
 	chmod a-w $@.tmp
 	mv $@.tmp $@
 
-abs: $(srcdir)/abs.in
-gensync: $(srcdir)/gensync.in
-makepkg: $(srcdir)/makepkg.in
-makeworld: $(srcdir)/makeworld.in
-pacman-optimize: $(srcdir)/pacman-optimize.in
-rankmirrors: $(srcdir)/rankmirrors.in
-repo-add: $(srcdir)/repo-add.in
-repo-remove: $(srcdir)/repo-remove.in
-re-pacman: $(srcdir)/re-pacman.in
-updatesync: $(srcdir)/updatesync.in
+abs: $(srcdir)/abs.sh.in
+gensync: $(srcdir)/gensync.sh.in
+makepkg: $(srcdir)/makepkg.sh.in
+makeworld: $(srcdir)/makeworld.sh.in
+pacman-optimize: $(srcdir)/pacman-optimize.sh.in
+rankmirrors: $(srcdir)/rankmirrors.py.in
+repo-add: $(srcdir)/repo-add.sh.in
+repo-remove: $(srcdir)/repo-remove.sh.in
+re-pacman: $(srcdir)/re-pacman.sh.in
+updatesync: $(srcdir)/updatesync.sh.in
 
 # vim:set ts=2 sw=2 noet:
