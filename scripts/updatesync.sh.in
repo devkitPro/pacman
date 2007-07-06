@@ -31,36 +31,29 @@ myver='@PACKAGE_VERSION@'
 # functions
 
 usage() {
-	printf "updatesync (pacman) %s\n" "$myver"
+	printf "updatesync (pacman) %s\n\n" "$myver"
+	printf "$(gettext "Usage: %s <action> <destfile> <option> [package_directory]")\n\n" "$0"
+	printf "$(gettext "\
+updatesync will update a sync database by reading a PKGBUILD and\n\
+modifying the destfile. updatesync updates the database in a temporary\n\
+directory and then compresses it to <destfile>.\n\n")"
+	printf "$(gettext "There are two types of actions:\n\n")"
+	printf "$(gettext "upd - Will update a package's entry or create it if it doesn't exist.\n      It takes the package's PKGBUILD as an option.\n")"
+	printf "$(gettext "del - Will remove a package's entry from the db. It takes the package's\n      name as an option.\n")"
 	echo
-	printf "$(gettext "Usage: %s <action> <destfile> <option> [package_directory]")\n" "$0"
-	echo
-	echo "$(gettext "updatesync will update a sync database by reading a PKGBUILD and")"
-	echo "$(gettext "modifying the destfile. updatesync updates the database in a temporary")"
-	echo "$(gettext "directory and then compresses it to <destfile>.")"
-	echo
-	echo "$(gettext "There are two types of actions:")"
-	echo
-	echo "$(gettext "upd - Will update a package's entry or create it if it doesn't exist.")"
-	echo "$(gettext "      It takes the package's PKGBUILD as an option.")"
-	echo "$(gettext "del - Will remove a package's entry from the db.")"
-	echo "$(gettext "      It takes the package's name as an option.")"
-	echo
-	echo "$(gettext "updatesync will calculate md5sums of packages in the same directory as")"
-	echo "$(gettext "<destfile>, unless an alternate [package_directory] is specified.")"
-	echo
-	echo "$(gettext "example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD")"
-	echo
+	printf "$(gettext "\
+updatesync will calculate md5sums of packages in the same directory as\n\
+<destfile>, unless an alternate [package_directory] is specified.\n\n")"
+	echo "$(gettext "Example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD")"
 	exit 0
 }
 
 version() {
 	printf "updatesync (pacman) %s\n" "$myver"
-	printf "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\n"
-	echo
-	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by law.\n"
-	echo
+	printf "$(gettext "\
+Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 error () {

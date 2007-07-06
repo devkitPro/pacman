@@ -40,29 +40,26 @@ error () {
 }
 
 usage() {
-	printf "pacman-optimize (pacman) %s\n" "$myver"
-	echo
-	printf "$(gettext "Usage: %s[pacman_db_root]")\n" "$0"
-	echo
-	echo "$(gettext "pacman-optimize is a little hack that should improve the performance")"
-	echo "$(gettext "of pacman when reading/writing to its filesystem-based database.")"
-	echo
-	echo "$(gettext "Because pacman uses many small files to keep track of packages,")"
-	echo "$(gettext "there is a tendency for these files to become fragmented over time.")"
-	echo "$(gettext "This script attempts to relocate these small files into one")"
-	echo "$(gettext "continuous location on your hard drive. The result is that the hard")"
-	echo "$(gettext "drive should be able to read them faster, since the hard drive head")"
-	echo "$(gettext "does not have to move around the disk as much.")"
-	echo
+	printf "pacman-optimize (pacman) %s\n\n" "$myver"
+	printf "$(gettext "Usage: %s [pacman_db_root]")\n\n" "$0"
+	printf "$(gettext "\
+pacman-optimize is a little hack that should improve the performance\n\
+of pacman when reading/writing to its filesystem-based database.\n\n")"
+	printf "$(gettext "\
+Because pacman uses many small files to keep track of packages,\n\
+there is a tendency for these files to become fragmented over time.\n\
+This script attempts to relocate these small files into one\n\
+continuous location on your hard drive. The result is that the hard\n\
+drive should be able to read them faster, since the hard drive head\n\
+does not have to move around the disk as much.\n")"
 }
 
 version() {
 	printf "pacman-optimize (pacman) %s\n" "$myver"
-	printf "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n"
-	echo
-	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by law.\n"
-	echo
+	printf "$(gettext "\
+Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 die() {

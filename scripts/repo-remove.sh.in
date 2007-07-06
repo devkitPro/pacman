@@ -3,7 +3,7 @@
 #   repo-remove - remove a package entry from a given repo database file
 #   @configure_input@
 #
-#   Copyright (c) 2007 Dan McGee <dan@archlinux.org>
+#   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -32,26 +32,21 @@ TMP_DIR=""
 
 # print usage instructions
 usage() {
-	echo "$(gettext "repo-remove %s")" $myver
-	echo
-	echo "$(gettext "usage: repo-remove <path-to-db> <packagename> ...")"
-	echo
-	echo "$(gettext "repo-remove will update a package database by removing the package name")"
-	echo "$(gettext "specified on the command line from the given repo database. Multiple")"
-	echo "$(gettext "packages to remove can be specified on the command line.")"
-	echo
-	echo "$(gettext "Example:")"
-	echo "$(gettext "  repo-remove /path/to/repo.db.tar.gz kernel26")"
-	echo
+	printf "$(gettext "repo-remove %s\n\n")" $myver
+	printf "$(gettext "usage: %s <path-to-db> <packagename> ...\n\n")" "$0"
+	printf "$(gettext "\
+repo-remove will update a package database by removing the package name\n\
+specified on the command line from the given repo database. Multiple\n\
+packages to remove can be specified on the command line.\n\n")"
+	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
 
 version() {
 	printf "repo-remove (pacman) %s\n" "$myver"
-	printf "Copyright (C) 2007 Dan McGee <dan@archlinux.org>.\n"
-	echo
-	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by law.\n"
-	echo
+	printf "$(gettext "\
+Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 # test if a file is a repository DB

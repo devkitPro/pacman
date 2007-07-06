@@ -961,12 +961,11 @@ usage() {
 }
 
 version() {
-	printf "$(gettext "makepkg (pacman) %s")\n" "$myver"
-	echo "$(gettext "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.")"
-	echo
-	echo "$(gettext "This is free software; see the source for copying conditions.")"
-	echo "$(gettext "There is NO WARRANTY, to the extent permitted by law.")"
-	echo
+	printf "makepkg (pacman) %s\n" "$myver"
+	printf "$(gettext "\
+Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 ARGLIST=$@
@@ -1005,8 +1004,6 @@ if [ -z "$SRCROOT" ]; then
 	fi
 	SRCROOT=$ABSROOT
 fi
-
-
 
 # Parse Command Line Options.
 OPT_SHORT="bcCdefFghiLmop:rRsSV"

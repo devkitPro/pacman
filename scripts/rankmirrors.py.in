@@ -3,8 +3,7 @@
 #   rankmirrors - read a list of mirrors from a file and rank them by speed
 #   @configure_input@
 #
-#   Original Idea copyright (c) 2006 R.G. <chesercat>
-#   Modified 2006 by Dan McGee <dan@archlinux.org>
+#   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -26,7 +25,10 @@ from optparse import OptionParser
 
 def createOptParser():
     usage = "usage: %prog [options] MIRRORFILE | URL"
-    version = '%prog (pacman) @PACKAGE_VERSION@'
+    version = "%prog (pacman) @PACKAGE_VERSION@\n" \
+            "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n" \
+            "This is free software; see the source for copying conditions.\n" \
+            "There is NO WARRANTY, to the extent permitted by law."
     description = "Ranks pacman mirrors by their connection and opening " \
             "speed. Pacman mirror files are located in /etc/pacman.d/. It " \
             "can also rank one mirror if the URL is provided."

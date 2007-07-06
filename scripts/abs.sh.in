@@ -62,31 +62,29 @@ error() {
 
 
 usage() {
-	printf "$(gettext "abs (pacman) %s - download a PKGBUILD tree from a CVS repository")\n" "$myver"
-	echo
-	printf "$(gettext "Usage %s [options] [repository...]")\n" "$0"
-	echo
+	printf "$(gettext "abs (pacman) %s - download a PKGBUILD tree from a CVS repository")\n\n" "$myver"
+	printf "$(gettext "Usage %s [options] [repository...]")\n\n" "$0"
 	printf "$(gettext "Options:")\n"
 	printf "$(gettext "  -p, --passive  The connection is opened in passive mode.")\n"
 	echo
 	printf "$(gettext "  -h, --help     Display this help message then exit.")\n"
 	printf "$(gettext "  -V, --version  Display version information then exit.")\n"
 	echo
-	printf "$(gettext "abs will synchronize build scripts from the CVS repository")\n"
-	printf "$(gettext "into %s. You can follow different package trees by")\n" "$ABSROOT"
-	printf "$(gettext "editing %s files. If no argument is given, abs")\n" "$CONFDIR/supfile.*"
-	printf "$(gettext "will synchronize from supfiles specified in %s.")\n" "$CONFDIR/abs.conf"
-	echo
+	printf "$(gettext "\
+abs will synchronize build scripts from the CVS repository\n\
+into %s. You can follow different package trees by\n\
+editing %s files. If no argument is given, abs\n\
+will synchronize from supfiles specified in %s.\n\n")" \
+		"$ABSROOT" "$CONFDIR/supfile.*" "$CONFDIR/abs.conf"
 	printf "$(gettext "Report bugs to <%s>.")\n" "$BUG_REPORT_EMAIL"
 }
 
 version() {
 	printf "abs (pacman) %s\n" "$myver"
-	printf "$(gettext "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>").\n"
-	echo
-	printf "$(gettext "This is free software; see the source for copying conditions.")\n"
-	printf "$(gettext "There is NO WARRANTY, to the extent permitted by law.")\n"
-	echo
+	printf "$(gettext "\
+Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 

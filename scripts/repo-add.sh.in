@@ -32,29 +32,24 @@ TMP_DIR=""
 
 # print usage instructions
 usage() {
-	printf "repo-add (pacman) %s\n" "$myver"
-	echo
-	echo "$(gettext "usage: repo-add <path-to-db> [--force] <package> ...")"
-	echo
-	echo "$(gettext "repo-add will update a package database by reading a package file.")"
-	echo "$(gettext "Multiple packages to add can be specified on the command line.")"
-	echo
-	echo "$(gettext "The --force flag will add a 'force' entry to the sync database, which")"
-	echo "$(gettext "tells pacman to skip its internal version number checking and update")"
-	echo "$(gettext "the package regardless.")"
-	echo
-	echo "$(gettext "Example:")"
-	echo "$(gettext "  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
-	echo
+	printf "repo-add (pacman) %s\n\n" "$myver"
+	printf "$(gettext "Usage: %s <path-to-db> [--force] <package> ...\n\n")" "$0"
+	printf "$(gettext "\
+repo-add will update a package database by reading a package file.\n\
+Multiple packages to add can be specified on the command line.\n\n")"
+	printf "$(gettext "\
+The --force flag will add a 'force' entry to the sync database, which\n\
+tells pacman to skip its internal version number checking and update\n\
+the package regardless.\n\n")"
+	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 }
 
 version() {
 	printf "repo-add (pacman) %s\n" "$myver"
-	printf "Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\n"
-	echo
-	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by law.\n"
-	echo
+	printf "$(gettext "\
+Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 # return calculated checksum of package

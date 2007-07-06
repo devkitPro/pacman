@@ -30,35 +30,31 @@ myver='@PACKAGE_VERSION@'
 # functions
 
 usage() {
-	printf "gensync (pacman) %s\n" "$myver"
-	echo
-	printf "$(gettext "Usage: %s <root> <destfile> [package_directory]")\n" "$0"
-	echo
-	echo "$(gettext "gensync will generate a sync database by reading all PKGBUILD files")"
-	echo "$(gettext "from <root>. gensync builds the database in a temporary directory")"
-	echo "$(gettext "and then compresses it to <destfile>.")"
-	echo
-	echo "$(gettext "gensync will calculate md5sums of packages in the same directory as")"
-	echo "$(gettext "<destfile>, unless an alternate [package_directory] is specified.")"
-	echo
-	echo "$(gettext "note: The <destfile> name is important. It must be of the form")"
-	echo "$(gettext "      {treename}.db.tar.gz where {treename} is the name of the custom")"
-	echo "$(gettext "      package repository you configured in /etc/pacman.conf. The")"
-	echo "$(gettext "      generated database must reside in the same directory as your")"
-	echo "$(gettext "      custom packages (also configured in /etc/pacman.conf)")"
-	echo
-	echo "$(gettext "example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz")"
-	echo
+	printf "gensync (pacman) %s\n\n" "$myver"
+	printf "$(gettext "Usage: %s <root> <destfile> [package_directory]")\n\n" "$0"
+	printf "$(gettext "\
+gensync will generate a sync database by reading all PKGBUILD files\n\
+from <root>. gensync builds the database in a temporary directory\n\
+and then compresses it to <destfile>.\n\n")"
+	printf "$(gettext "\
+gensync will calculate md5sums of packages in the same directory as\n\
+<destfile>, unless an alternate [package_directory] is specified.\n\n")"
+	printf "$(gettext "\
+note: The <destfile> name is important. It must be of the form\n\
+      {treename}.db.tar.gz where {treename} is the name of the custom\n\
+      package repository you configured in /etc/pacman.conf. The\n\
+      generated database must reside in the same directory as your\n\
+      custom packages (also configured in /etc/pacman.conf)\n\n")"
+	echo "$(gettext "Example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz")"
 	exit 0
 }
 
 version() {
 	printf "gensync (pacman) %s\n" "$myver"
-	printf "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n"
-	echo
-	printf "This is free software; see the source for copying conditions.\n"
-	printf "There is NO WARRANTY, to the extent permitted by law.\n"
-	echo
+	printf "$(gettext "\
+Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 error () {
