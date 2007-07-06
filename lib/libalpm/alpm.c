@@ -52,6 +52,7 @@ int SYMEXPORT alpm_initialize(void)
 	if(handle == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
+	bindtextdomain("libalpm", LOCALEDIR);
 
 	return(0);
 }
