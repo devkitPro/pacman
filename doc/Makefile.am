@@ -35,7 +35,7 @@ doxygen.in:
 	doxygen $(srcdir)/Doxyfile
 endif
 
-$(man_MANS):
+$(man_MANS): footer.txt
 	a2x -d manpage -f manpage --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
 # vim:set ts=2 sw=2 noet:
