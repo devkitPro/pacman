@@ -25,8 +25,9 @@ MOSTLYCLEANFILES = $(man_MANS) man3/*.3 *.xml
 
 ASCIIDOC_OPTS = \
 	-f asciidoc.conf \
-	-apacman_version="$(PACKAGE_VERSION)" \
-	-apacman_date="`date +%Y-%m-%d`"
+	-a pacman_version="$(PACKAGE_VERSION)" \
+	-a pacman_date="`date +%Y-%m-%d`" \
+	-a sysconfdir=$(sysconfdir)
 
 if HAS_DOXYGEN
 all: doxygen.in
