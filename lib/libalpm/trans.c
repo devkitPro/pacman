@@ -639,11 +639,11 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		_alpm_log(PM_LOG_DEBUG, _("chrooting in %s"), root);
 		if(chroot(root) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)"), strerror(errno));
-			return(1);
+			exit(1);
 		}
 		if(chdir("/") != 0) {
 			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)"), strerror(errno));
-			return(1);
+			exit(1);
 		}
 		umask(0022);
 		_alpm_log(PM_LOG_DEBUG, _("executing \"%s\""), cmdline);
