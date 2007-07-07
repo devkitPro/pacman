@@ -84,7 +84,8 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(handle->trans == NULL || handle->trans->state == STATE_INTERRUPTED, 
+			RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
 		handle->db_local = NULL;
