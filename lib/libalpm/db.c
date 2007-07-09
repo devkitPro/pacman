@@ -70,6 +70,35 @@ pmdb_t SYMEXPORT *alpm_db_register(const char *treename)
 	return(_alpm_db_register(treename));
 }
 
+/** Unregister all package databases
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_db_unregister_all()
+{
+	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	/* Do not unregister a database if a transaction is on-going */
+	ASSERT(handle->trans == NULL || handle->trans->state == STATE_INTERRUPTED,
+			RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+
+	/* close local database */
+	_alpm_db_unregister(handle->db_local);
+	handle->db_local = NULL;
+
+	/* and also sync ones */
+	for(i = handle->dbs_sync; i; i = i->next) {
+		pmdb_t *db = i->data;
+		_alpm_db_unregister(db);
+		i->data = NULL;
+	}
+	FREELIST(handle->dbs_sync);
+	return(0);
+}
+
 /** Unregister a package database
  * @param db pointer to the package database to unregister
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
@@ -84,13 +113,17 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL || handle->trans->state == STATE_INTERRUPTED, 
+	ASSERT(handle->trans == NULL || handle->trans->state == STATE_INTERRUPTED,
 			RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
 		handle->db_local = NULL;
 		found = 1;
 	} else {
+		/* Warning : this function shouldn't be used to unregister all sync databases
+		 * by walking through the list returned by alpm_option_get_syncdbs,
+		 * because the db is removed from that list here.
+		 */
 		void *data;
 		handle->dbs_sync = alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, &data);
 		if(data) {
@@ -102,16 +135,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'", db->treename);
-
-	/* Cleanup */
-	_alpm_db_free_pkgcache(db);
-
-	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
-	_alpm_db_close(db);
-
-	_alpm_db_free(db);
-
+	_alpm_db_unregister(db);
 	return(0);
 }
 
@@ -541,6 +565,23 @@ error:
 }
 
 /** @} */
+
+/* Helper function for alpm_db_unregister{_all} */
+void _alpm_db_unregister(pmdb_t *db)
+{
+	if(db == NULL) {
+		return;
+	}
+	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'", db->treename);
+
+	/* Cleanup */
+	_alpm_db_free_pkgcache(db);
+
+	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
+	_alpm_db_close(db);
+
+	_alpm_db_free(db);
+}
 
 pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 {

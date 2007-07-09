@@ -62,24 +62,12 @@ int SYMEXPORT alpm_initialize(void)
  */
 int SYMEXPORT alpm_release(void)
 {
-	int dbs_left = 0;
-
 	ALPM_LOG_FUNC;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
-	/* close local database */
-	if(handle->db_local) {
-		alpm_db_unregister(handle->db_local);
-		handle->db_local = NULL;
-	}
-	/* and also sync ones */
-	while((dbs_left = alpm_list_count(handle->dbs_sync)) > 0) {
-		pmdb_t *db = (pmdb_t *)handle->dbs_sync->data;
-		_alpm_log(PM_LOG_DEBUG, "removing DB %s, %d remaining...",
-				db->treename, dbs_left);
-		alpm_db_unregister(db);
-		db = NULL;
+	if(alpm_db_unregister_all() == -1) {
+		return(-1);
 	}
 
 	_alpm_handle_free(handle);

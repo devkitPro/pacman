@@ -145,6 +145,7 @@ alpm_list_t *alpm_option_get_syncdbs();
 
 pmdb_t *alpm_db_register(const char *treename);
 int alpm_db_unregister(pmdb_t *db);
+int alpm_db_unregister_all();
 
 const char *alpm_db_get_name(const pmdb_t *db);
 const char *alpm_db_get_url(const pmdb_t *db);
