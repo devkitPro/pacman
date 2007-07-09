@@ -197,7 +197,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			if(config->noprogressbar) {
 				printf(_("done.\n"));
 			}
-			snprintf(str, LOG_STR_LEN, _("installed %s (%s)"),
+			snprintf(str, LOG_STR_LEN, "installed %s (%s)",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			alpm_logaction(str);
@@ -211,7 +211,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			if(config->noprogressbar) {
 			    printf(_("done.\n"));
 			}
-			snprintf(str, LOG_STR_LEN, _("removed %s (%s)"),
+			snprintf(str, LOG_STR_LEN, "removed %s (%s)",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			alpm_logaction(str);
@@ -225,7 +225,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			if(config->noprogressbar) {
 				printf(_("done.\n"));
 			}
-			snprintf(str, LOG_STR_LEN, _("upgraded %s (%s -> %s)"),
+			snprintf(str, LOG_STR_LEN, "upgraded %s (%s -> %s)",
 			         (char *)alpm_pkg_get_name(data1),
 			         (char *)alpm_pkg_get_version(data2),
 			         (char *)alpm_pkg_get_version(data1));

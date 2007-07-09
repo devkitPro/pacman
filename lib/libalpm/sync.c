@@ -775,7 +775,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 					/* cache directory does not exist.... try creating it */
 					_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"),
 							cachedir);
-					alpm_logaction(_("warning: no %s cache exists, creating..."),
+					alpm_logaction("warning: no %s cache exists, creating...",
 							cachedir);
 					if(_alpm_makepath(cachedir) == 0) {
 						_alpm_log(PM_LOG_DEBUG, _("setting main cachedir: %s"), cachedir);
@@ -800,7 +800,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 					_alpm_log(PM_LOG_DEBUG, _("setting main cachedir: %s"), "/tmp/");
 				maincachedir = alpm_list_getdata(cachetmp);
 				_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead"));
-				alpm_logaction(_("warning: couldn't create package cache, using /tmp instead"));
+				alpm_logaction("warning: couldn't create package cache, using /tmp instead");
 			}
 			if(_alpm_downloadfiles(current->servers, maincachedir, files)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"), current->treename);
