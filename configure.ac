@@ -53,6 +53,11 @@ AC_ARG_ENABLE(doxygen,
 	AC_HELP_STRING([--disable-doxygen], [do not build API docs via Doxygen]),
 	[wantdoxygen=$enableval], [wantdoxygen=yes])
 
+# Help line for asciidoc
+AC_ARG_ENABLE(asciidoc,
+	AC_HELP_STRING([--enable-asciidoc], [build your own manpages with Asciidoc]),
+	[wantasciidoc=$enableval], [wantasciidoc=no])
+
 # Help line for debug
 AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug], [enable debugging support]),
@@ -177,7 +182,7 @@ AC_SUBST(CARCHFLAGS)
 AC_SUBST(ARCHSWITCH)
 AC_SUBST(CHOST)
 
-# Check for doxygen support
+# Check for doxygen support and status
 AC_MSG_CHECKING([for doxygen])
 if test "x$wantdoxygen" = "xyes" ; then
 	AC_CHECK_PROGS([DOXYGEN], [doxygen])
@@ -192,7 +197,24 @@ else
 	AC_MSG_RESULT([no, disabled by configure])
 	usedoxygen=no
 fi
-AM_CONDITIONAL(HAS_DOXYGEN, test "x$usedoxygen" = "xyes")
+AM_CONDITIONAL(USE_DOXYGEN, test "x$usedoxygen" = "xyes")
+
+# Check for asciidoc support and status
+AC_MSG_CHECKING([for asciidoc])
+if test "x$wantasciidoc" = "xyes" ; then
+	AC_CHECK_PROGS([ASCIIDOC], [asciidoc])
+	if test $ASCIIDOC ; then
+		AC_MSG_RESULT([yes])
+		useasciidoc=yes
+	else
+		AC_MSG_RESULT([no, asciidoc missing])
+		useasciidoc=no
+	fi
+else
+	AC_MSG_RESULT([no, disabled by configure])
+	useasciidoc=no
+fi
+AM_CONDITIONAL(USE_ASCIIDOC, test "x$useasciidoc" = "xyes")
 
 # Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
@@ -276,6 +298,7 @@ $PACKAGE_STRING:
 
   Compilation options:
     Doxygen support        : ${usedoxygen}
+    Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}
     include abs            : ${includeabs}
 "
