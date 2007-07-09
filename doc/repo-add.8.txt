@@ -1,0 +1,51 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
+repo-add(8)
+==========
+
+Name
+----
+////
+* If we use this below line, the manpage name comes out all weird. We also
+* can't use two separate lines, which is quite annoying. *
+repo-add, repo-remove - package database maintenance utilities
+////
+repo-add - package database maintenance utility
+
+
+Synopsis
+--------
+repo-add <path-to-db> [--force] <package> ...
+
+repo-remove <path-to-db> <packagename> ...
+
+
+Description
+-----------
+repo-add and repo-remove are two scripts to help build a package database for
+packages built with manlink:makepkg[8] and installed with manlink:pacman[8].
+
+repo-add will update a package database by reading a built package file.
+Multiple packages to add can be specified on the command line.
+
+repo-remove will update a package database by removing the package name
+specified on the command line. Multiple packages to remove can be specified
+on the command line.
+
+
+Options
+-------
+*--force* (repo-add only)::
+	Add a force entry to the sync database, which tells pacman to skip version
+	number comparison and update the package regardless. This flag can be
+	specified in the middle of the command line, with any packages listed
+	before the flag being added as normal entries, and any specified after
+	being marked as force upgrades.
+
+
+See Also
+--------
+manlink:makepkg[8], manlink:pacman[8]
+
+include::footer.txt[]

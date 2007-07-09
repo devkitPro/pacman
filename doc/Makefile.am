@@ -1,6 +1,7 @@
 ASCIIDOC_MANS = \
 	pacman.8 \
 	makepkg.8 \
+	repo-add.8 \
 	PKGBUILD.5 \
 	makepkg.conf.5 \
 	pacman.conf.5 \
@@ -15,6 +16,7 @@ endif
 EXTRA_DIST = \
 	pacman.8.txt \
 	makepkg.8.txt \
+	repo-add.8.txt \
 	PKGBUILD.5.txt \
 	PKGBUILD-example.txt \
 	makepkg.conf.5.txt \
@@ -46,6 +48,7 @@ $(ASCIIDOC_MANS):
 $(ASCIIDOC_MANS): footer.txt
 pacman.8: pacman.8.txt
 makepkg.8: makepkg.8.txt
+repo-add.8: repo-add.8.txt
 PKGBUILD.5: PKGBUILD.5.txt PKGBUILD-example.txt
 makepkg.conf.5: makepkg.conf.5.txt
 pacman.conf.5: pacman.conf.5.txt
