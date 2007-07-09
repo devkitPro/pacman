@@ -610,6 +610,9 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			close(fd);
 			filelist = 1;
 			continue;
+		} else if(*entry_name == '.') {
+					/* for now, ignore all files starting with '.' that haven't
+					 * already been handled (for future possibilities) */
 		} else {
 			scriptcheck = 1;
 			/* Keep track of all files so we can generate a filelist later if missing */
