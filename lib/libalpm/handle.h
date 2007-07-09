@@ -30,40 +30,37 @@
 #include "alpm.h"
 #include "trans.h"
 
-typedef enum _pmaccess_t {
-	PM_ACCESS_RO,
-	PM_ACCESS_RW
-} pmaccess_t;
-
 typedef struct _pmhandle_t {
-	/* Internal */
-	pmaccess_t access;
-	uid_t uid;
-	pmdb_t *db_local;
-	alpm_list_t *dbs_sync; /* List of (pmdb_t *) */
-	FILE *logfd;
-	int lckfd;
+	/* internal usage */
+	uid_t uid;              /* current UID */ /* TODO is this used? */
+	pmdb_t *db_local;       /* local db pointer */
+	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
+	FILE *logstream;        /* log file stream pointer */
+	int lckfd;              /* lock file descriptor if one exists */
 	pmtrans_t *trans;
 	
-	/* options */
-  alpm_cb_log logcb;				/* Log callback function */
-	alpm_cb_download dlcb;    /* Download callback function */
-	char *root;								/* Root path, default '/' */
-	char *dbpath;							/* Base path to pacman's DBs */
-	alpm_list_t *cachedirs; /* Paths to pacman cache directories */
-	char *logfile;						/* Name of the file to log to */ /*TODO is this used?*/
-	char *lockfile;						/* Name of the lock file */
-	unsigned short usesyslog;	/* Use syslog instead of logfile? */ /* TODO move to frontend */
-	
-	alpm_list_t *noupgrade;			/* List of packages NOT to be upgraded */
-	alpm_list_t *noextract;			/* List of packages NOT to extract */ /*TODO is this used?*/
-	alpm_list_t *ignorepkg;			/* List of packages to ignore */
-	alpm_list_t *holdpkg;				/* List of packages which 'hold' pacman */
+	/* callback functions */
+	alpm_cb_log logcb;      /* Log callback function */
+	alpm_cb_download dlcb;  /* Download callback function */
 
-	time_t upgradedelay;			/* Amount of time to wait before upgrading a package */
-	/* servers */
-	char *xfercommand;				/* External download command */
+	/* filesystem paths */
+	char *root;              /* Root path, default '/' */
+	char *dbpath;            /* Base path to pacman's DBs */
+	char *logfile;           /* Name of the log file */
+	char *lockfile;          /* Name of the lock file */
+	alpm_list_t *cachedirs;  /* Paths to pacman cache directories */
+
+	/* package lists */
+	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */
+	alpm_list_t *noextract;   /* List of packages NOT to extract */ /*TODO is this used?*/
+	alpm_list_t *ignorepkg;   /* List of packages to ignore */
+	alpm_list_t *holdpkg;     /* List of packages which 'hold' pacman */
+
+	/* options */
+	unsigned short usesyslog;    /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
+	time_t upgradedelay;      /* Time to wait before upgrading a package */
+	char *xfercommand;        /* External download command */
 } pmhandle_t;
 
 extern pmhandle_t *handle;

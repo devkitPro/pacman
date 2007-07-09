@@ -53,31 +53,10 @@ pmhandle_t *_alpm_handle_new()
 
 	memset(handle, 0, sizeof(pmhandle_t));
 	handle->lckfd = -1;
+	handle->logstream = NULL;
 
-#ifndef CYGWIN
 	/* see if we're root or not */
 	handle->uid = geteuid();
-//#ifndef FAKEROOT
-//	if(!handle->uid && getenv("FAKEROOTKEY")) {
-//		/* fakeroot doesn't count, we're non-root */
-//		handle->uid = 99;
-//	}
-//#endif
-//
-//	/* see if we're root or not (fakeroot does not count) */
-//#ifndef FAKEROOT
-//	if(handle->uid == 0 && !getenv("FAKEROOTKEY")) {
-//		/* } make vim indent work - stupid ifdef's */
-//#else
-//		if(handle->uid == 0) {
-//#endif
-//			handle->access = PM_ACCESS_RW;
-//		} else {
-//			handle->access = PM_ACCESS_RO;
-//		}
-//#else
-	handle->access = PM_ACCESS_RW;
-#endif
 	handle->root = NULL;
 	handle->dbpath = NULL;
 	handle->cachedirs = NULL;
@@ -95,10 +74,10 @@ void _alpm_handle_free(pmhandle_t *handle)
 		return;
 	}
 
-	/* close logfiles */
-	if(handle->logfd) {
-		fclose(handle->logfd);
-		handle->logfd = NULL;
+	/* close logfile */
+	if(handle->logstream) {
+		fclose(handle->logstream);
+		handle->logstream= NULL;
 	}
 	if(handle->usesyslog) {
 		handle->usesyslog = 0;
@@ -231,14 +210,14 @@ void SYMEXPORT alpm_option_set_logfile(const char *logfile)
 
 	if(handle->logfile) {
 		FREE(handle->logfile);
-		if(handle->logfd) {
-			fclose(handle->logfd);
-			handle->logfd = NULL;
+		if(handle->logstream) {
+			fclose(handle->logstream);
+			handle->logstream = NULL;
 		}
 	}
 	if(logfile) {
 		handle->logfile = strdup(logfile);
-		handle->logfd = fopen(logfile, "a");
+		handle->logstream = fopen(logfile, "a");
 	}
 }
 

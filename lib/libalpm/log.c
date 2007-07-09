@@ -52,7 +52,7 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	va_start(args, fmt);
-	ret = _alpm_logaction(handle->usesyslog, handle->logfd, fmt, args);
+	ret = _alpm_logaction(handle->usesyslog, handle->logstream, fmt, args);
 	va_end(args);
 
 	/* TODO	We should add a prefix to log strings depending on who called us.
