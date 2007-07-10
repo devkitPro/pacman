@@ -84,7 +84,7 @@ char* _alpm_MDFile(char *filename)
 			strncat(ret, hex, 2);
 		}
 
-		_alpm_log(PM_LOG_DEBUG, _("md5(%s) = %s"), filename, ret);
+		_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s", filename, ret);
 		return(ret);
 	}
 	return(NULL);

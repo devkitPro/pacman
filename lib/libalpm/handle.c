@@ -153,6 +153,7 @@ void SYMEXPORT alpm_option_set_root(const char *root)
 	if(realroot) {
 		free(realroot);
 	}
+	_alpm_log(PM_LOG_DEBUG, "option 'root' = %s", handle->root);
 }
 
 void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
@@ -170,11 +171,13 @@ void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 		handle->dbpath = calloc(dbpathlen+1, sizeof(char));
 		strncpy(handle->dbpath, dbpath, dbpathlen);
 		handle->dbpath[dbpathlen-1] = '/';
+		_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s", handle->dbpath);
 
 		const char *lf = "db.lck";
 		int lockfilelen = strlen(handle->dbpath) + strlen(lf);
 		handle->lockfile = calloc(lockfilelen + 1, sizeof(char));
 		snprintf(handle->lockfile, lockfilelen, "%s%s", handle->dbpath, lf);
+		_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s", handle->lockfile);
 	}
 
 }
@@ -194,7 +197,7 @@ void SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 		strncpy(newcachedir, cachedir, cachedirlen);
 		newcachedir[cachedirlen-1] = '/';
 		handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-		_alpm_log(PM_LOG_DEBUG, _("option 'cachedir' = %s"), newcachedir);
+		_alpm_log(PM_LOG_DEBUG, "option 'cachedir' = %s", newcachedir);
 	}
 }
 

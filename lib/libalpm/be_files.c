@@ -56,7 +56,7 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile)
 
 	/* TODO we should not simply unpack the archive, but better parse it and 
 	 * db_write each entry (see sync_load_dbarchive to get archive content) */
-	_alpm_log(PM_LOG_DEBUG, _("unpacking database '%s'"), dbfile);
+	_alpm_log(PM_LOG_DEBUG, "unpacking database '%s'", dbfile);
 
 	if(_alpm_unpack(dbfile, db->path, NULL)) {
 		RET_ERR(PM_ERR_SYSTEM, -1);
@@ -105,7 +105,7 @@ int _alpm_db_open(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("opening database from path '%s'"), db->path);
+	_alpm_log(PM_LOG_DEBUG, "opening database from path '%s'", db->path);
 	db->handle = opendir(db->path);
 	if(db->handle == NULL) {
 		RET_ERR(PM_ERR_DB_OPEN, -1);
@@ -209,7 +209,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 
 		pkg = _alpm_pkg_new(NULL, NULL);
 		if(pkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, _("db scan could not find package: %s"), target);
+			_alpm_log(PM_LOG_DEBUG, "db scan could not find package: %s", target);
 			return(NULL);
 		}
 		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
@@ -250,12 +250,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	if(info == NULL || info->name[0] == 0 || info->version[0] == 0) {
-		_alpm_log(PM_LOG_DEBUG, _("invalid package entry provided to _alpm_db_read, skipping"));
+		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping");
 		return(-1);
 	}
 
 	if(info->origin == PKG_FROM_FILE) {
-		_alpm_log(PM_LOG_DEBUG, _("request to read database info for a file-based package '%s', skipping..."), info->name);
+		_alpm_log(PM_LOG_DEBUG, "request to read database info for a file-based package '%s', skipping...", info->name);
 		return(-1);
 	}
 
@@ -276,7 +276,8 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
 		/* directory doesn't exist or can't be opened */
-		_alpm_log(PM_LOG_DEBUG, _("cannot find '%s-%s' in db '%s'"), info->name, info->version, db->treename);
+		_alpm_log(PM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'",
+				info->name, info->version, db->treename);
 		return(-1);
 	}
 
@@ -541,7 +542,8 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
-		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s DESC information back to db"), info->name, info->version);
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DESC information back to db",
+				info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
@@ -631,7 +633,8 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* FILES */
 	if(local && (inforeq & INFRQ_FILES)) {
-		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s FILES information back to db"), info->name, info->version);
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db",
+				info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
@@ -658,7 +661,8 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DEPENDS */
 	if(inforeq & INFRQ_DEPENDS) {
-		_alpm_log(PM_LOG_DEBUG, _("writing %s-%s DEPENDS information back to db"), info->name, info->version);
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DEPENDS information back to db",
+			info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));

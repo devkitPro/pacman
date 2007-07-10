@@ -117,7 +117,8 @@ static char *strip_filename(pmserver_t *server)
 	p = strrchr(server->s_url->doc, '/');
 	if(p && *(++p)) {
 		fname = strdup(p);
-		_alpm_log(PM_LOG_DEBUG, _("stripping '%s' from '%s'"), fname, server->s_url->doc);
+		_alpm_log(PM_LOG_DEBUG, "stripping '%s' from '%s'",
+				fname, server->s_url->doc);
 		*p = 0;
 	}
 
@@ -216,7 +217,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				/* just use the raw filename if we can't find crap */
 				strncpy(pkgname, fn, PKG_NAME_LEN);
 			}
-			_alpm_log(PM_LOG_DEBUG, _("using '%s' for download progress"), pkgname);
+			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress", pkgname);
 
 			snprintf(realfile, PATH_MAX, "%s%s", localpath, fn);
 			snprintf(output, PATH_MAX, "%s%s.part", localpath, fn);
@@ -232,7 +233,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				int chk_resume = 0;
 
 				if(stat(output, &st) == 0 && st.st_size > 0) {
-					_alpm_log(PM_LOG_DEBUG, _("existing file found, using it"));
+					_alpm_log(PM_LOG_DEBUG, "existing file found, using it");
 					fileurl->offset = (off_t)st.st_size;
 					dltotal_bytes = st.st_size;
 					localf = fopen(output, "a");
@@ -259,14 +260,14 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					/* try the next server */
 					continue;
 				} else {
-						_alpm_log(PM_LOG_DEBUG, _("connected to %s successfully"), fileurl->host);
+						_alpm_log(PM_LOG_DEBUG, "connected to %s successfully", fileurl->host);
 				}
 				
 				if(ust.mtime && mtime1) {
 					char strtime[15];
 					_alpm_time2string(ust.mtime, strtime);
 					if(strcmp(mtime1, strtime) == 0) {
-						_alpm_log(PM_LOG_DEBUG, _("mtimes are identical, skipping %s"), fn);
+						_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s", fn);
 						complete = alpm_list_add(complete, fn);
 						if(localf != NULL) {
 							fclose(localf);
@@ -383,14 +384,14 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					return(PM_ERR_CONNECT_FAILED);
 				}
 				/* execute the parsed command via /bin/sh -c */
-				_alpm_log(PM_LOG_DEBUG, _("running command: %s"), parsedCmd);
+				_alpm_log(PM_LOG_DEBUG, "running command: %s", parsedCmd);
 				ret = system(parsedCmd);
 				if(ret == -1) {
 					_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!"));
 					return(PM_ERR_FORK_FAILED);
 				} else if(ret != 0) {
 					/* download failed */
-					_alpm_log(PM_LOG_DEBUG, _("XferCommand command returned non-zero status code (%d)"), ret);
+					_alpm_log(PM_LOG_DEBUG, "XferCommand command returned non-zero status code (%d)", ret);
 				} else {
 					/* download was successful */
 					complete = alpm_list_add(complete, fn);
@@ -433,7 +434,7 @@ char *_alpm_fetch_pkgurl(const char *target)
 
 	/* do not download the file if it exists in the current dir */
 	if(stat(filename, &st) == 0) {
-		_alpm_log(PM_LOG_DEBUG, _("%s has already been downloaded"), filename);
+		_alpm_log(PM_LOG_DEBUG, "%s has already been downloaded", filename);
 	} else {
 		alpm_list_t *servers = alpm_list_add(NULL, server);
 		alpm_list_t *files = alpm_list_add(NULL, filename);
@@ -442,7 +443,7 @@ char *_alpm_fetch_pkgurl(const char *target)
 			_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
 			return(NULL);
 		}
-		_alpm_log(PM_LOG_DEBUG, _("successfully downloaded %s"), filename);
+		_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s", filename);
 		alpm_list_free(files);
 		alpm_list_free(servers);
 	}

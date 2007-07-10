@@ -70,7 +70,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(name != NULL && strlen(name) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	_alpm_log(PM_LOG_DEBUG, _("loading target '%s'"), name);
+	_alpm_log(PM_LOG_DEBUG, "loading target '%s'", name);
 
 	/* TODO FS#5120 we need a better way to check if a package is a valid package,
 	 * and read the metadata instead of relying on the filename for package name
@@ -131,7 +131,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("reading '%s' metadata"), pkgname);
+	_alpm_log(PM_LOG_DEBUG, "reading '%s' metadata", pkgname);
 	info = _alpm_pkg_load(name);
 	if(info == NULL) {
 		/* pm_errno is already set by pkg_load() */
@@ -181,7 +181,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		/* look for unsatisfied dependencies */
-		_alpm_log(PM_LOG_DEBUG, _("looking for unsatisfied dependencies"));
+		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies");
 		lp = _alpm_checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
 			if(data) {
@@ -193,7 +193,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 
 		/* no unsatisfied deps, so look for conflicts */
-		_alpm_log(PM_LOG_DEBUG, _("looking for conflicts"));
+		_alpm_log(PM_LOG_DEBUG, "looking for conflicts");
 		lp = _alpm_checkconflicts(db, trans->packages);
 		for(i = lp; i; i = i->next) {
 			pmdepmissing_t *miss = i->data;
@@ -240,7 +240,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 
 		/* re-order w.r.t. dependencies */
-		_alpm_log(PM_LOG_DEBUG, _("sorting by dependencies"));
+		_alpm_log(PM_LOG_DEBUG, "sorting by dependencies");
 		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_ADD);
 		/* free the old alltargs */
 		alpm_list_free(trans->packages);
@@ -253,7 +253,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_DEBUG, _("looking for file conflicts"));
+		_alpm_log(PM_LOG_DEBUG, "looking for file conflicts");
 		lp = _alpm_db_find_conflicts(db, trans, handle->root);
 		if(lp != NULL) {
 			if(data) {
@@ -319,7 +319,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			is_upgrade = 1;
 
 			EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, NULL);
-			_alpm_log(PM_LOG_DEBUG, _("upgrading package %s-%s"), newpkg->name, newpkg->version);
+			_alpm_log(PM_LOG_DEBUG, "upgrading package %s-%s",
+					newpkg->name, newpkg->version);
 
 			/* we'll need to save some record for backup checks later */
 			oldpkg = _alpm_pkg_new(local->name, local->version);
@@ -343,7 +344,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			is_upgrade = 0;
 
 			EVENT(trans, PM_TRANS_EVT_ADD_START, newpkg, NULL);
-			_alpm_log(PM_LOG_DEBUG, _("adding package %s-%s"), newpkg->name, newpkg->version);
+			_alpm_log(PM_LOG_DEBUG, "adding package %s-%s",
+					newpkg->name, newpkg->version);
 			
 			/* pre_install scriptlet */
 			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
@@ -356,7 +358,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			 * NEW transaction, unrelated to handle->trans, and instantiate a "remove"
 			 * with the type PM_TRANS_TYPE_UPGRADE. TODO: kill this weird behavior. */
 			pmtrans_t *tr = _alpm_trans_new();
-			_alpm_log(PM_LOG_DEBUG, _("removing old package first (%s-%s)"), oldpkg->name, oldpkg->version);
+			_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)",
+					oldpkg->name, oldpkg->version);
 
 			if(!tr) {
 				RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -386,7 +389,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 			alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
 			for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 				const char *backup = b->data;
-				_alpm_log(PM_LOG_DEBUG, _("adding %s to the NoUpgrade array temporarily"), backup);
+				_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily",
+						backup);
 				handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
 			}
 
@@ -406,7 +410,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
-			_alpm_log(PM_LOG_DEBUG, _("extracting files"));
+			_alpm_log(PM_LOG_DEBUG, "extracting files");
 
 			if ((archive = archive_read_new()) == NULL) {
 				RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
@@ -448,7 +452,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					 * (missing metadata sizes) */
 					unsigned long pos = archive_position_compressed(archive);
 					percent = (double)pos / (double)newpkg->size;
-					_alpm_log(PM_LOG_DEBUG, "decompression progress: %f%% (%ld / %ld)", percent*100.0, pos, newpkg->size);
+					_alpm_log(PM_LOG_DEBUG, "decompression progress: %f%% (%ld / %ld)",
+							percent*100.0, pos, newpkg->size);
 					if(percent >= 1.0) {
 						percent = 1.0;
 					}
@@ -474,7 +479,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				} else if(*entryname == '.') {
 					/* for now, ignore all files starting with '.' that haven't
 					 * already been handled (for future possibilities) */
-					_alpm_log(PM_LOG_DEBUG, _("skipping extraction of '%s'"), entryname);
+					_alpm_log(PM_LOG_DEBUG, "skipping extraction of '%s'", entryname);
 					archive_read_data_skip(archive);
 					continue;
 				} else {
@@ -484,7 +489,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				/* if a file is in NoExtract then we never extract it */
 				if(alpm_list_find_str(handle->noextract, entryname)) {
-					_alpm_log(PM_LOG_DEBUG, _("%s is in NoExtract, skipping extraction"), entryname);
+					_alpm_log(PM_LOG_DEBUG, "%s is in NoExtract, skipping extraction",
+							entryname);
 					alpm_logaction("note: %s is in NoExtract, skipping extraction", entryname);
 					archive_read_data_skip(archive);
 					continue;
@@ -492,7 +498,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 				/* if a file is in the add skiplist we never extract it */
 				if(alpm_list_find_str(trans->skip_add, filename)) {
-					_alpm_log(PM_LOG_DEBUG, _("%s is in trans->skip_add, skipping extraction"), entryname);
+					_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_add, skipping extraction", entryname);
 					archive_read_data_skip(archive);
 					continue;
 				}
@@ -540,10 +546,10 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					int ret = archive_read_extract(archive, entry, archive_flags);
 					if(ret == ARCHIVE_WARN) {
 						/* operation succeeded but a non-critical error was encountered */
-						_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)"),
+						_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)",
 								entryname, archive_error_string(archive));
 					} else if(ret != ARCHIVE_OK) {
-						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
+						_alpm_log(PM_LOG_ERROR, "could not extract %s (%s)",
 								entryname, archive_error_string(archive));
 						alpm_logaction("error: could not extract %s (%s)",
 								entryname, archive_error_string(archive));
@@ -592,13 +598,13 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					}
 
 					if(use_md5) {
-						_alpm_log(PM_LOG_DEBUG, _("checking md5 hashes for %s"), entryname);
+						_alpm_log(PM_LOG_DEBUG, "checking md5 hashes for %s", entryname);
 					} else {
-						_alpm_log(PM_LOG_DEBUG, _("checking sha1 hashes for %s"), entryname);
+						_alpm_log(PM_LOG_DEBUG, "checking sha1 hashes for %s", entryname);
 					}
-					_alpm_log(PM_LOG_DEBUG, _("current:  %s"), hash_local);
-					_alpm_log(PM_LOG_DEBUG, _("new:      %s"), hash_pkg);
-					_alpm_log(PM_LOG_DEBUG, _("original: %s"), hash_orig);
+					_alpm_log(PM_LOG_DEBUG, "current:  %s", hash_local);
+					_alpm_log(PM_LOG_DEBUG, "new:      %s", hash_pkg);
+					_alpm_log(PM_LOG_DEBUG, "original: %s", hash_orig);
 
 					if(!is_upgrade) {
 						/* looks like we have a local file that has a different hash as the
@@ -633,7 +639,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						if(strcmp(hash_orig, hash_local) == 0) {
 							/* installed file has NOT been changed by user */
 							if(strcmp(hash_orig, hash_pkg) != 0) {
-								_alpm_log(PM_LOG_DEBUG, _("action: installing new file: %s"), entryname);
+								_alpm_log(PM_LOG_DEBUG, "action: installing new file: %s",
+										entryname);
 
 								if(_alpm_copyfile(tempfile, filename)) {
 									_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)"), filename, strerror(errno));
@@ -643,21 +650,21 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 							} else {
 								/* there's no sense in installing the same file twice, install
 								 * ONLY is the original and package hashes differ */
-								_alpm_log(PM_LOG_DEBUG, _("action: leaving existing file in place"));
+								_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place");
 							}
 						} else if(strcmp(hash_orig, hash_pkg) == 0) {
 							/* originally installed file and new file are the same - this
 							 * implies the case above failed - i.e. the file was changed by a
 							 * user */
-							_alpm_log(PM_LOG_DEBUG, _("action: leaving existing file in place"));
+							_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place");
 						} else if(strcmp(hash_local, hash_pkg) == 0) {
 							/* this would be magical.  The above two cases failed, but the
 							 * user changes just so happened to make the new file exactly the
 							 * same as the one in the package... skip it */
-							_alpm_log(PM_LOG_DEBUG, _("action: leaving existing file in place"));
+							_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place");
 						} else {
 							char newpath[PATH_MAX];
-							_alpm_log(PM_LOG_DEBUG, _("action: keeping current file and installing new one with .pacnew ending"));
+							_alpm_log(PM_LOG_DEBUG, "action: keeping current file and installing new one with .pacnew ending");
 							snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
 							if(_alpm_copyfile(tempfile, newpath)) {
 								_alpm_log(PM_LOG_ERROR, _("could not install %s as %s: %s"), filename, newpath, strerror(errno));
@@ -678,12 +685,12 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				} else { /* ! needbackup */
 
 					if(notouch) {
-						_alpm_log(PM_LOG_DEBUG, _("%s is in NoUpgrade -- skipping"), filename);
+						_alpm_log(PM_LOG_DEBUG, "%s is in NoUpgrade -- skipping", filename);
 						_alpm_log(PM_LOG_WARNING, _("extracting %s as %s.pacnew"), filename, filename);
 						alpm_logaction("warning: extracting %s as %s.pacnew", filename, filename);
 						strncat(filename, ".pacnew", PATH_MAX);
 					} else {
-						_alpm_log(PM_LOG_DEBUG, _("extracting %s"), filename);
+						_alpm_log(PM_LOG_DEBUG, "extracting %s", filename);
 					}
 
 					if(trans->flags & PM_TRANS_FLAG_FORCE) {
@@ -708,7 +715,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 					int ret = archive_read_extract(archive, entry, archive_flags | ARCHIVE_EXTRACT_NO_OVERWRITE);
 					if(ret == ARCHIVE_WARN) {
 						/* operation succeeded but a non-critical error was encountered */
-						_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)"),
+						_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)",
 								entryname, archive_error_string(archive));
 					} else if(ret != ARCHIVE_OK) {
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"),
@@ -729,7 +736,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 						if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
 							continue;
 						}
-						_alpm_log(PM_LOG_DEBUG, _("appending backup entry for %s"), filename);
+						_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s", filename);
 
 						if(use_md5) {
 							backup_len += 32; /* MD5s are 32 chars in length */
@@ -788,7 +795,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 															_alpm_str_cmp);
 		for(prov = provdiff; prov; prov = prov->next) {
 			const char *provname = prov->data;
-			_alpm_log(PM_LOG_DEBUG, _("provision '%s' has been removed from package %s (%s => %s)"),
+			_alpm_log(PM_LOG_DEBUG, "provision '%s' has been removed from package %s (%s => %s)",
 								provname, alpm_pkg_get_name(oldpkg),
 								alpm_pkg_get_version(oldpkg), alpm_pkg_get_version(newpkg));
 
@@ -800,11 +807,13 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				 * TODO figure out a way to find a "correct" provision */
 				pmpkg_t *provpkg = p->data;
 				const char *pkgname = alpm_pkg_get_name(provpkg);
-				_alpm_log(PM_LOG_DEBUG, _("updating '%s' due to provision change (%s)"), pkgname, provname);
+				_alpm_log(PM_LOG_DEBUG, "updating '%s' due to provision change (%s)",
+						pkgname, provname);
 				_alpm_pkg_update_requiredby(provpkg);
 
 				if(_alpm_db_write(db, provpkg, INFRQ_DEPENDS)) {
-					_alpm_log(PM_LOG_ERROR, _("could not update provision '%s' from '%s'"), provname, pkgname);
+					_alpm_log(PM_LOG_ERROR, _("could not update provision '%s' from '%s'"),
+							provname, pkgname);
 					alpm_logaction("error: could not update provision '%s' from '%s'",
 							provname, pkgname);
 					RET_ERR(PM_ERR_DB_WRITE, -1);
@@ -819,8 +828,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* remove the extra line feed appended by asctime() */
 		newpkg->installdate[strlen(newpkg->installdate)-1] = 0;
 
-		_alpm_log(PM_LOG_DEBUG, _("updating database"));
-		_alpm_log(PM_LOG_DEBUG, _("adding database entry '%s'"), newpkg->name);
+		_alpm_log(PM_LOG_DEBUG, "updating database");
+		_alpm_log(PM_LOG_DEBUG, "adding database entry '%s'", newpkg->name);
 
 		if(_alpm_db_write(db, newpkg, INFRQ_ALL)) {
 			_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s"),
@@ -861,7 +870,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 	/* run ldconfig if it exists */
 	if(handle->trans->state != STATE_INTERRUPTED) {
-		_alpm_log(PM_LOG_DEBUG, _("running \"ldconfig -r %s\""), handle->root);
+		_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"", handle->root);
 		_alpm_ldconfig(handle->root);
 	}
 

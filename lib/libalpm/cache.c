@@ -55,7 +55,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 
 	_alpm_db_free_pkgcache(db);
 
-	_alpm_log(PM_LOG_DEBUG, _("loading package cache for repository '%s'"),
+	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository '%s'",
 	          db->treename);
 
 	_alpm_db_rewind(db);
@@ -81,7 +81,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 		return;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("freeing package cache for repository '%s'"),
+	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'",
 	                        db->treename);
 
 	alpm_list_t *tmp;
@@ -109,7 +109,7 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 
 	/* hmmm, still NULL ?*/
 	if(!db->pkgcache) {
-		_alpm_log(PM_LOG_DEBUG, _("error: pkgcache is NULL for db '%s'"), db->treename);
+		_alpm_log(PM_LOG_DEBUG, "error: pkgcache is NULL for db '%s'", db->treename);
 	}
 
 	return(db->pkgcache);
@@ -129,7 +129,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 	if(newpkg == NULL) {
 		return(-1);
 	}
-	_alpm_log(PM_LOG_DEBUG, _("adding entry '%s' in '%s' cache"),
+	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache",
 						alpm_pkg_get_name(newpkg), db->treename);
 	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
 
@@ -149,14 +149,14 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("removing entry '%s' from '%s' cache"),
+	_alpm_log(PM_LOG_DEBUG, "removing entry '%s' from '%s' cache",
 						alpm_pkg_get_name(pkg), db->treename);
 
 	db->pkgcache = alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
 	data = vdata;
 	if(data == NULL) {
 		/* package not found */
-		_alpm_log(PM_LOG_DEBUG, _("cannot remove entry '%s' from '%s' cache: not found"),
+		_alpm_log(PM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found",
 							alpm_pkg_get_name(pkg), db->treename);
 		return(-1);
 	}
@@ -178,7 +178,8 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 
 	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db);
 	if(!pkgcache) {
-		_alpm_log(PM_LOG_DEBUG, _("error: failed to get '%s' from NULL pkgcache"), target);
+		_alpm_log(PM_LOG_DEBUG, "error: failed to get '%s' from NULL pkgcache",
+				target);
 		return(NULL);
 	}
 
@@ -201,7 +202,8 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 		_alpm_db_load_pkgcache(db);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("loading group cache for repository '%s'"), db->treename);
+	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'",
+			db->treename);
 
 	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		const alpm_list_t *i;

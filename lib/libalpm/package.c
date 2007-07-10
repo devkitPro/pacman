@@ -132,7 +132,7 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
 		retval = -1;
 	} else {
 		if(strcmp(sha1sum, alpm_pkg_get_sha1sum(pkg)) == 0) {
-			_alpm_log(PM_LOG_DEBUG, _("sha1sums for package %s-%s match"),
+			_alpm_log(PM_LOG_DEBUG, "sha1sums for package %s-%s match",
 								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s"),
@@ -183,7 +183,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 		retval = -1;
 	} else {
 		if(strcmp(md5sum, alpm_pkg_get_md5sum(pkg)) == 0) {
-			_alpm_log(PM_LOG_DEBUG, _("md5sums for package %s-%s match"),
+			_alpm_log(PM_LOG_DEBUG, "md5sums for package %s-%s match",
 								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
 			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s"),
@@ -430,7 +430,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
-			_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
+			_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d",
 								info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
@@ -487,7 +487,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "BACKUP")) {
 				info->backup = alpm_list_add(info->backup, strdup(ptr));
 			} else {
-				_alpm_log(PM_LOG_DEBUG, _("%s: syntax error in description file line %d"),
+				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d",
 									info->name[0] != '\0' ? info->name : "error", linenum);
 			}
 		}
@@ -780,7 +780,7 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			free(dep);
 			if(satisfies) {
 				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-				_alpm_log(PM_LOG_DEBUG, _("adding '%s' in requiredby field for '%s'"),
+				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'",
 				          cachepkgname, pkg->name);
 				reqs = alpm_list_add(reqs, strdup(cachepkgname));
 				pkg->requiredby = reqs;

@@ -453,7 +453,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	char *ptr, *section = NULL;
 	pmdb_t *db = NULL;
 
-	pm_printf(PM_LOG_DEBUG, _("config: attempting to read file %s\n"), file);
+	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
 		pm_printf(PM_LOG_ERROR, _("config file %s could not be read.\n"), file);
@@ -490,7 +490,7 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 			section = strdup(ptr);
 			section[strlen(section)-1] = '\0';
-			pm_printf(PM_LOG_DEBUG, _("config: new section '%s'\n"), section);
+			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", section);
 			if(!strlen(section)) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
 						file, linenum);
@@ -532,19 +532,19 @@ static int _parseconfig(const char *file, const char *givensection,
 				/* directives without settings, all in [options] */
 				if(strcmp(key, "NoPassiveFTP") == 0 || strcmp(upperkey, "NOPASSIVEFTP") == 0) {
 					alpm_option_set_nopassiveftp(1);
-					pm_printf(PM_LOG_DEBUG, _("config: nopassiveftp\n"));
+					pm_printf(PM_LOG_DEBUG, "config: nopassiveftp\n");
 				} else if(strcmp(key, "UseSyslog") == 0 || strcmp(upperkey, "USESYSLOG") == 0) {
 					alpm_option_set_usesyslog(1);
-					pm_printf(PM_LOG_DEBUG, _("config: usesyslog\n"));
+					pm_printf(PM_LOG_DEBUG, "config: usesyslog\n");
 				} else if(strcmp(key, "ILoveCandy") == 0 || strcmp(upperkey, "ILOVECANDY") == 0) {
 					config->chomp = 1;
-					pm_printf(PM_LOG_DEBUG, _("config: chomp\n"));
+					pm_printf(PM_LOG_DEBUG, "config: chomp\n");
 				} else if(strcmp(key, "UseColor") == 0 || strcmp(upperkey, "USECOLOR") == 0) {
 					config->usecolor = 1;
-					pm_printf(PM_LOG_DEBUG, _("config: usecolor\n"));
+					pm_printf(PM_LOG_DEBUG, "config: usecolor\n");
 				} else if(strcmp(key, "ShowSize") == 0 || strcmp(upperkey, "SHOWSIZE") == 0) {
 					config->showsize= 1;
-					pm_printf(PM_LOG_DEBUG, _("config: showsize\n"));
+					pm_printf(PM_LOG_DEBUG, "config: showsize\n");
 				} else {
 					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 							file, linenum, key);
@@ -554,7 +554,7 @@ static int _parseconfig(const char *file, const char *givensection,
 				/* directives with settings */
 				if(strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0) {
 					int ret;
-					pm_printf(PM_LOG_DEBUG, _("config: including %s\n"), ptr);
+					pm_printf(PM_LOG_DEBUG, "config: including %s\n", ptr);
 					ret = _parseconfig(ptr, section, db);
 					if(ret != 0) {
 						return(ret);
@@ -568,12 +568,12 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_noupgrade(p);
-							pm_printf(PM_LOG_DEBUG, _("config: noupgrade: %s\n"), p);
+							pm_printf(PM_LOG_DEBUG, "config: noupgrade: %s\n", p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_noupgrade(p);
-						pm_printf(PM_LOG_DEBUG, _("config: noupgrade: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, "config: noupgrade: %s\n", p);
 					} else if(strcmp(key, "NoExtract") == 0 || strcmp(upperkey, "NOEXTRACT") == 0) {
 						char *p = ptr;
 						char *q;
@@ -581,12 +581,12 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_noextract(p);
-							pm_printf(PM_LOG_DEBUG, _("config: noextract: %s\n"), p);
+							pm_printf(PM_LOG_DEBUG, "config: noextract: %s\n", p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_noextract(p);
-						pm_printf(PM_LOG_DEBUG, _("config: noextract: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, "config: noextract: %s\n", p);
 					} else if(strcmp(key, "IgnorePkg") == 0 || strcmp(upperkey, "IGNOREPKG") == 0) {
 						char *p = ptr;
 						char *q;
@@ -594,12 +594,12 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_ignorepkg(p);
-							pm_printf(PM_LOG_DEBUG, _("config: ignorepkg: %s"), p);
+							pm_printf(PM_LOG_DEBUG, "config: ignorepkg: %s", p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_ignorepkg(p);
-						pm_printf(PM_LOG_DEBUG, _("config: ignorepkg: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, "config: ignorepkg: %s\n", p);
 					} else if(strcmp(key, "HoldPkg") == 0 || strcmp(upperkey, "HOLDPKG") == 0) {
 						char *p = ptr;
 						char *q;
@@ -607,38 +607,38 @@ static int _parseconfig(const char *file, const char *givensection,
 						while((q = strchr(p, ' '))) {
 							*q = '\0';
 							alpm_option_add_holdpkg(p);
-							pm_printf(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
+							pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
 							p = q;
 							p++;
 						}
 						alpm_option_add_holdpkg(p);
-						pm_printf(PM_LOG_DEBUG, _("config: holdpkg: %s\n"), p);
+						pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
 						if(alpm_option_get_dbpath() == NULL) {
 							alpm_option_set_dbpath(ptr);
-							pm_printf(PM_LOG_DEBUG, _("config: dbpath: %s\n"), ptr);
+							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
 						}
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
 						alpm_option_add_cachedir(ptr);
-						pm_printf(PM_LOG_DEBUG, _("config: cachedir: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
 						if(alpm_option_get_root() == NULL) {
 							alpm_option_set_root(ptr);
-							pm_printf(PM_LOG_DEBUG, _("config: rootdir: %s\n"), ptr);
+							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
 						}
 					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
 						if(alpm_option_get_logfile() == NULL) {
 							alpm_option_set_logfile(ptr);
-							pm_printf(PM_LOG_DEBUG, _("config: logfile: %s\n"), ptr);
+							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
 						}
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);
-						pm_printf(PM_LOG_DEBUG, _("config: xfercommand: %s\n"), ptr);
+						pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", ptr);
 					} else if (strcmp(key, "UpgradeDelay") == 0 || strcmp(upperkey, "UPGRADEDELAY") == 0) {
 						/* The config value is in days, we use seconds */
 						time_t ud = atol(ptr) * 60 * 60 *24;
 						alpm_option_set_upgradedelay(ud);
-						pm_printf(PM_LOG_DEBUG, _("config: upgradedelay: %d\n"), (int)ud);
+						pm_printf(PM_LOG_DEBUG, "config: upgradedelay: %d\n", (int)ud);
 					} else {
 						pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 								file, linenum, key);

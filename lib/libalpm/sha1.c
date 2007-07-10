@@ -421,7 +421,7 @@ char* _alpm_SHAFile(char *filename) {
 			snprintf(hex, 3, "%02x", digest[i]);
 			strncat(ret, hex, 2);
 		}
-		_alpm_log(PM_LOG_DEBUG, _("sha1(%s) = %s"), filename, ret);
+		_alpm_log(PM_LOG_DEBUG, "sha1(%s) = %s", filename, ret);
 		return(ret);
 	}
 

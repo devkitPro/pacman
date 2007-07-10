@@ -275,12 +275,12 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		}
 
 		if(strlen(dep->version) > 0) {
-			_alpm_log(PM_LOG_DEBUG, _("depcmp: %s-%s %s %s-%s => %s"),
+			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s-%s => %s",
 								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
 								mod, dep->name, dep->version,
 								(equal ? "match" : "no match"));
 		} else {
-			_alpm_log(PM_LOG_DEBUG, _("depcmp: %s-%s %s %s => %s"),
+			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s => %s",
 								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
 								mod, dep->name, 
 								(equal ? "match" : "no match"));

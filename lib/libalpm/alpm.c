@@ -76,7 +76,8 @@ int SYMEXPORT alpm_release(void)
 	/* and also sync ones */
 	while((dbs_left = alpm_list_count(handle->dbs_sync)) > 0) {
 		pmdb_t *db = (pmdb_t *)handle->dbs_sync->data;
-		_alpm_log(PM_LOG_DEBUG, _("removing DB %s, %d remaining..."), db->treename, dbs_left);
+		_alpm_log(PM_LOG_DEBUG, "removing DB %s, %d remaining...",
+				db->treename, dbs_left);
 		alpm_db_unregister(db);
 		db = NULL;
 	}

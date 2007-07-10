@@ -340,7 +340,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		int ret = archive_read_extract(_archive, entry, archive_flags);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
-			_alpm_log(PM_LOG_DEBUG, _("warning extracting %s (%s)\n"),
+			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
 					entryname, archive_error_string(_archive));
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),

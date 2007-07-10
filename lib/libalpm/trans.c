@@ -440,10 +440,10 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 	depends = alpm_pkg_get_depends(pkg);
 
 	if(depends) {
-		_alpm_log(PM_LOG_DEBUG, _("updating dependency packages 'requiredby' fields for %s-%s"),
+		_alpm_log(PM_LOG_DEBUG, "updating dependency packages 'requiredby' fields for %s-%s",
 		          pkgname, pkg->version);
 	} else {
-		_alpm_log(PM_LOG_DEBUG, _("package has no dependencies, no other packages to update"));
+		_alpm_log(PM_LOG_DEBUG, "package has no dependencies, no other packages to update");
 	}
 
 	localdb = alpm_option_get_localdb();
@@ -480,7 +480,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 				/* this is cheating... we call this function to populate the package */
 				alpm_list_t *rqdby = alpm_pkg_get_requiredby(deppkg);
 
-				_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"),
+				_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'",
 				          alpm_pkg_get_name(deppkg));
 				if(trans->type == PM_TRANS_TYPE_REMOVE) {
 					void *data = NULL;
@@ -502,7 +502,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 			alpm_list_free(provides);
 
 			if(!found_provides) {
-				_alpm_log(PM_LOG_DEBUG, _("could not find dependency '%s'"), dep->name);
+				_alpm_log(PM_LOG_DEBUG, "could not find dependency '%s'", dep->name);
 				continue;
 			}
 		}
@@ -510,7 +510,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 		/* this is cheating... we call this function to populate the package */
 		alpm_list_t *rqdby = alpm_pkg_get_requiredby(deppkg);
 
-		_alpm_log(PM_LOG_DEBUG, _("updating 'requiredby' field for package '%s'"),
+		_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'",
 		          alpm_pkg_get_name(deppkg));
 		if(trans->type == PM_TRANS_TYPE_REMOVE) {
 			void *data = NULL;
@@ -617,7 +617,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		goto cleanup;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, _("executing %s script..."), script);
+	_alpm_log(PM_LOG_DEBUG, "executing %s script...", script);
 
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, "source %s %s %s %s",
@@ -636,7 +636,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 	if(pid == 0) {
-		_alpm_log(PM_LOG_DEBUG, _("chrooting in %s"), root);
+		_alpm_log(PM_LOG_DEBUG, "chrooting in %s", root);
 		if(chroot(root) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)"), strerror(errno));
 			exit(1);
@@ -646,7 +646,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 			exit(1);
 		}
 		umask(0022);
-		_alpm_log(PM_LOG_DEBUG, _("executing \"%s\""), cmdline);
+		_alpm_log(PM_LOG_DEBUG, "executing \"%s\"", cmdline);
 		execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL);
 		exit(0);
 	} else {
