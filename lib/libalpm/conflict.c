@@ -506,7 +506,8 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 																			 path, p1->name, NULL);
 				}
 			} else {
-				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", path);
+				if(S_ISDIR(buf.st_mode))
+					_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", path);
 			}
 		}
 		alpm_list_free_inner(tmpfiles, &free);
