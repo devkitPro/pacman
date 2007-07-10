@@ -148,6 +148,9 @@ if test -z "$LIBDOWNLOAD"; then
     AC_MSG_ERROR("libdownload is needed to compile pacman!");
 fi
 
+# Enable large file support if available
+AC_SYS_LARGEFILE
+
 dnl Set config location
 AC_MSG_CHECKING(for configuration file name)
 if test -n "$configfile"; then
