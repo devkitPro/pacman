@@ -174,8 +174,8 @@ void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 		_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s", handle->dbpath);
 
 		const char *lf = "db.lck";
-		int lockfilelen = strlen(handle->dbpath) + strlen(lf);
-		handle->lockfile = calloc(lockfilelen + 1, sizeof(char));
+		int lockfilelen = strlen(handle->dbpath) + strlen(lf) + 1;
+		handle->lockfile = calloc(lockfilelen, sizeof(char));
 		snprintf(handle->lockfile, lockfilelen, "%s%s", handle->dbpath, lf);
 		_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s", handle->lockfile);
 	}
