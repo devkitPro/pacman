@@ -631,7 +631,7 @@ run_build() {
 	umask 0022
 
 	# ensure all necessary build variables are exported
-	export CFLAGS CXXFLAGS MAKEFLAGS
+	export CFLAGS CXXFLAGS MAKEFLAGS CHOST
 
 	local ret=0
 	if [ "$LOGGING" = "1" ]; then
