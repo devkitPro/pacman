@@ -433,16 +433,23 @@ remove_deps() {
 
 download_sources() {
 	msg "$(gettext "Retrieving Sources...")"
+
+	if [ ! -w "$SRCDEST" ] ; then
+		error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	pushd "$SRCDEST" &>/dev/null
+
 	local netfile
 	for netfile in ${source[@]}; do
 		local file=$(strip_url "$netfile")
-		if [ -f "../$file" ]; then
+		if [ -f "$startdir/$file" ]; then
 			msg2 "$(gettext "Found %s in build dir")" "$file"
-			cp "../$file" .
 			continue
 		elif [ -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Using cached copy of %s")" "$file"
-			cp "$SRCDEST/$file" .
 			continue
 		fi
 
@@ -458,17 +465,9 @@ download_sources() {
 			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
-
-		if [ -n "$SRCDEST" ]; then
-			mkdir -p "$SRCDEST" && cp "$file" "$SRCDEST" || ret=$?
-			if [ $ret -gt 0 ]; then
-				warning "$(gettext "You do not have correct permissions to cache source in %s")" "$SRCDEST"
-				cp "$file" ..
-			fi
-		else
-			cp "$file" ..
-		fi
 	done
+
+	popd &>/dev/null
 }
 
 generate_checksums() {
@@ -504,6 +503,17 @@ generate_checksums() {
 		local netfile
 		for netfile in ${source[@]}; do
 			local file="$(strip_url "$netfile")"
+
+			if [ ! -f "$file" ] ; then
+				if [ ! -f "$SRCDEST/$file" ] ; then
+					error "$(gettext "Unable to find source file %s to generate checksum.")" "$file"
+					plain "$(gettext "Aborting...")"
+					exit 1
+				else
+					file=$SRCDEST/$file
+				fi
+			fi
+
 			local sum="$(${integ}sum "$file" | cut -d ' ' -f 1)"
 			[ $ct -gt 0 ] && echo -n "$indent"
 			echo -n "'$sum'"
@@ -541,14 +551,22 @@ check_checksums() {
 				file="$(strip_url "$file")"
 				echo -n "    $file ... " >&2
 
+				if [ ! -f "$file" ] ; then
+					if [ ! -f "$file" ] ; then
+						echo "$(gettext "NOT FOUND")" >&2
+						errors=1
+						continue
+					else
+						file=$SRCDEST/$file
+					fi
+				fi
+
 				if echo "${integrity_sums[$idx]}  $file" | ${integ}sum --status -c - &>/dev/null; then
 					echo "$(gettext "Passed")" >&2
 				else
 					echo "$(gettext "FAILED")" >&2
 					errors=1
 				fi
-
-				idx=$(($idx+1))
 			done
 
 			if [ $errors -gt 0 ]; then
@@ -570,6 +588,16 @@ extract_sources() {
 			#skip source files in the noextract=() array
 			#  these are marked explicitly to NOT be extracted
 			continue
+		fi
+
+		if [ ! -f "$file" ] ; then
+			if [ ! -f "$SRCDEST/$file" ] ; then
+				error "$(gettext "Unable to find source file %s for extraction.")" "$file"
+				plain "$(gettext "Aborting...")"
+				exit 1
+			else
+				file=$SRCDEST/$file
+			fi
 		fi
 
 		# fix flyspray #6246
