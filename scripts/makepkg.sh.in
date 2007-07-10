@@ -1107,13 +1107,13 @@ if [ "$INFAKEROOT" = "0" ]; then
 		error "$(gettext "The --asroot option is meant for the root user only.")"
 		plain "$(gettext "Please rerun makepkg without the --asroot flag.")"
 		exit 1 # $E_USER_ABORT
-	elif [ "$(check_buildenv fakeroot)" = "y" ]; then
+	elif [ "$(check_buildenv fakeroot)" = "y" -a $EUID -gt 0 ]; then
 		if [ ! $(type -p fakeroot) ]; then
 			error "$(gettext "Fakeroot must be installed if using the 'fakeroot' option")"
 			plain "$(gettext "in the BUILDENV array in %s.")" "$confdir/makepkg.conf"
 			exit 1
 		fi
-	else
+	elif [ $EUID -gt 0 ]; then
 		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
 		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
 		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in makepkg.conf.")"
