@@ -167,7 +167,7 @@ void indentprint(const char *str, int indent)
 			if(p == NULL || *p == ' ') continue;
 			next = strchr(p, ' ');
 			if(next == NULL) {
-				next = p + strlen(p);
+				next = p + mbstowcs(NULL, p, 0);
 			}
 			len = next - p;
 			if(len > (getcols() - cidx - 1)) {
@@ -283,13 +283,13 @@ void list_display(const char *title, const alpm_list_t *list)
 	const alpm_list_t *i;
 	int cols, len;
 
-	len = strlen(title);
+	len = mbstowcs(NULL, title, 0);
 	printf("%s ", title);
 
 	if(list) {
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
-			int s = strlen(str) + 2;
+			int s = mbstowcs(NULL, str, 0) + 2;
 			int maxcols = getcols();
 			if(s + cols >= maxcols) {
 				int i;
