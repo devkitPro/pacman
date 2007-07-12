@@ -40,7 +40,6 @@
 #include "db.h"
 #include "cache.h"
 #include "provide.h"
-#include "versioncmp.h"
 #include "handle.h"
 
 extern pmhandle_t *handle;
@@ -431,6 +430,48 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 	}
 
 	return(baddeps);
+}
+
+int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
+{
+	int equal = 0;
+
+	ALPM_LOG_FUNC;
+
+  if(strcmp(pkg->name, dep->name) == 0
+	    || alpm_list_find_str(alpm_pkg_get_provides(pkg), dep->name)) {
+		if(dep->mod == PM_DEP_MOD_ANY) {
+			equal = 1;
+		} else {
+			int cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), dep->version);
+			switch(dep->mod) {
+				case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
+				case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
+				case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
+				default: equal = 1; break;
+			}
+		}
+
+		char *mod = "~=";
+		switch(dep->mod) {
+			case PM_DEP_MOD_EQ: mod = "=="; break;
+			case PM_DEP_MOD_GE: mod = ">="; break;
+			case PM_DEP_MOD_LE: mod = "<="; break;
+			default: break;
+		}
+
+		if(strlen(dep->version) > 0) {
+			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s-%s => %s",
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+								mod, dep->name, dep->version, (equal ? "match" : "no match"));
+		} else {
+			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s => %s",
+								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+								mod, dep->name, (equal ? "match" : "no match"));
+		}
+	}
+
+	return equal;
 }
 
 pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)

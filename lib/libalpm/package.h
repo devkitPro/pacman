@@ -93,6 +93,7 @@ struct __pmpkg_t {
 	pmdbinfrq_t infolevel;
 };
 
+int _alpm_versioncmp(const char *a, const char *b);
 pmpkg_t* _alpm_pkg_new(const char *name, const char *version);
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
 void _alpm_pkg_free(pmpkg_t *pkg);

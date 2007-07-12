@@ -32,8 +32,7 @@ libalpm_la_SOURCES = \
 	sha1.h sha1.c \
 	sync.h sync.c \
 	trans.h trans.c \
-	util.h util.c \
-	versioncmp.h versioncmp.c
+	util.h util.c
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
 libalpm_la_LIBADD = -larchive -ldownload

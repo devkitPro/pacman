@@ -45,7 +45,6 @@
 #include "provide.h"
 #include "trans.h"
 #include "util.h"
-#include "versioncmp.h"
 #include "handle.h"
 #include "alpm.h"
 #include "md5.h"

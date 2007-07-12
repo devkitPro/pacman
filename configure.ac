@@ -119,7 +119,7 @@ AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([getcwd gettimeofday memmove memset mkdir realpath regcomp \
 								rmdir setenv setlocale sqrt strcasecmp strchr strdup strerror \
-								strndup strrchr strstr strverscmp uname mtrace geteuid])
+								strndup strrchr strsep strstr strverscmp uname mtrace geteuid])
 
 # Enable large file support if available
 AC_SYS_LARGEFILE

@@ -43,7 +43,6 @@
 #include "util.h"
 #include "error.h"
 #include "cache.h"
-#include "versioncmp.h"
 #include "md5.h"
 #include "sha1.h"
 #include "log.h"

@@ -54,9 +54,11 @@ int _alpm_ldconfig(const char *root);
 void _alpm_time2string(time_t t, char *buffer);
 int _alpm_str_cmp(const void *s1, const void *s2);
 
-#ifdef __sun__
-char* strsep(char** str, const char* delims);
-char* mkdtemp(char *template);
+#ifndef HAVE_STRVERSCMP
+static int strverscmp(const char *, const char *);
+#endif
+#ifndef HAVE_STRSEP
+char *strsep(char **, const char *);
 #endif
 
 /* check exported library symbols with: nm -C -D <lib> */

@@ -48,7 +48,6 @@
 #include "cache.h"
 #include "provide.h"
 #include "handle.h"
-#include "versioncmp.h"
 #include "alpm.h"
 
 /** \addtogroup alpm_packages Package Functions
@@ -198,8 +197,103 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	return(retval);
 }
 
+/* this function was taken from rpm 4.0.4 and rewritten */
+int _alpm_versioncmp(const char *a, const char *b)
+{
+	char str1[64], str2[64];
+	char *ptr1, *ptr2;
+	char *one, *two;
+	char *rel1 = NULL, *rel2 = NULL;
+	char oldch1, oldch2;
+	int is1num, is2num;
+	int rc;
 
+	ALPM_LOG_FUNC;
 
+	if(!strcmp(a,b)) {
+		return(0);
+	}
+
+	strncpy(str1, a, 64);
+	str1[63] = 0;
+	strncpy(str2, b, 64);
+	str2[63] = 0;
+
+	/* lose the release number */
+	for(one = str1; *one && *one != '-'; one++);
+	if(one) {
+		*one = '\0';
+		rel1 = ++one;
+	}
+	for(two = str2; *two && *two != '-'; two++);
+	if(two) {
+		*two = '\0';
+		rel2 = ++two;
+	}
+
+	one = str1;
+	two = str2;
+
+	while(*one || *two) {
+		while(*one && !isalnum((int)*one)) one++;
+		while(*two && !isalnum((int)*two)) two++;
+
+		ptr1 = one;
+		ptr2 = two;
+
+		/* find the next segment for each string */
+		if(isdigit((int)*ptr1)) {
+			is1num = 1;
+			while(*ptr1 && isdigit((int)*ptr1)) ptr1++;
+		} else {
+			is1num = 0;
+			while(*ptr1 && isalpha((int)*ptr1)) ptr1++;
+		}
+		if(isdigit((int)*ptr2)) {
+			is2num = 1;
+			while(*ptr2 && isdigit((int)*ptr2)) ptr2++;
+		} else {
+			is2num = 0;
+			while(*ptr2 && isalpha((int)*ptr2)) ptr2++;
+		}
+
+		oldch1 = *ptr1;
+		*ptr1 = '\0';
+		oldch2 = *ptr2;
+		*ptr2 = '\0';
+
+		/* see if we ran out of segments on one string */
+		if(one == ptr1 && two != ptr2) {
+			return(is2num ? -1 : 1);
+		}
+		if(one != ptr1 && two == ptr2) {
+			return(is1num ? 1 : -1);
+		}
+
+		/* see if we have a type mismatch (ie, one is alpha and one is digits) */
+		if(is1num && !is2num) return(1);
+		if(!is1num && is2num) return(-1);
+
+		if(is1num) while(*one == '0') one++;
+		if(is2num) while(*two == '0') two++;
+
+		rc = strverscmp(one, two);
+		if(rc) return(rc);
+
+		*ptr1 = oldch1;
+		*ptr2 = oldch2;
+		one = ptr1;
+		two = ptr2;
+	}
+
+	if((!*one) && (!*two)) {
+		/* compare release numbers */
+		if(rel1 && rel2 && strlen(rel1) && strlen(rel2)) return(_alpm_versioncmp(rel1, rel2));
+		return(0);
+	}
+
+	return(*one ? 1 : -1);
+}
 
 /** Compare versions.
  * @param ver1 first version
