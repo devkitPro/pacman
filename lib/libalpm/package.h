@@ -58,7 +58,6 @@ struct __pmpkg_t {
 	char desc[PKG_DESC_LEN];
 	char url[PKG_URL_LEN];
 	char builddate[PKG_DATE_LEN];
-	char buildtype[PKG_TYPE_LEN];
 	char installdate[PKG_DATE_LEN];
 	char packager[PKG_PACKAGER_LEN];
 	char md5sum[PKG_MD5SUM_LEN];

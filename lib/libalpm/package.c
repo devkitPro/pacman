@@ -465,8 +465,6 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "BUILDDATE")) {
 				strncpy(info->builddate, ptr, sizeof(info->builddate));
-			} else if(!strcmp(key, "BUILDTYPE")) {
-				strncpy(info->buildtype, ptr, sizeof(info->buildtype));
 			} else if(!strcmp(key, "INSTALLDATE")) {
 				strncpy(info->installdate, ptr, sizeof(info->installdate));
 			} else if(!strcmp(key, "PACKAGER")) {
@@ -883,20 +881,6 @@ const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
 		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
 	}
 	return pkg->builddate;
-}
-
-const char SYMEXPORT *alpm_pkg_get_buildtype(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->buildtype;
 }
 
 const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)

@@ -43,7 +43,7 @@
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
-	const char *bdate, *type, *idate, *reason, *descheader;
+	const char *bdate, *idate, *reason, *descheader;
 
 	if(pkg == NULL) {
 		return;
@@ -51,7 +51,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 	/* set variables here, do all output below */
 	bdate = alpm_pkg_get_builddate(pkg);
-	type = alpm_pkg_get_buildtype(pkg);
 	idate = alpm_pkg_get_installdate(pkg);
 
 	switch((long)alpm_pkg_get_reason(pkg)) {
@@ -86,7 +85,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
 	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
-	printf(_("Build Type     : %s\n"), strlen(type) ? type : _("Unknown"));
 	if(level > 0) {
 		printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
 		printf(_("Install Reason : %s\n"), reason);
