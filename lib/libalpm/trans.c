@@ -295,6 +295,11 @@ int _alpm_trans_sysupgrade(pmtrans_t *trans)
 	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync));
 }
 
+/** Add a target to the transaction.
+ * @param trans the current transaction
+ * @param target the name of the target to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 {
 	ALPM_LOG_FUNC;

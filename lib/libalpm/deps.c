@@ -218,7 +218,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
  * @param db pointer to the local package database
  * @param op transaction type
  * @param packages an alpm_list_t* of packages to be checked
- * @return an alpm_list_t* of missing_t pointers.
+ * @return an alpm_list_t* of pmpkg_t* of missing_t pointers.
  */
 alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages)
