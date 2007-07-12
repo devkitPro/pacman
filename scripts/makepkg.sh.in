@@ -447,9 +447,11 @@ download_sources() {
 		local file=$(strip_url "$netfile")
 		if [ -f "$startdir/$file" ]; then
 			msg2 "$(gettext "Found %s in build dir")" "$file"
+			cp -s --remove-destination "$startdir/$file" "$srcdir/"
 			continue
 		elif [ -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Using cached copy of %s")" "$file"
+			cp -s --remove-destination "$SRCDEST/$file" "$srcdir/"
 			continue
 		fi
 

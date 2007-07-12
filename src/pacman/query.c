@@ -251,7 +251,7 @@ static int query_test(void)
 	int ret = 0;
 	alpm_list_t *testlist;
 
-	printf(_("Checking database for consistency..."));
+	printf(_("Checking database for consistency... "));
 	testlist = alpm_db_test(db_local);
 	if(testlist == NULL) {
 		printf(_("check complete.\n"));
@@ -271,7 +271,7 @@ static int query_test(void)
 
 static int query_upgrades(void)
 {
-	printf(_("Checking for package upgrades..."));
+	printf(_("Checking for package upgrades... \n"));
 	alpm_list_t *syncpkgs;
 
 	if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
@@ -279,7 +279,7 @@ static int query_upgrades(void)
 		return(0);
 	}
 
-	printf(_("no upgrades found"));
+	printf(_("no upgrades found.\n"));
 	return(1);
 }
 
