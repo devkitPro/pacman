@@ -26,9 +26,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#ifdef __sun__
-#include <strings.h>
-#endif
 
 /* libalpm */
 #include "deps.h"

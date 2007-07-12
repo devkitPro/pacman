@@ -27,9 +27,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#ifdef __sun__
-#include <strings.h>
-#endif
 #include <sys/stat.h>
 #include <dirent.h>
 #ifdef CYGWIN

@@ -33,9 +33,6 @@
 #include <sys/statvfs.h>
 #include <unistd.h>
 #include <errno.h>
-#ifndef __sun__
-#include <mntent.h>
-#endif
 
 /* libalpm */
 #include "trans.h"
