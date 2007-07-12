@@ -96,9 +96,13 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	if(!(trans->flags & (PM_TRANS_FLAG_NODEPS)) && (trans->type != PM_TRANS_TYPE_UPGRADE)) {
-		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+	if(trans->type == PM_TRANS_TYPE_UPGRADE) {
+		return(0);
+	}
 
+	EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+
+	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies");
 		lp = _alpm_checkdeps(db, trans->type, trans->packages);
 		if(lp != NULL) {
@@ -129,21 +133,21 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
 		}
-
-		if(trans->flags & PM_TRANS_FLAG_RECURSE) {
-			_alpm_log(PM_LOG_DEBUG, "finding removable dependencies");
-			trans->packages = _alpm_removedeps(db, trans->packages);
-		}
-
-		/* re-order w.r.t. dependencies */ 
-		_alpm_log(PM_LOG_DEBUG, "sorting by dependencies");
-		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
-		/* free the old alltargs */
-		alpm_list_free(trans->packages);
-		trans->packages = lp;
-
-		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
+
+	if(trans->flags & PM_TRANS_FLAG_RECURSE) {
+		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies");
+		trans->packages = _alpm_removedeps(db, trans->packages);
+	}
+
+	/* re-order w.r.t. dependencies */ 
+	_alpm_log(PM_LOG_DEBUG, "sorting by dependencies");
+	lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
+	/* free the old alltargs */
+	alpm_list_free(trans->packages);
+	trans->packages = lp;
+
+	EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 
 	return(0);
 }
