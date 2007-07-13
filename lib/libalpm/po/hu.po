@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-07-11 00:26-0400\n"
+"POT-Creation-Date: 2007-07-13 14:54+0200\n"
 "PO-Revision-Date: 2007-03-14 13:45+0100\n"
 "Last-Translator: Nagy Gabor <ngaba@petra.hos.u-szeged.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -76,14 +76,14 @@ msgid "could not extract %s (%s)"
 msgstr "nem sikerült kitömöríteni: %s (%s)"
 
 #: lib/libalpm/add.c:772
-#, fuzzy, c-format
+#, c-format
 msgid "problem occurred while upgrading %s"
-msgstr "hiba %s közben: %s"
+msgstr "hiba történt a(z) %s frissítése közben"
 
 #: lib/libalpm/add.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "problem occurred while installing %s"
-msgstr "hiba %s közben: %s"
+msgstr "hiba történt a(z) %s telepítése közben"
 
 #: lib/libalpm/add.c:815
 #, c-format
@@ -101,19 +101,19 @@ msgid "could not add entry '%s' in cache"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz"
 
 #: lib/libalpm/be_files.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "%s: description file is missing"
-msgstr "%s: szintaktikai hiba a leírófájl %d. sorában"
+msgstr "%s: hiányzó csomagleíró fájl"
 
 #: lib/libalpm/be_files.c:88
 #, c-format
 msgid "%s: dependency file is missing"
-msgstr ""
+msgstr "%s: hiányzó csomagfüggõség fájl"
 
 #: lib/libalpm/be_files.c:93
 #, c-format
 msgid "%s: file list is missing"
-msgstr ""
+msgstr "%s: hiányzó fájllista"
 
 #: lib/libalpm/be_files.c:216
 #, c-format
@@ -123,7 +123,7 @@ msgstr "érvénytelen név a '%s' adatbázis-bejegyzés számára"
 #: lib/libalpm/be_files.c:271
 #, c-format
 msgid "loading package data for %s : level=%d"
-msgstr ""
+msgstr "a(z) %s csomag adatainak betöltése : szint=%d"
 
 #: lib/libalpm/be_files.c:288 lib/libalpm/be_files.c:434
 #: lib/libalpm/be_files.c:457 lib/libalpm/be_files.c:549
@@ -138,7 +138,7 @@ msgstr "nem sikerült megnyitni a %s fájlt: %s"
 msgid "adding '%s' to package cache for db '%s'"
 msgstr "a(z) '%s' csomag hozzáadása a(z) '%s' adatbázis csomaggyorsítótárához"
 
-#: lib/libalpm/conflict.c:349 lib/libalpm/deps.c:80 lib/libalpm/deps.c:449
+#: lib/libalpm/conflict.c:339 lib/libalpm/deps.c:80 lib/libalpm/deps.c:449
 #: lib/libalpm/deps.c:650 lib/libalpm/deps.c:690 lib/libalpm/group.c:44
 #: lib/libalpm/handle.c:50 lib/libalpm/package.c:297 lib/libalpm/sync.c:62
 #: lib/libalpm/sync.c:612 lib/libalpm/sync.c:628 lib/libalpm/trans.c:223
@@ -166,14 +166,12 @@ msgid "attempt to re-register the 'local' DB"
 msgstr "kísérlet a 'local' adatbázis újraregisztrálására"
 
 #: lib/libalpm/db.c:680
-#, fuzzy
 msgid "database path is undefined"
-msgstr "az adatbázis nem inicializált"
+msgstr "az adatbázis-útvonal nincs megadva"
 
 #: lib/libalpm/deps.c:187
-#, fuzzy
 msgid "dependency cycle detected\n"
-msgstr "körkörös függõség észlelve: %s"
+msgstr "körkörös függõség észlelve\n"
 
 #: lib/libalpm/deps.c:646
 #, c-format
@@ -375,12 +373,12 @@ msgstr "nemvárt hiba"
 #: lib/libalpm/handle.c:140
 #, c-format
 msgid "cannot canonicalize specified root path '%s'"
-msgstr ""
+msgstr "nem sikerült értelmezni a megadott gyökérkönyvtár-útvonalat: '%s'"
 
 #: lib/libalpm/md5driver.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "md5: %s can't be opened\n"
-msgstr "nem sikerült megnyitni a következõt: %s\n"
+msgstr "md5: nem sikerült megnyitni a következõt: %s\n"
 
 #: lib/libalpm/package.c:129
 #, c-format
@@ -448,12 +446,12 @@ msgstr "hiba a csomag olvasása közben: %s"
 
 #: lib/libalpm/package.c:636
 msgid "missing package metadata"
-msgstr ""
+msgstr "hiányzó csomaginformációs fájl"
 
 #: lib/libalpm/package.c:643
 #, c-format
 msgid "missing package filelist in %s, generating one"
-msgstr ""
+msgstr "hiányzik a(z) %s csomag fájllistája, generálás"
 
 #: lib/libalpm/remove.c:117
 #, c-format
@@ -505,9 +503,8 @@ msgid "no %s cache exists, creating...\n"
 msgstr "nem létezik a(z) %s gyorsítótár. létrehozás...\n"
 
 #: lib/libalpm/sync.c:804
-#, fuzzy
 msgid "couldn't create package cache, using /tmp instead"
-msgstr "nem sikerült létrehozni a csomag gyorsítótárat, a /tmp használata\n"
+msgstr "nem sikerült létrehozni a csomag gyorsítótárat, a /tmp használata"
 
 #: lib/libalpm/sync.c:808
 #, c-format
@@ -623,7 +620,6 @@ msgid "could not open %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
 #: lib/libalpm/util.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "nem sikerült kitömöríteni: %s (%s)"
-
+msgstr "nem sikerült kitömöríteni: %s (%s)\n"
