@@ -520,10 +520,12 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 	return(depend);
 }
 
-/* These parameters are messy.  We check if this package, given a list of
- * targets (and a db), is safe to remove.  We do NOT remove it if it is in the
- * target list */
-static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
+/* These parameters are messy. We check if this package, given a list of
+ * targets and a db is safe to remove. We do NOT remove it if it is in the
+ * target list, or if if the package was explictly installed and
+ * include_explicit == 0 */
+static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
+		int include_explicit)
 {
 	alpm_list_t *i;
 
@@ -531,12 +533,20 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
 		return(0);
 	}
 
-	/* see if it was explicitly installed */
-	if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
-		_alpm_log(PM_LOG_DEBUG, "excluding %s -- explicitly installed",
-				alpm_pkg_get_name(pkg));
-		return(0);
+	if(!include_explicit) {
+		/* see if it was explicitly installed */
+		if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
+			_alpm_log(PM_LOG_DEBUG, "excluding %s -- explicitly installed",
+					alpm_pkg_get_name(pkg));
+			return(0);
+		}
 	}
+
+	/* TODO: checkdeps could be used here, it handles multiple providers
+	 * better, but that also makes it slower.
+	 * Also this would require to first add the package to the targets list,
+	 * then call checkdeps with it, then remove the package from the targets list
+	 * if checkdeps detected it would break something */
 
 	/* see if other packages need it */
 	for(i = alpm_pkg_get_requiredby(pkg); i; i = i->next) {
@@ -550,69 +560,55 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets)
 	return(1);
 }
 
-/* return a new alpm_list_t target list containing all packages in the original
- * target list, as well as all their un-needed dependencies.  By un-needed,
- * I mean dependencies that are *only* required for packages in the target
- * list, so they can be safely removed.  This function is recursive.
+/**
+ * @brief Adds unneeded dependencies to an existing list of packages.
+ * By unneeded, we mean dependencies that are only required by packages in the
+ * target list, so they can be safely removed.
+ *
+ * @param db package database to do dependency tracing in
+ * @param *targs pointer to a list of packages
+ * @param include_explicit if 0, explicitly installed packages are not included
  */
-alpm_list_t *_alpm_removedeps(pmdb_t *db, alpm_list_t *targs)
+void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit)
 {
 	alpm_list_t *i, *j, *k;
-	alpm_list_t *newtargs = targs;
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL) {
-		return(newtargs);
+	if(db == NULL || targs == NULL) {
+		return;
 	}
 
-	for(i = targs; i; i = i->next) {
-		pmpkg_t *pkg = i->data;
-		for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
-			pmdepend_t *depend = alpm_splitdep(j->data);
-			pmpkg_t *deppkg;
-			if(depend == NULL) {
-				continue;
-			}
-
-			deppkg = _alpm_db_get_pkgfromcache(db, depend->name);
-			if(deppkg == NULL) {
-				/* package not found... look for a provision instead */
-				alpm_list_t *provides = _alpm_db_whatprovides(db, depend->name);
-				if(!provides) {
-					/* Not found, that's fine, carry on */
-					_alpm_log(PM_LOG_DEBUG, "cannot find package \"%s\" or anything that provides it!", depend->name);
+	/* TODO: the while loop should be removed if we can assume
+	 * that alpm_list_add (or another function) adds to the end of the list,
+	 * and that the target list is topo sorted (by _alpm_sortbydeps()).
+	 */
+	int ready = 0;
+	while(!ready) {
+		ready = 1;
+		for(i = *targs; i; i = i->next) {
+			pmpkg_t *pkg = i->data;
+			for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
+				pmdepend_t *depend = alpm_splitdep(j->data);
+				if(depend == NULL) {
 					continue;
 				}
-				for(k = provides; k; k = k->next) {
-					pmpkg_t *provpkg = k->data;
-					if(can_remove_package(db, provpkg, newtargs)) {
-						pmpkg_t *pkg = _alpm_pkg_dup(provpkg);
-
+				for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
+					pmpkg_t *deppkg = k->data;
+					if(alpm_depcmp(deppkg,depend)
+							&& can_remove_package(db, deppkg, *targs, include_explicit)) {
 						_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets",
-								alpm_pkg_get_name(pkg));
+								alpm_pkg_get_name(deppkg));
 
 						/* add it to the target list */
-						newtargs = alpm_list_add(newtargs, pkg);
-						newtargs = _alpm_removedeps(db, newtargs);
+						*targs = alpm_list_add(*targs, _alpm_pkg_dup(deppkg));
+						ready = 0;
 					}
 				}
-				alpm_list_free(provides);
-			} else if(can_remove_package(db, deppkg, newtargs)) {
-				pmpkg_t *pkg = _alpm_pkg_dup(deppkg);
-
-				_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets",
-						alpm_pkg_get_name(pkg));
-
-				/* add it to the target list */
-				newtargs = alpm_list_add(newtargs, pkg);
-				newtargs = _alpm_removedeps(db, newtargs);
+				free(depend);
 			}
-			free(depend);
 		}
 	}
-
-	return(newtargs);
 }
 
 /* populates *list with packages that need to be installed to satisfy all
