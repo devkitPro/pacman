@@ -60,8 +60,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit);
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
-                      alpm_list_t *list, alpm_list_t *trail, pmtrans_t *trans,
-											alpm_list_t **data);
+                      alpm_list_t **list, pmtrans_t *trans, alpm_list_t **data);
 
 #endif /* _ALPM_DEPS_H */
 

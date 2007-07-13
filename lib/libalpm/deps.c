@@ -614,19 +614,18 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit)
 /* populates *list with packages that need to be installed to satisfy all
  * dependencies (recursive) for syncpkg
  *
- * make sure *list and *trail are already initialized
+ * make sure **list is already initialized
  */
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
-                      alpm_list_t *list, alpm_list_t *trail, pmtrans_t *trans,
-                      alpm_list_t **data)
+                      alpm_list_t **list, pmtrans_t *trans, alpm_list_t **data)
 {
-	alpm_list_t *i, *j;
+	alpm_list_t *i, *j, *k;
 	alpm_list_t *targ;
 	alpm_list_t *deps = NULL;
 
 	ALPM_LOG_FUNC;
 
-	if(local == NULL || dbs_sync == NULL || syncpkg == NULL) {
+	if(local == NULL || dbs_sync == NULL || syncpkg == NULL || list == NULL) {
 		return(-1);
 	}
 
@@ -642,14 +641,15 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 	for(i = deps; i; i = i->next) {
 		int found = 0;
 		pmdepmissing_t *miss = i->data;
+		pmdepend_t *missdep = &(miss->depend);
 		pmpkg_t *sync = NULL;
 
-		/* check if one of the packages in *list already provides this dependency */
-		for(j = list; j && !found; j = j->next) {
+		/* check if one of the packages in *list already satisfies this dependency */
+		for(j = *list; j && !found; j = j->next) {
 			pmpkg_t *sp = j->data;
-			if(alpm_list_find_str(alpm_pkg_get_provides(sp), miss->depend.name)) {
-				_alpm_log(PM_LOG_DEBUG, "%s provides dependency %s -- skipping",
-				          alpm_pkg_get_name(sp), miss->depend.name);
+			if(alpm_depcmp(sp, missdep)) {
+				_alpm_log(PM_LOG_DEBUG, "%s satisfies dependency %s -- skipping",
+				          alpm_pkg_get_name(sp), missdep->name);
 				found = 1;
 			}
 		}
@@ -659,26 +659,24 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 
 		/* find the package in one of the repositories */
 		/* check literals */
-		for(j = dbs_sync; !sync && j; j = j->next) {
-			sync = _alpm_db_get_pkgfromcache(j->data, miss->depend.name);
+		for(j = dbs_sync; j && !found; j = j->next) {
+			if((sync = _alpm_db_get_pkgfromcache(j->data, missdep->name))) {
+				found = alpm_depcmp(sync, missdep);
+			}
 		}
-		/*TODO this autoresolves the first 'provides' package... we should fix this
+		/*TODO this autoresolves the first 'satisfier' package... we should fix this
 		 * somehow */
 		/* check provides */
-		if(!sync) {
-			for(j = dbs_sync; !sync && j; j = j->next) {
-				alpm_list_t *provides;
-				provides = _alpm_db_whatprovides(j->data, miss->depend.name);
-				if(provides) {
-					sync = provides->data;
-				}
-				alpm_list_free(provides);
+		for(j = dbs_sync; j && !found; j = j->next) {
+			for(k = _alpm_db_get_pkgcache(j->data); k && !found; k = k->next) {
+				sync = k->data;
+				found = alpm_depcmp(sync, missdep);
 			}
 		}
 
-		if(!sync) {
+		if(!found) {
 			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"),
-			          miss->target, miss->depend.name);
+			          miss->target, missdep->name);
 			if(data) {
 				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
@@ -692,49 +690,36 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
 		}
-		if(_alpm_pkg_find(alpm_pkg_get_name(sync), list)) {
-			/* this dep is already in the target list */
-			_alpm_log(PM_LOG_DEBUG, "dependency %s is already in the target list -- skipping",
-								alpm_pkg_get_name(sync));
-			continue;
+		/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
+		 * something we're not supposed to.
+		 */
+		int usedep = 1;
+		if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(sync))) {
+			pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
+			QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
+			_alpm_pkg_free(dummypkg);
 		}
-
-		if(!_alpm_pkg_find(alpm_pkg_get_name(sync), trail)) {
-			/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
-			 * something we're not supposed to.
-			 */
-			int usedep = 1;
-			if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(sync))) {
-				pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
-				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
-				_alpm_pkg_free(dummypkg);
-			}
-			if(usedep) {
-				trail = alpm_list_add(trail, sync);
-				if(_alpm_resolvedeps(local, dbs_sync, sync, list, trail, trans, data)) {
-					goto error;
-				}
-				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)",
-									alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
-				list = alpm_list_add(list, sync);
-			} else {
-				_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);
-				if(data) {
-					if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
-						FREELIST(*data);
-						pm_errno = PM_ERR_MEMORY;
-						goto error;
-					}
-					*miss = *(pmdepmissing_t *)i->data;
-					*data = alpm_list_add(*data, miss);
-				}
-				pm_errno = PM_ERR_UNSATISFIED_DEPS;
+		if(usedep) {
+			_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)",
+					alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
+			*list = alpm_list_add(*list, sync);
+			if(_alpm_resolvedeps(local, dbs_sync, sync, list, trans, data)) {
 				goto error;
 			}
 		} else {
-			/* cycle detected -- skip it */
-			_alpm_log(PM_LOG_DEBUG, "dependency cycle detected: %s", sync->name);
+			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);
+			if(data) {
+				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
+					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
+					FREELIST(*data);
+					pm_errno = PM_ERR_MEMORY;
+					goto error;
+				}
+				*miss = *(pmdepmissing_t *)i->data;
+				*data = alpm_list_add(*data, miss);
+			}
+			pm_errno = PM_ERR_UNSATISFIED_DEPS;
+			goto error;
 		}
 	}
 	

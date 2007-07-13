@@ -380,7 +380,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 {
 	alpm_list_t *deps = NULL;
 	alpm_list_t *list = NULL; /* allow checkdeps usage with trans->packages */
-	alpm_list_t *trail = NULL; /* breadcrumb list to avoid running in circles */
 	alpm_list_t *i, *j;
 	int ret = 0;
 
@@ -404,8 +403,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		_alpm_log(PM_LOG_DEBUG, "resolving target's dependencies");
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
-			if(_alpm_resolvedeps(db_local, dbs_sync, spkg, list,
-						trail, trans, data) == -1) {
+			if(_alpm_resolvedeps(db_local, dbs_sync, spkg, &list,
+						trans, data) == -1) {
 				/* pm_errno is set by resolvedeps */
 				ret = -1;
 				goto cleanup;
@@ -474,7 +473,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			goto cleanup;
 		}
 
-		alpm_list_free(trail);
 	}
 
 	/* We don't care about conflicts if we're just printing uris */
@@ -710,7 +708,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 
 cleanup:
 	alpm_list_free(list);
-	alpm_list_free(trail);
 
 	return(ret);
 }
