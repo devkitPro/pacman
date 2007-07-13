@@ -135,17 +135,17 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 	}
 
+	if(trans->flags & PM_TRANS_FLAG_RECURSE) {
+		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies");
+		_alpm_recursedeps(db, &trans->packages, 0);
+	}
+
 	/* re-order w.r.t. dependencies */ 
 	_alpm_log(PM_LOG_DEBUG, "sorting by dependencies");
 	lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 	/* free the old alltargs */
 	alpm_list_free(trans->packages);
 	trans->packages = lp;
-
-	if(trans->flags & PM_TRANS_FLAG_RECURSE) {
-		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies");
-		_alpm_recursedeps(db, &trans->packages, 0);
-	}
 
 	EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 
