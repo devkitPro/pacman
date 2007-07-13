@@ -431,8 +431,13 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 
 			snprintf(path, PATH_MAX, "%s%s", root, filestr);
 
-			/* stat the file - if it exists and is not a dir, do some checks */
-			if(lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode)) {
+			/* stat the file - if it exists, do some checks */
+			if(lstat(path, &buf) != 0) {
+				continue;
+			}
+			if(S_ISDIR(buf.st_mode)) {
+				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", path);
+			} else {
 				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", path);
 
 				/* Make sure the possible conflict is not a symlink that points to a
@@ -496,9 +501,6 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
 																			 path, p1->name, NULL);
 				}
-			} else {
-				if(S_ISDIR(buf.st_mode))
-					_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", path);
 			}
 		}
 		alpm_list_free_inner(tmpfiles, &free);
