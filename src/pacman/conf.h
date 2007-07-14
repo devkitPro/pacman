@@ -41,6 +41,8 @@ typedef struct __config_t {
 	unsigned short op_q_list;
 	unsigned short op_q_foreign;
 	unsigned short op_q_orphans;
+	unsigned short op_q_deps;
+	unsigned short op_q_explicit;
 	unsigned short op_q_owns;
 	unsigned short op_q_search;
 	unsigned short op_q_changelog;

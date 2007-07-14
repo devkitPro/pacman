@@ -279,6 +279,16 @@ static int is_orphan(pmpkg_t *pkg)
 
 static int filter(pmpkg_t *pkg)
 {
+	/* check if this package was explicitly installed */
+	if(config->op_q_explicit &&
+			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_EXPLICIT) {
+		return(0);
+	}
+	/* check if this package was installed as a dependency */
+	if(config->op_q_deps &&
+			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_DEPEND) {
+		return(0);
+	}
 	/* check if this pkg isn't in a sync DB */
 	if(config->op_q_foreign && !is_foreign(pkg)) {
 		return(0);

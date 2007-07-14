@@ -112,8 +112,9 @@ static void usage(int op, char *myname)
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --changelog      view the changelog of a package\n"));
-			printf(_("  -e, --orphans        list all packages installed as dependencies but no longer\n"
-			         "                       required by any package\n"));
+			printf(_("  -t, --orphans        list all packages not required by any package\n"));
+			printf(_("  -e, --explicit       list all packages explicitly installed\n"));
+			printf(_("  -d, --deps           list all packages installed as dependencies\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
@@ -121,7 +122,7 @@ static void usage(int op, char *myname)
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
-			printf(_("  -t, --test           check the consistency of the local database\n"));
+			printf(_("      --test           check the consistency of the local database\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
@@ -253,8 +254,9 @@ static int parseargs(int argc, char *argv[])
 		{"changelog",  no_argument,       0, 'c'},
 		{"clean",      no_argument,       0, 'c'},
 		{"nodeps",     no_argument,       0, 'd'},
+		{"deps",       no_argument,       0, 'd'},
 		{"dependsonly",no_argument,       0, 'e'},
-		{"orphans",    no_argument,       0, 'e'},
+		{"explicit",   no_argument,       0, 'e'},
 		{"force",      no_argument,       0, 'f'},
 		{"groups",     no_argument,       0, 'g'},
 		{"help",       no_argument,       0, 'h'},
@@ -269,7 +271,7 @@ static int parseargs(int argc, char *argv[])
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
-		{"test",       no_argument,       0, 't'},
+		{"orphans",    no_argument,       0, 't'},
 		{"upgrades",   no_argument,       0, 'u'},
 		{"sysupgrade", no_argument,       0, 'u'},
 		{"verbose",    no_argument,       0, 'v'},
@@ -284,6 +286,7 @@ static int parseargs(int argc, char *argv[])
 		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
 		{"asdeps",     no_argument,       0, 1008},
+		{"test",       no_argument,       0, 1009},
 		{0, 0, 0, 0}
 	};
 	struct stat st;
@@ -340,6 +343,9 @@ static int parseargs(int argc, char *argv[])
 			case 1008:
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
+			case 1009:
+				config->op_q_test = 1;
+				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
@@ -364,9 +370,12 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_CASCADE;
 				config->op_q_changelog = 1;
 				break;
-			case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
+			case 'd':
+				config->op_q_deps = 1;
+				config->flags |= PM_TRANS_FLAG_NODEPS;
+				break;
 			case 'e':
-				config->op_q_orphans++;
+				config->op_q_explicit = 1;
 				config->flags |= PM_TRANS_FLAG_DEPENDSONLY;
 				break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
@@ -396,7 +405,7 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_RECURSE;
 				break;
 			case 't':
-				config->op_q_test = 1;
+				config->op_q_orphans = 1;
 				break;
 			case 'u':
 				config->op_s_upgrade = 1;
