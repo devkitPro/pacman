@@ -355,7 +355,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		if(oldpkg) {
 			/* this is kinda odd.  If the old package exists, at this point we make a
 			 * NEW transaction, unrelated to handle->trans, and instantiate a "remove"
-			 * with the type PM_TRANS_TYPE_UPGRADE. TODO: kill this weird behavior. */
+			 * with the type PM_TRANS_TYPE_REMOVEUPGRADE. TODO: kill this weird
+			 * behavior. */
 			pmtrans_t *tr = _alpm_trans_new();
 			_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)",
 					oldpkg->name, oldpkg->version);
@@ -364,7 +365,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				RET_ERR(PM_ERR_TRANS_ABORT, -1);
 			}
 
-			if(_alpm_trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags, NULL, NULL, NULL) == -1) {
+			if(_alpm_trans_init(tr, PM_TRANS_TYPE_REMOVEUPGRADE, trans->flags,
+						NULL, NULL, NULL) == -1) {
 				_alpm_trans_free(tr);
 				tr = NULL;
 				RET_ERR(PM_ERR_TRANS_ABORT, -1);
@@ -846,23 +848,35 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		/* update dependency packages' REQUIREDBY fields */
 		_alpm_trans_update_depends(trans, newpkg);
 
-		PROGRESS(trans, (is_upgrade ? PM_TRANS_PROGRESS_UPGRADE_START : PM_TRANS_PROGRESS_ADD_START),
-						 alpm_pkg_get_name(newpkg), 100, pkg_count, (pkg_count - targ_count +1));
+		if(is_upgrade) {
+			PROGRESS(trans, PM_TRANS_PROGRESS_UPGRADE_START,
+					alpm_pkg_get_name(newpkg),100, pkg_count,
+					(pkg_count - targ_count + 1));
+		} else {
+			PROGRESS(trans, PM_TRANS_PROGRESS_ADD_START,
+					alpm_pkg_get_name(newpkg),100, pkg_count,
+					(pkg_count - targ_count + 1));
+		}
 		EVENT(trans, PM_TRANS_EVT_EXTRACT_DONE, NULL, NULL);
 
 		/* run the post-install script if it exists  */
-		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+		if(alpm_pkg_has_scriptlet(newpkg)
+				&& !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 			if(is_upgrade) {
 				_alpm_runscriptlet(handle->root, scriptlet, "post_upgrade",
-													alpm_pkg_get_version(newpkg), oldpkg ? alpm_pkg_get_version(oldpkg) : NULL,
-													trans);
+						alpm_pkg_get_version(newpkg),
+						oldpkg ? alpm_pkg_get_version(oldpkg) : NULL, trans);
 			} else {
 				_alpm_runscriptlet(handle->root, scriptlet, "post_install",
-													 alpm_pkg_get_version(newpkg), NULL, trans);
+						alpm_pkg_get_version(newpkg), NULL, trans);
 			}
 		}
 
-		EVENT(trans, (is_upgrade) ? PM_TRANS_EVT_UPGRADE_DONE : PM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
+		if(is_upgrade) {
+			EVENT(trans, PM_TRANS_EVT_UPGRADE_DONE, newpkg, oldpkg);
+		} else {
+			EVENT(trans, PM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
+		}
 
 		_alpm_pkg_free(oldpkg);
 	}

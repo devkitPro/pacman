@@ -96,7 +96,8 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	if(trans->type == PM_TRANS_TYPE_UPGRADE) {
+	/* skip all checks if we are doing this removal as part of an upgrade */
+	if(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
 		return(0);
 	}
 
@@ -205,7 +206,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 	
 	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
 
-	if(trans->type == PM_TRANS_TYPE_UPGRADE) {
+	if(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
 		/* check noupgrade */
 		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
 			_alpm_log(PM_LOG_DEBUG, "Skipping removal of '%s' due to NoUpgrade", file);
@@ -234,7 +235,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 			return;
 		} else if(needbackup) {
 			/* if the file is flagged, back it up to .pacsave */
-			if(!(trans->type == PM_TRANS_TYPE_UPGRADE)) {
+			if(!(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE)) {
 				/* if it was an upgrade, the file would be left alone because
 				 * pacman_add() would handle it */
 				if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
@@ -286,7 +287,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
 						 pkgname, alpm_pkg_get_version(info));
 
-		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
+		if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 			_alpm_log(PM_LOG_DEBUG, "removing package %s-%s",
 								pkgname, alpm_pkg_get_version(info));
@@ -323,7 +324,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		         alpm_list_count(trans->packages),
 		         (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
 
-		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
+		if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 			/* run the post-remove script if it exists  */
 			if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 				_alpm_runscriptlet(handle->root, scriptlet, "post_remove",
@@ -352,13 +353,14 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		_alpm_pkg_free(infodup);
 
 		/* call a done event if this isn't an upgrade */
-		if(trans->type != PM_TRANS_TYPE_UPGRADE) {
+		if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
 		}
 	}
 
 	/* run ldconfig if it exists */
-	if((trans->type != PM_TRANS_TYPE_UPGRADE) && (handle->trans->state != STATE_INTERRUPTED)) {
+	if((trans->type != PM_TRANS_TYPE_REMOVEUPGRADE)
+			&& (handle->trans->state != STATE_INTERRUPTED)) {
 		_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"", handle->root);
 		_alpm_ldconfig(handle->root);
 	}

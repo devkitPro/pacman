@@ -247,6 +247,7 @@ void *alpm_sync_get_data(const pmsyncpkg_t *sync);
 typedef enum _pmtranstype_t {
 	PM_TRANS_TYPE_ADD = 1,
 	PM_TRANS_TYPE_REMOVE,
+	PM_TRANS_TYPE_REMOVEUPGRADE,
 	PM_TRANS_TYPE_UPGRADE,
 	PM_TRANS_TYPE_SYNC
 } pmtranstype_t;

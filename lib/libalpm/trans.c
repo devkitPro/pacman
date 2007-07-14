@@ -322,14 +322,15 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 			}
 		break;
 		case PM_TRANS_TYPE_REMOVE:
+		case PM_TRANS_TYPE_REMOVEUPGRADE:
 			if(_alpm_remove_loadtarget(trans, handle->db_local, target) == -1) {
-				/* pm_errno is set by remove_loadtarget() */
+				/* pm_errno is set by _alpm_remove_loadtarget() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_SYNC:
 			if(_alpm_sync_addtarget(trans, handle->db_local, handle->dbs_sync, target) == -1) {
-				/* pm_errno is set by sync_loadtarget() */
+				/* pm_errno is set by _alpm_sync_loadtarget() */
 				return(-1);
 			}
 		break;
@@ -363,6 +364,7 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 			}
 		break;
 		case PM_TRANS_TYPE_REMOVE:
+		case PM_TRANS_TYPE_REMOVEUPGRADE:
 			if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
 				/* pm_errno is set by _alpm_remove_prepare() */
 				return(-1);
@@ -402,13 +404,14 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
 			if(_alpm_add_commit(trans, handle->db_local) == -1) {
-				/* pm_errno is set by _alpm_add_prepare() */
+				/* pm_errno is set by _alpm_add_commit() */
 				return(-1);
 			}
 		break;
 		case PM_TRANS_TYPE_REMOVE:
+		case PM_TRANS_TYPE_REMOVEUPGRADE:
 			if(_alpm_remove_commit(trans, handle->db_local) == -1) {
-				/* pm_errno is set by _alpm_remove_prepare() */
+				/* pm_errno is set by _alpm_remove_commit() */
 				return(-1);
 			}
 		break;
@@ -484,12 +487,14 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 
 				_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'",
 				          alpm_pkg_get_name(deppkg));
-				if(trans->type == PM_TRANS_TYPE_REMOVE) {
+				if(trans->type == PM_TRANS_TYPE_REMOVE
+						|| trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
 					void *data = NULL;
 					rqdby = alpm_list_remove(rqdby,	pkgname, _alpm_str_cmp, &data);
 					FREE(data);
 					deppkg->requiredby = rqdby;
 				} else {
+					/* sanity check to make sure package was not already in list */
 					if(!alpm_list_find_str(rqdby, pkgname)) {
 						rqdby = alpm_list_add(rqdby, strdup(pkgname));
 						deppkg->requiredby = rqdby;
@@ -514,12 +519,14 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 
 		_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'",
 		          alpm_pkg_get_name(deppkg));
-		if(trans->type == PM_TRANS_TYPE_REMOVE) {
+		if(trans->type == PM_TRANS_TYPE_REMOVE
+						|| trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
 			void *data = NULL;
 			rqdby = alpm_list_remove(rqdby, pkgname, _alpm_str_cmp, &data);
 			FREE(data);
 			deppkg->requiredby = rqdby;
 		} else {
+			/* sanity check to make sure package was not already in list */
 			if(!alpm_list_find_str(rqdby, pkgname)) {
 				rqdby = alpm_list_add(rqdby, strdup(pkgname));
 				deppkg->requiredby = rqdby;
@@ -528,7 +535,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 
 		if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
 			_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
-								alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
+					alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
 		}
 		free(dep);
 	}
