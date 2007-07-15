@@ -327,9 +327,9 @@ handledeps() {
 		local ret=0
 
 		if [ "$ASROOT" = 0 ]; then
-			sudo pacman $PACMAN_OPTS -S $striplist || ret=$?
+			sudo pacman $PACMAN_OPTS -S --asdeps $striplist || ret=$?
 		else
-			pacman $PACMAN_OPTS -S $striplist || ret=$?
+			pacman $PACMAN_OPTS -S --asdeps $striplist || ret=$?
 		fi
 
 		if [ $ret -ne 0 ]; then

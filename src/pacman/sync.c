@@ -704,16 +704,11 @@ int pacman_sync(alpm_list_t *targets)
 				confirm = yesno(_("Proceed with download? [Y/n] "));
 			}
 		} else {
-			/* don't get any confirmation if we're called from makepkg */
-			if(config->op_d_resolve) {
+			if(config->noconfirm) {
+				printf(_("Beginning upgrade process...\n"));
 				confirm = 1;
 			} else {
-				if(config->noconfirm) {
-					printf(_("Beginning upgrade process...\n"));
-					confirm = 1;
-				} else {
-					confirm = yesno(_("Proceed with installation? [Y/n] "));
-				}
+				confirm = yesno(_("Proceed with installation? [Y/n] "));
 			}
 		}
 		if(!confirm) {

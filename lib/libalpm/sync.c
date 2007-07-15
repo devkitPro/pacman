@@ -864,11 +864,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
-			if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
-				doremove=1;
-			} else {
-				QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)pkgname, NULL, NULL, &doremove);
-			}
+			QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)pkgname, NULL, NULL, &doremove);
 			if(doremove) {
 				unlink(str);
 				snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 or SHA1 checksum)\n"), pkgname);

@@ -88,6 +88,7 @@ static void usage(int op, char *myname)
 		if(op == PM_OP_ADD) {
 			printf("%s:  %s {-A --add} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
+			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_REMOVE) {
@@ -106,6 +107,7 @@ static void usage(int op, char *myname)
 				printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			}
 			printf("%s:\n", str_opt);
+			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_QUERY) {
@@ -126,6 +128,7 @@ static void usage(int op, char *myname)
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
+			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
 			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -e, --dependsonly    install dependencies only\n"));
@@ -288,10 +291,11 @@ static int parseargs(int argc, char *argv[])
 		{"config",     required_argument, 0, 1001},
 		{"ignore",     required_argument, 0, 1002},
 		{"debug",      optional_argument, 0, 1003},
-		{"noprogressbar",  no_argument,   0, 1004},
+		{"noprogressbar", no_argument,    0, 1004},
 		{"noscriptlet", no_argument,      0, 1005},
 		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
+		{"asdeps",     no_argument,       0, 1008},
 		{0, 0, 0, 0}
 	};
 	struct stat st;
@@ -344,6 +348,9 @@ static int parseargs(int argc, char *argv[])
 					return(1);
 				}
 				alpm_option_add_cachedir(optarg);
+				break;
+			case 1008:
+				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
@@ -754,7 +761,7 @@ if(0) {
 			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
 					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
 					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
-				 || (config->op == PM_OP_DEPTEST && config->op_d_resolve)
+				 || config->op == PM_OP_DEPTEST
 				 || (strcmp(alpm_option_get_root(), "/") != 0)) {
 				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
 				/* special case: ignore root user check if -r is specified, fall back on

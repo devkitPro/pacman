@@ -332,8 +332,12 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
 
-			/* copy over the install reason */
-			newpkg->reason = alpm_pkg_get_reason(local);
+			/* copy over the install reason (unless alldeps is set) */
+			if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
+				newpkg->reason = PM_PKG_REASON_DEPEND;
+			} else {
+				newpkg->reason = alpm_pkg_get_reason(local);
+			}
 
 			/* pre_upgrade scriptlet */
 			if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
