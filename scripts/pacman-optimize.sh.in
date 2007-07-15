@@ -109,7 +109,7 @@ find $dbroot -type f | sort | xargs md5sum > /tmp/pacsums.old
 # step 2: tar it up
 msg "$(gettext "Tar'ing up %s...")" "$dbroot"
 cd $dbroot
-tar -czf /tmp/pacmanDB.tgz ./
+bsdtar -czf /tmp/pacmanDB.tgz ./
 if [ $? -ne 0 ]; then
 	rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
 	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"
@@ -118,7 +118,7 @@ fi
 # step 3: make and sum the new db
 msg "$(gettext "Making and MD5sum'ing the new db...")"
 mkdir $dbroot.new
-tar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/
+bsdtar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/
 if [ $? -ne 0 ]; then
        rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
        rm -rf "$dbroot.new"
@@ -141,7 +141,7 @@ fi
 #         and use the .tgz to replace the old one
 msg "$(gettext "Putting the new database in place...")"
 rm -rf "$dbroot.new" "$dbroot"/*
-tar -zxpf /tmp/pacmanDB.tgz -C "$dbroot"/
+bsdtar -zxpf /tmp/pacmanDB.tgz -C "$dbroot"/
 
 # remove the lock file, sum files, and .tgz of database
 rm -f $lockfile /tmp/pacsums.old /tmp/pacsums.new /tmp/pacmanDB.tgz

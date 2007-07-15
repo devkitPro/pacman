@@ -80,7 +80,7 @@ checksum_name () {
 # test if a file is a repository DB
 test_repo_db_file () {
 	if [ -f "$REPO_DB_FILE" ]; then
-		[ "$(tar tf "$REPO_DB_FILE" | grep -c "/desc")" -gt 0 ] || return 1
+		[ "$(bsdtar -tf "$REPO_DB_FILE" | grep -c "/desc")" -gt 0 ] || return 1
 	else
 		true
 	fi
@@ -114,7 +114,7 @@ db_write_entry()
 "
 
 	# read info from the zipped package
-	for i in $(tar xOf "$pkgfile" .PKGINFO | grep -v "^#" |sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
+	for i in $(bsdtar -xOf "$pkgfile" .PKGINFO | grep -v "^#" |sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
 		eval "${i}"
 		case "$i" in
 			group=*) _groups="$_groups $group" ;;
@@ -266,11 +266,11 @@ if [ $# -gt 1 ]; then
 				exit 1
 			elif [ -f "$REPO_DB_FILE" ]; then
 				echo "$(gettext ":: extracting database to a temporary location")"
-				tar xf "$REPO_DB_FILE" -C "$gstmpdir"
+				bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
 			fi
 		else
 			if [ -f "$arg" ]; then
-				if ! tar tf "$arg" .PKGINFO 2>&1 >/dev/null; then
+				if ! bsdtar -tf "$arg" .PKGINFO 2>&1 >/dev/null; then
 					echo "$(gettext "error: '%s' is not a package file, skipping")" $arg
 				else
 					echo "$(gettext ":: adding package '%s'")" $arg
@@ -295,10 +295,10 @@ if [ $# -gt 1 ]; then
 			[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
 			[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 			case "$DB_COMPRESSION" in
-				gz) tar c * | gzip -9 >$REPO_DB_FILE ;;
-				bz2) tar c * | bzip2 -9 >$REPO_DB_FILE ;;
+				gz) bsdtar -c * | gzip -9 >$REPO_DB_FILE ;;
+				bz2) bsdtar -c * | bzip2 -9 >$REPO_DB_FILE ;;
 				*) echo "$(gettext "warning: no compression set")"
-				tar c * >$REPO_DB_FILE;;
+				bsdtar -c * >$REPO_DB_FILE;;
 			esac
 		fi
 	else
