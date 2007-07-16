@@ -20,7 +20,7 @@ This manual page is meant to describe general rules about PKGBUILDs. Once a
 PKGBUILD is written, the actual package is built using makepkg and installed
 with pacman.
 
-*NOTE:* If you have a local copy of the Arch Build System (ABS) tree on your
+NOTE: If you have a local copy of the Arch Build System (ABS) tree on your
 computer, you can copy the PKGBUILD.proto file to your new package build
 directory and edit it from there. To acquire/sync the ABS tree, use the abs
 script included with pacman.
@@ -33,13 +33,12 @@ Options and Directives
 	used in the package filename.
 
 *pkgver*::
-	The version of the software as released from the author (e.g. `2.7.1`).
+	The version of the software as released from the author (e.g. \'2.7.1').
 
 *pkgrel*::
 	This is the release number specific to the Arch Linuxs release. This
 	allows package maintainers to make updates to the package's configure
 	flags, for example.
-
 
 *pkgdesc*::
 	This should be a brief description of the package and its functionality.
@@ -51,13 +50,13 @@ Options and Directives
 
 *license (array)*::
 	This field specifies the license(s) that apply to the package.
-	Commonly-used licenses are found in `/usr/share/licenses/common`. If you
+	Commonly-used licenses are found in '/usr/share/licenses/common'. If you
 	see the package's license there, simply reference it in the license
 	field (e.g. `$$license=('GPL')$$`). If the package provides a license not
-	found in `/usr/share/licenses/common`, then you should include the license
+	found in '/usr/share/licenses/common', then you should include the license
 	in the package itself and set `$$license=('custom')$$` or
 	`$$license=('custom:LicenseName')$$`. The license should be placed in
-	`$pkgdir/usr/share/licenses/$pkgname` when building the package. If
+	'$pkgdir/usr/share/licenses/$pkgname' when building the package. If
 	multiple licenses are applicable for a package, list all of them:
 	`$$license=('GPL' 'FDL')$$`.
 
@@ -84,7 +83,7 @@ Options and Directives
 	This array contains an MD5 hash for every source file specified in the
 	source array (in the same order). makepkg will use this to verify source
 	file integrity during subsequent builds. To easily generate md5sums, run
-	"makepkg -g >> PKGBUILD". If desired, move the md5sums line to an
+	``makepkg -g >> PKGBUILD''. If desired, move the md5sums line to an
 	appropriate location. *NOTE:* makepkg supports multiple integrity
 	algorithms and their corresponding arrays (i.e. sha1sums for the SHA1
 	algorithm); however, official packages use only md5sums for the time
@@ -97,11 +96,11 @@ Options and Directives
 *groups (array)*::
 	An array of symbolic names that represent groups of packages, allowing
 	you to install multiple packages by requesting a single target. For
-	example, one could install all KDE packages by installing the `kde` group.
+	example, one could install all KDE packages by installing the 'kde' group.
 
 *arch (array)*::
 	Defines on which architectures the given package is available (e.g.
-	`$$arch=('i686' 'x86_64')).
+	`$$arch=('i686' 'x86_64')$$`).
 
 *backup (array)*::
 	A space-delimited array of filenames, without preceding slashes, that
@@ -127,7 +126,7 @@ Options and Directives
 	same format as depends, except you cannot specify versions.
 
 *provides (array)*::
-	An array of "virtual provisions" that this package provides. This allows
+	An array of ``virtual provisions'' that this package provides. This allows
 	a package to provide dependencies other than its own package name. For
 	example, the dcron package can provide 'cron', which allows packages to
 	depend on 'cron' rather than 'dcron OR fcron'.
@@ -136,50 +135,52 @@ Options and Directives
 	An array of packages that this package should replace, and can be used
 	to handle renamed/combined packages. For example, if the 'j2re' package
 	is renamed to 'jre', this directive allows future upgrades to continue
-	as expected even though the package has moved.
+	as expected even though the package has moved. Sysupgrade is currently
+	the only pacman operation that utilizes this field, a normal sync will
+	not use its value.
 
 *options (array)*::
 	This array allows you to override some of makepkg's default behavior
 	when building packages. To set an option, just include the option name
-	in the options array. To reverse the default behavior, place an "!" at
+	in the options array. To reverse the default behavior, place an ``!'' at
 	the front of the option. Only specify the options you specifically want
 	to override, the rest will be taken from manlink:makepkg.conf[5].
-	*NOTE:* 'force' is a special option only used in manlink:PKGBUILD[5]s,
+	*NOTE:* 'force' is a special option only used in a manlink:PKGBUILD[5],
 	do not use it unless you know what you are doing.
 
-	*strip*::
+	*strip*;;
 		Strip symbols from binaries and libraries. If you frequently
 		use a debugger on programs or libraries, it may be helpful to
 		disable this option.
 
-	*docs*::
+	*docs*;;
 		Save doc and info directories. If you wish to delete doc and
-		info directories, specify "!docs" in the array.
+		info directories, specify `!docs` in the array.
 
-	*libtool*::
-		Leave libtool (.la) files in packages. Specify "!libtool" to
+	*libtool*;;
+		Leave libtool (.la) files in packages. Specify `!libtool` to
 		remove them.
 
-	*emptydirs*::
+	*emptydirs*;;
 		Leave empty directories in packages.
 
-	*ccache*::
+	*ccache*;;
 		Allow the use of ccache during build. More useful in its negative
-		form "!ccache" with select packages that have problems building
+		form `!ccache` with select packages that have problems building
 		with ccache.
 
-	*distcc*::
+	*distcc*;;
 		Allow the use of distcc during build. More useful in its negative
-		form "!distcc" with select packages that have problems building
+		form `!distcc` with select packages that have problems building
 		with distcc.
 
-	*makeflags*::
+	*makeflags*;;
 		Allow the use of user-specific makeflags during build as specified
 		in manlink:makepkg.conf[5]. More useful in its negative form
-		"!makeflags" with select packages that have problems building with
-		custom makeflags such as "-j2" (or higher).
+		`!makeflags` with select packages that have problems building with
+		custom makeflags such as `-j2` (or higher).
 
-	*force*::
+	*force*;;
 		Force the package to be upgraded by a pacman system upgrade
 		operation, even if the version number would normally not trigger
 		such an upgrade. This is useful when the version numbering scheme

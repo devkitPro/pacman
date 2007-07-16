@@ -28,206 +28,212 @@ ends to be written (for instance, a GUI front end).
 
 Operations
 ----------
-*-A, --add* (deprecated)::
+*-A, \--add* (deprecated)::
 	Add a package to the system. Either a URL or file path can be specified.
 	The package will be uncompressed into the installation root and the
 	database will be updated. The package will not be installed if another
-	version is already installed. *NOTE*: please use `--upgrade` in place of
+	version is already installed. *NOTE*: please use '\--upgrade' in place of
 	this option.
 
-*-F, --freshen*::
-	This is like `--upgrade` except it will only upgrade packages already
+*-F, \--freshen*::
+	This is like '\--upgrade' except it will only upgrade packages already
 	installed on the system.
 
-*-Q, --query*::
+*-Q, \--query*::
 	Query the package database. This operation allows you to view installed
 	packages and their files, as well as meta-information about individual
 	packages (dependencies, conflicts, install date, build date, size). This
 	can be run against the local package database or can be used on
-	individual `.tar.gz` packages. See <<QO,Query Options>> below.
+	individual '.tar.gz' packages. See <<QO,Query Options>> below.
 
-*-R, --remove*::
+*-R, \--remove*::
 	Remove a package from the system. Files belonging to the specified
 	package will be deleted, and the database will be updated. Most
 	configuration files will be saved with a `.pacsave` extension unless the
-	`--nosave` option is used. See <<RO,Remove Options>> below.
+	'\--nosave' option is used. See <<RO,Remove Options>> below.
 
-*-S, --sync*::
+*-S, \--sync*::
 	Synchronize packages. Packages are installed directly from the ftp
 	servers, including all dependencies required to run the packages. For
 	example, `pacman -S qt` will download and install qt and all the
 	packages it depends on. You can also use `pacman -Su` to upgrade all
 	packages that are out of date. See <<SO,Sync Options>> below.
 
-*-U, --upgrade*::
+*-U, \--upgrade*::
 	Upgrade or add a package to the system. Either a URL or file path can be
-	specified. This is a "remove-then-add" process. See
-	<<HCF,Handling Config Files>> for an explanation on how
-	pacman takes care of config files.
+	specified. This is a "remove-then-add" process. See <<HCF,Handling Config
+	Files>> for an explanation on how pacman takes care of config files.
 
-*-V, --version*::
+*-V, \--version*::
 	Display version and exit.
 
-*-h, --help*::
+*-h, \--help*::
 	Display syntax for the given operation. If no operation was supplied
 	then the general syntax is shown.
 
 
 Options
 -------
-*--ask* <'number'>::
+*\--asdeps*::
+	Install packages non-explicitly; in other works, fake their install reason
+	to be installed as a dependency. This is useful for makepkg and other
+	build from source tools that need to install dependencies before building
+	the package.
+
+*\--ask* <'number'>::
 	Pre-specify answers to questions. It is doubtful whether this option
 	even works, so I would not recommend using it. *TODO*: document this
 	more, as I have no idea how it works or when you would use it, or if we
 	should just dump it.
 
-*-b, --dbpath* <'path'>::
-	Specify an alternative database location (default is `/var/lib/pacman`).
+*-b, \--dbpath* <'path'>::
+	Specify an alternative database location (default is ``/var/lib/pacman'').
 	This should not be used unless you know what you are doing.
 
-*-d, --nodeps*::
+*-d, \--nodeps*::
 	Skips all dependency checks. Normally, pacman will always check a
 	package's dependency fields to ensure that all dependencies are
 	installed and there are no package conflicts in the system.
 
-*-f, --force*::
+*-f, \--force*::
 	Bypass file conflict checks and overwrite conflicting files. If the
 	package that is about to be installed contains files that are already
 	installed, this option will cause all those files to be overwritten.
 	This option should be used with care, ideally not at all.
 
-*-r, --root* <'path'>::
-	Specify an alternative installation root (default is `/`). This should
-	not be used as a way to install software into `/usr/local` instead of
-	`/usr`. This option is used if you want to install a package on a
-	temporary mounted partition which is "owned" by another system. By using
-	this option you not only specify where the software should be installed,
-	but you also specify which package database and cache location to use.
+*-r, \--root* <'path'>::
+	Specify an alternative installation root (default is ``/''). This should
+	not be used as a way to install software into ``/usr/local'' instead of
+	``/usr''. This option is used if you want to install a package on a
+	temporary mounted partition which is "owned" by another system.
 
 *-v, --verbose*::
-	Output more status messages, such as the Root and DBPath.
+	Output more status messages, such as the Root, DBPath, CacheDir, etc.
 
-*--cachedir* <'dir'>::
+*\--cachedir* <'dir'>::
 	Specify an alternative package cache location (default is
-	`/var/cache/pacman/pkg`). This should not be used unless you know what
-	you are doing.
+	``/var/cache/pacman/pkg''). Multiple cache directories can be specified,
+	and they are tried in the order they are passed to pacman.
 
-*--config* <'file'>::
+*\--config* <'file'>::
 	Specify an alternate configuration file.
 
-*--noconfirm*::
+*\--noconfirm*::
 	Bypass any and all "Are you sure?" messages. It's not a good idea to do
 	this unless you want to run pacman from a script.
 
-*--noprogressbar*::
+*\--noprogressbar*::
 	Do not show a progress bar when downloading files. This can be useful
 	for scripts that call pacman and capture the output.
 
-*--noscriptlet*::
+*\--noscriptlet*::
 	If an install scriptlet exists, do not execute it. Do not use this
 	unless you know what you are doing.
 
 
 Query Options[[QO]]
 -------------------
-*-c, --changelog*::
+*-c, \--changelog*::
 	View the ChangeLog of a package. Not every package will provide one but
 	it will be shown if available.
 
-*-e, --orphans*::
+*-e, \--orphans*::
 	List all packages that were pulled in by a previously installed package
 	but no longer required by any installed package.
 
-*-g, --groups*::
+*-g, \--groups*::
 	Display all packages that are members of a named group. If not name is
 	specified, list all grouped packages.
 
-*-i, --info*::
-	Display information on a given package. The `-p` option can be used if
+*-i, \--info*::
+	Display information on a given package. The '-p' option can be used if
 	querying a package file instead of the local database.
 
-*-l, --list*::
+*-l, \--list*::
 	List all files owned by a given package. Multiple packages can be
 	specified on the command line.
 
-*-m, --foreign*::
+*-m, \--foreign*::
 	List all packages that were not found in the sync database(s). Typically
 	these are packages that were downloaded manually and installed with
-	`--upgrade`.
+	'\--upgrade'.
 
-*-o, --owns* <'file'>::
+*-o, \--owns* <'file'>::
 	Search for the package that owns file.
 
-*-p, --file*::
+*-p, \--file*::
 	Signifies that the package supplied on the command line is a file and
 	not an entry in the database. The file will be decompressed and queried.
-	This is useful in combination with `--info` and `--list`.
+	This is useful in combination with '\--info' and '\--list'.
 
-*-s, --search* <'regexp'>::
+*-s, \--search* <'regexp'>::
 	This will search each locally-installed package for names or
-	descriptions that matche regexp.
+	descriptions that match `regexp`.
 
-*-u, --upgrades*::
+*-t, \--test*::
+	Run some brief checks looking at the consistency of the local database.
+
+*-u, \--upgrades*::
 	Lists all packages that are out of date on the local system. This option
-	works best if the sync database is refreshed using `-Sy`.
+	works best if the sync database is refreshed using '-Sy'.
 
 
 Remove Options[[RO]]
 --------------------
-*-c, --cascade*::
+*-c, \--cascade*::
 	Remove all target packages, as well as all packages that depend on one
 	or more target packages. This operation is recursive.
 
-*-k, --keep*::
+*-k, \--keep*::
 	Removes the database entry only. Leaves all files in place.
 
-*-n, --nosave*::
+*-n, \--nosave*::
 	Instructs pacman to ignore file backup designations. Normally, when a
 	file is removed from the system the database is checked to see if the
-	file should be renamed with a .pacsave extension.
+	file should be renamed with a ``.pacsave'' extension.
 
-*-s, --recursive*::
+*-s, \--recursive*::
 	Remove each target specified including all dependencies, provided that
 	(A) they are not required by other packages; and (B) they were not
 	explicitly installed by the user. This option is analogous to a
-	backwards `--sync` operation.
+	backwards '\--sync' operation.
 
 
 Sync Options[[SO]]
 ------------------
-*-c, --clean*::
+*-c, \--clean*::
 	Remove old packages from the cache to free up disk space. When pacman
-	downloads packages, it saves them in `/var/cache/pacman/pkg`. Use one
-	`--clean` switch to remove old packages; use two to remove all packages
+	downloads packages, it saves them in ``/var/cache/pacman/pkg''. Use one
+	'\--clean' switch to remove old packages; use two to remove all packages
 	from the cache.
 
-*-e, --dependsonly*::
+*-e, \--dependsonly*::
 	Install all dependencies of a package, but not the specified package
 	itself. This is pretty useless and we're not sure why it even exists.
 
-*-g, --groups*::
+*-g, \--groups*::
 	Display all the members for each package group specified. If no group
 	names are provided, all groups will be listed; pass the flag twice to
 	view all groups and their members.
 
-*-i, --info*::
+*-i, \--info*::
 	Display dependency and other information for a given package. This will
 	search through all repositories for a matching package.
 
-*-l, --list*::
+*-l, \--list*::
 	List all packages in the specified repositories. Multiple repositories
 	can be specified on the command line.
 
-*-p, --print-uris*::
+*-p, \--print-uris*::
 	Print out URIs for each package that will be installed, including any
 	dependencies yet to be installed. These can be piped to a file and
 	downloaded at a later time, using a program like wget.
 
-*-s, --search* <'regexp'>::
+*-s, \--search* <'regexp'>::
 	This will search each package in the sync databases for names or
-	descriptions that match regexp.
+	descriptions that match `regexp`.
 
-*-u, --sysupgrade*::
+*-u, \--sysupgrade*::
 	Upgrades all packages that are out of date. Each currently-installed
 	package will be examined and upgraded if a newer package exists. A
 	report of all packages to upgrade will be presented and  the operation
@@ -235,17 +241,17 @@ Sync Options[[SO]]
 	automatically resolved at this level and will be installed/upgraded if
 	necessary.
 
-*-w, --downloadonly*::
+*-w, \--downloadonly*::
 	Retrieve all packages from the server, but do not install/upgrade
 	anything.
 
-*-y, --refresh*::
+*-y, \--refresh*::
 	Download a fresh copy of the master package list from the server(s)
 	defined in pacman.conf. This should typically be used each time you use
-	`--sysupgrade` or `-u`. Passing two `--refresh` or `-y` flags will force
+	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags will force
 	a refresh of all package lists even if they are thought to be up to date.
 
-*--ignore* <'package'>::
+*\--ignore* <'package'>::
 	Directs pacman to ignore upgrades of package even if there is one
 	available.
 
@@ -276,7 +282,7 @@ original=X, current=Y, new=Y::
 	The new file is identical to the current file. Install the new file.
 
 original=X, current=Y, new=Z::
-	All three files are different, so install the new file with a `.pacnew`
+	All three files are different, so install the new file with a '.pacnew'
 	extension and warn the user. The user must then manually merge any
 	necessary changes into the original file.
 
@@ -284,7 +290,7 @@ original=X, current=Y, new=Z::
 Configuration
 -------------
 See manlink:pacman.conf[5] for more details on configuring pacman using the
-`pacman.conf` file.
+'pacman.conf' file.
 
 
 See Also
