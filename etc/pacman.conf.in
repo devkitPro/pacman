@@ -23,23 +23,23 @@ HoldPkg     = pacman glibc
 #     have identical names, regardless of version number
 #
 #[testing]
-#Include = @sysconfdir@/pacman.d/testing
+#Include = @sysconfdir@/pacman.d/mirrorlist
 
 [current]
 # Add your preferred servers here, they will be used first
-Include = @sysconfdir@/pacman.d/current
+Include = @sysconfdir@/pacman.d/mirrorlist
 
 [extra]
 # Add your preferred servers here, they will be used first
-Include = @sysconfdir@/pacman.d/extra
+Include = @sysconfdir@/pacman.d/mirrorlist
 
 [community]
 # Add your preferred servers here, they will be used first
-Include = @sysconfdir@/pacman.d/community
+Include = @sysconfdir@/pacman.d/mirrorlist
 
 #[unstable]
 # Add your preferred servers here, they will be used first
-#Include = @sysconfdir@/pacman.d/unstable
+#Include = @sysconfdir@/pacman.d/mirrorlist
 
 # An example of a custom package repository.  See the pacman manpage for
 # tips on creating your own repositories.
