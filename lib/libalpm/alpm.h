@@ -353,12 +353,13 @@ typedef enum _pmdeptype_t {
 pmdepend_t *alpm_splitdep(const char *depstring);
 int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 
-const char *alpm_dep_get_target(pmdepmissing_t *miss);
-pmdeptype_t alpm_dep_get_type(pmdepmissing_t *miss);
-pmdepmod_t alpm_dep_get_mod(pmdepmissing_t *miss);
-const char *alpm_dep_get_name(pmdepmissing_t *miss);
-const char *alpm_dep_get_version(pmdepmissing_t *miss);
-const char *alpm_depend_get_name(pmdepend_t *dep);
+const char *alpm_miss_get_target(pmdepmissing_t *miss);
+pmdeptype_t alpm_miss_get_type(pmdepmissing_t *miss);
+pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
+
+pmdepmod_t alpm_dep_get_mod(pmdepend_t *dep);
+const char *alpm_dep_get_name(pmdepend_t *dep);
+const char *alpm_dep_get_version(pmdepend_t *dep);
 
 /*
  * File conflicts

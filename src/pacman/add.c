@@ -136,23 +136,24 @@ int pacman_add(alpm_list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
+					pmdepend_t *dep = alpm_miss_get_dep(miss);
 				
 					/* TODO indicate if the error was a virtual package or not:
 					 *		:: %s: requires %s, provided by %s
 					 */
-					printf(_(":: %s: requires %s"), alpm_dep_get_target(miss),
-					                              alpm_dep_get_name(miss));
-					switch(alpm_dep_get_mod(miss)) {
+					printf(_(":: %s: requires %s\n"), alpm_miss_get_target(miss),
+							alpm_dep_get_name(dep));
+					switch(alpm_dep_get_mod(dep)) {
 						case PM_DEP_MOD_ANY:
 							break;
 						case PM_DEP_MOD_EQ:
-							printf("=%s", alpm_dep_get_version(miss));
+							printf("=%s", alpm_dep_get_version(dep));
 							break;
 						case PM_DEP_MOD_GE:
-							printf(">=%s", alpm_dep_get_version(miss));
+							printf(">=%s", alpm_dep_get_version(dep));
 							break;
 						case PM_DEP_MOD_LE:
-							printf("<=%s", alpm_dep_get_version(miss));
+							printf("<=%s", alpm_dep_get_version(dep));
 							break;
 					}
 					printf("\n");
@@ -161,8 +162,9 @@ int pacman_add(alpm_list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
+					pmdepend_t *dep = alpm_miss_get_dep(miss);
 					printf(_(":: %s: conflicts with %s"),
-						alpm_dep_get_target(miss), alpm_dep_get_name(miss));
+						alpm_miss_get_target(miss), alpm_dep_get_name(dep));
 				}
 				break;
 			case PM_ERR_FILE_CONFLICTS:

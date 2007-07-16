@@ -734,7 +734,7 @@ error:
 	return(-1);
 }
 
-const char SYMEXPORT *alpm_dep_get_target(pmdepmissing_t *miss)
+const char SYMEXPORT *alpm_miss_get_target(pmdepmissing_t *miss)
 {
 	ALPM_LOG_FUNC;
 
@@ -745,7 +745,7 @@ const char SYMEXPORT *alpm_dep_get_target(pmdepmissing_t *miss)
 	return miss->target;
 }
 
-pmdeptype_t SYMEXPORT alpm_dep_get_type(pmdepmissing_t *miss)
+pmdeptype_t SYMEXPORT alpm_miss_get_type(pmdepmissing_t *miss)
 {
 	ALPM_LOG_FUNC;
 
@@ -756,40 +756,29 @@ pmdeptype_t SYMEXPORT alpm_dep_get_type(pmdepmissing_t *miss)
 	return miss->type;
 }
 
-pmdepmod_t SYMEXPORT alpm_dep_get_mod(pmdepmissing_t *miss)
+pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(miss != NULL, return(NULL));
+
+	return &miss->depend;
+}
+
+pmdepmod_t SYMEXPORT alpm_dep_get_mod(pmdepend_t *dep)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));
-	ASSERT(miss != NULL, return(-1));
+	ASSERT(dep != NULL, return(-1));
 
-	return miss->depend.mod;
+	return dep->mod;
 }
 
-const char SYMEXPORT *alpm_dep_get_name(pmdepmissing_t *miss)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(miss != NULL, return(NULL));
-
-	return miss->depend.name;
-}
-
-const char SYMEXPORT *alpm_dep_get_version(pmdepmissing_t *miss)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(miss != NULL, return(NULL));
-
-	return miss->depend.version;
-}
-
-const char SYMEXPORT *alpm_depend_get_name(pmdepend_t *dep)
+const char SYMEXPORT *alpm_dep_get_name(pmdepend_t *dep)
 {
 	ALPM_LOG_FUNC;
 
@@ -798,6 +787,17 @@ const char SYMEXPORT *alpm_depend_get_name(pmdepend_t *dep)
 	ASSERT(dep != NULL, return(NULL));
 
 	return dep->name;
+}
+
+const char SYMEXPORT *alpm_dep_get_version(pmdepend_t *dep)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(dep != NULL, return(NULL));
+
+	return dep->version;
 }
 
 /* vim: set ts=2 sw=2 noet: */

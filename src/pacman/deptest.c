@@ -56,13 +56,13 @@ int pacman_deptest(alpm_list_t *targets)
 		dep = alpm_splitdep(target);
 
 		pkg = alpm_db_get_pkg(alpm_option_get_localdb(),
-				alpm_depend_get_name(dep));
+				alpm_dep_get_name(dep));
 		if(pkg && alpm_depcmp(pkg, dep)) {
 			found = 1;
 		} else {
 			/* not found, can we find anything that provides this in the local DB? */
 			provides = alpm_db_whatprovides(alpm_option_get_localdb(),
-					alpm_depend_get_name(dep));
+					alpm_dep_get_name(dep));
 			for(j = provides; j; j = alpm_list_next(j)) {
 				pmpkg_t *pkg;
 				pkg = alpm_list_getdata(j);
