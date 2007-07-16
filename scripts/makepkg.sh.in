@@ -26,6 +26,11 @@
 #   USA.
 #
 
+# makepkg uses quite a few external programs during its execution. You
+# need to have at least the following installed for makepkg to function:
+#   awk, bsdtar (libarchive), bzip2, coreutils, fakeroot, find (findutils),
+#   getopt (util-linux), gettext, grep, gzip, sed
+
 # gettext initialization
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
