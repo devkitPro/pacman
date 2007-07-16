@@ -11,6 +11,7 @@ self.addpkg2db("local", lp2)
 
 lp3 = pmpkg("pkg3")
 lp3.provides = ["imaginary"]
+lp3.requiredby = [ "pkg1" ]
 self.addpkg2db("local", lp3)
 
 p = pmpkg("pkg2", "1.0-2")

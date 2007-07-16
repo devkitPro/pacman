@@ -1109,6 +1109,9 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 
 /* scan the local db to fill in requiredby field of package,
  * used when we want to install or add a package */
+
+/* A depends on B through n depends <=> A listed in B's requiredby n times
+ * n == 0 or 1 in almost all cases */
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 {
 	const alpm_list_t *i, *j;
