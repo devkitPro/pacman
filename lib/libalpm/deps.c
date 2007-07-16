@@ -443,25 +443,38 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 	return(baddeps);
 }
 
+static int _alpm_dep_vercmp(const char *version1, pmdepmod_t mod,
+		const char *version2)
+{
+	int equal = 0;
+
+	if(mod == PM_DEP_MOD_ANY) {
+		equal = 1;
+	} else {
+		int cmp = _alpm_versioncmp(version1, version2);
+		switch(mod) {
+			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
+			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
+			case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
+			default: equal = 1; break;
+		}
+	}
+	return(equal);
+}
+
 int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	int equal = 0;
 
 	ALPM_LOG_FUNC;
 
-  if(strcmp(pkg->name, dep->name) == 0
-	    || alpm_list_find_str(alpm_pkg_get_provides(pkg), dep->name)) {
-		if(dep->mod == PM_DEP_MOD_ANY) {
-			equal = 1;
-		} else {
-			int cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), dep->version);
-			switch(dep->mod) {
-				case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
-				case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
-				case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
-				default: equal = 1; break;
-			}
-		}
+	const char *pkgname = alpm_pkg_get_name(pkg);
+	const char *pkgversion = alpm_pkg_get_version(pkg);
+
+	if(strcmp(pkgname, dep->name) == 0
+			|| alpm_list_find_str(alpm_pkg_get_provides(pkg), dep->name)) {
+
+		equal = _alpm_dep_vercmp(pkgversion, dep->mod, dep->version);
 
 		char *mod = "~=";
 		switch(dep->mod) {
@@ -473,16 +486,16 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 
 		if(strlen(dep->version) > 0) {
 			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s-%s => %s",
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+								pkgname, pkgversion,
 								mod, dep->name, dep->version, (equal ? "match" : "no match"));
 		} else {
 			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s => %s",
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+								pkgname, pkgversion,
 								mod, dep->name, (equal ? "match" : "no match"));
 		}
 	}
 
-	return equal;
+	return(equal);
 }
 
 pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
