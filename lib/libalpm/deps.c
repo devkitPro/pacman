@@ -107,37 +107,15 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
 	return(0);
 }
 
-/* Re-order a list of target packages with respect to their dependencies.
- *
- * Example (PM_TRANS_TYPE_ADD):
- *   A depends on C
- *   B depends on A
- *   Target order is A,B,C,D
- *
- *   Should be re-ordered to C,A,B,D
- * 
- * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
- * affects the dependency order sortbydeps() will use.
- *
- * This function returns the new alpm_list_t* target list.
- *
- */ 
-alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
+/* Convert a list of pmpkg_t * to a graph structure,
+ * with a edge for each dependency.
+ * Returns a list of vertices (one vertex = one package)
+ * (used by alpm_sortbydeps)
+ */
+static alpm_list_t *_alpm_graph_init(alpm_list_t *targets)
 {
-	alpm_list_t *newtargs = NULL;
 	alpm_list_t *i, *j, *k;
 	alpm_list_t *vertices = NULL;
-	alpm_list_t *vptr;
-	pmgraph_t *vertex;
-
-	ALPM_LOG_FUNC;
-
-	if(targets == NULL) {
-		return(NULL);
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "started sorting dependencies");
-
 	/* We create the vertices */
 	for(i = targets; i; i = i->next) {
 		pmgraph_t *vertex = _alpm_graph_new();
@@ -159,11 +137,47 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 				child = alpm_depcmp(p_j, depend);
 				free(depend);
 			}
-			if(child) vertex_i->children =
-				alpm_list_add(vertex_i->children, vertex_j);
+			if(child) {
+				vertex_i->children =
+					alpm_list_add(vertex_i->children, vertex_j);
+			}
 		}
 		vertex_i->childptr = vertex_i->children;
 	}
+	return(vertices);
+}
+
+/* Re-order a list of target packages with respect to their dependencies.
+ *
+ * Example (PM_TRANS_TYPE_ADD):
+ *   A depends on C
+ *   B depends on A
+ *   Target order is A,B,C,D
+ *
+ *   Should be re-ordered to C,A,B,D
+ * 
+ * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
+ * affects the dependency order sortbydeps() will use.
+ *
+ * This function returns the new alpm_list_t* target list.
+ *
+ */ 
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
+{
+	alpm_list_t *newtargs = NULL;
+	alpm_list_t *vertices = NULL;
+	alpm_list_t *vptr;
+	pmgraph_t *vertex;
+
+	ALPM_LOG_FUNC;
+
+	if(targets == NULL) {
+		return(NULL);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "started sorting dependencies");
+
+	vertices = _alpm_graph_init(targets);
 
 	vptr = vertices;
 	vertex = vertices->data;
