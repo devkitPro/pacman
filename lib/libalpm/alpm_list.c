@@ -46,7 +46,7 @@
  *
  * @return a new alpm_list_t item, or NULL on failure
  */
-alpm_list_t *alpm_list_new()
+alpm_list_t SYMEXPORT *alpm_list_new()
 {
 	alpm_list_t *list = NULL;
 
@@ -143,7 +143,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
  *
  * @return the resultant list
  */
-alpm_list_t *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cmp fn)
+alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cmp fn)
 {
 	if(!fn) {
 		return alpm_list_add(list, data);
@@ -187,7 +187,7 @@ alpm_list_t *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cm
  *
  * @return the resultant list
  */
-alpm_list_t *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn)
+alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn)
 {
 	alpm_list_t *newlist, *lp;
 
@@ -242,7 +242,7 @@ alpm_list_t *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_f
  *
  * @return the resultant list
  */
-alpm_list_t* alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn)
+alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn)
 {
 	if (n > 1) {
 		alpm_list_t *left = list;
@@ -268,7 +268,7 @@ alpm_list_t* alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn)
  *
  * @return the resultant list
  */
-alpm_list_t *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data)
+alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data)
 { /* TODO I modified this to remove ALL matching items.  Do we need a remove_first? */
 	alpm_list_t *i = haystack, *tmp = NULL;
 
@@ -316,7 +316,7 @@ alpm_list_t *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_li
  *
  * @return the node which took the place of this one
  */
-alpm_list_t *alpm_list_remove_node(alpm_list_t *node)
+alpm_list_t SYMEXPORT *alpm_list_remove_node(alpm_list_t *node)
 {
 	if(!node) return(NULL);
 
@@ -367,7 +367,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
  *
  * @return a copy of the original list
  */
-alpm_list_t *alpm_list_strdup(const alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_strdup(const alpm_list_t *list)
 {
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
@@ -385,7 +385,7 @@ alpm_list_t *alpm_list_strdup(const alpm_list_t *list)
  *
  * @return a new list in reverse order
  */
-alpm_list_t *alpm_list_reverse(alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 { /* TODO any invalid free's from NOT duplicating data here? */
 	alpm_list_t *lp, *newlist = NULL;
 
@@ -419,7 +419,7 @@ inline alpm_list_t SYMEXPORT *alpm_list_first(const alpm_list_t *list)
  *
  * @return an alpm_list_t node for index `n`
  */
-alpm_list_t *alpm_list_nth(const alpm_list_t *list, int n)
+alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, int n)
 {
 	const alpm_list_t *i = list;
 	while(n--) {
@@ -447,7 +447,7 @@ inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
  *
  * @return the last element in the list
  */
-alpm_list_t *alpm_list_last(const alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
 {
 	const alpm_list_t *i = list;
 	while(i && i->next) {
@@ -545,7 +545,7 @@ int SYMEXPORT alpm_list_find_str(const alpm_list_t *haystack, const char *needle
  *
  * @return a list containing all items in `lhs` not present in `rhs`
  */
-alpm_list_t *alpm_list_diff(const alpm_list_t *lhs,
+alpm_list_t SYMEXPORT *alpm_list_diff(const alpm_list_t *lhs,
 		const alpm_list_t *rhs, alpm_list_fn_cmp fn)
 {
 	const alpm_list_t *i, *j;
