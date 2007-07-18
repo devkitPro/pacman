@@ -99,7 +99,7 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
  * @param pkg package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_checksha1sum(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_checksha1sum(pmpkg_t *pkg)
 {
 	char path[PATH_MAX];
 	struct stat buf;
@@ -150,7 +150,7 @@ int alpm_pkg_checksha1sum(pmpkg_t *pkg)
  * @param pkg package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 {
 	char path[PATH_MAX];
 	struct stat buf;
@@ -196,6 +196,417 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	return(retval);
 }
+
+/** Compare versions.
+ * @param ver1 first version
+ * @param ver2 secont version
+ * @return postive, 0 or negative if ver1 is less, equal or more
+ * than ver2, respectively.
+ */
+int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
+{
+	ALPM_LOG_FUNC;
+
+	return(_alpm_versioncmp(ver1, ver2));
+}
+
+/* internal */
+static char *_supported_archs[] = {
+	"i586",
+	"i686",
+	"ppc",
+	"x86_64",
+};
+
+/**
+ * @brief Determine if a package name has -ARCH tacked on.
+ * @param pkgname name of the package to parse
+ * @return pointer to start of -ARCH text if it exists, else NULL
+ */
+char SYMEXPORT *alpm_pkg_name_hasarch(const char *pkgname)
+{
+	/* TODO remove this when we transfer everything over to -ARCH
+	 *
+	 * this parsing sucks... it's done to support
+	 * two package formats for the time being:
+	 *    package-name-foo-1.0.0-1-i686
+	 * and
+	 *    package-name-bar-1.2.3-1
+	 */
+	size_t i = 0;
+	char *arch, *cmp, *p;
+
+	ALPM_LOG_FUNC;
+
+	if((p = strrchr(pkgname, '-'))) {
+		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
+			cmp = p+1;
+			arch = _supported_archs[i];
+
+			/* whee, case insensitive compare */
+			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
+			if(*arch || *cmp) {
+				continue;
+			}
+
+			return(p);
+		}
+	}
+	return(NULL);
+}
+
+const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(!strlen(pkg->filename)) {
+		/* construct the file name, it's not in the desc file */
+		if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+			_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+		}
+		if(pkg->arch && strlen(pkg->arch) > 0) {
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PKGEXT,
+			         pkg->name, pkg->version, pkg->arch);
+		} else {
+			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PKGEXT,
+			         pkg->name, pkg->version);
+		}
+	}
+
+	return pkg->filename;
+}
+
+const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_BASE);
+	}
+	return pkg->name;
+}
+
+const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_BASE);
+	}
+	return pkg->version;
+}
+
+const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->desc;
+}
+
+const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->url;
+}
+
+const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->builddate;
+}
+
+const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->installdate;
+}
+
+const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->packager;
+}
+
+const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->md5sum;
+}
+
+const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->sha1sum;
+}
+
+const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->arch;
+}
+
+unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->size;
+}
+
+unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->isize;
+}
+
+pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->reason;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->licenses;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->groups;
+}
+
+/* depends */
+alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
+	}
+	return pkg->depends;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
+	}
+	return pkg->requiredby;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
+	}
+	return pkg->conflicts;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
+	}
+	return pkg->provides;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
+	}
+	return pkg->replaces;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_FILES);
+	}
+	return pkg->files;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_FILES);
+	}
+	return pkg->backup;
+}
+
+unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
+		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
+		_alpm_db_read(pkg->data, pkg, INFRQ_SCRIPTLET);
+	}
+	return pkg->scriptlet;
+}
+
+/** @} */
 
 /* this function was taken from rpm 4.0.4 and rewritten */
 int _alpm_versioncmp(const char *a, const char *b)
@@ -295,67 +706,6 @@ int _alpm_versioncmp(const char *a, const char *b)
 	return(*one ? 1 : -1);
 }
 
-/** Compare versions.
- * @param ver1 first version
- * @param ver2 secont version
- * @return postive, 0 or negative if ver1 is less, equal or more
- * than ver2, respectively.
- */
-int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
-{
-	ALPM_LOG_FUNC;
-
-	return(_alpm_versioncmp(ver1, ver2));
-}
-
-/* internal */
-static char *_supported_archs[] = {
-	"i586",
-	"i686",
-	"ppc",
-	"x86_64",
-};
-
-/**
- * @brief Determine if a package name has -ARCH tacked on.
- *
- * @param pkgname name of the package to parse
- *
- * @return pointer to start of -ARCH text if it exists, else NULL
- */
-char SYMEXPORT *alpm_pkg_name_hasarch(const char *pkgname)
-{
-	/* TODO remove this when we transfer everything over to -ARCH
-	 *
-	 * this parsing sucks... it's done to support
-	 * two package formats for the time being:
-	 *    package-name-foo-1.0.0-1-i686
-	 * and
-	 *    package-name-bar-1.2.3-1
-	 */
-	size_t i = 0;
-	char *arch, *cmp, *p;
-
-	ALPM_LOG_FUNC;
-
-	if((p = strrchr(pkgname, '-'))) {
-		for(i=0; i < sizeof(_supported_archs)/sizeof(char*); ++i) {
-			cmp = p+1;
-			arch = _supported_archs[i];
-
-			/* whee, case insensitive compare */
-			while(*arch && *cmp && tolower(*arch++) == tolower(*cmp++)) ;
-			if(*arch || *cmp) {
-				continue;
-			}
-
-			return(p);
-		}
-	}
-	return(NULL);
-}
-
-/** @} */
 
 pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 {
@@ -880,357 +1230,6 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			}
 		}
 	}
-}
-
-const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(!strlen(pkg->filename)) {
-		/* construct the file name, it's not in the desc file */
-		if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-			_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-		}
-		if(pkg->arch && strlen(pkg->arch) > 0) {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PKGEXT,
-			         pkg->name, pkg->version, pkg->arch);
-		} else {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PKGEXT,
-			         pkg->name, pkg->version);
-		}
-	}
-
-	return pkg->filename;
-}
-
-const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_BASE);
-	}
-	return pkg->name;
-}
-
-const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_BASE);
-	}
-	return pkg->version;
-}
-
-const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->desc;
-}
-
-const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->url;
-}
-
-const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->builddate;
-}
-
-const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->installdate;
-}
-
-const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->packager;
-}
-
-const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->md5sum;
-}
-
-const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->sha1sum;
-}
-
-const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->arch;
-}
-
-unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->size;
-}
-
-unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->isize;
-}
-
-pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->reason;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->licenses;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->groups;
-}
-
-/* depends */
-alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
-	}
-	return pkg->depends;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
-	}
-	return pkg->requiredby;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
-	}
-	return pkg->conflicts;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DEPENDS);
-	}
-	return pkg->provides;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_DESC);
-	}
-	return pkg->replaces;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_FILES);
-	}
-	return pkg->files;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_FILES);
-	}
-	return pkg->backup;
-}
-
-unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && pkg->data == handle->db_local
-		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
-		_alpm_db_read(pkg->data, pkg, INFRQ_SCRIPTLET);
-	}
-	return pkg->scriptlet;
 }
 
 /* TODO this should either be public, or done somewhere else */
