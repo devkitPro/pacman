@@ -392,9 +392,11 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		*data = NULL;
 	}
 
-	for(i = trans->packages; i; i = i->next) {
-		pmsyncpkg_t *sync = i->data;
-		list = alpm_list_add(list, sync->pkg);
+	if(!(trans->flags & PM_TRANS_FLAG_DEPENDSONLY)) {
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			list = alpm_list_add(list, sync->pkg);
+		}
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
@@ -411,6 +413,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
+		if((trans->flags & PM_TRANS_FLAG_DEPENDSONLY)) {
+			FREELIST(trans->packages);
+		}
+
 		for(i = list; i; i = i->next) {
 			/* add the dependencies found by resolvedeps to the transaction set */
 			pmpkg_t *spkg = i->data;
@@ -423,19 +429,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				trans->packages = alpm_list_add(trans->packages, sync);
 				_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets",
 									alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
-			} else {
-				/* remove the original targets from the list if requested */
-				if((trans->flags & PM_TRANS_FLAG_DEPENDSONLY)) {
-					void *vpkg;
-					pmsyncpkg_t *sync;
-
-					_alpm_log(PM_LOG_DEBUG, "removing package %s-%s from the transaction targets",
-										alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
-
-					sync = _alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg));
-					trans->packages = alpm_list_remove(trans->packages, sync, syncpkg_cmp, &vpkg);
-					_alpm_sync_free(vpkg);
-				}
 			}
 		}
 
