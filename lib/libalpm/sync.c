@@ -433,13 +433,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		}
 
 		/* re-order w.r.t. dependencies */
-		alpm_list_t *sortlist = NULL;
+		alpm_list_t *sortlist = _alpm_sortbydeps(list, PM_TRANS_TYPE_ADD);
 		alpm_list_t *newpkgs = NULL;
-		for(i = trans->packages; i; i = i->next) {
-			pmsyncpkg_t *s = i->data;
-			sortlist = alpm_list_add(sortlist, s->pkg);
-		}
-		sortlist = _alpm_sortbydeps(sortlist, PM_TRANS_TYPE_ADD);
 		for(i = sortlist; i; i = i->next) {
 			for(j = trans->packages; j; j = j->next) {
 				pmsyncpkg_t *s = j->data;
@@ -459,13 +454,13 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		if(deps) {
 			if(data) {
 				*data = deps;
-				deps = NULL;
+			} else {
+				FREELIST(deps);
 			}
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;
 			goto cleanup;
 		}
-
 	}
 
 	/* We don't care about conflicts if we're just printing uris */
