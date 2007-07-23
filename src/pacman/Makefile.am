@@ -1,10 +1,13 @@
 # paths set at make time
 conffile  = ${sysconfdir}/pacman.conf
+dbpath    = ${localstatedir}/lib/pacman/
 
 bin_PROGRAMS = pacman pacman.static
 
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
+       -DROOTDIR=\"$(ROOTDIR)\" \
+       -DDBPATH=\"$(dbpath)\" \
        @DEFS@
 INCLUDES = -I$(top_srcdir)/lib/libalpm
 

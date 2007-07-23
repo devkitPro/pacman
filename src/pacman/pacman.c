@@ -56,9 +56,7 @@ pmdb_t *db_local;
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;
 
-/**
- * @brief Display usage/syntax for the specified operation.
- *
+/** Display usage/syntax for the specified operation.
  * @param op     the operation code requested
  * @param myname basename(argv[0])
  */
@@ -155,8 +153,7 @@ static void usage(int op, char *myname)
 	}
 }
 
-/**
- * @brief Output pacman version and copyright.
+/** Output pacman version and copyright.
  */
 static void version(void)
 {
@@ -170,9 +167,7 @@ static void version(void)
 	printf("\n");
 }
 
-/**
- * @brief Sets up gettext localization.
- *        Safe to call multiple times.
+/** Sets up gettext localization. Safe to call multiple times.
  */
 /* Inspired by the monotone function localize_monotone. */
 static void localize(void)
@@ -186,8 +181,7 @@ static void localize(void)
 	}
 }
 
-/**
- * @brief Set user agent environment variable.
+/** Set user agent environment variable.
  */
 static void setuseragent(void)
 {
@@ -202,11 +196,8 @@ static void setuseragent(void)
 	setenv("HTTP_USER_AGENT", agent, 0);
 }
 
-/**
- * @brief Catches thrown signals.
- *        Performs necessary cleanup to ensure database is in a consistant
- *        state.
- *
+/** Catches thrown signals. Performs necessary cleanup to ensure database is
+ * in a consistant state.
  * @param signum the thrown signal
  */
 static void cleanup(int signum)
@@ -225,7 +216,7 @@ static void cleanup(int signum)
 
 	/* free alpm library resources */
 	if(alpm_release() == -1) {
-		fprintf(stderr, _("error: %s\n"), alpm_strerror(pm_errno));
+		pm_printf(PM_LOG_ERROR, alpm_strerror(pm_errno));
 	}
 
 	/* free memory */
@@ -238,12 +229,9 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
-/**
- * @brief Parse command-line arguments for each operation
- *
+/** Parse command-line arguments for each operation.
  * @param argc argc
  * @param argv argv
- *
  * @return 0 on success, 1 on error
  */
 static int parseargs(int argc, char *argv[])
@@ -327,8 +315,8 @@ static int parseargs(int argc, char *argv[])
 							config->logmask |= PM_LOG_DEBUG;
 							break;
 						default:
-						  fprintf(stderr, _("error: '%s' is not a valid debug level\n"),
-							        optarg);
+						  pm_printf(PM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
+									optarg);
 							return(1);
 					}
 				} else {
@@ -343,8 +331,8 @@ static int parseargs(int argc, char *argv[])
 			case 1007:
 				/* TODO redo this logic- check path somewhere else, delete other cachedirs, etc */
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					fprintf(stderr, _("error: '%s' is not a valid cache directory\n"),
-					        optarg);
+					pm_printf(PM_LOG_ERROR, _("'%s' is not a valid cache directory\n"),
+							optarg);
 					return(1);
 				}
 				alpm_option_add_cachedir(optarg);
@@ -365,8 +353,8 @@ static int parseargs(int argc, char *argv[])
 			case 'V': config->version = 1; break;
 			case 'b':
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					fprintf(stderr, _("error: '%s' is not a valid db path\n"),
-					        optarg);
+					pm_printf(PM_LOG_ERROR, _("'%s' is not a valid db path\n"),
+							optarg);
 					return(1);
 				}
 				alpm_option_set_dbpath(optarg);
@@ -396,8 +384,8 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'r':
 				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					fprintf(stderr, _("error: '%s' is not a valid root path\n"),
-					        optarg);
+					pm_printf(PM_LOG_ERROR, _("'%s' is not a valid root path\n"),
+							optarg);
 					return(1);
 				}
 				alpm_option_set_root(optarg);
@@ -427,7 +415,7 @@ static int parseargs(int argc, char *argv[])
 	}
 
 	if(config->op == 0) {
-		fprintf(stderr, _("error: only one operation may be used at a time\n"));
+		pm_printf(PM_LOG_ERROR, _("only one operation may be used at a time\n"));
 		return(1);
 	}
 
@@ -459,6 +447,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	int linenum = 0;
 	char *ptr, *section = NULL;
 	pmdb_t *db = NULL;
+	struct stat st;
 
 	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
@@ -621,15 +610,32 @@ static int _parseconfig(const char *file, const char *givensection,
 						alpm_option_add_holdpkg(p);
 						pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
+						/* don't overwrite a path specified on the command line */
 						if(alpm_option_get_dbpath() == NULL) {
+							if(stat(ptr, &st) == -1 || !S_ISDIR(st.st_mode)) {
+								pm_printf(PM_LOG_ERROR, _("'%s' is not a valid db path\n"),
+										ptr);
+								return(1);
+							}
 							alpm_option_set_dbpath(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
 						}
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
-						alpm_option_add_cachedir(ptr);
-						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
+						if(stat(ptr, &st) == -1 || !S_ISDIR(st.st_mode)) {
+							pm_printf(PM_LOG_WARNING, _("'%s' is not a valid cache directory\n"),
+									ptr);
+						} else {
+							alpm_option_add_cachedir(ptr);
+							pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
+						}
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
+						/* don't overwrite a path specified on the command line */
 						if(alpm_option_get_root() == NULL) {
+							if(stat(ptr, &st) == -1 || !S_ISDIR(st.st_mode)) {
+								pm_printf(PM_LOG_ERROR, _("'%s' is not a valid root path\n"),
+										ptr);
+								return(1);
+							}
 							alpm_option_set_root(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
 						}
@@ -685,12 +691,9 @@ int parseconfig(const char *file)
 	return(_parseconfig(file, NULL, NULL));
 }
 
-/**
- * @brief Main function.
- *
+/** Main function.
  * @param argc argc
  * @param argv argv
- *
  * @return A return code indicating success, failure, etc.
  */
 int main(int argc, char *argv[])
@@ -725,9 +728,9 @@ int main(int argc, char *argv[])
 		config->noprogressbar = 1;
 	}
 
-	/* initialize pm library */
+	/* initialize library */
 	if(alpm_initialize() == -1) {
-		fprintf(stderr, _("error: failed to initialize alpm library (%s)\n"),
+		pm_printf(PM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
 		        alpm_strerror(pm_errno));
 		cleanup(EXIT_FAILURE);
 	}
@@ -753,6 +756,14 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
+	/* ensure root and dbpath were defined */
+	if(alpm_option_get_root() == NULL) {
+		alpm_option_set_root(ROOTDIR);
+	}
+	if(alpm_option_get_dbpath() == NULL) {
+		alpm_option_set_dbpath(DBPATH);
+	}
+
 #if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
 if(0) {
@@ -767,7 +778,7 @@ if(0) {
 				/* special case: ignore root user check if -r is specified, fall back on
 				 * normal FS checking */
 			} else {
-				fprintf(stderr, _("error: you cannot perform this operation unless you are root.\n"));
+				pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
 				cleanup(EXIT_FAILURE);
 			}
 		}
@@ -793,7 +804,7 @@ if(0) {
 	/* Opening local database */
 	db_local = alpm_db_register("local");
 	if(db_local == NULL) {
-		fprintf(stderr, _("error: could not register 'local' database (%s)\n"),
+		pm_printf(PM_LOG_ERROR, _("could not register 'local' database (%s)\n"),
 		        alpm_strerror(pm_errno));
 		cleanup(EXIT_FAILURE);
 	}
@@ -819,7 +830,7 @@ if(0) {
 			ret = pacman_deptest(pm_targets);
 			break;
 		default:
-			fprintf(stderr, _("error: no operation specified (use -h for help)\n"));
+			pm_printf(PM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
 			ret = EXIT_FAILURE;
 	}
 
