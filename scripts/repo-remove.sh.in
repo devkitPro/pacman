@@ -28,7 +28,6 @@ myver='@PACKAGE_VERSION@'
 
 FORCE=0
 REPO_DB_FILE=""
-TMP_DIR=""
 
 # print usage instructions
 usage() {
@@ -66,7 +65,7 @@ db_remove_entry()
 	# remove any other package in the DB with same name
 	for existing in *; do
 		if [ "${existing%-*-*}" = "$1" ]; then
-			echo "$(gettext ":: removing existing package '%s'")" $existing
+			printf "$(gettext ":: removing existing package '%s'")\n" "$existing"
 			rm -rf $existing
 		fi
 	done
@@ -96,7 +95,7 @@ fi
 if [ -r @sysconfdir@/makepkg.conf ]; then
 	source @sysconfdir@/makepkg.conf
 else
-	echo "$(gettext "ERROR: /etc/makepkg.conf not found. Can not continue.")" >&2
+	printf "$(gettext "ERROR: /etc/makepkg.conf not found. Can not continue.")\n" >&2
 	exit 1 # $E_CONFIG_ERROR
 fi
 
@@ -107,7 +106,7 @@ fi
 # main routine
 if [ $# -gt 1 ]; then
 	gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || (\
-	echo "$(gettext "cannot create temp directory for database building")"; \
+	printf "$(gettext "cannot create temp directory for database building")\n"; \
 	exit 1)
 
 	success=0
@@ -116,20 +115,20 @@ if [ $# -gt 1 ]; then
 		if [ -z "$REPO_DB_FILE" ]; then
 			REPO_DB_FILE="$(readlink -f $arg)"
 			if ! test_repo_db_file; then
-				echo "$(gettext "error: repository file '%s' is not a proper pacman db")" $REPO_DB_FILE
+				printf "$(gettext "error: repository file '%s' is not a proper pacman db")\n" "$REPO_DB_FILE"
 				exit 1
 			elif [ -f "$REPO_DB_FILE" ]; then
-				echo "$(gettext ":: extracting database to a temporary location")"
+				printf "$(gettext ":: extracting database to a temporary location")\n"
 				bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
 			fi
 		else
-			echo "$(gettext ":: searching for package '%s'")"
+			printf "$(gettext ":: searching for package '%s'")\n"
 
 			this_dir="$(pwd)"
 			if db_remove_entry "$arg"; then
 				success=1
 			else
-			echo "$(gettext "error: package matching '%s' not found")" $arg
+				printf "$(gettext "error: package matching '%s' not found")\n" "$arg"
 			fi
 			cd $this_dir
 		fi
@@ -137,7 +136,7 @@ if [ $# -gt 1 ]; then
 
 	# if all operations were a success, rezip database
 	if [ "$success" = "1" ]; then
-		echo "$(gettext ":: creating updated database file %s")" ${REPO_DB_FILE}
+		printf "$(gettext ":: creating updated database file %s")\n" "$REPO_DB_FILE"
 		cd $gstmpdir
 		if [ -n "$(ls)" ]; then
 			[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
@@ -145,12 +144,12 @@ if [ $# -gt 1 ]; then
 			case "$DB_COMPRESSION" in
 				gz) bsdtar -c * | gzip -9 >$REPO_DB_FILE ;;
 				bz2) bsdtar -c * | bzip2 -9 >$REPO_DB_FILE ;;
-				*) echo "$(gettext "warning: no compression set")"
+				*) printf "$(gettext "warning: no compression set")\n"
 				bsdtar -c * >$REPO_DB_FILE;;
 			esac
 		fi
 	else
-		echo "$(gettext ":: no packages modified, nothing to do")"
+		printf "$(gettext ":: no packages modified, nothing to do")\n"
 	fi
 fi
 
