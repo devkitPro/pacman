@@ -48,7 +48,6 @@
 #include "handle.h"
 #include "alpm.h"
 #include "md5.h"
-#include "sha1.h"
 #include "server.h"
 
 pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
@@ -808,19 +807,18 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		char str[PATH_MAX];
 		struct stat buf;
 		const char *pkgname;
-		char *md5sum1, *md5sum2, *sha1sum1, *sha1sum2;
+		char *md5sum1, *md5sum2;
 		char *ptr=NULL;
 
 		pkgname = alpm_pkg_get_filename(spkg);
 		md5sum1 = spkg->md5sum;
-		sha1sum1 = spkg->sha1sum;
 
-		if((md5sum1 == NULL) && (sha1sum1 == NULL)) {
+		if(md5sum1 == NULL) {
 			/* TODO wtf is this? malloc'd strings for error messages? */
 			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
-			snprintf(ptr, 512, _("can't get md5 or sha1 checksum for package %s\n"), pkgname);
+			snprintf(ptr, 512, _("can't get md5 checksum for package %s\n"), pkgname);
 			*data = alpm_list_add(*data, ptr);
 			retval = 1;
 			continue;
@@ -837,17 +835,16 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		}
 
 		md5sum2 = alpm_get_md5sum(str);
-		sha1sum2 = alpm_get_sha1sum(str);
-		if(md5sum2 == NULL && sha1sum2 == NULL) {
+		if(md5sum2 == NULL) {
 			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
-			snprintf(ptr, 512, _("can't get md5 or sha1 checksum for package %s\n"), pkgname);
+			snprintf(ptr, 512, _("can't get md5 checksum for package %s\n"), pkgname);
 			*data = alpm_list_add(*data, ptr);
 			retval = 1;
 			continue;
 		}
-		if((strcmp(md5sum1, md5sum2) != 0) && (strcmp(sha1sum1, sha1sum2) != 0)) {
+		if(strcmp(md5sum1, md5sum2) != 0) {
 			int doremove=0;
 			if((ptr = calloc(512, sizeof(char))) == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
@@ -855,15 +852,14 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)pkgname, NULL, NULL, &doremove);
 			if(doremove) {
 				unlink(str);
-				snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 or SHA1 checksum)\n"), pkgname);
+				snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 checksum)\n"), pkgname);
 			} else {
-				snprintf(ptr, 512, _("archive %s is corrupted (bad MD5 or SHA1 checksum)\n"), pkgname);
+				snprintf(ptr, 512, _("archive %s is corrupted (bad MD5 checksum)\n"), pkgname);
 			}
 			*data = alpm_list_add(*data, ptr);
 			retval = 1;
 		}
 		FREE(md5sum2);
-		FREE(sha1sum2);
 	}
 	if(retval) {
 		pm_errno = PM_ERR_PKG_CORRUPTED;

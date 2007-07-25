@@ -188,7 +188,6 @@ typedef enum _pmpkghasarch_t {
 int alpm_pkg_load(const char *filename, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
-int alpm_pkg_checksha1sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(const char *url);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 char *alpm_pkg_name_hasarch(const char *pkgname);
@@ -203,7 +202,6 @@ const char *alpm_pkg_get_buildtype(pmpkg_t *pkg);
 const char *alpm_pkg_get_installdate(pmpkg_t *pkg);
 const char *alpm_pkg_get_packager(pmpkg_t *pkg);
 const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
-const char *alpm_pkg_get_sha1sum(pmpkg_t *pkg);
 const char *alpm_pkg_get_arch(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_size(pmpkg_t *pkg);
 unsigned long alpm_pkg_get_isize(pmpkg_t *pkg);
@@ -382,7 +380,6 @@ const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
 
 /* checksums */
 char *alpm_get_md5sum(char *name);
-char *alpm_get_sha1sum(char *name);
 
 /*
  * Errors

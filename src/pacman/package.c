@@ -110,7 +110,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
  */
 void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 {
-	const char *descheader, *md5sum, *sha1sum;
+	const char *descheader, *md5sum;
 	if(pkg == NULL) {
 		return;
 	}
@@ -118,7 +118,6 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	descheader = _("Description    : ");
 
 	md5sum = alpm_pkg_get_md5sum(pkg);
-	sha1sum = alpm_pkg_get_sha1sum(pkg);
 	
 	printf(_("Repository     : %s\n"), treename);
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
@@ -138,9 +137,6 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	
 	if (md5sum != NULL && md5sum[0] != '\0') {
 		printf(_("MD5 Sum        : %s"), md5sum);
-	}
-	if (sha1sum != NULL && sha1sum[0] != '\0') {
-		printf(_("SHA1 Sum       : %s"), sha1sum);
 	}
 	printf("\n");
 }
@@ -168,31 +164,22 @@ void dump_pkg_backups(pmpkg_t *pkg)
 			snprintf(path, PATH_MAX-1, "%s%s", root, str);
 			/* if we find the file, calculate checksums, otherwise it is missing */
 			if(!stat(path, &buf)) {
-				char *sum;
 				char *md5sum = alpm_get_md5sum(path);
-				char *sha1sum = alpm_get_sha1sum(path);
 
-				if(md5sum == NULL || sha1sum == NULL) {
+				if(md5sum == NULL) {
 					fprintf(stderr, _("error: could not calculate checksums for %s\n"),
 					        path);
 					free(str);
 					continue;
 				}
-				/* TODO Is this a good way to check type of backup stored?
-				 * We aren't storing it anywhere in the database. */
-				if (strlen(ptr) == 32) {
-					sum = md5sum;
-				} else { /*if (strlen(ptr) == 40) */
-					sum = sha1sum;
-				}
+
 				/* if checksums don't match, file has been modified */
-				if (strcmp(sum, ptr)) {
+				if (strcmp(md5sum, ptr)) {
 					printf(_("MODIFIED\t%s\n"), path);
 				} else {
 					printf(_("Not Modified\t%s\n"), path);
 				}
 				free(md5sum);
-				free(sha1sum);
 			} else {
 				printf(_("MISSING\t\t%s\n"), path);
 			}

@@ -34,7 +34,7 @@
 #include "util.h"
 
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
- * then we return the md5 or sha1 hash (parsed from the same line)
+ * then we return the md5 hash (parsed from the same line)
  */
 char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 {
@@ -46,7 +46,7 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 		return(NULL);
 	}
 
-	/* run through the backup list and parse out the md5 or sha1 hash for our file */
+	/* run through the backup list and parse out the md5 hash for our file */
 	for(lp = backup; lp; lp = lp->next) {
 		char *str = strdup(lp->data);
 		char *ptr;
@@ -59,7 +59,7 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 		}
 		*ptr = '\0';
 		ptr++;
-		/* now str points to the filename and ptr points to the md5 or sha1 hash */
+		/* now str points to the filename and ptr points to the md5 hash */
 		if(strcmp(file, str) == 0) {
 			char *hash = strdup(ptr);
 			FREE(str);

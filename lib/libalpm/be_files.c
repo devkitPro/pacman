@@ -361,12 +361,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				_alpm_strtrim(tmp);
 				info->isize = atol(tmp);
-			} else if(!strcmp(line, "%SHA1SUM%")) {
-				/* SHA1SUM tag only appears in sync repositories,
-				 * not the local one. */
-				if(fgets(info->sha1sum, sizeof(info->sha1sum), fp) == NULL) {
-					goto error;
-				}
 			} else if(!strcmp(line, "%MD5SUM%")) {
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
@@ -571,10 +565,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%%ISIZE%%\n"
 								"%lu\n\n", info->isize);
 			}
-			if(info->sha1sum) {
-				fprintf(fp, "%%SHA1SUM%%\n"
-								"%s\n\n", info->sha1sum);
-			} else if(info->md5sum) {
+			if(info->md5sum) {
 				fprintf(fp, "%%MD5SUM%%\n"
 								"%s\n\n", info->md5sum);
 			}

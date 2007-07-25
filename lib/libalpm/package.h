@@ -46,7 +46,6 @@ typedef enum _pmpkgfrom_t {
 #define PKG_TYPE_LEN     32
 #define PKG_PACKAGER_LEN 64
 #define PKG_MD5SUM_LEN   33
-#define PKG_SHA1SUM_LEN  41
 #define PKG_ARCH_LEN     32
 
 struct __pmpkg_t {
@@ -59,7 +58,6 @@ struct __pmpkg_t {
 	char installdate[PKG_DATE_LEN];
 	char packager[PKG_PACKAGER_LEN];
 	char md5sum[PKG_MD5SUM_LEN];
-	char sha1sum[PKG_SHA1SUM_LEN];
 	char arch[PKG_ARCH_LEN];
 	unsigned long size;
 	unsigned long isize;

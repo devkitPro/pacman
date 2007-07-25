@@ -29,7 +29,6 @@ libalpm_la_SOURCES = \
 	provide.h provide.c \
 	remove.h remove.c \
 	server.h server.c \
-	sha1.h sha1.c \
 	sync.h sync.c \
 	trans.h trans.c \
 	util.h util.c

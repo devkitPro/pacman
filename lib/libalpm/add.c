@@ -42,7 +42,6 @@
 #include "error.h"
 #include "cache.h"
 #include "md5.h"
-#include "sha1.h"
 #include "log.h"
 #include "backup.h"
 #include "package.h"
@@ -336,7 +335,6 @@ static int extract_single_file(struct archive *archive,
 	char filename[PATH_MAX]; /* the actual file we're extracting */
 	int needbackup = 0, notouch = 0;
 	char *hash_orig = NULL;
-	int use_md5 = 0;
 	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME;
@@ -485,10 +483,6 @@ static int extract_single_file(struct archive *archive,
 		/* case 5,8: don't need to do anything special */
 	}
 
-	if(strlen(newpkg->sha1sum) == 0) {
-		use_md5 = 1;
-	}
-
 	if(needbackup) {
 		char *tempfile = NULL;
 		char *hash_local = NULL, *hash_pkg = NULL;
@@ -516,15 +510,10 @@ static int extract_single_file(struct archive *archive,
 			return(1);
 		}
 
-		if(use_md5) {
-			hash_local = _alpm_MDFile(filename);
-			hash_pkg = _alpm_MDFile(tempfile);
-		} else {
-			hash_local = _alpm_SHAFile(filename);
-			hash_pkg = _alpm_SHAFile(tempfile);
-		}
+		hash_local = _alpm_MDFile(filename);
+		hash_pkg = _alpm_MDFile(tempfile);
 
-		/* append the new md5 or sha1 hash to it's respective entry
+		/* append the new md5 hash to it's respective entry
 		 * in newpkg's backup (it will be the new orginal) */
 		alpm_list_t *backups;
 		for(backups = alpm_pkg_get_backup(newpkg); backups;
@@ -534,14 +523,7 @@ static int extract_single_file(struct archive *archive,
 				return(0);
 			}
 			char *backup = NULL;
-			int backup_len = strlen(oldbackup) + 2; /* tab char and null byte */
-
-			if(use_md5) {
-				backup_len += 32; /* MD5s are 32 chars in length */
-			} else {
-				backup_len += 40; /* SHA1s are 40 chars in length */
-			}
-
+			int backup_len = strlen(oldbackup) + 34; /* tab char, null byte and MD5 (32 char) */
 			backup = malloc(backup_len);
 			if(!backup) {
 				RET_ERR(PM_ERR_MEMORY, -1);
@@ -673,21 +655,14 @@ static int extract_single_file(struct archive *archive,
 		for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 			char *backup = NULL, *hash = NULL;
 			char *oldbackup = alpm_list_getdata(b);
-			int backup_len = strlen(oldbackup) + 2; /* tab char and null byte */
+			int backup_len = strlen(oldbackup) + 34; /* tab char, null byte and MD5 (32 char) */
 
 			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
 				return(0);
 			}
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s", filename);
 
-			if(use_md5) {
-				backup_len += 32; /* MD5s are 32 chars in length */
-				hash = _alpm_MDFile(filename);
-			} else {
-				backup_len += 40; /* SHA1s are 40 chars in length */
-				hash = _alpm_SHAFile(filename);
-			}
-
+			hash = _alpm_MDFile(filename);
 			backup = malloc(backup_len);
 			if(!backup) {
 				RET_ERR(PM_ERR_MEMORY, -1);

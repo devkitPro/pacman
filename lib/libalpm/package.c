@@ -95,57 +95,6 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 	return(0);
 }
 
-/** Check the integrity (with sha1) of a package from the sync cache.
- * @param pkg package pointer
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int SYMEXPORT alpm_pkg_checksha1sum(pmpkg_t *pkg)
-{
-	char path[PATH_MAX];
-	struct stat buf;
-	char *sha1sum = NULL;
-	alpm_list_t *i;
-	int retval = 0;
-
-	ALPM_LOG_FUNC;
-
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	/* We only inspect packages from sync repositories */
-	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
-	ASSERT(pkg->origin_data.db != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
-
-	/* Loop through the cache dirs until we find a matching file */
-	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
-		snprintf(path, PATH_MAX, "%s%s-%s" PKGEXT, (char*)alpm_list_getdata(i),
-		         alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		if(stat(path, &buf) == 0) {
-			break;
-		}
-	}
-
-	sha1sum = alpm_get_sha1sum(path);
-	if(sha1sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get sha1sum for package %s-%s"),
-							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		pm_errno = PM_ERR_NOT_A_FILE;
-		retval = -1;
-	} else {
-		if(strcmp(sha1sum, alpm_pkg_get_sha1sum(pkg)) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "sha1sums for package %s-%s match",
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		} else {
-			_alpm_log(PM_LOG_ERROR, _("sha1sums do not match for package %s-%s"),
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-			pm_errno = PM_ERR_PKG_INVALID;
-			retval = -1;
-		}
-	}
-
-	FREE(sha1sum);
-
-	return(retval);
-}
-
 /** Check the integrity (with md5) of a package from the sync cache.
  * @param pkg package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
@@ -390,20 +339,6 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
 	}
 	return pkg->md5sum;
-}
-
-const char SYMEXPORT *alpm_pkg_get_sha1sum(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
-	return pkg->sha1sum;
 }
 
 const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
