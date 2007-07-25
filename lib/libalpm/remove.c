@@ -39,7 +39,6 @@
 #include "trans.h"
 #include "util.h"
 #include "error.h"
-#include "md5.h"
 #include "log.h"
 #include "backup.h"
 #include "package.h"

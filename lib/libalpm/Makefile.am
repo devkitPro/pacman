@@ -24,7 +24,6 @@ libalpm_la_SOURCES = \
 	handle.h handle.c \
 	log.h log.c \
 	md5.h md5.c \
-	md5driver.c \
 	package.h package.c \
 	provide.h provide.c \
 	remove.h remove.c \

@@ -48,6 +48,7 @@
 #include "error.h"
 #include "package.h"
 #include "alpm.h"
+#include "md5.h"
 
 #ifndef HAVE_STRVERSCMP
 /* GNU's strverscmp() function, taken from glibc 2.3.2 sources
@@ -540,6 +541,47 @@ int _alpm_str_cmp(const void *s1, const void *s2)
 {
 	return(strcmp(s1, s2));
 }
+
+/** Get the md5 sum of file.
+ * @param filename name of the file
+ * @return the checksum on success, NULL on error
+ * @addtogroup alpm_misc
+ */
+char SYMEXPORT *alpm_get_md5sum(char *filename)
+{
+	unsigned char output[16];
+	char *md5sum;
+	int ret, i;
+
+	ALPM_LOG_FUNC;
+
+	ASSERT(filename != NULL, return(NULL));
+
+	/* allocate 32 chars plus 1 for null */
+	md5sum = calloc(33, sizeof(char));
+	ret = md5_file(filename, output);
+
+	if (ret > 0) {
+		if (ret == 1) {
+			_alpm_log(PM_LOG_ERROR, _("md5: %s can't be opened\n"), filename);
+		} else if (ret == 2) {
+			_alpm_log(PM_LOG_ERROR, _("md5: %s can't be read\n"), filename);
+		}
+
+		return(NULL);
+	}
+
+	/* Convert the result to something readable */
+	for (i = 0; i < 16; i++) {
+		/* sprintf is acceptable here because we know our output */
+		sprintf(md5sum +(i * 2), "%02x", output[i]);
+	}
+	md5sum[32] = '\0';
+
+	_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s", filename, md5sum);
+	return(md5sum);
+}
+
 
 
 /* vim: set ts=2 sw=2 noet: */

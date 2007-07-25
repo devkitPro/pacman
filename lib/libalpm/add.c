@@ -41,7 +41,6 @@
 #include "util.h"
 #include "error.h"
 #include "cache.h"
-#include "md5.h"
 #include "log.h"
 #include "backup.h"
 #include "package.h"
@@ -510,8 +509,8 @@ static int extract_single_file(struct archive *archive,
 			return(1);
 		}
 
-		hash_local = _alpm_MDFile(filename);
-		hash_pkg = _alpm_MDFile(tempfile);
+		hash_local = alpm_get_md5sum(filename);
+		hash_pkg = alpm_get_md5sum(tempfile);
 
 		/* append the new md5 hash to it's respective entry
 		 * in newpkg's backup (it will be the new orginal) */
@@ -523,7 +522,8 @@ static int extract_single_file(struct archive *archive,
 				return(0);
 			}
 			char *backup = NULL;
-			int backup_len = strlen(oldbackup) + 34; /* tab char, null byte and MD5 (32 char) */
+			/* length is tab char, null byte and MD5 (32 char) */
+			int backup_len = strlen(oldbackup) + 34;
 			backup = malloc(backup_len);
 			if(!backup) {
 				RET_ERR(PM_ERR_MEMORY, -1);
@@ -655,14 +655,15 @@ static int extract_single_file(struct archive *archive,
 		for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 			char *backup = NULL, *hash = NULL;
 			char *oldbackup = alpm_list_getdata(b);
-			int backup_len = strlen(oldbackup) + 34; /* tab char, null byte and MD5 (32 char) */
+			/* length is tab char, null byte and MD5 (32 char) */
+			int backup_len = strlen(oldbackup) + 34;
 
 			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
 				return(0);
 			}
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s", filename);
 
-			hash = _alpm_MDFile(filename);
+			hash = alpm_get_md5sum(filename);
 			backup = malloc(backup_len);
 			if(!backup) {
 				RET_ERR(PM_ERR_MEMORY, -1);

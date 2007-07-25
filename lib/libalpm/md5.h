@@ -1,53 +1,91 @@
-/* MD5.H - header file for MD5C.C
+/*
+ *  RFC 1321 compliant MD5 implementation
+ *
+ *  Copyright (C) 2006-2007  Christophe Devine
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License, version 2.1 as published by the Free Software Foundation.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *  MA  02110-1301  USA
  */
 
-/* Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All
-rights reserved.
+/**
+ * \file md5.h
+ */
+#ifndef _MD5_H
+#define _MD5_H
 
-License to copy and use this software is granted provided that it
-is identified as the "RSA Data Security, Inc. MD5 Message-Digest
-Algorithm" in all material mentioning or referencing this software
-or this function.
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-License is also granted to make and use derivative works provided
-that such works are identified as "derived from the RSA Data
-Security, Inc. MD5 Message-Digest Algorithm" in all material
-mentioning or referencing the derived work.
+/**
+ * \brief          MD5 context structure
+ */
+typedef struct
+{
+    unsigned long total[2];     /*!< number of bytes processed  */
+    unsigned long state[4];     /*!< intermediate digest state  */
+    unsigned char buffer[64];   /*!< data block being processed */
+}
+md5_context;
 
-RSA Data Security, Inc. makes no representations concerning either
-the merchantability of this software or the suitability of this
-software for any particular purpose. It is provided "as is"
-without express or implied warranty of any kind.
+/**
+ * \brief          MD5 context setup
+ *
+ * \param ctx      context to be initialized
+ */
+void md5_starts( md5_context *ctx );
 
-These notices must be retained in any copies of any part of this
-documentation and/or software. */
-#ifndef _ALPM_MD5_H
-#define _ALPM_MD5_H
+/**
+ * \brief          MD5 process buffer
+ *
+ * \param ctx      MD5 context
+ * \param input    buffer holding the  data
+ * \param ilen     length of the input data
+ */
+void md5_update( md5_context *ctx, unsigned char *input, int ilen );
 
-/* POINTER defines a generic pointer type */
-typedef unsigned char *POINTER;
+/**
+ * \brief          MD5 final digest
+ *
+ * \param ctx      MD5 context
+ * \param output   MD5 checksum result
+ */
+void md5_finish( md5_context *ctx, unsigned char *output );
 
-/* UINT2 defines a two byte word */
-typedef unsigned short int UINT2;
+/**
+ * \brief          Output = MD5( input buffer )
+ *
+ * \param input    buffer holding the  data
+ * \param ilen     length of the input data
+ * \param output   MD5 checksum result
+ */
+void md5( unsigned char *input, int ilen,
+          unsigned char *output );
 
-/* UINT4 defines a four byte word */
-typedef unsigned int UINT4;
+/**
+ * \brief          Output = MD5( file contents )
+ *
+ * \param path     input file name
+ * \param output   MD5 checksum result
+ *
+ * \return         0 if successful, 1 if fopen failed,
+ *                 or 2 if fread failed
+ */
+int md5_file( char *path, unsigned char *output );
 
+#ifdef __cplusplus
+}
+#endif
 
-/* MD5 context. */
-typedef struct {
-  UINT4 state[4];                                   /* state (ABCD) */
-  UINT4 count[2];        /* number of bits, modulo 2^64 (lsb first) */
-  unsigned char buffer[64];                         /* input buffer */
-} MD5_CTX;
-
-void _alpm_MD5Init(MD5_CTX *);
-void _alpm_MD5Update(MD5_CTX *, unsigned char *, unsigned int);
-void _alpm_MD5Final(unsigned char [16], MD5_CTX *);
-
-char* _alpm_MDFile(char *);
-void  _alpm_MDPrint(unsigned char [16]);
-
-#endif /* _ALPM_MD5_H */
-
-/* vim: set ts=2 sw=2 noet: */
+#endif /* md5.h */
