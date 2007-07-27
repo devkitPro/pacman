@@ -48,6 +48,8 @@ make_pkginfo () {
 	done
 }
 
+LANG="POSIX"
+
 if [ $# -ne 1 ]; then
 	echo "usage: re-pacman <installed package name>"
 	exit 1
