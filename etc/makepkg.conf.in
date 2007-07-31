@@ -27,8 +27,8 @@ CARCH="@CARCH@"
 CHOST="@CHOST@"
 
 #-- Exclusive: will only run on @CARCHFLAGS@
-# -mtune builds exclusively for an architecture
-# -mcpu optimizes for an architecture, but builds for the whole processor family
+# -march (or -mcpu) builds exclusively for an architecture
+# -mtune optimizes for an architecture, but builds for whole processor family
 CFLAGS="-@ARCHSWITCH@=@CARCHFLAGS@ -mtune=generic -O2 -pipe"
 CXXFLAGS="-@ARCHSWITCH@=@CARCHFLAGS@ -mtune=generic -O2 -pipe"
 #-- Make Flags: change this for DistCC/SMP systems
