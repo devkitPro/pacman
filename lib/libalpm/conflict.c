@@ -112,13 +112,6 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 		for(j = alpm_pkg_get_conflicts(pkg1); j; j = j->next) {
 			const char *conflict = j->data;
 
-			if(strcmp(pkg1name, conflict) == 0) {
-				/* a package cannot conflict with itself -- that's just not nice */
-				_alpm_log(PM_LOG_DEBUG, "package '%s' conflicts with itself - packaging error",
-						pkg1name);
-				continue;
-			}
-
 			for(k = list2; k; k = k->next) {
 				pmpkg_t *pkg2 = k->data;
 				const char *pkg2name = alpm_pkg_get_name(pkg2);
@@ -140,8 +133,7 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 	}
 }
 
-/* Returns a alpm_list_t* of pmdepmissing_t pointers.
- * conflicts are always name only */
+/* Returns a alpm_list_t* of pmdepmissing_t pointers. */
 alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
