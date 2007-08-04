@@ -155,6 +155,7 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 	_alpm_log(PM_LOG_DEBUG, "check targets vs targets");
 	check_conflict(packages, packages, &baddeps, 0);
 
+	alpm_list_free(dblist);
 	return(baddeps);
 }
 
