@@ -472,6 +472,7 @@ download_sources() {
 			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
+		cp -s --remove-destination "$SRCDEST/$file" "$srcdir/"
 	done
 
 	popd &>/dev/null
@@ -574,6 +575,8 @@ check_checksums() {
 					echo "$(gettext "FAILED")" >&2
 					errors=1
 				fi
+
+				idx=$((idx + 1))
 			done
 
 			if [ $errors -gt 0 ]; then
