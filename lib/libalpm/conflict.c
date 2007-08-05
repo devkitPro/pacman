@@ -272,6 +272,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 	alpm_list_t *i, *conflicts = NULL;
 	alpm_list_t *targets = trans->packages;
 	int numtargs = alpm_list_count(targets);
+	int current;
 
 	ALPM_LOG_FUNC;
 
@@ -279,7 +280,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		return(NULL);
 	}
 
-	for(i = targets; i; i = i->next) {
+	for(current = 1, i = targets; i; i = i->next, current++) {
 		alpm_list_t *j, *k, *tmpfiles = NULL;
 		pmpkg_t *p1, *p2, *dbpkg;
 		char path[PATH_MAX+1];
@@ -289,10 +290,9 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			continue;
 		}
 
-		double percent = (double)(alpm_list_count(targets) - alpm_list_count(i) + 1)
-			                 / alpm_list_count(targets);
+		double percent = (double)current / numtargs;
 		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100),
-		         numtargs, (numtargs - alpm_list_count(i) +1));
+		         numtargs, current);
 		/* CHECK 1: check every target against every target */
 		for(j = i->next; j; j = j->next) {
 			p2 = j->data;
@@ -356,8 +356,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 					unsigned ok = 0;
 					for(k = dbpkg->files; k; k = k->next) {
 						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
-						lstat(str, &buf2);
-						if(buf.st_ino == buf2.st_ino) {
+						if(!lstat(str, &buf2) && buf.st_ino == buf2.st_ino) {
 							ok = 1;
 							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s", path);
 							break;
