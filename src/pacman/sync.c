@@ -228,6 +228,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ret;
 	int freelist;
+	int found = 0;
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		pmdb_t *db = alpm_list_getdata(i);
@@ -241,6 +242,8 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 		}
 		if(ret == NULL) {
 			continue;
+		} else {
+			found = 1;
 		}
 		for(j = ret; j; j = alpm_list_next(j)) {
 			/* print repo/name (group) info about each package in our list */
@@ -275,7 +278,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 		}
 	}
 
-	return(0);
+	return(!found);
 }
 
 static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
