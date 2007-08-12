@@ -681,8 +681,19 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		/* find the package in one of the repositories */
 		/* check literals */
 		for(j = dbs_sync; j && !found; j = j->next) {
-			if((sync = _alpm_db_get_pkgfromcache(j->data, missdep->name))) {
-				found = alpm_depcmp(sync, missdep);
+			sync = _alpm_db_get_pkgfromcache(j->data, missdep->name);
+			if(!sync) {
+				continue;
+			}
+			found = alpm_depcmp(sync, missdep);
+			if(!found) {
+				continue;
+			}
+			/* If package is in the ignorepkg list, ask before we pull it */
+			if(_alpm_pkg_should_ignore(sync)) {
+				pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
+				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &found);
+				_alpm_pkg_free(dummypkg);
 			}
 		}
 		/*TODO this autoresolves the first 'satisfier' package... we should fix this
@@ -691,7 +702,18 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		for(j = dbs_sync; j && !found; j = j->next) {
 			for(k = _alpm_db_get_pkgcache(j->data); k && !found; k = k->next) {
 				sync = k->data;
+				if(!sync) {
+					continue;
+				}
 				found = alpm_depcmp(sync, missdep);
+				if(!found) {
+					continue;
+				}
+				if(_alpm_pkg_should_ignore(sync)) {
+					pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
+					QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &found);
+					_alpm_pkg_free(dummypkg);
+				}
 			}
 		}
 
@@ -712,37 +734,13 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			}
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			goto error;
-		}
-		/* check pmo_ignorepkg and pmo_s_ignore to make sure we haven't pulled in
-		 * something we're not supposed to.
-		 */
-		int usedep = 1;
-		if(_alpm_pkg_should_ignore(sync)) {
-			pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
-			QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
-			_alpm_pkg_free(dummypkg);
-		}
-		if(usedep) {
+		} else {
 			_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 					alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
 			*list = alpm_list_add(*list, sync);
 			if(_alpm_resolvedeps(local, dbs_sync, sync, list, trans, data)) {
 				goto error;
 			}
-		} else {
-			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\"\n"), miss->target);
-			if(data) {
-				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmdepmissing_t));
-					FREELIST(*data);
-					pm_errno = PM_ERR_MEMORY;
-					goto error;
-				}
-				*miss = *(pmdepmissing_t *)i->data;
-				*data = alpm_list_add(*data, miss);
-			}
-			pm_errno = PM_ERR_UNSATISFIED_DEPS;
-			goto error;
 		}
 	}
 
