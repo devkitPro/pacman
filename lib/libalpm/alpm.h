@@ -370,8 +370,8 @@ typedef enum _pmdepmod_t {
 
 pmdepend_t *alpm_splitdep(const char *depstring);
 int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
-alpm_list_t *alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
-                             alpm_list_t *packages);
+alpm_list_t *alpm_checkdeps(pmdb_t *db, int reversedeps,
+		alpm_list_t *remove, alpm_list_t *upgrade);
 
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);

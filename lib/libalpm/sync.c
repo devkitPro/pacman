@@ -402,7 +402,7 @@ static int syncpkg_cmp(const void *s1, const void *s2)
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
 {
 	alpm_list_t *deps = NULL;
-	alpm_list_t *list = NULL; /* allow checkdeps usage with trans->packages */
+	alpm_list_t *list = NULL, *remove = NULL; /* allow checkdeps usage with trans->packages */
 	alpm_list_t *i, *j;
 	int ret = 0;
 
@@ -426,10 +426,21 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		/* Resolve targets dependencies */
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_DEBUG, "resolving target's dependencies\n");
+
+		/* build remove list for resolvedeps */
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			if(sync->type == PM_SYNC_TYPE_REPLACE) {
+				for(j = sync->data; j; j = j->next) {
+					remove = alpm_list_add(remove, j->data);
+				}
+			}
+		}
+
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
 			if(_alpm_resolvedeps(db_local, dbs_sync, spkg, &list,
-						trans, data) == -1) {
+						remove, trans, data) == -1) {
 				/* pm_errno is set by resolvedeps */
 				ret = -1;
 				goto cleanup;
@@ -471,19 +482,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		trans->packages = newpkgs;
 
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
-
-		_alpm_log(PM_LOG_DEBUG, "looking for unresolvable dependencies\n");
-		deps = _alpm_checkdeps(db_local, PM_TRANS_TYPE_UPGRADE, list);
-		if(deps) {
-			if(data) {
-				*data = deps;
-			} else {
-				FREELIST(deps);
-			}
-			pm_errno = PM_ERR_UNSATISFIED_DEPS;
-			ret = -1;
-			goto cleanup;
-		}
 	}
 
 	/* We don't care about conflicts if we're just printing uris */
@@ -648,72 +646,38 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 	}
 
-	alpm_list_free(list);
-	list = NULL;
-
-	/* XXX: this fails for cases where a requested package wants
-	 *      a dependency that conflicts with an older version of
-	 *      the package.  It will be removed from final, and the user
-	 *      has to re-request it to get it installed properly.
-	 *
-	 *      Not gonna happen very often, but should be dealt with...
-	 */
-
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		/* Check dependencies of packages in rmtargs and make sure
-		 * we won't be breaking anything by removing them.
-		 * If a broken dep is detected, make sure it's not from a
-		 * package that's in our final (upgrade) list.
-		 */
-		/*EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);*/
+		/* rebuild remove and list */
+		alpm_list_free(list);
+		list = NULL;
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			list = alpm_list_add(list, sync->pkg);
+		}
+		alpm_list_free(remove);
+		remove = NULL;
 		for(i = trans->packages; i; i = i->next) {
 			pmsyncpkg_t *sync = i->data;
 			if(sync->type == PM_SYNC_TYPE_REPLACE) {
 				for(j = sync->data; j; j = j->next) {
-					list = alpm_list_add(list, j->data);
+					remove = alpm_list_add(remove, j->data);
 				}
 			}
 		}
-		if(list) {
-			_alpm_log(PM_LOG_DEBUG, "checking dependencies of packages designated for removal\n");
-			deps = _alpm_checkdeps(db_local, PM_TRANS_TYPE_REMOVE, list);
-			if(deps) {
-				/* Check if broken dependencies are fixed by packages we are installing */
-				int errorout = 0;
-				for(i = deps; i; i = i->next) {
-					pmdepmissing_t *miss = i->data;
 
-					alpm_list_t *l;
-					int satisfied = 0;
-					for(l = trans->packages; l && !satisfied; l = l->next) {
-						pmsyncpkg_t *sp = l->data;
-						pmpkg_t *sppkg = sp->pkg;
-						if(alpm_depcmp(sppkg, &(miss->depend))) {
-							char *missdepstring = alpm_dep_get_string(&(miss->depend));
-							_alpm_log(PM_LOG_DEBUG, "sync: dependency '%s' satisfied by package '%s'\n",
-									missdepstring, alpm_pkg_get_name(sppkg));
-							free(missdepstring);
-							satisfied = 1;
-						}
-					}
-					if(!satisfied) {
-						errorout++;
-						*data = alpm_list_add(*data, miss);
-					}
-				}
-				if(errorout) {
-					pm_errno = PM_ERR_UNSATISFIED_DEPS;
-					ret = -1;
-					goto cleanup;
-				}
-				FREELIST(deps);
-			}
+		_alpm_log(PM_LOG_DEBUG, "checking dependencies\n");
+		deps = alpm_checkdeps(db_local, 1, remove, list);
+		if(deps) {
+			pm_errno = PM_ERR_UNSATISFIED_DEPS;
+			ret = -1;
+			FREELIST(deps);
+			goto cleanup;
 		}
-		/*EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);*/
 	}
 
 cleanup:
 	alpm_list_free(list);
+	alpm_list_free(remove);
 
 	return(ret);
 }

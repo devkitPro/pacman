@@ -121,7 +121,7 @@ static alpm_list_t *_alpm_graph_init(alpm_list_t *targets)
 	for(i = vertices; i; i = i->next) {
 		pmgraph_t *vertex_i = i->data;
 		pmpkg_t *p_i = vertex_i->data;
-		/* TODO this should be somehow combined with _alpm_checkdeps */
+		/* TODO this should be somehow combined with alpm_checkdeps */
 		for(j = vertices; j; j = j->next) {
 			pmgraph_t *vertex_j = j->data;
 			pmpkg_t *p_j = vertex_j->data;
@@ -232,18 +232,13 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
  * @param db pointer to the local package database
- * @param op transaction type
- * @param packages an alpm_list_t* of packages to be checked
+ * @param reversedeps handles the backward dependencies
+ * @param remove an alpm_list_t* of packages to be removed
+ * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
  * @return an alpm_list_t* of pmpkg_t* of missing_t pointers.
  */
-alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
-                             alpm_list_t *packages)
-{
-	return(_alpm_checkdeps(db, op, packages));
-}
-
-alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
-                             alpm_list_t *packages)
+alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
+		alpm_list_t *remove, alpm_list_t *upgrade)
 {
 	alpm_list_t *i, *j, *k, *l;
 	int found = 0;
@@ -256,16 +251,68 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 		return(NULL);
 	}
 
-	if(op == PM_TRANS_TYPE_UPGRADE) {
-		/* PM_TRANS_TYPE_UPGRADE handles the backwards dependencies, ie,
-		 * the packages listed in the requiredby field.
-		 */
-		for(i = packages; i; i = i->next) {
+	/* look for unsatisfied dependencies of the upgrade list */
+	for(i = upgrade; i; i = i->next) {
+		pmpkg_t *tp = i->data;
+		if(tp == NULL) {
+			_alpm_log(PM_LOG_DEBUG, "null package found in upgrade list\n");
+			continue;
+		}
+		_alpm_log(PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
+				alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
+
+		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
+			/* split into name/version pairs */
+			pmdepend_t *depend = j->data;
+			found = 0;
+			/* 1. we check the upgrade list */
+			for(k = upgrade; k && !found; k = k->next) {
+				pmpkg_t *p = k->data;
+				found = p && alpm_depcmp(p, depend);
+			}
+			/* 2. we check database for untouched satisfying packages */
+			for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
+				pmpkg_t *p = k->data;
+				found = p && alpm_depcmp(p, depend)
+					&& !_alpm_pkg_find(alpm_pkg_get_name(p), upgrade)
+					&& !_alpm_pkg_find(alpm_pkg_get_name(p), remove);
+			}
+			/* else if still not found... */
+			if(!found) {
+				char *missdepstring = alpm_dep_get_string(depend);
+				_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
+						missdepstring, alpm_pkg_get_name(tp));
+				free(missdepstring);
+				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend->mod,
+						depend->name, depend->version);
+				if(!_alpm_depmiss_isin(miss, baddeps)) {
+					baddeps = alpm_list_add(baddeps, miss);
+				} else {
+					FREE(miss);
+				}
+			}
+		}
+	}
+
+	if(reversedeps) {
+		/* reversedeps handles the backwards dependencies, ie,
+		 * the packages listed in the requiredby field. */
+
+		/* we check the upgrade list then the remove list in one loop */
+		int upgr = 1; /* we are in the upgrade list */
+		i = upgrade;
+		while(upgr || i) {
+			if(!i) { /*this is the end of the upgrade list, jump to the remove list*/
+				i = remove;
+				upgr = 0;
+				continue;
+			}
 			pmpkg_t *newpkg = i->data;
 			pmpkg_t *oldpkg;
 			alpm_list_t *requiredby;
 			if(newpkg == NULL) {
 				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
+				i = i->next;
 				continue;
 			}
 			_alpm_log(PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
@@ -273,7 +320,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 			if((oldpkg = _alpm_db_get_pkgfromcache(db, alpm_pkg_get_name(newpkg))) == NULL) {
 				_alpm_log(PM_LOG_DEBUG, "cannot find package installed '%s'\n",
-									alpm_pkg_get_name(newpkg));
+						alpm_pkg_get_name(newpkg));
+				i = i->next;
 				continue;
 			}
 
@@ -282,8 +330,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				pmpkg_t *p;
 				found = 0;
 
-				if(_alpm_pkg_find(j->data, packages)) {
-					/* this package also in the upgrade list, so don't worry about it */
+				if(_alpm_pkg_find(j->data, upgrade) || _alpm_pkg_find(j->data, remove)) {
 					continue;
 				}
 				if((p = _alpm_db_get_pkgfromcache(db, j->data)) == NULL) {
@@ -292,95 +339,60 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				}
 
 				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
-					/* don't break any existing dependencies (possible provides) */
 					pmdepend_t *depend = k->data;
+					char *missdepstring = alpm_dep_get_string(depend);
 
-					/* if oldpkg satisfied this dep, and newpkg doesn't */
-					if(alpm_depcmp(oldpkg, depend) && !alpm_depcmp(newpkg, depend)) {
-						/* we've found a dep that was removed... see if any other package
-						 * still contains/provides the dep */
-						int satisfied = 0;
-						for(l = packages; l; l = l->next) {
-							pmpkg_t *pkg = l->data;
+					if(!alpm_depcmp(oldpkg, depend)) {
+						continue;
+					}
+					/* OK, we don't want to break this depend */
 
-							if(alpm_depcmp(pkg, depend)) {
-								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' has moved from '%s' to '%s'\n",
-										depend->name,
-										alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
-								satisfied = 1;
-								break;
-							}
-						}
-
-						if(!satisfied) {
-							/* worst case... check installed packages to see if anything else
-							 * satisfies this... */
-							for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
-								pmpkg_t *pkg = l->data;
-
-								if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
-									/* we ignore packages that will be updated because we know
-									 * that the updated ones don't satisfy depend */
-									_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-											depend->name, alpm_pkg_get_name(pkg));
-									satisfied = 1;
-									break;
-								}
-							}
-						}
-
-						if(!satisfied) {
-							_alpm_log(PM_LOG_DEBUG, "checkdeps: updated '%s' won't satisfy a dependency of '%s'\n",
-												alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(p));
-							miss = _alpm_depmiss_new(p->name, depend->mod, depend->name, depend->version);
-							if(!_alpm_depmiss_isin(miss, baddeps)) {
-								baddeps = alpm_list_add(baddeps, miss);
-							} else {
-								FREE(miss);
-							}
+					/* 1. for efficiency we check newpkg first if we are in the upgrade list */
+					if(upgr && alpm_depcmp(newpkg, depend)) {
+						_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' also satisfied by the upgraded version of '%s'\n",
+								missdepstring, alpm_pkg_get_name(newpkg));
+						free(missdepstring);
+						continue;
+					}
+					/* 2. we check the upgrade targets */
+					int satisfied = 0;
+					for(l = upgrade; l; l = l->next) {
+						pmpkg_t *pkg = l->data;
+						if(pkg && alpm_depcmp(pkg, depend)) {
+							_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by '%s' from the upgrade list\n",
+									missdepstring, alpm_pkg_get_name(pkg));
+							free(missdepstring);
+							satisfied = 1;
+							break;
 						}
 					}
-				}
-			}
-			FREELIST(requiredby);
-		}
-	}
-	if(op == PM_TRANS_TYPE_ADD || op == PM_TRANS_TYPE_UPGRADE) {
-		/* DEPENDENCIES -- look for unsatisfied dependencies */
-		for(i = packages; i; i = i->next) {
-			pmpkg_t *tp = i->data;
-			if(tp == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
-				continue;
-			}
-			_alpm_log(PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
-					alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
+					if(satisfied) {
+						continue;
+					}
+					/* 3. we check untouched installed packages to see if anything else
+					 * satisfies this... */
+					for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
+						pmpkg_t *pkg = l->data;
 
-			for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
-				pmdepend_t *depend = j->data;
+						if(pkg && alpm_depcmp(pkg, depend)
+								&& !_alpm_pkg_find(alpm_pkg_get_name(pkg), upgrade)
+								&& !_alpm_pkg_find(alpm_pkg_get_name(pkg), remove)) {
+							_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
+									missdepstring, alpm_pkg_get_name(pkg));
+							free(missdepstring);
+							satisfied = 1;
+							break;
+						}
+					}
+					if(satisfied) {
+						continue;
+					}
 
-				found = 0;
-				/* check other targets */
-				for(k = packages; k && !found; k = k->next) {
-					pmpkg_t *p = k->data;
-					found = alpm_depcmp(p, depend);
-				}
-
-				/* check database for satisfying packages */
-				/* we can ignore packages being updated, they were checked above */
-				for(k = _alpm_db_get_pkgcache(db); k && !found; k = k->next) {
-					pmpkg_t *p = k->data;
-					found = alpm_depcmp(p, depend)
-						&& !_alpm_pkg_find(alpm_pkg_get_name(p), packages);
-				}
-
-				/* else if still not found... */
-				if(!found) {
-					char *depstring =  alpm_dep_get_string(depend);
-					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
-							depstring, alpm_pkg_get_name(tp));
-					free(depstring);
-					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend->mod,
+					/* The transaction would break this depend, record it */
+					_alpm_log(PM_LOG_DEBUG, "checkdeps: the transaction would break '%s' dependency of '%s'\n",
+							missdepstring, alpm_pkg_get_name(p));
+					free(missdepstring);
+					miss = _alpm_depmiss_new(p->name, depend->mod,
 							depend->name, depend->version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
@@ -389,65 +401,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 					}
 				}
 			}
-		}
-	} else if(op == PM_TRANS_TYPE_REMOVE) {
-		/* check requiredby fields */
-		for(i = packages; i; i = i->next) {
-			pmpkg_t *rmpkg = alpm_list_getdata(i);
-			alpm_list_t *requiredby;
-
-			if(rmpkg == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
-				continue;
-			}
-
-			requiredby = alpm_pkg_compute_requiredby(rmpkg);
-			for(j = requiredby; j; j = j->next) {
-				pmpkg_t *p;
-				found = 0;
-				if(_alpm_pkg_find(j->data, packages)) {
-					/* package also in the remove list, so don't worry about it */
-					continue;
-				}
-
-				if((p = _alpm_db_get_pkgfromcache(db, j->data)) == NULL) {
-					/* hmmm... package isn't installed... */
-					continue;
-				}
-				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
-					pmdepend_t *depend = k->data;
-
-					/* if rmpkg satisfied this dep, try to find an other satisfier
-					 * (which won't be removed)*/
-					if(alpm_depcmp(rmpkg, depend)) {
-						int satisfied = 0;
-						for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
-							pmpkg_t *pkg = l->data;
-							if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
-								char *depstring =  alpm_dep_get_string(depend);
-								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-										depstring, alpm_pkg_get_name(pkg));
-								free(depstring);
-								satisfied = 1;
-								break;
-							}
-						}
-
-						if(!satisfied) {
-							_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s which requires %s\n",
-									alpm_pkg_get_name(p), alpm_pkg_get_name(rmpkg));
-							miss = _alpm_depmiss_new(alpm_pkg_get_name(p),
-									depend->mod, depend->name, depend->version);
-							if(!_alpm_depmiss_isin(miss, baddeps)) {
-								baddeps = alpm_list_add(baddeps, miss);
-							} else {
-								FREE(miss);
-							}
-						}
-					}
-				}
-			}
 			FREELIST(requiredby);
+			i = alpm_list_next(i);
 		}
 	}
 
@@ -642,10 +597,11 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 /* populates *list with packages that need to be installed to satisfy all
  * dependencies (recursive) for syncpkg
  *
+ * @param remove contains packages elected for removal
  * make sure **list is already initialized
  */
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
-                      alpm_list_t **list, pmtrans_t *trans, alpm_list_t **data)
+                      alpm_list_t **list, alpm_list_t *remove, pmtrans_t *trans, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *k;
 	alpm_list_t *targ;
@@ -659,7 +615,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 
 	_alpm_log(PM_LOG_DEBUG, "started resolving dependencies\n");
 	targ = alpm_list_add(NULL, syncpkg);
-	deps = _alpm_checkdeps(local, PM_TRANS_TYPE_ADD, targ);
+	deps = alpm_checkdeps(local, 0, remove, targ);
 	alpm_list_free(targ);
 
 	if(deps == NULL) {
@@ -694,7 +650,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			if(!sync) {
 				continue;
 			}
-			found = alpm_depcmp(sync, missdep);
+			found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
 			if(!found) {
 				continue;
 			}
@@ -715,6 +671,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 					continue;
 				}
 				found = alpm_depcmp(sync, missdep);
+				found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
 				if(!found) {
 					continue;
 				}
@@ -747,7 +704,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 					alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
 			*list = alpm_list_add(*list, sync);
-			if(_alpm_resolvedeps(local, dbs_sync, sync, list, trans, data)) {
+			if(_alpm_resolvedeps(local, dbs_sync, sync, list, remove, trans, data)) {
 				goto error;
 			}
 		}
