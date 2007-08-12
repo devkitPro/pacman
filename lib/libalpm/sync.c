@@ -352,15 +352,15 @@ error:
 }
 
 /* Helper functions for alpm_list_remove
- */
+*/
 static int syncpkg_cmp(const void *s1, const void *s2)
 {
 	const pmsyncpkg_t *sp1 = s1;
 	const pmsyncpkg_t *sp2 = s2;
 	pmpkg_t *p1, *p2;
 
-  p1 = alpm_sync_get_pkg(sp1);
-  p2 = alpm_sync_get_pkg(sp2);
+	p1 = alpm_sync_get_pkg(sp1);
+	p2 = alpm_sync_get_pkg(sp2);
 
 	return(strcmp(alpm_pkg_get_name(p1), alpm_pkg_get_name(p2)));
 }
@@ -456,173 +456,129 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, "looking for conflicts\n");
-		deps = alpm_list_join(_alpm_innerconflicts(list),
-				_alpm_outerconflicts(db_local, list));
-		if(deps) {
-			int errorout = 0;
-			alpm_list_t *asked = NULL;
-			pmconflict_t *conflict = NULL;
 
-			for(i = deps; i && !errorout; i = i->next) {
-				pmsyncpkg_t *sync;
-				pmpkg_t *found = NULL;
+		/* 1. check for conflicts in the target list */
+		_alpm_log(PM_LOG_DEBUG, "check targets vs targets\n");
+		deps = _alpm_innerconflicts(list);
 
-				conflict = i->data;
-				_alpm_log(PM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
-						conflict->package1, conflict->package2);
-				/* check if the conflicting package is about to be removed/replaced.
-				 * if so, then just ignore it. */
-				for(j = trans->packages; j && !found; j = j->next) {
-					sync = j->data;
-					if(sync->type == PM_SYNC_TYPE_REPLACE) {
-						found = _alpm_pkg_find(conflict->package2, sync->data);
-					}
-				}
-				if(found) {
-					_alpm_log(PM_LOG_DEBUG, "'%s' is already elected for removal -- skipping\n",
-							alpm_pkg_get_name(found));
-					continue;
-				}
+		for(i = deps; i; i = i->next) {
+			pmconflict_t *conflict = i->data;
+			pmsyncpkg_t *rsync, *sync, *sync1, *sync2;
 
-				sync = _alpm_sync_find(trans->packages, conflict->package1);
-				if(sync == NULL) {
-					_alpm_log(PM_LOG_DEBUG, "'%s' not found in transaction set -- skipping\n",
-					          conflict->package1);
-					continue;
-				}
-				pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, conflict->package2);
-				/* check if this package provides the package it's conflicting with */
-				if(alpm_list_find(alpm_pkg_get_provides(sync->pkg),
-							conflict->package2, _alpm_prov_cmp)) {
-					/* treat like a replaces item so requiredby fields are
-					 * inherited properly. */
-					_alpm_log(PM_LOG_DEBUG, "package '%s' provides its own conflict\n",
-							conflict->package1);
-					if(!local) {
-						char *rmpkg = NULL;
-						void *target, *depend;
-						/* hmmm, package2 isn't installed, so it must be conflicting
-						 * with another package in our final list.  For example:
-						 *
-						 *     pacman -S blackbox xfree86
-						 *
-						 * If no x-servers are installed and blackbox pulls in xorg, then
-						 * xorg and xfree86 will conflict with each other.  In this case,
-						 * we should follow the user's preference and rip xorg out of final,
-						 * opting for xfree86 instead.
-						 */
-
-						/* figure out which one was requested in targets. If they both
-						 * were, then it's still an unresolvable conflict. */
-						target = alpm_list_find_str(trans->targets, conflict->package1);
-						depend = alpm_list_find_str(trans->targets, conflict->package2);
-						if(depend && !target) {
-							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it\n",
-								conflict->package2);
-							/* remove conflict->package1 */
-							rmpkg = conflict->package1;
-						} else if(target && !depend) {
-							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it\n",
-								conflict->package1);
-							/* remove conflict->package2 */
-							rmpkg = conflict->package2;
-						} else {
-							/* miss->target2 is not needed, miss->target already provides
-							 * it, let's resolve the conflict */
-							rmpkg = conflict->package2;
-						}
-						if(rmpkg) {
-							pmsyncpkg_t *rsync = _alpm_sync_find(trans->packages, rmpkg);
-							if(rsync) {
-								void *vpkg;
-								_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n",
-										rsync->pkg->name);
-								trans->packages = alpm_list_remove(trans->packages, rsync,
-										syncpkg_cmp, &vpkg);
-								_alpm_sync_free(vpkg);
-							}
-							continue;
-						}
-					}
-				}
-				/* It's a conflict -- see if they want to remove it */
-				_alpm_log(PM_LOG_DEBUG, "resolving package '%s' conflict\n",
-						conflict->package1);
-				if(local) {
-					int doremove = 0;
-					if(!alpm_list_find_str(asked, conflict->package2)) {
-						QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
-								conflict->package2, NULL, &doremove);
-						asked = alpm_list_add(asked, strdup(conflict->package2));
-						if(doremove) {
-							if(sync->type != PM_SYNC_TYPE_REPLACE) {
-								/* switch this sync type to REPLACE */
-								sync->type = PM_SYNC_TYPE_REPLACE;
-								sync->data = NULL;
-							}
-							/* append to the replaces list */
-							_alpm_log(PM_LOG_DEBUG, "electing '%s' for removal\n",
-									conflict->package2);
-							sync->data = alpm_list_add(sync->data, local);
-							/* see if the package is in the current target list */
-							pmsyncpkg_t *rsync = _alpm_sync_find(trans->packages,
-									conflict->package2);
-							if(rsync) {
-								/* remove it from the target list */
-								void *vpkg;
-								_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n",
-										conflict->package2);
-								trans->packages = alpm_list_remove(trans->packages, rsync,
-										syncpkg_cmp, &vpkg);
-								_alpm_sync_free(vpkg);
-							}
-						} else {
-							/* abort */
-							_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-							errorout = 1;
-						}
-					}
-				} else {
-					_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-					errorout = 1;
-				}
+			/* have we already removed one of the conflicting targets? */
+			sync1 = _alpm_sync_find(trans->packages, conflict->package1);
+			sync2 = _alpm_sync_find(trans->packages, conflict->package2);
+			if(!sync1 || !sync2) {
+				continue;
 			}
-			if(errorout) {
-				/* The last conflict was unresolvable, so we duplicate it and add it to *data */
+
+			_alpm_log(PM_LOG_DEBUG, "conflicting packages in the sync list: '%s' <-> '%s'\n",
+					conflict->package1, conflict->package2);
+
+			/* if sync1 provides sync2, we remove sync2 from the targets, and vice versa */
+			if(alpm_list_find(alpm_pkg_get_provides(sync1->pkg),
+						conflict->package2, _alpm_prov_cmp)) {
+				rsync = sync2;
+				sync = sync1;
+			} else if(alpm_list_find(alpm_pkg_get_provides(sync2->pkg),
+						conflict->package1, _alpm_prov_cmp)) {
+				rsync = sync1;
+				sync = sync2;
+			} else {
 				pm_errno = PM_ERR_CONFLICTING_DEPS;
-				if(data) {
-					pmconflict_t *lastconflict = conflict;
-					if((conflict = malloc(sizeof(pmconflict_t))) == NULL) {
-						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"),
-								sizeof(pmconflict_t));
-						FREELIST(*data);
-						pm_errno = PM_ERR_MEMORY;
-					} else {
-						*conflict = *lastconflict;
-						*data = alpm_list_add(*data, conflict);
-					}
-				}
-				FREELIST(asked);
-				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
-				alpm_list_free(deps);
 				ret = -1;
+				*data = deps;
 				goto cleanup;
 			}
-			FREELIST(asked);
-			alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
-			alpm_list_free(deps);
+
+			_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n", rsync->pkg->name);
+			/* Only prints a warning if rsync is an explicit target. */
+			if(alpm_list_find_str(trans->targets, rsync->pkg->name)) {
+				_alpm_log(PM_LOG_WARNING,
+						_("removing '%s' from target list because it conflicts with '%s'\n"),
+						rsync->pkg->name, sync->pkg->name);
+			}
+			void *vpkg;
+			trans->packages = alpm_list_remove(trans->packages, rsync,
+					syncpkg_cmp, &vpkg);
+			pmsyncpkg_t *syncpkg = vpkg;
+			list = alpm_list_remove(list, syncpkg->pkg, _alpm_pkg_cmp, NULL);
+			_alpm_sync_free(syncpkg);
+			continue;
+		}
+
+		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+		alpm_list_free(deps);
+		deps = NULL;
+
+		/* 2. we check for target vs db conflicts (and resolve)*/
+		_alpm_log(PM_LOG_DEBUG, "check targets vs db and db vs targets\n");
+		deps = _alpm_outerconflicts(db_local, list);
+
+		for(i = deps; i; i = i->next) {
+			pmconflict_t *conflict = i->data;
+
+			/* if conflict->package2 (the local package) is not elected for removal,
+			   we ask the user */
+			int found = 0;
+			for(j = trans->packages; j && !found; j = j->next) {
+				pmsyncpkg_t *sync = j->data;
+				if(sync->type == PM_SYNC_TYPE_REPLACE) {
+					if(_alpm_pkg_find(conflict->package2, sync->data)) {
+						found = 1;
+					}
+				}
+			}
+			if(found) {
+				continue;
+			}
+
+			_alpm_log(PM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
+					conflict->package1, conflict->package2);
+
+			pmsyncpkg_t *sync = _alpm_sync_find(trans->packages, conflict->package1);
+			pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, conflict->package2);
+			int doremove = 0;
+			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
+								conflict->package2, NULL, &doremove);
+			if(doremove) {
+				if(sync->type != PM_SYNC_TYPE_REPLACE) {
+					/* switch this sync type to REPLACE */
+					sync->type = PM_SYNC_TYPE_REPLACE;
+					sync->data = NULL;
+				}
+				/* append to the replaces list */
+				_alpm_log(PM_LOG_DEBUG, "electing '%s' for removal\n", conflict->package2);
+				sync->data = alpm_list_add(sync->data, local);
+			} else { /* abort */
+				_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
+				if(data) {
+					pmconflict_t *retconflict;
+					MALLOC(retconflict, sizeof(pmconflict_t), 0);
+					if(!retconflict) {
+						pm_errno = PM_ERR_MEMORY;
+						alpm_list_free_inner(*data, (alpm_list_fn_free)_alpm_conflict_free);
+						alpm_list_free(*data);
+						ret = -1;
+						goto cleanup;
+					}
+					*retconflict = *conflict;
+					*data = alpm_list_add(*data, retconflict);
+				}
+				pm_errno = PM_ERR_CONFLICTING_DEPS;
+				ret = -1;
+				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+				alpm_list_free(deps);
+				goto cleanup;
+			}
 		}
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
+		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+		alpm_list_free(deps);
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		/* rebuild remove and list */
-		alpm_list_free(list);
-		list = NULL;
-		for(i = trans->packages; i; i = i->next) {
-			pmsyncpkg_t *sync = i->data;
-			list = alpm_list_add(list, sync->pkg);
-		}
+		/* rebuild remove list */
 		alpm_list_free(remove);
 		remove = NULL;
 		for(i = trans->packages; i; i = i->next) {
@@ -642,7 +598,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			if(data) {
 				*data = deps;
 			} else {
-				FREELIST(deps);
+				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
+				alpm_list_free(deps);
 			}
 			goto cleanup;
 		}
