@@ -235,10 +235,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	struct stat buf;
 	char path[PATH_MAX+1];
 	char line[513];
-	/*
-	alpm_list_t *tmplist;
-	char *locale;
-	*/
 
 	ALPM_LOG_FUNC;
 
@@ -303,32 +299,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				if(fgets(info->desc, sizeof(info->desc), fp) == NULL) {
 					goto error;
 				}
-				/*
-				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->desc_localized = alpm_list_add(info->desc_localized, strdup(line));
-					PKG_
-				}
-
-				if((locale = setlocale(LC_ALL, "")) == NULL) { //To fix segfault when locale invalid
-					setenv("LC_ALL", "C", 1);
-					locale = setlocale(LC_ALL, "");
-				}
-
-				if(info->desc_localized && !info->desc_localized->next) {
-				    snprintf(info->desc, 512, "%s", (char*)info->desc_localized->data);
-				} else {
-					for (tmplist = info->desc_localized; tmplist; tmplist = tmplist->next) {
-						if (tmplist->data && strncmp(tmplist->data, locale, strlen(locale))) {
-							strncpy(info->desc, (char *)info->desc_localized->data, sizeof(info->desc));
-						} else {
-							char *p = (char *)tmplist->data;
-							p += strlen(locale) + 1;
-							strncpy(info->desc, p, sizeof(info->desc));
-							break;
-						}
-					}
-				}
-				*/
 				_alpm_strtrim(info->desc);
 			} else if(!strcmp(line, "%GROUPS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
@@ -545,12 +515,6 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		fprintf(fp, "%%NAME%%\n%s\n\n"
 						"%%VERSION%%\n%s\n\n", info->name, info->version);
 		if(info->desc[0]) {
-			/*fputs("%DESC%\n", fp);
-				for(lp = info->desc_localized; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
-				}
-				fprintf(fp, "\n");
-				*/
 			fprintf(fp, "%%DESC%%\n"
 							"%s\n\n", info->desc);
 		}

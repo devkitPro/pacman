@@ -30,9 +30,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
-#if defined(__APPLE__) || defined(__OpenBSD__)
-#include <sys/syslimits.h>
-#endif
 #include <sys/stat.h>
 
 /* libalpm */

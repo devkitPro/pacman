@@ -201,7 +201,7 @@ AM_CONDITIONAL(HAS_DOXYGEN, test "x$usedoxygen" = "xyes")
 AC_MSG_CHECKING(for debug mode request)
 if test "x$debug" = "xyes" ; then
 	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
-	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector -std=c99"
+	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector-all -std=c99"
 	LDFLAGS="$LDFLAGS -lmcheck"
 	AC_MSG_RESULT(yes)
 else
