@@ -221,8 +221,8 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 			/* TODO removed corrupt entry from the FS here */
 			_alpm_pkg_free(pkg);
 		} else {
-			pkg->data = db;
 			pkg->origin = PKG_FROM_CACHE;
+			pkg->origin_data.db = db;
 		}
 	}
 

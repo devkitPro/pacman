@@ -62,7 +62,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 		_alpm_log(PM_LOG_FUNCTION, _("adding '%s' to package cache for db '%s'"),
 							alpm_pkg_get_name(info), db->treename);
 		info->origin = PKG_FROM_CACHE;
-		info->data = db;
+		info->origin_data.db = db;
 		/* add to the collection */
 		db->pkgcache = alpm_list_add(db->pkgcache, info);
 		count++;

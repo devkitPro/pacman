@@ -721,7 +721,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		for(j = trans->packages; j; j = j->next) {
 			pmsyncpkg_t *sync = j->data;
 			pmpkg_t *spkg = sync->pkg;
-			pmdb_t *dbs = spkg->data;
+			pmdb_t *dbs = spkg->origin_data.db;
 
 			if(current == dbs) {
 				const char *fname = NULL;

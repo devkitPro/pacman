@@ -396,7 +396,8 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	archive_read_support_compression_all(_archive);
 	archive_read_support_format_all(_archive);
 
-	if(archive_read_open_file(_archive, archive, ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+	if(archive_read_open_filename(_archive, archive,
+				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive, archive_error_string(_archive));
 		RET_ERR(PM_ERR_PKG_OPEN, -1);
 	}

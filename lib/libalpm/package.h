@@ -78,15 +78,14 @@ struct __pmpkg_t {
 	alpm_list_t *provides;
 	/* internal */
 	pmpkgfrom_t origin;
-	void *data;
-	/* TODO replace 'data' with this:
+	/* Replaced 'void *data' with this union as follows:
   origin == PKG_FROM_CACHE, use pkg->origin_data.db
-  origin == PKG_FROM_FILE, use pkg->origin_data.fd
-  union {
-		int fd;
-		pmdb_t *db;
-	} origin_data;
+  origin == PKG_FROM_FILE, use pkg->origin_data.file
 	*/
+  union {
+		pmdb_t *db;
+		char *file;
+	} origin_data;
 	pmdbinfrq_t infolevel;
 };
 
