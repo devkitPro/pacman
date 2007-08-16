@@ -137,9 +137,17 @@ Query Options[[QO]]
 	View the ChangeLog of a package. Not every package will provide one but
 	it will be shown if available.
 
-*-e, \--orphans*::
-	List all packages that were pulled in by a previously installed package
-	but no longer required by any installed package.
+*-d, \--deps*::
+	List all packages installed as dependencies. This option can be combined
+	with '-t' for listing real orphans- packages that were installed as
+	dependencies but are no longer required by any installed package. ('-Qdt'
+	is equivalent to the pacman 3.0.X '-Qe' option.)
+
+*-e, \--explicit*::
+	List all packages explicitly installed. This option can be combined with
+	'-t' to list top-level packages- those packages that were explicitly
+	installed but are not required by any other package. ('-Qet' is equivalent
+	to the pacman 2.9.X '-Qe' option.)
 
 *-g, \--groups*::
 	Display all packages that are members of a named group. If not name is
@@ -154,12 +162,13 @@ Query Options[[QO]]
 	specified on the command line.
 
 *-m, \--foreign*::
-	List all packages that were not found in the sync database(s). Typically
-	these are packages that were downloaded manually and installed with
-	'\--upgrade'.
+	Restrict or filter output to packages that were not found in the sync
+	database(s).  Typically these are packages that were downloaded manually
+	and installed with '\--upgrade'.
 
 *-o, \--owns* <'file'>::
-	Search for the package that owns file.
+	Search for the package that owns file. The path can be relative or
+	absolute.
 
 *-p, \--file*::
 	Signifies that the package supplied on the command line is a file and
@@ -170,12 +179,16 @@ Query Options[[QO]]
 	This will search each locally-installed package for names or
 	descriptions that match `regexp`.
 
-*-t, \--test*::
-	Run some brief checks looking at the consistency of the local database.
+*-t, \--orphans*::
+	Restrict or filter output to packages not required by any currently
+	installed package.
 
 *-u, \--upgrades*::
 	Lists all packages that are out of date on the local system. This option
 	works best if the sync database is refreshed using '-Sy'.
+
+*\--test*::
+	Run some brief checks looking at the consistency of the local database.
 
 
 Remove Options[[RO]]
