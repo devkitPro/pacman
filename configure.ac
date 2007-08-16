@@ -3,24 +3,74 @@
 # Minimum version of autoconf required
 AC_PREREQ(2.61)
 
+# UPDATING VERSION NUMBERS FOR RELEASES
+#
+# libalpm:
+# current
+#   The most recent interface number that this library implements.
+# revision
+#   The implementation number of the current interface.
+# age
+#   The difference between the newest and oldest interfaces that this library
+#   implements. In other words, the library implements all the interface
+#   numbers in the range from number current - age to current.
+#
+# 1. Start with version information of `0:0:0' for each libtool library.
+# 2. Update the version information only immediately before a public release of
+#    your software. More frequent updates are unnecessary, and only guarantee
+#    that the current interface number gets larger faster.
+# 3. If the library source code has changed at all since the last update, then
+#    increment revision (`c:r:a' becomes `c:r+1:a').
+# 4. If any interfaces have been added, removed, or changed since the last
+#    update, increment current, and set revision to 0.
+# 5. If any interfaces have been added since the last public release, then
+#    increment age.
+# 6. If any interfaces have been removed since the last public release, then
+#    set age to 0.
+#
+# pacman:
+#   Extreme huge major changes:
+#     pacman_version_major += 1
+#     pacman_version_minor = 0
+#     pacman_version_micro = 0
+#
+#   Real releases:
+#     pacman_version_minor += 1
+#     pacman_version_micro = 0
+#
+#   Bugfix releases:
+#     pacman_version_micro += 1
+#
+#   pacman_version_suffix should be similar to one of the following:
+#     For beta releases:          [beta2]
+#     For code under development: [devel]
+#     For production releases:    []
+
+m4_define([lib_current], [2])
+m4_define([lib_revision], [0])
+m4_define([lib_age], [0])
+
+m4_define([pacman_version_major], [3])
+m4_define([pacman_version_minor], [1])
+m4_define([pacman_version_micro], [0])
+m4_define([pacman_version_suffix], [devel])
+m4_define([pacman_version],
+          [pacman_version_major.pacman_version_minor.pacman_version_micro])
+m4_define([pacman_display_version],
+					pacman_version[]m4_ifdef([pacman_version_suffix],[-pacman_version_suffix]))
+
 # Autoconf initialization
 # AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
-AC_INIT([Pacman Package Manager], 3.1.0-dev, [pacman-dev@archlinux.org], [pacman])
+AC_INIT([Pacman Package Manager], [pacman_display_version],
+        [pacman-dev@archlinux.org], [pacman])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 
-# Define the libalpm version number here
-LIB_MAJOR_VERSION=1
-LIB_MINOR_VERSION=1
-LIB_MICRO_VERSION=1
-LIB_VERSION=$LIB_MAJOR_VERSION.$LIB_MINOR_VERSION.$LIB_MICRO_VERSION
-# Needed for libtool to create proper shared lib version.
-# This is not completely correct- see
-# http://sourceware.org/autobook/autobook/autobook_91.html for details.
-LIB_VERSION_INFO=`expr $LIB_MAJOR_VERSION + $LIB_MINOR_VERSION`:$LIB_MICRO_VERSION:$LIB_MINOR_VERSION
+LIB_VERSION=`expr lib_current-lib_age`.lib_revision
+LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
 
 # Set subsitution values for version stuff in Makefiles and anywhere else,
 # and put LIB_VERSION in config.h
