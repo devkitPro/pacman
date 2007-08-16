@@ -112,9 +112,8 @@ static void usage(int op, char *myname)
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --changelog      view the changelog of a package\n"));
-			printf(_("  -t, --orphans        list all packages not required by any package\n"));
-			printf(_("  -e, --explicit       list all packages explicitly installed\n"));
 			printf(_("  -d, --deps           list all packages installed as dependencies\n"));
+			printf(_("  -e, --explicit       list all packages explicitly installed\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
@@ -122,8 +121,9 @@ static void usage(int op, char *myname)
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
-			printf(_("      --test           check the consistency of the local database\n"));
+			printf(_("  -t, --orphans        list all packages not required by any package\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
+			printf(_("      --test           check the consistency of the local database\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
