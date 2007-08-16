@@ -569,7 +569,7 @@ static int grep(const char *fn, const char *needle)
 
 int _alpm_runscriptlet(const char *root, const char *installfn,
 											 const char *script, const char *ver,
-											 const char *oldver, pmtrans_t *trans)
+											 const char *oldver)
 {
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];

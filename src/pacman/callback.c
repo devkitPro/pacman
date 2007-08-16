@@ -60,7 +60,7 @@ static int prevpercent=0; /* for less progressbar output */
 static float get_update_timediff(int first_call)
 {
 	float retval = 0.0;
-	static struct timeval last_time = {0};
+	static struct timeval last_time = {0, 0};
 
 	/* on first call, simply set the last time and return */
 	if(first_call) {

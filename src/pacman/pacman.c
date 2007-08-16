@@ -21,8 +21,7 @@
 
 #include "config.h"
 
-/* TODO hard to believe all these are needed just for this file */
-#include <stdlib.h>
+#include <stdlib.h> /* atoi */
 #include <stdio.h>
 #include <limits.h>
 #include <getopt.h>
@@ -31,10 +30,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/utsname.h>
-#include <libintl.h>
-#include <locale.h>
-#include <time.h>
+#include <sys/utsname.h> /* uname */
+#include <libintl.h> /* bindtextdomain, textdomain */
+#include <locale.h> /* setlocale */
+#include <time.h> /* time_t */
 #if defined(PACMAN_DEBUG) && defined(HAVE_MTRACE)
 #include <mcheck.h> /* debug tracing (mtrace) */
 #endif

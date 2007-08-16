@@ -162,7 +162,7 @@ void indentprint(const char *str, int indent)
 	while(*p) {
 		if(*p == ' ') {
 			const char *next = NULL;
-			unsigned int len;
+			int len;
 			p++;
 			if(p == NULL || *p == ' ') continue;
 			next = strchr(p, ' ');
