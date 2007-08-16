@@ -21,11 +21,9 @@
 
 #include "config.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <libgen.h>
+#include <stdio.h> /* printf */
+#include <stdarg.h> /* va_list */
+#include <string.h> /* strlen */
 
 #include <alpm.h>
 

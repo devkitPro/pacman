@@ -21,29 +21,26 @@
 
 #include "config.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <limits.h>
-/* TODO this is probably not the best way to do this */
-#ifndef PATH_MAX
-#define PATH_MAX 1024
-#endif
+#include <stdio.h> /* printf */
+#include <string.h> /* strncpy */
 
 #include <alpm.h>
 
+#define MAX_LEN 255
+
 int main(int argc, char *argv[])
 {
-	char s1[255] = "";
-	char s2[255] = "";
+	char s1[MAX_LEN] = "";
+	char s2[MAX_LEN] = "";
 	int ret;
 
 	if(argc > 1) {
-		strncpy(s1, argv[1], 255);
+		strncpy(s1, argv[1], MAX_LEN);
+		s1[MAX_LEN -1] = '\0';
 	}
 	if(argc > 2) {
-		strncpy(s2, argv[2], 255);
+		strncpy(s2, argv[2], MAX_LEN);
+		s2[MAX_LEN -1] = '\0';
 	} else {
 		printf("0\n");
 		return(0);
