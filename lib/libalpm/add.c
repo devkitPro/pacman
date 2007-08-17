@@ -700,7 +700,9 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 
 					archive_entry_set_pathname(entry, filename);
 
-					if(archive_read_extract(archive, entry, ARCHIVE_EXTRACT_FLAGS) != ARCHIVE_OK) {
+					int ret = archive_read_extract(archive, entry, 
+								ARCHIVE_EXTRACT_FLAGS | ARCHIVE_EXTRACT_NO_OVERWRITE);
+					if(ret != ARCHIVE_OK && ret != ARCHIVE_WARN) {
 						_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)"), filename, strerror(errno));
 						alpm_logaction(_("error: could not extract %s (%s)"), filename, strerror(errno));
 						errors++;
