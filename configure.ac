@@ -181,45 +181,41 @@ case "${host}" in
 		;;
 esac
 
-# Check for architecture
+# Check for architecture, used in default makepkg.conf
+# (Note single space left after CARCHFLAGS)
 case "${host}" in
 	i686-*)
 		CARCH="i686"
-		CARCHFLAGS="i686"
-		ARCHSWITCH="march"
+		CARCHFLAGS="-march=i686 "
 		;;
 	x86_64-*)
 		CARCH="x86_64"
-		CARCHFLAGS="x86-64"
-		ARCHSWITCH="march"
+		CARCHFLAGS="-march=x86-64 "
 		;;
 	ia64-*)
 		CARCH="ia64"
-		CARCHFLAGS="ia64"
-		ARCHSWITCH="march"
+		CARCHFLAGS="-march=ia64 "
 		;;
 	sparc-*)
 		CARCH="sparc"
-		CARCHFLAGS="v9"
-		ARCHSWITCH="mcpu"
+		CARCHFLAGS="-mcpu=v9 "
 		;;
 	ppc-* | powerpc-*)
 		CARCH="ppc"
-		CARCHFLAGS="750"
-		ARCHSWITCH="mcpu"
+		CARCHFLAGS="-mcpu=750 "
 		;;
 	i386-*)
 		CARCH="i386"
-		CARCHFLAGS="i386"
-		ARCHSWITCH="march"
+		CARCHFLAGS="-march=i386 "
 		;;
 	arm-*)
 		CARCH="arm"
-		CARCHFLAGS="armv4"
-		ARCHSWITCH="march"
+		CARCHFLAGS="-march=armv4 "
 		;;
 	*)
-		AC_MSG_ERROR([[Your architecture is not supported; consider adding it to configure.ac]])
+		AC_MSG_WARN([[Your architecture is unknown for makepkg.conf, consider adding it to configure.ac]])
+		CARCH="unknown"
+		CARCHFLAGS=""
 		;;
 esac
 
@@ -227,7 +223,6 @@ esac
 CHOST="${host}"
 AC_SUBST(CARCH)
 AC_SUBST(CARCHFLAGS)
-AC_SUBST(ARCHSWITCH)
 AC_SUBST(CHOST)
 
 # Check for doxygen support
@@ -315,7 +310,7 @@ $PACKAGE_STRING:
     defines                : ${DEFS}
 
     Architecture           : ${CARCH}
-    Architecture flags     : -${ARCHSWITCH}=${CARCHFLAGS}
+    Architecture flags     : ${CARCHFLAGS}
     Host Type              : ${CHOST}
 
     libalpm version        : ${LIB_VERSION}
