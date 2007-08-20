@@ -82,7 +82,7 @@ void md5( unsigned char *input, int ilen,
  * \return         0 if successful, 1 if fopen failed,
  *                 or 2 if fread failed
  */
-int md5_file( char *path, unsigned char *output );
+int md5_file( const char *path, unsigned char *output );
 
 #ifdef __cplusplus
 }

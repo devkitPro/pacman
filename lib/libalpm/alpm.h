@@ -379,7 +379,7 @@ const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
  */
 
 /* checksums */
-char *alpm_get_md5sum(char *name);
+char *alpm_get_md5sum(const char *name);
 
 /*
  * Errors

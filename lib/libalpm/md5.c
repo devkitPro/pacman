@@ -32,6 +32,10 @@
  *  * removal of HMAC code
  *  * removal of SELF_TEST code
  *  * removal of ipad and opad from the md5_context struct in md5.h
+ *  * change of md5_file prototype from
+ *        int md5_file( char *path, unsigned char *output )
+ *      to
+ *        int md5_file( const char *path, unsigned char *output )
  */
 
 #ifndef _CRT_SECURE_NO_DEPRECATE
@@ -301,7 +305,7 @@ void md5( unsigned char *input, int ilen,
 /*
  * Output = MD5( file contents )
  */
-int md5_file( char *path, unsigned char *output )
+int md5_file( const char *path, unsigned char *output )
 {
     FILE *f;
     size_t n;

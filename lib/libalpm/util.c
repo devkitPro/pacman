@@ -547,7 +547,7 @@ int _alpm_str_cmp(const void *s1, const void *s2)
  * @return the checksum on success, NULL on error
  * @addtogroup alpm_misc
  */
-char SYMEXPORT *alpm_get_md5sum(char *filename)
+char SYMEXPORT *alpm_get_md5sum(const char *filename)
 {
 	unsigned char output[16];
 	char *md5sum;
@@ -581,7 +581,5 @@ char SYMEXPORT *alpm_get_md5sum(char *filename)
 	_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s", filename, md5sum);
 	return(md5sum);
 }
-
-
 
 /* vim: set ts=2 sw=2 noet: */
