@@ -101,10 +101,8 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
  */
 int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 {
-	char path[PATH_MAX];
-	struct stat buf;
+	char *fpath;
 	char *md5sum = NULL;
-	alpm_list_t *i;
 	int retval = 0;
 
 	ALPM_LOG_FUNC;
@@ -114,16 +112,9 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
 	ASSERT(pkg->origin_data.db != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	/* Loop through the cache dirs until we find a matching file */
-	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
-		snprintf(path, PATH_MAX, "%s%s-%s" PKGEXT, (char*)alpm_list_getdata(i),
-		         alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		if(stat(path, &buf) == 0) {
-			break;
-		}
-	}
+	fpath = _alpm_filecache_find(alpm_pkg_get_filename(pkg));
+	md5sum = alpm_get_md5sum(fpath);
 
-	md5sum = alpm_get_md5sum(path);
 	if(md5sum == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not get md5sum for package %s-%s"),
 							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
@@ -141,6 +132,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 		}
 	}
 
+	FREE(fpath);
 	FREE(md5sum);
 
 	return(retval);

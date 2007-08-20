@@ -41,20 +41,6 @@
 #include "handle.h"
 #include "package.h"
 
-/** Fetch a remote pkg.
- * @param url
- * @return the downloaded filename on success, NULL on error
- * @addtogroup alpm_misc
- */
-char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
-{
-	ALPM_LOG_FUNC;
-
-	ASSERT(strstr(url, "://"), return(NULL));
-
-	return(_alpm_fetch_pkgurl(url));
-}
-
 pmserver_t *_alpm_server_new(const char *url)
 {
 	struct url *u;
@@ -157,9 +143,9 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
  *
  * RETURN:  0 for successful download, 1 on error
  */
-int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath, alpm_list_t *files)
+int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
+		alpm_list_t *files)
 {
-	ALPM_LOG_FUNC;
 	return(_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL));
 }
 
@@ -412,15 +398,25 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 	return(done ? 0 : -1);
 }
 
-char *_alpm_fetch_pkgurl(const char *target)
+/** Fetch a remote pkg.
+ * @param url URL of the package to download
+ * @return the downloaded filepath on success, NULL on error
+ * @addtogroup alpm_misc
+ */
+char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 {
 	pmserver_t *server;
-	char *filename;
-	struct stat st;
+	char *filename, *filepath;
+	const char *cachedir;
 
 	ALPM_LOG_FUNC;
 
-	server = _alpm_server_new(target);
+	if(strstr(url, "://") == NULL) {
+		_alpm_log(PM_LOG_DEBUG, "Invalid URL passed to alpm_fetch_pkgurl");
+		return(NULL);
+	}
+
+	server = _alpm_server_new(url);
 	if(!server) {
 		return(NULL);
 	}
@@ -432,26 +428,26 @@ char *_alpm_fetch_pkgurl(const char *target)
 		return(NULL);
 	}
 
-	/* do not download the file if it exists in the current dir */
-	if(stat(filename, &st) == 0) {
-		_alpm_log(PM_LOG_DEBUG, "%s has already been downloaded", filename);
-	} else {
-		alpm_list_t *servers = alpm_list_add(NULL, server);
-		alpm_list_t *files = alpm_list_add(NULL, filename);
+	/* find a valid cache dir to download to */
+	cachedir = _alpm_filecache_setup();
 
-		if(_alpm_downloadfiles(servers, "./", files)) {
-			_alpm_log(PM_LOG_WARNING, _("failed to download %s"), target);
-			return(NULL);
-		}
-		_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s", filename);
-		alpm_list_free(files);
-		alpm_list_free(servers);
+	/* TODO this seems like needless complexity just to download one file */
+	alpm_list_t *servers = alpm_list_add(NULL, server);
+	alpm_list_t *files = alpm_list_add(NULL, filename);
+
+	/* download the file */
+	if(_alpm_downloadfiles(servers, cachedir, files)) {
+		_alpm_log(PM_LOG_WARNING, _("failed to download %s"), url);
+		return(NULL);
 	}
-
+	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s", filename);
+	alpm_list_free(files);
+	alpm_list_free(servers);
 	_alpm_server_free(server);
 
-	/* return the target with the raw filename, no URL */
-	return(filename);
+	/* we should be able to find the file the second time around */
+	filepath = _alpm_filecache_find(filename);
+	return(filepath);
 }
 
 /* vim: set ts=2 sw=2 noet: */

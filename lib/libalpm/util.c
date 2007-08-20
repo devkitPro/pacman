@@ -48,6 +48,7 @@
 #include "error.h"
 #include "package.h"
 #include "alpm.h"
+#include "alpm_list.h"
 #include "md5.h"
 
 #ifndef HAVE_STRVERSCMP
@@ -301,7 +302,7 @@ static void _strnadd(char **str, const char *append, unsigned int count)
 	if(*str) {
 		*str = realloc(*str, strlen(*str) + count + 1);
 	} else {
-		*str = calloc(sizeof(char), count + 1);
+		*str = calloc(count + 1, sizeof(char));
 	}
 
 	strncat(*str, append, count);
@@ -540,6 +541,72 @@ void _alpm_time2string(time_t t, char *buffer)
 int _alpm_str_cmp(const void *s1, const void *s2)
 {
 	return(strcmp(s1, s2));
+}
+
+/** Find a package file in an alpm cachedir.
+ * @param filename name of package file to find
+ * @return malloced path of file, NULL if not found
+ */
+char *_alpm_filecache_find(const char* filename)
+{
+	struct stat buf;
+	char path[PATH_MAX];
+	char *retpath;
+	alpm_list_t *i;
+
+	/* Loop through the cache dirs until we find a matching file */
+	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		snprintf(path, PATH_MAX, "%s%s", (char*)alpm_list_getdata(i),
+				filename);
+		if(stat(path, &buf) == 0) {
+			/* TODO maybe check to make sure it is readable? */
+			retpath = strdup(path);
+			_alpm_log(PM_LOG_DEBUG, "found cached pkg: %s", retpath);
+			return(retpath);
+		}
+	}
+	/* package wasn't found in any cachedir */
+	return(NULL);
+}
+
+/** Check the alpm cachedirs for existance and find a writable one.
+ * If no valid cache directory can be found, use /tmp.
+ * @return pointer to a writable cache directory.
+ */
+const char *_alpm_filecache_setup(void)
+{
+	struct stat buf;
+	alpm_list_t *i, *tmp;
+	char *cachedir;
+
+	/* Loop through the cache dirs until we find a writeable dir */
+	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		cachedir = alpm_list_getdata(i);
+		if(stat(cachedir, &buf) != 0) {
+			/* cache directory does not exist.... try creating it */
+			_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"),
+					cachedir);
+			alpm_logaction("warning: no %s cache exists, creating...",
+					cachedir);
+			if(_alpm_makepath(cachedir) == 0) {
+				_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", cachedir);
+				return(cachedir);
+			}
+		} else if(S_ISDIR(buf.st_mode) && (buf.st_mode & S_IWUSR)) {
+			_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", cachedir);
+			return(cachedir);
+		}
+	}
+
+	/* we didn't find a valid cache directory. use /tmp. */
+	i = alpm_option_get_cachedirs();
+	tmp = alpm_list_add(NULL, strdup("/tmp/"));
+	FREELIST(i);
+	alpm_option_set_cachedirs(tmp);
+	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/");
+	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead"));
+	alpm_logaction("warning: couldn't create package cache, using /tmp instead");
+	return(alpm_list_getdata(tmp));
 }
 
 /** Get the md5 sum of file.
