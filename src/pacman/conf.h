@@ -60,8 +60,6 @@ typedef struct __config_t {
 
 	unsigned short group;
 	pmtransflag_t flags;
-	unsigned short noask;
-	unsigned int ask;
 
 	/* conf file options */
 	unsigned short chomp; /* I Love Candy! */

@@ -255,118 +255,65 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 
 	switch(event) {
 		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_INSTALL_IGNOREPKG) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
-			} else if(data2) {
+			if(data2) {
 				/* TODO we take this route based on data2 being not null? WTF */
 				snprintf(str, LOG_STR_LEN, _(":: %s requires installing %s from IgnorePkg. Install anyway? [Y/n] "),
-				         alpm_pkg_get_name(data1),
-				         alpm_pkg_get_name(data2));
+						alpm_pkg_get_name(data1),
+						alpm_pkg_get_name(data2));
 				*response = yesno(str);
 			} else {
 				snprintf(str, LOG_STR_LEN, _(":: %s is in IgnorePkg. Install anyway? [Y/n] "),
-				         alpm_pkg_get_name(data1));
+						alpm_pkg_get_name(data1));
 				*response = yesno(str);
 			}
 			break;
 		case PM_TRANS_CONV_REMOVE_HOLDPKG:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_REMOVE_HOLDPKG) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
-			} else {
-				snprintf(str, LOG_STR_LEN, _(":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "),
-				         alpm_pkg_get_name(data1));
-				*response = yesno(str);
-			}
+			snprintf(str, LOG_STR_LEN, _(":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "),
+					alpm_pkg_get_name(data1));
+			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_REPLACE_PKG) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
-			} else {
-				snprintf(str, LOG_STR_LEN, _(":: Replace %s with %s/%s? [Y/n] "),
-				         alpm_pkg_get_name(data1),
-				         (char *)data3,
-				         alpm_pkg_get_name(data2));
-				*response = yesno(str);
-			}
+			snprintf(str, LOG_STR_LEN, _(":: Replace %s with %s/%s? [Y/n] "),
+					alpm_pkg_get_name(data1),
+					(char *)data3,
+					alpm_pkg_get_name(data2));
+			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_CONFLICT_PKG:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_CONFLICT_PKG) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
-			} else {
-				snprintf(str, LOG_STR_LEN, _(":: %s conflicts with %s. Remove %s? [Y/n] "),
-				         (char *)data1,
-				         (char *)data2,
-				         (char *)data2);
-				*response = yesno(str);
-			}
+			snprintf(str, LOG_STR_LEN, _(":: %s conflicts with %s. Remove %s? [Y/n] "),
+					(char *)data1,
+					(char *)data2,
+					(char *)data2);
+			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_LOCAL_NEWER) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
+
+			if(!config->op_s_downloadonly) {
+				snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "),
+						alpm_pkg_get_name(data1),
+						alpm_pkg_get_version(data1));
+				*response = yesno(str);
 			} else {
-				if(!config->op_s_downloadonly) {
-					snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "),
-				         alpm_pkg_get_name(data1),
-				         alpm_pkg_get_version(data1));
-					*response = yesno(str);
-				} else {
-					*response = 1;
-				}
+				*response = 1;
 			}
 			break;
 		case PM_TRANS_CONV_LOCAL_UPTODATE:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_LOCAL_UPTODATE) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
+			if(!config->op_s_downloadonly) {
+				snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "),
+						alpm_pkg_get_name(data1),
+						alpm_pkg_get_version(data1));
+				*response = yesno(str);
 			} else {
-				if(!config->op_s_downloadonly) {
-					snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "),
-				         alpm_pkg_get_name(data1),
-				         alpm_pkg_get_version(data1));
-					*response = yesno(str);
-				} else {
-					*response = 1;
-				}
+				*response = 1;
 			}
 			break;
 		case PM_TRANS_CONV_CORRUPTED_PKG:
-			if(config->noask) {
-				if(config->ask & PM_TRANS_CONV_CORRUPTED_PKG) {
-					*response = 1;
-				} else {
-					*response = 0;
-				}
+			if(!config->noconfirm) {
+				snprintf(str, LOG_STR_LEN, _(":: Archive %s is corrupted. Do you want to delete it? [Y/n] "),
+						(char *)data1);
+				*response = yesno(str);
 			} else {
-				if(!config->noconfirm) {
-					snprintf(str, LOG_STR_LEN, _(":: Archive %s is corrupted. Do you want to delete it? [Y/n] "),
-				         (char *)data1);
-					*response = yesno(str);
-				} else {
-					*response = 1;
-				}
+				*response = 1;
 			}
 			break;
 	}

@@ -141,7 +141,6 @@ static void usage(int op, char *myname)
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --noconfirm      do not ask for any confirmation\n"));
-		printf(_("      --ask <number>   pre-specify answers for questions (see manpage)\n"));
 		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 		printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
 		printf(_("  -v, --verbose        be verbose\n"));
@@ -285,7 +284,6 @@ static int parseargs(int argc, char *argv[])
 		{"debug",      optional_argument, 0, 1003},
 		{"noprogressbar", no_argument,    0, 1004},
 		{"noscriptlet", no_argument,      0, 1005},
-		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
 		{"asdeps",     no_argument,       0, 1008},
 		{0, 0, 0, 0}
@@ -330,7 +328,6 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
 			case 1007:
 				if(alpm_option_add_cachedir(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
