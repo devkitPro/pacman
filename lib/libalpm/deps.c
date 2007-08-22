@@ -330,7 +330,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							}
 						}
 					}
-					free(depend);
+					FREE(depend);
 				}
 			}
 		}
@@ -378,7 +378,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						FREE(miss);
 					}
 				}
-				free(depend);
+				FREE(depend);
 			}
 		}
 	} else if(op == PM_TRANS_TYPE_REMOVE) {
@@ -434,7 +434,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							}
 						}
 					}
-					free(depend);
+					FREE(depend);
 				}
 			}
 		}
@@ -632,7 +632,7 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit)
 						ready = 0;
 					}
 				}
-				free(depend);
+				FREE(depend);
 			}
 		}
 	}

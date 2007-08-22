@@ -93,17 +93,17 @@ alpm_cb_download alpm_option_get_dlcb();
 void alpm_option_set_dlcb(alpm_cb_download cb);
 
 const char *alpm_option_get_root();
-void alpm_option_set_root(const char *root);
+int alpm_option_set_root(const char *root);
 
 const char *alpm_option_get_dbpath();
-void alpm_option_set_dbpath(const char *dbpath);
+int alpm_option_set_dbpath(const char *dbpath);
 
 alpm_list_t *alpm_option_get_cachedirs();
-void alpm_option_add_cachedir(const char *cachedir);
+int alpm_option_add_cachedir(const char *cachedir);
 void alpm_option_set_cachedirs(alpm_list_t *cachedirs);
 
 const char *alpm_option_get_logfile();
-void alpm_option_set_logfile(const char *logfile);
+int alpm_option_set_logfile(const char *logfile);
 
 const char *alpm_option_get_lockfile();
 /* no set_lockfile, path is determined from dbpath */
@@ -145,7 +145,7 @@ alpm_list_t *alpm_option_get_syncdbs();
 
 pmdb_t *alpm_db_register(const char *treename);
 int alpm_db_unregister(pmdb_t *db);
-int alpm_db_unregister_all();
+int alpm_db_unregister_all(void);
 
 const char *alpm_db_get_name(const pmdb_t *db);
 const char *alpm_db_get_url(const pmdb_t *db);
@@ -163,7 +163,7 @@ alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
 alpm_list_t *alpm_db_test(pmdb_t *db);
 alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
 
-alpm_list_t *alpm_db_get_upgrades();
+alpm_list_t *alpm_db_get_upgrades(void);
 
 /*
  * Packages
@@ -389,6 +389,7 @@ enum _pmerrno_t {
 	PM_ERR_SYSTEM,
 	PM_ERR_BADPERMS,
 	PM_ERR_NOT_A_FILE,
+	PM_ERR_NOT_A_DIR,
 	PM_ERR_WRONG_ARGS,
 	/* Interface */
 	PM_ERR_HANDLE_NULL,

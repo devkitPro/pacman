@@ -488,7 +488,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 				}
 			}
 		}
-		free(dep);
+		FREE(dep);
 	}
 	return(0);
 }

@@ -24,7 +24,6 @@
 #include <alpm.h>
 
 typedef struct __config_t {
-	/* command line options */
 	char *configfile;
 	unsigned short op;
 	unsigned short verbose;
@@ -34,8 +33,11 @@ typedef struct __config_t {
 	unsigned short noconfirm;
 	unsigned short noprogressbar;
 	unsigned short logmask;
+	/* keep track if we had paths specified on command line */
+	unsigned short have_root;
+	unsigned short have_dbpath;
+	unsigned short have_logfile;
 
-	/* command line options */
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;
 	unsigned short op_q_list;
@@ -48,6 +50,7 @@ typedef struct __config_t {
 	unsigned short op_q_changelog;
 	unsigned short op_q_test;
 	unsigned short op_q_upgrade;
+
 	unsigned short op_s_clean;
 	unsigned short op_s_dependsonly;
 	unsigned short op_s_downloadonly;
@@ -55,10 +58,12 @@ typedef struct __config_t {
 	unsigned short op_s_sync;
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
+
 	unsigned short group;
 	pmtransflag_t flags;
 	unsigned short noask;
 	unsigned int ask;
+
 	/* conf file options */
 	unsigned short chomp; /* I Love Candy! */
 	unsigned short usecolor; /* enable colorful output */

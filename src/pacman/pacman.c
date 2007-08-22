@@ -1,8 +1,8 @@
 /*
  *  pacman.c
- * 
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
+ *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -29,7 +29,6 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/utsname.h> /* uname */
 #include <libintl.h> /* bindtextdomain, textdomain */
 #include <locale.h> /* setlocale */
@@ -288,7 +287,6 @@ static int parseargs(int argc, char *argv[])
 		{"test",       no_argument,       0, 1009},
 		{0, 0, 0, 0}
 	};
-	struct stat st;
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepituwygz", opts, &option_index))) {
 		if(opt < 0) {
@@ -331,13 +329,11 @@ static int parseargs(int argc, char *argv[])
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
 			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
 			case 1007:
-				/* TODO redo this logic- check path somewhere else, delete other cachedirs, etc */
-				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					pm_printf(PM_LOG_ERROR, _("'%s' is not a valid cache directory\n"),
-							optarg);
+				if(alpm_option_add_cachedir(optarg) != 0) {
+					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
+							optarg, alpm_strerror(pm_errno));
 					return(1);
 				}
-				alpm_option_add_cachedir(optarg);
 				break;
 			case 1008:
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
@@ -357,12 +353,12 @@ static int parseargs(int argc, char *argv[])
 			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
 			case 'V': config->version = 1; break;
 			case 'b':
-				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					pm_printf(PM_LOG_ERROR, _("'%s' is not a valid db path\n"),
-							optarg);
+				if(alpm_option_set_dbpath(optarg) != 0) {
+					pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
+							optarg, alpm_strerror(pm_errno));
 					return(1);
 				}
-				alpm_option_set_dbpath(optarg);
+				config->have_dbpath = 1;
 				break;
 			case 'c':
 				(config->op_s_clean)++;
@@ -391,12 +387,12 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_PRINTURIS;
 				break;
 			case 'r':
-				if(stat(optarg, &st) == -1 || !S_ISDIR(st.st_mode)) {
-					pm_printf(PM_LOG_ERROR, _("'%s' is not a valid root path\n"),
-							optarg);
+				if(alpm_option_set_root(optarg) != 0) {
+					pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
+							optarg, alpm_strerror(pm_errno));
 					return(1);
 				}
-				alpm_option_set_root(optarg);
+				config->have_root = 1;
 				break;
 			case 's':
 				config->op_s_search = 1;
@@ -455,7 +451,6 @@ static int _parseconfig(const char *file, const char *givensection,
 	int linenum = 0;
 	char *ptr, *section = NULL;
 	pmdb_t *db = NULL;
-	struct stat st;
 
 	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
@@ -619,37 +614,38 @@ static int _parseconfig(const char *file, const char *givensection,
 						pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
 						/* don't overwrite a path specified on the command line */
-						if(alpm_option_get_dbpath() == NULL) {
-							if(stat(ptr, &st) == -1 || !S_ISDIR(st.st_mode)) {
-								pm_printf(PM_LOG_ERROR, _("'%s' is not a valid db path\n"),
-										ptr);
+						if(!config->have_dbpath) {
+							if(alpm_option_set_dbpath(ptr) != 0) {
+								pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
+										ptr, alpm_strerror(pm_errno));
 								return(1);
 							}
-							alpm_option_set_dbpath(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
 						}
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
-						if(stat(ptr, &st) == -1 || !S_ISDIR(st.st_mode)) {
-							pm_printf(PM_LOG_WARNING, _("'%s' is not a valid cache directory\n"),
-									ptr);
-						} else {
-							alpm_option_add_cachedir(ptr);
-							pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
+						if(alpm_option_add_cachedir(ptr) != 0) {
+							pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
+									ptr, alpm_strerror(pm_errno));
+							return(1);
 						}
+						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
 						/* don't overwrite a path specified on the command line */
-						if(alpm_option_get_root() == NULL) {
-							if(stat(ptr, &st) == -1 || !S_ISDIR(st.st_mode)) {
-								pm_printf(PM_LOG_ERROR, _("'%s' is not a valid root path\n"),
-										ptr);
+						if(!config->have_root) {
+							if(alpm_option_set_root(ptr) != 0) {
+								pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
+										ptr, alpm_strerror(pm_errno));
 								return(1);
 							}
-							alpm_option_set_root(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
 						}
 					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
-						if(alpm_option_get_logfile() == NULL) {
-							alpm_option_set_logfile(ptr);
+						if(!config->have_logfile) {
+							if(alpm_option_set_logfile(ptr) != 0) {
+								pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+										ptr, alpm_strerror(pm_errno));
+								return(1);
+							}
 							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
 						}
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
@@ -746,16 +742,23 @@ int main(int argc, char *argv[])
 	/* Setup logging as soon as possible, to print out maximum debugging info */
 	alpm_option_set_logcb(cb_log);
 	alpm_option_set_dlcb(cb_dl_progress);
+	/* define root and dbpath to reasonable defaults */
+	alpm_option_set_root(ROOTDIR);
+	alpm_option_set_dbpath(DBPATH);
+
+	/* Priority of options:
+	 * 1. command line
+	 * 2. config file
+	 * 3. compiled-in defaults
+	 * However, we have to parse the command line first because a config file
+	 * location can be specified here, so we need to make sure we prefer these
+	 * options over the config file coming second.
+	 */
 
 	/* parse the command line */
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
 		cleanup(ret);
-	}
-
-	/* use default config file if location wasn't specified on cmdline */
-	if(config->configfile == NULL) {
-		config->configfile = strdup(CONFFILE);
 	}
 
 	/* parse the config file */
@@ -764,17 +767,8 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
-	/* ensure root and dbpath were defined */
-	if(alpm_option_get_root() == NULL) {
-		alpm_option_set_root(ROOTDIR);
-	}
-	if(alpm_option_get_dbpath() == NULL) {
-		alpm_option_set_dbpath(DBPATH);
-	}
-
 #if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
-if(0) {
 	if(myuid > 0) {
 		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
 			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
@@ -791,7 +785,6 @@ if(0) {
 			}
 		}
 	}
-}
 #endif
 
 	if(config->verbose > 0) {

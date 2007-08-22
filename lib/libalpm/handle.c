@@ -30,6 +30,8 @@
 #include <sys/types.h>
 #include <syslog.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 /* libalpm */
 #include "handle.h"
@@ -126,79 +128,112 @@ void SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
 
 void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
 
-void SYMEXPORT alpm_option_set_root(const char *root)
+int SYMEXPORT alpm_option_set_root(const char *root)
 {
+	struct stat st;
+	char *realroot;
+	size_t rootlen;
+
 	ALPM_LOG_FUNC;
 
-	if(handle->root) FREE(handle->root);
+	if(!root) {
+		pm_errno = PM_ERR_WRONG_ARGS;
+		return(-1);
+	}
+	if(stat(root, &st) == -1 || !S_ISDIR(st.st_mode)) {
+		pm_errno = PM_ERR_NOT_A_DIR;
+		return(-1);
+	}
 	/* According to the man page, realpath is safe to use IFF the second arg is
 	 * NULL. */
-	char *realroot = realpath(root, NULL);
-	if(realroot) {
-		root = realroot;
-	} else {
-		_alpm_log(PM_LOG_ERROR, _("cannot canonicalize specified root path '%s'"), root);
+	realroot = realpath(root, NULL);
+	if(!realroot) {
+		pm_errno = PM_ERR_NOT_A_DIR;
+		return(-1);
 	}
 
-	if(root) {
-		/* verify root ends in a '/' */
-		int rootlen = strlen(realroot);
-		if(realroot[rootlen-1] != '/') {
-			rootlen += 1;
-		}
-		handle->root = calloc(rootlen+1, sizeof(char));
-		strncpy(handle->root, realroot, rootlen);
-		handle->root[rootlen-1] = '/';
+	/* verify root ends in a '/' */
+	rootlen = strlen(realroot);
+	if(realroot[rootlen-1] != '/') {
+		rootlen += 1;
 	}
-	if(realroot) {
-		free(realroot);
+	if(handle->root) {
+		FREE(handle->root);
 	}
+	handle->root = calloc(rootlen + 1, sizeof(char));
+	strncpy(handle->root, realroot, rootlen);
+	handle->root[rootlen-1] = '/';
+	FREE(realroot);
 	_alpm_log(PM_LOG_DEBUG, "option 'root' = %s", handle->root);
+	return(0);
 }
 
-void SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
+int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 {
+	struct stat st;
+	size_t dbpathlen, lockfilelen;
+	const char *lf = "db.lck";
+
 	ALPM_LOG_FUNC;
 
-	if(handle->dbpath) FREE(handle->dbpath);
-	if(handle->lockfile) FREE(handle->lockfile);
-	if(dbpath) {
-		/* verify dbpath ends in a '/' */
-		int dbpathlen = strlen(dbpath);
-		if(dbpath[dbpathlen-1] != '/') {
-			dbpathlen += 1;
-		}
-		handle->dbpath = calloc(dbpathlen+1, sizeof(char));
-		strncpy(handle->dbpath, dbpath, dbpathlen);
-		handle->dbpath[dbpathlen-1] = '/';
-		_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s", handle->dbpath);
-
-		const char *lf = "db.lck";
-		int lockfilelen = strlen(handle->dbpath) + strlen(lf) + 1;
-		handle->lockfile = calloc(lockfilelen, sizeof(char));
-		snprintf(handle->lockfile, lockfilelen, "%s%s", handle->dbpath, lf);
-		_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s", handle->lockfile);
+	if(!dbpath) {
+		pm_errno = PM_ERR_WRONG_ARGS;
+		return(-1);
 	}
+	if(stat(dbpath, &st) == -1 || !S_ISDIR(st.st_mode)) {
+		pm_errno = PM_ERR_NOT_A_DIR;
+		return(-1);
+	}
+	/* verify dbpath ends in a '/' */
+	dbpathlen = strlen(dbpath);
+	if(dbpath[dbpathlen-1] != '/') {
+		dbpathlen += 1;
+	}
+	if(handle->dbpath) {
+		FREE(handle->dbpath);
+	}
+	handle->dbpath = calloc(dbpathlen+1, sizeof(char));
+	strncpy(handle->dbpath, dbpath, dbpathlen);
+	handle->dbpath[dbpathlen-1] = '/';
+	_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s", handle->dbpath);
 
+	if(handle->lockfile) {
+		FREE(handle->lockfile);
+	}
+	lockfilelen = strlen(handle->dbpath) + strlen(lf) + 1;
+	handle->lockfile = calloc(lockfilelen, sizeof(char));
+	snprintf(handle->lockfile, lockfilelen, "%s%s", handle->dbpath, lf);
+	_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s", handle->lockfile);
+	return(0);
 }
 
-void SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
+int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 {
+	struct stat st;
+	char *newcachedir;
+	size_t cachedirlen;
+
 	ALPM_LOG_FUNC;
 
-	if(cachedir) {
-		char *newcachedir;
-		/* verify cachedir ends in a '/' */
-		int cachedirlen = strlen(cachedir);
-		if(cachedir[cachedirlen-1] != '/') {
-			cachedirlen += 1;
-		}
-		newcachedir = calloc(cachedirlen + 1, sizeof(char));
-		strncpy(newcachedir, cachedir, cachedirlen);
-		newcachedir[cachedirlen-1] = '/';
-		handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-		_alpm_log(PM_LOG_DEBUG, "option 'cachedir' = %s", newcachedir);
+	if(!cachedir) {
+		pm_errno = PM_ERR_WRONG_ARGS;
+		return(-1);
 	}
+	if(stat(cachedir, &st) == -1 || !S_ISDIR(st.st_mode)) {
+		pm_errno = PM_ERR_NOT_A_DIR;
+		return(-1);
+	}
+	/* verify cachedir ends in a '/' */
+	cachedirlen = strlen(cachedir);
+	if(cachedir[cachedirlen-1] != '/') {
+		cachedirlen += 1;
+	}
+	newcachedir = calloc(cachedirlen + 1, sizeof(char));
+	strncpy(newcachedir, cachedir, cachedirlen);
+	newcachedir[cachedirlen-1] = '/';
+	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
+	_alpm_log(PM_LOG_DEBUG, "option 'cachedir' = %s", newcachedir);
+	return(0);
 }
 
 void SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
@@ -207,21 +242,48 @@ void SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 	if(cachedirs) handle->cachedirs = cachedirs;
 }
 
-void SYMEXPORT alpm_option_set_logfile(const char *logfile)
+int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 {
+	char *oldlogfile = handle->logfile;
+	FILE *oldlogstream = handle->logstream;
+
 	ALPM_LOG_FUNC;
 
-	if(handle->logfile) {
-		FREE(handle->logfile);
-		if(handle->logstream) {
-			fclose(handle->logstream);
-			handle->logstream = NULL;
+	if(!logfile) {
+		pm_errno = PM_ERR_WRONG_ARGS;
+		return(-1);
+	}
+
+	handle->logfile = strdup(logfile);
+	handle->logstream = fopen(logfile, "a");
+	if(handle->logstream == NULL) {
+		/* TODO we probably want to do this at some point, but right now
+		 * it just blows up when a user calls pacman without privilages */
+		_alpm_log(PM_LOG_DEBUG, "couldn't open logfile for writing, ignoring");
+		/*
+		if(errno == EACCES) {
+			pm_errno = PM_ERR_BADPERMS;
+		} else if(errno == ENOENT) {
+			pm_errno = PM_ERR_NOT_A_DIR;
+		} else {
+			pm_errno = PM_ERR_SYSTEM;
 		}
+		* reset logfile to its previous value *
+		FREE(handle->logfile);
+		handle->logfile = oldlogfile;
+		handle->logstream = oldlogstream;
+		return(-1);
+		*/
 	}
-	if(logfile) {
-		handle->logfile = strdup(logfile);
-		handle->logstream = fopen(logfile, "a");
+
+	if(oldlogfile) {
+		FREE(oldlogfile);
 	}
+	if(oldlogstream) {
+		fclose(oldlogstream);
+	}
+	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s", handle->logfile);
+	return(0);
 }
 
 void SYMEXPORT alpm_option_set_usesyslog(unsigned short usesyslog)
@@ -255,6 +317,7 @@ void SYMEXPORT alpm_option_add_ignorepkg(const char *pkg)
 {
 	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 }
+
 void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 {
 	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
@@ -265,6 +328,7 @@ void SYMEXPORT alpm_option_add_holdpkg(const char *pkg)
 {
 	handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
 }
+
 void SYMEXPORT alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 {
 	if(handle->holdpkg) FREELIST(handle->holdpkg);

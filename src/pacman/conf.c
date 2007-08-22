@@ -23,6 +23,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h> /* strdup */
 
 /* pacman */
 #include "conf.h"
@@ -34,8 +35,11 @@ config_t *config_new(void)
 			fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
 			        sizeof(config_t));
 	}
+	/* defaults which may get overridden later */
 	config->op = PM_OP_MAIN;
 	config->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
+	/* CONFFILE is defined at compile-time */
+	config->configfile = strdup(CONFFILE);
 
 	return(config);
 }

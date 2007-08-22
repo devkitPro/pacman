@@ -1137,7 +1137,7 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			}
 			
 			satisfies = alpm_depcmp(pkg, dep);
-			free(dep);
+			FREE(dep);
 			if(satisfies) {
 				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
 				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'",

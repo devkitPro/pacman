@@ -734,7 +734,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 						/* file is not in the cache dir, so add it to the list */
 						files = alpm_list_add(files, strdup(fname));
 					}
-					free(fpath);
+					FREE(fpath);
 				}
 			}
 		}
@@ -805,7 +805,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			*data = alpm_list_add(*data, ptr);
 			retval = 1;
 		}
-		free(filepath);
+		FREE(filepath);
 		FREE(md5sum2);
 	}
 	if(retval) {
@@ -885,10 +885,10 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		fpath = _alpm_filecache_find(fname);
 
 		if(_alpm_trans_addtarget(tr, fpath) == -1) {
-			free(fpath);
+			FREE(fpath);
 			goto error;
 		}
-		free(fpath);
+		FREE(fpath);
 
 		/* using alpm_list_last() is ok because addtarget() adds the new target at the
 		 * end of the tr->packages list */

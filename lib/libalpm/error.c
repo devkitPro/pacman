@@ -42,6 +42,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("insufficient privileges");
 		case PM_ERR_NOT_A_FILE:
 			return _("could not find or read file");
+		case PM_ERR_NOT_A_DIR:
+			return _("could not find or read directory");
 		case PM_ERR_WRONG_ARGS:
 			return _("wrong or NULL argument passed");
 		/* Interface */

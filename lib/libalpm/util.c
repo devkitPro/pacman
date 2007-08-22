@@ -364,7 +364,7 @@ int _alpm_lckmk()
 		}
 	}
 
-	free(dir);
+	FREE(dir);
 
 	return(fd > 0 ? fd : -1);
 }

@@ -73,7 +73,7 @@ pmdb_t SYMEXPORT *alpm_db_register(const char *treename)
 /** Unregister all package databases
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_db_unregister_all()
+int SYMEXPORT alpm_db_unregister_all(void)
 {
 	alpm_list_t *i;
 
@@ -431,7 +431,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 /** Get a list of upgradable packages on the current system
  * @return a pmsyncpkg_t list of packages that are out of date
  */
-alpm_list_t SYMEXPORT *alpm_db_get_upgrades()
+alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 {
 	alpm_list_t *syncpkgs = NULL;
 	const alpm_list_t *i, *j, *k, *m;
@@ -592,15 +592,13 @@ pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 
 	db = calloc(1, sizeof(pmdb_t));
 	if(db == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
-				  sizeof(pmdb_t));
+		_alpm_log(PM_LOG_ERROR, "calloc : %s\n", strerror(errno));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	db->path = calloc(1, pathsize);
 	if(db->path == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failed: could not allocate %d bytes"),
-				  pathsize);
+		_alpm_log(PM_LOG_ERROR, "calloc : %s\n", strerror(errno));
 		FREE(db);
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
@@ -723,6 +721,7 @@ pmdb_t *_alpm_db_register(const char *treename)
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 	snprintf(path, PATH_MAX, "%s%s", dbpath, treename);
+	/* TODO this is rediculous, we try to do this even if we can't */
 	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
 		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it",
 				path);
@@ -731,7 +730,7 @@ pmdb_t *_alpm_db_register(const char *treename)
 		}
 	}
 
-	db = _alpm_db_new(handle->dbpath, treename);
+	db = _alpm_db_new(dbpath, treename);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}

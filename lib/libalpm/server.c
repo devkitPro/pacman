@@ -133,7 +133,7 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
 												doc,
 												server->s_url->user,
 												server->s_url->pwd);
-	free(doc);
+	FREE(doc);
 	return(ret);
 }
 
