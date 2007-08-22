@@ -520,6 +520,10 @@ static int _parseconfig(const char *file, const char *givensection,
 						file, linenum);
 				return(1);
 			}
+			/* For each directive, compare to the uppercase and camelcase string.
+			 * This prevents issues with certain locales where characters don't
+			 * follow the toupper() rules we may expect, e.g. tr_TR where i != I.
+			 */
 			upperkey = strtoupper(strdup(key));
 			if(section == NULL && (strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0)) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: 'Include' directive must belong to a section.\n"),
