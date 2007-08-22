@@ -507,8 +507,7 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 		} else {
 			/* directive */
-			char *key;
-			const char *upperkey;
+			char *key, *upperkey;
 			/* strsep modifies the 'line' string: 'key \0 ptr' */
 			key = line;
 			ptr = line;
@@ -677,9 +676,13 @@ static int _parseconfig(const char *file, const char *givensection,
 					return(1);
 				}
 			}
+			free(upperkey);
 		}
 	}
 	fclose(fp);
+	if(section){
+		free(section);
+	}
 
 	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return(0);

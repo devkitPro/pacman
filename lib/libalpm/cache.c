@@ -87,6 +87,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	for(tmp = db->pkgcache; tmp; tmp = alpm_list_next(tmp)) {
 		_alpm_pkg_free(tmp->data);
 	}
+	alpm_list_free(db->pkgcache);
 	db->pkgcache = NULL;
 
 	if(db->grpcache) {

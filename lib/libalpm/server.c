@@ -244,6 +244,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						fclose(localf);
 					}
 					/* try the next server */
+					downloadFreeURL(fileurl);
 					continue;
 				} else {
 						_alpm_log(PM_LOG_DEBUG, "connected to %s successfully", fileurl->host);
@@ -261,6 +262,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						if(dlf != NULL) {
 							fclose(dlf);
 						}
+						downloadFreeURL(fileurl);
 						return(1);
 					}
 				}
@@ -287,7 +289,8 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						if(dlf != NULL) {
 							fclose(dlf);
 						}
-						return -1;
+						downloadFreeURL(fileurl);
+						return(-1);
 					}
 				}
 
@@ -302,6 +305,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 											fn, downloadLastErrString);
 						fclose(localf);
 						fclose(dlf);
+						downloadFreeURL(fileurl);
 						return(-1);
 					}
 					
@@ -313,6 +317,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 												realfile, strerror(errno));
 							fclose(localf);
 							fclose(dlf);
+							downloadFreeURL(fileurl);
 							return(-1);
 						}
 					}
@@ -324,7 +329,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 					if(handle->dlcb) handle->dlcb(pkgname, dltotal_bytes, ust.size);
 				}
-
+				downloadFreeURL(fileurl);
 				fclose(localf);
 				fclose(dlf);
 				rename(output, realfile);
@@ -339,7 +344,10 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				char cwd[PATH_MAX];
 
 				/* build the full download url */
-				snprintf(url, PATH_MAX, "%s://%s%s", fileurl->scheme, fileurl->host, fileurl->doc);
+				snprintf(url, PATH_MAX, "%s://%s%s", fileurl->scheme,
+						fileurl->host, fileurl->doc);
+				/* we don't need this anymore */
+				downloadFreeURL(fileurl);
 
 				/* replace all occurrences of %o with fn.part */
 				strncpy(origCmd, handle->xfercommand, sizeof(origCmd));
@@ -387,12 +395,12 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 				chdir(cwd);
 			}
-			downloadFreeURL(fileurl);
 		}
 
 		if(alpm_list_count(complete) == alpm_list_count(files)) {
 			done = 1;
 		}
+		alpm_list_free(complete);
 	}
 
 	return(done ? 0 : -1);

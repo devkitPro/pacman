@@ -70,6 +70,20 @@ pmdb_t SYMEXPORT *alpm_db_register(const char *treename)
 	return(_alpm_db_register(treename));
 }
 
+/* Helper function for alpm_db_unregister{_all} */
+static void _alpm_db_unregister(pmdb_t *db)
+{
+	if(db == NULL) {
+		return;
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
+	_alpm_db_close(db);
+
+	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'", db->treename);
+	_alpm_db_free(db);
+}
+
 /** Unregister all package databases
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
@@ -120,12 +134,13 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 		handle->db_local = NULL;
 		found = 1;
 	} else {
-		/* Warning : this function shouldn't be used to unregister all sync databases
-		 * by walking through the list returned by alpm_option_get_syncdbs,
-		 * because the db is removed from that list here.
+		/* Warning : this function shouldn't be used to unregister all sync
+		 * databases by walking through the list returned by
+		 * alpm_option_get_syncdbs, because the db is removed from that list here.
 		 */
 		void *data;
-		handle->dbs_sync = alpm_list_remove(handle->dbs_sync, db, _alpm_db_cmp, &data);
+		handle->dbs_sync = alpm_list_remove(handle->dbs_sync,
+				db, _alpm_db_cmp, &data);
 		if(data) {
 			found = 1;
 		}
@@ -566,23 +581,6 @@ error:
 
 /** @} */
 
-/* Helper function for alpm_db_unregister{_all} */
-void _alpm_db_unregister(pmdb_t *db)
-{
-	if(db == NULL) {
-		return;
-	}
-	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'", db->treename);
-
-	/* Cleanup */
-	_alpm_db_free_pkgcache(db);
-
-	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
-	_alpm_db_close(db);
-
-	_alpm_db_free(db);
-}
-
 pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 {
 	pmdb_t *db;
@@ -611,12 +609,17 @@ pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 
 void _alpm_db_free(pmdb_t *db)
 {
+	alpm_list_t *tmp;
+
 	ALPM_LOG_FUNC;
 
-	alpm_list_t *tmp;
+	/* cleanup pkgcache */
+	_alpm_db_free_pkgcache(db);
+	/* cleanup server list */
 	for(tmp = db->servers; tmp; tmp = alpm_list_next(tmp)) {
 		_alpm_server_free(tmp->data);
 	}
+	alpm_list_free(db->servers);
 	FREE(db->path);
 	FREE(db);
 
