@@ -57,7 +57,7 @@ m4_define([pacman_version_suffix], [devel])
 m4_define([pacman_version],
           [pacman_version_major.pacman_version_minor.pacman_version_micro])
 m4_define([pacman_display_version],
-					pacman_version[]m4_ifdef([pacman_version_suffix],[-pacman_version_suffix]))
+					pacman_version[]m4_ifdef([pacman_version_suffix],[pacman_version_suffix]))
 
 # Autoconf initialization
 # AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
@@ -295,7 +295,7 @@ Makefile
 AC_OUTPUT
 
 echo "
-$PACKAGE_STRING:
+pacman_display_version:
 
   Build information:
     source code location   : ${srcdir}
