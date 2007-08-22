@@ -767,6 +767,11 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
+	/* add a default cachedir if one wasn't specified */
+	if(alpm_option_get_cachedirs() == NULL) {
+		alpm_option_add_cachedir(CACHEDIR);
+	}
+
 #if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0) {
