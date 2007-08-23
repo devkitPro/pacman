@@ -611,7 +611,7 @@ extract_sources() {
 		fi
 
 		# fix flyspray #6246
-		local file_type=$(file -biz "$file")
+		local file_type=$(file -bizL "$file")
 		local cmd=''
 		case "$file_type" in
 			*application/x-tar*|*application/x-zip*|*application/x-cpio*)
