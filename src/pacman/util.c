@@ -503,8 +503,6 @@ int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list ar
 
 	/* print the message using va_arg list */
 	ret = vfprintf(stream, format, args);
-	/* TEMP HACK because libalpm strings don't have \n */
-	fprintf(stream, "\n");
 	return(ret);
 }
 

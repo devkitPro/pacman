@@ -73,7 +73,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 
 	miss = malloc(sizeof(pmdepmissing_t));
 	if(miss == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepmissing_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
@@ -175,7 +175,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		return(NULL);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "started sorting dependencies");
+	_alpm_log(PM_LOG_DEBUG, "started sorting dependencies\n");
 
 	vertices = _alpm_graph_init(targets);
 
@@ -213,7 +213,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "sorting dependencies finished");
+	_alpm_log(PM_LOG_DEBUG, "sorting dependencies finished\n");
 
 	if(mode == PM_TRANS_TYPE_REMOVE) {
 		/* we're removing packages, so reverse the order */
@@ -256,12 +256,12 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 			pmpkg_t *newpkg = i->data;
 			pmpkg_t *oldpkg;
 			if(newpkg == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "null package found in package list");
+				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
 			}
 
 			if((oldpkg = _alpm_db_get_pkgfromcache(db, alpm_pkg_get_name(newpkg))) == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "cannot find package installed '%s'",
+				_alpm_log(PM_LOG_DEBUG, "cannot find package installed '%s'\n",
 									alpm_pkg_get_name(newpkg));
 				continue;
 			}
@@ -294,7 +294,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							pmpkg_t *pkg = l->data;
 
 							if(alpm_depcmp(pkg, depend)) {
-								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' has moved from '%s' to '%s'",
+								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' has moved from '%s' to '%s'\n",
 													depend->name, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
@@ -310,7 +310,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 								if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
 									/* we ignore packages that will be updated because we know
 									 * that the updated ones don't satisfy depend */
-									_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'",
+									_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
 														depend->name, alpm_pkg_get_name(pkg));
 									satisfied = 1;
 									break;
@@ -319,7 +319,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						}
 
 						if(!satisfied) {
-							_alpm_log(PM_LOG_DEBUG, "checkdeps: updated '%s' won't satisfy a dependency of '%s'",
+							_alpm_log(PM_LOG_DEBUG, "checkdeps: updated '%s' won't satisfy a dependency of '%s'\n",
 												alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(p));
 							miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_DEPEND, depend->mod,
 																			 depend->name, depend->version);
@@ -340,7 +340,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 		for(i = packages; i; i = i->next) {
 			pmpkg_t *tp = i->data;
 			if(tp == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "null package found in package list");
+				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
 			}
 
@@ -368,7 +368,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 				/* else if still not found... */
 				if(!found) {
-					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'",
+					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
 					                          depend->name, alpm_pkg_get_name(tp));
 					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND, depend->mod,
 					                         depend->name, depend->version);
@@ -387,7 +387,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 			pmpkg_t *rmpkg = alpm_list_getdata(i);
 
 			if(rmpkg == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "null package found in package list");
+				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
 			}
 			for(j = alpm_pkg_get_requiredby(rmpkg); j; j = j->next) {
@@ -414,7 +414,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
 							pmpkg_t *pkg = l->data;
 							if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
-								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'",
+								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
 										depend->name, alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
@@ -422,7 +422,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						}
 
 						if(!satisfied) {
-							_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s which requires %s",
+							_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s which requires %s\n",
 									alpm_pkg_get_name(p), alpm_pkg_get_name(rmpkg));
 							miss = _alpm_depmiss_new(alpm_pkg_get_name(p),
 									PM_DEP_TYPE_DEPEND, depend->mod, depend->name,
@@ -485,11 +485,11 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		}
 
 		if(strlen(dep->version) > 0) {
-			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s-%s => %s",
+			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s-%s => %s\n",
 								pkgname, pkgversion,
 								mod, dep->name, dep->version, (equal ? "match" : "no match"));
 		} else {
-			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s => %s",
+			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s => %s\n",
 								pkgname, pkgversion,
 								mod, dep->name, (equal ? "match" : "no match"));
 		}
@@ -511,7 +511,7 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 	
 	depend = malloc(sizeof(pmdepend_t));
 	if(depend == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepend_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepend_t));
 		return(NULL);
 	}
 
@@ -563,7 +563,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	if(!include_explicit) {
 		/* see if it was explicitly installed */
 		if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
-			_alpm_log(PM_LOG_DEBUG, "excluding %s -- explicitly installed",
+			_alpm_log(PM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
 					alpm_pkg_get_name(pkg));
 			return(0);
 		}
@@ -624,7 +624,7 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit)
 					pmpkg_t *deppkg = k->data;
 					if(alpm_depcmp(deppkg,depend)
 							&& can_remove_package(db, deppkg, *targs, include_explicit)) {
-						_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets",
+						_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets\n",
 								alpm_pkg_get_name(deppkg));
 
 						/* add it to the target list */
@@ -656,7 +656,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		return(-1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "started resolving dependencies");
+	_alpm_log(PM_LOG_DEBUG, "started resolving dependencies\n");
 	targ = alpm_list_add(NULL, syncpkg);
 	deps = _alpm_checkdeps(local, PM_TRANS_TYPE_ADD, targ);
 	alpm_list_free(targ);
@@ -675,7 +675,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		for(j = *list; j && !found; j = j->next) {
 			pmpkg_t *sp = j->data;
 			if(alpm_depcmp(sp, missdep)) {
-				_alpm_log(PM_LOG_DEBUG, "%s satisfies dependency %s -- skipping",
+				_alpm_log(PM_LOG_DEBUG, "%s satisfies dependency %s -- skipping\n",
 				          alpm_pkg_get_name(sp), missdep->name);
 				found = 1;
 			}
@@ -702,11 +702,11 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		}
 
 		if(!found) {
-			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"),
+			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)\n"),
 			          miss->target, missdep->name);
 			if(data) {
 				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
+					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepmissing_t));
 					FREELIST(*data);
 					pm_errno = PM_ERR_MEMORY;
 					goto error;
@@ -727,17 +727,17 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			_alpm_pkg_free(dummypkg);
 		}
 		if(usedep) {
-			_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)",
+			_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 					alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
 			*list = alpm_list_add(*list, sync);
 			if(_alpm_resolvedeps(local, dbs_sync, sync, list, trans, data)) {
 				goto error;
 			}
 		} else {
-			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\""), miss->target);
+			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\"\n"), miss->target);
 			if(data) {
 				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmdepmissing_t));
+					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepmissing_t));
 					FREELIST(*data);
 					pm_errno = PM_ERR_MEMORY;
 					goto error;
@@ -750,7 +750,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		}
 	}
 	
-	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies");
+	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
 
 	FREELIST(deps);
 

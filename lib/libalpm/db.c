@@ -77,10 +77,10 @@ static void _alpm_db_unregister(pmdb_t *db)
 		return;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "closing database '%s'", db->treename);
+	_alpm_log(PM_LOG_DEBUG, "closing database '%s'\n", db->treename);
 	_alpm_db_close(db);
 
-	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'", db->treename);
+	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'\n", db->treename);
 	_alpm_db_free(db);
 }
 
@@ -192,11 +192,11 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 			return(-1);
 		}
 		db->servers = alpm_list_add(db->servers, server);
-		_alpm_log(PM_LOG_DEBUG, "adding new server to database '%s': protocol '%s', server '%s', path '%s'",
+		_alpm_log(PM_LOG_DEBUG, "adding new server to database '%s': protocol '%s', server '%s', path '%s'\n",
 							db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
 	} else {
 		FREELIST(db->servers);
-		_alpm_log(PM_LOG_DEBUG, "serverlist flushed for '%s'", db->treename);
+		_alpm_log(PM_LOG_DEBUG, "serverlist flushed for '%s'\n", db->treename);
 	}
 
 	return(0);
@@ -240,7 +240,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		/* get the lastupdate time */
 		_alpm_db_getlastupdate(db, lastupdate);
 		if(strlen(lastupdate) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s (no big deal)", db->treename);
+			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s (no big deal)\n", db->treename);
 		}
 	}
 
@@ -259,23 +259,23 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	} else if(ret == -1) {
 		/* we use downloadLastErrString and downloadLastErrCode here, error returns from
 		 * libdownload */
-		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s [%d]",
+		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s [%d]\n",
 				downloadLastErrString, downloadLastErrCode);
 		RET_ERR(PM_ERR_DB_SYNC, -1);
 	} else {
 		if(strlen(newmtime)) {
-			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %s",
+			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %s\n",
 					db->treename, newmtime);
 			_alpm_db_setlastupdate(db, newmtime);
 		}
 		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
 
 		/* remove the old dir */
-		_alpm_log(PM_LOG_DEBUG, "flushing database %s%s", db->path);
+		_alpm_log(PM_LOG_DEBUG, "flushing database %s%s\n", db->path);
 		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *pkg = lp->data;
 			if(pkg && _alpm_db_remove(db, pkg) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s"), db->treename,
+				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s\n"), db->treename,
 									alpm_pkg_get_name(pkg));
 				RET_ERR(PM_ERR_DB_REMOVE, -1);
 			}
@@ -455,7 +455,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 
 	/* TODO holy nested loops, Batman! */
 	/* check for "recommended" package replacements */
-	_alpm_log(PM_LOG_DEBUG, "checking for package replacements");
+	_alpm_log(PM_LOG_DEBUG, "checking for package replacements\n");
 	for(i = handle->dbs_sync; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *spkg = j->data;
@@ -466,10 +466,10 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 					pmpkg_t *lpkg = m->data;
 
 					if(strcmp(k->data, alpm_pkg_get_name(lpkg)) == 0) {
-						_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'",
+						_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'\n",
 								k->data, alpm_pkg_get_name(spkg));
 						if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(lpkg))) {
-							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)"),
+							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"),
 												alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 												alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 						} else {
@@ -499,7 +499,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 								sync->data = alpm_list_add(NULL, dummy);
 								syncpkgs = alpm_list_add(syncpkgs, sync);
 							}
-							_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)",
+							_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)\n",
 												alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 												alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 						}
@@ -521,7 +521,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 			spkg = _alpm_db_get_pkgfromcache(j->data, alpm_pkg_get_name(local));
 		}
 		if(spkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "'%s' not found in sync db -- skipping",
+			_alpm_log(PM_LOG_DEBUG, "'%s' not found in sync db -- skipping\n",
 					alpm_pkg_get_name(local));
 			continue;
 		}
@@ -536,13 +536,13 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 			}
 		}
 		if(replace) {
-			_alpm_log(PM_LOG_DEBUG, "'%s' is already elected for removal -- skipping",
+			_alpm_log(PM_LOG_DEBUG, "'%s' is already elected for removal -- skipping\n",
 								alpm_pkg_get_name(local));
 			continue;
 		}
 
 		if(alpm_pkg_compare_versions(local, spkg)) {
-			_alpm_log(PM_LOG_DEBUG, "%s elected for upgrade (%s => %s)",
+			_alpm_log(PM_LOG_DEBUG, "%s elected for upgrade (%s => %s)\n",
 								alpm_pkg_get_name(local), alpm_pkg_get_version(local),
 								alpm_pkg_get_version(spkg));
 
@@ -647,7 +647,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			continue;
 		}
 		targ = i->data;
-		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'", targ);
+		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'\n", targ);
 		
 		if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
 			RET_ERR(PM_ERR_INVALID_REGEX, NULL);
@@ -678,7 +678,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			}
 
 			if(matched != NULL) {
-				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'",
+				_alpm_log(PM_LOG_DEBUG, "    search target '%s' matched '%s'\n",
 				          targ, matched);
 				ret = alpm_list_add(ret, pkg);
 			}
@@ -701,7 +701,7 @@ pmdb_t *_alpm_db_register(const char *treename)
 
 	if(strcmp(treename, "local") == 0) {
 		if(handle->db_local != NULL) {
-			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB"));
+			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
 			RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 		}
 	} else {
@@ -709,24 +709,24 @@ pmdb_t *_alpm_db_register(const char *treename)
 		for(i = handle->dbs_sync; i; i = i->next) {
 			pmdb_t *sdb = i->data;
 			if(strcmp(treename, sdb->treename) == 0) {
-				_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing", sdb->treename);
+				_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
 				return sdb;
 			}
 		}
 	}
 	
-	_alpm_log(PM_LOG_DEBUG, "registering database '%s'", treename);
+	_alpm_log(PM_LOG_DEBUG, "registering database '%s'\n", treename);
 
 	/* make sure the database directory exists */
 	dbpath = alpm_option_get_dbpath();
 	if(!dbpath) {
-		_alpm_log(PM_LOG_WARNING, _("database path is undefined"));
+		_alpm_log(PM_LOG_WARNING, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 	snprintf(path, PATH_MAX, "%s%s", dbpath, treename);
 	/* TODO this is rediculous, we try to do this even if we can't */
 	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it",
+		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
 				path);
 		if(_alpm_makepath(path) != 0) {
 			RET_ERR(PM_ERR_SYSTEM, NULL);
@@ -738,7 +738,7 @@ pmdb_t *_alpm_db_register(const char *treename)
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "opening database '%s'", db->treename);
+	_alpm_log(PM_LOG_DEBUG, "opening database '%s'\n", db->treename);
 	if(_alpm_db_open(db) == -1) {
 		_alpm_db_free(db);
 		RET_ERR(PM_ERR_DB_OPEN, NULL);

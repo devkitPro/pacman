@@ -50,18 +50,18 @@ pmserver_t *_alpm_server_new(const char *url)
 
 	server = malloc(sizeof(pmserver_t));
 	if(server == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmserver_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmserver_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
 	memset(server, 0, sizeof(pmserver_t));
 	u = downloadParseURL(url);
 	if(!u) {
-		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring"), url);
+		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring\n"), url);
 		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
 	}
 	if(strlen(u->scheme) == 0) {
-		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming http"));
+		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming http\n"));
 		strcpy(u->scheme, "http");
 	}
 
@@ -103,7 +103,7 @@ static char *strip_filename(pmserver_t *server)
 	p = strrchr(server->s_url->doc, '/');
 	if(p && *(++p)) {
 		fname = strdup(p);
-		_alpm_log(PM_LOG_DEBUG, "stripping '%s' from '%s'",
+		_alpm_log(PM_LOG_DEBUG, "stripping '%s' from '%s'\n",
 				fname, server->s_url->doc);
 		*p = 0;
 	}
@@ -203,7 +203,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				/* just use the raw filename if we can't find crap */
 				strncpy(pkgname, fn, PKG_NAME_LEN);
 			}
-			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress", pkgname);
+			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", pkgname);
 
 			snprintf(realfile, PATH_MAX, "%s%s", localpath, fn);
 			snprintf(output, PATH_MAX, "%s%s.part", localpath, fn);
@@ -219,7 +219,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				int chk_resume = 0;
 
 				if(stat(output, &st) == 0 && st.st_size > 0) {
-					_alpm_log(PM_LOG_DEBUG, "existing file found, using it");
+					_alpm_log(PM_LOG_DEBUG, "existing file found, using it\n");
 					fileurl->offset = (off_t)st.st_size;
 					dltotal_bytes = st.st_size;
 					localf = fopen(output, "a");
@@ -238,7 +238,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
 
 				if(downloadLastErrCode != 0 || dlf == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s"),
+					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
 										fn, fileurl->host, downloadLastErrString);
 					if(localf != NULL) {
 						fclose(localf);
@@ -247,14 +247,14 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					downloadFreeURL(fileurl);
 					continue;
 				} else {
-						_alpm_log(PM_LOG_DEBUG, "connected to %s successfully", fileurl->host);
+						_alpm_log(PM_LOG_DEBUG, "connected to %s successfully\n", fileurl->host);
 				}
 				
 				if(ust.mtime && mtime1) {
 					char strtime[15];
 					_alpm_time2string(ust.mtime, strtime);
 					if(strcmp(mtime1, strtime) == 0) {
-						_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s", fn);
+						_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", fn);
 						complete = alpm_list_add(complete, fn);
 						if(localf != NULL) {
 							fclose(localf);
@@ -272,7 +272,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 
 				if(chk_resume && fileurl->offset == 0) {
-					_alpm_log(PM_LOG_WARNING, _("cannot resume download, starting over"));
+					_alpm_log(PM_LOG_WARNING, _("cannot resume download, starting over\n"));
 					if(localf != NULL) {
 						fclose(localf);
 						localf = NULL;
@@ -285,7 +285,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					dltotal_bytes = 0;
 					localf = fopen(output, "w");
 					if(localf == NULL) { /* still null? */
-						_alpm_log(PM_LOG_ERROR, _("cannot write to file '%s'"), output);
+						_alpm_log(PM_LOG_ERROR, _("cannot write to file '%s'\n"), output);
 						if(dlf != NULL) {
 							fclose(dlf);
 						}
@@ -301,7 +301,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				char buffer[PM_DLBUF_LEN];
 				while((nread = fread(buffer, 1, PM_DLBUF_LEN, dlf)) > 0) {
 					if(ferror(dlf)) {
-						_alpm_log(PM_LOG_ERROR, _("error downloading '%s': %s"),
+						_alpm_log(PM_LOG_ERROR, _("error downloading '%s': %s\n"),
 											fn, downloadLastErrString);
 						fclose(localf);
 						fclose(dlf);
@@ -313,7 +313,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					while(nwritten < nread) {
 						nwritten += fwrite(buffer, 1, (nread - nwritten), localf);
 						if(ferror(localf)) {
-							_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s"),
+							_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
 												realfile, strerror(errno));
 							fclose(localf);
 							fclose(dlf);
@@ -374,18 +374,18 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				/* cwd to the download directory */
 				getcwd(cwd, PATH_MAX);
 				if(chdir(localpath)) {
-					_alpm_log(PM_LOG_WARNING, _("could not chdir to %s"), localpath);
+					_alpm_log(PM_LOG_WARNING, _("could not chdir to %s\n"), localpath);
 					return(PM_ERR_CONNECT_FAILED);
 				}
 				/* execute the parsed command via /bin/sh -c */
-				_alpm_log(PM_LOG_DEBUG, "running command: %s", parsedCmd);
+				_alpm_log(PM_LOG_DEBUG, "running command: %s\n", parsedCmd);
 				ret = system(parsedCmd);
 				if(ret == -1) {
-					_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!"));
+					_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
 					return(PM_ERR_FORK_FAILED);
 				} else if(ret != 0) {
 					/* download failed */
-					_alpm_log(PM_LOG_DEBUG, "XferCommand command returned non-zero status code (%d)", ret);
+					_alpm_log(PM_LOG_DEBUG, "XferCommand command returned non-zero status code (%d)\n", ret);
 				} else {
 					/* download was successful */
 					complete = alpm_list_add(complete, fn);
@@ -420,7 +420,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	ALPM_LOG_FUNC;
 
 	if(strstr(url, "://") == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "Invalid URL passed to alpm_fetch_pkgurl");
+		_alpm_log(PM_LOG_DEBUG, "Invalid URL passed to alpm_fetch_pkgurl\n");
 		return(NULL);
 	}
 
@@ -432,7 +432,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	/* strip path information from the filename */
 	filename = strip_filename(server);
 	if(!filename) {
-		_alpm_log(PM_LOG_ERROR, _("URL does not contain a file for download"));
+		_alpm_log(PM_LOG_ERROR, _("URL does not contain a file for download\n"));
 		return(NULL);
 	}
 
@@ -445,10 +445,10 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 
 	/* download the file */
 	if(_alpm_downloadfiles(servers, cachedir, files)) {
-		_alpm_log(PM_LOG_WARNING, _("failed to download %s"), url);
+		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return(NULL);
 	}
-	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s", filename);
+	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", filename);
 	alpm_list_free(files);
 	alpm_list_free(servers);
 	_alpm_server_free(server);

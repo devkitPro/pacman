@@ -62,7 +62,7 @@
  */
 int SYMEXPORT alpm_pkg_load(const char *filename, pmpkg_t **pkg)
 {
-	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load");
+	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load\n");
 
 	/* Sanity checks */
 	ASSERT(filename != NULL && strlen(filename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -83,7 +83,7 @@ int SYMEXPORT alpm_pkg_load(const char *filename, pmpkg_t **pkg)
  */
 int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 {
-	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_free");
+	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_free\n");
 
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
@@ -116,16 +116,16 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	md5sum = alpm_get_md5sum(fpath);
 
 	if(md5sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get md5sum for package %s-%s"),
+		_alpm_log(PM_LOG_ERROR, _("could not get md5sum for package %s-%s\n"),
 							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		pm_errno = PM_ERR_NOT_A_FILE;
 		retval = -1;
 	} else {
 		if(strcmp(md5sum, alpm_pkg_get_md5sum(pkg)) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "md5sums for package %s-%s match",
+			_alpm_log(PM_LOG_DEBUG, "md5sums for package %s-%s match\n",
 								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
-			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s"),
+			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s\n"),
 								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 			pm_errno = PM_ERR_PKG_INVALID;
 			retval = -1;
@@ -665,7 +665,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	ALPM_LOG_FUNC;
 
 	if((newpkg = calloc(1, sizeof(pmpkg_t))) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmpkg_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmpkg_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
@@ -730,7 +730,7 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
 		/* package should be ignored (IgnorePkg) */
 		if(cmp > 0) {
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)"),
+			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)\n"),
 								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
 								alpm_pkg_get_version(pkg));
 		}
@@ -739,12 +739,12 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 
 	if(cmp != 0 && pkg->force) {
 		cmp = 1;
-		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s"),
+		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s\n"),
 							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 	} else if(cmp < 0) {
 		/* local version is newer */
 		pmdb_t *db = pkg->origin_data.db;
-		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)"),
+		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
 							alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
 							alpm_db_get_name(db), alpm_pkg_get_version(pkg));
 		cmp = 0;
@@ -752,7 +752,7 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 		/* we have an upgrade, make sure we should actually do it */
 		if(_alpm_pkg_istoonew(pkg)) {
 			/* package too new (UpgradeDelay) */
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)"),
+			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)\n"),
 								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
 								alpm_pkg_get_version(pkg));
 			cmp = 0;
@@ -789,7 +789,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 	ALPM_LOG_FUNC;
 
 	if((fp = fopen(descfile, "r")) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), descfile, strerror(errno));
+		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), descfile, strerror(errno));
 		return(-1);
 	}
 
@@ -803,7 +803,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d",
+			_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
 								info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
@@ -843,7 +843,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "BACKUP")) {
 				info->backup = alpm_list_add(info->backup, strdup(ptr));
 			} else {
-				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d",
+				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
 									info->name[0] != '\0' ? info->name : "error", linenum);
 			}
 		}
@@ -918,15 +918,15 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			archive_read_data_into_fd (archive, fd);
 			/* parse the info file */
 			if(parse_descfile(descfile, info) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file"));
+				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file\n"));
 				goto pkg_invalid;
 			}
 			if(!strlen(info->name)) {
-				_alpm_log(PM_LOG_ERROR, _("missing package name in %s"), pkgfile);
+				_alpm_log(PM_LOG_ERROR, _("missing package name in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}
 			if(!strlen(info->version)) {
-				_alpm_log(PM_LOG_ERROR, _("missing package version in %s"), pkgfile);
+				_alpm_log(PM_LOG_ERROR, _("missing package version in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}
 			config = 1;
@@ -961,7 +961,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			FREE(str);
 			fclose(fp);
 			if(unlink(fn)) {
-				_alpm_log(PM_LOG_WARNING, _("could not remove tempfile %s"), fn);
+				_alpm_log(PM_LOG_WARNING, _("could not remove tempfile %s\n"), fn);
 			}
 			FREE(fn);
 			close(fd);
@@ -977,27 +977,27 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 		}
 
 		if(archive_read_data_skip(archive)) {
-			_alpm_log(PM_LOG_ERROR, _("error while reading package: %s"), archive_error_string(archive));
+			_alpm_log(PM_LOG_ERROR, _("error while reading package: %s\n"), archive_error_string(archive));
 			pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 			goto error;
 		}
 		expath = NULL;
 	}
 	if(ret != ARCHIVE_EOF) { /* An error occured */
-		_alpm_log(PM_LOG_ERROR, _("error while reading package: %s"), archive_error_string(archive));
+		_alpm_log(PM_LOG_ERROR, _("error while reading package: %s\n"), archive_error_string(archive));
 		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 		goto error;
 	}
 
 	if(!config) {
-		_alpm_log(PM_LOG_ERROR, _("missing package metadata"), pkgfile);
+		_alpm_log(PM_LOG_ERROR, _("missing package metadata\n"), pkgfile);
 		goto error;
 	}
 	
   archive_read_finish(archive);
 
 	if(!filelist) {
-		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s, generating one"), pkgfile);
+		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s, generating one\n"), pkgfile);
 		info->files = all_files;
 	} else {
 		alpm_list_free_inner(all_files, free);
@@ -1140,7 +1140,7 @@ void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 			FREE(dep);
 			if(satisfies) {
 				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'",
+				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
 				          cachepkgname, pkg->name);
 				reqs = alpm_list_add(reqs, strdup(cachepkgname));
 				pkg->requiredby = reqs;

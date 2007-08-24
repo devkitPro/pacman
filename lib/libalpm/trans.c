@@ -199,7 +199,7 @@ int SYMEXPORT alpm_trans_release()
 		handle->lckfd = -1;
 	}
 	if(_alpm_lckrm()) {
-		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s"),
+		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),
 				alpm_option_get_lockfile());
 		alpm_logaction("warning: could not remove lock file %s",
 				alpm_option_get_lockfile());
@@ -217,7 +217,7 @@ pmtrans_t *_alpm_trans_new()
 	ALPM_LOG_FUNC;
 
 	if((trans = malloc(sizeof(pmtrans_t))) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmtrans_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmtrans_t));
 		return(NULL);
 	}
 
@@ -447,10 +447,10 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 	depends = alpm_pkg_get_depends(pkg);
 
 	if(depends) {
-		_alpm_log(PM_LOG_DEBUG, "updating dependency packages 'requiredby' fields for %s-%s",
+		_alpm_log(PM_LOG_DEBUG, "updating dependency packages 'requiredby' fields for %s-%s\n",
 		          pkgname, pkg->version);
 	} else {
-		_alpm_log(PM_LOG_DEBUG, "package has no dependencies, no other packages to update");
+		_alpm_log(PM_LOG_DEBUG, "package has no dependencies, no other packages to update\n");
 	}
 
 	localdb = alpm_option_get_localdb();
@@ -468,7 +468,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 				/* this is cheating... we call this function to populate the package */
 				alpm_list_t *rqdby = alpm_pkg_get_requiredby(deppkg);
 
-				_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'",
+				_alpm_log(PM_LOG_DEBUG, "updating 'requiredby' field for package '%s'\n",
 				          alpm_pkg_get_name(deppkg));
 
 				if(trans->type == PM_TRANS_TYPE_REMOVE
@@ -483,7 +483,7 @@ int _alpm_trans_update_depends(pmtrans_t *trans, pmpkg_t *pkg)
 				}
 
 				if(_alpm_db_write(localdb, deppkg, INFRQ_DEPENDS)) {
-					_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s"),
+					_alpm_log(PM_LOG_ERROR, _("could not update 'requiredby' database entry %s-%s\n"),
 										alpm_pkg_get_name(deppkg), alpm_pkg_get_version(deppkg));
 				}
 			}
@@ -535,7 +535,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 	if(stat(installfn, &buf)) {
 		/* not found */
-		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found", installfn);
+		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
 		return(0);
 	}
 
@@ -546,7 +546,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		}
 		snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
 		if(mkdtemp(tmpdir) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not create temp directory"));
+			_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
 			return(1);
 		}
 		_alpm_unpack(installfn, tmpdir, ".INSTALL");
@@ -566,18 +566,18 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 	/* save the cwd so we can restore it later */
 	if(getcwd(cwd, PATH_MAX) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get current working directory"));
+		_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
 		/* in case of error, cwd content is undefined: so we set it to something */
 		cwd[0] = 0;
 	}
 
 	/* just in case our cwd was removed in the upgrade operation */
 	if(chdir(root) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)"), root, strerror(errno));
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), root, strerror(errno));
 		goto cleanup;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "executing %s script...", script);
+	_alpm_log(PM_LOG_DEBUG, "executing %s script...\n", script);
 
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, "source %s %s %s %s",
@@ -586,32 +586,32 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		snprintf(cmdline, PATH_MAX, "source %s %s %s",
 				scriptpath, script, ver);
 	}
-	_alpm_log(PM_LOG_DEBUG, "%s", cmdline);
+	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
 
 	pid = fork();
 	if(pid == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not fork a new process (%s)"), strerror(errno));
+		_alpm_log(PM_LOG_ERROR, _("could not fork a new process (%s)\n"), strerror(errno));
 		retval = 1;
 		goto cleanup;
 	}
 
 	if(pid == 0) {
-		_alpm_log(PM_LOG_DEBUG, "chrooting in %s", root);
+		_alpm_log(PM_LOG_DEBUG, "chrooting in %s\n", root);
 		if(chroot(root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)"), strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)\n"), strerror(errno));
 			exit(1);
 		}
 		if(chdir("/") != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)"), strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)\n"), strerror(errno));
 			exit(1);
 		}
 		umask(0022);
-		_alpm_log(PM_LOG_DEBUG, "executing \"%s\"", cmdline);
+		_alpm_log(PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
 		execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL);
 		exit(0);
 	} else {
 		if(waitpid(pid, 0, 0) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)"),
+			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
 			          strerror(errno));
 			retval = 1;
 			goto cleanup;
@@ -620,7 +620,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 cleanup:
 	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
-		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s"), tmpdir);
+		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
 	}
 	if(strlen(cwd)) {
 		chdir(cwd);

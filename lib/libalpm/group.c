@@ -41,7 +41,7 @@ pmgrp_t *_alpm_grp_new()
 
 	grp = calloc(1, sizeof(pmgrp_t));
 	if(grp == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"),
 		                        sizeof(pmgrp_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}

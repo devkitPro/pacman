@@ -59,7 +59,7 @@ static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
 
 	match = alpm_depcmp(pkg2, conf);
 	if(match) {
-		_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)",
+		_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
 				pkg1name, pkg2name, conflict);
 	}
 	FREE(conf);
@@ -145,11 +145,11 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 			_alpm_pkg_cmp);
 
 	/* three checks to be done here for conflicts */
-	_alpm_log(PM_LOG_DEBUG, "check targets vs db");
+	_alpm_log(PM_LOG_DEBUG, "check targets vs db\n");
 	check_conflict(packages, dblist, &baddeps, 1);
-	_alpm_log(PM_LOG_DEBUG, "check db vs targets");
+	_alpm_log(PM_LOG_DEBUG, "check db vs targets\n");
 	check_conflict(dblist, packages, &baddeps, -1);
-	_alpm_log(PM_LOG_DEBUG, "check targets vs targets");
+	_alpm_log(PM_LOG_DEBUG, "check targets vs targets\n");
 	check_conflict(packages, packages, &baddeps, 0);
 
 	alpm_list_free(dblist);
@@ -241,7 +241,7 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 {
 	pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
 	if(conflict == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"),
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"),
 				sizeof(pmconflict_t));
 		return(conflicts);
 	}
@@ -255,7 +255,7 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
-	_alpm_log(PM_LOG_DEBUG, "found file conflict %s, packages %s and %s",
+	_alpm_log(PM_LOG_DEBUG, "found file conflict %s, packages %s and %s\n",
 	          filestr, name1, name2 ? name2 : "(filesystem)");
 
 	return(conflicts);
@@ -296,7 +296,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			if(!p2) {
 				continue;
 			}
-			_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s and %s",
+			_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s and %s\n",
 								alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 			tmpfiles = chk_fileconflicts(alpm_pkg_get_files(p1), alpm_pkg_get_files(p2));
 
@@ -316,7 +316,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		char *filestr = NULL;
 
 		/* CHECK 2: check every target against the filesystem */
-		_alpm_log(PM_LOG_DEBUG, "searching for filesystem conflicts: %s", p1->name);
+		_alpm_log(PM_LOG_DEBUG, "searching for filesystem conflicts: %s\n", p1->name);
 		dbpkg = _alpm_db_get_pkgfromcache(db, p1->name);
 
 		/* Do two different checks here. f the package is currently installed,
@@ -341,9 +341,9 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 				continue;
 			}
 			if(S_ISDIR(buf.st_mode)) {
-				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict", path);
+				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
 			} else {
-				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s", path);
+				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
 				/* Make sure the possible conflict is not a symlink that points to a
 				 * path in the old package. This is kind of dirty with inode usage */
@@ -355,7 +355,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
 						if(!lstat(str, &buf2) && buf.st_ino == buf2.st_ino) {
 							ok = 1;
-							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s", path);
+							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s\n", path);
 							break;
 						}
 					}
@@ -386,7 +386,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 							/* keep file intact if it is in backup array */
 							trans->skip_add = alpm_list_add(trans->skip_add, strdup(path));
 							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
-							_alpm_log(PM_LOG_DEBUG, "file in backup array, adding to add and remove skiplist: %s", filestr);
+							_alpm_log(PM_LOG_DEBUG, "file in backup array, adding to add and remove skiplist: %s\n", filestr);
 							resolved_conflict = 1;
 							break;
 						} else {
@@ -394,14 +394,14 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 							 * package from removing the file when it was already installed
 							 * by its new owner */
 							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
-							_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s", filestr);
+							_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
 							resolved_conflict = 1;
 							break;
 						}
 					}
 				}
 				if(!resolved_conflict) {
-					_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s", path);
+					_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
 					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
 																			 path, p1->name, NULL);
 				}

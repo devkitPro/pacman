@@ -201,7 +201,7 @@ int _alpm_makepath(const char *path)
 				if(mkdir(full, 0755)) {
 					FREE(orig);
 					umask(oldmask);
-					_alpm_log(PM_LOG_ERROR, _("failed to make path '%s' : %s"),
+					_alpm_log(PM_LOG_ERROR, _("failed to make path '%s' : %s\n"),
 										path, strerror(errno));
 					return(1);
 				}
@@ -400,7 +400,8 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 
 	if(archive_read_open_filename(_archive, archive,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive, archive_error_string(_archive));
+		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive,
+				archive_error_string(_archive));
 		RET_ERR(PM_ERR_PKG_OPEN, -1);
 	}
 
@@ -561,7 +562,7 @@ char *_alpm_filecache_find(const char* filename)
 		if(stat(path, &buf) == 0) {
 			/* TODO maybe check to make sure it is readable? */
 			retpath = strdup(path);
-			_alpm_log(PM_LOG_DEBUG, "found cached pkg: %s", retpath);
+			_alpm_log(PM_LOG_DEBUG, "found cached pkg: %s\n", retpath);
 			return(retpath);
 		}
 	}
@@ -589,11 +590,11 @@ const char *_alpm_filecache_setup(void)
 			alpm_logaction("warning: no %s cache exists, creating...",
 					cachedir);
 			if(_alpm_makepath(cachedir) == 0) {
-				_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", cachedir);
+				_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 				return(cachedir);
 			}
 		} else if(S_ISDIR(buf.st_mode) && (buf.st_mode & S_IWUSR)) {
-			_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", cachedir);
+			_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 			return(cachedir);
 		}
 	}
@@ -603,8 +604,8 @@ const char *_alpm_filecache_setup(void)
 	tmp = alpm_list_add(NULL, strdup("/tmp/"));
 	FREELIST(i);
 	alpm_option_set_cachedirs(tmp);
-	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/");
-	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead"));
+	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/\n");
+	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
 	alpm_logaction("warning: couldn't create package cache, using /tmp instead");
 	return(alpm_list_getdata(tmp));
 }
@@ -645,7 +646,7 @@ char SYMEXPORT *alpm_get_md5sum(const char *filename)
 	}
 	md5sum[32] = '\0';
 
-	_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s", filename, md5sum);
+	_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s\n", filename, md5sum);
 	return(md5sum);
 }
 

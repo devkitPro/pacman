@@ -49,7 +49,7 @@ pmhandle_t *_alpm_handle_new()
 
 	handle = malloc(sizeof(pmhandle_t));
 	if(handle == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes"), sizeof(pmhandle_t));
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmhandle_t));
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
@@ -164,7 +164,7 @@ int SYMEXPORT alpm_option_set_root(const char *root)
 	strncpy(handle->root, realroot, rootlen);
 	handle->root[rootlen-1] = '/';
 	FREE(realroot);
-	_alpm_log(PM_LOG_DEBUG, "option 'root' = %s", handle->root);
+	_alpm_log(PM_LOG_DEBUG, "option 'root' = %s\n", handle->root);
 	return(0);
 }
 
@@ -195,7 +195,7 @@ int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 	handle->dbpath = calloc(dbpathlen+1, sizeof(char));
 	strncpy(handle->dbpath, dbpath, dbpathlen);
 	handle->dbpath[dbpathlen-1] = '/';
-	_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s", handle->dbpath);
+	_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s\n", handle->dbpath);
 
 	if(handle->lockfile) {
 		FREE(handle->lockfile);
@@ -203,7 +203,7 @@ int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 	lockfilelen = strlen(handle->dbpath) + strlen(lf) + 1;
 	handle->lockfile = calloc(lockfilelen, sizeof(char));
 	snprintf(handle->lockfile, lockfilelen, "%s%s", handle->dbpath, lf);
-	_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s", handle->lockfile);
+	_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s\n", handle->lockfile);
 	return(0);
 }
 
@@ -232,7 +232,7 @@ int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 	strncpy(newcachedir, cachedir, cachedirlen);
 	newcachedir[cachedirlen-1] = '/';
 	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-	_alpm_log(PM_LOG_DEBUG, "option 'cachedir' = %s", newcachedir);
+	_alpm_log(PM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
 	return(0);
 }
 
@@ -259,7 +259,7 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 	if(handle->logstream == NULL) {
 		/* TODO we probably want to do this at some point, but right now
 		 * it just blows up when a user calls pacman without privilages */
-		_alpm_log(PM_LOG_DEBUG, "couldn't open logfile for writing, ignoring");
+		_alpm_log(PM_LOG_DEBUG, "couldn't open logfile for writing, ignoring\n");
 		/*
 		if(errno == EACCES) {
 			pm_errno = PM_ERR_BADPERMS;
@@ -282,7 +282,7 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 	if(oldlogstream) {
 		fclose(oldlogstream);
 	}
-	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s", handle->logfile);
+	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
 	return(0);
 }
 

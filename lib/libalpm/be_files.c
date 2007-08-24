@@ -53,7 +53,7 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile)
 
 	/* TODO we should not simply unpack the archive, but better parse it and 
 	 * db_write each entry (see sync_load_dbarchive to get archive content) */
-	_alpm_log(PM_LOG_DEBUG, "unpacking database '%s'", dbfile);
+	_alpm_log(PM_LOG_DEBUG, "unpacking database '%s'\n", dbfile);
 
 	if(_alpm_unpack(dbfile, db->path, NULL)) {
 		RET_ERR(PM_ERR_SYSTEM, -1);
@@ -102,7 +102,7 @@ int _alpm_db_open(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "opening database from path '%s'", db->path);
+	_alpm_log(PM_LOG_DEBUG, "opening database from path '%s'\n", db->path);
 	db->handle = opendir(db->path);
 	if(db->handle == NULL) {
 		RET_ERR(PM_ERR_DB_OPEN, -1);
@@ -206,11 +206,11 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 
 		pkg = _alpm_pkg_new(NULL, NULL);
 		if(pkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "db scan could not find package: %s", target);
+			_alpm_log(PM_LOG_DEBUG, "db scan could not find package: %s\n", target);
 			return(NULL);
 		}
 		if(_alpm_pkg_splitname(ent->d_name, pkg->name, pkg->version, 0) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'"), ent->d_name);
+			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"), ent->d_name);
 			alpm_pkg_free(pkg);
 			pkg = NULL;
 			continue;
@@ -243,12 +243,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	if(info == NULL || info->name[0] == 0 || info->version[0] == 0) {
-		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping");
+		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping\n");
 		return(-1);
 	}
 
 	if(info->origin == PKG_FROM_FILE) {
-		_alpm_log(PM_LOG_DEBUG, "request to read database info for a file-based package '%s', skipping...", info->name);
+		_alpm_log(PM_LOG_DEBUG, "request to read database info for a file-based package '%s', skipping...\n", info->name);
 		return(-1);
 	}
 
@@ -261,7 +261,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		/* already loaded this info, do nothing */
 		return(0);
 	}
-	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d"), info->name, inforeq);
+	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d\n"), info->name, inforeq);
 
 	/* clear out 'line', to be certain - and to make valgrind happy */
 	memset(line, 0, 513);
@@ -269,7 +269,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
 	if(stat(path, &buf)) {
 		/* directory doesn't exist or can't be opened */
-		_alpm_log(PM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'",
+		_alpm_log(PM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'\n",
 				info->name, info->version, db->treename);
 		return(-1);
 	}
@@ -278,7 +278,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	if(inforeq & INFRQ_DESC) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
 		}
 		while(!feof(fp)) {
@@ -387,7 +387,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	if(inforeq & INFRQ_FILES) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
 		}
 		while(fgets(line, 256, fp)) {
@@ -410,7 +410,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	if(inforeq & INFRQ_DEPENDS) {
 		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
 		}
 		while(!feof(fp)) {
@@ -498,11 +498,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
-		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DESC information back to db",
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DESC information back to db\n",
 				info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			retval = -1;
 			goto cleanup;
 		}
@@ -576,11 +576,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* FILES */
 	if(local && (inforeq & INFRQ_FILES)) {
-		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db",
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
 				info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			retval = -1;
 			goto cleanup;
 		}
@@ -604,11 +604,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DEPENDS */
 	if(inforeq & INFRQ_DEPENDS) {
-		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DEPENDS information back to db",
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DEPENDS information back to db\n",
 			info->name, info->version);
 		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
 		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s"), path, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			retval = -1;
 			goto cleanup;
 		}
