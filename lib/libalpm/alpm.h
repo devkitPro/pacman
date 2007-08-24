@@ -174,8 +174,6 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
 alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
 
-alpm_list_t *alpm_db_get_upgrades(void);
-
 /*
  * Packages
  */
@@ -252,6 +250,8 @@ typedef enum _pmsynctype_t {
 pmsynctype_t alpm_sync_get_type(const pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_get_pkg(const pmsyncpkg_t *sync);
 void *alpm_sync_get_data(const pmsyncpkg_t *sync);
+int alpm_sync_sysupgrade(pmdb_t *db_local,
+		alpm_list_t *dbs_sync, alpm_list_t **syncpkgs);
 
 /*
  * Transactions

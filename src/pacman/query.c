@@ -213,10 +213,14 @@ static int query_group(alpm_list_t *targets)
 
 static int query_upgrades(void)
 {
-	alpm_list_t *syncpkgs;
+	alpm_list_t *syncpkgs = NULL;
 	printf(_("Checking for package upgrades... \n"));
 
-	if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
+	alpm_list_t *syncdbs = alpm_option_get_syncdbs();
+	if(alpm_sync_sysupgrade(db_local, syncdbs, &syncpkgs) == -1) {
+		return(-1);
+	}
+	if(syncpkgs) {
 		display_targets(syncpkgs, db_local);
 		return(0);
 	}

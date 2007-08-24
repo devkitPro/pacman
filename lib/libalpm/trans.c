@@ -298,7 +298,8 @@ int _alpm_trans_sysupgrade(pmtrans_t *trans)
 	/* Sanity checks */
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync));
+	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync,
+				&(trans->packages)));
 }
 
 /** Add a target to the transaction.
