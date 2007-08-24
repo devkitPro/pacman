@@ -263,7 +263,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					group = alpm_list_getdata(grp);
-					printf(" (%s)\n", (char *)alpm_list_getdata(grp));
+					printf(" (%s)", (char *)alpm_list_getdata(grp));
 			}
 
 			/* we need a newline and initial indent first */
