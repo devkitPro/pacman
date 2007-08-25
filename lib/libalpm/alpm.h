@@ -195,6 +195,7 @@ int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(const char *url);
 int alpm_pkg_vercmp(const char *ver1, const char *ver2);
 char *alpm_pkg_name_hasarch(const char *pkgname);
+alpm_list_t *alpm_pkg_compute_requiredby(pmpkg_t *pkg);
 
 const char *alpm_pkg_get_filename(pmpkg_t *pkg);
 const char *alpm_pkg_get_name(pmpkg_t *pkg);

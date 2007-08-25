@@ -533,6 +533,51 @@ unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 	return pkg->scriptlet;
 }
 
+/**
+ * @brief Compute the packages requiring a given package.
+ * @param pkg a package
+ * @return the list of packages requiring pkg
+ *
+ * A depends on B through n depends <=> A listed in B's requiredby n times
+ * n == 0 or 1 in almost all cases */
+alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
+{
+	const alpm_list_t *i, *j;
+	alpm_list_t *reqs = NULL;
+
+	pmdb_t *localdb = alpm_option_get_localdb();
+	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {
+		if(!i->data) {
+			continue;
+		}
+		pmpkg_t *cachepkg = i->data;
+		const char *cachepkgname = alpm_pkg_get_name(cachepkg);
+
+		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
+			pmdepend_t *dep;
+			int satisfies;
+
+			if(!j->data) {
+				continue;
+			}
+			dep = alpm_splitdep(j->data);
+			if(dep == NULL) {
+					continue;
+			}
+			
+			satisfies = alpm_depcmp(pkg, dep);
+			FREE(dep);
+			if(satisfies) {
+				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
+				          cachepkgname, pkg->name);
+				reqs = alpm_list_add(reqs, strdup(cachepkgname));
+				break;
+			}
+		}
+	}
+	return(reqs);
+}
+
 /** @} */
 
 /* this function was taken from rpm 4.0.4 and rewritten */
@@ -1107,47 +1152,11 @@ int _alpm_pkg_splitname(const char *target, char *name, char *version, int witha
 	return(0);
 }
 
-/* scan the local db to fill in requiredby field of package,
+/* fill in requiredby field of package,
  * used when we want to install or add a package */
-
-/* A depends on B through n depends <=> A listed in B's requiredby n times
- * n == 0 or 1 in almost all cases */
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
 {
-	const alpm_list_t *i, *j;
-
-	pmdb_t *localdb = alpm_option_get_localdb();
-	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {
-		if(!i->data) {
-			continue;
-		}
-		pmpkg_t *cachepkg = i->data;
-		const char *cachepkgname = alpm_pkg_get_name(cachepkg);
-
-		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
-			pmdepend_t *dep;
-			int satisfies;
-
-			if(!j->data) {
-				continue;
-			}
-			dep = alpm_splitdep(j->data);
-			if(dep == NULL) {
-					continue;
-			}
-			
-			satisfies = alpm_depcmp(pkg, dep);
-			FREE(dep);
-			if(satisfies) {
-				alpm_list_t *reqs = alpm_pkg_get_requiredby(pkg);
-				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
-				          cachepkgname, pkg->name);
-				reqs = alpm_list_add(reqs, strdup(cachepkgname));
-				pkg->requiredby = reqs;
-				break;
-			}
-		}
-	}
+	pkg->requiredby = alpm_pkg_compute_requiredby(pkg);
 }
 
 /* TODO this should either be public, or done somewhere else */
