@@ -519,7 +519,7 @@ static int extract_single_file(struct archive *archive,
 				backups = alpm_list_next(backups)) {
 			char *oldbackup = alpm_list_getdata(backups);
 			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
-				return(0);
+				continue;
 			}
 			char *backup = NULL;
 			/* length is tab char, null byte and MD5 (32 char) */
