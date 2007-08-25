@@ -356,6 +356,8 @@ typedef enum _pmdeptype_t {
 
 pmdepend_t *alpm_splitdep(const char *depstring);
 int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
+alpm_list_t *alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
+                             alpm_list_t *packages);
 
 const char *alpm_miss_get_target(pmdepmissing_t *miss);
 pmdeptype_t alpm_miss_get_type(pmdepmissing_t *miss);
