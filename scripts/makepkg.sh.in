@@ -1212,7 +1212,7 @@ if [ $(echo "$pkgrel" | grep '-') ]; then
 fi
 
 if ! in_array $CARCH ${arch[@]}; then
-	if "$IGNOREARCH" = "0" ]; then
+	if [ "$IGNOREARCH" = "0" ]; then
 		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
 		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
 		plain "$(gettext "such as arch=('%s').")" "$CARCH"
