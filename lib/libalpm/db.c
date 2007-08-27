@@ -53,11 +53,11 @@
  * @{
  */
 
-/** Register a package database
- * @param treename the name of the repository
+/** Register a sync database of packages.
+ * @param treename the name of the sync repository
  * @return a pmdb_t* on success (the value), NULL on error
  */
-pmdb_t SYMEXPORT *alpm_db_register(const char *treename)
+pmdb_t SYMEXPORT *alpm_db_register_sync(const char *treename)
 {
 	ALPM_LOG_FUNC;
 
@@ -67,7 +67,22 @@ pmdb_t SYMEXPORT *alpm_db_register(const char *treename)
 	/* Do not register a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
 
-	return(_alpm_db_register(treename));
+	return(_alpm_db_register_sync(treename));
+}
+
+/** Register the local package database.
+ * @return a pmdb_t* representing the local database, or NULL on error
+ */
+pmdb_t SYMEXPORT *alpm_db_register_local(void)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
+	/* Do not register a database if a transaction is on-going */
+	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
+
+	return(_alpm_db_register_local());
 }
 
 /* Helper function for alpm_db_unregister{_all} */
@@ -161,6 +176,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
  */
 int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 {
+	alpm_list_t *i;
 	int found = 0;
 
 	ALPM_LOG_FUNC;
@@ -168,17 +184,10 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 	/* Sanity checks */
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	if(strcmp(db->treename, "local") == 0) {
-		if(handle->db_local != NULL) {
+	for(i = handle->dbs_sync; i && !found; i = i->next) {
+		pmdb_t *sdb = i->data;
+		if(strcmp(db->treename, sdb->treename) == 0) {
 			found = 1;
-		}
-	} else {
-		alpm_list_t *i;
-		for(i = handle->dbs_sync; i && !found; i = i->next) {
-			pmdb_t *sdb = i->data;
-			if(strcmp(db->treename, sdb->treename) == 0) {
-				found = 1;
-			}
 		}
 	}
 	if(!found) {
@@ -690,7 +699,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 	return(ret);
 }
 
-pmdb_t *_alpm_db_register(const char *treename)
+pmdb_t *_alpm_db_register_local(void)
 {
 	struct stat buf;
 	pmdb_t *db;
@@ -699,23 +708,12 @@ pmdb_t *_alpm_db_register(const char *treename)
 
 	ALPM_LOG_FUNC;
 
-	if(strcmp(treename, "local") == 0) {
-		if(handle->db_local != NULL) {
-			_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
-			RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
-		}
-	} else {
-		alpm_list_t *i;
-		for(i = handle->dbs_sync; i; i = i->next) {
-			pmdb_t *sdb = i->data;
-			if(strcmp(treename, sdb->treename) == 0) {
-				_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
-				return sdb;
-			}
-		}
+	if(handle->db_local != NULL) {
+		_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
+		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
 	}
-	
-	_alpm_log(PM_LOG_DEBUG, "registering database '%s'\n", treename);
+
+	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 
 	/* make sure the database directory exists */
 	dbpath = alpm_option_get_dbpath();
@@ -723,7 +721,59 @@ pmdb_t *_alpm_db_register(const char *treename)
 		_alpm_log(PM_LOG_WARNING, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
-	snprintf(path, PATH_MAX, "%s%s", dbpath, treename);
+	snprintf(path, PATH_MAX, "%slocal", dbpath);
+	/* TODO this is rediculous, we try to do this even if we can't */
+	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
+		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
+				path);
+		if(_alpm_makepath(path) != 0) {
+			RET_ERR(PM_ERR_SYSTEM, NULL);
+		}
+	}
+
+	db = _alpm_db_new(dbpath, "local");
+	if(db == NULL) {
+		RET_ERR(PM_ERR_DB_CREATE, NULL);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "opening database '%s'\n", db->treename);
+	if(_alpm_db_open(db) == -1) {
+		_alpm_db_free(db);
+		RET_ERR(PM_ERR_DB_OPEN, NULL);
+	}
+
+	handle->db_local = db;
+	return(db);
+}
+
+pmdb_t *_alpm_db_register_sync(const char *treename)
+{
+	struct stat buf;
+	pmdb_t *db;
+	const char *dbpath;
+	char path[PATH_MAX];
+	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
+
+	for(i = handle->dbs_sync; i; i = i->next) {
+		pmdb_t *sdb = i->data;
+		if(strcmp(treename, sdb->treename) == 0) {
+			_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
+			return sdb;
+		}
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
+
+	/* make sure the database directory exists */
+	dbpath = alpm_option_get_dbpath();
+	if(!dbpath) {
+		_alpm_log(PM_LOG_WARNING, _("database path is undefined\n"));
+			RET_ERR(PM_ERR_DB_OPEN, NULL);
+	}
+	/* all sync DBs now reside in the sync/ subdir of the dbpath */
+	snprintf(path, PATH_MAX, "%ssync/%s", dbpath, treename);
 	/* TODO this is rediculous, we try to do this even if we can't */
 	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
 		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
@@ -744,12 +794,7 @@ pmdb_t *_alpm_db_register(const char *treename)
 		RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 
-	if(strcmp(treename, "local") == 0) {
-		handle->db_local = db;
-	} else {
-		handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
-	}
-
+	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return(db);
 }
 

@@ -495,15 +495,9 @@ static int _parseconfig(const char *file, const char *givensection,
 						file, linenum);
 				return(1);
 			}
-			/* a section/database named local is not allowed */
-			if(!strcmp(section, "local")) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: 'local' cannot be used as section name.\n"),
-						file, linenum);
-				return(1);
-			}
 			/* if we are not looking at the options section, register a db */
 			if(strcmp(section, "options") != 0) {
-				db = alpm_db_register(section);
+				db = alpm_db_register_sync(section);
 			}
 		} else {
 			/* directive */
@@ -815,7 +809,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Opening local database */
-	db_local = alpm_db_register("local");
+	db_local = alpm_db_register_local();
 	if(db_local == NULL) {
 		pm_printf(PM_LOG_ERROR, _("could not register 'local' database (%s)\n"),
 		        alpm_strerror(pm_errno));

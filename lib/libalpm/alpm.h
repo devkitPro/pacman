@@ -31,6 +31,8 @@ extern "C" {
 #include <time.h> /* for time_t */
 #include <stdarg.h> /* for va_list */
 
+#define DEPRECATED __attribute__((deprecated))
+
 /*
  * Arch Linux Package Management library
  */
@@ -143,7 +145,9 @@ alpm_list_t *alpm_option_get_syncdbs();
  * Databases
  */
 
-pmdb_t *alpm_db_register(const char *treename);
+/* Preferred interfaces db_register_local and db_register_sync */
+pmdb_t *alpm_db_register_local(void);
+pmdb_t *alpm_db_register_sync(const char *treename);
 int alpm_db_unregister(pmdb_t *db);
 int alpm_db_unregister_all(void);
 
