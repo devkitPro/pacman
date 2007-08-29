@@ -25,9 +25,30 @@ export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
+confdir='@sysconfdir@'
 
 FORCE=0
 REPO_DB_FILE=""
+
+msg() {
+	local mesg=$1; shift
+	printf "==> ${mesg}\n" "$@" >&1
+}
+
+msg2() {
+	local mesg=$1; shift
+	printf "  -> ${mesg}\n" "$@" >&1
+}
+
+warning() {
+	local mesg=$1; shift
+	printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
+}
+
+error() {
+	local mesg=$1; shift
+	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+}
 
 # print usage instructions
 usage() {
@@ -51,24 +72,28 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 # test if a file is a repository DB
 test_repo_db_file () {
 	if [ -f "$REPO_DB_FILE" ]; then
-		[ "$(bsdtar -tf "$REPO_DB_FILE" | grep -c "/desc")" -gt 0 ] || return 1
-	else
-		true
+		if bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"; then
+			return 0 # YES
+		fi
 	fi
+
+	return 1 # NO
 }
 
 # remove existing entries from the DB
-db_remove_entry()
-{
-	cd $gstmpdir
+db_remove_entry() {
+	pushd "$gstmpdir" 2>&1 >/dev/null
 
 	# remove any other package in the DB with same name
+	local existing
 	for existing in *; do
 		if [ "${existing%-*-*}" = "$1" ]; then
-			printf "$(gettext ":: removing existing package '%s'")\n" "$existing"
-			rm -rf $existing
+			msg2 "$(gettext "Removing existing package '%s'...")" "$existing"
+			rm -rf "$existing"
 		fi
 	done
+
+	popd 2>&1 >/dev/null
 } # end db_remove_entry
 
 # PROGRAM START
@@ -92,10 +117,10 @@ if [ $# -lt 2 ]; then
 fi
 
 # source system and user makepkg.conf
-if [ -r @sysconfdir@/makepkg.conf ]; then
-	source @sysconfdir@/makepkg.conf
+if [ -r "$confdir/makepkg.conf" ]; then
+	source "$confdir/makepkg.conf"
 else
-	printf "$(gettext "ERROR: /etc/makepkg.conf not found. Can not continue.")\n" >&2
+	error "$(gettext "%s not found. Cannot continue.")" "$confdir/makepkg.conf"
 	exit 1 # $E_CONFIG_ERROR
 fi
 
@@ -104,53 +129,53 @@ if [ -r ~/.makepkg.conf ]; then
 fi
 
 # main routine
-if [ $# -gt 1 ]; then
-	gstmpdir=$(mktemp -d /tmp/gensync.XXXXXXXXXX) || (\
-	printf "$(gettext "cannot create temp directory for database building")\n"; \
+gstmpdir=$(mktemp -d /tmp/repo-remove.XXXXXXXXXX) || (\
+	error "$(gettext "Cannot create temp directory for database building.")"; \
 	exit 1)
 
-	success=0
-	# parse arguements
-	for arg in $@; do
-		if [ -z "$REPO_DB_FILE" ]; then
-			REPO_DB_FILE="$(readlink -f $arg)"
-			if ! test_repo_db_file; then
-				printf "$(gettext "error: repository file '%s' is not a proper pacman db")\n" "$REPO_DB_FILE"
-				exit 1
-			elif [ -f "$REPO_DB_FILE" ]; then
-				printf "$(gettext ":: extracting database to a temporary location")\n"
-				bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
-			fi
-		else
-			printf "$(gettext ":: searching for package '%s'")\n"
-
-			this_dir="$(pwd)"
-			if db_remove_entry "$arg"; then
-				success=1
-			else
-				printf "$(gettext "error: package matching '%s' not found")\n" "$arg"
-			fi
-			cd $this_dir
-		fi
-	done
-
-	# if all operations were a success, rezip database
-	if [ "$success" = "1" ]; then
-		printf "$(gettext ":: creating updated database file %s")\n" "$REPO_DB_FILE"
-		cd $gstmpdir
-		if [ -n "$(ls)" ]; then
-			[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
-			[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
-			case "$DB_COMPRESSION" in
-				gz) bsdtar -c * | gzip -9 >$REPO_DB_FILE ;;
-				bz2) bsdtar -c * | bzip2 -9 >$REPO_DB_FILE ;;
-				*) printf "$(gettext "warning: no compression set")\n"
-				bsdtar -c * >$REPO_DB_FILE;;
-			esac
+success=0
+# parse arguements
+for arg in "$@"; do
+	if [ -z "$REPO_DB_FILE" ]; then
+		REPO_DB_FILE=$(readlink -f "$arg")
+		if ! test_repo_db_file; then
+			error "$(gettext "Repository file '%s' is not a proper pacman database.")\n" "$REPO_DB_FILE"
+			exit 1
+		elif [ -f "$REPO_DB_FILE" ]; then
+			msg "$(gettext "Extracting database to a temporary location...")"
+			bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
 		fi
 	else
-		printf "$(gettext ":: no packages modified, nothing to do")\n"
+		msg "$(gettext "Searching for package '%s'...")" "$arg"
+
+		if db_remove_entry "$arg"; then
+			success=1
+		else
+			error "$(gettext "Package matching '%s' not found.")" "$arg"
+		fi
 	fi
+done
+
+# if all operations were a success, rezip database
+if [ $success -eq 1 ]; then
+	msg "$(gettext "Creating updated database file '%s'...")" "$REPO_DB_FILE"
+	pushd "$gstmpdir" 2>&1 >/dev/null
+
+	if [ -n "$(ls)" ]; then
+		[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
+		[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+		case "$DB_COMPRESSION" in
+			gz)  TAR_OPT="z" ;;
+			bz2) TAR_OPT="j" ;;
+			*)   warning "$(gettext "No compression set.")" ;;
+		esac
+
+		bsdtar -c${TAR_OPT}f "$REPO_DB_FILE" *
+	fi
+
+	popd 2>&1 >/dev/null
+else
+	msg "$(gettext "No packages modified, nothing to do.")"
 fi
 
 # remove the temp directory used to unzip

@@ -63,13 +63,13 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 die() {
-	error $@
+	error "$@"
 	exit 1
 }
 
 die_r() {
-	rm -f $lockfile
-	die $@
+	rm -f "$lockfile"
+	die "$@"
 }
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
@@ -87,8 +87,8 @@ if [ "$1" != "" ]; then
 fi
 
 # make sure pacman isn't running
-if [ -f $lockfile ]; then
-	die "$(gettext "Pacman lockfile was found. Cannot run while pacman is running.")"
+if [ -f "$lockfile" ]; then
+	die "$(gettext "Pacman lock file was found. Cannot run while pacman is running.")"
 fi
 
 if [ ! -d "$dbroot" ]; then
@@ -99,55 +99,58 @@ if [ ! -w "$dbroot" ]; then
 	die "$(gettext "You must have correct permissions to optimize the database.")"
 fi
 
+workdir=$(mktemp -d /tmp/pacman-optimize.XXXXXXXXXX) ||
+	die_r "$(gettext "ERROR: Can not create temp directory for database building.")\n" >&2
+
 # do not let pacman run while we do this
-touch $lockfile
+touch "$lockfile"
 
 # step 1: sum the old db
 msg "$(gettext "MD5sum'ing the old database...")"
-find $dbroot -type f | sort | xargs md5sum > /tmp/pacsums.old
+find "$dbroot" -type f | sort | xargs md5sum > "$workdir/pacsums.old"
 
 # step 2: tar it up
 msg "$(gettext "Tar'ing up %s...")" "$dbroot"
-cd $dbroot
-bsdtar -czf /tmp/pacmanDB.tgz ./
+cd "$dbroot"
+bsdtar -czf "$workdir/pacmanDB.tgz" ./
 if [ $? -ne 0 ]; then
-	rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
+	rm -rf "$workdir"
 	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"
 fi
 
 # step 3: make and sum the new db
 msg "$(gettext "Making and MD5sum'ing the new db...")"
-mkdir $dbroot.new
-bsdtar -zxpf /tmp/pacmanDB.tgz -C $dbroot.new/
+mkdir "$dbroot.new"
+bsdtar -zxpf "$workdir/pacmanDB.tgz" -C "$dbroot.new/"
 if [ $? -ne 0 ]; then
-       rm -f /tmp/pacmanDB.tgz /tmp/pacsums.old
-       rm -rf "$dbroot.new"
-       die_r "$(gettext "Untar'ing $dbroot failed.")"
+       rm -rf "$workdir"
+       die_r "$(gettext "Untar'ing %s failed.")" "$dbroot"
 fi
-find "$dbroot.new" -type f | sort | sed -e 's/pacman.new/pacman/g' | \
-		xargs md5sum > /tmp/pacsums.new
+find "$dbroot.new" -type f | sort | \
+		xargs md5sum | sed 's#.new/##' > "$workdir/pacsums.new"
 
 # step 4: compare the sums
 msg "$(gettext "Checking integrity...")"
-diff /tmp/pacsums.old /tmp/pacsums.new >/dev/null 2>&1
+diff "$workdir/pacsums.old" "$workdir/pacsums.new" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	# failed
 	# leave /tmp/pacsums.old and .new for checking to see what doesn't match up
-	rm -rf "$dbroot.new" $lockfile /tmp/pacmanDB.tgz
-	die_r "$(gettext "integrity check FAILED, reverting to old database.")"
+	rm -rf "$dbroot.new"
+	die_r "$(gettext "Integrity check FAILED, reverting to old database.")"
 fi
 
 # step 5: remove the new temporary database and the old one
 #         and use the .tgz to replace the old one
 msg "$(gettext "Putting the new database in place...")"
 rm -rf "$dbroot.new" "$dbroot"/*
-bsdtar -zxpf /tmp/pacmanDB.tgz -C "$dbroot"/
+bsdtar -zxpf "$workdir/pacmanDB.tgz" -C "$dbroot/"
 
 # remove the lock file, sum files, and .tgz of database
-rm -f $lockfile /tmp/pacsums.old /tmp/pacsums.new /tmp/pacmanDB.tgz
+rm -f "$lockfile"
+rm -rf "$workdir"
 
 echo
-echo "$(gettext "Finished. Your pacman database has been optimized.")"
+msg "$(gettext "Finished. Your pacman database has been optimized.")"
 echo
 
 exit 0
