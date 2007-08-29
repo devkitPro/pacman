@@ -171,6 +171,7 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 int SYMEXPORT alpm_trans_release()
 {
 	pmtrans_t *trans;
+	int ret = 0;
 
 	ALPM_LOG_FUNC;
 
@@ -187,7 +188,7 @@ int SYMEXPORT alpm_trans_release()
 			trans->state = STATE_INTERRUPTED;
 		}
 		pm_errno = PM_ERR_TRANS_COMMITING;
-		return(-1);
+		ret = -1;
 	}
 
 	_alpm_trans_free(trans);
@@ -205,7 +206,7 @@ int SYMEXPORT alpm_trans_release()
 				alpm_option_get_lockfile());
 	}
 
-	return(0);
+	return(ret);
 }
 
 /** @} */
