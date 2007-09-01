@@ -113,9 +113,11 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 						pmpkg_t *info = _alpm_db_scan(db, miss->target);
 						if(info) {
-							_alpm_log(PM_LOG_DEBUG, "pulling %s in the targets list\n",
-									alpm_pkg_get_name(info));
-							trans->packages = alpm_list_add(trans->packages, info);
+							if(!_alpm_pkg_find(alpm_pkg_get_name(info), trans->packages)) {
+								_alpm_log(PM_LOG_DEBUG, "pulling %s in the targets list\n",
+										alpm_pkg_get_name(info));
+								trans->packages = alpm_list_add(trans->packages, info);
+							}
 						} else {
 							_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping\n"),
 							          miss->depend.name);
