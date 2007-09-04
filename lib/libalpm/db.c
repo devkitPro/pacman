@@ -783,7 +783,11 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 		}
 	}
 
-	db = _alpm_db_new(dbpath, treename);
+	/* Ensure the db gets the real path. */
+	path[0] = '\0';
+	snprintf(path, PATH_MAX, "%ssync/", dbpath);
+
+	db = _alpm_db_new(path, treename);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
