@@ -227,9 +227,9 @@ _pacman_completions_all_packages() {
 	repositories=( $(_call_program repositories cat /etc/pacman.conf | grep "^\[" | sed "s,\(\[\|\]\),,g" | grep -v "^options" | sort -u) )
 	# these can be specified as either 'package' or 'repository/package'
 	if [[ "$PREFIX" == "" ]] ; then
-		packages=( $(_call_program packages ls /var/lib/pacman/${^repositories} | grep -v "^/" | sed "s,\-[^-]*\-[^-]*$,," | sort -u) )
+		packages=( $(_call_program packages ls /var/lib/pacman/sync/${^repositories} | grep -v "^/" | sed "s,\-[^-]*\-[^-]*$,," | sort -u) )
 	else
-		packages=( $(_call_program packages ls /var/lib/pacman/${^repositories} | grep -v "^/" | grep -e \^$PREFIX | sed "s,\-[^-]*\-[^-]*$,," | sort -u) )
+		packages=( $(_call_program packages ls /var/lib/pacman/sync/${^repositories} | grep -v "^/" | grep -e \^$PREFIX | sed "s,\-[^-]*\-[^-]*$,," | sort -u) )
 	fi
 	compadd "$@" -a packages
 }

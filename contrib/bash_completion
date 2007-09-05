@@ -48,7 +48,7 @@ _available_pkgs ()
   local available_pkgs
   local enabled_repos
   enabled_repos=$( grep '\[' /etc/pacman.conf | grep -v -e 'options' -e '^#' | tr -d '[]' )
-  available_pkgs=$( for r in $enabled_repos; do echo /var/lib/pacman/$r/*; done )
+  available_pkgs=$( for r in $enabled_repos; do echo /var/lib/pacman/sync/$r/*; done )
   COMPREPLY=( $( compgen -W "$( for i in $available_pkgs; do j=${i##*/}; echo ${j%-*-*}; done )" -- $cur ) )
 }
 
@@ -67,7 +67,7 @@ _available_groups ()
   local available_groups
   local enabled_repos
   enabled_repos=$( grep '\[' /etc/pacman.conf | grep -v -e 'options' -e '^#' | tr -d '[]' )
-  available_groups=$( for r in $enabled_repos; do sed '/%GROUPS%/,/^$/{//d; p}' /var/lib/pacman/$r/*/desc | sort -u; done )
+  available_groups=$( for r in $enabled_repos; do sed '/%GROUPS%/,/^$/{//d; p}' /var/lib/pacman/sync/$r/*/desc | sort -u; done )
   COMPREPLY=( $( compgen -W "$( for i in $available_groups; do echo ${i%-*-*}; done )" -- $cur ) )
 }
 
