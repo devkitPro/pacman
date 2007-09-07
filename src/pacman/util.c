@@ -34,6 +34,7 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <limits.h>
 
 #include <alpm.h>
 #include <alpm_list.h>

@@ -26,6 +26,7 @@
 #define _ALPM_UTIL_H
 
 #include <stdio.h>
+#include <stdarg.h>
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
 #include <time.h>
 
