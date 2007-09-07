@@ -280,7 +280,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 		const char *pkgname = NULL;
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
-			break;
+			return(0);
 		}
 
 		/* get the name now so we can use it after package is removed */
@@ -360,8 +360,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	if((trans->type != PM_TRANS_TYPE_REMOVEUPGRADE)
-			&& (handle->trans->state != STATE_INTERRUPTED)) {
+	if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 		_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"\n", handle->root);
 		_alpm_ldconfig(handle->root);
 	}

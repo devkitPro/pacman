@@ -165,13 +165,34 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 	return(_alpm_trans_commit(handle->trans, data));
 }
 
+/** Interrupt a transaction.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_interrupt()
+{
+	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_COMMITING || trans->state == STATE_INTERRUPTED,
+			RET_ERR(PM_ERR_TRANS_TYPE, -1));
+
+	trans->state = STATE_INTERRUPTED;
+
+	return(0);
+}
+
 /** Release a transaction.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int SYMEXPORT alpm_trans_release()
 {
 	pmtrans_t *trans;
-	int ret = 0;
 
 	ALPM_LOG_FUNC;
 
@@ -181,15 +202,6 @@ int SYMEXPORT alpm_trans_release()
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	/* during a commit do not interrupt immediately, just after a target */
-	if(trans->state == STATE_COMMITING || trans->state == STATE_INTERRUPTED) {
-		if(trans->state == STATE_COMMITING) {
-			trans->state = STATE_INTERRUPTED;
-		}
-		pm_errno = PM_ERR_TRANS_COMMITING;
-		ret = -1;
-	}
 
 	_alpm_trans_free(trans);
 	handle->trans = NULL;
@@ -206,7 +218,7 @@ int SYMEXPORT alpm_trans_release()
 				alpm_option_get_lockfile());
 	}
 
-	return(ret);
+	return(0);
 }
 
 /** @} */

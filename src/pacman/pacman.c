@@ -207,9 +207,14 @@ static void cleanup(int signum)
 		pm_fprintf(stderr, PM_LOG_ERROR, "Internal pacman error: Segmentation fault.\n"
 		        "Please submit a full bug report with --debug if appropriate.\n");
 		exit(signum);
-	} else if((signum == SIGINT) && (alpm_trans_release() == -1)
-						&& (pm_errno == PM_ERR_TRANS_COMMITING)) {
-		return;
+	} else if((signum == SIGINT)) {
+		if(alpm_trans_interrupt() == 0) {
+			/* a transaction is being interrupted, don't exit pacman yet. */
+			return;
+		} else {
+			/* no commiting transaction, we can release it now and then exit pacman */
+			alpm_trans_release();
+		}
 	}
 
 	/* free alpm library resources */

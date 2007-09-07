@@ -335,6 +335,7 @@ int alpm_trans_sysupgrade(void);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(alpm_list_t **data);
 int alpm_trans_commit(alpm_list_t **data);
+int alpm_trans_interrupt(void);
 int alpm_trans_release(void);
 
 /*

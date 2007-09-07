@@ -905,7 +905,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	/* loop through our package list adding/upgrading one at a time */
 	for(targ = trans->packages; targ; targ = targ->next) {
 		if(handle->trans->state == STATE_INTERRUPTED) {
-			break;
+			return(0);
 		}
 
 		pmpkg_t *newpkg = (pmpkg_t *)targ->data;
@@ -914,10 +914,8 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	if(handle->trans->state != STATE_INTERRUPTED) {
-		_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"\n", handle->root);
-		_alpm_ldconfig(handle->root);
-	}
+	_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"\n", handle->root);
+	_alpm_ldconfig(handle->root);
 
 	return(0);
 }
