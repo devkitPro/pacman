@@ -218,7 +218,10 @@ class pmdb:
         """
         """
 
-        path = os.path.join(self.dbdir, self.treename, pkg.fullname())
+        if self.treename == "local":
+            path = os.path.join(self.dbdir, self.treename, pkg.fullname())
+        else:
+            path = os.path.join(self.dbdir, "sync", self.treename, pkg.fullname())
         mkdir(path)
 
         # desc
