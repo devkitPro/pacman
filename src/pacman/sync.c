@@ -205,7 +205,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 				        alpm_db_get_name(db), downloadLastErrString);
 			} else {
 				fprintf(stderr, _("error: failed to update %s (%s)\n"),
-				        alpm_db_get_name(db), alpm_strerror(pm_errno));
+				        alpm_db_get_name(db), alpm_strerrorlast());
 			}
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
@@ -498,7 +498,7 @@ int pacman_sync(alpm_list_t *targets)
 	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
 				cb_trans_conv, cb_trans_progress) == -1) {
 		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			printf(_("  if you're sure a package manager is not already\n"
 			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
@@ -522,7 +522,7 @@ int pacman_sync(alpm_list_t *targets)
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction("starting full system upgrade");
 		if(alpm_trans_sysupgrade() == -1) {
-			fprintf(stderr, _("error: %s\n"), alpm_strerror(pm_errno));
+			fprintf(stderr, _("error: %s\n"), alpm_strerrorlast());
 			retval = 1;
 			goto cleanup;
 		}
@@ -548,18 +548,18 @@ int pacman_sync(alpm_list_t *targets)
 				if(yesno(_(":: Cancel current operation? [Y/n] "))) {
 					if(alpm_trans_release() == -1) {
 						fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-						    alpm_strerror(pm_errno));
+						    alpm_strerrorlast());
 						retval = 1;
 						goto cleanup;
 					}
 					if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags,
 					   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
 						fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-						    alpm_strerror(pm_errno));
+						    alpm_strerrorlast());
 						return(1);
 					}
 					if(alpm_trans_addtarget("pacman") == -1) {
-						fprintf(stderr, _("error: pacman: %s\n"), alpm_strerror(pm_errno));
+						fprintf(stderr, _("error: pacman: %s\n"), alpm_strerrorlast());
 						retval = 1;
 						goto cleanup;
 					}
@@ -584,7 +584,7 @@ int pacman_sync(alpm_list_t *targets)
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
 					fprintf(stderr, _("'error: %s': %s\n"),
-					        (char *)i->data, alpm_strerror(pm_errno));
+					        (char *)i->data, alpm_strerrorlast());
 					retval = 1;
 					goto cleanup;
 				}
@@ -646,7 +646,7 @@ int pacman_sync(alpm_list_t *targets)
 	alpm_list_t *data;
 	if(alpm_trans_prepare(&data) == -1) {
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		switch(pm_errno) {
 			alpm_list_t *i;
 			case PM_ERR_UNSATISFIED_DEPS:
@@ -722,7 +722,7 @@ int pacman_sync(alpm_list_t *targets)
 	/* Step 3: actually perform the installation */
 	if(alpm_trans_commit(&data) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		switch(pm_errno) {
 			alpm_list_t *i;
 			case PM_ERR_FILE_CONFLICTS:
@@ -764,7 +764,7 @@ cleanup:
 	}
 	if(alpm_trans_release() == -1) {
 		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		retval = 1;
 	}
 

@@ -44,7 +44,7 @@ static int remove_cleanup(void)
 	int ret = alpm_trans_release();
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		ret = 1;
 	}
 
@@ -97,7 +97,7 @@ int pacman_remove(alpm_list_t *targets)
 	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags,
 	   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
 		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			printf(_("  if you're sure a package manager is not already\n"
 			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
@@ -113,7 +113,7 @@ int pacman_remove(alpm_list_t *targets)
 		if(alpm_trans_addtarget(targ) == -1) {
 			printf("failed.\n");
 			fprintf(stderr, _("error: failed to add target '%s' (%s)\n"), targ,
-			        alpm_strerror(pm_errno));
+			        alpm_strerrorlast());
 			remove_cleanup();
 			FREELIST(finaltargs);
 			return(1);
@@ -123,7 +123,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
@@ -167,7 +167,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 3: actually perform the removal */
 	if(alpm_trans_commit(NULL) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		remove_cleanup();
 		FREELIST(finaltargs);
 		return(1);

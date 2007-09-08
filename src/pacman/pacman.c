@@ -215,7 +215,7 @@ static void cleanup(int signum)
 
 	/* free alpm library resources */
 	if(alpm_release() == -1) {
-		pm_printf(PM_LOG_ERROR, alpm_strerror(pm_errno));
+		pm_printf(PM_LOG_ERROR, alpm_strerrorlast());
 	}
 
 	/* free memory */
@@ -331,7 +331,7 @@ static int parseargs(int argc, char *argv[])
 			case 1007:
 				if(alpm_option_add_cachedir(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
-							optarg, alpm_strerror(pm_errno));
+							optarg, alpm_strerrorlast());
 					return(1);
 				}
 				break;
@@ -355,7 +355,7 @@ static int parseargs(int argc, char *argv[])
 			case 'b':
 				if(alpm_option_set_dbpath(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-							optarg, alpm_strerror(pm_errno));
+							optarg, alpm_strerrorlast());
 					return(1);
 				}
 				config->have_dbpath = 1;
@@ -389,7 +389,7 @@ static int parseargs(int argc, char *argv[])
 			case 'r':
 				if(alpm_option_set_root(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
-							optarg, alpm_strerror(pm_errno));
+							optarg, alpm_strerrorlast());
 					return(1);
 				}
 				config->have_root = 1;
@@ -614,7 +614,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						if(!config->have_dbpath) {
 							if(alpm_option_set_dbpath(ptr) != 0) {
 								pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-										ptr, alpm_strerror(pm_errno));
+										ptr, alpm_strerrorlast());
 								return(1);
 							}
 							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
@@ -622,7 +622,7 @@ static int _parseconfig(const char *file, const char *givensection,
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
 						if(alpm_option_add_cachedir(ptr) != 0) {
 							pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
-									ptr, alpm_strerror(pm_errno));
+									ptr, alpm_strerrorlast());
 							return(1);
 						}
 						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
@@ -631,7 +631,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						if(!config->have_root) {
 							if(alpm_option_set_root(ptr) != 0) {
 								pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
-										ptr, alpm_strerror(pm_errno));
+										ptr, alpm_strerrorlast());
 								return(1);
 							}
 							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
@@ -640,7 +640,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						if(!config->have_logfile) {
 							if(alpm_option_set_logfile(ptr) != 0) {
 								pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-										ptr, alpm_strerror(pm_errno));
+										ptr, alpm_strerrorlast());
 								return(1);
 							}
 							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
@@ -736,7 +736,7 @@ int main(int argc, char *argv[])
 	/* initialize library */
 	if(alpm_initialize() == -1) {
 		pm_printf(PM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		cleanup(EXIT_FAILURE);
 	}
 
@@ -812,7 +812,7 @@ int main(int argc, char *argv[])
 	db_local = alpm_db_register_local();
 	if(db_local == NULL) {
 		pm_printf(PM_LOG_ERROR, _("could not register 'local' database (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		cleanup(EXIT_FAILURE);
 	}
 

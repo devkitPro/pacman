@@ -461,6 +461,7 @@ enum _pmerrno_t {
 extern enum _pmerrno_t pm_errno;
 
 const char *alpm_strerror(int err);
+const char *alpm_strerrorlast(void);
 
 #ifdef __cplusplus
 }

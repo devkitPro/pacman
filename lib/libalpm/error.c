@@ -30,6 +30,11 @@
 #include "alpm.h"
 
 /* TODO does this really need a file all on its own? */
+const char SYMEXPORT *alpm_strerrorlast(void)
+{
+	return alpm_strerror(pm_errno);
+}
+
 const char SYMEXPORT *alpm_strerror(int err)
 {
 	switch(err) {

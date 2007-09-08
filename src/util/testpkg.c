@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	}
 
 	if(alpm_initialize() == -1) {
-		fprintf(stderr, "cannot initilize alpm: %s\n", alpm_strerror(pm_errno));
+		fprintf(stderr, "cannot initilize alpm: %s\n", alpm_strerrorlast());
         return(1);
 	}
 
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	}
     
 	if(alpm_release() == -1) {
-		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerror(pm_errno));
+		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
 	}
 
     return(retval);

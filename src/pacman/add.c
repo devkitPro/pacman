@@ -42,7 +42,7 @@ static int add_cleanup(void)
 	int ret = alpm_trans_release();
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		ret = 1;
 	}
 
@@ -105,7 +105,7 @@ int pacman_add(alpm_list_t *targets)
 	if(alpm_trans_init(transtype, config->flags, cb_trans_evt,
 	   cb_trans_conv, cb_trans_progress) == -1) {
 		/* TODO: error messages should be in the front end, not the back */
-		fprintf(stderr, _("error: %s\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: %s\n"), alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			/* TODO this and the 2 other places should probably be on stderr */
 			printf(_("  if you're sure a package manager is not already\n"
@@ -120,7 +120,7 @@ int pacman_add(alpm_list_t *targets)
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
 			fprintf(stderr, _("error: failed to add target '%s' (%s)"), targ,
-			        alpm_strerror(pm_errno));
+			        alpm_strerrorlast());
 			add_cleanup();
 			return(1);
 		}
@@ -131,7 +131,7 @@ int pacman_add(alpm_list_t *targets)
 	/* TODO: No, compute nothing. This is stupid. */
 	if(alpm_trans_prepare(&data) == -1) {
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
-		        alpm_strerror(pm_errno));
+		        alpm_strerrorlast());
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
@@ -197,7 +197,7 @@ int pacman_add(alpm_list_t *targets)
 
 	/* Step 3: perform the installation */
 	if(alpm_trans_commit(NULL) == -1) {
-		fprintf(stderr, _("error: failed to commit transaction (%s)\n"), alpm_strerror(pm_errno));
+		fprintf(stderr, _("error: failed to commit transaction (%s)\n"), alpm_strerrorlast());
 		add_cleanup();
 		return(1);
 	}
