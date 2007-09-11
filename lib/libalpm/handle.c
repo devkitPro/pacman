@@ -102,31 +102,176 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREE(handle);
 }
 
-alpm_cb_log SYMEXPORT alpm_option_get_logcb() { return (handle ? handle->logcb : NULL); }
-alpm_cb_download SYMEXPORT alpm_option_get_dlcb() { return (handle ? handle->dlcb : NULL); }
-const char SYMEXPORT *alpm_option_get_root() { return handle->root; }
-const char SYMEXPORT *alpm_option_get_dbpath() { return handle->dbpath; }
-alpm_list_t SYMEXPORT *alpm_option_get_cachedirs() { return handle->cachedirs; }
-const char SYMEXPORT *alpm_option_get_logfile() { return handle->logfile; }
-const char SYMEXPORT *alpm_option_get_lockfile() { return handle->lockfile; }
-unsigned short SYMEXPORT alpm_option_get_usesyslog() { return handle->usesyslog; }
-alpm_list_t SYMEXPORT *alpm_option_get_noupgrades() { return handle->noupgrade; }
-alpm_list_t SYMEXPORT *alpm_option_get_noextracts() { return handle->noextract; }
-alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs() { return handle->ignorepkg; }
-alpm_list_t SYMEXPORT *alpm_option_get_holdpkgs() { return handle->holdpkg; }
-time_t SYMEXPORT alpm_option_get_upgradedelay() { return handle->upgradedelay; }
-const char SYMEXPORT *alpm_option_get_xfercommand() { return handle->xfercommand; }
-unsigned short SYMEXPORT alpm_option_get_nopassiveftp() { return handle->nopassiveftp; }
+alpm_cb_log SYMEXPORT alpm_option_get_logcb()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->logcb;
+}
 
-pmdb_t SYMEXPORT *alpm_option_get_localdb() { return handle->db_local; }
+alpm_cb_download SYMEXPORT alpm_option_get_dlcb()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->dlcb;
+}
+
+const char SYMEXPORT *alpm_option_get_root()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->root;
+}
+
+const char SYMEXPORT *alpm_option_get_dbpath()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->dbpath;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_cachedirs()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->cachedirs;
+}
+
+const char SYMEXPORT *alpm_option_get_logfile()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->logfile;
+}
+
+const char SYMEXPORT *alpm_option_get_lockfile()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->lockfile;
+}
+
+unsigned short SYMEXPORT alpm_option_get_usesyslog()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return -1;
+	}
+	return handle->usesyslog;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_noupgrades()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->noupgrade;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_noextracts()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->noextract;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->ignorepkg;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_holdpkgs()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->holdpkg;
+}
+
+time_t SYMEXPORT alpm_option_get_upgradedelay()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return -1;
+	}
+	return handle->upgradedelay;
+}
+
+const char SYMEXPORT *alpm_option_get_xfercommand()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->xfercommand;
+}
+
+unsigned short SYMEXPORT alpm_option_get_nopassiveftp()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return -1;
+	}
+	return handle->nopassiveftp;
+}
+
+pmdb_t SYMEXPORT *alpm_option_get_localdb()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->db_local;
+}
+
 alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
 {
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
 	return handle->dbs_sync;
 }
 
-void SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb) { handle->logcb = cb; }
+void SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb)
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return;
+	}
+	handle->logcb = cb;
+}
 
-void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb) { handle->dlcb = cb; }
+void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb)
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return;
+	}
+	handle->dlcb = cb;
+}
 
 int SYMEXPORT alpm_option_set_root(const char *root)
 {
