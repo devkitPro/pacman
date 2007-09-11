@@ -82,7 +82,7 @@ enum {
 };
 
 config_t *config_new(void);
-int config_free(config_t *config);
+int config_free(config_t *oldconfig);
 
 #endif /* _PM_CONF_H */
 

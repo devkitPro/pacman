@@ -27,7 +27,7 @@
 
 #include <alpm.h>
 
-void output_cb(pmloglevel_t level, char *fmt, va_list args)
+static void output_cb(pmloglevel_t level, char *fmt, va_list args)
 {
 	if(strlen(fmt)) {
         switch(level) {

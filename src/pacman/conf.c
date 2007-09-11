@@ -30,29 +30,29 @@
 
 config_t *config_new(void)
 {
-	config_t *config = calloc(1, sizeof(config_t));
-	if(!config) {
+	config_t *newconfig = calloc(1, sizeof(config_t));
+	if(!newconfig) {
 			fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
 			        sizeof(config_t));
 	}
 	/* defaults which may get overridden later */
-	config->op = PM_OP_MAIN;
-	config->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
+	newconfig->op = PM_OP_MAIN;
+	newconfig->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
 	/* CONFFILE is defined at compile-time */
-	config->configfile = strdup(CONFFILE);
+	newconfig->configfile = strdup(CONFFILE);
 
-	return(config);
+	return(newconfig);
 }
 
-int config_free(config_t *config)
+int config_free(config_t *oldconfig)
 {
-	if(config == NULL) {
+	if(oldconfig == NULL) {
 		return(-1);
 	}
 
-	free(config->configfile);
-	free(config);
-	config = NULL;
+	free(oldconfig->configfile);
+	free(oldconfig);
+	oldconfig = NULL;
 
 	return(0);
 }

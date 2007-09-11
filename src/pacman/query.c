@@ -153,7 +153,7 @@ static int query_search(alpm_list_t *targets)
 		/* print the package size with the output if ShowSize option set */
 		if(config->showsize) {
 			/* Convert byte size to MB */
-			double mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
+			double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
 			printf(" [%.2f MB]", mbsize);
 		}
@@ -168,10 +168,11 @@ static int query_search(alpm_list_t *targets)
 		indentprint(alpm_pkg_get_desc(pkg), 4);
 		printf("\n");
 	}
-		/* we only want to free if the list was a search list */
-		if(freelist) {
-			alpm_list_free(searchlist);
-		}
+
+	/* we only want to free if the list was a search list */
+	if(freelist) {
+		alpm_list_free(searchlist);
+	}
 	return(0);
 }
 
@@ -195,8 +196,9 @@ static int query_group(alpm_list_t *targets)
 		}
 	} else {
 		for(i = targets; i; i = alpm_list_next(i)) {
+			pmgrp_t *grp;
 			package = alpm_list_getdata(i);
-			pmgrp_t *grp = alpm_db_readgrp(db_local, package);
+			grp = alpm_db_readgrp(db_local, package);
 			if(grp) {
 				const alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
 				for(p = pkgnames; p; p = alpm_list_next(p)) {
@@ -236,8 +238,8 @@ static int query_test(void)
 
 static int query_upgrades(void)
 {
-	printf(_("Checking for package upgrades... \n"));
 	alpm_list_t *syncpkgs;
+	printf(_("Checking for package upgrades... \n"));
 
 	if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
 		display_targets(syncpkgs);
@@ -257,8 +259,8 @@ static int is_foreign(pmpkg_t *pkg)
 	int match = 0;
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
 		pmdb_t *db = alpm_list_getdata(j);
-		pmpkg_t *pkg = alpm_db_get_pkg(db, pkgname);
-		if(pkg) {
+		pmpkg_t *findpkg = alpm_db_get_pkg(db, pkgname);
+		if(findpkg) {
 			match = 1;
 			break;
 		}
