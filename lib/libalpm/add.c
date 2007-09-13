@@ -413,10 +413,10 @@ static int extract_single_file(struct archive *archive,
 				/* if filesystem perms are different than pkg perms, warn user */
 				int mask = 07777;
 				_alpm_log(PM_LOG_WARNING, _("directory permissions differ on %s\n"
-							"filesystem: %o  package: %o"), entryname, lsbuf.st_mode & mask,
+							"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
 						entrymode & mask);
 				alpm_logaction("warning: directory permissions differ on %s\n"
-							"filesystem: %o  package: %o", entryname, lsbuf.st_mode & mask,
+							"filesystem: %o  package: %o\n", entryname, lsbuf.st_mode & mask,
 						entrymode & mask);
 			}
 			_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
