@@ -72,7 +72,7 @@ done
 
 # Print colorized package list and descriptions to screen
 echo -e "$(sed -r \
-	-e "s@current/.*@$CLR1&$BASE@" \
+	-e "s@core/.*@$CLR1&$BASE@" \
 	-e "s@extra/.*@$CLR2&$BASE@" \
 	-e "s@community/.*@$CLR3&$BASE@" \
 	-e "s@testing/.*@$CLR4&$BASE@" \
