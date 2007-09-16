@@ -135,19 +135,23 @@ int main(int argc, char **argv)
 {
   int retval = 0; /* default = false */
   pmdb_t *db = NULL;
-  char dbpath[PATH_MAX];
+  char *dbpath;
+  char localdbpath[PATH_MAX];
   alpm_list_t *i;
 
-  if(argc != 2) {
-    fprintf(stderr, "usage: %s <pacman db>\n", basename(argv[0]));
+  if(argc == 1) {
+    dbpath = DBPATH;
+  } else if(argc == 3 && strcmp(argv[1], "-b") == 0) {
+    dbpath = argv[2];
+  } else {
+    fprintf(stderr, "usage: %s -b <pacman db>\n", basename(argv[0]));
     return(1);
   }
 
-  snprintf(dbpath, PATH_MAX, "%s/local", argv[1]);
-
-  retval = db_test(dbpath);
+  snprintf(localdbpath, PATH_MAX, "%s/local", dbpath);
+  retval = db_test(localdbpath);
   if(retval) {
-    exit(retval);
+    return(retval);
   }
 
   if(alpm_initialize() == -1) {
@@ -158,7 +162,7 @@ int main(int argc, char **argv)
   /* let us get log messages from libalpm */
   alpm_option_set_logcb(output_cb);
 
-  alpm_option_set_dbpath(argv[1]);
+  alpm_option_set_dbpath(dbpath);
 
   db = alpm_db_register_local();
   if(db == NULL) {

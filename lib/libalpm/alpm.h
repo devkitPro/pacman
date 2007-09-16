@@ -164,7 +164,6 @@ alpm_list_t *alpm_db_whatprovides(pmdb_t *db, const char *name);
 
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
-alpm_list_t *alpm_db_test(pmdb_t *db);
 alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
 
 alpm_list_t *alpm_db_get_upgrades(void);

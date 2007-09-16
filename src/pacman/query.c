@@ -213,29 +213,6 @@ static int query_group(alpm_list_t *targets)
 	return ret;
 }
 
-static int query_test(void)
-{
-	int ret = 0;
-	alpm_list_t *testlist;
-
-	printf(_("Checking database for consistency... "));
-	testlist = alpm_db_test(db_local);
-	if(testlist == NULL) {
-		printf(_("check complete.\n"));
-		return(0);
-	} else {
-		/* on failure, increment the ret val by 1 for each failure */
-		alpm_list_t *i;
-		printf(_("check failed!\n"));
-		fflush(stdout);
-		for(i = testlist; i; i = alpm_list_next(i)) {
-			fprintf(stderr, "%s\n", (char*)alpm_list_getdata(i));
-			ret++;
-		}
-		return(ret);
-	}
-}
-
 static int query_upgrades(void)
 {
 	alpm_list_t *syncpkgs;
@@ -335,12 +312,6 @@ int pacman_query(alpm_list_t *targets)
 	/* search for a package */
 	if(config->op_q_search) {
 		ret = query_search(targets);
-		return(ret);
-	}
-
-	/* check DB consistancy */
-	if(config->op_q_test) {
-		ret = query_test();
 		return(ret);
 	}
 

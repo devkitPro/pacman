@@ -57,7 +57,6 @@ pmdb_t *_alpm_db_register_sync(const char *treename);
 
 /* be.c, backend specific calls */
 int _alpm_db_install(pmdb_t *db, const char *dbfile);
-alpm_list_t *_alpm_db_test(pmdb_t *db);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
 void _alpm_db_rewind(pmdb_t *db);

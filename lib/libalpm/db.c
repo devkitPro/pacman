@@ -420,19 +420,6 @@ alpm_list_t SYMEXPORT *alpm_db_getgrpcache(pmdb_t *db)
 	return(_alpm_db_get_grpcache(db));
 }
 
-/** Tests a database
- * @param db pointer to the package database to search in
- * @return the list of problems found on success, NULL on error
- */
-alpm_list_t SYMEXPORT *alpm_db_test(pmdb_t *db)
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(db != NULL, return(NULL));
-
-	return(_alpm_db_test(db));
-}
-
 /** Searches a database
  * @param db pointer to the package database to search in
  * @param needles the list of strings to search for

@@ -121,7 +121,6 @@ static void usage(int op, char *myname)
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -t, --orphans        list all packages not required by any package\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
-			printf(_("      --test           check the consistency of the local database\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -284,7 +283,6 @@ static int parseargs(int argc, char *argv[])
 		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
 		{"asdeps",     no_argument,       0, 1008},
-		{"test",       no_argument,       0, 1009},
 		{0, 0, 0, 0}
 	};
 
@@ -337,9 +335,6 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 1008:
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
-				break;
-			case 1009:
-				config->op_q_test = 1;
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':

@@ -62,38 +62,6 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile)
 	return unlink(dbfile);
 }
 
-alpm_list_t *_alpm_db_test(pmdb_t *db)
-{
-	struct dirent *ent;
-	char path[PATH_MAX];
-	char text[PATH_MAX+1];
-	struct stat buf;
-	alpm_list_t *ret = NULL;
-
-	while ((ent = readdir(db->handle)) != NULL) {
-		if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
-			continue;
-		}
-		/* check for desc, depends, and files */
-		snprintf(path, PATH_MAX, "%s/%s/desc", db->path, ent->d_name);
-		if(stat(path, &buf)) {
-			snprintf(text, PATH_MAX, _("%s: description file is missing"), ent->d_name);
-			ret = alpm_list_add(ret, strdup(text));
-		}
-		snprintf(path, PATH_MAX, "%s/%s/depends", db->path, ent->d_name);
-		if(stat(path, &buf)) {
-			snprintf(text, PATH_MAX, _("%s: dependency file is missing"), ent->d_name);
-			ret = alpm_list_add(ret, strdup(text));
-		}
-		snprintf(path, PATH_MAX, "%s/%s/files", db->path, ent->d_name);
-		if(stat(path, &buf)) {
-			snprintf(text, PATH_MAX, _("%s: file list is missing"), ent->d_name);
-			ret = alpm_list_add(ret, strdup(text));
-		}
-	}
-	return(ret);
-}
-
 int _alpm_db_open(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
