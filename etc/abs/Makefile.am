@@ -1,6 +1,6 @@
 EXTRA_DIST = abs.conf \
-			 supfile.arch \
 			 supfile.community \
+			 supfile.core \
 			 supfile.extra \
 			 supfile.testing \
 			 supfile.unstable
