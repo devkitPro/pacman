@@ -3,7 +3,7 @@ CFLAGS=""
 
 AC_PREREQ(2.59)
 dnl Update it right before the release since $pkgver_foo are all _post_ release snapshots
-AC_INIT([Pacman package manager], 3.0.5, [pacman-dev@archlinux.org], [pacman])
+AC_INIT([Pacman package manager], 3.0.6, [pacman-dev@archlinux.org], [pacman])
 AC_LANG([C])
 AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_HOST
