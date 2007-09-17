@@ -22,6 +22,7 @@
 #
 import os, sys, datetime, time, socket, urllib2
 from optparse import OptionParser
+from string import Template
 
 def createOptParser():
     usage = "usage: %prog [options] MIRRORFILE | URL"
@@ -149,12 +150,15 @@ if __name__ == "__main__":
             print ' * ',
         sys.stdout.flush()
 
+        # if the $repo var is used in the url, replace it by core
+        tempUrl = Template(serverUrl).safe_substitute(repo='core')
+
         # add *.db.tar.gz to server name. the repo name is parsed
         # from the mirror url; it is the third (or fourth) dir
         # from the end, where the url is http://foo/bar/REPO/os/arch
         try:
-            splitted2 = serverUrl.split('/')
-            if serverUrl[-1] != '/':
+            splitted2 = tempUrl.split('/')
+            if tempUrl[-1] != '/':
                 repoName = splitted2[-3]
                 dbFileName = '/' + repoName + '.db.tar.gz'
             else:
@@ -164,7 +168,7 @@ if __name__ == "__main__":
             dbFileName = ''
 
         try:
-            serverToTime[serverUrl] = timeCmd(getFuncToTime(serverUrl + dbFileName))
+            serverToTime[serverUrl] = timeCmd(getFuncToTime(tempUrl + dbFileName))
             if options.verbose:
                 try:
                     print "%.2f" % serverToTime[serverUrl]
