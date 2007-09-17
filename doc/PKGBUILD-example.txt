@@ -1,0 +1,32 @@
+# $Id: PKGBUILD,v 1.16 2006/06/20 07:03:04 tpowa Exp $
+# Maintainer: judd <jvinet@zeroflux.org>
+pkgname=module-init-tools
+pkgver=3.2.2
+pkgrel=3
+pkgdesc="Utilities for inserting and removing modules from the Linux kernel"
+arch=(i686 x86_64)
+url="http://www.kernel.org"
+license=('GPL')
+depends=('glibc')
+conflicts=('modutils')
+replaces=('modutils')
+backup=('etc/modprobe.conf' 'etc/modules.conf' 'etc/modprobe.devfs')
+source=(http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/module-init-tools-$pkgver.tar.bz2 \
+        makefile.patch modprobe.conf)
+md5sums=('a1ad0a09d3231673f70d631f3f5040e9' '47e14fda7a46668290d11d0444d81826'\
+         '6db59d41e04941a790f80c1a4432faef')
+
+build() {
+  cd "$srcdir"/$pkgname-$pkgver
+
+  patch -Np1 -i ../makefile.patch || return 1
+  sed -i 's|/usr/bin/install|/bin/install|g' install-with-care
+
+  ./configure --prefix=/usr --exec-prefix=/
+  make || return 1
+
+  INSTALL=/bin/install make DESTDIR="$pkgdir" install
+  install -D -m644 ../modprobe.conf "$pkgdir"/etc/modprobe.conf
+}
+
+# vim:set ts=2 sw=2 et:
