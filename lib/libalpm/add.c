@@ -416,7 +416,7 @@ static int extract_single_file(struct archive *archive,
 							"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
 						entrymode & mask);
 				alpm_logaction("warning: directory permissions differ on %s\n"
-							"filesystem: %o  package: %o\n", entryname, lsbuf.st_mode & mask,
+							"filesystem: %o  package: %o", entryname, lsbuf.st_mode & mask,
 						entrymode & mask);
 			}
 			_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
@@ -659,7 +659,7 @@ static int extract_single_file(struct archive *archive,
 			int backup_len = strlen(oldbackup) + 34;
 
 			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
-				return(0);
+				continue;
 			}
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
 
