@@ -121,11 +121,15 @@ if __name__ == "__main__":
             print args[0], ':', "%.2f" % serverToTime
         sys.exit(0)
 
-    if not os.path.isfile(args[0]):
+    if not os.path.isfile(args[0]) and args[0] != "-":
         print >>sys.stderr, 'rankmirrors: file', args[0], 'does not exist.'
         sys.exit(1)
 
-    fl = open(args[0], 'r')
+    if args[0] == "-":
+        fl = sys.stdin
+    else:
+        fl = open(args[0], 'r')
+
     serverToTime = {}
     if options.times:
         print 'Querying servers, this may take some time...'
