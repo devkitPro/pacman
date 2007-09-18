@@ -56,7 +56,9 @@ Operations
 	Synchronize packages. Packages are installed directly from the ftp
 	servers, including all dependencies required to run the packages. For
 	example, `pacman -S qt` will download and install qt and all the
-	packages it depends on. You can also use `pacman -Su` to upgrade all
+	packages it depends on. If a package name exists in more than one repo, the
+	repo can be explicitly specified to clarify the package to install:
+	`pacman -S unstable/qt`. You can also use `pacman -Su` to upgrade all
 	packages that are out of date. See <<SO,Sync Options>> below.
 
 *-U, \--upgrade*::
@@ -186,9 +188,6 @@ Query Options[[QO]]
 *-u, \--upgrades*::
 	Lists all packages that are out of date on the local system. This option
 	works best if the sync database is refreshed using '-Sy'.
-
-*\--test*::
-	Run some brief checks looking at the consistency of the local database.
 
 
 Remove Options[[RO]]
