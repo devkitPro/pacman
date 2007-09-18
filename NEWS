@@ -1,12 +1,16 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
-3.0.5         - Add -mtune=generic to default CFLAGS in makepkg.conf
-              - Small updates to translations
+3.0.6         - config files updated to reflect current -> core change
+              - fix symlink overwriting issue (#7484)
+              - fix config parsing with tr_TR locale (#7235)
+              - use AC_SYS_LARGEFILE if available (#7578)
+3.0.5         - add -mtune=generic to default CFLAGS in makepkg.conf
+              - small updates to translations
               - repo-add: fix conflicts issue for real this time
-              - Fix issue with libarchive incorrectly setting permissions
-3.0.4         - Updated translations
+              - fix issue with libarchive incorrectly setting permissions
+3.0.4         - updated translations
               - repo-add: fix issue where conflicts were not put in database
-3.0.3         - Updated translations
+3.0.3         - updated translations
               - repo-add: fixed a desc file clobbering issue
 3.0.2         - fix a bug where pre/post_remove scriptlets were not ran
               - ensure ldconfig is ran in all operations
