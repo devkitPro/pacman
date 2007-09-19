@@ -236,13 +236,13 @@ const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 	return pkg->url;
 }
 
-const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
+time_t SYMEXPORT alpm_pkg_get_builddate(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(handle != NULL, return(0));
+	ASSERT(pkg != NULL, return(0));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
@@ -250,13 +250,13 @@ const char SYMEXPORT *alpm_pkg_get_builddate(pmpkg_t *pkg)
 	return pkg->builddate;
 }
 
-const char SYMEXPORT *alpm_pkg_get_installdate(pmpkg_t *pkg)
+time_t SYMEXPORT alpm_pkg_get_installdate(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(handle != NULL, return(0));
+	ASSERT(pkg != NULL, return(0));
 
 	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
@@ -840,7 +840,9 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "license")) {
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "builddate")) {
-				strncpy(info->builddate, ptr, sizeof(info->builddate));
+				info->builddate = atol(ptr);
+			} else if(!strcmp(key, "installdate")) {
+				info->installdate = atol(ptr);
 			} else if(!strcmp(key, "packager")) {
 				strncpy(info->packager, ptr, sizeof(info->packager));
 			} else if(!strcmp(key, "arch")) {

@@ -43,7 +43,8 @@
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
-	const char *bdate, *idate, *reason, *descheader;
+	const char *reason, *descheader;
+	time_t bdate, idate;
 
 	if(pkg == NULL) {
 		return;
@@ -85,9 +86,9 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
-	printf(_("Build Date     : %s %s\n"), bdate, strlen(bdate) ? "UTC" : "");
+	printf(_("Build Date     : %s"), ctime(&bdate)); /*ctime implicit newline */
 	if(level > 0) {
-		printf(_("Install Date   : %s %s\n"), idate, strlen(idate) ? "UTC" : "");
+		printf(_("Install Date   : %s"), ctime(&idate)); /*ctime implicit newline */
 		printf(_("Install Reason : %s\n"), reason);
 	}
 	printf(_("Install Script : %s\n"),

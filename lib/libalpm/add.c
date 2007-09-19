@@ -809,10 +809,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	_alpm_pkg_update_requiredby(newpkg);
 
 	/* make an install date (in UTC) */
-	time_t t = time(NULL);
-	strncpy(newpkg->installdate, asctime(gmtime(&t)), PKG_DATE_LEN);
-	/* remove the extra line feed appended by asctime() */
-	newpkg->installdate[strlen(newpkg->installdate)-1] = 0;
+	newpkg->installdate = time(NULL);
 
 	_alpm_log(PM_LOG_DEBUG, "updating database\n");
 	_alpm_log(PM_LOG_DEBUG, "adding database entry '%s'\n", newpkg->name);

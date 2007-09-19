@@ -29,6 +29,8 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <ctype.h>
+#include <time.h>
 #ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
 #endif
@@ -326,15 +328,35 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				_alpm_strtrim(info->arch);
 			} else if(!strcmp(line, "%BUILDDATE%")) {
-				if(fgets(info->builddate, sizeof(info->builddate), fp) == NULL) {
+				char tmp[32];
+				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->builddate);
+				_alpm_strtrim(tmp);
+
+				char first = tolower(tmp[0]);
+				if(first > 'a' && first < 'z') {
+					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					strptime(tmp, "%a %b %e %H:%M:%S %Y", &tmp_tm);
+					info->builddate = mktime(&tmp_tm);
+				} else {
+					info->builddate = atol(tmp);
+				}
 			} else if(!strcmp(line, "%INSTALLDATE%")) {
-				if(fgets(info->installdate, sizeof(info->installdate), fp) == NULL) {
+				char tmp[32];
+				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->installdate);
+				_alpm_strtrim(tmp);
+
+				char first = tolower(tmp[0]);
+				if(first > 'a' && first < 'z') {
+					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					strptime(tmp, "%a %b %e %H:%M:%S %Y", &tmp_tm);
+					info->installdate = mktime(&tmp_tm);
+				} else {
+					info->installdate = atol(tmp);
+				}
 			} else if(!strcmp(line, "%PACKAGER%")) {
 				if(fgets(info->packager, sizeof(info->packager), fp) == NULL) {
 					goto error;
@@ -546,13 +568,13 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%%ARCH%%\n"
 								"%s\n\n", info->arch);
 			}
-			if(info->builddate[0]) {
+			if(info->builddate) {
 				fprintf(fp, "%%BUILDDATE%%\n"
-								"%s\n\n", info->builddate);
+								"%lu\n\n", info->builddate);
 			}
-			if(info->installdate[0]) {
+			if(info->installdate) {
 				fprintf(fp, "%%INSTALLDATE%%\n"
-								"%s\n\n", info->installdate);
+								"%lu\n\n", info->installdate);
 			}
 			if(info->packager[0]) {
 				fprintf(fp, "%%PACKAGER%%\n"

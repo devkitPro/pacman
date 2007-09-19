@@ -767,7 +767,7 @@ create_package() {
 	cd "$pkgdir"
 	msg "$(gettext "Creating package...")"
 
-	local builddate=$(LC_ALL= LANG= date -u "+%a %b %e %H:%M:%S %Y")
+	local builddate=$(date -u "+%s")
 	if [ "$PACKAGER" != "" ]; then
 		local packager="$PACKAGER"
 	else
