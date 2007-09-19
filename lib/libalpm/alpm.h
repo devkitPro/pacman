@@ -193,7 +193,6 @@ const char *alpm_pkg_get_version(pmpkg_t *pkg);
 const char *alpm_pkg_get_desc(pmpkg_t *pkg);
 const char *alpm_pkg_get_url(pmpkg_t *pkg);
 time_t alpm_pkg_get_builddate(pmpkg_t *pkg);
-const char *alpm_pkg_get_buildtype(pmpkg_t *pkg);
 time_t alpm_pkg_get_installdate(pmpkg_t *pkg);
 const char *alpm_pkg_get_packager(pmpkg_t *pkg);
 const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
