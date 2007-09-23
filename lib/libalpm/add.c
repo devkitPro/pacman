@@ -295,17 +295,25 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 	tr->skip_remove = alpm_list_strdup(trans->skip_remove);
 	const alpm_list_t *b;
 
-	/* Add files in the NEW package's backup array to the noupgrade array
+	/* Add files in the OLD and NEW backup array to the NoUpgrade array
 	 * so this removal operation doesn't kill them */
-	/* TODO if we add here, all backup=() entries for all targets, new and
-	 * old, we cover all bases, including backup=() locations changing hands.
-	 * But is this viable? */
 	alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
-	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
+	/* old package backup list */
+	for(b = alpm_pkg_get_backup(oldpkg); b; b = b->next) {
 		const char *backup = b->data;
 		_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
 				backup);
 		handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
+	}
+	/* new package backup list */
+	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
+		const char *backup = b->data;
+		/* make sure we don't add duplicate entries */
+		if(!alpm_list_find(handle->noupgrade, backup)) {
+			_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
+					backup);
+			handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
+		}
 	}
 
 	int ret = _alpm_remove_commit(tr, db);

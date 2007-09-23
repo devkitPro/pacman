@@ -200,7 +200,8 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 	if(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
 		/* check noupgrade */
 		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
-			_alpm_log(PM_LOG_DEBUG, "Skipping removal of '%s' due to NoUpgrade\n", file);
+			_alpm_log(PM_LOG_DEBUG, "Skipping removal of '%s' due to NoUpgrade\n",
+					file);
 			return;
 		}
 	}
@@ -212,7 +213,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 	
 	if(S_ISDIR(buf.st_mode)) {
 		if(rmdir(file)) {
-			/* this is okay, other pakcages are probably using it (like /usr) */
+			/* this is okay, other packages are probably using it (like /usr) */
 			_alpm_log(PM_LOG_DEBUG, "keeping directory %s\n", file);
 		} else {
 			_alpm_log(PM_LOG_DEBUG, "removing directory %s\n", file);
@@ -222,22 +223,19 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		 * see the big comment block in db_find_conflicts() for an
 		 * explanation. */
 		if(alpm_list_find_str(trans->skip_remove, file)) {
-			_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_remove, skipping removal\n", file);
+			_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_remove, skipping removal\n",
+					file);
 			return;
 		} else if(needbackup) {
 			/* if the file is flagged, back it up to .pacsave */
-			if(!(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE)) {
-				/* if it was an upgrade, the file would be left alone because
-				 * pacman_add() would handle it */
-				if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
-					char newpath[PATH_MAX];
-					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
-					rename(file, newpath);
-					_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
-					return;
-				} else {
-					_alpm_log(PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
-				}
+			if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
+				char newpath[PATH_MAX];
+				snprintf(newpath, PATH_MAX, "%s.pacsave", file);
+				rename(file, newpath);
+				_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
+				return;
+			} else {
+				_alpm_log(PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
 			}
 		}
 		_alpm_log(PM_LOG_DEBUG, "unlinking %s\n", file);

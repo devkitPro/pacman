@@ -15,3 +15,4 @@ self.addrule("PKG_VERSION=dummy|1.1-1")
 self.addrule("!FILE_MODIFIED=etc/dummy.conf")
 # Do we want this pacnew or not?
 self.addrule("FILE_PACNEW=etc/dummy.conf")
+self.addrule("!FILE_PACSAVE=etc/dummy.conf")
