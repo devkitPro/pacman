@@ -852,40 +852,39 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 								info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
 			_alpm_strtrim(key);
-			key = _alpm_strtoupper(key);
 			_alpm_strtrim(ptr);
-			if(!strcmp(key, "PKGNAME")) {
+			if(!strcmp(key, "pkgname")) {
 				strncpy(info->name, ptr, sizeof(info->name));
-			} else if(!strcmp(key, "PKGVER")) {
+			} else if(!strcmp(key, "pkgver")) {
 				strncpy(info->version, ptr, sizeof(info->version));
-			} else if(!strcmp(key, "PKGDESC")) {
+			} else if(!strcmp(key, "pkgdesc")) {
 				strncpy(info->desc, ptr, sizeof(info->desc));
-			} else if(!strcmp(key, "GROUP")) {
+			} else if(!strcmp(key, "group")) {
 				info->groups = alpm_list_add(info->groups, strdup(ptr));
-			} else if(!strcmp(key, "URL")) {
+			} else if(!strcmp(key, "url")) {
 				strncpy(info->url, ptr, sizeof(info->url));
-			} else if(!strcmp(key, "LICENSE")) {
+			} else if(!strcmp(key, "license")) {
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
-			} else if(!strcmp(key, "BUILDDATE")) {
+			} else if(!strcmp(key, "builddate")) {
 				strncpy(info->builddate, ptr, sizeof(info->builddate));
-			} else if(!strcmp(key, "INSTALLDATE")) {
+			} else if(!strcmp(key, "installdate")) {
 				strncpy(info->installdate, ptr, sizeof(info->installdate));
-			} else if(!strcmp(key, "PACKAGER")) {
+			} else if(!strcmp(key, "packager")) {
 				strncpy(info->packager, ptr, sizeof(info->packager));
-			} else if(!strcmp(key, "ARCH")) {
+			} else if(!strcmp(key, "arch")) {
 				strncpy(info->arch, ptr, sizeof(info->arch));
-			} else if(!strcmp(key, "SIZE")) {
+			} else if(!strcmp(key, "size")) {
 				/* size in the raw package is uncompressed (installed) size */
 				info->isize = atol(ptr);
-			} else if(!strcmp(key, "DEPEND")) {
+			} else if(!strcmp(key, "depend")) {
 				info->depends = alpm_list_add(info->depends, strdup(ptr));
-			} else if(!strcmp(key, "CONFLICT")) {
+			} else if(!strcmp(key, "conflict")) {
 				info->conflicts = alpm_list_add(info->conflicts, strdup(ptr));
-			} else if(!strcmp(key, "REPLACES")) {
+			} else if(!strcmp(key, "replaces")) {
 				info->replaces = alpm_list_add(info->replaces, strdup(ptr));
-			} else if(!strcmp(key, "PROVIDES")) {
+			} else if(!strcmp(key, "provides")) {
 				info->provides = alpm_list_add(info->provides, strdup(ptr));
-			} else if(!strcmp(key, "BACKUP")) {
+			} else if(!strcmp(key, "backup")) {
 				info->backup = alpm_list_add(info->backup, strdup(ptr));
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
