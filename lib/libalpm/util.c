@@ -251,19 +251,6 @@ int _alpm_copyfile(const char *src, const char *dest)
 	return(0);
 }
 
-/* Convert a string to uppercase
-*/
-char *_alpm_strtoupper(char *str)
-{
-	char *ptr = str;
-
-	while(*ptr) {
-		(*ptr) = toupper(*ptr);
-		ptr++;
-	}
-	return(str);
-}
-
 /* Trim whitespace and newlines from a string
 */
 char *_alpm_strtrim(char *str)

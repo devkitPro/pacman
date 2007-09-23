@@ -867,8 +867,6 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "builddate")) {
 				strncpy(info->builddate, ptr, sizeof(info->builddate));
-			} else if(!strcmp(key, "installdate")) {
-				strncpy(info->installdate, ptr, sizeof(info->installdate));
 			} else if(!strcmp(key, "packager")) {
 				strncpy(info->packager, ptr, sizeof(info->packager));
 			} else if(!strcmp(key, "arch")) {
