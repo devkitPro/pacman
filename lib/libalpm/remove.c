@@ -180,24 +180,14 @@ static int can_remove_file(pmtrans_t *trans, const char *path)
 }
 
 /* Helper function for iterating through a package's file and deleting them
- * Used by _alpm_remove_commit
- *
- * TODO the parameters are a bit out of control here.  This function doesn't
- * need to report PROGRESS, do it in the parent function.
-*/
-static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
-												pmtrans_t *trans, int filenum, int *position)
+ * Used by _alpm_remove_commit. */
+static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 {
 	struct stat buf;
 	int needbackup = 0;
-	double percent = 0.0;
 	char file[PATH_MAX+1];
 
 	ALPM_LOG_FUNC;
-
-	if(*position != 0) {
-		percent = (double)*position / filenum;
-	}
 
 	char *hash = _alpm_needbackup(lp->data, alpm_pkg_get_backup(info));
 	if(hash) {
@@ -251,10 +241,6 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, alpm_list_t *targ,
 			}
 		}
 		_alpm_log(PM_LOG_DEBUG, "unlinking %s\n", file);
-		int list_count = alpm_list_count(trans->packages); /* this way we don't have to call alpm_list_count twice during PROGRESS */
-
-		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, (double)(percent * 100), list_count, (list_count - alpm_list_count(targ) + 1));
-		++(*position);
 
 		if(unlink(file) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s\n"), lp->data, strerror(errno));
@@ -266,11 +252,14 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info, *infodup;
 	alpm_list_t *targ, *lp;
+	int pkg_count;
 
 	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+
+	pkg_count = alpm_list_count(trans->packages);
 
 	for(targ = trans->packages; targ; targ = targ->next) {
 		int position = 0;
@@ -312,18 +301,25 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 
 			int filenum = alpm_list_count(files);
+			double percent = 0.0;
 			_alpm_log(PM_LOG_DEBUG, "removing %d files\n", filenum);
 
 			/* iterate through the list backwards, unlinking files */
 			for(lp = alpm_list_last(files); lp; lp = lp->prev) {
-				unlink_file(info, lp, targ, trans, filenum, &position);
+				unlink_file(info, lp, trans);
+
+				/* update progress bar after each file */
+				percent = (double)position / (double)filenum;
+				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name,
+						(double)(percent * 100), pkg_count,
+						(pkg_count - alpm_list_count(targ) + 1));
+				position++;
 			}
 		}
 
 		/* set progress to 100% after we finish unlinking files */
 		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
-		         alpm_list_count(trans->packages),
-		         (alpm_list_count(trans->packages) - alpm_list_count(targ) +1));
+		         pkg_count, (pkg_count - alpm_list_count(targ) + 1));
 
 		if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 			/* run the post-remove script if it exists  */
