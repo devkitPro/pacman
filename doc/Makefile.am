@@ -1,3 +1,8 @@
+# We have to do some funny stuff here with the manpages. In order to ensure
+# a dist tarball doesn't get put out there without manpages, we keep those
+# files listed in EXTRA_DIST no matter what. However, we only add them to
+# man_MANS if --enable-asciidoc was used.
+
 ASCIIDOC_MANS = \
 	pacman.8 \
 	makepkg.8 \
@@ -11,7 +16,11 @@ if USE_DOXYGEN
 DOXYGEN_MANS = $(wildcard man3/*.3)
 endif
 
+if USE_ASCIIDOC
 man_MANS = $(ASCIIDOC_MANS) $(DOXYGEN_MANS)
+else
+man_MANS = $(DOXYGEN_MANS)
+endif
 
 EXTRA_DIST = \
 	pacman.8.txt \
