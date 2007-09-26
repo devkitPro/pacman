@@ -113,7 +113,7 @@ static void usage(int op, char *myname)
 			printf(_("  -d, --deps           list all packages installed as dependencies\n"));
 			printf(_("  -e, --explicit       list all packages explicitly installed\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
-			printf(_("  -i, --info           view package information\n"));
+			printf(_("  -i, --info           view package information (-ii for backup files)\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
 			printf(_("  -m, --foreign        list installed packages not found in sync db(s)\n"));
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
