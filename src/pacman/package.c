@@ -75,6 +75,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
+	list_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
 	/* Only applicable if installed */
 	if(level > 0) {
 		list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));

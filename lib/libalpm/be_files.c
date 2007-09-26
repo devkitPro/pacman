@@ -388,6 +388,10 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->depends = alpm_list_add(info->depends, strdup(line));
 				}
+			} else if(!strcmp(line, "%OPTDEPENDS%")) {
+				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
+					info->optdepends = alpm_list_add(info->optdepends, strdup(line));
+				}
 			} else if(!strcmp(line, "%REQUIREDBY%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->requiredby = alpm_list_add(info->requiredby, strdup(line));
@@ -583,6 +587,13 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->depends) {
 			fputs("%DEPENDS%\n", fp);
 			for(lp = info->depends; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+		if(info->optdepends) {
+			fputs("%OPTDEPENDS%\n", fp);
+			for(lp = info->optdepends; lp; lp = lp->next) {
 				fprintf(fp, "%s\n", (char *)lp->data);
 			}
 			fprintf(fp, "\n");

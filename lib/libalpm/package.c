@@ -417,7 +417,6 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 	return pkg->groups;
 }
 
-/* depends */
 alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -430,6 +429,20 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
 	}
 	return pkg->depends;
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_optdepends(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
+		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
+	}
+	return pkg->optdepends;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
@@ -721,6 +734,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
 	newpkg->depends    = alpm_list_strdup(alpm_pkg_get_depends(pkg));
+	newpkg->optdepends = alpm_list_strdup(alpm_pkg_get_optdepends(pkg));
 	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
 	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
 	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
@@ -746,6 +760,7 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREELIST(pkg->files);
 	FREELIST(pkg->backup);
 	FREELIST(pkg->depends);
+	FREELIST(pkg->optdepends);
 	FREELIST(pkg->conflicts);
 	FREELIST(pkg->requiredby);
 	FREELIST(pkg->groups);
@@ -876,6 +891,8 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				info->isize = atol(ptr);
 			} else if(!strcmp(key, "depend")) {
 				info->depends = alpm_list_add(info->depends, strdup(ptr));
+			} else if(!strcmp(key, "optdepend")) {
+				info->optdepends = alpm_list_add(info->optdepends, strdup(ptr));
 			} else if(!strcmp(key, "conflict")) {
 				info->conflicts = alpm_list_add(info->conflicts, strdup(ptr));
 			} else if(!strcmp(key, "replaces")) {

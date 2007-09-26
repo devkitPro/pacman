@@ -815,6 +815,9 @@ create_package() {
 	for it in "${depends[@]}"; do
 		echo "depend = $it" >>.PKGINFO
 	done
+	for it in "${optdepends[@]}"; do
+		echo "optdepend = $it" >>.PKGINFO
+	done
 	for it in "${conflicts[@]}"; do
 		echo "conflict = $it" >>.PKGINFO
 	done
@@ -1177,7 +1180,7 @@ fi
 
 unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums force
 unset replaces depends conflicts backup source install build makedepends
-unset options noextract
+unset optdepends options noextract
 
 if [ ! -f "$BUILDSCRIPT" ]; then
 	error "$(gettext "%s does not exist.")" "$BUILDSCRIPT"

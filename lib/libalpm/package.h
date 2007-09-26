@@ -71,6 +71,7 @@ struct __pmpkg_t {
 	alpm_list_t *files;
 	alpm_list_t *backup;
 	alpm_list_t *depends;
+	alpm_list_t *optdepends;
 	alpm_list_t *requiredby;
 	alpm_list_t *conflicts;
 	alpm_list_t *provides;
