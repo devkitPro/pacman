@@ -41,6 +41,7 @@
 #include "conf.h"
 
 extern config_t *config;
+extern pmdb_t *db_local;
 
 static int sync_cleancache(int level)
 {
@@ -50,14 +51,62 @@ static int sync_cleancache(int level)
 
 	if(level == 1) {
 		/* incomplete cleanup */
-		printf(_("Partial cache cleaning functionality in pacman needs a lot of work.\n"
-					"For now it is recommended to use one of the many external tools, such\n"
-					"as a python script, to do so.\n"));
-		return(1);
+		DIR *dir;
+		struct dirent *ent;
+		/* Let's vastly improve the way this is done. Before, we went by package
+		 * name. Instead, let's only keep packages we have installed. Open up each
+		 * package and see if it has an entry in the local DB; if not, delete it.
+		 */
+		printf(_("Cache directory: %s\n"), cachedir);
+		if(!yesno(_("Do you want to remove non-installed packages from cache? [Y/n] "))) {
+			return(0);
+		}
+		printf(_("removing old packages from cache... "));
+
+		dir = opendir(cachedir);
+		if(dir == NULL) {
+			fprintf(stderr, _("error: could not access cache directory\n"));
+			return(1);
+		}
+
+		rewinddir(dir);
+		/* step through the directory one file at a time */
+		while((ent = readdir(dir)) != NULL) {
+			char path[PATH_MAX];
+			pmpkg_t *localpkg = NULL, *dbpkg = NULL;
+
+			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+				continue;
+			}
+			/* build the full filepath */
+			snprintf(path, PATH_MAX, "%s/%s", cachedir, ent->d_name);
+
+			/* attempt to load the package, skip file on failures as we may have
+			 * files here that aren't valid packages */
+			if(alpm_pkg_load(path, &localpkg) != 0 || localpkg == NULL) {
+				continue;
+			}
+			/* check if this package is in the local DB */
+			dbpkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(localpkg));
+			if(dbpkg == NULL) {
+				/* delete package, not present in local DB */
+				unlink(path);
+			} else if(alpm_pkg_vercmp(alpm_pkg_get_version(localpkg),
+							alpm_pkg_get_version(dbpkg)) != 0) {
+				/* delete package, it was found but version differs */
+				unlink(path);
+			}
+			/* else version was the same, so keep the package */
+			/* free the local file package */
+			alpm_pkg_free(localpkg);
+		}
+		printf(_("done.\n"));
 	} else {
 		/* full cleanup */
-		if(!yesno(_("Do you want to remove all packages from cache? [Y/n] ")))
+		printf(_("Cache directory: %s\n"), cachedir);
+		if(!yesno(_("Do you want to remove ALL packages from cache? [Y/n] "))) {
 			return(0);
+		}
 		printf(_("removing all packages from cache... "));
 
 		if(rmrf(cachedir)) {
