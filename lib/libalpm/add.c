@@ -65,7 +65,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	_alpm_log(PM_LOG_DEBUG, "loading target '%s'\n", name);
 
-	if(alpm_pkg_load(name, &pkg) != 0) {
+	if(alpm_pkg_load(name, 1, &pkg) != 0) {
 		goto error;
 	}
 	pkgname = alpm_pkg_get_name(pkg);
@@ -97,7 +97,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 				pmpkg_t *newpkg;
 				_alpm_log(PM_LOG_WARNING, _("replacing older version %s-%s by %s in target list\n"),
 				          pkg->name, pkg->version, pkgver);
-				if((newpkg = _alpm_pkg_load(name)) == NULL) {
+				if((newpkg = _alpm_pkg_load(name, 1)) == NULL) {
 					/* pm_errno is already set by pkg_load() */
 					goto error;
 				}

@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     /* let us get log messages from libalpm */
 	alpm_option_set_logcb(output_cb);
 
-	if(alpm_pkg_load(argv[1], &pkg) == -1 || pkg == NULL) {
+	if(alpm_pkg_load(argv[1], 1, &pkg) == -1 || pkg == NULL) {
         retval = 1;
 	} else {
 		alpm_pkg_free(pkg);

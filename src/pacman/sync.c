@@ -82,8 +82,9 @@ static int sync_cleancache(int level)
 			snprintf(path, PATH_MAX, "%s/%s", cachedir, ent->d_name);
 
 			/* attempt to load the package, skip file on failures as we may have
-			 * files here that aren't valid packages */
-			if(alpm_pkg_load(path, &localpkg) != 0 || localpkg == NULL) {
+			 * files here that aren't valid packages. we also don't need a full
+			 * load of the package, just the metadata. */
+			if(alpm_pkg_load(path, 0, &localpkg) != 0 || localpkg == NULL) {
 				continue;
 			}
 			/* check if this package is in the local DB */

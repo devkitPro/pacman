@@ -57,10 +57,13 @@
 
 /** Create a package from a file.
  * @param filename location of the package tarball
+ * @param full whether to stop the load after metadata is read or continue
+ *             through the full archive
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_pkg_load(const char *filename, pmpkg_t **pkg)
+int SYMEXPORT alpm_pkg_load(const char *filename, unsigned short full,
+		pmpkg_t **pkg)
 {
 	_alpm_log(PM_LOG_FUNCTION, "enter alpm_pkg_load\n");
 
@@ -69,7 +72,7 @@ int SYMEXPORT alpm_pkg_load(const char *filename, pmpkg_t **pkg)
 			RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	*pkg = _alpm_pkg_load(filename);
+	*pkg = _alpm_pkg_load(filename, full);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
 		return(-1);
@@ -870,13 +873,19 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 	return(0);
 }
 
-pmpkg_t *_alpm_pkg_load(const char *pkgfile)
+
+/**
+ * Load a package and create the corresponding pmpkg_t struct.
+ * @param pkgfile path to the package file
+ * @param full whether to stop the load after metadata is read or continue
+ *             through the full archive
+ * @return An information filled pmpkg_t struct
+ */
+pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 {
-	char *expath;
 	int ret = ARCHIVE_OK;
 	int config = 0;
 	int filelist = 0;
-	int scriptcheck = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	pmpkg_t *info = NULL;
@@ -920,9 +929,9 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 	 * requires changes 'parse_descfile' as well
 	 * */
 
-	/* Read through the entire archive for metadata.  We will continue reading
-	 * even if all metadata is found, to verify the integrity of the archive in
-	 * full */
+	/* If full is false, only read through the archive until we find our needed
+	 * metadata. If it is true, read through the entire archive, which serves
+	 * as a verfication of integrity. */
 	while((ret = archive_read_next_header (archive, &entry)) == ARCHIVE_OK) {
 		const char *entry_name = archive_entry_pathname(entry);
 
@@ -951,7 +960,6 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			continue;
 		} else if(strcmp(entry_name,  ".INSTALL") == 0) {
 			info->scriptlet = 1;
-			scriptcheck = 1;
 		} else if(strcmp(entry_name, ".FILELIST") == 0) {
 			/* Build info->files from the filelist */
 			FILE *fp;
@@ -983,10 +991,9 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			filelist = 1;
 			continue;
 		} else if(*entry_name == '.') {
-					/* for now, ignore all files starting with '.' that haven't
-					 * already been handled (for future possibilities) */
+			/* for now, ignore all files starting with '.' that haven't
+			 * already been handled (for future possibilities) */
 		} else {
-			scriptcheck = 1;
 			/* Keep track of all files so we can generate a filelist later if missing */
 			all_files = alpm_list_add(all_files, strdup(entry_name));
 		}
@@ -996,9 +1003,14 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile)
 			pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 			goto error;
 		}
-		expath = NULL;
+
+		/* if we are not doing a full read, see if we have all we need */
+		if(!full && config && filelist) {
+			break;
+		}
 	}
-	if(ret != ARCHIVE_EOF) { /* An error occured */
+
+	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
 		_alpm_log(PM_LOG_ERROR, _("error while reading package: %s\n"), archive_error_string(archive));
 		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 		goto error;

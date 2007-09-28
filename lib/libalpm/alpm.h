@@ -180,7 +180,7 @@ typedef enum _pmpkgreason_t {
 	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
 } pmpkgreason_t;
 
-int alpm_pkg_load(const char *filename, pmpkg_t **pkg);
+int alpm_pkg_load(const char *filename, unsigned short full, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(const char *url);

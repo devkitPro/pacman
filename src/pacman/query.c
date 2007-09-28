@@ -369,7 +369,7 @@ int pacman_query(alpm_list_t *targets)
 		pmpkg_t *pkg = NULL;
 
 		if(config->op_q_isfile) {
-			alpm_pkg_load(strname, &pkg);
+			alpm_pkg_load(strname, 1, &pkg);
 		} else {
 			pkg = alpm_db_get_pkg(db_local, strname);
 		}
