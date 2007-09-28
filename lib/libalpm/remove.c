@@ -241,7 +241,8 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		_alpm_log(PM_LOG_DEBUG, "unlinking %s\n", file);
 
 		if(unlink(file) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("cannot remove file %s: %s\n"), lp->data, strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
+								lp->data, strerror(errno));
 		}
 	}
 }
