@@ -25,7 +25,7 @@
 
 #ifdef PACMAN_DEBUG
 /* Log funtion entry points if debugging is enabled */
-#define ALPM_LOG_FUNC _alpm_log(PM_LOG_FUNCTION, "Enter %s", __func__)
+#define ALPM_LOG_FUNC _alpm_log(PM_LOG_FUNCTION, "Enter %s\n", __func__)
 #else
 #define ALPM_LOG_FUNC
 #endif
