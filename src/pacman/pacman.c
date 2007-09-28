@@ -539,7 +539,7 @@ static int _parseconfig(const char *file, const char *givensection,
 					config->usecolor = 1;
 					pm_printf(PM_LOG_DEBUG, "config: usecolor\n");
 				} else if(strcmp(key, "ShowSize") == 0 || strcmp(upperkey, "SHOWSIZE") == 0) {
-					config->showsize= 1;
+					config->showsize = 1;
 					pm_printf(PM_LOG_DEBUG, "config: showsize\n");
 				} else {
 					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
