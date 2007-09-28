@@ -532,8 +532,7 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 	eta_s -= eta_m * 60;
 
 	fname = strdup(filename);
-	/* strip extension if it's there
-	 * NOTE: in the case of package files, only the pkgname is sent now */
+	/* strip package or DB extension for cleaner look */
 	if((p = strstr(fname, PKGEXT)) || (p = strstr(fname, DBEXT))) {
 			*p = '\0';
 	}

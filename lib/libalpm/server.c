@@ -193,8 +193,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				return(-1);
 			}
 
-			/* use the raw filename for download progress */
-			/* TODO maybe strip the normal pkg.tar.gz extension? */
+			/* pass the raw filename for passing to the callback function */
 			strncpy(pkgname, fn, PKG_NAME_LEN);
 			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", pkgname);
 
