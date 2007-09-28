@@ -38,6 +38,7 @@
 #define _(str) str
 #endif
 
+int needs_transaction();
 int getcols();
 int makepath(const char *path);
 int rmrf(const char *path);

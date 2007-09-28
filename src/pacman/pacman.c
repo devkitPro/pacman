@@ -775,21 +775,9 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
-	if(myuid > 0) {
-		if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
-			if((config->op == PM_OP_SYNC && !config->op_s_sync &&
-					(config->op_s_search || config->group || config->op_q_list || config->op_q_info
-					 || config->flags & PM_TRANS_FLAG_PRINTURIS))
-				 || config->op == PM_OP_DEPTEST
-				 || (strcmp(alpm_option_get_root(), "/") != 0)) {
-				/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
-				/* special case: ignore root user check if -r is specified, fall back on
-				 * normal FS checking */
-			} else {
-				pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
-				cleanup(EXIT_FAILURE);
-			}
-		}
+	if(myuid > 0 && needs_transaction()) {
+		pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
+		cleanup(EXIT_FAILURE);
 	}
 #endif
 
