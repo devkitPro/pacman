@@ -407,28 +407,6 @@ int pacman_sync(alpm_list_t *targets)
 		return(1);
 	}
 
-	/* First: operations that do not require targets */
-
-	/* search for a package */
-	if(config->op_s_search) {
-		return(sync_search(sync_dbs, targets));
-	}
-
-	/* look for groups */
-	if(config->group) {
-		return(sync_group(config->group, sync_dbs, targets));
-	}
-
-	/* get package info */
-	if(config->op_s_info) {
-		return(sync_info(sync_dbs, targets));
-	}
-
-	/* get a listing of files in sync DBs */
-	if(config->op_q_list) {
-		return(sync_list(sync_dbs, targets));
-	}
-
 	/* don't proceed here unless we have an operation that doesn't require
 	 * a target list */
 	if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade)) {
@@ -437,8 +415,9 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	/* Step 1: create a new transaction... */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
-				cb_trans_conv, cb_trans_progress) == -1) {
+	if(needs_transaction() &&
+		 alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
+		 cb_trans_conv, cb_trans_progress) == -1) {
 		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
 		        alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
@@ -456,6 +435,30 @@ int pacman_sync(alpm_list_t *targets)
 			fprintf(stderr, _("error: failed to synchronize any databases\n"));
 			return(1);
 		}
+	}
+
+	/* search for a package */
+	if(config->op_s_search) {
+		retval = sync_search(sync_dbs, targets);
+		goto cleanup;
+	}
+
+	/* look for groups */
+	if(config->group) {
+		retval = sync_group(config->group, sync_dbs, targets);
+		goto cleanup;
+	}
+
+	/* get package info */
+	if(config->op_s_info) {
+		retval = sync_info(sync_dbs, targets);
+		goto cleanup;
+	}
+
+	/* get a listing of files in sync DBs */
+	if(config->op_q_list) {
+		retval = sync_list(sync_dbs, targets);
+		goto cleanup;
 	}
 
 	if(config->op_s_upgrade) {
