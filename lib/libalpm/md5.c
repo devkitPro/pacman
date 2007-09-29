@@ -73,7 +73,7 @@
 /*
  * MD5 context setup
  */
-void md5_starts( md5_context *ctx )
+static inline void md5_starts( md5_context *ctx )
 {
     ctx->total[0] = 0;
     ctx->total[1] = 0;
@@ -84,7 +84,7 @@ void md5_starts( md5_context *ctx )
     ctx->state[3] = 0x10325476;
 }
 
-static void md5_process( md5_context *ctx, unsigned char data[64] )
+static inline void md5_process( md5_context *ctx, unsigned char data[64] )
 {
     unsigned long X[16], A, B, C, D;
 
@@ -210,7 +210,7 @@ static void md5_process( md5_context *ctx, unsigned char data[64] )
 /*
  * MD5 process buffer
  */
-void md5_update( md5_context *ctx, unsigned char *input, int ilen )
+static inline void md5_update( md5_context *ctx, unsigned char *input, int ilen )
 {
     int fill;
     unsigned long left;
@@ -251,7 +251,7 @@ void md5_update( md5_context *ctx, unsigned char *input, int ilen )
     }
 }
 
-static const unsigned char md5_padding[64] =
+static unsigned char md5_padding[64] =
 {
  0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -262,7 +262,7 @@ static const unsigned char md5_padding[64] =
 /*
  * MD5 final digest
  */
-void md5_finish( md5_context *ctx, unsigned char *output )
+static inline void md5_finish( md5_context *ctx, unsigned char *output )
 {
     unsigned long last, padn;
     unsigned long high, low;
