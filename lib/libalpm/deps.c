@@ -224,6 +224,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 	}
 
 	alpm_list_free_inner(vertices, _alpm_graph_free);
+	alpm_list_free(vertices);
 
 	return(newtargs);
 }
