@@ -86,6 +86,11 @@ if [ "$1" != "" ]; then
 	dbroot="$1"
 fi
 
+# make sure diff is installed
+if ! type diff >/dev/null 2>&1; then
+	die "$(gettext "diff tool was not found, please install diffutils.")"
+fi
+
 # make sure pacman isn't running
 if [ -f "$lockfile" ]; then
 	die "$(gettext "Pacman lock file was found. Cannot run while pacman is running.")"
