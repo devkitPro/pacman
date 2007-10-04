@@ -877,7 +877,7 @@ create_xdelta() {
 
 	local old_file old_version
 	for old_file in $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-*{,-$CARCH}$PKGEXT 2>/dev/null); do
-		bsdtar -xOf "$oldfile" .PKGINFO > "$pkginfo" || continue
+		bsdtar -xOf "$old_file" .PKGINFO > "$pkginfo" || continue
 		if [ "$(cat "$pkginfo" | grep '^pkgname = ')" != "pkgname = $pkgname" ]; then
 			continue # Package name does not match.
 		elif [ "$(cat "$pkginfo" | grep '^arch = ')" != "arch = $CARCH" ] ; then
