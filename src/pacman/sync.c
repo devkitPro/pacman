@@ -414,7 +414,8 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 		alpm_logaction("synchronizing package lists");
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
 			fprintf(stderr, _("error: failed to synchronize any databases\n"));
-			return(1);
+			retval = 1;
+			goto cleanup;
 		}
 		if(sync_only) {
 			goto cleanup;
