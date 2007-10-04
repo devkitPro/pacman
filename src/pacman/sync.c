@@ -390,33 +390,14 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	return(0);
 }
 
-int pacman_sync(alpm_list_t *targets)
+int sync_trans(alpm_list_t *targets, int sync_only)
 {
 	int retval = 0;
-	alpm_list_t *sync_dbs = NULL;
-
-	/* clean the cache */
-	if(config->op_s_clean) {
-		return(sync_cleancache(config->op_s_clean));
-	}
-
-	/* ensure we have at least one valid sync db set up */
-	sync_dbs = alpm_option_get_syncdbs();
-	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
-		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
-		return(1);
-	}
-
-	/* don't proceed here unless we have an operation that doesn't require
-	 * a target list */
-	if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade)) {
-		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return(1);
-	}
+	alpm_list_t *data = NULL;
+	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 
 	/* Step 1: create a new transaction... */
-	if(needs_transaction() &&
-		 alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
 		 cb_trans_conv, cb_trans_progress) == -1) {
 		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
 		        alpm_strerrorlast());
@@ -435,30 +416,9 @@ int pacman_sync(alpm_list_t *targets)
 			fprintf(stderr, _("error: failed to synchronize any databases\n"));
 			return(1);
 		}
-	}
-
-	/* search for a package */
-	if(config->op_s_search) {
-		retval = sync_search(sync_dbs, targets);
-		goto cleanup;
-	}
-
-	/* look for groups */
-	if(config->group) {
-		retval = sync_group(config->group, sync_dbs, targets);
-		goto cleanup;
-	}
-
-	/* get package info */
-	if(config->op_s_info) {
-		retval = sync_info(sync_dbs, targets);
-		goto cleanup;
-	}
-
-	/* get a listing of files in sync DBs */
-	if(config->op_q_list) {
-		retval = sync_list(sync_dbs, targets);
-		goto cleanup;
+		if(sync_only) {
+			goto cleanup;
+		}
 	}
 
 	if(config->op_s_upgrade) {
@@ -535,7 +495,7 @@ int pacman_sync(alpm_list_t *targets)
 				}
 				/* target not found: check if it's a group */
 
-				for(j = alpm_option_get_syncdbs(); j; j = alpm_list_next(j)) {
+				for(j = sync_dbs; j; j = alpm_list_next(j)) {
 					pmdb_t *db = alpm_list_getdata(j);
 					grp = alpm_db_readgrp(db, targ);
 					if(grp) {
@@ -565,7 +525,7 @@ int pacman_sync(alpm_list_t *targets)
 				if(!found) {
 					/* targ not found in sync db, searching for providers... */
 					const char *pname = NULL;
-					for(j = alpm_option_get_syncdbs(); j; j = alpm_list_next(j)) {
+					for(j = sync_dbs; j; j = alpm_list_next(j)) {
 						pmdb_t *db = alpm_list_getdata(j);
 						alpm_list_t *prov = alpm_db_whatprovides(db, targ);
 						if(prov) {
@@ -588,7 +548,6 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	/* Step 2: "compute" the transaction based on targets and flags */
-	alpm_list_t *data;
 	if(alpm_trans_prepare(&data) == -1) {
 		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
 		        alpm_strerrorlast());
@@ -714,6 +673,62 @@ cleanup:
 	}
 
 	return(retval);
+}
+
+int pacman_sync(alpm_list_t *targets)
+{
+	alpm_list_t *sync_dbs = NULL;
+	int sync_only = 0;
+
+	/* clean the cache */
+	if(config->op_s_clean) {
+		return(sync_cleancache(config->op_s_clean));
+	}
+
+	/* ensure we have at least one valid sync db set up */
+	sync_dbs = alpm_option_get_syncdbs();
+	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
+		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
+		return(1);
+	}
+
+	if(config->op_s_search || config->group
+			|| config->op_s_info || config->op_q_list) {
+		sync_only = 1;
+	} else if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade)) {
+		/* don't proceed here unless we have an operation that doesn't require
+		 * a target list */
+		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		return(1);
+	}
+
+	if(needs_transaction()) {
+		if(sync_trans(targets, sync_only) == 1) {
+			return(1);
+		}
+	}
+
+	/* search for a package */
+	if(config->op_s_search) {
+		return(sync_search(sync_dbs, targets));
+	}
+
+	/* look for groups */
+	if(config->group) {
+		return(sync_group(config->group, sync_dbs, targets));
+	}
+
+	/* get package info */
+	if(config->op_s_info) {
+		return(sync_info(sync_dbs, targets));
+	}
+
+	/* get a listing of files in sync DBs */
+	if(config->op_q_list) {
+		return(sync_list(sync_dbs, targets));
+	}
+
+	return(0);
 }
 
 /* vim: set ts=2 sw=2 noet: */

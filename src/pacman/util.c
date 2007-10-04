@@ -51,11 +51,8 @@ int needs_transaction()
 		if((config->op == PM_OP_SYNC && !config->op_s_sync &&
 				(config->op_s_search || config->group || config->op_q_list || config->op_q_info
 				 || config->flags & PM_TRANS_FLAG_PRINTURIS))
-			 || config->op == PM_OP_DEPTEST
-			 || (strcmp(alpm_option_get_root(), "/") != 0)) {
+			 || config->op == PM_OP_DEPTEST) {
 			/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
-			/* special case: ignore root user check if -r is specified, fall back on
-			 * normal FS checking */
 			return(0);
 		} else {
 			return(1);

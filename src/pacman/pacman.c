@@ -775,7 +775,9 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
-	if(myuid > 0 && needs_transaction()) {
+	if(myuid > 0 && !strcmp(alpm_option_get_root(), "/") && needs_transaction()) {
+		/* special case: ignore root user check if -r is specified, fall back on
+		 * normal FS checking */
 		pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
 		cleanup(EXIT_FAILURE);
 	}
