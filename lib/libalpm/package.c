@@ -840,9 +840,14 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "license")) {
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "builddate")) {
-				info->builddate = atol(ptr);
-			} else if(!strcmp(key, "installdate")) {
-				info->installdate = atol(ptr);
+				char first = tolower(ptr[0]);
+				if(first > 'a' && first < 'z') {
+					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					strptime(ptr, "%a %b %e %H:%M:%S %Y", &tmp_tm);
+					info->builddate = mktime(&tmp_tm);
+				} else {
+					info->builddate = atol(ptr);
+				}
 			} else if(!strcmp(key, "packager")) {
 				strncpy(info->packager, ptr, sizeof(info->packager));
 			} else if(!strcmp(key, "arch")) {
