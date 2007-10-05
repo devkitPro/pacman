@@ -140,6 +140,7 @@ static void usage(int op, char *myname)
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
+		printf(_("      --logfile <path> set an alternate log file\n"));
 		printf(_("      --noconfirm      do not ask for any confirmation\n"));
 		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 		printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
@@ -286,6 +287,7 @@ static int parseargs(int argc, char *argv[])
 		{"noscriptlet", no_argument,      0, 1005},
 		{"cachedir",   required_argument, 0, 1007},
 		{"asdeps",     no_argument,       0, 1008},
+		{"logfile",    required_argument, 0, 1009},
 		{0, 0, 0, 0}
 	};
 
@@ -337,6 +339,14 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 1008:
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
+				break;
+			case 1009:
+				if(alpm_option_set_logfile(optarg) != 0) {
+					pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+							optarg, alpm_strerrorlast());
+					return(1);
+				}
+				config->have_logfile = 1;
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
