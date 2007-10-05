@@ -559,25 +559,31 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		return(0);
 	}
 
-	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
-		snprintf(tmpdir, PATH_MAX, "%stmp/", root);
-		if(stat(tmpdir, &buf)) {
-			_alpm_makepath(tmpdir);
-		}
-		snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
-		if(mkdtemp(tmpdir) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
-			return(1);
-		}
-		_alpm_unpack(installfn, tmpdir, ".INSTALL");
-		snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
-		/* chop off the root so we can find the tmpdir in the chroot */
-		scriptpath = scriptfn + strlen(root) - 1;
-	} else {
-		strncpy(scriptfn, installfn, PATH_MAX);
-		/* chop off the root so we can find the tmpdir in the chroot */
-		scriptpath = scriptfn + strlen(root) - 1;
+	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
+	snprintf(tmpdir, PATH_MAX, "%stmp/", root);
+	if(stat(tmpdir, &buf)) {
+		_alpm_makepath(tmpdir);
 	}
+	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
+	if(mkdtemp(tmpdir) == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
+		return(1);
+	}
+
+	/* either extract or copy the scriptlet */
+	snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
+	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
+		_alpm_unpack(installfn, tmpdir, ".INSTALL");
+	} else {
+		if(_alpm_copyfile(installfn, scriptfn)) {
+			_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), scriptfn, strerror(errno));
+			retval = 1;
+			goto cleanup;
+		}
+	}
+
+	/* chop off the root so we can find the tmpdir in the chroot */
+	scriptpath = scriptfn + strlen(root) - 1;
 
 	if(!grep(scriptfn, script)) {
 		/* script not found in scriptlet file */
