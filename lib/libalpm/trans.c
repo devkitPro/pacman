@@ -608,6 +608,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
 
+	/* fork- parent and child each have seperate code blocks below */
 	pid = fork();
 	if(pid == -1) {
 		_alpm_log(PM_LOG_ERROR, _("could not fork a new process (%s)\n"), strerror(errno));
@@ -616,13 +617,16 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 	if(pid == 0) {
+		/* this code runs for the child only (the actual chroot/exec) */
 		_alpm_log(PM_LOG_DEBUG, "chrooting in %s\n", root);
 		if(chroot(root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)\n"), strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)\n"),
+					strerror(errno));
 			exit(1);
 		}
 		if(chdir("/") != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)\n"), strerror(errno));
+			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)\n"),
+					strerror(errno));
 			exit(1);
 		}
 		umask(0022);
@@ -630,11 +634,24 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL);
 		exit(0);
 	} else {
-		if(waitpid(pid, 0, 0) == -1) {
+		/* this code runs for the parent only (wait on the child) */
+		pid_t retpid;
+		int status;
+		retpid = waitpid(pid, &status, 0);
+		if(retpid == -1) {
 			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
 			          strerror(errno));
 			retval = 1;
 			goto cleanup;
+		} else {
+			/* check the return status, make sure it is 0 (success) */
+			if(WIFEXITED(status)) {
+				_alpm_log(PM_LOG_DEBUG, "call to waitpid succeeded\n");
+				if(WEXITSTATUS(status) != 0) {
+					_alpm_log(PM_LOG_ERROR, _("scriptlet failed to execute correctly\n"));
+					retval = 1;
+				}
+			}
 		}
 	}
 
