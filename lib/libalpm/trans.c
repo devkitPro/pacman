@@ -552,6 +552,13 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		return(0);
 	}
 
+	snprintf(tmpdir, PATH_MAX, "%sbin/sh", root);
+	if(stat(tmpdir, &buf)) {
+		/* not found */
+		_alpm_log(PM_LOG_ERROR, _("No /bin/sh in root dir (%s), aborting scriptlet\n"), root);
+		return(0);
+	}
+
 	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
 		snprintf(tmpdir, PATH_MAX, "%stmp/", root);
 		if(stat(tmpdir, &buf)) {
