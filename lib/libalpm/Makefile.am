@@ -7,7 +7,7 @@ include_HEADERS = alpm_list.h alpm.h
 
 DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 
-AM_CFLAGS = -fvisibility=hidden -pedantic -D_GNU_SOURCE -fgnu89-inline
+AM_CFLAGS = -fvisibility=internal -pedantic -D_GNU_SOURCE -fgnu89-inline
 
 libalpm_la_SOURCES = \
 	add.h add.c \
