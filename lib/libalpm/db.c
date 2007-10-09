@@ -278,7 +278,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
 
 		/* remove the old dir */
-		_alpm_log(PM_LOG_DEBUG, "flushing database %s%s\n", db->path);
+		_alpm_log(PM_LOG_DEBUG, "flushing database %s\n", db->path);
 		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *pkg = lp->data;
 			if(pkg && _alpm_db_remove(db, pkg) == -1) {
@@ -461,7 +461,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 
 					if(strcmp(k->data, alpm_pkg_get_name(lpkg)) == 0) {
 						_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'\n",
-								k->data, alpm_pkg_get_name(spkg));
+								(char *)k->data, alpm_pkg_get_name(spkg));
 						if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(lpkg))) {
 							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"),
 												alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),

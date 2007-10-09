@@ -281,7 +281,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 					if(!p) {
 						RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 					}
-					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'\n", p->data, targ);
+					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'\n",
+							(char *)p->data, targ);
 					spkg = _alpm_db_get_pkgfromcache(db, p->data);
 					alpm_list_free(p);
 				}
@@ -304,7 +305,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 				pmdb_t *db = j->data;
 				alpm_list_t *p = _alpm_db_whatprovides(db, targ);
 				if(p) {
-					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'\n", p->data, targ);
+					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'\n",
+							(char *)p->data, targ);
 					spkg = _alpm_db_get_pkgfromcache(db, p->data);
 					alpm_list_free(p);
 				}

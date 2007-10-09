@@ -30,7 +30,7 @@
 #define ALPM_LOG_FUNC
 #endif
 
-void _alpm_log(pmloglevel_t flag, char *fmt, ...);
+void _alpm_log(pmloglevel_t flag, char *fmt, ...) __attribute__((format(printf,2,3)));
 
 #endif /* _ALPM_LOG_H */
 
