@@ -949,7 +949,8 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 			archive_read_data_into_fd (archive, fd);
 			/* parse the info file */
 			if(parse_descfile(descfile, info) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("could not parse the package description file\n"));
+				_alpm_log(PM_LOG_ERROR, _("could not parse package description file in %s\n"),
+						pkgfile);
 				goto pkg_invalid;
 			}
 			if(!strlen(info->name)) {
@@ -1006,7 +1007,8 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 		}
 
 		if(archive_read_data_skip(archive)) {
-			_alpm_log(PM_LOG_ERROR, _("error while reading package: %s\n"), archive_error_string(archive));
+			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
+					pkgfile, archive_error_string(archive));
 			pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 			goto error;
 		}
@@ -1018,13 +1020,14 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 	}
 
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
-		_alpm_log(PM_LOG_ERROR, _("error while reading package: %s\n"), archive_error_string(archive));
+		_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
+				pkgfile, archive_error_string(archive));
 		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
 		goto error;
 	}
 
 	if(!config) {
-		_alpm_log(PM_LOG_ERROR, _("missing package metadata\n"), pkgfile);
+		_alpm_log(PM_LOG_ERROR, _("missing package metadata in %s\n"), pkgfile);
 		goto error;
 	}
 	
