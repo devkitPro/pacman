@@ -31,15 +31,15 @@
 #include <alpm.h>
 #include <alpm_list.h>
 
-int _alpm_str_cmp(const void *s1, const void *s2)
+int str_cmp(const void *s1, const void *s2)
 {
   return(strcmp(s1, s2));
 }
 
 static void diffrqdby(const char *pkgname, alpm_list_t *oldrqdby, alpm_list_t *newrqdby)
 {
-  oldrqdby = alpm_list_msort(oldrqdby, alpm_list_count(oldrqdby), _alpm_str_cmp);
-  newrqdby = alpm_list_msort(newrqdby, alpm_list_count(newrqdby), _alpm_str_cmp);
+  oldrqdby = alpm_list_msort(oldrqdby, alpm_list_count(oldrqdby), str_cmp);
+  newrqdby = alpm_list_msort(newrqdby, alpm_list_count(newrqdby), str_cmp);
 
   alpm_list_t *i = oldrqdby;
   alpm_list_t *j = newrqdby;
@@ -93,7 +93,7 @@ void output_cb(pmloglevel_t level, char *fmt, va_list args)
   }
 }
 
-int db_test(char *dbpath)
+static int db_test(char *dbpath)
 {
   struct dirent *ent;
   char path[PATH_MAX];
