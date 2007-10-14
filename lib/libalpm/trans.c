@@ -537,11 +537,13 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 {
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
-	char tmpdir[PATH_MAX] = "";
+	char tmpdir[PATH_MAX];
+	char cwd[PATH_MAX];
 	char *scriptpath;
 	struct stat buf;
-	char cwd[PATH_MAX] = "";
 	pid_t pid;
+	int clean_tmpdir = 0;
+	int restore_cwd = 0;
 	int retval = 0;
 
 	ALPM_LOG_FUNC;
@@ -568,6 +570,8 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	if(mkdtemp(tmpdir) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
 		return(1);
+	} else {
+		clean_tmpdir = 1;
 	}
 
 	/* either extract or copy the scriptlet */
@@ -593,8 +597,8 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	/* save the cwd so we can restore it later */
 	if(getcwd(cwd, PATH_MAX) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
-		/* in case of error, cwd content is undefined: so we set it to something */
-		cwd[0] = 0;
+	} else {
+		restore_cwd = 1;
 	}
 
 	/* just in case our cwd was removed in the upgrade operation */
@@ -662,10 +666,10 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 cleanup:
-	if(strlen(tmpdir) && _alpm_rmrf(tmpdir)) {
+	if(clean_tmpdir && _alpm_rmrf(tmpdir)) {
 		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
 	}
-	if(strlen(cwd)) {
+	if(restore_cwd) {
 		chdir(cwd);
 	}
 
