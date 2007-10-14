@@ -25,8 +25,6 @@
 extern "C" {
 #endif
 
-#include "alpm.h"
-
 /**
  * @brief Linked list type used by libalpm.
  *
@@ -34,14 +32,14 @@ extern "C" {
  * lists of their own; however, it is not required that the front end uses
  * it.
  */
-struct __alpm_list_t {
+typedef struct __alpm_list_t {
 	/** data held by the list node */
 	void *data;
 	/** pointer to the previous node */
 	struct __alpm_list_t *prev;
 	/** pointer to the next node */
 	struct __alpm_list_t *next;
-};
+} alpm_list_t;
 
 #define FREELIST(p) do { alpm_list_free_inner(p, free); alpm_list_free(p); p = NULL; } while(0)
 

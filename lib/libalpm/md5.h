@@ -18,9 +18,6 @@
  *  MA  02110-1301  USA
  */
 
-/**
- * \file md5.h
- */
 #ifndef _MD5_H
 #define _MD5_H
 
@@ -29,6 +26,7 @@ extern "C" {
 #endif
 
 /**
+ * \internal
  * \brief          MD5 context structure
  */
 typedef struct
@@ -40,6 +38,7 @@ typedef struct
 md5_context;
 
 /**
+ * \internal
  * \brief          Output = MD5( input buffer )
  *
  * \param input    buffer holding the  data
@@ -50,6 +49,7 @@ void md5( unsigned char *input, int ilen,
           unsigned char *output );
 
 /**
+ * \internal
  * \brief          Output = MD5( file contents )
  *
  * \param path     input file name

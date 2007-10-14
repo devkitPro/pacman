@@ -42,7 +42,7 @@ if USE_DOXYGEN
 all: doxygen.in
 
 doxygen.in:
-	doxygen $(srcdir)/Doxyfile
+	$(DOXYGEN) $(srcdir)/Doxyfile
 endif
 
 if USE_ASCIIDOC

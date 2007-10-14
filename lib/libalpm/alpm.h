@@ -31,6 +31,8 @@ extern "C" {
 #include <time.h> /* for time_t */
 #include <stdarg.h> /* for va_list */
 
+#include <alpm_list.h>
+
 #define DEPRECATED __attribute__((deprecated))
 
 /*
@@ -40,8 +42,6 @@ extern "C" {
 /* 
  * Structures
  */
-
-typedef struct __alpm_list_t alpm_list_t;
 
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
