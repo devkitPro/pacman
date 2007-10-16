@@ -368,8 +368,8 @@ void display_targets(const alpm_list_t *syncpkgs)
 			/* Convert byte size to MB */
 			mbdispsize = dispsize / (1024.0 * 1024.0);
 
-			asprintf(&str, "%s-%s [%.1f MB]", alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg), (mbdispsize < 0.1 ? 0.1 : mbdispsize));
+			asprintf(&str, "%s-%s [%.2f MB]", alpm_pkg_get_name(pkg),
+					alpm_pkg_get_version(pkg), mbdispsize);
 		} else {
 			asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
 					alpm_pkg_get_version(pkg));
@@ -390,28 +390,16 @@ void display_targets(const alpm_list_t *syncpkgs)
 		printf("\n");
 		FREELIST(to_remove);
 	
-		/* round up if size is really small */
-		if(mbrsize < 0.1) {
-			mbrsize = 0.1;
-		}
 		printf(_("Total Removed Size:   %.2f MB\n"), mbrsize);
 	}
 
 	list_display(_("Targets:"), targets);
 	printf("\n");
 
-	/* round up if size is really small */
-	if(mbsize < 0.1) {
-		mbsize = 0.1;
-	}
 	printf(_("Total Package Size:   %.2f MB\n"), mbsize);
 	
 	/* TODO because all pkgs don't include isize, this is a crude hack */
 	if(mbisize > mbsize) {
-		/*round up if size is really small */
-		if(mbisize < 0.1) {
-			mbisize = 0.1;
-		}
 		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
 	}
 
