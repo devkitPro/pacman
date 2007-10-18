@@ -527,7 +527,6 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 
 		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
 			pmdepend_t *dep;
-			int satisfies;
 
 			if(!j->data) {
 				continue;
@@ -537,14 +536,12 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 					continue;
 			}
 			
-			satisfies = alpm_depcmp(pkg, dep);
-			FREE(dep);
-			if(satisfies) {
+			if(alpm_depcmp(pkg, dep)) {
 				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
 				          cachepkgname, pkg->name);
 				reqs = alpm_list_add(reqs, strdup(cachepkgname));
-				break;
 			}
+			FREE(dep);
 		}
 	}
 	return(reqs);
