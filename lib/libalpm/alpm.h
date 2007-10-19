@@ -215,6 +215,8 @@ alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
 unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
+unsigned long alpm_pkg_download_size(pmpkg_t *newpkg, pmdb_t *db_local);
+
 /*
  * Deltas
  */

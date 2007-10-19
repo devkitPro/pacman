@@ -219,7 +219,7 @@ static int query_upgrades(void)
 	printf(_("Checking for package upgrades... \n"));
 
 	if((syncpkgs = alpm_db_get_upgrades()) != NULL) {
-		display_targets(syncpkgs);
+		display_targets(syncpkgs, db_local);
 		return(0);
 	}
 

@@ -329,14 +329,15 @@ void list_display(const char *title, const alpm_list_t *list)
  * retrieved from a transaction object
  */
 /* TODO move to output.c? or just combine util and output */
-void display_targets(const alpm_list_t *syncpkgs)
+void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 {
 	char *str;
 	const alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
 	/* TODO these are some messy variable names */
-	unsigned long size = 0, isize = 0, rsize = 0, dispsize = 0;
-	double mbsize = 0.0, mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0;
+	unsigned long size = 0, isize = 0, rsize = 0, dispsize = 0, dlsize = 0;
+	double mbsize = 0.0, mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0,
+				 mbdlsize = 0.0;
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
@@ -361,6 +362,7 @@ void display_targets(const alpm_list_t *syncpkgs)
 
 		dispsize = alpm_pkg_get_size(pkg);
 		size += dispsize;
+		dlsize += alpm_pkg_download_size(pkg, db_local);
 		isize += alpm_pkg_get_isize(pkg);
 
 		/* print the package size with the output if ShowSize option set */
@@ -381,6 +383,7 @@ void display_targets(const alpm_list_t *syncpkgs)
 	mbsize = size / (1024.0 * 1024.0);
 	mbisize = isize / (1024.0 * 1024.0);
 	mbrsize = rsize / (1024.0 * 1024.0);
+	mbdlsize = dlsize / (1024.0 * 1024.0);
 
 	/* start displaying information */
 	printf("\n");
@@ -396,7 +399,8 @@ void display_targets(const alpm_list_t *syncpkgs)
 	list_display(_("Targets:"), targets);
 	printf("\n");
 
-	printf(_("Total Package Size:   %.2f MB\n"), mbsize);
+	printf(_("Total Package Size:     %.2f MB\n"), mbsize);
+	printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
 	
 	/* TODO because all pkgs don't include isize, this is a crude hack */
 	if(mbisize > mbsize) {

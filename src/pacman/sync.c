@@ -601,7 +601,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 	if(!(alpm_trans_get_flags() & PM_TRANS_FLAG_PRINTURIS)) {
 		int confirm;
 
-		display_targets(packages);
+		display_targets(packages, db_local);
 		printf("\n");
 
 		if(config->op_s_downloadonly) {

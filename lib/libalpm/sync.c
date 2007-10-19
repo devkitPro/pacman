@@ -749,6 +749,40 @@ static alpm_list_t *pkg_upgrade_delta_path(pmpkg_t *newpkg, pmdb_t *db_local)
 	return(ret);
 }
 
+/** Returns the size of the files that will be downloaded to install a
+ * package.
+ *
+ * @param newpkg the new package to upgrade to
+ * @param db_local the local database
+ *
+ * @return the size of the download
+ */
+unsigned long SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg, pmdb_t *db_local)
+{
+	char *fpath = _alpm_filecache_find(alpm_pkg_get_filename(newpkg));
+	unsigned long size = 0;
+
+	if(fpath) {
+		size = 0;
+	} else if(handle->usedelta) {
+		alpm_list_t *deltas = pkg_upgrade_delta_path(newpkg, db_local);
+
+		if(deltas) {
+			size = _alpm_delta_path_size_uncached(deltas);
+		} else {
+			size = alpm_pkg_get_size(newpkg);
+		}
+
+		alpm_list_free(deltas);
+	} else {
+		size = alpm_pkg_get_size(newpkg);
+	}
+
+	FREE(fpath);
+
+	return(size);
+}
+
 /** Applies delta files to create an upgraded package file.
  *
  * All intermediate files are deleted, leaving only the starting and
