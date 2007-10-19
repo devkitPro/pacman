@@ -61,6 +61,7 @@ typedef struct _pmhandle_t {
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
 	time_t upgradedelay;      /* Time to wait before upgrading a package */
 	char *xfercommand;        /* External download command */
+	unsigned short usedelta;     /* Download deltas if possible */
 } pmhandle_t;
 
 extern pmhandle_t *handle;

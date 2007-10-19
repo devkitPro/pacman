@@ -236,6 +236,27 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_INTEGRITY_DONE:
 			printf(_("done.\n"));
 			break;
+		case PM_TRANS_EVT_DELTA_INTEGRITY_START:
+			printf(_("checking delta integrity... "));
+			break;
+		case PM_TRANS_EVT_DELTA_INTEGRITY_DONE:
+			printf(_("done.\n"));
+			break;
+		case PM_TRANS_EVT_DELTA_PATCHES_START:
+			printf(_("applying deltas...\n"));
+			break;
+		case PM_TRANS_EVT_DELTA_PATCHES_DONE:
+			/* nothing */
+			break;
+		case PM_TRANS_EVT_DELTA_PATCH_START:
+			printf(_("generating %s with %s... "), (char *)data1, (char *)data2);
+			break;
+		case PM_TRANS_EVT_DELTA_PATCH_DONE:
+			printf(_("done.\n"));
+			break;
+		case PM_TRANS_EVT_DELTA_PATCH_FAILED:
+			printf(_("failed.\n"));
+			break;
 		case PM_TRANS_EVT_PRINTURI:
 			printf("%s/%s\n", (char*)data1, (char*)data2);
 			break;
@@ -309,7 +330,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			break;
 		case PM_TRANS_CONV_CORRUPTED_PKG:
 			if(!config->noconfirm) {
-				snprintf(str, LOG_STR_LEN, _(":: Archive %s is corrupted. Do you want to delete it? [Y/n] "),
+				snprintf(str, LOG_STR_LEN, _(":: File %s is corrupted. Do you want to delete it? [Y/n] "),
 						(char *)data1);
 				*response = yesno(str);
 			} else {

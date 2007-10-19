@@ -64,6 +64,7 @@ pmhandle_t *_alpm_handle_new()
 	handle->cachedirs = NULL;
 	handle->lockfile = NULL;
 	handle->logfile = NULL;
+	handle->usedelta = 0;
 
 	return(handle);
 }
@@ -494,6 +495,11 @@ void SYMEXPORT alpm_option_set_xfercommand(const char *cmd)
 void SYMEXPORT alpm_option_set_nopassiveftp(unsigned short nopasv)
 {
 	handle->nopassiveftp = nopasv;
+}
+
+void SYMEXPORT alpm_option_set_usedelta(unsigned short usedelta)
+{
+	handle->usedelta = usedelta;
 }
 
 /* vim: set ts=2 sw=2 noet: */

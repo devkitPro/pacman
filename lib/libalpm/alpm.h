@@ -138,6 +138,7 @@ void alpm_option_set_xfercommand(const char *cmd);
 
 unsigned short alpm_option_get_nopassiveftp();
 void alpm_option_set_nopassiveftp(unsigned short nopasv);
+void alpm_option_set_usedelta(unsigned short usedelta);
 
 pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
@@ -294,6 +295,13 @@ typedef enum _pmtransevt_t {
 	PM_TRANS_EVT_EXTRACT_DONE,
 	PM_TRANS_EVT_INTEGRITY_START,
 	PM_TRANS_EVT_INTEGRITY_DONE,
+	PM_TRANS_EVT_DELTA_INTEGRITY_START,
+	PM_TRANS_EVT_DELTA_INTEGRITY_DONE,
+	PM_TRANS_EVT_DELTA_PATCHES_START,
+	PM_TRANS_EVT_DELTA_PATCHES_DONE,
+	PM_TRANS_EVT_DELTA_PATCH_START,
+	PM_TRANS_EVT_DELTA_PATCH_DONE,
+	PM_TRANS_EVT_DELTA_PATCH_FAILED,
 	PM_TRANS_EVT_PRINTURI,
 	PM_TRANS_EVT_RETRIEVE_START,
 } pmtransevt_t;
@@ -442,6 +450,9 @@ enum _pmerrno_t {
 	PM_ERR_PKG_INVALID_NAME,
 	PM_ERR_PKG_CORRUPTED,
 	PM_ERR_PKG_REPO_NOT_FOUND,
+	/* Deltas */
+	PM_ERR_DLT_CORRUPTED,
+	PM_ERR_DLT_PATCHFAILED,
 	/* Groups */
 	PM_ERR_GRP_NOT_FOUND,
 	/* Dependencies */

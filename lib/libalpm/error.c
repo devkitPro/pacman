@@ -123,6 +123,11 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("corrupted package");
 		case PM_ERR_PKG_REPO_NOT_FOUND:
 			return _("no such repository");
+		/* Deltas */
+		case PM_ERR_DLT_CORRUPTED:
+			return _("corrupted delta");
+		case PM_ERR_DLT_PATCHFAILED:
+			return _("delta patch failed");
 		/* Groups */
 		case PM_ERR_GRP_NOT_FOUND:
 			return _("group not found");

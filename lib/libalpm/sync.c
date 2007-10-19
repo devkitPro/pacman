@@ -48,6 +48,7 @@
 #include "handle.h"
 #include "alpm.h"
 #include "server.h"
+#include "delta.h"
 
 pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 {
@@ -700,6 +701,148 @@ cleanup:
 	return(ret);
 }
 
+/** Returns a list of deltas that should be downloaded instead of the
+ * package.
+ *
+ * It first tests if a delta path exists between the currently installed
+ * version (if any) and the version to upgrade to. If so, the delta path
+ * is used if its size is below a set percentage (MAX_DELTA_RATIO) of
+ * the package size, Otherwise, an empty list is returned.
+ *
+ * @param newpkg the new package to upgrade to
+ * @param db_local the local database
+ *
+ * @return the list of pmdelta_t * objects. NULL (the empty list) is
+ * returned if the package should be downloaded instead of deltas.
+ */
+static alpm_list_t *pkg_upgrade_delta_path(pmpkg_t *newpkg, pmdb_t *db_local)
+{
+	pmpkg_t *oldpkg = alpm_db_get_pkg(db_local, newpkg->name);
+	alpm_list_t *ret = NULL;
+
+	if(oldpkg) {
+		const char *oldname = alpm_pkg_get_filename(oldpkg);
+		char *oldpath = _alpm_filecache_find(oldname);
+
+		if(oldpath) {
+			alpm_list_t *deltas = _alpm_shortest_delta_path(
+					alpm_pkg_get_deltas(newpkg),
+					alpm_pkg_get_version(oldpkg),
+					alpm_pkg_get_version(newpkg));
+
+			if(deltas) {
+				unsigned long dltsize = _alpm_delta_path_size(deltas);
+				unsigned long pkgsize = alpm_pkg_get_size(newpkg);
+
+				if(dltsize < pkgsize * MAX_DELTA_RATIO) {
+					ret = deltas;
+				} else {
+					ret = NULL;
+					alpm_list_free(deltas);
+				}
+			}
+
+			FREE(oldpath);
+		}
+	}
+
+	return(ret);
+}
+
+/** Applies delta files to create an upgraded package file.
+ *
+ * All intermediate files are deleted, leaving only the starting and
+ * ending package files.
+ *
+ * @param trans the transaction
+ * @param patches A list of alternating pmpkg_t * and pmdelta_t *
+ * objects. The patch command will be built using the pmpkg_t, pmdelta_t
+ * pair.
+ *
+ * @return 0 if all delta files were able to be applied, 1 otherwise.
+ */
+static int apply_deltas(pmtrans_t *trans, alpm_list_t *patches)
+{
+	/* keep track of the previous package in the loop to decide if a
+	 * package file should be deleted */
+	pmpkg_t *lastpkg = NULL;
+	int lastpkg_failed = 0;
+	int ret = 0;
+	const char *cachedir = _alpm_filecache_setup();
+
+	alpm_list_t *p = patches;
+	while(p) {
+		pmpkg_t *pkg;
+		pmdelta_t *d;
+		char command[PATH_MAX], fname[PATH_MAX];
+		char pkgfilename[PKG_FILENAME_LEN];
+
+		pkg = alpm_list_getdata(p);
+		p = alpm_list_next(p);
+
+		d = alpm_list_getdata(p);
+		p = alpm_list_next(p);
+
+		/* if patching fails, ignore the rest of that package's deltas */
+		if(lastpkg_failed) {
+			if(pkg == lastpkg) {
+				continue;
+			} else {
+				lastpkg_failed = 0;
+			}
+		}
+
+		/* an example of the patch command: (using /cache for cachedir)
+		 * xdelta patch /cache/pacman_3.0.0-1_to_3.0.1-1-i686.delta \
+		 *              /cache/pacman-3.0.0-1-i686.pkg.tar.gz       \
+		 *              /cache/pacman-3.0.1-1-i686.pkg.tar.gz
+		 */
+
+		/* build the patch command */
+		snprintf(command, PATH_MAX,
+				"xdelta patch"         /* the command */
+				" %s/%s"               /* the delta */
+				" %s/%s-%s-%s" PKGEXT  /* the 'from' package */
+				" %s/%s-%s-%s" PKGEXT, /* the 'to' package */
+				cachedir, d->filename,
+				cachedir, pkg->name, d->from, pkg->arch,
+				cachedir, pkg->name, d->to, pkg->arch);
+
+		_alpm_log(PM_LOG_DEBUG, _("command: %s\n"), command);
+
+		snprintf(pkgfilename, PKG_FILENAME_LEN, "%s-%s-%s" PKGEXT,
+				pkg->name, d->to, pkg->arch);
+
+		EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_START, pkgfilename, d->filename);
+
+		if(system(command) == 0) {
+			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_DONE, NULL, NULL);
+
+			/* delete the delta file */
+			snprintf(fname, PATH_MAX, "%s/%s", cachedir, d->filename);
+			unlink(fname);
+
+			/* Delete the 'from' package but only if it is an intermediate
+			 * package. The starting 'from' package should be kept, just
+			 * as if deltas were not used. Delete the package file if the
+			 * previous iteration of the loop used the same package. */
+			if(pkg == lastpkg) {
+				snprintf(fname, PATH_MAX, "%s/%s-%s-%s" PKGEXT,
+						cachedir, pkg->name, d->from, pkg->arch);
+				unlink(fname);
+			} else {
+				lastpkg = pkg;
+			}
+		} else {
+			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
+			lastpkg_failed = 1;
+			ret = 1;
+		}
+	}
+
+	return(ret);
+}
+
 /** Compares the md5sum of a file to the expected value.
  *
  * If the md5sum does not match, the user is asked whether the file
@@ -762,6 +905,29 @@ static int test_md5sum(pmtrans_t *trans, const char *filename,
 	return(ret);
 }
 
+/** Compares the md5sum of a delta to the expected value.
+ *
+ * @param trans the transaction
+ * @param delta the delta to test
+ * @param data data to write the error messages to
+ *
+ * @return 0 if the md5sum matched, 1 otherwise
+ */
+static int test_delta_md5sum(pmtrans_t *trans, pmdelta_t *delta,
+		alpm_list_t **data)
+{
+	const char *filename;
+	char *md5sum;
+	int ret = 0;
+
+	filename = alpm_delta_get_filename(delta);
+	md5sum = alpm_delta_get_md5sum(delta);
+
+	ret = test_md5sum(trans, filename, md5sum, data);
+
+	return(ret);
+}
+
 /** Compares the md5sum of a package to the expected value.
  *
  * @param trans the transaction
@@ -787,6 +953,7 @@ static int test_pkg_md5sum(pmtrans_t *trans, pmpkg_t *pkg, alpm_list_t **data)
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
+	alpm_list_t *patches = NULL, *deltas = NULL;
 	pmtrans_t *tr = NULL;
 	int replaces = 0, retval = 0;
 	const char *cachedir = NULL;
@@ -817,8 +984,42 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				} else {
 					char *fpath = _alpm_filecache_find(fname);
 					if(!fpath) {
-						/* file is not in the cache dir, so add it to the list */
-						files = alpm_list_add(files, strdup(fname));
+						if(handle->usedelta) {
+							alpm_list_t *delta_path = pkg_upgrade_delta_path(spkg, db_local);
+
+							if(delta_path) {
+								alpm_list_t *dlts = NULL;
+
+								for(dlts = delta_path; dlts; dlts = alpm_list_next(dlts)) {
+									pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
+									char *fpath2 = _alpm_filecache_find(d->filename);
+
+									if(!fpath2) {
+										/* add the delta filename to the download list if
+										 * it's not in the cache*/
+										files = alpm_list_add(files, strdup(d->filename));
+									}
+
+									/* save the package and delta so that the xdelta patch
+									 * command can be run after the downloads finish */
+									patches = alpm_list_add(patches, spkg);
+									patches = alpm_list_add(patches, d);
+
+									/* keep a list of the delta files for md5sums */
+									deltas = alpm_list_add(deltas, d);
+								}
+
+								alpm_list_free(delta_path);
+								delta_path = NULL;
+							} else {
+								/* no deltas to download, so add the file to the
+								 * download list */
+								files = alpm_list_add(files, strdup(fname));
+							}
+						} else {
+							/* not using deltas, so add the file to the download list */
+							files = alpm_list_add(files, strdup(fname));
+						}
 					}
 					FREE(fpath);
 				}
@@ -839,7 +1040,48 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		return(0);
 	}
 
-	/* Check integrity of files */
+	if(handle->usedelta) {
+		int ret = 0;
+
+		/* only output if there are deltas to work with */
+		if(deltas) {
+			/* Check integrity of deltas */
+			EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
+
+			for(i = deltas; i; i = i->next) {
+				pmdelta_t *d = alpm_list_getdata(i);
+
+				ret = test_delta_md5sum(trans, d, data);
+
+				if(ret == 1) {
+					retval = 1;
+				} else if(ret == -1) { /* -1 is for serious errors */
+					RET_ERR(pm_errno, -1);
+				}
+			}
+			if(retval) {
+				pm_errno = PM_ERR_DLT_CORRUPTED;
+				goto error;
+			}
+			EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
+
+			/* Use the deltas to generate the packages */
+			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
+			ret = apply_deltas(trans, patches);
+			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
+
+			alpm_list_free(patches);
+			patches = NULL;
+			alpm_list_free(deltas);
+			deltas = NULL;
+		}
+		if(ret) {
+			pm_errno = PM_ERR_DLT_PATCHFAILED;
+			goto error;
+		}
+	}
+
+	/* Check integrity of packages */
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
 
 	for(i = trans->packages; i; i = i->next) {
