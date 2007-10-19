@@ -97,6 +97,37 @@ write_list_entry() {
 	fi
 }
 
+# write a delta entry to the pacman database
+#   arg1 - path to delta
+db_write_delta()
+{
+	# blank out all variables and set deltafile
+	local deltafile=$(readlink -f "$1")
+	local filename=$(basename "$deltafile")
+	local deltavars pkgname fromver tover arch csize md5sum
+
+	# format of the delta filename:
+	# (package)-(fromver)_to_(tover)-(arch).delta
+	deltavars=( $(echo "$filename" | sed -e 's/\(.*\)-\(.*-.*\)_to_\(.*-.*\)-\(.*\).delta/\1 \2 \3 \4/') )
+	pkgname=${deltavars[0]}
+	fromver=${deltavars[1]}
+	tover=${deltavars[2]}
+	arch=${deltavars[3]}
+
+	# get md5sum and size of delta
+	md5sum="$(md5sum "$deltafile" | cut -d ' ' -f 1)"
+	csize=$(du -b -L "$deltafile" | cut -f 1)
+
+	# ensure variables were found
+	if [ -z "$pkgname" -o -z "$fromver" -o -z "$tover" -o -z "$arch" ]; then
+		return 1
+	fi
+
+	# add the entry for this delta file
+	echo -e "$fromver $tover $csize $filename $md5sum" >>deltas
+} # end db_write_delta
+
+
 # write an entry to the pacman database
 #   arg1 - path to package
 db_write_entry()
@@ -105,7 +136,8 @@ db_write_entry()
 	local pkgfile=$(readlink -f "$1")
 	local pkgname pkgver pkgdesc url builddate packager csize size \
 		group depend backup license replaces provides conflict \
-		_groups _depends _backups _licenses _replaces _provides _conflicts
+		_groups _depends _backups _licenses _replaces _provides _conflicts \
+		startdir
 
 	local OLDIFS="$IFS"
 	# IFS (field seperator) is only the newline character
@@ -133,6 +165,7 @@ db_write_entry()
 	# get compressed size of package
 	csize=$(du -b -L "$pkgfile" | cut -f 1)
 
+	startdir=$(pwd)
 	pushd "$gstmpdir" 2>&1 >/dev/null
 
 	# ensure $pkgname and $pkgver variables were found
@@ -183,8 +216,29 @@ db_write_entry()
 	write_list_entry "CONFLICTS" "$_conflicts" "depends"
 	write_list_entry "PROVIDES" "$_provides" "depends"
 
+	# create deltas entry if there are delta files
+	for delta in $startdir/$pkgname-*-*_to_*-*-$arch.delta; do
+		if [ -f "$delta" ]; then
+			# create deltas file if it does not already exist
+			if [ ! -f "deltas" ]; then
+				msg2 "$(gettext "Creating 'deltas' db entry...")"
+				echo -e "%DELTAS%" >>deltas
+			fi
+
+			# write this delta entry
+			if db_write_delta "$delta"; then
+				msg2 "$(gettext "Added delta '%s'")" "$(basename "$delta")"
+			else
+				msg2 "$(gettext "Could not add delta '%s'")" "$(basename "$delta")"
+			fi
+		fi
+	done
+	# add the final newline
+	[ -f "deltas" ] && echo -e "" >>deltas
+
 	# preserve the modification time
 	touch -r "$pkgfile" desc depends
+	[ -f "deltas" ] && touch -r "$pkgfile" deltas
 
 	popd 2>&1 >/dev/null
 } # end db_write_entry
