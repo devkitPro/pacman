@@ -736,7 +736,7 @@ tidy_install() {
 
 	if [ "$(check_option strip)" = "y" ]; then
 		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"
-		for file in $(find {,*/}{bin,lib,sbin} -type f 2>/dev/null || true); do
+		for file in $(find {,usr/{,local/},opt/}{bin,lib,sbin} -type f 2>/dev/null || true); do
 			case "$(file -biz "$file")" in
 				*application/x-sharedlib*)  # Libraries
 					/usr/bin/strip --strip-debug "$file";;
