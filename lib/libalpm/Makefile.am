@@ -18,6 +18,7 @@ libalpm_la_SOURCES = \
 	cache.h cache.c \
 	conflict.h conflict.c \
 	db.h db.c \
+	delta.h delta.c \
 	deps.h deps.c \
 	error.h error.c \
 	group.h group.c \

@@ -446,6 +446,20 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 	return pkg->provides;
 }
 
+alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DELTAS)) {
+		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DELTAS);
+	}
+	return pkg->deltas;
+}
+
 alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -722,6 +736,7 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREELIST(pkg->groups);
 	FREELIST(pkg->provides);
 	FREELIST(pkg->replaces);
+	FREELIST(pkg->deltas);
 	if(pkg->origin == PKG_FROM_FILE) {
 		FREE(pkg->origin_data.file);
 	}

@@ -60,6 +60,7 @@ alpm_list_t *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_li
 alpm_list_t *alpm_list_remove_node(alpm_list_t *node);
 alpm_list_t *alpm_list_remove_dupes(const alpm_list_t *list);
 alpm_list_t *alpm_list_strdup(const alpm_list_t *list);
+alpm_list_t *alpm_list_copy(const alpm_list_t *list);
 alpm_list_t *alpm_list_reverse(alpm_list_t *list);
 
 /* item accessors */

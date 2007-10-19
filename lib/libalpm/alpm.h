@@ -45,6 +45,7 @@ extern "C" {
 
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
+typedef struct __pmdelta_t pmdelta_t;
 typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmserver_t pmserver_t;
 typedef struct __pmtrans_t pmtrans_t;
@@ -207,10 +208,21 @@ alpm_list_t *alpm_pkg_get_optdepends(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_requiredby(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_deltas(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
 unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
+
+/*
+ * Deltas
+ */
+
+char *alpm_delta_get_from(pmdelta_t *delta);
+char *alpm_delta_get_to(pmdelta_t *delta);
+unsigned long alpm_delta_get_size(pmdelta_t *delta);
+char *alpm_delta_get_filename(pmdelta_t *delta);
+char *alpm_delta_get_md5sum(pmdelta_t *delta);
 
 /*
  * Groups

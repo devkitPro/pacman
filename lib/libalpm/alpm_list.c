@@ -379,6 +379,24 @@ alpm_list_t SYMEXPORT *alpm_list_strdup(const alpm_list_t *list)
 }
 
 /**
+ * @brief Copy a list, without copying data.
+ *
+ * @param list the list to copy
+ *
+ * @return a copy of the original list
+ */
+alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
+{
+	const alpm_list_t *lp = list;
+	alpm_list_t *newlist = NULL;
+	while(lp) {
+		newlist = alpm_list_add(newlist, lp->data);
+		lp = lp->next;
+	}
+	return(newlist);
+}
+
+/**
  * @brief Create a new list in reverse order.
  *
  * @param list the list to copy

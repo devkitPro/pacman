@@ -75,6 +75,7 @@ struct __pmpkg_t {
 	alpm_list_t *requiredby;
 	alpm_list_t *conflicts;
 	alpm_list_t *provides;
+	alpm_list_t *deltas;
 	/* internal */
 	pmpkgfrom_t origin;
 	/* Replaced 'void *data' with this union as follows:

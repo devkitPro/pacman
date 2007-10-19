@@ -44,6 +44,7 @@
 #include "error.h"
 #include "handle.h"
 #include "package.h"
+#include "delta.h"
 
 
 /* This function is used to convert the downloaded db file to the proper backend
@@ -482,6 +483,24 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		}
 		fclose(fp);
 		fp = NULL;
+	}
+
+	/* DELTAS */
+	if(inforeq & INFRQ_DELTAS) {
+		snprintf(path, PATH_MAX, "%s/%s-%s/deltas", db->path, info->name, info->version);
+		if((fp = fopen(path, "r"))) {
+			while(!feof(fp)) {
+				fgets(line, 255, fp);
+				_alpm_strtrim(line);
+				if(!strcmp(line, "%DELTAS%")) {
+					while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
+						info->deltas = alpm_list_add(info->deltas, _alpm_delta_parse(line));
+					}
+				}
+			}
+			fclose(fp);
+			fp = NULL;
+		}
 	}
 
 	/* INSTALL */
