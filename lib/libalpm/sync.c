@@ -700,6 +700,90 @@ cleanup:
 	return(ret);
 }
 
+/** Compares the md5sum of a file to the expected value.
+ *
+ * If the md5sum does not match, the user is asked whether the file
+ * should be deleted.
+ *
+ * @param trans the transaction
+ * @param filename the filename of the file to test
+ * @param md5sum the expected md5sum of the file
+ * @param data data to write the error messages to
+ *
+ * @return 0 if the md5sum matched, 1 otherwise
+ */
+static int test_md5sum(pmtrans_t *trans, const char *filename,
+		const char *md5sum, alpm_list_t **data)
+{
+	char *filepath;
+	char *md5sum2;
+	char *errormsg = NULL;
+	int ret = 0;
+
+	filepath = _alpm_filecache_find(filename);
+	md5sum2 = alpm_get_md5sum(filepath);
+
+	if(md5sum == NULL) {
+		/* TODO wtf is this? malloc'd strings for error messages? */
+		if((errormsg = calloc(512, sizeof(char))) == NULL) {
+			RET_ERR(PM_ERR_MEMORY, -1);
+		}
+		snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
+				filename);
+		*data = alpm_list_add(*data, errormsg);
+		ret = 1;
+	} else if(md5sum2 == NULL) {
+		if((errormsg = calloc(512, sizeof(char))) == NULL) {
+			RET_ERR(PM_ERR_MEMORY, -1);
+		}
+		snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
+				filename);
+		*data = alpm_list_add(*data, errormsg);
+		ret = 1;
+	} else if(strcmp(md5sum, md5sum2) != 0) {
+		int doremove = 0;
+		if((errormsg = calloc(512, sizeof(char))) == NULL) {
+			RET_ERR(PM_ERR_MEMORY, -1);
+		}
+		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filename,
+				NULL, NULL, &doremove);
+		if(doremove) {
+			unlink(filepath);
+		}
+		snprintf(errormsg, 512, _("file %s was corrupted (bad MD5 checksum)\n"),
+				filename);
+		*data = alpm_list_add(*data, errormsg);
+		ret = 1;
+	}
+
+	FREE(filepath);
+	FREE(md5sum2);
+
+	return(ret);
+}
+
+/** Compares the md5sum of a package to the expected value.
+ *
+ * @param trans the transaction
+ * @param pkg the package to test
+ * @param data data to write the error messages to
+ *
+ * @return 0 if the md5sum matched, 1 otherwise
+ */
+static int test_pkg_md5sum(pmtrans_t *trans, pmpkg_t *pkg, alpm_list_t **data)
+{
+	const char *filename;
+	const char *md5sum;
+	int ret = 0;
+
+	filename = alpm_pkg_get_filename(pkg);
+	md5sum = alpm_pkg_get_md5sum(pkg);
+
+	ret = test_md5sum(trans, filename, md5sum, data);
+
+	return(ret);
+}
+
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
@@ -761,54 +845,15 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
-		const char *filename;
-		char *filepath;
-		char *md5sum1, *md5sum2;
-		char *ptr=NULL;
+		int ret = 0;
 
-		filename = alpm_pkg_get_filename(spkg);
-		md5sum1 = spkg->md5sum;
+		ret = test_pkg_md5sum(trans, spkg, data);
 
-		if(md5sum1 == NULL) {
-			/* TODO wtf is this? malloc'd strings for error messages? */
-			if((ptr = calloc(512, sizeof(char))) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
-			snprintf(ptr, 512, _("can't get md5 checksum for package %s\n"), filename);
-			*data = alpm_list_add(*data, ptr);
+		if(ret == 1) {
 			retval = 1;
-			continue;
+		} else if(ret == -1) { /* -1 is for serious errors */
+			RET_ERR(pm_errno, -1);
 		}
-
-		filepath = _alpm_filecache_find(filename);
-
-		md5sum2 = alpm_get_md5sum(filepath);
-		if(md5sum2 == NULL) {
-			if((ptr = calloc(512, sizeof(char))) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
-			snprintf(ptr, 512, _("can't get md5 checksum for package %s\n"), filename);
-			*data = alpm_list_add(*data, ptr);
-			retval = 1;
-			continue;
-		}
-		if(strcmp(md5sum1, md5sum2) != 0) {
-			int doremove=0;
-			if((ptr = calloc(512, sizeof(char))) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
-			QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filename,
-					NULL, NULL, &doremove);
-			if(doremove) {
-				unlink(filepath);
-			}
-			snprintf(ptr, 512, _("archive %s was corrupted (bad MD5 checksum)\n"),
-					filename);
-			*data = alpm_list_add(*data, ptr);
-			retval = 1;
-		}
-		FREE(filepath);
-		FREE(md5sum2);
 	}
 	if(retval) {
 		pm_errno = PM_ERR_PKG_CORRUPTED;
