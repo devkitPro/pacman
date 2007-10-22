@@ -81,7 +81,7 @@
    equal to or greater than S2 (for more info, see the texinfo doc).
 */
 
-static int strverscmp (s1, s2)
+int strverscmp (s1, s2)
      const char *s1;
      const char *s2;
 {

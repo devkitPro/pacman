@@ -57,7 +57,7 @@ char *_alpm_filecache_find(const char *filename);
 const char *_alpm_filecache_setup(void);
 
 #ifndef HAVE_STRVERSCMP
-static int strverscmp(const char *, const char *);
+int strverscmp(const char *, const char *);
 #endif
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);
