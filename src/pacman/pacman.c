@@ -30,7 +30,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/utsname.h> /* uname */
-#include <libintl.h> /* bindtextdomain, textdomain */
 #include <locale.h> /* setlocale */
 #include <time.h> /* time_t */
 #if defined(PACMAN_DEBUG) && defined(HAVE_MTRACE)
@@ -168,6 +167,7 @@ static void version(void)
 /** Sets up gettext localization. Safe to call multiple times.
  */
 /* Inspired by the monotone function localize_monotone. */
+#if defined(ENABLE_NLS)
 static void localize(void)
 {
 	static int init = 0;
@@ -178,6 +178,7 @@ static void localize(void)
 		init = 1;
 	}
 }
+#endif
 
 /** Set user agent environment variable.
  */
@@ -730,7 +731,9 @@ int main(int argc, char *argv[])
 	signal(SIGSEGV, cleanup);
 
 	/* i18n init */
+#if defined(ENABLE_NLS)
 	localize();
+#endif
 
 	/* set user agent for downloading */
 	setuseragent();

@@ -24,19 +24,19 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include <libintl.h> /* here so it doesn't need to be included elsewhere */
 
 #include <alpm_list.h>
 
-/* update speed for the fill_progress based functions */
-#define UPDATE_SPEED_SEC 0.2f
-
-/* define _() as shortcut for gettext() */
 #ifdef ENABLE_NLS
+#include <libintl.h> /* here so it doesn't need to be included elsewhere */
+/* define _() as shortcut for gettext() */
 #define _(str) gettext(str)
 #else
 #define _(str) str
 #endif
+
+/* update speed for the fill_progress based functions */
+#define UPDATE_SPEED_SEC 0.2f
 
 int needs_transaction();
 int getcols();

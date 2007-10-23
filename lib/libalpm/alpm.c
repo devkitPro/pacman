@@ -52,7 +52,10 @@ int SYMEXPORT alpm_initialize(void)
 	if(handle == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
+
+#ifdef ENABLE_NLS
 	bindtextdomain("libalpm", LOCALEDIR);
+#endif
 
 	return(0);
 }
