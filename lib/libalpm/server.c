@@ -22,13 +22,14 @@
 #include "config.h"
 
 #include <stdlib.h>
+#include <errno.h>
+#include <time.h>
 #include <string.h>
+#include <limits.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <time.h>
-#include <errno.h>
 #include <download.h>
 
 /* libalpm */

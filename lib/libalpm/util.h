@@ -27,19 +27,19 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <libintl.h> /* here so it doesn't need to be included elsewhere */
 #include <time.h>
 
-#define FREE(p) do { if (p) { free(p); p = NULL; } } while(0)
-
-#define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
-
-/* define _() as shortcut for gettext() */
 #ifdef ENABLE_NLS
+#include <libintl.h> /* here so it doesn't need to be included elsewhere */
+/* define _() as shortcut for gettext() */
 #define _(str) dgettext ("libalpm", str)
 #else
 #define _(s) s
 #endif
+
+#define FREE(p) do { if (p) { free(p); p = NULL; } } while(0)
+
+#define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
 int _alpm_makepath(const char *path);
 int _alpm_copyfile(const char *src, const char *dest);
