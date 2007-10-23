@@ -27,13 +27,12 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <stdint.h> /* uintmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
 #include <ctype.h>
 #include <time.h>
-#ifdef CYGWIN
 #include <limits.h> /* PATH_MAX */
-#endif
 
 /* libalpm */
 #include "db.h"
@@ -589,11 +588,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			if(info->builddate) {
 				fprintf(fp, "%%BUILDDATE%%\n"
-								"%lu\n\n", info->builddate);
+								"%ju\n\n", (uintmax_t)info->builddate);
 			}
 			if(info->installdate) {
 				fprintf(fp, "%%INSTALLDATE%%\n"
-								"%lu\n\n", info->installdate);
+								"%ju\n\n", (uintmax_t)info->installdate);
 			}
 			if(info->packager[0]) {
 				fprintf(fp, "%%PACKAGER%%\n"
