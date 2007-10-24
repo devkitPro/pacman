@@ -98,8 +98,11 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
 
 	for(i = haystack; i; i = i->next) {
 		pmdepmissing_t *miss = i->data;
-		if(!memcmp(needle, miss, sizeof(pmdepmissing_t))
-		   && !memcmp(&needle->depend, &miss->depend, sizeof(pmdepend_t))) {
+		if(needle->type == miss->type &&
+		   !strcmp(needle->target, miss->target) &&
+		   needle->depend.mod == miss->depend.mod &&
+		   !strcmp(needle->depend.name, miss->depend.name) &&
+		   !strcmp(needle->depend.version, miss->depend.version)) {
 			return(1);
 		}
 	}
