@@ -379,6 +379,7 @@ pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
 pmdepmod_t alpm_dep_get_mod(pmdepend_t *dep);
 const char *alpm_dep_get_name(pmdepend_t *dep);
 const char *alpm_dep_get_version(pmdepend_t *dep);
+char *alpm_dep_get_string(pmdepend_t *dep);
 
 /*
  * File conflicts

@@ -838,4 +838,38 @@ const char SYMEXPORT *alpm_dep_get_version(pmdepend_t *dep)
 	return dep->version;
 }
 
+/* the return-string must be freed! */
+char SYMEXPORT *alpm_dep_get_string(pmdepend_t *dep)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(dep != NULL, return(NULL));
+
+	char *ptr;
+	char *depstring = malloc(sizeof(pmdepend_t));
+	if(depstring == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepend_t));
+		return NULL;
+	}
+
+	strcpy(depstring, dep->name);
+	ptr = depstring + strlen(depstring);
+	switch(dep->mod) {
+		case PM_DEP_MOD_ANY:
+			break;
+		case PM_DEP_MOD_EQ:
+			sprintf(ptr, "=%s", dep->version);
+			break;
+		case PM_DEP_MOD_GE:
+			sprintf(ptr, ">=%s", dep->version);
+			break;
+		case PM_DEP_MOD_LE:
+			sprintf(ptr, "<=%s", dep->version);
+			break;
+	}
+
+	return(depstring);
+}
 /* vim: set ts=2 sw=2 noet: */

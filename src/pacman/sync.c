@@ -559,22 +559,10 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
 					pmdepend_t *dep = alpm_miss_get_dep(miss);
+					char *depstring = alpm_dep_get_string(dep);
 					printf(_(":: %s: requires %s\n"), alpm_miss_get_target(miss),
-							alpm_dep_get_name(dep));
-					switch(alpm_dep_get_mod(dep)) {
-						case PM_DEP_MOD_ANY:
-							break;
-						case PM_DEP_MOD_EQ:
-							printf("=%s", alpm_dep_get_version(dep));
-							break;
-						case PM_DEP_MOD_GE:
-							printf(">=%s", alpm_dep_get_version(dep));
-							break;
-						case PM_DEP_MOD_LE:
-							printf("<=%s", alpm_dep_get_version(dep));
-							break;
-					}
-					printf("\n");
+							depstring);
+					free(depstring);
 				}
 				break;
 			case PM_ERR_CONFLICTING_DEPS:
