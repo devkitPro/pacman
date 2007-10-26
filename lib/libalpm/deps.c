@@ -306,7 +306,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 							if(alpm_depcmp(pkg, depend)) {
 								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' has moved from '%s' to '%s'\n",
-													depend->name, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
+													k->data, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
 							}
@@ -322,7 +322,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 									/* we ignore packages that will be updated because we know
 									 * that the updated ones don't satisfy depend */
 									_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-														depend->name, alpm_pkg_get_name(pkg));
+														k->data, alpm_pkg_get_name(pkg));
 									satisfied = 1;
 									break;
 								}
@@ -380,7 +380,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
-					                          depend->name, alpm_pkg_get_name(tp));
+					                          j->data, alpm_pkg_get_name(tp));
 					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND, depend->mod,
 					                         depend->name, depend->version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -426,7 +426,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							pmpkg_t *pkg = l->data;
 							if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
 								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-										depend->name, alpm_pkg_get_name(pkg));
+										k->data, alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
 							}
@@ -686,8 +686,10 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		for(j = *list; j && !found; j = j->next) {
 			pmpkg_t *sp = j->data;
 			if(alpm_depcmp(sp, missdep)) {
+				char *missdepstring = alpm_dep_get_string(missdep);
 				_alpm_log(PM_LOG_DEBUG, "%s satisfies dependency %s -- skipping\n",
-				          alpm_pkg_get_name(sp), missdep->name);
+				          alpm_pkg_get_name(sp), missdepstring);
+				free(missdepstring);
 				found = 1;
 			}
 		}
@@ -713,8 +715,10 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		}
 
 		if(!found) {
-			_alpm_log(PM_LOG_ERROR, _("cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)\n"),
-			          miss->target, missdep->name);
+			char *missdepstring = alpm_dep_get_string(missdep);
+			_alpm_log(PM_LOG_ERROR, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
+			          missdepstring, miss->target);
+			free(missdepstring);
 			if(data) {
 				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
 					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepmissing_t));

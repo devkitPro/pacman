@@ -178,8 +178,10 @@ int main(int argc, char **argv)
   for(i = data; i; i = alpm_list_next(i)) {
     pmdepmissing_t *miss = alpm_list_getdata(i);
     pmdepend_t *dep = alpm_miss_get_dep(miss);
+    char *depstring = alpm_dep_get_string(dep);
     printf("missing dependency for %s : %s\n", alpm_miss_get_target(miss),
-        alpm_dep_get_name(dep));
+        depstring);
+    free(depstring);
   }
 
   /* check requiredby */

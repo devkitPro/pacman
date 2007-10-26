@@ -674,8 +674,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 						pmsyncpkg_t *sp = l->data;
 						pmpkg_t *sppkg = sp->pkg;
 						if(alpm_depcmp(sppkg, &(miss->depend))) {
+							char *missdepstring = alpm_dep_get_string(&(miss->depend));
 							_alpm_log(PM_LOG_DEBUG, "sync: dependency '%s' satisfied by package '%s'\n",
-									miss->depend.name, alpm_pkg_get_name(sppkg));
+									missdepstring, alpm_pkg_get_name(sppkg));
+							free(missdepstring);
 							satisfied = 1;
 						}
 					}
