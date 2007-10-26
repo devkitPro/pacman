@@ -1092,6 +1092,7 @@ while true; do
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
+		-p)               shift; BUILDSCRIPT=$1 ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--source)         SOURCEONLY=1 ;;
