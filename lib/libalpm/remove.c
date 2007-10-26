@@ -120,7 +120,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 							}
 						} else {
 							_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping\n"),
-							          miss->depend.name);
+							          miss->target);
 						}
 					}
 					FREELIST(lp);
