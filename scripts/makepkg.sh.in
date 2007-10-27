@@ -60,6 +60,10 @@ LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
 
+# Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
+# when dealing with svn/cvs/etc PKGBUILDs.
+FORCE_VER=""
+
 PACMAN_OPTS=
 
 ### SUBROUTINES ###
@@ -976,6 +980,74 @@ install_package() {
 	fi
 }
 
+devel_check() {
+	newpkgver=""
+	if [ "$FORCE_VER" = "" ]; then
+		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
+		# This will only be used on the first call to makepkg; subsequent
+		# calls to makepkg via fakeroot will explicitly pass the version
+		# number to avoid having to determine the version number twice.
+		oldpkgver=$pkgver
+		if [ ! -z ${_darcstrunk} ] && [ ! -z ${_darcsmod} ] ; then
+			msg "$(gettext "Determining latest darcs revision...")"
+			newpkgver=$(date +%Y%m%d)
+		elif [ ! -z ${_cvsroot} ] && [ ! -z ${_cvsmod} ] ; then
+			msg "$(gettext "Determining latest cvs revision...")"
+			newpkgver=$(date +%Y%m%d)
+		elif [ ! -z ${_gitroot} ] && [ ! -z ${_gitname} ] ; then
+			msg "$(gettext "Determining latest git revision...")"
+			newpkgver=$(date +%Y%m%d)
+		elif [ ! -z ${_svntrunk} ] && [ ! -z ${_svnmod} ] ; then
+			msg "$(gettext "Determining latest svn revision...")"
+			newpkgver=$(svn log $_svntrunk --limit 1 | sed -n 's/^r\([^ ]*\) .*$/\1/p')
+		elif [ ! -z ${_bzrtrunk} ] && [ ! -z ${_bzrmod} ] ; then
+			msg "$(gettext "Determining latest bzr revision...")"
+			newpkgver=$(bzr revno ${_bzrtrunk})
+		elif [ ! -z ${_hgroot} ] && [ ! -z ${_hgrepo} ] ; then
+			msg "$(gettext "Determining latest hg revision...")"
+			if [ -d ./src/$_hgrepo ] ; then
+				cd ./src/$_hgrepo
+				make clean
+				hg pull
+				hg update
+			else
+				[[ ! -d ./src/$_hgrepo ]] && mkdir -p ./src/$_hgrepo
+				hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
+				cd ./src/$_hgrepo
+			fi
+			newpkgver=$(hg tip | sed -n '1s/[^0-9]*\([^:]*\):.*$/\1/p')
+			cd ../../
+		fi
+
+		if [ "$newpkgver" != "" ]; then
+			msg2 "$(gettext "Version found: %s")" "$newpkgver"
+			pkgver=$newpkgver
+		fi
+
+	else
+		# Version number retrieved from fakeroot->makepkg argument
+		newpkgver=$FORCE_VER
+	fi
+}
+
+devel_update() {
+	# This is lame, but if we're wanting to use an updated pkgver for
+	# retrieving svn/cvs/etc sources, we'll update the PKGBUILD with
+	# the new pkgver and then re-source it. This is the most robust
+	# method for dealing with PKGBUILDs that use, e.g.:
+	#
+	#  pkgver=23
+	#  ...
+	#  _foo=pkgver
+	#
+	if [ "$newpkgver" != "" ]; then
+		if [ "newpkgver" != "$pkgver" ]; then
+			sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" ./$BUILDSCRIPT
+			source $BUILDSCRIPT
+		fi
+	fi
+}
+
 usage() {
 	printf "makepkg (pacman) %s\n" "$myver"
 	echo
@@ -1060,7 +1132,7 @@ fi
 # Parse Command Line Options.
 OPT_SHORT="AbcCdefFghiLmop:rRsSV"
 OPT_LONG="ignorearch,asroot,builddeps,clean,cleancache,nodeps,noextract,force,geninteg,help,install,log"
-OPT_LONG="$OPT_LONG,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version"
+OPT_LONG="$OPT_LONG,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version,forcever:"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
@@ -1098,6 +1170,9 @@ while true; do
 		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
 
+		# Hidden option used by fakeroot call for svn/cvs/etc PKGBUILDs to set the pkgver
+		--forcever)       shift; FORCE_VER=$1;;
+
 		# BEGIN DEPRECATED
 		-S|--usesudo)
 			warning "$(gettext "Sudo is used by default now. The --usesudo option is deprecated!")" ;;
@@ -1111,7 +1186,6 @@ while true; do
 	esac
 	shift
 done
-
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
@@ -1256,12 +1330,15 @@ if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
 	fi
 fi
 
-# Run the bear minimum in fakeroot
+devel_check
+
+# Run the bare minimum in fakeroot
 # fix flyspray bug 6208 -- using makepkg with fakeroot gives an error
 if [ "$INFAKEROOT" = "1" ]; then
 	if [ "$REPKG" = "1" ]; then
 		warning "$(gettext "Skipping build.")"
 	else
+		devel_update
 		run_build
 		tidy_install
 	fi
@@ -1360,6 +1437,7 @@ else
 		if [ "$REPKG" = "1" ]; then
 			warning "$(gettext "Skipping build.")"
 		else
+			devel_update
 			run_build
 			tidy_install
 		fi
@@ -1369,7 +1447,11 @@ else
 		msg "$(gettext "Entering fakeroot environment...")"
 		cd "$startdir"
 
-		fakeroot -- $0 -F $ARGLIST || exit $?
+		if [ "$newpkgver" != "" ]; then
+			fakeroot -- $0 --forcever $newpkgver -F $ARGLIST || exit $?
+		else
+			fakeroot -- $0 -F $ARGLIST || exit $?
+		fi
 	fi
 
 	create_xdelta "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
