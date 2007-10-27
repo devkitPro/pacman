@@ -34,6 +34,5 @@ libalpm_la_SOURCES = \
 	util.h util.c
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
-libalpm_la_LIBADD = -larchive -ldownload
 
 # vim:set ts=2 sw=2 noet:
