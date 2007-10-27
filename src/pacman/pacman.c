@@ -32,7 +32,7 @@
 #include <sys/utsname.h> /* uname */
 #include <locale.h> /* setlocale */
 #include <time.h> /* time_t */
-#if defined(PACMAN_DEBUG) && defined(HAVE_MTRACE)
+#if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
 #include <mcheck.h> /* debug tracing (mtrace) */
 #endif
 
@@ -720,7 +720,7 @@ int main(int argc, char *argv[])
 	uid_t myuid = geteuid();
 #endif
 
-#if defined(PACMAN_DEBUG) && defined(HAVE_MTRACE)
+#if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
 	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
 	mtrace();
 #endif

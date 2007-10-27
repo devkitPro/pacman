@@ -174,7 +174,7 @@ AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([getcwd gettimeofday memmove memset mkdir realpath regcomp \
 								rmdir setenv setlocale sqrt strcasecmp strchr strdup strerror \
-								strndup strrchr strsep strstr strverscmp uname mtrace geteuid])
+								strndup strrchr strsep strstr strverscmp uname geteuid])
 
 # Enable large file support if available
 AC_SYS_LARGEFILE
@@ -267,20 +267,22 @@ AM_CONDITIONAL(USE_ASCIIDOC, test "x$useasciidoc" = "xyes")
 # Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test "x$debug" = "xyes" ; then
-	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
-	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector-all -std=c99"
-	LDFLAGS="$LDFLAGS -lmcheck"
 	AC_MSG_RESULT(yes)
+	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
+	# Check for mcheck
+	AC_CHECK_HEADERS([mcheck.h])
+
+	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector-all -std=c99"
 else
-	CFLAGS="$CFLAGS -Wall -std=c99"
 	AC_MSG_RESULT(no)
+	CFLAGS="$CFLAGS -Wall -std=c99"
 fi
 
 # Enable or disable inclusion of abs script
 AC_MSG_CHECKING(for inclusion of abs script)
 if test "x$includeabs" = "xyes" ; then
-	AC_DEFINE([INCLUDE_ABS], , [Include abs script])
 	AC_MSG_RESULT(yes)
+	AC_DEFINE([INCLUDE_ABS], , [Include abs script])
 else
 	AC_MSG_RESULT(no)
 fi
