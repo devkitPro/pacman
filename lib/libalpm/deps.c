@@ -306,7 +306,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 							if(alpm_depcmp(pkg, depend)) {
 								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' has moved from '%s' to '%s'\n",
-													k->data, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
+													(char*)k->data, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
 							}
@@ -322,7 +322,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 									/* we ignore packages that will be updated because we know
 									 * that the updated ones don't satisfy depend */
 									_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-														k->data, alpm_pkg_get_name(pkg));
+														(char*)k->data, alpm_pkg_get_name(pkg));
 									satisfied = 1;
 									break;
 								}
@@ -380,7 +380,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				/* else if still not found... */
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
-					                          j->data, alpm_pkg_get_name(tp));
+					                          (char*)j->data, alpm_pkg_get_name(tp));
 					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND, depend->mod,
 					                         depend->name, depend->version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -426,7 +426,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							pmpkg_t *pkg = l->data;
 							if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
 								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-										k->data, alpm_pkg_get_name(pkg));
+										(char*)k->data, alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
 							}
