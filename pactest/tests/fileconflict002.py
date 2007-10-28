@@ -14,4 +14,3 @@ self.args = "-A %s" % " ".join([p.filename() for p in p1, p2])
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("!PKG_EXIST=pkg1")
 self.addrule("!PKG_EXIST=pkg2")
-
