@@ -752,12 +752,12 @@ tidy_install() {
 
 	if [ "$(check_option libtool)" = "n" ]; then
 		msg2 "$(gettext "Removing libtool .la files...")"
-		find -type f -name "*.la" -exec rm -f -- '{}' \;
+		find . -type f -name "*.la" -exec rm -f -- '{}' \;
 	fi
 
 	if [ "$(check_option emptydirs)" = "n" ]; then
 		msg2 "$(gettext "Removing empty directories...")"
-		find -depth -type d -empty -delete
+		find . -depth -type d -empty -delete
 	fi
 }
 
@@ -785,7 +785,7 @@ create_package() {
 	# - find all other files/links
 	# - grep out dot files in root dir (e.g. .FILELIST .PKGINFO...)
 	# - sort the list
-	find -mindepth 1 \( -type d -printf '%P/\n' \) ,  \( ! -type d -printf '%P\n' \) \
+	find . -mindepth 1 \( -type d -printf '%P/\n' \) ,  \( ! -type d -printf '%P\n' \) \
 		2>/dev/null | grep -v '^\.' | sort >.FILELIST
 
 	# write the .PKGINFO file
