@@ -267,9 +267,10 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	strncpy(targline, name, PKG_FULLNAME_LEN);
 	targ = strchr(targline, '/');
 	if(targ) {
+		/* we are looking for a package in a specific database */
 		*targ = '\0';
 		targ++;
-		_alpm_log(PM_LOG_DEBUG, "searching for target in repo '%s'\n", targ);
+		_alpm_log(PM_LOG_DEBUG, "searching for target '%s' in repo\n", targ);
 		for(j = dbs_sync; j && !spkg; j = j->next) {
 			pmdb_t *db = j->data;
 			if(strcmp(db->treename, targline) == 0) {
@@ -277,7 +278,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 				spkg = _alpm_db_get_pkgfromcache(db, targ);
 				if(spkg == NULL) {
 					/* Search provides */
-					_alpm_log(PM_LOG_DEBUG, "target '%s' not found -- looking for provisions\n", targ);
+					_alpm_log(PM_LOG_DEBUG, "target '%s' not found in db '%s' -- looking for provisions\n", targ, db->treename);
 					alpm_list_t *p = _alpm_db_whatprovides(db, targ);
 					if(!p) {
 						RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
@@ -306,8 +307,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 				pmdb_t *db = j->data;
 				alpm_list_t *p = _alpm_db_whatprovides(db, targ);
 				if(p) {
-					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'\n",
-							(char *)p->data, targ);
+					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s' in db '%s'\n",
+							(char *)p->data, targ, db->treename);
 					spkg = _alpm_db_get_pkgfromcache(db, p->data);
 					alpm_list_free(p);
 				}

@@ -270,6 +270,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
 			}
+			_alpm_log(PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
+					alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 
 			if((oldpkg = _alpm_db_get_pkgfromcache(db, alpm_pkg_get_name(newpkg))) == NULL) {
 				_alpm_log(PM_LOG_DEBUG, "cannot find package installed '%s'\n",
@@ -354,6 +356,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
 			}
+			_alpm_log(PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
+					alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
 
 			for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 				/* split into name/version pairs */
@@ -454,7 +458,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 	return(baddeps);
 }
 
-static int _alpm_dep_vercmp(const char *version1, pmdepmod_t mod,
+static int dep_vercmp(const char *version1, pmdepmod_t mod,
 		const char *version2)
 {
 	int equal = 0;
@@ -485,7 +489,7 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 	if(strcmp(pkgname, dep->name) == 0
 			|| alpm_list_find_str(alpm_pkg_get_provides(pkg), dep->name)) {
 
-		equal = _alpm_dep_vercmp(pkgversion, dep->mod, dep->version);
+		equal = dep_vercmp(pkgversion, dep->mod, dep->version);
 
 		char *mod = "~=";
 		switch(dep->mod) {
