@@ -229,10 +229,7 @@ pmtrans_t *_alpm_trans_new()
 
 	ALPM_LOG_FUNC;
 
-	if((trans = malloc(sizeof(pmtrans_t))) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmtrans_t));
-		return(NULL);
-	}
+	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	trans->targets = NULL;
 	trans->packages = NULL;

@@ -56,10 +56,7 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 
 	ALPM_LOG_FUNC;
 
-	if((sync = malloc(sizeof(pmsyncpkg_t))) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmsyncpkg_t));
-		return(NULL);
-	}
+	CALLOC(sync, 1, sizeof(pmsyncpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	sync->type = type;
 	sync->pkg = spkg;

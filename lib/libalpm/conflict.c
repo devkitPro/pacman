@@ -239,12 +239,9 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
                     pmconflicttype_t type, const char *filestr,
 										const char* name1, const char* name2)
 {
-	pmconflict_t *conflict = malloc(sizeof(pmconflict_t));
-	if(conflict == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"),
-				sizeof(pmconflict_t));
-		return(conflicts);
-	}
+	pmconflict_t *conflict;
+	MALLOC(conflict, sizeof(pmconflict_t), return(conflicts));
+
 	conflict->type = type;
 	strncpy(conflict->target, name1, PKG_NAME_LEN);
 	strncpy(conflict->file, filestr, CONFLICT_FILE_LEN);

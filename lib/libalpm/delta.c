@@ -26,6 +26,7 @@
 
 /* libalpm */
 #include "delta.h"
+#include "error.h"
 #include "util.h"
 #include "log.h"
 #include "alpm_list.h"
@@ -235,7 +236,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	pmdelta_t *delta;
 	char *tmp = line, *tmp2;
 
-	delta = malloc(sizeof(pmdelta_t));
+	CALLOC(delta, 1, sizeof(pmdelta_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');

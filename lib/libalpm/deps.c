@@ -71,11 +71,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 
 	ALPM_LOG_FUNC;
 
-	miss = malloc(sizeof(pmdepmissing_t));
-	if(miss == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepmissing_t));
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
+	MALLOC(miss, sizeof(pmdepmissing_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	strncpy(miss->target, target, PKG_NAME_LEN);
 	miss->type = type;
@@ -524,11 +520,7 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 	}
 	newstr = strdup(depstring);
 	
-	depend = malloc(sizeof(pmdepend_t));
-	if(depend == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepend_t));
-		return(NULL);
-	}
+	MALLOC(depend, sizeof(pmdepend_t), return(NULL));
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
@@ -855,12 +847,11 @@ char SYMEXPORT *alpm_dep_get_string(pmdepend_t *dep)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(dep != NULL, return(NULL));
 
+	/* TODO redo the sprintf, change to snprintf and
+	 * make it less hacky and dependent on sizeof, etc */
 	char *ptr;
-	char *depstring = malloc(sizeof(pmdepend_t));
-	if(depstring == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmdepend_t));
-		return NULL;
-	}
+	char *depstring;
+	MALLOC(depstring, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	strcpy(depstring, dep->name);
 	ptr = depstring + strlen(depstring);

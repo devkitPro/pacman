@@ -668,9 +668,7 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 
 	ALPM_LOG_FUNC;
 
-	if((pkg = calloc(1,sizeof(pmpkg_t))) == NULL) {
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
+	CALLOC(pkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	if(name && name[0] != 0) {
 		strncpy(pkg->name, name, PKG_NAME_LEN);
@@ -692,10 +690,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 	ALPM_LOG_FUNC;
 
-	if((newpkg = calloc(1, sizeof(pmpkg_t))) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmpkg_t));
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
+	CALLOC(newpkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	memcpy(newpkg, pkg, sizeof(pmpkg_t));
 	newpkg->licenses    = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
@@ -951,14 +946,14 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves
 	 * as a verfication of integrity. */
-	while((ret = archive_read_next_header (archive, &entry)) == ARCHIVE_OK) {
+	while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
 		const char *entry_name = archive_entry_pathname(entry);
 
 		if(strcmp(entry_name, ".PKGINFO") == 0) {
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(descfile);
-			archive_read_data_into_fd (archive, fd);
+			archive_read_data_into_fd(archive, fd);
 			/* parse the info file */
 			if(parse_descfile(descfile, info) == -1) {
 				_alpm_log(PM_LOG_ERROR, _("could not parse package description file in %s\n"),
@@ -984,12 +979,9 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 			/* Build info->files from the filelist */
 			FILE *fp;
 			char *fn;
-			char *str;
+			char str[PATH_MAX+1];
 			int fd;
 			
-			if((str = malloc(PATH_MAX)) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, (pmpkg_t *)-1);
-			}
 			fn = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(fn);
 			archive_read_data_into_fd(archive,fd);
@@ -1001,7 +993,6 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 				_alpm_strtrim(str);
 				info->files = alpm_list_add(info->files, strdup(str));
 			}
-			FREE(str);
 			fclose(fp);
 			if(unlink(fn)) {
 				_alpm_log(PM_LOG_WARNING, _("could not remove tempfile %s\n"), fn);

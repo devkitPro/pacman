@@ -582,18 +582,9 @@ pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 
 	ALPM_LOG_FUNC;
 
-	db = calloc(1, sizeof(pmdb_t));
-	if(db == NULL) {
-		_alpm_log(PM_LOG_ERROR, "calloc : %s\n", strerror(errno));
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
+	CALLOC(db, 1, sizeof(pmdb_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(db->path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	db->path = calloc(1, pathsize);
-	if(db->path == NULL) {
-		_alpm_log(PM_LOG_ERROR, "calloc : %s\n", strerror(errno));
-		FREE(db);
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
 	sprintf(db->path, "%s%s/", dbpath, treename);
 
 	strncpy(db->treename, treename, PATH_MAX);

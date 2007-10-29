@@ -49,13 +49,8 @@ pmserver_t *_alpm_server_new(const char *url)
 
 	ALPM_LOG_FUNC;
 
-	server = malloc(sizeof(pmserver_t));
-	if(server == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %d bytes\n"), sizeof(pmserver_t));
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
+	CALLOC(server, 1, sizeof(pmserver_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	memset(server, 0, sizeof(pmserver_t));
 	u = downloadParseURL(url);
 	if(!u) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid, ignoring\n"), url);
@@ -122,10 +117,7 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
 	int doclen = 0;
 
 	doclen = strlen(server->s_url->doc) + strlen(filename) + 2;
-	doc = calloc(doclen, sizeof(char));
-	if(!doc) {
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
+	CALLOC(doc, doclen, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	snprintf(doc, doclen, "%s/%s", server->s_url->doc, filename);
 	ret = downloadMakeURL(server->s_url->scheme,
