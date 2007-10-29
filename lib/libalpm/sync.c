@@ -951,7 +951,7 @@ static int test_delta_md5sum(pmtrans_t *trans, pmdelta_t *delta,
 		alpm_list_t **data)
 {
 	const char *filename;
-	char *md5sum;
+	const char *md5sum;
 	int ret = 0;
 
 	filename = alpm_delta_get_filename(delta);

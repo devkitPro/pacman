@@ -37,7 +37,7 @@
  * @{
  */
 
-char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
+const char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
 {
 	ALPM_LOG_FUNC;
 
@@ -47,7 +47,7 @@ char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
 	return(delta->from);
 }
 
-char SYMEXPORT *alpm_delta_get_to(pmdelta_t *delta)
+const char SYMEXPORT *alpm_delta_get_to(pmdelta_t *delta)
 {
 	ALPM_LOG_FUNC;
 
@@ -67,7 +67,7 @@ unsigned long SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
 	return(delta->size);
 }
 
-char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
+const char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
 {
 	ALPM_LOG_FUNC;
 
@@ -77,7 +77,7 @@ char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
 	return(delta->filename);
 }
 
-char SYMEXPORT *alpm_delta_get_md5sum(pmdelta_t *delta)
+const char SYMEXPORT *alpm_delta_get_md5sum(pmdelta_t *delta)
 {
 	ALPM_LOG_FUNC;
 

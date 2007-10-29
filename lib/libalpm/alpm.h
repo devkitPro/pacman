@@ -221,11 +221,11 @@ unsigned long alpm_pkg_download_size(pmpkg_t *newpkg, pmdb_t *db_local);
  * Deltas
  */
 
-char *alpm_delta_get_from(pmdelta_t *delta);
-char *alpm_delta_get_to(pmdelta_t *delta);
+const char *alpm_delta_get_from(pmdelta_t *delta);
+const char *alpm_delta_get_to(pmdelta_t *delta);
 unsigned long alpm_delta_get_size(pmdelta_t *delta);
-char *alpm_delta_get_filename(pmdelta_t *delta);
-char *alpm_delta_get_md5sum(pmdelta_t *delta);
+const char *alpm_delta_get_filename(pmdelta_t *delta);
+const char *alpm_delta_get_md5sum(pmdelta_t *delta);
 
 /*
  * Groups
