@@ -165,13 +165,23 @@ class pmpkg:
 
         # .FILELIST
         if self.files:
-            os.system("tar cvf /dev/null * | sort >.FILELIST")
+            # generate a filelist
+            filelist = []
+            current = ""
+            for path, dirs, files in os.walk("."):
+                # we have to strip the './' portion from the path
+                # and add a newline to each entry.
+                current = os.path.join(path, "")[2:]
+                if len(current) != 0:
+                    filelist.append(current + "\n")
+                for file in files:
+                    # skip .PKGINFO, etc.
+                    if(not file.startswith(".")):
+                        filelist.append(os.path.join(path, file)[2:] + "\n")
+            f = open('.FILELIST', 'w')
+            f.writelines(filelist)
+            f.close()
             targets += " .FILELIST *"
-        else:
-            #prevent some pacman warnings... I expect a real package would
-            #always have at least one file...
-            os.system("touch .FILELIST")
-            targets += " .FILELIST"
 
         #safely create the dir
         mkdir(os.path.dirname(self.path))
