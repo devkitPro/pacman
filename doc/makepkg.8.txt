@@ -60,7 +60,7 @@ Options
 
 *-e, \--noextract*::
 	Do not extract source files; use whatever source already exists in the
-	src/ directory. This is handy if you want to go into src and manually
+	src/ directory. This is handy if you want to go into src/ and manually
 	patch or tweak code, then make a package out of the result. Keep in mind
 	that creating a patch may be a better solution to allow others to use
 	your PKGBUILD.
@@ -94,8 +94,8 @@ Options
 	building.
 
 *-p* <`buildscript`>::
-	Read the package script `buildscript` instead of the default, see
-	manlink:PKGBUILD[5].
+	Read the package script `buildscript` instead of the `PKGBUILD` default;
+	see manlink:PKGBUILD[5].
 
 *-r, \--rmdeps*::
 	Upon successful build, remove any dependencies installed by makepkg
@@ -107,8 +107,8 @@ Options
 	build itself will not change.
 
 *-s, \--syncdeps*::
-	Install missing dependencies using pacman. When missing build-time or
-	run-time dependencies are found, pacman will try to resolve them. If
+	Install missing dependencies using pacman. When build-time or run-time
+	dependencies are not found, pacman will try to resolve them. If
 	successful, the missing packages will be downloaded and installed.
 
 *\--asroot*::
@@ -128,6 +128,14 @@ Options
 *\--noprogressbar*::
 	(Passed to pacman) Prevent pacman from displaying a progress bar;
 	useful if you are redirecting makepkg output to file.
+
+
+Additional Features
+-------------------
+makepkg supports building development versions of packages without having to
+manually update the pkgver in the PKGBUILD. This was formerly done using the
+separate utility 'versionpkg'. See manlink:PKGBUILD[5] for details on how to
+set up a development PKGBUILD.
 
 
 Configuration

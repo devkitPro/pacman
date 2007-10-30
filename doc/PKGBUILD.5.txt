@@ -36,9 +36,10 @@ Options and Directives
 	The version of the software as released from the author (e.g. \'2.7.1').
 
 *pkgrel*::
-	This is the release number specific to the Arch Linuxs release. This
+	This is the release number specific to the Arch Linux release. This
 	allows package maintainers to make updates to the package's configure
-	flags, for example.
+	flags, for example. A pkgrel of 1 is typically used for each upstream
+	software release and is incremented for intermediate PKGBUILD updates.
 
 *pkgdesc*::
 	This should be a brief description of the package and its functionality.
@@ -71,7 +72,9 @@ Options and Directives
 	must either reside in the same directory as the PKGBUILD file, or be a
 	fully-qualified URL that makepkg will use to download the file. In order
 	to make the PKGBUILD as useful as possible, use the $pkgname and $pkgver
-	variables if possible when specifying the download location.
+	variables if possible when specifying the download location. Any files
+	that are compressed will automatically be extracted, unless found in
+	the noextract array listed below.
 
 *noextract (array)*::
 	An array of filenames corresponding to those from the source array. Files
@@ -191,7 +194,7 @@ Install/Upgrade/Remove Scripting
 --------------------------------
 Pacman has the ability to store and execute a package-specific script when it
 installs, removes, or upgrades a package. This allows a package to configure
-itself after installation and do the opposite right before it is removed.
+itself after installation and perform an opposite action upon removal.
 
 The exact time the script is run varies with each operation:
 
@@ -218,14 +221,71 @@ same directory as the PKGBUILD script. Then use the install directive:
 
 	install=pkgname.install
 
-The install script does not need to be specified in the source array. A template
-install file is available in the ABS tree (/var/abs/install.proto).
+The install script does not need to be specified in the source array. A
+template install file is available in the ABS tree (/var/abs/install.proto).
 
+
+Development Directives
+----------------------
+makepkg supports building development versions of packages without having to
+manually update the pkgver in the PKGBUILD. This was formerly done using the
+separate utility 'versionpkg'. In order to utilize this functionality, your
+PKGBUILD must use correct variable names depending on the SCM being fetched
+from.
+
+*CVS*::
+	The generated pkgver will be the date the package is built.
+
+	*_cvsroot*;;
+		The root of the CVS repository.
+
+	*_cvsmod*;;
+		The CVS module to fetch.
+
+*SVN*::
+	The generated pkgver will be the latest SVN revision number.
+
+	*_svntrunk*;;
+		The trunk of the SVN repository.
+
+	*_cvsmod*;;
+		The SVN module to fetch.
+
+*Git*::
+	The generated pkgver will be one formatted by the 'git-describe'
+	command, with '-' characters converted to '_' characters.
+
+	*_gitroot*;;
+		The URL (all protocols supported) to the GIT repository.
+
+	*_gitname*;;
+		GIT tag or branch to use.
+
+*Mercurial*::
+	The generated pkgver will be the hg tip revision number.
+
+	*_hgroot*;;
+
+	*_hgrepo*;;
+
+*Darcs*::
+	The generated pkgver will be the date the package is built.
+
+	*_darcstrunk*;;
+
+	*_darcsmod*;;
+
+*Bazaar*::
+	The generated pkgver will be the latest Bazaar revision number (revno).
+
+	*_bzrtrunk*;;
+
+	*_bzrmod*;;
 
 Example
 -------
-The following is an example PKGBUILD for the 'module-init-tools' package. For more
-examples, look through the ABS tree.
+The following is an example PKGBUILD for the 'module-init-tools' package. For
+more examples, look through the ABS tree.
 
 -----
 include::PKGBUILD-example.txt[]
