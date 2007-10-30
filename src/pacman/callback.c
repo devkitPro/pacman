@@ -396,8 +396,9 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	oprlen = strlen(opr);
 	wcopr = calloc(oprlen, sizeof(wchar_t));
 	if(!wcopr) {
-		fprintf(stderr, "malloc failure: could not allocate %d bytes\n",
+		fprintf(stderr, "malloc failure: could not allocate %zd bytes\n",
 		        strlen(opr) * sizeof(wchar_t));
+		return;
 	}
 	oprlen = mbstowcs(wcopr, opr, oprlen);
 
