@@ -46,6 +46,7 @@
 #include "error.h"
 #include "db.h"
 #include "cache.h"
+#include "delta.h"
 #include "provide.h"
 #include "handle.h"
 #include "alpm.h"
@@ -703,6 +704,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
 	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
 	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
+	newpkg->deltas     = alpm_list_copy_data(alpm_pkg_get_deltas(pkg));
 	/* internal */
 	if(newpkg->origin == PKG_FROM_FILE) {
 		newpkg->origin_data.file = strdup(pkg->origin_data.file);
