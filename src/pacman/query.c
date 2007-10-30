@@ -47,17 +47,16 @@ static char *resolve_path(const char* file)
 
 	str = calloc(PATH_MAX+1, sizeof(char));
 	if(!str) {
-		/* null hmmm.... */
 		return(NULL);
 	}
 
 	if(!realpath(file, str)) {
+		free(str);
 		return(NULL);
 	}
 
 	return(str);
 }
-
 
 static int query_fileowner(alpm_list_t *targets)
 {
