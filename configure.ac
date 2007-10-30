@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 # Minimum version of autoconf required
-AC_PREREQ(2.61)
+AC_PREREQ(2.60)
 
 # UPDATING VERSION NUMBERS FOR RELEASES
 #
@@ -120,7 +120,7 @@ AC_ARG_ENABLE(abs,
 
 # Checks for programs.
 AC_PROG_AWK
-AC_PROG_CC
+AC_PROG_CC_C99
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
@@ -139,39 +139,24 @@ AC_CHECK_LIB([archive], [archive_read_data], , AC_MSG_ERROR([libarchive is neede
 AC_CHECK_LIB([download], [downloadParseURL], , AC_MSG_ERROR([libdownload is needed to compile pacman!]))
 
 # Checks for header files.
-AC_HEADER_DIRENT
-AC_HEADER_STDC
-AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h mntent.h stdlib.h string.h strings.h sys/ioctl.h sys/statvfs.h sys/time.h syslog.h unistd.h wchar.h])
+AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/statvfs.h sys/time.h syslog.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
 AC_C_INLINE
 AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
-AC_HEADER_TIME
 AC_STRUCT_TM
 AC_TYPE_UID_T
 
 # Checks for library functions.
-AC_FUNC_ALLOCA
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
-AC_FUNC_GETMNTENT
-AC_PROG_GCC_TRADITIONAL
-AC_FUNC_LSTAT
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
-AC_FUNC_MALLOC
-AC_FUNC_MEMCMP
-AC_FUNC_REALLOC
+AC_FUNC_MKTIME
 AC_TYPE_SIGNAL
-AC_FUNC_STAT
-AC_FUNC_STRFTIME
-AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([getcwd gettimeofday memmove memset mkdir realpath regcomp \
-								rmdir setenv setlocale sqrt strcasecmp strchr strdup strerror \
+AC_CHECK_FUNCS([realpath regcomp strcasecmp strdup strerror strnlen \
 								strndup strrchr strsep strstr strverscmp uname geteuid])
 
 # Enable large file support if available
@@ -270,10 +255,10 @@ if test "x$debug" = "xyes" ; then
 	# Check for mcheck
 	AC_CHECK_HEADERS([mcheck.h])
 
-	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector-all -std=c99"
+	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector-all"
 else
 	AC_MSG_RESULT(no)
-	CFLAGS="$CFLAGS -Wall -std=c99"
+	CFLAGS="$CFLAGS -Wall"
 fi
 
 # Enable or disable inclusion of abs script
