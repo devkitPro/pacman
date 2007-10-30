@@ -361,8 +361,6 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 /**
  * @brief Copy a string list, including data.
  * 
- * This is gross, assumes string data members.
- *
  * @param list the list to copy
  *
  * @return a copy of the original list
@@ -392,6 +390,30 @@ alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
 	while(lp) {
 		newlist = alpm_list_add(newlist, lp->data);
 		lp = lp->next;
+	}
+	return(newlist);
+}
+
+/**
+ * @brief Copy a list and copy the data.
+ *
+ * The data must be constant size!
+ *
+ * @param list the list to copy
+ *
+ * @return a copy of the original list, data copied as well
+ */
+alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list)
+{
+	const alpm_list_t *lp = list;
+	alpm_list_t *newlist = NULL;
+	while(lp) {
+		void *newdata = calloc(1, sizeof(lp->data));
+		if(newdata) {
+			memcpy(newdata, lp->data, sizeof(lp->data));
+			newlist = alpm_list_add(newlist, newdata);
+			lp = lp->next;
+		}
 	}
 	return(newlist);
 }
