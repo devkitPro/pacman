@@ -285,10 +285,9 @@ int SYMEXPORT alpm_option_set_root(const char *root)
 		pm_errno = PM_ERR_NOT_A_DIR;
 		return(-1);
 	}
-	/* According to the man page, realpath is safe to use IFF the second arg is
-	 * NULL. */
-	realroot = realpath(root, NULL);
-	if(!realroot) {
+
+	realroot = calloc(PATH_MAX+1, sizeof(char));
+	if(!realpath(root, realroot)) {
 		pm_errno = PM_ERR_NOT_A_DIR;
 		return(-1);
 	}
