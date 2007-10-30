@@ -27,7 +27,7 @@
 #              E_OK : Everything worked :)
 # E_MISSING_PROGRAM : A program the script depends on is not installed.
 #    E_CONFIG_ERROR : Missing/incorrect configuration.
-#  E_INVALID_OPTION : User has passed unknow/invalid option to script.
+#  E_INVALID_OPTION : User has passed unknown/invalid option to script.
 ##
 
 # gettext initialization
@@ -135,12 +135,12 @@ elif [ ! -w "$ABSROOT" ]; then
 fi
 
 
-if [ "$(type -p cvsup)" ]; then
-	CVSUP="cvsup"
-elif [ "$(type -p csup)" ]; then
+if [ "$(type -p csup)" ]; then
 	CVSUP="csup"
+elif [ "$(type -p cvsup)" ]; then
+	CVSUP="cvsup"
 else
-	error "$(gettext "Missing CVS synchronization utility. Install cvsup or csup.")"
+	error "$(gettext "Missing CVS synchronization utility. Install csup or cvsup.")"
 	exit 1 # E_MISSING_PROGRAM
 fi
 
