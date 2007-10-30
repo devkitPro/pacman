@@ -6,7 +6,7 @@ EXTRA_DIST = HACKING
 
 # run the pactest test suite
 check-local:  src/pacman
-	python $(top_srcdir)/pactest/pactest.py --debug=1 \
+	$(PYTHON) $(top_srcdir)/pactest/pactest.py --debug=1 \
 		--test $(top_srcdir)/pactest/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
 	rm -rf $(top_builddir)/root
