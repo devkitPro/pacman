@@ -30,28 +30,6 @@ dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX.
     [AC_LIBTOOL_CXX],
     [define([AC_PROG_CXX], defn([AC_PROG_CXX])[AC_LIBTOOL_CXX
   ])])
-dnl And a similar setup for Fortran 77 support
-  AC_PROVIDE_IFELSE([AC_PROG_F77],
-    [AC_LIBTOOL_F77],
-    [define([AC_PROG_F77], defn([AC_PROG_F77])[AC_LIBTOOL_F77
-])])
-
-dnl Quote A][M_PROG_GCJ so that aclocal doesn't bring it in needlessly.
-dnl If either AC_PROG_GCJ or A][M_PROG_GCJ have already been expanded, run
-dnl AC_LIBTOOL_GCJ immediately, otherwise, hook it in at the end of both.
-  AC_PROVIDE_IFELSE([AC_PROG_GCJ],
-    [AC_LIBTOOL_GCJ],
-    [AC_PROVIDE_IFELSE([A][M_PROG_GCJ],
-      [AC_LIBTOOL_GCJ],
-      [AC_PROVIDE_IFELSE([LT_AC_PROG_GCJ],
-	[AC_LIBTOOL_GCJ],
-      [ifdef([AC_PROG_GCJ],
-	     [define([AC_PROG_GCJ], defn([AC_PROG_GCJ])[AC_LIBTOOL_GCJ])])
-       ifdef([A][M_PROG_GCJ],
-	     [define([A][M_PROG_GCJ], defn([A][M_PROG_GCJ])[AC_LIBTOOL_GCJ])])
-       ifdef([LT_AC_PROG_GCJ],
-	     [define([LT_AC_PROG_GCJ],
-		defn([LT_AC_PROG_GCJ])[AC_LIBTOOL_GCJ])])])])
 ])])# AC_PROG_LIBTOOL
 
 
@@ -60,8 +38,6 @@ dnl AC_LIBTOOL_GCJ immediately, otherwise, hook it in at the end of both.
 AC_DEFUN([_AC_PROG_LIBTOOL],
 [AC_REQUIRE([AC_LIBTOOL_SETUP])dnl
 AC_BEFORE([$0],[AC_LIBTOOL_CXX])dnl
-AC_BEFORE([$0],[AC_LIBTOOL_F77])dnl
-AC_BEFORE([$0],[AC_LIBTOOL_GCJ])dnl
 
 # This can be used to rebuild libtool when needed
 LIBTOOL_DEPS="$ac_aux_dir/ltmain.sh"
@@ -1880,22 +1856,6 @@ if test -f "$ltmain" && test -n "$tagnames"; then
 	fi
 	;;
 
-      F77)
-	if test -n "$F77" && test "X$F77" != "Xno"; then
-	  AC_LIBTOOL_LANG_F77_CONFIG
-	else
-	  tagname=""
-	fi
-	;;
-
-      GCJ)
-	if test -n "$GCJ" && test "X$GCJ" != "Xno"; then
-	  AC_LIBTOOL_LANG_GCJ_CONFIG
-	else
-	  tagname=""
-	fi
-	;;
-
       RC)
 	AC_LIBTOOL_LANG_RC_CONFIG
 	;;
@@ -2644,43 +2604,6 @@ if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
   AC_PROG_CXXCPP
 fi
 ])# _LT_AC_PROG_CXXCPP
-
-# AC_LIBTOOL_F77
-# --------------
-# enable support for Fortran 77 libraries
-AC_DEFUN([AC_LIBTOOL_F77],
-[AC_REQUIRE([_LT_AC_LANG_F77])
-])# AC_LIBTOOL_F77
-
-
-# _LT_AC_LANG_F77
-# ---------------
-AC_DEFUN([_LT_AC_LANG_F77],
-[AC_REQUIRE([AC_PROG_F77])
-_LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}F77])
-])# _LT_AC_LANG_F77
-
-
-# AC_LIBTOOL_GCJ
-# --------------
-# enable support for GCJ libraries
-AC_DEFUN([AC_LIBTOOL_GCJ],
-[AC_REQUIRE([_LT_AC_LANG_GCJ])
-])# AC_LIBTOOL_GCJ
-
-
-# _LT_AC_LANG_GCJ
-# ---------------
-AC_DEFUN([_LT_AC_LANG_GCJ],
-[AC_PROVIDE_IFELSE([AC_PROG_GCJ],[],
-  [AC_PROVIDE_IFELSE([A][M_PROG_GCJ],[],
-    [AC_PROVIDE_IFELSE([LT_AC_PROG_GCJ],[],
-      [ifdef([AC_PROG_GCJ],[AC_REQUIRE([AC_PROG_GCJ])],
-	 [ifdef([A][M_PROG_GCJ],[AC_REQUIRE([A][M_PROG_GCJ])],
-	   [AC_REQUIRE([A][C_PROG_GCJ_OR_A][M_PROG_GCJ])])])])])])
-_LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}GCJ])
-])# _LT_AC_LANG_GCJ
-
 
 # AC_LIBTOOL_RC
 # -------------
@@ -3830,22 +3753,6 @@ private:
   int a;
 };
 EOF
-],[$1],[F77],[cat > conftest.$ac_ext <<EOF
-      subroutine foo
-      implicit none
-      integer*4 a
-      a=0
-      return
-      end
-EOF
-],[$1],[GCJ],[cat > conftest.$ac_ext <<EOF
-public class foo {
-  private int a;
-  public void bar (void) {
-    a = 0;
-  }
-};
-EOF
 ])
 dnl Parse the compiler output and extract the necessary
 dnl objects, libraries and library flags.
@@ -3997,174 +3904,6 @@ case " $_LT_AC_TAGVAR(postdeps, $1) " in
 *" -lc "*) _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no ;;
 esac
 ])# AC_LIBTOOL_POSTDEP_PREDEP
-
-# AC_LIBTOOL_LANG_F77_CONFIG
-# --------------------------
-# Ensure that the configuration vars for the C compiler are
-# suitably defined.  Those variables are subsequently used by
-# AC_LIBTOOL_CONFIG to write the compiler configuration to `libtool'.
-AC_DEFUN([AC_LIBTOOL_LANG_F77_CONFIG], [_LT_AC_LANG_F77_CONFIG(F77)])
-AC_DEFUN([_LT_AC_LANG_F77_CONFIG],
-[AC_REQUIRE([AC_PROG_F77])
-AC_LANG_PUSH(Fortran 77)
-
-_LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
-_LT_AC_TAGVAR(allow_undefined_flag, $1)=
-_LT_AC_TAGVAR(always_export_symbols, $1)=no
-_LT_AC_TAGVAR(archive_expsym_cmds, $1)=
-_LT_AC_TAGVAR(export_dynamic_flag_spec, $1)=
-_LT_AC_TAGVAR(hardcode_direct, $1)=no
-_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)=
-_LT_AC_TAGVAR(hardcode_libdir_flag_spec_ld, $1)=
-_LT_AC_TAGVAR(hardcode_libdir_separator, $1)=
-_LT_AC_TAGVAR(hardcode_minus_L, $1)=no
-_LT_AC_TAGVAR(hardcode_automatic, $1)=no
-_LT_AC_TAGVAR(module_cmds, $1)=
-_LT_AC_TAGVAR(module_expsym_cmds, $1)=
-_LT_AC_TAGVAR(link_all_deplibs, $1)=unknown
-_LT_AC_TAGVAR(old_archive_cmds, $1)=$old_archive_cmds
-_LT_AC_TAGVAR(no_undefined_flag, $1)=
-_LT_AC_TAGVAR(whole_archive_flag_spec, $1)=
-_LT_AC_TAGVAR(enable_shared_with_static_runtimes, $1)=no
-
-# Source file extension for f77 test sources.
-ac_ext=f
-
-# Object file extension for compiled f77 test sources.
-objext=o
-_LT_AC_TAGVAR(objext, $1)=$objext
-
-# Code to be used in simple compile tests
-lt_simple_compile_test_code="\
-      subroutine t
-      return
-      end
-"
-
-# Code to be used in simple link tests
-lt_simple_link_test_code="\
-      program t
-      end
-"
-
-# ltmain only uses $CC for tagged configurations so make sure $CC is set.
-_LT_AC_SYS_COMPILER
-
-# save warnings/boilerplate of simple test code
-_LT_COMPILER_BOILERPLATE
-_LT_LINKER_BOILERPLATE
-
-# Allow CC to be a program name with arguments.
-lt_save_CC="$CC"
-CC=${F77-"f77"}
-compiler=$CC
-_LT_AC_TAGVAR(compiler, $1)=$CC
-_LT_CC_BASENAME([$compiler])
-
-AC_MSG_CHECKING([if libtool supports shared libraries])
-AC_MSG_RESULT([$can_build_shared])
-
-AC_MSG_CHECKING([whether to build shared libraries])
-test "$can_build_shared" = "no" && enable_shared=no
-
-# On AIX, shared libraries and static libraries use the same namespace, and
-# are all built from PIC.
-case $host_os in
-aix3*)
-  test "$enable_shared" = yes && enable_static=no
-  if test -n "$RANLIB"; then
-    archive_cmds="$archive_cmds~\$RANLIB \$lib"
-    postinstall_cmds='$RANLIB $lib'
-  fi
-  ;;
-aix4* | aix5*)
-  if test "$host_cpu" != ia64 && test "$aix_use_runtimelinking" = no ; then
-    test "$enable_shared" = yes && enable_static=no
-  fi
-  ;;
-esac
-AC_MSG_RESULT([$enable_shared])
-
-AC_MSG_CHECKING([whether to build static libraries])
-# Make sure either enable_shared or enable_static is yes.
-test "$enable_shared" = yes || enable_static=yes
-AC_MSG_RESULT([$enable_static])
-
-_LT_AC_TAGVAR(GCC, $1)="$G77"
-_LT_AC_TAGVAR(LD, $1)="$LD"
-
-AC_LIBTOOL_PROG_COMPILER_PIC($1)
-AC_LIBTOOL_PROG_CC_C_O($1)
-AC_LIBTOOL_SYS_HARD_LINK_LOCKS($1)
-AC_LIBTOOL_PROG_LD_SHLIBS($1)
-AC_LIBTOOL_SYS_DYNAMIC_LINKER($1)
-AC_LIBTOOL_PROG_LD_HARDCODE_LIBPATH($1)
-
-AC_LIBTOOL_CONFIG($1)
-
-AC_LANG_POP
-CC="$lt_save_CC"
-])# AC_LIBTOOL_LANG_F77_CONFIG
-
-
-# AC_LIBTOOL_LANG_GCJ_CONFIG
-# --------------------------
-# Ensure that the configuration vars for the C compiler are
-# suitably defined.  Those variables are subsequently used by
-# AC_LIBTOOL_CONFIG to write the compiler configuration to `libtool'.
-AC_DEFUN([AC_LIBTOOL_LANG_GCJ_CONFIG], [_LT_AC_LANG_GCJ_CONFIG(GCJ)])
-AC_DEFUN([_LT_AC_LANG_GCJ_CONFIG],
-[AC_LANG_SAVE
-
-# Source file extension for Java test sources.
-ac_ext=java
-
-# Object file extension for compiled Java test sources.
-objext=o
-_LT_AC_TAGVAR(objext, $1)=$objext
-
-# Code to be used in simple compile tests
-lt_simple_compile_test_code="class foo {}"
-
-# Code to be used in simple link tests
-lt_simple_link_test_code='public class conftest { public static void main(String[[]] argv) {}; }'
-
-# ltmain only uses $CC for tagged configurations so make sure $CC is set.
-_LT_AC_SYS_COMPILER
-
-# save warnings/boilerplate of simple test code
-_LT_COMPILER_BOILERPLATE
-_LT_LINKER_BOILERPLATE
-
-# Allow CC to be a program name with arguments.
-lt_save_CC="$CC"
-CC=${GCJ-"gcj"}
-compiler=$CC
-_LT_AC_TAGVAR(compiler, $1)=$CC
-_LT_CC_BASENAME([$compiler])
-
-# GCJ did not exist at the time GCC didn't implicitly link libc in.
-_LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
-
-_LT_AC_TAGVAR(old_archive_cmds, $1)=$old_archive_cmds
-
-## CAVEAT EMPTOR:
-## There is no encapsulation within the following macros, do not change
-## the running order or otherwise move them around unless you know exactly
-## what you are doing...
-AC_LIBTOOL_PROG_COMPILER_NO_RTTI($1)
-AC_LIBTOOL_PROG_COMPILER_PIC($1)
-AC_LIBTOOL_PROG_CC_C_O($1)
-AC_LIBTOOL_SYS_HARD_LINK_LOCKS($1)
-AC_LIBTOOL_PROG_LD_SHLIBS($1)
-AC_LIBTOOL_SYS_DYNAMIC_LINKER($1)
-AC_LIBTOOL_PROG_LD_HARDCODE_LIBPATH($1)
-
-AC_LIBTOOL_CONFIG($1)
-
-AC_LANG_RESTORE
-CC="$lt_save_CC"
-])# AC_LIBTOOL_LANG_GCJ_CONFIG
 
 
 # AC_LIBTOOL_LANG_RC_CONFIG
@@ -6484,12 +6223,6 @@ AC_DEFUN([AM_PROG_NM],        [AC_PROG_NM])
 
 # This is just to silence aclocal about the macro not being used
 ifelse([AC_DISABLE_FAST_INSTALL])
-
-AC_DEFUN([LT_AC_PROG_GCJ],
-[AC_CHECK_TOOL(GCJ, gcj, no)
-  test "x${GCJFLAGS+set}" = xset || GCJFLAGS="-g -O2"
-  AC_SUBST(GCJFLAGS)
-])
 
 AC_DEFUN([LT_AC_PROG_RC],
 [AC_CHECK_TOOL(RC, windres, no)
