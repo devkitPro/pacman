@@ -26,7 +26,18 @@
 
 #include <alpm.h>
 
+#define BASENAME "vercmp"
+
 #define MAX_LEN 255
+
+static void usage()
+{
+	fprintf(stderr, "usage: %s <ver1> <ver2>\n\n", BASENAME);
+	fprintf(stderr, "return values:\n");
+	fprintf(stderr, "  < 0 : if ver1 < ver2\n");
+	fprintf(stderr, "    0 : if ver1 == ver2\n");
+	fprintf(stderr, "  > 0 : if ver1 > ver2\n");
+}
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +45,16 @@ int main(int argc, char *argv[])
 	char s2[MAX_LEN] = "";
 	int ret;
 
+	if(argc == 1) {
+		usage();
+		return(2);
+	}
+	if(argc > 1 &&
+			(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0
+			 || strcmp(argv[1], "--usage") == 0)) {
+		usage();
+		return(0);
+	}
 	if(argc > 1) {
 		strncpy(s1, argv[1], MAX_LEN);
 		s1[MAX_LEN -1] = '\0';
