@@ -4,22 +4,8 @@ TODO.dan
 This is my personal TODO list. No guarantees if it is out of date and things no
 longer apply. If you want to help out with any of it, send me an email.
 
-Only vaguely related to pacman:
--------------------------------
-
-Port the libdownload (libfetch) manpage from BSD style to Linux style, or at
-very least change references to BSD.
-
-
 Pacman 3.1:
 -----------
-
-Documentation- look into moving man page format to a more portable source
-format to make translation easier to keep up-to-date (something like txt2tags,
-docbook, asciidoc) This will need some research.
-
-Update cache cleaning functionality - keep installed version, choose number to
-keep, etc. Good python script in the forums that we should try to emulate.
 
 Downgrade feature - allow users to see cached packages and downgrade to
 (previous or any?) available options.
@@ -60,12 +46,10 @@ operations up (e.g. a 'count' field). NOTE: already found two huge issues with
 quick profiling- excessive setlocale calls, and extremely excessive strcmp
 calls.
 
-Localize the date display done in --info output. Also, fix other localized
-issues- use non-printf when necessary, make sure all two line printed messages
-(especially usage instructions) are printed using one print statement. We
-may need to use some wchar_t output on the progress bar as char/byte counts
-differ here. Sizes of packages (e.g. 10,400.23 MB) should all be localized with
-correct seperators.
+Fix other localized issues- use non-printf when necessary. We may need to use
+some wchar_t output on the progress bar as char/byte counts differ here. Sizes
+of packages (e.g. 10,400.23 MB) should all be localized with correct
+seperators.
 
 Rewrite makepkg to use terminal-safe coloring/bolding. tput utility should
 allow us to do this. Make universal message functions for systemwide use,
@@ -89,8 +73,6 @@ Update copyrights (2007)
 
 Update pacman website, and add/finish pacman coding style page
 
-autogen.sh / autoclean.sh - these seem messy. Can we clean this up?
-
 Refine makepkg error codes. Each kind of failure could have its own code:
   --package already built
   --failed integ checks
@@ -102,13 +84,7 @@ to KB, MB, GB.
 
 Revamp the downloadprog function a bit. Seems kind of messy.
 
-Add localized pkgdesc variables to makepkg.
-
 --print-uri option to sync should not require saying yes or no to up to date
-
-Add testing scripts to pactest for issues we have been working on (especially 
-files moving between packages). Also, take a look at cleaning up the output and
-structure of the pactest.py program itself.
 
 Build a replacement for this, or at least standardize its use. We shouldn't
 always need to pass handle->root around, it is constant. Something like char*
