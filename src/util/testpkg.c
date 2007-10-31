@@ -27,6 +27,8 @@
 
 #include <alpm.h>
 
+#define BASENAME "testpkg"
+
 static void output_cb(pmloglevel_t level, char *fmt, va_list args)
 {
 	if(strlen(fmt)) {
@@ -45,7 +47,7 @@ int main(int argc, char **argv)
     pmpkg_t *pkg = NULL;
 
     if(argc != 2) {
-		fprintf(stderr, "usage: %s <package file>\n", basename(argv[0]));
+		fprintf(stderr, "usage: %s <package file>\n", BASENAME);
 		return(1);
 	}
 

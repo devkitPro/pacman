@@ -57,15 +57,15 @@ static alpm_list_t *pm_targets;
  * @param op     the operation code requested
  * @param myname basename(argv[0])
  */
-static void usage(int op, char *myname)
+static void usage(int op, const char * const myname)
 {
 	/* prefetch some strings for usage below, which moves a lot of calls
 	 * out of gettext. */
-	char * const str_opt = _("options");
-	char * const str_file = _("file");
-	char * const str_pkg = _("package");
-	char * const str_usg = _("usage");
-	char * const str_opr = _("operation");
+	char const * const str_opt = _("options");
+	char const * const str_file = _("file");
+	char const * const str_pkg = _("package");
+	char const * const str_usg = _("usage");
+	char const * const str_opr = _("operation");
 
 	if(op == PM_OP_MAIN) {
 		printf("%s:  %s <%s> [...]\n", str_usg, myname, str_opr);
@@ -231,6 +231,28 @@ static void cleanup(int signum)
 	}
 
 	exit(signum);
+}
+
+/** Parse the basename of a program from a path.
+* Grabbed from the uClibc source.
+* @param path path to parse basename from
+*
+* @return everything following the final '/'
+*/
+static char *mbasename(const char *path)
+{
+	const char *s;
+	const char *p;
+
+	p = s = path;
+
+	while (*s) {
+		if (*s++ == '/') {
+			p = s;
+		}
+	}
+
+	return (char *)p;
 }
 
 /** Parse command-line arguments for each operation.
@@ -432,7 +454,7 @@ static int parseargs(int argc, char *argv[])
 	}
 
 	if(config->help) {
-		usage(config->op, basename(argv[0]));
+		usage(config->op, mbasename(argv[0]));
 		return(2);
 	}
 	if(config->version) {

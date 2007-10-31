@@ -32,6 +32,8 @@
 #include <alpm.h>
 #include <alpm_list.h>
 
+#define BASENAME "testdb"
+
 int str_cmp(const void *s1, const void *s2)
 {
   return(strcmp(s1, s2));
@@ -145,7 +147,7 @@ int main(int argc, char **argv)
   } else if(argc == 3 && strcmp(argv[1], "-b") == 0) {
     dbpath = argv[2];
   } else {
-    fprintf(stderr, "usage: %s -b <pacman db>\n", basename(argv[0]));
+    fprintf(stderr, "usage: %s -b <pacman db>\n", BASENAME);
     return(1);
   }
 
