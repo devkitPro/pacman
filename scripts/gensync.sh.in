@@ -129,6 +129,9 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	unset pkgname pkgver pkgrel options
 
 	source $file || die "$(gettext "failed to parse parse %s")" $file
+	if [ "$arch" = 'any' ]; then
+		CARCH='any'
+	fi
 	if [ "$pkgdir" != "" ]; then
 		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
 	else

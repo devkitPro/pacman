@@ -127,6 +127,9 @@ if [ "$action" = "upd" ]; then # INSERT / UPDATE
 	unset pkgname pkgver pkgrel options
 
 	source $option || die "$(gettext "failed to parse %s")" $option
+	if [ "$arch" = 'any' ]; then
+		CARCH='any'
+	fi
 	pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
 
 	if [ ! -f "$pkgfile" ]; then

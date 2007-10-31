@@ -1300,6 +1300,10 @@ if [ $(echo "$pkgrel" | grep '-') ]; then
 	exit 1
 fi
 
+if [ "$arch" = 'any' ]; then
+	CARCH='any'
+fi
+
 if ! in_array $CARCH ${arch[@]}; then
 	if [ "$IGNOREARCH" = "0" ]; then
 		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
