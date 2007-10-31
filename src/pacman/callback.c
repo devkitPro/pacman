@@ -28,7 +28,6 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <wchar.h>
-#include <math.h>
 
 #include <alpm.h>
 
@@ -475,7 +474,7 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		rate = total / (timediff * 1024.0);
 
 		/* round elapsed time to the nearest second */
-		eta_s = floorf(timediff + 0.5);
+		eta_s = (int)(timediff + 0.5);
 	} else {
 		/* compute current average values */
 		timediff = get_update_timediff(0);
