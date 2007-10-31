@@ -346,7 +346,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_node(alpm_list_t *node)
  * @return a new list containing non-duplicate items
  */
 alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
-{ /* TODO does removing the strdup here cause invalid free's anywhere? */
+{
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
 	while(lp) {
@@ -426,8 +426,9 @@ alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list)
  * @return a new list in reverse order
  */
 alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
-{ /* TODO any invalid free's from NOT duplicating data here? */
-	alpm_list_t *lp, *newlist = NULL;
+{
+	const alpm_list_t *lp;
+	alpm_list_t *newlist = NULL;
 
 	lp = alpm_list_last(list);
 	while(lp) {
