@@ -254,8 +254,10 @@ if test "x$debug" = "xyes" ; then
 	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
 	# Check for mcheck
 	AC_CHECK_HEADERS([mcheck.h])
-
-	CFLAGS="$CFLAGS -g -Wall -Werror -fstack-protector-all"
+	# Check for -fstack-protector availability
+	GCC_STACK_PROTECT_LIB
+	GCC_STACK_PROTECT_CC
+	CFLAGS="$CFLAGS -Wall -Werror"
 else
 	AC_MSG_RESULT(no)
 	CFLAGS="$CFLAGS -Wall"

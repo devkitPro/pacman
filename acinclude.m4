@@ -6583,3 +6583,43 @@ SED=$lt_cv_path_SED
 AC_SUBST([SED])
 AC_MSG_RESULT([$SED])
 ])
+
+
+dnl Add some custom macros for pacman and libalpm
+
+dnl GCC_STACK_PROTECT_LIB
+dnl adds -lssp to LIBS if it is available
+dnl ssp is usually provided as part of libc, but was previously a separate lib
+dnl It does not hurt to add -lssp even if libc provides SSP - in that case
+dnl libssp will simply be ignored.
+AC_DEFUN([GCC_STACK_PROTECT_LIB],[
+  AC_CACHE_CHECK([whether libssp exists], ssp_cv_lib,
+    [ssp_old_libs="$LIBS"
+     LIBS="$LIBS -lssp"
+     AC_TRY_LINK(,, ssp_cv_lib=yes, ssp_cv_lib=no)
+     LIBS="$ssp_old_libs"
+    ])
+  if test $ssp_cv_lib = yes; then
+    LIBS="$LIBS -lssp"
+  fi
+])
+
+dnl GCC_STACK_PROTECT_CC
+dnl checks -fstack-protector with the C compiler, if it exists then updates
+dnl CFLAGS and defines ENABLE_SSP_CC
+AC_DEFUN([GCC_STACK_PROTECT_CC],[
+  AC_LANG_ASSERT(C)
+  if test "X$CC" != "X"; then
+    AC_CACHE_CHECK([whether ${CC} accepts -fstack-protector],
+      ssp_cv_cc,
+      [ssp_old_cflags="$CFLAGS"
+       CFLAGS="$CFLAGS -fstack-protector"
+       AC_TRY_COMPILE(,, ssp_cv_cc=yes, ssp_cv_cc=no)
+       CFLAGS="$ssp_old_cflags"
+      ])
+    if test $ssp_cv_cc = yes; then
+      CFLAGS="$CFLAGS -fstack-protector"
+      AC_DEFINE([ENABLE_SSP_CC], 1, [Define if SSP C support is enabled.])
+    fi
+  fi
+])
