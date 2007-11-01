@@ -162,6 +162,11 @@ AC_CHECK_FUNCS([realpath regcomp strcasecmp strdup strerror strnlen \
 # Enable large file support if available
 AC_SYS_LARGEFILE
 
+# Check if we can use symbol visibility support in GCC
+GCC_VISIBILITY_CC
+# Check if we have -fgnu89-inline flag
+GCC_GNU89_INLINE_CC
+
 # Host-dependant flags
 case "${host}" in
 	*-*-cygwin*)
