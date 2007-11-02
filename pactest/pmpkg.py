@@ -53,6 +53,7 @@ class pmpkg:
         self.force = 0        # sync only (will be moved to depends)
         # depends
         self.depends = []
+        self.optdepends = []
         self.requiredby = []  # local only
         self.conflicts = []
         self.provides = []
@@ -146,6 +147,8 @@ class pmpkg:
             data.append("group = %s" % i)
         for i in self.depends:
             data.append("depend = %s" % i)
+        for i in self.optdepends:
+            data.append("optdepend = %s" % i)
         for i in self.conflicts:
             data.append("conflict = %s" % i)
         for i in self.provides:

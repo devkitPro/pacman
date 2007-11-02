@@ -149,6 +149,8 @@ def mkdescfile(filename, pkg):
         data.append("replaces = %s" % i)
     for i in pkg.depends:
         data.append("depend = %s" % i)
+    for i in pkg.optdepends:
+        data.append("optdepend = %s" % i)
     for i in pkg.conflicts:
         data.append("conflict = %s" % i)
     for i in pkg.provides:

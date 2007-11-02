@@ -187,6 +187,8 @@ class pmdb:
             line = line.strip("\n")
             if line == "%DEPENDS%":
                 pkg.depends = _getsection(fd)
+            elif line == "%OPTDEPENDS%":
+                pkg.optdepends = _getsection(fd)
             elif line == "%REQUIREDBY%":
                 pkg.requiredby = _getsection(fd)
             elif line == "%CONFLICTS%":
@@ -291,6 +293,8 @@ class pmdb:
         data = []
         if pkg.depends:
             data.append(_mksection("DEPENDS", pkg.depends))
+        if pkg.optdepends:
+            data.append(_mksection("OPTDEPENDS", pkg.optdepends))
         if self.treename == "local":
             if pkg.requiredby:
                 data.append(_mksection("REQUIREDBY", pkg.requiredby))
