@@ -3,7 +3,11 @@ conffile  = ${sysconfdir}/pacman.conf
 dbpath    = ${localstatedir}/lib/pacman/
 cachedir  = ${localstatedir}/cache/pacman/pkg/
 
-bin_PROGRAMS = pacman pacman.static
+bin_PROGRAMS = pacman
+
+if INCLUDE_PACMAN_STATIC
+bin_PROGRAMS += pacman.static
+endif
 
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \

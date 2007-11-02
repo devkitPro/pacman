@@ -118,6 +118,11 @@ AC_ARG_ENABLE(abs,
 	AC_HELP_STRING([--disable-abs], [do not include Arch Linux Build System script]),
 	[includeabs=$enableval], [includeabs=yes])
 
+# Help line for pacman.static
+AC_ARG_ENABLE(pacman-static,
+	AC_HELP_STRING([--disable-pacman-static], [do not build static version of pacman]),
+	[pacmanstatic=$enableval], [pacmanstatic=yes])
+
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
@@ -278,6 +283,16 @@ else
 fi
 AM_CONDITIONAL(INCLUDE_ABS, test "x$includeabs" = "xyes")
 
+# Enable or disable inclusion of abs script
+AC_MSG_CHECKING(whether to build pacman.static)
+if test "x$pacmanstatic" = "xyes" ; then
+	AC_MSG_RESULT(yes)
+	AC_DEFINE([INCLUDE_PACMAN_STATIC], , [Build pacman.static])
+else
+	AC_MSG_RESULT(no)
+fi
+AM_CONDITIONAL(INCLUDE_PACMAN_STATIC, test "x$pacmanstatic" = "xyes")
+
 # Set root directory
 AC_SUBST(ROOTDIR)
 # Set package file extension
@@ -341,6 +356,7 @@ pacman_display_version:
     Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}
     include abs            : ${includeabs}
+    build pacman.static    : ${pacmanstatic}
 "
 
 # vim:set ts=2 sw=2 noet:
