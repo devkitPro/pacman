@@ -44,8 +44,6 @@
 #include "util.h"
 #include "conf.h"
 
-extern config_t *config;
-
 int needs_transaction()
 {
 	if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {

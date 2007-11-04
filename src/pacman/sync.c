@@ -41,7 +41,6 @@
 #include "callback.h"
 #include "conf.h"
 
-extern config_t *config;
 extern pmdb_t *db_local;
 
 static int sync_cleancache(int level)

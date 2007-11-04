@@ -64,6 +64,7 @@ typedef struct _pmhandle_t {
 	unsigned short usedelta;     /* Download deltas if possible */
 } pmhandle_t;
 
+/* global handle variable */
 extern pmhandle_t *handle;
 
 pmhandle_t *_alpm_handle_new();

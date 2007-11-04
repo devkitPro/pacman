@@ -34,8 +34,6 @@
 #include "conf.h"
 #include "util.h"
 
-extern config_t *config;
-
 /* Free the current transaction and print an error if unsuccessful */
 static int add_cleanup(void)
 {

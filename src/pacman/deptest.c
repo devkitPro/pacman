@@ -33,8 +33,6 @@
 #include "util.h"
 #include "conf.h"
 
-extern config_t *config;
-
 /* TODO: This should use _alpm_checkdeps() */
 int pacman_deptest(alpm_list_t *targets)
 {

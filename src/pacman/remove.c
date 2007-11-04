@@ -34,8 +34,6 @@
 #include "callback.h"
 #include "conf.h"
 
-extern config_t *config;
-
 extern pmdb_t *db_local;
 
 /* Free the current transaction and print an error if unsuccessful */

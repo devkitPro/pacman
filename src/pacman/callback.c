@@ -40,8 +40,6 @@
 #define LOG_STR_LEN 256
 #define FILENAME_TRIM_LEN 23
 
-extern config_t *config;
-
 /* download progress bar */
 static float rate_last;
 static int xfered_last;

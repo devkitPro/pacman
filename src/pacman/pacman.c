@@ -47,8 +47,6 @@
 #include "conf.h"
 #include "package.h"
 
-config_t *config;
-
 pmdb_t *db_local;
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;

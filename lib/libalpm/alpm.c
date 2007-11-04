@@ -32,7 +32,6 @@
 #include "util.h"
 
 /* Globals */
-pmhandle_t *handle = NULL;
 enum _pmerrno_t pm_errno SYMEXPORT;
 
 /** \addtogroup alpm_interface Interface Functions

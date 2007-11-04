@@ -39,8 +39,6 @@
 #include "provide.h"
 #include "handle.h"
 
-extern pmhandle_t *handle;
-
 static pmgraph_t *_alpm_graph_new(void)
 {
 	pmgraph_t *graph = NULL;

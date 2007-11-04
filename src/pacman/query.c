@@ -38,7 +38,6 @@
 #include "conf.h"
 #include "util.h"
 
-extern config_t *config;
 extern pmdb_t *db_local;
 
 static char *resolve_path(const char* file)

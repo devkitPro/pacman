@@ -43,6 +43,9 @@
 #include "alpm.h"
 #include "server.h"
 
+/* global var for handle (private to libalpm) */
+pmhandle_t *handle = NULL;
+
 pmhandle_t *_alpm_handle_new()
 {
 	pmhandle_t *handle;

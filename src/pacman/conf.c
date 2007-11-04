@@ -28,6 +28,9 @@
 /* pacman */
 #include "conf.h"
 
+/* global config variable */
+config_t *config = NULL;
+
 config_t *config_new(void)
 {
 	config_t *newconfig = calloc(1, sizeof(config_t));
