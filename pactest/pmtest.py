@@ -188,7 +188,9 @@ class pmtest:
         print "==> Running test"
         vprint("\tpacman %s" % self.args)
 
-        cmd = ["fakeroot"]
+        cmd = [""]
+        if os.geteuid() != 0:
+            cmd.append("fakeroot")
         if pacman["gdb"]:
             cmd.append("libtool gdb --args")
         if pacman["valgrind"]:
