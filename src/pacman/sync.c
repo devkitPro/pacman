@@ -411,7 +411,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
 		printf(_(":: Synchronizing package databases...\n"));
-		alpm_logaction("synchronizing package lists");
+		alpm_logaction("synchronizing package lists\n");
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
 			fprintf(stderr, _("error: failed to synchronize any databases\n"));
 			retval = 1;
@@ -426,7 +426,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 		alpm_list_t *pkgs, *i;
 
 		printf(_(":: Starting full system upgrade...\n"));
-		alpm_logaction("starting full system upgrade");
+		alpm_logaction("starting full system upgrade\n");
 		if(alpm_trans_sysupgrade() == -1) {
 			fprintf(stderr, _("error: %s\n"), alpm_strerrorlast());
 			retval = 1;

@@ -485,7 +485,6 @@ int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *fmt, va_list 
 						tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
 						tm->tm_hour, tm->tm_min);
 		ret = vfprintf(f, fmt, args);
-		fprintf(f, "\n");
 		fflush(f);
 	}
 
@@ -574,7 +573,7 @@ const char *_alpm_filecache_setup(void)
 			/* cache directory does not exist.... try creating it */
 			_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"),
 					cachedir);
-			alpm_logaction("warning: no %s cache exists, creating...",
+			alpm_logaction("warning: no %s cache exists, creating...\n",
 					cachedir);
 			if(_alpm_makepath(cachedir) == 0) {
 				_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
@@ -593,7 +592,7 @@ const char *_alpm_filecache_setup(void)
 	alpm_option_set_cachedirs(tmp);
 	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/\n");
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
-	alpm_logaction("warning: couldn't create package cache, using /tmp instead");
+	alpm_logaction("warning: couldn't create package cache, using /tmp instead\n");
 	return(alpm_list_getdata(tmp));
 }
 

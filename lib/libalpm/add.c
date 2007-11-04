@@ -348,7 +348,7 @@ static int extract_single_file(struct archive *archive,
 	if(alpm_list_find_str(handle->noextract, entryname)) {
 		_alpm_log(PM_LOG_DEBUG, "%s is in NoExtract, skipping extraction\n",
 				entryname);
-		alpm_logaction("note: %s is in NoExtract, skipping extraction",
+		alpm_logaction("note: %s is in NoExtract, skipping extraction\n",
 				entryname);
 		archive_read_data_skip(archive);
 		return(0);
@@ -397,7 +397,7 @@ static int extract_single_file(struct archive *archive,
 							"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
 						entrymode & mask);
 				alpm_logaction("warning: directory permissions differ on %s\n"
-							"filesystem: %o  package: %o", entryname, lsbuf.st_mode & mask,
+							"filesystem: %o  package: %o\n", entryname, lsbuf.st_mode & mask,
 						entrymode & mask);
 			}
 			_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
@@ -482,7 +482,7 @@ static int extract_single_file(struct archive *archive,
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
 					entryname, archive_error_string(archive));
-			alpm_logaction("error: could not extract %s (%s)",
+			alpm_logaction("error: could not extract %s (%s)\n",
 					entryname, archive_error_string(archive));
 			unlink(tempfile);
 			FREE(hash_orig);
@@ -532,19 +532,19 @@ static int extract_single_file(struct archive *archive,
 				if(rename(filename, newpath)) {
 					archive_entry_set_pathname(entry, filename);
 					_alpm_log(PM_LOG_ERROR, _("could not rename %s (%s)\n"), filename, strerror(errno));
-					alpm_logaction("error: could not rename %s (%s)", filename, strerror(errno));
+					alpm_logaction("error: could not rename %s (%s)\n", filename, strerror(errno));
 					errors++;
 				} else {
 					/* copy the tempfile we extracted to the real path */
 					if(_alpm_copyfile(tempfile, filename)) {
 						archive_entry_set_pathname(entry, filename);
 						_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), filename, strerror(errno));
-						alpm_logaction("error: could not copy tempfile to %s (%s)", filename, strerror(errno));
+						alpm_logaction("error: could not copy tempfile to %s (%s)\n", filename, strerror(errno));
 						errors++;
 					} else {
 						archive_entry_set_pathname(entry, filename);
 						_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
-						alpm_logaction("warning: %s saved as %s", filename, newpath);
+						alpm_logaction("warning: %s saved as %s\n", filename, newpath);
 					}
 				}
 			}
@@ -583,10 +583,10 @@ static int extract_single_file(struct archive *archive,
 				snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
 				if(_alpm_copyfile(tempfile, newpath)) {
 					_alpm_log(PM_LOG_ERROR, _("could not install %s as %s: %s\n"), filename, newpath, strerror(errno));
-					alpm_logaction("error: could not install %s as %s: %s", filename, newpath, strerror(errno));
+					alpm_logaction("error: could not install %s as %s: %s\n", filename, newpath, strerror(errno));
 				} else {
 					_alpm_log(PM_LOG_WARNING, _("%s installed as %s\n"), filename, newpath);
-					alpm_logaction("warning: %s installed as %s", filename, newpath);
+					alpm_logaction("warning: %s installed as %s\n", filename, newpath);
 				}
 			}
 		}
@@ -603,7 +603,7 @@ static int extract_single_file(struct archive *archive,
 			/* change the path to a .pacnew extension */
 			_alpm_log(PM_LOG_DEBUG, "%s is in NoUpgrade -- skipping\n", filename);
 			_alpm_log(PM_LOG_WARNING, _("extracting %s as %s.pacnew\n"), filename, filename);
-			alpm_logaction("warning: extracting %s as %s.pacnew", filename, filename);
+			alpm_logaction("warning: extracting %s as %s.pacnew\n", filename, filename);
 			strncat(filename, ".pacnew", PATH_MAX - strlen(filename));
 		} else {
 			_alpm_log(PM_LOG_DEBUG, "extracting %s\n", filename);
@@ -626,7 +626,7 @@ static int extract_single_file(struct archive *archive,
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
 					entryname, archive_error_string(archive));
-			alpm_logaction("error: could not extract %s (%s)",
+			alpm_logaction("error: could not extract %s (%s)\n",
 					entryname, archive_error_string(archive));
 			return(1);
 		}
@@ -793,12 +793,12 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 			if(is_upgrade) {
 				_alpm_log(PM_LOG_ERROR, _("problem occurred while upgrading %s\n"),
 						newpkg->name);
-				alpm_logaction("error: problem occurred while upgrading %s",
+				alpm_logaction("error: problem occurred while upgrading %s\n",
 						newpkg->name);
 			} else {
 				_alpm_log(PM_LOG_ERROR, _("problem occurred while installing %s\n"),
 						newpkg->name);
-				alpm_logaction("error: problem occurred while installing %s",
+				alpm_logaction("error: problem occurred while installing %s\n",
 						newpkg->name);
 			}
 		}
@@ -817,7 +817,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	if(_alpm_db_write(db, newpkg, INFRQ_ALL)) {
 		_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s\n"),
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
-		alpm_logaction("error: could not update database entry %s-%s",
+		alpm_logaction("error: could not update database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		RET_ERR(PM_ERR_DB_WRITE, -1);
 	}
