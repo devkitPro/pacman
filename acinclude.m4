@@ -1,3 +1,8 @@
+dnl acinclude.m4 - configure macros used by pacman and libalpm
+dnl The majority of this file is the libtool macros we use, kept here so
+dnl we are not dependent on the host-system version of the macros. There
+dnl are some pacman/libalpm specific macros at the end of the file as well.
+
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007
 ## Free Software Foundation, Inc.
