@@ -530,7 +530,7 @@ static int grep(const char *fn, const char *needle)
 
 int _alpm_runscriptlet(const char *root, const char *installfn,
 											 const char *script, const char *ver,
-											 const char *oldver)
+											 const char *oldver, pmtrans_t *trans)
 {
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
@@ -624,6 +624,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 	if(pid == 0) {
+		FILE *pipe;
 		/* this code runs for the child only (the actual chroot/exec) */
 		_alpm_log(PM_LOG_DEBUG, "chrooting in %s\n", root);
 		if(chroot(root) != 0) {
@@ -638,7 +639,21 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		}
 		umask(0022);
 		_alpm_log(PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
-		execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL);
+		/* execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL); */
+		pipe = popen(cmdline, "r");
+		if(!pipe) {
+			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"),
+					strerror(errno));
+			retval = 1;
+			goto cleanup;
+		}
+		while(!feof(pipe)) {
+			char line[PATH_MAX];
+			if(fgets(line, PATH_MAX, pipe) == NULL)
+				break;
+			alpm_logaction("%s", line);
+			EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
+		}
 		exit(0);
 	} else {
 		/* this code runs for the parent only (wait on the child) */

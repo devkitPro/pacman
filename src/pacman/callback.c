@@ -256,6 +256,9 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_DELTA_PATCH_FAILED:
 			printf(_("failed.\n"));
 			break;
+		case PM_TRANS_EVT_SCRIPTLET_INFO:
+			printf("%s", (char*)data1);
+			break;
 		case PM_TRANS_EVT_PRINTURI:
 			printf("%s/%s\n", (char*)data1, (char*)data2);
 			break;

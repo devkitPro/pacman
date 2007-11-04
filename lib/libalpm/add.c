@@ -696,7 +696,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		/* pre_upgrade scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle->root, newpkg->origin_data.file,
-					"pre_upgrade", newpkg->version, oldpkg->version);
+					"pre_upgrade", newpkg->version, oldpkg->version, trans);
 		}
 	} else {
 		is_upgrade = 0;
@@ -708,7 +708,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		/* pre_install scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle->root, newpkg->origin_data.file,
-					"pre_install", newpkg->version, NULL);
+					"pre_install", newpkg->version, NULL, trans);
 		}
 	}
 
@@ -845,10 +845,10 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		if(is_upgrade) {
 			_alpm_runscriptlet(handle->root, scriptlet, "post_upgrade",
 					alpm_pkg_get_version(newpkg),
-					oldpkg ? alpm_pkg_get_version(oldpkg) : NULL);
+					oldpkg ? alpm_pkg_get_version(oldpkg) : NULL, trans);
 		} else {
 			_alpm_runscriptlet(handle->root, scriptlet, "post_install",
-					alpm_pkg_get_version(newpkg), NULL);
+					alpm_pkg_get_version(newpkg), NULL, trans);
 		}
 	}
 
