@@ -50,6 +50,8 @@ pmhandle_t *_alpm_handle_new()
 {
 	pmhandle_t *handle;
 
+	ALPM_LOG_FUNC;
+
 	CALLOC(handle, 1, sizeof(pmhandle_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	handle->lckfd = -1;
@@ -388,7 +390,6 @@ void SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 {
 	char *oldlogfile = handle->logfile;
-	FILE *oldlogstream = handle->logstream;
 
 	ALPM_LOG_FUNC;
 
@@ -398,32 +399,14 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 	}
 
 	handle->logfile = strdup(logfile);
-	handle->logstream = fopen(logfile, "a");
-	if(handle->logstream == NULL) {
-		/* TODO we probably want to do this at some point, but right now
-		 * it just blows up when a user calls pacman without privilages */
-		_alpm_log(PM_LOG_DEBUG, "couldn't open logfile for writing, ignoring\n");
-		/*
-		if(errno == EACCES) {
-			pm_errno = PM_ERR_BADPERMS;
-		} else if(errno == ENOENT) {
-			pm_errno = PM_ERR_NOT_A_DIR;
-		} else {
-			pm_errno = PM_ERR_SYSTEM;
-		}
-		* reset logfile to its previous value *
-		FREE(handle->logfile);
-		handle->logfile = oldlogfile;
-		handle->logstream = oldlogstream;
-		return(-1);
-		*/
-	}
 
+	/* free the old logfile path string, and close the stream so logaction
+	 * will reopen a new stream on the new logfile */
 	if(oldlogfile) {
 		FREE(oldlogfile);
 	}
-	if(oldlogstream) {
-		fclose(oldlogstream);
+	if(handle->logstream) {
+		fclose(handle->logstream);
 	}
 	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
 	return(0);

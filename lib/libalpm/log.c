@@ -23,6 +23,9 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
 #include <time.h>
 
 /* libalpm */
@@ -50,6 +53,22 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	/* check if the logstream is open already, opening it if needed */
+	if(handle->logstream == NULL) {
+		handle->logstream = fopen(handle->logfile, "a");
+		/* if we couldn't open it, we have an issue */
+		if(handle->logstream == NULL) {
+			if(errno == EACCES) {
+				pm_errno = PM_ERR_BADPERMS;
+			} else if(errno == ENOENT) {
+				pm_errno = PM_ERR_NOT_A_DIR;
+			} else {
+				pm_errno = PM_ERR_SYSTEM;
+			}
+		return(-1);
+		}
+	}
 
 	va_start(args, fmt);
 	ret = _alpm_logaction(handle->usesyslog, handle->logstream, fmt, args);
