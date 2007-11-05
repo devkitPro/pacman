@@ -776,9 +776,10 @@ int main(int argc, char *argv[])
 	/* Setup logging as soon as possible, to print out maximum debugging info */
 	alpm_option_set_logcb(cb_log);
 	alpm_option_set_dlcb(cb_dl_progress);
-	/* define root and dbpath to reasonable defaults */
+	/* define paths to reasonable defaults */
 	alpm_option_set_root(ROOTDIR);
 	alpm_option_set_dbpath(DBPATH);
+	alpm_option_set_logfile(LOGFILE);
 
 	/* Priority of options:
 	 * 1. command line
