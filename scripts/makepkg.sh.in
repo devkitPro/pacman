@@ -1007,11 +1007,10 @@ devel_check() {
 			msg "$(gettext "Determining latest hg revision...")"
 			if [ -d ./src/$_hgrepo ] ; then
 				cd ./src/$_hgrepo
-				make clean
 				hg pull
 				hg update
 			else
-				[[ ! -d ./src/$_hgrepo ]] && mkdir -p ./src/$_hgrepo
+				[[ ! -d ./src/ ]] && mkdir ./src/
 				hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
 				cd ./src/$_hgrepo
 			fi
