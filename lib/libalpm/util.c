@@ -432,7 +432,7 @@ int _alpm_rmrf(const char *path)
 	char name[PATH_MAX];
 	struct stat st;
 
-	if(lstat(path, &st) == 0) {
+	if(_alpm_lstat(path, &st) == 0) {
 		if(!S_ISDIR(st.st_mode)) {
 			if(!unlink(path)) {
 				return(0);
@@ -595,6 +595,30 @@ const char *_alpm_filecache_setup(void)
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
 	alpm_logaction("warning: couldn't create package cache, using /tmp instead");
 	return(alpm_list_getdata(tmp));
+}
+
+/** lstat wrapper that treats /path/dirsymlink/ the same as /path/dirsymlink.
+ * Linux lstat follows POSIX semantics and still performs a dereference on
+ * the first, and for uses of lstat in libalpm this is not what we want.
+ * @param path path to file to lstat
+ * @param buf structure to fill with stat information
+ * @return the return code from lstat
+ */
+int _alpm_lstat(const char *path, struct stat *buf)
+{
+	int ret;
+	char *newpath = strdup(path);
+	int len = strlen(newpath);
+
+	/* strip the trailing slash if one exists */
+	if(len != 0 && newpath[len - 1] == '/') {
+			newpath[len - 1] = '\0';
+	}
+
+	ret = lstat(path, buf);
+
+	FREE(newpath);
+	return(ret);
 }
 
 /** Get the md5 sum of file.

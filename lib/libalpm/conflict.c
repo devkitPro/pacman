@@ -334,7 +334,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			snprintf(path, PATH_MAX, "%s%s", root, filestr);
 
 			/* stat the file - if it exists, do some checks */
-			if(lstat(path, &buf) != 0) {
+			if(_alpm_lstat(path, &buf) != 0) {
 				continue;
 			}
 			if(S_ISDIR(buf.st_mode)) {
@@ -350,7 +350,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 					unsigned ok = 0;
 					for(k = dbpkg->files; k; k = k->next) {
 						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
-						if(!lstat(str, &buf2) && buf.st_ino == buf2.st_ino) {
+						if(!_alpm_lstat(str, &buf2) && buf.st_ino == buf2.st_ino) {
 							ok = 1;
 							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s\n", path);
 							break;

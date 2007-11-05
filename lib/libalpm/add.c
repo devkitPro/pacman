@@ -371,7 +371,7 @@ static int extract_single_file(struct archive *archive,
 	 *  S            |   7   |  8  |  9
 	 *  D            |   10  |  11 |  12
 	 *
-	 *  1,2,3- just extract, no magic necessary. lstat will fail here.
+	 *  1,2,3- extract, no magic necessary. lstat (_alpm_lstat) will fail here.
 	 *  4,5,6,7,8- conflict checks should have caught this. either overwrite
 	 *      or backup the file.
 	 *  9- follow the symlink, hopefully it is a directory, check it.
@@ -381,7 +381,7 @@ static int extract_single_file(struct archive *archive,
 	 *  12- skip extraction, dir already exists.
 	 */
 	struct stat lsbuf;
-	if(lstat(filename, &lsbuf) != 0) {
+	if(_alpm_lstat(filename, &lsbuf) != 0) {
 		/* cases 1,2,3: couldn't stat an existing file, skip all backup checks */
 	} else {
 		/* do a stat as well, so we can see what symlinks point to */

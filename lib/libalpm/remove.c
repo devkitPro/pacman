@@ -206,7 +206,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		}
 	}
 
-	if(lstat(file, &buf)) {
+	if(_alpm_lstat(file, &buf)) {
 		_alpm_log(PM_LOG_DEBUG, "file %s does not exist\n", file);
 		return;
 	}
