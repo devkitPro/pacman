@@ -694,7 +694,7 @@ pmdb_t *_alpm_db_register_local(void)
 	/* make sure the database directory exists */
 	dbpath = alpm_option_get_dbpath();
 	if(!dbpath) {
-		_alpm_log(PM_LOG_WARNING, _("database path is undefined\n"));
+		_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 	snprintf(path, PATH_MAX, "%slocal", dbpath);
@@ -745,7 +745,7 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 	/* make sure the database directory exists */
 	dbpath = alpm_option_get_dbpath();
 	if(!dbpath) {
-		_alpm_log(PM_LOG_WARNING, _("database path is undefined\n"));
+		_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 	/* all sync DBs now reside in the sync/ subdir of the dbpath */
