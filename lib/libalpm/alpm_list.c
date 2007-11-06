@@ -53,7 +53,7 @@ alpm_list_t SYMEXPORT *alpm_list_new()
 	list = malloc(sizeof(alpm_list_t));
 	if(list) {
 		list->data = NULL;
-		list->prev = NULL;
+		list->prev = list; /* maintain a back reference to the tail pointer */
 		list->next = NULL;
 	}
 
@@ -127,6 +127,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 		}
 		lp->next->prev = lp;
 		lp = lp->next;
+		list->prev = lp;
 	}
 
 	lp->data = data;
@@ -172,6 +173,11 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 			prev->next = add;       /*  In middle.  */
 		} else {
 			list = add; /* At beginning, or new list */
+		}
+
+		if(next == NULL) {
+			/* At end, adjust tail pointer on head node */
+			list->prev = add;
 		}
 		
 		return(list);
@@ -230,6 +236,15 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 		lp->next = right;
 		right->prev = lp;
 	}
+
+	/* Find our tail pointer
+	 * TODO maintain this in the algorithm itself */
+	lp = newlist;
+	while(lp && lp->next) {
+		lp = lp->next;
+	}
+	newlist->prev = lp;
+
 	return(newlist);
 }
 
@@ -269,7 +284,7 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cm
  * @return the resultant list
  */
 alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data)
-{ /* TODO I modified this to remove ALL matching items.  Do we need a remove_first? */
+{
 	alpm_list_t *i = haystack, *tmp = NULL;
 
 	if(data) {
@@ -283,16 +298,23 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 		tmp = i->next;
 		if(fn(needle, i->data) == 0) {
 			/* we found a matching item */
-			if(i->next) {
-				i->next->prev = i->prev;
-			}
-			if(i->prev) {
-				i->prev->next = i->next;
-			}
-
 			if(i == haystack) {
+				/* Special case: removing the head node which has a back reference to
+				 * the tail node */
 				/* The item found is the first in the chain */
-				haystack = haystack->next;
+				haystack = i->next;
+				if(haystack) {
+					haystack->prev = i->prev;
+				}
+				i->prev = NULL;
+			} else {
+				/* Normal case, non-head node */
+				if(i->next) {
+					i->next->prev = i->prev;
+				}
+				if(i->prev) {
+					i->prev->next = i->next;
+				}
 			}
 
 			if(data) {
@@ -300,8 +322,10 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 			}
 			i->data = NULL;
 			free(i);
+			i = NULL;
+		} else {
+			i = tmp;
 		}
-		i = tmp;
 	}
 
 	return(haystack);
@@ -431,6 +455,11 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 	alpm_list_t *newlist = NULL;
 
 	lp = alpm_list_last(list);
+	if(list) {
+		/* break our reverse circular list */
+		list->prev = NULL;
+	}
+
 	while(lp) {
 		newlist = alpm_list_add(newlist, lp->data);
 		lp = lp->prev;
@@ -490,11 +519,11 @@ inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
  */
 alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
 {
-	const alpm_list_t *i = list;
-	while(i && i->next) {
-		i = i->next;
+	if(list) {
+		return(list->prev);
+	} else {
+		return(NULL);
 	}
-	return((alpm_list_t*)i);
 }
 
 /**

@@ -304,7 +304,8 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_DEBUG, "removing %d files\n", filenum);
 
 			/* iterate through the list backwards, unlinking files */
-			for(lp = alpm_list_last(files); lp; lp = lp->prev) {
+			files = alpm_list_reverse(files);
+			for(lp = files; lp; lp = alpm_list_next(lp)) {
 				unlink_file(info, lp, trans);
 
 				/* update progress bar after each file */
