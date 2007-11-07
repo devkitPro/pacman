@@ -28,6 +28,7 @@
 #include "config.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <stdarg.h>
 #include <time.h>
 #include <sys/stat.h> /* struct stat */
@@ -44,6 +45,7 @@
 
 #define MALLOC(p, s, action) do { p = calloc(1, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
 #define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
+#define STRDUP(r, s, action) do { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } while(0)
 
 #define FREE(p) do { if(p) { free(p); p = NULL; } } while(0)
 
