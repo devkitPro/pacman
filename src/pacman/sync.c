@@ -262,8 +262,12 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(j);
 
-			printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg));
+			if (!config->quiet) {
+				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
+							 alpm_pkg_get_version(pkg));
+			} else {
+				printf("%s", alpm_pkg_get_name(pkg));
+			}
 
 			/* print the package size with the output if ShowSize option set */
 			if(config->showsize) {
@@ -273,14 +277,16 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 				printf(" [%.2f MB]", mbsize);
 			}
 
-			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
+			if (!config->quiet) {
+				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					group = alpm_list_getdata(grp);
 					printf(" (%s)", (char *)alpm_list_getdata(grp));
-			}
+				}
 
-			/* we need a newline and initial indent first */
-			printf("\n    ");
-			indentprint(alpm_pkg_get_desc(pkg), 4);
+				/* we need a newline and initial indent first */
+				printf("\n    ");
+				indentprint(alpm_pkg_get_desc(pkg), 4);
+			}
 			printf("\n");
 		}
 		/* we only want to free if the list was a search list */
@@ -448,8 +454,12 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 		for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
 			pmpkg_t *pkg = alpm_list_getdata(j);
-			printf("%s %s %s\n", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-			       alpm_pkg_get_version(pkg));
+			if (!config->quiet) {
+				printf("%s %s %s\n", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
+							 alpm_pkg_get_version(pkg));
+			} else {
+				printf("%s\n", alpm_pkg_get_name(pkg));
+			}
 		}
 	}
 

@@ -26,6 +26,7 @@
 typedef struct __config_t {
 	char *configfile;
 	unsigned short op;
+	unsigned short quiet;
 	unsigned short verbose;
 	unsigned short version;
 	unsigned short help;

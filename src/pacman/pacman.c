@@ -112,6 +112,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -t, --orphans        list all packages not required by any package\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
+			printf(_("  -q  --quiet          show less information for query and search\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -131,6 +132,7 @@ static void usage(int op, const char * const myname)
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 			printf(_("      --ignoregroup <grp>\n"
 			         "                       ignore a group upgrade (can be used more than once)\n"));
+			printf(_("  -q  --quiet          show less information for query and search\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));
@@ -286,6 +288,7 @@ static int parseargs(int argc, char *argv[])
 		{"owns",       no_argument,       0, 'o'},
 		{"file",       no_argument,       0, 'p'},
 		{"print-uris", no_argument,       0, 'p'},
+		{"quiet",      no_argument,       0, 'q'},
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
@@ -308,7 +311,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepituwygz", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepituwygzq", opts, &option_index))) {
 		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
 
 		if(opt < 0) {
@@ -448,6 +451,9 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 				break;
 			case 'y': (config->op_s_sync)++; break;
+			case 'q':
+				config->quiet = 1;
+				break;
 			case '?': return(1);
 			default: return(1);
 		}
