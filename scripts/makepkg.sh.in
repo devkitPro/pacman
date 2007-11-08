@@ -1321,8 +1321,11 @@ if [ "$install" -a ! -f "$install" ]; then
 	exit 1
 fi
 
+devel_check
+
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" ]; then
+     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" \
+     -a "$FORCE_VER" = "" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "$(gettext "A package has already been built, installing existing package...")"
 		install_package
@@ -1332,8 +1335,6 @@ if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
 		exit 1
 	fi
 fi
-
-devel_check
 
 # Run the bare minimum in fakeroot
 # fix flyspray bug 6208 -- using makepkg with fakeroot gives an error
