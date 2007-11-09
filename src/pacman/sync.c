@@ -450,7 +450,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 				         ":: It is recommended that you upgrade pacman by itself\n"
 				         ":: using 'pacman -S pacman', and then rerun the current\n"
 				         ":: operation. If you wish to continue the operation and\n"
-				         ":: not upgrade pacman seperately, answer no.\n"));
+				         ":: not upgrade pacman separately, answer no.\n"));
 				if(yesno(_(":: Cancel current operation? [Y/n] "))) {
 					if(alpm_trans_release() == -1) {
 						fprintf(stderr, _("error: failed to release transaction (%s)\n"),
