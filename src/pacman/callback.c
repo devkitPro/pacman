@@ -177,12 +177,8 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 				printf(_("done.\n"));
 			}
 			break;
-		case PM_TRANS_EVT_CHECKDEPS_DONE:
-		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
-		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
-			printf(_("done.\n"));
-			break;
 		case PM_TRANS_EVT_EXTRACT_DONE:
+			/* nothing */
 			break;
 		case PM_TRANS_EVT_ADD_START:
 			if(config->noprogressbar) {
@@ -230,14 +226,8 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_INTEGRITY_START:
 			printf(_("checking package integrity... "));
 			break;
-		case PM_TRANS_EVT_INTEGRITY_DONE:
-			printf(_("done.\n"));
-			break;
 		case PM_TRANS_EVT_DELTA_INTEGRITY_START:
 			printf(_("checking delta integrity... "));
-			break;
-		case PM_TRANS_EVT_DELTA_INTEGRITY_DONE:
-			printf(_("done.\n"));
 			break;
 		case PM_TRANS_EVT_DELTA_PATCHES_START:
 			printf(_("applying deltas...\n"));
@@ -247,9 +237,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_DELTA_PATCH_START:
 			printf(_("generating %s with %s... "), (char *)data1, (char *)data2);
-			break;
-		case PM_TRANS_EVT_DELTA_PATCH_DONE:
-			printf(_("done.\n"));
 			break;
 		case PM_TRANS_EVT_DELTA_PATCH_FAILED:
 			printf(_("failed.\n"));
@@ -262,9 +249,18 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_RETRIEVE_START:
 			printf(_(":: Retrieving packages from %s...\n"), (char*)data1);
-			fflush(stdout);
+			break;
+		/* all the simple done events, with fallthrough for each */
+		case PM_TRANS_EVT_CHECKDEPS_DONE:
+		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
+		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
+		case PM_TRANS_EVT_INTEGRITY_DONE:
+		case PM_TRANS_EVT_DELTA_INTEGRITY_DONE:
+		case PM_TRANS_EVT_DELTA_PATCH_DONE:
+			printf(_("done.\n"));
 			break;
 	}
+	fflush(stdout);
 }
 
 /* callback to handle questions from libalpm transactions (yes/no) */
