@@ -51,9 +51,14 @@ ASCIIDOC_OPTS = \
 	-a pacman_version="$(PACKAGE_VERSION)" \
 	-a pacman_date="`date +%Y-%m-%d`" \
 	-a sysconfdir=$(sysconfdir)
+A2X_OPTS = \
+	-d manpage \
+	-f manpage \
+	--xsltproc-opts='-param man.endnotes.list.enabled 0' \
+	--xsltproc-opts='-param man.endnotes.are.numbered 0'
 
 $(ASCIIDOC_MANS):
-	a2x -d manpage -f manpage --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
+	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
 # These rules are due to the includes and files of the asciidoc text
 $(ASCIIDOC_MANS): footer.txt
