@@ -489,7 +489,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-					fprintf(stderr, _("'error: %s': %s\n"),
+					fprintf(stderr, _("error: '%s': %s\n"),
 					        (char *)i->data, alpm_strerrorlast());
 					retval = 1;
 					goto cleanup;
