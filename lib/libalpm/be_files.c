@@ -337,8 +337,10 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				char first = tolower(tmp[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					setlocale(LC_TIME, "C");
 					strptime(tmp, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					info->builddate = mktime(&tmp_tm);
+					setlocale(LC_TIME, "");
 				} else {
 					info->builddate = atol(tmp);
 				}
@@ -352,8 +354,10 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				char first = tolower(tmp[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					setlocale(LC_TIME, "C");
 					strptime(tmp, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					info->installdate = mktime(&tmp_tm);
+					setlocale(LC_TIME, "");
 				} else {
 					info->installdate = atol(tmp);
 				}

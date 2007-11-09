@@ -852,8 +852,10 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				char first = tolower(ptr[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					setlocale(LC_TIME, "C");
 					strptime(ptr, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					info->builddate = mktime(&tmp_tm);
+					setlocale(LC_TIME, "");
 				} else {
 					info->builddate = atol(ptr);
 				}

@@ -45,6 +45,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 {
 	const char *reason, *descheader;
 	time_t bdate, idate;
+	char bdatestr[50], idatestr[50];
 
 	if(pkg == NULL) {
 		return;
@@ -52,7 +53,9 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 	/* set variables here, do all output below */
 	bdate = alpm_pkg_get_builddate(pkg);
+	strftime(bdatestr, 50, "%c", localtime(&bdate));
 	idate = alpm_pkg_get_installdate(pkg);
+	strftime(idatestr, 50, "%c", localtime(&idate));
 
 	switch((long)alpm_pkg_get_reason(pkg)) {
 		case PM_PKG_REASON_EXPLICIT:
@@ -86,9 +89,9 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
-	printf(_("Build Date     : %s"), ctime(&bdate)); /*ctime implicit newline */
+	printf(_("Build Date     : %s\n"), bdatestr);
 	if(level > 0) {
-		printf(_("Install Date   : %s"), ctime(&idate)); /*ctime implicit newline */
+		printf(_("Install Date   : %s\n"), idatestr);
 		printf(_("Install Reason : %s\n"), reason);
 	}
 	printf(_("Install Script : %s\n"),
