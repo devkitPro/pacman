@@ -21,45 +21,50 @@
 #   USA.
 #
 
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
 myver="@PACKAGE_VERSION@"
+BUG_REPORT_EMAIL='@PACKAGE_BUGREPORT@'
 toplevel=$(pwd)
 
 usage() {
 	printf "makeworld (pacman) %s\n" "$myver"
-	echo "usage: $0 [options] <destdir> <category> [category] ..."
-	echo "options:"
-	echo "  -b, --builddeps  Build missing dependencies from source"
-	echo "  -B, --noccache   Do not use ccache during build"
-	echo "  -c, --clean      Clean up work files after build"
-	echo "  -C, --cleancache Clean up source files from the cache"
-	echo "  -d, --nodeps     Skip all dependency checks"
-	echo "  -e, --noextract  Do not extract source files (use existing src/ dir)"
-	echo "  -f, --force      Overwrite existing packages"
-	echo "  -i, --install    Install package after successful build"
-	echo "  -m, --nocolor    Disable colorized output messages"
-	echo "  -h, --help       This help"
-	echo "  -o, --nobuild    Download and extract files only"
-	echo "  -r, --rmdeps     Remove installed dependencies after a successful build"
-	echo "  -s, --syncdeps   Install missing dependencies with pacman"
-	echo "  -S, --usesudo    Use sudo when running pacman commands"
+	echo "$(gettext "Usage: %s [options] <destdir> <category> [category] ...")" "$0"
+	echo "$(gettext "Options:")"
+	echo "$(gettext "  -b, --builddeps  Build missing dependencies from source")"
+	echo "$(gettext "  -B, --noccache   Do not use ccache during build")"
+	echo "$(gettext "  -c, --clean      Clean up work files after build")"
+	echo "$(gettext "  -C, --cleancache Clean up source files from the cache")"
+	echo "$(gettext "  -d, --nodeps     Skip all dependency checks")"
+	echo "$(gettext "  -e, --noextract  Do not extract source files (use existing src/ dir)")"
+	echo "$(gettext "  -f, --force      Overwrite existing packages")"
+	echo "$(gettext "  -i, --install    Install package after successful build")"
+	echo "$(gettext "  -m, --nocolor    Disable colorized output messages")"
+	echo "$(gettext "  -h, --help       This help")"
+	echo "$(gettext "  -o, --nobuild    Download and extract files only")"
+	echo "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")"
+	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
+	echo "$(gettext "  -S, --usesudo    Use sudo when running pacman commands")"
 	echo
-	echo "These options can be passed to pacman:"
+	echo "$(gettext "These options can be passed to pacman:")"
 	echo
-	echo "  --noconfirm      Do not ask for confirmation when resolving dependencies"
-	echo "  --noprogressbar  Do not show a progress bar when downloading files"
+	echo "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")"
+	echo "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")"
 	echo
-	echo "Where <category> is one or more directory names under the ABS root"
-	echo "eg: makeworld -c /packages base lib editors"
+	echo "$(gettext "Where <category> is one or more directory names under the ABS root")"
+	echo "$(gettext "eg: makeworld -c /packages base lib editors")"
 	echo
-	echo "This should be run from the toplevel directory of ABS (usually /var/abs)"
+	echo "$(gettext "This should be run from the toplevel directory of ABS (usually /var/abs)")"
 }
 
 version() {
 	printf "makeworld (pacman) %s\n" "$myver"
-	printf "\
+	printf "$(gettext "\
 Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
-There is NO WARRANTY, to the extent permitted by law.\n"
+There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 MAKEPKG_OPTS=
