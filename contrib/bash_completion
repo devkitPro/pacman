@@ -175,11 +175,15 @@ _pacman ()
           upgrades) mod="${mod}u" ;;
           downloadonly) mod="${mod}w" ;;
           refresh) mod="${mod}y" ;;
-          orphans) mod="${mod}e" ;;
+          changelog) mod="${mod}c" ;;
+          deps) mod="${mod}d" ;;
+          explicit) mod="${mod}e" ;;
+          orphans) mod="${mod}t" ;;
           foreign) mod="${mod}m" ;;
           owns) mod="${mod}o" ;;
           file) mod="${mod}p" ;;
           search) mod="${mod}s" ;;
+          upgrades) mod="${mod}u" ;;
           cascade) mod="${mod}c" ;;
           dbonly) mod="${mod}k" ;;
           nosave) mod="${mod}n" ;;
@@ -216,12 +220,13 @@ _pacman ()
     case "${op}" in
       A|U|F)
         COMPREPLY=( $( compgen -W '\
+          --asdeps \
           -d --nodeps \
           -f --force \
           -h --help \
           --config \
+          --logfile \
           --noconfirm \
-          --ask \
           --noprogressbar \
           --noscriptlet \
           -v --verbose \
@@ -235,14 +240,13 @@ _pacman ()
         COMPREPLY=( $( compgen -W '\
           -c --cascade \
           -d --nodeps \
-          -f --force \
           -h --help \
           -k --dbonly \
           -n --nosave \
           -s --recursive \
           --config \
+          --logfile \
           --noconfirm \
-          --ask \
           --noprogressbar \
           --noscriptlet \
           -v --verbose \
@@ -254,6 +258,7 @@ _pacman ()
         ;;
       S)
         COMPREPLY=( $( compgen -W '\
+          --asdeps \
           -c --clean \
           -d --nodeps \
           -e --dependsonly \
@@ -269,8 +274,8 @@ _pacman ()
           -y --refresh \
           --ignore \
           --config \
+          --logfile \
           --noconfirm \
-          --ask \
           --noprogressbar \
           --noscriptlet \
           -v --verbose \
@@ -283,7 +288,8 @@ _pacman ()
       Q)
         COMPREPLY=( $( compgen -W '\
           -c --changelog \
-          -e --orphans \
+          -d --deps \
+          -e --explicit \
           -g --groups \
           -h --help \
           -i --info \
@@ -292,11 +298,11 @@ _pacman ()
           -o --owns \
           -p --file \
           -s --search \
-          -t --test \
+          -t --orphans \
           -u --upgrades \
           --config \
+          --logfile \
           --noconfirm \
-          --ask \
           --noprogressbar \
           --noscriptlet \
           -v --verbose \
