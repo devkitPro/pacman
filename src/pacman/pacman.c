@@ -86,7 +86,6 @@ static void usage(int op, const char * const myname)
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_REMOVE) {
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
-			printf(_("usage:  %s {-R --remove} [options] <package>\n"), myname);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
