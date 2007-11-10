@@ -574,6 +574,9 @@ static int _parseconfig(const char *file, const char *givensection,
 				} else if(strcmp(key, "UseDelta") == 0 || strcmp(upperkey, "USEDELTA") == 0) {
 					alpm_option_set_usedelta(1);
 					pm_printf(PM_LOG_DEBUG, "config: usedelta\n");
+				} else if(strcmp(key, "TotalDownload") == 0 || strcmp(upperkey, "TOTALDOWNLOAD") == 0) {
+					config->totaldownload = 1;
+					pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
 				} else {
 					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 							file, linenum, key);

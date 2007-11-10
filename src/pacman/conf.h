@@ -65,6 +65,9 @@ typedef struct __config_t {
 	unsigned short chomp; /* I Love Candy! */
 	unsigned short usecolor; /* enable colorful output */
 	unsigned short showsize; /* show individual package sizes */
+	unsigned short totaldownload; /* When downloading, display the amount
+	                                 downloaded, rate, ETA, and percent
+	                                 downloaded of the total download list */
 } config_t;
 
 /* Operations */
