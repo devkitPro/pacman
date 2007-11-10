@@ -730,7 +730,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		 * something we're not supposed to.
 		 */
 		int usedep = 1;
-		if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(sync))) {
+		if(_alpm_pkg_should_ignore(sync)) {
 			pmpkg_t *dummypkg = _alpm_pkg_new(miss->target, NULL);
 			QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &usedep);
 			_alpm_pkg_free(dummypkg);

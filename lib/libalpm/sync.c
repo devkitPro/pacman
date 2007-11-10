@@ -118,8 +118,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 				_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'\n",
 						replacement, spkg->name);
 				/* ignore if EITHER the local or replacement package are to be ignored */
-				if(alpm_list_find_str(handle->ignorepkg, spkg->name)
-					 || alpm_list_find_str(handle->ignorepkg, lpkg->name)) {
+				if(_alpm_pkg_should_ignore(spkg) || _alpm_pkg_should_ignore(lpkg)) {
 					_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"),
 										alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 										alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
@@ -217,7 +216,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 				if(!_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
 					/* If package is in the ignorepkg list, ask before we add it to
 					 * the transaction */
-					if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(local))) {
+					if(_alpm_pkg_should_ignore(local)) {
 						int resp = 0;
 						QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, local, NULL, NULL, &resp);
 						if(!resp) {
@@ -322,7 +321,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 		if(alpm_pkg_compare_versions(local, spkg) == 0) {
 			/* spkg is NOT an upgrade, get confirmation before adding */
 			int resp = 0;
-			if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(local))) {
+			if(_alpm_pkg_should_ignore(local)) {
 				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, local, NULL, NULL, &resp);
 				if(!resp) {
 					return(0);

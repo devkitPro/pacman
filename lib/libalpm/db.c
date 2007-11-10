@@ -462,7 +462,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 					if(strcmp(k->data, alpm_pkg_get_name(lpkg)) == 0) {
 						_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'\n",
 								(char *)k->data, alpm_pkg_get_name(spkg));
-						if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(lpkg))) {
+						if(_alpm_pkg_should_ignore(lpkg)) {
 							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"),
 												alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 												alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));

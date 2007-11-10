@@ -755,7 +755,7 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	/* compare versions and see if we need to upgrade */
 	cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
 
-	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
+	if(_alpm_pkg_should_ignore(pkg)) {
 		/* package should be ignored (IgnorePkg) */
 		if(cmp > 0) {
 			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)\n"),
@@ -1117,4 +1117,34 @@ int _alpm_pkg_istoonew(pmpkg_t *pkg)
 	time(&t);
 	return((pkg->date + handle->upgradedelay) > t);
 }
+
+/** Test if a package should be ignored.
+ *
+ * Checks if the package is ignored via IgnorePkg, or if the package is
+ * in a group ignored via IgnoreGrp.
+ *
+ * @param pkg the package to test
+ *
+ * @return 1 if the package should be ignored, 0 otherwise
+ */
+int _alpm_pkg_should_ignore(pmpkg_t *pkg)
+{
+	alpm_list_t *groups = NULL;
+
+	/* first see if the package is ignored */
+	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
+		return(1);
+	}
+
+	/* next see if the package is in a group that is ignored */
+	for(groups = handle->ignoregrp; groups; groups = alpm_list_next(groups)) {
+		char *grp = (char *)alpm_list_getdata(groups);
+		if(alpm_list_find_str(alpm_pkg_get_groups(pkg), grp)) {
+			return(1);
+		}
+	}
+
+	return(0);
+}
+
 /* vim: set ts=2 sw=2 noet: */

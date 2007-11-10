@@ -99,6 +99,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full);
 pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack);
 int _alpm_pkg_istoonew(pmpkg_t *pkg);
 void _alpm_pkg_update_requiredby(pmpkg_t *pkg);
+int _alpm_pkg_should_ignore(pmpkg_t *pkg);
 
 #endif /* _ALPM_PACKAGE_H */
 
