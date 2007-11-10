@@ -130,6 +130,10 @@ alpm_list_t *alpm_option_get_holdpkgs();
 void alpm_option_add_holdpkg(const char *pkg);
 void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs);
 
+alpm_list_t *alpm_option_get_ignoregrps();
+void alpm_option_add_ignoregrp(const char *grp);
+void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
+
 time_t alpm_option_get_upgradedelay();
 void alpm_option_set_upgradedelay(time_t delay);
 

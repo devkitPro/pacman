@@ -309,6 +309,7 @@ static int parseargs(int argc, char *argv[])
 		{"cachedir",   required_argument, 0, 1007},
 		{"asdeps",     no_argument,       0, 1008},
 		{"logfile",    required_argument, 0, 1009},
+		{"ignoregroup", required_argument, 0, 1010},
 		{0, 0, 0, 0}
 	};
 
@@ -369,6 +370,7 @@ static int parseargs(int argc, char *argv[])
 				}
 				config->have_logfile = 1;
 				break;
+			case 1010: alpm_option_add_ignoregrp(strdup(optarg)); break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
@@ -627,6 +629,19 @@ static int _parseconfig(const char *file, const char *givensection,
 						}
 						alpm_option_add_ignorepkg(p);
 						pm_printf(PM_LOG_DEBUG, "config: ignorepkg: %s\n", p);
+					} else if(strcmp(key, "IgnoreGroup") == 0 || strcmp(upperkey, "IGNOREGROUP") == 0) {
+						char *p = ptr;
+						char *q;
+
+						while((q = strchr(p, ' '))) {
+							*q = '\0';
+							alpm_option_add_ignoregrp(p);
+							pm_printf(PM_LOG_DEBUG, "config: ignoregroup: %s", p);
+							p = q;
+							p++;
+						}
+						alpm_option_add_ignoregrp(p);
+						pm_printf(PM_LOG_DEBUG, "config: ignoregroup: %s\n", p);
 					} else if(strcmp(key, "HoldPkg") == 0 || strcmp(upperkey, "HOLDPKG") == 0) {
 						char *p = ptr;
 						char *q;

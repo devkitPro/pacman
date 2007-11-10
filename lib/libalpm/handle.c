@@ -100,6 +100,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->holdpkg);
+	FREELIST(handle->ignoregrp);
 	FREE(handle);
 }
 
@@ -209,6 +210,15 @@ alpm_list_t SYMEXPORT *alpm_option_get_holdpkgs()
 		return NULL;
 	}
 	return handle->holdpkg;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->ignoregrp;
 }
 
 time_t SYMEXPORT alpm_option_get_upgradedelay()
@@ -459,6 +469,17 @@ void SYMEXPORT alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 {
 	if(handle->holdpkg) FREELIST(handle->holdpkg);
 	if(holdpkgs) handle->holdpkg = holdpkgs;
+}
+
+void SYMEXPORT alpm_option_add_ignoregrp(const char *grp)
+{
+	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
+}
+
+void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
+{
+	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
+	if(ignoregrps) handle->ignoregrp = ignoregrps;
 }
 
 void SYMEXPORT alpm_option_set_upgradedelay(time_t delay)
