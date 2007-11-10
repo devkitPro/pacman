@@ -990,6 +990,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	pmtrans_t *tr = NULL;
 	int replaces = 0, retval = 0;
 	const char *cachedir = NULL;
+	int dltotal = 0, dl = 0;
 
 	ALPM_LOG_FUNC;
 
@@ -998,6 +999,15 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 	cachedir = _alpm_filecache_setup();
 	trans->state = STATE_DOWNLOADING;
+
+	/* Sum up the download sizes. This has to be in its own loop because
+	 * the download loop is grouped by db. */
+	for(j = trans->packages; j; j = j->next) {
+		pmsyncpkg_t *sync = j->data;
+		pmpkg_t *spkg = sync->pkg;
+		dltotal += alpm_pkg_download_size(spkg, db_local);
+	}
+
 	/* group sync records by repository and download */
 	for(i = handle->dbs_sync; i; i = i->next) {
 		pmdb_t *current = i->data;
@@ -1061,7 +1071,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		if(files) {
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
-			if(_alpm_downloadfiles(current->servers, cachedir, files)) {
+			if(_alpm_downloadfiles(current->servers, cachedir, files, &dl, dltotal)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
 				RET_ERR(PM_ERR_RETRIEVE, -1);

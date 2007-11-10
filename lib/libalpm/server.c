@@ -133,13 +133,19 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
 /*
  * Download a list of files from a list of servers
  *   - if one server fails, we try the next one in the list
+ *   - if *dl_total is non-NULL, then it will be used as the starting
+ *     download amount when TotalDownload is set. It will also be
+ *     set to the final download amount for the calling function to use.
+ *   - totalsize is the total download size for use when TotalDownload
+ *     is set. Use 0 if the total download size is not known.
  *
  * RETURN:  0 for successful download, 1 on error
  */
 int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
-		alpm_list_t *files)
+		alpm_list_t *files, int *dl_total, unsigned long totalsize)
 {
-	return(_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL));
+	return(_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL,
+				dl_total, totalsize));
 }
 
 /*
@@ -150,15 +156,21 @@ int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
  *     "YYYYMMDDHHMMSS" to match the form of ftplib's FtpModDate() function.
  *   - if *mtime2 is non-NULL, then it will be filled with the mtime
  *     of the remote file (from MDTM FTP cmd or Last-Modified HTTP header).
+ *   - if *dl_total is non-NULL, then it will be used as the starting
+ *     download amount when TotalDownload is set. It will also be
+ *     set to the final download amount for the calling function to use.
+ *   - totalsize is the total download size for use when TotalDownload
+ *     is set. Use 0 if the total download size is not known.
  * 
  * RETURN:  0 for successful download
  *          1 if the mtimes are identical
  *         -1 on error
  */
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, const char *mtime1, char *mtime2)
+	alpm_list_t *files, const char *mtime1, char *mtime2, int *dl_total,
+	unsigned long totalsize)
 {
-	int dltotal_bytes = 0;
+	int dl_thisfile = 0;
 	alpm_list_t *lp;
 	int done = 0;
 	alpm_list_t *complete = NULL;
@@ -206,12 +218,15 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				if(stat(output, &st) == 0 && st.st_size > 0) {
 					_alpm_log(PM_LOG_DEBUG, "existing file found, using it\n");
 					fileurl->offset = (off_t)st.st_size;
-					dltotal_bytes = st.st_size;
+					dl_thisfile = st.st_size;
+					if (dl_total != NULL) {
+						*dl_total += st.st_size;
+					}
 					localf = fopen(output, "a");
 					chk_resume = 1;
 				} else {
 					fileurl->offset = (off_t)0;
-					dltotal_bytes = 0;
+					dl_thisfile = 0;
 				}
 				
 				/* libdownload does not reset the error code, reset it in the case of previous errors */
@@ -267,7 +282,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				if(localf == NULL) {
 					_alpm_rmrf(output);
 					fileurl->offset = (off_t)0;
-					dltotal_bytes = 0;
+					dl_thisfile = 0;
 					localf = fopen(output, "w");
 					if(localf == NULL) { /* still null? */
 						_alpm_log(PM_LOG_ERROR, _("cannot write to file '%s'\n"), output);
@@ -280,7 +295,10 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 
 				/* Progress 0 - initialize */
-				if(handle->dlcb) handle->dlcb(pkgname, 0, ust.size);
+				if(handle->dlcb) {
+					handle->dlcb(pkgname, 0, ust.size, dl_total ? *dl_total : 0,
+							totalsize);
+				}
 
 				int nread = 0;
 				char buffer[PM_DLBUF_LEN];
@@ -310,10 +328,17 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					if(nwritten != nread) {
 						
 					}
-					dltotal_bytes += nread;
+					dl_thisfile += nread;
+					if (dl_total != NULL) {
+						*dl_total += nread;
+					}
 
-					if(handle->dlcb) handle->dlcb(pkgname, dltotal_bytes, ust.size);
+					if(handle->dlcb) {
+						handle->dlcb(pkgname, dl_thisfile, ust.size,
+								dl_total ? *dl_total : 0, totalsize);
+					}
 				}
+
 				downloadFreeURL(fileurl);
 				fclose(localf);
 				fclose(dlf);
@@ -429,7 +454,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	alpm_list_t *files = alpm_list_add(NULL, filename);
 
 	/* download the file */
-	if(_alpm_downloadfiles(servers, cachedir, files)) {
+	if(_alpm_downloadfiles(servers, cachedir, files, NULL, 0)) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return(NULL);
 	}

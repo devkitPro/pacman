@@ -257,7 +257,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 	dbpath = alpm_option_get_dbpath();
 
-	ret = _alpm_downloadfiles_forreal(db->servers, dbpath, files, lastupdate, newmtime);
+	ret = _alpm_downloadfiles_forreal(db->servers, dbpath, files, lastupdate,
+			newmtime, NULL, 0);
 	FREELIST(files);
 	if(ret == 1) {
 		/* mtimes match, do nothing */

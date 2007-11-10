@@ -37,9 +37,11 @@ struct __pmserver_t {
 
 pmserver_t *_alpm_server_new(const char *url);
 void _alpm_server_free(pmserver_t *server);
-int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath, alpm_list_t *files);
+int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
+		alpm_list_t *files, int *dl_total, unsigned long totalsize);
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, const char *mtime1, char *mtime2);
+	alpm_list_t *files, const char *mtime1, char *mtime2,
+	int *dl_total, unsigned long totalsize);
 
 #endif /* _ALPM_SERVER_H */
 

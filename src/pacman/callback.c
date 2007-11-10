@@ -85,16 +85,17 @@ static float get_update_timediff(int first_call)
 }
 
 /* refactored from cb_trans_progress */
-static void fill_progress(const int percent, const int proglen)
+static void fill_progress(const int graph_percent, const int display_percent,
+		const int proglen)
 {
 	const unsigned int hashlen = proglen - 8;
-	const unsigned int hash = percent * hashlen / 100;
+	const unsigned int hash = graph_percent * hashlen / 100;
 	static unsigned int lasthash = 0, mouth = 0;
 	unsigned int i;
 
 	/* printf("\ndebug: proglen: %i\n", proglen); DEBUG*/
 
-	if(percent == 0) {
+	if(graph_percent == 0) {
 		lasthash = 0;
 		mouth = 0;
 	}
@@ -139,10 +140,10 @@ static void fill_progress(const int percent, const int proglen)
 	}
 	/* print percent after progress bar */
 	if(proglen > 5) {
-		printf(" %3d%%", percent);
+		printf(" %3d%%", display_percent);
 	}
 
-	if(percent == 100) {
+	if(graph_percent == 100) {
 		printf("\n");
 	} else {
 		printf("\r");
@@ -432,34 +433,55 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	free(wcopr);
 
 	/* call refactored fill progress function */
-	fill_progress(percent, getcols() - infolen);
+	fill_progress(percent, percent, getcols() - infolen);
 }
 
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, int xfered, int total)
+void cb_dl_progress(const char *filename, int file_xfered, int file_total,
+		int list_xfered, int list_total)
 {
 	const int infolen = 50;
 	char *fname, *p; 
 
 	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
-	int percent;
+	int graph_percent = 0, display_percent = 0;
 	char rate_size = 'K', xfered_size = 'K';
+	int xfered = 0, total = 0;
+
+	/* Need this variable when TotalDownload is set to know if we should
+	 * reset xfered_last and rate_last. */
+	static int has_init = 0;
 
 	if(config->noprogressbar) {
 		return;
 	}
 
-	/* this is basically a switch on xferred: 0, total, and anything else */
-	if(xfered == 0) {
-		/* set default starting values */
-		gettimeofday(&initial_time, NULL);
-		xfered_last = 0;
-		rate_last = 0.0;
-		timediff = get_update_timediff(1);
+	/* Choose how to display the amount downloaded, rate, ETA, and
+	 * percentage depending on the TotalDownload option. */
+	if (config->totaldownload && list_total > 0) {
+		xfered = list_xfered;
+		total = list_total;
+	} else {
+		xfered = file_xfered;
+		total = file_total;
+	}
+
+	/* this is basically a switch on file_xferred: 0, file_total, and
+	 * anything else */
+	if(file_xfered == 0) {
+		/* set default starting values, but only once for TotalDownload */
+		if (!(config->totaldownload && list_total > 0) ||
+				(config->totaldownload && list_total > 0 && !has_init)) {
+			gettimeofday(&initial_time, NULL);
+			timediff = get_update_timediff(1);
+			xfered_last = 0;
+			rate_last = 0.0;
+			has_init = 1;
+		}
 		rate = 0.0;
 		eta_s = 0;
-	} else if(xfered == total) {
+	} else if(file_xfered == file_total) {
 		/* compute final values */
 		struct timeval current_time;
 		float diff_sec, diff_usec;
@@ -468,7 +490,7 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
 		timediff = diff_sec + (diff_usec / 1000000.0);
-		rate = total / (timediff * 1024.0);
+		rate = xfered / (timediff * 1024.0);
 
 		/* round elapsed time to the nearest second */
 		eta_s = (int)(timediff + 0.5);
@@ -487,8 +509,6 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		rate_last = rate;
 		xfered_last = xfered;
 	}
-
-	percent = (int)((float)xfered) / ((float)total) * 100;
 
 	/* fix up time for display */
 	eta_h = eta_s / 3600;
@@ -537,7 +557,11 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 
 	free(fname);
 	
-	fill_progress(percent, getcols() - infolen);
+	/* The progress bar is based on the file percent regardless of the
+	 * TotalDownload option. */
+	graph_percent = (int)((float)file_xfered) / ((float)file_total) * 100;
+	display_percent = (int)((float)xfered) / ((float)total) * 100;
+	fill_progress(graph_percent, display_percent, getcols() - infolen);
 	return;
 }
 

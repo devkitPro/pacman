@@ -35,7 +35,8 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
                    int howmany, int remain);
 
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, int xfered, int total);
+void cb_dl_progress(const char *filename, int file_xfered, int file_total,
+		int list_xfered, int list_total);
 
 /* callback to handle messages/notifications from pacman library */
 void cb_log(pmloglevel_t level, char *fmt, va_list args);

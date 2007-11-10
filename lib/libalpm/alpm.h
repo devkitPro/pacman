@@ -81,7 +81,8 @@ int alpm_logaction(char *fmt, ...);
  * Downloading
  */
 
-typedef void (*alpm_cb_download)(const char *filename, int xfered, int total);
+typedef void (*alpm_cb_download)(const char *filename, int file_xfered,
+		int file_total, int list_xfered, int list_total);
 
 /*
  * Options
