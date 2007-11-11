@@ -301,11 +301,12 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 			int filenum = alpm_list_count(files);
 			double percent = 0.0;
+			alpm_list_t *newfiles;
 			_alpm_log(PM_LOG_DEBUG, "removing %d files\n", filenum);
 
 			/* iterate through the list backwards, unlinking files */
-			files = alpm_list_reverse(files);
-			for(lp = files; lp; lp = alpm_list_next(lp)) {
+			newfiles = alpm_list_reverse(files);
+			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
 				unlink_file(info, lp, trans);
 
 				/* update progress bar after each file */
@@ -315,6 +316,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 						(pkg_count - alpm_list_count(targ) + 1));
 				position++;
 			}
+			free(newfiles);
 		}
 
 		/* set progress to 100% after we finish unlinking files */
