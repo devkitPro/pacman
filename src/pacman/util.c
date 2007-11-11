@@ -393,6 +393,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 		FREELIST(to_remove);
 	
 		printf(_("Total Removed Size:   %.2f MB\n"), mbrsize);
+		printf("\n");
 	}
 
 	list_display(_("Targets:"), targets);
