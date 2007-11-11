@@ -434,9 +434,9 @@ remove_deps() {
 
 	msg "Removing installed dependencies..."
 	if [ "$ASROOT" = "0" ]; then
-		sudo pacman $PACMAN_OPTS -Rs $deplist
+		sudo pacman $PACMAN_OPTS -Rns $deplist
 	else
-		pacman $PACMAN_OPTS -Rs $deplist
+		pacman $PACMAN_OPTS -Rns $deplist
 	fi
 }
 
