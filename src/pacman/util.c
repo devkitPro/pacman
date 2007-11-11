@@ -334,9 +334,8 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	const alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
 	/* TODO these are some messy variable names */
-	unsigned long size = 0, isize = 0, rsize = 0, dispsize = 0, dlsize = 0;
-	double mbsize = 0.0, mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0,
-				 mbdlsize = 0.0;
+	unsigned long isize = 0, rsize = 0, dispsize = 0, dlsize = 0;
+	double mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0, mbdlsize = 0.0;
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
@@ -360,7 +359,6 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 		}
 
 		dispsize = alpm_pkg_get_size(pkg);
-		size += dispsize;
 		dlsize += alpm_pkg_download_size(pkg, db_local);
 		isize += alpm_pkg_get_isize(pkg);
 
@@ -379,7 +377,6 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	}
 
 	/* Convert byte sizes to MB */
-	mbsize = size / (1024.0 * 1024.0);
 	mbisize = isize / (1024.0 * 1024.0);
 	mbrsize = rsize / (1024.0 * 1024.0);
 	mbdlsize = dlsize / (1024.0 * 1024.0);
@@ -399,11 +396,10 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	list_display(_("Targets:"), targets);
 	printf("\n");
 
-	printf(_("Total Package Size:     %.2f MB\n"), mbsize);
 	printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
 	
 	/* TODO because all pkgs don't include isize, this is a crude hack */
-	if(mbisize > mbsize) {
+	if(mbisize > mbdlsize) {
 		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
 	}
 
