@@ -274,6 +274,10 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		return(NULL);
 	}
 
+	/* TODO this whole function needs a huge change, which hopefully will
+	 * be possible with real transactions. Right now we only do half as much
+	 * here as we do when we actually extract files in add.c with our 12
+	 * different cases. */
 	for(current = 1, i = targets; i; i = i->next, current++) {
 		alpm_list_t *j, *k, *tmpfiles = NULL;
 		pmpkg_t *p1, *p2, *dbpkg;
@@ -309,7 +313,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 		}
 
 		/* declarations for second check */
-		struct stat buf;
+		struct stat lsbuf, sbuf;
 		char *filestr = NULL;
 
 		/* CHECK 2: check every target against the filesystem */
@@ -334,23 +338,28 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			snprintf(path, PATH_MAX, "%s%s", root, filestr);
 
 			/* stat the file - if it exists, do some checks */
-			if(_alpm_lstat(path, &buf) != 0) {
+			if(_alpm_lstat(path, &lsbuf) != 0) {
 				continue;
 			}
-			if(S_ISDIR(buf.st_mode)) {
+			stat(path, &sbuf);
+
+			if(S_ISDIR(lsbuf.st_mode)) {
 				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
+			} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
+				_alpm_log(PM_LOG_DEBUG, "%s is a symlink to a dir, hopefully not a conflict\n", path);
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
 				/* Make sure the possible conflict is not a symlink that points to a
 				 * path in the old package. This is kind of dirty with inode usage */
+				/* TODO this seems ripe for a cleanup */
 				if(dbpkg) {
-					struct stat buf2;
+					struct stat pkgbuf;
 					char str[PATH_MAX+1];
 					unsigned ok = 0;
 					for(k = dbpkg->files; k; k = k->next) {
 						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
-						if(!_alpm_lstat(str, &buf2) && buf.st_ino == buf2.st_ino) {
+						if(!_alpm_lstat(str, &pkgbuf) && lsbuf.st_ino == pkgbuf.st_ino) {
 							ok = 1;
 							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s\n", path);
 							break;
