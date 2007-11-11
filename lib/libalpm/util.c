@@ -614,7 +614,7 @@ int _alpm_lstat(const char *path, struct stat *buf)
 			newpath[len - 1] = '\0';
 	}
 
-	ret = lstat(path, buf);
+	ret = lstat(newpath, buf);
 
 	FREE(newpath);
 	return(ret);
