@@ -332,35 +332,6 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 }
 
 /**
- * @brief Remove the node from the list that it belongs to.
- *
- * This DOES NOT free the node.
- *
- * @param node the list node we're removing
- *
- * @return the node which took the place of this one
- */
-alpm_list_t SYMEXPORT *alpm_list_remove_node(alpm_list_t *node)
-{
-	if(!node) return(NULL);
-
-	alpm_list_t *ret = NULL;
-
-	if(node->prev) {
-		node->prev->next = node->next;
-		ret = node->prev;
-		node->prev = NULL;
-	}
-	if(node->next) {
-		node->next->prev = node->prev;
-		ret = node->next;
-		node->next = NULL;
-	}
-
-	return(ret);
-}
-
-/**
  * @brief Create a new list without any duplicates.
  *
  * This does NOT copy data members.
