@@ -301,14 +301,22 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 			if(i == haystack) {
 				/* Special case: removing the head node which has a back reference to
 				 * the tail node */
-				/* The item found is the first in the chain */
 				haystack = i->next;
 				if(haystack) {
 					haystack->prev = i->prev;
 				}
 				i->prev = NULL;
+			} else if(i == haystack->prev) {
+				/* Special case: removing the tail node, so we need to fix the back
+				 * reference on the head node. We also know tail != head. */
+				if(i->prev) {
+					/* i->next should always be null */
+					i->prev->next = i->next;
+					haystack->prev = i->prev;
+					i->prev = NULL;
+				}
 			} else {
-				/* Normal case, non-head node */
+				/* Normal case, non-head and non-tail node */
 				if(i->next) {
 					i->next->prev = i->prev;
 				}
