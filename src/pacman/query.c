@@ -280,7 +280,12 @@ static int filter(pmpkg_t *pkg)
 static void display(pmpkg_t *pkg)
 {
 	if(config->op_q_info) {
-		dump_pkg_full(pkg, config->op_q_info);
+		if(config->op_q_isfile) {
+			/* omit info that isn't applicable for a file package */
+			dump_pkg_full(pkg, 0);
+		} else {
+			dump_pkg_full(pkg, config->op_q_info);
+		}
 	}
 	if(config->op_q_list) {
 		dump_pkg_files(pkg);

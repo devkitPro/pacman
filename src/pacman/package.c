@@ -86,7 +86,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
-	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
+	printf(_("Installed Size : %6.2f K\n"),
+			(float)alpm_pkg_get_isize(pkg) / 1024.0);
 	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
 	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
 	printf(_("Build Date     : %s\n"), bdatestr);

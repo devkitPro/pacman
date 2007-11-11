@@ -385,6 +385,10 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				_alpm_strtrim(tmp);
 				info->size = atol(tmp);
+				/* also store this value to isize if isize is unset */
+				if(info->isize == 0) {
+					info->isize = atol(tmp);
+				}
 			} else if(!strcmp(line, "%ISIZE%")) {
 				/* ISIZE (installed size) tag only appears in sync repositories,
 				 * not the local one. */
