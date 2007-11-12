@@ -218,7 +218,13 @@ db_write_entry()
 
 	# create deltas entry if there are delta files
 	for delta in $startdir/$pkgname-*-*_to_*-*-$arch.delta; do
-		if [ -f "$delta" ]; then
+		# This for loop also pulls in all files that start with the current package
+		# name and are followed by a -whatever. For instance, running this loop for
+		# gcc would also grab gcc-libs. To guard against this, compare the package
+		# name of the delta to the current package name.
+		local filename=$(basename "$delta")
+		local dpkgname="$(echo "$filename" | sed -e 's/\(.*\)-.*-.*_to_.*-.*-.*.delta/\1/')"
+		if [ "$pkgname" = "$dpkgname" -a -f "$delta" ]; then
 			# create deltas file if it does not already exist
 			if [ ! -f "deltas" ]; then
 				msg2 "$(gettext "Creating 'deltas' db entry...")"
