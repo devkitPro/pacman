@@ -84,6 +84,7 @@ class pmtest:
         self.option = {
             "noupgrade": [],
             "ignorepkg": [],
+            "ignoregroup": [],
             "noextract": []
         }
 
