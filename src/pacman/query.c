@@ -248,9 +248,11 @@ static int is_foreign(pmpkg_t *pkg)
 
 static int is_orphan(pmpkg_t *pkg)
 {
-	if(alpm_pkg_get_requiredby(pkg) == NULL) {
+	alpm_list_t *requiredby = alpm_pkg_compute_requiredby(pkg);
+	if(requiredby == NULL) {
 		return(1);
 	}
+	FREELIST(requiredby);
 	return(0);
 }
 

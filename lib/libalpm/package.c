@@ -405,20 +405,6 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_optdepends(pmpkg_t *pkg)
 	return pkg->optdepends;
 }
 
-alpm_list_t SYMEXPORT *alpm_pkg_get_requiredby(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
-	}
-	return pkg->requiredby;
-}
-
 alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -695,7 +681,6 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 	memcpy(newpkg, pkg, sizeof(pmpkg_t));
 	newpkg->licenses    = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
-	newpkg->requiredby = alpm_list_strdup(alpm_pkg_get_requiredby(pkg));
 	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
@@ -729,7 +714,6 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREELIST(pkg->depends);
 	FREELIST(pkg->optdepends);
 	FREELIST(pkg->conflicts);
-	FREELIST(pkg->requiredby);
 	FREELIST(pkg->groups);
 	FREELIST(pkg->provides);
 	FREELIST(pkg->replaces);
@@ -1096,13 +1080,6 @@ pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack)
 		}
 	}
 	return(NULL);
-}
-
-/* fill in requiredby field of package,
- * used when we want to install or add a package */
-void _alpm_pkg_update_requiredby(pmpkg_t *pkg)
-{
-	pkg->requiredby = alpm_pkg_compute_requiredby(pkg);
 }
 
 /* TODO this should either be public, or done somewhere else */

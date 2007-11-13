@@ -39,7 +39,7 @@ int str_cmp(const void *s1, const void *s2)
   return(strcmp(s1, s2));
 }
 
-static void diffrqdby(const char *pkgname, alpm_list_t *oldrqdby, alpm_list_t *newrqdby)
+/*static void diffrqdby(const char *pkgname, alpm_list_t *oldrqdby, alpm_list_t *newrqdby)
 {
   oldrqdby = alpm_list_msort(oldrqdby, alpm_list_count(oldrqdby), str_cmp);
   newrqdby = alpm_list_msort(newrqdby, alpm_list_count(newrqdby), str_cmp);
@@ -73,7 +73,7 @@ static void diffrqdby(const char *pkgname, alpm_list_t *oldrqdby, alpm_list_t *n
       j = j->next;
     }
   }
-}
+}*/
 
 static void cleanup(int signum) {
   if(alpm_release() == -1) {
@@ -187,12 +187,12 @@ int main(int argc, char **argv)
   }
 
   /* check requiredby */
-  for(i = alpm_db_getpkgcache(db); i; i = alpm_list_next(i)) {
+  /*for(i = alpm_db_getpkgcache(db); i; i = alpm_list_next(i)) {
     pmpkg_t *pkg = alpm_list_getdata(i);
     const char *pkgname = alpm_pkg_get_name(pkg);
     alpm_list_t *rqdby = alpm_pkg_compute_requiredby(pkg);
     diffrqdby(pkgname, alpm_pkg_get_requiredby(pkg), rqdby);
-  }
+  }*/
 
   cleanup(retval);
 }

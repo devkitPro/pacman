@@ -82,7 +82,9 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
 	/* Only applicable if installed */
 	if(level > 0) {
-		list_display(_("Required By    :"), alpm_pkg_get_requiredby(pkg));
+		alpm_list_t *requiredby = alpm_pkg_compute_requiredby(pkg);
+		list_display(_("Required By    :"), requiredby);
+		FREELIST(requiredby);
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));

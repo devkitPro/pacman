@@ -475,7 +475,6 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 								pm_errno = PM_ERR_MEMORY;
 								goto error;
 							}
-							dummy->requiredby = alpm_list_strdup(alpm_pkg_get_requiredby(lpkg));
 
 							pmsyncpkg_t *syncpkg;
 							syncpkg = _alpm_sync_find(syncpkgs, alpm_pkg_get_name(spkg));

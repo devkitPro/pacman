@@ -137,7 +137,6 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 							pm_errno = PM_ERR_MEMORY;
 							goto error;
 						}
-						dummy->requiredby = alpm_list_strdup(alpm_pkg_get_requiredby(lpkg));
 						/* check if spkg->name is already in the packages list. */
 						sync = _alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg));
 						if(sync) {
@@ -563,7 +562,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 						asked = alpm_list_add(asked, strdup(miss->depend.name));
 						if(doremove) {
 							pmpkg_t *q = _alpm_pkg_dup(local);
-							q->requiredby = alpm_list_strdup(alpm_pkg_get_requiredby(local));
 							if(sync->type != PM_SYNC_TYPE_REPLACE) {
 								/* switch this sync type to REPLACE */
 								sync->type = PM_SYNC_TYPE_REPLACE;
@@ -1240,53 +1238,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	}
 	_alpm_trans_free(tr);
 	tr = NULL;
-
-	/* propagate replaced packages' requiredby fields to their new owners */
-	if(replaces) {
-		_alpm_log(PM_LOG_DEBUG, "updating database for replaced packages' dependencies\n");
-		for(i = trans->packages; i; i = i->next) {
-			pmsyncpkg_t *sync = i->data;
-			if(sync->type == PM_SYNC_TYPE_REPLACE) {
-				alpm_list_t *j;
-				pmpkg_t *new = _alpm_db_get_pkgfromcache(db_local, alpm_pkg_get_name(sync->pkg));
-				for(j = sync->data; j; j = j->next) {
-					alpm_list_t *k;
-					pmpkg_t *old = j->data;
-					/* merge lists */
-					for(k = alpm_pkg_get_requiredby(old); k; k = k->next) {
-						if(!alpm_list_find_str(alpm_pkg_get_requiredby(new), k->data)) {
-							/* replace old's name with new's name in the requiredby's dependency list */
-							alpm_list_t *m;
-							pmpkg_t *depender = _alpm_db_get_pkgfromcache(db_local, k->data);
-							if(depender == NULL) {
-								/* If the depending package no longer exists in the local db,
-								 * then it must have ALSO conflicted with sync->pkg.  If
-								 * that's the case, then we don't have anything to propagate
-								 * here. */
-								continue;
-							}
-							for(m = alpm_pkg_get_depends(depender); m; m = m->next) {
-								if(!strcmp(m->data, alpm_pkg_get_name(old))) {
-									FREE(m->data);
-									m->data = strdup(alpm_pkg_get_name(new));
-								}
-							}
-							if(_alpm_db_write(db_local, depender, INFRQ_DEPENDS) == -1) {
-								_alpm_log(PM_LOG_ERROR, _("could not update requiredby for database entry %s-%s\n"),
-													alpm_pkg_get_name(new), alpm_pkg_get_version(new));
-							}
-							/* add the new requiredby */
-							new->requiredby = alpm_list_add(alpm_pkg_get_requiredby(new), strdup(k->data));
-						}
-					}
-				}
-				if(_alpm_db_write(db_local, new, INFRQ_DEPENDS) == -1) {
-					_alpm_log(PM_LOG_ERROR, _("could not update new database entry %s-%s\n"),
-										alpm_pkg_get_name(new), alpm_pkg_get_version(new));
-				}
-			}
-		}
-	}
 
 	return(0);
 

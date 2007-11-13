@@ -249,7 +249,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 
 int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 {
-	pmpkg_t *info, *infodup;
+	pmpkg_t *info;
 	alpm_list_t *targ, *lp;
 	int pkg_count;
 
@@ -331,9 +331,6 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 
-		/* duplicate the package so we can remove the requiredby fields later */
-		infodup = _alpm_pkg_dup(info);
-
 		/* remove the package from the database */
 		_alpm_log(PM_LOG_DEBUG, "updating database\n");
 		_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
@@ -347,10 +344,6 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			          pkgname);
 		}
 		
-		/* update dependency packages' REQUIREDBY fields */
-		_alpm_trans_update_depends(trans, infodup);
-		_alpm_pkg_free(infodup);
-
 		/* call a done event if this isn't an upgrade */
 		if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);

@@ -804,10 +804,6 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		}
 	}
 
-	/* Update the requiredby field by scanning the whole database
-	 * looking for packages depending on the package to add */
-	_alpm_pkg_update_requiredby(newpkg);
-
 	/* make an install date (in UTC) */
 	newpkg->installdate = time(NULL);
 
@@ -826,9 +822,6 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		_alpm_log(PM_LOG_ERROR, _("could not add entry '%s' in cache\n"),
 				alpm_pkg_get_name(newpkg));
 	}
-
-	/* update dependency packages' REQUIREDBY fields */
-	_alpm_trans_update_depends(trans, newpkg);
 
 	if(is_upgrade) {
 		PROGRESS(trans, PM_TRANS_PROGRESS_UPGRADE_START,

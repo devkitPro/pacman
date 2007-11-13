@@ -254,12 +254,13 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 	}
 
 	if(op == PM_TRANS_TYPE_UPGRADE) {
-		/* PM_TRANS_TYPE_UPGRADE handles the backwards dependencies, ie, the packages
-		 * listed in the requiredby field.
+		/* PM_TRANS_TYPE_UPGRADE handles the backwards dependencies, ie,
+		 * the packages listed in the requiredby field.
 		 */
 		for(i = packages; i; i = i->next) {
 			pmpkg_t *newpkg = i->data;
 			pmpkg_t *oldpkg;
+			alpm_list_t *requiredby;
 			if(newpkg == NULL) {
 				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
@@ -272,7 +273,9 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 									alpm_pkg_get_name(newpkg));
 				continue;
 			}
-			for(j = alpm_pkg_get_requiredby(oldpkg); j; j = j->next) {
+
+			requiredby = alpm_pkg_compute_requiredby(oldpkg);
+			for(j = requiredby; j; j = j->next) {
 				pmpkg_t *p;
 				found = 0;
 
@@ -340,6 +343,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 					FREE(depend);
 				}
 			}
+			FREELIST(requiredby);
 		}
 	}
 	if(op == PM_TRANS_TYPE_ADD || op == PM_TRANS_TYPE_UPGRADE) {
@@ -394,12 +398,15 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 		/* check requiredby fields */
 		for(i = packages; i; i = i->next) {
 			pmpkg_t *rmpkg = alpm_list_getdata(i);
+			alpm_list_t *requiredby;
 
 			if(rmpkg == NULL) {
 				_alpm_log(PM_LOG_DEBUG, "null package found in package list\n");
 				continue;
 			}
-			for(j = alpm_pkg_get_requiredby(rmpkg); j; j = j->next) {
+
+			requiredby = alpm_pkg_compute_requiredby(rmpkg);
+			for(j = requiredby; j; j = j->next) {
 				pmpkg_t *p;
 				found = 0;
 				if(_alpm_pkg_find(j->data, packages)) {
@@ -446,6 +453,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 					FREE(depend);
 				}
 			}
+			FREELIST(requiredby);
 		}
 	}
 
@@ -559,7 +567,7 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 		int include_explicit)
 {
-	alpm_list_t *i;
+	alpm_list_t *i, *requiredby;
 
 	if(_alpm_pkg_find(alpm_pkg_get_name(pkg), targets)) {
 		return(0);
@@ -581,12 +589,15 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	 * if checkdeps detected it would break something */
 
 	/* see if other packages need it */
-	for(i = alpm_pkg_get_requiredby(pkg); i; i = i->next) {
+	requiredby = alpm_pkg_compute_requiredby(pkg);
+	for(i = requiredby; i; i = i->next) {
 		pmpkg_t *reqpkg = _alpm_db_get_pkgfromcache(db, i->data);
 		if(reqpkg && !_alpm_pkg_find(alpm_pkg_get_name(reqpkg), targets)) {
+			FREE(requiredby);
 			return(0);
 		}
 	}
+	FREELIST(requiredby);
 
 	/* it's ok to remove */
 	return(1);
