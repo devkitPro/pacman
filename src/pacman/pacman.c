@@ -134,6 +134,8 @@ static void usage(int op, const char * const myname)
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
+			printf(_("      --ignoregroup <grp>\n"
+			         "                       ignore a group upgrade (can be used more than once)\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));
