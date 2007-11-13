@@ -1,7 +1,7 @@
 # We have to do some funny stuff here with the manpages. In order to ensure
 # a dist tarball doesn't get put out there without manpages, we keep those
 # files listed in EXTRA_DIST no matter what. However, we only add them to
-# man_MANS if --enable-asciidoc was used.
+# man_MANS if --enable-asciidoc and/or --enable-doxygen are used.
 
 ASCIIDOC_MANS = \
 	pacman.8 \
@@ -12,14 +12,15 @@ ASCIIDOC_MANS = \
 	pacman.conf.5 \
 	libalpm.3
 
-if USE_DOXYGEN
 DOXYGEN_MANS = $(wildcard man3/*.3)
-endif
+
+man_MANS =
 
 if USE_ASCIIDOC
-man_MANS = $(ASCIIDOC_MANS) $(DOXYGEN_MANS)
-else
-man_MANS = $(DOXYGEN_MANS)
+man_MANS += $(ASCIIDOC_MANS)
+endif
+if USE_DOXYGEN
+man_MANS += $(DOXYGEN_MANS)
 endif
 
 EXTRA_DIST = \
@@ -33,7 +34,8 @@ EXTRA_DIST = \
 	libalpm.3.txt \
 	footer.txt \
 	Doxyfile \
-	$(ASCIIDOC_MANS)
+	$(ASCIIDOC_MANS) \
+	$(DOXYGEN_MANS)
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(DOXYGEN_MANS) *.xml

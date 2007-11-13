@@ -100,8 +100,8 @@ AC_ARG_WITH(db-ext,
 
 # Help line for doxygen
 AC_ARG_ENABLE(doxygen,
-	AC_HELP_STRING([--disable-doxygen], [do not build API docs via Doxygen]),
-	[wantdoxygen=$enableval], [wantdoxygen=yes])
+	AC_HELP_STRING([--enable-doxygen], [build your own API docs via Doxygen]),
+	[wantdoxygen=$enableval], [wantdoxygen=no])
 
 # Help line for asciidoc
 AC_ARG_ENABLE(asciidoc,
