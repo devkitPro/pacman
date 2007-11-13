@@ -770,23 +770,21 @@ error:
 	return(-1);
 }
 
-const char SYMEXPORT *alpm_miss_get_target(pmdepmissing_t *miss)
+const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(miss != NULL, return(NULL));
 
 	return miss->target;
 }
 
-pmdeptype_t SYMEXPORT alpm_miss_get_type(pmdepmissing_t *miss)
+pmdeptype_t SYMEXPORT alpm_miss_get_type(const pmdepmissing_t *miss)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
 	ASSERT(miss != NULL, return(-1));
 
 	return miss->type;
@@ -797,76 +795,80 @@ pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(miss != NULL, return(NULL));
 
 	return &miss->depend;
 }
 
-pmdepmod_t SYMEXPORT alpm_dep_get_mod(pmdepend_t *dep)
+pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
 	ASSERT(dep != NULL, return(-1));
 
 	return dep->mod;
 }
 
-const char SYMEXPORT *alpm_dep_get_name(pmdepend_t *dep)
+const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(dep != NULL, return(NULL));
 
 	return dep->name;
 }
 
-const char SYMEXPORT *alpm_dep_get_version(pmdepend_t *dep)
+const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
 {
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(dep != NULL, return(NULL));
 
 	return dep->version;
 }
 
-/* the return-string must be freed! */
-char SYMEXPORT *alpm_dep_get_string(pmdepend_t *dep)
+/** Reverse of splitdep; make a dep string from a pmdepend_t struct.
+ * The string must be freed!
+ * @param dep the depend to turn into a string
+ * @return a string-formatted dependency with operator if necessary
+ */
+char SYMEXPORT *alpm_dep_get_string(const pmdepend_t *dep)
 {
+	char *opr, *str = NULL;
+	size_t len;
+
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(dep != NULL, return(NULL));
 
-	/* TODO redo the sprintf, change to snprintf and
-	 * make it less hacky and dependent on sizeof, etc */
-	char *ptr;
-	char *depstring;
-	MALLOC(depstring, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
-	strcpy(depstring, dep->name);
-	ptr = depstring + strlen(depstring);
 	switch(dep->mod) {
 		case PM_DEP_MOD_ANY:
-			break;
-		case PM_DEP_MOD_EQ:
-			sprintf(ptr, "=%s", dep->version);
+			opr = "";
 			break;
 		case PM_DEP_MOD_GE:
-			sprintf(ptr, ">=%s", dep->version);
+			opr = ">=";
 			break;
 		case PM_DEP_MOD_LE:
-			sprintf(ptr, "<=%s", dep->version);
+			opr = "<=";
+			break;
+		case PM_DEP_MOD_EQ:
+			opr = "=";
+			break;
+		default:
+			opr = "";
 			break;
 	}
 
-	return(depstring);
+	/* we can always compute len and print the string like this because opr
+	 * and ver will be empty when PM_DEP_MOD_ANY is the depend type */
+	len = strlen(dep->name) + strlen(opr) + strlen(dep->version) + 1;
+	MALLOC(str, len, RET_ERR(PM_ERR_MEMORY, NULL));
+	snprintf(str, len, "%s%s%s", dep->name, opr, dep->version);
+
+	return(str);
 }
 /* vim: set ts=2 sw=2 noet: */

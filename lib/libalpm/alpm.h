@@ -378,14 +378,14 @@ int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 alpm_list_t *alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages);
 
-const char *alpm_miss_get_target(pmdepmissing_t *miss);
-pmdeptype_t alpm_miss_get_type(pmdepmissing_t *miss);
+const char *alpm_miss_get_target(const pmdepmissing_t *miss);
+pmdeptype_t alpm_miss_get_type(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
 
-pmdepmod_t alpm_dep_get_mod(pmdepend_t *dep);
-const char *alpm_dep_get_name(pmdepend_t *dep);
-const char *alpm_dep_get_version(pmdepend_t *dep);
-char *alpm_dep_get_string(pmdepend_t *dep);
+pmdepmod_t alpm_dep_get_mod(const pmdepend_t *dep);
+const char *alpm_dep_get_name(const pmdepend_t *dep);
+const char *alpm_dep_get_version(const pmdepend_t *dep);
+char *alpm_dep_get_string(const pmdepend_t *dep);
 
 /*
  * File conflicts
