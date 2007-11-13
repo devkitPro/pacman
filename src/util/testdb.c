@@ -39,42 +39,6 @@ int str_cmp(const void *s1, const void *s2)
   return(strcmp(s1, s2));
 }
 
-/*static void diffrqdby(const char *pkgname, alpm_list_t *oldrqdby, alpm_list_t *newrqdby)
-{
-  oldrqdby = alpm_list_msort(oldrqdby, alpm_list_count(oldrqdby), str_cmp);
-  newrqdby = alpm_list_msort(newrqdby, alpm_list_count(newrqdby), str_cmp);
-
-  alpm_list_t *i = oldrqdby;
-  alpm_list_t *j = newrqdby;
-
-  while(i || j) {
-    char *s1 = NULL;
-    char *s2 = NULL;
-    int n;
-    if(i && !j) {
-      n = -1;
-    } else if(!i && j) {
-      n = 1;
-    } else {
-      s1 = i->data;
-      s2 = j->data;
-      n = strcmp(s1, s2);
-    }
-    if(n < 0) {
-      s1 = i->data;
-      printf("wrong requiredby for %s : %s\n", pkgname, s1);
-      i = i->next;
-    } else if (n > 0) {
-      s2 = j->data;
-      printf("missing requiredby for %s : %s\n", pkgname, s2);
-      j = j->next;
-    } else {
-      i = i->next;
-      j = j->next;
-    }
-  }
-}*/
-
 static void cleanup(int signum) {
   if(alpm_release() == -1) {
     fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
@@ -185,14 +149,6 @@ int main(int argc, char **argv)
         depstring);
     free(depstring);
   }
-
-  /* check requiredby */
-  /*for(i = alpm_db_getpkgcache(db); i; i = alpm_list_next(i)) {
-    pmpkg_t *pkg = alpm_list_getdata(i);
-    const char *pkgname = alpm_pkg_get_name(pkg);
-    alpm_list_t *rqdby = alpm_pkg_compute_requiredby(pkg);
-    diffrqdby(pkgname, alpm_pkg_get_requiredby(pkg), rqdby);
-  }*/
 
   cleanup(retval);
 }
