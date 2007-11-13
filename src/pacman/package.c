@@ -46,6 +46,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	const char *reason, *descheader;
 	time_t bdate, idate;
 	char bdatestr[50], idatestr[50];
+	const alpm_list_t *i;
+	alpm_list_t *depstrings = NULL;
 
 	if(pkg == NULL) {
 		return;
@@ -69,6 +71,12 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 			break;
 	}
 
+	/* turn depends list into a text list */
+	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
+		pmdepend_t *dep = (pmdepend_t*)alpm_list_getdata(i);
+		depstrings = alpm_list_add(depstrings, alpm_dep_get_string(dep));
+	}
+
 	descheader = _("Description    : ");
 
 	/* actual output */
@@ -78,7 +86,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("License        :"), alpm_pkg_get_licenses(pkg));
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
+	list_display(_("Depends On     :"), depstrings);
 	list_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
 	/* Only applicable if installed */
 	if(level > 0) {
@@ -112,6 +120,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 		dump_pkg_backups(pkg);
 	}
 	printf("\n");
+
+	FREELIST(depstrings);
 }
 
 /* Display the content of a sync package
@@ -119,8 +129,16 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 {
 	const char *descheader, *md5sum;
+	const alpm_list_t *i;
+	alpm_list_t *depstrings = NULL;
 	if(pkg == NULL) {
 		return;
+	}
+
+	/* turn depends list into a text list */
+	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
+		pmdepend_t *dep = (pmdepend_t*)alpm_list_getdata(i);
+		depstrings = alpm_list_add(depstrings, alpm_dep_get_string(dep));
 	}
 
 	descheader = _("Description    : ");
@@ -132,7 +150,7 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	list_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
+	list_display(_("Depends On     :"), depstrings);
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 	printf(_("Download Size  : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
@@ -147,6 +165,8 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 		printf(_("MD5 Sum        : %s"), md5sum);
 	}
 	printf("\n");
+
+	FREELIST(depstrings);
 }
 
 /* Display list of backup files and their modification states
