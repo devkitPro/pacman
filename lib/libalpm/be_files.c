@@ -44,6 +44,7 @@
 #include "handle.h"
 #include "package.h"
 #include "delta.h"
+#include "deps.h"
 
 
 /* This function is used to convert the downloaded db file to the proper backend
@@ -455,7 +456,8 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%DEPENDS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->depends = alpm_list_add(info->depends, strdup(line));
+					pmdepend_t *dep = alpm_splitdep(line);
+					info->depends = alpm_list_add(info->depends, dep);
 				}
 			} else if(!strcmp(line, "%OPTDEPENDS%")) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
@@ -670,7 +672,9 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->depends) {
 			fputs("%DEPENDS%\n", fp);
 			for(lp = info->depends; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				char *depstring = alpm_dep_get_string(lp->data);
+				fprintf(fp, "%s\n", depstring);
+				free(depstring);
 			}
 			fprintf(fp, "\n");
 		}

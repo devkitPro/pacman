@@ -130,9 +130,8 @@ static alpm_list_t *_alpm_graph_init(alpm_list_t *targets)
 			pmpkg_t *p_j = vertex_j->data;
 			int child = 0;
 			for(k = alpm_pkg_get_depends(p_i); k && !child; k = k->next) {
-				pmdepend_t *depend = alpm_splitdep(k->data);
+				pmdepend_t *depend = k->data;
 				child = alpm_depcmp(p_j, depend);
-				free(depend);
 			}
 			if(child) {
 				vertex_i->children =
@@ -290,10 +289,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
 					/* don't break any existing dependencies (possible provides) */
-					pmdepend_t *depend = alpm_splitdep(k->data);
-					if(depend == NULL) {
-						continue;
-					}
+					pmdepend_t *depend = k->data;
 
 					/* if oldpkg satisfied this dep, and newpkg doesn't */
 					if(alpm_depcmp(oldpkg, depend) && !alpm_depcmp(newpkg, depend)) {
@@ -305,7 +301,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 							if(alpm_depcmp(pkg, depend)) {
 								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' has moved from '%s' to '%s'\n",
-													(char*)k->data, alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
+										depend->name,
+										alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(pkg));
 								satisfied = 1;
 								break;
 							}
@@ -321,7 +318,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 									/* we ignore packages that will be updated because we know
 									 * that the updated ones don't satisfy depend */
 									_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-														(char*)k->data, alpm_pkg_get_name(pkg));
+											depend->name, alpm_pkg_get_name(pkg));
 									satisfied = 1;
 									break;
 								}
@@ -340,7 +337,6 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							}
 						}
 					}
-					FREE(depend);
 				}
 			}
 			FREELIST(requiredby);
@@ -358,11 +354,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 					alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
 
 			for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
-				/* split into name/version pairs */
-				pmdepend_t *depend = alpm_splitdep((char*)j->data);
-				if(depend == NULL) {
-					continue;
-				}
+				pmdepend_t *depend = j->data;
 				
 				found = 0;
  				/* check other targets */
@@ -391,7 +383,6 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						FREE(miss);
 					}
 				}
-				FREE(depend);
 			}
 		}
 	} else if(op == PM_TRANS_TYPE_REMOVE) {
@@ -419,10 +410,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 					continue;
 				}
 				for(k = alpm_pkg_get_depends(p); k; k = k->next) {
-					pmdepend_t *depend = alpm_splitdep(k->data);
-					if(depend == NULL) {
-						continue;
-					}
+					pmdepend_t *depend = k->data;
+
 					/* if rmpkg satisfied this dep, try to find an other satisfier
 					 * (which won't be removed)*/
 					if(alpm_depcmp(rmpkg, depend)) {
@@ -450,7 +439,6 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							}
 						}
 					}
-					FREE(depend);
 				}
 			}
 			FREELIST(requiredby);
@@ -626,10 +614,8 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 	for(i = targs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
 		for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
-			pmdepend_t *depend = alpm_splitdep(j->data);
-			if(depend == NULL) {
-				continue;
-			}
+			pmdepend_t *depend = j->data;
+
 			for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
 				pmpkg_t *deppkg = k->data;
 				if(alpm_depcmp(deppkg,depend)
@@ -640,7 +626,6 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 					targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
 				}
 			}
-			FREE(depend);
 		}
 	}
 }
@@ -799,7 +784,7 @@ pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
 	/* Sanity checks */
 	ASSERT(miss != NULL, return(NULL));
 
-	return &miss->depend;
+	return &(miss->depend);
 }
 
 pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)

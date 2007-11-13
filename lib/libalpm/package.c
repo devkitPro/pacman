@@ -49,7 +49,7 @@
 #include "delta.h"
 #include "provide.h"
 #include "handle.h"
-#include "alpm.h"
+#include "deps.h"
 
 /** \addtogroup alpm_packages Package Functions
  * @brief Functions to manipulate libalpm packages
@@ -527,22 +527,13 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 		const char *cachepkgname = alpm_pkg_get_name(cachepkg);
 
 		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
-			pmdepend_t *dep;
+			pmdepend_t *dep = j->data;
 
-			if(!j->data) {
-				continue;
-			}
-			dep = alpm_splitdep(j->data);
-			if(dep == NULL) {
-					continue;
-			}
-			
 			if(alpm_depcmp(pkg, dep)) {
 				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
 				          cachepkgname, pkg->name);
 				reqs = alpm_list_add(reqs, strdup(cachepkgname));
 			}
-			FREE(dep);
 		}
 	}
 	return(reqs);
@@ -684,7 +675,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
-	newpkg->depends    = alpm_list_strdup(alpm_pkg_get_depends(pkg));
+	newpkg->depends    = alpm_list_copy_data(alpm_pkg_get_depends(pkg));
 	newpkg->optdepends = alpm_list_strdup(alpm_pkg_get_optdepends(pkg));
 	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
 	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
@@ -851,7 +842,8 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				/* size in the raw package is uncompressed (installed) size */
 				info->isize = atol(ptr);
 			} else if(!strcmp(key, "depend")) {
-				info->depends = alpm_list_add(info->depends, strdup(ptr));
+				pmdepend_t *dep = alpm_splitdep(ptr);
+				info->depends = alpm_list_add(info->depends, dep);
 			} else if(!strcmp(key, "optdepend")) {
 				info->optdepends = alpm_list_add(info->optdepends, strdup(ptr));
 			} else if(!strcmp(key, "conflict")) {
