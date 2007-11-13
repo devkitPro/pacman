@@ -189,8 +189,6 @@ class pmdb:
                 pkg.depends = _getsection(fd)
             elif line == "%OPTDEPENDS%":
                 pkg.optdepends = _getsection(fd)
-            elif line == "%REQUIREDBY%":
-                pkg.requiredby = _getsection(fd)
             elif line == "%CONFLICTS%":
                 pkg.conflicts = _getsection(fd)
             elif line == "%PROVIDES%":
@@ -288,16 +286,13 @@ class pmdb:
             pkg.mtime["files"] = getmtime(filename)
 
         # depends
-        # for local db entries: depends, requiredby, conflicts, provides
+        # for local db entries: depends, conflicts, provides
         # for sync ones: depends, conflicts, provides
         data = []
         if pkg.depends:
             data.append(_mksection("DEPENDS", pkg.depends))
         if pkg.optdepends:
             data.append(_mksection("OPTDEPENDS", pkg.optdepends))
-        if self.treename == "local":
-            if pkg.requiredby:
-                data.append(_mksection("REQUIREDBY", pkg.requiredby))
         if pkg.conflicts:
             data.append(_mksection("CONFLICTS", pkg.conflicts))
         if pkg.provides:

@@ -54,7 +54,6 @@ class pmpkg:
         # depends
         self.depends = []
         self.optdepends = []
-        self.requiredby = []  # local only
         self.conflicts = []
         self.provides = []
         # files

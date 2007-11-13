@@ -86,9 +86,6 @@ class pmrule:
                 elif case == "OPTDEPENDS":
                     if not value in newpkg.optdepends:
                         success = 0
-                elif case == "REQUIREDBY":
-                    if not value in newpkg.requiredby:
-                        success = 0
                 elif case == "REASON":
                     if newpkg.reason != int(value):
                         success = 0
