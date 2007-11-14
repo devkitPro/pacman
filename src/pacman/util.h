@@ -46,6 +46,7 @@ void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
 char *strtrim(char *str);
 char *strreplace(const char *str, const char *needle, const char *replace);
+alpm_list_t *strsplit(const char *str, const char splitchar);
 void list_display(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local);
 int yesno(char *fmt, ...);

@@ -315,6 +315,8 @@ static int parseargs(int argc, char *argv[])
 	};
 
 	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepituwygz", opts, &option_index))) {
+		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
+
 		if(opt < 0) {
 			break;
 		}
@@ -327,7 +329,13 @@ static int parseargs(int argc, char *argv[])
 				}
 				config->configfile = strndup(optarg, PATH_MAX);
 				break;
-			case 1002: alpm_option_add_ignorepkg(strdup(optarg)); break;
+			case 1002:
+				list = strsplit(optarg, ',');
+				for(item = list; item; item = alpm_list_next(item)) {
+					alpm_option_add_ignorepkg((char *)alpm_list_getdata(item));
+				}
+				FREELIST(list);
+				break;
 			case 1003:
 				/* debug levels are made more 'human readable' than using a raw logmask
 				 * here, error and warning are set in config_new, though perhaps a
@@ -371,7 +379,13 @@ static int parseargs(int argc, char *argv[])
 				}
 				config->have_logfile = 1;
 				break;
-			case 1010: alpm_option_add_ignoregrp(strdup(optarg)); break;
+			case 1010:
+				list = strsplit(optarg, ',');
+				for(item = list; item; item = alpm_list_next(item)) {
+					alpm_option_add_ignoregrp((char *)alpm_list_getdata(item));
+				}
+				FREELIST(list);
+				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'F':
 				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
