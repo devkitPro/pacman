@@ -98,7 +98,7 @@ void SYMEXPORT alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
 /* Mutators */
 
 /**
- * @brief Add a new item to the list.
+ * @brief Add a new item to the end of the list.
  *
  * @param list the list to add to
  * @param data the new item to be added to the list

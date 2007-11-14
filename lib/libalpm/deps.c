@@ -596,12 +596,13 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
  * @brief Adds unneeded dependencies to an existing list of packages.
  * By unneeded, we mean dependencies that are only required by packages in the
  * target list, so they can be safely removed.
+ * If the input list was topo sorted, the output list will be topo sorted too.
  *
  * @param db package database to do dependency tracing in
  * @param *targs pointer to a list of packages
  * @param include_explicit if 0, explicitly installed packages are not included
  */
-void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit)
+void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 {
 	alpm_list_t *i, *j, *k;
 
@@ -611,34 +612,24 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t **targs, int include_explicit)
 		return;
 	}
 
-	/* TODO: the while loop should be removed if we can assume
-	 * that alpm_list_add (or another function) adds to the end of the list,
-	 * and that the target list is topo sorted (by _alpm_sortbydeps()).
-	 */
-	int ready = 0;
-	while(!ready) {
-		ready = 1;
-		for(i = *targs; i; i = i->next) {
-			pmpkg_t *pkg = i->data;
-			for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
-				pmdepend_t *depend = alpm_splitdep(j->data);
-				if(depend == NULL) {
-					continue;
-				}
-				for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
-					pmpkg_t *deppkg = k->data;
-					if(alpm_depcmp(deppkg,depend)
-							&& can_remove_package(db, deppkg, *targs, include_explicit)) {
-						_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets\n",
-								alpm_pkg_get_name(deppkg));
-
-						/* add it to the target list */
-						*targs = alpm_list_add(*targs, _alpm_pkg_dup(deppkg));
-						ready = 0;
-					}
-				}
-				FREE(depend);
+	for(i = targs; i; i = i->next) {
+		pmpkg_t *pkg = i->data;
+		for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
+			pmdepend_t *depend = alpm_splitdep(j->data);
+			if(depend == NULL) {
+				continue;
 			}
+			for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
+				pmpkg_t *deppkg = k->data;
+				if(alpm_depcmp(deppkg,depend)
+						&& can_remove_package(db, deppkg, targs, include_explicit)) {
+					_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets\n",
+							alpm_pkg_get_name(deppkg));
+						/* add it to the target list */
+					targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
+				}
+			}
+			FREE(depend);
 		}
 	}
 }
