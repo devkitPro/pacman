@@ -675,12 +675,14 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
-	newpkg->depends    = alpm_list_copy_data(alpm_pkg_get_depends(pkg));
+	newpkg->depends    = alpm_list_copy_data(alpm_pkg_get_depends(pkg),
+	                                         sizeof(pmdepend_t));
 	newpkg->optdepends = alpm_list_strdup(alpm_pkg_get_optdepends(pkg));
 	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
 	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
 	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
-	newpkg->deltas     = alpm_list_copy_data(alpm_pkg_get_deltas(pkg));
+	newpkg->deltas     = alpm_list_copy_data(alpm_pkg_get_deltas(pkg),
+	                                         sizeof(pmdelta_t));
 	/* internal */
 	if(newpkg->origin == PKG_FROM_FILE) {
 		newpkg->origin_data.file = strdup(pkg->origin_data.file);

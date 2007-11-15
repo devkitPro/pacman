@@ -399,21 +399,23 @@ alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
 
 /**
  * @brief Copy a list and copy the data.
- *
- * The data must be constant size!
+ * Note that the data elements to be copied should not contain pointers
+ * and should also be of constant size.
  *
  * @param list the list to copy
+ * @param size the size of each data element
  *
  * @return a copy of the original list, data copied as well
  */
-alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list)
+alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
+		size_t size)
 {
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
 	while(lp) {
-		void *newdata = calloc(1, sizeof(lp->data));
+		void *newdata = calloc(1, size);
 		if(newdata) {
-			memcpy(newdata, lp->data, sizeof(lp->data));
+			memcpy(newdata, lp->data, size);
 			newlist = alpm_list_add(newlist, newdata);
 			lp = lp->next;
 		}
