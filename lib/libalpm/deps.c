@@ -43,7 +43,8 @@ static pmgraph_t *_alpm_graph_new(void)
 {
 	pmgraph_t *graph = NULL;
 
-	graph = (pmgraph_t *)malloc(sizeof(pmgraph_t));
+	MALLOC(graph, sizeof(pmgraph_t), RET_ERR(PM_ERR_MEMORY, NULL));
+
 	if(graph) {
 		graph->state = 0;
 		graph->data = NULL;
