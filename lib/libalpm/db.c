@@ -507,6 +507,10 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			if (regexec(&reg, alpm_pkg_get_name(pkg), 0, 0, 0) == 0) {
 				matched = alpm_pkg_get_name(pkg);
 			}
+			/* check plain text name */
+			else if (strstr(alpm_pkg_get_name(pkg), targ)) {
+				matched = alpm_pkg_get_name(pkg);
+			}
 			/* check desc */
 			else if (regexec(&reg, alpm_pkg_get_desc(pkg), 0, 0, 0) == 0) {
 				matched = alpm_pkg_get_desc(pkg);
