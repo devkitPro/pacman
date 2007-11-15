@@ -370,12 +370,11 @@ int _alpm_lckrm()
 
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {
-	register struct archive *_archive;
+	int ret = 0;
+	mode_t oldmask;
+	struct archive *_archive;
 	struct archive_entry *entry;
 	char expath[PATH_MAX];
-	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
-		ARCHIVE_EXTRACT_PERM |
-		ARCHIVE_EXTRACT_TIME;
 
 	ALPM_LOG_FUNC;
 
@@ -392,26 +391,38 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		RET_ERR(PM_ERR_PKG_OPEN, -1);
 	}
 
+	oldmask = umask(0022);
 	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
+		const struct stat *st;
 		const char *entryname; /* the name of the file in the archive */
+
+		st = archive_entry_stat(entry);
 		entryname = archive_entry_pathname(entry);
+		
+		if(S_ISREG(st->st_mode)) {
+			archive_entry_set_mode(entry, 0644);
+		}
 
 		if (fn && strcmp(fn, entryname)) {
-			if (archive_read_data_skip(_archive) != ARCHIVE_OK)
-				return(1);
+			if (archive_read_data_skip(_archive) != ARCHIVE_OK) {
+				ret = 1;
+				goto cleanup;
+			}
 			continue;
 		}
 		snprintf(expath, PATH_MAX, "%s/%s", prefix, entryname);
 		archive_entry_set_pathname(entry, expath);
-		int ret = archive_read_extract(_archive, entry, archive_flags);
-		if(ret == ARCHIVE_WARN) {
+
+		int readret = archive_read_extract(_archive, entry, 0);
+		if(readret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
 					entryname, archive_error_string(_archive));
-		} else if(ret != ARCHIVE_OK) {
+		} else if(readret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
 					entryname, archive_error_string(_archive));
-			return(1);
+			ret = 1;
+			goto cleanup;
 		}
 
 		if(fn) {
@@ -419,8 +430,10 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		}
 	}
 
+cleanup:
+	umask(oldmask);
 	archive_read_finish(_archive);
-	return(0);
+	return(ret);
 }
 
 /* does the same thing as 'rm -rf' */
