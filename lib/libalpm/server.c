@@ -238,8 +238,12 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
 
 				if(downloadLastErrCode != 0 || dlf == NULL) {
+					const char *host = _("disk");
+					if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
+						host = fileurl->host;
+					}
 					_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-										fn, fileurl->host, downloadLastErrString);
+										fn, host, downloadLastErrString);
 					if(localf != NULL) {
 						fclose(localf);
 					}
