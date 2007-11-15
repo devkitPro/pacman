@@ -582,7 +582,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	for(i = requiredby; i; i = i->next) {
 		pmpkg_t *reqpkg = _alpm_db_get_pkgfromcache(db, i->data);
 		if(reqpkg && !_alpm_pkg_find(alpm_pkg_get_name(reqpkg), targets)) {
-			FREE(requiredby);
+			FREELIST(requiredby);
 			return(0);
 		}
 	}
