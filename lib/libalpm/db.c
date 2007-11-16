@@ -30,9 +30,11 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <stdint.h> /* uintmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex.h>
+#include <time.h>
 
 /* libalpm */
 #include "db.h"
@@ -221,8 +223,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	alpm_list_t *lp;
 	char path[PATH_MAX];
 	alpm_list_t *files = NULL;
-	char newmtime[16] = "";
-	char lastupdate[16] = "";
+	time_t newmtime = 0, lastupdate = 0;
 	const char *dbpath;
 	int ret;
 
@@ -245,9 +246,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 	if(!force) {
 		/* get the lastupdate time */
-		_alpm_db_getlastupdate(db, lastupdate);
-		if(strlen(lastupdate) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s (no big deal)\n", db->treename);
+		lastupdate = _alpm_db_getlastupdate(db);
+		if(lastupdate == 0) {
+			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s\n",
+					db->treename);
 		}
 	}
 
@@ -258,7 +260,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	dbpath = alpm_option_get_dbpath();
 
 	ret = _alpm_downloadfiles_forreal(db->servers, dbpath, files, lastupdate,
-			newmtime, NULL, 0);
+			&newmtime, NULL, 0);
 	FREELIST(files);
 	if(ret == 1) {
 		/* mtimes match, do nothing */
@@ -271,9 +273,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 				downloadLastErrString, downloadLastErrCode);
 		RET_ERR(PM_ERR_DB_SYNC, -1);
 	} else {
-		if(strlen(newmtime)) {
-			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %s\n",
-					db->treename, newmtime);
+		if(newmtime != 0) {
+			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %ju\n",
+					db->treename, (uintmax_t)newmtime);
 			_alpm_db_setlastupdate(db, newmtime);
 		}
 		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);

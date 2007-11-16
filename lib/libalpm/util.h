@@ -61,7 +61,6 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn);
 int _alpm_rmrf(const char *path);
 int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *fmt, va_list args);
 int _alpm_ldconfig(const char *root);
-void _alpm_time2string(time_t t, char *buffer);
 int _alpm_str_cmp(const void *s1, const void *s2);
 char *_alpm_filecache_find(const char *filename);
 const char *_alpm_filecache_setup(void);

@@ -144,18 +144,17 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
 int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
 		alpm_list_t *files, int *dl_total, unsigned long totalsize)
 {
-	return(_alpm_downloadfiles_forreal(servers, localpath, files, NULL, NULL,
+	return(_alpm_downloadfiles_forreal(servers, localpath, files, 0, NULL,
 				dl_total, totalsize));
 }
 
 /*
  * This is the real downloadfiles, used directly by sync_synctree() to check
  * modtimes on remote files.
- *   - if *mtime1 is non-NULL, then only download files
- *     if they are different than *mtime1.  String should be in the form
- *     "YYYYMMDDHHMMSS" to match the form of ftplib's FtpModDate() function.
- *   - if *mtime2 is non-NULL, then it will be filled with the mtime
- *     of the remote file (from MDTM FTP cmd or Last-Modified HTTP header).
+ *   - if mtime1 is non-NULL, then only download files if they are different
+ *     than mtime1.
+ *   - if *mtime2 is non-NULL, it will be filled with the mtime of the remote
+ *     file.
  *   - if *dl_total is non-NULL, then it will be used as the starting
  *     download amount when TotalDownload is set. It will also be
  *     set to the final download amount for the calling function to use.
@@ -167,7 +166,7 @@ int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
  *         -1 on error
  */
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, const char *mtime1, char *mtime2, int *dl_total,
+	alpm_list_t *files, time_t mtime1, time_t *mtime2, int *dl_total,
 	unsigned long totalsize)
 {
 	int dl_thisfile = 0;
@@ -229,7 +228,8 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					dl_thisfile = 0;
 				}
 				
-				/* libdownload does not reset the error code, reset it in the case of previous errors */
+				/* libdownload does not reset the error code, reset it in
+				 * the case of previous errors */
 				downloadLastErrCode = 0;
 
 				/* 10s timeout - TODO make a config option */
@@ -250,25 +250,21 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						_alpm_log(PM_LOG_DEBUG, "connected to %s successfully\n", fileurl->host);
 				}
 				
-				if(ust.mtime && mtime1) {
-					char strtime[15];
-					_alpm_time2string(ust.mtime, strtime);
-					if(strcmp(mtime1, strtime) == 0) {
-						_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", fn);
-						complete = alpm_list_add(complete, fn);
-						if(localf != NULL) {
-							fclose(localf);
-						}
-						if(dlf != NULL) {
-							fclose(dlf);
-						}
-						downloadFreeURL(fileurl);
-						return(1);
+				if(ust.mtime && mtime1 && ust.mtime == mtime1) {
+					_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", fn);
+					complete = alpm_list_add(complete, fn);
+					if(localf != NULL) {
+						fclose(localf);
 					}
+					if(dlf != NULL) {
+						fclose(dlf);
+					}
+					downloadFreeURL(fileurl);
+					return(1);
 				}
 				
 				if(ust.mtime && mtime2) {
-					_alpm_time2string(ust.mtime, mtime2);
+					*mtime2 = ust.mtime;
 				}
 
 				if(chk_resume && fileurl->offset == 0) {

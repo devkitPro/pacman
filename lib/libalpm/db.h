@@ -25,6 +25,7 @@
 
 #include "alpm.h"
 #include <limits.h>
+#include <time.h>
 
 /* Database entries */
 typedef enum _pmdbinfrq_t {
@@ -65,8 +66,8 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target);
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
-int _alpm_db_getlastupdate(const pmdb_t *db, char *ts);
-int _alpm_db_setlastupdate(const pmdb_t *db, char *ts);
+time_t _alpm_db_getlastupdate(const pmdb_t *db);
+int _alpm_db_setlastupdate(const pmdb_t *db, time_t time);
 
 #endif /* _ALPM_DB_H */
 

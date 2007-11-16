@@ -40,8 +40,8 @@ void _alpm_server_free(pmserver_t *server);
 int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
 		alpm_list_t *files, int *dl_total, unsigned long totalsize);
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, const char *mtime1, char *mtime2,
-	int *dl_total, unsigned long totalsize);
+	alpm_list_t *files, time_t mtime1, time_t *mtime2, int *dl_total,
+	unsigned long totalsize);
 
 #endif /* _ALPM_SERVER_H */
 

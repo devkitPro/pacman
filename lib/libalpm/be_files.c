@@ -747,52 +747,49 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 	return(0);
 }
 
-/* reads dbpath/.lastupdate and populates *ts with the contents.
- * *ts should be malloc'ed and should be at least 15 bytes.
- *
- * Returns 0 on success, 1 on error
- *
+/*
+ * Return the last update time as number of seconds from the epoch.
+ * Returns 0 if the value is unknown or can't be read.
  */
-int _alpm_db_getlastupdate(const pmdb_t *db, char *ts)
+time_t _alpm_db_getlastupdate(const pmdb_t *db)
 {
 	FILE *fp;
 	char file[PATH_MAX];
+	time_t ret = 0;
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || ts == NULL) {
-		return(-1);
+	if(db == NULL) {
+		return(ret);
 	}
 
 	snprintf(file, PATH_MAX, "%s.lastupdate", db->path);
 
 	/* get the last update time, if it's there */
 	if((fp = fopen(file, "r")) == NULL) {
-		return(-1);
+		return(ret);
 	} else {
-		char line[256];
+		char line[64];
 		if(fgets(line, sizeof(line), fp)) {
-			strncpy(ts, line, 14); /* YYYYMMDDHHMMSS */
-			ts[14] = '\0';
-		} else {
-			fclose(fp);
-			return(-1);
+			ret = atol(line);
 		}
 	}
 	fclose(fp);
-	return(0);
+	return(ret);
 }
 
-/* writes the dbpath/.lastupdate with the contents of *ts
+/*
+ * writes the dbpath/.lastupdate file with the value in time
  */
-int _alpm_db_setlastupdate(const pmdb_t *db, char *ts)
+int _alpm_db_setlastupdate(const pmdb_t *db, time_t time)
 {
 	FILE *fp;
 	char file[PATH_MAX];
+	int ret = 0;
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || ts == NULL || strlen(ts) == 0) {
+	if(db == NULL || time == 0) {
 		return(-1);
 	}
 
@@ -801,13 +798,12 @@ int _alpm_db_setlastupdate(const pmdb_t *db, char *ts)
 	if((fp = fopen(file, "w")) == NULL) {
 		return(-1);
 	}
-	if(fputs(ts, fp) <= 0) {
-		fclose(fp);
-		return(-1);
+	if(fprintf(fp, "%ju", (uintmax_t)time) <= 0) {
+		ret = -1;
 	}
 	fclose(fp);
 
-	return(0);
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */

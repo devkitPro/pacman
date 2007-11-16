@@ -509,20 +509,6 @@ int _alpm_ldconfig(const char *root)
 	return(0);
 }
 
-/* convert a time_t to a string - buffer MUST be large enough for
- * YYYYMMDDHHMMSS - 15 chars */
-void _alpm_time2string(time_t t, char *buffer)
-{
-	if(buffer) {
-		struct tm *lt;
-		lt = localtime(&t);
-		sprintf(buffer, "%4d%02d%02d%02d%02d%02d",
-						lt->tm_year+1900, lt->tm_mon+1, lt->tm_mday,
-						lt->tm_hour, lt->tm_min, lt->tm_sec);
-		buffer[14] = '\0';
-	}
-}
-
 /* Helper function for comparing strings using the
  * alpm "compare func" signature */
 int _alpm_str_cmp(const void *s1, const void *s2)
