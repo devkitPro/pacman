@@ -783,6 +783,25 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 	return(db);
 }
 
+/* helper function for alpm_list_find and _alpm_db_whatprovides
+ *
+ * @return "provision.name" == needle (as string)
+ */
+int _alpm_prov_cmp(const void *provision, const void *needle)
+{
+	char *tmpptr;
+	char *provname = strdup(provision);
+	int retval = 0;
+	tmpptr = strchr(provname, ' ');
+
+	if(tmpptr != NULL) { /* provision-version */
+		*tmpptr='\0';
+	}
+	retval = strcmp(provname, needle);
+	free(provname);
+	return(retval);
+}
+
 /* return a alpm_list_t of packages in "db" that provide "package"
  */
 alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package)
@@ -799,7 +818,7 @@ alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package)
 	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(alpm_list_find_str(alpm_pkg_get_provides(info), package)) {
+		if(alpm_list_find(alpm_pkg_get_provides(info), (const void *)package, _alpm_prov_cmp)) {
 			pkgs = alpm_list_add(pkgs, info);
 		}
 	}

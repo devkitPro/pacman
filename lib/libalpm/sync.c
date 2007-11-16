@@ -492,8 +492,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				}
 				pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, conflict->package2);
 				/* check if this package provides the package it's conflicting with */
-				if(alpm_list_find_str(alpm_pkg_get_provides(sync->pkg),
-							conflict->package2)) {
+				if(alpm_list_find(alpm_pkg_get_provides(sync->pkg),
+							conflict->package2, _alpm_prov_cmp)) {
 					/* treat like a replaces item so requiredby fields are
 					 * inherited properly. */
 					_alpm_log(PM_LOG_DEBUG, "package '%s' provides its own conflict\n",

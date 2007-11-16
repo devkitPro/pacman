@@ -369,8 +369,10 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 				/* else if still not found... */
 				if(!found) {
+					char *depstring =  alpm_dep_get_string(depend);
 					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
-					                          (char*)j->data, alpm_pkg_get_name(tp));
+							depstring, alpm_pkg_get_name(tp));
+					free(depstring);
 					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend->mod,
 							depend->name, depend->version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
@@ -415,8 +417,10 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						for(l = _alpm_db_get_pkgcache(db); l; l = l->next) {
 							pmpkg_t *pkg = l->data;
 							if(alpm_depcmp(pkg, depend) && !_alpm_pkg_find(alpm_pkg_get_name(pkg), packages)) {
+								char *depstring =  alpm_dep_get_string(depend);
 								_alpm_log(PM_LOG_DEBUG, "checkdeps: dependency '%s' satisfied by installed package '%s'\n",
-										(char*)k->data, alpm_pkg_get_name(pkg));
+										depstring, alpm_pkg_get_name(pkg));
+								free(depstring);
 								satisfied = 1;
 								break;
 							}
@@ -464,38 +468,41 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 
 int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
-	int equal = 0;
+	alpm_list_t *i;
 
 	ALPM_LOG_FUNC;
 
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	const char *pkgversion = alpm_pkg_get_version(pkg);
+	int satisfy = 0;
 
-	if(strcmp(pkgname, dep->name) == 0
-			|| alpm_list_find_str(alpm_pkg_get_provides(pkg), dep->name)) {
+	/* check (pkg->name, pkg->version) */
+	satisfy = (strcmp(pkgname, dep->name) == 0
+			&& dep_vercmp(pkgversion, dep->mod, dep->version));
 
-		equal = dep_vercmp(pkgversion, dep->mod, dep->version);
+	/* check provisions, format : "name version" */
+	for(i = alpm_pkg_get_provides(pkg); i && !satisfy; i = i->next) {
+		char *provname = strdup(i->data);
+		char *provver = strchr(provname, ' ');
 
-		char *mod = "~=";
-		switch(dep->mod) {
-			case PM_DEP_MOD_EQ: mod = "=="; break;
-			case PM_DEP_MOD_GE: mod = ">="; break;
-			case PM_DEP_MOD_LE: mod = "<="; break;
-			default: break;
-		}
-
-		if(strlen(dep->version) > 0) {
-			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s-%s => %s\n",
-								pkgname, pkgversion,
-								mod, dep->name, dep->version, (equal ? "match" : "no match"));
+		if(provver == NULL) { /* no provision version */
+			satisfy = (dep->mod == PM_DEP_MOD_ANY
+					&& strcmp(provname, dep->name) == 0);
 		} else {
-			_alpm_log(PM_LOG_DEBUG, "depcmp: %s-%s %s %s => %s\n",
-								pkgname, pkgversion,
-								mod, dep->name, (equal ? "match" : "no match"));
+			/* replace the space with a NULL byte, and advance ptr the version */
+			*provver = '\0';
+			provver += 1;
+			satisfy = (strcmp(provname, dep->name) == 0
+					&& dep_vercmp(provver, dep->mod, dep->version));
 		}
+		free(provname);
 	}
 
-	return(equal);
+	char *depstring = alpm_dep_get_string(dep);
+	_alpm_log(PM_LOG_DEBUG, "alpm_depcmp %s-%s %s : %s\n",
+			pkgname, pkgversion, depstring, satisfy ? "match" : "no match");
+	free(depstring);
+	return(satisfy);
 }
 
 pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)

@@ -58,6 +58,7 @@ pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
 
 /* Provision */
+int _alpm_prov_cmp(const void *provision, const void *needle);
 alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package);
 
 /* be.c, backend specific calls */
