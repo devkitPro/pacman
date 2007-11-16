@@ -353,7 +353,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
 	while(lp) {
-		if(!alpm_list_find(newlist, lp->data)) {
+		if(!alpm_list_find_ptr(newlist, lp->data)) {
 			newlist = alpm_list_add(newlist, lp->data);
 		}
 		lp = lp->next;
@@ -543,18 +543,18 @@ int SYMEXPORT alpm_list_count(const alpm_list_t *list)
 /**
  * @brief Find an item in a list.
  *
- * Search for the item whos data matches that of the `needle`.
- *
- * @param needle   the data to search for (== comparison)
+ * @param needle   the item to search
  * @param haystack the list
+ * @param fn       the comparison function for searching (!= NULL)
  *
  * @return 1 if `needle` is found, 0 otherwise
  */
-int SYMEXPORT alpm_list_find(const alpm_list_t *haystack, const void *needle)
+int SYMEXPORT alpm_list_find(const alpm_list_t *haystack, const void *needle,
+		alpm_list_fn_cmp fn)
 {
 	const alpm_list_t *lp = haystack;
 	while(lp) {
-		if(lp->data == needle) {
+		if(lp->data && fn(lp->data, needle) == 0) {
 			return(1);
 		}
 		lp = lp->next;
@@ -562,9 +562,29 @@ int SYMEXPORT alpm_list_find(const alpm_list_t *haystack, const void *needle)
 	return(0);
 }
 
+/* trivial helper function for alpm_list_find_ptr */
+static int ptrcmp(const void *p, const void *q)
+{
+	return(p != q);
+}
+
+/**
+ * @brief Find an item in a list.
+ *
+ * Search for the item whos data matches that of the `needle`.
+ *
+ * @param needle   the data to search for (== comparison)
+ * @param haystack the list
+ *
+ * @return 1 if `needle` is found, 0 otherwise
+ */
+int SYMEXPORT alpm_list_find_ptr(const alpm_list_t *haystack, const void *needle)
+{
+	return(alpm_list_find(haystack, needle, ptrcmp));
+}
+
 /**
  * @brief Find a string in a list.
- *        Optimization of alpm_list_find for strings.
  *
  * @param needle   the string to search for
  * @param haystack the list
@@ -573,14 +593,7 @@ int SYMEXPORT alpm_list_find(const alpm_list_t *haystack, const void *needle)
  */
 int SYMEXPORT alpm_list_find_str(const alpm_list_t *haystack, const char *needle)
 {
-	const alpm_list_t *lp = haystack;
-	while(lp) {
-		if(lp->data && strcmp((const char *)lp->data, needle) == 0) {
-			return(1);
-		}
-		lp = lp->next;
-	}
-	return(0);
+	return(alpm_list_find(haystack, (const void*)needle, (alpm_list_fn_cmp)strcmp));
 }
 
 /**

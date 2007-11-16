@@ -240,7 +240,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 	ASSERT(handle->trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
-	if(!alpm_list_find(handle->dbs_sync, db)) {
+	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 

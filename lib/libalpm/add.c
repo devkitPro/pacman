@@ -282,7 +282,7 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 		const char *backup = b->data;
 		/* make sure we don't add duplicate entries */
-		if(!alpm_list_find(handle->noupgrade, backup)) {
+		if(!alpm_list_find_ptr(handle->noupgrade, backup)) {
 			_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
 					backup);
 			handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));

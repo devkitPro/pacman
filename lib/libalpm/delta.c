@@ -170,7 +170,7 @@ static alpm_list_t *shortest_delta_path(alpm_list_t *deltas,
 
 		/* If this vertex has already been visited in the path, go to the
 		 * next vertex. */
-		if(alpm_list_find(path, v))
+		if(alpm_list_find_ptr(path, v))
 			continue;
 
 		/* Once we find a vertex that starts at the 'from' version,
