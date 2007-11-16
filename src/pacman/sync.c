@@ -532,6 +532,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 						if(prov) {
 							pmpkg_t *pkg = alpm_list_getdata(prov);
 							pname = alpm_pkg_get_name(pkg);
+							alpm_list_free(prov);
 							break;
 						}
 					}

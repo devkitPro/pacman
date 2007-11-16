@@ -70,6 +70,7 @@ int pacman_deptest(alpm_list_t *targets)
 					break;
 				}
 			}
+			alpm_list_free(provides);
 		}
 
 		if(!found) {
