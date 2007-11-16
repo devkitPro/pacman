@@ -208,18 +208,16 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 
 			/* compare versions and see if we need to upgrade */
 			if(alpm_pkg_compare_versions(local, spkg)) {
-				_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (%s => %s)\n",
+				_alpm_log(PM_LOG_DEBUG, "%s elected for upgrade (%s => %s)\n",
 									alpm_pkg_get_name(local), alpm_pkg_get_version(local),
-									alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
+									alpm_pkg_get_version(spkg));
 				if(!_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
-					/* If package is in the ignorepkg list, ask before we add it to
-					 * the transaction */
-					if(_alpm_pkg_should_ignore(local)) {
-						int resp = 0;
-						QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, local, NULL, NULL, &resp);
-						if(!resp) {
-							continue;
-						}
+					/* If package is in the ignorepkg list, skip it */
+					if(_alpm_pkg_should_ignore(spkg)) {
+						_alpm_log(PM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
+								alpm_pkg_get_name(local), alpm_pkg_get_version(local),
+								alpm_pkg_get_version(spkg));
+						continue;
 					}
 					pmpkg_t *tmp = _alpm_pkg_dup(local);
 					if(tmp == NULL) {
@@ -318,17 +316,12 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	if(local) {
 		if(alpm_pkg_compare_versions(local, spkg) == 0) {
 			/* spkg is NOT an upgrade, get confirmation before adding */
-			int resp = 0;
-			if(_alpm_pkg_should_ignore(local)) {
-				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, local, NULL, NULL, &resp);
-				if(!resp) {
-					return(0);
-				}
-			} else if(!(trans->flags & PM_TRANS_FLAG_PRINTURIS)) {
+			if(!(trans->flags & PM_TRANS_FLAG_PRINTURIS)) {
+				int resp = 0;
 				QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
 				if(!resp) {
 					_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
-										alpm_pkg_get_name(local), alpm_pkg_get_version(local));
+							alpm_pkg_get_name(local), alpm_pkg_get_version(local));
 					return(0);
 				}
 			}

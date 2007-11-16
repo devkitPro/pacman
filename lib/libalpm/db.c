@@ -464,7 +464,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 					if(strcmp(k->data, alpm_pkg_get_name(lpkg)) == 0) {
 						_alpm_log(PM_LOG_DEBUG, "checking replacement '%s' for package '%s'\n",
 								(char *)k->data, alpm_pkg_get_name(spkg));
-						if(_alpm_pkg_should_ignore(lpkg)) {
+						if(_alpm_pkg_should_ignore(spkg) || _alpm_pkg_should_ignore(lpkg)) {
 							_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"),
 												alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 												alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
@@ -545,6 +545,10 @@ alpm_list_t SYMEXPORT *alpm_db_get_upgrades(void)
 			syncpkg	= _alpm_sync_find(syncpkgs, alpm_pkg_get_name(local));
 
 			if(!syncpkg) {
+				/* If package is in the ignorepkg list, skip it */
+				if(_alpm_pkg_should_ignore(spkg)) {
+					continue;
+				}
 				pmpkg_t *dummy = _alpm_pkg_new(alpm_pkg_get_name(local),
 																			 alpm_pkg_get_version(local));
 				if(dummy == NULL) {

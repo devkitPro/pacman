@@ -731,16 +731,6 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	/* compare versions and see if we need to upgrade */
 	cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
 
-	if(_alpm_pkg_should_ignore(pkg)) {
-		/* package should be ignored (IgnorePkg) */
-		if(cmp > 0) {
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: ignoring package upgrade (%s)\n"),
-								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
-								alpm_pkg_get_version(pkg));
-		}
-		return(0);
-	}
-
 	if(cmp != 0 && pkg->force) {
 		cmp = 1;
 		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s\n"),
