@@ -43,6 +43,76 @@
 
 extern pmdb_t *db_local;
 
+static int sync_cleandb(const char *dbpath) {
+	DIR *dir;
+	struct dirent *ent;
+
+	dir = opendir(dbpath);
+	if(dir == NULL) {
+		fprintf(stderr, _("error: could not access database directory\n"));
+		return(1);
+	}
+
+	rewinddir(dir);
+	/* step through the directory one file at a time */
+	while((ent = readdir(dir)) != NULL) {
+		char path[PATH_MAX];
+		alpm_list_t *syncdbs = NULL, *i;
+		int found = 0;
+		char *dname = ent->d_name;
+
+		if(!strcmp(dname, ".") || !strcmp(dname, "..")) {
+			continue;
+		}
+		/* skip the local and sync directories */
+		if(!strcmp(dname, "sync") || !strcmp(dname, "local")) {
+			continue;
+		}
+		syncdbs = alpm_option_get_syncdbs();
+		for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
+			pmdb_t *db = alpm_list_getdata(i);
+			found = !strcmp(dname, alpm_db_get_name(db));
+		}
+
+		/* We have a directory that doesn't match any syncdb.
+		 * Ask the user if he wants to remove it. */
+		if(!found) {
+			/* build the full path */
+			snprintf(path, PATH_MAX, "%s%s", dbpath, ent->d_name);
+
+			if(!yesno(_("Do you want to remove %s? [Y/n] "), path)) {
+				continue;
+			}
+
+			if(rmrf(path)) {
+				fprintf(stderr, _("error: could not remove repository directory\n"));
+				return(1);
+			}
+		}
+
+	}
+	return(0);
+}
+
+static int sync_cleandb_all(void) {
+	const char *dbpath = alpm_option_get_dbpath();
+	char newdbpath[PATH_MAX];
+
+	printf(_("Database directory: %s\n"), dbpath);
+	if(!yesno(_("Do you want to remove unused repositories? [Y/n] "))) {
+		return(0);
+	}
+	/* The sync dbs were previously put in dbpath, but are now in dbpath/sync,
+	 * so we will clean both directories */
+	sync_cleandb(dbpath);
+
+	sprintf(newdbpath, "%s%s", dbpath, "sync/");
+	sync_cleandb(newdbpath);
+
+	printf(_("Database directory cleaned up\n"));
+	return(0);
+}
+
 static int sync_cleancache(int level)
 {
 	/* TODO for now, just mess with the first cache directory */
@@ -655,7 +725,9 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* clean the cache */
 	if(config->op_s_clean) {
-		return(sync_cleancache(config->op_s_clean));
+		int ret = sync_cleancache(config->op_s_clean);
+		ret += sync_cleandb_all();
+		return(ret);
 	}
 
 	/* ensure we have at least one valid sync db set up */
