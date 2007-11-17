@@ -45,7 +45,6 @@
 #include "backup.h"
 #include "package.h"
 #include "db.h"
-#include "provide.h"
 #include "conflict.h"
 #include "deps.h"
 #include "remove.h"

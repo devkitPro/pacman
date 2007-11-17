@@ -36,7 +36,6 @@
 #include "package.h"
 #include "db.h"
 #include "cache.h"
-#include "provide.h"
 #include "handle.h"
 
 static pmgraph_t *_alpm_graph_new(void)

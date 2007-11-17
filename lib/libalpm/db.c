@@ -43,7 +43,6 @@
 #include "util.h"
 #include "error.h"
 #include "server.h"
-#include "provide.h"
 #include "handle.h"
 #include "cache.h"
 #include "alpm.h"
@@ -778,6 +777,30 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return(db);
+}
+
+/* return a alpm_list_t of packages in "db" that provide "package"
+ */
+alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package)
+{
+	alpm_list_t *pkgs = NULL;
+	alpm_list_t *lp;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || package == NULL || strlen(package) == 0) {
+		return(NULL);
+	}
+
+	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+		pmpkg_t *info = lp->data;
+
+		if(alpm_list_find_str(alpm_pkg_get_provides(info), package)) {
+			pkgs = alpm_list_add(pkgs, info);
+		}
+	}
+
+	return(pkgs);
 }
 
 /* vim: set ts=2 sw=2 noet: */

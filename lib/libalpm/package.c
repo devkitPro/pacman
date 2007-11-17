@@ -47,7 +47,6 @@
 #include "db.h"
 #include "cache.h"
 #include "delta.h"
-#include "provide.h"
 #include "handle.h"
 #include "deps.h"
 

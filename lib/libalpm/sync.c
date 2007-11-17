@@ -42,7 +42,6 @@
 #include "cache.h"
 #include "deps.h"
 #include "conflict.h"
-#include "provide.h"
 #include "trans.h"
 #include "util.h"
 #include "handle.h"

@@ -46,7 +46,6 @@
 #include "db.h"
 #include "cache.h"
 #include "deps.h"
-#include "provide.h"
 #include "handle.h"
 #include "alpm.h"
 

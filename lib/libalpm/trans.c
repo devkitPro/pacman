@@ -48,7 +48,6 @@
 #include "alpm.h"
 #include "deps.h"
 #include "cache.h"
-#include "provide.h"
 
 /** \addtogroup alpm_trans Transaction Functions
  * @brief Functions to manipulate libalpm transactions
