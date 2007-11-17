@@ -247,6 +247,8 @@ pmtrans_t *_alpm_trans_new()
 
 void _alpm_trans_free(pmtrans_t *trans)
 {
+	alpm_list_t *i;
+
 	ALPM_LOG_FUNC;
 
 	if(trans == NULL) {
@@ -255,20 +257,15 @@ void _alpm_trans_free(pmtrans_t *trans)
 
 	FREELIST(trans->targets);
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
-		alpm_list_t *i;
 		for(i = trans->packages; i; i = alpm_list_next(i)) {
 			_alpm_sync_free(i->data);
-			i->data = NULL;
 		}
-		FREELIST(trans->packages);
 	} else {
-		alpm_list_t *tmp;
-		for(tmp = trans->packages; tmp; tmp = alpm_list_next(tmp)) {
-			_alpm_pkg_free(tmp->data);
-			tmp->data = NULL;
+		for(i = trans->packages; i; i = alpm_list_next(i)) {
+			_alpm_pkg_free(i->data);
 		}
 	}
-	trans->packages = NULL;
+	alpm_list_free(trans->packages);
 
 	FREELIST(trans->skip_add);
 	FREELIST(trans->skip_remove);
