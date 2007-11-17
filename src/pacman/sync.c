@@ -128,7 +128,7 @@ static int sync_cleancache(int level)
 		 * package and see if it has an entry in the local DB; if not, delete it.
 		 */
 		printf(_("Cache directory: %s\n"), cachedir);
-		if(!yesno(_("Do you want to remove non-installed packages from cache? [Y/n] "))) {
+		if(!yesno(_("Do you want to remove uninstalled packages from cache? [Y/n] "))) {
 			return(0);
 		}
 		printf(_("removing old packages from cache... "));
