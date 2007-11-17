@@ -2,7 +2,7 @@
  *  testpkg.c : Test a pacman package for validity
  *
  *  Copyright (c) 2007 by Aaron Griffin <aaronmgriffin@gmail.com>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 		alpm_pkg_free(pkg);
         retval = 0;
 	}
-    
+
 	if(alpm_release() == -1) {
 		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
 	}

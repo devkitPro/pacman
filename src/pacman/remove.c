@@ -1,8 +1,8 @@
 /*
  *  remove.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -66,7 +66,7 @@ int pacman_remove(alpm_list_t *targets)
 		return(1);
 	}
 
-	/* If the target is a group, ask if its packages should be removed 
+	/* If the target is a group, ask if its packages should be removed
 	 * (the library can't remove groups for now)
 	 */
 	for(i = targets; i; i = alpm_list_next(i)) {

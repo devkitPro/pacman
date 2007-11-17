@@ -1,8 +1,8 @@
 /*
  *  alpm_list.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -179,7 +179,7 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 			/* At end, adjust tail pointer on head node */
 			list->prev = add;
 		}
-		
+
 		return(list);
 	}
 }
@@ -197,7 +197,7 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 {
 	alpm_list_t *newlist, *lp;
 
-	if (left == NULL) 
+	if (left == NULL)
 		return right;
 	if (right == NULL)
 		return left;
@@ -219,7 +219,7 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 			lp->next = left;
 			left->prev = lp;
 			left = left->next;
-		} 
+		}
 		else {
 			lp->next = right;
 			right->prev = lp;
@@ -264,7 +264,7 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cm
 		alpm_list_t *lastleft = alpm_list_nth(list, n/2 - 1);
 		alpm_list_t *right = lastleft->next;
 		/* terminate first list */
-		lastleft->next = NULL;	
+		lastleft->next = NULL;
 
 		left = alpm_list_msort(left, n/2, fn);
 		right = alpm_list_msort(right, n - (n/2), fn);
@@ -363,7 +363,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 
 /**
  * @brief Copy a string list, including data.
- * 
+ *
  * @param list the list to copy
  *
  * @return a copy of the original list
@@ -542,7 +542,7 @@ int SYMEXPORT alpm_list_count(const alpm_list_t *list)
 
 /**
  * @brief Find an item in a list.
- * 
+ *
  * Search for the item whos data matches that of the `needle`.
  *
  * @param needle   the data to search for (== comparison)

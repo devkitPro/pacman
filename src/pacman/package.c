@@ -1,8 +1,8 @@
 /*
  *  package.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -144,7 +144,7 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	descheader = _("Description    : ");
 
 	md5sum = alpm_pkg_get_md5sum(pkg);
-	
+
 	printf(_("Repository     : %s\n"), treename);
 	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
 	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
@@ -155,12 +155,12 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 	printf(_("Download Size  : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
 	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_isize(pkg) / 1024.0);
-	
+
 	/* printed using a variable to make i18n safe */
 	printf("%s", descheader);
 	indentprint(alpm_pkg_get_desc(pkg), mbstowcs(NULL, descheader, 0));
 	printf("\n");
-	
+
 	if (md5sum != NULL && md5sum[0] != '\0') {
 		printf(_("MD5 Sum        : %s"), md5sum);
 	}
@@ -218,7 +218,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 		printf(_("(none)\n"));
 	}
 }
-	
+
 /* List all files contained in a package
  */
 void dump_pkg_files(pmpkg_t *pkg)

@@ -441,7 +441,7 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 		int list_xfered, int list_total)
 {
 	const int infolen = 50;
-	char *fname, *p; 
+	char *fname, *p;
 
 	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
@@ -485,7 +485,7 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 		/* compute final values */
 		struct timeval current_time;
 		float diff_sec, diff_usec;
-		
+
 		gettimeofday(&current_time, NULL);
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
@@ -548,15 +548,15 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 			xfered_size = 'G';
 			/* I should seriously hope that archlinux packages never break
 			 * the 9999.9GB mark... we'd have more serious problems than the progress
-			 * bar in pacman */ 
+			 * bar in pacman */
 		}
 	}
 
-	printf(" %-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname, 
+	printf(" %-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname,
 				 f_xfered, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
 
 	free(fname);
-	
+
 	/* The progress bar is based on the file percent regardless of the
 	 * TotalDownload option. */
 	graph_percent = (int)((float)file_xfered) / ((float)file_total) * 100;

@@ -1,8 +1,8 @@
 /*
  *  server.c
- * 
+ *
  *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -160,7 +160,7 @@ int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
  *     set to the final download amount for the calling function to use.
  *   - totalsize is the total download size for use when TotalDownload
  *     is set. Use 0 if the total download size is not known.
- * 
+ *
  * RETURN:  0 for successful download
  *          1 if the mtimes are identical
  *         -1 on error
@@ -227,7 +227,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					fileurl->offset = (off_t)0;
 					dl_thisfile = 0;
 				}
-				
+
 				/* libdownload does not reset the error code, reset it in
 				 * the case of previous errors */
 				downloadLastErrCode = 0;
@@ -249,7 +249,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				} else {
 						_alpm_log(PM_LOG_DEBUG, "connected to %s successfully\n", fileurl->host);
 				}
-				
+
 				if(ust.mtime && mtime1 && ust.mtime == mtime1) {
 					_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", fn);
 					complete = alpm_list_add(complete, fn);
@@ -262,7 +262,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					downloadFreeURL(fileurl);
 					return(1);
 				}
-				
+
 				if(ust.mtime && mtime2) {
 					*mtime2 = ust.mtime;
 				}
@@ -307,7 +307,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						downloadFreeURL(fileurl);
 						return(-1);
 					}
-					
+
 					int nwritten = 0;
 					while(nwritten < nread) {
 						nwritten += fwrite(buffer, 1, (nread - nwritten), localf);
@@ -322,7 +322,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					}
 
 					if(nwritten != nread) {
-						
+
 					}
 					dl_thisfile += nread;
 					if (dl_total != NULL) {

@@ -6,7 +6,7 @@
  *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
  *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
  *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -19,7 +19,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -308,7 +308,7 @@ char *_alpm_strreplace(const char *str, const char *needle, const char *replace)
 
 	while (1) {
 		q = strstr(p, needle);
-		if(!q) { /* not found */ 
+		if(!q) { /* not found */
 			if(*p) {
 				/* add the rest of 'p' */
 				_strnadd(&newstr, p, strlen(p));
@@ -343,7 +343,7 @@ int _alpm_lckmk()
 	}
 	_alpm_makepath(dir);
 
-	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1 && errno == EACCES) { 
+	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1 && errno == EACCES) {
 		if(++count < 1) {
 			sleep(1);
 		}	else {

@@ -2,7 +2,7 @@
  *  testdb.c : Test a pacman local database for validity
  *
  *  Copyright (c) 2007 by Aaron Griffin <aaronmgriffin@gmail.com>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -68,7 +68,7 @@ static int db_test(char *dbpath)
   int ret = 0;
 
   DIR *dir;
-  
+
   if(!(dir = opendir(dbpath))) {
     fprintf(stderr, "error : %s : %s\n", dbpath, strerror(errno));
     return(1);

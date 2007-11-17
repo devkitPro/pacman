@@ -1,10 +1,10 @@
 /*
  *  deps.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -17,7 +17,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -152,13 +152,13 @@ static alpm_list_t *_alpm_graph_init(alpm_list_t *targets)
  *   Target order is A,B,C,D
  *
  *   Should be re-ordered to C,A,B,D
- * 
+ *
  * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
  * affects the dependency order sortbydeps() will use.
  *
  * This function returns the new alpm_list_t* target list.
  *
- */ 
+ */
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 {
 	alpm_list_t *newtargs = NULL;
@@ -356,11 +356,11 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 
 			for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 				pmdepend_t *depend = j->data;
-				
+
 				found = 0;
- 				/* check other targets */
- 				for(k = packages; k && !found; k = k->next) {
- 					pmpkg_t *p = k->data;
+				/* check other targets */
+				for(k = packages; k && !found; k = k->next) {
+					pmpkg_t *p = k->data;
 					found = alpm_depcmp(p, depend);
 				}
 
@@ -514,7 +514,7 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 		return(NULL);
 	}
 	newstr = strdup(depstring);
-	
+
 	MALLOC(depend, sizeof(pmdepend_t), return(NULL));
 
 	/* Find a version comparator if one exists. If it does, set the type and
@@ -746,7 +746,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			goto error;
 		}
 	}
-	
+
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
 
 	FREELIST(deps);

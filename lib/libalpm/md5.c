@@ -333,4 +333,3 @@ int md5_file( const char *path, unsigned char *output )
     fclose( f );
     return( 0 );
 }
-

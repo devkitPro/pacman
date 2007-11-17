@@ -1,9 +1,9 @@
 /*
  *  be_files.c
- * 
+ *
  *  Copyright (c) 2006 by Christian Hamar <krics@linuxforum.hu>
  *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -54,7 +54,7 @@ int _alpm_db_install(pmdb_t *db, const char *dbfile)
 {
 	ALPM_LOG_FUNC;
 
-	/* TODO we should not simply unpack the archive, but better parse it and 
+	/* TODO we should not simply unpack the archive, but better parse it and
 	 * db_write each entry (see sync_load_dbarchive to get archive content) */
 	_alpm_log(PM_LOG_DEBUG, "unpacking database '%s'\n", dbfile);
 
@@ -479,7 +479,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				 * not the local one. *
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->replaces = alpm_list_add(info->replaces, strdup(line));
-				} 
+				}
 			} else if(!strcmp(line, "%FORCE%")) {
 				 * FORCE tag only appears in sync repositories,
 				 * not the local one. *

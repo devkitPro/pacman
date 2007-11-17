@@ -1,12 +1,12 @@
 /*
  *  remove.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
  *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
  *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -19,7 +19,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -137,7 +137,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		}
 	}
 
-	/* re-order w.r.t. dependencies */ 
+	/* re-order w.r.t. dependencies */
 	_alpm_log(PM_LOG_DEBUG, "sorting by dependencies\n");
 	lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_REMOVE);
 	/* free the old alltargs */
@@ -194,7 +194,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		needbackup = 1;
 		FREE(hash);
 	}
-	
+
 	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
 
 	if(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
@@ -210,7 +210,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		_alpm_log(PM_LOG_DEBUG, "file %s does not exist\n", file);
 		return;
 	}
-	
+
 	if(S_ISDIR(buf.st_mode)) {
 		if(rmdir(file)) {
 			/* this is okay, other packages are probably using it (like /usr) */
@@ -343,7 +343,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
 			          pkgname);
 		}
-		
+
 		/* call a done event if this isn't an upgrade */
 		if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
 			EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);

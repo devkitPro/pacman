@@ -1,8 +1,8 @@
 /*
  *  util.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -234,7 +234,7 @@ char *strtrim(char *str)
 	if(pch != str) {
 		memmove(str, pch, (strlen(pch) + 1));
 	}
-	
+
 	/* check if there wasn't anything but whitespace in the string. */
 	if(*str == '\0') {
 		return(str);
@@ -380,7 +380,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 		 * installed. */
 		if(alpm_sync_get_type(sync) == PM_SYNC_TYPE_REPLACE) {
 			alpm_list_t *to_replace = alpm_sync_get_data(sync);
-			
+
 			for(j = to_replace; j; j = alpm_list_next(j)) {
 				pmpkg_t *rp = alpm_list_getdata(j);
 				const char *name = alpm_pkg_get_name(rp);
@@ -422,7 +422,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 		list_display(_("Remove:"), to_remove);
 		printf("\n");
 		FREELIST(to_remove);
-	
+
 		printf(_("Total Removed Size:   %.2f MB\n"), mbrsize);
 		printf("\n");
 	}
@@ -431,7 +431,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	printf("\n");
 
 	printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
-	
+
 	/* TODO because all pkgs don't include isize, this is a crude hack */
 	if(mbisize > mbdlsize) {
 		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);

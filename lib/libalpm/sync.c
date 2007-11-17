@@ -1,11 +1,11 @@
 /*
  *  sync.c
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
  *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -18,7 +18,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -61,7 +61,7 @@ pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data)
 	sync->type = type;
 	sync->pkg = spkg;
 	sync->data = data;
-	
+
 	return(sync);
 }
 
@@ -109,7 +109,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 
 			for(k = alpm_pkg_get_replaces(spkg); k; k = k->next) {
 				const char *replacement = k->data;
-				
+
 				pmpkg_t *lpkg = _alpm_db_get_pkgfromcache(db_local, replacement);
 				if(!lpkg) {
 					continue;

@@ -1,8 +1,8 @@
 /*
  *  handle.h
- * 
+ *
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,13 +15,13 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 #ifndef _ALPM_HANDLE_H
 #define _ALPM_HANDLE_H
 
-#include <stdio.h> 
+#include <stdio.h>
 #include <sys/types.h>
 
 #include "alpm_list.h"
@@ -38,7 +38,7 @@ typedef struct _pmhandle_t {
 	FILE *logstream;        /* log file stream pointer */
 	int lckfd;              /* lock file descriptor if one exists */
 	pmtrans_t *trans;
-	
+
 	/* callback functions */
 	alpm_cb_log logcb;      /* Log callback function */
 	alpm_cb_download dlcb;  /* Download callback function */

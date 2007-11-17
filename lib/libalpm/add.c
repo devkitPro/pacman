@@ -1,8 +1,8 @@
 /*
  *  add.c
- * 
+ *
  *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +15,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  *  USA.
  */
 
@@ -169,7 +169,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 			_alpm_log(PM_LOG_ERROR, _("replacing packages with -A and -U is not supported yet\n"));
 			_alpm_log(PM_LOG_ERROR, _("please remove '%s' first, using -Rd\n"), miss->depend.name);
 			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
-			
+
 			/* Attempt to resolve conflicts */
 			/*
 			int skip_this = 0;
