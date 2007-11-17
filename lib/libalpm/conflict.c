@@ -307,8 +307,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_TARGET, path,
 																			 alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 				}
-				alpm_list_free_inner(tmpfiles, &free);
-				alpm_list_free(tmpfiles);
+				FREELIST(tmpfiles);
 			}
 		}
 
@@ -413,8 +412,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 				}
 			}
 		}
-		alpm_list_free_inner(tmpfiles, &free);
-		alpm_list_free(tmpfiles);
+		FREELIST(tmpfiles);
 	}
 
 	return(conflicts);

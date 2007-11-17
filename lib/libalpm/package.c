@@ -1022,8 +1022,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s, generating one\n"), pkgfile);
 		info->files = all_files;
 	} else {
-		alpm_list_free_inner(all_files, free);
-		alpm_list_free(all_files);
+		FREELIST(all_files);
 	}
 
 	/* this is IMPORTANT - "checking for conflicts" requires a sorted list, so we

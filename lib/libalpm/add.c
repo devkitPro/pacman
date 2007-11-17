@@ -295,8 +295,7 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 	tr = NULL;
 
 	/* restore our "NoUpgrade" list to previous state */
-	alpm_list_free_inner(handle->noupgrade, free);
-	alpm_list_free(handle->noupgrade);
+	FREELIST(handle->noupgrade);
 	handle->noupgrade = old_noupgrade;
 
 	if(ret == -1) {
