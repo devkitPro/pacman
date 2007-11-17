@@ -524,26 +524,9 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 					}
 				}
 				if(!found) {
-					/* targ not found in sync db, searching for providers... */
-					const char *pname = NULL;
-					for(j = sync_dbs; j; j = alpm_list_next(j)) {
-						pmdb_t *db = alpm_list_getdata(j);
-						alpm_list_t *prov = alpm_db_whatprovides(db, targ);
-						if(prov) {
-							pmpkg_t *pkg = alpm_list_getdata(prov);
-							pname = alpm_pkg_get_name(pkg);
-							alpm_list_free(prov);
-							break;
-						}
-					}
-					if(pname != NULL) {
-						/* targ is provided by pname */
-						targets = alpm_list_add(targets, strdup(pname));
-					} else {
-						fprintf(stderr, _("error: '%s': not found in sync db\n"), targ);
-						retval = 1;
-						goto cleanup;
-					}
+					fprintf(stderr, _("error: '%s': not found in sync db\n"), targ);
+					retval = 1;
+					goto cleanup;
 				}
 			}
 		}
