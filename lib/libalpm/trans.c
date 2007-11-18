@@ -538,10 +538,10 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	_alpm_log(PM_LOG_DEBUG, "executing %s script...\n", script);
 
 	if(oldver) {
-		snprintf(cmdline, PATH_MAX, "source %s %s %s %s",
+		snprintf(cmdline, PATH_MAX, ". %s %s %s %s",
 				scriptpath, script, ver, oldver);
 	} else {
-		snprintf(cmdline, PATH_MAX, "source %s %s %s",
+		snprintf(cmdline, PATH_MAX, ". %s %s %s",
 				scriptpath, script, ver);
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
