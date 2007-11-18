@@ -68,7 +68,8 @@ static void _alpm_graph_free(void *data)
 	free(graph);
 }
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep)
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
+		const char *causingpkg)
 {
 	pmdepmissing_t *miss;
 
@@ -78,6 +79,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep)
 
 	STRDUP(miss->target, target, RET_ERR(PM_ERR_MEMORY, NULL));
 	miss->depend = _alpm_dep_dup(dep);
+	STRDUP(miss->causingpkg, causingpkg, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(miss);
 }
@@ -86,6 +88,7 @@ void _alpm_depmiss_free(pmdepmissing_t *miss)
 {
 	_alpm_dep_free(miss->depend);
 	FREE(miss->target);
+	FREE(miss->causingpkg);
 	FREE(miss);
 }
 
@@ -298,7 +301,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
-				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend);
+				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend, "");
 				baddeps = alpm_list_add(baddeps, miss);
 			}
 		}
@@ -311,17 +314,18 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 			pmpkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
 				pmdepend_t *depend = j->data;
+				pmpkg_t *causingpkg = alpm_list_find(modified, depend, satisfycmp);
 				/* we won't break this depend, if it is already broken, we ignore it */
 				/* 1. check upgrade list for satisfiers */
 				/* 2. check dblist for satisfiers */
-				if(alpm_list_find(modified, depend, satisfycmp) &&
+				if(causingpkg &&
 				   !alpm_list_find(upgrade, depend, satisfycmp) &&
 				   !alpm_list_find(dblist, depend, satisfycmp)) {
 					char *missdepstring = alpm_dep_get_string(depend);
 					_alpm_log(PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
-					miss = _alpm_depmiss_new(lp->name, depend);
+					miss = _alpm_depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
 					baddeps = alpm_list_add(baddeps, miss);
 				}
 			}
@@ -673,6 +677,16 @@ const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 	ASSERT(miss != NULL, return(NULL));
 
 	return(miss->target);
+}
+
+const char SYMEXPORT *alpm_miss_get_causingpkg(const pmdepmissing_t *miss)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(miss != NULL, return(NULL));
+
+	return miss->causingpkg;
 }
 
 pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)

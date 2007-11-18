@@ -187,6 +187,7 @@ _pacman ()
           dbonly) mod="${mod}k" ;;
           nosave) mod="${mod}n" ;;
           recursive) mod="${mod}s" ;;
+          unneeded) mod="${mod}u" ;;
         esac ;;
       *) toparse="${a}" ;;
     esac
@@ -243,6 +244,7 @@ _pacman ()
           -k --dbonly \
           -n --nosave \
           -s --recursive \
+          -u --unneeded \
           --config \
           --logfile \
           --noconfirm \

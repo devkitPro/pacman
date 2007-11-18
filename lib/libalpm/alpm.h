@@ -281,7 +281,8 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_NOCONFLICTS = 0x800,
 	PM_TRANS_FLAG_PRINTURIS = 0x1000,
 	PM_TRANS_FLAG_NEEDED = 0x2000,
-	PM_TRANS_FLAG_ALLEXPLICIT = 0x4000
+	PM_TRANS_FLAG_ALLEXPLICIT = 0x4000,
+	PM_TRANS_FLAG_UNNEEDED = 0x8000
 } pmtransflag_t;
 
 /* Transaction Events */
@@ -378,6 +379,7 @@ alpm_list_t *alpm_deptest(pmdb_t *db, alpm_list_t *targets);
 
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
+const char *alpm_miss_get_causingpkg(const pmdepmissing_t *miss);
 
 alpm_list_t *alpm_checkdbconflicts(pmdb_t *db_local);
 

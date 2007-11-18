@@ -90,6 +90,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -k, --dbonly         only remove database entry, do not remove files\n"));
 			printf(_("  -n, --nosave         remove configuration files as well\n"));
 			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"));
+			printf(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
@@ -330,6 +331,7 @@ static int parseargs(int argc, char *argv[])
 		{"unrequired", no_argument,       0, 't'},
 		{"upgrades",   no_argument,       0, 'u'},
 		{"sysupgrade", no_argument,       0, 'u'},
+		{"unneeded",   no_argument,       0, 'u'},
 		{"verbose",    no_argument,       0, 'v'},
 		{"downloadonly", no_argument,     0, 'w'},
 		{"refresh",    no_argument,       0, 'y'},
@@ -472,6 +474,7 @@ static int parseargs(int argc, char *argv[])
 			case 'u':
 				config->op_s_upgrade = 1;
 				config->op_q_upgrade = 1;
+				config->flags |= PM_TRANS_FLAG_UNNEEDED;
 				break;
 			case 'v': (config->verbose)++; break;
 			case 'w':

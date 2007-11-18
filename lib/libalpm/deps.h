@@ -37,6 +37,7 @@ struct __pmdepend_t {
 struct __pmdepmissing_t {
 	char *target;
 	pmdepend_t *depend;
+	char *causingpkg; /* this is used in case of remove dependency error only */
 };
 
 /* Graphs */
@@ -51,7 +52,8 @@ struct __pmgraph_t {
 
 void _alpm_dep_free(pmdepend_t *dep);
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep);
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
+		const char *causinpkg);
 void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);

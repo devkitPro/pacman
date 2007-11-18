@@ -124,11 +124,35 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 					alpm_list_free(lp);
 					lp = alpm_checkdeps(db, 1, trans->packages, NULL);
 				}
+			} else if (trans->flags & PM_TRANS_FLAG_UNNEEDED) {
+				/* Remove needed packages (which break dependencies) from the target list */
+				while(lp != NULL) {
+					alpm_list_t *i;
+					for(i = lp; i; i = i->next) {
+						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
+						void *vpkg;
+						pmpkg_t *pkg;
+						pmpkg_t *dummy = _alpm_pkg_new(miss->causingpkg, NULL);
+						trans->packages = alpm_list_remove(trans->packages, dummy,
+								_alpm_pkg_cmp, &vpkg);
+						_alpm_pkg_free(dummy);
+						pkg = vpkg;
+						if(pkg) {
+							_alpm_log(PM_LOG_WARNING, "removing %s from the target-list\n",
+									alpm_pkg_get_name(pkg));
+							_alpm_pkg_free(pkg);
+						}
+					}
+					alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+					alpm_list_free(lp);
+					lp = alpm_checkdeps(db, 1, trans->packages, NULL);
+				}
 			} else {
 				if(data) {
 					*data = lp;
 				} else {
-					FREELIST(lp);
+					alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+					alpm_list_free(lp);
 				}
 				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 			}
