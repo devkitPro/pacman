@@ -674,18 +674,18 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 			alpm_list_t *i;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmconflict_t *conflict = alpm_list_getdata(i);
-					switch(alpm_conflict_get_type(conflict)) {
-						case PM_CONFLICT_TYPE_TARGET:
+					pmfileconflict_t *conflict = alpm_list_getdata(i);
+					switch(alpm_fileconflict_get_type(conflict)) {
+						case PM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),
-									alpm_conflict_get_file(conflict),
-									alpm_conflict_get_target(conflict),
-									alpm_conflict_get_ctarget(conflict));
+									alpm_fileconflict_get_file(conflict),
+									alpm_fileconflict_get_target(conflict),
+									alpm_fileconflict_get_ctarget(conflict));
 							break;
-						case PM_CONFLICT_TYPE_FILE:
+						case PM_FILECONFLICT_FILESYSTEM:
 							printf(_("%s: %s exists in filesystem\n"),
-									alpm_conflict_get_target(conflict),
-									alpm_conflict_get_file(conflict));
+									alpm_fileconflict_get_target(conflict),
+									alpm_fileconflict_get_file(conflict));
 							break;
 					}
 				}

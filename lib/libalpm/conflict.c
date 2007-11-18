@@ -230,17 +230,17 @@ static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
 	return(ret);
 }
 
-/* Adds pmconflict_t to a conflicts list. Pass the conflicts list, type (either
- * PM_CONFLICT_TYPE_TARGET or PM_CONFLICT_TYPE_FILE), a file string, and either
+/* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type (either
+ * PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file string, and either
  * two package names or one package name and NULL. This is a wrapper for former
  * functionality that was done inline.
  */
 static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
-                    pmconflicttype_t type, const char *filestr,
+                    pmfileconflicttype_t type, const char *filestr,
 										const char* name1, const char* name2)
 {
-	pmconflict_t *conflict;
-	MALLOC(conflict, sizeof(pmconflict_t), return(conflicts));
+	pmfileconflict_t *conflict;
+	MALLOC(conflict, sizeof(pmfileconflict_t), return(conflicts));
 
 	conflict->type = type;
 	strncpy(conflict->target, name1, PKG_NAME_LEN);
@@ -261,7 +261,7 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 /* Find file conflicts that may occur during the transaction with two checks:
  * 1: check every target against every target
  * 2: check every target against the filesystem */
-alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
+alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 {
 	alpm_list_t *i, *conflicts = NULL;
 	alpm_list_t *targets = trans->packages;
@@ -304,7 +304,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 			if(tmpfiles) {
 				for(k = tmpfiles; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", root, (char *)k->data);
-					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_TARGET, path,
+					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_TARGET, path,
 																			 alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 				}
 				FREELIST(tmpfiles);
@@ -407,7 +407,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 				}
 				if(!resolved_conflict) {
 					_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
-					conflicts = add_fileconflict(conflicts, PM_CONFLICT_TYPE_FILE,
+					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
 																			 path, p1->name, NULL);
 				}
 			}
@@ -418,7 +418,7 @@ alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root)
 	return(conflicts);
 }
 
-const char SYMEXPORT *alpm_conflict_get_target(pmconflict_t *conflict)
+const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
 {
 	ALPM_LOG_FUNC;
 
@@ -429,7 +429,7 @@ const char SYMEXPORT *alpm_conflict_get_target(pmconflict_t *conflict)
 	return conflict->target;
 }
 
-pmconflicttype_t SYMEXPORT alpm_conflict_get_type(pmconflict_t *conflict)
+pmfileconflicttype_t SYMEXPORT alpm_fileconflict_get_type(pmfileconflict_t *conflict)
 {
 	ALPM_LOG_FUNC;
 
@@ -440,7 +440,7 @@ pmconflicttype_t SYMEXPORT alpm_conflict_get_type(pmconflict_t *conflict)
 	return conflict->type;
 }
 
-const char SYMEXPORT *alpm_conflict_get_file(pmconflict_t *conflict)
+const char SYMEXPORT *alpm_fileconflict_get_file(pmfileconflict_t *conflict)
 {
 	ALPM_LOG_FUNC;
 
@@ -451,7 +451,7 @@ const char SYMEXPORT *alpm_conflict_get_file(pmconflict_t *conflict)
 	return conflict->file;
 }
 
-const char SYMEXPORT *alpm_conflict_get_ctarget(pmconflict_t *conflict)
+const char SYMEXPORT *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict)
 {
 	ALPM_LOG_FUNC;
 

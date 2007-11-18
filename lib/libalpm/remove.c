@@ -219,7 +219,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		}
 	} else {
 		/* check the remove skip list before removing the file.
-		 * see the big comment block in db_find_conflicts() for an
+		 * see the big comment block in db_find_fileconflicts() for an
 		 * explanation. */
 		if(alpm_list_find_str(trans->skip_remove, file)) {
 			_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_remove, skipping removal\n",

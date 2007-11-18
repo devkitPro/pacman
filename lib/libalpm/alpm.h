@@ -52,7 +52,7 @@ typedef struct __pmtrans_t pmtrans_t;
 typedef struct __pmsyncpkg_t pmsyncpkg_t;
 typedef struct __pmdepend_t pmdepend_t;
 typedef struct __pmdepmissing_t pmdepmissing_t;
-typedef struct __pmconflict_t pmconflict_t;
+typedef struct __pmfileconflict_t pmfileconflict_t;
 typedef struct __pmgraph_t pmgraph_t;
 
 /*
@@ -390,15 +390,15 @@ char *alpm_dep_get_string(const pmdepend_t *dep);
  * File conflicts
  */
 
-typedef enum _pmconflicttype_t {
-	PM_CONFLICT_TYPE_TARGET = 1,
-	PM_CONFLICT_TYPE_FILE
-} pmconflicttype_t;
+typedef enum _pmfileconflicttype_t {
+	PM_FILECONFLICT_TARGET = 1,
+	PM_FILECONFLICT_FILESYSTEM
+} pmfileconflicttype_t;
 
-const char *alpm_conflict_get_target(pmconflict_t *conflict);
-pmconflicttype_t alpm_conflict_get_type(pmconflict_t *conflict);
-const char *alpm_conflict_get_file(pmconflict_t *conflict);
-const char *alpm_conflict_get_ctarget(pmconflict_t *conflict);
+const char *alpm_fileconflict_get_target(pmfileconflict_t *conflict);
+pmfileconflicttype_t alpm_fileconflict_get_type(pmfileconflict_t *conflict);
+const char *alpm_fileconflict_get_file(pmfileconflict_t *conflict);
+const char *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict);
 
 /*
  * Helpers

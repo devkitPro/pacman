@@ -27,15 +27,15 @@
 
 #define CONFLICT_FILE_LEN 512
 
-struct __pmconflict_t {
+struct __pmfileconflict_t {
 	char target[PKG_NAME_LEN];
-	pmconflicttype_t type;
+	pmfileconflicttype_t type;
 	char file[CONFLICT_FILE_LEN];
 	char ctarget[PKG_NAME_LEN];
 };
 
 alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages);
-alpm_list_t *_alpm_db_find_conflicts(pmdb_t *db, pmtrans_t *trans, char *root);
+alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *root);
 
 #endif /* _ALPM_CONFLICT_H */
 
