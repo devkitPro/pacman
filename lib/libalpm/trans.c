@@ -505,14 +505,21 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	/* either extract or copy the scriptlet */
 	snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
 	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
-		_alpm_unpack(installfn, tmpdir, ".INSTALL");
+		if(_alpm_unpack(installfn, tmpdir, ".INSTALL")) {
+			retval = 1;
+		}
 	} else {
 		if(_alpm_copyfile(installfn, scriptfn)) {
 			_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), scriptfn, strerror(errno));
 			retval = 1;
-			goto cleanup;
 		}
 	}
+	if(retval == 1) {
+		goto cleanup;
+	}
+
+	/* mark the scriptlet as executable */
+	chmod(scriptfn, 0755);
 
 	/* chop off the root so we can find the tmpdir in the chroot */
 	scriptpath = scriptfn + strlen(root) - 1;
@@ -538,10 +545,10 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	_alpm_log(PM_LOG_DEBUG, "executing %s script...\n", script);
 
 	if(oldver) {
-		snprintf(cmdline, PATH_MAX, ". %s %s %s %s",
+		snprintf(cmdline, PATH_MAX, "%s %s %s %s",
 				scriptpath, script, ver, oldver);
 	} else {
-		snprintf(cmdline, PATH_MAX, ". %s %s %s",
+		snprintf(cmdline, PATH_MAX, "%s %s %s",
 				scriptpath, script, ver);
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
