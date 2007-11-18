@@ -895,6 +895,12 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 	return(strcmp(alpm_pkg_get_name(pk1), alpm_pkg_get_name(pk2)));
 }
 
+int _alpm_pkgname_pkg_cmp(const void *pkgname, const void *package)
+{
+	return(strcmp(alpm_pkg_get_name((pmpkg_t *) package), (char *) pkgname));
+}
+
+
 /* Parses the package description file for the current package
  * TODO: this should ALL be in a backend interface (be_files), we should
  *       be dealing with the abstracted concepts only in this file

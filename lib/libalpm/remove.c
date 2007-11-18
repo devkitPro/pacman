@@ -132,10 +132,8 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 						void *vpkg;
 						pmpkg_t *pkg;
-						pmpkg_t *dummy = _alpm_pkg_new(miss->causingpkg, NULL);
-						trans->packages = alpm_list_remove(trans->packages, dummy,
-								_alpm_pkg_cmp, &vpkg);
-						_alpm_pkg_free(dummy);
+						trans->packages = alpm_list_remove(trans->packages, miss->causingpkg,
+								_alpm_pkgname_pkg_cmp, &vpkg);
 						pkg = vpkg;
 						if(pkg) {
 							_alpm_log(PM_LOG_WARNING, "removing %s from the target-list\n",
