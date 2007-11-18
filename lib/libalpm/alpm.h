@@ -52,6 +52,7 @@ typedef struct __pmtrans_t pmtrans_t;
 typedef struct __pmsyncpkg_t pmsyncpkg_t;
 typedef struct __pmdepend_t pmdepend_t;
 typedef struct __pmdepmissing_t pmdepmissing_t;
+typedef struct __pmconflict_t pmconflict_t;
 typedef struct __pmfileconflict_t pmfileconflict_t;
 typedef struct __pmgraph_t pmgraph_t;
 
@@ -367,19 +368,16 @@ typedef enum _pmdepmod_t {
 	PM_DEP_MOD_LE
 } pmdepmod_t;
 
-typedef enum _pmdeptype_t {
-	PM_DEP_TYPE_DEPEND = 1,
-	PM_DEP_TYPE_CONFLICT
-} pmdeptype_t;
-
 pmdepend_t *alpm_splitdep(const char *depstring);
 int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 alpm_list_t *alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
                              alpm_list_t *packages);
 
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
-pmdeptype_t alpm_miss_get_type(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
+
+const char *alpm_conflict_get_package1(pmconflict_t *conflict);
+const char *alpm_conflict_get_package2(pmconflict_t *conflict);
 
 pmdepmod_t alpm_dep_get_mod(const pmdepend_t *dep);
 const char *alpm_dep_get_name(const pmdepend_t *dep);

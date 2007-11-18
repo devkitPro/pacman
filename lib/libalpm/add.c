@@ -163,10 +163,10 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		_alpm_log(PM_LOG_DEBUG, "looking for conflicts\n");
 		lp = _alpm_checkconflicts(db, trans->packages);
 		for(i = lp; i; i = i->next) {
-			pmdepmissing_t *miss = i->data;
+			pmconflict_t *conflict = i->data;
 
 			_alpm_log(PM_LOG_ERROR, _("replacing packages with -A and -U is not supported yet\n"));
-			_alpm_log(PM_LOG_ERROR, _("please remove '%s' first, using -Rd\n"), miss->depend.name);
+			_alpm_log(PM_LOG_ERROR, _("please remove '%s' first, using -Rd\n"), conflict->package2);
 			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
 
 			/* Attempt to resolve conflicts */

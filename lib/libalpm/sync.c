@@ -464,18 +464,18 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			alpm_list_t *asked = NULL;
 
 			for(i = deps; i && !errorout; i = i->next) {
-				pmdepmissing_t *miss = i->data;
+				pmconflict_t *conflict = i->data;
 				pmsyncpkg_t *sync;
 				pmpkg_t *found = NULL;
 
 				_alpm_log(PM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
-				          miss->target, miss->depend.name);
+						conflict->package1, conflict->package2);
 				/* check if the conflicting package is about to be removed/replaced.
 				 * if so, then just ignore it. */
 				for(j = trans->packages; j && !found; j = j->next) {
 					sync = j->data;
 					if(sync->type == PM_SYNC_TYPE_REPLACE) {
-						found = _alpm_pkg_find(miss->depend.name, sync->data);
+						found = _alpm_pkg_find(conflict->package2, sync->data);
 					}
 				}
 				if(found) {
@@ -484,24 +484,24 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 					continue;
 				}
 
-				sync = _alpm_sync_find(trans->packages, miss->target);
+				sync = _alpm_sync_find(trans->packages, conflict->package1);
 				if(sync == NULL) {
 					_alpm_log(PM_LOG_DEBUG, "'%s' not found in transaction set -- skipping\n",
-					          miss->target);
+					          conflict->package1);
 					continue;
 				}
-				pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, miss->depend.name);
+				pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, conflict->package2);
 				/* check if this package provides the package it's conflicting with */
 				if(alpm_list_find_str(alpm_pkg_get_provides(sync->pkg),
-							miss->depend.name)) {
+							conflict->package2)) {
 					/* treat like a replaces item so requiredby fields are
 					 * inherited properly. */
 					_alpm_log(PM_LOG_DEBUG, "package '%s' provides its own conflict\n",
-							miss->target);
+							conflict->package1);
 					if(!local) {
 						char *rmpkg = NULL;
 						int target, depend;
-						/* hmmm, depend.name isn't installed, so it must be conflicting
+						/* hmmm, package2 isn't installed, so it must be conflicting
 						 * with another package in our final list.  For example:
 						 *
 						 *     pacman -S blackbox xfree86
@@ -514,22 +514,22 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 
 						/* figure out which one was requested in targets. If they both
 						 * were, then it's still an unresolvable conflict. */
-						target = alpm_list_find_str(trans->targets, miss->target);
-						depend = alpm_list_find_str(trans->targets, miss->depend.name);
+						target = alpm_list_find_str(trans->targets, conflict->package1);
+						depend = alpm_list_find_str(trans->targets, conflict->package2);
 						if(depend && !target) {
 							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it\n",
-								miss->depend.name);
-							/* remove miss->target */
-							rmpkg = miss->target;
+								conflict->package2);
+							/* remove conflict->package1 */
+							rmpkg = conflict->package1;
 						} else if(target && !depend) {
 							_alpm_log(PM_LOG_DEBUG, "'%s' is in the target list -- keeping it\n",
-								miss->target);
-							/* remove miss->depend.name */
-							rmpkg = miss->depend.name;
+								conflict->package1);
+							/* remove conflict->package2 */
+							rmpkg = conflict->package2;
 						} else {
-							/* miss->depend.name is not needed, miss->target already provides
+							/* miss->target2 is not needed, miss->target already provides
 							 * it, let's resolve the conflict */
-							rmpkg = miss->depend.name;
+							rmpkg = conflict->package2;
 						}
 						if(rmpkg) {
 							pmsyncpkg_t *rsync = _alpm_sync_find(trans->packages, rmpkg);
@@ -545,13 +545,13 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				}
 				/* It's a conflict -- see if they want to remove it */
 				_alpm_log(PM_LOG_DEBUG, "resolving package '%s' conflict\n",
-						miss->target);
+						conflict->package1);
 				if(local) {
 					int doremove = 0;
-					if(!alpm_list_find_str(asked, miss->depend.name)) {
-						QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target,
-								miss->depend.name, NULL, &doremove);
-						asked = alpm_list_add(asked, strdup(miss->depend.name));
+					if(!alpm_list_find_str(asked, conflict->package2)) {
+						QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
+								conflict->package2, NULL, &doremove);
+						asked = alpm_list_add(asked, strdup(conflict->package2));
 						if(doremove) {
 							pmpkg_t *q = _alpm_pkg_dup(local);
 							if(sync->type != PM_SYNC_TYPE_REPLACE) {
@@ -562,16 +562,16 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							}
 							/* append to the replaces list */
 							_alpm_log(PM_LOG_DEBUG, "electing '%s' for removal\n",
-									miss->depend.name);
+									conflict->package2);
 							sync->data = alpm_list_add(sync->data, q);
 							/* see if the package is in the current target list */
 							pmsyncpkg_t *rsync = _alpm_sync_find(trans->packages,
-									miss->depend.name);
+									conflict->package2);
 							if(rsync) {
 								/* remove it from the target list */
 								void *vpkg;
 								_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n",
-										miss->depend.name);
+										conflict->package2);
 								trans->packages = alpm_list_remove(trans->packages, rsync,
 										syncpkg_cmp, &vpkg);
 								_alpm_sync_free(vpkg);
@@ -581,15 +581,15 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
 							errorout = 1;
 							if(data) {
-								if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-									_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmdepmissing_t));
+								if((conflict = malloc(sizeof(pmconflict_t))) == NULL) {
+									_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmconflict_t));
 									FREELIST(*data);
 									pm_errno = PM_ERR_MEMORY;
 									ret = -1;
 									goto cleanup;
 								}
-								*miss = *(pmdepmissing_t *)i->data;
-								*data = alpm_list_add(*data, miss);
+								*conflict = *(pmconflict_t *)i->data;
+								*data = alpm_list_add(*data, conflict);
 							}
 						}
 					}
@@ -597,15 +597,15 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 					_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
 					errorout = 1;
 					if(data) {
-						if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmdepmissing_t));
+						if((conflict = malloc(sizeof(pmconflict_t))) == NULL) {
+							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmconflict_t));
 							FREELIST(*data);
 							pm_errno = PM_ERR_MEMORY;
 							ret = -1;
 							goto cleanup;
 						}
-						*miss = *(pmdepmissing_t *)i->data;
-						*data = alpm_list_add(*data, miss);
+						*conflict = *(pmconflict_t *)i->data;
+						*data = alpm_list_add(*data, conflict);
 					}
 				}
 			}

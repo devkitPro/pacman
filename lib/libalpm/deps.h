@@ -38,7 +38,6 @@ struct __pmdepend_t {
 /* Missing dependency */
 struct __pmdepmissing_t {
 	char target[PKG_NAME_LEN];
-	pmdeptype_t type;
 	pmdepend_t depend;
 };
 
@@ -51,9 +50,8 @@ struct __pmgraph_t {
 	alpm_list_t *childptr; /* points to a child in children list */
 };
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
-                                  pmdepmod_t depmod, const char *depname,
-																	const char *depversion);
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
+		const char *depname, const char *depversion);
 int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,

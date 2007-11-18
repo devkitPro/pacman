@@ -620,10 +620,9 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 				break;
 			case PM_ERR_CONFLICTING_DEPS:
 			  for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
-					pmdepend_t *dep = alpm_miss_get_dep(miss);
+					pmconflict_t *conflict = alpm_list_getdata(i);
 					printf(_(":: %s: conflicts with %s"),
-							alpm_miss_get_target(miss), alpm_dep_get_name(dep));
+							alpm_conflict_get_package1(conflict), alpm_conflict_get_package2(conflict));
 				}
 				break;
 			default:

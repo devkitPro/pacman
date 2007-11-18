@@ -27,6 +27,11 @@
 
 #define CONFLICT_FILE_LEN 512
 
+struct __pmconflict_t {
+	char package1[PKG_NAME_LEN];
+	char package2[PKG_NAME_LEN];
+};
+
 struct __pmfileconflict_t {
 	char target[PKG_NAME_LEN];
 	pmfileconflicttype_t type;
@@ -34,6 +39,8 @@ struct __pmfileconflict_t {
 	char ctarget[PKG_NAME_LEN];
 };
 
+pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2);
+int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages);
 alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *root);
 

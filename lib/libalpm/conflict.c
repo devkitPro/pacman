@@ -43,6 +43,40 @@
 #include "cache.h"
 #include "deps.h"
 
+pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2)
+{
+	pmconflict_t *conflict;
+
+	ALPM_LOG_FUNC;
+
+	MALLOC(conflict, sizeof(pmconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
+
+	strncpy(conflict->package1, package1, PKG_NAME_LEN);
+	strncpy(conflict->package2, package2, PKG_NAME_LEN);
+
+	return(conflict);
+}
+
+int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
+{
+	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
+
+	for(i = haystack; i; i = i->next) {
+		pmconflict_t *conflict = i->data;
+		char *cpkg1 = conflict->package1;
+		char *cpkg2 = conflict->package2;
+		char *npkg1 = needle->package1;
+		char *npkg2 = needle->package2;
+		if((!strcmp(cpkg1, npkg1)  && !strcmp(cpkg2, npkg2))
+				|| (!strcmp(cpkg1, npkg2) && !strcmp(cpkg2, npkg1))) {
+			return(1);
+		}
+	}
+
+	return(0);
+}
 
 /** Check if pkg1 conflicts with pkg2
  * @param pkg1 package we are looking at
@@ -71,16 +105,14 @@ static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
  * @param pkg1 first package
  * @param pkg2 package causing conflict
  */
-/* TODO WTF is a 'depmissing' doing indicating a conflict? */
 static void add_conflict(alpm_list_t **baddeps, const char *pkg1,
 		const char *pkg2)
 {
-	pmdepmissing_t *miss = _alpm_depmiss_new(pkg1, PM_DEP_TYPE_CONFLICT,
-			PM_DEP_MOD_ANY, pkg2, NULL);
-	if(miss && !_alpm_depmiss_isin(miss, *baddeps)) {
-		*baddeps = alpm_list_add(*baddeps, miss);
+	pmconflict_t *conflict = _alpm_conflict_new(pkg1, pkg2);
+	if(conflict && !_alpm_conflict_isin(conflict, *baddeps)) {
+		*baddeps = alpm_list_add(*baddeps, conflict);
 	} else {
-		FREE(miss);
+		FREE(conflict);
 	}
 }
 
@@ -130,7 +162,7 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 	}
 }
 
-/* Returns a alpm_list_t* of pmdepmissing_t pointers. */
+/* Returns a alpm_list_t* of pmconflict_t pointers. */
 alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
@@ -416,6 +448,28 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 	}
 
 	return(conflicts);
+}
+
+const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(conflict != NULL, return(NULL));
+
+	return conflict->package1;
+}
+
+const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(conflict != NULL, return(NULL));
+
+	return conflict->package2;
 }
 
 const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)

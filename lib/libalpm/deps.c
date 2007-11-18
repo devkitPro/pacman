@@ -61,9 +61,8 @@ static void _alpm_graph_free(void *data)
 	free(graph);
 }
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
-                                  pmdepmod_t depmod, const char *depname,
-                                  const char *depversion)
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
+		const char *depname, const char *depversion)
 {
 	pmdepmissing_t *miss;
 
@@ -72,7 +71,6 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdeptype_t type,
 	MALLOC(miss, sizeof(pmdepmissing_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	strncpy(miss->target, target, PKG_NAME_LEN);
-	miss->type = type;
 	miss->depend.mod = depmod;
 	strncpy(miss->depend.name, depname, PKG_NAME_LEN);
 	if(depversion) {
@@ -92,8 +90,7 @@ int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
 
 	for(i = haystack; i; i = i->next) {
 		pmdepmissing_t *miss = i->data;
-		if(needle->type == miss->type &&
-		   !strcmp(needle->target, miss->target) &&
+		if(!strcmp(needle->target, miss->target) &&
 		   needle->depend.mod == miss->depend.mod &&
 		   !strcmp(needle->depend.name, miss->depend.name) &&
 		   !strcmp(needle->depend.version, miss->depend.version)) {
@@ -328,8 +325,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 						if(!satisfied) {
 							_alpm_log(PM_LOG_DEBUG, "checkdeps: updated '%s' won't satisfy a dependency of '%s'\n",
 												alpm_pkg_get_name(oldpkg), alpm_pkg_get_name(p));
-							miss = _alpm_depmiss_new(p->name, PM_DEP_TYPE_DEPEND, depend->mod,
-																			 depend->name, depend->version);
+							miss = _alpm_depmiss_new(p->name, depend->mod, depend->name, depend->version);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
 								baddeps = alpm_list_add(baddeps, miss);
 							} else {
@@ -375,8 +371,8 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 				if(!found) {
 					_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
 					                          (char*)j->data, alpm_pkg_get_name(tp));
-					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), PM_DEP_TYPE_DEPEND, depend->mod,
-					                         depend->name, depend->version);
+					miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend->mod,
+							depend->name, depend->version);
 					if(!_alpm_depmiss_isin(miss, baddeps)) {
 						baddeps = alpm_list_add(baddeps, miss);
 					} else {
@@ -430,8 +426,7 @@ alpm_list_t *_alpm_checkdeps(pmdb_t *db, pmtranstype_t op,
 							_alpm_log(PM_LOG_DEBUG, "checkdeps: found %s which requires %s\n",
 									alpm_pkg_get_name(p), alpm_pkg_get_name(rmpkg));
 							miss = _alpm_depmiss_new(alpm_pkg_get_name(p),
-									PM_DEP_TYPE_DEPEND, depend->mod, depend->name,
-									depend->version);
+									depend->mod, depend->name, depend->version);
 							if(!_alpm_depmiss_isin(miss, baddeps)) {
 								baddeps = alpm_list_add(baddeps, miss);
 							} else {
@@ -763,16 +758,6 @@ const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 	ASSERT(miss != NULL, return(NULL));
 
 	return miss->target;
-}
-
-pmdeptype_t SYMEXPORT alpm_miss_get_type(const pmdepmissing_t *miss)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(miss != NULL, return(-1));
-
-	return miss->type;
 }
 
 pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
