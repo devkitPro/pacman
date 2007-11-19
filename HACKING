@@ -1,21 +1,23 @@
 Contributing to pacman
 ======================
 
-Please read 'submitting-patches' and 'translation-help' in the same directory
-as this file.
+In addition to this file, please read 'submitting-patches' and
+'translation-help' in the same directory for additional info on contributing.
 
 Coding style
 ------------
 
 1.  All code should be indented with tabs. (Ignore the use of only spaces in
     this file) By default, source files contain the following VIM modeline:
+
       /* vim: set ts=2 sw=2 noet: */
 
 2.  When opening new blocks such as 'while', 'if', or 'for', leave the opening
     brace on the same line as the beginning of the codeblock. The closing brace
     gets its own line (the only exception being 'else'). Do not use extra
     spaces around the parentheses of the block. ALWAYS use opening/closing
-    braces, even if it's just a one-line block.
+    braces, even if it's just a one-line block. This reduces future error when
+    blocks are expanded beyond one line.
 
     for(lp = list; lp; lp = lp->next) {
       newlist = _alpm_list_add(newlist, strdup(lp->data));
@@ -36,17 +38,21 @@ Coding style
     own line. Also, when declaring a pointer, do not put a space between the
     asterisk and the variable name.
 
-    pmlist_t *_alpm_list_add(pmlist_t *list, void *data)
+    alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
     {
-      pmlist_t *ptr, *lp;
+      alpm_list_t *ptr, *lp;
 
       ptr = list;
      if(ptr == NULL) {
-    ...
+     ...
     }
 
 4.  Comments should be ANSI-C89 compliant. That means no "// Comment" style;
     use only "/* Comment */" style.
+
+    /* This is a comment */
+       NOT
+    // This is a comment
 
 5.  Return statements should be written like a function call.
 
@@ -61,6 +67,16 @@ Coding style
     sizeof(alpm_list_t);
        NOT
     sizeof(*mylist);
+
+7.  When using strcmp() (or any function that returns 0 on success) in a
+    conditional statement, use != 0 or == 0 and not the negation (!) operator.
+    It reads much cleaner for humans (using a negative to check for success is
+    confusing) and the compiler will treat it correctly anyway.
+
+    if(strcmp(a, b) == 0)
+       NOT
+    if(!strcmp(a, b))
+
 
 Other Concerns
 --------------
