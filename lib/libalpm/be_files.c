@@ -33,6 +33,7 @@
 #include <ctype.h>
 #include <time.h>
 #include <limits.h> /* PATH_MAX */
+#include <locale.h> /* setlocale */
 
 /* libalpm */
 #include "db.h"

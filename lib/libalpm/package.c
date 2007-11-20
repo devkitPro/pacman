@@ -33,6 +33,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <locale.h> /* setlocale */
 
 /* libarchive */
 #include <archive.h>
