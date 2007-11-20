@@ -185,6 +185,39 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 }
 
 /**
+ * @brief Join two lists.
+ * The two lists must be independent. Do not free the original lists after
+ * calling this function, as this is not a copy operation. The list pointers
+ * passed in should be considered invalid after calling this function.
+ *
+ * @param first  the first list
+ * @param second the second list
+ *
+ * @return the resultant joined list
+ */
+alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
+{
+	alpm_list_t *tmp;
+
+	if (first == NULL) {
+		return second;
+	}
+	if (second == NULL) {
+		return first;
+	}
+	/* tmp is the last element of the first list */
+	tmp = first->prev;
+	/* link the first list to the second */
+	tmp->next = second;
+	/* link the second list to the first */
+	first->prev = second->prev;
+	/* set the back reference to the tail */
+	second->prev = tmp;
+
+	return(first);
+}
+
+/**
  * @brief Merge the two sorted sublists into one sorted list.
  *
  * @param left  the first list
