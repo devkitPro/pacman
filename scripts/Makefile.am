@@ -11,12 +11,7 @@ bin_SCRIPTS = \
 	repo-remove \
 	updatesync
 
-if INCLUDE_ABS
-bin_SCRIPTS += abs
-endif
-
 EXTRA_DIST = \
-	abs.sh.in \
 	gensync.sh.in \
 	makepkg.sh.in \
 	makeworld.sh.in \
@@ -54,7 +49,6 @@ $(bin_SCRIPTS): Makefile
 	chmod a-w $@.tmp
 	mv $@.tmp $@
 
-abs: $(srcdir)/abs.sh.in
 gensync: $(srcdir)/gensync.sh.in
 makepkg: $(srcdir)/makepkg.sh.in
 makeworld: $(srcdir)/makeworld.sh.in

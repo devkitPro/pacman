@@ -113,11 +113,6 @@ AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug], [enable debugging support]),
 	[debug=$enableval], [debug=no])
 
-# Help line for abs
-AC_ARG_ENABLE(abs,
-	AC_HELP_STRING([--disable-abs], [do not include Arch Linux Build System script]),
-	[includeabs=$enableval], [includeabs=yes])
-
 # Help line for pacman.static
 AC_ARG_ENABLE(pacman-static,
 	AC_HELP_STRING([--disable-pacman-static], [do not build static version of pacman]),
@@ -273,17 +268,7 @@ else
 	CFLAGS="$CFLAGS -Wall"
 fi
 
-# Enable or disable inclusion of abs script
-AC_MSG_CHECKING(for inclusion of abs script)
-if test "x$includeabs" = "xyes" ; then
-	AC_MSG_RESULT(yes)
-	AC_DEFINE([INCLUDE_ABS], , [Include abs script])
-else
-	AC_MSG_RESULT(no)
-fi
-AM_CONDITIONAL(INCLUDE_ABS, test "x$includeabs" = "xyes")
-
-# Enable or disable inclusion of abs script
+# Enable or disable inclusion of pacman.static
 AC_MSG_CHECKING(whether to build pacman.static)
 if test "x$pacmanstatic" = "xyes" ; then
 	AC_MSG_RESULT(yes)
@@ -315,7 +300,6 @@ scripts/Makefile
 doc/Makefile
 etc/Makefile
 etc/pacman.d/Makefile
-etc/abs/Makefile
 po/Makefile.in
 pactest/Makefile
 contrib/Makefile
@@ -355,7 +339,6 @@ pacman_display_version:
     Doxygen support        : ${usedoxygen}
     Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}
-    include abs            : ${includeabs}
     build pacman.static    : ${pacmanstatic}
 "
 
