@@ -126,7 +126,7 @@ error:
 
 int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
-	alpm_list_t *lp = NULL, *i = NULL;
+	alpm_list_t *lp = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -152,47 +152,25 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 		/* no unsatisfied deps, so look for conflicts */
 		_alpm_log(PM_LOG_DEBUG, "looking for conflicts\n");
-		lp = _alpm_checkconflicts(db, trans->packages);
-		for(i = lp; i; i = i->next) {
-			pmconflict_t *conflict = i->data;
+		alpm_list_t *inner = _alpm_innerconflicts(trans->packages);
+		alpm_list_t *outer = _alpm_outerconflicts(db, trans->packages);
+		lp = alpm_list_join(inner, outer);
 
-			_alpm_log(PM_LOG_ERROR, _("replacing packages with -A and -U is not supported yet\n"));
-			_alpm_log(PM_LOG_ERROR, _("please remove '%s' first, using -Rd\n"), conflict->package2);
-			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
+		/* TODO : factorize the conflict resolving code from sync.c to use it here (FS#3492) */
 
-			/* Attempt to resolve conflicts */
-			/*
-			int skip_this = 0;
-			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, miss->target, miss->depend.name, NULL, &skip_this);
-			if(skip_this) {
-				pmdepmissing_t *pkg = NULL;
-				lp = alpm_list_remove(lp, (void *)miss, deppkg_cmp, (void*)&pkg);
-				*/
-				/* TODO: We remove the conflict from the list but never actually remove
-				 * the package. Need to do this to fix FS #3492. The sync code should
-				 * provide an example of how to do this, as it handles replaces and
-				 * removes. We run into problems because we do a file conflict check
-				 * below and it fails there. A force flag will skip that part, but
-				 * still not remove the original package designated here for removal.
-				 * Better yet, dump all this shitty duplicate code and somehow combine
-				 * it with the sync code. */
-				/*
-				FREE(pkg);
-				if(lp == NULL) {
-					break;
-				}
-			}
-			*/
-		}
-		/* Removal code should go here, as described above. Instead of simply
-		 * removing items, perhaps throw them in another list to be removed, then
-		 * proceed as sync.c would? I'm not sure because I'm not familiar enough
-		 * with the codebase. */
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;
 			} else {
 				FREELIST(lp);
+			}
+			if(inner) {
+				_alpm_log(PM_LOG_ERROR, _("conflicting packages were found in the target list\n"));
+				_alpm_log(PM_LOG_ERROR, _("you cannot install two conflicting packages at the same time\n"));
+			}
+			if(outer) {
+				_alpm_log(PM_LOG_ERROR, _("replacing packages with -A and -U is not supported yet\n"));
+				_alpm_log(PM_LOG_ERROR, _("you can replace packages manually using -Rd and -U\n"));
 			}
 			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
 		}

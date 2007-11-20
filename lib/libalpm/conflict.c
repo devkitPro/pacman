@@ -162,8 +162,24 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 	}
 }
 
-/* Returns a alpm_list_t* of pmconflict_t pointers. */
-alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
+/* Check for inter-conflicts */
+alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages)
+{
+	alpm_list_t *baddeps = NULL;
+
+	ALPM_LOG_FUNC;
+
+	_alpm_log(PM_LOG_DEBUG, "check targets vs targets\n");
+	check_conflict(packages, packages, &baddeps, 0);
+
+	return(baddeps);
+}
+
+/* Check for target vs (db - target) conflicts
+ * In case of conflict the package1 field of pmdepconflict_t contains
+ * the target package, package2 field contains the local package
+ */
+alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
 
@@ -176,16 +192,19 @@ alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages)
 	alpm_list_t *dblist = alpm_list_diff(_alpm_db_get_pkgcache(db), packages,
 			_alpm_pkg_cmp);
 
-	/* three checks to be done here for conflicts */
+	/* two checks to be done here for conflicts */
 	_alpm_log(PM_LOG_DEBUG, "check targets vs db\n");
 	check_conflict(packages, dblist, &baddeps, 1);
 	_alpm_log(PM_LOG_DEBUG, "check db vs targets\n");
 	check_conflict(dblist, packages, &baddeps, -1);
-	_alpm_log(PM_LOG_DEBUG, "check targets vs targets\n");
-	check_conflict(packages, packages, &baddeps, 0);
 
 	alpm_list_free(dblist);
 	return(baddeps);
+}
+
+/* Check for transaction conflicts */
+alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages) {
+	return(alpm_list_join(_alpm_innerconflicts(packages), _alpm_outerconflicts(db, packages)));
 }
 
 /* Returns a alpm_list_t* of file conflicts.
