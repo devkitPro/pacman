@@ -621,7 +621,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 			case PM_ERR_CONFLICTING_DEPS:
 			  for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
-					printf(_(":: %s: conflicts with %s"),
+					printf(_(":: %s: conflicts with %s\n"),
 							alpm_conflict_get_package1(conflict), alpm_conflict_get_package2(conflict));
 				}
 				break;
@@ -706,6 +706,7 @@ int sync_trans(alpm_list_t *targets, int sync_only)
 	/* Step 4: release transaction resources */
 cleanup:
 	if(data) {
+		alpm_list_free_inner(data, free);
 		alpm_list_free(data);
 	}
 	if(alpm_trans_release() == -1) {

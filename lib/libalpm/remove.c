@@ -315,7 +315,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 						(pkg_count - alpm_list_count(targ) + 1));
 				position++;
 			}
-			free(newfiles);
+			alpm_list_free(newfiles);
 		}
 
 		/* set progress to 100% after we finish unlinking files */

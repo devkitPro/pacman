@@ -175,6 +175,7 @@ int pacman_add(alpm_list_t *targets)
 				break;
 		}
 		add_cleanup();
+		alpm_list_free_inner(data, free);
 		alpm_list_free(data);
 		return(1);
 	}

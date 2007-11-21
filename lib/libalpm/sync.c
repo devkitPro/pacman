@@ -496,12 +496,13 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		if(deps) {
 			int errorout = 0;
 			alpm_list_t *asked = NULL;
+			pmconflict_t *conflict = NULL;
 
 			for(i = deps; i && !errorout; i = i->next) {
-				pmconflict_t *conflict = i->data;
 				pmsyncpkg_t *sync;
 				pmpkg_t *found = NULL;
 
+				conflict = i->data;
 				_alpm_log(PM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
 						conflict->package1, conflict->package2);
 				/* check if the conflicting package is about to be removed/replaced.
@@ -614,42 +615,35 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							/* abort */
 							_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
 							errorout = 1;
-							if(data) {
-								if((conflict = malloc(sizeof(pmconflict_t))) == NULL) {
-									_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmconflict_t));
-									FREELIST(*data);
-									pm_errno = PM_ERR_MEMORY;
-									ret = -1;
-									goto cleanup;
-								}
-								*conflict = *(pmconflict_t *)i->data;
-								*data = alpm_list_add(*data, conflict);
-							}
 						}
 					}
 				} else {
 					_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
 					errorout = 1;
-					if(data) {
-						if((conflict = malloc(sizeof(pmconflict_t))) == NULL) {
-							_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmconflict_t));
-							FREELIST(*data);
-							pm_errno = PM_ERR_MEMORY;
-							ret = -1;
-							goto cleanup;
-						}
-						*conflict = *(pmconflict_t *)i->data;
-						*data = alpm_list_add(*data, conflict);
-					}
 				}
 			}
 			if(errorout) {
+				/* The last conflict was unresolvable, so we duplicate it and add it to *data */
 				pm_errno = PM_ERR_CONFLICTING_DEPS;
+				if(data) {
+					pmconflict_t *lastconflict = conflict;
+					if((conflict = malloc(sizeof(pmconflict_t))) == NULL) {
+						_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"),
+								sizeof(pmconflict_t));
+						FREELIST(*data);
+						pm_errno = PM_ERR_MEMORY;
+					} else {
+						*conflict = *lastconflict;
+						*data = alpm_list_add(*data, conflict);
+					}
+				}
+				FREELIST(asked);
+				FREELIST(deps);
 				ret = -1;
 				goto cleanup;
 			}
-			FREELIST(deps);
 			FREELIST(asked);
+			FREELIST(deps);
 		}
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 	}
