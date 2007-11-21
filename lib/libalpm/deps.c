@@ -187,7 +187,14 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 				vertex = nextchild;
 			}
 			else if(nextchild->state == -1) {
-				_alpm_log(PM_LOG_WARNING, _("dependency cycle detected\n"));
+				pmpkg_t *vertexpkg = vertex->data;
+				pmpkg_t *childpkg = nextchild->data;
+				_alpm_log(PM_LOG_WARNING, _("dependency cycle detected:\n"));
+				if(mode == PM_TRANS_TYPE_REMOVE) {
+					_alpm_log(PM_LOG_WARNING, _("%s will be removed after its %s dependency\n"), vertexpkg->name, childpkg->name);
+				} else {
+					_alpm_log(PM_LOG_WARNING, _("%s will be installed before its %s dependency\n"), vertexpkg->name, childpkg->name);
+				}
 			}
 		}
 		if(!found) {
