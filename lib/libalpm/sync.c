@@ -74,11 +74,8 @@ void _alpm_sync_free(pmsyncpkg_t *sync)
 
 	/* TODO wow this is ugly */
 	if(sync->type == PM_SYNC_TYPE_REPLACE) {
-		alpm_list_t *tmp;
-		for(tmp = sync->data; tmp; tmp = alpm_list_next(tmp)) {
-			_alpm_pkg_free(tmp->data);
-			tmp->data = NULL;
-		}
+		alpm_list_free_inner(sync->data, (alpm_list_fn_free)_alpm_pkg_free);
+		alpm_list_free(sync->data);
 		sync->data = NULL;
 	} else {
 		_alpm_pkg_free(sync->data);
