@@ -7,7 +7,6 @@ typeset -A opt_args
 # options for passing to _arguments: main pacman commands
 _pacman_opts_commands=(
 	'-A[Add a package to the system]'
-	'-F[Upgrade an installed package]'
 	'-Q[Query the package database]'
 	'-R[Remove a package from the system]'
 	'-S[Synchronize packages]'
@@ -26,7 +25,7 @@ _pacman_opts_common=(
 	'--noconfirm[Do not ask for confirmation]'
 )
 
-# options for passing to _arguments: options for --add, --freshen and --update commands
+# options for passing to _arguments: options for --add, and --update commands
 _pacman_opts_pkgfile=(
 	'-d[Skip dependency checks]'
 	'-f[Overwrite conflicting files]'
@@ -80,13 +79,6 @@ _pacman_opts_sync_modifiers=(
 
 # handles --action subcommand
 _pacman_action_add() {
-	_arguments -s : \
-		"$_pacman_opts_common[@]" \
-		"$_pacman_opts_pkgfile[@]"
-}
-
-# handles --freshen subcommand
-_pacman_action_freshen() {
 	_arguments -s : \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_pkgfile[@]"
@@ -274,7 +266,6 @@ _pacman_get_command() {
 _pacman() {
 	case $words[2] in
 		-A*)  _pacman_action_add      ;;
-		-F*)  _pacman_action_freshen  ;;
 		-Qg) # ipkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \

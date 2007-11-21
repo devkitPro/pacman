@@ -146,7 +146,7 @@ _pacman ()
     toparse="${a:2}"
 
     case "${arg}" in
-      -@(A|U|F|R|S|Q|h|V))
+      -@(A|U|R|S|Q|h|V))
         op="${arg/-}"
         mod="${mod}${a:2}"
         ;;
@@ -156,7 +156,6 @@ _pacman ()
           add) op="A" ;;
           remove) op="R" ;;
           upgrade) op="U" ;;
-          freshen) op="F" ;;
           query) op="Q" ;;
           sync) op="S" ;;
           help) op="h" ;;
@@ -204,7 +203,6 @@ _pacman ()
   if [ $COMP_CWORD -eq 1 ] && [[ "$cur" == -* ]]; then
     COMPREPLY=( $( compgen -W '\
       -A --add \
-      -F --freshen \
       -h --help \
       -Q --query \
       -R --remove \
@@ -218,7 +216,7 @@ _pacman ()
 
   if [[ "$cur" == -* ]]; then
     case "${op}" in
-      A|U|F)
+      A|U)
         COMPREPLY=( $( compgen -W '\
           --asdeps \
           -d --nodeps \

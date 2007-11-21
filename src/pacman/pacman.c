@@ -71,7 +71,6 @@ static void usage(int op, const char * const myname)
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
 		printf("    %s {-A --add}     [%s] <%s>\n", myname, str_opt, str_file);
-		printf("    %s {-F --freshen} [%s] <%s>\n", myname, str_opt, str_file);
 		printf("    %s {-Q --query}   [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-R --remove}  [%s] <%s>\n", myname, str_opt, str_pkg);
 		printf("    %s {-S --sync}    [%s] [%s]\n", myname, str_opt, str_pkg);
@@ -93,11 +92,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -n, --nosave         remove configuration files as well\n"));
 			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"));
 		} else if(op == PM_OP_UPGRADE) {
-			if(config->flags & PM_TRANS_FLAG_FRESHEN) {
-				printf("%s:  %s {-F --freshen} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
-			} else {
-				printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
-			}
+			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
 			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
@@ -266,7 +261,6 @@ static int parseargs(int argc, char *argv[])
 	static struct option opts[] =
 	{
 		{"add",        no_argument,       0, 'A'},
-		{"freshen",    no_argument,       0, 'F'},
 		{"query",      no_argument,       0, 'Q'},
 		{"remove",     no_argument,       0, 'R'},
 		{"sync",       no_argument,       0, 'S'},
@@ -387,10 +381,6 @@ static int parseargs(int argc, char *argv[])
 				FREELIST(list);
 				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
-			case 'F':
-				config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE);
-				config->flags |= PM_TRANS_FLAG_FRESHEN;
-				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
 			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;

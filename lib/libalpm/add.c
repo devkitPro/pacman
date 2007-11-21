@@ -76,19 +76,10 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 			pm_errno = PM_ERR_PKG_INSTALLED;
 			goto error;
 		}
-	} else {
-		if(trans->flags & PM_TRANS_FLAG_FRESHEN) {
-			/* only upgrade/install this package if it is already installed and at a lesser version */
-			pmpkg_t *dummy = _alpm_db_get_pkgfromcache(db, pkgname);
-			if(dummy == NULL || _alpm_versioncmp(dummy->version, pkgver) >= 0) {
-				pm_errno = PM_ERR_PKG_CANT_FRESH;
-				goto error;
-			}
-		}
 	}
 
-	/* check if an older version of said package is already in transaction packages.
-	 * if so, replace it in the list */
+	/* check if an older version of said package is already in transaction
+	 * packages.  if so, replace it in the list */
 	for(i = trans->packages; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
 		if(strcmp(pkg->name, pkgname) == 0) {
