@@ -349,15 +349,14 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	local = _alpm_db_get_pkgfromcache(db_local, alpm_pkg_get_name(spkg));
 	if(local) {
 		if(alpm_pkg_compare_versions(local, spkg) == 0) {
-			/* spkg is NOT an upgrade, get confirmation before adding */
-			if(!(trans->flags & PM_TRANS_FLAG_PRINTURIS)) {
-				int resp = 0;
-				QUESTION(trans, PM_TRANS_CONV_LOCAL_UPTODATE, local, NULL, NULL, &resp);
-				if(!resp) {
-					_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
-							alpm_pkg_get_name(local), alpm_pkg_get_version(local));
-					return(0);
-				}
+			/* spkg is NOT an upgrade */
+			if(trans->flags & PM_TRANS_FLAG_NEEDED) {
+				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
+						alpm_pkg_get_name(local), alpm_pkg_get_version(local));
+				return(0);
+			} else {
+				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
+						alpm_pkg_get_name(local), alpm_pkg_get_version(local));
 			}
 		}
 	}

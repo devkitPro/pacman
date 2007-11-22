@@ -129,6 +129,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
+			printf(_("      --needed         only install outdated or not yet installed packages\n"));
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 			printf(_("      --ignoregroup <grp>\n"
 			         "                       ignore a group upgrade (can be used more than once)\n"));
@@ -261,8 +262,8 @@ static int parseargs(int argc, char *argv[])
 		{"info",       no_argument,       0, 'i'},
 		{"dbonly",     no_argument,       0, 'k'},
 		{"list",       no_argument,       0, 'l'},
-		{"nosave",     no_argument,       0, 'n'},
 		{"foreign",    no_argument,       0, 'm'},
+		{"nosave",     no_argument,       0, 'n'},
 		{"owns",       no_argument,       0, 'o'},
 		{"file",       no_argument,       0, 'p'},
 		{"print-uris", no_argument,       0, 'p'},
@@ -286,10 +287,11 @@ static int parseargs(int argc, char *argv[])
 		{"asdeps",     no_argument,       0, 1008},
 		{"logfile",    required_argument, 0, 1009},
 		{"ignoregroup", required_argument, 0, 1010},
+		{"needed",     no_argument,       0, 1011},
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepituwygzq", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
 		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
 
 		if(opt < 0) {
@@ -361,6 +363,7 @@ static int parseargs(int argc, char *argv[])
 				}
 				FREELIST(list);
 				break;
+			case 1011: config->flags |= PM_TRANS_FLAG_NEEDED; break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
@@ -402,6 +405,9 @@ static int parseargs(int argc, char *argv[])
 				config->op_q_isfile = 1;
 				config->flags |= PM_TRANS_FLAG_PRINTURIS;
 				break;
+			case 'q':
+				config->quiet = 1;
+				break;
 			case 'r':
 				if(alpm_option_set_root(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
@@ -429,9 +435,6 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 				break;
 			case 'y': (config->op_s_sync)++; break;
-			case 'q':
-				config->quiet = 1;
-				break;
 			case '?': return(1);
 			default: return(1);
 		}

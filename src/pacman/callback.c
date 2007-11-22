@@ -305,19 +305,8 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
-
 			if(!config->op_s_downloadonly) {
 				snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "),
-						alpm_pkg_get_name(data1),
-						alpm_pkg_get_version(data1));
-				*response = yesno(str);
-			} else {
-				*response = 1;
-			}
-			break;
-		case PM_TRANS_CONV_LOCAL_UPTODATE:
-			if(!config->op_s_downloadonly) {
-				snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_version(data1));
 				*response = yesno(str);
