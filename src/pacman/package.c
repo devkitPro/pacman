@@ -34,17 +34,18 @@
 #include "package.h"
 #include "util.h"
 
-/* Display the content of an installed package
+/* Display the content of a package
  *
- * level: <1 - omits N/A info for file query (-Qp)
- *         1 - normal level
- *        >1 - extra information (backup files)
+ * level: <0 - sync package [-Si]
+ *        =0 - file query [-Qip]
+ *         1 - localdb query, normal level [-Qi]
+ *        >1 - localdb query, extra information (backup files) [-Qii]
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
 	const char *reason, *descheader;
 	time_t bdate, idate;
-	char bdatestr[50], idatestr[50];
+	char bdatestr[50] = "", idatestr[50] = "";
 	const alpm_list_t *i;
 	alpm_list_t *requiredby = NULL, *depstrings = NULL;
 
@@ -54,9 +55,13 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 	/* set variables here, do all output below */
 	bdate = alpm_pkg_get_builddate(pkg);
-	strftime(bdatestr, 50, "%c", localtime(&bdate));
+	if(bdate) {
+		strftime(bdatestr, 50, "%c", localtime(&bdate));
+	}
 	idate = alpm_pkg_get_installdate(pkg);
-	strftime(idatestr, 50, "%c", localtime(&idate));
+	if(idate) {
+		strftime(idatestr, 50, "%c", localtime(&idate));
+	}
 
 	switch((long)alpm_pkg_get_reason(pkg)) {
 		case PM_PKG_REASON_EXPLICIT:
@@ -84,10 +89,13 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	descheader = _("Description    : ");
 
 	/* actual output */
-	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
-	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
-	printf(_("URL            : %s\n"), (char *)alpm_pkg_get_url(pkg));
-	list_display(_("License        :"), alpm_pkg_get_licenses(pkg));
+	if(level == 0) {
+		string_display(_("Filename       :"), alpm_pkg_get_filename(pkg));
+	}
+	string_display(_("Name           :"), alpm_pkg_get_name(pkg));
+	string_display(_("Version        :"), alpm_pkg_get_version(pkg));
+	string_display(_("URL            :"), alpm_pkg_get_url(pkg));
+	list_display(_("Licenses       :"), alpm_pkg_get_licenses(pkg));
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), depstrings);
@@ -99,30 +107,44 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
+	if(level < 0) {
+		printf(_("Download Size  : %6.2f K\n"),
+			(float)alpm_pkg_get_size(pkg) / 1024.0);
+	}
+	if(level == 0) {
+		printf(_("Compressed Size: %6.2f K\n"),
+			(float)alpm_pkg_get_size(pkg) / 1024.0);
+	}
+
 	printf(_("Installed Size : %6.2f K\n"),
 			(float)alpm_pkg_get_isize(pkg) / 1024.0);
-	printf(_("Packager       : %s\n"), (char *)alpm_pkg_get_packager(pkg));
-	printf(_("Architecture   : %s\n"), (char *)alpm_pkg_get_arch(pkg));
-	printf(_("Build Date     : %s\n"), bdatestr);
+	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg));
+	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg));
+	string_display(_("Build Date     :"), bdatestr);
 	if(level > 0) {
-		printf(_("Install Date   : %s\n"), idatestr);
-		printf(_("Install Reason : %s\n"), reason);
+		string_display(_("Install Date   :"), idatestr);
+		string_display(_("Install Reason :"), reason);
 	}
-	printf(_("Install Script : %s\n"),
-	         alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
+	if(level >= 0) {
+		string_display(_("Install Script :"),
+				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
+	}
+
+	/* MD5 Sum for sync package */
+	if(level < 0) {
+		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
+	}
 
 	/* printed using a variable to make i18n safe */
 	printf("%s", descheader);
 	indentprint(alpm_pkg_get_desc(pkg), mbstowcs(NULL, descheader, 0));
-	printf("\n");
+	printf("\n\n");
 
 	/* Print additional package info if info flag passed more than once */
 	if(level > 1) {
-		/* call new backup function */
-		printf("\n");
 		dump_pkg_backups(pkg);
+		printf("\n");
 	}
-	printf("\n");
 
 	FREELIST(depstrings);
 }
@@ -131,45 +153,11 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
  */
 void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
 {
-	const char *descheader, *md5sum;
-	const alpm_list_t *i;
-	alpm_list_t *depstrings = NULL;
 	if(pkg == NULL) {
 		return;
 	}
-
-	/* turn depends list into a text list */
-	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		pmdepend_t *dep = (pmdepend_t*)alpm_list_getdata(i);
-		depstrings = alpm_list_add(depstrings, alpm_dep_get_string(dep));
-	}
-
-	descheader = _("Description    : ");
-
-	md5sum = alpm_pkg_get_md5sum(pkg);
-
-	printf(_("Repository     : %s\n"), treename);
-	printf(_("Name           : %s\n"), (char *)alpm_pkg_get_name(pkg));
-	printf(_("Version        : %s\n"), (char *)alpm_pkg_get_version(pkg));
-	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
-	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	list_display(_("Depends On     :"), depstrings);
-	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
-	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
-	printf(_("Download Size  : %6.2f K\n"), (float)alpm_pkg_get_size(pkg) / 1024.0);
-	printf(_("Installed Size : %6.2f K\n"), (float)alpm_pkg_get_isize(pkg) / 1024.0);
-
-	/* printed using a variable to make i18n safe */
-	printf("%s", descheader);
-	indentprint(alpm_pkg_get_desc(pkg), mbstowcs(NULL, descheader, 0));
-	printf("\n");
-
-	if (md5sum != NULL && md5sum[0] != '\0') {
-		printf(_("MD5 Sum        : %s"), md5sum);
-	}
-	printf("\n");
-
-	FREELIST(depstrings);
+	string_display(_("Repository     :"), treename);
+	dump_pkg_full(pkg, -1);
 }
 
 /* Display list of backup files and their modification states
@@ -199,7 +187,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 
 				if(md5sum == NULL) {
 					fprintf(stderr, _("error: could not calculate checksums for %s\n"),
-					        path);
+							path);
 					free(str);
 					continue;
 				}

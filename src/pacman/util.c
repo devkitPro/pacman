@@ -349,6 +349,16 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 	return(list);
 }
 
+void string_display(const char *title, const char *string)
+{
+	printf("%s ", title);
+	if(string == NULL || string[0] == '\0') {
+		printf(_("None\n"));
+	} else {
+		printf("%s\n", string);
+	}
+}
+
 void list_display(const char *title, const alpm_list_t *list)
 {
 	const alpm_list_t *i;
