@@ -71,6 +71,7 @@ static int query_fileowner(alpm_list_t *targets)
 	for(t = targets; t; t = alpm_list_next(t)) {
 		int found = 0;
 		char *filename = alpm_list_getdata(t);
+		char *bname;
 		char *rpath;
 		struct stat buf;
 		alpm_list_t *i, *j;
@@ -88,6 +89,8 @@ static int query_fileowner(alpm_list_t *targets)
 			continue;
 		}
 
+		bname = mbasename(filename);
+
 		if(!(rpath = resolve_path(filename))) {
 			fprintf(stderr, _("error: cannot determine real path for '%s': %s\n"),
 					filename, strerror(errno));
@@ -102,6 +105,11 @@ static int query_fileowner(alpm_list_t *targets)
 				char path[PATH_MAX], *ppath;
 				snprintf(path, PATH_MAX, "%s%s",
 				         alpm_option_get_root(), (const char *)alpm_list_getdata(j));
+
+				/* avoid the costly resolve_path usage if the basenames don't match */
+				if(strcmp(mbasename(path), bname) != 0) {
+					continue;
+				}
 
 				ppath = resolve_path(path);
 
