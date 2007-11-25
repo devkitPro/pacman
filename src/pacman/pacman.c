@@ -229,28 +229,6 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
-/** Parse the basename of a program from a path.
-* Grabbed from the uClibc source.
-* @param path path to parse basename from
-*
-* @return everything following the final '/'
-*/
-static char *mbasename(const char *path)
-{
-	const char *s;
-	const char *p;
-
-	p = s = path;
-
-	while (*s) {
-		if (*s++ == '/') {
-			p = s;
-		}
-	}
-
-	return (char *)p;
-}
-
 /** Parse command-line arguments for each operation.
  * @param argc argc
  * @param argv argv

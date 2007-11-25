@@ -167,6 +167,28 @@ int rmrf(const char *path)
 	}
 }
 
+/** Parse the basename of a program from a path.
+* Grabbed from the uClibc source.
+* @param path path to parse basename from
+*
+* @return everything following the final '/'
+*/
+char *mbasename(const char *path)
+{
+	const char *s;
+	const char *p;
+
+	p = s = path;
+
+	while (*s) {
+		if (*s++ == '/') {
+			p = s;
+		}
+	}
+
+	return (char *)p;
+}
+
 /* output a string, but wrap words properly with a specified indentation
  */
 void indentprint(const char *str, int indent)

@@ -42,6 +42,7 @@ int needs_transaction();
 int getcols();
 int makepath(const char *path);
 int rmrf(const char *path);
+char *mbasename(const char *path);
 void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
 char *strtrim(char *str);
