@@ -392,6 +392,11 @@ int pacman_query(alpm_list_t *targets)
 		if(filter(pkg)) {
 			display(pkg);
 		}
+
+		if(config->op_q_isfile) {
+			alpm_pkg_free(pkg);
+			pkg = NULL;
+		}
 	}
 
 	return(ret);
