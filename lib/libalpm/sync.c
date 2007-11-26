@@ -670,7 +670,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		if(deps) {
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;
-			FREELIST(deps);
+			*data = deps;
 			goto cleanup;
 		}
 	}

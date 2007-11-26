@@ -575,7 +575,6 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 				if(!sync) {
 					continue;
 				}
-				found = alpm_depcmp(sync, missdep);
 				found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
 				if(!found) {
 					continue;
@@ -594,10 +593,10 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			          missdepstring, miss->target);
 			free(missdepstring);
 			if(data) {
-				if((miss = malloc(sizeof(pmdepmissing_t))) == NULL) {
-					_alpm_log(PM_LOG_ERROR, _("malloc failure: could not allocate %zd bytes\n"), sizeof(pmdepmissing_t));
-					FREELIST(*data);
+				MALLOC(miss, sizeof(pmdepmissing_t), 0);
+				if(!miss) {
 					pm_errno = PM_ERR_MEMORY;
+					FREELIST(*data);
 					goto error;
 				}
 				*miss = *(pmdepmissing_t *)i->data;
