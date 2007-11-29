@@ -46,7 +46,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	time_t bdate, idate;
 	char bdatestr[50], idatestr[50];
 	const alpm_list_t *i;
-	alpm_list_t *depstrings = NULL;
+	alpm_list_t *requiredby = NULL, *depstrings = NULL;
 
 	if(pkg == NULL) {
 		return;
@@ -76,6 +76,11 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 		depstrings = alpm_list_add(depstrings, alpm_dep_get_string(dep));
 	}
 
+	if(level>0) {
+		/* compute this here so we don't get a puase in the middle of output */
+		requiredby = alpm_pkg_compute_requiredby(pkg);
+	}
+
 	descheader = _("Description    : ");
 
 	/* actual output */
@@ -89,7 +94,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
 	/* Only applicable if installed */
 	if(level > 0) {
-		alpm_list_t *requiredby = alpm_pkg_compute_requiredby(pkg);
 		list_display(_("Required By    :"), requiredby);
 		FREELIST(requiredby);
 	}
