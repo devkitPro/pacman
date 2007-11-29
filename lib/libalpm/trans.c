@@ -511,9 +511,6 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		goto cleanup;
 	}
 
-	/* mark the scriptlet as executable */
-	chmod(scriptfn, 0755);
-
 	/* chop off the root so we can find the tmpdir in the chroot */
 	scriptpath = scriptfn + strlen(root) - 1;
 
@@ -538,10 +535,10 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	_alpm_log(PM_LOG_DEBUG, "executing %s script...\n", script);
 
 	if(oldver) {
-		snprintf(cmdline, PATH_MAX, "%s %s %s %s",
+		snprintf(cmdline, PATH_MAX, ". %s; %s %s %s",
 				scriptpath, script, ver, oldver);
 	} else {
-		snprintf(cmdline, PATH_MAX, "%s %s %s",
+		snprintf(cmdline, PATH_MAX, ". %s; %s %s",
 				scriptpath, script, ver);
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
