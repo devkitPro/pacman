@@ -189,6 +189,13 @@ class pmtest:
         cmd = [""]
         if os.geteuid() != 0:
             cmd.append("fakeroot")
+
+        fakechroot = which("fakechroot")
+        if not fakechroot:
+            print "WARNING: fakechroot not found, scriptlet tests WILL fail!!!"
+        else:
+            cmd.append("fakechroot")
+
         if pacman["gdb"]:
             cmd.append("libtool gdb --args")
         if pacman["valgrind"]:
