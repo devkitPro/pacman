@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import os
 from util import *
 from stat import *
 
@@ -52,7 +52,11 @@ class pmrule:
                 if retcode != int(key):
                     success = 0
             elif case == "OUTPUT":
-                if not grep(os.path.join(root, LOGFILE), key):
+                logfile = os.path.join(root, LOGFILE)
+                if not os.access(logfile, os.F_OK):
+                    print "LOGFILE not found, cannot validate 'OUTPUT' rule"
+                    success = 0
+                elif not grep(os.path.join(root, LOGFILE), key):
                     success = 0
             else:
                 print "PACMAN rule '%s' not found" % case
