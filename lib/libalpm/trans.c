@@ -475,10 +475,10 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		return(0);
 	}
 
-	snprintf(tmpdir, PATH_MAX, "%sbin/sh", root);
-	if(stat(tmpdir, &buf)) {
+	/* NOTE: popen will use the PARENT's /bin/sh, not the chroot's */
+	if(stat("/bin/sh", &buf)) {
 		/* not found */
-		_alpm_log(PM_LOG_ERROR, _("No /bin/sh in root dir (%s), aborting scriptlet\n"), root);
+		_alpm_log(PM_LOG_ERROR, _("No /bin/sh in parent environment, aborting scriptlet\n"));
 		return(0);
 	}
 
