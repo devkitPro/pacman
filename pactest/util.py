@@ -235,6 +235,14 @@ def diffmtime(mt1, mt2):
 # Miscellaneous
 #
 
+def which(filename):
+    path = os.environ["PATH"].split(':')
+    for p in path:
+        f = os.path.join(p, filename)
+        if os.access(f, os.F_OK):
+            return f
+    return None
+
 def grep(filename, pattern):
     lines = file(filename, 'r').readlines()
     for line in lines:
