@@ -264,10 +264,6 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {
 		pmpkg_t *tp = i->data;
-		if(tp == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "null package found in upgrade list\n");
-			continue;
-		}
 		_alpm_log(PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
 				alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
 
@@ -279,7 +275,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 			   !alpm_list_find(dblist, depend, satisfycmp)) {
 				/* Unsatisfied dependency in the upgrade list */
 				char *missdepstring = alpm_dep_get_string(depend);
-				_alpm_log(PM_LOG_DEBUG, "missing dependency '%s' for package '%s'\n",
+				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
 				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend->mod,
@@ -297,10 +293,6 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 
 		for(i = dblist; i; i = i->next) {
 			pmpkg_t *lp = i->data;
-			if(lp == NULL) {
-				_alpm_log(PM_LOG_DEBUG, "null package found in localdb pkgcache\n");
-				continue;
-			}
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
 				pmdepend_t *depend = j->data;
 				/* we won't break this depend, if it is already broken, we ignore it */
@@ -310,7 +302,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 				   !alpm_list_find(upgrade, depend, satisfycmp) &&
 				   !alpm_list_find(dblist, depend, satisfycmp)) {
 					char *missdepstring = alpm_dep_get_string(depend);
-					_alpm_log(PM_LOG_DEBUG, "checkdeps: the transaction would break '%s' dependency of '%s'\n",
+					_alpm_log(PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
 					miss = _alpm_depmiss_new(lp->name, depend->mod,
