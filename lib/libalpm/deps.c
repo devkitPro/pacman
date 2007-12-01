@@ -369,10 +369,6 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		free(provname);
 	}
 
-	char *depstring = alpm_dep_get_string(dep);
-	_alpm_log(PM_LOG_DEBUG, "alpm_depcmp %s-%s %s : %s\n",
-			pkgname, pkgversion, depstring, satisfy ? "match" : "no match");
-	free(depstring);
 	return(satisfy);
 }
 
