@@ -503,6 +503,30 @@ static int parseargs(int argc, char *argv[])
 	return(0);
 }
 
+/** Add repeating options such as NoExtract, NoUpgrade, etc to libalpm
+ * settings. Refactored out of the parseconfig code since all of them did
+ * the exact same thing and duplicated code.
+ * @param ptr a pointer to the start of the multiple options
+ * @param option the string (friendly) name of the option, used for messages
+ * @param optionfunc a function pointer to an alpm_option_add_* function
+ */
+static void setrepeatingoption(const char *ptr, const char *option,
+		void (*optionfunc)(const char*))
+{
+	char *p = (char*)ptr;
+	char *q;
+
+	while((q = strchr(p, ' '))) {
+		*q = '\0';
+		(*optionfunc)(p);
+		pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, p);
+		p = q;
+		p++;
+	}
+	(*optionfunc)(p);
+	pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, p);
+}
+
 /* The real parseconfig. Called with a null section argument by the publicly
  * visible parseconfig so we can recall from within ourself on an include */
 static int _parseconfig(const char *file, const char *givensection,
@@ -627,72 +651,21 @@ static int _parseconfig(const char *file, const char *givensection,
 						return(ret);
 					}
 				} else if(strcmp(section, "options") == 0) {
-					if(strcmp(key, "NoUpgrade") == 0 || strcmp(upperkey, "NOUPGRADE") == 0) {
-						/* TODO functionalize this */
-						char *p = ptr;
-						char *q;
-
-						while((q = strchr(p, ' '))) {
-							*q = '\0';
-							alpm_option_add_noupgrade(p);
-							pm_printf(PM_LOG_DEBUG, "config: noupgrade: %s\n", p);
-							p = q;
-							p++;
-						}
-						alpm_option_add_noupgrade(p);
-						pm_printf(PM_LOG_DEBUG, "config: noupgrade: %s\n", p);
-					} else if(strcmp(key, "NoExtract") == 0 || strcmp(upperkey, "NOEXTRACT") == 0) {
-						char *p = ptr;
-						char *q;
-
-						while((q = strchr(p, ' '))) {
-							*q = '\0';
-							alpm_option_add_noextract(p);
-							pm_printf(PM_LOG_DEBUG, "config: noextract: %s\n", p);
-							p = q;
-							p++;
-						}
-						alpm_option_add_noextract(p);
-						pm_printf(PM_LOG_DEBUG, "config: noextract: %s\n", p);
-					} else if(strcmp(key, "IgnorePkg") == 0 || strcmp(upperkey, "IGNOREPKG") == 0) {
-						char *p = ptr;
-						char *q;
-
-						while((q = strchr(p, ' '))) {
-							*q = '\0';
-							alpm_option_add_ignorepkg(p);
-							pm_printf(PM_LOG_DEBUG, "config: ignorepkg: %s", p);
-							p = q;
-							p++;
-						}
-						alpm_option_add_ignorepkg(p);
-						pm_printf(PM_LOG_DEBUG, "config: ignorepkg: %s\n", p);
-					} else if(strcmp(key, "IgnoreGroup") == 0 || strcmp(upperkey, "IGNOREGROUP") == 0) {
-						char *p = ptr;
-						char *q;
-
-						while((q = strchr(p, ' '))) {
-							*q = '\0';
-							alpm_option_add_ignoregrp(p);
-							pm_printf(PM_LOG_DEBUG, "config: ignoregroup: %s", p);
-							p = q;
-							p++;
-						}
-						alpm_option_add_ignoregrp(p);
-						pm_printf(PM_LOG_DEBUG, "config: ignoregroup: %s\n", p);
-					} else if(strcmp(key, "HoldPkg") == 0 || strcmp(upperkey, "HOLDPKG") == 0) {
-						char *p = ptr;
-						char *q;
-
-						while((q = strchr(p, ' '))) {
-							*q = '\0';
-							alpm_option_add_holdpkg(p);
-							pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
-							p = q;
-							p++;
-						}
-						alpm_option_add_holdpkg(p);
-						pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
+					if(strcmp(key, "NoUpgrade") == 0
+							|| strcmp(upperkey, "NOUPGRADE") == 0) {
+						setrepeatingoption(ptr, "NoUpgrade", alpm_option_add_noupgrade);
+					} else if(strcmp(key, "NoExtract") == 0
+							|| strcmp(upperkey, "NOEXTRACT") == 0) {
+						setrepeatingoption(ptr, "NoExtract", alpm_option_add_noextract);
+					} else if(strcmp(key, "IgnorePkg") == 0
+							|| strcmp(upperkey, "IGNOREPKG") == 0) {
+						setrepeatingoption(ptr, "IgnorePkg", alpm_option_add_ignorepkg);
+					} else if(strcmp(key, "IgnoreGroup") == 0
+							|| strcmp(upperkey, "IGNOREGROUP") == 0) {
+						setrepeatingoption(ptr, "IgnoreGroup", alpm_option_add_ignoregrp);
+					} else if(strcmp(key, "HoldPkg") == 0
+							|| strcmp(upperkey, "HOLDPKG") == 0) {
+						setrepeatingoption(ptr, "HoldPkg", alpm_option_add_holdpkg);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
 						/* don't overwrite a path specified on the command line */
 						if(!config->dbpath) {
