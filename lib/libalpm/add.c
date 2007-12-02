@@ -428,7 +428,7 @@ static int extract_single_file(struct archive *archive,
 				}
 			}
 		}
-		/* else if(S_ISLNK(entrymode)) { */
+		/* else if(S_ISLNK(entrymode)) */
 		/* case 5,8: don't need to do anything special */
 	}
 

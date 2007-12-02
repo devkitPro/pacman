@@ -593,7 +593,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			          missdepstring, miss->target);
 			free(missdepstring);
 			if(data) {
-				MALLOC(miss, sizeof(pmdepmissing_t), 0);
+				MALLOC(miss, sizeof(pmdepmissing_t),/*nothing*/);
 				if(!miss) {
 					pm_errno = PM_ERR_MEMORY;
 					FREELIST(*data);
