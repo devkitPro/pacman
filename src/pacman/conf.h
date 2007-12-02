@@ -27,7 +27,6 @@ typedef struct __config_t {
 	unsigned short verbose;
 	unsigned short version;
 	unsigned short help;
-	unsigned short upgrade;
 	unsigned short noconfirm;
 	unsigned short noprogressbar;
 	unsigned short logmask;

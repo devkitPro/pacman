@@ -22,7 +22,6 @@ INCLUDES = -I$(top_srcdir)/lib/libalpm
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
 pacman_SOURCES = \
-	add.c \
 	conf.h conf.c \
 	deptest.c \
 	package.h package.c \
@@ -31,6 +30,7 @@ pacman_SOURCES = \
 	remove.c \
 	sync.c \
 	callback.h callback.c \
+	upgrade.c \
 	util.h util.c
 
 pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la

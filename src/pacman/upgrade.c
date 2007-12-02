@@ -1,5 +1,5 @@
 /*
- *  add.c
+ *  upgrade.c
  *
  *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
  *
@@ -33,7 +33,7 @@
 #include "util.h"
 
 /* Free the current transaction and print an error if unsuccessful */
-static int add_cleanup(void)
+static int upgrade_cleanup(void)
 {
 	int ret = alpm_trans_release();
 	if(ret != 0) {
@@ -54,23 +54,8 @@ static int add_cleanup(void)
  */
 int pacman_upgrade(alpm_list_t *targets)
 {
-	/* this is basically just a remove-then-add process. pacman_add() will */
-	/* handle it */
-	config->upgrade = 1;
-	return(pacman_add(targets));
-}
-
-/**
- * @brief Add a specified list of packages which cannot already be installed.
- *
- * @param targets a list of packages (as strings) to add
- *
- * @return 0 on success, 1 on failure
- */
-int pacman_add(alpm_list_t *targets)
-{
 	alpm_list_t *i, *data = NULL;
-	pmtranstype_t transtype = PM_TRANS_TYPE_ADD;
+	pmtranstype_t transtype = PM_TRANS_TYPE_UPGRADE;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -93,11 +78,6 @@ int pacman_add(alpm_list_t *targets)
 	}
 
 	/* Step 1: create a new transaction */
-	if(config->upgrade == 1) {
-		/* if upgrade flag was set, change this to an upgrade transaction */
-		transtype = PM_TRANS_TYPE_UPGRADE;
-	}
-
 	if(alpm_trans_init(transtype, config->flags, cb_trans_evt,
 	   cb_trans_conv, cb_trans_progress) == -1) {
 		/* TODO: error messages should be in the front end, not the back */
@@ -117,7 +97,7 @@ int pacman_add(alpm_list_t *targets)
 		if(alpm_trans_addtarget(targ) == -1) {
 			fprintf(stderr, _("error: '%s': %s\n"),
 					targ, alpm_strerrorlast());
-			add_cleanup();
+			upgrade_cleanup();
 			return(1);
 		}
 	}
@@ -171,7 +151,7 @@ int pacman_add(alpm_list_t *targets)
 			default:
 				break;
 		}
-		add_cleanup();
+		upgrade_cleanup();
 		FREELIST(data);
 		return(1);
 	}
@@ -180,11 +160,11 @@ int pacman_add(alpm_list_t *targets)
 	/* Step 3: perform the installation */
 	if(alpm_trans_commit(NULL) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"), alpm_strerrorlast());
-		add_cleanup();
+		upgrade_cleanup();
 		return(1);
 	}
 
-	retval = add_cleanup();
+	retval = upgrade_cleanup();
 	return(retval);
 }
 
