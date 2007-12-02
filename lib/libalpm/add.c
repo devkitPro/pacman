@@ -412,7 +412,9 @@ static int extract_single_file(struct archive *archive,
 			} else {
 				/* go to the backup array and see if our conflict is there */
 				/* check newpkg first, so that adding backup files is retroactive */
-				needbackup = alpm_list_find_str(alpm_pkg_get_backup(newpkg), entryname);
+				if(alpm_list_find_str(alpm_pkg_get_backup(newpkg), entryname) != NULL) {
+					needbackup = 1;
+				}
 
 				/* check oldpkg for a backup entry, store the hash if available */
 				if(oldpkg) {

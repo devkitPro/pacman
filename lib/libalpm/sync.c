@@ -532,7 +532,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 							conflict->package1);
 					if(!local) {
 						char *rmpkg = NULL;
-						int target, depend;
+						void *target, *depend;
 						/* hmmm, package2 isn't installed, so it must be conflicting
 						 * with another package in our final list.  For example:
 						 *
