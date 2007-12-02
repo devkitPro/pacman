@@ -349,12 +349,7 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
 			case 1009:
-				if(alpm_option_set_logfile(optarg) != 0) {
-					pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-							optarg, alpm_strerrorlast());
-					return(1);
-				}
-				config->have_logfile = 1;
+				config->logfile = strdup(optarg);
 				break;
 			case 1010:
 				list = strsplit(optarg, ',');
@@ -372,12 +367,7 @@ static int parseargs(int argc, char *argv[])
 			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
 			case 'V': config->version = 1; break;
 			case 'b':
-				if(alpm_option_set_dbpath(optarg) != 0) {
-					pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-							optarg, alpm_strerrorlast());
-					return(1);
-				}
-				config->have_dbpath = 1;
+				config->dbpath = strdup(optarg);
 				break;
 			case 'c':
 				(config->op_s_clean)++;
@@ -409,12 +399,7 @@ static int parseargs(int argc, char *argv[])
 				config->quiet = 1;
 				break;
 			case 'r':
-				if(alpm_option_set_root(optarg) != 0) {
-					pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
-							optarg, alpm_strerrorlast());
-					return(1);
-				}
-				config->have_root = 1;
+				config->rootdir = strdup(optarg);
 				break;
 			case 's':
 				config->op_s_search = 1;
@@ -652,12 +637,8 @@ static int _parseconfig(const char *file, const char *givensection,
 						pm_printf(PM_LOG_DEBUG, "config: holdpkg: %s\n", p);
 					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
 						/* don't overwrite a path specified on the command line */
-						if(!config->have_dbpath) {
-							if(alpm_option_set_dbpath(ptr) != 0) {
-								pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-										ptr, alpm_strerrorlast());
-								return(1);
-							}
+						if(!config->dbpath) {
+							config->dbpath = strdup(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
 						}
 					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
@@ -669,21 +650,13 @@ static int _parseconfig(const char *file, const char *givensection,
 						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
 					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
 						/* don't overwrite a path specified on the command line */
-						if(!config->have_root) {
-							if(alpm_option_set_root(ptr) != 0) {
-								pm_printf(PM_LOG_ERROR, _("problem setting root '%s' (%s)\n"),
-										ptr, alpm_strerrorlast());
-								return(1);
-							}
+						if(!config->rootdir) {
+							config->rootdir = strdup(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
 						}
 					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
-						if(!config->have_logfile) {
-							if(alpm_option_set_logfile(ptr) != 0) {
-								pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-										ptr, alpm_strerrorlast());
-								return(1);
-							}
+						if(!config->logfile) {
+							config->logfile = strdup(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
 						}
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
@@ -810,6 +783,45 @@ int main(int argc, char *argv[])
 	ret = parseconfig(config->configfile);
 	if(ret != 0) {
 		cleanup(ret);
+	}
+
+	/* Oh paths, what a mess. Now that we have parsed the command line and config
+	 * file, we can see if any paths were defined. If a rootdir was defined and
+	 * nothing else, we want all of our paths to live under the rootdir that was
+	 * specified. */
+	if(config->rootdir) {
+		char path[PATH_MAX];
+		ret = alpm_option_set_root(config->rootdir);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting rootdir '%s' (%s)\n"),
+					config->rootdir, alpm_strerrorlast());
+			cleanup(ret);
+		}
+		if(!config->dbpath) {
+			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH);
+			config->dbpath = strdup(path);
+		}
+		if(!config->logfile) {
+			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE);
+			ret = alpm_option_set_dbpath(path);
+			config->logfile = strdup(path);
+		}
+	}
+	if(config->dbpath) {
+		ret = alpm_option_set_dbpath(config->dbpath);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
+					config->dbpath, alpm_strerrorlast());
+			cleanup(ret);
+		}
+	}
+	if(config->logfile) {
+		ret = alpm_option_set_logfile(config->logfile);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+					config->logfile, alpm_strerrorlast());
+			cleanup(ret);
+		}
 	}
 
 	/* add a default cachedir if one wasn't specified */

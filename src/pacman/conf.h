@@ -24,7 +24,6 @@
 #include <alpm.h>
 
 typedef struct __config_t {
-	char *configfile;
 	unsigned short op;
 	unsigned short quiet;
 	unsigned short verbose;
@@ -34,10 +33,14 @@ typedef struct __config_t {
 	unsigned short noconfirm;
 	unsigned short noprogressbar;
 	unsigned short logmask;
-	/* keep track if we had paths specified on command line */
-	unsigned short have_root;
-	unsigned short have_dbpath;
-	unsigned short have_logfile;
+	/* unfortunately, we have to keep track of paths both here and in the library
+	 * because they can come from both the command line or config file, and we
+	 * need to ensure we get the order of preference right. */
+	char *configfile;
+	char *rootdir;
+	char *dbpath;
+	char *logfile;
+	/* TODO how to handle cachedirs? */
 
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;
