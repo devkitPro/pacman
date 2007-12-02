@@ -160,36 +160,25 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
-		  printf(_("checking dependencies... "));
+		  printf(_("checking dependencies...\n"));
 			break;
 		case PM_TRANS_EVT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
-			printf(_("checking for file conflicts... "));
+			printf(_("checking for file conflicts...\n"));
 			}
 			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
-			printf(_("resolving dependencies... "));
+			printf(_("resolving dependencies...\n"));
 			break;
 		case PM_TRANS_EVT_INTERCONFLICTS_START:
-			printf(_("looking for inter-conflicts... "));
-			break;
-		case PM_TRANS_EVT_FILECONFLICTS_DONE:
-			if(config->noprogressbar) {
-				printf(_("done.\n"));
-			}
-			break;
-		case PM_TRANS_EVT_EXTRACT_DONE:
-			/* nothing */
+			printf(_("looking for inter-conflicts...\n"));
 			break;
 		case PM_TRANS_EVT_ADD_START:
 			if(config->noprogressbar) {
-				printf(_("installing %s... "), alpm_pkg_get_name(data1));
+				printf(_("installing %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_EVT_ADD_DONE:
-			if(config->noprogressbar) {
-				printf(_("done.\n"));
-			}
 			snprintf(str, LOG_STR_LEN, "installed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
@@ -197,13 +186,10 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_REMOVE_START:
 			if(config->noprogressbar) {
-			printf(_("removing %s... "), alpm_pkg_get_name(data1));
+			printf(_("removing %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_EVT_REMOVE_DONE:
-			if(config->noprogressbar) {
-			    printf(_("done.\n"));
-			}
 			snprintf(str, LOG_STR_LEN, "removed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
@@ -211,13 +197,10 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_UPGRADE_START:
 			if(config->noprogressbar) {
-				printf(_("upgrading %s... "), alpm_pkg_get_name(data1));
+				printf(_("upgrading %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_EVT_UPGRADE_DONE:
-			if(config->noprogressbar) {
-				printf(_("done.\n"));
-			}
 			snprintf(str, LOG_STR_LEN, "upgraded %s (%s -> %s)\n",
 			         (char *)alpm_pkg_get_name(data1),
 			         (char *)alpm_pkg_get_version(data2),
@@ -225,19 +208,19 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			alpm_logaction(str);
 			break;
 		case PM_TRANS_EVT_INTEGRITY_START:
-			printf(_("checking package integrity... "));
+			printf(_("checking package integrity...\n"));
 			break;
 		case PM_TRANS_EVT_DELTA_INTEGRITY_START:
-			printf(_("checking delta integrity... "));
+			printf(_("checking delta integrity...\n"));
 			break;
 		case PM_TRANS_EVT_DELTA_PATCHES_START:
 			printf(_("applying deltas...\n"));
 			break;
-		case PM_TRANS_EVT_DELTA_PATCHES_DONE:
-			/* nothing */
-			break;
 		case PM_TRANS_EVT_DELTA_PATCH_START:
 			printf(_("generating %s with %s... "), (char *)data1, (char *)data2);
+			break;
+		case PM_TRANS_EVT_DELTA_PATCH_DONE:
+			printf(_("success!\n"));
 			break;
 		case PM_TRANS_EVT_DELTA_PATCH_FAILED:
 			printf(_("failed.\n"));
@@ -252,13 +235,15 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			printf(_(":: Retrieving packages from %s...\n"), (char*)data1);
 			break;
 		/* all the simple done events, with fallthrough for each */
+		case PM_TRANS_EVT_FILECONFLICTS_DONE:
+		case PM_TRANS_EVT_EXTRACT_DONE:
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
 		case PM_TRANS_EVT_INTERCONFLICTS_DONE:
 		case PM_TRANS_EVT_INTEGRITY_DONE:
 		case PM_TRANS_EVT_DELTA_INTEGRITY_DONE:
-		case PM_TRANS_EVT_DELTA_PATCH_DONE:
-			printf(_("done.\n"));
+		case PM_TRANS_EVT_DELTA_PATCHES_DONE:
+			/* nothing */
 			break;
 	}
 	fflush(stdout);
