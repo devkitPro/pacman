@@ -230,6 +230,61 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
+/** Sets all libalpm required paths in one go. Called after the command line and
+ * inital config file parsing. Once this is complete, we can see if any paths were
+ * defined. If a rootdir was defined and nothing else, we want all of our paths to
+ * live under the rootdir that was specified. Safe to call multiple times (will only
+ * do anything the first time).
+ */
+static void setlibpaths(void)
+{
+	static int init = 0;
+	if (!init) {
+		int ret = 0;
+
+		pm_printf(PM_LOG_DEBUG, "setlibpaths() called\n");
+		if(config->rootdir) {
+			char path[PATH_MAX];
+			ret = alpm_option_set_root(config->rootdir);
+			if(ret != 0) {
+				pm_printf(PM_LOG_ERROR, _("problem setting rootdir '%s' (%s)\n"),
+						config->rootdir, alpm_strerrorlast());
+				cleanup(ret);
+			}
+			if(!config->dbpath) {
+				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH);
+				config->dbpath = strdup(path);
+			}
+			if(!config->logfile) {
+				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE);
+				ret = alpm_option_set_dbpath(path);
+				config->logfile = strdup(path);
+			}
+		}
+		if(config->dbpath) {
+			ret = alpm_option_set_dbpath(config->dbpath);
+			if(ret != 0) {
+				pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
+						config->dbpath, alpm_strerrorlast());
+				cleanup(ret);
+			}
+		}
+		if(config->logfile) {
+			ret = alpm_option_set_logfile(config->logfile);
+			if(ret != 0) {
+				pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+						config->logfile, alpm_strerrorlast());
+				cleanup(ret);
+			}
+		}
+
+		/* add a default cachedir if one wasn't specified */
+		if(alpm_option_get_cachedirs() == NULL) {
+			alpm_option_add_cachedir(CACHEDIR);
+		}
+	}
+}
+
 /** Parse command-line arguments for each operation.
  * @param argc argc
  * @param argv argv
@@ -502,8 +557,11 @@ static int _parseconfig(const char *file, const char *givensection,
 						file, linenum);
 				return(1);
 			}
-			/* if we are not looking at the options section, register a db */
+			/* if we are not looking at the options section, register a db and also
+			 * ensure we have set all of our library paths as the library is too stupid
+			 * at the moment to do lazy opening of the databases */
 			if(strcmp(section, "options") != 0) {
+				setlibpaths();
 				db = alpm_db_register_sync(section);
 			}
 		} else {
@@ -696,6 +754,8 @@ static int _parseconfig(const char *file, const char *givensection,
 		free(section);
 	}
 
+	/* call setlibpaths here to ensure we have called it at least once */
+	setlibpaths();
 	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return(0);
 }
@@ -783,50 +843,6 @@ int main(int argc, char *argv[])
 	ret = parseconfig(config->configfile);
 	if(ret != 0) {
 		cleanup(ret);
-	}
-
-	/* Oh paths, what a mess. Now that we have parsed the command line and config
-	 * file, we can see if any paths were defined. If a rootdir was defined and
-	 * nothing else, we want all of our paths to live under the rootdir that was
-	 * specified. */
-	if(config->rootdir) {
-		char path[PATH_MAX];
-		ret = alpm_option_set_root(config->rootdir);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting rootdir '%s' (%s)\n"),
-					config->rootdir, alpm_strerrorlast());
-			cleanup(ret);
-		}
-		if(!config->dbpath) {
-			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH);
-			config->dbpath = strdup(path);
-		}
-		if(!config->logfile) {
-			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE);
-			ret = alpm_option_set_dbpath(path);
-			config->logfile = strdup(path);
-		}
-	}
-	if(config->dbpath) {
-		ret = alpm_option_set_dbpath(config->dbpath);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-					config->dbpath, alpm_strerrorlast());
-			cleanup(ret);
-		}
-	}
-	if(config->logfile) {
-		ret = alpm_option_set_logfile(config->logfile);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-					config->logfile, alpm_strerrorlast());
-			cleanup(ret);
-		}
-	}
-
-	/* add a default cachedir if one wasn't specified */
-	if(alpm_option_get_cachedirs() == NULL) {
-		alpm_option_add_cachedir(CACHEDIR);
 	}
 
 #if defined(HAVE_GETEUID)
