@@ -82,25 +82,6 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
 	return(miss);
 }
 
-int _alpm_depmiss_isin(pmdepmissing_t *needle, alpm_list_t *haystack)
-{
-	alpm_list_t *i;
-
-	ALPM_LOG_FUNC;
-
-	for(i = haystack; i; i = i->next) {
-		pmdepmissing_t *miss = i->data;
-		if(!strcmp(needle->target, miss->target) &&
-		   needle->depend.mod == miss->depend.mod &&
-		   !strcmp(needle->depend.name, miss->depend.name) &&
-		   !strcmp(needle->depend.version, miss->depend.version)) {
-			return(1);
-		}
-	}
-
-	return(0);
-}
-
 /* Convert a list of pmpkg_t * to a graph structure,
  * with a edge for each dependency.
  * Returns a list of vertices (one vertex = one package)
