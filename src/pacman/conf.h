@@ -75,7 +75,6 @@ typedef struct __config_t {
 /* Operations */
 enum {
 	PM_OP_MAIN = 1,
-	PM_OP_ADD,
 	PM_OP_REMOVE,
 	PM_OP_UPGRADE,
 	PM_OP_QUERY,

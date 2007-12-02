@@ -68,21 +68,13 @@ static void usage(int op, const char * const myname)
 		printf("%s:\n", str_opt);
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
-		printf("    %s {-A --add}     [%s] <%s>\n", myname, str_opt, str_file);
 		printf("    %s {-Q --query}   [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-R --remove}  [%s] <%s>\n", myname, str_opt, str_pkg);
 		printf("    %s {-S --sync}    [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-U --upgrade} [%s] <%s>\n", myname, str_opt, str_file);
 		printf(_("\nuse '%s --help' with other options for more syntax\n"), myname);
 	} else {
-		if(op == PM_OP_ADD) {
-			printf("%s:  %s {-A --add} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
-			printf("%s:\n", str_opt);
-			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
-			printf(_("      --asexplicit     install packages as explicitly installed\n"));
-			printf(_("  -d, --nodeps         skip dependency checks\n"));
-			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
-		} else if(op == PM_OP_REMOVE) {
+		if(op == PM_OP_REMOVE) {
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
@@ -302,7 +294,6 @@ static int parseargs(int argc, char *argv[])
 	int option_index = 0;
 	static struct option opts[] =
 	{
-		{"add",        no_argument,       0, 'A'},
 		{"query",      no_argument,       0, 'Q'},
 		{"remove",     no_argument,       0, 'R'},
 		{"sync",       no_argument,       0, 'S'},
@@ -354,7 +345,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "ARUFQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "RUFQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
 		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
 
 		if(opt < 0) {
@@ -425,7 +416,6 @@ static int parseargs(int argc, char *argv[])
 			case 1012:
 				config->flags |= PM_TRANS_FLAG_ALLEXPLICIT;
 				break;
-			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
 			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
@@ -855,9 +845,6 @@ int main(int argc, char *argv[])
 
 	/* start the requested operation */
 	switch(config->op) {
-		case PM_OP_ADD:
-			ret = pacman_add(pm_targets);
-			break;
 		case PM_OP_REMOVE:
 			ret = pacman_remove(pm_targets);
 			break;
