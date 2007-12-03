@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-11-07 17:35+0100\n"
+"POT-Creation-Date: 2007-12-02 21:40-0600\n"
 "PO-Revision-Date: 2006-09-03 13:52+0200\n"
 "Last-Translator: Nagy Gabor <ngaba@petra.hos.u-szeged.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -21,17 +21,17 @@ msgstr ""
 msgid "failed to release transaction (%s)\n"
 msgstr "nem sikerült lezárni a tranzakciót (%s)\n"
 
-#: src/pacman/add.c:79 src/pacman/query.c:342 src/pacman/remove.c:65
-#: src/pacman/sync.c:690
+#: src/pacman/add.c:79 src/pacman/query.c:372 src/pacman/remove.c:65
+#: src/pacman/sync.c:753
 msgid "no targets specified (use -h for help)\n"
 msgstr "nincs megadva egyetlen cél sem (használja a '-h'-t segítségért)\n"
 
-#: src/pacman/add.c:106 src/pacman/sync.c:431
+#: src/pacman/add.c:106 src/pacman/sync.c:508
 #, c-format
 msgid "error: %s\n"
 msgstr "hiba: %s\n"
 
-#: src/pacman/add.c:109 src/pacman/remove.c:100 src/pacman/sync.c:405
+#: src/pacman/add.c:109 src/pacman/remove.c:100 src/pacman/sync.c:482
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -50,41 +50,38 @@ msgstr "csomag adatainak betöltése... "
 msgid "error: failed to add target '%s' (%s)"
 msgstr "hiba: nem sikerült a(z) '%s' célt hozzáadni (%s)"
 
-#: src/pacman/add.c:126 src/pacman/callback.c:177 src/pacman/callback.c:183
-#: src/pacman/callback.c:194 src/pacman/callback.c:208
-#: src/pacman/callback.c:222 src/pacman/callback.c:234
-#: src/pacman/callback.c:240 src/pacman/callback.c:252 src/pacman/sync.c:104
-#: src/pacman/sync.c:122
+#: src/pacman/add.c:126 src/pacman/remove.c:120 src/pacman/sync.c:174
+#: src/pacman/sync.c:192
 #, c-format
 msgid "done.\n"
 msgstr "kész.\n"
 
-#: src/pacman/add.c:131 src/pacman/remove.c:123 src/pacman/sync.c:553
+#: src/pacman/add.c:131 src/pacman/remove.c:124 src/pacman/sync.c:614
 #, c-format
 msgid "error: failed to prepare transaction (%s)\n"
 msgstr "hiba: nem sikerült elõkészíteni a tranzakciót (%s)\n"
 
-#: src/pacman/add.c:143 src/pacman/remove.c:131 src/pacman/sync.c:562
+#: src/pacman/add.c:143 src/pacman/remove.c:132 src/pacman/sync.c:623
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: igényli a következõt: %s\n"
 
-#: src/pacman/add.c:152 src/pacman/sync.c:571
+#: src/pacman/add.c:151
 #, c-format
 msgid ":: %s: conflicts with %s"
 msgstr ":: %s: ütközik a következõvel: %s"
 
-#: src/pacman/add.c:161 src/pacman/sync.c:626
+#: src/pacman/add.c:160 src/pacman/sync.c:686
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s létezik ebben: '%s' és ebben: '%s'\n"
 
-#: src/pacman/add.c:167 src/pacman/sync.c:632
+#: src/pacman/add.c:166 src/pacman/sync.c:692
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s létezik a fájlrendszerben\n"
 
-#: src/pacman/add.c:173
+#: src/pacman/add.c:172
 #, c-format
 msgid ""
 "\n"
@@ -93,284 +90,297 @@ msgstr ""
 "\n"
 "hibák léptek fel, nem frissült csomag.\n"
 
-#: src/pacman/add.c:186 src/pacman/remove.c:169 src/pacman/sync.c:617
+#: src/pacman/add.c:186 src/pacman/remove.c:171 src/pacman/sync.c:677
 #, c-format
 msgid "error: failed to commit transaction (%s)\n"
 msgstr "hiba: nem sikerült végrehajtani a tranzakciót (%s)\n"
 
-#: src/pacman/callback.c:162
-#, c-format
-msgid "checking dependencies... "
+#: src/pacman/callback.c:163
+#, fuzzy, c-format
+msgid "checking dependencies...\n"
 msgstr "függõségek vizsgálata... "
 
-#: src/pacman/callback.c:166
-#, c-format
-msgid "checking for file conflicts... "
+#: src/pacman/callback.c:167
+#, fuzzy, c-format
+msgid "checking for file conflicts...\n"
 msgstr "fájlütközések vizsgálata... "
 
-#: src/pacman/callback.c:170
-#, c-format
-msgid "resolving dependencies... "
+#: src/pacman/callback.c:171
+#, fuzzy, c-format
+msgid "resolving dependencies...\n"
 msgstr "függõségek feloldása... "
 
-#: src/pacman/callback.c:173
-#, c-format
-msgid "looking for inter-conflicts... "
+#: src/pacman/callback.c:174
+#, fuzzy, c-format
+msgid "looking for inter-conflicts...\n"
 msgstr "belsõ ütközések keresése... "
 
-#: src/pacman/callback.c:189
-#, c-format
-msgid "installing %s... "
+#: src/pacman/callback.c:178
+#, fuzzy, c-format
+msgid "installing %s...\n"
 msgstr "%s telepítése... "
 
-#: src/pacman/callback.c:203
-#, c-format
-msgid "removing %s... "
+#: src/pacman/callback.c:189
+#, fuzzy, c-format
+msgid "removing %s...\n"
 msgstr "%s eltávolítása... "
 
-#: src/pacman/callback.c:217
-#, c-format
-msgid "upgrading %s... "
+#: src/pacman/callback.c:200
+#, fuzzy, c-format
+msgid "upgrading %s...\n"
 msgstr "%s frissítése... "
 
-#: src/pacman/callback.c:231
-#, c-format
-msgid "checking package integrity... "
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "checking package integrity...\n"
 msgstr "csomagok integritásának ellenõrzése... "
 
-#: src/pacman/callback.c:237
-#, c-format
-msgid "checking delta integrity... "
+#: src/pacman/callback.c:214
+#, fuzzy, c-format
+msgid "checking delta integrity...\n"
 msgstr "delták integritásának ellenõrzése... "
 
-#: src/pacman/callback.c:243
+#: src/pacman/callback.c:217
 #, c-format
 msgid "applying deltas...\n"
 msgstr "delták alkalmazása...\n"
 
-#: src/pacman/callback.c:249
+#: src/pacman/callback.c:220
 #, c-format
 msgid "generating %s with %s... "
 msgstr "%s létrehozása %s segítségével... "
 
-#: src/pacman/callback.c:255
+#: src/pacman/callback.c:223
+#, c-format
+msgid "success!\n"
+msgstr ""
+
+#: src/pacman/callback.c:226
 #, c-format
 msgid "failed.\n"
 msgstr "sikertelen.\n"
 
-#: src/pacman/callback.c:264
+#: src/pacman/callback.c:235
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Csomagok letöltése a(z) %s repóból...\n"
 
-#: src/pacman/callback.c:281
-#, c-format
-msgid ":: %s requires installing %s from IgnorePkg. Install anyway? [Y/n] "
+#: src/pacman/callback.c:263
+#, fuzzy, c-format
+msgid ""
+":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
+"n] "
 msgstr ":: %s igényli %s telepítését az IgnorePkg-bõl. Mégis telepíti? [I/n] "
 
-#: src/pacman/callback.c:286
-#, c-format
-msgid ":: %s is in IgnorePkg. Install anyway? [Y/n] "
+#: src/pacman/callback.c:268
+#, fuzzy, c-format
+msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
 msgstr ":: %s az IgnorePkg része. Mégis telepíti? [I/n] "
 
-#: src/pacman/callback.c:292
+#: src/pacman/callback.c:274
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
 msgstr ":: %s HoldPkgnak lett jelölve. Biztosan eltávolítja? [I/n] "
 
-#: src/pacman/callback.c:297
+#: src/pacman/callback.c:279
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Lecseréli %s-t erre: %s/%s? [I/n] "
 
-#: src/pacman/callback.c:304
+#: src/pacman/callback.c:286
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
 msgstr ":: %s ütközik a következõvel: %s. Eltávolítja a %s-t? [I/n] "
 
-#: src/pacman/callback.c:313
+#: src/pacman/callback.c:294
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ":: %s-%s: a helyi verzió újabb. Mégis frissíti? [I/n] "
 
-#: src/pacman/callback.c:323
-#, c-format
-msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
-msgstr ":: %s-%s: a helyi verzió naprakész. Mégis frissíti? [I/n] "
-
-#: src/pacman/callback.c:333
+#: src/pacman/callback.c:304
 #, c-format
 msgid ":: File %s is corrupted. Do you want to delete it? [Y/n] "
 msgstr ":: A %s fájl sérült. Kívánja törölni? [I/n] "
 
-#: src/pacman/callback.c:383
+#: src/pacman/callback.c:354
 msgid "installing"
 msgstr "telepítés:"
 
-#: src/pacman/callback.c:386
+#: src/pacman/callback.c:357
 msgid "upgrading"
 msgstr "frissítés:"
 
-#: src/pacman/callback.c:389
+#: src/pacman/callback.c:360
 msgid "removing"
 msgstr "eltávolítás:"
 
-#: src/pacman/callback.c:392
+#: src/pacman/callback.c:363
 msgid "checking for file conflicts"
 msgstr "fájlütközések vizsgálata"
 
-#: src/pacman/package.c:59
+#: src/pacman/package.c:68
 msgid "Explicitly installed"
 msgstr "Kézzel telepítve"
 
-#: src/pacman/package.c:62
+#: src/pacman/package.c:71
 msgid "Installed as a dependency for another package"
 msgstr "Egy másik csomag függõségeként lett telepítve"
 
-#: src/pacman/package.c:65
+#: src/pacman/package.c:74
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/pacman/package.c:69 src/pacman/package.c:120
+#: src/pacman/package.c:89
 msgid "Description    : "
 msgstr "Leírás          : "
 
-#: src/pacman/package.c:72 src/pacman/package.c:125
-#, c-format
-msgid "Name           : %s\n"
-msgstr "Név             : %s\n"
-
-#: src/pacman/package.c:73 src/pacman/package.c:126
-#, c-format
-msgid "Version        : %s\n"
-msgstr "Verzió          : %s\n"
-
-#: src/pacman/package.c:74
-#, c-format
-msgid "URL            : %s\n"
-msgstr "URL             : %s\n"
-
-#: src/pacman/package.c:75
-msgid "License        :"
+#: src/pacman/package.c:93
+#, fuzzy
+msgid "Filename       :"
 msgstr "Licenc          :"
 
-#: src/pacman/package.c:76 src/pacman/package.c:127
+#: src/pacman/package.c:95
+#, fuzzy
+msgid "Name           :"
+msgstr "Név             : %s\n"
+
+#: src/pacman/package.c:96
+#, fuzzy
+msgid "Version        :"
+msgstr "Verzió          : %s\n"
+
+#: src/pacman/package.c:97
+#, fuzzy
+msgid "URL            :"
+msgstr "URL             : %s\n"
+
+#: src/pacman/package.c:98
+#, fuzzy
+msgid "Licenses       :"
+msgstr "Licenc          :"
+
+#: src/pacman/package.c:99
 msgid "Groups         :"
 msgstr "Csoportok       :"
 
-#: src/pacman/package.c:77 src/pacman/package.c:128
+#: src/pacman/package.c:100
 msgid "Provides       :"
 msgstr "Szolgáltatja    :"
 
-#: src/pacman/package.c:78 src/pacman/package.c:129
+#: src/pacman/package.c:101
 msgid "Depends On     :"
 msgstr "Függ            :"
 
-#: src/pacman/package.c:79
+#: src/pacman/package.c:102
 msgid "Optional Deps  :"
 msgstr "Opcionális f.  :"
 
-#: src/pacman/package.c:82
+#: src/pacman/package.c:105
 msgid "Required By    :"
 msgstr "Igényli         :"
 
-#: src/pacman/package.c:84 src/pacman/package.c:130
+#: src/pacman/package.c:108
 msgid "Conflicts With :"
 msgstr "Ütközik         :"
 
-#: src/pacman/package.c:85 src/pacman/package.c:131
+#: src/pacman/package.c:109
 msgid "Replaces       :"
 msgstr "Lecseréli       :"
 
-#: src/pacman/package.c:86 src/pacman/package.c:133
-#, c-format
-msgid "Installed Size : %6.2f K\n"
-msgstr "Helyfoglalás    : %6.2f K\n"
-
-#: src/pacman/package.c:87
-#, c-format
-msgid "Packager       : %s\n"
-msgstr "Csomagoló       : %s\n"
-
-#: src/pacman/package.c:88
-#, c-format
-msgid "Architecture   : %s\n"
-msgstr "Architektúra    : %s\n"
-
-#: src/pacman/package.c:89
-#, c-format
-msgid "Build Date     : %s"
-msgstr "Fordítás ideje  : %s"
-
-#: src/pacman/package.c:91
-#, c-format
-msgid "Install Date   : %s"
-msgstr "Telepítés ideje : %s"
-
-#: src/pacman/package.c:92
-#, c-format
-msgid "Install Reason : %s\n"
-msgstr "Telepítés oka   : %s\n"
-
-#: src/pacman/package.c:94
-#, c-format
-msgid "Install Script : %s\n"
-msgstr "Telepítõ szkript: %s\n"
-
-#: src/pacman/package.c:95
-msgid "Yes"
-msgstr "Igen"
-
-#: src/pacman/package.c:95
-msgid "No"
-msgstr "Nem"
-
-#: src/pacman/package.c:124
-#, c-format
-msgid "Repository     : %s\n"
-msgstr "Repó            : %s\n"
-
-#: src/pacman/package.c:132
+#: src/pacman/package.c:111
 #, c-format
 msgid "Download Size  : %6.2f K\n"
 msgstr "Tömörített méret: %6.2f K\n"
 
-#: src/pacman/package.c:141
+#: src/pacman/package.c:115
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f K\n"
+msgstr "Helyfoglalás    : %6.2f K\n"
+
+#: src/pacman/package.c:119
 #, c-format
-msgid "MD5 Sum        : %s"
+msgid "Installed Size : %6.2f K\n"
+msgstr "Helyfoglalás    : %6.2f K\n"
+
+#: src/pacman/package.c:121
+#, fuzzy
+msgid "Packager       :"
+msgstr "Csomagoló       : %s\n"
+
+#: src/pacman/package.c:122
+#, fuzzy
+msgid "Architecture   :"
+msgstr "Architektúra    : %s\n"
+
+#: src/pacman/package.c:123
+#, fuzzy
+msgid "Build Date     :"
+msgstr "Fordítás ideje  : %s"
+
+#: src/pacman/package.c:125
+#, fuzzy
+msgid "Install Date   :"
+msgstr "Telepítés ideje : %s"
+
+#: src/pacman/package.c:126
+#, fuzzy
+msgid "Install Reason :"
+msgstr "Telepítés oka   : %s\n"
+
+#: src/pacman/package.c:129
+#, fuzzy
+msgid "Install Script :"
+msgstr "Telepítõ szkript: %s\n"
+
+#: src/pacman/package.c:130
+msgid "Yes"
+msgstr "Igen"
+
+#: src/pacman/package.c:130
+msgid "No"
+msgstr "Nem"
+
+#: src/pacman/package.c:135
+#, fuzzy
+msgid "MD5 Sum        :"
 msgstr "MD5 Sum         : %s"
 
-#: src/pacman/package.c:152
+#: src/pacman/package.c:159
+#, fuzzy
+msgid "Repository     :"
+msgstr "Repó            : %s\n"
+
+#: src/pacman/package.c:169
 #, c-format
 msgid "Backup Files:\n"
 msgstr "Backup fájlok:\n"
 
-#: src/pacman/package.c:172
+#: src/pacman/package.c:189
 #, c-format
 msgid "error: could not calculate checksums for %s\n"
 msgstr "hiba: nem sikerült a(z) %s ellenõrzõ összegének számítása\n"
 
-#: src/pacman/package.c:180
+#: src/pacman/package.c:197
 #, c-format
 msgid "MODIFIED\t%s\n"
 msgstr "MÓDOSÍTVA\t%s\n"
 
-#: src/pacman/package.c:182
+#: src/pacman/package.c:199
 #, c-format
 msgid "Not Modified\t%s\n"
 msgstr "Nem módosítva\t%s\n"
 
-#: src/pacman/package.c:186
+#: src/pacman/package.c:203
 #, c-format
 msgid "MISSING\t\t%s\n"
 msgstr "HIÁNYZIK\t\t%s\n"
 
-#: src/pacman/package.c:192
+#: src/pacman/package.c:209
 #, c-format
 msgid "(none)\n"
 msgstr "(nincs)\n"
 
-#: src/pacman/package.c:236
+#: src/pacman/package.c:244
 #, c-format
 msgid "error: no changelog available for '%s'.\n"
 msgstr "hiba: nem áll rendelkezésre változási napló a(z) '%s' csomaghoz.\n"
@@ -395,7 +405,7 @@ msgstr "használat"
 msgid "operation"
 msgstr "mûvelet"
 
-#: src/pacman/pacman.c:79
+#: src/pacman/pacman.c:78
 #, c-format
 msgid ""
 "\n"
@@ -404,18 +414,18 @@ msgstr ""
 "\n"
 "használja a '%s --help'-et más opciókkal további szintaxishoz\n"
 
-#: src/pacman/pacman.c:84 src/pacman/pacman.c:103 src/pacman/pacman.c:124
+#: src/pacman/pacman.c:83 src/pacman/pacman.c:97 src/pacman/pacman.c:119
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "      --asdeps         a csomagok függõségként való telepítése\n"
 
-#: src/pacman/pacman.c:85 src/pacman/pacman.c:92 src/pacman/pacman.c:104
-#: src/pacman/pacman.c:126
+#: src/pacman/pacman.c:84 src/pacman/pacman.c:90 src/pacman/pacman.c:98
+#: src/pacman/pacman.c:121
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         függõségi ellenõrzések kihagyása\n"
 
-#: src/pacman/pacman.c:86 src/pacman/pacman.c:105 src/pacman/pacman.c:128
+#: src/pacman/pacman.c:85 src/pacman/pacman.c:99 src/pacman/pacman.c:123
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
@@ -423,29 +433,24 @@ msgstr ""
 
 #: src/pacman/pacman.c:89
 #, c-format
-msgid "usage:  %s {-R --remove} [options] <package>\n"
-msgstr "használat:  %s {-R --remove} [opciók] <csomag>\n"
-
-#: src/pacman/pacman.c:91
-#, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
 "  -c, --cascade        a csomagok és az õket igénylõ csomagok eltávolítása\n"
 
-#: src/pacman/pacman.c:93
+#: src/pacman/pacman.c:91
 #, c-format
 msgid ""
 "  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr ""
 "  -k, --dbonly         csak az adatbázis-bejegyzést törölje, a fájlokat ne\n"
 
-#: src/pacman/pacman.c:94
+#: src/pacman/pacman.c:92
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         a beállítási fájlokat is törölje\n"
 
-#: src/pacman/pacman.c:95
+#: src/pacman/pacman.c:93
 #, c-format
 msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
@@ -453,28 +458,28 @@ msgstr ""
 "  -s, --recursive      a függõségeket is távolítsa el (melyeknél ez "
 "biztonságos)\n"
 
-#: src/pacman/pacman.c:109
+#: src/pacman/pacman.c:103
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      egy csomag változási naplójának megtekintése\n"
 
-#: src/pacman/pacman.c:110
+#: src/pacman/pacman.c:104
 #, c-format
 msgid "  -d, --deps           list all packages installed as dependencies\n"
 msgstr ""
 "  -d, --deps           az összes függõségként telepített csomag listázása\n"
 
-#: src/pacman/pacman.c:111
+#: src/pacman/pacman.c:105
 #, c-format
 msgid "  -e, --explicit       list all packages explicitly installed\n"
 msgstr "  -e, --explicit       az összes kézzel telepített csomag listázása\n"
 
-#: src/pacman/pacman.c:112 src/pacman/pacman.c:129
+#: src/pacman/pacman.c:106 src/pacman/pacman.c:124
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         egy csoport összes tagjának megtekintése\n"
 
-#: src/pacman/pacman.c:113
+#: src/pacman/pacman.c:107
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
@@ -482,12 +487,12 @@ msgstr ""
 "  -i, --info           csomaginformációk megtekintése (-ii: backup fájlok "
 "is)\n"
 
-#: src/pacman/pacman.c:114
+#: src/pacman/pacman.c:108
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           a lekérdezett csomag tartalmának listázása\n"
 
-#: src/pacman/pacman.c:115
+#: src/pacman/pacman.c:109
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s)\n"
@@ -495,38 +500,43 @@ msgstr ""
 "  -m, --foreign        a távoli repókban nem talált telepített csomagok "
 "listája\n"
 
-#: src/pacman/pacman.c:116
+#: src/pacman/pacman.c:110
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "  -o, --owns <fájl>    a <fájl>-t tartalmazó csomag lekérdezése\n"
 
-#: src/pacman/pacman.c:117
+#: src/pacman/pacman.c:111
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
 "  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
 "helyett\n"
 
-#: src/pacman/pacman.c:118
+#: src/pacman/pacman.c:112
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr "  -s, --search <regex> keresés a telepített csomagok között\n"
 
-#: src/pacman/pacman.c:119
+#: src/pacman/pacman.c:113
 #, c-format
 msgid "  -t, --orphans        list all packages not required by any package\n"
 msgstr ""
 "  -t, --orphans        azon csomagok listázása, melyeket nem igényel más "
 "csomag\n"
 
-#: src/pacman/pacman.c:120
+#: src/pacman/pacman.c:114
 #, c-format
 msgid "  -u, --upgrades       list all packages that can be upgraded\n"
 msgstr "  -u, --upgrades       az összes frissíthetõ csomag listázása\n"
 
-#: src/pacman/pacman.c:125
+#: src/pacman/pacman.c:115 src/pacman/pacman.c:136
+#, c-format
+msgid "  -q  --quiet          show less information for query and search\n"
+msgstr ""
+
+#: src/pacman/pacman.c:120
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
@@ -535,22 +545,22 @@ msgstr ""
 "  -c, --clean          a régi csomagok törlése a gyorsítótárkönyvtárból\n"
 "                       (használja a '-cc'-t az összeshez)\n"
 
-#: src/pacman/pacman.c:127
+#: src/pacman/pacman.c:122
 #, c-format
 msgid "  -e, --dependsonly    install dependencies only\n"
 msgstr "  -e, --dependsonly    csak a függõségek telepítése\n"
 
-#: src/pacman/pacman.c:130
+#: src/pacman/pacman.c:125
 #, c-format
 msgid "  -i, --info           view package information\n"
 msgstr "  -i, --info           csomaginformációk megtekintése\n"
 
-#: src/pacman/pacman.c:131
+#: src/pacman/pacman.c:126
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <repó>    egy repó csomagjainak listázása\n"
 
-#: src/pacman/pacman.c:132
+#: src/pacman/pacman.c:127
 #, c-format
 msgid ""
 "  -p, --print-uris     print out URIs for given packages and their "
@@ -558,31 +568,37 @@ msgid ""
 msgstr ""
 "  -p, --print-uris     listázza az adott csomagok és függõségeik URI-jait\n"
 
-#: src/pacman/pacman.c:133
+#: src/pacman/pacman.c:128
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> keresés a távoli csomagadatbázisokban\n"
 
-#: src/pacman/pacman.c:134
+#: src/pacman/pacman.c:129
 #, c-format
 msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
 msgstr "  -u, --sysupgrade     az összes elavult csomag frissítése\n"
 
-#: src/pacman/pacman.c:135
+#: src/pacman/pacman.c:130
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
 msgstr "  -w, --downloadonly   csak letöltés, de semmit nem telepít/frissít\n"
 
-#: src/pacman/pacman.c:136
+#: src/pacman/pacman.c:131
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        friss csomagadatbázis letöltése a szerverrõl\n"
 
-#: src/pacman/pacman.c:137
+#: src/pacman/pacman.c:132
+#, fuzzy, c-format
+msgid ""
+"      --needed         only install outdated or not yet installed packages\n"
+msgstr "      --asdeps         a csomagok függõségként való telepítése\n"
+
+#: src/pacman/pacman.c:133
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
@@ -590,58 +606,66 @@ msgid ""
 msgstr ""
 "      --ignore <csom.> csomagfrissítés mellõzése (többször is használható)\n"
 
-#: src/pacman/pacman.c:139
+#: src/pacman/pacman.c:134
+#, fuzzy, c-format
+msgid ""
+"      --ignoregroup <grp>\n"
+"                       ignore a group upgrade (can be used more than once)\n"
+msgstr ""
+"      --ignore <csom.> csomagfrissítés mellõzése (többször is használható)\n"
+
+#: src/pacman/pacman.c:138
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <útv.>  alternatív konfigurációs fájl beállítása\n"
 
-#: src/pacman/pacman.c:140
+#: src/pacman/pacman.c:139
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <útv.> alternatív logfájl beállítása\n"
 
-#: src/pacman/pacman.c:141
+#: src/pacman/pacman.c:140
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      ne kérjen soha megerõsítést\n"
 
-#: src/pacman/pacman.c:142
+#: src/pacman/pacman.c:141
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
 "      --noprogressbar  ne mutasson folyamatsávot a fájlok letöltése közben\n"
 
-#: src/pacman/pacman.c:143
+#: src/pacman/pacman.c:142
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
 "      --noscriptlet    ne futtassa le az install szkriptet, ha van olyan\n"
 
-#: src/pacman/pacman.c:144
+#: src/pacman/pacman.c:143
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        legyen bõbeszédû\n"
 
-#: src/pacman/pacman.c:145
+#: src/pacman/pacman.c:144
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr ""
 "  -r, --root <útvonal> alternatív telepítési gyökérkönyvtár beállítása\n"
 
-#: src/pacman/pacman.c:146
+#: src/pacman/pacman.c:145
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <útv.>  alternatív adatbáziskönyvtár beállítása\n"
 
-#: src/pacman/pacman.c:147
+#: src/pacman/pacman.c:146
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 "      --cachedir <kvt> alternatív csomaggyorsítótár-könyvtár beállítása\n"
 
-#: src/pacman/pacman.c:160
+#: src/pacman/pacman.c:159
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -650,51 +674,51 @@ msgstr ""
 "                       Ezt a programot bárki a General Public License-ben\n"
 "                       foglaltak alapján szabadon terjesztheti\n"
 
-#: src/pacman/pacman.c:342
-#, c-format
-msgid "'%s' is not a valid debug level\n"
-msgstr "a(z) '%s' nem érvényes hibakeresési szint\n"
+#: src/pacman/pacman.c:250
+#, fuzzy, c-format
+msgid "problem setting rootdir '%s' (%s)\n"
+msgstr "hiba történt a(z) '%s' telepítése útvonal beállítása során (%s)\n"
 
-#: src/pacman/pacman.c:356 src/pacman/pacman.c:655
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "hiba történt a(z) '%s' gyorsítótár-könyvtár hozzáadása során (%s)\n"
-
-#: src/pacman/pacman.c:366 src/pacman/pacman.c:673
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "hiba történt a(z) '%s' naplófájl beállítása során (%s)\n"
-
-#: src/pacman/pacman.c:385 src/pacman/pacman.c:647
+#: src/pacman/pacman.c:267
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
 msgstr "hiba történt a(z) '%s' adatbáziskönyvtár beállítása során (%s)\n"
 
-#: src/pacman/pacman.c:419 src/pacman/pacman.c:664
+#: src/pacman/pacman.c:275
 #, c-format
-msgid "problem setting root '%s' (%s)\n"
-msgstr "hiba történt a(z) '%s' telepítése útvonal beállítása során (%s)\n"
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "hiba történt a(z) '%s' naplófájl beállítása során (%s)\n"
 
-#: src/pacman/pacman.c:450
+#: src/pacman/pacman.c:384
+#, c-format
+msgid "'%s' is not a valid debug level\n"
+msgstr "a(z) '%s' nem érvényes hibakeresési szint\n"
+
+#: src/pacman/pacman.c:398 src/pacman/pacman.c:677
+#, c-format
+msgid "problem adding cachedir '%s' (%s)\n"
+msgstr "hiba történt a(z) '%s' gyorsítótár-könyvtár hozzáadása során (%s)\n"
+
+#: src/pacman/pacman.c:484
 msgid "only one operation may be used at a time\n"
 msgstr "csak egy mûvelet hajtható végre egyszerre\n"
 
-#: src/pacman/pacman.c:486
+#: src/pacman/pacman.c:544
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "a %s konfigurációs fájl nem olvasható.\n"
 
-#: src/pacman/pacman.c:522
+#: src/pacman/pacman.c:580
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "%s konfigurációs fájl, %d. sor: hibás szekciónév.\n"
 
-#: src/pacman/pacman.c:541
+#: src/pacman/pacman.c:602
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr "%s konfigurációs fájl, %d. sor: szintaktikai hiba- hiányzó kulcs.\n"
 
-#: src/pacman/pacman.c:551
+#: src/pacman/pacman.c:612
 #, c-format
 msgid ""
 "config file %s, line %d: 'Include' directive must belong to a section.\n"
@@ -702,26 +726,26 @@ msgstr ""
 "%s konfigurációs fájl, %d. sor: az 'Include' direktívának egy szekcióhoz "
 "kell tartoznia.\n"
 
-#: src/pacman/pacman.c:576 src/pacman/pacman.c:688 src/pacman/pacman.c:703
+#: src/pacman/pacman.c:640 src/pacman/pacman.c:702 src/pacman/pacman.c:717
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr "%s konfigurációs fájl, %d. sor: a '%s' direktíva nem értelmezhetõ.\n"
 
-#: src/pacman/pacman.c:771
+#: src/pacman/pacman.c:787
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
 msgstr "nem sikerült inicializálni az alpm könyvtárat (%s)\n"
 
-#: src/pacman/pacman.c:813
+#: src/pacman/pacman.c:824
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ez a mûvelet csak rendszergazdaként hajtható végre.\n"
 
-#: src/pacman/pacman.c:836
+#: src/pacman/pacman.c:847
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "nem sikerült regisztrálni a 'local' adatbázist (%s)\n"
 
-#: src/pacman/pacman.c:862
+#: src/pacman/pacman.c:873
 msgid "no operation specified (use -h for help)\n"
 msgstr "nincs megadva egyetlen mûvelet sem (használja a '-h'-t segítségért)\n"
 
@@ -730,56 +754,56 @@ msgstr "nincs megadva egyetlen mûvelet sem (használja a '-h'-t segítségért)\n"
 msgid "error: no file was specified for --owns\n"
 msgstr "hiba: nincs megadva fájl a --owns számára\n"
 
-#: src/pacman/query.c:79
+#: src/pacman/query.c:80
 #, c-format
 msgid "error: failed to read file '%s': %s\n"
 msgstr "hiba: nem sikerült olvasni a '%s' fájlt: %s\n"
 
-#: src/pacman/query.c:86
+#: src/pacman/query.c:87
 #, c-format
 msgid "error: cannot determine ownership of a directory\n"
 msgstr "hiba: könyvtár tulajdonos-csomagját nem lehet megállapítani\n"
 
-#: src/pacman/query.c:92
+#: src/pacman/query.c:95
 #, c-format
 msgid "error: cannot determine real path for '%s': %s\n"
 msgstr "hiba: nem állapítható meg a valódi útvonal a(z) '%s' számára: %s\n"
 
-#: src/pacman/query.c:109
+#: src/pacman/query.c:117
 #, c-format
 msgid "%s is owned by %s %s\n"
 msgstr "a %s fájlt a %s %s tartalmazza\n"
 
-#: src/pacman/query.c:117
+#: src/pacman/query.c:125
 #, c-format
 msgid "error: No package owns %s\n"
 msgstr "hiba: Egyik csomag sem tartalmazza a következõt: %s\n"
 
-#: src/pacman/query.c:206
+#: src/pacman/query.c:221
 #, c-format
 msgid "error: group \"%s\" was not found\n"
 msgstr "hiba: a(z) \"%s\" csoport nem található\n"
 
-#: src/pacman/query.c:217
+#: src/pacman/query.c:232
 #, c-format
 msgid "Checking for package upgrades... \n"
 msgstr "Frissítések keresése... \n"
 
-#: src/pacman/query.c:224
+#: src/pacman/query.c:243
 #, c-format
 msgid "no upgrades found.\n"
 msgstr "nem találtam frissítést.\n"
 
-#: src/pacman/query.c:332 src/pacman/sync.c:680
+#: src/pacman/query.c:362 src/pacman/sync.c:743
 msgid "no usable package repositories configured.\n"
 msgstr "egyetlen használható csomagrepó sincs beállítva.\n"
 
-#: src/pacman/query.c:376
+#: src/pacman/query.c:406
 #, c-format
 msgid "error: package \"%s\" not found\n"
 msgstr "hiba: a(z) \"%s\" csomag nem található\n"
 
-#: src/pacman/remove.c:78 src/pacman/sync.c:506
+#: src/pacman/remove.c:78 src/pacman/sync.c:583
 #, c-format
 msgid ":: group %s:\n"
 msgstr ":: %s csoport:\n"
@@ -793,7 +817,7 @@ msgstr "    Eltávolítja a teljes tartalmat? [I/n] "
 msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ":: Eltávolítja %s-t a(z) %s csoportból? [I/n] "
 
-#: src/pacman/remove.c:97 src/pacman/sync.c:402 src/pacman/sync.c:463
+#: src/pacman/remove.c:97 src/pacman/sync.c:479 src/pacman/sync.c:540
 #, c-format
 msgid "error: failed to init transaction (%s)\n"
 msgstr "hiba: nem sikerült inicializálni a tranzakciót (%s)\n"
@@ -803,11 +827,11 @@ msgstr "hiba: nem sikerült inicializálni a tranzakciót (%s)\n"
 msgid "error: failed to add target '%s' (%s)\n"
 msgstr "hiba: nem sikerült a(z) '%s' célt hozzáadni (%s)\n"
 
-#: src/pacman/remove.c:156 src/pacman/util.c:398
+#: src/pacman/remove.c:158 src/pacman/util.c:462
 msgid "Targets:"
 msgstr "Célok:"
 
-#: src/pacman/remove.c:159
+#: src/pacman/remove.c:161
 msgid ""
 "\n"
 "Do you want to remove these packages? [Y/n] "
@@ -815,103 +839,138 @@ msgstr ""
 "\n"
 "El kívánja távolítani ezeket a csomagokat? [I/n] "
 
-#: src/pacman/sync.c:60 src/pacman/sync.c:107
+#: src/pacman/sync.c:52
+#, fuzzy, c-format
+msgid "error: could not access database directory\n"
+msgstr "hiba: nem sikerült elérni a gyorsítótár könyvtárát\n"
+
+#: src/pacman/sync.c:83
+#, fuzzy, c-format
+msgid "Do you want to remove %s? [Y/n] "
+msgstr ""
+"\n"
+"El kívánja távolítani ezeket a csomagokat? [I/n] "
+
+#: src/pacman/sync.c:88
+#, fuzzy, c-format
+msgid "error: could not remove repository directory\n"
+msgstr "hiba: nem sikerült törölni a gyorsítótár könyvtárát\n"
+
+#: src/pacman/sync.c:101
+#, fuzzy, c-format
+msgid "Database directory: %s\n"
+msgstr "Gyorsítótár könyvtár: %s\n"
+
+#: src/pacman/sync.c:102
+#, fuzzy
+msgid "Do you want to remove unused repositories? [Y/n] "
+msgstr ""
+"\n"
+"El kívánja távolítani ezeket a csomagokat? [I/n] "
+
+#: src/pacman/sync.c:112
+#, c-format
+msgid "Database directory cleaned up\n"
+msgstr ""
+
+#: src/pacman/sync.c:130 src/pacman/sync.c:177
 #, c-format
 msgid "Cache directory: %s\n"
 msgstr "Gyorsítótár könyvtár: %s\n"
 
-#: src/pacman/sync.c:61
-msgid "Do you want to remove non-installed packages from cache? [Y/n] "
+#: src/pacman/sync.c:131
+#, fuzzy
+msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
 msgstr ""
 "El kívánja távolítani a nem telepített csomagokat a gyorsítótárból? [I/n] "
 
-#: src/pacman/sync.c:64
+#: src/pacman/sync.c:134
 #, c-format
 msgid "removing old packages from cache... "
 msgstr "a régi csomagok eltávolítása a gyorsítótárból... "
 
-#: src/pacman/sync.c:68
+#: src/pacman/sync.c:138
 #, c-format
 msgid "error: could not access cache directory\n"
 msgstr "hiba: nem sikerült elérni a gyorsítótár könyvtárát\n"
 
-#: src/pacman/sync.c:108
+#: src/pacman/sync.c:178
 msgid "Do you want to remove ALL packages from cache? [Y/n] "
 msgstr "El kívánja távolítani az ÖSSZES csomagot a gyorsítótárból? [I/n] "
 
-#: src/pacman/sync.c:111
+#: src/pacman/sync.c:181
 #, c-format
 msgid "removing all packages from cache... "
 msgstr "az összes csomag eltávolítása a gyorsítótárból... "
 
-#: src/pacman/sync.c:114
+#: src/pacman/sync.c:184
 #, c-format
 msgid "error: could not remove cache directory\n"
 msgstr "hiba: nem sikerült törölni a gyorsítótár könyvtárát\n"
 
-#: src/pacman/sync.c:119
+#: src/pacman/sync.c:189
 #, c-format
 msgid "error: could not create new cache directory\n"
 msgstr "hiba: nem sikerült létrehozni az új gyorsítótár könyvtárát\n"
 
-#: src/pacman/sync.c:146
+#: src/pacman/sync.c:216
 #, c-format
 msgid "error: failed to synchronize %s: %s\n"
 msgstr "hiba: nem sikerült a(z) %s szinkronizálása: %s\n"
 
-#: src/pacman/sync.c:149
+#: src/pacman/sync.c:219
 #, c-format
 msgid "error: failed to update %s (%s)\n"
 msgstr "hiba: nem sikerült a(z) %s frissítése (%s)\n"
 
-#: src/pacman/sync.c:153
+#: src/pacman/sync.c:223
 #, c-format
 msgid " %s is up to date\n"
 msgstr " a(z) %s naprakész\n"
 
-#: src/pacman/sync.c:290
+#: src/pacman/sync.c:366
 #, c-format
 msgid "error: repository '%s' does not exist\n"
 msgstr "hiba: a(z) '%s' repó nem létezik\n"
 
-#: src/pacman/sync.c:306
+#: src/pacman/sync.c:381
 #, c-format
 msgid "error: package '%s' was not found in repository '%s'\n"
 msgstr "hiba: a(z) '%s' csomag nem található a(z) '%s' repóban\n"
 
-#: src/pacman/sync.c:327
+#: src/pacman/sync.c:401
 #, c-format
 msgid "error: package '%s' was not found\n"
 msgstr "hiba: a(z) '%s' csomag nem található\n"
 
-#: src/pacman/sync.c:365
+#: src/pacman/sync.c:438
 #, c-format
 msgid "error: repository \"%s\" was not found.\n"
 msgstr "hiba: a(z) \"%s\" repó nem található.\n"
 
-#: src/pacman/sync.c:413
+#: src/pacman/sync.c:490
 #, c-format
 msgid ":: Synchronizing package databases...\n"
 msgstr ":: A csomagadatbázisok szinkronizálása...\n"
 
-#: src/pacman/sync.c:416
+#: src/pacman/sync.c:493
 #, c-format
 msgid "error: failed to synchronize any databases\n"
 msgstr "hiba: nem sikerült szinkronizálni valamelyik adatbázist\n"
 
-#: src/pacman/sync.c:428
+#: src/pacman/sync.c:505
 #, c-format
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Teljes rendszerfrissítés indítása...\n"
 
-#: src/pacman/sync.c:449
-#, c-format
+#: src/pacman/sync.c:526
+#, fuzzy, c-format
 msgid ""
 ":: pacman has detected a newer version of itself.\n"
 ":: It is recommended that you upgrade pacman by itself\n"
 ":: using 'pacman -S pacman', and then rerun the current\n"
 ":: operation. If you wish to continue the operation and\n"
-":: not upgrade pacman seperately, answer no.\n"
+":: not upgrade pacman separately, answer no.\n"
 msgstr ""
 ":: A pacman egy újabb verzója áll rendelkezésre.\n"
 ":: Ajánlott, hogy elõször magát a pacmant frissítse\n"
@@ -919,120 +978,120 @@ msgstr ""
 ":: a jelenlegi parancsot. Ha mégis folytatni szeretné,\n"
 ":: és nem frissíti külön a pacmant, válaszoljon nemmel.\n"
 
-#: src/pacman/sync.c:454
+#: src/pacman/sync.c:531
 msgid ":: Cancel current operation? [Y/n] "
 msgstr ":: Megszakítja a jelenlegi mûveletet? [I/n]"
 
-#: src/pacman/sync.c:456 src/pacman/sync.c:659
+#: src/pacman/sync.c:533 src/pacman/sync.c:720
 #, c-format
 msgid "error: failed to release transaction (%s)\n"
 msgstr "hiba: nem sikerült lezárni a tranzakciót (%s)\n"
 
-#: src/pacman/sync.c:468
+#: src/pacman/sync.c:545
 #, c-format
 msgid "error: pacman: %s\n"
 msgstr "hiba: pacman: %s\n"
 
-#: src/pacman/sync.c:492
-#, c-format
-msgid "'error: %s': %s\n"
+#: src/pacman/sync.c:569
+#, fuzzy, c-format
+msgid "error: '%s': %s\n"
 msgstr "'hiba: %s': %s\n"
 
-#: src/pacman/sync.c:511
+#: src/pacman/sync.c:588
 msgid ":: Install whole content? [Y/n] "
 msgstr ":: A teljes tartalom telepítése? [I/n] "
 
-#: src/pacman/sync.c:518
+#: src/pacman/sync.c:595
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Telepíti %s-t a(z) %s csoportból? [I/n] "
 
-#: src/pacman/sync.c:542
+#: src/pacman/sync.c:604
 #, c-format
 msgid "error: '%s': not found in sync db\n"
 msgstr "hiba: '%s': nem található a távoli adatbázisban\n"
 
-#: src/pacman/sync.c:585
+#: src/pacman/sync.c:631
+#, fuzzy, c-format
+msgid ":: %s: conflicts with %s\n"
+msgstr ":: %s: ütközik a következõvel: %s"
+
+#: src/pacman/sync.c:645
 #, c-format
 msgid " local database is up to date\n"
 msgstr " a helyi adatbázis naprakész\n"
 
-#: src/pacman/sync.c:597
+#: src/pacman/sync.c:657
 #, c-format
 msgid "Beginning download...\n"
 msgstr "A letöltés megkezdése...\n"
 
-#: src/pacman/sync.c:600
+#: src/pacman/sync.c:660
 msgid "Proceed with download? [Y/n] "
 msgstr "Kezdõdhet a letöltés? [I/n] "
 
-#: src/pacman/sync.c:604
+#: src/pacman/sync.c:664
 #, c-format
 msgid "Beginning upgrade process...\n"
 msgstr "A frissítési folyamat megkezdése...\n"
 
-#: src/pacman/sync.c:607
+#: src/pacman/sync.c:667
 msgid "Proceed with installation? [Y/n] "
 msgstr "Kezdõdhet a telepítés? [I/n] "
 
-#: src/pacman/sync.c:648
+#: src/pacman/sync.c:708
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Hibák léptek fel, nem frissült csomag.\n"
 
-#: src/pacman/util.c:322
+#: src/pacman/util.c:356 src/pacman/util.c:388
 #, c-format
 msgid "None\n"
 msgstr "Nincs\n"
 
-#: src/pacman/util.c:391
+#: src/pacman/util.c:454
 msgid "Remove:"
 msgstr "Eltávolítás:"
 
-#: src/pacman/util.c:395
+#: src/pacman/util.c:458
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Teljes eltávolított méret:   %.2f MB\n"
 
-#: src/pacman/util.c:401
-#, c-format
-msgid "Total Package Size:     %.2f MB\n"
-msgstr "Teljes csomagméret:   %.2f MB\n"
-
-#: src/pacman/util.c:402
+#: src/pacman/util.c:465
 #, c-format
 msgid "Total Download Size:    %.2f MB\n"
 msgstr "Teljes letöltött méret:   %.2f MB\n"
 
-#: src/pacman/util.c:406
+#: src/pacman/util.c:469
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
 msgstr "Teljes telepített méret:   %.2f MB\n"
 
-#: src/pacman/util.c:433
+#: src/pacman/util.c:496
 msgid "Y"
 msgstr "I"
 
-#: src/pacman/util.c:433
+#: src/pacman/util.c:496
 msgid "YES"
 msgstr "IGEN"
 
-#: src/pacman/util.c:494
+#: src/pacman/util.c:557
 #, c-format
 msgid "debug: "
 msgstr "hibakeresés: "
 
-#: src/pacman/util.c:497
+#: src/pacman/util.c:560
 #, c-format
 msgid "error: "
 msgstr "hiba: "
 
-#: src/pacman/util.c:500
+#: src/pacman/util.c:563
 #, c-format
 msgid "warning: "
 msgstr "figyelmeztetés: "
 
-#: src/pacman/util.c:505
+#: src/pacman/util.c:568
 #, c-format
 msgid "function: "
 msgstr "függvény: "
@@ -1187,7 +1246,7 @@ msgstr ""
 #: scripts/makepkg.sh.in:522 scripts/makepkg.sh.in:610
 #: scripts/makepkg.sh.in:638 scripts/makepkg.sh.in:700
 #: scripts/makepkg.sh.in:767 scripts/makepkg.sh.in:1105
-#: scripts/makepkg.sh.in:1414 scripts/makepkg.sh.in:1418
+#: scripts/makepkg.sh.in:1415 scripts/makepkg.sh.in:1419
 msgid "Aborting..."
 msgstr ""
 
@@ -1692,87 +1751,87 @@ msgstr ""
 msgid "Install scriptlet (%s) does not exist."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1327
+#: scripts/makepkg.sh.in:1330
 msgid "A package has already been built, installing existing package..."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1331 scripts/makepkg.sh.in:1365
+#: scripts/makepkg.sh.in:1334 scripts/makepkg.sh.in:1366
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1342 scripts/makepkg.sh.in:1441
+#: scripts/makepkg.sh.in:1343 scripts/makepkg.sh.in:1442
 msgid "Skipping build."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1351
+#: scripts/makepkg.sh.in:1352
 msgid "Leaving fakeroot environment."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1355
+#: scripts/makepkg.sh.in:1356
 msgid "Making package: %s"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1358
+#: scripts/makepkg.sh.in:1359
 msgid "Running makepkg as root..."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1369
+#: scripts/makepkg.sh.in:1370
 msgid "Source package created: %s"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1376
+#: scripts/makepkg.sh.in:1377
 msgid "Skipping dependency checks."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1383
+#: scripts/makepkg.sh.in:1384
 msgid "Checking Runtime Dependencies..."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1386
+#: scripts/makepkg.sh.in:1387
 msgid "Checking Buildtime Dependencies..."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1390
+#: scripts/makepkg.sh.in:1391
 msgid "Could not resolve all dependencies."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1394
+#: scripts/makepkg.sh.in:1395
 msgid "pacman was not found in PATH; skipping dependency checks."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1408
+#: scripts/makepkg.sh.in:1409
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1409
+#: scripts/makepkg.sh.in:1410
 msgid "Skipping source integrity checks -- using existing src/ tree"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1410
+#: scripts/makepkg.sh.in:1411
 msgid "Skipping source extraction       -- using existing src/ tree"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1413
+#: scripts/makepkg.sh.in:1414
 msgid "The source directory is empty, there is nothing to build!"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1417
+#: scripts/makepkg.sh.in:1418
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1428
+#: scripts/makepkg.sh.in:1429
 msgid "Sources are ready."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1433
+#: scripts/makepkg.sh.in:1434
 msgid "Removing existing pkg/ directory..."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1450
+#: scripts/makepkg.sh.in:1451
 msgid "Entering fakeroot environment..."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1463
+#: scripts/makepkg.sh.in:1464
 msgid "Finished making: %s"
 msgstr ""
 
@@ -1848,6 +1907,10 @@ msgstr ""
 msgid "Finished. Your pacman database has been optimized."
 msgstr ""
 
+#: scripts/pacman-optimize.sh.in:159
+msgid "For full benefits of pacman-optimize, run 'sync' now."
+msgstr ""
+
 #: scripts/repo-add.sh.in:56
 msgid "Usage: %s <path-to-db> [--force] <package> ...\\n\\n"
 msgstr ""
@@ -1896,55 +1959,55 @@ msgstr ""
 msgid "Creating 'depends' db entry..."
 msgstr ""
 
-#: scripts/repo-add.sh.in:224
+#: scripts/repo-add.sh.in:230
 msgid "Creating 'deltas' db entry..."
 msgstr ""
 
-#: scripts/repo-add.sh.in:230
+#: scripts/repo-add.sh.in:236
 msgid "Added delta '%s'"
 msgstr ""
 
-#: scripts/repo-add.sh.in:232
+#: scripts/repo-add.sh.in:238
 msgid "Could not add delta '%s'"
 msgstr ""
 
-#: scripts/repo-add.sh.in:270 scripts/repo-remove.sh.in:123
+#: scripts/repo-add.sh.in:276 scripts/repo-remove.sh.in:123
 msgid "%s not found. Cannot continue."
 msgstr ""
 
-#: scripts/repo-add.sh.in:280 scripts/repo-remove.sh.in:133
+#: scripts/repo-add.sh.in:286 scripts/repo-remove.sh.in:133
 msgid "Cannot create temp directory for database building."
 msgstr ""
 
-#: scripts/repo-add.sh.in:291 scripts/repo-remove.sh.in:142
+#: scripts/repo-add.sh.in:297 scripts/repo-remove.sh.in:142
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr ""
 
-#: scripts/repo-add.sh.in:294 scripts/repo-remove.sh.in:145
+#: scripts/repo-add.sh.in:300 scripts/repo-remove.sh.in:145
 msgid "Extracting database to a temporary location..."
 msgstr ""
 
-#: scripts/repo-add.sh.in:300
+#: scripts/repo-add.sh.in:306
 msgid "'%s' is not a package file, skipping"
 msgstr ""
 
-#: scripts/repo-add.sh.in:302
+#: scripts/repo-add.sh.in:308
 msgid "Adding package '%s'"
 msgstr ""
 
-#: scripts/repo-add.sh.in:309
+#: scripts/repo-add.sh.in:315
 msgid "Package '%s' not found."
 msgstr ""
 
-#: scripts/repo-add.sh.in:316
+#: scripts/repo-add.sh.in:322
 msgid "Creating updated database file %s"
 msgstr ""
 
-#: scripts/repo-add.sh.in:326 scripts/repo-remove.sh.in:170
+#: scripts/repo-add.sh.in:332 scripts/repo-remove.sh.in:170
 msgid "No compression set."
 msgstr ""
 
-#: scripts/repo-add.sh.in:334 scripts/repo-remove.sh.in:178
+#: scripts/repo-add.sh.in:340 scripts/repo-remove.sh.in:178
 msgid "No packages modified, nothing to do."
 msgstr ""
 
@@ -2034,6 +2097,15 @@ msgstr ""
 #: scripts/updatesync.sh.in:136
 msgid "could not find %s-%s-%s-%s.%s - aborting"
 msgstr ""
+
+#~ msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
+#~ msgstr ":: %s-%s: a helyi verzió naprakész. Mégis frissíti? [I/n] "
+
+#~ msgid "usage:  %s {-R --remove} [options] <package>\n"
+#~ msgstr "használat:  %s {-R --remove} [opciók] <csomag>\n"
+
+#~ msgid "Total Package Size:     %.2f MB\n"
+#~ msgstr "Teljes csomagméret:   %.2f MB\n"
 
 #~ msgid "      --test           check the consistency of the local database\n"
 #~ msgstr ""
