@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2007-12-02 21:40-0600\n"
-"PO-Revision-Date: 2007-11-06 18:09+1000\n"
+"PO-Revision-Date: 2007-12-03 15:22+1000\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr "newer version %s-%s is in the target list -- skipping\n"
 
 #: lib/libalpm/add.c:168
 msgid "conflicting packages were found in the target list\n"
-msgstr ""
+msgstr "conflicting packages were found in the target list\n"
 
 #: lib/libalpm/add.c:169
 msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
+msgstr "you cannot install two conflicting packages at the same time\n"
 
 #: lib/libalpm/add.c:172
 msgid "replacing packages with -A and -U is not supported yet\n"
@@ -40,7 +40,7 @@ msgstr "replacing packages with -A and -U is not supported yet\n"
 
 #: lib/libalpm/add.c:173
 msgid "you can replace packages manually using -Rd and -U\n"
-msgstr ""
+msgstr "you can replace packages manually using -Rd and -U\n"
 
 #: lib/libalpm/add.c:365
 #, c-format
@@ -61,7 +61,9 @@ msgstr "extract: symlink %s does not point to dir\n"
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "extract: not overwriting dir with file %s\n"
 
-#: lib/libalpm/add.c:454 lib/libalpm/add.c:598 lib/libalpm/util.c:422
+#: lib/libalpm/add.c:454
+#: lib/libalpm/add.c:598
+#: lib/libalpm/util.c:422
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "could not extract %s (%s)\n"
@@ -71,12 +73,15 @@ msgstr "could not extract %s (%s)\n"
 msgid "could not rename %s (%s)\n"
 msgstr "could not rename %s (%s)\n"
 
-#: lib/libalpm/add.c:512 lib/libalpm/add.c:532 lib/libalpm/trans.c:508
+#: lib/libalpm/add.c:512
+#: lib/libalpm/add.c:532
+#: lib/libalpm/trans.c:508
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "could not copy tempfile to %s (%s)\n"
 
-#: lib/libalpm/add.c:517 lib/libalpm/remove.c:234
+#: lib/libalpm/add.c:517
+#: lib/libalpm/remove.c:234
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s saved as %s\n"
@@ -96,7 +101,8 @@ msgstr "%s installed as %s\n"
 msgid "extracting %s as %s.pacnew\n"
 msgstr "extracting %s as %s.pacnew\n"
 
-#: lib/libalpm/add.c:711 lib/libalpm/trans.c:529
+#: lib/libalpm/add.c:711
+#: lib/libalpm/trans.c:529
 msgid "could not get current working directory\n"
 msgstr "could not get current working directory\n"
 
@@ -130,9 +136,12 @@ msgstr "invalid name for database entry '%s'\n"
 msgid "loading package data for %s : level=%d\n"
 msgstr "loading package data for %s : level=%d\n"
 
-#: lib/libalpm/be_files.c:292 lib/libalpm/be_files.c:429
-#: lib/libalpm/be_files.c:452 lib/libalpm/be_files.c:563
-#: lib/libalpm/be_files.c:641 lib/libalpm/be_files.c:669
+#: lib/libalpm/be_files.c:292
+#: lib/libalpm/be_files.c:429
+#: lib/libalpm/be_files.c:452
+#: lib/libalpm/be_files.c:563
+#: lib/libalpm/be_files.c:641
+#: lib/libalpm/be_files.c:669
 #: lib/libalpm/package.c:787
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -152,24 +161,24 @@ msgstr "could not remove database entry %s%s\n"
 msgid "attempt to re-register the 'local' DB\n"
 msgstr "attempt to re-register the 'local' DB\n"
 
-#: lib/libalpm/db.c:562 lib/libalpm/db.c:613
+#: lib/libalpm/db.c:562
+#: lib/libalpm/db.c:613
 msgid "database path is undefined\n"
 msgstr "database path is undefined\n"
 
 #: lib/libalpm/deps.c:173
-#, fuzzy
 msgid "dependency cycle detected:\n"
-msgstr "dependency cycle detected\n"
+msgstr "dependency cycle detected:\n"
 
 #: lib/libalpm/deps.c:175
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr ""
+msgstr "%s will be removed after its %s dependency\n"
 
 #: lib/libalpm/deps.c:177
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr ""
+msgstr "%s will be installed before its %s dependency\n"
 
 #: lib/libalpm/deps.c:573
 #, c-format
@@ -252,7 +261,8 @@ msgstr "could not set parameter"
 msgid "transaction already initialized"
 msgstr "transaction already initialised"
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:90
+#: lib/libalpm/error.c:94
 msgid "transaction not initialized"
 msgstr "transaction not initialised"
 
@@ -417,7 +427,8 @@ msgstr "missing package version in %s\n"
 msgid "could not remove tempfile %s\n"
 msgstr "could not remove tempfile %s\n"
 
-#: lib/libalpm/package.c:985 lib/libalpm/package.c:998
+#: lib/libalpm/package.c:985
+#: lib/libalpm/package.c:998
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "error while reading package %s: %s\n"
@@ -437,7 +448,8 @@ msgstr "missing package filelist in %s, generating one\n"
 msgid "could not find %s in database -- skipping\n"
 msgstr "could not find %s in database -- skipping\n"
 
-#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:243
+#: lib/libalpm/remove.c:172
+#: lib/libalpm/remove.c:243
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "cannot remove file '%s': %s\n"
@@ -455,57 +467,57 @@ msgstr "could not remove entry '%s' from cache\n"
 #: lib/libalpm/server.c:56
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
-msgstr ""
+msgstr "URL '%s' is invalid, ignoring\n"
 
 #: lib/libalpm/server.c:60
 msgid "url scheme not specified, assuming http\n"
-msgstr ""
+msgstr "URL scheme not specified, assuming http\n"
 
 #: lib/libalpm/server.c:241
 msgid "disk"
-msgstr ""
+msgstr "disk"
 
 #: lib/libalpm/server.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "failed to retrieve some files from %s\n"
+msgstr "failed retrieving file '%s' from %s : %s\n"
 
 #: lib/libalpm/server.c:275
 msgid "cannot resume download, starting over\n"
-msgstr ""
+msgstr "cannot resume download, starting over\n"
 
 #: lib/libalpm/server.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "cannot write to file '%s'\n"
-msgstr "cannot remove file '%s': %s\n"
+msgstr "cannot write to file '%s'\n"
 
 #: lib/libalpm/server.c:307
-#, fuzzy, c-format
+#, c-format
 msgid "error downloading '%s': %s\n"
-msgstr "error while reading package %s: %s\n"
+msgstr "error downloading '%s': %s\n"
 
 #: lib/libalpm/server.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "error writing to file '%s': %s\n"
-msgstr "cannot remove file '%s': %s\n"
+msgstr "error writing to file '%s': %s\n"
 
 #: lib/libalpm/server.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to %s\n"
-msgstr "could not change directory to / (%s)\n"
+msgstr "could not chdir to %s\n"
 
 #: lib/libalpm/server.c:394
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "running XferCommand: fork failed!\n"
 
 #: lib/libalpm/server.c:445
 msgid "URL does not contain a file for download\n"
-msgstr ""
+msgstr "URL does not contain a file for download\n"
 
 #: lib/libalpm/server.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "failed to download %s\n"
-msgstr "could not download all files"
+msgstr "failed to download %s\n"
 
 #: lib/libalpm/sync.c:135
 #, c-format
@@ -513,9 +525,9 @@ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 
 #: lib/libalpm/sync.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s-%s: ignoring package upgrade (%s)\n"
+msgstr "%s: ignoring package upgrade (%s => %s)\n"
 
 #: lib/libalpm/sync.c:320
 #, c-format
@@ -528,11 +540,12 @@ msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s is up to date -- skipping\n"
 
 #: lib/libalpm/sync.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s is up to date -- reinstalling\n"
 
-#: lib/libalpm/sync.c:613 lib/libalpm/sync.c:618
+#: lib/libalpm/sync.c:613
+#: lib/libalpm/sync.c:618
 msgid "unresolvable package conflicts detected\n"
 msgstr "unresolvable package conflicts detected\n"
 
@@ -546,7 +559,8 @@ msgstr "malloc failure: could not allocate %zd bytes\n"
 msgid "command: %s\n"
 msgstr "command: %s\n"
 
-#: lib/libalpm/sync.c:888 lib/libalpm/sync.c:896
+#: lib/libalpm/sync.c:888
+#: lib/libalpm/sync.c:896
 #, c-format
 msgid "can't get md5 checksum for file %s\n"
 msgstr "can't get md5 checksum for file %s\n"
@@ -677,51 +691,38 @@ msgstr "md5: %s can't be read\n"
 
 #~ msgid "please remove '%s' first, using -Rd\n"
 #~ msgstr "please remove '%s' first, using -Rd\n"
-
 #~ msgid "cannot resolve dependencies for \"%s\"\n"
 #~ msgstr "cannot resolve dependencies for \"%s\"\n"
-
 #~ msgid "could not update requiredby for database entry %s-%s\n"
 #~ msgstr "could not update requiredby for database entry %s-%s\n"
-
 #~ msgid "could not update new database entry %s-%s\n"
 #~ msgstr "could not update new database entry %s-%s\n"
-
 #~ msgid "could not update 'requiredby' database entry %s-%s\n"
 #~ msgstr "could not update 'requiredby' database entry %s-%s\n"
-
 #~ msgid "could not extract %s (%s)"
 #~ msgstr "could not extract %s (%s)"
-
 #~ msgid "could not update provision '%s' from '%s'"
 #~ msgstr "could not update provision '%s' from '%s'"
 
 #, fuzzy
 #~ msgid "%s: description file is missing"
 #~ msgstr "%s: syntax error in description file line %d"
-
 #~ msgid "malloc failed: could not allocate %d bytes"
 #~ msgstr "malloc failed: could not allocate %d bytes"
-
 #~ msgid ""
 #~ "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
 #~ msgstr ""
 #~ "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
-
 #~ msgid "cannot canonicalize specified root path '%s'"
 #~ msgstr "cannot canonicalise specified root path '%s'"
-
 #~ msgid "could not get sha1sum for package %s-%s"
 #~ msgstr "could not get sha1sum for package %s-%s"
-
 #~ msgid "sha1sums do not match for package %s-%s"
 #~ msgstr "sha1sums do not match for package %s-%s"
-
 #~ msgid "cannot remove file %s: %s"
 #~ msgstr "cannot remove file %s: %s"
-
 #~ msgid "sha1: %s can't be opened\n"
 #~ msgstr "sha1: %s can't be opened\n"
-
 #~ msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
 #~ msgstr "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
+
