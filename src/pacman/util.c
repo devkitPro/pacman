@@ -526,6 +526,41 @@ int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...)
 	return(ret);
 }
 
+int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list args)
+{
+	int ret = 0;
+	char *msg = NULL;
+
+	/* if current logmask does not overlap with level, do not print msg */
+	if(!(config->logmask & level)) {
+		return ret;
+	}
+
+	/* print the message using va_arg list */
+	ret = vasprintf(&msg, format, args);
+
+	/* print a prefix to the message */
+	switch(level) {
+		case PM_LOG_DEBUG:
+			asprintf(string, _("debug: %s"), msg);
+			break;
+		case PM_LOG_ERROR:
+			asprintf(string, _("error: %s"), msg);
+			break;
+		case PM_LOG_WARNING:
+			asprintf(string, _("warning: %s"), msg);
+			break;
+		case PM_LOG_FUNCTION:
+			asprintf(string, _("function: %s"), msg);
+			break;
+		default:
+			break;
+	}
+	free(msg);
+
+	return(ret);
+}
+
 int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args)
 {
 	int ret = 0;

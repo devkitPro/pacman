@@ -45,8 +45,12 @@ static float rate_last;
 static int xfered_last;
 static struct timeval initial_time;
 
-/* transaction progress bar ? */
-static int prevpercent=0; /* for less progressbar output */
+/* transaction progress bar */
+static int prevpercent = 0; /* for less progressbar output */
+
+/* delayed output during progress bar */
+static int on_progress = 0;
+static alpm_list_t *output = NULL;
 
 /* Silly little helper function, determines if the caller needs a visual update
  * since the last time this function was called.
@@ -408,6 +412,20 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	/* call refactored fill progress function */
 	fill_progress(percent, percent, getcols() - infolen);
+
+	if(percent == 100) {
+		alpm_list_t *i = NULL;
+		on_progress = 0;
+		for(i = output; i; i = i->next) {
+			printf("%s", (char *)i->data);
+		}
+		fflush(stdout);
+		alpm_list_free_inner(output, free);
+		alpm_list_free(output);
+		output = NULL;
+	} else {
+		on_progress = 1;
+	}
 }
 
 /* callback to handle display of download progress */
@@ -546,7 +564,15 @@ void cb_log(pmloglevel_t level, char *fmt, va_list args)
 		return;
 	}
 
-	pm_vfprintf(stdout, level, fmt, args);
+	if(on_progress) {
+		char *string = NULL;
+		pm_vasprintf(&string, level, fmt, args);
+		if(string != NULL) {
+			output = alpm_list_add(output, string);
+		}
+	} else {
+		pm_vfprintf(stdout, level, fmt, args);
+	}
 }
 
 /* vim: set ts=2 sw=2 noet: */
