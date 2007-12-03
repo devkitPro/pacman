@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2007-12-02 21:40-0600\n"
-"PO-Revision-Date: 2007-11-08 20:00+0100\n"
+"PO-Revision-Date: 2007-12-03 14:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -98,49 +98,49 @@ msgid "error: failed to commit transaction (%s)\n"
 msgstr "errore: impossibile eseguire l'operazione richiesta (%s)\n"
 
 #: src/pacman/callback.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "checking dependencies...\n"
-msgstr "controllo delle dipendenze in corso... "
+msgstr "controllo delle dipendenze in corso...\n"
 
 #: src/pacman/callback.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "checking for file conflicts...\n"
-msgstr "controllo dei conflitti in corso... "
+msgstr "controllo dei conflitti in corso...\n"
 
 #: src/pacman/callback.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "resolving dependencies...\n"
-msgstr "risoluzione delle dipendenze in corso... "
+msgstr "risoluzione delle dipendenze in corso...\n"
 
 #: src/pacman/callback.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "looking for inter-conflicts...\n"
-msgstr "ricerca dei conflitti incrociati in corso... "
+msgstr "ricerca dei conflitti incrociati in corso...\n"
 
 #: src/pacman/callback.c:178
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s...\n"
-msgstr "installazione di %s in corso... "
+msgstr "installazione di %s in corso...\n"
 
 #: src/pacman/callback.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s...\n"
-msgstr "rimozione di %s in corso... "
+msgstr "rimozione di %s in corso...\n"
 
 #: src/pacman/callback.c:200
-#, fuzzy, c-format
+#, c-format
 msgid "upgrading %s...\n"
-msgstr "aggiornamento di %s in corso... "
+msgstr "aggiornamento di %s in corso...\n"
 
 #: src/pacman/callback.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "checking package integrity...\n"
-msgstr "controllo dell'integrità dei pacchetti in corso... "
+msgstr "controllo dell'integrità dei pacchetti in corso...\n"
 
 #: src/pacman/callback.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "checking delta integrity...\n"
-msgstr "controllo dell'integrità di delta in corso... "
+msgstr "controllo dell'integrità di delta in corso...\n"
 
 #: src/pacman/callback.c:217
 #, c-format
@@ -155,7 +155,7 @@ msgstr "generazione di %s con %s in corso... "
 #: src/pacman/callback.c:223
 #, c-format
 msgid "success!\n"
-msgstr ""
+msgstr "operazione riuscita con successo!\n"
 
 #: src/pacman/callback.c:226
 #, c-format
@@ -168,18 +168,18 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Recupero dei pacchetti da %s...\n"
 
 #: src/pacman/callback.c:263
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
 "n] "
 msgstr ""
-":: %s richiede l'installazione di %s da IgnorePkg. Installare ugualmente? [S/"
+":: %s richiede l'installazione di %s da IgnorePkg/IgnoreGroup. Installare ugualmente? [S/"
 "n] "
 
 #: src/pacman/callback.c:268
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
-msgstr ":: %s è in IgnorePkg. Installare ugualmente? [S/n] "
+msgstr ":: %s è in IgnorePkg/IgnoreGroup. Installare ugualmente? [S/n] "
 
 #: src/pacman/callback.c:274
 #, c-format
@@ -240,29 +240,24 @@ msgid "Description    : "
 msgstr "Descrizione    : "
 
 #: src/pacman/package.c:93
-#, fuzzy
 msgid "Filename       :"
-msgstr "Licenza        :"
+msgstr "Nome del file  :"
 
 #: src/pacman/package.c:95
-#, fuzzy
 msgid "Name           :"
-msgstr "Nome           : %s\n"
+msgstr "Nome           :"
 
 #: src/pacman/package.c:96
-#, fuzzy
 msgid "Version        :"
-msgstr "Versione       : %s\n"
+msgstr "Versione       :"
 
 #: src/pacman/package.c:97
-#, fuzzy
 msgid "URL            :"
-msgstr "URL            : %s\n"
+msgstr "URL            :"
 
 #: src/pacman/package.c:98
-#, fuzzy
 msgid "Licenses       :"
-msgstr "Licenza        :"
+msgstr "Licenze        :"
 
 #: src/pacman/package.c:99
 msgid "Groups         :"
@@ -298,9 +293,9 @@ msgid "Download Size  : %6.2f K\n"
 msgstr "Dimensione pkg : %6.2f K\n"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size: %6.2f K\n"
-msgstr "Kb richiesti   : %6.2f K\n"
+msgstr "Dimensione pkg : %6.2f K\n"
 
 #: src/pacman/package.c:119
 #, c-format
@@ -308,34 +303,28 @@ msgid "Installed Size : %6.2f K\n"
 msgstr "Kb richiesti   : %6.2f K\n"
 
 #: src/pacman/package.c:121
-#, fuzzy
 msgid "Packager       :"
-msgstr "Autore         : %s\n"
+msgstr "Autore         :"
 
 #: src/pacman/package.c:122
-#, fuzzy
 msgid "Architecture   :"
-msgstr "Architettura   : %s\n"
+msgstr "Architettura   :"
 
 #: src/pacman/package.c:123
-#, fuzzy
 msgid "Build Date     :"
-msgstr "Creato il      : %s"
+msgstr "Creato il      :"
 
 #: src/pacman/package.c:125
-#, fuzzy
 msgid "Install Date   :"
-msgstr "Installato il  : %s"
+msgstr "Installato il  :"
 
 #: src/pacman/package.c:126
-#, fuzzy
 msgid "Install Reason :"
-msgstr "Motivo         : %s\n"
+msgstr "Motivo         :"
 
 #: src/pacman/package.c:129
-#, fuzzy
 msgid "Install Script :"
-msgstr "Script install : %s\n"
+msgstr "Script install :"
 
 #: src/pacman/package.c:130
 msgid "Yes"
@@ -346,14 +335,12 @@ msgid "No"
 msgstr "No"
 
 #: src/pacman/package.c:135
-#, fuzzy
 msgid "MD5 Sum        :"
-msgstr "Somma MD5      : %s"
+msgstr "Somma MD5      :"
 
 #: src/pacman/package.c:159
-#, fuzzy
 msgid "Repository     :"
-msgstr "Repository     : %s\n"
+msgstr "Repository     :"
 
 #: src/pacman/package.c:169
 #, c-format
@@ -546,7 +533,7 @@ msgstr ""
 #: src/pacman/pacman.c:115 src/pacman/pacman.c:136
 #, c-format
 msgid "  -q  --quiet          show less information for query and search\n"
-msgstr ""
+msgstr "  -q  --quiet          mostra meno informazioni per query e ricerca\n"
 
 #: src/pacman/pacman.c:120
 #, c-format
@@ -613,12 +600,11 @@ msgstr ""
 "pacchetti\n"
 
 #: src/pacman/pacman.c:132
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --needed         only install outdated or not yet installed packages\n"
 msgstr ""
-"      --asdeps         installa i pacchetti come non esplicitamente "
-"installati\n"
+"      --needed         installa solo i pacchetti non aggiornati o non installati\n"
 
 #: src/pacman/pacman.c:133
 #, c-format
@@ -628,11 +614,13 @@ msgid ""
 msgstr "      --ignore <pkg>   ignora l'aggiornamento di un pacchetto\n"
 
 #: src/pacman/pacman.c:134
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignore <pkg>   ignora l'aggiornamento di un pacchetto\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       ignora l'aggiornamento di un gruppo\n"
 
 #: src/pacman/pacman.c:138
 #, c-format
@@ -694,10 +682,10 @@ msgstr ""
 "                       the terms of the GNU General Public License\n"
 
 #: src/pacman/pacman.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr ""
-"si è verificato un errore durante l'impostazione della root '%s' (%s)\n"
+"si è verificato un problema durante l'impostazione della rootdir '%s' (%s)\n"
 
 #: src/pacman/pacman.c:267
 #, c-format
@@ -867,38 +855,33 @@ msgstr ""
 "Rimuovere questi pacchetti? [S/n] "
 
 #: src/pacman/sync.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not access database directory\n"
-msgstr "errore: impossibile accedere alla directory di cache\n"
+msgstr "errore: impossibile accedere alla directory del database\n"
 
 #: src/pacman/sync.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to remove %s? [Y/n] "
-msgstr ""
-"\n"
-"Rimuovere questi pacchetti? [S/n] "
+msgstr "Rimuovere %s? [S/n] "
 
 #: src/pacman/sync.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not remove repository directory\n"
-msgstr "errore: impossibile rimuovere la directory di cache\n"
+msgstr "errore: impossibile rimuovere la directory del repository\n"
 
 #: src/pacman/sync.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Database directory: %s\n"
-msgstr "Directory cache: %s\n"
+msgstr "Directory del database: %s\n"
 
 #: src/pacman/sync.c:102
-#, fuzzy
 msgid "Do you want to remove unused repositories? [Y/n] "
-msgstr ""
-"\n"
-"Rimuovere questi pacchetti? [S/n] "
+msgstr "Rimuovere i repository inutilizzati? [S/n] "
 
 #: src/pacman/sync.c:112
 #, c-format
 msgid "Database directory cleaned up\n"
-msgstr ""
+msgstr "Directory del database pulita\n"
 
 #: src/pacman/sync.c:130 src/pacman/sync.c:177
 #, c-format
@@ -906,9 +889,8 @@ msgid "Cache directory: %s\n"
 msgstr "Directory cache: %s\n"
 
 #: src/pacman/sync.c:131
-#, fuzzy
 msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
-msgstr "Rimuovere i pacchetti non installati dalla cache? [S/n] "
+msgstr "Rimuovere i pacchetti disinstallati dalla cache? [S/n] "
 
 #: src/pacman/sync.c:134
 #, c-format
@@ -990,7 +972,7 @@ msgid ":: Starting full system upgrade...\n"
 msgstr ":: Aggiornamento del sistema in corso...\n"
 
 #: src/pacman/sync.c:526
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: pacman has detected a newer version of itself.\n"
 ":: It is recommended that you upgrade pacman by itself\n"
@@ -999,7 +981,7 @@ msgid ""
 ":: not upgrade pacman separately, answer no.\n"
 msgstr ""
 ":: è disponibile una nuova versione di pacman.\n"
-":: Si consiglia di consentire a pacman di aggiornarsi\n"
+":: Si consiglia di aggiornare pacman\n"
 ":: usando 'pacman -S pacman' e poi riavviare l'attuale\n"
 ":: operazione. Se si desidera continuare l'operazione e\n"
 ":: non aggiornare pacman separatamente, rispondere no.\n"
@@ -1019,7 +1001,7 @@ msgid "error: pacman: %s\n"
 msgstr "errore: pacman: %s\n"
 
 #: src/pacman/sync.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "error: '%s': %s\n"
 msgstr "errore: '%s': %s\n"
 
@@ -1038,9 +1020,9 @@ msgid "error: '%s': not found in sync db\n"
 msgstr "errore: '%s' non è stato trovato nel database\n"
 
 #: src/pacman/sync.c:631
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s: conflicts with %s\n"
-msgstr ":: %s: va in conflitto con %s"
+msgstr ":: %s: va in conflitto con %s\n"
 
 #: src/pacman/sync.c:645
 #, c-format
@@ -1151,7 +1133,7 @@ msgstr "  -h, --help     Visualizza questo help e quindi esce."
 #: scripts/abs.sh.in:71
 msgid "  -V, --version  Display version information then exit."
 msgstr ""
-"  -V, --version  Visualizza le informazioni della versione e quindi esce."
+"  -V, --version  Visualizza le informazioni della versione ed esce."
 
 #: scripts/abs.sh.in:73
 msgid ""
@@ -1403,7 +1385,7 @@ msgstr "Verificato"
 
 #: scripts/makepkg.sh.in:579
 msgid "FAILED"
-msgstr "FALLITO"
+msgstr "NON RIUSCITO"
 
 #: scripts/makepkg.sh.in:587
 msgid "One or more files did not pass the validity check!"
@@ -2004,7 +1986,7 @@ msgstr "Terminato. Il database del vostro pacman è stato ottimizzato."
 
 #: scripts/pacman-optimize.sh.in:159
 msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr ""
+msgstr "Per migliorare le prestazioni di pacman-optimize, avviare 'sync' adesso."
 
 #: scripts/repo-add.sh.in:56
 msgid "Usage: %s <path-to-db> [--force] <package> ...\\n\\n"

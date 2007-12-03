@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2007-12-02 21:40-0600\n"
-"PO-Revision-Date: 2007-11-08 20:30+0100\n"
+"PO-Revision-Date: 2007-12-03 14:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -29,11 +29,11 @@ msgstr "la versione di %s-%s è più recente e sarà ignorata\n"
 
 #: lib/libalpm/add.c:168
 msgid "conflicting packages were found in the target list\n"
-msgstr ""
+msgstr "sono stati individuati dei pacchetti che vanno in conflitto\n"
 
 #: lib/libalpm/add.c:169
 msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
+msgstr "impossibile installare due pacchetti che vanno in conflitto\n"
 
 #: lib/libalpm/add.c:172
 msgid "replacing packages with -A and -U is not supported yet\n"
@@ -41,7 +41,7 @@ msgstr "la sostituzione dei pacchetti con -A e -U non è ancora supportata\n"
 
 #: lib/libalpm/add.c:173
 msgid "you can replace packages manually using -Rd and -U\n"
-msgstr ""
+msgstr "è possibile sostituire manualmente i pacchetti, usando le opzioni -Rd e -U\n"
 
 #: lib/libalpm/add.c:365
 #, c-format
@@ -158,19 +158,18 @@ msgid "database path is undefined\n"
 msgstr "il percorso del database non è definito\n"
 
 #: lib/libalpm/deps.c:173
-#, fuzzy
 msgid "dependency cycle detected:\n"
-msgstr "individuato un possibile ciclo di dipendenze\n"
+msgstr "individuato un possibile ciclo di dipendenze:\n"
 
 #: lib/libalpm/deps.c:175
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr ""
+msgstr "%s sarà rimosso dopo la sua dipendenza %s\n"
 
 #: lib/libalpm/deps.c:177
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr ""
+msgstr "%s sarà installato prima della sua dipendenza %s\n"
 
 #: lib/libalpm/deps.c:573
 #, c-format
@@ -456,57 +455,57 @@ msgstr "impossibile rimuovere la voce '%s' dalla cache\n"
 #: lib/libalpm/server.c:56
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
-msgstr ""
+msgstr "l'url '%s' non è corretto, sarà ignorato\n"
 
 #: lib/libalpm/server.c:60
 msgid "url scheme not specified, assuming http\n"
-msgstr ""
+msgstr "il protocollo dell'url non è specificato, sarà usato http\n"
 
 #: lib/libalpm/server.c:241
 msgid "disk"
-msgstr ""
+msgstr "disco"
 
 #: lib/libalpm/server.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "impossibile recuperare alcuni file da %s\n"
+msgstr "impossibile recuperare il file '%s' da %s : %s\n"
 
 #: lib/libalpm/server.c:275
 msgid "cannot resume download, starting over\n"
-msgstr ""
+msgstr "impossibile riprendere il download\n"
 
 #: lib/libalpm/server.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "cannot write to file '%s'\n"
-msgstr "impossibile rimuovere il file '%s': %s\n"
+msgstr "impossibile scrivere nel file '%s'\n"
 
 #: lib/libalpm/server.c:307
-#, fuzzy, c-format
+#, c-format
 msgid "error downloading '%s': %s\n"
-msgstr "si è verificato un errore durante la lettura del pacchetto %s: %s\n"
+msgstr "si è verificato un errore durante il download di '%s': %s\n"
 
 #: lib/libalpm/server.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "error writing to file '%s': %s\n"
-msgstr "impossibile rimuovere il file '%s': %s\n"
+msgstr "si è verificato un errore durante la scrittura nel file '%s': %s\n"
 
 #: lib/libalpm/server.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to %s\n"
-msgstr "impossibile spostarsi nella directory / (%s)\n"
+msgstr "impossibile spostarsi nella directory %s\n"
 
 #: lib/libalpm/server.c:394
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "avvio di XferCommand: processo non riuscito!\n"
 
 #: lib/libalpm/server.c:445
 msgid "URL does not contain a file for download\n"
-msgstr ""
+msgstr "URL non contiene nessun file da scaricare\n"
 
 #: lib/libalpm/server.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "failed to download %s\n"
-msgstr "impossibile prelevare tutti i file"
+msgstr "impossibile scaricare %s\n"
 
 #: lib/libalpm/sync.c:135
 #, c-format
@@ -516,9 +515,9 @@ msgstr ""
 "s)\n"
 
 #: lib/libalpm/sync.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s-%s: aggiornamento del pacchetto (%s) ignorato\n"
+msgstr "%s: aggiornamento del pacchetto ignorato (%s => %s)\n"
 
 #: lib/libalpm/sync.c:320
 #, c-format
@@ -531,9 +530,9 @@ msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s è aggiornato, sarà ignorato\n"
 
 #: lib/libalpm/sync.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s è aggiornato, sarà ignorato\n"
+msgstr "%s-%s è aggiornato, sarà reinstallato\n"
 
 #: lib/libalpm/sync.c:613 lib/libalpm/sync.c:618
 msgid "unresolvable package conflicts detected\n"
