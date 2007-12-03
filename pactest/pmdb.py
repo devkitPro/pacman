@@ -236,19 +236,19 @@ class pmdb:
             data.append(_mksection("DESC", pkg.desc))
         if pkg.groups:
             data.append(_mksection("GROUPS", pkg.groups))
+        if pkg.license:
+            data.append(_mksection("LICENSE", pkg.license))
+        if pkg.arch:
+            data.append(_mksection("ARCH", pkg.arch))
+        if pkg.builddate:
+            data.append(_mksection("BUILDDATE", pkg.builddate))
+        if pkg.packager:
+            data.append(_mksection("PACKAGER", pkg.packager))
         if self.treename == "local":
             if pkg.url:
                 data.append(_mksection("URL", pkg.url))
-            if pkg.license:
-                data.append(_mksection("LICENSE", pkg.license))
-            if pkg.arch:
-                data.append(_mksection("ARCH", pkg.arch))
-            if pkg.builddate:
-                data.append(_mksection("BUILDDATE", pkg.builddate))
             if pkg.installdate:
                 data.append(_mksection("INSTALLDATE", pkg.installdate))
-            if pkg.packager:
-                data.append(_mksection("PACKAGER", pkg.packager))
             if pkg.size:
                 data.append(_mksection("SIZE", pkg.size))
             if pkg.reason:
