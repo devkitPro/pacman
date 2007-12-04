@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2007-12-02 21:40-0600\n"
-"PO-Revision-Date: 2007-12-03 14:00+0100\n"
+"PO-Revision-Date: 2007-12-04 22:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr ":: Il file %s è corrotto. Eliminarlo? [S/n] "
 
 #: src/pacman/callback.c:354
 msgid "installing"
-msgstr "installazione in corso di "
+msgstr "installazione in corso di"
 
 #: src/pacman/callback.c:357
 msgid "upgrading"
@@ -273,7 +273,7 @@ msgstr "Dipende da     :"
 
 #: src/pacman/package.c:102
 msgid "Optional Deps  :"
-msgstr "Dip opzionali  :"
+msgstr "Dip. opzionali :"
 
 #: src/pacman/package.c:105
 msgid "Required By    :"
@@ -281,7 +281,7 @@ msgstr "Richiesto da   :"
 
 #: src/pacman/package.c:108
 msgid "Conflicts With :"
-msgstr "Conflitto con  :"
+msgstr "Conflitti con  :"
 
 #: src/pacman/package.c:109
 msgid "Replaces       :"
@@ -473,14 +473,14 @@ msgstr ""
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr ""
-"  -g, --groups         visualizza tutti i membri di un gruppo di pacchetti\n"
+"  -g, --groups         mostra tutti i pacchetti di un gruppo\n"
 
 #: src/pacman/pacman.c:107
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
-"  -i, --info           visualizza le informazioni dell pacchetto (-ii per il "
+"  -i, --info           mostra le informazioni del pacchetto (-ii per il "
 "backup)\n"
 
 #: src/pacman/pacman.c:108
@@ -499,13 +499,13 @@ msgstr ""
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr ""
-"  -o, --owns <file>    visualizza il pacchetto che contiene il <file>\n"
+"  -o, --owns <file>    mostra il pacchetto che contiene il <file>\n"
 
 #: src/pacman/pacman.c:111
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file           interroga il file di pacchetto invece del database\n"
+"  -p, --file <pacchetto> interroga un file del pacchetto invece del database\n"
 
 #: src/pacman/pacman.c:112
 #, c-format
@@ -553,13 +553,13 @@ msgstr "  -e, --dependsonly    installa solo le dipendenze\n"
 #: src/pacman/pacman.c:125
 #, c-format
 msgid "  -i, --info           view package information\n"
-msgstr "  -i, --info           visualizza le informazioni sul pacchetto\n"
+msgstr "  -i, --info           mostra le informazioni sul pacchetto\n"
 
 #: src/pacman/pacman.c:126
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
-"  -l, --list <repo>    visualizza la lista dei pacchetti di un repository\n"
+"  -l, --list <repo>    mostra la lista dei pacchetti di un repository\n"
 
 #: src/pacman/pacman.c:127
 #, c-format
@@ -604,7 +604,7 @@ msgstr ""
 msgid ""
 "      --needed         only upgrade outdated or not yet installed packages\n"
 msgstr ""
-"      --needed         installa solo i pacchetti non aggiornati o non installati\n"
+"      --needed         aggiorna solo i pacchetti non aggiornati o non ancora installati\n"
 
 #: src/pacman/pacman.c:133
 #, c-format
@@ -631,7 +631,7 @@ msgstr "      --config <path>  imposta un file di configurazione alternativo\n"
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr ""
-"      --logfile <path>  imposta un file di configurazione alternativo\n"
+"      --logfile <path>  imposta un file di log alternativo\n"
 
 #: src/pacman/pacman.c:140
 #, c-format
@@ -642,7 +642,7 @@ msgstr "      --noconfirm      non chiede alcuna conferma\n"
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  non visualizza la barra di avanzamento\n"
+msgstr "      --noprogressbar  non mostra la barra di avanzamento\n"
 
 #: src/pacman/pacman.c:142
 #, c-format
@@ -807,7 +807,7 @@ msgstr "Controllo degli aggiornamenti dei pacchetti in corso... \n"
 #: src/pacman/query.c:243
 #, c-format
 msgid "no upgrades found.\n"
-msgstr "nessun aggiornamento trovato.\n"
+msgstr "non vi sono aggiornamenti.\n"
 
 #: src/pacman/query.c:362 src/pacman/sync.c:743
 msgid "no usable package repositories configured.\n"
@@ -886,7 +886,7 @@ msgstr "Directory del database pulita\n"
 #: src/pacman/sync.c:130 src/pacman/sync.c:177
 #, c-format
 msgid "Cache directory: %s\n"
-msgstr "Directory cache: %s\n"
+msgstr "Directory della cache: %s\n"
 
 #: src/pacman/sync.c:131
 msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
@@ -900,7 +900,7 @@ msgstr "rimozione dei vecchi pacchetti dalla cache in corso... "
 #: src/pacman/sync.c:138
 #, c-format
 msgid "error: could not access cache directory\n"
-msgstr "errore: impossibile accedere alla directory di cache\n"
+msgstr "errore: impossibile accedere alla directory della cache\n"
 
 #: src/pacman/sync.c:178
 msgid "Do you want to remove ALL packages from cache? [Y/n] "
@@ -914,12 +914,12 @@ msgstr "rimozione di tutti i pacchetti dalla cache in corso... "
 #: src/pacman/sync.c:184
 #, c-format
 msgid "error: could not remove cache directory\n"
-msgstr "errore: impossibile rimuovere la directory di cache\n"
+msgstr "errore: impossibile rimuovere la directory della cache\n"
 
 #: src/pacman/sync.c:189
 #, c-format
 msgid "error: could not create new cache directory\n"
-msgstr "errore: impossibile creare una nuova directory di cache\n"
+msgstr "errore: impossibile creare una nuova directory della cache\n"
 
 #: src/pacman/sync.c:216
 #, c-format
@@ -1124,16 +1124,16 @@ msgstr "Opzioni:"
 
 #: scripts/abs.sh.in:68
 msgid "  -p, --passive  The connection is opened in passive mode."
-msgstr "  -p, --passive  La connessione è stata stabilita in modalità passiva."
+msgstr "  -p, --passive  La connessione avviene in modalità passiva."
 
 #: scripts/abs.sh.in:70
 msgid "  -h, --help     Display this help message then exit."
-msgstr "  -h, --help     Visualizza questo help e quindi esce."
+msgstr "  -h, --help     mostra questo help e quindi esce."
 
 #: scripts/abs.sh.in:71
 msgid "  -V, --version  Display version information then exit."
 msgstr ""
-"  -V, --version  Visualizza le informazioni della versione ed esce."
+"  -V, --version  mostra le informazioni della versione ed esce."
 
 #: scripts/abs.sh.in:73
 msgid ""
@@ -1327,7 +1327,7 @@ msgstr "Dipendenze mancanti:"
 
 #: scripts/makepkg.sh.in:444
 msgid "Retrieving Sources..."
-msgstr "Recupero dei sorgenti..."
+msgstr "Recupero dei sorgenti in corso..."
 
 #: scripts/makepkg.sh.in:447
 msgid "You do not have write permission to store downloads in %s."
@@ -1335,11 +1335,11 @@ msgstr "Non si dispone dei permessi in scrittura per salvare i download in %s."
 
 #: scripts/makepkg.sh.in:458
 msgid "Found %s in build dir"
-msgstr "Trovato %s nella directory di build"
+msgstr "Trovato %s nella directory di compilazione"
 
 #: scripts/makepkg.sh.in:462
 msgid "Using cached copy of %s"
-msgstr "Utilizzata la copia contenuta nella cache di %s"
+msgstr "Sarà utilizzata la copia di %s contenuta nella cache"
 
 #: scripts/makepkg.sh.in:470
 msgid "Downloading %s..."
@@ -1498,7 +1498,7 @@ msgstr "Ricreazione del pacchetto dal delta che corrisponda alla firma md5"
 
 #: scripts/makepkg.sh.in:919
 msgid "NOTE: the delta should ONLY be distributed with this tarball"
-msgstr "NOTA: il delta dovrebbe essere solo distribuito con questo archivio"
+msgstr "NOTA: il delta dovrebbe essere distribuito SOLO con questo archivio"
 
 #: scripts/makepkg.sh.in:923
 msgid "Could not generate the package from the delta."
@@ -1523,7 +1523,7 @@ msgstr "Aggiunta di %s in corso..."
 
 #: scripts/makepkg.sh.in:945
 msgid "Install script %s not found."
-msgstr "Impossibile trovare lo script install."
+msgstr "Impossibile trovare lo script %s."
 
 #: scripts/makepkg.sh.in:965
 msgid "Compressing source package..."
@@ -1611,7 +1611,7 @@ msgstr "  -i, --install    Installa il pacchetto dopo la compilazione"
 
 #: scripts/makepkg.sh.in:1066
 msgid "  -L, --log        Log package build process"
-msgstr "  -L, --log        Visualizza il log della compilazione"
+msgstr "  -L, --log        mostra il log della compilazione"
 
 #: scripts/makepkg.sh.in:1067
 msgid "  -m, --nocolor    Disable colorized output messages"
@@ -1681,7 +1681,7 @@ msgstr "Adesso sudo è usato di default. L'opzione --usesudo è deprecata!"
 
 #: scripts/makepkg.sh.in:1192
 msgid "Cleaning up ALL files from %s."
-msgstr "Pulizia di tutti i file da %s in corso."
+msgstr "Pulizia di TUTTI i file da %s in corso."
 
 #: scripts/makepkg.sh.in:1193
 msgid "    Are you sure you wish to do this? [Y/n] "
@@ -1809,7 +1809,7 @@ msgstr "Lo script install (%s) non esiste."
 #: scripts/makepkg.sh.in:1330
 msgid "A package has already been built, installing existing package..."
 msgstr ""
-"Già è stato creato un pacchetto,installazione del pacchetto esistente in "
+"Già è stato creato un pacchetto, installazione del pacchetto esistente in "
 "corso..."
 
 #: scripts/makepkg.sh.in:1334 scripts/makepkg.sh.in:1366
@@ -1860,7 +1860,7 @@ msgstr ""
 #: scripts/makepkg.sh.in:1409
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr ""
-"Recupero dei sorgenti ignorato           utilizzo la directory esistente src/"
+"Recupero dei sorgenti ignorato        -- utilizzo la directory esistente src/"
 
 #: scripts/makepkg.sh.in:1410
 msgid "Skipping source integrity checks -- using existing src/ tree"
