@@ -467,7 +467,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	return(0);
 }
 
-int sync_trans(alpm_list_t *targets, int sync_only)
+static int sync_trans(alpm_list_t *targets, int sync_only)
 {
 	int retval = 0;
 	alpm_list_t *data = NULL;
