@@ -282,6 +282,7 @@ static void setlibpaths(void)
 		if(alpm_option_get_cachedirs() == NULL) {
 			alpm_option_add_cachedir(CACHEDIR);
 		}
+		init = 1;
 	}
 }
 
