@@ -33,6 +33,47 @@
 #include "log.h"
 #include "util.h"
 
+/* split a backup string "file\thash" into two strings : file and hash */
+int _alpm_backup_split(const char *string, char **file, char **hash)
+{
+	char *str = strdup(string);
+	char *ptr;
+
+	/* tab delimiter */
+	ptr = strchr(str, '\t');
+	if(ptr == NULL) {
+		if(file) {
+			*file = str;
+		}
+		return(0);
+	}
+	*ptr = '\0';
+	ptr++;
+	/* now str points to the filename and ptr points to the hash */
+	if(file) {
+		*file = strdup(str);
+	}
+	if(hash) {
+		*hash = strdup(ptr);
+	}
+	FREE(str);
+	return(1);
+}
+
+char *_alpm_backup_file(const char *string)
+{
+	char *file = NULL;
+	_alpm_backup_split(string, &file, NULL);
+	return(file);
+}
+
+char *_alpm_backup_hash(const char *string)
+{
+	char *hash = NULL;
+	_alpm_backup_split(string, NULL, &hash);
+	return(hash);
+}
+
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
  * then we return the md5 hash (parsed from the same line)
  */
@@ -46,26 +87,22 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 		return(NULL);
 	}
 
-	/* run through the backup list and parse out the md5 hash for our file */
+	/* run through the backup list and parse out the hash for our file */
 	for(lp = backup; lp; lp = lp->next) {
-		char *str = strdup(lp->data);
-		char *ptr;
+		char *filename = NULL;
+		char *hash = NULL;
 
-		/* tab delimiter */
-		ptr = strchr(str, '\t');
-		if(ptr == NULL) {
-			FREE(str);
+		/* no hash found */
+		if(!_alpm_backup_split((char *)lp->data, &filename, &hash)) {
+			FREE(filename);
 			continue;
 		}
-		*ptr = '\0';
-		ptr++;
-		/* now str points to the filename and ptr points to the md5 hash */
-		if(strcmp(file, str) == 0) {
-			char *hash = strdup(ptr);
-			FREE(str);
+		if(strcmp(file, filename) == 0) {
+			FREE(filename);
 			return(hash);
 		}
-		FREE(str);
+		FREE(filename);
+		FREE(hash);
 	}
 
 	return(NULL);

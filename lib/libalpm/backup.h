@@ -23,6 +23,8 @@
 
 #include "alpm_list.h"
 
+char *_alpm_backup_file(const char *string);
+char *_alpm_backup_hash(const char *string);
 char *_alpm_needbackup(const char *file, const alpm_list_t *backup);
 
 #endif /* _ALPM_BACKUP_H */
