@@ -1,6 +1,6 @@
-# file: /usr/share/zsh/site-functions/_pacman
-# use the following in your zsh config:
-#   compdef pacman pacman.static=pacman
+#compdef pacman pacman.static=pacman
+
+# copy this file to /usr/share/zsh/site-functions/_pacman
 
 typeset -A opt_args
 
@@ -21,11 +21,15 @@ _pacman_opts_common=(
 	'-h[Display syntax for the given operation]'
 	'-r[Set alternate installation root]:installation root:_files -/'
 	'-v[Be more verbose]'
+	'--cachedir[Alternate package cache location]:cache_location:_files -/'
 	'--config[An alternate configuration file]:config file:_files'
+	'--logfile[An alternate log file]:config file:_files'
 	'--noconfirm[Do not ask for confirmation]'
+	'--noprogressbar[Do not show a progress bar when downloading files]'
+	'--noscriptlet[Do not execute the install scriptlet if one exists]'
 )
 
-# options for passing to _arguments: options for --add, and --update commands
+# options for passing to _arguments: options for --add and --update commands
 _pacman_opts_pkgfile=(
 	'-d[Skip dependency checks]'
 	'-f[Overwrite conflicting files]'
@@ -43,8 +47,16 @@ _pacman_opts_query_actions=(
 
 # options for passing to _arguments: options for --query and subcommands
 _pacman_opts_query_modifiers=(
+	'-c[List package changelog]'
+	'-d[List packages installed as dependencies]'
+	'-e[List packages explicitly installed]'
+	'-g[List all members of a package group]'
 	'-i[View package information]'
+	'-ii[View package information including backup files]'
 	'-l[List package contents]'
+	'-m[List installed packages not found in sync db(s)]'
+	'-t[List packages not required by any package]'
+	'-u[List packages that can be upgraded]'
 )
 
 # options for passing to _arguments: options for --remove command
@@ -60,6 +72,7 @@ _pacman_opts_remove=(
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_actions=(
 	'*-c[Remove old packages from cache]:*:clean:->sync_clean'
+	'*-cc[Remove all packages from cache]:*:clean:->sync_clean'
 	'-g[View all members of a package group]:*:package groups:->sync_group'
 	'-s[Search package names and descriptions]:*:search text:->sync_search'
 )
@@ -67,6 +80,7 @@ _pacman_opts_sync_actions=(
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_modifiers=(
 	'-d[Skip dependency checks]'
+	'-e[Install dependencies only]'
 	'-f[Overwrite conflicting files]'
 	'-i[View package information]'
 	'-l[List all packages in a repository]'
@@ -76,6 +90,7 @@ _pacman_opts_sync_modifiers=(
 	'-y[Download fresh package databases]'
 	'*--ignore[Ignore a package upgrade]:package:_pacman_completions_installed_packages'
 	'*--ignoregroup[Ignore a group upgrade]:package group:_pacman_completions_all_groups'
+	'--asdeps[Install packages as non-explicitly installed]'
 )
 
 # handles --action subcommand
@@ -209,43 +224,57 @@ _pacman_action_version() {
 _pacman_completions_all_groups() {
 	local -a cmd groups
 	_pacman_get_command
-	groups=( $(_call_program groups $cmd[@] -Sg | grep -e \^$PREFIX) )
+	groups=( $(_call_program groups $cmd[@] -Sg) )
 	compadd "$@" -a groups
 }
 
 # provides completions for packages available from repositories
+# these can be specified as either 'package' or 'repository/package'
 _pacman_completions_all_packages() {
-	local -a cmd packages repositories
+	local -a cmd packages repositories packages_long
 
-	repositories=( $(_call_program repositories cat /etc/pacman.conf | grep "^\[" | sed "s,\(\[\|\]\),,g" | grep -v "^options" | sort -u) )
-	# these can be specified as either 'package' or 'repository/package'
-	if [[ "$PREFIX" == "" ]] ; then
-		packages=( $(_call_program packages ls /var/lib/pacman/sync/${^repositories} | grep -v "^/" | sed "s,\-[^-]*\-[^-]*$,," | sort -u) )
+	repositories=(${(o)${${${(M)${(f)"$(</etc/pacman.conf)"}:#\[*}/\[/}/\]/}:#options})
+	typeset -U repositories
+	packages_long=(/var/lib/pacman/sync/${^repositories}/*(/))
+	packages=(${(o)${${packages_long/\/var\/lib\/pacman\/sync\//}#*/}%-*-*} )
+	typeset -U packages
+	_wanted packages expl "packages" compadd - "${(@)packages}"
+	if [[ $PREFIX != */* ]] ; then
+		repositories=(${(o)${${${(M)${(f)"$(</etc/pacman.conf)"}:#\[*}/\[/}/\]/}:#options})
+		typeset -U repositories
+		_wanted repo_packages expl "repository/package" compadd -S "/" $repositories
 	else
-		packages=( $(_call_program packages ls /var/lib/pacman/sync/${^repositories} | grep -v "^/" | grep -e \^$PREFIX | sed "s,\-[^-]*\-[^-]*$,," | sort -u) )
+		compset -P '*/'
+		packages_long=(/var/lib/pacman/sync/$IPREFIX*(/))
+		packages=(${(o)${${packages_long/\/var\/lib\/pacman\/sync\//}#*/}%-*-*} )
+		typeset -U packages
+		_wanted repo_packages expl "repository/package" compadd ${(@)packages}
 	fi
-	compadd "$@" -a packages
 }
 
 # provides completions for package groups
 _pacman_completions_installed_groups() {
 	local -a cmd groups
 	_pacman_get_command
-	groups=( $(_call_program installed_groups $cmd[@] -Qg | cut -d' ' -f1 | grep -e \^$PREFIX | sort -u) )
+	groups=(${(o)${(f)"$(pacman -Qg)"}% *})
+	typeset -U groups
 	compadd "$@" -a groups
 }
 
 # provides completions for installed packages
 _pacman_completions_installed_packages() {
-	local -a cmd packages
-	packages=( $(_call_program installed_packages ls /var/lib/pacman/local | grep "^$PREFIX" | sed "s,\-[^-]*\-[^-]*$,,") )
+	local -a cmd packages packages_long
+	packages_long=(/var/lib/pacman/local/*(/))
+	packages=( ${${packages_long/\/var\/lib\/pacman\/local\//}%-*-*} )
 	compadd "$@" -a packages
 }
 
 # provides completions for repository names
 _pacman_completions_repositories() {
 	local -a cmd repositories
-	repositories=( $(_call_program repositories cat /etc/pacman.conf | grep "^\[" | sed "s,\(\[\|\]\),,g" | grep -v "^options" | grep "^$PREFIX" | sort -u) )
+	repositories=(${(o)${${${(M)${(f)"$(</etc/pacman.conf)"}:#\[*}/\[/}/\]/}:#options})
+	# Uniq the array
+	typeset -U repositories
 	compadd "$@" -a repositories
 }
 
@@ -265,21 +294,32 @@ _pacman_get_command() {
 
 # main dispatcher
 _pacman() {
+	# First check if --ignoregroup was the last command given. If so, complete
+	# all groups.
+	if [ "$words[-2]" = "--ignoregroup" ]; then
+		_arguments -s : \
+			"$_pacman_opts_common[@]" \
+			"$_pacman_opts_sync_modifiers[@]" \
+			'*:package group:_pacman_completions_all_groups'
+		return 0
+	fi
+
+	# Otherwise, complete on the given command.
 	case $words[2] in
 		-A*)  _pacman_action_add      ;;
-		-Qg) # ipkg groups
+		-Q*g*) # ipkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:groups:_pacman_completions_installed_groups'
 				;;
-		-Qo) # file *.pkg.tar.gz
+		-Q*o*) # file *.pkg.tar.gz
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files'
 				;;
-		-Qp) # file *.pkg.tar.gz
+		-Q*p*) # file *.pkg.tar.gz
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
@@ -287,13 +327,16 @@ _pacman() {
 				;;
 		-Q*)  _pacman_action_query    ;;
 		-R*)  _pacman_action_remove   ;;
-		-Sl) # repos
+		-S*c*) # no completion
+			return 0
+			;;
+		-S*l*) # repos
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package repo:_pacman_completions_repositories' \
 				;;
-		-Sg) # pkg groups
+		-S*g*) # pkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
