@@ -550,13 +550,15 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		/*TODO this autoresolves the first 'satisfier' package... we should fix this
 		 * somehow */
 		/* check provides */
+		/* we don't check literals again to avoid duplicated PM_TRANS_CONV_INSTALL_IGNOREPKG messages */
 		for(j = dbs_sync; j && !found; j = j->next) {
 			for(k = _alpm_db_get_pkgcache(j->data); k && !found; k = k->next) {
 				sync = k->data;
 				if(!sync) {
 					continue;
 				}
-				found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
+				found = alpm_depcmp(sync, missdep) && strcmp(sync->name, missdep->name)
+					&& !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
 				if(!found) {
 					continue;
 				}
