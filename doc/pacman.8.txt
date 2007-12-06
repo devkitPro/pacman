@@ -212,10 +212,14 @@ Remove Options[[RO]]
 Sync Options[[SO]]
 ------------------
 *-c, \--clean*::
-	Remove old packages from the cache to free up disk space. When pacman
-	downloads packages, it saves them in ``/var/cache/pacman/pkg''. Use one
-	'\--clean' switch to remove old packages; use two to remove all packages
-	from the cache.
+	Remove old packages from the cache as well as unused sync databases to
+	free up disk space. When pacman	downloads packages, it saves them in a
+	cache directory. In addition, databases are saved for every sync DB you
+	download from, and are not deleted even if they are removed from the
+	configuration file manlink:pacman.conf[5]. Use one '\--clean' switch to
+	only remove old packages; use two to remove all packages from the cache.
+	In both cases, you will have a yes or no option to remove packages and/or
+	unused downloaded databases.
 
 *-e, \--dependsonly*::
 	Install all dependencies of a package, but not the specified package
@@ -257,9 +261,10 @@ Sync Options[[SO]]
 
 *-y, \--refresh*::
 	Download a fresh copy of the master package list from the server(s)
-	defined in pacman.conf. This should typically be used each time you use
-	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags will force
-	a refresh of all package lists even if they are thought to be up to date.
+	defined in manlink:pacman.conf[5]. This should typically be used each time
+	you use	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags
+	will force a refresh of all package lists even if they are thought to be up
+	to date.
 
 *\--needed*::
 	Only install the targets that are not already installed and up-to-date.
