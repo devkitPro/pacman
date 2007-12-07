@@ -168,15 +168,15 @@ static alpm_list_t *shortest_delta_path(alpm_list_t *deltas,
 
 		/* If this vertex has already been visited in the path, go to the
 		 * next vertex. */
-		if(alpm_list_find_ptr(path, v))
+		if(alpm_list_find_ptr(path, v)) {
 			continue;
+		}
 
 		/* Once we find a vertex that starts at the 'from' version,
 		 * recursively find the shortest path using the 'to' version of this
 		 * current vertex as the 'from' version in the function call. */
 		if(strcmp(v->from, from) == 0) {
 			alpm_list_t *newpath = alpm_list_copy(path);
-			alpm_list_free(path);
 			newpath = alpm_list_add(newpath, v);
 			newpath = shortest_delta_path(deltas, v->to, to, newpath);
 
@@ -194,6 +194,8 @@ static alpm_list_t *shortest_delta_path(alpm_list_t *deltas,
 			}
 		}
 	}
+
+	alpm_list_free(path);
 
 	return(shortest);
 }
