@@ -147,6 +147,14 @@ int main(int argc, char **argv)
 		free(depstring);
 	}
 
+	/* check conflicts */
+	data = alpm_checkdbconflicts(db);
+	for(i = data; i; i = i->next) {
+		pmconflict_t *conflict = alpm_list_getdata(i);
+		printf("%s conflicts with %s\n", alpm_conflict_get_package1(conflict),
+				alpm_conflict_get_package2(conflict));
+	}
+
 	cleanup(retval);
 }
 
