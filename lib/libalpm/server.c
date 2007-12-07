@@ -410,8 +410,8 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 		if(alpm_list_count(complete) == alpm_list_count(files)) {
 			done = 1;
 		}
-		alpm_list_free(complete);
 	}
+	alpm_list_free(complete);
 
 	return(done ? 0 : -1);
 }
