@@ -717,8 +717,7 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 	/* Step 4: release transaction resources */
 cleanup:
 	if(data) {
-		alpm_list_free_inner(data, free);
-		alpm_list_free(data);
+		FREELIST(data);
 	}
 	if(alpm_trans_release() == -1) {
 		fprintf(stderr, _("error: failed to release transaction (%s)\n"),

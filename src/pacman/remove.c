@@ -133,8 +133,7 @@ int pacman_remove(alpm_list_t *targets)
 							depstring);
 					free(depstring);
 				}
-				alpm_list_free_inner(data, free);
-				alpm_list_free(data);
+				FREELIST(data);
 				break;
 			default:
 				break;

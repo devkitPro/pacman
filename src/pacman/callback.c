@@ -420,9 +420,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			printf("%s", (char *)i->data);
 		}
 		fflush(stdout);
-		alpm_list_free_inner(output, free);
-		alpm_list_free(output);
-		output = NULL;
+		FREELIST(output);
 	} else {
 		on_progress = 1;
 	}
