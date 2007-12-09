@@ -34,6 +34,8 @@
 #include "package.h"
 #include "util.h"
 
+#define CLBUF_SIZE 4096
+
 /* Display the content of a package
  *
  * level: <0 - sync package [-Si]
@@ -232,28 +234,30 @@ void dump_pkg_files(pmpkg_t *pkg)
 	fflush(stdout);
 }
 
-/* Display the changelog of an installed package
+/* Display the changelog of a package
  */
-void dump_pkg_changelog(char *clfile, const char *pkgname)
+void dump_pkg_changelog(pmpkg_t *pkg)
 {
-	FILE* fp = NULL;
-	char line[PATH_MAX+1];
+	void *fp = NULL;
 
-	if((fp = fopen(clfile, "r")) == NULL)
-	{
-		fprintf(stderr, _("error: no changelog available for '%s'.\n"), pkgname);
+	if((fp = alpm_pkg_changelog_open(pkg)) == NULL) {
+		/* TODO after string freeze use pm_fprintf */
+		fprintf(stderr, _("error: no changelog available for '%s'.\n"),
+				alpm_pkg_get_name(pkg));
 		return;
-	}
-	else
-	{
-		while(!feof(fp))
-		{
-			fgets(line, (int)PATH_MAX, fp);
-			printf("%s", line);
-			line[0] = '\0';
+	} else {
+		/* allocate a buffer to get the changelog back in chunks */
+		char buf[CLBUF_SIZE];
+		int ret = 0;
+		while((ret = alpm_pkg_changelog_read(buf, CLBUF_SIZE, pkg, fp))) {
+			if(ret < CLBUF_SIZE) {
+				/* if we hit the end of the file, we need to add a null terminator */
+				*(buf + ret) = '\0';
+			}
+			printf("%s", buf);
 		}
-		fclose(fp);
-		return;
+		alpm_pkg_changelog_close(pkg, fp);
+		printf("\n");
 	}
 }
 

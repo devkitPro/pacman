@@ -28,7 +28,7 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename);
 
 void dump_pkg_backups(pmpkg_t *pkg);
 void dump_pkg_files(pmpkg_t *pkg);
-void dump_pkg_changelog(char *clfile, const char *pkgname);
+void dump_pkg_changelog(pmpkg_t *pkg);
 
 #endif /* _PM_PACKAGE_H */
 

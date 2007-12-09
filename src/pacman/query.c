@@ -312,14 +312,7 @@ static void display(pmpkg_t *pkg)
 		dump_pkg_files(pkg);
 	}
 	if(config->op_q_changelog) {
-		char changelog[PATH_MAX];
-		/* TODO should be done in the backend- no raw DB stuff up front */
-		snprintf(changelog, PATH_MAX, "%s/%s/%s-%s/changelog",
-				alpm_option_get_dbpath(),
-				alpm_db_get_name(db_local),
-				alpm_pkg_get_name(pkg),
-				alpm_pkg_get_version(pkg));
-		dump_pkg_changelog(changelog, alpm_pkg_get_name(pkg));
+		dump_pkg_changelog(pkg);
 	}
 	if(!config->op_q_info && !config->op_q_list && !config->op_q_changelog) {
 		if (!config->quiet) {

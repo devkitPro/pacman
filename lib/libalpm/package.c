@@ -491,6 +491,115 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 	return pkg->backup;
 }
 
+/**
+ * Open a package changelog for reading. Similar to fopen in functionality,
+ * except that the returned 'file stream' could really be from an archive
+ * as well as from the database.
+ * @param pkg the package to read the changelog of (either file or db)
+ * @return a 'file stream' to the package changelog
+ */
+void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_CACHE) {
+		char clfile[PATH_MAX];
+		snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
+				alpm_option_get_dbpath(),
+				alpm_db_get_name(handle->db_local),
+				alpm_pkg_get_name(pkg),
+				alpm_pkg_get_version(pkg));
+		return fopen(clfile, "r");
+	} else if(pkg->origin == PKG_FROM_FILE) {
+		struct archive *archive = NULL;
+		struct archive_entry *entry;
+		const char *pkgfile = pkg->origin_data.file;
+		int ret = ARCHIVE_OK;
+
+		if((archive = archive_read_new()) == NULL) {
+			RET_ERR(PM_ERR_LIBARCHIVE_ERROR, NULL);
+		}
+
+		archive_read_support_compression_all(archive);
+		archive_read_support_format_all(archive);
+
+		if (archive_read_open_filename(archive, pkgfile,
+					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+			RET_ERR(PM_ERR_PKG_OPEN, NULL);
+		}
+
+		while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
+			const char *entry_name = archive_entry_pathname(entry);
+
+			if(strcmp(entry_name, ".CHANGELOG") == 0) {
+				return(archive);
+			}
+		}
+		/* we didn't find a changelog */
+		archive_read_finish(archive);
+		errno = ENOENT;
+	}
+	return(NULL);
+}
+
+/**
+ * Read data from an open changelog 'file stream'. Similar to fread in
+ * functionality, this function takes a buffer and amount of data to read.
+ * @param ptr a buffer to fill with raw changelog data
+ * @param size the size of the buffer
+ * @param pkg the package that the changelog is being read from
+ * @param fp a 'file stream' to the package changelog
+ * @return the number of characters read, or 0 if there is no more data
+ */
+size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
+		const pmpkg_t *pkg, const void *fp)
+{
+	size_t ret = 0;
+	if(pkg->origin == PKG_FROM_CACHE) {
+		ret = fread(ptr, 1, size, (FILE*)fp);
+	} else if(pkg->origin == PKG_FROM_FILE) {
+		ret = archive_read_data((struct archive*)fp, ptr, size);
+	}
+	return(ret);
+}
+
+/*
+int SYMEXPORT alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp)
+{
+	int ret = 0;
+	if(pkg->origin == PKG_FROM_CACHE) {
+		ret = feof((FILE*)fp);
+	} else if(pkg->origin == PKG_FROM_FILE) {
+		// note: this doesn't quite work, no feof in libarchive
+		ret = archive_read_data((struct archive*)fp, NULL, 0);
+	}
+	return(ret);
+}
+*/
+
+/**
+ * Close a package changelog for reading. Similar to fclose in functionality,
+ * except that the 'file stream' could really be from an archive as well as
+ * from the database.
+ * @param pkg the package that the changelog was read from
+ * @param fp a 'file stream' to the package changelog
+ * @return whether closing the package changelog stream was successful
+ */
+int SYMEXPORT alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp)
+{
+	int ret = 0;
+	if(pkg->origin == PKG_FROM_CACHE) {
+		ret = fclose((FILE*)fp);
+	} else if(pkg->origin == PKG_FROM_FILE) {
+		ret = archive_read_finish((struct archive *)fp);
+	}
+	return(ret);
+}
+
 unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
