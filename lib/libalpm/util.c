@@ -370,7 +370,7 @@ int _alpm_lckrm()
 
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {
-	int ret = 0;
+	int ret = 1;
 	mode_t oldmask;
 	struct archive *_archive;
 	struct archive_entry *entry;
@@ -410,6 +410,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 			}
 			continue;
 		}
+		ret = 0;
 		snprintf(expath, PATH_MAX, "%s/%s", prefix, entryname);
 		archive_entry_set_pathname(entry, expath);
 
