@@ -40,7 +40,6 @@ void _alpm_conflict_free(pmconflict_t *conflict);
 int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages);
 alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages);
-alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages);
 alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *root);
 
 void _alpm_fileconflict_free(pmfileconflict_t *conflict);

@@ -207,9 +207,13 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 	return(baddeps);
 }
 
-/* Check for transaction conflicts */
-alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages) {
-	return(alpm_list_join(_alpm_innerconflicts(packages), _alpm_outerconflicts(db, packages)));
+/** Check the package conflicts in a database
+ *
+ * @param db_local the database to check
+ * @return an alpm_list_t of pmconflict_t
+ */
+alpm_list_t SYMEXPORT *alpm_checkdbconflicts(pmdb_t *db_local) {
+	return(_alpm_innerconflicts(_alpm_db_get_pkgcache(db_local)));
 }
 
 /* Returns a alpm_list_t* of file conflicts.

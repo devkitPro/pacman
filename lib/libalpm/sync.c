@@ -456,7 +456,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, "looking for conflicts\n");
-		deps = _alpm_checkconflicts(db_local, list);
+		deps = alpm_list_join(_alpm_innerconflicts(list),
+				_alpm_outerconflicts(db_local, list));
 		if(deps) {
 			int errorout = 0;
 			alpm_list_t *asked = NULL;

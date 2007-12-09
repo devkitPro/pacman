@@ -386,6 +386,8 @@ alpm_list_t *alpm_deptest(pmdb_t *db, alpm_list_t *targets);
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
 
+alpm_list_t *alpm_checkdbconflicts(pmdb_t *db_local);
+
 const char *alpm_conflict_get_package1(pmconflict_t *conflict);
 const char *alpm_conflict_get_package2(pmconflict_t *conflict);
 
