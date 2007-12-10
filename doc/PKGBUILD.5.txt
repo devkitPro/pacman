@@ -20,10 +20,12 @@ This manual page is meant to describe general rules about PKGBUILDs. Once a
 PKGBUILD is written, the actual package is built using makepkg and installed
 with pacman.
 
-NOTE: If you have a local copy of the Arch Build System (ABS) tree on your
-computer, you can copy the PKGBUILD.proto file to your new package build
-directory and edit it from there. To acquire/sync the ABS tree, use the abs
-script included with pacman.
+NOTE: If you are using Arch Linux and have a local copy of the Arch Build
+System (ABS) tree on your computer, or are using another distribution that
+provides a similar tree of build files, you can copy the provided
+PKGBUILD.proto file to a new package build directory and make customizations to
+suit your needs. An up to date prototype file can also be found in the source
+distribution of this package.
 
 
 Options and Directives
@@ -224,7 +226,9 @@ same directory as the PKGBUILD script. Then use the install directive:
 	install=pkgname.install
 
 The install script does not need to be specified in the source array. A
-template install file is available in the ABS tree (/var/abs/install.proto).
+template install file is available with the source distribution of this
+program, or one may be provided by your distribution. For example, Arch Linux
+provides prototype install files in the ABS tree.
 
 
 Development Directives
@@ -294,7 +298,8 @@ from.
 Example
 -------
 The following is an example PKGBUILD for the 'patch' package. For more
-examples, look through the ABS tree.
+examples, look through the build files of your distribution's packages. For
+those using Arch Linux, consult the ABS tree.
 
 [sh]
 source~~~~~
