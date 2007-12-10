@@ -512,43 +512,45 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 			goto cleanup;
 		}
 
-		/* check if pacman itself is one of the packages to upgrade.
-		 * this can prevent some of the "syntax error" problems users can have
-		 * when sysupgrade'ing with an older version of pacman.
-		 */
-		pkgs = alpm_trans_get_pkgs();
-		for(i = pkgs; i; i = alpm_list_next(i)) {
-			pmsyncpkg_t *sync = alpm_list_getdata(i);
-			pmpkg_t *spkg = alpm_sync_get_pkg(sync);
-			/* TODO pacman name should probably not be hardcoded. In addition, we
-			 * have problems on an -Syu if pacman has to pull in deps, so recommend
-			 * an '-S pacman' operation */
-			if(strcmp("pacman", alpm_pkg_get_name(spkg)) == 0) {
-				printf("\n");
-				printf(_(":: pacman has detected a newer version of itself.\n"
-				         ":: It is recommended that you upgrade pacman by itself\n"
-				         ":: using 'pacman -S pacman', and then rerun the current\n"
-				         ":: operation. If you wish to continue the operation and\n"
-				         ":: not upgrade pacman separately, answer no.\n"));
-				if(yesno(_(":: Cancel current operation? [Y/n] "))) {
-					if(alpm_trans_release() == -1) {
-						fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-						    alpm_strerrorlast());
-						retval = 1;
-						goto cleanup;
+		if(!(alpm_trans_get_flags() & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS))) {
+			/* check if pacman itself is one of the packages to upgrade.
+			 * this can prevent some of the "syntax error" problems users can have
+			 * when sysupgrade'ing with an older version of pacman.
+			 */
+			pkgs = alpm_trans_get_pkgs();
+			for(i = pkgs; i; i = alpm_list_next(i)) {
+				pmsyncpkg_t *sync = alpm_list_getdata(i);
+				pmpkg_t *spkg = alpm_sync_get_pkg(sync);
+				/* TODO pacman name should probably not be hardcoded. In addition, we
+				 * have problems on an -Syu if pacman has to pull in deps, so recommend
+				 * an '-S pacman' operation */
+				if(strcmp("pacman", alpm_pkg_get_name(spkg)) == 0) {
+					printf("\n");
+					printf(_(":: pacman has detected a newer version of itself.\n"
+					         ":: It is recommended that you upgrade pacman by itself\n"
+					         ":: using 'pacman -S pacman', and then rerun the current\n"
+					         ":: operation. If you wish to continue the operation and\n"
+					         ":: not upgrade pacman separately, answer no.\n"));
+					if(yesno(_(":: Cancel current operation? [Y/n] "))) {
+						if(alpm_trans_release() == -1) {
+							fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+							    alpm_strerrorlast());
+							retval = 1;
+							goto cleanup;
+						}
+						if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags,
+						   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
+							fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+							    alpm_strerrorlast());
+							return(1);
+						}
+						if(alpm_trans_addtarget("pacman") == -1) {
+							fprintf(stderr, _("error: pacman: %s\n"), alpm_strerrorlast());
+							retval = 1;
+							goto cleanup;
+						}
+						break;
 					}
-					if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags,
-					   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-						fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-						    alpm_strerrorlast());
-						return(1);
-					}
-					if(alpm_trans_addtarget("pacman") == -1) {
-						fprintf(stderr, _("error: pacman: %s\n"), alpm_strerrorlast());
-						retval = 1;
-						goto cleanup;
-					}
-					break;
 				}
 			}
 		}
