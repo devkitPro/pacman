@@ -1,7 +1,7 @@
 /*
  *  conflict.c
  *
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2006 by David Kimpe <dnaku@frugalware.org>
  *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
@@ -18,9 +18,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- *  USA.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
