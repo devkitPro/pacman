@@ -643,12 +643,9 @@ static int _parseconfig(const char *file, const char *givensection,
 			} else {
 				/* directives with settings */
 				if(strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0) {
-					int ret;
 					pm_printf(PM_LOG_DEBUG, "config: including %s\n", ptr);
-					ret = _parseconfig(ptr, section, db);
-					if(ret != 0) {
-						return(ret);
-					}
+					_parseconfig(ptr, section, db);
+					/* Ignore include failures... assume non-critical */
 				} else if(strcmp(section, "options") == 0) {
 					if(strcmp(key, "NoUpgrade") == 0
 							|| strcmp(upperkey, "NOUPGRADE") == 0) {
@@ -736,7 +733,7 @@ static int _parseconfig(const char *file, const char *givensection,
  * @param file path to the config file.
  * @return 0 on success, non-zero on error
  */
-int parseconfig(const char *file)
+static int parseconfig(const char *file)
 {
 	/* call the real parseconfig function with a null section & db argument */
 	return(_parseconfig(file, NULL, NULL));
