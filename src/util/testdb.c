@@ -54,7 +54,6 @@ void output_cb(pmloglevel_t level, char *fmt, va_list args)
 			default: return;
 		}
 		vprintf(fmt, args);
-		printf("\n");
 	}
 }
 
@@ -138,7 +137,7 @@ int main(int argc, char **argv)
 
 	/* check dependencies */
 	alpm_list_t *data;
-	data = alpm_checkdeps(db, 0, alpm_db_getpkgcache(db), NULL);
+	data = alpm_checkdeps(db, 0, NULL, alpm_db_getpkgcache(db));
 	for(i = data; i; i = alpm_list_next(i)) {
 		pmdepmissing_t *miss = alpm_list_getdata(i);
 		pmdepend_t *dep = alpm_miss_get_dep(miss);
