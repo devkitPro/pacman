@@ -344,6 +344,14 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
+	if(_alpm_pkg_should_ignore(spkg)) {
+		int resp;
+		QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, spkg, NULL, NULL, &resp);
+		if (!resp) {
+			return(0);
+		}
+	}
+
 	local = _alpm_db_get_pkgfromcache(db_local, alpm_pkg_get_name(spkg));
 	if(local) {
 		if(alpm_pkg_compare_versions(local, spkg) == 0) {

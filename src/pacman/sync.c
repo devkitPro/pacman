@@ -584,7 +584,7 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 						alpm_list_t *k;
 
 						found++;
-						printf(_(":: group %s:\n"), targ);
+						printf(_(":: group %s (including ignored packages):\n"), targ);
 						/* remove dupe entries in case a package exists in multiple repos */
 						const alpm_list_t *grppkgs = alpm_grp_get_pkgs(grp);
 						alpm_list_t *pkgs = alpm_list_remove_dupes(grppkgs);
