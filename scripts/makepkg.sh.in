@@ -789,7 +789,7 @@ create_package() {
 	if [ "$PACKAGER" != "" ]; then
 		local packager="$PACKAGER"
 	else
-		local packager="Arch Linux (http://www.archlinux.org)"
+		local packager="Unknown Packager"
 	fi
 	local size=$(du -sb | awk '{print $1}')
 
