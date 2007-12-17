@@ -1032,7 +1032,11 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
 			fd = mkstemp(descfile);
-			archive_read_data_into_fd(archive, fd);
+			if(archive_read_data_into_fd(archive, fd) != ARCHIVE_OK) {
+				_alpm_log(PM_LOG_ERROR, _("error extracting package description file to %s\n"),
+						descfile);
+				goto pkg_invalid;
+			}
 			/* parse the info file */
 			if(parse_descfile(descfile, info) == -1) {
 				_alpm_log(PM_LOG_ERROR, _("could not parse package description file in %s\n"),
