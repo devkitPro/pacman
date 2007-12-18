@@ -369,7 +369,9 @@ typedef enum _pmdepmod_t {
 	PM_DEP_MOD_ANY = 1,
 	PM_DEP_MOD_EQ,
 	PM_DEP_MOD_GE,
-	PM_DEP_MOD_LE
+	PM_DEP_MOD_LE,
+	PM_DEP_MOD_GT,
+	PM_DEP_MOD_LT
 } pmdepmod_t;
 
 pmdepend_t *alpm_splitdep(const char *depstring);

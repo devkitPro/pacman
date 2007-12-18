@@ -310,6 +310,8 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
 			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
 			case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
+			case PM_DEP_MOD_LT: equal = (cmp < 0); break;
+			case PM_DEP_MOD_GT: equal = (cmp > 0); break;
 			default: equal = 1; break;
 		}
 	}
@@ -374,10 +376,19 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 		depend->mod = PM_DEP_MOD_LE;
 		*ptr = '\0';
 		ptr += 2;
-	} else if((ptr = strstr(newstr, "="))) {
+	} else if((ptr = strstr(newstr, "="))) { /* Note: we must do =,<,> checks after <=, >= checks */
 		depend->mod = PM_DEP_MOD_EQ;
 		*ptr = '\0';
 		ptr += 1;
+	} else if((ptr = strstr(newstr, "<"))) {
+		depend->mod = PM_DEP_MOD_LT;
+		*ptr = '\0';
+		ptr += 1;
+	} else if((ptr = strstr(newstr, ">"))) {
+		depend->mod = PM_DEP_MOD_GT;
+		*ptr = '\0';
+		ptr += 1;
+
 	} else {
 		/* no version specified - copy in the name and return it */
 		depend->mod = PM_DEP_MOD_ANY;
@@ -683,6 +694,12 @@ char SYMEXPORT *alpm_dep_get_string(const pmdepend_t *dep)
 			break;
 		case PM_DEP_MOD_EQ:
 			opr = "=";
+			break;
+		case PM_DEP_MOD_LT:
+			opr = "<";
+			break;
+		case PM_DEP_MOD_GT:
+			opr = ">";
 			break;
 		default:
 			opr = "";
