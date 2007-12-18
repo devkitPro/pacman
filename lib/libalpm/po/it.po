@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-12-16 09:55+0100\n"
-"PO-Revision-Date: 2007-12-16 11:00+0100\n"
+"POT-Creation-Date: 2007-12-18 22:41+0100\n"
+"PO-Revision-Date: 2007-12-18 23:30+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -391,44 +391,50 @@ msgstr "%s: aggiornamento forzato alla versione %s\n"
 #: lib/libalpm/package.c:849
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: la versione installata (%s) è più recente di quella presente in %s (%s)\n"
+msgstr ""
+"%s: la versione installata (%s) è più recente di quella presente in %s (%s)\n"
 
 #: lib/libalpm/package.c:857
 #, c-format
 msgid "%s-%s: delaying upgrade of package (%s)\n"
 msgstr "%s-%s: ritardo durante l'aggiornamento del pacchetto (%s)\n"
 
-#: lib/libalpm/package.c:1038
+#: lib/libalpm/package.c:1036
+#, c-format
+msgid "error extracting package description file to %s\n"
+msgstr "impossibile estrarre il file di descrizione del pacchetto in %s\n"
+
+#: lib/libalpm/package.c:1042
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "impossibile analizzare il file di descrizione del pacchetto in %s\n"
 
-#: lib/libalpm/package.c:1043
+#: lib/libalpm/package.c:1047
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "manca il nome del pacchetto in %s\n"
 
-#: lib/libalpm/package.c:1047
+#: lib/libalpm/package.c:1051
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "manca la versione del pacchetto in %s\n"
 
-#: lib/libalpm/package.c:1077
+#: lib/libalpm/package.c:1081
 #, c-format
 msgid "could not remove tempfile %s\n"
 msgstr "impossibile rimuovere il file temporaneo %s\n"
 
-#: lib/libalpm/package.c:1092 lib/libalpm/package.c:1105
+#: lib/libalpm/package.c:1096 lib/libalpm/package.c:1109
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "si è verificato un errore durante la lettura del pacchetto %s: %s\n"
 
-#: lib/libalpm/package.c:1112
+#: lib/libalpm/package.c:1116
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "manca il metadata del pacchetto in %s\n"
 
-#: lib/libalpm/package.c:1119
+#: lib/libalpm/package.c:1123
 #, c-format
 msgid "missing package filelist in %s, generating one\n"
 msgstr "manca il filelist nel pacchetto %s, creazione in corso\n"
@@ -603,9 +609,7 @@ msgstr "impossibile rimuovere il file di lock %s\n"
 
 #: lib/libalpm/trans.c:481
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr ""
-"/bin/sh non è presente nell'ambiente, lo scriptlet sarà "
-"interrotto\n"
+msgstr "/bin/sh non è presente nell'ambiente, lo scriptlet sarà interrotto\n"
 
 #: lib/libalpm/trans.c:492
 msgid "could not create temp directory\n"

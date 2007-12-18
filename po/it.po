@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-12-16 09:54+0100\n"
-"PO-Revision-Date: 2007-12-16 11:00+0100\n"
+"POT-Creation-Date: 2007-12-18 22:41+0100\n"
+"PO-Revision-Date: 2007-12-18 23:30+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "failed to release transaction (%s)\n"
 msgstr "impossibile annullare l'operazione richiesta (%s)\n"
 
 #: src/pacman/add.c:77 src/pacman/query.c:363 src/pacman/remove.c:63
-#: src/pacman/sync.c:754
+#: src/pacman/sync.c:756
 msgid "no targets specified (use -h for help)\n"
 msgstr "nessun pacchetto specificato (usare -h per un aiuto)\n"
 
@@ -58,12 +58,12 @@ msgstr "errore: impossibile aggiungere il pacchetto '%s' (%s)"
 msgid "done.\n"
 msgstr "fatto.\n"
 
-#: src/pacman/add.c:129 src/pacman/remove.c:122 src/pacman/sync.c:616
+#: src/pacman/add.c:129 src/pacman/remove.c:122 src/pacman/sync.c:618
 #, c-format
 msgid "error: failed to prepare transaction (%s)\n"
 msgstr "errore: preparazione non riuscita (%s)\n"
 
-#: src/pacman/add.c:141 src/pacman/remove.c:130 src/pacman/sync.c:625
+#: src/pacman/add.c:141 src/pacman/remove.c:130 src/pacman/sync.c:627
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: richiede %s\n"
@@ -73,12 +73,12 @@ msgstr ":: %s: richiede %s\n"
 msgid ":: %s: conflicts with %s"
 msgstr ":: %s: va in conflitto con %s"
 
-#: src/pacman/add.c:158 src/pacman/sync.c:688
+#: src/pacman/add.c:158 src/pacman/sync.c:690
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s è già presente in '%s' e in '%s'\n"
 
-#: src/pacman/add.c:164 src/pacman/sync.c:694
+#: src/pacman/add.c:164 src/pacman/sync.c:696
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s è già presente nel filesystem\n"
@@ -92,7 +92,7 @@ msgstr ""
 "\n"
 "si sono verificati degli errori, nessun pacchetto è stato aggiornato.\n"
 
-#: src/pacman/add.c:183 src/pacman/remove.c:168 src/pacman/sync.c:679
+#: src/pacman/add.c:183 src/pacman/remove.c:168 src/pacman/sync.c:681
 #, c-format
 msgid "error: failed to commit transaction (%s)\n"
 msgstr "errore: impossibile eseguire l'operazione richiesta (%s)\n"
@@ -503,7 +503,7 @@ msgstr "  -o, --owns <file>    mostra il pacchetto che contiene il <file>\n"
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file <pacchetto> interroga un file del pacchetto invece del "
+"  -p, --file <package> interroga un file del pacchetto invece del "
 "database\n"
 
 #: src/pacman/pacman.c:110
@@ -518,9 +518,7 @@ msgstr ""
 #: src/pacman/pacman.c:111
 #, c-format
 msgid "  -t, --orphans        list all packages not required by any package\n"
-msgstr ""
-"  -t, --orphans        elenca tutti i pacchetti non richiesti da nessun "
-"pacchetto\n"
+msgstr "  -t, --orphans        elenca tutti i pacchetti orfani\n"
 
 #: src/pacman/pacman.c:112
 #, c-format
@@ -603,8 +601,7 @@ msgstr ""
 msgid ""
 "      --needed         only upgrade outdated or not yet installed packages\n"
 msgstr ""
-"      --needed         aggiorna solo i pacchetti non aggiornati o non ancora "
-"installati\n"
+"      --needed         aggiorna solo i pacchetti non aggiornati o da installare\n"
 
 #: src/pacman/pacman.c:131
 #, c-format
@@ -635,7 +632,7 @@ msgstr "      --config <path>  imposta un file di configurazione alternativo\n"
 #: src/pacman/pacman.c:137
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <path>  imposta un file di log alternativo\n"
+msgstr "      --logfile <path> imposta un file di log alternativo\n"
 
 #: src/pacman/pacman.c:138
 #, c-format
@@ -709,7 +706,7 @@ msgstr ""
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' non è un livello di debug valido\n"
 
-#: src/pacman/pacman.c:397 src/pacman/pacman.c:676
+#: src/pacman/pacman.c:397 src/pacman/pacman.c:673
 #, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr "impossibile aggiungere la directory di cache '%s' (%s)\n"
@@ -743,28 +740,28 @@ msgstr ""
 "file di configurazione %s, alla linea %d: la direttiva 'Include' deve "
 "appartenere ad una sezione.\n"
 
-#: src/pacman/pacman.c:639 src/pacman/pacman.c:701 src/pacman/pacman.c:716
+#: src/pacman/pacman.c:639 src/pacman/pacman.c:698 src/pacman/pacman.c:713
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr ""
 "file di configurazione %s, alla linea %d: la direttiva '%s' non è stata "
 "riconosciuta.\n"
 
-#: src/pacman/pacman.c:786
+#: src/pacman/pacman.c:783
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
 msgstr "impossibile inizializzare la libreria alpm (%s)\n"
 
-#: src/pacman/pacman.c:823
+#: src/pacman/pacman.c:820
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "operazione possibile solo da root.\n"
 
-#: src/pacman/pacman.c:846
+#: src/pacman/pacman.c:843
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "impossibile registrare il database 'local' (%s)\n"
 
-#: src/pacman/pacman.c:872
+#: src/pacman/pacman.c:869
 msgid "no operation specified (use -h for help)\n"
 msgstr "nessuna operazione specificata (usare -h per un aiuto)\n"
 
@@ -813,7 +810,7 @@ msgstr "Controllo degli aggiornamenti dei pacchetti in corso... \n"
 msgid "no upgrades found.\n"
 msgstr "non vi sono aggiornamenti.\n"
 
-#: src/pacman/query.c:353 src/pacman/sync.c:744
+#: src/pacman/query.c:353 src/pacman/sync.c:746
 msgid "no usable package repositories configured.\n"
 msgstr "non è stato configurato nessun repository di pacchetti valido.\n"
 
@@ -822,7 +819,7 @@ msgstr "non è stato configurato nessun repository di pacchetti valido.\n"
 msgid "error: package \"%s\" not found\n"
 msgstr "errore: il pacchetto \"%s\" non è stato trovato\n"
 
-#: src/pacman/remove.c:76 src/pacman/sync.c:585
+#: src/pacman/remove.c:76 src/pacman/sync.c:587
 #, c-format
 msgid ":: group %s:\n"
 msgstr ":: gruppo %s:\n"
@@ -836,7 +833,7 @@ msgstr "    Rimuovere l'intero contenuto? [S/n] "
 msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ":: Rimuovere %s dal gruppo %s? [S/n] "
 
-#: src/pacman/remove.c:95 src/pacman/sync.c:481 src/pacman/sync.c:542
+#: src/pacman/remove.c:95 src/pacman/sync.c:481 src/pacman/sync.c:543
 #, c-format
 msgid "error: failed to init transaction (%s)\n"
 msgstr "errore: inizializzazione non riuscita (%s)\n"
@@ -975,7 +972,7 @@ msgstr "errore: impossibile sincronizzare i database\n"
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Aggiornamento del sistema in corso...\n"
 
-#: src/pacman/sync.c:528
+#: src/pacman/sync.c:529
 #, c-format
 msgid ""
 ":: pacman has detected a newer version of itself.\n"
@@ -990,68 +987,68 @@ msgstr ""
 ":: operazione. Se si desidera continuare l'operazione e\n"
 ":: non aggiornare pacman separatamente, rispondere no.\n"
 
-#: src/pacman/sync.c:533
+#: src/pacman/sync.c:534
 msgid ":: Cancel current operation? [Y/n] "
 msgstr ":: Eliminare l'operazione corrente? [S/n] "
 
-#: src/pacman/sync.c:535 src/pacman/sync.c:721
+#: src/pacman/sync.c:536 src/pacman/sync.c:723
 #, c-format
 msgid "error: failed to release transaction (%s)\n"
 msgstr "errore: impossibile annullare l'operazione richiesta (%s)\n"
 
-#: src/pacman/sync.c:547
+#: src/pacman/sync.c:548
 #, c-format
 msgid "error: pacman: %s\n"
 msgstr "errore: pacman: %s\n"
 
-#: src/pacman/sync.c:571
+#: src/pacman/sync.c:573
 #, c-format
 msgid "error: '%s': %s\n"
 msgstr "errore: '%s': %s\n"
 
-#: src/pacman/sync.c:590
+#: src/pacman/sync.c:592
 msgid ":: Install whole content? [Y/n] "
 msgstr ":: Installare l'intero contenuto? [S/n] "
 
-#: src/pacman/sync.c:597
+#: src/pacman/sync.c:599
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Installare %s dal gruppo %s? [S/n] "
 
-#: src/pacman/sync.c:606
+#: src/pacman/sync.c:608
 #, c-format
 msgid "error: '%s': not found in sync db\n"
 msgstr "errore: '%s' non è stato trovato nel database\n"
 
-#: src/pacman/sync.c:633
+#: src/pacman/sync.c:635
 #, c-format
 msgid ":: %s: conflicts with %s\n"
 msgstr ":: %s: va in conflitto con %s\n"
 
-#: src/pacman/sync.c:647
+#: src/pacman/sync.c:649
 #, c-format
 msgid " local database is up to date\n"
 msgstr " Il database locale è aggiornato\n"
 
-#: src/pacman/sync.c:659
+#: src/pacman/sync.c:661
 #, c-format
 msgid "Beginning download...\n"
 msgstr "Download in corso...\n"
 
-#: src/pacman/sync.c:662
+#: src/pacman/sync.c:664
 msgid "Proceed with download? [Y/n] "
 msgstr "Procedere con il download? [S/n] "
 
-#: src/pacman/sync.c:666
+#: src/pacman/sync.c:668
 #, c-format
 msgid "Beginning upgrade process...\n"
 msgstr "Aggiornamento in corso...\n"
 
-#: src/pacman/sync.c:669
+#: src/pacman/sync.c:671
 msgid "Proceed with installation? [Y/n] "
 msgstr "Procedere con l'installazione? [S/n] "
 
-#: src/pacman/sync.c:710
+#: src/pacman/sync.c:712
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr ""
