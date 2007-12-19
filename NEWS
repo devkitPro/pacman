@@ -80,9 +80,9 @@ VERSION         DESCRIPTION
               - and many other small updates...
               - switch to GIT for source code management
 3.0.6         - config files updated to reflect current -> core change
-              - fix symlink overwriting issue (#7484)
-              - fix config parsing with tr_TR locale (#7235)
-              - use AC_SYS_LARGEFILE if available (#7578)
+              - fix symlink overwriting issue (FS#7484)
+              - fix config parsing with tr_TR locale (FS#7235)
+              - use AC_SYS_LARGEFILE if available (FS#7578)
 3.0.5         - add -mtune=generic to default CFLAGS in makepkg.conf
               - small updates to translations
               - repo-add: fix conflicts issue for real this time
@@ -252,15 +252,15 @@ VERSION         DESCRIPTION
                 - Smarter file-conflict checking with symlinked paths and
                   with files that move from one package to another
 2.8           - Bugfixes:
-                - #861:  file:/// urls not handled properly with XferCommand
-                - #1003: set umask before scriptlet calls
-                - #1027: download problems with http urls using -U/-A
-                - #1044: segfaults when using -Rs
-                - #863:  "missing post_remove" errors with some packages
-                - #875:  detect low disk space properly
-                - #986:  makepkg -e doesn't validate files
-                - #1010: add -j option to makepkg
-                - #1028: make pacman -Sp runnable as non-root
+                - FS#861:  file:/// urls not handled properly with XferCommand
+                - FS#1003: set umask before scriptlet calls
+                - FS#1027: download problems with http urls using -U/-A
+                - FS#1044: segfaults when using -Rs
+                - FS#863:  "missing post_remove" errors with some packages
+                - FS#875:  detect low disk space properly
+                - FS#986:  makepkg -e doesn't validate files
+                - FS#1010: add -j option to makepkg
+                - FS#1028: make pacman -Sp runnable as non-root
               - added pre_install and pre_upgrade scriptlet support
               - added an "Architecture" field in the package meta-data
               - added patch from Aurelien Foret which improves performance
@@ -273,7 +273,7 @@ VERSION         DESCRIPTION
 2.7.9         - added the "force" option to packages, so --sysupgrade can
                 downgrade packages when it needs to
 2.7.8         - added post_remove scriptlet support
-              - added -Qs option (bug #854)
+              - added -Qs option (FS#854)
               - a provisio does not imply conflict, to make a provisio target
                 conflict with anything else that provides the same thing, you
                 can now do this by specifying the provisio target as both a
@@ -282,10 +282,10 @@ VERSION         DESCRIPTION
                    provides=('x-server')
               - cleaned up the download progress bar a bit
               - added %o parameter to XferCommand so wget can resume properly
-              - fixed a segfault in downloadfiles() (bug #787)
+              - fixed a segfault in downloadfiles() (FS#787)
               - patches from Oliver Burnett-Hall
-                - gensync uses a better temp dir (bug #774)
-                - PKGDEST can be set in makepkg.conf (bug #783)
+                - gensync uses a better temp dir (FS#774)
+                - PKGDEST can be set in makepkg.conf (FS#783)
               - patches from Aurelien Foret
                 - segfault fix, couple memory leaks
                 - more sanity checks in "provides" searches
@@ -299,7 +299,7 @@ VERSION         DESCRIPTION
               - -Ss now searches thru provides fields
               - added --dbonly option to -R
 2.7.6         - added --print-uris option
-              - fixed an http download bug (bug #667)
+              - fixed an http download bug (FS#667)
               - fixed a segfault related to replaces/conflicts handling
 2.7.5         - "replaces" packages were ignoring IgnorePkg in pacman.conf
               - fixed another bug in conflict handling
@@ -315,7 +315,7 @@ VERSION         DESCRIPTION
               - You can now use the --info option with --sync to display an
                 uninstalled package's dependency info.
               - Added a sane umask before db writes
-              - buffer overflow fix (bug #442)
+              - buffer overflow fix (FS#442)
 2.7.3         - makepkg not longer strips files with .exe or .dll extensions
               - Added Aurelien's patch:
                 - proxy support (no authentication yet)
@@ -344,7 +344,7 @@ VERSION         DESCRIPTION
 2.6.3         - A couple memory fixes in the new replaces code
 2.6.2         - Fixed a memory cleanup bug
               - Aurelien's patch:
-                - bug #159 implemented (for -S and -R)
+                - FS#159 implemented (for -S and -R)
                 - fixed a bug with pacman -Sg (pacman was browsing only one
                   db to get groups)
                 - fixed a bug with list_merge()
