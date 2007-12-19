@@ -15,10 +15,12 @@ In addition, this site presents a small tutorial that I found useful:
 Translating Messages
 --------------------
 
-The message files are located in two directories in pacman- lib/libalpm/po/
-and src/pacman/po/. Each language has a .po file associated with it; the .pot
-file is the template file for creating new .po files and updating the messages
-in them when the code changes.
+The message files are located in two directories in pacman- lib/libalpm/po/ for
+the translation of the backend, and po/ for the translation of the frontend and
+the scripts.
+Each language has a .po file associated with it; the .pot file is the template
+file for creating new .po files and updating the messages in them when the code
+changes.
 
 First things first. You will need to run ./autogen.sh and ./configure in the
 base directory to generate the correct Makefiles. To update all the translation
@@ -28,19 +30,19 @@ files, run this command:
 At this point, the .pot file is regenerated from the source code with an
 updated string list, and the existing po files are merged if necessary to add
 new messages or remove old ones. These po files can then either be hand edited,
-or modified with a tool such as gtranslator or kbabel.
+or modified with a tool such as poedit, gtranslator or kbabel.
 
 These steps make it easier to just update your language and not every po file.
-If you are working in the src/pacman tree, replace libalpm.pot with pacman.pot:
+If you are working in the root tree, replace libalpm.pot with pacman.pot:
 	make libalpm.pot-update 
 	make <po file>-update
 
 Making a new language is not too hard, but be sure to follow all the steps.
-You will have to do the following steps in both the lib/libalpm/po/ and
-src/pacman/po/ directories, substituting where appropriate. First, edit the
-LINGUAS file and add your new language code at the bottom. Next, run the
-following command, substituting 'libalpm.pot' or 'pacman.pot' depending on
-which directory you are currently working in:
+You will have to do the following steps in both the lib/libalpm/po/ and po/
+directories, substituting where appropriate. First, edit the LINGUAS file and
+add your new language code at the bottom. Next, run the following command,
+substituting 'libalpm.pot' or 'pacman.pot' depending on which directory you are
+currently working in:
 	msginit -l <lang code> -o <lang code>.po -i <potfile>
 
 You can then also add your language code to the end of the LINGUAS file located
@@ -50,6 +52,11 @@ Look at the current message files for more guidance if necessary. Once you
 create the new language file, you may need to slightly modify the headers;
 try to make them look similar to the other .po file headers. In addition, for
 all new translations we would strongly recommend using UTF-8 encoding.
+
+If you want to test the translation (for example, the frontend one):
+rm *.gmo stamp-po
+make
+cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
 
 Finally, submitting your translations in patch form is not essential for new
 languages, but highly recommended for future updates to the translations.
