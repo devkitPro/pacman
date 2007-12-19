@@ -1,5 +1,84 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.1.0         - paths are now specified as absolute paths (or defaulting to
+                under the specified root directory)
+              - all paths can be specified in pacman.conf or on command line
+              - updates to pacman clean operation- now cleans uninstalled
+                packages and old sync DBs
+              - remove all hardcoded paths and allow them to be set at
+                configure/build time
+              - single mirrorfile- pacman substitutes the repository name in
+                mirror file when $repo is found
+              - New config file options: ShowSize, TODO xxx
+              - all scripts have been gettext-ized and can be translated
+              - added testdb utility to check pacman DBs for common problems
+              - huge additions to pactest suite
+              - remove -F/--freshen operation
+              - add --ignoregroup option
+              - --ignore and --ignoregroup accept comma separated lists
+              - add --needed option for --sync
+              - massive optimization and speedup for --owns
+              - add -q/--quiet option for -Ss/-Sl and -Q? output
+              - add --asdeps option (install packages as reason: dependency)
+              - replace "Total Package Size" with "Total Download Size"
+              - fix -Q options to work on installed packages AND package files
+              - change -Q/--query options to act as filters and increase their
+                flexibility
+              - moved parseconfig from backend library to frontend
+              - install and build dates are localized
+              - optdepends support
+              - delta support
+              - versioned provisions support
+              - bash completion updates
+              - mirrorlist updates
+              - allow multiple pacman cache directories
+              - all manpages are now generated using Asciidoc
+              - clean up and refactoring of the ENTIRE codebase
+                - remove many useless #ifdefs
+                - split many too-long functions
+                - portability updates: compiles and passes tests on BSD and
+                  Darwin (switching libdownload->libfetch)
+                - clean up build process
+                - use of static code analysis
+                - memory leak fixes all over the place
+                - fix overzealous use of macros
+                - entire codebase builds with -pedantic GCC option
+              - libalpm-specific changes:
+                - moved location of sync DBs into their own folder to thwart
+                  deletion and remove naming limitations
+                - REQUIREDBY entries are no longer used in local DB but are
+                  computed on the fly when needed
+                - ensure we export everything that should be public
+                - fix some const correctness issues
+                - add list tail ptr shortcut to make last element lookups O(1)
+                - database dates are stored as seconds from epoch
+                - removed SHA1 support
+                - drop in new MD5 library
+                - implement topological sorting for dependencies
+                - do case sensitive compare in parse_descfile (FS#8081)
+                - remove hardcoded architectures
+                - conflicts checking speedups and fixes
+                - move lockfile location to inside the DB
+                - remove gettext calls from DEBUG messages
+                - remove faulty diskspace checking
+                - move functions out of alpm.c to where they belong
+              - makepkg-specific changes:
+                - entire script has been functionalized
+                - only runs in fakeroot when necessary
+                - hard linked manpages are now compressed (FS#5392)
+                - built-in versionpkg support
+                - arch=('any') support
+                - clean up and prettify the output
+                - replace tar/cpio/unzip with bsdtar (FS#7485)
+                - add --ignorearch option (FS#7355)
+                - improved error handling
+                - remove --usesudo option, use it by default
+                - add --asroot option to discourage building as root
+                - add $srcdir and $pkgdir variables
+                - add source package creation option
+              - rankmirrors- allow reading from stdin (FS#8043)
+              - and many other small updates...
+              - switch to GIT for source code management
 3.0.6         - config files updated to reflect current -> core change
               - fix symlink overwriting issue (#7484)
               - fix config parsing with tr_TR locale (#7235)
