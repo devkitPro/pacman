@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-12-18 22:41+0100\n"
-"PO-Revision-Date: 2007-12-18 23:30+0100\n"
+"POT-Creation-Date: 2007-12-20 22:22+0100\n"
+"PO-Revision-Date: 2007-12-20 23:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -503,8 +503,7 @@ msgstr "  -o, --owns <file>    mostra il pacchetto che contiene il <file>\n"
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file <package> interroga un file del pacchetto invece del "
-"database\n"
+"  -p, --file <package> interroga un file del pacchetto invece del database\n"
 
 #: src/pacman/pacman.c:110
 #, c-format
@@ -601,7 +600,8 @@ msgstr ""
 msgid ""
 "      --needed         only upgrade outdated or not yet installed packages\n"
 msgstr ""
-"      --needed         aggiorna solo i pacchetti non aggiornati o da installare\n"
+"      --needed         aggiorna solo i pacchetti non aggiornati o da "
+"installare\n"
 
 #: src/pacman/pacman.c:131
 #, c-format
@@ -1250,8 +1250,8 @@ msgid "gensync: building database entries, generating md5sums..."
 msgstr ""
 "gensync: creazione del database, generazione della somma MD5 in corso..."
 
-#: scripts/gensync.sh.in:129
-msgid "failed to parse parse %s"
+#: scripts/gensync.sh.in:129 scripts/updatesync.sh.in:127
+msgid "failed to parse %s"
 msgstr "impossibile analizzare %s"
 
 #: scripts/gensync.sh.in:140
@@ -1862,11 +1862,11 @@ msgstr "Controllo delle dipendenze ignorato."
 
 #: scripts/makepkg.sh.in:1398
 msgid "Checking Runtime Dependencies..."
-msgstr "Controllo delle dipendenze in corso..."
+msgstr "Controllo delle dipendenze per l'esecuzione in corso..."
 
 #: scripts/makepkg.sh.in:1401
 msgid "Checking Buildtime Dependencies..."
-msgstr "Controllo delle dipendenze in corso... "
+msgstr "Controllo delle dipendenze per la compilazione in corso..."
 
 #: scripts/makepkg.sh.in:1405
 msgid "Could not resolve all dependencies."
@@ -2214,13 +2214,12 @@ msgstr ""
 msgid "%s not found"
 msgstr "%s non è stato trovato"
 
-#: scripts/updatesync.sh.in:127
-msgid "failed to parse %s"
-msgstr "impossibile analizzare %s"
-
 #: scripts/updatesync.sh.in:134
 msgid "could not find %s-%s-%s-%s.%s - aborting"
 msgstr "impossibile trovare %s-%s-%s-%s.%s"
+
+#~ msgid "failed to parse parse %s"
+#~ msgstr "impossibile analizzare %s"
 
 #~ msgid ":: %s-%s: local version is up to date. Upgrade anyway? [Y/n] "
 #~ msgstr ""
