@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-12-12 14:27+0100\n"
+"POT-Creation-Date: 2007-12-20 12:35+0100\n"
 "PO-Revision-Date: 2007-03-14 13:45+0100\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -172,7 +172,7 @@ msgstr "a(z) %s csomag saját %s függõsége után lesz eltávolítva\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "a(z) %s csomag saját %s függõsége elõtt lesz telepítve\n"
 
-#: lib/libalpm/deps.c:573
+#: lib/libalpm/deps.c:584
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nem sikerült a(z) \"%s\" csomag \"%s\" függõségét feloldani\n"
@@ -398,37 +398,42 @@ msgstr "%s: a helyi (%s) újabb, mint %s (%s)\n"
 msgid "%s-%s: delaying upgrade of package (%s)\n"
 msgstr "%s-%s: a csomag frissítésének késleltetése (%s)\n"
 
-#: lib/libalpm/package.c:1038
+#: lib/libalpm/package.c:1036
+#, c-format
+msgid "error extracting package description file to %s\n"
+msgstr "nem sikerült kicsomagolni a csomagleíró fájlt %s-ként\n"
+
+#: lib/libalpm/package.c:1042
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "nem sikerült értelmezni a(z) %s csomagleíró fájlját\n"
 
-#: lib/libalpm/package.c:1043
+#: lib/libalpm/package.c:1047
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "hiányzó csomagnév itt: %s\n"
 
-#: lib/libalpm/package.c:1047
+#: lib/libalpm/package.c:1051
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "hiányzó csomagverzió itt: %s\n"
 
-#: lib/libalpm/package.c:1077
+#: lib/libalpm/package.c:1081
 #, c-format
 msgid "could not remove tempfile %s\n"
 msgstr "nem sikerült eltávolítani a %s ideiglenes fájlt\n"
 
-#: lib/libalpm/package.c:1092 lib/libalpm/package.c:1105
+#: lib/libalpm/package.c:1096 lib/libalpm/package.c:1109
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "hiba a(z) %s csomag olvasása közben: %s\n"
 
-#: lib/libalpm/package.c:1112
+#: lib/libalpm/package.c:1116
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "hiányzó csomaginformációs fájl itt: %s\n"
 
-#: lib/libalpm/package.c:1119
+#: lib/libalpm/package.c:1123
 #, c-format
 msgid "missing package filelist in %s, generating one\n"
 msgstr "hiányzik a(z) %s csomag fájllistája, generálás\n"
