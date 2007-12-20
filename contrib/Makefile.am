@@ -2,9 +2,9 @@ EXTRA_DIST = \
 	PKGBUILD.proto \
 	PKGBUILD.vim \
 	bash_completion \
-	install.proto \
 	pacdiff \
 	pacsearch \
+	proto.install \
 	re-pacman \
 	vimproject \
 	wget-xdelta.sh \
