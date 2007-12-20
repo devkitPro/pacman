@@ -4,27 +4,29 @@ VERSION         DESCRIPTION
                 under the specified root directory)
               - all paths can be specified in pacman.conf or on command line
               - updates to pacman clean operation- now cleans uninstalled
-                packages and old sync DBs
+                packages and old sync DBs (FS#8061)
               - remove all hardcoded paths and allow them to be set at
                 configure/build time
               - single mirrorfile- pacman substitutes the repository name in
-                mirror file when $repo is found
-              - New config file options: ShowSize, TODO xxx
+                mirror file when $repo is found (FS#6389)
+              - New config file options: ShowSize, TotalDownload, IgnoreGroup,
+                UseDelta
               - all scripts have been gettext-ized and can be translated
               - added testdb utility to check pacman DBs for common problems
               - huge additions to pactest suite
               - remove -F/--freshen operation
-              - add --ignoregroup option
+              - add --ignoregroup option (FS#1592)
               - --ignore and --ignoregroup accept comma separated lists
               - add --needed option for --sync
               - massive optimization and speedup for --owns
-              - add -q/--quiet option for -Ss/-Sl and -Q? output
-              - add --asdeps option (install packages as reason: dependency)
+              - add -q/--quiet option for -Ss/-Sl and -Q? output (FS#8470)
+              - add --asdeps option (install reason: dependency) (FS#7193)
               - replace "Total Package Size" with "Total Download Size"
+                (FS#4182)
               - fix -Q options to work on installed packages AND package files
               - change -Q/--query options to act as filters and increase their
                 flexibility
-              - moved parseconfig from backend library to frontend
+              - -U/-A <url> now downloads to cachedir (FS#6404)
               - install and build dates are localized
               - optdepends support
               - delta support
@@ -32,7 +34,8 @@ VERSION         DESCRIPTION
               - bash completion updates
               - mirrorlist updates
               - allow multiple pacman cache directories
-              - all manpages are now generated using Asciidoc
+              - all manpages are now generated using Asciidoc (FS#7312)
+              - moved parseconfig from backend library to frontend
               - clean up and refactoring of the ENTIRE codebase
                 - remove many useless #ifdefs
                 - split many too-long functions
@@ -43,11 +46,13 @@ VERSION         DESCRIPTION
                 - memory leak fixes all over the place
                 - fix overzealous use of macros
                 - entire codebase builds with -pedantic GCC option
+                - allow abs to not be included (FS#7319)
               - libalpm-specific changes:
                 - moved location of sync DBs into their own folder to thwart
                   deletion and remove naming limitations
                 - REQUIREDBY entries are no longer used in local DB but are
-                  computed on the fly when needed
+                  computed on the fly when needed, which should resolve
+                  phantom dependency issues (FS#7639)
                 - ensure we export everything that should be public
                 - fix some const correctness issues
                 - add list tail ptr shortcut to make last element lookups O(1)
@@ -62,22 +67,25 @@ VERSION         DESCRIPTION
                 - remove gettext calls from DEBUG messages
                 - remove faulty diskspace checking
                 - move functions out of alpm.c to where they belong
+                - rewrite of file extraction code (FS#7484)
               - makepkg-specific changes:
                 - entire script has been functionalized
                 - only runs in fakeroot when necessary
                 - hard linked manpages are now compressed (FS#5392)
                 - built-in versionpkg support
-                - arch=('any') support
+                - arch=('any') support (FS#8153)
                 - clean up and prettify the output
                 - replace tar/cpio/unzip with bsdtar (FS#7485)
                 - add --ignorearch option (FS#7355)
                 - improved error handling
+                - downloads straight to $SRCDEST to avoid copies (FS#7271)
+                - support for multiple download protocols (FS#4404)
                 - remove --usesudo option, use it by default
                 - add --asroot option to discourage building as root
-                - add $srcdir and $pkgdir variables
+                - add $srcdir and $pkgdir variables (FS#7278)
                 - add source package creation option
               - rankmirrors- allow reading from stdin (FS#8043)
-              - and many other small updates...
+              - and many other updates: 198 bugs/FRs closed since 3.0.0 release
               - switch to GIT for source code management
 3.0.6         - config files updated to reflect current -> core change
               - fix symlink overwriting issue (FS#7484)
