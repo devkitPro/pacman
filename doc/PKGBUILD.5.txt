@@ -204,22 +204,28 @@ itself after installation and perform an opposite action upon removal.
 The exact time the script is run varies with each operation:
 
 *pre_install*::
-	script is run right before files are extracted.
+	script is run right before files are extracted. One argument is passed:
+	new package version.
 
 *post_install*::
-	script is run right after files are extracted.
+	script is run right after files are extracted. One argument is passed:
+	new package version.
 
 *pre_upgrade*::
-	script is run right before files are extracted.
+	script is run right before files are extracted. Two arguments are passed
+	in the following order: new package version, old package version.
 
 *post_upgrade*::
-	script is run after files are extracted.
+	script is run after files are extracted. Two arguments are passed
+	in the following order: new package version, old package version.
 
 *pre_remove*::
-	script is run right before files are removed.
+	script is run right before files are removed. One argument is passed:
+	old package version.
 
 *post_remove*::
-	script is run right after files are removed.
+	script is run right after files are removed. One argument is passed:
+	old package version.
 
 To use this feature, create a file such as 'pkgname.install' and put it in the
 same directory as the PKGBUILD script. Then use the install directive:
