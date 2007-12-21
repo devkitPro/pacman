@@ -711,14 +711,6 @@ tidy_install() {
 		rm -rf ${DOC_DIRS[@]}
 	fi
 
-	if [ -d usr/share/man ]; then
-		msg2 "$(gettext "Moving usr/share/man files to usr/man...")"
-		mkdir -p usr/man
-		cp -a usr/share/man/* usr/man/
-		rm -rf usr/share/man
-	fi
-
-
 	msg2 "$(gettext "Compressing man pages...")"
 	local manpage mandirs ext file link hardlinks hl
 	mandirs="usr/man usr/local/man usr/share/man opt/*/man"
