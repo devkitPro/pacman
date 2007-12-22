@@ -234,26 +234,37 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 	tr->skip_remove = alpm_list_strdup(trans->skip_remove);
 	const alpm_list_t *b;
 
-	/* Add files in the OLD and NEW backup array to the NoUpgrade array
+	/* Add files in the NEW backup array to the NoUpgrade array
 	 * so this removal operation doesn't kill them */
 	alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
 	/* old package backup list */
-	for(b = alpm_pkg_get_backup(oldpkg); b; b = b->next) {
-		const char *backup = b->data;
+	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
+		char *backup = _alpm_backup_file(b->data);
 		_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
 				backup);
-		handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
+		handle->noupgrade = alpm_list_add(handle->noupgrade,
+				backup);
 	}
+
+	/* TODO: we could also add files in the OLD backup array, but this would
+	 * change the backup handling behavior, and break several pactests, and we
+	 * can't do this just before 3.1 release.
+	 * The unlink_file function in remove.c would also need to be reviewed. */
+#if 0
 	/* new package backup list */
-	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-		const char *backup = b->data;
+	for(b = alpm_pkg_get_backup(oldpkg); b; b = b->next) {
+		char *backup = _alpm_backup_file(b->data);
 		/* make sure we don't add duplicate entries */
 		if(!alpm_list_find_ptr(handle->noupgrade, backup)) {
 			_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
 					backup);
-			handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(backup));
+			handle->noupgrade = alpm_list_add(handle->noupgrade,
+					_alpm_backup_file(backup));
+		handle->noupgrade = alpm_list_add(handle->noupgrade,
+				backup);
 		}
 	}
+#endif
 
 	int ret = _alpm_remove_commit(tr, db);
 
