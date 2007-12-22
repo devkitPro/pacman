@@ -1,4 +1,7 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts doc etc po pactest contrib
+SUBDIRS = lib/libalpm src/util src/pacman scripts etc po pactest contrib
+if WANT_DOC
+SUBDIRS += doc
+endif
 
 # Some files automatically included, so they aren't specified below:
 #   AUTHORS, COPYING, NEWS, README

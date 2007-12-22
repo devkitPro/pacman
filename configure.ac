@@ -98,6 +98,11 @@ AC_ARG_WITH(db-ext,
 	AC_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
 	[DBEXT=$withval], [DBEXT=.db.tar.gz])
 
+# Help line for documentation
+AC_ARG_ENABLE(doc,
+	AC_HELP_STRING([--disable-doc], [prevent make from looking at doc/ dir]),
+	[wantdoc=$enableval], [wantdoc=yes])
+
 # Help line for doxygen
 AC_ARG_ENABLE(doxygen,
 	AC_HELP_STRING([--enable-doxygen], [build your own API docs via Doxygen]),
@@ -218,6 +223,17 @@ AC_SUBST(CARCH)
 AC_SUBST(CARCHFLAGS)
 AC_SUBST(CHOST)
 
+# Check for documentation support and status
+AC_MSG_CHECKING([for building documentation])
+if test "x$wantdoc" = "xyes" ; then
+	AC_MSG_RESULT([yes])
+	wantdoc=yes
+else
+	AC_MSG_RESULT([no, disabled by configure])
+	wantdoc=no
+fi
+AM_CONDITIONAL(WANT_DOC, test "x$wantdoc" = "xyes")
+
 # Check for doxygen support and status
 AC_MSG_CHECKING([for doxygen])
 if test "x$wantdoxygen" = "xyes" ; then
@@ -336,6 +352,7 @@ pacman_display_version:
     database extension     : ${DBEXT}
 
   Compilation options:
+    Run make in doc/ dir   : ${wantdoc}
     Doxygen support        : ${usedoxygen}
     Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}

@@ -14,15 +14,6 @@ ASCIIDOC_MANS = \
 
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
-man_MANS =
-
-if USE_ASCIIDOC
-man_MANS += $(ASCIIDOC_MANS)
-endif
-if USE_DOXYGEN
-man_MANS += $(DOXYGEN_MANS)
-endif
-
 EXTRA_DIST = \
 	pacman.8.txt \
 	makepkg.8.txt \
@@ -38,9 +29,15 @@ EXTRA_DIST = \
 	$(DOXYGEN_MANS)
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(DOXYGEN_MANS) *.xml
+MOSTLYCLEANFILES = *.xml
+MAINTAINERCLEANFILES = $(ASCIIDOC_MANS)
+
+man_MANS =
+dist_man_MANS = $(ASCIIDOC_MANS)
 
 if USE_DOXYGEN
+man_MANS += $(DOXYGEN_MANS)
+
 all: doxygen.in
 
 doxygen.in:
