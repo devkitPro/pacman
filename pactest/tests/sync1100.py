@@ -20,4 +20,4 @@ self.args = "-Si %s" % sp.name
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PACMAN_OUTPUT=%s" % sp.name)
 self.addrule("PACMAN_OUTPUT=%s" % sp.desc)
-self.addrule("PACMAN_OUTPUT=Oct")
+self.addrule("PACMAN_OUTPUT=2007")

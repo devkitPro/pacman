@@ -7,8 +7,8 @@ p.groups = ["foo"]
 p.url = "http://www.archlinux.org"
 p.license = "GPL2"
 p.arch = "i686"
-# test old style date
-p.builddate = "Mon Oct  1 01:40:21 2007 UTC"
+# test new style date
+p.builddate = "1196640127"
 p.packager = "Arch Linux"
 
 self.addpkg2db("local", p)
