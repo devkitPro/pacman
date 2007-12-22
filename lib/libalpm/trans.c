@@ -342,7 +342,9 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 
 int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 {
-	*data = NULL;
+	if(data) {
+		*data = NULL;
+	}
 
 	ALPM_LOG_FUNC;
 

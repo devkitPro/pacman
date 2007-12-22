@@ -675,7 +675,11 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		if(deps) {
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;
-			*data = deps;
+			if(data) {
+				*data = deps;
+			} else {
+				FREELIST(deps);
+			}
 			goto cleanup;
 		}
 	}
@@ -887,35 +891,41 @@ static int test_md5sum(pmtrans_t *trans, const char *filename,
 	md5sum2 = alpm_get_md5sum(filepath);
 
 	if(md5sum == NULL) {
-		/* TODO wtf is this? malloc'd strings for error messages? */
-		if((errormsg = calloc(512, sizeof(char))) == NULL) {
-			RET_ERR(PM_ERR_MEMORY, -1);
+		if(data) {
+			/* TODO wtf is this? malloc'd strings for error messages? */
+			if((errormsg = calloc(512, sizeof(char))) == NULL) {
+				RET_ERR(PM_ERR_MEMORY, -1);
+			}
+			snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
+					filename);
+			*data = alpm_list_add(*data, errormsg);
 		}
-		snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
-				filename);
-		*data = alpm_list_add(*data, errormsg);
 		ret = 1;
 	} else if(md5sum2 == NULL) {
-		if((errormsg = calloc(512, sizeof(char))) == NULL) {
-			RET_ERR(PM_ERR_MEMORY, -1);
+		if(data) {
+			if((errormsg = calloc(512, sizeof(char))) == NULL) {
+				RET_ERR(PM_ERR_MEMORY, -1);
+			}
+			snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
+					filename);
+			*data = alpm_list_add(*data, errormsg);
 		}
-		snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
-				filename);
-		*data = alpm_list_add(*data, errormsg);
 		ret = 1;
 	} else if(strcmp(md5sum, md5sum2) != 0) {
 		int doremove = 0;
-		if((errormsg = calloc(512, sizeof(char))) == NULL) {
-			RET_ERR(PM_ERR_MEMORY, -1);
-		}
 		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filename,
 				NULL, NULL, &doremove);
 		if(doremove) {
 			unlink(filepath);
 		}
-		snprintf(errormsg, 512, _("file %s was corrupted (bad MD5 checksum)\n"),
-				filename);
-		*data = alpm_list_add(*data, errormsg);
+		if(data) {
+			if((errormsg = calloc(512, sizeof(char))) == NULL) {
+				RET_ERR(PM_ERR_MEMORY, -1);
+			}
+			snprintf(errormsg, 512, _("file %s was corrupted (bad MD5 checksum)\n"),
+					filename);
+			*data = alpm_list_add(*data, errormsg);
+		}
 		ret = 1;
 	}
 
