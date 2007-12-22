@@ -203,7 +203,11 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 		}
 	}
 
-	if(_alpm_lstat(file, &buf)) {
+	/* we want to do a lstat here, and not a _alpm_lstat.
+	 * if a directory in the package is actually a directory symlink on the
+	 * filesystem, we want to work with the linked directory instead of the
+	 * actual symlink */
+	if(lstat(file, &buf)) {
 		_alpm_log(PM_LOG_DEBUG, "file %s does not exist\n", file);
 		return;
 	}
