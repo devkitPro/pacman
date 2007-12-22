@@ -1288,6 +1288,10 @@ fi
 source "$BUILDSCRIPT"
 
 # check for no-no's in the build script
+if [ -z "$pkgname" ]; then
+	error "$(gettext "%s is not allowed to be empty.")" "pkgname"
+	exit 1
+fi
 if [ -z "$pkgver" ]; then
 	error "$(gettext "%s is not allowed to be empty.")" "pkgver"
 	exit 1
