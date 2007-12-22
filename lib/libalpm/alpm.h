@@ -104,6 +104,7 @@ int alpm_option_set_dbpath(const char *dbpath);
 alpm_list_t *alpm_option_get_cachedirs();
 int alpm_option_add_cachedir(const char *cachedir);
 void alpm_option_set_cachedirs(alpm_list_t *cachedirs);
+int alpm_option_remove_cachedir(const char *cachedir);
 
 const char *alpm_option_get_logfile();
 int alpm_option_set_logfile(const char *logfile);
@@ -117,22 +118,27 @@ void alpm_option_set_usesyslog(unsigned short usesyslog);
 alpm_list_t *alpm_option_get_noupgrades();
 void alpm_option_add_noupgrade(const char *pkg);
 void alpm_option_set_noupgrades(alpm_list_t *noupgrade);
+int alpm_option_remove_noupgrade(const char *pkg);
 
 alpm_list_t *alpm_option_get_noextracts();
 void alpm_option_add_noextract(const char *pkg);
 void alpm_option_set_noextracts(alpm_list_t *noextract);
+int alpm_option_remove_noextract(const char *pkg);
 
 alpm_list_t *alpm_option_get_ignorepkgs();
 void alpm_option_add_ignorepkg(const char *pkg);
 void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
+int alpm_option_remove_ignorepkg(const char *pkg);
 
 alpm_list_t *alpm_option_get_holdpkgs();
 void alpm_option_add_holdpkg(const char *pkg);
 void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs);
+int alpm_option_remove_holdpkg(const char *pkg);
 
 alpm_list_t *alpm_option_get_ignoregrps();
 void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
+int alpm_option_remove_ignoregrp(const char *grp);
 
 time_t alpm_option_get_upgradedelay();
 void alpm_option_set_upgradedelay(time_t delay);

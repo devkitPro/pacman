@@ -395,6 +395,29 @@ void SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 	if(cachedirs) handle->cachedirs = cachedirs;
 }
 
+int SYMEXPORT alpm_option_remove_cachedir(const char *cachedir)
+{
+	void *vdata = NULL;
+	char *newcachedir;
+	size_t cachedirlen;
+	/* verify cachedir ends in a '/' */
+	cachedirlen = strlen(cachedir);
+	if(cachedir[cachedirlen-1] != '/') {
+		cachedirlen += 1;
+	}
+	newcachedir = calloc(cachedirlen + 1, sizeof(char));
+	strncpy(newcachedir, cachedir, cachedirlen);
+	newcachedir[cachedirlen-1] = '/';
+	handle->cachedirs = alpm_list_remove(handle->cachedirs, newcachedir,
+		_alpm_str_cmp, &vdata);
+	FREE(newcachedir);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return(1);
+	}
+	return(0);
+}
+
 int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 {
 	char *oldlogfile = handle->logfile;
@@ -436,6 +459,18 @@ void SYMEXPORT alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 	if(noupgrade) handle->noupgrade = noupgrade;
 }
 
+int SYMEXPORT alpm_option_remove_noupgrade(const char *pkg)
+{
+	void *vdata = NULL;
+	handle->noupgrade = alpm_list_remove(handle->noupgrade, pkg,
+		_alpm_str_cmp, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return(1);
+	}
+	return(0);
+}
+
 void SYMEXPORT alpm_option_add_noextract(const char *pkg)
 {
 	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
@@ -445,6 +480,18 @@ void SYMEXPORT alpm_option_set_noextracts(alpm_list_t *noextract)
 {
 	if(handle->noextract) FREELIST(handle->noextract);
 	if(noextract) handle->noextract = noextract;
+}
+
+int SYMEXPORT alpm_option_remove_noextract(const char *pkg)
+{
+	void *vdata = NULL;
+	handle->noextract = alpm_list_remove(handle->noextract, pkg,
+		_alpm_str_cmp, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return(1);
+	}
+	return(0);
 }
 
 void SYMEXPORT alpm_option_add_ignorepkg(const char *pkg)
@@ -458,6 +505,18 @@ void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 	if(ignorepkgs) handle->ignorepkg = ignorepkgs;
 }
 
+int SYMEXPORT alpm_option_remove_ignorepkg(const char *pkg)
+{
+	void *vdata = NULL;
+	handle->ignorepkg = alpm_list_remove(handle->ignorepkg, pkg,
+		_alpm_str_cmp, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return(1);
+	}
+	return(0);
+}
+
 void SYMEXPORT alpm_option_add_holdpkg(const char *pkg)
 {
 	handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
@@ -469,6 +528,18 @@ void SYMEXPORT alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 	if(holdpkgs) handle->holdpkg = holdpkgs;
 }
 
+int SYMEXPORT alpm_option_remove_holdpkg(const char *pkg)
+{
+	void *vdata = NULL;
+	handle->holdpkg = alpm_list_remove(handle->holdpkg, pkg,
+		_alpm_str_cmp, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return(1);
+	}
+	return(0);
+}
+
 void SYMEXPORT alpm_option_add_ignoregrp(const char *grp)
 {
 	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
@@ -478,6 +549,18 @@ void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
 {
 	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
 	if(ignoregrps) handle->ignoregrp = ignoregrps;
+}
+
+int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
+{
+	void *vdata = NULL;
+	handle->ignoregrp = alpm_list_remove(handle->ignoregrp, grp,
+		_alpm_str_cmp, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return(1);
+	}
+	return(0);
 }
 
 void SYMEXPORT alpm_option_set_upgradedelay(time_t delay)
