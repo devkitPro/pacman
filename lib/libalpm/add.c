@@ -259,9 +259,7 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 			_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
 					backup);
 			handle->noupgrade = alpm_list_add(handle->noupgrade,
-					_alpm_backup_file(backup));
-		handle->noupgrade = alpm_list_add(handle->noupgrade,
-				backup);
+					backup);
 		}
 	}
 #endif
