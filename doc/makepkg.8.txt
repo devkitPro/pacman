@@ -19,7 +19,7 @@ Description
 makepkg is a script to automate the building of packages. The requirements for
 using the script are a build-capable \*nix platform and a custom build script
 for each package you wish to build (known as a PKGBUILD). See
-manlink:PKGBUILD[5] for details on creating your own build scripts.
+linkman:PKGBUILD[5] for details on creating your own build scripts.
 
 The advantage to a script-based build is that the work is only done once. Once
 you have the build script for a package, makepkg will do the rest: download and
@@ -50,7 +50,7 @@ Options
 
 *-C, \--cleancache*::
 	Removes all cached source files from the directory specified in SRCDEST
-	in manlink:makepkg.conf[5].
+	in linkman:makepkg.conf[5].
 
 *-d, \--nodeps*::
 	Do not perform any dependency checks. This will let you override and
@@ -67,7 +67,7 @@ Options
 
 *-f, \--force*::
 	makepkg will not build a package if a built package already exists in
-	the PKGDEST (set in manlink:makepkg.conf[5]) directory, which may
+	the PKGDEST (set in linkman:makepkg.conf[5]) directory, which may
 	default to the current directory. This allows the built package to be
 	overwritten.
 
@@ -75,7 +75,7 @@ Options
 	For each source file in the source array of PKGBUILD, download the file
 	if required and generate integrity checks. The integrity checks
 	generated are determined by the value of the INTEGRITY_CHECK array in
-	manlink:makepkg.conf[5]. This output can be redirected into your
+	linkman:makepkg.conf[5]. This output can be redirected into your
 	PKGBUILD for source validation (`makepkg -g >> PKGBUILD`).
 
 *-h, \--help*::
@@ -83,7 +83,7 @@ Options
 
 *-i, \--install*::
 	Install or upgrade the package after a successful build using
-	manlink:pacman[8].
+	linkman:pacman[8].
 
 *-m, \--nocolor*::
 	Disable color in output messages.
@@ -95,7 +95,7 @@ Options
 
 *-p* <`buildscript`>::
 	Read the package script `buildscript` instead of the `PKGBUILD` default;
-	see manlink:PKGBUILD[5].
+	see linkman:PKGBUILD[5].
 
 *-r, \--rmdeps*::
 	Upon successful build, remove any dependencies installed by makepkg
@@ -134,18 +134,18 @@ Additional Features
 -------------------
 makepkg supports building development versions of packages without having to
 manually update the pkgver in the PKGBUILD. This was formerly done using the
-separate utility 'versionpkg'. See manlink:PKGBUILD[5] for details on how to
+separate utility 'versionpkg'. See linkman:PKGBUILD[5] for details on how to
 set up a development PKGBUILD.
 
 
 Configuration
 -------------
-See manlink:makepkg.conf[5] for more details on configuring makepkg using the
+See linkman:makepkg.conf[5] for more details on configuring makepkg using the
 'makepkg.conf' file.
 
 
 See Also
 --------
-manlink:makepkg.conf[5], manlink:PKGBUILD[5], manlink:pacman[8]
+linkman:makepkg.conf[5], linkman:PKGBUILD[5], linkman:pacman[8]
 
 include::footer.txt[]

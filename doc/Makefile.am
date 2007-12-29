@@ -60,7 +60,7 @@ $(ASCIIDOC_MANS):
 	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
 # These rules are due to the includes and files of the asciidoc text
-$(ASCIIDOC_MANS): footer.txt
+$(ASCIIDOC_MANS): asciidoc.conf footer.txt
 pacman.8: pacman.8.txt
 makepkg.8: makepkg.8.txt
 repo-add.8: repo-add.8.txt

@@ -21,7 +21,7 @@ system. It features dependency support, package groups, install and uninstall
 hooks, and the ability to sync your local machine with a remote ftp server to
 automatically upgrade packages. Pacman packages are a zipped tar format.
 
-Since version 3.0.0, pacman has been the frontend to manlink:libalpm[3], the
+Since version 3.0.0, pacman has been the frontend to linkman:libalpm[3], the
 "Arch Linux Package Management" library. This library allows alternative front
 ends to be written (for instance, a GUI front end).
 
@@ -216,7 +216,7 @@ Sync Options[[SO]]
 	free up disk space. When pacman	downloads packages, it saves them in a
 	cache directory. In addition, databases are saved for every sync DB you
 	download from, and are not deleted even if they are removed from the
-	configuration file manlink:pacman.conf[5]. Use one '\--clean' switch to
+	configuration file linkman:pacman.conf[5]. Use one '\--clean' switch to
 	only remove old packages; use two to remove all packages from the cache.
 	In both cases, you will have a yes or no option to remove packages and/or
 	unused downloaded databases.
@@ -261,7 +261,7 @@ Sync Options[[SO]]
 
 *-y, \--refresh*::
 	Download a fresh copy of the master package list from the server(s)
-	defined in manlink:pacman.conf[5]. This should typically be used each time
+	defined in linkman:pacman.conf[5]. This should typically be used each time
 	you use	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags
 	will force a refresh of all package lists even if they are thought to be up
 	to date.
@@ -313,12 +313,12 @@ original=X, current=Y, new=Z::
 
 Configuration
 -------------
-See manlink:pacman.conf[5] for more details on configuring pacman using the
+See linkman:pacman.conf[5] for more details on configuring pacman using the
 'pacman.conf' file.
 
 
 See Also
 --------
-manlink:pacman.conf[5], manlink:makepkg[8], manlink:libalpm[3]
+linkman:pacman.conf[5], linkman:makepkg[8], linkman:libalpm[3]
 
 include::footer.txt[]

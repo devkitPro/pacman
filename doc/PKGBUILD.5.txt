@@ -111,7 +111,7 @@ Options and Directives
 	A space-delimited array of filenames, without preceding slashes, that
 	should be backed up if the package is removed or upgraded. This is
 	commonly used for packages placing configuration files in /etc. See
-	Handling Config Files in manlink:pacman[8] for more information.
+	Handling Config Files in linkman:pacman[8] for more information.
 
 *depends (array)*::
 	An array of packages that this package depends on to run. Packages in
@@ -152,8 +152,8 @@ Options and Directives
 	when building packages. To set an option, just include the option name
 	in the options array. To reverse the default behavior, place an ``!'' at
 	the front of the option. Only specify the options you specifically want
-	to override, the rest will be taken from manlink:makepkg.conf[5].
-	*NOTE:* 'force' is a special option only used in a manlink:PKGBUILD[5],
+	to override, the rest will be taken from linkman:makepkg.conf[5].
+	*NOTE:* 'force' is a special option only used in a linkman:PKGBUILD[5],
 	do not use it unless you know what you are doing.
 
 	*strip*;;
@@ -184,7 +184,7 @@ Options and Directives
 
 	*makeflags*;;
 		Allow the use of user-specific makeflags during build as specified
-		in manlink:makepkg.conf[5]. More useful in its negative form
+		in linkman:makepkg.conf[5]. More useful in its negative form
 		`!makeflags` with select packages that have problems building with
 		custom makeflags such as `-j2` (or higher).
 
@@ -316,6 +316,6 @@ source~~~~~
 
 See Also
 --------
-manlink:makepkg[8], manlink:pacman[8], manlink:makepkg.conf[5]
+linkman:makepkg[8], linkman:pacman[8], linkman:makepkg.conf[5]
 
 include::footer.txt[]
