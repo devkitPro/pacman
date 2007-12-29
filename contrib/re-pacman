@@ -60,20 +60,18 @@ if [ "x${ver}" = "x" ]; then
 fi
 
 echo ":: Cleaning up old files"
-rm -f .PKGINFO .FILELIST "${1}-${ver}.pkg.tar.gz"
+rm -f .PKGINFO "${1}-${ver}.pkg.tar.gz"
 
 echo ":: Building PKGINFO"
 make_pkginfo ${1} > .PKGINFO
-echo ":: Building FILELIST"
-pacman -Ql ${1} | cut -d' ' -f2- > .FILELIST
 
-flist=".PKGINFO .FILELIST"
+flist=".PKGINFO"
 flist="${flist} $(pacman -Ql ${1} | sed 's|\w* \(.*\)|/\1|g' | grep -v '/$')"
 
 echo ":: Building final package tarball"
 echo ${flist} | tr ' ' '\n' | tar czf "${1}-${ver}.pkg.tar.gz" -T - 2>/dev/null
 
-rm -f .PKGINFO .FILELIST
+rm -f .PKGINFO
 echo ":: Package '${1}-${ver}.pkg.tar.gz' is now ready for installation"
 
 # vim: set ts=2 sw=2 noet:

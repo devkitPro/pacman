@@ -978,13 +978,11 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 {
 	int ret = ARCHIVE_OK;
 	int config = 0;
-	int filelist = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	pmpkg_t *info = NULL;
 	char *descfile = NULL;
 	int fd = -1;
-	alpm_list_t *all_files = NULL;
 	struct stat st;
 
 	ALPM_LOG_FUNC;
@@ -1024,10 +1022,12 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves
-	 * as a verfication of integrity. */
+	 * as a verfication of integrity and allows us to create the filelist. */
 	while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
 		const char *entry_name = archive_entry_pathname(entry);
 
+		/* NOTE: we used to look for .FILELIST, but it is easier (and safer) for
+		 * us to just generate this on our own. */
 		if(strcmp(entry_name, ".PKGINFO") == 0) {
 			/* extract this file into /tmp. it has info for us */
 			descfile = strdup("/tmp/alpm_XXXXXX");
@@ -1058,38 +1058,12 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 			continue;
 		} else if(strcmp(entry_name,  ".INSTALL") == 0) {
 			info->scriptlet = 1;
-		} else if(strcmp(entry_name, ".FILELIST") == 0) {
-			/* Build info->files from the filelist */
-			FILE *fp;
-			char *fn;
-			char str[PATH_MAX+1];
-			int fd;
-
-			fn = strdup("/tmp/alpm_XXXXXX");
-			fd = mkstemp(fn);
-			archive_read_data_into_fd(archive,fd);
-			fp = fopen(fn, "r");
-			while(!feof(fp)) {
-				if(fgets(str, PATH_MAX, fp) == NULL) {
-					continue;
-				}
-				_alpm_strtrim(str);
-				info->files = alpm_list_add(info->files, strdup(str));
-			}
-			fclose(fp);
-			if(unlink(fn)) {
-				_alpm_log(PM_LOG_WARNING, _("could not remove tempfile %s\n"), fn);
-			}
-			FREE(fn);
-			close(fd);
-			filelist = 1;
-			continue;
 		} else if(*entry_name == '.') {
 			/* for now, ignore all files starting with '.' that haven't
 			 * already been handled (for future possibilities) */
 		} else {
-			/* Keep track of all files so we can generate a filelist later if missing */
-			all_files = alpm_list_add(all_files, strdup(entry_name));
+			/* Keep track of all files for filelist generation */
+			info->files = alpm_list_add(info->files, strdup(entry_name));
 		}
 
 		if(archive_read_data_skip(archive)) {
@@ -1100,7 +1074,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 		}
 
 		/* if we are not doing a full read, see if we have all we need */
-		if(!full && config && filelist) {
+		if(!full && config) {
 			break;
 		}
 	}
@@ -1119,21 +1093,21 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 
   archive_read_finish(archive);
 
-	if(!filelist) {
-		_alpm_log(PM_LOG_ERROR, _("missing package filelist in %s, generating one\n"), pkgfile);
-		info->files = all_files;
-	} else {
-		FREELIST(all_files);
-	}
-
-	/* this is IMPORTANT - "checking for conflicts" requires a sorted list, so we
-	 * ensure that here */
-	info->files = alpm_list_msort(info->files, alpm_list_count(info->files), _alpm_str_cmp);
-
-	/* internal */
+	/* internal fields for package struct */
 	info->origin = PKG_FROM_FILE;
 	info->origin_data.file = strdup(pkgfile);
-	info->infolevel = 0xFF;
+
+	if(full) {
+		/* "checking for conflicts" requires a sorted list, so we ensure that here */
+		_alpm_log(PM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
+		info->files = alpm_list_msort(info->files, alpm_list_count(info->files),
+				_alpm_str_cmp);
+		info->infolevel = INFRQ_ALL;
+	} else {
+		/* get rid of any partial filelist we may have collected, as it is invalid */
+		FREELIST(info->files);
+		info->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_DEPENDS;
+	}
 
 	return(info);
 
