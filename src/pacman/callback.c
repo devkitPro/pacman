@@ -278,11 +278,19 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
-			snprintf(str, LOG_STR_LEN, _(":: Replace %s with %s/%s? [Y/n] "),
-					alpm_pkg_get_name(data1),
-					(char *)data3,
-					alpm_pkg_get_name(data2));
-			*response = yesno(str);
+			if(!config->noconfirm) {
+				snprintf(str, LOG_STR_LEN, _(":: Replace %s with %s/%s? [Y/n] "),
+						alpm_pkg_get_name(data1),
+						(char *)data3,
+						alpm_pkg_get_name(data2));
+				*response = yesno(str);
+			} else {
+				printf(_("Replacing %s with %s/%s\n."),
+						alpm_pkg_get_name(data1),
+						(char *)data3,
+						alpm_pkg_get_name(data2));
+				*response = 1;
+			}
 			break;
 		case PM_TRANS_CONV_CONFLICT_PKG:
 			snprintf(str, LOG_STR_LEN, _(":: %s conflicts with %s. Remove %s? [Y/n] "),
