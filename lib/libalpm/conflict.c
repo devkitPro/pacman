@@ -251,6 +251,10 @@ static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
 	alpm_list_t *ret = NULL;
 	alpm_list_t *pA = filesA, *pB = filesB;
 
+	if(pB == NULL) {
+		return(alpm_list_strdup(pA));
+	}
+
 	while(pA && pB) {
 		const char *strA = pA->data;
 		const char *strB = pB->data;
