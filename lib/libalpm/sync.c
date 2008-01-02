@@ -147,7 +147,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 					 * the package to replace.
 					 */
 					pmsyncpkg_t *sync;
-					pmpkg_t *dummy = _alpm_pkg_new(alpm_pkg_get_name(lpkg), NULL);
+					pmpkg_t *dummy = _alpm_pkg_dup(lpkg);
 					if(dummy == NULL) {
 						pm_errno = PM_ERR_MEMORY;
 						synclist_free(*syncpkgs);
