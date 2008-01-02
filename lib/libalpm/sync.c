@@ -371,8 +371,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	if(!_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
 		pmpkg_t *dummy = NULL;
 		if(local) {
-			dummy = _alpm_pkg_new(alpm_pkg_get_name(local),
-														alpm_pkg_get_version(local));
+			dummy = _alpm_pkg_dup(local);
 			if(dummy == NULL) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
