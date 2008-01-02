@@ -270,7 +270,8 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		/* already loaded this info, do nothing */
 		return(0);
 	}
-	_alpm_log(PM_LOG_FUNCTION, _("loading package data for %s : level=%d\n"), info->name, inforeq);
+	_alpm_log(PM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
+			info->name, inforeq);
 
 	/* clear out 'line', to be certain - and to make valgrind happy */
 	memset(line, 0, 513);

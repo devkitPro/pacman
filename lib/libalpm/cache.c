@@ -57,7 +57,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 
 	_alpm_db_rewind(db);
 	while((info = _alpm_db_scan(db, NULL)) != NULL) {
-		_alpm_log(PM_LOG_FUNCTION, _("adding '%s' to package cache for db '%s'\n"),
+		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 							alpm_pkg_get_name(info), db->treename);
 		info->origin = PKG_FROM_CACHE;
 		info->origin_data.db = db;
