@@ -358,7 +358,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 				for(k = tmpfiles; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", root, (char *)k->data);
 					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_TARGET, path,
-																			 alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
+							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 				}
 				FREELIST(tmpfiles);
 			}
@@ -377,7 +377,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 		 * is not currently installed, then simply stat the whole filelist */
 		if(dbpkg) {
 			/* older ver of package currently installed */
-			tmpfiles = chk_filedifference(alpm_pkg_get_files(p1), alpm_pkg_get_files(dbpkg));
+			tmpfiles = chk_filedifference(alpm_pkg_get_files(p1),
+					alpm_pkg_get_files(dbpkg));
 		} else {
 			/* no version of package currently installed */
 			tmpfiles = alpm_list_strdup(alpm_pkg_get_files(p1));
@@ -461,7 +462,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 				if(!resolved_conflict) {
 					_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
 					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
-																			 path, p1->name, NULL);
+							path, p1->name, NULL);
 				}
 			}
 		}

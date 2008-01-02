@@ -758,12 +758,12 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 	if(name && name[0] != 0) {
 		strncpy(pkg->name, name, PKG_NAME_LEN);
 	} else {
-		pkg->name[0]        = '\0';
+		pkg->name[0] = '\0';
 	}
 	if(version && version[0] != 0) {
 		strncpy(pkg->version, version, PKG_VERSION_LEN);
 	} else {
-		pkg->version[0]     = '\0';
+		pkg->version[0] = '\0';
 	}
 
 	return(pkg);
@@ -778,7 +778,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	CALLOC(newpkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	memcpy(newpkg, pkg, sizeof(pmpkg_t));
-	newpkg->licenses    = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
+	newpkg->licenses   = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
 	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
