@@ -41,15 +41,15 @@ Options
 *-b, \--builddeps*::
 	Build missing dependencies from source. When makepkg finds missing
 	build-time or run-time dependencies, it will look for the dependencies'
-	PKGBUILD files under ABSROOT (set in makepkg.conf). If it finds them it
-	will call makepkg to build and install the missing dependencies. The
-	child calls will be made with the `-b` and `-i` options.
+	PKGBUILD files under `SRCROOT` (set in linkman:makepkg.conf[5]). If it
+	finds them it will call makepkg to build and install the missing
+	dependencies. The child calls will be made with the `-b` and `-i` options.
 
 *-c, \--clean*::
 	Clean up leftover work files and directories after a successful build.
 
 *-C, \--cleancache*::
-	Removes all cached source files from the directory specified in SRCDEST
+	Removes all cached source files from the directory specified in `SRCDEST`
 	in linkman:makepkg.conf[5].
 
 *-d, \--nodeps*::
@@ -67,7 +67,7 @@ Options
 
 *-f, \--force*::
 	makepkg will not build a package if a built package already exists in
-	the PKGDEST (set in linkman:makepkg.conf[5]) directory, which may
+	the `PKGDEST` (set in linkman:makepkg.conf[5]) directory, which may
 	default to the current directory. This allows the built package to be
 	overwritten.
 
