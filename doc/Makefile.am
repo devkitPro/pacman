@@ -33,7 +33,7 @@ MOSTLYCLEANFILES = *.xml
 MAINTAINERCLEANFILES = $(ASCIIDOC_MANS)
 
 man_MANS =
-dist_man_MANS = $(ASCIIDOC_MANS)
+dist_man_MANS = $(ASCIIDOC_MANS) repo-remove.8
 
 if USE_DOXYGEN
 man_MANS += $(DOXYGEN_MANS)
@@ -68,6 +68,9 @@ PKGBUILD.5: PKGBUILD.5.txt PKGBUILD-example.txt
 makepkg.conf.5: makepkg.conf.5.txt
 pacman.conf.5: pacman.conf.5.txt
 libalpm.3: libalpm.3.txt
+# this one is just a symlink
+repo-remove.8: repo-add.8
+	ln -s repo-add.8 repo-remove.8
 endif
 
 # vim:set ts=2 sw=2 noet:
