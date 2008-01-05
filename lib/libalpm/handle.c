@@ -362,7 +362,6 @@ int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 
 int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 {
-	struct stat st;
 	char *newcachedir;
 	size_t cachedirlen;
 
@@ -372,10 +371,9 @@ int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 		pm_errno = PM_ERR_WRONG_ARGS;
 		return(-1);
 	}
-	if(stat(cachedir, &st) == -1 || !S_ISDIR(st.st_mode)) {
-		pm_errno = PM_ERR_NOT_A_DIR;
-		return(-1);
-	}
+	/* don't stat the cachedir yet, as it may not even be needed. we can
+	 * fail later if it is needed and the path is invalid. */
+
 	/* verify cachedir ends in a '/' */
 	cachedirlen = strlen(cachedir);
 	if(cachedir[cachedirlen-1] != '/') {

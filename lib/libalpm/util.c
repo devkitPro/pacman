@@ -571,8 +571,6 @@ const char *_alpm_filecache_setup(void)
 			/* cache directory does not exist.... try creating it */
 			_alpm_log(PM_LOG_WARNING, _("no %s cache exists, creating...\n"),
 					cachedir);
-			alpm_logaction("warning: no %s cache exists, creating...\n",
-					cachedir);
 			if(_alpm_makepath(cachedir) == 0) {
 				_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 				return(cachedir);
@@ -590,7 +588,6 @@ const char *_alpm_filecache_setup(void)
 	alpm_option_set_cachedirs(tmp);
 	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/\n");
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
-	alpm_logaction("warning: couldn't create package cache, using /tmp instead\n");
 	return(alpm_list_getdata(tmp));
 }
 
