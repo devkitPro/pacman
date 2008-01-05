@@ -570,12 +570,14 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 						}
 						if(rmpkg) {
 							pmsyncpkg_t *rsync = _alpm_sync_find(trans->packages, rmpkg);
-							void *vpkg;
-							_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n",
-									rsync->pkg->name);
-							trans->packages = alpm_list_remove(trans->packages, rsync,
-									syncpkg_cmp, &vpkg);
-							_alpm_sync_free(vpkg);
+							if(rsync) {
+								void *vpkg;
+								_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n",
+										rsync->pkg->name);
+								trans->packages = alpm_list_remove(trans->packages, rsync,
+										syncpkg_cmp, &vpkg);
+								_alpm_sync_free(vpkg);
+							}
 							continue;
 						}
 					}
