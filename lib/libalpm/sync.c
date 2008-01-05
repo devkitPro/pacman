@@ -301,16 +301,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 				repo_found = 1;
 				spkg = _alpm_db_get_pkgfromcache(db, targ);
 				if(spkg == NULL) {
-					/* Search provides */
-					_alpm_log(PM_LOG_DEBUG, "target '%s' not found in db '%s' -- looking for provisions\n", targ, db->treename);
-					alpm_list_t *p = _alpm_db_whatprovides(db, targ);
-					if(!p) {
-						RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
-					}
-					spkg = (pmpkg_t *) p->data;
-					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s'\n",
-							alpm_pkg_get_name(spkg), targ);
-					alpm_list_free(p);
+					RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 				}
 			}
 		}
@@ -325,23 +316,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 			spkg = _alpm_db_get_pkgfromcache(db, targ);
 		}
 		if(spkg == NULL) {
-			/* Search provides */
-			_alpm_log(PM_LOG_DEBUG, "target '%s' not found -- looking for provisions\n", targ);
-			for(j = dbs_sync; j && !spkg; j = j->next) {
-				pmdb_t *db = j->data;
-				alpm_list_t *p = _alpm_db_whatprovides(db, targ);
-				if(p) {
-					spkg = (pmpkg_t *) p->data;
-					_alpm_log(PM_LOG_DEBUG, "found '%s' as a provision for '%s' in db '%s'\n",
-							alpm_pkg_get_name(spkg), targ, db->treename);
-					alpm_list_free(p);
-				}
-			}
+			RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 		}
-	}
-
-	if(spkg == NULL) {
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
 	if(_alpm_pkg_should_ignore(spkg)) {

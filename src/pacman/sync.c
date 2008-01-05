@@ -605,9 +605,37 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 					}
 				}
 				if(!found) {
-					fprintf(stderr, _("error: '%s': not found in sync db\n"), targ);
-					retval = 1;
-					goto cleanup;
+					/* targ not found in sync db, searching for providers... */
+					alpm_list_t *prov = NULL;
+					for(j = sync_dbs; j; j = alpm_list_next(j)) {
+						pmdb_t *db = alpm_list_getdata(j);
+						prov = alpm_list_join(prov, alpm_db_whatprovides(db, targ));
+					}
+					if(prov != NULL) {
+						if(alpm_list_count(prov) == 1) {
+							const char *pname = NULL;
+							pmpkg_t *pkg = alpm_list_getdata(prov);
+							pname = alpm_pkg_get_name(pkg);
+							alpm_list_free(prov);
+							printf(_("Warning: %s provides %s\n"), pname, targ);
+							targets = alpm_list_add(targets, strdup(pname));
+						} else {
+							alpm_list_t *k;
+							fprintf(stderr, _("error: several packages provide %s, please specify one :\n"), targ);
+							for(k = prov; k; k = alpm_list_next(k)) {
+								pmpkg_t *pkg = alpm_list_getdata(k);
+								printf("%s ", alpm_pkg_get_name(pkg));
+							}
+							printf("\n");
+							alpm_list_free(prov);
+							retval = 1;
+							goto cleanup;
+						}
+					} else {
+						fprintf(stderr, _("error: '%s': not found in sync db\n"), targ);
+						retval = 1;
+						goto cleanup;
+					}
 				}
 			}
 		}
