@@ -616,7 +616,7 @@ extract_sources() {
 		local file_type=$(file -bizL "$file")
 		local cmd=''
 		case "$file_type" in
-			*application/x-tar*|*application/x-zip*|*application/x-cpio*)
+			*application/x-tar*|*application/zip*|*application/x-zip*|*application/x-cpio*)
 				cmd="bsdtar -x -f $file" ;;
 			*application/x-gzip*)
 				cmd="gunzip -d -f $file" ;;
