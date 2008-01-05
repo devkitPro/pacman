@@ -440,23 +440,13 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 
 					if(localp2 && !alpm_list_find_str(pkgfiles, filestr)
 						 && alpm_list_find_str(localfiles, filestr)) {
-						/* check if the file is now in the backup array */
-						if(alpm_list_find_str(alpm_pkg_get_backup(p1), filestr)) {
-							/* keep file intact if it is in backup array */
-							trans->skip_add = alpm_list_add(trans->skip_add, strdup(path));
-							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
-							_alpm_log(PM_LOG_DEBUG, "file in backup array, adding to add and remove skiplist: %s\n", filestr);
-							resolved_conflict = 1;
-							break;
-						} else {
-							/* skip removal of file, but not add. this will prevent a second
-							 * package from removing the file when it was already installed
-							 * by its new owner */
-							trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
-							_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
-							resolved_conflict = 1;
-							break;
-						}
+						/* skip removal of file, but not add. this will prevent a second
+						 * package from removing the file when it was already installed
+						 * by its new owner (whether the file is in backup array or not */
+						trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
+						_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
+						resolved_conflict = 1;
+						break;
 					}
 				}
 				if(!resolved_conflict) {
