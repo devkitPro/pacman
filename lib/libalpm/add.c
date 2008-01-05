@@ -238,8 +238,13 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 	 * so this removal operation doesn't kill them */
 	alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
 	/* old package backup list */
+	alpm_list_t *filelist = alpm_pkg_get_files(newpkg);
 	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 		char *backup = _alpm_backup_file(b->data);
+		/* safety check (fix the upgrade026 pactest) */
+		if(!alpm_list_find_str(filelist, backup)) {
+			continue;
+		}
 		_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
 				backup);
 		handle->noupgrade = alpm_list_add(handle->noupgrade,
