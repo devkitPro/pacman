@@ -103,7 +103,8 @@ def mkfile(name, data = ""):
         return
     if islink:
         curdir = os.getcwd()
-        os.chdir(path)
+        if path:
+            os.chdir(path)
         os.symlink(link, os.path.basename(filename))
         os.chdir(curdir)
     else:
