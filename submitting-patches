@@ -1,5 +1,5 @@
-HOWTO: Submit a patch
----------------------
+Pacman - Submitting Patches
+===========================
 
 This document is here mainly to make my job easier, and is more of a guideline,
 and not a strict set of rules.  Please try to follow as much as you can.
@@ -7,74 +7,88 @@ and not a strict set of rules.  Please try to follow as much as you can.
 NOTE: Much of this is paraphrased from the kernel documentation's
 "SubmittingPatches" file.
 
-Creating your patch:
+Creating your patch
+-------------------
 
 Most of this was more relevant before we switched to GIT for version control.
 However, much of it is still applicable and should be followed. Some notes
 have been added to make this a bit more up-to-date with the GIT workflow.
 
+--
 * Use "diff -up" or "diff -uprN" to create patches.
 
-  These options make the diff easier to read for those of us who try to review
-  submitted patches. If you are working on your own git branch, then GIT
-  formatted patches are perfectly acceptable.
+These options make the diff easier to read for those of us who try to review
+submitted patches. If you are working on your own git branch, then GIT
+formatted patches are perfectly acceptable.
 
 * Please try to make patches "p1 applicable"
 
-  This means that if you are patching file "lib/libalpm/alpm.h", I should be
-  able to apply your patch while passing the -p1 argument to 'patch'.  The diff
-  header should look like so:
+This means that if you are patching file "lib/libalpm/alpm.h", I should be
+able to apply your patch while passing the -p1 argument to 'patch'.  The diff
+header should look like so:
 
   --- ORIGINAL_DIR/lib/libalpm/alpm.h
   +++ NEW_DIR/lib/libalpm/alpm.h
 
-  With '-p1' the ORIGINAL_DIR and NEW_DIR arguments are stripped. GIT produces
-  p1 formatted patches by default.
+With '-p1' the ORIGINAL_DIR and NEW_DIR arguments are stripped. GIT produces
+p1 formatted patches by default.
+--
 
-Submitting your patch:
+Submitting your patch
+---------------------
 
+--
 * Send the patch to the pacman-dev mailing list
 
-  The mailing list is the primary queue for review and acceptance.  Here you
-  will get feedback, and let me know the details of your patch.  It also helps
-  if you add "[patch]" to the beginning of your Subject line.
+The mailing list is the primary queue for review and acceptance.  Here you
+will get feedback, and let me know the details of your patch.  It also helps
+if you add "[patch]" to the beginning of your Subject line.
 
 * No MIME, no links, no compression, no attachments.  Just plain text.
 
-  Patches should be contained in the actual body of the email.  There are many
-  reasons for this.  Firstly, it makes them easier to read with any mail reader,
-  it allows easier review "at a glance", and most importantly, it allows people
-  to comment on exact lines of the patch in reply emails.
+Patches should be contained in the actual body of the email.  There are many
+reasons for this.  Firstly, it makes them easier to read with any mail reader,
+it allows easier review "at a glance", and most importantly, it allows people
+to comment on exact lines of the patch in reply emails.
 
-  It is important to know that the diff format ignores plain text before (and
-  after) the main diff itself.  If you directly insert your patch into an email,
-  you can safely add lines above it describing your patch.
+It is important to know that the diff format ignores plain text before (and
+after) the main diff itself.  If you directly insert your patch into an email,
+you can safely add lines above it describing your patch.
 
 * Describe your patch.
 
-  Before the actual diff begins, it helps if you describe the changes in the
-  patch.  This allows others to see what you intended so as to compare it to
-  what was actually done, and allows better feedback. If you use
-  'git-format-patch' to create your patch, then your commit message will
-  be shown above the patch by default.
+Before the actual diff begins, it helps if you describe the changes in the
+patch.  This allows others to see what you intended so as to compare it to
+what was actually done, and allows better feedback. If you use
+`git-format-patch` to create your patch, then your commit message will
+be shown above the patch by default.
 
 * Credit yourself
 
-  Just like with the kernel, it helps if you add a "Signed Off By" line to
-  indicate who has "signed" the patch - who has approved it.
+Just like with the kernel, it helps if you add a "Signed Off By" line to
+indicate who has "signed" the patch - who has approved it.
 
     Signed-off-by: Aaron Griffin <aaron@archlinux.org>
 
-  Please use your real name and email address.  Feel free to "scramble" the
-  address if you're afraid of spam. 'git commit -s' makes this easy.
 
-After you submit:
+Please use your real name and email address.  Feel free to "scramble" the
+address if you're afraid of spam. `git commit -s` makes this easy.
+--
 
+After you submit
+----------------
+
+--
 * Don't get discouraged
 
-  Any feedback you get, positive or negative, has nothing to do with you.  If a
-  patch is rejected, try taking the suggestions into account and re-submitting.
-  We welcome most submissions here, and some may take a bit longer to get
-  looked over than others. If you think your patch got lost in the shuffle,
-  send another email to the list in reply to the original asking if anyone has
-  looked at it yet.
+Any feedback you get, positive or negative, has nothing to do with you.  If a
+patch is rejected, try taking the suggestions into account and re-submitting.
+We welcome most submissions here, and some may take a bit longer to get
+looked over than others. If you think your patch got lost in the shuffle,
+send another email to the list in reply to the original asking if anyone has
+looked at it yet.
+--
+
+/////
+vim: set ts=2 sw=2 syntax=asciidoc et:
+/////

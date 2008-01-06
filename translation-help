@@ -1,5 +1,5 @@
-HOWTO: Help with translations
------------------------------
+Pacman - Translating
+====================
 
 This document is here to guide you in helping translate pacman messages,
 libalpm messages, and the manpages for the entire pacman package.
@@ -7,10 +7,10 @@ libalpm messages, and the manpages for the entire pacman package.
 A quick note- the gettext website is a very useful guide to read before
 embarking on translation work, as it describes many of the commands in more
 detail than I will here:
-<http://www.gnu.org/software/gettext/manual/html_node/gettext.html>
+http://www.gnu.org/software/gettext/manual/html_node/gettext.html[]
 
 In addition, this site presents a small tutorial that I found useful:
-<http://oriya.sarovar.org/docs/gettext/>
+http://oriya.sarovar.org/docs/gettext/[]
 
 Translating Messages
 --------------------
@@ -22,10 +22,16 @@ Each language has a .po file associated with it; the .pot file is the template
 file for creating new .po files and updating the messages in them when the code
 changes.
 
-First things first. You will need to run ./autogen.sh and ./configure in the
-base directory to generate the correct Makefiles. To update all the translation
-files, run this command:
-	make update-po
+First things first. If you haven't already, you will need to get a copy of the
+pacman repository.
+
+    git clone git://projects.archlinux.org/pacman.git pacman
+
+Next, you will need to run `./autogen.sh` and `./configure` in the base
+directory to generate the correct Makefiles. To update all the translation
+files, run this command in one of the two message file directories:
+
+    make update-po
 
 At this point, the .pot file is regenerated from the source code with an
 updated string list, and the existing po files are merged if necessary to add
@@ -33,20 +39,22 @@ new messages or remove old ones. These po files can then either be hand edited,
 or modified with a tool such as poedit, gtranslator or kbabel.
 
 These steps make it easier to just update your language and not every po file.
-If you are working in the root tree, replace libalpm.pot with pacman.pot:
-	make libalpm.pot-update 
-	make <po file>-update
+If you are working in the `po/` tree, replace 'libalpm.pot' with 'pacman.pot':
+
+    make libalpm.pot-update
+    make <po file>-update
 
 Making a new language is not too hard, but be sure to follow all the steps.
-You will have to do the following steps in both the lib/libalpm/po/ and po/
-directories, substituting where appropriate. First, edit the LINGUAS file and
+You will have to do the following steps in both the `lib/libalpm/po/` and `po/`
+directories, substituting where appropriate. First, edit the `LINGUAS` file and
 add your new language code at the bottom. Next, run the following command,
-substituting 'libalpm.pot' or 'pacman.pot' depending on which directory you are
-currently working in:
+substituting 'libalpm.pot' or 'pacman.pot' for potfile depending on which
+directory you are currently working in:
+
 	msginit -l <lang code> -o <lang code>.po -i <potfile>
 
-You can then also add your language code to the end of the LINGUAS file located
-in each po directory.
+You can then also add your language code to the end of the `LINGUAS` file
+located in each po directory.
 
 Look at the current message files for more guidance if necessary. Once you
 create the new language file, you may need to slightly modify the headers;
@@ -54,22 +62,25 @@ try to make them look similar to the other .po file headers. In addition, for
 all new translations we would strongly recommend using UTF-8 encoding.
 
 If you want to test the translation (for example, the frontend one):
-rm *.gmo stamp-po
-make
-cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
+
+    rm *.gmo stamp-po
+    make
+    cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
 
 Finally, submitting your translations in patch form is not essential for new
 languages, but highly recommended for future updates to the translations.
 
-Some other notes:
+Notes
+~~~~~
+
 msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks
-are ignored- if you need a literal line break, use an '\n' in your string. The
+are ignored- if you need a literal line break, use an `\n` in your string. The
 following two translations are equivalent:
 
-msgstr "This is a test translation"
+    msgstr "This is a test translation"
 
-msgstr ""
-"This is a test translation"
+    msgstr ""
+    "This is a test translation"
 
 
 Translating Manpages
@@ -77,3 +88,6 @@ Translating Manpages
 
 (To Be Announced)
 
+/////
+vim: set ts=2 sw=2 syntax=asciidoc et:
+/////
