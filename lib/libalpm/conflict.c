@@ -386,6 +386,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 
 		/* loop over each file to be installed */
 		for(j = tmpfiles; j; j = j->next) {
+			int skip_conflict = 0;
 			filestr = j->data;
 
 			snprintf(path, PATH_MAX, "%s%s", root, filestr);
@@ -396,11 +397,17 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 			}
 			stat(path, &sbuf);
 
-			if(S_ISDIR(lsbuf.st_mode)) {
-				_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
-			} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
-				_alpm_log(PM_LOG_DEBUG, "%s is a symlink to a dir, hopefully not a conflict\n", path);
-			} else {
+			if(path[strlen(path)-1] == '/') {
+				if(S_ISDIR(lsbuf.st_mode)) {
+					_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
+					skip_conflict = 1;
+				} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
+					_alpm_log(PM_LOG_DEBUG,
+							"%s is a symlink to a dir, hopefully not a conflict\n", path);
+					skip_conflict = 1;
+				}
+			}
+			if(!skip_conflict) {
 				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
 				/* Make sure the possible conflict is not a symlink that points to a
