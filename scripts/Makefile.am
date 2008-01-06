@@ -4,7 +4,6 @@ AUTOMAKE_OPTIONS = std-options
 bin_SCRIPTS = \
 	gensync \
 	makepkg \
-	makeworld \
 	pacman-optimize \
 	rankmirrors \
 	repo-add \
@@ -14,7 +13,6 @@ bin_SCRIPTS = \
 EXTRA_DIST = \
 	gensync.sh.in \
 	makepkg.sh.in \
-	makeworld.sh.in \
 	pacman-optimize.sh.in \
 	rankmirrors.py.in \
 	repo-add.sh.in \
@@ -52,7 +50,6 @@ $(bin_SCRIPTS): Makefile
 
 gensync: $(srcdir)/gensync.sh.in
 makepkg: $(srcdir)/makepkg.sh.in
-makeworld: $(srcdir)/makeworld.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
 rankmirrors: $(srcdir)/rankmirrors.py.in
 repo-add: $(srcdir)/repo-add.sh.in
