@@ -155,17 +155,17 @@ if __name__ == "__main__":
         # if the $repo var is used in the url, replace it by core
         tempUrl = Template(serverUrl).safe_substitute(repo='core')
 
-        # add *.db.tar.gz to server name. the repo name is parsed
+        # add @DBEXT@ to server name. the repo name is parsed
         # from the mirror url; it is the third (or fourth) dir
         # from the end, where the url is http://foo/bar/REPO/os/arch
         try:
             splitted2 = tempUrl.split('/')
             if tempUrl[-1] != '/':
                 repoName = splitted2[-3]
-                dbFileName = '/' + repoName + '.db.tar.gz'
+                dbFileName = '/' + repoName + '@DBEXT@'
             else:
                 repoName = splitted2[-4]
-                dbFileName = repoName + '.db.tar.gz'
+                dbFileName = repoName + '@DBEXT@'
         except:
             dbFileName = ''
 
