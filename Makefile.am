@@ -7,6 +7,10 @@ endif
 #   AUTHORS, COPYING, NEWS, README
 EXTRA_DIST = HACKING
 
+# Sample makepkg prototype files
+pkgdatadir = ${datadir}/${PACKAGE}
+dist_pkgdata_DATA = PKGBUILD.proto proto.install
+
 # run the pactest test suite
 check-local:  src/pacman
 	$(PYTHON) $(top_srcdir)/pactest/pactest.py --debug=1 \
