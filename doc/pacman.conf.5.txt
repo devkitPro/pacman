@@ -44,21 +44,30 @@ Server = file:///home/pkgs
 Options
 -------
 *RootDir =* path/to/root::
-	Set the default root directory for pacman to install to.
+	Set the default root directory for pacman to install to. This option is
+	used if you want to install a package on a temporary mounted partition
+	which is "owned" by another system, or for a chroot install.
 
 *DBPath =* path/to/db/dir::
-	Overrides the default location of the toplevel database directory.
-	The default is ``/var/lib/pacman/''.
+	Overrides the default location of the toplevel database directory.  A
+	typical default is ``/var/lib/pacman/''. Most users will not need to set
+	this option. *NOTE*: if specified, this is an absolute path and the root
+	path is not automatically prepended. This behavior changed in pacman 3.1.0.
 
 *CacheDir =* path/to/cache/dir::
-	Overrides the default location of the package cache directory. The default
-	is ``/var/cache/pacman/pkg/''. Multiple cache directories can be specified,
-	and they are tried in the order they are listed in the config file. If a
-	file is not found in any cache directory, it will be downloaded to the
-	first cache directory with write access.
+	Overrides the default location of the package cache directory. A typical
+	default is ``/var/cache/pacman/pkg/''. Multiple cache directories can be
+	specified, and they are tried in the order they are listed in the config
+	file. If a file is not found in any cache directory, it will be downloaded
+	to the first cache directory with write access. *NOTE*: if specified, this
+	is an absolute path and the root path is not automatically prepended. This
+	behavior changed in pacman 3.1.0.
+
 
 *LogFile =* '/path/to/file'::
-	Log actions directly to a file. Default is ``/var/log/pacman.log''.
+	Log actions directly to a file. A typical default is
+	``/var/log/pacman.log''. As of pacman 3.1.0, this does not need to be
+	specified by default. This is an absolute path and root is not prepended.
 
 *HoldPkg =* package ...::
 	If a user tries to '\--remove' a package that's listed in `HoldPkg`,

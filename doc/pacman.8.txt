@@ -79,8 +79,10 @@ Options
 	the package.
 
 *-b, \--dbpath* <'path'>::
-	Specify an alternative database location (default is ``/var/lib/pacman'').
-	This should not be used unless you know what you are doing.
+	Specify an alternative database location (a typical default is
+	``/var/lib/pacman'').  This should not be used unless you know what you are
+	doing. *NOTE*: if specified, this is an absolute path and the root path is
+	not automatically prepended. This behavior changed in pacman 3.1.0.
 
 *-d, \--nodeps*::
 	Skips all dependency checks. Normally, pacman will always check a
@@ -100,15 +102,21 @@ Options
 	temporary mounted partition which is "owned" by another system.
 
 *-v, --verbose*::
-	Output more status messages, such as the Root, DBPath, CacheDir, etc.
+	Output paths such as as the Root, Conf File, DB Path, Cache Dirs, etc.
 
 *\--cachedir* <'dir'>::
-	Specify an alternative package cache location (default is
+	Specify an alternative package cache location (a typical default is
 	``/var/cache/pacman/pkg''). Multiple cache directories can be specified,
-	and they are tried in the order they are passed to pacman.
+	and they are tried in the order they are passed to pacman. *NOTE*: if
+	specified, this is an absolute path and the root path is not automatically
+	prepended. This behavior changed in pacman 3.1.0.
 
 *\--config* <'file'>::
 	Specify an alternate configuration file.
+
+*\--logfile* <'file'>::
+	Specify an alternate log file. This is an absolute path, regardless of
+	the installation root setting.
 
 *\--noconfirm*::
 	Bypass any and all "Are you sure?" messages. It's not a good idea to do
