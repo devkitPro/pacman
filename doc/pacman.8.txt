@@ -43,10 +43,12 @@ Operations
 	individual '.tar.gz' packages. See <<QO,Query Options>> below.
 
 *-R, \--remove*::
-	Remove a package from the system. Files belonging to the specified
-	package will be deleted, and the database will be updated. Most
-	configuration files will be saved with a `.pacsave` extension unless the
-	'\--nosave' option is used. See <<RO,Remove Options>> below.
+	Remove a package from the system. Groups can also be specified to be
+	removed, in which case every package in that group will be removed.
+	Files belonging to the specified package will be deleted, and the
+	database will be updated. Most configuration files will be saved
+	with a `.pacsave` extension unless the '\--nosave' option is used.
+	See <<RO,Remove Options>> below.
 
 *-S, \--sync*::
 	Synchronize packages. Packages are installed directly from the ftp
@@ -54,8 +56,19 @@ Operations
 	example, `pacman -S qt` will download and install qt and all the
 	packages it depends on. If a package name exists in more than one repo, the
 	repo can be explicitly specified to clarify the package to install:
-	`pacman -S testing/qt`. You can also use `pacman -Su` to upgrade all
-	packages that are out of date. See <<SO,Sync Options>> below.
+	`pacman -S testing/qt`.
++
+In addition to packages, groups can be specified as well. For example, if
+gnome is a defined package group, then `pacman -S gnome` will install every
+package in the gnome group, as well as the dependencies of those packages.
++
+Packages which provide other packages are also handled. For example, `pacman -S
+foo` will first look for a foo package. If foo is not found, packages which
+provide the same functionality as foo will be searched for. If any package is
+found, it will be installed.
++
+You can also use `pacman -Su` to upgrade all packages that are out of date. See
+<<SO,Sync Options>> below.
 
 *-U, \--upgrade*::
 	Upgrade or add a package to the system. Either a URL or file path can be
