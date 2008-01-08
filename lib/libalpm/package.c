@@ -850,15 +850,6 @@ int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 							alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
 							alpm_db_get_name(db), alpm_pkg_get_version(pkg));
 		cmp = 0;
-	} else if(cmp > 0) {
-		/* we have an upgrade, make sure we should actually do it */
-		if(_alpm_pkg_istoonew(pkg)) {
-			/* package too new (UpgradeDelay) */
-			_alpm_log(PM_LOG_WARNING, _("%s-%s: delaying upgrade of package (%s)\n"),
-								alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
-								alpm_pkg_get_version(pkg));
-			cmp = 0;
-		}
 	}
 
 	return(cmp);
@@ -1148,20 +1139,6 @@ pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack)
 		}
 	}
 	return(NULL);
-}
-
-/* TODO this should either be public, or done somewhere else */
-int _alpm_pkg_istoonew(pmpkg_t *pkg)
-{
-	time_t t;
-
-	ALPM_LOG_FUNC;
-
-	if (!handle->upgradedelay) {
-		return 0;
-	}
-	time(&t);
-	return((pkg->builddate + handle->upgradedelay) > t);
 }
 
 /** Test if a package should be ignored.

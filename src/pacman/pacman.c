@@ -689,11 +689,6 @@ static int _parseconfig(const char *file, const char *givensection,
 					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
 						alpm_option_set_xfercommand(ptr);
 						pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", ptr);
-					} else if (strcmp(key, "UpgradeDelay") == 0 || strcmp(upperkey, "UPGRADEDELAY") == 0) {
-						/* The config value is in days, we use seconds */
-						time_t ud = atol(ptr) * 60 * 60 *24;
-						alpm_option_set_upgradedelay(ud);
-						pm_printf(PM_LOG_DEBUG, "config: upgradedelay: %d\n", (int)ud);
 					} else {
 						pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 								file, linenum, key);

@@ -219,15 +219,6 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
 	return handle->ignoregrp;
 }
 
-time_t SYMEXPORT alpm_option_get_upgradedelay()
-{
-	if (handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return -1;
-	}
-	return handle->upgradedelay;
-}
-
 const char SYMEXPORT *alpm_option_get_xfercommand()
 {
 	if (handle == NULL) {
@@ -559,11 +550,6 @@ int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
 		return(1);
 	}
 	return(0);
-}
-
-void SYMEXPORT alpm_option_set_upgradedelay(time_t delay)
-{
-	handle->upgradedelay = delay;
 }
 
 void SYMEXPORT alpm_option_set_xfercommand(const char *cmd)

@@ -140,9 +140,6 @@ void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
 
-time_t alpm_option_get_upgradedelay();
-void alpm_option_set_upgradedelay(time_t delay);
-
 const char *alpm_option_get_xfercommand();
 void alpm_option_set_xfercommand(const char *cmd);
 
