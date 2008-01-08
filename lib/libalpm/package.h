@@ -61,7 +61,6 @@ struct __pmpkg_t {
 	unsigned long isize;
 	unsigned short scriptlet;
 	unsigned short force;
-	time_t date;
 	pmpkgreason_t reason;
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;

@@ -1157,10 +1157,11 @@ int _alpm_pkg_istoonew(pmpkg_t *pkg)
 
 	ALPM_LOG_FUNC;
 
-	if (!handle->upgradedelay)
+	if (!handle->upgradedelay) {
 		return 0;
+	}
 	time(&t);
-	return((pkg->date + handle->upgradedelay) > t);
+	return((pkg->builddate + handle->upgradedelay) > t);
 }
 
 /** Test if a package should be ignored.
