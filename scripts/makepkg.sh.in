@@ -3,7 +3,7 @@
 #   makepkg - make packages compatable for use with pacman
 #   @configure_input@
 #
-#   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2002-2008 by Judd Vinet <jvinet@zeroflux.org>
 #   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
 #   Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
 #   Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
@@ -363,12 +363,13 @@ handledeps() {
 
 			local makepkg_opts='-i -c -b'
 			[ "$RMDEPS" = "1" ] && makepkg_opts="$makepkg_opts -r"
+			[ "$ASROOT" = "1" ] && makepkg_opts="$makepkg_opts --asroot"
 			local ret packagedir
 			for packagedir in $candidates; do
 				if [ -f "$packagedir/$BUILDSCRIPT" ]; then
 					cd "$packagedir"
 					ret=0
-					PKGDEST="$PKGDEST" makepkg $makepkg_opts || ret=$?
+					PKGDEST="$PKGDEST" makepkg $makepkg_opts $PACMAN_OPTS || ret=$?
 					[ $ret -eq 0 ] && continue 2
 				fi
 			done
@@ -1425,6 +1426,7 @@ else
 		rm -rf "$pkgdir"
 	fi
 	mkdir -p "$pkgdir"
+	cd "$startdir"
 
 	if [ $EUID -eq 0 ]; then
 		# if we are root, then we don't need to recall makepkg with fakeroot
@@ -1439,7 +1441,6 @@ else
 		create_package
 	else
 		msg "$(gettext "Entering fakeroot environment...")"
-		cd "$startdir"
 
 		if [ "$newpkgver" != "" ]; then
 			fakeroot -- $0 --forcever $newpkgver -F $ARGLIST || exit $?
