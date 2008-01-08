@@ -12,37 +12,87 @@ http://www.gnu.org/software/gettext/manual/html_node/gettext.html[]
 In addition, this site presents a small tutorial that I found useful:
 http://oriya.sarovar.org/docs/gettext/[]
 
+
 Translating Messages
 --------------------
 
-The message files are located in two directories in pacman- lib/libalpm/po/ for
-the translation of the backend, and po/ for the translation of the frontend and
-the scripts.
-Each language has a .po file associated with it; the .pot file is the template
-file for creating new .po files and updating the messages in them when the code
-changes.
+Overview
+~~~~~~~~
 
-First things first. If you haven't already, you will need to get a copy of the
-pacman repository.
+There are two separate message catalogs in pacman- one for the backend
+(libalpm) and one for the frontend (pacman and scripts). These correspond to
+the `lib/libalpm/po` and `po` directories in the pacman source, respectively.
+
+Translation message files are a specially formatted text file containing the
+original message and the corresponding translation. These po files can then
+either be hand edited, or modified with a tool such as poedit, gtranslator or
+kbabel. Using a translation tool tends to make the job easier.
+
+See the <<Notes,Notes>> section for additional hints on translating.
+
+Pre-release Updates
+~~~~~~~~~~~~~~~~~~~
+
+A week or two before each release, the codebase will go into a string freeze
+and an email will be sent by the 'translation lieutenant' to the
+mailto:pacman-dev@archlinux.org[pacman-dev] mailing list asking for
+translations. This email will have a prefix of *[translation]* for anyone
+looking to set up an email filter.
+
+At this time, the `.po` language files will be made available at a URL
+specified in the email. Each language will have two files available (backend
+and frontend). Translators interested in helping are encouraged to send a
+follow-up message to the mailing list stating exactly what they intend to
+translate so efforts are not duplicated on the same language.
+
+Once a translator has completed the translation (*OR* realizes they do not have
+time to finish), please email the `.po` files back to the list with a subject
+such as '[translation] Updated German translation'. At this point, the
+'translation lieutenant' will gather the translations together for inclusion in
+the upcoming release.
+
+NOTE: Please email your translations back to the list as soon as possible- this
+will give other speakers of your language time to review your translations and
+update them as necessary.
+
+For those familiar with GIT, you may wish to follow the procedure outlined
+below as another alternative.
+
+Incremental Updates
+~~~~~~~~~~~~~~~~~~~
+
+If you have more advanced needs you will have to get a copy of the pacman
+repository.
 
     git clone git://projects.archlinux.org/pacman.git pacman
 
 Next, you will need to run `./autogen.sh` and `./configure` in the base
-directory to generate the correct Makefiles. To update all the translation
-files, run this command in one of the two message file directories:
+directory to generate the correct Makefiles. At this point, all necessary
+make targets will be generated and we can begin updating the translation
+files.
+
+We need to first update the main message catalog file. Navigate into either the
+`lib/libalpm/po` or `po` directory depending on which translation you wish to
+work on first, and execute the following command.  If you are working in the
+`po/` tree, replace 'libalpm.pot' with 'pacman.pot':
+
+    make libalpm.pot-update
+
+Next, update your specific language's translation file:
+
+    make <po file>-update
+
+At this point, you can do the translation. To submit your changes, either email
+the new `.po` file to the mailing-list with *[translation]* in the subject, or
+submit a GIT-formatted patch (please do not include any `.pot` file changes).
+
+As a shortcut, all translation files (including `.pot` files) can be updated
+with the following command:
 
     make update-po
 
-At this point, the .pot file is regenerated from the source code with an
-updated string list, and the existing po files are merged if necessary to add
-new messages or remove old ones. These po files can then either be hand edited,
-or modified with a tool such as poedit, gtranslator or kbabel.
-
-These steps make it easier to just update your language and not every po file.
-If you are working in the `po/` tree, replace 'libalpm.pot' with 'pacman.pot':
-
-    make libalpm.pot-update
-    make <po file>-update
+Adding a New Language
+~~~~~~~~~~~~~~~~~~~~~
 
 Making a new language is not too hard, but be sure to follow all the steps.
 You will have to do the following steps in both the `lib/libalpm/po/` and `po/`
@@ -61,17 +111,8 @@ create the new language file, you may need to slightly modify the headers;
 try to make them look similar to the other .po file headers. In addition, for
 all new translations we would strongly recommend using UTF-8 encoding.
 
-If you want to test the translation (for example, the frontend one):
-
-    rm *.gmo stamp-po
-    make
-    cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
-
-Finally, submitting your translations in patch form is not essential for new
-languages, but highly recommended for future updates to the translations.
-
-Notes
-~~~~~
+Notes[[Notes]]
+~~~~~~~~~~~~~~
 
 msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks
 are ignored- if you need a literal line break, use an `\n` in your string. The
@@ -82,11 +123,26 @@ following two translations are equivalent:
     msgstr ""
     "This is a test translation"
 
+If you want to test the translation (for example, the frontend one):
+
+    rm *.gmo stamp-po
+    make
+    cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
+
 
 Translating Manpages
 --------------------
 
-(To Be Announced)
+There are currently no efforts underway to include translated manpages in the
+pacman codebase. However, this is not to say translations are unwelcome. If
+someone has experience with i18n manpages and how to best include them with our
+source, please contact the pacman-dev mailing list at
+mailto:pacman-dev@archlinux.org[].
+
+Some community efforts have been made to translate manpages, and these can be
+found in the link:http://aur.archlinux.org[AUR] (Arch User Repository). Please
+check there first before undergoing a translation effort to ensure you are not
+duplicating efforts.
 
 /////
 vim: set ts=2 sw=2 syntax=asciidoc et:
