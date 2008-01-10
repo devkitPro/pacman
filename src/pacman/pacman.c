@@ -108,7 +108,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
-			printf(_("  -t, --orphans        list all packages not required by any package\n"));
+			printf(_("  -t, --unrequired     list all packages not required by any package\n"));
 			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
 			printf(_("  -q, --quiet          show less information for query and search\n"));
 		} else if(op == PM_OP_SYNC) {
@@ -325,7 +325,7 @@ static int parseargs(int argc, char *argv[])
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
-		{"orphans",    no_argument,       0, 't'},
+		{"unrequired", no_argument,       0, 't'},
 		{"upgrades",   no_argument,       0, 'u'},
 		{"sysupgrade", no_argument,       0, 'u'},
 		{"verbose",    no_argument,       0, 'v'},
@@ -461,7 +461,7 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_RECURSE;
 				break;
 			case 't':
-				config->op_q_orphans = 1;
+				config->op_q_unrequired = 1;
 				break;
 			case 'u':
 				config->op_s_upgrade = 1;

@@ -263,7 +263,7 @@ static int is_foreign(pmpkg_t *pkg)
 	return(0);
 }
 
-static int is_orphan(pmpkg_t *pkg)
+static int is_unrequired(pmpkg_t *pkg)
 {
 	alpm_list_t *requiredby = alpm_pkg_compute_requiredby(pkg);
 	if(requiredby == NULL) {
@@ -289,8 +289,8 @@ static int filter(pmpkg_t *pkg)
 	if(config->op_q_foreign && !is_foreign(pkg)) {
 		return(0);
 	}
-	/* check if this pkg is orphaned */
-	if(config->op_q_orphans && !is_orphan(pkg)) {
+	/* check if this pkg is unrequired */
+	if(config->op_q_unrequired && !is_unrequired(pkg)) {
 		return(0);
 	}
 	return(1);

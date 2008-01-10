@@ -177,7 +177,7 @@ _pacman ()
           changelog) mod="${mod}c" ;;
           deps) mod="${mod}d" ;;
           explicit) mod="${mod}e" ;;
-          orphans) mod="${mod}t" ;;
+          unrequired) mod="${mod}t" ;;
           foreign) mod="${mod}m" ;;
           owns) mod="${mod}o" ;;
           file) mod="${mod}p" ;;
@@ -298,7 +298,7 @@ _pacman ()
           -o --owns \
           -p --file \
           -s --search \
-          -t --orphans \
+          -t --unrequired \
           -u --upgrades \
           --config \
           --logfile \

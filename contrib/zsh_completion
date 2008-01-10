@@ -38,7 +38,6 @@ _pacman_opts_pkgfile=(
 
 # options for passing to _arguments: subactions for --query command
 _pacman_opts_query_actions=(
-	'-e[List orphaned packages]:*:orphans:->query_orphans'
 	'-g[View all members of a package group]:*:package groups:->query_group'
 	'-o[Query the package that owns a file]:file:_files'
 	'-p[Package file to query]:*:package file:->query_file'
@@ -134,11 +133,6 @@ _pacman_action_query() {
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:groups:_pacman_completions_installed_groups'
-				;;
-		query_orphans)
-			_arguments -s : \
-				"$_pacman_opts_common[@]" \
-				"$_pacman_opts_query_modifiers[@]"
 				;;
 		query_owner)
 			_arguments -s : \
