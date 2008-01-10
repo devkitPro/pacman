@@ -969,8 +969,7 @@ create_srcpackage() {
 
 install_package() {
 	[ "$INSTALL" = "0" ] && return
-
-	msg "$(gettext "Installing package with pacman -U...")"
+	msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
 	if [ "$ASROOT" = "0" ]; then
 		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
 	else
