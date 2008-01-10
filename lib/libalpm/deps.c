@@ -226,7 +226,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 		alpm_list_t *remove, alpm_list_t *upgrade)
 {
 	alpm_list_t *i, *j;
-	alpm_list_t *joined, *dblist;
+	alpm_list_t *targets, *dblist = NULL, *modified = NULL;
 	alpm_list_t *baddeps = NULL;
 	pmdepmissing_t *miss = NULL;
 
@@ -236,9 +236,16 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 		return(NULL);
 	}
 
-	joined = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
-	dblist = alpm_list_diff(_alpm_db_get_pkgcache(db), joined, _alpm_pkg_cmp);
-	alpm_list_free(joined);
+	targets = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
+	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
+		void *pkg = i->data;
+		if(alpm_list_find(targets, pkg, _alpm_pkg_cmp)) {
+			modified = alpm_list_add(modified, pkg);
+		} else {
+			dblist = alpm_list_add(dblist, pkg);
+		}
+	}
+	alpm_list_free(targets);
 
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {
@@ -267,9 +274,6 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 	if(reversedeps) {
 		/* reversedeps handles the backwards dependencies, ie,
 		 * the packages listed in the requiredby field. */
-
-		alpm_list_t *modified = alpm_list_diff(_alpm_db_get_pkgcache(db), dblist, _alpm_pkg_cmp);
-
 		for(i = dblist; i; i = i->next) {
 			pmpkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
@@ -290,8 +294,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 				}
 			}
 		}
-		alpm_list_free(modified);
 	}
+	alpm_list_free(modified);
 	alpm_list_free(dblist);
 
 	return(baddeps);
