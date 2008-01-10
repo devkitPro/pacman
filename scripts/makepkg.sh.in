@@ -714,7 +714,7 @@ tidy_install() {
 
 	msg2 "$(gettext "Compressing man pages...")"
 	local manpage mandirs ext file link hardlinks hl
-	mandirs="usr/man usr/local/man usr/share/man opt/*/man"
+	mandirs="usr/man usr/share/man usr/local/man usr/local/share/man opt/*/man"
 	find ${mandirs} -type f 2>/dev/null | while read manpage ; do
 		# check file still exists (potentially compressed with hard link)
 		if [ -f ${manpage} ]; then
