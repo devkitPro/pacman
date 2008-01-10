@@ -406,16 +406,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				STRDUP(info->md5sum, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
-				/* the REPLACES tag is special -- it only appears in sync repositories,
-				 * not the local one. */
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->replaces = alpm_list_add(info->replaces, linedup);
 				}
 			} else if(strcmp(line, "%FORCE%") == 0) {
-				/* FORCE tag only appears in sync repositories,
-				 * not the local one. */
 				info->force = 1;
 			}
 		}
@@ -484,19 +480,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					info->provides = alpm_list_add(info->provides, linedup);
 				}
 			}
-			/* TODO: we were going to move these things here, but it should wait.
-			 * A better change would be to figure out how to restructure the DB. */
-				/* else if(strcmp(line, "%REPLACES%") == 0) {
-				 * the REPLACES tag is special -- it only appears in sync repositories,
-				 * not the local one. *
-				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = alpm_list_add(info->replaces, strdup(line));
-				}
-			} else if(strcmp(line, "%FORCE%") == 0) {
-				 * FORCE tag only appears in sync repositories,
-				 * not the local one. *
-				info->force = 1;
-			} */
 		}
 		fclose(fp);
 		fp = NULL;
@@ -711,18 +694,16 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			fprintf(fp, "\n");
 		}
-		if(!local) {
-			if(info->replaces) {
-				fputs("%REPLACES%\n", fp);
-				for(lp = info->replaces; lp; lp = lp->next) {
-					fprintf(fp, "%s\n", (char *)lp->data);
-				}
-				fprintf(fp, "\n");
+		if(info->replaces) {
+			fputs("%REPLACES%\n", fp);
+			for(lp = info->replaces; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
 			}
-			if(info->force) {
-				fprintf(fp, "%%FORCE%%\n"
-								"\n");
-			}
+			fprintf(fp, "\n");
+		}
+		if(info->force) {
+			/* note the extra newline character, which is necessary! */
+			fprintf(fp, "%%FORCE%%\n\n");
 		}
 		fclose(fp);
 		fp = NULL;
