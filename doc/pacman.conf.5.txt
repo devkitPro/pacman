@@ -33,8 +33,8 @@ Example
 NoUpgrade = etc/passwd etc/group etc/shadow
 NoUpgrade = etc/fstab
 
-[current]
-Include = /etc/pacman.d/current
+[core]
+Include = /etc/pacman.d/core
 
 [custom]
 Server = file:///home/pkgs
@@ -137,9 +137,30 @@ defined with the 'Server' directive and follow a URL naming structure. If you
 want to use a local directory, you can specify the full path with a ``file://''
 prefix, as shown above.
 
-The order of repositories in the file matters; repositories listed first will
-take precedence over those listed later in the file when packages in two
-repositories have identical names, regardless of version number.
+A common way to define DB locations utilizes the 'Include' directive. For each
+repository defined in the configuration file, a single 'Include' directive can
+contain a file that lists the servers for that repository.
+
+--------
+[core]
+# use this repository first
+Server = ftp://ftp.archlinux.org/core/os/arch
+# next use servers as defined in the mirrorlist below
+Include = /etc/pacman.d/mirrorlist
+--------
+
+During parsing, pacman will define the `$repo` variable to the name of the
+current section. This is often utilized in files specified using the 'Include'
+directive so all repositories can use the same mirrorfile.
+
+--------
+Server = ftp://ftp.archlinux.org/$repo/os/arch
+--------
+
+The order of repositories in the configuration files matters; repositories
+listed first will take precedence over those listed later in the file when
+packages in two repositories have identical names, regardless of version
+number.
 
 Using Your Own Repository
 -------------------------
