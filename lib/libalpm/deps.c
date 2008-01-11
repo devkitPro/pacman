@@ -36,9 +36,18 @@
 #include "cache.h"
 #include "handle.h"
 
+void _alpm_dep_free(pmdepend_t *dep)
+{
+	FREE(dep->name);
+	FREE(dep->version);
+	FREE(dep);
+}
+
 static pmgraph_t *_alpm_graph_new(void)
 {
 	pmgraph_t *graph = NULL;
+
+	ALPM_LOG_FUNC;
 
 	MALLOC(graph, sizeof(pmgraph_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
@@ -59,8 +68,7 @@ static void _alpm_graph_free(void *data)
 	free(graph);
 }
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
-		const char *depname, const char *depversion)
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep)
 {
 	pmdepmissing_t *miss;
 
@@ -69,21 +77,14 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
 	MALLOC(miss, sizeof(pmdepmissing_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	STRDUP(miss->target, target, RET_ERR(PM_ERR_MEMORY, NULL));
-	miss->depend.mod = depmod;
-	STRDUP(miss->depend.name, depname, RET_ERR(PM_ERR_MEMORY, NULL));
-	if(depversion) {
-		STRDUP(miss->depend.version, depversion, RET_ERR(PM_ERR_MEMORY, NULL));
-	}
+	miss->depend = _alpm_dep_dup(dep);
 
 	return(miss);
 }
 
 void _alpm_depmiss_free(pmdepmissing_t *miss)
 {
-	if(miss->depend.version && strlen(miss->depend.version) != 0) {
-		FREE(miss->depend.version);
-	}
-	FREE(miss->depend.name);
+	_alpm_dep_free(miss->depend);
 	FREE(miss->target);
 	FREE(miss);
 }
@@ -265,8 +266,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
-				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend->mod,
-						depend->name, depend->version);
+				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend);
 				baddeps = alpm_list_add(baddeps, miss);
 			}
 		}
@@ -292,8 +292,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 					_alpm_log(PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
-					miss = _alpm_depmiss_new(lp->name, depend->mod,
-							depend->name, depend->version);
+					miss = _alpm_depmiss_new(lp->name, depend);
 					baddeps = alpm_list_add(baddeps, miss);
 				}
 			}
@@ -414,6 +413,18 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 	return(depend);
 }
 
+pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
+{
+	pmdepend_t *newdep;
+	CALLOC(newdep, sizeof(pmdepend_t), 1, RET_ERR(PM_ERR_MEMORY, NULL));
+
+	STRDUP(newdep->name, dep->name, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newdep->version, dep->version, RET_ERR(PM_ERR_MEMORY, NULL));
+	newdep->mod = dep->mod;
+
+	return(newdep);
+}
+
 /* These parameters are messy. We check if this package, given a list of
  * targets and a db is safe to remove. We do NOT remove it if it is in the
  * target list, or if if the package was explictly installed and
@@ -527,7 +538,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 	for(i = deps; i; i = i->next) {
 		int found = 0;
 		pmdepmissing_t *miss = i->data;
-		pmdepend_t *missdep = &(miss->depend);
+		pmdepend_t *missdep = alpm_miss_get_dep(miss);
 		pmpkg_t *sync = NULL;
 
 		/* check if one of the packages in *list already satisfies this dependency */
@@ -632,7 +643,7 @@ const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 	/* Sanity checks */
 	ASSERT(miss != NULL, return(NULL));
 
-	return miss->target;
+	return(miss->target);
 }
 
 pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
@@ -642,7 +653,7 @@ pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
 	/* Sanity checks */
 	ASSERT(miss != NULL, return(NULL));
 
-	return &(miss->depend);
+	return(miss->depend);
 }
 
 pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
@@ -652,7 +663,7 @@ pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
 	/* Sanity checks */
 	ASSERT(dep != NULL, return(-1));
 
-	return dep->mod;
+	return(dep->mod);
 }
 
 const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
@@ -662,7 +673,7 @@ const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
 	/* Sanity checks */
 	ASSERT(dep != NULL, return(NULL));
 
-	return dep->name;
+	return(dep->name);
 }
 
 const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
@@ -672,7 +683,7 @@ const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
 	/* Sanity checks */
 	ASSERT(dep != NULL, return(NULL));
 
-	return dep->version;
+	return(dep->version);
 }
 
 /** Reverse of splitdep; make a dep string from a pmdepend_t struct.

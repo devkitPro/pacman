@@ -36,7 +36,7 @@ struct __pmdepend_t {
 /* Missing dependency */
 struct __pmdepmissing_t {
 	char *target;
-	pmdepend_t depend;
+	pmdepend_t *depend;
 };
 
 /* Graphs */
@@ -48,8 +48,10 @@ struct __pmgraph_t {
 	alpm_list_t *childptr; /* points to a child in children list */
 };
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
-		const char *depname, const char *depversion);
+
+void _alpm_dep_free(pmdepend_t *dep);
+pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
+pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep);
 void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);

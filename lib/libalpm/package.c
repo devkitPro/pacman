@@ -771,6 +771,7 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
+	alpm_list_t *i;
 
 	ALPM_LOG_FUNC;
 
@@ -792,13 +793,14 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->force = pkg->force;
 	newpkg->reason = pkg->reason;
 
-	newpkg->licenses    = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
+	newpkg->licenses   = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
 	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
 	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
-	newpkg->depends    = alpm_list_copy_data(alpm_pkg_get_depends(pkg),
-	                                         sizeof(pmdepend_t));
+	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
+		newpkg->depends = alpm_list_add(newpkg->depends, _alpm_dep_dup(i->data));
+	}
 	newpkg->optdepends = alpm_list_strdup(alpm_pkg_get_optdepends(pkg));
 	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
 	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
@@ -838,7 +840,8 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREELIST(pkg->groups);
 	FREELIST(pkg->files);
 	FREELIST(pkg->backup);
-	FREELIST(pkg->depends);
+	alpm_list_free_inner(pkg->depends, (alpm_list_fn_free)_alpm_dep_free);
+	alpm_list_free(pkg->depends);
 	FREELIST(pkg->optdepends);
 	FREELIST(pkg->conflicts);
 	FREELIST(pkg->provides);
