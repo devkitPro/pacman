@@ -238,7 +238,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 		}
 
 		/* compare versions and see if we need to upgrade */
-		if(alpm_pkg_compare_versions(local, spkg)) {
+		if(_alpm_pkg_compare_versions(local, spkg)) {
 			_alpm_log(PM_LOG_DEBUG, "%s elected for upgrade (%s => %s)\n",
 					alpm_pkg_get_name(local), alpm_pkg_get_version(local),
 					alpm_pkg_get_version(spkg));
@@ -330,7 +330,7 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 
 	local = _alpm_db_get_pkgfromcache(db_local, alpm_pkg_get_name(spkg));
 	if(local) {
-		if(alpm_pkg_compare_versions(local, spkg) == 0) {
+		if(_alpm_pkg_compare_versions(local, spkg) == 0) {
 			/* spkg is NOT an upgrade */
 			if(trans->flags & PM_TRANS_FLAG_NEEDED) {
 				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),

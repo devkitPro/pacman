@@ -488,7 +488,7 @@ void SYMEXPORT alpm_option_add_ignorepkg(const char *pkg)
 	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 }
 
-void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
+void SYMEXPORT alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 {
 	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
 	if(ignorepkgs) handle->ignorepkg = ignorepkgs;
@@ -534,7 +534,7 @@ void SYMEXPORT alpm_option_add_ignoregrp(const char *grp)
 	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
 }
 
-void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
+void SYMEXPORT alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
 {
 	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
 	if(ignoregrps) handle->ignoregrp = ignoregrps;

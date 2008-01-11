@@ -825,7 +825,7 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 }
 
 /* Is pkgB an upgrade for pkgA ? */
-int alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
+int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 {
 	int cmp = 0;
 
