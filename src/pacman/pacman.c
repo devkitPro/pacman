@@ -1,7 +1,7 @@
 /*
  *  pacman.c
  *
- *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2008 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -151,7 +151,7 @@ static void version(void)
 {
 	printf("\n");
 	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, LIB_VERSION);
-	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>\n");
+	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2008 Judd Vinet <jvinet@zeroflux.org>\n");
 	printf("\\  '-. '-'  '-'  '-'\n");
 	printf(" '--'\n");
 	printf(_("                       This program may be freely redistributed under\n"
@@ -207,10 +207,11 @@ static void cleanup(int signum)
 		if(alpm_trans_interrupt() == 0) {
 			/* a transaction is being interrupted, don't exit pacman yet. */
 			return;
-		} else {
-			/* no commiting transaction, we can release it now and then exit pacman */
-			alpm_trans_release();
 		}
+		/* no commiting transaction, we can release it now and then exit pacman */
+		alpm_trans_release();
+		/* output a newline to be sure we clear any line we may be on */
+		printf("\n");
 	}
 
 	/* free alpm library resources */
