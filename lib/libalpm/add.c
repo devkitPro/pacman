@@ -143,7 +143,8 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 			if(data) {
 				*data = lp;
 			} else {
-				FREELIST(lp);
+				alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+				alpm_list_free(lp);
 			}
 			RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
 		}
@@ -193,7 +194,8 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 			if(data) {
 				*data = lp;
 			} else {
-				FREELIST(lp);
+				alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_fileconflict_free);
+				alpm_list_free(lp);
 			}
 			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}

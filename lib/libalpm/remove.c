@@ -120,7 +120,8 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 							          miss->target);
 						}
 					}
-					FREELIST(lp);
+					alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+					alpm_list_free(lp);
 					lp = alpm_checkdeps(db, 1, trans->packages, NULL);
 				}
 			} else {

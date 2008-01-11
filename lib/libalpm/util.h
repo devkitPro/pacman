@@ -43,7 +43,8 @@
 
 #define MALLOC(p, s, action) do { p = calloc(1, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
 #define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
-#define STRDUP(r, s, action) do { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } while(0)
+/* This strdup macro is NULL safe- copying NULL will yield NULL */
+#define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
 
 #define FREE(p) do { if(p) { free(p); p = NULL; } } while(0)
 

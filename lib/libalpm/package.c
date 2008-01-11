@@ -162,18 +162,20 @@ const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
-	if(!strlen(pkg->filename)) {
+	if(pkg->filename == NULL || strlen(pkg->filename) == 0) {
 		/* construct the file name, it's not in the desc file */
 		if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
 			_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
 		}
+		char buffer[PATH_MAX];
 		if(pkg->arch && strlen(pkg->arch) > 0) {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PKGEXT,
+			snprintf(buffer, PATH_MAX, "%s-%s-%s" PKGEXT,
 			         pkg->name, pkg->version, pkg->arch);
 		} else {
-			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s" PKGEXT,
+			snprintf(buffer, PATH_MAX, "%s-%s" PKGEXT,
 			         pkg->name, pkg->version);
 		}
+		STRDUP(pkg->filename, buffer, RET_ERR(PM_ERR_MEMORY, NULL));
 	}
 
 	return pkg->filename;
@@ -755,15 +757,12 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 
 	CALLOC(pkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	if(name && name[0] != 0) {
-		strncpy(pkg->name, name, PKG_NAME_LEN);
-	} else {
-		pkg->name[0] = '\0';
+	if(name) {
+		STRDUP(pkg->name, name, RET_ERR(PM_ERR_MEMORY, pkg));
 	}
-	if(version && version[0] != 0) {
-		strncpy(pkg->version, version, PKG_VERSION_LEN);
-	} else {
-		pkg->version[0] = '\0';
+
+	if(version) {
+		STRDUP(pkg->version, version, RET_ERR(PM_ERR_MEMORY, pkg));
 	}
 
 	return(pkg);
@@ -771,31 +770,49 @@ pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
 
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 {
-	pmpkg_t* newpkg;
+	pmpkg_t *newpkg;
 
 	ALPM_LOG_FUNC;
 
 	CALLOC(newpkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	memcpy(newpkg, pkg, sizeof(pmpkg_t));
-	newpkg->licenses   = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
-	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
+	STRDUP(newpkg->filename, pkg->filename, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->name, pkg->name, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->version, pkg->version, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->desc, pkg->desc, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->url, pkg->url, RET_ERR(PM_ERR_MEMORY, newpkg));
+	newpkg->builddate = pkg->builddate;
+	newpkg->installdate = pkg->installdate;
+	STRDUP(newpkg->packager, pkg->packager, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->md5sum, pkg->md5sum, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->arch, pkg->arch, RET_ERR(PM_ERR_MEMORY, newpkg));
+	newpkg->size = pkg->size;
+	newpkg->isize = pkg->isize;
+	newpkg->scriptlet = pkg->scriptlet;
+	newpkg->force = pkg->force;
+	newpkg->reason = pkg->reason;
+
+	newpkg->licenses    = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
+	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
+	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
 	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
 	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
 	newpkg->depends    = alpm_list_copy_data(alpm_pkg_get_depends(pkg),
 	                                         sizeof(pmdepend_t));
 	newpkg->optdepends = alpm_list_strdup(alpm_pkg_get_optdepends(pkg));
-	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
+	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
 	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
-	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
 	newpkg->deltas     = alpm_list_copy_data(alpm_pkg_get_deltas(pkg),
-	                                         sizeof(pmdelta_t));
+																					 sizeof(pmdelta_t));
+
 	/* internal */
+	newpkg->origin = pkg->origin;
 	if(newpkg->origin == PKG_FROM_FILE) {
 		newpkg->origin_data.file = strdup(pkg->origin_data.file);
 	} else {
 		newpkg->origin_data.db = pkg->origin_data.db;
 	}
+	newpkg->infolevel = pkg->infolevel;
 
 	return(newpkg);
 }
@@ -808,16 +825,25 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 		return;
 	}
 
+	FREE(pkg->filename);
+	FREE(pkg->name);
+	FREE(pkg->version);
+	FREE(pkg->desc);
+	FREE(pkg->url);
+	FREE(pkg->packager);
+	FREE(pkg->md5sum);
+	FREE(pkg->arch);
 	FREELIST(pkg->licenses);
+	FREELIST(pkg->replaces);
+	FREELIST(pkg->groups);
 	FREELIST(pkg->files);
 	FREELIST(pkg->backup);
 	FREELIST(pkg->depends);
 	FREELIST(pkg->optdepends);
 	FREELIST(pkg->conflicts);
-	FREELIST(pkg->groups);
 	FREELIST(pkg->provides);
-	FREELIST(pkg->replaces);
 	FREELIST(pkg->deltas);
+
 	if(pkg->origin == PKG_FROM_FILE) {
 		FREE(pkg->origin_data.file);
 	}
@@ -899,18 +925,18 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
 								info->name[0] != '\0' ? info->name : "error", linenum);
 		} else {
-			_alpm_strtrim(key);
-			_alpm_strtrim(ptr);
+			key = _alpm_strtrim(key);
+			ptr = _alpm_strtrim(ptr);
 			if(!strcmp(key, "pkgname")) {
-				strncpy(info->name, ptr, sizeof(info->name));
+				STRDUP(info->name, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "pkgver")) {
-				strncpy(info->version, ptr, sizeof(info->version));
+				STRDUP(info->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "pkgdesc")) {
-				strncpy(info->desc, ptr, sizeof(info->desc));
+				STRDUP(info->desc, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "group")) {
 				info->groups = alpm_list_add(info->groups, strdup(ptr));
 			} else if(!strcmp(key, "url")) {
-				strncpy(info->url, ptr, sizeof(info->url));
+				STRDUP(info->url, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "license")) {
 				info->licenses = alpm_list_add(info->licenses, strdup(ptr));
 			} else if(!strcmp(key, "builddate")) {
@@ -925,9 +951,9 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 					info->builddate = atol(ptr);
 				}
 			} else if(!strcmp(key, "packager")) {
-				strncpy(info->packager, ptr, sizeof(info->packager));
+				STRDUP(info->packager, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "arch")) {
-				strncpy(info->arch, ptr, sizeof(info->arch));
+				STRDUP(info->arch, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "size")) {
 				/* size in the raw package is uncompressed (installed) size */
 				info->isize = atol(ptr);
@@ -1034,11 +1060,11 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 						pkgfile);
 				goto pkg_invalid;
 			}
-			if(!strlen(info->name)) {
+			if(info->name == NULL || strlen(info->name) == 0) {
 				_alpm_log(PM_LOG_ERROR, _("missing package name in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}
-			if(!strlen(info->version)) {
+			if(info->version == NULL || strlen(info->version) == 0) {
 				_alpm_log(PM_LOG_ERROR, _("missing package version in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}

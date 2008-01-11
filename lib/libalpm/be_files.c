@@ -106,7 +106,7 @@ void _alpm_db_rewind(pmdb_t *db)
 	rewinddir(db->handle);
 }
 
-static int _alpm_db_splitname(const char *target, char *name, char *version)
+static int splitname(const char *target, pmpkg_t *pkg)
 {
 	/* the format of a db entry is as follows:
 	 *    package-version-rel/
@@ -115,10 +115,10 @@ static int _alpm_db_splitname(const char *target, char *name, char *version)
 	 */
 	char *tmp, *p, *q;
 
-	if(target == NULL) {
+	if(target == NULL || pkg == NULL) {
 		return(-1);
 	}
-	tmp = strdup(target);
+	STRDUP(tmp, target, RET_ERR(PM_ERR_MEMORY, -1));
 	p = tmp + strlen(tmp);
 
 	/* do the magic parsing- find the beginning of the version string
@@ -130,14 +130,16 @@ static int _alpm_db_splitname(const char *target, char *name, char *version)
 	}
 
 	/* copy into fields and return */
-	if(version) {
-		strncpy(version, p+1, PKG_VERSION_LEN);
+	if(pkg->version) {
+		FREE(pkg->version);
 	}
+	STRDUP(pkg->version, p+1, RET_ERR(PM_ERR_MEMORY, -1));
 	/* insert a terminator at the end of the name (on hyphen)- then copy it */
 	*p = '\0';
-	if(name) {
-		strncpy(name, tmp, PKG_NAME_LEN);
+	if(pkg->name) {
+		FREE(pkg->name);
 	}
+	STRDUP(pkg->name, tmp, RET_ERR(PM_ERR_MEMORY, -1));
 
 	free(tmp);
 	return(0);
@@ -148,7 +150,6 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
-	char name[PKG_FULLNAME_LEN];
 	char *ptr = NULL;
 	int found = 0;
 	pmpkg_t *pkg = NULL;
@@ -168,7 +169,9 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 			/* search for a specific package (by name only) */
 			rewinddir(db->handle);
 			while(!found && (ent = readdir(db->handle)) != NULL) {
-				if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+				char *name;
+
+				if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
 					continue;
 				}
 				/* stat the entry, make sure it's a directory */
@@ -176,7 +179,9 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 				if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
 					continue;
 				}
-				strncpy(name, ent->d_name, PKG_FULLNAME_LEN);
+
+				STRDUP(name, ent->d_name, return(NULL));
+
 				/* truncate the string at the second-to-last hyphen, */
 				/* which will give us the package name */
 				if((ptr = rindex(name, '-'))) {
@@ -185,10 +190,12 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 				if((ptr = rindex(name, '-'))) {
 					*ptr = '\0';
 				}
-				if(!strcmp(name, target)) {
+				if(strcmp(name, target) == 0) {
 					found = 1;
 				}
+				FREE(name);
 			}
+
 			if(!found) {
 				return(NULL);
 			}
@@ -199,7 +206,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 				if(ent == NULL) {
 					return(NULL);
 				}
-				if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+				if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
 					isdir = 0;
 					continue;
 				}
@@ -217,7 +224,7 @@ pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
 			return(NULL);
 		}
 		/* split the db entry name */
-		if(_alpm_db_splitname(ent->d_name, pkg->name, pkg->version) != 0) {
+		if(splitname(ent->d_name, pkg) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
 					ent->d_name);
 			alpm_pkg_free(pkg);
@@ -251,7 +258,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	if(info == NULL || info->name[0] == 0 || info->version[0] == 0) {
+	if(info == NULL || info->name == NULL || info->version == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping\n");
 		return(-1);
 	}
@@ -296,122 +303,117 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				break;
 			}
 			_alpm_strtrim(line);
-			if(!strcmp(line, "%FILENAME%")) {
-				/* filename is _new_ - it provides the real name of the package, on the
-				 * server, to allow for us to not tie the name of the actual file to the
-				 * data of the package
-				 */
-				if(fgets(info->filename, sizeof(info->filename), fp) == NULL) {
+			if(strcmp(line, "%FILENAME%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->filename);
-		  } else if(!strcmp(line, "%DESC%")) {
-				if(fgets(info->desc, sizeof(info->desc), fp) == NULL) {
+				STRDUP(info->filename, _alpm_strtrim(line), goto error);
+		  } else if(strcmp(line, "%DESC%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->desc);
-			} else if(!strcmp(line, "%GROUPS%")) {
+				STRDUP(info->desc, _alpm_strtrim(line), goto error);
+			} else if(strcmp(line, "%GROUPS%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->groups = alpm_list_add(info->groups, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->groups = alpm_list_add(info->groups, linedup);
 				}
-			} else if(!strcmp(line, "%URL%")) {
-				if(fgets(info->url, sizeof(info->url), fp) == NULL) {
+			} else if(strcmp(line, "%URL%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->url);
-			} else if(!strcmp(line, "%LICENSE%")) {
+				STRDUP(info->url, _alpm_strtrim(line), goto error);
+			} else if(strcmp(line, "%LICENSE%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->licenses = alpm_list_add(info->licenses, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->licenses = alpm_list_add(info->licenses, linedup);
 				}
-			} else if(!strcmp(line, "%ARCH%")) {
-				if(fgets(info->arch, sizeof(info->arch), fp) == NULL) {
+			} else if(strcmp(line, "%ARCH%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->arch);
-			} else if(!strcmp(line, "%BUILDDATE%")) {
-				char tmp[32];
-				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
+				STRDUP(info->arch, _alpm_strtrim(line), goto error);
+			} else if(strcmp(line, "%BUILDDATE%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(tmp);
+				_alpm_strtrim(line);
 
-				char first = tolower(tmp[0]);
+				char first = tolower(line[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; //initialize to null incase of failure
 					setlocale(LC_TIME, "C");
-					strptime(tmp, "%a %b %e %H:%M:%S %Y", &tmp_tm);
+					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					info->builddate = mktime(&tmp_tm);
 					setlocale(LC_TIME, "");
 				} else {
-					info->builddate = atol(tmp);
+					info->builddate = atol(line);
 				}
-			} else if(!strcmp(line, "%INSTALLDATE%")) {
-				char tmp[32];
-				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
+			} else if(strcmp(line, "%INSTALLDATE%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(tmp);
+				_alpm_strtrim(line);
 
-				char first = tolower(tmp[0]);
+				char first = tolower(line[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; //initialize to null incase of failure
 					setlocale(LC_TIME, "C");
-					strptime(tmp, "%a %b %e %H:%M:%S %Y", &tmp_tm);
+					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					info->installdate = mktime(&tmp_tm);
 					setlocale(LC_TIME, "");
 				} else {
-					info->installdate = atol(tmp);
+					info->installdate = atol(line);
 				}
-			} else if(!strcmp(line, "%PACKAGER%")) {
-				if(fgets(info->packager, sizeof(info->packager), fp) == NULL) {
+			} else if(strcmp(line, "%PACKAGER%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(info->packager);
-			} else if(!strcmp(line, "%REASON%")) {
-				char tmp[32];
-				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
+				STRDUP(info->packager, _alpm_strtrim(line), goto error);
+			} else if(strcmp(line, "%REASON%") == 0) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(tmp);
-				info->reason = atol(tmp);
-			} else if(!strcmp(line, "%SIZE%") || !strcmp(line, "%CSIZE%")) {
+				info->reason = atol(_alpm_strtrim(line));
+			} else if(strcmp(line, "%SIZE%") == 0 || strcmp(line, "%CSIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
 				 *       only used in local databases.
 				 */
-				char tmp[32];
-				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(tmp);
-				info->size = atol(tmp);
+				info->size = atol(_alpm_strtrim(line));
 				/* also store this value to isize if isize is unset */
 				if(info->isize == 0) {
-					info->isize = atol(tmp);
+					info->isize = info->size;
 				}
-			} else if(!strcmp(line, "%ISIZE%")) {
+			} else if(strcmp(line, "%ISIZE%") == 0) {
 				/* ISIZE (installed size) tag only appears in sync repositories,
 				 * not the local one. */
-				char tmp[32];
-				if(fgets(tmp, sizeof(tmp), fp) == NULL) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				_alpm_strtrim(tmp);
-				info->isize = atol(tmp);
-			} else if(!strcmp(line, "%MD5SUM%")) {
+				info->isize = atol(_alpm_strtrim(line));
+			} else if(strcmp(line, "%MD5SUM%") == 0) {
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
-				if(fgets(info->md5sum, sizeof(info->md5sum), fp) == NULL) {
+				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-			} else if(!strcmp(line, "%REPLACES%")) {
+				STRDUP(info->md5sum, _alpm_strtrim(line), goto error);
+			} else if(strcmp(line, "%REPLACES%") == 0) {
 				/* the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. */
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->replaces = alpm_list_add(info->replaces, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->replaces = alpm_list_add(info->replaces, linedup);
 				}
-			} else if(!strcmp(line, "%FORCE%")) {
+			} else if(strcmp(line, "%FORCE%") == 0) {
 				/* FORCE tag only appears in sync repositories,
 				 * not the local one. */
 				info->force = 1;
@@ -430,13 +432,17 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		}
 		while(fgets(line, 256, fp)) {
 			_alpm_strtrim(line);
-			if(!strcmp(line, "%FILES%")) {
+			if(strcmp(line, "%FILES%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->files = alpm_list_add(info->files, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->files = alpm_list_add(info->files, linedup);
 				}
-			} else if(!strcmp(line, "%BACKUP%")) {
+			} else if(strcmp(line, "%BACKUP%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->backup = alpm_list_add(info->backup, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->backup = alpm_list_add(info->backup, linedup);
 				}
 			}
 		}
@@ -454,33 +460,39 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		while(!feof(fp)) {
 			fgets(line, 255, fp);
 			_alpm_strtrim(line);
-			if(!strcmp(line, "%DEPENDS%")) {
+			if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					pmdepend_t *dep = alpm_splitdep(line);
+					pmdepend_t *dep = alpm_splitdep(_alpm_strtrim(line));
 					info->depends = alpm_list_add(info->depends, dep);
 				}
-			} else if(!strcmp(line, "%OPTDEPENDS%")) {
+			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->optdepends = alpm_list_add(info->optdepends, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->optdepends = alpm_list_add(info->optdepends, linedup);
 				}
-			} else if(!strcmp(line, "%CONFLICTS%")) {
+			} else if(strcmp(line, "%CONFLICTS%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->conflicts = alpm_list_add(info->conflicts, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->conflicts = alpm_list_add(info->conflicts, linedup);
 				}
-			} else if(!strcmp(line, "%PROVIDES%")) {
+			} else if(strcmp(line, "%PROVIDES%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					info->provides = alpm_list_add(info->provides, strdup(line));
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->provides = alpm_list_add(info->provides, linedup);
 				}
 			}
 			/* TODO: we were going to move these things here, but it should wait.
 			 * A better change would be to figure out how to restructure the DB. */
-				/* else if(!strcmp(line, "%REPLACES%")) {
+				/* else if(strcmp(line, "%REPLACES%") == 0) {
 				 * the REPLACES tag is special -- it only appears in sync repositories,
 				 * not the local one. *
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 					info->replaces = alpm_list_add(info->replaces, strdup(line));
 				}
-			} else if(!strcmp(line, "%FORCE%")) {
+			} else if(strcmp(line, "%FORCE%") == 0) {
 				 * FORCE tag only appears in sync repositories,
 				 * not the local one. *
 				info->force = 1;
@@ -497,7 +509,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			while(!feof(fp)) {
 				fgets(line, 255, fp);
 				_alpm_strtrim(line);
-				if(!strcmp(line, "%DELTAS%")) {
+				if(strcmp(line, "%DELTAS%") == 0) {
 					while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
 						info->deltas = alpm_list_add(info->deltas, _alpm_delta_parse(line));
 					}
@@ -565,7 +577,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		}
 		fprintf(fp, "%%NAME%%\n%s\n\n"
 						"%%VERSION%%\n%s\n\n", info->name, info->version);
-		if(info->desc[0]) {
+		if(info->desc) {
 			fprintf(fp, "%%DESC%%\n"
 							"%s\n\n", info->desc);
 		}
@@ -577,7 +589,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			fprintf(fp, "\n");
 		}
 		if(local) {
-			if(info->url[0]) {
+			if(info->url) {
 				fprintf(fp, "%%URL%%\n"
 								"%s\n\n", info->url);
 			}
@@ -588,7 +600,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				fprintf(fp, "\n");
 			}
-			if(info->arch[0]) {
+			if(info->arch) {
 				fprintf(fp, "%%ARCH%%\n"
 								"%s\n\n", info->arch);
 			}
@@ -600,7 +612,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%%INSTALLDATE%%\n"
 								"%ju\n\n", (uintmax_t)info->installdate);
 			}
-			if(info->packager[0]) {
+			if(info->packager) {
 				fprintf(fp, "%%PACKAGER%%\n"
 								"%s\n\n", info->packager);
 			}

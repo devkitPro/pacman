@@ -23,26 +23,27 @@
 #include "db.h"
 #include "package.h"
 
-#define CONFLICT_FILE_LEN 512
-
 struct __pmconflict_t {
-	char package1[PKG_NAME_LEN];
-	char package2[PKG_NAME_LEN];
+	char *package1;
+	char *package2;
 };
 
 struct __pmfileconflict_t {
-	char target[PKG_NAME_LEN];
+	char *target;
 	pmfileconflicttype_t type;
-	char file[CONFLICT_FILE_LEN];
-	char ctarget[PKG_NAME_LEN];
+	char *file;
+	char *ctarget;
 };
 
 pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2);
+void _alpm_conflict_free(pmconflict_t *conflict);
 int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages);
 alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages);
 alpm_list_t *_alpm_checkconflicts(pmdb_t *db, alpm_list_t *packages);
 alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *root);
+
+void _alpm_fileconflict_free(pmfileconflict_t *conflict);
 
 #endif /* _ALPM_CONFLICT_H */
 

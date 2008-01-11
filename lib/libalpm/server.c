@@ -188,7 +188,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			char realfile[PATH_MAX];
 			char output[PATH_MAX];
 			char *fn = (char *)lp->data;
-			char pkgname[PKG_NAME_LEN];
+			char *pkgname;
 
 			fileurl = url_for_file(server, fn);
 			if(!fileurl) {
@@ -196,7 +196,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			}
 
 			/* pass the raw filename for passing to the callback function */
-			strncpy(pkgname, fn, PKG_NAME_LEN);
+			STRDUP(pkgname, fn, (void)0);
 			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", pkgname);
 
 			snprintf(realfile, PATH_MAX, "%s%s", localpath, fn);
@@ -403,6 +403,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 				chdir(cwd);
 			}
+			FREE(pkgname);
 		}
 
 		if(alpm_list_count(complete) == alpm_list_count(files)) {

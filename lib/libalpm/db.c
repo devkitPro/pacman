@@ -500,18 +500,16 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 			const char *matched = NULL;
+			const char *name = alpm_pkg_get_name(pkg);
+			const char *desc = alpm_pkg_get_desc(pkg);
 
-			/* check name */
-			if (regexec(&reg, alpm_pkg_get_name(pkg), 0, 0, 0) == 0) {
-				matched = alpm_pkg_get_name(pkg);
-			}
-			/* check plain text name */
-			else if (strstr(alpm_pkg_get_name(pkg), targ)) {
-				matched = alpm_pkg_get_name(pkg);
+			/* check name as regex AND as plain text */
+			if(name && (regexec(&reg, name, 0, 0, 0) == 0 || strstr(name, targ))) {
+				matched = name;
 			}
 			/* check desc */
-			else if (regexec(&reg, alpm_pkg_get_desc(pkg), 0, 0, 0) == 0) {
-				matched = alpm_pkg_get_desc(pkg);
+			else if (desc && regexec(&reg, desc, 0, 0, 0) == 0) {
+				matched = desc;
 			}
 			/* check provides */
 			/* TODO: should we be doing this, and should we print something

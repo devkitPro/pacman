@@ -29,13 +29,13 @@
 /* Dependency */
 struct __pmdepend_t {
 	pmdepmod_t mod;
-	char name[PKG_NAME_LEN];
-	char version[PKG_VERSION_LEN];
+	char *name;
+	char *version;
 };
 
 /* Missing dependency */
 struct __pmdepmissing_t {
-	char target[PKG_NAME_LEN];
+	char *target;
 	pmdepend_t depend;
 };
 
@@ -50,6 +50,7 @@ struct __pmgraph_t {
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
 		const char *depname, const char *depversion);
+void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,

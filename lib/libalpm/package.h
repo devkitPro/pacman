@@ -33,30 +33,17 @@ typedef enum _pmpkgfrom_t {
 	PKG_FROM_FILE
 } pmpkgfrom_t;
 
-/* Packages */
-#define PKG_FILENAME_LEN 512
-#define PKG_NAME_LEN     256
-#define PKG_VERSION_LEN  64
-#define PKG_FULLNAME_LEN (PKG_NAME_LEN + PKG_VERSION_LEN)
-#define PKG_DESC_LEN     512
-#define PKG_URL_LEN      256
-#define PKG_DATE_LEN     32
-#define PKG_TYPE_LEN     32
-#define PKG_PACKAGER_LEN 64
-#define PKG_MD5SUM_LEN   33
-#define PKG_ARCH_LEN     32
-
 struct __pmpkg_t {
-	char filename[PKG_FILENAME_LEN];
-	char name[PKG_NAME_LEN];
-	char version[PKG_VERSION_LEN];
-	char desc[PKG_DESC_LEN];
-	char url[PKG_URL_LEN];
+	char *filename;
+	char *name;
+	char *version;
+	char *desc;
+	char *url;
 	time_t builddate;
 	time_t installdate;
-	char packager[PKG_PACKAGER_LEN];
-	char md5sum[PKG_MD5SUM_LEN];
-	char arch[PKG_ARCH_LEN];
+	char *packager;
+	char *md5sum;
+	char *arch;
 	unsigned long size;
 	unsigned long isize;
 	unsigned short scriptlet;

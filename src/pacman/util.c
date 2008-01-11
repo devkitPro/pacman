@@ -194,6 +194,10 @@ void indentprint(const char *str, int indent)
 	const char *p = str;
 	int cidx = indent;
 
+	if(!p) {
+		return;
+	}
+
 	while(*p) {
 		if(*p == ' ') {
 			const char *next = NULL;

@@ -49,10 +49,17 @@ pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2)
 
 	MALLOC(conflict, sizeof(pmconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	strncpy(conflict->package1, package1, PKG_NAME_LEN);
-	strncpy(conflict->package2, package2, PKG_NAME_LEN);
+	STRDUP(conflict->package1, package1, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(conflict->package2, package2, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(conflict);
+}
+
+void _alpm_conflict_free(pmconflict_t *conflict)
+{
+	FREE(conflict->package2);
+	FREE(conflict->package1);
+	FREE(conflict);
 }
 
 int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
@@ -110,7 +117,7 @@ static void add_conflict(alpm_list_t **baddeps, const char *pkg1,
 	if(conflict && !_alpm_conflict_isin(conflict, *baddeps)) {
 		*baddeps = alpm_list_add(*baddeps, conflict);
 	} else {
-		FREE(conflict);
+		_alpm_conflict_free(conflict);
 	}
 }
 
@@ -293,15 +300,15 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 										const char* name1, const char* name2)
 {
 	pmfileconflict_t *conflict;
-	MALLOC(conflict, sizeof(pmfileconflict_t), return(conflicts));
+	MALLOC(conflict, sizeof(pmfileconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	conflict->type = type;
-	strncpy(conflict->target, name1, PKG_NAME_LEN);
-	strncpy(conflict->file, filestr, CONFLICT_FILE_LEN);
+	STRDUP(conflict->target, name1, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(conflict->file, filestr, RET_ERR(PM_ERR_MEMORY, NULL));
 	if(name2) {
-		strncpy(conflict->ctarget, name2, PKG_NAME_LEN);
+		STRDUP(conflict->ctarget, name2, RET_ERR(PM_ERR_MEMORY, NULL));
 	} else {
-		conflict->ctarget[0] = '\0';
+		conflict->ctarget = "";
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
@@ -309,6 +316,16 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 	          filestr, name1, name2 ? name2 : "(filesystem)");
 
 	return(conflicts);
+}
+
+void _alpm_fileconflict_free(pmfileconflict_t *conflict)
+{
+	if(strlen(conflict->ctarget) > 0) {
+		FREE(conflict->ctarget);
+	}
+	FREE(conflict->file);;
+	FREE(conflict->target);
+	FREE(conflict);
 }
 
 /* Find file conflicts that may occur during the transaction with two checks:

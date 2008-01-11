@@ -68,16 +68,24 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepmod_t depmod,
 
 	MALLOC(miss, sizeof(pmdepmissing_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	strncpy(miss->target, target, PKG_NAME_LEN);
+	STRDUP(miss->target, target, RET_ERR(PM_ERR_MEMORY, NULL));
 	miss->depend.mod = depmod;
-	strncpy(miss->depend.name, depname, PKG_NAME_LEN);
+	STRDUP(miss->depend.name, depname, RET_ERR(PM_ERR_MEMORY, NULL));
 	if(depversion) {
-		strncpy(miss->depend.version, depversion, PKG_VERSION_LEN);
-	} else {
-		miss->depend.version[0] = 0;
+		STRDUP(miss->depend.version, depversion, RET_ERR(PM_ERR_MEMORY, NULL));
 	}
 
 	return(miss);
+}
+
+void _alpm_depmiss_free(pmdepmissing_t *miss)
+{
+	if(miss->depend.version && strlen(miss->depend.version) != 0) {
+		FREE(miss->depend.version);
+	}
+	FREE(miss->depend.name);
+	FREE(miss->target);
+	FREE(miss);
 }
 
 /* Convert a list of pmpkg_t * to a graph structure,
@@ -362,9 +370,9 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 	if(depstring == NULL) {
 		return(NULL);
 	}
-	newstr = strdup(depstring);
+	STRDUP(newstr, depstring, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	MALLOC(depend, sizeof(pmdepend_t), return(NULL));
+	CALLOC(depend, sizeof(pmdepend_t), 1, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
@@ -388,20 +396,19 @@ pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
 		depend->mod = PM_DEP_MOD_GT;
 		*ptr = '\0';
 		ptr += 1;
-
 	} else {
-		/* no version specified - copy in the name and return it */
+		/* no version specified - copy the name and return it */
 		depend->mod = PM_DEP_MOD_ANY;
-		strncpy(depend->name, newstr, PKG_NAME_LEN);
-		depend->version[0] = '\0';
+		STRDUP(depend->name, newstr, RET_ERR(PM_ERR_MEMORY, NULL));
+		depend->version = NULL;
 		free(newstr);
 		return(depend);
 	}
 
 	/* if we get here, we have a version comparator, copy the right parts
 	 * to the right places */
-	strncpy(depend->name, newstr, PKG_NAME_LEN);
-	strncpy(depend->version, ptr, PKG_VERSION_LEN);
+	STRDUP(depend->name, newstr, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(depend->version, ptr, RET_ERR(PM_ERR_MEMORY, NULL));
 	free(newstr);
 
 	return(depend);
@@ -608,7 +615,8 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
 
-	FREELIST(deps);
+	alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
+	alpm_list_free(deps);
 
 	return(0);
 
@@ -674,13 +682,19 @@ const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
  */
 char SYMEXPORT *alpm_dep_get_string(const pmdepend_t *dep)
 {
-	char *opr, *str = NULL;
+	char *name, *opr, *ver, *str = NULL;
 	size_t len;
 
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(dep != NULL, return(NULL));
+
+	if(dep->name) {
+		name = dep->name;
+	} else {
+		name = "";
+	}
 
 	switch(dep->mod) {
 		case PM_DEP_MOD_ANY:
@@ -706,11 +720,18 @@ char SYMEXPORT *alpm_dep_get_string(const pmdepend_t *dep)
 			break;
 	}
 
+	if(dep->version) {
+		ver = dep->version;
+	} else {
+		ver = "";
+	}
+
 	/* we can always compute len and print the string like this because opr
-	 * and ver will be empty when PM_DEP_MOD_ANY is the depend type */
-	len = strlen(dep->name) + strlen(opr) + strlen(dep->version) + 1;
+	 * and ver will be empty when PM_DEP_MOD_ANY is the depend type. the
+	 * reassignments above also ensure we do not do a strlen(NULL). */
+	len = strlen(name) + strlen(opr) + strlen(ver) + 1;
 	MALLOC(str, len, RET_ERR(PM_ERR_MEMORY, NULL));
-	snprintf(str, len, "%s%s%s", dep->name, opr, dep->version);
+	snprintf(str, len, "%s%s%s", name, opr, ver);
 
 	return(str);
 }
