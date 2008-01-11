@@ -1,5 +1,8 @@
 # pacman suppressions for valgrind.
-#   right now, I really just care about those stupid dl_relocates
+#
+# To have valgrind use this file (and have pactest use it as well),
+# just create a ~/.valgrindrc containing the following line:
+# --suppressions=/full/path/to/valgrind.supp
 #
 # Format of this file is:
 # {
@@ -29,3 +32,16 @@
    obj:*ld-2.?.so
 }
 
+{
+   pacman-msgsnd
+   Memcheck:Param
+   msgsnd(msgp->mtext)
+   fun:*
+}
+
+{
+   pacman-utimensat
+   Memcheck:Param
+   utimensat(filename)
+   fun:*
+}
