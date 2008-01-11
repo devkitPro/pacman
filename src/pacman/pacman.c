@@ -179,14 +179,12 @@ static void localize(void)
  */
 static void setuseragent(void)
 {
-	const char *pacman = "Pacman/" PACKAGE_VERSION;
-	const char *libalpm = "libalpm/" LIB_VERSION;
 	char agent[101];
 	struct utsname un;
 
 	uname(&un);
-	snprintf(agent, 100, "%s (%s %s %s; %s) %s", pacman, un.sysname,
-	         un.machine, un.release, setlocale(LC_MESSAGES, NULL), libalpm);
+	snprintf(agent, 100, "pacman/" PACKAGE_VERSION " (%s %s) libalpm/" LIB_VERSION,
+			un.sysname, un.machine);
 	setenv("HTTP_USER_AGENT", agent, 0);
 }
 
