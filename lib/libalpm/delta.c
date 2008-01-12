@@ -1,7 +1,7 @@
 /*
  *  delta.c
  *
- *  Copyright (c) 2007 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2007-2008 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ unsigned long _alpm_delta_path_size(alpm_list_t *deltas)
 	alpm_list_t *dlts = deltas;
 
 	while(dlts) {
-		pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
+		pmdelta_t *d = alpm_list_getdata(dlts);
 		sum += d->size;
 
 		dlts = alpm_list_next(dlts);
@@ -121,7 +121,7 @@ unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas)
 	alpm_list_t *dlts = deltas;
 
 	while(dlts) {
-		pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
+		pmdelta_t *d = alpm_list_getdata(dlts);
 		char *fname = _alpm_filecache_find(d->filename);
 
 		if(!fname) {
@@ -241,12 +241,12 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	strncpy(delta->from, tmp2, DLT_VERSION_LEN);
+	STRDUP(delta->from, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	strncpy(delta->to, tmp2, DLT_VERSION_LEN);
+	STRDUP(delta->to, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
@@ -256,11 +256,20 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	strncpy(delta->filename, tmp2, DLT_FILENAME_LEN);
+	STRDUP(delta->filename, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	strncpy(delta->md5sum, tmp, DLT_MD5SUM_LEN);
+	STRDUP(delta->md5sum, tmp, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(delta);
+}
+
+void _alpm_delta_free(pmdelta_t *delta)
+{
+	FREE(delta->from);
+	FREE(delta->to);
+	FREE(delta->filename);
+	FREE(delta->md5sum);
+	FREE(delta);
 }
 
 /* vim: set ts=2 sw=2 noet: */

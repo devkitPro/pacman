@@ -1,7 +1,7 @@
 /*
  *  delta.h
  *
- *  Copyright (c) 2007 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2007-2008 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,22 +21,20 @@
 
 #include "alpm.h"
 
-#define DLT_FILENAME_LEN 512
-#define DLT_VERSION_LEN  64
-#define DLT_MD5SUM_LEN   33
-
 struct __pmdelta_t {
-	char from[DLT_VERSION_LEN];
-	char to[DLT_VERSION_LEN];
+	char *from;
+	char *to;
 	unsigned long size;
-	char filename[DLT_FILENAME_LEN];
-	char md5sum[DLT_MD5SUM_LEN];
+	char *filename;
+	char *md5sum;
 };
 
 unsigned long _alpm_delta_path_size(alpm_list_t *deltas);
 unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas);
 pmdelta_t *_alpm_delta_parse(char *line);
-alpm_list_t *_alpm_shortest_delta_path(alpm_list_t *deltas, const char *from, const char *to);
+void _alpm_delta_free(pmdelta_t *delta);
+alpm_list_t *_alpm_shortest_delta_path(alpm_list_t *deltas,
+		const char *from, const char *to);
 
 #endif /* _ALPM_DELTA_H */
 

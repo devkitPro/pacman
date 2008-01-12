@@ -487,7 +487,8 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DELTAS */
 	if(inforeq & INFRQ_DELTAS) {
-		snprintf(path, PATH_MAX, "%s/%s-%s/deltas", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%s/%s-%s/deltas", db->path,
+				info->name, info->version);
 		if((fp = fopen(path, "r"))) {
 			while(!feof(fp)) {
 				fgets(line, 255, fp);

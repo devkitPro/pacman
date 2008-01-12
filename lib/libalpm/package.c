@@ -845,7 +845,8 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREELIST(pkg->optdepends);
 	FREELIST(pkg->conflicts);
 	FREELIST(pkg->provides);
-	FREELIST(pkg->deltas);
+	alpm_list_free_inner(pkg->deltas, (alpm_list_fn_free)_alpm_delta_free);
+	alpm_list_free(pkg->deltas);
 
 	if(pkg->origin == PKG_FROM_FILE) {
 		FREE(pkg->origin_data.file);
