@@ -97,9 +97,9 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		return(0);
 	}
 
-	EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
-
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+
 		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
 		lp = alpm_checkdeps(db, 1, trans->packages, NULL);
 		if(lp != NULL) {
