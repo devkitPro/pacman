@@ -238,7 +238,7 @@ const char *alpm_delta_get_md5sum(pmdelta_t *delta);
  * Groups
  */
 const char *alpm_grp_get_name(const pmgrp_t *grp);
-const alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
+alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
 
 /*
  * Sync

@@ -19,17 +19,16 @@
 #ifndef _ALPM_GROUP_H
 #define _ALPM_GROUP_H
 
-/* Groups */
-#define GRP_NAME_LEN 256
-
 #include "alpm.h"
 
 struct __pmgrp_t {
-	char name[GRP_NAME_LEN];
-	alpm_list_t *packages; /* List of strings */
+	/** group name */
+	char *name;
+	/** list of pmpkg_t packages */
+	alpm_list_t *packages;
 };
 
-pmgrp_t *_alpm_grp_new(void);
+pmgrp_t *_alpm_grp_new(const char *name);
 void _alpm_grp_free(pmgrp_t *grp);
 int _alpm_grp_cmp(const void *g1, const void *g2);
 

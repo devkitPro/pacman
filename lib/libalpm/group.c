@@ -31,13 +31,14 @@
 #include "log.h"
 #include "alpm.h"
 
-pmgrp_t *_alpm_grp_new()
+pmgrp_t *_alpm_grp_new(const char *name)
 {
 	pmgrp_t* grp;
 
 	ALPM_LOG_FUNC;
 
 	CALLOC(grp, 1, sizeof(pmgrp_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(grp->name, name, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(grp);
 }
@@ -50,7 +51,9 @@ void _alpm_grp_free(pmgrp_t *grp)
 		return;
 	}
 
-	FREELIST(grp->packages);
+	FREE(grp->name);
+	/* do NOT free the contents of the list, just the nodes */
+	alpm_list_free(grp->packages);
 	FREE(grp);
 }
 
@@ -74,7 +77,7 @@ const char SYMEXPORT *alpm_grp_get_name(const pmgrp_t *grp)
 	return grp->name;
 }
 
-const alpm_list_t SYMEXPORT *alpm_grp_get_pkgs(const pmgrp_t *grp)
+alpm_list_t SYMEXPORT *alpm_grp_get_pkgs(const pmgrp_t *grp)
 {
 	ALPM_LOG_FUNC;
 

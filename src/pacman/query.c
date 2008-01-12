@@ -155,7 +155,6 @@ static int query_search(alpm_list_t *targets)
 	}
 
 	for(i = searchlist; i; i = alpm_list_next(i)) {
-		char *group = NULL;
 		alpm_list_t *grp;
 		pmpkg_t *pkg = alpm_list_getdata(i);
 
@@ -176,8 +175,9 @@ static int query_search(alpm_list_t *targets)
 
 		if (!config->quiet) {
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-				group = alpm_list_getdata(grp);
-				printf(" (%s)", (char *)alpm_list_getdata(grp));
+				pmgrp_t *group = alpm_list_getdata(grp);
+				/* TODO handle multiple groups */
+				printf(" (%s)", alpm_grp_get_name(group));
 			}
 
 			/* we need a newline and initial indent first */
@@ -197,33 +197,33 @@ static int query_search(alpm_list_t *targets)
 static int query_group(alpm_list_t *targets)
 {
 	alpm_list_t *i, *j;
-	char *package = NULL;
+	char *grpname = NULL;
 	int ret = 0;
 	if(targets == NULL) {
 		for(j = alpm_db_getgrpcache(db_local); j; j = alpm_list_next(j)) {
 			pmgrp_t *grp = alpm_list_getdata(j);
-			const alpm_list_t *p, *pkgnames;
+			const alpm_list_t *p, *packages;
 			const char *grpname;
 
 			grpname = alpm_grp_get_name(grp);
-			pkgnames = alpm_grp_get_pkgs(grp);
+			packages = alpm_grp_get_pkgs(grp);
 
-			for(p = pkgnames; p; p = alpm_list_next(p)) {
-				printf("%s %s\n", grpname, (char *)alpm_list_getdata(p));
+			for(p = packages; p; p = alpm_list_next(p)) {
+				printf("%s %s\n", grpname, alpm_pkg_get_name(alpm_list_getdata(p)));
 			}
 		}
 	} else {
 		for(i = targets; i; i = alpm_list_next(i)) {
 			pmgrp_t *grp;
-			package = alpm_list_getdata(i);
-			grp = alpm_db_readgrp(db_local, package);
+			grpname = alpm_list_getdata(i);
+			grp = alpm_db_readgrp(db_local, grpname);
 			if(grp) {
-				const alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
-				for(p = pkgnames; p; p = alpm_list_next(p)) {
-					printf("%s %s\n", package, (char *)alpm_list_getdata(p));
+				const alpm_list_t *p, *packages = alpm_grp_get_pkgs(grp);
+				for(p = packages; p; p = alpm_list_next(p)) {
+					printf("%s %s\n", grpname, alpm_pkg_get_name(alpm_list_getdata(p)));
 				}
 			} else {
-				fprintf(stderr, _("error: group \"%s\" was not found\n"), package);
+				fprintf(stderr, _("error: group \"%s\" was not found\n"), grpname);
 				ret++;
 			}
 		}

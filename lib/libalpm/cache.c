@@ -199,33 +199,29 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 		pmpkg_t *pkg = lp->data;
 
 		for(i = alpm_pkg_get_groups(pkg); i; i = i->next) {
-			if(!alpm_list_find_str(db->grpcache, i->data)) {
-				pmgrp_t *grp = _alpm_grp_new();
+			const char *grpname = i->data;
+			alpm_list_t *j;
+			pmgrp_t *grp = NULL;
+			int found = 0;
 
-				strncpy(grp->name, i->data, GRP_NAME_LEN);
-				grp->name[GRP_NAME_LEN-1] = '\0';
-				grp->packages = alpm_list_add_sorted(grp->packages,
-																						 /* gross signature forces us to
-																							* discard const */
-																						 (void*)alpm_pkg_get_name(pkg),
-																						 _alpm_str_cmp);
-				db->grpcache = alpm_list_add_sorted(db->grpcache, grp, _alpm_grp_cmp);
-			} else {
-				alpm_list_t *j;
+			/* first look through the group cache for a group with this name */
+			for(j = db->grpcache; j; j = j->next) {
+				grp = j->data;
 
-				for(j = db->grpcache; j; j = j->next) {
-					pmgrp_t *grp = j->data;
-
-					if(strcmp(grp->name, i->data) == 0) {
-						const char *pkgname = alpm_pkg_get_name(pkg);
-						if(!alpm_list_find_str(grp->packages, pkgname)) {
-							grp->packages = alpm_list_add_sorted(grp->packages,
-							                                     (void*)pkgname,
-																									 _alpm_str_cmp);
-						}
-					}
+				if(strcmp(grp->name, grpname) == 0
+						&& !alpm_list_find_ptr(grp->packages, pkg)) {
+					grp->packages = alpm_list_add(grp->packages, pkg);
+					found = 1;
+					break;
 				}
 			}
+			if(found) {
+				continue;
+			}
+			/* we didn't find the group, so create a new one with this name */
+			grp = _alpm_grp_new(grpname);
+			grp->packages = alpm_list_add(grp->packages, pkg);
+			db->grpcache = alpm_list_add(db->grpcache, grp);
 		}
 	}
 
@@ -243,10 +239,6 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 	}
 
 	for(lg = db->grpcache; lg; lg = lg->next) {
-		pmgrp_t *grp = lg->data;
-
-		alpm_list_free(grp->packages);
-		grp->packages = NULL;
 		_alpm_grp_free(lg->data);
 		lg->data = NULL;
 	}

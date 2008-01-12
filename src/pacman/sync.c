@@ -353,9 +353,10 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			}
 
 			if (!config->quiet) {
+				/* TODO package in multiple groups needs to be handled, do a loop */
 				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					group = alpm_list_getdata(grp);
-					printf(" (%s)", (char *)alpm_list_getdata(grp));
+					printf(" (%s)", group);
 				}
 
 				/* we need a newline and initial indent first */
@@ -375,7 +376,8 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 
 static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 {
-	alpm_list_t *i, *j;
+	alpm_list_t *i, *j, *k;
+	alpm_list_t *pkgnames = NULL;
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -385,9 +387,14 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 				pmgrp_t *grp = alpm_db_readgrp(db, grpname);
 
 				if(grp) {
-					/* TODO this should be a lot cleaner, why two outputs? */
 					printf("%s\n", (char *)alpm_grp_get_name(grp));
-					list_display("   ", alpm_grp_get_pkgs(grp));
+					/* get names of packages in group */
+					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
+						pkgnames = alpm_list_add(pkgnames,
+								(char*)alpm_pkg_get_name(k->data));
+					}
+					list_display("   ", pkgnames);
+					alpm_list_free(pkgnames);
 				}
 			}
 		}
@@ -400,7 +407,12 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 
 				printf("%s\n", (char *)alpm_grp_get_name(grp));
 				if(grp && level > 1) {
-					list_display("   ", alpm_grp_get_pkgs(grp));
+					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
+						pkgnames = alpm_list_add(pkgnames,
+								(char*)alpm_pkg_get_name(k->data));
+					}
+					list_display("   ", pkgnames);
+					alpm_list_free(pkgnames);
 				}
 			}
 		}
@@ -622,26 +634,31 @@ static int sync_trans(alpm_list_t *targets)
 					pmdb_t *db = alpm_list_getdata(j);
 					grp = alpm_db_readgrp(db, targ);
 					if(grp) {
-						alpm_list_t *k;
+						alpm_list_t *k, *pkgnames = NULL;
 
 						found++;
 						printf(_(":: group %s (including ignored packages):\n"), targ);
 						/* remove dupe entries in case a package exists in multiple repos */
-						const alpm_list_t *grppkgs = alpm_grp_get_pkgs(grp);
+						alpm_list_t *grppkgs = alpm_grp_get_pkgs(grp);
 						alpm_list_t *pkgs = alpm_list_remove_dupes(grppkgs);
-						list_display("   ", pkgs);
+						for(k = pkgs; k; k = alpm_list_next(k)) {
+							pkgnames = alpm_list_add(pkgnames,
+									(char*)alpm_pkg_get_name(k->data));
+						}
+						list_display("   ", pkgnames);
 						if(yesno(1, _(":: Install whole content?"))) {
-							for(k = pkgs; k; k = alpm_list_next(k)) {
+							for(k = pkgnames; k; k = alpm_list_next(k)) {
 								targets = alpm_list_add(targets, strdup(alpm_list_getdata(k)));
 							}
 						} else {
-							for(k = pkgs; k; k = alpm_list_next(k)) {
+							for(k = pkgnames; k; k = alpm_list_next(k)) {
 								char *pkgname = alpm_list_getdata(k);
 								if(yesno(1, _(":: Install %s from group %s?"), pkgname, targ)) {
 									targets = alpm_list_add(targets, strdup(pkgname));
 								}
 							}
 						}
+						alpm_list_free(pkgnames);
 						alpm_list_free(pkgs);
 					}
 				}
