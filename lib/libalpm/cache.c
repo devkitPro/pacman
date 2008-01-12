@@ -81,10 +81,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'\n",
 	                        db->treename);
 
-	alpm_list_t *tmp;
-	for(tmp = db->pkgcache; tmp; tmp = alpm_list_next(tmp)) {
-		_alpm_pkg_free(tmp->data);
-	}
+	alpm_list_free_inner(db->pkgcache, (alpm_list_fn_free)_alpm_pkg_free);
 	alpm_list_free(db->pkgcache);
 	db->pkgcache = NULL;
 
@@ -115,21 +112,15 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
-	pmpkg_t *newpkg;
-
 	ALPM_LOG_FUNC;
 
 	if(db == NULL || pkg == NULL) {
 		return(-1);
 	}
 
-	newpkg = _alpm_pkg_dup(pkg);
-	if(newpkg == NULL) {
-		return(-1);
-	}
 	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
-						alpm_pkg_get_name(newpkg), db->treename);
-	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
+						alpm_pkg_get_name(pkg), db->treename);
+	db->pkgcache = alpm_list_add_sorted(db->pkgcache, pkg, _alpm_pkg_cmp);
 
 	_alpm_db_free_grpcache(db);
 
