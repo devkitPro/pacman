@@ -146,7 +146,9 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		_alpm_recursedeps(db, trans->packages, 0);
 	}
 
-	EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
+	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
+	}
 
 	return(0);
 }
