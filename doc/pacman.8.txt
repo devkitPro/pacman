@@ -207,7 +207,8 @@ Remove Options[[RO]]
 --------------------
 *-c, \--cascade*::
 	Remove all target packages, as well as all packages that depend on one
-	or more target packages. This operation is recursive.
+	or more target packages. This operation is recursive, and must be used
+	with care since it can remove many potentially needed packages.
 
 *-k, \--keep*::
 	Removes the database entry only. Leaves all files in place.
@@ -218,10 +219,11 @@ Remove Options[[RO]]
 	file should be renamed with a ``.pacsave'' extension.
 
 *-s, \--recursive*::
-	Remove each target specified including all dependencies, provided that
-	(A) they are not required by other packages; and (B) they were not
-	explicitly installed by the user. This option is analogous to a
-	backwards '\--sync' operation.
+	Remove each target specified including all of their dependencies, provided
+	that (A) they are not required by other packages; and (B) they were not
+	explicitly installed by the user. This operation is recursive and analogous
+	to a backwards '\--sync' operation, and helps keep a clean system without
+	orphans.
 
 
 Sync Options[[SO]]
