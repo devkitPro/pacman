@@ -57,6 +57,7 @@ REPKG=0
 LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
+HOLDVER=0
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -979,6 +980,10 @@ install_package() {
 
 devel_check() {
 	newpkgver=""
+	# Only update pkgver if --holdver is not set
+	if [ "$HOLDVER" = "1" ]; then
+		return
+	fi
 	if [ "$FORCE_VER" = "" ]; then
 		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
 		# This will only be used on the first call to makepkg; subsequent
@@ -1069,6 +1074,7 @@ usage() {
 	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
 	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
 	echo "$(gettext "      --asroot     Allow makepkg to run as root user")"
+	echo "$(gettext "      --holdver    Prevent automatic version bumping for development PKGBUILDs")"
 	echo "$(gettext "      --source     Do not build package; generate a source-only tarball")"
 	echo
 	echo "$(gettext "These options can be passed to pacman:")"
@@ -1116,8 +1122,8 @@ SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 
 # Parse Command Line Options.
 OPT_SHORT="AbcCdefFghiLmop:rRsSV"
-OPT_LONG="ignorearch,asroot,builddeps,clean,cleancache,nodeps,noextract,force,geninteg,help,install,log"
-OPT_LONG="$OPT_LONG,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version,forcever:"
+OPT_LONG="ignorearch,asroot,builddeps,clean,cleancache,nodeps,noextract,force,forcever,geninteg,help,holdver"
+OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
@@ -1143,8 +1149,11 @@ while true; do
 		-d|--nodeps)      NODEPS=1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
+		#hidden opt used by fakeroot call for svn/cvs/etc PKGBUILDs to set pkgver
+		--forcever)       shift; FORCE_VER=$1;;
 		-F)               INFAKEROOT=1 ;;
 		-g|--geninteg)    GENINTEG=1 ;;
+		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
@@ -1154,9 +1163,6 @@ while true; do
 		-R|--repackage)   REPKG=1 ;;
 		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
-
-		# Hidden option used by fakeroot call for svn/cvs/etc PKGBUILDs to set the pkgver
-		--forcever)       shift; FORCE_VER=$1;;
 
 		# BEGIN DEPRECATED
 		-S|--usesudo)
@@ -1171,6 +1177,13 @@ while true; do
 	esac
 	shift
 done
+
+if [ "$HOLDVER" = "1" -a "$FORCE_VER" != "" ]; then
+	# The extra '--' is here to prevent gettext from thinking --holdver is
+	# an option
+	error "$(gettext -- "--holdver and --forcever cannot both be specified")"
+	exit 1
+fi
 
 if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
@@ -1311,11 +1324,15 @@ if [ "$install" -a ! -f "$install" ]; then
 	exit 1
 fi
 
+# We need to run devel_update regardless of whether we are in the fakeroot
+# build process so that if the user runs makepkg --forcever manually, we
+# 1) output the correct pkgver, and 2) use the correct filename when
+# checking if the package file already exists - fixes FS #9194
 devel_check
+devel_update
 
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" \
-     -a "$FORCE_VER" = "" ]; then
+     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "$(gettext "A package has already been built, installing existing package...")"
 		install_package
@@ -1332,7 +1349,6 @@ if [ "$INFAKEROOT" = "1" ]; then
 	if [ "$REPKG" = "1" ]; then
 		warning "$(gettext "Skipping build.")"
 	else
-		devel_update
 		run_build
 		tidy_install
 	fi
