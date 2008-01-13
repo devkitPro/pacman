@@ -86,10 +86,15 @@ You can also use `pacman -Su` to upgrade all packages that are out of date. See
 Options
 -------
 *\--asdeps*::
-	Install packages non-explicitly; in other works, fake their install reason
+	Install packages non-explicitly; in other words, fake their install reason
 	to be installed as a dependency. This is useful for makepkg and other
 	build from source tools that need to install dependencies before building
 	the package.
+
+*\--asexplicit*::
+	Install packages explicitly; in other words, fake their install reason to
+	be explicitly installed. This is useful if you want mark a dependency as
+	explictly installed.
 
 *-b, \--dbpath* <'path'>::
 	Specify an alternative database location (a typical default is

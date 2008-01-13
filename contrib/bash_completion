@@ -219,6 +219,7 @@ _pacman ()
       A|U)
         COMPREPLY=( $( compgen -W '\
           --asdeps \
+          --asexplicit \
           -d --nodeps \
           -f --force \
           -h --help \
@@ -257,6 +258,7 @@ _pacman ()
       S)
         COMPREPLY=( $( compgen -W '\
           --asdeps \
+          --asexplicit \
           -c --clean \
           -d --nodeps \
           -e --dependsonly \

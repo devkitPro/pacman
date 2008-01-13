@@ -79,6 +79,7 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-A --add} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
 			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
+			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_REMOVE) {
@@ -93,6 +94,7 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
 			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
+			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 		} else if(op == PM_OP_QUERY) {
@@ -115,6 +117,7 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
+			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -e, --dependsonly    install dependencies only\n"));
@@ -341,6 +344,7 @@ static int parseargs(int argc, char *argv[])
 		{"logfile",    required_argument, 0, 1009},
 		{"ignoregroup", required_argument, 0, 1010},
 		{"needed",     no_argument,       0, 1011},
+		{"asexplicit",     no_argument,   0, 1012},
 		{0, 0, 0, 0}
 	};
 
@@ -412,6 +416,9 @@ static int parseargs(int argc, char *argv[])
 				FREELIST(list);
 				break;
 			case 1011: config->flags |= PM_TRANS_FLAG_NEEDED; break;
+			case 1012:
+				config->flags |= PM_TRANS_FLAG_ALLEXPLICIT;
+				break;
 			case 'A': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_ADD); break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;

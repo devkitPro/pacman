@@ -99,10 +99,6 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		}
 	}
 
-	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
-		pkg->reason = PM_PKG_REASON_DEPEND;
-	}
-
 	/* add the package to the transaction */
 	trans->packages = alpm_list_add(trans->packages, pkg);
 
@@ -671,12 +667,8 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 		/* we'll need to save some record for backup checks later */
 		oldpkg = _alpm_pkg_dup(local);
-		/* copy over the install reason (unless alldeps is set) */
-	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
-		newpkg->reason = PM_PKG_REASON_DEPEND;
-	} else {
+		/* copy over the install reason */
 		newpkg->reason = alpm_pkg_get_reason(local);
-	}
 
 		/* pre_upgrade scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
@@ -695,6 +687,13 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 			_alpm_runscriptlet(handle->root, newpkg->origin_data.file,
 					"pre_install", newpkg->version, NULL, trans);
 		}
+	}
+
+	/* we override any pre-set reason if we have alldeps or allexplicit set */
+	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
+		newpkg->reason = PM_PKG_REASON_DEPEND;
+	} else if(trans->flags & PM_TRANS_FLAG_ALLEXPLICIT) {
+		newpkg->reason = PM_PKG_REASON_EXPLICIT;
 	}
 
 	if(oldpkg) {
