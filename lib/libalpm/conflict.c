@@ -101,7 +101,7 @@ static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
 		_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
 				pkg1name, pkg2name, conflict);
 	}
-	FREE(conf);
+	_alpm_dep_free(conf);
 	return(match);
 }
 
