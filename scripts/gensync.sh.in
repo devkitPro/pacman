@@ -130,13 +130,13 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 		CARCH='any'
 	fi
 	if [ "$pkgdir" != "" ]; then
-		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
+		pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-${CARCH}${PKGEXT}"
 	else
-		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
+		pkgfile="$destdir/$pkgname-$pkgver-$pkgrel-${CARCH}${PKGEXT}"
 	fi
 
 	if [ ! -f "$pkgfile" ]; then
-		error "$(gettext "could not find %s-%s-%s-%s.%s - skipping")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
+		error "$(gettext "could not find %s-%s-%s-%s%s - skipping")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	else
 		if check_force; then
 			forcepkgs="$forcepkgs $pkgfile"

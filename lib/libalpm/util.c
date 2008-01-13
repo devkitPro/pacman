@@ -582,9 +582,7 @@ const char *_alpm_filecache_setup(void)
 	}
 
 	/* we didn't find a valid cache directory. use /tmp. */
-	i = alpm_option_get_cachedirs();
 	tmp = alpm_list_add(NULL, strdup("/tmp/"));
-	FREELIST(i);
 	alpm_option_set_cachedirs(tmp);
 	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/\n");
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
