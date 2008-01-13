@@ -399,6 +399,8 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		
 		if(S_ISREG(st->st_mode)) {
 			archive_entry_set_mode(entry, 0644);
+		} else if(S_ISDIR(st->st_mode)) {
+			archive_entry_set_mode(entry, 0755);
 		}
 
 		if (fn && strcmp(fn, entryname)) {

@@ -28,6 +28,9 @@ confdir='@sysconfdir@'
 FORCE=0
 REPO_DB_FILE=""
 
+# ensure we have a sane umask set
+umask 0022
+
 msg() {
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
