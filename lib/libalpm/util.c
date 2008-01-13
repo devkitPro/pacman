@@ -178,8 +178,13 @@ char* strsep(char** str, const char* delims)
 }
 #endif
 
-/* does the same thing as 'mkdir -p' */
 int _alpm_makepath(const char *path)
+{
+	return(_alpm_makepath_mode(path, 0755));
+}
+
+/* does the same thing as 'mkdir -p' */
+int _alpm_makepath_mode(const char *path, mode_t mode)
 {
 	char *orig, *str, *ptr;
 	char full[PATH_MAX] = "";
@@ -196,7 +201,7 @@ int _alpm_makepath(const char *path)
 			strcat(full, "/");
 			strcat(full, ptr);
 			if(stat(full, &buf)) {
-				if(mkdir(full, 0755)) {
+				if(mkdir(full, mode)) {
 					FREE(orig);
 					umask(oldmask);
 					_alpm_log(PM_LOG_ERROR, _("failed to make path '%s' : %s\n"),

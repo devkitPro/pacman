@@ -487,7 +487,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
 	snprintf(tmpdir, PATH_MAX, "%stmp/", root);
 	if(stat(tmpdir, &buf)) {
-		_alpm_makepath(tmpdir);
+		_alpm_makepath_mode(tmpdir, 01777);
 	}
 	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
 	if(mkdtemp(tmpdir) == NULL) {
