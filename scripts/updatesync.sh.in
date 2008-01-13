@@ -127,10 +127,10 @@ if [ "$action" = "upd" ]; then # INSERT / UPDATE
 	if [ "$arch" = 'any' ]; then
 		CARCH='any'
 	fi
-	pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-$CARCH.$PKGEXT"
+	pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-${CARCH}${PKGEXT}"
 
 	if [ ! -f "$pkgfile" ]; then
-		die "$(gettext "could not find %s-%s-%s-%s.%s - aborting")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
+		die "$(gettext "could not find %s-%s-%s-%s%s - aborting")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	fi
 
 	if check_force; then
