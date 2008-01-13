@@ -49,7 +49,6 @@ _pacman_opts_query_modifiers=(
 	'-c[List package changelog]'
 	'-d[List packages installed as dependencies]'
 	'-e[List packages explicitly installed]'
-	'-g[List all members of a package group]'
 	'-i[View package information]'
 	'-ii[View package information including backup files]'
 	'-l[List package contents]'
@@ -87,8 +86,10 @@ _pacman_opts_sync_modifiers=(
 	'-u[Upgrade all out-of-date packages]'
 	'-w[Download packages only]'
 	'-y[Download fresh package databases]'
-	'*--ignore[Ignore a package upgrade]:package:_pacman_completions_installed_packages'
-	'*--ignoregroup[Ignore a group upgrade]:package group:_pacman_completions_all_groups'
+	'*--ignore[Ignore a package upgrade]:package:
+		_pacman_completions_all_packages'
+	'*--ignoregroup[Ignore a group upgrade]:package group:
+		_pacman_completions_all_groups'
 	'--asdeps[Install packages as non-explicitly installed]'
 )
 
@@ -288,17 +289,6 @@ _pacman_get_command() {
 
 # main dispatcher
 _pacman() {
-	# First check if --ignoregroup was the last command given. If so, complete
-	# all groups.
-	if [ "$words[-2]" = "--ignoregroup" ]; then
-		_arguments -s : \
-			"$_pacman_opts_common[@]" \
-			"$_pacman_opts_sync_modifiers[@]" \
-			'*:package group:_pacman_completions_all_groups'
-		return 0
-	fi
-
-	# Otherwise, complete on the given command.
 	case $words[2] in
 		-A*)  _pacman_action_add      ;;
 		-Q*g*) # ipkg groups
@@ -307,7 +297,7 @@ _pacman() {
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:groups:_pacman_completions_installed_groups'
 				;;
-		-Q*o*) # file *.pkg.tar.gz
+		-Q*o*) # file
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
