@@ -155,8 +155,7 @@ int pacman_remove(alpm_list_t *targets)
 		list_display(_("Targets:"), lst);
 		FREELIST(lst);
 		/* get confirmation */
-		if(!config->noconfirm
-				&& yesno(_("\nDo you want to remove these packages? [Y/n] ")) == 0) {
+		if(yesno(_("\nDo you want to remove these packages? [Y/n] ")) == 0) {
 			remove_cleanup();
 			FREELIST(finaltargs);
 			return(1);
