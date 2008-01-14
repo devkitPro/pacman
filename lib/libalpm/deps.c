@@ -336,10 +336,10 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 	satisfy = (strcmp(pkgname, dep->name) == 0
 			&& dep_vercmp(pkgversion, dep->mod, dep->version));
 
-	/* check provisions, format : "name version" */
+	/* check provisions, format : "name=version" */
 	for(i = alpm_pkg_get_provides(pkg); i && !satisfy; i = i->next) {
 		char *provname = strdup(i->data);
-		char *provver = strchr(provname, ' ');
+		char *provver = strchr(provname, '=');
 
 		if(provver == NULL) { /* no provision version */
 			satisfy = (dep->mod == PM_DEP_MOD_ANY

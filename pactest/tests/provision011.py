@@ -5,7 +5,7 @@ p.depends = ["provision>=1.0-2"]
 self.addpkg(p)
 
 lp = pmpkg("pkg2", "1.0-2")
-lp.provides = ["provision 1.0-2"]
+lp.provides = ["provision=1.0-2"]
 self.addpkg2db("local", lp)
 
 self.args = "-U %s" % p.filename()

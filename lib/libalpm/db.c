@@ -650,7 +650,7 @@ int _alpm_prov_cmp(const void *provision, const void *needle)
 	char *tmpptr;
 	char *provname = strdup(provision);
 	int retval = 0;
-	tmpptr = strchr(provname, ' ');
+	tmpptr = strchr(provname, '=');
 
 	if(tmpptr != NULL) { /* provision-version */
 		*tmpptr='\0';
