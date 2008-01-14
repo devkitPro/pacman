@@ -78,20 +78,6 @@ void _alpm_sync_free(pmsyncpkg_t *sync)
 	FREE(sync);
 }
 
-static void synclist_free(alpm_list_t *syncpkgs)
-{
-	if(syncpkgs) {
-		alpm_list_t *tmp;
-		for(tmp = syncpkgs; tmp; tmp = alpm_list_next(tmp)) {
-			if(tmp->data) {
-				_alpm_sync_free(tmp->data);
-			}
-		}
-		alpm_list_free(syncpkgs);
-	}
-
-}
-
 /* Find recommended replacements for packages during a sync.
  */
 static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
@@ -154,7 +140,9 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 						sync = _alpm_sync_new(PM_SYNC_TYPE_REPLACE, spkg, NULL);
 						if(sync == NULL) {
 							pm_errno = PM_ERR_MEMORY;
-							synclist_free(*syncpkgs);
+							alpm_list_free_inner(*syncpkgs, (alpm_list_fn_free)_alpm_sync_free);
+							alpm_list_free(*syncpkgs);
+							*syncpkgs = NULL;
 							return(-1);
 						}
 						sync->data = alpm_list_add(NULL, lpkg);
@@ -244,7 +232,9 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 				sync = _alpm_sync_new(PM_SYNC_TYPE_UPGRADE, spkg, local);
 				if(sync == NULL) {
 					pm_errno = PM_ERR_MEMORY;
-					synclist_free(*syncpkgs);
+					alpm_list_free_inner(*syncpkgs, (alpm_list_fn_free)_alpm_sync_free);
+					alpm_list_free(*syncpkgs);
+					*syncpkgs = NULL;
 					return(-1);
 				}
 				*syncpkgs = alpm_list_add(*syncpkgs, sync);
