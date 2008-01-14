@@ -79,21 +79,17 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	/* check if an older version of said package is already in transaction
 	 * packages.  if so, replace it in the list */
 	for(i = trans->packages; i; i = i->next) {
-		pmpkg_t *pkg = i->data;
-		if(strcmp(pkg->name, pkgname) == 0) {
-			if(_alpm_versioncmp(pkg->version, pkgver) < 0) {
-				pmpkg_t *newpkg;
+		pmpkg_t *transpkg = i->data;
+		if(strcmp(transpkg->name, pkgname) == 0) {
+			if(_alpm_versioncmp(transpkg->version, pkgver) < 0) {
 				_alpm_log(PM_LOG_WARNING, _("replacing older version %s-%s by %s in target list\n"),
-				          pkg->name, pkg->version, pkgver);
-				if((newpkg = _alpm_pkg_load(name, 1)) == NULL) {
-					/* pm_errno is already set by pkg_load() */
-					goto error;
-				}
+				          transpkg->name, transpkg->version, pkgver);
 				_alpm_pkg_free(i->data);
-				i->data = newpkg;
+				i->data = pkg;
 			} else {
-				_alpm_log(PM_LOG_WARNING, _("newer version %s-%s is in the target list -- skipping\n"),
-				          pkg->name, pkg->version);
+				_alpm_log(PM_LOG_WARNING, _("skipping %s-%s because newer version %s is in the target list\n"),
+				          pkgname, pkgver, transpkg->version);
+				_alpm_pkg_free(pkg);
 			}
 			return(0);
 		}
