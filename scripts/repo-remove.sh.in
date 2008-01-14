@@ -132,7 +132,7 @@ gstmpdir=$(mktemp -d /tmp/repo-remove.XXXXXXXXXX) || (\
 	exit 1)
 
 success=0
-# parse arguements
+# parse arguments
 for arg in "$@"; do
 	if [ -z "$REPO_DB_FILE" ]; then
 		REPO_DB_FILE=$(readlink -f "$arg")
@@ -154,7 +154,7 @@ for arg in "$@"; do
 	fi
 done
 
-# if all operations were a success, rezip database
+# if all operations were a success, re-zip database
 if [ $success -eq 1 ]; then
 	msg "$(gettext "Creating updated database file '%s'...")" "$REPO_DB_FILE"
 	pushd "$gstmpdir" 2>&1 >/dev/null
