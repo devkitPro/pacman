@@ -362,13 +362,13 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100),
 		         numtargs, current);
 		/* CHECK 1: check every target against every target */
+		_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s\n",
+								alpm_pkg_get_name(p1));
 		for(j = i->next; j; j = j->next) {
 			p2 = j->data;
 			if(!p2) {
 				continue;
 			}
-			_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s and %s\n",
-								alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 			tmpfiles = chk_fileconflicts(alpm_pkg_get_files(p1), alpm_pkg_get_files(p2));
 
 			if(tmpfiles) {
