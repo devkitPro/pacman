@@ -229,14 +229,15 @@ Remove Options[[RO]]
 Sync Options[[SO]]
 ------------------
 *-c, \--clean*::
-	Remove old packages from the cache as well as unused sync databases to
-	free up disk space. When pacman	downloads packages, it saves them in a
-	cache directory. In addition, databases are saved for every sync DB you
-	download from, and are not deleted even if they are removed from the
-	configuration file linkman:pacman.conf[5]. Use one '\--clean' switch to
-	only remove old packages; use two to remove all packages from the cache.
-	In both cases, you will have a yes or no option to remove packages and/or
-	unused downloaded databases.
+	Remove packages that are no longer installed from the cache as well as
+	currently unused sync databases to free up disk space. When pacman
+	downloads packages, it saves them in a cache directory. In addition,
+	databases are saved for every sync DB you download from, and are not
+	deleted even if they are removed from the configuration file
+	linkman:pacman.conf[5]. Use one '\--clean' switch to only remove
+	packages that are no longer installed; use two to remove all packages
+	from the cache. In both cases, you will have a yes or no option to
+	remove packages and/or unused downloaded databases.
 
 *-e, \--dependsonly*::
 	Install all dependencies of a package, but not the specified package
