@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-12-02 21:40-0600\n"
+"POT-Creation-Date: 2008-01-14 23:08-0600\n"
 "PO-Revision-Date: 2007-03-07 01:18-0300\n"
 "Last-Translator: Douglas Soares de Andrade <dsandrade@gmail.com>\n"
 "Language-Team: Português do Brasil <pt@li.org>\n"
@@ -22,597 +22,576 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: lib/libalpm/add.c:88
+#: lib/libalpm/add.c:86
 #, fuzzy, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "substituindo a versão antiga %s-%s por '%s' na lista de pacotes"
 
-#: lib/libalpm/add.c:97
+#: lib/libalpm/add.c:95
 #, fuzzy, c-format
 msgid "newer version %s-%s is in the target list -- skipping\n"
 msgstr "versão atualizada %s-%s está na lista de pacotes -- pulando"
 
-#: lib/libalpm/add.c:168
+#: lib/libalpm/add.c:166
 msgid "conflicting packages were found in the target list\n"
 msgstr ""
 
-#: lib/libalpm/add.c:169
+#: lib/libalpm/add.c:167
 msgid "you cannot install two conflicting packages at the same time\n"
 msgstr ""
 
-#: lib/libalpm/add.c:172
+#: lib/libalpm/add.c:170
 #, fuzzy
 msgid "replacing packages with -A and -U is not supported yet\n"
 msgstr "substituir pacotes com -A e -U ainda não é suportado"
 
-#: lib/libalpm/add.c:173
+#: lib/libalpm/add.c:171
 msgid "you can replace packages manually using -Rd and -U\n"
 msgstr ""
 
-#: lib/libalpm/add.c:365
+#: lib/libalpm/add.c:377
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
 
-#: lib/libalpm/add.c:392
+#: lib/libalpm/add.c:404
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr ""
 
-#: lib/libalpm/add.c:399
+#: lib/libalpm/add.c:411
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr ""
 
-#: lib/libalpm/add.c:454 lib/libalpm/add.c:598 lib/libalpm/util.c:422
+#: lib/libalpm/add.c:466 lib/libalpm/add.c:610 lib/libalpm/util.c:428
 #, fuzzy, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "não foi possível extrair %s (%s)"
 
-#: lib/libalpm/add.c:505
+#: lib/libalpm/add.c:517
 #, fuzzy, c-format
 msgid "could not rename %s (%s)\n"
 msgstr "não foi possível renomear %s (%s)"
 
-#: lib/libalpm/add.c:512 lib/libalpm/add.c:532 lib/libalpm/trans.c:508
+#: lib/libalpm/add.c:524 lib/libalpm/add.c:544 lib/libalpm/trans.c:508
 #, fuzzy, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "não foi possível copiar arquivo temporário para %s (%s)"
 
-#: lib/libalpm/add.c:517 lib/libalpm/remove.c:234
+#: lib/libalpm/add.c:529 lib/libalpm/remove.c:238
 #, fuzzy, c-format
 msgid "%s saved as %s\n"
 msgstr "%s salvo como %s"
 
-#: lib/libalpm/add.c:556
+#: lib/libalpm/add.c:568
 #, fuzzy, c-format
 msgid "could not install %s as %s: %s\n"
 msgstr "não foi possível instalar %s como %s: %s"
 
-#: lib/libalpm/add.c:559
+#: lib/libalpm/add.c:571
 #, fuzzy, c-format
 msgid "%s installed as %s\n"
 msgstr "%s instalado como %s"
 
-#: lib/libalpm/add.c:576
+#: lib/libalpm/add.c:588
 #, fuzzy, c-format
 msgid "extracting %s as %s.pacnew\n"
 msgstr "extraindo %s como %s.pacnew"
 
-#: lib/libalpm/add.c:711 lib/libalpm/trans.c:529
+#: lib/libalpm/add.c:723 lib/libalpm/trans.c:526
 #, fuzzy
 msgid "could not get current working directory\n"
 msgstr "não foi possível obter o diretório de trabalho atual"
 
-#: lib/libalpm/add.c:765
+#: lib/libalpm/add.c:777
 #, fuzzy, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "erros ocorreram durante %s %s"
 
-#: lib/libalpm/add.c:770
+#: lib/libalpm/add.c:782
 #, fuzzy, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "erros ocorreram durante %s %s"
 
-#: lib/libalpm/add.c:785
+#: lib/libalpm/add.c:797
 #, fuzzy, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "não foi possível atualizar a entrada na base de dados %s-%s"
 
-#: lib/libalpm/add.c:793
+#: lib/libalpm/add.c:805
 #, fuzzy, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "não foi possível adicionar a entrada '%s' ao cache"
 
-#: lib/libalpm/be_files.c:223
+#: lib/libalpm/be_files.c:221
 #, fuzzy, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nome inválido para a entrada na base de dados '%s'"
 
-#: lib/libalpm/be_files.c:275
-#, c-format
-msgid "loading package data for %s : level=%d\n"
-msgstr ""
-
-#: lib/libalpm/be_files.c:292 lib/libalpm/be_files.c:429
-#: lib/libalpm/be_files.c:452 lib/libalpm/be_files.c:563
-#: lib/libalpm/be_files.c:641 lib/libalpm/be_files.c:669
-#: lib/libalpm/package.c:787
+#: lib/libalpm/be_files.c:291 lib/libalpm/be_files.c:428
+#: lib/libalpm/be_files.c:451 lib/libalpm/be_files.c:562
+#: lib/libalpm/be_files.c:640 lib/libalpm/be_files.c:668
+#: lib/libalpm/package.c:885
 #, fuzzy, c-format
 msgid "could not open file %s: %s\n"
 msgstr "não foi possível abrir o arquivo %s: %s"
 
-#: lib/libalpm/cache.c:62
-#, c-format
-msgid "adding '%s' to package cache for db '%s'\n"
-msgstr ""
-
-#: lib/libalpm/db.c:285
+#: lib/libalpm/db.c:283
 #, fuzzy, c-format
 msgid "could not remove database entry %s%s\n"
 msgstr "não foi possível remover a entrada da base de dados %s%s"
 
-#: lib/libalpm/db.c:553
+#: lib/libalpm/db.c:551
 msgid "attempt to re-register the 'local' DB\n"
 msgstr ""
 
-#: lib/libalpm/db.c:562 lib/libalpm/db.c:613
+#: lib/libalpm/db.c:560 lib/libalpm/db.c:611
 #, fuzzy
 msgid "database path is undefined\n"
 msgstr "base de dados não inicializada"
 
-#: lib/libalpm/deps.c:173
+#: lib/libalpm/deps.c:171
 msgid "dependency cycle detected:\n"
 msgstr ""
 
-#: lib/libalpm/deps.c:175
+#: lib/libalpm/deps.c:173
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr ""
 
-#: lib/libalpm/deps.c:177
+#: lib/libalpm/deps.c:175
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr ""
 
-#: lib/libalpm/deps.c:573
+#: lib/libalpm/deps.c:588
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr ""
 
-#: lib/libalpm/error.c:43
+#: lib/libalpm/error.c:41
 msgid "out of memory!"
 msgstr ""
 
-#: lib/libalpm/error.c:45
+#: lib/libalpm/error.c:43
 msgid "unexpected system error"
 msgstr ""
 
-#: lib/libalpm/error.c:47
+#: lib/libalpm/error.c:45
 msgid "insufficient privileges"
 msgstr ""
 
-#: lib/libalpm/error.c:49
+#: lib/libalpm/error.c:47
 msgid "could not find or read file"
 msgstr ""
 
-#: lib/libalpm/error.c:51
+#: lib/libalpm/error.c:49
 #, fuzzy
 msgid "could not find or read directory"
 msgstr "não foi possível obter o diretório de trabalho atual"
 
-#: lib/libalpm/error.c:53
+#: lib/libalpm/error.c:51
 msgid "wrong or NULL argument passed"
 msgstr ""
 
-#: lib/libalpm/error.c:56
+#: lib/libalpm/error.c:54
 msgid "library not initialized"
 msgstr "biblioteca não inicializada"
 
-#: lib/libalpm/error.c:58
+#: lib/libalpm/error.c:56
 msgid "library already initialized"
 msgstr "biblioteca já inicializada"
 
-#: lib/libalpm/error.c:60
+#: lib/libalpm/error.c:58
 msgid "unable to lock database"
 msgstr ""
 
-#: lib/libalpm/error.c:63
+#: lib/libalpm/error.c:61
 msgid "could not open database"
 msgstr "não foi possível abrir a base de dados"
 
-#: lib/libalpm/error.c:65
+#: lib/libalpm/error.c:63
 msgid "could not create database"
 msgstr "não foi possível criar a base de dados"
 
-#: lib/libalpm/error.c:67
+#: lib/libalpm/error.c:65
 msgid "database not initialized"
 msgstr "base de dados não inicializada"
 
-#: lib/libalpm/error.c:69
+#: lib/libalpm/error.c:67
 msgid "database already registered"
 msgstr "base de dados já registrada"
 
-#: lib/libalpm/error.c:71
+#: lib/libalpm/error.c:69
 msgid "could not find database"
 msgstr "não foi possível encontrar a base de dados"
 
-#: lib/libalpm/error.c:73
+#: lib/libalpm/error.c:71
 msgid "could not update database"
 msgstr "não foi possível atualizar a base de dados"
 
-#: lib/libalpm/error.c:75
+#: lib/libalpm/error.c:73
 msgid "could not remove database entry"
 msgstr "não foi possível remover a entrada da base de dados"
 
-#: lib/libalpm/error.c:78
+#: lib/libalpm/error.c:76
 msgid "invalid url for server"
 msgstr ""
 
-#: lib/libalpm/error.c:85
+#: lib/libalpm/error.c:83
 msgid "could not set parameter"
 msgstr ""
 
-#: lib/libalpm/error.c:88
+#: lib/libalpm/error.c:86
 msgid "transaction already initialized"
 msgstr ""
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:88 lib/libalpm/error.c:92
 msgid "transaction not initialized"
 msgstr ""
 
-#: lib/libalpm/error.c:92
+#: lib/libalpm/error.c:90
 msgid "duplicate target"
 msgstr "alvo duplicado"
 
-#: lib/libalpm/error.c:96
+#: lib/libalpm/error.c:94
 msgid "transaction not prepared"
 msgstr ""
 
-#: lib/libalpm/error.c:98
+#: lib/libalpm/error.c:96
 msgid "transaction aborted"
 msgstr ""
 
-#: lib/libalpm/error.c:100
+#: lib/libalpm/error.c:98
 msgid "operation not compatible with the transaction type"
 msgstr ""
 
-#: lib/libalpm/error.c:102
+#: lib/libalpm/error.c:100
 msgid "could not commit transaction"
 msgstr ""
 
-#: lib/libalpm/error.c:104
+#: lib/libalpm/error.c:102
 msgid "could not download all files"
 msgstr ""
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:105
 msgid "could not find or read package"
 msgstr ""
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:107
 msgid "invalid or corrupted package"
 msgstr ""
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:109
 msgid "cannot open package file"
 msgstr ""
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:111
 msgid "cannot load package data"
 msgstr ""
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:113
 msgid "package already installed"
 msgstr ""
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:115
 msgid "package not installed or lesser version"
 msgstr ""
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:117
 msgid "cannot remove all files for package"
 msgstr ""
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:119
 msgid "package name is not valid"
 msgstr "o nome do pacote não é valido"
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:121
 msgid "corrupted package"
 msgstr "pacote corrompido"
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:123
 msgid "no such repository"
 msgstr ""
 
-#: lib/libalpm/error.c:128
+#: lib/libalpm/error.c:126
 #, fuzzy
 msgid "corrupted delta"
 msgstr "pacote corrompido"
 
-#: lib/libalpm/error.c:130
+#: lib/libalpm/error.c:128
 msgid "delta patch failed"
 msgstr ""
 
-#: lib/libalpm/error.c:133
+#: lib/libalpm/error.c:131
 msgid "group not found"
 msgstr "grupo não encontrado"
 
-#: lib/libalpm/error.c:136
+#: lib/libalpm/error.c:134
 msgid "could not satisfy dependencies"
 msgstr ""
 
-#: lib/libalpm/error.c:138
+#: lib/libalpm/error.c:136
 msgid "conflicting dependencies"
 msgstr ""
 
-#: lib/libalpm/error.c:140
+#: lib/libalpm/error.c:138
 msgid "conflicting files"
 msgstr ""
 
-#: lib/libalpm/error.c:143
+#: lib/libalpm/error.c:141
 msgid "user aborted the operation"
 msgstr ""
 
-#: lib/libalpm/error.c:145
+#: lib/libalpm/error.c:143
 msgid "internal error"
 msgstr "erro interno"
 
-#: lib/libalpm/error.c:147
+#: lib/libalpm/error.c:145
 msgid "libarchive error"
 msgstr ""
 
-#: lib/libalpm/error.c:150
+#: lib/libalpm/error.c:148
 msgid "not confirmed"
 msgstr ""
 
-#: lib/libalpm/error.c:152
+#: lib/libalpm/error.c:150
 msgid "invalid regular expression"
 msgstr "expressão regular inválida"
 
-#: lib/libalpm/error.c:155
+#: lib/libalpm/error.c:153
 msgid "connection to remote host failed"
 msgstr ""
 
-#: lib/libalpm/error.c:158
+#: lib/libalpm/error.c:156
 msgid "unexpected error"
 msgstr "erro inesperado"
 
-#: lib/libalpm/package.c:124
+#: lib/libalpm/package.c:122
 #, fuzzy, c-format
 msgid "could not get md5sum for package %s-%s\n"
 msgstr "não foi possível conseguir a soma md5 para o pacote %s-%s"
 
-#: lib/libalpm/package.c:133
+#: lib/libalpm/package.c:131
 #, fuzzy, c-format
 msgid "md5sums do not match for package %s-%s\n"
 msgstr "somas md5 não coincidem para o pacote %s-%s"
 
-#: lib/libalpm/package.c:737
+#: lib/libalpm/package.c:844
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
 msgstr ""
 
-#: lib/libalpm/package.c:742
+#: lib/libalpm/package.c:849
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr ""
 
-#: lib/libalpm/package.c:750
-#, c-format
-msgid "%s-%s: delaying upgrade of package (%s)\n"
-msgstr ""
+#: lib/libalpm/package.c:1027
+#, fuzzy, c-format
+msgid "error extracting package description file to %s\n"
+msgstr "não foi possível remover o arquivo de lock %s"
 
-#: lib/libalpm/package.c:931
+#: lib/libalpm/package.c:1033
 #, fuzzy, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "não foi possível remover o arquivo de lock %s"
 
-#: lib/libalpm/package.c:936
+#: lib/libalpm/package.c:1038
 #, fuzzy, c-format
 msgid "missing package name in %s\n"
 msgstr "o nome do pacote não é valido"
 
-#: lib/libalpm/package.c:940
+#: lib/libalpm/package.c:1042
 #, c-format
 msgid "missing package version in %s\n"
 msgstr ""
 
-#: lib/libalpm/package.c:970
-#, fuzzy, c-format
-msgid "could not remove tempfile %s\n"
-msgstr "não foi possível remover o arquivo de lock %s"
-
-#: lib/libalpm/package.c:985 lib/libalpm/package.c:998
+#: lib/libalpm/package.c:1061 lib/libalpm/package.c:1074
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/package.c:1005
+#: lib/libalpm/package.c:1081
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr ""
 
-#: lib/libalpm/package.c:1012
-#, c-format
-msgid "missing package filelist in %s, generating one\n"
-msgstr ""
-
-#: lib/libalpm/remove.c:121
+#: lib/libalpm/remove.c:119
 #, fuzzy, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "não foi possível encontrar a base de dados"
 
-#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:243
+#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:247
 #, fuzzy, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "não foi possível abrir o arquivo %s: %s"
 
-#: lib/libalpm/remove.c:337
+#: lib/libalpm/remove.c:341
 #, fuzzy, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "não foi possível remover a entrada da base de dados %s%s"
 
-#: lib/libalpm/remove.c:342
+#: lib/libalpm/remove.c:346
 #, fuzzy, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "não foi possível adicionar a entrada '%s' ao cache"
 
-#: lib/libalpm/server.c:56
+#: lib/libalpm/server.c:54
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
 msgstr ""
 
-#: lib/libalpm/server.c:60
+#: lib/libalpm/server.c:58
 msgid "url scheme not specified, assuming http\n"
 msgstr ""
 
-#: lib/libalpm/server.c:241
+#: lib/libalpm/server.c:239
 msgid "disk"
 msgstr ""
 
-#: lib/libalpm/server.c:245
+#: lib/libalpm/server.c:243
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
-#: lib/libalpm/server.c:275
+#: lib/libalpm/server.c:273
 msgid "cannot resume download, starting over\n"
 msgstr ""
 
-#: lib/libalpm/server.c:288
+#: lib/libalpm/server.c:286
 #, fuzzy, c-format
 msgid "cannot write to file '%s'\n"
 msgstr "não foi possível remover o arquivo de lock %s"
 
-#: lib/libalpm/server.c:307
+#: lib/libalpm/server.c:305
 #, c-format
 msgid "error downloading '%s': %s\n"
 msgstr ""
 
-#: lib/libalpm/server.c:319
+#: lib/libalpm/server.c:317
 #, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr ""
 
-#: lib/libalpm/server.c:387
+#: lib/libalpm/server.c:385
 #, fuzzy, c-format
 msgid "could not chdir to %s\n"
 msgstr "não foi possível extrair %s (%s)"
 
-#: lib/libalpm/server.c:394
+#: lib/libalpm/server.c:392
 msgid "running XferCommand: fork failed!\n"
 msgstr ""
 
-#: lib/libalpm/server.c:445
+#: lib/libalpm/server.c:443
 msgid "URL does not contain a file for download\n"
 msgstr ""
 
-#: lib/libalpm/server.c:458
+#: lib/libalpm/server.c:456
 #, c-format
 msgid "failed to download %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:135
+#: lib/libalpm/sync.c:133
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:250
+#: lib/libalpm/sync.c:248
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:320
+#: lib/libalpm/sync.c:309
 #, c-format
 msgid "repository '%s' not found\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:354
+#: lib/libalpm/sync.c:336
 #, fuzzy, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "versão atualizada %s-%s está na lista de pacotes -- pulando"
 
-#: lib/libalpm/sync.c:358
+#: lib/libalpm/sync.c:340
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:613 lib/libalpm/sync.c:618
+#: lib/libalpm/sync.c:596 lib/libalpm/sync.c:601
 msgid "unresolvable package conflicts detected\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:628
+#: lib/libalpm/sync.c:611
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:825
+#: lib/libalpm/sync.c:812
 #, c-format
 msgid "command: %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:888 lib/libalpm/sync.c:896
+#: lib/libalpm/sync.c:876 lib/libalpm/sync.c:886
 #, fuzzy, c-format
 msgid "can't get md5 checksum for file %s\n"
 msgstr "não foi possível conseguir a soma md5 para o pacote %s-%s"
 
-#: lib/libalpm/sync.c:910
+#: lib/libalpm/sync.c:902
 #, c-format
 msgid "file %s was corrupted (bad MD5 checksum)\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1056
+#: lib/libalpm/sync.c:1049
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1137
+#: lib/libalpm/sync.c:1130
 #, fuzzy
 msgid "could not create removal transaction\n"
 msgstr "não foi possível criar a base de dados"
 
-#: lib/libalpm/sync.c:1143
+#: lib/libalpm/sync.c:1136
 msgid "could not initialize the removal transaction\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1165
+#: lib/libalpm/sync.c:1158
 #, fuzzy
 msgid "could not prepare removal transaction\n"
 msgstr "não foi possível criar a base de dados"
 
-#: lib/libalpm/sync.c:1171
+#: lib/libalpm/sync.c:1164
 msgid "could not commit removal transaction\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1182
+#: lib/libalpm/sync.c:1175
 #, fuzzy
 msgid "could not create transaction\n"
 msgstr "não foi possível criar a base de dados"
 
-#: lib/libalpm/sync.c:1187
+#: lib/libalpm/sync.c:1180
 msgid "could not initialize transaction\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1214
+#: lib/libalpm/sync.c:1207
 #, fuzzy
 msgid "could not prepare transaction\n"
 msgstr "não foi possível criar a base de dados"
 
-#: lib/libalpm/sync.c:1219
+#: lib/libalpm/sync.c:1212
 msgid "could not commit transaction\n"
 msgstr ""
 
-#: lib/libalpm/trans.c:214
+#: lib/libalpm/trans.c:212
 #, fuzzy, c-format
 msgid "could not remove lock file %s\n"
 msgstr "não foi possível remover o arquivo de lock %s"
 
 #: lib/libalpm/trans.c:483
-#, c-format
-msgid "No /bin/sh in root dir (%s), aborting scriptlet\n"
+msgid "No /bin/sh in parent environment, aborting scriptlet\n"
 msgstr ""
 
 #: lib/libalpm/trans.c:494
@@ -620,73 +599,77 @@ msgstr ""
 msgid "could not create temp directory\n"
 msgstr "não foi possível obter o diretório de trabalho atual"
 
-#: lib/libalpm/trans.c:536
+#: lib/libalpm/trans.c:533
 #, fuzzy, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "não foi possível extrair %s (%s)"
 
-#: lib/libalpm/trans.c:554
+#: lib/libalpm/trans.c:551
 #, fuzzy, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "não foi possível renomear %s (%s)"
 
-#: lib/libalpm/trans.c:564
+#: lib/libalpm/trans.c:561
 #, fuzzy, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "não foi possível obter o diretório de trabalho atual"
 
-#: lib/libalpm/trans.c:569
+#: lib/libalpm/trans.c:566
 #, fuzzy, c-format
 msgid "could not change directory to / (%s)\n"
 msgstr "não foi possível extrair %s (%s)"
 
-#: lib/libalpm/trans.c:578
+#: lib/libalpm/trans.c:575
 #, fuzzy, c-format
 msgid "call to popen failed (%s)"
 msgstr "não foi possível abrir o arquivo %s: %s"
 
-#: lib/libalpm/trans.c:597
+#: lib/libalpm/trans.c:594
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr ""
 
-#: lib/libalpm/trans.c:606
+#: lib/libalpm/trans.c:603
 msgid "scriptlet failed to execute correctly\n"
 msgstr ""
 
-#: lib/libalpm/trans.c:615
+#: lib/libalpm/trans.c:612
 #, fuzzy, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "não foi possível remover o arquivo de lock %s"
 
-#: lib/libalpm/util.c:204
+#: lib/libalpm/util.c:207
 #, c-format
 msgid "failed to make path '%s' : %s\n"
 msgstr ""
 
-#: lib/libalpm/util.c:389
+#: lib/libalpm/util.c:392
 #, c-format
 msgid "could not open %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/util.c:573
+#: lib/libalpm/util.c:579
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr ""
 
-#: lib/libalpm/util.c:593
+#: lib/libalpm/util.c:595
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 
-#: lib/libalpm/util.c:643
+#: lib/libalpm/util.c:644
 #, c-format
 msgid "md5: %s can't be opened\n"
 msgstr ""
 
-#: lib/libalpm/util.c:645
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "md5: %s can't be read\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "could not remove tempfile %s\n"
+#~ msgstr "não foi possível remover o arquivo de lock %s"
 
 #~ msgid "please remove '%s' first, using -Rd"
 #~ msgstr "por favor, remova '%s' primeiro usando -Rd"
@@ -696,9 +679,3 @@ msgstr ""
 
 #~ msgid "could not update provision '%s' from '%s'"
 #~ msgstr "não foi possível atualizar a provisão '%s' para '%s'"
-
-#~ msgid "could not get sha1sum for package %s-%s"
-#~ msgstr "não foi possível conseguir a soma sha1 para o pacote %s-%s"
-
-#~ msgid "sha1sums do not match for package %s-%s"
-#~ msgstr "somas sha1 não coincidem para o pacote %s-%s"
