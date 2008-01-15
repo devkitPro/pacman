@@ -199,14 +199,14 @@ msgstr ""
 #: src/pacman/callback.c:282
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
-msgstr ":: Remplacer %s avec %s/%s? [O/n] "
+msgstr ":: Remplacer %s par %s/%s? [O/n] "
 
 #: src/pacman/callback.c:288
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Replacing %s with %s/%s\n"
 "."
-msgstr ":: Remplacer %s avec %s/%s? [O/n] "
+msgstr "Remplace %s par %s/%s\n."
 
 # pour être cohérent
 #: src/pacman/callback.c:296
@@ -550,12 +550,11 @@ msgstr ""
 "  -s, --search <regex>     recherche la chaîne correspondante dans les "
 "paquets installés localement\n"
 
-# id.
 #: src/pacman/pacman.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr ""
-"  -t, --orphans            liste tous les paquets qui ne sont requis par "
+"  -t, --unrequired         liste tous les paquets qui ne sont requis par "
 "aucun autre\n"
 
 #: src/pacman/pacman.c:112
@@ -777,10 +776,10 @@ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr "fichier de config %s, ligne %d: erreur de syntaxe- clé manquante.\n"
 
 #: src/pacman/pacman.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
-"fichier de config %s, ligne %d: l'instruction 'Include' doit appartenir à "
+"fichier de config %s, ligne %d: toutes les instructions doivent appartenir à "
 "une section.\n"
 
 #: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
@@ -1055,7 +1054,7 @@ msgstr "erreur: '%s': %s\n"
 #: src/pacman/sync.c:587
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
-msgstr ""
+msgstr ":: groupe %s (inclut les paquets ignorés):\n"
 
 #: src/pacman/sync.c:592
 msgid ":: Install whole content? [Y/n] "
@@ -1067,14 +1066,14 @@ msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Installer %s du groupe %s? [O/n] "
 
 #: src/pacman/sync.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: %s provides %s\n"
-msgstr ":: %s: requiert %s\n"
+msgstr "Attention: %s fournit %s\n"
 
 #: src/pacman/sync.c:624
 #, c-format
 msgid "error: several packages provide %s, please specify one :\n"
-msgstr ""
+msgstr "erreur: %s est fourni par plusieurs paquets, spécifiez-en-un svp :\n"
 
 #: src/pacman/sync.c:635
 #, c-format
@@ -1255,9 +1254,8 @@ msgid "failed to parse %s"
 msgstr "la lecture de %s a échoué"
 
 #: scripts/gensync.sh.in:139
-#, fuzzy
 msgid "could not find %s-%s-%s-%s%s - skipping"
-msgstr "%s-%s-%s-%s.%s introuvable - ignore"
+msgstr "%s-%s-%s-%s%s introuvable - ignore"
 
 #: scripts/gensync.sh.in:149
 msgid "creating repo DB..."
@@ -1676,7 +1674,7 @@ msgstr "      --asroot     Autorise makepkg à s'exécuter en root"
 msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
-msgstr ""
+msgstr "      --holdver    Empêche la mise à jour automatique de la version pour les PKGBUILDs de développement."
 
 #: scripts/makepkg.sh.in:1078
 msgid "      --source     Do not build package; generate a source-only tarball"
@@ -1716,7 +1714,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1184
 msgid "--"
-msgstr ""
+msgstr "--"
 
 #: scripts/makepkg.sh.in:1191
 msgid "Cleaning up ALL files from %s."
@@ -2231,9 +2229,8 @@ msgid "%s not found"
 msgstr "%s introuvable"
 
 #: scripts/updatesync.sh.in:133
-#, fuzzy
 msgid "could not find %s-%s-%s-%s%s - aborting"
-msgstr "%s-%s-%s-%s.%s introuvable - abandon"
+msgstr "%s-%s-%s-%s%s introuvable - abandon"
 
 #~ msgid "Installing package with pacman -U..."
 #~ msgstr "Installation du paquet avec pacman -U... "
