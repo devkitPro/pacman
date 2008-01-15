@@ -145,8 +145,9 @@ Options and Directives
 	a package to provide dependencies other than its own package name. For
 	example, the dcron package can provide 'cron', which allows packages to
 	depend on 'cron' rather than 'dcron OR fcron'.
-	Versioned provisions are also possible. For example, dcron can provide
-	'cron 2.0' to satisfy the 'cron>=2.0' dependency of other packages.
+	Versioned provisions are also possible, in the 'name=version' format.
+	For example, dcron can provide 'cron=2.0' to satisfy the 'cron>=2.0'
+	dependency of other packages.
 
 *replaces (array)*::
 	An array of packages that this package should replace, and can be used

@@ -606,8 +606,8 @@ static int _parseconfig(const char *file, const char *givensection,
 			 * follow the toupper() rules we may expect, e.g. tr_TR where i != I.
 			 */
 			upperkey = strtoupper(strdup(key));
-			if(section == NULL && (strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0)) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: 'Include' directive must belong to a section.\n"),
+			if(section == NULL) {
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 						file, linenum);
 				return(1);
 			}

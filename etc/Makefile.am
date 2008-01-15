@@ -1,5 +1,3 @@
-SUBDIRS = pacman.d
-
 dist_sysconf_DATA = makepkg.conf pacman.conf
 EXTRA_DIST = makepkg.conf.in pacman.conf.in
 

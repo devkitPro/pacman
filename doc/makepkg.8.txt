@@ -30,6 +30,11 @@ to use.
 
 Options
 -------
+*\--asroot*::
+	Allow makepkg to run as root. This is for security purposes as it is
+	normally dangerous to do so. This will also disable use of fakeroot and
+	sudo.
+
 *-A, \--ignorearch*::
 	Ignore a missing or incomplete arch field in the build script. This is
 	for rebuilding packages from source when the PKGBUILD may be slightly
@@ -68,6 +73,11 @@ Options
 	default to the current directory. This allows the built package to be
 	overwritten.
 
+*-forcever*::
+	This is a hidden option that should *not* be used unless you really know
+	what you are doing. makepkg uses this internally when calling itself to
+	set the new development pkgver of the package.
+
 *-g, \--geninteg*::
 	For each source file in the source array of PKGBUILD, download the file
 	if required and generate integrity checks. The integrity checks
@@ -77,6 +87,11 @@ Options
 
 *-h, \--help*::
 	Output syntax and command line options.
+
+*\--holdver*::
+	Useful when building development versions of packages. Prevents makepkg
+	from automatically bumping the pkgver to the latest revision number in
+	the package's development tree.
 
 *-i, \--install*::
 	Install or upgrade the package after a successful build using
@@ -107,11 +122,6 @@ Options
 	Install missing dependencies using pacman. When build-time or run-time
 	dependencies are not found, pacman will try to resolve them. If
 	successful, the missing packages will be downloaded and installed.
-
-*\--asroot*::
-	Allow makepkg to run as root. This is for security purposes as it is
-	normally dangerous to do so. This will also disable use of fakeroot and
-	sudo.
 
 *\--source*::
 	Do not actually build the package, but build a source-only tarball. This

@@ -1,7 +1,7 @@
 #
 # @sysconfdir@/pacman.conf
 #
-# See the pacman manpage for option directives
+# See the pacman.conf(5) manpage for option and repository directives
 
 #
 # GENERAL OPTIONS
@@ -23,24 +23,24 @@ HoldPkg     = pacman glibc
 #   - local/custom mirrors can be added here or in separate files
 #   - repositories listed first will take precedence when packages
 #     have identical names, regardless of version number
+#   - URLs will have $repo replaced by the name of the current repo
 #
-#[testing]
-#Include = @sysconfdir@/pacman.d/mirrorlist
+# Repository entries are of the format:
+#       [repo-name]
+#       Server = ServerName
+#       Include = IncludePath
+#
+# The header [repo-name] is crucial - it must be present and
+# uncommented to enable the repo.
+#
 
-[core]
-# Add your preferred servers here, they will be used first
-Include = @sysconfdir@/pacman.d/mirrorlist
-
-[extra]
-# Add your preferred servers here, they will be used first
-Include = @sysconfdir@/pacman.d/mirrorlist
-
-[community]
-# Add your preferred servers here, they will be used first
-Include = @sysconfdir@/pacman.d/mirrorlist
-
-#[unstable]
-# Add your preferred servers here, they will be used first
+# An example of a disabled remote package repository with multiple servers
+# available. To enable, uncomment the following lines. You can add preferred
+# servers immediately after the header and they will be used before the
+# default mirrors.
+#[core]
+#Server = ftp://ftp.example.com/foobar/$repo/os/i686/
+# The file referenced here should contain a list of 'Server = ' lines.
 #Include = @sysconfdir@/pacman.d/mirrorlist
 
 # An example of a custom package repository.  See the pacman manpage for

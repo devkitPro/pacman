@@ -28,6 +28,9 @@ confdir='@sysconfdir@'
 FORCE=0
 REPO_DB_FILE=""
 
+# ensure we have a sane umask set
+umask 0022
+
 msg() {
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
@@ -77,7 +80,7 @@ test_repo_db_file () {
 			return 0 # YES
 		fi
 	else
-		return 0 # YES - No database file is also aloud.
+		return 0 # YES - No database file is also allowed
 	fi
 
 	return 1 # NO
@@ -138,7 +141,7 @@ db_write_entry()
 		startdir
 
 	local OLDIFS="$IFS"
-	# IFS (field seperator) is only the newline character
+	# IFS (field separator) is only the newline character
 	IFS="
 "
 
@@ -285,7 +288,7 @@ gstmpdir=$(mktemp -d /tmp/repo-add.XXXXXXXXXX) || (\
 	exit 1)
 
 success=0
-# parse arguements
+# parse arguments
 for arg in "$@"; do
 	if [ "$arg" == "--force" -o "$arg" == "-f" ]; then
 		FORCE=1
@@ -315,7 +318,7 @@ for arg in "$@"; do
 	fi
 done
 
-# if all operations were a success, rezip database
+# if all operations were a success, re-zip database
 if [ $success -eq 1 ]; then
 	msg "$(gettext "Creating updated database file %s")" "$REPO_DB_FILE"
 	pushd "$gstmpdir" 2>&1 >/dev/null
