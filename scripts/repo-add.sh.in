@@ -99,8 +99,7 @@ test_repo_db_file () {
 write_list_entry() {
 	if [ -n "$2" ]; then
 		echo "%$1%" >>$3
-		echo $2 | tr -s ' ' '\n' >>$3
-		echo "" >>$3
+		echo -e $2 >>$3
 	fi
 }
 
@@ -157,13 +156,13 @@ db_write_entry()
 		grep -v "^#" | sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
 		eval "$line"
 		case "$line" in
-			group=*)    _groups="$_groups $group" ;;
-			depend=*)   _depends="$_depends $depend" ;;
-			backup=*)   _backups="$_backups $backup" ;;
-			license=*)  _licenses="$_licenses $license" ;;
-			replaces=*) _replaces="$_replaces $replaces" ;;
-			provides=*) _provides="$_provides $provides" ;;
-			conflict=*) _conflicts="$_conflicts $conflict" ;;
+			group=*)    _groups="$_groups$group\n" ;;
+			depend=*)   _depends="$_depends$depend\n" ;;
+			backup=*)   _backups="$_backups$backup\n" ;;
+			license=*)  _licenses="$_licenses$license\n" ;;
+			replaces=*) _replaces="$_replaces$replaces\n" ;;
+			provides=*) _provides="$_provides$provides\n" ;;
+			conflict=*) _conflicts="$_conflicts$conflict\n" ;;
 		esac
 	done
 
