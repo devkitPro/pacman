@@ -24,6 +24,18 @@ HoldPkg     = pacman glibc
 #   - repositories listed first will take precedence when packages
 #     have identical names, regardless of version number
 #
+# Repository entries are of the format:
+#       [repo-name]
+#       Server = ServerName
+#       Include = IncludePath
+#
+# The header [repo-name] is crucial - it must be present and
+# uncommented to enable the repo.
+#
+
+# Testing is disabled by default.  To enable, uncomment the following
+# two lines.  You can add preferred servers immediately after the header,
+# and they will be used before the default mirrors.
 #[testing]
 #Include = @sysconfdir@/pacman.d/mirrorlist
 
@@ -39,8 +51,10 @@ Include = @sysconfdir@/pacman.d/mirrorlist
 # Add your preferred servers here, they will be used first
 Include = @sysconfdir@/pacman.d/mirrorlist
 
+# Unstable is disabled by default.  To enable, uncomment the following
+# two lines.  You can add preferred servers immediately after the header,
+# and they will be used before the default mirrors.
 #[unstable]
-# Add your preferred servers here, they will be used first
 #Include = @sysconfdir@/pacman.d/mirrorlist
 
 # An example of a custom package repository.  See the pacman manpage for
