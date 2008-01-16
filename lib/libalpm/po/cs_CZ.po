@@ -2,13 +2,13 @@
 # Copyright (C) YEAR Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Vojtěch Gondžala <vogo@seznam.cz>, 2007.
+# Vojtěch Gondžala <vogo@seznam.cz>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: cs_CZ\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-01-14 23:08-0600\n"
-"PO-Revision-Date: 2007-12-21 14:26+0100\n"
+"PO-Revision-Date: 2008-01-15 21:56+0100\n"
 "Last-Translator: Vojtěch Gondžala <vogo@seznam.cz>\n"
 "Language-Team: Čeština\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"přístupová práva adresáře v %s se neshodují\n"
+"přístupová práva adresáře v %s se liší\n"
 "souborový systém: %o  balíček: %o\n"
 
 #: lib/libalpm/add.c:404
@@ -64,12 +64,12 @@ msgstr "rozbalení: nepřepisuji adresář souborem %s\n"
 #: lib/libalpm/add.c:466 lib/libalpm/add.c:610 lib/libalpm/util.c:428
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "nelze rozbalit %s (%s)\n"
+msgstr "%s nelze rozbalit (%s)\n"
 
 #: lib/libalpm/add.c:517
 #, c-format
 msgid "could not rename %s (%s)\n"
-msgstr "nelze přejmenovat %s (%s)\n"
+msgstr "%s nelze přejmenovat (%s)\n"
 
 #: lib/libalpm/add.c:524 lib/libalpm/add.c:544 lib/libalpm/trans.c:508
 #, c-format
@@ -84,7 +84,7 @@ msgstr "%s uložen jako %s\n"
 #: lib/libalpm/add.c:568
 #, c-format
 msgid "could not install %s as %s: %s\n"
-msgstr "nelze nainstalovat %s jako %s: %s\n"
+msgstr "%s nelze nainstalovat jako %s: %s\n"
 
 #: lib/libalpm/add.c:571
 #, c-format
@@ -94,7 +94,7 @@ msgstr "%s nainstalován jako %s\n"
 #: lib/libalpm/add.c:588
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
-msgstr "rozbaluji %s jako %s.pacnew\n"
+msgstr "%s rozbaluji jako %s.pacnew\n"
 
 #: lib/libalpm/add.c:723 lib/libalpm/trans.c:526
 msgid "could not get current working directory\n"
@@ -103,12 +103,12 @@ msgstr "nelze určit aktuální pracovní adresář\n"
 #: lib/libalpm/add.c:777
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "nastal problém při aktualizaci %s\n"
+msgstr "při aktualizaci %s nastal problém\n"
 
 #: lib/libalpm/add.c:782
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "nastal problém při instalaci %s\n"
+msgstr "při instalaci %s nastal problém\n"
 
 #: lib/libalpm/add.c:797
 #, c-format
@@ -231,7 +231,7 @@ msgstr "nelze odstranit položku databáze"
 
 #: lib/libalpm/error.c:76
 msgid "invalid url for server"
-msgstr "nesprávná url pro server"
+msgstr "nesprávná URL pro server"
 
 #: lib/libalpm/error.c:83
 msgid "could not set parameter"
@@ -315,7 +315,7 @@ msgstr "poškozený rozdíl"
 
 #: lib/libalpm/error.c:128
 msgid "delta patch failed"
-msgstr "rozdílová záplata selhala"
+msgstr "rozdílový patch selhal"
 
 #: lib/libalpm/error.c:131
 msgid "group not found"
@@ -364,12 +364,12 @@ msgstr "neočekávaná chyba"
 #: lib/libalpm/package.c:122
 #, c-format
 msgid "could not get md5sum for package %s-%s\n"
-msgstr "nelze zjistit md5 kontrolní součet balíčku %s-%s\n"
+msgstr "nelze zjistit MD5 kontrolní součet balíčku %s-%s\n"
 
 #: lib/libalpm/package.c:131
 #, c-format
 msgid "md5sums do not match for package %s-%s\n"
-msgstr "md5 kontrolní součet balíčku %s-%s nesouhlasí\n"
+msgstr "MD5 kontrolní součet balíčku %s-%s nesouhlasí\n"
 
 #: lib/libalpm/package.c:844
 #, c-format
@@ -382,9 +382,9 @@ msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokální (%s) je novější než %s (%s)\n"
 
 #: lib/libalpm/package.c:1027
-#, fuzzy, c-format
+#, c-format
 msgid "error extracting package description file to %s\n"
-msgstr "nelze získat soubor s popisem balíčku z %s\n"
+msgstr "nelze získat soubor s popisem balíčku k %s\n"
 
 #: lib/libalpm/package.c:1033
 #, c-format
@@ -434,11 +434,11 @@ msgstr "nelze odstranit položku '%s' z keše\n"
 #: lib/libalpm/server.c:54
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
-msgstr "url '%s' je chybná, ignoruji\n"
+msgstr "URL '%s' je chybná, ignoruji\n"
 
 #: lib/libalpm/server.c:58
 msgid "url scheme not specified, assuming http\n"
-msgstr "schéma url nedefinováno, předpokládám http\n"
+msgstr "schéma URL nedefinováno, předpokládám http\n"
 
 #: lib/libalpm/server.c:239
 msgid "disk"
@@ -513,7 +513,7 @@ msgstr "%s-%s je aktuální -- přeinstalovávám\n"
 
 #: lib/libalpm/sync.c:596 lib/libalpm/sync.c:601
 msgid "unresolvable package conflicts detected\n"
-msgstr "zjištěn konflikt nerozlišitelných balíčků\n"
+msgstr "zjištěn nerozlišitelný konflikt balíčků\n"
 
 #: lib/libalpm/sync.c:611
 #, c-format
@@ -528,7 +528,7 @@ msgstr "příkaz: %s\n"
 #: lib/libalpm/sync.c:876 lib/libalpm/sync.c:886
 #, c-format
 msgid "can't get md5 checksum for file %s\n"
-msgstr "nelze zjistit md5 kontrolní součet pro soubor %s\n"
+msgstr "nelze zjistit MD5 kontrolní součet pro soubor %s\n"
 
 #: lib/libalpm/sync.c:902
 #, c-format
@@ -578,9 +578,8 @@ msgid "could not remove lock file %s\n"
 msgstr "nelze odstranit zamykací soubor %s\n"
 
 #: lib/libalpm/trans.c:483
-#, fuzzy
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "V kořenovém adresáři není /bin/sh (%s), ruším provádění skriptů\n"
+msgstr "Nenalezen /bin/sh v rodičovském prostředí, ruším provádění skriptů\n"
 
 #: lib/libalpm/trans.c:494
 msgid "could not create temp directory\n"
@@ -618,7 +617,7 @@ msgstr "volání waitpid selhalo (%s)\n"
 
 #: lib/libalpm/trans.c:603
 msgid "scriptlet failed to execute correctly\n"
-msgstr "správné spuštění skriptu selhalo\n"
+msgstr "správné spouštění skriptu selhalo\n"
 
 #: lib/libalpm/trans.c:612
 #, c-format
@@ -647,18 +646,10 @@ msgstr "nelze vytvořit keš balíčků, používám /tmp\n"
 #: lib/libalpm/util.c:644
 #, c-format
 msgid "md5: %s can't be opened\n"
-msgstr "md5: %s nemohl být otevřen\n"
+msgstr "MD5: %s nemohl být otevřen\n"
 
 #: lib/libalpm/util.c:646
 #, c-format
 msgid "md5: %s can't be read\n"
-msgstr "md5: %s nemohl být přečten\n"
+msgstr "MD5: %s nemohl být přečten\n"
 
-#~ msgid "loading package data for %s : level=%d\n"
-#~ msgstr "získávám informace o balíčku %s : úroveň=%d\n"
-
-#~ msgid "adding '%s' to package cache for db '%s'\n"
-#~ msgstr "přidávám '%s' do keše balíčků pro databázi '%s'\n"
-
-#~ msgid "could not remove tempfile %s\n"
-#~ msgstr "nelze odstranit dočasný soubor %s\n"
