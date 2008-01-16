@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-01-14 23:03-0600\n"
-"PO-Revision-Date: 2007-12-22 21:00+0100\n"
+"PO-Revision-Date: 2008-01-15 18:00+0100\n"
 "Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
 "Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -192,11 +192,13 @@ msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Sostituire %s con %s/%s? [S/n] "
 
 #: src/pacman/callback.c:288
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Replacing %s with %s/%s\n"
 "."
-msgstr ":: Sostituire %s con %s/%s? [S/n] "
+msgstr ""
+"Sostituzione di %s con %s/%s in corso\n"
+"."
 
 #: src/pacman/callback.c:296
 #, c-format
@@ -382,7 +384,7 @@ msgstr "(nessuno)\n"
 #: src/pacman/package.c:243
 #, c-format
 msgid "error: no changelog available for '%s'.\n"
-msgstr "errore: nessun changelog è disponibile per '%s'.\n"
+msgstr "errore: nessun changelog disponibile per '%s'.\n"
 
 #: src/pacman/pacman.c:60
 msgid "options"
@@ -522,9 +524,9 @@ msgstr ""
 "corrispondenti\n"
 
 #: src/pacman/pacman.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "  -t, --unrequired     list all packages not required by any package\n"
-msgstr "  -t, --orphans        elenca tutti i pacchetti orfani\n"
+msgstr "  -t, --unrequired     elenca tutti i pacchetti non richiesti\n"
 
 #: src/pacman/pacman.c:112
 #, c-format
@@ -730,27 +732,26 @@ msgstr "il file di configurazione %s potrebbe non essere leggibile.\n"
 #: src/pacman/pacman.c:578
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "file di configurazione %s, alla linea %d: nome della sezione errato.\n"
+msgstr "file di configurazione %s, linea %d: il nome della sezione è errato.\n"
 
 #: src/pacman/pacman.c:600
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
-"file di configurazione %s, alla linea %d: errore di sintassi, manca una "
-"chiave.\n"
+"file di configurazione %s, linea %d: errore di sintassi, manca una chiave.\n"
 
 #: src/pacman/pacman.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
-"file di configurazione %s, alla linea %d: la direttiva 'Include' deve "
-"appartenere ad una sezione.\n"
+"file di configurazione %s, linea %d: tutte le direttive devono appartenere "
+"ad una sezione.\n"
 
 #: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr ""
-"file di configurazione %s, alla linea %d: la direttiva '%s' non è stata "
+"file di configurazione %s, linea %d: la direttiva '%s' non è stata "
 "riconosciuta.\n"
 
 #: src/pacman/pacman.c:777
@@ -814,7 +815,7 @@ msgstr "Controllo degli aggiornamenti dei pacchetti in corso... \n"
 #: src/pacman/query.c:241
 #, c-format
 msgid "no upgrades found.\n"
-msgstr "non vi sono aggiornamenti.\n"
+msgstr "non ci sono aggiornamenti.\n"
 
 #: src/pacman/query.c:353 src/pacman/sync.c:774
 msgid "no usable package repositories configured.\n"
@@ -995,7 +996,7 @@ msgstr ""
 
 #: src/pacman/sync.c:534
 msgid ":: Cancel current operation? [Y/n] "
-msgstr ":: Eliminare l'operazione corrente? [S/n] "
+msgstr ":: Annullare l'operazione corrente? [S/n] "
 
 #: src/pacman/sync.c:536 src/pacman/sync.c:751
 #, c-format
@@ -1027,14 +1028,14 @@ msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Installare %s dal gruppo %s? [S/n] "
 
 #: src/pacman/sync.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: %s provides %s\n"
-msgstr ":: %s: richiede %s\n"
+msgstr "Attenzione: %s: fornisce %s\n"
 
 #: src/pacman/sync.c:624
 #, c-format
 msgid "error: several packages provide %s, please specify one :\n"
-msgstr ""
+msgstr "errore: diversi pacchetti forniscono %s, specificarne uno :\n"
 
 #: src/pacman/sync.c:635
 #, c-format
@@ -1217,9 +1218,8 @@ msgid "failed to parse %s"
 msgstr "impossibile analizzare %s"
 
 #: scripts/gensync.sh.in:139
-#, fuzzy
 msgid "could not find %s-%s-%s-%s%s - skipping"
-msgstr "impossibile trovare %s-%s-%s-%s.%s - ignorato"
+msgstr "impossibile trovare %s-%s-%s-%s%s - ignorato"
 
 #: scripts/gensync.sh.in:149
 msgid "creating repo DB..."
@@ -1339,7 +1339,7 @@ msgstr "Impossibile scaricare %s"
 
 #: scripts/makepkg.sh.in:486
 msgid "Generating checksums for source files..."
-msgstr "Generazione del checksum dei sorgenti in corso..."
+msgstr "Generazione dei checksum dei sorgenti in corso..."
 
 #: scripts/makepkg.sh.in:495
 msgid "Invalid integrity algorithm '%s' specified."
@@ -1352,8 +1352,7 @@ msgstr "Impossibile trovare il programma '%s'."
 #: scripts/makepkg.sh.in:521
 msgid "Unable to find source file %s to generate checksum."
 msgstr ""
-"Impossibile trovare il file sorgente di %s per generare la somma di "
-"controllo."
+"Impossibile trovare il file sorgente di %s per generare il checksum."
 
 #: scripts/makepkg.sh.in:547
 msgid "Invalid integrity algorithm '%s' specified"
@@ -1628,6 +1627,8 @@ msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
+"      --holdver    Previene l'incremento automatico della versione per i "
+"PKGBUILD di sviluppo"
 
 #: scripts/makepkg.sh.in:1078
 msgid "      --source     Do not build package; generate a source-only tarball"
@@ -1667,7 +1668,7 @@ msgstr "Adesso sudo è usato di default. L'opzione --usesudo è deprecata!"
 
 #: scripts/makepkg.sh.in:1184
 msgid "--"
-msgstr ""
+msgstr "--"
 
 #: scripts/makepkg.sh.in:1191
 msgid "Cleaning up ALL files from %s."
@@ -2035,7 +2036,7 @@ msgstr "Creazione della voce 'desc' del database in corso..."
 
 #: scripts/repo-add.sh.in:203
 msgid "Computing md5 checksums..."
-msgstr "Calcolo del controllo della somma md5 in corso..."
+msgstr "Calcolo dei checksum md5 in corso..."
 
 #: scripts/repo-add.sh.in:215
 msgid "Creating 'depends' db entry..."
@@ -2190,9 +2191,8 @@ msgid "%s not found"
 msgstr "%s non è stato trovato"
 
 #: scripts/updatesync.sh.in:133
-#, fuzzy
 msgid "could not find %s-%s-%s-%s%s - aborting"
-msgstr "impossibile trovare %s-%s-%s-%s.%s"
+msgstr "impossibile trovare %s-%s-%s-%s%s - operazione interrotta"
 
 #~ msgid "failed to parse parse %s"
 #~ msgstr "impossibile analizzare %s"
@@ -2204,4 +2204,3 @@ msgstr "impossibile trovare %s-%s-%s-%s.%s"
 
 #~ msgid "usage:  %s {-R --remove} [options] <package>\n"
 #~ msgstr "uso:  %s {-R --remove} [opzioni] <pacchetto>\n"
-
