@@ -190,11 +190,13 @@ msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Lecseréli %s-t erre: %s/%s? [I/n] "
 
 #: src/pacman/callback.c:288
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Replacing %s with %s/%s\n"
 "."
-msgstr ":: Lecseréli %s-t erre: %s/%s? [I/n] "
+msgstr ""
+"%s lecserélése erre: %s/%s\n"
+"."
 
 #: src/pacman/callback.c:296
 #, c-format
@@ -516,10 +518,10 @@ msgid ""
 msgstr "  -s, --search <regex> keresés a telepített csomagok között\n"
 
 #: src/pacman/pacman.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr ""
-"  -t, --orphans        azon csomagok listázása, melyeket nem igényel más "
+"  -t, --unrequired     azon csomagok listázása, melyeket nem igényel más "
 "csomag\n"
 
 #: src/pacman/pacman.c:112
@@ -727,10 +729,10 @@ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr "%s konfigurációs fájl, %d. sor: szintaktikai hiba- hiányzó kulcs.\n"
 
 #: src/pacman/pacman.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
-"%s konfigurációs fájl, %d. sor: az 'Include' direktívának egy szekcióhoz "
+"%s konfigurációs fájl, %d. sor: Minden direktívának egy szekcióhoz "
 "kell tartoznia.\n"
 
 #: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
@@ -1000,7 +1002,7 @@ msgstr "hiba: '%s': %s\n"
 #: src/pacman/sync.c:587
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
-msgstr ""
+msgstr ":: %s csoport (mellõzött csomagok is):\n"
 
 #: src/pacman/sync.c:592
 msgid ":: Install whole content? [Y/n] "
@@ -1012,14 +1014,14 @@ msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Telepíti %s-t a(z) %s csoportból? [I/n] "
 
 #: src/pacman/sync.c:620
-#, fuzzy, c-format
+#,  c-format
 msgid "Warning: %s provides %s\n"
-msgstr ":: %s: igényli a következõt: %s\n"
+msgstr "Figyelmeztetés: %s szolgáltatja a következõt: %s\n"
 
 #: src/pacman/sync.c:624
 #, c-format
 msgid "error: several packages provide %s, please specify one :\n"
-msgstr ""
+msgstr "hiba: több csomag is szolgáltatja %s-t, kérem válasszon egyet:\n"
 
 #: src/pacman/sync.c:635
 #, c-format
