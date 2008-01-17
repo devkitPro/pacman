@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-01-14 23:08-0600\n"
-"PO-Revision-Date: 2008-01-05 19:15+0100\n"
+"PO-Revision-Date: 2008-01-17 19:04+0100\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
 "MIME-Version: 1.0\n"
@@ -37,9 +37,7 @@ msgstr "In Konflikt stehende Pakete wurden in Ziel-Liste gefunden\n"
 
 #: lib/libalpm/add.c:167
 msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
-"Sie können nicht zwei in Konflikt stehende Pakete zur selben Zeit "
-"installieren\n"
+msgstr "Sie können nicht zwei in Konflikt stehende Pakete zur selben Zeit installieren\n"
 
 #: lib/libalpm/add.c:170
 msgid "replacing packages with -A and -U is not supported yet\n"
@@ -68,7 +66,9 @@ msgstr "Entpacken: Symlink %s zeigt nicht zum Verzeichnis\n"
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "Entpacken: Überschreibe Verzeichnis nicht mit Datei %s\n"
 
-#: lib/libalpm/add.c:466 lib/libalpm/add.c:610 lib/libalpm/util.c:428
+#: lib/libalpm/add.c:466
+#: lib/libalpm/add.c:610
+#: lib/libalpm/util.c:428
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "Konnte %s nicht entpacken (%s)\n"
@@ -78,12 +78,15 @@ msgstr "Konnte %s nicht entpacken (%s)\n"
 msgid "could not rename %s (%s)\n"
 msgstr "Konnte %s nicht umbenennen (%s)\n"
 
-#: lib/libalpm/add.c:524 lib/libalpm/add.c:544 lib/libalpm/trans.c:508
+#: lib/libalpm/add.c:524
+#: lib/libalpm/add.c:544
+#: lib/libalpm/trans.c:508
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "Konnte temporäre Datei nicht nach %s kopieren (%s)\n"
 
-#: lib/libalpm/add.c:529 lib/libalpm/remove.c:238
+#: lib/libalpm/add.c:529
+#: lib/libalpm/remove.c:238
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s gespeichert als %s\n"
@@ -103,7 +106,8 @@ msgstr "%s installiert als %s\n"
 msgid "extracting %s as %s.pacnew\n"
 msgstr "Entpacke %s als %s.pacnew\n"
 
-#: lib/libalpm/add.c:723 lib/libalpm/trans.c:526
+#: lib/libalpm/add.c:723
+#: lib/libalpm/trans.c:526
 msgid "could not get current working directory\n"
 msgstr "Konnte aktuelles Arbeitsverzeichnis nicht ermitteln\n"
 
@@ -132,9 +136,12 @@ msgstr "Konnte Eintrag '%s' nicht zum Pufferspeicher hinzufügen\n"
 msgid "invalid name for database entry '%s'\n"
 msgstr "Ungültiger Name für Datenbank-Eintrag '%s'\n"
 
-#: lib/libalpm/be_files.c:291 lib/libalpm/be_files.c:428
-#: lib/libalpm/be_files.c:451 lib/libalpm/be_files.c:562
-#: lib/libalpm/be_files.c:640 lib/libalpm/be_files.c:668
+#: lib/libalpm/be_files.c:291
+#: lib/libalpm/be_files.c:428
+#: lib/libalpm/be_files.c:451
+#: lib/libalpm/be_files.c:562
+#: lib/libalpm/be_files.c:640
+#: lib/libalpm/be_files.c:668
 #: lib/libalpm/package.c:885
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -149,7 +156,8 @@ msgstr "Konnte Datenbank-Eintrag %s%s nicht entfernen\n"
 msgid "attempt to re-register the 'local' DB\n"
 msgstr "Versuche die lokale Datenbank neu zu registrieren\n"
 
-#: lib/libalpm/db.c:560 lib/libalpm/db.c:611
+#: lib/libalpm/db.c:560
+#: lib/libalpm/db.c:611
 msgid "database path is undefined\n"
 msgstr "Datenbank-Pfad ist nicht definiert\n"
 
@@ -248,7 +256,8 @@ msgstr "Konnte Parameter nicht setzen"
 msgid "transaction already initialized"
 msgstr "Vorgang bereits gestartet"
 
-#: lib/libalpm/error.c:88 lib/libalpm/error.c:92
+#: lib/libalpm/error.c:88
+#: lib/libalpm/error.c:92
 msgid "transaction not initialized"
 msgstr "Vorgang nicht gestartet"
 
@@ -389,9 +398,9 @@ msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: Lokale Version (%s) ist neuer als %s (%s)\n"
 
 #: lib/libalpm/package.c:1027
-#, fuzzy, c-format
+#, c-format
 msgid "error extracting package description file to %s\n"
-msgstr "Konnte Paket-Beschreibungsdatei in %s nicht analysieren\n"
+msgstr "Fehler beim Entpacken der  Paket-Beschreibungsdatei nach %s\n"
 
 #: lib/libalpm/package.c:1033
 #, c-format
@@ -408,7 +417,8 @@ msgstr "Fehlender Paketname in %s\n"
 msgid "missing package version in %s\n"
 msgstr "Fehlende Paket-Version in %s\n"
 
-#: lib/libalpm/package.c:1061 lib/libalpm/package.c:1074
+#: lib/libalpm/package.c:1061
+#: lib/libalpm/package.c:1074
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "Fehler beim Lesen des Paketes %s: %s\n"
@@ -423,7 +433,8 @@ msgstr "Fehlende Paket-Metadaten in %s\n"
 msgid "could not find %s in database -- skipping\n"
 msgstr "Konnte %s nicht in Datenbank finden -- Überspringe\n"
 
-#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:247
+#: lib/libalpm/remove.c:172
+#: lib/libalpm/remove.c:247
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "Kann Datei '%s' nicht entfernen: %s\n"
@@ -518,7 +529,8 @@ msgstr "%s-%s ist aktuell -- Überspringe\n"
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s ist aktuell -- Überspringe\n"
 
-#: lib/libalpm/sync.c:596 lib/libalpm/sync.c:601
+#: lib/libalpm/sync.c:596
+#: lib/libalpm/sync.c:601
 msgid "unresolvable package conflicts detected\n"
 msgstr "Nicht lösbare Paketkonflikte gefunden\n"
 
@@ -532,7 +544,8 @@ msgstr "malloc-Fehler: Konnte %zd Bytes nicht zuweisen\n"
 msgid "command: %s\n"
 msgstr "Befehl: %s\n"
 
-#: lib/libalpm/sync.c:876 lib/libalpm/sync.c:886
+#: lib/libalpm/sync.c:876
+#: lib/libalpm/sync.c:886
 #, c-format
 msgid "can't get md5 checksum for file %s\n"
 msgstr "Kann MD5-Prüfsumme für Paket %s nicht ermitteln\n"
@@ -585,9 +598,8 @@ msgid "could not remove lock file %s\n"
 msgstr "Konnte Sperrdatei %s nicht entfernen\n"
 
 #: lib/libalpm/trans.c:483
-#, fuzzy
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "Kein /bin/sh im Root-Verzeichnis (%s), breche Skript ab\n"
+msgstr "Kein /bin/sh im übergeordneten Verzeichnis, breche Skript ab\n"
 
 #: lib/libalpm/trans.c:494
 msgid "could not create temp directory\n"
@@ -660,60 +672,3 @@ msgstr "md5: %s kann nicht geöffnet werden\n"
 #, c-format
 msgid "md5: %s can't be read\n"
 msgstr "md5: %s kann nicht gelesen werden\n"
-
-#~ msgid "loading package data for %s : level=%d\n"
-#~ msgstr "Lade Paket-Daten für %s : level=%d\n"
-
-#~ msgid "adding '%s' to package cache for db '%s'\n"
-#~ msgstr "Füge '%s' zum Paketpuffer der Datenbank '%s' hinzu\n"
-
-#~ msgid "%s-%s: delaying upgrade of package (%s)\n"
-#~ msgstr "%s-%s: Verzögere die Aktualisierung von Paket (%s)\n"
-
-#~ msgid "could not remove tempfile %s\n"
-#~ msgstr "Konnte tempfile %s nicht entfernen\n"
-
-#~ msgid "please remove '%s' first, using -Rd"
-#~ msgstr "Entfernen Sie bitte zuerst '%s' mit -Rd"
-
-#~ msgid "could not extract %s (%s)"
-#~ msgstr "Konnte %s nicht entpacken (%s)"
-
-#~ msgid "could not update provision '%s' from '%s'"
-#~ msgstr "Konnte Bereitstellung '%s' von '%s' nicht aktualisieren"
-
-#~ msgid "%s: description file is missing"
-#~ msgstr "%s: Beschreibungsdatei fehlt"
-
-#~ msgid "%s: dependency file is missing"
-#~ msgstr "%s: Abhängige Datei fehlt"
-
-#~ msgid "%s: file list is missing"
-#~ msgstr "%s: Dateiliste fehlt"
-
-#~ msgid "malloc failed: could not allocate %d bytes"
-#~ msgstr "malloc fehlgeschlagen: Konnte %d Bytes nicht zuweisen"
-
-#~ msgid ""
-#~ "cannot resolve dependencies for \"%s\" (\"%s\" is not in the package set)"
-#~ msgstr ""
-#~ "Kann Abhängigkeiten für \"%s\" nicht auflösen (\"%s\" ist nicht in "
-#~ "Paketliste enthalten)"
-
-#~ msgid "cannot canonicalize specified root path '%s'"
-#~ msgstr "Kann das spezifizierte Wurzelverzeichnis '%s' nicht anerkennen"
-
-#~ msgid "cannot remove file %s: %s"
-#~ msgstr "Kann Datei %s nicht entfernen: %s"
-
-#~ msgid "sha1: %s can't be opened\n"
-#~ msgstr "sha1: %s kann nicht geöffnet werden\n"
-
-#~ msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
-#~ msgstr "Archiv %s ist beschädigt (falsche MD5- oder SHA1-Prüfsumme)\n"
-
-#~ msgid "could not update requiredby for database entry %s-%s"
-#~ msgstr "Konnte requiredby für Datenbank-Eintrag %s-%s nicht aktualisieren"
-
-#~ msgid "could not update new database entry %s-%s"
-#~ msgstr "Konnte neuen Datenbank-Eintrag %s-%s nicht aktualisieren"
