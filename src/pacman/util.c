@@ -540,7 +540,7 @@ int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list 
 	/* print a prefix to the message */
 	switch(level) {
 		case PM_LOG_DEBUG:
-			asprintf(string, _("debug: %s"), msg);
+			asprintf(string, "debug: %s", msg);
 			break;
 		case PM_LOG_ERROR:
 			asprintf(string, _("error: %s"), msg);
@@ -587,7 +587,7 @@ int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list ar
 	/* print a prefix to the message */
 	switch(level) {
 		case PM_LOG_DEBUG:
-			fprintf(stream, _("debug: "));
+			fprintf(stream, "debug: ");
 			break;
 		case PM_LOG_ERROR:
 			fprintf(stream, _("error: "));
