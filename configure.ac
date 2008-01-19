@@ -46,14 +46,14 @@ AC_PREREQ(2.60)
 #     For code under development: [devel]
 #     For production releases:    []
 
-m4_define([lib_current], [2])
+m4_define([lib_current], [3])
 m4_define([lib_revision], [0])
-m4_define([lib_age], [0])
+m4_define([lib_age], [1])
 
 m4_define([pacman_version_major], [3])
 m4_define([pacman_version_minor], [1])
 m4_define([pacman_version_micro], [1])
-m4_define([pacman_version_suffix], [devel])
+m4_define([pacman_version_suffix], [])
 m4_define([pacman_version],
           [pacman_version_major.pacman_version_minor.pacman_version_micro])
 m4_define([pacman_display_version],
@@ -69,7 +69,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 
-LIB_VERSION=`expr lib_current.lib_age`.lib_revision
+LIB_VERSION=`expr lib_current - lib_age`.lib_age.lib_revision
 LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
 
 # Set subsitution values for version stuff in Makefiles and anywhere else,
@@ -342,6 +342,7 @@ pacman_display_version:
     Host Type              : ${CHOST}
 
     libalpm version        : ${LIB_VERSION}
+    libalpm version info   : ${LIB_VERSION_INFO}
     pacman version         : ${PACKAGE_VERSION}
 
   Directory and file information:
