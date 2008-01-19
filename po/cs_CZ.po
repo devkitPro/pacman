@@ -2,13 +2,13 @@
 # Copyright (C) YEAR Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Vojtěch Gondžala <vogo@seznam.cz>, 2007.
+# Vojtěch Gondžala <vogo@seznam.cz>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: cs_CZ\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2007-12-02 21:40-0600\n"
-"PO-Revision-Date: 2007-12-18 19:48+0100\n"
+"POT-Creation-Date: 2008-01-14 23:03-0600\n"
+"PO-Revision-Date: 2008-01-18 22:42+0100\n"
 "Last-Translator: Vojtěch Gondžala <vogo@seznam.cz>\n"
 "Language-Team: Čeština\n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/pacman/add.c:42 src/pacman/remove.c:44
+#: src/pacman/add.c:40 src/pacman/remove.c:42
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "selhalo dokončení transakce (%s)\n"
 
-#: src/pacman/add.c:79 src/pacman/query.c:372 src/pacman/remove.c:65
-#: src/pacman/sync.c:753
+#: src/pacman/add.c:77 src/pacman/query.c:363 src/pacman/remove.c:63
+#: src/pacman/sync.c:784
 msgid "no targets specified (use -h for help)\n"
 msgstr "nebyly specifikovány cíle (použijte -h pro nápovědu)\n"
 
-#: src/pacman/add.c:106 src/pacman/sync.c:508
+#: src/pacman/add.c:104 src/pacman/sync.c:510
 #, c-format
 msgid "error: %s\n"
 msgstr "chyba: %s\n"
 
-#: src/pacman/add.c:109 src/pacman/remove.c:100 src/pacman/sync.c:482
+#: src/pacman/add.c:107 src/pacman/remove.c:98 src/pacman/sync.c:484
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -40,181 +40,190 @@ msgstr ""
 "  pokud jste si jist, že neběží správce balíčků,\n"
 "  můžete odstranit %s.\n"
 
-#: src/pacman/add.c:116 src/pacman/remove.c:108
+#: src/pacman/add.c:114 src/pacman/remove.c:106
 #, c-format
 msgid "loading package data... "
 msgstr "načítám informace o balíčku... "
 
-#: src/pacman/add.c:120
+#: src/pacman/add.c:118
 #, c-format
 msgid "error: failed to add target '%s' (%s)"
 msgstr "chyba: selhalo přidání cíle '%s' (%s)"
 
-#: src/pacman/add.c:126 src/pacman/remove.c:120 src/pacman/sync.c:174
-#: src/pacman/sync.c:192
+#: src/pacman/add.c:124 src/pacman/remove.c:118 src/pacman/sync.c:176
+#: src/pacman/sync.c:194
 #, c-format
 msgid "done.\n"
 msgstr "hotovo.\n"
 
-#: src/pacman/add.c:131 src/pacman/remove.c:124 src/pacman/sync.c:614
+#: src/pacman/add.c:129 src/pacman/remove.c:122 src/pacman/sync.c:646
 #, c-format
 msgid "error: failed to prepare transaction (%s)\n"
 msgstr "chyba: selhala příprava transakce (%s)\n"
 
-#: src/pacman/add.c:143 src/pacman/remove.c:132 src/pacman/sync.c:623
+#: src/pacman/add.c:141 src/pacman/remove.c:130 src/pacman/sync.c:655
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: vyžaduje %s\n"
 
-#: src/pacman/add.c:151
+#: src/pacman/add.c:149
 #, c-format
 msgid ":: %s: conflicts with %s"
-msgstr ":: %s: je v konfliktu s %s"
+msgstr ":: %s: je v konfliktní s %s"
 
-#: src/pacman/add.c:160 src/pacman/sync.c:686
+#: src/pacman/add.c:158 src/pacman/sync.c:718
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
-msgstr "%s se nachází v '%s' i '%s'\n"
+msgstr "%s se nachází v '%s' a '%s'\n"
 
-#: src/pacman/add.c:166 src/pacman/sync.c:692
+#: src/pacman/add.c:164 src/pacman/sync.c:724
 #, c-format
 msgid "%s: %s exists in filesystem\n"
-msgstr "%s: %s se již nachází v souborovém systému\n"
+msgstr "%s: %s již existuje v souborovém systému\n"
 
-#: src/pacman/add.c:172
+#: src/pacman/add.c:170
 #, c-format
 msgid ""
 "\n"
 "errors occurred, no packages were upgraded.\n"
 msgstr ""
 "\n"
-"vyskytla se chyba, žádné balíčky nebudou aktualizovány.\n"
+"vyskytla se chyba, žádné balíčky nebyly aktualizovány.\n"
 
-#: src/pacman/add.c:186 src/pacman/remove.c:171 src/pacman/sync.c:677
+#: src/pacman/add.c:183 src/pacman/remove.c:168 src/pacman/sync.c:709
 #, c-format
 msgid "error: failed to commit transaction (%s)\n"
 msgstr "chyba: selhalo provádění transakce (%s)\n"
 
-#: src/pacman/callback.c:163
+#: src/pacman/callback.c:165
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "zjišťuji závislostí...\n"
+msgstr "zjišťuji závislosti...\n"
 
-#: src/pacman/callback.c:167
+#: src/pacman/callback.c:169
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "zjišťuji konflikty souborů...\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:173
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "řeším závislosti...\n"
 
-#: src/pacman/callback.c:174
+#: src/pacman/callback.c:176
 #, c-format
 msgid "looking for inter-conflicts...\n"
 msgstr "kontroluji interní konflikty...\n"
 
-#: src/pacman/callback.c:178
+#: src/pacman/callback.c:180
 #, c-format
 msgid "installing %s...\n"
 msgstr "instaluji %s...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:191
 #, c-format
 msgid "removing %s...\n"
 msgstr "odstraňuji %s...\n"
 
-#: src/pacman/callback.c:200
+#: src/pacman/callback.c:202
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "aktualizuji %s...\n"
 
-#: src/pacman/callback.c:211
+#: src/pacman/callback.c:213
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "kontroluji integritu balíčků...\n"
 
-#: src/pacman/callback.c:214
+#: src/pacman/callback.c:216
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "kontroluji integritu rozdílu...\n"
 
-#: src/pacman/callback.c:217
+#: src/pacman/callback.c:219
 #, c-format
 msgid "applying deltas...\n"
 msgstr "aplikuji rozdíly...\n"
 
-#: src/pacman/callback.c:220
+#: src/pacman/callback.c:222
 #, c-format
 msgid "generating %s with %s... "
 msgstr "vytvářím %s pomocí %s... "
 
-#: src/pacman/callback.c:223
+#: src/pacman/callback.c:225
 #, c-format
 msgid "success!\n"
 msgstr "úspěch!\n"
 
-#: src/pacman/callback.c:226
+#: src/pacman/callback.c:228
 #, c-format
 msgid "failed.\n"
 msgstr "selhalo.\n"
 
-#: src/pacman/callback.c:235
+#: src/pacman/callback.c:237
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Získávám balíčky z %s...\n"
 
-#: src/pacman/callback.c:263
+#: src/pacman/callback.c:265
 #, c-format
 msgid ""
 ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
 "n] "
-msgstr ":: %s vyžaduje instalaci %s z ignorovaných balíčků/skupin. I přesto instalovat? [A/n] "
+msgstr ":: %s vyžaduje instalaci %s z IgnorePkg/IgnoreGroup. I přesto instalovat? [A/n] "
 
-#: src/pacman/callback.c:268
+#: src/pacman/callback.c:270
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
-msgstr ":: %s je v ignorovaných balíčcích/skupinách. I přesto instalovat? [A/n] "
+msgstr ":: %s je v IgnorePkg/IgnoreGroup. I přesto instalovat? [A/n] "
 
-#: src/pacman/callback.c:274
+#: src/pacman/callback.c:276
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
-msgstr ":: %s je určen jako držený balíček. I přesto odstranit? [A/n] "
+msgstr ":: %s je označen jako HoldPkg. I přesto odstranit? [A/n] "
 
-#: src/pacman/callback.c:279
+#: src/pacman/callback.c:282
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
-msgstr ":: Nahradit %s %s/%s? [A/n] "
+msgstr ":: Nahradit %s za %s/%s? [A/n] "
 
-#: src/pacman/callback.c:286
+#: src/pacman/callback.c:288
+#, c-format
+msgid ""
+"Replacing %s with %s/%s\n"
+"."
+msgstr ""
+"Nahrazuji %s za %s/%s\n"
+"."
+
+#: src/pacman/callback.c:296
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
-msgstr ":: %s je v konfliktu s %s. Odstranit %s? [A/n] "
+msgstr ":: %s je v konfliktní s %s. Odstranit %s? [A/n] "
 
-#: src/pacman/callback.c:294
+#: src/pacman/callback.c:304
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ":: %s-%s: lokální verze je novější. I přesto aktualizovat? [A/n] "
 
-#: src/pacman/callback.c:304
+#: src/pacman/callback.c:314
 #, c-format
 msgid ":: File %s is corrupted. Do you want to delete it? [Y/n] "
 msgstr ":: Soubor %s je poškozen. Chcete jej smazat? [A/n] "
 
-#: src/pacman/callback.c:354
+#: src/pacman/callback.c:364
 msgid "installing"
 msgstr "instaluji"
 
-#: src/pacman/callback.c:357
+#: src/pacman/callback.c:367
 msgid "upgrading"
 msgstr "aktualizuji"
 
-#: src/pacman/callback.c:360
+#: src/pacman/callback.c:370
 msgid "removing"
 msgstr "odstraňuji"
 
-#: src/pacman/callback.c:363
+#: src/pacman/callback.c:373
 msgid "checking for file conflicts"
 msgstr "kontroluji konflikty mezi soubory"
 
@@ -272,7 +281,7 @@ msgstr "Volitelné záv. :"
 
 #: src/pacman/package.c:105
 msgid "Required By    :"
-msgstr "Vyžadován      :"
+msgstr "Požadovaný     :"
 
 #: src/pacman/package.c:108
 msgid "Conflicts With :"
@@ -280,7 +289,7 @@ msgstr "Konfliktní s   :"
 
 #: src/pacman/package.c:109
 msgid "Replaces       :"
-msgstr "Náhrada        :"
+msgstr "Nahrazuje      :"
 
 #: src/pacman/package.c:111
 #, c-format
@@ -350,7 +359,7 @@ msgstr "chyba: nelze spočítat kontrolní součet pro %s\n"
 #: src/pacman/package.c:197
 #, c-format
 msgid "MODIFIED\t%s\n"
-msgstr "ZMĚNĚN\t%s\n"
+msgstr "ZMĚNĚN\t\t%s\n"
 
 #: src/pacman/package.c:199
 #, c-format
@@ -360,39 +369,39 @@ msgstr "Nezměněn\t%s\n"
 #: src/pacman/package.c:203
 #, c-format
 msgid "MISSING\t\t%s\n"
-msgstr "CHYBÍ\t%s\n"
+msgstr "CHYBÍ\t\t%s\n"
 
 #: src/pacman/package.c:209
 #, c-format
 msgid "(none)\n"
 msgstr "(žádný)\n"
 
-#: src/pacman/package.c:244
+#: src/pacman/package.c:243
 #, c-format
 msgid "error: no changelog available for '%s'.\n"
-msgstr "chyba: žádný dostupný seznam změn pro '%s'.\n"
+msgstr "chyba: žádný seznam změn pro '%s' není dostupný.\n"
 
-#: src/pacman/pacman.c:62
+#: src/pacman/pacman.c:60
 msgid "options"
 msgstr "volby"
 
-#: src/pacman/pacman.c:63
+#: src/pacman/pacman.c:61
 msgid "file"
 msgstr "soubor"
 
-#: src/pacman/pacman.c:64
+#: src/pacman/pacman.c:62
 msgid "package"
 msgstr "balíček"
 
-#: src/pacman/pacman.c:65
+#: src/pacman/pacman.c:63
 msgid "usage"
 msgstr "použití"
 
-#: src/pacman/pacman.c:66
+#: src/pacman/pacman.c:64
 msgid "operation"
 msgstr "operace"
 
-#: src/pacman/pacman.c:78
+#: src/pacman/pacman.c:76
 #, c-format
 msgid ""
 "\n"
@@ -401,92 +410,90 @@ msgstr ""
 "\n"
 "použijte '%s --help' s dalšími volbami pro další nápovědu\n"
 
-#: src/pacman/pacman.c:83 src/pacman/pacman.c:97 src/pacman/pacman.c:119
+#: src/pacman/pacman.c:81 src/pacman/pacman.c:95 src/pacman/pacman.c:117
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "      --asdeps         nainstaluje balíčky jako nevýslovně instalované\n"
 
-#: src/pacman/pacman.c:84 src/pacman/pacman.c:90 src/pacman/pacman.c:98
-#: src/pacman/pacman.c:121
+#: src/pacman/pacman.c:82 src/pacman/pacman.c:88 src/pacman/pacman.c:96
+#: src/pacman/pacman.c:119
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         přeskočí kontrolu závislostí\n"
 
-#: src/pacman/pacman.c:85 src/pacman/pacman.c:99 src/pacman/pacman.c:123
+#: src/pacman/pacman.c:83 src/pacman/pacman.c:97 src/pacman/pacman.c:121
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr "  -f, --force          vynucená instalace, přepíše konfliktní soubory\n"
 
-#: src/pacman/pacman.c:89
+#: src/pacman/pacman.c:87
 #, c-format
 msgid "  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr ""
-"  -c, --cascade        odstraní balíčky a všechny balíčky,\n"
-"                       které na nich závisí\n"
+msgstr "  -c, --cascade        odstraní balíčky a všechny, které na nich závisí\n"
 
-#: src/pacman/pacman.c:91
+#: src/pacman/pacman.c:89
 #, c-format
 msgid "  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr "  -k, --dbonly         odstraní jen záznam v databázi, neodstraní soubory\n"
 
-#: src/pacman/pacman.c:92
+#: src/pacman/pacman.c:90
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         odstraní také konfigurační soubory\n"
 
-#: src/pacman/pacman.c:93
+#: src/pacman/pacman.c:91
 #, c-format
 msgid "  -s, --recursive      remove dependencies also (that won't break packages)\n"
 msgstr "  -s, --recursive      odstraní také závislosti (pokud nepoškodí jiné balíčky)\n"
 
-#: src/pacman/pacman.c:103
+#: src/pacman/pacman.c:101
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      zobrazí seznam změn balíčku\n"
 
-#: src/pacman/pacman.c:104
+#: src/pacman/pacman.c:102
 #, c-format
 msgid "  -d, --deps           list all packages installed as dependencies\n"
 msgstr "  -d, --deps           seznam všech balíčků instalovaných jako závislosti\n"
 
-#: src/pacman/pacman.c:105
+#: src/pacman/pacman.c:103
 #, c-format
 msgid "  -e, --explicit       list all packages explicitly installed\n"
 msgstr "  -e, --explicit       seznam všech výslovně instalovaných balíčků\n"
 
-#: src/pacman/pacman.c:106 src/pacman/pacman.c:124
+#: src/pacman/pacman.c:104 src/pacman/pacman.c:122
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr "  -g, --groups         zobrazí všechny členy skupiny balíčků\n"
+msgstr "  -g, --groups         zobrazí všechny balíčky ve skupině\n"
+
+#: src/pacman/pacman.c:105
+#, c-format
+msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgstr "  -i, --info           zobrazí informace o balíčku (-ii zálohované soubory)\n"
+
+#: src/pacman/pacman.c:106
+#, c-format
+msgid "  -l, --list           list the contents of the queried package\n"
+msgstr "  -l, --list           seznam souborů v balíčku\n"
 
 #: src/pacman/pacman.c:107
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           zobrazí informace o balíčku (-ii pro zálohované soubory)\n"
-
-#: src/pacman/pacman.c:108
-#, c-format
-msgid "  -l, --list           list the contents of the queried package\n"
-msgstr "  -l, --list           seznam obsahu dotazovaného balíčku\n"
-
-#: src/pacman/pacman.c:109
-#, c-format
 msgid "  -m, --foreign        list installed packages not found in sync db(s)\n"
 msgstr ""
-"  -m, --foreign        seznam nainstalovaných balíčků nenalezených\n"
-"                       v synchronizované databázi(ích)\n"
+"  -m, --foreign        seznam nainstalovaných balíčků, které nebyly nalezeny\n"
+"                       v synchronizované databázi\n"
 
-#: src/pacman/pacman.c:110
+#: src/pacman/pacman.c:108
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "  -o, --owns <soubor>  zobraz balíček obsahující <soubor>\n"
 
-#: src/pacman/pacman.c:111
+#: src/pacman/pacman.c:109
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <balíček> dotaz na soubor balíčku místo na databázi\n"
 
-#: src/pacman/pacman.c:112
+#: src/pacman/pacman.c:110
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
@@ -495,93 +502,93 @@ msgstr ""
 "  -s, --search <RegVýr>\n"
 "                       vyhledá nainstalované balíčky odpovídající řetězci\n"
 
-#: src/pacman/pacman.c:113
+#: src/pacman/pacman.c:111
 #, c-format
-msgid "  -t, --orphans        list all packages not required by any package\n"
+msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr ""
-"  -t, --orphans        seznam všech balíčků, které nejsou vyžadovány\n"
+"  -t, --unrequired     seznam všech balíčků, které nejsou vyžadovány\n"
 "                       jiným balíčkem\n"
 
-#: src/pacman/pacman.c:114
+#: src/pacman/pacman.c:112
 #, c-format
 msgid "  -u, --upgrades       list all packages that can be upgraded\n"
 msgstr "  -u, --upgrades       seznam všech balíčků, které mohou být aktualizovány\n"
 
-#: src/pacman/pacman.c:115 src/pacman/pacman.c:136
+#: src/pacman/pacman.c:113
 #, c-format
-msgid "  -q  --quiet          show less information for query and search\n"
-msgstr "  -q  --quiet          zobrazit méně informací při dotazu a hledání\n"
+msgid "  -q, --quiet          show less information for query and search\n"
+msgstr "  -q, --quiet          zobrazit méně informací při dotazu a hledání\n"
 
-#: src/pacman/pacman.c:120
+#: src/pacman/pacman.c:118
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr "  -c, --clean          odstraní staré balíčky z keše (-cc pro všechny)\n"
 
-#: src/pacman/pacman.c:122
+#: src/pacman/pacman.c:120
 #, c-format
 msgid "  -e, --dependsonly    install dependencies only\n"
 msgstr "  -e, --dependsonly    nainstaluje jen závislosti\n"
 
-#: src/pacman/pacman.c:125
+#: src/pacman/pacman.c:123
 #, c-format
 msgid "  -i, --info           view package information\n"
 msgstr "  -i, --info           zobrazí informace o balíčku\n"
 
-#: src/pacman/pacman.c:126
+#: src/pacman/pacman.c:124
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
 "  -l, --list <repositář>\n"
 "                       zobrazí seznam balíčků v repositáři\n"
 
-#: src/pacman/pacman.c:127
+#: src/pacman/pacman.c:125
 #, c-format
 msgid ""
 "  -p, --print-uris     print out URIs for given packages and their "
 "dependencies\n"
 msgstr "  -p, --print-uris     vypíše URI požadovaného balíčku a jeho závislostí\n"
 
-#: src/pacman/pacman.c:128
+#: src/pacman/pacman.c:126
 #, c-format
 msgid "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
 "  -s, --search <RegVýr>\n"
-"                       vyhledá řetězec ve vzdálených repositářích\n"
+"                       vyhledá balíčky v repositářích odpovídající řetězci\n"
 
-#: src/pacman/pacman.c:129
+#: src/pacman/pacman.c:127
 #, c-format
 msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
 msgstr "  -u, --sysupgrade     aktualizuje všechny zastaralé balíčky\n"
 
-#: src/pacman/pacman.c:130
+#: src/pacman/pacman.c:128
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
 msgstr "  -w, --downloadonly   stáhne balíčky, ale nenainstaluje/neaktualizuje je\n"
 
-#: src/pacman/pacman.c:131
+#: src/pacman/pacman.c:129
 #, c-format
 msgid "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        stáhne aktuální databázi balíčků ze serveru\n"
 
-#: src/pacman/pacman.c:132
+#: src/pacman/pacman.c:130
 #, c-format
-msgid "      --needed         only install outdated or not yet installed packages\n"
-msgstr "      --needed         nainstaluje jen zastaralé, nebo nenainstalované balíčky\n"
+msgid "      --needed         only upgrade outdated or not yet installed packages\n"
+msgstr "      --needed         aktualizuje jen zastaralé nebo nenainstalované balíčky\n"
 
-#: src/pacman/pacman.c:133
+#: src/pacman/pacman.c:131
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignore <balíček> "
-"                       ignoruj aktualizaci balíčku (lze použít vícekrát)\n"
+"      --ignore <balíček>\n"
+"                        ignoruj aktualizaci balíčku (lze použít vícekrát)\n"
 
-#: src/pacman/pacman.c:134
+#: src/pacman/pacman.c:132
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
@@ -590,56 +597,61 @@ msgstr ""
 "      --ignoregroup <skupina>\n"
 "                       ignoruj aktualizaci skupiny (lze použít vícekrát)\n"
 
-#: src/pacman/pacman.c:138
+#: src/pacman/pacman.c:134
+#, c-format
+msgid "  -q  --quiet          show less information for query and search\n"
+msgstr "  -q  --quiet          zobrazit méně informací při dotazu a hledání\n"
+
+#: src/pacman/pacman.c:136
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <cesta> nastaví cestu ke konfiguračnímu souboru\n"
 
-#: src/pacman/pacman.c:139
+#: src/pacman/pacman.c:137
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr ""
-"      --logfile <cesta>"
+"      --logfile <cesta>\n"
 "                       nastaví cestu k log souboru\n"
 
-#: src/pacman/pacman.c:140
+#: src/pacman/pacman.c:138
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      neptat se na žádná potvrzení\n"
 
-#: src/pacman/pacman.c:141
+#: src/pacman/pacman.c:139
 #, c-format
 msgid "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr "      --noprogressbar  nezobrazovat průběh stahování souborů\n"
 
-#: src/pacman/pacman.c:142
+#: src/pacman/pacman.c:140
 #, c-format
 msgid "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    nespouštět instalační skripty\n"
 
-#: src/pacman/pacman.c:143
+#: src/pacman/pacman.c:141
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose       ukecaný mód\n"
+msgstr "  -v, --verbose        vypisovat více informací\n"
 
-#: src/pacman/pacman.c:144
+#: src/pacman/pacman.c:142
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr "  -r, --root <cesta>   nastaví kořen instalace\n"
 
-#: src/pacman/pacman.c:145
+#: src/pacman/pacman.c:143
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <cesta> nastaví umístění databáze\n"
 
-#: src/pacman/pacman.c:146
+#: src/pacman/pacman.c:144
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
-"      --cachedir <adresář>"
+"      --cachedir <adresář>\n"
 "                       nastaví cestu k adresáři s keší\n"
 
-#: src/pacman/pacman.c:159
+#: src/pacman/pacman.c:157
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -648,161 +660,161 @@ msgstr ""
 "                       Tento program  může být dále distribuován pod\n"
 "                       licencí GNU GPL (General Public License)\n"
 
-#: src/pacman/pacman.c:250
+#: src/pacman/pacman.c:247
 #, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr "problém s nastavením kořenového adresáře '%s' (%s)\n"
 
-#: src/pacman/pacman.c:267
+#: src/pacman/pacman.c:264
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
 msgstr "problém s nastavením cesty k databázi '%s' (%s)\n"
 
-#: src/pacman/pacman.c:275
+#: src/pacman/pacman.c:272
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problém s nastavením log souboru '%s' (%s)\n"
 
-#: src/pacman/pacman.c:384
+#: src/pacman/pacman.c:382
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' není validní ladící úroveň\n"
 
-#: src/pacman/pacman.c:398 src/pacman/pacman.c:677
+#: src/pacman/pacman.c:396 src/pacman/pacman.c:672
 #, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr "problém s přidáním adresáře s keší '%s' (%s)\n"
 
-#: src/pacman/pacman.c:484
+#: src/pacman/pacman.c:482
 msgid "only one operation may be used at a time\n"
 msgstr "lze spustit jen jednu operaci současně\n"
 
-#: src/pacman/pacman.c:544
+#: src/pacman/pacman.c:542
 #, c-format
 msgid "config file %s could not be read.\n"
-msgstr "konfigurační soubor %s nemůže být načten.\n"
+msgstr "konfigurační soubor %s nelze přečíst.\n"
 
-#: src/pacman/pacman.c:580
+#: src/pacman/pacman.c:578
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "konfigurační soubor %s, řádek %d: chybné jméno sekce.\n"
 
-#: src/pacman/pacman.c:602
+#: src/pacman/pacman.c:600
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr "konfigurační soubor %s, řádek %d: chybná syntaxe konfiguračního souboru, chybí hodnota.\n"
 
-#: src/pacman/pacman.c:612
+#: src/pacman/pacman.c:610
 #, c-format
-msgid "config file %s, line %d: 'Include' directive must belong to a section.\n"
-msgstr "konfigurační soubor %s, řádek %d: direktiva 'Include' musí náležet sekci.\n"
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr "konfigurační soubor %s, řádek %d: Všechny direktivy musí náležet nějaké sekci.\n"
 
-#: src/pacman/pacman.c:640 src/pacman/pacman.c:702 src/pacman/pacman.c:717
+#: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr "konfigurační soubor %s, řádek %d: neznámá direktiva '%s'.\n"
 
-#: src/pacman/pacman.c:787
+#: src/pacman/pacman.c:777
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
 msgstr "selhala inicializace knihovny alpm (%s)\n"
 
-#: src/pacman/pacman.c:824
+#: src/pacman/pacman.c:814
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "nelze provést operaci, nejste root.\n"
+msgstr "nelze provést operaci, vy nejste root.\n"
 
-#: src/pacman/pacman.c:847
+#: src/pacman/pacman.c:837
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "nemohu zaregistrovat databázi 'local' (%s)\n"
 
-#: src/pacman/pacman.c:873
+#: src/pacman/pacman.c:863
 msgid "no operation specified (use -h for help)\n"
 msgstr "nebyla specifikována operace (použijte -h pro nápovědu)\n"
 
-#: src/pacman/query.c:67
+#: src/pacman/query.c:65
 #, c-format
 msgid "error: no file was specified for --owns\n"
 msgstr "chyba: nebyl určen soubor pro --owns\n"
 
-#: src/pacman/query.c:80
+#: src/pacman/query.c:78
 #, c-format
 msgid "error: failed to read file '%s': %s\n"
 msgstr "chyba: selhalo čtení souboru '%s': %s\n"
 
-#: src/pacman/query.c:87
+#: src/pacman/query.c:85
 #, c-format
 msgid "error: cannot determine ownership of a directory\n"
-msgstr "chyba: nelze určit vlastníka adresáře\n"
+msgstr "chyba: nelze určit vlastnictví adresáře\n"
 
-#: src/pacman/query.c:95
+#: src/pacman/query.c:93
 #, c-format
 msgid "error: cannot determine real path for '%s': %s\n"
 msgstr "chyba: nelze určit skutečnou cestu pro '%s': %s\n"
 
-#: src/pacman/query.c:117
+#: src/pacman/query.c:115
 #, c-format
 msgid "%s is owned by %s %s\n"
 msgstr "%s je vlastněn %s %s\n"
 
-#: src/pacman/query.c:125
+#: src/pacman/query.c:123
 #, c-format
 msgid "error: No package owns %s\n"
 msgstr "chyba: Žádný balíček nevlastní %s\n"
 
-#: src/pacman/query.c:221
+#: src/pacman/query.c:219
 #, c-format
 msgid "error: group \"%s\" was not found\n"
 msgstr "chyba: skupina \"%s\" nenalezena\n"
 
-#: src/pacman/query.c:232
+#: src/pacman/query.c:230
 #, c-format
 msgid "Checking for package upgrades... \n"
 msgstr "Zjišťuji aktualizace balíčků... \n"
 
-#: src/pacman/query.c:243
+#: src/pacman/query.c:241
 #, c-format
 msgid "no upgrades found.\n"
 msgstr "žádné aktualizace nebyly nalezeny.\n"
 
-#: src/pacman/query.c:362 src/pacman/sync.c:743
+#: src/pacman/query.c:353 src/pacman/sync.c:774
 msgid "no usable package repositories configured.\n"
 msgstr "nejsou nastaveny žádné použitelné repositáře.\n"
 
-#: src/pacman/query.c:406
+#: src/pacman/query.c:397
 #, c-format
 msgid "error: package \"%s\" not found\n"
 msgstr "chyba: balíček \"%s\" nenalezen\n"
 
-#: src/pacman/remove.c:78 src/pacman/sync.c:583
+#: src/pacman/remove.c:76
 #, c-format
 msgid ":: group %s:\n"
 msgstr ":: skupina %s:\n"
 
-#: src/pacman/remove.c:80
+#: src/pacman/remove.c:78
 msgid "    Remove whole content? [Y/n] "
-msgstr "    Odstranit všechen obsah? [A/n] "
+msgstr "    Odstranit celý obsah? [A/n] "
 
-#: src/pacman/remove.c:84
+#: src/pacman/remove.c:82
 #, c-format
 msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ":: Odstranit %s ze skupiny %s? [A/n] "
 
-#: src/pacman/remove.c:97 src/pacman/sync.c:479 src/pacman/sync.c:540
+#: src/pacman/remove.c:95 src/pacman/sync.c:481 src/pacman/sync.c:543
 #, c-format
 msgid "error: failed to init transaction (%s)\n"
 msgstr "chyba: selhala příprava transakce (%s)\n"
 
-#: src/pacman/remove.c:113
+#: src/pacman/remove.c:111
 #, c-format
 msgid "error: failed to add target '%s' (%s)\n"
 msgstr "chyba: selhalo přidání cíle '%s' (%s)\n"
 
-#: src/pacman/remove.c:158 src/pacman/util.c:462
+#: src/pacman/remove.c:155 src/pacman/util.c:460
 msgid "Targets:"
 msgstr "Cíle:"
 
-#: src/pacman/remove.c:161
+#: src/pacman/remove.c:158
 msgid ""
 "\n"
 "Do you want to remove these packages? [Y/n] "
@@ -815,119 +827,119 @@ msgstr ""
 msgid "error: could not access database directory\n"
 msgstr "chyba: nelze přistoupit k adresáři s databází\n"
 
-#: src/pacman/sync.c:83
+#: src/pacman/sync.c:84
 #, c-format
 msgid "Do you want to remove %s? [Y/n] "
 msgstr "Chcete odstranit %s? [A/n] "
 
-#: src/pacman/sync.c:88
+#: src/pacman/sync.c:89
 #, c-format
 msgid "error: could not remove repository directory\n"
 msgstr "chyba: nelze odstranit adresář repositáře\n"
 
-#: src/pacman/sync.c:101
+#: src/pacman/sync.c:102
 #, c-format
 msgid "Database directory: %s\n"
 msgstr "Adresář databáze: %s\n"
 
-#: src/pacman/sync.c:102
+#: src/pacman/sync.c:103
 msgid "Do you want to remove unused repositories? [Y/n] "
 msgstr "Chcete odstranit nepoužívané repositáře? [A/n] "
 
-#: src/pacman/sync.c:112
+#: src/pacman/sync.c:114
 #, c-format
 msgid "Database directory cleaned up\n"
 msgstr "Adresář databáze vyčištěn\n"
 
-#: src/pacman/sync.c:130 src/pacman/sync.c:177
+#: src/pacman/sync.c:132 src/pacman/sync.c:179
 #, c-format
 msgid "Cache directory: %s\n"
-msgstr "Keš adresář: %s\n"
+msgstr "Adresář s keší: %s\n"
 
-#: src/pacman/sync.c:131
+#: src/pacman/sync.c:133
 msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
 msgstr "Chcete odstranit nenainstalované balíčky z keše? [A/n] "
 
-#: src/pacman/sync.c:134
+#: src/pacman/sync.c:136
 #, c-format
 msgid "removing old packages from cache... "
 msgstr "odstraňuji staré balíčky z keše... "
 
-#: src/pacman/sync.c:138
+#: src/pacman/sync.c:140
 #, c-format
 msgid "error: could not access cache directory\n"
 msgstr "chyba: nelze přistoupit k adresáři s keší\n"
 
-#: src/pacman/sync.c:178
+#: src/pacman/sync.c:180
 msgid "Do you want to remove ALL packages from cache? [Y/n] "
 msgstr "Chcete odstranit VŠECHNY balíčky z keše? [A/n] "
 
-#: src/pacman/sync.c:181
+#: src/pacman/sync.c:183
 #, c-format
 msgid "removing all packages from cache... "
 msgstr "odstraňuji všechny balíčky z keše... "
 
-#: src/pacman/sync.c:184
+#: src/pacman/sync.c:186
 #, c-format
 msgid "error: could not remove cache directory\n"
 msgstr "chyba: nelze odstranit adresář keše\n"
 
-#: src/pacman/sync.c:189
+#: src/pacman/sync.c:191
 #, c-format
 msgid "error: could not create new cache directory\n"
 msgstr "chyba: nelze vytvořit nový adresář keše\n"
 
-#: src/pacman/sync.c:216
+#: src/pacman/sync.c:218
 #, c-format
 msgid "error: failed to synchronize %s: %s\n"
 msgstr "chyba: selhala synchronizace %s: %s\n"
 
-#: src/pacman/sync.c:219
+#: src/pacman/sync.c:221
 #, c-format
 msgid "error: failed to update %s (%s)\n"
 msgstr "chyba: selhala aktualizace %s (%s)\n"
 
-#: src/pacman/sync.c:223
+#: src/pacman/sync.c:225
 #, c-format
 msgid " %s is up to date\n"
 msgstr " %s je aktuální\n"
 
-#: src/pacman/sync.c:366
+#: src/pacman/sync.c:368
 #, c-format
 msgid "error: repository '%s' does not exist\n"
 msgstr "chyba: repositář '%s' neexistuje\n"
 
-#: src/pacman/sync.c:381
+#: src/pacman/sync.c:383
 #, c-format
 msgid "error: package '%s' was not found in repository '%s'\n"
 msgstr "chyba: balíček '%s' nebyl nalezen v repositáři '%s'\n"
 
-#: src/pacman/sync.c:401
+#: src/pacman/sync.c:403
 #, c-format
 msgid "error: package '%s' was not found\n"
 msgstr "chyba: balíček '%s' nebyl nalezen\n"
 
-#: src/pacman/sync.c:438
+#: src/pacman/sync.c:440
 #, c-format
 msgid "error: repository \"%s\" was not found.\n"
 msgstr "chyba: repositář \"%s\" nebyl nalezen.\n"
 
-#: src/pacman/sync.c:490
+#: src/pacman/sync.c:492
 #, c-format
 msgid ":: Synchronizing package databases...\n"
-msgstr ":: Synchronizuji databáze balíčků...\n"
+msgstr ":: Synchronizuji databázi balíčků...\n"
 
-#: src/pacman/sync.c:493
+#: src/pacman/sync.c:495
 #, c-format
 msgid "error: failed to synchronize any databases\n"
 msgstr "chyba: selhala synchronizace databáze\n"
 
-#: src/pacman/sync.c:505
+#: src/pacman/sync.c:507
 #, c-format
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Spouštím aktualizaci systému...\n"
 
-#: src/pacman/sync.c:526
+#: src/pacman/sync.c:529
 #, c-format
 msgid ""
 ":: pacman has detected a newer version of itself.\n"
@@ -936,221 +948,187 @@ msgid ""
 ":: operation. If you wish to continue the operation and\n"
 ":: not upgrade pacman separately, answer no.\n"
 msgstr ""
-":: pacman zjistil svoji novější verzi. Je doporučena jeho\n"
-":: aktualizace  použitím 'pacman -S pacman' a poté znovu\n"
+":: pacman zjistil svoji novější verzi. Je doporučena jeho"
+":: aktualizace použitím 'pacman -S pacman' a poté znovu\n"
 ":: spustit aktuální operaci. Pokud chcete pokračovat v této\n"
-":: operaci a neaktualizovat pacman zvlášť, odpovězte ne.\n"
+":: operaci a neaktualizovat pacmana zvlášť, odpovězte ne.\n"
 
-#: src/pacman/sync.c:531
+#: src/pacman/sync.c:534
 msgid ":: Cancel current operation? [Y/n] "
 msgstr ":: Zrušit aktuální operaci? [A/n] "
 
-#: src/pacman/sync.c:533 src/pacman/sync.c:720
+#: src/pacman/sync.c:536 src/pacman/sync.c:751
 #, c-format
 msgid "error: failed to release transaction (%s)\n"
 msgstr "chyba: selhalo uveřejnění transakce (%s)\n"
 
-#: src/pacman/sync.c:545
+#: src/pacman/sync.c:548
 #, c-format
 msgid "error: pacman: %s\n"
 msgstr "chyba: pacman: %s\n"
 
-#: src/pacman/sync.c:569
+#: src/pacman/sync.c:573
 #, c-format
 msgid "error: '%s': %s\n"
 msgstr "chyba: '%s': %s\n"
 
-#: src/pacman/sync.c:588
-msgid ":: Install whole content? [Y/n] "
-msgstr ":: Instalovat všechen obsah? [A/n] "
+#: src/pacman/sync.c:587
+#, c-format
+msgid ":: group %s (including ignored packages):\n"
+msgstr ":: skupina %s (včetně ignorovaných balíčků):\n"
 
-#: src/pacman/sync.c:595
+#: src/pacman/sync.c:592
+msgid ":: Install whole content? [Y/n] "
+msgstr ":: Instalovat celý obsah? [A/n] "
+
+#: src/pacman/sync.c:599
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Instalovat %s ze skupiny %s? [A/n] "
 
-#: src/pacman/sync.c:604
+#: src/pacman/sync.c:620
+#, c-format
+msgid "Warning: %s provides %s\n"
+msgstr "Varování: %s poskytuje %s\n"
+
+#: src/pacman/sync.c:624
+#, c-format
+msgid "error: several packages provide %s, please specify one :\n"
+msgstr "chyba: více balíčků poskytuje %s, vyberte jeden z nich:\n"
+
+#: src/pacman/sync.c:635
 #, c-format
 msgid "error: '%s': not found in sync db\n"
 msgstr "chyba: '%s': nenalezen v synchronizované databázi\n"
 
-#: src/pacman/sync.c:631
+#: src/pacman/sync.c:663
 #, c-format
 msgid ":: %s: conflicts with %s\n"
 msgstr ":: %s: konfliktní s %s\n"
 
-#: src/pacman/sync.c:645
+#: src/pacman/sync.c:677
 #, c-format
 msgid " local database is up to date\n"
 msgstr " lokální databáze je aktuální\n"
 
-#: src/pacman/sync.c:657
+#: src/pacman/sync.c:689
 #, c-format
 msgid "Beginning download...\n"
 msgstr "Zahajuji stahování...\n"
 
-#: src/pacman/sync.c:660
+#: src/pacman/sync.c:692
 msgid "Proceed with download? [Y/n] "
 msgstr "Pokračovat ve stahování? [A/n] "
 
-#: src/pacman/sync.c:664
+#: src/pacman/sync.c:696
 #, c-format
 msgid "Beginning upgrade process...\n"
 msgstr "Zahajuji proces aktualizace...\n"
 
-#: src/pacman/sync.c:667
+#: src/pacman/sync.c:699
 msgid "Proceed with installation? [Y/n] "
 msgstr "Pokračovat v instalaci? [A/n] "
 
-#: src/pacman/sync.c:708
+#: src/pacman/sync.c:740
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Zjištěny chyby, žádné balíčky nebyly aktualizovány.\n"
 
-#: src/pacman/util.c:356 src/pacman/util.c:388
+#: src/pacman/util.c:354 src/pacman/util.c:386
 #, c-format
 msgid "None\n"
-msgstr "Žádný\n"
+msgstr "Nic\n"
 
-#: src/pacman/util.c:454
+#: src/pacman/util.c:452
 msgid "Remove:"
 msgstr "Odstranit:"
 
-#: src/pacman/util.c:458
+#: src/pacman/util.c:456
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
-msgstr "Celková odstraněná velikost:   %.2f MB\n"
+msgstr "Celková uvolněná velikost:   %.2f MB\n"
 
-#: src/pacman/util.c:465
+#: src/pacman/util.c:463
 #, c-format
 msgid "Total Download Size:    %.2f MB\n"
 msgstr "Celková velikost stahování:    %.2f MB\n"
 
-#: src/pacman/util.c:469
+#: src/pacman/util.c:467
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
 msgstr "Celková velikost instalace:   %.2f MB\n"
 
-#: src/pacman/util.c:496
+#: src/pacman/util.c:494
 msgid "Y"
 msgstr "A"
 
-#: src/pacman/util.c:496
+#: src/pacman/util.c:494
 msgid "YES"
 msgstr "Ano"
 
-#: src/pacman/util.c:557
+#: src/pacman/util.c:543
+#, c-format
+msgid "debug: %s"
+msgstr "ladění: %s"
+
+#: src/pacman/util.c:546
+#, c-format
+msgid "error: %s"
+msgstr "chyba: %s"
+
+#: src/pacman/util.c:549
+#, c-format
+msgid "warning: %s"
+msgstr "varování: %s"
+
+#: src/pacman/util.c:552
+#, c-format
+msgid "function: %s"
+msgstr "funkce: %s"
+
+#: src/pacman/util.c:590
 #, c-format
 msgid "debug: "
 msgstr "ladění: "
 
-#: src/pacman/util.c:560
+#: src/pacman/util.c:593
 #, c-format
 msgid "error: "
 msgstr "chyba: "
 
-#: src/pacman/util.c:563
+#: src/pacman/util.c:596
 #, c-format
 msgid "warning: "
 msgstr "varování: "
 
-#: src/pacman/util.c:568
+#: src/pacman/util.c:601
 #, c-format
 msgid "function: "
 msgstr "funkce: "
 
-#: scripts/abs.sh.in:60 scripts/makepkg.sh.in:110 scripts/makepkg.sh.in:112
-#: scripts/repo-add.sh.in:50 scripts/repo-remove.sh.in:50
-msgid "ERROR:"
-msgstr "CHYBA:"
-
-#: scripts/abs.sh.in:65
-msgid "abs (pacman) %s - download a PKGBUILD tree from a CVS repository"
-msgstr "abs (pacman) %s - stáhne strom PKGBUILDu z CVS repositáře"
-
-#: scripts/abs.sh.in:66
-msgid "Usage %s [options] [repository...]"
-msgstr "Použití %s [volby] [repositář...]"
-
-#: scripts/abs.sh.in:67 scripts/makepkg.sh.in:1055
-msgid "Options:"
-msgstr "Volby:"
-
-#: scripts/abs.sh.in:68
-msgid "  -p, --passive  The connection is opened in passive mode."
-msgstr "  -p, --passive  Spojení je otevřeno v pasivním módu."
-
-#: scripts/abs.sh.in:70
-msgid "  -h, --help     Display this help message then exit."
-msgstr "  -h, --help     Vypíše tuto nápovědu a skončí."
-
-#: scripts/abs.sh.in:71
-msgid "  -V, --version  Display version information then exit."
-msgstr "  -V, --version  Vypíše informaci o verzi a skončí."
-
-#: scripts/abs.sh.in:73
-msgid ""
-"abs will synchronize build scripts from the CVS repository\\ninto %s. You "
-"can follow different package trees by\\nediting %s files. If no argument is "
-"given, abs\\nwill synchronize from supfiles specified in %s.\\n\\n"
-msgstr ""
-"abs synchronizuje skripty pro sestavení balíčku z CVS repositáře\\ndo %s. Můžete "
-"sledovat různé stromy balíčků\\neditací %s souborů. Pokud není předáván žádný "
-"argument, abs\\nbude synchronizovat podle souborů specifikovaných v %s.\\n\\n"
-
-#: scripts/abs.sh.in:79
-msgid "Report bugs to <%s>."
-msgstr "Nahlásit chybu na <%s>."
-
-#: scripts/abs.sh.in:84 scripts/gensync.sh.in:54 scripts/makepkg.sh.in:1088
-#: scripts/pacman-optimize.sh.in:59 scripts/repo-remove.sh.in:66
-msgid ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
-msgstr ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je svobodný "
-"software; více o podmínkách použití naleznete ve drojovém kódu.\\nZe zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY."
-
-#: scripts/abs.sh.in:130 scripts/pacman-optimize.sh.in:100
-msgid "%s does not exist or is not a directory."
-msgstr "%s neexistuje, nebo není adresář."
-
-#: scripts/abs.sh.in:133
-msgid "You do not have write permissions in %s."
-msgstr "Nemáte právo zápisu do %s."
-
-#: scripts/abs.sh.in:143
-msgid "Missing CVS synchronization utility. Install csup or cvsup."
-msgstr "Nebyla nalezena utilita pro synchronizaci CVS, Nainstalujte csup nebo cvsup."
-
-#: scripts/abs.sh.in:166
-msgid "Updating %s..."
-msgstr "Aktualizuji %s..."
-
-#: scripts/gensync.sh.in:34
+#: scripts/gensync.sh.in:32
 msgid "Usage: %s <root> <destfile> [package_directory]"
 msgstr "Použití: %s <kořen> <cílový_soubor> [adresář_s_balíčky]"
 
-#: scripts/gensync.sh.in:35
+#: scripts/gensync.sh.in:33
 msgid ""
 "gensync will generate a sync database by reading all PKGBUILD files\\nfrom "
 "<root>. gensync builds the database in a temporary directory\\nand then "
 "compresses it to <destfile>.\\n\\n"
 msgstr ""
-"gensync generuje synchronizační databázi ze všech PKGBUILDů\\nz "
-"<kořen>. gensync sestaví databázi do dočasného adresáře\\na ta "
-"je zkomprimována do <cílový_soubor>.\\n\\n"
+"gensync generuje synchronizační databázi ze všech PKGBUILDů\\nz <kořen>. "
+"gensync sestaví databázi do dočasného adresáře\\na ta je zkomprimována do "
+"<cílový_soubor>.\\n\\n"
 
-#: scripts/gensync.sh.in:39
+#: scripts/gensync.sh.in:37
 msgid ""
 "gensync will calculate md5sums of packages in the same directory as"
 "\\n<destfile>, unless an alternate [package_directory] is specified.\\n\\n"
 msgstr ""
-"gensync počíta kontrolní md5 součet balíčků ve stejném adresáři jako"
+"gensync spočítá kontrolní MD5 součet balíčků ve stejném adresáři jako"
 "\\n<cílový_soubor>, pokud není specifikován [adresář_s_balíčky].\\n\\n"
 
-#: scripts/gensync.sh.in:42
+#: scripts/gensync.sh.in:40
 msgid ""
 "note: The <destfile> name is important. It must be of the form\\n      "
 "{treename}.db.tar.gz where {treename} is the name of the custom\\n      "
@@ -1159,102 +1137,118 @@ msgid ""
 "(also configured in /etc/pacman.conf)\\n\\n"
 msgstr ""
 "poznámka: jméno <cílový_soubor> je důležité. musí být ve formátu\\n      "
-"{jménos_stromu}.db.tar.gz, kde {jméno_stromu} je jméno vlastního\\n      "
-"repositáře balíčků shodné s konfigurací v /etc/pacman.conf.\\n      Generovaná "
-"databáze musí být umístěna ve stejném adresáři jako její vlastní\\n      balíčky "
-"(také se nastavuje v /etc/pacman.conf)\\n\\n"
+"{jméno_stromu}.db.tar.gz, kde {jméno_stromu} je jméno vlastního\\n      "
+"repositáře balíčků, shodné s konfigurací v /etc/pacman.conf.\\n      "
+"Generovaná databáze musí být umístěna ve stejném adresáři jako její vlastní"
+"\\n      balíčky (také se nastavuje v /etc/pacman.conf)\\n\\n"
 
-#: scripts/gensync.sh.in:48
+#: scripts/gensync.sh.in:46
 msgid "Example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
-msgstr "Příklad:  gensync /var/abs/local /home/moje_balíčky/vlastní.db.tar.gz"
+msgstr "Příklad:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
 
-#: scripts/gensync.sh.in:102 scripts/updatesync.sh.in:101
+#: scripts/gensync.sh.in:51 scripts/makepkg.sh.in:1091
+#: scripts/pacman-optimize.sh.in:57 scripts/repo-remove.sh.in:64
+msgid ""
+"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr ""
+"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je "
+"svobodný software; více o podmínkách použití naleznete ve zdrojovém kódu."
+"\\nZe zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY."
+
+#: scripts/gensync.sh.in:99 scripts/updatesync.sh.in:98
 msgid "%s not found. Can not continue."
 msgstr "%s nenalezen. Nelze pokračovat."
 
-#: scripts/gensync.sh.in:120
+#: scripts/gensync.sh.in:117
 msgid "invalid root dir: %s"
 msgstr "neplatný kořenový adresář: %s"
 
-#: scripts/gensync.sh.in:122
+#: scripts/gensync.sh.in:119
 msgid "gensync: building database entries, generating md5sums..."
-msgstr "gensync: sestavování položek databáze, generování md5 součtů..."
+msgstr "gensync: sestavování položek databáze, generování MD5 součtů..."
 
-#: scripts/gensync.sh.in:131
-msgid "failed to parse parse %s"
+#: scripts/gensync.sh.in:128 scripts/updatesync.sh.in:126
+msgid "failed to parse %s"
 msgstr "selhalo zpracování %s"
 
-#: scripts/gensync.sh.in:142
-msgid "could not find %s-%s-%s-%s.%s - skipping"
-msgstr "nenalezen %s-%s-%s-%s.%s - přeskočeno"
+#: scripts/gensync.sh.in:139
+msgid "could not find %s-%s-%s-%s%s - skipping"
+msgstr "nemohu nalézt %s-%s-%s-%s%s - přeskakuji"
 
-#: scripts/gensync.sh.in:152
+#: scripts/gensync.sh.in:149
 msgid "creating repo DB..."
 msgstr "vytvářím databázi repositáře..."
 
-#: scripts/makepkg.sh.in:101 scripts/makepkg.sh.in:103
-#: scripts/repo-add.sh.in:45 scripts/repo-remove.sh.in:45
+#: scripts/makepkg.sh.in:100 scripts/makepkg.sh.in:102
+#: scripts/repo-add.sh.in:46 scripts/repo-remove.sh.in:43
 msgid "WARNING:"
 msgstr "VAROVÁNÍ:"
 
-#: scripts/makepkg.sh.in:143
+#: scripts/makepkg.sh.in:109 scripts/makepkg.sh.in:111
+#: scripts/repo-add.sh.in:51 scripts/repo-remove.sh.in:48
+msgid "ERROR:"
+msgstr "CHYBA:"
+
+#: scripts/makepkg.sh.in:142
 msgid "Cleaning up..."
 msgstr "Čištění..."
 
-#: scripts/makepkg.sh.in:193
+#: scripts/makepkg.sh.in:192
 msgid ""
 "Options beginning with 'no' will be deprecated in the next version of "
 "makepkg!"
 msgstr "Volby začínající 'no' nebudou použitelné v další verzi makepkg!"
 
-#: scripts/makepkg.sh.in:194
+#: scripts/makepkg.sh.in:193
 msgid "Please replace 'no' with '!': %s -> %s."
 msgstr "Nahraďte 'no' za '!': %s -> %s."
 
-#: scripts/makepkg.sh.in:198
+#: scripts/makepkg.sh.in:197
 msgid "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
-msgstr "Volba 'keepdocs' nemusí fungovat jak je zanýšleno. Nahraďte ji volbou 'docs'."
+msgstr "Volba 'keepdocs' nemusí fungovat jak je zamýšleno. Nahraďte ji volbou 'docs'."
 
-#: scripts/makepkg.sh.in:286
+#: scripts/makepkg.sh.in:285
 msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Použitý agent neumí zacházen s %s URL. Zkontrolujte %s."
+msgstr "Použitý agent neumí zacházet s %s URL. Zkontrolujte %s."
 
-#: scripts/makepkg.sh.in:287 scripts/makepkg.sh.in:296
+#: scripts/makepkg.sh.in:286 scripts/makepkg.sh.in:295
 #: scripts/makepkg.sh.in:448 scripts/makepkg.sh.in:476
 #: scripts/makepkg.sh.in:522 scripts/makepkg.sh.in:610
 #: scripts/makepkg.sh.in:638 scripts/makepkg.sh.in:700
-#: scripts/makepkg.sh.in:767 scripts/makepkg.sh.in:1105
-#: scripts/makepkg.sh.in:1415 scripts/makepkg.sh.in:1419
+#: scripts/makepkg.sh.in:775 scripts/makepkg.sh.in:1108
+#: scripts/makepkg.sh.in:1421 scripts/makepkg.sh.in:1425
 msgid "Aborting..."
-msgstr "Rušení..."
+msgstr "Ruším..."
 
-#: scripts/makepkg.sh.in:295
+#: scripts/makepkg.sh.in:294
 msgid "The download program %s is not installed."
 msgstr "Program pro stahování %s není nainstalován."
 
-#: scripts/makepkg.sh.in:311
+#: scripts/makepkg.sh.in:310
 msgid "Pacman returned a fatal error (%i): %s"
 msgstr "Pacman vrátil fatální chybu (%i): %s"
 
-#: scripts/makepkg.sh.in:335
+#: scripts/makepkg.sh.in:334
 msgid "Installing missing dependencies..."
 msgstr "Instaluji chybějící závislosti..."
 
-#: scripts/makepkg.sh.in:345
+#: scripts/makepkg.sh.in:344
 msgid "Pacman failed to install missing dependencies."
 msgstr "Pacman selhal při instalaci chybějících závislostí."
 
-#: scripts/makepkg.sh.in:349
+#: scripts/makepkg.sh.in:348
 msgid "Building missing dependencies..."
 msgstr "Sestavuji chybějící závislosti..."
 
-#: scripts/makepkg.sh.in:354
+#: scripts/makepkg.sh.in:353
 msgid "Source root cannot be found - please make sure it is specified in %s."
 msgstr "Kořen zdroje nebyl nalezen - zkontrolujte zda je zadán v %s."
 
-#: scripts/makepkg.sh.in:362
+#: scripts/makepkg.sh.in:361
 msgid "Could not find '%s' under %s"
-msgstr "Nenalezen '%s' pod %s"
+msgstr "Nelze nalézt '%s' pod %s"
 
 #: scripts/makepkg.sh.in:378
 msgid "Failed to build '%s'"
@@ -1274,11 +1268,11 @@ msgstr "Stahuji zdrojové soubory..."
 
 #: scripts/makepkg.sh.in:447
 msgid "You do not have write permission to store downloads in %s."
-msgstr "Nemáte práva zápisu pro uložení stažených souborů do %s."
+msgstr "Nemáte práva zápisu k uložení stažených souborů do %s."
 
 #: scripts/makepkg.sh.in:458
 msgid "Found %s in build dir"
-msgstr "Nalezen %s v adresáři kde se provádí sestavení"
+msgstr "%s nalezen v adresáři kde se provádí sestavení"
 
 #: scripts/makepkg.sh.in:462
 msgid "Using cached copy of %s"
@@ -1306,7 +1300,7 @@ msgstr "Nemohu nalézt program '%s'."
 
 #: scripts/makepkg.sh.in:521
 msgid "Unable to find source file %s to generate checksum."
-msgstr "Nenalezen zdrojový soubor %s pro výpočet kontrolního součtu."
+msgstr "Nelze nalézt zdrojový soubor %s pro výpočet kontrolního součtu."
 
 #: scripts/makepkg.sh.in:547
 msgid "Invalid integrity algorithm '%s' specified"
@@ -1330,7 +1324,7 @@ msgstr "SELHALO"
 
 #: scripts/makepkg.sh.in:587
 msgid "One or more files did not pass the validity check!"
-msgstr "Jeden nebo více souborů neprošlo kontrolou validyty!"
+msgstr "Jeden nebo více souborů neprošlo kontrolou validity!"
 
 #: scripts/makepkg.sh.in:591
 msgid "Integrity checks (%s) are missing or incomplete."
@@ -1358,474 +1352,477 @@ msgstr "Sestavení selhalo."
 
 #: scripts/makepkg.sh.in:708
 msgid "Tidying install..."
-msgstr "Uklízím isntalaci..."
+msgstr "Uklízím instalaci..."
 
 #: scripts/makepkg.sh.in:711
 msgid "Removing info/doc files..."
 msgstr "Odstraňuji info/doc soubory..."
 
-#: scripts/makepkg.sh.in:717
-msgid "Moving usr/share/man files to usr/man..."
-msgstr "Přesouvám soubory z usr/share/man do usr/man..."
-
-#: scripts/makepkg.sh.in:724
+#: scripts/makepkg.sh.in:716
 msgid "Compressing man pages..."
 msgstr "Komprimuji man stránky..."
 
-#: scripts/makepkg.sh.in:742
+#: scripts/makepkg.sh.in:750
 msgid "Stripping debugging symbols from binaries and libraries..."
 msgstr "Odstraňuji ladící informace z binárních souborů a knihoven..."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:762
 msgid "Removing libtool .la files..."
 msgstr "Odstraňuji libtool .la soubory..."
 
-#: scripts/makepkg.sh.in:759
+#: scripts/makepkg.sh.in:767
 msgid "Removing empty directories..."
 msgstr "Odstraňuji prázdné adresáře..."
 
-#: scripts/makepkg.sh.in:766
+#: scripts/makepkg.sh.in:774
 msgid "Missing pkg/ directory."
 msgstr "Nenalezen pkg/ adresář."
 
-#: scripts/makepkg.sh.in:772
+#: scripts/makepkg.sh.in:780
 msgid "Creating package..."
 msgstr "Vytvářím balíček..."
 
-#: scripts/makepkg.sh.in:782
-msgid "Generating .FILELIST file..."
-msgstr "Vytvářím .FILELIST soubor..."
-
-#: scripts/makepkg.sh.in:792
+#: scripts/makepkg.sh.in:791
 msgid "Generating .PKGINFO file..."
 msgstr "Vytvářím .PKGINFO soubor..."
 
-#: scripts/makepkg.sh.in:838
+#: scripts/makepkg.sh.in:837
 msgid "Please add a license line to your %s!"
 msgstr "Prosím přidejte informace o licenci do vašeho %s!"
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:838
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Například pro GPL software: license=('GPL')."
 
-#: scripts/makepkg.sh.in:847 scripts/makepkg.sh.in:942
+#: scripts/makepkg.sh.in:846 scripts/makepkg.sh.in:941
 msgid "Adding install script..."
 msgstr "Přidávám instalační skripty..."
 
-#: scripts/makepkg.sh.in:854
+#: scripts/makepkg.sh.in:853
 msgid "Adding package changelog..."
 msgstr "Přidávám seznam změn balíčku..."
 
-#: scripts/makepkg.sh.in:860
+#: scripts/makepkg.sh.in:859
 msgid "Compressing package..."
 msgstr "Zabaluji balíček..."
 
-#: scripts/makepkg.sh.in:865
+#: scripts/makepkg.sh.in:864
 msgid "Failed to create package file."
 msgstr "Selhalo vytvoření balíčku."
 
-#: scripts/makepkg.sh.in:874
+#: scripts/makepkg.sh.in:873
 msgid "Cannot find the xdelta binary! Is xdelta installed?"
 msgstr "Nemohu nalézt příkaz xdelta! Je xdelta nainstalován?"
 
-#: scripts/makepkg.sh.in:904
+#: scripts/makepkg.sh.in:903
 msgid "Making delta from version %s..."
 msgstr "Vytvářím rozdílovou verzi z %s..."
 
-#: scripts/makepkg.sh.in:918
+#: scripts/makepkg.sh.in:917
 msgid "Recreating package tarball from delta to match md5 signatures"
-msgstr "Znovu vytvářím celý archív z rozdílu pro kontrolu md5 podpisů"
+msgstr "Znovu vytvářím celý archív z rozdílu pro kontrolu MD5 podpisů"
 
-#: scripts/makepkg.sh.in:919
+#: scripts/makepkg.sh.in:918
 msgid "NOTE: the delta should ONLY be distributed with this tarball"
 msgstr "POZNÁMKA: tento rozdíl může být distribuován JEN s tímto archívem"
 
-#: scripts/makepkg.sh.in:923
+#: scripts/makepkg.sh.in:922
 msgid "Could not generate the package from the delta."
 msgstr "Nemohu vygenerovat balíček z tohoto rozdílu."
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:926
 msgid "Delta was not able to be created."
 msgstr "Nebylo možné vytvořit rozdíl."
 
-#: scripts/makepkg.sh.in:930
+#: scripts/makepkg.sh.in:929
 msgid "No previous version found, skipping xdelta."
-msgstr "Zádná předchozí verze nebyla nalezena, přeskakuji xdelta."
+msgstr "Žádná předchozí verze nebyla nalezena, přeskakuji xdelta."
 
-#: scripts/makepkg.sh.in:936
+#: scripts/makepkg.sh.in:935
 msgid "Creating source package..."
 msgstr "Vytvářím zdrojový balíček..."
 
-#: scripts/makepkg.sh.in:938 scripts/makepkg.sh.in:950
-#: scripts/makepkg.sh.in:957
+#: scripts/makepkg.sh.in:937 scripts/makepkg.sh.in:949
+#: scripts/makepkg.sh.in:956
 msgid "Adding %s..."
 msgstr "Přidávám %s..."
 
-#: scripts/makepkg.sh.in:945
+#: scripts/makepkg.sh.in:944
 msgid "Install script %s not found."
 msgstr "instalační skript %s nebyl nalezen."
 
-#: scripts/makepkg.sh.in:965
+#: scripts/makepkg.sh.in:964
 msgid "Compressing source package..."
 msgstr "Komprimuji zdrojový balíček..."
 
-#: scripts/makepkg.sh.in:967
+#: scripts/makepkg.sh.in:966
 msgid "Failed to create source package file."
 msgstr "Selhalo vytváření zdrojového balíčku."
 
-#: scripts/makepkg.sh.in:975
-msgid "Installing package with pacman -U..."
-msgstr "Instaluji balíčky pomocí pacman -U..."
-
-#: scripts/makepkg.sh.in:992
+#: scripts/makepkg.sh.in:994
 msgid "Determining latest darcs revision..."
 msgstr "Určuji poslední darcs revizi..."
 
-#: scripts/makepkg.sh.in:995
+#: scripts/makepkg.sh.in:997
 msgid "Determining latest cvs revision..."
 msgstr "Určuji poslední cvs revizi..."
 
-#: scripts/makepkg.sh.in:998
+#: scripts/makepkg.sh.in:1000
 msgid "Determining latest git revision..."
 msgstr "Určuji poslední git revizi..."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1003
 msgid "Determining latest svn revision..."
 msgstr "Určuji poslední svn revizi..."
 
-#: scripts/makepkg.sh.in:1004
+#: scripts/makepkg.sh.in:1006
 msgid "Determining latest bzr revision..."
 msgstr "Určuji poslední bzr revizi..."
 
-#: scripts/makepkg.sh.in:1007
+#: scripts/makepkg.sh.in:1009
 msgid "Determining latest hg revision..."
 msgstr "Určuji poslední hg revizi..."
 
-#: scripts/makepkg.sh.in:1022
+#: scripts/makepkg.sh.in:1024
 msgid "Version found: %s"
 msgstr "Nalezena verze: %s"
 
-#: scripts/makepkg.sh.in:1053
+#: scripts/makepkg.sh.in:1055
 msgid "Usage: %s [options]"
 msgstr "Použití: %s [volby]"
 
-#: scripts/makepkg.sh.in:1056
+#: scripts/makepkg.sh.in:1057
+msgid "Options:"
+msgstr "Volby:"
+
+#: scripts/makepkg.sh.in:1058
 msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
 msgstr "  -A, --ignorearch Ignoruje nekompletní pole arch v %s"
 
-#: scripts/makepkg.sh.in:1057
+#: scripts/makepkg.sh.in:1059
 msgid "  -b, --builddeps  Build missing dependencies from source"
-msgstr "  -b, --builddeps  Sestaví potřebné chybějící závislosti ze zdrojových souborů"
+msgstr "  -b, --builddeps  Sestaví chybějící závislosti ze zdrojových souborů"
 
-#: scripts/makepkg.sh.in:1058
+#: scripts/makepkg.sh.in:1060
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Pročistí pracovní soubory po sestavení"
 
-#: scripts/makepkg.sh.in:1059
+#: scripts/makepkg.sh.in:1061
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Pročistí zdrojové soubory z keše"
 
-#: scripts/makepkg.sh.in:1060
+#: scripts/makepkg.sh.in:1062
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Přeskočí všechny kontroly závislostí"
 
-#: scripts/makepkg.sh.in:1061
+#: scripts/makepkg.sh.in:1063
 msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
-msgstr ""
-"  -e, --noextract  Nebudou se rozbalovat zdrojové soubory"
-"                  (použijí se existující src/ adresáře)"
+msgstr "  -e, --noextract  Nerozbalovat zdrojové soubory (použije se existující src/ adresář)"
 
-#: scripts/makepkg.sh.in:1062
+#: scripts/makepkg.sh.in:1064
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Přepsat existující balíček"
 
-#: scripts/makepkg.sh.in:1063
+#: scripts/makepkg.sh.in:1065
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Vygeneruje kontrolní součty zdrojových souborů"
 
-#: scripts/makepkg.sh.in:1064
+#: scripts/makepkg.sh.in:1066
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Vypíše tuto nápovědu"
 
-#: scripts/makepkg.sh.in:1065
+#: scripts/makepkg.sh.in:1067
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Nainstaluje balíček po úspěšném sestavení"
 
-#: scripts/makepkg.sh.in:1066
+#: scripts/makepkg.sh.in:1068
 msgid "  -L, --log        Log package build process"
-msgstr "  -L, --log        Dlouhý proces sestavení balíčku"
+msgstr "  -L, --log        Zaznamenat proces sestavení balíčku"
 
-#: scripts/makepkg.sh.in:1067
+#: scripts/makepkg.sh.in:1069
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Zakáže barevný výstup zpráv"
 
-#: scripts/makepkg.sh.in:1068
+#: scripts/makepkg.sh.in:1070
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Pouze stáhne a rozbalí soubory"
 
-#: scripts/makepkg.sh.in:1069
+#: scripts/makepkg.sh.in:1071
 msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
-msgstr "  -p <sestavovací_skript> Použije alternativní build skript (namísto '%s')"
-
-#: scripts/makepkg.sh.in:1070
-msgid "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -r, --rmdeps     Odstraní instalované závislosti po úspěšném sestavení"
+msgstr "  -p <buildscript> Použije alternativní build skript (namísto '%s')"
 
 #: scripts/makepkg.sh.in:1072
+msgid "  -r, --rmdeps     Remove installed dependencies after a successful build"
+msgstr "  -r, --rmdeps     Odstraní nainstalované závislosti po úspěšném sestavení"
+
+#: scripts/makepkg.sh.in:1074
 msgid "  -R, --repackage  Repackage contents of pkg/ without building"
 msgstr "  -R, --repackage  Znovu zabalí obsah pkg/ bez sestavování"
 
-#: scripts/makepkg.sh.in:1073
+#: scripts/makepkg.sh.in:1075
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Nainstaluje chybějící závislosti pomocí pacman"
 
-#: scripts/makepkg.sh.in:1074
+#: scripts/makepkg.sh.in:1076
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Umožňuje spustit makepkg pod právy uživatele root"
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1077
+msgid ""
+"      --holdver    Prevent automatic version bumping for development "
+"PKGBUILDs"
+msgstr "      --holdver    Zabrání automatickému zvýšení verze u vyvíjených PKGBUILDů"
+
+#: scripts/makepkg.sh.in:1078
 msgid "      --source     Do not build package; generate a source-only tarball"
 msgstr "      --source     Nesestavovat balíček, vygenerovat jen zdrojový archiv"
 
-#: scripts/makepkg.sh.in:1077
+#: scripts/makepkg.sh.in:1080
 msgid "These options can be passed to pacman:"
 msgstr "Tyto volby se předají pacmanovi:"
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1082
 msgid ""
 "      --noconfirm      Do not ask for confirmation when resolving "
 "dependencies"
 msgstr "      --noconfirm      Nedotazovat se na potvrzení"
 
-#: scripts/makepkg.sh.in:1080
+#: scripts/makepkg.sh.in:1083
 msgid "      --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  Nezobrazovat průběh stahování souborů"
 
-#: scripts/makepkg.sh.in:1082
+#: scripts/makepkg.sh.in:1085
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Když není zadáno -p, makepkg bude hledat '%s'"
 
-#: scripts/makepkg.sh.in:1104
+#: scripts/makepkg.sh.in:1107
 msgid "%s not found."
 msgstr "%s nebyl nalezen."
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1169
 msgid "Sudo is used by default now. The --usesudo option is deprecated!"
 msgstr "Sudo je nyní používáno jako výchozí. Volba --usesudo je zavržena!"
 
-#: scripts/makepkg.sh.in:1192
+#: scripts/makepkg.sh.in:1184
+msgid "--"
+msgstr "--"
+
+#: scripts/makepkg.sh.in:1191
 msgid "Cleaning up ALL files from %s."
 msgstr "Odstraňuji VŠECHNY soubory z %s."
 
-#: scripts/makepkg.sh.in:1193
+#: scripts/makepkg.sh.in:1192
 msgid "    Are you sure you wish to do this? [Y/n] "
 msgstr "    Jste si jistý, že víte co děláte? [A/n] "
 
-#: scripts/makepkg.sh.in:1199
+#: scripts/makepkg.sh.in:1198
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "Problém s odstraněním souborů, možná nemáte správná oprávnění v %s"
 
-#: scripts/makepkg.sh.in:1203
+#: scripts/makepkg.sh.in:1202
 msgid "Source cache cleaned."
 msgstr "Keš zdrojových souborů vyčištěna."
 
-#: scripts/makepkg.sh.in:1208
+#: scripts/makepkg.sh.in:1207
 msgid "No files have been removed."
 msgstr "Žádné soubory nebyly odstraněny."
 
-#: scripts/makepkg.sh.in:1213
+#: scripts/makepkg.sh.in:1212
 msgid "Source destination must be defined in makepkg.conf."
 msgstr "V makepkg.conf musí být specifikováno umístění zdrojových souborů."
 
-#: scripts/makepkg.sh.in:1214
+#: scripts/makepkg.sh.in:1213
 msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "Dodatečně: prosím spusťte makepkg -C mino váš adresář s keší."
+msgstr "Dodatek: prosím spusťte makepkg -C mino váš adresář s keší."
 
-#: scripts/makepkg.sh.in:1220
+#: scripts/makepkg.sh.in:1219
 msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr "Není definován BUILDSCRIPT! Zjistěte aktuální %s."
+msgstr "Není definován BUILDSCRIPT! Zjistěte, zda máte aktuální %s."
 
-#: scripts/makepkg.sh.in:1227
+#: scripts/makepkg.sh.in:1226
 msgid "Running makepkg as root is a BAD idea and can cause"
 msgstr "Spouštění makepkg jako root je ŠPATNÝ nápad a může způsobit"
 
-#: scripts/makepkg.sh.in:1228
+#: scripts/makepkg.sh.in:1227
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "trvalé a katastrofální poškození vašeho systému. Pokud"
 
-#: scripts/makepkg.sh.in:1229
+#: scripts/makepkg.sh.in:1228
 msgid "wish to run as root, please use the --asroot option."
 msgstr "jej chcete spustit jako root, použijte volbu --asroot."
 
-#: scripts/makepkg.sh.in:1233
+#: scripts/makepkg.sh.in:1232
 msgid "The --asroot option is meant for the root user only."
 msgstr "Volba --asroot je určena jen pro uživatele root."
 
-#: scripts/makepkg.sh.in:1234
+#: scripts/makepkg.sh.in:1233
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Prosím spusťte makepkg znovu bez volby --asroot."
 
-#: scripts/makepkg.sh.in:1238
+#: scripts/makepkg.sh.in:1237
 msgid "Fakeroot must be installed if using the 'fakeroot' option"
 msgstr "Nainstalujte si fakeroot, pokud chcete používat volbu 'fakeroot'"
 
-#: scripts/makepkg.sh.in:1239
+#: scripts/makepkg.sh.in:1238
 msgid "in the BUILDENV array in %s."
 msgstr "v poli BUILDENV v %s."
 
-#: scripts/makepkg.sh.in:1243
+#: scripts/makepkg.sh.in:1242
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "Spuštění makepkg jako neprivilegovaný uživatel může mít za následek"
 
-#: scripts/makepkg.sh.in:1244
+#: scripts/makepkg.sh.in:1243
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
-msgstr "vlastnění souborů v balíčku někým jiným než rootem. Používejte fakeroot prostředí"
+msgstr ""
+"vlastnění souborů v balíčku někým jiným než rootem. Používejte fakeroot "
+"prostředí"
 
-#: scripts/makepkg.sh.in:1245
+#: scripts/makepkg.sh.in:1244
 msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
 msgstr "přidáním 'fakeroot' do BUILDENV pole v makepkg.conf."
 
-#: scripts/makepkg.sh.in:1250
+#: scripts/makepkg.sh.in:1249
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr "Nepoužívejte volbu '-F'. Tato volba je použitelná jen pro makepkg."
 
-#: scripts/makepkg.sh.in:1259
+#: scripts/makepkg.sh.in:1258
 msgid "Cannot find the sudo binary! Is sudo installed?"
 msgstr "Nemohu nalézt příkaz sudo! Je sudo nainstalován?"
 
-#: scripts/makepkg.sh.in:1260
+#: scripts/makepkg.sh.in:1259
 msgid "Missing dependencies cannot be installed or removed as a normal user"
 msgstr "Chybějící závislosti nelze nainstalovat nebo odstranit pod běžným uživatelem"
 
-#: scripts/makepkg.sh.in:1261
+#: scripts/makepkg.sh.in:1260
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
 msgstr "bez sudo; nainstalujte a nastavte sudo pro automatické zjišťování závislostí."
 
-#: scripts/makepkg.sh.in:1271
+#: scripts/makepkg.sh.in:1270
 msgid "%s does not exist."
 msgstr "%s neexistuje."
 
-#: scripts/makepkg.sh.in:1286 scripts/makepkg.sh.in:1290
+#: scripts/makepkg.sh.in:1285 scripts/makepkg.sh.in:1289
+#: scripts/makepkg.sh.in:1293
 msgid "%s is not allowed to be empty."
 msgstr "%s nemůže být prázdná."
 
-#: scripts/makepkg.sh.in:1294 scripts/makepkg.sh.in:1298
+#: scripts/makepkg.sh.in:1297 scripts/makepkg.sh.in:1301
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s nemůže obsahovat pomlčky."
 
-#: scripts/makepkg.sh.in:1308 scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1311 scripts/makepkg.sh.in:1316
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s není dostupný pro architekturu '%s'."
 
-#: scripts/makepkg.sh.in:1309 scripts/makepkg.sh.in:1314
+#: scripts/makepkg.sh.in:1312 scripts/makepkg.sh.in:1317
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Poznámka:  mnoho balíčků možná potřebuje přidat řádek do svého %s,"
 
-#: scripts/makepkg.sh.in:1310 scripts/makepkg.sh.in:1315
+#: scripts/makepkg.sh.in:1313 scripts/makepkg.sh.in:1318
 msgid "such as arch=('%s')."
-msgstr "jako například arch=('%s')."
+msgstr "může vypadat takto: arch=('%s')."
 
-#: scripts/makepkg.sh.in:1320
+#: scripts/makepkg.sh.in:1323
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Instalační skript (%s) neexistuje."
 
-#: scripts/makepkg.sh.in:1330
+#: scripts/makepkg.sh.in:1337
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je již sestaven, instaluji existující balíček..."
 
-#: scripts/makepkg.sh.in:1334 scripts/makepkg.sh.in:1366
+#: scripts/makepkg.sh.in:1341 scripts/makepkg.sh.in:1372
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "Balíček je již sestaven. (použijte -f pro přepsání)"
 
-#: scripts/makepkg.sh.in:1343 scripts/makepkg.sh.in:1442
+#: scripts/makepkg.sh.in:1350 scripts/makepkg.sh.in:1449
 msgid "Skipping build."
 msgstr "Přeskakuji sestavování."
 
-#: scripts/makepkg.sh.in:1352
+#: scripts/makepkg.sh.in:1358
 msgid "Leaving fakeroot environment."
 msgstr "Opouštím prostředí fakeroot."
 
-#: scripts/makepkg.sh.in:1356
+#: scripts/makepkg.sh.in:1362
 msgid "Making package: %s"
 msgstr "Vytvářím balíček: %s"
 
-#: scripts/makepkg.sh.in:1359
+#: scripts/makepkg.sh.in:1365
 msgid "Running makepkg as root..."
 msgstr "Spouštím makepkg jako root..."
 
-#: scripts/makepkg.sh.in:1370
+#: scripts/makepkg.sh.in:1376
 msgid "Source package created: %s"
 msgstr "Zdrojový balíček vytvořen: %s"
 
-#: scripts/makepkg.sh.in:1377
+#: scripts/makepkg.sh.in:1383
 msgid "Skipping dependency checks."
 msgstr "Přeskakuji kontrolu závislostí."
 
-#: scripts/makepkg.sh.in:1384
+#: scripts/makepkg.sh.in:1390
 msgid "Checking Runtime Dependencies..."
 msgstr "Kontroluji závislosti potřebné pro běh..."
 
-#: scripts/makepkg.sh.in:1387
+#: scripts/makepkg.sh.in:1393
 msgid "Checking Buildtime Dependencies..."
 msgstr "Kontroluji závislosti potřebné pro sestavení..."
 
-#: scripts/makepkg.sh.in:1391
+#: scripts/makepkg.sh.in:1397
 msgid "Could not resolve all dependencies."
 msgstr "Nemohu vyřešit všechny závislosti."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1401
 msgid "pacman was not found in PATH; skipping dependency checks."
 msgstr "pacman nebyl nalezen v PATH, přeskakuji kontrolu závislostí."
 
-#: scripts/makepkg.sh.in:1409
+#: scripts/makepkg.sh.in:1415
 msgid "Skipping source retrieval        -- using existing src/ tree"
-msgstr "Přeskakuji vyhledávání zdrojů    -- používám existující src/ strom"
+msgstr "Přeskakuji hledání zdrojů        -- používám existující src/ strom"
 
-#: scripts/makepkg.sh.in:1410
+#: scripts/makepkg.sh.in:1416
 msgid "Skipping source integrity checks -- using existing src/ tree"
 msgstr "Přeskakuji kontrolu integrity    -- používám existující src/ strom"
 
-#: scripts/makepkg.sh.in:1411
+#: scripts/makepkg.sh.in:1417
 msgid "Skipping source extraction       -- using existing src/ tree"
 msgstr "Přeskakuji rozbalování zdrojů    -- používám existující src/ strom"
 
-#: scripts/makepkg.sh.in:1414
+#: scripts/makepkg.sh.in:1420
 msgid "The source directory is empty, there is nothing to build!"
-msgstr "Zdrojový adresář je prázdný, není zde nic k sestavení!"
+msgstr "Zdrojový adresář je prázdný, není co sestavovat!"
 
-#: scripts/makepkg.sh.in:1418
+#: scripts/makepkg.sh.in:1424
 msgid "The package directory is empty, there is nothing to repackage!"
-msgstr "Adresář s balíčkem je prázdný, není zde nic k opětovnému zabalení!"
+msgstr "Adresář s balíčkem je prázdný, není nic k opětovnému zabalení!"
 
-#: scripts/makepkg.sh.in:1429
+#: scripts/makepkg.sh.in:1435
 msgid "Sources are ready."
 msgstr "Zdroje jsou připraveny."
 
-#: scripts/makepkg.sh.in:1434
+#: scripts/makepkg.sh.in:1440
 msgid "Removing existing pkg/ directory..."
 msgstr "Odstraňuji existující pkg/ adresář..."
 
-#: scripts/makepkg.sh.in:1451
+#: scripts/makepkg.sh.in:1458
 msgid "Entering fakeroot environment..."
 msgstr "Vstupuji do fakeroot prostředí..."
 
-#: scripts/makepkg.sh.in:1464
+#: scripts/makepkg.sh.in:1470
 msgid "Finished making: %s"
 msgstr "Dokončeno vytváření: %s"
 
-#: scripts/pacman-optimize.sh.in:44
+#: scripts/pacman-optimize.sh.in:42
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Použití: %s [kořen_databáze_pacmana]"
 
-#: scripts/pacman-optimize.sh.in:45
+#: scripts/pacman-optimize.sh.in:43
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
-"pacman-optimize je malý hack, který pomáhá zlepšit výkon pacmana\\n"
-"při čtení/zápisu do jeho databáze na bázi souborového systému.\\n\\n"
+"pacman-optimize je malý hack, který pomáhá zlepšit výkon pacmana\\npři čtení a "
+"zápisu do jeho databáze na bázi souborového systému.\\n\\n"
 
-#: scripts/pacman-optimize.sh.in:48
+#: scripts/pacman-optimize.sh.in:46
 msgid ""
 "Because pacman uses many small files to keep track of packages,\\nthere is a "
 "tendency for these files to become fragmented over time.\\nThis script "
@@ -1834,185 +1831,189 @@ msgid ""
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
 msgstr ""
-"Protože pacman používá mnoho malých souborů pro udržování informací\\n"
-"o balíčcích, má tendenci v průběhu času tyto soubory fragmentovat.\\n"
-"Tento skript se pokouší přemístit tyto malé soubory do jedné souvislé\\n"
-"oblasti na disku. Ve výsledku by měl disk být schopen číst tyto soubory\\n"
-"rychleji, protože hlavičky disku se nemusí tak často přesouvat.\\n"
+"Protože pacman používá mnoho malých souborů pro udržování informací\\no "
+"balíčcích, má tendenci v průběhu času tyto soubory fragmentovat.\\nTento "
+"skript se pokouší přemístit tyto malé soubory do jedné souvislé\\noblasti na "
+"disku. Ve výsledku by měl disk být schopen číst tyto soubory\\nrychleji, "
+"protože hlavičky disku se nemusí tak často přesouvat.\\n"
 
-#: scripts/pacman-optimize.sh.in:91
+#: scripts/pacman-optimize.sh.in:89
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff nebyl nalezen, prosím nainstalujte diffutils."
 
-#: scripts/pacman-optimize.sh.in:96
+#: scripts/pacman-optimize.sh.in:94
 msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Byl nalezen zámek pacman. Nelze pokračovat, pokud pacman běží."
+msgstr "Byl nalezen zámek pacmana. Nelze pokračovat, pokud pacman běží."
 
-#: scripts/pacman-optimize.sh.in:104
+#: scripts/pacman-optimize.sh.in:98
+msgid "%s does not exist or is not a directory."
+msgstr "%s neexistuje, nebo není adresář."
+
+#: scripts/pacman-optimize.sh.in:102
 msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mít správná oprávnění k optimalizaci databáze."
 
-#: scripts/pacman-optimize.sh.in:108
+#: scripts/pacman-optimize.sh.in:106
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "CHYBA: Nemohu vytvořit dočasný adresář pro sestavení databáze."
 
-#: scripts/pacman-optimize.sh.in:114
+#: scripts/pacman-optimize.sh.in:112
 msgid "MD5sum'ing the old database..."
 msgstr "Počítám MD5 součet staré databáze..."
 
-#: scripts/pacman-optimize.sh.in:118
+#: scripts/pacman-optimize.sh.in:116
 msgid "Tar'ing up %s..."
 msgstr "Zabaluji %s pomocí tar..."
 
-#: scripts/pacman-optimize.sh.in:123
+#: scripts/pacman-optimize.sh.in:121
 msgid "Tar'ing up %s failed."
 msgstr "Zabalování %s pomocí tar selhalo."
 
-#: scripts/pacman-optimize.sh.in:127
+#: scripts/pacman-optimize.sh.in:125
 msgid "Making and MD5sum'ing the new db..."
 msgstr "Vytvářím a počítám MD5 součet nové databáze..."
 
-#: scripts/pacman-optimize.sh.in:132
+#: scripts/pacman-optimize.sh.in:130
 msgid "Untar'ing %s failed."
 msgstr "Rozbalování %s pomocí tar selhalo."
 
-#: scripts/pacman-optimize.sh.in:138
+#: scripts/pacman-optimize.sh.in:136
 msgid "Checking integrity..."
 msgstr "Kontroluji integritu..."
 
-#: scripts/pacman-optimize.sh.in:144
+#: scripts/pacman-optimize.sh.in:142
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Kontrola integrity SELHALA, vracím se ke staré databázi."
 
-#: scripts/pacman-optimize.sh.in:149
+#: scripts/pacman-optimize.sh.in:147
 msgid "Putting the new database in place..."
 msgstr "Umisťuji novou databázi na místo..."
 
-#: scripts/pacman-optimize.sh.in:158
+#: scripts/pacman-optimize.sh.in:156
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Dokončeno. Vaše databáze pacmana byla optimalizována."
 
-#: scripts/pacman-optimize.sh.in:159
+#: scripts/pacman-optimize.sh.in:157
 msgid "For full benefits of pacman-optimize, run 'sync' now."
 msgstr "Pro plné využití výhod pacman-optimize, spusťte nyní 'sync'."
 
-#: scripts/repo-add.sh.in:56
+#: scripts/repo-add.sh.in:57
 msgid "Usage: %s <path-to-db> [--force] <package> ...\\n\\n"
 msgstr "Použití: %s <cesta-k-databázi> [--force] <balíček> ...\\n\\n"
 
-#: scripts/repo-add.sh.in:57
+#: scripts/repo-add.sh.in:58
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n\\n"
 msgstr ""
-"repo-add aktualizuje databázi balíčků pomocí čtení pomocí souboru balíčků."
+"repo-add aktualizuje databázi balíčků pomocí čtení souboru balíčku."
 "\\nNa příkazové řádce může být uvedeno více balíčků pro přidání.\\n\\n"
 
-#: scripts/repo-add.sh.in:60
+#: scripts/repo-add.sh.in:61
 msgid ""
 "The --force flag will add a 'force' entry to the sync database, which"
 "\\ntells pacman to skip its internal version number checking and update"
 "\\nthe package regardless.\\n\\n"
 msgstr ""
-"Přepínač --force přidává záznam 'vynucení' do aktualizované databáze,"
-"\\nten znamená, že pacman přeskakuje svoji interní kontrolu verze a"
-"\\na za všech okolností aktualizuje balíček.\\n\\n"
+"Přepínač --force přidává záznam 'vynucení' do aktualizované databáze,\\nten "
+"znamená, že pacman přeskakuje svoji interní kontrolu verze a\\na za všech "
+"okolností aktualizuje balíček.\\n\\n"
 
-#: scripts/repo-add.sh.in:64
+#: scripts/repo-add.sh.in:65
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Příklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
-#: scripts/repo-add.sh.in:69
+#: scripts/repo-add.sh.in:70
 msgid ""
 "Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\nToto je svobodný "
-"software; více o podmínkách použití naleznete ve drojovém kódu.\\n"
-"Ze zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY."
+"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\nToto je "
+"svobodný software; více o podmínkách použití naleznete ve zdrojovém kódu."
+"\\nZe zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY."
 
-#: scripts/repo-add.sh.in:173
+#: scripts/repo-add.sh.in:174
 msgid "Invalid package file '%s'."
 msgstr "Neplatný soubor balíčku '%s'."
 
-#: scripts/repo-add.sh.in:182 scripts/repo-remove.sh.in:91
+#: scripts/repo-add.sh.in:183 scripts/repo-remove.sh.in:89
 msgid "Removing existing package '%s'..."
 msgstr "Odstraňuji existující balíček '%s'..."
 
-#: scripts/repo-add.sh.in:192
+#: scripts/repo-add.sh.in:193
 msgid "Creating 'desc' db entry..."
-msgstr "Vytvářím desc' záznam databáze..."
+msgstr "Vytvářím 'desc' záznam databáze..."
 
-#: scripts/repo-add.sh.in:202
+#: scripts/repo-add.sh.in:203
 msgid "Computing md5 checksums..."
-msgstr "Počítám md5 kontrolní součet..."
+msgstr "Počítám MD5 kontrolní součet..."
 
-#: scripts/repo-add.sh.in:214
+#: scripts/repo-add.sh.in:215
 msgid "Creating 'depends' db entry..."
 msgstr "Vytvářím 'depends' záznam databáze..."
 
-#: scripts/repo-add.sh.in:230
+#: scripts/repo-add.sh.in:231
 msgid "Creating 'deltas' db entry..."
 msgstr "Vytvářím 'deltas' záznam databáze..."
 
-#: scripts/repo-add.sh.in:236
+#: scripts/repo-add.sh.in:237
 msgid "Added delta '%s'"
 msgstr "Přidávám rozdíl '%s'"
 
-#: scripts/repo-add.sh.in:238
+#: scripts/repo-add.sh.in:239
 msgid "Could not add delta '%s'"
 msgstr "Nemohu přidat rozdíl '%s'"
 
-#: scripts/repo-add.sh.in:276 scripts/repo-remove.sh.in:123
+#: scripts/repo-add.sh.in:277 scripts/repo-remove.sh.in:121
 msgid "%s not found. Cannot continue."
 msgstr "%s nenalezen. Nemohu pokračovat."
 
-#: scripts/repo-add.sh.in:286 scripts/repo-remove.sh.in:133
+#: scripts/repo-add.sh.in:287 scripts/repo-remove.sh.in:131
 msgid "Cannot create temp directory for database building."
 msgstr "Nemohu vytvořit dočasný adresář pro sestavení databáze."
 
-#: scripts/repo-add.sh.in:297 scripts/repo-remove.sh.in:142
+#: scripts/repo-add.sh.in:298 scripts/repo-remove.sh.in:140
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Soubor repositáře '%s' není vhodná databáze pacmana."
 
-#: scripts/repo-add.sh.in:300 scripts/repo-remove.sh.in:145
+#: scripts/repo-add.sh.in:301 scripts/repo-remove.sh.in:143
 msgid "Extracting database to a temporary location..."
 msgstr "Rozbaluji databázi do dočasného umístění..."
 
-#: scripts/repo-add.sh.in:306
+#: scripts/repo-add.sh.in:307
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' není soubor balíčku, přeskakuji"
 
-#: scripts/repo-add.sh.in:308
+#: scripts/repo-add.sh.in:309
 msgid "Adding package '%s'"
 msgstr "Přidávám balíček '%s'"
 
-#: scripts/repo-add.sh.in:315
+#: scripts/repo-add.sh.in:316
 msgid "Package '%s' not found."
 msgstr "Balíček '%s' nenalezen."
 
-#: scripts/repo-add.sh.in:322
+#: scripts/repo-add.sh.in:323
 msgid "Creating updated database file %s"
 msgstr "Vytvářím aktualizovaný soubor databáze %s"
 
-#: scripts/repo-add.sh.in:332 scripts/repo-remove.sh.in:170
+#: scripts/repo-add.sh.in:333 scripts/repo-remove.sh.in:168
 msgid "No compression set."
 msgstr "Žádná komprese."
 
-#: scripts/repo-add.sh.in:340 scripts/repo-remove.sh.in:178
+#: scripts/repo-add.sh.in:341 scripts/repo-remove.sh.in:176
 msgid "No packages modified, nothing to do."
 msgstr "Nebyl změněn žádný balíček, není co dělat."
 
-#: scripts/repo-remove.sh.in:55
+#: scripts/repo-remove.sh.in:53
 msgid "repo-remove %s\\n\\n"
 msgstr "repo-remove %s\\n\\n"
 
-#: scripts/repo-remove.sh.in:56
+#: scripts/repo-remove.sh.in:54
 msgid "usage: %s <path-to-db> <packagename> ...\\n\\n"
 msgstr "použití: %s <cesta-k-databázi> <jménoBalíčku> ...\\n\\n"
 
-#: scripts/repo-remove.sh.in:57
+#: scripts/repo-remove.sh.in:55
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
@@ -2022,27 +2023,27 @@ msgstr ""
 "\\nuvedeného na příkazové řádce z dané databáze. Na příkazové řádce může"
 "\\nbýt uvedeno více balíčků pro odebrání.\\n\\n"
 
-#: scripts/repo-remove.sh.in:61
+#: scripts/repo-remove.sh.in:59
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Příklad:  repo-remove /cesta/k/repo.db.tar.gz kernel26"
 
-#: scripts/repo-remove.sh.in:149
+#: scripts/repo-remove.sh.in:147
 msgid "Searching for package '%s'..."
 msgstr "Vyhledávám balíček '%s'..."
 
-#: scripts/repo-remove.sh.in:154
+#: scripts/repo-remove.sh.in:152
 msgid "Package matching '%s' not found."
 msgstr "Balíček odpovídající '%s' nenalezen."
 
-#: scripts/repo-remove.sh.in:161
+#: scripts/repo-remove.sh.in:159
 msgid "Creating updated database file '%s'..."
 msgstr "Vytvářím aktualizovaný soubor databáze '%s'..."
 
-#: scripts/updatesync.sh.in:35
+#: scripts/updatesync.sh.in:33
 msgid "Usage: %s <action> <destfile> <option> [package_directory]"
 msgstr "Použití: %s <akce> <cílový_soubor> <volba> [adresář_balíčků]"
 
-#: scripts/updatesync.sh.in:36
+#: scripts/updatesync.sh.in:34
 msgid ""
 "updatesync will update a sync database by reading a PKGBUILD and\\nmodifying "
 "the destfile. updatesync updates the database in a temporary\\ndirectory and "
@@ -2052,55 +2053,51 @@ msgstr ""
 "cílového souboru. updatesync aktualizuje databázi v dočasném\\nadresáři a "
 "pak ji komprimuje do <cílový_soubor>.\\n\\n"
 
-#: scripts/updatesync.sh.in:40
+#: scripts/updatesync.sh.in:38
 msgid "There are two types of actions:\\n\\n"
 msgstr "Jsou dva typy akcí:\\n\\n"
 
-#: scripts/updatesync.sh.in:41
+#: scripts/updatesync.sh.in:39
 msgid ""
 "upd - Will update a package's entry or create it if it doesn't exist."
 "\\n      It takes the package's PKGBUILD as an option.\\n"
 msgstr ""
-"upd - Aktualizuje záznamy balíčků nebo je vytváří, pokud neexistují."
-"\\n      Jako volbu bere PKGBUILDy balíčků.\\n"
+"upd - Aktualizuje záznamy balíčků nebo je vytváří, pokud neexistují.\\n      "
+"Jako volby bere PKGBUILDy balíčků.\\n"
 
-#: scripts/updatesync.sh.in:42
+#: scripts/updatesync.sh.in:40
 msgid ""
 "del - Will remove a package's entry from the db. It takes the package's"
 "\\n      name as an option.\\n"
 msgstr "del - Odstraňuje záznamy balíčků z databáze. Jako volby bere jejich jména.\\n"
 
-#: scripts/updatesync.sh.in:44
+#: scripts/updatesync.sh.in:42
 msgid ""
 "updatesync will calculate md5sums of packages in the same directory as"
 "\\n<destfile>, unless an alternate [package_directory] is specified.\\n\\n"
 msgstr ""
-"updatesync počítá md5 součty balíčků ve stejném adresáři, ve jako je"
+"updatesync počítá MD5 součty balíčků ve stejném adresáři, ve jako je"
 "\\n<cílový_soubor>, pokud není nastaven jiný [adresář_balíčků].\\n\\n"
 
-#: scripts/updatesync.sh.in:47
+#: scripts/updatesync.sh.in:45
 msgid "Example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
 msgstr "Příklad:  updatesync upd /home/moje_balíčky/vlastní.db.tar.gz PKGBUILD"
 
-#: scripts/updatesync.sh.in:53
+#: scripts/updatesync.sh.in:50
 msgid ""
 "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
 "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\\n\\nToto je svobodný "
-"software; více o podmínkách použití naleznete ve zdrojovém kódu.\\n"
-"Ze zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY.\\n"
+"software; více o podmínkách použití naleznete ve zdrojovém kódu.\\nZe zákona "
+"nejsou poskytovány ŽÁDNÉ ZÁRUKY.\\n"
 
-#: scripts/updatesync.sh.in:123
+#: scripts/updatesync.sh.in:120
 msgid "%s not found"
 msgstr "%s nenalezen"
 
-#: scripts/updatesync.sh.in:129
-msgid "failed to parse %s"
-msgstr "selhalo zpracování %s"
-
-#: scripts/updatesync.sh.in:136
-msgid "could not find %s-%s-%s-%s.%s - aborting"
-msgstr "nemohu nalézt %s-%s-%s-%s.%s - ruším"
+#: scripts/updatesync.sh.in:133
+msgid "could not find %s-%s-%s-%s%s - aborting"
+msgstr "nemohu nalézt %s-%s-%s-%s%s - ruším"
 
