@@ -315,7 +315,6 @@ src/util/Makefile
 scripts/Makefile
 doc/Makefile
 etc/Makefile
-etc/pacman.d/Makefile
 po/Makefile.in
 pactest/Makefile
 contrib/Makefile

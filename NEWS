@@ -1,5 +1,19 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.1.1         - fix versioned provisions handling- use '=' instead of ' ' which
+                differs from original spec but better in long run (FS#9171)
+              - rename query --orphans to --unrequired (FS#9144)
+              - fix segfault when cachedir is unusable (FS#9186)
+              - missing SYMEXPORT on libalpm functions (FS#9155)
+              - notify of package replacements when using --noconfirm (FS#5179)
+              - fix usage of PKGEXT by gensync/updatesync (FS#9190)
+              - ensure correct dir permissions in database (FS#9176)
+              - ensure /tmp is created with correct permissions (FS#9183)
+              - disallow NULL section in parseconfig (reported on forums)
+              - remove Arch-specific pacman.conf and mirrorlist from source
+              - makepkg: --holdver option for devel PKGBUILDs (FS#9194)
+              - documentation updates (FS# 9142, 9146, 9175, 9192, 9204)
+              - many translation updates
 3.1.0         - paths are now specified as absolute paths (or defaulting to
                 under the specified root directory)
               - all paths can be specified in pacman.conf or on command line

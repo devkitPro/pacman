@@ -47,6 +47,9 @@ Options
 	Set the default root directory for pacman to install to. This option is
 	used if you want to install a package on a temporary mounted partition
 	which is "owned" by another system, or for a chroot install.
+	*NOTE*: If database path or logfile are not specified on either the
+	command line or in linkman:pacman.conf[5], their default location will
+	be inside this root path.
 
 *DBPath =* path/to/db/dir::
 	Overrides the default location of the toplevel database directory.  A
@@ -59,9 +62,9 @@ Options
 	default is ``/var/cache/pacman/pkg/''. Multiple cache directories can be
 	specified, and they are tried in the order they are listed in the config
 	file. If a file is not found in any cache directory, it will be downloaded
-	to the first cache directory with write access. *NOTE*: if specified, this
-	is an absolute path and the root path is not automatically prepended. This
-	behavior changed in pacman 3.1.0.
+	to the first cache directory with write access. *NOTE*: this is an absolute
+	path, the root path is not automatically prepended. This behavior changed
+	in pacman 3.1.0.
 
 
 *LogFile =* '/path/to/file'::
