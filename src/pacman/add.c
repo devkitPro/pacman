@@ -146,7 +146,7 @@ int pacman_add(alpm_list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
-					printf(_(":: %s: conflicts with %s"),
+					printf(_(":: %s: conflicts with %s\n"),
 						alpm_conflict_get_package1(conflict), alpm_conflict_get_package2(conflict));
 				}
 				break;
