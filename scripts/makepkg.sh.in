@@ -1187,7 +1187,7 @@ done
 if [ "$HOLDVER" = "1" -a "$FORCE_VER" != "" ]; then
 	# The extra '--' is here to prevent gettext from thinking --holdver is
 	# an option
-	error "$(gettext -- "--holdver and --forcever cannot both be specified")"
+	error "$(gettext "\\0--holdver and --forcever cannot both be specified" )"
 	exit 1
 fi
 
