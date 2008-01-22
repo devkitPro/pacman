@@ -233,11 +233,6 @@ class pmtest:
         vprint("\tretcode = %s" % self.retcode)
         os.chdir(curdir)
 
-        # Check if pacman failed because of bad permissions
-        if self.retcode and not pacman["nolog"] \
-           and grep(os.path.join(self.root, LOGFILE),
-                    "you cannot perform this operation unless you are root"):
-            print "\tERROR: pacman support for fakeroot is not disabled"
         # Check if the lock is still there
         if os.path.isfile(PM_LOCK):
             print "\tERROR: %s not removed" % PM_LOCK
