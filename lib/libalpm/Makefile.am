@@ -26,6 +26,7 @@ libalpm_la_SOURCES = \
 	alpm_list.h alpm_list.c \
 	backup.h backup.c \
 	be_files.c \
+	be_package.c \
 	cache.h cache.c \
 	conflict.h conflict.c \
 	db.h db.c \
