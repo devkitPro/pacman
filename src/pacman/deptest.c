@@ -31,53 +31,23 @@
 #include "util.h"
 #include "conf.h"
 
-/* TODO: This should use _alpm_checkdeps() */
 int pacman_deptest(alpm_list_t *targets)
 {
-	int retval = 0;
 	alpm_list_t *i;
 
-	if(targets == NULL) {
+	alpm_list_t *deps = alpm_deptest(alpm_option_get_localdb(), targets);
+	if(deps == NULL) {
 		return(0);
 	}
 
-	for(i = targets; i; i = alpm_list_next(i)) {
-		int found = 0;
-		pmpkg_t *pkg;
-		pmdepend_t *dep;
-		const char *target;
-		alpm_list_t *j, *provides;
+	for(i = deps; i; i = alpm_list_next(i)) {
+		const char *dep;
 
-		target = alpm_list_getdata(i);
-		dep = alpm_splitdep(target);
-
-		pkg = alpm_db_get_pkg(alpm_option_get_localdb(),
-				alpm_dep_get_name(dep));
-		if(pkg && alpm_depcmp(pkg, dep)) {
-			found = 1;
-		} else {
-			/* not found, can we find anything that provides this in the local DB? */
-			provides = alpm_db_whatprovides(alpm_option_get_localdb(),
-					alpm_dep_get_name(dep));
-			for(j = provides; j; j = alpm_list_next(j)) {
-				pmpkg_t *pkg;
-				pkg = alpm_list_getdata(j);
-
-				if(pkg && alpm_depcmp(pkg, dep)) {
-					found = 1;
-					break;
-				}
-			}
-			alpm_list_free(provides);
-		}
-
-		if(!found) {
-			printf("%s\n", target);
-			retval = 127;
-		}
-		free(dep);
+		dep = alpm_list_getdata(i);
+		printf("%s\n", dep);
 	}
-	return(retval);
+	alpm_list_free(deps);
+	return(127);
 }
 
 /* vim: set ts=2 sw=2 noet: */

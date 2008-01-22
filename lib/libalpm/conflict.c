@@ -93,7 +93,7 @@ static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
 {
 	const char *pkg1name = alpm_pkg_get_name(pkg1);
 	const char *pkg2name = alpm_pkg_get_name(pkg2);
-	pmdepend_t *conf = alpm_splitdep(conflict);
+	pmdepend_t *conf = _alpm_splitdep(conflict);
 	int match = 0;
 
 	match = alpm_depcmp(pkg2, conf);

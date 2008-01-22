@@ -56,7 +56,9 @@ void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
-                      alpm_list_t **list, alpm_list_t *remove, pmtrans_t *trans, alpm_list_t **data);
+		alpm_list_t **list, alpm_list_t *remove, pmtrans_t *trans, alpm_list_t
+		**data);
+pmdepend_t *_alpm_splitdep(const char *depstring);
 
 #endif /* _ALPM_DEPS_H */
 

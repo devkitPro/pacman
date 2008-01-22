@@ -458,7 +458,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			_alpm_strtrim(line);
 			if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-					pmdepend_t *dep = alpm_splitdep(_alpm_strtrim(line));
+					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
 					info->depends = alpm_list_add(info->depends, dep);
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {

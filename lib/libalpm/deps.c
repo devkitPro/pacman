@@ -226,6 +226,31 @@ static int satisfycmp(const void *pkg, const void *depend)
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
  * @param db pointer to the local package database
+ * @param targets an alpm_list_t* of dependencies strings to satisfy
+ * @return an alpm_list_t* of missing dependencies strings
+ */
+alpm_list_t SYMEXPORT *alpm_deptest(pmdb_t *db, alpm_list_t *targets)
+{
+	alpm_list_t *i, *ret = NULL;
+
+	for(i = targets; i; i = alpm_list_next(i)) {
+		pmdepend_t *dep;
+		char *target;
+
+		target = alpm_list_getdata(i);
+		dep = _alpm_splitdep(target);
+
+		if(!alpm_list_find(_alpm_db_get_pkgcache(db), dep, satisfycmp)) {
+			ret = alpm_list_add(ret, target);
+		}
+		_alpm_dep_free(dep);
+	}
+	return(ret);
+}
+
+/** Checks dependencies and returns missing ones in a list.
+ * Dependencies can include versions with depmod operators.
+ * @param db pointer to the local package database
  * @param reversedeps handles the backward dependencies
  * @param remove an alpm_list_t* of packages to be removed
  * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
@@ -364,7 +389,7 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 	return(satisfy);
 }
 
-pmdepend_t SYMEXPORT *alpm_splitdep(const char *depstring)
+pmdepend_t *_alpm_splitdep(const char *depstring)
 {
 	pmdepend_t *depend;
 	char *ptr = NULL;

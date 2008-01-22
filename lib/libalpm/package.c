@@ -962,7 +962,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				/* size in the raw package is uncompressed (installed) size */
 				info->isize = atol(ptr);
 			} else if(!strcmp(key, "depend")) {
-				pmdepend_t *dep = alpm_splitdep(ptr);
+				pmdepend_t *dep = _alpm_splitdep(ptr);
 				info->depends = alpm_list_add(info->depends, dep);
 			} else if(!strcmp(key, "optdepend")) {
 				info->optdepends = alpm_list_add(info->optdepends, strdup(ptr));

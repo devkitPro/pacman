@@ -1,20 +1,16 @@
 self.description = "test deptest (-T) functionality"
 
-sp1 = pmpkg("pkg1")
-sp1.depends = ["dep"]
-self.addpkg2db("sync", sp1)
+lp1 = pmpkg("pkg1")
+self.addpkg2db("local", lp1)
 
-sp1dep = pmpkg("dep")
-self.addpkg2db("sync", sp1dep)
+lp3 = pmpkg("pkg3", "2.0-1")
+lp3.provides = ("prov=3.0")
+self.addpkg2db("local", lp3)
 
-sp2 = pmpkg("pkg2")
-self.addpkg2db("sync", sp2)
-
-lp2 = pmpkg("pkg2")
-self.addpkg2db("local", lp2)
-
-self.args = "-T pkg1 pkg2"
+self.args = "-T pkg1 pkg2 pkg3\>2.1 prov\>\=3.0"
 
 self.addrule("PACMAN_RETCODE=127")
-self.addrule("PACMAN_OUTPUT=pkg1")
-self.addrule("!PACMAN_OUTPUT=pkg2")
+self.addrule("!PACMAN_OUTPUT=pkg1")
+self.addrule("PACMAN_OUTPUT=pkg2")
+self.addrule("PACMAN_OUTPUT=pkg3")
+self.addrule("!PACMAN_OUTPUT=prov")
