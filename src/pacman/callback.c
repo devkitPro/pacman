@@ -285,7 +285,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 						alpm_pkg_get_name(data2));
 				*response = yesno(str);
 			} else {
-				printf(_("Replacing %s with %s/%s\n."),
+				printf(_("Replacing %s with %s/%s\n"),
 						alpm_pkg_get_name(data1),
 						(char *)data3,
 						alpm_pkg_get_name(data2));

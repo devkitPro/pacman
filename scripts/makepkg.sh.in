@@ -464,6 +464,12 @@ download_sources() {
 			continue
 		fi
 
+		# if we get here, check to make sure it was a URL, else fail
+		if [ "$file" = "$netfile" ]; then
+			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$netfile"
+			exit 1 # $E_MISSING_FILE
+		fi
+
 		# find the client we should use for this URL
 		local dlclient=$(get_downloadclient $netfile) || exit $?
 
@@ -1181,7 +1187,7 @@ done
 if [ "$HOLDVER" = "1" -a "$FORCE_VER" != "" ]; then
 	# The extra '--' is here to prevent gettext from thinking --holdver is
 	# an option
-	error "$(gettext -- "--holdver and --forcever cannot both be specified")"
+	error "$(gettext "\\0--holdver and --forcever cannot both be specified" )"
 	exit 1
 fi
 
