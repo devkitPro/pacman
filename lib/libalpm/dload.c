@@ -70,8 +70,7 @@ static struct url *url_for_file(const char *url, const char *filename)
 
 /* TODO temporary private declaration */
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, time_t mtime1, time_t *mtime2, int *dl_total,
-	unsigned long totalsize);
+	alpm_list_t *files, time_t mtime1, time_t *mtime2);
 
 
 /* TODO implement these as real functions */
@@ -86,7 +85,7 @@ int _alpm_download_single_file(const char *filename,
 	files = alpm_list_add(files, (char*)filename);
 
 	ret = _alpm_downloadfiles_forreal(servers, localpath,
-			files, mtimeold, mtimenew, NULL, 0);
+			files, mtimeold, mtimenew);
 
 	/* free list (data was NOT duplicated) */
 	alpm_list_free(files);
@@ -99,7 +98,7 @@ int _alpm_download_files(alpm_list_t *files,
 	int ret;
 
 	ret = _alpm_downloadfiles_forreal(servers, localpath,
-			files, 0, NULL, NULL, 0);
+			files, 0, NULL);
 
 	return(ret);
 }
@@ -112,19 +111,13 @@ int _alpm_download_files(alpm_list_t *files,
  *     than mtime1.
  *   - if *mtime2 is non-NULL, it will be filled with the mtime of the remote
  *     file.
- *   - if *dl_total is non-NULL, then it will be used as the starting
- *     download amount when TotalDownload is set. It will also be
- *     set to the final download amount for the calling function to use.
- *   - totalsize is the total download size for use when TotalDownload
- *     is set. Use 0 if the total download size is not known.
  *
  * RETURN:  0 for successful download
  *          1 if the mtimes are identical
  *         -1 on error
  */
 int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, time_t mtime1, time_t *mtime2, int *dl_total,
-	unsigned long totalsize)
+	alpm_list_t *files, time_t mtime1, time_t *mtime2)
 {
 	int dl_thisfile = 0;
 	alpm_list_t *lp;
@@ -177,9 +170,6 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 					_alpm_log(PM_LOG_DEBUG, "existing file found, using it\n");
 					fileurl->offset = (off_t)st.st_size;
 					dl_thisfile = st.st_size;
-					if (dl_total != NULL) {
-						*dl_total += st.st_size;
-					}
 					localf = fopen(output, "a");
 					chk_resume = 1;
 				} else {
@@ -256,8 +246,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 				/* Progress 0 - initialize */
 				if(handle->dlcb) {
-					handle->dlcb(pkgname, 0, ust.size, dl_total ? *dl_total : 0,
-							totalsize);
+					handle->dlcb(pkgname, 0, ust.size);
 				}
 
 				int nread = 0;
@@ -289,13 +278,9 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 
 					}
 					dl_thisfile += nread;
-					if (dl_total != NULL) {
-						*dl_total += nread;
-					}
 
 					if(handle->dlcb) {
-						handle->dlcb(pkgname, dl_thisfile, ust.size,
-								dl_total ? *dl_total : 0, totalsize);
+						handle->dlcb(pkgname, dl_thisfile, ust.size);
 					}
 				}
 
