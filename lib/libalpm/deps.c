@@ -400,7 +400,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 	}
 	STRDUP(newstr, depstring, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	CALLOC(depend, sizeof(pmdepend_t), 1, RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(depend, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
@@ -445,7 +445,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
 {
 	pmdepend_t *newdep;
-	CALLOC(newdep, sizeof(pmdepend_t), 1, RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(newdep, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	STRDUP(newdep->name, dep->name, RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(newdep->version, dep->version, RET_ERR(PM_ERR_MEMORY, NULL));
