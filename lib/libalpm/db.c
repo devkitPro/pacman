@@ -33,6 +33,7 @@
 #include <dirent.h>
 #include <regex.h>
 #include <time.h>
+#include <download.h> /* downloadLastErrString among others. kill this */
 
 /* libalpm */
 #include "db.h"
@@ -41,6 +42,7 @@
 #include "util.h"
 #include "error.h"
 #include "server.h"
+#include "dload.h"
 #include "handle.h"
 #include "cache.h"
 #include "alpm.h"

@@ -45,6 +45,7 @@
 #include "handle.h"
 #include "alpm.h"
 #include "server.h"
+#include "dload.h"
 #include "delta.h"
 
 pmsyncpkg_t *_alpm_sync_new(pmpkgreason_t newreason, pmpkg_t *spkg, alpm_list_t *removes)
