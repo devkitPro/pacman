@@ -911,7 +911,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	pmtrans_t *tr = NULL;
 	int replaces = 0, retval = 0;
 	const char *cachedir = NULL;
-	int dltotal = 0, dl = 0;
+	int dltotal = 0;
 
 	ALPM_LOG_FUNC;
 
@@ -992,7 +992,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		if(files) {
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
-			if(_alpm_downloadfiles(current->servers, cachedir, files, &dl, dltotal)) {
+			if(_alpm_download_files(files, current->servers, cachedir)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
 				RET_ERR(PM_ERR_RETRIEVE, -1);

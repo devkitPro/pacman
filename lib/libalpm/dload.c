@@ -79,23 +79,42 @@ static struct url *url_for_file(pmserver_t *server, const char *filename)
 	return(ret);
 }
 
-/*
- * Download a list of files from a list of servers
- *   - if one server fails, we try the next one in the list
- *   - if *dl_total is non-NULL, then it will be used as the starting
- *     download amount when TotalDownload is set. It will also be
- *     set to the final download amount for the calling function to use.
- *   - totalsize is the total download size for use when TotalDownload
- *     is set. Use 0 if the total download size is not known.
- *
- * RETURN:  0 for successful download, 1 on error
- */
-int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
-		alpm_list_t *files, int *dl_total, unsigned long totalsize)
+/* TODO temporary private declaration */
+int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
+	alpm_list_t *files, time_t mtime1, time_t *mtime2, int *dl_total,
+	unsigned long totalsize);
+
+
+/* TODO implement these as real functions */
+int _alpm_download_single_file(const char *filename,
+		alpm_list_t *servers, const char *localpath,
+		time_t mtimeold, time_t *mtimenew)
 {
-	return(_alpm_downloadfiles_forreal(servers, localpath, files, 0, NULL,
-				dl_total, totalsize));
+	alpm_list_t *files = NULL;
+	int ret;
+
+	/* make a temp one element list */
+	files = alpm_list_add(files, (char*)filename);
+
+	ret = _alpm_downloadfiles_forreal(servers, localpath,
+			files, mtimeold, mtimenew, NULL, 0);
+
+	/* free list (data was NOT duplicated) */
+	alpm_list_free(files);
+	return(ret);
 }
+
+int _alpm_download_files(alpm_list_t *files,
+		alpm_list_t *servers, const char *localpath)
+{
+	int ret;
+
+	ret = _alpm_downloadfiles_forreal(servers, localpath,
+			files, 0, NULL, NULL, 0);
+
+	return(ret);
+}
+
 
 /*
  * This is the real downloadfiles, used directly by sync_synctree() to check
@@ -402,15 +421,13 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 
 	/* TODO this seems like needless complexity just to download one file */
 	alpm_list_t *servers = alpm_list_add(NULL, server);
-	alpm_list_t *files = alpm_list_add(NULL, filename);
 
 	/* download the file */
-	if(_alpm_downloadfiles(servers, cachedir, files, NULL, 0)) {
+	if(_alpm_download_single_file(filename, servers, cachedir, 0, NULL)) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return(NULL);
 	}
 	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", filename);
-	alpm_list_free(files);
 	alpm_list_free(servers);
 	_alpm_server_free(server);
 

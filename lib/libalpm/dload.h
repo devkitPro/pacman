@@ -27,11 +27,12 @@
 
 #define PM_DLBUF_LEN (1024 * 10)
 
-int _alpm_downloadfiles(alpm_list_t *servers, const char *localpath,
-		alpm_list_t *files, int *dl_total, unsigned long totalsize);
-int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
-	alpm_list_t *files, time_t mtime1, time_t *mtime2, int *dl_total,
-	unsigned long totalsize);
+int _alpm_download_single_file(const char *filename,
+		alpm_list_t *servers, const char *localpath,
+		time_t mtimeold, time_t *mtimenew);
+
+int _alpm_download_files(alpm_list_t *files,
+		alpm_list_t *servers, const char *localpath);
 
 #endif /* _ALPM_DLOAD_H */
 

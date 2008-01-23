@@ -219,7 +219,6 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	alpm_list_t *lp;
 	char path[PATH_MAX];
-	alpm_list_t *files = NULL;
 	time_t newmtime = 0, lastupdate = 0;
 	const char *dbpath;
 	int ret;
@@ -252,13 +251,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 	/* build a one-element list */
 	snprintf(path, PATH_MAX, "%s" DBEXT, db->treename);
-	files = alpm_list_add(files, strdup(path));
-
 	dbpath = alpm_option_get_dbpath();
 
-	ret = _alpm_downloadfiles_forreal(db->servers, dbpath, files, lastupdate,
-			&newmtime, NULL, 0);
-	FREELIST(files);
+	ret = _alpm_download_single_file(path, db->servers, dbpath, lastupdate, &newmtime);
+
 	if(ret == 1) {
 		/* mtimes match, do nothing */
 		pm_errno = 0;
