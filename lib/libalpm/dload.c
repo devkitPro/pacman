@@ -34,48 +34,37 @@
 #include "util.h"
 #include "error.h"
 #include "handle.h"
-#include "server.h"
-
-/* remove filename info from "s_url->doc" and return it */
-static char *strip_filename(pmserver_t *server)
-{
-	char *p = NULL, *fname = NULL;
-	if(!server) {
-		return(NULL);
-	}
-
-	p = strrchr(server->s_url->doc, '/');
-	if(p && *(++p)) {
-		fname = strdup(p);
-		_alpm_log(PM_LOG_DEBUG, "stripping '%s' from '%s'\n",
-				fname, server->s_url->doc);
-		*p = 0;
-	}
-
-	/* s_url->doc now contains ONLY path information.  return value
-	 * if the file information from the original URL */
-	return(fname);
-}
-
 
 /* Return a 'struct url' for this server, for downloading 'filename'. */
-static struct url *url_for_file(pmserver_t *server, const char *filename)
+static struct url *url_for_file(const char *url, const char *filename)
 {
 	struct url *ret = NULL;
-	char *doc = NULL;
-	int doclen = 0;
+	char *buf = NULL;
+	int len;
 
-	doclen = strlen(server->s_url->doc) + strlen(filename) + 2;
-	CALLOC(doc, doclen, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
+	/* print url + filename into a buffer */
+	len = strlen(url) + strlen(filename) + 2;
+	CALLOC(buf, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
+	snprintf(buf, len, "%s/%s", url, filename);
 
-	snprintf(doc, doclen, "%s/%s", server->s_url->doc, filename);
-	ret = downloadMakeURL(server->s_url->scheme,
-												server->s_url->host,
-												server->s_url->port,
-												doc,
-												server->s_url->user,
-												server->s_url->pwd);
-	FREE(doc);
+	ret = downloadParseURL(buf);
+	FREE(buf);
+	if(!ret) {
+		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), buf);
+		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
+	}
+
+	/* if no URL scheme specified, assume HTTP */
+	if(strlen(ret->scheme) == 0) {
+		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming HTTP\n"));
+		strcpy(ret->scheme, SCHEME_HTTP);
+	}
+	/* add a user & password for anonymous FTP */
+	if(strcmp(ret->scheme,SCHEME_FTP) == 0 && strlen(ret->user) == 0) {
+		strcpy(ret->user, "anonymous");
+		strcpy(ret->pwd, "libalpm@guest");
+	}
+
 	return(ret);
 }
 
@@ -150,7 +139,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 	}
 
 	for(i = servers; i && !done; i = i->next) {
-		pmserver_t *server = i->data;
+		const char *server = i->data;
 
 		/* get each file in the list */
 		for(lp = files; lp; lp = lp->next) {
@@ -393,43 +382,23 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
  */
 char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 {
-	pmserver_t *server;
+	/* TODO this method will not work at all right now */
 	char *filename, *filepath;
 	const char *cachedir;
 
 	ALPM_LOG_FUNC;
 
-	if(strstr(url, "://") == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "Invalid URL passed to alpm_fetch_pkgurl\n");
-		return(NULL);
-	}
-
-	server = _alpm_server_new(url);
-	if(!server) {
-		return(NULL);
-	}
-
-	/* strip path information from the filename */
-	filename = strip_filename(server);
-	if(!filename) {
-		_alpm_log(PM_LOG_ERROR, _("URL does not contain a file for download\n"));
-		return(NULL);
-	}
+	filename = NULL;
 
 	/* find a valid cache dir to download to */
 	cachedir = _alpm_filecache_setup();
 
-	/* TODO this seems like needless complexity just to download one file */
-	alpm_list_t *servers = alpm_list_add(NULL, server);
-
 	/* download the file */
-	if(_alpm_download_single_file(filename, servers, cachedir, 0, NULL)) {
+	if(_alpm_download_single_file(NULL, NULL, cachedir, 0, NULL)) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return(NULL);
 	}
-	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", filename);
-	alpm_list_free(servers);
-	_alpm_server_free(server);
+	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", url);
 
 	/* we should be able to find the file the second time around */
 	filepath = _alpm_filecache_find(filename);

@@ -41,7 +41,6 @@
 #include "log.h"
 #include "util.h"
 #include "error.h"
-#include "server.h"
 #include "dload.h"
 #include "handle.h"
 #include "cache.h"
@@ -192,14 +191,9 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 	}
 
 	if(url && strlen(url)) {
-		pmserver_t *server;
-		if((server = _alpm_server_new(url)) == NULL) {
-			/* pm_errno is set by _alpm_server_new */
-			return(-1);
-		}
-		db->servers = alpm_list_add(db->servers, server);
-		_alpm_log(PM_LOG_DEBUG, "adding new server to database '%s': protocol '%s', server '%s', path '%s'\n",
-							db->treename, server->s_url->scheme, server->s_url->host, server->s_url->doc);
+		db->servers = alpm_list_add(db->servers, strdup(url));
+		_alpm_log(PM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
+				db->treename, url);
 	} else {
 		FREELIST(db->servers);
 		_alpm_log(PM_LOG_DEBUG, "serverlist flushed for '%s'\n", db->treename);
@@ -317,8 +311,7 @@ const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
  */
 const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 {
-	char path[PATH_MAX];
-	pmserver_t *s;
+	char *url;
 
 	ALPM_LOG_FUNC;
 
@@ -326,10 +319,9 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	s = (pmserver_t*)db->servers->data;
+	url = (char*)db->servers->data;
 
-	snprintf(path, PATH_MAX, "%s://%s%s", s->s_url->scheme, s->s_url->host, s->s_url->doc);
-	return strdup(path);
+	return(url);
 }
 
 
@@ -451,17 +443,12 @@ pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 
 void _alpm_db_free(pmdb_t *db)
 {
-	alpm_list_t *tmp;
-
 	ALPM_LOG_FUNC;
 
 	/* cleanup pkgcache */
 	_alpm_db_free_pkgcache(db);
 	/* cleanup server list */
-	for(tmp = db->servers; tmp; tmp = alpm_list_next(tmp)) {
-		_alpm_server_free(tmp->data);
-	}
-	alpm_list_free(db->servers);
+	FREELIST(db->servers);
 	FREE(db->path);
 	FREE(db);
 

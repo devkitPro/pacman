@@ -39,7 +39,6 @@
 #include "error.h"
 #include "trans.h"
 #include "alpm.h"
-#include "server.h"
 
 /* global var for handle (private to libalpm) */
 pmhandle_t *handle = NULL;

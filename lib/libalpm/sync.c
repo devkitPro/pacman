@@ -44,7 +44,6 @@
 #include "util.h"
 #include "handle.h"
 #include "alpm.h"
-#include "server.h"
 #include "dload.h"
 #include "delta.h"
 

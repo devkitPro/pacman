@@ -36,7 +36,6 @@ libalpm_la_SOURCES = \
 	md5.h md5.c \
 	package.h package.c \
 	remove.h remove.c \
-	server.h server.c \
 	sync.h sync.c \
 	trans.h trans.c \
 	util.h util.c

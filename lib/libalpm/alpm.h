@@ -45,7 +45,6 @@ typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
 typedef struct __pmdelta_t pmdelta_t;
 typedef struct __pmgrp_t pmgrp_t;
-typedef struct __pmserver_t pmserver_t;
 typedef struct __pmtrans_t pmtrans_t;
 typedef struct __pmsyncpkg_t pmsyncpkg_t;
 typedef struct __pmdepend_t pmdepend_t;
