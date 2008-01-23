@@ -608,7 +608,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				goto cleanup;
 			}
 			FREELIST(asked);
-			FREELIST(deps);
+			alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+			alpm_list_free(deps);
 		}
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
 	}
