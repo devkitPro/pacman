@@ -36,6 +36,7 @@ struct __pmfileconflict_t {
 };
 
 pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2);
+pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict);
 void _alpm_conflict_free(pmconflict_t *conflict);
 int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack);
 alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages);

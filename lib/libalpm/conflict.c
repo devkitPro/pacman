@@ -62,6 +62,17 @@ void _alpm_conflict_free(pmconflict_t *conflict)
 	FREE(conflict);
 }
 
+pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
+{
+	pmconflict_t *newconflict;
+	CALLOC(newconflict, 1, sizeof(pmconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
+
+	STRDUP(newconflict->package1, conflict->package1, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newconflict->package2, conflict->package2, RET_ERR(PM_ERR_MEMORY, NULL));
+
+	return(newconflict);
+}
+
 int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *i;
