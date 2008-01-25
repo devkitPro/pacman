@@ -475,9 +475,17 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				rsync = sync1;
 				sync = sync2;
 			} else {
+				_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
 				pm_errno = PM_ERR_CONFLICTING_DEPS;
 				ret = -1;
-				*data = deps;
+				if(data) {
+					pmconflict_t *newconflict = _alpm_conflict_dup(conflict);
+					if(newconflict) {
+						*data = alpm_list_add(*data, newconflict);
+					}
+				}
+				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+				alpm_list_free(deps);
 				goto cleanup;
 			}
 
@@ -542,21 +550,14 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				sync->data = alpm_list_add(sync->data, local);
 			} else { /* abort */
 				_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-				if(data) {
-					pmconflict_t *retconflict;
-					MALLOC(retconflict, sizeof(pmconflict_t), 0);
-					if(!retconflict) {
-						pm_errno = PM_ERR_MEMORY;
-						alpm_list_free_inner(*data, (alpm_list_fn_free)_alpm_conflict_free);
-						alpm_list_free(*data);
-						ret = -1;
-						goto cleanup;
-					}
-					*retconflict = *conflict;
-					*data = alpm_list_add(*data, retconflict);
-				}
 				pm_errno = PM_ERR_CONFLICTING_DEPS;
 				ret = -1;
+				if(data) {
+					pmconflict_t *newconflict = _alpm_conflict_dup(conflict);
+					if(newconflict) {
+						*data = alpm_list_add(*data, newconflict);
+					}
+				}
 				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
 				alpm_list_free(deps);
 				goto cleanup;
