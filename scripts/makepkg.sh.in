@@ -1007,7 +1007,7 @@ devel_check() {
 			newpkgver=$(date +%Y%m%d)
 		elif [ ! -z ${_svntrunk} ] && [ ! -z ${_svnmod} ] ; then
 			msg "$(gettext "Determining latest svn revision...")"
-			newpkgver=$(svn log $_svntrunk --limit 1 | sed -n 's/^r\([^ ]*\) .*$/\1/p')
+			newpkgver=$(svn log $_svntrunk --limit 1 -q | sed -n 's/^r\([0-9]*\) .*$/\1/p')
 		elif [ ! -z ${_bzrtrunk} ] && [ ! -z ${_bzrmod} ] ; then
 			msg "$(gettext "Determining latest bzr revision...")"
 			newpkgver=$(bzr revno ${_bzrtrunk})
