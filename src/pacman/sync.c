@@ -526,12 +526,9 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 				 * an '-S pacman' operation */
 				if(strcmp("pacman", alpm_pkg_get_name(spkg)) == 0) {
 					printf("\n");
-					printf(_(":: pacman has detected a newer version of itself.\n"
-					         ":: It is recommended that you upgrade pacman by itself\n"
-					         ":: using 'pacman -S pacman', and then rerun the current\n"
-					         ":: operation. If you wish to continue the operation and\n"
-					         ":: not upgrade pacman separately, answer no.\n"));
-					if(yesno(_(":: Cancel current operation? [Y/n] "))) {
+					printf(_(":: pacman has detected a newer version of itself.\n"));
+					if(yesno(_(":: Do you want to cancel the current operation\n"
+					           ":: and install the new pacman version now? [Y/n] "))) {
 						if(alpm_trans_release() == -1) {
 							fprintf(stderr, _("error: failed to release transaction (%s)\n"),
 							    alpm_strerrorlast());
