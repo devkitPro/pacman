@@ -25,12 +25,12 @@
 
 /* Sync package */
 struct __pmsyncpkg_t {
-	pmsynctype_t type;
+	pmpkgreason_t newreason;
 	pmpkg_t *pkg;
-	void *data;
+	alpm_list_t *removes;
 };
 
-pmsyncpkg_t *_alpm_sync_new(int type, pmpkg_t *spkg, void *data);
+pmsyncpkg_t *_alpm_sync_new(pmpkgreason_t newreason, pmpkg_t *spkg, alpm_list_t *removes);
 void _alpm_sync_free(pmsyncpkg_t *data);
 
 int _alpm_sync_sysupgrade(pmtrans_t *trans,

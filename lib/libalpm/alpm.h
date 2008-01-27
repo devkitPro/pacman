@@ -246,16 +246,9 @@ const alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
  * Sync
  */
 
-/* Types */
-typedef enum _pmsynctype_t {
-	PM_SYNC_TYPE_REPLACE = 1,
-	PM_SYNC_TYPE_UPGRADE,
-	PM_SYNC_TYPE_DEPEND
-} pmsynctype_t;
-
-pmsynctype_t alpm_sync_get_type(const pmsyncpkg_t *sync);
+pmpkgreason_t alpm_sync_get_newreason(const pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_get_pkg(const pmsyncpkg_t *sync);
-void *alpm_sync_get_data(const pmsyncpkg_t *sync);
+alpm_list_t *alpm_sync_get_removes(const pmsyncpkg_t *sync);
 int alpm_sync_sysupgrade(pmdb_t *db_local,
 		alpm_list_t *dbs_sync, alpm_list_t **syncpkgs);
 

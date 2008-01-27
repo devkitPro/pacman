@@ -409,20 +409,17 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 		pmsyncpkg_t *sync = alpm_list_getdata(i);
 		pmpkg_t *pkg = alpm_sync_get_pkg(sync);
 
-		/* If this sync record is a replacement, the data member contains
-		 * a list of packages to be removed due to the package that is being
-		 * installed. */
-		if(alpm_sync_get_type(sync) == PM_SYNC_TYPE_REPLACE) {
-			alpm_list_t *to_replace = alpm_sync_get_data(sync);
+		/* The removes member contains a list of packages to be removed
+		 * due to the package that is being installed. */
+		alpm_list_t *to_replace = alpm_sync_get_removes(sync);
 
-			for(j = to_replace; j; j = alpm_list_next(j)) {
-				pmpkg_t *rp = alpm_list_getdata(j);
-				const char *name = alpm_pkg_get_name(rp);
+		for(j = to_replace; j; j = alpm_list_next(j)) {
+			pmpkg_t *rp = alpm_list_getdata(j);
+			const char *name = alpm_pkg_get_name(rp);
 
-				if(!alpm_list_find_str(to_remove, name)) {
-					rsize += alpm_pkg_get_isize(rp);
-					to_remove = alpm_list_add(to_remove, strdup(name));
-				}
+			if(!alpm_list_find_str(to_remove, name)) {
+				rsize += alpm_pkg_get_isize(rp);
+				to_remove = alpm_list_add(to_remove, strdup(name));
 			}
 		}
 
