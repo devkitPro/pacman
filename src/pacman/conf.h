@@ -69,6 +69,7 @@ typedef struct __config_t {
 	 * downloaded of the total download list */
 	unsigned short totaldownload;
 	unsigned short cleanmethod; /* select -Sc behavior */
+	alpm_list_t *syncfirst;
 } config_t;
 
 /* Operations */

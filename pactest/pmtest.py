@@ -83,7 +83,8 @@ class pmtest:
             "noupgrade": [],
             "ignorepkg": [],
             "ignoregroup": [],
-            "noextract": []
+            "noextract": [],
+            "syncfirst": []
         }
 
         # Test rules

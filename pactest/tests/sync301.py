@@ -16,10 +16,12 @@ self.addpkg2db("local", lp)
 lp1 = pmpkg("pkg1", "1.0-1")
 self.addpkg2db("local", lp1)
 
+self.option["SyncFirst"] = ["pacman"]
+
 self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pacman")
 self.addrule("PKG_VERSION=pacman|1.0-2")
+self.addrule("PKG_VERSION=pkg1|1.0-1")
 self.addrule("PKG_EXIST=dep")
-self.addrule("PKG_REQUIREDBY=dep|pacman")

@@ -515,6 +515,11 @@ static int parseargs(int argc, char *argv[])
 	return(0);
 }
 
+/* helper for being used with setrepeatingoption */
+static void option_add_syncfirst(const char *name) {
+	config->syncfirst = alpm_list_add(config->syncfirst, strdup(name));
+}
+
 /** Add repeating options such as NoExtract, NoUpgrade, etc to libalpm
  * settings. Refactored out of the parseconfig code since all of them did
  * the exact same thing and duplicated code.
@@ -666,6 +671,8 @@ static int _parseconfig(const char *file, const char *givensection,
 						setrepeatingoption(ptr, "IgnoreGroup", alpm_option_add_ignoregrp);
 					} else if(strcmp(key, "HoldPkg") == 0) {
 						setrepeatingoption(ptr, "HoldPkg", alpm_option_add_holdpkg);
+					} else if(strcmp(key, "SyncFirst") == 0) {
+						setrepeatingoption(ptr, "SyncFirst", option_add_syncfirst);
 					} else if(strcmp(key, "DBPath") == 0) {
 						/* don't overwrite a path specified on the command line */
 						if(!config->dbpath) {

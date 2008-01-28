@@ -527,6 +527,24 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	return(0);
 }
 
+static alpm_list_t *syncfirst() {
+	alpm_list_t *i, *res = NULL;
+
+	for(i = config->syncfirst; i; i = alpm_list_next(i)) {
+		char *pkgname = alpm_list_getdata(i);
+		pmpkg_t *pkg = alpm_db_get_pkg(alpm_option_get_localdb(), pkgname);
+		if(pkg == NULL) {
+			continue;
+		}
+
+		if(alpm_sync_newversion(pkg, alpm_option_get_syncdbs())) {
+			res = alpm_list_add(res, strdup(pkgname));
+		}
+	}
+
+	return(res);
+}
+
 static int sync_trans(alpm_list_t *targets)
 {
 	int retval = 0;
@@ -539,47 +557,12 @@ static int sync_trans(alpm_list_t *targets)
 	}
 
 	if(config->op_s_upgrade) {
-		alpm_list_t *pkgs, *i;
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction("starting full system upgrade\n");
 		if(alpm_trans_sysupgrade() == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
 			retval = 1;
 			goto cleanup;
-		}
-
-		if(!(alpm_trans_get_flags() & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS))) {
-			/* check if pacman itself is one of the packages to upgrade.
-			 * this can prevent some of the "syntax error" problems users can have
-			 * when sysupgrade'ing with an older version of pacman.
-			 */
-			pkgs = alpm_trans_get_pkgs();
-			for(i = pkgs; i; i = alpm_list_next(i)) {
-				pmsyncpkg_t *sync = alpm_list_getdata(i);
-				pmpkg_t *spkg = alpm_sync_get_pkg(sync);
-				/* TODO pacman name should probably not be hardcoded. In addition, we
-				 * have problems on an -Syu if pacman has to pull in deps, so recommend
-				 * an '-S pacman' operation */
-				if(strcmp("pacman", alpm_pkg_get_name(spkg)) == 0) {
-					printf("\n");
-					printf(_(":: pacman has detected a newer version of itself.\n"));
-					if(yesno(1, _(":: Do you want to cancel the current operation\n"
-					           ":: and install the new pacman version now?"))) {
-						if(trans_release() == -1) {
-							return(1);
-						}
-						if(trans_init(PM_TRANS_TYPE_SYNC, 0) == -1) {
-							return(1);
-						}
-						if(alpm_trans_addtarget("pacman") == -1) {
-							pm_fprintf(stderr, PM_LOG_ERROR, _("pacman: %s\n"),
-								alpm_strerrorlast());
-							return(1);
-						}
-						break;
-					}
-				}
-			}
 		}
 	} else {
 		alpm_list_t *i;
@@ -831,7 +814,29 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	if(needs_transaction()) {
-		if(sync_trans(targets) == 1) {
+		alpm_list_t *targs = alpm_list_strdup(targets);
+		if(!(config->flags & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS))) {
+			/* check for newer versions of packages to be upgraded first */
+			alpm_list_t *packages = syncfirst();
+			if(packages) {
+				printf(_(":: The following packages should be upgraded first :\n"));
+				list_display("   ", packages);
+				if(yesno(1, _(":: Do you want to cancel the current operation\n"
+								":: and upgrade these packages now?"))) {
+					FREELIST(targs);
+					targs = packages;
+					config->flags = 0;
+					config->op_s_upgrade = 0;
+				} else {
+					FREELIST(packages);
+				}
+				printf("\n");
+			}
+		}
+
+		int ret = sync_trans(targs);
+		FREELIST(targs);
+		if(ret == 1) {
 			return(1);
 		}
 	}

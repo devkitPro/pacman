@@ -82,6 +82,12 @@ Options
 	Instructs pacman to ignore any upgrades for this package when performing
 	a '\--sysupgrade'.
 
+*SyncFirst =* package ...::
+	Instructs pacman to check for newer version of these packages before any
+	sync operation. The user will have the choice to either cancel the current
+	operation and upgrade these packages first or go on with the current operation.
+	This option is typically used with the 'pacman' package.
+
 *IgnoreGroup =* group ...::
 	Instructs pacman to ignore any upgrades for all packages in this
 	group when performing a '\--sysupgrade'.

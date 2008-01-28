@@ -47,6 +47,7 @@ config_t *config_new(void)
 	newconfig->rootdir = NULL;
 	newconfig->dbpath = NULL;
 	newconfig->logfile = NULL;
+	newconfig->syncfirst = NULL;
 
 	return(newconfig);
 }
@@ -57,6 +58,7 @@ int config_free(config_t *oldconfig)
 		return(-1);
 	}
 
+	FREELIST(oldconfig->syncfirst);
 	free(oldconfig->configfile);
 	free(oldconfig->rootdir);
 	free(oldconfig->dbpath);
