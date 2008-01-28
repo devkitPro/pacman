@@ -160,6 +160,35 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 	return(0);
 }
 
+/** Check for new version of pkg in sync repos
+ * (only the first occurrence is considered in sync)
+ */
+pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
+{
+	alpm_list_t *i;
+	pmpkg_t *spkg = NULL;
+
+	for(i = dbs_sync; !spkg && i; i = i->next) {
+		spkg = _alpm_db_get_pkgfromcache(i->data, alpm_pkg_get_name(pkg));
+	}
+
+	if(spkg == NULL) {
+		_alpm_log(PM_LOG_DEBUG, "'%s' not found in sync db => no upgrade\n",
+				alpm_pkg_get_name(pkg));
+		return(NULL);
+	}
+
+	/* compare versions and see if spkg is an upgrade */
+	if(_alpm_pkg_compare_versions(pkg, spkg)) {
+		_alpm_log(PM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
+					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+					alpm_pkg_get_version(spkg));
+		return(spkg);
+	} else {
+		return(NULL);
+	}
+}
+
 /** Get a list of upgradable packages on the current system
  * Adds out of date packages to *list.
  * @arg list pointer to a list of pmsyncpkg_t.
@@ -173,7 +202,7 @@ int SYMEXPORT alpm_sync_sysupgrade(pmdb_t *db_local,
 int _alpm_sync_sysupgrade(pmtrans_t *trans,
 		pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **syncpkgs)
 {
-	alpm_list_t *i, *j;
+	alpm_list_t *i, *j, *replaced = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -185,63 +214,55 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 		return(-1);
 	}
 
-	/* match installed packages with the sync dbs and compare versions */
+	/* compute the to-be-replaced packages for efficiency */
+	for(i = *syncpkgs; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		for(j = sync->removes; j; j = j->next) {
+			replaced = alpm_list_add(replaced, j->data);
+		}
+	}
+
+	/* for all not-replaced local package we check for upgrade */
 	_alpm_log(PM_LOG_DEBUG, "checking for package upgrades\n");
 	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
-		int replace = 0;
 		pmpkg_t *local = i->data;
-		pmpkg_t *spkg = NULL;
-		pmsyncpkg_t *sync;
 
-		for(j = dbs_sync; !spkg && j; j = j->next) {
-			spkg = _alpm_db_get_pkgfromcache(j->data, alpm_pkg_get_name(local));
-		}
-		if(spkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "'%s' not found in sync db -- skipping\n",
-					alpm_pkg_get_name(local));
-			continue;
-		}
-
-		/* we don't care about a to-be-replaced package's newer version */
-		for(j = *syncpkgs; j && !replace; j=j->next) {
-			sync = j->data;
-			if(_alpm_pkg_find(alpm_pkg_get_name(spkg), sync->removes)) {
-				replace = 1;
-			}
-		}
-		if(replace) {
+		if(_alpm_pkg_find(alpm_pkg_get_name(local), replaced)) {
 			_alpm_log(PM_LOG_DEBUG, "'%s' is already elected for removal -- skipping\n",
 					alpm_pkg_get_name(local));
 			continue;
 		}
 
-		/* compare versions and see if we need to upgrade */
-		if(_alpm_pkg_compare_versions(local, spkg)) {
-			_alpm_log(PM_LOG_DEBUG, "%s elected for upgrade (%s => %s)\n",
-					alpm_pkg_get_name(local), alpm_pkg_get_version(local),
-					alpm_pkg_get_version(spkg));
-			if(!_alpm_sync_find(*syncpkgs, alpm_pkg_get_name(spkg))) {
-				/* If package is in the ignorepkg list, skip it */
-				if(_alpm_pkg_should_ignore(spkg)) {
-					_alpm_log(PM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
-							alpm_pkg_get_name(local), alpm_pkg_get_version(local),
-							alpm_pkg_get_version(spkg));
-					continue;
-				}
-
-				/* we can set any reason here, it will be overridden by add_commit */
-				sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
-				if(sync == NULL) {
-					alpm_list_free_inner(*syncpkgs, (alpm_list_fn_free)_alpm_sync_free);
-					alpm_list_free(*syncpkgs);
-					*syncpkgs = NULL;
-					return(-1);
-				}
-				*syncpkgs = alpm_list_add(*syncpkgs, sync);
+		pmpkg_t *spkg = alpm_sync_newversion(local, dbs_sync);
+		if(spkg) {
+			/* we found a new version */
+			/* skip packages in IgnorePkg or in IgnoreGroup */
+			if(_alpm_pkg_should_ignore(spkg)) {
+				_alpm_log(PM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
+						alpm_pkg_get_name(local), alpm_pkg_get_version(local),
+						alpm_pkg_get_version(spkg));
+				continue;
 			}
+
+			/* add the upgrade package to our pmsyncpkg_t list */
+			if(_alpm_sync_find(*syncpkgs, alpm_pkg_get_name(spkg))) {
+				/* it is already there, done */
+				continue;
+			}
+			/* we can set any reason here, it will be overridden by add_commit */
+			pmsyncpkg_t *sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
+			if(sync == NULL) {
+				alpm_list_free_inner(*syncpkgs, (alpm_list_fn_free)_alpm_sync_free);
+				alpm_list_free(*syncpkgs);
+				*syncpkgs = NULL;
+				alpm_list_free(replaced);
+				return(-1);
+			}
+			*syncpkgs = alpm_list_add(*syncpkgs, sync);
 		}
 	}
 
+	alpm_list_free(replaced);
 	return(0);
 }
 
