@@ -232,6 +232,10 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	alpm_list_t *i;
 	int success = 0, ret;
 
+	if(sync_trans_init(0) == -1) {
+		return(0);
+	}
+
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		pmdb_t *db = alpm_list_getdata(i);
 
@@ -259,10 +263,16 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 		}
 	}
 
+	if(sync_trans_release() == -1) {
+		return(0);
+	}
 	/* We should always succeed if at least one DB was upgraded - we may possibly
 	 * fail later with unresolved deps, but that should be rare, and would be
 	 * expected
 	 */
+	if(!success) {
+		fprintf(stderr, _("error: failed to synchronize any databases\n"));
+	}
 	return(success > 0);
 }
 
@@ -499,7 +509,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	return(0);
 }
 
-static int sync_trans(alpm_list_t *targets, int sync_only)
+static int sync_trans(alpm_list_t *targets)
 {
 	int retval = 0;
 	alpm_list_t *data = NULL;
@@ -510,23 +520,8 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 		return(1);
 	}
 
-	if(config->op_s_sync) {
-		/* grab a fresh package list */
-		printf(_(":: Synchronizing package databases...\n"));
-		alpm_logaction("synchronizing package lists\n");
-		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
-			fprintf(stderr, _("error: failed to synchronize any databases\n"));
-			retval = 1;
-			goto cleanup;
-		}
-		if(sync_only) {
-			goto cleanup;
-		}
-	}
-
 	if(config->op_s_upgrade) {
 		alpm_list_t *pkgs, *i;
-
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction("starting full system upgrade\n");
 		if(alpm_trans_sysupgrade() == -1) {
@@ -770,7 +765,6 @@ cleanup:
 int pacman_sync(alpm_list_t *targets)
 {
 	alpm_list_t *sync_dbs = NULL;
-	int sync_only = 0;
 
 	/* clean the cache */
 	if(config->op_s_clean) {
@@ -797,18 +791,27 @@ int pacman_sync(alpm_list_t *targets)
 		return(1);
 	}
 
-	if(config->op_s_search || config->group
-			|| config->op_s_info || config->op_q_list) {
-		sync_only = 1;
-	} else if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade)) {
+	if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade
+				|| config->op_s_search || config->group
+				|| config->op_s_info || config->op_q_list)) {
 		/* don't proceed here unless we have an operation that doesn't require
 		 * a target list */
 		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return(1);
 	}
 
+	if(config->op_s_sync) {
+		/* grab a fresh package list */
+		printf(_(":: Synchronizing package databases...\n"));
+		alpm_logaction("synchronizing package lists\n");
+		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
+			return(1);
+		}
+		config->op_s_sync = 0;
+	}
+
 	if(needs_transaction()) {
-		if(sync_trans(targets, sync_only) == 1) {
+		if(sync_trans(targets) == 1) {
 			return(1);
 		}
 	}
