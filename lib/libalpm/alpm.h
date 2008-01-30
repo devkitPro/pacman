@@ -246,7 +246,6 @@ const alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
  * Sync
  */
 
-pmpkgreason_t alpm_sync_get_newreason(const pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_get_pkg(const pmsyncpkg_t *sync);
 alpm_list_t *alpm_sync_get_removes(const pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);

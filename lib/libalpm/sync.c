@@ -1182,14 +1182,6 @@ pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname)
 	return(NULL); /* not found */
 }
 
-pmpkgreason_t SYMEXPORT alpm_sync_get_newreason(const pmsyncpkg_t *sync)
-{
-	/* Sanity checks */
-	ASSERT(sync != NULL, return(-1));
-
-	return sync->newreason;
-}
-
 pmpkg_t SYMEXPORT *alpm_sync_get_pkg(const pmsyncpkg_t *sync)
 {
 	/* Sanity checks */
