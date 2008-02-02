@@ -25,27 +25,27 @@ myver='3.1.1'
 
 usage() {
 	printf "updatesync (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: %s <action> <destfile> <option> [package_directory]")\n\n" "$0"
-	printf "$(gettext "\
+	printf "Usage: %s <action> <destfile> <option> [package_directory]\n\n" "$0"
+	printf "\
 updatesync will update a sync database by reading a PKGBUILD and\n\
 modifying the destfile. updatesync updates the database in a temporary\n\
-directory and then compresses it to <destfile>.\n\n")"
-	printf "$(gettext "There are two types of actions:\n\n")"
-	printf "$(gettext "upd - Will update a package's entry or create it if it doesn't exist.\n      It takes the package's PKGBUILD as an option.\n")"
-	printf "$(gettext "del - Will remove a package's entry from the db. It takes the package's\n      name as an option.\n")"
+directory and then compresses it to <destfile>.\n\n"
+	printf "There are two types of actions:\n\n"
+	printf "upd - Will update a package's entry or create it if it doesn't exist.\n      It takes the package's PKGBUILD as an option.\n"
+	printf "del - Will remove a package's entry from the db. It takes the package's\n      name as an option.\n"
 	echo
-	printf "$(gettext "\
+	printf "\
 updatesync will calculate md5sums of packages in the same directory as\n\
-<destfile>, unless an alternate [package_directory] is specified.\n\n")"
-	echo "$(gettext "Example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD")"
+<destfile>, unless an alternate [package_directory] is specified.\n\n"
+	echo "Example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
 }
 
 version() {
 	printf "updatesync (pacman) %s\n" "$myver"
-	printf "$(gettext "\
+	printf "\
 Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
-There is NO WARRANTY, to the extent permitted by law.\n")"
+There is NO WARRANTY, to the extent permitted by law.\n"
 }
 
 error () {
@@ -113,19 +113,19 @@ opt_force=""
 
 if [ "$action" = "upd" ]; then # INSERT / UPDATE
 	if [ ! -f "$option" ]; then
-		die "$(gettext "%s not found")" $option
+		die "$option not found"
 	fi
 
 	unset pkgname pkgver pkgrel options
 
-	source $option || die "$(gettext "failed to parse %s")" $option
+	source $option || die "failed to parse $option"
 	if [ "$arch" = 'any' ]; then
 		CARCH='any'
 	fi
 	pkgfile="$pkgdir/$pkgname-$pkgver-$pkgrel-${CARCH}${PKGEXT}"
 
 	if [ ! -f "$pkgfile" ]; then
-		die "$(gettext "could not find %s-%s-%s-%s%s - aborting")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
+		die "could not find %s-%s-%s-%s%s - aborting" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	fi
 
 	if check_force; then
@@ -137,7 +137,7 @@ else # DELETE
 	fname="$(basename $option)"
 	if [ "$fname" = "PKGBUILD" ]; then
 		if [ ! -f "$option" ]; then
-			die "$(gettext "%s not found")" $option
+			die "%s not found" $option
 		fi
 
 		unset pkgname pkgver pkgrel options

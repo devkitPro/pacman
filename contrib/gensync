@@ -24,29 +24,29 @@ myver='3.1.1'
 
 usage() {
 	printf "gensync (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: %s <root> <destfile> [package_directory]")\n\n" "$0"
-	printf "$(gettext "\
+	printf "Usage: %s <root> <destfile> [package_directory]\n\n" "$0"
+	printf "\
 gensync will generate a sync database by reading all PKGBUILD files\n\
 from <root>. gensync builds the database in a temporary directory\n\
-and then compresses it to <destfile>.\n\n")"
-	printf "$(gettext "\
+and then compresses it to <destfile>.\n\n"
+	printf "\
 gensync will calculate md5sums of packages in the same directory as\n\
-<destfile>, unless an alternate [package_directory] is specified.\n\n")"
-	printf "$(gettext "\
+<destfile>, unless an alternate [package_directory] is specified.\n\n"
+	printf "\
 note: The <destfile> name is important. It must be of the form\n\
       {treename}.db.tar.gz where {treename} is the name of the custom\n\
       package repository you configured in /etc/pacman.conf. The\n\
       generated database must reside in the same directory as your\n\
-      custom packages (also configured in /etc/pacman.conf)\n\n")"
-	echo "$(gettext "Example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz")"
+      custom packages (also configured in /etc/pacman.conf)\n\n"
+	echo "Example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
 }
 
 version() {
 	printf "gensync (pacman) %s\n" "$myver"
-	printf "$(gettext "\
+	printf "\
 Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
-There is NO WARRANTY, to the extent permitted by law.\n")"
+There is NO WARRANTY, to the extent permitted by law.\n"
 }
 
 error () {
@@ -109,9 +109,9 @@ if [ "$3" != "" ]; then
 	pkgdir="$3"
 fi
 
-[ ! -d "$rootdir" ] && die "$(gettext "invalid root dir: %s")" $rootdir
+[ ! -d "$rootdir" ] && die "invalid root dir: $rootdir"
 
-echo "$(gettext "gensync: building database entries, generating md5sums...")" >&2
+echo "gensync: building database entries, generating md5sums..." >&2
 cd "$destdir"
 
 pkgs=""
@@ -120,7 +120,7 @@ forcepkgs=""
 for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	unset pkgname pkgver pkgrel options
 
-	source $file || die "$(gettext "failed to parse %s")" $file
+	source $file || die "failed to parse $file"
 	if [ "$arch" = 'any' ]; then
 		CARCH='any'
 	fi
@@ -131,7 +131,7 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	fi
 
 	if [ ! -f "$pkgfile" ]; then
-		error "$(gettext "could not find %s-%s-%s-%s%s - skipping")" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
+		error "could not find %s-%s-%s-%s%s - skipping" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	else
 		if check_force; then
 			forcepkgs="$forcepkgs $pkgfile"
@@ -141,7 +141,7 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	fi
 done
 
-echo "$(gettext "creating repo DB...")"
+echo "creating repo DB..."
 
 # we'll trim the output just a tad, as gensync may be used on large repos
 repo-add $destfile $pkgs --force $force_pkgs \
