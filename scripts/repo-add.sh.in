@@ -136,7 +136,7 @@ db_write_entry()
 	# blank out all variables and set pkgfile
 	local pkgfile=$(readlink -f "$1")
 	local pkgname pkgver pkgdesc url builddate packager csize size \
-		group depend backup license replaces provides conflict \
+		group depend backup license replaces provides conflict force \
 		_groups _depends _backups _licenses _replaces _provides _conflicts \
 		startdir
 
@@ -209,7 +209,7 @@ db_write_entry()
 	[ -n "$builddate" ] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
 	[ -n "$packager" ] && echo -e "%PACKAGER%\n$packager\n" >>desc
 	write_list_entry "REPLACES" "$_replaces" "desc"
-	[ $FORCE -eq 1 ] && echo -e "%FORCE%\n" >>desc
+	[ $FORCE -eq 1 -o -n "$force" ] && echo -e "%FORCE%\n" >>desc
 
 	# create depends entry
 	msg2 "$(gettext "Creating 'depends' db entry...")"
