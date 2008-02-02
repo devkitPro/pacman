@@ -25,7 +25,6 @@ export TEXTDOMAINDIR='@localedir@'
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 
-FORCE=0
 REPO_DB_FILE=""
 
 # ensure we have a sane umask set
@@ -54,14 +53,10 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: %s <path-to-db> [--force] <package> ...\n\n")" "$0"
+	printf "$(gettext "Usage: %s <path-to-db> <package> ...\n\n")" "$0"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n\n")"
-	printf "$(gettext "\
-The --force flag will add a 'force' entry to the sync database, which\n\
-tells pacman to skip its internal version number checking and update\n\
-the package regardless.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 }
 
@@ -209,7 +204,7 @@ db_write_entry()
 	[ -n "$builddate" ] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
 	[ -n "$packager" ] && echo -e "%PACKAGER%\n$packager\n" >>desc
 	write_list_entry "REPLACES" "$_replaces" "desc"
-	[ $FORCE -eq 1 -o -n "$force" ] && echo -e "%FORCE%\n" >>desc
+	[ -n "$force" ] && echo -e "%FORCE%\n" >>desc
 
 	# create depends entry
 	msg2 "$(gettext "Creating 'depends' db entry...")"
@@ -291,7 +286,8 @@ success=0
 # parse arguments
 for arg in "$@"; do
 	if [ "$arg" == "--force" -o "$arg" == "-f" ]; then
-		FORCE=1
+		warning "$(gettext "the -f and --force options are no longer recognized")"
+		msg2 "$(gettext "use options=(force) in the PKGBUILD instead")"
 	elif [ -z "$REPO_DB_FILE" ]; then
 		REPO_DB_FILE=$(readlink -f "$arg")
 		if ! test_repo_db_file; then

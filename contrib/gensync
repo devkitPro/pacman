@@ -59,17 +59,6 @@ die () {
 	exit 1
 }
 
-check_force () {
-	local i
-	for i in ${options[@]}; do
-		local lc=$(echo $i | tr [:upper:] [:lower:])
-		if [ "$lc" = "force" ]; then
-			true
-		fi
-	done
-	false
-}
-
 # PROGRAM START
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
@@ -115,7 +104,6 @@ echo "gensync: building database entries, generating md5sums..." >&2
 cd "$destdir"
 
 pkgs=""
-forcepkgs=""
 
 for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	unset pkgname pkgver pkgrel options
@@ -133,18 +121,14 @@ for file in $(find "$rootdir"/* -name "$BUILDSCRIPT"); do
 	if [ ! -f "$pkgfile" ]; then
 		error "could not find %s-%s-%s-%s%s - skipping" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	else
-		if check_force; then
-			forcepkgs="$forcepkgs $pkgfile"
-		else
-			pkgs="$pkgs $pkgfile"
-		fi
+		pkgs="$pkgs $pkgfile"
 	fi
 done
 
 echo "creating repo DB..."
 
 # we'll trim the output just a tad, as gensync may be used on large repos
-repo-add $destfile $pkgs --force $force_pkgs \
+repo-add $destfile $pkgs \
 		| grep -e "package" -e "database"
 
 # vim: set ts=2 sw=2 noet:

@@ -58,17 +58,6 @@ die () {
 	exit 1
 }
 
-check_force () {
-	local i
-	for i in ${options[@]}; do
-		local lc=$(echo $i | tr [:upper:] [:lower:])
-		if [ "$lc" = "force" ]; then
-			true
-		fi
-	done
-	false
-}
-
 # PROGRAM START
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
@@ -109,7 +98,6 @@ pkgdir="$(pwd)"
 if [ "$4" != "" ]; then
 	pkgdir="$4"
 fi
-opt_force=""
 
 if [ "$action" = "upd" ]; then # INSERT / UPDATE
 	if [ ! -f "$option" ]; then
@@ -128,11 +116,7 @@ if [ "$action" = "upd" ]; then # INSERT / UPDATE
 		die "could not find %s-%s-%s-%s%s - aborting" $pkgname $pkgver $pkgrel $CARCH $PKGEXT
 	fi
 
-	if check_force; then
-		opt_force="--force"
-	fi
-
-	repo-add "$pkgdb" $opt_force "$pkgfile"
+	repo-add "$pkgdb" "$pkgfile"
 else # DELETE
 	fname="$(basename $option)"
 	if [ "$fname" = "PKGBUILD" ]; then
