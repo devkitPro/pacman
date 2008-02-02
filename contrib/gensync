@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 #   gensync
-#   @configure_input@
 #
 #   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
 #
@@ -19,11 +18,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# gettext initialization
-export TEXTDOMAIN='pacman'
-export TEXTDOMAINDIR='@localedir@'
-
-myver='@PACKAGE_VERSION@'
+myver='3.1.1'
 
 # functions
 
@@ -93,10 +88,10 @@ if [ $# -lt 2 ]; then
 fi
 
 # source system and user makepkg.conf
-if [ -r @sysconfdir@/makepkg.conf ]; then
-	source @sysconfdir@/makepkg.conf
+if [ -r /etc/makepkg.conf ]; then
+	source /etc/makepkg.conf
 else
-	die "$(gettext "%s not found. Can not continue.")" "@sysconfdir@/makepkg.conf"
+	die "/etc/makepkg.conf not found. Cannot continue."
 fi
 
 if [ -r ~/.makepkg.conf ]; then

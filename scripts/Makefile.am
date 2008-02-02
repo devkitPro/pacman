@@ -2,22 +2,18 @@
 AUTOMAKE_OPTIONS = std-options
 
 bin_SCRIPTS = \
-	gensync \
 	makepkg \
 	pacman-optimize \
 	rankmirrors \
 	repo-add \
-	repo-remove \
-	updatesync
+	repo-remove
 
 EXTRA_DIST = \
-	gensync.sh.in \
 	makepkg.sh.in \
 	pacman-optimize.sh.in \
 	rankmirrors.py.in \
 	repo-add.sh.in \
-	repo-remove.sh.in \
-	updatesync.sh.in
+	repo-remove.sh.in
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
@@ -48,13 +44,11 @@ $(bin_SCRIPTS): Makefile
 	chmod a-w $@.tmp
 	mv $@.tmp $@
 
-gensync: $(srcdir)/gensync.sh.in
 makepkg: $(srcdir)/makepkg.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
 rankmirrors: $(srcdir)/rankmirrors.py.in
 repo-add: $(srcdir)/repo-add.sh.in
 repo-remove: $(srcdir)/repo-remove.sh.in
 re-pacman: $(srcdir)/re-pacman.sh.in
-updatesync: $(srcdir)/updatesync.sh.in
 
 # vim:set ts=2 sw=2 noet:

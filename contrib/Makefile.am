@@ -1,9 +1,11 @@
 EXTRA_DIST = \
 	PKGBUILD.vim \
 	bash_completion \
+	gensync \
 	pacdiff \
 	pacsearch \
 	re-pacman \
+	updatesync \
 	vimproject \
 	wget-xdelta.sh \
 	zsh_completion \
