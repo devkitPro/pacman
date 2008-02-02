@@ -116,11 +116,11 @@ if [ "$4" != "" ]; then
 fi
 opt_force=""
 
-if [ ! -f "$option" ]; then
-	die "$(gettext "%s not found")" $option
-fi
-
 if [ "$action" = "upd" ]; then # INSERT / UPDATE
+	if [ ! -f "$option" ]; then
+		die "$(gettext "%s not found")" $option
+	fi
+
 	unset pkgname pkgver pkgrel options
 
 	source $option || die "$(gettext "failed to parse %s")" $option
@@ -141,10 +141,14 @@ if [ "$action" = "upd" ]; then # INSERT / UPDATE
 else # DELETE
 	fname="$(basename $option)"
 	if [ "$fname" = "PKGBUILD" ]; then
+		if [ ! -f "$option" ]; then
+			die "$(gettext "%s not found")" $option
+		fi
+
 		unset pkgname pkgver pkgrel options
 		source $option
 	else
-		pkgname=$1
+		pkgname=$option
 	fi
 
 	repo-remove "$pkgdb" "$pkgname"
