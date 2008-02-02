@@ -31,6 +31,9 @@ usage() {
 	printf "gensync (pacman) %s\n\n" "$myver"
 	printf "$(gettext "Usage: %s <root> <destfile> [package_directory]")\n\n" "$0"
 	printf "$(gettext "\
+NOTE: this script is DEPRECATED. It will be removed in the next major\n\
+release of pacman, so please use repo-add and repo-remove instead.\n\n")"
+	printf "$(gettext "\
 gensync will generate a sync database by reading all PKGBUILD files\n\
 from <root>. gensync builds the database in a temporary directory\n\
 and then compresses it to <destfile>.\n\n")"
@@ -115,6 +118,10 @@ if [ "$3" != "" ]; then
 fi
 
 [ ! -d "$rootdir" ] && die "$(gettext "invalid root dir: %s")" $rootdir
+
+printf "$(gettext "\
+NOTE: this script is DEPRECATED. It will be removed in the next major\n\
+release of pacman, so please use repo-add and repo-remove instead.\n\n")"
 
 echo "$(gettext "gensync: building database entries, generating md5sums...")" >&2
 cd "$destdir"

@@ -32,6 +32,9 @@ usage() {
 	printf "updatesync (pacman) %s\n\n" "$myver"
 	printf "$(gettext "Usage: %s <action> <destfile> <option> [package_directory]")\n\n" "$0"
 	printf "$(gettext "\
+NOTE: this script is DEPRECATED. It will be removed in the next major\n\
+release of pacman, so please use repo-add and repo-remove instead.\n\n")"
+	printf "$(gettext "\
 updatesync will update a sync database by reading a PKGBUILD and\n\
 modifying the destfile. updatesync updates the database in a temporary\n\
 directory and then compresses it to <destfile>.\n\n")"
@@ -115,6 +118,10 @@ if [ "$4" != "" ]; then
 	pkgdir="$4"
 fi
 opt_force=""
+
+printf "$(gettext "\
+NOTE: this script is DEPRECATED. It will be removed in the next major\n\
+release of pacman, so please use repo-add and repo-remove instead.\n\n")"
 
 if [ "$action" = "upd" ]; then # INSERT / UPDATE
 	if [ ! -f "$option" ]; then
