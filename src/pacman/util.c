@@ -462,11 +462,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	printf("\n");
 
 	printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
-
-	/* TODO because all pkgs don't include isize, this is a crude hack */
-	if(mbisize > mbdlsize) {
-		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
-	}
+	printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
 
 	FREELIST(targets);
 }
