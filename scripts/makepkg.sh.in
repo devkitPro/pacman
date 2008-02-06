@@ -810,6 +810,9 @@ create_package() {
 	if [ "$CARCH" != "" ]; then
 		echo "arch = $CARCH" >>.PKGINFO
 	fi
+	if [ "$(check_option force)" = "y" ]; then
+		echo "force = true" >> .PKGINFO
+	fi
 
 	local it
 	for it in "${license[@]}"; do

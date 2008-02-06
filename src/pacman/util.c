@@ -187,6 +187,34 @@ char *mbasename(const char *path)
 	return (char *)p;
 }
 
+/** Parse the dirname of a program from a path.
+* The path returned should be freed.
+* @param path path to parse dirname from
+*
+* @return everything preceding the final '/'
+*/
+char *mdirname(const char *path)
+{
+	char *ret, *last;
+
+	/* null or empty path */
+	if(path == NULL || path == '\0') {
+		return(strdup("."));
+	}
+
+	ret = strdup(path);
+	last = strrchr(ret, '/');
+
+	if(last != NULL) {
+		/* we found a '/', so terminate our string */
+		*last = '\0';
+		return(ret);
+	}
+	/* no slash found */
+	free(ret);
+	return(strdup("."));
+}
+
 /* output a string, but wrap words properly with a specified indentation
  */
 void indentprint(const char *str, int indent)

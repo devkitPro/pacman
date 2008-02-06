@@ -25,7 +25,6 @@ export TEXTDOMAINDIR='@localedir@'
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 
-FORCE=0
 REPO_DB_FILE=""
 
 msg() {
@@ -169,6 +168,9 @@ if [ $success -eq 1 ]; then
 		esac
 
 		bsdtar -c${TAR_OPT}f "$REPO_DB_FILE" *
+	else
+		error "$(gettext "All packages have been removed from the database. Deleting '%s'.")" "$REPO_DB_FILE"
+		rm "$REPO_DB_FILE"
 	fi
 
 	popd 2>&1 >/dev/null

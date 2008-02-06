@@ -70,6 +70,7 @@ static int query_fileowner(alpm_list_t *targets)
 		int found = 0;
 		char *filename = alpm_list_getdata(t);
 		char *bname;
+		char *dname;
 		char *rpath;
 		struct stat buf;
 		alpm_list_t *i, *j;
@@ -88,10 +89,14 @@ static int query_fileowner(alpm_list_t *targets)
 		}
 
 		bname = mbasename(filename);
+		dname = mdirname(filename);
+		rpath = resolve_path(dname);
+		free(dname);
 
-		if(!(rpath = resolve_path(filename))) {
+		if(!rpath) {
 			fprintf(stderr, _("error: cannot determine real path for '%s': %s\n"),
 					filename, strerror(errno));
+			free(rpath);
 			ret++;
 			continue;
 		}
@@ -100,7 +105,7 @@ static int query_fileowner(alpm_list_t *targets)
 			pmpkg_t *info = alpm_list_getdata(i);
 
 			for(j = alpm_pkg_get_files(info); j && !found; j = alpm_list_next(j)) {
-				char path[PATH_MAX], *ppath;
+				char path[PATH_MAX], *ppath, *pdname;
 				snprintf(path, PATH_MAX, "%s%s",
 				         alpm_option_get_root(), (const char *)alpm_list_getdata(j));
 
@@ -109,10 +114,12 @@ static int query_fileowner(alpm_list_t *targets)
 					continue;
 				}
 
-				ppath = resolve_path(path);
+				pdname = mdirname(path);
+				ppath = resolve_path(pdname);
+				free(pdname);
 
 				if(ppath && strcmp(ppath, rpath) == 0) {
-					printf(_("%s is owned by %s %s\n"), rpath,
+					printf(_("%s is owned by %s %s\n"), filename,
 					       alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 					found = 1;
 				}

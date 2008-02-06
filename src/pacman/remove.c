@@ -108,8 +108,8 @@ int pacman_remove(alpm_list_t *targets)
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
 			printf("failed.\n");
-			fprintf(stderr, _("error: failed to add target '%s' (%s)\n"), targ,
-			        alpm_strerrorlast());
+			fprintf(stderr, _("error: '%s': %s\n"),
+					targ, alpm_strerrorlast());
 			remove_cleanup();
 			FREELIST(finaltargs);
 			return(1);
