@@ -361,14 +361,12 @@ static int extract_single_file(struct archive *archive,
 	 *      links, etc.
 	 *  12- skip extraction, dir already exists.
 	 */
-	struct stat lsbuf;
-	if(_alpm_lstat(filename, &lsbuf) != 0) {
+
+	/* do both a lstat and a stat, so we can see what symlinks point to */
+	struct stat lsbuf, sbuf;
+	if(_alpm_lstat(filename, &lsbuf) != 0 || stat(filename, &sbuf) != 0) {
 		/* cases 1,2,3: couldn't stat an existing file, skip all backup checks */
 	} else {
-		/* do a stat as well, so we can see what symlinks point to */
-		struct stat sbuf;
-		stat(filename, &sbuf);
-
 		if(S_ISDIR(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 12: existing dir, ignore it */
 			if(lsbuf.st_mode != entrymode) {
