@@ -998,23 +998,30 @@ devel_check() {
 		# This will only be used on the first call to makepkg; subsequent
 		# calls to makepkg via fakeroot will explicitly pass the version
 		# number to avoid having to determine the version number twice.
+		# Also do a brief check to make sure we have the VCS tool available.
 		oldpkgver=$pkgver
 		if [ ! -z ${_darcstrunk} ] && [ ! -z ${_darcsmod} ] ; then
+			[ $(type -p darcs) ] || return 0
 			msg "$(gettext "Determining latest darcs revision...")"
 			newpkgver=$(date +%Y%m%d)
 		elif [ ! -z ${_cvsroot} ] && [ ! -z ${_cvsmod} ] ; then
+			[ $(type -p cvs) ] || return 0
 			msg "$(gettext "Determining latest cvs revision...")"
 			newpkgver=$(date +%Y%m%d)
 		elif [ ! -z ${_gitroot} ] && [ ! -z ${_gitname} ] ; then
+			[ $(type -p git) ] || return 0
 			msg "$(gettext "Determining latest git revision...")"
 			newpkgver=$(date +%Y%m%d)
 		elif [ ! -z ${_svntrunk} ] && [ ! -z ${_svnmod} ] ; then
+			[ $(type -p svn) ] || return 0
 			msg "$(gettext "Determining latest svn revision...")"
 			newpkgver=$(svn log $_svntrunk --limit 1 -q | sed -n 's/^r\([0-9]*\) .*$/\1/p')
 		elif [ ! -z ${_bzrtrunk} ] && [ ! -z ${_bzrmod} ] ; then
+			[ $(type -p bzr) ] || return 0
 			msg "$(gettext "Determining latest bzr revision...")"
 			newpkgver=$(bzr revno ${_bzrtrunk})
 		elif [ ! -z ${_hgroot} ] && [ ! -z ${_hgrepo} ] ; then
+			[ $(type -p hg) ] || return 0
 			msg "$(gettext "Determining latest hg revision...")"
 			if [ -d ./src/$_hgrepo ] ; then
 				cd ./src/$_hgrepo
