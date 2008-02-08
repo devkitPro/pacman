@@ -196,6 +196,9 @@ def mkcfgfile(filename, root, option, db):
 def getmd5sum(filename):
     """
     """
+    if not os.path.isfile(filename):
+        print "file %s does not exist!" % filename
+        return ""
     fd = open(filename, "rb")
     checksum = md5.new()
     while 1:
@@ -223,6 +226,9 @@ def mkmd5sum(data):
 def getmtime(filename):
     """
     """
+    if not os.path.exists(filename):
+        print "path %s does not exist!" % filename
+        return 0, 0, 0
     st = os.stat(filename)
     return st[stat.ST_ATIME], st[stat.ST_MTIME], st[stat.ST_CTIME]
 

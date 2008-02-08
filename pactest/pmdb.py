@@ -119,7 +119,10 @@ class pmdb:
 
         # desc
         filename = os.path.join(path, "desc")
-        fd = file(filename, "r")
+        if not os.path.isfile(filename):
+            print "invalid db entry found (desc missing) for pkg", pkgname
+            return None
+        fd = open(filename, "r")
         while 1:
             line = fd.readline()
             if not line:
@@ -158,7 +161,10 @@ class pmdb:
 
         # files
         filename = os.path.join(path, "files")
-        fd = file(filename, "r")
+        if not os.path.isfile(filename):
+            print "invalid db entry found (files missing) for pkg", pkgname
+            return None
+        fd = open(filename, "r")
         while 1:
             line = fd.readline()
             if not line:
@@ -177,6 +183,9 @@ class pmdb:
 
         # depends
         filename = os.path.join(path, "depends")
+        if not os.path.isfile(filename):
+            print "invalid db entry found (depends missing) for pkg", pkgname
+            return None
         fd = file(filename, "r")
         while 1:
             line = fd.readline()
