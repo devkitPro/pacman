@@ -8,11 +8,11 @@
 #
 #-- The download utilities that makepkg should use to acquire sources
 #  Format: 'protocol::agent'
-DLAGENTS=('ftp::/usr/bin/wget -c --passive-ftp -t 3 --waitretry=3'
-          'http::/usr/bin/wget -c -t 3 --waitretry=3'
-          'https::/usr/bin/wget -c -t 3 --waitretry=3 --no-check-certificate'
-          'rsync::/usr/bin/rsync -z'
-          'scp::/usr/bin/scp -C')
+DLAGENTS=('ftp::/usr/bin/wget -c --passive-ftp -t 3 --waitretry=3 -O %o %u'
+          'http::/usr/bin/wget -c -t 3 --waitretry=3 -O %o %u'
+          'https::/usr/bin/wget -c -t 3 --waitretry=3 --no-check-certificate -O %o %u'
+          'rsync::/usr/bin/rsync -z %u %o'
+          'scp::/usr/bin/scp -C %u %o')
 
 # Other common tools:
 # /usr/bin/snarf

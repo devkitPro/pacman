@@ -37,6 +37,9 @@ Options
 	well; the download URL is placed on the end of the command. This is more
 	flexible than the former `FTPAGENT` variable, as any protocol can have a
 	download agent. Several examples are provided in the default makepkg.conf.
+	All instances of `%u` will be replaced with the download URL. If present,
+	instances of `%o` will be replaced with the local filename, plus a ``.part''
+	extension, which allows to do file resumes properly.
 
 **CARCH=**"carch"::
 	Specifies your computer architecture; possible values include such things

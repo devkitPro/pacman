@@ -299,6 +299,20 @@ get_downloadclient() {
 	echo "$agent"
 }
 
+get_downloadcmd() {
+	local dlagent=$1
+	local netfile=$2
+	local file=$3
+
+	if echo "$dlagent" | grep -q "%u" ; then
+		local dlcmd=$(echo "$dlagent" | sed "s|%o|$file.part|" | sed "s|%u|$netfile|")
+	else
+		local dlcmd="$dlagent $netfile"
+	fi
+
+	echo "$dlcmd"
+}
+
 check_deps() {
 	[ $# -gt 0 ] || return
 
@@ -471,16 +485,19 @@ download_sources() {
 		fi
 
 		# find the client we should use for this URL
-		local dlclient=$(get_downloadclient $netfile) || exit $?
+		local dlclient=$(get_downloadclient "$netfile") || exit $?
 
 		msg2 "$(gettext "Downloading %s...")" "$file"
 		# fix flyspray bug #3289
 		local ret=0
-		$dlclient "$netfile" || ret=$?
+		$(get_downloadcmd "$dlclient" "$netfile" "$file") || ret=$?
 		if [ $ret -gt 0 ]; then
 			error "$(gettext "Failure while downloading %s")" "$file"
 			plain "$(gettext "Aborting...")"
 			exit 1
+		fi
+		if echo "$dlclient" | grep -q "%o" ; then
+			mv -f "$SRCDEST/$file.part" "$SRCDEST/$file"
 		fi
 		cp -s --remove-destination "$SRCDEST/$file" "$srcdir/"
 	done
