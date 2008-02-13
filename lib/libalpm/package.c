@@ -152,19 +152,6 @@ const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
 	}
 
-	if(pkg->filename == NULL || strlen(pkg->filename) == 0) {
-		/* construct the file name, it's not in the desc file */
-		char buffer[PATH_MAX];
-		if(pkg->arch && strlen(pkg->arch) > 0) {
-			snprintf(buffer, PATH_MAX, "%s-%s-%s" PKGEXT,
-			         pkg->name, pkg->version, pkg->arch);
-		} else {
-			snprintf(buffer, PATH_MAX, "%s-%s" PKGEXT,
-			         pkg->name, pkg->version);
-		}
-		STRDUP(pkg->filename, buffer, RET_ERR(PM_ERR_MEMORY, NULL));
-	}
-
 	return pkg->filename;
 }
 

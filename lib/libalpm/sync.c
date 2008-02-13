@@ -819,6 +819,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				const char *fname = NULL;
 
 				fname = alpm_pkg_get_filename(spkg);
+				ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
 				if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
 					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current),
 							(char *)fname);
@@ -985,6 +986,9 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		char *fpath;
 
 		fname = alpm_pkg_get_filename(spkg);
+		if(fname == NULL) {
+			goto error;
+		}
 		/* Loop through the cache dirs until we find a matching file */
 		fpath = _alpm_filecache_find(fname);
 
