@@ -162,11 +162,12 @@ const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
+	}
+
 	if(!strlen(pkg->filename)) {
 		/* construct the file name, it's not in the desc file */
-		if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-			_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-		}
 		if(pkg->arch && strlen(pkg->arch) > 0) {
 			snprintf(pkg->filename, PKG_FILENAME_LEN, "%s-%s-%s" PKGEXT,
 			         pkg->name, pkg->version, pkg->arch);

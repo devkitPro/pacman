@@ -261,6 +261,7 @@ class pmdb:
             if pkg.reason:
                 data.append(_mksection("REASON", pkg.reason))
         else:
+            data.append(_mksection("FILENAME", pkg.filename()))
             if pkg.replaces:
                 data.append(_mksection("REPLACES", pkg.replaces))
             if pkg.force:

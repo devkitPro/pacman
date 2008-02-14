@@ -297,10 +297,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			_alpm_strtrim(line);
 			if(!strcmp(line, "%FILENAME%")) {
-				/* filename is _new_ - it provides the real name of the package, on the
-				 * server, to allow for us to not tie the name of the actual file to the
-				 * data of the package
-				 */
 				if(fgets(info->filename, sizeof(info->filename), fp) == NULL) {
 					goto error;
 				}
