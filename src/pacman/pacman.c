@@ -231,11 +231,11 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
-/** Sets all libalpm required paths in one go. Called after the command line and
- * inital config file parsing. Once this is complete, we can see if any paths were
- * defined. If a rootdir was defined and nothing else, we want all of our paths to
- * live under the rootdir that was specified. Safe to call multiple times (will only
- * do anything the first time).
+/** Sets all libalpm required paths in one go. Called after the command line
+ * and inital config file parsing. Once this is complete, we can see if any
+ * paths were defined. If a rootdir was defined and nothing else, we want all
+ * of our paths to live under the rootdir that was specified. Safe to call
+ * multiple times (will only do anything the first time).
  */
 static void setlibpaths(void)
 {
@@ -244,6 +244,8 @@ static void setlibpaths(void)
 		int ret = 0;
 
 		pm_printf(PM_LOG_DEBUG, "setlibpaths() called\n");
+		/* Configure root path first. If it is set and dbpath/logfile were not
+		 * set, then set those as well to reside under the root. */
 		if(config->rootdir) {
 			char path[PATH_MAX];
 			ret = alpm_option_set_root(config->rootdir);
@@ -258,10 +260,12 @@ static void setlibpaths(void)
 			}
 			if(!config->logfile) {
 				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE);
-				ret = alpm_option_set_dbpath(path);
 				config->logfile = strdup(path);
 			}
 		}
+		/* Set other paths if they were configured. Note that unless rootdir
+		 * was left undefined, these two paths (dbpath and logfile) will have
+		 * been set locally above, so the if cases below will now trigger. */
 		if(config->dbpath) {
 			ret = alpm_option_set_dbpath(config->dbpath);
 			if(ret != 0) {

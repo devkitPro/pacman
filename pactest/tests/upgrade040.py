@@ -27,4 +27,5 @@ for p in p1, p2:
 	self.addrule("PKG_EXIST=%s" % p.name)
 self.addrule("FILE_MODIFIED=bin/dummy")
 self.addrule("FILE_MODIFIED=bin/foobar")
+self.addrule("FILE_EXIST=usr/share/file")
 self.addrule("FILE_MODIFIED=usr/share/file")

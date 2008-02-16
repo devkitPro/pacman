@@ -675,9 +675,6 @@ run_build() {
 	msg "$(gettext "Starting build()...")"
 	cd "$srcdir"
 
-	# ensure we have a sane umask set
-	umask 0022
-
 	# ensure all necessary build variables are exported
 	export CFLAGS CXXFLAGS MAKEFLAGS CHOST
 
@@ -1416,6 +1413,9 @@ elif [ $(type -p pacman) ]; then
 else
 	warning "$(gettext "pacman was not found in PATH; skipping dependency checks.")"
 fi
+
+# ensure we have a sane umask set
+umask 0022
 
 # get back to our src directory so we can begin with sources
 mkdir -p "$srcdir"
