@@ -692,6 +692,16 @@ static int _parseconfig(const char *file, const char *givensection,
 					} else if (strcmp(key, "XferCommand") == 0) {
 						alpm_option_set_xfercommand(ptr);
 						pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", ptr);
+					} else if (strcmp(key, "CleanMethod") == 0) {
+						if (strcmp(ptr, "KeepInstalled") == 0) {
+							config->cleanmethod = PM_CLEAN_KEEPINST;
+						} else if (strcmp(ptr, "KeepCurrent") == 0) {
+							config->cleanmethod = PM_CLEAN_KEEPCUR;
+						} else {
+							pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"), ptr);
+							return(1);
+						}
+						pm_printf(PM_LOG_DEBUG, "config: cleanmethod: %s\n", ptr);
 					} else {
 						pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 								file, linenum, key);

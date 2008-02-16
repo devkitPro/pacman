@@ -65,9 +65,10 @@ typedef struct __config_t {
 	unsigned short chomp; /* I Love Candy! */
 	unsigned short usecolor; /* enable colorful output */
 	unsigned short showsize; /* show individual package sizes */
-	unsigned short totaldownload; /* When downloading, display the amount
-	                                 downloaded, rate, ETA, and percent
-	                                 downloaded of the total download list */
+	/* When downloading, display the amount downloaded, rate, ETA, and percent
+	 * downloaded of the total download list */
+	unsigned short totaldownload;
+	unsigned short cleanmethod; /* select -Sc behavior */
 } config_t;
 
 /* Operations */
@@ -78,6 +79,12 @@ enum {
 	PM_OP_QUERY,
 	PM_OP_SYNC,
 	PM_OP_DEPTEST
+};
+
+/* clean method */
+enum {
+	PM_CLEAN_KEEPINST = 0, /* default */
+	PM_CLEAN_KEEPCUR
 };
 
 /* global config variable */

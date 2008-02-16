@@ -133,13 +133,23 @@ static int sync_cleancache(int level)
 		/* incomplete cleanup */
 		DIR *dir;
 		struct dirent *ent;
-		/* Let's vastly improve the way this is done. Before, we went by package
-		 * name. Instead, let's only keep packages we have installed. Open up each
-		 * package and see if it has an entry in the local DB; if not, delete it.
-		 */
+		/* Open up each package and see if it should be deleted,
+		 * depending on the clean method used */
 		printf(_("Cache directory: %s\n"), cachedir);
-		if(!yesno(1, _("Do you want to remove uninstalled packages from cache?"))) {
-			return(0);
+		switch(config->cleanmethod) {
+			case PM_CLEAN_KEEPINST:
+				if(!yesno(1, _("Do you want to remove uninstalled packages from cache?"))) {
+					return(0);
+				}
+				break;
+			case PM_CLEAN_KEEPCUR:
+				if(!yesno(1, _("Do you want to remove outdated packages from cache?"))) {
+					return(0);
+				}
+				break;
+			default:
+				/* this should not happen : the config parsing doesn't set any other value */
+				return(1);
 		}
 		printf(_("removing old packages from cache... "));
 
@@ -153,13 +163,16 @@ static int sync_cleancache(int level)
 		/* step through the directory one file at a time */
 		while((ent = readdir(dir)) != NULL) {
 			char path[PATH_MAX];
-			pmpkg_t *localpkg = NULL, *dbpkg = NULL;
+			int delete = 1;
+			pmpkg_t *localpkg = NULL, *pkg = NULL;
+			alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+			alpm_list_t *j;
 
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
 				continue;
 			}
 			/* build the full filepath */
-			snprintf(path, PATH_MAX, "%s/%s", cachedir, ent->d_name);
+			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
 
 			/* attempt to load the package, skip file on failures as we may have
 			 * files here that aren't valid packages. we also don't need a full
@@ -167,19 +180,39 @@ static int sync_cleancache(int level)
 			if(alpm_pkg_load(path, 0, &localpkg) != 0 || localpkg == NULL) {
 				continue;
 			}
-			/* check if this package is in the local DB */
-			dbpkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(localpkg));
-			if(dbpkg == NULL) {
-				/* delete package, not present in local DB */
-				unlink(path);
-			} else if(alpm_pkg_vercmp(alpm_pkg_get_version(localpkg),
-							alpm_pkg_get_version(dbpkg)) != 0) {
-				/* delete package, it was found but version differs */
-				unlink(path);
+			switch(config->cleanmethod) {
+				case PM_CLEAN_KEEPINST:
+					/* check if this package is in the local DB */
+					pkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(localpkg));
+					if(pkg != NULL && alpm_pkg_vercmp(alpm_pkg_get_version(localpkg),
+								alpm_pkg_get_version(pkg)) == 0) {
+						/* package was found in local DB and version matches, keep it */
+						delete = 0;
+					}
+					break;
+				case PM_CLEAN_KEEPCUR:
+					/* check if this package is in a sync DB */
+					for(j = sync_dbs; j && delete; j = alpm_list_next(j)) {
+						pmdb_t *db = alpm_list_getdata(j);
+						pkg = alpm_db_get_pkg(db, alpm_pkg_get_name(localpkg));
+						if(pkg != NULL && alpm_pkg_vercmp(alpm_pkg_get_version(localpkg),
+									alpm_pkg_get_version(pkg)) == 0) {
+							/* package was found in a sync DB and version matches, keep it */
+							delete = 0;
+						}
+					}
+					break;
+				default:
+					/* this should not happen : the config parsing doesn't set any other value */
+					delete = 0;
+					break;
 			}
-			/* else version was the same, so keep the package */
 			/* free the local file package */
 			alpm_pkg_free(localpkg);
+
+			if(delete) {
+				unlink(path);
+			}
 		}
 		printf(_("done.\n"));
 	} else {
