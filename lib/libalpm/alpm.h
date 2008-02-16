@@ -222,7 +222,7 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
 unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
-unsigned long alpm_pkg_download_size(pmpkg_t *newpkg, pmdb_t *db_local);
+unsigned long alpm_pkg_download_size(pmpkg_t *newpkg);
 
 /*
  * Deltas

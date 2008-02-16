@@ -545,8 +545,8 @@ int _alpm_str_cmp(const void *s1, const void *s2)
 	return(strcmp(s1, s2));
 }
 
-/** Find a package file in an alpm cachedir.
- * @param filename name of package file to find
+/** Find a filename in a registered alpm cachedir.
+ * @param filename name of file to find
  * @return malloced path of file, NULL if not found
  */
 char *_alpm_filecache_find(const char* filename)

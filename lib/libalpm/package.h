@@ -70,6 +70,8 @@ struct __pmpkg_t {
 		char *file;
 	} origin_data;
 	pmdbinfrq_t infolevel;
+	unsigned long download_size;
+	alpm_list_t *delta_path;
 };
 
 int _alpm_versioncmp(const char *a, const char *b);

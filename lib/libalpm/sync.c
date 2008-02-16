@@ -380,6 +380,47 @@ static int syncpkg_cmp(const void *s1, const void *s2)
 	return(strcmp(alpm_pkg_get_name(p1), alpm_pkg_get_name(p2)));
 }
 
+/** Compute the size of the files that will be downloaded to install a
+ * package.
+ * @param newpkg the new package to upgrade to
+ */
+static void compute_download_size(pmpkg_t *newpkg)
+{
+	char *fpath = _alpm_filecache_find(alpm_pkg_get_filename(newpkg));
+	unsigned long size = 0;
+
+	if(fpath) {
+		FREE(fpath);
+		size = 0;
+	} else if(handle->usedelta) {
+		unsigned long dltsize;
+		unsigned long pkgsize = alpm_pkg_get_size(newpkg);
+
+		dltsize = _alpm_shortest_delta_path(
+			alpm_pkg_get_deltas(newpkg),
+			alpm_pkg_get_filename(newpkg),
+			alpm_pkg_get_md5sum(newpkg),
+			&newpkg->delta_path);
+
+		if(newpkg->delta_path && (dltsize < pkgsize * MAX_DELTA_RATIO)) {
+			_alpm_log(PM_LOG_DEBUG, "using delta size\n");
+			size = dltsize;
+		} else {
+			_alpm_log(PM_LOG_DEBUG, "using package size\n");
+			size = alpm_pkg_get_size(newpkg);
+			alpm_list_free(newpkg->delta_path);
+			newpkg->delta_path = NULL;
+		}
+	} else {
+		size = alpm_pkg_get_size(newpkg);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "returning size %ld for pkg %s\n", size,
+			alpm_pkg_get_name(newpkg));
+
+	newpkg->download_size = size;
+}
+
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
 {
 	alpm_list_t *deps = NULL;
@@ -601,6 +642,11 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			goto cleanup;
 		}
 	}
+	for(i = list; i; i = i->next) {
+		/* update download size field */
+		pmpkg_t *spkg = i->data;
+		compute_download_size(spkg);
+	}
 
 cleanup:
 	alpm_list_free(list);
@@ -609,86 +655,14 @@ cleanup:
 	return(ret);
 }
 
-/** Returns a list of deltas that should be downloaded instead of the
- * package.
- *
- * It first tests if a delta path exists between the currently installed
- * version (if any) and the version to upgrade to. If so, the delta path
- * is used if its size is below a set percentage (MAX_DELTA_RATIO) of
- * the package size, Otherwise, an empty list is returned.
- *
- * @param newpkg the new package to upgrade to
- * @param db_local the local database
- *
- * @return the list of pmdelta_t * objects. NULL (the empty list) is
- * returned if the package should be downloaded instead of deltas.
- */
-static alpm_list_t *pkg_upgrade_delta_path(pmpkg_t *newpkg, pmdb_t *db_local)
-{
-	pmpkg_t *oldpkg = alpm_db_get_pkg(db_local, newpkg->name);
-	alpm_list_t *ret = NULL;
-
-	if(oldpkg) {
-		const char *oldname = alpm_pkg_get_filename(oldpkg);
-		char *oldpath = _alpm_filecache_find(oldname);
-
-		if(oldpath) {
-			alpm_list_t *deltas = _alpm_shortest_delta_path(
-					alpm_pkg_get_deltas(newpkg),
-					alpm_pkg_get_version(oldpkg),
-					alpm_pkg_get_version(newpkg));
-
-			if(deltas) {
-				unsigned long dltsize = _alpm_delta_path_size(deltas);
-				unsigned long pkgsize = alpm_pkg_get_size(newpkg);
-
-				if(dltsize < pkgsize * MAX_DELTA_RATIO) {
-					ret = deltas;
-				} else {
-					ret = NULL;
-					alpm_list_free(deltas);
-				}
-			}
-
-			FREE(oldpath);
-		}
-	}
-
-	return(ret);
-}
-
 /** Returns the size of the files that will be downloaded to install a
  * package.
- *
  * @param newpkg the new package to upgrade to
- * @param db_local the local database
- *
  * @return the size of the download
  */
-unsigned long SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg, pmdb_t *db_local)
+unsigned long SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
 {
-	char *fpath = _alpm_filecache_find(alpm_pkg_get_filename(newpkg));
-	unsigned long size = 0;
-
-	if(fpath) {
-		size = 0;
-	} else if(handle->usedelta) {
-		alpm_list_t *deltas = pkg_upgrade_delta_path(newpkg, db_local);
-
-		if(deltas) {
-			size = _alpm_delta_path_size_uncached(deltas);
-		} else {
-			size = alpm_pkg_get_size(newpkg);
-		}
-
-		alpm_list_free(deltas);
-	} else {
-		size = alpm_pkg_get_size(newpkg);
-	}
-
-	FREE(fpath);
-
-	return(size);
+	return(newpkg->download_size);
 }
 
 /** Applies delta files to create an upgraded package file.
@@ -849,46 +823,35 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current),
 							(char *)fname);
 				} else {
-					char *fpath = _alpm_filecache_find(fname);
-					if(!fpath) {
-						if(handle->usedelta) {
-							alpm_list_t *delta_path = pkg_upgrade_delta_path(spkg, db_local);
+					if(spkg->download_size != 0) {
+						alpm_list_t *delta_path = spkg->delta_path;
+						if(delta_path) {
+							alpm_list_t *dlts = NULL;
 
-							if(delta_path) {
-								alpm_list_t *dlts = NULL;
+							for(dlts = delta_path; dlts; dlts = alpm_list_next(dlts)) {
+								pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
+								char *fpath2 = _alpm_filecache_find(d->delta);
 
-								for(dlts = delta_path; dlts; dlts = alpm_list_next(dlts)) {
-									pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
-									char *fpath2 = _alpm_filecache_find(d->delta);
-
-									if(!fpath2) {
-										/* add the delta filename to the download list if
-										 * it's not in the cache */
-										files = alpm_list_add(files, strdup(d->delta));
-									}
-
-									/* save the package and delta so that the xdelta patch
-									 * command can be run after the downloads finish */
-									patches = alpm_list_add(patches, spkg);
-									patches = alpm_list_add(patches, d);
-
-									/* keep a list of the delta files for md5sums */
-									deltas = alpm_list_add(deltas, d);
+								if(!fpath2) {
+									/* add the delta filename to the download list if
+									 * it's not in the cache */
+									files = alpm_list_add(files, strdup(d->delta));
 								}
 
-								alpm_list_free(delta_path);
-								delta_path = NULL;
-							} else {
-								/* no deltas to download, so add the file to the
-								 * download list */
-								files = alpm_list_add(files, strdup(fname));
+								/* save the package and delta so that the xdelta patch
+								 * command can be run after the downloads finish */
+								patches = alpm_list_add(patches, spkg);
+								patches = alpm_list_add(patches, d);
+
+								/* keep a list of the delta files for md5sums */
+								deltas = alpm_list_add(deltas, d);
 							}
+
 						} else {
 							/* not using deltas, so add the file to the download list */
 							files = alpm_list_add(files, strdup(fname));
 						}
 					}
-					FREE(fpath);
 				}
 			}
 		}

@@ -510,7 +510,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 		}
 
 		dispsize = alpm_pkg_get_size(pkg);
-		dlsize += alpm_pkg_download_size(pkg, db_local);
+		dlsize += alpm_pkg_download_size(pkg);
 		isize += alpm_pkg_get_isize(pkg);
 
 		/* print the package size with the output if ShowSize option set */

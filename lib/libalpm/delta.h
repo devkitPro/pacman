@@ -36,14 +36,14 @@ struct __pmdelta_t {
 	char *delta_md5;
 	/** filesize of the delta file */
 	unsigned long delta_size;
+	/** download filesize of the delta file */
+	unsigned long download_size;
 };
 
-unsigned long _alpm_delta_path_size(alpm_list_t *deltas);
-unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas);
 pmdelta_t *_alpm_delta_parse(char *line);
 void _alpm_delta_free(pmdelta_t *delta);
-alpm_list_t *_alpm_shortest_delta_path(alpm_list_t *deltas,
-		const char *from, const char *to);
+unsigned long _alpm_shortest_delta_path(alpm_list_t *deltas,
+		const char *to, const char *to_md5, alpm_list_t **path);
 
 #endif /* _ALPM_DELTA_H */
 

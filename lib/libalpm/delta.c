@@ -21,13 +21,14 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 /* libalpm */
 #include "delta.h"
+#include "alpm_list.h"
 #include "util.h"
 #include "log.h"
-#include "alpm_list.h"
-#include "alpm.h"
+#include "graph.h"
 
 /** \addtogroup alpm_deltas Delta Functions
  * @brief Functions to manipulate libalpm deltas
@@ -78,129 +79,170 @@ unsigned long SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
 
 /** @} */
 
-/** Calculates the combined size of a list of delta files.
- * @param deltas the list of pmdelta_t * objects
- * @return the combined size
- */
-unsigned long _alpm_delta_path_size(alpm_list_t *deltas)
+static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 {
-	unsigned long sum = 0;
-	alpm_list_t *dlts = deltas;
+	alpm_list_t *i, *j;
+	alpm_list_t *vertices = NULL;
+	/* create the vertices */
+	for(i = deltas; i; i = i->next) {
+		char *fpath, *md5sum;
+		pmgraph_t *v = _alpm_graph_new();
+		pmdelta_t *vdelta = i->data;
+		vdelta->download_size = vdelta->delta_size;
+		v->weight = ULONG_MAX;
 
-	while(dlts) {
-		pmdelta_t *d = alpm_list_getdata(dlts);
-		sum += d->delta_size;
+		/* determine whether the delta file already exists */
+		fpath = _alpm_filecache_find(vdelta->delta);
+		md5sum = alpm_get_md5sum(fpath);
+		if(fpath && md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
+			vdelta->download_size = 0;
+		}
+		FREE(fpath);
+		FREE(md5sum);
 
-		dlts = alpm_list_next(dlts);
+		/* determine whether a base 'from' file exists */
+		fpath = _alpm_filecache_find(vdelta->from);
+		md5sum = alpm_get_md5sum(fpath);
+		if(fpath && md5sum && strcmp(md5sum, vdelta->from_md5) == 0) {
+			v->weight = vdelta->download_size;
+		}
+		FREE(fpath);
+		FREE(md5sum);
+
+		v->data = vdelta;
+		vertices = alpm_list_add(vertices, v);
 	}
 
-	return(sum);
+	/* compute the edges */
+	for(i = vertices; i; i = i->next) {
+		pmgraph_t *v_i = i->data;
+		pmdelta_t *d_i = v_i->data;
+		/* loop a second time so we make all possible comparisons */
+		for(j = vertices; j; j = j->next) {
+			pmgraph_t *v_j = j->data;
+			pmdelta_t *d_j = v_j->data;
+			/* We want to create a delta tree like the following:
+			 *          1_to_2
+			 *            |
+			 * 1_to_3   2_to_3
+			 *   \        /
+			 *     3_to_4
+			 * If J 'from' is equal to I 'to', then J is a child of I.
+			 * */
+			if(strcmp(d_j->from, d_i->to) == 0
+					&& strcmp(d_j->from_md5, d_i->to_md5) == 0) {
+				v_i->children = alpm_list_add(v_i->children, v_j);
+			}
+		}
+		v_i->childptr = v_i->children;
+	}
+	return(vertices);
 }
 
-/** Calculates the combined size of a list of delta files that are not
- * in the cache.
- * @param deltas the list of pmdelta_t * objects
- * @return the combined size
- */
-unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas)
-{
-	unsigned long sum = 0;
-	alpm_list_t *dlts = deltas;
+static unsigned long delta_vert(alpm_list_t *vertices,
+		const char *to, const char *to_md5, alpm_list_t **path) {
+	alpm_list_t *i;
+	pmgraph_t *v;
+	while(1) {
+		v = NULL;
+		/* find the smallest vertice not visited yet */
+		for(i = vertices; i; i = i->next) {
+			pmgraph_t *v_i = i->data;
 
-	while(dlts) {
-		pmdelta_t *d = alpm_list_getdata(dlts);
-		char *fname = _alpm_filecache_find(d->delta);
+			if(v_i->state == -1) {
+				continue;
+			}
 
-		if(!fname) {
-			sum += d->delta_size;
+			if(v == NULL || v_i->weight < v->weight) {
+				v = v_i;
+			}
+		}
+		if(v == NULL || v->weight == ULONG_MAX) {
+			break;
 		}
 
-		FREE(fname);
+		v->state = -1;
 
-		dlts = alpm_list_next(dlts);
-	}
+		v->childptr = v->children;
+		while(v->childptr) {
+			pmgraph_t *v_c = v->childptr->data;
+			pmdelta_t *d_c = v_c->data;
+			if(v_c->weight > v->weight + d_c->download_size) {
+				v_c->weight = v->weight + d_c->download_size;
+				v_c->parent = v;
+			}
 
-	return(sum);
-}
+			v->childptr = (v->childptr)->next;
 
-/** Calculates the shortest path from one version to another.
- * The shortest path is defined as the path with the smallest combined
- * size, not the length of the path.
- * The algorithm is based on Dijkstra's shortest path algorithm.
- * @param deltas the list of pmdelta_t * objects that a package has
- * @param from the version to start from
- * @param to the version to end at
- * @param path the current path
- * @return the list of pmdelta_t * objects that has the smallest size.
- * NULL (the empty list) is returned if there is no path between the
- * versions.
- */
-static alpm_list_t *shortest_delta_path(alpm_list_t *deltas,
-		const char *from, const char *to, alpm_list_t *path)
-{
-	alpm_list_t *d;
-	alpm_list_t *shortest = NULL;
-
-	/* Found the 'to' version, this is a good path so return it. */
-	if(strcmp(from, to) == 0) {
-		return(path);
-	}
-
-	for(d = deltas; d; d = alpm_list_next(d)) {
-		pmdelta_t *v = alpm_list_getdata(d);
-
-		/* If this vertex has already been visited in the path, go to the
-		 * next vertex. */
-		if(alpm_list_find_ptr(path, v)) {
-			continue;
 		}
+	}
 
-		/* Once we find a vertex that starts at the 'from' version,
-		 * recursively find the shortest path using the 'to' version of this
-		 * current vertex as the 'from' version in the function call. */
-		if(strcmp(v->from, from) == 0) {
-			alpm_list_t *newpath = alpm_list_copy(path);
-			newpath = alpm_list_add(newpath, v);
-			newpath = shortest_delta_path(deltas, v->to, to, newpath);
+	v = NULL;
+	unsigned long bestsize = 0;
 
-			if(newpath != NULL) {
-				/* The path returned works, now use it unless there is already a
-				 * shorter path found. */
-				if(shortest == NULL) {
-					shortest = newpath;
-				} else if(_alpm_delta_path_size(shortest) > _alpm_delta_path_size(newpath)) {
-					alpm_list_free(shortest);
-					shortest = newpath;
-				} else {
-					alpm_list_free(newpath);
-				}
+	for(i = vertices; i; i = i->next) {
+		pmgraph_t *v_i = i->data;
+		pmdelta_t *d_i = v_i->data;
+
+		if(strcmp(d_i->to, to) == 0
+				|| strcmp(d_i->to_md5, to_md5) == 0) {
+			if(v == NULL || v_i->weight < v->weight) {
+				v = v_i;
+				bestsize = v->weight;
 			}
 		}
 	}
 
-	alpm_list_free(path);
+	alpm_list_t *rpath = NULL;
+	while(v != NULL) {
+		pmdelta_t *vdelta = v->data;
+		rpath = alpm_list_add(rpath, vdelta);
+		v = v->parent;
+	}
+	*path = alpm_list_reverse(rpath);
+	alpm_list_free(rpath);
 
-	return(shortest);
+	return(bestsize);
 }
 
 /** Calculates the shortest path from one version to another.
  * The shortest path is defined as the path with the smallest combined
  * size, not the length of the path.
- * @param deltas the list of pmdelta_t * objects that a package has
- * @param from the version to start from
- * @param to the version to end at
- * @return the list of pmdelta_t * objects that has the smallest size.
- * NULL (the empty list) is returned if there is no path between the
- * versions.
+ * @param deltas the list of pmdelta_t * objects that a file has
+ * @param to the file to start the search at
+ * @param to_md5 the md5sum of the above named file
+ * @param path the pointer to a list location where pmdelta_t * objects that
+ * have the smallest size are placed. NULL is set if there is no path
+ * possible with the files available.
+ * @return the size of the path stored, or ULONG_MAX if path is unfindable
  */
-alpm_list_t *_alpm_shortest_delta_path(alpm_list_t *deltas, const char *from,
-		const char *to)
+unsigned long _alpm_shortest_delta_path(alpm_list_t *deltas,
+		const char *to, const char *to_md5, alpm_list_t **path)
 {
-	alpm_list_t *path = NULL;
+	alpm_list_t *bestpath = NULL;
+	alpm_list_t *vertices;
+	unsigned long bestsize = ULONG_MAX;
 
-	path = shortest_delta_path(deltas, from, to, path);
+	ALPM_LOG_FUNC;
 
-	return(path);
+	if(deltas == NULL) {
+		*path = NULL;
+		return(bestsize);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search\n");
+
+	vertices = delta_graph_init(deltas);
+
+	bestsize = delta_vert(vertices, to, to_md5, &bestpath);
+
+	_alpm_log(PM_LOG_DEBUG, "delta shortest-path search complete\n");
+
+	alpm_list_free_inner(vertices, _alpm_graph_free);
+	alpm_list_free(vertices);
+
+	*path = bestpath;
+	return(bestsize);
 }
 
 /** Parses the string representation of a pmdelta_t object.
