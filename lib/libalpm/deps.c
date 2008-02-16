@@ -31,6 +31,7 @@
 #include "util.h"
 #include "log.h"
 #include "error.h"
+#include "graph.h"
 #include "package.h"
 #include "db.h"
 #include "cache.h"
@@ -41,31 +42,6 @@ void _alpm_dep_free(pmdepend_t *dep)
 	FREE(dep->name);
 	FREE(dep->version);
 	FREE(dep);
-}
-
-static pmgraph_t *_alpm_graph_new(void)
-{
-	pmgraph_t *graph = NULL;
-
-	ALPM_LOG_FUNC;
-
-	MALLOC(graph, sizeof(pmgraph_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
-	if(graph) {
-		graph->state = 0;
-		graph->data = NULL;
-		graph->parent = NULL;
-		graph->children = NULL;
-		graph->childptr = NULL;
-	}
-	return(graph);
-}
-
-static void _alpm_graph_free(void *data)
-{
-	pmgraph_t *graph = data;
-	alpm_list_free(graph->children);
-	free(graph);
 }
 
 pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
@@ -97,7 +73,7 @@ void _alpm_depmiss_free(pmdepmissing_t *miss)
  * Returns a list of vertices (one vertex = one package)
  * (used by alpm_sortbydeps)
  */
-static alpm_list_t *_alpm_graph_init(alpm_list_t *targets)
+static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *k;
 	alpm_list_t *vertices = NULL;
@@ -161,7 +137,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 
 	_alpm_log(PM_LOG_DEBUG, "started sorting dependencies\n");
 
-	vertices = _alpm_graph_init(targets);
+	vertices = dep_graph_init(targets);
 
 	vptr = vertices;
 	vertex = vertices->data;

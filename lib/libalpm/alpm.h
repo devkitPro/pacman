@@ -52,7 +52,6 @@ typedef struct __pmdepend_t pmdepend_t;
 typedef struct __pmdepmissing_t pmdepmissing_t;
 typedef struct __pmconflict_t pmconflict_t;
 typedef struct __pmfileconflict_t pmfileconflict_t;
-typedef struct __pmgraph_t pmgraph_t;
 
 /*
  * Library

@@ -40,16 +40,6 @@ struct __pmdepmissing_t {
 	char *causingpkg; /* this is used in case of remove dependency error only */
 };
 
-/* Graphs */
-struct __pmgraph_t {
-	int state; /* 0: untouched, -1: entered, other: leaving time */
-	void *data;
-	struct __pmgraph_t *parent; /* where did we come from? */
-	alpm_list_t *children;
-	alpm_list_t *childptr; /* points to a child in children list */
-};
-
-
 void _alpm_dep_free(pmdepend_t *dep);
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
 pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,

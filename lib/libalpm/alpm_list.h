@@ -19,6 +19,8 @@
 #ifndef _ALPM_LIST_H
 #define _ALPM_LIST_H
 
+#include <stdlib.h> /* size_t */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
