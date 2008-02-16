@@ -22,11 +22,20 @@
 #include "alpm.h"
 
 struct __pmdelta_t {
+	/** filename of the 'before' file */
 	char *from;
+	/** md5sum of the 'before' file */
+	char *from_md5;
+	/** filename of the 'after' file */
 	char *to;
-	unsigned long size;
-	char *filename;
-	char *md5sum;
+	/** md5sum of the 'after' file */
+	char *to_md5;
+	/** filename of the delta patch */
+	char *delta;
+	/** md5sum of the delta file */
+	char *delta_md5;
+	/** filesize of the delta file */
+	unsigned long delta_size;
 };
 
 unsigned long _alpm_delta_path_size(alpm_list_t *deltas);

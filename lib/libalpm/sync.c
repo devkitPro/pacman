@@ -717,7 +717,6 @@ static int apply_deltas(pmtrans_t *trans, alpm_list_t *patches)
 		pmpkg_t *pkg;
 		pmdelta_t *d;
 		char command[PATH_MAX], fname[PATH_MAX];
-		char pkgfilename[PATH_MAX];
 
 		pkg = alpm_list_getdata(p);
 		p = alpm_list_next(p);
@@ -742,26 +741,23 @@ static int apply_deltas(pmtrans_t *trans, alpm_list_t *patches)
 
 		/* build the patch command */
 		snprintf(command, PATH_MAX,
-				"xdelta patch"         /* the command */
-				" %s/%s"               /* the delta */
-				" %s/%s-%s-%s" PKGEXT  /* the 'from' package */
-				" %s/%s-%s-%s" PKGEXT, /* the 'to' package */
-				cachedir, d->filename,
-				cachedir, pkg->name, d->from, pkg->arch,
-				cachedir, pkg->name, d->to, pkg->arch);
+				"xdelta patch"   /* the command */
+				" %s/%s"         /* the delta */
+				" %s/%s"         /* the 'from' package */
+				" %s/%s",        /* the 'to' package */
+				cachedir, d->delta,
+				cachedir, d->from,
+				cachedir, d->to);
 
 		_alpm_log(PM_LOG_DEBUG, _("command: %s\n"), command);
 
-		snprintf(pkgfilename, PATH_MAX, "%s-%s-%s" PKGEXT,
-				pkg->name, d->to, pkg->arch);
-
-		EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_START, pkgfilename, d->filename);
+		EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_START, d->to, d->delta);
 
 		if(system(command) == 0) {
 			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_DONE, NULL, NULL);
 
 			/* delete the delta file */
-			snprintf(fname, PATH_MAX, "%s/%s", cachedir, d->filename);
+			snprintf(fname, PATH_MAX, "%s/%s", cachedir, d->delta);
 			unlink(fname);
 
 			/* Delete the 'from' package but only if it is an intermediate
@@ -769,8 +765,7 @@ static int apply_deltas(pmtrans_t *trans, alpm_list_t *patches)
 			 * as if deltas were not used. Delete the package file if the
 			 * previous iteration of the loop used the same package. */
 			if(pkg == lastpkg) {
-				snprintf(fname, PATH_MAX, "%s/%s-%s-%s" PKGEXT,
-						cachedir, pkg->name, d->from, pkg->arch);
+				snprintf(fname, PATH_MAX, "%s/%s", cachedir, d->from);
 				unlink(fname);
 			} else {
 				lastpkg = pkg;
@@ -864,12 +859,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 								for(dlts = delta_path; dlts; dlts = alpm_list_next(dlts)) {
 									pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
-									char *fpath2 = _alpm_filecache_find(d->filename);
+									char *fpath2 = _alpm_filecache_find(d->delta);
 
 									if(!fpath2) {
 										/* add the delta filename to the download list if
-										 * it's not in the cache*/
-										files = alpm_list_add(files, strdup(d->filename));
+										 * it's not in the cache */
+										files = alpm_list_add(files, strdup(d->delta));
 									}
 
 									/* save the package and delta so that the xdelta patch

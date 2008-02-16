@@ -36,60 +36,50 @@
 
 const char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
 	ASSERT(delta != NULL, return(NULL));
-
 	return(delta->from);
+}
+
+const char SYMEXPORT *alpm_delta_get_from_md5sum(pmdelta_t *delta)
+{
+	ASSERT(delta != NULL, return(NULL));
+	return(delta->from_md5);
 }
 
 const char SYMEXPORT *alpm_delta_get_to(pmdelta_t *delta)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
 	ASSERT(delta != NULL, return(NULL));
-
 	return(delta->to);
 }
 
-unsigned long SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
+const char SYMEXPORT *alpm_delta_get_to_md5sum(pmdelta_t *delta)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(delta != NULL, return(-1));
-
-	return(delta->size);
+	ASSERT(delta != NULL, return(NULL));
+	return(delta->to_md5);
 }
 
 const char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
 	ASSERT(delta != NULL, return(NULL));
-
-	return(delta->filename);
+	return(delta->delta);
 }
 
 const char SYMEXPORT *alpm_delta_get_md5sum(pmdelta_t *delta)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
 	ASSERT(delta != NULL, return(NULL));
+	return(delta->delta_md5);
+}
 
-	return(delta->md5sum);
+unsigned long SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
+{
+	ASSERT(delta != NULL, return(-1));
+	return(delta->delta_size);
 }
 
 /** @} */
 
 /** Calculates the combined size of a list of delta files.
- *
  * @param deltas the list of pmdelta_t * objects
- *
  * @return the combined size
  */
 unsigned long _alpm_delta_path_size(alpm_list_t *deltas)
@@ -99,7 +89,7 @@ unsigned long _alpm_delta_path_size(alpm_list_t *deltas)
 
 	while(dlts) {
 		pmdelta_t *d = alpm_list_getdata(dlts);
-		sum += d->size;
+		sum += d->delta_size;
 
 		dlts = alpm_list_next(dlts);
 	}
@@ -109,9 +99,7 @@ unsigned long _alpm_delta_path_size(alpm_list_t *deltas)
 
 /** Calculates the combined size of a list of delta files that are not
  * in the cache.
- *
  * @param deltas the list of pmdelta_t * objects
- *
  * @return the combined size
  */
 unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas)
@@ -121,10 +109,10 @@ unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas)
 
 	while(dlts) {
 		pmdelta_t *d = alpm_list_getdata(dlts);
-		char *fname = _alpm_filecache_find(d->filename);
+		char *fname = _alpm_filecache_find(d->delta);
 
 		if(!fname) {
-			sum += d->size;
+			sum += d->delta_size;
 		}
 
 		FREE(fname);
@@ -136,17 +124,13 @@ unsigned long _alpm_delta_path_size_uncached(alpm_list_t *deltas)
 }
 
 /** Calculates the shortest path from one version to another.
- *
  * The shortest path is defined as the path with the smallest combined
  * size, not the length of the path.
- *
  * The algorithm is based on Dijkstra's shortest path algorithm.
- *
  * @param deltas the list of pmdelta_t * objects that a package has
  * @param from the version to start from
  * @param to the version to end at
  * @param path the current path
- *
  * @return the list of pmdelta_t * objects that has the smallest size.
  * NULL (the empty list) is returned if there is no path between the
  * versions.
@@ -200,14 +184,11 @@ static alpm_list_t *shortest_delta_path(alpm_list_t *deltas,
 }
 
 /** Calculates the shortest path from one version to another.
- *
  * The shortest path is defined as the path with the smallest combined
  * size, not the length of the path.
- *
  * @param deltas the list of pmdelta_t * objects that a package has
  * @param from the version to start from
  * @param to the version to end at
- *
  * @return the list of pmdelta_t * objects that has the smallest size.
  * NULL (the empty list) is returned if there is no path between the
  * versions.
@@ -223,13 +204,13 @@ alpm_list_t *_alpm_shortest_delta_path(alpm_list_t *deltas, const char *from,
 }
 
 /** Parses the string representation of a pmdelta_t object.
- *
  * This function assumes that the string is in the correct format.
- *
+ * This format is as follows:
+ * $oldfile $oldmd5 $newfile $newmd5 $deltafile $deltamd5 $deltasize
  * @param line the string to parse
- *
  * @return A pointer to the new pmdelta_t object
  */
+/* TODO this does not really belong here, but in a parsing lib */
 pmdelta_t *_alpm_delta_parse(char *line)
 {
 	pmdelta_t *delta;
@@ -245,19 +226,29 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
+	STRDUP(delta->from_md5, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
+
+	tmp2 = tmp;
+	tmp = strchr(tmp, ' ');
+	*(tmp++) = '\0';
 	STRDUP(delta->to, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	delta->size = atol(tmp2);
+	STRDUP(delta->to_md5, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	STRDUP(delta->filename, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(delta->delta, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	STRDUP(delta->md5sum, tmp, RET_ERR(PM_ERR_MEMORY, NULL));
+	tmp2 = tmp;
+	tmp = strchr(tmp, ' ');
+	*(tmp++) = '\0';
+	STRDUP(delta->delta_md5, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
+
+	delta->delta_size = atol(tmp);
 
 	return(delta);
 }
@@ -265,9 +256,11 @@ pmdelta_t *_alpm_delta_parse(char *line)
 void _alpm_delta_free(pmdelta_t *delta)
 {
 	FREE(delta->from);
+	FREE(delta->from_md5);
 	FREE(delta->to);
-	FREE(delta->filename);
-	FREE(delta->md5sum);
+	FREE(delta->to_md5);
+	FREE(delta->delta);
+	FREE(delta->delta_md5);
 	FREE(delta);
 }
 
