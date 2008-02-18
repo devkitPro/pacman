@@ -337,8 +337,10 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 						alpm_pkg_get_name(local), alpm_pkg_get_version(local));
 				return(0);
 			} else {
-				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
-						alpm_pkg_get_name(local), alpm_pkg_get_version(local));
+				if(!(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
+					_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
+							alpm_pkg_get_name(local), alpm_pkg_get_version(local));
+				}
 			}
 		}
 	}
