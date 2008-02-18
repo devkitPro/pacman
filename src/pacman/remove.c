@@ -75,11 +75,11 @@ int pacman_remove(alpm_list_t *targets)
 
 			printf(_(":: group %s:\n"), alpm_grp_get_name(grp));
 			list_display("   ", pkgnames);
-			all = yesno(_("    Remove whole content? [Y/n] "));
+			all = yesno(1, _("    Remove whole content?"));
 
 			for(p = pkgnames; p; p = alpm_list_next(p)) {
 				char *pkg = alpm_list_getdata(p);
-				if(all || yesno(_(":: Remove %s from group %s? [Y/n] "), pkg, (char *)alpm_list_getdata(i))) {
+				if(all || yesno(1, _(":: Remove %s from group %s?"), pkg, (char *)alpm_list_getdata(i))) {
 					finaltargs = alpm_list_add(finaltargs, strdup(pkg));
 				}
 			}
@@ -155,7 +155,7 @@ int pacman_remove(alpm_list_t *targets)
 		list_display(_("Targets:"), lst);
 		FREELIST(lst);
 		/* get confirmation */
-		if(yesno(_("\nDo you want to remove these packages? [Y/n] ")) == 0) {
+		if(yesno(1, _("\nDo you want to remove these packages?")) == 0) {
 			remove_cleanup();
 			FREELIST(finaltargs);
 			return(1);

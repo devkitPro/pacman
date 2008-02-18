@@ -251,41 +251,33 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
 			if(data2) {
 				/* TODO we take this route based on data2 being not null? WTF */
-				*response = yesno(_(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "),
+				*response = yesno(1, _(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_name(data2));
 			} else {
-				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "),
+				*response = yesno(1, _(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
 						alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_CONV_REMOVE_HOLDPKG:
-			*response = yesno(_(":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "),
+			*response = yesno(1, _(":: %s is designated as a HoldPkg. Remove anyway?"),
 					alpm_pkg_get_name(data1));
 			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
-			if(!config->noconfirm) {
-				*response = yesno(_(":: Replace %s with %s/%s? [Y/n] "),
-						alpm_pkg_get_name(data1),
-						(char *)data3,
-						alpm_pkg_get_name(data2));
-			} else {
-				printf(_("Replacing %s with %s/%s\n"),
-						alpm_pkg_get_name(data1),
-						(char *)data3,
-						alpm_pkg_get_name(data2));
-				*response = 1;
-			}
+			*response = yesno(1, _(":: Replace %s with %s/%s?"),
+					alpm_pkg_get_name(data1),
+					(char *)data3,
+					alpm_pkg_get_name(data2));
 			break;
 		case PM_TRANS_CONV_CONFLICT_PKG:
-			*response = yesno(_(":: %s conflicts with %s. Remove %s? [Y/n] "),
+			*response = yesno(1, _(":: %s conflicts with %s. Remove %s?"),
 					(char *)data1,
 					(char *)data2,
 					(char *)data2);
 			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
-				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "),
+				*response = yesno(1, _(":: %s-%s: local version is newer. Upgrade anyway?"),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_version(data1));
 			} else {
@@ -293,12 +285,8 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			}
 			break;
 		case PM_TRANS_CONV_CORRUPTED_PKG:
-			if(!config->noconfirm) {
-				*response = yesno(_(":: File %s is corrupted. Do you want to delete it? [Y/n] "),
-						(char *)data1);
-			} else {
-				*response = 1;
-			}
+			*response = yesno(1, _(":: File %s is corrupted. Do you want to delete it?"),
+					(char *)data1);
 			break;
 	}
 }

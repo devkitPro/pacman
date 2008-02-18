@@ -50,7 +50,7 @@ alpm_list_t *strsplit(const char *str, const char splitchar);
 void string_display(const char *title, const char *string);
 void list_display(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local);
-int yesno(char *fmt, ...);
+int yesno(short preset, char *fmt, ...);
 int pm_printf(pmloglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...) __attribute__((format(printf,3,4)));
 int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));

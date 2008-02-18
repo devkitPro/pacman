@@ -527,28 +527,44 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 }
 
 /* presents a prompt and gets a Y/N answer */
-/* TODO there must be a better way */
-int yesno(char *fmt, ...)
+int yesno(short preset, char *fmt, ...)
 {
 	char response[32];
 	va_list args;
+	FILE *stream;
 
 	if(config->noconfirm) {
-		return(1);
+		stream = stdout;
+	} else {
+		/* Use stderr so questions are always displayed when redirecting output */
+		stream = stderr;
 	}
 
 	va_start(args, fmt);
-	/* Use stderr so questions are always displayed when redirecting output */
-	vfprintf(stderr, fmt, args);
+	vfprintf(stream, fmt, args);
 	va_end(args);
 
+	if(preset) {
+		fprintf(stream, " %s ", _("[Y/n]"));
+	} else {
+		fprintf(stream, " %s ", _("[y/N]"));
+	}
+
+	if(config->noconfirm) {
+		fprintf(stream, "\n");
+		return(preset);
+	}
+
 	if(fgets(response, 32, stdin)) {
-		if(strlen(response) != 0) {
-			strtrim(response);
+		strtrim(response);
+		if(strlen(response) == 0) {
+			return(preset);
 		}
 
-		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES")) || strlen(response) == 0) {
+		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES"))) {
 			return(1);
+		} else if (!strcasecmp(response, _("N")) || !strcasecmp(response, _("NO"))) {
+			return(0);
 		}
 	}
 	return(0);
