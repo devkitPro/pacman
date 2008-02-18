@@ -1107,6 +1107,15 @@ This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
+# PROGRAM START
+
+# determine whether we have gettext; make it a no-op if we do not
+if [ ! $(type -t gettext) ]; then
+	gettext() {
+		echo "$@"
+	}
+fi
+
 ARGLIST=$@
 
 #preserve environment variables
