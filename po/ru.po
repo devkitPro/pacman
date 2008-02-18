@@ -28,18 +28,18 @@ msgid "no targets specified (use -h for help)\n"
 msgstr "не задано целей (для справки используйте -h)\n"
 
 #: src/pacman/add.c:104 src/pacman/sync.c:510
-#, fuzzy, c-format
+#, c-format
 msgid "error: %s\n"
-msgstr "ошибка: "
+msgstr "ошибка: %s\n"
 
 #: src/pacman/add.c:107 src/pacman/remove.c:98 src/pacman/sync.c:484
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s.\n"
 msgstr ""
-"       если Вы уверены, что pacman уже не запущен, можете\n"
-"       удалить %s%s\n"
+"  если Вы уверены, что pacman еще не запущен, можете\n"
+"  удалить %s\n"
 
 #: src/pacman/add.c:114 src/pacman/remove.c:106
 #, c-format
@@ -47,9 +47,9 @@ msgid "loading package data... "
 msgstr "чтение информации о пакете... "
 
 #: src/pacman/add.c:119 src/pacman/remove.c:111 src/pacman/sync.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "error: '%s': %s\n"
-msgstr "'%s': %s\n"
+msgstr "ошибка: '%s': %s\n"
 
 #: src/pacman/add.c:125 src/pacman/remove.c:118 src/pacman/sync.c:176
 #: src/pacman/sync.c:194
@@ -58,19 +58,19 @@ msgid "done.\n"
 msgstr "готово.\n"
 
 #: src/pacman/add.c:130 src/pacman/remove.c:122 src/pacman/sync.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to prepare transaction (%s)\n"
-msgstr "не удалось подготовить операцию (%s)\n"
+msgstr "ошибка: не удалось подготовить операцию (%s)\n"
 
 #: src/pacman/add.c:142 src/pacman/remove.c:130 src/pacman/sync.c:652
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s: requires %s\n"
-msgstr ":: %s: требует %s"
+msgstr ":: %s: требует %s\n"
 
 #: src/pacman/add.c:150 src/pacman/sync.c:660
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s: conflicts with %s\n"
-msgstr ":: %s: конфликтует с %s"
+msgstr ":: %s: конфликтует с %s\n"
 
 #: src/pacman/add.c:159 src/pacman/sync.c:715
 #, c-format
@@ -92,54 +92,54 @@ msgstr ""
 "произошли ошибки, пакеты не были обновлены.\n"
 
 #: src/pacman/add.c:184 src/pacman/remove.c:168 src/pacman/sync.c:706
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to commit transaction (%s)\n"
-msgstr "не удалось завершить операцию (%s)\n"
+msgstr "ошибка: не удалось завершить операцию (%s)\n"
 
 #: src/pacman/callback.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "checking dependencies...\n"
-msgstr "проверяю зависимости... "
+msgstr "проверяю зависимости...\n"
 
 #: src/pacman/callback.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "checking for file conflicts...\n"
-msgstr "проверяю возможные конфликты файлов... "
+msgstr "проверяю возможные конфликты файлов...\n"
 
 #: src/pacman/callback.c:173
-#, fuzzy, c-format
+#, c-format
 msgid "resolving dependencies...\n"
-msgstr "разрешаю зависимости... "
+msgstr "проверяю зависимости...\n"
 
 #: src/pacman/callback.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "looking for inter-conflicts...\n"
-msgstr "проверяю на взаимную несовместимость... "
+msgstr "проверяю на взаимную несовместимость...\n"
 
 #: src/pacman/callback.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s...\n"
-msgstr "устанавливаю %s... "
+msgstr "устанавливаю %s...\n"
 
 #: src/pacman/callback.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s...\n"
-msgstr "удаляю %s... "
+msgstr "удаляю %s...\n"
 
 #: src/pacman/callback.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "upgrading %s...\n"
-msgstr "обновляю %s... "
+msgstr "обновляю %s...\n"
 
 #: src/pacman/callback.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "checking package integrity...\n"
-msgstr "проверяю целостность пакета... "
+msgstr "проверяю целостность пакета...\n"
 
 #: src/pacman/callback.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "checking delta integrity...\n"
-msgstr "проверяю целостность пакета... "
+msgstr ""
 
 #: src/pacman/callback.c:219
 #, c-format
@@ -149,17 +149,17 @@ msgstr ""
 #: src/pacman/callback.c:222
 #, fuzzy, c-format
 msgid "generating %s with %s... "
-msgstr "обновляю %s... "
+msgstr "генерирую %s с помощью %s..."
 
 #: src/pacman/callback.c:225
 #, c-format
 msgid "success!\n"
-msgstr ""
+msgstr "завершено успешно!\n"
 
 #: src/pacman/callback.c:228
 #, c-format
 msgid "failed.\n"
-msgstr "провал.\n"
+msgstr "не удалось.\n"
 
 #: src/pacman/callback.c:237
 #, c-format
@@ -167,14 +167,16 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Получение пакетов с %s...\n"
 
 #: src/pacman/callback.c:265
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
 "n] "
-msgstr ":: %1$s требует %2$s из IgnorePkg. Установить %2$s? [Y/n] "
+msgstr ""
+":: %s требует установки %s из IgnorePkg/IgnoreGroup. Все равно установить? "
+"[Y/n] "
 
 #: src/pacman/callback.c:270
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
 msgstr ":: %s указан в IgnorePkg. Всё равно установить? [Y/n] "
 
@@ -189,9 +191,9 @@ msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Заменить %s на %s/%s? [Y/n] "
 
 #: src/pacman/callback.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Replacing %s with %s/%s\n"
-msgstr ":: Заменить %s на %s/%s? [Y/n] "
+msgstr "Заменяю %s на %s/%s\n"
 
 #: src/pacman/callback.c:296
 #, c-format
@@ -204,9 +206,9 @@ msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ":: %s-%s: установленная версия новее. Всё равно обновить? [Y/n] "
 
 #: src/pacman/callback.c:314
-#, fuzzy, c-format
+#, c-format
 msgid ":: File %s is corrupted. Do you want to delete it? [Y/n] "
-msgstr ":: Архив %s поврежден. Хотите его удалить? [Y/n] "
+msgstr ":: Файл %s поврежден. Хотите его удалить? [Y/n] "
 
 #: src/pacman/callback.c:364
 msgid "installing"
@@ -238,105 +240,105 @@ msgstr "Неизвестно"
 
 #: src/pacman/package.c:89
 msgid "Description    : "
-msgstr "Описание                : "
+msgstr "Описание                 : "
 
+#
 #: src/pacman/package.c:93
-#, fuzzy
 msgid "Filename       :"
-msgstr "Лицензия                :"
+msgstr "Имя файла                :"
 
+#
 #: src/pacman/package.c:95
-#, fuzzy
 msgid "Name           :"
-msgstr "Название                : %s\n"
+msgstr "Название                 :"
 
+#
 #: src/pacman/package.c:96
-#, fuzzy
 msgid "Version        :"
-msgstr "Версия                  : %s\n"
+msgstr "Версия                   :"
 
+#
 #: src/pacman/package.c:97
-#, fuzzy
 msgid "URL            :"
-msgstr "URL                     : %s\n"
+msgstr "URL                      :"
 
+#
 #: src/pacman/package.c:98
-#, fuzzy
 msgid "Licenses       :"
-msgstr "Лицензия                :"
+msgstr "Лицензия                 :"
 
 #: src/pacman/package.c:99
 msgid "Groups         :"
-msgstr "Группы                  :"
+msgstr "Группы                   :"
 
 #: src/pacman/package.c:100
 msgid "Provides       :"
-msgstr "Предоставляет           :"
+msgstr "Предоставляет            :"
 
 #: src/pacman/package.c:101
 msgid "Depends On     :"
-msgstr "Зависит от              :"
+msgstr "Зависит от               :"
 
 #: src/pacman/package.c:102
 msgid "Optional Deps  :"
-msgstr ""
+msgstr "Опциональные зависимости :"
 
 #: src/pacman/package.c:105
 msgid "Required By    :"
-msgstr "Требуется пакетами      :"
+msgstr "Требуется пакетами       :"
 
 #: src/pacman/package.c:108
 msgid "Conflicts With :"
-msgstr "Конфликтует с           :"
+msgstr "Конфликтует с            :"
 
 #: src/pacman/package.c:109
 msgid "Replaces       :"
-msgstr "Заменяет                :"
+msgstr "Заменяет                 :"
 
 #: src/pacman/package.c:111
 #, c-format
 msgid "Download Size  : %6.2f K\n"
-msgstr "Размер при закачке      : %6.2f K\n"
+msgstr "Будет загружено         : %6.2f K\n"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size: %6.2f K\n"
-msgstr "Размер установленного   : %6.2f K\n"
+msgstr "Размер архива           : %6.2f K\n"
 
 #: src/pacman/package.c:119
 #, c-format
 msgid "Installed Size : %6.2f K\n"
 msgstr "Размер установленного   : %6.2f K\n"
 
+#
 #: src/pacman/package.c:121
-#, fuzzy
 msgid "Packager       :"
-msgstr "Сборщик                 : %s\n"
+msgstr "Сборщик                 :"
 
+#
 #: src/pacman/package.c:122
-#, fuzzy
 msgid "Architecture   :"
-msgstr "Архитектура             : %s\n"
+msgstr "Архитектура             :"
 
+#
 #: src/pacman/package.c:123
-#, fuzzy
 msgid "Build Date     :"
-msgstr "Дата сборки             : %s %s\n"
+msgstr "Дата сборки             :"
 
+#
 #: src/pacman/package.c:125
-#, fuzzy
 msgid "Install Date   :"
-msgstr "Дата установки          : %s %s\n"
+msgstr "Дата установки          :"
 
+#
 #: src/pacman/package.c:126
-#, fuzzy
 msgid "Install Reason :"
-msgstr "Причина установки       : %s\n"
+msgstr "Причина установки       :"
 
+#
 #: src/pacman/package.c:129
-#, fuzzy
 msgid "Install Script :"
-msgstr "Скрипт при установке    : %s\n"
+msgstr "Установочный скрипт     :"
 
 #: src/pacman/package.c:130
 msgid "Yes"
@@ -346,15 +348,15 @@ msgstr "Yes"
 msgid "No"
 msgstr "No"
 
+#
 #: src/pacman/package.c:135
-#, fuzzy
 msgid "MD5 Sum        :"
-msgstr "Сумма MD5               : %s"
+msgstr "Сумма MD5               :"
 
+#
 #: src/pacman/package.c:159
-#, fuzzy
 msgid "Repository     :"
-msgstr "Репозиторий             : %s\n"
+msgstr "Репозиторий             :"
 
 #: src/pacman/package.c:169
 #, c-format
@@ -362,9 +364,9 @@ msgid "Backup Files:\n"
 msgstr "Создаёт резервные копии файлов:\n"
 
 #: src/pacman/package.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not calculate checksums for %s\n"
-msgstr "ошибка при вычислении контрольной суммы для %s\n"
+msgstr "ошибка: не удалось вычислить контрольные суммы для %s\n"
 
 #: src/pacman/package.c:197
 #, c-format
@@ -387,32 +389,32 @@ msgid "(none)\n"
 msgstr "(пусто)\n"
 
 #: src/pacman/package.c:243
-#, fuzzy, c-format
+#, c-format
 msgid "error: no changelog available for '%s'.\n"
-msgstr "Список изменений недоступен для пакета '%s'.\n"
+msgstr "ошибка: список изменений недоступен для '%s'.\n"
 
+#
 #: src/pacman/pacman.c:60
-#, fuzzy
 msgid "options"
-msgstr "параметры:\n"
+msgstr "опции"
 
+#
 #: src/pacman/pacman.c:61
-#, fuzzy
 msgid "file"
-msgstr "провал.\n"
+msgstr "файл"
 
 #: src/pacman/pacman.c:62
 msgid "package"
-msgstr ""
+msgstr "пакет"
 
 #: src/pacman/pacman.c:63
 msgid "usage"
-msgstr ""
+msgstr "использование"
 
+#
 #: src/pacman/pacman.c:64
-#, fuzzy
 msgid "operation"
-msgstr "параметры:\n"
+msgstr "действие"
 
 #: src/pacman/pacman.c:76
 #, c-format
@@ -425,11 +427,9 @@ msgstr ""
 "информации\n"
 
 #: src/pacman/pacman.c:81 src/pacman/pacman.c:95 src/pacman/pacman.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr ""
-"  -u, --upgrades       показать список всех пакетов, которые могут быть "
-"обновлены\n"
+msgstr "      --asdeps         установить пакеты как неявно установленные\n"
 
 #: src/pacman/pacman.c:82 src/pacman/pacman.c:88 src/pacman/pacman.c:96
 #: src/pacman/pacman.c:119
@@ -477,18 +477,15 @@ msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      показать список изменений пакета\n"
 
 #: src/pacman/pacman.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "  -d, --deps           list all packages installed as dependencies\n"
 msgstr ""
-"  -u, --upgrades       показать список всех пакетов, которые могут быть "
-"обновлены\n"
+"  -d, --deps           показать все пакеты установленные как зависимость\n"
 
 #: src/pacman/pacman.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "  -e, --explicit       list all packages explicitly installed\n"
-msgstr ""
-"  -u, --upgrades       показать список всех пакетов, которые могут быть "
-"обновлены\n"
+msgstr "  -e, --explicit       показать все явно установленные пакеты\n"
 
 #: src/pacman/pacman.c:104 src/pacman/pacman.c:122
 #, c-format
@@ -496,10 +493,12 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         показать все пакеты данной группы\n"
 
 #: src/pacman/pacman.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           показать информацию о пакете\n"
+msgstr ""
+"  -i, --info           показать информацию о пакете (-ii для резервных "
+"копий)\n"
 
 #: src/pacman/pacman.c:106
 #, c-format
@@ -535,10 +534,11 @@ msgstr ""
 "пакетах\n"
 
 #: src/pacman/pacman.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr ""
-"  -e, --orphans        показать пакеты, установленные как зависимости,\n"
+"  -t, --unrequired     показать все пакеты не используемые ни одним другим "
+"пакетом\n"
 
 #: src/pacman/pacman.c:112
 #, c-format
@@ -551,6 +551,7 @@ msgstr ""
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
+"  -q, --quiet          показывать меньше информации при запросах и поиске\n"
 
 #: src/pacman/pacman.c:118
 #, c-format
@@ -629,18 +630,20 @@ msgstr ""
 "использовано неоднократно)\n"
 
 #: src/pacman/pacman.c:132
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
-"      --ignore <пакет> игнорировать пакет при обновлении (может быть "
-"использовано неоднократно)\n"
+"      --ignoregroup <группа>\n"
+"          игнорировать группу при обновлении (может быть использовано "
+"неоднократно)\n"
 
 #: src/pacman/pacman.c:134
 #, c-format
 msgid "  -q  --quiet          show less information for query and search\n"
 msgstr ""
+"  -q, --quiet          показывать меньше информации при запросах и поиске\n"
 
 #: src/pacman/pacman.c:136
 #, c-format
@@ -649,10 +652,9 @@ msgstr ""
 "      --config <путь>  использовать альтернативный конфигурационный файл\n"
 
 #: src/pacman/pacman.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr ""
-"      --config <путь>  использовать альтернативный конфигурационный файл\n"
+msgstr "      --logfile <path> использовать альтернативный log файл\n"
 
 #: src/pacman/pacman.c:138
 #, c-format
@@ -666,7 +668,7 @@ msgid ""
 msgstr "      --noprogressbar  не отображать прогресс при скачивании файлов\n"
 
 #: src/pacman/pacman.c:140
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
@@ -696,12 +698,13 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> указать альтернативное расположение кэша\n"
 
 #: src/pacman/pacman.c:157
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License\n"
 msgstr ""
-"                       This program may be freely redistributed under\n"
+"                       Эта программа может свободно распространяться\n"
+"                       под условиями GNU General Public License\n"
 
 #: src/pacman/pacman.c:247
 #, c-format
@@ -711,22 +714,22 @@ msgstr ""
 #: src/pacman/pacman.c:264
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
-msgstr ""
+msgstr "не удалось установить путь к базе данных '%s' (%s)\n"
 
 #: src/pacman/pacman.c:272
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr ""
+msgstr "не удалось использовать лог-файл '%s' (%s)\n"
 
 #: src/pacman/pacman.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' - неверный уровень отладки"
+msgstr "'%s' - неверный уровень отладки\n"
 
 #: src/pacman/pacman.c:396 src/pacman/pacman.c:672
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "ну удалось добавить цель '%s' (%s)\n"
+msgstr "не удалось добавить кэш-дирректорию '%s' (%s)\n"
 
 #: src/pacman/pacman.c:482
 msgid "only one operation may be used at a time\n"
@@ -735,27 +738,30 @@ msgstr "одновременно может выполняться только 
 #: src/pacman/pacman.c:542
 #, c-format
 msgid "config file %s could not be read.\n"
-msgstr ""
+msgstr "не удалось прочитать конфигурационный фалй %s.\n"
 
 #: src/pacman/pacman.c:578
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr ""
+msgstr "конфигурационный файл %s, строка %d: неверное название секции.\n"
 
 #: src/pacman/pacman.c:600
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
+"конфигурационный файл %s, строка %d: синтаксическая ошибка - пропущен ключ.\n"
 
 #: src/pacman/pacman.c:610
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
+"конфигурационный файл %s, строка %d: все директивы должны находиться в "
+"секциях.\n"
 
 #: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
-msgstr ""
+msgstr "конфигурационный файл %s, строка %d: директива '%s' не распознана.\n"
 
 #: src/pacman/pacman.c:777
 #, c-format
@@ -777,24 +783,24 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "не задана операция (для справки используйте -h)\n"
 
 #: src/pacman/query.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "error: no file was specified for --owns\n"
-msgstr "не был указан файл для --owns\n"
+msgstr "ошибка: не был указан файл для --owns\n"
 
 #: src/pacman/query.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to read file '%s': %s\n"
-msgstr "не удалось прочитать файл '%s': %s"
+msgstr "ошибка: не удалось прочитать файл '%s': %s\n"
 
 #: src/pacman/query.c:86
-#, fuzzy, c-format
+#, c-format
 msgid "error: cannot determine ownership of a directory\n"
-msgstr "не удалось определить владельца каталога"
+msgstr "ошибка: не удалось определить владельца каталога\n"
 
 #: src/pacman/query.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "error: cannot determine real path for '%s': %s\n"
-msgstr "не удалось определить настоящий путь для '%s': %s"
+msgstr "ошибка: не удалось определить настоящий путь для '%s': %s\n"
 
 #: src/pacman/query.c:122
 #, c-format
@@ -802,33 +808,33 @@ msgid "%s is owned by %s %s\n"
 msgstr "%s принадлежит %s %s\n"
 
 #: src/pacman/query.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "error: No package owns %s\n"
-msgstr "Ни один пакет не содержит %s\n"
+msgstr "ошибка: Ни один пакет не содержит %s\n"
 
 #: src/pacman/query.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "error: group \"%s\" was not found\n"
-msgstr "группа \"%s\" не найдена\n"
+msgstr "ошибка: группа \"%s\" не найдена\n"
 
 #: src/pacman/query.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "Checking for package upgrades... \n"
-msgstr "Проверка обновлений..."
+msgstr "Проверка обновлений пакетов...\n"
 
 #: src/pacman/query.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "no upgrades found.\n"
-msgstr "обновлений не найдено"
+msgstr "обновлений не найдено.\n"
 
 #: src/pacman/query.c:360 src/pacman/sync.c:771
 msgid "no usable package repositories configured.\n"
 msgstr "ни один репозиторий не сконфигурирован должным образом.\n"
 
 #: src/pacman/query.c:404
-#, fuzzy, c-format
+#, c-format
 msgid "error: package \"%s\" not found\n"
-msgstr "пакет \"%s\" не найден\n"
+msgstr "ошибка: пакет \"%s\" не найден\n"
 
 #: src/pacman/remove.c:76
 #, c-format
@@ -845,9 +851,9 @@ msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ":: Удалить %s из группы %s? [Y/n] "
 
 #: src/pacman/remove.c:95 src/pacman/sync.c:481 src/pacman/sync.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to init transaction (%s)\n"
-msgstr "не удалось начать операцию (%s)\n"
+msgstr "ошибка: не удалось начать операцию (%s)\n"
 
 #: src/pacman/remove.c:155 src/pacman/util.c:488
 msgid "Targets:"
@@ -862,48 +868,44 @@ msgstr ""
 "Хотите удалить эти пакеты? [Y/n] "
 
 #: src/pacman/sync.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not access database directory\n"
-msgstr "нет доступа к кэш-директории\n"
+msgstr "ошибка: нет доступа к директории с базой данных\n"
 
 #: src/pacman/sync.c:84
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to remove %s? [Y/n] "
-msgstr ""
-"\n"
-"Хотите удалить эти пакеты? [Y/n] "
+msgstr "Хотите удалить %s? [Y/n] "
 
 #: src/pacman/sync.c:89
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not remove repository directory\n"
-msgstr "не могу удалить кэш-директорию\n"
+msgstr "ошибка: не могу удалить директорию репозитория\n"
 
 #: src/pacman/sync.c:102
 #, c-format
 msgid "Database directory: %s\n"
-msgstr ""
+msgstr "Директория базы данных: %s\n"
 
+#
 #: src/pacman/sync.c:103
-#, fuzzy
 msgid "Do you want to remove unused repositories? [Y/n] "
-msgstr ""
-"\n"
-"Хотите удалить эти пакеты? [Y/n] "
+msgstr "Хотите удалить неиспользуемые репозитории? [Y/n] "
 
 #: src/pacman/sync.c:114
 #, c-format
 msgid "Database directory cleaned up\n"
-msgstr ""
+msgstr "Директория базы данных очищена\n"
 
 #: src/pacman/sync.c:132 src/pacman/sync.c:179
-#, fuzzy, c-format
+#, c-format
 msgid "Cache directory: %s\n"
-msgstr "Архитектура             : %s\n"
+msgstr "Кэш-директория          : %s\n"
 
+#
 #: src/pacman/sync.c:133
-#, fuzzy
 msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
-msgstr "Хотите удалить все пакеты из кэша? [Y/n] "
+msgstr "Хотите удалить деинсталированные пакеты из кэша? [Y/n] "
 
 #: src/pacman/sync.c:136
 #, c-format
@@ -911,14 +913,14 @@ msgid "removing old packages from cache... "
 msgstr "удаляю старые пакеты из кэша... "
 
 #: src/pacman/sync.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not access cache directory\n"
-msgstr "нет доступа к кэш-директории\n"
+msgstr "ошибка: нет доступа к кэш-директории\n"
 
+#
 #: src/pacman/sync.c:180
-#, fuzzy
 msgid "Do you want to remove ALL packages from cache? [Y/n] "
-msgstr "Хотите удалить старые пакеты из кэша? [Y/n] "
+msgstr "Хотите удалить ВСЕ пакеты из кэша? [Y/n] "
 
 #: src/pacman/sync.c:183
 #, c-format
@@ -926,24 +928,24 @@ msgid "removing all packages from cache... "
 msgstr "удаляю все пакеты из кэша... "
 
 #: src/pacman/sync.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not remove cache directory\n"
-msgstr "не могу удалить кэш-директорию\n"
+msgstr "ошибка: не могу удалить кэш-директорию\n"
 
 #: src/pacman/sync.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "error: could not create new cache directory\n"
-msgstr "не могу создать новую директорию для кэша\n"
+msgstr "ошибка: не могу создать новую директорию для кэша\n"
 
 #: src/pacman/sync.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to synchronize %s: %s\n"
-msgstr "не удалось синхронизировать %s: %s\n"
+msgstr "ошибка: не удалось синхронизировать %s: %s\n"
 
 #: src/pacman/sync.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to update %s (%s)\n"
-msgstr "не удалось обновить %s (%s)\n"
+msgstr "ошибка: не удалось обновить %s (%s)\n"
 
 #: src/pacman/sync.c:225
 #, c-format
@@ -951,24 +953,24 @@ msgid " %s is up to date\n"
 msgstr " %s не устарел\n"
 
 #: src/pacman/sync.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "error: repository '%s' does not exist\n"
-msgstr "репозиторий '%s' не существует\n"
+msgstr "ошибка: репозиторий '%s' не существует\n"
 
 #: src/pacman/sync.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "error: package '%s' was not found in repository '%s'\n"
-msgstr "пакет '%s' не найден в репозитории '%s'\n"
+msgstr "ошибка: пакет '%s' не найден в репозитории '%s'\n"
 
 #: src/pacman/sync.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "error: package '%s' was not found\n"
-msgstr "пакет '%s' не найден\n"
+msgstr "ошибка: пакет '%s' не найден\n"
 
 #: src/pacman/sync.c:440
-#, fuzzy, c-format
+#, c-format
 msgid "error: repository \"%s\" was not found.\n"
-msgstr "репозиторий \"%s\" не найден.\n"
+msgstr "ошибка: репозиторий \"%s\" не найден.\n"
 
 #: src/pacman/sync.c:492
 #, c-format
@@ -976,9 +978,9 @@ msgid ":: Synchronizing package databases...\n"
 msgstr ":: Синхронизирую базу данных пакетов...\n"
 
 #: src/pacman/sync.c:495
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to synchronize any databases\n"
-msgstr "не удалось синхронизировать ни одну базу данных"
+msgstr "ошибка: не удалось синхронизировать ни одну базу данных\n"
 
 #: src/pacman/sync.c:507
 #, c-format
@@ -986,11 +988,9 @@ msgid ":: Starting full system upgrade...\n"
 msgstr ":: Начинаю полное обновление системы...\n"
 
 #: src/pacman/sync.c:529
-#, fuzzy, c-format
+#, c-format
 msgid ":: pacman has detected a newer version of itself.\n"
-msgstr ""
-"\n"
-":: pacman обнаружил более новую версию пакета \"pacman\".\n"
+msgstr ":: pacman обнаружил свою новую версию.\n"
 
 #: src/pacman/sync.c:530
 msgid ""
@@ -999,19 +999,19 @@ msgid ""
 msgstr ""
 
 #: src/pacman/sync.c:533 src/pacman/sync.c:748
-#, fuzzy, c-format
+#, c-format
 msgid "error: failed to release transaction (%s)\n"
-msgstr "не удалось продолжить операцию (%s)\n"
+msgstr "ошибка: не удалось продолжить операцию (%s)\n"
 
 #: src/pacman/sync.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "error: pacman: %s\n"
-msgstr "pacman: %s\n"
+msgstr "ошибка: pacman: %s\n"
 
 #: src/pacman/sync.c:584
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
-msgstr ""
+msgstr ":: группа %s (включая игнорируемые пакеты):\n"
 
 #: src/pacman/sync.c:589
 msgid ":: Install whole content? [Y/n] "
@@ -1023,19 +1023,20 @@ msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Установить %s из группы %s? [Y/n] "
 
 #: src/pacman/sync.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: %s provides %s\n"
-msgstr ":: %s: требует %s"
+msgstr "Внимание: %s предоставляет %s\n"
 
 #: src/pacman/sync.c:621
 #, c-format
 msgid "error: several packages provide %s, please specify one :\n"
 msgstr ""
+"ошибка: несколько пакетов предоставляют %s, пожалуйста, укажите один:\n"
 
 #: src/pacman/sync.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "error: '%s': not found in sync db\n"
-msgstr "'%s': не найдено в базе пакетов\n"
+msgstr "ошибка: '%s': не найдено в базе пакетов\n"
 
 #: src/pacman/sync.c:674
 #, c-format
@@ -1043,33 +1044,27 @@ msgid " local database is up to date\n"
 msgstr " локальная база данных не устарела\n"
 
 #: src/pacman/sync.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "Beginning download...\n"
-msgstr ""
-"\n"
-"Начинаю загрузку...\n"
+msgstr "Начинаю загрузку...\n"
 
 #: src/pacman/sync.c:689
 msgid "Proceed with download? [Y/n] "
 msgstr "Приступить к загрузке? [Y/n] "
 
 #: src/pacman/sync.c:693
-#, fuzzy, c-format
+#, c-format
 msgid "Beginning upgrade process...\n"
-msgstr ""
-"\n"
-"Начинаю процесс обновления...\n"
+msgstr "Начинаю процесс обновления...\n"
 
 #: src/pacman/sync.c:696
 msgid "Proceed with installation? [Y/n] "
 msgstr "Приступить к установке? [Y/n] "
 
 #: src/pacman/sync.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
-msgstr ""
-"\n"
-"произошли ошибки, пакеты не были обновлены.\n"
+msgstr "Произошли ошибки, пакеты не были обновлены.\n"
 
 #: src/pacman/util.c:382 src/pacman/util.c:414
 #, c-format
@@ -1081,21 +1076,19 @@ msgid "Remove:"
 msgstr "Удалить:"
 
 #: src/pacman/util.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:   %.2f MB\n"
-msgstr ""
-"\n"
-"Итого удалено:   %.2f МБ\n"
+msgstr "Итого удалено:   %.2f МБ\n"
 
 #: src/pacman/util.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:    %.2f MB\n"
-msgstr "Итого установлено:   %.2f МБ\n"
+msgstr "Итого необходимо загрузить:   %.2f МБ\n"
 
 #: src/pacman/util.c:495
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Итого установлено:   %.2f МБ\n"
+msgstr "Итого будет установлено:   %.2f МБ\n"
 
 #: src/pacman/util.c:522
 msgid "Y"
@@ -1106,19 +1099,19 @@ msgid "YES"
 msgstr "YES"
 
 #: src/pacman/util.c:574
-#, fuzzy, c-format
+#, c-format
 msgid "error: %s"
-msgstr "ошибка: "
+msgstr "ошибка: %s"
 
 #: src/pacman/util.c:577
-#, fuzzy, c-format
+#, c-format
 msgid "warning: %s"
-msgstr "предупреждение: "
+msgstr "предупреждение: %s"
 
 #: src/pacman/util.c:580
-#, fuzzy, c-format
+#, c-format
 msgid "function: %s"
-msgstr "функция"
+msgstr "функция: %s"
 
 #: src/pacman/util.c:621
 #, c-format
@@ -1131,9 +1124,9 @@ msgid "warning: "
 msgstr "предупреждение: "
 
 #: src/pacman/util.c:629
-#, fuzzy, c-format
+#, c-format
 msgid "function: "
-msgstr "функция"
+msgstr "функция: "
 
 #: scripts/gensync.sh.in:32
 msgid "Usage: %s <root> <destfile> [package_directory]"
@@ -1209,12 +1202,12 @@ msgstr "убираем за собой... "
 #: scripts/makepkg.sh.in:100 scripts/makepkg.sh.in:102
 #: scripts/repo-add.sh.in:46 scripts/repo-remove.sh.in:42
 msgid "WARNING:"
-msgstr ""
+msgstr "ВНИМАНИЕ:"
 
 #: scripts/makepkg.sh.in:109 scripts/makepkg.sh.in:111
 #: scripts/repo-add.sh.in:51 scripts/repo-remove.sh.in:47
 msgid "ERROR:"
-msgstr ""
+msgstr "ОШИбКА:"
 
 #: scripts/makepkg.sh.in:142
 #, fuzzy
@@ -1226,18 +1219,22 @@ msgid ""
 "Options beginning with 'no' will be deprecated in the next version of "
 "makepkg!"
 msgstr ""
+"Опции, начинающиеся с 'no', будут считаться устаревшими со следующей версии "
+"makepkg!"
 
 #: scripts/makepkg.sh.in:193
 msgid "Please replace 'no' with '!': %s -> %s."
-msgstr ""
+msgstr "Пожалуйста, замените 'no' на '!': %s -> %s."
 
 #: scripts/makepkg.sh.in:197
 msgid "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
 msgstr ""
+"Опция 'keepdocs' может работать не так как ожидается. Вместо нее используйте "
+"'docs'."
 
 #: scripts/makepkg.sh.in:285
 msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr ""
+msgstr "Не указан агент для обработки URL %s. Проверьте %s."
 
 #: scripts/makepkg.sh.in:286 scripts/makepkg.sh.in:295
 #: scripts/makepkg.sh.in:448 scripts/makepkg.sh.in:482
@@ -1246,147 +1243,147 @@ msgstr ""
 #: scripts/makepkg.sh.in:781 scripts/makepkg.sh.in:1124
 #: scripts/makepkg.sh.in:1437 scripts/makepkg.sh.in:1441
 msgid "Aborting..."
-msgstr ""
+msgstr "Преждевременный выход..."
 
 #: scripts/makepkg.sh.in:294
 msgid "The download program %s is not installed."
-msgstr ""
+msgstr "Программа для закачки %s не установлена."
 
 #: scripts/makepkg.sh.in:310
 msgid "Pacman returned a fatal error (%i): %s"
-msgstr ""
+msgstr "Pacman завершился с критической ошибкой (%i): %s"
 
+#
 #: scripts/makepkg.sh.in:334
-#, fuzzy
 msgid "Installing missing dependencies..."
-msgstr "разрешаю зависимости... "
+msgstr "Устанавливаю недостающие зависимости... "
 
 #: scripts/makepkg.sh.in:344
 msgid "Pacman failed to install missing dependencies."
-msgstr ""
+msgstr "Pacman не смог установить недостающие зависимости."
 
+#
 #: scripts/makepkg.sh.in:348
-#, fuzzy
 msgid "Building missing dependencies..."
-msgstr "разрешаю зависимости... "
+msgstr "Сборка недостающих зависимостей... "
 
 #: scripts/makepkg.sh.in:353
 msgid "Source root cannot be found - please make sure it is specified in %s."
-msgstr ""
+msgstr "Источник исходных текстов не найден - убедитесь, что он указан в %s."
 
 #: scripts/makepkg.sh.in:361
 msgid "Could not find '%s' under %s"
-msgstr ""
+msgstr "Не удается обнаружить '%s' в %s"
 
+#
 #: scripts/makepkg.sh.in:378
-#, fuzzy
 msgid "Failed to build '%s'"
-msgstr "не удалось прочитать файл '%s': %s"
+msgstr "Не удалось собрать '%s'"
 
 #: scripts/makepkg.sh.in:411
 msgid "Failed to install all missing dependencies."
-msgstr ""
+msgstr "Не удалось установить все недостающие зависимости."
 
+#
 #: scripts/makepkg.sh.in:414
-#, fuzzy
 msgid "Missing Dependencies:"
-msgstr "разрешаю зависимости... "
+msgstr "Недостающие зависимости:"
 
+#
 #: scripts/makepkg.sh.in:444
-#, fuzzy
 msgid "Retrieving Sources..."
-msgstr ":: Получение пакетов с %s...\n"
+msgstr "Получаю исходные тексты..."
 
 #: scripts/makepkg.sh.in:447
 msgid "You do not have write permission to store downloads in %s."
-msgstr ""
+msgstr "У вас нет прав на запись, чтобы сохранить загруженные файлы в %s."
 
 #: scripts/makepkg.sh.in:458
 msgid "Found %s in build dir"
-msgstr ""
+msgstr "Обнаружен %s в директории для сборки"
 
 #: scripts/makepkg.sh.in:462
 msgid "Using cached copy of %s"
-msgstr ""
+msgstr "Использую копию %s из кэша"
 
 #: scripts/makepkg.sh.in:469
 msgid "%s was not found in the build directory and is not a URL."
-msgstr ""
+msgstr "%s не найден в директории для сборки и это не URL."
 
 #: scripts/makepkg.sh.in:476
 #, fuzzy
 msgid "Downloading %s..."
-msgstr "обновляю %s... "
+msgstr "Загрузка %s... "
 
 #: scripts/makepkg.sh.in:481
 msgid "Failure while downloading %s"
-msgstr ""
+msgstr "Загрузка %s завершилась неудачей"
 
+#
 #: scripts/makepkg.sh.in:492
-#, fuzzy
 msgid "Generating checksums for source files..."
-msgstr "ошибка при вычислении контрольной суммы для %s\n"
+msgstr "Генерирую контрольные суммы для исходных текстов..."
 
 #: scripts/makepkg.sh.in:501
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr ""
+msgstr "Указан неверный алгоритм '%s'."
 
 #: scripts/makepkg.sh.in:506 scripts/makepkg.sh.in:558
 msgid "Cannot find the '%s' program."
-msgstr ""
+msgstr "Не удается найти программу '%s'."
 
 #: scripts/makepkg.sh.in:527
 msgid "Unable to find source file %s to generate checksum."
-msgstr ""
+msgstr "Не могу найти файл %s для генерации контрольной суммы."
 
 #: scripts/makepkg.sh.in:553
 msgid "Invalid integrity algorithm '%s' specified"
-msgstr ""
+msgstr "Указан неверный алгоритм '%s'"
 
 #: scripts/makepkg.sh.in:564
 msgid "Validating source files with %s..."
-msgstr ""
+msgstr "Проверка файлов с исходными текстами с посощью %s..."
 
 #: scripts/makepkg.sh.in:574
 msgid "NOT FOUND"
-msgstr ""
+msgstr "НЕ НАЙДЕНО"
 
 #: scripts/makepkg.sh.in:583
 msgid "Passed"
-msgstr ""
+msgstr "Завершено"
 
 #: scripts/makepkg.sh.in:585
 msgid "FAILED"
-msgstr ""
+msgstr "НЕ УДАЛОСЬ"
 
 #: scripts/makepkg.sh.in:593
 msgid "One or more files did not pass the validity check!"
-msgstr ""
+msgstr "Один или более файлов не прошли проверку на соответствие!"
 
 #: scripts/makepkg.sh.in:597
 msgid "Integrity checks (%s) are missing or incomplete."
-msgstr ""
+msgstr "Проверка целостности (%s) не выполнена или не завершена."
 
 #: scripts/makepkg.sh.in:603
 msgid "Extracting Sources..."
-msgstr ""
+msgstr "Распаковка исходных текстов..."
 
 #: scripts/makepkg.sh.in:615
 msgid "Unable to find source file %s for extraction."
-msgstr ""
+msgstr "Не могу найти файл %s для распаковки."
 
 #: scripts/makepkg.sh.in:643
 #, fuzzy
 msgid "Failed to extract %s"
-msgstr "не удалось подготовить операцию (%s)\n"
+msgstr "Не удалось распаковать %s"
 
 #: scripts/makepkg.sh.in:675
 msgid "Starting build()..."
-msgstr ""
+msgstr "Запускаю build()..."
 
 #: scripts/makepkg.sh.in:705
 msgid "Build Failed."
-msgstr ""
+msgstr "Сборка не удалась."
 
 #: scripts/makepkg.sh.in:714
 msgid "Tidying install..."
@@ -1399,68 +1396,68 @@ msgstr "разрешаю зависимости... "
 
 #: scripts/makepkg.sh.in:722
 msgid "Compressing man pages..."
-msgstr ""
+msgstr "Архивирование man-страниц..."
 
 #: scripts/makepkg.sh.in:756
 msgid "Stripping debugging symbols from binaries and libraries..."
-msgstr ""
+msgstr "Удаление отладочной информации из бинарных файлов и библиотек..."
 
 #: scripts/makepkg.sh.in:768
 msgid "Removing libtool .la files..."
-msgstr ""
+msgstr "Удаление файлов libtool .la ..."
 
 #: scripts/makepkg.sh.in:773
 #, fuzzy
 msgid "Removing empty directories..."
-msgstr "разрешаю зависимости... "
+msgstr "Удаление пустых директорий..."
 
 #: scripts/makepkg.sh.in:780
 msgid "Missing pkg/ directory."
-msgstr ""
+msgstr "Директория pkg/ отсутствует."
 
 #: scripts/makepkg.sh.in:786
 #, fuzzy
 msgid "Creating package..."
-msgstr "чтение информации о пакете... "
+msgstr "Создание пакета... "
 
 #: scripts/makepkg.sh.in:797
 msgid "Generating .PKGINFO file..."
-msgstr ""
+msgstr "Генерирую файл .PKGINFO..."
 
 #: scripts/makepkg.sh.in:846
 msgid "Please add a license line to your %s!"
-msgstr ""
+msgstr "Пожалуйста, добавьте строку с указанием лицензии в ваш %s!"
 
 #: scripts/makepkg.sh.in:847
 msgid "Example for GPL'ed software: license=('GPL')."
-msgstr ""
+msgstr "Пример для программ под лицензией GPL: license=('GPL')."
 
 #: scripts/makepkg.sh.in:855 scripts/makepkg.sh.in:950
 msgid "Adding install script..."
-msgstr ""
+msgstr "Добавляю инсталяционный скрипт..."
 
 #: scripts/makepkg.sh.in:862
 #, fuzzy
 msgid "Adding package changelog..."
-msgstr "чтение информации о пакете... "
+msgstr "Добавляю список изменений пакета... "
 
 #: scripts/makepkg.sh.in:868
 #, fuzzy
 msgid "Compressing package..."
-msgstr "чтение информации о пакете... "
+msgstr "Архивирование пакета... "
 
 #: scripts/makepkg.sh.in:873
 #, fuzzy
 msgid "Failed to create package file."
-msgstr "не удалось загрузить пакет '%s' (%s)\n"
+msgstr "Не удалось создать файл пакета."
 
 #: scripts/makepkg.sh.in:882
 msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr ""
+msgstr "Не могу найти бинарный фалй xdelta! xdelta установлен?"
 
 #: scripts/makepkg.sh.in:912
 msgid "Making delta from version %s..."
-msgstr ""
+msgstr "Ищу отличия от версии %s..."
 
 #: scripts/makepkg.sh.in:926
 msgid "Recreating package tarball from delta to match md5 signatures"
@@ -1480,26 +1477,26 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:938
 msgid "No previous version found, skipping xdelta."
-msgstr ""
+msgstr "Предыдущая версия не найдена, пропускаю xdelta."
 
+#
 #: scripts/makepkg.sh.in:944
-#, fuzzy
 msgid "Creating source package..."
-msgstr "Проверка обновлений..."
+msgstr "Создаю пакет с исходными текстами..."
 
+#
 #: scripts/makepkg.sh.in:946 scripts/makepkg.sh.in:958
 #: scripts/makepkg.sh.in:965
-#, fuzzy
 msgid "Adding %s..."
-msgstr "обновляю %s... "
+msgstr "Добавляю %s... "
 
+#
 #: scripts/makepkg.sh.in:953
-#, fuzzy
 msgid "Install script %s not found."
-msgstr "Скрипт при установке    : %s\n"
+msgstr "Установочный скрипт %s не найден."
 
+#
 #: scripts/makepkg.sh.in:973
-#, fuzzy
 msgid "Compressing source package..."
 msgstr "Проверка обновлений..."
 
@@ -1509,226 +1506,242 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1005
 msgid "Determining latest darcs revision..."
-msgstr ""
+msgstr "Определяю последнюю darcs ревизию..."
 
 #: scripts/makepkg.sh.in:1009
 msgid "Determining latest cvs revision..."
-msgstr ""
+msgstr "Определяю последнюю cvs ревизию..."
 
 #: scripts/makepkg.sh.in:1013
 msgid "Determining latest git revision..."
-msgstr ""
+msgstr "Определяю последнюю git ревизию..."
 
 #: scripts/makepkg.sh.in:1017
 msgid "Determining latest svn revision..."
-msgstr ""
+msgstr "Определяю последнюю svn ревизию..."
 
 #: scripts/makepkg.sh.in:1021
 msgid "Determining latest bzr revision..."
-msgstr ""
+msgstr "Определяю последнюю bzr ревизию..."
 
 #: scripts/makepkg.sh.in:1025
 msgid "Determining latest hg revision..."
-msgstr ""
+msgstr "Определяю последнюю hg ревизию..."
 
+#
 #: scripts/makepkg.sh.in:1040
-#, fuzzy
 msgid "Version found: %s"
-msgstr "Версия                  : %s\n"
+msgstr "Обнаруженная версия: %s"
 
+#
 #: scripts/makepkg.sh.in:1071
-#, fuzzy
 msgid "Usage: %s [options]"
-msgstr "использование:  %s {-A --add} [параметры] <файл>\n"
+msgstr "Применение: %s [параметры]"
 
+#
 #: scripts/makepkg.sh.in:1073
-#, fuzzy
 msgid "Options:"
-msgstr "параметры:\n"
+msgstr "Опции:"
 
 #: scripts/makepkg.sh.in:1074
 msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
-msgstr ""
+msgstr "  -А --ignorearch Игнорировать неполное поле arch в %s"
 
 #: scripts/makepkg.sh.in:1075
 msgid "  -b, --builddeps  Build missing dependencies from source"
 msgstr ""
+"  -b, --builddeps  Собирать недостающие зависимости из исходных текстов"
 
 #: scripts/makepkg.sh.in:1076
 msgid "  -c, --clean      Clean up work files after build"
-msgstr ""
+msgstr "  -c, --clean      Удалять оставшиеся после сборки ненужные фалы"
 
 #: scripts/makepkg.sh.in:1077
 msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr ""
+msgstr "  -C, --cleancache Очистить кэш от исходных текстов"
 
+#
 #: scripts/makepkg.sh.in:1078
-#, fuzzy
 msgid "  -d, --nodeps     Skip all dependency checks"
-msgstr "  -d, --nodeps         не проверять зависимости\n"
+msgstr "  -d, --nodeps         Не проверять зависимости"
 
 #: scripts/makepkg.sh.in:1079
 msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
 msgstr ""
+"  -e, --noextract  Не извлекать файлы с исходными текстами (использовать "
+"существующие в src/)"
 
+#
 #: scripts/makepkg.sh.in:1080
-#, fuzzy
 msgid "  -f, --force      Overwrite existing package"
-msgstr ""
-"  -f, --force          принудительная установка, перезаписывать "
-"конфликтующие файлы\n"
+msgstr "  -f, --force          Переписать существующий пакет"
 
 #: scripts/makepkg.sh.in:1081
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
+"  -g, --geninteg   Генерировать информацию для проверки целостности исходных "
+"текстов"
 
 #: scripts/makepkg.sh.in:1082
 msgid "  -h, --help       This help"
-msgstr ""
+msgstr "  -h, --help       Эта помощь"
 
 #: scripts/makepkg.sh.in:1083
 msgid "  -i, --install    Install package after successful build"
-msgstr ""
+msgstr "  -i, --install    Установить пакет после успешной сборки"
 
+#
 #: scripts/makepkg.sh.in:1084
-#, fuzzy
 msgid "  -L, --log        Log package build process"
-msgstr "  -i, --info           показать информацию о пакете\n"
+msgstr "  -L, --log        Записывать в лог процесс сборки"
 
 #: scripts/makepkg.sh.in:1085
 msgid "  -m, --nocolor    Disable colorized output messages"
-msgstr ""
+msgstr "  -m, --nocolor    Отключить расцвечивание сообщений"
 
 #: scripts/makepkg.sh.in:1086
 msgid "  -o, --nobuild    Download and extract files only"
-msgstr ""
+msgstr "  -o, --nobuild    Только загрузить и распаковать файлы"
 
 #: scripts/makepkg.sh.in:1087
 msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
 msgstr ""
+"  -p <buildscript> Использовать альтернативный скрипт для сборки (вместо '%"
+"s')"
 
+#
 #: scripts/makepkg.sh.in:1088
-#, fuzzy
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -e, --dependsonly    установить только зависимости\n"
+msgstr ""
+"  -r, --rmdeps     Удалить установленные зависимости после успешной сборки"
 
 #: scripts/makepkg.sh.in:1090
 msgid "  -R, --repackage  Repackage contents of pkg/ without building"
-msgstr ""
+msgstr "  -R, --repackage  Заменить содержимое pkg/ без сборки "
 
+#
 #: scripts/makepkg.sh.in:1091
-#, fuzzy
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
-msgstr "  -e, --dependsonly    установить только зависимости\n"
+msgstr "  -s, --syncdeps   Установить необходимые зависимости с помощью pacman"
 
 #: scripts/makepkg.sh.in:1092
 msgid "      --asroot     Allow makepkg to run as root user"
-msgstr ""
+msgstr "      --asroot     Позволить makepkg запуск от имени root"
 
 #: scripts/makepkg.sh.in:1093
 msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
+"      --holdver    Не допускать автоматического изменения версий для "
+"PKGBUILDов находящихся в разработке"
 
 #: scripts/makepkg.sh.in:1094
 msgid "      --source     Do not build package; generate a source-only tarball"
 msgstr ""
+"      --source     Не собирать пакет; только сгенерировать тарбол с "
+"исходными текстами"
 
 #: scripts/makepkg.sh.in:1096
 msgid "These options can be passed to pacman:"
-msgstr ""
+msgstr "Следующие опции могут быть переданы pacman:"
 
+#
 #: scripts/makepkg.sh.in:1098
-#, fuzzy
 msgid ""
 "      --noconfirm      Do not ask for confirmation when resolving "
 "dependencies"
-msgstr "      --noconfirm      не спрашивать подтверждения\n"
+msgstr ""
+"      --noconfirm      Не спрашивать подтверждения при разрешении "
+"зависимостей"
 
+#
 #: scripts/makepkg.sh.in:1099
-#, fuzzy
 msgid ""
 "      --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "      --noprogressbar  не отображать прогресс при скачивании файлов\n"
+msgstr ""
+"      --noprogressbar  Не показывать индикатор выполнения при загрузке файлов"
 
 #: scripts/makepkg.sh.in:1101
 msgid "If -p is not specified, makepkg will look for '%s'"
-msgstr ""
+msgstr "Если опция -p не указана, makepkg будет искать '%s'"
 
+#
 #: scripts/makepkg.sh.in:1123
-#, fuzzy
 msgid "%s not found."
-msgstr "пакет \"%s\" не найден\n"
+msgstr "%s не найден."
 
 #: scripts/makepkg.sh.in:1185
 msgid "Sudo is used by default now. The --usesudo option is deprecated!"
 msgstr ""
+"Теперь sudo используется по умолчанию. Опция --usesudo считается устаревшей!"
 
 #: scripts/makepkg.sh.in:1200
 msgid "\\0--holdver and --forcever cannot both be specified"
-msgstr ""
+msgstr "\\0--holdver и --forcever не могут использоваться одновременно"
 
 #: scripts/makepkg.sh.in:1207
 msgid "Cleaning up ALL files from %s."
-msgstr ""
+msgstr "Удаляю ВСУ файлы из %s."
 
 #: scripts/makepkg.sh.in:1208
 msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr ""
+msgstr "    Вы уверены, что хотите сделать это? [Y/n] "
 
 #: scripts/makepkg.sh.in:1214
 msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
+msgstr "Не могу удалить файлы; возможно, у вас недостаточно привелегий в %s"
 
 #: scripts/makepkg.sh.in:1218
 msgid "Source cache cleaned."
-msgstr ""
+msgstr "Кэш с исходных текстов очищен."
 
 #: scripts/makepkg.sh.in:1223
 msgid "No files have been removed."
-msgstr ""
+msgstr "Файлы не были удалены."
 
 #: scripts/makepkg.sh.in:1228
 msgid "Source destination must be defined in makepkg.conf."
-msgstr ""
+msgstr "Расположение исходных текстов должно быть указано в makepkg.conf."
 
 #: scripts/makepkg.sh.in:1229
 msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr ""
+msgstr "Дополнительно, запустите makepkg -C вне кэш-директории, пожалуйста."
 
 #: scripts/makepkg.sh.in:1235
 msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr ""
+msgstr "BUILDSCRIPT не определена! Убедитесь, что вы обновили %s."
 
 #: scripts/makepkg.sh.in:1242
 msgid "Running makepkg as root is a BAD idea and can cause"
-msgstr ""
+msgstr "Запуск makepkg от имени root -- ОЧЕНЬ плохая идея и может"
 
 #: scripts/makepkg.sh.in:1243
 msgid "permanent, catastrophic damage to your system. If you"
-msgstr ""
+msgstr "повлечь за собой непоправимое повреждение вашей системы."
 
 #: scripts/makepkg.sh.in:1244
 msgid "wish to run as root, please use the --asroot option."
 msgstr ""
+"Если вы хотите запустить makepkg от имени root, \n"
+"используйте опцию --asroot."
 
 #: scripts/makepkg.sh.in:1248
 msgid "The --asroot option is meant for the root user only."
-msgstr ""
+msgstr "Опция --asroot имеет значение только для пользователя root."
 
 #: scripts/makepkg.sh.in:1249
 msgid "Please rerun makepkg without the --asroot flag."
-msgstr ""
+msgstr "Пожалуйста, перезапустите makepkg без флага --asroot."
 
 #: scripts/makepkg.sh.in:1253
 msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr ""
+msgstr "Fakeroot должен быть установлен, если используется опция 'fakeroot'"
 
 #: scripts/makepkg.sh.in:1254
 msgid "in the BUILDENV array in %s."
-msgstr ""
+msgstr "в массиве BUILDENV в %s."
 
 #: scripts/makepkg.sh.in:1258
 msgid "Running makepkg as an unprivileged user will result in non-root"
@@ -1745,143 +1758,150 @@ msgstr ""
 #: scripts/makepkg.sh.in:1265
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr ""
+"Не используйте опцию '-F'. Она предназначена только для использования\n"
+"самим makepkg."
 
 #: scripts/makepkg.sh.in:1274
 msgid "Cannot find the sudo binary! Is sudo installed?"
-msgstr ""
+msgstr "Не могу найти бинарный файл sudo! Sudo установлен?"
 
 #: scripts/makepkg.sh.in:1275
 msgid "Missing dependencies cannot be installed or removed as a normal user"
-msgstr ""
+msgstr "Недостающие зависимости не могут быть установлены или удалены от имени"
 
 #: scripts/makepkg.sh.in:1276
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
 msgstr ""
+"обычного пользователя без использования sudo; установите и настройте\n"
+"sudo для автоматического разрешения зависимостей."
 
+#
 #: scripts/makepkg.sh.in:1286
-#, fuzzy
 msgid "%s does not exist."
-msgstr "репозиторий '%s' не существует\n"
+msgstr "%s не существует."
 
+#
 #: scripts/makepkg.sh.in:1301 scripts/makepkg.sh.in:1305
 #: scripts/makepkg.sh.in:1309
-#, fuzzy
 msgid "%s is not allowed to be empty."
-msgstr "'%s' неправильно указан путь к базе данных\n"
+msgstr "%s не должен быть пустым."
 
 #: scripts/makepkg.sh.in:1313 scripts/makepkg.sh.in:1317
 msgid "%s is not allowed to contain hyphens."
-msgstr ""
+msgstr "в %s дефисы не допускаются."
 
 #: scripts/makepkg.sh.in:1327 scripts/makepkg.sh.in:1332
 msgid "%s is not available for the '%s' architecture."
-msgstr ""
+msgstr "%s не доступен для архитектуры '%s'."
 
 #: scripts/makepkg.sh.in:1328 scripts/makepkg.sh.in:1333
 msgid "Note that many packages may need a line added to their %s"
-msgstr ""
+msgstr "Имейте ввиду, что многим пакетам в %s может понадобиться"
 
 #: scripts/makepkg.sh.in:1329 scripts/makepkg.sh.in:1334
 msgid "such as arch=('%s')."
 msgstr ""
 
+#
 #: scripts/makepkg.sh.in:1339
-#, fuzzy
 msgid "Install scriptlet (%s) does not exist."
-msgstr "репозиторий '%s' не существует\n"
+msgstr "Установочный скрипт (%s) не существует."
 
 #: scripts/makepkg.sh.in:1353
 msgid "A package has already been built, installing existing package..."
-msgstr ""
+msgstr "Пакет уже собран, устанавливаю существующий пакет..."
 
 #: scripts/makepkg.sh.in:1357 scripts/makepkg.sh.in:1388
 msgid "A package has already been built. (use -f to overwrite)"
-msgstr ""
+msgstr "Пакет уже собран. (используйте -f чтобы переписать его)"
 
 #: scripts/makepkg.sh.in:1366 scripts/makepkg.sh.in:1465
 msgid "Skipping build."
-msgstr ""
+msgstr "Пропускаю сборку."
 
 #: scripts/makepkg.sh.in:1374
 msgid "Leaving fakeroot environment."
-msgstr ""
+msgstr "Покидаю fakeroot окружение."
 
+#
 #: scripts/makepkg.sh.in:1378
-#, fuzzy
 msgid "Making package: %s"
-msgstr "чтение информации о пакете... "
+msgstr "Сборка пакета: %s"
 
 #: scripts/makepkg.sh.in:1381
 msgid "Running makepkg as root..."
-msgstr ""
+msgstr "Запуск makepkg от имени root..."
 
 #: scripts/makepkg.sh.in:1392
 msgid "Source package created: %s"
-msgstr ""
+msgstr "Создан пакет с исходными текстами: %s"
 
+#
 #: scripts/makepkg.sh.in:1399
-#, fuzzy
 msgid "Skipping dependency checks."
-msgstr "проверяю зависимости... "
+msgstr "Пропускаю проверку зависимостей."
 
+#
 #: scripts/makepkg.sh.in:1406
-#, fuzzy
 msgid "Checking Runtime Dependencies..."
-msgstr "проверяю зависимости... "
+msgstr "Проверяю необходимые для запуска зависимости..."
 
+#
 #: scripts/makepkg.sh.in:1409
-#, fuzzy
 msgid "Checking Buildtime Dependencies..."
-msgstr "проверяю зависимости... "
+msgstr "Проверяю необходимые для сборки зависимости..."
 
+#
 #: scripts/makepkg.sh.in:1413
-#, fuzzy
 msgid "Could not resolve all dependencies."
-msgstr "разрешаю зависимости... "
+msgstr "Не удалось разрешить все зависимости."
 
 #: scripts/makepkg.sh.in:1417
 msgid "pacman was not found in PATH; skipping dependency checks."
-msgstr ""
+msgstr "pacman не найден в PATH; пропускаю проверку зависимостей."
 
 #: scripts/makepkg.sh.in:1431
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr ""
+"Пропускаю получение исходных текстов  -- использую существующее дерево src/"
 
 #: scripts/makepkg.sh.in:1432
 msgid "Skipping source integrity checks -- using existing src/ tree"
 msgstr ""
+"Пропускаю проверку исходных текстов   -- использую существующее дерево src/"
 
 #: scripts/makepkg.sh.in:1433
 msgid "Skipping source extraction       -- using existing src/ tree"
 msgstr ""
+"Пропускаю распаковку исходных текстов -- использую существующее дерево src/"
 
 #: scripts/makepkg.sh.in:1436
 msgid "The source directory is empty, there is nothing to build!"
-msgstr ""
+msgstr "Директория с исходными текстами пуста. Здесь нечего собирать!"
 
 #: scripts/makepkg.sh.in:1440
 msgid "The package directory is empty, there is nothing to repackage!"
-msgstr ""
+msgstr "Директория пакета пуста. Здесь нечего перепаковывать!"
 
 #: scripts/makepkg.sh.in:1451
 msgid "Sources are ready."
-msgstr ""
+msgstr "Исходные тексты готовы."
 
 #: scripts/makepkg.sh.in:1456
 msgid "Removing existing pkg/ directory..."
-msgstr ""
+msgstr "Удаляю существующую директорию pkg/ ..."
 
 #: scripts/makepkg.sh.in:1474
 msgid "Entering fakeroot environment..."
-msgstr ""
+msgstr "Вхожу в fakeroot окружение..."
 
 #: scripts/makepkg.sh.in:1486
 msgid "Finished making: %s"
-msgstr ""
+msgstr "Сборка завершена: %s"
 
 #: scripts/pacman-optimize.sh.in:42
 msgid "Usage: %s [pacman_db_root]"
-msgstr ""
+msgstr "Применение: %s [pacman_db_root]"
 
 #: scripts/pacman-optimize.sh.in:43
 msgid ""
@@ -1901,16 +1921,16 @@ msgstr ""
 
 #: scripts/pacman-optimize.sh.in:89
 msgid "diff tool was not found, please install diffutils."
-msgstr ""
+msgstr "утилита diff не обнаружена, пожалуйста, установите diffutils."
 
 #: scripts/pacman-optimize.sh.in:94
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
 
+#
 #: scripts/pacman-optimize.sh.in:98
-#, fuzzy
 msgid "%s does not exist or is not a directory."
-msgstr "'%s' неправильно указан путь к кэш-директории\n"
+msgstr ""
 
 #: scripts/pacman-optimize.sh.in:102
 msgid "You must have correct permissions to optimize the database."
@@ -1924,10 +1944,10 @@ msgstr ""
 msgid "MD5sum'ing the old database..."
 msgstr ""
 
+#
 #: scripts/pacman-optimize.sh.in:116
-#, fuzzy
 msgid "Tar'ing up %s..."
-msgstr "убираем за собой... "
+msgstr ""
 
 #: scripts/pacman-optimize.sh.in:121
 msgid "Tar'ing up %s failed."
@@ -1941,10 +1961,10 @@ msgstr ""
 msgid "Untar'ing %s failed."
 msgstr ""
 
+#
 #: scripts/pacman-optimize.sh.in:136
-#, fuzzy
 msgid "Checking integrity..."
-msgstr "проверяю целостность пакета... "
+msgstr ""
 
 #: scripts/pacman-optimize.sh.in:142
 msgid "Integrity check FAILED, reverting to old database."
@@ -1995,9 +2015,8 @@ msgid "Invalid package file '%s'."
 msgstr ""
 
 #: scripts/repo-add.sh.in:183 scripts/repo-remove.sh.in:88
-#, fuzzy
 msgid "Removing existing package '%s'..."
-msgstr ":: Получение пакетов с %s...\n"
+msgstr ""
 
 #: scripts/repo-add.sh.in:193
 msgid "Creating 'desc' db entry..."
@@ -2007,10 +2026,10 @@ msgstr ""
 msgid "Computing md5 checksums..."
 msgstr ""
 
+#
 #: scripts/repo-add.sh.in:215
-#, fuzzy
 msgid "Creating 'depends' db entry..."
-msgstr "разрешаю зависимости... "
+msgstr ""
 
 #: scripts/repo-add.sh.in:231
 msgid "Creating 'deltas' db entry..."
@@ -2044,15 +2063,15 @@ msgstr ""
 msgid "'%s' is not a package file, skipping"
 msgstr ""
 
+#
 #: scripts/repo-add.sh.in:309
-#, fuzzy
 msgid "Adding package '%s'"
-msgstr "чтение информации о пакете... "
+msgstr ""
 
+#
 #: scripts/repo-add.sh.in:316
-#, fuzzy
 msgid "Package '%s' not found."
-msgstr "пакет '%s' не найден\n"
+msgstr ""
 
 #: scripts/repo-add.sh.in:323
 msgid "Creating updated database file %s"
@@ -2085,15 +2104,15 @@ msgstr ""
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr ""
 
+#
 #: scripts/repo-remove.sh.in:146
-#, fuzzy
 msgid "Searching for package '%s'..."
-msgstr "Проверка обновлений..."
+msgstr ""
 
+#
 #: scripts/repo-remove.sh.in:151
-#, fuzzy
 msgid "Package matching '%s' not found."
-msgstr "пакет '%s' не найден\n"
+msgstr ""
 
 #: scripts/repo-remove.sh.in:158
 msgid "Creating updated database file '%s'..."
@@ -2155,6 +2174,16 @@ msgstr "пакет \"%s\" не найден\n"
 #: scripts/updatesync.sh.in:140
 msgid "could not find %s-%s-%s-%s%s - aborting"
 msgstr ""
+
+#~ msgid "      --asexplicit     install packages as explicitly installed\n"
+#~ msgstr "      --asexplicit     установить пакеты как явно установленные\n"
+
+#~ msgid ""
+#~ "  -u, --unneeded       remove unneeded packages (that won't break "
+#~ "packages)\n"
+#~ msgstr ""
+#~ "  -u, --unneeded       удалить ненужные пакеты (это не повредит другие "
+#~ "пакеты)\n"
 
 #, fuzzy
 #~ msgid "error: failed to add target '%s' (%s)"
