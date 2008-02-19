@@ -774,8 +774,19 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* clean the cache */
 	if(config->op_s_clean) {
-		int ret = sync_cleancache(config->op_s_clean);
+		int ret = 0;
+
+		if(sync_trans_init(0) == -1) {
+			return(1);
+		}
+
+		ret += sync_cleancache(config->op_s_clean);
 		ret += sync_cleandb_all();
+
+		if(sync_trans_release() == -1) {
+			ret++;
+		}
+
 		return(ret);
 	}
 
