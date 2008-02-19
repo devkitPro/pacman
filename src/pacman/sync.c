@@ -205,6 +205,28 @@ static int sync_cleancache(int level)
 	return(0);
 }
 
+static int sync_trans_init(pmtransflag_t flags) {
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, flags, cb_trans_evt,
+				cb_trans_conv, cb_trans_progress) == -1) {
+		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+				alpm_strerrorlast());
+		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+			printf(_("  if you're sure a package manager is not already\n"
+						"  running, you can remove %s.\n"), alpm_option_get_lockfile());
+		}
+		return(-1);
+	}
+	return(0);
+}
+
+static int sync_trans_release() {
+	if(alpm_trans_release() == -1) {
+		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+				alpm_strerrorlast());
+		return(-1);
+	}
+	return(0);
+}
 static int sync_synctree(int level, alpm_list_t *syncs)
 {
 	alpm_list_t *i;
@@ -484,14 +506,7 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 
 	/* Step 1: create a new transaction... */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
-		 cb_trans_conv, cb_trans_progress) == -1) {
-		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-		        alpm_strerrorlast());
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
-		}
+	if(sync_trans_init(config->flags) == -1) {
 		return(1);
 	}
 
@@ -537,22 +552,15 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 					printf(_(":: pacman has detected a newer version of itself.\n"));
 					if(yesno(_(":: Do you want to cancel the current operation\n"
 					           ":: and install the new pacman version now? [Y/n] "))) {
-						if(alpm_trans_release() == -1) {
-							fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-							    alpm_strerrorlast());
-							retval = 1;
-							goto cleanup;
+						if(sync_trans_release() == -1) {
+							return(1);
 						}
-						if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags,
-						   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-							fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-							    alpm_strerrorlast());
+						if(sync_trans_init(0) == -1) {
 							return(1);
 						}
 						if(alpm_trans_addtarget("pacman") == -1) {
 							fprintf(stderr, _("error: pacman: %s\n"), alpm_strerrorlast());
-							retval = 1;
-							goto cleanup;
+							return(1);
 						}
 						break;
 					}
@@ -752,9 +760,7 @@ cleanup:
 	if(data) {
 		FREELIST(data);
 	}
-	if(alpm_trans_release() == -1) {
-		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-		        alpm_strerrorlast());
+	if(sync_trans_release() == -1) {
 		retval = 1;
 	}
 
