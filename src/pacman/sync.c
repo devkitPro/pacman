@@ -25,6 +25,7 @@
 #include <limits.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -57,6 +58,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 	/* step through the directory one file at a time */
 	while((ent = readdir(dir)) != NULL) {
 		char path[PATH_MAX];
+		struct stat buf;
 		alpm_list_t *syncdbs = NULL, *i;
 		int found = 0;
 		char *dname = ent->d_name;
@@ -68,6 +70,15 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		if(!strcmp(dname, "sync") || !strcmp(dname, "local")) {
 			continue;
 		}
+
+		/* build the full path */
+		snprintf(path, PATH_MAX, "%s%s", dbpath, ent->d_name);
+		/* skip entries that are not dirs (lock file, etc.) */
+		stat(path, &buf);
+		if(!S_ISDIR(buf.st_mode)) {
+			continue;
+		}
+
 		if(keep_used) {
 			syncdbs = alpm_option_get_syncdbs();
 			for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
@@ -78,9 +89,6 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		/* We have a directory that doesn't match any syncdb.
 		 * Ask the user if he wants to remove it. */
 		if(!found) {
-			/* build the full path */
-			snprintf(path, PATH_MAX, "%s%s", dbpath, ent->d_name);
-
 			if(!yesno(_("Do you want to remove %s? [Y/n] "), path)) {
 				continue;
 			}
