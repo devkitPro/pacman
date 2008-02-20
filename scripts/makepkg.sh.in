@@ -939,8 +939,8 @@ create_xdelta() {
 create_srcpackage() {
 	cd "$startdir"
 	msg "$(gettext "Creating source package...")"
-	local comp_files="PKGBUILD"
-	msg2 "$(gettext "Adding %s...")" "PKGBUILD"
+	local comp_files="$BUILDSCRIPT"
+	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 
 	if [ "$install" != "" ]; then
 		if [ -f $install ]; then
