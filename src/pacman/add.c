@@ -115,7 +115,7 @@ int pacman_add(alpm_list_t *targets)
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			printf("failed.\n");
+			printf(_("failed.\n"));
 			fprintf(stderr, _("error: '%s': %s\n"),
 					targ, alpm_strerrorlast());
 			add_cleanup();

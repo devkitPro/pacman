@@ -70,6 +70,15 @@ die_r() {
 	die "$@"
 }
 
+# PROGRAM START
+
+# determine whether we have gettext; make it a no-op if we do not
+if [ ! $(type -t gettext) ]; then
+	gettext() {
+		echo "$@"
+	}
+fi
+
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
 	exit 0

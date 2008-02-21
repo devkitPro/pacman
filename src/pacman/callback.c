@@ -329,9 +329,8 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	const int infolen = 50;
-	int tmp, digits, oprlen, textlen, pkglen;
+	int tmp, digits, oprlen, textlen, remainlen;
 	char *opr = NULL;
-	wchar_t *wcopr = NULL;
 
 	if(config->noprogressbar) {
 		return;
@@ -373,15 +372,6 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			opr = _("checking for file conflicts");
 			break;
 	}
-	/* convert above strings to wide chars */
-	oprlen = strlen(opr);
-	wcopr = calloc(oprlen, sizeof(wchar_t));
-	if(!wcopr) {
-		fprintf(stderr, "malloc failure: could not allocate %zd bytes\n",
-		        strlen(opr) * sizeof(wchar_t));
-		return;
-	}
-	oprlen = mbstowcs(wcopr, opr, oprlen);
 
 	/* find # of digits in package counts to scale output */
 	digits = 1;
@@ -392,29 +382,23 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	/* determine room left for non-digits text [not ( 1/12) part] */
 	textlen = infolen - 3 - (2 * digits);
-	/* room left for package name */
-	pkglen = textlen - oprlen - 1;
+
+	oprlen = mbstowcs(NULL, opr, 0);
+	/* room left (eg for package name) */
+	remainlen = textlen - oprlen - 1;
 
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
 		case PM_TRANS_PROGRESS_UPGRADE_START:
 		case PM_TRANS_PROGRESS_REMOVE_START:
-			/* old way of doing it, but ISO C does not recognize it
-			printf("(%2$*1$d/%3$*1$d) %4$s %6$-*5$.*5$s", digits, remain, howmany,
-			       opr, pkglen, pkgname);*/
 			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
-			       opr, pkglen, pkglen, pkgname);
+			       opr, remainlen, remainlen, pkgname);
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
-			/* old way of doing it, but ISO C does not recognize it
-			printf("(%2$*1$d/%3$*1$d) %5$-*4$s", digits, remain, howmany,
-			       textlen, opr);*/
-			printf("(%*d/%*d) %-*s", digits, remain, digits, howmany,
-			       textlen, opr);
+			printf("(%*d/%*d) %s %-*s", digits, remain, digits, howmany,
+			       opr, remainlen, "");
 			break;
 	}
-
-	free(wcopr);
 
 	/* call refactored fill progress function */
 	fill_progress(percent, percent, getcols() - infolen);

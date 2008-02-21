@@ -25,6 +25,7 @@
 #include <limits.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -57,6 +58,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 	/* step through the directory one file at a time */
 	while((ent = readdir(dir)) != NULL) {
 		char path[PATH_MAX];
+		struct stat buf;
 		alpm_list_t *syncdbs = NULL, *i;
 		int found = 0;
 		char *dname = ent->d_name;
@@ -68,6 +70,15 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		if(!strcmp(dname, "sync") || !strcmp(dname, "local")) {
 			continue;
 		}
+
+		/* build the full path */
+		snprintf(path, PATH_MAX, "%s%s", dbpath, ent->d_name);
+		/* skip entries that are not dirs (lock file, etc.) */
+		stat(path, &buf);
+		if(!S_ISDIR(buf.st_mode)) {
+			continue;
+		}
+
 		if(keep_used) {
 			syncdbs = alpm_option_get_syncdbs();
 			for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
@@ -78,9 +89,6 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		/* We have a directory that doesn't match any syncdb.
 		 * Ask the user if he wants to remove it. */
 		if(!found) {
-			/* build the full path */
-			snprintf(path, PATH_MAX, "%s%s", dbpath, ent->d_name);
-
 			if(!yesno(_("Do you want to remove %s? [Y/n] "), path)) {
 				continue;
 			}
@@ -197,6 +205,28 @@ static int sync_cleancache(int level)
 	return(0);
 }
 
+static int sync_trans_init(pmtransflag_t flags) {
+	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, flags, cb_trans_evt,
+				cb_trans_conv, cb_trans_progress) == -1) {
+		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+				alpm_strerrorlast());
+		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+			printf(_("  if you're sure a package manager is not already\n"
+						"  running, you can remove %s.\n"), alpm_option_get_lockfile());
+		}
+		return(-1);
+	}
+	return(0);
+}
+
+static int sync_trans_release() {
+	if(alpm_trans_release() == -1) {
+		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+				alpm_strerrorlast());
+		return(-1);
+	}
+	return(0);
+}
 static int sync_synctree(int level, alpm_list_t *syncs)
 {
 	alpm_list_t *i;
@@ -476,14 +506,7 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 
 	/* Step 1: create a new transaction... */
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags, cb_trans_evt,
-		 cb_trans_conv, cb_trans_progress) == -1) {
-		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-		        alpm_strerrorlast());
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
-		}
+	if(sync_trans_init(config->flags) == -1) {
 		return(1);
 	}
 
@@ -529,22 +552,15 @@ static int sync_trans(alpm_list_t *targets, int sync_only)
 					printf(_(":: pacman has detected a newer version of itself.\n"));
 					if(yesno(_(":: Do you want to cancel the current operation\n"
 					           ":: and install the new pacman version now? [Y/n] "))) {
-						if(alpm_trans_release() == -1) {
-							fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-							    alpm_strerrorlast());
-							retval = 1;
-							goto cleanup;
+						if(sync_trans_release() == -1) {
+							return(1);
 						}
-						if(alpm_trans_init(PM_TRANS_TYPE_SYNC, config->flags,
-						   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-							fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-							    alpm_strerrorlast());
+						if(sync_trans_init(0) == -1) {
 							return(1);
 						}
 						if(alpm_trans_addtarget("pacman") == -1) {
 							fprintf(stderr, _("error: pacman: %s\n"), alpm_strerrorlast());
-							retval = 1;
-							goto cleanup;
+							return(1);
 						}
 						break;
 					}
@@ -744,9 +760,7 @@ cleanup:
 	if(data) {
 		FREELIST(data);
 	}
-	if(alpm_trans_release() == -1) {
-		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-		        alpm_strerrorlast());
+	if(sync_trans_release() == -1) {
 		retval = 1;
 	}
 
@@ -760,8 +774,19 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* clean the cache */
 	if(config->op_s_clean) {
-		int ret = sync_cleancache(config->op_s_clean);
+		int ret = 0;
+
+		if(sync_trans_init(0) == -1) {
+			return(1);
+		}
+
+		ret += sync_cleancache(config->op_s_clean);
 		ret += sync_cleandb_all();
+
+		if(sync_trans_release() == -1) {
+			ret++;
+		}
+
 		return(ret);
 	}
 
