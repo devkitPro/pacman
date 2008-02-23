@@ -40,20 +40,15 @@
 /* Allocation */
 
 /**
- * @brief Allocate a new alpm_list_t.
+ * @brief Allocate a new node for alpm_list_t (with empty ->data)
  *
- * @return a new alpm_list_t item, or NULL on failure
+ * @return a new node item, or NULL on failure
  */
-alpm_list_t SYMEXPORT *alpm_list_new()
+static alpm_list_t *node_new()
 {
 	alpm_list_t *list = NULL;
 
-	list = malloc(sizeof(alpm_list_t));
-	if(list) {
-		list->data = NULL;
-		list->prev = list; /* maintain a back reference to the tail pointer */
-		list->next = NULL;
-	}
+	list = calloc(1, sizeof(alpm_list_t));
 
 	return(list);
 }
@@ -107,30 +102,26 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 {
 	alpm_list_t *ptr, *lp;
 
-	ptr = list;
+	ptr = node_new();
 	if(ptr == NULL) {
-		ptr = alpm_list_new();
-		if(ptr == NULL) {
-			return(NULL);
-		}
+		return(list);
 	}
 
-	lp = alpm_list_last(ptr);
-	if(lp == ptr && lp->data == NULL) {
-		/* nada */
-	} else {
-		lp->next = alpm_list_new();
-		if(lp->next == NULL) {
-			return(NULL);
-		}
-		lp->next->prev = lp;
-		lp = lp->next;
-		list->prev = lp;
+	ptr->data = data;
+	ptr->next = NULL;
+
+	/* Special case: the input list is empty */
+	if(list == NULL) {
+		ptr->prev = ptr;
+		return(ptr);
 	}
 
-	lp->data = data;
+	lp = alpm_list_last(list);
+	lp->next = ptr;
+	ptr->prev = lp;
+	list->prev = ptr;
 
-	return(ptr);
+	return(list);
 }
 
 /**
@@ -144,12 +135,15 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
  */
 alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cmp fn)
 {
-	if(!fn) {
-		return alpm_list_add(list, data);
+	if(!fn || !list) {
+		return(alpm_list_add(list, data));
 	} else {
 		alpm_list_t *add = NULL, *prev = NULL, *next = list;
 
-		add = alpm_list_new();
+		add = node_new();
+		if(add == NULL) {
+			return(list);
+		}
 		add->data = data;
 
 		/* Find insertion point. */
@@ -159,26 +153,25 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 			next = next->next;
 		}
 
-		/*  Insert node before insertion point. */
-		add->prev = prev;
-		add->next = next;
-
-		if(next != NULL) {
-			next->prev = add;   /*  Not at end.  */
-		}
-
-		if(prev != NULL) {
-			prev->next = add;       /*  In middle.  */
-		} else {
-			list = add; /* At beginning, or new list */
-		}
-
-		if(next == NULL) {
-			/* At end, adjust tail pointer on head node */
+		/* Insert the add node to the list */
+		if(prev == NULL) { /* special case: we insert add as the first element */
+			add->prev = list->prev; /* list != NULL */
+			add->next = list;
 			list->prev = add;
+			return(add);
+		} else if(next == NULL) { /* another special case: add last element */
+			add->prev = prev;
+			add->next = NULL;
+			prev->next = add;
+			list->prev = add;
+			return(list);
+		} else {
+			add->prev = prev;
+			add->next = next;
+			next->prev = add;
+			prev->next = add;
+			return(list);
 		}
-
-		return(list);
 	}
 }
 
@@ -198,10 +191,10 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
 	alpm_list_t *tmp;
 
 	if (first == NULL) {
-		return second;
+		return(second);
 	}
 	if (second == NULL) {
-		return first;
+		return(first);
 	}
 	/* tmp is the last element of the first list */
 	tmp = first->prev;
@@ -464,18 +457,22 @@ alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
 alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 {
 	const alpm_list_t *lp;
-	alpm_list_t *newlist = NULL;
+	alpm_list_t *newlist = NULL, *backup;
+
+	if(list == NULL) {
+		return(NULL);
+	}
 
 	lp = alpm_list_last(list);
-	if(list) {
-		/* break our reverse circular list */
-		list->prev = NULL;
-	}
+	/* break our reverse circular list */
+	backup = list->prev;
+	list->prev = NULL;
 
 	while(lp) {
 		newlist = alpm_list_add(newlist, lp->data);
 		lp = lp->prev;
 	}
+	list->prev = backup; /* restore tail pointer */
 	return(newlist);
 }
 
@@ -490,14 +487,18 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
  */
 inline alpm_list_t SYMEXPORT *alpm_list_first(const alpm_list_t *list)
 {
-	return((alpm_list_t*)list);
+	if(list) {
+		return((alpm_list_t*)list);
+	} else {
+		return(NULL);
+	}
 }
 
 /**
  * @brief Return nth element from list (starting from 0).
  *
  * @param list the list
- * @param n    the index of the item to find
+ * @param n    the index of the item to find (n < alpm_list_count(list) IS needed)
  *
  * @return an alpm_list_t node for index `n`
  */
@@ -519,7 +520,11 @@ alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, int n)
  */
 inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
 {
-	return(node->next);
+	if(node) {
+		return(node->next);
+	} else {
+		return(NULL);
+	}
 }
 
 /**

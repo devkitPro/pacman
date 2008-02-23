@@ -47,7 +47,6 @@ typedef void (*alpm_list_fn_free)(void *); /* item deallocation callback */
 typedef int (*alpm_list_fn_cmp)(const void *, const void *); /* item comparison callback */
 
 /* allocation */
-alpm_list_t *alpm_list_new(void);
 void alpm_list_free(alpm_list_t *list);
 void alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn);
 
