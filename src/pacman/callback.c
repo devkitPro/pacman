@@ -36,7 +36,6 @@
 
 /* TODO this should not have to be defined twice- trans.c & log.c */
 #define LOG_STR_LEN 256
-#define FILENAME_TRIM_LEN 23
 
 /* download progress bar */
 static float rate_last;
@@ -421,7 +420,11 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 		int list_xfered, int list_total)
 {
 	const int infolen = 50;
+	const int filenamelen = infolen - 27;
 	char *fname, *p;
+	/* used for wide character width determination and printing */
+	int len, wclen, wcwid, padwid;
+	wchar_t *wcfname;
 
 	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
@@ -501,8 +504,30 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 	if((p = strstr(fname, PKGEXT)) || (p = strstr(fname, DBEXT))) {
 			*p = '\0';
 	}
-	if(strlen(fname) > FILENAME_TRIM_LEN) {
-		strcpy(fname + FILENAME_TRIM_LEN -3,"...");
+	/* In order to deal with characters from all locales, we have to worry
+	 * about wide characters and their column widths. A lot of stuff is
+	 * done here to figure out the actual number of screen columns used
+	 * by the output, and then pad it accordingly so we fill the terminal.
+	 */
+	/* len = filename len + null */
+	len = strlen(filename) + 1;
+	wcfname = calloc(len, sizeof(wchar_t));
+	wclen = mbstowcs(wcfname, fname, len);
+	wcwid = wcswidth(wcfname, wclen);
+	padwid = filenamelen - wcwid;
+	/* if padwid is < 0, we need to trim the string so padwid = 0 */
+	if(padwid < 0) {
+		int i = filenamelen - 3;
+		wchar_t *p = wcfname;
+		/* grab the max number of char columns we can fill */
+		while(i > 0 && wcwidth(*p) < i) {
+			i -= wcwidth(*p);
+			p++;
+		}
+		/* then add the ellipsis and fill out any extra padding */
+		wcscpy(p, L"...");
+		padwid = i;
+
 	}
 
 	/* Awesome formatting for progress bar.  We need a mess of Kb->Mb->Gb stuff
@@ -532,10 +557,12 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 		}
 	}
 
-	printf(" %-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", FILENAME_TRIM_LEN, fname,
-				 f_xfered, xfered_size, rate, rate_size, eta_h, eta_m, eta_s);
+	printf(" %ls%-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", wcfname,
+			padwid, "", f_xfered, xfered_size,
+			rate, rate_size, eta_h, eta_m, eta_s);
 
 	free(fname);
+	free(wcfname);
 
 	/* The progress bar is based on the file percent regardless of the
 	 * TotalDownload option. */
@@ -548,7 +575,7 @@ void cb_dl_progress(const char *filename, int file_xfered, int file_total,
 /* Callback to handle notifications from the library */
 void cb_log(pmloglevel_t level, char *fmt, va_list args)
 {
-	if(!strlen(fmt)) {
+	if(strlen(fmt) == 0) {
 		return;
 	}
 
