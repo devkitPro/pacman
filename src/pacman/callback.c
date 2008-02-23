@@ -328,8 +328,11 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	const int infolen = 50;
-	int tmp, digits, oprlen, textlen, remainlen;
+	int tmp, digits, textlen;
 	char *opr = NULL;
+	/* used for wide character width determination and printing */
+	int len, wclen, wcwid, padwid;
+	wchar_t *wcstr;
 
 	if(config->noprogressbar) {
 		return;
@@ -378,26 +381,40 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	while((tmp /= 10)) {
 		++digits;
 	}
-
 	/* determine room left for non-digits text [not ( 1/12) part] */
 	textlen = infolen - 3 - (2 * digits);
 
-	oprlen = mbstowcs(NULL, opr, 0);
-	/* room left (eg for package name) */
-	remainlen = textlen - oprlen - 1;
+	/* In order to deal with characters from all locales, we have to worry
+	 * about wide characters and their column widths. A lot of stuff is
+	 * done here to figure out the actual number of screen columns used
+	 * by the output, and then pad it accordingly so we fill the terminal.
+	 */
+	/* len = opr len + pkgname len (if available) + space  + null */
+	len = strlen(opr) + ((pkgname) ? strlen(pkgname) : 0) + 2;
+	wcstr = calloc(len, sizeof(wchar_t));
+	/* print our strings to the alloc'ed memory */
+	wclen = swprintf(wcstr, len, L"%s %s", opr, pkgname);
+	wcwid = wcswidth(wcstr, wclen);
+	padwid = textlen - wcwid;
+	/* if padwid is < 0, we need to trim the string so padwid = 0 */
+	if(padwid < 0) {
+		int i = textlen - 3;
+		wchar_t *p = wcstr;
+		/* grab the max number of char columns we can fill */
+		while(i > 0 && wcwidth(*p) < i) {
+			i -= wcwidth(*p);
+			p++;
+		}
+		/* then add the ellipsis and fill out any extra padding */
+		wcscpy(p, L"...");
+		padwid = i;
 
-	switch (event) {
-		case PM_TRANS_PROGRESS_ADD_START:
-		case PM_TRANS_PROGRESS_UPGRADE_START:
-		case PM_TRANS_PROGRESS_REMOVE_START:
-			printf("(%*d/%*d) %s %-*.*s", digits, remain, digits, howmany,
-			       opr, remainlen, remainlen, pkgname);
-			break;
-		case PM_TRANS_PROGRESS_CONFLICTS_START:
-			printf("(%*d/%*d) %s %-*s", digits, remain, digits, howmany,
-			       opr, remainlen, "");
-			break;
 	}
+
+	printf("(%*d/%*d) %ls%-*s", digits, remain, digits, howmany,
+			wcstr, padwid, "");
+
+	free(wcstr);
 
 	/* call refactored fill progress function */
 	fill_progress(percent, percent, getcols() - infolen);
