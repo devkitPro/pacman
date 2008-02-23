@@ -24,6 +24,7 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <wchar.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -48,6 +49,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	char bdatestr[50] = "", idatestr[50] = "";
 	const alpm_list_t *i;
 	alpm_list_t *requiredby = NULL, *depstrings = NULL;
+	wchar_t *wcstr;
+	int len;
 
 	if(pkg == NULL) {
 		return;
@@ -85,8 +88,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 		/* compute this here so we don't get a puase in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
 	}
-
-	descheader = _("Description    : ");
 
 	/* actual output */
 	if(level == 0) {
@@ -136,8 +137,16 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	}
 
 	/* printed using a variable to make i18n safe */
+	descheader = _("Description    : ");
+	/* len goes from # bytes -> # chars -> # cols */
+	len = strlen(descheader) + 1;
+	wcstr = calloc(len, sizeof(wchar_t));
+	len = mbstowcs(wcstr, descheader, len);
+	len = wcswidth(wcstr, len);
+	free(wcstr);
+	/* we can finally print the darn thing */
 	printf("%s", descheader);
-	indentprint(alpm_pkg_get_desc(pkg), mbstowcs(NULL, descheader, 0));
+	indentprint(alpm_pkg_get_desc(pkg), len);
 	printf("\n\n");
 
 	/* Print additional package info if info flag passed more than once */

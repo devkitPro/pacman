@@ -34,6 +34,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <limits.h>
+#include <wchar.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -219,37 +220,46 @@ char *mdirname(const char *path)
  */
 void indentprint(const char *str, int indent)
 {
-	const char *p = str;
-	int cidx = indent;
+	wchar_t *wcstr;
+	const wchar_t *p;
+	int len, cidx;
+
+	len = strlen(str) + 1;
+	wcstr = calloc(len, sizeof(wchar_t));
+	len = mbstowcs(wcstr, str, len);
+	p = wcstr;
+	cidx = indent;
 
 	while(*p) {
-		if(*p == ' ') {
-			const char *next = NULL;
-			int len;
+		if(*p == L' ') {
+			const wchar_t *q, *next;
 			p++;
-			if(p == NULL || *p == ' ') continue;
-			next = strchr(p, ' ');
+			if(p == NULL || *p == L' ') continue;
+			next = wcschr(p, L' ');
 			if(next == NULL) {
-				next = p + mbstowcs(NULL, p, 0);
+				next = p + wcslen(p);
 			}
-			len = next - p;
+			/* len captures # cols */
+			len = 0;
+			q = p;
+			while(q < next) {
+				len += wcwidth(*q++);
+			}
 			if(len > (getcols() - cidx - 1)) {
-				/* newline */
-				int i;
-				fprintf(stdout, "\n");
-				for(i = 0; i < indent; i++) {
-					fprintf(stdout, " ");
-				}
+				/* wrap to a newline and reindent */
+				fprintf(stdout, "\n%-*s", indent, "");
 				cidx = indent;
 			} else {
 				printf(" ");
 				cidx++;
 			}
+			continue;
 		}
-		fprintf(stdout, "%c", *p);
+		fprintf(stdout, "%lc", (wint_t)*p);
+		cidx += wcwidth(*p);
 		p++;
-		cidx++;
 	}
+	free(wcstr);
 }
 
 /* Convert a string to uppercase
@@ -389,14 +399,28 @@ void list_display(const char *title, const alpm_list_t *list)
 {
 	const alpm_list_t *i;
 	int cols, len;
+	wchar_t *wcstr;
 
-	len = mbstowcs(NULL, title, 0);
+	/* len goes from # bytes -> # chars -> # cols */
+	len = strlen(title) + 1;
+	wcstr = calloc(len, sizeof(wchar_t));
+	len = mbstowcs(wcstr, title, len);
+	len = wcswidth(wcstr, len);
+	free(wcstr);
+
 	printf("%s ", title);
 
 	if(list) {
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
-			int s = mbstowcs(NULL, str, 0) + 2;
+			/* s goes from # bytes -> # chars -> # cols */
+			int s = strlen(str) + 1;
+			wcstr = calloc(s, sizeof(wchar_t));
+			s = mbstowcs(wcstr, str, s);
+			s = wcswidth(wcstr, s);
+			free(wcstr);
+			/* two additional spaces are added to the length */
+			s += 2;
 			int maxcols = getcols();
 			if(s + cols >= maxcols) {
 				int i;
