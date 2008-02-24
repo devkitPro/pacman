@@ -34,8 +34,6 @@
 #include "util.h"
 #include "conf.h"
 
-/* TODO this should not have to be defined twice- trans.c & log.c */
-#define LOG_STR_LEN 256
 #define FILENAME_TRIM_LEN 23
 
 /* download progress bar */
@@ -158,8 +156,6 @@ static void fill_progress(const int graph_percent, const int display_percent,
 /* callback to handle messages/notifications from libalpm transactions */
 void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 {
-	char str[LOG_STR_LEN] = "";
-
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
 		  printf(_("checking dependencies...\n"));
@@ -181,10 +177,9 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_ADD_DONE:
-			snprintf(str, LOG_STR_LEN, "installed %s (%s)\n",
+			alpm_logaction("installed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
-			alpm_logaction(str);
 			break;
 		case PM_TRANS_EVT_REMOVE_START:
 			if(config->noprogressbar) {
@@ -192,10 +187,9 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_REMOVE_DONE:
-			snprintf(str, LOG_STR_LEN, "removed %s (%s)\n",
+			alpm_logaction("removed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
-			alpm_logaction(str);
 			break;
 		case PM_TRANS_EVT_UPGRADE_START:
 			if(config->noprogressbar) {
@@ -203,11 +197,10 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_UPGRADE_DONE:
-			snprintf(str, LOG_STR_LEN, "upgraded %s (%s -> %s)\n",
+			alpm_logaction("upgraded %s (%s -> %s)\n",
 			         (char *)alpm_pkg_get_name(data1),
 			         (char *)alpm_pkg_get_version(data2),
 			         (char *)alpm_pkg_get_version(data1));
-			alpm_logaction(str);
 			break;
 		case PM_TRANS_EVT_INTEGRITY_START:
 			printf(_("checking package integrity...\n"));
@@ -256,34 +249,28 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
-	char str[LOG_STR_LEN] = "";
-
 	switch(event) {
 		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
 			if(data2) {
 				/* TODO we take this route based on data2 being not null? WTF */
-				snprintf(str, LOG_STR_LEN, _(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "),
+				*response = yesno(_(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_name(data2));
-				*response = yesno(str);
 			} else {
-				snprintf(str, LOG_STR_LEN, _(":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "),
+				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "),
 						alpm_pkg_get_name(data1));
-				*response = yesno(str);
 			}
 			break;
 		case PM_TRANS_CONV_REMOVE_HOLDPKG:
-			snprintf(str, LOG_STR_LEN, _(":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "),
+			*response = yesno(_(":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "),
 					alpm_pkg_get_name(data1));
-			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
 			if(!config->noconfirm) {
-				snprintf(str, LOG_STR_LEN, _(":: Replace %s with %s/%s? [Y/n] "),
+				*response = yesno(_(":: Replace %s with %s/%s? [Y/n] "),
 						alpm_pkg_get_name(data1),
 						(char *)data3,
 						alpm_pkg_get_name(data2));
-				*response = yesno(str);
 			} else {
 				printf(_("Replacing %s with %s/%s\n"),
 						alpm_pkg_get_name(data1),
@@ -293,27 +280,24 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			}
 			break;
 		case PM_TRANS_CONV_CONFLICT_PKG:
-			snprintf(str, LOG_STR_LEN, _(":: %s conflicts with %s. Remove %s? [Y/n] "),
+			*response = yesno(_(":: %s conflicts with %s. Remove %s? [Y/n] "),
 					(char *)data1,
 					(char *)data2,
 					(char *)data2);
-			*response = yesno(str);
 			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
-				snprintf(str, LOG_STR_LEN, _(":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "),
+				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_version(data1));
-				*response = yesno(str);
 			} else {
 				*response = 1;
 			}
 			break;
 		case PM_TRANS_CONV_CORRUPTED_PKG:
 			if(!config->noconfirm) {
-				snprintf(str, LOG_STR_LEN, _(":: File %s is corrupted. Do you want to delete it? [Y/n] "),
+				*response = yesno(_(":: File %s is corrupted. Do you want to delete it? [Y/n] "),
 						(char *)data1);
-				*response = yesno(str);
 			} else {
 				*response = 1;
 			}
