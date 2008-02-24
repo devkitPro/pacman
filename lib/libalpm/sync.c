@@ -170,7 +170,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 						sync->data = alpm_list_add(NULL, dummy);
 						*syncpkgs = alpm_list_add(*syncpkgs, sync);
 					}
-					_alpm_log(PM_LOG_DEBUG, "%s-%s elected for upgrade (to be replaced by %s-%s)\n",
+					_alpm_log(PM_LOG_DEBUG, "%s-%s elected for removal (to be replaced by %s-%s)\n",
 							alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 							alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 				}
