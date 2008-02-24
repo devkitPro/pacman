@@ -224,6 +224,10 @@ void indentprint(const char *str, int indent)
 	const wchar_t *p;
 	int len, cidx;
 
+	if(!str) {
+		return;
+	}
+
 	len = strlen(str) + 1;
 	wcstr = calloc(len, sizeof(wchar_t));
 	len = mbstowcs(wcstr, str, len);
@@ -401,14 +405,17 @@ void list_display(const char *title, const alpm_list_t *list)
 	int cols, len;
 	wchar_t *wcstr;
 
-	/* len goes from # bytes -> # chars -> # cols */
-	len = strlen(title) + 1;
-	wcstr = calloc(len, sizeof(wchar_t));
-	len = mbstowcs(wcstr, title, len);
-	len = wcswidth(wcstr, len);
-	free(wcstr);
-
-	printf("%s ", title);
+	if(title) {
+		/* len goes from # bytes -> # chars -> # cols */
+		len = strlen(title) + 1;
+		wcstr = calloc(len, sizeof(wchar_t));
+		len = mbstowcs(wcstr, title, len);
+		len = wcswidth(wcstr, len);
+		free(wcstr);
+		printf("%s ", title);
+	} else {
+		len = 0;
+	}
 
 	if(list) {
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
