@@ -1,0 +1,2062 @@
+# Chinese/Simplified translation for Pacman package manager package.
+# Copyright (C) 2008 Judd Vinet <jvinet@zeroflux.org>
+# This file is distributed under the same license as the Pacman package manager package.
+# 甘露(Lu.Gan) <rhythm.gan@gmail.com>, 2008.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Pacman package manager 3.1.2\n"
+"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
+"POT-Creation-Date: 2008-02-09 10:41-0600\n"
+"PO-Revision-Date: 2008-02-22 20:51+0800\n"
+"Last-Translator: 甘露(Lu.Gan) <rhythm.gan@gmail.com>\n"
+"Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: src/pacman/add.c:40 src/pacman/remove.c:42
+#, c-format
+msgid "failed to release transaction (%s)\n"
+msgstr "无法释放事务处理(%s)\n"
+
+#: src/pacman/add.c:77 src/pacman/query.c:370 src/pacman/remove.c:63
+#: src/pacman/sync.c:781
+msgid "no targets specified (use -h for help)\n"
+msgstr "没有指定目标（使用 -h 获取帮助）\n"
+
+#: src/pacman/add.c:104 src/pacman/sync.c:510
+#, c-format
+msgid "error: %s\n"
+msgstr "错误： %s\n"
+
+#: src/pacman/add.c:107 src/pacman/remove.c:98 src/pacman/sync.c:484
+#, c-format
+msgid ""
+"  if you're sure a package manager is not already\n"
+"  running, you can remove %s.\n"
+msgstr "  如果你确认软件包管理器已经没有\n"
+"  运行，你可以删除 %s。\n"
+
+#: src/pacman/add.c:114 src/pacman/remove.c:106
+#, c-format
+msgid "loading package data... "
+msgstr "正在装载软件包数据……"
+
+#: src/pacman/add.c:119 src/pacman/remove.c:111 src/pacman/sync.c:570
+#, c-format
+msgid "error: '%s': %s\n"
+msgstr "错误：'%s'： %s\n"
+
+#: src/pacman/add.c:125 src/pacman/remove.c:118 src/pacman/sync.c:176
+#: src/pacman/sync.c:194
+#, c-format
+msgid "done.\n"
+msgstr "完毕。\n"
+
+#: src/pacman/add.c:130 src/pacman/remove.c:122 src/pacman/sync.c:643
+#, c-format
+msgid "error: failed to prepare transaction (%s)\n"
+msgstr "错误：无法准备(%s)\n"
+
+#: src/pacman/add.c:142 src/pacman/remove.c:130 src/pacman/sync.c:652
+#, c-format
+msgid ":: %s: requires %s\n"
+msgstr ":: %s: 要求 %s\n"
+
+#: src/pacman/add.c:150 src/pacman/sync.c:660
+#, c-format
+msgid ":: %s: conflicts with %s\n"
+msgstr ":: %s: 与 %s冲突\n"
+
+#: src/pacman/add.c:159 src/pacman/sync.c:715
+#, c-format
+msgid "%s exists in both '%s' and '%s'\n"
+msgstr "%s 存在于 '%s' 和 '%s'\n"
+
+#: src/pacman/add.c:165 src/pacman/sync.c:721
+#, c-format
+msgid "%s: %s exists in filesystem\n"
+msgstr "%s: 文件系统中已存在 %s \n"
+
+#: src/pacman/add.c:171
+#, c-format
+msgid ""
+"\n"
+"errors occurred, no packages were upgraded.\n"
+msgstr "\n"
+"发生错误，没有软件包进行更新\n"
+
+#: src/pacman/add.c:184 src/pacman/remove.c:168 src/pacman/sync.c:706
+#, c-format
+msgid "error: failed to commit transaction (%s)\n"
+msgstr "错误：无法交付处理(%s)\n"
+
+#: src/pacman/callback.c:165
+#, c-format
+msgid "checking dependencies...\n"
+msgstr "正在检查倚赖关系……\n"
+
+#: src/pacman/callback.c:169
+#, c-format
+msgid "checking for file conflicts...\n"
+msgstr "正在检查文件冲突……\n"
+
+#: src/pacman/callback.c:173
+#, c-format
+msgid "resolving dependencies...\n"
+msgstr "正在解决倚赖关系……\n"
+
+#: src/pacman/callback.c:176
+#, c-format
+msgid "looking for inter-conflicts...\n"
+msgstr "正在查找内部冲突……\n"
+
+#: src/pacman/callback.c:180
+#, c-format
+msgid "installing %s...\n"
+msgstr "正在安装 %s……\n"
+
+#: src/pacman/callback.c:191
+#, c-format
+msgid "removing %s...\n"
+msgstr "正在删除 %s……\n"
+
+#: src/pacman/callback.c:202
+#, c-format
+msgid "upgrading %s...\n"
+msgstr "正在升级 %s……\n"
+
+#: src/pacman/callback.c:213
+#, c-format
+msgid "checking package integrity...\n"
+msgstr "正在检查软件包完整性……\n"
+
+#: src/pacman/callback.c:216
+#, c-format
+msgid "checking delta integrity...\n"
+msgstr "正在检查delta完整性……\n"
+
+#: src/pacman/callback.c:219
+#, c-format
+msgid "applying deltas...\n"
+msgstr "正在应用deltas……\n"
+
+#: src/pacman/callback.c:222
+#, c-format
+msgid "generating %s with %s... "
+msgstr "正在使用 %s 生成%s……"
+
+#: src/pacman/callback.c:225
+#, c-format
+msgid "success!\n"
+msgstr "成功完成！\n"
+
+#: src/pacman/callback.c:228
+#, c-format
+msgid "failed.\n"
+msgstr "失败。\n"
+
+#: src/pacman/callback.c:237
+#, c-format
+msgid ":: Retrieving packages from %s...\n"
+msgstr ":: 正在从 %s获取软件包……\n"
+
+#: src/pacman/callback.c:265
+#, c-format
+msgid ""
+":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
+"n] "
+msgstr ":: %s需要安装列在IgnorePkg/IgnoreGroup（忽略清单）中的%s。无论如何都进行安装吗?[Y/n]"
+
+#: src/pacman/callback.c:270
+#, c-format
+msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
+msgstr ":: %s列在IgnorePkg/IgnoreGroup中。无论如何都进行安装吗?[Y/n]"
+
+#: src/pacman/callback.c:276
+#, c-format
+msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
+msgstr ":: %s是作为HoldPkg指定的。无论如何都删除吗？[Y/n]"
+
+#: src/pacman/callback.c:282
+#, c-format
+msgid ":: Replace %s with %s/%s? [Y/n] "
+msgstr ":: 用 %s/%s 替代 %s？[Y/n]"
+
+#: src/pacman/callback.c:288
+#, c-format
+msgid "Replacing %s with %s/%s\n"
+msgstr "正在用 %s/%s 替代 %s\n"
+
+#: src/pacman/callback.c:296
+#, c-format
+msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
+msgstr ":: %s 与 %s 有冲突。删除 %s？[Y/n]"
+
+#: src/pacman/callback.c:304
+#, c-format
+msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
+msgstr ":: %s-%s：本地版本较新。无论如何都升级吗？[Y/n]"
+
+#: src/pacman/callback.c:314
+#, c-format
+msgid ":: File %s is corrupted. Do you want to delete it? [Y/n] "
+msgstr ":: 文件 %s 已经损坏。你想要删除它吗？[Y/n]"
+
+#: src/pacman/callback.c:364
+msgid "installing"
+msgstr "正在安装"
+
+#: src/pacman/callback.c:367
+msgid "upgrading"
+msgstr "生在升级"
+
+#: src/pacman/callback.c:370
+msgid "removing"
+msgstr "正在删除"
+
+#: src/pacman/callback.c:373
+msgid "checking for file conflicts"
+msgstr "正在检查文件冲突"
+
+#: src/pacman/package.c:68
+msgid "Explicitly installed"
+msgstr "已指定安装"
+
+#: src/pacman/package.c:71
+msgid "Installed as a dependency for another package"
+msgstr "已经作为其他软件包的倚赖关系安装"
+
+#: src/pacman/package.c:74
+msgid "Unknown"
+msgstr "未知的"
+
+#: src/pacman/package.c:89
+msgid "Description    : "
+msgstr "描述："
+
+#: src/pacman/package.c:93
+msgid "Filename       :"
+msgstr "文件名："
+
+#: src/pacman/package.c:95
+msgid "Name           :"
+msgstr "名称："
+
+#: src/pacman/package.c:96
+msgid "Version        :"
+msgstr "版本："
+
+#: src/pacman/package.c:97
+msgid "URL            :"
+msgstr "URL："
+
+#: src/pacman/package.c:98
+msgid "Licenses       :"
+msgstr "版权声明："
+
+#: src/pacman/package.c:99
+msgid "Groups         :"
+msgstr "软件组："
+
+#: src/pacman/package.c:100
+msgid "Provides       :"
+msgstr "提供:"
+
+#: src/pacman/package.c:101
+msgid "Depends On     :"
+msgstr "倚赖于："
+
+#: src/pacman/package.c:102
+msgid "Optional Deps  :"
+msgstr "可选倚赖："
+
+#: src/pacman/package.c:105
+msgid "Required By    :"
+msgstr "要求被："
+
+#: src/pacman/package.c:108
+msgid "Conflicts With :"
+msgstr "冲突与："
+
+#: src/pacman/package.c:109
+msgid "Replaces       :"
+msgstr "取代："
+
+#: src/pacman/package.c:111
+#, c-format
+msgid "Download Size  : %6.2f K\n"
+msgstr "需下载大小：%6.2f K\n"
+
+#: src/pacman/package.c:115
+#, c-format
+msgid "Compressed Size: %6.2f K\n"
+msgstr "压缩后大小：%6.2f K\n"
+
+#: src/pacman/package.c:119
+#, c-format
+msgid "Installed Size : %6.2f K\n"
+msgstr "安装后大小：%6.2f K\n"
+
+#: src/pacman/package.c:121
+msgid "Packager       :"
+msgstr "打包者："
+
+#: src/pacman/package.c:122
+msgid "Architecture   :"
+msgstr "架构："
+
+#: src/pacman/package.c:123
+msgid "Build Date     :"
+msgstr "编译日期："
+
+#: src/pacman/package.c:125
+msgid "Install Date   :"
+msgstr "安装日期："
+
+#: src/pacman/package.c:126
+msgid "Install Reason :"
+msgstr "安装原因："
+
+#: src/pacman/package.c:129
+msgid "Install Script :"
+msgstr "安装脚本："
+
+#: src/pacman/package.c:130
+msgid "Yes"
+msgstr "是"
+
+#: src/pacman/package.c:130
+msgid "No"
+msgstr "否"
+
+#: src/pacman/package.c:135
+msgid "MD5 Sum        :"
+msgstr "MD5值："
+
+#: src/pacman/package.c:159
+msgid "Repository     :"
+msgstr "软件库："
+
+#: src/pacman/package.c:169
+#, c-format
+msgid "Backup Files:\n"
+msgstr "备份文件：\n"
+
+#: src/pacman/package.c:189
+#, c-format
+msgid "error: could not calculate checksums for %s\n"
+msgstr "错误：无法计算 %s 的完整性检查值\n"
+
+#: src/pacman/package.c:197
+#, c-format
+msgid "MODIFIED\t%s\n"
+msgstr "修改\t%s\n"
+
+#: src/pacman/package.c:199
+#, c-format
+msgid "Not Modified\t%s\n"
+msgstr "没有修改过\t%s\n"
+
+#: src/pacman/package.c:203
+#, c-format
+msgid "MISSING\t\t%s\n"
+msgstr "缺少\t\t%s\n"
+
+#: src/pacman/package.c:209
+#, c-format
+msgid "(none)\n"
+msgstr "（无）\n"
+
+#: src/pacman/package.c:243
+#, c-format
+msgid "error: no changelog available for '%s'.\n"
+msgstr "错误： '%s'没有可获得的更新日志。\n"
+
+#: src/pacman/pacman.c:60
+msgid "options"
+msgstr "选项"
+
+#: src/pacman/pacman.c:61
+msgid "file"
+msgstr "文件"
+
+#: src/pacman/pacman.c:62
+msgid "package"
+msgstr "软件包"
+
+#: src/pacman/pacman.c:63
+msgid "usage"
+msgstr "用法"
+
+#: src/pacman/pacman.c:64
+msgid "operation"
+msgstr "操作"
+
+#: src/pacman/pacman.c:76
+#, c-format
+msgid ""
+"\n"
+"use '%s --help' with other options for more syntax\n"
+msgstr ""
+"\n"
+"使用 '%s --help' 以及其他选项查看更多语法\n"
+
+#: src/pacman/pacman.c:81 src/pacman/pacman.c:95 src/pacman/pacman.c:117
+#, c-format
+msgid "      --asdeps         install packages as non-explicitly installed\n"
+msgstr "      --asdeps         作为非指定安装的软件包安装\n"
+
+#: src/pacman/pacman.c:82 src/pacman/pacman.c:88 src/pacman/pacman.c:96
+#: src/pacman/pacman.c:119
+#, c-format
+msgid "  -d, --nodeps         skip dependency checks\n"
+msgstr "  -d, --nodeps         略过倚赖关系检查\n"
+
+#: src/pacman/pacman.c:83 src/pacman/pacman.c:97 src/pacman/pacman.c:121
+#, c-format
+msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgstr "  -f,  -force          强制安装，覆盖存在冲突的文件\n"
+
+#: src/pacman/pacman.c:87
+#, c-format
+msgid ""
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr "  -c, --cascade        删除软件包及所有的倚赖于此的软件包\n"
+
+#: src/pacman/pacman.c:89
+#, c-format
+msgid ""
+"  -k, --dbonly         only remove database entry, do not remove files\n"
+msgstr "  -k, --dbonly         只删除数据库记录，不删除文件\n"
+
+#: src/pacman/pacman.c:90
+#, c-format
+msgid "  -n, --nosave         remove configuration files as well\n"
+msgstr "  -n, --nosave         同时删除配置文件\n"
+
+#: src/pacman/pacman.c:91
+#, c-format
+msgid ""
+"  -s, --recursive      remove dependencies also (that won't break packages)\n"
+msgstr "  -s, --recursive      同时删除（不会破坏其他软件包的）倚赖关系\n"
+
+#: src/pacman/pacman.c:101
+#, c-format
+msgid "  -c, --changelog      view the changelog of a package\n"
+msgstr "  -c, --changelog      查看某软件包的更新日志\n"
+
+#: src/pacman/pacman.c:102
+#, c-format
+msgid "  -d, --deps           list all packages installed as dependencies\n"
+msgstr "  -d, --deps           列出所有作为倚赖关系安装的软件包\n"
+
+#: src/pacman/pacman.c:103
+#, c-format
+msgid "  -e, --explicit       list all packages explicitly installed\n"
+msgstr "  -e, --explicit       列出所有指定安装的软件包\n"
+
+#: src/pacman/pacman.c:104 src/pacman/pacman.c:122
+#, c-format
+msgid "  -g, --groups         view all members of a package group\n"
+msgstr "  -g, --groups         查看某软件包组所属的所有软件包\n"
+
+#: src/pacman/pacman.c:105
+#, c-format
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr "  -i, --info           查看软件包信息（-ii 查看备份文件）\n"
+
+#: src/pacman/pacman.c:106
+#, c-format
+msgid "  -l, --list           list the contents of the queried package\n"
+msgstr "  -l, --list           列出被查询软件包的内容\n"
+
+#: src/pacman/pacman.c:107
+#, c-format
+msgid ""
+"  -m, --foreign        list installed packages not found in sync db(s)\n"
+msgstr "  -m, --foreign        列出没有在同步数据库时找到的已安装软件包\n"
+
+#: src/pacman/pacman.c:108
+#, c-format
+msgid "  -o, --owns <file>    query the package that owns <file>\n"
+msgstr "  -o, --owns <文件>     查询哪个软件包拥有  <文件>\n"
+
+#: src/pacman/pacman.c:109
+#, c-format
+msgid "  -p, --file <package> query a package file instead of the database\n"
+msgstr "  -p, --file <软件包> 从某个软件包而不是数据库查询\n"
+
+#: src/pacman/pacman.c:110
+#, c-format
+msgid ""
+"  -s, --search <regex> search locally-installed packages for matching "
+"strings\n"
+msgstr "  -s, --search <regex> 搜寻符合指定字符串的已安装本地的软件包\n"
+
+#: src/pacman/pacman.c:111
+#, c-format
+msgid "  -t, --unrequired     list all packages not required by any package\n"
+msgstr "  -t, --unrequired     列出所有不被其他软件包要求的软件包\n"
+
+#: src/pacman/pacman.c:112
+#, c-format
+msgid "  -u, --upgrades       list all packages that can be upgraded\n"
+msgstr "  -u, --upgrades       列出所有可升级的软件包\n"
+
+#: src/pacman/pacman.c:113
+#, c-format
+msgid "  -q, --quiet          show less information for query and search\n"
+msgstr "  -q, --quiet          在查询或搜索时显示较少的信息\n"
+
+#: src/pacman/pacman.c:118
+#, c-format
+msgid ""
+"  -c, --clean          remove old packages from cache directory (-cc for "
+"all)\n"
+msgstr "  -c, --clean          从缓存目录中删除旧软件包（-cc 清除所有）\n"
+
+#: src/pacman/pacman.c:120
+#, c-format
+msgid "  -e, --dependsonly    install dependencies only\n"
+msgstr "  -e, --dependsonly    仅安装依赖关系\n"
+
+#: src/pacman/pacman.c:123
+#, c-format
+msgid "  -i, --info           view package information\n"
+msgstr "  -i, --info           查看软件包信息\n"
+
+#: src/pacman/pacman.c:124
+#, c-format
+msgid "  -l, --list <repo>    view a list of packages in a repo\n"
+msgstr "  -l, --list <软件库>    查看在该软件库中的软件包清单\n"
+
+#: src/pacman/pacman.c:125
+#, c-format
+msgid ""
+"  -p, --print-uris     print out URIs for given packages and their "
+"dependencies\n"
+msgstr "  -p, --print-uris     打印指定软件包及依赖关系中的URI\n"
+
+#: src/pacman/pacman.c:126
+#, c-format
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr "  -s, --search <regex表达式> 按照指定字符串查找远端软件库\n"
+
+#: src/pacman/pacman.c:127
+#, c-format
+msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
+msgstr "  -u, --sysupgrade     升级所有过期软件包\n"
+
+#: src/pacman/pacman.c:128
+#, c-format
+msgid ""
+"  -w, --downloadonly   download packages but do not install/upgrade "
+"anything\n"
+msgstr "  -w, --downloadonly   下载但不安装/升级软件包\n"
+
+#: src/pacman/pacman.c:129
+#, c-format
+msgid ""
+"  -y, --refresh        download fresh package databases from the server\n"
+msgstr "  -y, --refresh        从服务器下载新的软件包数据库\n"
+
+#: src/pacman/pacman.c:130
+#, c-format
+msgid ""
+"      --needed         only upgrade outdated or not yet installed packages\n"
+msgstr "      --needed         仅升级过期或尚未安装的软件包\n"
+
+#: src/pacman/pacman.c:131
+#, c-format
+msgid ""
+"      --ignore <pkg>   ignore a package upgrade (can be used more than "
+"once)\n"
+msgstr "      --ignore <软件包>   升级时忽略某个软件包（可多次使用）\n"
+
+#: src/pacman/pacman.c:132
+#, c-format
+msgid ""
+"      --ignoregroup <grp>\n"
+"                       ignore a group upgrade (can be used more than once)\n"
+msgstr "      --ignoregroup <软件包组>\n  "
+"                       升级时忽略某个软件包组（可多次使用）\n"
+
+#: src/pacman/pacman.c:134
+#, c-format
+msgid "  -q  --quiet          show less information for query and search\n"
+msgstr "  -q  --quiet          查询或搜索时显示较少信息\n"
+
+#: src/pacman/pacman.c:136
+#, c-format
+msgid "      --config <path>  set an alternate configuration file\n"
+msgstr "      --config <路径>  指定另外的配置文件\n"
+
+#: src/pacman/pacman.c:137
+#, c-format
+msgid "      --logfile <path> set an alternate log file\n"
+msgstr "      --logfile <路径> 指定另外的日志文件\n"
+
+#: src/pacman/pacman.c:138
+#, c-format
+msgid "      --noconfirm      do not ask for any confirmation\n"
+msgstr "      --noconfirm      不询问确认\n"
+
+#: src/pacman/pacman.c:139
+#, c-format
+msgid ""
+"      --noprogressbar  do not show a progress bar when downloading files\n"
+msgstr "      --noprogressbar  下载文件时不显示进度条\n"
+
+#: src/pacman/pacman.c:140
+#, c-format
+msgid ""
+"      --noscriptlet    do not execute the install scriptlet if one exists\n"
+msgstr "      --noscriptlet    不执行安装脚本\n"
+
+#: src/pacman/pacman.c:141
+#, c-format
+msgid "  -v, --verbose        be verbose\n"
+msgstr "  -v, --verbose        循环执行\n"
+
+#: src/pacman/pacman.c:142
+#, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <路径>    指定另外的安装根目录\n"
+
+#: src/pacman/pacman.c:143
+#, c-format
+msgid "  -b, --dbpath <path>  set an alternate database location\n"
+msgstr "  -b, --dbpath <路径>  指定另外的数据库位置\n"
+
+#: src/pacman/pacman.c:144
+#, c-format
+msgid "      --cachedir <dir> set an alternate package cache location\n"
+msgstr "      --cachedir <目录> 指定另外的软件包缓存位置\n"
+
+#: src/pacman/pacman.c:157
+#, c-format
+msgid ""
+"                       This program may be freely redistributed under\n"
+"                       the terms of the GNU General Public License\n"
+msgstr "                       本程序可以按照GNU条款\n"
+"                       自由分发\n"
+
+#: src/pacman/pacman.c:247
+#, c-format
+msgid "problem setting rootdir '%s' (%s)\n"
+msgstr "设置根目录'%s' (%s)时出现问题 \n"
+
+#: src/pacman/pacman.c:264
+#, c-format
+msgid "problem setting dbpath '%s' (%s)\n"
+msgstr "设置数据库路径'%s' (%s)时出现问题 \n"
+
+#: src/pacman/pacman.c:272
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "设置日志文件'%s' (%s)时出现问题\n"
+
+#: src/pacman/pacman.c:382
+#, c-format
+msgid "'%s' is not a valid debug level\n"
+msgstr "'%s' 是一个无效的debug水平\n"
+
+#: src/pacman/pacman.c:396 src/pacman/pacman.c:672
+#, c-format
+msgid "problem adding cachedir '%s' (%s)\n"
+msgstr "设置缓存目录'%s' (%s)时出现问题 \n"
+
+#: src/pacman/pacman.c:482
+msgid "only one operation may be used at a time\n"
+msgstr "一次只能运行一个操作\n"
+
+#: src/pacman/pacman.c:542
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "配置文件%s无法读取。\n"
+
+#: src/pacman/pacman.c:578
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "配置文件%s，第%d行：坏的章节名。\n"
+
+#: src/pacman/pacman.c:600
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr "配置文件%s，第%d行：配置文件中语法错误－缺少关键字。\n"
+
+#: src/pacman/pacman.c:610
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr "配置文件%s，第%d行：所有的命令必须属于同一章节。\n"
+
+#: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
+#, c-format
+msgid "config file %s, line %d: directive '%s' not recognized.\n"
+msgstr "配置文件%s，第%d行：未知命令'%s'\n"
+
+#: src/pacman/pacman.c:777
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "初始化alpm库失败(%s)\n"
+
+#: src/pacman/pacman.c:814
+msgid "you cannot perform this operation unless you are root.\n"
+msgstr "非根用户无法执行指定操作。\n"
+
+#: src/pacman/pacman.c:837
+#, c-format
+msgid "could not register 'local' database (%s)\n"
+msgstr "无法登记“本地”数据库(%s)\n"
+
+#: src/pacman/pacman.c:863
+msgid "no operation specified (use -h for help)\n"
+msgstr "没有指定的操作（使用-h获取帮助）\n"
+
+#: src/pacman/query.c:65
+#, c-format
+msgid "error: no file was specified for --owns\n"
+msgstr "错误：没有为--owns指定文件\n"
+
+#: src/pacman/query.c:79
+#, c-format
+msgid "error: failed to read file '%s': %s\n"
+msgstr "错误：无法读取文件'%s': %s\n"
+
+#: src/pacman/query.c:86
+#, c-format
+msgid "error: cannot determine ownership of a directory\n"
+msgstr "错误：无法确定目录的所有者属性\n"
+
+#: src/pacman/query.c:97
+#, c-format
+msgid "error: cannot determine real path for '%s': %s\n"
+msgstr "错误：无法确定'%s': %s的真实路径。\n"
+
+#: src/pacman/query.c:122
+#, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s 属于%s %s\n"
+
+#: src/pacman/query.c:130
+#, c-format
+msgid "error: No package owns %s\n"
+msgstr "错误：没有软件包拥有%s\n"
+
+#: src/pacman/query.c:226
+#, c-format
+msgid "error: group \"%s\" was not found\n"
+msgstr "错误：没有找到\"%s\"组\n"
+
+#: src/pacman/query.c:237
+#, c-format
+msgid "Checking for package upgrades... \n"
+msgstr "正在检查软件包更新……\n"
+
+#: src/pacman/query.c:248
+#, c-format
+msgid "no upgrades found.\n"
+msgstr "没有发现更新。\n"
+
+#: src/pacman/query.c:360 src/pacman/sync.c:771
+msgid "no usable package repositories configured.\n"
+msgstr "没有设置可用的软件包库。\n"
+
+#: src/pacman/query.c:404
+#, c-format
+msgid "error: package \"%s\" not found\n"
+msgstr "错误：软件包\"%s\"没有找到\n"
+
+#: src/pacman/remove.c:76
+#, c-format
+msgid ":: group %s:\n"
+msgstr ":: 组 %s:\n"
+
+#: src/pacman/remove.c:78
+msgid "    Remove whole content? [Y/n] "
+msgstr "    删除全部内容？[Y/n]"
+
+#: src/pacman/remove.c:82
+#, c-format
+msgid ":: Remove %s from group %s? [Y/n] "
+msgstr ":: 删除%s从组%s中？[Y/n]"
+
+#: src/pacman/remove.c:95 src/pacman/sync.c:481 src/pacman/sync.c:540
+#, c-format
+msgid "error: failed to init transaction (%s)\n"
+msgstr "错误：无法初始化处理(%s)\n"
+
+#: src/pacman/remove.c:155 src/pacman/util.c:488
+msgid "Targets:"
+msgstr "目标："
+
+#: src/pacman/remove.c:158
+msgid ""
+"\n"
+"Do you want to remove these packages? [Y/n] "
+msgstr "\n"
+"打算删除这些软件包吗？ [Y/n] "
+
+#: src/pacman/sync.c:52
+#, c-format
+msgid "error: could not access database directory\n"
+msgstr "错误：无法进入数据库目录\n"
+
+#: src/pacman/sync.c:84
+#, c-format
+msgid "Do you want to remove %s? [Y/n] "
+msgstr "打算删除%s？[Y/n]"
+
+#: src/pacman/sync.c:89
+#, c-format
+msgid "error: could not remove repository directory\n"
+msgstr "错误：无法删除软件库目录\n"
+
+#: src/pacman/sync.c:102
+#, c-format
+msgid "Database directory: %s\n"
+msgstr "数据库目录：%s\n"
+
+#: src/pacman/sync.c:103
+msgid "Do you want to remove unused repositories? [Y/n] "
+msgstr "打算删除无用的软件库？[Y/n]"
+
+#: src/pacman/sync.c:114
+#, c-format
+msgid "Database directory cleaned up\n"
+msgstr "数据库目录已清除\n"
+
+#: src/pacman/sync.c:132 src/pacman/sync.c:179
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "缓存目录：%s\n"
+
+#: src/pacman/sync.c:133
+msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
+msgstr "打算从缓存中删除没有安装的软件包吗？[Y/n]"
+
+#: src/pacman/sync.c:136
+#, c-format
+msgid "removing old packages from cache... "
+msgstr "正在从缓存中删除旧软件包……"
+
+#: src/pacman/sync.c:140
+#, c-format
+msgid "error: could not access cache directory\n"
+msgstr "错误：无法进入缓存目录\n"
+
+#: src/pacman/sync.c:180
+msgid "Do you want to remove ALL packages from cache? [Y/n] "
+msgstr "打算从缓存中删除所有软件包吗？[Y/n]"
+
+#: src/pacman/sync.c:183
+#, c-format
+msgid "removing all packages from cache... "
+msgstr "正在从缓存中删除所有软件包……"
+
+#: src/pacman/sync.c:186
+#, c-format
+msgid "error: could not remove cache directory\n"
+msgstr "错误：无法删除缓存目录\n"
+
+#: src/pacman/sync.c:191
+#, c-format
+msgid "error: could not create new cache directory\n"
+msgstr "错误：无法创建新缓存目录\n"
+
+#: src/pacman/sync.c:218
+#, c-format
+msgid "error: failed to synchronize %s: %s\n"
+msgstr "错误：无法同步%s: %s\n"
+
+#: src/pacman/sync.c:221
+#, c-format
+msgid "error: failed to update %s (%s)\n"
+msgstr "错误：无法升级%s (%s)\n"
+
+#: src/pacman/sync.c:225
+#, c-format
+msgid " %s is up to date\n"
+msgstr " %s 已经是最新版本\n"
+
+#: src/pacman/sync.c:368
+#, c-format
+msgid "error: repository '%s' does not exist\n"
+msgstr "错误：软件库'%s'不存在\n"
+
+#: src/pacman/sync.c:383
+#, c-format
+msgid "error: package '%s' was not found in repository '%s'\n"
+msgstr "错误：软件包'%s'没有在'%s'库里找到\n"
+
+#: src/pacman/sync.c:403
+#, c-format
+msgid "error: package '%s' was not found\n"
+msgstr "错误：软件包'%s'没有找到\n"
+
+#: src/pacman/sync.c:440
+#, c-format
+msgid "error: repository \"%s\" was not found.\n"
+msgstr "错误：软件库\"%s\"没有找到\n"
+
+#: src/pacman/sync.c:492
+#, c-format
+msgid ":: Synchronizing package databases...\n"
+msgstr ":: 正在同步软件包数据库……\n"
+
+#: src/pacman/sync.c:495
+#, c-format
+msgid "error: failed to synchronize any databases\n"
+msgstr "错误：无法同步任何数据库\n"
+
+#: src/pacman/sync.c:507
+#, c-format
+msgid ":: Starting full system upgrade...\n"
+msgstr ":: 正在进行全系统升级……\n"
+
+#: src/pacman/sync.c:529
+#, c-format
+msgid ":: pacman has detected a newer version of itself.\n"
+msgstr ":: pacman检测到自身的一个新版本\n"
+
+#: src/pacman/sync.c:530
+msgid ""
+":: Do you want to cancel the current operation\n"
+":: and install the new pacman version now? [Y/n] "
+msgstr ""
+":: 打算取消当前操作\n"
+":: 并马上安装新版本的pacman吗？ [Y/n] "
+
+#: src/pacman/sync.c:533 src/pacman/sync.c:748
+#, c-format
+msgid "error: failed to release transaction (%s)\n"
+msgstr "错误：无法释放处理(%s)\n"
+
+#: src/pacman/sync.c:545
+#, c-format
+msgid "error: pacman: %s\n"
+msgstr "错误：pacman：%s\n"
+
+#: src/pacman/sync.c:584
+#, c-format
+msgid ":: group %s (including ignored packages):\n"
+msgstr ":: 软件包组%s（包含忽略的软件包）：\n"
+
+#: src/pacman/sync.c:589
+msgid ":: Install whole content? [Y/n] "
+msgstr ":: 安装全部内容？[Y/n]"
+
+#: src/pacman/sync.c:596
+#, c-format
+msgid ":: Install %s from group %s? [Y/n] "
+msgstr ":: 安装%s从软件包组%s？[Y/n]"
+
+#: src/pacman/sync.c:617
+#, c-format
+msgid "Warning: %s provides %s\n"
+msgstr "警告：%s已提供%s\n"
+
+#: src/pacman/sync.c:621
+#, c-format
+msgid "error: several packages provide %s, please specify one :\n"
+msgstr "错误：几个软件包都提供%s，请指定一个：\n"
+
+#: src/pacman/sync.c:632
+#, c-format
+msgid "error: '%s': not found in sync db\n"
+msgstr "错误：'%s'：没有在同步数据库中找到\n"
+
+#: src/pacman/sync.c:674
+#, c-format
+msgid " local database is up to date\n"
+msgstr "本地数据库已是最新的\n"
+
+#: src/pacman/sync.c:686
+#, c-format
+msgid "Beginning download...\n"
+msgstr "开始下载……\n"
+
+#: src/pacman/sync.c:689
+msgid "Proceed with download? [Y/n] "
+msgstr "进行下载吗？[Y/n]"
+
+#: src/pacman/sync.c:693
+#, c-format
+msgid "Beginning upgrade process...\n"
+msgstr "开始更新……\n"
+
+#: src/pacman/sync.c:696
+msgid "Proceed with installation? [Y/n] "
+msgstr "进行安装吗？[Y/n]"
+
+#: src/pacman/sync.c:737
+#, c-format
+msgid "Errors occurred, no packages were upgraded.\n"
+msgstr "发生错误，没有软件包进行了更新。\n"
+
+#: src/pacman/util.c:382 src/pacman/util.c:414
+#, c-format
+msgid "None\n"
+msgstr "无\n"
+
+#: src/pacman/util.c:480
+msgid "Remove:"
+msgstr "删除："
+
+#: src/pacman/util.c:484
+#, c-format
+msgid "Total Removed Size:   %.2f MB\n"
+msgstr "全部删除大小：   %.2f MB\n"
+
+#: src/pacman/util.c:491
+#, c-format
+msgid "Total Download Size:    %.2f MB\n"
+msgstr "全部下载大小：   %.2f MB\n"
+
+#: src/pacman/util.c:495
+#, c-format
+msgid "Total Installed Size:   %.2f MB\n"
+msgstr "全部安装大小：  %.2f MB\n"
+
+#: src/pacman/util.c:522
+msgid "Y"
+msgstr "Y"
+
+#: src/pacman/util.c:522
+msgid "YES"
+msgstr "是"
+
+#: src/pacman/util.c:574
+#, c-format
+msgid "error: %s"
+msgstr "错误：%s"
+
+#: src/pacman/util.c:577
+#, c-format
+msgid "warning: %s"
+msgstr "警告：%s"
+
+#: src/pacman/util.c:580
+#, c-format
+msgid "function: %s"
+msgstr "功能：%s"
+
+#: src/pacman/util.c:621
+#, c-format
+msgid "error: "
+msgstr "错误："
+
+#: src/pacman/util.c:624
+#, c-format
+msgid "warning: "
+msgstr "警告："
+
+#: src/pacman/util.c:629
+#, c-format
+msgid "function: "
+msgstr "功能："
+
+#: scripts/gensync.sh.in:32
+msgid "Usage: %s <root> <destfile> [package_directory]"
+msgstr "用法：%s <root> <destfile> [软件包目录]"
+
+#: scripts/gensync.sh.in:33 scripts/gensync.sh.in:122
+#: scripts/updatesync.sh.in:34 scripts/updatesync.sh.in:122
+msgid ""
+"NOTE: this script is DEPRECATED. It will be removed in the next major"
+"\\nrelease of pacman, so please use repo-add and repo-remove instead.\\n\\n"
+msgstr "注意：该脚本标注为“放弃”，将在pacman的下一个"
+"\\n主要版本中删除，请使用repo-add和repo-remove。\\n\\n"
+
+#: scripts/gensync.sh.in:36
+msgid ""
+"gensync will generate a sync database by reading all PKGBUILD files\\nfrom "
+"<root>. gensync builds the database in a temporary directory\\nand then "
+"compresses it to <destfile>.\\n\\n"
+msgstr "gensync会通过读取<root>目录下所有的PKGBUILD来生成一个同步数据库。\\n"
+"gensync会在一个临时目录中创建该数据库\\n"
+"然后压缩到<destfile>.\\n\\n"
+
+#: scripts/gensync.sh.in:40
+msgid ""
+"gensync will calculate md5sums of packages in the same directory as"
+"\\n<destfile>, unless an alternate [package_directory] is specified.\\n\\n"
+msgstr "gensync会为在<destfile>同目录下的所有软件包计算md5值\\n"
+"除非另外指定了其他的［软件包_目录］。\\n\\n"
+
+#: scripts/gensync.sh.in:43
+msgid ""
+"note: The <destfile> name is important. It must be of the form\\n      "
+"{treename}.db.tar.gz where {treename} is the name of the custom\\n      "
+"package repository you configured in /etc/pacman.conf. The\\n      generated "
+"database must reside in the same directory as your\\n      custom packages "
+"(also configured in /etc/pacman.conf)\\n\\n"
+msgstr "注意：<destfile>的名称十分重要。它的形式必须是\\n      "
+"{treename}.db.tar.gz。这里的{treename}是你在/etc/pacman.conf中\\n      "
+"自定义软件包库的名称。生成的数据库\\n      "
+"必须跟你（在/etc/pacman.conf配置的）自定义软件包放在同一目录。\\n\\n"
+""
+
+#: scripts/gensync.sh.in:49
+msgid "Example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
+msgstr "例子：gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
+
+#: scripts/gensync.sh.in:54 scripts/makepkg.sh.in:1107
+#: scripts/pacman-optimize.sh.in:57 scripts/repo-remove.sh.in:63
+msgid ""
+"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\n"
+"这是免费软件；版权条款见源码\\n"
+"不提供任何法律规定的担保。\\n"
+
+#: scripts/gensync.sh.in:102 scripts/updatesync.sh.in:101
+msgid "%s not found. Can not continue."
+msgstr "%s 没有找到。无法继续。"
+
+#: scripts/gensync.sh.in:120
+msgid "invalid root dir: %s"
+msgstr "无效的根目录：%s"
+
+#: scripts/gensync.sh.in:126
+msgid "gensync: building database entries, generating md5sums..."
+msgstr "gensync：正在创建数据库记录，正在生成md5值……"
+
+#: scripts/gensync.sh.in:135 scripts/updatesync.sh.in:133
+msgid "failed to parse %s"
+msgstr "无法处理：%s"
+
+#: scripts/gensync.sh.in:146
+msgid "could not find %s-%s-%s-%s%s - skipping"
+msgstr "无法找到%s-%s-%s-%s%s - 跳过"
+
+#: scripts/gensync.sh.in:156
+msgid "creating repo DB..."
+msgstr "正在产生库DB……"
+
+#: scripts/makepkg.sh.in:100 scripts/makepkg.sh.in:102
+#: scripts/repo-add.sh.in:46 scripts/repo-remove.sh.in:42
+msgid "WARNING:"
+msgstr "警告："
+
+#: scripts/makepkg.sh.in:109 scripts/makepkg.sh.in:111
+#: scripts/repo-add.sh.in:51 scripts/repo-remove.sh.in:47
+msgid "ERROR:"
+msgstr "错误："
+
+#: scripts/makepkg.sh.in:142
+msgid "Cleaning up..."
+msgstr "正在清理……"
+
+#: scripts/makepkg.sh.in:192
+msgid ""
+"Options beginning with 'no' will be deprecated in the next version of "
+"makepkg!"
+msgstr "开始于'no'的选项将在makepkg的下个版本中放弃。"
+
+#: scripts/makepkg.sh.in:193
+msgid "Please replace 'no' with '!': %s -> %s."
+msgstr "请用'!'代替'no'：%s -> %s"
+
+#: scripts/makepkg.sh.in:197
+msgid "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
+msgstr "'keepdocs'选项也许不像计划那样工作。请用'docs'代替。"
+
+#: scripts/makepkg.sh.in:285
+msgid "There is no agent set up to handle %s URLs. Check %s."
+msgstr "没有设置程序来处理%s URLs。检查%s。"
+
+#: scripts/makepkg.sh.in:286 scripts/makepkg.sh.in:295
+#: scripts/makepkg.sh.in:448 scripts/makepkg.sh.in:482
+#: scripts/makepkg.sh.in:528 scripts/makepkg.sh.in:616
+#: scripts/makepkg.sh.in:644 scripts/makepkg.sh.in:706
+#: scripts/makepkg.sh.in:781 scripts/makepkg.sh.in:1124
+#: scripts/makepkg.sh.in:1437 scripts/makepkg.sh.in:1441
+msgid "Aborting..."
+msgstr "正在中断……"
+
+#: scripts/makepkg.sh.in:294
+msgid "The download program %s is not installed."
+msgstr "下载的程序%s没有被安装。"
+
+#: scripts/makepkg.sh.in:310
+msgid "Pacman returned a fatal error (%i): %s"
+msgstr "Pacman出现致命错误(%i):：%s"
+
+#: scripts/makepkg.sh.in:334
+msgid "Installing missing dependencies..."
+msgstr "正在安装缺少的依赖关系……"
+
+#: scripts/makepkg.sh.in:344
+msgid "Pacman failed to install missing dependencies."
+msgstr "Pacman无法安装缺少的依赖关系……"
+
+#: scripts/makepkg.sh.in:348
+msgid "Building missing dependencies..."
+msgstr "正在创建缺少的依赖关系……"
+
+#: scripts/makepkg.sh.in:353
+msgid "Source root cannot be found - please make sure it is specified in %s."
+msgstr "源码根目录没有找到－清确认已在%s指定。"
+
+#: scripts/makepkg.sh.in:361
+msgid "Could not find '%s' under %s"
+msgstr "无法在 %s下面找到'%s' 。"
+
+#: scripts/makepkg.sh.in:378
+msgid "Failed to build '%s'"
+msgstr "无法编译'%s'"
+
+#: scripts/makepkg.sh.in:411
+msgid "Failed to install all missing dependencies."
+msgstr "无法安装所有缺少的依赖关系。"
+
+#: scripts/makepkg.sh.in:414
+msgid "Missing Dependencies:"
+msgstr "缺少依赖关系："
+
+#: scripts/makepkg.sh.in:444
+msgid "Retrieving Sources..."
+msgstr "获取源代码……"
+
+#: scripts/makepkg.sh.in:447
+msgid "You do not have write permission to store downloads in %s."
+msgstr "你没有写权力把下载存放在%s"
+
+#: scripts/makepkg.sh.in:458
+msgid "Found %s in build dir"
+msgstr "在创建目录中找到%s"
+
+#: scripts/makepkg.sh.in:462
+msgid "Using cached copy of %s"
+msgstr "使用%s在缓存中的复制版本"
+
+#: scripts/makepkg.sh.in:469
+msgid "%s was not found in the build directory and is not a URL."
+msgstr "%s没有在创建目录中找到，也不是一个URL。"
+
+#: scripts/makepkg.sh.in:476
+msgid "Downloading %s..."
+msgstr "正在下载%s……"
+
+#: scripts/makepkg.sh.in:481
+msgid "Failure while downloading %s"
+msgstr "无法下载%s"
+
+#: scripts/makepkg.sh.in:492
+msgid "Generating checksums for source files..."
+msgstr "正在为源代码文件创建完整性检查值……"
+
+#: scripts/makepkg.sh.in:501
+msgid "Invalid integrity algorithm '%s' specified."
+msgstr "指定了无效的'%s'完整性编码"
+
+#: scripts/makepkg.sh.in:506 scripts/makepkg.sh.in:558
+msgid "Cannot find the '%s' program."
+msgstr "无法找到'%s'程序。"
+
+#: scripts/makepkg.sh.in:527
+msgid "Unable to find source file %s to generate checksum."
+msgstr "无法找到源代码文件%s来创建完整性检查码。"
+
+#: scripts/makepkg.sh.in:553
+msgid "Invalid integrity algorithm '%s' specified"
+msgstr "指定了无效的'%s' 完整性编码"
+
+#: scripts/makepkg.sh.in:564
+msgid "Validating source files with %s..."
+msgstr "正在检查源码完整性%s……"
+
+#: scripts/makepkg.sh.in:574
+msgid "NOT FOUND"
+msgstr "没有找到"
+
+#: scripts/makepkg.sh.in:583
+msgid "Passed"
+msgstr "通过"
+
+#: scripts/makepkg.sh.in:585
+msgid "FAILED"
+msgstr "失败"
+
+#: scripts/makepkg.sh.in:593
+msgid "One or more files did not pass the validity check!"
+msgstr "一个或多个文件没有通过有效性检查！"
+
+#: scripts/makepkg.sh.in:597
+msgid "Integrity checks (%s) are missing or incomplete."
+msgstr "完整性检查(%s)去少或者不完全"
+
+#: scripts/makepkg.sh.in:603
+msgid "Extracting Sources..."
+msgstr "解压缩源码……"
+
+#: scripts/makepkg.sh.in:615
+msgid "Unable to find source file %s for extraction."
+msgstr "无法找到源码文件%s来解压缩。"
+
+#: scripts/makepkg.sh.in:643
+msgid "Failed to extract %s"
+msgstr "无法解压缩%s"
+
+#: scripts/makepkg.sh.in:675
+msgid "Starting build()..."
+msgstr "开始创建……"
+
+#: scripts/makepkg.sh.in:705
+msgid "Build Failed."
+msgstr "创建失败。"
+
+#: scripts/makepkg.sh.in:714
+msgid "Tidying install..."
+msgstr "正在整洁安装……"
+
+#: scripts/makepkg.sh.in:717
+msgid "Removing info/doc files..."
+msgstr "正在删除info/doc文件……"
+
+#: scripts/makepkg.sh.in:722
+msgid "Compressing man pages..."
+msgstr "正在压缩man帮助页……"
+
+#: scripts/makepkg.sh.in:756
+msgid "Stripping debugging symbols from binaries and libraries..."
+msgstr "正在从二进制执行文件和库中删除debug符号……"
+
+#: scripts/makepkg.sh.in:768
+msgid "Removing libtool .la files..."
+msgstr "正在删除libtool .la 文件……"
+
+#: scripts/makepkg.sh.in:773
+msgid "Removing empty directories..."
+msgstr "正在删除空目录……"
+
+#: scripts/makepkg.sh.in:780
+msgid "Missing pkg/ directory."
+msgstr "缺少pkg/目录。"
+
+#: scripts/makepkg.sh.in:786
+msgid "Creating package..."
+msgstr "正在创建软件包……"
+
+#: scripts/makepkg.sh.in:797
+msgid "Generating .PKGINFO file..."
+msgstr "正在生成.PKGINFO文件……"
+
+#: scripts/makepkg.sh.in:846
+msgid "Please add a license line to your %s!"
+msgstr "请添加版权声明行到你的%s！"
+
+#: scripts/makepkg.sh.in:847
+msgid "Example for GPL'ed software: license=('GPL')."
+msgstr "GPL软件的列子：license=('GPL')"
+
+#: scripts/makepkg.sh.in:855 scripts/makepkg.sh.in:950
+msgid "Adding install script..."
+msgstr "正在添加安装脚本……"
+
+#: scripts/makepkg.sh.in:862
+msgid "Adding package changelog..."
+msgstr "正在添加软件包更新日志……"
+
+#: scripts/makepkg.sh.in:868
+msgid "Compressing package..."
+msgstr "正在压缩软件包……"
+
+#: scripts/makepkg.sh.in:873
+msgid "Failed to create package file."
+msgstr "无法创建软件包文件。"
+
+#: scripts/makepkg.sh.in:882
+msgid "Cannot find the xdelta binary! Is xdelta installed?"
+msgstr "无法找到xdelta执行文件！是否xdelta已经安装？"
+
+#: scripts/makepkg.sh.in:912
+msgid "Making delta from version %s..."
+msgstr "正在从版本%s制作delta……"
+
+#: scripts/makepkg.sh.in:926
+msgid "Recreating package tarball from delta to match md5 signatures"
+msgstr "正在从delta重新生成软件包打包文档以符合md5签名"
+
+#: scripts/makepkg.sh.in:927
+msgid "NOTE: the delta should ONLY be distributed with this tarball"
+msgstr "注意：本delta应当只与本压缩包一起分发"
+
+#: scripts/makepkg.sh.in:931
+msgid "Could not generate the package from the delta."
+msgstr "无法从delta中生成软件包。"
+
+#: scripts/makepkg.sh.in:935
+msgid "Delta was not able to be created."
+msgstr "无法创建delta。"
+
+#: scripts/makepkg.sh.in:938
+msgid "No previous version found, skipping xdelta."
+msgstr "没有发现先前版本，跳过xdelta。"
+
+#: scripts/makepkg.sh.in:944
+msgid "Creating source package..."
+msgstr "正在创建源码包……"
+
+#: scripts/makepkg.sh.in:946 scripts/makepkg.sh.in:958
+#: scripts/makepkg.sh.in:965
+msgid "Adding %s..."
+msgstr "正在添加%s……"
+
+#: scripts/makepkg.sh.in:953
+msgid "Install script %s not found."
+msgstr "安装脚本%s没有找到。"
+
+#: scripts/makepkg.sh.in:973
+msgid "Compressing source package..."
+msgstr "正在压缩源码包……"
+
+#: scripts/makepkg.sh.in:975
+msgid "Failed to create source package file."
+msgstr "创建源码包文件失败。"
+
+#: scripts/makepkg.sh.in:1005
+msgid "Determining latest darcs revision..."
+msgstr "正在确认最新的darcs修正……"
+
+#: scripts/makepkg.sh.in:1009
+msgid "Determining latest cvs revision..."
+msgstr "正在确认最新的cvs修正……"
+
+#: scripts/makepkg.sh.in:1013
+msgid "Determining latest git revision..."
+msgstr "正在确认最新的git修正……"
+
+#: scripts/makepkg.sh.in:1017
+msgid "Determining latest svn revision..."
+msgstr "正在确认最新的svn修正……"
+
+#: scripts/makepkg.sh.in:1021
+msgid "Determining latest bzr revision..."
+msgstr "正在确认最新的bzr修正……"
+
+#: scripts/makepkg.sh.in:1025
+msgid "Determining latest hg revision..."
+msgstr "正在确认最新的hg修正……"
+
+#: scripts/makepkg.sh.in:1040
+msgid "Version found: %s"
+msgstr "找到版本：%s"
+
+#: scripts/makepkg.sh.in:1071
+msgid "Usage: %s [options]"
+msgstr "用法：%s [选项]"
+
+#: scripts/makepkg.sh.in:1073
+msgid "Options:"
+msgstr "选项："
+
+#: scripts/makepkg.sh.in:1074
+msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+msgstr "  -A, --ignorearch 忽略%s中的不完全的arch段"
+
+#: scripts/makepkg.sh.in:1075
+msgid "  -b, --builddeps  Build missing dependencies from source"
+msgstr "  -b, --builddeps  从源码编译缺少的依赖关系"
+
+#: scripts/makepkg.sh.in:1076
+msgid "  -c, --clean      Clean up work files after build"
+msgstr "  -c, --clean      编译后清理工作文件"
+
+#: scripts/makepkg.sh.in:1077
+msgid "  -C, --cleancache Clean up source files from the cache"
+msgstr "  -C, --cleancache 从缓存中清理源码文件"
+
+#: scripts/makepkg.sh.in:1078
+msgid "  -d, --nodeps     Skip all dependency checks"
+msgstr " -d, --nodeps     跳过所有依赖关系检查"
+
+#: scripts/makepkg.sh.in:1079
+msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+msgstr "  -e, --noextract  不解压缩源码文件（使用现存的src/目录）"
+
+#: scripts/makepkg.sh.in:1080
+msgid "  -f, --force      Overwrite existing package"
+msgstr "  -f, --force      覆盖现存的软件包"
+
+#: scripts/makepkg.sh.in:1081
+msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr "  -g, --geninteg   为源码文件生成完整性检查值"
+
+#: scripts/makepkg.sh.in:1082
+msgid "  -h, --help       This help"
+msgstr "  -h, --help       获得帮助"
+
+#: scripts/makepkg.sh.in:1083
+msgid "  -i, --install    Install package after successful build"
+msgstr "  -i, --install    成功编译后安装软件包"
+
+#: scripts/makepkg.sh.in:1084
+msgid "  -L, --log        Log package build process"
+msgstr "  -L, --log        记录软件包编译过程"
+
+#: scripts/makepkg.sh.in:1085
+msgid "  -m, --nocolor    Disable colorized output messages"
+msgstr "  -m, --nocolor    禁止彩色输出信息"
+
+#: scripts/makepkg.sh.in:1086
+msgid "  -o, --nobuild    Download and extract files only"
+msgstr "  -o, --nobuild    仅下载和解压缩文件"
+
+#: scripts/makepkg.sh.in:1087
+msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
+msgstr "  -p <编译脚本> 使用另外的编译脚本（而不是'%s'）"
+
+#: scripts/makepkg.sh.in:1088
+msgid ""
+"  -r, --rmdeps     Remove installed dependencies after a successful build"
+msgstr "  -r, --rmdeps     编译成功后删除安装的依赖关系"
+
+#: scripts/makepkg.sh.in:1090
+msgid "  -R, --repackage  Repackage contents of pkg/ without building"
+msgstr "  -R, --repackage  不编译而重新打包pkg/内容"
+
+#: scripts/makepkg.sh.in:1091
+msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+msgstr "  -s, --syncdeps   使用pacman安装缺少的依赖关系"
+
+#: scripts/makepkg.sh.in:1092
+msgid "      --asroot     Allow makepkg to run as root user"
+msgstr "      --asroot     允许makepkg作为root用户运行"
+
+#: scripts/makepkg.sh.in:1093
+msgid ""
+"      --holdver    Prevent automatic version bumping for development "
+"PKGBUILDs"
+msgstr "      --holdver    为开发中的PKGBUILD防止自动版本更新"
+
+#: scripts/makepkg.sh.in:1094
+msgid "      --source     Do not build package; generate a source-only tarball"
+msgstr "    --source     不编译软件包，仅仅生成源码包"
+
+#: scripts/makepkg.sh.in:1096
+msgid "These options can be passed to pacman:"
+msgstr "这些选项可以传递给pacman："
+
+#: scripts/makepkg.sh.in:1098
+msgid ""
+"      --noconfirm      Do not ask for confirmation when resolving "
+"dependencies"
+msgstr ""
+"      --noconfirm      当解决依赖关系时不询问确认"
+
+#: scripts/makepkg.sh.in:1099
+msgid ""
+"      --noprogressbar  Do not show a progress bar when downloading files"
+msgstr "      --noprogressbar  下载时不显示进度条"
+
+#: scripts/makepkg.sh.in:1101
+msgid "If -p is not specified, makepkg will look for '%s'"
+msgstr "如果没有指定 -p ，makepkg将寻找'%s'"
+
+#: scripts/makepkg.sh.in:1123
+msgid "%s not found."
+msgstr "%s 没有找到。"
+
+#: scripts/makepkg.sh.in:1185
+msgid "Sudo is used by default now. The --usesudo option is deprecated!"
+msgstr "现在默认使用sudo。--usesudo选项将逐步放弃！"
+
+#: scripts/makepkg.sh.in:1200
+msgid "\\0--holdver and --forcever cannot both be specified"
+msgstr "\\0--holdver 和 --forcever 不能同时指定。"
+
+#: scripts/makepkg.sh.in:1207
+msgid "Cleaning up ALL files from %s."
+msgstr "正在从%s中清理所有文件。"
+
+#: scripts/makepkg.sh.in:1208
+msgid "    Are you sure you wish to do this? [Y/n] "
+msgstr "    你确认要这样做吗？[Y/n]"
+
+#: scripts/makepkg.sh.in:1214
+msgid "Problem removing files; you may not have correct permissions in %s"
+msgstr "删除文件发生错误；在%s你可能没有正确的权限。"
+
+#: scripts/makepkg.sh.in:1218
+msgid "Source cache cleaned."
+msgstr "源码缓存已清除。"
+
+#: scripts/makepkg.sh.in:1223
+msgid "No files have been removed."
+msgstr "没有文件被删除。"
+
+#: scripts/makepkg.sh.in:1228
+msgid "Source destination must be defined in makepkg.conf."
+msgstr "必须makepkg.conf在指定源码目标地。"
+
+#: scripts/makepkg.sh.in:1229
+msgid "In addition, please run makepkg -C outside of your cache directory."
+msgstr "此外，请在你缓存目录外运行makepkg -C。"
+
+#: scripts/makepkg.sh.in:1235
+msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
+msgstr "BUILDSCRIPT 没有指定！确信你已经更新过%s。"
+
+#: scripts/makepkg.sh.in:1242
+msgid "Running makepkg as root is a BAD idea and can cause"
+msgstr "作为root运行makepkg是个糟糕透顶的主义，可能会导致"
+
+#: scripts/makepkg.sh.in:1243
+msgid "permanent, catastrophic damage to your system. If you"
+msgstr "你的系统永远的，灾难性的损坏；如果你"
+
+#: scripts/makepkg.sh.in:1244
+msgid "wish to run as root, please use the --asroot option."
+msgstr "希望作为root来运行，请使用--asroot选项。"
+
+#: scripts/makepkg.sh.in:1248
+msgid "The --asroot option is meant for the root user only."
+msgstr "--asroot选项仅针对root用户。"
+
+#: scripts/makepkg.sh.in:1249
+msgid "Please rerun makepkg without the --asroot flag."
+msgstr "请重新运行makepkg而不带--asroot参数。"
+
+#: scripts/makepkg.sh.in:1253
+msgid "Fakeroot must be installed if using the 'fakeroot' option"
+msgstr "Fakeroot必须安装，如果使用了'fakeroot'选项"
+
+#: scripts/makepkg.sh.in:1254
+msgid "in the BUILDENV array in %s."
+msgstr "在%s的BUILDENV中。"
+
+#: scripts/makepkg.sh.in:1258
+msgid "Running makepkg as an unprivileged user will result in non-root"
+msgstr "作为非特权用户运行makepkg将导致打包文件的"
+
+#: scripts/makepkg.sh.in:1259
+msgid "ownership of the packaged files. Try using the fakeroot environment by"
+msgstr "拥有者权限为非根用户。请尝试通过在makepkg.conf中的"
+
+#: scripts/makepkg.sh.in:1260
+msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+msgstr "BUILDENV行设置为'fakeroot'来使用fakeroot环境。"
+
+#: scripts/makepkg.sh.in:1265
+msgid "Do not use the '-F' option. This option is only for use by makepkg."
+msgstr "不用使用'-F'选项。该选项仅仅由makepkg使用。"
+
+#: scripts/makepkg.sh.in:1274
+msgid "Cannot find the sudo binary! Is sudo installed?"
+msgstr "无法找到sudo命令！sudo是否已安装？"
+
+#: scripts/makepkg.sh.in:1275
+msgid "Missing dependencies cannot be installed or removed as a normal user"
+msgstr "无法作为普通用户来安装或删除缺少的依赖关系"
+
+#: scripts/makepkg.sh.in:1276
+msgid "without sudo; install and configure sudo to auto-resolve dependencies."
+msgstr "没有sudo；请安装和配置sudo以自动解决依赖关系。"
+
+#: scripts/makepkg.sh.in:1286
+msgid "%s does not exist."
+msgstr "%s 不存在。"
+
+#: scripts/makepkg.sh.in:1301 scripts/makepkg.sh.in:1305
+#: scripts/makepkg.sh.in:1309
+msgid "%s is not allowed to be empty."
+msgstr "%s 不允许为空。"
+
+#: scripts/makepkg.sh.in:1313 scripts/makepkg.sh.in:1317
+msgid "%s is not allowed to contain hyphens."
+msgstr "%s 不允许含有"
+
+#: scripts/makepkg.sh.in:1327 scripts/makepkg.sh.in:1332
+msgid "%s is not available for the '%s' architecture."
+msgstr "%s 在'%s'架构中不可用。"
+
+#: scripts/makepkg.sh.in:1328 scripts/makepkg.sh.in:1333
+msgid "Note that many packages may need a line added to their %s"
+msgstr "注意许多软件包都需要添加一行到他们的%s"
+
+#: scripts/makepkg.sh.in:1329 scripts/makepkg.sh.in:1334
+msgid "such as arch=('%s')."
+msgstr "诸如arch=('%s')."
+
+#: scripts/makepkg.sh.in:1339
+msgid "Install scriptlet (%s) does not exist."
+msgstr "安装脚本(%s)不存在。"
+
+#: scripts/makepkg.sh.in:1353
+msgid "A package has already been built, installing existing package..."
+msgstr "已有一个编译好的软件包，正在安装现存的软件包……"
+
+#: scripts/makepkg.sh.in:1357 scripts/makepkg.sh.in:1388
+msgid "A package has already been built. (use -f to overwrite)"
+msgstr "已有一个编译好的软件包。（使用-f覆盖）"
+
+#: scripts/makepkg.sh.in:1366 scripts/makepkg.sh.in:1465
+msgid "Skipping build."
+msgstr "跳过编译。"
+
+#: scripts/makepkg.sh.in:1374
+msgid "Leaving fakeroot environment."
+msgstr "正在离开fakeroot环境。"
+
+#: scripts/makepkg.sh.in:1378
+msgid "Making package: %s"
+msgstr "正在创建软件包：%s"
+
+#: scripts/makepkg.sh.in:1381
+msgid "Running makepkg as root..."
+msgstr "正在作为root运行makepkg……"
+
+#: scripts/makepkg.sh.in:1392
+msgid "Source package created: %s"
+msgstr "源码包已创建：%s"
+
+#: scripts/makepkg.sh.in:1399
+msgid "Skipping dependency checks."
+msgstr "跳过依赖关系检查。"
+
+#: scripts/makepkg.sh.in:1406
+msgid "Checking Runtime Dependencies..."
+msgstr "正在检查运行时依赖关系……"
+
+#: scripts/makepkg.sh.in:1409
+msgid "Checking Buildtime Dependencies..."
+msgstr "正在检查编译时依赖关系……"
+
+#: scripts/makepkg.sh.in:1413
+msgid "Could not resolve all dependencies."
+msgstr "无法解决所有的依赖关系。"
+
+#: scripts/makepkg.sh.in:1417
+msgid "pacman was not found in PATH; skipping dependency checks."
+msgstr "没有在指定路径找到pacman；跳过依赖关系检查。"
+
+#: scripts/makepkg.sh.in:1431
+msgid "Skipping source retrieval        -- using existing src/ tree"
+msgstr "跳过源码获取        -- 使用现存的src/"
+
+#: scripts/makepkg.sh.in:1432
+msgid "Skipping source integrity checks -- using existing src/ tree"
+msgstr "跳过源码完整性检查 -- 使用现存的src/"
+
+#: scripts/makepkg.sh.in:1433
+msgid "Skipping source extraction       -- using existing src/ tree"
+msgstr "跳过源码解压缩       -- 使用现存的src/"
+
+#: scripts/makepkg.sh.in:1436
+msgid "The source directory is empty, there is nothing to build!"
+msgstr "源码目录为空，没有东东可编译。"
+
+#: scripts/makepkg.sh.in:1440
+msgid "The package directory is empty, there is nothing to repackage!"
+msgstr "源码目录为空，没有东东可打包。"
+
+#: scripts/makepkg.sh.in:1451
+msgid "Sources are ready."
+msgstr "源码已准备好。"
+
+#: scripts/makepkg.sh.in:1456
+msgid "Removing existing pkg/ directory..."
+msgstr "正在删除现存的pkg/目录……"
+
+#: scripts/makepkg.sh.in:1474
+msgid "Entering fakeroot environment..."
+msgstr "正在进入fakeroot环境……"
+
+#: scripts/makepkg.sh.in:1486
+msgid "Finished making: %s"
+msgstr "完成创建：%s"
+
+#: scripts/pacman-optimize.sh.in:42
+msgid "Usage: %s [pacman_db_root]"
+msgstr "用法：%s [pacman_db_root]"
+
+#: scripts/pacman-optimize.sh.in:43
+msgid ""
+"pacman-optimize is a little hack that should improve the performance\\nof "
+"pacman when reading/writing to its filesystem-based database.\\n\\n"
+msgstr "pacman-optimize 是一个小hack，它可以提高pacman\\n"
+"读取/写入它基于文件系统的数据库时的表现\\n\\n"
+
+#: scripts/pacman-optimize.sh.in:46
+msgid ""
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
+"attempts to relocate these small files into one\\ncontinuous location on "
+"your hard drive. The result is that the hard\\ndrive should be able to read "
+"them faster, since the hard drive head\\ndoes not have to move around the "
+"disk as much.\\n"
+msgstr "因为pacman使用许多小文件来记录软件包。\\n久而久之"
+"这些文件有倾向变得零碎。\\n这个脚本尝试把这些小文件"
+"重新放置到你硬盘上的一个连续的位置。\\n"
+"结果是硬盘由于不用再在碟片上移来移去，"
+"从而可以读取得更快。\\n"
+
+#: scripts/pacman-optimize.sh.in:89
+msgid "diff tool was not found, please install diffutils."
+msgstr "diff工具没有找到，请安装diffutils。"
+
+#: scripts/pacman-optimize.sh.in:94
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "Pacman锁文件找到。无法在pacman运行时再次运行。"
+
+#: scripts/pacman-optimize.sh.in:98
+msgid "%s does not exist or is not a directory."
+msgstr "%s不存在或不是一个目录。"
+
+#: scripts/pacman-optimize.sh.in:102
+msgid "You must have correct permissions to optimize the database."
+msgstr "必须拥有正确的权限才能优化数据库。"
+
+#: scripts/pacman-optimize.sh.in:106
+msgid "ERROR: Can not create temp directory for database building."
+msgstr "错误：无法为数据库建立创建空目录。"
+
+#: scripts/pacman-optimize.sh.in:112
+msgid "MD5sum'ing the old database..."
+msgstr "正在为旧数据库创建MD5值……"
+
+#: scripts/pacman-optimize.sh.in:116
+msgid "Tar'ing up %s..."
+msgstr "正在打包%s……"
+
+#: scripts/pacman-optimize.sh.in:121
+msgid "Tar'ing up %s failed."
+msgstr "正在打包%s失败。"
+
+#: scripts/pacman-optimize.sh.in:125
+msgid "Making and MD5sum'ing the new db..."
+msgstr "生成新数据库及md5检查值……"
+
+#: scripts/pacman-optimize.sh.in:130
+msgid "Untar'ing %s failed."
+msgstr "解包%s失败。"
+
+#: scripts/pacman-optimize.sh.in:136
+msgid "Checking integrity..."
+msgstr "正在检查完整性……"
+
+#: scripts/pacman-optimize.sh.in:142
+msgid "Integrity check FAILED, reverting to old database."
+msgstr "完整性检查失败，恢复到老数据库。"
+
+#: scripts/pacman-optimize.sh.in:147
+msgid "Putting the new database in place..."
+msgstr "正在把新的数据库放置到位……"
+
+#: scripts/pacman-optimize.sh.in:156
+msgid "Finished. Your pacman database has been optimized."
+msgstr "完毕。你的pacman数据库已经优化。"
+
+#: scripts/pacman-optimize.sh.in:157
+msgid "For full benefits of pacman-optimize, run 'sync' now."
+msgstr "为了充分享受到pacman-optimize的好处，现在运行'sync' 吧。"
+
+#: scripts/repo-add.sh.in:57
+msgid "Usage: %s <path-to-db> [--force] <package> ...\\n\\n"
+msgstr "用法：%s <path-to-db> [--force] <package> ...\\n\\n"
+
+#: scripts/repo-add.sh.in:58
+msgid ""
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+msgstr "repo-add通过读取一个软件包文件来更新软件包数据库。"
+"\\n可以在命令行中指定添加多个软件包\\n\\n"
+
+#: scripts/repo-add.sh.in:61
+msgid ""
+"The --force flag will add a 'force' entry to the sync database, which"
+"\\ntells pacman to skip its internal version number checking and update"
+"\\nthe package regardless.\\n\\n"
+msgstr "--force参数将在同步数据库中添加“强制”记录，"
+"\\n这将告诉pacman跳过内部的版本检查，"
+"\\n直接更新软件包\\n\\n"
+
+#: scripts/repo-add.sh.in:65
+msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+msgstr "例子：  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+
+#: scripts/repo-add.sh.in:70
+msgid ""
+"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr "Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\n"
+"这是一个免费软件；版权条款见源码。\\n"
+"不提供任何法律所规定的保证\\n"
+
+#: scripts/repo-add.sh.in:174
+msgid "Invalid package file '%s'."
+msgstr "无效的软件包文件'%s'。"
+
+#: scripts/repo-add.sh.in:183 scripts/repo-remove.sh.in:88
+msgid "Removing existing package '%s'..."
+msgstr "正在删除现有的软件包'%s'……"
+
+#: scripts/repo-add.sh.in:193
+msgid "Creating 'desc' db entry..."
+msgstr "正在生成'desc'数据库记录"
+
+#: scripts/repo-add.sh.in:203
+msgid "Computing md5 checksums..."
+msgstr "正在计算md5检查值……"
+
+#: scripts/repo-add.sh.in:215
+msgid "Creating 'depends' db entry..."
+msgstr "正在生成'depends'数据库记录……"
+
+#: scripts/repo-add.sh.in:231
+msgid "Creating 'deltas' db entry..."
+msgstr "正在生成'deltas'数据库记录……"
+
+#: scripts/repo-add.sh.in:237
+msgid "Added delta '%s'"
+msgstr "已添加delta '%s'"
+
+#: scripts/repo-add.sh.in:239
+msgid "Could not add delta '%s'"
+msgstr "无法添加delta '%s'"
+
+#: scripts/repo-add.sh.in:277 scripts/repo-remove.sh.in:120
+msgid "%s not found. Cannot continue."
+msgstr "%s 没有找到。无法继续。"
+
+#: scripts/repo-add.sh.in:287 scripts/repo-remove.sh.in:130
+msgid "Cannot create temp directory for database building."
+msgstr "无法为建立数据库创建空目录。"
+
+#: scripts/repo-add.sh.in:298 scripts/repo-remove.sh.in:139
+msgid "Repository file '%s' is not a proper pacman database."
+msgstr "库文件'%s'不是一个有效的pacman数据库。"
+
+#: scripts/repo-add.sh.in:301 scripts/repo-remove.sh.in:142
+msgid "Extracting database to a temporary location..."
+msgstr "正在解压缩数据库到一个临时目录……"
+
+#: scripts/repo-add.sh.in:307
+msgid "'%s' is not a package file, skipping"
+msgstr "'%s' 不是一个软件包文件，跳过"
+
+#: scripts/repo-add.sh.in:309
+msgid "Adding package '%s'"
+msgstr "正在添加软件包'%s'"
+
+#: scripts/repo-add.sh.in:316
+msgid "Package '%s' not found."
+msgstr "软件包'%s'没有找到。"
+
+#: scripts/repo-add.sh.in:323
+msgid "Creating updated database file %s"
+msgstr "正在生成更新的数据库文件%s"
+
+#: scripts/repo-add.sh.in:333 scripts/repo-remove.sh.in:167
+msgid "No compression set."
+msgstr "没有设置压缩。"
+
+#: scripts/repo-add.sh.in:341 scripts/repo-remove.sh.in:178
+msgid "No packages modified, nothing to do."
+msgstr "没有软件包被修改，无事可做。"
+
+#: scripts/repo-remove.sh.in:52
+msgid "repo-remove %s\\n\\n"
+msgstr "repo-remove %s\\n\\n"
+
+#: scripts/repo-remove.sh.in:53
+msgid "usage: %s <path-to-db> <packagename> ...\\n\\n"
+msgstr "用法：%s <path-to-db> <packagename> ...\\n\\n"
+
+#: scripts/repo-remove.sh.in:54
+msgid ""
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n\\n"
+msgstr "repo-remove通过从给定的库数据库中删除"
+"\\n在命令行中指定的软件包名来更新某个软件包数据库。"
+"\\n可在命令行中指定同时删除多个软件包。\\n\\n"
+
+#: scripts/repo-remove.sh.in:58
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+msgstr "例子：repo-remove /path/to/repo.db.tar.gz kernel26"
+
+#: scripts/repo-remove.sh.in:146
+msgid "Searching for package '%s'..."
+msgstr "正在搜索软件包'%s……"
+
+#: scripts/repo-remove.sh.in:151
+msgid "Package matching '%s' not found."
+msgstr "符合'%s'的软件包没有找到。"
+
+#: scripts/repo-remove.sh.in:158
+msgid "Creating updated database file '%s'..."
+msgstr "正在生成更新的数据库文件 '%s'……"
+
+#: scripts/repo-remove.sh.in:172
+msgid "All packages have been removed from the database. Deleting '%s'."
+msgstr "所有软件包已经从数据库中删除。正在删除'%s'。"
+
+#: scripts/updatesync.sh.in:33
+msgid "Usage: %s <action> <destfile> <option> [package_directory]"
+msgstr "用法：%s <action> <destfile> <option> [package_directory]"
+
+#: scripts/updatesync.sh.in:37
+msgid ""
+"updatesync will update a sync database by reading a PKGBUILD and\\nmodifying "
+"the destfile. updatesync updates the database in a temporary\\ndirectory and "
+"then compresses it to <destfile>.\\n\\n"
+msgstr "updatesync 将通过读取某个PKGBUILD或修改destfile来更新\\n一个同步数据库。"
+"updatesync 先在一个临时目录中更新数据库，\\n"
+"然后在压缩到<destfile>.\\n\\n"
+
+#: scripts/updatesync.sh.in:41
+msgid "There are two types of actions:\\n\\n"
+msgstr "有两种行为：\\n\\n"
+
+#: scripts/updatesync.sh.in:42
+msgid ""
+"upd - Will update a package's entry or create it if it doesn't exist."
+"\\n      It takes the package's PKGBUILD as an option.\\n"
+msgstr "upd - 将更新某个软件包记录，如果不存在则创建。"
+"\\n      它把软件包的PKGBUILD作为一个选项。\\n"
+
+#: scripts/updatesync.sh.in:43
+msgid ""
+"del - Will remove a package's entry from the db. It takes the package's"
+"\\n      name as an option.\\n"
+msgstr "del - 将从数据库中删除某个软件包记录。它把软件包"
+"\\n      名字作为一个选项。\\n"
+
+#: scripts/updatesync.sh.in:45
+msgid ""
+"updatesync will calculate md5sums of packages in the same directory as"
+"\\n<destfile>, unless an alternate [package_directory] is specified.\\n\\n"
+msgstr "updatesync将计算同一目录下的软件包md5值"
+"\\n作为<destfile>，除非指定了另外的[软件包e_目录]\\n\\n"
+
+#: scripts/updatesync.sh.in:48
+msgid "Example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
+msgstr "例子：updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
+
+#: scripts/updatesync.sh.in:53
+msgid ""
+"Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\\n\\n"
+"这是一个免费软件；版权条款见源码。\\n"
+"不提供任何法律所规定的保证\\n"
+
+#: scripts/updatesync.sh.in:128 scripts/updatesync.sh.in:152
+msgid "%s not found"
+msgstr "%s 没有找到"
+
+#: scripts/updatesync.sh.in:140
+msgid "could not find %s-%s-%s-%s%s - aborting"
+msgstr "无法找到%s-%s-%s-%s%s - 放弃"
+

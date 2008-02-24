@@ -5,9 +5,13 @@ VERSION         DESCRIPTION
               - mark gensync and updatesync as deprecated
               - fix pacman -Qo behavior on symlinks (FS#9473)
               - fix segfault on a broken symlinks in backup code (FS#9235)
+              - ensure filename is determined correctly for a pkg (FS#9547)
+              - fix conflict progress bar with UTF-8 chars (FS#6437)
               - fix chk_fileconflicts brokenness, ensure it reads entire list
+              - ensure -Sc operation locks DB, only checks DBs (FS#9609)
               - minor documentation and message updates
               - moved some translations to their more generic lang codes
+              - allow scripts to be run without gettext installed
               - makepkg:
                 - check to ensure we have non-URL sources (FS#9208)
                 - ensure we strip binaries in /opt/ dirs (FS#9342)

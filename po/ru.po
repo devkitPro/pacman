@@ -2,14 +2,14 @@
 # Copyright (C) 2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package.
 # Vladimir Bayrakovskiy <4rayven@gmail.com>, Vitaly Dolgov <ferhiord@gmail.com>, 2007
-#
+# Sergey Tereschenko <serg.partizan@gmail.com> 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-02-09 10:41-0600\n"
 "PO-Revision-Date: 2007-03-07 11:45-0500\n"
-"Last-Translator: Vitaly Dolgov <ferhiord@gmail.com>\n"
+"Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s.\n"
 msgstr ""
-"  если Вы уверены, что pacman еще не запущен, можете\n"
+"  если Вы уверены, что pacman уже не запущен, можете\n"
 "  удалить %s\n"
 
 #: src/pacman/add.c:114 src/pacman/remove.c:106
@@ -293,7 +293,7 @@ msgstr "Заменяет                 :"
 #: src/pacman/package.c:111
 #, c-format
 msgid "Download Size  : %6.2f K\n"
-msgstr "Будет загружено         : %6.2f K\n"
+msgstr "Будет загружено          : %6.2f K\n"
 
 #: src/pacman/package.c:115
 #, c-format
@@ -303,31 +303,31 @@ msgstr "Размер архива           : %6.2f K\n"
 #: src/pacman/package.c:119
 #, c-format
 msgid "Installed Size : %6.2f K\n"
-msgstr "Размер установленного   : %6.2f K\n"
+msgstr "Размер установленного    : %6.2f K\n"
 
 #: src/pacman/package.c:121
 msgid "Packager       :"
-msgstr "Сборщик                 :"
+msgstr "Сборщик                  :"
 
 #: src/pacman/package.c:122
 msgid "Architecture   :"
-msgstr "Архитектура             :"
+msgstr "Архитектура              :"
 
 #: src/pacman/package.c:123
 msgid "Build Date     :"
-msgstr "Дата сборки             :"
+msgstr "Дата сборки              :"
 
 #: src/pacman/package.c:125
 msgid "Install Date   :"
-msgstr "Дата установки          :"
+msgstr "Дата установки           :"
 
 #: src/pacman/package.c:126
 msgid "Install Reason :"
-msgstr "Причина установки       :"
+msgstr "Причина установки        :"
 
 #: src/pacman/package.c:129
 msgid "Install Script :"
-msgstr "Установочный скрипт     :"
+msgstr "Установочный скрипт      :"
 
 #: src/pacman/package.c:130
 msgid "Yes"
@@ -339,11 +339,11 @@ msgstr "No"
 
 #: src/pacman/package.c:135
 msgid "MD5 Sum        :"
-msgstr "MD5-сумма               :"
+msgstr "MD5-сумма                :"
 
 #: src/pacman/package.c:159
 msgid "Repository     :"
-msgstr "Репозиторий             :"
+msgstr "Репозиторий              :"
 
 #: src/pacman/package.c:169
 #, c-format
@@ -1280,7 +1280,7 @@ msgstr "Недостающие зависимости:"
 
 #: scripts/makepkg.sh.in:444
 msgid "Retrieving Sources..."
-msgstr "Получаю исходные коды..."
+msgstr "Получаю исходные файлы..."
 
 #: scripts/makepkg.sh.in:447
 msgid "You do not have write permission to store downloads in %s."
@@ -1288,7 +1288,7 @@ msgstr "У вас нет прав на запись, чтобы сохранит
 
 #: scripts/makepkg.sh.in:458
 msgid "Found %s in build dir"
-msgstr "Обнаружен %s в директории для сборки"
+msgstr "Обнаружен %s в директории сборки"
 
 #: scripts/makepkg.sh.in:462
 msgid "Using cached copy of %s"
@@ -1296,7 +1296,7 @@ msgstr "Использую копию %s из кэша"
 
 #: scripts/makepkg.sh.in:469
 msgid "%s was not found in the build directory and is not a URL."
-msgstr "%s не найден в директории для сборки и это не URL."
+msgstr "%s не найден в директории сборки и это не URL."
 
 #: scripts/makepkg.sh.in:476
 msgid "Downloading %s..."
@@ -1308,7 +1308,7 @@ msgstr "Загрузка %s завершилась неудачей"
 
 #: scripts/makepkg.sh.in:492
 msgid "Generating checksums for source files..."
-msgstr "Генерирую контрольные суммы для файлов с исходными кодами..."
+msgstr "Генерирую контрольные суммы исходных файлов..."
 
 #: scripts/makepkg.sh.in:501
 msgid "Invalid integrity algorithm '%s' specified."
@@ -1328,7 +1328,7 @@ msgstr "Указан неверный алгоритм '%s'"
 
 #: scripts/makepkg.sh.in:564
 msgid "Validating source files with %s..."
-msgstr "Проверка файлов с исходными кодами с посощью %s..."
+msgstr "Проверка исходных файлов с помощью %s..."
 
 #: scripts/makepkg.sh.in:574
 msgid "NOT FOUND"
@@ -1340,7 +1340,7 @@ msgstr "Завершено"
 
 #: scripts/makepkg.sh.in:585
 msgid "FAILED"
-msgstr "НЕ УДАЛОСЬ"
+msgstr "СБОЙ"
 
 #: scripts/makepkg.sh.in:593
 msgid "One or more files did not pass the validity check!"
@@ -1352,7 +1352,7 @@ msgstr "Проверка целостности (%s) не выполнена и�
 
 #: scripts/makepkg.sh.in:603
 msgid "Extracting Sources..."
-msgstr "Распаковка исходных кодов..."
+msgstr "Распаковка исходных файлов..."
 
 #: scripts/makepkg.sh.in:615
 msgid "Unable to find source file %s for extraction."
@@ -1416,7 +1416,7 @@ msgstr "Пример для программ под лицензией GPL: lice
 
 #: scripts/makepkg.sh.in:855 scripts/makepkg.sh.in:950
 msgid "Adding install script..."
-msgstr "Добавляю инсталяционный скрипт..."
+msgstr "Добавляю установочный скрипт..."
 
 #: scripts/makepkg.sh.in:862
 msgid "Adding package changelog..."
@@ -1424,7 +1424,7 @@ msgstr "Добавляю список изменений пакета... "
 
 #: scripts/makepkg.sh.in:868
 msgid "Compressing package..."
-msgstr "Архивирую пакета... "
+msgstr "Архивирую пакет... "
 
 #: scripts/makepkg.sh.in:873
 msgid "Failed to create package file."
@@ -1482,31 +1482,31 @@ msgstr "Не удалось создать пакет с исходными ко
 
 #: scripts/makepkg.sh.in:1005
 msgid "Determining latest darcs revision..."
-msgstr "Определяю последнюю darcs ревизию..."
+msgstr "Определяю последнюю версию в darcs..."
 
 #: scripts/makepkg.sh.in:1009
 msgid "Determining latest cvs revision..."
-msgstr "Определяю последнюю cvs ревизию..."
+msgstr "Определяю последнюю версию в cvs..."
 
 #: scripts/makepkg.sh.in:1013
 msgid "Determining latest git revision..."
-msgstr "Определяю последнюю git ревизию..."
+msgstr "Определяю последнюю версию в git..."
 
 #: scripts/makepkg.sh.in:1017
 msgid "Determining latest svn revision..."
-msgstr "Определяю последнюю svn ревизию..."
+msgstr "Определяю последнюю версию в svn..."
 
 #: scripts/makepkg.sh.in:1021
 msgid "Determining latest bzr revision..."
-msgstr "Определяю последнюю bzr ревизию..."
+msgstr "Определяю последнюю версию в bzr..."
 
 #: scripts/makepkg.sh.in:1025
 msgid "Determining latest hg revision..."
-msgstr "Определяю последнюю hg ревизию..."
+msgstr "Определяю последнюю версию в hg..."
 
 #: scripts/makepkg.sh.in:1040
 msgid "Version found: %s"
-msgstr "Обнаруженная версия: %s"
+msgstr "Обнаружена версия: %s"
 
 #: scripts/makepkg.sh.in:1071
 msgid "Usage: %s [options]"
@@ -1522,8 +1522,7 @@ msgstr "  -А --ignorearch Игнорировать неполное поле ar
 
 #: scripts/makepkg.sh.in:1075
 msgid "  -b, --builddeps  Build missing dependencies from source"
-msgstr ""
-"  -b, --builddeps  Собирать недостающие зависимости из исходных текстов"
+msgstr "  -b, --builddeps  Собирать недостающие зависимости из исходных файлов"
 
 #: scripts/makepkg.sh.in:1076
 msgid "  -c, --clean      Clean up work files after build"
@@ -1531,7 +1530,7 @@ msgstr "  -c, --clean      Удалять оставшиеся после сбо
 
 #: scripts/makepkg.sh.in:1077
 msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Очистить кэш от исходных текстов"
+msgstr "  -C, --cleancache Очистить кэш от исходных файлов"
 
 #: scripts/makepkg.sh.in:1078
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -1540,8 +1539,8 @@ msgstr "  -d, --nodeps     Не проверять зависимости"
 #: scripts/makepkg.sh.in:1079
 msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
 msgstr ""
-"  -e, --noextract  Не извлекать файлы с исходными кодами (использовать "
-"существующие в src/)"
+"  -e, --noextract  Не извлекать исходные файлы (использовать существующие в "
+"src/)"
 
 #: scripts/makepkg.sh.in:1080
 msgid "  -f, --force      Overwrite existing package"
@@ -1551,7 +1550,7 @@ msgstr "  -f, --force      Переписать существующий пак�
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 "  -g, --geninteg   Генерировать информацию для проверки целостности исходных "
-"текстов"
+"файлов"
 
 #: scripts/makepkg.sh.in:1082
 msgid "  -h, --help       This help"
@@ -1844,7 +1843,7 @@ msgstr "Директория пакета пуста. Здесь нечего п
 
 #: scripts/makepkg.sh.in:1451
 msgid "Sources are ready."
-msgstr "Исходные коды готовы."
+msgstr "Исходные файлы готовы."
 
 #: scripts/makepkg.sh.in:1456
 msgid "Removing existing pkg/ directory..."
