@@ -1,7 +1,7 @@
 /*
  *  alpm_list.c
  *
- *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2008 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,15 +17,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 /* libalpm */
 #include "alpm_list.h"
-#include "util.h"
+
+/* check exported library symbols with: nm -C -D <lib> */
+#define SYMEXPORT __attribute__((visibility("default")))
+#define SYMHIDDEN __attribute__((visibility("internal")))
 
 /**
  * @addtogroup alpm_list List Functions
@@ -38,20 +39,6 @@
  * @{ */
 
 /* Allocation */
-
-/**
- * @brief Allocate a new node for alpm_list_t (with empty ->data)
- *
- * @return a new node item, or NULL on failure
- */
-static alpm_list_t *node_new()
-{
-	alpm_list_t *list = NULL;
-
-	list = calloc(1, sizeof(alpm_list_t));
-
-	return(list);
-}
 
 /**
  * @brief Free a list, but not the contained data.
@@ -102,7 +89,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 {
 	alpm_list_t *ptr, *lp;
 
-	ptr = node_new();
+	ptr = calloc(1, sizeof(alpm_list_t));
 	if(ptr == NULL) {
 		return(list);
 	}
@@ -140,7 +127,7 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 	} else {
 		alpm_list_t *add = NULL, *prev = NULL, *next = list;
 
-		add = node_new();
+		add = calloc(1, sizeof(alpm_list_t));
 		if(add == NULL) {
 			return(list);
 		}
