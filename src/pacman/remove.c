@@ -103,11 +103,10 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* add targets to the created transaction */
-	printf(_("loading package data... "));
+	printf(_("loading package data...\n"));
 	for(i = finaltargs; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			printf(_("failed.\n"));
 			fprintf(stderr, _("error: '%s': %s\n"),
 					targ, alpm_strerrorlast());
 			remove_cleanup();
@@ -115,7 +114,6 @@ int pacman_remove(alpm_list_t *targets)
 			return(1);
 		}
 	}
-	printf(_("done.\n"));
 
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
