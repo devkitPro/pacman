@@ -51,9 +51,9 @@ m4_define([lib_revision], [0])
 m4_define([lib_age], [2])
 
 m4_define([pacman_version_major], [3])
-m4_define([pacman_version_minor], [1])
-m4_define([pacman_version_micro], [2])
-m4_define([pacman_version_suffix], [])
+m4_define([pacman_version_minor], [2])
+m4_define([pacman_version_micro], [0])
+m4_define([pacman_version_suffix], [devel])
 m4_define([pacman_version],
           [pacman_version_major.pacman_version_minor.pacman_version_micro])
 m4_define([pacman_display_version],

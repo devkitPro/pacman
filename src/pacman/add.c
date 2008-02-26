@@ -111,18 +111,16 @@ int pacman_add(alpm_list_t *targets)
 	}
 
 	/* add targets to the created transaction */
-	printf(_("loading package data... "));
+	printf(_("loading package data...\n"));
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			printf(_("failed.\n"));
 			fprintf(stderr, _("error: '%s': %s\n"),
 					targ, alpm_strerrorlast());
 			add_cleanup();
 			return(1);
 		}
 	}
-	printf(_("done.\n"));
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	/* TODO: No, compute nothing. This is stupid. */
