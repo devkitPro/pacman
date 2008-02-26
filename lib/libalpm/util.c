@@ -640,13 +640,7 @@ char SYMEXPORT *alpm_get_md5sum(const char *filename)
 	ret = md5_file(filename, output);
 
 	if (ret > 0) {
-		if (ret == 1) {
-			_alpm_log(PM_LOG_ERROR, _("md5: %s can't be opened\n"), filename);
-		} else if (ret == 2) {
-			_alpm_log(PM_LOG_ERROR, _("md5: %s can't be read\n"), filename);
-		}
-
-		return(NULL);
+		RET_ERR(PM_ERR_NOT_A_FILE, NULL);
 	}
 
 	/* Convert the result to something readable */
@@ -658,6 +652,25 @@ char SYMEXPORT *alpm_get_md5sum(const char *filename)
 
 	_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s\n", filename, md5sum);
 	return(md5sum);
+}
+
+int _alpm_test_md5sum(const char *filepath, const char *md5sum)
+{
+	char *md5sum2;
+	int ret;
+
+	md5sum2 = alpm_get_md5sum(filepath);
+
+	if(md5sum == NULL || md5sum2 == NULL) {
+		ret = -1;
+	} else if(strcmp(md5sum, md5sum2) != 0) {
+		ret = 1;
+	} else {
+		ret = 0;
+	}
+
+	FREE(md5sum2);
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */

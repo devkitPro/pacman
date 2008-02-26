@@ -105,8 +105,7 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 {
 	char *fpath;
-	char *md5sum = NULL;
-	int retval = 0;
+	int retval;
 
 	ALPM_LOG_FUNC;
 
@@ -116,27 +115,15 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	ASSERT(pkg->origin_data.db != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
 	fpath = _alpm_filecache_find(alpm_pkg_get_filename(pkg));
-	md5sum = alpm_get_md5sum(fpath);
 
-	if(md5sum == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get md5sum for package %s-%s\n"),
-							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		pm_errno = PM_ERR_NOT_A_FILE;
+	retval = _alpm_test_md5sum(fpath, alpm_pkg_get_md5sum(pkg));
+
+	if(retval == 0) {
+		return(0);
+	} else if (retval == 1) {
+		pm_errno = PM_ERR_PKG_INVALID;
 		retval = -1;
-	} else {
-		if(strcmp(md5sum, alpm_pkg_get_md5sum(pkg)) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "md5sums for package %s-%s match\n",
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		} else {
-			_alpm_log(PM_LOG_ERROR, _("md5sums do not match for package %s-%s\n"),
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-			pm_errno = PM_ERR_PKG_INVALID;
-			retval = -1;
-		}
 	}
-
-	FREE(fpath);
-	FREE(md5sum);
 
 	return(retval);
 }

@@ -117,13 +117,11 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("cannot remove all files for package");
 		case PM_ERR_PKG_INVALID_NAME:
 			return _("package name is not valid");
-		case PM_ERR_PKG_CORRUPTED:
-			return _("corrupted package");
 		case PM_ERR_PKG_REPO_NOT_FOUND:
 			return _("no such repository");
 		/* Deltas */
-		case PM_ERR_DLT_CORRUPTED:
-			return _("corrupted delta");
+		case PM_ERR_DLT_INVALID:
+			return _("invalid or corrupted delta");
 		case PM_ERR_DLT_PATCHFAILED:
 			return _("delta patch failed");
 		/* Groups */

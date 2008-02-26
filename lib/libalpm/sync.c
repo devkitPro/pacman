@@ -798,107 +798,29 @@ static int apply_deltas(pmtrans_t *trans, alpm_list_t *patches)
  * @param trans the transaction
  * @param filename the filename of the file to test
  * @param md5sum the expected md5sum of the file
- * @param data data to write the error messages to
  *
- * @return 0 if the md5sum matched, 1 otherwise
+ * @return 0 if the md5sum matched, 1 if not, -1 in case of errors
  */
 static int test_md5sum(pmtrans_t *trans, const char *filename,
-		const char *md5sum, alpm_list_t **data)
+		const char *md5sum)
 {
 	char *filepath;
-	char *md5sum2;
-	char *errormsg = NULL;
-	int ret = 0;
+	int ret;
 
 	filepath = _alpm_filecache_find(filename);
-	md5sum2 = alpm_get_md5sum(filepath);
 
-	if(md5sum == NULL) {
-		if(data) {
-			/* TODO wtf is this? malloc'd strings for error messages? */
-			if((errormsg = calloc(512, sizeof(char))) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
-			snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
-					filename);
-			*data = alpm_list_add(*data, errormsg);
-		}
-		ret = 1;
-	} else if(md5sum2 == NULL) {
-		if(data) {
-			if((errormsg = calloc(512, sizeof(char))) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
-			snprintf(errormsg, 512, _("can't get md5 checksum for file %s\n"),
-					filename);
-			*data = alpm_list_add(*data, errormsg);
-		}
-		ret = 1;
-	} else if(strcmp(md5sum, md5sum2) != 0) {
+	ret = _alpm_test_md5sum(filepath, md5sum);
+
+	if(ret == 1) {
 		int doremove = 0;
 		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filename,
 				NULL, NULL, &doremove);
 		if(doremove) {
 			unlink(filepath);
 		}
-		if(data) {
-			if((errormsg = calloc(512, sizeof(char))) == NULL) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
-			snprintf(errormsg, 512, _("file %s was corrupted (bad MD5 checksum)\n"),
-					filename);
-			*data = alpm_list_add(*data, errormsg);
-		}
-		ret = 1;
 	}
 
 	FREE(filepath);
-	FREE(md5sum2);
-
-	return(ret);
-}
-
-/** Compares the md5sum of a delta to the expected value.
- *
- * @param trans the transaction
- * @param delta the delta to test
- * @param data data to write the error messages to
- *
- * @return 0 if the md5sum matched, 1 otherwise
- */
-static int test_delta_md5sum(pmtrans_t *trans, pmdelta_t *delta,
-		alpm_list_t **data)
-{
-	const char *filename;
-	const char *md5sum;
-	int ret = 0;
-
-	filename = alpm_delta_get_filename(delta);
-	md5sum = alpm_delta_get_md5sum(delta);
-
-	ret = test_md5sum(trans, filename, md5sum, data);
-
-	return(ret);
-}
-
-/** Compares the md5sum of a package to the expected value.
- *
- * @param trans the transaction
- * @param pkg the package to test
- * @param data data to write the error messages to
- *
- * @return 0 if the md5sum matched, 1 otherwise
- */
-static int test_pkg_md5sum(pmtrans_t *trans, pmpkg_t *pkg, alpm_list_t **data)
-{
-	const char *filename;
-	const char *md5sum;
-	int ret = 0;
-
-	filename = alpm_pkg_get_filename(pkg);
-	md5sum = alpm_pkg_get_md5sum(pkg);
-
-	ret = test_md5sum(trans, filename, md5sum, data);
 
 	return(ret);
 }
@@ -908,7 +830,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	alpm_list_t *i, *j, *files = NULL;
 	alpm_list_t *patches = NULL, *deltas = NULL;
 	pmtrans_t *tr = NULL;
-	int replaces = 0, retval = 0;
+	int replaces = 0;
+	int errors = 0;
 	const char *cachedir = NULL;
 
 	ALPM_LOG_FUNC;
@@ -999,22 +922,22 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		/* only output if there are deltas to work with */
 		if(deltas) {
+			errors = 0;
 			/* Check integrity of deltas */
 			EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
 
 			for(i = deltas; i; i = i->next) {
 				pmdelta_t *d = alpm_list_getdata(i);
+				const char *filename = alpm_delta_get_filename(d);
+				const char *md5sum = alpm_delta_get_md5sum(d);
 
-				ret = test_delta_md5sum(trans, d, data);
-
-				if(ret == 1) {
-					retval = 1;
-				} else if(ret == -1) { /* -1 is for serious errors */
-					RET_ERR(pm_errno, -1);
+				if(test_md5sum(trans, filename, md5sum) != 0) {
+					errors++;
+					*data = alpm_list_add(*data, strdup(filename));
 				}
 			}
-			if(retval) {
-				pm_errno = PM_ERR_DLT_CORRUPTED;
+			if(errors) {
+				pm_errno = PM_ERR_DLT_INVALID;
 				goto error;
 			}
 			EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
@@ -1038,21 +961,20 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	/* Check integrity of packages */
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
 
+	errors = 0;
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		pmpkg_t *spkg = sync->pkg;
-		int ret = 0;
+		const char *filename = alpm_pkg_get_filename(spkg);
+		const char *md5sum = alpm_pkg_get_md5sum(spkg);
 
-		ret = test_pkg_md5sum(trans, spkg, data);
-
-		if(ret == 1) {
-			retval = 1;
-		} else if(ret == -1) { /* -1 is for serious errors */
-			RET_ERR(pm_errno, -1);
+		if(test_md5sum(trans, filename, md5sum) != 0) {
+			errors++;
+			*data = alpm_list_add(*data, strdup(filename));
 		}
 	}
-	if(retval) {
-		pm_errno = PM_ERR_PKG_CORRUPTED;
+	if(errors) {
+		pm_errno = PM_ERR_PKG_INVALID;
 		goto error;
 	}
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);

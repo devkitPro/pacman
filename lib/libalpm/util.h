@@ -65,6 +65,7 @@ int _alpm_str_cmp(const void *s1, const void *s2);
 char *_alpm_filecache_find(const char *filename);
 const char *_alpm_filecache_setup(void);
 int _alpm_lstat(const char *path, struct stat *buf);
+int _alpm_test_md5sum(const char *filepath, const char *md5sum);
 
 #ifndef HAVE_STRVERSCMP
 int strverscmp(const char *, const char *);

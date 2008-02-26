@@ -726,9 +726,11 @@ static int sync_trans(alpm_list_t *targets)
 					}
 				}
 				break;
-			case PM_ERR_PKG_CORRUPTED:
+			case PM_ERR_PKG_INVALID:
+			case PM_ERR_DLT_INVALID:
 				for(i = data; i; i = alpm_list_next(i)) {
-					printf("%s", (char*)alpm_list_getdata(i));
+					char *filename = alpm_list_getdata(i);
+					printf(_("%s is invalid or corrupted\n"), filename);
 				}
 				break;
 			default:
