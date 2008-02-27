@@ -671,83 +671,82 @@ unsigned long SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
  * ending package files.
  *
  * @param trans the transaction
- * @param patches A list of alternating pmpkg_t * and pmdelta_t *
- * objects. The patch command will be built using the pmpkg_t, pmdelta_t
- * pair.
  *
  * @return 0 if all delta files were able to be applied, 1 otherwise.
  */
-static int apply_deltas(pmtrans_t *trans, alpm_list_t *patches)
+static int apply_deltas(pmtrans_t *trans)
 {
-	/* keep track of the previous package in the loop to decide if a
-	 * package file should be deleted */
-	pmpkg_t *lastpkg = NULL;
-	int lastpkg_failed = 0;
+	alpm_list_t *i;
 	int ret = 0;
 	const char *cachedir = _alpm_filecache_setup();
 
-	alpm_list_t *p = patches;
-	while(p) {
-		pmpkg_t *pkg;
-		pmdelta_t *d;
-		char command[PATH_MAX], fname[PATH_MAX];
+	for(i = trans->packages; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		pmpkg_t *spkg = sync->pkg;
+		alpm_list_t *delta_path = spkg->delta_path;
+		alpm_list_t *dlts = NULL;
 
-		pkg = alpm_list_getdata(p);
-		p = alpm_list_next(p);
-
-		d = alpm_list_getdata(p);
-		p = alpm_list_next(p);
-
-		/* if patching fails, ignore the rest of that package's deltas */
-		if(lastpkg_failed) {
-			if(pkg == lastpkg) {
-				continue;
-			} else {
-				lastpkg_failed = 0;
-			}
+		if(!delta_path) {
+			continue;
 		}
 
-		/* an example of the patch command: (using /cache for cachedir)
-		 * xdelta patch /cache/pacman_3.0.0-1_to_3.0.1-1-i686.delta \
-		 *              /cache/pacman-3.0.0-1-i686.pkg.tar.gz       \
-		 *              /cache/pacman-3.0.1-1-i686.pkg.tar.gz
-		 */
+		for(dlts = delta_path; dlts; dlts = dlts->next) {
+			pmdelta_t *d = dlts->data;
+			char *delta, *from, *to;
+			char command[PATH_MAX];
+			int len = 0;
 
-		/* build the patch command */
-		snprintf(command, PATH_MAX,
-				"xdelta patch"   /* the command */
-				" %s/%s"         /* the delta */
-				" %s/%s"         /* the 'from' package */
-				" %s/%s",        /* the 'to' package */
-				cachedir, d->delta,
-				cachedir, d->from,
-				cachedir, d->to);
-
-		_alpm_log(PM_LOG_DEBUG, _("command: %s\n"), command);
-
-		EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_START, d->to, d->delta);
-
-		if(system(command) == 0) {
-			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_DONE, NULL, NULL);
-
-			/* delete the delta file */
-			snprintf(fname, PATH_MAX, "%s/%s", cachedir, d->delta);
-			unlink(fname);
-
-			/* Delete the 'from' package but only if it is an intermediate
-			 * package. The starting 'from' package should be kept, just
-			 * as if deltas were not used. Delete the package file if the
-			 * previous iteration of the loop used the same package. */
-			if(pkg == lastpkg) {
-				snprintf(fname, PATH_MAX, "%s/%s", cachedir, d->from);
-				unlink(fname);
+			delta = _alpm_filecache_find(d->delta);
+			/* the initial package might be in a different cachedir */
+			if(dlts == delta_path) {
+				from = _alpm_filecache_find(d->from);
 			} else {
-				lastpkg = pkg;
+				/* len = cachedir len + from len + '/' + null */
+				len = strlen(cachedir) + strlen(d->from) + 2;
+				CALLOC(from, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, 1));
+				snprintf(from, len, "%s/%s", cachedir, d->from);
 			}
-		} else {
-			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
-			lastpkg_failed = 1;
-			ret = 1;
+			len = strlen(cachedir) + strlen(d->to) + 2;
+			CALLOC(to, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, 1));
+			snprintf(to, len, "%s/%s", cachedir, d->to);
+
+			/* an example of the patch command: (using /cache for cachedir)
+			 * xdelta patch /path/to/pacman_3.0.0-1_to_3.0.1-1-i686.delta \
+			 *              /path/to/pacman-3.0.0-1-i686.pkg.tar.gz       \
+			 *              /cache/pacman-3.0.1-1-i686.pkg.tar.gz
+			 */
+
+			/* build the patch command */
+			snprintf(command, PATH_MAX, "xdelta patch %s %s %s", delta, from, to);
+
+			_alpm_log(PM_LOG_DEBUG, _("command: %s\n"), command);
+
+			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_START, d->to, d->delta);
+
+			int retval = system(command);
+			if(retval == 0) {
+				EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_DONE, NULL, NULL);
+
+				/* delete the delta file */
+				unlink(delta);
+
+				/* Delete the 'from' package but only if it is an intermediate
+				 * package. The starting 'from' package should be kept, just
+				 * as if deltas were not used. */
+				if(dlts != delta_path) {
+					unlink(from);
+				}
+			}
+			FREE(from);
+			FREE(to);
+			FREE(delta);
+
+			if(retval != 0) {
+				/* one delta failed for this package, cancel the remaining ones */
+				EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
+				ret = 1;
+				break;
+			}
 		}
 	}
 
@@ -792,7 +791,7 @@ static int test_md5sum(pmtrans_t *trans, const char *filename,
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
-	alpm_list_t *patches = NULL, *deltas = NULL;
+	alpm_list_t *deltas = NULL;
 	pmtrans_t *tr = NULL;
 	int replaces = 0;
 	int errors = 0;
@@ -828,20 +827,14 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 						if(delta_path) {
 							alpm_list_t *dlts = NULL;
 
-							for(dlts = delta_path; dlts; dlts = alpm_list_next(dlts)) {
-								pmdelta_t *d = (pmdelta_t *)alpm_list_getdata(dlts);
-								char *fpath2 = _alpm_filecache_find(d->delta);
+							for(dlts = delta_path; dlts; dlts = dlts->next) {
+								pmdelta_t *d = dlts->data;
 
-								if(!fpath2) {
+								if(d->download_size != 0) {
 									/* add the delta filename to the download list if
 									 * it's not in the cache */
 									files = alpm_list_add(files, strdup(d->delta));
 								}
-
-								/* save the package and delta so that the xdelta patch
-								 * command can be run after the downloads finish */
-								patches = alpm_list_add(patches, spkg);
-								patches = alpm_list_add(patches, d);
 
 								/* keep a list of the delta files for md5sums */
 								deltas = alpm_list_add(deltas, d);
@@ -897,11 +890,9 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 			/* Use the deltas to generate the packages */
 			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
-			ret = apply_deltas(trans, patches);
+			ret = apply_deltas(trans);
 			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
 
-			alpm_list_free(patches);
-			patches = NULL;
 			alpm_list_free(deltas);
 			deltas = NULL;
 		}
