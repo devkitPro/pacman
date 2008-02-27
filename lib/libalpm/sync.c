@@ -796,6 +796,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	int replaces = 0;
 	int errors = 0;
 	const char *cachedir = NULL;
+	int ret = -1;
 
 	ALPM_LOG_FUNC;
 
@@ -854,9 +855,9 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			if(_alpm_download_files(files, current->servers, cachedir)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
-				RET_ERR(PM_ERR_RETRIEVE, -1);
+				pm_errno = PM_ERR_RETRIEVE;
+				goto error;
 			}
-			FREELIST(files);
 		}
 	}
 	if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
@@ -893,8 +894,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			ret = apply_deltas(trans);
 			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
 
-			alpm_list_free(deltas);
-			deltas = NULL;
 		}
 		if(ret) {
 			pm_errno = PM_ERR_DLT_PATCHFAILED;
@@ -1009,15 +1008,15 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		_alpm_log(PM_LOG_ERROR, _("could not commit transaction\n"));
 		goto error;
 	}
-	_alpm_trans_free(tr);
-	tr = NULL;
-
-	return(0);
+	ret = 0;
 
 error:
+	FREELIST(files);
+	alpm_list_free(deltas);
+	deltas = NULL;
 	_alpm_trans_free(tr);
 	tr = NULL;
-	return(-1);
+	return(ret);
 }
 
 pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname)
