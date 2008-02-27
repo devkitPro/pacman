@@ -128,9 +128,10 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 {
 	int dl_thisfile = 0;
 	alpm_list_t *lp;
-	int done = 0;
 	alpm_list_t *complete = NULL;
 	alpm_list_t *i;
+	int ret = -1;
+	char *pkgname = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -138,7 +139,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 		return(0);
 	}
 
-	for(i = servers; i && !done; i = i->next) {
+	for(i = servers; i; i = i->next) {
 		const char *server = i->data;
 
 		/* get each file in the list */
@@ -147,14 +148,14 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 			char realfile[PATH_MAX];
 			char output[PATH_MAX];
 			char *fn = (char *)lp->data;
-			char *pkgname;
 
 			fileurl = url_for_file(server, fn);
 			if(!fileurl) {
-				return(-1);
+				goto cleanup;
 			}
 
 			/* pass the raw filename for passing to the callback function */
+			FREE(pkgname);
 			STRDUP(pkgname, fn, (void)0);
 			_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", pkgname);
 
@@ -222,7 +223,8 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						fclose(dlf);
 					}
 					downloadFreeURL(fileurl);
-					return(1);
+					ret = 1;
+					goto cleanup;
 				}
 
 				if(ust.mtime && mtime2) {
@@ -248,7 +250,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 							fclose(dlf);
 						}
 						downloadFreeURL(fileurl);
-						return(-1);
+						goto cleanup;
 					}
 				}
 
@@ -267,7 +269,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 						fclose(localf);
 						fclose(dlf);
 						downloadFreeURL(fileurl);
-						return(-1);
+						goto cleanup;
 					}
 
 					int nwritten = 0;
@@ -279,7 +281,7 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 							fclose(localf);
 							fclose(dlf);
 							downloadFreeURL(fileurl);
-							return(-1);
+							goto cleanup;
 						}
 					}
 
@@ -343,14 +345,16 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				getcwd(cwd, PATH_MAX);
 				if(chdir(localpath)) {
 					_alpm_log(PM_LOG_WARNING, _("could not chdir to %s\n"), localpath);
-					return(PM_ERR_CONNECT_FAILED);
+					pm_errno = PM_ERR_CONNECT_FAILED;
+					goto cleanup;
 				}
 				/* execute the parsed command via /bin/sh -c */
 				_alpm_log(PM_LOG_DEBUG, "running command: %s\n", parsedCmd);
 				ret = system(parsedCmd);
 				if(ret == -1) {
 					_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
-					return(PM_ERR_FORK_FAILED);
+					pm_errno = PM_ERR_FORK_FAILED;
+					goto cleanup;
 				} else if(ret != 0) {
 					/* download failed */
 					_alpm_log(PM_LOG_DEBUG, "XferCommand command returned non-zero status code (%d)\n", ret);
@@ -363,16 +367,19 @@ int _alpm_downloadfiles_forreal(alpm_list_t *servers, const char *localpath,
 				}
 				chdir(cwd);
 			}
-			FREE(pkgname);
 		}
 
 		if(alpm_list_count(complete) == alpm_list_count(files)) {
-			done = 1;
+			ret = 0;
+			goto cleanup;
 		}
 	}
+
+cleanup:
+	FREE(pkgname);
 	alpm_list_free(complete);
 
-	return(done ? 0 : -1);
+	return(ret);
 }
 
 /** Fetch a remote pkg.
