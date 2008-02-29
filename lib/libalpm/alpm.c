@@ -81,4 +81,9 @@ int SYMEXPORT alpm_release(void)
  * @brief Various libalpm functions
  */
 
+/* Get the version of library */
+const char SYMEXPORT *alpm_version(void) {
+	return(LIB_VERSION);
+}
+
 /* vim: set ts=2 sw=2 noet: */

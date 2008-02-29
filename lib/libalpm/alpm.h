@@ -60,6 +60,7 @@ typedef struct __pmgraph_t pmgraph_t;
 
 int alpm_initialize(void);
 int alpm_release(void);
+const char *alpm_version(void);
 
 /*
  * Logging facilities

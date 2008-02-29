@@ -150,7 +150,7 @@ static void usage(int op, const char * const myname)
 static void version(void)
 {
 	printf("\n");
-	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, LIB_VERSION);
+	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, alpm_version());
 	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2008 Judd Vinet <jvinet@zeroflux.org>\n");
 	printf("\\  '-. '-'  '-'  '-'\n");
 	printf(" '--'\n");
@@ -183,8 +183,8 @@ static void setuseragent(void)
 	struct utsname un;
 
 	uname(&un);
-	snprintf(agent, 100, "pacman/" PACKAGE_VERSION " (%s %s) libalpm/" LIB_VERSION,
-			un.sysname, un.machine);
+	snprintf(agent, 100, "pacman/%s (%s %s) libalpm/%s",
+			PACKAGE_VERSION, un.sysname, un.machine, alpm_version());
 	setenv("HTTP_USER_AGENT", agent, 0);
 }
 
