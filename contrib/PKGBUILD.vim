@@ -70,6 +70,11 @@ syn keyword pbArch i686 x86_64 ppc contained
 syn match pbIllegalArch /[^='() ]/ contained contains=pbArch
 syn match pbArchGroup /^arch=.*/ contains=pb_k_arch,pbArch,pbIllegalArch,shDoubleQuote,shSingleQuote
 
+" groups
+syn keyword pb_k_groups groups contained
+syn match pbValidGroups /\([[:alnum:]]\|+\|-\|_\)*/ contained
+syn region pbGroupsGroup start=/^groups=(/ end=/)/ contains=pb_k_groups,pbValidGroups,shDoubleQuote,shSingleQuote
+
 " makedepends
 syn keyword pb_k_makedepends makedepends contained
 syn match pbValidMakedepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
@@ -195,6 +200,7 @@ hi def link pb_k_backup pbKeywords
 hi def link pb_k_arch pbKeywords
 hi def link pbIllegalArch Error
 
+hi def link pb_k_groups pbKeywords
 hi def link pb_k_makedepends pbKeywords
 hi def link pb_k_depends pbKeywords
 hi def link pb_k_replaces pbKeywords
