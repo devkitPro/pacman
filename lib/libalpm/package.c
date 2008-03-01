@@ -1103,7 +1103,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 
 	if(!config) {
 		_alpm_log(PM_LOG_ERROR, _("missing package metadata in %s\n"), pkgfile);
-		goto error;
+		goto pkg_invalid;
 	}
 
   archive_read_finish(archive);
