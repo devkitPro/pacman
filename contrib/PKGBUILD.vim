@@ -9,7 +9,7 @@
 if version < 600
 	syntax clear
 elseif exists("b:current_syntax")
-    finish
+	finish
 endif
 
 let b:main_syntax = "sh"
@@ -57,37 +57,38 @@ syn keyword pb_k_license license contained
 syn keyword pbLicense  APACHE CDDL EPL FDL GPL LGPL MPL PHP RUBY ZLIB ISC MIT BSD contained
 syn match pbLicenseCustom /custom\(:[[:alnum:]]*\)*/ contained
 syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicense
-syn match pbLicenseGroup /^license=.*/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense,shDoubleQuote,shSingleQuote
+syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense,shDoubleQuote,shSingleQuote
 
 " backup
 syn keyword pb_k_backup backup contained
 syn match pbValidBackup   /\.\?[[:alpha:]]*\/[[:alnum:]\{\}+._$-]*]*/ contained
-syn match pbBackupGroup /^backup=.*/ contains=pb_k_backup,pbValidBackup,shDoubleQuote,shSingleQuote
+syn region pbBackupGroup start=/^backup=(/ end=/)/ contains=pb_k_backup,pbValidBackup,shDoubleQuote,shSingleQuote
 
 " arch
 syn keyword pb_k_arch arch contained
 syn keyword pbArch i686 x86_64 ppc contained
 syn match pbIllegalArch /[^='() ]/ contained contains=pbArch
-syn match pbArchGroup /^arch=.*/ contains=pb_k_arch,pbArch,pbIllegalArch,shDoubleQuote,shSingleQuote
+syn region pbArchGroup start=/^arch=(/ end=/)/ contains=pb_k_arch,pbArch,pbIllegalArch,shDoubleQuote,shSingleQuote
 
 " groups
 syn keyword pb_k_groups groups contained
 syn match pbValidGroups /\([[:alnum:]]\|+\|-\|_\)*/ contained
 syn region pbGroupsGroup start=/^groups=(/ end=/)/ contains=pb_k_groups,pbValidGroups,shDoubleQuote,shSingleQuote
 
-" makedepends
-syn keyword pb_k_makedepends makedepends contained
-syn match pbValidMakedepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
-syn region pbMakedependsGroup start=/^makedepends=(/ end=/)/ contains=pb_k_makedepends,pbValidMakedepends,shDoubleQuote,shSingleQuote
-
 " depends
 syn keyword pb_k_depends depends contained
 syn match pbValidDepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
 syn region pbDependsGroup start=/^depends=(/ end=/)/ contains=pb_k_depends,pbValidDepends,shDoubleQuote,shSingleQuote
 
-" XXX little hack to color conflicts/provides/replaces keyword even without =()
-syn match  pbkw /^\(conflicts\|provides\|replaces\)/ contains=pb_k_conflicts,pb_k_provides,pb_k_replaces
-hi def link pbkw keyword
+" makedepends
+syn keyword pb_k_makedepends makedepends contained
+syn match pbValidMakedepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
+syn region pbMakedependsGroup start=/^makedepends=(/ end=/)/ contains=pb_k_makedepends,pbValidMakedepends,shDoubleQuote,shSingleQuote
+
+" optdepends
+syn keyword pb_k_optdepends optdepends contained
+syn match pbValidOptdepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
+syn region pbOptdependsGroup start=/^optdepends=(/ end=/)/ contains=pb_k_optdepends,pbValidOptdepends,shDoubleQuote,shSingleQuote
 
 " conflicts
 syn keyword pb_k_conflicts conflicts contained
@@ -105,7 +106,7 @@ syn match pbValidReplaces /\([[:alnum:]]\|+\|-\|_\)*/ contained
 syn region pbReplacesGroup start=/^replaces=(/  end=/)/ contains=pb_k_replaces,pbValidReplaces,shDoubleQuote,shSingleQuote
 
 " install
-" XXX remove install from bashStatement, fix strage bug
+" XXX remove install from bashStatement, fix strange bug
 syn clear bashStatement
 syn keyword bashStatement chmod clear complete du egrep expr fgrep find gnufind gnugrep grep less ls mkdir mv rm rmdir rpm sed sleep sort strip tail touch
 
@@ -115,7 +116,7 @@ syn match pbIllegalInstall /[^=]/ contained contains=pbValidInstall
 syn match pbInstallGroup /^install=.*/ contains=pb_k_install,pbValidInstall,pbIllegalInstall,shDeref,shDoubleQuote,shSingleQuote
 
 " source:
-" XXX remove source from shStatement, fixstrange bug
+" XXX remove source from shStatement, fix strange bug
 syn clear shStatement
 syn keyword shStatement xxx wait getopts return autoload whence printf true popd nohup enable r trap readonly fc fg kill ulimit umask disown stop pushd read history logout times local exit test pwd time eval integer suspend dirs shopt hash false newgrp bg print jobs continue functions exec help cd break unalias chdir type shift builtin let bind
 
@@ -202,6 +203,7 @@ hi def link pbIllegalArch Error
 
 hi def link pb_k_groups pbKeywords
 hi def link pb_k_makedepends pbKeywords
+hi def link pb_k_optdepends pbKeywords
 hi def link pb_k_depends pbKeywords
 hi def link pb_k_replaces pbKeywords
 hi def link pb_k_conflicts pbKeywords
