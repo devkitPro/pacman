@@ -81,7 +81,8 @@ static void usage(int op, const char * const myname)
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -k, --dbonly         only remove database entry, do not remove files\n"));
 			printf(_("  -n, --nosave         remove configuration files as well\n"));
-			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"));
+			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
+				 "                       (-ss includes explicitly installed dependencies too)\n"));
 			printf(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
@@ -467,7 +468,11 @@ static int parseargs(int argc, char *argv[])
 			case 's':
 				config->op_s_search = 1;
 				config->op_q_search = 1;
-				config->flags |= PM_TRANS_FLAG_RECURSE;
+				if(config->flags & PM_TRANS_FLAG_RECURSE) {
+					config->flags |= PM_TRANS_FLAG_RECURSEALL;
+				} else {
+					config->flags |= PM_TRANS_FLAG_RECURSE;
+				}
 				break;
 			case 't':
 				config->op_q_unrequired = 1;

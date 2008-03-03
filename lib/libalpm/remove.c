@@ -165,7 +165,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 	if(trans->flags & PM_TRANS_FLAG_RECURSE) {
 		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
-		_alpm_recursedeps(db, trans->packages, 0);
+		_alpm_recursedeps(db, trans->packages, trans->flags & PM_TRANS_FLAG_RECURSEALL);
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
