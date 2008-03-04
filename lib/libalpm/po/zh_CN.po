@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-01-14 23:08-0600\n"
+"POT-Creation-Date: 2008-03-03 20:03-0600\n"
 "PO-Revision-Date: 2008-02-25 20:25+0100\n"
 "Last-Translator: 甘露(Lu.Gan) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -17,33 +17,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/libalpm/add.c:86
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "正在替换老版本 %s-%s 通过在目标清单中的%s\n"
 
-#: lib/libalpm/add.c:95
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping\n"
 msgstr "较新版本 %s-%s 在目标清单中 -- 跳过\n"
 
-#: lib/libalpm/add.c:166
+#, c-format
 msgid "conflicting packages were found in the target list\n"
 msgstr "目标清单中发现有冲突的软件包\n"
 
-#: lib/libalpm/add.c:167
+#, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "你不能同时安装有冲突的两个软件包\n"
 
-#: lib/libalpm/add.c:170
+#, c-format
 msgid "replacing packages with -A and -U is not supported yet\n"
 msgstr "正在使用 -A 替代软件包， -U 目前尚不支持\n"
 
-#: lib/libalpm/add.c:171
+#, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
 msgstr "你可以使用 -Rd 及 -U 来手动替代软件包\n"
 
-#: lib/libalpm/add.c:377
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -52,604 +49,538 @@ msgstr ""
 "目录权限不一致%s\n"
 "文件系统：%o  软件包：%o\n"
 
-#: lib/libalpm/add.c:404
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "解压缩：链接 %s 没有指向目录\n"
 
-#: lib/libalpm/add.c:411
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "解压缩：没有用 %s 覆盖目录\n"
 
-#: lib/libalpm/add.c:466 lib/libalpm/add.c:610 lib/libalpm/util.c:428
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "无法解压缩 %s (%s)\n"
 
-#: lib/libalpm/add.c:517
 #, c-format
 msgid "could not rename %s (%s)\n"
 msgstr "无法重命名 %s (%s)\n"
 
-#: lib/libalpm/add.c:524 lib/libalpm/add.c:544 lib/libalpm/trans.c:508
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "无法复制临时文件到 %s (%s)\n"
 
-#: lib/libalpm/add.c:529 lib/libalpm/remove.c:238
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s 已另存为 %s\n"
 
-#: lib/libalpm/add.c:568
 #, c-format
 msgid "could not install %s as %s: %s\n"
 msgstr "无法安装 %s 作为 %s: %s\n"
 
-#: lib/libalpm/add.c:571
 #, c-format
 msgid "%s installed as %s\n"
 msgstr "%s 已作为 %s 安装\n"
 
-#: lib/libalpm/add.c:588
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
 msgstr "正在解压缩 %s 作为 %s.pacnew\n"
 
-#: lib/libalpm/add.c:723 lib/libalpm/trans.c:526
+#, c-format
 msgid "could not get current working directory\n"
 msgstr "无法得到当前的工作目录\n"
 
-#: lib/libalpm/add.c:777
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "更新 %s时出现错误\n"
 
-#: lib/libalpm/add.c:782
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "安装 %s时出现错误\n"
 
-#: lib/libalpm/add.c:797
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "无法更新数据库记录 %s-%s\n"
 
-#: lib/libalpm/add.c:805
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "无法在缓存中添加记录 '%s' \n"
 
-#: lib/libalpm/be_files.c:221
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "数据库记录'%s'名字无效\n"
 
-#: lib/libalpm/be_files.c:291 lib/libalpm/be_files.c:428
-#: lib/libalpm/be_files.c:451 lib/libalpm/be_files.c:562
-#: lib/libalpm/be_files.c:640 lib/libalpm/be_files.c:668
-#: lib/libalpm/package.c:885
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "无法打开文件 %s: %s\n"
 
-#: lib/libalpm/db.c:283
 #, c-format
 msgid "could not remove database entry %s%s\n"
 msgstr "无法删除数据库记录 %s%s\n"
 
-#: lib/libalpm/db.c:551
+#, c-format
 msgid "attempt to re-register the 'local' DB\n"
 msgstr "尝试重新登记“本地”数据库\n"
 
-#: lib/libalpm/db.c:560 lib/libalpm/db.c:611
+#, c-format
 msgid "database path is undefined\n"
 msgstr "没有指定数据库路径\n"
 
-#: lib/libalpm/deps.c:171
+#, c-format
 msgid "dependency cycle detected:\n"
 msgstr "探测到依赖关系循环：\n"
 
-#: lib/libalpm/deps.c:173
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s将在它%s的依赖关系之后被删除\n"
 
-#: lib/libalpm/deps.c:175
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s将在它%s的依赖关系之前被安装\n"
 
-#: lib/libalpm/deps.c:588
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "无法解决\"%s\"，\"%s\"的依赖关系\n"
 
-#: lib/libalpm/error.c:41
+#, c-format
 msgid "out of memory!"
 msgstr "没有内存可用！"
 
-#: lib/libalpm/error.c:43
+#, c-format
 msgid "unexpected system error"
 msgstr "未预计的系统错误"
 
-#: lib/libalpm/error.c:45
+#, c-format
 msgid "insufficient privileges"
 msgstr "权限不充分"
 
-#: lib/libalpm/error.c:47
+#, c-format
 msgid "could not find or read file"
 msgstr "无法找到或读取文件"
 
-#: lib/libalpm/error.c:49
+#, c-format
 msgid "could not find or read directory"
 msgstr "无法找到或读取目录"
 
-#: lib/libalpm/error.c:51
+#, c-format
 msgid "wrong or NULL argument passed"
 msgstr "传递了错误的或空的参数"
 
-#: lib/libalpm/error.c:54
+#, c-format
 msgid "library not initialized"
 msgstr "无法初始化函数库"
 
-#: lib/libalpm/error.c:56
+#, c-format
 msgid "library already initialized"
 msgstr "函数库已初始化"
 
-#: lib/libalpm/error.c:58
+#, c-format
 msgid "unable to lock database"
 msgstr "无法锁定数据库"
 
-#: lib/libalpm/error.c:61
+#, c-format
 msgid "could not open database"
 msgstr "无法打开数据库"
 
-#: lib/libalpm/error.c:63
+#, c-format
 msgid "could not create database"
 msgstr "无法创建数据库"
 
-#: lib/libalpm/error.c:65
+#, c-format
 msgid "database not initialized"
 msgstr "数据库无法初始化"
 
-#: lib/libalpm/error.c:67
+#, c-format
 msgid "database already registered"
 msgstr "数据库已登记"
 
-#: lib/libalpm/error.c:69
+#, c-format
 msgid "could not find database"
 msgstr "无法找到数据库"
 
-#: lib/libalpm/error.c:71
+#, c-format
 msgid "could not update database"
 msgstr "无法更新数据库"
 
-#: lib/libalpm/error.c:73
+#, c-format
 msgid "could not remove database entry"
 msgstr "无法删除数据库记录"
 
-#: lib/libalpm/error.c:76
+#, c-format
 msgid "invalid url for server"
 msgstr "无效的服务器url"
 
-#: lib/libalpm/error.c:83
+#, c-format
 msgid "could not set parameter"
 msgstr "无法设置参数"
 
-#: lib/libalpm/error.c:86
+#, c-format
 msgid "transaction already initialized"
 msgstr "处理已初始化"
 
-#: lib/libalpm/error.c:88 lib/libalpm/error.c:92
+#, c-format
 msgid "transaction not initialized"
 msgstr "处理无法初始化"
 
-#: lib/libalpm/error.c:90
+#, c-format
 msgid "duplicate target"
 msgstr "重复的目标"
 
-#: lib/libalpm/error.c:94
+#, c-format
 msgid "transaction not prepared"
 msgstr "处理未准备好"
 
-#: lib/libalpm/error.c:96
+#, c-format
 msgid "transaction aborted"
 msgstr "处理已放弃"
 
-#: lib/libalpm/error.c:98
+#, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "操作与处理类型不兼容"
 
-#: lib/libalpm/error.c:100
+#, c-format
 msgid "could not commit transaction"
 msgstr "无法交付处理"
 
-#: lib/libalpm/error.c:102
+#, c-format
 msgid "could not download all files"
 msgstr "无法下载全部文件"
 
-#: lib/libalpm/error.c:105
+#, c-format
 msgid "could not find or read package"
 msgstr "无法找到或读取软件包"
 
-#: lib/libalpm/error.c:107
+#, c-format
 msgid "invalid or corrupted package"
 msgstr "无效的或已损坏的软件包"
 
-#: lib/libalpm/error.c:109
+#, c-format
 msgid "cannot open package file"
 msgstr "无法打开软件包文件"
 
-#: lib/libalpm/error.c:111
+#, c-format
 msgid "cannot load package data"
 msgstr "无法加载软件包数据"
 
-#: lib/libalpm/error.c:113
+#, c-format
 msgid "package already installed"
 msgstr "软件包已经安装"
 
-#: lib/libalpm/error.c:115
+#, c-format
 msgid "package not installed or lesser version"
 msgstr "软件包没有安装或版本较低"
 
-#: lib/libalpm/error.c:117
+#, c-format
 msgid "cannot remove all files for package"
 msgstr "无法删除软件包全部文件"
 
-#: lib/libalpm/error.c:119
+#, c-format
 msgid "package name is not valid"
 msgstr "软件包名字无效"
 
-#: lib/libalpm/error.c:121
+#, c-format
 msgid "corrupted package"
 msgstr "已损坏的软件包"
 
-#: lib/libalpm/error.c:123
+#, c-format
 msgid "no such repository"
 msgstr "没有该软件库"
 
-#: lib/libalpm/error.c:126
+#, c-format
 msgid "corrupted delta"
 msgstr "已损怀的delta"
 
-#: lib/libalpm/error.c:128
+#, c-format
 msgid "delta patch failed"
 msgstr "delta补丁失败"
 
-#: lib/libalpm/error.c:131
+#, c-format
 msgid "group not found"
 msgstr "没有找到软件包组"
 
-#: lib/libalpm/error.c:134
+#, c-format
 msgid "could not satisfy dependencies"
 msgstr "无法满足依赖关系"
 
-#: lib/libalpm/error.c:136
+#, c-format
 msgid "conflicting dependencies"
 msgstr "有冲突的依赖关系"
 
-#: lib/libalpm/error.c:138
+#, c-format
 msgid "conflicting files"
 msgstr "有冲突的文件"
 
-#: lib/libalpm/error.c:141
+#, c-format
 msgid "user aborted the operation"
 msgstr "用户中断操作"
 
-#: lib/libalpm/error.c:143
+#, c-format
 msgid "internal error"
 msgstr "内部错误"
 
-#: lib/libalpm/error.c:145
+#, c-format
 msgid "libarchive error"
 msgstr "libarchive错误"
 
-#: lib/libalpm/error.c:148
+#, c-format
 msgid "not confirmed"
 msgstr "不能确认"
 
-#: lib/libalpm/error.c:150
+#, c-format
 msgid "invalid regular expression"
 msgstr "无效的常规表达式"
 
-#: lib/libalpm/error.c:153
+#, c-format
 msgid "connection to remote host failed"
 msgstr "连接远端主机失败"
 
-#: lib/libalpm/error.c:156
+#, c-format
 msgid "unexpected error"
 msgstr "未预期的错误"
 
-#: lib/libalpm/package.c:122
 #, c-format
 msgid "could not get md5sum for package %s-%s\n"
 msgstr "无法得到软件包%s-%s的md5值\n"
 
-#: lib/libalpm/package.c:131
 #, c-format
 msgid "md5sums do not match for package %s-%s\n"
 msgstr "软件包%s-%s的md5值不一致\n"
 
-#: lib/libalpm/package.c:844
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
 msgstr "%s：强制更新至版本%s\n"
 
-#: lib/libalpm/package.c:849
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s：本地（%s）比%s版本更新(%s)\n"
 
-#: lib/libalpm/package.c:1027
 #, c-format
 msgid "error extracting package description file to %s\n"
 msgstr "解压缩软件包描述文件到%s时发生错误\n"
 
-#: lib/libalpm/package.c:1033
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "无法分析%s中的软件包描述文件\n"
 
-#: lib/libalpm/package.c:1038
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "%s中缺少软件包名字\n"
 
-#: lib/libalpm/package.c:1042
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "%s中缺少软件包版本号\n"
 
-#: lib/libalpm/package.c:1061 lib/libalpm/package.c:1074
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "读取软件包%s: %s发生错误\n"
 
-#: lib/libalpm/package.c:1081
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s中缺少软件包元数据\n"
 
-#: lib/libalpm/remove.c:119
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "无法在数据库中找到%s -- 跳过\n"
 
-#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:247
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "无法删除文件'%s': %s\n"
 
-#: lib/libalpm/remove.c:341
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "无法删除数据库记录%s-%s\n"
 
-#: lib/libalpm/remove.c:346
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "无法从缓存中删除记录'%s'\n"
 
-#: lib/libalpm/server.c:54
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
 msgstr "url %s' 无效，忽略\n"
 
-#: lib/libalpm/server.c:58
+#, c-format
 msgid "url scheme not specified, assuming http\n"
 msgstr "url scheme没有指定，假定为http\n"
 
-#: lib/libalpm/server.c:239
+#, c-format
 msgid "disk"
 msgstr "硬盘"
 
-#: lib/libalpm/server.c:243
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "获取文件'%s'从%s : %s失败\n"
 
-#: lib/libalpm/server.c:273
+#, c-format
 msgid "cannot resume download, starting over\n"
 msgstr "无法恢复下载，重新开始\n"
 
-#: lib/libalpm/server.c:286
 #, c-format
 msgid "cannot write to file '%s'\n"
 msgstr "无法写入文件'%s'\n"
 
-#: lib/libalpm/server.c:305
 #, c-format
 msgid "error downloading '%s': %s\n"
 msgstr "下载'%s': %s时出错\n"
 
-#: lib/libalpm/server.c:317
 #, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "写入文件'%s': %s时出错\n"
 
-#: lib/libalpm/server.c:385
 #, c-format
 msgid "could not chdir to %s\n"
 msgstr "无法改变目录到%s\n"
 
-#: lib/libalpm/server.c:392
+#, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "运行XferCommand:分支失败！\n"
 
-#: lib/libalpm/server.c:443
+#, c-format
 msgid "URL does not contain a file for download\n"
 msgstr "URL没有包含可下载的文件\n"
 
-#: lib/libalpm/server.c:456
 #, c-format
 msgid "failed to download %s\n"
 msgstr "下载%s失败\n"
 
-#: lib/libalpm/sync.c:133
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr "%s-%s：忽略软件包更新（由%s-%s替代）\n"
 
-#: lib/libalpm/sync.c:248
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s：忽略软件包更新（%s => %s）\n"
 
-#: lib/libalpm/sync.c:309
 #, c-format
 msgid "repository '%s' not found\n"
 msgstr "没有找到软件库'%s'\n"
 
-#: lib/libalpm/sync.c:336
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s已经为最新 -- 跳过\n"
 
-#: lib/libalpm/sync.c:340
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s已经为最新 -- 重新安装\n"
 
-#: lib/libalpm/sync.c:596 lib/libalpm/sync.c:601
+#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "探测到无法解决的软件包冲突\n"
 
-#: lib/libalpm/sync.c:611
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "内存分配错误：无法分配 %zd bytes\n"
 
-#: lib/libalpm/sync.c:812
 #, c-format
 msgid "command: %s\n"
 msgstr "命令：%s\n"
 
-#: lib/libalpm/sync.c:876 lib/libalpm/sync.c:886
 #, c-format
 msgid "can't get md5 checksum for file %s\n"
 msgstr "无法得到文件%s的md5检查值\n"
 
-#: lib/libalpm/sync.c:902
 #, c-format
 msgid "file %s was corrupted (bad MD5 checksum)\n"
 msgstr "文件%s已损坏（坏的MD5检查值）\n"
 
-#: lib/libalpm/sync.c:1049
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "某些文件无法从%s取回\n"
 
-#: lib/libalpm/sync.c:1130
+#, c-format
 msgid "could not create removal transaction\n"
 msgstr "无法生成可删除处理\n"
 
-#: lib/libalpm/sync.c:1136
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "无法初始化可删除处理\n"
 
-#: lib/libalpm/sync.c:1158
+#, c-format
 msgid "could not prepare removal transaction\n"
 msgstr "无法准备可删除处理\n"
 
-#: lib/libalpm/sync.c:1164
+#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "无法交付可删除处理\n"
 
-#: lib/libalpm/sync.c:1175
+#, c-format
 msgid "could not create transaction\n"
 msgstr "无法创建处理\n"
 
-#: lib/libalpm/sync.c:1180
+#, c-format
 msgid "could not initialize transaction\n"
 msgstr "无法初始化处理\n"
 
-#: lib/libalpm/sync.c:1207
+#, c-format
 msgid "could not prepare transaction\n"
 msgstr "无法准备处理\n"
 
-#: lib/libalpm/sync.c:1212
+#, c-format
 msgid "could not commit transaction\n"
 msgstr "无法交付处理\n"
 
-#: lib/libalpm/trans.c:212
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "无法删除锁定文件%s\n"
 
-#: lib/libalpm/trans.c:483
+#, c-format
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
 msgstr "父环境中没有/bin/sh，正在中断脚本\n"
 
-#: lib/libalpm/trans.c:494
+#, c-format
 msgid "could not create temp directory\n"
 msgstr "无法创建临时目录\n"
 
-#: lib/libalpm/trans.c:533
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "无法更改目录到%s (%s)\n"
 
-#: lib/libalpm/trans.c:551
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "无法分支新进程(%s)\n"
 
-#: lib/libalpm/trans.c:561
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "无法更改根目录(%s)\n"
 
-#: lib/libalpm/trans.c:566
 #, c-format
 msgid "could not change directory to / (%s)\n"
 msgstr "无法更改目录到/ (%s)\n"
 
-#: lib/libalpm/trans.c:575
 #, c-format
 msgid "call to popen failed (%s)"
 msgstr "调用popen失败(%s)"
 
-#: lib/libalpm/trans.c:594
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "调用waitpid失败(%s)\n"
 
-#: lib/libalpm/trans.c:603
+#, c-format
 msgid "scriptlet failed to execute correctly\n"
 msgstr "脚本没有被正确执行\n"
 
-#: lib/libalpm/trans.c:612
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "无法删除临时目录%s\n"
 
-#: lib/libalpm/util.c:207
 #, c-format
 msgid "failed to make path '%s' : %s\n"
 msgstr "无法创建路径'%s' : %s\n"
 
-#: lib/libalpm/util.c:392
 #, c-format
 msgid "could not open %s: %s\n"
 msgstr "无法打开%s: %s\n"
 
-#: lib/libalpm/util.c:579
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "没有%s缓存存在，正在创建……\n"
 
-#: lib/libalpm/util.c:595
+#, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "无法创建软件包缓存，正在使用/tmp代替\n"
 
-#: lib/libalpm/util.c:644
 #, c-format
 msgid "md5: %s can't be opened\n"
 msgstr "md5：%s无法打开\n"
 
-#: lib/libalpm/util.c:646
 #, c-format
 msgid "md5: %s can't be read\n"
 msgstr "md5：%s无法读取\n"

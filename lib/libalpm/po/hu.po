@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-01-14 23:08-0600\n"
+"POT-Creation-Date: 2008-03-03 20:03-0600\n"
 "PO-Revision-Date: 2007-03-14 13:45+0100\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -17,33 +17,30 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: lib/libalpm/add.c:86
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "régebbi verzió (%s-%s) lecserélése %s verzióra a cél listában\n"
 
-#: lib/libalpm/add.c:95
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping\n"
 msgstr "újabb verzió (%s-%s) már megtalálható a cél listában -- kihagyás\n"
 
-#: lib/libalpm/add.c:166
+#, c-format
 msgid "conflicting packages were found in the target list\n"
 msgstr "ütköző csomagokat találtam a cél listában\n"
 
-#: lib/libalpm/add.c:167
+#, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "nem telepíthető két ütköző csomag egyszerre\n"
 
-#: lib/libalpm/add.c:170
+#, c-format
 msgid "replacing packages with -A and -U is not supported yet\n"
 msgstr "csomagok lecserélése még nem támogatott -A és -U esetén\n"
 
-#: lib/libalpm/add.c:171
+#, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
 msgstr "a -Rd és -U használatával elvégezhető a csere\n"
 
-#: lib/libalpm/add.c:377
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -52,604 +49,538 @@ msgstr ""
 "eltérő könyvtár-jogosultságok: %s\n"
 "fájlrendszer: %o  csomag: %o\n"
 
-#: lib/libalpm/add.c:404
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "kicsomagolás: %s szimbolikus link nem könyvtárra mutat\n"
 
-#: lib/libalpm/add.c:411
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "kicsomagolás: nem írok felül könyvtárat a %s fájllal\n"
 
-#: lib/libalpm/add.c:466 lib/libalpm/add.c:610 lib/libalpm/util.c:428
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "nem sikerült kicsomagolni: %s (%s)\n"
 
-#: lib/libalpm/add.c:517
 #, c-format
 msgid "could not rename %s (%s)\n"
 msgstr "nem sikerült átnevezni: %s (%s)\n"
 
-#: lib/libalpm/add.c:524 lib/libalpm/add.c:544 lib/libalpm/trans.c:508
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nem sikerült az ideiglenes fájlt ide másolni: %s (%s)\n"
 
-#: lib/libalpm/add.c:529 lib/libalpm/remove.c:238
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s elmentve %s néven\n"
 
-#: lib/libalpm/add.c:568
 #, c-format
 msgid "could not install %s as %s: %s\n"
 msgstr "nem sikerült %s telepítése %s néven: %s\n"
 
-#: lib/libalpm/add.c:571
 #, c-format
 msgid "%s installed as %s\n"
 msgstr "%s %s néven lett telepítve\n"
 
-#: lib/libalpm/add.c:588
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
 msgstr "%s kicsomagolása %s.pacnew néven\n"
 
-#: lib/libalpm/add.c:723 lib/libalpm/trans.c:526
+#, c-format
 msgid "could not get current working directory\n"
 msgstr "a jelenlegi munkakönyvtár nem kapható meg\n"
 
-#: lib/libalpm/add.c:777
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "hiba történt a(z) %s frissítése közben\n"
 
-#: lib/libalpm/add.c:782
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "hiba történt a(z) %s telepítése közben\n"
 
-#: lib/libalpm/add.c:797
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "nem sikerült a(z) %s-%s adatbázisbejegyzés frissítése\n"
 
-#: lib/libalpm/add.c:805
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 
-#: lib/libalpm/be_files.c:221
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "érvénytelen név a '%s' adatbázis-bejegyzés számára\n"
 
-#: lib/libalpm/be_files.c:291 lib/libalpm/be_files.c:428
-#: lib/libalpm/be_files.c:451 lib/libalpm/be_files.c:562
-#: lib/libalpm/be_files.c:640 lib/libalpm/be_files.c:668
-#: lib/libalpm/package.c:885
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
-#: lib/libalpm/db.c:283
 #, c-format
 msgid "could not remove database entry %s%s\n"
 msgstr "sikertelen a %s%s adatbázis-bejegyzés eltávolítása\n"
 
-#: lib/libalpm/db.c:551
+#, c-format
 msgid "attempt to re-register the 'local' DB\n"
 msgstr "kísérlet a 'local' adatbázis újraregisztrálására\n"
 
-#: lib/libalpm/db.c:560 lib/libalpm/db.c:611
+#, c-format
 msgid "database path is undefined\n"
 msgstr "az adatbázis-útvonal nincs megadva\n"
 
-#: lib/libalpm/deps.c:171
+#, c-format
 msgid "dependency cycle detected:\n"
 msgstr "körkörös függőséget észleltem:\n"
 
-#: lib/libalpm/deps.c:173
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "a(z) %s csomag saját %s függősége után lesz eltávolítva\n"
 
-#: lib/libalpm/deps.c:175
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "a(z) %s csomag saját %s függősége előtt lesz telepítve\n"
 
-#: lib/libalpm/deps.c:588
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nem sikerült a(z) \"%s\" csomag \"%s\" függőségét feloldani\n"
 
-#: lib/libalpm/error.c:41
+#, c-format
 msgid "out of memory!"
 msgstr "elfogyott a memória!"
 
-#: lib/libalpm/error.c:43
+#, c-format
 msgid "unexpected system error"
 msgstr "nemvárt hiba"
 
-#: lib/libalpm/error.c:45
+#, c-format
 msgid "insufficient privileges"
 msgstr "elégtelen jogosultságok"
 
-#: lib/libalpm/error.c:47
+#, c-format
 msgid "could not find or read file"
 msgstr "nem található vagy nem olvasható a fájl"
 
-#: lib/libalpm/error.c:49
+#, c-format
 msgid "could not find or read directory"
 msgstr "nem található vagy nem olvasható a könyvtár"
 
-#: lib/libalpm/error.c:51
+#, c-format
 msgid "wrong or NULL argument passed"
 msgstr "rossz vagy NULL argumentum érkezett"
 
-#: lib/libalpm/error.c:54
+#, c-format
 msgid "library not initialized"
 msgstr "a könyvtár nem inicializált"
 
-#: lib/libalpm/error.c:56
+#, c-format
 msgid "library already initialized"
 msgstr "a könyvtár már inicializált"
 
-#: lib/libalpm/error.c:58
+#, c-format
 msgid "unable to lock database"
 msgstr "nem sikerült zárolni az adatbázist"
 
-#: lib/libalpm/error.c:61
+#, c-format
 msgid "could not open database"
 msgstr "nem sikerült megnyitni az adatbázist"
 
-#: lib/libalpm/error.c:63
+#, c-format
 msgid "could not create database"
 msgstr "nem sikerült létrehozni az adatbázist"
 
-#: lib/libalpm/error.c:65
+#, c-format
 msgid "database not initialized"
 msgstr "az adatbázis nem inicializált"
 
-#: lib/libalpm/error.c:67
+#, c-format
 msgid "database already registered"
 msgstr "az adatbázis már regisztrált"
 
-#: lib/libalpm/error.c:69
+#, c-format
 msgid "could not find database"
 msgstr "nem található az adatbázis"
 
-#: lib/libalpm/error.c:71
+#, c-format
 msgid "could not update database"
 msgstr "nem sikerült megnyitni az adatbázist"
 
-#: lib/libalpm/error.c:73
+#, c-format
 msgid "could not remove database entry"
 msgstr "nem sikerült eltávolítani az adatbázis-bejegyzést"
 
-#: lib/libalpm/error.c:76
+#, c-format
 msgid "invalid url for server"
 msgstr "érvénytelen szerver-URL"
 
-#: lib/libalpm/error.c:83
+#, c-format
 msgid "could not set parameter"
 msgstr "nem sikerült beállítani a paramétert"
 
-#: lib/libalpm/error.c:86
+#, c-format
 msgid "transaction already initialized"
 msgstr "a tranzakció már inicializált"
 
-#: lib/libalpm/error.c:88 lib/libalpm/error.c:92
+#, c-format
 msgid "transaction not initialized"
 msgstr "a tranzakció nem inicializált"
 
-#: lib/libalpm/error.c:90
+#, c-format
 msgid "duplicate target"
 msgstr "két azonos célcsomag"
 
-#: lib/libalpm/error.c:94
+#, c-format
 msgid "transaction not prepared"
 msgstr "a tranzakció nincs előkészítve"
 
-#: lib/libalpm/error.c:96
+#, c-format
 msgid "transaction aborted"
 msgstr "a tranzakció félbeszakítva"
 
-#: lib/libalpm/error.c:98
+#, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "a művelet nem egyeztethető össze a jelenlegi tranzakciótípussal"
 
-#: lib/libalpm/error.c:100
+#, c-format
 msgid "could not commit transaction"
 msgstr "nem sikerült végrahajtani a tranzakciót"
 
-#: lib/libalpm/error.c:102
+#, c-format
 msgid "could not download all files"
 msgstr "nem sikerült letölteni az összes fájlt"
 
-#: lib/libalpm/error.c:105
+#, c-format
 msgid "could not find or read package"
 msgstr "nem található vagy nem olvasható a csomag"
 
-#: lib/libalpm/error.c:107
+#, c-format
 msgid "invalid or corrupted package"
 msgstr "nem érvényes vagy sérült csomag"
 
-#: lib/libalpm/error.c:109
+#, c-format
 msgid "cannot open package file"
 msgstr "nem sikerült megnyitni a csomagfájlt"
 
-#: lib/libalpm/error.c:111
+#, c-format
 msgid "cannot load package data"
 msgstr "nem sikerült betölteni a csomagadatokat"
 
-#: lib/libalpm/error.c:113
+#, c-format
 msgid "package already installed"
 msgstr "a csomag már telepítve van"
 
-#: lib/libalpm/error.c:115
+#, c-format
 msgid "package not installed or lesser version"
 msgstr "a csomag nincs telepítve vagy kisebb verziójú"
 
-#: lib/libalpm/error.c:117
+#, c-format
 msgid "cannot remove all files for package"
 msgstr "nem sikerült eltávolítani a csomag összes fájlját"
 
-#: lib/libalpm/error.c:119
+#, c-format
 msgid "package name is not valid"
 msgstr "nem érvényes a csomagnév"
 
-#: lib/libalpm/error.c:121
+#, c-format
 msgid "corrupted package"
 msgstr "sérült csomag"
 
-#: lib/libalpm/error.c:123
+#, c-format
 msgid "no such repository"
 msgstr "nincs ilyen repó"
 
-#: lib/libalpm/error.c:126
+#, c-format
 msgid "corrupted delta"
 msgstr "sérült delta"
 
-#: lib/libalpm/error.c:128
+#, c-format
 msgid "delta patch failed"
 msgstr "delta patchelés sikertelen"
 
-#: lib/libalpm/error.c:131
+#, c-format
 msgid "group not found"
 msgstr "a csoport nem található"
 
-#: lib/libalpm/error.c:134
+#, c-format
 msgid "could not satisfy dependencies"
 msgstr "nem sikerült kielégíteni a függőségeket"
 
-#: lib/libalpm/error.c:136
+#, c-format
 msgid "conflicting dependencies"
 msgstr "ütköző függőségek"
 
-#: lib/libalpm/error.c:138
+#, c-format
 msgid "conflicting files"
 msgstr "ütköző fájlok"
 
-#: lib/libalpm/error.c:141
+#, c-format
 msgid "user aborted the operation"
 msgstr "felhasználói megszakítás"
 
-#: lib/libalpm/error.c:143
+#, c-format
 msgid "internal error"
 msgstr "belső hiba"
 
-#: lib/libalpm/error.c:145
+#, c-format
 msgid "libarchive error"
 msgstr "libarchive hiba"
 
-#: lib/libalpm/error.c:148
+#, c-format
 msgid "not confirmed"
 msgstr "nem megerősített"
 
-#: lib/libalpm/error.c:150
+#, c-format
 msgid "invalid regular expression"
 msgstr "érvénytelen reguláris kifejezés"
 
-#: lib/libalpm/error.c:153
+#, c-format
 msgid "connection to remote host failed"
 msgstr "nem sikerült csatlakozni a távoli géphez"
 
-#: lib/libalpm/error.c:156
+#, c-format
 msgid "unexpected error"
 msgstr "nemvárt hiba"
 
-#: lib/libalpm/package.c:122
 #, c-format
 msgid "could not get md5sum for package %s-%s\n"
 msgstr "nem sikerült meghatározni a(z) %s-%s csomag md5 ellenőrző összegét\n"
 
-#: lib/libalpm/package.c:131
 #, c-format
 msgid "md5sums do not match for package %s-%s\n"
 msgstr "a(z) %s-%s csomag md5 ellenőrző összegei nem egyeznek meg\n"
 
-#: lib/libalpm/package.c:844
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
 msgstr "%s: erőltetett frissítés a %s verzióra\n"
 
-#: lib/libalpm/package.c:849
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: a helyi (%s) újabb, mint %s (%s)\n"
 
-#: lib/libalpm/package.c:1027
 #, c-format
 msgid "error extracting package description file to %s\n"
 msgstr "nem sikerült kicsomagolni a csomagleíró fájlt %s-ként\n"
 
-#: lib/libalpm/package.c:1033
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "nem sikerült értelmezni a(z) %s csomagleíró fájlját\n"
 
-#: lib/libalpm/package.c:1038
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "hiányzó csomagnév itt: %s\n"
 
-#: lib/libalpm/package.c:1042
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "hiányzó csomagverzió itt: %s\n"
 
-#: lib/libalpm/package.c:1061 lib/libalpm/package.c:1074
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "hiba a(z) %s csomag olvasása közben: %s\n"
 
-#: lib/libalpm/package.c:1081
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "hiányzó csomaginformációs fájl itt: %s\n"
 
-#: lib/libalpm/remove.c:119
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "nem található a(z) %s az adatbázisban -- kihagyás\n"
 
-#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:247
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "nem sikerült eltávolítani a '%s' fájlt : %s\n"
 
-#: lib/libalpm/remove.c:341
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "nem sikerült eltávolítani a(z) %s-%s adatbázis-bejegyzést\n"
 
-#: lib/libalpm/remove.c:346
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "nem sikerült eltávolítani a(z) '%s' bejegyzést a gyorsítótárból\n"
 
-#: lib/libalpm/server.c:54
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
 msgstr "a '%s' URL érvénytelen, figyelmen kívül hagyom\n"
 
-#: lib/libalpm/server.c:58
+#, c-format
 msgid "url scheme not specified, assuming http\n"
 msgstr "az URL séma nem definiált, http feltételezése\n"
 
-#: lib/libalpm/server.c:239
+#, c-format
 msgid "disk"
 msgstr "diszk"
 
-#: lib/libalpm/server.c:243
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nem sikerült a(z) '%s' fájlt letölteni a %s helyről : %s\n"
 
-#: lib/libalpm/server.c:273
+#, c-format
 msgid "cannot resume download, starting over\n"
 msgstr "nem tudom folytatni a letöltést, újrakezdem\n"
 
-#: lib/libalpm/server.c:286
 #, c-format
 msgid "cannot write to file '%s'\n"
 msgstr "nem sikerült a(z) '%s' fájlba írni\n"
 
-#: lib/libalpm/server.c:305
 #, c-format
 msgid "error downloading '%s': %s\n"
 msgstr "hiba '%s' letöltése közben: %s\n"
 
-#: lib/libalpm/server.c:317
 #, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "hiba a(z) '%s' fájl írása során: %s\n"
 
-#: lib/libalpm/server.c:385
 #, c-format
 msgid "could not chdir to %s\n"
 msgstr "nem sikerült a könyvtárváltás ide: %s\n"
 
-#: lib/libalpm/server.c:392
+#, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand futtatása: sikertelen fork!\n"
 
-#: lib/libalpm/server.c:443
+#, c-format
 msgid "URL does not contain a file for download\n"
 msgstr "az URL nem tartalmaz letöltendő fájlt\n"
 
-#: lib/libalpm/server.c:456
 #, c-format
 msgid "failed to download %s\n"
 msgstr "nem sikerült a(z) %s letöltése\n"
 
-#: lib/libalpm/sync.c:133
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr "%s-%s: csomagfrissítés kihagyása (a(z) %s-%s le fogja cserélni)\n"
 
-#: lib/libalpm/sync.c:248
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
 
-#: lib/libalpm/sync.c:309
 #, c-format
 msgid "repository '%s' not found\n"
 msgstr "a(z) '%s' repó nem található\n"
 
-#: lib/libalpm/sync.c:336
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "a(z) %s-%s naprakész -- kihagyás\n"
 
-#: lib/libalpm/sync.c:340
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "a(z) %s-%s naprakész -- újratelepítés\n"
 
-#: lib/libalpm/sync.c:596 lib/libalpm/sync.c:601
+#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "feloldhatatlan csomagütközéseket találtam\n"
 
-#: lib/libalpm/sync.c:611
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc hiba: nem sikerült lefoglalni %zd byte-ot\n"
 
-#: lib/libalpm/sync.c:812
 #, c-format
 msgid "command: %s\n"
 msgstr "parancs: %s\n"
 
-#: lib/libalpm/sync.c:876 lib/libalpm/sync.c:886
 #, c-format
 msgid "can't get md5 checksum for file %s\n"
 msgstr "nem sikerült meghatározni a(z) %s fájl md5 ellenőrző összegét\n"
 
-#: lib/libalpm/sync.c:902
 #, c-format
 msgid "file %s was corrupted (bad MD5 checksum)\n"
 msgstr "a(z) %s fájl sérült volt (rossz MD5 összeg)\n"
 
-#: lib/libalpm/sync.c:1049
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "nem sikerült néhány fájlt letölteni innen: %s\n"
 
-#: lib/libalpm/sync.c:1130
+#, c-format
 msgid "could not create removal transaction\n"
 msgstr "nem sikerült létrehozni az eltávolító tranzakciót\n"
 
-#: lib/libalpm/sync.c:1136
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "nem sikerült inicializálni az eltávolító tranzakciót\n"
 
-#: lib/libalpm/sync.c:1158
+#, c-format
 msgid "could not prepare removal transaction\n"
 msgstr "nem sikerült előkészíteni az eltávolító tranzakciót\n"
 
-#: lib/libalpm/sync.c:1164
+#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "nem sikerült végrehajtani az eltávolító tranzakciót\n"
 
-#: lib/libalpm/sync.c:1175
+#, c-format
 msgid "could not create transaction\n"
 msgstr "nem sikerült létrehozni a tranzakciót\n"
 
-#: lib/libalpm/sync.c:1180
+#, c-format
 msgid "could not initialize transaction\n"
 msgstr "nem sikerült inicializálni a tranzakciót\n"
 
-#: lib/libalpm/sync.c:1207
+#, c-format
 msgid "could not prepare transaction\n"
 msgstr "nem sikerült előkészíteni a tranzakciót\n"
 
-#: lib/libalpm/sync.c:1212
+#, c-format
 msgid "could not commit transaction\n"
 msgstr "nem sikerült végrehajtani a tranzakciót\n"
 
-#: lib/libalpm/trans.c:212
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "nem sikerült a zároló fájl (%s) eltávolítása\n"
 
-#: lib/libalpm/trans.c:483
+#, c-format
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
 msgstr "Nincs /bin/sh a szülő környezetben, szkript megszakítása\n"
 
-#: lib/libalpm/trans.c:494
+#, c-format
 msgid "could not create temp directory\n"
 msgstr "nem sikerült létrehozni az ideiglenes könyvtárat\n"
 
-#: lib/libalpm/trans.c:533
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nem sikerült a könyvtárváltás ide: %s (%s)\n"
 
-#: lib/libalpm/trans.c:551
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "nem sikerült forkolni egy új folyamatot (%s)\n"
 
-#: lib/libalpm/trans.c:561
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "nem sikerült a chroot (%s)\n"
 
-#: lib/libalpm/trans.c:566
 #, c-format
 msgid "could not change directory to / (%s)\n"
 msgstr "nem sikerült a könyvtárat a /-re váltani (%s)\n"
 
-#: lib/libalpm/trans.c:575
 #, c-format
 msgid "call to popen failed (%s)"
 msgstr "popen hívás sikertelen (%s)"
 
-#: lib/libalpm/trans.c:594
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid hívás sikertelen (%s)\n"
 
-#: lib/libalpm/trans.c:603
+#, c-format
 msgid "scriptlet failed to execute correctly\n"
 msgstr "a szkript hibásan futott\n"
 
-#: lib/libalpm/trans.c:612
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
 
-#: lib/libalpm/util.c:207
 #, c-format
 msgid "failed to make path '%s' : %s\n"
 msgstr "nem sikerült a '%s' útvonal létrehozása: %s\n"
 
-#: lib/libalpm/util.c:392
 #, c-format
 msgid "could not open %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
-#: lib/libalpm/util.c:579
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "nem létezik a(z) %s gyorsítótár. létrehozás...\n"
 
-#: lib/libalpm/util.c:595
+#, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nem sikerült létrehozni a csomaggyorsítótárat, a /tmp használata\n"
 
-#: lib/libalpm/util.c:644
 #, c-format
 msgid "md5: %s can't be opened\n"
 msgstr "md5: nem sikerült megnyitni a következőt: %s\n"
 
-#: lib/libalpm/util.c:646
 #, c-format
 msgid "md5: %s can't be read\n"
 msgstr "md5: nem sikerült olvasni a következőt: %s\n"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-02-09 10:41-0600\n"
+"POT-Creation-Date: 2008-03-03 20:03-0600\n"
 "PO-Revision-Date: 2008-03-03 21:08+0100\n"
 "Last-Translator: João Felipe Santos <jfsantos@archlinux-br.org>\n"
 "Language-Team: Brazillian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -23,22 +23,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/pacman/add.c:40 src/pacman/remove.c:42
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "falha ao liberar a transação (%s)\n"
 
-#: src/pacman/add.c:77 src/pacman/query.c:370 src/pacman/remove.c:63
-#: src/pacman/sync.c:781
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "nenhum arquivo definido (use -h para obter ajuda)\n"
 
-#: src/pacman/add.c:104 src/pacman/sync.c:510
 #, c-format
 msgid "error: %s\n"
 msgstr "erro: %s\n"
 
-#: src/pacman/add.c:107 src/pacman/remove.c:98 src/pacman/sync.c:484
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -47,48 +43,34 @@ msgstr ""
 "  caso tenha certeza que nenhum gerenciador de pacotes esteja\n"
 "  rodando, você pode remover %s.\n"
 
-#: src/pacman/add.c:114 src/pacman/remove.c:106
 #, c-format
 msgid "loading package data...\n"
 msgstr "carregando informações do pacote...\n"
 
-#: src/pacman/add.c:119 src/pacman/remove.c:111 src/pacman/sync.c:570
 #, c-format
 msgid "error: '%s': %s\n"
 msgstr "erro: '%s': %s\n"
 
-#: src/pacman/add.c:125 src/pacman/remove.c:118 src/pacman/sync.c:176
-#: src/pacman/sync.c:194
-#, c-format
-msgid "done.\n"
-msgstr "concluído.\n"
-
-#: src/pacman/add.c:130 src/pacman/remove.c:122 src/pacman/sync.c:643
 #, c-format
 msgid "error: failed to prepare transaction (%s)\n"
 msgstr "erro: falha ao preparar transação (%s)\n"
 
-#: src/pacman/add.c:142 src/pacman/remove.c:130 src/pacman/sync.c:652
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: requer %s\n"
 
-#: src/pacman/add.c:150 src/pacman/sync.c:660
 #, c-format
 msgid ":: %s: conflicts with %s\n"
 msgstr ":: %s: conflita com %s\n"
 
-#: src/pacman/add.c:159 src/pacman/sync.c:715
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s existe em '%s' e em '%s'\n"
 
-#: src/pacman/add.c:165 src/pacman/sync.c:721
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s existe no sistema de arquivos\n"
 
-#: src/pacman/add.c:171
 #, c-format
 msgid ""
 "\n"
@@ -97,82 +79,66 @@ msgstr ""
 "\n"
 "ocorreram alguns erros, portanto, nenhum pacote foi atualizado.\n"
 
-#: src/pacman/add.c:184 src/pacman/remove.c:168 src/pacman/sync.c:706
 #, c-format
 msgid "error: failed to commit transaction (%s)\n"
 msgstr "falha ao terminar a transação (%s)\n"
 
-#: src/pacman/callback.c:165
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "verificando dependências...\n"
 
-#: src/pacman/callback.c:169
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "verificando conflitos de arquivos...\n"
 
-#: src/pacman/callback.c:173
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "resolvendo dependências...\n"
 
-#: src/pacman/callback.c:176
 #, c-format
 msgid "looking for inter-conflicts...\n"
 msgstr "procurando por conflitos internos...\n"
 
-#: src/pacman/callback.c:180
 #, c-format
 msgid "installing %s...\n"
 msgstr "instalando %s...\n"
 
-#: src/pacman/callback.c:191
 #, c-format
 msgid "removing %s...\n"
 msgstr "removendo %s...\n"
 
-#: src/pacman/callback.c:202
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "atualizando %s...\n"
 
-#: src/pacman/callback.c:213
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "verificando a integridade do pacote...\n"
 
-#: src/pacman/callback.c:216
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "verificando a integridade do delta...\n"
 
-#: src/pacman/callback.c:219
 #, c-format
 msgid "applying deltas...\n"
 msgstr "aplicando deltas...\n"
 
-#: src/pacman/callback.c:222
 #, c-format
 msgid "generating %s with %s... "
 msgstr "atualizando %s com %s... "
 
-#: src/pacman/callback.c:225
 #, c-format
 msgid "success!\n"
 msgstr "sucesso!\n"
 
-#: src/pacman/callback.c:228
 #, c-format
 msgid "failed.\n"
 msgstr "falhou.\n"
 
-#: src/pacman/callback.c:237
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Obtendo pacotes do repositório %s...\n"
 
-#: src/pacman/callback.c:265
 #, c-format
 msgid ""
 ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
@@ -181,235 +147,217 @@ msgstr ""
 ":: %s$s requer %s, mas ele está em IgnorePkg ou IgnoreGroup. Instalar assim "
 "mesmo? [S/n] "
 
-#: src/pacman/callback.c:270
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
 msgstr ""
 ":: O pacote %s está na lista de pacotes ignorados (IgnorePkg ou "
 "IgnoreGroup). Instalar assim mesmo? [S/n] "
 
-#: src/pacman/callback.c:276
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
 msgstr ":: %s está designado como um HoldPkg. Remover assim mesmo? [S/n] "
 
-#: src/pacman/callback.c:282
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
 msgstr ":: Substituir %s com %s/%s? [S/n] "
 
-#: src/pacman/callback.c:288
 #, c-format
 msgid "Replacing %s with %s/%s\n"
 msgstr "Substituindo %s com %s/%s\n"
 
-#: src/pacman/callback.c:296
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s? [Y/n] "
 msgstr ":: %s conflita com %s. Remover %s? [S/n] "
 
-#: src/pacman/callback.c:304
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
 msgstr ""
 ":: %s-%s: a versão local é mais recente. Deseja atualizar mesmo assim? [S/n] "
 
-#: src/pacman/callback.c:314
 #, c-format
 msgid ":: File %s is corrupted. Do you want to delete it? [Y/n] "
 msgstr ":: Arquivo %s está corrompido. Você gostaria de apagá-lo? [S/n] "
 
-#: src/pacman/callback.c:364
+#, c-format
 msgid "installing"
 msgstr "instalando"
 
-#: src/pacman/callback.c:367
+#, c-format
 msgid "upgrading"
 msgstr "atualizando"
 
-#: src/pacman/callback.c:370
+#, c-format
 msgid "removing"
 msgstr "removendo"
 
-#: src/pacman/callback.c:373
+#, c-format
 msgid "checking for file conflicts"
 msgstr "verificando conflitos de arquivo"
 
-#: src/pacman/package.c:68
+#, c-format
 msgid "Explicitly installed"
 msgstr "Explicitamente instalado"
 
-#: src/pacman/package.c:71
+#, c-format
 msgid "Installed as a dependency for another package"
 msgstr "Instalado como dependência de outro pacote"
 
-#: src/pacman/package.c:74
+#, c-format
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/pacman/package.c:89
-msgid "Description    : "
-msgstr "Descrição              : "
-
-#: src/pacman/package.c:93
+#, c-format
 msgid "Filename       :"
 msgstr "Nome do arquivo        :"
 
-#: src/pacman/package.c:95
+#, c-format
 msgid "Name           :"
 msgstr "Nome                   :"
 
-#: src/pacman/package.c:96
+#, c-format
 msgid "Version        :"
 msgstr "Versão                 :"
 
-#: src/pacman/package.c:97
+#, c-format
 msgid "URL            :"
 msgstr "URL                    :"
 
-#: src/pacman/package.c:98
+#, c-format
 msgid "Licenses       :"
 msgstr "Licenças               :"
 
-#: src/pacman/package.c:99
+#, c-format
 msgid "Groups         :"
 msgstr "Grupos                 :"
 
-#: src/pacman/package.c:100
+#, c-format
 msgid "Provides       :"
 msgstr "Provê                  :"
 
-#: src/pacman/package.c:101
+#, c-format
 msgid "Depends On     :"
 msgstr "Depende de             :"
 
-#: src/pacman/package.c:102
+#, c-format
 msgid "Optional Deps  :"
 msgstr "Dep. Opcionais         :"
 
-#: src/pacman/package.c:105
+#, c-format
 msgid "Required By    :"
 msgstr "Requerido Por          :"
 
-#: src/pacman/package.c:108
+#, c-format
 msgid "Conflicts With :"
 msgstr "Conflita Com           :"
 
-#: src/pacman/package.c:109
+#, c-format
 msgid "Replaces       :"
 msgstr "Substitui              :"
 
-#: src/pacman/package.c:111
 #, c-format
 msgid "Download Size  : %6.2f K\n"
 msgstr "Tamanho do Download    : %6.2f K\n"
 
-#: src/pacman/package.c:115
 #, c-format
 msgid "Compressed Size: %6.2f K\n"
 msgstr "Tamanho Instalado      : %6.2f K\n"
 
-#: src/pacman/package.c:119
 #, c-format
 msgid "Installed Size : %6.2f K\n"
 msgstr "Tamanho Instalado      : %6.2f K\n"
 
-#: src/pacman/package.c:121
+#, c-format
 msgid "Packager       :"
 msgstr "Empacotador            :"
 
-#: src/pacman/package.c:122
+#, c-format
 msgid "Architecture   :"
 msgstr "Arquitetura            :"
 
-#: src/pacman/package.c:123
+#, c-format
 msgid "Build Date     :"
 msgstr "Compilado em           :"
 
-#: src/pacman/package.c:125
+#, c-format
 msgid "Install Date   :"
 msgstr "Data da Instalação     :"
 
-#: src/pacman/package.c:126
+#, c-format
 msgid "Install Reason :"
 msgstr "Razão da instalação    :"
 
-#: src/pacman/package.c:129
+#, c-format
 msgid "Install Script :"
 msgstr "Script de Instalação   :"
 
-#: src/pacman/package.c:130
+#, c-format
 msgid "Yes"
 msgstr "Sim"
 
-#: src/pacman/package.c:130
+#, c-format
 msgid "No"
 msgstr "Não"
 
-#: src/pacman/package.c:135
+#, c-format
 msgid "MD5 Sum        :"
 msgstr "Soma MD5               :"
 
-#: src/pacman/package.c:159
+#, c-format
+msgid "Description    : "
+msgstr "Descrição              : "
+
+#, c-format
 msgid "Repository     :"
 msgstr "Repositório            :"
 
-#: src/pacman/package.c:169
 #, c-format
 msgid "Backup Files:\n"
 msgstr "Arquivos de Backup:\n"
 
-#: src/pacman/package.c:189
 #, c-format
 msgid "error: could not calculate checksums for %s\n"
 msgstr "erro: não foi possível calcular os checksums para %s\n"
 
-#: src/pacman/package.c:197
 #, c-format
 msgid "MODIFIED\t%s\n"
 msgstr "MODIFICADO\t%s\n"
 
-#: src/pacman/package.c:199
 #, c-format
 msgid "Not Modified\t%s\n"
 msgstr "Não modificado\t%s\n"
 
-#: src/pacman/package.c:203
 #, c-format
 msgid "MISSING\t\t%s\n"
 msgstr "NÃO ENCONTRADO\t\t%s\n"
 
-#: src/pacman/package.c:209
 #, c-format
 msgid "(none)\n"
 msgstr "(nenhum)\n"
 
-#: src/pacman/package.c:243
 #, c-format
 msgid "error: no changelog available for '%s'.\n"
 msgstr "erro: changelog não disponível para '%s'.\n"
 
-#: src/pacman/pacman.c:60
+#, c-format
 msgid "options"
 msgstr "opções"
 
-#: src/pacman/pacman.c:61
+#, c-format
 msgid "file"
 msgstr "arquivo"
 
-#: src/pacman/pacman.c:62
+#, c-format
 msgid "package"
 msgstr "pacote"
 
-#: src/pacman/pacman.c:63
+#, c-format
 msgid "usage"
 msgstr "uso"
 
-#: src/pacman/pacman.c:64
+#, c-format
 msgid "operation"
 msgstr "operação"
 
-#: src/pacman/pacman.c:76
 #, c-format
 msgid ""
 "\n"
@@ -418,31 +366,25 @@ msgstr ""
 "\n"
 "use '%s --help' com outras opções para mais sintaxes\n"
 
-#: src/pacman/pacman.c:81 src/pacman/pacman.c:95 src/pacman/pacman.c:117
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr ""
 "      --asdeps         instala pacotes como não-explicitamente instalados\n"
 
-#: src/pacman/pacman.c:82 src/pacman/pacman.c:88 src/pacman/pacman.c:96
-#: src/pacman/pacman.c:119
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         ignora a verificação de dependências\n"
 
-#: src/pacman/pacman.c:83 src/pacman/pacman.c:97 src/pacman/pacman.c:121
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
 "  -f, --force         forçar instalação, sobrescrever arquivos conflitantes\n"
 
-#: src/pacman/pacman.c:87
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr "  -c, --cascade        remove pacotes e suas dependências\n"
 
-#: src/pacman/pacman.c:89
 #, c-format
 msgid ""
 "  -k, --dbonly         only remove database entry, do not remove files\n"
@@ -450,12 +392,10 @@ msgstr ""
 "  -k, --dbonly         remove apenas a entrada na base de dados, mas não "
 "remove os arquivos\n"
 
-#: src/pacman/pacman.c:90
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         remove os arquivos de configuração\n"
 
-#: src/pacman/pacman.c:91
 #, c-format
 msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
@@ -463,31 +403,26 @@ msgstr ""
 "  -s, --recursive      remove também as dependências (aquelas que não vão "
 "quebrar outros pacotes)\n"
 
-#: src/pacman/pacman.c:101
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      visualiza o changelog de um pacote\n"
 
-#: src/pacman/pacman.c:102
 #, c-format
 msgid "  -d, --deps           list all packages installed as dependencies\n"
 msgstr ""
 "  -d, --deps           lista todos os pacotes instalados como dependências\n"
 
-#: src/pacman/pacman.c:103
 #, c-format
 msgid "  -e, --explicit       list all packages explicitly installed\n"
 msgstr ""
 "  -e, --explicit       lista todos os pacotes como explicitamente "
 "instalados\n"
 
-#: src/pacman/pacman.c:104 src/pacman/pacman.c:122
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr ""
 "  -g, --groups          visualiza todos os membros de um grupos de pacotes\n"
 
-#: src/pacman/pacman.c:105
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
@@ -495,12 +430,10 @@ msgstr ""
 "  -i, --info           visualiza informações do pacote (-ii para arquivos de "
 "backup)\n"
 
-#: src/pacman/pacman.c:106
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           lista o conteúdo do pacote consultado\n"
 
-#: src/pacman/pacman.c:107
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s)\n"
@@ -508,19 +441,16 @@ msgstr ""
 "  -m, --foreign          lista todos os pacotes que não foram encontrados na"
 "(s) base(s) de dados de pacotes\n"
 
-#: src/pacman/pacman.c:108
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "  -o, --owns <arquivo>   consulta o pacote que contém <arquivo>\n"
 
-#: src/pacman/pacman.c:109
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
 "  -p, --file <pacote> consulta o arquivo de pacote <pacote> ao invés da base "
 "de dados\n"
 
-#: src/pacman/pacman.c:110
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
@@ -529,26 +459,22 @@ msgstr ""
 "  -s, --search <regex> pesquisa em arquivos localmente instalados por textos "
 "coincidentes\n"
 
-#: src/pacman/pacman.c:111
 #, c-format
 msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr ""
 "  -t, --unrequired          lista todos os pacotes não requeridos por nenhum "
 "outro pacote\n"
 
-#: src/pacman/pacman.c:112
 #, c-format
 msgid "  -u, --upgrades       list all packages that can be upgraded\n"
 msgstr ""
 "  -u, --upgrades         lista todos os pacotes que podem ser atualizados\n"
 
-#: src/pacman/pacman.c:113
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
 "  -q, --quiet          mostra menos informações nas consultas e pesquisas\n"
 
-#: src/pacman/pacman.c:118
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
@@ -557,23 +483,19 @@ msgstr ""
 "  -c, --clean            remove pacotes antigos do diretório de cache (use -"
 "cc para remover todos os pacotes)\n"
 
-#: src/pacman/pacman.c:120
 #, c-format
 msgid "  -e, --dependsonly    install dependencies only\n"
 msgstr "  -e, --dependsonly      instala apenas as dependências\n"
 
-#: src/pacman/pacman.c:123
 #, c-format
 msgid "  -i, --info           view package information\n"
 msgstr "  -i, --info             visualiza informações do pacote\n"
 
-#: src/pacman/pacman.c:124
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
 "  -l, --list <repo>    visualizar uma lista dos pacotes em um repositório\n"
 
-#: src/pacman/pacman.c:125
 #, c-format
 msgid ""
 "  -p, --print-uris     print out URIs for given packages and their "
@@ -581,7 +503,6 @@ msgid ""
 msgstr ""
 "  -p, --print-uris       imprime as URIs dos pacotes e suas dependências\n"
 
-#: src/pacman/pacman.c:126
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
@@ -589,14 +510,12 @@ msgstr ""
 "  -s, --search <regex> pesquisa em repositórios remotos por textos "
 "coincidentes\n"
 
-#: src/pacman/pacman.c:127
 #, c-format
 msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
 msgstr ""
 "  -u, --sysupgrade       atualiza todos os pacotes que estão desatualizados "
 "no sistema\n"
 
-#: src/pacman/pacman.c:128
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
@@ -605,7 +524,6 @@ msgstr ""
 "  -w, --downloadonly     baixa os pacotes mas não instala/atualiza nenhum "
 "pacote\n"
 
-#: src/pacman/pacman.c:129
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
@@ -613,7 +531,6 @@ msgstr ""
 "  -y, --refresh          atualiza a base de dados de pacotes a partir do "
 "servidor\n"
 
-#: src/pacman/pacman.c:130
 #, c-format
 msgid ""
 "      --needed         only upgrade outdated or not yet installed packages\n"
@@ -621,7 +538,6 @@ msgstr ""
 "      --needed         somente faz o upgrade para pacotes desatualizados ou "
 "não instalados\n"
 
-#: src/pacman/pacman.c:131
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
@@ -630,7 +546,6 @@ msgstr ""
 "      --ignore <pkg>     ignora a atualização de um pacote (pode ser usado "
 "mais de uma vez)\n"
 
-#: src/pacman/pacman.c:132
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
@@ -640,29 +555,24 @@ msgstr ""
 "                       ignora a atualização de um grupo (pode ser usado mais "
 "de uma vez)\n"
 
-#: src/pacman/pacman.c:134
 #, c-format
 msgid "  -q  --quiet          show less information for query and search\n"
 msgstr ""
 "  -q, --quiet          mostra menos informações nas consultas e pesquisas\n"
 
-#: src/pacman/pacman.c:136
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr ""
 "      --config <caminho> define um arquivo de configuração alternativo\n"
 
-#: src/pacman/pacman.c:137
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <caminho> define um arquivo de log alternativo\n"
 
-#: src/pacman/pacman.c:138
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm        não pede nenhuma confirmação\n"
 
-#: src/pacman/pacman.c:139
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
@@ -670,7 +580,6 @@ msgstr ""
 "      --noprogressbar    não mostra a barra de progresso enquanto baixa os "
 "arquivos\n"
 
-#: src/pacman/pacman.c:140
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
@@ -678,32 +587,27 @@ msgstr ""
 "      --noscriptlet      não executar a rotina de instalação se o mesmo "
 "existir\n"
 
-#: src/pacman/pacman.c:141
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose          informações adicionais\n"
 
-#: src/pacman/pacman.c:142
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr ""
 "  -r, --root <caminho>   define um diretório raiz de instalação alternativo\n"
 
-#: src/pacman/pacman.c:143
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr ""
 "  -b, --dbpath <caminho> define uma localização diferente para a base de "
 "dados\n"
 
-#: src/pacman/pacman.c:144
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 "      --cachedir <dir>   define um diretório de cache de pacotes "
 "alternativo\n"
 
-#: src/pacman/pacman.c:157
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -712,160 +616,135 @@ msgstr ""
 "                       Este programa pode ser distribuído livremente sob\n"
 "                       os termos da GNU General Public License\n"
 
-#: src/pacman/pacman.c:247
 #, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr "problema ao configurar rootdir '%s' (%s)\n"
 
-#: src/pacman/pacman.c:264
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
 msgstr "problema ao configurar dbpath '%s' (%s)\n"
 
-#: src/pacman/pacman.c:272
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problema ao setar logfile '%s' (%s)\n"
 
-#: src/pacman/pacman.c:382
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' não é um nível de depuração válido\n"
 
-#: src/pacman/pacman.c:396 src/pacman/pacman.c:672
 #, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr "problema ao adicionar cachedir '%s' (%s)\n"
 
-#: src/pacman/pacman.c:482
+#, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "somente uma operação pode ser usada de cada vez\n"
 
-#: src/pacman/pacman.c:542
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "arquivo de configuração %s não pôde ser lido.\n"
 
-#: src/pacman/pacman.c:578
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "arquivo de configuração %s, linha %d: nome de seção inválido.\n"
 
-#: src/pacman/pacman.c:600
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
 "arquivo de configuração %s, linha %d: erro de sintaxe no arquivo de "
 "configuração - faltando chave.\n"
 
-#: src/pacman/pacman.c:610
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "arquivo de configuração %s, linha %d: Todas as diretivas devem pertencer a "
 "uma seção.\n"
 
-#: src/pacman/pacman.c:638 src/pacman/pacman.c:692 src/pacman/pacman.c:707
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr "arquivo de configuração %s, linha %d: diretiva '%s' não reconhecida.\n"
 
-#: src/pacman/pacman.c:777
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
 msgstr "falha ao iniciar biblioteca alpm (%s)\n"
 
-#: src/pacman/pacman.c:814
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "você não pode realizar esta operação a menos que você seja root.\n"
 
-#: src/pacman/pacman.c:837
 #, c-format
 msgid "could not register 'local' database (%s)\n"
 msgstr "não foi possível registrar a base de dados 'local' (%s)\n"
 
-#: src/pacman/pacman.c:863
+#, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nenhuma operação definida (use -h para obter ajuda)\n"
 
-#: src/pacman/query.c:65
 #, c-format
 msgid "error: no file was specified for --owns\n"
 msgstr "erro: nenhum arquivo especificado para --owns\n"
 
-#: src/pacman/query.c:79
 #, c-format
 msgid "error: failed to read file '%s': %s\n"
 msgstr "erro: falha ao ler o arquivo '%s': %s\n"
 
-#: src/pacman/query.c:86
 #, c-format
 msgid "error: cannot determine ownership of a directory\n"
 msgstr "erro: não é possível determinar o dono de um diretório\n"
 
-#: src/pacman/query.c:97
 #, c-format
 msgid "error: cannot determine real path for '%s': %s\n"
 msgstr "erro: não é possível determinar o caminho real para '%s': %s\n"
 
-#: src/pacman/query.c:122
 #, c-format
 msgid "%s is owned by %s %s\n"
 msgstr "%s pertence a %s %s\n"
 
-#: src/pacman/query.c:130
 #, c-format
 msgid "error: No package owns %s\n"
 msgstr "erro: Nenhum pacote possui %s\n"
 
-#: src/pacman/query.c:226
 #, c-format
 msgid "error: group \"%s\" was not found\n"
 msgstr "erro: grupo \"%s\" não encontrado\n"
 
-#: src/pacman/query.c:237
 #, c-format
 msgid "Checking for package upgrades... \n"
 msgstr "Procurando por atualizações dos pacotes... \n"
 
-#: src/pacman/query.c:248
 #, c-format
 msgid "no upgrades found.\n"
 msgstr "nenhuma atualização encontrada.\n"
 
-#: src/pacman/query.c:360 src/pacman/sync.c:771
+#, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "nenhum repositório de pacotes foi configurado corretamente.\n"
 
-#: src/pacman/query.c:404
 #, c-format
 msgid "error: package \"%s\" not found\n"
 msgstr "erro: pacote \"%s\" não encontrado\n"
 
-#: src/pacman/remove.c:76
 #, c-format
 msgid ":: group %s:\n"
 msgstr ":: grupo %s:\n"
 
-#: src/pacman/remove.c:78
+#, c-format
 msgid "    Remove whole content? [Y/n] "
 msgstr "    Remover todo o conteúdo? [S/n] "
 
-#: src/pacman/remove.c:82
 #, c-format
 msgid ":: Remove %s from group %s? [Y/n] "
 msgstr ":: Remover %s do grupo %s? [S/n] "
 
-#: src/pacman/remove.c:95 src/pacman/sync.c:481 src/pacman/sync.c:540
 #, c-format
 msgid "error: failed to init transaction (%s)\n"
 msgstr "erro: falha ao iniciar transação (%s)\n"
 
-#: src/pacman/remove.c:155 src/pacman/util.c:488
+#, c-format
 msgid "Targets:"
 msgstr "Alvos:"
 
-#: src/pacman/remove.c:158
+#, c-format
 msgid ""
 "\n"
 "Do you want to remove these packages? [Y/n] "
@@ -873,129 +752,115 @@ msgstr ""
 "\n"
 "Você deseja remover estes pacotes? [S/n] "
 
-#: src/pacman/sync.c:52
 #, c-format
 msgid "error: could not access database directory\n"
 msgstr "erro: não foi possível acessar o diretório da base de dados\n"
 
-#: src/pacman/sync.c:84
 #, c-format
 msgid "Do you want to remove %s? [Y/n] "
 msgstr "Você deseja remover %s? [S/n] "
 
-#: src/pacman/sync.c:89
 #, c-format
 msgid "error: could not remove repository directory\n"
 msgstr "erro: não foi possível remover o diretório do repositório\n"
 
-#: src/pacman/sync.c:102
 #, c-format
 msgid "Database directory: %s\n"
 msgstr "Diretório da base de dados: %s\n"
 
-#: src/pacman/sync.c:103
+#, c-format
 msgid "Do you want to remove unused repositories? [Y/n] "
 msgstr "Você deseja remover repositórios não-utilizados? [S/n] "
 
-#: src/pacman/sync.c:114
 #, c-format
 msgid "Database directory cleaned up\n"
 msgstr "Diretório da base de dados apagado\n"
 
-#: src/pacman/sync.c:132 src/pacman/sync.c:179
 #, c-format
 msgid "Cache directory: %s\n"
 msgstr "Diretório de cache           : %s\n"
 
-#: src/pacman/sync.c:133
+#, c-format
 msgid "Do you want to remove uninstalled packages from cache? [Y/n] "
 msgstr "Você deseja remover todos os pacotes não instalados do cache? [S/n] "
 
-#: src/pacman/sync.c:136
 #, c-format
 msgid "removing old packages from cache... "
 msgstr "removendo pacotes antigos do cache... "
 
-#: src/pacman/sync.c:140
 #, c-format
 msgid "error: could not access cache directory\n"
 msgstr "erro: não foi possível acessar o diretório de cache\n"
 
-#: src/pacman/sync.c:180
+#, c-format
+msgid "done.\n"
+msgstr "concluído.\n"
+
+#, c-format
 msgid "Do you want to remove ALL packages from cache? [Y/n] "
 msgstr "Deseja remover TODOS os pacotes do cache? [S/n] "
 
-#: src/pacman/sync.c:183
 #, c-format
 msgid "removing all packages from cache... "
 msgstr "removendo todos os pacotes do cache... "
 
-#: src/pacman/sync.c:186
 #, c-format
 msgid "error: could not remove cache directory\n"
 msgstr "erro: não foi possível remover o diretório de cache\n"
 
-#: src/pacman/sync.c:191
 #, c-format
 msgid "error: could not create new cache directory\n"
 msgstr "erro: não foi possível criar o novo diretório de cache\n"
 
-#: src/pacman/sync.c:218
+#, c-format
+msgid "error: failed to release transaction (%s)\n"
+msgstr "erro: falha ao liberar a transação (%s)\n"
+
 #, c-format
 msgid "error: failed to synchronize %s: %s\n"
 msgstr "erro: falha ao sincronizar %s: %s\n"
 
-#: src/pacman/sync.c:221
 #, c-format
 msgid "error: failed to update %s (%s)\n"
 msgstr "erro: falha ao atualizar %s (%s)\n"
 
-#: src/pacman/sync.c:225
 #, c-format
 msgid " %s is up to date\n"
 msgstr " %s está atualizado\n"
 
-#: src/pacman/sync.c:368
 #, c-format
 msgid "error: repository '%s' does not exist\n"
 msgstr "erro: repositório '%s' não existe\n"
 
-#: src/pacman/sync.c:383
 #, c-format
 msgid "error: package '%s' was not found in repository '%s'\n"
 msgstr "erro: pacote '%s' não foi encontrado no repositório '%s'\n"
 
-#: src/pacman/sync.c:403
 #, c-format
 msgid "error: package '%s' was not found\n"
 msgstr "erro: pacote '%s' não foi encontrado\n"
 
-#: src/pacman/sync.c:440
 #, c-format
 msgid "error: repository \"%s\" was not found.\n"
 msgstr "erro: repositório \"%s\" não foi encontrado.\n"
 
-#: src/pacman/sync.c:492
 #, c-format
 msgid ":: Synchronizing package databases...\n"
 msgstr ":: Sincronizando a base de dados de pacotes...\n"
 
-#: src/pacman/sync.c:495
 #, c-format
 msgid "error: failed to synchronize any databases\n"
 msgstr "erro: falha ao sincronizar a base de dados\n"
 
-#: src/pacman/sync.c:507
 #, c-format
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Iniciando atualização do sistema...\n"
 
-#: src/pacman/sync.c:529
 #, c-format
 msgid ":: pacman has detected a newer version of itself.\n"
 msgstr ":: pacman detectou uma nova versão dele mesmo.\n"
 
-#: src/pacman/sync.c:530
+#, c-format
 msgid ""
 ":: Do you want to cancel the current operation\n"
 ":: and install the new pacman version now? [Y/n] "
@@ -1003,142 +868,114 @@ msgstr ""
 ":: Você deseja cancelar a operação atual\n"
 ":: e instalar a nova versão do pacman agora? [S/n]"
 
-#: src/pacman/sync.c:533 src/pacman/sync.c:748
-#, c-format
-msgid "error: failed to release transaction (%s)\n"
-msgstr "erro: falha ao liberar a transação (%s)\n"
-
-#: src/pacman/sync.c:545
 #, c-format
 msgid "error: pacman: %s\n"
 msgstr "erro: pacman: %s\n"
 
-#: src/pacman/sync.c:584
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
 msgstr ":: grupo %s (incluindo pacotes ignorados:):\n"
 
-#: src/pacman/sync.c:589
+#, c-format
 msgid ":: Install whole content? [Y/n] "
 msgstr ":: Instalar todo o conteúdo? [S/n] "
 
-#: src/pacman/sync.c:596
 #, c-format
 msgid ":: Install %s from group %s? [Y/n] "
 msgstr ":: Instalar %s do grupo %s? [S/n] "
 
-#: src/pacman/sync.c:617
 #, c-format
 msgid "Warning: %s provides %s\n"
 msgstr "Atenção: %s provê %s\n"
 
 # src/pacman/sync.c:624
-#: src/pacman/sync.c:621
 #, c-format
 msgid "error: several packages provide %s, please specify one :\n"
 msgstr "erro: vários pacotes provêem %s, por favor especifique um :\n"
 
-#: src/pacman/sync.c:632
 #, c-format
 msgid "error: '%s': not found in sync db\n"
 msgstr "erro: '%s': não foi encontrado na base de dados\n"
 
-#: src/pacman/sync.c:674
 #, c-format
 msgid " local database is up to date\n"
 msgstr " base de dados local está atualizada\n"
 
-#: src/pacman/sync.c:686
 #, c-format
 msgid "Beginning download...\n"
 msgstr "Iniciando download...\n"
 
-#: src/pacman/sync.c:689
+#, c-format
 msgid "Proceed with download? [Y/n] "
 msgstr "Continuar o download? [S/n] "
 
-#: src/pacman/sync.c:693
 #, c-format
 msgid "Beginning upgrade process...\n"
 msgstr "Iniciando processo de atualização...\n"
 
-#: src/pacman/sync.c:696
+#, c-format
 msgid "Proceed with installation? [Y/n] "
 msgstr "Continuar a instalação? [S/n] "
 
-#: src/pacman/sync.c:737
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Ocorreram alguns erros, portanto, nenhum pacote foi atualizado.\n"
 
-#: src/pacman/util.c:382 src/pacman/util.c:414
 #, c-format
 msgid "None\n"
 msgstr "Nenhum\n"
 
-#: src/pacman/util.c:480
+#, c-format
 msgid "Remove:"
 msgstr "Remover:"
 
-#: src/pacman/util.c:484
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Tamanho total dos pacotes a serem removidos:   %.2f MB\n"
 
-#: src/pacman/util.c:491
 #, c-format
 msgid "Total Download Size:    %.2f MB\n"
 msgstr "Tamanho total do Download:   %.2f MB\n"
 
-#: src/pacman/util.c:495
 #, c-format
 msgid "Total Installed Size:   %.2f MB\n"
 msgstr "Tamanho Total da Instalação:   %.2f MB\n"
 
-#: src/pacman/util.c:522
+#, c-format
 msgid "Y"
 msgstr "S"
 
-#: src/pacman/util.c:522
+#, c-format
 msgid "YES"
 msgstr "SIM"
 
-#: src/pacman/util.c:574
 #, c-format
 msgid "error: %s"
 msgstr "erro: %s"
 
-#: src/pacman/util.c:577
 #, c-format
 msgid "warning: %s"
 msgstr "atenção: %s"
 
-#: src/pacman/util.c:580
 #, c-format
 msgid "function: %s"
 msgstr "função: %s"
 
-#: src/pacman/util.c:621
 #, c-format
 msgid "error: "
 msgstr "erro: "
 
-#: src/pacman/util.c:624
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
 
-#: src/pacman/util.c:629
 #, c-format
 msgid "function: "
 msgstr "função: "
 
-#: scripts/gensync.sh.in:32
 msgid "Usage: %s <root> <destfile> [package_directory]"
 msgstr "uso: %s <root> <arquivo_de_destino> [diretório_do_pacote]"
 
-#: scripts/gensync.sh.in:33 scripts/gensync.sh.in:122
-#: scripts/updatesync.sh.in:34 scripts/updatesync.sh.in:122
 msgid ""
 "NOTE: this script is DEPRECATED. It will be removed in the next major"
 "\\nrelease of pacman, so please use repo-add and repo-remove instead.\\n\\n"
@@ -1147,7 +984,6 @@ msgstr ""
 "pacman, então por favor utilize repo-add e repo-remove\\nao invés disso.\\n"
 "\\n"
 
-#: scripts/gensync.sh.in:36
 msgid ""
 "gensync will generate a sync database by reading all PKGBUILD files\\nfrom "
 "<root>. gensync builds the database in a temporary directory\\nand then "
@@ -1157,7 +993,6 @@ msgstr ""
 "PKGBUILD de <root>. gensync construirá a base de dados\\n em um diretório "
 "temporário e então a compactará para <arquivo_de_destino>.\\n\\n"
 
-#: scripts/gensync.sh.in:40
 msgid ""
 "gensync will calculate md5sums of packages in the same directory as"
 "\\n<destfile>, unless an alternate [package_directory] is specified.\\n\\n"
@@ -1166,7 +1001,6 @@ msgstr ""
 "\\n<arquivo_de_destino>, a não ser que um [diretório_de_pacotes] alternativo"
 "\\nseja especificado.\\n\\n"
 
-#: scripts/gensync.sh.in:43
 msgid ""
 "note: The <destfile> name is important. It must be of the form\\n      "
 "{treename}.db.tar.gz where {treename} is the name of the custom\\n      "
@@ -1180,12 +1014,9 @@ msgstr ""
 "conf\\n      A base de dados gerada deve estar no mesmo diretório que seus"
 "\\n      pacotes customizados (também configurado em /etc/pacman.conf)\\n\\n"
 
-#: scripts/gensync.sh.in:49
 msgid "Example:  gensync /var/abs/local /home/mypkgs/custom.db.tar.gz"
 msgstr "Exemplo: gensync /var/abs/local /home/meuspacotes/custom.db.tar.gz"
 
-#: scripts/gensync.sh.in:54 scripts/makepkg.sh.in:1107
-#: scripts/pacman-optimize.sh.in:57 scripts/repo-remove.sh.in:63
 msgid ""
 "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
@@ -1195,45 +1026,33 @@ msgstr ""
 "software livre, veja o código-fonte para condições de cópia.\\nNÃO HÁ "
 "GARANTIA, à extensão permitida pela lei.\\n"
 
-#: scripts/gensync.sh.in:102 scripts/updatesync.sh.in:101
 msgid "%s not found. Can not continue."
 msgstr "%s não encontrado. Não pode continuar."
 
-#: scripts/gensync.sh.in:120
 msgid "invalid root dir: %s"
 msgstr "diretório raiz inválido: %s"
 
-#: scripts/gensync.sh.in:126
 msgid "gensync: building database entries, generating md5sums..."
 msgstr "gensync: construindo entradas na base de dados, gerando md5sums..."
 
-#: scripts/gensync.sh.in:135 scripts/updatesync.sh.in:133
 msgid "failed to parse %s"
 msgstr "falha ao interpretar %s"
 
-#: scripts/gensync.sh.in:146
 msgid "could not find %s-%s-%s-%s%s - skipping"
 msgstr "não foi possível encontrar %s-%s-%s-%s%s - ignorando"
 
-#: scripts/gensync.sh.in:156
 msgid "creating repo DB..."
 msgstr "criando base de dados de repositórios..."
 
-#: scripts/makepkg.sh.in:100 scripts/makepkg.sh.in:102
-#: scripts/repo-add.sh.in:46 scripts/repo-remove.sh.in:42
 msgid "WARNING:"
 msgstr "ATENÇÃO:"
 
-#: scripts/makepkg.sh.in:109 scripts/makepkg.sh.in:111
-#: scripts/repo-add.sh.in:51 scripts/repo-remove.sh.in:47
 msgid "ERROR:"
 msgstr "ERRO:"
 
-#: scripts/makepkg.sh.in:142
 msgid "Cleaning up..."
 msgstr "Finalizando..."
 
-#: scripts/makepkg.sh.in:192
 msgid ""
 "Options beginning with 'no' will be deprecated in the next version of "
 "makepkg!"
@@ -1241,390 +1060,292 @@ msgstr ""
 "Opções começando com 'no' não serão mais utilizadas na próxima versão do "
 "makepkg!"
 
-#: scripts/makepkg.sh.in:193
 msgid "Please replace 'no' with '!': %s -> %s."
 msgstr "Por favor substitua 'no' por '!': %s -> %s."
 
-#: scripts/makepkg.sh.in:197
 msgid "Option 'keepdocs' may not work as intended. Please replace with 'docs'."
 msgstr ""
 "Opção 'keepdocs' pode não funcionar como pretendido. Por favor substitua por "
 "'docs'."
 
-#: scripts/makepkg.sh.in:285
 msgid "There is no agent set up to handle %s URLs. Check %s."
 msgstr "Não há um agente configurado para tratar URLs %s. Verifique %s."
 
-#: scripts/makepkg.sh.in:286 scripts/makepkg.sh.in:295
-#: scripts/makepkg.sh.in:448 scripts/makepkg.sh.in:482
-#: scripts/makepkg.sh.in:528 scripts/makepkg.sh.in:616
-#: scripts/makepkg.sh.in:644 scripts/makepkg.sh.in:706
-#: scripts/makepkg.sh.in:781 scripts/makepkg.sh.in:1124
-#: scripts/makepkg.sh.in:1437 scripts/makepkg.sh.in:1441
 msgid "Aborting..."
 msgstr "Abortando..."
 
-#: scripts/makepkg.sh.in:294
 msgid "The download program %s is not installed."
 msgstr "O programa de download %s não está instalado."
 
-#: scripts/makepkg.sh.in:310
 msgid "Pacman returned a fatal error (%i): %s"
 msgstr "Pacman retornou um erro fatal (%i): %s"
 
-#: scripts/makepkg.sh.in:334
 msgid "Installing missing dependencies..."
 msgstr "Instalando dependências não-encontradas..."
 
-#: scripts/makepkg.sh.in:344
 msgid "Pacman failed to install missing dependencies."
 msgstr "Pacman falhou ao instalar dependências não-encontradas."
 
-#: scripts/makepkg.sh.in:348
 msgid "Building missing dependencies..."
 msgstr "Construindo dependências não-encontradas..."
 
-#: scripts/makepkg.sh.in:353
 msgid "Source root cannot be found - please make sure it is specified in %s."
 msgstr ""
 "Não foi possível encontrar raiz dos fontes - por favor, tenha certeza de que "
 "ela está especificada em %s."
 
-#: scripts/makepkg.sh.in:361
 msgid "Could not find '%s' under %s"
 msgstr "Não foi possível encontrar '%s' em %s"
 
-#: scripts/makepkg.sh.in:378
 msgid "Failed to build '%s'"
 msgstr "Falha ao construir '%s'"
 
-#: scripts/makepkg.sh.in:411
 msgid "Failed to install all missing dependencies."
 msgstr "Falha ao instalar todas as dependências não-encontradas."
 
-#: scripts/makepkg.sh.in:414
 msgid "Missing Dependencies:"
 msgstr "Dependências não-encontradas:"
 
-#: scripts/makepkg.sh.in:444
 msgid "Retrieving Sources..."
 msgstr "Obtendo Fontes..."
 
-#: scripts/makepkg.sh.in:447
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Você não tem permissão de escrita para armazenar downloads em %s."
 
-#: scripts/makepkg.sh.in:458
 msgid "Found %s in build dir"
 msgstr "Encontrado %s no diretório de construção"
 
-#: scripts/makepkg.sh.in:462
 msgid "Using cached copy of %s"
 msgstr "Usando cópia em cache de %s"
 
-#: scripts/makepkg.sh.in:469
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s não foi encontrado no diretório especificado e não é uma URL."
 
-#: scripts/makepkg.sh.in:476
 msgid "Downloading %s..."
 msgstr "Realizando o download de %s..."
 
-#: scripts/makepkg.sh.in:481
 msgid "Failure while downloading %s"
 msgstr "Falha ao efetuar download de %s"
 
-#: scripts/makepkg.sh.in:492
 msgid "Generating checksums for source files..."
 msgstr "Gerando checksums para arquivos fonte..."
 
-#: scripts/makepkg.sh.in:501
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Algoritmo de integridade especificado '%s' inválido."
 
-#: scripts/makepkg.sh.in:506 scripts/makepkg.sh.in:558
 msgid "Cannot find the '%s' program."
 msgstr "Não foi possível encontrar o programa '%s'."
 
-#: scripts/makepkg.sh.in:527
 msgid "Unable to find source file %s to generate checksum."
 msgstr "Não foi possível encontrar o arquivo fonte %s para gerar checksum."
 
-#: scripts/makepkg.sh.in:553
 msgid "Invalid integrity algorithm '%s' specified"
 msgstr "Algoritmo de integridade especificado '%s' inválido"
 
-#: scripts/makepkg.sh.in:564
 msgid "Validating source files with %s..."
 msgstr "Validando arquivos fonte com %s..."
 
-#: scripts/makepkg.sh.in:574
 msgid "NOT FOUND"
 msgstr "NÃO ENCONTRADO"
 
-#: scripts/makepkg.sh.in:583
 msgid "Passed"
 msgstr "Passou"
 
-#: scripts/makepkg.sh.in:585
 msgid "FAILED"
 msgstr "FALHOU"
 
-#: scripts/makepkg.sh.in:593
 msgid "One or more files did not pass the validity check!"
 msgstr "Um ou mais arquivos não passaram no teste de validação!"
 
-#: scripts/makepkg.sh.in:597
 msgid "Integrity checks (%s) are missing or incomplete."
 msgstr "Testes de integridade (%s) estão faltando ou incompletos."
 
-#: scripts/makepkg.sh.in:603
 msgid "Extracting Sources..."
 msgstr "Extraindo Fontes..."
 
-#: scripts/makepkg.sh.in:615
 msgid "Unable to find source file %s for extraction."
 msgstr "Não foi possível encontrar arquivo fonte %s para extração."
 
-#: scripts/makepkg.sh.in:643
 msgid "Failed to extract %s"
 msgstr "Falha ao extrair %s"
 
-#: scripts/makepkg.sh.in:675
 msgid "Starting build()..."
 msgstr "Iniciando compilação..."
 
-#: scripts/makepkg.sh.in:705
 msgid "Build Failed."
 msgstr "Compilação Falhou."
 
-#: scripts/makepkg.sh.in:714
 msgid "Tidying install..."
 msgstr "Organizando instalação..."
 
-#: scripts/makepkg.sh.in:717
 msgid "Removing info/doc files..."
 msgstr "Removendo arquivos info/doc..."
 
-#: scripts/makepkg.sh.in:722
 msgid "Compressing man pages..."
 msgstr "Comprimindo man pages..."
 
-#: scripts/makepkg.sh.in:756
 msgid "Stripping debugging symbols from binaries and libraries..."
 msgstr "Removendo símbolos de debug dos binários e bibliotecas..."
 
-#: scripts/makepkg.sh.in:768
 msgid "Removing libtool .la files..."
 msgstr "Removendo arquivos .la da libtool..."
 
-#: scripts/makepkg.sh.in:773
 msgid "Removing empty directories..."
 msgstr "Removendo diretórios vazios..."
 
-#: scripts/makepkg.sh.in:780
 msgid "Missing pkg/ directory."
 msgstr "Diretório pkg/ não encontrado."
 
-#: scripts/makepkg.sh.in:786
 msgid "Creating package..."
 msgstr "Criando pacote..."
 
-#: scripts/makepkg.sh.in:797
 msgid "Generating .PKGINFO file..."
 msgstr "Gerando arquivo .PKGINFO..."
 
-#: scripts/makepkg.sh.in:846
 msgid "Please add a license line to your %s!"
 msgstr "Por favor, adicione uma linha de licença ao seu %s!"
 
-#: scripts/makepkg.sh.in:847
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Exemplo para software sob a GPL: license=('GPL')."
 
-#: scripts/makepkg.sh.in:855 scripts/makepkg.sh.in:950
 msgid "Adding install script..."
 msgstr "Adicionando script de instalação..."
 
-#: scripts/makepkg.sh.in:862
 msgid "Adding package changelog..."
 msgstr "Adicionando changelog do pacote..."
 
-#: scripts/makepkg.sh.in:868
 msgid "Compressing package..."
 msgstr "Compactando pacote..."
 
-#: scripts/makepkg.sh.in:873
 msgid "Failed to create package file."
 msgstr "Falha ao criar o arquivo do pacote."
 
-#: scripts/makepkg.sh.in:882
 msgid "Cannot find the xdelta binary! Is xdelta installed?"
 msgstr "Não foi possível encontrar o binário xdelta! xdelta está instalado?"
 
-#: scripts/makepkg.sh.in:912
 msgid "Making delta from version %s..."
 msgstr "Criando delta da versão %s..."
 
-#: scripts/makepkg.sh.in:926
 msgid "Recreating package tarball from delta to match md5 signatures"
 msgstr ""
 "Recriando tarball do pacote a partir do delta para igualar as assinaturas md5"
 
-#: scripts/makepkg.sh.in:927
 msgid "NOTE: the delta should ONLY be distributed with this tarball"
 msgstr "NOTA: o delta deve ser distribuído SOMENTE com esse tarball"
 
-#: scripts/makepkg.sh.in:931
 msgid "Could not generate the package from the delta."
 msgstr "Não foi possível gerar o pacote a partir do delta."
 
-#: scripts/makepkg.sh.in:935
 msgid "Delta was not able to be created."
 msgstr "Não foi possível criar o delta."
 
-#: scripts/makepkg.sh.in:938
 msgid "No previous version found, skipping xdelta."
 msgstr "Nenhuma versão anterior encontrada, ignorando xdelta."
 
-#: scripts/makepkg.sh.in:944
 msgid "Creating source package..."
 msgstr "Criando pacote de fontes..."
 
-#: scripts/makepkg.sh.in:946 scripts/makepkg.sh.in:958
-#: scripts/makepkg.sh.in:965
 msgid "Adding %s..."
 msgstr "Adicionando %s..."
 
-#: scripts/makepkg.sh.in:953
 msgid "Install script %s not found."
 msgstr "Script de instalação %s não encontrado."
 
-#: scripts/makepkg.sh.in:973
 msgid "Compressing source package..."
 msgstr "Comprimindo pacote de fontes..."
 
-#: scripts/makepkg.sh.in:975
 msgid "Failed to create source package file."
 msgstr "Falha ao criar o arquivo do pacote de fontes."
 
-#: scripts/makepkg.sh.in:1005
 msgid "Determining latest darcs revision..."
 msgstr "Determinando última revisão darcs..."
 
-#: scripts/makepkg.sh.in:1009
 msgid "Determining latest cvs revision..."
 msgstr "Determinando última revisão cvs..."
 
-#: scripts/makepkg.sh.in:1013
 msgid "Determining latest git revision..."
 msgstr "Determinando última revisão git..."
 
-#: scripts/makepkg.sh.in:1017
 msgid "Determining latest svn revision..."
 msgstr "Determinando última revisão svn..."
 
-#: scripts/makepkg.sh.in:1021
 msgid "Determining latest bzr revision..."
 msgstr "Determinando última revisão bzr..."
 
-#: scripts/makepkg.sh.in:1025
 msgid "Determining latest hg revision..."
 msgstr "Determinando última revisão hg..."
 
-#: scripts/makepkg.sh.in:1040
 msgid "Version found: %s"
 msgstr "Versão encontrada: %s"
 
-#: scripts/makepkg.sh.in:1071
 msgid "Usage: %s [options]"
 msgstr "Uso: %s [opções]"
 
-#: scripts/makepkg.sh.in:1073
 msgid "Options:"
 msgstr "Opções:"
 
-#: scripts/makepkg.sh.in:1074
 msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
 msgstr "  -A, --ignorearch Ignora campo arch incompleto em %s"
 
-#: scripts/makepkg.sh.in:1075
 msgid "  -b, --builddeps  Build missing dependencies from source"
 msgstr ""
 "  -b, --builddeps  Constrói dependências não-encontradas a partir dos fontes"
 
-#: scripts/makepkg.sh.in:1076
 msgid "  -c, --clean      Clean up work files after build"
 msgstr ""
 "  -c, --clean      Apaga arquivos utilizados na compilação após empacotamento"
 
-#: scripts/makepkg.sh.in:1077
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Limpa arquivos fonte do cache"
 
-#: scripts/makepkg.sh.in:1078
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ignora a verificação de dependências"
 
-#: scripts/makepkg.sh.in:1079
 msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
 msgstr ""
 "  -e, --noextract  Não extrai arquivos fonte (usa diretório src/ existente)"
 
-#: scripts/makepkg.sh.in:1080
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Sobrescrever pacote existente"
 
-#: scripts/makepkg.sh.in:1081
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Gera testes de integridade para arquivos fonte"
 
-#: scripts/makepkg.sh.in:1082
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Esta ajuda"
 
-#: scripts/makepkg.sh.in:1083
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Instala pacote após empacotamento bem-sucedido"
 
-#: scripts/makepkg.sh.in:1084
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        Gera log do processo de empacotamento"
 
-#: scripts/makepkg.sh.in:1085
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Desabilita mensagens de saída coloridas"
 
-#: scripts/makepkg.sh.in:1086
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Somente faz download e extrai os arquivos"
 
-#: scripts/makepkg.sh.in:1087
 msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
 msgstr ""
 "  -p <buildscript> Usa um script de empacotamento alternativo (ao invés de '%"
 "s')"
 
-#: scripts/makepkg.sh.in:1088
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 "  -r, --rmdeps     Remove dependências instaladas após empacotamento bem-"
 "sucedido"
 
-#: scripts/makepkg.sh.in:1090
 msgid "  -R, --repackage  Repackage contents of pkg/ without building"
 msgstr "  -R, --repackage  Reempacota conteúdo de pkg/ sem compilar"
 
-#: scripts/makepkg.sh.in:1091
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Instala dependências não-encontradas com pacman"
 
-#: scripts/makepkg.sh.in:1092
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Permite ao makepkg rodar como usuário root"
 
-#: scripts/makepkg.sh.in:1093
 msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
@@ -1632,261 +1353,200 @@ msgstr ""
 "      --holdver    Previne atualização automática da versão para PKGBUILDs "
 "de desenvolvimento"
 
-#: scripts/makepkg.sh.in:1094
 msgid "      --source     Do not build package; generate a source-only tarball"
 msgstr ""
 "      --source     Não compila o pacote; gera um tarball somente com os "
 "fontes"
 
-#: scripts/makepkg.sh.in:1096
 msgid "These options can be passed to pacman:"
 msgstr "Estas opções podem ser passadas ao pacman:"
 
-#: scripts/makepkg.sh.in:1098
 msgid ""
 "      --noconfirm      Do not ask for confirmation when resolving "
 "dependencies"
 msgstr ""
 "      --noconfirm      Não pede nenhuma confirmação ao resolver dependências"
 
-#: scripts/makepkg.sh.in:1099
 msgid ""
 "      --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 "      --noprogressbar  Não mostra a barra de progresso enquanto baixa os "
 "arquivos"
 
-#: scripts/makepkg.sh.in:1101
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Se -p não estiver especificado, makepkg irá procurar por '%s'"
 
-#: scripts/makepkg.sh.in:1123
 msgid "%s not found."
 msgstr "%s não encontrado."
 
-#: scripts/makepkg.sh.in:1185
 msgid "Sudo is used by default now. The --usesudo option is deprecated!"
 msgstr "Sudo é usado por padrão agora. A opção --usesudo não é mais utilizada!"
 
-#: scripts/makepkg.sh.in:1200
 msgid "\\0--holdver and --forcever cannot both be specified"
 msgstr ""
 "\\0--holdver e --forcever não podem ser especificados simultaneamente.\""
 
-#: scripts/makepkg.sh.in:1207
 msgid "Cleaning up ALL files from %s."
 msgstr "Apagando TODOS os arquivos de %s."
 
-#: scripts/makepkg.sh.in:1208
 msgid "    Are you sure you wish to do this? [Y/n] "
 msgstr "    Você tem certeza que deseja fazer isso? [S/n] "
 
-#: scripts/makepkg.sh.in:1214
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr ""
 "Problema removendo arquivos; você pode não ter as permissões corretas em %s"
 
-#: scripts/makepkg.sh.in:1218
 msgid "Source cache cleaned."
 msgstr "Cache de fontes apagada."
 
-#: scripts/makepkg.sh.in:1223
 msgid "No files have been removed."
 msgstr "Nenhum arquivo foi removido."
 
-#: scripts/makepkg.sh.in:1228
 msgid "Source destination must be defined in makepkg.conf."
 msgstr "Destino dos fontes deve ser definido em makepkg.conf."
 
-#: scripts/makepkg.sh.in:1229
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr ""
 "Adicionalmente, por favor rode makepkg -C fora do seu diretório de cache."
 
-#: scripts/makepkg.sh.in:1235
 msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
 msgstr "BUILDSCRIPT não está definido! Certifique-se de que você atualizou %s."
 
-#: scripts/makepkg.sh.in:1242
 msgid "Running makepkg as root is a BAD idea and can cause"
 msgstr "Rodar makepkg como root é uma PÉSSIMA idéia e pode causar"
 
-#: scripts/makepkg.sh.in:1243
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "danos permanentes e catastróficos ao seu sistema. Se você"
 
-#: scripts/makepkg.sh.in:1244
 msgid "wish to run as root, please use the --asroot option."
 msgstr "deseja rodar como root, por favor use a opção --asroot."
 
-#: scripts/makepkg.sh.in:1248
 msgid "The --asroot option is meant for the root user only."
 msgstr "A opção --asroot é somente para o usuário root."
 
-#: scripts/makepkg.sh.in:1249
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Por favor rode novamente makepkg sem a flag --asroot."
 
-#: scripts/makepkg.sh.in:1253
 msgid "Fakeroot must be installed if using the 'fakeroot' option"
 msgstr "Fakeroot deve ser instalado para utilizar a opção 'fakeroot'"
 
-#: scripts/makepkg.sh.in:1254
 msgid "in the BUILDENV array in %s."
 msgstr "no array BUILDENV em %s."
 
-#: scripts/makepkg.sh.in:1258
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "Rodar makepkg como um usuário não-privilegiado resultará em"
 
-#: scripts/makepkg.sh.in:1259
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr ""
 "propriedade não-root dos arquivos empacotados. Tente usar o ambiente fakeroot"
 
-#: scripts/makepkg.sh.in:1260
 msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
 msgstr "adicionando 'fakeroot' no array BUILDENV em makepkg.conf."
 
-#: scripts/makepkg.sh.in:1265
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr ""
 "Não use a opção '-F'. Esta opção é somente para ser usada pelo makepkg."
 
-#: scripts/makepkg.sh.in:1274
 msgid "Cannot find the sudo binary! Is sudo installed?"
 msgstr "Não foi possível encontrar o binário sudo! sudo está instalado?"
 
-#: scripts/makepkg.sh.in:1275
 msgid "Missing dependencies cannot be installed or removed as a normal user"
 msgstr ""
 "Dependências não-encontradas não podem ser instaladas ou removidas como um "
 "usuário normal"
 
-#: scripts/makepkg.sh.in:1276
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
 msgstr "sem sudo; instale e configure sudo para auto-resolver dependências."
 
-#: scripts/makepkg.sh.in:1286
 msgid "%s does not exist."
 msgstr "%s não existe."
 
-#: scripts/makepkg.sh.in:1301 scripts/makepkg.sh.in:1305
-#: scripts/makepkg.sh.in:1309
 msgid "%s is not allowed to be empty."
 msgstr "%s não pode estar vazio."
 
-#: scripts/makepkg.sh.in:1313 scripts/makepkg.sh.in:1317
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s não pode conter hífens."
 
-#: scripts/makepkg.sh.in:1327 scripts/makepkg.sh.in:1332
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s não está disponível para a arquitetura '%s'."
 
-#: scripts/makepkg.sh.in:1328 scripts/makepkg.sh.in:1333
 msgid "Note that many packages may need a line added to their %s"
 msgstr ""
 "Perceba que muitos pacotes podem precisar de uma linha adicional ao seu %s"
 
-#: scripts/makepkg.sh.in:1329 scripts/makepkg.sh.in:1334
 msgid "such as arch=('%s')."
 msgstr "como arch=('%s')."
 
-#: scripts/makepkg.sh.in:1339
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Rotina de instalação (%s) não existe."
 
-#: scripts/makepkg.sh.in:1353
 msgid "A package has already been built, installing existing package..."
 msgstr "Um pacote já foi construído, instalando pacote existente..."
 
-#: scripts/makepkg.sh.in:1357 scripts/makepkg.sh.in:1388
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "Um pacote já foi construído. (use -f para sobrescrevê-lo)"
 
-#: scripts/makepkg.sh.in:1366 scripts/makepkg.sh.in:1465
 msgid "Skipping build."
 msgstr "Pulando compilação."
 
-#: scripts/makepkg.sh.in:1374
 msgid "Leaving fakeroot environment."
 msgstr "Saindo do ambiente fakeroot."
 
-#: scripts/makepkg.sh.in:1378
 msgid "Making package: %s"
 msgstr "Criando pacote: %s"
 
-#: scripts/makepkg.sh.in:1381
 msgid "Running makepkg as root..."
 msgstr "Rodando makepkg como root..."
 
-#: scripts/makepkg.sh.in:1392
 msgid "Source package created: %s"
 msgstr "Pacote de fontes criado: %s"
 
-#: scripts/makepkg.sh.in:1399
 msgid "Skipping dependency checks."
 msgstr "Pulando testes de dependências."
 
-#: scripts/makepkg.sh.in:1406
 msgid "Checking Runtime Dependencies..."
 msgstr "Verificando dependências em tempo de execução..."
 
-#: scripts/makepkg.sh.in:1409
 msgid "Checking Buildtime Dependencies..."
 msgstr "Verificando dependências em tempo de compilação..."
 
-#: scripts/makepkg.sh.in:1413
 msgid "Could not resolve all dependencies."
 msgstr "Não foi possível resolver todas as dependências."
 
-#: scripts/makepkg.sh.in:1417
 msgid "pacman was not found in PATH; skipping dependency checks."
 msgstr "pacman não foi encontrado no PATH; pulando testes de dependência."
 
-#: scripts/makepkg.sh.in:1431
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "Pulando obtenção dos fontes      -- usando árvore src/ existente"
 
-#: scripts/makepkg.sh.in:1432
 msgid "Skipping source integrity checks -- using existing src/ tree"
 msgstr ""
 "Pulando testes de integridade dos fontes -- usando árvore src/ existente"
 
-#: scripts/makepkg.sh.in:1433
 msgid "Skipping source extraction       -- using existing src/ tree"
 msgstr "Pulando extração dos fontes      -- usando árvore src/ existente"
 
-#: scripts/makepkg.sh.in:1436
 msgid "The source directory is empty, there is nothing to build!"
 msgstr "O diretório de fontes está vazio, não há nada para compilar!"
 
-#: scripts/makepkg.sh.in:1440
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "O diretório do pacote está vazio, não há nada para reempacotar!"
 
-#: scripts/makepkg.sh.in:1451
 msgid "Sources are ready."
 msgstr "Fontes estão prontas."
 
-#: scripts/makepkg.sh.in:1456
 msgid "Removing existing pkg/ directory..."
 msgstr "Removendo diretório pkg/ existente..."
 
-#: scripts/makepkg.sh.in:1474
 msgid "Entering fakeroot environment..."
 msgstr "Entrando no ambiente fakeroot..."
 
-#: scripts/makepkg.sh.in:1486
 msgid "Finished making: %s"
 msgstr "Compilação concluída: %s"
 
-#: scripts/pacman-optimize.sh.in:42
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Uso: %s [raiz_db_do_pacman]"
 
-#: scripts/pacman-optimize.sh.in:43
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
@@ -1895,7 +1555,6 @@ msgstr ""
 "quando está lendo/escrevendo em sua base de dados baseada no sistema de "
 "arquivos\\n\\n"
 
-#: scripts/pacman-optimize.sh.in:46
 msgid ""
 "Because pacman uses many small files to keep track of packages,\\nthere is a "
 "tendency for these files to become fragmented over time.\\nThis script "
@@ -1911,75 +1570,58 @@ msgstr ""
 "arquivos \\nmais rápido, já que a cabeça do disco não precisará se mover "
 "tanto pelo disco.\\n"
 
-#: scripts/pacman-optimize.sh.in:89
 msgid "diff tool was not found, please install diffutils."
 msgstr "ferramenta diff não foi encontrada, por favor instale diffutils."
 
-#: scripts/pacman-optimize.sh.in:94
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
 "Arquivo lock do pacman foi encontrado. Não é possível rodar enquanto pacman "
 "está em execução."
 
-#: scripts/pacman-optimize.sh.in:98
 msgid "%s does not exist or is not a directory."
 msgstr "%s não existe ou não é um diretório."
 
-#: scripts/pacman-optimize.sh.in:102
 msgid "You must have correct permissions to optimize the database."
 msgstr "Você deve ter as permissões corretas para otimizar a base de dados."
 
-#: scripts/pacman-optimize.sh.in:106
 msgid "ERROR: Can not create temp directory for database building."
 msgstr ""
 "ERRO: Não foi possível criar diretório temporário para construção da base de "
 "dados."
 
-#: scripts/pacman-optimize.sh.in:112
 msgid "MD5sum'ing the old database..."
 msgstr "Criando md5sum da base de dados antiga..."
 
-#: scripts/pacman-optimize.sh.in:116
 msgid "Tar'ing up %s..."
 msgstr "Gerando tarball de %s..."
 
-#: scripts/pacman-optimize.sh.in:121
 msgid "Tar'ing up %s failed."
 msgstr "Criação do tarball de %s falhou."
 
-#: scripts/pacman-optimize.sh.in:125
 msgid "Making and MD5sum'ing the new db..."
 msgstr "Criando a nova base de dados e calculando a soma md5..."
 
-#: scripts/pacman-optimize.sh.in:130
 msgid "Untar'ing %s failed."
 msgstr "Descompactação de %s falhou."
 
-#: scripts/pacman-optimize.sh.in:136
 msgid "Checking integrity..."
 msgstr "Verificando integridade..."
 
-#: scripts/pacman-optimize.sh.in:142
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Teste de integridade FALHOU, revertendo para a base de dados antiga."
 
-#: scripts/pacman-optimize.sh.in:147
 msgid "Putting the new database in place..."
 msgstr "Colocando a nova base de dados em sua localização correta..."
 
-#: scripts/pacman-optimize.sh.in:156
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Concluído. Sua base de dados do pacman foi otimizada."
 
-#: scripts/pacman-optimize.sh.in:157
 msgid "For full benefits of pacman-optimize, run 'sync' now."
 msgstr "Para o benefício total de pacman-optimize, rode 'sync' agora."
 
-#: scripts/repo-add.sh.in:57
 msgid "Usage: %s <path-to-db> [--force] <package> ...\\n\\n"
 msgstr "Uso: %s <caminho-para-db> [--force] <pacote> ...\\n\\n"
 
-#: scripts/repo-add.sh.in:58
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n\\n"
@@ -1988,7 +1630,6 @@ msgstr ""
 "pacote.\\nPacotes múltiplos a adicionar podem ser especificados na linha de "
 "comando\\n\\n"
 
-#: scripts/repo-add.sh.in:61
 msgid ""
 "The --force flag will add a 'force' entry to the sync database, which"
 "\\ntells pacman to skip its internal version number checking and update"
@@ -1998,11 +1639,9 @@ msgstr ""
 "sincronizada, \\no que diz ao pacman para pular seu teste de número de "
 "versão interno e atualizar\\no pacote de todo modo.\\n\\n"
 
-#: scripts/repo-add.sh.in:65
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Exemplo: repo-add /caminho/para/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
-#: scripts/repo-add.sh.in:70
 msgid ""
 "Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
@@ -2012,88 +1651,67 @@ msgstr ""
 "software livre, veja o código-fonte para condições de cópia.\\nNÃO HÁ "
 "GARANTIA, à extensão permitida pela lei.\\n"
 
-#: scripts/repo-add.sh.in:174
 msgid "Invalid package file '%s'."
 msgstr "Arquivo de pacote inválido '%s'."
 
-#: scripts/repo-add.sh.in:183 scripts/repo-remove.sh.in:88
 msgid "Removing existing package '%s'..."
 msgstr "Removendo pacote existente '%s'..."
 
-#: scripts/repo-add.sh.in:193
 msgid "Creating 'desc' db entry..."
 msgstr "Criando entrada 'desc' na base de dados..."
 
-#: scripts/repo-add.sh.in:203
 msgid "Computing md5 checksums..."
 msgstr "Computando md5sums..."
 
-#: scripts/repo-add.sh.in:215
 msgid "Creating 'depends' db entry..."
 msgstr "Criando entrada 'depends' na base de dados..."
 
-#: scripts/repo-add.sh.in:231
 msgid "Creating 'deltas' db entry..."
 msgstr "Criando entrada 'deltas' na base de dados..."
 
-#: scripts/repo-add.sh.in:237
 msgid "Added delta '%s'"
 msgstr "Adicionado delta '%s'"
 
-#: scripts/repo-add.sh.in:239
 msgid "Could not add delta '%s'"
 msgstr "Não foi possível adicionar delta '%s'"
 
-#: scripts/repo-add.sh.in:277 scripts/repo-remove.sh.in:120
 msgid "%s not found. Cannot continue."
 msgstr "%s não encontrado. Não é possível continuar."
 
-#: scripts/repo-add.sh.in:287 scripts/repo-remove.sh.in:130
 msgid "Cannot create temp directory for database building."
 msgstr ""
 "Não foi possível criar diretório temporário para construção da base de dados."
 
-#: scripts/repo-add.sh.in:298 scripts/repo-remove.sh.in:139
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Arquivo de repositório '%s' não é uma base de dados do pacman."
 
-#: scripts/repo-add.sh.in:301 scripts/repo-remove.sh.in:142
 msgid "Extracting database to a temporary location..."
 msgstr "Extraindo base de dados para um local temporário..."
 
-#: scripts/repo-add.sh.in:307
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' não é um arquivo de pacote, pulando"
 
-#: scripts/repo-add.sh.in:309
 msgid "Adding package '%s'"
 msgstr "Adicionando pacote '%s'"
 
-#: scripts/repo-add.sh.in:316
 msgid "Package '%s' not found."
 msgstr "Pacote '%s' não foi encontrado."
 
-#: scripts/repo-add.sh.in:323
 msgid "Creating updated database file %s"
 msgstr "Criando arquivo atualizado da base de dados %s"
 
-#: scripts/repo-add.sh.in:333 scripts/repo-remove.sh.in:167
 msgid "No compression set."
 msgstr "Nenhuma compressão configurada."
 
-#: scripts/repo-add.sh.in:341 scripts/repo-remove.sh.in:178
 msgid "No packages modified, nothing to do."
 msgstr "Nenhum pacote modificado, nada a fazer."
 
-#: scripts/repo-remove.sh.in:52
 msgid "repo-remove %s\\n\\n"
 msgstr "repo-remove %s\\n\\n"
 
-#: scripts/repo-remove.sh.in:53
 msgid "usage: %s <path-to-db> <packagename> ...\\n\\n"
 msgstr "uso: %s <caminho-para-db> <nome-do-pacote> ... \\n\\n"
 
-#: scripts/repo-remove.sh.in:54
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
@@ -2104,31 +1722,24 @@ msgstr ""
 "fornecido. Pacotes\\nmúltiplos a serem removidos podem ser especificados na "
 "linha de comando.\\n\\n"
 
-#: scripts/repo-remove.sh.in:58
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Exemplo: repo-remove /caminho/para/repo.db.tar.gz kernel26"
 
-#: scripts/repo-remove.sh.in:146
 msgid "Searching for package '%s'..."
 msgstr "Pesquisando pelo pacote '%s'..."
 
-#: scripts/repo-remove.sh.in:151
 msgid "Package matching '%s' not found."
 msgstr "Pacote correspodente a '%s' não foi encontrado."
 
-#: scripts/repo-remove.sh.in:158
 msgid "Creating updated database file '%s'..."
 msgstr "Criando arquivo de base de dados atualizado '%s'..."
 
-#: scripts/repo-remove.sh.in:172
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr "Todos os pacotes foram removidos da base de dados. Removendo '%s'."
 
-#: scripts/updatesync.sh.in:33
 msgid "Usage: %s <action> <destfile> <option> [package_directory]"
 msgstr "Uso: %s <ação> <arquivo_destino> <opção> [diretório_de_pacotes]"
 
-#: scripts/updatesync.sh.in:37
 msgid ""
 "updatesync will update a sync database by reading a PKGBUILD and\\nmodifying "
 "the destfile. updatesync updates the database in a temporary\\ndirectory and "
@@ -2138,11 +1749,9 @@ msgstr ""
 "PKGBUILD e\\nmodificando o arquivo de destino. updatesync atualiza a base de "
 "dados em um diretório\\ntemporário e a comprime para <destfile>.\\n\\n"
 
-#: scripts/updatesync.sh.in:41
 msgid "There are two types of actions:\\n\\n"
 msgstr "Existem dois tipos de ações:\\n\\n"
 
-#: scripts/updatesync.sh.in:42
 msgid ""
 "upd - Will update a package's entry or create it if it doesn't exist."
 "\\n      It takes the package's PKGBUILD as an option.\\n"
@@ -2150,7 +1759,6 @@ msgstr ""
 "upd - Irá atualizar a entrada de um pacote ou criá-la se ela não existir."
 "\\n      Essa ação usa o PKGBUILD do pacote como uma opção\\n."
 
-#: scripts/updatesync.sh.in:43
 msgid ""
 "del - Will remove a package's entry from the db. It takes the package's"
 "\\n      name as an option.\\n"
@@ -2158,7 +1766,6 @@ msgstr ""
 "del - Irá remover a entrada de um pacote da base de dados. Recebe o nome"
 "\\n      do pacote como uma opção.\\n"
 
-#: scripts/updatesync.sh.in:45
 msgid ""
 "updatesync will calculate md5sums of packages in the same directory as"
 "\\n<destfile>, unless an alternate [package_directory] is specified.\\n\\n"
@@ -2167,11 +1774,9 @@ msgstr ""
 "\\n<destfile>, a não ser que um [diretorio_de_pacote] alternativo seja "
 "especificado.\\n\\n"
 
-#: scripts/updatesync.sh.in:48
 msgid "Example:  updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
 msgstr "Exemplo: updatesync upd /home/mypkgs/custom.db.tar.gz PKGBUILD"
 
-#: scripts/updatesync.sh.in:53
 msgid ""
 "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
@@ -2181,11 +1786,9 @@ msgstr ""
 "livre, veja o código-fonte para condições de cópia.\\nNÃO HÁ GARANTIA, à "
 "extensão permitida pela lei.\\n"
 
-#: scripts/updatesync.sh.in:128 scripts/updatesync.sh.in:152
 msgid "%s not found"
 msgstr "%s não encontrado"
 
-#: scripts/updatesync.sh.in:140
 msgid "could not find %s-%s-%s-%s%s - aborting"
 msgstr "não foi possível encontrar %s-%s-%s-%s%s - abortando"
 
