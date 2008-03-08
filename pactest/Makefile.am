@@ -7,8 +7,7 @@ check_SCRIPTS = \
 	pmrule.py \
 	pmtest.py \
 	util.py \
-	$(wildcard tests/*.py) \
-	tests/TESTS
+	$(wildcard tests/*.py)
 
 noinst_SCRIPTS = $(check_SCRIPTS)
 
