@@ -12,7 +12,7 @@ for i in range(1000):
 
 _list = []
 [_list.append(p.filename()) for p in self.localpkgs]
-self.args = "-A %s" % " ".join(_list)
+self.args = "-U %s" % " ".join(_list)
 
 self.addrule("PACMAN_RETCODE=0")
 #for i in range(1000):

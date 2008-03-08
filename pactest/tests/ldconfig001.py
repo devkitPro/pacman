@@ -6,7 +6,7 @@ p = pmpkg("dummy")
 self.addpkg(p)
 
 # --debug is necessary to check PACMAN_OUTPUT
-self.args = "--debug -A %s" % p.filename()
+self.args = "--debug -U %s" % p.filename()
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PACMAN_OUTPUT=ldconfig")

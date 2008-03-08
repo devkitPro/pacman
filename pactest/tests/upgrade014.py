@@ -13,7 +13,7 @@ p2.files = ["bin/foobar",
 for p in p1, p2:
 	self.addpkg(p)
 
-self.args = "-Af %s" % " ".join([p.filename() for p in p1, p2])
+self.args = "-Uf %s" % " ".join([p.filename() for p in p1, p2])
 
 self.addrule("PACMAN_RETCODE=0")
 for p in p1, p2:
