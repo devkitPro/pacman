@@ -57,7 +57,7 @@ syn keyword pb_k_license license contained
 syn keyword pbLicense  APACHE CDDL EPL FDL GPL LGPL MPL PHP RUBY ZLIB ISC MIT BSD contained
 syn match pbLicenseCustom /custom\(:[[:alnum:]]*\)*/ contained
 syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicense
-syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense,shDoubleQuote,shSingleQuote
+syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense
 
 " backup
 syn keyword pb_k_backup backup contained
@@ -67,8 +67,8 @@ syn region pbBackupGroup start=/^backup=(/ end=/)/ contains=pb_k_backup,pbValidB
 " arch
 syn keyword pb_k_arch arch contained
 syn keyword pbArch i686 x86_64 ppc contained
-syn match pbIllegalArch /[^='() ]/ contained contains=pbArch
-syn region pbArchGroup start=/^arch=(/ end=/)/ contains=pb_k_arch,pbArch,pbIllegalArch,shDoubleQuote,shSingleQuote
+syn match pbIllegalArch /[^='"() ]/ contained contains=pbArch
+syn region pbArchGroup start=/^arch=(/ end=/)/ contains=pb_k_arch,pbArch,pbIllegalArch
 
 " groups
 syn keyword pb_k_groups groups contained
