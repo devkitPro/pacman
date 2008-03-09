@@ -188,11 +188,31 @@ static void setuseragent(void)
 	setenv("HTTP_USER_AGENT", agent, 0);
 }
 
+/** Free the resources.
+ *
+ * @param ret the return value
+ */
+static void cleanup(int ret) {
+	/* free alpm library resources */
+	if(alpm_release() == -1) {
+		pm_printf(PM_LOG_ERROR, alpm_strerrorlast());
+	}
+
+	/* free memory */
+	FREELIST(pm_targets);
+	if(config) {
+		config_free(config);
+		config = NULL;
+	}
+
+	exit(ret);
+}
+
 /** Catches thrown signals. Performs necessary cleanup to ensure database is
  * in a consistant state.
  * @param signum the thrown signal
  */
-static void cleanup(int signum)
+static void handler(int signum)
 {
 	if(signum==SIGSEGV)
 	{
@@ -211,20 +231,7 @@ static void cleanup(int signum)
 		/* output a newline to be sure we clear any line we may be on */
 		printf("\n");
 	}
-
-	/* free alpm library resources */
-	if(alpm_release() == -1) {
-		pm_printf(PM_LOG_ERROR, alpm_strerrorlast());
-	}
-
-	/* free memory */
-	FREELIST(pm_targets);
-	if(config) {
-		config_free(config);
-		config = NULL;
-	}
-
-	exit(signum);
+	cleanup(signum);
 }
 
 /** Sets all libalpm required paths in one go. Called after the command line
@@ -756,9 +763,9 @@ int main(int argc, char *argv[])
 #endif
 
 	/* set signal handlers */
-	signal(SIGINT, cleanup);
-	signal(SIGTERM, cleanup);
-	signal(SIGSEGV, cleanup);
+	signal(SIGINT, handler);
+	signal(SIGTERM, handler);
+	signal(SIGSEGV, handler);
 
 	/* i18n init */
 #if defined(ENABLE_NLS)
