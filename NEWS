@@ -1,5 +1,12 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.1.3         - major updates to i18n output in frontend (all UTF-8 characters
+                should now work with varying byte and char widths)
+              - new Simplified Chinese translation
+              - updates to testpkg utility
+              - updates to PKGBUILD.vim
+              - internal updates for translations - use c-format on all
+                strings, get rid of needless line numbers
 3.1.2         - updates to proto.install, add ChangeLog.proto (FS#7231)
               - add 'force' option to packages, and have repo-add respect it
               - mark gensync and updatesync as deprecated
@@ -468,7 +475,7 @@ VERSION         DESCRIPTION
 2.2           - More bugfixes
               - Added --downloadonly switch to --sync
 2.1           - Lots of bugfixes
-              - Added support for multiple respositories
+              - Added support for multiple repositories
               - Improved the config file layout
               - Improved dependency resolution and sorting
 2.0           - Added dependency functionality
@@ -496,4 +503,4 @@ VERSION         DESCRIPTION
               - Changed db_find_conflicts() to ignore directories
 1.0           - Initial Release
 
-vim: set et:
+vim: set et spell spelllang=en_us:

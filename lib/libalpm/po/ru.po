@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-01-14 23:08-0600\n"
+"POT-Creation-Date: 2008-03-03 20:03-0600\n"
 "PO-Revision-Date: 2008-02-18 19:46+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -17,33 +17,30 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: lib/libalpm/add.c:86
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "заменяю устаревшую версию %s-%s на %s в списке целей\n"
 
-#: lib/libalpm/add.c:95
 #, c-format
 msgid "newer version %s-%s is in the target list -- skipping\n"
 msgstr "новая версия %s-%s в списке целей --  пропускаю\n"
 
-#: lib/libalpm/add.c:166
+#, c-format
 msgid "conflicting packages were found in the target list\n"
 msgstr "в списке целей найдены конфликтующие пакеты\n"
 
-#: lib/libalpm/add.c:167
+#, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "вы не можете установить два конфликтующих пакета одновременно\n"
 
-#: lib/libalpm/add.c:170
+#, c-format
 msgid "replacing packages with -A and -U is not supported yet\n"
 msgstr "замещение пакетов с использованием опций -A и -U еще не реализовано\n"
 
-#: lib/libalpm/add.c:171
+#, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
 msgstr "вы можете заменить пакеты вручную, используя -Rd и -U\n"
 
-#: lib/libalpm/add.c:377
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -52,604 +49,538 @@ msgstr ""
 "права доступа различаются у директории %s\n"
 "файловая система: %o  пакет: %o\n"
 
-#: lib/libalpm/add.c:404
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "извлечение: символическая ссылка %s не указывает на директорию\n"
 
-#: lib/libalpm/add.c:411
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "извлечение: не перезаписываю директорию файлом %s\n"
 
-#: lib/libalpm/add.c:466 lib/libalpm/add.c:610 lib/libalpm/util.c:428
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "не могу извлечь %s (%s)\n"
 
-#: lib/libalpm/add.c:517
 #, c-format
 msgid "could not rename %s (%s)\n"
 msgstr "не могу переименовать %s (%s)\n"
 
-#: lib/libalpm/add.c:524 lib/libalpm/add.c:544 lib/libalpm/trans.c:508
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "не могу скопировать временный файл в %s (%s)\n"
 
-#: lib/libalpm/add.c:529 lib/libalpm/remove.c:238
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s сохранен как %s\n"
 
-#: lib/libalpm/add.c:568
 #, c-format
 msgid "could not install %s as %s: %s\n"
 msgstr "не могу установить %s как %s: %s\n"
 
-#: lib/libalpm/add.c:571
 #, c-format
 msgid "%s installed as %s\n"
 msgstr "%s установлен как %s\n"
 
-#: lib/libalpm/add.c:588
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
 msgstr "извлекаю %s как %s.pacnew\n"
 
-#: lib/libalpm/add.c:723 lib/libalpm/trans.c:526
+#, c-format
 msgid "could not get current working directory\n"
 msgstr "не могу определить текущую рабочую директорию\n"
 
-#: lib/libalpm/add.c:777
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "обнаружена проблема во время обновления %s\n"
 
-#: lib/libalpm/add.c:782
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "обнаружена проблема во время установки %s\n"
 
-#: lib/libalpm/add.c:797
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "не могу обновить в базе данных запись %s-%s\n"
 
-#: lib/libalpm/add.c:805
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "не могу добавить запись '%s' в кэш\n"
 
-#: lib/libalpm/be_files.c:221
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "неправильное имя для записи базы данных '%s'\n"
 
-#: lib/libalpm/be_files.c:291 lib/libalpm/be_files.c:428
-#: lib/libalpm/be_files.c:451 lib/libalpm/be_files.c:562
-#: lib/libalpm/be_files.c:640 lib/libalpm/be_files.c:668
-#: lib/libalpm/package.c:885
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "не могу открыть файл %s: %s\n"
 
-#: lib/libalpm/db.c:283
 #, c-format
 msgid "could not remove database entry %s%s\n"
 msgstr "не могу удалить из базы данных запись %s%s\n"
 
-#: lib/libalpm/db.c:551
+#, c-format
 msgid "attempt to re-register the 'local' DB\n"
 msgstr "попытка перерегистрировать локальную базу данных\n"
 
-#: lib/libalpm/db.c:560 lib/libalpm/db.c:611
+#, c-format
 msgid "database path is undefined\n"
 msgstr "путь к базе данных не определён\n"
 
-#: lib/libalpm/deps.c:171
+#, c-format
 msgid "dependency cycle detected:\n"
 msgstr "обнаружена циклическая зависимость:\n"
 
-#: lib/libalpm/deps.c:173
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s будет удалён после %s, как зависимость\n"
 
-#: lib/libalpm/deps.c:175
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s будет установлен перед %s, как зависимость\n"
 
-#: lib/libalpm/deps.c:588
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "не удается разрешить \"%s\", зависимость \"%s\"\n"
 
-#: lib/libalpm/error.c:41
+#, c-format
 msgid "out of memory!"
 msgstr "недостаточно памяти!"
 
-#: lib/libalpm/error.c:43
+#, c-format
 msgid "unexpected system error"
 msgstr "неожиданная ошибка"
 
-#: lib/libalpm/error.c:45
+#, c-format
 msgid "insufficient privileges"
 msgstr "недостаточно привилегий"
 
-#: lib/libalpm/error.c:47
+#, c-format
 msgid "could not find or read file"
 msgstr "не могу найти или прочитать файл"
 
-#: lib/libalpm/error.c:49
+#, c-format
 msgid "could not find or read directory"
 msgstr "не удается найти или прочитать директорию"
 
-#: lib/libalpm/error.c:51
+#, c-format
 msgid "wrong or NULL argument passed"
 msgstr "неправильный или нулевой аргумент"
 
-#: lib/libalpm/error.c:54
+#, c-format
 msgid "library not initialized"
 msgstr "библиотека не инициализирована"
 
-#: lib/libalpm/error.c:56
+#, c-format
 msgid "library already initialized"
 msgstr "библиотека уже инициализирована"
 
-#: lib/libalpm/error.c:58
+#, c-format
 msgid "unable to lock database"
 msgstr "не удается заблокировать базу данных"
 
-#: lib/libalpm/error.c:61
+#, c-format
 msgid "could not open database"
 msgstr "не удается открыть базу данных"
 
-#: lib/libalpm/error.c:63
+#, c-format
 msgid "could not create database"
 msgstr "не удается создать базу данных"
 
-#: lib/libalpm/error.c:65
+#, c-format
 msgid "database not initialized"
 msgstr "база данных не инициализирована"
 
-#: lib/libalpm/error.c:67
+#, c-format
 msgid "database already registered"
 msgstr "база данных уже зарегистрирована"
 
-#: lib/libalpm/error.c:69
+#, c-format
 msgid "could not find database"
 msgstr "не удается найти базу данных"
 
-#: lib/libalpm/error.c:71
+#, c-format
 msgid "could not update database"
 msgstr "не удается обновить базу данных"
 
-#: lib/libalpm/error.c:73
+#, c-format
 msgid "could not remove database entry"
 msgstr "не удается удалить запись в базе данных"
 
-#: lib/libalpm/error.c:76
+#, c-format
 msgid "invalid url for server"
 msgstr "неверный url"
 
-#: lib/libalpm/error.c:83
+#, c-format
 msgid "could not set parameter"
 msgstr "ну могу установить параметр"
 
-#: lib/libalpm/error.c:86
+#, c-format
 msgid "transaction already initialized"
 msgstr "запрос уже инициализирован"
 
-#: lib/libalpm/error.c:88 lib/libalpm/error.c:92
+#, c-format
 msgid "transaction not initialized"
 msgstr "запрос не инициализирован"
 
-#: lib/libalpm/error.c:90
+#, c-format
 msgid "duplicate target"
 msgstr "повторение целей"
 
-#: lib/libalpm/error.c:94
+#, c-format
 msgid "transaction not prepared"
 msgstr "запрос не подготовлен"
 
-#: lib/libalpm/error.c:96
+#, c-format
 msgid "transaction aborted"
 msgstr "запрос отменён"
 
-#: lib/libalpm/error.c:98
+#, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "операция не совместима с типом запроса"
 
-#: lib/libalpm/error.c:100
+#, c-format
 msgid "could not commit transaction"
 msgstr "не могу совершить запрос"
 
-#: lib/libalpm/error.c:102
+#, c-format
 msgid "could not download all files"
 msgstr "не могу загрузить все файлы"
 
-#: lib/libalpm/error.c:105
+#, c-format
 msgid "could not find or read package"
 msgstr "не удается найти или прочитать пакет"
 
-#: lib/libalpm/error.c:107
+#, c-format
 msgid "invalid or corrupted package"
 msgstr "пакет неправильный или поврежден"
 
-#: lib/libalpm/error.c:109
+#, c-format
 msgid "cannot open package file"
 msgstr "не удается открыть файл пакета"
 
-#: lib/libalpm/error.c:111
+#, c-format
 msgid "cannot load package data"
 msgstr "не удается загрузить данные пакета"
 
-#: lib/libalpm/error.c:113
+#, c-format
 msgid "package already installed"
 msgstr "пакет уже установлен"
 
-#: lib/libalpm/error.c:115
+#, c-format
 msgid "package not installed or lesser version"
 msgstr "пекет не установлен или ранней версии"
 
-#: lib/libalpm/error.c:117
+#, c-format
 msgid "cannot remove all files for package"
 msgstr "не могу удалить все файлы пакета"
 
-#: lib/libalpm/error.c:119
+#, c-format
 msgid "package name is not valid"
 msgstr "неверное имя пакета"
 
-#: lib/libalpm/error.c:121
+#, c-format
 msgid "corrupted package"
 msgstr "пакет поврежден"
 
-#: lib/libalpm/error.c:123
+#, c-format
 msgid "no such repository"
 msgstr "нет такого репозитория"
 
-#: lib/libalpm/error.c:126
+#, c-format
 msgid "corrupted delta"
 msgstr "дельта-патчи повреждены"
 
-#: lib/libalpm/error.c:128
+#, c-format
 msgid "delta patch failed"
 msgstr "не удалось применить дельта-патч"
 
-#: lib/libalpm/error.c:131
+#, c-format
 msgid "group not found"
 msgstr "группа не найдена"
 
-#: lib/libalpm/error.c:134
+#, c-format
 msgid "could not satisfy dependencies"
 msgstr "не удается удовлетворить зависимости"
 
-#: lib/libalpm/error.c:136
+#, c-format
 msgid "conflicting dependencies"
 msgstr "конфликтующие зависимости"
 
-#: lib/libalpm/error.c:138
+#, c-format
 msgid "conflicting files"
 msgstr "конфликрующие файлы"
 
-#: lib/libalpm/error.c:141
+#, c-format
 msgid "user aborted the operation"
 msgstr "пользователь прервал операцию"
 
-#: lib/libalpm/error.c:143
+#, c-format
 msgid "internal error"
 msgstr "внутренняя ошибка"
 
-#: lib/libalpm/error.c:145
+#, c-format
 msgid "libarchive error"
 msgstr "ошибка в libarchive"
 
-#: lib/libalpm/error.c:148
+#, c-format
 msgid "not confirmed"
 msgstr "не подтверждено"
 
-#: lib/libalpm/error.c:150
+#, c-format
 msgid "invalid regular expression"
 msgstr "неверное регулярное выражение"
 
-#: lib/libalpm/error.c:153
+#, c-format
 msgid "connection to remote host failed"
 msgstr "не удалось подключиться к удаленному хосту"
 
-#: lib/libalpm/error.c:156
+#, c-format
 msgid "unexpected error"
 msgstr "непредвиденная ошибка"
 
-#: lib/libalpm/package.c:122
 #, c-format
 msgid "could not get md5sum for package %s-%s\n"
 msgstr "не могу получить контрольную сумму md5 для пакета %s-%s\n"
 
-#: lib/libalpm/package.c:131
 #, c-format
 msgid "md5sums do not match for package %s-%s\n"
 msgstr "контрольные суммы md5 для пакета %s-%s не совпали\n"
 
-#: lib/libalpm/package.c:844
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
 msgstr "%s: принудительно обновляю до версии %s\n"
 
-#: lib/libalpm/package.c:849
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: установленная версия (%s) новее, чем в %s (%s)\n"
 
-#: lib/libalpm/package.c:1027
 #, c-format
 msgid "error extracting package description file to %s\n"
 msgstr "ошибка извлечения файла описания пакета в %s\n"
 
-#: lib/libalpm/package.c:1033
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "не могу проанализировать файл с описанием пакета в %s\n"
 
-#: lib/libalpm/package.c:1038
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "пропущено имя пакета в %s\n"
 
-#: lib/libalpm/package.c:1042
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "пропущена версия пакета в %s\n"
 
-#: lib/libalpm/package.c:1061 lib/libalpm/package.c:1074
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "ошибка при чтении пакета %s: %s\n"
 
-#: lib/libalpm/package.c:1081
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "отсутствуют метаданые пакета в %s\n"
 
-#: lib/libalpm/remove.c:119
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "не могу найти %s в базе данных --  пропускаю\n"
 
-#: lib/libalpm/remove.c:172 lib/libalpm/remove.c:247
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "не могу удалить файл '%s': %s\n"
 
-#: lib/libalpm/remove.c:341
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "не могу удалить из базы данных запись %s-%s\n"
 
-#: lib/libalpm/remove.c:346
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "не могу удалить запись '%s' из кеша\n"
 
-#: lib/libalpm/server.c:54
 #, c-format
 msgid "url '%s' is invalid, ignoring\n"
 msgstr "url '%s' недействительный, пропускаю\n"
 
-#: lib/libalpm/server.c:58
+#, c-format
 msgid "url scheme not specified, assuming http\n"
 msgstr "url не определён, подразумевается http\n"
 
-#: lib/libalpm/server.c:239
+#, c-format
 msgid "disk"
 msgstr "диск"
 
-#: lib/libalpm/server.c:243
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не удалось получить файл '%s' из %s : %s\n"
 
-#: lib/libalpm/server.c:273
+#, c-format
 msgid "cannot resume download, starting over\n"
 msgstr "не удалось продолжить закачку, начинаю заново\n"
 
-#: lib/libalpm/server.c:286
 #, c-format
 msgid "cannot write to file '%s'\n"
 msgstr "не могу записать в файл '%s'\n"
 
-#: lib/libalpm/server.c:305
 #, c-format
 msgid "error downloading '%s': %s\n"
 msgstr "ошибка загрузки '%s': %s\n"
 
-#: lib/libalpm/server.c:317
 #, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "не могу записать в файл '%s': %s\n"
 
-#: lib/libalpm/server.c:385
 #, c-format
 msgid "could not chdir to %s\n"
 msgstr "не могу изменить директорию на %s\n"
 
-#: lib/libalpm/server.c:392
+#, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "запуск XferCommand: неудача\n"
 
-#: lib/libalpm/server.c:443
+#, c-format
 msgid "URL does not contain a file for download\n"
 msgstr "URL не содержит имени файла для загрузки\n"
 
-#: lib/libalpm/server.c:456
 #, c-format
 msgid "failed to download %s\n"
 msgstr "не могу загрузить %s\n"
 
-#: lib/libalpm/sync.c:133
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr "%s-%s: игнорирую обновление пакета (он будет заменен на %s-%s)\n"
 
-#: lib/libalpm/sync.c:248
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: игнорирую обновление пакета (%s => %s)\n"
 
-#: lib/libalpm/sync.c:309
 #, c-format
 msgid "repository '%s' not found\n"
 msgstr "репозиторий '%s' не найден\n"
 
-#: lib/libalpm/sync.c:336
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s не устарел --  пропускаю\n"
 
-#: lib/libalpm/sync.c:340
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s не устарел --  переустанавливаю\n"
 
-#: lib/libalpm/sync.c:596 lib/libalpm/sync.c:601
+#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "обнаружен неразрешимый конфликт пакетов\n"
 
-#: lib/libalpm/sync.c:611
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "сбой malloc: не удалось выделить %zd байт\n"
 
-#: lib/libalpm/sync.c:812
 #, c-format
 msgid "command: %s\n"
 msgstr "комманда: %s\n"
 
-#: lib/libalpm/sync.c:876 lib/libalpm/sync.c:886
 #, c-format
 msgid "can't get md5 checksum for file %s\n"
 msgstr "не удалось получить md5 контрольную сумму для файла %s\n"
 
-#: lib/libalpm/sync.c:902
 #, c-format
 msgid "file %s was corrupted (bad MD5 checksum)\n"
 msgstr "архив %s поврежден (не сходятся контрольные MD5-суммы)\n"
 
-#: lib/libalpm/sync.c:1049
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "не удалось получить некоторые файлы с %s\n"
 
-#: lib/libalpm/sync.c:1130
+#, c-format
 msgid "could not create removal transaction\n"
 msgstr "не удалось создать запрос на удаление\n"
 
-#: lib/libalpm/sync.c:1136
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "не удалось инициализировать запрос на удаление\n"
 
-#: lib/libalpm/sync.c:1158
+#, c-format
 msgid "could not prepare removal transaction\n"
 msgstr "не удалось подготовить запрос на удаление\n"
 
-#: lib/libalpm/sync.c:1164
+#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "не удалось совершить запрос на удаление\n"
 
-#: lib/libalpm/sync.c:1175
+#, c-format
 msgid "could not create transaction\n"
 msgstr "не удалось создать запрос\n"
 
-#: lib/libalpm/sync.c:1180
+#, c-format
 msgid "could not initialize transaction\n"
 msgstr "не удалось инициализировать запрос\n"
 
-#: lib/libalpm/sync.c:1207
+#, c-format
 msgid "could not prepare transaction\n"
 msgstr "не удалось подготовить запрос\n"
 
-#: lib/libalpm/sync.c:1212
+#, c-format
 msgid "could not commit transaction\n"
 msgstr "не удалось совершить запрос\n"
 
-#: lib/libalpm/trans.c:212
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "не могу удалить lock-файл %s\n"
 
-#: lib/libalpm/trans.c:483
+#, c-format
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
 msgstr "Нету /bin/sh в родительском окружении, отмена скрипта\n"
 
-#: lib/libalpm/trans.c:494
+#, c-format
 msgid "could not create temp directory\n"
 msgstr "не удалось создать временную директорию\n"
 
-#: lib/libalpm/trans.c:533
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не удалось изменить директорию на %s (%s)\n"
 
-#: lib/libalpm/trans.c:551
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "не не удалось создать новый процесс (%s)\n"
 
-#: lib/libalpm/trans.c:561
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "не удалось изменить корневую директорию (%s)\n"
 
-#: lib/libalpm/trans.c:566
 #, c-format
 msgid "could not change directory to / (%s)\n"
 msgstr "не удалось изменить директорию на / (%s)\n"
 
-#: lib/libalpm/trans.c:575
 #, c-format
 msgid "call to popen failed (%s)"
 msgstr "вызов popen не удался (%s)"
 
-#: lib/libalpm/trans.c:594
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "вызов waitpid не удался (%s)\n"
 
-#: lib/libalpm/trans.c:603
+#, c-format
 msgid "scriptlet failed to execute correctly\n"
 msgstr "не удалось корректно выполнить скрипт\n"
 
-#: lib/libalpm/trans.c:612
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "не могу удалить tmpdir %s\n"
 
-#: lib/libalpm/util.c:207
 #, c-format
 msgid "failed to make path '%s' : %s\n"
 msgstr "не удалось создать путь '%s' : %s\n"
 
-#: lib/libalpm/util.c:392
 #, c-format
 msgid "could not open %s: %s\n"
 msgstr "не удалось откруть %s: %s\n"
 
-#: lib/libalpm/util.c:579
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "кэш %s не существует, создаю...\n"
 
-#: lib/libalpm/util.c:595
+#, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не могу создать кэш пакетов, будет использован /tmp\n"
 
-#: lib/libalpm/util.c:644
 #, c-format
 msgid "md5: %s can't be opened\n"
 msgstr "md5: %s не может быть открыт\n"
 
-#: lib/libalpm/util.c:646
 #, c-format
 msgid "md5: %s can't be read\n"
 msgstr "md5: %s не может быть прочитан\n"

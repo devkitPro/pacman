@@ -184,11 +184,31 @@ static void setuseragent(void)
 	setenv("HTTP_USER_AGENT", agent, 0);
 }
 
+/** Free the resources.
+ *
+ * @param ret the return value
+ */
+static void cleanup(int ret) {
+	/* free alpm library resources */
+	if(alpm_release() == -1) {
+		pm_printf(PM_LOG_ERROR, alpm_strerrorlast());
+	}
+
+	/* free memory */
+	FREELIST(pm_targets);
+	if(config) {
+		config_free(config);
+		config = NULL;
+	}
+
+	exit(ret);
+}
+
 /** Catches thrown signals. Performs necessary cleanup to ensure database is
  * in a consistant state.
  * @param signum the thrown signal
  */
-static void cleanup(int signum)
+static void handler(int signum)
 {
 	if(signum==SIGSEGV)
 	{
@@ -207,20 +227,7 @@ static void cleanup(int signum)
 		/* output a newline to be sure we clear any line we may be on */
 		printf("\n");
 	}
-
-	/* free alpm library resources */
-	if(alpm_release() == -1) {
-		pm_printf(PM_LOG_ERROR, alpm_strerrorlast());
-	}
-
-	/* free memory */
-	FREELIST(pm_targets);
-	if(config) {
-		config_free(config);
-		config = NULL;
-	}
-
-	exit(signum);
+	cleanup(signum);
 }
 
 /** Sets all libalpm required paths in one go. Called after the command line
@@ -745,6 +752,7 @@ static int parseconfig(const char *file)
 int main(int argc, char *argv[])
 {
 	int ret = 0;
+	struct sigaction new_action, old_action;
 #if defined(HAVE_GETEUID)
 	/* geteuid undefined in CYGWIN */
 	uid_t myuid = geteuid();
@@ -755,10 +763,24 @@ int main(int argc, char *argv[])
 	mtrace();
 #endif
 
-	/* set signal handlers */
-	signal(SIGINT, cleanup);
-	signal(SIGTERM, cleanup);
-	signal(SIGSEGV, cleanup);
+	/* Set signal handlers */
+	/* Set up the structure to specify the new action. */
+	new_action.sa_handler = handler;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_flags = 0;
+
+	sigaction(SIGINT, NULL, &old_action);
+	if(old_action.sa_handler != SIG_IGN) {
+		sigaction(SIGINT, &new_action, NULL);
+	}
+	sigaction(SIGTERM, NULL, &old_action);
+	if(old_action.sa_handler != SIG_IGN) {
+		sigaction(SIGTERM, &new_action, NULL);
+	}
+	sigaction(SIGSEGV, NULL, &old_action);
+	if(old_action.sa_handler != SIG_IGN) {
+		sigaction(SIGSEGV, &new_action, NULL);
+	}
 
 	/* i18n init */
 #if defined(ENABLE_NLS)

@@ -1,0 +1,25 @@
+This is a project file
+for the vim-project plugin.
+Save it as ~/.vimprojects
+
+$ pacman -S vim-project
+change the pacman path below
+$ vim
+:Project
+
+Press \r in the project view
+on a project name to generate
+the list of files
+
+pacman=~/devel/pacman/ CD=. filter="*.ac *.am" flags=S {
+  libalpm=lib/libalpm/ filter="*.c *.h *.am" {
+  }
+  pacman=src/pacman/ filter="*.c *.h *.am" {
+  }
+  scripts=scripts/ filter="*.sh.in *.py.in *.am" {
+  }
+  utils=src/util filter="*.c *.h *.am" {
+  }
+  contrib=contrib CD=. {
+  }
+}

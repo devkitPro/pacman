@@ -357,7 +357,6 @@ int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 			satisfy = (dep->mod == PM_DEP_MOD_ANY
 					&& strcmp(provname, dep->name) == 0);
 		} else {
-			/* replace the space with a NULL byte, and advance ptr the version */
 			*provver = '\0';
 			provver += 1;
 			satisfy = (strcmp(provname, dep->name) == 0
