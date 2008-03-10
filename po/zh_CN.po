@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-03-03 21:09+0100\n"
-"Last-Translator: 甘露（Gan Lu） <rhythm.gan@gmail.com>\n"
+"PO-Revision-Date: 2008-03-12 01:59+0700\n"
+"Last-Translator: 甘露 (Lu Gan) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -33,7 +33,7 @@ msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s.\n"
 msgstr ""
-"  如果你确认软件包管理器已经没有\n"
+"  如果你确认软件包管理器没有正在\n"
 "  运行，你可以删除 %s。\n"
 
 #, c-format
@@ -70,7 +70,7 @@ msgid ""
 "errors occurred, no packages were upgraded.\n"
 msgstr ""
 "\n"
-"发生错误，没有软件包进行更新\n"
+"发生错误，没有软件包被更新\n"
 
 #, c-format
 msgid "error: failed to commit transaction (%s)\n"
@@ -78,7 +78,7 @@ msgstr "错误：无法交付处理(%s)\n"
 
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "正在检查倚赖关系……\n"
+msgstr "正在检查依赖关系……\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
@@ -86,7 +86,7 @@ msgstr "正在检查文件冲突……\n"
 
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "正在解决倚赖关系……\n"
+msgstr "正在解决依赖关系……\n"
 
 #, c-format
 msgid "looking for inter-conflicts...\n"
@@ -130,23 +130,25 @@ msgstr "失败。\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
-msgstr ":: 正在从 %s获取软件包……\n"
+msgstr ":: 正在从 %s 获取软件包……\n"
 
 #, c-format
 msgid ""
 ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway? [Y/"
 "n] "
 msgstr ""
-":: %s需要安装列在IgnorePkg/IgnoreGroup（忽略清单）中的%s。无论如何都进行安装"
-"吗?[Y/n]"
+":: %s需要安装列在IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中的%s。确"
+"定都进行安装吗?[Y/n]"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway? [Y/n] "
-msgstr ":: %s列在IgnorePkg/IgnoreGroup中。无论如何都进行安装吗?[Y/n]"
+msgstr ""
+":: %s列在IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中。真的确定要安装"
+"吗?[Y/n]"
 
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway? [Y/n] "
-msgstr ":: %s是作为HoldPkg指定的。无论如何都删除吗？[Y/n]"
+msgstr ":: %s是作为HoldPkg（保留软件包）指定的。真的确定要删除吗？[Y/n]"
 
 #, c-format
 msgid ":: Replace %s with %s/%s? [Y/n] "
@@ -162,7 +164,7 @@ msgstr ":: %s 与 %s 有冲突。删除 %s？[Y/n]"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway? [Y/n] "
-msgstr ":: %s-%s：本地版本较新。无论如何都升级吗？[Y/n]"
+msgstr ":: %s-%s：本地版本较新。真的确定要更新吗？[Y/n]"
 
 #, c-format
 msgid ":: File %s is corrupted. Do you want to delete it? [Y/n] "
@@ -174,7 +176,7 @@ msgstr "正在安装"
 
 #, c-format
 msgid "upgrading"
-msgstr "生在升级"
+msgstr "正在进行更新"
 
 #, c-format
 msgid "removing"
@@ -190,7 +192,7 @@ msgstr "单独指定安装"
 
 #, c-format
 msgid "Installed as a dependency for another package"
-msgstr "已经作为其他软件包的倚赖关系安装"
+msgstr "已经作为其他软件包的依赖关系安装"
 
 #, c-format
 msgid "Unknown"
@@ -226,11 +228,11 @@ msgstr "提供　　　："
 
 #, c-format
 msgid "Depends On     :"
-msgstr "倚赖于　　："
+msgstr "依赖于　　："
 
 #, c-format
 msgid "Optional Deps  :"
-msgstr "可选倚赖　："
+msgstr "可选依赖　："
 
 #, c-format
 msgid "Required By    :"
@@ -362,7 +364,7 @@ msgstr "      --asdeps         作为非单独指定安装的软件包安装\n"
 
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         略过倚赖关系检查\n"
+msgstr "  -d, --nodeps         略过依赖关系检查\n"
 
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
@@ -371,7 +373,7 @@ msgstr "  -f,  -force          强制安装，覆盖存在冲突的文件\n"
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr "  -c, --cascade        删除软件包及所有的倚赖于此的软件包\n"
+msgstr "  -c, --cascade        删除软件包及所有的依赖于此的软件包\n"
 
 #, c-format
 msgid ""
@@ -385,7 +387,7 @@ msgstr "  -n, --nosave         同时删除配置文件\n"
 #, c-format
 msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
-msgstr "  -s, --recursive      同时删除（不会破坏其他软件包的）倚赖关系\n"
+msgstr "  -s, --recursive      同时删除（不会破坏其他软件包的）依赖关系\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -393,7 +395,7 @@ msgstr "  -c, --changelog      查看某软件包的更新日志\n"
 
 #, c-format
 msgid "  -d, --deps           list all packages installed as dependencies\n"
-msgstr "  -d, --deps           列出所有作为倚赖关系安装的软件包\n"
+msgstr "  -d, --deps           列出所有作为依赖关系安装的软件包\n"
 
 #, c-format
 msgid "  -e, --explicit       list all packages explicitly installed\n"
@@ -530,7 +532,7 @@ msgstr "      --noprogressbar  下载文件时不显示进度条\n"
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    不执行安装脚本\n"
+msgstr "      --noscriptlet    不执行安装小脚本\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
@@ -606,7 +608,7 @@ msgstr "初始化alpm库失败(%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "非根用户无法执行指定操作。\n"
+msgstr "非root（根用户）无法执行指定操作。\n"
 
 #, c-format
 msgid "could not register 'local' database (%s)\n"
@@ -986,7 +988,7 @@ msgstr "正在清理……"
 msgid ""
 "Options beginning with 'no' will be deprecated in the next version of "
 "makepkg!"
-msgstr "开始于'no'的选项将在makepkg的下个版本中放弃。"
+msgstr "以no开头的选项将在makepkg的下个版本中被放弃。"
 
 msgid "Please replace 'no' with '!': %s -> %s."
 msgstr "请用'!'代替'no'：%s -> %s"
@@ -1260,12 +1262,12 @@ msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   使用pacman安装缺少的依赖关系"
 
 msgid "      --asroot     Allow makepkg to run as root user"
-msgstr "      --asroot     允许makepkg作为root用户运行"
+msgstr "      --asroot     允许makepkg作为root（根用户）运行"
 
 msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
-msgstr "      --holdver    为开发中的PKGBUILD防止自动版本更新"
+msgstr "      --holdver    防止开发中的PKGBUILD自动更新版本"
 
 msgid "      --source     Do not build package; generate a source-only tarball"
 msgstr "    --source     不编译软件包，仅仅生成源码包"
@@ -1289,7 +1291,7 @@ msgid "%s not found."
 msgstr "%s 没有找到。"
 
 msgid "Sudo is used by default now. The --usesudo option is deprecated!"
-msgstr "现在默认使用sudo。--usesudo选项将逐步放弃！"
+msgstr "现在默认使用sudo。--usesudo选项已不用！"
 
 msgid "\\0--holdver and --forcever cannot both be specified"
 msgstr "\\0--holdver 和 --forcever 不能同时指定。"
@@ -1310,31 +1312,31 @@ msgid "No files have been removed."
 msgstr "没有文件被删除。"
 
 msgid "Source destination must be defined in makepkg.conf."
-msgstr "必须makepkg.conf在指定源码目标地。"
+msgstr "必须在makepkg.conf中指定源码目标地。"
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "此外，请在你缓存目录外运行makepkg -C。"
+msgstr "此外，请在你的缓存目录外运行makepkg -C。"
 
 msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr "BUILDSCRIPT 没有指定！确信你已经更新过%s。"
+msgstr "BUILDSCRIPT 没有指定！确认你已经更新过%s。"
 
 msgid "Running makepkg as root is a BAD idea and can cause"
-msgstr "作为root运行makepkg是个糟糕透顶的主义，可能会导致"
+msgstr "作为root（根用户）运行makepkg是个非常糟糕的主意，"
 
 msgid "permanent, catastrophic damage to your system. If you"
-msgstr "你的系统永远的，灾难性的损坏；如果你"
+msgstr "可能会造成你的系统永远的，灾难性的损坏；"
 
 msgid "wish to run as root, please use the --asroot option."
-msgstr "希望作为root来运行，请使用--asroot选项。"
+msgstr "如果你希望作为root（根用户）来运行，请使用--asroot选项。"
 
 msgid "The --asroot option is meant for the root user only."
-msgstr "--asroot选项仅针对root用户。"
+msgstr "--asroot选项仅针对root（根用户）。"
 
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "请重新运行makepkg而不带--asroot参数。"
 
 msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Fakeroot必须安装，如果使用了'fakeroot'选项"
+msgstr "如果使用了'fakeroot'选项，必须安装fakeroot"
 
 msgid "in the BUILDENV array in %s."
 msgstr "在%s的BUILDENV中。"
@@ -1346,10 +1348,10 @@ msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr "拥有者权限为非根用户。请尝试通过在makepkg.conf中的"
 
 msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
-msgstr "BUILDENV行设置为'fakeroot'来使用fakeroot环境。"
+msgstr "BUILDENV设置行中加入'fakeroot'来使用fakeroot环境。"
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
-msgstr "不用使用'-F'选项。该选项仅仅由makepkg使用。"
+msgstr "不必使用'-F'选项。该选项仅仅供makepkg使用。"
 
 msgid "Cannot find the sudo binary! Is sudo installed?"
 msgstr "无法找到sudo命令！sudo是否已安装？"
@@ -1367,7 +1369,7 @@ msgid "%s is not allowed to be empty."
 msgstr "%s 不允许为空。"
 
 msgid "%s is not allowed to contain hyphens."
-msgstr "%s 不允许含有"
+msgstr "%s 不允许含有连字号"
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s 在'%s'架构中不可用。"
@@ -1379,7 +1381,7 @@ msgid "such as arch=('%s')."
 msgstr "诸如arch=('%s')."
 
 msgid "Install scriptlet (%s) does not exist."
-msgstr "安装脚本(%s)不存在。"
+msgstr "安装小脚本(%s)不存在。"
 
 msgid "A package has already been built, installing existing package..."
 msgstr "已有一个编译好的软件包，正在安装现存的软件包……"
@@ -1391,7 +1393,7 @@ msgid "Skipping build."
 msgstr "跳过编译。"
 
 msgid "Leaving fakeroot environment."
-msgstr "正在离开fakeroot环境。"
+msgstr "正在退出fakeroot环境。"
 
 msgid "Making package: %s"
 msgstr "正在创建软件包：%s"
@@ -1427,10 +1429,10 @@ msgid "Skipping source extraction       -- using existing src/ tree"
 msgstr "跳过源码解压缩       -- 使用现存的src/"
 
 msgid "The source directory is empty, there is nothing to build!"
-msgstr "源码目录为空，没有东东可编译。"
+msgstr "源码目录为空，没有东西可编译。"
 
 msgid "The package directory is empty, there is nothing to repackage!"
-msgstr "源码目录为空，没有东东可打包。"
+msgstr "源码目录为空，没有东西可打包。"
 
 msgid "Sources are ready."
 msgstr "源码已准备好。"
@@ -1470,13 +1472,13 @@ msgid "diff tool was not found, please install diffutils."
 msgstr "diff工具没有找到，请安装diffutils。"
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Pacman锁文件找到。无法在pacman运行时再次运行。"
+msgstr "发现Pacman锁文件。不能在pacman运行时再次运行。"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s不存在或不是一个目录。"
 
 msgid "You must have correct permissions to optimize the database."
-msgstr "必须拥有正确的权限才能优化数据库。"
+msgstr "你必须拥有正确的权限才能优化数据库。"
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "错误：无法为数据库建立创建空目录。"
@@ -1485,13 +1487,13 @@ msgid "MD5sum'ing the old database..."
 msgstr "正在为旧数据库创建MD5值……"
 
 msgid "Tar'ing up %s..."
-msgstr "正在打包%s……"
+msgstr "正在归档%s……"
 
 msgid "Tar'ing up %s failed."
-msgstr "正在打包%s失败。"
+msgstr "归档%s失败。"
 
 msgid "Making and MD5sum'ing the new db..."
-msgstr "生成新数据库及md5检查值……"
+msgstr "正在生成新数据库及md5校验码……"
 
 msgid "Untar'ing %s failed."
 msgstr "解包%s失败。"
@@ -1538,7 +1540,7 @@ msgid ""
 "the extent permitted by law.\\n"
 msgstr ""
 "Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n\\n这是一个免费软"
-"件；版权条款见源码。\\n不提供任何法律所规定的保证\\n"
+"件；版权条款见源码。\\n不提供担保，除非法律不允许\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "无效的软件包文件'%s'。"
@@ -1550,7 +1552,7 @@ msgid "Creating 'desc' db entry..."
 msgstr "正在生成'desc'数据库记录"
 
 msgid "Computing md5 checksums..."
-msgstr "正在计算md5检查值……"
+msgstr "正在计算md5校验码……"
 
 msgid "Creating 'depends' db entry..."
 msgstr "正在生成'depends'数据库记录……"
@@ -1615,7 +1617,7 @@ msgid "Searching for package '%s'..."
 msgstr "正在搜索软件包'%s……"
 
 msgid "Package matching '%s' not found."
-msgstr "符合'%s'的软件包没有找到。"
+msgstr "没有找到符合'%s'的软件包。"
 
 msgid "Creating updated database file '%s'..."
 msgstr "正在生成更新的数据库文件 '%s'……"
@@ -1667,7 +1669,7 @@ msgid ""
 "the extent permitted by law.\\n"
 msgstr ""
 "Copyright (C) 2004 Jason Chu <jason@archlinux.org>.\\n\\n这是一个免费软件；版"
-"权条款见源码。\\n不提供任何法律所规定的保证\\n"
+"权条款见源码。\\n不提供担保，除非法律不允许\\n"
 
 msgid "%s not found"
 msgstr "%s 没有找到"
