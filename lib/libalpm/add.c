@@ -848,7 +848,7 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 		return(0);
 	}
 
-	pkg_count = alpm_list_count(trans->targets);
+	pkg_count = alpm_list_count(trans->packages);
 	pkg_current = 1;
 
 	/* loop through our package list adding/upgrading one at a time */

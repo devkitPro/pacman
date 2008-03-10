@@ -228,7 +228,6 @@ pmtrans_t *_alpm_trans_new()
 
 	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	trans->targets = NULL;
 	trans->packages = NULL;
 	trans->skip_add = NULL;
 	trans->skip_remove = NULL;
@@ -250,7 +249,6 @@ void _alpm_trans_free(pmtrans_t *trans)
 		return;
 	}
 
-	FREELIST(trans->targets);
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
 		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_sync_free);
 	} else if (trans->type == PM_TRANS_TYPE_REMOVE ||
@@ -308,11 +306,6 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(alpm_list_find_str(trans->targets, target)) {
-		return(0);
-		//RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
-	}
-
 	switch(trans->type) {
 		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
@@ -335,8 +328,6 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 			}
 		break;
 	}
-
-	trans->targets = alpm_list_add(trans->targets, strdup(target));
 
 	return(0);
 }
@@ -635,15 +626,6 @@ unsigned int SYMEXPORT alpm_trans_get_flags()
 	ASSERT(handle->trans != NULL, return(-1));
 
 	return handle->trans->flags;
-}
-
-alpm_list_t SYMEXPORT * alpm_trans_get_targets()
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(handle->trans != NULL, return(NULL));
-
-	return handle->trans->targets;
 }
 
 alpm_list_t SYMEXPORT * alpm_trans_get_pkgs()

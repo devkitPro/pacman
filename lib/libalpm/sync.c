@@ -509,13 +509,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				goto cleanup;
 			}
 
-			_alpm_log(PM_LOG_DEBUG, "removing '%s' from target list\n", rsync->pkg->name);
-			/* Only prints a warning if rsync is an explicit target. */
-			if(alpm_list_find_str(trans->targets, rsync->pkg->name)) {
-				_alpm_log(PM_LOG_WARNING,
-						_("removing '%s' from target list because it conflicts with '%s'\n"),
-						rsync->pkg->name, sync->pkg->name);
-			}
+			/* Prints warning */
+			_alpm_log(PM_LOG_WARNING,
+					_("removing '%s' from target list because it conflicts with '%s'\n"),
+					rsync->pkg->name, sync->pkg->name);
 			void *vpkg;
 			trans->packages = alpm_list_remove(trans->packages, rsync,
 					syncpkg_cmp, &vpkg);

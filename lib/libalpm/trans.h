@@ -39,7 +39,6 @@ struct __pmtrans_t {
 	pmtranstype_t type;
 	pmtransflag_t flags;
 	pmtransstate_t state;
-	alpm_list_t *targets;       /* list of (char *) */
 	alpm_list_t *packages;      /* list of (pmpkg_t *) or (pmsyncpkg_t *) */
 	alpm_list_t *skip_add;      /* list of (char *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
