@@ -570,7 +570,8 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			if(!sync) {
 				continue;
 			}
-			found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
+			found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove)
+				&& !_alpm_pkg_find(alpm_pkg_get_name(sync), *list);
 			if(!found) {
 				continue;
 			}
@@ -592,7 +593,8 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 					continue;
 				}
 				found = alpm_depcmp(sync, missdep) && strcmp(sync->name, missdep->name)
-					&& !_alpm_pkg_find(alpm_pkg_get_name(sync), remove);
+					&& !_alpm_pkg_find(alpm_pkg_get_name(sync), remove)
+					&& !_alpm_pkg_find(alpm_pkg_get_name(sync), *list);
 				if(!found) {
 					continue;
 				}

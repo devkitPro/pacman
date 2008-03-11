@@ -128,6 +128,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 					pmsyncpkg_t *sync;
 
 					/* check if spkg->name is already in the packages list. */
+					/* TODO: same package name doesn't mean same package */
 					sync = _alpm_sync_find(*syncpkgs, alpm_pkg_get_name(spkg));
 					if(sync) {
 						/* found it -- just append to the removes list */
@@ -246,7 +247,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 
 			/* add the upgrade package to our pmsyncpkg_t list */
 			if(_alpm_sync_find(*syncpkgs, alpm_pkg_get_name(spkg))) {
-				/* it is already there, done */
+				/* avoid duplicated targets */
 				continue;
 			}
 			/* we can set any reason here, it will be overridden by add_commit */
@@ -317,6 +318,11 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 		}
 	}
 
+	if(_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
+		FREE(targline);
+		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+	}
+
 	if(_alpm_pkg_should_ignore(spkg)) {
 		int resp;
 		QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, spkg, NULL, NULL, &resp);
@@ -343,15 +349,13 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	}
 
 	/* add the package to the transaction */
-	if(!_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
-		sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
-		if(sync == NULL) {
-			goto error;
-		}
-		_alpm_log(PM_LOG_DEBUG, "adding target '%s' to the transaction set\n",
-							alpm_pkg_get_name(spkg));
-		trans->packages = alpm_list_add(trans->packages, sync);
+	sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
+	if(sync == NULL) {
+		goto error;
 	}
+	_alpm_log(PM_LOG_DEBUG, "adding target '%s' to the transaction set\n",
+						alpm_pkg_get_name(spkg));
+	trans->packages = alpm_list_add(trans->packages, sync);
 
 	FREE(targline);
 	return(0);
@@ -399,6 +403,9 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+		/* store a pointer to the last original target so we can tell what was
+		 * pulled by resolvedeps */
+		alpm_list_t *pulled = alpm_list_last(list);
 		/* Resolve targets dependencies */
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_DEBUG, "resolving target's dependencies\n");
@@ -421,19 +428,16 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
-		for(i = list; i; i = i->next) {
-			/* add the dependencies found by resolvedeps to the transaction set */
+		for(i = pulled->next; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
-			if(!_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
-				pmsyncpkg_t *sync = _alpm_sync_new(PM_PKG_REASON_DEPEND, spkg, NULL);
-				if(sync == NULL) {
-					ret = -1;
-					goto cleanup;
-				}
-				trans->packages = alpm_list_add(trans->packages, sync);
-				_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
-									alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
+			pmsyncpkg_t *sync = _alpm_sync_new(PM_PKG_REASON_DEPEND, spkg, NULL);
+			if(sync == NULL) {
+				ret = -1;
+				goto cleanup;
 			}
+			trans->packages = alpm_list_add(trans->packages, sync);
+			_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+								alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 		}
 
 		/* re-order w.r.t. dependencies */
@@ -444,6 +448,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				pmsyncpkg_t *s = j->data;
 				if(s->pkg == i->data) {
 					newpkgs = alpm_list_add(newpkgs, s);
+					break;
 				}
 			}
 		}
