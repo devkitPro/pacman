@@ -97,8 +97,8 @@ Options
 	running in the DistCC cluster. In addition, you will want to modify your
 	`MAKEFLAGS`.
 
-**OPTIONS=(**strip !docs libtool emptydirs**)**::
-	This array contains options that affect the default packaging. All four are
+**OPTIONS=(**strip !docs libtool emptydirs zipman**)**::
+	This array contains options that affect the default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or
 	disable an option simply remove or place an ``!'' at the front of the
@@ -119,6 +119,9 @@ Options
 
 	*emptydirs*;;
 		Leave empty directories in packages.
+
+	*zipman*;;
+		Compress man pages with gzip.
 
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this

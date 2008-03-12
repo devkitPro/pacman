@@ -151,7 +151,7 @@ hi def link pbValidSha1sums  Number
 
 " options
 syn keyword pb_k_options options contained
-syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|ccache\|distcc\|makeflags\|force\)/ contained
+syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|zipman\|ccache\|distcc\|makeflags\|force\)/ contained
 syn match   pbOptionsNeg     /\!/ contained
 syn match   pbOptionsDeprec  /no/ contained
 syn region pbOptionsGroup start=/^options=(/ end=/)/ contains=pb_k_options,pbOptions,pbOptionsNeg,pbOptionsDeprec,pbIllegalOption,shDoubleQuote,shSingleQuote
