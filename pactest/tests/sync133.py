@@ -9,7 +9,7 @@ lp = pmpkg("pkg1")
 
 self.addpkg2db("local", lp)
 
-self.option["ignorepkg"] = ["pkg1"]
+self.option["IgnorePkg"] = ["pkg1"]
 
 self.args = "-Su"
 

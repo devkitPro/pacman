@@ -12,7 +12,7 @@ lp2 = pmpkg("pkg2")
 for p in lp1, lp2:
 	self.addpkg2db("local", p)
 
-self.option["ignorepkg"] = ["pkg2"]
+self.option["IgnorePkg"] = ["pkg2"]
 
 self.args = "-Su"
 

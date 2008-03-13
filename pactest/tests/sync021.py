@@ -12,7 +12,7 @@ sp3.groups = ["grp"]
 for p in sp1, sp2, sp3:
 	self.addpkg2db("sync", p);
 
-self.option["ignorepkg"] = ["pkg2"]
+self.option["IgnorePkg"] = ["pkg2"]
 
 self.args = "-S grp"
 

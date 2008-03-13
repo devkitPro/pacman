@@ -5,7 +5,7 @@ p.files = ["bin/dummy",
            "usr/man/man1/dummy.1"]
 self.addpkg(p)
 
-self.option["noextract"] = ["usr/man/man1/dummy.1"]
+self.option["NoExtract"] = ["usr/man/man1/dummy.1"]
 
 self.args = "-U %s" % p.filename()
 

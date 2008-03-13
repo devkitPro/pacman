@@ -181,7 +181,7 @@ def mkcfgfile(filename, root, option, db):
 
     # Repositories
     data.extend(["[%s]\n" \
-                 "server = file://%s\n" \
+                 "Server = file://%s\n" \
                  % (value.treename, \
                     os.path.join(root, SYNCREPO, value.treename)) \
                  for key, value in db.iteritems() if key != "local"])

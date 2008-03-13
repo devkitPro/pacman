@@ -604,7 +604,7 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 		} else {
 			/* directive */
-			char *key, *upperkey;
+			char *key;
 			/* strsep modifies the 'line' string: 'key \0 ptr' */
 			key = line;
 			ptr = line;
@@ -617,11 +617,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						file, linenum);
 				return(1);
 			}
-			/* For each directive, compare to the uppercase and camelcase string.
-			 * This prevents issues with certain locales where characters don't
-			 * follow the toupper() rules we may expect, e.g. tr_TR where i != I.
-			 */
-			upperkey = strtoupper(strdup(key));
+			/* For each directive, compare to the camelcase string. */
 			if(section == NULL) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 						file, linenum);
@@ -629,25 +625,25 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 			if(ptr == NULL && strcmp(section, "options") == 0) {
 				/* directives without settings, all in [options] */
-				if(strcmp(key, "NoPassiveFTP") == 0 || strcmp(upperkey, "NOPASSIVEFTP") == 0) {
+				if(strcmp(key, "NoPassiveFTP") == 0) {
 					alpm_option_set_nopassiveftp(1);
 					pm_printf(PM_LOG_DEBUG, "config: nopassiveftp\n");
-				} else if(strcmp(key, "UseSyslog") == 0 || strcmp(upperkey, "USESYSLOG") == 0) {
+				} else if(strcmp(key, "UseSyslog") == 0) {
 					alpm_option_set_usesyslog(1);
 					pm_printf(PM_LOG_DEBUG, "config: usesyslog\n");
-				} else if(strcmp(key, "ILoveCandy") == 0 || strcmp(upperkey, "ILOVECANDY") == 0) {
+				} else if(strcmp(key, "ILoveCandy") == 0) {
 					config->chomp = 1;
 					pm_printf(PM_LOG_DEBUG, "config: chomp\n");
-				} else if(strcmp(key, "UseColor") == 0 || strcmp(upperkey, "USECOLOR") == 0) {
+				} else if(strcmp(key, "UseColor") == 0) {
 					config->usecolor = 1;
 					pm_printf(PM_LOG_DEBUG, "config: usecolor\n");
-				} else if(strcmp(key, "ShowSize") == 0 || strcmp(upperkey, "SHOWSIZE") == 0) {
+				} else if(strcmp(key, "ShowSize") == 0) {
 					config->showsize = 1;
 					pm_printf(PM_LOG_DEBUG, "config: showsize\n");
-				} else if(strcmp(key, "UseDelta") == 0 || strcmp(upperkey, "USEDELTA") == 0) {
+				} else if(strcmp(key, "UseDelta") == 0) {
 					alpm_option_set_usedelta(1);
 					pm_printf(PM_LOG_DEBUG, "config: usedelta\n");
-				} else if(strcmp(key, "TotalDownload") == 0 || strcmp(upperkey, "TOTALDOWNLOAD") == 0) {
+				} else if(strcmp(key, "TotalDownload") == 0) {
 					config->totaldownload = 1;
 					pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
 				} else {
@@ -657,51 +653,46 @@ static int _parseconfig(const char *file, const char *givensection,
 				}
 			} else {
 				/* directives with settings */
-				if(strcmp(key, "Include") == 0 || strcmp(upperkey, "INCLUDE") == 0) {
+				if(strcmp(key, "Include") == 0) {
 					pm_printf(PM_LOG_DEBUG, "config: including %s\n", ptr);
 					_parseconfig(ptr, section, db);
 					/* Ignore include failures... assume non-critical */
 				} else if(strcmp(section, "options") == 0) {
-					if(strcmp(key, "NoUpgrade") == 0
-							|| strcmp(upperkey, "NOUPGRADE") == 0) {
+					if(strcmp(key, "NoUpgrade") == 0) {
 						setrepeatingoption(ptr, "NoUpgrade", alpm_option_add_noupgrade);
-					} else if(strcmp(key, "NoExtract") == 0
-							|| strcmp(upperkey, "NOEXTRACT") == 0) {
+					} else if(strcmp(key, "NoExtract") == 0) {
 						setrepeatingoption(ptr, "NoExtract", alpm_option_add_noextract);
-					} else if(strcmp(key, "IgnorePkg") == 0
-							|| strcmp(upperkey, "IGNOREPKG") == 0) {
+					} else if(strcmp(key, "IgnorePkg") == 0) {
 						setrepeatingoption(ptr, "IgnorePkg", alpm_option_add_ignorepkg);
-					} else if(strcmp(key, "IgnoreGroup") == 0
-							|| strcmp(upperkey, "IGNOREGROUP") == 0) {
+					} else if(strcmp(key, "IgnoreGroup") == 0) {
 						setrepeatingoption(ptr, "IgnoreGroup", alpm_option_add_ignoregrp);
-					} else if(strcmp(key, "HoldPkg") == 0
-							|| strcmp(upperkey, "HOLDPKG") == 0) {
+					} else if(strcmp(key, "HoldPkg") == 0) {
 						setrepeatingoption(ptr, "HoldPkg", alpm_option_add_holdpkg);
-					} else if(strcmp(key, "DBPath") == 0 || strcmp(upperkey, "DBPATH") == 0) {
+					} else if(strcmp(key, "DBPath") == 0) {
 						/* don't overwrite a path specified on the command line */
 						if(!config->dbpath) {
 							config->dbpath = strdup(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
 						}
-					} else if(strcmp(key, "CacheDir") == 0 || strcmp(upperkey, "CACHEDIR") == 0) {
+					} else if(strcmp(key, "CacheDir") == 0) {
 						if(alpm_option_add_cachedir(ptr) != 0) {
 							pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
 									ptr, alpm_strerrorlast());
 							return(1);
 						}
 						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
-					} else if(strcmp(key, "RootDir") == 0 || strcmp(upperkey, "ROOTDIR") == 0) {
+					} else if(strcmp(key, "RootDir") == 0) {
 						/* don't overwrite a path specified on the command line */
 						if(!config->rootdir) {
 							config->rootdir = strdup(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
 						}
-					} else if (strcmp(key, "LogFile") == 0 || strcmp(upperkey, "LOGFILE") == 0) {
+					} else if (strcmp(key, "LogFile") == 0) {
 						if(!config->logfile) {
 							config->logfile = strdup(ptr);
 							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
 						}
-					} else if (strcmp(key, "XferCommand") == 0 || strcmp(upperkey, "XFERCOMMAND") == 0) {
+					} else if (strcmp(key, "XferCommand") == 0) {
 						alpm_option_set_xfercommand(ptr);
 						pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", ptr);
 					} else {
@@ -709,7 +700,7 @@ static int _parseconfig(const char *file, const char *givensection,
 								file, linenum, key);
 						return(1);
 					}
-				} else if(strcmp(key, "Server") == 0 || strcmp(upperkey, "SERVER") == 0) {
+				} else if(strcmp(key, "Server") == 0) {
 					/* let's attempt a replacement for the current repo */
 					char *server = strreplace(ptr, "$repo", section);
 
@@ -725,7 +716,6 @@ static int _parseconfig(const char *file, const char *givensection,
 					return(1);
 				}
 			}
-			free(upperkey);
 		}
 	}
 	fclose(fp);

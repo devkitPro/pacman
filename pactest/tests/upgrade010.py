@@ -8,7 +8,7 @@ p = pmpkg("dummy", "1.0-2")
 p.files = ["etc/dummy.conf"]
 self.addpkg(p)
 
-self.option["noupgrade"] = ["etc/dummy.conf"]
+self.option["NoUpgrade"] = ["etc/dummy.conf"]
 
 self.args = "-U %s" % p.filename()
 
