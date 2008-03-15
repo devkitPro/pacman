@@ -114,7 +114,6 @@ static void usage(int op, const char * const myname)
 			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
-			printf(_("  -e, --dependsonly    install dependencies only\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
@@ -314,7 +313,6 @@ static int parseargs(int argc, char *argv[])
 		{"clean",      no_argument,       0, 'c'},
 		{"nodeps",     no_argument,       0, 'd'},
 		{"deps",       no_argument,       0, 'd'},
-		{"dependsonly",no_argument,       0, 'e'},
 		{"explicit",   no_argument,       0, 'e'},
 		{"force",      no_argument,       0, 'f'},
 		{"groups",     no_argument,       0, 'g'},
@@ -444,7 +442,6 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 'e':
 				config->op_q_explicit = 1;
-				config->flags |= PM_TRANS_FLAG_DEPENDSONLY;
 				break;
 			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 			case 'g': (config->group)++; break;

@@ -393,11 +393,9 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		*data = NULL;
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_DEPENDSONLY)) {
-		for(i = trans->packages; i; i = i->next) {
-			pmsyncpkg_t *sync = i->data;
-			list = alpm_list_add(list, sync->pkg);
-		}
+	for(i = trans->packages; i; i = i->next) {
+		pmsyncpkg_t *sync = i->data;
+		list = alpm_list_add(list, sync->pkg);
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
@@ -421,10 +419,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				ret = -1;
 				goto cleanup;
 			}
-		}
-
-		if((trans->flags & PM_TRANS_FLAG_DEPENDSONLY)) {
-			FREELIST(trans->packages);
 		}
 
 		for(i = list; i; i = i->next) {
