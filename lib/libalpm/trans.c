@@ -307,7 +307,6 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	switch(trans->type) {
-		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
 			if(_alpm_add_loadtarget(trans, handle->db_local, target) == -1) {
 				/* pm_errno is set by _alpm_add_loadtarget() */
@@ -349,7 +348,6 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 	}
 
 	switch(trans->type) {
-		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
 			if(_alpm_add_prepare(trans, handle->db_local, data) == -1) {
 				/* pm_errno is set by _alpm_add_prepare() */
@@ -394,7 +392,6 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 	trans->state = STATE_COMMITING;
 
 	switch(trans->type) {
-		case PM_TRANS_TYPE_ADD:
 		case PM_TRANS_TYPE_UPGRADE:
 			if(_alpm_add_commit(trans, handle->db_local) == -1) {
 				/* pm_errno is set by _alpm_add_commit() */

@@ -68,14 +68,6 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	pkgname = alpm_pkg_get_name(pkg);
 	pkgver = alpm_pkg_get_version(pkg);
 
-	if(trans->type != PM_TRANS_TYPE_UPGRADE) {
-		/* only install this package if it is not already installed */
-		if(_alpm_db_get_pkgfromcache(db, pkgname)) {
-			pm_errno = PM_ERR_PKG_INSTALLED;
-			goto error;
-		}
-	}
-
 	/* check if an older version of said package is already in transaction
 	 * packages.  if so, replace it in the list */
 	for(i = trans->packages; i; i = i->next) {
@@ -130,7 +122,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 		/* look for unsatisfied dependencies */
 		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
-		lp = alpm_checkdeps(db, trans->type == PM_TRANS_TYPE_UPGRADE, NULL, trans->packages);
+		lp = alpm_checkdeps(db, 1, NULL, trans->packages);
 		if(lp != NULL) {
 			if(data) {
 				*data = lp;
@@ -168,7 +160,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 		/* re-order w.r.t. dependencies */
 		_alpm_log(PM_LOG_DEBUG, "sorting by dependencies\n");
-		lp = _alpm_sortbydeps(trans->packages, PM_TRANS_TYPE_ADD);
+		lp = _alpm_sortbydeps(trans->packages, 0);
 		/* free the old alltargs */
 		alpm_list_free(trans->packages);
 		trans->packages = lp;

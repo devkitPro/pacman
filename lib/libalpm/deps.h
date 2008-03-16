@@ -45,7 +45,7 @@ pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
 pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
 		const char *causinpkg);
 void _alpm_depmiss_free(pmdepmissing_t *miss);
-alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode);
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		alpm_list_t **list, alpm_list_t *remove, pmtrans_t *trans, alpm_list_t

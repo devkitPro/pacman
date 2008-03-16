@@ -109,20 +109,19 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 
 /* Re-order a list of target packages with respect to their dependencies.
  *
- * Example (PM_TRANS_TYPE_ADD):
+ * Example (reverse == 0):
  *   A depends on C
  *   B depends on A
  *   Target order is A,B,C,D
  *
  *   Should be re-ordered to C,A,B,D
  *
- * mode should be either PM_TRANS_TYPE_ADD or PM_TRANS_TYPE_REMOVE.  This
- * affects the dependency order sortbydeps() will use.
+ * if reverse is > 0, the dependency order will be reversed.
  *
  * This function returns the new alpm_list_t* target list.
  *
  */
-alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
+alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 {
 	alpm_list_t *newtargs = NULL;
 	alpm_list_t *vertices = NULL;
@@ -157,7 +156,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 				pmpkg_t *vertexpkg = vertex->data;
 				pmpkg_t *childpkg = nextchild->data;
 				_alpm_log(PM_LOG_WARNING, _("dependency cycle detected:\n"));
-				if(mode == PM_TRANS_TYPE_REMOVE) {
+				if(reverse) {
 					_alpm_log(PM_LOG_WARNING, _("%s will be removed after its %s dependency\n"), vertexpkg->name, childpkg->name);
 				} else {
 					_alpm_log(PM_LOG_WARNING, _("%s will be installed before its %s dependency\n"), vertexpkg->name, childpkg->name);
@@ -182,8 +181,8 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, pmtranstype_t mode)
 
 	_alpm_log(PM_LOG_DEBUG, "sorting dependencies finished\n");
 
-	if(mode == PM_TRANS_TYPE_REMOVE) {
-		/* we're removing packages, so reverse the order */
+	if(reverse) {
+		/* reverse the order */
 		alpm_list_t *tmptargs = alpm_list_reverse(newtargs);
 		/* free the old one */
 		alpm_list_free(newtargs);

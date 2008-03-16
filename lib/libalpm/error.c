@@ -109,8 +109,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("cannot open package file");
 		case PM_ERR_PKG_LOAD:
 			return _("cannot load package data");
-		case PM_ERR_PKG_INSTALLED:
-			return _("package already installed");
 		case PM_ERR_PKG_CANT_FRESH:
 			return _("package not installed or lesser version");
 		case PM_ERR_PKG_CANT_REMOVE:

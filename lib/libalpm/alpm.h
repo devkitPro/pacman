@@ -256,10 +256,9 @@ int alpm_sync_sysupgrade(pmdb_t *db_local,
 
 /* Types */
 typedef enum _pmtranstype_t {
-	PM_TRANS_TYPE_ADD = 1,
+	PM_TRANS_TYPE_UPGRADE = 1,
 	PM_TRANS_TYPE_REMOVE,
 	PM_TRANS_TYPE_REMOVEUPGRADE,
-	PM_TRANS_TYPE_UPGRADE,
 	PM_TRANS_TYPE_SYNC
 } pmtranstype_t;
 
@@ -455,7 +454,6 @@ enum _pmerrno_t {
 	PM_ERR_PKG_INVALID,
 	PM_ERR_PKG_OPEN,
 	PM_ERR_PKG_LOAD,
-	PM_ERR_PKG_INSTALLED,
 	PM_ERR_PKG_CANT_FRESH,
 	PM_ERR_PKG_CANT_REMOVE,
 	PM_ERR_PKG_INVALID_NAME,

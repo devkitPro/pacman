@@ -443,7 +443,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		}
 
 		/* re-order w.r.t. dependencies */
-		alpm_list_t *sortlist = _alpm_sortbydeps(list, PM_TRANS_TYPE_ADD);
+		alpm_list_t *sortlist = _alpm_sortbydeps(list, 0);
 		alpm_list_t *newpkgs = NULL;
 		for(i = sortlist; i; i = i->next) {
 			for(j = trans->packages; j; j = j->next) {
