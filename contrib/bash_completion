@@ -146,14 +146,13 @@ _pacman ()
     toparse="${a:2}"
 
     case "${arg}" in
-      -@(A|U|R|S|Q|h|V))
+      -@(U|R|S|Q|h|V))
         op="${arg/-}"
         mod="${mod}${a:2}"
         ;;
       --)
         arg="${a:2}"
         case "${arg}" in
-          add) op="A" ;;
           remove) op="R" ;;
           upgrade) op="U" ;;
           query) op="Q" ;;
@@ -203,7 +202,6 @@ _pacman ()
 
   if [ $COMP_CWORD -eq 1 ] && [[ "$cur" == -* ]]; then
     COMPREPLY=( $( compgen -W '\
-      -A --add \
       -h --help \
       -Q --query \
       -R --remove \
@@ -217,7 +215,7 @@ _pacman ()
 
   if [[ "$cur" == -* ]]; then
     case "${op}" in
-      A|U)
+      U)
         COMPREPLY=( $( compgen -W '\
           --asdeps \
           --asexplicit \
@@ -320,7 +318,7 @@ _pacman ()
     rem_selected
   else
     case "${op}" in
-      A|U)
+      U)
         COMPREPLY=( $( compgen -d -- "$cur" ) \
                     $( compgen -f -X '!*.pkg.tar.gz' -- "$cur" ) )
         return 0

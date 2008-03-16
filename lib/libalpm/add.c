@@ -160,7 +160,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 				_alpm_log(PM_LOG_ERROR, _("you cannot install two conflicting packages at the same time\n"));
 			}
 			if(outer) {
-				_alpm_log(PM_LOG_ERROR, _("replacing packages with -A and -U is not supported yet\n"));
+				_alpm_log(PM_LOG_ERROR, _("replacing packages with -U is not supported yet\n"));
 				_alpm_log(PM_LOG_ERROR, _("you can replace packages manually using -Rd and -U\n"));
 			}
 			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
