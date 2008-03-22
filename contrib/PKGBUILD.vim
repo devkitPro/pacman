@@ -57,7 +57,7 @@ syn keyword pb_k_license license contained
 syn keyword pbLicense  APACHE CDDL EPL FDL GPL LGPL MPL PHP RUBY ZLIB ISC MIT BSD contained
 syn match pbLicenseCustom /custom\(:[[:alnum:]]*\)*/ contained
 syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicense
-syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense,shDoubleQuote,shSingleQuote
+syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense
 
 " backup
 syn keyword pb_k_backup backup contained
@@ -67,8 +67,8 @@ syn region pbBackupGroup start=/^backup=(/ end=/)/ contains=pb_k_backup,pbValidB
 " arch
 syn keyword pb_k_arch arch contained
 syn keyword pbArch i686 x86_64 ppc contained
-syn match pbIllegalArch /[^='() ]/ contained contains=pbArch
-syn region pbArchGroup start=/^arch=(/ end=/)/ contains=pb_k_arch,pbArch,pbIllegalArch,shDoubleQuote,shSingleQuote
+syn match pbIllegalArch /[^='"() ]/ contained contains=pbArch
+syn region pbArchGroup start=/^arch=(/ end=/)/ contains=pb_k_arch,pbArch,pbIllegalArch
 
 " groups
 syn keyword pb_k_groups groups contained
@@ -131,7 +131,7 @@ hi def link pbDerefEmulation PreProc
 syn keyword pb_k_md5sums md5sums contained
 syn match pbIllegalMd5sums /[^='"()\/ ]/ contained contains=pbValidMd5sums
 syn match pbValidMd5sums /[[:alnum:]]\{32\}/ contained
-syn region pbMd5sumsGroup start=/^md5sums/ end=/)/ contains=pb_k_md5sums,pbMd5Quotes,pbMd5Hash,pbIllegalMd5sums
+syn region pbMd5sumsGroup start=/^md5sums/ end=/)/ contains=pb_k_md5sums,pbMd5Quotes,pbMd5Hash,pbIllegalMd5sums keepend
 syn match pbMd5Quotes /'.*'\|".*"/ contained contains=pbMd5Hash,pbIllegalMd5sums
 syn match pbMd5Hash /[[:alnum:]]\+/ contained contains=pbValidMd5sums
 hi def link pbMd5Quotes Keyword
@@ -142,7 +142,7 @@ hi def link pbValidMd5sums  Number
 syn keyword pb_k_sha1sums sha1sums contained
 syn match pbIllegalSha1sums /[^='"()\/ ]/ contained contains=pbValidSha1sums
 syn match pbValidSha1sums /[[:alnum:]]\{40\}/ contained
-syn region pbSha1sumsGroup start=/^sha1sums/ end=/)/ contains=pb_k_sha1sums,pbSha1Quotes,pbSha1Hash,pbIllegalSha1sums
+syn region pbSha1sumsGroup start=/^sha1sums/ end=/)/ contains=pb_k_sha1sums,pbSha1Quotes,pbSha1Hash,pbIllegalSha1sums keepend
 syn match pbSha1Quotes /'.*'\|".*"/ contained contains=pbSha1Hash,pbIllegalSha1sums
 syn match pbSha1Hash /[[:alnum:]]\+/ contained contains=pbValidSha1sums
 hi def link pbSha1Quotes Keyword
