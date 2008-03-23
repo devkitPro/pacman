@@ -384,7 +384,7 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 	if(dup == NULL) {
 		return(NULL);
 	}
-	list = alpm_list_add(list, strdup(prev));
+	list = alpm_list_add(list, dup);
 
 	return(list);
 }
