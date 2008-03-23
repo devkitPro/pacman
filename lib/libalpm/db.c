@@ -247,24 +247,22 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	snprintf(path, PATH_MAX, "%s" DBEXT, db->treename);
 	dbpath = alpm_option_get_dbpath();
 
-	ret = _alpm_download_single_file(path, db->servers, dbpath, lastupdate, &newmtime);
+	ret = _alpm_download_single_file(path, db->servers, dbpath,
+			lastupdate, &newmtime);
 
 	if(ret == 1) {
 		/* mtimes match, do nothing */
 		pm_errno = 0;
 		return(1);
 	} else if(ret == -1) {
-		/* we use downloadLastErrString and downloadLastErrCode here, error returns from
-		 * libdownload */
+		/* we use downloadLastErrString and downloadLastErrCode here,
+		 * error returns from libdownload */
+		/* TODO we may not have used libdownload, this should change */
 		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s [%d]\n",
 				downloadLastErrString, downloadLastErrCode);
 		RET_ERR(PM_ERR_DB_SYNC, -1);
 	} else {
-		if(newmtime != 0) {
-			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %ju\n",
-					db->treename, (uintmax_t)newmtime);
-			_alpm_db_setlastupdate(db, newmtime);
-		}
+		/* form the path to the db location */
 		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
 
 		/* remove the old dir */
@@ -284,6 +282,12 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		/* uncompress the sync database */
 		if(_alpm_db_install(db, path) == -1) {
 			return -1;
+		}
+		/* if we have a new mtime, set the DB last update value */
+		if(newmtime) {
+			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %ju\n",
+					db->treename, (uintmax_t)newmtime);
+			_alpm_db_setlastupdate(db, newmtime);
 		}
 	}
 
