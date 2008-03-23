@@ -322,13 +322,12 @@ static int download(const char *url, const char *localpath,
 		 */
 		const char *sourcefile = url + len;
 		const char *filename = get_filename(url);
-		const char *destfile = get_destfile(localpath, filename);
+		char *destfile = get_destfile(localpath, filename);
 
-		if(_alpm_copyfile(sourcefile, destfile) == 0) {
-			return(0);
-		} else {
-			return(-1);
-		}
+		ret = _alpm_copyfile(sourcefile, destfile);
+		FREE(destfile);
+		/* copyfile returns 1 on failure, we want to return -1 on failure */
+		return(ret ? -1 : 0);
 	}
 
 	if(handle->xfercommand == NULL) {
