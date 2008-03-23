@@ -42,6 +42,9 @@ int _alpm_backup_split(const char *string, char **file, char **hash)
 	if(ptr == NULL) {
 		if(file) {
 			*file = str;
+		} else {
+			/* don't need our dup as the fname wasn't requested, so free it */
+			FREE(str);
 		}
 		return(0);
 	}
