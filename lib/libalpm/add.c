@@ -243,6 +243,7 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 		char *backup = _alpm_backup_file(b->data);
 		/* safety check (fix the upgrade026 pactest) */
 		if(!alpm_list_find_str(filelist, backup)) {
+			FREE(backup);
 			continue;
 		}
 		_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
