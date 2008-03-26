@@ -30,6 +30,7 @@
 #include <stdarg.h>
 #include <time.h>
 #include <sys/stat.h> /* struct stat */
+#include <archive.h> /* struct archive */
 
 #ifdef ENABLE_NLS
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
@@ -66,6 +67,7 @@ char *_alpm_filecache_find(const char *filename);
 const char *_alpm_filecache_setup(void);
 int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_md5sum(const char *filepath, const char *md5sum);
+char *_alpm_archive_fgets(char *line, size_t size, struct archive *a);
 
 #ifndef HAVE_STRVERSCMP
 int strverscmp(const char *, const char *);
