@@ -889,15 +889,12 @@ int _alpm_pkgname_pkg_cmp(const void *pkgname, const void *package)
 }
 
 
-/* Parses the package description file for the current package
- * TODO: this should ALL be in a backend interface (be_files), we should
- *       be dealing with the abstracted concepts only in this file
+/* Parses the package description file for the current package. This
+ * is handed the struct archive when the .PKGINFO file is open.
  * Returns: 0 on success, 1 on error
- *
  */
-static int parse_descfile(const char *descfile, pmpkg_t *info)
+static int parse_descfile(struct archive *a, pmpkg_t *info)
 {
-	FILE* fp = NULL;
 	char line[PATH_MAX];
 	char *ptr = NULL;
 	char *key = NULL;
@@ -905,13 +902,8 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 
 	ALPM_LOG_FUNC;
 
-	if((fp = fopen(descfile, "r")) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), descfile, strerror(errno));
-		return(-1);
-	}
-
-	while(!feof(fp)) {
-		fgets(line, PATH_MAX, fp);
+	/* loop until we reach EOF (where archive_fgets will return NULL) */
+	while(_alpm_archive_fgets(line, PATH_MAX, a) != NULL) {
 		linenum++;
 		_alpm_strtrim(line);
 		if(strlen(line) == 0 || line[0] == '#') {
@@ -921,7 +913,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
 			_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
-								info->name[0] != '\0' ? info->name : "error", linenum);
+								info->name ? info->name : "error", linenum);
 		} else {
 			key = _alpm_strtrim(key);
 			ptr = _alpm_strtrim(ptr);
@@ -940,7 +932,7 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 			} else if(!strcmp(key, "builddate")) {
 				char first = tolower(ptr[0]);
 				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; //initialize to null incase of failure
+					struct tm tmp_tm = {0}; //initialize to null in case of failure
 					setlocale(LC_TIME, "C");
 					strptime(ptr, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					info->builddate = mktime(&tmp_tm);
@@ -970,13 +962,11 @@ static int parse_descfile(const char *descfile, pmpkg_t *info)
 				info->backup = alpm_list_add(info->backup, strdup(ptr));
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
-									info->name[0] != '\0' ? info->name : "error", linenum);
+									info->name ? info->name : "error", linenum);
 			}
 		}
 		line[0] = '\0';
 	}
-	fclose(fp);
-	unlink(descfile);
 
 	return(0);
 }
@@ -996,8 +986,6 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 	struct archive *archive;
 	struct archive_entry *entry;
 	pmpkg_t *info = NULL;
-	char *descfile = NULL;
-	int fd = -1;
 	struct stat st;
 
 	ALPM_LOG_FUNC;
@@ -1028,32 +1016,15 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 		info->size = st.st_size;
 	}
 
-	/* TODO there is no reason to make temp files to read
-	 * from a libarchive archive, it can be done by reading
-	 * directly from the archive
-	 * See: archive_read_data_into_buffer
-	 * requires changes 'parse_descfile' as well
-	 * */
-
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves
 	 * as a verfication of integrity and allows us to create the filelist. */
 	while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
 		const char *entry_name = archive_entry_pathname(entry);
 
-		/* NOTE: we used to look for .FILELIST, but it is easier (and safer) for
-		 * us to just generate this on our own. */
 		if(strcmp(entry_name, ".PKGINFO") == 0) {
-			/* extract this file into /tmp. it has info for us */
-			descfile = strdup("/tmp/alpm_XXXXXX");
-			fd = mkstemp(descfile);
-			if(archive_read_data_into_fd(archive, fd) != ARCHIVE_OK) {
-				_alpm_log(PM_LOG_ERROR, _("error extracting package description file to %s\n"),
-						descfile);
-				goto pkg_invalid;
-			}
 			/* parse the info file */
-			if(parse_descfile(descfile, info) == -1) {
+			if(parse_descfile(archive, info) != 0) {
 				_alpm_log(PM_LOG_ERROR, _("could not parse package description file in %s\n"),
 						pkgfile);
 				goto pkg_invalid;
@@ -1067,9 +1038,6 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 				goto pkg_invalid;
 			}
 			config = 1;
-			unlink(descfile);
-			FREE(descfile);
-			close(fd);
 			continue;
 		} else if(strcmp(entry_name,  ".INSTALL") == 0) {
 			info->scriptlet = 1;
@@ -1113,13 +1081,13 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 	info->origin_data.file = strdup(pkgfile);
 
 	if(full) {
-		/* "checking for conflicts" requires a sorted list, so we ensure that here */
+		/* "checking for conflicts" requires a sorted list, ensure that here */
 		_alpm_log(PM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
 		info->files = alpm_list_msort(info->files, alpm_list_count(info->files),
 				_alpm_str_cmp);
 		info->infolevel = INFRQ_ALL;
 	} else {
-		/* get rid of any partial filelist we may have collected, as it is invalid */
+		/* get rid of any partial filelist we may have collected, it is invalid */
 		FREELIST(info->files);
 		info->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_DEPENDS;
 	}
@@ -1128,13 +1096,6 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 
 pkg_invalid:
 	pm_errno = PM_ERR_PKG_INVALID;
-	if(descfile) {
-		unlink(descfile);
-		FREE(descfile);
-	}
-	if(fd != -1) {
-		close(fd);
-	}
 error:
 	_alpm_pkg_free(info);
 	archive_read_finish(archive);
