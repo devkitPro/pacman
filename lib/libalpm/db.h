@@ -40,7 +40,7 @@ typedef enum _pmdbinfrq_t {
 /* Database */
 struct __pmdb_t {
 	char *path;
-	char treename[PATH_MAX];
+	char *treename;
 	void *handle;
 	alpm_list_t *pkgcache;
 	alpm_list_t *grpcache;

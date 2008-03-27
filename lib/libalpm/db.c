@@ -439,8 +439,7 @@ pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
 	CALLOC(db->path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	sprintf(db->path, "%s%s/", dbpath, treename);
-
-	strncpy(db->treename, treename, PATH_MAX);
+	STRDUP(db->treename, treename, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(db);
 }
@@ -454,6 +453,7 @@ void _alpm_db_free(pmdb_t *db)
 	/* cleanup server list */
 	FREELIST(db->servers);
 	FREE(db->path);
+	FREE(db->treename);
 	FREE(db);
 
 	return;
