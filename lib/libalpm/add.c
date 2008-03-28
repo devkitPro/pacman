@@ -290,7 +290,7 @@ static int extract_single_file(struct archive *archive,
 		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg,
 		pmtrans_t *trans, pmdb_t *db)
 {
-	const char *entryname; /* the name of the file in the archive */
+	char entryname[PATH_MAX]; /* the name of the file in the archive */
 	mode_t entrymode;
 	char filename[PATH_MAX]; /* the actual file we're extracting */
 	int needbackup = 0, notouch = 0;
@@ -300,7 +300,7 @@ static int extract_single_file(struct archive *archive,
 	                          ARCHIVE_EXTRACT_TIME;
 	int errors = 0;
 
-	entryname = archive_entry_pathname(entry);
+	strncpy(entryname, archive_entry_pathname(entry), PATH_MAX);
 	entrymode = archive_entry_mode(entry);
 
 	memset(filename, 0, PATH_MAX); /* just to be sure */
