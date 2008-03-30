@@ -61,7 +61,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	if((info = _alpm_db_scan(db, name)) == NULL) {
+	if((info = _alpm_db_get_pkgfromcache(db, name)) == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "could not find %s in database\n", name);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
@@ -77,7 +77,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "adding %s in the targets list\n", info->name);
-	trans->packages = alpm_list_add(trans->packages, info);
+	trans->packages = alpm_list_add(trans->packages, _alpm_pkg_dup(info));
 
 	return(0);
 }
@@ -107,12 +107,12 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 					alpm_list_t *i;
 					for(i = lp; i; i = i->next) {
 						pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
-						pmpkg_t *info = _alpm_db_scan(db, miss->target);
+						pmpkg_t *info = _alpm_db_get_pkgfromcache(db, miss->target);
 						if(info) {
 							if(!_alpm_pkg_find(alpm_pkg_get_name(info), trans->packages)) {
 								_alpm_log(PM_LOG_DEBUG, "pulling %s in the targets list\n",
 										alpm_pkg_get_name(info));
-								trans->packages = alpm_list_add(trans->packages, info);
+								trans->packages = alpm_list_add(trans->packages, _alpm_pkg_dup(info));
 							}
 						} else {
 							_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping\n"),
