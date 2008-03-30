@@ -175,9 +175,17 @@ static int query_search(alpm_list_t *targets)
 
 		if (!config->quiet) {
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-				/* TODO handle multiple groups */
-				const char *group = alpm_list_getdata(grp);
-				printf(" (%s)", group);
+				alpm_list_t *k;
+				printf(" (");
+				for(k = grp; k; k = alpm_list_next(k)) {
+					const char *group = alpm_list_getdata(k);
+					printf("%s", group);
+					if(alpm_list_next(k)) {
+						/* only print a spacer if there are more groups */
+						printf(" ");
+					}
+				}
+				printf(")");
 			}
 
 			/* we need a newline and initial indent first */
