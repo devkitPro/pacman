@@ -175,9 +175,9 @@ static int query_search(alpm_list_t *targets)
 
 		if (!config->quiet) {
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-				pmgrp_t *group = alpm_list_getdata(grp);
 				/* TODO handle multiple groups */
-				printf(" (%s)", alpm_grp_get_name(group));
+				const char *group = alpm_list_getdata(grp);
+				printf(" (%s)", group);
 			}
 
 			/* we need a newline and initial indent first */

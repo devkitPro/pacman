@@ -332,8 +332,6 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			found = 1;
 		}
 		for(j = ret; j; j = alpm_list_next(j)) {
-			/* print repo/name (group) info about each package in our list */
-			char *group = NULL;
 			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(j);
 
@@ -355,7 +353,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			if (!config->quiet) {
 				/* TODO package in multiple groups needs to be handled, do a loop */
 				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-					group = alpm_list_getdata(grp);
+					const char *group = alpm_list_getdata(grp);
 					printf(" (%s)", group);
 				}
 
