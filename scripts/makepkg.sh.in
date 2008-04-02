@@ -415,10 +415,17 @@ remove_deps() {
 	done
 
 	msg "Removing installed dependencies..."
+	local ret=0
 	if [ "$ASROOT" = "0" ]; then
-		sudo pacman $PACMAN_OPTS -Rns $deplist
+		sudo pacman $PACMAN_OPTS -Rns $deplist || ret=$?
 	else
-		pacman $PACMAN_OPTS -Rns $deplist
+		pacman $PACMAN_OPTS -Rns $deplist || ret=$?
+	fi
+
+	# Fixes FS#10039 - exit cleanly as package has built successfully
+	if [ $ret -ne 0 ]; then
+		warning "$(gettext "Failed to remove installed dependencies.")"
+		return 0
 	fi
 }
 
