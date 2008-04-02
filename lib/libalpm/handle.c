@@ -426,6 +426,7 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 	}
 	if(handle->logstream) {
 		fclose(handle->logstream);
+		handle->logstream = NULL;
 	}
 	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
 	return(0);

@@ -6,7 +6,7 @@ EXTRA_DIST = \
 	pacsearch \
 	re-pacman \
 	updatesync \
-	vimproject \
+	vimprojects \
 	wget-xdelta.sh \
 	zsh_completion \
 	README
