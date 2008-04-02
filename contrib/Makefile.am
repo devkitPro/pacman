@@ -4,7 +4,7 @@ EXTRA_DIST = \
 	pacdiff \
 	pacsearch \
 	re-pacman \
-	vimproject \
+	vimprojects \
 	wget-xdelta.sh \
 	zsh_completion \
 	README
