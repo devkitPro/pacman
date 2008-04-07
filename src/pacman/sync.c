@@ -29,9 +29,6 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
-#include <download.h> /* downloadLastErrString */
-/* TODO remove above download.h inclusion once we abstract more, and also
- * remove it from Makefile.am on the pacman side */
 
 /* pacman */
 #include "pacman.h"
@@ -274,20 +271,8 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 
 		ret = alpm_db_update((level < 2 ? 0 : 1), db);
 		if(ret < 0) {
-			if(pm_errno == PM_ERR_DB_SYNC) {
-				/* use libdownload error */
-				/* TODO breaking abstraction barrier here?
-				 *			pacman -> libalpm -> libdownload
-				 *
-				 * Yes.  This will be here until we add a nice pacman "pm_errstr" or
-				 * something, OR add all libdownload error codes into the pm_error enum
-				 */
-				fprintf(stderr, _("error: failed to synchronize %s: %s\n"),
-				        alpm_db_get_name(db), downloadLastErrString);
-			} else {
-				fprintf(stderr, _("error: failed to update %s (%s)\n"),
-				        alpm_db_get_name(db), alpm_strerrorlast());
-			}
+			fprintf(stderr, _("error: failed to update %s (%s)\n"),
+					alpm_db_get_name(db), alpm_strerrorlast());
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
 			success++;
