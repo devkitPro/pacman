@@ -161,8 +161,8 @@ AC_FUNC_FORK
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MKTIME
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([realpath regcomp strcasecmp strdup strerror strnlen \
-								strndup strrchr strsep strstr strverscmp uname geteuid])
+AC_CHECK_FUNCS([geteuid realpath regcomp strcasecmp strdup strerror \
+								strndup strrchr strsep strstr strverscmp swprintf uname])
 
 # Enable large file support if available
 AC_SYS_LARGEFILE
