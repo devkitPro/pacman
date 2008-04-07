@@ -136,6 +136,7 @@ static int download_internal(const char *url, const char *localpath,
 		if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
 			host = fileurl->host;
 		}
+		pm_errno = PM_ERR_LIBDOWNLOAD;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
 				filename, host, downloadLastErrString);
 		ret = -1;
@@ -183,6 +184,7 @@ static int download_internal(const char *url, const char *localpath,
 	char buffer[PM_DLBUF_LEN];
 	while((nread = fread(buffer, 1, PM_DLBUF_LEN, dlf)) > 0) {
 		if(ferror(dlf)) {
+			pm_errno = PM_ERR_LIBDOWNLOAD;
 			_alpm_log(PM_LOG_ERROR, _("error downloading '%s': %s\n"),
 					filename, downloadLastErrString);
 			ret = -1;

@@ -33,7 +33,6 @@
 #include <dirent.h>
 #include <regex.h>
 #include <time.h>
-#include <download.h> /* downloadLastErrString among others. kill this */
 
 /* libalpm */
 #include "db.h"
@@ -254,12 +253,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		pm_errno = 0;
 		return(1);
 	} else if(ret == -1) {
-		/* we use downloadLastErrString and downloadLastErrCode here,
-		 * error returns from libdownload */
-		/* TODO we may not have used libdownload, this should change */
-		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s [%d]\n",
-				downloadLastErrString, downloadLastErrCode);
-		RET_ERR(PM_ERR_DB_SYNC, -1);
+		/* pm_errno was set by the download code */
+		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
+		return(-1);
 	} else {
 		/* form the path to the db location */
 		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
