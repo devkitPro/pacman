@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 			case PM_ERR_PKG_OPEN:
 				printf("Cannot open the given file.\n");
 				break;
-			case PM_ERR_LIBARCHIVE_ERROR:
+			case PM_ERR_LIBARCHIVE:
 			case PM_ERR_PKG_INVALID:
 				printf("Package is invalid.\n");
 				break;

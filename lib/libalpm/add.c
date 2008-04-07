@@ -695,7 +695,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
 
 		if ((archive = archive_read_new()) == NULL) {
-			RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
+			RET_ERR(PM_ERR_LIBARCHIVE, -1);
 		}
 
 		archive_read_support_compression_all(archive);

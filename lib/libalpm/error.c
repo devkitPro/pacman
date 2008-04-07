@@ -1,10 +1,7 @@
 /*
  *  error.c
  *
- *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
- *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
- *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
- *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
+ *  Copyright (c) 2002-2008 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,12 +19,13 @@
 
 #include "config.h"
 
+#include <download.h> /* downloadLastErrString */
+
 /* libalpm */
 #include "error.h"
 #include "util.h"
 #include "alpm.h"
 
-/* TODO does this really need a file all on its own? */
 const char SYMEXPORT *alpm_strerrorlast(void)
 {
 	return alpm_strerror(pm_errno);
@@ -74,13 +72,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 		/* Servers */
 		case PM_ERR_SERVER_BAD_URL:
 			return _("invalid url for server");
-		/* Configuration */
-		case PM_ERR_OPT_LOGFILE:
-		case PM_ERR_OPT_DBPATH:
-		case PM_ERR_OPT_LOCALDB:
-		case PM_ERR_OPT_SYNCDB:
-		case PM_ERR_OPT_USESYSLOG:
-			return _("could not set parameter");
 		/* Transactions */
 		case PM_ERR_TRANS_NOT_NULL:
 			return _("transaction already initialized");
@@ -137,8 +128,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("user aborted the operation");
 		case PM_ERR_INTERNAL_ERROR:
 			return _("internal error");
-		case PM_ERR_LIBARCHIVE_ERROR:
-			return _("libarchive error");
 		case PM_ERR_PKG_HOLD:
 			/* TODO wow this is not descriptive at all... what does this mean? */
 			return _("not confirmed");
@@ -147,6 +136,14 @@ const char SYMEXPORT *alpm_strerror(int err)
 		/* Downloading */
 		case PM_ERR_CONNECT_FAILED:
 			return _("connection to remote host failed");
+		/* Errors from external libraries- our own wrapper error */
+		case PM_ERR_LIBARCHIVE:
+			/* it would be nice to use archive_error_string() here, but that
+			 * requires the archive struct, so we can't. Just use a generic
+			 * error string instead. */
+			return _("libarchive error");
+		case PM_ERR_LIBDOWNLOAD:
+			return downloadLastErrString;
 		/* Unknown error! */
 		default:
 			return _("unexpected error");

@@ -509,7 +509,7 @@ void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 		int ret = ARCHIVE_OK;
 
 		if((archive = archive_read_new()) == NULL) {
-			RET_ERR(PM_ERR_LIBARCHIVE_ERROR, NULL);
+			RET_ERR(PM_ERR_LIBARCHIVE, NULL);
 		}
 
 		archive_read_support_compression_all(archive);
@@ -995,7 +995,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 	}
 
 	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, NULL);
+		RET_ERR(PM_ERR_LIBARCHIVE, NULL);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -1052,7 +1052,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkgfile, archive_error_string(archive));
-			pm_errno = PM_ERR_LIBARCHIVE_ERROR;
+			pm_errno = PM_ERR_LIBARCHIVE;
 			goto error;
 		}
 
@@ -1065,7 +1065,7 @@ pmpkg_t *_alpm_pkg_load(const char *pkgfile, unsigned short full)
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
 		_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 				pkgfile, archive_error_string(archive));
-		pm_errno = PM_ERR_LIBARCHIVE_ERROR;
+		pm_errno = PM_ERR_LIBARCHIVE;
 		goto error;
 	}
 

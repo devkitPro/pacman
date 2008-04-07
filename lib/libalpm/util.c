@@ -382,7 +382,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 	ALPM_LOG_FUNC;
 
 	if((_archive = archive_read_new()) == NULL)
-		RET_ERR(PM_ERR_LIBARCHIVE_ERROR, -1);
+		RET_ERR(PM_ERR_LIBARCHIVE, -1);
 
 	archive_read_support_compression_all(_archive);
 	archive_read_support_format_all(_archive);

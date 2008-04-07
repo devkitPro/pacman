@@ -433,12 +433,6 @@ enum _pmerrno_t {
 	PM_ERR_DB_REMOVE,
 	/* Servers */
 	PM_ERR_SERVER_BAD_URL,
-	/* Configuration */
-	PM_ERR_OPT_LOGFILE,
-	PM_ERR_OPT_DBPATH,
-	PM_ERR_OPT_LOCALDB,
-	PM_ERR_OPT_SYNCDB,
-	PM_ERR_OPT_USESYSLOG,
 	/* Transactions */
 	PM_ERR_TRANS_NOT_NULL,
 	PM_ERR_TRANS_NULL,
@@ -470,14 +464,16 @@ enum _pmerrno_t {
 	/* Misc */
 	PM_ERR_USER_ABORT,
 	PM_ERR_INTERNAL_ERROR,
-	PM_ERR_LIBARCHIVE_ERROR,
 	PM_ERR_DB_SYNC,
 	PM_ERR_RETRIEVE,
 	PM_ERR_PKG_HOLD,
 	PM_ERR_INVALID_REGEX,
   /* Downloading */
 	PM_ERR_CONNECT_FAILED,
-  PM_ERR_FORK_FAILED
+	PM_ERR_FORK_FAILED,
+	/* External library errors */
+	PM_ERR_LIBARCHIVE,
+	PM_ERR_LIBDOWNLOAD
 };
 
 extern enum _pmerrno_t pm_errno;
