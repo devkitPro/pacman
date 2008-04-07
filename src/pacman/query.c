@@ -1,7 +1,7 @@
 /*
  *  query.c
  *
- *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2008 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -119,8 +119,13 @@ static int query_fileowner(alpm_list_t *targets)
 				free(pdname);
 
 				if(ppath && strcmp(ppath, rpath) == 0) {
-					printf(_("%s is owned by %s %s\n"), filename,
-					       alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+					if (!config->quiet) {
+						printf(_("%s is owned by %s %s\n"), filename,
+								alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+					} else {
+						printf("%s %s\n", alpm_pkg_get_name(info),
+								alpm_pkg_get_version(info));
+					}
 					found = 1;
 				}
 				free(ppath);
