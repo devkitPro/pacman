@@ -27,7 +27,6 @@
 #include "group.h"
 #include "alpm_list.h"
 #include "util.h"
-#include "error.h"
 #include "log.h"
 #include "alpm.h"
 

@@ -36,7 +36,6 @@
 #include "handle.h"
 #include "trans.h"
 #include "util.h"
-#include "error.h"
 #include "log.h"
 #include "cache.h"
 #include "deps.h"

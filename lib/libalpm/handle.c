@@ -36,7 +36,6 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
-#include "error.h"
 #include "trans.h"
 #include "alpm.h"
 

@@ -34,7 +34,6 @@
 #include "sync.h"
 #include "alpm_list.h"
 #include "log.h"
-#include "error.h"
 #include "package.h"
 #include "db.h"
 #include "cache.h"

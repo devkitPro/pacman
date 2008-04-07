@@ -37,7 +37,6 @@
 #include "alpm_list.h"
 #include "trans.h"
 #include "util.h"
-#include "error.h"
 #include "log.h"
 #include "backup.h"
 #include "package.h"

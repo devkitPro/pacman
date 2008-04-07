@@ -30,7 +30,6 @@
 #include "log.h"
 #include "handle.h"
 #include "util.h"
-#include "error.h"
 #include "alpm.h"
 
 /** \addtogroup alpm_log Logging Functions

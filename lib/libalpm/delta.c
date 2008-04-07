@@ -24,7 +24,6 @@
 
 /* libalpm */
 #include "delta.h"
-#include "error.h"
 #include "util.h"
 #include "log.h"
 #include "alpm_list.h"

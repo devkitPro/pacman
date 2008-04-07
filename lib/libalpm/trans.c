@@ -35,7 +35,6 @@
 /* libalpm */
 #include "trans.h"
 #include "alpm_list.h"
-#include "error.h"
 #include "package.h"
 #include "util.h"
 #include "log.h"

@@ -28,7 +28,7 @@ libalpm_la_SOURCES = \
 	delta.h delta.c \
 	deps.h deps.c \
 	dload.h dload.c \
-	error.h error.c \
+	error.c \
 	graph.h \
 	group.h group.c \
 	handle.h handle.c \

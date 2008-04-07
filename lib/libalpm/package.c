@@ -42,7 +42,6 @@
 #include "alpm_list.h"
 #include "log.h"
 #include "util.h"
-#include "error.h"
 #include "db.h"
 #include "cache.h"
 #include "delta.h"

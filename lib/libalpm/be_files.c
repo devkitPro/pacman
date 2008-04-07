@@ -39,7 +39,6 @@
 #include "log.h"
 #include "util.h"
 #include "alpm.h"
-#include "error.h"
 #include "handle.h"
 #include "package.h"
 #include "delta.h"

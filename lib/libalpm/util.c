@@ -43,7 +43,6 @@
 /* libalpm */
 #include "util.h"
 #include "log.h"
-#include "error.h"
 #include "package.h"
 #include "alpm.h"
 #include "alpm_list.h"

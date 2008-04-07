@@ -30,7 +30,6 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
-#include "error.h"
 #include "graph.h"
 #include "package.h"
 #include "db.h"

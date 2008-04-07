@@ -40,7 +40,6 @@
 #include "alpm_list.h"
 #include "log.h"
 #include "util.h"
-#include "error.h"
 #include "dload.h"
 #include "handle.h"
 #include "cache.h"

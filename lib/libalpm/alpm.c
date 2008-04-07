@@ -25,7 +25,6 @@
 /* libalpm */
 #include "alpm.h"
 #include "alpm_list.h"
-#include "error.h"
 #include "handle.h"
 #include "util.h"
 

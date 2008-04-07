@@ -22,7 +22,6 @@
 #include <download.h> /* downloadLastErrString */
 
 /* libalpm */
-#include "error.h"
 #include "util.h"
 #include "alpm.h"
 

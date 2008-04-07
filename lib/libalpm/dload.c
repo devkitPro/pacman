@@ -32,7 +32,6 @@
 #include "alpm.h"
 #include "log.h"
 #include "util.h"
-#include "error.h"
 #include "handle.h"
 
 /* Build a 'struct url' from an url. */

@@ -31,7 +31,6 @@
 #include "log.h"
 #include "alpm.h"
 #include "util.h"
-#include "error.h"
 #include "package.h"
 #include "group.h"
 #include "db.h"
