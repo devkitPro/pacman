@@ -19,7 +19,9 @@
 
 #include "config.h"
 
+#if defined(INTERNAL_DOWNLOAD)
 #include <download.h> /* downloadLastErrString */
+#endif
 
 /* libalpm */
 #include "util.h"
@@ -132,9 +134,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("not confirmed");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
-		/* Downloading */
-		case PM_ERR_CONNECT_FAILED:
-			return _("connection to remote host failed");
 		/* Errors from external libraries- our own wrapper error */
 		case PM_ERR_LIBARCHIVE:
 			/* it would be nice to use archive_error_string() here, but that
@@ -142,7 +141,14 @@ const char SYMEXPORT *alpm_strerror(int err)
 			 * error string instead. */
 			return _("libarchive error");
 		case PM_ERR_LIBDOWNLOAD:
+#if defined(INTERNAL_DOWNLOAD)
 			return downloadLastErrString;
+#else
+			/* obviously shouldn't get here... */
+			return _("libdownload error");
+#endif
+		case PM_ERR_EXTERNAL_DOWNLOAD:
+			return _("error invoking external downloader");
 		/* Unknown error! */
 		default:
 			return _("unexpected error");

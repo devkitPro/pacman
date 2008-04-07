@@ -468,12 +468,10 @@ enum _pmerrno_t {
 	PM_ERR_RETRIEVE,
 	PM_ERR_PKG_HOLD,
 	PM_ERR_INVALID_REGEX,
-  /* Downloading */
-	PM_ERR_CONNECT_FAILED,
-	PM_ERR_FORK_FAILED,
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,
-	PM_ERR_LIBDOWNLOAD
+	PM_ERR_LIBDOWNLOAD,
+	PM_ERR_EXTERNAL_DOWNLOAD
 };
 
 extern enum _pmerrno_t pm_errno;

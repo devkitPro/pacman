@@ -24,7 +24,9 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#if defined(INTERNAL_DOWNLOAD)
 #include <download.h> /* libdownload */
+#endif
 
 /* libalpm */
 #include "dload.h"
@@ -33,30 +35,6 @@
 #include "log.h"
 #include "util.h"
 #include "handle.h"
-
-/* Build a 'struct url' from an url. */
-static struct url *url_for_string(const char *url)
-{
-	struct url *ret = NULL;
-	ret = downloadParseURL(url);
-	if(!ret) {
-		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
-		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
-	}
-
-	/* if no URL scheme specified, assume HTTP */
-	if(strlen(ret->scheme) == 0) {
-		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming HTTP\n"));
-		strcpy(ret->scheme, SCHEME_HTTP);
-	}
-	/* add a user & password for anonymous FTP */
-	if(strcmp(ret->scheme,SCHEME_FTP) == 0 && strlen(ret->user) == 0) {
-		strcpy(ret->user, "anonymous");
-		strcpy(ret->pwd, "libalpm@guest");
-	}
-
-	return(ret);
-}
 
 static char *get_filename(const char *url) {
 	char *filename = strrchr(url, '/');
@@ -84,6 +62,31 @@ static char *get_tempfile(const char *path, const char *filename) {
 	snprintf(tempfile, len, "%s%s.part", path, filename);
 
 	return(tempfile);
+}
+
+#if defined(INTERNAL_DOWNLOAD)
+/* Build a 'struct url' from an url. */
+static struct url *url_for_string(const char *url)
+{
+	struct url *ret = NULL;
+	ret = downloadParseURL(url);
+	if(!ret) {
+		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
+		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
+	}
+
+	/* if no URL scheme specified, assume HTTP */
+	if(strlen(ret->scheme) == 0) {
+		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming HTTP\n"));
+		strcpy(ret->scheme, SCHEME_HTTP);
+	}
+	/* add a user & password for anonymous FTP */
+	if(strcmp(ret->scheme,SCHEME_FTP) == 0 && strlen(ret->user) == 0) {
+		strcpy(ret->user, "anonymous");
+		strcpy(ret->pwd, "libalpm@guest");
+	}
+
+	return(ret);
 }
 
 static int download_internal(const char *url, const char *localpath,
@@ -230,6 +233,7 @@ cleanup:
 	downloadFreeURL(fileurl);
 	return(ret);
 }
+#endif
 
 static int download_external(const char *url, const char *localpath,
 		time_t mtimeold, time_t *mtimenew) {
@@ -242,9 +246,13 @@ static int download_external(const char *url, const char *localpath,
 	char cwd[PATH_MAX];
 	char *destfile, *tempfile, *filename;
 
+	if(!handle->xfercommand) {
+		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
+	}
+
 	filename = get_filename(url);
 	if(!filename) {
-		return(-1);
+		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 	}
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
@@ -275,7 +283,7 @@ static int download_external(const char *url, const char *localpath,
 	getcwd(cwd, PATH_MAX);
 	if(chdir(localpath)) {
 		_alpm_log(PM_LOG_WARNING, _("could not chdir to %s\n"), localpath);
-		pm_errno = PM_ERR_CONNECT_FAILED;
+		pm_errno = PM_ERR_EXTERNAL_DOWNLOAD;
 		ret = -1;
 		goto cleanup;
 	}
@@ -285,7 +293,7 @@ static int download_external(const char *url, const char *localpath,
 
 	if(retval == -1) {
 		_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
-		pm_errno = PM_ERR_FORK_FAILED;
+		pm_errno = PM_ERR_EXTERNAL_DOWNLOAD;
 		ret = -1;
 	} else if(retval != 0) {
 		/* download failed */
@@ -331,8 +339,18 @@ static int download(const char *url, const char *localpath,
 		return(ret ? -1 : 0);
 	}
 
+	/* We have a few things to take into account here.
+	 * 1. If we have both internal/external available, choose based on
+	 * whether xfercommand is populated.
+	 * 2. If we only have external available, we should first check
+	 * if a command was provided before we drop into download_external.
+	 */
 	if(handle->xfercommand == NULL) {
+#if defined(INTERNAL_DOWNLOAD)
 		ret = download_internal(url, localpath, mtimeold, mtimenew);
+#else
+		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
+#endif
 	} else {
 		ret = download_external(url, localpath, mtimeold, mtimenew);
 	}

@@ -98,6 +98,11 @@ AC_ARG_WITH(db-ext,
 	AC_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
 	[DBEXT=$withval], [DBEXT=.db.tar.gz])
 
+# Help line for libdownload/libfetch
+AC_ARG_ENABLE(internal-download,
+	AC_HELP_STRING([--disable-internal-download], [do not build with libdownload/libfetch support]),
+	[internaldownload=$enableval], [internaldownload=yes])
+
 # Help line for documentation
 AC_ARG_ENABLE(doc,
 	AC_HELP_STRING([--disable-doc], [prevent make from looking at doc/ dir]),
@@ -137,10 +142,21 @@ AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION(0.13.1)
 
 # Check for libarchive
-AC_CHECK_LIB([archive], [archive_read_data], , AC_MSG_ERROR([libarchive is needed to compile pacman!]))
+AC_CHECK_LIB([archive], [archive_read_data], ,
+	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
 
-# Check for libdownload
-AC_CHECK_LIB([download], [downloadParseURL], , AC_MSG_ERROR([libdownload is needed to compile pacman!]))
+# Enable or disable usage of libdownload/libfetch
+AC_MSG_CHECKING(whether to link with download library)
+if test "x$internaldownload" = "xyes" ; then
+	AC_MSG_RESULT(yes)
+	AC_DEFINE([INTERNAL_DOWNLOAD], , [Use internal download library])
+	# Check for libdownload if it was actually requested
+	AC_CHECK_LIB([download], [downloadParseURL], ,
+		AC_MSG_ERROR([libdownload is needed to compile pacman!]))
+else
+	AC_MSG_RESULT(no)
+fi
+AM_CONDITIONAL(INTERNAL_DOWNLOAD, test "x$internaldownload" = "xyes")
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/statvfs.h sys/time.h syslog.h wchar.h])
@@ -352,6 +368,7 @@ pacman_display_version:
 
   Compilation options:
     Run make in doc/ dir   : ${wantdoc}
+    Use download library   : ${internaldownload}
     Doxygen support        : ${usedoxygen}
     Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}
