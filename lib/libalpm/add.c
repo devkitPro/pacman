@@ -422,7 +422,7 @@ static int extract_single_file(struct archive *archive,
 
 				/* if we force hash_orig to be non-NULL retroactive backup works */
 				if(needbackup && !hash_orig) {
-					hash_orig = strdup("");
+					STRDUP(hash_orig, "", RET_ERR(PM_ERR_MEMORY, -1));
 				}
 			}
 		}
@@ -434,12 +434,16 @@ static int extract_single_file(struct archive *archive,
 		char *tempfile;
 		char *hash_local = NULL, *hash_pkg = NULL;
 		int fd;
+		int ret;
 
 		/* extract the package's version to a temporary file and checksum it */
-		tempfile = strdup("/tmp/alpm_XXXXXX");
+		STRDUP(tempfile, "/tmp/alpm_XXXXXX", RET_ERR(PM_ERR_MEMORY, -1));
 		fd = mkstemp(tempfile);
+		if(fd == -1) {
+			RET_ERR(PM_ERR_SYSTEM, -1);
+		}
 
-		int ret = archive_read_data_into_fd(archive, fd);
+		ret = archive_read_data_into_fd(archive, fd);
 		close(fd);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
@@ -471,10 +475,7 @@ static int extract_single_file(struct archive *archive,
 			char *backup = NULL;
 			/* length is tab char, null byte and MD5 (32 char) */
 			int backup_len = strlen(oldbackup) + 34;
-			backup = malloc(backup_len);
-			if(!backup) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
+			MALLOC(backup, backup_len, RET_ERR(PM_ERR_MEMORY, -1));
 
 			sprintf(backup, "%s\t%s", oldbackup, hash_pkg);
 			backup[backup_len-1] = '\0';
@@ -610,10 +611,7 @@ static int extract_single_file(struct archive *archive,
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
 
 			hash = alpm_get_md5sum(filename);
-			backup = malloc(backup_len);
-			if(!backup) {
-				RET_ERR(PM_ERR_MEMORY, -1);
-			}
+			MALLOC(backup, backup_len, RET_ERR(PM_ERR_MEMORY, -1));
 
 			sprintf(backup, "%s\t%s", oldbackup, hash);
 			backup[backup_len-1] = '\0';
