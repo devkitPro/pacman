@@ -361,7 +361,17 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	len = strlen(opr) + ((pkgname) ? strlen(pkgname) : 0) + 2;
 	wcstr = calloc(len, sizeof(wchar_t));
 	/* print our strings to the alloc'ed memory */
+#if defined(HAVE_SWPRINTF)
 	wclen = swprintf(wcstr, len, L"%s %s", opr, pkgname);
+#else
+	/* because the format string was simple, we can easily do this without
+	 * using swprintf, although it is probably not as safe/fast. The max
+	 * chars we can copy is decremented each time by subtracting the length
+	 * of the already printed/copied wide char string. */
+	wclen = mbstowcs(wcstr, opr, len);
+	wclen += mbstowcs(wcstr + wclen, " ", len - wclen);
+	wclen += mbstowcs(wcstr + wclen, pkgname, len - wclen);
+#endif
 	wcwid = wcswidth(wcstr, wclen);
 	padwid = textlen - wcwid;
 	/* if padwid is < 0, we need to trim the string so padwid = 0 */
