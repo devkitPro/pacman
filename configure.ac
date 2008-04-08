@@ -60,7 +60,6 @@ m4_define([pacman_display_version],
 					pacman_version[]m4_ifdef([pacman_version_suffix],[pacman_version_suffix]))
 
 # Autoconf initialization
-# AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
 AC_INIT([Pacman Package Manager], [pacman_display_version],
         [pacman-dev@archlinux.org], [pacman])
 AC_CONFIG_SRCDIR([config.h.in])
@@ -80,52 +79,52 @@ AC_DEFINE_UNQUOTED([LIB_VERSION], ["$LIB_VERSION"], [libalpm version number])
 
 # Help line for root directory
 AC_ARG_WITH(root-dir,
-	AC_HELP_STRING([--with-root-dir=path], [set the location of pacman's root operating directory]),
+	AS_HELP_STRING([--with-root-dir=path], [set the location of pacman's root operating directory]),
 	[ROOTDIR=$withval], [ROOTDIR=/])
 
 # Help line for package extension
 AC_ARG_WITH(pkg-ext,
-	AC_HELP_STRING([--with-pkg-ext=ext], [set the file extension used by packages]),
+	AS_HELP_STRING([--with-pkg-ext=ext], [set the file extension used by packages]),
 	[PKGEXT=$withval], [PKGEXT=.pkg.tar.gz])
 
 # Help line for source package directory
 AC_ARG_WITH(src-ext,
-	AC_HELP_STRING([--with-src-ext=ext], [set the file extension used by source packages]),
+	AS_HELP_STRING([--with-src-ext=ext], [set the file extension used by source packages]),
 	[SRCEXT=$withval], [SRCEXT=.src.tar.gz])
 
 # Help line for database extension
 AC_ARG_WITH(db-ext,
-	AC_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
+	AS_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
 	[DBEXT=$withval], [DBEXT=.db.tar.gz])
 
 # Help line for libdownload/libfetch
 AC_ARG_ENABLE(internal-download,
-	AC_HELP_STRING([--disable-internal-download], [do not build with libdownload/libfetch support]),
+	AS_HELP_STRING([--disable-internal-download], [do not build with libdownload/libfetch support]),
 	[internaldownload=$enableval], [internaldownload=yes])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
-	AC_HELP_STRING([--disable-doc], [prevent make from looking at doc/ dir]),
+	AS_HELP_STRING([--disable-doc], [prevent make from looking at doc/ dir]),
 	[wantdoc=$enableval], [wantdoc=yes])
 
 # Help line for doxygen
 AC_ARG_ENABLE(doxygen,
-	AC_HELP_STRING([--enable-doxygen], [build your own API docs via Doxygen]),
+	AS_HELP_STRING([--enable-doxygen], [build your own API docs via Doxygen]),
 	[wantdoxygen=$enableval], [wantdoxygen=no])
 
 # Help line for asciidoc
 AC_ARG_ENABLE(asciidoc,
-	AC_HELP_STRING([--enable-asciidoc], [build your own manpages with Asciidoc]),
+	AS_HELP_STRING([--enable-asciidoc], [build your own manpages with Asciidoc]),
 	[wantasciidoc=$enableval], [wantasciidoc=no])
 
 # Help line for debug
 AC_ARG_ENABLE(debug,
-	AC_HELP_STRING([--enable-debug], [enable debugging support]),
+	AS_HELP_STRING([--enable-debug], [enable debugging support]),
 	[debug=$enableval], [debug=no])
 
 # Help line for pacman.static
 AC_ARG_ENABLE(pacman-static,
-	AC_HELP_STRING([--disable-pacman-static], [do not build static version of pacman]),
+	AS_HELP_STRING([--disable-pacman-static], [do not build static version of pacman]),
 	[pacmanstatic=$enableval], [pacmanstatic=yes])
 
 # Checks for programs.
@@ -171,13 +170,13 @@ AC_STRUCT_TM
 AC_TYPE_UID_T
 
 # Checks for library functions.
-AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MKTIME
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([geteuid realpath regcomp strcasecmp strdup strerror \
-								strndup strrchr strsep strstr strverscmp swprintf uname])
+AC_CHECK_FUNCS([geteuid realpath regcomp strcasecmp \
+                strndup strrchr strsep strverscmp swprintf \
+                wcwidth uname])
 
 # Enable large file support if available
 AC_SYS_LARGEFILE

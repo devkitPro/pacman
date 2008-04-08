@@ -208,7 +208,7 @@ static void cleanup(int ret) {
  * in a consistant state.
  * @param signum the thrown signal
  */
-static void handler(int signum)
+static RETSIGTYPE handler(int signum)
 {
 	if(signum==SIGSEGV)
 	{
