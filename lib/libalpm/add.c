@@ -195,6 +195,9 @@ static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pm
 	 * with the type PM_TRANS_TYPE_REMOVEUPGRADE. TODO: kill this weird
 	 * behavior. */
 	pmtrans_t *tr = _alpm_trans_new();
+
+	ALPM_LOG_FUNC;
+
 	_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 			oldpkg->name, oldpkg->version);
 
@@ -627,13 +630,12 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0;
-	struct archive *archive;
-	struct archive_entry *entry;
-	char cwd[PATH_MAX] = "";
 	char scriptlet[PATH_MAX+1];
 	int is_upgrade = 0;
 	double percent = 0.0;
 	pmpkg_t *oldpkg = NULL;
+
+	ALPM_LOG_FUNC;
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
 			alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
@@ -687,6 +689,10 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
+		struct archive *archive;
+		struct archive_entry *entry;
+		char cwd[PATH_MAX] = "";
+
 		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
 
 		if ((archive = archive_read_new()) == NULL) {
@@ -696,6 +702,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		archive_read_support_compression_all(archive);
 		archive_read_support_format_all(archive);
 
+		_alpm_log(PM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
 		if(archive_read_open_filename(archive, newpkg->origin_data.file,
 					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 			RET_ERR(PM_ERR_PKG_OPEN, -1);
