@@ -370,6 +370,13 @@ int _alpm_lckrm()
 
 /* Compression functions */
 
+/**
+ * @brief Unpack a specific file or all files in an archive.
+ *
+ * @param archive  the archive to unpack
+ * @param prefix   where to extract the files
+ * @param fn       a file within the archive to unpack or NULL for all
+ */
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {
 	int ret = 1;
@@ -407,13 +414,17 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 			archive_entry_set_mode(entry, 0755);
 		}
 
+		/* If a specific file was requested skip entries that don't match. */
 		if (fn && strcmp(fn, entryname)) {
+			_alpm_log(PM_LOG_DEBUG, "skipping: %s\n", entryname);
 			if (archive_read_data_skip(_archive) != ARCHIVE_OK) {
 				ret = 1;
 				goto cleanup;
 			}
 			continue;
 		}
+
+		/* Extract the archive entry. */
 		ret = 0;
 		snprintf(expath, PATH_MAX, "%s/%s", prefix, entryname);
 		archive_entry_set_pathname(entry, expath);
