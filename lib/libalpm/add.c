@@ -431,7 +431,7 @@ static int extract_single_file(struct archive *archive,
 	}
 
 	if(needbackup) {
-		char *tempfile = NULL;
+		char *tempfile;
 		char *hash_local = NULL, *hash_pkg = NULL;
 		int fd;
 
@@ -439,9 +439,8 @@ static int extract_single_file(struct archive *archive,
 		tempfile = strdup("/tmp/alpm_XXXXXX");
 		fd = mkstemp(tempfile);
 
-		archive_entry_set_pathname(entry, tempfile);
-
-		int ret = archive_read_extract(archive, entry, archive_flags);
+		int ret = archive_read_data_into_fd(archive, fd);
+		close(fd);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
@@ -452,8 +451,8 @@ static int extract_single_file(struct archive *archive,
 			alpm_logaction("error: could not extract %s (%s)\n",
 					entryname, archive_error_string(archive));
 			unlink(tempfile);
+			FREE(tempfile);
 			FREE(hash_orig);
-			close(fd);
 			return(1);
 		}
 
@@ -563,7 +562,6 @@ static int extract_single_file(struct archive *archive,
 		FREE(hash_orig);
 		unlink(tempfile);
 		FREE(tempfile);
-		close(fd);
 	} else {
 		/* we didn't need a backup */
 		if(notouch) {
