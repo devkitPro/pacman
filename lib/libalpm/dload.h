@@ -23,7 +23,6 @@
 #include "alpm.h"
 
 #include <time.h>
-#include <download.h>
 
 #define PM_DLBUF_LEN (1024 * 10)
 
