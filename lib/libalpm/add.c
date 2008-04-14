@@ -477,7 +477,7 @@ static int extract_single_file(struct archive *archive,
 			}
 			char *backup = NULL;
 			/* length is tab char, null byte and MD5 (32 char) */
-			int backup_len = strlen(oldbackup) + 34;
+			size_t backup_len = strlen(oldbackup) + 34;
 			MALLOC(backup, backup_len, RET_ERR(PM_ERR_MEMORY, -1));
 
 			sprintf(backup, "%s\t%s", oldbackup, hash_pkg);
@@ -606,7 +606,7 @@ static int extract_single_file(struct archive *archive,
 			char *backup = NULL, *hash = NULL;
 			char *oldbackup = alpm_list_getdata(b);
 			/* length is tab char, null byte and MD5 (32 char) */
-			int backup_len = strlen(oldbackup) + 34;
+			size_t backup_len = strlen(oldbackup) + 34;
 
 			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
 				continue;
