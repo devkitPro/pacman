@@ -763,7 +763,7 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	struct sigaction new_action, old_action;
-#if defined(HAVE_GETEUID)
+#if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* geteuid undefined in CYGWIN */
 	uid_t myuid = geteuid();
 #endif
@@ -844,7 +844,7 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
-#if defined(HAVE_GETEUID)
+#if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0 && needs_transaction()) {
 		pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
