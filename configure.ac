@@ -172,12 +172,19 @@ GCC_VISIBILITY_CC
 # Check if we have -fgnu89-inline flag
 GCC_GNU89_INLINE_CC
 
-# Host-dependant flags
-case "${host}" in
-	*-*-cygwin*)
+# Host-dependant definitions
+case "${host_os}" in
+	cygwin*)
+		host_os_cygwin=yes
 		CFLAGS="$CFLAGS -DCYGWIN"
 		;;
+	darwin*)
+		host_os_darwin=yes
+		;;
 esac
+
+AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
+AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 
 # Check for architecture, used in default makepkg.conf
 # (Note single space left after CARCHFLAGS)

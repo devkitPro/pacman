@@ -10,7 +10,11 @@ DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
 if ENABLE_VISIBILITY_CC
+if DARWIN
+AM_CFLAGS += -fvisibility=hidden
+else
 AM_CFLAGS += -fvisibility=internal
+endif
 endif
 if ENABLE_GNU89_INLINE_CC
 AM_CFLAGS += -fgnu89-inline
