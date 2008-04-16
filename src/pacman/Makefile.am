@@ -33,10 +33,9 @@ pacman_SOURCES = \
 	upgrade.c \
 	util.h util.c
 
-pacman_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
+LDADD = $(LTLIBINTL) $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 pacman_static_SOURCES = $(pacman_SOURCES)
 pacman_static_LDFLAGS = $(LDFLAGS) -all-static
-pacman_static_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 # vim:set ts=2 sw=2 noet:

@@ -10,7 +10,11 @@ DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
 if ENABLE_VISIBILITY_CC
+if DARWIN
+AM_CFLAGS += -fvisibility=hidden
+else
 AM_CFLAGS += -fvisibility=internal
+endif
 endif
 if ENABLE_GNU89_INLINE_CC
 AM_CFLAGS += -fgnu89-inline
@@ -41,5 +45,6 @@ libalpm_la_SOURCES = \
 	util.h util.c
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
+libalpm_la_LIBADD = $(LTLIBINTL)
 
 # vim:set ts=2 sw=2 noet:
