@@ -200,7 +200,7 @@ class pmtest:
             cmd.append("libtool gdb --args")
         if pacman["valgrind"]:
             cmd.append("valgrind --tool=memcheck --leak-check=full --show-reachable=yes")
-        cmd.append("%s --config=%s --root=%s --dbpath=%s --cachedir=%s" \
+        cmd.append("\"%s\" --config=\"%s\" --root=\"%s\" --dbpath=\"%s\" --cachedir=\"%s\"" \
                    % (pacman["bin"],
                        os.path.join(self.root, PACCONF),
                        self.root,
@@ -212,7 +212,7 @@ class pmtest:
             cmd.append("--debug=%s" % pacman["debug"])
         cmd.append("%s" % self.args)
         if not pacman["gdb"] and not pacman["valgrind"] and not pacman["nolog"]: 
-            cmd.append(">%s 2>&1" % os.path.join(self.root, LOGFILE))
+            cmd.append(">\"%s\" 2>&1" % os.path.join(self.root, LOGFILE))
         vprint("\trunning: %s" % " ".join(cmd))
 
         # Change to the tmp dir before running pacman, so that local package
