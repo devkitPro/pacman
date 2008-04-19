@@ -20,6 +20,7 @@ import os
 import tempfile
 import stat
 import shutil
+import tarfile
 
 from util import *
 
@@ -153,25 +154,25 @@ class pmpkg:
         for i in self.backup:
             data.append("backup = %s" % i)
         mkfile(".PKGINFO", "\n".join(data))
-        targets = ".PKGINFO"
 
         # .INSTALL
-        empty = 1
         if len(self.install.values()) > 0:
-            empty = 0
-        if not empty:
             mkinstallfile(".INSTALL", self.install)
-            targets += " .INSTALL"
 
-        # package files
-        if self.files:
-            targets += " *"
-
-        #safely create the dir
+        # safely create the dir
         mkdir(os.path.dirname(self.path))
 
         # Generate package archive
-        os.system("tar zcf %s %s" % (self.path, targets))
+        tar = tarfile.open(self.path, "w:gz")
+
+        # package files
+        for root, dirs, files in os.walk('.'):
+            for d in dirs:
+                tar.add(os.path.join(root, d), recursive=False)
+            for f in files:
+                tar.add(os.path.join(root, f))
+
+        tar.close()
 
         os.chdir(curdir)
         shutil.rmtree(tmpdir)

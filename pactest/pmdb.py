@@ -19,6 +19,7 @@
 import os
 import tempfile
 import shutil
+import tarfile
 
 import pmpkg
 from util import *
@@ -343,7 +344,13 @@ class pmdb:
         # Generate database archive
         mkdir(path)
         archive = os.path.join(path, "%s%s" % (self.treename, PM_EXT_DB))
-        os.system("tar zcf %s *" % archive)
+        tar = tarfile.open(archive, "w:gz")
+        for root, dirs, files in os.walk('.'):
+            for d in dirs:
+                tar.add(os.path.join(root, d), recursive=False)
+            for f in files:
+                tar.add(os.path.join(root, f))
+        tar.close()
 
         os.chdir(curdir)
         shutil.rmtree(tmpdir)
