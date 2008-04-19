@@ -24,8 +24,25 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
-#if defined(INTERNAL_DOWNLOAD)
-#include <download.h> /* libdownload */
+#include <limits.h>
+/* the following two are needed on BSD for libfetch */
+#if defined(HAVE_SYS_SYSLIMITS_H)
+#include <sys/syslimits.h> /* PATH_MAX */
+#endif
+#if defined(HAVE_SYS_PARAM_H)
+#include <sys/param.h> /* MAXHOSTNAMELEN */
+#endif
+
+#if defined(HAVE_LIBDOWNLOAD)
+#include <download.h>
+#elif defined(HAVE_LIBFETCH)
+#include <fetch.h>
+#define downloadFreeURL fetchFreeURL
+#define downloadLastErrCode fetchLastErrCode
+#define downloadLastErrString fetchLastErrString
+#define downloadParseURL fetchParseURL
+#define downloadTimeout fetchTimeout
+#define downloadXGet fetchXGet
 #endif
 
 /* libalpm */

@@ -19,8 +19,22 @@
 
 #include "config.h"
 
-#if defined(INTERNAL_DOWNLOAD)
+/* TODO: needed for the libfetch stuff, unfortunately- we should kill it */
+#include <stdio.h>
+#include <limits.h>
+/* the following two are needed on BSD for libfetch */
+#if defined(HAVE_SYS_SYSLIMITS_H)
+#include <sys/syslimits.h> /* PATH_MAX */
+#endif
+#if defined(HAVE_SYS_PARAM_H)
+#include <sys/param.h> /* MAXHOSTNAMELEN */
+#endif
+
+#if defined(HAVE_LIBDOWNLOAD)
 #include <download.h> /* downloadLastErrString */
+#elif defined(HAVE_LIBFETCH)
+#include <fetch.h> /* fetchLastErrString */
+#define downloadLastErrString fetchLastErrString
 #endif
 
 /* libalpm */
@@ -145,7 +159,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return downloadLastErrString;
 #else
 			/* obviously shouldn't get here... */
-			return _("libdownload error");
+			return _("download library error");
 #endif
 		case PM_ERR_EXTERNAL_DOWNLOAD:
 			return _("error invoking external downloader");

@@ -145,20 +145,23 @@ AC_CHECK_LIB([archive], [archive_read_data], ,
 	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
 
 # Enable or disable usage of libdownload/libfetch
+# - this is a nested check- first see if we need a library, if we do then
+#   check for libdownload first, then fallback to libfetch, then die
 AC_MSG_CHECKING(whether to link with download library)
 if test "x$internaldownload" = "xyes" ; then
 	AC_MSG_RESULT(yes)
 	AC_DEFINE([INTERNAL_DOWNLOAD], , [Use internal download library])
-	# Check for libdownload if it was actually requested
+	# Check for a download library if it was actually requested
 	AC_CHECK_LIB([download], [downloadParseURL], ,
-		AC_MSG_ERROR([libdownload is needed to compile pacman!]))
+		AC_CHECK_LIB([fetch], [fetchParseURL], ,
+			AC_MSG_ERROR([libdownload or libfetch are needed to compile with internal download support])) )
 else
 	AC_MSG_RESULT(no)
 fi
 AM_CONDITIONAL(INTERNAL_DOWNLOAD, test "x$internaldownload" = "xyes")
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/statvfs.h sys/time.h syslog.h wchar.h])
+AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/param.h sys/statvfs.h sys/syslimits.h sys/time.h syslog.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
