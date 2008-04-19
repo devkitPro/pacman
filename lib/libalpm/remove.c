@@ -149,6 +149,11 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		return(0);
 	}
 
+	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
+		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
+		_alpm_recursedeps(db, trans->packages, trans->flags & PM_TRANS_FLAG_RECURSEALL);
+	}
+
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
@@ -181,7 +186,8 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	alpm_list_free(trans->packages);
 	trans->packages = lp;
 
-	if(trans->flags & PM_TRANS_FLAG_RECURSE) {
+	/* -Rcs == -Rc then -Rs */
+	if((trans->flags & PM_TRANS_FLAG_CASCADE) && (trans->flags & PM_TRANS_FLAG_RECURSE)) {
 		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
 		_alpm_recursedeps(db, trans->packages, trans->flags & PM_TRANS_FLAG_RECURSEALL);
 	}
