@@ -47,7 +47,7 @@
 /* This strdup macro is NULL safe- copying NULL will yield NULL */
 #define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
 
-#define FREE(p) do { if(p) { free(p); p = NULL; } } while(0)
+#define FREE(p) do { free(p); p = NULL; } while(0)
 
 #define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
