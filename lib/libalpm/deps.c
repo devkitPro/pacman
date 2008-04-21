@@ -438,7 +438,7 @@ pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
 static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 		int include_explicit)
 {
-	alpm_list_t *i, *requiredby;
+	alpm_list_t *i, *j;
 
 	if(_alpm_pkg_find(alpm_pkg_get_name(pkg), targets)) {
 		return(0);
@@ -460,15 +460,17 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	 * if checkdeps detected it would break something */
 
 	/* see if other packages need it */
-	requiredby = alpm_pkg_compute_requiredby(pkg);
-	for(i = requiredby; i; i = i->next) {
-		pmpkg_t *reqpkg = _alpm_db_get_pkgfromcache(db, i->data);
-		if(reqpkg && !_alpm_pkg_find(alpm_pkg_get_name(reqpkg), targets)) {
-			FREELIST(requiredby);
-			return(0);
+	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
+		pmpkg_t *lpkg = i->data;
+		for(j = alpm_pkg_get_depends(lpkg); j; j = j->next) {
+			if(alpm_depcmp(pkg, j->data)) {
+				if(!_alpm_pkg_find(lpkg->name, targets)) {
+					return(0);
+				}
+				break;
+			}
 		}
 	}
-	FREELIST(requiredby);
 
 	/* it's ok to remove */
 	return(1);
