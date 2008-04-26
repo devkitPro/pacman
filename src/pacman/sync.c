@@ -34,7 +34,6 @@
 #include "pacman.h"
 #include "util.h"
 #include "package.h"
-#include "callback.h"
 #include "conf.h"
 
 extern pmdb_t *db_local;
@@ -235,34 +234,12 @@ static int sync_cleancache(int level)
 	return(0);
 }
 
-static int sync_trans_init(pmtransflag_t flags) {
-	if(alpm_trans_init(PM_TRANS_TYPE_SYNC, flags, cb_trans_evt,
-				cb_trans_conv, cb_trans_progress) == -1) {
-		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-				alpm_strerrorlast());
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			printf(_("  if you're sure a package manager is not already\n"
-						"  running, you can remove %s.\n"), alpm_option_get_lockfile());
-		}
-		return(-1);
-	}
-	return(0);
-}
-
-static int sync_trans_release() {
-	if(alpm_trans_release() == -1) {
-		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
-				alpm_strerrorlast());
-		return(-1);
-	}
-	return(0);
-}
 static int sync_synctree(int level, alpm_list_t *syncs)
 {
 	alpm_list_t *i;
 	int success = 0, ret;
 
-	if(sync_trans_init(0) == -1) {
+	if(trans_init(PM_TRANS_TYPE_SYNC, 0) == -1) {
 		return(0);
 	}
 
@@ -281,7 +258,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 		}
 	}
 
-	if(sync_trans_release() == -1) {
+	if(trans_release() == -1) {
 		return(0);
 	}
 	/* We should always succeed if at least one DB was upgraded - we may possibly
@@ -552,7 +529,7 @@ static int sync_trans(alpm_list_t *targets)
 	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 
 	/* Step 1: create a new transaction... */
-	if(sync_trans_init(config->flags) == -1) {
+	if(trans_init(PM_TRANS_TYPE_SYNC, config->flags) == -1) {
 		return(1);
 	}
 
@@ -583,10 +560,10 @@ static int sync_trans(alpm_list_t *targets)
 					printf(_(":: pacman has detected a newer version of itself.\n"));
 					if(yesno(1, _(":: Do you want to cancel the current operation\n"
 					           ":: and install the new pacman version now?"))) {
-						if(sync_trans_release() == -1) {
+						if(trans_release() == -1) {
 							return(1);
 						}
-						if(sync_trans_init(0) == -1) {
+						if(trans_init(PM_TRANS_TYPE_SYNC, 0) == -1) {
 							return(1);
 						}
 						if(alpm_trans_addtarget("pacman") == -1) {
@@ -788,7 +765,7 @@ cleanup:
 	if(data) {
 		FREELIST(data);
 	}
-	if(sync_trans_release() == -1) {
+	if(trans_release() == -1) {
 		retval = 1;
 	}
 
@@ -803,14 +780,14 @@ int pacman_sync(alpm_list_t *targets)
 	if(config->op_s_clean) {
 		int ret = 0;
 
-		if(sync_trans_init(0) == -1) {
+		if(trans_init(PM_TRANS_TYPE_SYNC, 0) == -1) {
 			return(1);
 		}
 
 		ret += sync_cleancache(config->op_s_clean);
 		ret += sync_cleandb_all();
 
-		if(sync_trans_release() == -1) {
+		if(trans_release() == -1) {
 			ret++;
 		}
 

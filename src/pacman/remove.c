@@ -29,23 +29,9 @@
 /* pacman */
 #include "pacman.h"
 #include "util.h"
-#include "callback.h"
 #include "conf.h"
 
 extern pmdb_t *db_local;
-
-/* Free the current transaction and print an error if unsuccessful */
-static int remove_cleanup(void)
-{
-	int ret = alpm_trans_release();
-	if(ret != 0) {
-		pm_printf(PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
-		        alpm_strerrorlast());
-		ret = 1;
-	}
-
-	return(ret);
-}
 
 /**
  * @brief Remove a specified list of packages.
@@ -90,14 +76,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* Step 1: create a new transaction */
-	if(alpm_trans_init(PM_TRANS_TYPE_REMOVE, config->flags,
-	   cb_trans_evt, cb_trans_conv, cb_trans_progress) == -1) {
-		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
-		        alpm_strerrorlast());
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
-		}
+	if(trans_init(PM_TRANS_TYPE_REMOVE, config->flags) == -1) {
 		FREELIST(finaltargs);
 		return(1);
 	}
@@ -109,7 +88,7 @@ int pacman_remove(alpm_list_t *targets)
 		if(alpm_trans_addtarget(targ) == -1) {
 			fprintf(stderr, _("error: '%s': %s\n"),
 					targ, alpm_strerrorlast());
-			remove_cleanup();
+			trans_release();
 			FREELIST(finaltargs);
 			return(1);
 		}
@@ -134,7 +113,7 @@ int pacman_remove(alpm_list_t *targets)
 			default:
 				break;
 		}
-		remove_cleanup();
+		trans_release();
 		FREELIST(finaltargs);
 		return(1);
 	}
@@ -154,7 +133,7 @@ int pacman_remove(alpm_list_t *targets)
 		FREELIST(lst);
 		/* get confirmation */
 		if(yesno(1, _("\nDo you want to remove these packages?")) == 0) {
-			remove_cleanup();
+			trans_release();
 			FREELIST(finaltargs);
 			return(1);
 		}
@@ -165,13 +144,15 @@ int pacman_remove(alpm_list_t *targets)
 	if(alpm_trans_commit(NULL) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
-		remove_cleanup();
+		trans_release();
 		FREELIST(finaltargs);
 		return(1);
 	}
 
 	/* Step 4: release transaction resources */
-	retval = remove_cleanup();
+	if(trans_release() == -1) {
+		retval = 1;
+	}
 	FREELIST(finaltargs);
 	return(retval);
 }

@@ -28,22 +28,8 @@
 
 /* pacman */
 #include "pacman.h"
-#include "callback.h"
 #include "conf.h"
 #include "util.h"
-
-/* Free the current transaction and print an error if unsuccessful */
-static int upgrade_cleanup(void)
-{
-	int ret = alpm_trans_release();
-	if(ret != 0) {
-		pm_printf(PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
-		        alpm_strerrorlast());
-		ret = 1;
-	}
-
-	return(ret);
-}
 
 /**
  * @brief Upgrade a specified list of packages.
@@ -78,15 +64,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	/* Step 1: create a new transaction */
-	if(alpm_trans_init(transtype, config->flags, cb_trans_evt,
-	   cb_trans_conv, cb_trans_progress) == -1) {
-		/* TODO: error messages should be in the front end, not the back */
-		fprintf(stderr, _("error: %s\n"), alpm_strerrorlast());
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
-			/* TODO this and the 2 other places should probably be on stderr */
-			printf(_("  if you're sure a package manager is not already\n"
-			         "  running, you can remove %s.\n"), alpm_option_get_lockfile());
-		}
+	if(trans_init(transtype, config->flags) == -1) {
 		return(1);
 	}
 
@@ -97,7 +75,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		if(alpm_trans_addtarget(targ) == -1) {
 			fprintf(stderr, _("error: '%s': %s\n"),
 					targ, alpm_strerrorlast());
-			upgrade_cleanup();
+			trans_release();
 			return(1);
 		}
 	}
@@ -151,7 +129,7 @@ int pacman_upgrade(alpm_list_t *targets)
 			default:
 				break;
 		}
-		upgrade_cleanup();
+		trans_release();
 		FREELIST(data);
 		return(1);
 	}
@@ -160,11 +138,13 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* Step 3: perform the installation */
 	if(alpm_trans_commit(NULL) == -1) {
 		fprintf(stderr, _("error: failed to commit transaction (%s)\n"), alpm_strerrorlast());
-		upgrade_cleanup();
+		trans_release();
 		return(1);
 	}
 
-	retval = upgrade_cleanup();
+	if(trans_release() == -1) {
+		retval = 1;
+	}
 	return(retval);
 }
 

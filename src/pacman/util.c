@@ -42,6 +42,33 @@
 /* pacman */
 #include "util.h"
 #include "conf.h"
+#include "callback.h"
+
+
+int trans_init(pmtranstype_t type, pmtransflag_t flags)
+{
+	if(alpm_trans_init(type, flags, cb_trans_evt,
+				cb_trans_conv, cb_trans_progress) == -1) {
+		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+				alpm_strerrorlast());
+		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+			fprintf(stderr, _("  if you're sure a package manager is not already\n"
+						"  running, you can remove %s\n"), alpm_option_get_lockfile());
+		}
+		return(-1);
+	}
+	return(0);
+}
+
+int trans_release()
+{
+	if(alpm_trans_release() == -1) {
+		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+				alpm_strerrorlast());
+		return(-1);
+	}
+	return(0);
+}
 
 int needs_transaction()
 {

@@ -36,6 +36,8 @@
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 
+int trans_init(pmtranstype_t type, pmtransflag_t flags);
+int trans_release();
 int needs_transaction();
 int getcols();
 int makepath(const char *path);
