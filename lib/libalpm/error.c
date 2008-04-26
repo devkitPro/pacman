@@ -120,7 +120,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_PKG_CANT_REMOVE:
 			return _("cannot remove all files for package");
 		case PM_ERR_PKG_INVALID_NAME:
-			return _("package name is not valid");
+			return _("package filename is not valid");
 		case PM_ERR_PKG_REPO_NOT_FOUND:
 			return _("no such repository");
 		/* Deltas */

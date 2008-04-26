@@ -384,10 +384,15 @@ static int syncpkg_cmp(const void *s1, const void *s2)
  * package.
  * @param newpkg the new package to upgrade to
  */
-static void compute_download_size(pmpkg_t *newpkg)
+static int compute_download_size(pmpkg_t *newpkg)
 {
-	char *fpath = _alpm_filecache_find(alpm_pkg_get_filename(newpkg));
+	const char *fname;
+	char *fpath;
 	unsigned long size = 0;
+
+	fname = alpm_pkg_get_filename(newpkg);
+	ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
+	fpath = _alpm_filecache_find(fname);
 
 	if(fpath) {
 		FREE(fpath);
@@ -415,10 +420,11 @@ static void compute_download_size(pmpkg_t *newpkg)
 		size = alpm_pkg_get_size(newpkg);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "returning size %ld for pkg %s\n", size,
+	_alpm_log(PM_LOG_DEBUG, "setting download size %ld for pkg %s\n", size,
 			alpm_pkg_get_name(newpkg));
 
 	newpkg->download_size = size;
+	return(0);
 }
 
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
@@ -645,7 +651,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	for(i = list; i; i = i->next) {
 		/* update download size field */
 		pmpkg_t *spkg = i->data;
-		compute_download_size(spkg);
+		if(compute_download_size(spkg) != 0) {
+			ret = -1;
+			goto cleanup;
+		}
 	}
 
 cleanup:
@@ -859,6 +868,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				pm_errno = PM_ERR_RETRIEVE;
 				goto error;
 			}
+			FREELIST(files);
 		}
 	}
 	if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
