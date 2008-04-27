@@ -285,36 +285,93 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_RECURSEALL = 0x10000
 } pmtransflag_t;
 
-/* Transaction Events */
+/**
+ * @addtogroup alpm_trans
+ * @{
+ */
+/**
+ * @brief Transaction events.
+ * NULL parameters are passed to in all events unless specified otherwise.
+ */
 typedef enum _pmtransevt_t {
+	/** Dependencies will be computed for a package. */
 	PM_TRANS_EVT_CHECKDEPS_START = 1,
+	/** Dependencies were computed for a package. */
 	PM_TRANS_EVT_CHECKDEPS_DONE,
+	/** File conflicts will be computed for a package. */
 	PM_TRANS_EVT_FILECONFLICTS_START,
+	/** File conflicts were computed for a package. */
 	PM_TRANS_EVT_FILECONFLICTS_DONE,
+	/** Dependencies will be resolved for target package. */
 	PM_TRANS_EVT_RESOLVEDEPS_START,
+	/** Dependencies were resolved for target package. */
 	PM_TRANS_EVT_RESOLVEDEPS_DONE,
+	/** Inter-conflicts will be checked for target package. */
 	PM_TRANS_EVT_INTERCONFLICTS_START,
+	/** Inter-conflicts were checked for target package. */
 	PM_TRANS_EVT_INTERCONFLICTS_DONE,
+	/** Package will be installed.
+	 * A pointer to the target package is passed to the callback.
+	 */
 	PM_TRANS_EVT_ADD_START,
+	/** Package was installed.
+	 * A pointer to the new package is passed to the callback.
+	 */
 	PM_TRANS_EVT_ADD_DONE,
+	/** Package will be removed.
+	 * A pointer to the target package is passed to the callback.
+	 */
 	PM_TRANS_EVT_REMOVE_START,
+	/** Package was removed.
+	 * A pointer to the removed package is passed to the callback.
+	 */
 	PM_TRANS_EVT_REMOVE_DONE,
+	/** Package will be upgraded.
+	 * A pointer to the upgraded package is passed to the callback.
+	 */
 	PM_TRANS_EVT_UPGRADE_START,
+	/** Package was upgraded.
+	 * A pointer to the new package, and a pointer to the old package is passed
+	 * to the callback, respectively.
+	 */
 	PM_TRANS_EVT_UPGRADE_DONE,
+	/** Package was extracted. */
 	PM_TRANS_EVT_EXTRACT_DONE,
+	/** Target package's integrity will be checked. */
 	PM_TRANS_EVT_INTEGRITY_START,
+	/** Target package's integrity was checked. */
 	PM_TRANS_EVT_INTEGRITY_DONE,
+	/** Target deltas's integrity will be checked. */
 	PM_TRANS_EVT_DELTA_INTEGRITY_START,
+	/** Target delta's integrity was checked. */
 	PM_TRANS_EVT_DELTA_INTEGRITY_DONE,
+	/** Deltas will be applied to packages. */
 	PM_TRANS_EVT_DELTA_PATCHES_START,
+	/** Deltas were applied to packages. */
 	PM_TRANS_EVT_DELTA_PATCHES_DONE,
+	/** Delta patch will be applied to target package.
+	 * The filename of the package and the filename of the patch is passed to the
+	 * callback.
+	 */
 	PM_TRANS_EVT_DELTA_PATCH_START,
+	/** Delta patch was applied to target package. */
 	PM_TRANS_EVT_DELTA_PATCH_DONE,
+	/** Delta patch failed to apply to target package. */
 	PM_TRANS_EVT_DELTA_PATCH_FAILED,
+	/** Scriptlet has printed information.
+	 * A line of text is passed to the callback.
+	 */
 	PM_TRANS_EVT_SCRIPTLET_INFO,
+	/** Print URI.
+	 * The database's URI and the package's filename are passed to the callback.
+	 */
 	PM_TRANS_EVT_PRINTURI,
+	/** Files will be downloaded from a repository.
+	 * The repository's tree name is passed to the callback.
+	 */
 	PM_TRANS_EVT_RETRIEVE_START,
 } pmtransevt_t;
+/*@}*/
 
 /* Transaction Conversations (ie, questions) */
 typedef enum _pmtransconv_t {
