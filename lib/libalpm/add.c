@@ -500,19 +500,16 @@ static int extract_single_file(struct archive *archive,
 
 				/* move the existing file to the "pacorig" */
 				if(rename(filename, newpath)) {
-					archive_entry_set_pathname(entry, filename);
 					_alpm_log(PM_LOG_ERROR, _("could not rename %s (%s)\n"), filename, strerror(errno));
 					alpm_logaction("error: could not rename %s (%s)\n", filename, strerror(errno));
 					errors++;
 				} else {
 					/* copy the tempfile we extracted to the real path */
 					if(_alpm_copyfile(tempfile, filename)) {
-						archive_entry_set_pathname(entry, filename);
 						_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), filename, strerror(errno));
 						alpm_logaction("error: could not copy tempfile to %s (%s)\n", filename, strerror(errno));
 						errors++;
 					} else {
-						archive_entry_set_pathname(entry, filename);
 						_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
 						alpm_logaction("warning: %s saved as %s\n", filename, newpath);
 					}
@@ -531,7 +528,6 @@ static int extract_single_file(struct archive *archive,
 						_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), filename, strerror(errno));
 						errors++;
 					}
-					archive_entry_set_pathname(entry, filename);
 				} else {
 					/* there's no sense in installing the same file twice, install
 					 * ONLY is the original and package hashes differ */
