@@ -215,27 +215,31 @@ int _alpm_makepath_mode(const char *path, mode_t mode)
 	return(0);
 }
 
+#define CPBUFSIZE 8 * 1024
+
 int _alpm_copyfile(const char *src, const char *dest)
 {
 	FILE *in, *out;
 	size_t len;
-	char buf[4097];
+	char *buf;
+	int ret = 0;
 
-	in = fopen(src, "r");
+	in = fopen(src, "rb");
 	if(in == NULL) {
 		return(1);
 	}
-	out = fopen(dest, "w");
+	out = fopen(dest, "wb");
 	if(out == NULL) {
 		fclose(in);
 		return(1);
 	}
 
+	CALLOC(buf, 1, CPBUFSIZE, ret = 1; goto cleanup;);
+
 	/* do the actual file copy */
-	while((len = fread(buf, 1, 4096, in))) {
+	while((len = fread(buf, 1, CPBUFSIZE, in))) {
 		fwrite(buf, 1, len, out);
 	}
-	fclose(in);
 
 	/* chmod dest to permissions of src, as long as it is not a symlink */
 	struct stat statbuf;
@@ -245,12 +249,14 @@ int _alpm_copyfile(const char *src, const char *dest)
 		}
 	} else {
 		/* stat was unsuccessful */
-		fclose(out);
-		return(1);
+		ret = 1;
 	}
 
+cleanup:
+	fclose(in);
 	fclose(out);
-	return(0);
+	FREE(buf);
+	return(ret);
 }
 
 /* Trim whitespace and newlines from a string
