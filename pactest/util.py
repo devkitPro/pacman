@@ -58,35 +58,35 @@ def vprint(msg):
 def getfilename(name):
     """
     """
-    filename = ""
-    link = ""
-    if name.find(" -> ") != -1:
-        filename, link = name.split(" -> ")
-    elif name[-1] == "*":
-        filename = name.rstrip("*")
-    else:
-        filename = name
+    filename = name
+    extra = ""
+    if filename[-1] == "*":
+        filename = filename.rstrip("*")
+    if filename.find(" -> ") != -1:
+        filename, extra = filename.split(" -> ")
+    elif filename.find("|") != -1:
+        filename, extra = filename.split("|")
     return filename
 
 def mkfile(name, data = ""):
     """
     """
-
-    isaltered = 0
     isdir = 0
     islink = 0
+    setperms = 0
+    filename = name
     link = ""
-    filename = ""
+    perms = ""
 
-    if name.find(" -> ") != -1:
+    if filename[-1] == "*":
+        filename = filename.rstrip("*")
+    if filename.find(" -> ") != -1:
         islink = 1
-        filename, link = name.split(" -> ")
-    elif name[-1] == "*":
-        isaltered = 1
-        filename = name.rstrip("*")
-    else:
-        filename = name
-    if name[-1] == "/":
+        filename, link = filename.split(" -> ")
+    elif filename.find("|") != -1:
+        setperms = 1
+        filename, perms = filename.split("|")
+    if filename[-1] == "/":
         isdir = 1
 
     if isdir:
@@ -114,6 +114,8 @@ def mkfile(name, data = ""):
             if data[-1] != "\n":
                 fd.write("\n")
         fd.close()
+        if setperms:
+            os.chmod(filename, int(perms, 8))
 
 def mkdescfile(filename, pkg):
     """

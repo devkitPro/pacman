@@ -1,7 +1,7 @@
 self.description = "Check the mode of default files in a package"
 
 p = pmpkg("pkg1")
-p.files = ["bin/foo"
+p.files = ["bin/foo",
            "bin/bar"]
 self.addpkg(p)
 
