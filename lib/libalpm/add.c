@@ -434,20 +434,14 @@ static int extract_single_file(struct archive *archive,
 	}
 
 	if(needbackup) {
-		char *tempfile;
+		char checkfile[PATH_MAX];
 		char *hash_local = NULL, *hash_pkg = NULL;
-		int fd;
 		int ret;
 
-		/* extract the package's version to a temporary file and checksum it */
-		STRDUP(tempfile, "/tmp/alpm_XXXXXX", RET_ERR(PM_ERR_MEMORY, -1));
-		fd = mkstemp(tempfile);
-		if(fd == -1) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
-		}
+		snprintf(checkfile, PATH_MAX, "%s.paccheck", filename);
+		archive_entry_set_pathname(entry, checkfile);
 
-		ret = archive_read_data_into_fd(archive, fd);
-		close(fd);
+		ret = archive_read_extract(archive, entry, archive_flags);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
@@ -457,14 +451,12 @@ static int extract_single_file(struct archive *archive,
 					entryname, archive_error_string(archive));
 			alpm_logaction("error: could not extract %s (%s)\n",
 					entryname, archive_error_string(archive));
-			unlink(tempfile);
-			FREE(tempfile);
 			FREE(hash_orig);
 			return(1);
 		}
 
 		hash_local = alpm_get_md5sum(filename);
-		hash_pkg = alpm_get_md5sum(tempfile);
+		hash_pkg = alpm_get_md5sum(checkfile);
 
 		/* append the new md5 hash to it's respective entry
 		 * in newpkg's backup (it will be the new orginal) */
@@ -500,14 +492,18 @@ static int extract_single_file(struct archive *archive,
 
 				/* move the existing file to the "pacorig" */
 				if(rename(filename, newpath)) {
-					_alpm_log(PM_LOG_ERROR, _("could not rename %s (%s)\n"), filename, strerror(errno));
-					alpm_logaction("error: could not rename %s (%s)\n", filename, strerror(errno));
+					_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+							filename, newpath, strerror(errno));
+					alpm_logaction("error: could not rename %s to %s (%s)\n",
+							filename, newpath, strerror(errno));
 					errors++;
 				} else {
-					/* copy the tempfile we extracted to the real path */
-					if(_alpm_copyfile(tempfile, filename)) {
-						_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), filename, strerror(errno));
-						alpm_logaction("error: could not copy tempfile to %s (%s)\n", filename, strerror(errno));
+					/* rename the file we extracted to the real name */
+					if(rename(checkfile, filename)) {
+						_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+								checkfile, filename, strerror(errno));
+						alpm_logaction("error: could not rename %s to %s (%s)\n",
+								checkfile, filename, strerror(errno));
 						errors++;
 					} else {
 						_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
@@ -524,35 +520,45 @@ static int extract_single_file(struct archive *archive,
 					_alpm_log(PM_LOG_DEBUG, "action: installing new file: %s\n",
 							entryname);
 
-					if(_alpm_copyfile(tempfile, filename)) {
-						_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), filename, strerror(errno));
+					if(rename(checkfile, filename)) {
+						_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+								checkfile, filename, strerror(errno));
+						alpm_logaction("error: could not rename %s to %s (%s)\n",
+								checkfile, filename, strerror(errno));
 						errors++;
 					}
 				} else {
 					/* there's no sense in installing the same file twice, install
 					 * ONLY is the original and package hashes differ */
 					_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place\n");
+					unlink(checkfile);
 				}
 			} else if(strcmp(hash_orig, hash_pkg) == 0) {
 				/* originally installed file and new file are the same - this
 				 * implies the case above failed - i.e. the file was changed by a
 				 * user */
 				_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place\n");
+				unlink(checkfile);
 			} else if(strcmp(hash_local, hash_pkg) == 0) {
 				/* this would be magical.  The above two cases failed, but the
 				 * user changes just so happened to make the new file exactly the
 				 * same as the one in the package... skip it */
 				_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place\n");
+				unlink(checkfile);
 			} else {
 				char newpath[PATH_MAX];
 				_alpm_log(PM_LOG_DEBUG, "action: keeping current file and installing new one with .pacnew ending\n");
 				snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
-				if(_alpm_copyfile(tempfile, newpath)) {
-					_alpm_log(PM_LOG_ERROR, _("could not install %s as %s: %s\n"), filename, newpath, strerror(errno));
-					alpm_logaction("error: could not install %s as %s: %s\n", filename, newpath, strerror(errno));
+				if(rename(checkfile, newpath)) {
+					_alpm_log(PM_LOG_ERROR, _("could not install %s as %s (%s)\n"),
+							filename, newpath, strerror(errno));
+					alpm_logaction("error: could not install %s as %s (%s)\n",
+							filename, newpath, strerror(errno));
 				} else {
-					_alpm_log(PM_LOG_WARNING, _("%s installed as %s\n"), filename, newpath);
-					alpm_logaction("warning: %s installed as %s\n", filename, newpath);
+					_alpm_log(PM_LOG_WARNING, _("%s installed as %s\n"),
+							filename, newpath);
+					alpm_logaction("warning: %s installed as %s\n",
+							filename, newpath);
 				}
 			}
 		}
@@ -560,9 +566,9 @@ static int extract_single_file(struct archive *archive,
 		FREE(hash_local);
 		FREE(hash_pkg);
 		FREE(hash_orig);
-		unlink(tempfile);
-		FREE(tempfile);
 	} else {
+		int ret;
+
 		/* we didn't need a backup */
 		if(notouch) {
 			/* change the path to a .pacnew extension */
@@ -583,7 +589,7 @@ static int extract_single_file(struct archive *archive,
 
 		archive_entry_set_pathname(entry, filename);
 
-		int ret = archive_read_extract(archive, entry, archive_flags);
+		ret = archive_read_extract(archive, entry, archive_flags);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
