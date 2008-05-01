@@ -851,7 +851,7 @@ int _alpm_pkgname_pkg_cmp(const void *pkgname, const void *package)
 /* Test for existence of a package in a alpm_list_t*
  * of pmpkg_t*
  */
-pmpkg_t *_alpm_pkg_find(const char *needle, alpm_list_t *haystack)
+pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 {
 	alpm_list_t *lp;
 

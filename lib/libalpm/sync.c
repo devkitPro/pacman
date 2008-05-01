@@ -227,7 +227,7 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
 		pmpkg_t *local = i->data;
 
-		if(_alpm_pkg_find(alpm_pkg_get_name(local), replaced)) {
+		if(_alpm_pkg_find(replaced, alpm_pkg_get_name(local))) {
 			_alpm_log(PM_LOG_DEBUG, "'%s' is already elected for removal -- skipping\n",
 					alpm_pkg_get_name(local));
 			continue;
@@ -583,7 +583,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			int found = 0;
 			for(j = trans->packages; j && !found; j = j->next) {
 				pmsyncpkg_t *sync = j->data;
-				if(_alpm_pkg_find(conflict->package2, sync->removes)) {
+				if(_alpm_pkg_find(sync->removes, conflict->package2)) {
 					found = 1;
 				}
 			}
@@ -954,7 +954,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		alpm_list_t *j;
 		for(j = sync->removes; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(!_alpm_pkg_find(pkg->name, tr->packages)) {
+			if(!_alpm_pkg_find(tr->packages, pkg->name)) {
 				if(_alpm_trans_addtarget(tr, pkg->name) == -1) {
 					goto error;
 				}

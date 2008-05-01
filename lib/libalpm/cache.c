@@ -170,7 +170,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 		return(NULL);
 	}
 
-	return(_alpm_pkg_find(target, pkgcache));
+	return(_alpm_pkg_find(pkgcache, target));
 }
 
 /* Returns a new group cache from db.

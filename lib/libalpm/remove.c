@@ -56,7 +56,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(_alpm_pkg_find(name, trans->packages)) {
+	if(_alpm_pkg_find(trans->packages, name)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
@@ -92,7 +92,7 @@ static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
 			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 			pmpkg_t *info = _alpm_db_get_pkgfromcache(db, miss->target);
 			if(info) {
-				if(!_alpm_pkg_find(alpm_pkg_get_name(info), trans->packages)) {
+				if(!_alpm_pkg_find(trans->packages, alpm_pkg_get_name(info))) {
 					_alpm_log(PM_LOG_DEBUG, "pulling %s in the targets list\n",
 							alpm_pkg_get_name(info));
 					trans->packages = alpm_list_add(trans->packages, _alpm_pkg_dup(info));

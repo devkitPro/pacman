@@ -440,7 +440,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 {
 	alpm_list_t *i, *j;
 
-	if(_alpm_pkg_find(alpm_pkg_get_name(pkg), targets)) {
+	if(_alpm_pkg_find(targets, alpm_pkg_get_name(pkg))) {
 		return(0);
 	}
 
@@ -464,7 +464,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 		pmpkg_t *lpkg = i->data;
 		for(j = alpm_pkg_get_depends(lpkg); j; j = j->next) {
 			if(alpm_depcmp(pkg, j->data)) {
-				if(!_alpm_pkg_find(lpkg->name, targets)) {
+				if(!_alpm_pkg_find(targets, lpkg->name)) {
 					return(0);
 				}
 				break;
@@ -571,8 +571,8 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			if(!sync) {
 				continue;
 			}
-			found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(alpm_pkg_get_name(sync), remove)
-				&& !_alpm_pkg_find(alpm_pkg_get_name(sync), *list);
+			found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(remove, alpm_pkg_get_name(sync))
+				&& !_alpm_pkg_find(*list, alpm_pkg_get_name(sync));
 			if(!found) {
 				continue;
 			}
@@ -594,8 +594,8 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 					continue;
 				}
 				found = alpm_depcmp(sync, missdep) && strcmp(sync->name, missdep->name)
-					&& !_alpm_pkg_find(alpm_pkg_get_name(sync), remove)
-					&& !_alpm_pkg_find(alpm_pkg_get_name(sync), *list);
+					&& !_alpm_pkg_find(remove, alpm_pkg_get_name(sync))
+					&& !_alpm_pkg_find(*list, alpm_pkg_get_name(sync));
 				if(!found) {
 					continue;
 				}
