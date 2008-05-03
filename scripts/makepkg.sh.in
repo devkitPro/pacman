@@ -44,7 +44,6 @@ ASROOT=0
 CLEANUP=0
 CLEANCACHE=0
 DEP_BIN=0
-DEP_SRC=0
 FORCE=0
 INFAKEROOT=0
 GENINTEG=0
@@ -339,7 +338,7 @@ handledeps() {
 		striplist="$striplist $depstrip"
 	done
 
-	if [ "$DEP_SRC" = "0" -a "$DEP_BIN" = "0" ]; then
+	if [ "$DEP_BIN" = "0" ]; then
 		return $R_DEPS_MISSING
 	fi
 
@@ -358,40 +357,6 @@ handledeps() {
 			error "$(gettext "Pacman failed to install missing dependencies.")"
 			exit 1 # TODO: error code
 		fi
-	elif [ "$DEP_SRC" = "1" ]; then
-		msg "$(gettext "Building missing dependencies...")"
-
-		# install missing deps by building them from source.
-		# we look for each package name in $SRCROOT and build it.
-		if [ "$SRCROOT" = "" ]; then
-			error "$(gettext "Source root cannot be found - please make sure it is specified in %s.")" "$confdir/makepkg.conf"
-			exit 1 # TODO: error code
-		fi
-
-		# TODO: handle version comparators (eg, glibc>=2.2.5)
-		for dep in $striplist; do
-			local candidates="$(find "$SRCROOT" -type d -name "$dep")"
-			if [ "$candidates" = "" ]; then
-				error "$(gettext "Could not find '%s' under %s")" "$dep" "$SRCROOT"
-				exit 1 # TODO: error code
-			fi
-
-			local makepkg_opts='-i -c -b'
-			[ "$RMDEPS" = "1" ] && makepkg_opts="$makepkg_opts -r"
-			[ "$ASROOT" = "1" ] && makepkg_opts="$makepkg_opts --asroot"
-			local ret packagedir
-			for packagedir in $candidates; do
-				if [ -f "$packagedir/$BUILDSCRIPT" ]; then
-					cd "$packagedir"
-					ret=0
-					PKGDEST="$PKGDEST" makepkg $makepkg_opts $PACMAN_OPTS || ret=$?
-					[ $ret -eq 0 ] && continue 2
-				fi
-			done
-
-			error "$(gettext "Failed to build '%s'")" "$dep"
-			exit 1 # TODO: error code
-		done
 	fi
 
 	# rerun any additional sh scripts found in /etc/profile.d/
@@ -421,7 +386,7 @@ resolve_deps() {
 		# check deps again to make sure they were resolved
 		deplist="$(check_deps $*)"
 		[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
-	elif [ "$DEP_BIN" = "1" -o "$DEP_SRC" = "1" ]; then
+	elif [ "$DEP_BIN" = "1" ]; then
 		error "$(gettext "Failed to install all missing dependencies.")"
 	fi
 
@@ -1092,7 +1057,6 @@ usage() {
 	echo
 	echo "$(gettext "Options:")"
 	printf "$(gettext "  -A, --ignorearch Ignore incomplete arch field in %s")\n" "$BUILDSCRIPT"
-	echo "$(gettext "  -b, --builddeps  Build missing dependencies from source")"
 	echo "$(gettext "  -c, --clean      Clean up work files after build")"
 	echo "$(gettext "  -C, --cleancache Clean up source files from the cache")"
 	echo "$(gettext "  -d, --nodeps     Skip all dependency checks")"
@@ -1188,7 +1152,6 @@ while true; do
 		# Makepkg Options
 		--asroot)         ASROOT=1 ;;
 		-A|--ignorearch)  IGNOREARCH=1 ;;
-		-b|--builddeps)   DEP_SRC=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
 		-C|--cleancache)  CLEANCACHE=1 ;;
 		-d|--nodeps)      NODEPS=1 ;;
@@ -1297,7 +1260,7 @@ else
 fi
 
 # check for sudo if we will need it during makepkg execution
-if [ "$ASROOT" = "0" -a \( "$DEP_BIN" = "1" -o "$DEP_SRC" = "1" \
+if [ "$ASROOT" = "0" -a \( "$DEP_BIN" = "1" \
                            -o "$RMDEPS" = "1" -o "$INSTALL" = "1" \) ]; then
 	if [ ! "$(type -p sudo)" ]; then
 		error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"

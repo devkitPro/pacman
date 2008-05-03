@@ -45,13 +45,6 @@ Options
 	for rebuilding packages from source when the PKGBUILD may be slightly
 	outdated and not updated with an `$$arch=('yourarch')$$` field.
 
-*-b, \--builddeps*::
-	Build missing dependencies from source. When makepkg finds missing
-	build-time or run-time dependencies, it will look for the dependencies'
-	PKGBUILD files under `SRCROOT` (set in linkman:makepkg.conf[5]). If it
-	finds them it will call makepkg to build and install the missing
-	dependencies. The child calls will be made with the `-b` and `-i` options.
-
 *-c, \--clean*::
 	Clean up leftover work files and directories after a successful build.
 
