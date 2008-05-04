@@ -185,34 +185,38 @@ int _alpm_makepath(const char *path)
 /* does the same thing as 'mkdir -p' */
 int _alpm_makepath_mode(const char *path, mode_t mode)
 {
-	char *orig, *str, *ptr;
-	char full[PATH_MAX] = "";
-	mode_t oldmask;
-
-	oldmask = umask(0000);
+	/* A bit of pointer hell here. Descriptions:
+	 * orig - a copy of path so we can safely butcher it with strsep
+	 * str - the current position in the path string (after the delimiter)
+	 * ptr - the original position of str after calling strsep
+	 * incr - incrementally generated path for use in stat/mkdir call
+	 */
+	char *orig, *str, *ptr, *incr;
+	mode_t oldmask = umask(0000);
+	int ret = 0;
 
 	orig = strdup(path);
+	incr = calloc(strlen(orig) + 1, sizeof(char));
 	str = orig;
 	while((ptr = strsep(&str, "/"))) {
 		if(strlen(ptr)) {
 			struct stat buf;
-
-			strcat(full, "/");
-			strcat(full, ptr);
-			if(stat(full, &buf)) {
-				if(mkdir(full, mode)) {
-					FREE(orig);
-					umask(oldmask);
-					_alpm_log(PM_LOG_ERROR, _("failed to make path '%s' : %s\n"),
-										path, strerror(errno));
-					return(1);
+			/* we have another path component- append the newest component to
+			 * existing string and create one more level of dir structure */
+			strcat(incr, "/");
+			strcat(incr, ptr);
+			if(stat(incr, &buf)) {
+				if(mkdir(incr, mode)) {
+					ret = 1;
+					break;
 				}
 			}
 		}
 	}
-	FREE(orig);
+	free(orig);
+	free(incr);
 	umask(oldmask);
-	return(0);
+	return(ret);
 }
 
 #define CPBUFSIZE 8 * 1024
