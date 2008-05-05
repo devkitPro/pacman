@@ -248,7 +248,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	struct stat buf;
-	char path[PATH_MAX+1];
+	char path[PATH_MAX];
 	char line[513];
 
 	ALPM_LOG_FUNC;
@@ -747,7 +747,7 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 time_t _alpm_db_getlastupdate(const pmdb_t *db)
 {
 	FILE *fp;
-	char file[PATH_MAX];
+	char *file;
 	time_t ret = 0;
 
 	ALPM_LOG_FUNC;
@@ -756,10 +756,13 @@ time_t _alpm_db_getlastupdate(const pmdb_t *db)
 		return(ret);
 	}
 
-	snprintf(file, PATH_MAX, "%s.lastupdate", db->path);
+	/* db->path + '.lastupdate' + NULL */
+	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
+	sprintf(file, "%s.lastupdate", db->path);
 
 	/* get the last update time, if it's there */
 	if((fp = fopen(file, "r")) == NULL) {
+		free(file);
 		return(ret);
 	} else {
 		char line[64];
@@ -768,6 +771,7 @@ time_t _alpm_db_getlastupdate(const pmdb_t *db)
 		}
 	}
 	fclose(fp);
+	free(file);
 	return(ret);
 }
 
@@ -777,7 +781,7 @@ time_t _alpm_db_getlastupdate(const pmdb_t *db)
 int _alpm_db_setlastupdate(const pmdb_t *db, time_t time)
 {
 	FILE *fp;
-	char file[PATH_MAX];
+	char *file;
 	int ret = 0;
 
 	ALPM_LOG_FUNC;
@@ -786,16 +790,19 @@ int _alpm_db_setlastupdate(const pmdb_t *db, time_t time)
 		return(-1);
 	}
 
-	snprintf(file, PATH_MAX, "%s.lastupdate", db->path);
+	/* db->path + '.lastupdate' + NULL */
+	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
+	sprintf(file, "%s.lastupdate", db->path);
 
 	if((fp = fopen(file, "w")) == NULL) {
+		free(file);
 		return(-1);
 	}
 	if(fprintf(fp, "%ju", (uintmax_t)time) <= 0) {
 		ret = -1;
 	}
 	fclose(fp);
-
+	free(file);
 	return(ret);
 }
 
