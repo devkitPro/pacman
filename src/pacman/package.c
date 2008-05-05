@@ -225,17 +225,14 @@ void dump_pkg_files(pmpkg_t *pkg)
 {
 	const char *pkgname, *root, *filestr;
 	alpm_list_t *i, *pkgfiles;
-	char path[PATH_MAX];
 
 	pkgname = alpm_pkg_get_name(pkg);
 	pkgfiles = alpm_pkg_get_files(pkg);
 	root = alpm_option_get_root();
 
 	for(i = pkgfiles; i; i = alpm_list_next(i)) {
-		filestr = (char*)alpm_list_getdata(i);
-		/* build a path so we can stat the filename */
-		snprintf(path, PATH_MAX-1, "%s%s", root, filestr);
-		fprintf(stdout, "%s %s\n", pkgname, path);
+		filestr = alpm_list_getdata(i);
+		fprintf(stdout, "%s %s%s\n", pkgname, root, filestr);
 	}
 
 	fflush(stdout);

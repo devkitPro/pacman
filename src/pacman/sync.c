@@ -57,7 +57,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		struct stat buf;
 		alpm_list_t *syncdbs = NULL, *i;
 		int found = 0;
-		char *dname = ent->d_name;
+		const char *dname = ent->d_name;
 
 		if(!strcmp(dname, ".") || !strcmp(dname, "..")) {
 			continue;
@@ -68,7 +68,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		}
 
 		/* build the full path */
-		snprintf(path, PATH_MAX, "%s%s", dbpath, ent->d_name);
+		snprintf(path, PATH_MAX, "%s%s", dbpath, dname);
 		/* skip entries that are not dirs (lock file, etc.) */
 		stat(path, &buf);
 		if(!S_ISDIR(buf.st_mode)) {
