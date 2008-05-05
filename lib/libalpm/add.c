@@ -278,17 +278,18 @@ static int extract_single_file(struct archive *archive,
 		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg,
 		pmtrans_t *trans, pmdb_t *db)
 {
-	char entryname[PATH_MAX]; /* the name of the file in the archive */
+	const char *entryname;
 	mode_t entrymode;
 	char filename[PATH_MAX]; /* the actual file we're extracting */
 	int needbackup = 0, notouch = 0;
 	char *hash_orig = NULL;
+	char *entryname_orig = NULL;
 	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME;
 	int errors = 0;
 
-	strncpy(entryname, archive_entry_pathname(entry), PATH_MAX);
+	entryname = archive_entry_pathname(entry);
 	entrymode = archive_entry_mode(entry);
 
 	memset(filename, 0, PATH_MAX); /* just to be sure */
@@ -326,7 +327,8 @@ static int extract_single_file(struct archive *archive,
 
 	/* if a file is in the add skiplist we never extract it */
 	if(alpm_list_find_str(trans->skip_add, filename)) {
-		_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_add, skipping extraction\n", entryname);
+		_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_add, skipping extraction\n",
+				entryname);
 		archive_read_data_skip(archive);
 		return(0);
 	}
@@ -433,6 +435,10 @@ static int extract_single_file(struct archive *archive,
 		/* case 5,8: don't need to do anything special */
 	}
 
+	/* we need access to the original entryname later after calls to
+	 * archive_entry_set_pathname(), so we need to dupe it and free() later */
+	STRDUP(entryname_orig, entryname, RET_ERR(PM_ERR_MEMORY, -1));
+
 	if(needbackup) {
 		char checkfile[PATH_MAX];
 		char *hash_local = NULL, *hash_pkg = NULL;
@@ -445,13 +451,14 @@ static int extract_single_file(struct archive *archive,
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
-					entryname, archive_error_string(archive));
+					entryname_orig, archive_error_string(archive));
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
-					entryname, archive_error_string(archive));
+					entryname_orig, archive_error_string(archive));
 			alpm_logaction("error: could not extract %s (%s)\n",
-					entryname, archive_error_string(archive));
+					entryname_orig, archive_error_string(archive));
 			FREE(hash_orig);
+			FREE(entryname_orig);
 			return(1);
 		}
 
@@ -464,7 +471,7 @@ static int extract_single_file(struct archive *archive,
 		for(backups = alpm_pkg_get_backup(newpkg); backups;
 				backups = alpm_list_next(backups)) {
 			char *oldbackup = alpm_list_getdata(backups);
-			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
+			if(!oldbackup || strcmp(oldbackup, entryname_orig) != 0) {
 				continue;
 			}
 			char *backup = NULL;
@@ -478,7 +485,7 @@ static int extract_single_file(struct archive *archive,
 			backups->data = backup;
 		}
 
-		_alpm_log(PM_LOG_DEBUG, "checking hashes for %s\n", entryname);
+		_alpm_log(PM_LOG_DEBUG, "checking hashes for %s\n", entryname_orig);
 		_alpm_log(PM_LOG_DEBUG, "current:  %s\n", hash_local);
 		_alpm_log(PM_LOG_DEBUG, "new:      %s\n", hash_pkg);
 		_alpm_log(PM_LOG_DEBUG, "original: %s\n", hash_orig);
@@ -518,7 +525,7 @@ static int extract_single_file(struct archive *archive,
 				/* installed file has NOT been changed by user */
 				if(strcmp(hash_orig, hash_pkg) != 0) {
 					_alpm_log(PM_LOG_DEBUG, "action: installing new file: %s\n",
-							entryname);
+							entryname_orig);
 
 					if(rename(checkfile, filename)) {
 						_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
@@ -547,7 +554,8 @@ static int extract_single_file(struct archive *archive,
 				unlink(checkfile);
 			} else {
 				char newpath[PATH_MAX];
-				_alpm_log(PM_LOG_DEBUG, "action: keeping current file and installing new one with .pacnew ending\n");
+				_alpm_log(PM_LOG_DEBUG, "action: keeping current file and installing"
+						" new one with .pacnew ending\n");
 				snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
 				if(rename(checkfile, newpath)) {
 					_alpm_log(PM_LOG_ERROR, _("could not install %s as %s (%s)\n"),
@@ -593,12 +601,13 @@ static int extract_single_file(struct archive *archive,
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
-					entryname, archive_error_string(archive));
+					entryname_orig, archive_error_string(archive));
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
-					entryname, archive_error_string(archive));
+					entryname_orig, archive_error_string(archive));
 			alpm_logaction("error: could not extract %s (%s)\n",
-					entryname, archive_error_string(archive));
+					entryname_orig, archive_error_string(archive));
+			FREE(entryname_orig);
 			return(1);
 		}
 
@@ -610,7 +619,7 @@ static int extract_single_file(struct archive *archive,
 			/* length is tab char, null byte and MD5 (32 char) */
 			size_t backup_len = strlen(oldbackup) + 34;
 
-			if(!oldbackup || strcmp(oldbackup, entryname) != 0) {
+			if(!oldbackup || strcmp(oldbackup, entryname_orig) != 0) {
 				continue;
 			}
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
@@ -625,6 +634,7 @@ static int extract_single_file(struct archive *archive,
 			b->data = backup;
 		}
 	}
+	FREE(entryname_orig);
 	return(errors);
 }
 
