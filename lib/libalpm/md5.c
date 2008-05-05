@@ -3,14 +3,15 @@
  *
  *  Copyright (C) 2006-2007  Christophe Devine
  *
- *  This library is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU Lesser General Public
- *  License, version 2.1 as published by the Free Software Foundation.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  This library is distributed in the hope that it will be useful,
+ *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  Lesser General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library.  If not, see
@@ -25,8 +26,9 @@
  *  Pacman Notes:
  *
  *  Taken from the XySSL project at www.xyssl.org under terms of the
- *  LGPL. This is from version 0.7 of the library, and has been modified
+ *  GPL. This is from version 0.9 of the library, and has been modified
  *  as following, which may be helpful for future updates:
+ *  * remove "xyssl/config.h" include
  *  * change include from "xyssl/md5.h" to "md5.h"
  *  * removal of HMAC code
  *  * removal of SELF_TEST code
@@ -35,11 +37,8 @@
  *        int md5_file( char *path, unsigned char *output )
  *      to
  *        int md5_file( const char *path, unsigned char *output )
+ *  * various static/inline changes
  */
-
-#ifndef _CRT_SECURE_NO_DEPRECATE
-#define _CRT_SECURE_NO_DEPRECATE 1
-#endif
 
 #include <string.h>
 #include <stdio.h>
@@ -49,8 +48,8 @@
 /*
  * 32-bit integer manipulation macros (little endian)
  */
-#ifndef GET_UINT32_LE
-#define GET_UINT32_LE(n,b,i)                            \
+#ifndef GET_ULONG_LE
+#define GET_ULONG_LE(n,b,i)                             \
 {                                                       \
     (n) = ( (unsigned long) (b)[(i)    ]       )        \
         | ( (unsigned long) (b)[(i) + 1] <<  8 )        \
@@ -59,8 +58,8 @@
 }
 #endif
 
-#ifndef PUT_UINT32_LE
-#define PUT_UINT32_LE(n,b,i)                            \
+#ifndef PUT_ULONG_LE
+#define PUT_ULONG_LE(n,b,i)                             \
 {                                                       \
     (b)[(i)    ] = (unsigned char) ( (n)       );       \
     (b)[(i) + 1] = (unsigned char) ( (n) >>  8 );       \
@@ -87,22 +86,22 @@ static inline void md5_process( md5_context *ctx, unsigned char data[64] )
 {
     unsigned long X[16], A, B, C, D;
 
-    GET_UINT32_LE( X[ 0], data,  0 );
-    GET_UINT32_LE( X[ 1], data,  4 );
-    GET_UINT32_LE( X[ 2], data,  8 );
-    GET_UINT32_LE( X[ 3], data, 12 );
-    GET_UINT32_LE( X[ 4], data, 16 );
-    GET_UINT32_LE( X[ 5], data, 20 );
-    GET_UINT32_LE( X[ 6], data, 24 );
-    GET_UINT32_LE( X[ 7], data, 28 );
-    GET_UINT32_LE( X[ 8], data, 32 );
-    GET_UINT32_LE( X[ 9], data, 36 );
-    GET_UINT32_LE( X[10], data, 40 );
-    GET_UINT32_LE( X[11], data, 44 );
-    GET_UINT32_LE( X[12], data, 48 );
-    GET_UINT32_LE( X[13], data, 52 );
-    GET_UINT32_LE( X[14], data, 56 );
-    GET_UINT32_LE( X[15], data, 60 );
+    GET_ULONG_LE( X[ 0], data,  0 );
+    GET_ULONG_LE( X[ 1], data,  4 );
+    GET_ULONG_LE( X[ 2], data,  8 );
+    GET_ULONG_LE( X[ 3], data, 12 );
+    GET_ULONG_LE( X[ 4], data, 16 );
+    GET_ULONG_LE( X[ 5], data, 20 );
+    GET_ULONG_LE( X[ 6], data, 24 );
+    GET_ULONG_LE( X[ 7], data, 28 );
+    GET_ULONG_LE( X[ 8], data, 32 );
+    GET_ULONG_LE( X[ 9], data, 36 );
+    GET_ULONG_LE( X[10], data, 40 );
+    GET_ULONG_LE( X[11], data, 44 );
+    GET_ULONG_LE( X[12], data, 48 );
+    GET_ULONG_LE( X[13], data, 52 );
+    GET_ULONG_LE( X[14], data, 56 );
+    GET_ULONG_LE( X[15], data, 60 );
 
 #define S(x,n) ((x << n) | ((x & 0xFFFFFFFF) >> (32 - n)))
 
@@ -250,7 +249,7 @@ static inline void md5_update( md5_context *ctx, unsigned char *input, int ilen 
     }
 }
 
-static unsigned char md5_padding[64] =
+static const unsigned char md5_padding[64] =
 {
  0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -261,7 +260,7 @@ static unsigned char md5_padding[64] =
 /*
  * MD5 final digest
  */
-static inline void md5_finish( md5_context *ctx, unsigned char *output )
+static inline void md5_finish( md5_context *ctx, unsigned char output[16] )
 {
     unsigned long last, padn;
     unsigned long high, low;
@@ -271,8 +270,8 @@ static inline void md5_finish( md5_context *ctx, unsigned char *output )
          | ( ctx->total[1] <<  3 );
     low  = ( ctx->total[0] <<  3 );
 
-    PUT_UINT32_LE( low,  msglen, 0 );
-    PUT_UINT32_LE( high, msglen, 4 );
+    PUT_ULONG_LE( low,  msglen, 0 );
+    PUT_ULONG_LE( high, msglen, 4 );
 
     last = ctx->total[0] & 0x3F;
     padn = ( last < 56 ) ? ( 56 - last ) : ( 120 - last );
@@ -280,17 +279,16 @@ static inline void md5_finish( md5_context *ctx, unsigned char *output )
     md5_update( ctx, (unsigned char *) md5_padding, padn );
     md5_update( ctx, msglen, 8 );
 
-    PUT_UINT32_LE( ctx->state[0], output,  0 );
-    PUT_UINT32_LE( ctx->state[1], output,  4 );
-    PUT_UINT32_LE( ctx->state[2], output,  8 );
-    PUT_UINT32_LE( ctx->state[3], output, 12 );
+    PUT_ULONG_LE( ctx->state[0], output,  0 );
+    PUT_ULONG_LE( ctx->state[1], output,  4 );
+    PUT_ULONG_LE( ctx->state[2], output,  8 );
+    PUT_ULONG_LE( ctx->state[3], output, 12 );
 }
 
 /*
- * Output = MD5( input buffer )
+ * output = MD5( input buffer )
  */
-void md5( unsigned char *input, int ilen,
-          unsigned char *output )
+void md5( unsigned char *input, int ilen, unsigned char output[16] )
 {
     md5_context ctx;
 
@@ -302,9 +300,9 @@ void md5( unsigned char *input, int ilen,
 }
 
 /*
- * Output = MD5( file contents )
+ * output = MD5( file contents )
  */
-int md5_file( const char *path, unsigned char *output )
+int md5_file( const char *path, unsigned char output[16] )
 {
     FILE *f;
     size_t n;

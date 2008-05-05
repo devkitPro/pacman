@@ -3,14 +3,15 @@
  *
  *  Copyright (C) 2006-2007  Christophe Devine
  *
- *  This library is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU Lesser General Public
- *  License, version 2.1 as published by the Free Software Foundation.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  This library is distributed in the hope that it will be useful,
+ *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  Lesser General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library.  If not, see
@@ -20,12 +21,7 @@
 #ifndef _MD5_H
 #define _MD5_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
- * \internal
  * \brief          MD5 context structure
  */
 typedef struct
@@ -37,18 +33,15 @@ typedef struct
 md5_context;
 
 /**
- * \internal
  * \brief          Output = MD5( input buffer )
  *
  * \param input    buffer holding the  data
  * \param ilen     length of the input data
  * \param output   MD5 checksum result
  */
-void md5( unsigned char *input, int ilen,
-          unsigned char *output );
+void md5( unsigned char *input, int ilen, unsigned char output[16] );
 
 /**
- * \internal
  * \brief          Output = MD5( file contents )
  *
  * \param path     input file name
@@ -57,10 +50,6 @@ void md5( unsigned char *input, int ilen,
  * \return         0 if successful, 1 if fopen failed,
  *                 or 2 if fread failed
  */
-int md5_file( const char *path, unsigned char *output );
-
-#ifdef __cplusplus
-}
-#endif
+int md5_file( const char *path, unsigned char output[16] );
 
 #endif /* md5.h */
