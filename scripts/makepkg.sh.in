@@ -1404,7 +1404,7 @@ if [ "$INFAKEROOT" = "1" ]; then
 	exit 0 # $E_OK
 fi
 
-msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel  ($(date))"
+msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
 
 if [ $EUID -eq 0 ]; then
 	warning "$(gettext "Running makepkg as root...")"
@@ -1515,7 +1515,7 @@ else
 	create_xdelta "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 fi
 
-msg "$(gettext "Finished making: %s")" "$pkgname ($(date))"
+msg "$(gettext "Finished making: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
 
 install_package
 
