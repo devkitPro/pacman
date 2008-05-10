@@ -16,9 +16,9 @@ repo-add - package database maintenance utility
 
 Synopsis
 --------
-repo-add <path-to-db> <package> ...
+repo-add [-q] <path-to-db> <package> ...
 
-repo-remove <path-to-db> <packagename> ...
+repo-remove [-q] <path-to-db> <packagename> ...
 
 
 Description
@@ -32,6 +32,13 @@ Multiple packages to add can be specified on the command line.
 repo-remove will update a package database by removing the package name
 specified on the command line. Multiple packages to remove can be specified
 on the command line.
+
+
+Options
+-------
+*-q, \--quiet*::
+	Force this program to keep quiet and run silent except for warning and
+	error messages.
 
 
 See Also

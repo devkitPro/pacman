@@ -3,7 +3,7 @@
 #   repo-remove - remove a package entry from a given repo database file
 #   @configure_input@
 #
-#   Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+#   Copyright (c) 2007-2008 Dan McGee <dan@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -25,14 +25,17 @@ export TEXTDOMAINDIR='@localedir@'
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 
+QUIET=0
 REPO_DB_FILE=""
 
 msg() {
+	[ $QUIET -ne 0 ] && return
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
 }
 
 msg2() {
+	[ $QUIET -ne 0 ] && return
 	local mesg=$1; shift
 	printf "  -> ${mesg}\n" "$@" >&1
 }
@@ -50,18 +53,21 @@ error() {
 # print usage instructions
 usage() {
 	printf "$(gettext "repo-remove %s\n\n")" $myver
-	printf "$(gettext "usage: %s <path-to-db> <packagename> ...\n\n")" "$0"
+	printf "$(gettext "usage: %s [-q] <path-to-db> <packagename> ...\n\n")" "$0"
 	printf "$(gettext "\
 repo-remove will update a package database by removing the package name\n\
 specified on the command line from the given repo database. Multiple\n\
 packages to remove can be specified on the command line.\n\n")"
+	printf "$(gettext "\
+The -q/--quiet flag will force this program to run silently except\n\
+in the case of warnings or errors.\n\n")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
 
 version() {
 	printf "repo-remove (pacman) %s\n" "$myver"
 	printf "$(gettext "\
-Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\n\n\
+Copyright (c) 2007-2008 Dan McGee <dan@archlinux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
@@ -140,7 +146,9 @@ gstmpdir=$(mktemp -d /tmp/repo-remove.XXXXXXXXXX) || (\
 success=0
 # parse arguments
 for arg in "$@"; do
-	if [ -z "$REPO_DB_FILE" ]; then
+	if [ "$arg" == "--quiet" -o "$arg" == "-q" ]; then
+		QUIET=1
+	elif [ -z "$REPO_DB_FILE" ]; then
 		REPO_DB_FILE=$(readlink -f "$arg")
 		if ! test_repo_db_file; then
 			error "$(gettext "Repository file '%s' is not a proper pacman database.")\n" "$REPO_DB_FILE"

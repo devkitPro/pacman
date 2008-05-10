@@ -3,7 +3,7 @@
 #   repo-add - add a package to a given repo database file
 #   @configure_input@
 #
-#   Copyright (c) 2006 Aaron Griffin <aaron@archlinux.org>
+#   Copyright (c) 2006-2008 Aaron Griffin <aaron@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -25,17 +25,20 @@ export TEXTDOMAINDIR='@localedir@'
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 
+QUIET=0
 REPO_DB_FILE=""
 
 # ensure we have a sane umask set
 umask 0022
 
 msg() {
+	[ $QUIET -ne 0 ] && return
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
 }
 
 msg2() {
+	[ $QUIET -ne 0 ] && return
 	local mesg=$1; shift
 	printf "  -> ${mesg}\n" "$@" >&1
 }
@@ -53,17 +56,20 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: %s <path-to-db> <package> ...\n\n")" "$0"
+	printf "$(gettext "Usage: %s [-q] <path-to-db> <package> ...\n\n")" "$0"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n\n")"
+	printf "$(gettext "\
+The -q/--quiet flag will force this program to run silently except\n\
+in the case of warnings or errors.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 }
 
 version() {
 	printf "repo-add (pacman) %s\n" "$myver"
 	printf "$(gettext "\
-Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\n\n\
+Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
@@ -231,7 +237,7 @@ db_write_entry()
 			if db_write_delta "$delta"; then
 				msg2 "$(gettext "Added delta '%s'")" "$(basename "$delta")"
 			else
-				msg2 "$(gettext "Could not add delta '%s'")" "$(basename "$delta")"
+				warning "$(gettext "Could not add delta '%s'")" "$(basename "$delta")"
 			fi
 		fi
 	done
@@ -295,6 +301,8 @@ for arg in "$@"; do
 	if [ "$arg" == "--force" -o "$arg" == "-f" ]; then
 		warning "$(gettext "the -f and --force options are no longer recognized")"
 		msg2 "$(gettext "use options=(force) in the PKGBUILD instead")"
+	elif [ "$arg" == "--quiet" -o "$arg" == "-q" ]; then
+		QUIET=1
 	elif [ -z "$REPO_DB_FILE" ]; then
 		REPO_DB_FILE=$(readlink -f "$arg")
 		if ! test_repo_db_file; then
