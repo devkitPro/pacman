@@ -3,6 +3,7 @@ EXTRA_DIST = \
 	bash_completion \
 	gensync \
 	pacdiff \
+	paclist \
 	pacsearch \
 	re-pacman \
 	updatesync \

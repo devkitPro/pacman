@@ -1,0 +1,88 @@
+#!/usr/bin/perl
+# paclist - List all packages installed from a given repo
+#
+# Copyright (C) 2008 Dan McGee <dpmcgee@gmail.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use warnings;
+
+my $progname = "paclist";
+my $version = "1.0";
+
+if ($#ARGV != 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
+	print "$progname - List all packages installed from a given repo\n";
+	print "Usage:   $progname <repo>\n";
+	print "Example: $progname testing\n";
+	if ($#ARGV != 0) {
+		exit 1;
+	}
+	exit 0;
+}
+
+if ( $ARGV[0] eq "--version" || $ARGV[0] eq "-v") {
+	print "$progname version $version\n";
+	print "Copyright (C) 2008 Dan McGee\n";
+	exit 0;
+}
+
+# This hash table will be used to store pairs of ('name version', count) from
+# the return of both pacman -Sl <repo> and pacman -Q output. We then check to
+# see if a value was added twice (count = 2)- if so, we will print that package
+# as it is both in the repo we queried and installed on our local system.
+my %packages = ();
+my $output;
+
+$output = `pacman -Sl $ARGV[0]`;
+if ($? != 0) {
+	exit 1;
+}
+my @sync = split(/\n/, $output);
+# sample output from pacman -Sl:
+# testing foobar 1.0-1
+foreach $_ (@sync) {
+	my @info = split(/ /);
+	# we only want to store 'foobar 1.0-1' in our hash table
+	my $pkg = $info[1] . " " . $info[2];
+	$packages{$pkg}++;
+}
+
+$output = `pacman -Q`;
+if ($? != 0) {
+	exit 1;
+}
+# sample output from pacman -Q:
+# foobar 1.0-1
+my @local = split(/\n/, $output);
+foreach $_ (@local) {
+	# store 'foobar 1.0-1' in our hash table
+	$packages{$_}++;
+}
+
+# run comparison check- if value was added twice, it was in the intersection
+my @intersection;
+foreach $_ (keys %packages) {
+	if ($packages{$_} == 2) {
+		push @{ \@intersection }, $_;
+	}
+}
+
+# print our intersection, and bask in the glory and speed of perl
+@intersection = sort @intersection;
+foreach $_ (@intersection) {
+	print $_ . "\n";
+}
+
+#vim: set noet:
