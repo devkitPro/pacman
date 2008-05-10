@@ -266,23 +266,6 @@ alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
 	return(_alpm_db_get_pkgcache(db));
 }
 
-/** Get the list of packages that a package provides
- * @param db pointer to the package database to get the package from
- * @param name name of the package
- * @return the list of packages on success, NULL on error
- */
-alpm_list_t SYMEXPORT *alpm_db_whatprovides(pmdb_t *db, const char *name)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(db != NULL, return(NULL));
-	ASSERT(name != NULL && strlen(name) != 0, return(NULL));
-
-	return(_alpm_db_whatprovides(db, name));
-}
-
 /** Get a group entry from a package database
  * @param db pointer to the package database to get the group from
  * @param name of the group
@@ -364,10 +347,11 @@ void _alpm_db_free(pmdb_t *db)
 	return;
 }
 
-int _alpm_db_cmp(const void *db1, const void *db2)
+int _alpm_db_cmp(const void *d1, const void *d2)
 {
-	ALPM_LOG_FUNC;
-	return(strcmp(((pmdb_t *)db1)->treename, ((pmdb_t *)db2)->treename));
+	pmdb_t *db1 = (pmdb_t *)db1;
+	pmdb_t *db2 = (pmdb_t *)db2;
+	return(strcmp(db1->treename, db2->treename));
 }
 
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
@@ -531,49 +515,6 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return(db);
-}
-
-/* helper function for alpm_list_find and _alpm_db_whatprovides
- *
- * @return "provision.name" == needle (as string)
- */
-int _alpm_prov_cmp(const void *provision, const void *needle)
-{
-	char *tmpptr;
-	char *provname = strdup(provision);
-	int retval = 0;
-	tmpptr = strchr(provname, '=');
-
-	if(tmpptr != NULL) { /* provision-version */
-		*tmpptr='\0';
-	}
-	retval = strcmp(provname, needle);
-	free(provname);
-	return(retval);
-}
-
-/* return a alpm_list_t of packages in "db" that provide "package"
- */
-alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package)
-{
-	alpm_list_t *pkgs = NULL;
-	alpm_list_t *lp;
-
-	ALPM_LOG_FUNC;
-
-	if(db == NULL || package == NULL || strlen(package) == 0) {
-		return(NULL);
-	}
-
-	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
-		pmpkg_t *info = lp->data;
-
-		if(alpm_list_find(alpm_pkg_get_provides(info), (const void *)package, _alpm_prov_cmp)) {
-			pkgs = alpm_list_add(pkgs, info);
-		}
-	}
-
-	return(pkgs);
 }
 
 /* vim: set ts=2 sw=2 noet: */

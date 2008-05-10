@@ -79,7 +79,6 @@ pmpkg_t* _alpm_pkg_new(const char *name, const char *version);
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
 void _alpm_pkg_free(pmpkg_t *pkg);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
-int _alpm_pkgname_pkg_cmp(const void *pkgname, const void *package);
 int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
 pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle);
 int _alpm_pkg_should_ignore(pmpkg_t *pkg);

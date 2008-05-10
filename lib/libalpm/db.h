@@ -55,10 +55,6 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
 
-/* Provision */
-int _alpm_prov_cmp(const void *provision, const void *needle);
-alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package);
-
 /* be.c, backend specific calls */
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);

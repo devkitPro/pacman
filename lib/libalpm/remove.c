@@ -119,9 +119,9 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 		for(i = lp; i; i = i->next) {
 			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 			void *vpkg;
-			pmpkg_t *pkg;
-			trans->packages = alpm_list_remove(trans->packages, miss->causingpkg,
-					_alpm_pkgname_pkg_cmp, &vpkg);
+			pmpkg_t *pkg = _alpm_pkg_find(trans->packages, miss->causingpkg);
+			trans->packages = alpm_list_remove(trans->packages, pkg, _alpm_pkg_cmp,
+					&vpkg);
 			pkg = vpkg;
 			if(pkg) {
 				_alpm_log(PM_LOG_WARNING, "removing %s from the target-list\n",

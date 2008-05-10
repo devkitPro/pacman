@@ -837,15 +837,9 @@ int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
  */
 int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
-	pmpkg_t *pk1 = (pmpkg_t *)p1;
-	pmpkg_t *pk2 = (pmpkg_t *)p2;
-
-	return(strcmp(alpm_pkg_get_name(pk1), alpm_pkg_get_name(pk2)));
-}
-
-int _alpm_pkgname_pkg_cmp(const void *pkgname, const void *package)
-{
-	return(strcmp(alpm_pkg_get_name((pmpkg_t *) package), (char *) pkgname));
+	pmpkg_t *pkg1 = (pmpkg_t *)p1;
+	pmpkg_t *pkg2 = (pmpkg_t *)p2;
+	return(strcmp(alpm_pkg_get_name(pkg1), alpm_pkg_get_name(pkg2)));
 }
 
 /* Test for existence of a package in a alpm_list_t*

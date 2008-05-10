@@ -96,15 +96,6 @@ error:
 	return(-1);
 }
 
-
-/* This is still messy. We have a lot of compare functions, and we should
- * try to consolidate them as much as we can (between add and sync) */
-/*static int deppkg_cmp(const void *p1, const void *p2)
-{
-	return(strcmp(((pmdepmissing_t *)p1)->target,
-				        ((pmdepmissing_t *)p2)->target));
-}*/
-
 int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
 	alpm_list_t *lp = NULL;

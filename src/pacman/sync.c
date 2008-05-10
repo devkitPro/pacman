@@ -641,7 +641,9 @@ static int sync_trans(alpm_list_t *targets)
 					alpm_list_t *prov = NULL;
 					for(j = sync_dbs; j; j = alpm_list_next(j)) {
 						pmdb_t *db = alpm_list_getdata(j);
-						prov = alpm_list_join(prov, alpm_db_whatprovides(db, targ));
+						alpm_list_t *dblist = alpm_db_getpkgcache(db);
+						alpm_list_t *satisfiers = alpm_find_pkg_satisfiers(dblist, targ);
+						prov = alpm_list_join(prov, satisfiers);
 					}
 					if(prov != NULL) {
 						if(alpm_list_count(prov) == 1) {

@@ -167,7 +167,6 @@ int alpm_db_update(int level, pmdb_t *db);
 
 pmpkg_t *alpm_db_get_pkg(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getpkgcache(pmdb_t *db);
-alpm_list_t *alpm_db_whatprovides(pmdb_t *db, const char *name);
 
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_getgrpcache(pmdb_t *db);
@@ -432,6 +431,7 @@ int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 alpm_list_t *alpm_checkdeps(pmdb_t *db, int reversedeps,
 		alpm_list_t *remove, alpm_list_t *upgrade);
 alpm_list_t *alpm_deptest(pmdb_t *db, alpm_list_t *targets);
+alpm_list_t *alpm_find_pkg_satisfiers(alpm_list_t *pkgs, const char *pkgname);
 
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);

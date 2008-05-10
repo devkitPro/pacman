@@ -372,11 +372,8 @@ static int syncpkg_cmp(const void *s1, const void *s2)
 {
 	const pmsyncpkg_t *sp1 = s1;
 	const pmsyncpkg_t *sp2 = s2;
-	pmpkg_t *p1, *p2;
-
-	p1 = alpm_sync_get_pkg(sp1);
-	p2 = alpm_sync_get_pkg(sp2);
-
+	pmpkg_t *p1 = alpm_sync_get_pkg(sp1);
+	pmpkg_t *p2 = alpm_sync_get_pkg(sp2);
 	return(strcmp(alpm_pkg_get_name(p1), alpm_pkg_get_name(p2)));
 }
 
@@ -531,12 +528,12 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 					conflict->package1, conflict->package2);
 
 			/* if sync1 provides sync2, we remove sync2 from the targets, and vice versa */
-			if(alpm_list_find(alpm_pkg_get_provides(sync1->pkg),
-						conflict->package2, _alpm_prov_cmp)) {
+			pmdepend_t *dep1 = _alpm_splitdep(conflict->package1);
+			pmdepend_t *dep2 = _alpm_splitdep(conflict->package2);
+			if(alpm_depcmp(sync1->pkg, dep2)) {
 				rsync = sync2;
 				sync = sync1;
-			} else if(alpm_list_find(alpm_pkg_get_provides(sync2->pkg),
-						conflict->package1, _alpm_prov_cmp)) {
+			} else if(alpm_depcmp(sync2->pkg, dep1)) {
 				rsync = sync1;
 				sync = sync2;
 			} else {
@@ -551,8 +548,12 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				}
 				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
 				alpm_list_free(deps);
+				_alpm_dep_free(dep1);
+				_alpm_dep_free(dep2);
 				goto cleanup;
 			}
+			_alpm_dep_free(dep1);
+			_alpm_dep_free(dep2);
 
 			/* Prints warning */
 			_alpm_log(PM_LOG_WARNING,

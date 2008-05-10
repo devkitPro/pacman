@@ -56,16 +56,6 @@ void _alpm_grp_free(pmgrp_t *grp)
 	FREE(grp);
 }
 
-/* Helper function for sorting groups
- */
-int _alpm_grp_cmp(const void *g1, const void *g2)
-{
-	pmgrp_t *grp1 = (pmgrp_t *)g1;
-	pmgrp_t *grp2 = (pmgrp_t *)g2;
-
-	return(strcmp(grp1->name, grp2->name));
-}
-
 const char SYMEXPORT *alpm_grp_get_name(const pmgrp_t *grp)
 {
 	ALPM_LOG_FUNC;

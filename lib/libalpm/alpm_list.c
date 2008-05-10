@@ -307,7 +307,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 			continue;
 		}
 		tmp = i->next;
-		if(fn(needle, i->data) == 0) {
+		if(fn(i->data, needle) == 0) {
 			/* we found a matching item */
 			if(i == haystack) {
 				/* Special case: removing the head node which has a back reference to
@@ -348,6 +348,22 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 	}
 
 	return(haystack);
+}
+
+/**
+ * @brief Remove a string from a list.
+ *
+ * @param haystack the list to remove the item from
+ * @param needle   the data member of the item we're removing
+ * @param data     output parameter containing data of the removed item
+ *
+ * @return the resultant list
+ */
+alpm_list_t SYMEXPORT *alpm_list_remove_str(alpm_list_t *haystack,
+		const char *needle, char **data)
+{
+	return(alpm_list_remove(haystack, (const void *)needle,
+				(alpm_list_fn_cmp)strcmp, (void **)data));
 }
 
 /**
@@ -586,7 +602,7 @@ void SYMEXPORT *alpm_list_find(const alpm_list_t *haystack, const void *needle,
 }
 
 /* trivial helper function for alpm_list_find_ptr */
-static int ptrcmp(const void *p, const void *q)
+static int ptr_cmp(const void *p, const void *q)
 {
 	return(p != q);
 }
@@ -603,7 +619,7 @@ static int ptrcmp(const void *p, const void *q)
  */
 void SYMEXPORT *alpm_list_find_ptr(const alpm_list_t *haystack, const void *needle)
 {
-	return(alpm_list_find(haystack, needle, ptrcmp));
+	return(alpm_list_find(haystack, needle, ptr_cmp));
 }
 
 /**
@@ -614,9 +630,11 @@ void SYMEXPORT *alpm_list_find_ptr(const alpm_list_t *haystack, const void *need
  *
  * @return `needle` if found, NULL otherwise
  */
-char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack, const char *needle)
+char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
+		const char *needle)
 {
-	return((char *)alpm_list_find(haystack, (const void*)needle, (alpm_list_fn_cmp)strcmp));
+	return((char *)alpm_list_find(haystack, (const void*)needle,
+				(alpm_list_fn_cmp)strcmp));
 }
 
 /**

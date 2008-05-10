@@ -51,6 +51,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 		alpm_list_t **list, alpm_list_t *remove, pmtrans_t *trans, alpm_list_t
 		**data);
 pmdepend_t *_alpm_splitdep(const char *depstring);
+alpm_list_t *_alpm_find_dep_satisfiers(alpm_list_t *pkgs, pmdepend_t *dep);
 
 #endif /* _ALPM_DEPS_H */
 

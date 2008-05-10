@@ -384,7 +384,7 @@ void SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 
 int SYMEXPORT alpm_option_remove_cachedir(const char *cachedir)
 {
-	void *vdata = NULL;
+	char *vdata = NULL;
 	char *newcachedir;
 	size_t cachedirlen;
 	/* verify cachedir ends in a '/' */
@@ -395,8 +395,7 @@ int SYMEXPORT alpm_option_remove_cachedir(const char *cachedir)
 	newcachedir = calloc(cachedirlen + 1, sizeof(char));
 	strncpy(newcachedir, cachedir, cachedirlen);
 	newcachedir[cachedirlen-1] = '/';
-	handle->cachedirs = alpm_list_remove(handle->cachedirs, newcachedir,
-		_alpm_str_cmp, &vdata);
+	handle->cachedirs = alpm_list_remove_str(handle->cachedirs, newcachedir, &vdata);
 	FREE(newcachedir);
 	if(vdata != NULL) {
 		FREE(vdata);
@@ -449,9 +448,8 @@ void SYMEXPORT alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 
 int SYMEXPORT alpm_option_remove_noupgrade(const char *pkg)
 {
-	void *vdata = NULL;
-	handle->noupgrade = alpm_list_remove(handle->noupgrade, pkg,
-		_alpm_str_cmp, &vdata);
+	char *vdata = NULL;
+	handle->noupgrade = alpm_list_remove_str(handle->noupgrade, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return(1);
@@ -472,9 +470,8 @@ void SYMEXPORT alpm_option_set_noextracts(alpm_list_t *noextract)
 
 int SYMEXPORT alpm_option_remove_noextract(const char *pkg)
 {
-	void *vdata = NULL;
-	handle->noextract = alpm_list_remove(handle->noextract, pkg,
-		_alpm_str_cmp, &vdata);
+	char *vdata = NULL;
+	handle->noextract = alpm_list_remove_str(handle->noextract, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return(1);
@@ -495,9 +492,8 @@ void SYMEXPORT alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 
 int SYMEXPORT alpm_option_remove_ignorepkg(const char *pkg)
 {
-	void *vdata = NULL;
-	handle->ignorepkg = alpm_list_remove(handle->ignorepkg, pkg,
-		_alpm_str_cmp, &vdata);
+	char *vdata = NULL;
+	handle->ignorepkg = alpm_list_remove_str(handle->ignorepkg, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return(1);
@@ -518,9 +514,8 @@ void SYMEXPORT alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
 
 int SYMEXPORT alpm_option_remove_holdpkg(const char *pkg)
 {
-	void *vdata = NULL;
-	handle->holdpkg = alpm_list_remove(handle->holdpkg, pkg,
-		_alpm_str_cmp, &vdata);
+	char *vdata = NULL;
+	handle->holdpkg = alpm_list_remove_str(handle->holdpkg, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return(1);
@@ -541,9 +536,8 @@ void SYMEXPORT alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
 
 int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
 {
-	void *vdata = NULL;
-	handle->ignoregrp = alpm_list_remove(handle->ignoregrp, grp,
-		_alpm_str_cmp, &vdata);
+	char *vdata = NULL;
+	handle->ignoregrp = alpm_list_remove_str(handle->ignoregrp, grp, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return(1);

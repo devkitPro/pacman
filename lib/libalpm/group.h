@@ -30,7 +30,6 @@ struct __pmgrp_t {
 
 pmgrp_t *_alpm_grp_new(const char *name);
 void _alpm_grp_free(pmgrp_t *grp);
-int _alpm_grp_cmp(const void *g1, const void *g2);
 
 #endif /* _ALPM_GROUP_H */
 
