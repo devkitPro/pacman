@@ -130,29 +130,13 @@ const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_BASE);
-	}
 	return pkg->name;
 }
 
 const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_BASE)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_BASE);
-	}
 	return pkg->version;
 }
 
