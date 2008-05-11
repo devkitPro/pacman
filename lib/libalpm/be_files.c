@@ -230,6 +230,63 @@ alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 	return pkg->backup;
 }
 
+/**
+ * Open a package changelog for reading. Similar to fopen in functionality,
+ * except that the returned 'file stream' is from the database.
+ * @param pkg the package (from db) to read the changelog
+ * @return a 'file stream' to the package changelog
+ */
+void *_cache_changelog_open(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	char clfile[PATH_MAX];
+	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
+			alpm_option_get_dbpath(),
+			alpm_db_get_name(alpm_pkg_get_db(pkg)),
+			alpm_pkg_get_name(pkg),
+			alpm_pkg_get_version(pkg));
+	return fopen(clfile, "r");
+}
+
+/**
+ * Read data from an open changelog 'file stream'. Similar to fread in
+ * functionality, this function takes a buffer and amount of data to read.
+ * @param ptr a buffer to fill with raw changelog data
+ * @param size the size of the buffer
+ * @param pkg the package that the changelog is being read from
+ * @param fp a 'file stream' to the package changelog
+ * @return the number of characters read, or 0 if there is no more data
+ */
+size_t _cache_changelog_read(void *ptr, size_t size,
+		const pmpkg_t *pkg, const void *fp)
+{
+	return ( fread(ptr, 1, size, (FILE*)fp) );
+}
+
+/*
+int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
+{
+	return( feof((FILE*)fp) );
+}
+*/
+
+/**
+ * Close a package changelog for reading. Similar to fclose in functionality,
+ * except that the 'file stream' is from the database.
+ * @param pkg the package that the changelog was read from
+ * @param fp a 'file stream' to the package changelog
+ * @return whether closing the package changelog stream was successful
+ */
+int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
+{
+	return( fclose((FILE*)fp) );
+}
+
 /** The sync database operations struct. Get package fields through
  * lazy accessor methods that handle any backend loading and caching
  * logic.
@@ -290,6 +347,10 @@ static struct pkg_operations local_pkg_ops = {
 	.get_deltas      = _cache_get_deltas,
 	.get_files       = _cache_get_files,
 	.get_backup      = _cache_get_backup,
+
+	.changelog_open  = _cache_changelog_open,
+	.changelog_read  = _cache_changelog_read,
+	.changelog_close = _cache_changelog_close,
 };
 
 static int checkdbdir(pmdb_t *db)
