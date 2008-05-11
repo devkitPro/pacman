@@ -832,7 +832,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		for(j = trans->add; j; j = j->next) {
 			pmpkg_t *spkg = j->data;
 
-			if(spkg->origin == PKG_FROM_CACHE && current == spkg->origin_data.db) {
+			if(spkg->origin != PKG_FROM_FILE && current == spkg->origin_data.db) {
 				const char *fname = NULL;
 
 				fname = alpm_pkg_get_filename(spkg);

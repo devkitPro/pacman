@@ -63,7 +63,7 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* Only free packages loaded in user space */
-	if(pkg->origin != PKG_FROM_CACHE) {
+	if(pkg->origin == PKG_FROM_FILE) {
 		_alpm_pkg_free(pkg);
 	}
 
@@ -83,8 +83,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* We only inspect packages from sync repositories */
-	ASSERT(pkg->origin == PKG_FROM_CACHE, RET_ERR(PM_ERR_PKG_INVALID, -1));
-	ASSERT(pkg->origin_data.db != handle->db_local, RET_ERR(PM_ERR_PKG_INVALID, -1));
+	ASSERT(pkg->origin == PKG_FROM_SYNCDB, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
 	fpath = _alpm_filecache_find(alpm_pkg_get_filename(pkg));
 
@@ -105,7 +104,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	ALPM_LOG_FUNC; \
 	ASSERT(handle != NULL, return(errret)); \
 	ASSERT(pkg != NULL, return(errret)); \
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & info)) { \
+	if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
 		_alpm_db_read(pkg->origin_data.db, pkg, info); \
 	} \
 	} while(0)
@@ -250,7 +249,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
-	if(pkg->origin == PKG_FROM_CACHE && pkg->origin_data.db == handle->db_local
+	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
 	}
@@ -265,7 +264,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
-	if(pkg->origin == PKG_FROM_CACHE && pkg->origin_data.db == handle->db_local
+	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
 	}
@@ -276,7 +275,7 @@ pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(pkg != NULL, return(NULL));
-	ASSERT(pkg->origin == PKG_FROM_CACHE, return(NULL));
+	ASSERT(pkg->origin != PKG_FROM_FILE, return(NULL));
 
 	return(pkg->origin_data.db);
 }
@@ -296,15 +295,7 @@ void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(pkg != NULL, return(NULL));
 
-	if(pkg->origin == PKG_FROM_CACHE) {
-		char clfile[PATH_MAX];
-		snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
-				alpm_option_get_dbpath(),
-				alpm_db_get_name(handle->db_local),
-				alpm_pkg_get_name(pkg),
-				alpm_pkg_get_version(pkg));
-		return fopen(clfile, "r");
-	} else if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == PKG_FROM_FILE) {
 		struct archive *archive = NULL;
 		struct archive_entry *entry;
 		const char *pkgfile = pkg->origin_data.file;
@@ -331,7 +322,16 @@ void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 		/* we didn't find a changelog */
 		archive_read_finish(archive);
 		errno = ENOENT;
+	} else {
+		char clfile[PATH_MAX];
+		snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
+				alpm_option_get_dbpath(),
+				alpm_db_get_name(handle->db_local),
+				alpm_pkg_get_name(pkg),
+				alpm_pkg_get_version(pkg));
+		return fopen(clfile, "r");
 	}
+
 	return(NULL);
 }
 
@@ -351,9 +351,8 @@ size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp)
 {
 	size_t ret = 0;
-	if(pkg->origin == PKG_FROM_CACHE) {
-		ret = fread(ptr, 1, size, (FILE*)fp);
-	} else if(pkg->origin == PKG_FROM_FILE) {
+
+	if(pkg->origin == PKG_FROM_FILE) {
 		ssize_t sret = archive_read_data((struct archive*)fp, ptr, size);
 		/* Report error (negative values) */
 		if(sret < 0) {
@@ -362,6 +361,8 @@ size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 		} else {
 			ret = (size_t)sret;
 		}
+	} else {
+		ret = fread(ptr, 1, size, (FILE*)fp);
 	}
 	return(ret);
 }
@@ -370,11 +371,11 @@ size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 int SYMEXPORT alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp)
 {
 	int ret = 0;
-	if(pkg->origin == PKG_FROM_CACHE) {
-		ret = feof((FILE*)fp);
-	} else if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == PKG_FROM_FILE) {
 		// note: this doesn't quite work, no feof in libarchive
 		ret = archive_read_data((struct archive*)fp, NULL, 0);
+	} else {
+		ret = feof((FILE*)fp);
 	}
 	return(ret);
 }
@@ -391,10 +392,10 @@ int SYMEXPORT alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp)
 int SYMEXPORT alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp)
 {
 	int ret = 0;
-	if(pkg->origin == PKG_FROM_CACHE) {
-		ret = fclose((FILE*)fp);
-	} else if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == PKG_FROM_FILE) {
 		ret = archive_read_finish((struct archive *)fp);
+	} else {
+		ret = fclose((FILE*)fp);
 	}
 	return(ret);
 }
@@ -407,7 +408,7 @@ int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 	ASSERT(handle != NULL, return(-1));
 	ASSERT(pkg != NULL, return(-1));
 
-	if(pkg->origin == PKG_FROM_CACHE && pkg->origin_data.db == handle->db_local
+	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
 		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
 	}

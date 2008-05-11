@@ -415,7 +415,11 @@ int _alpm_db_populate(pmdb_t *db)
 			_alpm_pkg_free(pkg);
 			continue;
 		}
-		pkg->origin = PKG_FROM_CACHE;
+		if(db == handle->db_local) {
+			pkg->origin = PKG_FROM_LOCALDB;
+		}  else {
+			pkg->origin = PKG_FROM_SYNCDB;
+		}
 		pkg->origin_data.db = db;
 		/* add to the collection */
 		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",

@@ -31,8 +31,9 @@
 #include "db.h"
 
 typedef enum _pmpkgfrom_t {
-	PKG_FROM_CACHE = 1,
-	PKG_FROM_FILE
+	PKG_FROM_FILE = 1,
+	PKG_FROM_LOCALDB,
+	PKG_FROM_SYNCDB
 } pmpkgfrom_t;
 
 struct __pmpkg_t {
@@ -67,8 +68,8 @@ struct __pmpkg_t {
 	/* internal */
 	pmpkgfrom_t origin;
 	/* Replaced 'void *data' with this union as follows:
-	origin == PKG_FROM_CACHE, use pkg->origin_data.db
 	origin == PKG_FROM_FILE, use pkg->origin_data.file
+	origin == PKG_FROM_*DB, use pkg->origin_data.db
 	*/
 	union {
 		pmdb_t *db;

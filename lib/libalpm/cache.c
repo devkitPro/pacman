@@ -120,9 +120,6 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 		_alpm_pkg_free(newpkg);
 		return(-1);
 	}
-	newpkg->origin = PKG_FROM_CACHE;
-	newpkg->origin_data.db = db;
-	newpkg->infolevel = INFRQ_BASE; 
 
 	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
 						alpm_pkg_get_name(newpkg), db->treename);
