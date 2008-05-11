@@ -34,7 +34,6 @@
 #include "graph.h"
 #include "package.h"
 #include "db.h"
-#include "cache.h"
 #include "handle.h"
 
 void _alpm_dep_free(pmdepend_t *dep)

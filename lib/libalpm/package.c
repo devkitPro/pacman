@@ -42,7 +42,6 @@
 #include "log.h"
 #include "util.h"
 #include "db.h"
-#include "cache.h"
 #include "delta.h"
 #include "handle.h"
 #include "deps.h"

@@ -39,8 +39,8 @@
 #include "log.h"
 #include "util.h"
 #include "handle.h"
-#include "cache.h"
 #include "alpm.h"
+#include "package.h"
 
 /** \addtogroup alpm_databases Database Functions
  * @brief Functions to query and manipulate the database of libalpm

@@ -38,7 +38,6 @@
 #include "trans.h"
 #include "util.h"
 #include "log.h"
-#include "cache.h"
 #include "deps.h"
 
 pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2, const char *reason)

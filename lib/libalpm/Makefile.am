@@ -27,7 +27,6 @@ libalpm_la_SOURCES = \
 	backup.h backup.c \
 	be_files.c \
 	be_package.c \
-	cache.h cache.c \
 	conflict.h conflict.c \
 	db.h db.c \
 	delta.h delta.c \
