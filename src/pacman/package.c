@@ -195,8 +195,8 @@ void dump_pkg_backups(pmpkg_t *pkg)
 				char *md5sum = alpm_get_md5sum(path);
 
 				if(md5sum == NULL) {
-					fprintf(stderr, _("error: could not calculate checksums for %s\n"),
-							path);
+					pm_fprintf(stderr, PM_LOG_ERROR,
+						_("could not calculate checksums for %s\n"), path);
 					free(str);
 					continue;
 				}
@@ -245,8 +245,7 @@ void dump_pkg_changelog(pmpkg_t *pkg)
 	void *fp = NULL;
 
 	if((fp = alpm_pkg_changelog_open(pkg)) == NULL) {
-		/* TODO after string freeze use pm_fprintf */
-		fprintf(stderr, _("error: no changelog available for '%s'.\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("no changelog available for '%s'.\n"),
 				alpm_pkg_get_name(pkg));
 		return;
 	} else {

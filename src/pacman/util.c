@@ -49,7 +49,7 @@ int trans_init(pmtranstype_t type, pmtransflag_t flags)
 {
 	if(alpm_trans_init(type, flags, cb_trans_evt,
 				cb_trans_conv, cb_trans_progress) == -1) {
-		fprintf(stderr, _("error: failed to init transaction (%s)\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 				alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			fprintf(stderr, _("  if you're sure a package manager is not already\n"
@@ -63,7 +63,7 @@ int trans_init(pmtranstype_t type, pmtransflag_t flags)
 int trans_release()
 {
 	if(alpm_trans_release() == -1) {
-		fprintf(stderr, _("error: failed to release transaction (%s)\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
 				alpm_strerrorlast());
 		return(-1);
 	}

@@ -62,7 +62,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 	/* This code is here for safety only */
 	if(targets == NULL) {
-		fprintf(stderr, _("error: no file was specified for --owns\n"));
+		pm_fprintf(stderr, PM_LOG_ERROR, _("no file was specified for --owns\n"));
 		return(1);
 	}
 
@@ -75,14 +75,15 @@ static int query_fileowner(alpm_list_t *targets)
 		alpm_list_t *i, *j;
 
 		if(stat(filename, &buf) == -1) {
-			fprintf(stderr, _("error: failed to read file '%s': %s\n"),
+			pm_fprintf(stderr, PM_LOG_ERROR, _("failed to read file '%s': %s\n"),
 					filename, strerror(errno));
 			ret++;
 			continue;
 		}
 
 		if(S_ISDIR(buf.st_mode)) {
-			fprintf(stderr, _("error: cannot determine ownership of a directory\n"));
+			pm_fprintf(stderr, PM_LOG_ERROR,
+				_("cannot determine ownership of a directory\n"));
 			ret++;
 			continue;
 		}
@@ -93,7 +94,7 @@ static int query_fileowner(alpm_list_t *targets)
 		free(dname);
 
 		if(!rpath) {
-			fprintf(stderr, _("error: cannot determine real path for '%s': %s\n"),
+			pm_fprintf(stderr, PM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
 					filename, strerror(errno));
 			free(rpath);
 			ret++;
@@ -133,7 +134,7 @@ static int query_fileowner(alpm_list_t *targets)
 			}
 		}
 		if(!found) {
-			fprintf(stderr, _("error: No package owns %s\n"), filename);
+			pm_fprintf(stderr, PM_LOG_ERROR, _("No package owns %s\n"), filename);
 			ret++;
 		}
 		free(rpath);
@@ -237,7 +238,7 @@ static int query_group(alpm_list_t *targets)
 					printf("%s %s\n", grpname, alpm_pkg_get_name(alpm_list_getdata(p)));
 				}
 			} else {
-				fprintf(stderr, _("error: group \"%s\" was not found\n"), grpname);
+				pm_fprintf(stderr, PM_LOG_ERROR, _("group \"%s\" was not found\n"), grpname);
 				ret++;
 			}
 		}
@@ -415,7 +416,7 @@ int pacman_query(alpm_list_t *targets)
 		}
 
 		if(pkg == NULL) {
-			fprintf(stderr, _("error: package \"%s\" not found\n"), strname);
+			pm_fprintf(stderr, PM_LOG_ERROR, _("package \"%s\" not found\n"), strname);
 			ret++;
 			continue;
 		}

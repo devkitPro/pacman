@@ -25,6 +25,7 @@
 
 /* pacman */
 #include "conf.h"
+#include "util.h"
 
 /* global config variable */
 config_t *config = NULL;
@@ -33,8 +34,9 @@ config_t *config_new(void)
 {
 	config_t *newconfig = calloc(1, sizeof(config_t));
 	if(!newconfig) {
-			fprintf(stderr, "malloc failure: could not allocate %zd bytes\n",
-			        sizeof(config_t));
+			pm_fprintf(stderr, PM_LOG_ERROR,
+					_("malloc failure: could not allocate %zd bytes\n"),
+					sizeof(config_t));
 			return(NULL);
 	}
 	/* defaults which may get overridden later */

@@ -46,7 +46,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 
 	dir = opendir(dbpath);
 	if(dir == NULL) {
-		fprintf(stderr, _("error: could not access database directory\n"));
+		pm_fprintf(stderr, PM_LOG_ERROR, _("could not access database directory\n"));
 		return(1);
 	}
 
@@ -90,7 +90,8 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 			}
 
 			if(rmrf(path)) {
-				fprintf(stderr, _("error: could not remove repository directory\n"));
+				pm_fprintf(stderr, PM_LOG_ERROR,
+					_("could not remove repository directory\n"));
 				return(1);
 			}
 		}
@@ -151,7 +152,7 @@ static int sync_cleancache(int level)
 
 		dir = opendir(cachedir);
 		if(dir == NULL) {
-			fprintf(stderr, _("error: could not access cache directory\n"));
+			pm_fprintf(stderr, PM_LOG_ERROR, _("could not access cache directory\n"));
 			return(1);
 		}
 
@@ -220,12 +221,12 @@ static int sync_cleancache(int level)
 		printf(_("removing all packages from cache... "));
 
 		if(rmrf(cachedir)) {
-			fprintf(stderr, _("error: could not remove cache directory\n"));
+			pm_fprintf(stderr, PM_LOG_ERROR, _("could not remove cache directory\n"));
 			return(1);
 		}
 
 		if(makepath(cachedir)) {
-			fprintf(stderr, _("error: could not create new cache directory\n"));
+			pm_fprintf(stderr, PM_LOG_ERROR, _("could not create new cache directory\n"));
 			return(1);
 		}
 		printf(_("done.\n"));
@@ -248,7 +249,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 
 		ret = alpm_db_update((level < 2 ? 0 : 1), db);
 		if(ret < 0) {
-			fprintf(stderr, _("error: failed to update %s (%s)\n"),
+			pm_fprintf(stderr, PM_LOG_ERROR, _("failed to update %s (%s)\n"),
 					alpm_db_get_name(db), alpm_strerrorlast());
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
@@ -266,7 +267,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	 * expected
 	 */
 	if(!success) {
-		fprintf(stderr, _("error: failed to synchronize any databases\n"));
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to synchronize any databases\n"));
 	}
 	return(success > 0);
 }
@@ -418,7 +419,8 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 
 				if(!db) {
-					fprintf(stderr, _("error: repository '%s' does not exist\n"), repo);
+					pm_fprintf(stderr, PM_LOG_ERROR,
+						_("repository '%s' does not exist\n"), repo);
 					return(1);
 				}
 
@@ -433,7 +435,8 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 
 				if(!foundpkg) {
-					fprintf(stderr, _("error: package '%s' was not found in repository '%s'\n"), pkgstr, repo);
+					pm_fprintf(stderr, PM_LOG_ERROR,
+						_("package '%s' was not found in repository '%s'\n"), pkgstr, repo);
 					ret++;
 				}
 			} else {
@@ -453,7 +456,8 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				}
 				if(!foundpkg) {
-					fprintf(stderr, _("error: package '%s' was not found\n"), pkgstr);
+					pm_fprintf(stderr, PM_LOG_ERROR,
+						_("package '%s' was not found\n"), pkgstr);
 					ret++;
 				}
 			}
@@ -490,7 +494,8 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			}
 
 			if(db == NULL) {
-				fprintf(stderr, _("error: repository \"%s\" was not found.\n"),repo);
+				pm_fprintf(stderr, PM_LOG_ERROR,
+					_("repository \"%s\" was not found.\n"),repo);
 				alpm_list_free(ls);
 				return(1);
 			}
@@ -538,7 +543,7 @@ static int sync_trans(alpm_list_t *targets)
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction("starting full system upgrade\n");
 		if(alpm_trans_sysupgrade() == -1) {
-			fprintf(stderr, _("error: %s\n"), alpm_strerrorlast());
+			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
 			retval = 1;
 			goto cleanup;
 		}
@@ -567,7 +572,8 @@ static int sync_trans(alpm_list_t *targets)
 							return(1);
 						}
 						if(alpm_trans_addtarget("pacman") == -1) {
-							fprintf(stderr, _("error: pacman: %s\n"), alpm_strerrorlast());
+							pm_fprintf(stderr, PM_LOG_ERROR, _("pacman: %s\n"),
+								alpm_strerrorlast());
 							return(1);
 						}
 						break;
@@ -591,7 +597,7 @@ static int sync_trans(alpm_list_t *targets)
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-					fprintf(stderr, _("error: '%s': %s\n"),
+					pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 							targ, alpm_strerrorlast());
 					retval = 1;
 					goto cleanup;
@@ -647,7 +653,8 @@ static int sync_trans(alpm_list_t *targets)
 							targets = alpm_list_add(targets, strdup(pname));
 						} else {
 							alpm_list_t *k;
-							fprintf(stderr, _("error: several packages provide %s, please specify one :\n"), targ);
+							pm_fprintf(stderr, PM_LOG_ERROR,
+								_("several packages provide %s, please specify one :\n"), targ);
 							for(k = prov; k; k = alpm_list_next(k)) {
 								pmpkg_t *pkg = alpm_list_getdata(k);
 								printf("%s ", alpm_pkg_get_name(pkg));
@@ -658,7 +665,8 @@ static int sync_trans(alpm_list_t *targets)
 							goto cleanup;
 						}
 					} else {
-						fprintf(stderr, _("error: '%s': not found in sync db\n"), targ);
+						pm_fprintf(stderr, PM_LOG_ERROR,
+							_("'%s': not found in sync db\n"), targ);
 						retval = 1;
 						goto cleanup;
 					}
@@ -669,7 +677,7 @@ static int sync_trans(alpm_list_t *targets)
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
-		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerrorlast());
 		switch(pm_errno) {
 			alpm_list_t *i;
@@ -722,7 +730,7 @@ static int sync_trans(alpm_list_t *targets)
 
 	/* Step 3: actually perform the installation */
 	if(alpm_trans_commit(&data) == -1) {
-		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
 		switch(pm_errno) {
 			alpm_list_t *i;

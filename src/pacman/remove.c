@@ -86,7 +86,7 @@ int pacman_remove(alpm_list_t *targets)
 	for(i = finaltargs; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			fprintf(stderr, _("error: '%s': %s\n"),
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			trans_release();
 			FREELIST(finaltargs);
@@ -96,7 +96,7 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(&data) == -1) {
-		fprintf(stderr, _("error: failed to prepare transaction (%s)\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerrorlast());
 		switch(pm_errno) {
 			case PM_ERR_UNSATISFIED_DEPS:
@@ -142,7 +142,7 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 3: actually perform the removal */
 	if(alpm_trans_commit(NULL) == -1) {
-		fprintf(stderr, _("error: failed to commit transaction (%s)\n"),
+		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
 		trans_release();
 		FREELIST(finaltargs);

@@ -213,9 +213,10 @@ static RETSIGTYPE handler(int signum)
 	if(signum==SIGSEGV)
 	{
 		/* write a log message and write to stderr */
-		pm_printf(PM_LOG_ERROR, "segmentation fault\n");
-		pm_fprintf(stderr, PM_LOG_ERROR, "Internal pacman error: Segmentation fault.\n"
-		        "Please submit a full bug report with --debug if appropriate.\n");
+		pm_printf(PM_LOG_ERROR, _("segmentation fault\n"));
+		pm_fprintf(stderr, PM_LOG_ERROR,
+				_("Internal pacman error: Segmentation fault.\n"
+					"Please submit a full bug report with --debug if appropriate.\n"));
 		exit(signum);
 	} else if((signum == SIGINT)) {
 		if(alpm_trans_interrupt() == 0) {
