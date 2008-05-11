@@ -1,8 +1,8 @@
 /*
  *  be_files.c
  *
- *  Copyright (c) 2006 by Christian Hamar <krics@linuxforum.hu>
- *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
+ *  Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -50,6 +50,247 @@
 #include "deps.h"
 #include "dload.h"
 
+
+#define LAZY_LOAD(info, errret) \
+	do { \
+		ALPM_LOG_FUNC; \
+		ASSERT(handle != NULL, return(errret)); \
+		ASSERT(pkg != NULL, return(errret)); \
+		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
+			_alpm_db_read(pkg->origin_data.db, pkg, info); \
+		} \
+	} while(0)
+
+
+/* Cache-specific accessor functions. These implementations allow for lazy
+ * loading by the files backend when a data member is actually needed
+ * rather than loading all pieces of information when the package is first
+ * initialized.
+ */
+
+const char *_cache_get_filename(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->filename;
+}
+
+const char *_cache_get_name(pmpkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return(NULL));
+	return pkg->name;
+}
+
+static const char *_cache_get_version(pmpkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return(NULL));
+	return pkg->version;
+}
+
+static const char *_cache_get_desc(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->desc;
+}
+
+const char *_cache_get_url(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->url;
+}
+
+time_t _cache_get_builddate(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, 0);
+	return pkg->builddate;
+}
+
+time_t _cache_get_installdate(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, 0);
+	return pkg->installdate;
+}
+
+const char *_cache_get_packager(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->packager;
+}
+
+const char *_cache_get_md5sum(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->md5sum;
+}
+
+const char *_cache_get_arch(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->arch;
+}
+
+off_t _cache_get_size(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->size;
+}
+
+off_t _cache_get_isize(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->isize;
+}
+
+pmpkgreason_t _cache_get_reason(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->reason;
+}
+
+alpm_list_t *_cache_get_licenses(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->licenses;
+}
+
+alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->groups;
+}
+
+int _cache_has_force(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->force;
+}
+
+alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->depends;
+}
+
+alpm_list_t *_cache_get_optdepends(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->optdepends;
+}
+
+alpm_list_t *_cache_get_conflicts(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->conflicts;
+}
+
+alpm_list_t *_cache_get_provides(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->provides;
+}
+
+alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->replaces;
+}
+
+alpm_list_t *_cache_get_deltas(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DELTAS, NULL);
+	return pkg->deltas;
+}
+
+alpm_list_t *_cache_get_files(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_LOCALDB
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+	}
+	return pkg->files;
+}
+
+alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_LOCALDB
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+	}
+	return pkg->backup;
+}
+
+/** The sync database operations struct. Get package fields through
+ * lazy accessor methods that handle any backend loading and caching
+ * logic.
+ */
+static struct pkg_operations sync_pkg_ops = {
+	.get_filename    = _cache_get_filename,
+	.get_name        = _cache_get_name,
+	.get_version     = _cache_get_version,
+	.get_desc        = _cache_get_desc,
+	.get_url         = _cache_get_url,
+	.get_builddate   = _cache_get_builddate,
+	.get_installdate = _cache_get_installdate,
+	.get_packager    = _cache_get_packager,
+	.get_md5sum      = _cache_get_md5sum,
+	.get_arch        = _cache_get_arch,
+	.get_size        = _cache_get_size,
+	.get_isize       = _cache_get_isize,
+	.get_reason      = _cache_get_reason,
+	.has_force       = _cache_has_force,
+	.get_licenses    = _cache_get_licenses,
+	.get_groups      = _cache_get_groups,
+	.get_depends     = _cache_get_depends,
+	.get_optdepends  = _cache_get_optdepends,
+	.get_conflicts   = _cache_get_conflicts,
+	.get_provides    = _cache_get_provides,
+	.get_replaces    = _cache_get_replaces,
+	.get_deltas      = _cache_get_deltas,
+	.get_files       = _cache_get_files,
+	.get_backup      = _cache_get_backup,
+};
+
+/** The local database operations struct. Get package fields through
+ * lazy accessor methods that handle any backend loading and caching
+ * logic.
+ */
+static struct pkg_operations local_pkg_ops = {
+	.get_filename    = _cache_get_filename,
+	.get_name        = _cache_get_name,
+	.get_version     = _cache_get_version,
+	.get_desc        = _cache_get_desc,
+	.get_url         = _cache_get_url,
+	.get_builddate   = _cache_get_builddate,
+	.get_installdate = _cache_get_installdate,
+	.get_packager    = _cache_get_packager,
+	.get_md5sum      = _cache_get_md5sum,
+	.get_arch        = _cache_get_arch,
+	.get_size        = _cache_get_size,
+	.get_isize       = _cache_get_isize,
+	.get_reason      = _cache_get_reason,
+	.has_force       = _cache_has_force,
+	.get_licenses    = _cache_get_licenses,
+	.get_groups      = _cache_get_groups,
+	.get_depends     = _cache_get_depends,
+	.get_optdepends  = _cache_get_optdepends,
+	.get_conflicts   = _cache_get_conflicts,
+	.get_provides    = _cache_get_provides,
+	.get_replaces    = _cache_get_replaces,
+	.get_deltas      = _cache_get_deltas,
+	.get_files       = _cache_get_files,
+	.get_backup      = _cache_get_backup,
+};
 
 static int checkdbdir(pmdb_t *db)
 {
@@ -417,8 +658,10 @@ int _alpm_db_populate(pmdb_t *db)
 		}
 		if(db == handle->db_local) {
 			pkg->origin = PKG_FROM_LOCALDB;
+			pkg->ops = &local_pkg_ops;
 		}  else {
 			pkg->origin = PKG_FROM_SYNCDB;
+			pkg->ops = &sync_pkg_ops;
 		}
 		pkg->origin_data.db = db;
 		/* add to the collection */

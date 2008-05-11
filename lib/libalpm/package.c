@@ -99,176 +99,187 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	return(retval);
 }
 
-#define LAZY_LOAD(info, errret) \
-	do { \
-	ALPM_LOG_FUNC; \
-	ASSERT(handle != NULL, return(errret)); \
-	ASSERT(pkg != NULL, return(errret)); \
-	if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
-		_alpm_db_read(pkg->origin_data.db, pkg, info); \
-	} \
-	} while(0)
+/* Default package accessor functions. These will get overridden by any
+ * backend logic that needs lazy access, such as the local database through
+ * a lazy-laod cache. However, the defaults will work just fine for fully-
+ * populated package structures. */
+const char *_pkg_get_filename(pmpkg_t *pkg)    { return pkg->filename; }
+const char *_pkg_get_name(pmpkg_t *pkg)        { return pkg->name; }
+const char *_pkg_get_version(pmpkg_t *pkg)     { return pkg->version; }
+const char *_pkg_get_desc(pmpkg_t *pkg)        { return pkg->desc; }
+const char *_pkg_get_url(pmpkg_t *pkg)         { return pkg->url; }
+time_t _pkg_get_builddate(pmpkg_t *pkg)        { return pkg->builddate; }
+time_t _pkg_get_installdate(pmpkg_t *pkg)      { return pkg->installdate; }
+const char *_pkg_get_packager(pmpkg_t *pkg)    { return pkg->packager; }
+const char *_pkg_get_md5sum(pmpkg_t *pkg)      { return pkg->md5sum; }
+const char *_pkg_get_arch(pmpkg_t *pkg)        { return pkg->arch; }
+off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
+off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
+pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
+int _pkg_has_force(pmpkg_t *pkg)               { return pkg->force; }
 
+alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
+alpm_list_t *_pkg_get_groups(pmpkg_t *pkg)     { return pkg->groups; }
+alpm_list_t *_pkg_get_depends(pmpkg_t *pkg)    { return pkg->depends; }
+alpm_list_t *_pkg_get_optdepends(pmpkg_t *pkg) { return pkg->optdepends; }
+alpm_list_t *_pkg_get_conflicts(pmpkg_t *pkg)  { return pkg->conflicts; }
+alpm_list_t *_pkg_get_provides(pmpkg_t *pkg)   { return pkg->provides; }
+alpm_list_t *_pkg_get_replaces(pmpkg_t *pkg)   { return pkg->replaces; }
+alpm_list_t *_pkg_get_deltas(pmpkg_t *pkg)     { return pkg->deltas; }
+alpm_list_t *_pkg_get_files(pmpkg_t *pkg)      { return pkg->files; }
+alpm_list_t *_pkg_get_backup(pmpkg_t *pkg)     { return pkg->backup; }
+
+/** The standard package operations struct. Get fields directly from the
+ * struct itself with no abstraction layer or any type of lazy loading.
+ */
+struct pkg_operations default_pkg_ops = {
+	.get_filename    = _pkg_get_filename,
+	.get_name        = _pkg_get_name,
+	.get_version     = _pkg_get_version,
+	.get_desc        = _pkg_get_desc,
+	.get_url         = _pkg_get_url,
+	.get_builddate   = _pkg_get_builddate,
+	.get_installdate = _pkg_get_installdate,
+	.get_packager    = _pkg_get_packager,
+	.get_md5sum      = _pkg_get_md5sum,
+	.get_arch        = _pkg_get_arch,
+	.get_size        = _pkg_get_size,
+	.get_isize       = _pkg_get_isize,
+	.get_reason      = _pkg_get_reason,
+	.has_force       = _pkg_has_force,
+	.get_licenses    = _pkg_get_licenses,
+	.get_groups      = _pkg_get_groups,
+	.get_depends     = _pkg_get_depends,
+	.get_optdepends  = _pkg_get_optdepends,
+	.get_conflicts   = _pkg_get_conflicts,
+	.get_provides    = _pkg_get_provides,
+	.get_replaces    = _pkg_get_replaces,
+	.get_deltas      = _pkg_get_deltas,
+	.get_files       = _pkg_get_files,
+	.get_backup      = _pkg_get_backup,
+};
+
+/* Public functions for getting package information. These functions
+ * delegate the hard work to the function callbacks attached to each
+ * package, which depend on where the package was loaded from. */
 const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->filename;
+	return pkg->ops->get_filename(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
 {
-	ASSERT(pkg != NULL, return(NULL));
-	return pkg->name;
+	return pkg->ops->get_name(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 {
-	ASSERT(pkg != NULL, return(NULL));
-	return pkg->version;
+	return pkg->ops->get_version(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->desc;
+	return pkg->ops->get_desc(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->url;
+	return pkg->ops->get_url(pkg);
 }
 
 time_t SYMEXPORT alpm_pkg_get_builddate(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, 0);
-	return pkg->builddate;
+	return pkg->ops->get_builddate(pkg);
 }
 
 time_t SYMEXPORT alpm_pkg_get_installdate(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, 0);
-	return pkg->installdate;
+	return pkg->ops->get_installdate(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->packager;
+	return pkg->ops->get_packager(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->md5sum;
+	return pkg->ops->get_md5sum(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->arch;
+	return pkg->ops->get_arch(pkg);
 }
 
 off_t SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->size;
+	return pkg->ops->get_size(pkg);
 }
 
 off_t SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->isize;
+	return pkg->ops->get_isize(pkg);
 }
 
 pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->reason;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->licenses;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->groups;
+	return pkg->ops->get_reason(pkg);
 }
 
 int SYMEXPORT alpm_pkg_has_force(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->force;
+	return pkg->ops->has_force(pkg);
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
+{
+	return pkg->ops->get_licenses(pkg);
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
+{
+	return pkg->ops->get_groups(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->depends;
+	return pkg->ops->get_depends(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_optdepends(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->optdepends;
+	return pkg->ops->get_optdepends(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->conflicts;
+	return pkg->ops->get_conflicts(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->provides;
-}
-
-alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DELTAS, NULL);
-	return pkg->deltas;
+	return pkg->ops->get_provides(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->replaces;
+	return pkg->ops->get_replaces(pkg);
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(pmpkg_t *pkg)
+{
+	return pkg->ops->get_deltas(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_files(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
-	}
-	return pkg->files;
+	return pkg->ops->get_files(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
-	}
-	return pkg->backup;
+	return pkg->ops->get_backup(pkg);
 }
 
 pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
@@ -517,6 +528,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 	/* internal */
 	newpkg->origin = pkg->origin;
+	newpkg->ops = pkg->ops;
 	if(newpkg->origin == PKG_FROM_FILE) {
 		newpkg->origin_data.file = strdup(pkg->origin_data.file);
 	} else {

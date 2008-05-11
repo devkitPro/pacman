@@ -98,7 +98,7 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 	return(db->pkgcache);
 }
 
-/* "duplicate" pkg with BASE info (to spare some memory) then add it to pkgcache */
+/* "duplicate" pkg then add it to pkgcache */
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
@@ -109,15 +109,8 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 		return(-1);
 	}
 
-	newpkg = _alpm_pkg_new();
+	newpkg = _alpm_pkg_dup(pkg);
 	if(newpkg == NULL) {
-		return(-1);
-	}
-	newpkg->name = strdup(pkg->name);
-	newpkg->version = strdup(pkg->version);
-	if(newpkg->name == NULL || newpkg->version == NULL) {
-		pm_errno = PM_ERR_MEMORY;
-		_alpm_pkg_free(newpkg);
 		return(-1);
 	}
 

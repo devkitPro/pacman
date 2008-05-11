@@ -234,7 +234,9 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 
 	/* internal fields for package struct */
 	newpkg->origin = PKG_FROM_FILE;
+	/* TODO eventually kill/move this? */
 	newpkg->origin_data.file = strdup(pkgfile);
+	newpkg->ops = &default_pkg_ops;
 
 	if(full) {
 		/* "checking for conflicts" requires a sorted list, ensure that here */
