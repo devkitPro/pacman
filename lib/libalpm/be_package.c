@@ -255,6 +255,9 @@ error:
 }
 
 /** Create a package from a file.
+ * If full is false, the archive is read only until all necessary
+ * metadata is found. If it is true, the entire archive is read, which
+ * serves as a verfication of integrity and the filelist can be created.
  * @param filename location of the package tarball
  * @param full whether to stop the load after metadata is read or continue
  *             through the full archive
