@@ -177,8 +177,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 			pmpkg_t *pkg = lp->data;
 			if(pkg && _alpm_db_remove(db, pkg) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s\n"), db->treename,
-									alpm_pkg_get_name(pkg));
+				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s\n"),
+						db->treename, pkg->name);
 				RET_ERR(PM_ERR_DB_REMOVE, -1);
 			}
 		}
@@ -273,104 +273,60 @@ static int splitname(const char *target, pmpkg_t *pkg)
 	return(0);
 }
 
-pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target)
+int _alpm_db_populate(pmdb_t *db)
 {
+	int count = 0;
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
-	char *ptr = NULL;
-	int found = 0;
-	pmpkg_t *pkg = NULL;
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_NULL, NULL);
-	}
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	/* We loop here until we read a valid package.  When an iteration of this loop
-	 * fails, it means alpm_db_read failed to read a valid package, so we'll read
-	 * the next so as not to abort whole-db operations early
-	 */
-	while(!pkg) {
-		if(target != NULL) {
-			/* search for a specific package (by name only) */
-			rewinddir(db->handle);
-			while(!found && (ent = readdir(db->handle)) != NULL) {
-				char *name;
+	rewinddir(db->handle);
+	while((ent = readdir(db->handle)) != NULL) {
+		const char *name = ent->d_name;
+		pmpkg_t *pkg;
 
-				if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
-					continue;
-				}
-				/* stat the entry, make sure it's a directory */
-				snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
-				if(stat(path, &sbuf) || !S_ISDIR(sbuf.st_mode)) {
-					continue;
-				}
-
-				STRDUP(name, ent->d_name, return(NULL));
-
-				/* truncate the string at the second-to-last hyphen, */
-				/* which will give us the package name */
-				if((ptr = rindex(name, '-'))) {
-					*ptr = '\0';
-				}
-				if((ptr = rindex(name, '-'))) {
-					*ptr = '\0';
-				}
-				if(strcmp(name, target) == 0) {
-					found = 1;
-				}
-				FREE(name);
-			}
-
-			if(!found) {
-				return(NULL);
-			}
-		} else { /* target == NULL, full scan */
-			int isdir = 0;
-			while(!isdir) {
-				ent = readdir(db->handle);
-				if(ent == NULL) {
-					return(NULL);
-				}
-				if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
-					isdir = 0;
-					continue;
-				}
-				/* stat the entry, make sure it's a directory */
-				snprintf(path, PATH_MAX, "%s/%s", db->path, ent->d_name);
-				if(!stat(path, &sbuf) && S_ISDIR(sbuf.st_mode)) {
-					isdir = 1;
-				}
-			}
+		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
+			continue;
+		}
+		/* stat the entry, make sure it's a directory */
+		snprintf(path, PATH_MAX, "%s/%s", db->path, name);
+		if(stat(path, &sbuf) != 0 || !S_ISDIR(sbuf.st_mode)) {
+			continue;
 		}
 
 		pkg = _alpm_pkg_new(NULL, NULL);
 		if(pkg == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "db scan could not find package: %s\n", target);
-			return(NULL);
+			return(-1);
 		}
 		/* split the db entry name */
-		if(splitname(ent->d_name, pkg) != 0) {
+		if(splitname(name, pkg) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
-					ent->d_name);
-			alpm_pkg_free(pkg);
-			pkg = NULL;
+					name);
+			_alpm_pkg_free(pkg);
 			continue;
 		}
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
 		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
-			/* TODO removed corrupt entry from the FS here */
+			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
 			_alpm_pkg_free(pkg);
-		} else {
-			pkg->origin = PKG_FROM_CACHE;
-			pkg->origin_data.db = db;
+			continue;
 		}
+		pkg->origin = PKG_FROM_CACHE;
+		pkg->origin_data.db = db;
+		/* add to the collection */
+		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
+				pkg->name, db->treename);
+		db->pkgcache = alpm_list_add(db->pkgcache, pkg);
+		count++;
 	}
 
-	return(pkg);
+	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
+	return(count);
 }
 
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)

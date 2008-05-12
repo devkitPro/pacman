@@ -40,31 +40,21 @@
  */
 int _alpm_db_load_pkgcache(pmdb_t *db)
 {
-	pmpkg_t *info;
-	int count = 0;
-
 	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		return(-1);
 	}
-
 	_alpm_db_free_pkgcache(db);
 
 	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository '%s'\n",
-	          db->treename);
-
-	while((info = _alpm_db_scan(db, NULL)) != NULL) {
-		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
-							alpm_pkg_get_name(info), db->treename);
-		info->origin = PKG_FROM_CACHE;
-		info->origin_data.db = db;
-		/* add to the collection */
-		db->pkgcache = alpm_list_add(db->pkgcache, info);
-		count++;
+			db->treename);
+	if(_alpm_db_populate(db) == -1) {
+		_alpm_log(PM_LOG_DEBUG,
+				"failed to load package cache for repository '%s'\n", db->treename);
+		return(-1);
 	}
 
-	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
 	return(0);
 }
 
