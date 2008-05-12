@@ -60,16 +60,12 @@ int _alpm_prov_cmp(const void *provision, const void *needle);
 alpm_list_t *_alpm_db_whatprovides(pmdb_t *db, const char *package);
 
 /* be.c, backend specific calls */
-int _alpm_db_install(pmdb_t *db, const char *dbfile);
 int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
-void _alpm_db_rewind(pmdb_t *db);
 pmpkg_t *_alpm_db_scan(pmdb_t *db, const char *target);
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
-time_t _alpm_db_getlastupdate(const pmdb_t *db);
-int _alpm_db_setlastupdate(const pmdb_t *db, time_t time);
 
 #endif /* _ALPM_DB_H */
 

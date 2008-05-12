@@ -54,7 +54,6 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository '%s'\n",
 	          db->treename);
 
-	_alpm_db_rewind(db);
 	while((info = _alpm_db_scan(db, NULL)) != NULL) {
 		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 							alpm_pkg_get_name(info), db->treename);

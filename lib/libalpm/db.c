@@ -39,7 +39,6 @@
 #include "alpm_list.h"
 #include "log.h"
 #include "util.h"
-#include "dload.h"
 #include "handle.h"
 #include "cache.h"
 #include "alpm.h"
@@ -195,95 +194,6 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 	} else {
 		FREELIST(db->servers);
 		_alpm_log(PM_LOG_DEBUG, "serverlist flushed for '%s'\n", db->treename);
-	}
-
-	return(0);
-}
-
-/** Update a package database
- * @param force if true, then forces the update, otherwise update only in case
- * the database isn't up to date
- * @param db pointer to the package database to update
- * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
- * to date
- */
-int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
-{
-	alpm_list_t *lp;
-	char path[PATH_MAX];
-	time_t newmtime = 0, lastupdate = 0;
-	const char *dbpath;
-	int ret;
-
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	/* Verify we are in a transaction.  This is done _mainly_ because we need a DB
-	 * lock - if we update without a db lock, we may kludge some other pacman
-	 * process that _has_ a lock.
-	 */
-	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	ASSERT(handle->trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
-
-	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
-		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
-	}
-
-	if(!force) {
-		/* get the lastupdate time */
-		lastupdate = _alpm_db_getlastupdate(db);
-		if(lastupdate == 0) {
-			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s\n",
-					db->treename);
-		}
-	}
-
-	/* build a one-element list */
-	snprintf(path, PATH_MAX, "%s" DBEXT, db->treename);
-	dbpath = alpm_option_get_dbpath();
-
-	ret = _alpm_download_single_file(path, db->servers, dbpath,
-			lastupdate, &newmtime);
-
-	if(ret == 1) {
-		/* mtimes match, do nothing */
-		pm_errno = 0;
-		return(1);
-	} else if(ret == -1) {
-		/* pm_errno was set by the download code */
-		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
-		return(-1);
-	} else {
-		/* form the path to the db location */
-		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
-
-		/* remove the old dir */
-		_alpm_log(PM_LOG_DEBUG, "flushing database %s\n", db->path);
-		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
-			pmpkg_t *pkg = lp->data;
-			if(pkg && _alpm_db_remove(db, pkg) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s\n"), db->treename,
-									alpm_pkg_get_name(pkg));
-				RET_ERR(PM_ERR_DB_REMOVE, -1);
-			}
-		}
-
-		/* Cache needs to be rebuild */
-		_alpm_db_free_pkgcache(db);
-
-		/* uncompress the sync database */
-		if(_alpm_db_install(db, path) == -1) {
-			return -1;
-		}
-		/* if we have a new mtime, set the DB last update value */
-		if(newmtime) {
-			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %ju\n",
-					db->treename, (uintmax_t)newmtime);
-			_alpm_db_setlastupdate(db, newmtime);
-		}
 	}
 
 	return(0);

@@ -36,6 +36,7 @@
 /* libalpm */
 #include "db.h"
 #include "alpm_list.h"
+#include "cache.h"
 #include "log.h"
 #include "util.h"
 #include "alpm.h"
@@ -43,24 +44,163 @@
 #include "package.h"
 #include "delta.h"
 #include "deps.h"
+#include "dload.h"
 
 
-/* This function is used to convert the downloaded db file to the proper backend
- * format
+/*
+ * Return the last update time as number of seconds from the epoch.
+ * Returns 0 if the value is unknown or can't be read.
  */
-int _alpm_db_install(pmdb_t *db, const char *dbfile)
+time_t getlastupdate(const pmdb_t *db)
 {
+	FILE *fp;
+	char *file;
+	time_t ret = 0;
+
 	ALPM_LOG_FUNC;
 
-	/* TODO we should not simply unpack the archive, but better parse it and
-	 * db_write each entry (see sync_load_dbarchive to get archive content) */
-	_alpm_log(PM_LOG_DEBUG, "unpacking database '%s'\n", dbfile);
-
-	if(_alpm_unpack(dbfile, db->path, NULL)) {
-		RET_ERR(PM_ERR_SYSTEM, -1);
+	if(db == NULL) {
+		return(ret);
 	}
 
-	return unlink(dbfile);
+	/* db->path + '.lastupdate' + NULL */
+	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
+	sprintf(file, "%s.lastupdate", db->path);
+
+	/* get the last update time, if it's there */
+	if((fp = fopen(file, "r")) == NULL) {
+		free(file);
+		return(ret);
+	} else {
+		char line[64];
+		if(fgets(line, sizeof(line), fp)) {
+			ret = atol(line);
+		}
+	}
+	fclose(fp);
+	free(file);
+	return(ret);
+}
+
+/*
+ * writes the dbpath/.lastupdate file with the value in time
+ */
+int setlastupdate(const pmdb_t *db, time_t time)
+{
+	FILE *fp;
+	char *file;
+	int ret = 0;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || time == 0) {
+		return(-1);
+	}
+
+	/* db->path + '.lastupdate' + NULL */
+	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
+	sprintf(file, "%s.lastupdate", db->path);
+
+	if((fp = fopen(file, "w")) == NULL) {
+		free(file);
+		return(-1);
+	}
+	if(fprintf(fp, "%ju", (uintmax_t)time) <= 0) {
+		ret = -1;
+	}
+	fclose(fp);
+	free(file);
+	return(ret);
+}
+
+/** Update a package database
+ * @param force if true, then forces the update, otherwise update only in case
+ * the database isn't up to date
+ * @param db pointer to the package database to update
+ * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
+ * to date
+ */
+int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
+{
+	alpm_list_t *lp;
+	char path[PATH_MAX];
+	time_t newmtime = 0, lastupdate = 0;
+	const char *dbpath;
+	int ret;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	/* Verify we are in a transaction.  This is done _mainly_ because we need a DB
+	 * lock - if we update without a db lock, we may kludge some other pacman
+	 * process that _has_ a lock.
+	 */
+	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(handle->trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
+
+	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
+		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
+	}
+
+	if(!force) {
+		/* get the lastupdate time */
+		lastupdate = getlastupdate(db);
+		if(lastupdate == 0) {
+			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s\n",
+					db->treename);
+		}
+	}
+
+	snprintf(path, PATH_MAX, "%s" DBEXT, db->treename);
+	dbpath = alpm_option_get_dbpath();
+
+	ret = _alpm_download_single_file(path, db->servers, dbpath,
+			lastupdate, &newmtime);
+
+	if(ret == 1) {
+		/* mtimes match, do nothing */
+		pm_errno = 0;
+		return(1);
+	} else if(ret == -1) {
+		/* pm_errno was set by the download code */
+		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
+		return(-1);
+	} else {
+		/* form the path to the db location */
+		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
+
+		/* remove the old dir */
+		_alpm_log(PM_LOG_DEBUG, "flushing database %s\n", db->path);
+		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+			pmpkg_t *pkg = lp->data;
+			if(pkg && _alpm_db_remove(db, pkg) == -1) {
+				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s\n"), db->treename,
+									alpm_pkg_get_name(pkg));
+				RET_ERR(PM_ERR_DB_REMOVE, -1);
+			}
+		}
+
+		/* Cache needs to be rebuilt */
+		_alpm_db_free_pkgcache(db);
+
+		/* uncompress the sync database */
+		if(_alpm_unpack(path, db->path, NULL)) {
+			RET_ERR(PM_ERR_SYSTEM, -1);
+		}
+		unlink(path);
+
+		/* if we have a new mtime, set the DB last update value */
+		if(newmtime) {
+			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %ju\n",
+					db->treename, (uintmax_t)newmtime);
+			setlastupdate(db, newmtime);
+		}
+	}
+
+	return(0);
 }
 
 int _alpm_db_open(pmdb_t *db)
@@ -92,17 +232,6 @@ void _alpm_db_close(pmdb_t *db)
 		closedir(db->handle);
 		db->handle = NULL;
 	}
-}
-
-void _alpm_db_rewind(pmdb_t *db)
-{
-	ALPM_LOG_FUNC;
-
-	if(db == NULL || db->handle == NULL) {
-		return;
-	}
-
-	rewinddir(db->handle);
 }
 
 static int splitname(const char *target, pmpkg_t *pkg)
@@ -738,72 +867,6 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 	}
 
 	return(0);
-}
-
-/*
- * Return the last update time as number of seconds from the epoch.
- * Returns 0 if the value is unknown or can't be read.
- */
-time_t _alpm_db_getlastupdate(const pmdb_t *db)
-{
-	FILE *fp;
-	char *file;
-	time_t ret = 0;
-
-	ALPM_LOG_FUNC;
-
-	if(db == NULL) {
-		return(ret);
-	}
-
-	/* db->path + '.lastupdate' + NULL */
-	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
-	sprintf(file, "%s.lastupdate", db->path);
-
-	/* get the last update time, if it's there */
-	if((fp = fopen(file, "r")) == NULL) {
-		free(file);
-		return(ret);
-	} else {
-		char line[64];
-		if(fgets(line, sizeof(line), fp)) {
-			ret = atol(line);
-		}
-	}
-	fclose(fp);
-	free(file);
-	return(ret);
-}
-
-/*
- * writes the dbpath/.lastupdate file with the value in time
- */
-int _alpm_db_setlastupdate(const pmdb_t *db, time_t time)
-{
-	FILE *fp;
-	char *file;
-	int ret = 0;
-
-	ALPM_LOG_FUNC;
-
-	if(db == NULL || time == 0) {
-		return(-1);
-	}
-
-	/* db->path + '.lastupdate' + NULL */
-	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
-	sprintf(file, "%s.lastupdate", db->path);
-
-	if((fp = fopen(file, "w")) == NULL) {
-		free(file);
-		return(-1);
-	}
-	if(fprintf(fp, "%ju", (uintmax_t)time) <= 0) {
-		ret = -1;
-	}
-	fclose(fp);
-	free(file);
-	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */
