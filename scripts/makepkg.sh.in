@@ -41,6 +41,8 @@ confdir='@sysconfdir@'
 startdir="$PWD"
 srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
+known_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'ccache' 'distcc' 'makeflags' 'force')
+readonly -a known_options
 
 # Options
 ASROOT=0
@@ -183,25 +185,6 @@ check_option() {
 		echo $ret
 		return
 	fi
-
-	# BEGIN DEPRECATED
-	# TODO: This code should be removed in the next release of makepkg.
-	local needle=$(echo $1 | tr [:upper:] [:lower:])
-	local opt
-	for opt in ${options[@]}; do
-		opt=$(echo $opt | tr [:upper:] [:lower:])
-		if [ "$opt" = "no$needle" ]; then
-			warning "$(gettext "Options beginning with 'no' will be deprecated in the next version of makepkg!")"
-			plain "$(gettext "Please replace 'no' with '!': %s -> %s.")" "no$needle" "!$needle"
-			echo 'n' # Disabled
-			return
-		elif [ "$opt" = "keepdocs" -a "$needle" = "docs" ]; then
-			warning "$(gettext "Option 'keepdocs' may not work as intended. Please replace with 'docs'.")"
-			echo 'y' # Enabled
-			return
-		fi
-	done
-	# END DEPRECATED
 
 	# fall back to makepkg.conf options
 	ret=$(in_opt_array "$1" ${OPTIONS[@]})
@@ -848,7 +831,6 @@ create_package() {
 	local comp_files=".PKGINFO"
 
 	# check for an install script
-	# TODO: should we include ${pkgname}.install if it exists and $install is unset?
 	if [ "$install" != "" ]; then
 		msg2 "$(gettext "Adding install script...")"
 		cp "$startdir/$install" .INSTALL
@@ -1344,6 +1326,25 @@ if [ "$install" -a ! -f "$install" ]; then
 	error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
 	exit 1
 fi
+
+valid_options=1
+for opt in ${options[@]}; do
+	known=0
+	# check if option matches a known option or its inverse
+	for kopt in ${known_options[@]}; do
+		if [ "${opt}" = "${kopt}" -o "${opt}" = "!${kopt}" ]; then
+			known=1
+		fi
+	done
+	if [ $known -eq 0 ]; then
+		error "$(gettext "options array contains unknown option '%s'")" "$opt"
+		valid_options=0
+	fi
+done
+if [ $valid_options -eq 0 ]; then
+	exit 1
+fi
+unset valid_options opt known kopt
 
 # We need to run devel_update regardless of whether we are in the fakeroot
 # build process so that if the user runs makepkg --forcever manually, we
