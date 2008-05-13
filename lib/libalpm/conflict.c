@@ -447,26 +447,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 			if(!skip_conflict) {
 				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-				/* Make sure the possible conflict is not a symlink that points to a
-				 * path in the old package. This is kind of dirty with inode usage */
-				/* TODO this seems ripe for a cleanup */
-				if(dbpkg) {
-					struct stat pkgbuf;
-					char str[PATH_MAX+1];
-					unsigned ok = 0;
-					for(k = dbpkg->files; k; k = k->next) {
-						snprintf(str, PATH_MAX, "%s%s", root, (char*)k->data);
-						if(!_alpm_lstat(str, &pkgbuf) && lsbuf.st_ino == pkgbuf.st_ino) {
-							ok = 1;
-							_alpm_log(PM_LOG_DEBUG, "conflict was a symlink: %s\n", path);
-							break;
-						}
-					}
-					if(ok == 1) {
-						continue;
-					}
-				}
-
 				/* Look at all the targets to see if file has changed hands */
 				int resolved_conflict = 0; /* have we acted on this conflict? */
 				for(k = targets; k; k = k->next) {
