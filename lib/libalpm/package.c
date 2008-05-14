@@ -581,102 +581,154 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 
 /** @} */
 
-/* this function was taken from rpm 4.0.4 and rewritten */
+/** Compare two version strings and determine which one is 'newer'.
+ * Returns a value comparable to the way strcmp works. Returns 1
+ * if a is newer than b, 0 if a and b are the same version, or -1
+ * if b is newer than a.
+ *
+ * This function has been adopted from the rpmvercmp function located
+ * at lib/rpmvercmp.c, and was most recently updated against rpm
+ * version 4.4.2.3. Small modifications have been made to make it more
+ * consistent with the libalpm coding style.
+ */
 int _alpm_versioncmp(const char *a, const char *b)
 {
-	char str1[64], str2[64];
+	char oldch1, oldch2;
+	char *str1, *str2;
 	char *ptr1, *ptr2;
 	char *one, *two;
-	char *rel1 = NULL, *rel2 = NULL;
-	char oldch1, oldch2;
-	int is1num, is2num;
 	int rc;
+	int isnum;
+	int ret = 0;
 
 	ALPM_LOG_FUNC;
 
-	if(!strcmp(a,b)) {
-		return(0);
+	/* libalpm added code. ensure our strings are not null */
+	if(!a) {
+		if(!b) return(0);
+		return(-1);
 	}
+	if(!b) return(1);
 
-	strncpy(str1, a, 64);
-	str1[63] = 0;
-	strncpy(str2, b, 64);
-	str2[63] = 0;
+	/* easy comparison to see if versions are identical */
+	if(strcmp(a, b) == 0) return(0);
 
-	/* lose the release number */
-	for(one = str1; *one && *one != '-'; one++);
-	if(one) {
-		*one = '\0';
-		rel1 = ++one;
-	}
-	for(two = str2; *two && *two != '-'; two++);
-	if(two) {
-		*two = '\0';
-		rel2 = ++two;
-	}
+	str1 = strdup(a);
+	str2 = strdup(b);
 
 	one = str1;
 	two = str2;
 
-	while(*one || *two) {
+	/* loop through each version segment of str1 and str2 and compare them */
+	while(*one && *two) {
 		while(*one && !isalnum((int)*one)) one++;
 		while(*two && !isalnum((int)*two)) two++;
+
+		/* If we ran to the end of either, we are finished with the loop */
+		if(!(*one && *two)) break;
 
 		ptr1 = one;
 		ptr2 = two;
 
-		/* find the next segment for each string */
+		/* grab first completely alpha or completely numeric segment */
+		/* leave one and two pointing to the start of the alpha or numeric */
+		/* segment and walk ptr1 and ptr2 to end of segment */
 		if(isdigit((int)*ptr1)) {
-			is1num = 1;
 			while(*ptr1 && isdigit((int)*ptr1)) ptr1++;
-		} else {
-			is1num = 0;
-			while(*ptr1 && isalpha((int)*ptr1)) ptr1++;
-		}
-		if(isdigit((int)*ptr2)) {
-			is2num = 1;
 			while(*ptr2 && isdigit((int)*ptr2)) ptr2++;
+			isnum = 1;
 		} else {
-			is2num = 0;
+			while(*ptr1 && isalpha((int)*ptr1)) ptr1++;
 			while(*ptr2 && isalpha((int)*ptr2)) ptr2++;
+			isnum = 0;
 		}
 
+		/* save character at the end of the alpha or numeric segment */
+		/* so that they can be restored after the comparison */
 		oldch1 = *ptr1;
 		*ptr1 = '\0';
 		oldch2 = *ptr2;
 		*ptr2 = '\0';
 
-		/* see if we ran out of segments on one string */
-		if(one == ptr1 && two != ptr2) {
-			return(is2num ? -1 : 1);
+		/* this cannot happen, as we previously tested to make sure that */
+		/* the first string has a non-null segment */
+		if (one == ptr1) {
+			ret = -1;	/* arbitrary */
+			goto cleanup;
 		}
-		if(one != ptr1 && two == ptr2) {
-			return(is1num ? 1 : -1);
+
+		/* take care of the case where the two version segments are */
+		/* different types: one numeric, the other alpha (i.e. empty) */
+		/* numeric segments are always newer than alpha segments */
+		/* XXX See patch #60884 (and details) from bugzilla #50977. */
+		if (two == ptr2) {
+			ret = isnum ? 1 : -1;
+			goto cleanup;
 		}
 
-		/* see if we have a type mismatch (ie, one is alpha and one is digits) */
-		if(is1num && !is2num) return(1);
-		if(!is1num && is2num) return(-1);
+		if (isnum) {
+			/* this used to be done by converting the digit segments */
+			/* to ints using atoi() - it's changed because long  */
+			/* digit segments can overflow an int - this should fix that. */
 
-		if(is1num) while(*one == '0') one++;
-		if(is2num) while(*two == '0') two++;
+			/* throw away any leading zeros - it's a number, right? */
+			while (*one == '0') one++;
+			while (*two == '0') two++;
 
-		rc = strverscmp(one, two);
-		if(rc) return(rc);
+			/* whichever number has more digits wins */
+			if (strlen(one) > strlen(two)) {
+				ret = 1;
+				goto cleanup;
+			}
+			if (strlen(two) > strlen(one)) {
+				ret = -1;
+				goto cleanup;
+			}
+		}
 
+		/* strcmp will return which one is greater - even if the two */
+		/* segments are alpha or if they are numeric.  don't return  */
+		/* if they are equal because there might be more segments to */
+		/* compare */
+		rc = strcmp(one, two);
+		if (rc) {
+			ret = rc < 1 ? -1 : 1;
+			goto cleanup;
+		}
+
+		/* restore character that was replaced by null above */
 		*ptr1 = oldch1;
-		*ptr2 = oldch2;
 		one = ptr1;
+		*ptr2 = oldch2;
 		two = ptr2;
 	}
 
-	if((!*one) && (!*two)) {
-		/* compare release numbers */
-		if(rel1 && rel2 && strlen(rel1) && strlen(rel2)) return(_alpm_versioncmp(rel1, rel2));
-		return(0);
+	/* this catches the case where all numeric and alpha segments have */
+	/* compared identically but the segment separating characters were */
+	/* different */
+	if ((!*one) && (!*two)) {
+		ret = 0;
+		goto cleanup;
 	}
 
-	return(*one ? 1 : -1);
+	/* libalpm added code. one version string may have a pkgrel number, the
+	 * other may not. unless both have them, we ignore it and return 0. */
+	if( (*one && *one == '-') || (*two && *two == '-') ) {
+		ret = 0;
+		goto cleanup;
+	}
+
+	/* whichever version still has characters left over wins */
+	if (!*one) {
+		ret = -1;
+	} else {
+		ret = 1;
+	}
+
+cleanup:
+	free(str1);
+	free(str2);
+	return(ret);
 }
 
 
