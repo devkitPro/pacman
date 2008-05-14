@@ -156,7 +156,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, unsigned short full)
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
 	}
 
-	newpkg = _alpm_pkg_new(NULL, NULL);
+	newpkg = _alpm_pkg_new();
 	if(newpkg == NULL) {
 		archive_read_finish(archive);
 		RET_ERR(PM_ERR_MEMORY, NULL);

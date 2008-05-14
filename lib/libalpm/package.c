@@ -680,21 +680,13 @@ int _alpm_versioncmp(const char *a, const char *b)
 }
 
 
-pmpkg_t *_alpm_pkg_new(const char *name, const char *version)
+pmpkg_t *_alpm_pkg_new(void)
 {
 	pmpkg_t* pkg;
 
 	ALPM_LOG_FUNC;
 
 	CALLOC(pkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
-	if(name) {
-		STRDUP(pkg->name, name, RET_ERR(PM_ERR_MEMORY, pkg));
-	}
-
-	if(version) {
-		STRDUP(pkg->version, version, RET_ERR(PM_ERR_MEMORY, pkg));
-	}
 
 	return(pkg);
 }

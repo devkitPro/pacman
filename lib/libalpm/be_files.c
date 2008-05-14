@@ -298,7 +298,7 @@ int _alpm_db_populate(pmdb_t *db)
 			continue;
 		}
 
-		pkg = _alpm_pkg_new(NULL, NULL);
+		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
 			return(-1);
 		}
