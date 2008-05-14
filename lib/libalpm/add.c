@@ -72,7 +72,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	for(i = trans->packages; i; i = i->next) {
 		pmpkg_t *transpkg = i->data;
 		if(strcmp(transpkg->name, pkgname) == 0) {
-			if(_alpm_versioncmp(transpkg->version, pkgver) < 0) {
+			if(alpm_pkg_vercmp(transpkg->version, pkgver) < 0) {
 				_alpm_log(PM_LOG_WARNING, _("replacing older version %s-%s by %s in target list\n"),
 				          transpkg->name, transpkg->version, pkgver);
 				_alpm_pkg_free(i->data);

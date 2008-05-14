@@ -188,7 +188,7 @@ int alpm_pkg_load(const char *filename, unsigned short full, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(const char *url);
-int alpm_pkg_vercmp(const char *ver1, const char *ver2);
+int alpm_pkg_vercmp(const char *a, const char *b);
 alpm_list_t *alpm_pkg_compute_requiredby(pmpkg_t *pkg);
 
 const char *alpm_pkg_get_filename(pmpkg_t *pkg);

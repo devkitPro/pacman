@@ -339,7 +339,7 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 	if(mod == PM_DEP_MOD_ANY) {
 		equal = 1;
 	} else {
-		int cmp = _alpm_versioncmp(version1, version2);
+		int cmp = alpm_pkg_vercmp(version1, version2);
 		switch(mod) {
 			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
 			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;

@@ -100,19 +100,6 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	return(retval);
 }
 
-/** Compare versions.
- * @param ver1 first version
- * @param ver2 secont version
- * @return postive, 0 or negative if ver1 is less, equal or more
- * than ver2, respectively.
- */
-int SYMEXPORT alpm_pkg_vercmp(const char *ver1, const char *ver2)
-{
-	ALPM_LOG_FUNC;
-
-	return(_alpm_versioncmp(ver1, ver2));
-}
-
 const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -591,7 +578,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
  * version 4.4.2.3. Small modifications have been made to make it more
  * consistent with the libalpm coding style.
  */
-int _alpm_versioncmp(const char *a, const char *b)
+int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 {
 	char oldch1, oldch2;
 	char *str1, *str2;
@@ -843,7 +830,7 @@ int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
 	}
 
 	/* compare versions and see if we need to upgrade */
-	cmp = _alpm_versioncmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
+	cmp = alpm_pkg_vercmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
 
 	if(cmp != 0 && pkg->force) {
 		cmp = 1;

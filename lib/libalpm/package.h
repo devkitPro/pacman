@@ -74,7 +74,6 @@ struct __pmpkg_t {
 	alpm_list_t *delta_path;
 };
 
-int _alpm_versioncmp(const char *a, const char *b);
 pmpkg_t* _alpm_pkg_new(void);
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
 void _alpm_pkg_free(pmpkg_t *pkg);
