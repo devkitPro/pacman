@@ -238,7 +238,7 @@ int _alpm_copyfile(const char *src, const char *dest)
 		return(1);
 	}
 
-	CALLOC(buf, 1, CPBUFSIZE, ret = 1; goto cleanup;);
+	CALLOC(buf, (size_t)CPBUFSIZE, (size_t)1, ret = 1; goto cleanup;);
 
 	/* do the actual file copy */
 	while((len = fread(buf, 1, CPBUFSIZE, in))) {
