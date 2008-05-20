@@ -435,11 +435,13 @@ download_sources() {
 		local file=$(strip_url "$netfile")
 		if [ -f "$startdir/$file" ]; then
 			msg2 "$(gettext "Found %s in build dir")" "$file"
-			cp -s --remove-destination "$startdir/$file" "$srcdir/"
+			rm -f "$srcdir/$file"
+			ln -s "$startdir/$file" "$srcdir/"
 			continue
 		elif [ -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Using cached copy of %s")" "$file"
-			cp -s --remove-destination "$SRCDEST/$file" "$srcdir/"
+			rm -f "$srcdir/$file"
+			ln -s "$SRCDEST/$file" "$srcdir/"
 			continue
 		fi
 
@@ -464,7 +466,8 @@ download_sources() {
 		if echo "$dlclient" | grep -q "%o" ; then
 			mv -f "$SRCDEST/$file.part" "$SRCDEST/$file"
 		fi
-		cp -s --remove-destination "$SRCDEST/$file" "$srcdir/"
+		rm -f "$srcdir/$file"
+		ln -s "$SRCDEST/$file" "$srcdir/"
 	done
 
 	popd &>/dev/null
