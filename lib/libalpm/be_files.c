@@ -672,6 +672,16 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			fprintf(fp, "\n");
 		}
+		if(info->replaces) {
+			fputs("%REPLACES%\n", fp);
+			for(lp = info->replaces; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+		if(info->force) {
+			fprintf(fp, "%%FORCE%%\n\n");
+		}
 		if(local) {
 			if(info->url) {
 				fprintf(fp, "%%URL%%\n"
@@ -794,17 +804,6 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%s\n", (char *)lp->data);
 			}
 			fprintf(fp, "\n");
-		}
-		if(info->replaces) {
-			fputs("%REPLACES%\n", fp);
-			for(lp = info->replaces; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
-			}
-			fprintf(fp, "\n");
-		}
-		if(info->force) {
-			/* note the extra newline character, which is necessary! */
-			fprintf(fp, "%%FORCE%%\n\n");
 		}
 		fclose(fp);
 		fp = NULL;
