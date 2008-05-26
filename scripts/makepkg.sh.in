@@ -779,7 +779,7 @@ create_package() {
 	else
 		local packager="Unknown Packager"
 	fi
-	local size=$(du -sb | awk '{print $1}')
+	local size=$(du -sk | awk '{print $1 * 1024}')
 
 	# write the .PKGINFO file
 	msg2 "$(gettext "Generating .PKGINFO file...")"
