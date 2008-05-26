@@ -806,7 +806,6 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		PROGRESS(trans, PM_TRANS_PROGRESS_ADD_START,
 				alpm_pkg_get_name(newpkg), 100, pkg_count, pkg_current);
 	}
-	EVENT(trans, PM_TRANS_EVT_EXTRACT_DONE, NULL, NULL);
 
 	/* run the post-install script if it exists  */
 	if(alpm_pkg_has_scriptlet(newpkg)

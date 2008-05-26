@@ -226,7 +226,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		/* all the simple done events, with fallthrough for each */
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
-		case PM_TRANS_EVT_EXTRACT_DONE:
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
 		case PM_TRANS_EVT_RESOLVEDEPS_DONE:
 		case PM_TRANS_EVT_INTERCONFLICTS_DONE:

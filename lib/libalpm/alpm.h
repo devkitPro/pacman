@@ -334,8 +334,6 @@ typedef enum _pmtransevt_t {
 	 * to the callback, respectively.
 	 */
 	PM_TRANS_EVT_UPGRADE_DONE,
-	/** Package was extracted. */
-	PM_TRANS_EVT_EXTRACT_DONE,
 	/** Target package's integrity will be checked. */
 	PM_TRANS_EVT_INTEGRITY_START,
 	/** Target package's integrity was checked. */
