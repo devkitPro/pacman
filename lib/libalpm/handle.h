@@ -30,7 +30,6 @@
 
 typedef struct _pmhandle_t {
 	/* internal usage */
-	uid_t uid;              /* current UID */ /* TODO is this used? */
 	pmdb_t *db_local;       /* local db pointer */
 	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
 	FILE *logstream;        /* log file stream pointer */
@@ -50,7 +49,7 @@ typedef struct _pmhandle_t {
 
 	/* package lists */
 	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */
-	alpm_list_t *noextract;   /* List of packages NOT to extract */ /*TODO is this used?*/
+	alpm_list_t *noextract;   /* List of files NOT to extract */
 	alpm_list_t *ignorepkg;   /* List of packages to ignore */
 	alpm_list_t *holdpkg;     /* List of packages which 'hold' pacman */
 	alpm_list_t *ignoregrp;   /* List of groups to ignore */

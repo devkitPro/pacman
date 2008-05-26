@@ -23,7 +23,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <limits.h>
 #include <sys/types.h>
 #include <syslog.h>
@@ -53,8 +52,6 @@ pmhandle_t *_alpm_handle_new()
 	handle->lckfd = -1;
 	handle->logstream = NULL;
 
-	/* see if we're root or not */
-	handle->uid = geteuid();
 	handle->root = NULL;
 	handle->dbpath = NULL;
 	handle->cachedirs = NULL;
