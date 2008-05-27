@@ -33,6 +33,9 @@
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
 
+# file -i does not work on Mac OSX unless legacy mode is set
+export COMMAND_MODE='legacy'
+
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 startdir="$PWD"
