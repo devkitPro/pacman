@@ -635,8 +635,8 @@ extract_sources() {
 	done
 
 	if [ $EUID -eq 0 ]; then
-		# chown all source files to root.root
-		chown -R root.root "$srcdir"
+		# change perms of all source files to root user & root group
+		chown -R 0:0 "$srcdir"
 	fi
 }
 
