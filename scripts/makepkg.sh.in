@@ -1457,8 +1457,8 @@ else
 	mkdir -p "$pkgdir"
 	cd "$startdir"
 
-	if [ $EUID -eq 0 ]; then
-		# if we are root, then we don't need to recall makepkg with fakeroot
+	if [ "$(check_buildenv fakeroot)" != "y" -o $EUID -eq 0 ]; then
+		# if we are root or if fakeroot is not enabled, then we don't use it
 		if [ "$REPKG" = "1" ]; then
 			warning "$(gettext "Skipping build.")"
 		else
