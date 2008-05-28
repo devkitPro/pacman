@@ -796,49 +796,11 @@ int pacman_sync(alpm_list_t *targets)
 		return(1);
 	}
 
-	if(targets == NULL && !(config->op_s_sync || config->op_s_upgrade
-				|| config->op_s_search || config->group
-				|| config->op_s_info || config->op_q_list)) {
-		/* don't proceed here unless we have an operation that doesn't require
-		 * a target list */
-		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return(1);
-	}
-
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
 		printf(_(":: Synchronizing package databases...\n"));
 		alpm_logaction("synchronizing package lists\n");
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
-			return(1);
-		}
-		config->op_s_sync = 0;
-	}
-
-	if(needs_transaction()) {
-		alpm_list_t *targs = alpm_list_strdup(targets);
-		if(!(config->flags & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS))) {
-			/* check for newer versions of packages to be upgraded first */
-			alpm_list_t *packages = syncfirst();
-			if(packages) {
-				printf(_(":: The following packages should be upgraded first :\n"));
-				list_display("   ", packages);
-				if(yesno(1, _(":: Do you want to cancel the current operation\n"
-								":: and upgrade these packages now?"))) {
-					FREELIST(targs);
-					targs = packages;
-					config->flags = 0;
-					config->op_s_upgrade = 0;
-				} else {
-					FREELIST(packages);
-				}
-				printf("\n");
-			}
-		}
-
-		int ret = sync_trans(targs);
-		FREELIST(targs);
-		if(ret == 1) {
 			return(1);
 		}
 	}
@@ -863,7 +825,43 @@ int pacman_sync(alpm_list_t *targets)
 		return(sync_list(sync_dbs, targets));
 	}
 
-	return(0);
+	if(targets == NULL) {
+		if(config->op_s_upgrade) {
+			/* proceed */
+		} else if(config->op_s_sync) {
+			return(0);
+		} else {
+			/* don't proceed here unless we have an operation that doesn't require a
+			 * target list */
+			pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+			return(1);
+		}
+	}
+
+	alpm_list_t *targs = alpm_list_strdup(targets);
+	if(!(config->flags & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS))) {
+		/* check for newer versions of packages to be upgraded first */
+		alpm_list_t *packages = syncfirst();
+		if(packages) {
+			printf(_(":: The following packages should be upgraded first :\n"));
+			list_display("   ", packages);
+			if(yesno(1, _(":: Do you want to cancel the current operation\n"
+							":: and upgrade these packages now?"))) {
+				FREELIST(targs);
+				targs = packages;
+				config->flags = 0;
+				config->op_s_upgrade = 0;
+			} else {
+				FREELIST(packages);
+			}
+			printf("\n");
+		}
+	}
+
+	int ret = sync_trans(targs);
+	FREELIST(targs);
+
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */
