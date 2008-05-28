@@ -144,6 +144,10 @@ static pmpkg_t *pkg_load(const char *pkgfile, unsigned short full)
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
+	if(stat(pkgfile, &st) != 0) {
+		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+	}
+
 	if((archive = archive_read_new()) == NULL) {
 		RET_ERR(PM_ERR_LIBARCHIVE, NULL);
 	}
@@ -162,9 +166,8 @@ static pmpkg_t *pkg_load(const char *pkgfile, unsigned short full)
 		RET_ERR(PM_ERR_MEMORY, NULL);
 	}
 
-  if(stat(pkgfile, &st) == 0) {
-		newpkg->size = st.st_size;
-	}
+	newpkg->filename = strdup(pkgfile);
+	newpkg->size = st.st_size;
 
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves

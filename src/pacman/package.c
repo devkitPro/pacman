@@ -90,9 +90,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	}
 
 	/* actual output */
-	if(level == 0) {
-		string_display(_("Filename       :"), alpm_pkg_get_filename(pkg));
-	}
 	string_display(_("Name           :"), alpm_pkg_get_name(pkg));
 	string_display(_("Version        :"), alpm_pkg_get_version(pkg));
 	string_display(_("URL            :"), alpm_pkg_get_url(pkg));
