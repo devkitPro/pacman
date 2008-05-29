@@ -356,7 +356,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 				pmgrp_t *grp = alpm_db_readgrp(db, grpname);
 
 				if(grp) {
-					printf("%s\n", (char *)alpm_grp_get_name(grp));
+					printf("%s\n", alpm_grp_get_name(grp));
 					/* get names of packages in group */
 					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
 						pkgnames = alpm_list_add(pkgnames,
@@ -364,6 +364,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 					}
 					list_display("   ", pkgnames);
 					alpm_list_free(pkgnames);
+					pkgnames = NULL;
 				}
 			}
 		}
@@ -374,7 +375,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 			for(j = alpm_db_getgrpcache(db); j; j = alpm_list_next(j)) {
 				pmgrp_t *grp = alpm_list_getdata(j);
 
-				printf("%s\n", (char *)alpm_grp_get_name(grp));
+				printf("%s\n", alpm_grp_get_name(grp));
 				if(grp && level > 1) {
 					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
 						pkgnames = alpm_list_add(pkgnames,
@@ -382,6 +383,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 					}
 					list_display("   ", pkgnames);
 					alpm_list_free(pkgnames);
+					pkgnames = NULL;
 				}
 			}
 		}
