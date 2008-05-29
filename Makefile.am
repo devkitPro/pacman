@@ -11,12 +11,14 @@ EXTRA_DIST = HACKING
 pkgdatadir = ${datadir}/${PACKAGE}
 dist_pkgdata_DATA = PKGBUILD.proto proto.install ChangeLog.proto
 
-# run the pactest test suite
-check-local:  src/pacman
+# run the pactest test suite and vercmp tests
+check-local: pactest src/pacman src/util
 	$(PYTHON) $(top_srcdir)/pactest/pactest.py --debug=1 \
 		--test $(top_srcdir)/pactest/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
 	rm -rf $(top_builddir)/root
+	$(SH) $(top_srcdir)/pactest/vercmptest.sh \
+		$(top_builddir)/src/util/vercmp
 
 # create the pacman DB and cache directories upon install
 install-data-local:
