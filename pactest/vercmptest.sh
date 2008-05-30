@@ -19,22 +19,43 @@
 
 # default binary if one was not specified as $1
 bin='vercmp'
-# holds count of failed tests
+# holds counts of tests
+total=0
 failure=0
+
+# args:
+# pass ver1 ver2 ret expected
+pass() {
+	echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
+	echo "  --> pass"
+}
 
 # args:
 # fail ver1 ver2 ret expected
 fail() {
-	echo "unexpected failure:"
-	echo "  ver1: $1 ver2: $2 ret: $3 expected: $4"
+	echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
+	echo "  ==> FAILURE"
 	failure=$(expr $failure + 1)
 }
 
 # args:
 # runtest ver1 ver2 expected
 runtest() {
+	# run the test
 	ret=$($bin $1 $2)
-	[ $ret -eq $3 ] || fail $1 $2 $ret $3
+	func='pass'
+	[ $ret -eq $3 ] || func='fail'
+	$func $1 $2 $ret $3
+	total=$(expr $total + 1)
+	# and run its mirror case just to be sure
+	reverse=0
+	[ $3 -eq 1 ] && reverse=-1
+	[ $3 -eq -1 ] && reverse=1
+	ret=$($bin $2 $1)
+	func='pass'
+	[ $ret -eq $reverse ] || func='fail'
+	$func $1 $2 $ret $reverse
+	total=$(expr $total + 1)
 }
 
 # use first arg as our binary if specified
@@ -44,11 +65,9 @@ runtest() {
 
 # all similar length, no pkgrel
 runtest 1.5.0 1.5.0  0
-runtest 1.5.0 1.5.1 -1
 runtest 1.5.1 1.5.0  1
 
 # mixed length
-runtest 1.5   1.5.1 -1
 runtest 1.5.1 1.5    1
 
 # with pkgrel, simple
@@ -65,13 +84,17 @@ runtest 1.5-2   1.5.1-2 -1
 # mixed pkgrel inclusion
 runtest 1.5   1.5-1 0
 runtest 1.5-1 1.5   0
+runtest 1.1-1 1.1   0
+runtest 1.0-1 1.1  -1
+runtest 1.1-1 1.0   1
 
 #END TESTS
 
+echo
 if [ $failure -eq 0 ]; then
-	echo "All tests successful"
+	echo "All $total tests successful"
 	exit 0
 fi
 
-echo "$failure failed tests"
+echo "$failure of $total tests failed"
 exit 1

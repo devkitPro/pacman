@@ -14,4 +14,4 @@ self.addpkg(p)
 self.args = "-U %s" % p.filename()
 
 self.addrule("PACMAN_RETCODE=1")
-self.addrule("!PKG_VERSION=pkg2|1.1")
+self.addrule("!PKG_VERSION=pkg2|1.1-1")

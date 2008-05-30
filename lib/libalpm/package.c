@@ -566,8 +566,6 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 	return(reqs);
 }
 
-/** @} */
-
 /** Compare two version strings and determine which one is 'newer'.
  * Returns a value comparable to the way strcmp works. Returns 1
  * if a is newer than b, 0 if a and b are the same version, or -1
@@ -577,6 +575,12 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
  * at lib/rpmvercmp.c, and was most recently updated against rpm
  * version 4.4.2.3. Small modifications have been made to make it more
  * consistent with the libalpm coding style.
+ *
+ * Keep in mind that the pkgrel is only compared if it is available
+ * on both versions handed to this function. For example, comparing
+ * 1.5-1 and 1.5 will yield 0; comparing 1.5-1 and 1.5-2 will yield
+ * -1 as expected. This is mainly for supporting versioned dependencies
+ * that do not include the pkgrel.
  */
 int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 {
@@ -688,19 +692,32 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 		one = ptr1;
 		*ptr2 = oldch2;
 		two = ptr2;
+
+		/* libalpm added code. check if version strings have hit the pkgrel
+		 * portion. depending on which strings have hit, take correct action.
+		 * this is all based on the premise that we only have one dash in
+		 * the version string, and it separates pkgver from pkgrel. */
+		if(*ptr1 == '-' && *ptr2 == '-') {
+			/* no-op, continue comparing since we are equivalent throughout */
+		} else if(*ptr1 == '-') {
+			/* ptr1 has hit the pkgrel and ptr2 has not.
+			 * version 2 is newer iff we are not at the end of ptr2;
+			 * if we are at end then one version had pkgrel and one did not */
+			ret = *ptr2 ? -1 : 0;
+			goto cleanup;
+		} else if(*ptr2 == '-') {
+			/* ptr2 has hit the pkgrel and ptr1 has not.
+			 * version 1 is newer iff we are not at the end of ptr1;
+			 * if we are at end then one version had pkgrel and one did not */
+			ret = *ptr1 ? 1 : 0;
+			goto cleanup;
+		}
 	}
 
 	/* this catches the case where all numeric and alpha segments have */
 	/* compared identically but the segment separating characters were */
 	/* different */
 	if ((!*one) && (!*two)) {
-		ret = 0;
-		goto cleanup;
-	}
-
-	/* libalpm added code. one version string may have a pkgrel number, the
-	 * other may not. unless both have them, we ignore it and return 0. */
-	if( (*one && *one == '-') || (*two && *two == '-') ) {
 		ret = 0;
 		goto cleanup;
 	}
@@ -718,6 +735,7 @@ cleanup:
 	return(ret);
 }
 
+/** @} */
 
 pmpkg_t *_alpm_pkg_new(void)
 {
