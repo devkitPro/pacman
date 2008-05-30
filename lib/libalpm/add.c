@@ -289,12 +289,12 @@ static int extract_single_file(struct archive *archive,
 
 	if(strcmp(entryname, ".INSTALL") == 0) {
 		/* the install script goes inside the db */
-		snprintf(filename, PATH_MAX, "%s/%s-%s/install", db->path,
+		snprintf(filename, PATH_MAX, "%s%s-%s/install", db->path,
 				newpkg->name, newpkg->version);
 		archive_entry_set_mode(entry, 0644);
 	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
 		/* the changelog goes inside the db */
-		snprintf(filename, PATH_MAX, "%s/%s-%s/changelog", db->path,
+		snprintf(filename, PATH_MAX, "%s%s-%s/changelog", db->path,
 				newpkg->name, newpkg->version);
 		archive_entry_set_mode(entry, 0644);
 	} else if(*entryname == '.') {

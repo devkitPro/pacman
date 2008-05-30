@@ -123,9 +123,11 @@ int setlastupdate(const pmdb_t *db, time_t time)
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	alpm_list_t *lp;
-	char path[PATH_MAX];
+	char *dbfile, *dbfilepath;
 	time_t newmtime = 0, lastupdate = 0;
 	const char *dbpath;
+	size_t len;
+
 	int ret;
 
 	ALPM_LOG_FUNC;
@@ -154,11 +156,15 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		}
 	}
 
-	snprintf(path, PATH_MAX, "%s" DBEXT, db->treename);
+	len = strlen(db->treename) + strlen(DBEXT) + 1;
+	MALLOC(dbfile, len, RET_ERR(PM_ERR_MEMORY, -1));
+	sprintf(dbfile, "%s" DBEXT, db->treename);
+
 	dbpath = alpm_option_get_dbpath();
 
-	ret = _alpm_download_single_file(path, db->servers, dbpath,
+	ret = _alpm_download_single_file(dbfile, db->servers, dbpath,
 			lastupdate, &newmtime);
+	free(dbfile);
 
 	if(ret == 1) {
 		/* mtimes match, do nothing */
@@ -169,9 +175,6 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
 		return(-1);
 	} else {
-		/* form the path to the db location */
-		snprintf(path, PATH_MAX, "%s%s" DBEXT, dbpath, db->treename);
-
 		/* remove the old dir */
 		_alpm_log(PM_LOG_DEBUG, "flushing database %s\n", db->path);
 		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
@@ -186,11 +189,19 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		/* Cache needs to be rebuilt */
 		_alpm_db_free_pkgcache(db);
 
+		/* form the path to the db location */
+		len = strlen(dbpath) + strlen(db->treename) + strlen(DBEXT) + 1;
+		MALLOC(dbfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
+		sprintf(dbfilepath, "%s%s" DBEXT, dbpath, db->treename);
+
 		/* uncompress the sync database */
-		if(_alpm_unpack(path, db->path, NULL)) {
+		ret = _alpm_unpack(dbfilepath, db->path, NULL);
+		if(ret) {
+			free(dbfilepath);
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
-		unlink(path);
+		unlink(dbfilepath);
+		free(dbfilepath);
 
 		/* if we have a new mtime, set the DB last update value */
 		if(newmtime) {
@@ -293,7 +304,7 @@ int _alpm_db_populate(pmdb_t *db)
 			continue;
 		}
 		/* stat the entry, make sure it's a directory */
-		snprintf(path, PATH_MAX, "%s/%s", db->path, name);
+		snprintf(path, PATH_MAX, "%s%s", db->path, name);
 		if(stat(path, &sbuf) != 0 || !S_ISDIR(sbuf.st_mode)) {
 			continue;
 		}
@@ -329,12 +340,25 @@ int _alpm_db_populate(pmdb_t *db)
 	return(count);
 }
 
+/* Note: the return value must be freed by the caller */
+static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
+{
+	size_t len;
+	char *pkgpath;
+
+	len = strlen(db->path) + strlen(info->name) + strlen(info->version) + 3;
+	MALLOC(pkgpath, len, RET_ERR(PM_ERR_MEMORY, NULL));
+	sprintf(pkgpath, "%s%s-%s/", db->path, info->name, info->version);
+	return(pkgpath);
+}
+
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	struct stat buf;
 	char path[PATH_MAX];
 	char line[513];
+	char *pkgpath = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -367,17 +391,18 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	/* clear out 'line', to be certain - and to make valgrind happy */
 	memset(line, 0, 513);
 
-	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
-	if(stat(path, &buf)) {
+	pkgpath = get_pkgpath(db, info);
+
+	if(stat(pkgpath, &buf)) {
 		/* directory doesn't exist or can't be opened */
 		_alpm_log(PM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'\n",
 				info->name, info->version, db->treename);
-		return(-1);
+		goto error;
 	}
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
-		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sdesc", pkgpath);
 		if((fp = fopen(path, "r")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
@@ -521,7 +546,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* FILES */
 	if(inforeq & INFRQ_FILES) {
-		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
 		if((fp = fopen(path, "r")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
@@ -548,7 +573,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DEPENDS */
 	if(inforeq & INFRQ_DEPENDS) {
-		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sdepends", pkgpath);
 		if((fp = fopen(path, "r")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
@@ -587,8 +612,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* DELTAS */
 	if(inforeq & INFRQ_DELTAS) {
-		snprintf(path, PATH_MAX, "%s/%s-%s/deltas", db->path,
-				info->name, info->version);
+		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
 		if((fp = fopen(path, "r"))) {
 			while(!feof(fp)) {
 				fgets(line, 255, fp);
@@ -606,7 +630,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	/* INSTALL */
 	if(inforeq & INFRQ_SCRIPTLET) {
-		snprintf(path, PATH_MAX, "%s/%s-%s/install", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sinstall", pkgpath);
 		if(!stat(path, &buf)) {
 			info->scriptlet = 1;
 		}
@@ -615,9 +639,11 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	/* internal */
 	info->infolevel |= inforeq;
 
+	free(pkgpath);
 	return(0);
 
 error:
+	free(pkgpath);
 	if(fp) {
 		fclose(fp);
 	}
@@ -632,6 +658,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	alpm_list_t *lp = NULL;
 	int retval = 0;
 	int local = 0;
+	char *pkgpath = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -639,9 +666,10 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		return(-1);
 	}
 
-	snprintf(path, PATH_MAX, "%s/%s-%s", db->path, info->name, info->version);
+	pkgpath = get_pkgpath(db, info);
+
 	oldmask = umask(0000);
-	mkdir(path, 0755);
+	mkdir(pkgpath, 0755);
 	/* make sure we have a sane umask */
 	umask(0022);
 
@@ -653,7 +681,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	if(inforeq & INFRQ_DESC) {
 		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DESC information back to db\n",
 				info->name, info->version);
-		snprintf(path, PATH_MAX, "%s/%s-%s/desc", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sdesc", pkgpath);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			retval = -1;
@@ -741,7 +769,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	if(local && (inforeq & INFRQ_FILES)) {
 		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
 				info->name, info->version);
-		snprintf(path, PATH_MAX, "%s/%s-%s/files", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			retval = -1;
@@ -769,7 +797,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	if(inforeq & INFRQ_DEPENDS) {
 		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DEPENDS information back to db\n",
 			info->name, info->version);
-		snprintf(path, PATH_MAX, "%s/%s-%s/depends", db->path, info->name, info->version);
+		snprintf(path, PATH_MAX, "%sdepends", pkgpath);
 		if((fp = fopen(path, "w")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			retval = -1;
@@ -814,6 +842,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 cleanup:
 	umask(oldmask);
+	free(pkgpath);
 
 	if(fp) {
 		fclose(fp);
@@ -824,7 +853,8 @@ cleanup:
 
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 {
-	char path[PATH_MAX];
+	int ret = 0;
+	char *pkgpath = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -832,12 +862,14 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	snprintf(path, PATH_MAX, "%s%s-%s", db->path, info->name, info->version);
-	if(_alpm_rmrf(path) == -1) {
-		return(-1);
-	}
+	pkgpath = get_pkgpath(db, info);
 
-	return(0);
+	ret = _alpm_rmrf(pkgpath);
+	free(pkgpath);
+	if(ret != 0) {
+		ret = -1;
+	}
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */
