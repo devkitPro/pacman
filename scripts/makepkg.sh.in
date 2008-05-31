@@ -1272,13 +1272,6 @@ unset optdepends options noextract
 if [ ! -f "$BUILDSCRIPT" ]; then
 	error "$(gettext "%s does not exist.")" "$BUILDSCRIPT"
 	exit 1
-	#TODO this is an attempt at a generic way to unset all package specific
-	#variables in a PKGBUILD
-	#else
-	#    #this is fun.... we'll unset
-	#    for var in $(grep "=" $BUILDSCRIPT | sed "s|.*\(\<.*\>\)=.*|\1|g"); do
-	#        unset $var
-	#    done
 fi
 
 source "$BUILDSCRIPT"
