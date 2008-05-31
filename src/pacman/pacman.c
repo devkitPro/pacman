@@ -130,7 +130,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
-			printf(_("      --needed         only upgrade outdated or not yet installed packages\n"));
+			printf(_("      --needed         don't reinstall up to date packages\n"));
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 			printf(_("      --ignoregroup <grp>\n"
 			         "                       ignore a group upgrade (can be used more than once)\n"));

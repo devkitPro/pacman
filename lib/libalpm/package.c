@@ -295,6 +295,20 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 	return pkg->groups;
 }
 
+unsigned short SYMEXPORT alpm_pkg_has_force(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
+		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
+	}
+	return pkg->force;
+}
+
 alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -827,32 +841,18 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREE(pkg);
 }
 
-/* Is pkgB an upgrade for pkgA ? */
-int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg)
+/* Is spkg an upgrade for locapkg? */
+int _alpm_pkg_compare_versions(pmpkg_t *spkg, pmpkg_t *localpkg)
 {
 	int cmp = 0;
 
 	ALPM_LOG_FUNC;
 
-	if(pkg->origin == PKG_FROM_CACHE) {
-		/* ensure we have the /desc file, which contains the 'force' option */
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	cmp = alpm_pkg_vercmp(alpm_pkg_get_version(spkg),
+			alpm_pkg_get_version(localpkg));
 
-	/* compare versions and see if we need to upgrade */
-	cmp = alpm_pkg_vercmp(alpm_pkg_get_version(pkg), alpm_pkg_get_version(local_pkg));
-
-	if(cmp != 0 && pkg->force) {
+	if(cmp < 0 && alpm_pkg_has_force(spkg)) {
 		cmp = 1;
-		_alpm_log(PM_LOG_WARNING, _("%s: forcing upgrade to version %s\n"),
-							alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-	} else if(cmp < 0) {
-		/* local version is newer */
-		pmdb_t *db = pkg->origin_data.db;
-		_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
-							alpm_pkg_get_name(local_pkg), alpm_pkg_get_version(local_pkg),
-							alpm_db_get_name(db), alpm_pkg_get_version(pkg));
-		cmp = 0;
 	}
 
 	return(cmp);

@@ -170,6 +170,7 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i;
 	pmpkg_t *spkg = NULL;
+	int cmp;
 
 	for(i = dbs_sync; !spkg && i; i = i->next) {
 		spkg = _alpm_db_get_pkgfromcache(i->data, alpm_pkg_get_name(pkg));
@@ -182,14 +183,20 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 	}
 
 	/* compare versions and see if spkg is an upgrade */
-	if(_alpm_pkg_compare_versions(pkg, spkg)) {
+	cmp = _alpm_pkg_compare_versions(spkg, pkg);
+	if(cmp > 0) {
 		_alpm_log(PM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
 					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
 					alpm_pkg_get_version(spkg));
 		return(spkg);
-	} else {
-		return(NULL);
 	}
+	if (cmp < 0) {
+			pmdb_t *db = spkg->origin_data.db;
+			_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
+					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
+					alpm_db_get_name(db), alpm_pkg_get_version(spkg));
+	}
+	return(NULL);
 }
 
 /** Get a list of upgradable packages on the current system
@@ -326,18 +333,23 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 
 	local = _alpm_db_get_pkgfromcache(db_local, alpm_pkg_get_name(spkg));
 	if(local) {
-		if(_alpm_pkg_compare_versions(local, spkg) == 0) {
-			/* spkg is NOT an upgrade */
+		int cmp = _alpm_pkg_compare_versions(spkg, local);
+		if(cmp == 0) {
 			if(trans->flags & PM_TRANS_FLAG_NEEDED) {
+				/* with the NEEDED flag, packages up to date are not reinstalled */
 				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
 						alpm_pkg_get_name(local), alpm_pkg_get_version(local));
 				return(0);
 			} else {
-				if(!(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
-					_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
-							alpm_pkg_get_name(local), alpm_pkg_get_version(local));
-				}
+				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
+						alpm_pkg_get_name(local), alpm_pkg_get_version(local));
+
 			}
+		} else if(cmp < 0) {
+			/* local version is newer */
+			_alpm_log(PM_LOG_WARNING, _("downgrading package %s (%s => %s)\n"),
+					alpm_pkg_get_name(local), alpm_pkg_get_version(local),
+					alpm_pkg_get_version(spkg));
 		}
 	}
 
