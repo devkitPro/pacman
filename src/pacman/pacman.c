@@ -19,6 +19,12 @@
 
 #include "config.h"
 
+/* special handling of package version for GIT */
+#if defined(GIT_VERSION)
+#undef PACKAGE_VERSION
+#define PACKAGE_VERSION GIT_VERSION
+#endif
+
 #include <stdlib.h> /* atoi */
 #include <stdio.h>
 #include <limits.h>

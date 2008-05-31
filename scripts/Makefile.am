@@ -18,13 +18,20 @@ EXTRA_DIST = \
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
 
+if USE_GIT_VERSION
+GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 | sed s/^v//')-dirty
+REAL_PACKAGE_VERSION = $(GIT_VERSION)
+else
+REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
+endif
+
 #### Taken from the autoconf scripts Makefile.am ####
 edit = sed \
 	-e 's|@localedir[@]|$(localedir)|g' \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
 	-e 's|@prefix[@]|$(prefix)|g' \
-	-e 's|@PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+	-e 's|@PACKAGE_VERSION[@]|$(REAL_PACKAGE_VERSION)|g' \
 	-e 's|@PACKAGE_BUGREPORT[@]|$(PACKAGE_BUGREPORT)|g' \
 	-e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 	-e 's|@DBEXT[@]|$(DBEXT)|g' \

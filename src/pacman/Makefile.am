@@ -21,6 +21,11 @@ INCLUDES = -I$(top_srcdir)/lib/libalpm
 
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
+if USE_GIT_VERSION
+GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 | sed s/^v//')-dirty
+DEFS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+endif
+
 pacman_SOURCES = \
 	conf.h conf.c \
 	deptest.c \

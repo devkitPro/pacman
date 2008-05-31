@@ -40,28 +40,19 @@ AC_PREREQ(2.60)
 #
 #   Bugfix releases:
 #     pacman_version_micro += 1
-#
-#   pacman_version_suffix should be similar to one of the following:
-#     For beta releases:          [beta2]
-#     For code under development: [devel]
-#     For production releases:    []
 
 m4_define([lib_current], [5])
 m4_define([lib_revision], [1])
 m4_define([lib_age], [3])
 
 m4_define([pacman_version_major], [3])
-m4_define([pacman_version_minor], [2])
-m4_define([pacman_version_micro], [0])
-m4_define([pacman_version_suffix], [devel])
+m4_define([pacman_version_minor], [1])
+m4_define([pacman_version_micro], [4])
 m4_define([pacman_version],
           [pacman_version_major.pacman_version_minor.pacman_version_micro])
-m4_define([pacman_display_version],
-					pacman_version[]m4_ifdef([pacman_version_suffix],[pacman_version_suffix]))
 
 # Autoconf initialization
-AC_INIT([Pacman Package Manager], [pacman_display_version],
-        [pacman-dev@archlinux.org], [pacman])
+AC_INIT([pacman], [pacman_version], [pacman-dev@archlinux.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
@@ -121,6 +112,12 @@ AC_ARG_ENABLE(asciidoc,
 AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [enable debugging support]),
 	[debug=$enableval], [debug=no])
+
+# Help line for using git version in pacman version string
+AC_ARG_ENABLE(git-version,
+	AS_HELP_STRING([--enable-git-version],
+		[enable use of git version in version string if available]),
+	[wantgitver=$enableval], [wantgitver=no])
 
 # Help line for pacman.static
 AC_ARG_ENABLE(pacman-static,
@@ -259,9 +256,9 @@ fi
 AM_CONDITIONAL(WANT_DOC, test "x$wantdoc" = "xyes")
 
 # Check for doxygen support and status
+AC_CHECK_PROGS([DOXYGEN], [doxygen])
 AC_MSG_CHECKING([for doxygen])
 if test "x$wantdoxygen" = "xyes" ; then
-	AC_CHECK_PROGS([DOXYGEN], [doxygen])
 	if test $DOXYGEN ; then
 		AC_MSG_RESULT([yes])
 		usedoxygen=yes
@@ -276,9 +273,9 @@ fi
 AM_CONDITIONAL(USE_DOXYGEN, test "x$usedoxygen" = "xyes")
 
 # Check for asciidoc support and status
+AC_CHECK_PROGS([ASCIIDOC], [asciidoc])
 AC_MSG_CHECKING([for asciidoc])
 if test "x$wantasciidoc" = "xyes" ; then
-	AC_CHECK_PROGS([ASCIIDOC], [asciidoc])
 	if test $ASCIIDOC ; then
 		AC_MSG_RESULT([yes])
 		useasciidoc=yes
@@ -307,6 +304,25 @@ else
 	AC_MSG_RESULT(no)
 	CFLAGS="$CFLAGS -Wall"
 fi
+
+# Enable or disable use of git version in pacman version string
+AC_CHECK_PROGS([GIT], [git])
+AC_CHECK_FILE([.git/], hasgitdir=yes)
+AC_MSG_CHECKING(whether to use git version if available)
+if test "x$wantgitver" = "xyes" ; then
+	if test $GIT -a "x$hasgitdir" = "xyes"; then
+		AC_MSG_RESULT([yes])
+		usegitver=yes
+		AC_DEFINE([USE_GIT_VERSION], , [Use GIT version in version string])
+	else
+		AC_MSG_RESULT([no, git or .git dir missing])
+		usegitver=no
+	fi
+else
+	AC_MSG_RESULT([no, disabled by configure])
+	usegitver=no
+fi
+AM_CONDITIONAL(USE_GIT_VERSION, test "x$usegitver" = "xyes")
 
 # Enable or disable inclusion of pacman.static
 AC_MSG_CHECKING(whether to build pacman.static)
@@ -347,7 +363,7 @@ Makefile
 AC_OUTPUT
 
 echo "
-pacman_display_version:
+${PACKAGE_NAME}:
 
   Build information:
     source code location   : ${srcdir}
@@ -368,6 +384,7 @@ pacman_display_version:
     libalpm version        : ${LIB_VERSION}
     libalpm version info   : ${LIB_VERSION_INFO}
     pacman version         : ${PACKAGE_VERSION}
+    using git version      : ${usegitver}
 
   Directory and file information:
     root working directory : ${ROOTDIR}
