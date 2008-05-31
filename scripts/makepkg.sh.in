@@ -27,7 +27,7 @@
 # makepkg uses quite a few external programs during its execution. You
 # need to have at least the following installed for makepkg to function:
 #   awk, bsdtar (libarchive), bzip2, coreutils, fakeroot, find (findutils),
-#   getopt (util-linux), gettext, grep, gzip, sed
+#   getopt (util-linux), gettext, grep, gzip, openssl, sed
 
 # gettext initialization
 export TEXTDOMAIN='pacman'
@@ -484,8 +484,8 @@ generate_checksums() {
 				exit 1;; # $E_CONFIG_ERROR
 		esac
 
-		if [ ! $(type -p "${integ}sum") ]; then
-			error "$(gettext "Cannot find the '%s' program.")" "${integ}sum"
+		if [ ! $(type -p openssl) ]; then
+			error "$(gettext "Cannot find openssl.")"
 			exit 1 # $E_MISSING_PROGRAM
 		fi
 
@@ -514,7 +514,7 @@ generate_checksums() {
 				fi
 			fi
 
-			local sum="$(${integ}sum "$file" | cut -d ' ' -f 1)"
+			local sum="$(openssl dgst -${integ} "$file" | awk '{print $NF}')"
 			[ $ct -gt 0 ] && echo -n "$indent"
 			echo -n "'$sum'"
 			ct=$(($ct+1))
@@ -536,8 +536,8 @@ check_checksums() {
 				exit 1;; # $E_CONFIG_ERROR
 		esac
 
-		if [ ! $(type -p "${integ}sum") ]; then
-			error "$(gettext "Cannot find the '%s' program.")" "${integ}sum"
+		if [ ! $(type -p openssl) ]; then
+			error "$(gettext "Cannot find openssl.")"
 			exit 1 # $E_MISSING_PROGRAM
 		fi
 
@@ -561,7 +561,7 @@ check_checksums() {
 					fi
 				fi
 
-				if echo "${integrity_sums[$idx]}  $file" | ${integ}sum --status -c - &>/dev/null; then
+				if [ "${integrity_sums[$idx]}" = "$(openssl dgst -${integ} "$file" | awk '{print $NF}')" ]; then
 					echo "$(gettext "Passed")" >&2
 				else
 					echo "$(gettext "FAILED")" >&2
