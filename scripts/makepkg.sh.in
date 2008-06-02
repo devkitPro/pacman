@@ -1099,6 +1099,25 @@ create_package() {
 	fi
 }
 
+create_signature() {
+	if [[ $(check_buildenv sign) != "y" ]]; then
+		return
+	fi
+	local ret=0
+	local filename="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	msg "$(gettext "Signing package...")"
+	if [ ! $(type -p "gpg") ]; then
+		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+	gpg --detach-sign --use-agent $filename || ret=$?
+	if (( ! ret )); then
+		msg2 "$(gettext "Created signature file %s.")" $filename.sig
+	else
+		warning "$(gettext "Failed to sign package file.")"
+	fi
+}
+
 create_srcpackage() {
 	cd "$startdir"
 
@@ -2114,6 +2133,8 @@ fi
 
 fullver=$(get_full_version $epoch $pkgver $pkgrel)
 msg "$(gettext "Finished making: %s")" "$pkgbase $fullver ($(date))"
+
+create_signature
 
 install_package
 
