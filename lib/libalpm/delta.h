@@ -19,6 +19,8 @@
 #ifndef _ALPM_DELTA_H
 #define _ALPM_DELTA_H
 
+#include <sys/types.h> /* off_t */
+
 #include "alpm.h"
 
 struct __pmdelta_t {
@@ -35,14 +37,14 @@ struct __pmdelta_t {
 	/** md5sum of the delta file */
 	char *delta_md5;
 	/** filesize of the delta file */
-	unsigned long delta_size;
+	off_t delta_size;
 	/** download filesize of the delta file */
-	unsigned long download_size;
+	off_t download_size;
 };
 
 pmdelta_t *_alpm_delta_parse(char *line);
 void _alpm_delta_free(pmdelta_t *delta);
-unsigned long _alpm_shortest_delta_path(alpm_list_t *deltas,
+off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 		const char *to, const char *to_md5, alpm_list_t **path);
 
 #endif /* _ALPM_DELTA_H */

@@ -27,6 +27,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <inttypes.h> /* int64_t */
+#include <stdint.h> /* intmax_t */
 
 /* libarchive */
 #include <archive.h>
@@ -635,7 +637,6 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	int i, ret = 0, errors = 0;
 	char scriptlet[PATH_MAX+1];
 	int is_upgrade = 0;
-	double percent = 0.0;
 	pmpkg_t *oldpkg = NULL;
 
 	ALPM_LOG_FUNC;
@@ -730,17 +731,22 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		}
 
 		for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
+			double percent;
+
 			if(newpkg->size != 0) {
 				/* Using compressed size for calculations here, as newpkg->isize is not
 				 * exact when it comes to comparing to the ACTUAL uncompressed size
 				 * (missing metadata sizes) */
-				unsigned long pos = archive_position_compressed(archive);
+				int64_t pos = archive_position_compressed(archive);
 				percent = (double)pos / (double)newpkg->size;
-				_alpm_log(PM_LOG_DEBUG, "decompression progress: %f%% (%ld / %ld)\n",
-						percent*100.0, pos, newpkg->size);
+				_alpm_log(PM_LOG_DEBUG, "decompression progress: "
+						"%f%% (%"PRId64" / %jd)\n",
+						percent*100.0, pos, (intmax_t)newpkg->size);
 				if(percent >= 1.0) {
 					percent = 1.0;
 				}
+			} else {
+				percent = 0.0;
 			}
 
 			if(is_upgrade) {

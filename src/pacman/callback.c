@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <sys/types.h> /* off_t */
 #include <unistd.h>
 #include <dirent.h>
 #include <wchar.h>
@@ -36,7 +37,7 @@
 
 /* download progress bar */
 static float rate_last;
-static int xfered_last;
+static off_t xfered_last;
 static struct timeval initial_time;
 
 /* transaction progress bar */
@@ -410,7 +411,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 }
 
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, int xfered, int total)
+void cb_dl_progress(const char *filename, off_t xfered, off_t total)
 {
 	const int infolen = 50;
 	const int filenamelen = infolen - 27;
@@ -428,12 +429,12 @@ void cb_dl_progress(const char *filename, int xfered, int total)
 		return;
 	}
 
-	/* this is basically a switch on file_xferred: 0, file_total, and
+	/* this is basically a switch on xfered: 0, total, and
 	 * anything else */
 	if(xfered == 0) {
 		/* set default starting values */
 		gettimeofday(&initial_time, NULL);
-		xfered_last = 0;
+		xfered_last = (off_t)0;
 		rate_last = 0.0;
 		timediff = get_update_timediff(1);
 	} else if(xfered == total) {

@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <stdint.h> /* uintmax_t */
+#include <stdint.h> /* uintmax_t, intmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
 #include <ctype.h>
@@ -710,10 +710,10 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%%PACKAGER%%\n"
 								"%s\n\n", info->packager);
 			}
-			if(info->size) {
+			if(info->isize) {
 				/* only write installed size, csize is irrelevant once installed */
 				fprintf(fp, "%%SIZE%%\n"
-								"%lu\n\n", info->isize);
+								"%ju\n\n", (intmax_t)info->isize);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%REASON%%\n"
@@ -722,11 +722,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		} else {
 			if(info->size) {
 				fprintf(fp, "%%CSIZE%%\n"
-								"%lu\n\n", info->size);
+								"%ju\n\n", (intmax_t)info->size);
 			}
 			if(info->isize) {
 				fprintf(fp, "%%ISIZE%%\n"
-								"%lu\n\n", info->isize);
+								"%ju\n\n", (intmax_t)info->isize);
 			}
 			if(info->md5sum) {
 				fprintf(fp, "%%MD5SUM%%\n"

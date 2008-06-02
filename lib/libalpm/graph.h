@@ -17,6 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sys/types.h> /* off_t */
+
 #include "alpm_list.h"
 #include "util.h" /* MALLOC() */
 #include "alpm.h"
@@ -24,7 +26,7 @@
 struct __pmgraph_t {
 	char state; /* 0: untouched, -1: entered, other: leaving time */
 	void *data;
-	unsigned long int weight; /* weight of the node */
+	off_t weight; /* weight of the node */
 	struct __pmgraph_t *parent; /* where did we come from? */
 	alpm_list_t *children;
 	alpm_list_t *childptr; /* points to a child in children list */

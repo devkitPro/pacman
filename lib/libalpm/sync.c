@@ -22,6 +22,7 @@
 
 #include "config.h"
 
+#include <sys/types.h> /* off_t */
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -385,7 +386,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 {
 	const char *fname;
 	char *fpath;
-	unsigned long size = 0;
+	off_t size = 0;
 
 	fname = alpm_pkg_get_filename(newpkg);
 	ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
@@ -395,8 +396,8 @@ static int compute_download_size(pmpkg_t *newpkg)
 		FREE(fpath);
 		size = 0;
 	} else if(handle->usedelta) {
-		unsigned long dltsize;
-		unsigned long pkgsize = alpm_pkg_get_size(newpkg);
+		off_t dltsize;
+		off_t pkgsize = alpm_pkg_get_size(newpkg);
 
 		dltsize = _alpm_shortest_delta_path(
 			alpm_pkg_get_deltas(newpkg),
@@ -417,8 +418,8 @@ static int compute_download_size(pmpkg_t *newpkg)
 		size = alpm_pkg_get_size(newpkg);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "setting download size %ld for pkg %s\n", size,
-			alpm_pkg_get_name(newpkg));
+	_alpm_log(PM_LOG_DEBUG, "setting download size %lld for pkg %s\n",
+			(long long)size, alpm_pkg_get_name(newpkg));
 
 	newpkg->download_size = size;
 	return(0);
@@ -670,7 +671,7 @@ cleanup:
  * @param newpkg the new package to upgrade to
  * @return the size of the download
  */
-unsigned long SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
+off_t SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
 {
 	return(newpkg->download_size);
 }

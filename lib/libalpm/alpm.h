@@ -1,7 +1,7 @@
 /*
  * alpm.h
  *
- *  Copyright (c) 2002-2007 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2002-2008 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
  *  Copyright (c) 2005, 2006 by Miklos Vajna <vmiklos@frugalware.org>
@@ -26,6 +26,7 @@
 extern "C" {
 #endif
 
+#include <sys/types.h> /* for off_t */
 #include <time.h> /* for time_t */
 #include <stdarg.h> /* for va_list */
 
@@ -79,7 +80,8 @@ int alpm_logaction(char *fmt, ...);
  * Downloading
  */
 
-typedef void (*alpm_cb_download)(const char *filename, int xfered, int total);
+typedef void (*alpm_cb_download)(const char *filename,
+		off_t xfered, off_t total);
 
 /*
  * Options
@@ -201,8 +203,8 @@ time_t alpm_pkg_get_installdate(pmpkg_t *pkg);
 const char *alpm_pkg_get_packager(pmpkg_t *pkg);
 const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
 const char *alpm_pkg_get_arch(pmpkg_t *pkg);
-unsigned long alpm_pkg_get_size(pmpkg_t *pkg);
-unsigned long alpm_pkg_get_isize(pmpkg_t *pkg);
+off_t alpm_pkg_get_size(pmpkg_t *pkg);
+off_t alpm_pkg_get_isize(pmpkg_t *pkg);
 pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg);
@@ -221,7 +223,7 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
 unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
-unsigned long alpm_pkg_download_size(pmpkg_t *newpkg);
+off_t alpm_pkg_download_size(pmpkg_t *newpkg);
 
 /*
  * Deltas
@@ -233,7 +235,7 @@ const char *alpm_delta_get_to(pmdelta_t *delta);
 const char *alpm_delta_get_to_md5sum(pmdelta_t *delta);
 const char *alpm_delta_get_filename(pmdelta_t *delta);
 const char *alpm_delta_get_md5sum(pmdelta_t *delta);
-unsigned long alpm_delta_get_size(pmdelta_t *delta);
+off_t alpm_delta_get_size(pmdelta_t *delta);
 
 /*
  * Groups

@@ -493,7 +493,7 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	const alpm_list_t *i, *j;
 	alpm_list_t *targets = NULL, *to_remove = NULL;
 	/* TODO these are some messy variable names */
-	unsigned long isize = 0, rsize = 0, dispsize = 0, dlsize = 0;
+	off_t isize = 0, rsize = 0, dispsize = 0, dlsize = 0;
 	double mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0, mbdlsize = 0.0;
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {

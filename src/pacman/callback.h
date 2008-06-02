@@ -19,6 +19,8 @@
 #ifndef _PM_CALLBACK_H
 #define _PM_CALLBACK_H
 
+#include <sys/types.h> /* off_t */
+
 #include <alpm.h>
 
 /* callback to handle messages/notifications from libalpm transactions */
@@ -33,7 +35,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
                    int howmany, int remain);
 
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, int file_xfered, int file_total);
+void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total);
 
 /* callback to handle messages/notifications from pacman library */
 void cb_log(pmloglevel_t level, char *fmt, va_list args);

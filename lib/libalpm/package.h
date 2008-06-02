@@ -23,7 +23,8 @@
 #ifndef _ALPM_PACKAGE_H
 #define _ALPM_PACKAGE_H
 
-#include <time.h>
+#include <sys/types.h> /* off_t */
+#include <time.h> /* time_t */
 
 #include "alpm.h"
 #include "db.h"
@@ -44,8 +45,9 @@ struct __pmpkg_t {
 	char *packager;
 	char *md5sum;
 	char *arch;
-	unsigned long size;
-	unsigned long isize;
+	off_t size;
+	off_t isize;
+	off_t download_size;
 	unsigned short scriptlet;
 	unsigned short force;
 	pmpkgreason_t reason;
@@ -59,6 +61,7 @@ struct __pmpkg_t {
 	alpm_list_t *conflicts;
 	alpm_list_t *provides;
 	alpm_list_t *deltas;
+	alpm_list_t *delta_path;
 	/* internal */
 	pmpkgfrom_t origin;
 	/* Replaced 'void *data' with this union as follows:
@@ -70,8 +73,6 @@ struct __pmpkg_t {
 		char *file;
 	} origin_data;
 	pmdbinfrq_t infolevel;
-	unsigned long download_size;
-	alpm_list_t *delta_path;
 };
 
 pmpkg_t* _alpm_pkg_new(void);

@@ -28,7 +28,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <stdint.h> /* uintmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex.h>

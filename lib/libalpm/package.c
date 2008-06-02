@@ -225,7 +225,7 @@ const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 	return pkg->arch;
 }
 
-unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
+off_t SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -239,7 +239,7 @@ unsigned long SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 	return pkg->size;
 }
 
-unsigned long SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
+off_t SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 

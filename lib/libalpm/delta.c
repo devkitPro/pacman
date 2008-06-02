@@ -71,7 +71,7 @@ const char SYMEXPORT *alpm_delta_get_md5sum(pmdelta_t *delta)
 	return(delta->delta_md5);
 }
 
-unsigned long SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
+off_t SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
 {
 	ASSERT(delta != NULL, return(-1));
 	return(delta->delta_size);
@@ -89,7 +89,7 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 		pmgraph_t *v = _alpm_graph_new();
 		pmdelta_t *vdelta = i->data;
 		vdelta->download_size = vdelta->delta_size;
-		v->weight = ULONG_MAX;
+		v->weight = LONG_MAX;
 
 		/* determine whether the delta file already exists */
 		fpath = _alpm_filecache_find(vdelta->delta);
@@ -139,7 +139,7 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 	return(vertices);
 }
 
-static unsigned long delta_vert(alpm_list_t *vertices,
+static off_t delta_vert(alpm_list_t *vertices,
 		const char *to, const char *to_md5, alpm_list_t **path) {
 	alpm_list_t *i;
 	pmgraph_t *v;
@@ -157,7 +157,7 @@ static unsigned long delta_vert(alpm_list_t *vertices,
 				v = v_i;
 			}
 		}
-		if(v == NULL || v->weight == ULONG_MAX) {
+		if(v == NULL || v->weight == LONG_MAX) {
 			break;
 		}
 
@@ -178,7 +178,7 @@ static unsigned long delta_vert(alpm_list_t *vertices,
 	}
 
 	v = NULL;
-	unsigned long bestsize = 0;
+	off_t bestsize = 0;
 
 	for(i = vertices; i; i = i->next) {
 		pmgraph_t *v_i = i->data;
@@ -214,14 +214,14 @@ static unsigned long delta_vert(alpm_list_t *vertices,
  * @param path the pointer to a list location where pmdelta_t * objects that
  * have the smallest size are placed. NULL is set if there is no path
  * possible with the files available.
- * @return the size of the path stored, or ULONG_MAX if path is unfindable
+ * @return the size of the path stored, or LONG_MAX if path is unfindable
  */
-unsigned long _alpm_shortest_delta_path(alpm_list_t *deltas,
+off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 		const char *to, const char *to_md5, alpm_list_t **path)
 {
 	alpm_list_t *bestpath = NULL;
 	alpm_list_t *vertices;
-	unsigned long bestsize = ULONG_MAX;
+	off_t bestsize = LONG_MAX;
 
 	ALPM_LOG_FUNC;
 

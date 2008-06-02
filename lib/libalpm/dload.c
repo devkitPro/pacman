@@ -112,7 +112,7 @@ static int download_internal(const char *url, const char *localpath,
 	struct url_stat ust;
 	struct stat st;
 	int chk_resume = 0;
-	int dl_thisfile = 0;
+	size_t dl_thisfile = 0;
 	char *tempfile, *destfile, *filename;
 	int ret = 0;
 	struct url *fileurl = url_for_string(url);
@@ -200,7 +200,7 @@ static int download_internal(const char *url, const char *localpath,
 		handle->dlcb(filename, 0, ust.size);
 	}
 
-	int nread = 0;
+	size_t nread = 0;
 	char buffer[PM_DLBUF_LEN];
 	while((nread = fread(buffer, 1, PM_DLBUF_LEN, dlf)) > 0) {
 		if(ferror(dlf)) {
@@ -211,7 +211,7 @@ static int download_internal(const char *url, const char *localpath,
 			goto cleanup;
 		}
 
-		int nwritten = 0;
+		size_t nwritten = 0;
 		while(nwritten < nread) {
 			nwritten += fwrite(buffer, 1, (nread - nwritten), localf);
 			if(ferror(localf)) {
