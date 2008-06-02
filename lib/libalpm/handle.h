@@ -39,6 +39,7 @@ typedef struct _pmhandle_t {
 	/* callback functions */
 	alpm_cb_log logcb;      /* Log callback function */
 	alpm_cb_download dlcb;  /* Download callback function */
+	alpm_cb_totaldl totaldlcb;  /* Total download callback function */
 
 	/* filesystem paths */
 	char *root;              /* Root path, default '/' */

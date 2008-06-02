@@ -34,6 +34,8 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
                    int howmany, int remain);
 
+/* callback to handle receipt of total download value */
+void cb_dl_total(off_t total);
 /* callback to handle display of download progress */
 void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total);
 

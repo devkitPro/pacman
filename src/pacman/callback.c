@@ -38,6 +38,8 @@
 /* download progress bar */
 static float rate_last;
 static off_t xfered_last;
+static off_t list_xfered = 0.0;
+static off_t list_total = 0.0;
 static struct timeval initial_time;
 
 /* transaction progress bar */
@@ -84,14 +86,15 @@ static float get_update_timediff(int first_call)
 }
 
 /* refactored from cb_trans_progress */
-static void fill_progress(const int percent, const int proglen)
+static void fill_progress(const int bar_percent, const int disp_percent,
+		const int proglen)
 {
 	const unsigned int hashlen = proglen - 8;
-	const unsigned int hash = percent * hashlen / 100;
+	const unsigned int hash = bar_percent * hashlen / 100;
 	static unsigned int lasthash = 0, mouth = 0;
 	unsigned int i;
 
-	if(percent == 0) {
+	if(bar_percent == 0) {
 		lasthash = 0;
 		mouth = 0;
 	}
@@ -136,10 +139,12 @@ static void fill_progress(const int percent, const int proglen)
 	}
 	/* print percent after progress bar */
 	if(proglen > 5) {
-		printf(" %3d%%", percent);
+		/* use disp_percent if it is not 0, else show bar_percent */
+		int p = disp_percent ? disp_percent : bar_percent;
+		printf(" %3d%%", p);
 	}
 
-	if(percent == 100) {
+	if(bar_percent == 100) {
 		printf("\n");
 	} else {
 		printf("\r");
@@ -395,7 +400,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	free(wcstr);
 
 	/* call refactored fill progress function */
-	fill_progress(percent, getcols() - infolen);
+	fill_progress(percent, percent, getcols() - infolen);
 
 	if(percent == 100) {
 		alpm_list_t *i = NULL;
@@ -410,8 +415,19 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	}
 }
 
+/* callback to handle receipt of total download value */
+void cb_dl_total(off_t total)
+{
+	list_total = total;
+	/* if we get a 0 value, it means this list has finished downloading,
+	 * so clear out our list_xfered as well */
+	if(total == 0) {
+		list_xfered = 0;
+	}
+}
+
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, off_t xfered, off_t total)
+void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 {
 	const int infolen = 50;
 	const int filenamelen = infolen - 27;
@@ -420,24 +436,38 @@ void cb_dl_progress(const char *filename, off_t xfered, off_t total)
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcfname;
 
+	off_t xfered, total;
 	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
-	int percent;
+	int file_percent = 0, total_percent = 0;
 	char rate_size = 'K', xfered_size = 'K';
 
 	if(config->noprogressbar) {
 		return;
 	}
 
+	/* only use TotalDownload if enabled and we have a callback value */
+	if(config->totaldownload && list_total) {
+		xfered = list_xfered + file_xfered;
+		total = list_total;
+	} else {
+		xfered = file_xfered;
+		total = file_total;
+	}
+
 	/* this is basically a switch on xfered: 0, total, and
 	 * anything else */
-	if(xfered == 0) {
-		/* set default starting values */
-		gettimeofday(&initial_time, NULL);
-		xfered_last = (off_t)0;
-		rate_last = 0.0;
-		timediff = get_update_timediff(1);
-	} else if(xfered == total) {
+	if(file_xfered == 0) {
+		/* set default starting values, ensure we only call this once
+		 * if TotalDownload is enabled */
+		if(!(config->totaldownload)
+				|| (config->totaldownload && list_xfered == 0)) {
+			gettimeofday(&initial_time, NULL);
+			xfered_last = (off_t)0;
+			rate_last = 0.0;
+			timediff = get_update_timediff(1);
+		}
+	} else if(file_xfered == file_total) {
 		/* compute final values */
 		struct timeval current_time;
 		float diff_sec, diff_usec;
@@ -446,7 +476,7 @@ void cb_dl_progress(const char *filename, off_t xfered, off_t total)
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
 		timediff = diff_sec + (diff_usec / 1000000.0);
-		rate = total / (timediff * 1024.0);
+		rate = xfered / (timediff * 1024.0);
 
 		/* round elapsed time to the nearest second */
 		eta_s = (int)(timediff + 0.5);
@@ -466,7 +496,17 @@ void cb_dl_progress(const char *filename, off_t xfered, off_t total)
 		xfered_last = xfered;
 	}
 
-	percent = (int)((float)xfered) / ((float)total) * 100;
+	file_percent = (int)((float)file_xfered) / ((float)file_total) * 100;
+
+	if(config->totaldownload && list_total) {
+		total_percent = (int)((float)list_xfered + file_xfered) /
+			((float)list_total) * 100;
+
+		/* if we are at the end, add the completed file to list_xfered */
+		if(file_xfered == file_total) {
+			list_xfered += file_total;
+		}
+	}
 
 	/* fix up time for display */
 	eta_h = eta_s / 3600;
@@ -539,7 +579,7 @@ void cb_dl_progress(const char *filename, off_t xfered, off_t total)
 	free(fname);
 	free(wcfname);
 
-	fill_progress(percent, getcols() - infolen);
+	fill_progress(file_percent, total_percent, getcols() - infolen);
 	return;
 }
 

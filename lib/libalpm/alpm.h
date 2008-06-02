@@ -82,18 +82,20 @@ int alpm_logaction(char *fmt, ...);
 
 typedef void (*alpm_cb_download)(const char *filename,
 		off_t xfered, off_t total);
+typedef void (*alpm_cb_totaldl)(off_t total);
 
 /*
  * Options
  */
-
-#define PM_DLFNM_LEN 22
 
 alpm_cb_log alpm_option_get_logcb();
 void alpm_option_set_logcb(alpm_cb_log cb);
 
 alpm_cb_download alpm_option_get_dlcb();
 void alpm_option_set_dlcb(alpm_cb_download cb);
+
+alpm_cb_totaldl alpm_option_get_totaldlcb();
+void alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
 
 const char *alpm_option_get_root();
 int alpm_option_set_root(const char *root);

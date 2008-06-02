@@ -850,6 +850,11 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
+	/* set TotalDownload callback if option enabled */
+	if(config->totaldownload) {
+		alpm_option_set_totaldlcb(cb_dl_total);
+	}
+
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0 && needs_transaction()) {

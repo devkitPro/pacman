@@ -811,11 +811,24 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 	ALPM_LOG_FUNC;
 
-	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	cachedir = _alpm_filecache_setup();
 	trans->state = STATE_DOWNLOADING;
+
+	/* Total progress - figure out the total download size if required to
+	 * pass to the callback. This function is called once, and it is up to the
+	 * frontend to compute incremental progress. */
+	if(handle->totaldlcb) {
+		off_t total_size = (off_t)0;
+		/* sum up the download size for each package and store total */
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			pmpkg_t *spkg = sync->pkg;
+			total_size += spkg->download_size;
+		}
+		handle->totaldlcb(total_size);
+	}
 
 	/* group sync records by repository and download */
 	for(i = handle->dbs_sync; i; i = i->next) {
@@ -875,6 +888,11 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	}
 	if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
 		return(0);
+	}
+
+	/* clear out value to let callback know we are done */
+	if(handle->totaldlcb) {
+		handle->totaldlcb(0);
 	}
 
 	if(handle->usedelta) {

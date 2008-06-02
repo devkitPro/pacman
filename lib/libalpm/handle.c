@@ -115,6 +115,15 @@ alpm_cb_download SYMEXPORT alpm_option_get_dlcb()
 	return handle->dlcb;
 }
 
+alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->totaldlcb;
+}
+
 const char SYMEXPORT *alpm_option_get_root()
 {
 	if (handle == NULL) {
@@ -266,6 +275,15 @@ void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb)
 		return;
 	}
 	handle->dlcb = cb;
+}
+
+void SYMEXPORT alpm_option_set_totaldlcb(alpm_cb_totaldl cb)
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return;
+	}
+	handle->totaldlcb = cb;
 }
 
 int SYMEXPORT alpm_option_set_root(const char *root)
