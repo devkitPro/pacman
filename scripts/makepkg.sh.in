@@ -1144,11 +1144,11 @@ SRCDEST=${_SRCDEST:-$SRCDEST}
 SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 
 # Parse Command Line Options.
-OPT_SHORT="AbcCdefFghiLmop:rRsSV"
+OPT_SHORT="AbcCdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,builddeps,clean,cleancache,nodeps"
 OPT_LONG="$OPT_LONG,noextract,force,forcever:,geninteg,help,holdver"
 OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,source"
-OPT_LONG="$OPT_LONG,syncdeps,usesudo,version"
+OPT_LONG="$OPT_LONG,syncdeps,version"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
@@ -1188,11 +1188,6 @@ while true; do
 		-R|--repackage)   REPKG=1 ;;
 		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
-
-		# BEGIN DEPRECATED
-		-S|--usesudo)
-			warning "$(gettext "Sudo is used by default now. The --usesudo option is deprecated!")" ;;
-		# END DEPRECATED
 
 		-h|--help)        usage; exit 0 ;; # E_OK
 		-V|--version)     version; exit 0 ;; # E_OK
