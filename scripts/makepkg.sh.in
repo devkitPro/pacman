@@ -921,14 +921,26 @@ create_xdelta() {
 
 create_srcpackage() {
 	cd "$startdir"
+	if [ "$SOURCEONLY" = "2" ]; then
+		# get back to our src directory so we can begin with sources
+		mkdir -p "$srcdir"
+		cd "$srcdir"
+		download_sources
+		# we can only check checksums if we have all files
+		check_checksums
+		cd "$startdir"
+	fi
 	msg "$(gettext "Creating source package...")"
-	local comp_files="$BUILDSCRIPT"
+	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
+	mkdir "${srclinks}"/${pkgname}
+
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
+	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgname}/"
 
 	if [ "$install" != "" ]; then
 		if [ -f $install ]; then
 			msg2 "$(gettext "Adding install script...")"
-			comp_files="$comp_files $install"
+			ln -s "${startdir}/$install" "${srclinks}/${pkgname}/"
 		else
 			error "$(gettext "Install script %s not found.")" "$install"
 		fi
@@ -936,14 +948,18 @@ create_srcpackage() {
 
 	if [ -f ChangeLog ]; then
 		msg2 "$(gettext "Adding %s...")" "ChangeLog"
-		comp_files="$comp_files ChangeLog"
+		ln -s "${startdir}/ChangeLog" "${srclinks}/${pkgname}"
 	fi
 
-	local i
-	for i in ${source[@]}; do
-		if [ -f $i ]; then
-			msg2 "$(gettext "Adding %s...")" "$i"
-			comp_files="$comp_files $i"
+	local netfile
+	for netfile in ${source[@]}; do
+		local file=$(strip_url "$netfile")
+		if [ -f $netfile ]; then
+			msg2 "$(gettext "Adding %s...")" "$netfile"
+			ln -s $netfile ${srclinks}/${pkgname}
+		elif [ "$SOURCEONLY" = "2" -a -f "$SRCDEST/$file" ]; then
+			msg2 "$(gettext "Adding %s...")" "$file"
+			ln -s "$SRCDEST/$file" "${srclinks}/${pkgname}/"
 		fi
 	done
 
@@ -951,10 +967,13 @@ create_srcpackage() {
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
-	if ! bsdtar -czf "$pkg_file" $comp_files; then
+	cd ${srclinks}
+	if ! bsdtar -czLf "$pkg_file" ${pkgname}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
+	cd ${startdir}
+	rm -rf ${srclinks}
 }
 
 install_package() {
@@ -1126,8 +1145,10 @@ SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 
 # Parse Command Line Options.
 OPT_SHORT="AbcCdefFghiLmop:rRsSV"
-OPT_LONG="ignorearch,asroot,builddeps,clean,cleancache,nodeps,noextract,force,forcever:,geninteg,help,holdver"
-OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,source,syncdeps,usesudo,version"
+OPT_LONG="allsource,asroot,ignorearch,builddeps,clean,cleancache,nodeps"
+OPT_LONG="$OPT_LONG,noextract,force,forcever:,geninteg,help,holdver"
+OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,source"
+OPT_LONG="$OPT_LONG,syncdeps,usesudo,version"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
@@ -1145,6 +1166,7 @@ while true; do
 		--noprogressbar)  PACMAN_OPTS="$PACMAN_OPTS --noprogressbar" ;;
 
 		# Makepkg Options
+		--allsource)      SOURCEONLY=2 ;;
 		--asroot)         ASROOT=1 ;;
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
@@ -1381,7 +1403,7 @@ if [ $EUID -eq 0 ]; then
 fi
 
 # if we are creating a source-only package, go no further
-if [ "$SOURCEONLY" = "1" ]; then
+if [ "$SOURCEONLY" != "0" ]; then
 	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}" \
 	     -a "$FORCE" = "0" ]; then
 		error "$(gettext "A package has already been built. (use -f to overwrite)")"
