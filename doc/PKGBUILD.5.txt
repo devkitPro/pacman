@@ -89,14 +89,13 @@ Options and Directives
 	source array (in the same order). makepkg will use this to verify source
 	file integrity during subsequent builds. To easily generate md5sums, run
 	``makepkg -g >> PKGBUILD''. If desired, move the md5sums line to an
-	appropriate location. *NOTE:* makepkg supports multiple integrity
-	algorithms and their corresponding arrays (i.e. sha1sums for the SHA1
-	algorithm); however, official packages use only md5sums for the time
-	being.
+	appropriate location.
 
-*sha1sums, etc.*::
-	Alternative integrity checks that makepkg supports, as noted in md5sums
-	above.
+*sha1sums, sha256sums, sha384sums, sha512sums (arrays)*::
+	Alternative integrity checks that makepkg supports; these all behave
+	similar to the md5sums option described above. To enable use and generation
+	of these checksums, be sure to set up the `INTEGRITY_CHECK` option in
+	linkman:makepkg.conf[5].
 
 *groups (array)*::
 	An array of symbolic names that represent groups of packages, allowing

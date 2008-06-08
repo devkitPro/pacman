@@ -153,11 +153,11 @@ static void version(void)
 {
 	printf("\n");
 	printf(" .--.                  Pacman v%s - libalpm v%s\n", PACKAGE_VERSION, alpm_version());
-	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2002-2008 Judd Vinet <jvinet@zeroflux.org>\n");
-	printf("\\  '-. '-'  '-'  '-'\n");
+	printf("/ _.-' .-.  .-.  .-.   Copyright (C) 2006-2008 Dan McGee <dan@archlinux.org>\n");
+	printf("\\  '-. '-'  '-'  '-'   Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\n");
 	printf(" '--'\n");
 	printf(_("                       This program may be freely redistributed under\n"
-	         "                       the terms of the GNU General Public License\n"));
+	         "                       the terms of the GNU General Public License.\n"));
 	printf("\n");
 }
 

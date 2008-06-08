@@ -94,7 +94,7 @@ Options
 	Specify an alternative database location (a typical default is
 	``/var/lib/pacman'').  This should not be used unless you know what you are
 	doing. *NOTE*: if specified, this is an absolute path and the root path is
-	not automatically prepended. This behavior changed in pacman 3.1.0.
+	not automatically prepended.
 
 *-d, \--nodeps*::
 	Skips all dependency checks. Normally, pacman will always check a
@@ -112,7 +112,7 @@ Options
 	not be used as a way to install software into ``/usr/local'' instead of
 	``/usr''. This option is used if you want to install a package on a
 	temporary mounted partition which is "owned" by another system.
-	*NOTE*: If database path or logfile are not specified on either the
+	*NOTE*: if database path or logfile are not specified on either the
 	command line or in linkman:pacman.conf[5], their default location will
 	be inside this root path.
 
@@ -123,8 +123,7 @@ Options
 	Specify an alternative package cache location (a typical default is
 	``/var/cache/pacman/pkg''). Multiple cache directories can be specified,
 	and they are tried in the order they are passed to pacman. *NOTE*: this
-	is an absolute path, the root path is not automatically prepended. This
-	behavior changed in pacman 3.1.0.
+	is an absolute path, the root path is not automatically prepended.
 
 *\--config* <'file'>::
 	Specify an alternate configuration file.

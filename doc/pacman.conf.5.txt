@@ -57,7 +57,7 @@ Options
 	Overrides the default location of the toplevel database directory.  A
 	typical default is ``/var/lib/pacman/''. Most users will not need to set
 	this option. *NOTE*: if specified, this is an absolute path and the root
-	path is not automatically prepended. This behavior changed in pacman 3.1.0.
+	path is not automatically prepended.
 
 *CacheDir =* path/to/cache/dir::
 	Overrides the default location of the package cache directory. A typical
@@ -65,14 +65,13 @@ Options
 	specified, and they are tried in the order they are listed in the config
 	file. If a file is not found in any cache directory, it will be downloaded
 	to the first cache directory with write access. *NOTE*: this is an absolute
-	path, the root path is not automatically prepended. This behavior changed
-	in pacman 3.1.0.
+	path, the root path is not automatically prepended.
 
 
 *LogFile =* '/path/to/file'::
-	Log actions directly to a file. A typical default is
-	``/var/log/pacman.log''. As of pacman 3.1.0, this does not need to be
-	specified by default. This is an absolute path and root is not prepended.
+	Overrides the default location of the pacman log file. A typical default
+	is ``/var/log/pacman.log''. This is an absolute path and the root directory
+	is not prepended.
 
 *HoldPkg =* package ...::
 	If a user tries to '\--remove' a package that's listed in `HoldPkg`,

@@ -1,4 +1,4 @@
-# Maintainer: judd <jvinet@zeroflux.org>
+# Maintainer: Joe User <joe.user@example.com>
 
 pkgname=patch
 pkgver=2.5.4
@@ -13,8 +13,8 @@ source=(ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz)
 md5sums=('ee5ae84d115f051d87fcaaef3b4ae782')
 
 build() {
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
   ./configure --prefix=/usr
   make || return 1
-  make prefix=$startdir/pkg/usr install
+  make prefix=$pkgdir/usr install
 }
