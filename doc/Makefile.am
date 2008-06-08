@@ -32,6 +32,14 @@ EXTRA_DIST = \
 MOSTLYCLEANFILES = *.xml
 MAINTAINERCLEANFILES = $(ASCIIDOC_MANS)
 
+if USE_GIT_VERSION
+GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 | sed s/^v//')-dirty
+REAL_PACKAGE_VERSION = $(GIT_VERSION)
+else
+REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
+endif
+
+
 man_MANS =
 dist_man_MANS = $(ASCIIDOC_MANS) repo-remove.8
 
@@ -47,7 +55,7 @@ endif
 if USE_ASCIIDOC
 ASCIIDOC_OPTS = \
 	-f asciidoc.conf \
-	-a pacman_version="$(PACKAGE_VERSION)" \
+	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
 	-a pacman_date="`date +%Y-%m-%d`" \
 	-a sysconfdir=$(sysconfdir)
 A2X_OPTS = \
