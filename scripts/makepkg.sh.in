@@ -36,6 +36,10 @@ export TEXTDOMAINDIR='@localedir@'
 # file -i does not work on Mac OSX unless legacy mode is set
 export COMMAND_MODE='legacy'
 
+# when fileglobbing, we want * in an empty directory to expand to the null
+# string rather than itself
+shopt -s nullglob
+
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 startdir="$PWD"
@@ -849,7 +853,7 @@ create_package() {
 
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 
-	if ! bsdtar -czf "$pkg_file" $comp_files $(ls); then
+	if ! bsdtar -czf "$pkg_file" $comp_files *; then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
