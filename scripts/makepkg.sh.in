@@ -1368,7 +1368,7 @@ devel_check
 devel_update
 
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" ]; then
+     -a "$FORCE" = "0" -a "$GENINTEG" = "0" -a "$SOURCEONLY" = "0" -a "$NOBUILD" = "0" ]; then
 	if [ "$INSTALL" = "1" ]; then
 		warning "$(gettext "A package has already been built, installing existing package...")"
 		install_package
