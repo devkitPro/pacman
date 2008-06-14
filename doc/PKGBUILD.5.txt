@@ -30,12 +30,22 @@ distribution of this package.
 
 Options and Directives
 ----------------------
+The following is a list of standard options and directives available for use
+in a PKGBUILD. These are all understood and interpreted by makepkg, and most
+will be directly transferred to the built package.
+
+If you need to create any custom variables for use in your build process, it is
+recommended to name your custom variables with an '_' (underscore) prefix.
+This will prevent any possible name clashes with internal makepkg variables.
+For example, to store the base kernel version in a variable, use something
+similar to `$_basekernver`.
+
 *pkgname*::
 	The name of the package. This has be a unix-friendly name as it will be
 	used in the package filename.
 
 *pkgver*::
-	The version of the software as released from the author (e.g. \'2.7.1').
+	The version of the software as released from the author (e.g. '2.7.1').
 
 *pkgrel*::
 	This is the release number specific to the Arch Linux release. This
@@ -204,6 +214,38 @@ Options and Directives
 		such an upgrade. This is useful when the version numbering scheme
 		of a package changes (or is alphanumeric).
 
+
+build() Function
+----------------
+In addition to the above directives, the build() bash function comprises the
+remainder of the PKGBUILD. This is directly sourced and executed by makepkg, so
+anything that bash or the system has available is available for use here. Be
+sure any exotic commands used are covered by `makedepends`.
+
+All of the above variables such as `pkgname` and `pkgver` are available for use
+in the build function. In addition, makepkg defines three variables for your
+use during the build and install process. These three variables are as follows:
+
+*startdir*::
+	This contains the absolute path to the directory where the PKGBUILD was
+	located, which is usually the output of `$(pwd)` when makepkg is started.
+	$$startdir$$ was most often used in combination with `/src` or `/pkg`
+	postfixes, but use of the `srcdir` and `pkgdir` variables is preferred.
+
+*srcdir*::
+	This points to the directory where makepkg extracts or copies all source
+	files. Although it currently is an alias for `$startdir/src`, this
+	assumption should not be assumed true for all future revisions of makepkg.
+
+*pkgdir*::
+	This points to the directory where makepkg bundles the installed package
+	(this directory will become the root directory of your built package).
+	Although it currently is an alias for `$startdir/pkg`, this assumption
+	should not be assumed true for all future revisions of makepkg.
+
+If you create any variables of your own in the build function, it is
+recommended to use the bash `local` keyword to scope the variable to inside
+the build function.
 
 Install/Upgrade/Remove Scripting
 --------------------------------
