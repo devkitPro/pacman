@@ -2,18 +2,20 @@
 AUTOMAKE_OPTIONS = std-options
 
 bin_SCRIPTS = \
+	$(OURSCRIPTS) \
+	repo-remove
+
+OURSCRIPTS = \
 	makepkg \
 	pacman-optimize \
 	rankmirrors \
-	repo-add \
-	repo-remove
+	repo-add
 
 EXTRA_DIST = \
 	makepkg.sh.in \
 	pacman-optimize.sh.in \
 	rankmirrors.py.in \
-	repo-add.sh.in \
-	repo-remove.sh.in
+	repo-add.sh.in
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
@@ -42,7 +44,7 @@ edit = sed \
 ## wrong file by accident.
 # two 'test' lines- make sure we can handle both sh and py type scripts
 # third 'test' line- make sure one of the two checks succeeded
-$(bin_SCRIPTS): Makefile
+$(OURSCRIPTS): Makefile
 	rm -f $@ $@.tmp
 	test -f $(srcdir)/$@.sh.in && $(edit) $(srcdir)/$@.sh.in >$@.tmp || true
 	test -f $(srcdir)/$@.py.in && $(edit) $(srcdir)/$@.py.in >$@.tmp || true
@@ -55,7 +57,7 @@ makepkg: $(srcdir)/makepkg.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
 rankmirrors: $(srcdir)/rankmirrors.py.in
 repo-add: $(srcdir)/repo-add.sh.in
-repo-remove: $(srcdir)/repo-remove.sh.in
-re-pacman: $(srcdir)/re-pacman.sh.in
+repo-remove: $(srcdir)/repo-add.sh.in
+	ln -s repo-add repo-remove
 
 # vim:set ts=2 sw=2 noet:

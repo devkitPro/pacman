@@ -1,9 +1,11 @@
 #!/bin/bash
 #
 #   repo-add - add a package to a given repo database file
+#   repo-remove - remove a package entry from a given repo database file
 #   @configure_input@
 #
 #   Copyright (c) 2006-2008 Aaron Griffin <aaron@archlinux.org>
+#   Copyright (c) 2007-2008 Dan McGee <dan@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -55,33 +57,41 @@ error() {
 
 # print usage instructions
 usage() {
-	printf "repo-add (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: %s [-q] <path-to-db> <package> ...\n\n")" "$0"
+	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
+	printf "$(gettext "Usage: repo-add [-q] <path-to-db> <package> ...\n")"
+	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n\n")"
 	printf "$(gettext "\
-The -q/--quiet flag will force this program to run silently except\n\
+repo-remove will update a package database by removing the package name\n\
+specified on the command line from the given repo database. Multiple\n\
+packages to remove can be specified on the command line.\n\n")"
+	printf "$(gettext "\
+The -q/--quiet flag to either program will force silent running except\n\
 in the case of warnings or errors.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
+	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
 
 version() {
-	printf "repo-add (pacman) %s\n" "$myver"
+	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
 	printf "$(gettext "\
-Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\n\n\
+Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\n\
+Copyright (c) 2007-2008 Dan McGee <dan@archlinux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 # test if a file is a repository DB
+#   arg1 - command name (repo-add, repo-remove)
 test_repo_db_file () {
 	if [ -f "$REPO_DB_FILE" ]; then
 		if bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"; then
 			return 0 # YES
 		fi
-	else
-		return 0 # YES - No database file is also allowed
+	elif [ "$1" == "repo-add" ]; then
+		return 0 # YES - No database file is also allowed if we are adding
 	fi
 
 	return 1 # NO
@@ -177,14 +187,8 @@ db_write_entry()
 		return 1
 	fi
 
-	# remove any other package in the DB with same name
-	local existing
-	for existing in *; do
-		if [ "${existing%-*-*}" = "$pkgname" ]; then
-			msg2 "$(gettext "Removing existing package '%s'...")" "$existing"
-			rm -rf "$existing"
-		fi
-	done
+	# remove an existing entry if it exists, ignore failures
+	db_remove_entry "$pkgname"
 
 	# create package directory
 	mkdir "$pkgname-$pkgver"
@@ -251,6 +255,23 @@ db_write_entry()
 	popd 2>&1 >/dev/null
 } # end db_write_entry
 
+# remove existing entries from the DB
+#   arg1 - package name
+db_remove_entry() {
+	pushd "$gstmpdir" 2>&1 >/dev/null
+
+	# remove any other package in the DB with same name
+	local existing
+	for existing in *; do
+		if [ "${existing%-*-*}" = "$1" ]; then
+			msg2 "$(gettext "Removing existing package '%s'...")" "$existing"
+			rm -rf "$existing"
+		fi
+	done
+
+	popd 2>&1 >/dev/null
+} # end db_remove_entry
+
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
@@ -301,9 +322,16 @@ if [ -r ~/.makepkg.conf ]; then
 fi
 
 # main routine
-gstmpdir=$(mktemp -d /tmp/repo-add.XXXXXXXXXX) || (\
+gstmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
 	error "$(gettext "Cannot create temp directory for database building.")"; \
 	exit 1)
+
+# figure out what program we are
+cmd="$(basename $0)"
+if [ "$cmd" != "repo-add" -a "$cmd" != "repo-remove" ]; then
+	error "$(gettext "Invalid command name '%s' specified.")" "$cmd"
+	exit 1
+fi
 
 success=0
 # parse arguments
@@ -316,7 +344,7 @@ for arg in "$@"; do
 	elif [ -z "$REPO_DB_FILE" ]; then
 		# store absolute path to repo DB
 		REPO_DB_FILE=$($realpath "$arg")
-		if ! test_repo_db_file; then
+		if ! test_repo_db_file $cmd; then
 			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
 			exit 1
 		elif [ -f "$REPO_DB_FILE" ]; then
@@ -324,18 +352,28 @@ for arg in "$@"; do
 			bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
 		fi
 	else
-		if [ -f "$arg" ]; then
-			if ! bsdtar -tf "$arg" .PKGINFO 2>&1 >/dev/null; then
-				error "$(gettext "'%s' is not a package file, skipping")" "$arg"
-			else
-				msg "$(gettext "Adding package '%s'")" "$arg"
+		if [ "$cmd" == "repo-add" ]; then
+			if [ -f "$arg" ]; then
+				if ! bsdtar -tf "$arg" .PKGINFO 2>&1 >/dev/null; then
+					error "$(gettext "'%s' is not a package file, skipping")" "$arg"
+				else
+					msg "$(gettext "Adding package '%s'")" "$arg"
 
-				if db_write_entry "$arg"; then
-					success=1
+					if db_write_entry "$arg"; then
+						success=1
+					fi
 				fi
+			else
+				error "$(gettext "Package '%s' not found.")" "$arg"
 			fi
-		else
-			error "$(gettext "Package '%s' not found.")" "$arg"
+		elif [ "$cmd" == "repo-remove" ]; then
+			msg "$(gettext "Searching for package '%s'...")" "$arg"
+
+			if db_remove_entry "$arg"; then
+				success=1
+			else
+				error "$(gettext "Package matching '%s' not found.")" "$arg"
+			fi
 		fi
 	fi
 done
@@ -356,6 +394,9 @@ if [ $success -eq 1 ]; then
 		esac
 
 		bsdtar -c${TAR_OPT}f "$REPO_DB_FILE" *
+	elif [ "$cmd" == "repo-remove" ]; then
+		error "$(gettext "All packages have been removed from the database. Deleting '%s'.")" "$REPO_DB_FILE"
+		rm "$REPO_DB_FILE"
 	fi
 
 	popd 2>&1 >/dev/null
