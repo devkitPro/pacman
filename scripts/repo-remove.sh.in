@@ -126,6 +126,16 @@ if [ $# -lt 2 ]; then
 	exit 1
 fi
 
+# check for and store the name of a realpath-like program
+if [ $(type -t realpath) ]; then
+	realpath='realpath'
+elif [ $(type -t readlink) ]; then
+	realpath='readlink -f'
+else
+	error "$(gettext "Either realpath or readlink are required by repo-add.")"
+	exit 1 # $E_MISSING_PROGRAM
+fi
+
 # source system and user makepkg.conf
 if [ -r "$confdir/makepkg.conf" ]; then
 	source "$confdir/makepkg.conf"
@@ -149,9 +159,10 @@ for arg in "$@"; do
 	if [ "$arg" == "--quiet" -o "$arg" == "-q" ]; then
 		QUIET=1
 	elif [ -z "$REPO_DB_FILE" ]; then
-		REPO_DB_FILE=$(readlink -f "$arg")
+		# store absolute path to repo DB
+		REPO_DB_FILE=$($realpath "$arg")
 		if ! test_repo_db_file; then
-			error "$(gettext "Repository file '%s' is not a proper pacman database.")\n" "$REPO_DB_FILE"
+			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
 			exit 1
 		elif [ -f "$REPO_DB_FILE" ]; then
 			msg "$(gettext "Extracting database to a temporary location...")"
@@ -170,12 +181,13 @@ done
 
 # if all operations were a success, re-zip database
 if [ $success -eq 1 ]; then
-	msg "$(gettext "Creating updated database file '%s'...")" "$REPO_DB_FILE"
+	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 	pushd "$gstmpdir" 2>&1 >/dev/null
 
 	if [ -n "$(ls)" ]; then
 		[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
 		[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+
 		case "$DB_COMPRESSION" in
 			gz)  TAR_OPT="z" ;;
 			bz2) TAR_OPT="j" ;;
@@ -194,6 +206,6 @@ else
 fi
 
 # remove the temp directory used to unzip
-[ -d "$gstmpdir" ] && rm -rf $gstmpdir
+[ -d "$gstmpdir" ] && rm -rf "$gstmpdir"
 
 # vim: set ts=2 sw=2 noet:
