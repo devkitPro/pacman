@@ -221,11 +221,11 @@ check_buildenv() {
 #          ? - not found
 ##
 in_opt_array() {
-	local needle=$(echo $1 | tr [:upper:] [:lower:]); shift
+	local needle=$(echo $1 | tr '[:upper:]' '[:lower:]'); shift
 
 	local opt
 	for opt in "$@"; do
-		opt=$(echo $opt | tr [:upper:] [:lower:])
+		opt=$(echo $opt | tr '[:upper:]' '[:lower:]')
 		if [ "$opt" = "$needle" ]; then
 			echo 'y' # Enabled
 			return
@@ -476,7 +476,7 @@ generate_checksums() {
 
 	local integ
 	for integ in ${INTEGRITY_CHECK[@]}; do
-		integ="$(echo $integ | tr [:upper:] [:lower:])"
+		integ="$(echo $integ | tr '[:upper:]' '[:lower:]')"
 		case "$integ" in
 			md5|sha1|sha256|sha384|sha512) : ;;
 			*)
@@ -528,7 +528,7 @@ generate_checksums() {
 check_checksums() {
 	local integ
 	for integ in ${INTEGRITY_CHECK[@]}; do
-		integ="$(echo $integ | tr [:upper:] [:lower:])"
+		integ="$(echo $integ | tr '[:upper:]' '[:lower:]')"
 		case "$integ" in
 			md5|sha1|sha256|sha384|sha512) : ;;
 			*)
@@ -541,7 +541,7 @@ check_checksums() {
 			exit 1 # $E_MISSING_PROGRAM
 		fi
 
-		local integrity_sums=($(eval echo \${${integ}sums[@]}))
+		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
 		if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
 			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
 			local errors=0
@@ -1214,7 +1214,7 @@ if [ "$CLEANCACHE" = "1" ]; then
 		msg "$(gettext "Cleaning up ALL files from %s.")" "$SRCDEST"
 		echo -n "$(gettext "    Are you sure you wish to do this? [Y/n] ")"
 		read answer
-		answer=$(echo $answer | tr [:upper:] [:lower:])
+		answer=$(echo $answer | tr '[:upper:]' '[:lower:]')
 		if [ "$answer" = "yes" -o "$answer" = "y" ]; then
 			rm "$SRCDEST"/*
 			if [ $? -ne 0 ]; then
