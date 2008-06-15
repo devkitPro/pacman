@@ -428,7 +428,7 @@ download_sources() {
 	pushd "$SRCDEST" &>/dev/null
 
 	local netfile
-	for netfile in ${source[@]}; do
+	for netfile in "${source[@]}"; do
 		local file=$(strip_url "$netfile")
 		if [ -f "$startdir/$file" ]; then
 			msg2 "$(gettext "Found %s in build dir")" "$file"
@@ -501,7 +501,7 @@ generate_checksums() {
 		done
 
 		local netfile
-		for netfile in ${source[@]}; do
+		for netfile in "${source[@]}"; do
 			local file="$(strip_url "$netfile")"
 
 			if [ ! -f "$file" ] ; then
@@ -956,9 +956,9 @@ create_srcpackage() {
 	fi
 
 	local netfile
-	for netfile in ${source[@]}; do
+	for netfile in "${source[@]}"; do
 		local file=$(strip_url "$netfile")
-		if [ -f $netfile ]; then
+		if [ -f "$netfile" ]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
 			ln -s $netfile ${srclinks}/${pkgname}
 		elif [ "$SOURCEONLY" = "2" -a -f "$SRCDEST/$file" ]; then
