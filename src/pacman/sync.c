@@ -734,6 +734,11 @@ int pacman_sync(alpm_list_t *targets)
 {
 	alpm_list_t *sync_dbs = NULL;
 
+	/* Display only errors with -Sp and -Sw operations */
+	if(config->flags & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS)) {
+		config->logmask = PM_LOG_ERROR;
+	}
+
 	/* clean the cache */
 	if(config->op_s_clean) {
 		int ret = 0;
