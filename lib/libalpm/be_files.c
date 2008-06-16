@@ -355,7 +355,6 @@ static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
-	struct stat buf;
 	char path[PATH_MAX];
 	char line[513];
 	char *pkgpath = NULL;
@@ -393,7 +392,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	pkgpath = get_pkgpath(db, info);
 
-	if(stat(pkgpath, &buf)) {
+	if(access(pkgpath, F_OK)) {
 		/* directory doesn't exist or can't be opened */
 		_alpm_log(PM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'\n",
 				info->name, info->version, db->treename);
@@ -631,7 +630,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	/* INSTALL */
 	if(inforeq & INFRQ_SCRIPTLET) {
 		snprintf(path, PATH_MAX, "%sinstall", pkgpath);
-		if(!stat(path, &buf)) {
+		if(access(path, F_OK) == 0) {
 			info->scriptlet = 1;
 		}
 	}

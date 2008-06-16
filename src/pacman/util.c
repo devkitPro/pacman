@@ -22,7 +22,6 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
-#include <sys/stat.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,7 +124,7 @@ int makepath(const char *path)
 	 * orig - a copy of path so we can safely butcher it with strsep
 	 * str - the current position in the path string (after the delimiter)
 	 * ptr - the original position of str after calling strsep
-	 * incr - incrementally generated path for use in stat/mkdir call
+	 * incr - incrementally generated path for use in access/mkdir call
 	 */
 	char *orig, *str, *ptr, *incr;
 	mode_t oldmask = umask(0000);
@@ -136,12 +135,11 @@ int makepath(const char *path)
 	str = orig;
 	while((ptr = strsep(&str, "/"))) {
 		if(strlen(ptr)) {
-			struct stat buf;
 			/* we have another path component- append the newest component to
 			 * existing string and create one more level of dir structure */
 			strcat(incr, "/");
 			strcat(incr, ptr);
-			if(stat(incr, &buf)) {
+			if(access(incr, F_OK)) {
 				if(mkdir(incr, 0755)) {
 					ret = 1;
 					break;

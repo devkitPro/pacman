@@ -23,7 +23,6 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <dirent.h>
 #include <libgen.h>
 
@@ -61,7 +60,6 @@ static int db_test(char *dbpath)
 {
 	struct dirent *ent;
 	char path[PATH_MAX];
-	struct stat buf;
 	int ret = 0;
 
 	DIR *dir;
@@ -77,17 +75,17 @@ static int db_test(char *dbpath)
 		}
 		/* check for desc, depends, and files */
 		snprintf(path, PATH_MAX, "%s/%s/desc", dbpath, ent->d_name);
-		if(stat(path, &buf)) {
+		if(access(path, F_OK)) {
 			printf("%s: description file is missing\n", ent->d_name);
 			ret++;
 		}
 		snprintf(path, PATH_MAX, "%s/%s/depends", dbpath, ent->d_name);
-		if(stat(path, &buf)) {
+		if(access(path, F_OK)) {
 			printf("%s: dependency file is missing\n", ent->d_name);
 			ret++;
 		}
 		snprintf(path, PATH_MAX, "%s/%s/files", dbpath, ent->d_name);
-		if(stat(path, &buf)) {
+		if(access(path, F_OK)) {
 			printf("%s: file list is missing\n", ent->d_name);
 			ret++;
 		}

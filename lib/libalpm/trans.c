@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -451,7 +452,6 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	char tmpdir[PATH_MAX];
 	char cwd[PATH_MAX];
 	char *scriptpath;
-	struct stat buf;
 	pid_t pid;
 	int clean_tmpdir = 0;
 	int restore_cwd = 0;
@@ -459,14 +459,14 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 	ALPM_LOG_FUNC;
 
-	if(stat(installfn, &buf)) {
+	if(access(installfn, R_OK)) {
 		/* not found */
 		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
 		return(0);
 	}
 
 	/* NOTE: popen will use the PARENT's /bin/sh, not the chroot's */
-	if(stat("/bin/sh", &buf)) {
+	if(access("/bin/sh", X_OK)) {
 		/* not found */
 		_alpm_log(PM_LOG_ERROR, _("No /bin/sh in parent environment, aborting scriptlet\n"));
 		return(0);
@@ -474,7 +474,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
 	snprintf(tmpdir, PATH_MAX, "%stmp/", root);
-	if(stat(tmpdir, &buf)) {
+	if(access(tmpdir, F_OK) != 0) {
 		_alpm_makepath_mode(tmpdir, 01777);
 	}
 	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);

@@ -22,8 +22,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <limits.h>
-#include <sys/stat.h>
 #include <wchar.h>
 
 #include <alpm.h>
@@ -176,7 +176,6 @@ void dump_pkg_backups(pmpkg_t *pkg)
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-			struct stat buf;
 			char path[PATH_MAX];
 			char *str = strdup(alpm_list_getdata(i));
 			char *ptr = index(str, '\t');
@@ -188,7 +187,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 			ptr++;
 			snprintf(path, PATH_MAX-1, "%s%s", root, str);
 			/* if we find the file, calculate checksums, otherwise it is missing */
-			if(!stat(path, &buf)) {
+			if(access(path, R_OK) == 0) {
 				char *md5sum = alpm_get_md5sum(path);
 
 				if(md5sum == NULL) {

@@ -200,12 +200,11 @@ int _alpm_makepath_mode(const char *path, mode_t mode)
 	str = orig;
 	while((ptr = strsep(&str, "/"))) {
 		if(strlen(ptr)) {
-			struct stat buf;
 			/* we have another path component- append the newest component to
 			 * existing string and create one more level of dir structure */
 			strcat(incr, "/");
 			strcat(incr, ptr);
-			if(stat(incr, &buf)) {
+			if(access(incr, F_OK)) {
 				if(mkdir(incr, mode)) {
 					ret = 1;
 					break;
@@ -533,12 +532,11 @@ int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *fmt, va_list 
 int _alpm_ldconfig(const char *root)
 {
 	char line[PATH_MAX];
-	struct stat buf;
 
 	snprintf(line, PATH_MAX, "%setc/ld.so.conf", root);
-	if(stat(line, &buf) == 0) {
+	if(access(line, F_OK) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
-		if(stat(line, &buf) == 0) {
+		if(access(line, X_OK) == 0) {
 			char cmd[PATH_MAX];
 			snprintf(cmd, PATH_MAX, "%s -r %s", line, root);
 			system(cmd);
@@ -561,7 +559,6 @@ int _alpm_str_cmp(const void *s1, const void *s2)
  */
 char *_alpm_filecache_find(const char* filename)
 {
-	struct stat buf;
 	char path[PATH_MAX];
 	char *retpath;
 	alpm_list_t *i;
@@ -570,8 +567,7 @@ char *_alpm_filecache_find(const char* filename)
 	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
 		snprintf(path, PATH_MAX, "%s%s", (char*)alpm_list_getdata(i),
 				filename);
-		if(stat(path, &buf) == 0) {
-			/* TODO maybe check to make sure it is readable? */
+		if(access(path, R_OK) == 0) {
 			retpath = strdup(path);
 			_alpm_log(PM_LOG_DEBUG, "found cached pkg: %s\n", retpath);
 			return(retpath);
