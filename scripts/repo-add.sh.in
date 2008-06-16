@@ -84,17 +84,12 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
 # test if a file is a repository DB
-#   arg1 - command name (repo-add, repo-remove)
 test_repo_db_file () {
-	if [ -f "$REPO_DB_FILE" ]; then
-		if bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"; then
-			return 0 # YES
-		fi
-	elif [ "$1" == "repo-add" ]; then
-		return 0 # YES - No database file is also allowed if we are adding
+	if bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"; then
+		return 0 # YES
+	else
+		return 1 # NO
 	fi
-
-	return 1 # NO
 }
 
 # write a list entry
@@ -344,12 +339,16 @@ for arg in "$@"; do
 	elif [ -z "$REPO_DB_FILE" ]; then
 		# store absolute path to repo DB
 		REPO_DB_FILE=$($realpath "$arg")
-		if ! test_repo_db_file $cmd; then
-			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
-			exit 1
-		elif [ -f "$REPO_DB_FILE" ]; then
+		if [ -f "$REPO_DB_FILE" ]; then
+			if ! test_repo_db_file $cmd; then
+				error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
+				exit 1
+			fi
 			msg "$(gettext "Extracting database to a temporary location...")"
 			bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
+		elif [ "$cmd" == "repo-remove" ]; then
+			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
+			exit 1
 		fi
 	else
 		if [ "$cmd" == "repo-add" ]; then
@@ -394,7 +393,8 @@ if [ $success -eq 1 ]; then
 		esac
 
 		bsdtar -c${TAR_OPT}f "$REPO_DB_FILE" *
-	elif [ "$cmd" == "repo-remove" ]; then
+	else
+		# we should only end up with an empty db after a remove of the last package in the database
 		error "$(gettext "All packages have been removed from the database. Deleting '%s'.")" "$REPO_DB_FILE"
 		rm "$REPO_DB_FILE"
 	fi
