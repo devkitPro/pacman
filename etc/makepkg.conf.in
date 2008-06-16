@@ -58,7 +58,7 @@ BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #   These are default values for the options=() settings
 #########################################################################
 #
-# Default: OPTIONS=(strip !docs libtool emptydirs zipman)
+# Default: OPTIONS=(strip docs libtool emptydirs zipman)
 #  A negated option will do the opposite of the comments below.
 #
 #-- strip:     Strip symbols from binaries/libraries
@@ -67,7 +67,7 @@ BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #-- emptydirs: Leave empty directories in packages
 #-- zipman:    Compress manpages with gzip
 #
-OPTIONS=(strip !docs libtool emptydirs zipman)
+OPTIONS=(strip docs libtool emptydirs zipman)
 
 #-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
 INTEGRITY_CHECK=(md5)
