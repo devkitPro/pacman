@@ -191,6 +191,11 @@ Query Options[[QO]]
 	not an entry in the database. The file will be decompressed and queried.
 	This is useful in combination with '\--info' and '\--list'.
 
+*-q, \--quiet*::
+	Show less information for certain query operations. Search will only show
+	package names and not version, group, and description information; a bare
+	query will only show package names rather than names and versions.
+
 *-s, \--search* <'regexp'>::
 	This will search each locally-installed package for names or
 	descriptions that match `regexp`.
@@ -265,6 +270,11 @@ linkman:pacman.conf[5].
 	Print out URIs for each package that will be installed, including any
 	dependencies yet to be installed. These can be piped to a file and
 	downloaded at a later time, using a program like wget.
+
+*-q, \--quiet*::
+	Show less information for certain sync operations. Search will only show
+	package names and not version, group, and description information; list
+	will only show package names and omit databases and versions.
 
 *-s, \--search* <'regexp'>::
 	This will search each package in the sync databases for names or

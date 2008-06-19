@@ -23,10 +23,10 @@ rm -rf doc/{Makefile.in,Makefile}
 rm -rf doc/html/*.html
 rm -rf doc/man3/*.3
 
-rm -rf src/pacman/po/{Makefile.in,Makefile}
-rm -rf src/pacman/po/POTFILES
-rm -rf src/pacman/po/stamp-po
-rm -rf src/pacman/po/*.gmo
+rm -rf po/{Makefile.in,Makefile}
+rm -rf po/POTFILES
+rm -rf po/stamp-po
+rm -rf po/*.gmo
 
 rm -rf lib/libalpm/po/{Makefile.in,Makefile}
 rm -rf lib/libalpm/po/POTFILES
