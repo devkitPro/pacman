@@ -61,7 +61,13 @@ provide the same functionality as foo will be searched for. If any package is
 found, it will be installed.
 +
 You can also use `pacman -Su` to upgrade all packages that are out of date. See
-<<SO,Sync Options>> below.
+<<SO,Sync Options>> below. When upgrading, pacman performs version comparison
+to determine which packages need upgrading. This behavior operates as follows:
+
+  Alphanumeric:
+    1.0 < 1.0a < 1.0alpha < 1.0b < 1.0beta < 1.0p < 1.0pre < 1.0rc
+  Numeric:
+    1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
 
 *-U, \--upgrade*::
 	Upgrade or add a package to the system. Either a URL or file path can be
