@@ -148,8 +148,7 @@ clean_up() {
 	if [ $EXIT_CODE -eq 0 -a "$CLEANUP" = "1" ]; then
 		# If it's a clean exit and -c/--clean has been passed...
 		msg "$(gettext "Cleaning up...")"
-		cd "$startdir"
-		rm -rf pkg src
+		rm -rf "$pkgdir" "$srcdir"
 		if [ "$pkgname" != "" ]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
 			rm -f "${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*"
@@ -510,7 +509,7 @@ generate_checksums() {
 					plain "$(gettext "Aborting...")"
 					exit 1
 				else
-					file=$SRCDEST/$file
+					file="$SRCDEST/$file"
 				fi
 			fi
 
@@ -557,7 +556,7 @@ check_checksums() {
 						errors=1
 						continue
 					else
-						file=$SRCDEST/$file
+						file="$SRCDEST/$file"
 					fi
 				fi
 
@@ -598,7 +597,7 @@ extract_sources() {
 				plain "$(gettext "Aborting...")"
 				exit 1
 			else
-				file=$SRCDEST/$file
+				file="$SRCDEST/$file"
 			fi
 		fi
 
@@ -960,7 +959,7 @@ create_srcpackage() {
 		local file=$(strip_url "$netfile")
 		if [ -f "$netfile" ]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
-			ln -s $netfile ${srclinks}/${pkgname}
+			ln -s $netfile "${srclinks}/${pkgname}"
 		elif [ "$SOURCEONLY" = "2" -a -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
 			ln -s "$SRCDEST/$file" "${srclinks}/${pkgname}/"
@@ -971,13 +970,13 @@ create_srcpackage() {
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
-	cd ${srclinks}
+	cd "${srclinks}"
 	if ! bsdtar -czLf "$pkg_file" ${pkgname}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
-	cd ${startdir}
-	rm -rf ${srclinks}
+	cd "${startdir}"
+	rm -rf "${srclinks}"
 }
 
 install_package() {
