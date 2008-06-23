@@ -111,7 +111,7 @@ fi
 #
 echo Package: ${pkg_namver}
 work_dir=$(mktemp -d -p /tmp)
-cd $work_dir || exit 1
+cd "$work_dir" || exit 1
 
 #
 # File copying
@@ -136,12 +136,12 @@ while read i; do
                 bsdtar -cnf - "/$i" 2> /dev/null | bsdtar -xpf -
 
                 # Workaround to bsdtar not reporting a missing file as an error
-                if [ ! -e "$work_dir"/"$i" ]; then
+                if [ ! -e "$work_dir/$i" ] && [ -L "$work_dir/$i"]; then
                     echo ""
                     echo "ERROR: unable to add /$i to the package"
                     echo "       If your user does not have permssion to read this file then"
                     echo "       you will need to run $progname as root"
-                    rm -rf $work_dir
+                    rm -rf "$work_dir"
                     exit 1
                 fi
             else
@@ -157,7 +157,7 @@ done
 
 ret=$?
 if [ $ret -ne 0 ]; then
-    rm -rf $work_dir
+    rm -rf "$work_dir"
     exit 1
 fi
 
@@ -256,8 +256,8 @@ done
 #
 # Fixes owner:group and permissions for .PKGINFO, .CHANGELOG, .INSTALL
 #
-chown root:root $work_dir/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
-chmod 644 $work_dir/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
+chown root:root "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
+chmod 644 "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
 
 #
 # Generate the package
@@ -269,14 +269,15 @@ bsdtar -czf "$pkg_dest/$pkg_namver-$pkg_arch.tar.gz" $(ls -A) || ret=$?
 if [ $ret -ne 0 ]; then
     echo "ERROR: unable to write package to $pkg_dest"
     echo "       Maybe the disk is full or you do not have write access"
-    rm -rf $work_dir
+    rm -rf "$work_dir"
     exit 1
 fi
 
-rm -rf $work_dir
+rm -rf "$work_dir"
 
 echo Done
 
 exit 0
 
 # vim: set ts=2 sw=2 noet:
+
