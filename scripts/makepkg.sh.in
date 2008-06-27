@@ -765,7 +765,7 @@ tidy_install() {
 
 	if [ "$(check_option libtool)" = "n" ]; then
 		msg2 "$(gettext "Removing libtool .la files...")"
-		find . -type f -name "*.la" -exec rm -f -- '{}' \;
+		find . ! -type d -name "*.la" -exec rm -f -- '{}' \;
 	fi
 
 	if [ "$(check_option emptydirs)" = "n" ]; then
