@@ -537,9 +537,7 @@ unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
  * @brief Compute the packages requiring a given package.
  * @param pkg a package
  * @return the list of packages requiring pkg
- *
- * A depends on B through n depends <=> A listed in B's requiredby n times
- * n == 0 or 1 in almost all cases */
+ */
 alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 {
 	const alpm_list_t *i, *j;
@@ -560,6 +558,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
 				          cachepkgname, pkg->name);
 				reqs = alpm_list_add(reqs, strdup(cachepkgname));
+				break;
 			}
 		}
 	}
