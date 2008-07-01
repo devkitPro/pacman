@@ -540,7 +540,7 @@ unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
  */
 alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 {
-	const alpm_list_t *i, *j;
+	const alpm_list_t *i;
 	alpm_list_t *reqs = NULL;
 
 	pmdb_t *localdb = alpm_option_get_localdb();
@@ -549,17 +549,9 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 			continue;
 		}
 		pmpkg_t *cachepkg = i->data;
-		const char *cachepkgname = alpm_pkg_get_name(cachepkg);
-
-		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
-			pmdepend_t *dep = j->data;
-
-			if(alpm_depcmp(pkg, dep)) {
-				_alpm_log(PM_LOG_DEBUG, "adding '%s' in requiredby field for '%s'\n",
-				          cachepkgname, pkg->name);
-				reqs = alpm_list_add(reqs, strdup(cachepkgname));
-				break;
-			}
+		if(_alpm_dep_edge(cachepkg, pkg)) {
+			const char *cachepkgname = alpm_pkg_get_name(cachepkg);
+			reqs = alpm_list_add(reqs, strdup(cachepkgname));
 		}
 	}
 	return(reqs);

@@ -74,7 +74,7 @@ void _alpm_depmiss_free(pmdepmissing_t *miss)
  */
 static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 {
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j;
 	alpm_list_t *vertices = NULL;
 	/* We create the vertices */
 	for(i = targets; i; i = i->next) {
@@ -91,12 +91,7 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 		for(j = vertices; j; j = j->next) {
 			pmgraph_t *vertex_j = j->data;
 			pmpkg_t *p_j = vertex_j->data;
-			int child = 0;
-			for(k = alpm_pkg_get_depends(p_i); k && !child; k = k->next) {
-				pmdepend_t *depend = k->data;
-				child = alpm_depcmp(p_j, depend);
-			}
-			if(child) {
+			if(_alpm_dep_edge(p_i, p_j)) {
 				vertex_i->children =
 					alpm_list_add(vertex_i->children, vertex_j);
 			}
@@ -458,7 +453,7 @@ pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
 static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 		int include_explicit)
 {
-	alpm_list_t *i, *j;
+	alpm_list_t *i;
 
 	if(_alpm_pkg_find(targets, alpm_pkg_get_name(pkg))) {
 		return(0);
@@ -482,13 +477,8 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	/* see if other packages need it */
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		pmpkg_t *lpkg = i->data;
-		for(j = alpm_pkg_get_depends(lpkg); j; j = j->next) {
-			if(alpm_depcmp(pkg, j->data)) {
-				if(!_alpm_pkg_find(targets, lpkg->name)) {
-					return(0);
-				}
-				break;
-			}
+		if(_alpm_dep_edge(lpkg, pkg) && !_alpm_pkg_find(targets, lpkg->name)) {
+			return(0);
 		}
 	}
 
@@ -508,7 +498,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
  */
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 {
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j;
 
 	ALPM_LOG_FUNC;
 
@@ -518,18 +508,14 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 
 	for(i = targs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
-		for(j = alpm_pkg_get_depends(pkg); j; j = j->next) {
-			pmdepend_t *depend = j->data;
-
-			for(k = _alpm_db_get_pkgcache(db); k; k = k->next) {
-				pmpkg_t *deppkg = k->data;
-				if(alpm_depcmp(deppkg,depend)
-						&& can_remove_package(db, deppkg, targs, include_explicit)) {
-					_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets\n",
-							alpm_pkg_get_name(deppkg));
-						/* add it to the target list */
-					targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
-				}
+		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
+			pmpkg_t *deppkg = j->data;
+			if(_alpm_dep_edge(pkg, deppkg)
+					&& can_remove_package(db, deppkg, targs, include_explicit)) {
+				_alpm_log(PM_LOG_DEBUG, "adding '%s' to the targets\n",
+						alpm_pkg_get_name(deppkg));
+				/* add it to the target list */
+				targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
 			}
 		}
 	}
@@ -666,6 +652,18 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 error:
 	FREELIST(deps);
 	return(-1);
+}
+
+/* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
+int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2)
+{
+	alpm_list_t *i;
+	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
+		if(alpm_depcmp(pkg2, i->data)) {
+			return(1);
+		}
+	}
+	return(0);
 }
 
 const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
