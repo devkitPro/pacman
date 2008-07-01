@@ -87,6 +87,7 @@ fi
 
 pkg_arch=${CARCH:-'unknown'}
 pkg_dest="${PKGDEST:-$PWD}"
+pkg_ext=${PKGEXT:-'.pkg.tar.gz'}
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
 pkg_name="$1"
@@ -265,7 +266,7 @@ chmod 644 "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
 echo "Generating the package..."
 
 ret=0
-bsdtar -czf "$pkg_dest/$pkg_namver-$pkg_arch.tar.gz" $(ls -A) || ret=$?
+bsdtar -czf "$pkg_dest/$pkg_namver-$pkg_arch$pkg_ext" $(ls -A) || ret=$?
 if [ $ret -ne 0 ]; then
     echo "ERROR: unable to write package to $pkg_dest"
     echo "       Maybe the disk is full or you do not have write access"
