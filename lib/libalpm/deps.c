@@ -189,6 +189,19 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	return(newtargs);
 }
 
+pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
+{
+	alpm_list_t *i;
+
+	for(i = pkgs; i; i = alpm_list_next(i)) {
+		pmpkg_t *pkg = i->data;
+		if(alpm_depcmp(pkg, dep)) {
+			return(pkg);
+		}
+	}
+	return(NULL);
+}
+
 alpm_list_t *_alpm_find_dep_satisfiers(alpm_list_t *pkgs, pmdepend_t *dep)
 {
 	alpm_list_t *i, *ret = NULL;
@@ -232,7 +245,7 @@ alpm_list_t SYMEXPORT *alpm_deptest(pmdb_t *db, alpm_list_t *targets)
 		target = alpm_list_getdata(i);
 		dep = _alpm_splitdep(target);
 
-		if(!_alpm_find_dep_satisfiers(_alpm_db_get_pkgcache(db), dep)) {
+		if(!_alpm_find_dep_satisfier(_alpm_db_get_pkgcache(db), dep)) {
 			ret = alpm_list_add(ret, target);
 		}
 		_alpm_dep_free(dep);
@@ -283,8 +296,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 			pmdepend_t *depend = j->data;
 			/* 1. we check the upgrade list */
 			/* 2. we check database for untouched satisfying packages */
-			if(!_alpm_find_dep_satisfiers(upgrade, depend) &&
-			   !_alpm_find_dep_satisfiers(dblist, depend)) {
+			if(!_alpm_find_dep_satisfier(upgrade, depend) &&
+			   !_alpm_find_dep_satisfier(dblist, depend)) {
 				/* Unsatisfied dependency in the upgrade list */
 				char *missdepstring = alpm_dep_get_string(depend);
 				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
@@ -303,13 +316,13 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 			pmpkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
 				pmdepend_t *depend = j->data;
-				pmpkg_t *causingpkg = alpm_list_getdata(_alpm_find_dep_satisfiers(modified, depend));
+				pmpkg_t *causingpkg = _alpm_find_dep_satisfier(modified, depend);
 				/* we won't break this depend, if it is already broken, we ignore it */
 				/* 1. check upgrade list for satisfiers */
 				/* 2. check dblist for satisfiers */
 				if(causingpkg &&
-				   !_alpm_find_dep_satisfiers(upgrade, depend) &&
-				   !_alpm_find_dep_satisfiers(dblist, depend)) {
+				   !_alpm_find_dep_satisfier(upgrade, depend) &&
+				   !_alpm_find_dep_satisfier(dblist, depend)) {
 					char *missdepstring = alpm_dep_get_string(depend);
 					_alpm_log(PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
