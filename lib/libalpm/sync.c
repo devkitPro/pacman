@@ -462,14 +462,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
-		for(i = trans->packages; i; i = i->next) {
-			pmpkg_t *spkg = ((pmsyncpkg_t *)i->data)->pkg;
-			if(_alpm_resolvedeps(db_local, dbs_sync, spkg, &list,
-						remove, trans, data) == -1) {
-				/* pm_errno is set by resolvedeps */
-				ret = -1;
-				goto cleanup;
-			}
+		if(_alpm_resolvedeps(db_local, dbs_sync, list, remove, data) == -1) {
+			/* pm_errno is set by resolvedeps */
+			ret = -1;
+			goto cleanup;
 		}
 
 		for(i = pulled->next; i; i = i->next) {

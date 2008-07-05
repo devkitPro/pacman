@@ -534,137 +534,106 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 	}
 }
 
-/* populates *list with packages that need to be installed to satisfy all
- * dependencies (recursive) for syncpkg
+/* helper function for resolvedeps: search for dep satisfier in dbs */
+pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *excluding, pmpkg_t *tpkg)
+{
+	alpm_list_t *i, *j;
+	/* 1. literals */
+	for(i = dbs; i; i = i->next) {
+		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
+		if(pkg && alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
+			if(_alpm_pkg_should_ignore(pkg)) {
+				int install;
+				QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+			                 tpkg, NULL, &install);
+				if(!install) {
+					continue;
+				}
+			}
+			return(pkg);
+		}
+	}
+	/* 2. satisfiers (skip literals here) */
+	for(i = dbs; i; i = i->next) {
+		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
+			pmpkg_t *pkg = j->data;
+			if(alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) &&
+			             !_alpm_pkg_find(excluding, pkg->name)) {
+				if(_alpm_pkg_should_ignore(pkg)) {
+					int install;
+					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+				                 tpkg, NULL, &install);
+					if(!install) {
+						continue;
+					}
+				}
+				return(pkg);
+			}
+		}
+	}
+	return(NULL);
+}
+
+/* populates list with packages that need to be installed to satisfy all
+ * dependencies of packages in list
  *
  * @param remove contains packages elected for removal
- * make sure **list is already initialized
  */
-int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
-                      alpm_list_t **list, alpm_list_t *remove, pmtrans_t *trans, alpm_list_t **data)
+int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
+                      alpm_list_t *remove, alpm_list_t **data)
 {
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j;
 	alpm_list_t *targ;
 	alpm_list_t *deps = NULL;
 
 	ALPM_LOG_FUNC;
 
-	if(local == NULL || dbs_sync == NULL || syncpkg == NULL || list == NULL) {
+	if(local == NULL || dbs_sync == NULL) {
 		return(-1);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "started resolving dependencies\n");
-	targ = alpm_list_add(NULL, syncpkg);
-	deps = alpm_checkdeps(local, 0, remove, targ);
-	alpm_list_free(targ);
-
-	if(deps == NULL) {
-		return(0);
-	}
-
-	for(i = deps; i; i = i->next) {
-		int found = 0;
-		pmdepmissing_t *miss = i->data;
-		pmdepend_t *missdep = alpm_miss_get_dep(miss);
-		pmpkg_t *sync = NULL;
-
-		/* check if one of the packages in *list already satisfies this dependency */
-		for(j = *list; j && !found; j = j->next) {
-			pmpkg_t *sp = j->data;
-			if(alpm_depcmp(sp, missdep)) {
+	for(i = list; i; i = i->next) {
+		pmpkg_t *tpkg = i->data;
+		targ = alpm_list_add(NULL, tpkg);
+		deps = alpm_checkdeps(local, 0, remove, targ);
+		alpm_list_free(targ);
+		for(j = deps; j; j = j->next) {
+			pmdepmissing_t *miss = j->data;
+			pmdepend_t *missdep = alpm_miss_get_dep(miss);
+			/* check if one of the packages in list already satisfies this dependency */
+			if(_alpm_find_dep_satisfier(list, missdep)) {
+				continue;
+			}
+			/* find a satisfier package in the given repositories */
+			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, list, tpkg);
+			if(!spkg) {
+				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_get_string(missdep);
-				_alpm_log(PM_LOG_DEBUG, "%s satisfies dependency %s -- skipping\n",
-				          alpm_pkg_get_name(sp), missdepstring);
+				_alpm_log(PM_LOG_ERROR, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
+			                               missdepstring, tpkg->name);
 				free(missdepstring);
-				found = 1;
-			}
-		}
-		if(found) {
-			continue;
-		}
-
-		/* find the package in one of the repositories */
-		/* check literals */
-		for(j = dbs_sync; j && !found; j = j->next) {
-			sync = _alpm_db_get_pkgfromcache(j->data, missdep->name);
-			if(!sync) {
-				continue;
-			}
-			found = alpm_depcmp(sync, missdep) && !_alpm_pkg_find(remove, alpm_pkg_get_name(sync))
-				&& !_alpm_pkg_find(*list, alpm_pkg_get_name(sync));
-			if(!found) {
-				continue;
-			}
-			/* If package is in the ignorepkg list, ask before we pull it */
-			if(_alpm_pkg_should_ignore(sync)) {
-				pmpkg_t *dummypkg = _alpm_pkg_new();
-				STRDUP(dummypkg->name, miss->target, RET_ERR(PM_ERR_MEMORY, -1));
-				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, sync, dummypkg, NULL, &found);
-				_alpm_pkg_free(dummypkg);
-			}
-		}
-		/*TODO this autoresolves the first 'satisfier' package... we should fix this
-		 * somehow */
-		/* check provides */
-		/* we don't check literals again to avoid duplicated PM_TRANS_CONV_INSTALL_IGNOREPKG messages */
-		for(j = dbs_sync; j && !found; j = j->next) {
-			for(k = _alpm_db_get_pkgcache(j->data); k && !found; k = k->next) {
-				sync = k->data;
-				if(!sync) {
-					continue;
+				if(data) {
+					pmdepmissing_t *missd = _alpm_depmiss_new(miss->target,
+					                           miss->depend, miss->causingpkg);
+					if(missd) {
+						*data = alpm_list_add(*data, missd);
+					}
 				}
-				found = alpm_depcmp(sync, missdep) && strcmp(sync->name, missdep->name)
-					&& !_alpm_pkg_find(remove, alpm_pkg_get_name(sync))
-					&& !_alpm_pkg_find(*list, alpm_pkg_get_name(sync));
-				if(!found) {
-					continue;
-				}
-				if(_alpm_pkg_should_ignore(sync)) {
-					pmpkg_t *dummypkg = _alpm_pkg_new();
-					STRDUP(dummypkg->name, miss->target, RET_ERR(PM_ERR_MEMORY, -1));
-					QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, sync, dummypkg, NULL, &found);
-					_alpm_pkg_free(dummypkg);
-				}
+				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
+				alpm_list_free(deps);
+				return(-1);
+			}  else {
+				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
+					  alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
+				list = alpm_list_add(list, spkg);
 			}
 		}
-
-		if(!found) {
-			char *missdepstring = alpm_dep_get_string(missdep);
-			_alpm_log(PM_LOG_ERROR, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
-			          missdepstring, miss->target);
-			free(missdepstring);
-			if(data) {
-				MALLOC(miss, sizeof(pmdepmissing_t),/*nothing*/);
-				if(!miss) {
-					pm_errno = PM_ERR_MEMORY;
-					FREELIST(*data);
-					goto error;
-				}
-				*miss = *(pmdepmissing_t *)i->data;
-				*data = alpm_list_add(*data, miss);
-			}
-			pm_errno = PM_ERR_UNSATISFIED_DEPS;
-			goto error;
-		} else {
-			_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
-					alpm_pkg_get_name(sync), alpm_pkg_get_name(syncpkg));
-			*list = alpm_list_add(*list, sync);
-			if(_alpm_resolvedeps(local, dbs_sync, sync, list, remove, trans, data)) {
-				goto error;
-			}
-		}
+		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
+		alpm_list_free(deps);
 	}
-
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
-
-	alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
-	alpm_list_free(deps);
-
 	return(0);
-
-error:
-	FREELIST(deps);
-	return(-1);
 }
 
 /* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
