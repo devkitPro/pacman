@@ -6,7 +6,6 @@ self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2")
 lp2.provides = ["imag3"]
-lp2.requiredby = ["pkg1"]
 self.addpkg2db("local", lp2)
 
 p = pmpkg("pkg2", "1.0-2")
@@ -18,6 +17,5 @@ self.args = "-U %s" % p.filename()
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")
 self.addrule("PKG_VERSION=pkg2|1.0-2")
-self.addrule("PKG_REQUIREDBY=pkg2|pkg1")
 self.addrule("PKG_DEPENDS=pkg1|pkg2")
 self.addrule("PKG_DEPENDS=pkg1|imag3")

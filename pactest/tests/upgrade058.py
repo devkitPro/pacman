@@ -5,7 +5,6 @@ lp1.depends = [ "pkg2=1.0" ]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2", "1.0-1")
-lp2.requiredby = [ "pkg1" ]
 self.addpkg2db("local", lp2)
 
 p = pmpkg("pkg2", "1.1-1")

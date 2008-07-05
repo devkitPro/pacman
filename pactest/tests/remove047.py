@@ -1,7 +1,6 @@
 self.description = "Remove a package required by other packages"
 
 lp1 = pmpkg("pkg1")
-lp1.requiredby = ["pkg2", "pkg3", "pkg4"]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2")

@@ -2,11 +2,9 @@
 self.description = "stonecrest's problem"
 
 sp = pmpkg("dummy", "1.1-1")
-sp.requiredby = [ "pkg" ]
 self.addpkg2db("sync", sp)
 
 lp1 = pmpkg("dummy", "1.0-1")
-lp1.requiredby = [ "pkg" ]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg")

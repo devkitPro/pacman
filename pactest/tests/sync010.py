@@ -25,5 +25,3 @@ for p in sp1, sp2, sp3:
 	for f in p.files:
 		self.addrule("FILE_EXIST=%s" % f)
 self.addrule("PKG_DEPENDS=dep1|dep2")
-self.addrule("PKG_REQUIREDBY=dep1|dummy")
-self.addrule("PKG_REQUIREDBY=dep2|dep1")

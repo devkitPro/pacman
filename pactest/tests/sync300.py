@@ -12,4 +12,3 @@ self.args = "-S %s" % sp1.name
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("!PKG_EXIST=pkg1")
 self.addrule("!PKG_EXIST=pkg2")
-self.addrule("!PKG_REQUIREDBY=pkg2|pkg1")

@@ -21,8 +21,6 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=dummy|1.0-2")
 self.addrule("PKG_DEPENDS=dummy|dep1")
 self.addrule("PKG_DEPENDS=dep1|dep2")
-self.addrule("PKG_REQUIREDBY=dep1|dummy")
-self.addrule("PKG_REQUIREDBY=dep2|dep1")
 for p in p1, p2, p3:
 	self.addrule("PKG_EXIST=%s" % p.name)
 	for f in p.files:

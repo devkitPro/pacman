@@ -1,7 +1,6 @@
 self.description = "-Ru test"
 
 lp1 = pmpkg("pkg1")
-lp1.requiredby = [ "pkg3" ]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2")

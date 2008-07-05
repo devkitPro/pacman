@@ -13,7 +13,6 @@ lp1.depends = ["pkg2=1.0-1"]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2", "1.0-1")
-lp2.requiredby = [ "pkg1" ]
 self.addpkg2db("local", lp2)
 
 self.args = "-S pkg1"

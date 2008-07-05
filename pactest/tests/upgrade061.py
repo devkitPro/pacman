@@ -5,7 +5,6 @@ lp1.depends = ["imaginary"]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2", "1.0-1")
-lp2.requiredby = [ "pkg1" ]
 lp2.provides = ["imaginary"]
 self.addpkg2db("local", lp2)
 

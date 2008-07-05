@@ -2,12 +2,10 @@ self.description = "Remove a no longer needed package (multiple provision)"
 
 lp1 = pmpkg("pkg1")
 lp1.provides = ["imaginary"]
-lp1.requiredby = ["pkg3"]
 self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2")
 lp2.provides = ["imaginary"]
-lp2.requiredby = ["pkg3"]
 self.addpkg2db("local", lp2)
 
 lp3 = pmpkg("pkg3")

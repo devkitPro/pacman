@@ -6,9 +6,7 @@ self.addpkg2db("local", lp1)
 
 lp2 = pmpkg("pkg2")
 lp2.provides = ["imaginary"]
-lp2.requiredby = [ "pkg1" ]
 self.addpkg2db("local", lp2)
-
 
 self.args = "-Rc %s" % lp2.name
 
