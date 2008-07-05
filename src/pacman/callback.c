@@ -254,8 +254,8 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			if(data2) {
 				/* TODO we take this route based on data2 being not null? WTF */
 				*response = yesno(1, _(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"),
-						alpm_pkg_get_name(data1),
-						alpm_pkg_get_name(data2));
+						alpm_pkg_get_name(data2),
+						alpm_pkg_get_name(data1));
 			} else {
 				*response = yesno(1, _(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
 						alpm_pkg_get_name(data1));

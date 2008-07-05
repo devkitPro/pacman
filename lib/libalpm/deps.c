@@ -599,7 +599,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 			if(_alpm_pkg_should_ignore(sync)) {
 				pmpkg_t *dummypkg = _alpm_pkg_new();
 				STRDUP(dummypkg->name, miss->target, RET_ERR(PM_ERR_MEMORY, -1));
-				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &found);
+				QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, sync, dummypkg, NULL, &found);
 				_alpm_pkg_free(dummypkg);
 			}
 		}
@@ -622,7 +622,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *syncpkg,
 				if(_alpm_pkg_should_ignore(sync)) {
 					pmpkg_t *dummypkg = _alpm_pkg_new();
 					STRDUP(dummypkg->name, miss->target, RET_ERR(PM_ERR_MEMORY, -1));
-					QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, dummypkg, sync, NULL, &found);
+					QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, sync, dummypkg, NULL, &found);
 					_alpm_pkg_free(dummypkg);
 				}
 			}
