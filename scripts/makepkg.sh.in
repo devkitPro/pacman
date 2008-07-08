@@ -321,11 +321,6 @@ handledeps() {
 	[ $# -eq 0 ] && return $R_DEPS_SATISFIED
 
 	local deplist="$*"
-	local dep depstrip striplist
-	for dep in $deplist; do
-		depstrip="$(echo $dep | sed -e 's|=.*$||' -e 's|>.*$||' -e 's|<.*$||')"
-		striplist="$striplist $depstrip"
-	done
 
 	if [ "$DEP_BIN" = "0" ]; then
 		return $R_DEPS_MISSING
@@ -337,9 +332,9 @@ handledeps() {
 		local ret=0
 
 		if [ "$ASROOT" = 0 ]; then
-			sudo pacman $PACMAN_OPTS -S --asdeps $striplist || ret=$?
+			sudo pacman $PACMAN_OPTS -S --asdeps $deplist || ret=$?
 		else
-			pacman $PACMAN_OPTS -S --asdeps $striplist || ret=$?
+			pacman $PACMAN_OPTS -S --asdeps $deplist || ret=$?
 		fi
 
 		if [ $ret -ne 0 ]; then
