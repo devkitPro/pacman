@@ -49,7 +49,9 @@ Operations
 	example, `pacman -S qt` will download and install qt and all the
 	packages it depends on. If a package name exists in more than one repo, the
 	repo can be explicitly specified to clarify the package to install:
-	`pacman -S testing/qt`.
+	`pacman -S testing/qt`. You can also specify version requirements:
+	`pacman -S "bash>=3.2"`. (Quotes are needed, otherwise your shell
+	interprets ">" as redirection to file.)
 +
 In addition to packages, groups can be specified as well. For example, if
 gnome is a defined package group, then `pacman -S gnome` will install every

@@ -433,7 +433,6 @@ int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 alpm_list_t *alpm_checkdeps(pmdb_t *db, int reversedeps,
 		alpm_list_t *remove, alpm_list_t *upgrade);
 alpm_list_t *alpm_deptest(pmdb_t *db, alpm_list_t *targets);
-alpm_list_t *alpm_find_pkg_satisfiers(alpm_list_t *pkgs, const char *pkgname);
 
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);

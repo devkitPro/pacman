@@ -272,63 +272,52 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	char *targline;
 	char *targ;
 	alpm_list_t *j;
-	pmpkg_t *local;
-	pmpkg_t *spkg = NULL;
-	pmsyncpkg_t *sync;
-	int repo_found = 0;
+	pmpkg_t *local, *spkg;
+	pmdepend_t *dep; /* provisions and dependencies are also allowed */
 
 	ALPM_LOG_FUNC;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	STRDUP(targline, name, RET_ERR(PM_ERR_MEMORY, -1));
 
+	STRDUP(targline, name, RET_ERR(PM_ERR_MEMORY, -1));
 	targ = strchr(targline, '/');
 	if(targ) {
 		/* we are looking for a package in a specific database */
+		alpm_list_t *dbs = NULL;
 		*targ = '\0';
 		targ++;
-		_alpm_log(PM_LOG_DEBUG, "searching for target '%s' in repo\n", targ);
-		for(j = dbs_sync; j && !spkg; j = j->next) {
+		_alpm_log(PM_LOG_DEBUG, "searching for target '%s' in repo '%s'\n", targ, targline);
+		for(j = dbs_sync; j; j = j->next) {
 			pmdb_t *db = j->data;
 			if(strcmp(db->treename, targline) == 0) {
-				repo_found = 1;
-				spkg = _alpm_db_get_pkgfromcache(db, targ);
-				if(spkg == NULL) {
-					pm_errno = PM_ERR_PKG_NOT_FOUND;
-					goto error;
-				}
+				dbs = alpm_list_add(NULL, db);
+				break;
 			}
 		}
-		if(!repo_found) {
+		if(dbs == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("repository '%s' not found\n"), targline);
-			pm_errno = PM_ERR_PKG_REPO_NOT_FOUND;
-			goto error;
+			FREE(targline);
+			RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
 		}
+		dep = _alpm_splitdep(targ);
+		spkg = _alpm_resolvedep(dep, dbs, NULL, NULL);
+		_alpm_dep_free(dep);
+		alpm_list_free(dbs);
 	} else {
-		targ = targline;
-		for(j = dbs_sync; j && !spkg; j = j->next) {
-			pmdb_t *db = j->data;
-			spkg = _alpm_db_get_pkgfromcache(db, targ);
-		}
-		if(spkg == NULL) {
-			pm_errno = PM_ERR_PKG_NOT_FOUND;
-			goto error;
-		}
+		dep = _alpm_splitdep(targline);
+		spkg = _alpm_resolvedep(dep, dbs_sync, NULL, NULL);
+		_alpm_dep_free(dep);
+	}
+	FREE(targline);
+
+	if(spkg == NULL) {
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
 	if(_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
-		FREE(targline);
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
-	}
-
-	if(_alpm_pkg_should_ignore(spkg)) {
-		int resp;
-		QUESTION(trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, spkg, NULL, NULL, &resp);
-		if (!resp) {
-			return(0);
-		}
 	}
 
 	local = _alpm_db_get_pkgfromcache(db_local, alpm_pkg_get_name(spkg));
@@ -349,22 +338,15 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	}
 
 	/* add the package to the transaction */
-	sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
+	pmsyncpkg_t *sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
 	if(sync == NULL) {
-		goto error;
+		return(-1);
 	}
 	_alpm_log(PM_LOG_DEBUG, "adding target '%s' to the transaction set\n",
 						alpm_pkg_get_name(spkg));
 	trans->packages = alpm_list_add(trans->packages, sync);
 
-	FREE(targline);
 	return(0);
-
-error:
-	if(targline) {
-		FREE(targline);
-	}
-	return(-1);
 }
 
 /* Helper functions for alpm_list_remove

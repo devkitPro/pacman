@@ -202,32 +202,6 @@ pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 	return(NULL);
 }
 
-alpm_list_t *_alpm_find_dep_satisfiers(alpm_list_t *pkgs, pmdepend_t *dep)
-{
-	alpm_list_t *i, *ret = NULL;
-
-	for(i = pkgs; i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = i->data;
-		if(alpm_depcmp(pkg, dep)) {
-			ret = alpm_list_add(ret, pkg);
-		}
-	}
-	return(ret);
-}
-
-/** Find packages in a list that provide a given package.
- * @param pkgs an alpm_list_t* of package to search
- * @param pkgname the name of the package
- * @return an alpm_list_t* of packages that provide pkgname
- */
-alpm_list_t SYMEXPORT *alpm_find_pkg_satisfiers(alpm_list_t *pkgs, const char *pkgname)
-{
-	pmdepend_t *dep = _alpm_splitdep(pkgname);
-	alpm_list_t *res = _alpm_find_dep_satisfiers(pkgs, dep);
-	_alpm_dep_free(dep);
-	return(res);
-}
-
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
  * @param db pointer to the local package database
@@ -567,6 +541,8 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *exclud
 						continue;
 					}
 				}
+				_alpm_log(PM_LOG_WARNING, _("provider package was selected (%s provides %s)\n"),
+				                         pkg->name, dep->name);
 				return(pkg);
 			}
 		}
