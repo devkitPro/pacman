@@ -42,55 +42,59 @@ extern pmdb_t *db_local;
  */
 int pacman_remove(alpm_list_t *targets)
 {
-	alpm_list_t *i, *data = NULL, *finaltargs = NULL;
 	int retval = 0;
+	alpm_list_t *i, *data = NULL;
 
 	if(targets == NULL) {
 		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return(1);
 	}
 
-	/* If the target is a group, ask if its packages should be removed
-	 * (the library can't remove groups for now)
-	 */
-	for(i = targets; i; i = alpm_list_next(i)) {
-		pmgrp_t *grp = alpm_db_readgrp(db_local, alpm_list_getdata(i));
-		if(grp) {
-			int all;
-			const alpm_list_t *p, *pkgnames = alpm_grp_get_pkgs(grp);
-
-			printf(_(":: group %s:\n"), alpm_grp_get_name(grp));
-			list_display("   ", pkgnames);
-			all = yesno(1, _("    Remove whole content?"));
-
-			for(p = pkgnames; p; p = alpm_list_next(p)) {
-				char *pkg = alpm_list_getdata(p);
-				if(all || yesno(1, _(":: Remove %s from group %s?"), pkg, (char *)alpm_list_getdata(i))) {
-					finaltargs = alpm_list_add(finaltargs, strdup(pkg));
-				}
-			}
-		} else {
-			/* not a group, so add it to the final targets */
-			finaltargs = alpm_list_add(finaltargs, strdup(alpm_list_getdata(i)));
-		}
-	}
-
-	/* Step 1: create a new transaction */
+	/* Step 0: create a new transaction */
 	if(trans_init(PM_TRANS_TYPE_REMOVE, config->flags) == -1) {
-		FREELIST(finaltargs);
 		return(1);
 	}
 
-	/* add targets to the created transaction */
-	printf(_("loading package data...\n"));
-	for(i = finaltargs; i; i = alpm_list_next(i)) {
+	/* Step 1: add targets to the created transaction */
+	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_trans_addtarget(targ) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
-					targ, alpm_strerrorlast());
-			trans_release();
-			FREELIST(finaltargs);
-			return(1);
+			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
+				printf(_("%s not found, searching for group...\n"), targ);
+				pmgrp_t *grp = alpm_db_readgrp(db_local, targ);
+				if(grp == NULL) {
+					pm_fprintf(stderr, PM_LOG_ERROR, _("'%s': not found in local db\n"), targ);
+					retval = 1;
+					goto cleanup;
+				} else {
+					alpm_list_t *p, *pkgnames = NULL;
+					/* convert packages to package names */
+					for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
+						pmpkg_t *pkg = alpm_list_getdata(p);
+						pkgnames = alpm_list_add(pkgnames, (void *)alpm_pkg_get_name(pkg));
+					}
+					printf(_(":: group %s:\n"), targ);
+					list_display("   ", pkgnames);
+					int all = yesno(1, _("    Remove whole content?"));
+					for(p = pkgnames; p; p = alpm_list_next(p)) {
+						char *pkgn = alpm_list_getdata(p);
+						if(all || yesno(1, _(":: Remove %s from group %s?"), pkgn, targ)) {
+							if(alpm_trans_addtarget(pkgn) == -1) {
+								pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ,
+								           alpm_strerrorlast());
+								retval = 1;
+								alpm_list_free(pkgnames);
+								goto cleanup;
+							}
+						}
+					}
+					alpm_list_free(pkgnames);
+				}
+			} else {
+				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ, alpm_strerrorlast());
+				retval = 1;
+				goto cleanup;
+			}
 		}
 	}
 
@@ -113,9 +117,8 @@ int pacman_remove(alpm_list_t *targets)
 			default:
 				break;
 		}
-		trans_release();
-		FREELIST(finaltargs);
-		return(1);
+		retval = 1;
+		goto cleanup;
 	}
 
 	/* Warn user in case of dangerous operation */
@@ -133,9 +136,8 @@ int pacman_remove(alpm_list_t *targets)
 		FREELIST(lst);
 		/* get confirmation */
 		if(yesno(1, _("\nDo you want to remove these packages?")) == 0) {
-			trans_release();
-			FREELIST(finaltargs);
-			return(1);
+			retval = 1;
+			goto cleanup;
 		}
 		printf("\n");
 	}
@@ -144,16 +146,14 @@ int pacman_remove(alpm_list_t *targets)
 	if(alpm_trans_commit(NULL) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
-		trans_release();
-		FREELIST(finaltargs);
-		return(1);
+		retval = 1;
 	}
 
 	/* Step 4: release transaction resources */
+cleanup:
 	if(trans_release() == -1) {
 		retval = 1;
 	}
-	FREELIST(finaltargs);
 	return(retval);
 }
 
