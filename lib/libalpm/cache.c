@@ -98,17 +98,35 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 	return(db->pkgcache);
 }
 
+/* "duplicate" pkg with BASE info (to spare some memory) then add it to pkgcache */
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
+	pmpkg_t *newpkg;
+
 	ALPM_LOG_FUNC;
 
 	if(db == NULL || pkg == NULL) {
 		return(-1);
 	}
 
+	newpkg = _alpm_pkg_new();
+	if(newpkg == NULL) {
+		return(-1);
+	}
+	newpkg->name = strdup(pkg->name);
+	newpkg->version = strdup(pkg->version);
+	if(newpkg->name == NULL || newpkg->version == NULL) {
+		pm_errno = PM_ERR_MEMORY;
+		_alpm_pkg_free(newpkg);
+		return(-1);
+	}
+	newpkg->origin = PKG_FROM_CACHE;
+	newpkg->origin_data.db = db;
+	newpkg->infolevel = INFRQ_BASE; 
+
 	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
-						alpm_pkg_get_name(pkg), db->treename);
-	db->pkgcache = alpm_list_add_sorted(db->pkgcache, pkg, _alpm_pkg_cmp);
+						alpm_pkg_get_name(newpkg), db->treename);
+	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
 
 	_alpm_db_free_grpcache(db);
 

@@ -251,8 +251,7 @@ void _alpm_trans_free(pmtrans_t *trans)
 
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
 		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_sync_free);
-	} else if (trans->type == PM_TRANS_TYPE_REMOVE ||
-			trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
+	} else {
 		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free);
 	}
 	alpm_list_free(trans->packages);
