@@ -137,7 +137,8 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 			if(data) {
 				*data = lp;
 			} else {
-				FREELIST(lp);
+				alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_conflict_free);
+				alpm_list_free(lp);
 			}
 			if(inner) {
 				_alpm_log(PM_LOG_ERROR, _("conflicting packages were found in the target list\n"));
