@@ -689,7 +689,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		/* set up fake remove transaction */
 		int ret = upgrade_remove(oldpkg, newpkg, trans, db);
 		if(ret != 0) {
-			return(ret);
+			goto cleanup;
 		}
 	}
 
@@ -701,7 +701,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
 
 		if ((archive = archive_read_new()) == NULL) {
-			RET_ERR(PM_ERR_LIBARCHIVE, -1);
+			pm_errno = PM_ERR_LIBARCHIVE;
+			ret = -1;
+			goto cleanup;
 		}
 
 		archive_read_support_compression_all(archive);
@@ -710,7 +712,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		_alpm_log(PM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
 		if(archive_read_open_filename(archive, newpkg->origin_data.file,
 					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-			RET_ERR(PM_ERR_PKG_OPEN, -1);
+			pm_errno = PM_ERR_PKG_OPEN;
+			ret = -1;
+			goto cleanup;
 		}
 
 		/* save the cwd so we can restore it later */
@@ -772,7 +776,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		}
 
 		if(errors) {
-			ret = 1;
+			ret = -1;
 			if(is_upgrade) {
 				_alpm_log(PM_LOG_ERROR, _("problem occurred while upgrading %s\n"),
 						newpkg->name);
@@ -798,7 +802,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		alpm_logaction("error: could not update database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
-		RET_ERR(PM_ERR_DB_WRITE, -1);
+		pm_errno = PM_ERR_DB_WRITE;
+		ret = -1;
+		goto cleanup;
 	}
 
 	if(_alpm_db_add_pkgincache(db, newpkg) == -1) {
@@ -833,9 +839,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		EVENT(trans, PM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
 	}
 
+cleanup:
 	_alpm_pkg_free(oldpkg);
-
-	return(0);
+	return(ret);
 }
 
 int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
