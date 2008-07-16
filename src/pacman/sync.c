@@ -357,8 +357,12 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 				if(grp) {
 					/* get names of packages in group */
 					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
-						printf("%s %s\n", grpname,
-								alpm_pkg_get_name(alpm_list_getdata(k)));
+						if(!config->quiet) {
+							printf("%s %s\n", grpname,
+									alpm_pkg_get_name(alpm_list_getdata(k)));
+						} else {
+							printf("%s\n", alpm_pkg_get_name(alpm_list_getdata(k)));
+						}
 					}
 				}
 			}

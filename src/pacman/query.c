@@ -235,7 +235,12 @@ static int query_group(alpm_list_t *targets)
 			if(grp) {
 				const alpm_list_t *p, *packages = alpm_grp_get_pkgs(grp);
 				for(p = packages; p; p = alpm_list_next(p)) {
-					printf("%s %s\n", grpname, alpm_pkg_get_name(alpm_list_getdata(p)));
+					if(!config->quiet) {
+						printf("%s %s\n", grpname,
+								alpm_pkg_get_name(alpm_list_getdata(p)));
+					} else {
+						printf("%s\n", alpm_pkg_get_name(alpm_list_getdata(p)));
+					}
 				}
 			} else {
 				pm_fprintf(stderr, PM_LOG_ERROR, _("group \"%s\" was not found\n"), grpname);
