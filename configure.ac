@@ -119,11 +119,6 @@ AC_ARG_ENABLE(git-version,
 		[enable use of git version in version string if available]),
 	[wantgitver=$enableval], [wantgitver=no])
 
-# Help line for pacman.static
-AC_ARG_ENABLE(pacman-static,
-	AS_HELP_STRING([--disable-pacman-static], [do not build static version of pacman]),
-	[pacmanstatic=$enableval], [pacmanstatic=yes])
-
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
@@ -324,16 +319,6 @@ else
 fi
 AM_CONDITIONAL(USE_GIT_VERSION, test "x$usegitver" = "xyes")
 
-# Enable or disable inclusion of pacman.static
-AC_MSG_CHECKING(whether to build pacman.static)
-if test "x$pacmanstatic" = "xyes" ; then
-	AC_MSG_RESULT(yes)
-	AC_DEFINE([INCLUDE_PACMAN_STATIC], , [Build pacman.static])
-else
-	AC_MSG_RESULT(no)
-fi
-AM_CONDITIONAL(INCLUDE_PACMAN_STATIC, test "x$pacmanstatic" = "xyes")
-
 # Set root directory
 AC_SUBST(ROOTDIR)
 # Set package file extension
@@ -398,7 +383,6 @@ ${PACKAGE_NAME}:
     Doxygen support        : ${usedoxygen}
     Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}
-    build pacman.static    : ${pacmanstatic}
 "
 
 # vim:set ts=2 sw=2 noet:

@@ -6,10 +6,6 @@ logfile   = ${localstatedir}/log/pacman.log
 
 bin_PROGRAMS = pacman
 
-if INCLUDE_PACMAN_STATIC
-bin_PROGRAMS += pacman.static
-endif
-
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
        -DROOTDIR=\"$(ROOTDIR)\" \
@@ -39,8 +35,5 @@ pacman_SOURCES = \
 	util.h util.c
 
 LDADD = $(LTLIBINTL) $(top_builddir)/lib/libalpm/.libs/libalpm.la
-
-pacman_static_SOURCES = $(pacman_SOURCES)
-pacman_static_LDFLAGS = $(LDFLAGS) -all-static
 
 # vim:set ts=2 sw=2 noet:
