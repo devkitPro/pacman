@@ -1017,7 +1017,7 @@ devel_check() {
 		elif [ ! -z ${_svntrunk} ] && [ ! -z ${_svnmod} ] ; then
 			[ $(type -p svn) ] || return 0
 			msg "$(gettext "Determining latest svn revision...")"
-			newpkgver=$(svn log $_svntrunk --limit 1 -q | sed -n 's/^r\([0-9]*\) .*$/\1/p')
+			newpkgver=$(LC_ALL= LANG= svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
 		elif [ ! -z ${_bzrtrunk} ] && [ ! -z ${_bzrmod} ] ; then
 			[ $(type -p bzr) ] || return 0
 			msg "$(gettext "Determining latest bzr revision...")"
