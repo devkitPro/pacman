@@ -120,6 +120,9 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 			void *vpkg;
 			pmpkg_t *pkg = _alpm_pkg_find(trans->packages, miss->causingpkg);
+			if(pkg == NULL) {
+				continue;
+			}
 			trans->packages = alpm_list_remove(trans->packages, pkg, _alpm_pkg_cmp,
 					&vpkg);
 			pkg = vpkg;
