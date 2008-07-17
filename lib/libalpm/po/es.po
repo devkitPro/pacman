@@ -1,11 +1,12 @@
-# translation of es.po to
+# translation of libalpm.po to
 # Juan Pablo Gonzalez <jotapesan@gmail.com>, 2008.
+# translation of es.po to
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: libalpm\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-06-12 17:12-0400\n"
-"PO-Revision-Date: 2008-06-12 17:20-0400\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-16 09:26-0400\n"
 "Last-Translator: Juan Pablo Gonzalez <jotapesan@gmail.com>\n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +19,8 @@ msgstr ""
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "reemplazando la versión antigua  %s-%s por %s en la lista de objetivos\n"
+msgstr ""
+"reemplazando la versión antigua  %s-%s por %s en la lista de objetivos\n"
 
 #, c-format
 msgid "skipping %s-%s because newer version %s is in the target list\n"
@@ -120,11 +122,35 @@ msgstr "no se pudo abrir el archivo %s: %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "la base de datos %s es inconsistente: nombre mal emparejado en el paquete %s\n"
+msgstr ""
+"la base de datos %s es inconsistente: nombre mal emparejado en el paquete %"
+"s\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "la base de datos %s es inconsistente: versión mal emparejada en el paquete %s\n"
+msgstr ""
+"la base de datos %s es inconsistente: versión mal emparejada en el paquete %"
+"s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "no se pudo analizar sintácticamente el archivo de descripción en %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "nombre de paquete ausente en %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "forzando la versión del paquete en %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "error mientras se leía el paquete %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "metadatos del paquete faltantes en %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -147,6 +173,10 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s será instalado antes de su dependencia %s\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "El paquete proveedor fue seleccionado (%s provee %s)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "no se pudo resolver \"%s\", una dependencia para \"%s\"\n"
 
@@ -164,7 +194,7 @@ msgstr "disco"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "fallo al obtener archivo '%s' desde %s: %s\n"
+msgstr "falló al obtener archivo '%s' desde %s: %s\n"
 
 #, c-format
 msgid "cannot resume download, starting over\n"
@@ -188,7 +218,7 @@ msgstr "no se pudo cambiar el directorio a %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr "ejecutando XferCommand: fallo en el fork\n"
+msgstr "ejecutando XferCommand: falló en el fork\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -434,7 +464,9 @@ msgstr "se han detectado paquetes con conflictos no resueltos\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "quitando '%s' de la lista de objetivos debido a que posee conflictos con '%s'\n"
+msgstr ""
+"quitando '%s' de la lista de objetivos debido a que posee conflictos con '%"
+"s'\n"
 
 #, c-format
 msgid "command: %s\n"
@@ -442,7 +474,7 @@ msgstr "comando: %s\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
-msgstr "fallo al descargar algunos archivos desde %s\n"
+msgstr "falló al descargar algunos archivos desde %s\n"
 
 #, c-format
 msgid "could not create removal transaction\n"
@@ -535,4 +567,3 @@ msgstr "no existe la cache %s, creando...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "no se pudo crear la cache de paquetes, usando /tmp en su lugar\n"
-
