@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.1.4-1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-06-12 20:03+0200\n"
-"Last-Translator: Alper KANAT <alperkanat@gmail.com>\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-17 23:14+0200\n"
+"Last-Translator: Samed BEYRİBEY <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish Arch Linux Users <tr@archlinuxtr.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,8 +20,8 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "eski sürüm %s-%s hedef listesindeki %s ile değiştiriliyor\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "yeni sürüm %s-%s hedef listesinde -- atlanıyor\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "%s-%s yeni sürüm %s hedef listesinde olduğundan atlanıyor\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -32,7 +32,7 @@ msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "çelişen iki paketi aynı anda kuramazsınız\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
+msgid "replacing packages with -U is not supported yet\n"
 msgstr "-A ve -U kullanarak paket değiştirme henüz desteklenmemektedir\n"
 
 #, c-format
@@ -60,19 +60,15 @@ msgid "could not extract %s (%s)\n"
 msgstr "%s açılamadı (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "%s dosyasının ismi değiştirilemiyor (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "geçici dosya %s üzerine kopyalanamadı (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s dosyasının ismi %s olarak değiştirilemiyor (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s, %s olarak kaydedildi\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
 msgstr "%s, %s olarak kurulamadı: %s\n"
 
 #, c-format
@@ -104,16 +100,48 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "'%s' kaydı tampona eklenemedi\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "%s%s veritabanı kaydı kaldırılamıyor\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "veritabanı kaydı için geçersiz isim '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "bozuk veritabanı kaydı '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "%s dosyası açılamadı: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "%s%s veritabanı kaydı kaldırılamıyor\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s veritabanı tutarsız: %s paketinde isim uyuşmazlığı\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s veritabanı tutarsız: %s paketinde sürüm uyuşmazlığı\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "%s içerisindeki paket açıklama dosyası ayrıştırılamadı\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "%s içerisinde paket adı bulunmuyor\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "%s içerisinde paket sürümü bulunmuyor\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "%s paketi okunurken hata meydana geldi: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "%s içerisinde eksik paket bilgisi\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -136,8 +164,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s paketi %s bağımlılığından önce kurulacak\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "sağlayan paket seçildi ( %s %s'i sağlıyor)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\" paketi \"%s\" paketinin bağımlılığı olarak çözümlenemiyor\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "'%s' adresi geçersiz\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "adres şeması belirtilmemiş, http kullanılacak\n"
+
+#, c-format
+msgid "disk"
+msgstr "disk"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "'%s' dosyası %s : %s 'ten alınamadı\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "indirmeye devam edilemiyor, baştan başlanıyor\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "'%s' dosyasına yazılamıyor\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "'%s' indirilirken hata oluştu: %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "'%s' dosyasına yazılamıyor: %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "%s dizinine geçilemiyor\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "%s dosyası indirilemedi\n"
 
 #, c-format
 msgid "out of memory!"
@@ -153,15 +229,15 @@ msgstr "yetersiz yetki"
 
 #, c-format
 msgid "could not find or read file"
-msgstr "dosya okunamadı veya bulunamadı"
+msgstr "dosya bulunamadı veya okunamadı"
 
 #, c-format
 msgid "could not find or read directory"
-msgstr "klasör okunamadı veya bulunamadı"
+msgstr "klasör bulunamadı veya okunamadı"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "geçersiz ya da eksik parametre geçilmiş"
+msgstr "eksik ya da geçersiz parametre geçilmiş"
 
 #, c-format
 msgid "library not initialized"
@@ -208,10 +284,6 @@ msgid "invalid url for server"
 msgstr "hatalı sunucu adresi"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "parametre belirlenemedi"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "işlem zaten başlatılmış"
 
@@ -229,11 +301,11 @@ msgstr "işlem hazırlanamadı"
 
 #, c-format
 msgid "transaction aborted"
-msgstr "işlem durduruldu"
+msgstr "işlem iptal edildi"
 
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "operasyon işlem tipiyle uyumlu değil"
+msgstr "operasyon, işlem tipiyle uyumlu değil"
 
 #, c-format
 msgid "could not commit transaction"
@@ -241,7 +313,7 @@ msgstr "işlem teslim edilemiyor"
 
 #, c-format
 msgid "could not download all files"
-msgstr "bütün dosyalar indirilemedi"
+msgstr "tüm dosyalar indirilemedi"
 
 #, c-format
 msgid "could not find or read package"
@@ -260,10 +332,6 @@ msgid "cannot load package data"
 msgstr "paket verisi yüklenemiyor"
 
 #, c-format
-msgid "package already installed"
-msgstr "paket zaten kurulu"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "paket kurulamadı ya da önceki sürümü kurulu"
 
@@ -272,20 +340,16 @@ msgid "cannot remove all files for package"
 msgstr "paketle alakalı tüm dosyalar kaldırılamadı"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "paket adı geçerli değil"
-
-#, c-format
-msgid "corrupted package"
-msgstr "bozuk paket"
+msgid "package filename is not valid"
+msgstr "paket dosya adı geçerli değil"
 
 #, c-format
 msgid "no such repository"
 msgstr "depo bulunmuyor"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "bozuk fark"
+msgid "invalid or corrupted delta"
+msgstr "geçersiz ya da bozuk veri"
 
 #, c-format
 msgid "delta patch failed"
@@ -301,23 +365,19 @@ msgstr "bağımlılıklar sağlanamadı"
 
 #, c-format
 msgid "conflicting dependencies"
-msgstr "bağımlılıklar çelişiyor"
+msgstr "çelişen bağımlılıklar"
 
 #, c-format
 msgid "conflicting files"
-msgstr "dosyalar çelişiyor"
+msgstr "çelişen dosyalar"
 
 #, c-format
 msgid "user aborted the operation"
-msgstr "kullanıcı işlemi durdurdu"
+msgstr "işlem kullanıcı tarafından durduruldu"
 
 #, c-format
 msgid "internal error"
 msgstr "dahili hata"
-
-#, c-format
-msgid "libarchive error"
-msgstr "libarchive hatası"
 
 #, c-format
 msgid "not confirmed"
@@ -325,23 +385,23 @@ msgstr "onaylanmadı"
 
 #, c-format
 msgid "invalid regular expression"
-msgstr "hatalı düzenli ifade"
+msgstr "geçersiz düzenli ifade"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "uzak sisteme bağlantı kurma işlemi başarısız oldu"
+msgid "libarchive error"
+msgstr "libarchive hatası"
+
+#, c-format
+msgid "download library error"
+msgstr "kütüphane indirilirken hata oluştu"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "harici indiriciyi çağırırken hata oluştu"
 
 #, c-format
 msgid "unexpected error"
 msgstr "beklenmedik hata"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "%s-%s paketi için md5sum kontrolü çıkarılamadı\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "%s-%s paketi için md5sum kontrolleri tutmuyor\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -350,30 +410,6 @@ msgstr "%s: %s sürümüne güncelleniyor\n"
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: yereldeki paket (%s) %s (%s) paketinden daha güncel\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "paket açıklama dosyası %s içerisine açılıyor\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "%s içerisindeki paket açıklama dosyası ayrıştırılamadı\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "%s içerisinde paket adı bulunmuyor\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "%s içerisinde paket sürümü bulunmuyor\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "%s paketi okunurken hata meydana geldi: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "%s içerisinde eksik paket bilgisi\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -385,67 +421,20 @@ msgstr "'%s' dosyası silinemiyor: %s\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "veritabanı kaydı %s-%s kaldırılamadı\n"
+msgstr "veritabanı kaydı %s-%s silinemedi\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "'%s' kaydı tampondan silinemedi\n"
 
 #, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "'%s' adresi geçersiz, yok sayılıyor\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "adres şeması belirtilmemiş, http kullanılacak\n"
-
-#, c-format
-msgid "disk"
-msgstr "disk"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "'%s' dosyası %s : %s 'ten alınamadı\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "indirmeye devam edilemiyor, tekrardan başlanıyor\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "'%s' dosyasına yazılamıyor\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "'%s' indirilirken hata oluştu: %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "'%s' dosyasına yazılamıyor: %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "%s dizinine geçilemiyor\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL indirilebilecek bir dosya barındırmıyor\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "%s dosyası indirilemedi\n"
-
-#, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: paket güncellemesi yok sayılıyor (%s-%s ile değiştirilecek)\n"
+msgstr ""
+"%s-%s: paket güncellemesi göz ardı ediliyor (%s-%s ile değiştirilecek)\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: paket güncellemesi yok sayılıyor (%s => %s)\n"
+msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -453,31 +442,23 @@ msgstr "'%s' deposu bulunamadı\n"
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s güncel - atlanıyor\n"
+msgstr "%s-%s güncel -- atlanıyor\n"
 
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s güncel - tekrar kuruluyor\n"
+msgstr "%s-%s güncel -- yeniden kuruluyor\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "çözülemeyen paket çakışmaları bulundu\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "malloc hatası: %zd byte kadar yer ayrılamadı\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "'%s' hedef listesinden '%s' ile çeliştiği için kaldırıldı\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "komut: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "%s dosyasının md5 kontrolü alınamıyor\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "%s dosyası bozuk (hatalı MD5 kontrolü)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -517,7 +498,7 @@ msgstr "işlem teslim edilemedi\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "kilit dosyası %s kaldırılamadı\n"
+msgstr "kilit dosyası %s silinemedi\n"
 
 #, c-format
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
@@ -525,7 +506,11 @@ msgstr "Bir üst ortamda /bin/sh bulunamadı, betik iptal ediliyor\n"
 
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "geçici klasör oluşturulamadı\n"
+msgstr "geçici dizin oluşturulamadı\n"
+
+#, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "geçici dosya %s üzerine kopyalanamadı (%s)\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -560,10 +545,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "geçici dizin %s kaldırılamadı\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "'%s' yolu derlenemedi: %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "%s açılamadı: %s\n"
 
@@ -574,12 +555,3 @@ msgstr "%s tamponu bulunmuyor, oluşturuluyor...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "paket tamponu oluşturulamadı, /tmp kullanılacak\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: %s açılamadı\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: %s okunamadı\n"
-
