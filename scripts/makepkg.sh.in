@@ -1215,10 +1215,11 @@ if [ "$CLEANCACHE" = "1" ]; then
 	#fix flyspray feature request #5223
 	if [ -n "$SRCDEST" -a "$SRCDEST" != "$startdir" ]; then
 		msg "$(gettext "Cleaning up ALL files from %s.")" "$SRCDEST"
-		echo -n "$(gettext "    Are you sure you wish to do this? [Y/n] ")"
+		echo -n "$(gettext "    Are you sure you wish to do this? ")"
+		echo -n "$(gettext "[Y/n]")"
 		read answer
-		answer=$(echo $answer | tr '[:upper:]' '[:lower:]')
-		if [ "$answer" = "yes" -o "$answer" = "y" ]; then
+		answer=$(echo $answer | tr '[:lower:]' '[:upper:]')
+		if [ "$answer" = "$(gettext "YES")" -o "$answer" = "$(gettext "Y")" ]; then
 			rm "$SRCDEST"/*
 			if [ $? -ne 0 ]; then
 				error "$(gettext "Problem removing files; you may not have correct permissions in %s")" "$SRCDEST"
