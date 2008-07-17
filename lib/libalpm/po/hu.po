@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
 "PO-Revision-Date: 2007-03-14 13:45+0100\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -19,23 +19,23 @@ msgstr ""
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "régebbi verzió (%s-%s) lecserélése %s verzióra a cél listában\n"
+msgstr "régebbi verzió (%s-%s) lecserélése %s verzióra a célok listájában\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "újabb verzió (%s-%s) már megtalálható a cél listában -- kihagyás\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "%s-%s kihagyása, mert újabb verzió (%s) van a célok között\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
-msgstr "ütköző csomagokat találtam a cél listában\n"
+msgstr "ütköző csomagokat találtam a célok között\n"
 
 #, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "nem telepíthető két ütköző csomag egyszerre\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
-msgstr "csomagok lecserélése még nem támogatott -A és -U esetén\n"
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "csomagok lecserélése még nem támogatott -U esetén\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -62,20 +62,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "nem sikerült kicsomagolni: %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "nem sikerült átnevezni: %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "nem sikerült az ideiglenes fájlt ide másolni: %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "nem sikerült az átnevezés: %s -> %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s elmentve %s néven\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
-msgstr "nem sikerült %s telepítése %s néven: %s\n"
+msgid "could not install %s as %s (%s)\n"
+msgstr "nem sikerült %s telepítése %s néven (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -106,16 +102,48 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "sikertelen a %s%s adatbázis-bejegyzés eltávolítása\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "érvénytelen név a '%s' adatbázis-bejegyzés számára\n"
+msgstr "hibás név a '%s' adatbázis-bejegyzés számára\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "sérült adatbázis bejegyzés: '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "sikertelen a %s%s adatbázis-bejegyzés eltávolítása\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "a(z) %s adatbázis inkonzisztens: eltérő nevek a(z) %s csomagnál\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "a(z) %s adatbázis inkonzisztens: eltérő verziók a(z) %s csomagnál\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "nem sikerült értelmezni a(z) %s csomagleíró fájlját\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "hiányzó csomagnév itt: %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "hiányzó csomagverzió itt: %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "hiba a(z) %s csomag olvasása közben: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "hiányzó csomaginformációs fájl itt: %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -138,8 +166,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "a(z) %s csomag saját %s függősége előtt lesz telepítve\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "közvetett csomagválasztás (%s szolgáltatja %s-t)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nem sikerült a(z) \"%2$s\" csomag \"%1$s\" függőségét feloldani\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "a '%s' URL hibás\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "az URL séma nem definiált, http feltételezése\n"
+
+#, c-format
+msgid "disk"
+msgstr "diszk"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "nem sikerült a(z) '%s' fájlt letölteni a %s helyről : %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "nem tudom folytatni a letöltést, újrakezdem\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "nem sikerült a(z) '%s' fájlba írni\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "hiba '%s' letöltése közben: %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "hiba a(z) '%s' fájl írása során: %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "nem sikerült a könyvtárváltás ide: %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "XferCommand futtatása: sikertelen fork!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "nem sikerült a(z) %s letöltése\n"
 
 #, c-format
 msgid "out of memory!"
@@ -207,11 +283,7 @@ msgstr "nem sikerült eltávolítani az adatbázis-bejegyzést"
 
 #, c-format
 msgid "invalid url for server"
-msgstr "érvénytelen szerver-URL"
-
-#, c-format
-msgid "could not set parameter"
-msgstr "nem sikerült beállítani a paramétert"
+msgstr "hibás szerver-URL"
 
 #, c-format
 msgid "transaction already initialized"
@@ -251,7 +323,7 @@ msgstr "nem található vagy nem olvasható a csomag"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "nem érvényes vagy sérült csomag"
+msgstr "hibás vagy sérült csomag"
 
 #, c-format
 msgid "cannot open package file"
@@ -262,10 +334,6 @@ msgid "cannot load package data"
 msgstr "nem sikerült betölteni a csomagadatokat"
 
 #, c-format
-msgid "package already installed"
-msgstr "a csomag már telepítve van"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "a csomag nincs telepítve vagy kisebb verziójú"
 
@@ -274,20 +342,16 @@ msgid "cannot remove all files for package"
 msgstr "nem sikerült eltávolítani a csomag összes fájlját"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "nem érvényes a csomagnév"
-
-#, c-format
-msgid "corrupted package"
-msgstr "sérült csomag"
+msgid "package filename is not valid"
+msgstr "érvénytelen csomagnév"
 
 #, c-format
 msgid "no such repository"
 msgstr "nincs ilyen repó"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "sérült delta"
+msgid "invalid or corrupted delta"
+msgstr "hibás vagy sérült delta"
 
 #, c-format
 msgid "delta patch failed"
@@ -318,32 +382,28 @@ msgid "internal error"
 msgstr "belső hiba"
 
 #, c-format
-msgid "libarchive error"
-msgstr "libarchive hiba"
-
-#, c-format
 msgid "not confirmed"
 msgstr "nem megerősített"
 
 #, c-format
 msgid "invalid regular expression"
-msgstr "érvénytelen reguláris kifejezés"
+msgstr "hibás reguláris kifejezés"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "nem sikerült csatlakozni a távoli géphez"
+msgid "libarchive error"
+msgstr "libarchive hiba"
+
+#, c-format
+msgid "download library error"
+msgstr "letöltőkönyvtár hiba"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "hiba a külső letöltő meghívásakor"
 
 #, c-format
 msgid "unexpected error"
 msgstr "nemvárt hiba"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "nem sikerült meghatározni a(z) %s-%s csomag md5 ellenőrző összegét\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "a(z) %s-%s csomag md5 ellenőrző összegei nem egyeznek meg\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -352,30 +412,6 @@ msgstr "%s: erőltetett frissítés a %s verzióra\n"
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: a helyi (%s) újabb, mint %s (%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "nem sikerült kicsomagolni a csomagleíró fájlt %s-ként\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "nem sikerült értelmezni a(z) %s csomagleíró fájlját\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "hiányzó csomagnév itt: %s\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "hiányzó csomagverzió itt: %s\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "hiba a(z) %s csomag olvasása közben: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "hiányzó csomaginformációs fájl itt: %s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -392,54 +428,6 @@ msgstr "nem sikerült eltávolítani a(z) %s-%s adatbázis-bejegyzést\n"
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "nem sikerült eltávolítani a(z) '%s' bejegyzést a gyorsítótárból\n"
-
-#, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "a '%s' URL érvénytelen, figyelmen kívül hagyom\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "az URL séma nem definiált, http feltételezése\n"
-
-#, c-format
-msgid "disk"
-msgstr "diszk"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "nem sikerült a(z) '%s' fájlt letölteni a %s helyről : %s\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "nem tudom folytatni a letöltést, újrakezdem\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "nem sikerült a(z) '%s' fájlba írni\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "hiba '%s' letöltése közben: %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "hiba a(z) '%s' fájl írása során: %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "nem sikerült a könyvtárváltás ide: %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand futtatása: sikertelen fork!\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "az URL nem tartalmaz letöltendő fájlt\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "nem sikerült a(z) %s letöltése\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
@@ -466,20 +454,12 @@ msgid "unresolvable package conflicts detected\n"
 msgstr "feloldhatatlan csomagütközéseket találtam\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "malloc hiba: nem sikerült lefoglalni %zd byte-ot\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "'%s' kihagyása, mert ütközik a következővel: '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "parancs: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "nem sikerült meghatározni a(z) %s fájl md5 ellenőrző összegét\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "a(z) %s fájl sérült volt (rossz MD5 összeg)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -530,6 +510,10 @@ msgid "could not create temp directory\n"
 msgstr "nem sikerült létrehozni az ideiglenes könyvtárat\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "nem sikerült az ideiglenes fájlt ide másolni: %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nem sikerült a könyvtárváltás ide: %s (%s)\n"
 
@@ -562,10 +546,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "nem sikerült a '%s' útvonal létrehozása: %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
@@ -576,11 +556,3 @@ msgstr "nem létezik a(z) %s gyorsítótár. létrehozás...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nem sikerült létrehozni a csomaggyorsítótárat, a /tmp használata\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: nem sikerült megnyitni a következőt: %s\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: nem sikerült olvasni a következőt: %s\n"
