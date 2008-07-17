@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-02-25 20:25+0100\n"
-"Last-Translator: 甘露(Lu.Gan) <rhythm.gan@gmail.com>\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-17 23:01+0200\n"
+"Last-Translator: 甘露(Lu Gan) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,8 +22,8 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "正在替换老版本 %s-%s 通过在目标清单中的%s\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "较新版本 %s-%s 在目标清单中 -- 跳过\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "跳过 %s-%s，因为较新版本的 %s 在目标清单中\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -34,8 +34,8 @@ msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "你不能同时安装有冲突的两个软件包\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
-msgstr "正在使用 -A 替代软件包， -U 目前尚不支持\n"
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "正在覆盖软件包， -U 目前尚不支持\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -46,7 +46,7 @@ msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"目录权限不一致%s\n"
+"目录权限不一致 %s\n"
 "文件系统：%o  软件包：%o\n"
 
 #, c-format
@@ -62,20 +62,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "无法解压缩 %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "无法重命名 %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "无法复制临时文件到 %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "无法重命名 %s 为 %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s 已另存为 %s\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
-msgstr "无法安装 %s 作为 %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
+msgstr "无法安装 %s 作为 %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -91,11 +87,11 @@ msgstr "无法得到当前的工作目录\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "更新 %s时出现错误\n"
+msgstr "更新 %s 时出现错误\n"
 
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "安装 %s时出现错误\n"
+msgstr "安装 %s 时出现错误\n"
 
 #, c-format
 msgid "could not update database entry %s-%s\n"
@@ -106,16 +102,48 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "无法在缓存中添加记录 '%s' \n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "无法删除数据库记录 %s%s\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "数据库记录'%s'名字无效\n"
+msgstr "数据库记录 '%s' 名字无效\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "损坏的数据库记录 '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "无法打开文件 %s: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "无法删除数据库记录 %s%s\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s 数据库不一致：名字和软件包中的 %s 不一致\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s 数据库不一致：版本和软件包中的 %s 不一致\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "无法分析 %s 中的软件包描述文件\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "%s 中缺少软件包名字\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "%s 中缺少软件包版本号\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "读取软件包%s: %s发生错误\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "%s 中缺少软件包元数据\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -131,15 +159,63 @@ msgstr "探测到依赖关系循环：\n"
 
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s将在它%s的依赖关系之后被删除\n"
+msgstr "%s 将在它 %s 的依赖关系之后被删除\n"
 
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr "%s将在它%s的依赖关系之前被安装\n"
+msgstr "%s 将在它 %s 的依赖关系之前被安装\n"
+
+#, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "已选定提供软件包 (%s 提供 %s)\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "无法解决\"%s\"，\"%s\"的依赖关系\n"
+msgstr "无法解决 \"%s\"，\"%s\" 的依赖关系\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url %s' 无效\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "url 结构没有指定，假定为 HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "硬盘"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "无法从 %s : %s 获取文件 '%s' \n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "无法恢复下载，重新开始\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "无法写入文件 '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "下载 '%s': %s 时出错\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "写入文件 '%s': %s 时出错\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "无法改变目录到 %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "运行 XferCommand：分支失败！\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "下载%s失败\n"
 
 #, c-format
 msgid "out of memory!"
@@ -210,10 +286,6 @@ msgid "invalid url for server"
 msgstr "无效的服务器url"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "无法设置参数"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "处理已初始化"
 
@@ -262,10 +334,6 @@ msgid "cannot load package data"
 msgstr "无法加载软件包数据"
 
 #, c-format
-msgid "package already installed"
-msgstr "软件包已经安装"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "软件包没有安装或版本较低"
 
@@ -274,24 +342,20 @@ msgid "cannot remove all files for package"
 msgstr "无法删除软件包全部文件"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "软件包名字无效"
-
-#, c-format
-msgid "corrupted package"
-msgstr "已损坏的软件包"
+msgid "package filename is not valid"
+msgstr "软件包文件名无效"
 
 #, c-format
 msgid "no such repository"
 msgstr "没有该软件库"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "已损怀的delta"
+msgid "invalid or corrupted delta"
+msgstr "无效的或已损坏的 delta 包"
 
 #, c-format
 msgid "delta patch failed"
-msgstr "delta补丁失败"
+msgstr "delta 补丁失败"
 
 #, c-format
 msgid "group not found"
@@ -318,10 +382,6 @@ msgid "internal error"
 msgstr "内部错误"
 
 #, c-format
-msgid "libarchive error"
-msgstr "libarchive错误"
-
-#, c-format
 msgid "not confirmed"
 msgstr "不能确认"
 
@@ -330,116 +390,44 @@ msgid "invalid regular expression"
 msgstr "无效的常规表达式"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "连接远端主机失败"
+msgid "libarchive error"
+msgstr "libarchive 错误"
+
+#, c-format
+msgid "download library error"
+msgstr "下载函数库出错"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "激活外部下载程序时出现错误"
 
 #, c-format
 msgid "unexpected error"
 msgstr "未预期的错误"
 
 #, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "无法得到软件包%s-%s的md5值\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "软件包%s-%s的md5值不一致\n"
-
-#, c-format
 msgid "%s: forcing upgrade to version %s\n"
-msgstr "%s：强制更新至版本%s\n"
+msgstr "%s：强制更新至版本 %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s：本地（%s）比%s版本更新(%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "解压缩软件包描述文件到%s时发生错误\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "无法分析%s中的软件包描述文件\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "%s中缺少软件包名字\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "%s中缺少软件包版本号\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "读取软件包%s: %s发生错误\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "%s中缺少软件包元数据\n"
+msgstr "%s：本地（%s）比 %s 的版本更新(%s)\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "无法在数据库中找到%s -- 跳过\n"
+msgstr "无法在数据库中找到 %s -- 跳过\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "无法删除文件'%s': %s\n"
+msgstr "无法删除文件 '%s': %s\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "无法删除数据库记录%s-%s\n"
+msgstr "无法删除数据库记录 %s-%s\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "无法从缓存中删除记录'%s'\n"
-
-#, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "url %s' 无效，忽略\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "url scheme没有指定，假定为http\n"
-
-#, c-format
-msgid "disk"
-msgstr "硬盘"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "获取文件'%s'从%s : %s失败\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "无法恢复下载，重新开始\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "无法写入文件'%s'\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "下载'%s': %s时出错\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "写入文件'%s': %s时出错\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "无法改变目录到%s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "运行XferCommand:分支失败！\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL没有包含可下载的文件\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "下载%s失败\n"
+msgstr "无法从缓存中删除记录 '%s'\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
@@ -451,35 +439,27 @@ msgstr "%s：忽略软件包更新（%s => %s）\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
-msgstr "没有找到软件库'%s'\n"
+msgstr "没有找到软件库 '%s'\n"
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s已经为最新 -- 跳过\n"
+msgstr "%s-%s 已经为最新 -- 跳过\n"
 
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s已经为最新 -- 重新安装\n"
+msgstr "%s-%s 已经为最新 -- 重新安装\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "探测到无法解决的软件包冲突\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "内存分配错误：无法分配 %zd bytes\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "正在从目标清单中删除 '%s' ，因为它和 '%s' 有冲突\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "命令：%s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "无法得到文件%s的md5检查值\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "文件%s已损坏（坏的MD5检查值）\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -519,19 +499,23 @@ msgstr "无法交付处理\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "无法删除锁定文件%s\n"
+msgstr "无法删除锁定文件 %s\n"
 
 #, c-format
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "父环境中没有/bin/sh，正在中断脚本\n"
+msgstr "父环境中没有 /bin/sh，正在中断脚本\n"
 
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "无法创建临时目录\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "无法复制临时文件到 %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr "无法更改目录到%s (%s)\n"
+msgstr "无法更改目录到 %s (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -547,11 +531,11 @@ msgstr "无法更改目录到/ (%s)\n"
 
 #, c-format
 msgid "call to popen failed (%s)"
-msgstr "调用popen失败(%s)"
+msgstr "调用 popen 失败(%s)"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
-msgstr "调用waitpid失败(%s)\n"
+msgstr "调用 waitpid 失败(%s)\n"
 
 #, c-format
 msgid "scriptlet failed to execute correctly\n"
@@ -562,25 +546,13 @@ msgid "could not remove tmpdir %s\n"
 msgstr "无法删除临时目录%s\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "无法创建路径'%s' : %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
-msgstr "无法打开%s: %s\n"
+msgstr "无法打开 %s: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "没有%s缓存存在，正在创建……\n"
+msgstr "没有 %s 缓存存在，正在创建...\n"
 
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
-msgstr "无法创建软件包缓存，正在使用/tmp代替\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5：%s无法打开\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5：%s无法读取\n"
+msgstr "无法创建软件包缓存，正在使用 /tmp 代替\n"
