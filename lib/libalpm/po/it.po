@@ -1,29 +1,30 @@
 # Italian translation of libalpm.
 # Copyright (C) 2007 THE libalpm'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the libalpm package.
-# Giovanni 'voidnull' Scafora <linuxmania@gmail.com>, 2007.
-# Alessio 'mOLOk' Bolognino <themolok@gmail.com>, 2007.
-# Lorenzo '^zanDarK' Masini <lorenxo86@gmail.com>, 2007.
+# Giovanni 'voidnull' Scafora <linuxmania@gmail.com>, 2007, 2008
+# Andrea 'bash' Scarpino <bash.lnx@gmail.com>, 2008
+# Alessio 'mOLOk' Bolognino <themolok@gmail.com>, 2007
+# Lorenzo '^zanDarK' Masini <lorenxo86@gmail.com>, 2007
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2007-12-18 23:30+0100\n"
-"Last-Translator: Giovanni Scafora <linuxmania@gmail.com>\n"
-"Language-Team: Arch Linux Italian Team <linuxmania@gmail.com>\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-19 17:26+0200\n"
+"Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
+"Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bitPlural-Forms: nplurals=2; plural=(n != 1);\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "sostituzione in corso della vecchia versione di %s-%s con %s\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "la versione di %s-%s è più recente e sarà ignorata\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "salto %s-%s perchè la nuova versione %s è nella lista\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -34,8 +35,8 @@ msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "impossibile installare due pacchetti che vanno in conflitto\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
-msgstr "la sostituzione dei pacchetti con -A e -U non è ancora supportata\n"
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "la sostituzione dei pacchetti con -U non è ancora supportata\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -63,20 +64,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "impossibile estrarre %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "impossibile rinominare %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "impossibile copiare il file temporaneo in %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "impossibile rinominare %s in %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s salvato come %s\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
-msgstr "impossibile installare %s come %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
+msgstr "impossibile installare %s come %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -107,16 +104,48 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "impossible includere la voce '%s' nella cache\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "impossibile rimuovere la voce %s%s dal database\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nome non valido per la voce del database '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "la voce nel database '%s' non è valida\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "impossibile aprire il file %s: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "impossibile rimuovere la voce %s%s dal database\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "il database %s è corrotto: il nome del pacchetto %s è sbagliato\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "il database %s è corrotto: la versione del pacchetto %s è sbagliata\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "impossibile analizzare il file di descrizione del pacchetto in %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "manca il nome del pacchetto in %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "manca la versione del pacchetto in %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "si è verificato un errore durante la lettura del pacchetto %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "manca il metadata del pacchetto in %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -139,8 +168,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s sarà installato prima della sua dipendenza %s\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "il pacchetto fornito era selezionato (%s fornisce %s)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "impossibile risolvere \"%s\", una dipendenza di \"%s\"\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "l'url '%s' non è corretto\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "il protocollo dell'url non è specificato, sarà usato HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "disco"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "impossibile recuperare il file '%s' da %s : %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "impossibile riprendere il download\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "impossibile scrivere nel file '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "si è verificato un errore durante il download di '%s': %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "si è verificato un errore durante la scrittura nel file '%s': %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "impossibile spostarsi nella directory %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "avvio di XferCommand: processo non riuscito!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "impossibile scaricare %s\n"
 
 #, c-format
 msgid "out of memory!"
@@ -211,10 +288,6 @@ msgid "invalid url for server"
 msgstr "url non valido per il server"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "impossibile impostare il parametro"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "operazione già inizializzata"
 
@@ -263,10 +336,6 @@ msgid "cannot load package data"
 msgstr "impossibile caricare i dati del pacchetto"
 
 #, c-format
-msgid "package already installed"
-msgstr "pacchetto già installato"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "pacchetto non installato o una versione precedente"
 
@@ -275,20 +344,16 @@ msgid "cannot remove all files for package"
 msgstr "impossibile rimuovere tutti i file del pacchetto"
 
 #, c-format
-msgid "package name is not valid"
+msgid "package filename is not valid"
 msgstr "il nome del pacchetto non è valido"
-
-#, c-format
-msgid "corrupted package"
-msgstr "pacchetto corrotto"
 
 #, c-format
 msgid "no such repository"
 msgstr "nessun repository corrispondente"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "il delta è corrotto"
+msgid "invalid or corrupted delta"
+msgstr "pacchetto non valido o corrotto"
 
 #, c-format
 msgid "delta patch failed"
@@ -319,10 +384,6 @@ msgid "internal error"
 msgstr "errore interno"
 
 #, c-format
-msgid "libarchive error"
-msgstr "errore di libarchive"
-
-#, c-format
 msgid "not confirmed"
 msgstr "non confermato"
 
@@ -331,20 +392,20 @@ msgid "invalid regular expression"
 msgstr "espressione regolare non valida"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "impossibile stabilire una connessione con l'host remoto"
+msgid "libarchive error"
+msgstr "errore di libarchive"
+
+#, c-format
+msgid "download library error"
+msgstr "errore nel scaricare la libreria"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "errore nell'inizializzare il download"
 
 #, c-format
 msgid "unexpected error"
 msgstr "errore inaspettato"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "impossibile recuperare la somma md5 del pacchetto %s-%s\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "la somma md5 del pacchetto %s-%s non corrisponde\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -354,30 +415,6 @@ msgstr "%s: aggiornamento forzato alla versione %s\n"
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr ""
 "%s: la versione installata (%s) è più recente di quella presente in %s (%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "impossibile estrarre il file di descrizione del pacchetto in %s\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "impossibile analizzare il file di descrizione del pacchetto in %s\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "manca il nome del pacchetto in %s\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "manca la versione del pacchetto in %s\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "si è verificato un errore durante la lettura del pacchetto %s: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "manca il metadata del pacchetto in %s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -394,54 +431,6 @@ msgstr "impossibile rimuovere la voce %s-%s dal database\n"
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "impossibile rimuovere la voce '%s' dalla cache\n"
-
-#, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "l'url '%s' non è corretto, sarà ignorato\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "il protocollo dell'url non è specificato, sarà usato http\n"
-
-#, c-format
-msgid "disk"
-msgstr "disco"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "impossibile recuperare il file '%s' da %s : %s\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "impossibile riprendere il download\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "impossibile scrivere nel file '%s'\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "si è verificato un errore durante il download di '%s': %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "si è verificato un errore durante la scrittura nel file '%s': %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "impossibile spostarsi nella directory %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "avvio di XferCommand: processo non riuscito!\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL non contiene nessun file da scaricare\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "impossibile scaricare %s\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
@@ -470,20 +459,12 @@ msgid "unresolvable package conflicts detected\n"
 msgstr "sono stati rilevati dei conflitti irrisolvibili\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "malloc failure: impossibile allocare %zd byte\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "rimuovo '%s' dalla lista perchè è in conflitto con '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "comando: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "impossibile recuperare il checksum md5 del file %s\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "il file %s è corrotto (MD5 errato)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -534,6 +515,10 @@ msgid "could not create temp directory\n"
 msgstr "impossibile creare la directory temporanea\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "impossibile copiare il file temporaneo in %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "impossibile spostarsi nella directory %s (%s)\n"
 
@@ -566,10 +551,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "impossibile rimuovere la directory temporanea %s\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "impossibile seguire il percorso '%s' : %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "impossibile aprire %s: %s\n"
 
@@ -581,29 +562,3 @@ msgstr "la cache di %s non esiste, creazione in corso...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 "impossibile creare la cache del pacchetto, al suo posto sarà usata /tmp\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: impossibile aprire %s\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: impossibile leggere %s\n"
-
-#~ msgid "loading package data for %s : level=%d\n"
-#~ msgstr "caricamento in corso dei dati del pacchetto %s : livello=%d\n"
-
-#~ msgid "adding '%s' to package cache for db '%s'\n"
-#~ msgstr "aggiunta di '%s' alla cache del pacchetto per il database '%s'\n"
-
-#~ msgid "could not remove tempfile %s\n"
-#~ msgstr "impossibile rimuovere il file temporaneo %s\n"
-
-#~ msgid "please remove '%s' first, using -Rd\n"
-#~ msgstr "Si consiglia di rimuovere prima '%s', usando l'opzione -Rd\n"
-
-#~ msgid "cannot resolve dependencies for \"%s\"\n"
-#~ msgstr "impossibile risolvere le dipendenze per \"%s\"\n"
-
-#~ msgid "could not update new database entry %s-%s\n"
-#~ msgstr "impossibile aggiornare la nuova voce del database %s-%s\n"
