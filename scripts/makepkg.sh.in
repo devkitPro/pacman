@@ -735,7 +735,9 @@ tidy_install() {
 		bindirs="bin lib sbin usr/bin usr/lib usr/sbin usr/local/bin usr/local/lib usr/local/sbin opt/*/bin opt/*/lib opt/*/sbin"
 		find ${bindirs} -type f 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
-				*application/x-sharedlib*)  # Libraries
+				*application/x-sharedlib*)  # Libraries (.so)
+					/usr/bin/strip --strip-debug "$binary";;
+				*application/x-archive*)    # Libraries (.a)
 					/usr/bin/strip --strip-debug "$binary";;
 				*application/x-executable*) # Binaries
 					/usr/bin/strip "$binary";;
