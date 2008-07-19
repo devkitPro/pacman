@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-01-16 10:40+1000\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-19 17:31+0200\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,8 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "replacing older version %s-%s by %s in target list\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "newer version %s-%s is in the target list -- skipping\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "skipping %s-%s because newer version %s is in the target list\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -33,8 +33,8 @@ msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "you cannot install two conflicting packages at the same time\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
-msgstr "replacing packages with -A and -U is not supported yet\n"
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "replacing packages with -U is not supported yet\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -61,20 +61,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "could not extract %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "could not rename %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "could not copy tempfile to %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "could not rename %s to %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s saved as %s\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
-msgstr "could not install %s as %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
+msgstr "could not install %s as %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -105,16 +101,48 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "could not add entry '%s' in cache\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "could not remove database entry %s%s\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "invalid name for database entry '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "corrupted database entry '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "could not open file %s: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "could not remove database entry %s%s\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s database is inconsistent: name mismatch on package %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s database is inconsistent: version mismatch on package %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "could not parse package description file in %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "missing package name in %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "missing package version in %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "error while reading package %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "missing package metadata in %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -137,8 +165,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s will be installed before its %s dependency\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "provider package was selected (%s provides %s)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "cannot resolve \"%s\", a dependency of \"%s\"\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "URL '%s' is invalid\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "URL scheme not specified, assuming HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "disk"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "failed retrieving file '%s' from %s : %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "cannot resume download, starting over\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "cannot write to file '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "error downloading '%s': %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "error writing to file '%s': %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "could not chdir to %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "running XferCommand: fork failed!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "failed to download %s\n"
 
 #, c-format
 msgid "out of memory!"
@@ -209,10 +285,6 @@ msgid "invalid url for server"
 msgstr "invalid url for server"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "could not set parameter"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "transaction already initialised"
 
@@ -261,10 +333,6 @@ msgid "cannot load package data"
 msgstr "cannot load package data"
 
 #, c-format
-msgid "package already installed"
-msgstr "package already installed"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "package not installed or lesser version"
 
@@ -273,20 +341,16 @@ msgid "cannot remove all files for package"
 msgstr "cannot remove all files for package"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "package name is not valid"
-
-#, c-format
-msgid "corrupted package"
-msgstr "corrupted package"
+msgid "package filename is not valid"
+msgstr "package filename is not valid"
 
 #, c-format
 msgid "no such repository"
 msgstr "no such repository"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "corrupted delta"
+msgid "invalid or corrupted delta"
+msgstr "invalid or corrupted delta"
 
 #, c-format
 msgid "delta patch failed"
@@ -317,10 +381,6 @@ msgid "internal error"
 msgstr "internal error"
 
 #, c-format
-msgid "libarchive error"
-msgstr "libarchive error"
-
-#, c-format
 msgid "not confirmed"
 msgstr "not confirmed"
 
@@ -329,20 +389,20 @@ msgid "invalid regular expression"
 msgstr "invalid regular expression"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "connection to remote host failed"
+msgid "libarchive error"
+msgstr "libarchive error"
+
+#, c-format
+msgid "download library error"
+msgstr "download library error"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "error invoking external downloader"
 
 #, c-format
 msgid "unexpected error"
 msgstr "unexpected error"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "could not get md5sum for package %s-%s\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "md5sums do not match for package %s-%s\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -351,30 +411,6 @@ msgstr "%s: forcing upgrade to version %s\n"
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: local (%s) is newer than %s (%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "error extracting package description file to %s\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "could not parse package description file in %s\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "missing package name in %s\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "missing package version in %s\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "error while reading package %s: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "missing package metadata in %s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -391,54 +427,6 @@ msgstr "could not remove database entry %s-%s\n"
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "could not remove entry '%s' from cache\n"
-
-#, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "URL '%s' is invalid, ignoring\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "URL scheme not specified, assuming http\n"
-
-#, c-format
-msgid "disk"
-msgstr "disk"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "failed retrieving file '%s' from %s : %s\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "cannot resume download, starting over\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "cannot write to file '%s'\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "error downloading '%s': %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "error writing to file '%s': %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "could not chdir to %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "running XferCommand: fork failed!\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL does not contain a file for download\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "failed to download %s\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
@@ -465,20 +453,12 @@ msgid "unresolvable package conflicts detected\n"
 msgstr "unresolvable package conflicts detected\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "malloc failure: could not allocate %zd bytes\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "removing '%s' from target list because it conflicts with '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "command: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "can't get md5 checksum for file %s\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "file %s was corrupted (bad MD5 checksum)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -529,6 +509,10 @@ msgid "could not create temp directory\n"
 msgstr "could not create temp directory\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "could not copy tempfile to %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "could not change directory to %s (%s)\n"
 
@@ -561,10 +545,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "could not remove tmpdir %s\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "failed to make path '%s' : %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "could not open %s: %s\n"
 
@@ -575,11 +555,3 @@ msgstr "no %s cache exists, creating...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "couldn't create package cache, using /tmp instead\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: %s can't be opened\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: %s can't be read\n"
