@@ -277,7 +277,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
-				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend, "");
+				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
 				baddeps = alpm_list_add(baddeps, miss);
 			}
 		}
