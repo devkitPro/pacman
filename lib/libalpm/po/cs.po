@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-02-12 09:28+0100\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-19 08:45+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Čeština\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,8 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "v seznamu cílů nahrazuji starší verzi %s-%s za %s\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "v seznamu cílů je novější veze %s-%s -- přeskakuji\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "přeskakuji %s-%s protože v seznamu cílů je novější veze %s\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -33,8 +33,8 @@ msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "nemůžete instalovat dva konfliktní balíčky společně\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
-msgstr "nahrazování balíčků pomocí -A a -U není nyní podporováno\n"
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "nahrazování balíčků pomocí -U není nyní podporováno\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -54,27 +54,23 @@ msgstr "rozbalení: symbolický odkaz %s neodkazuje na adresář\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "rozbalení: nepřepisuji adresář souborem %s\n"
+msgstr "rozbalení: adresář nebyl přepsán souborem %s\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "nelze rozbalit %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "nelze přejmenovat %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "nelze přejmenovat %s na %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s uložen jako %s\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
-msgstr "nelze nainstalovat %s jako %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
+msgstr "nelze nainstalovat %s jako %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -105,16 +101,48 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "nelze přidat položku '%s' do cache\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "nelze odstranit záznam v databázi %s%s\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "chybný název záznamu v databázi '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "poškozený záznam v databázi '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "nelze otevřít soubor %s: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "nelze odstranit záznam v databázi %s%s\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "databáze %s je nekonzistentní: nesouhlasí jméno balíčku %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "databáze %s je nekonzistentní: nesouhlasí verze balíčku %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "nelze zpracovat soubor s popisem balíčku v %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "chybí jméno balíčku v %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "chybí veze balíčku v %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "chyba při čtení balíčku %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "chybí metadata balíčku v %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -137,8 +165,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s bude nainstalován před %s, na kterém závisí\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "byl vybrán nahrazující balíček (%s poskytuje %s)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nemohu vyřešit \"%s\", závislost \"%s\"\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' je chybná\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "schéma url nedefinováno, předpokládám HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "disk"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "selhalo získání souboru '%s' z %s: %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "nelze navázat stahování, začínám znovu\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "nelze zapisovat do souboru '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "chyba při stahování '%s': %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "chyba při zápisu do souboru '%s': %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "nelze změnit adresář na %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "spouštím XferCommand: větvení selhalo!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "selhalo stahování %s\n"
 
 #, c-format
 msgid "out of memory!"
@@ -209,10 +285,6 @@ msgid "invalid url for server"
 msgstr "nesprávná url pro server"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "nelze nastavit parametr"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "transakce inicializována"
 
@@ -261,10 +333,6 @@ msgid "cannot load package data"
 msgstr "nelze načíst data z balíčku"
 
 #, c-format
-msgid "package already installed"
-msgstr "balíček je již nainstalován"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "balíček není nainstalovaný nebo má nižší verzi"
 
@@ -273,20 +341,16 @@ msgid "cannot remove all files for package"
 msgstr "nelze odstranit všechny soubory balíčku"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "jméno balíčku není platné"
-
-#, c-format
-msgid "corrupted package"
-msgstr "poškozený balíček"
+msgid "package filename is not valid"
+msgstr "jméno souboru balíčku není platné"
 
 #, c-format
 msgid "no such repository"
 msgstr "není žádný takový repositář"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "poškozený delta rozdíl"
+msgid "invalid or corrupted delta"
+msgstr "neplatný nebo poškozený rozdíl"
 
 #, c-format
 msgid "delta patch failed"
@@ -317,10 +381,6 @@ msgid "internal error"
 msgstr "interní chyba"
 
 #, c-format
-msgid "libarchive error"
-msgstr "chyba knihovny libarchive"
-
-#, c-format
 msgid "not confirmed"
 msgstr "nepotvrzeno"
 
@@ -329,20 +389,20 @@ msgid "invalid regular expression"
 msgstr "nesprávný regulární výraz"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "spojení se vzdáleným hostitelem selhalo"
+msgid "libarchive error"
+msgstr "chyba knihovny libarchive"
+
+#, c-format
+msgid "download library error"
+msgstr "chyba knihovny pro stahování souborů"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "chyba volání externího programu pro stahování souborů"
 
 #, c-format
 msgid "unexpected error"
 msgstr "neočekávaná chyba"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "nelze zjistit md5 kontrolní součet balíčku %s-%s\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "md5 kontrolní součet balíčku %s-%s nesouhlasí\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -351,30 +411,6 @@ msgstr "%s: vynucená aktualizace na verzi %s\n"
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokální (%s) je novější než %s (%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "nelze získat soubor s popisem balíčku k %s\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "nelze zpracovat soubor s popisem balíčku v %s\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "chybí jméno balíčku v %s\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "chybí veze balíčku v %s\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "chyba při čtení balíčku %s: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "chybí metadata balíčku v %s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -391,54 +427,6 @@ msgstr "nelze odstranit záznam databáze %s-%s\n"
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "nelze odstranit položku '%s' z cache\n"
-
-#, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "url '%s' je chybná, ignoruji\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "schéma url nedefinováno, předpokládám http\n"
-
-#, c-format
-msgid "disk"
-msgstr "disk"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "selhalo získání souboru '%s' z %s: %s\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "nelze navázat stahování, začínám znovu\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "nelze zapisovat do souboru '%s'\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "chyba při stahování '%s': %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "chyba při zápisu do souboru '%s': %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "nelze změnit adresář na %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "spouštím XferCommand: větvení selhalo!\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL neobsahuje soubor pro stažení\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "selhalo stahování %s\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
@@ -465,20 +453,12 @@ msgid "unresolvable package conflicts detected\n"
 msgstr "zjištěn konflikt nerozlišitelných balíčků\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "selhala alokace paměti: nelze alokovat %zd bytů\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "odstraňuji '%s' ze seznamu cílů, protože je konfliktní s '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "příkaz: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "nelze získat md5 kontrolní součet pro soubor %s\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "soubor %s byl poškozen (nesouhlasí MD5 kontrolní součet)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -529,6 +509,10 @@ msgid "could not create temp directory\n"
 msgstr "nelze vytvořit dočasný adresář\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nelze změnit adresář na %s (%s)\n"
 
@@ -561,10 +545,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "nelze odstranit dočasný adresář %s\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "selhalo vytvoření cesty '%s': %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "nelze otevřít %s: %s\n"
 
@@ -575,11 +555,3 @@ msgstr "neexistuje cache %s, vytvářím...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nelze vytvořit cache balíčků, používám /tmp\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: %s nemohl být otevřen\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: %s nemohl být přečten\n"
