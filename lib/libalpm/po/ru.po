@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-02-18 19:46+0300\n"
+"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"PO-Revision-Date: 2008-07-19 19:52+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -22,8 +22,8 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "заменяю устаревшую версию %s-%s на %s в списке целей\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "новая версия %s-%s в списке целей --  пропускаю\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "пропускается %s-%s, поскольку новая версия %s в списке целей\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -34,7 +34,7 @@ msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "вы не можете установить два конфликтующих пакета одновременно\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
+msgid "replacing packages with -U is not supported yet\n"
 msgstr "замещение пакетов с использованием опций -A и -U еще не реализовано\n"
 
 #, c-format
@@ -62,19 +62,15 @@ msgid "could not extract %s (%s)\n"
 msgstr "не могу извлечь %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "не могу переименовать %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "не могу скопировать временный файл в %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "не могу переименовать %s в %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s сохранен как %s\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
 msgstr "не могу установить %s как %s: %s\n"
 
 #, c-format
@@ -106,16 +102,50 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "не могу добавить запись '%s' в кэш\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "не могу удалить из базы данных запись %s%s\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "неправильное имя для записи базы данных '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "повреждённая запись в базе данных '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "не могу открыть файл %s: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "не могу удалить из базы данных запись %s%s\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr ""
+"противоречивая информация в базе данных %s: не совпадает имя пакета %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr ""
+"противоречивая информация в базе данных %s: не совпадает версия пакета %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "не могу проанализировать файл с описанием пакета в %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "пропущено имя пакета в %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "пропущена версия пакета в %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "ошибка при чтении пакета %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "отсутствуют метаданые пакета в %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
@@ -138,8 +168,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s будет установлен перед %s, как зависимость\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "выбран пакет %s, предоставляющий %s\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "не удается разрешить \"%s\", зависимость \"%s\"\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "ссылка '%s' недействительна\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "схема ссылки не определена, подразумевается HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "диск"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "не удалось получить файл '%s' из %s : %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "не удалось продолжить закачку, начинаю заново\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "не могу записать в файл '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "ошибка загрузки '%s': %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "не могу записать в файл '%s': %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "не могу изменить директорию на %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "запуск XferCommand: неудача\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "не могу загрузить %s\n"
 
 #, c-format
 msgid "out of memory!"
@@ -210,10 +288,6 @@ msgid "invalid url for server"
 msgstr "неверный url"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "ну могу установить параметр"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "запрос уже инициализирован"
 
@@ -262,10 +336,6 @@ msgid "cannot load package data"
 msgstr "не удается загрузить данные пакета"
 
 #, c-format
-msgid "package already installed"
-msgstr "пакет уже установлен"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "пекет не установлен или ранней версии"
 
@@ -274,20 +344,16 @@ msgid "cannot remove all files for package"
 msgstr "не могу удалить все файлы пакета"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "неверное имя пакета"
-
-#, c-format
-msgid "corrupted package"
-msgstr "пакет поврежден"
+msgid "package filename is not valid"
+msgstr "неверное имя файла пакета"
 
 #, c-format
 msgid "no such repository"
 msgstr "нет такого репозитория"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "дельта-патчи повреждены"
+msgid "invalid or corrupted delta"
+msgstr "ошибка или повреждение в дельта-файле"
 
 #, c-format
 msgid "delta patch failed"
@@ -318,10 +384,6 @@ msgid "internal error"
 msgstr "внутренняя ошибка"
 
 #, c-format
-msgid "libarchive error"
-msgstr "ошибка в libarchive"
-
-#, c-format
 msgid "not confirmed"
 msgstr "не подтверждено"
 
@@ -330,20 +392,20 @@ msgid "invalid regular expression"
 msgstr "неверное регулярное выражение"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "не удалось подключиться к удаленному хосту"
+msgid "libarchive error"
+msgstr "ошибка в libarchive"
+
+#, c-format
+msgid "download library error"
+msgstr "ошибка в download library"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "ошибка вызова внешнего менеджера загрузки"
 
 #, c-format
 msgid "unexpected error"
 msgstr "непредвиденная ошибка"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "не могу получить контрольную сумму md5 для пакета %s-%s\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "контрольные суммы md5 для пакета %s-%s не совпали\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -352,30 +414,6 @@ msgstr "%s: принудительно обновляю до версии %s\n"
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: установленная версия (%s) новее, чем в %s (%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "ошибка извлечения файла описания пакета в %s\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "не могу проанализировать файл с описанием пакета в %s\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "пропущено имя пакета в %s\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "пропущена версия пакета в %s\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "ошибка при чтении пакета %s: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "отсутствуют метаданые пакета в %s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -392,54 +430,6 @@ msgstr "не могу удалить из базы данных запись %s-
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "не могу удалить запись '%s' из кеша\n"
-
-#, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "url '%s' недействительный, пропускаю\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "url не определён, подразумевается http\n"
-
-#, c-format
-msgid "disk"
-msgstr "диск"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "не удалось получить файл '%s' из %s : %s\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "не удалось продолжить закачку, начинаю заново\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "не могу записать в файл '%s'\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "ошибка загрузки '%s': %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "не могу записать в файл '%s': %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "не могу изменить директорию на %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "запуск XferCommand: неудача\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL не содержит имени файла для загрузки\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "не могу загрузить %s\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
@@ -466,20 +456,12 @@ msgid "unresolvable package conflicts detected\n"
 msgstr "обнаружен неразрешимый конфликт пакетов\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "сбой malloc: не удалось выделить %zd байт\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "удаляю '%s' из списка целей, поскольку он конфликтует с '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "комманда: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "не удалось получить md5 контрольную сумму для файла %s\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "архив %s поврежден (не сходятся контрольные MD5-суммы)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -530,6 +512,10 @@ msgid "could not create temp directory\n"
 msgstr "не удалось создать временную директорию\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "не могу скопировать временный файл в %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не удалось изменить директорию на %s (%s)\n"
 
@@ -562,10 +548,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "не могу удалить tmpdir %s\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "не удалось создать путь '%s' : %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "не удалось откруть %s: %s\n"
 
@@ -576,38 +558,3 @@ msgstr "кэш %s не существует, создаю...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не могу создать кэш пакетов, будет использован /tmp\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: %s не может быть открыт\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: %s не может быть прочитан\n"
-
-#, fuzzy
-#~ msgid "loading package data for %s : level=%d\n"
-#~ msgstr "загружаю данные пакета %s : уровень=%d\n"
-
-#, fuzzy
-#~ msgid "could not remove tempfile %s\n"
-#~ msgstr "не могу удалить временный файл %s\n"
-
-#, fuzzy
-#~ msgid "missing package filelist in %s, generating one\n"
-#~ msgstr "отсутствует список файлов пакета в %s, генерирую его\n"
-
-#~ msgid "please remove '%s' first, using -Rd"
-#~ msgstr "пожалуйста, уделите сначала '%s' используя -Rd\n"
-
-#~ msgid "could not extract %s (%s)"
-#~ msgstr "не могу извлечь %s (%s)"
-
-#~ msgid "could not update provision '%s' from '%s'"
-#~ msgstr "не могу обновить '%s' из '%s'"
-
-#~ msgid "cannot remove file %s: %s"
-#~ msgstr "не могу удалить файл %s: %s"
-
-#~ msgid "archive %s is corrupted (bad MD5 or SHA1 checksum)\n"
-#~ msgstr "архив %s поврежден (не сходится MD5 или SHA1 контрольная сумма)\n"
