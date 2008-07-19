@@ -149,6 +149,8 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 							return(-1);
 						}
 						sync->removes = alpm_list_add(NULL, lpkg);
+						_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+									alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 						*syncpkgs = alpm_list_add(*syncpkgs, sync);
 					}
 					_alpm_log(PM_LOG_DEBUG, "%s-%s elected for removal (to be replaced by %s-%s)\n",
@@ -259,6 +261,8 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 				alpm_list_free(replaced);
 				return(-1);
 			}
+			_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+							alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 			*syncpkgs = alpm_list_add(*syncpkgs, sync);
 		}
 	}
@@ -342,8 +346,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	if(sync == NULL) {
 		return(-1);
 	}
-	_alpm_log(PM_LOG_DEBUG, "adding target '%s' to the transaction set\n",
-						alpm_pkg_get_name(spkg));
+	_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+						alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 	trans->packages = alpm_list_add(trans->packages, sync);
 
 	return(0);
@@ -1042,13 +1046,10 @@ pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname)
 
 		pmpkg_t *pkg = alpm_sync_get_pkg(syncpkg);
 		if(strcmp(alpm_pkg_get_name(pkg), pkgname) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "found package '%s-%s' in sync\n",
-								alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 			return(syncpkg);
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "package '%s' not found in sync\n", pkgname);
 	return(NULL); /* not found */
 }
 
