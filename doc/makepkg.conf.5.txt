@@ -134,6 +134,13 @@ Options
 	that are located in opt/, you may need to add the directory to this
 	array. *NOTE:* Do not add the leading slash to the directory name.
 
+**STRIP_DIRS=(**bin lib sbin usr/{bin,lib} ...**)**::
+	If "strip" is specified in the OPTIONS array, this variable will
+	instruct makepkg where to look to for files to strip. If you build
+	packages that are located in opt/, you may need to add the directory
+	to this array. *NOTE:* Do not add the leading slash to the directory
+	name.
+
 **PKGDEST=**"/path/to/folder"::
 	If this value is not set, packages will by default be placed in the
 	current directory (location of the linkman:PKGBUILD[5]). Many people

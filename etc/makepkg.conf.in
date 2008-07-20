@@ -73,6 +73,8 @@ OPTIONS=(strip docs libtool emptydirs zipman)
 INTEGRITY_CHECK=(md5)
 #-- Info and doc directories to remove (if option set correctly above)
 DOC_DIRS=(usr/{,share/}{info,doc,gtk-doc} opt/*/{info,doc,gtk-doc})
+#-- Directories to be searched for the strip option (if option set correctly above)
+STRIP_DIRS=(bin lib sbin usr/{bin,lib,sbin,local/{bin,lib,sbin}} opt/*/{bin,lib,sbin})
 
 #########################################################################
 # PACKAGE OUTPUT
