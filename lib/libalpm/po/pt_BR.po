@@ -3,43 +3,49 @@
 # Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package manager package.
 # Lincoln de Sousa <lincoln@archlinux-br.org>, 2007.
-# Hugo Doria <hugodoria@archlinux-br.org>, 2008.
+# Hugo Doria <hugodoria@archlinux-br.org>, 2007-2008.
 # Douglas Soares de Andrade <dsandrade@gmail.com>, 2008.
 # João Felipe Santos <jfsantos@archlinux-br.org>, 2008.
-# Kayo Hamid <kayohf@archlinux-br.org>, 2008
+# Armando M. Baratti <ambaratti@archlinux-br.org>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-03-03 20:03-0600\n"
-"PO-Revision-Date: 2008-01-18 08:04-0200\n"
-"Last-Translator: João Felipe Santos <jfsantos@archlinux-br.org>\n"
-"Language-Team: Português do Brasil <contato@archlinux-br.org>\n"
+"POT-Creation-Date: 2008-07-21 14:10+0200\n"
+"PO-Revision-Date: 2008-07-20 15:00-0300\n"
+"Last-Translator: Hugo Doria <hugo@archlinux.org>\n"
+"Language-Team: Português do Brasil <www.archlinux-br.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "substituindo a versão antiga %s-%s por %s na lista de alvos\n"
+msgstr ""
+"substituindo a versão antiga %s-%s por %s na lista de pacotes a serem "
+"atualizados\n"
 
 #, c-format
-msgid "newer version %s-%s is in the target list -- skipping\n"
-msgstr "versão atualizada %s-%s está na lista de alvos -- pulando\n"
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr ""
+"ignorando %s-%s porque uma nova versão %s está na lista de pacotes a serem "
+"atualizados\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
-msgstr "pacotes conflitantes foram encontrados na lista de alvos\n"
+msgstr ""
+"pacotes conflitantes foram encontrados na lista de pacotes a serem "
+"atualizados\n"
 
 #, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
 msgstr "você não pode instalar dois pacotes conflitantes ao mesmo tempo\n"
 
 #, c-format
-msgid "replacing packages with -A and -U is not supported yet\n"
-msgstr "substituir pacotes com -A e -U ainda não é suportado\n"
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "substituir pacotes com -U ainda não é suportado\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -66,20 +72,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "não foi possível extrair %s (%s)\n"
 
 #, c-format
-msgid "could not rename %s (%s)\n"
-msgstr "não foi possível renomear %s (%s)\n"
-
-#, c-format
-msgid "could not copy tempfile to %s (%s)\n"
-msgstr "não foi possível copiar arquivo temporário para %s (%s)\n"
+msgid "could not rename %s to %s (%s)\n"
+msgstr "não foi possível renomear %s para %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
 msgstr "%s salvo como %s\n"
 
 #, c-format
-msgid "could not install %s as %s: %s\n"
-msgstr "não foi possível instalar %s como %s: %s\n"
+msgid "could not install %s as %s (%s)\n"
+msgstr "não foi possível instalar %s como %s: (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -110,20 +112,53 @@ msgid "could not add entry '%s' in cache\n"
 msgstr "não foi possível adicionar a entrada '%s' ao cache\n"
 
 #, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "não foi possível remover a entrada da base de dados %s%s\n"
+
+#, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nome inválido para a entrada na base de dados '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "entrada corrompida na base de dados '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "não foi possível abrir o arquivo %s: %s\n"
 
 #, c-format
-msgid "could not remove database entry %s%s\n"
-msgstr "não foi possível remover a entrada da base de dados %s%s\n"
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s base de dados está inconsistente: nome no pacote %s não coincide\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr ""
+"%s base de dados está inconsistente: versão no pacote %s não coincide\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "não foi possível interpretar o arquivo de descrição do pacote em %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "faltando o nome do pacote em %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "faltando a versão do pacote em %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "erro ao ler o pacote %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "faltando metadata do pacote em %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
-msgstr "tentativa de re-registrar a base de dados 'local'\n"
+msgstr "tentativa de registrar a base de dados 'local' novamente\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -142,8 +177,56 @@ msgid "%s will be installed before its %s dependency\n"
 msgstr "%s será instalado antes de sua dependência %s\n"
 
 #, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "pacote provedor foi selecionado (%s provê %s)\n"
+
+#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "não é possível resolver \"%s\", uma dependência de \"%s\"\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' é inválida\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "esquema da url não especificado, assumindo HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "disco"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "falha ao obter arquivo '%s' de %s : %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "não foi possível resumir o download, reiniciando\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "não foi possível escrever no arquivo '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "erro no download de '%s': %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "erro ao escrever no arquivo '%s': %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "não foi possível mudar para o diretório %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "rodando XferCommand: fork falhou!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "falha ao fazer o download de %s\n"
 
 #, c-format
 msgid "out of memory!"
@@ -167,7 +250,7 @@ msgstr "não foi possível encontrar ou ler o diretório"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "argumento errado ou NULO passado"
+msgstr "argumento passo está errado ou NULO"
 
 #, c-format
 msgid "library not initialized"
@@ -214,10 +297,6 @@ msgid "invalid url for server"
 msgstr "url inválida para servidor"
 
 #, c-format
-msgid "could not set parameter"
-msgstr "não foi possível setar parâmetro"
-
-#, c-format
 msgid "transaction already initialized"
 msgstr "transação já inicializada"
 
@@ -227,7 +306,7 @@ msgstr "transação não inicializada"
 
 #, c-format
 msgid "duplicate target"
-msgstr "alvo duplicado"
+msgstr "pacote duplicado"
 
 #, c-format
 msgid "transaction not prepared"
@@ -266,10 +345,6 @@ msgid "cannot load package data"
 msgstr "não foi possível carregar dados do pacote"
 
 #, c-format
-msgid "package already installed"
-msgstr "pacote já instalado"
-
-#, c-format
 msgid "package not installed or lesser version"
 msgstr "pacote não instalado ou versão inferior"
 
@@ -278,20 +353,16 @@ msgid "cannot remove all files for package"
 msgstr "não foi possível remover todos os arquivos para o pacote"
 
 #, c-format
-msgid "package name is not valid"
-msgstr "o nome do pacote não é valido"
-
-#, c-format
-msgid "corrupted package"
-msgstr "pacote corrompido"
+msgid "package filename is not valid"
+msgstr "o nome do arquivo do pacote não é valido"
 
 #, c-format
 msgid "no such repository"
 msgstr "repositório não existe"
 
 #, c-format
-msgid "corrupted delta"
-msgstr "delta corrompido"
+msgid "invalid or corrupted delta"
+msgstr "delta inválido ou corrompido"
 
 #, c-format
 msgid "delta patch failed"
@@ -322,10 +393,6 @@ msgid "internal error"
 msgstr "erro interno"
 
 #, c-format
-msgid "libarchive error"
-msgstr "erro da libarchive"
-
-#, c-format
 msgid "not confirmed"
 msgstr "não confirmado"
 
@@ -334,20 +401,20 @@ msgid "invalid regular expression"
 msgstr "expressão regular inválida"
 
 #, c-format
-msgid "connection to remote host failed"
-msgstr "conexão ao host remoto falhou"
+msgid "libarchive error"
+msgstr "erro da libarchive"
+
+#, c-format
+msgid "download library error"
+msgstr "erro na biblioteca de download"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "erro invocando programa de download externo"
 
 #, c-format
 msgid "unexpected error"
 msgstr "erro inesperado"
-
-#, c-format
-msgid "could not get md5sum for package %s-%s\n"
-msgstr "não foi possível obter a soma md5 para o pacote %s-%s\n"
-
-#, c-format
-msgid "md5sums do not match for package %s-%s\n"
-msgstr "somas md5 não coincidem para o pacote %s-%s\n"
 
 #, c-format
 msgid "%s: forcing upgrade to version %s\n"
@@ -356,30 +423,6 @@ msgstr "%s: forçando upgrade para a versão %s\n"
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: local (%s) é mais novo que %s (%s)\n"
-
-#, c-format
-msgid "error extracting package description file to %s\n"
-msgstr "erro ao extrair o arquivo de descrição do pacote para %s\n"
-
-#, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "não foi possível interpretar o arquivo de descrição do pacote em %s\n"
-
-#, c-format
-msgid "missing package name in %s\n"
-msgstr "faltando o nome do pacote em %s\n"
-
-#, c-format
-msgid "missing package version in %s\n"
-msgstr "faltando a versão do pacote em %s\n"
-
-#, c-format
-msgid "error while reading package %s: %s\n"
-msgstr "erro ao ler o pacote %s: %s\n"
-
-#, c-format
-msgid "missing package metadata in %s\n"
-msgstr "faltando metadata do pacote em %s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -398,60 +441,12 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "não foi possível remover a entrada '%s' da cache\n"
 
 #, c-format
-msgid "url '%s' is invalid, ignoring\n"
-msgstr "url '%s' é inválida, ignorando\n"
-
-#, c-format
-msgid "url scheme not specified, assuming http\n"
-msgstr "esquema da url não especificado, assumindo http\n"
-
-#, c-format
-msgid "disk"
-msgstr "disco"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "falha ao obter arquivo '%s' de %s : %s\n"
-
-#, c-format
-msgid "cannot resume download, starting over\n"
-msgstr "não foi possível resumir o download, reiniciando\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "não foi possível escrever no arquivo '%s'\n"
-
-#, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "erro no download de '%s': %s\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "erro ao escrever no arquivo '%s': %s\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "não foi possível mudar para o diretório %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "rodando XferCommand: fork falhou!\n"
-
-#, c-format
-msgid "URL does not contain a file for download\n"
-msgstr "URL não contém um arquivo para download\n"
-
-#, c-format
-msgid "failed to download %s\n"
-msgstr "falha ao fazer o download de %s\n"
-
-#, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: ignorando upgrade do pacote (a ser substituido por %s-%s)\n"
+msgstr "%s-%s: ignorando atualização do pacote (a ser substituido por %s-%s)\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: ignorando upgrade do pacote (%s => %s)\n"
+msgstr "%s: ignorando atualização do pacote (%s => %s)\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -470,20 +465,12 @@ msgid "unresolvable package conflicts detected\n"
 msgstr "conflito de pacotes não solucionável detectado\n"
 
 #, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "falha de malloc: não foi possível alocar %zd bytes\n"
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "removendo '%s' da lista de pacotes porque ele conflita com '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
 msgstr "comando: %s\n"
-
-#, c-format
-msgid "can't get md5 checksum for file %s\n"
-msgstr "não foi possível obter a soma md5 para o pacote %s\n"
-
-#, c-format
-msgid "file %s was corrupted (bad MD5 checksum)\n"
-msgstr "arquivo %s estava corrompido (checksum MD5 inválida)\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -534,6 +521,10 @@ msgid "could not create temp directory\n"
 msgstr "não foi possível criar diretório temporário\n"
 
 #, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "não foi possível copiar arquivo temporário para %s (%s)\n"
+
+#, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "não foi possível mudar diretório para %s (%s)\n"
 
@@ -566,10 +557,6 @@ msgid "could not remove tmpdir %s\n"
 msgstr "não foi possível remover o diretório temporário %s\n"
 
 #, c-format
-msgid "failed to make path '%s' : %s\n"
-msgstr "falha ao criar caminho '%s' : %s\n"
-
-#, c-format
 msgid "could not open %s: %s\n"
 msgstr "não foi possível abrir %s : %s\n"
 
@@ -580,11 +567,3 @@ msgstr "cache %s não existe, criando...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "não foi possível criar cache de pacotes, usando /tmp\n"
-
-#, c-format
-msgid "md5: %s can't be opened\n"
-msgstr "md5: %s não pôde ser aberto\n"
-
-#, c-format
-msgid "md5: %s can't be read\n"
-msgstr "md5: %s não pôde ser lido\n"
