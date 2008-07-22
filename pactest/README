@@ -288,7 +288,7 @@ Possible rules are:
   PKG_GROUPS=name|group
   PKG_PROVIDES=name|providename
   PKG_DEPENDS=name|depname
-  PKG_REQUIREDBY=name|reqbyname
+  PKG_OPTDEPENDS=name|depname
   PKG_REASON=name|intvalue
   PKG_FILES=name|filename
   PKG_BACKUP=name|backupname
@@ -303,6 +303,8 @@ its DEPENDS field.
 
   FILE_EXIST=path/to/file
   FILE_MODIFIED=path/to/file
+  FILE_MODE=path/to/file|octal
+  FILE_TYPE=path/to/file|type  (possible types: dir, file, link)
   FILE_PACNEW=path/to/file
   FILE_PACSAVE=path/to/file
   FILE_PACORIG=path/to/file
