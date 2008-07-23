@@ -26,8 +26,9 @@ failure=0
 # args:
 # pass ver1 ver2 ret expected
 pass() {
-	echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
-	echo "  --> pass"
+	#echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
+	#echo "  --> pass"
+	echo -n
 }
 
 # args:
@@ -54,12 +55,19 @@ runtest() {
 	ret=$($bin $2 $1)
 	func='pass'
 	[ $ret -eq $reverse ] || func='fail'
-	$func $1 $2 $ret $reverse
+	$func $2 $1 $ret $reverse
 	total=$(expr $total + 1)
 }
 
 # use first arg as our binary if specified
 [ -n "$1" ] && bin="$1"
+
+if [ ! -x "$bin" ]; then
+	echo "vercmp binary ($bin) could not be located"
+	exit 1
+fi
+
+echo "Beginning vercmp tests"
 
 # BEGIN TESTS
 
@@ -87,6 +95,28 @@ runtest 1.5-1 1.5   0
 runtest 1.1-1 1.1   0
 runtest 1.0-1 1.1  -1
 runtest 1.1-1 1.0   1
+
+# alphanumeric versions
+runtest 1.5b-1  1.5-1  -1
+runtest 1.5b    1.5    -1
+runtest 1.5b-1  1.5    -1
+runtest 1.5b    1.5.1  -1
+
+# from the manpage
+runtest 1.0a     1.0alpha -1
+runtest 1.0alpha 1.0b     -1
+runtest 1.0b     1.0beta  -1
+runtest 1.0beta  1.0rc    -1
+runtest 1.0rc    1.0      -1
+
+# going crazy? alpha-dotted versions
+runtest 1.5.a    1.5     1
+runtest 1.5.b    1.5.a   1
+runtest 1.5.1    1.5.b   1
+
+# alpha dots and dashes
+runtest 1.5.b-1  1.5.b   0
+runtest 1.5-1    1.5.b  -1
 
 #END TESTS
 

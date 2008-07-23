@@ -691,17 +691,13 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 		if(*ptr1 == '-' && *ptr2 == '-') {
 			/* no-op, continue comparing since we are equivalent throughout */
 		} else if(*ptr1 == '-') {
-			/* ptr1 has hit the pkgrel and ptr2 has not.
-			 * version 2 is newer iff we are not at the end of ptr2;
-			 * if we are at end then one version had pkgrel and one did not */
-			ret = *ptr2 ? -1 : 0;
-			goto cleanup;
+			/* ptr1 has hit the pkgrel and ptr2 has not. continue version
+			 * comparison after stripping the pkgrel from ptr1. */
+			*ptr1 = '\0';
 		} else if(*ptr2 == '-') {
-			/* ptr2 has hit the pkgrel and ptr1 has not.
-			 * version 1 is newer iff we are not at the end of ptr1;
-			 * if we are at end then one version had pkgrel and one did not */
-			ret = *ptr1 ? 1 : 0;
-			goto cleanup;
+			/* ptr2 has hit the pkgrel and ptr1 has not. continue version
+			 * comparison after stripping the pkgrel from ptr2. */
+			*ptr2 = '\0';
 		}
 	}
 
@@ -713,8 +709,14 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 		goto cleanup;
 	}
 
-	/* whichever version still has characters left over wins */
-	if (!*one) {
+	/* the final showdown. we never want a remaining alpha string to
+	 * beat an empty string. the logic is a bit weird, but:
+	 * - if one is empty and two is not an alpha, two is newer.
+	 * - if one is an alpha, two is newer.
+	 * - otherwise one is newer.
+	 * */
+	if ( ( !*one && !isalpha((int)*two) )
+			|| isalpha((int)*one) ) {
 		ret = -1;
 	} else {
 		ret = 1;
