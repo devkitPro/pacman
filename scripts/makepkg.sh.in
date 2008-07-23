@@ -362,11 +362,10 @@ resolve_deps() {
 	local deplist="$(check_deps $*)"
 	if [ "$deplist" = "" ]; then
 		return $R_DEPS_SATISFIED
-	else
-		pkgdeps="$pkgdeps $deplist"
 	fi
 
 	if handledeps $deplist; then
+		pkgdeps="$pkgdeps $deplist"
 		# check deps again to make sure they were resolved
 		deplist="$(check_deps $*)"
 		[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
@@ -390,6 +389,7 @@ remove_deps() {
 	[ "$pkgdeps" = "" ] && return
 
 	local dep depstrip deplist
+	deplist=""
 	for dep in $pkgdeps; do
 		depstrip=$(echo $dep | sed -e 's|=.*$||' -e 's|>.*$||' -e 's|<.*$||')
 		deplist="$deplist $depstrip"
