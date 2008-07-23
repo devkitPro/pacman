@@ -1,0 +1,301 @@
+#!/bin/bash
+# pactree : a simple dependency tree viewer
+#
+# Copyright (C) 2008 Carlo "carlocci" Bersani <carlocci@gmail.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Original http://carlocci.ngi.it/arch/pactree
+# Credit to scj for the graphviz idea
+
+# set the colors
+branch1_color="\033[0;33m"    #Brown
+branch2_color="\033[0;37m"    #Gray
+leaf_color="\033[1;32m"       #Light green
+leaf2_color="\033[0;32m"      #Green
+
+# set the separators
+separator="   "
+branch_tip1="|--"
+branch_tip2="+--"
+provides="provides "
+
+# set the graphviz options
+# http://www.graphviz.org/doc/info/output.html for available output formats
+# http://www.graphviz.org/doc/info/colors.html for available colors
+gformat="png"                 #output format
+start_color="red"             #START color
+nodes_color="green"           #color of the nodes
+arrow1_color="chocolate4"     #color of the normal arrow
+arrow2_color="grey"           #color of the "provided by" headless arrow
+
+readonly prog_name="pactree"
+readonly prog_ver="0.2"
+
+_usage(){
+	echo "This program generates the dependency tree of an installed package"
+	echo "Usage:   $prog_name [OPTIONS] <installed packages>"
+	echo
+	echo " OPTIONS:"
+	echo "  -c, --color                Enable color output"
+	echo "  -d, --depth INT            Limit the shown dependencies depth"
+	echo "  -g, --graph                Use graphviz to make an image of the tree"
+	echo "  -l, --linear               Enable linear output"
+	echo "  -s, --silent               Shh, let me hear those errors!"
+	echo "  -u, --unique               Print the dependency list with no duplicates"
+	echo
+	echo "  -h, --help                 Print this help message"
+	echo "  -v, --version              Print the program name and version"
+	echo
+	echo "Example: $prog_name -c -d 2 readline"
+}
+
+_version(){
+	echo "$prog_name version $prog_ver"
+	echo "Copyright (C) 2008 Carlo \"carlocci\" Bersani <carlocci@gmail.com>"
+}
+# end of the friendliness
+
+
+# grab a field from the database: $1=path/to/file, $2=field to grab
+_grabfield(){
+	for line in $(cat "$1" 2>/dev/null ); do
+		if [ -z "$line" ]; then
+			continue;
+		fi;
+		if [[ "$line" =~ %[A-Z]*% ]]; then
+			current="$line"
+			continue;
+		fi;
+		if [ "$current" = "$2" ]; then
+			echo "$line"
+		fi;
+	done
+}
+
+
+# find a dep in the db: $1=dep, $2=field, $3=dbfile, ret=file list
+_finddep(){
+	for line in $(awk 'BEGIN{RS=""}
+	                   {
+	                   if ($1=="'"$2"'"){
+	                     for (i=2 ; i<=NF ; ++i){
+	                       if ($i ~ /^'"$1"'([<>=]+.*|)$/ ){
+	                         print FILENAME}
+	                       }
+	                     }
+	                   }' $(find $pac_db -name $3)); do
+		echo "${line%/*}"
+	done
+}
+
+
+# Recursive function: does all of the work, pays all of the taxes     #
+_tree(){
+	pkg_name="$1"
+	pkg_dirs="$(echo $pac_db/$pkg_name-[0-9]*)"
+
+	# Is $pkg_name real or provided?
+	[ ! -d "$pkg_dirs" ] && pkg_dirs="$(_finddep $pkg_name %PROVIDES% depends)"
+
+	for pkg_dir in $pkg_dirs ; do
+		spaces="$2"
+		unset provided
+		branch_tip="$branch_tip1"
+		branch_color="$branch1_color"
+		pkg_name="$(_grabfield "$pkg_dir/desc" %NAME%)"
+		if [ ! "$pkg_name" = "$1" ]; then
+			provided="$leaf2_color $provides$leaf_color$1"
+			branch_tip="$branch_tip2"
+			branch_color="$branch2_color"
+			if [ $graphviz -eq 1 ] && [[ ! "${dep_list[@]}" =~ _$1_ ]] && [ $spaces -ne $((max_depth+1)) ]; then
+				echo "\"$1\" -> \"$pkg_name\" [arrowhead=none, color=$arrow2_color];"
+				dep_list=( "${dep_list[@]}" "_$1_" )
+				_tree "$pkg_name" $((spaces+1))
+				continue
+			fi
+		fi
+
+		# Generate the spacer
+		spacer=""
+		for each in $(seq 1 $spaces); do
+			spacer="$spacer$separator"
+		done
+		spacer="$spacer$branch_tip"
+
+		[ $silent -ne 1 ] &&	echo -e "$branch_color$spacer$leaf_color$pkg_name$provided"
+
+		[ ! -d "$pkg_dir" ] && echo "No $pkg_name in the database (inconsistent database?)" >&2
+
+		if [[ ! " ${dep_list[@]} " =~ " $pkg_name " ]] && [ $spaces -ne $max_depth ]; then
+			dep_list=( "${dep_list[@]}" "$pkg_name" )
+			for dep_pkg in $(_grabfield "$pkg_dir/depends" %DEPENDS%); do
+				spaces=$2		#Bash scoping ;_;
+				if [ $graphviz -eq 1 ]; then
+					echo "\"$1\" -> \"${dep_pkg%%[<>=]*}\" [color=$arrow1_color];"
+				fi
+				_tree "${dep_pkg%%[<>=]*}" $((spaces+1))
+			done
+		fi
+	done
+}
+
+
+# Main program: gets all of the money, pays none of the taxes
+
+# Command line parameters parser
+if [ $# -eq 0 ]; then
+	_usage
+	exit 1
+fi
+
+options=( "$@" )
+len_options=${#options[@]}
+for (( n=0 ; n < $len_options ; n++ )); do
+	if [ "${options[$n]}" = "--" ]; then
+		unset options[$n]
+		break
+	fi
+	if [ "${options[$n]}" = "-h" -o "${options[$n]}" = "--help" ]; then
+		_usage
+		exit 0
+	fi
+
+	if [ "${options[$n]}" = "-v" -o "${options[$n]}" = "--version" ]; then
+		_version
+		exit 0
+	fi
+
+	if [ "${options[$n]}" = "-l" -o "${options[$n]}" = "--linear" ]; then
+		unset options[$n]
+		linear=1
+		continue
+	fi
+
+	if [ "${options[$n]}" = "-s" -o "${options[$n]}" = "--silent" ]; then
+		unset options[$n]
+		silent=1
+		continue
+	fi
+
+	if [ "${options[$n]}" = "-u" -o "${options[$n]}" = "--unique" ]; then
+		unset options[$n]
+		silent=1
+		nodup=1
+		continue
+	fi
+
+	if [ "${options[$n]}" = "-g" -o "${options[$n]}" = "--graph" ]; then
+		unset options[$n]
+		graphviz=1
+		continue
+	fi
+
+	if [ "${options[$n]}" = "-c" -o "${options[$n]}" = "--color" ]; then
+		unset options[$n]
+		colored=1
+		continue
+	fi
+
+	if [[ "${options[$n]}" =~ -d[[:digit:]]* || "${options[$n]}" == "--depth" ]]; then
+		if [[ "${options[$n]#-d}" =~ [[:digit:]]+ ]]; then
+			max_depth="${options[$n]#-d}"
+		elif [[ ${options[$((n+1))]} =~ [[:digit:]]+ ]]; then
+#		if [ ${options[$((n+1))]} -eq ${options[$((n+1))]} 2>/dev/null ]; then
+			max_depth="${options[$((n+1))]}"
+			unset options[$((n+1))]
+			((++n))
+		fi
+		unset options[$n]
+		continue
+	fi
+done
+# End of the dumb command line parser
+
+# Env
+colored=${colored:-0}
+max_depth=${max_depth:--10}
+linear=${linear:-0}
+silent=${silent:-0}
+nodup=${nodup:-0}
+graphviz=${graphviz:-0}
+
+if [ $colored -ne 1 ]; then
+	unset branch1_color
+	unset leaf_color
+	unset leaf2_color
+	unset branch2_color
+fi
+
+if [ $linear -eq 1 ]; then
+	unset separator
+	unset branch_tip1
+	unset branch_tip2
+	unset provides
+fi
+
+if [ $graphviz -eq 1 ]; then
+	silent=1
+	nodup=0
+	if [ ! -f /usr/bin/dot ]; then
+		echo "ERROR: package graphviz is not installed"
+		echo "       Run pacman -S graphviz to install it"
+		exit 1
+	fi
+fi
+
+if [ ! -r /etc/pacman.conf ]; then
+	echo "ERROR: unable to read /etc/pacman.conf"
+	exit 1
+else
+	eval $(awk '/DBPath/ {print $1$2$3}' /etc/pacman.conf)
+fi
+
+pac_db="${DBPath:-/var/lib/pacman}/local"
+
+if [ ! -d "$pac_db" ] ; then
+	echo "ERROR: pacman database directory ${pac_db} not found"
+	exit 1
+fi
+# Env End
+
+
+# Program starts
+_main(){
+	for pkg_name in ${options[@]} ; do
+		[ $graphviz -eq 1 ] && echo -e "\"START\" -> \"$pkg_name\" ;"
+		_tree "$pkg_name" 0
+		if [ $nodup -eq 1 ]; then
+			for pkg_tree in ${dep_list[@]} ; do
+				echo "$pkg_tree"
+			done
+		fi
+	done
+	if [ $silent -eq 0 ]; then
+		echo -ne '\033[0m' # return colors to normal?
+		echo -ne '\033[?25h' #return cursor to normal?
+	fi
+}
+
+
+if [ $graphviz -eq 1 ]; then
+	root_pkgs="${options[@]}"
+	# Uncomment for the "generated by pactree" node in graphviz
+	#advert="xyz [height=0.07, fontsize=8.0, label=\"GENERATED WITH PACTREE\",shape=box,color="black",style=filled,fontcolor="white"];\n"
+
+	echo -e "digraph G { START [color=$start_color, style=filled];\n node [style=filled, color=$nodes_color];\n$(_main)\n$advert}" | dot -T$gformat -o "${root_pkgs// /_}.deps.$gformat"
+else _main
+fi
+
+# vim: set ts=2 sw=2 noet:

@@ -6,6 +6,7 @@ EXTRA_DIST = \
 	pacdiff \
 	paclist \
 	pacsearch \
+	pactree \
 	updatesync \
 	vimprojects \
 	wget-xdelta.sh \
