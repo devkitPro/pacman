@@ -357,6 +357,8 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 {
 	const alpm_list_t *i, *j, *k;
 	alpm_list_t *ret = NULL;
+	/* copy the pkgcache- we will free the list var after each needle */
+	alpm_list_t *list = alpm_list_copy(_alpm_db_get_pkgcache(db));
 
 	ALPM_LOG_FUNC;
 
@@ -367,6 +369,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 		if(i->data == NULL) {
 			continue;
 		}
+		ret = NULL;
 		targ = i->data;
 		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
@@ -374,7 +377,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			RET_ERR(PM_ERR_INVALID_REGEX, NULL);
 		}
 
-		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
+		for(j = list; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 			const char *matched = NULL;
 			const char *name = alpm_pkg_get_name(pkg);
@@ -407,6 +410,10 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			}
 		}
 
+		/* Free the existing search list, and use the returned list for the
+		 * next needle. This allows for AND-based package searching. */
+		alpm_list_free(list);
+		list = ret;
 		regfree(&reg);
 	}
 
