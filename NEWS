@@ -10,9 +10,10 @@ VERSION         DESCRIPTION
               - added CleanMethod option for variety in cache cleaning
               - new Turkish translation, all others updated and revised
               - handle multiple groups in -Ss and -Qs operations
-              - allow -q/--quiet option with -o/--own option
+              - allow -q/--quiet option with -o/--own and -g/--groups options
               - removed hack for packages with unknown installed size
               - add SyncFirst option to pacman.conf
+              - support installation of versioned deps : pacman -S "dep>=2.0"
               - add --enable-git-version configure flag to identify
                 developmental build version
               - do not duplicate packages in required by list
@@ -32,6 +33,8 @@ VERSION         DESCRIPTION
               - allow disabling of internal download with new configure
                 flag --disable-internal-download
               - pactest can now check file permissions
+              - add the possibility to mark the pactests known to fail,
+                which allows more informative results of make check
               - libalpm-specific changes:
                 - use dynamic string allocation in package structure
                 - new functions for manipulating pmdepend_t objects
@@ -45,7 +48,6 @@ VERSION         DESCRIPTION
                 - refactor of download code
                 - download callback API changes
                 - removed test_delta_md5sum and test_pkg_md5sum functions
-                - avoid adding duplicate target names
                 - add _alpm_archive_fgets function to read line-by-line from
                   an archive
                 - read .PKGINFO directly from package file with no temp file
@@ -55,7 +57,7 @@ VERSION         DESCRIPTION
                   other find functions
                 - swap parameters of PM_TRANS_CONV_INSTALL_IGNOREPKG to make
                   more sense
-                - fix removing multiple items in dependency chain
+                - fix -Rs when removing multiple items in dependency chain
               - makepkg-specific changes:
                 - support for resuming source downloads
                 - added zipman option
