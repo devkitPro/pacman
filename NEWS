@@ -1,5 +1,75 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.2.0
+              - removed -A/--add option from pacman frontend
+              - added --asexplicit option
+              - new remove option --unneeded
+              - add -Rss option to remove all dependencies
+              - removed useless -e/--dependsonly option
+              - config options are now case sensitive
+              - added CleanMethod option for variety in cache cleaning
+              - new Turkish translation, all others updated and revised
+              - handle multiple groups in -Ss and -Qs operations
+              - allow -q/--quiet option with -o/--own option
+              - removed hack for packages with unknown installed size
+              - add SyncFirst option to pacman.conf
+              - add --enable-git-version configure flag to identify
+                developmental build version
+              - do not duplicate packages in required by list
+              - pacman.static is no longer built
+              - all error messages use pm_fprintf
+              - disable geteuid in cygwin
+              - use off_t type for large file support
+              - add vercmp test script
+              - moved gensync and updatesync to contrib/
+              - rewrote pacsearch script in perl
+              - paclist script to list installed packages from a repo
+              - bacman script to make backup of package from filesystem
+              - combined repo-add and repo-remove into one script
+              - removed --force option from repo-add
+              - add --quiet option to repo-add/repo-remove
+              - update libtool version to 1.5.26
+              - allow disabling of internal download with new configure
+                flag --disable-internal-download
+              - pactest can now check file permissions
+              - libalpm-specific changes:
+                - use dynamic string allocation in package structure
+                - new functions for manipulating pmdepend_t objects
+                - store replaces and force in local database
+                - moved deptest functionality to backend
+                - add alpm_checkdbconflicts function
+                - fix PM_ERR_CONFLICTING_DEPS handling
+                - cleanup of pmsyncpkg_t
+                - add alpm_sync_newversion function
+                - cleanup of alpm_list code
+                - refactor of download code
+                - download callback API changes
+                - removed test_delta_md5sum and test_pkg_md5sum functions
+                - avoid adding duplicate target names
+                - add _alpm_archive_fgets function to read line-by-line from
+                  an archive
+                - read .PKGINFO directly from package file with no temp file
+                - native support for both libdownload and libfetch
+                - rework delta algorithm (we still need script updates)
+                - swap parameters of alpm_pkg_find for consistency with
+                  other find functions
+                - swap parameters of PM_TRANS_CONV_INSTALL_IGNOREPKG to make
+                  more sense
+                - fix removing multiple items in dependency chain
+              - makepkg-specific changes:
+                - support for resuming source downloads
+                - added zipman option
+                - removed -b/--builddeps
+                - various portability fixes for BSD and Mac OS X
+                - check for valid options in PKGBUILD
+                - add --allsource option
+                - remove deprecated --usesudo option
+                - handle spaces in build directory
+                - made keeping docs the default option
+                - use pacman version dep resolving
+                - fix regression in library stripping
+                - make strip paths configurable
+              - MANY other bug fixes and small improvements
 3.1.4         - various small code cleanups and fixes
               - small documentation updates
               - improvements to PKGBUILD.vim
