@@ -343,13 +343,8 @@ handledeps() {
 		fi
 	fi
 
-	# rerun any additional sh scripts found in /etc/profile.d/
-	local script
-	for script in /etc/profile.d/*.sh; do
-		if [ -x $script ]; then
-			source $script &>/dev/null
-		fi
-	done
+	# we might need the new system environment
+	source /etc/profile &>/dev/null
 
 	return $R_DEPS_SATISFIED
 }
