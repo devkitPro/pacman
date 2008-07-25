@@ -72,7 +72,7 @@ sub to_color {
 
 my %allpkgs = ();
 
-my $syncout = `pacman -Ss @ARGV`;
+my $syncout = `pacman -Ss '@ARGV'`;
 # split each sync search entry into its own array entry
 my @syncpkgs = split(/\n^(?=\w)/m, $syncout);
 # remove the extra \n from the last desc entry
@@ -93,7 +93,7 @@ foreach $_ (@syncpkgs) {
 	$allpkgs{$pkgfields[1]} = [ @pkgfields ];
 }
 
-my $queryout = `pacman -Qs @ARGV`;
+my $queryout = `pacman -Qs '@ARGV'`;
 # split each querysearch entry into its own array entry
 my @querypkgs = split(/\n^(?=\w)/m, $queryout);
 # remove the extra \n from the last desc entry
