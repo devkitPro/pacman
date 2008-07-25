@@ -766,19 +766,18 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->force = pkg->force;
 	newpkg->reason = pkg->reason;
 
-	newpkg->licenses   = alpm_list_strdup(alpm_pkg_get_licenses(pkg));
-	newpkg->replaces   = alpm_list_strdup(alpm_pkg_get_replaces(pkg));
-	newpkg->groups     = alpm_list_strdup(alpm_pkg_get_groups(pkg));
-	newpkg->files      = alpm_list_strdup(alpm_pkg_get_files(pkg));
-	newpkg->backup     = alpm_list_strdup(alpm_pkg_get_backup(pkg));
-	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
+	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
+	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
+	newpkg->groups     = alpm_list_strdup(pkg->groups);
+	newpkg->files      = alpm_list_strdup(pkg->files);
+	newpkg->backup     = alpm_list_strdup(pkg->backup);
+	for(i = pkg->depends; i; i = alpm_list_next(i)) {
 		newpkg->depends = alpm_list_add(newpkg->depends, _alpm_dep_dup(i->data));
 	}
-	newpkg->optdepends = alpm_list_strdup(alpm_pkg_get_optdepends(pkg));
-	newpkg->conflicts  = alpm_list_strdup(alpm_pkg_get_conflicts(pkg));
-	newpkg->provides   = alpm_list_strdup(alpm_pkg_get_provides(pkg));
-	newpkg->deltas     = alpm_list_copy_data(alpm_pkg_get_deltas(pkg),
-																					 sizeof(pmdelta_t));
+	newpkg->optdepends = alpm_list_strdup(pkg->optdepends);
+	newpkg->conflicts  = alpm_list_strdup(pkg->conflicts);
+	newpkg->provides   = alpm_list_strdup(pkg->provides);
+	newpkg->deltas     = alpm_list_copy_data(pkg->deltas, sizeof(pmdelta_t));
 
 	/* internal */
 	newpkg->origin = pkg->origin;
