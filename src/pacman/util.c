@@ -519,13 +519,17 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	mbisize = isize / (1024.0 * 1024.0);
 
 	if(install) {
-		list_display(_("Targets:"), targets);
+		asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
+		list_display(str, targets);
+		free(str);
 		printf("\n");
 
 		printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
 		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
 	} else {
-		list_display(_("Remove:"), targets);
+		asprintf(&str, _("Remove (%d):"), alpm_list_count(targets));
+		list_display(str, targets);
+		free(str);
 		printf("\n");
 
 		printf(_("Total Removed Size:   %.2f MB\n"), mbisize);
