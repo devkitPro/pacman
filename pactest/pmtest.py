@@ -90,6 +90,7 @@ class pmtest:
         # Test rules
         self.rules = []
         self.files = []
+        self.expectfailure = False
         
         if os.path.isfile(self.name):
             execfile(self.name)

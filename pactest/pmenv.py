@@ -86,13 +86,25 @@ class pmenv:
         """
         passed = 0
         tpassed = []
+        failed = 0
         tfailed = []
+        expectedfail = 0
+        texpectedfail = []
+        unexpectedpass = 0
+        tunexpectedpass = []
         for test in self.testcases:
             fail = test.result["fail"]
-            if fail == 0:
+            if fail == 0 and not test.expectfailure:
                 passed += 1
                 tpassed.append(test)
+            elif fail != 0 and test.expectfailure:
+                expectedfail += 1
+                texpectedfail.append(test)
+            elif fail == 0: # and not test.expectfail
+                unexpectedpass += 1
+                tunexpectedpass.append(test)
             else:
+                failed += 1
                 tfailed.append(test)
 
         def _printtest(t):
@@ -114,17 +126,26 @@ class pmenv:
         print "=========="*8
         print "Results"
         print "----------"*8
+        print " Passed:"
         for test in tpassed: _printtest(test)
         print "----------"*8
+        print " Expected Failures:"
+        for test in texpectedfail: _printtest(test)
+        print "----------"*8
+        print " Unexpected Passes:"
+        for test in tunexpectedpass: _printtest(test)
+        print "----------"*8
+        print " Failed:"
         for test in tfailed: _printtest(test)
         print "----------"*8
 
         total = len(self.testcases)
-        failed = total - passed
-        print "TOTAL = %3u" % total
+        print "Total            = %3u" % total
         if total:
-            print "PASS  = %3u (%6.2f%%)" % (passed, float(passed) * 100 / total)
-            print "FAIL  = %3u (%6.2f%%)" % (failed, float(failed) * 100 / total)
+            print "Pass             = %3u (%6.2f%%)" % (passed, float(passed) * 100 / total)
+            print "Expected Fail    = %3u (%6.2f%%)" % (expectedfail, float(expectedfail) * 100 / total)
+            print "Unexpected Pass  = %3u (%6.2f%%)" % (unexpectedpass, float(unexpectedpass) * 100 / total)
+            print "Fail             = %3u (%6.2f%%)" % (failed, float(failed) * 100 / total)
         print ""
 
 if __name__ == "__main__":
