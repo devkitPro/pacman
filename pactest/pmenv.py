@@ -27,6 +27,12 @@ class pmenv:
     """Environment object
     """
 
+    testcases = []
+    passed = 0
+    failed = 0
+    expectedfail = 0
+    unexpectedpass = 0
+
     def __init__(self, root = "root"):
         self.root = os.path.abspath(root)
         self.pacman = {
@@ -36,7 +42,6 @@ class pmenv:
             "valgrind": 0,
             "nolog": 0
         }
-        self.testcases = []
 
     def __str__(self):
         return "root = %s\n" \
@@ -47,8 +52,7 @@ class pmenv:
         """
         """
         if not os.path.isfile(testcase):
-            err("file %s not found" % testcase)
-            return
+            raise IOError("test file %s not found" % testcase)
         test = pmtest.pmtest(testcase, self.root)
         self.testcases.append(test)
 
@@ -84,27 +88,23 @@ class pmenv:
     def results(self):
         """
         """
-        passed = 0
         tpassed = []
-        failed = 0
         tfailed = []
-        expectedfail = 0
         texpectedfail = []
-        unexpectedpass = 0
         tunexpectedpass = []
         for test in self.testcases:
             fail = test.result["fail"]
             if fail == 0 and not test.expectfailure:
-                passed += 1
+                self.passed += 1
                 tpassed.append(test)
             elif fail != 0 and test.expectfailure:
-                expectedfail += 1
+                self.expectedfail += 1
                 texpectedfail.append(test)
             elif fail == 0: # and not test.expectfail
-                unexpectedpass += 1
+                self.unexpectedpass += 1
                 tunexpectedpass.append(test)
             else:
-                failed += 1
+                self.failed += 1
                 tfailed.append(test)
 
         def _printtest(t):
@@ -142,13 +142,13 @@ class pmenv:
         total = len(self.testcases)
         print "Total            = %3u" % total
         if total:
-            print "Pass             = %3u (%6.2f%%)" % (passed, float(passed) * 100 / total)
-            print "Expected Fail    = %3u (%6.2f%%)" % (expectedfail, float(expectedfail) * 100 / total)
-            print "Unexpected Pass  = %3u (%6.2f%%)" % (unexpectedpass, float(unexpectedpass) * 100 / total)
-            print "Fail             = %3u (%6.2f%%)" % (failed, float(failed) * 100 / total)
+            print "Pass             = %3u (%6.2f%%)" % (self.passed, float(self.passed) * 100 / total)
+            print "Expected Fail    = %3u (%6.2f%%)" % (self.expectedfail, float(self.expectedfail) * 100 / total)
+            print "Unexpected Pass  = %3u (%6.2f%%)" % (self.unexpectedpass, float(self.unexpectedpass) * 100 / total)
+            print "Fail             = %3u (%6.2f%%)" % (self.failed, float(self.failed) * 100 / total)
         print ""
 
 if __name__ == "__main__":
-    env = pmenv("/tmp")
-    print env
+    pass
+
 # vim: set ts=4 sw=4 et:

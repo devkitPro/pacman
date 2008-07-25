@@ -43,10 +43,6 @@ LOGFILE     = "var/log/pactest.log"
 
 verbose = 0
 
-def err(msg):
-    print "error: " + msg
-    sys.exit(1)
-
 def vprint(msg):
     if verbose:
         print msg
@@ -273,4 +269,5 @@ def mkdir(dir):
 
 if __name__ == "__main__":
     pass
+
 # vim: set ts=4 sw=4 et:

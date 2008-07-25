@@ -95,7 +95,7 @@ class pmtest:
         if os.path.isfile(self.name):
             execfile(self.name)
         else:
-            err("file %s does not exist!" % self.name)
+            raise IOerror("file %s does not exist!" % self.name)
 
     def generate(self):
         """
@@ -268,6 +268,6 @@ class pmtest:
 
 
 if __name__ == "__main__":
-    test = pmtest("test1", "./root")
-    print test
+    pass
+
 # vim: set ts=4 sw=4 et:

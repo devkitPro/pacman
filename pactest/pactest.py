@@ -93,13 +93,18 @@ if __name__ == "__main__":
     env.pacman["valgrind"] = opts.valgrind
     env.pacman["manual-confirm"] = opts.manualconfirm
 
-    if len(opts.testcases) == 0:
+    if opts.testcases is None or len(opts.testcases) == 0:
         print "no tests defined, nothing to do"
+        sys.exit(2)
     else:
-        for i in opts.testcases: env.addtest(i)
+        for i in opts.testcases:
+            env.addtest(i)
 
         # run tests and print overall results
         env.run()
         env.results()
+
+        if env.failed > 0:
+            sys.exit(1)
 
 # vim: set ts=4 sw=4 et:
