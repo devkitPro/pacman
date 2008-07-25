@@ -2,7 +2,7 @@ ALPM library overview & internals
 =================================
 
 Here is a list of the main objects and files from the ALPM (i.e. Arch Linux
-Package Management) library. This document, whilst not exhaustive, also
+Package Management) library. This document, while not exhaustive, also
 indicates some limitations (on purpose, or sometimes due to its poor design) of
 the library at the present time.
 
@@ -13,9 +13,8 @@ the frontend. Lots of structures are of an opaque type and their fields are
 only accessible in read-only mode, through some clearly defined functions.
 
 In addition to "alpm.h", the interfaces of "alpm_list.h" have also been made
-available to the frontend. It is not a requirement for the frontend to use
-these list functions; however, it prevents frontends from having to reimplement
-a list data structure.
+available to the frontend, for allowing it to manipulate the lists returned by
+the backend.
 
 Several structures and functions have been renamed compared to pacman 2.9 code.
 This was done at first for the sake of naming scheme consistency, and then
@@ -25,7 +24,7 @@ same name declared in both spaces. To avoid such conflicts, internal function
 names have been prepended with "_alpm_".
 
 In a general manner, public library functions are named "alpm_<type>_<action>"
-(examples: alpm_trans_commit(), alpm_release(), alpm_pkg_getinfo(), ...).
+(examples: alpm_trans_commit(), alpm_release(), alpm_pkg_get_name(), ...).
 Internal (and thus private) functions should be named "_alpm_XXX" for instance
 (examples: _alpm_needbackup(), _alpm_runscriplet(), ...). Functions defined and
 used inside a single file should be defined as "static".
@@ -33,59 +32,63 @@ used inside a single file should be defined as "static".
 
 [Initialization]
 
-alpm_init() is used to initialize library internals and to create
+alpm_initialize() is used to initialize library internals and to create
 a transparent handle object. Before its call, the library can't be used.
 
-alpm_lib_release() just does the opposite (memory used by the library, and the
-handle is freed).  After its call, the library is no longer available.
+alpm_release() just does the opposite (memory used by the library, and the
+handle is freed). After its call, the library is no longer available.
 
 
 [Options]
 
-In the future, the library will not use any configuration file.  It will be up
-to the front end to The handle holds a
-number of configuration options instead (IGNOREPKG, SYSLOG usage,
-log file name, registered databases, ...).
+The library does not use any configuration file. It is up to the front end to
+configure the library as needed; the handle holds a number of configuration
+options instead.
 
 All of the following options have a alpm_option_get_* and alpm_option_set_*
-function for getting and setting the value.  The cannot be set before the
+function for getting and setting the value. They cannot be set before the
 library is initialized.
 
 * logcb: The callback function for "log" operations.
-* dlcb: The callback function for download progress.
-* logmask: The logging mask for which level of output is sent to the logcb.
-* root: The root directory on which pacman operates (Default: /)
-* dbpath: The base path to pacman's databases (Default: var/lib/pacman)
-* cachedir: The base path to pacman's download cache (Default: var/cache/pacman)
-* logfile: The base path to pacman's log file (Default: var/log/pacman.log)
+* dlcb: The callback function for download progress of each package.
+* totaldlcb: The callback function for overall download progress.
+* root: The root directory for pacman to install to (Default: /)
+* dbpath: The toplevel database directory (Default: /var/lib/pacman)
+* logfile: The base path to pacman's log file (Default: /var/log/pacman.log)
 * usesyslog: Log to syslog instead of `logfile` for file-base logging.
 * xfercommand: The command to use for downloading instead of pacman's internal
-             downloading functionality.
+               downloading functionality.
 * nopassiveftp: Do not use passive FTP commands for ftp connections.
-* chomp: No way, easter eggs are secret!
-* usecolor: Unimplemented, but for the future. You can assume what it means.
 
-The following options also have a `alpm_option_add_*` function, as the values
-are list structures (NOTE: The add functions are NOT plural, as they're in
-english: alpm_option_get_noupgrades -> alpm_option_add_noupgrade).
+The following options also have `alpm_option_{add,remove}_*` functions, as the
+values are list structures.
+NOTE: The add and remove functions are NOT plural, as they are in English:
+alpm_option_{get,set}_noupgrades -> alpm_option_{add,remove}_noupgrade.
 
+* cachedirs: Paths to pacman's download caches (Default: /var/cache/pacman/pkg)
 * noupgrades: Files which will never be touched by pacman (extracted as .pacnew)
 * noextracts: Files which will never be extracted at all (no .pacnew file)
 * ignorepkgs: Packages to ignore when upgrading.
-* holdpkgs: Packages which must be upgraded before continuing.
+* ignoregrps: Groups to ignore when upgrading.
+* holdpkgs: Important packages which need a confirmation before being removed.
 
 The following options are read-only, having ONLY alpm_option_get_* functions:
 
+* lockfile: The file used for locking the database
+  (Default: <dbpath>/db.lck)
 * localdb: A pmdb_t structure for the local (installed) database
 * syncdbs: A list of pmdb_t structures to which pacman can sync from.
 
+The following options are write-only, having ONLY alpm_option_set_* functions:
+
+* usedelta: Download delta files instead of complete packages if possible.
 
 [Transactions]
 
-The transaction sturcture permits easy manipulations of several packages
+The transaction structure permits easy manipulations of several packages
 at a time (i.e. adding, upgrade and removal operations).
 
-A transaction can be initiated with a type (ADD, UPGRADE or REMOVE),
+A transaction can be initiated with a type (SYNC, UPGRADE or REMOVE),
 and some flags (NODEPS, FORCE, CASCADE, ...).
 
 Note: there can only be one type at a time: a transaction is either
@@ -105,7 +108,7 @@ These targets represent the list of packages to be handled.
 
 Then, a transaction needs to be prepared (alpm_trans_prepare()). It
 means that the various targets added, will be inspected and challenged
-against the set of already installed packages (dependency checkings,
+against the set of already installed packages (dependency checking, etc...)
 
 Last, a callback is associated with each transaction. During the
 transaction resolution, each time a new step is started or done (i.e
@@ -116,27 +119,27 @@ the resolution. Can be useful to implement a progress bar.
 
 [Package Cache]
 
-libalpm maintains two caches for each DB.  One is a general package cache, the
-other is a group cache (for package groups).  These caches are loaded on demand,
-and freed when the libary is.
-It is important to note tha, as a general rule, package structures should NOT be
-freed manually, as they SHOULD be part of the cache.
-The cache of a database is always updated by the library after
-an operation changing the database content (adding and/or removal of
-packages). Beware frontends ;)
+libalpm maintains two caches for each DB. One is a general package cache, the
+other is a group cache (for package groups). These caches are loaded on demand,
+and freed when the library is.
+
+It is important to note that, as a general rule, package structures should NOT
+be freed manually, as they SHOULD be part of the cache.  The cache of a
+database is always updated by the library after an operation changing the
+database content (adding and/or removal of packages).  Beware frontends ;)
 
 
 [Package]
 
-The package structure maintains all information for a package.  In general,
-packages should never be freed from front-ends, as they should always be part of
-the package cache.
+The package structure maintains all information for a package. In general,
+packages should never be freed from front-ends, as they should always be part
+of the package cache.
 
-The 'origin' data member indicates whether the package is from a file
-(i.e. -U operations) or from the package cache.  In the case of a file, all data
-members available are present in the structure.  Packages indicated as being
-from the cache have data members filled on demand.  For this reason, the
-alpm_pkg_get_* functions will load the data from the DB as needed.
+The 'origin' data member indicates whether the package is from a file (i.e. -U
+operations) or from the package cache. In the case of a file, all data members
+available are present in the structure. Packages indicated as being from the
+cache have data members filled on demand. For this reason, the alpm_pkg_get_*
+functions will load the data from the DB as needed.
 
 
 [Errors]
@@ -149,13 +152,15 @@ indicating success, -1 indicating a failure.
 If -1 is returned, the variable pm_errno is set to a meaningful value
 Wise frontends should always care for these returned values.
 
-Note: the helper function alpm_strerror() can also be used to translate
-the error code into a more friendly sentence.
+Note: the helper function alpm_strerror() can also be used to translate one
+specified error code into a more friendly sentence, and alpm_strerrorlast()
+does the same for the last error encountered (represented by pm_errno).
 
 
 [List - alpm_list_t] 
+
 The alpm_list_t structure is a doubly-linked list for use with the libalpm
-routines.  This type is provided publicly so that frontends are free to use it
+routines. This type is provided publicly so that frontends are free to use it
 if they have no native list type (C++, glib, python, etc all have list types).
 See the proper man pages for alpm_list_t references.
 
@@ -179,41 +184,65 @@ perform a special action.
 
 [MAIN] (see pacman.c)
 
-Calls for alpm_lib_init(), and alpm_lib_release().
+Calls for alpm_initialize(), and alpm_release().
 Read the configuration file, and parse command line arguments.
 Based on the action requested, it initiates the appropriate transactions
-(see pacman_add(), pacman_remove(), pacman_sync() in files add.c,
+(see pacman_upgrade(), pacman_remove(), pacman_sync() in files upgrade.c,
 remove.c and sync.c).
 
 
-[CONFIGURATION] (see conf.c)
+[CONFIGURATION] (see conf.h)
 
-The frontend is using a configuration file, usually "/etc/pacman.conf".
-Part of these options are only useful for the frontend only (mainly,
-the download stuffs, and some options like HOLDPKG).
-The rest is used to configure the library.
+The frontend is using a configuration file, usually "/etc/pacman.conf".  Some
+of these options are only useful for the frontend only (mainly the ones used to
+control the output like showsize or totaldownload, or the behavior with
+cleanmethod and syncfirst).  The rest is used to configure the library.
 
 
-[ADD/UPGRADE/REMOVE/SYNC]
-
-Nothing new here, excepted some reorganization.
+[UPGRADE/REMOVE/SYNC]
 
 The file pacman.c has been divided into several smaller files, namely
-add.c, remove.c, sync.c and query.c, to hold the big parts: pacman_add,
+upgrade.c, remove.c, sync.c and query.c, to hold the big parts: pacman_upgrade,
 pacman_remove, pacman_sync.
 
 These 3 functions have been split to ease the code reading.
 
 
-LIMITATIONS/BEHAVIOR CHANGES COMPARED TO PACMAN 2.9
-===================================================
 
-Excepted missing features still needing to be implemented, one can
-notice the following limitations:
+API CHANGES BETWEEN 3.1 AND 3.2
+===============================
 
-- If pacman is out of date, the frontend displays a warning and recommends
-to give up the on-going transanction. The frontend does not allow to
-upgrade pacman itself on-the-fly, and thus it should be restarted with
-only "pacman" as a target.
+[REMOVED]
+- alpm_db_whatprovides()
+- alpm_splitdep (no longer public)
+- trans->targets was removed, so alpm_trans_get_targets() as well
+- error codes:
+    PM_ERR_OPT_*, PM_ERR_PKG_INSTALLED, PM_ERR_DLT_CORRUPTED,
+    PM_ERR_LIBARCHIVE_ERROR
+- event: PM_TRANS_EVT_EXTRACT_DONE
+- PM_TRANS_TYPE_ADD pmtranstype_t (add transaction)
+- PM_TRANS_FLAG_DEPENDSONLY pmtransflag_t
 
-- ...
+[CHANGED]
+- alpm_grp_get_pkgs returns with pmpkg_t list, not package-name list
+- Swap parameters on PM_TRANS_CONV_INSTALL_IGNOREPKG callback function
+- download callback API changed: alpm_cb_download, alpm_cb_totaldl split
+  (+ new alpm_option_get_totaldlcb(), alpm_option_set_totaldlcb() functions)
+- unsigned long->off_t changes where size is used
+- pmsyncpkg_t struct changes:
+  - pmsynctype_t and alpm_sync_get_type() were removed
+  - alpm_sync_get_data() was removed
+  - alpm_sync_get_removes() was added
+
+[ADDED]
+- alpm_delta_get_from_md5sum(), alpm_delta_get_to_md5sum()
+- alpm_miss_get_causingpkg() (new causingpkg field in pmdepmissing_t)
+- alpm_checkdbconflicts()
+- alpm_sync_newversion()
+- alpm_deptest()
+- error codes :
+    PM_ERR_DLT_INVALID, PM_ERR_LIBARCHIVE, PM_ERR_LIBDOWNLOAD and
+    PM_ERR_EXTERNAL_DOWNLOAD
+- flags:
+    PM_TRANS_FLAG_ALLEXPLICIT, PM_TRANS_FLAG_UNNEEDED and
+    PM_TRANS_FLAG_RECURSEALL
