@@ -480,49 +480,33 @@ void list_display(const char *title, const alpm_list_t *list)
 	}
 }
 
-/* Display a list of transaction targets.
- * `pkgs` should be a list of pmsyncpkg_t's,
- * retrieved from a transaction object
- */
-/* TODO move to output.c? or just combine util and output */
-void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
+/* prepare a list of pkgs to display */
+void display_targets(const alpm_list_t *pkgs, int install)
 {
 	char *str;
-	const alpm_list_t *i, *j;
-	alpm_list_t *targets = NULL, *to_remove = NULL;
-	/* TODO these are some messy variable names */
-	off_t isize = 0, rsize = 0, dispsize = 0, dlsize = 0;
-	double mbisize = 0.0, mbrsize = 0.0, mbdispsize = 0.0, mbdlsize = 0.0;
+	const alpm_list_t *i;
+	off_t isize = 0, dlsize = 0;
+	double mbisize = 0.0, mbdlsize = 0.0;
+	alpm_list_t *targets = NULL;
 
-	for(i = syncpkgs; i; i = alpm_list_next(i)) {
-		pmsyncpkg_t *sync = alpm_list_getdata(i);
-		pmpkg_t *pkg = alpm_sync_get_pkg(sync);
+	if(!pkgs) {
+		return;
+	}
 
-		/* The removes member contains a list of packages to be removed
-		 * due to the package that is being installed. */
-		alpm_list_t *to_replace = alpm_sync_get_removes(sync);
+	printf("\n");
+	for(i = pkgs; i; i = alpm_list_next(i)) {
+		pmpkg_t *pkg = alpm_list_getdata(i);
 
-		for(j = to_replace; j; j = alpm_list_next(j)) {
-			pmpkg_t *rp = alpm_list_getdata(j);
-			const char *name = alpm_pkg_get_name(rp);
-
-			if(!alpm_list_find_str(to_remove, name)) {
-				rsize += alpm_pkg_get_isize(rp);
-				to_remove = alpm_list_add(to_remove, strdup(name));
-			}
-		}
-
-		dispsize = alpm_pkg_get_size(pkg);
 		dlsize += alpm_pkg_download_size(pkg);
 		isize += alpm_pkg_get_isize(pkg);
 
 		/* print the package size with the output if ShowSize option set */
 		if(config->showsize) {
-			/* Convert byte size to MB */
-			mbdispsize = dispsize / (1024.0 * 1024.0);
+			double mbsize = 0.0;
+			mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
 			asprintf(&str, "%s-%s [%.2f MB]", alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg), mbdispsize);
+					alpm_pkg_get_version(pkg), mbsize);
 		} else {
 			asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
 					alpm_pkg_get_version(pkg));
@@ -531,29 +515,55 @@ void display_targets(const alpm_list_t *syncpkgs, pmdb_t *db_local)
 	}
 
 	/* Convert byte sizes to MB */
-	mbisize = isize / (1024.0 * 1024.0);
-	mbrsize = rsize / (1024.0 * 1024.0);
 	mbdlsize = dlsize / (1024.0 * 1024.0);
+	mbisize = isize / (1024.0 * 1024.0);
 
-	/* start displaying information */
-	printf("\n");
-
-	if(to_remove) {
-		list_display(_("Remove:"), to_remove);
+	if(install) {
+		list_display(_("Targets:"), targets);
 		printf("\n");
-		FREELIST(to_remove);
 
-		printf(_("Total Removed Size:   %.2f MB\n"), mbrsize);
+		printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
+		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
+	} else {
+		list_display(_("Remove:"), targets);
 		printf("\n");
+
+		printf(_("Total Removed Size:   %.2f MB\n"), mbisize);
 	}
 
-	list_display(_("Targets:"), targets);
-	printf("\n");
-
-	printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
-	printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
-
 	FREELIST(targets);
+}
+
+/* Display a list of transaction targets.
+ * `pkgs` should be a list of pmsyncpkg_t's,
+ * retrieved from a transaction object
+ */
+void display_synctargets(const alpm_list_t *syncpkgs)
+{
+	const alpm_list_t *i, *j;
+	alpm_list_t *pkglist = NULL, *rpkglist = NULL;
+
+	for(i = syncpkgs; i; i = alpm_list_next(i)) {
+		pmsyncpkg_t *sync = alpm_list_getdata(i);
+		pmpkg_t *pkg = alpm_sync_get_pkg(sync);
+		pkglist = alpm_list_add(pkglist, pkg);
+
+		/* The removes member contains a list of packages to be removed
+		 * due to the package that is being installed. */
+		alpm_list_t *to_replace = alpm_sync_get_removes(sync);
+
+		for(j = to_replace; j; j = alpm_list_next(j)) {
+			pmpkg_t *rp = alpm_list_getdata(j);
+			rpkglist = alpm_list_add(rpkglist, rp);
+		}
+	}
+
+	/* start displaying information */
+	display_targets(rpkglist, 0);
+	display_targets(pkglist, 1);
+
+	alpm_list_free(pkglist);
+	alpm_list_free(rpkglist);
 }
 
 /* presents a prompt and gets a Y/N answer */

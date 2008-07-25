@@ -125,21 +125,16 @@ int pacman_remove(alpm_list_t *targets)
 	if(config->flags & PM_TRANS_FLAG_RECURSE ||
 	   config->flags & PM_TRANS_FLAG_CASCADE) {
 		/* list transaction targets */
-		alpm_list_t *lst = NULL;
-		/* create a new list of package names only */
-		for(i = alpm_trans_get_pkgs(); i; i = alpm_list_next(i)) {
-			pmpkg_t *pkg = alpm_list_getdata(i);
-			lst = alpm_list_add(lst, strdup(alpm_pkg_get_name(pkg)));
-		}
+		alpm_list_t *pkglist = alpm_trans_get_pkgs();
+
+		display_targets(pkglist, 0);
 		printf("\n");
-		list_display(_("Targets:"), lst);
-		FREELIST(lst);
+
 		/* get confirmation */
-		if(yesno(1, _("\nDo you want to remove these packages?")) == 0) {
+		if(yesno(1, _("Do you want to remove these packages?")) == 0) {
 			retval = 1;
 			goto cleanup;
 		}
-		printf("\n");
 	}
 
 	/* Step 3: actually perform the removal */

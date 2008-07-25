@@ -261,7 +261,7 @@ static int query_upgrades(void)
 		return(-1);
 	}
 	if(syncpkgs) {
-		display_targets(syncpkgs, db_local);
+		display_synctargets(syncpkgs);
 		return(0);
 	}
 
