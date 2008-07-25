@@ -73,9 +73,6 @@ int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_md5sum(const char *filepath, const char *md5sum);
 char *_alpm_archive_fgets(char *line, size_t size, struct archive *a);
 
-#ifndef HAVE_STRVERSCMP
-int strverscmp(const char *, const char *);
-#endif
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);
 #endif
