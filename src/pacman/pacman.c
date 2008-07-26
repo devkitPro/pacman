@@ -643,9 +643,6 @@ static int _parseconfig(const char *file, const char *givensection,
 				} else if(strcmp(key, "ILoveCandy") == 0) {
 					config->chomp = 1;
 					pm_printf(PM_LOG_DEBUG, "config: chomp\n");
-				} else if(strcmp(key, "UseColor") == 0) {
-					config->usecolor = 1;
-					pm_printf(PM_LOG_DEBUG, "config: usecolor\n");
 				} else if(strcmp(key, "ShowSize") == 0) {
 					config->showsize = 1;
 					pm_printf(PM_LOG_DEBUG, "config: showsize\n");
