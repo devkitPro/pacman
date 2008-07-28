@@ -727,9 +727,10 @@ tidy_install() {
 	if [ "$(check_option strip)" = "y" ]; then
 		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"
 		local binary
-		if [ -z "${STRIP_DIRS[@]}" ]; then
+		if [ -z "${STRIP_DIRS[*]}" ]; then
 			# fall back to default value
-			STRIP_DIRS=(bin lib sbin usr/{bin,lib,sbin,local/{bin,lib,sbin}} opt/*/{bin,lib,sbin})
+			STRIP_DIRS=(bin lib sbin usr/{bin,lib,sbin,local/{bin,lib,sbin}}
+			opt/*/{bin,lib,sbin})
 		fi
 		find ${STRIP_DIRS[@]} -type f 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
