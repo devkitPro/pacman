@@ -650,17 +650,18 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	if(local) {
 		is_upgrade = 1;
 
-		EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, NULL);
-		_alpm_log(PM_LOG_DEBUG, "upgrading package %s-%s\n",
-				newpkg->name, newpkg->version);
-
 		/* we'll need to save some record for backup checks later */
 		oldpkg = _alpm_pkg_dup(local);
 		/* make sure all infos are loaded because the database entry
 		 * will be removed soon */
 		_alpm_db_read(oldpkg->origin_data.db, oldpkg, INFRQ_ALL);
+
+		EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
+		_alpm_log(PM_LOG_DEBUG, "upgrading package %s-%s\n",
+				newpkg->name, newpkg->version);
+
 		/* copy over the install reason */
-		newpkg->reason = alpm_pkg_get_reason(local);
+		newpkg->reason = alpm_pkg_get_reason(oldpkg);
 
 		/* pre_upgrade scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
