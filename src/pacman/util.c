@@ -461,38 +461,27 @@ void string_display(const char *title, const char *string)
 void list_display(const char *title, const alpm_list_t *list)
 {
 	const alpm_list_t *i;
-	int cols, len;
-	wchar_t *wcstr;
+	int cols, len = 0;
 
 	if(title) {
-		/* len goes from # bytes -> # chars -> # cols */
-		len = strlen(title) + 1;
-		wcstr = calloc(len, sizeof(wchar_t));
-		len = mbstowcs(wcstr, title, len);
-		len = wcswidth(wcstr, len);
-		free(wcstr);
+		len = string_length(title) + 1;
 		printf("%s ", title);
-	} else {
-		len = 0;
 	}
 
-	if(list) {
+	if(!list) {
+		printf(_("None\n"));
+	} else {
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
-			/* s goes from # bytes -> # chars -> # cols */
-			int s = strlen(str) + 1;
-			wcstr = calloc(s, sizeof(wchar_t));
-			s = mbstowcs(wcstr, str, s);
-			s = wcswidth(wcstr, s);
-			free(wcstr);
+			int s = string_length(str);
 			/* two additional spaces are added to the length */
 			s += 2;
 			int maxcols = getcols();
-			if(s + cols >= maxcols) {
-				int i;
+			if(s + cols > maxcols) {
+				int j;
 				cols = len;
 				printf("\n");
-				for (i = 0; i <= len; ++i) {
+				for (j = 1; j <= len; j++) {
 					printf(" ");
 				}
 			}
@@ -500,11 +489,36 @@ void list_display(const char *title, const alpm_list_t *list)
 			cols += s;
 		}
 		printf("\n");
-	} else {
-		printf(_("None\n"));
 	}
 }
 
+void list_display_linebreak(const char *title, const alpm_list_t *list)
+{
+	const alpm_list_t *i;
+	int len = 0;
+
+	if(title) {
+		len = string_length(title) + 1;
+		printf("%s ", title);
+	}
+
+	if(!list) {
+		printf(_("None\n"));
+	} else {
+		/* Print the first element */
+		indentprint((const char *) alpm_list_getdata(list), len);
+		printf("\n");
+		/* Print the rest */
+		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
+			int j;
+			for(j = 1; j <= len; j++) {
+				printf(" ");
+			}
+			indentprint((const char *) alpm_list_getdata(i), len);
+			printf("\n");
+		}
+	}
+}
 /* prepare a list of pkgs to display */
 void display_targets(const alpm_list_t *pkgs, int install)
 {

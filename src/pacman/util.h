@@ -51,6 +51,7 @@ char *strreplace(const char *str, const char *needle, const char *replace);
 alpm_list_t *strsplit(const char *str, const char splitchar);
 void string_display(const char *title, const char *string);
 void list_display(const char *title, const alpm_list_t *list);
+void list_display_linebreak(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *pkgs, int install);
 void display_synctargets(const alpm_list_t *syncpkgs);
 int yesno(short preset, char *fmt, ...);
