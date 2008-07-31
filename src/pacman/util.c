@@ -423,14 +423,39 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 	return(list);
 }
 
+static int string_length(const char *s)
+{
+	int len;
+	wchar_t *wcstr;
+
+	if(!s) {
+		return(0);
+	}
+	/* len goes from # bytes -> # chars -> # cols */
+	len = strlen(s) + 1;
+	wcstr = calloc(len, sizeof(wchar_t));
+	len = mbstowcs(wcstr, s, len);
+	len = wcswidth(wcstr, len);
+	free(wcstr);
+
+	return(len);
+}
+
 void string_display(const char *title, const char *string)
 {
-	printf("%s ", title);
-	if(string == NULL || string[0] == '\0') {
-		printf(_("None\n"));
-	} else {
-		printf("%s\n", string);
+	int len = 0;
+
+	if(title) {
+		/* compute the length of title + a space */
+		len = string_length(title) + 1;
+		printf("%s ", title);
 	}
+	if(string == NULL || string[0] == '\0') {
+		printf(_("None"));
+	} else {
+		indentprint(string, len);
+	}
+	printf("\n");
 }
 
 void list_display(const char *title, const alpm_list_t *list)

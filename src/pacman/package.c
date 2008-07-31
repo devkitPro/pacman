@@ -44,13 +44,11 @@
  */
 void dump_pkg_full(pmpkg_t *pkg, int level)
 {
-	const char *reason, *descheader;
+	const char *reason;
 	time_t bdate, idate;
 	char bdatestr[50] = "", idatestr[50] = "";
 	const alpm_list_t *i;
 	alpm_list_t *requiredby = NULL, *depstrings = NULL;
-	wchar_t *wcstr;
-	int len;
 
 	if(pkg == NULL) {
 		return;
@@ -132,19 +130,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	if(level < 0) {
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
 	}
-
-	/* printed using a variable to make i18n safe */
-	descheader = _("Description    : ");
-	/* len goes from # bytes -> # chars -> # cols */
-	len = strlen(descheader) + 1;
-	wcstr = calloc(len, sizeof(wchar_t));
-	len = mbstowcs(wcstr, descheader, len);
-	len = wcswidth(wcstr, len);
-	free(wcstr);
-	/* we can finally print the darn thing */
-	printf("%s", descheader);
-	indentprint(alpm_pkg_get_desc(pkg), len);
-	printf("\n\n");
+	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
 
 	/* Print additional package info if info flag passed more than once */
 	if(level > 1) {
