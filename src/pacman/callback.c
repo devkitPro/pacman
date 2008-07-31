@@ -181,6 +181,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			alpm_logaction("installed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
+			display_optdepends(data1);
 			break;
 		case PM_TRANS_EVT_REMOVE_START:
 			if(config->noprogressbar) {
@@ -202,6 +203,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			         (char *)alpm_pkg_get_name(data1),
 			         (char *)alpm_pkg_get_version(data2),
 			         (char *)alpm_pkg_get_version(data1));
+			display_optdepends(data1);
 			break;
 		case PM_TRANS_EVT_INTEGRITY_START:
 			printf(_("checking package integrity...\n"));

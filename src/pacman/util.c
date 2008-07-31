@@ -609,6 +609,15 @@ void display_synctargets(const alpm_list_t *syncpkgs)
 	alpm_list_free(rpkglist);
 }
 
+void display_optdepends(pmpkg_t *pkg)
+{
+	alpm_list_t *optdeps = alpm_pkg_get_optdepends(pkg);
+	if(optdeps) {
+		printf(_("Optional dependencies for %s\n"), alpm_pkg_get_name(pkg));
+		list_display_linebreak("   ", optdeps);
+	}
+}
+
 /* presents a prompt and gets a Y/N answer */
 int yesno(short preset, char *fmt, ...)
 {

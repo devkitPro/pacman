@@ -54,6 +54,7 @@ void list_display(const char *title, const alpm_list_t *list);
 void list_display_linebreak(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *pkgs, int install);
 void display_synctargets(const alpm_list_t *syncpkgs);
+void display_optdepends(pmpkg_t *pkg);
 int yesno(short preset, char *fmt, ...);
 int pm_printf(pmloglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...) __attribute__((format(printf,3,4)));
