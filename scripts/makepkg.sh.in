@@ -1086,9 +1086,10 @@ usage() {
 	# fix flyspray feature request #2978
 	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
 	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
+	echo "$(gettext "      --allsource  Generate a source-only tarball including downloaded sources")"
 	echo "$(gettext "      --asroot     Allow makepkg to run as root user")"
 	echo "$(gettext "      --holdver    Prevent automatic version bumping for development PKGBUILDs")"
-	echo "$(gettext "      --source     Do not build package; generate a source-only tarball")"
+	echo "$(gettext "      --source     Generate a source-only tarball without downloaded sources")"
 	echo
 	echo "$(gettext "These options can be passed to pacman:")"
 	echo
