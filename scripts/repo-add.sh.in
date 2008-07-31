@@ -143,7 +143,7 @@ db_write_entry()
 	local pkgname pkgver pkgdesc url builddate packager csize size \
 		group depend backup license replaces provides conflict force \
 		_groups _depends _backups _licenses _replaces _provides _conflicts \
-		startdir
+		startdir optdepend _optdepends
 
 	local OLDIFS="$IFS"
 	# IFS (field separator) is only the newline character
@@ -163,6 +163,7 @@ db_write_entry()
 			replaces=*) _replaces="$_replaces$replaces\n" ;;
 			provides=*) _provides="$_provides$provides\n" ;;
 			conflict=*) _conflicts="$_conflicts$conflict\n" ;;
+			optdepend=*) _optdepends="$_optdepends$optdepend\n" ;;
 		esac
 	done
 
@@ -215,6 +216,7 @@ db_write_entry()
 	write_list_entry "DEPENDS" "$_depends" "depends"
 	write_list_entry "CONFLICTS" "$_conflicts" "depends"
 	write_list_entry "PROVIDES" "$_provides" "depends"
+	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
 	# create deltas entry if there are delta files
 	for delta in $startdir/$pkgname-*-*_to_*-*-$arch.delta; do
