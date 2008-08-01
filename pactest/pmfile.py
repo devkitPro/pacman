@@ -56,6 +56,14 @@ class pmfile:
 
         return retval
 
+    def resettimes(self):
+        """
+        """
+
+        filename = os.path.join(self.root, self.name)
+        os.utime(filename, (355, 355))
+        self.mtime = getmtime(filename)
+        vprint("\tmtime reset (%s)" % self.name)
 
 if __name__ == "__main__":
     f = pmfile("/tmp", "foobar")
