@@ -36,10 +36,6 @@ export TEXTDOMAINDIR='@localedir@'
 # file -i does not work on Mac OSX unless legacy mode is set
 export COMMAND_MODE='legacy'
 
-# when fileglobbing, we want * in an empty directory to expand to the null
-# string rather than itself
-shopt -s nullglob
-
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 startdir="$PWD"
@@ -256,7 +252,7 @@ in_array() {
 get_downloadclient() {
 	# $1 = url with valid protocol prefix
 	local url=$1
-	local proto=$(echo $netfile | sed 's|://.*||')
+	local proto=$(echo "$url" | sed 's|://.*||')
 
 	# loop through DOWNLOAD_AGENTS variable looking for protocol
 	local i
@@ -287,18 +283,19 @@ get_downloadclient() {
 	echo "$agent"
 }
 
-get_downloadcmd() {
-	local dlagent=$1
+download_file() {
+	local dlcmd=$1
 	local netfile=$2
 	local file=$3
 
-	if echo "$dlagent" | grep -q "%u" ; then
-		local dlcmd=$(echo "$dlagent" | sed "s|%o|$file.part|" | sed "s|%u|$netfile|")
+	if echo "$dlcmd" | grep -q "%u" ; then
+		dlcmd=${dlcmd//%o/$file.part}
+		dlcmd=${dlcmd//%u/$netfile}
 	else
-		local dlcmd="$dlagent $netfile"
+		dlcmd="$dlcmd $netfile"
 	fi
 
-	echo "$dlcmd"
+	$dlcmd
 }
 
 check_deps() {
@@ -443,7 +440,7 @@ download_sources() {
 		msg2 "$(gettext "Downloading %s...")" "$file"
 		# fix flyspray bug #3289
 		local ret=0
-		$(get_downloadcmd "$dlclient" "$netfile" "$file") || ret=$?
+		download_file "$dlclient" "$netfile" "$file" || ret=$?
 		if [ $ret -gt 0 ]; then
 			error "$(gettext "Failure while downloading %s")" "$file"
 			plain "$(gettext "Aborting...")"
@@ -848,10 +845,15 @@ create_package() {
 
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 
+	# when fileglobbing, we want * in an empty directory to expand to
+	# the null string rather than itself
+	shopt -s nullglob
+
 	if ! bsdtar -czf "$pkg_file" $comp_files *; then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
+	shopt -u nullglob
 }
 
 create_xdelta() {
