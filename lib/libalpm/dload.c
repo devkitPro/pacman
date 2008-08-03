@@ -340,21 +340,6 @@ cleanup:
 static int download(const char *url, const char *localpath,
 		time_t mtimeold, time_t *mtimenew) {
 	int ret;
-	const char *proto = "file://";
-	int len = strlen(proto);
-	if(strncmp(url, proto, len) == 0) {
-		/* we can simply grab an absolute path from the file:// url by starting
-		 * our path at the char following the proto (the root '/')
-		 */
-		const char *sourcefile = url + len;
-		const char *filename = get_filename(url);
-		char *destfile = get_destfile(localpath, filename);
-
-		ret = _alpm_copyfile(sourcefile, destfile);
-		FREE(destfile);
-		/* copyfile returns 1 on failure, we want to return -1 on failure */
-		return(ret ? -1 : 0);
-	}
 
 	/* We have a few things to take into account here.
 	 * 1. If we have both internal/external available, choose based on
