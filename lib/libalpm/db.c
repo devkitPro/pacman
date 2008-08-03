@@ -170,6 +170,8 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 {
 	alpm_list_t *i;
 	int found = 0;
+	char *newurl;
+	int len = 0;
 
 	ALPM_LOG_FUNC;
 
@@ -186,10 +188,18 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	if(url && strlen(url)) {
-		db->servers = alpm_list_add(db->servers, strdup(url));
+	if(url) {
+		len = strlen(url);
+	}
+	if(len) {
+		newurl = strdup(url);
+		/* strip the trailing slash if one exists */
+		if(newurl[len - 1] == '/') {
+			newurl[len - 1] = '\0';
+		}
+		db->servers = alpm_list_add(db->servers, newurl);
 		_alpm_log(PM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
-				db->treename, url);
+				db->treename, newurl);
 	} else {
 		FREELIST(db->servers);
 		_alpm_log(PM_LOG_DEBUG, "serverlist flushed for '%s'\n", db->treename);

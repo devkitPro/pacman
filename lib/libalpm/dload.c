@@ -365,6 +365,7 @@ static int download(const char *url, const char *localpath,
  *     than mtimeold.
  *   - if *mtimenew is non-NULL, it will be filled with the mtime of the remote
  *     file.
+ *   - servers must be a list of urls WITHOUT trailing slashes.
  *
  * RETURN:  0 for successful download
  *          1 if the mtimes are identical
