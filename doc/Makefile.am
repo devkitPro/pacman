@@ -15,6 +15,7 @@ ASCIIDOC_MANS = \
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
 EXTRA_DIST = \
+	asciidoc.conf \
 	pacman.8.txt \
 	makepkg.8.txt \
 	repo-add.8.txt \
@@ -29,8 +30,12 @@ EXTRA_DIST = \
 	$(DOXYGEN_MANS)
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = *.xml
-MAINTAINERCLEANFILES = $(ASCIIDOC_MANS)
+MOSTLYCLEANFILES = *.xml $(ASCIIDOC_MANS)
+
+# Ensure manpages are fresh when building a dist tarball
+dist-hook:
+	$(MAKE) $(AM_MAKEFLAGS) clean
+	$(MAKE) $(AM_MAKEFLAGS) all
 
 if USE_GIT_VERSION
 GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 | sed s/^v//')-dirty
@@ -39,20 +44,18 @@ else
 REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
 endif
 
-
 man_MANS =
 dist_man_MANS = $(ASCIIDOC_MANS) repo-remove.8
 
 if USE_DOXYGEN
 man_MANS += $(DOXYGEN_MANS)
 
-all: doxygen.in
+all-local: doxygen.in
 
 doxygen.in:
 	$(DOXYGEN) $(srcdir)/Doxyfile
 endif
 
-if USE_ASCIIDOC
 ASCIIDOC_OPTS = \
 	-f asciidoc.conf \
 	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
@@ -64,11 +67,10 @@ A2X_OPTS = \
 	--xsltproc-opts='-param man.endnotes.list.enabled 0' \
 	--xsltproc-opts='-param man.endnotes.are.numbered 0'
 
-$(ASCIIDOC_MANS):
-	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
-
 # These rules are due to the includes and files of the asciidoc text
 $(ASCIIDOC_MANS): asciidoc.conf footer.txt
+	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
+
 pacman.8: pacman.8.txt
 makepkg.8: makepkg.8.txt
 repo-add.8: repo-add.8.txt
@@ -78,7 +80,7 @@ pacman.conf.5: pacman.conf.5.txt
 libalpm.3: libalpm.3.txt
 # this one is just a symlink
 repo-remove.8: repo-add.8
-	ln -s repo-add.8 repo-remove.8
-endif
+	rm -f repo-remove.8
+	$(LN_S) repo-add.8 repo-remove.8
 
 # vim:set ts=2 sw=2 noet:
