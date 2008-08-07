@@ -71,14 +71,15 @@ static void usage(int op, const char * const myname)
 
 	if(op == PM_OP_MAIN) {
 		printf("%s:  %s <%s> [...]\n", str_usg, myname, str_opr);
-		printf("%s:\n", str_opt);
+		printf(_("operations:\n"));
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
 		printf("    %s {-Q --query}   [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-R --remove}  [%s] <%s>\n", myname, str_opt, str_pkg);
 		printf("    %s {-S --sync}    [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-U --upgrade} [%s] <%s>\n", myname, str_opt, str_file);
-		printf(_("\nuse '%s --help' with other options for more syntax\n"), myname);
+		printf(_("\nuse '%s {-h --help}' with an operation for available options\n"),
+				myname);
 	} else {
 		if(op == PM_OP_REMOVE) {
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
