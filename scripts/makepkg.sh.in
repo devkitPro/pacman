@@ -266,7 +266,7 @@ get_downloadclient() {
 
 	# if we didn't find an agent, return an error
 	if [ -z "$agent" ]; then
-		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$confdir/makepkg.conf"
+		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_CONFIG_ERROR
 	fi
@@ -1077,6 +1077,7 @@ usage() {
 	printf "$(gettext "  -A, --ignorearch Ignore incomplete arch field in %s")\n" "$BUILDSCRIPT"
 	echo "$(gettext "  -c, --clean      Clean up work files after build")"
 	echo "$(gettext "  -C, --cleancache Clean up source files from the cache")"
+	printf "$(gettext "  --config <config> Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	echo "$(gettext "  -d, --nodeps     Skip all dependency checks")"
 	echo "$(gettext "  -e, --noextract  Do not extract source files (use existing src/ dir)")"
 	echo "$(gettext "  -f, --force      Overwrite existing package")"
@@ -1124,36 +1125,12 @@ fi
 
 ARGLIST=$@
 
-#preserve environment variables
-_PKGDEST=${PKGDEST}
-_SRCDEST=${SRCDEST}
-
-# Source makepkg.conf; fail if it is not found
-if [ -r "$confdir/makepkg.conf" ]; then
-	source "$confdir/makepkg.conf"
-else
-	error "$(gettext "%s not found.")" "$confdir/makepkg.conf"
-	plain "$(gettext "Aborting...")"
-	exit 1 # $E_CONFIG_ERROR
-fi
-
-# Source user-specific makepkg.conf overrides
-if [ -r ~/.makepkg.conf ]; then
-	source ~/.makepkg.conf
-fi
-
-# override settings with an environment variable for batch processing
-PKGDEST=${_PKGDEST:-$PKGDEST}
-PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
-SRCDEST=${_SRCDEST:-$SRCDEST}
-SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
-
 # Parse Command Line Options.
 OPT_SHORT="AbcCdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,builddeps,clean,cleancache,nodeps"
 OPT_LONG="$OPT_LONG,noextract,force,forcever:,geninteg,help,holdver"
 OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,source"
-OPT_LONG="$OPT_LONG,syncdeps,version"
+OPT_LONG="$OPT_LONG,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(getopt -o "$OPT_SHORT" -l "$OPT_LONG" -n "$(basename "$0")" -- "$@" || echo 'GETOPT GO BANG!')"
@@ -1176,6 +1153,7 @@ while true; do
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
 		-C|--cleancache)  CLEANCACHE=1 ;;
+		--config)         shift; MAKEPKG_CONF=$1 ;;
 		-d|--nodeps)      NODEPS=1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
@@ -1202,6 +1180,34 @@ while true; do
 	esac
 	shift
 done
+
+#preserve environment variables
+_PKGDEST=${PKGDEST}
+_SRCDEST=${SRCDEST}
+
+# default config is makepkg.conf
+MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
+
+# Source the config file; fail if it is not found
+if [ -r "$MAKEPKG_CONF" ]; then
+	source "$MAKEPKG_CONF"
+else
+	error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
+	plain "$(gettext "Aborting...")"
+	exit 1 # $E_CONFIG_ERROR
+fi
+
+# Source user-specific makepkg.conf overrides
+if [ -r ~/.makepkg.conf ]; then
+	source ~/.makepkg.conf
+fi
+
+# override settings with an environment variable for batch processing
+PKGDEST=${_PKGDEST:-$PKGDEST}
+PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
+SRCDEST=${_SRCDEST:-$SRCDEST}
+SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
+
 
 if [ "$HOLDVER" = "1" -a "$FORCE_VER" != "" ]; then
 	# The '\\0' is here to prevent gettext from thinking --holdver is an option
@@ -1234,14 +1240,14 @@ if [ "$CLEANCACHE" = "1" ]; then
 		fi
 	else
 		# $SRCDEST is $startdir, two possibilities
-		error "$(gettext "Source destination must be defined in makepkg.conf.")"
+		error "$(gettext "Source destination must be defined in %s.")" "$MAKEPKG_CONF"
 		plain "$(gettext "In addition, please run makepkg -C outside of your cache directory.")"
 		exit 1
 	fi
 fi
 
 if [ -z $BUILDSCRIPT ]; then
-	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated %s.")" "$confdir/makepkg.conf"
+	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated %s.")" "$MAKEPKG_CONF"
 	exit 1
 fi
 
@@ -1260,13 +1266,13 @@ if [ "$INFAKEROOT" = "0" ]; then
 	elif [ "$(check_buildenv fakeroot)" = "y" -a $EUID -gt 0 ]; then
 		if [ ! $(type -p fakeroot) ]; then
 			error "$(gettext "Fakeroot must be installed if using the 'fakeroot' option")"
-			plain "$(gettext "in the BUILDENV array in %s.")" "$confdir/makepkg.conf"
+			plain "$(gettext "in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
 			exit 1
 		fi
 	elif [ $EUID -gt 0 ]; then
 		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
 		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
-		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in makepkg.conf.")"
+		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
 		sleep 1
 	fi
 else
