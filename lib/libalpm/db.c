@@ -358,8 +358,8 @@ void _alpm_db_free(pmdb_t *db)
 
 int _alpm_db_cmp(const void *d1, const void *d2)
 {
-	pmdb_t *db1 = (pmdb_t *)db1;
-	pmdb_t *db2 = (pmdb_t *)db2;
+	pmdb_t *db1 = (pmdb_t *)d1;
+	pmdb_t *db2 = (pmdb_t *)d2;
 	return(strcmp(db1->treename, db2->treename));
 }
 
