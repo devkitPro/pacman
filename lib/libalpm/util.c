@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -401,12 +402,18 @@ int _alpm_rmrf(const char *path)
 	return(0);
 }
 
-int _alpm_logaction(unsigned short usesyslog, FILE *f, const char *fmt, va_list args)
+int _alpm_logaction(unsigned short usesyslog, FILE *f,
+		const char *fmt, va_list args)
 {
 	int ret = 0;
 
 	if(usesyslog) {
-		vsyslog(LOG_WARNING, fmt, args);
+		/* we can't use a va_list more than once, so we need to copy it
+		 * so we can use the original when calling vfprintf below. */
+		va_list args_syslog;
+		va_copy(args_syslog, args);
+		vsyslog(LOG_WARNING, fmt, args_syslog);
+		va_end(args_syslog);
 	}
 
 	if(f) {
