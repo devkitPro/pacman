@@ -957,7 +957,7 @@ create_srcpackage() {
 		local file=$(strip_url "$netfile")
 		if [ -f "$netfile" ]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
-			ln -s $netfile "${srclinks}/${pkgname}"
+			ln -s "${startdir}/$netfile" "${srclinks}/${pkgname}"
 		elif [ "$SOURCEONLY" = "2" -a -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
 			ln -s "$SRCDEST/$file" "${srclinks}/${pkgname}/"
