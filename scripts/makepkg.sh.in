@@ -341,7 +341,10 @@ handledeps() {
 	fi
 
 	# we might need the new system environment
+	# set -e can cause problems during sourcing profile scripts
+	set +e
 	source /etc/profile &>/dev/null
+	set -e
 
 	return $R_DEPS_SATISFIED
 }
