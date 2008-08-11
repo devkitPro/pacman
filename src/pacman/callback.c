@@ -139,8 +139,8 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	}
 	/* print percent after progress bar */
 	if(proglen > 5) {
-		/* use disp_percent if it is not 0, else show bar_percent */
-		int p = disp_percent ? disp_percent : bar_percent;
+		/* show total download percent if option is enabled */
+		int p = config->totaldownload ? disp_percent : bar_percent;
 		printf(" %3d%%", p);
 	}
 
