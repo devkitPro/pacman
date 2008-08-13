@@ -634,7 +634,7 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 			if(ptr == NULL && strcmp(section, "options") == 0) {
 				/* directives without settings, all in [options] */
-				if(strcmp(key, "NoPassiveFTP") == 0) {
+				if(strcmp(key, "NoPassiveFtp") == 0) {
 					alpm_option_set_nopassiveftp(1);
 					pm_printf(PM_LOG_DEBUG, "config: nopassiveftp\n");
 				} else if(strcmp(key, "UseSyslog") == 0) {
