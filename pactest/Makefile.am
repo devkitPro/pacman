@@ -1,3 +1,5 @@
+SUBDIRS = tests
+
 check_SCRIPTS = \
 	pactest.py \
 	pmdb.py \
@@ -7,7 +9,6 @@ check_SCRIPTS = \
 	pmrule.py \
 	pmtest.py \
 	util.py \
-	$(wildcard tests/*.py) \
 	vercmptest.sh
 
 noinst_SCRIPTS = $(check_SCRIPTS)

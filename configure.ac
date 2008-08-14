@@ -348,6 +348,7 @@ doc/Makefile
 etc/Makefile
 po/Makefile.in
 pactest/Makefile
+pactest/tests/Makefile
 contrib/Makefile
 Makefile
 ])
