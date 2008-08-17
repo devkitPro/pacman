@@ -241,7 +241,7 @@ char *_alpm_strreplace(const char *str, const char *needle, const char *replace)
 /* Create a lock file */
 int _alpm_lckmk()
 {
-	int fd, count = 0;
+	int fd;
 	char *dir, *ptr;
 	const char *file = alpm_option_get_lockfile();
 
@@ -252,17 +252,9 @@ int _alpm_lckmk()
 		*ptr = '\0';
 	}
 	_alpm_makepath(dir);
-
-	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1 && errno == EACCES) {
-		if(++count < 1) {
-			sleep(1);
-		}	else {
-			return(-1);
-		}
-	}
-
 	FREE(dir);
 
+	fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000);
 	return(fd > 0 ? fd : -1);
 }
 
