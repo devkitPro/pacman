@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 
 	/* check dependencies */
 	alpm_list_t *data;
-	alpm_list_t *pkglist = alpm_db_getpkgcache(db);
+	alpm_list_t *pkglist = alpm_db_get_pkgcache(db);
 	data = alpm_checkdeps(pkglist, 0, NULL, pkglist);
 	for(i = data; i; i = alpm_list_next(i)) {
 		pmdepmissing_t *miss = alpm_list_getdata(i);

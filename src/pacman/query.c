@@ -103,7 +103,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 		root = alpm_option_get_root();
 
-		for(i = alpm_db_getpkgcache(db_local); i && !found; i = alpm_list_next(i)) {
+		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
 			pmpkg_t *info = alpm_list_getdata(i);
 
 			for(j = alpm_pkg_get_files(info); j && !found; j = alpm_list_next(j)) {
@@ -154,7 +154,7 @@ static int query_search(alpm_list_t *targets)
 		searchlist = alpm_db_search(db_local, targets);
 		freelist = 1;
 	} else {
-		searchlist = alpm_db_getpkgcache(db_local);
+		searchlist = alpm_db_get_pkgcache(db_local);
 		freelist = 0;
 	}
 	if(searchlist == NULL) {
@@ -215,7 +215,7 @@ static int query_group(alpm_list_t *targets)
 	char *grpname = NULL;
 	int ret = 0;
 	if(targets == NULL) {
-		for(j = alpm_db_getgrpcache(db_local); j; j = alpm_list_next(j)) {
+		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
 			pmgrp_t *grp = alpm_list_getdata(j);
 			const alpm_list_t *p, *packages;
 			const char *grpname;
@@ -391,7 +391,7 @@ int pacman_query(alpm_list_t *targets)
 			return(1);
 		}
 
-		for(i = alpm_db_getpkgcache(db_local); i; i = alpm_list_next(i)) {
+		for(i = alpm_db_get_pkgcache(db_local); i; i = alpm_list_next(i)) {
 			pmpkg_t *pkg = alpm_list_getdata(i);
 			if(filter(pkg)) {
 				display(pkg);

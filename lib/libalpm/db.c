@@ -264,7 +264,7 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
  * @param db pointer to the package database to get the package from
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_getpkgcache(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -296,7 +296,7 @@ pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
  * @param db pointer to the package database to get the group from
  * @return the list of groups on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_getgrpcache(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 

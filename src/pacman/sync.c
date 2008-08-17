@@ -286,7 +286,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			ret = alpm_db_search(db, targets);
 			freelist = 1;
 		} else {
-			ret = alpm_db_getpkgcache(db);
+			ret = alpm_db_get_pkgcache(db);
 			freelist = 0;
 		}
 		if(ret == NULL) {
@@ -371,7 +371,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 		for(i = syncs; i; i = alpm_list_next(i)) {
 			pmdb_t *db = alpm_list_getdata(i);
 
-			for(j = alpm_db_getgrpcache(db); j; j = alpm_list_next(j)) {
+			for(j = alpm_db_get_grpcache(db); j; j = alpm_list_next(j)) {
 				pmgrp_t *grp = alpm_list_getdata(j);
 				const char *grpname = alpm_grp_get_name(grp);
 
@@ -425,7 +425,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					return(1);
 				}
 
-				for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
+				for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
 					pmpkg_t *pkg = alpm_list_getdata(k);
 
 					if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
@@ -446,7 +446,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				for(j = syncs; j; j = alpm_list_next(j)) {
 					pmdb_t *db = alpm_list_getdata(j);
 
-					for(k = alpm_db_getpkgcache(db); k; k = alpm_list_next(k)) {
+					for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
 						pmpkg_t *pkg = alpm_list_getdata(k);
 
 						if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
@@ -467,7 +467,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 		for(i = syncs; i; i = alpm_list_next(i)) {
 			pmdb_t *db = alpm_list_getdata(i);
 
-			for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
+			for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
 				dump_pkg_sync(alpm_list_getdata(j), alpm_db_get_name(db));
 			}
 		}
@@ -510,7 +510,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	for(i = ls; i; i = alpm_list_next(i)) {
 		pmdb_t *db = alpm_list_getdata(i);
 
-		for(j = alpm_db_getpkgcache(db); j; j = alpm_list_next(j)) {
+		for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
 			pmpkg_t *pkg = alpm_list_getdata(j);
 			if (!config->quiet) {
 				printf("%s %s %s\n", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
