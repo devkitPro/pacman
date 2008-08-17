@@ -229,13 +229,13 @@ alpm_list_t SYMEXPORT *alpm_deptest(pmdb_t *db, alpm_list_t *targets)
 
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
- * @param db pointer to the local package database
+ * @param pkglist the list of local packages
  * @param reversedeps handles the backward dependencies
  * @param remove an alpm_list_t* of packages to be removed
  * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
  * @return an alpm_list_t* of pmpkg_t* of missing_t pointers.
  */
-alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
+alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 		alpm_list_t *remove, alpm_list_t *upgrade)
 {
 	alpm_list_t *i, *j;
@@ -245,12 +245,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmdb_t *db, int reversedeps,
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL) {
-		return(NULL);
-	}
-
 	targets = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
-	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
+	for(i = pkglist; i; i = i->next) {
 		void *pkg = i->data;
 		if(alpm_list_find(targets, pkg, _alpm_pkg_cmp)) {
 			modified = alpm_list_add(modified, pkg);
@@ -572,7 +568,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
 	for(i = list; i; i = i->next) {
 		pmpkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
-		deps = alpm_checkdeps(local, 0, remove, targ);
+		deps = alpm_checkdeps(_alpm_db_get_pkgcache(local), 0, remove, targ);
 		alpm_list_free(targ);
 		for(j = deps; j; j = j->next) {
 			pmdepmissing_t *miss = j->data;

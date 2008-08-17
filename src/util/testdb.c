@@ -135,7 +135,8 @@ int main(int argc, char **argv)
 
 	/* check dependencies */
 	alpm_list_t *data;
-	data = alpm_checkdeps(db, 0, NULL, alpm_db_getpkgcache(db));
+	alpm_list_t *pkglist = alpm_db_getpkgcache(db);
+	data = alpm_checkdeps(pkglist, 0, NULL, pkglist);
 	for(i = data; i; i = alpm_list_next(i)) {
 		pmdepmissing_t *miss = alpm_list_getdata(i);
 		pmdepend_t *dep = alpm_miss_get_dep(miss);
@@ -146,7 +147,7 @@ int main(int argc, char **argv)
 	}
 
 	/* check conflicts */
-	data = alpm_checkdbconflicts(db);
+	data = alpm_checkconflicts(pkglist);
 	for(i = data; i; i = i->next) {
 		pmconflict_t *conflict = alpm_list_getdata(i);
 		printf("%s conflicts with %s\n", alpm_conflict_get_package1(conflict),

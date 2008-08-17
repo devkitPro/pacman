@@ -630,7 +630,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		}
 
 		_alpm_log(PM_LOG_DEBUG, "checking dependencies\n");
-		deps = alpm_checkdeps(db_local, 1, remove, list);
+		deps = alpm_checkdeps(_alpm_db_get_pkgcache(db_local), 1, remove, list);
 		if(deps) {
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;
