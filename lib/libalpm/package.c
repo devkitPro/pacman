@@ -423,6 +423,15 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 	return pkg->backup;
 }
 
+pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
+{
+	/* Sanity checks */
+	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(pkg->origin == PKG_FROM_CACHE, return(NULL));
+
+	return(pkg->origin_data.db);
+}
+
 /**
  * Open a package changelog for reading. Similar to fopen in functionality,
  * except that the returned 'file stream' could really be from an archive

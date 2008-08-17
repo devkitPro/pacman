@@ -218,6 +218,7 @@ alpm_list_t *alpm_pkg_get_deltas(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
+pmdb_t *alpm_pkg_get_db(pmpkg_t *pkg);
 void *alpm_pkg_changelog_open(pmpkg_t *pkg);
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp);
