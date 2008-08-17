@@ -497,8 +497,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
 	}
 
-	/* We don't care about conflicts if we're just printing uris */
-	if(!(trans->flags & (PM_TRANS_FLAG_NOCONFLICTS | PM_TRANS_FLAG_PRINTURIS))) {
+	if(!(trans->flags & PM_TRANS_FLAG_NOCONFLICTS)) {
 		/* check for inter-conflicts and whatnot */
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 
@@ -838,32 +837,27 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 				fname = alpm_pkg_get_filename(spkg);
 				ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
-				if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
-					EVENT(trans, PM_TRANS_EVT_PRINTURI, (char *)alpm_db_get_url(current),
-							(char *)fname);
-				} else {
-					if(spkg->download_size != 0) {
-						alpm_list_t *delta_path = spkg->delta_path;
-						if(delta_path) {
-							alpm_list_t *dlts = NULL;
+				if(spkg->download_size != 0) {
+					alpm_list_t *delta_path = spkg->delta_path;
+					if(delta_path) {
+						alpm_list_t *dlts = NULL;
 
-							for(dlts = delta_path; dlts; dlts = dlts->next) {
-								pmdelta_t *d = dlts->data;
+						for(dlts = delta_path; dlts; dlts = dlts->next) {
+							pmdelta_t *d = dlts->data;
 
-								if(d->download_size != 0) {
-									/* add the delta filename to the download list if
-									 * it's not in the cache */
-									files = alpm_list_add(files, strdup(d->delta));
-								}
-
-								/* keep a list of the delta files for md5sums */
-								deltas = alpm_list_add(deltas, d);
+							if(d->download_size != 0) {
+								/* add the delta filename to the download list if
+								 * it's not in the cache */
+								files = alpm_list_add(files, strdup(d->delta));
 							}
 
-						} else {
-							/* not using deltas, so add the file to the download list */
-							files = alpm_list_add(files, strdup(fname));
+							/* keep a list of the delta files for md5sums */
+							deltas = alpm_list_add(deltas, d);
 						}
+
+					} else {
+						/* not using deltas, so add the file to the download list */
+						files = alpm_list_add(files, strdup(fname));
 					}
 				}
 			}
@@ -879,9 +873,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			}
 			FREELIST(files);
 		}
-	}
-	if(trans->flags & PM_TRANS_FLAG_PRINTURIS) {
-		return(0);
 	}
 
 	/* clear out value to let callback know we are done */

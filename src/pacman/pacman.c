@@ -462,7 +462,8 @@ static int parseargs(int argc, char *argv[])
 			case 'o': config->op_q_owns = 1; break;
 			case 'p':
 				config->op_q_isfile = 1;
-				config->flags |= PM_TRANS_FLAG_PRINTURIS;
+				config->op_s_printuris = 1;
+				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 				break;
 			case 'q':
 				config->quiet = 1;

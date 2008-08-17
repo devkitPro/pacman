@@ -226,9 +226,6 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_SCRIPTLET_INFO:
 			printf("%s", (char*)data1);
 			break;
-		case PM_TRANS_EVT_PRINTURI:
-			printf("%s/%s\n", (char*)data1, (char*)data2);
-			break;
 		case PM_TRANS_EVT_RETRIEVE_START:
 			printf(_(":: Retrieving packages from %s...\n"), (char*)data1);
 			break;

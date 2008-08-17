@@ -57,6 +57,7 @@ typedef struct __config_t {
 	unsigned short op_s_sync;
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
+	unsigned short op_s_printuris;
 
 	unsigned short group;
 	pmtransflag_t flags;

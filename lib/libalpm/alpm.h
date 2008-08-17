@@ -283,7 +283,7 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_DOWNLOADONLY = 0x200,
 	PM_TRANS_FLAG_NOSCRIPTLET = 0x400,
 	PM_TRANS_FLAG_NOCONFLICTS = 0x800,
-	PM_TRANS_FLAG_PRINTURIS = 0x1000,
+	/* 0x1000 flag can go here */
 	PM_TRANS_FLAG_NEEDED = 0x2000,
 	PM_TRANS_FLAG_ALLEXPLICIT = 0x4000,
 	PM_TRANS_FLAG_UNNEEDED = 0x8000,
@@ -365,10 +365,6 @@ typedef enum _pmtransevt_t {
 	 * A line of text is passed to the callback.
 	 */
 	PM_TRANS_EVT_SCRIPTLET_INFO,
-	/** Print URI.
-	 * The database's URI and the package's filename are passed to the callback.
-	 */
-	PM_TRANS_EVT_PRINTURI,
 	/** Files will be downloaded from a repository.
 	 * The repository's tree name is passed to the callback.
 	 */

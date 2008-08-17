@@ -666,23 +666,32 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	if(!(alpm_trans_get_flags() & PM_TRANS_FLAG_PRINTURIS)) {
-		int confirm;
-
-		display_synctargets(packages);
-		printf("\n");
-
-		if(config->op_s_downloadonly) {
-			confirm = yesno(_("Proceed with download?"));
-		} else {
-			confirm = yesno(_("Proceed with installation?"));
+	/* Step 3: actually perform the operation */
+	if(config->op_s_printuris) {
+		/* print uris */
+		alpm_list_t *i;
+		for(i = packages; i; i = alpm_list_next(i)) {
+			pmpkg_t *pkg = alpm_sync_get_pkg((pmsyncpkg_t *)alpm_list_getdata(i));
+			pmdb_t *db = alpm_pkg_get_db(pkg);
+			printf("%s/%s\n", alpm_db_get_url(db), alpm_pkg_get_filename(pkg));
 		}
-		if(!confirm) {
-			goto cleanup;
-		}
-	}/* else 'print uris' requested.  We're done at this point */
+		/* we are done */
+		goto cleanup;
+	}
 
-	/* Step 3: actually perform the installation */
+	display_synctargets(packages);
+	printf("\n");
+
+	int confirm;
+	if(config->op_s_downloadonly) {
+		confirm = yesno(_("Proceed with download?"));
+	} else {
+		confirm = yesno(_("Proceed with installation?"));
+	}
+	if(!confirm) {
+		goto cleanup;
+	}
+
 	if(alpm_trans_commit(&data) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
@@ -739,7 +748,7 @@ int pacman_sync(alpm_list_t *targets)
 	alpm_list_t *sync_dbs = NULL;
 
 	/* Display only errors with -Sp and -Sw operations */
-	if(config->flags & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS)) {
+	if((config->flags & PM_TRANS_FLAG_DOWNLOADONLY) || config->op_s_printuris) {
 		config->logmask &= ~PM_LOG_WARNING;
 	}
 
@@ -811,7 +820,7 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	alpm_list_t *targs = alpm_list_strdup(targets);
-	if(!(config->flags & (PM_TRANS_FLAG_DOWNLOADONLY | PM_TRANS_FLAG_PRINTURIS))) {
+	if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY) && !config->op_s_printuris) {
 		/* check for newer versions of packages to be upgraded first */
 		alpm_list_t *packages = syncfirst();
 		if(packages) {
