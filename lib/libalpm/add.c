@@ -656,6 +656,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 		/* we'll need to save some record for backup checks later */
 		oldpkg = _alpm_pkg_dup(local);
+		/* make sure all infos are loaded because the database entry
+		 * will be removed soon */
+		_alpm_db_read(oldpkg->origin_data.db, oldpkg, INFRQ_ALL);
 		/* copy over the install reason */
 		newpkg->reason = alpm_pkg_get_reason(local);
 
