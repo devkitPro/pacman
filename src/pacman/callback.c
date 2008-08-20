@@ -444,7 +444,10 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	int file_percent = 0, total_percent = 0;
 	char rate_size = 'K', xfered_size = 'K';
 
-	if(config->noprogressbar) {
+	if(config->noprogressbar || file_total == -1) {
+		if(file_xfered == 0) {
+			printf(_("downloading %s...\n"), filename);
+		}
 		return;
 	}
 
