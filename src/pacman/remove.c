@@ -75,10 +75,10 @@ int pacman_remove(alpm_list_t *targets)
 					}
 					printf(_(":: group %s:\n"), targ);
 					list_display("   ", pkgnames);
-					int all = yesno(1, _("    Remove whole content?"));
+					int all = yesno(_("    Remove whole content?"));
 					for(p = pkgnames; p; p = alpm_list_next(p)) {
 						char *pkgn = alpm_list_getdata(p);
-						if(all || yesno(1, _(":: Remove %s from group %s?"), pkgn, targ)) {
+						if(all || yesno(_(":: Remove %s from group %s?"), pkgn, targ)) {
 							if(alpm_trans_addtarget(pkgn) == -1) {
 								pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ,
 								           alpm_strerrorlast());
@@ -131,7 +131,7 @@ int pacman_remove(alpm_list_t *targets)
 		printf("\n");
 
 		/* get confirmation */
-		if(yesno(1, _("Do you want to remove these packages?")) == 0) {
+		if(yesno(_("Do you want to remove these packages?")) == 0) {
 			retval = 1;
 			goto cleanup;
 		}

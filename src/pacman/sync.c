@@ -85,7 +85,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		/* We have a directory that doesn't match any syncdb.
 		 * Ask the user if he wants to remove it. */
 		if(!found) {
-			if(!yesno(1, _("Do you want to remove %s?"), path)) {
+			if(!yesno(_("Do you want to remove %s?"), path)) {
 				continue;
 			}
 
@@ -105,7 +105,7 @@ static int sync_cleandb_all(void) {
 	char newdbpath[PATH_MAX];
 
 	printf(_("Database directory: %s\n"), dbpath);
-	if(!yesno(1, _("Do you want to remove unused repositories?"))) {
+	if(!yesno(_("Do you want to remove unused repositories?"))) {
 		return(0);
 	}
 	/* The sync dbs were previously put in dbpath/, but are now in dbpath/sync/,
@@ -135,12 +135,12 @@ static int sync_cleancache(int level)
 		printf(_("Cache directory: %s\n"), cachedir);
 		switch(config->cleanmethod) {
 			case PM_CLEAN_KEEPINST:
-				if(!yesno(1, _("Do you want to remove uninstalled packages from cache?"))) {
+				if(!yesno(_("Do you want to remove uninstalled packages from cache?"))) {
 					return(0);
 				}
 				break;
 			case PM_CLEAN_KEEPCUR:
-				if(!yesno(1, _("Do you want to remove outdated packages from cache?"))) {
+				if(!yesno(_("Do you want to remove outdated packages from cache?"))) {
 					return(0);
 				}
 				break;
@@ -215,7 +215,7 @@ static int sync_cleancache(int level)
 	} else {
 		/* full cleanup */
 		printf(_("Cache directory: %s\n"), cachedir);
-		if(!yesno(0, _("Do you want to remove ALL packages from cache?"))) {
+		if(!noyes(_("Do you want to remove ALL packages from cache?"))) {
 			return(0);
 		}
 		printf(_("removing all packages from cache... "));
@@ -604,14 +604,14 @@ static int sync_trans(alpm_list_t *targets)
 									(char*)alpm_pkg_get_name(k->data));
 						}
 						list_display("   ", pkgnames);
-						if(yesno(1, _(":: Install whole content?"))) {
+						if(yesno(_(":: Install whole content?"))) {
 							for(k = pkgnames; k; k = alpm_list_next(k)) {
 								targets = alpm_list_add(targets, strdup(alpm_list_getdata(k)));
 							}
 						} else {
 							for(k = pkgnames; k; k = alpm_list_next(k)) {
 								char *pkgname = alpm_list_getdata(k);
-								if(yesno(1, _(":: Install %s from group %s?"), pkgname, targ)) {
+								if(yesno(_(":: Install %s from group %s?"), pkgname, targ)) {
 									targets = alpm_list_add(targets, strdup(pkgname));
 								}
 							}
@@ -673,9 +673,9 @@ static int sync_trans(alpm_list_t *targets)
 		printf("\n");
 
 		if(config->op_s_downloadonly) {
-			confirm = yesno(1, _("Proceed with download?"));
+			confirm = yesno(_("Proceed with download?"));
 		} else {
-			confirm = yesno(1, _("Proceed with installation?"));
+			confirm = yesno(_("Proceed with installation?"));
 		}
 		if(!confirm) {
 			goto cleanup;
@@ -817,7 +817,7 @@ int pacman_sync(alpm_list_t *targets)
 		if(packages) {
 			printf(_(":: The following packages should be upgraded first :\n"));
 			list_display("   ", packages);
-			if(yesno(1, _(":: Do you want to cancel the current operation\n"
+			if(yesno(_(":: Do you want to cancel the current operation\n"
 							":: and upgrade these packages now?"))) {
 				FREELIST(targs);
 				targs = packages;

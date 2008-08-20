@@ -255,33 +255,33 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
 			if(data2) {
 				/* TODO we take this route based on data2 being not null? WTF */
-				*response = yesno(1, _(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"),
+				*response = yesno(_(":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"),
 						alpm_pkg_get_name(data2),
 						alpm_pkg_get_name(data1));
 			} else {
-				*response = yesno(1, _(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
+				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
 						alpm_pkg_get_name(data1));
 			}
 			break;
 		case PM_TRANS_CONV_REMOVE_HOLDPKG:
-			*response = yesno(1, _(":: %s is designated as a HoldPkg. Remove anyway?"),
+			*response = yesno(_(":: %s is designated as a HoldPkg. Remove anyway?"),
 					alpm_pkg_get_name(data1));
 			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
-			*response = yesno(1, _(":: Replace %s with %s/%s?"),
+			*response = yesno(_(":: Replace %s with %s/%s?"),
 					alpm_pkg_get_name(data1),
 					(char *)data3,
 					alpm_pkg_get_name(data2));
 			break;
 		case PM_TRANS_CONV_CONFLICT_PKG:
-			*response = yesno(1, _(":: %s conflicts with %s. Remove %s?"),
+			*response = yesno(_(":: %s conflicts with %s. Remove %s?"),
 					(char *)data1,
 					(char *)data2,
 					(char *)data2);
 			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
-				*response = yesno(1, _(":: %s-%s: local version is newer. Upgrade anyway?"),
+				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway?"),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_version(data1));
 			} else {
@@ -289,7 +289,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			}
 			break;
 		case PM_TRANS_CONV_CORRUPTED_PKG:
-			*response = yesno(1, _(":: File %s is corrupted. Do you want to delete it?"),
+			*response = yesno(_(":: File %s is corrupted. Do you want to delete it?"),
 					(char *)data1);
 			break;
 	}

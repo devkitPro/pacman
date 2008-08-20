@@ -619,10 +619,9 @@ void display_optdepends(pmpkg_t *pkg)
 }
 
 /* presents a prompt and gets a Y/N answer */
-int yesno(short preset, char *fmt, ...)
+static int question(short preset, char *fmt, va_list args)
 {
 	char response[32];
-	va_list args;
 	FILE *stream;
 
 	if(config->noconfirm) {
@@ -632,9 +631,7 @@ int yesno(short preset, char *fmt, ...)
 		stream = stderr;
 	}
 
-	va_start(args, fmt);
 	vfprintf(stream, fmt, args);
-	va_end(args);
 
 	if(preset) {
 		fprintf(stream, " %s ", _("[Y/n]"));
@@ -660,6 +657,30 @@ int yesno(short preset, char *fmt, ...)
 		}
 	}
 	return(0);
+}
+
+int yesno(char *fmt, ...)
+{
+	int ret;
+	va_list args;
+
+	va_start(args, fmt);
+	ret = question(1, fmt, args);
+	va_end(args);
+
+	return(ret);
+}
+
+int noyes(char *fmt, ...)
+{
+	int ret;
+	va_list args;
+
+	va_start(args, fmt);
+	ret = question(0, fmt, args);
+	va_end(args);
+
+	return(ret);
 }
 
 int pm_printf(pmloglevel_t level, const char *format, ...)
