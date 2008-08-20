@@ -122,7 +122,7 @@ db_write_delta()
 
 	# get md5sum and size of delta
 	md5sum="$(md5sum "$deltafile" | cut -d ' ' -f 1)"
-	csize=$(du -kL "$deltafile" | awk '{print $1 * 1024}')
+	csize=$(@SIZECMD@ "$deltafile")
 
 	# ensure variables were found
 	if [ -z "$pkgname" -o -z "$fromver" -o -z "$tover" -o -z "$arch" ]; then
@@ -170,7 +170,7 @@ db_write_entry()
 	IFS=$OLDIFS
 
 	# get compressed size of package
-	csize=$(du -kL "$pkgfile" | awk '{print $1 * 1024}')
+	csize=$(@SIZECMD@ "$pkgfile")
 
 	startdir=$(pwd)
 	pushd "$gstmpdir" 2>&1 >/dev/null

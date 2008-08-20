@@ -182,18 +182,24 @@ GCC_VISIBILITY_CC
 GCC_GNU89_INLINE_CC
 
 # Host-dependant definitions
+SIZECMD="stat -c %s"
 case "${host_os}" in
+	*bsd*)
+		SIZECMD="stat -f %z"
+		;;
 	cygwin*)
 		host_os_cygwin=yes
 		CFLAGS="$CFLAGS -DCYGWIN"
 		;;
 	darwin*)
 		host_os_darwin=yes
+		SIZECMD="stat -f %z"
 		;;
 esac
 
 AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
+AC_SUBST(SIZECMD)
 
 # Check for architecture, used in default makepkg.conf
 # (Note single space left after CARCHFLAGS)
@@ -365,6 +371,7 @@ ${PACKAGE_NAME}:
     Architecture           : ${CARCH}
     Architecture flags     : ${CARCHFLAGS}
     Host Type              : ${CHOST}
+    Filesize command       : ${SIZECMD}
 
     libalpm version        : ${LIB_VERSION}
     libalpm version info   : ${LIB_VERSION_INFO}
