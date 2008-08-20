@@ -305,18 +305,6 @@ else
 	exit 1 # $E_MISSING_PROGRAM
 fi
 
-# source system and user makepkg.conf
-if [ -r "$confdir/makepkg.conf" ]; then
-	source "$confdir/makepkg.conf"
-else
-	error "$(gettext "%s not found. Cannot continue.")" "$confdir/makepkg.conf"
-	exit 1 # $E_CONFIG_ERROR
-fi
-
-if [ -r ~/.makepkg.conf ]; then
-	source ~/.makepkg.conf
-fi
-
 # main routine
 gstmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
 	error "$(gettext "Cannot create temp directory for database building.")"; \
@@ -387,10 +375,11 @@ if [ $success -eq 1 ]; then
 		[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
 		[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 
-		case "$DB_COMPRESSION" in
-			gz)  TAR_OPT="z" ;;
-			bz2) TAR_OPT="j" ;;
-			*)   warning "$(gettext "No compression set.")" ;;
+		case "$REPO_DB_FILE" in
+			*tar.gz)  TAR_OPT="z" ;;
+			*tar.bz2) TAR_OPT="j" ;;
+			*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
+			           "$REPO_DB_FILE" ;;
 		esac
 
 		bsdtar -c${TAR_OPT}f "$REPO_DB_FILE" *
