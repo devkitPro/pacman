@@ -550,7 +550,9 @@ check_checksums() {
 					fi
 				fi
 
-				if [ "${integrity_sums[$idx]}" = "$(openssl dgst -${integ} "$file" | awk '{print $NF}')" ]; then
+				local expectedsum="$(echo ${integrity_sums[$idx]} | tr '[A-F]' '[a-f]')"
+				local realsum="$(openssl dgst -${integ} "$file" | awk '{print $NF}')"
+				if [ "$expectedsum" = "$realsum" ]; then
 					echo "$(gettext "Passed")" >&2
 				else
 					echo "$(gettext "FAILED")" >&2
