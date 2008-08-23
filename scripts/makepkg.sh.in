@@ -463,6 +463,11 @@ generate_checksums() {
 	msg "$(gettext "Generating checksums for source files...")"
 	plain ""
 
+	if [ ! $(type -p openssl) ]; then
+		error "$(gettext "Cannot find openssl.")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+
 	local integ
 	for integ in ${INTEGRITY_CHECK[@]}; do
 		integ="$(echo $integ | tr '[:upper:]' '[:lower:]')"
@@ -472,11 +477,6 @@ generate_checksums() {
 				error "$(gettext "Invalid integrity algorithm '%s' specified.")" "$integ"
 				exit 1;; # $E_CONFIG_ERROR
 		esac
-
-		if [ ! $(type -p openssl) ]; then
-			error "$(gettext "Cannot find openssl.")"
-			exit 1 # $E_MISSING_PROGRAM
-		fi
 
 		local ct=0
 		local numsrc=${#source[@]}
@@ -515,21 +515,13 @@ generate_checksums() {
 }
 
 check_checksums() {
-	local integ
-	for integ in ${INTEGRITY_CHECK[@]}; do
-		integ="$(echo $integ | tr '[:upper:]' '[:lower:]')"
-		case "$integ" in
-			md5|sha1|sha256|sha384|sha512) : ;;
-			*)
-				error "$(gettext "Invalid integrity algorithm '%s' specified")" "$integ"
-				exit 1;; # $E_CONFIG_ERROR
-		esac
+	if [ ! $(type -p openssl) ]; then
+		error "$(gettext "Cannot find openssl.")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
 
-		if [ ! $(type -p openssl) ]; then
-			error "$(gettext "Cannot find openssl.")"
-			exit 1 # $E_MISSING_PROGRAM
-		fi
-
+	local integ required
+	for integ in md5 sha1 sha256 sha384 sha512; do
 		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
 		if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
 			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
@@ -567,7 +559,13 @@ check_checksums() {
 				exit 1 # TODO: error code
 			fi
 		else
-			warning "$(gettext "Integrity checks (%s) are missing or incomplete.")" "$integ"
+			for required in ${INTEGRITY_CHECK[@]}; do
+				required="$(echo $required | tr '[:upper:]' '[:lower:]')"
+				if [ "$integ" = "$required" ]; then
+					warning "$(gettext "Integrity checks (%s) are missing or incomplete.")" "$integ"
+					break
+				fi
+			done
 		fi
 	done
 }
