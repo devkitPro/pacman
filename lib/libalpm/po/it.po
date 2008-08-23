@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-08-23 10:54-0500\n"
-"PO-Revision-Date: 2008-07-19 17:26+0200\n"
+"PO-Revision-Date: 2008-08-23 19:30+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -353,7 +353,7 @@ msgstr "nessun repository corrispondente"
 
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "pacchetto non valido o corrotto"
+msgstr "delta non valido o corrotto"
 
 #, c-format
 msgid "delta patch failed"
@@ -397,7 +397,7 @@ msgstr "errore di libarchive"
 
 #, c-format
 msgid "download library error"
-msgstr "errore nel scaricare la libreria"
+msgstr "si è verificato un errore della libreria durante il download"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -450,9 +450,11 @@ msgstr "%s-%s è aggiornato, sarà ignorato\n"
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s è aggiornato, sarà reinstallato\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "%s: aggiornamento del pacchetto ignorato (%s => %s)\n"
+msgstr ""
+"installazione in corso di una versione meno recente del pacchetto %s (%s => %"
+"s)\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
@@ -460,7 +462,7 @@ msgstr "sono stati rilevati dei conflitti irrisolvibili\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "rimuovo '%s' dalla lista perché va in conflitto con '%s'\n"
+msgstr "rimozione di '%s' dalla lista perché va in conflitto con '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
@@ -562,6 +564,3 @@ msgstr "la cache di %s non esiste, creazione in corso...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 "impossibile creare la cache del pacchetto, al suo posto sarà usata /tmp\n"
-
-#~ msgid "%s: forcing upgrade to version %s\n"
-#~ msgstr "%s: aggiornamento forzato alla versione %s\n"

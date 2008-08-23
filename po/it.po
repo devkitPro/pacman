@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:37+0200\n"
+"PO-Revision-Date: 2008-08-23 19:30+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -290,17 +290,17 @@ msgstr "uso"
 msgid "operation"
 msgstr "operazione"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "operazione"
+msgstr "operazioni:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"usare '%s --help' con le altre opzioni per ottenere maggiori informazioni\n"
+"usare '%s {-h --help}' con un'operazione per le opzioni disponibili\n"
 
 #, c-format
 msgid ""
@@ -474,11 +474,9 @@ msgstr ""
 "  -y, --refresh        scarica dal server i database aggiornati dei "
 "pacchetti\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed         aggiorna solo i pacchetti non aggiornati o da "
-"installare\n"
+msgstr "      --needed         non reinstalla i pacchetti aggiornati\n"
 
 #, c-format
 msgid ""
@@ -932,9 +930,9 @@ msgstr "Rimuovere (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Dimensione totale dei pacchetti da rimuovere:   %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Dip. opzionali :"
+msgstr "Dipendenze opzionali di %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1249,11 +1247,11 @@ msgstr "  -R, --repackage  Ricrea il pacchetto in pkg/ senza compilarlo"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installa le dipendenze mancanti con pacman"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
-msgstr "      --source     Non compila il pacchetto, genera solo un archivio"
+msgstr ""
+"      --allsource  Genera solo un archivio includendo i sorgenti scaricati"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Consente a makepkg di avviarsi da root"
@@ -1265,10 +1263,10 @@ msgstr ""
 "      --holdver    Previene l'incremento automatico della versione per i "
 "PKGBUILD di sviluppo"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
-msgstr "      --source     Non compila il pacchetto, genera solo un archivio"
+msgstr ""
+"      --source     Genera solo un archivio escludendo i sorgenti scaricati"
 
 msgid "These options can be passed to pacman:"
 msgstr "Queste opzioni possono essere passate a pacman:"
@@ -1405,7 +1403,7 @@ msgid "Install scriptlet (%s) does not exist."
 msgstr "Lo script install (%s) non esiste."
 
 msgid "options array contains unknown option '%s'"
-msgstr "l'array options contiene un'opzione sconosciuta '%s'"
+msgstr "l'array options contiene l'opzione sconosciuta '%s'"
 
 msgid "A package has already been built, installing existing package..."
 msgstr ""
