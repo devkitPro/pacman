@@ -293,17 +293,17 @@ msgstr "sposób użycia"
 msgid "operation"
 msgstr "operacja"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "operacja"
+msgstr "operacje:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"użyj '%s --help' z innymi opcjami dla dalszych składni\n"
+"użyj '%s {-h --help}' z daną operacją w celu zobaczenia dostępnych opcji\n"
 
 #, c-format
 msgid ""
@@ -473,11 +473,9 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        pobiera świeże bazy danych pakietów z serwera\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed         uaktualnia tylko stare lub nie zainstalowane jeszcze "
-"pakiety\n"
+msgstr "      --needed         nie instaluj ponownie aktualnych pakietów\n"
 
 #, c-format
 msgid ""
@@ -929,9 +927,9 @@ msgstr "Usunąć (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Całkowity rozmiar do usunięcia: %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Opcjonalne zależności:"
+msgstr "Opcjonalne zależności dla %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1246,12 +1244,11 @@ msgstr "  -R, --repackage  Przepakuj zawartość pkg/ bez budowania"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Zainstaluj brakujące zależności pacmanem"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --source     Nie buduj pakietu; tylko wygeneruj archiwum źródłowe"
+"      --allsource  Generuje archiwum źródłowe zawierające pobrane źródła"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Pozwól makepkg pracować jako root"
@@ -1263,11 +1260,9 @@ msgstr ""
 "      --holdver    Zapobiega autopodnoszeniu wersji dla rozwojowych "
 "PKGBUILDów"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
-msgstr ""
-"      --source     Nie buduj pakietu; tylko wygeneruj archiwum źródłowe"
+msgstr "      --source     Generuje archiwum źródłowe bez pobranych źródeł"
 
 msgid "These options can be passed to pacman:"
 msgstr "Poniższe opcje mogą być przekazane do pacmana:"
