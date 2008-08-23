@@ -46,13 +46,14 @@ edit = sed \
 # two 'test' lines- make sure we can handle both sh and py type scripts
 # third 'test' line- make sure one of the two checks succeeded
 $(OURSCRIPTS): Makefile
-	rm -f $@ $@.tmp
-	test -f $(srcdir)/$@.sh.in && $(edit) $(srcdir)/$@.sh.in >$@.tmp || true
-	test -f $(srcdir)/$@.py.in && $(edit) $(srcdir)/$@.py.in >$@.tmp || true
-	test -f $@.tmp || false
-	chmod +x $@.tmp
-	chmod a-w $@.tmp
-	mv $@.tmp $@
+	@echo '    ' GEN $@;
+	@rm -f $@ $@.tmp
+	@test -f $(srcdir)/$@.sh.in && $(edit) $(srcdir)/$@.sh.in >$@.tmp || true
+	@test -f $(srcdir)/$@.py.in && $(edit) $(srcdir)/$@.py.in >$@.tmp || true
+	@test -f $@.tmp || false
+	@chmod +x $@.tmp
+	@chmod a-w $@.tmp
+	@mv $@.tmp $@
 
 makepkg: $(srcdir)/makepkg.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in

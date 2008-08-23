@@ -17,10 +17,11 @@ edit = sed \
 
 
 $(CONFTESTS): Makefile
-	rm -f $@ $@.tmp
-	test -f $(srcdir)/$@.in && $(edit) $(srcdir)/$@.in >$@.tmp || true
-	test -f $@.tmp || false
-	chmod a-w $@.tmp
-	mv $@.tmp $@
+	@echo '    ' GEN $@;
+	@rm -f $@ $@.tmp
+	@test -f $(srcdir)/$@.in && $(edit) $(srcdir)/$@.in >$@.tmp || true
+	@test -f $@.tmp || false
+	@chmod a-w $@.tmp
+	@mv $@.tmp $@
 
 # vim:set ts=2 sw=2 noet:
