@@ -1,21 +1,20 @@
-# translation of libalpm.po to
-# Juan Pablo Gonzalez <jotapesan@gmail.com>, 2008.
-# translation of es.po to
+# Juan Pablo González Tognarelli <jotapesan@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: libalpm\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-19 17:09+0200\n"
-"PO-Revision-Date: 2008-07-16 09:26-0400\n"
-"Last-Translator: Juan Pablo Gonzalez <jotapesan@gmail.com>\n"
-"Language-Team:  <es@li.org>\n"
+"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"PO-Revision-Date: 2008-08-23 23:35+0200\n"
+"Last-Translator: Juan Pablo González Tognarelli <jotapesan@gmail.com>\n"
+"Language-Team: Spanish <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: CHILE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
@@ -38,7 +37,7 @@ msgstr ""
 
 #, c-format
 msgid "replacing packages with -U is not supported yet\n"
-msgstr "reemplazar paquetes  con -U aún no esta soportado\n"
+msgstr "reemplazar paquetes con -U aún no esta soportado\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -142,7 +141,7 @@ msgstr "nombre de paquete ausente en %s\n"
 
 #, c-format
 msgid "missing package version in %s\n"
-msgstr "forzando la versión del paquete en %s\n"
+msgstr "versión del paquete ausente en %s\n"
 
 #, c-format
 msgid "error while reading package %s: %s\n"
@@ -202,11 +201,11 @@ msgstr "no se puede resumir la descarga, empezando de nuevo\n"
 
 #, c-format
 msgid "cannot write to file '%s'\n"
-msgstr "no se pudo escribir al archivo '%s'\n"
+msgstr "no se puede escribir en el archivo '%s'\n"
 
 #, c-format
 msgid "error downloading '%s': %s\n"
-msgstr "error descargando %s: %s\n"
+msgstr "error descargando '%s': %s\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -226,7 +225,7 @@ msgstr "no se pudo descargar %s\n"
 
 #, c-format
 msgid "out of memory!"
-msgstr "no hay memoria!"
+msgstr "memoria insuficiente!"
 
 #, c-format
 msgid "unexpected system error"
@@ -250,11 +249,11 @@ msgstr "argumento erroneo o NULO"
 
 #, c-format
 msgid "library not initialized"
-msgstr "librería no inicializada"
+msgstr "biblioteca no inicializada"
 
 #, c-format
 msgid "library already initialized"
-msgstr "la librería ya fue inicializada"
+msgstr "la biblioteca ya fue inicializada"
 
 #, c-format
 msgid "unable to lock database"
@@ -350,7 +349,7 @@ msgstr "no se pudo quitar todos los archivos del paquete"
 
 #, c-format
 msgid "package filename is not valid"
-msgstr "nombre de archivo del paquete no es válido"
+msgstr "el nombre de archivo del paquete no es válido"
 
 #, c-format
 msgid "no such repository"
@@ -402,7 +401,7 @@ msgstr "error de libarchive"
 
 #, c-format
 msgid "download library error"
-msgstr "error de descarga de librería"
+msgstr "error de descarga de biblioteca"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -411,14 +410,6 @@ msgstr "error invocando el descargador externo"
 #, c-format
 msgid "unexpected error"
 msgstr "error inesperado"
-
-#, c-format
-msgid "%s: forcing upgrade to version %s\n"
-msgstr "%s: forzando la actualización a la versión %s\n"
-
-#, c-format
-msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: local (%s) es más nuevo que %s (%s)\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -443,6 +434,10 @@ msgstr ""
 "s)\n"
 
 #, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s: local (%s) es más nuevo que %s (%s)\n"
+
+#, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
 
@@ -457,6 +452,10 @@ msgstr "%s-%s esta al día -- saltando\n"
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s esta al día -- re-instalando\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "decrementando la versión del paquete %s (%s => %s)\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
@@ -567,3 +566,6 @@ msgstr "no existe la cache %s, creando...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "no se pudo crear la cache de paquetes, usando /tmp en su lugar\n"
+
+#~ msgid "%s: forcing upgrade to version %s\n"
+#~ msgstr "%s: forzando la actualización a la versión %s\n"

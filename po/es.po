@@ -1,25 +1,24 @@
-# translation of es.po to
 # Spanish translation for pacman package.
 # Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package manager package.
 #
-# Juan Pablo González Tognarelli <lord_jotape@yahoo.com.ar>, 2007.
-# Juan Pablo Gonzalez <jotapesan@gmail.com>, 2008.
 # Imanol Celaya <ilcra1989@gmail.com>, 2008.
+# Juan Pablo González Tognarelli <jotapesan@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
-"PO-Revision-Date: 2008-07-30 08:35+0200\n"
-"Last-Translator: Juan Pablo Gonzalez <jotapesan@gmail.com>\n"
-"Language-Team:  <es@li.org>\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
+"PO-Revision-Date: 2008-08-23 23:21+0200\n"
+"Last-Translator: Juan Pablo González Tognarelli <jotapesan@gmail.com>\n"
+"Language-Team: Spanish <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: CHILE\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -124,6 +123,10 @@ msgstr "quitando"
 #, c-format
 msgid "checking for file conflicts"
 msgstr "verificando conflictos entre archivos"
+
+#, c-format
+msgid "downloading %s...\n"
+msgstr "Descargando %s...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -234,8 +237,8 @@ msgid "MD5 Sum        :"
 msgstr "Hash MD5     :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Descripción    : "
+msgid "Description    :"
+msgstr "Descripción    :"
 
 #, c-format
 msgid "Repository     :"
@@ -290,12 +293,16 @@ msgid "operation"
 msgstr "operación"
 
 #, c-format
+msgid "operations:\n"
+msgstr "operaciones:\n"
+
+#, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"digite '%s --help' con otra opción para ayuda más específica\n"
+"digite '{%s --help}' con una operación para ayuda más específica\n"
 
 #, c-format
 msgid ""
@@ -481,11 +488,10 @@ msgstr ""
 "servidor\n"
 
 #, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
-"      --needed         solo actualiza paquetes antiguos o los que no\n"
-"                         están instalados\n"
+"      --needed         solo actualiza paquetes antiguos o los que no están "
+"instalados\n"
 
 #, c-format
 msgid ""
@@ -632,7 +638,7 @@ msgstr "valor invalido para 'CleanMethod' : '%s'\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
-msgstr "falló al iniciar la librería alpm (%s)\n"
+msgstr "falló al iniciar la biblioteca alpm (%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -923,8 +929,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "falló al lanzar la transacción (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Nada\n"
+msgid "None"
+msgstr "Nada"
 
 #, c-format
 msgid "Targets (%d):"
@@ -947,20 +953,24 @@ msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Tamaño total eliminado:   %.2f MB\n"
 
 #, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Dependencias Opcionales para %s\n"
+
+#, c-format
 msgid "[Y/n]"
-msgstr "[Y/n]"
+msgstr "[S/n]"
 
 #, c-format
 msgid "[y/N]"
-msgstr "[y/N]"
+msgstr "[s/N]"
 
 #, c-format
 msgid "Y"
-msgstr "Y"
+msgstr "S"
 
 #, c-format
 msgid "YES"
-msgstr "YES"
+msgstr "SI"
 
 #, c-format
 msgid "N"
@@ -1046,7 +1056,7 @@ msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s no fue encontrado en el directorio de compilación y no es una URL."
 
 msgid "Downloading %s..."
-msgstr "Descargando %s... "
+msgstr "Descargando %s..."
 
 msgid "Failure while downloading %s"
 msgstr "Falló mientras se descargaba %s"
@@ -1109,7 +1119,7 @@ msgid "Compressing man pages..."
 msgstr "Comprimiendo las paginas man..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
-msgstr "Quitando símbolos de depuración de los binarios y librerías..."
+msgstr "Quitando símbolos de depuración de los binarios y bibliotecas..."
 
 msgid "Removing libtool .la files..."
 msgstr "Eliminando archivos .la de libtool"
@@ -1259,6 +1269,13 @@ msgstr "  -R, --repackage  Volver a crear el paquete sin recompilar"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Instala las dependencias faltantes con pacman"
 
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --allsource     Genera un archivo sólo con los fuentes, incluyendo los "
+"descargados"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr ""
 "      --asroot     Permitir a makepkg ser ejecutado como el usuario root"
@@ -1270,10 +1287,11 @@ msgstr ""
 "      --holdver    Previene el choque automático de versiones para los "
 "PKGBUILD de desarrollo"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     No construir el paquete, crear un tarball con sólo los "
-"fuentes"
+"      --source     Genera un paquetesólo sólo los fuentes, sin incluir los "
+"descargados"
 
 msgid "These options can be passed to pacman:"
 msgstr "Estas opciones pueden ser pasadas a pacman:"
@@ -1312,8 +1330,8 @@ msgstr "\\0--holdver y --forcever no pueden ser usados al mismo tiempo"
 msgid "Cleaning up ALL files from %s."
 msgstr "Limpiando TODOS los archivos de %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    ¿Seguro que quieres hacer esto? [Y/n]"
+msgid "    Are you sure you wish to do this? "
+msgstr "    ¿Seguro que quieres hacer esto? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr ""
@@ -1669,3 +1687,6 @@ msgstr ""
 
 msgid "No packages modified, nothing to do."
 msgstr "No se modificaron paquetes, nada que hacer."
+
+#~ msgid "None\n"
+#~ msgstr "Nada\n"

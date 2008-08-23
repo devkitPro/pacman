@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:36+0200\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -119,6 +119,10 @@ msgid "checking for file conflicts"
 msgstr "fájlütközések vizsgálata"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "%s letöltése...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc hiba: nem sikerült %zd bájtot lefoglalni\n"
 
@@ -227,8 +231,8 @@ msgid "MD5 Sum        :"
 msgstr "MD5 Sum         :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Leírás          : "
+msgid "Description    :"
+msgstr "Leírás          :"
 
 #, c-format
 msgid "Repository     :"
@@ -283,12 +287,16 @@ msgid "operation"
 msgstr "művelet"
 
 #, c-format
+msgid "operations:\n"
+msgstr "műveletek:\n"
+
+#, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"használja a '%s --help'-et más opciókkal további szintaxishoz\n"
+"a '%s {-h --help}' után egy műveletet megadva a vonatkozó opciókat kapjuk\n"
 
 #, c-format
 msgid ""
@@ -452,10 +460,8 @@ msgid ""
 msgstr "  -y, --refresh        friss csomagadatbázis letöltése a szerverről\n"
 
 #, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
-msgstr ""
-"      --needed         csak az elavult vagy hiányzó csomagok \"frissítése\"\n"
+msgid "      --needed         don't reinstall up to date packages\n"
+msgstr "      --needed         ne telepítse újra a naprakész csomagokat\n"
 
 #, c-format
 msgid ""
@@ -883,8 +889,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "nem sikerült lezárni a tranzakciót (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Nincs\n"
+msgid "None"
+msgstr "Nincs"
 
 #, c-format
 msgid "Targets (%d):"
@@ -905,6 +911,10 @@ msgstr "Eltávolítás (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Teljes eltávolított méret:   %.2f MB\n"
+
+#, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "A(z) %s csomag opcionális függőségei:\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1216,6 +1226,11 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr ""
 
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr ""
 
@@ -1224,7 +1239,8 @@ msgid ""
 "PKGBUILDs"
 msgstr ""
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 
 msgid "These options can be passed to pacman:"
@@ -1257,7 +1273,7 @@ msgstr ""
 msgid "Cleaning up ALL files from %s."
 msgstr ""
 
-msgid "    Are you sure you wish to do this? [Y/n] "
+msgid "    Are you sure you wish to do this? "
 msgstr ""
 
 msgid "Problem removing files; you may not have correct permissions in %s"
