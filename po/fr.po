@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:36+0200\n"
+"PO-Revision-Date: 2008-08-23 23:27+0200\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
 "MIME-Version: 1.0\n"
@@ -302,17 +302,18 @@ msgstr "utilisation"
 msgid "operation"
 msgstr "opération"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "opération"
+msgstr "opérations:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"Utilisez '%s --help' avec d'autres options pour une syntaxe plus détaillée.\n"
+"utilisez '%s {-h --help}' avec une opération pour voir les options "
+"disponibles.\n"
 
 #, c-format
 msgid ""
@@ -498,11 +499,9 @@ msgstr ""
 "  -y, --refresh            télécharge les dernières bases de données depuis "
 "le serveur\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed             met à jour seulement les paquets obsolètes ou non "
-"installés\n"
+msgstr "      --needed             ne réinstalle pas les paquets déjà à jour\n"
 
 # moins fidèle, mais plus précis (je changerais l'anglais aussi ici)
 #, c-format
@@ -965,9 +964,9 @@ msgstr "Suppression (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Taille totale des paquets (suppression):   %.2f Mo\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Dépendances opt.      :"
+msgstr "Dépendances optionnelles pour %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1294,13 +1293,12 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installe les dépendances manquantes avec pacman"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --source     Ne compile pas le paquet; génère une archive avec juste "
-"les sources"
+"      --allsource  Génère une archive uniquement constituée de sources, "
+"sources téléchargées inclues"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Autorise makepkg à s'exécuter en root"
@@ -1312,12 +1310,11 @@ msgstr ""
 "      --holdver    Empêche la mise à jour automatique de la version pour les "
 "PKGBUILDs de développement."
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Ne compile pas le paquet; génère une archive avec juste "
-"les sources"
+"      --source     Génère une archive uniquement constituée de sources, sans "
+"les sources téléchargées"
 
 msgid "These options can be passed to pacman:"
 msgstr "Ces options peuvent être passées à pacman:"
