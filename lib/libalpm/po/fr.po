@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-19 17:09+0200\n"
+"POT-Creation-Date: 2008-08-23 10:54-0500\n"
 "PO-Revision-Date: 2008-07-16 22:50+0200\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
@@ -409,14 +409,6 @@ msgid "unexpected error"
 msgstr "erreur non prévue"
 
 #, c-format
-msgid "%s: forcing upgrade to version %s\n"
-msgstr "%s: force la mise à jour à la version %s\n"
-
-#, c-format
-msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: la version locale (%s) est plus récente que %s (%s)\n"
-
-#, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "trouver %s dans la base de données a échoué -- ignoré\n"
 
@@ -437,6 +429,10 @@ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr "%s-%s: ignore la mise à jour du paquet (à remplacer par %s-%s)\n"
 
 #, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s: la version locale (%s) est plus récente que %s (%s)\n"
+
+#, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignore la mise à jour du paquet (%s => %s)\n"
 
@@ -451,6 +447,10 @@ msgstr "%s-%s est à jour -- ignoré\n"
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s est à jour -- réinstalle\n"
+
+#, fuzzy, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "%s: ignore la mise à jour du paquet (%s => %s)\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
@@ -560,3 +560,6 @@ msgstr "le cache %s n'existe pas, création...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "n'a pas pu créer le cache de paquets, /tmp sera utilisé à la place\n"
+
+#~ msgid "%s: forcing upgrade to version %s\n"
+#~ msgstr "%s: force la mise à jour à la version %s\n"

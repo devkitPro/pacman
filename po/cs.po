@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:28+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Čeština\n"
@@ -119,6 +119,10 @@ msgid "checking for file conflicts"
 msgstr "kontroluji konflikty mezi soubory"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "stahuji %s...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc selhal: nelze alokovat %zd bytů\n"
 
@@ -227,8 +231,8 @@ msgid "MD5 Sum        :"
 msgstr "MD5 součet     :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Popis          : "
+msgid "Description    :"
+msgstr "Popis          :"
 
 #, c-format
 msgid "Repository     :"
@@ -282,10 +286,14 @@ msgstr "použití"
 msgid "operation"
 msgstr "operace"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "operace"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "použijte '%s --help' s dalšími volbami pro další nápovědu\n"
@@ -448,9 +456,8 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        stáhne aktuální databázi balíčků ze serveru\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 "      --needed         aktualizuje jen zastaralé nebo nenainstalované "
 "balíčky\n"
@@ -880,8 +887,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "selhalo dokončení transakce (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Nic\n"
+msgid "None"
+msgstr "Nic"
 
 #, c-format
 msgid "Targets (%d):"
@@ -902,6 +909,10 @@ msgstr "Odstranit (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Celková uvolněná velikost:    %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Volitelné záv. :"
 
 #, c-format
 msgid "[Y/n]"
@@ -1215,6 +1226,13 @@ msgstr "  -R, --repackage  Znovu zabalí obsah pkg/ bez sestavování"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Nainstaluje chybějící závislosti pomocí pacmana"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --source     Nesestavovat balíček, vygenerovat jen zdrojový archiv"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Umožňuje spustit makepkg s právy uživatele root"
 
@@ -1224,7 +1242,9 @@ msgid ""
 msgstr ""
 "      --holdver    Zabrání automatickému zvýšení verze u vývojových PKGBUILDů"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Nesestavovat balíček, vygenerovat jen zdrojový archiv"
 
@@ -1261,8 +1281,8 @@ msgstr "\\0--holdver a --forcever nemohou být zadány současně"
 msgid "Cleaning up ALL files from %s."
 msgstr "Odstraňuji VŠECHNY soubory z %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Jste si jistý, že víte co děláte? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Jste si jistý, že víte co děláte? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "Problém s odstraněním souborů, možná nemáte správná oprávnění v %s"

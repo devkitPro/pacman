@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:31+0200\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
@@ -119,6 +119,10 @@ msgid "checking for file conflicts"
 msgstr "checking for file conflicts"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "downloading %s...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc failure: could not allocate %zd bytes\n"
 
@@ -227,8 +231,8 @@ msgid "MD5 Sum        :"
 msgstr "MD5 Sum        :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Description    : "
+msgid "Description    :"
+msgstr "Description    :"
 
 #, c-format
 msgid "Repository     :"
@@ -282,13 +286,15 @@ msgstr "usage"
 msgid "operation"
 msgstr "operation"
 
-#, c-format
+msgid "operations:\n"
+msgstr "operations:\n"
+
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 
 #, c-format
 msgid ""
@@ -446,10 +452,8 @@ msgstr ""
 "  -y, --refresh        download fresh package databases from the server\n"
 
 #, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
-msgstr ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+msgid "      --needed         don't reinstall up to date packages\n"
+msgstr "      --needed         don't reinstall up to date packages\n"
 
 #, c-format
 msgid ""
@@ -872,8 +876,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "failed to release transaction (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "None\n"
+msgid "None"
+msgstr "None"
 
 #, c-format
 msgid "Targets (%d):"
@@ -894,6 +898,9 @@ msgstr "Remove (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Total Removed Size:   %.2f MB\n"
+
+msgid "Optional dependencies for %s\n"
+msgstr "Optional dependencies for %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1206,6 +1213,13 @@ msgstr "  -R, --repackage  Repackage contents of pkg/ without building"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Install missing dependencies with pacman"
 
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Allow makepkg to run as root user"
 
@@ -1216,9 +1230,10 @@ msgstr ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Do not build package; generate a source-only tarball"
+"      --source     Generate a source-only tarball without downloaded sources"
 
 msgid "These options can be passed to pacman:"
 msgstr "These options can be passed to pacman:"
@@ -1256,8 +1271,8 @@ msgstr "\\0--holdver and --forcever cannot both be specified"
 msgid "Cleaning up ALL files from %s."
 msgstr "Cleaning up ALL files from %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Are you sure you wish to do this? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Are you sure you wish to do this? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "Problem removing files; you may not have correct permissions in %s"
@@ -1599,3 +1614,6 @@ msgstr "All packages have been removed from the database. Deleting '%s'."
 
 msgid "No packages modified, nothing to do."
 msgstr "No packages modified, nothing to do."
+
+#~ msgid "None\n"
+#~ msgstr "None\n"

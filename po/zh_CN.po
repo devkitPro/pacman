@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:39+0200\n"
 "Last-Translator: 甘露(Lu Gan) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -121,6 +121,10 @@ msgstr "正在删除"
 msgid "checking for file conflicts"
 msgstr "正在检查文件冲突"
 
+#, fuzzy, c-format
+msgid "downloading %s...\n"
+msgstr "正在下载 %s...\n"
+
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "内存分配失败：无法分配 %zd bytes\n"
@@ -230,7 +234,7 @@ msgid "MD5 Sum        :"
 msgstr "MD5校验值："
 
 #, c-format
-msgid "Description    : "
+msgid "Description    :"
 msgstr "描述　　　："
 
 #, c-format
@@ -285,10 +289,14 @@ msgstr "用法"
 msgid "operation"
 msgstr "操作"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "操作"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "使用 '%s --help' 以及其他选项查看更多语法\n"
@@ -433,9 +441,8 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        从服务器下载新的软件包数据库\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr "      --needed         仅升级过期或尚未安装的软件包\n"
 
 #, c-format
@@ -855,8 +862,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "无法释放事务处理(%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "无\n"
+msgid "None"
+msgstr "无"
 
 #, c-format
 msgid "Targets (%d):"
@@ -877,6 +884,10 @@ msgstr "删除 (%d)："
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "全部删除大小:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "可选依赖　："
 
 #, c-format
 msgid "[Y/n]"
@@ -1188,6 +1199,12 @@ msgstr "  -R, --repackage  不编译而重新打包 pkg/ 内容"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   使用 pacman 安装缺少的依赖关系"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr "    --source     不编译软件包，仅仅生成源码包"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     允许makepkg作为 root（根用户）运行"
 
@@ -1196,7 +1213,9 @@ msgid ""
 "PKGBUILDs"
 msgstr "      --holdver    防止开发中的 PKGBUILD 自动更新版本"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr "    --source     不编译软件包，仅仅生成源码包"
 
 msgid "These options can be passed to pacman:"
@@ -1231,8 +1250,8 @@ msgstr "\\0--holdver 和 --forcever 不能同时指定。"
 msgid "Cleaning up ALL files from %s."
 msgstr "正在从 %s 中清理所有文件。"
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    你确认要这样做吗？[Y/n]"
+msgid "    Are you sure you wish to do this? "
+msgstr "    你确认要这样做吗？ "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "删除文件发生错误；在 %s 你可能没有正确的权限。"

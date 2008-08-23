@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:38+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: Türkçe <tr@archlinuxtr.org>\n"
@@ -125,6 +125,10 @@ msgid "checking for file conflicts"
 msgstr "dosya çakışmaları kontrol ediliyor"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "%s indiriliyor...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "hafıza tahsisi hatası: %zd byte tahsis edilemedi\n"
 
@@ -233,8 +237,8 @@ msgid "MD5 Sum        :"
 msgstr "MD5 Çıktısı                :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Açıklama                   : "
+msgid "Description    :"
+msgstr "Açıklama                   :"
 
 #, c-format
 msgid "Repository     :"
@@ -288,10 +292,14 @@ msgstr "kullanım"
 msgid "operation"
 msgstr "işlem"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "işlem"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "daha ayrıntılı bilgi için '%s --help' kullanın\n"
@@ -452,9 +460,8 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr " -y, --refresh        sunucudan güncel paket veritabanını indir\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 "      --needed         sadece eski ve henüz kurulmamış paketleri güncelle\n"
 
@@ -881,8 +888,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "işlem gerçekleştirilemedi (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Hiçbiri\n"
+msgid "None"
+msgstr "Hiçbiri"
 
 #, c-format
 msgid "Targets (%d):"
@@ -903,6 +910,10 @@ msgstr "Sil (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Toplam Silinecek Boyut:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Opsiyonel Bağımlılık(lar)  :"
 
 #, c-format
 msgid "[Y/n]"
@@ -1222,6 +1233,14 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Eksik bağımlılıkları pacman ile kur"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --source     Paketi derlemek yerine kaynak kodlarını barındıran "
+"sıkıştırılmış tar dosyası oluştur"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr ""
 "      --asroot     makepkg komutunun yönetici haklarıyla çalıştırılmasına "
@@ -1234,7 +1253,9 @@ msgstr ""
 "      --holdver    Geliştirme sırasında kullanılan PKGBUILD dosyasına "
 "otomatik sürüm numarası atanmasını engelle"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Paketi derlemek yerine kaynak kodlarını barındıran "
 "sıkıştırılmış tar dosyası oluştur"
@@ -1272,8 +1293,8 @@ msgstr "\\0--holdver ve --forcever birlikte kullanılamazlar"
 msgid "Cleaning up ALL files from %s."
 msgstr "%s içerisindeki tüm dosyalar temizleniyor."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Bunu yapmak istediğinize emin misiniz? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Bunu yapmak istediğinize emin misiniz? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "Dosyalar silinemedi; %s için gerekli izinlere sahip olmayabilirsiniz"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:36+0200\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
@@ -132,6 +132,10 @@ msgid "checking for file conflicts"
 msgstr "Analyse des conflits entre fichiers"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "téléchargement de %s...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "erreur malloc: n'a pas pu allouer %zd bytes\n"
 
@@ -243,8 +247,8 @@ msgid "MD5 Sum        :"
 msgstr "somme MD5             :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Description           : "
+msgid "Description    :"
+msgstr "Description           :"
 
 #, c-format
 msgid "Repository     :"
@@ -298,10 +302,14 @@ msgstr "utilisation"
 msgid "operation"
 msgstr "opération"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "opération"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "Utilisez '%s --help' avec d'autres options pour une syntaxe plus détaillée.\n"
@@ -490,9 +498,8 @@ msgstr ""
 "  -y, --refresh            télécharge les dernières bases de données depuis "
 "le serveur\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 "      --needed             met à jour seulement les paquets obsolètes ou non "
 "installés\n"
@@ -935,8 +942,8 @@ msgstr "la libération de la transaction a échoué (%s)\n"
 
 # bon, on peut discuter là dessus; mais pacman -Qi avec tous ses "aucun" est vraiment trop laid... je le préfère comme ça
 #, c-format
-msgid "None\n"
-msgstr "--\n"
+msgid "None"
+msgstr "--"
 
 #, c-format
 msgid "Targets (%d):"
@@ -957,6 +964,10 @@ msgstr "Suppression (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Taille totale des paquets (suppression):   %.2f Mo\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Dépendances opt.      :"
 
 #, c-format
 msgid "[Y/n]"
@@ -1061,7 +1072,7 @@ msgstr ""
 "%s n'a pas été trouvé dans le répertoire de travail et n'est pas une URL."
 
 msgid "Downloading %s..."
-msgstr "Téléchargement de %s... "
+msgstr "Téléchargement de %s..."
 
 msgid "Failure while downloading %s"
 msgstr "Erreur lors du téléchargement de %s"
@@ -1283,6 +1294,14 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installe les dépendances manquantes avec pacman"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --source     Ne compile pas le paquet; génère une archive avec juste "
+"les sources"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Autorise makepkg à s'exécuter en root"
 
@@ -1293,7 +1312,9 @@ msgstr ""
 "      --holdver    Empêche la mise à jour automatique de la version pour les "
 "PKGBUILDs de développement."
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Ne compile pas le paquet; génère une archive avec juste "
 "les sources"
@@ -1333,8 +1354,8 @@ msgstr "\\0--holdver et --forcever sont incompatibles"
 msgid "Cleaning up ALL files from %s."
 msgstr "Nettoyage de TOUS les fichiers dans %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Êtes-vous sur de vouloir faire celà? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Êtes-vous sur de vouloir faire celà? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr ""

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:37+0200\n"
 "Last-Translator: Hugo Doria <hugo@archlinux.org>\n"
 "Language-Team: Brazillian Portuguese <www.archlinux-br.org>\n"
@@ -128,6 +128,10 @@ msgid "checking for file conflicts"
 msgstr "verificando conflitos de arquivo"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "realizando o download de %s...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "falha malloc: não foi possível alocar %zd bytes\n"
 
@@ -236,8 +240,8 @@ msgid "MD5 Sum        :"
 msgstr "Soma MD5        :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Descrição    : "
+msgid "Description    :"
+msgstr "Descrição    :"
 
 #, c-format
 msgid "Repository     :"
@@ -291,10 +295,14 @@ msgstr "uso"
 msgid "operation"
 msgstr "operação"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "operação"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "use '%s --help' com outras opções para mais sintaxes\n"
@@ -473,9 +481,8 @@ msgstr ""
 "  -y, --refresh          atualiza a base de dados de pacotes a partir do "
 "servidor\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 "      --needed         somente faz o upgrade para pacotes desatualizados ou "
 "não instalados\n"
@@ -915,8 +922,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "falha ao liberar a transação (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Nenhum\n"
+msgid "None"
+msgstr "Nenhum"
 
 #, c-format
 msgid "Targets (%d):"
@@ -937,6 +944,10 @@ msgstr "Remover (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Tamanho total dos pacotes a serem removidos:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Deps Opcionais  :"
 
 #, c-format
 msgid "[Y/n]"
@@ -1255,6 +1266,14 @@ msgstr "  -R, --repackage  Re-empacota conteúdo de pkg/ sem compilar"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Instala dependências não-encontradas com pacman"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --source     Não compila o pacote; gera um tarball somente com os "
+"fontes"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Permite ao makepkg rodar como usuário root"
 
@@ -1265,7 +1284,9 @@ msgstr ""
 "      --holdver    Previne atualização automática da versão para PKGBUILDs "
 "de desenvolvimento"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Não compila o pacote; gera um tarball somente com os "
 "fontes"
@@ -1307,8 +1328,8 @@ msgstr ""
 msgid "Cleaning up ALL files from %s."
 msgstr "Apagando TODOS os arquivos de %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Você tem certeza que deseja fazer isso? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Você tem certeza que deseja fazer isso? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr ""

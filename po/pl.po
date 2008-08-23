@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:37+0200\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polski <pl@li.org>\n"
@@ -126,6 +126,10 @@ msgid "checking for file conflicts"
 msgstr "sprawdzanie konfliktów plików"
 
 #, c-format
+msgid "downloading %s...\n"
+msgstr "pobieram %s...\n"
+
+#, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "błąd malloc: nie można zaalokować %zd bajtów\n"
 
@@ -234,8 +238,8 @@ msgid "MD5 Sum        :"
 msgstr "Suma MD5       :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Opis           : "
+msgid "Description    :"
+msgstr "Opis           :"
 
 #, c-format
 msgid "Repository     :"
@@ -289,10 +293,14 @@ msgstr "sposób użycia"
 msgid "operation"
 msgstr "operacja"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "operacja"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "użyj '%s --help' z innymi opcjami dla dalszych składni\n"
@@ -465,9 +473,8 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        pobiera świeże bazy danych pakietów z serwera\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 "      --needed         uaktualnia tylko stare lub nie zainstalowane jeszcze "
 "pakiety\n"
@@ -899,8 +906,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "nie udało się wyswobodzić transakcji (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Żadnych\n"
+msgid "None"
+msgstr "Żadnych"
 
 #, c-format
 msgid "Targets (%d):"
@@ -921,6 +928,10 @@ msgstr "Usunąć (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Całkowity rozmiar do usunięcia: %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Opcjonalne zależności:"
 
 #, c-format
 msgid "[Y/n]"
@@ -1022,7 +1033,7 @@ msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s nie jest URL i nie znalazłem go w katalgu źródłowym."
 
 msgid "Downloading %s..."
-msgstr "Pobieram %s... "
+msgstr "Pobieram %s..."
 
 msgid "Failure while downloading %s"
 msgstr "Błąd podczas pobierania %s"
@@ -1235,6 +1246,13 @@ msgstr "  -R, --repackage  Przepakuj zawartość pkg/ bez budowania"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Zainstaluj brakujące zależności pacmanem"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --source     Nie buduj pakietu; tylko wygeneruj archiwum źródłowe"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Pozwól makepkg pracować jako root"
 
@@ -1245,7 +1263,9 @@ msgstr ""
 "      --holdver    Zapobiega autopodnoszeniu wersji dla rozwojowych "
 "PKGBUILDów"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Nie buduj pakietu; tylko wygeneruj archiwum źródłowe"
 
@@ -1283,8 +1303,8 @@ msgstr "\\0--holdver oraz --forcever nie mogą być użyte jednocześnie"
 msgid "Cleaning up ALL files from %s."
 msgstr "Usuwam WSZYSTKIE pliki z %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Czy jesteś pewien, że chcesz to zrobić? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Czy jesteś pewien, że chcesz to zrobić? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "Problem z usuwaniem plików; możliwy brak uprawnień w %s"

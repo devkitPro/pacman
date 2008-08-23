@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: 2008-07-30 08:38+0200\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -119,6 +119,10 @@ msgstr "удаление"
 msgid "checking for file conflicts"
 msgstr "проверка возможных конфликтов файлов"
 
+#, fuzzy, c-format
+msgid "downloading %s...\n"
+msgstr "Загрузка %s...\n"
+
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "ошибка malloc: невозможно выделить %zd байт\n"
@@ -228,8 +232,8 @@ msgid "MD5 Sum        :"
 msgstr "MD5-сумма                :"
 
 #, c-format
-msgid "Description    : "
-msgstr "Описание                 : "
+msgid "Description    :"
+msgstr "Описание                 :"
 
 #, c-format
 msgid "Repository     :"
@@ -283,10 +287,14 @@ msgstr "использование"
 msgid "operation"
 msgstr "действие"
 
-#, c-format
+#, fuzzy, c-format
+msgid "operations:\n"
+msgstr "действие"
+
+#, fuzzy, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
 "используйте '%s --help' вместе с другими опциями для более подробной "
@@ -455,9 +463,8 @@ msgid ""
 msgstr ""
 "  -y, --refresh        загрузить свежие базы данных пакетов с сервера\n"
 
-#, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+#, fuzzy, c-format
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 "      --needed         обновлять только устаревшие или еще неустановленные "
 "пакеты\n"
@@ -890,8 +897,8 @@ msgid "failed to release transaction (%s)\n"
 msgstr "не удалось продолжить операцию (%s)\n"
 
 #, c-format
-msgid "None\n"
-msgstr "Не указано\n"
+msgid "None"
+msgstr "Не указано"
 
 #, c-format
 msgid "Targets (%d):"
@@ -912,6 +919,10 @@ msgstr "Удалить (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Размер удаляемых файлов:   %.2f МБ\n"
+
+#, fuzzy, c-format
+msgid "Optional dependencies for %s\n"
+msgstr "Опциональные зависимости :"
 
 #, c-format
 msgid "[Y/n]"
@@ -1013,7 +1024,7 @@ msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s не найден в директории сборки и это не URL."
 
 msgid "Downloading %s..."
-msgstr "Загрузка %s... "
+msgstr "Загрузка %s..."
 
 msgid "Failure while downloading %s"
 msgstr "Загрузка %s завершилась неудачей"
@@ -1230,6 +1241,14 @@ msgstr "  -R, --repackage  Заменить содержимое pkg/ без с�
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Установить необходимые зависимости с помощью pacman"
 
+#, fuzzy
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+"      --source     Не собирать пакет; только сгенерировать тарбол с "
+"исходными кодами"
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Позволить makepkg запуск от имени root"
 
@@ -1240,7 +1259,9 @@ msgstr ""
 "      --holdver    Не допускать автоматического изменения версий для "
 "PKGBUILDов находящихся в разработке"
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+#, fuzzy
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Не собирать пакет; только сгенерировать тарбол с "
 "исходными кодами"
@@ -1281,8 +1302,8 @@ msgstr "\\0--holdver и --forcever не могут использоваться 
 msgid "Cleaning up ALL files from %s."
 msgstr "Удаляю ВСЕ файлы из %s."
 
-msgid "    Are you sure you wish to do this? [Y/n] "
-msgstr "    Вы уверены, что хотите сделать это? [Y/n] "
+msgid "    Are you sure you wish to do this? "
+msgstr "    Вы уверены, что хотите сделать это? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr "Не могу удалить файлы; возможно, у вас недостаточно привелегий в %s"

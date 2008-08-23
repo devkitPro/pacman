@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-07-30 08:26+0200\n"
+"POT-Creation-Date: 2008-08-23 11:06-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,6 +115,10 @@ msgstr ""
 
 #, c-format
 msgid "checking for file conflicts"
+msgstr ""
+
+#, c-format
+msgid "downloading %s...\n"
 msgstr ""
 
 #, c-format
@@ -226,7 +230,7 @@ msgid "MD5 Sum        :"
 msgstr ""
 
 #, c-format
-msgid "Description    : "
+msgid "Description    :"
 msgstr ""
 
 #, c-format
@@ -282,9 +286,13 @@ msgid "operation"
 msgstr ""
 
 #, c-format
+msgid "operations:\n"
+msgstr ""
+
+#, c-format
 msgid ""
 "\n"
-"use '%s --help' with other options for more syntax\n"
+"use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 
 #, c-format
@@ -425,8 +433,7 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid ""
-"      --needed         only upgrade outdated or not yet installed packages\n"
+msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
 
 #, c-format
@@ -834,7 +841,7 @@ msgid "failed to release transaction (%s)\n"
 msgstr ""
 
 #, c-format
-msgid "None\n"
+msgid "None"
 msgstr ""
 
 #, c-format
@@ -855,6 +862,10 @@ msgstr ""
 
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
+msgstr ""
+
+#, c-format
+msgid "Optional dependencies for %s\n"
 msgstr ""
 
 #, c-format
@@ -1167,6 +1178,11 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr ""
 
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
+msgstr ""
+
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr ""
 
@@ -1175,7 +1191,8 @@ msgid ""
 "PKGBUILDs"
 msgstr ""
 
-msgid "      --source     Do not build package; generate a source-only tarball"
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 
 msgid "These options can be passed to pacman:"
@@ -1208,7 +1225,7 @@ msgstr ""
 msgid "Cleaning up ALL files from %s."
 msgstr ""
 
-msgid "    Are you sure you wish to do this? [Y/n] "
+msgid "    Are you sure you wish to do this? "
 msgstr ""
 
 msgid "Problem removing files; you may not have correct permissions in %s"
