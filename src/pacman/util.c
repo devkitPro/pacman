@@ -469,7 +469,7 @@ void list_display(const char *title, const alpm_list_t *list)
 	}
 
 	if(!list) {
-		printf(_("None\n"));
+		printf("%s\n", _("None"));
 	} else {
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
@@ -503,7 +503,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 	}
 
 	if(!list) {
-		printf(_("None\n"));
+		printf("%s\n", _("None"));
 	} else {
 		/* Print the first element */
 		indentprint((const char *) alpm_list_getdata(list), len);
