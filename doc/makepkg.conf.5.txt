@@ -97,7 +97,7 @@ Options
 	running in the DistCC cluster. In addition, you will want to modify your
 	`MAKEFLAGS`.
 
-**OPTIONS=(**strip docs libtool emptydirs zipman**)**::
+**OPTIONS=(**strip !docs libtool emptydirs zipman**)**::
 	This array contains options that affect the default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or
@@ -111,7 +111,8 @@ Options
 
 	*docs*;;
 		Save doc directories. If you wish to delete doc directories, specify
-		`!docs' in the array.
+		`!docs' in the array. The directories affected are specified by the
+		`DOC_DIRS` variable.
 
 	*libtool*;;
 		Leave libtool (.la) files in packages. Specify `!libtool' to remove
@@ -128,7 +129,7 @@ Options
 	affects both generation and checking. The current valid options are:
 	`md5`, `sha1`, `sha256`, `sha384`, and `sha512`.
 
-**DOC_DIRS=(**usr/{,share/}{info,doc} ...**)**::
+**DOC_DIRS=(**usr/{,share/}{doc,gtk-doc} ...**)**::
 	If "!docs" is specified in the OPTIONS array, this variable will
 	instruct makepkg where to look to remove docs. If you build packages
 	that are located in opt/, you may need to add the directory to this
