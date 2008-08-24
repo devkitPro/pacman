@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:28+0200\n"
+"PO-Revision-Date: 2008-08-24 08:33+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Čeština\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -286,17 +287,17 @@ msgstr "použití"
 msgid "operation"
 msgstr "operace"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "operace"
+msgstr "operace:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"použijte '%s --help' s dalšími volbami pro další nápovědu\n"
+"použijte '%s {-h --help}' s přepínačem operace pro další nápovědu\n"
 
 #, c-format
 msgid ""
@@ -456,11 +457,9 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        stáhne aktuální databázi balíčků ze serveru\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed         aktualizuje jen zastaralé nebo nenainstalované "
-"balíčky\n"
+msgstr "      --needed         zabrání přeinstalování aktuálních balíčků\n"
 
 #, c-format
 msgid ""
@@ -910,9 +909,9 @@ msgstr "Odstranit (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Celková uvolněná velikost:    %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Volitelné záv. :"
+msgstr "Volitelné závislosti pro %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1226,12 +1225,11 @@ msgstr "  -R, --repackage  Znovu zabalí obsah pkg/ bez sestavování"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Nainstaluje chybějící závislosti pomocí pacmana"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --source     Nesestavovat balíček, vygenerovat jen zdrojový archiv"
+"      --source     Vygeneruje zdrojový archiv, včetně stahovaných souborů"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Umožňuje spustit makepkg s právy uživatele root"
@@ -1242,11 +1240,9 @@ msgid ""
 msgstr ""
 "      --holdver    Zabrání automatickému zvýšení verze u vývojových PKGBUILDů"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
-msgstr ""
-"      --source     Nesestavovat balíček, vygenerovat jen zdrojový archiv"
+msgstr "      --source     Vygeneruje zdrojový archiv, bez stahovaných souborů"
 
 msgid "These options can be passed to pacman:"
 msgstr "Tyto volby se předají pacmanovi:"
