@@ -609,6 +609,25 @@ void display_synctargets(const alpm_list_t *syncpkgs)
 	alpm_list_free(rpkglist);
 }
 
+/* Helper function for comparing strings using the
+ * alpm "compare func" signature */
+int str_cmp(const void *s1, const void *s2)
+{
+	return(strcmp(s1, s2));
+}
+
+void display_new_optdepends(pmpkg_t *oldpkg, pmpkg_t *newpkg)
+{
+	alpm_list_t *old = alpm_pkg_get_optdepends(oldpkg);
+	alpm_list_t *new = alpm_pkg_get_optdepends(newpkg);
+	alpm_list_t *optdeps = alpm_list_diff(new,old,str_cmp);
+	if(optdeps) {
+		printf(_("New optional dependencies for %s\n"), alpm_pkg_get_name(newpkg));
+		list_display_linebreak("   ", optdeps);
+	}
+	alpm_list_free(optdeps);
+}
+
 void display_optdepends(pmpkg_t *pkg)
 {
 	alpm_list_t *optdeps = alpm_pkg_get_optdepends(pkg);
