@@ -140,9 +140,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("user aborted the operation");
 		case PM_ERR_INTERNAL_ERROR:
 			return _("internal error");
-		case PM_ERR_PKG_HOLD:
-			/* TODO wow this is not descriptive at all... what does this mean? */
-			return _("not confirmed");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
 		/* Errors from external libraries- our own wrapper error */

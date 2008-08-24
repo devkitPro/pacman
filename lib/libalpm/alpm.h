@@ -132,11 +132,6 @@ void alpm_option_add_ignorepkg(const char *pkg);
 void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
 int alpm_option_remove_ignorepkg(const char *pkg);
 
-alpm_list_t *alpm_option_get_holdpkgs();
-void alpm_option_add_holdpkg(const char *pkg);
-void alpm_option_set_holdpkgs(alpm_list_t *holdpkgs);
-int alpm_option_remove_holdpkg(const char *pkg);
-
 alpm_list_t *alpm_option_get_ignoregrps();
 void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
@@ -376,9 +371,7 @@ typedef enum _pmtransconv_t {
 	PM_TRANS_CONV_REPLACE_PKG = 0x02,
 	PM_TRANS_CONV_CONFLICT_PKG = 0x04,
 	PM_TRANS_CONV_CORRUPTED_PKG = 0x08,
-	PM_TRANS_CONV_LOCAL_NEWER = 0x10,
-	/* 0x20 flag can go here */
-	PM_TRANS_CONV_REMOVE_HOLDPKG = 0x40
+	PM_TRANS_CONV_LOCAL_NEWER = 0x10
 } pmtransconv_t;
 
 /* Transaction Progress */
@@ -522,7 +515,6 @@ enum _pmerrno_t {
 	PM_ERR_INTERNAL_ERROR,
 	PM_ERR_DB_SYNC,
 	PM_ERR_RETRIEVE,
-	PM_ERR_PKG_HOLD,
 	PM_ERR_INVALID_REGEX,
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,

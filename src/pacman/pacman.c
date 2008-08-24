@@ -540,6 +540,11 @@ static int parseargs(int argc, char *argv[])
 }
 
 /* helper for being used with setrepeatingoption */
+static void option_add_holdpkg(const char *name) {
+	config->holdpkg = alpm_list_add(config->holdpkg, strdup(name));
+}
+
+/* helper for being used with setrepeatingoption */
 static void option_add_syncfirst(const char *name) {
 	config->syncfirst = alpm_list_add(config->syncfirst, strdup(name));
 }
@@ -702,7 +707,7 @@ static int _parseconfig(const char *file, const char *givensection,
 					} else if(strcmp(key, "IgnoreGroup") == 0) {
 						setrepeatingoption(ptr, "IgnoreGroup", alpm_option_add_ignoregrp);
 					} else if(strcmp(key, "HoldPkg") == 0) {
-						setrepeatingoption(ptr, "HoldPkg", alpm_option_add_holdpkg);
+						setrepeatingoption(ptr, "HoldPkg", option_add_holdpkg);
 					} else if(strcmp(key, "SyncFirst") == 0) {
 						setrepeatingoption(ptr, "SyncFirst", option_add_syncfirst);
 					} else if(strcmp(key, "DBPath") == 0) {

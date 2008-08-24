@@ -83,7 +83,6 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);
-	FREELIST(handle->holdpkg);
 	FREELIST(handle->ignoregrp);
 	FREE(handle);
 }
@@ -194,15 +193,6 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs()
 		return NULL;
 	}
 	return handle->ignorepkg;
-}
-
-alpm_list_t SYMEXPORT *alpm_option_get_holdpkgs()
-{
-	if (handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
-	return handle->holdpkg;
 }
 
 alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
@@ -500,28 +490,6 @@ int SYMEXPORT alpm_option_remove_ignorepkg(const char *pkg)
 {
 	char *vdata = NULL;
 	handle->ignorepkg = alpm_list_remove_str(handle->ignorepkg, pkg, &vdata);
-	if(vdata != NULL) {
-		FREE(vdata);
-		return(1);
-	}
-	return(0);
-}
-
-void SYMEXPORT alpm_option_add_holdpkg(const char *pkg)
-{
-	handle->holdpkg = alpm_list_add(handle->holdpkg, strdup(pkg));
-}
-
-void SYMEXPORT alpm_option_set_holdpkgs(alpm_list_t *holdpkgs)
-{
-	if(handle->holdpkg) FREELIST(handle->holdpkg);
-	if(holdpkgs) handle->holdpkg = holdpkgs;
-}
-
-int SYMEXPORT alpm_option_remove_holdpkg(const char *pkg)
-{
-	char *vdata = NULL;
-	handle->holdpkg = alpm_list_remove_str(handle->holdpkg, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return(1);

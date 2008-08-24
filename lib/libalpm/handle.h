@@ -52,7 +52,6 @@ typedef struct _pmhandle_t {
 	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */
 	alpm_list_t *noextract;   /* List of files NOT to extract */
 	alpm_list_t *ignorepkg;   /* List of packages to ignore */
-	alpm_list_t *holdpkg;     /* List of packages which 'hold' pacman */
 	alpm_list_t *ignoregrp;   /* List of groups to ignore */
 
 	/* options */

@@ -65,16 +65,6 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
-	/* ignore holdpkgs on upgrade */
-	if((trans == handle->trans)
-	    && alpm_list_find_str(handle->holdpkg, info->name)) {
-		int resp = 0;
-		QUESTION(trans, PM_TRANS_CONV_REMOVE_HOLDPKG, info, NULL, NULL, &resp);
-		if(!resp) {
-			RET_ERR(PM_ERR_PKG_HOLD, -1);
-		}
-	}
-
 	_alpm_log(PM_LOG_DEBUG, "adding %s in the targets list\n", info->name);
 	trans->packages = alpm_list_add(trans->packages, _alpm_pkg_dup(info));
 

@@ -121,6 +121,21 @@ int pacman_remove(alpm_list_t *targets)
 		goto cleanup;
 	}
 
+	/* Search for holdpkg in target list */
+	int holdpkg = 0;
+	for(i = alpm_trans_get_pkgs(); i; i = alpm_list_next(i)) {
+		pmpkg_t *pkg = alpm_list_getdata(i);
+		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
+			pm_printf(PM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
+							alpm_pkg_get_name(pkg));
+			holdpkg = 1;
+		}
+	}
+	if(holdpkg && (noyes(_("HoldPkg was found in target list. Do you want to continue?")) == 0)) {
+		retval = 1;
+		goto cleanup;
+	}
+
 	/* Warn user in case of dangerous operation */
 	if(config->flags & PM_TRANS_FLAG_RECURSE ||
 	   config->flags & PM_TRANS_FLAG_CASCADE) {

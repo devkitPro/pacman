@@ -258,10 +258,6 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 						alpm_pkg_get_name(data1));
 			}
 			break;
-		case PM_TRANS_CONV_REMOVE_HOLDPKG:
-			*response = yesno(_(":: %s is designated as a HoldPkg. Remove anyway?"),
-					alpm_pkg_get_name(data1));
-			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
 			*response = yesno(_(":: Replace %s with %s/%s?"),
 					alpm_pkg_get_name(data1),
