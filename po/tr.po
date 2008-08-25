@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:38+0200\n"
-"Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
+"PO-Revision-Date: 2008-08-25 07:47+0200\n"
+"Last-Translator: Samed Beyribey <beyribey@gmail.com>\n"
 "Language-Team: Türkçe <tr@archlinuxtr.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -292,17 +292,17 @@ msgstr "kullanım"
 msgid "operation"
 msgstr "işlem"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "işlem"
+msgstr "işlem(ler):\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"daha ayrıntılı bilgi için '%s --help' kullanın\n"
+"daha ayrıntılı bilgi için '%s {-h --help}' kullanın\n"
 
 #, c-format
 msgid ""
@@ -460,10 +460,9 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr " -y, --refresh        sunucudan güncel paket veritabanını indir\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed         sadece eski ve henüz kurulmamış paketleri güncelle\n"
+msgstr "      --needed         güncel paketleri tekrar yükleme\n"
 
 #, c-format
 msgid ""
@@ -911,9 +910,9 @@ msgstr "Sil (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Toplam Silinecek Boyut:   %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Opsiyonel Bağımlılık(lar)  :"
+msgstr "%s için opsiyonel bağımlılık(lar)\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1233,12 +1232,11 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Eksik bağımlılıkları pacman ile kur"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --source     Paketi derlemek yerine kaynak kodlarını barındıran "
+"      --allsource     Paketi derlemek yerine kaynak kodlarını barındıran "
 "sıkıştırılmış tar dosyası oluştur"
 
 msgid "      --asroot     Allow makepkg to run as root user"
@@ -1253,11 +1251,10 @@ msgstr ""
 "      --holdver    Geliştirme sırasında kullanılan PKGBUILD dosyasına "
 "otomatik sürüm numarası atanmasını engelle"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Paketi derlemek yerine kaynak kodlarını barındıran "
+"      --source     Paketi derlemek yerine inşa dosyalarını barındıran "
 "sıkıştırılmış tar dosyası oluştur"
 
 msgid "These options can be passed to pacman:"
