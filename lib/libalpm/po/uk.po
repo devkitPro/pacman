@@ -1,0 +1,554 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libalpm 3.2.1\n"
+"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
+"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
+"Language-Team: http://archlinux.org.ua\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-Country: UKRAINE\n"
+
+#, c-format
+msgid "replacing older version %s-%s by %s in target list\n"
+msgstr "старіша версія %s-%s замінюється на %s в цільовому списку пакетів\n"
+
+#, c-format
+msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgstr "%s-%s пропускається, бо в списку цільових пакетів є новіша версія %s\n"
+
+#, c-format
+msgid "conflicting packages were found in the target list\n"
+msgstr "в списку цільових пакетів були знайдені конфліктуючі пакунки\n"
+
+#, c-format
+msgid "you cannot install two conflicting packages at the same time\n"
+msgstr "ви не можете одночасно встановити два пакунки, що конфліктують\n"
+
+#, c-format
+msgid "replacing packages with -U is not supported yet\n"
+msgstr "заміна пакунків за допомогою -U поки не підтримується\n"
+
+#, c-format
+msgid "you can replace packages manually using -Rd and -U\n"
+msgstr "ви можете власноруч замінити пакунки використавши -Rd та -U\n"
+
+#, c-format
+msgid ""
+"directory permissions differ on %s\n"
+"filesystem: %o  package: %o\n"
+msgstr ""
+"права каталога відрізняються на\n"
+"файловій системі %s: %o  пакунок: %o\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "розпакування: символьне посилання %s не вказує на каталог\n"
+
+#, c-format
+msgid "extract: not overwriting dir with file %s\n"
+msgstr "розпакування: каталог не було перезаписано файлом %s\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "неможливо розпакувати %s (%s)\n"
+
+#, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "неможливо перейменувати %s на %s (%s)\n"
+
+#, c-format
+msgid "%s saved as %s\n"
+msgstr "%s збережено як %s\n"
+
+#, c-format
+msgid "could not install %s as %s (%s)\n"
+msgstr "неможливо встановити %s як %s (%s)\n"
+
+#, c-format
+msgid "%s installed as %s\n"
+msgstr "%s встановлено як %s\n"
+
+#, c-format
+msgid "extracting %s as %s.pacnew\n"
+msgstr "розпакування %s як %s.pacnew\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr "неможливо отримати поточний робочий каталог\n"
+
+#, c-format
+msgid "problem occurred while upgrading %s\n"
+msgstr "з'явилась проблема при поновленні %s\n"
+
+#, c-format
+msgid "problem occurred while installing %s\n"
+msgstr "з'явилась проблема при встановленні %s\n"
+
+#, c-format
+msgid "could not update database entry %s-%s\n"
+msgstr "неможливо поновити запис бази даних %s-%s\n"
+
+#, c-format
+msgid "could not add entry '%s' in cache\n"
+msgstr "неможливо додати запис '%s' у кеш\n"
+
+#, c-format
+msgid "could not remove database entry %s%s\n"
+msgstr "неможливо видалити запис бази даних %s%s\n"
+
+#, c-format
+msgid "invalid name for database entry '%s'\n"
+msgstr "невірне ім'я для запису бази даних '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "пошкоджений запис у базі даних '%s'\n"
+
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "неможливо відкрити файл %s: %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "база даних %s неоднорідна: неспівпадіння назви для пакунка %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "база даних %s неоднорідна: неспівпадіння версій для пакунка %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "неможливо розібрати файл опису пакунка %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "бракує імені пакунку в %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "бракує версії пакунку в %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "помилка при читанні пакунку %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "бракує метаданих пакунку в %s\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "спроба перереєструвати базу даних 'local'\n"
+
+#, c-format
+msgid "database path is undefined\n"
+msgstr "шлях до бази даних не вказано\n"
+
+#, c-format
+msgid "dependency cycle detected:\n"
+msgstr "виявлено цикл залежностей:\n"
+
+#, c-format
+msgid "%s will be removed after its %s dependency\n"
+msgstr "%s буде видалено після його залежності %s\n"
+
+#, c-format
+msgid "%s will be installed before its %s dependency\n"
+msgstr "%s буде встановлено перед його %s залежністю\n"
+
+#, c-format
+msgid "provider package was selected (%s provides %s)\n"
+msgstr "був вибраний пакунок %s, що забезпечує %s\n"
+
+#, c-format
+msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
+msgstr "неможливо розв'язати \"%s\", залежність \"%s\"\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "посилання '%s' невірне\n"
+
+#, c-format
+msgid "url scheme not specified, assuming HTTP\n"
+msgstr "протокол посилання не вказано, вважається HTTP\n"
+
+#, c-format
+msgid "disk"
+msgstr "диск"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "не вдалося отримати файл '%s' з %s : %s\n"
+
+#, c-format
+msgid "cannot resume download, starting over\n"
+msgstr "неможливо продовжити завантаження, починається з початку\n"
+
+#, c-format
+msgid "cannot write to file '%s'\n"
+msgstr "неможливо писати у файл '%s'\n"
+
+#, c-format
+msgid "error downloading '%s': %s\n"
+msgstr "помилка при завантаженні '%s': %s\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "помилка при запису до файлу '%s': %s\n"
+
+#, c-format
+msgid "could not chdir to %s\n"
+msgstr "неможливо змінити каталог на %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "виконання XferCommand: старт процесу невдалий!\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "не вдалося завантажити %s\n"
+
+#, c-format
+msgid "out of memory!"
+msgstr "не вистачає пам'яті!"
+
+#, c-format
+msgid "unexpected system error"
+msgstr "неочікувана системна помилка"
+
+#, c-format
+msgid "insufficient privileges"
+msgstr "недостатньо прав"
+
+#, c-format
+msgid "could not find or read file"
+msgstr "неможливо знайти чи прочитати файл"
+
+#, c-format
+msgid "could not find or read directory"
+msgstr "неможливо знайти чи прочитати каталог"
+
+#, c-format
+msgid "wrong or NULL argument passed"
+msgstr "передано невірний аргумент чи NULL"
+
+#, c-format
+msgid "library not initialized"
+msgstr "бібліотека не ініціалізована"
+
+#, c-format
+msgid "library already initialized"
+msgstr "бібліотека вже ініціалізована"
+
+#, c-format
+msgid "unable to lock database"
+msgstr "неможливо заблокувати базу даних"
+
+#, c-format
+msgid "could not open database"
+msgstr "неможливо відкрити базу даних"
+
+#, c-format
+msgid "could not create database"
+msgstr "неможливо створити базу даних"
+
+#, c-format
+msgid "database not initialized"
+msgstr "база даних не ініціалізована"
+
+#, c-format
+msgid "database already registered"
+msgstr "база даних вже зареєстрована"
+
+#, c-format
+msgid "could not find database"
+msgstr "неможливо знайти базу даних"
+
+#, c-format
+msgid "could not update database"
+msgstr "неможливо поновити базу даних"
+
+#, c-format
+msgid "could not remove database entry"
+msgstr "неможливо видалити запис з бази даних"
+
+#, c-format
+msgid "invalid url for server"
+msgstr "невірне посилання чи сервер"
+
+#, c-format
+msgid "transaction already initialized"
+msgstr "транзакція вже ініціалізована"
+
+#, c-format
+msgid "transaction not initialized"
+msgstr "транзакція не ініціалізована"
+
+#, c-format
+msgid "duplicate target"
+msgstr "продубльований цільовий пакунок"
+
+#, c-format
+msgid "transaction not prepared"
+msgstr "транзакція не підготовлена"
+
+#, c-format
+msgid "transaction aborted"
+msgstr "транзакцію перервано"
+
+#, c-format
+msgid "operation not compatible with the transaction type"
+msgstr "операція несумісна з типом транзакції"
+
+#, c-format
+msgid "could not commit transaction"
+msgstr "неможливо здійснити транзакцію"
+
+#, c-format
+msgid "could not download all files"
+msgstr "неможиво завантажити усі файли"
+
+#, c-format
+msgid "could not find or read package"
+msgstr "неможливо знайти чи прочитати пакунок"
+
+#, c-format
+msgid "invalid or corrupted package"
+msgstr "невірний чи пошкоджений пакунок"
+
+#, c-format
+msgid "cannot open package file"
+msgstr "неможливо відкрити файл пакунку"
+
+#, c-format
+msgid "cannot load package data"
+msgstr "неможливо завантажити дані пакунку"
+
+#, c-format
+msgid "package not installed or lesser version"
+msgstr "пакунок не встановлено, або існує старіша версія"
+
+#, c-format
+msgid "cannot remove all files for package"
+msgstr "неможливо видалити всі файли для пакунку"
+
+#, c-format
+msgid "package filename is not valid"
+msgstr "ім'я файлу пакунку невірне"
+
+#, c-format
+msgid "no such repository"
+msgstr "немає такого репозиторію"
+
+#, c-format
+msgid "invalid or corrupted delta"
+msgstr "невірний чи пошкоджений дельта-патч"
+
+#, c-format
+msgid "delta patch failed"
+msgstr "накладення дельта-патчу невдале"
+
+#, c-format
+msgid "group not found"
+msgstr "група не знадена"
+
+#, c-format
+msgid "could not satisfy dependencies"
+msgstr "неможливо забезпечити залежності"
+
+#, c-format
+msgid "conflicting dependencies"
+msgstr "конфліктуючі залежності"
+
+#, c-format
+msgid "conflicting files"
+msgstr "конфліктуючі файли"
+
+#, c-format
+msgid "user aborted the operation"
+msgstr "користувач перервав операцію"
+
+#, c-format
+msgid "internal error"
+msgstr "внутрішня помилка"
+
+#, c-format
+msgid "not confirmed"
+msgstr "не підтверджено"
+
+#, c-format
+msgid "invalid regular expression"
+msgstr "невірний регулярний вираз"
+
+#, c-format
+msgid "libarchive error"
+msgstr "помилка libarchive"
+
+#, c-format
+msgid "download library error"
+msgstr "помилка бібліотеки завантаження"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "помилка виклику зовнішнього завантажувача"
+
+#, c-format
+msgid "unexpected error"
+msgstr "неочікувана помилка"
+
+#, c-format
+msgid "could not find %s in database -- skipping\n"
+msgstr "неможливо знайти %s в базі даних -- пропускається\n"
+
+#, c-format
+msgid "cannot remove file '%s': %s\n"
+msgstr "неможливо видалити файл '%s': %s\n"
+
+#, c-format
+msgid "could not remove database entry %s-%s\n"
+msgstr "неможливо видалити запис бази даних %s-%s\n"
+
+#, c-format
+msgid "could not remove entry '%s' from cache\n"
+msgstr "неможливо видалити запис '%s' з кешу\n"
+
+#, c-format
+msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+msgstr "%s-%s: ігнорування поновлення пакунку (буде замінено на %s-%s)\n"
+
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s: локальна версія (%s) новіша за %s (%s)\n"
+
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: ігнорування поновлення пакунку (%s => %s)\n"
+
+#, c-format
+msgid "repository '%s' not found\n"
+msgstr "репозиторій '%s' не знайдено\n"
+
+#, c-format
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s не потребує поновлення -- пропускається\n"
+
+#, c-format
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s не потребує поновлення -- перевстановлюється\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "пониження версії пакунку %s (%s => %s)\n"
+
+#, c-format
+msgid "unresolvable package conflicts detected\n"
+msgstr "виявлені нерозв'язні конфлікти пакетів\n"
+
+#, c-format
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "видалення '%s' з списку пакунків, бо він конфліктує з '%s'\n"
+
+#, c-format
+msgid "command: %s\n"
+msgstr "команда: %s\n"
+
+#, c-format
+msgid "failed to retrieve some files from %s\n"
+msgstr "не вдалося отримати деякі файли з %s\n"
+
+#, c-format
+msgid "could not create removal transaction\n"
+msgstr "неможливо створити транзакцію видалення\n"
+
+#, c-format
+msgid "could not initialize the removal transaction\n"
+msgstr "неможливо почати транзакцію видалення\n"
+
+#, c-format
+msgid "could not prepare removal transaction\n"
+msgstr "неможливо підготувати транзакцію видалення\n"
+
+#, c-format
+msgid "could not commit removal transaction\n"
+msgstr "неможливо здійснити транзакцію видалення\n"
+
+#, c-format
+msgid "could not create transaction\n"
+msgstr "неможливо створити транзакцію\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "неможливо почати транзакцію\n"
+
+#, c-format
+msgid "could not prepare transaction\n"
+msgstr "неможливо підготувати транзакцію\n"
+
+#, c-format
+msgid "could not commit transaction\n"
+msgstr "неможливо здійснити транзакцію\n"
+
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "неможливо видалити файл блокування %s\n"
+
+#, c-format
+msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+msgstr ""
+"В батьківському середовищі немає /bin/sh, переривання скрипту виконання\n"
+
+#, c-format
+msgid "could not create temp directory\n"
+msgstr "неиожливо створити тимчасовий каталог\n"
+
+#, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "неможливо скопіювати тимчасовий файл до %s (%s)\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "неможливо змінити каталог на %s (%s)\n"
+
+#, c-format
+msgid "could not fork a new process (%s)\n"
+msgstr "неможливо почати новий процес (%s)\n"
+
+#, c-format
+msgid "could not change the root directory (%s)\n"
+msgstr "неможливо змінити кореневий каталог (%s)\n"
+
+#, c-format
+msgid "could not change directory to / (%s)\n"
+msgstr "неможливо змінити каталог на / (%s)\n"
+
+#, c-format
+msgid "call to popen failed (%s)"
+msgstr "виклик popen невдалий (%s)"
+
+#, c-format
+msgid "call to waitpid failed (%s)\n"
+msgstr "виклик waitpid невдалий (%s)\n"
+
+#, c-format
+msgid "scriptlet failed to execute correctly\n"
+msgstr "скрипт встановлення не зміг виконатися коректно\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "неможливо видалити тимчасовий каталог %s\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "неможливо відкрити %s: %s\n"
+
+#, c-format
+msgid "no %s cache exists, creating...\n"
+msgstr "кеш %s не існує, створюється...\n"
+
+#, c-format
+msgid "couldn't create package cache, using /tmp instead\n"
+msgstr "неможливо створити кеш пакунку, використовуватиметься /tmp\n"
