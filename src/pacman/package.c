@@ -79,7 +79,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	/* turn depends list into a text list */
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
 		pmdepend_t *dep = (pmdepend_t*)alpm_list_getdata(i);
-		depstrings = alpm_list_add(depstrings, alpm_dep_get_string(dep));
+		depstrings = alpm_list_add(depstrings, alpm_dep_compute_string(dep));
 	}
 
 	if(level>0) {
@@ -176,7 +176,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 			snprintf(path, PATH_MAX-1, "%s%s", root, str);
 			/* if we find the file, calculate checksums, otherwise it is missing */
 			if(access(path, R_OK) == 0) {
-				char *md5sum = alpm_get_md5sum(path);
+				char *md5sum = alpm_compute_md5sum(path);
 
 				if(md5sum == NULL) {
 					pm_fprintf(stderr, PM_LOG_ERROR,

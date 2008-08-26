@@ -456,8 +456,8 @@ static int extract_single_file(struct archive *archive,
 			return(1);
 		}
 
-		hash_local = alpm_get_md5sum(filename);
-		hash_pkg = alpm_get_md5sum(checkfile);
+		hash_local = alpm_compute_md5sum(filename);
+		hash_pkg = alpm_compute_md5sum(checkfile);
 
 		/* append the new md5 hash to it's respective entry
 		 * in newpkg's backup (it will be the new orginal) */
@@ -618,7 +618,7 @@ static int extract_single_file(struct archive *archive,
 			}
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
 
-			hash = alpm_get_md5sum(filename);
+			hash = alpm_compute_md5sum(filename);
 			MALLOC(backup, backup_len, RET_ERR(PM_ERR_MEMORY, -1));
 
 			sprintf(backup, "%s\t%s", oldbackup, hash);

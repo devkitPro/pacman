@@ -550,7 +550,7 @@ int _alpm_lstat(const char *path, struct stat *buf)
  * @return the checksum on success, NULL on error
  * @addtogroup alpm_misc
  */
-char SYMEXPORT *alpm_get_md5sum(const char *filename)
+char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 {
 	unsigned char output[16];
 	char *md5sum;
@@ -584,7 +584,7 @@ int _alpm_test_md5sum(const char *filepath, const char *md5sum)
 	char *md5sum2;
 	int ret;
 
-	md5sum2 = alpm_get_md5sum(filepath);
+	md5sum2 = alpm_compute_md5sum(filepath);
 
 	if(md5sum == NULL || md5sum2 == NULL) {
 		ret = -1;

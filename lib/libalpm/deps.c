@@ -269,7 +269,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 			if(!_alpm_find_dep_satisfier(upgrade, depend) &&
 			   !_alpm_find_dep_satisfier(dblist, depend)) {
 				/* Unsatisfied dependency in the upgrade list */
-				char *missdepstring = alpm_dep_get_string(depend);
+				char *missdepstring = alpm_dep_compute_string(depend);
 				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
@@ -293,7 +293,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 				if(causingpkg &&
 				   !_alpm_find_dep_satisfier(upgrade, depend) &&
 				   !_alpm_find_dep_satisfier(dblist, depend)) {
-					char *missdepstring = alpm_dep_get_string(depend);
+					char *missdepstring = alpm_dep_compute_string(depend);
 					_alpm_log(PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
@@ -581,7 +581,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
 			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, list, tpkg);
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
-				char *missdepstring = alpm_dep_get_string(missdep);
+				char *missdepstring = alpm_dep_compute_string(missdep);
 				_alpm_log(PM_LOG_ERROR, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
 			                               missdepstring, tpkg->name);
 				free(missdepstring);
@@ -685,7 +685,7 @@ const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
  * @param dep the depend to turn into a string
  * @return a string-formatted dependency with operator if necessary
  */
-char SYMEXPORT *alpm_dep_get_string(const pmdepend_t *dep)
+char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 {
 	char *name, *opr, *ver, *str = NULL;
 	size_t len;

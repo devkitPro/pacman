@@ -435,7 +435,7 @@ const char *alpm_conflict_get_package2(pmconflict_t *conflict);
 pmdepmod_t alpm_dep_get_mod(const pmdepend_t *dep);
 const char *alpm_dep_get_name(const pmdepend_t *dep);
 const char *alpm_dep_get_version(const pmdepend_t *dep);
-char *alpm_dep_get_string(const pmdepend_t *dep);
+char *alpm_dep_compute_string(const pmdepend_t *dep);
 
 /*
  * File conflicts
@@ -456,7 +456,7 @@ const char *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict);
  */
 
 /* checksums */
-char *alpm_get_md5sum(const char *name);
+char *alpm_compute_md5sum(const char *name);
 
 /*
  * Errors

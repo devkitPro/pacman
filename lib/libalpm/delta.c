@@ -95,7 +95,7 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 
 		/* determine whether the delta file already exists */
 		fpath = _alpm_filecache_find(vdelta->delta);
-		md5sum = alpm_get_md5sum(fpath);
+		md5sum = alpm_compute_md5sum(fpath);
 		if(fpath && md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
 			vdelta->download_size = 0;
 		}
@@ -104,7 +104,7 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 
 		/* determine whether a base 'from' file exists */
 		fpath = _alpm_filecache_find(vdelta->from);
-		md5sum = alpm_get_md5sum(fpath);
+		md5sum = alpm_compute_md5sum(fpath);
 		if(fpath && md5sum && strcmp(md5sum, vdelta->from_md5) == 0) {
 			v->weight = vdelta->download_size;
 		}

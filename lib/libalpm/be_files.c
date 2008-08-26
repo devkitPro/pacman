@@ -826,7 +826,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->depends) {
 			fputs("%DEPENDS%\n", fp);
 			for(lp = info->depends; lp; lp = lp->next) {
-				char *depstring = alpm_dep_get_string(lp->data);
+				char *depstring = alpm_dep_compute_string(lp->data);
 				fprintf(fp, "%s\n", depstring);
 				free(depstring);
 			}
