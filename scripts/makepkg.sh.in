@@ -163,11 +163,23 @@ trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
 
+# a source entry can have two forms :
+# 1) "filename::http://path/to/file"
+# 2) "http://path/to/file"
 
-strip_url() {
-	echo "$1" | sed 's|^.*://.*/||g'
+# extract the filename from a source entry
+get_filename() {
+	# if a filename is specified, use it
+	local filename=$(echo $1 | sed 's|::.*||')
+	# if it is just an url, we only keep the last component
+	echo "$filename" | sed 's|^.*://.*/||g'
 }
 
+# extract the url from a source entry
+get_url() {
+	# strip an eventual filename
+	echo $1 | sed 's|.*::||'
+}
 
 ##
 # Checks to see if options are present in makepkg.conf or PKGBUILD;
@@ -284,18 +296,33 @@ get_downloadclient() {
 }
 
 download_file() {
+	# download command
 	local dlcmd=$1
-	local netfile=$2
+	# url of the file
+	local url=$2
+	# destination file
 	local file=$3
+	# temporary download file, default to last component of the url
+	local dlfile=$(echo "$url" | sed 's|^.*://.*/||g')
 
-	if echo "$dlcmd" | grep -q "%u" ; then
+	# replace %o by the temporary dlfile if it exists
+	if echo "$dlcmd" | grep -q "%o" ; then
 		dlcmd=${dlcmd//%o/$file.part}
-		dlcmd=${dlcmd//%u/$netfile}
+		dlfile="$file.part"
+	fi
+	# add the url, either in place of %u or at the end
+	if echo "$dlcmd" | grep -q "%u" ; then
+		dlcmd=${dlcmd//%u/$url}
 	else
-		dlcmd="$dlcmd $netfile"
+		dlcmd="$dlcmd $url"
 	fi
 
-	$dlcmd
+	$dlcmd || return $?
+
+	# rename the temporary download file to the final destination
+	if [ "$dlfile" != "$file" ]; then
+		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
+	fi
 }
 
 check_deps() {
@@ -418,7 +445,8 @@ download_sources() {
 
 	local netfile
 	for netfile in "${source[@]}"; do
-		local file=$(strip_url "$netfile")
+		local file=$(get_filename "$netfile")
+		local url=$(get_url "$netfile")
 		if [ -f "$startdir/$file" ]; then
 			msg2 "$(gettext "Found %s in build dir")" "$file"
 			rm -f "$srcdir/$file"
@@ -432,25 +460,22 @@ download_sources() {
 		fi
 
 		# if we get here, check to make sure it was a URL, else fail
-		if [ "$file" = "$netfile" ]; then
-			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$netfile"
+		if [ "$file" = "$url" ]; then
+			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
 			exit 1 # $E_MISSING_FILE
 		fi
 
 		# find the client we should use for this URL
-		local dlclient=$(get_downloadclient "$netfile") || exit $?
+		local dlclient=$(get_downloadclient "$url") || exit $?
 
 		msg2 "$(gettext "Downloading %s...")" "$file"
 		# fix flyspray bug #3289
 		local ret=0
-		download_file "$dlclient" "$netfile" "$file" || ret=$?
+		download_file "$dlclient" "$url" "$file" || ret=$?
 		if [ $ret -gt 0 ]; then
 			error "$(gettext "Failure while downloading %s")" "$file"
 			plain "$(gettext "Aborting...")"
 			exit 1
-		fi
-		if echo "$dlclient" | grep -q "%o" ; then
-			mv -f "$SRCDEST/$file.part" "$SRCDEST/$file"
 		fi
 		rm -f "$srcdir/$file"
 		ln -s "$SRCDEST/$file" "$srcdir/"
@@ -491,7 +516,7 @@ generate_checksums() {
 
 		local netfile
 		for netfile in "${source[@]}"; do
-			local file="$(strip_url "$netfile")"
+			local file="$(get_filename "$netfile")"
 
 			if [ ! -f "$file" ] ; then
 				if [ ! -f "$SRCDEST/$file" ] ; then
@@ -529,7 +554,7 @@ check_checksums() {
 			local idx=0
 			local file
 			for file in "${source[@]}"; do
-				file="$(strip_url "$file")"
+				file="$(get_filename "$file")"
 				echo -n "    $file ... " >&2
 
 				if [ ! -f "$file" ] ; then
@@ -574,7 +599,7 @@ extract_sources() {
 	msg "$(gettext "Extracting Sources...")"
 	local netfile
 	for netfile in "${source[@]}"; do
-		file=$(strip_url "$netfile")
+		file=$(get_filename "$netfile")
 		if in_array "$file" ${noextract[@]}; then
 			#skip source files in the noextract=() array
 			#  these are marked explicitly to NOT be extracted
@@ -957,7 +982,7 @@ create_srcpackage() {
 
 	local netfile
 	for netfile in "${source[@]}"; do
-		local file=$(strip_url "$netfile")
+		local file=$(get_filename "$netfile")
 		if [ -f "$netfile" ]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
 			ln -s "${startdir}/$netfile" "${srclinks}/${pkgname}"

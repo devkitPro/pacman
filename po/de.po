@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:29+0200\n"
+"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"PO-Revision-Date: 2008-08-24 12:36+0100\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
 "MIME-Version: 1.0\n"
@@ -291,17 +291,18 @@ msgstr "Verwendung"
 msgid "operation"
 msgstr "Operation"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "Operation"
+msgstr "Operationen:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"Benutzen Sie '%s --help' mit anderen Optionen für mehr Informationen\n"
+"Benutzen Sie '%s {-h --help}' zusammen mit einer Operation für verfügbare "
+"Optionen\n"
 
 #, c-format
 msgid ""
@@ -475,11 +476,10 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        Lädt frische Paketdatenbanken vom Server\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
 msgstr ""
-"      --needed         aktualisiere nur veraltete oder noch nicht "
-"installierte Pakete\n"
+"      --needed         aktuelle Pakete werden nicht nochmals installiert\n"
 
 #, c-format
 msgid ""
@@ -497,11 +497,6 @@ msgstr ""
 "      --ignoregroup <grp>\n"
 "                       Ignoriert Upgrade einer Gruppe (kann mehrfach genutzt "
 "werden)\n"
-
-#, c-format
-msgid "  -q  --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet         Zeigt weniger Information bei Abfragen und Suche an\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -937,9 +932,9 @@ msgstr "Entfernen (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Gesamtgröße der zu entfernenden Pakete: %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Optionale Abhängigkeiten:"
+msgstr "Optionale Abhängigkeiten für %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1258,11 +1253,12 @@ msgstr "  -R, --repackage  Packe den Inhalt von pkg/ neu, ohne etwas zu bauen"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installiere fehlende Abhängigkeiten mit Pacman"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
-msgstr "      --source     Baue kein Paket, erstelle nur Quell-Tarball"
+msgstr ""
+"      --allsource     Erstelle einen Quell-Tarball einschließlich der "
+"heruntergeladenen Quellen"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Lässt makepkg als Root-Nutzer laufen"
@@ -1274,10 +1270,11 @@ msgstr ""
 "      --holdver    Verhindert, dass die Auto-Version sich mit dev-PKGBUILDS "
 "beisst"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
-msgstr "      --source     Baue kein Paket, erstelle nur Quell-Tarball"
+msgstr ""
+"      --source     Erstelle einen Quell-Tarball ohne die heruntergeladenen "
+"Quellen"
 
 msgid "These options can be passed to pacman:"
 msgstr "Diese Optionen können an pacman weitergegeben werden:"

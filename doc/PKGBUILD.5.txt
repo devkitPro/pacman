@@ -87,6 +87,10 @@ similar to `$_basekernver`.
 	variables if possible when specifying the download location. Any files
 	that are compressed will automatically be extracted, unless found in
 	the noextract array listed below.
++
+It is also possible to specify an optional filename, which is helpful
+with weird URLs and for handling multiple source files with the same
+name. The syntax is: `source=('filename::url')`
 
 *noextract (array)*::
 	An array of filenames corresponding to those from the source array. Files

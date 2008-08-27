@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:39+0200\n"
+"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"PO-Revision-Date: 2008-08-24 10:17+0700\n"
 "Last-Translator: 甘露(Lu Gan) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "正在删除"
 msgid "checking for file conflicts"
 msgstr "正在检查文件冲突"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading %s...\n"
 msgstr "正在下载 %s...\n"
 
@@ -289,17 +289,17 @@ msgstr "用法"
 msgid "operation"
 msgstr "操作"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "操作"
+msgstr "操作:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"使用 '%s --help' 以及其他选项查看更多语法\n"
+"使用 '%s {-h --help}' 及某个操作以查看可得的选项\n"
 
 #, c-format
 msgid ""
@@ -441,9 +441,9 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        从服务器下载新的软件包数据库\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr "      --needed         仅升级过期或尚未安装的软件包\n"
+msgstr "      --needed         不重新安装已经为最新的软件包\n"
 
 #, c-format
 msgid ""
@@ -458,10 +458,6 @@ msgid ""
 msgstr ""
 "      --ignoregroup <软件包组>\n"
 "                         升级时忽略某个软件包组（可多次使用）\n"
-
-#, c-format
-msgid "  -q  --quiet          show less information for query and search\n"
-msgstr "  -q  --quiet          查询或搜索时显示较少信息\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -885,9 +881,9 @@ msgstr "删除 (%d)："
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "全部删除大小:   %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "可选依赖　："
+msgstr "%s 的可选依赖\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1199,11 +1195,10 @@ msgstr "  -R, --repackage  不编译而重新打包 pkg/ 内容"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   使用 pacman 安装缺少的依赖关系"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
-msgstr "    --source     不编译软件包，仅仅生成源码包"
+msgstr "    --allsource     只生成源码包（包括有已下载的源码）"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     允许makepkg作为 root（根用户）运行"
@@ -1213,10 +1208,9 @@ msgid ""
 "PKGBUILDs"
 msgstr "      --holdver    防止开发中的 PKGBUILD 自动更新版本"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
-msgstr "    --source     不编译软件包，仅仅生成源码包"
+msgstr "    --source     只生成源码包（不包括已下载的源码）"
 
 msgid "These options can be passed to pacman:"
 msgstr "这些选项可以传递给 pacman："

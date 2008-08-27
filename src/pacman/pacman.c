@@ -134,7 +134,7 @@ static void usage(int op, const char * const myname)
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 			printf(_("      --ignoregroup <grp>\n"
 			         "                       ignore a group upgrade (can be used more than once)\n"));
-			printf(_("  -q  --quiet          show less information for query and search\n"));
+			printf(_("  -q, --quiet          show less information for query and search\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));

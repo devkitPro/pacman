@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 11:06-0500\n"
-"PO-Revision-Date: 2008-07-30 08:38+0200\n"
+"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"PO-Revision-Date: 2008-08-24 02:24+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -119,9 +119,9 @@ msgstr "удаление"
 msgid "checking for file conflicts"
 msgstr "проверка возможных конфликтов файлов"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading %s...\n"
-msgstr "Загрузка %s...\n"
+msgstr "загрузка %s...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -287,18 +287,18 @@ msgstr "использование"
 msgid "operation"
 msgstr "действие"
 
-#, fuzzy, c-format
+#, c-format
 msgid "operations:\n"
-msgstr "действие"
+msgstr "действия:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"используйте '%s --help' вместе с другими опциями для более подробной "
-"информации\n"
+"используйте '%s { -h --help}' вместе с другими операциями для просмотра "
+"опций\n"
 
 #, c-format
 msgid ""
@@ -463,11 +463,9 @@ msgid ""
 msgstr ""
 "  -y, --refresh        загрузить свежие базы данных пакетов с сервера\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed         обновлять только устаревшие или еще неустановленные "
-"пакеты\n"
+msgstr "      --needed         обновлять только устаревшие пакеты\n"
 
 #, c-format
 msgid ""
@@ -485,11 +483,6 @@ msgstr ""
 "      --ignoregroup <группа>\n"
 "          игнорировать группу при обновлении (может быть использовано "
 "неоднократно)\n"
-
-#, c-format
-msgid "  -q  --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet          показывать меньше информации при запросах и поиске\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -920,9 +913,9 @@ msgstr "Удалить (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Размер удаляемых файлов:   %.2f МБ\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Опциональные зависимости :"
+msgstr "Дополнительные зависимости для %s\n"
 
 #, c-format
 msgid "[Y/n]"
@@ -1241,13 +1234,12 @@ msgstr "  -R, --repackage  Заменить содержимое pkg/ без с�
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Установить необходимые зависимости с помощью pacman"
 
-#, fuzzy
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --source     Не собирать пакет; только сгенерировать тарбол с "
-"исходными кодами"
+"      --source     Создать архив с исходными кодами, включая загруженные "
+"файлы"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Позволить makepkg запуск от имени root"
@@ -1259,12 +1251,10 @@ msgstr ""
 "      --holdver    Не допускать автоматического изменения версий для "
 "PKGBUILDов находящихся в разработке"
 
-#, fuzzy
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Не собирать пакет; только сгенерировать тарбол с "
-"исходными кодами"
+"      --source     Создать архив с исходными кодами, без загруженных файлов"
 
 msgid "These options can be passed to pacman:"
 msgstr "Следующие опции могут быть переданы pacman:"
