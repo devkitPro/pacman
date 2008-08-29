@@ -137,11 +137,9 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 		}
 		printf("]");
 	}
-	/* print percent after progress bar */
+	/* print display percent after progress bar */
 	if(proglen > 5) {
-		/* show total download percent if option is enabled */
-		int p = config->totaldownload ? disp_percent : bar_percent;
-		printf(" %3d%%", p);
+		printf(" %3d%%", disp_percent);
 	}
 
 	if(bar_percent == 100) {
@@ -438,6 +436,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcfname;
 
+	int totaldownload;
 	off_t xfered, total;
 	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
@@ -453,6 +452,12 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	/* only use TotalDownload if enabled and we have a callback value */
 	if(config->totaldownload && list_total) {
+		totaldownload = 1;
+	} else {
+		totaldownload = 0;
+	}
+
+	if(totaldownload) {
 		xfered = list_xfered + file_xfered;
 		total = list_total;
 	} else {
@@ -465,8 +470,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	if(file_xfered == 0) {
 		/* set default starting values, ensure we only call this once
 		 * if TotalDownload is enabled */
-		if(!(config->totaldownload)
-				|| (config->totaldownload && list_xfered == 0)) {
+		if(!totaldownload || (totaldownload && list_xfered == 0)) {
 			gettimeofday(&initial_time, NULL);
 			xfered_last = (off_t)0;
 			rate_last = 0.0;
@@ -503,7 +507,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	file_percent = (int)((float)file_xfered) / ((float)file_total) * 100;
 
-	if(config->totaldownload && list_total) {
+	if(totaldownload) {
 		total_percent = (int)((float)list_xfered + file_xfered) /
 			((float)list_total) * 100;
 
@@ -584,7 +588,11 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	free(fname);
 	free(wcfname);
 
-	fill_progress(file_percent, total_percent, getcols() - infolen);
+	if(totaldownload) {
+		fill_progress(file_percent, total_percent, getcols() - infolen);
+	} else {
+		fill_progress(file_percent, file_percent, getcols() - infolen);
+	}
 	return;
 }
 
