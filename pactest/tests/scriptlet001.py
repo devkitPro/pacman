@@ -14,3 +14,7 @@ self.args = "--debug -U %s" % p1.filename()
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PACMAN_OUTPUT=" + pre)
 self.addrule("PACMAN_OUTPUT=" + post)
+
+fakechroot = which("fakechroot")
+if not fakechroot:
+	self.expectfailure = True

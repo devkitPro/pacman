@@ -197,9 +197,7 @@ class pmtest:
                 cmd.append("fakeroot")
 
             fakechroot = which("fakechroot")
-            if not fakechroot:
-                print "WARNING: fakechroot not found, scriptlet tests WILL fail!!!"
-            else:
+            if fakechroot:
                 cmd.append("fakechroot")
 
         if pacman["gdb"]:
