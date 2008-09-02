@@ -48,16 +48,7 @@ pmhandle_t *_alpm_handle_new()
 	ALPM_LOG_FUNC;
 
 	CALLOC(handle, 1, sizeof(pmhandle_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
 	handle->lckfd = -1;
-	handle->logstream = NULL;
-
-	handle->root = NULL;
-	handle->dbpath = NULL;
-	handle->cachedirs = NULL;
-	handle->lockfile = NULL;
-	handle->logfile = NULL;
-	handle->usedelta = 0;
 
 	return(handle);
 }

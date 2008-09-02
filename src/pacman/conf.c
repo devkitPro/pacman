@@ -44,10 +44,6 @@ config_t *config_new(void)
 	newconfig->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
 	/* CONFFILE is defined at compile-time */
 	newconfig->configfile = strdup(CONFFILE);
-	newconfig->rootdir = NULL;
-	newconfig->dbpath = NULL;
-	newconfig->logfile = NULL;
-	newconfig->syncfirst = NULL;
 
 	return(newconfig);
 }

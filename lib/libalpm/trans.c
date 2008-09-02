@@ -227,15 +227,6 @@ pmtrans_t *_alpm_trans_new()
 	ALPM_LOG_FUNC;
 
 	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
-	trans->packages = NULL;
-	trans->skip_add = NULL;
-	trans->skip_remove = NULL;
-	trans->type = 0;
-	trans->flags = 0;
-	trans->cb_event = NULL;
-	trans->cb_conv = NULL;
-	trans->cb_progress = NULL;
 	trans->state = STATE_IDLE;
 
 	return(trans);
