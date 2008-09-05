@@ -871,13 +871,21 @@ create_package() {
 	# tar it up
 	msg2 "$(gettext "Compressing package...")"
 
+	local TAR_OPT
+	case "$PKGEXT" in
+		*tar.gz)  TAR_OPT="z" ;;
+		*tar.bz2) TAR_OPT="j" ;;
+		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
+		"$PKGEXT" ;;
+	esac
+
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
 	shopt -s nullglob
 
-	if ! bsdtar -czf "$pkg_file" $comp_files *; then
+	if ! bsdtar -c${TAR_OPT}f "$pkg_file" $comp_files *; then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
@@ -992,12 +1000,20 @@ create_srcpackage() {
 		fi
 	done
 
+	local TAR_OPT
+	case "$SRCEXT" in
+		*tar.gz)  TAR_OPT="z" ;;
+		*tar.bz2) TAR_OPT="j" ;;
+		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
+		"$SRCEXT" ;;
+	esac
+
 	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}"
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
 	cd "${srclinks}"
-	if ! bsdtar -czLf "$pkg_file" ${pkgname}; then
+	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgname}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
