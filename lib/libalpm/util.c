@@ -254,7 +254,8 @@ int _alpm_lckmk()
 	_alpm_makepath(dir);
 	FREE(dir);
 
-	fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000);
+	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1
+			&& errno == EINTR);
 	return(fd > 0 ? fd : -1);
 }
 
