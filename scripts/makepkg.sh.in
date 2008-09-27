@@ -41,8 +41,9 @@ confdir='@sysconfdir@'
 startdir="$PWD"
 srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
-known_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'ccache' 'distcc' 'makeflags' 'force')
-readonly -a known_options
+packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman')
+other_options=('ccache' 'distcc' 'makeflags' 'force')
+readonly -a packaging_options other_options
 
 # Options
 ASROOT=0
@@ -851,6 +852,16 @@ create_package() {
 	for it in "${backup[@]}"; do
 		echo "backup = $it" >>.PKGINFO
 	done
+	for it in "${packaging_options[@]}"; do
+		local ret="$(check_option $it)"
+		if [ "$ret" != "?" ]; then
+			if [ "$ret" = "y" ]; then
+				echo "makepkgopt = $it" >>.PKGINFO
+			else
+				echo "makepkgopt = !$it" >>.PKGINFO
+			fi
+		fi
+	done
 
 	# TODO maybe remove this at some point
 	# warn if license array is not present or empty
@@ -1518,7 +1529,7 @@ valid_options=1
 for opt in ${options[@]}; do
 	known=0
 	# check if option matches a known option or its inverse
-	for kopt in ${known_options[@]}; do
+	for kopt in ${packaging_options[@]} ${other_options[@]}; do
 		if [ "${opt}" = "${kopt}" -o "${opt}" = "!${kopt}" ]; then
 			known=1
 		fi
