@@ -262,11 +262,13 @@ static void setlibpaths(void)
 				cleanup(ret);
 			}
 			if(!config->dbpath) {
-				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH);
+				/* omit leading slash from our static DBPATH, root handles it */
+				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH + 1);
 				config->dbpath = strdup(path);
 			}
 			if(!config->logfile) {
-				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE);
+				/* omit leading slash from our static LOGFILE path, root handles it */
+				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE + 1);
 				config->logfile = strdup(path);
 			}
 		}
