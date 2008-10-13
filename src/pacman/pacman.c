@@ -36,6 +36,7 @@
 #include <sys/utsname.h> /* uname */
 #include <locale.h> /* setlocale */
 #include <time.h> /* time_t */
+#include <errno.h>
 #if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
 #include <mcheck.h> /* debug tracing (mtrace) */
 #endif
@@ -211,21 +212,34 @@ static void cleanup(int ret) {
 	exit(ret);
 }
 
+/** Write function that correctly handles EINTR.
+ */
+static ssize_t xwrite(int fd, const void *buf, size_t count)
+{
+	ssize_t ret;
+	while((ret = write(fd, buf, count)) == -1 && errno == EINTR);
+	return(ret);
+}
+
 /** Catches thrown signals. Performs necessary cleanup to ensure database is
  * in a consistant state.
  * @param signum the thrown signal
  */
 static RETSIGTYPE handler(int signum)
 {
-	if(signum==SIGSEGV)
-	{
-		/* write a log message and write to stderr */
-		pm_printf(PM_LOG_ERROR, _("segmentation fault\n"));
-		pm_fprintf(stderr, PM_LOG_ERROR,
-				_("Internal pacman error: Segmentation fault.\n"
-					"Please submit a full bug report with --debug if appropriate.\n"));
+	int out = fileno(stdout);
+	int err = fileno(stderr);
+	if(signum == SIGSEGV) {
+		const char *msg1 = "error: segmentation fault\n";
+		const char *msg2 = "Internal pacman error: Segmentation fault.\n"
+			"Please submit a full bug report with --debug if appropriate.\n";
+		/* write a error message to out, the rest to err */
+		xwrite(out, msg1, strlen(msg1));
+		xwrite(err, msg2, strlen(msg2));
 		exit(signum);
 	} else if((signum == SIGINT)) {
+		const char *msg = "\nInterrupt signal received\n";
+		xwrite(err, msg, strlen(msg));
 		if(alpm_trans_interrupt() == 0) {
 			/* a transaction is being interrupted, don't exit pacman yet. */
 			return;
@@ -233,7 +247,7 @@ static RETSIGTYPE handler(int signum)
 		/* no commiting transaction, we can release it now and then exit pacman */
 		alpm_trans_release();
 		/* output a newline to be sure we clear any line we may be on */
-		printf("\n");
+		xwrite(out, "\n", 1);
 	}
 	cleanup(signum);
 }
@@ -262,11 +276,13 @@ static void setlibpaths(void)
 				cleanup(ret);
 			}
 			if(!config->dbpath) {
-				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH);
+				/* omit leading slash from our static DBPATH, root handles it */
+				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH + 1);
 				config->dbpath = strdup(path);
 			}
 			if(!config->logfile) {
-				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE);
+				/* omit leading slash from our static LOGFILE path, root handles it */
+				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE + 1);
 				config->logfile = strdup(path);
 			}
 		}

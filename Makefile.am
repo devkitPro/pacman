@@ -3,6 +3,9 @@ if WANT_DOC
 SUBDIRS += doc
 endif
 
+# Make sure we test and build manpages when doing distcheck
+DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version
+
 # Some files automatically included, so they aren't specified below:
 #   AUTHORS, COPYING, NEWS, README
 EXTRA_DIST = HACKING

@@ -59,7 +59,7 @@ int trans_init(pmtranstype_t type, pmtransflag_t flags)
 	return(0);
 }
 
-int trans_release()
+int trans_release(void)
 {
 	if(alpm_trans_release() == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
@@ -69,7 +69,7 @@ int trans_release()
 	return(0);
 }
 
-int needs_transaction()
+int needs_transaction(void)
 {
 	if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
 		if((config->op == PM_OP_SYNC && !config->op_s_sync &&
@@ -85,7 +85,7 @@ int needs_transaction()
 }
 
 /* gets the current screen column width */
-int getcols()
+int getcols(void)
 {
 	if(!isatty(1)) {
 		/* We will default to 80 columns if we're not a tty
@@ -252,7 +252,7 @@ void indentprint(const char *str, int indent)
 {
 	wchar_t *wcstr;
 	const wchar_t *p;
-	int len, cidx;
+	int len, cidx, cols;
 
 	if(!str) {
 		return;
@@ -267,6 +267,7 @@ void indentprint(const char *str, int indent)
 	if(!p) {
 		return;
 	}
+	cols = getcols();
 
 	while(*p) {
 		if(*p == L' ') {
@@ -283,7 +284,7 @@ void indentprint(const char *str, int indent)
 			while(q < next) {
 				len += wcwidth(*q++);
 			}
-			if(len > (getcols() - cidx - 1)) {
+			if(len > (cols - cidx - 1)) {
 				/* wrap to a newline and reindent */
 				fprintf(stdout, "\n%-*s", indent, "");
 				cidx = indent;

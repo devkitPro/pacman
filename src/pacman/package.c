@@ -135,8 +135,10 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	/* Print additional package info if info flag passed more than once */
 	if(level > 1) {
 		dump_pkg_backups(pkg);
-		printf("\n");
 	}
+
+	/* final newline to separate packages */
+	printf("\n");
 
 	FREELIST(depstrings);
 }

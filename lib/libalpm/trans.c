@@ -30,7 +30,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
-#include <unistd.h>
 #include <errno.h>
 
 /* libalpm */
@@ -205,7 +204,7 @@ int SYMEXPORT alpm_trans_release()
 
 	/* unlock db */
 	if(handle->lckfd != -1) {
-		close(handle->lckfd);
+		while(close(handle->lckfd) == -1 && errno == EINTR);
 		handle->lckfd = -1;
 	}
 	if(_alpm_lckrm()) {
@@ -567,7 +566,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		/* this code runs for the parent only (wait on the child) */
 		pid_t retpid;
 		int status;
-		retpid = waitpid(pid, &status, 0);
+		while((retpid = waitpid(pid, &status, 0)) == -1 && errno == EINTR);
 		if(retpid == -1) {
 			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
 			          strerror(errno));

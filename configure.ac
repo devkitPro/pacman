@@ -103,11 +103,6 @@ AC_ARG_ENABLE(doxygen,
 	AS_HELP_STRING([--enable-doxygen], [build your own API docs via Doxygen]),
 	[wantdoxygen=$enableval], [wantdoxygen=no])
 
-# Help line for asciidoc
-AC_ARG_ENABLE(asciidoc,
-	AS_HELP_STRING([--enable-asciidoc], [build your own manpages with Asciidoc]),
-	[wantasciidoc=$enableval], [wantasciidoc=no])
-
 # Help line for debug
 AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [enable debugging support]),
@@ -273,23 +268,6 @@ else
 fi
 AM_CONDITIONAL(USE_DOXYGEN, test "x$usedoxygen" = "xyes")
 
-# Check for asciidoc support and status
-AC_CHECK_PROGS([ASCIIDOC], [asciidoc])
-AC_MSG_CHECKING([for asciidoc])
-if test "x$wantasciidoc" = "xyes" ; then
-	if test $ASCIIDOC ; then
-		AC_MSG_RESULT([yes])
-		useasciidoc=yes
-	else
-		AC_MSG_RESULT([no, asciidoc missing])
-		useasciidoc=no
-	fi
-else
-	AC_MSG_RESULT([no, disabled by configure])
-	useasciidoc=no
-fi
-AM_CONDITIONAL(USE_ASCIIDOC, test "x$useasciidoc" = "xyes")
-
 # Enable or disable debug code
 AC_MSG_CHECKING(for debug mode request)
 if test "x$debug" = "xyes" ; then
@@ -389,7 +367,6 @@ ${PACKAGE_NAME}:
     Run make in doc/ dir   : ${wantdoc}
     Use download library   : ${internaldownload}
     Doxygen support        : ${usedoxygen}
-    Asciidoc support       : ${useasciidoc}
     debug support          : ${debug}
 "
 

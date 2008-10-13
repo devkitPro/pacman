@@ -37,9 +37,9 @@
 #define UPDATE_SPEED_SEC 0.2f
 
 int trans_init(pmtranstype_t type, pmtransflag_t flags);
-int trans_release();
-int needs_transaction();
-int getcols();
+int trans_release(void);
+int needs_transaction(void);
+int getcols(void);
 int makepath(const char *path);
 int rmrf(const char *path);
 char *mbasename(const char *path);
