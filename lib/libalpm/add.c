@@ -281,7 +281,7 @@ static int extract_single_file(struct archive *archive,
 		ret = archive_read_extract(archive, entry, archive_flags);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
-			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
+			_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
 					entryname_orig, archive_error_string(archive));
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
@@ -434,7 +434,7 @@ static int extract_single_file(struct archive *archive,
 		ret = archive_read_extract(archive, entry, archive_flags);
 		if(ret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
-			_alpm_log(PM_LOG_DEBUG, "warning extracting %s (%s)\n",
+			_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
 					entryname_orig, archive_error_string(archive));
 		} else if(ret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
