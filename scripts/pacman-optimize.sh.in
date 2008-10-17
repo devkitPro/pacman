@@ -25,7 +25,6 @@ export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
 dbroot='@localstatedir@/lib/pacman/'
-lockfile="${dbroot}db.lck"
 
 msg() {
 	local mesg=$1; shift
@@ -98,11 +97,6 @@ if ! type diff >/dev/null 2>&1; then
 	die "$(gettext "diff tool was not found, please install diffutils.")"
 fi
 
-# make sure pacman isn't running
-if [ -f "$lockfile" ]; then
-	die "$(gettext "Pacman lock file was found. Cannot run while pacman is running.")"
-fi
-
 if [ ! -d "$dbroot" ]; then
 	die "$(gettext "%s does not exist or is not a directory.")" "$dbroot"
 fi
@@ -111,11 +105,20 @@ if [ ! -w "$dbroot" ]; then
 	die "$(gettext "You must have correct permissions to optimize the database.")"
 fi
 
-workdir=$(mktemp -d /tmp/pacman-optimize.XXXXXXXXXX) ||
-	die_r "$(gettext "ERROR: Can not create temp directory for database building.")\n" >&2
+# strip any trailing slash from our dbroot
+dbroot="${dbroot%/}"
+# form the path to our lockfile location
+lockfile="${dbroot}/db.lck"
 
+# make sure pacman isn't running
+if [ -f "$lockfile" ]; then
+	die "$(gettext "Pacman lock file was found. Cannot run while pacman is running.")"
+fi
 # do not let pacman run while we do this
 touch "$lockfile"
+
+workdir=$(mktemp -d /tmp/pacman-optimize.XXXXXXXXXX) ||
+	die_r "$(gettext "ERROR: Can not create temp directory for database building.")\n" >&2
 
 # step 1: sum the old db
 msg "$(gettext "MD5sum'ing the old database...")"
@@ -124,46 +127,56 @@ find "$dbroot" -type f | sort | xargs md5sum > "$workdir/pacsums.old"
 # step 2: tar it up
 msg "$(gettext "Tar'ing up %s...")" "$dbroot"
 cd "$dbroot"
-bsdtar -czf "$workdir/pacmanDB.tgz" ./
+bsdtar -czf "$workdir/pacman-db.tar.gz" ./
 if [ $? -ne 0 ]; then
 	rm -rf "$workdir"
 	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"
 fi
 
-# step 3: make and sum the new db
-msg "$(gettext "Making and MD5sum'ing the new db...")"
+# step 3: make and sum the new db side-by-side with the old
+msg "$(gettext "Making and MD5sum'ing the new database...")"
 mkdir "$dbroot.new"
-bsdtar -zxpf "$workdir/pacmanDB.tgz" -C "$dbroot.new/"
+bsdtar -xpf "$workdir/pacman-db.tar.gz" -C "$dbroot.new"
 if [ $? -ne 0 ]; then
        rm -rf "$workdir"
        die_r "$(gettext "Untar'ing %s failed.")" "$dbroot"
 fi
+# immediate sync following extraction should get it written continuously on HDD
+msg "$(gettext "Syncing database to disk...")"
+sync
 find "$dbroot.new" -type f | sort | \
-		xargs md5sum | sed 's#.new/##' > "$workdir/pacsums.new"
+		xargs md5sum | sed 's#.new##' > "$workdir/pacsums.new"
 
 # step 4: compare the sums
 msg "$(gettext "Checking integrity...")"
 diff "$workdir/pacsums.old" "$workdir/pacsums.new" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	# failed
-	# leave /tmp/pacsums.old and .new for checking to see what doesn't match up
+	# leave our pacman-optimize tmpdir for checking to see what doesn't match up
 	rm -rf "$dbroot.new"
 	die_r "$(gettext "Integrity check FAILED, reverting to old database.")"
 fi
 
-# step 5: remove the new temporary database and the old one
-#         and use the .tgz to replace the old one
-msg "$(gettext "Putting the new database in place...")"
-rm -rf "$dbroot.new" "$dbroot"/*
-bsdtar -zxpf "$workdir/pacmanDB.tgz" -C "$dbroot/"
+# step 5: shuffle the newly extracted DB into the proper location
+msg "$(gettext "Rotating database into place...")"
 
-# remove the lock file, sum files, and .tgz of database
+fail=0
+mv "$dbroot" "$dbroot.old" || fail=1
+mv "$dbroot.new" "$dbroot" || fail=1
+chmod --reference="$dbroot.old" "$dbroot" || fail=1
+chown --reference="$dbroot.old" "$dbroot" || fail=1
+if [ $fail -ne 0 ]; then
+	# failure with our directory shuffle
+	die_r "$(gettext "New database substitution failed. Check for $dbroot,\n$dbroot.old, and $dbroot.new directories.")"
+fi
+rm -rf "$dbroot.old"
+
+# remove the lock file and our working directory with sums and tarfile
 rm -f "$lockfile"
 rm -rf "$workdir"
 
 echo
 msg "$(gettext "Finished. Your pacman database has been optimized.")"
-msg "$(gettext "For full benefits of pacman-optimize, run 'sync' now.")"
 echo
 
 exit 0
