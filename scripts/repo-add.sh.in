@@ -121,7 +121,7 @@ db_write_delta()
 	arch=${deltavars[3]}
 
 	# get md5sum and size of delta
-	md5sum="$(md5sum "$deltafile" | cut -d ' ' -f 1)"
+	md5sum="$(openssl dgst -md5 "$deltafile" | awk '{print $NF}')"
 	csize=$(@SIZECMD@ "$deltafile")
 
 	# ensure variables were found
@@ -201,7 +201,7 @@ db_write_entry()
 
 	# compute checksums
 	msg2 "$(gettext "Computing md5 checksums...")"
-	echo -e "%MD5SUM%\n$(md5sum "$pkgfile" | cut -d ' ' -f 1)\n" >>desc
+	echo -e "%MD5SUM%\n$(openssl dgst -md5 "$pkgfile" | awk '{print $NF}')\n" >>desc
 
 	[ -n "$url" ] && echo -e "%URL%\n$url\n" >>desc
 	write_list_entry "LICENSE" "$_licenses" "desc"
