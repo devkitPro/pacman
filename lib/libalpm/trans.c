@@ -560,8 +560,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		if(!pipe) {
 			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"),
 					strerror(errno));
-			retval = 1;
-			goto cleanup;
+			exit(1);
 		}
 		while(!feof(pipe)) {
 			char line[PATH_MAX];
@@ -570,7 +569,8 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 			alpm_logaction("%s", line);
 			EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
 		}
-		exit(0);
+		retval = pclose(pipe);
+		exit(WEXITSTATUS(retval));
 	} else {
 		/* this code runs for the parent only (wait on the child) */
 		pid_t retpid;
