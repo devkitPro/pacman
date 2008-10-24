@@ -77,16 +77,11 @@ void _alpm_sync_free(pmsyncpkg_t *sync)
 
 /* Find recommended replacements for packages during a sync.
  */
-static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
-		alpm_list_t *dbs_sync, alpm_list_t **syncpkgs)
+static int find_replacements(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i, *j, *k; /* wow */
 
 	ALPM_LOG_FUNC;
-
-	if(syncpkgs == NULL) {
-		return(-1);
-	}
 
 	/* check for "recommended" package replacements */
 	_alpm_log(PM_LOG_DEBUG, "checking for package replacements\n");
@@ -113,13 +108,10 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 										alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
 										alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
 				} else {
-					/* get confirmation for the replacement */
-					if(trans) {
-						int doreplace = 0;
-						QUESTION(trans, PM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, db->treename, &doreplace);
-						if(!doreplace) {
-							continue;
-						}
+					int doreplace = 0;
+					QUESTION(trans, PM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, db->treename, &doreplace);
+					if(!doreplace) {
+						continue;
 					}
 
 					/* if confirmed, add this to the 'final' list, designating 'lpkg' as
@@ -129,7 +121,7 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 
 					/* check if spkg->name is already in the packages list. */
 					/* TODO: same package name doesn't mean same package */
-					sync = _alpm_sync_find(*syncpkgs, alpm_pkg_get_name(spkg));
+					sync = _alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg));
 					if(sync) {
 						/* found it -- just append to the removes list */
 						sync->removes = alpm_list_add(sync->removes, lpkg);
@@ -143,15 +135,12 @@ static int find_replacements(pmtrans_t *trans, pmdb_t *db_local,
 						sync = _alpm_sync_new(alpm_pkg_get_reason(lpkg), spkg, NULL);
 						if(sync == NULL) {
 							pm_errno = PM_ERR_MEMORY;
-							alpm_list_free_inner(*syncpkgs, (alpm_list_fn_free)_alpm_sync_free);
-							alpm_list_free(*syncpkgs);
-							*syncpkgs = NULL;
 							return(-1);
 						}
 						sync->removes = alpm_list_add(NULL, lpkg);
 						_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
 									alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
-						*syncpkgs = alpm_list_add(*syncpkgs, sync);
+						trans->packages = alpm_list_add(trans->packages, sync);
 					}
 					_alpm_log(PM_LOG_DEBUG, "%s-%s elected for removal (to be replaced by %s-%s)\n",
 							alpm_pkg_get_name(lpkg), alpm_pkg_get_version(lpkg),
@@ -199,33 +188,19 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 	return(NULL);
 }
 
-/** Get a list of upgradable packages on the current system
- * Adds out of date packages to *list.
- * @arg list pointer to a list of pmsyncpkg_t.
- */
-int SYMEXPORT alpm_sync_sysupgrade(pmdb_t *db_local,
-		alpm_list_t *dbs_sync, alpm_list_t **syncpkgs)
-{
-	return(_alpm_sync_sysupgrade(NULL, db_local, dbs_sync, syncpkgs));
-}
-
-int _alpm_sync_sysupgrade(pmtrans_t *trans,
-		pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **syncpkgs)
+int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i, *j, *replaced = NULL;
 
 	ALPM_LOG_FUNC;
 
-	if(syncpkgs == NULL) {
-		return(-1);
-	}
 	/* check for "recommended" package replacements */
-	if(find_replacements(trans, db_local, dbs_sync, syncpkgs)) {
+	if(find_replacements(trans, db_local, dbs_sync)) {
 		return(-1);
 	}
 
 	/* compute the to-be-replaced packages for efficiency */
-	for(i = *syncpkgs; i; i = i->next) {
+	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		for(j = sync->removes; j; j = j->next) {
 			replaced = alpm_list_add(replaced, j->data);
@@ -255,22 +230,19 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans,
 			}
 
 			/* add the upgrade package to our pmsyncpkg_t list */
-			if(_alpm_sync_find(*syncpkgs, alpm_pkg_get_name(spkg))) {
+			if(_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
 				/* avoid duplicated targets */
 				continue;
 			}
 			/* we can set any reason here, it will be overridden by add_commit */
 			pmsyncpkg_t *sync = _alpm_sync_new(PM_PKG_REASON_EXPLICIT, spkg, NULL);
 			if(sync == NULL) {
-				alpm_list_free_inner(*syncpkgs, (alpm_list_fn_free)_alpm_sync_free);
-				alpm_list_free(*syncpkgs);
-				*syncpkgs = NULL;
 				alpm_list_free(replaced);
 				return(-1);
 			}
 			_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
 							alpm_pkg_get_name(spkg), alpm_pkg_get_version(spkg));
-			*syncpkgs = alpm_list_add(*syncpkgs, sync);
+			trans->packages = alpm_list_add(trans->packages, sync);
 		}
 	}
 

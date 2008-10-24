@@ -254,8 +254,6 @@ alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
 pmpkg_t *alpm_sync_get_pkg(const pmsyncpkg_t *sync);
 alpm_list_t *alpm_sync_get_removes(const pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);
-int alpm_sync_sysupgrade(pmdb_t *db_local,
-		alpm_list_t *dbs_sync, alpm_list_t **syncpkgs);
 
 /*
  * Transactions

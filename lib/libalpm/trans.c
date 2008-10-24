@@ -100,7 +100,7 @@ int SYMEXPORT alpm_trans_sysupgrade()
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
-	return(_alpm_trans_sysupgrade(trans));
+	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync));
 }
 
 /** Add a target to the transaction.
@@ -269,17 +269,6 @@ int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
 	trans->state = STATE_INITIALIZED;
 
 	return(0);
-}
-
-int _alpm_trans_sysupgrade(pmtrans_t *trans)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync,
-				&(trans->packages)));
 }
 
 /** Add a target to the transaction.

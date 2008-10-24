@@ -251,24 +251,6 @@ static int query_group(alpm_list_t *targets)
 	return ret;
 }
 
-static int query_upgrades(void)
-{
-	alpm_list_t *syncpkgs = NULL;
-	printf(_("Checking for package upgrades... \n"));
-
-	alpm_list_t *syncdbs = alpm_option_get_syncdbs();
-	if(alpm_sync_sysupgrade(db_local, syncdbs, &syncpkgs) == -1) {
-		return(-1);
-	}
-	if(syncpkgs) {
-		display_synctargets(syncpkgs);
-		return(0);
-	}
-
-	printf(_("no upgrades found.\n"));
-	return(1);
-}
-
 static int is_foreign(pmpkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
@@ -320,6 +302,10 @@ static int filter(pmpkg_t *pkg)
 	if(config->op_q_unrequired && !is_unrequired(pkg)) {
 		return(0);
 	}
+	/* check if this pkg is outdated */
+	if(config->op_q_upgrade && (alpm_sync_newversion(pkg, alpm_option_get_syncdbs()) == NULL)) {
+		return(0);
+	}
 	return(1);
 }
 
@@ -358,12 +344,6 @@ int pacman_query(alpm_list_t *targets)
 	/* search for a package */
 	if(config->op_q_search) {
 		ret = query_search(targets);
-		return(ret);
-	}
-
-	/* check for package upgrades */
-	if(config->op_q_upgrade) {
-		ret = query_upgrades();
 		return(ret);
 	}
 

@@ -71,7 +71,6 @@ void _alpm_trans_free(pmtrans_t *trans);
 int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);
-int _alpm_trans_sysupgrade(pmtrans_t *trans);
 int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
 int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data);
 int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data);

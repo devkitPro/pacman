@@ -113,7 +113,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -t, --unrequired     list all packages not required by any package\n"));
-			printf(_("  -u, --upgrades       list all packages that can be upgraded\n"));
+			printf(_("  -u, --upgrades       list all outdated packages\n"));
 			printf(_("  -q, --quiet          show less information for query and search\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
