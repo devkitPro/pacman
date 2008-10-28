@@ -1037,6 +1037,10 @@ devel_check() {
 	if [ "$HOLDVER" = "1" ]; then
 		return
 	fi
+	# Cannot update pkgver/pkgrel if reading PKGBUILD from pipe
+	if [ ! -f "./$BUILDSCRIPT" ]; then
+		return
+	fi
 	if [ "$FORCE_VER" = "" ]; then
 		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
 		# This will only be used on the first call to makepkg; subsequent
@@ -1104,9 +1108,11 @@ devel_update() {
 	#
 	if [ "$newpkgver" != "" ]; then
 		if [ "$newpkgver" != "$pkgver" ]; then
-			sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" ./$BUILDSCRIPT
-			sed -i "s/^pkgrel=[^ ]*/pkgrel=1/" ./$BUILDSCRIPT
-			source $BUILDSCRIPT
+			if [ -f "./$BUILDSCRIPT" ]; then
+				sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" ./$BUILDSCRIPT
+				sed -i "s/^pkgrel=[^ ]*/pkgrel=1/" ./$BUILDSCRIPT
+				source $BUILDSCRIPT
+			fi
 		fi
 	fi
 }
