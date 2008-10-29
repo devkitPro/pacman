@@ -1347,8 +1347,13 @@ unset replaces depends conflicts backup source install build makedepends
 unset optdepends options noextract
 
 if [ ! -f "$BUILDSCRIPT" ]; then
-	error "$(gettext "%s does not exist.")" "$BUILDSCRIPT"
-	exit 1
+	if [ -t 0 ]; then
+		error "$(gettext "%s does not exist.")" "$BUILDSCRIPT"
+		exit 1
+	else
+		# PKGBUILD passed through a pipe
+		BUILDSCRIPT=/dev/stdin
+	fi
 fi
 
 source "$BUILDSCRIPT"
