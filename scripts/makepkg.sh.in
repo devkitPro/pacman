@@ -1083,6 +1083,7 @@ devel_check() {
 		if [ "$newpkgver" != "" ]; then
 			msg2 "$(gettext "Version found: %s")" "$newpkgver"
 			pkgver=$newpkgver
+			pkgrel=1
 		fi
 
 	else
@@ -1102,8 +1103,9 @@ devel_update() {
 	#  _foo=pkgver
 	#
 	if [ "$newpkgver" != "" ]; then
-		if [ "newpkgver" != "$pkgver" ]; then
+		if [ "$newpkgver" != "$pkgver" ]; then
 			sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" ./$BUILDSCRIPT
+			sed -i "s/^pkgrel=[^ ]*/pkgrel=1/" ./$BUILDSCRIPT
 			source $BUILDSCRIPT
 		fi
 	fi

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
-"PO-Revision-Date: 2008-08-24 10:17+0700\n"
-"Last-Translator: 甘露(Lu Gan) <rhythm.gan@gmail.com>\n"
+"POT-Creation-Date: 2008-10-28 21:55-0500\n"
+"PO-Revision-Date: 2008-10-28 16:20+0900\n"
+"Last-Translator: Lyman Li <lymanrb@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -58,7 +58,7 @@ msgstr "正在应用 deltas...\n"
 
 #, c-format
 msgid "generating %s with %s... "
-msgstr "正在使用 %s 生成 %s..."
+msgstr "正在使用 %2$s 生成 %1$s..."
 
 #, c-format
 msgid "success!\n"
@@ -76,34 +76,33 @@ msgstr ":: 正在从 %s 软件仓库获取软件包...\n"
 msgid ""
 ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
-":: %s 需要安装列在 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中的 %s。"
-"无论如何都安装吗?[Y/n]"
+":: %s 需要安装位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中的 %s。"
+"一律安装吗?[Y/n]"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
-":: %s 列在IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中。真的确定要安装"
-"吗?"
+":: %s 位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中。确定要安装吗?"
 
 #, c-format
 msgid ":: %s is designated as a HoldPkg. Remove anyway?"
-msgstr ":: %s 是作为 HoldPkg（保留软件包）指定的。真的确定要删除吗？"
+msgstr ":: %s 被指定为 HoldPkg（保留软件包）。确定要删除吗？"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
-msgstr ":: 用 %s/%s 替代 %s？"
+msgstr ":: 用 %2$s/%3$s 替代 %1$s？"
 
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s?"
-msgstr ":: %s 与 %s 有冲突。删除 %s？"
+msgstr ":: %1$s 与 %2$s 有冲突。删除 %3$s？"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
-msgstr ":: %s-%s：本地版本较新。真的确定要更新吗？"
+msgstr ":: %1$s-%2$s：本地版本较新。确定要更新吗？"
 
 #, c-format
 msgid ":: File %s is corrupted. Do you want to delete it?"
-msgstr ":: 文件 %s 已经损坏。你想要删除它吗？"
+msgstr ":: 文件 %s 已损坏。你想要删除它吗？"
 
 #, c-format
 msgid "installing"
@@ -111,7 +110,7 @@ msgstr "正在安装"
 
 #, c-format
 msgid "upgrading"
-msgstr "正在进行更新"
+msgstr "正在更新"
 
 #, c-format
 msgid "removing"
@@ -255,7 +254,7 @@ msgstr "修改\t%s\n"
 
 #, c-format
 msgid "Not Modified\t%s\n"
-msgstr "没有修改过\t%s\n"
+msgstr "未修改过\t%s\n"
 
 #, c-format
 msgid "MISSING\t\t%s\n"
@@ -506,36 +505,24 @@ msgstr ""
 "                       自由分发\n"
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr "段错误\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"内部 pacman 错误：段错误\n"
-"如果适当，请提交一个使用了 --debug 参数的完全的臭虫报告。\n"
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "设置根目录'%s' (%s)时出现问题 \n"
+msgstr "设置根目录'%1$s' (%2$s) 时出现问题 \n"
 
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "设置数据库路径'%s' (%s)时出现问题 \n"
+msgstr "设置数据库路径 '%1$s' (%2$s) 时出现问题 \n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "设置日志文件'%s' (%s)时出现问题\n"
+msgstr "设置日志文件 '%1$s' (%2$s)时出现问题\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' 是一个无效的debug标准\n"
+msgstr "'%s' 是无效的 debug 等级\n"
 
 #, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "设置缓存目录'%s' (%s)时出现问题 \n"
+msgstr "设置缓存目录 '%1$s' (%2$s)时出现问题 \n"
 
 #, c-format
 msgid "only one operation may be used at a time\n"
@@ -543,43 +530,43 @@ msgstr "一次只能运行一个操作\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
-msgstr "配置文件%s无法读取。\n"
+msgstr "配置文件 %s 无法读取。\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "配置文件%s，第%d行：坏的章节名。\n"
+msgstr "配置文件 %s，第 %d 行：坏的章节名。\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "配置文件%s，第%d行：配置文件中语法错误－缺少关键字。\n"
+msgstr "配置文件 %s，第 %d 行：配置文件中语法错误－缺少关键字。\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "配置文件%s，第%d行：所有的命令必须属于同一章节。\n"
+msgstr "配置文件 %s，第 %d 行：所有的命令必须属于同一章节。\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
-msgstr "配置文件%s，第%d行：未知命令'%s'\n"
+msgstr "配置文件 %s，第 %d 行：未知命令 '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "无效值为·'CleanMethod'·：%s'\n"
+msgstr "为 'CleanMethod' 设置的无效值： '%s'\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
-msgstr "初始化alpm库失败(%s)\n"
+msgstr "初始化 alpm 库失败 (%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "非root（根用户）无法执行指定操作。\n"
+msgstr "非 root（根用户）无法执行指定操作。\n"
 
 #, c-format
 msgid "could not register 'local' database (%s)\n"
-msgstr "无法登记“本地”数据库(%s)\n"
+msgstr "无法登记“本地”数据库 (%s)\n"
 
 #, c-format
 msgid "no operation specified (use -h for help)\n"
-msgstr "没有指定的操作（使用-h获取帮助）\n"
+msgstr "没有指定的操作（使用 -h 获取帮助）\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -587,7 +574,7 @@ msgstr "错误：没有为 --owns 指定文件\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
-msgstr "无法读取文件 '%s': %s\n"
+msgstr "无法读取文件 '%1$s': %2$s\n"
 
 #, c-format
 msgid "cannot determine ownership of a directory\n"
@@ -595,11 +582,11 @@ msgstr "无法确定目录的所有者属性\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
-msgstr "无法确定 '%s': %s 的真实路径。\n"
+msgstr "无法确定 '%1$s' 的真实路径：%2$s\n"
 
 #, c-format
 msgid "%s is owned by %s %s\n"
-msgstr "%s属于%s %s\n"
+msgstr "%1$s 属于 %2$s %3$s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -607,7 +594,7 @@ msgstr "没有软件包拥有 %s\n"
 
 #, c-format
 msgid "group \"%s\" was not found\n"
-msgstr "没有找到 \"%s\" 组\n"
+msgstr "未找到 \"%s\" 组\n"
 
 #, c-format
 msgid "Checking for package upgrades... \n"
@@ -627,11 +614,11 @@ msgstr "没有指定目标（使用 -h 获取帮助）\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
-msgstr "软件包 \"%s\" 没有找到\n"
+msgstr "软件包 \"%s\" 未找到\n"
 
 #, c-format
 msgid "%s not found, searching for group...\n"
-msgstr "%s 没有找到，搜索软件包组中...\n"
+msgstr "%s 未找到，正在搜索软件包组...\n"
 
 #, c-format
 msgid "'%s': not found in local db\n"
@@ -639,23 +626,23 @@ msgstr "'%s'：没有在本地数据库中找到\n"
 
 #, c-format
 msgid ":: group %s:\n"
-msgstr ":: 组%s:\n"
+msgstr ":: 组 %s:\n"
 
 #, c-format
 msgid "    Remove whole content?"
-msgstr "····删除全部内容？"
+msgstr "    删除全部内容？"
 
 #, c-format
 msgid ":: Remove %s from group %s?"
-msgstr ":: 从组 %s 中删除 %s 吗？"
+msgstr ":: 从组 %2$s 中删除 %1$s 吗？"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
-msgstr "无法准备事务处理(%s)\n"
+msgstr "无法准备事务处理 (%s)\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
-msgstr ":: %s: 要求 %s\n"
+msgstr ":: %1$s: 要求 %2$s\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -663,11 +650,11 @@ msgstr "打算删除这些软件包吗？"
 
 #, c-format
 msgid "failed to commit transaction (%s)\n"
-msgstr "无法交付处理(%s)\n"
+msgstr "无法提交处理 (%s)\n"
 
 #, c-format
 msgid "could not access database directory\n"
-msgstr "无法进入数据库目录\n"
+msgstr "无法访问数据库目录\n"
 
 #, c-format
 msgid "Do you want to remove %s?"
@@ -695,11 +682,11 @@ msgstr "缓存目录：%s\n"
 
 #, c-format
 msgid "Do you want to remove uninstalled packages from cache?"
-msgstr "打算从缓存中删除没有安装的软件包吗？"
+msgstr "打算从缓存中删除未安装的软件包吗？"
 
 #, c-format
 msgid "Do you want to remove outdated packages from cache?"
-msgstr "打算从缓存中删除没有安装的软件包吗？"
+msgstr "打算从缓存中删除过期的软件包吗？"
 
 #, c-format
 msgid "removing old packages from cache... "
@@ -707,7 +694,7 @@ msgstr "正在从缓存中删除旧软件包..."
 
 #, c-format
 msgid "could not access cache directory\n"
-msgstr "无法进入缓存目录\n"
+msgstr "无法访问缓存目录\n"
 
 #, c-format
 msgid "done.\n"
@@ -731,7 +718,7 @@ msgstr "无法创建新缓存目录\n"
 
 #, c-format
 msgid "failed to update %s (%s)\n"
-msgstr "无法升级 %s (%s)\n"
+msgstr "无法升级 %1$s (%2$s)\n"
 
 #, c-format
 msgid " %s is up to date\n"
@@ -747,23 +734,23 @@ msgstr "软件仓库 '%s' 不存在\n"
 
 #, c-format
 msgid "package '%s' was not found in repository '%s'\n"
-msgstr "软件包'%s'没有在'%s'软件仓库里找到\n"
+msgstr "软件包 '%1$s' 没有在 '%2$s' 软件仓库里找到\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
-msgstr "软件包 '%s' 没有找到\n"
+msgstr "软件包 '%s' 未找到\n"
 
 #, c-format
 msgid "repository \"%s\" was not found.\n"
-msgstr "软件仓库 \"%s\" 没有找到\n"
+msgstr "软件仓库 \"%s\" 未找到\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
-msgstr ":: 正在进行全系统更新...\n"
+msgstr ":: 正在进行全面系统更新...\n"
 
 #, c-format
 msgid "%s package not found, searching for group...\n"
-msgstr "%s 软件包没有找到，正在搜索软件包组...\n"
+msgstr "%s 软件包未找到，正在搜索软件包组...\n"
 
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
@@ -775,7 +762,7 @@ msgstr ":: 安装全部内容？"
 
 #, c-format
 msgid ":: Install %s from group %s?"
-msgstr ":: 从软件包组 %s 安装 %s 吗？"
+msgstr ":: 从软件包组 %2$s 安装 %1$s 吗？"
 
 #, c-format
 msgid "'%s': not found in sync db\n"
@@ -783,7 +770,7 @@ msgstr "'%s'：没有在同步数据库中找到\n"
 
 #, c-format
 msgid ":: %s: conflicts with %s\n"
-msgstr ":: %s: 与 %s 冲突\n"
+msgstr ":: %1$s: 与 %2$s 冲突\n"
 
 #, c-format
 msgid " local database is up to date\n"
@@ -799,15 +786,15 @@ msgstr "进行安装吗？"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
-msgstr "%s 存在于 '%s' 和 '%s'\n"
+msgstr "%1$s 存在于 '%2$s' 和 '%3$s'\n"
 
 #, c-format
 msgid "%s: %s exists in filesystem\n"
-msgstr "%s: 文件系统中已存在 %s \n"
+msgstr "%1$s: 文件系统中已存在 %2$s \n"
 
 #, c-format
 msgid "%s is invalid or corrupted\n"
-msgstr "%s·无效或已损坏\n"
+msgstr "%s 无效或已损坏\n"
 
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
@@ -843,7 +830,7 @@ msgstr ""
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
-msgstr "无法初始化事务处理(%s)\n"
+msgstr "无法初始化事务处理 (%s)\n"
 
 #, c-format
 msgid ""
@@ -855,7 +842,7 @@ msgstr ""
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
-msgstr "无法释放事务处理(%s)\n"
+msgstr "无法释放事务处理 (%s)\n"
 
 #, c-format
 msgid "None"
@@ -943,7 +930,7 @@ msgid "Cleaning up..."
 msgstr "正在清理..."
 
 msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "没有设置程序来处理 %s URLs。请检查 %s。"
+msgstr "没有设置程序来处理 %1$s URLs。请检查 %2$s。"
 
 msgid "Aborting..."
 msgstr "正在放弃..."
@@ -952,13 +939,13 @@ msgid "The download program %s is not installed."
 msgstr "下载程序 %s 没有安装。"
 
 msgid "Pacman returned a fatal error (%i): %s"
-msgstr "Pacman 出现致命错误(%i)：%s"
+msgstr "Pacman 出现致命错误 (%i)：%s"
 
 msgid "Installing missing dependencies..."
 msgstr "正在安装缺少的依赖关系..."
 
 msgid "Pacman failed to install missing dependencies."
-msgstr "Pacman无法安装缺少的依赖关系..."
+msgstr "Pacman 无法安装缺少的依赖关系..."
 
 msgid "Failed to install all missing dependencies."
 msgstr "无法安装所有缺少的依赖关系。"
@@ -973,7 +960,7 @@ msgid "Retrieving Sources..."
 msgstr "获取源代码..."
 
 msgid "You do not have write permission to store downloads in %s."
-msgstr "你没有写权力把下载存放在 %s。"
+msgstr "你没有权限将下载数据写入 %s。"
 
 msgid "Found %s in build dir"
 msgstr "在创建目录中找到 %s"
@@ -982,7 +969,7 @@ msgid "Using cached copy of %s"
 msgstr "使用 %s 在缓存中的复制版本"
 
 msgid "%s was not found in the build directory and is not a URL."
-msgstr "%s 没有在创建目录中找到，也不是一个URL。"
+msgstr "%s 没有在创建目录中找到，也不是一个 URL。"
 
 msgid "Downloading %s..."
 msgstr "正在下载 %s..."
@@ -994,22 +981,22 @@ msgid "Generating checksums for source files..."
 msgstr "正在为源代码文件创建完整性检查值..."
 
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr "指定了无效的 '%s' 完整性编码"
+msgstr "指定了无效的完整性算法 '%s'"
 
 msgid "Cannot find openssl."
 msgstr "无法找到 openssl。"
 
 msgid "Unable to find source file %s to generate checksum."
-msgstr "无法找到源代码文件 %s 来创建完整性检查码。"
+msgstr "无法找到源代码文件 %s 来生成校验值。"
 
 msgid "Invalid integrity algorithm '%s' specified"
-msgstr "指定了无效的 '%s' 完整性编码"
+msgstr "指定了无效的完整性算法 '%s'"
 
 msgid "Validating source files with %s..."
-msgstr "正在检查源码完整性 %s..."
+msgstr "正在验证源代码文件 %s..."
 
 msgid "NOT FOUND"
-msgstr "没有找到"
+msgstr "未找到"
 
 msgid "Passed"
 msgstr "通过"
@@ -1021,13 +1008,13 @@ msgid "One or more files did not pass the validity check!"
 msgstr "一个或多个文件没有通过有效性检查！"
 
 msgid "Integrity checks (%s) are missing or incomplete."
-msgstr "完整性检查(%s)去少或者不完全"
+msgstr "完整性检查 (%s) 缺失或者不完整"
 
 msgid "Extracting Sources..."
 msgstr "解压缩源码..."
 
 msgid "Unable to find source file %s for extraction."
-msgstr "无法找到源码文件 %s 进行解压缩。"
+msgstr "无法找到源代码文件 %s 进行解压缩。"
 
 msgid "Failed to extract %s"
 msgstr "无法解压缩 %s"
@@ -1045,10 +1032,10 @@ msgid "Removing info/doc files..."
 msgstr "正在删除 info/doc 文件..."
 
 msgid "Compressing man pages..."
-msgstr "正在压缩 man 帮助页..."
+msgstr "正在压缩 man 文档..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
-msgstr "正在从二进制执行文件和库中删除 debug 符号..."
+msgstr "正在从二进制文件和库中清除 debug 符号..."
 
 msgid "Removing libtool .la files..."
 msgstr "正在删除 libtool .la 文件..."
@@ -1066,10 +1053,10 @@ msgid "Generating .PKGINFO file..."
 msgstr "正在生成 .PKGINFO 文件..."
 
 msgid "Please add a license line to your %s!"
-msgstr "请添加软件许可行到你的 %s！"
+msgstr "请添加软件许可证行到你的 %s！"
 
 msgid "Example for GPL'ed software: license=('GPL')."
-msgstr "GPL软件的列子：license=('GPL')"
+msgstr "GPL 软件的列子：license=('GPL')"
 
 msgid "Adding install script..."
 msgstr "正在添加安装脚本..."
@@ -1084,10 +1071,10 @@ msgid "Failed to create package file."
 msgstr "无法创建软件包文件。"
 
 msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr "无法找到 xdelta 执行文件！是否 xdelta 已经安装？"
+msgstr "无法找到 xdelta 执行文件！xdelta 是否已安装？"
 
 msgid "Making delta from version %s..."
-msgstr "正在从版本 %s 制作delta..."
+msgstr "正在从版本 %s 制作 delta..."
 
 msgid "Recreating package tarball from delta to match md5 signatures"
 msgstr "正在从 delta 重新生成软件包打包文档以符合 md5 签名"
@@ -1096,7 +1083,7 @@ msgid "NOTE: the delta should ONLY be distributed with this tarball"
 msgstr "注意：本 delta 应当只与本压缩包一起分发"
 
 msgid "Could not generate the package from the delta."
-msgstr "无法从 delta 中生成软件包。"
+msgstr "无法从 delta 生成软件包。"
 
 msgid "Delta was not able to be created."
 msgstr "无法创建 delta。"
@@ -1111,7 +1098,7 @@ msgid "Adding %s..."
 msgstr "正在添加 %s..."
 
 msgid "Install script %s not found."
-msgstr "安装脚本 %s 没有找到。"
+msgstr "安装脚本 %s 未找到。"
 
 msgid "Compressing source package..."
 msgstr "正在压缩源码包..."
@@ -1232,11 +1219,11 @@ msgid ""
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\n这是免费软件；"
+"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\n这是自由软件；"
 "版权条款见源码\\n在法律许可下，不承担任何担保责任。\\n"
 
 msgid "%s not found."
-msgstr "%s 没有找到。"
+msgstr "%s 未找到。"
 
 msgid "\\0--holdver and --forcever cannot both be specified"
 msgstr "\\0--holdver 和 --forcever 不能同时指定。"
@@ -1248,10 +1235,10 @@ msgid "    Are you sure you wish to do this? "
 msgstr "    你确认要这样做吗？ "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr "删除文件发生错误；在 %s 你可能没有正确的权限。"
+msgstr "删除文件发生错误；你可能没有 %s 的相关权限。"
 
 msgid "Source cache cleaned."
-msgstr "源码缓存已清除。"
+msgstr "源代码缓存已清除。"
 
 msgid "No files have been removed."
 msgstr "没有文件被删除。"
@@ -1263,49 +1250,49 @@ msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "此外，请在你的缓存目录外运行 makepkg -C。"
 
 msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr "BUILDSCRIPT 没有指定！确认你已经更新过 %s。"
+msgstr "BUILDSCRIPT 未定义！确认你已经更新过 %s。"
 
 msgid "Running makepkg as root is a BAD idea and can cause"
-msgstr "作为 root（根用户）运行 makepkg 是个非常糟糕的主意，"
+msgstr "以 root（根用户）身份运行 makepkg 的习惯很不好，"
 
 msgid "permanent, catastrophic damage to your system. If you"
-msgstr "可能会造成你的系统永远的，灾难性的损坏；"
+msgstr "可能会造成你的系统永久性、灾难性的损坏；"
 
 msgid "wish to run as root, please use the --asroot option."
-msgstr "如果你希望作为 root（根用户）来运行，请使用--asroot选项。"
+msgstr "如果你希望以 root（根用户）来运行，请使用 --asroot 选项。"
 
 msgid "The --asroot option is meant for the root user only."
 msgstr "--asroot 选项仅针对 root（根用户）。"
 
 msgid "Please rerun makepkg without the --asroot flag."
-msgstr "请重新运行 makepkg 而不带--asroot参数。"
+msgstr "请不带 --asroot 参数再运行一次 makepkg。"
 
 msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "如果使用了 'fakeroot' 选项，必须安装 fakeroot"
+msgstr "要使用 'fakeroot' 选项，必须安装 fakeroot"
 
 msgid "in the BUILDENV array in %s."
 msgstr "在 %s 的 BUILDENV 中。"
 
 msgid "Running makepkg as an unprivileged user will result in non-root"
-msgstr "作为非特权用户运行 makepkg 将导致打包文件的"
+msgstr "以非授权用户身份运行 makepkg 将导致"
 
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
-msgstr "拥有者权限为非根用户。请尝试通过在 makepkg.conf 中的"
+msgstr "打包文件的拥有者权限为非根用户。请尝试"
 
 msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
-msgstr "BUILDENV 设置行中加入 'fakeroot' 来使用 fakeroot 环境。"
+msgstr "在 makepkg.conf 的 BUILDENV 中加入 'fakeroot' 来使用 fakeroot 环境。"
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
-msgstr "不必使用'-F'选项。该选项仅仅供 makepkg 使用。"
+msgstr "不要使用 '-F' 选项。该选项仅供 makepkg 使用。"
 
 msgid "Cannot find the sudo binary! Is sudo installed?"
-msgstr "无法找到sudo命令！sudo是否已安装？"
+msgstr "无法找到 sudo 命令！sudo 是否已安装？"
 
 msgid "Missing dependencies cannot be installed or removed as a normal user"
-msgstr "无法作为普通用户来安装或删除缺少的依赖关系"
+msgstr "无 sudo 的情况下，无法以普通用户身份来安装或删除缺少的依赖关系；"
 
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
-msgstr "没有 sudo；请安装和配置sudo以自动解决依赖关系。"
+msgstr "请安装和配置 sudo 以自动解决依赖关系。"
 
 msgid "%s does not exist."
 msgstr "%s 不存在。"
@@ -1314,34 +1301,34 @@ msgid "%s is not allowed to be empty."
 msgstr "%s 不允许为空。"
 
 msgid "%s is not allowed to contain hyphens."
-msgstr "%s 不允许含有连字号"
+msgstr "%s 不允许含有连字号（减号）"
 
 msgid "%s is not available for the '%s' architecture."
-msgstr "'%s '架构中没有 %s。"
+msgstr "%1$s 不具备 '%2$s' 架构。"
 
 msgid "Note that many packages may need a line added to their %s"
-msgstr "注意许多软件包都需要添加一行到他们的%s"
+msgstr "注意许多软件包可能需要在 %s 中添加"
 
 msgid "such as arch=('%s')."
-msgstr "诸如arch=('%s')."
+msgstr "类似 arch=('%s') 的一行."
 
 msgid "Install scriptlet (%s) does not exist."
-msgstr "安装小脚本(%s)不存在。"
+msgstr "安装小脚本 (%s) 不存在。"
 
 msgid "options array contains unknown option '%s'"
 msgstr "选项组含有未知的选项 '%s'"
 
 msgid "A package has already been built, installing existing package..."
-msgstr "已有一个编译好的软件包，正在安装现存的软件包..."
+msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
 
 msgid "A package has already been built. (use -f to overwrite)"
-msgstr "已有一个编译好的软件包。（使用-f覆盖）"
+msgstr "已有一个编译好的软件包。（使用 -f 覆盖）"
 
 msgid "Skipping build."
 msgstr "跳过编译。"
 
 msgid "Leaving fakeroot environment."
-msgstr "正在退出fakeroot环境。"
+msgstr "正在退出 fakeroot 环境。"
 
 msgid "Making package: %s"
 msgstr "正在创建软件包：%s"
@@ -1350,7 +1337,7 @@ msgid "Running makepkg as root..."
 msgstr "正在作为 root 运行 makepkg..."
 
 msgid "Source package created: %s"
-msgstr "源码包已创建：%s"
+msgstr "源代码包已创建：%s"
 
 msgid "Skipping dependency checks."
 msgstr "跳过依赖关系检查。"
@@ -1365,28 +1352,28 @@ msgid "Could not resolve all dependencies."
 msgstr "无法解决所有的依赖关系。"
 
 msgid "pacman was not found in PATH; skipping dependency checks."
-msgstr "没有在指定路径找到 pacman；跳过依赖关系检查。"
+msgstr "没有在 PATH 中找到 pacman；跳过依赖关系检查。"
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
-msgstr "跳过源码获取        -- 使用现存的 src/"
+msgstr "跳过源码获取        -- 使用现有的 src/ 目录树"
 
 msgid "Skipping source integrity checks -- using existing src/ tree"
-msgstr "跳过源码完整性检查 -- 使用现存的 src/"
+msgstr "跳过源码完整性检查 -- 使用现有的 src/ 目录树"
 
 msgid "Skipping source extraction       -- using existing src/ tree"
-msgstr "跳过源码解压缩       -- 使用现存的 src/"
+msgstr "跳过源码解压缩       -- 使用现有的 src/ 目录树"
 
 msgid "The source directory is empty, there is nothing to build!"
-msgstr "源码目录为空，没有东西可编译。"
+msgstr "源代码目录为空，没有东西可编译。"
 
 msgid "The package directory is empty, there is nothing to repackage!"
-msgstr "源码目录为空，没有东西可打包。"
+msgstr "软件包目录为空，没有东西可重新打包。"
 
 msgid "Sources are ready."
-msgstr "源码已准备好。"
+msgstr "源代码已就绪。"
 
 msgid "Removing existing pkg/ directory..."
-msgstr "正在删除现存的 pkg/ 目录..."
+msgstr "正在删除现有的 pkg/ 目录..."
 
 msgid "Entering fakeroot environment..."
 msgstr "正在进入 fakeroot 环境..."
@@ -1401,8 +1388,8 @@ msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
-"pacman-optimize是一个小hack，它可以提高pacman\\n读取/写入它基于文件系统的数据"
-"库时的表现\\n\\n"
+"pacman-optimize 是一个小 hack，用于提高 pacman\\n读/写基于文件系统的数据库时"
+"的性能。\\n\\n"
 
 msgid ""
 "Because pacman uses many small files to keep track of packages,\\nthere is a "
@@ -1412,12 +1399,12 @@ msgid ""
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
 msgstr ""
-"因为pacman使用许多小文件来记录软件包。\\n久而久之这些文件有倾向变得零碎。\\n"
-"这个脚本尝试把这些小文件重新放置到你硬盘上的一个连续的位置。\\n结果是硬盘由于"
-"不用再在碟片上移来移去，从而可以读取得更快。\\n"
+"因为 pacman 使用许多小文件来跟踪软件包。\\n久而久之这些文件有倾向变得零碎。"
+"\\n本脚本尝试把这些小文件重新放置到硬盘上的一个连续的位置。\\n结果是硬盘磁头"
+"由于不用再在碟片上移来移去，从而可以读取得更快。\\n"
 
 msgid "diff tool was not found, please install diffutils."
-msgstr "diff工具没有找到，请安装 diffutils。"
+msgstr "diff 工具未找到，请安装 diffutils。"
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr "发现 Pacman 锁文件。不能在 pacman 运行时再次运行。"
@@ -1426,10 +1413,10 @@ msgid "%s does not exist or is not a directory."
 msgstr "%s 不存在或不是一个目录。"
 
 msgid "You must have correct permissions to optimize the database."
-msgstr "你必须拥有正确的权限才能优化数据库。"
+msgstr "你必须拥有相应的权限才能优化数据库。"
 
 msgid "ERROR: Can not create temp directory for database building."
-msgstr "错误：无法为数据库建立创建空目录。"
+msgstr "错误：无法为建立数据库而创建临时目录。"
 
 msgid "MD5sum'ing the old database..."
 msgstr "正在为原数据库创建 MD5 校验值..."
@@ -1441,7 +1428,7 @@ msgid "Tar'ing up %s failed."
 msgstr "打包 %s 失败。"
 
 msgid "Making and MD5sum'ing the new db..."
-msgstr "正在生成新数据库及 MD5 校验值..."
+msgstr "正在生成新数据库及其 MD5 校验值..."
 
 msgid "Untar'ing %s failed."
 msgstr "解包 %s 失败。"
@@ -1479,19 +1466,19 @@ msgid ""
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n\\n"
 msgstr ""
-"repo-remove 通过从给定的库数据库中删除\\n在命令行中指定的软件包名来更新某个软"
-"件包数据库。\\n可在命令行中指定同时删除多个软件包。\\n\\n"
+"repo-remove 通过在指定软件包数据库中删除\\n在命令行中指定的软件包名来更新这个"
+"软件包数据库。\\n可以在命令行中指定删除多个软件包。\\n\\n"
 
 msgid ""
 "The -q/--quiet flag to either program will force silent running except\\nin "
 "the case of warnings or errors.\\n\\n"
-msgstr "-q/--quiet 标志将强制程序安静运行，除了\\nin·出现警告或错误。\\n\\n"
+msgstr "-q/--quiet 强制程序安静运行，\\n除非出现警告或错误。\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
-msgstr "例子:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+msgstr "例子：  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
-msgstr "例子：repo-remove /path/to/repo.db.tar.gz kernel26"
+msgstr "例子：  repo-remove /path/to/repo.db.tar.gz kernel26"
 
 msgid ""
 "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
@@ -1519,40 +1506,40 @@ msgid "Creating 'deltas' db entry..."
 msgstr "正在生成 'deltas' 数据库记录..."
 
 msgid "Added delta '%s'"
-msgstr "已添加delta '%s'"
+msgstr "已添加 delta '%s'"
 
 msgid "Could not add delta '%s'"
 msgstr "无法添加 delta '%s'"
 
 msgid "Removing existing package '%s'..."
-msgstr "正在删除现有的软件包'%s'..."
+msgstr "正在删除现有的软件包 '%s'..."
 
 msgid "Either realpath or readlink are required by repo-add."
-msgstr "repo-add 要求 realpath 或 readlink 其中一个。"
+msgstr "repo-add 要求 realpath 和 readlink 中的一个。"
 
 msgid "%s not found. Cannot continue."
-msgstr "%s 没有找到。无法继续。"
+msgstr "%s 未找到。"
 
 msgid "Cannot create temp directory for database building."
-msgstr "无法为建立数据库创建空目录。"
+msgstr "无法为建立数据库而创建临时目录。"
 
 msgid "Invalid command name '%s' specified."
-msgstr "指定了无效的 '%s' 命令行名字"
+msgstr "指定了无效的命令名 '%s'"
 
 msgid "the -f and --force options are no longer recognized"
 msgstr "-f 和 --force 选项不再被识别"
 
 msgid "use options=(force) in the PKGBUILD instead"
-msgstr "而应当在 PKGBUILD 使用 options=(force)"
+msgstr "应当在 PKGBUILD 使用 options=(force) 取而代之"
 
 msgid "Repository file '%s' is not a proper pacman database."
-msgstr "库文件 '%s' 不是一个有效的pacman数据库。"
+msgstr "库文件 '%s' 不是一个有效的 pacman 数据库。"
 
 msgid "Extracting database to a temporary location..."
 msgstr "正在解压缩数据库到一个临时目录..."
 
 msgid "Repository file '%s' was not found."
-msgstr "软件仓库文件 '%s' 没有找到"
+msgstr "软件仓库文件 '%s' 未找到"
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' 不是一个软件包文件，跳过"
@@ -1561,13 +1548,13 @@ msgid "Adding package '%s'"
 msgstr "正在添加软件包 '%s'"
 
 msgid "Package '%s' not found."
-msgstr "软件包 '%s' 没有找到。"
+msgstr "软件包 '%s' 未找到。"
 
 msgid "Searching for package '%s'..."
 msgstr "正在搜索软件包 '%s'..."
 
 msgid "Package matching '%s' not found."
-msgstr "没有找到符合 '%s' 的软件包。"
+msgstr "未找到符合 '%s' 的软件包。"
 
 msgid "Creating updated database file '%s'"
 msgstr "正在生成更新的数据库文件 '%s'"
@@ -1580,3 +1567,15 @@ msgstr "所有软件包已经从数据库中删除。正在删除 '%s'。"
 
 msgid "No packages modified, nothing to do."
 msgstr "没有软件包被修改，无事可做。"
+
+#~ msgid "New optional dependencies for %s\n"
+#~ msgstr "%s 的新可选依赖\n"
+
+#~ msgid "'%s' is not a valid archive extension."
+#~ msgstr "'%s' 是无效的压缩包扩展名。"
+
+#~ msgid "  --config <config> Use an alternate config file (instead of '%s')"
+#~ msgstr "  --config <config> 使用替代的配置文件（而不是 '%s'）"
+
+#~ msgid "'%s' does not have a valid archive extension."
+#~ msgstr "'%s' 未包含有效的压缩包扩展名。"
