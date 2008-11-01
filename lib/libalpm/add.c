@@ -109,6 +109,31 @@ error:
 	return(-1);
 }
 
+static int perform_extraction(struct archive *archive,
+		struct archive_entry *entry, const char *filename, const char *origname)
+{
+	int ret;
+	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
+	                          ARCHIVE_EXTRACT_PERM |
+	                          ARCHIVE_EXTRACT_TIME;
+
+	archive_entry_set_pathname(entry, filename);
+
+	ret = archive_read_extract(archive, entry, archive_flags);
+	if(ret == ARCHIVE_WARN && archive_errno(archive) != ENOSPC) {
+		/* operation succeeded but a "non-critical" error was encountered */
+		_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
+				origname, archive_error_string(archive));
+	} else if(ret != ARCHIVE_OK) {
+		_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
+				origname, archive_error_string(archive));
+		alpm_logaction("error: could not extract %s (%s)\n",
+				origname, archive_error_string(archive));
+		return(1);
+	}
+	return(0);
+}
+
 static int extract_single_file(struct archive *archive,
 		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg,
 		pmtrans_t *trans, pmdb_t *db)
@@ -119,9 +144,6 @@ static int extract_single_file(struct archive *archive,
 	int needbackup = 0, notouch = 0;
 	char *hash_orig = NULL;
 	char *entryname_orig = NULL;
-	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
-	                          ARCHIVE_EXTRACT_PERM |
-	                          ARCHIVE_EXTRACT_TIME;
 	int errors = 0;
 
 	entryname = archive_entry_pathname(entry);
@@ -276,18 +298,10 @@ static int extract_single_file(struct archive *archive,
 		int ret;
 
 		snprintf(checkfile, PATH_MAX, "%s.paccheck", filename);
-		archive_entry_set_pathname(entry, checkfile);
 
-		ret = archive_read_extract(archive, entry, archive_flags);
-		if(ret == ARCHIVE_WARN) {
-			/* operation succeeded but a non-critical error was encountered */
-			_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
-					entryname_orig, archive_error_string(archive));
-		} else if(ret != ARCHIVE_OK) {
-			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
-					entryname_orig, archive_error_string(archive));
-			alpm_logaction("error: could not extract %s (%s)\n",
-					entryname_orig, archive_error_string(archive));
+		ret = perform_extraction(archive, entry, checkfile, entryname_orig);
+		if(ret == 1) {
+			/* error */
 			FREE(hash_orig);
 			FREE(entryname_orig);
 			return(1);
@@ -429,18 +443,9 @@ static int extract_single_file(struct archive *archive,
 			unlink(filename);
 		}
 
-		archive_entry_set_pathname(entry, filename);
-
-		ret = archive_read_extract(archive, entry, archive_flags);
-		if(ret == ARCHIVE_WARN) {
-			/* operation succeeded but a non-critical error was encountered */
-			_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
-					entryname_orig, archive_error_string(archive));
-		} else if(ret != ARCHIVE_OK) {
-			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
-					entryname_orig, archive_error_string(archive));
-			alpm_logaction("error: could not extract %s (%s)\n",
-					entryname_orig, archive_error_string(archive));
+		ret = perform_extraction(archive, entry, filename, entryname_orig);
+		if(ret == 1) {
+			/* error */
 			FREE(entryname_orig);
 			return(1);
 		}
@@ -711,6 +716,7 @@ cleanup:
 int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 {
 	int pkg_count, pkg_current;
+	int skip_ldconfig = 0, ret = 0;
 	alpm_list_t *targ;
 
 	ALPM_LOG_FUNC;
@@ -728,18 +734,28 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 	/* loop through our package list adding/upgrading one at a time */
 	for(targ = trans->add; targ; targ = targ->next) {
 		if(handle->trans->state == STATE_INTERRUPTED) {
-			return(0);
+			return(ret);
 		}
 
 		pmpkg_t *newpkg = (pmpkg_t *)targ->data;
-		commit_single_pkg(newpkg, pkg_current, pkg_count, trans, db);
+		if(commit_single_pkg(newpkg, pkg_current, pkg_count, trans, db)) {
+			/* something screwed up on the commit, abort the trans */
+			trans->state = STATE_INTERRUPTED;
+			pm_errno = PM_ERR_TRANS_ABORT;
+			/* running ldconfig at this point could possibly screw system */
+			skip_ldconfig = 1;
+			ret = -1;
+		}
+
 		pkg_current++;
 	}
 
-	/* run ldconfig if it exists */
-	_alpm_ldconfig(handle->root);
+	if(!skip_ldconfig) {
+		/* run ldconfig if it exists */
+		_alpm_ldconfig(handle->root);
+	}
 
-	return(0);
+	return(ret);
 }
 
 /* vim: set ts=2 sw=2 noet: */
