@@ -24,6 +24,7 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 #include <limits.h>
 /* the following two are needed on BSD for libfetch */
 #if defined(HAVE_SYS_SYSLIMITS_H)
@@ -115,6 +116,7 @@ static int download_internal(const char *url, const char *localpath,
 	size_t dl_thisfile = 0;
 	char *tempfile, *destfile, *filename;
 	int ret = 0;
+	struct sigaction new_action, old_action;
 	struct url *fileurl = url_for_string(url);
 
 	if(!fileurl) {
@@ -147,6 +149,13 @@ static int download_internal(const char *url, const char *localpath,
 
 	/* 10s timeout - TODO make a config option */
 	fetchTimeout = 10000;
+
+	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
+	 * something along those lines. Store the old signal handler first. */
+	new_action.sa_handler = SIG_IGN;
+	sigemptyset(&new_action.sa_mask);
+	sigaction(SIGPIPE, NULL, &old_action);
+	sigaction(SIGPIPE, &new_action, NULL);
 
 	dlf = fetchXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
 
@@ -238,6 +247,9 @@ static int download_internal(const char *url, const char *localpath,
 	ret = 0;
 
 cleanup:
+	/* restore any existing SIGPIPE signal handler */
+	sigaction(SIGPIPE, &old_action, NULL);
+
 	FREE(tempfile);
 	FREE(destfile);
 	if(localf != NULL) {
