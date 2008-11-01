@@ -32,9 +32,9 @@
 
 #if defined(HAVE_LIBDOWNLOAD)
 #include <download.h> /* downloadLastErrString */
+#define fetchLastErrString downloadLastErrString
 #elif defined(HAVE_LIBFETCH)
 #include <fetch.h> /* fetchLastErrString */
-#define downloadLastErrString fetchLastErrString
 #endif
 
 /* libalpm */
@@ -154,9 +154,9 @@ const char SYMEXPORT *alpm_strerror(int err)
 			 * requires the archive struct, so we can't. Just use a generic
 			 * error string instead. */
 			return _("libarchive error");
-		case PM_ERR_LIBDOWNLOAD:
+		case PM_ERR_LIBFETCH:
 #if defined(INTERNAL_DOWNLOAD)
-			return downloadLastErrString;
+			return fetchLastErrString;
 #else
 			/* obviously shouldn't get here... */
 			return _("download library error");

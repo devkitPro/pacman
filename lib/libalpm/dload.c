@@ -35,14 +35,14 @@
 
 #if defined(HAVE_LIBDOWNLOAD)
 #include <download.h>
+#define fetchFreeURL downloadFreeURL
+#define fetchLastErrCode downloadLastErrCode
+#define fetchLastErrString downloadLastErrString
+#define fetchParseURL downloadParseURL
+#define fetchTimeout downloadTimeout
+#define fetchXGet downloadXGet
 #elif defined(HAVE_LIBFETCH)
 #include <fetch.h>
-#define downloadFreeURL fetchFreeURL
-#define downloadLastErrCode fetchLastErrCode
-#define downloadLastErrString fetchLastErrString
-#define downloadParseURL fetchParseURL
-#define downloadTimeout fetchTimeout
-#define downloadXGet fetchXGet
 #endif
 
 /* libalpm */
@@ -86,7 +86,7 @@ static char *get_tempfile(const char *path, const char *filename) {
 static struct url *url_for_string(const char *url)
 {
 	struct url *ret = NULL;
-	ret = downloadParseURL(url);
+	ret = fetchParseURL(url);
 	if(!ret) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
 		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
@@ -142,23 +142,22 @@ static int download_internal(const char *url, const char *localpath,
 		dl_thisfile = 0;
 	}
 
-	/* libdownload does not reset the error code, reset it in
-	 * the case of previous errors */
-	downloadLastErrCode = 0;
+	/* libfetch does not reset the error code */
+	fetchLastErrCode = 0;
 
 	/* 10s timeout - TODO make a config option */
-	downloadTimeout = 10000;
+	fetchTimeout = 10000;
 
-	dlf = downloadXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
+	dlf = fetchXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
 
-	if(downloadLastErrCode != 0 || dlf == NULL) {
+	if(fetchLastErrCode != 0 || dlf == NULL) {
 		const char *host = _("disk");
 		if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
 			host = fileurl->host;
 		}
-		pm_errno = PM_ERR_LIBDOWNLOAD;
+		pm_errno = PM_ERR_LIBFETCH;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, host, downloadLastErrString);
+				filename, host, fetchLastErrString);
 		ret = -1;
 		goto cleanup;
 	} else {
@@ -204,9 +203,9 @@ static int download_internal(const char *url, const char *localpath,
 	char buffer[PM_DLBUF_LEN];
 	while((nread = fread(buffer, 1, PM_DLBUF_LEN, dlf)) > 0) {
 		if(ferror(dlf)) {
-			pm_errno = PM_ERR_LIBDOWNLOAD;
+			pm_errno = PM_ERR_LIBFETCH;
 			_alpm_log(PM_LOG_ERROR, _("error downloading '%s': %s\n"),
-					filename, downloadLastErrString);
+					filename, fetchLastErrString);
 			ret = -1;
 			goto cleanup;
 		}
@@ -247,7 +246,7 @@ cleanup:
 	if(dlf != NULL) {
 		fclose(dlf);
 	}
-	downloadFreeURL(fileurl);
+	fetchFreeURL(fileurl);
 	return(ret);
 }
 #endif
