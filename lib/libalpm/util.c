@@ -242,7 +242,8 @@ char *_alpm_strreplace(const char *str, const char *needle, const char *replace)
 int _alpm_lckmk()
 {
 	int fd;
-	char *dir, *ptr;
+	pid_t pid;
+	char *dir, *ptr, *spid = NULL;
 	const char *file = alpm_option_get_lockfile();
 
 	/* create the dir of the lockfile first */
@@ -256,7 +257,17 @@ int _alpm_lckmk()
 
 	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1
 			&& errno == EINTR);
-	return(fd > 0 ? fd : -1);
+	if(fd > 0) {
+		pid = getpid();
+		size_t len = snprintf(spid, 0, "%ld\n", (long)pid) + 1;
+		spid = malloc(len);
+		snprintf(spid, len, "%ld\n", (long)pid);
+		while(write(fd, (void *)spid, len) == -1 && errno == EINTR);
+		fsync(fd);
+		free(spid);
+		return(fd);
+	}
+	return(-1);
 }
 
 /* Remove a lock file */
