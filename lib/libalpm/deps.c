@@ -520,6 +520,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 		alpm_list_t *excluding, int prompt)
 {
 	alpm_list_t *i, *j;
+	int ignored = 0;
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
@@ -531,6 +532,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 							 NULL, NULL, &install);
 				}
 				if(!install) {
+					ignored = 1;
 					continue;
 				}
 			}
@@ -550,6 +552,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 									pkg, NULL, NULL, &install);
 					}
 					if(!install) {
+						ignored = 1;
 						continue;
 					}
 				}
@@ -558,6 +561,11 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 				return(pkg);
 			}
 		}
+	}
+	if(ignored) { /* resolvedeps will override these */
+		pm_errno = PM_ERR_PKG_IGNORED;
+	} else {
+		pm_errno = PM_ERR_PKG_NOT_FOUND;
 	}
 	return(NULL);
 }
@@ -640,7 +648,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
 				alpm_list_free(deps);
 				return(-1);
-			}  else {
+			} else {
 				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 					  alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
 				*packages = alpm_list_add(*packages, spkg);

@@ -574,11 +574,12 @@ static int sync_trans(alpm_list_t *targets)
 			char *targ = alpm_list_getdata(i);
 			if(alpm_trans_addtarget(targ) == -1) {
 				pmgrp_t *grp = NULL;
-				int found=0;
+				int found = 0;
 				alpm_list_t *j;
 
-				if(pm_errno == PM_ERR_TRANS_DUP_TARGET) {
-					/* just ignore duplicate targets */
+				if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
+					/* just skip duplicate or ignored targets */
+					pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targ);
 					continue;
 				}
 				if(pm_errno != PM_ERR_PKG_NOT_FOUND) {

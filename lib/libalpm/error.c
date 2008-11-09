@@ -106,6 +106,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 		/* Packages */
 		case PM_ERR_PKG_NOT_FOUND:
 			return _("could not find or read package");
+		case PM_ERR_PKG_IGNORED:
+			return _("operation cancelled due to ignorepkg");
 		case PM_ERR_PKG_INVALID:
 			return _("invalid or corrupted package");
 		case PM_ERR_PKG_OPEN:

@@ -297,7 +297,8 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	FREE(targline);
 
 	if(spkg == NULL) {
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+		/* pm_errno is set by _alpm_resolvedep */
+		return(-1);
 	}
 
 	if(_alpm_sync_find(trans->packages, alpm_pkg_get_name(spkg))) {
