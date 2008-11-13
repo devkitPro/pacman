@@ -1398,10 +1398,6 @@ if ! in_array $CARCH ${arch[@]}; then
 		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
 		plain "$(gettext "such as arch=('%s').")" "$CARCH"
 		exit 1
-	else
-		warning "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
-		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
-		plain "$(gettext "such as arch=('%s').")" "$CARCH"
 	fi
 fi
 
@@ -1449,11 +1445,8 @@ if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
 fi
 
 # Run the bare minimum in fakeroot
-# fix flyspray bug 6208 -- using makepkg with fakeroot gives an error
 if [ "$INFAKEROOT" = "1" ]; then
-	if [ "$REPKG" = "1" ]; then
-		warning "$(gettext "Skipping build.")"
-	else
+	if [ "$REPKG" = "0" ]; then
 		run_build
 		tidy_install
 	fi
@@ -1465,10 +1458,6 @@ if [ "$INFAKEROOT" = "1" ]; then
 fi
 
 msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
-
-if [ $EUID -eq 0 ]; then
-	warning "$(gettext "Running makepkg as root...")"
-fi
 
 # if we are creating a source-only package, go no further
 if [ "$SOURCEONLY" != "0" ]; then
@@ -1484,10 +1473,10 @@ fi
 
 # fix flyspray bug #5973
 if [ "$NODEPS" = "1" -o "$NOBUILD" = "1" -o "$REPKG" = "1" ]; then
+	# no warning message needed for nobuild, repkg
 	if [ "$NODEPS" = "1" ]; then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
-	# skip printing a warning message for the others: nobuild, repkg
 elif [ $(type -p pacman) ]; then
 	unset pkgdeps # Set by resolve_deps() and used by remove_deps()
 	deperr=0
@@ -1513,7 +1502,7 @@ umask 0022
 mkdir -p "$srcdir"
 cd "$srcdir"
 
-if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
+if [ "$NOEXTRACT" = "1" ]; then
 	warning "$(gettext "Skipping source retrieval        -- using existing src/ tree")"
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
 	warning "$(gettext "Skipping source extraction       -- using existing src/ tree")"
@@ -1522,11 +1511,11 @@ if [ "$NOEXTRACT" = "1" -o "$REPKG" = "1" ]; then
 		error "$(gettext "The source directory is empty, there is nothing to build!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
-	elif [ "$REPKG" = "1" -a \( ! -d "$pkgdir" -o "$(ls "$pkgdir" 2>/dev/null)" = "" \) ]; then
-		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
-		plain "$(gettext "Aborting...")"
-		exit 1
 	fi
+elif [ "$REPKG" = "1" -a \( ! -d "$pkgdir" -o "$(ls "$pkgdir" 2>/dev/null)" = "" \) ]; then
+	error "$(gettext "The package directory is empty, there is nothing to repackage!")"
+	plain "$(gettext "Aborting...")"
+	exit 1
 else
 	download_sources
 	check_checksums
@@ -1545,11 +1534,9 @@ else
 	mkdir -p "$pkgdir"
 	cd "$startdir"
 
+	# if we are root or if fakeroot is not enabled, then we don't use it
 	if [ "$(check_buildenv fakeroot)" != "y" -o $EUID -eq 0 ]; then
-		# if we are root or if fakeroot is not enabled, then we don't use it
-		if [ "$REPKG" = "1" ]; then
-			warning "$(gettext "Skipping build.")"
-		else
+		if [ "$REPKG" = "0" ]; then
 			devel_update
 			run_build
 			tidy_install
