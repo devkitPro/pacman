@@ -30,10 +30,7 @@
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
 
-#if defined(HAVE_LIBDOWNLOAD)
-#include <download.h> /* downloadLastErrString */
-#define fetchLastErrString downloadLastErrString
-#elif defined(HAVE_LIBFETCH)
+#if defined(INTERNAL_DOWNLOAD)
 #include <fetch.h> /* fetchLastErrString */
 #endif
 

@@ -93,9 +93,9 @@ AC_ARG_WITH(buildscript,
 	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
 	[BUILDSCRIPT=$withval], [BUILDSCRIPT=PKGBUILD])
 
-# Help line for libdownload/libfetch
+# Help line for libfetch
 AC_ARG_ENABLE(internal-download,
-	AS_HELP_STRING([--disable-internal-download], [do not build with libdownload/libfetch support]),
+	AS_HELP_STRING([--disable-internal-download], [do not build with libfetch support]),
 	[internaldownload=$enableval], [internaldownload=yes])
 
 # Help line for documentation
@@ -136,17 +136,14 @@ AM_GNU_GETTEXT_VERSION(0.13.1)
 AC_CHECK_LIB([archive], [archive_read_data], ,
 	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
 
-# Enable or disable usage of libdownload/libfetch
-# - this is a nested check- first see if we need a library, if we do then
-#   check for libdownload first, then fallback to libfetch, then die
-AC_MSG_CHECKING(whether to link with download library)
+# Enable or disable usage of libfetch
+AC_MSG_CHECKING(whether to link with libfetch)
 if test "x$internaldownload" = "xyes" ; then
 	AC_MSG_RESULT(yes)
 	AC_DEFINE([INTERNAL_DOWNLOAD], , [Use internal download library])
 	# Check for a download library if it was actually requested
-	AC_CHECK_LIB([download], [downloadParseURL], ,
-		AC_CHECK_LIB([fetch], [fetchParseURL], ,
-			AC_MSG_ERROR([libdownload or libfetch are needed to compile with internal download support])) )
+	AC_CHECK_LIB([fetch], [fetchParseURL], ,
+		AC_MSG_ERROR([libfetch is needed to compile with internal download support]) )
 else
 	AC_MSG_RESULT(no)
 fi

@@ -34,15 +34,7 @@
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
 
-#if defined(HAVE_LIBDOWNLOAD)
-#include <download.h>
-#define fetchFreeURL downloadFreeURL
-#define fetchLastErrCode downloadLastErrCode
-#define fetchLastErrString downloadLastErrString
-#define fetchParseURL downloadParseURL
-#define fetchTimeout downloadTimeout
-#define fetchXGet downloadXGet
-#elif defined(HAVE_LIBFETCH)
+#if defined(INTERNAL_DOWNLOAD)
 #include <fetch.h>
 #endif
 
@@ -109,7 +101,8 @@ static struct url *url_for_string(const char *url)
 
 static int download_internal(const char *url, const char *localpath,
 		time_t mtimeold, time_t *mtimenew) {
-	FILE *dlf, *localf = NULL;
+	fetchIO *dlf = NULL;
+	FILE *localf = NULL;
 	struct url_stat ust;
 	struct stat st;
 	int chk_resume = 0, ret = 0;
@@ -214,16 +207,8 @@ static int download_internal(const char *url, const char *localpath,
 		handle->dlcb(filename, 0, ust.size);
 	}
 
-	while((nread = fread(buffer, 1, PM_DLBUF_LEN, dlf)) > 0) {
+	while((nread = fetchIO_read(dlf, buffer, PM_DLBUF_LEN)) > 0) {
 		size_t nwritten = 0;
-		if(ferror(dlf)) {
-			pm_errno = PM_ERR_LIBFETCH;
-			_alpm_log(PM_LOG_ERROR, _("error downloading '%s': %s\n"),
-					filename, fetchLastErrString);
-			ret = -1;
-			goto cleanup;
-		}
-
 		while(nwritten < nread) {
 			nwritten += fwrite(buffer, 1, (nread - nwritten), localf);
 			if(ferror(localf)) {
@@ -239,12 +224,22 @@ static int download_internal(const char *url, const char *localpath,
 			handle->dlcb(filename, dl_thisfile, ust.size);
 		}
 	}
+
+	/* did the transfer complete normally? */
+	if (ust.size != -1 && dl_thisfile < ust.size) {
+		pm_errno = PM_ERR_LIBFETCH;
+		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
+				filename, (intmax_t)dl_thisfile, (intmax_t)ust.size);
+		ret = -1;
+		goto cleanup;
+	}
+
 	/* probably safer to close the file descriptors now before renaming the file,
 	 * for example to make sure the buffers are flushed.
 	 */
 	fclose(localf);
 	localf = NULL;
-	fclose(dlf);
+	fetchIO_close(dlf);
 	dlf = NULL;
 
 	rename(tempfile, destfile);
@@ -260,7 +255,7 @@ cleanup:
 		fclose(localf);
 	}
 	if(dlf != NULL) {
-		fclose(dlf);
+		fetchIO_close(dlf);
 	}
 	fetchFreeURL(fileurl);
 	return(ret);
