@@ -65,12 +65,14 @@ BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #-- docs:      Save doc and info directories
 #-- libtool:   Leave libtool (.la) files in packages
 #-- emptydirs: Leave empty directories in packages
-#-- zipman:    Compress manpages with gzip
+#-- zipman:    Compress manual (man and info) pages with gzip
 #
 OPTIONS=(strip !docs libtool emptydirs zipman)
 
 #-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
 INTEGRITY_CHECK=(md5)
+#-- Manual (man and info) directories to compress (if option set correctly above)
+MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
 #-- Doc directories to remove (if option set correctly above)
 DOC_DIRS=(usr/{,share/}{doc,gtk-doc} opt/*/{doc,gtk-doc})
 #-- Directories to be searched for the strip option (if option set correctly above)

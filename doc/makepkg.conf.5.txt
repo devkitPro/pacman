@@ -123,12 +123,19 @@ Options
 		Leave empty directories in packages.
 
 	*zipman*;;
-		Compress man and info pages with gzip.
+		Compress manual (man and info) pages with gzip.
 
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this
 	affects both generation and checking. The current valid options are:
 	`md5`, `sha1`, `sha256`, `sha384`, and `sha512`.
+
+**MAN_DIRS=(**{usr{,/local}{,/share},opt/*}/{man,info} ...**)**::
+	If "zipman" is specified in the OPTIONS array, this variable will
+	instruct makepkg where to look to compress manual (man and info)
+	pages. If you build packages that are located in opt/, you may need
+	to add the directory to this array. *NOTE:* Do not add the leading
+	slash to the directory name.
 
 **DOC_DIRS=(**usr/{,share/}{doc,gtk-doc} ...**)**::
 	If "!docs" is specified in the OPTIONS array, this variable will

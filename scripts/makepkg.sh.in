@@ -718,9 +718,8 @@ tidy_install() {
 
 	if [ "$(check_option zipman)" = "y" ]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
-		local manpage mandirs ext file link hardlinks hl
-		mandirs=({usr{,/local}{,/share},opt/*}/{man,info})
-		find ${mandirs[@]} -type f 2>/dev/null |
+		local manpage ext file link hardlinks hl
+		find ${MAN_DIRS[@]} -type f 2>/dev/null |
 		while read manpage ; do
 			# check file still exists (potentially compressed with hard link)
 			if [ -f ${manpage} ]; then
@@ -728,7 +727,7 @@ tidy_install() {
 				file="${manpage##*/}"
 				if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
 					# update symlinks to this manpage
-					find ${mandirs[@]} -lname "$file" 2>/dev/null |
+					find ${MAN_DIRS[@]} -lname "$file" 2>/dev/null |
 					while read link ; do
 						rm -f "$link"
 						ln -sf "${file}.gz" "${link}.gz"
@@ -736,7 +735,7 @@ tidy_install() {
 					# find hard links and remove them
 					#   the '|| true' part keeps the script from bailing if find returned an
 					#   error, such as when one of the man directories doesn't exist
-					hardlinks="$(find ${mandirs[@]} \! -name "$file" -samefile "$manpage" 2>/dev/null)" || true
+					hardlinks="$(find ${MAN_DIRS[@]} \! -name "$file" -samefile "$manpage" 2>/dev/null)" || true
 					for hl in ${hardlinks}; do
 						rm -f "${hl}";
 					done
