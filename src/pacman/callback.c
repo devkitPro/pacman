@@ -446,6 +446,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	if(config->noprogressbar || file_total == -1) {
 		if(file_xfered == 0) {
 			printf(_("downloading %s...\n"), filename);
+			fflush(stdout);
 		}
 		return;
 	}
