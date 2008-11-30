@@ -618,7 +618,10 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				_alpm_strtrim(line);
 				if(strcmp(line, "%DELTAS%") == 0) {
 					while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-						info->deltas = alpm_list_add(info->deltas, _alpm_delta_parse(line));
+						pmdelta_t *delta = _alpm_delta_parse(line);
+						if(delta) {
+							info->deltas = alpm_list_add(info->deltas, delta);
+						}
 					}
 				}
 			}
