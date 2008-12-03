@@ -578,6 +578,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	int linenum = 0;
 	char *ptr, *section = NULL;
 	pmdb_t *db = NULL;
+	int ret = 0;
 
 	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
@@ -620,7 +621,8 @@ static int _parseconfig(const char *file, const char *givensection,
 			if(!strlen(section)) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
 						file, linenum);
-				return(1);
+				ret = 1;
+				goto cleanup;
 			}
 			/* if we are not looking at the options section, register a db and also
 			 * ensure we have set all of our library paths as the library is too stupid
@@ -628,6 +630,12 @@ static int _parseconfig(const char *file, const char *givensection,
 			if(strcmp(section, "options") != 0) {
 				setlibpaths();
 				db = alpm_db_register_sync(section);
+				if(db == NULL) {
+					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
+							section, alpm_strerrorlast());
+					ret = 1;
+					goto cleanup;
+				}
 			}
 		} else {
 			/* directive */
@@ -642,13 +650,15 @@ static int _parseconfig(const char *file, const char *givensection,
 			if(key == NULL) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
 						file, linenum);
-				return(1);
+				ret = 1;
+				goto cleanup;
 			}
 			/* For each directive, compare to the camelcase string. */
 			if(section == NULL) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 						file, linenum);
-				return(1);
+				ret = 1;
+				goto cleanup;
 			}
 			if(ptr == NULL && strcmp(section, "options") == 0) {
 				/* directives without settings, all in [options] */
@@ -673,7 +683,8 @@ static int _parseconfig(const char *file, const char *givensection,
 				} else {
 					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 							file, linenum, key);
-					return(1);
+					ret = 1;
+					goto cleanup;
 				}
 			} else {
 				/* directives with settings */
@@ -704,7 +715,8 @@ static int _parseconfig(const char *file, const char *givensection,
 						if(alpm_option_add_cachedir(ptr) != 0) {
 							pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
 									ptr, alpm_strerrorlast());
-							return(1);
+							ret = 1;
+							goto cleanup;
 						}
 						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
 					} else if(strcmp(key, "RootDir") == 0) {
@@ -728,13 +740,15 @@ static int _parseconfig(const char *file, const char *givensection,
 							config->cleanmethod = PM_CLEAN_KEEPCUR;
 						} else {
 							pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"), ptr);
-							return(1);
+							ret = 1;
+							goto cleanup;
 						}
 						pm_printf(PM_LOG_DEBUG, "config: cleanmethod: %s\n", ptr);
 					} else {
 						pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 								file, linenum, key);
-						return(1);
+						ret = 1;
+						goto cleanup;
 					}
 				} else if(strcmp(key, "Server") == 0) {
 					/* let's attempt a replacement for the current repo */
@@ -742,27 +756,35 @@ static int _parseconfig(const char *file, const char *givensection,
 
 					if(alpm_db_setserver(db, server) != 0) {
 						/* pm_errno is set by alpm_db_setserver */
-						return(1);
+						pm_printf(PM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
+								alpm_db_get_name(db), server, alpm_strerrorlast());
+						free(server);
+						ret = 1;
+						goto cleanup;
 					}
 
 					free(server);
 				} else {
 					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
 							file, linenum, key);
-					return(1);
+					ret = 1;
+					goto cleanup;
 				}
 			}
 		}
 	}
-	fclose(fp);
+
+cleanup:
+	if(fp) {
+		fclose(fp);
+	}
 	if(section){
 		free(section);
 	}
-
 	/* call setlibpaths here to ensure we have called it at least once */
 	setlibpaths();
 	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
-	return(0);
+	return(ret);
 }
 
 /** Parse a configuration file.

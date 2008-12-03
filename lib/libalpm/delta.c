@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/types.h>
+#include <regex.h>
 
 /* libalpm */
 #include "delta.h"
@@ -257,6 +259,19 @@ pmdelta_t *_alpm_delta_parse(char *line)
 {
 	pmdelta_t *delta;
 	char *tmp = line, *tmp2;
+	regex_t reg;
+
+	regcomp(&reg,
+			"^[^[:space:]]* [[:xdigit:]]{32}"
+			" [^[:space:]]* [[:xdigit:]]{32}"
+			" [^[:space:]]* [[:xdigit:]]{32} [[:digit:]]*$",
+			REG_EXTENDED | REG_NOSUB | REG_NEWLINE);
+	if(regexec(&reg, line, 0, 0, 0) != 0) {
+		/* delta line is invalid, return NULL */
+		regfree(&reg);
+		return(NULL);
+	}
+	regfree(&reg);
 
 	CALLOC(delta, 1, sizeof(pmdelta_t), RET_ERR(PM_ERR_MEMORY, NULL));
 

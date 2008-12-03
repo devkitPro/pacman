@@ -1080,7 +1080,7 @@ devel_check() {
 				hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
 				cd ./src/$_hgrepo
 			fi
-			newpkgver=$(hg tip | sed -n '1s/[^0-9]*\([^:]*\):.*$/\1/p')
+			newpkgver=$(hg tip --template "{rev}")
 			cd ../../
 		fi
 

@@ -51,7 +51,7 @@
  * Return the last update time as number of seconds from the epoch.
  * Returns 0 if the value is unknown or can't be read.
  */
-time_t getlastupdate(const pmdb_t *db)
+static time_t getlastupdate(const pmdb_t *db)
 {
 	FILE *fp;
 	char *file;
@@ -85,7 +85,7 @@ time_t getlastupdate(const pmdb_t *db)
 /*
  * writes the dbpath/.lastupdate file with the value in time
  */
-int setlastupdate(const pmdb_t *db, time_t time)
+static int setlastupdate(const pmdb_t *db, time_t time)
 {
 	FILE *fp;
 	char *file;
@@ -500,7 +500,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				if(fgets(line, 512, fp) == NULL) {
 					goto error;
 				}
-				info->reason = atol(_alpm_strtrim(line));
+				info->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
 			} else if(strcmp(line, "%SIZE%") == 0 || strcmp(line, "%CSIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
@@ -618,7 +618,10 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				_alpm_strtrim(line);
 				if(strcmp(line, "%DELTAS%") == 0) {
 					while(fgets(line, 512, fp) && strlen(_alpm_strtrim(line))) {
-						info->deltas = alpm_list_add(info->deltas, _alpm_delta_parse(line));
+						pmdelta_t *delta = _alpm_delta_parse(line);
+						if(delta) {
+							info->deltas = alpm_list_add(info->deltas, delta);
+						}
 					}
 				}
 			}

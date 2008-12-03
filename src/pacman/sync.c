@@ -551,6 +551,7 @@ static int sync_trans(alpm_list_t *targets)
 	int retval = 0;
 	alpm_list_t *data = NULL;
 	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+	alpm_list_t *packages = NULL;
 
 	/* Step 1: create a new transaction... */
 	if(trans_init(PM_TRANS_TYPE_SYNC, config->flags) == -1) {
@@ -659,7 +660,7 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	alpm_list_t *packages = alpm_trans_get_pkgs();
+	packages = alpm_trans_get_pkgs();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
 		printf(_(" local database is up to date\n"));
