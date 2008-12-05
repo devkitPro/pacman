@@ -675,6 +675,8 @@ run_build() {
 
 	# ensure all necessary build variables are exported
 	export CFLAGS CXXFLAGS MAKEFLAGS CHOST
+	# save our shell options so build() can't override what we need
+	local shellopts=$(shopt -p)
 
 	local ret=0
 	if [ "$LOGGING" = "1" ]; then
@@ -695,6 +697,8 @@ run_build() {
 	else
 		build 2>&1 || ret=$?
 	fi
+	# reset our shell options
+	eval "$shellopts"
 
 	if [ $ret -gt 0 ]; then
 		error "$(gettext "Build Failed.")"
