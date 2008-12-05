@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2008-12-04 23:43-0800\n"
 "PO-Revision-Date: 2008-08-23 19:30+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
@@ -33,7 +33,7 @@ msgstr "risoluzione delle dipendenze in corso...\n"
 
 #, c-format
 msgid "looking for inter-conflicts...\n"
-msgstr "ricerca dei conflitti incrociati in corso...\n"
+msgstr "ricerca di conflitti in corso...\n"
 
 #, c-format
 msgid "installing %s...\n"
@@ -53,7 +53,7 @@ msgstr "controllo dell'integrità dei pacchetti in corso...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "controllo dell'integrità di delta in corso...\n"
+msgstr "controllo dell'integrità del delta in corso...\n"
 
 #, c-format
 msgid "applying deltas...\n"
@@ -73,7 +73,7 @@ msgstr "non riuscito.\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
-msgstr ":: Recupero dei pacchetti da %s...\n"
+msgstr ":: Download dei pacchetti da %s...\n"
 
 #, c-format
 msgid ""
@@ -399,7 +399,8 @@ msgstr "  -o, --owns <file>    mostra il pacchetto che contiene il <file>\n"
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file <package> interroga un file del pacchetto invece del database\n"
+"  -p, --file <pacchetto> interroga un file del pacchetto invece del "
+"database\n"
 
 #, c-format
 msgid ""
@@ -414,10 +415,8 @@ msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr "  -t, --unrequired     elenca tutti i pacchetti non richiesti\n"
 
 #, c-format
-msgid "  -u, --upgrades       list all packages that can be upgraded\n"
-msgstr ""
-"  -u, --upgrades       elenca tutti i pacchetti che possono essere "
-"aggiornati\n"
+msgid "  -u, --upgrades       list all outdated packages\n"
+msgstr "  -u, --upgrades       elenca tutti i pacchetti non aggiornati\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
@@ -537,20 +536,9 @@ msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
 msgstr ""
-"                       This program may be freely redistributed under\n"
-"                       the terms of the GNU General Public License.\n"
-
-#, c-format
-msgid "segmentation fault\n"
-msgstr "segmentation fault\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"Errore interno in pacman: Segmentation fault.\n"
-"Invia un report del bug completo usando --debug se necessario.\n"
+"                       Questo programma può essere liberamente "
+"ridistribuito\n"
+"                       sotto i termini della GNU General Public License.\n"
 
 #, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
@@ -589,6 +577,10 @@ msgid "config file %s, line %d: bad section name.\n"
 msgstr "file di configurazione %s, linea %d: il nome della sezione è errato.\n"
 
 #, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "impossibile registrare il database '%s' (%s)\n"
+
+#, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
 "file di configurazione %s, linea %d: errore di sintassi, manca una chiave.\n"
@@ -608,6 +600,10 @@ msgstr ""
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "valore invalido per 'CleanMethod' : '%s'\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "impossibile aggiungere l'URL del server al database '%s': %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -654,14 +650,6 @@ msgid "group \"%s\" was not found\n"
 msgstr "il gruppo \"%s\" non è stato trovato\n"
 
 #, c-format
-msgid "Checking for package upgrades... \n"
-msgstr "Controllo degli aggiornamenti dei pacchetti in corso... \n"
-
-#, c-format
-msgid "no upgrades found.\n"
-msgstr "non ci sono aggiornamenti.\n"
-
-#, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "non è stato configurato nessun repository di pacchetti valido.\n"
 
@@ -675,7 +663,7 @@ msgstr "il pacchetto \"%s\" non è stato trovato\n"
 
 #, c-format
 msgid "%s not found, searching for group...\n"
-msgstr "%s non è stato trovato. cerco per un gruppo...\n"
+msgstr "%s non è stato trovato, ricerca in corso all'interno di un gruppo...\n"
 
 #, c-format
 msgid "'%s': not found in local db\n"
@@ -743,7 +731,7 @@ msgstr "Rimuovere i pacchetti disinstallati dalla cache?"
 
 #, c-format
 msgid "Do you want to remove outdated packages from cache?"
-msgstr "Rimuovere i pacchetti disinstallati dalla cache?"
+msgstr "Rimuovere i pacchetti non aggiornati dalla cache?"
 
 #, c-format
 msgid "removing old packages from cache... "
@@ -807,7 +795,9 @@ msgstr ":: Aggiornamento del sistema in corso...\n"
 
 #, c-format
 msgid "%s package not found, searching for group...\n"
-msgstr "%s pacchetto non trovato, cerco per un gruppo...\n"
+msgstr ""
+"Il pacchetto %s non è stato trovato, ricerca in corso all'interno di un "
+"gruppo...\n"
 
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
@@ -851,7 +841,7 @@ msgstr "%s: %s è già presente nel filesystem\n"
 
 #, c-format
 msgid "%s is invalid or corrupted\n"
-msgstr "%s è invalido o corrotto\n"
+msgstr "%s non è valido o corrotto\n"
 
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
@@ -895,8 +885,8 @@ msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
 msgstr ""
-"  se sei sicuro che il gestore dei pacchetti non è già\n"
-"  in funzione, è possibile rimuovere %s.\n"
+"  se sei sicuro che il gestore dei pacchetti non sia già\n"
+"  in esecuzione, puoi rimuovere %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -925,6 +915,10 @@ msgstr "Rimuovere (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Dimensione totale dei pacchetti da rimuovere:   %.2f MB\n"
+
+#, c-format
+msgid "New optional dependencies for %s\n"
+msgstr "Nuove dipendenze opzionali di %s\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -998,7 +992,7 @@ msgid "The download program %s is not installed."
 msgstr "Il programma %s per il download non è installato."
 
 msgid "Pacman returned a fatal error (%i): %s"
-msgstr "Pacman ha ritornato un errore fatale (%i): %s"
+msgstr "Pacman ha riportato un errore fatale (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Installazione delle dipendenze mancanti in corso..."
@@ -1016,7 +1010,7 @@ msgid "Failed to remove installed dependencies."
 msgstr "Impossibile rimuovere le dipendenze installate."
 
 msgid "Retrieving Sources..."
-msgstr "Recupero dei sorgenti in corso..."
+msgstr "Download dei sorgenti in corso..."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Non si dispone dei permessi in scrittura per salvare i download in %s."
@@ -1031,7 +1025,7 @@ msgid "%s was not found in the build directory and is not a URL."
 msgstr "impossibile trovare %s nella directory e non è un URL."
 
 msgid "Downloading %s..."
-msgstr "Scaricamento di %s in corso..."
+msgstr "Download di %s in corso..."
 
 msgid "Failure while downloading %s"
 msgstr "Impossibile scaricare %s"
@@ -1039,17 +1033,14 @@ msgstr "Impossibile scaricare %s"
 msgid "Generating checksums for source files..."
 msgstr "Generazione dei checksum dei sorgenti in corso..."
 
-msgid "Invalid integrity algorithm '%s' specified."
-msgstr "L'algoritmo dell'integrità di '%s' specificato non è valido."
-
 msgid "Cannot find openssl."
 msgstr "Impossibile trovare openssl."
 
+msgid "Invalid integrity algorithm '%s' specified."
+msgstr "L'algoritmo dell'integrità di '%s' specificato non è valido."
+
 msgid "Unable to find source file %s to generate checksum."
 msgstr "Impossibile trovare il file sorgente di %s per generare il checksum."
-
-msgid "Invalid integrity algorithm '%s' specified"
-msgstr "L'algoritmo dell'integrità di '%s' specificato non è valido"
 
 msgid "Validating source files with %s..."
 msgstr "Validazione dei file sorgenti con %s in corso..."
@@ -1087,11 +1078,11 @@ msgstr "Compilazione interrotta."
 msgid "Tidying install..."
 msgstr "Rimozione dei dati superflui in corso..."
 
-msgid "Removing info/doc files..."
-msgstr "Rimozione dei file info/doc in corso..."
+msgid "Removing doc files..."
+msgstr "Rimozione dei file doc in corso..."
 
-msgid "Compressing man pages..."
-msgstr "Compressione delle pagine man in corso..."
+msgid "Compressing man and info pages..."
+msgstr "Compressione delle pagine man ed info in corso..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
 msgstr "Rimozione dei simboli di debug dai binari e dalle librerie in corso..."
@@ -1125,6 +1116,9 @@ msgstr "Aggiunta del changelog del pacchetto in corso..."
 
 msgid "Compressing package..."
 msgstr "Compressione del pacchetto in corso..."
+
+msgid "'%s' is not a valid archive extension."
+msgstr "'%s' non è una valida estensione di un archivio."
 
 msgid "Failed to create package file."
 msgstr "Impossibile creare il pacchetto."
@@ -1200,6 +1194,9 @@ msgstr "  -c, --clean      Ripulisce i sorgenti dopo la compilazione"
 
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Elimina i sorgenti dalla cache"
+
+msgid "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr "  --config <config> Usa un file di config alternativo (invece di '%s')"
 
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ignora i controlli tutte sulle dipendenze"
@@ -1317,8 +1314,8 @@ msgstr "La cache del sorgente è stata pulita."
 msgid "No files have been removed."
 msgstr "Non è stato rimosso nessun file."
 
-msgid "Source destination must be defined in makepkg.conf."
-msgstr "La destinazione del sorgente deve essere definita in makepkg.conf."
+msgid "Source destination must be defined in %s."
+msgstr "La destinazione del sorgente deve essere definita in %s."
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr ""
@@ -1356,8 +1353,8 @@ msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr ""
 "di proprietà del pacchettizzatore. Provare usando l'ambiente di fakeroot"
 
-msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
-msgstr "posizionando 'fakeroot' nell'array BUILDENV in makepkg.conf."
+msgid "placing 'fakeroot' in the BUILDENV array in %s."
+msgstr "inserendo 'fakeroot' nell'array BUILDENV in %s."
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr "Non usare l'opzione '-F'. Questa opzione si usa solo con makepkg."
@@ -1442,7 +1439,7 @@ msgstr ""
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr ""
-"Recupero dei sorgenti ignorato        -- utilizzo la directory esistente src/"
+"Download dei sorgenti ignorato        -- utilizzo la directory esistente src/"
 
 msgid "Skipping source integrity checks -- using existing src/ tree"
 msgstr ""
@@ -1501,16 +1498,16 @@ msgid "diff tool was not found, please install diffutils."
 msgstr ""
 "impossibile trovare lo strumento diff, si prega di installare diffutils."
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-"Il file lock di pacman è stato trovato. Impossibile avviare di nuovo pacman "
-"mentre è ancora in funzione."
-
 msgid "%s does not exist or is not a directory."
 msgstr "%s non esiste o non è una directory."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Bisogna avere i giusti permessi per ottimizzare il database."
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr ""
+"Il file lock di pacman è stato trovato. Impossibile avviare di nuovo pacman "
+"mentre è ancora in funzione."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr ""
@@ -1525,11 +1522,14 @@ msgstr "Compressione di %s in corso..."
 msgid "Tar'ing up %s failed."
 msgstr "Impossibile comprimere %s."
 
-msgid "Making and MD5sum'ing the new db..."
+msgid "Making and MD5sum'ing the new database..."
 msgstr "Creazione del nuovo database e calcolo della somma MD5 in corso..."
 
 msgid "Untar'ing %s failed."
 msgstr "Impossibile decomprimere %s."
+
+msgid "Syncing database to disk..."
+msgstr "Sincronizzazione dei database in corso..."
 
 msgid "Checking integrity..."
 msgstr "Controllo dell'integrità in corso..."
@@ -1539,21 +1539,17 @@ msgstr ""
 "Impossibile effettuare il controllo dell'integrità, ritorno al vecchio "
 "database."
 
-msgid "Putting the new database in place..."
+msgid "Rotating database into place..."
 msgstr "Inserimento del nuovo database in corso..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Terminato. Il database del vostro pacman è stato ottimizzato."
 
-msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr ""
-"Per migliorare le prestazioni di pacman-optimize, avviare 'sync' adesso."
-
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
-msgstr "uso: repo-add [-q] <path-al-db> <nomepacchetto> ...\\n"
+msgstr "uso: repo-add [-q] <path-del-db> <pacchetto> ...\\n"
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
-msgstr "Uso: repo-remove [-q]  <path-al-db> <nomepacchetto>...\\n\\n"
+msgstr "Uso: repo-remove [-q]  <path-del-db> <nomepacchetto>...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1624,9 +1620,6 @@ msgstr "Rimozione del pacchetto esistente '%s' in corso..."
 msgid "Either realpath or readlink are required by repo-add."
 msgstr "realpath o readlink è richiesto da repo-add."
 
-msgid "%s not found. Cannot continue."
-msgstr "%s non è stato trovato. Impossibile continuare."
-
 msgid "Cannot create temp directory for database building."
 msgstr "Impossibile creare la directory temp per creare il database."
 
@@ -1666,8 +1659,8 @@ msgstr "Non è stato trovato nessun pacchetto corrispondente a '%s'."
 msgid "Creating updated database file '%s'"
 msgstr "Creazione di un database aggiornato di '%s'"
 
-msgid "No compression set."
-msgstr "Non è stata impostata nessuna compressione."
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' non è una valida estensione di un archivio."
 
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr ""
@@ -1675,4 +1668,4 @@ msgstr ""
 "corso."
 
 msgid "No packages modified, nothing to do."
-msgstr "Non è stato modificato alcun pacchetto."
+msgstr "Non è stato modificato nessun pacchetto."
