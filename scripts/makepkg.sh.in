@@ -719,6 +719,10 @@ tidy_install() {
 	if [ "$(check_option zipman)" = "y" ]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local manpage ext file link hardlinks hl
+		if [ -z "${MAN_DIRS[*]}" ]; then
+			# fall back to default value
+			MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
+		fi
 		find ${MAN_DIRS[@]} -type f 2>/dev/null |
 		while read manpage ; do
 			# check file still exists (potentially compressed with hard link)
