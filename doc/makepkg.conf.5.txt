@@ -125,6 +125,10 @@ Options
 	*zipman*;;
 		Compress manual (man and info) pages with gzip.
 
+	*purge*;;
+		Remove files specified by the `PUGRE_TARGETS` variable from the
+		package.
+
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this
 	affects both generation and checking. The current valid options are:
@@ -149,6 +153,11 @@ Options
 	packages that are located in opt/, you may need to add the directory
 	to this array. *NOTE:* Do not add the leading slash to the directory
 	name.
+
+**PURGE_TARGETS=(**usr/{,share}/info/dir .podlist *.pod...**)**::
+	If "purge" is specified in the OPTIONS array, this variable will
+	instruct makepkg which files to remove from the package. This is
+	useful for index files that are added by multiple packages.
 
 **PKGDEST=**"/path/to/folder"::
 	If this value is not set, packages will by default be placed in the

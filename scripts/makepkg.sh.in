@@ -41,7 +41,7 @@ confdir='@sysconfdir@'
 startdir="$PWD"
 srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
-packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman')
+packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
 other_options=('ccache' 'distcc' 'makeflags' 'force')
 readonly -a packaging_options other_options
 
@@ -717,6 +717,18 @@ tidy_install() {
 		rm -rf ${DOC_DIRS[@]}
 	fi
 
+	if [ "$(check_option purge)" = "y" -a -n "PURGE_TARGETS" ]; then
+		msg2 "$(gettext "Removing pugre targets...")"
+		local pt
+		for pt in "${PURGE_TARGETS[@]}"; do
+			if [ "${pt}" == "${pt//\/}" ]; then
+				find . -type f -name "${pt}" -exec rm -f -- '{}' \;
+			else
+				rm -f ${pt}
+			fi
+		done
+	fi
+
 	if [ "$(check_option zipman)" = "y" ]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local manpage ext file link hardlinks hl
@@ -755,7 +767,6 @@ tidy_install() {
 			fi
 		done
 	fi
-
 
 	if [ "$(check_option strip)" = "y" ]; then
 		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"

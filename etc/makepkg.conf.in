@@ -58,7 +58,7 @@ BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #   These are default values for the options=() settings
 #########################################################################
 #
-# Default: OPTIONS=(strip !docs libtool emptydirs zipman)
+# Default: OPTIONS=(strip !docs libtool emptydirs zipman purge)
 #  A negated option will do the opposite of the comments below.
 #
 #-- strip:     Strip symbols from binaries/libraries
@@ -66,8 +66,9 @@ BUILDENV=(fakeroot !distcc color !ccache !xdelta)
 #-- libtool:   Leave libtool (.la) files in packages
 #-- emptydirs: Leave empty directories in packages
 #-- zipman:    Compress manual (man and info) pages with gzip
+#-- purge:     Remove files sepecified below from package
 #
-OPTIONS=(strip !docs libtool emptydirs zipman)
+OPTIONS=(strip !docs libtool emptydirs zipman purge)
 
 #-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
 INTEGRITY_CHECK=(md5)
@@ -77,6 +78,8 @@ MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
 DOC_DIRS=(usr/{,share/}{doc,gtk-doc} opt/*/{doc,gtk-doc})
 #-- Directories to be searched for the strip option (if option set correctly above)
 STRIP_DIRS=(bin lib sbin usr/{bin,lib,sbin,local/{bin,lib,sbin}} opt/*/{bin,lib,sbin})
+#-- Files to be removed from all packages
+PURGE_TARGETS=(usr/{,share}/info/dir .packlist *.pod)
 
 #########################################################################
 # PACKAGE OUTPUT
