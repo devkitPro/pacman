@@ -116,6 +116,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_PKG_REPO_NOT_FOUND:
 			return _("could not find repository for target");
 		/* Signatures */
+		case PM_ERR_SIG_MISSINGDIR:
+			return _("signature directory not configured correctly");
 		case PM_ERR_SIG_INVALID:
 			return _("invalid PGP signature");
 		case PM_ERR_SIG_UNKNOWN:
@@ -152,6 +154,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 			/* obviously shouldn't get here... */
 			return _("download library error");
 #endif
+		case PM_ERR_GPGME:
+			return _("gpgme error");
 		case PM_ERR_EXTERNAL_DOWNLOAD:
 			return _("error invoking external downloader");
 		/* Unknown error! */

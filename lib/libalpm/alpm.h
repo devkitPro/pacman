@@ -246,6 +246,12 @@ off_t alpm_pkg_download_size(pmpkg_t *newpkg);
 alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 
 /*
+ * Signatures
+ */
+
+int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
+
+/*
  * Deltas
  */
 
@@ -527,6 +533,7 @@ enum _pmerrno_t {
 	PM_ERR_PKG_INVALID_ARCH,
 	PM_ERR_PKG_REPO_NOT_FOUND,
 	/* Signatures */
+	PM_ERR_SIG_MISSINGDIR,
 	PM_ERR_SIG_INVALID,
 	PM_ERR_SIG_UNKNOWN,
 	/* Deltas */
@@ -543,7 +550,8 @@ enum _pmerrno_t {
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,
 	PM_ERR_LIBCURL,
-	PM_ERR_EXTERNAL_DOWNLOAD
+	PM_ERR_EXTERNAL_DOWNLOAD,
+	PM_ERR_GPGME
 };
 
 extern enum _pmerrno_t pm_errno;

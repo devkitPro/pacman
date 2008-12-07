@@ -50,6 +50,7 @@
 #include "delta.h"
 #include "remove.h"
 #include "diskspace.h"
+#include "signing.h"
 
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
@@ -665,31 +666,23 @@ static int apply_deltas(pmtrans_t *trans)
  * should be deleted.
  *
  * @param trans the transaction
- * @param filename the filename of the file to test
+ * @param filename the absolute path of the file to test
  * @param md5sum the expected md5sum of the file
  *
  * @return 0 if the md5sum matched, 1 if not, -1 in case of errors
  */
-static int test_md5sum(pmtrans_t *trans, const char *filename,
+static int test_md5sum(pmtrans_t *trans, const char *filepath,
 		const char *md5sum)
 {
-	char *filepath;
-	int ret;
-
-	filepath = _alpm_filecache_find(filename);
-
-	ret = _alpm_test_md5sum(filepath, md5sum);
-
+	int ret = _alpm_test_md5sum(filepath, md5sum);
 	if(ret == 1) {
 		int doremove = 0;
-		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filename,
+		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char*)filepath,
 				NULL, NULL, &doremove);
 		if(doremove) {
 			unlink(filepath);
 		}
 	}
-
-	FREE(filepath);
 
 	return ret;
 }
@@ -800,12 +793,14 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		for(i = deltas; i; i = i->next) {
 			pmdelta_t *d = alpm_list_getdata(i);
 			const char *filename = alpm_delta_get_filename(d);
+			char *filepath = _alpm_filecache_find(filename);
 			const char *md5sum = alpm_delta_get_md5sum(d);
 
-			if(test_md5sum(trans, filename, md5sum) != 0) {
+			if(test_md5sum(trans, filepath, md5sum) != 0) {
 				errors++;
 				*data = alpm_list_add(*data, strdup(filename));
 			}
+			FREE(filepath);
 		}
 		if(errors) {
 			pm_errno = PM_ERR_DLT_INVALID;
@@ -829,6 +824,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
 
 	errors = 0;
+
 	for(i = trans->add; i; i = i->next, current++) {
 		pmpkg_t *spkg = i->data;
 		int percent = (current * 100) / numtargs;
@@ -839,17 +835,27 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				numtargs, current);
 
 		const char *filename = alpm_pkg_get_filename(spkg);
+		char *filepath = _alpm_filecache_find(filename);
 		const char *md5sum = alpm_pkg_get_md5sum(spkg);
+		const pmpgpsig_t *pgpsig = alpm_pkg_get_pgpsig(spkg);
 
-		if(test_md5sum(trans, filename, md5sum) != 0) {
+		/* check md5sum first */
+		if(test_md5sum(trans, filepath, md5sum) != 0) {
 			errors++;
 			*data = alpm_list_add(*data, strdup(filename));
+			FREE(filepath);
+			continue;
+		}
+		/* check PGP signature next */
+		if(_alpm_gpgme_checksig(filepath, pgpsig) != 0) {
+			errors++;
+			*data = alpm_list_add(*data, strdup(filename));
+			FREE(filepath);
 			continue;
 		}
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
 		_alpm_log(PM_LOG_DEBUG, "replacing pkgcache entry with package file for target %s\n", spkg->name);
-		char *filepath = _alpm_filecache_find(filename);
 		pmpkg_t *pkgfile;
 		if(alpm_pkg_load(filepath, 1, &pkgfile) != 0) {
 			_alpm_pkg_free(pkgfile);

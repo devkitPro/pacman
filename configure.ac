@@ -161,6 +161,10 @@ AS_IF([test "x$with_curl" != "xno"],
 	AC_MSG_RESULT(no))
 AM_CONDITIONAL([HAVE_LIBCURL], [test "x$ac_cv_lib_curl_curl_easy_perform" = "xyes"])
 
+# Check for gpgme
+AC_CHECK_LIB([gpgme], [gpgme_check_version], ,
+	AC_MSG_ERROR([gpgme is needed to compile pacman!]))
+
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h \
                   sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h \
