@@ -251,11 +251,57 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
 	}
 
-	if(stat(pkgfile, &st) != 0) {
+	/* attempt to stat the package file, ensure it exists */
+	if(stat(pkgfile, &st) == 0) {
+		char *pgpfile;
+
+		newpkg = _alpm_pkg_new();
+		if(newpkg == NULL) {
+			RET_ERR(PM_ERR_MEMORY, NULL);
+		}
+		newpkg->filename = strdup(pkgfile);
+		newpkg->size = st.st_size;
+
+		/* look around for a PGP signature file; load if available */
+		MALLOC(pgpfile, strlen(pkgfile) + 5, RET_ERR(PM_ERR_MEMORY, NULL));
+		sprintf(pgpfile, "%s.sig", pkgfile);
+		if(access(pgpfile, R_OK) == 0) {
+			FILE *f;
+			long bytes;
+			size_t bytes_read;
+			f = fopen(pgpfile, "rb");
+			fseek(f, 0L, SEEK_END);
+			bytes = ftell(f);
+			fseek(f, 0L, SEEK_SET);
+			/* don't read the file in if it is obviously not the size of a sig */
+			if(bytes == 72) {
+				CALLOC(newpkg->pgpsig.rawdata, bytes, sizeof(char),
+						RET_ERR(PM_ERR_MEMORY, NULL));
+				bytes_read = fread(newpkg->pgpsig.rawdata, sizeof(char), bytes, f);
+				if(bytes_read == (size_t)bytes) {
+					newpkg->pgpsig.rawlen = bytes;
+					_alpm_log(PM_LOG_DEBUG,
+							"loaded package .sig file, location %s\n", pgpfile);
+				} else {
+					_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file for %s"),
+								pkgfile);
+				}
+			} else {
+				_alpm_log(PM_LOG_WARNING, _("PGP signature file for %s was abnormal"
+							" (had length %ld), skipping\n"), pkgfile, bytes);
+			}
+			fclose(f);
+		} else {
+			_alpm_log(PM_LOG_DEBUG, "no package signature file found\n");
+		}
+		FREE(pgpfile);
+	} else {
+		/* couldn't stat the pkgfile, return an error */
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
 	}
 
 	if((archive = archive_read_new()) == NULL) {
+		alpm_pkg_free(newpkg);
 		RET_ERR(PM_ERR_LIBARCHIVE, NULL);
 	}
 
@@ -264,6 +310,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 
 	if (archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+		alpm_pkg_free(newpkg);
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
 	}
 
