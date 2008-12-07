@@ -84,6 +84,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
 	FREE(handle->arch);
+	FREE(handle->signaturedir);
 	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
@@ -172,6 +173,15 @@ const char SYMEXPORT *alpm_option_get_lockfile()
 		return NULL;
 	}
 	return handle->lockfile;
+}
+
+const char SYMEXPORT *alpm_option_get_signaturedir()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->signaturedir;
 }
 
 int SYMEXPORT alpm_option_get_usesyslog()
@@ -457,6 +467,24 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 		handle->logstream = NULL;
 	}
 	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_signaturedir(const char *signaturedir)
+{
+	ALPM_LOG_FUNC;
+
+	if(!signaturedir) {
+		pm_errno = PM_ERR_WRONG_ARGS;
+		return -1;
+	}
+
+	if(handle->signaturedir) {
+		FREE(handle->signaturedir);
+	}
+	handle->signaturedir = strdup(signaturedir);
+
+	_alpm_log(PM_LOG_DEBUG, "option 'signaturedir' = %s\n", handle->signaturedir);
 	return 0;
 }
 

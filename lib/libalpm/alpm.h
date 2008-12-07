@@ -127,6 +127,9 @@ int alpm_option_set_logfile(const char *logfile);
 const char *alpm_option_get_lockfile(void);
 /* no set_lockfile, path is determined from dbpath */
 
+const char *alpm_option_get_signaturedir(void);
+int alpm_option_set_signaturedir(const char *signaturedir);
+
 int alpm_option_get_usesyslog(void);
 void alpm_option_set_usesyslog(int usesyslog);
 

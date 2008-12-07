@@ -58,6 +58,7 @@ typedef struct _pmhandle_t {
 	char *dbpath;            /* Base path to pacman's DBs */
 	char *logfile;           /* Name of the log file */
 	char *lockfile;          /* Name of the lock file */
+	char *signaturedir;        /* Directory where GnuPG files are stored */
 	alpm_list_t *cachedirs;  /* Paths to pacman cache directories */
 
 	/* package lists */
