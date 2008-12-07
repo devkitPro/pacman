@@ -1354,6 +1354,12 @@ if [ ! -f "$BUILDSCRIPT" ]; then
 		# PKGBUILD passed through a pipe
 		BUILDSCRIPT=/dev/stdin
 	fi
+else
+	crlftest=$(file $BUILDSCRIPT | grep -F 'CRLF' || true)
+	if [ "$crlftest" != "" ]; then
+		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDSCRIPT"
+		exit 1
+	fi
 fi
 
 source "$BUILDSCRIPT"
