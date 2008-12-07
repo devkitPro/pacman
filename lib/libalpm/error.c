@@ -115,6 +115,11 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("package architecture is not valid");
 		case PM_ERR_PKG_REPO_NOT_FOUND:
 			return _("could not find repository for target");
+		/* Signatures */
+		case PM_ERR_SIG_INVALID:
+			return _("invalid PGP signature");
+		case PM_ERR_SIG_UNKNOWN:
+			return _("unknown PGP signature");
 		/* Deltas */
 		case PM_ERR_DLT_INVALID:
 			return _("invalid or corrupted delta");
