@@ -208,11 +208,10 @@ for (( n=0 ; n < $len_options ; n++ )); do
 		continue
 	fi
 
-	if [[ "${options[$n]}" =~ -d[[:digit:]]* || "${options[$n]}" == "--depth" ]]; then
+	if [[ "${options[$n]}" =~ -d[[:digit:]]+ || "${options[$n]}" == "--depth" ]]; then
 		if [[ "${options[$n]#-d}" =~ [[:digit:]]+ ]]; then
 			max_depth="${options[$n]#-d}"
 		elif [[ ${options[$((n+1))]} =~ [[:digit:]]+ ]]; then
-#		if [ ${options[$((n+1))]} -eq ${options[$((n+1))]} 2>/dev/null ]; then
 			max_depth="${options[$((n+1))]}"
 			unset options[$((n+1))]
 			((++n))
