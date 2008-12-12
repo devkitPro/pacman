@@ -34,7 +34,6 @@ REPO_DB_FILE=""
 umask 0022
 
 msg() {
-	[ $QUIET -ne 0 ] && return
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
 }
@@ -68,8 +67,8 @@ repo-remove will update a package database by removing the package name\n\
 specified on the command line from the given repo database. Multiple\n\
 packages to remove can be specified on the command line.\n\n")"
 	printf "$(gettext "\
-The -q/--quiet flag to either program will force silent running except\n\
-in the case of warnings or errors.\n\n")"
+Use the -q/--quiet flag to minimize output to basic messages, warnings,\n\
+and errors\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
