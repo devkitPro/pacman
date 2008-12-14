@@ -149,6 +149,13 @@ Options
 	Display debug messages. When reporting bugs, this option is recommended
 	to be used.
 
+*\--gpgdir* <dir>::
+	Specify a directory of files used by GnuPG to verify package signatures.
+	This directory should contain two files: `pubring.gpg` and `trustdb.gpg`.
+	`pubring.gpg` holds the public keys of all packagers. `trustdb.gpg`
+	contains a so-called trust database, which specifies that the keys are
+	authentic and trusted.
+
 *\--logfile* <file>::
 	Specify an alternate log file. This is an absolute path, regardless of
 	the installation root setting.

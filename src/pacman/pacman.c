@@ -202,6 +202,7 @@ static void usage(int op, const char * const myname)
 		addlist(_("      --cachedir <dir> set an alternate package cache location\n"));
 		addlist(_("      --config <path>  set an alternate configuration file\n"));
 		addlist(_("      --debug          display debug messages\n"));
+		addlist(_("      --gpgdir <path>  set an alternate home directory for GnuPG\n"));
 		addlist(_("      --logfile <path> set an alternate log file\n"));
 		addlist(_("      --noconfirm      do not ask for any confirmation\n"));
 	}
@@ -385,6 +386,17 @@ static void setlibpaths(void)
 			}
 		}
 
+		/* Set GnuPG's home directory.  This is not relative to rootdir, even if
+		 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
+		if(config->gpgdir) {
+			ret = alpm_option_set_signaturedir(config->gpgdir);
+			if(ret != 0) {
+				pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
+						config->gpgdir, alpm_strerrorlast());
+				cleanup(ret);
+			}
+		}
+
 		/* add a default cachedir if one wasn't specified */
 		if(alpm_option_get_cachedirs() == NULL) {
 			alpm_option_add_cachedir(CACHEDIR);
@@ -499,6 +511,9 @@ static int parsearg_global(int opt)
 			}
 			/* progress bars get wonky with debug on, shut them off */
 			config->noprogressbar = 1;
+			break;
+		case OP_GPGDIR:
+			config->gpgdir = strdup(optarg);
 			break;
 		case OP_LOGFILE:
 			check_optarg();
@@ -701,6 +716,7 @@ static int parseargs(int argc, char *argv[])
 		{"asexplicit",     no_argument,   0, OP_ASEXPLICIT},
 		{"arch",       required_argument, 0, OP_ARCH},
 		{"print-format", required_argument, 0, OP_PRINTFORMAT},
+		{"gpgdir",     required_argument, 0, OP_GPGDIR},
 		{0, 0, 0, 0}
 	};
 
@@ -1016,6 +1032,11 @@ static int _parse_options(const char *key, char *value,
 			if(!config->rootdir) {
 				config->rootdir = strdup(value);
 				pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", value);
+			}
+		} else if (strcmp(key, "GPGDir") == 0) {
+			if(!config->gpgdir) {
+				config->gpgdir = strdup(value);
+				pm_printf(PM_LOG_DEBUG, "config: gpgdir: %s\n", value);
 			}
 		} else if (strcmp(key, "LogFile") == 0) {
 			if(!config->logfile) {
@@ -1340,6 +1361,7 @@ int main(int argc, char *argv[])
 	/* define paths to reasonable defaults */
 	alpm_option_set_root(ROOTDIR);
 	alpm_option_set_dbpath(DBPATH);
+	alpm_option_set_signaturedir(GPGDIR);
 	alpm_option_set_logfile(LOGFILE);
 
 	/* Priority of options:

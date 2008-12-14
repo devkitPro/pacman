@@ -1,6 +1,7 @@
 # paths set at make time
 conffile  = ${sysconfdir}/pacman.conf
 dbpath    = ${localstatedir}/lib/pacman/
+gpgdir    = ${sysconfdir}/pacman.d/gnupg/
 cachedir  = ${localstatedir}/cache/pacman/pkg/
 logfile   = ${localstatedir}/log/pacman.log
 
@@ -10,6 +11,7 @@ DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
        -DROOTDIR=\"$(ROOTDIR)\" \
        -DDBPATH=\"$(dbpath)\" \
+       -DGPGDIR=\"$(gpgdir)\" \
        -DCACHEDIR=\"$(cachedir)\" \
        -DLOGFILE=\"$(logfile)\" \
        @DEFS@

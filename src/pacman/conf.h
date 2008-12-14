@@ -40,6 +40,7 @@ typedef struct __config_t {
 	char *rootdir;
 	char *dbpath;
 	char *logfile;
+	char *gpgdir;
 	/* TODO how to handle cachedirs? */
 
 	unsigned short op_q_isfile;
@@ -106,7 +107,8 @@ enum {
 	OP_NEEDED,
 	OP_ASEXPLICIT,
 	OP_ARCH,
-	OP_PRINTFORMAT
+	OP_PRINTFORMAT,
+	OP_GPGDIR
 };
 
 /* clean method */
