@@ -168,6 +168,8 @@ int _alpm_gpgme_checksig(const char *pkgpath, const pmpgpsig_t *sig)
 
 	if(gpgsig->summary & GPGME_SIGSUM_VALID) {
 		/* good signature, continue */
+		_alpm_log(PM_LOG_DEBUG, _("Package %s has a valid signature.\n"),
+				pkgpath);
 	} else if(gpgsig->summary & GPGME_SIGSUM_GREEN) {
 		/* 'green' signature, not sure what to do here */
 		_alpm_log(PM_LOG_WARNING, _("Package %s has a green signature.\n"),

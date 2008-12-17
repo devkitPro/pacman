@@ -1241,6 +1241,24 @@ static int _parseconfig(const char *file, const char *givensection,
 					ret = 1;
 					goto cleanup;
 				}
+			} else if(strcmp(key, "VerifySig") == 0) {
+				if (strcmp(value, "Always") == 0) {
+					ret = alpm_db_set_pgp_verify(db,PM_PGP_VERIFY_ALWAYS);
+				} else if (strcmp(value, "Optional") == 0) {
+					ret = alpm_db_set_pgp_verify(db,PM_PGP_VERIFY_OPTIONAL);
+				} else if (strcmp(value, "Never") == 0) {
+					ret = alpm_db_set_pgp_verify(db,PM_PGP_VERIFY_NEVER);
+				} else {
+					pm_printf(PM_LOG_ERROR, _("invalid value for 'VerifySig' : '%s'\n"), value);
+					ret = 1;
+					goto cleanup;
+				}
+				if (ret != 0) {
+					pm_printf(PM_LOG_ERROR, _("could not add pgp verify option to database '%s': %s (%s)\n"),
+							alpm_db_get_name(db), value, alpm_strerrorlast());
+					goto cleanup;
+				}
+				pm_printf(PM_LOG_DEBUG, "config: VerifySig for %s: %s\n",alpm_db_get_name(db), value);
 			} else {
 				pm_printf(PM_LOG_WARNING,
 						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),

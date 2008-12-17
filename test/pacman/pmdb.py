@@ -89,6 +89,12 @@ class pmdb(object):
     def __str__(self):
         return "%s" % self.treename
 
+    def getverify(self):
+        for value in "Always","Never","Optional":
+            if value in self.treename:
+                return value
+        return "Never"
+
     def getpkg(self, name):
         """
         """

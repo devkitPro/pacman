@@ -132,8 +132,9 @@ def mkcfgfile(filename, root, option, db):
         if key != "local":
             value = db[key]
             data.append("[%s]\n" \
+                    "VerifySig = %s\n" \
                     "Server = file://%s" \
-                     % (value.treename,
+                     % (value.treename, value.getverify(), \
                         os.path.join(root, SYNCREPO, value.treename)))
             for optkey, optval in value.option.iteritems():
                 data.extend(["%s = %s" % (optkey, j) for j in optval])

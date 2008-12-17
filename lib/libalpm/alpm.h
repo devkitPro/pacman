@@ -251,6 +251,15 @@ alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 
 int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
 
+/* GPG signature verification option */
+typedef enum _pgp_verify_t {
+	PM_PGP_VERIFY_ALWAYS,
+	PM_PGP_VERIFY_OPTIONAL,
+	PM_PGP_VERIFY_NEVER
+} pgp_verify_t;
+
+int alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify);
+
 /*
  * Deltas
  */

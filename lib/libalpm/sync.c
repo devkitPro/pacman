@@ -847,11 +847,17 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			continue;
 		}
 		/* check PGP signature next */
-		if(_alpm_gpgme_checksig(filepath, pgpsig) != 0) {
-			errors++;
-			*data = alpm_list_add(*data, strdup(filename));
-			FREE(filepath);
-			continue;
+		pmdb_t *sdb = alpm_pkg_get_db(spkg);
+
+		if(sdb->pgp_verify != PM_PGP_VERIFY_NEVER) {
+			int ret = _alpm_gpgme_checksig(filepath, pgpsig);
+			if((sdb->pgp_verify == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
+					(sdb->pgp_verify == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
+				errors++;
+				*data = alpm_list_add(*data, strdup(filename));
+				FREE(filepath);
+				continue;
+			}
 		}
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
@@ -869,9 +875,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		i->data = pkgfile;
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
 	}
+
 	PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", 100,
 			numtargs, current);
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);
+
+
 	if(errors) {
 		pm_errno = PM_ERR_PKG_INVALID;
 		goto error;

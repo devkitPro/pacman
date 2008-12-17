@@ -60,6 +60,7 @@ struct __pmdb_t {
 	pmpkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
+	pgp_verify_t pgp_verify;
 
 	struct db_operations *ops;
 };
