@@ -957,6 +957,29 @@ static int parseconfig(const char *file)
 	return(_parseconfig(file, NULL, NULL));
 }
 
+/** print commandline to logfile
+ */
+static void cl_to_log(int argc, char* argv[])
+{
+	size_t size = 0;
+	int i;
+	for(i = 0; i<argc; i++) {
+		size += strlen(argv[i]) + 1;
+	}
+	char *cl_text = malloc(size);
+	if(!cl_text)
+		return;
+	char *p = cl_text;
+	for(i = 0; i<argc-1; i++) {
+		strcpy(p, argv[i]);
+		p += strlen(argv[i]);
+		*p++ = ' ';
+	}
+	strcpy(p, argv[i]);
+	alpm_logaction("Running '%s'\n", cl_text);
+	free(cl_text);
+}
+
 /** Main function.
  * @param argc argc
  * @param argv argv
@@ -1081,6 +1104,11 @@ int main(int argc, char *argv[])
 		pm_printf(PM_LOG_ERROR, _("could not register 'local' database (%s)\n"),
 		        alpm_strerrorlast());
 		cleanup(EXIT_FAILURE);
+	}
+
+	/* Log commandline */
+	if(needs_root()) {
+		cl_to_log(argc, argv);
 	}
 
 	/* start the requested operation */
