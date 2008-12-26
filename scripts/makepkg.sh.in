@@ -1094,9 +1094,9 @@ devel_update() {
 	#
 	if [ "$newpkgver" != "" ]; then
 		if [ "$newpkgver" != "$pkgver" ]; then
-			sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" ./$BUILDSCRIPT
-			sed -i "s/^pkgrel=[^ ]*/pkgrel=1/" ./$BUILDSCRIPT
-			source $BUILDSCRIPT
+			sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "./$BUILDSCRIPT"
+			sed -i "s/^pkgrel=[^ ]*/pkgrel=1/" "./$BUILDSCRIPT"
+			source "$BUILDSCRIPT"
 		fi
 	fi
 }
@@ -1360,7 +1360,7 @@ if [ "$CLEANCACHE" = "1" ]; then
 	fi
 fi
 
-if [ -z $BUILDSCRIPT ]; then
+if [ -z "$BUILDSCRIPT" ]; then
 	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated %s.")" "$confdir/makepkg.conf"
 	exit 1
 fi
