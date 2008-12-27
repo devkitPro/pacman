@@ -88,6 +88,11 @@ AC_ARG_WITH(db-ext,
 	AS_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
 	[DBEXT=$withval], [DBEXT=.db.tar.gz])
 
+# Help line for buildscript filename
+AC_ARG_WITH(buildscript,
+	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
+	[BUILDSCRIPT=$withval], [BUILDSCRIPT=PKGBUILD])
+
 # Help line for libdownload/libfetch
 AC_ARG_ENABLE(internal-download,
 	AS_HELP_STRING([--disable-internal-download], [do not build with libdownload/libfetch support]),
@@ -314,6 +319,9 @@ AC_DEFINE_UNQUOTED([SRCEXT], "$SRCEXT", [The file extension used by pacman sourc
 # Set database file extension
 AC_SUBST(DBEXT)
 AC_DEFINE_UNQUOTED([DBEXT], "$DBEXT", [The file extension used by pacman databases])
+# Set makepkg build script name
+AC_SUBST(BUILDSCRIPT)
+AC_DEFINE_UNQUOTED([BUILDSCRIPT], "$BUILDSCRIPT", [The build script name used by makepkg])
 
 # Configuration files
 AC_CONFIG_FILES([
@@ -362,6 +370,7 @@ ${PACKAGE_NAME}:
     package extension      : ${PKGEXT}
     source pkg extension   : ${SRCEXT}
     database extension     : ${DBEXT}
+    build script name      : ${BUILDSCRIPT}
 
   Compilation options:
     Run make in doc/ dir   : ${wantdoc}
