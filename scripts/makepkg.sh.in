@@ -674,7 +674,7 @@ run_build() {
 	cd "$srcdir"
 
 	# ensure all necessary build variables are exported
-	export CFLAGS CXXFLAGS MAKEFLAGS CHOST
+	export CFLAGS CXXFLAGS MAKEFLAGS LDFLAGS CHOST
 	# save our shell options so build() can't override what we need
 	local shellopts=$(shopt -p)
 
