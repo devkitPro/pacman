@@ -1034,27 +1034,27 @@ devel_check() {
 		# number to avoid having to determine the version number twice.
 		# Also do a brief check to make sure we have the VCS tool available.
 		oldpkgver=$pkgver
-		if [ ! -z ${_darcstrunk} ] && [ ! -z ${_darcsmod} ] ; then
+		if [ -n "${_darcstrunk}" -a -n "${_darcsmod}" ] ; then
 			[ $(type -p darcs) ] || return 0
 			msg "$(gettext "Determining latest darcs revision...")"
 			newpkgver=$(date +%Y%m%d)
-		elif [ ! -z ${_cvsroot} ] && [ ! -z ${_cvsmod} ] ; then
+		elif [ -n "${_cvsroot}" -a -n "${_cvsmod}" ] ; then
 			[ $(type -p cvs) ] || return 0
 			msg "$(gettext "Determining latest cvs revision...")"
 			newpkgver=$(date +%Y%m%d)
-		elif [ ! -z ${_gitroot} ] && [ ! -z ${_gitname} ] ; then
+		elif [ -n "${_gitroot}" -a -n "${_gitname}" ] ; then
 			[ $(type -p git) ] || return 0
 			msg "$(gettext "Determining latest git revision...")"
 			newpkgver=$(date +%Y%m%d)
-		elif [ ! -z ${_svntrunk} ] && [ ! -z ${_svnmod} ] ; then
+		elif [ -n "${_svntrunk}" -a -n "${_svnmod}" ] ; then
 			[ $(type -p svn) ] || return 0
 			msg "$(gettext "Determining latest svn revision...")"
 			newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
-		elif [ ! -z ${_bzrtrunk} ] && [ ! -z ${_bzrmod} ] ; then
+		elif [ -n "${_bzrtrunk}" -a -n "${_bzrmod}" ] ; then
 			[ $(type -p bzr) ] || return 0
 			msg "$(gettext "Determining latest bzr revision...")"
 			newpkgver=$(bzr revno ${_bzrtrunk})
-		elif [ ! -z ${_hgroot} ] && [ ! -z ${_hgrepo} ] ; then
+		elif [ -n "${_hgroot}" -a -n "${_hgrepo}" ] ; then
 			[ $(type -p hg) ] || return 0
 			msg "$(gettext "Determining latest hg revision...")"
 			if [ -d ./src/$_hgrepo ] ; then
