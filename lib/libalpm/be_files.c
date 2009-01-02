@@ -652,6 +652,26 @@ error:
 	return(-1);
 }
 
+int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info)
+{
+	mode_t oldmask;
+	int retval = 0;
+	char *pkgpath = NULL;
+
+	oldmask = umask(0000);
+
+	pkgpath = get_pkgpath(db, info);
+
+	if((retval = mkdir(pkgpath, 0755)) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("could not create directory %s: %s\n"), pkgpath, strerror(errno));
+	}
+
+	free(pkgpath);
+	umask(oldmask);
+
+	return(retval);
+}
+
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
@@ -670,10 +690,8 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	pkgpath = get_pkgpath(db, info);
 
-	oldmask = umask(0000);
-	mkdir(pkgpath, 0755);
 	/* make sure we have a sane umask */
-	umask(0022);
+	oldmask = umask(0022);
 
 	if(strcmp(db->treename, "local") == 0) {
 		local = 1;

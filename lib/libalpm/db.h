@@ -60,6 +60,7 @@ int _alpm_db_open(pmdb_t *db);
 void _alpm_db_close(pmdb_t *db);
 int _alpm_db_populate(pmdb_t *db);
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info);
 int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
 
