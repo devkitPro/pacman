@@ -818,7 +818,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
 	alpm_list_t *deltas = NULL;
-	pmtrans_t *tr = NULL;
+	pmtrans_t *tr_remove = NULL, *tr_upgrade = NULL;
 	int replaces = 0;
 	int errors = 0;
 	const char *cachedir = NULL;
@@ -962,61 +962,44 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		return(0);
 	}
 
-	/* remove conflicting and to-be-replaced packages */
 	trans->state = STATE_COMMITING;
-	tr = _alpm_trans_new();
-	if(tr == NULL) {
+
+	/* Create remove and upgrade transactions */
+	tr_remove = _alpm_trans_new();
+	if(tr_remove == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not create removal transaction\n"));
 		goto error;
 	}
-
-	if(_alpm_trans_init(tr, PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS, NULL, NULL, NULL) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not initialize the removal transaction\n"));
+	tr_upgrade = _alpm_trans_new();
+	if(tr_upgrade == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not create transaction\n"));
 		goto error;
 	}
 
+	if(_alpm_trans_init(tr_remove, PM_TRANS_TYPE_REMOVE, PM_TRANS_FLAG_NODEPS, NULL, NULL, NULL) == -1) {
+		_alpm_log(PM_LOG_ERROR, _("could not initialize the removal transaction\n"));
+		goto error;
+	}
+	if(_alpm_trans_init(tr_upgrade, PM_TRANS_TYPE_UPGRADE, trans->flags, trans->cb_event, trans->cb_conv, trans->cb_progress) == -1) {
+		_alpm_log(PM_LOG_ERROR, _("could not initialize transaction\n"));
+		goto error;
+	}
+
+	/* adding targets */
 	for(i = trans->packages; i; i = i->next) {
 		pmsyncpkg_t *sync = i->data;
 		alpm_list_t *j;
+		/* remove transaction */
 		for(j = sync->removes; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(!_alpm_pkg_find(tr->packages, pkg->name)) {
-				if(_alpm_trans_addtarget(tr, pkg->name) == -1) {
+			if(!_alpm_pkg_find(tr_remove->packages, pkg->name)) {
+				if(_alpm_trans_addtarget(tr_remove, pkg->name) == -1) {
 					goto error;
 				}
 				replaces++;
 			}
 		}
-	}
-	if(replaces) {
-		_alpm_log(PM_LOG_DEBUG, "removing conflicting and to-be-replaced packages\n");
-		if(_alpm_trans_prepare(tr, data) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("could not prepare removal transaction\n"));
-			goto error;
-		}
-		/* we want the frontend to be aware of commit details */
-		tr->cb_event = trans->cb_event;
-		if(_alpm_trans_commit(tr, NULL) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("could not commit removal transaction\n"));
-			goto error;
-		}
-	}
-	_alpm_trans_free(tr);
-	tr = NULL;
-
-	/* install targets */
-	_alpm_log(PM_LOG_DEBUG, "installing packages\n");
-	tr = _alpm_trans_new();
-	if(tr == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not create transaction\n"));
-		goto error;
-	}
-	if(_alpm_trans_init(tr, PM_TRANS_TYPE_UPGRADE, trans->flags | PM_TRANS_FLAG_NODEPS, trans->cb_event, trans->cb_conv, trans->cb_progress) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not initialize transaction\n"));
-		goto error;
-	}
-	for(i = trans->packages; i; i = i->next) {
-		pmsyncpkg_t *sync = i->data;
+		/* upgrade transaction */
 		pmpkg_t *spkg = sync->pkg;
 		const char *fname;
 		char *fpath;
@@ -1028,7 +1011,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		/* Loop through the cache dirs until we find a matching file */
 		fpath = _alpm_filecache_find(fname);
 
-		if(_alpm_trans_addtarget(tr, fpath) == -1) {
+		if(_alpm_trans_addtarget(tr_upgrade, fpath) == -1) {
 			FREE(fpath);
 			goto error;
 		}
@@ -1036,15 +1019,50 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		/* using alpm_list_last() is ok because addtarget() adds the new target at the
 		 * end of the tr->packages list */
-		spkg = alpm_list_last(tr->packages)->data;
+		spkg = alpm_list_last(tr_upgrade->packages)->data;
 		spkg->reason = sync->newreason;
 	}
-	if(_alpm_trans_prepare(tr, data) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not prepare transaction\n"));
-		/* pm_errno is set by trans_prepare */
-		goto error;
+
+	/* fileconflict check */
+	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
+		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
+
+		_alpm_log(PM_LOG_DEBUG, "looking for file conflicts\n");
+		alpm_list_t *conflict = _alpm_db_find_fileconflicts(db_local, tr_upgrade,
+								    tr_upgrade->packages, tr_remove->packages);
+		if(conflict) {
+			pm_errno = PM_ERR_FILE_CONFLICTS;
+			if(data) {
+				*data = conflict;
+			} else {
+				alpm_list_free_inner(conflict, (alpm_list_fn_free)_alpm_fileconflict_free);
+				alpm_list_free(conflict);
+			}
+			goto error;
+		}
+
+		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
 	}
-	if(_alpm_trans_commit(tr, NULL) == -1) {
+
+	/* remove conflicting and to-be-replaced packages */
+	if(replaces) {
+		_alpm_log(PM_LOG_DEBUG, "removing conflicting and to-be-replaced packages\n");
+		if(_alpm_trans_prepare(tr_remove, data) == -1) {
+			_alpm_log(PM_LOG_ERROR, _("could not prepare removal transaction\n"));
+			goto error;
+		}
+		/* we want the frontend to be aware of commit details */
+		tr_remove->cb_event = trans->cb_event;
+		if(_alpm_trans_commit(tr_remove, NULL) == -1) {
+			_alpm_log(PM_LOG_ERROR, _("could not commit removal transaction\n"));
+			goto error;
+		}
+	}
+
+	/* install targets */
+	_alpm_log(PM_LOG_DEBUG, "installing packages\n");
+	/* add_prepare is not needed */
+	if(_alpm_trans_commit(tr_upgrade, NULL) == -1) {
 		_alpm_log(PM_LOG_ERROR, _("could not commit transaction\n"));
 		goto error;
 	}
@@ -1053,9 +1071,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 error:
 	FREELIST(files);
 	alpm_list_free(deltas);
-	deltas = NULL;
-	_alpm_trans_free(tr);
-	tr = NULL;
+	_alpm_trans_free(tr_remove);
+	_alpm_trans_free(tr_upgrade);
 	return(ret);
 }
 

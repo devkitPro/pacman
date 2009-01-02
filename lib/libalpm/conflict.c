@@ -350,16 +350,16 @@ void _alpm_fileconflict_free(pmfileconflict_t *conflict)
 /* Find file conflicts that may occur during the transaction with two checks:
  * 1: check every target against every target
  * 2: check every target against the filesystem */
-alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *root)
+alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
+		alpm_list_t *upgrade, alpm_list_t *remove)
 {
-	alpm_list_t *i, *conflicts = NULL;
-	alpm_list_t *targets = trans->packages;
-	int numtargs = alpm_list_count(targets);
+	alpm_list_t *i, *j, *conflicts = NULL;
+	int numtargs = alpm_list_count(upgrade);
 	int current;
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || targets == NULL || root == NULL) {
+	if(db == NULL || upgrade == NULL) {
 		return(NULL);
 	}
 
@@ -367,8 +367,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 	 * be possible with real transactions. Right now we only do half as much
 	 * here as we do when we actually extract files in add.c with our 12
 	 * different cases. */
-	for(current = 1, i = targets; i; i = i->next, current++) {
-		alpm_list_t *j, *k, *tmpfiles = NULL;
+	for(current = 1, i = upgrade; i; i = i->next, current++) {
+		alpm_list_t *k, *tmpfiles = NULL;
 		pmpkg_t *p1, *p2, *dbpkg;
 		char path[PATH_MAX+1];
 
@@ -392,7 +392,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 
 			if(tmpfiles) {
 				for(k = tmpfiles; k; k = k->next) {
-					snprintf(path, PATH_MAX, "%s%s", root, (char *)k->data);
+					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
 					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_TARGET, path,
 							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 				}
@@ -408,7 +408,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 		_alpm_log(PM_LOG_DEBUG, "searching for filesystem conflicts: %s\n", p1->name);
 		dbpkg = _alpm_db_get_pkgfromcache(db, p1->name);
 
-		/* Do two different checks here. f the package is currently installed,
+		/* Do two different checks here. If the package is currently installed,
 		 * then only check files that are new in the new package. If the package
 		 * is not currently installed, then simply stat the whole filelist */
 		if(dbpkg) {
@@ -420,12 +420,10 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 			tmpfiles = alpm_list_strdup(alpm_pkg_get_files(p1));
 		}
 
-		/* loop over each file to be installed */
 		for(j = tmpfiles; j; j = j->next) {
-			int skip_conflict = 0;
 			filestr = j->data;
 
-			snprintf(path, PATH_MAX, "%s%s", root, filestr);
+			snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
 
 			/* stat the file - if it exists, do some checks */
 			if(_alpm_lstat(path, &lsbuf) != 0) {
@@ -436,47 +434,49 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans, char *roo
 			if(path[strlen(path)-1] == '/') {
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
-					skip_conflict = 1;
+					continue;
 				} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
 					_alpm_log(PM_LOG_DEBUG,
 							"%s is a symlink to a dir, hopefully not a conflict\n", path);
-					skip_conflict = 1;
+					continue;
 				}
 			}
-			if(!skip_conflict) {
-				_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
+			_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-				/* Look at all the targets to see if file has changed hands */
-				int resolved_conflict = 0; /* have we acted on this conflict? */
-				for(k = targets; k; k = k->next) {
-					p2 = k->data;
-					if(!p2 || strcmp(p1->name, p2->name) == 0) {
-						continue;
-					}
+			int resolved_conflict = 0; /* have we acted on this conflict? */
 
-					pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
-
-					/* Check if it used to exist in a package, but doesn't anymore */
-					alpm_list_t *pkgfiles, *localfiles; /* added for readability */
-					pkgfiles = alpm_pkg_get_files(p2);
-					localfiles = alpm_pkg_get_files(localp2);
-
-					if(localp2 && !alpm_list_find_str(pkgfiles, filestr)
-						 && alpm_list_find_str(localfiles, filestr)) {
-						/* skip removal of file, but not add. this will prevent a second
-						 * package from removing the file when it was already installed
-						 * by its new owner (whether the file is in backup array or not */
-						trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
-						_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
-						resolved_conflict = 1;
-						break;
-					}
+			/* Check remove list (will we remove the conflicting local file?) */
+			for(k = remove; k && !resolved_conflict; k = k->next) {
+				pmpkg_t *rempkg = k->data;
+				if(rempkg && alpm_list_find_str(alpm_pkg_get_files(rempkg), filestr)) {
+					_alpm_log(PM_LOG_DEBUG, "local file will be removed, not a conflict: %s\n", filestr);
+					resolved_conflict = 1;
 				}
-				if(!resolved_conflict) {
-					_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
-					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
-							path, p1->name, NULL);
+			}
+
+			/* Look at all the targets to see if file has changed hands */
+			for(k = upgrade; k && !resolved_conflict; k = k->next) {
+				p2 = k->data;
+				if(!p2 || strcmp(p1->name, p2->name) == 0) {
+					continue;
 				}
+				pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
+
+				/* localp2->files will be removed (target conflicts are handled by CHECK 1) */
+				if(localp2 && alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {
+					/* skip removal of file, but not add. this will prevent a second
+					 * package from removing the file when it was already installed
+					 * by its new owner (whether the file is in backup array or not */
+					trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
+					_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
+					resolved_conflict = 1;
+				}
+			}
+
+			if(!resolved_conflict) {
+				_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
+				conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
+						path, p1->name, NULL);
 			}
 		}
 		FREELIST(tmpfiles);
