@@ -1,13 +1,15 @@
 # Ukrainian translation for pacman package manager.
 # Copyright (C) 2008 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the pacman package.
-# sevenfourk <sevenfourk@gmail.com>, 2008.
+# Ivan Kovnatsky <sevenfourk@gmail.com>, 2008.
+# Roman Kyrylych <roman@archlinux.org>, 2008, 2009.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: pacman 3.2.0\n"
+"Project-Id-Version: pacman 3.2.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-01-02 22:24-0600\n"
-"PO-Revision-Date: 2008-08-26 22:47+0200\n"
+"PO-Revision-Date: 2009-01-03 15:24+0300\n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +30,7 @@ msgstr "розв'язання залежностей...\n"
 
 #, c-format
 msgid "looking for inter-conflicts...\n"
-msgstr "пошук конфліктів між пакетами...\n"
+msgstr "пошук конфліктів між пакунками...\n"
 
 #, c-format
 msgid "installing %s...\n"
@@ -44,7 +46,7 @@ msgstr "поновлення %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
-msgstr "перевірка цілісності пакунка...\n"
+msgstr "перевірка цілісності пакунків...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -566,9 +568,9 @@ msgstr "неможливо прочитати файл конфігурації 
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "файл конфігурації %s, рядок %d: погана назва секції.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "неможливо зареєструвати базу даних 'local' (%s)\n"
+msgstr "неможливо зареєструвати базу даних '%s' (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
@@ -589,9 +591,9 @@ msgstr "файл конфігурації %s, рядок %d: директива 
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "невірне значення для 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "неможливо зареєструвати базу даних 'local' (%s)\n"
+msgstr "неможливо додати URL сервера до бази даних '%s': %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -619,7 +621,7 @@ msgstr "не вдалося прочитати файл '%s': %s\n"
 
 #, c-format
 msgid "cannot determine ownership of a directory\n"
-msgstr "неможливо визначити права каталога\n"
+msgstr "неможливо визначити власника каталога\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
@@ -1169,13 +1171,13 @@ msgid "Version found: %s"
 msgstr "Версія знайдена: %s"
 
 msgid "requires an argument"
-msgstr ""
+msgstr "потребує параметр"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "невідома опція"
 
 msgid "invalid option"
-msgstr ""
+msgstr "невірна опція"
 
 msgid "Usage: %s [options]"
 msgstr "Використання: %s [опції]"
@@ -1384,7 +1386,7 @@ msgid "such as arch=('%s')."
 msgstr ", такого як arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "Масив provides не може містити оператори порівняння (< або >)."
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Скрипт встановлення (%s) не існує."
@@ -1393,10 +1395,10 @@ msgid "options array contains unknown option '%s'"
 msgstr "Масив options містить невідому опцію '%s'"
 
 msgid "A package has already been built, installing existing package..."
-msgstr "Пакет уже був зібраний, встановлення існуючого пакунку..."
+msgstr "Пакунок уже був зібраний, встановлення існуючого пакунку..."
 
 msgid "A package has already been built. (use -f to overwrite)"
-msgstr "Пакет уже був зібраний. (використайте -f щоб перезаписати)"
+msgstr "Пакунок уже був зібраний. (використайте -f щоб перезаписати)"
 
 msgid "Skipping build."
 msgstr "Пропуск збирання."
@@ -1505,16 +1507,14 @@ msgstr "Пакування %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Пакування %s не вдалося."
 
-#, fuzzy
 msgid "Making and MD5sum'ing the new database..."
 msgstr "Створення та підрахунок MD5-суми нової бази даних..."
 
 msgid "Untar'ing %s failed."
 msgstr "Розпакування %s не вдалося."
 
-#, fuzzy
 msgid "Syncing database to disk..."
-msgstr ":: Синхронізація бази даних пакунків...\n"
+msgstr ":: Синхронізація бази даних пакунків..."
 
 msgid "Checking integrity..."
 msgstr "Перевірка цілісності..."
@@ -1522,9 +1522,8 @@ msgstr "Перевірка цілісності..."
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Перевірка цілісності НЕВДАЛА, повернення до старої бази даних."
 
-#, fuzzy
 msgid "Rotating database into place..."
-msgstr "Розміщення нової бази даних..."
+msgstr "Встановлення нової бази даних..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Закінчено. База даних Pacman'a була оптимізована."
@@ -1639,7 +1638,7 @@ msgid "Searching for package '%s'..."
 msgstr "Пошук пакунка '%s'..."
 
 msgid "Package matching '%s' not found."
-msgstr "Пакет, що відповідає '%s' не знайдено."
+msgstr "Пакунок, що відповідає '%s' не знайдено."
 
 msgid "Creating updated database file '%s'"
 msgstr "Створення поновленого файлу бази даних '%s'"
