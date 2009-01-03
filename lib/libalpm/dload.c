@@ -144,6 +144,12 @@ static int download_internal(const char *url, const char *localpath,
 		dl_thisfile = 0;
 	}
 
+	/* print proxy info for debug purposes */
+	_alpm_log(PM_LOG_DEBUG, "HTTP_PROXY: %s\n", getenv("HTTP_PROXY"));
+	_alpm_log(PM_LOG_DEBUG, "http_proxy: %s\n", getenv("http_proxy"));
+	_alpm_log(PM_LOG_DEBUG, "FTP_PROXY:  %s\n", getenv("FTP_PROXY"));
+	_alpm_log(PM_LOG_DEBUG, "ftp_proxy:  %s\n", getenv("ftp_proxy"));
+
 	/* libfetch does not reset the error code */
 	fetchLastErrCode = 0;
 

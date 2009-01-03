@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman 3.2.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: 2008-08-26 22:47+0200\n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
 "Language-Team: Ukrainian\n"
@@ -535,18 +535,6 @@ msgstr ""
 "                       the terms of the GNU General Public License.\n"
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr "segmentation fault\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"Внутрішня помилка: Segmentation fault.\n"
-"Будь-ласка відішліть повний багрепорт з --debug, якщо можливо.\n"
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr "проблема встановлення '%s' кореневим каталогом (%s)\n"
 
@@ -578,6 +566,10 @@ msgstr "неможливо прочитати файл конфігурації 
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "файл конфігурації %s, рядок %d: погана назва секції.\n"
 
+#, fuzzy, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "неможливо зареєструвати базу даних 'local' (%s)\n"
+
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
@@ -596,6 +588,10 @@ msgstr "файл конфігурації %s, рядок %d: директива 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "невірне значення для 'CleanMethod' : '%s'\n"
+
+#, fuzzy, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "неможливо зареєструвати базу даних 'local' (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1172,6 +1168,15 @@ msgstr "Визначення останніх змін hg..."
 msgid "Version found: %s"
 msgstr "Версія знайдена: %s"
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr "Використання: %s [опції]"
 
@@ -1378,6 +1383,9 @@ msgstr "Зверніть увагу, що багато пакунків потр
 msgid "such as arch=('%s')."
 msgstr ", такого як arch=('%s')."
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Скрипт встановлення (%s) не існує."
 
@@ -1474,15 +1482,15 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff не знайдено. Будь-ласка, встановіть diffutils."
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-"Був знайдений lock-файл Pacman'а. Поки Pacman працює - виконання неможливе."
-
 msgid "%s does not exist or is not a directory."
 msgstr "%s не існує, або не є каталогом."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Ви повинні мати коректні права, щоб оптимізувати базу даних."
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr ""
+"Був знайдений lock-файл Pacman'а. Поки Pacman працює - виконання неможливе."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr ""
@@ -1497,11 +1505,16 @@ msgstr "Пакування %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Пакування %s не вдалося."
 
-msgid "Making and MD5sum'ing the new db..."
+#, fuzzy
+msgid "Making and MD5sum'ing the new database..."
 msgstr "Створення та підрахунок MD5-суми нової бази даних..."
 
 msgid "Untar'ing %s failed."
 msgstr "Розпакування %s не вдалося."
+
+#, fuzzy
+msgid "Syncing database to disk..."
+msgstr ":: Синхронізація бази даних пакунків...\n"
 
 msgid "Checking integrity..."
 msgstr "Перевірка цілісності..."
@@ -1509,14 +1522,12 @@ msgstr "Перевірка цілісності..."
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Перевірка цілісності НЕВДАЛА, повернення до старої бази даних."
 
-msgid "Putting the new database in place..."
+#, fuzzy
+msgid "Rotating database into place..."
 msgstr "Розміщення нової бази даних..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Закінчено. База даних Pacman'a була оптимізована."
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr "Для того, щоб глянути всі переваги pacman-optimize, запустіть 'sync'."
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
 msgstr "Використання: repo-add [-q] <path-to-db> <package> ...\\n"
@@ -1641,3 +1652,17 @@ msgstr "Всі пакунки були видалені з бази даних. 
 
 msgid "No packages modified, nothing to do."
 msgstr "Пакунки не були змінені, змін не відбулося."
+
+#~ msgid "segmentation fault\n"
+#~ msgstr "segmentation fault\n"
+
+#~ msgid ""
+#~ "Internal pacman error: Segmentation fault.\n"
+#~ "Please submit a full bug report with --debug if appropriate.\n"
+#~ msgstr ""
+#~ "Внутрішня помилка: Segmentation fault.\n"
+#~ "Будь-ласка відішліть повний багрепорт з --debug, якщо можливо.\n"
+
+#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
+#~ msgstr ""
+#~ "Для того, щоб глянути всі переваги pacman-optimize, запустіть 'sync'."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-10-28 21:55-0500\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: 2008-10-28 16:20+0900\n"
 "Last-Translator: Lyman Li <lymanrb@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -536,6 +536,10 @@ msgstr "配置文件 %s 无法读取。\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "配置文件 %s，第 %d 行：坏的章节名。\n"
 
+#, fuzzy, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "无法登记“本地”数据库 (%s)\n"
+
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr "配置文件 %s，第 %d 行：配置文件中语法错误－缺少关键字。\n"
@@ -551,6 +555,10 @@ msgstr "配置文件 %s，第 %d 行：未知命令 '%s'\n"
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "为 'CleanMethod' 设置的无效值： '%s'\n"
+
+#, fuzzy, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "无法登记“本地”数据库 (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1127,6 +1135,15 @@ msgstr "正在确认最新的 hg 修正..."
 msgid "Version found: %s"
 msgstr "找到版本：%s"
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr "用法：%s [选项]"
 
@@ -1312,6 +1329,9 @@ msgstr "注意许多软件包可能需要在 %s 中添加"
 msgid "such as arch=('%s')."
 msgstr "类似 arch=('%s') 的一行."
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr "安装小脚本 (%s) 不存在。"
 
@@ -1406,14 +1426,14 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff 工具未找到，请安装 diffutils。"
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "发现 Pacman 锁文件。不能在 pacman 运行时再次运行。"
-
 msgid "%s does not exist or is not a directory."
 msgstr "%s 不存在或不是一个目录。"
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "你必须拥有相应的权限才能优化数据库。"
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "发现 Pacman 锁文件。不能在 pacman 运行时再次运行。"
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "错误：无法为建立数据库而创建临时目录。"
@@ -1427,11 +1447,16 @@ msgstr "正在打包 %s..."
 msgid "Tar'ing up %s failed."
 msgstr "打包 %s 失败。"
 
-msgid "Making and MD5sum'ing the new db..."
+#, fuzzy
+msgid "Making and MD5sum'ing the new database..."
 msgstr "正在生成新数据库及其 MD5 校验值..."
 
 msgid "Untar'ing %s failed."
 msgstr "解包 %s 失败。"
+
+#, fuzzy
+msgid "Syncing database to disk..."
+msgstr ":: 正在同步软件包数据库...\n"
 
 msgid "Checking integrity..."
 msgstr "正在检查完整性..."
@@ -1439,14 +1464,12 @@ msgstr "正在检查完整性..."
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "完整性检查失败，恢复到原数据库。"
 
-msgid "Putting the new database in place..."
+#, fuzzy
+msgid "Rotating database into place..."
 msgstr "正在把新的数据库放置到位..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "完毕。你的 pacman 数据库已经优化。"
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr "为了充分享受到 pacman-optimize 的好处，现在运行 'sync' 吧。"
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
 msgstr "用法：repo-add·[-q]·<path-to-db>·<package>·...\\n"
@@ -1567,6 +1590,9 @@ msgstr "所有软件包已经从数据库中删除。正在删除 '%s'。"
 
 msgid "No packages modified, nothing to do."
 msgstr "没有软件包被修改，无事可做。"
+
+#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
+#~ msgstr "为了充分享受到 pacman-optimize 的好处，现在运行 'sync' 吧。"
 
 #~ msgid "New optional dependencies for %s\n"
 #~ msgstr "%s 的新可选依赖\n"

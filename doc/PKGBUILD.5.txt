@@ -160,7 +160,9 @@ name. The syntax is: `$$source=('filename::url')$$`
 	depend on 'cron' rather than 'dcron OR fcron'.
 	Versioned provisions are also possible, in the 'name=version' format.
 	For example, dcron can provide 'cron=2.0' to satisfy the 'cron>=2.0'
-	dependency of other packages.
+	dependency of other packages. Provisions involving the '>' and '<'
+	operators are invalid as only specifc versions of a package may be
+	provided.
 
 *replaces (array)*::
 	An array of packages that this package should replace, and can be used
@@ -367,11 +369,10 @@ The following is an example PKGBUILD for the 'patch' package. For more
 examples, look through the build files of your distribution's packages. For
 those using Arch Linux, consult the ABS tree.
 
-[sh]
-source~~~~~
+[source,sh]
+-------------------------------
 include::PKGBUILD-example.txt[]
-source~~~~~
-
+-------------------------------
 
 See Also
 --------

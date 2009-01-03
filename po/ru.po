@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: 2008-08-24 02:24+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -534,18 +534,6 @@ msgstr ""
 "                       на условиях GNU General Public License\n"
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr "ошибка сегментации\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"Внутрення ошибка pacman: Ошибка сегментации.\n"
-"Просьба предоставить полный отчёт с --debug, при необходимости.\n"
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr "не могу установить корневой каталог '%s' (%s)\n"
 
@@ -577,6 +565,10 @@ msgstr "не удалось прочитать конфигурационный 
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "конфигурационный файл %s, строка %d: неверное название секции.\n"
 
+#, fuzzy, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "не могу зарегистрировать локальную базу данных (%s)\n"
+
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
@@ -595,6 +587,10 @@ msgstr "конфигурационный файл %s, строка %d: дире�
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "неизвестное значение для 'CleanMethod' : '%s'\n"
+
+#, fuzzy, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "не могу зарегистрировать локальную базу данных (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1172,6 +1168,15 @@ msgstr "Определяю последнюю версию в hg..."
 msgid "Version found: %s"
 msgstr "Обнаружена версия: %s"
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr "Применение: %s [параметры]"
 
@@ -1381,6 +1386,9 @@ msgstr "Имейте ввиду, что многим пакетам в %s мож
 msgid "such as arch=('%s')."
 msgstr "строка вида arch=('%s')."
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Установочный скрипт (%s) не существует."
 
@@ -1479,11 +1487,6 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "утилита diff не обнаружена, пожалуйста, установите diffutils."
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-"Обнаружен блокировочный файл pacman'а. Запуск не возможен, когда pacman уже "
-"запущен."
-
 msgid "%s does not exist or is not a directory."
 msgstr "%s не существует или не является директорией."
 
@@ -1491,6 +1494,11 @@ msgid "You must have correct permissions to optimize the database."
 msgstr ""
 "У вас должны быть соответствующие привилегии, чтобы оптимизировать базу "
 "данных."
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr ""
+"Обнаружен блокировочный файл pacman'а. Запуск не возможен, когда pacman уже "
+"запущен."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "ОШИБКА: Не могу создать временную директорию для создания базы данных."
@@ -1504,11 +1512,16 @@ msgstr "Архивирование в tar %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Не удалось запаковать в tar %s."
 
-msgid "Making and MD5sum'ing the new db..."
+#, fuzzy
+msgid "Making and MD5sum'ing the new database..."
 msgstr "Создание новой базы данных и вычисление MD5-суммы..."
 
 msgid "Untar'ing %s failed."
 msgstr "Распаковка tar'а %s не удалась."
+
+#, fuzzy
+msgid "Syncing database to disk..."
+msgstr ":: Синхронизируется база данных пакетов...\n"
 
 msgid "Checking integrity..."
 msgstr "Проверка целостности..."
@@ -1517,16 +1530,12 @@ msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
 "Проверка целостности ЗАВЕРШИЛАСЬ НЕУДАЧЕЙ, возвращаюсь к старой базе данных."
 
-msgid "Putting the new database in place..."
+#, fuzzy
+msgid "Rotating database into place..."
 msgstr "Перемещение новой базы данных на место..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Завершено. База данных pacman оптимизирована."
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr ""
-"Чтобы полностью использовать преимущества pacman-optimize,сейчас запустите "
-"'sync'."
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
 msgstr "Применение: repo-add [-q] <путь-к-БД> <имя_пакета> ...\\n"
@@ -1651,3 +1660,18 @@ msgstr "Из базы данных были удалены все пакеты. 
 
 msgid "No packages modified, nothing to do."
 msgstr "Пакеты не изменялись, делать нечего."
+
+#~ msgid "segmentation fault\n"
+#~ msgstr "ошибка сегментации\n"
+
+#~ msgid ""
+#~ "Internal pacman error: Segmentation fault.\n"
+#~ "Please submit a full bug report with --debug if appropriate.\n"
+#~ msgstr ""
+#~ "Внутрення ошибка pacman: Ошибка сегментации.\n"
+#~ "Просьба предоставить полный отчёт с --debug, при необходимости.\n"
+
+#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
+#~ msgstr ""
+#~ "Чтобы полностью использовать преимущества pacman-optimize,сейчас "
+#~ "запустите 'sync'."

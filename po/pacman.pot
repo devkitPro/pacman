@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -493,16 +493,6 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr ""
 
@@ -535,6 +525,10 @@ msgid "config file %s, line %d: bad section name.\n"
 msgstr ""
 
 #, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr ""
+
+#, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
 
@@ -548,6 +542,10 @@ msgstr ""
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr ""
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr ""
 
 #, c-format
@@ -1119,6 +1117,15 @@ msgstr ""
 msgid "Version found: %s"
 msgstr ""
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr ""
 
@@ -1302,6 +1309,9 @@ msgstr ""
 msgid "such as arch=('%s')."
 msgstr ""
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr ""
 
@@ -1391,13 +1401,13 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr ""
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-
 msgid "%s does not exist or is not a directory."
 msgstr ""
 
 msgid "You must have correct permissions to optimize the database."
+msgstr ""
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
 
 msgid "ERROR: Can not create temp directory for database building."
@@ -1412,10 +1422,13 @@ msgstr ""
 msgid "Tar'ing up %s failed."
 msgstr ""
 
-msgid "Making and MD5sum'ing the new db..."
+msgid "Making and MD5sum'ing the new database..."
 msgstr ""
 
 msgid "Untar'ing %s failed."
+msgstr ""
+
+msgid "Syncing database to disk..."
 msgstr ""
 
 msgid "Checking integrity..."
@@ -1424,13 +1437,10 @@ msgstr ""
 msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
 
-msgid "Putting the new database in place..."
+msgid "Rotating database into place..."
 msgstr ""
 
 msgid "Finished. Your pacman database has been optimized."
-msgstr ""
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
 msgstr ""
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"

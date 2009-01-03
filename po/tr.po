@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: 2008-08-25 07:47+0200\n"
 "Last-Translator: Samed Beyribey <beyribey@gmail.com>\n"
 "Language-Team: Türkçe <tr@archlinuxtr.org>\n"
@@ -528,18 +528,6 @@ msgstr ""
 "                       uymak şartıyla özgürce dağıtılabilir\n"
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr "parçalama arızası\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"Dahili pacman hatası: Parçalama arızası.\n"
-"Lütfen --debug parametresini kullanarak hata kaydı giriniz.\n"
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr "kök dizini ayarlama sorunu '%s' (%s)\n"
 
@@ -571,6 +559,10 @@ msgstr "ayar dosyası %s okunamadı.\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "ayar dosyası %s, satır %d: hatalı kısım adı.\n"
 
+#, fuzzy, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "yerel veritabanı (%s) kaydedilemedi\n"
+
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
@@ -588,6 +580,10 @@ msgstr "ayar dosyası %s, satır %d: ayar satırı '%s' tanımlanamadı.\n"
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "CleanMethod' için geçersiz değer : '%s'\n"
+
+#, fuzzy, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "yerel veritabanı (%s) kaydedilemedi\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1168,6 +1164,15 @@ msgstr "Güncel hg değişiklik numarası belirleniyor..."
 msgid "Version found: %s"
 msgstr "Değişiklik numarası bulundu: %s"
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr "Kullanım: %s [seçenekler]"
 
@@ -1379,6 +1384,9 @@ msgstr "Bir çok paketin %s kısmına bir satır eklenmesi gerekebilir"
 msgid "such as arch=('%s')."
 msgstr "arch=('%s') gibi."
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Kurulum betiği (%s) mevcut değil."
 
@@ -1486,14 +1494,14 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff komutu bulunamadı, lütfen diffutils paketini kurun."
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Pacman kilit dosyası bulundu. Pacman çalışırken çalıştırılamaz."
-
 msgid "%s does not exist or is not a directory."
 msgstr "%s bulunamadı ya da bir dizin değil."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Veritabanını optimize etmek için doğru haklara sahip olmalısınız."
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "Pacman kilit dosyası bulundu. Pacman çalışırken çalıştırılamaz."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "HATA: Veritabanı oluşturmak için geçici dizin oluşturulamadı."
@@ -1507,11 +1515,16 @@ msgstr "%s sıkıştırılıyor..."
 msgid "Tar'ing up %s failed."
 msgstr "Sıkıştırma başarısız."
 
-msgid "Making and MD5sum'ing the new db..."
+#, fuzzy
+msgid "Making and MD5sum'ing the new database..."
 msgstr "Yeni veritabanı oluşturuluyor ve MD5SUM'ı oluşturuluyor..."
 
 msgid "Untar'ing %s failed."
 msgstr "%s sıkıştırılmış dosyadan açılamadı."
+
+#, fuzzy
+msgid "Syncing database to disk..."
+msgstr ":: Paket veritabanları senkronize ediliyor...\n"
 
 msgid "Checking integrity..."
 msgstr "Bütünlük kontrolü yapılıyor..."
@@ -1519,16 +1532,12 @@ msgstr "Bütünlük kontrolü yapılıyor..."
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Bütünlük kontrolü BAŞARISIZ, eski veritabanına dönülüyor."
 
-msgid "Putting the new database in place..."
+#, fuzzy
+msgid "Rotating database into place..."
 msgstr "Yeni veritabanı yerleştiriliyor..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Tamamlandı. Pacman veritabanınız optimize edildi."
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr ""
-"pacman-optimize komutundan tam anlamıyla faydalanmak için şimdi 'sync' "
-"komutunu çalıştırın."
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
 msgstr "Kullanım: repo-add [-q] <veritabanı-yolu> <paket-adı> ...\\n"
@@ -1657,3 +1666,18 @@ msgstr "Tüm paketler veritabanından kaldırıldı. '%s' siliniyor."
 
 msgid "No packages modified, nothing to do."
 msgstr "Hiç bir pakette değişiklik yapılmadı, çıkılıyor."
+
+#~ msgid "segmentation fault\n"
+#~ msgstr "parçalama arızası\n"
+
+#~ msgid ""
+#~ "Internal pacman error: Segmentation fault.\n"
+#~ "Please submit a full bug report with --debug if appropriate.\n"
+#~ msgstr ""
+#~ "Dahili pacman hatası: Parçalama arızası.\n"
+#~ "Lütfen --debug parametresini kullanarak hata kaydı giriniz.\n"
+
+#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
+#~ msgstr ""
+#~ "pacman-optimize komutundan tam anlamıyla faydalanmak için şimdi 'sync' "
+#~ "komutunu çalıştırın."

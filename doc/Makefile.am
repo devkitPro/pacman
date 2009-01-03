@@ -62,6 +62,7 @@ ASCIIDOC_OPTS = \
 	-a pacman_date="`date +%Y-%m-%d`" \
 	-a sysconfdir=$(sysconfdir)
 A2X_OPTS = \
+	--no-xmllint \
 	-d manpage \
 	-f manpage \
 	--xsltproc-opts='-param man.endnotes.list.enabled 0' \
