@@ -59,6 +59,7 @@ pacman-optimize: $(srcdir)/pacman-optimize.sh.in
 rankmirrors: $(srcdir)/rankmirrors.py.in
 repo-add: $(srcdir)/repo-add.sh.in
 repo-remove: $(srcdir)/repo-add.sh.in
-	ln -sf repo-add repo-remove
+	rm -f repo-remove
+	$(LN_S) repo-add repo-remove
 
 # vim:set ts=2 sw=2 noet:
