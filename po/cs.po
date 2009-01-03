@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: 2008-08-24 08:33+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Čeština\n"
@@ -528,18 +528,6 @@ msgstr ""
 "                       licencí GNU GPL (General Public License).\n"
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr "neoprávněný přístup do paměti\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"Interní chyba pacman: Neoprávněný přístup do paměti.\n"
-"Prosím odešlete hlášení o chybě s přepínačem --debug.\n"
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr "problém s nastavením kořenového adresáře '%s' (%s)\n"
 
@@ -571,6 +559,10 @@ msgstr "konfigurační soubor %s nelze přečíst.\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "konfigurační soubor %s, řádek %d: chybné jméno sekce.\n"
 
+#, fuzzy, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "nemohu zaregistrovat databázi 'local' (%s)\n"
+
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
@@ -590,6 +582,10 @@ msgstr "konfigurační soubor %s, řádek %d: neznámá direktiva '%s'.\n"
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "chybná hodnota pro 'CleanMethod' : '%s'\n"
+
+#, fuzzy, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "nemohu zaregistrovat databázi 'local' (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1164,6 +1160,15 @@ msgstr "Určuji poslední hg revizi..."
 msgid "Version found: %s"
 msgstr "Nalezena verze: %s"
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr "Použití: %s [volby]"
 
@@ -1357,6 +1362,9 @@ msgstr "Poznámka: mnoho balíčků možná potřebuje přidat řádek do svého
 msgid "such as arch=('%s')."
 msgstr "který vypadá takto: arch=('%s')."
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Instalační skript (%s) neexistuje."
 
@@ -1453,14 +1461,14 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff nebyl nalezen, prosím nainstalujte diffutils."
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Byl nalezen zámek pacmana. Nelze pokračovat, pokud pacman běží."
-
 msgid "%s does not exist or is not a directory."
 msgstr "%s neexistuje, nebo není adresář."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mít správná oprávnění k optimalizaci databáze."
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "Byl nalezen zámek pacmana. Nelze pokračovat, pokud pacman běží."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "CHYBA: Nemohu vytvořit dočasný adresář pro sestavení databáze."
@@ -1474,11 +1482,16 @@ msgstr "Zabaluji %s pomocí tar..."
 msgid "Tar'ing up %s failed."
 msgstr "Zabalování %s pomocí tar selhalo."
 
-msgid "Making and MD5sum'ing the new db..."
+#, fuzzy
+msgid "Making and MD5sum'ing the new database..."
 msgstr "Vytvářím a počítám MD5 součet nové databáze..."
 
 msgid "Untar'ing %s failed."
 msgstr "Rozbalování %s pomocí tar selhalo."
+
+#, fuzzy
+msgid "Syncing database to disk..."
+msgstr ":: Synchronizuji databázi balíčků...\n"
 
 msgid "Checking integrity..."
 msgstr "Kontroluji integritu..."
@@ -1486,14 +1499,12 @@ msgstr "Kontroluji integritu..."
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Kontrola integrity SELHALA, vracím se ke staré databázi."
 
-msgid "Putting the new database in place..."
+#, fuzzy
+msgid "Rotating database into place..."
 msgstr "Umisťuji novou databázi na místo..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Dokončeno. Databáze pacmana byla optimalizována."
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
-msgstr "Pro plné využití výhod pacman-optimize, spusťte nyní 'sync'."
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
 msgstr "Použití: rebo-add [-q] <cesta-k-databázi> <jménoBalíčku> ...\\n"
@@ -1617,3 +1628,16 @@ msgstr "Všechny balíčky budou odstraněny z databáze. Mažu '%s'."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nebyl změněn žádný balíček, není co dělat."
+
+#~ msgid "segmentation fault\n"
+#~ msgstr "neoprávněný přístup do paměti\n"
+
+#~ msgid ""
+#~ "Internal pacman error: Segmentation fault.\n"
+#~ "Please submit a full bug report with --debug if appropriate.\n"
+#~ msgstr ""
+#~ "Interní chyba pacman: Neoprávněný přístup do paměti.\n"
+#~ "Prosím odešlete hlášení o chybě s přepínačem --debug.\n"
+
+#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
+#~ msgstr "Pro plné využití výhod pacman-optimize, spusťte nyní 'sync'."

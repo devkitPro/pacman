@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-25 20:14+0200\n"
+"POT-Creation-Date: 2009-01-02 22:24-0600\n"
 "PO-Revision-Date: 2008-07-30 08:36+0200\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -528,18 +528,6 @@ msgstr ""
 "                       General Public License feltételei szerint.\n"
 
 #, c-format
-msgid "segmentation fault\n"
-msgstr "szegmens hiba\n"
-
-#, c-format
-msgid ""
-"Internal pacman error: Segmentation fault.\n"
-"Please submit a full bug report with --debug if appropriate.\n"
-msgstr ""
-"Belső pacman hiba: Szegmens hiba.\n"
-"Kérem küldjön egy teljes hibajelentést (használja a --debug kapcsolót).\n"
-
-#, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
 msgstr ""
 "hiba történt a(z) '%s' telepítési gyökérkönyvtár beállítása során (%s)\n"
@@ -572,6 +560,10 @@ msgstr "a %s konfigurációs fájl nem olvasható.\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "%s konfigurációs fájl, %d. sor: hibás szekciónév.\n"
 
+#, fuzzy, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "nem sikerült regisztrálni a 'local' adatbázist (%s)\n"
+
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr "%s konfigurációs fájl, %d. sor: szintaktikai hiba- hiányzó kulcs.\n"
@@ -589,6 +581,10 @@ msgstr "%s konfigurációs fájl, %d. sor: a '%s' direktíva nem értelmezhető.
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "hibás 'CleanMethod' érték: '%s'\n"
+
+#, fuzzy, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "nem sikerült regisztrálni a 'local' adatbázist (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1165,6 +1161,15 @@ msgstr ""
 msgid "Version found: %s"
 msgstr ""
 
+msgid "requires an argument"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+msgid "invalid option"
+msgstr ""
+
 msgid "Usage: %s [options]"
 msgstr ""
 
@@ -1348,6 +1353,9 @@ msgstr ""
 msgid "such as arch=('%s')."
 msgstr ""
 
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
 msgid "Install scriptlet (%s) does not exist."
 msgstr ""
 
@@ -1437,13 +1445,13 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr ""
 
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-
 msgid "%s does not exist or is not a directory."
 msgstr ""
 
 msgid "You must have correct permissions to optimize the database."
+msgstr ""
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
 
 msgid "ERROR: Can not create temp directory for database building."
@@ -1458,11 +1466,15 @@ msgstr ""
 msgid "Tar'ing up %s failed."
 msgstr ""
 
-msgid "Making and MD5sum'ing the new db..."
+msgid "Making and MD5sum'ing the new database..."
 msgstr ""
 
 msgid "Untar'ing %s failed."
 msgstr ""
+
+#, fuzzy
+msgid "Syncing database to disk..."
+msgstr ":: A csomagadatbázisok szinkronizálása...\n"
 
 msgid "Checking integrity..."
 msgstr ""
@@ -1470,13 +1482,10 @@ msgstr ""
 msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
 
-msgid "Putting the new database in place..."
+msgid "Rotating database into place..."
 msgstr ""
 
 msgid "Finished. Your pacman database has been optimized."
-msgstr ""
-
-msgid "For full benefits of pacman-optimize, run 'sync' now."
 msgstr ""
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
@@ -1591,3 +1600,13 @@ msgstr ""
 
 msgid "No packages modified, nothing to do."
 msgstr ""
+
+#~ msgid "segmentation fault\n"
+#~ msgstr "szegmens hiba\n"
+
+#~ msgid ""
+#~ "Internal pacman error: Segmentation fault.\n"
+#~ "Please submit a full bug report with --debug if appropriate.\n"
+#~ msgstr ""
+#~ "Belső pacman hiba: Szegmens hiba.\n"
+#~ "Kérem küldjön egy teljes hibajelentést (használja a --debug kapcsolót).\n"
