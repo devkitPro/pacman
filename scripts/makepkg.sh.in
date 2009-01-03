@@ -712,14 +712,13 @@ tidy_install() {
 	cd "$pkgdir"
 	msg "$(gettext "Tidying install...")"
 
-	if [ "$(check_option docs)" = "n" ]; then
+	if [ "$(check_option docs)" = "n" -a -n "${DOC_DIRS[*]}" ]; then
 		msg2 "$(gettext "Removing doc files...")"
-		#fix flyspray bug #5021
 		rm -rf ${DOC_DIRS[@]}
 	fi
 
-	if [ "$(check_option purge)" = "y" -a -n "PURGE_TARGETS" ]; then
-		msg2 "$(gettext "Removing pugre targets...")"
+	if [ "$(check_option purge)" = "y" -a -n "${PURGE_TARGETS[*]}" ]; then
+		msg2 "$(gettext "Purging other files...")"
 		local pt
 		for pt in "${PURGE_TARGETS[@]}"; do
 			if [ "${pt}" == "${pt//\/}" ]; then
@@ -730,13 +729,9 @@ tidy_install() {
 		done
 	fi
 
-	if [ "$(check_option zipman)" = "y" ]; then
+	if [ "$(check_option zipman)" = "y" -a -n "${MAN_DIRS[*]}" ]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local manpage ext file link hardlinks hl
-		if [ -z "${MAN_DIRS[*]}" ]; then
-			# fall back to default value
-			MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
-		fi
 		find ${MAN_DIRS[@]} -type f 2>/dev/null |
 		while read manpage ; do
 			# check file still exists (potentially compressed with hard link)
@@ -769,14 +764,9 @@ tidy_install() {
 		done
 	fi
 
-	if [ "$(check_option strip)" = "y" ]; then
+	if [ "$(check_option strip)" = "y" -a -n "${STRIP_DIRS[*]}" ]; then
 		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"
 		local binary
-		if [ -z "${STRIP_DIRS[*]}" ]; then
-			# fall back to default value
-			STRIP_DIRS=(bin lib sbin usr/{bin,lib,sbin,local/{bin,lib,sbin}}
-			opt/*/{bin,lib,sbin})
-		fi
 		find ${STRIP_DIRS[@]} -type f 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
