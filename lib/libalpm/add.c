@@ -697,6 +697,16 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		}
 	}
 
+	/* prepare directory for database entries so permission are correct after
+	   changelog/install script installation (FS#12263) */
+	if(_alpm_db_prepare(db, newpkg)) {
+		alpm_logaction("error: could not create database entry %s-%s\n",
+				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
+		pm_errno = PM_ERR_DB_WRITE;
+		ret = -1;
+		goto cleanup;
+	}
+
 	if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 		struct archive *archive;
 		struct archive_entry *entry;

@@ -285,6 +285,7 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 				snprintf(newpath, PATH_MAX, "%s.pacsave", file);
 				rename(file, newpath);
 				_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
+				alpm_logaction("warning: %s saved as %s\n", file, newpath);
 				return;
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
