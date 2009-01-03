@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-01-02 22:24-0600\n"
-"PO-Revision-Date: 2008-08-24 12:36+0100\n"
+"PO-Revision-Date: 2009-01-03 11:41+0100\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
 "MIME-Version: 1.0\n"
@@ -582,9 +582,9 @@ msgstr "Konfigurations-Datei %s konnte nicht gelesen werden.\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "Konfigurations-Datei %s, Zeile %d: Schlechter Sektions-Name.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "Kein Zugriff auf die lokale Datenbank (%s)\n"
+msgstr "Kein Zugriff auf die Datenbank '%s' (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
@@ -607,9 +607,9 @@ msgstr ""
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "Ungültiger Wert für 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "Kein Zugriff auf die lokale Datenbank (%s)\n"
+msgstr "Konnte die Server-URL nicht der Datenbank '%s' hinzufügen: %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -872,7 +872,7 @@ msgid ""
 ":: Do you want to cancel the current operation\n"
 ":: and upgrade these packages now?"
 msgstr ""
-":: Möchten Sie den laufenden Prozeß abbrechen\n"
+":: Möchten Sie den laufenden Prozess abbrechen\n"
 ":: und diese Pakete nun aktualisieren?"
 
 #, c-format
@@ -1189,13 +1189,13 @@ msgid "Version found: %s"
 msgstr "Gefundene Version: %s"
 
 msgid "requires an argument"
-msgstr ""
+msgstr "erfordert ein Argument"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "nicht-erkannte Option"
 
 msgid "invalid option"
-msgstr ""
+msgstr "ungültige Option"
 
 msgid "Usage: %s [options]"
 msgstr "Verwendung: %s [Optionen]"
@@ -1271,8 +1271,8 @@ msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    Verhindert, dass die Auto-Version sich mit dev-PKGBUILDS "
-"beisst"
+"      --holdver    Verhindert, dass die Auto-Version mit den dev-PKGBUILDS "
+"kollidiert"
 
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
@@ -1370,7 +1370,7 @@ msgstr "in der BUILDENV Sektion in %s. "
 
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr ""
-"Läßt man makepkg als normaler Nutzer laufen, werden die gepackten Dateien"
+"Lässt man makepkg als normaler Nutzer laufen, werden die gepackten Dateien"
 
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr "nicht Root gehören. Nutzen Sie die fakeroot-Umgebung, indem Sie"
@@ -1418,6 +1418,8 @@ msgstr "so wie arch=('%s')"
 
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
+"Der Array 'Provides' darf keine Vergleichs-Operatoren wie (< oder >) "
+"enthalten."
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Installations-Skript (%s) existiert nicht."
@@ -1546,16 +1548,14 @@ msgstr "Erstelle Tarball aus %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Erstellen des Tarballs %s fehlgeschlagen."
 
-#, fuzzy
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Erstelle neue DB und prüfe MD5-Summen..."
+msgstr "Erstelle neue Datenbak und prüfe MD5-Summen..."
 
 msgid "Untar'ing %s failed."
 msgstr "Entpacken des Tarballs %s fehlgeschlagen."
 
-#, fuzzy
 msgid "Syncing database to disk..."
-msgstr ":: Synchronisiere Paketdatenbanken...\n"
+msgstr "Synchronisiere Datenbank mit Festplatte..."
 
 msgid "Checking integrity..."
 msgstr "Prüfe Integrität... "
@@ -1563,9 +1563,8 @@ msgstr "Prüfe Integrität... "
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Integritäts-Prüfung FEHLGESCHLAGEN, kehre zur alten Datenbank zurück."
 
-#, fuzzy
 msgid "Rotating database into place..."
-msgstr "Verschiebe die neue Datenbank an ihren Ort..."
+msgstr "Verschiebe neue Datenbank an ihren Ort..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Fertig. Ihre Pacman-Datenbank wurde optimiert."
@@ -1695,18 +1694,3 @@ msgstr "Alle Pakete wurden von der Datenbank entfernt. Lösche '%s'."
 
 msgid "No packages modified, nothing to do."
 msgstr "Keine Pakete modifiziert, ich kann nichts machen."
-
-#~ msgid "segmentation fault\n"
-#~ msgstr "Segmentierungs-Fehler\n"
-
-#~ msgid ""
-#~ "Internal pacman error: Segmentation fault.\n"
-#~ "Please submit a full bug report with --debug if appropriate.\n"
-#~ msgstr ""
-#~ "Interner Pacman-Fehler: Segmentierungs-Fehler.\n"
-#~ "Bitte reichen Sie einen vollständigen Bug-Report mit der Ausgabe von --"
-#~ "debug ein, wenn erforderlich.\n"
-
-#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
-#~ msgstr ""
-#~ "Für alle Vorteile von pacman-optimize, führen Sie nun ein 'sync' durch."
