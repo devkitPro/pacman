@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-01-02 22:24-0600\n"
-"PO-Revision-Date: 2008-07-30 08:37+0200\n"
+"PO-Revision-Date: 2009-01-03 17:05+0100\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polski <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -577,9 +577,9 @@ msgstr "plik konfigu %s nie może być odczytany.\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "plik konfigu %s, linia %d: zła nazwa sekcji.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "nie udało się zarejestrować 'lokalnej' bazy danych (%s)\n"
+msgstr "nie udało się zarejestrować bazy danych '%s' (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
@@ -598,9 +598,9 @@ msgstr "plik konfigu %s, linia %d: dyrektywa '%s' nie rozpoznana.\n"
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "nie udało się zarejestrować 'lokalnej' bazy danych (%s)\n"
+msgstr "nie można dodać URL serwera do bazy danych '%s': %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1180,13 +1180,13 @@ msgid "Version found: %s"
 msgstr "Wersja        : %s"
 
 msgid "requires an argument"
-msgstr ""
+msgstr "wymaga argumentu"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "nierozpoznana opcja"
 
 msgid "invalid option"
-msgstr ""
+msgstr "zła opcja"
 
 msgid "Usage: %s [options]"
 msgstr "Użycie: %s [opcje]"
@@ -1385,6 +1385,7 @@ msgstr "podobnego do arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
+"Dostarczana tablica nie może zawierać operatorów porównania ( < lub > )"
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Skrypt instalacyjny (%s) nie istnieje."
@@ -1505,16 +1506,14 @@ msgstr "Tworzę archiwum tar z %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Stworzenie archiwum tar z %s nie udało się."
 
-#, fuzzy
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Tworzę nową bazę i generuję jej sumę kontrolną..."
+msgstr "Tworzę nową bazę i generuję jej sumę kontrolną MD5..."
 
 msgid "Untar'ing %s failed."
 msgstr "Nie udało się rozpakować archiwum tar z %s."
 
-#, fuzzy
 msgid "Syncing database to disk..."
-msgstr ":: Synchronizowanie baz danych z pakietami...\n"
+msgstr "Synchronizowanie bazy danych z dyskiem..."
 
 msgid "Checking integrity..."
 msgstr "Sprawdzanie spójności pakietów... "
@@ -1522,9 +1521,8 @@ msgstr "Sprawdzanie spójności pakietów... "
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Test spójności NIE POWIÓDŁ się, powracam do starej bazy."
 
-#, fuzzy
 msgid "Rotating database into place..."
-msgstr "Umieszczam nową bazę w odpowiednim miejscu..."
+msgstr "Przenoszę bazę danych w jej miejsce..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Zakończono. Baza pacmana została zoptymalizowana."
