@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-01-02 22:24-0600\n"
-"PO-Revision-Date: 2008-08-23 23:27+0200\n"
+"PO-Revision-Date: 2009-01-03 11:48+0100\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
 "MIME-Version: 1.0\n"
@@ -607,9 +607,9 @@ msgstr "Le fichier de config %s n'a pas pu être lu.\n"
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "fichier de config %s, ligne %d: mauvais nom de section.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "l'enregistrement de la base de données 'local' a échoué (%s)\n"
+msgstr "l'enregistrement de la base de données '%s' a échoué (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
@@ -630,9 +630,9 @@ msgstr ""
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "valeur invalide pour 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "l'enregistrement de la base de données 'local' a échoué (%s)\n"
+msgstr "l'ajout de l'url '%2$s' à la base de données '%1$s' a échoué (%3$s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1224,13 +1224,13 @@ msgid "Version found: %s"
 msgstr "Version trouvée        : %s"
 
 msgid "requires an argument"
-msgstr ""
+msgstr "requiert un argument"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "option inconnue"
 
 msgid "invalid option"
-msgstr ""
+msgstr "option invalide"
 
 msgid "Usage: %s [options]"
 msgstr "Utilisation: %s [options]"
@@ -1444,7 +1444,7 @@ msgid "such as arch=('%s')."
 msgstr "comme arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "Le tableau provides ne peut pas contenir d'opérateurs de comparaison (< ou >)."
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Le scriptlet d'installation (%s) n'a pas été trouvé."
@@ -1571,16 +1571,14 @@ msgstr "Archive %s... "
 msgid "Tar'ing up %s failed."
 msgstr "L'archivage de %s a échoué."
 
-#, fuzzy
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Création et calcul du md5sum de la nouvelle bd..."
+msgstr "Création de la nouvelle base de données et calcul du md5sum..."
 
 msgid "Untar'ing %s failed."
 msgstr "Le désarchivage de %s a échoué."
 
-#, fuzzy
 msgid "Syncing database to disk..."
-msgstr ":: Synchronisation des bases de données de paquets...\n"
+msgstr "Synchronise la base de données sur le disque..."
 
 msgid "Checking integrity..."
 msgstr "Analyse de l'intégrité... "
@@ -1589,9 +1587,8 @@ msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
 "La vérification de l'intégrité a échoué, restaure l'ancienne base de données."
 
-#, fuzzy
 msgid "Rotating database into place..."
-msgstr "Placement de la nouvelle base de données..."
+msgstr "Mise en place de la base de données..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Fini. La base de données de pacman a été optimisé."
@@ -1723,17 +1720,3 @@ msgstr ""
 
 msgid "No packages modified, nothing to do."
 msgstr "Aucun paquets modifiés, il n'y a rien à faire."
-
-#~ msgid "segmentation fault\n"
-#~ msgstr "erreur de segmentation\n"
-
-#~ msgid ""
-#~ "Internal pacman error: Segmentation fault.\n"
-#~ "Please submit a full bug report with --debug if appropriate.\n"
-#~ msgstr ""
-#~ "Erreur de segmentation.\n"
-#~ "Soumettez un rapport de bug complet avec debug si approprié.\n"
-
-#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
-#~ msgstr ""
-#~ "Pour que pacman-optimize soit plus efficace, lancez 'sync' maintenant."

@@ -1,7 +1,7 @@
 # Italian translation of libalpm.
 # Copyright (C) 2007 THE libalpm'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the libalpm package.
-# Giovanni 'voidnull' Scafora <linuxmania@gmail.com>, 2007, 2008
+# Giovanni 'voidnull' Scafora <giovanni@archlinux.org>, 2007, 2008, 2009
 # Andrea 'bash' Scarpino <bash.lnx@gmail.com>, 2008
 # Alessio 'mOLOk' Bolognino <themolok@gmail.com>, 2007
 # Lorenzo '^zanDarK' Masini <lorenxo86@gmail.com>, 2007
@@ -24,7 +24,7 @@ msgstr "sostituzione in corso della vecchia versione di %s-%s con %s\n"
 
 #, c-format
 msgid "skipping %s-%s because newer version %s is in the target list\n"
-msgstr "salto %s-%s perché la nuova versione %s è nella lista\n"
+msgstr "ignoro %s-%s perché la nuova versione %s è già presente nella lista dei pacchetti\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -41,7 +41,7 @@ msgstr "la sostituzione dei pacchetti con -U non è ancora supportata\n"
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
 msgstr ""
-"è possibile sostituire manualmente i pacchetti, usando le opzioni -Rd e -U\n"
+"puoi sostituire manualmente i pacchetti, usando le opzioni -Rd e -U\n"
 
 #, c-format
 msgid ""
@@ -57,7 +57,7 @@ msgstr "estrazione: il link simbolico %s non punta alla directory\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "estrazione: non sovrascrivere la directory con il file %s\n"
+msgstr "estrazione: non posso sovrascrivere la directory con il file %s\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -69,7 +69,7 @@ msgstr "impossibile rinominare %s in %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
-msgstr "%s salvato come %s\n"
+msgstr "%s è stato salvato come %s\n"
 
 #, c-format
 msgid "could not install %s as %s (%s)\n"
@@ -85,7 +85,7 @@ msgstr "estrazione di %s come %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "impossibile ottenere la directory corrente\n"
+msgstr "impossibile determinare la directory corrente\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -113,7 +113,7 @@ msgstr "nome non valido per la voce del database '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "la voce nel database '%s' non è valida\n"
+msgstr "la voce nel database '%s' è corrotta\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -121,11 +121,11 @@ msgstr "impossibile aprire il file %s: %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "il database %s è corrotto: il nome del pacchetto %s è sbagliato\n"
+msgstr "il database %s è inconsistente: il nome del pacchetto %s non corrisponde\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "il database %s è corrotto: la versione del pacchetto %s è sbagliata\n"
+msgstr "il database %s è inconsistente: la versione del pacchetto %s non corrisponde\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -149,11 +149,11 @@ msgstr "manca il metadata del pacchetto in %s\n"
 
 #, c-format
 msgid "attempt to re-register the 'local' DB\n"
-msgstr "tentativo in corso di registrare di nuovo il database 'locale'\n"
+msgstr "tentativo in corso di registrare di nuovo il DB 'locale'\n"
 
 #, c-format
 msgid "database path is undefined\n"
-msgstr "il percorso del database non è definito\n"
+msgstr "il percorso del database non è stato definito\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -169,7 +169,7 @@ msgstr "%s sarà installato prima della sua dipendenza %s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
-msgstr "il pacchetto fornito era selezionato (%s fornisce %s)\n"
+msgstr "il pacchetto è già stato selezionato (%s dipende da %s)\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
@@ -177,11 +177,11 @@ msgstr "impossibile risolvere \"%s\", una dipendenza di \"%s\"\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "l'url '%s' non è corretto\n"
+msgstr "l'url '%s' non è esatto\n"
 
 #, c-format
 msgid "url scheme not specified, assuming HTTP\n"
-msgstr "il protocollo dell'url non è specificato, sarà usato HTTP\n"
+msgstr "non è stato specificato il protocollo dell'url, sarà usato HTTP\n"
 
 #, c-format
 msgid "disk"
@@ -189,7 +189,7 @@ msgstr "disco"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "impossibile recuperare il file '%s' da %s : %s\n"
+msgstr "impossibile scaricare il pacchetto '%s' da %s : %s\n"
 
 #, c-format
 msgid "cannot resume download, starting over\n"
@@ -245,11 +245,11 @@ msgstr "è stato passato un argomento sbagliato o NULL"
 
 #, c-format
 msgid "library not initialized"
-msgstr "libreria non inizializzata"
+msgstr "la libreria non è stata inizializzata"
 
 #, c-format
 msgid "library already initialized"
-msgstr "libreria già inizializzata"
+msgstr "la libreria è già stata inizializzata"
 
 #, c-format
 msgid "unable to lock database"
@@ -265,11 +265,11 @@ msgstr "impossibile creare il database"
 
 #, c-format
 msgid "database not initialized"
-msgstr "database non inizializzato"
+msgstr "il database non è stato inizializzato"
 
 #, c-format
 msgid "database already registered"
-msgstr "il database è già registrato"
+msgstr "il database è già stato registrato"
 
 #, c-format
 msgid "could not find database"
@@ -289,27 +289,27 @@ msgstr "url non valido per il server"
 
 #, c-format
 msgid "transaction already initialized"
-msgstr "operazione già inizializzata"
+msgstr "l'operazione è già stata inizializzata"
 
 #, c-format
 msgid "transaction not initialized"
-msgstr "operazione non inizializzata"
+msgstr "l'operazione non è stata inizializzata"
 
 #, c-format
 msgid "duplicate target"
-msgstr "pacchetto doppio"
+msgstr "pacchetto duplicato"
 
 #, c-format
 msgid "transaction not prepared"
-msgstr "operazione non preparata"
+msgstr "l'operazione non è stata preparata"
 
 #, c-format
 msgid "transaction aborted"
-msgstr "operazione annullata"
+msgstr "l'operazione è stata annullata"
 
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "operazione incompatibile con il tipo di transazione"
+msgstr "l'operazione è incompatibile con il tipo di transazione"
 
 #, c-format
 msgid "could not commit transaction"
@@ -317,7 +317,7 @@ msgstr "impossibile eseguire l'operazione"
 
 #, c-format
 msgid "could not download all files"
-msgstr "impossibile prelevare tutti i file"
+msgstr "impossibile scaricare tutti i file"
 
 #, c-format
 msgid "could not find or read package"
@@ -325,7 +325,7 @@ msgstr "impossibile trovare o leggere il pacchetto"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "pacchetto non valido o corrotto"
+msgstr "il pacchetto non è valido oppure è corrotto"
 
 #, c-format
 msgid "cannot open package file"
@@ -337,7 +337,7 @@ msgstr "impossibile caricare i dati del pacchetto"
 
 #, c-format
 msgid "package not installed or lesser version"
-msgstr "pacchetto non installato o una versione precedente"
+msgstr "il pacchetto non è stato installato oppure è una versione meno recente"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -353,7 +353,7 @@ msgstr "nessun repository corrispondente"
 
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "delta non valido o corrotto"
+msgstr "il delta non è valido oppure è corrotto"
 
 #, c-format
 msgid "delta patch failed"
@@ -361,7 +361,7 @@ msgstr "si sono verificati degli errori con la patch di delta"
 
 #, c-format
 msgid "group not found"
-msgstr "gruppo non trovato"
+msgstr "impossibile trovare il gruppo"
 
 #, c-format
 msgid "could not satisfy dependencies"
@@ -377,7 +377,7 @@ msgstr "file in conflitto"
 
 #, c-format
 msgid "user aborted the operation"
-msgstr "operazione annullata"
+msgstr "l'utente ha annullato l'operazione"
 
 #, c-format
 msgid "internal error"
@@ -389,7 +389,7 @@ msgstr "non confermato"
 
 #, c-format
 msgid "invalid regular expression"
-msgstr "espressione regolare non valida"
+msgstr "l'espressione regolare non è valida"
 
 #, c-format
 msgid "libarchive error"
@@ -397,11 +397,11 @@ msgstr "errore di libarchive"
 
 #, c-format
 msgid "download library error"
-msgstr "si è verificato un errore della libreria durante il download"
+msgstr "si è verificato un errore della libreria di download"
 
 #, c-format
 msgid "error invoking external downloader"
-msgstr "errore nell'inizializzare il download"
+msgstr "si è verificato un errore lanciando il downloader esterno"
 
 #, c-format
 msgid "unexpected error"
@@ -426,17 +426,17 @@ msgstr "impossibile rimuovere la voce '%s' dalla cache\n"
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
 msgstr ""
-"%s-%s: aggiornamento del pacchetto ignorato (per essere sostituito con %s-%"
+"%s-%s: l'aggiornamento del pacchetto è stato ignorato (per essere sostituito con %s-%"
 "s)\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr ""
-"%s: la versione installata (%s) è più recente di quella presente in %s (%s)\n"
+"%s: la versione installata (%s) è più recente di quella in %s (%s)\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: aggiornamento del pacchetto ignorato (%s => %s)\n"
+msgstr "%s: l'aggiornamento del pacchetto è stato ignorato (%s => %s)\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -462,7 +462,7 @@ msgstr "sono stati rilevati dei conflitti irrisolvibili\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "rimozione di '%s' dalla lista perché va in conflitto con '%s'\n"
+msgstr "rimozione di '%s' dalla lista dei pacchetti perché va in conflitto con '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
@@ -470,7 +470,7 @@ msgstr "comando: %s\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
-msgstr "impossibile recuperare alcuni file da %s\n"
+msgstr "impossibile scaricare alcuni file da %s\n"
 
 #, c-format
 msgid "could not create removal transaction\n"

@@ -5,10 +5,10 @@
 # Sergey Tereschenko <serg.partizan@gmail.com> 2008
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.0.0\n"
+"Project-Id-Version: Pacman package manager 3.2.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-01-02 22:24-0600\n"
-"PO-Revision-Date: 2008-08-24 02:24+0300\n"
+"PO-Revision-Date: 2009-01-03 17:35+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -325,8 +325,8 @@ msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
 "                       (-ss includes explicitly installed dependencies too)\n"
 msgstr ""
-"  -s, --recursive      удалить вместе с зависимостями (которые не "
-"повредят                        другие пакеты)\n"
+"  -s, --recursive      удалить вместе с зависимостями (которые не повредят "
+"другие пакеты)\n"
 "                       (-ss включая явно установленные зависимости)\n"
 
 #, c-format
@@ -409,9 +409,7 @@ msgstr ""
 
 #, c-format
 msgid "  -u, --upgrades       list all packages that can be upgraded\n"
-msgstr ""
-"  -u, --upgrades       показать список всех пакетов, которые могут быть "
-"обновлены\n"
+msgstr "  -u, --upgrades       показать список устаревших пакетов\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
@@ -565,9 +563,9 @@ msgstr "не удалось прочитать конфигурационный 
 msgid "config file %s, line %d: bad section name.\n"
 msgstr "конфигурационный файл %s, строка %d: неверное название секции.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "не могу зарегистрировать локальную базу данных (%s)\n"
+msgstr "не удалось зарегистрировать базу данных '%s' (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
@@ -586,11 +584,11 @@ msgstr "конфигурационный файл %s, строка %d: дире�
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "неизвестное значение для 'CleanMethod' : '%s'\n"
+msgstr "неверное значение для 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "не могу зарегистрировать локальную базу данных (%s)\n"
+msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -1070,10 +1068,10 @@ msgid "Tidying install..."
 msgstr "Очистка..."
 
 msgid "Removing info/doc files..."
-msgstr "Удаление файлы info/doc... "
+msgstr "Удаление файлов документации... "
 
 msgid "Compressing man pages..."
-msgstr "Архивирование man-страниц..."
+msgstr "Сжатие страниц man и info..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
 msgstr "Удаление отладочной информации из бинарных файлов и библиотек..."
@@ -1169,13 +1167,13 @@ msgid "Version found: %s"
 msgstr "Обнаружена версия: %s"
 
 msgid "requires an argument"
-msgstr ""
+msgstr "требуется аргумент"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "нераспознанный параметр"
 
 msgid "invalid option"
-msgstr ""
+msgstr "недопустимый параметр"
 
 msgid "Usage: %s [options]"
 msgstr "Применение: %s [параметры]"
@@ -1350,7 +1348,7 @@ msgstr ""
 "пакетов с отличным от root владельцем. Попробуйте использовать окружение"
 
 msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
-msgstr "fakeroot, добавив 'fakeroot' в массив BUILDENV в makepkg.conf."
+msgstr "помещение 'fakeroot' в массив BUILDENV в makepkg.conf."
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr ""
@@ -1387,7 +1385,7 @@ msgid "such as arch=('%s')."
 msgstr "строка вида arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "Массив provides не может содержать операторы сравнения(< или >)."
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Установочный скрипт (%s) не существует."
@@ -1512,16 +1510,14 @@ msgstr "Архивирование в tar %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Не удалось запаковать в tar %s."
 
-#, fuzzy
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Создание новой базы данных и вычисление MD5-суммы..."
+msgstr "Создание новой базы данных и вычисление MD5-сумм..."
 
 msgid "Untar'ing %s failed."
 msgstr "Распаковка tar'а %s не удалась."
 
-#, fuzzy
 msgid "Syncing database to disk..."
-msgstr ":: Синхронизируется база данных пакетов...\n"
+msgstr "Синхронизация базы данных..."
 
 msgid "Checking integrity..."
 msgstr "Проверка целостности..."
@@ -1530,9 +1526,8 @@ msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
 "Проверка целостности ЗАВЕРШИЛАСЬ НЕУДАЧЕЙ, возвращаюсь к старой базе данных."
 
-#, fuzzy
 msgid "Rotating database into place..."
-msgstr "Перемещение новой базы данных на место..."
+msgstr "Возвращение базы данных на место..."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Завершено. База данных pacman оптимизирована."
@@ -1660,6 +1655,27 @@ msgstr "Из базы данных были удалены все пакеты. 
 
 msgid "No packages modified, nothing to do."
 msgstr "Пакеты не изменялись, делать нечего."
+
+#~ msgid "New optional dependencies for %s\n"
+#~ msgstr "Новые дополнительные зависимости для %s\n"
+
+#, fuzzy
+#~ msgid "Removing pugre targets..."
+#~ msgstr "Удаление ненужных файлов..."
+
+#~ msgid "'%s' is not a valid archive extension."
+#~ msgstr "'%s' это недопустимое расширение архива."
+
+#~ msgid "  --config <config> Use an alternate config file (instead of '%s')"
+#~ msgstr ""
+#~ "  --config <config> Использовать альтернативный файл настроек (вместо '%"
+#~ "s')"
+
+#~ msgid "%s contains CRLF characters and cannot be sourced."
+#~ msgstr "%s содержит CRLF символы и не может быть включен."
+
+#~ msgid "'%s' does not have a valid archive extension."
+#~ msgstr "'%s' это недопустимое расширение для архива."
 
 #~ msgid "segmentation fault\n"
 #~ msgstr "ошибка сегментации\n"

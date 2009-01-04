@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the Pacman package manager package.
 #
 # Imanol Celaya <ilcra1989@gmail.com>, 2008.
-# Juan Pablo González Tognarelli <jotapesan@gmail.com>, 2008.
+# Juan Pablo González Tognarelli <jotapesan@gmail.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-01-02 22:24-0600\n"
-"PO-Revision-Date: 2008-08-23 23:21+0200\n"
+"PO-Revision-Date: 2009-01-03 03:15-0300\n"
 "Last-Translator: Juan Pablo González Tognarelli <jotapesan@gmail.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -250,7 +250,7 @@ msgstr "Archivos de respaldo:\n"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "no se pudo verificar %s\n"
+msgstr "no se pudo verificar la integridad para %s\n"
 
 #, c-format
 msgid "MODIFIED\t%s\n"
@@ -302,13 +302,14 @@ msgid ""
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"digite '{%s --help}' con una operación para ayuda más específica\n"
+"utilice '%s {-h --help}' con una operación para ver las opciones "
+"disponibles\n"
 
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        quita paquetes, junto a todos los que dependan de "
+"  -c, --cascade        quita los paquetes, junto a todos los que dependan de "
 "estos\n"
 
 #, c-format
@@ -319,7 +320,7 @@ msgstr "  -d, --nodeps         salta la verificación de dependencias \n"
 msgid ""
 "  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr ""
-"  -k, --dbonly         sólo quita la referencia en la base de datos. No "
+"  -k, --dbonly         sólo quita la referencia en la base de datos, no "
 "elimina archivos\n"
 
 #, c-format
@@ -331,8 +332,8 @@ msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
 "                       (-ss includes explicitly installed dependencies too)\n"
 msgstr ""
-"  -s, --recursive      quita también las dependencias (que no quiebren a "
-"otros paquetes)\n"
+"  -s, --recursive      quita también las dependencias (que no rompan a otros "
+"paquetes)\n"
 "                       (-ss incluye también las dependencias explicitamente "
 "instaladas)\n"
 
@@ -340,12 +341,14 @@ msgstr ""
 msgid ""
 "  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
 msgstr ""
-"  -u, --unneeded      quita los paquetes no necesitados (que no quiebren a "
+"  -u, --unneeded      quita los paquetes no necesitados (que no rompan a "
 "otros paquetes)\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         instala paquetes como dependencia\n"
+msgstr ""
+"      --asdeps         instala paquetes como dependencia (no-"
+"explicitamente)\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
@@ -388,8 +391,8 @@ msgstr ""
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr ""
-"  -l, --list           lista los archivos contenidos en los paquetes "
-"consultados\n"
+"  -l, --list           lista los archivos contenidos en el paquete "
+"consultado\n"
 
 #, c-format
 msgid ""
@@ -401,8 +404,8 @@ msgstr ""
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr ""
-"  -o, --owns <file>    consulta el paquete que contiene el archivo  "
-"indicado\n"
+"  -o, --owns <arch>    consulta el paquete que contiene el archivo indicado "
+"<arch>\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
@@ -415,13 +418,13 @@ msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search <busca> busca paquetes instalados localmente que coincidan "
+"  -s, --search <busqu.> busca paquetes instalados localmente que coincidan "
 "con la cadena\n"
 
 #, c-format
 msgid "  -t, --unrequired     list all packages not required by any package\n"
 msgstr ""
-"  -t, --unrequired     lista todos los pquetes no requeridos por algún "
+"  -t, --unrequired     lista todos los paquetes no requeridos por algún otro "
 "paquete\n"
 
 #, c-format
@@ -446,31 +449,33 @@ msgstr ""
 
 #, c-format
 msgid "  -i, --info           view package information\n"
-msgstr "  -i, --info           ver la información del paquete\n"
+msgstr "  -i, --info           visualiza la información del paquete\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <repo>    ve una lista de paquetes en un repositorio\n"
+msgstr ""
+"  -l, --list <repo>    visualiza una lista de paquetes en un repositorio\n"
 
 #, c-format
 msgid ""
 "  -p, --print-uris     print out URIs for given packages and their "
 "dependencies\n"
 msgstr ""
-"  -p, --print-uris     muestra las URIs (nombres de paquetes) para los "
-"archivos indicados y sus  dependencias\n"
+"  -p, --print-uris     muestra las URIs (nombres de paquete) para los "
+"archivos indicados y sus dependencias\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search <busca> busca en los repositorios remotos por coincidencias "
+"  -s, --search <busq.> busca en los repositorios remotos por coincidencias "
 "de la cadena especificada.\n"
 
 #, c-format
 msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
 msgstr ""
-"  -u, --sysupgrade     actualiza todos los paquetes que no están al día\n"
+"  -u, --sysupgrade     actualiza todos los paquetes que están "
+"desactualizados\n"
 
 #, c-format
 msgid ""
@@ -489,9 +494,7 @@ msgstr ""
 
 #, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
-msgstr ""
-"      --needed         solo actualiza paquetes antiguos o los que no están "
-"instalados\n"
+msgstr "      --needed         no reinstala paquetes no actualizados\n"
 
 #, c-format
 msgid ""
@@ -512,7 +515,8 @@ msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <ruta>  define un archivo de configuración alterno\n"
+msgstr ""
+"      --config <ruta>  define un archivo de configuración alternativo\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -526,7 +530,7 @@ msgstr "      --noconfirm      no solicita confirmación alguna\n"
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
-"      --noprogressbar  no muestra la barra de progreso cuando descarga "
+"      --noprogressbar  no muestra la barra de progreso cuando se descargan "
 "archivos\n"
 
 #, c-format
@@ -566,7 +570,7 @@ msgstr ""
 
 #, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "problemas al establecer el rootdir '%s' (%s)\n"
+msgstr "problemas definiendo el directorio raíz '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
@@ -594,17 +598,17 @@ msgstr "el archivo de configuración %s no se ha podido leer.\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "archivo de configuración %s, linea %d: nombre de sección erroneo.\n"
+msgstr "archivo de configuración %s, linea %d: nombre de sección erróneo.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "no se pudo registrar la base de datos 'local' (%s)\n"
+msgstr "no se pudo registrar la base de datos '%s' (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
-"archivo de configuración %s, linea %d: error en la sintaxis del\n"
-"archivo- clave desaparecida.\n"
+"archivo de configuración %s, linea %d: error de sintaxis - clave "
+"desaparecida.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
@@ -619,11 +623,12 @@ msgstr ""
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "valor invalido para 'CleanMethod' : '%s'\n"
+msgstr "valor no válido para 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "no se pudo registrar la base de datos 'local' (%s)\n"
+msgstr ""
+"no se pudo agregar la URL del servidor a la base de datos  '%s': %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -811,7 +816,7 @@ msgstr "el paquete  '%s' no fue encontrado en el repositorio '%s'\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
-msgstr "El paquete '%s' no fue encontrado\n"
+msgstr "el paquete '%s' no fue encontrado\n"
 
 #, c-format
 msgid "repository \"%s\" was not found.\n"
@@ -823,7 +828,7 @@ msgstr ":: iniciando actualización completa del sistema...\n"
 
 #, c-format
 msgid "%s package not found, searching for group...\n"
-msgstr "paquete %s no encontrado, buscando el grupo...\n"
+msgstr "paquete %s no encontrado, buscando un grupo...\n"
 
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
@@ -839,7 +844,7 @@ msgstr ":: ¿Instalar %s del grupo %s?"
 
 #, c-format
 msgid "'%s': not found in sync db\n"
-msgstr "'%s': no encontrado en la lista de paquetes\n"
+msgstr "'%s': no fue encontrado en la lista de paquetes\n"
 
 #, c-format
 msgid ":: %s: conflicts with %s\n"
@@ -867,7 +872,7 @@ msgstr "%s: %s existe en el sistema de archivos\n"
 
 #, c-format
 msgid "%s is invalid or corrupted\n"
-msgstr "%s es invalido o está corrupto\n"
+msgstr "%s no es válido o está corrupto\n"
 
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
@@ -1003,7 +1008,7 @@ msgid "Cleaning up..."
 msgstr "Limpiando..."
 
 msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "No hay nada configurado para las URLs %s. Comprueba %s."
+msgstr "No se definió un agente para manejar las direcciones %s. Verifique %s."
 
 msgid "Aborting..."
 msgstr "Abortando..."
@@ -1039,10 +1044,11 @@ msgid "Found %s in build dir"
 msgstr "Encontrado %s en el directorio de compilación"
 
 msgid "Using cached copy of %s"
-msgstr "usando copia cacheada de %s"
+msgstr "usando la copia cacheada de %s"
 
 msgid "%s was not found in the build directory and is not a URL."
-msgstr "%s no fue encontrado en el directorio de compilación y no es una URL."
+msgstr ""
+"%s no fue encontrado en el directorio de compilación y no es una dirección."
 
 msgid "Downloading %s..."
 msgstr "Descargando %s..."
@@ -1051,19 +1057,20 @@ msgid "Failure while downloading %s"
 msgstr "Falló mientras se descargaba %s"
 
 msgid "Generating checksums for source files..."
-msgstr "Generando la verificación para los archivos fuentes"
+msgstr "Generando la verificación para los archivos fuentes..."
 
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr "Algoritmo de integridad '%s' invalido"
+msgstr "El algoritmo de integridad especificado '%s' no es válido."
 
 msgid "Cannot find openssl."
-msgstr "No se pudo encontrar openssl."
+msgstr "No se pudo encontrar Openssl."
 
 msgid "Unable to find source file %s to generate checksum."
-msgstr "No se pudo encontrar el archivo fuente '%s' para generar el ckecksum."
+msgstr ""
+"No se pudo encontrar el archivo fuente '%s' para generar la verificación."
 
 msgid "Invalid integrity algorithm '%s' specified"
-msgstr "Algoritmo de integridad inválido '%s' especificado"
+msgstr "El algoritmo de integridad especificado '%s' no es válido"
 
 msgid "Validating source files with %s..."
 msgstr "Validando el archivo fuente con %s..."
@@ -1072,7 +1079,7 @@ msgid "NOT FOUND"
 msgstr "NO ENCONTRADO"
 
 msgid "Passed"
-msgstr "Pasado"
+msgstr "Aprobado"
 
 msgid "FAILED"
 msgstr "FALLÓ"
@@ -1096,7 +1103,7 @@ msgid "Starting build()..."
 msgstr "Comenzando build()..."
 
 msgid "Build Failed."
-msgstr "Falló build()"
+msgstr "Falló la compilación."
 
 msgid "Tidying install..."
 msgstr "Limpiando la instalación..."
@@ -1108,10 +1115,10 @@ msgid "Compressing man pages..."
 msgstr "Comprimiendo las paginas man..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
-msgstr "Quitando símbolos de depuración de los binarios y bibliotecas..."
+msgstr "Quitando los símbolos de depuración de los binarios y bibliotecas..."
 
 msgid "Removing libtool .la files..."
-msgstr "Eliminando archivos .la de libtool"
+msgstr "Eliminando archivos .la de libtool..."
 
 msgid "Removing empty directories..."
 msgstr "Quitando directorios vacios... "
@@ -1126,7 +1133,7 @@ msgid "Generating .PKGINFO file..."
 msgstr "Generando el archivo .PKGINFO..."
 
 msgid "Please add a license line to your %s!"
-msgstr "Por favor agregar la linea de licencia a %s!"
+msgstr "Por favor agregar la línea de licencia a %s!"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Ejemplo de software con licencia GPL: license=('GPL')."
@@ -1201,13 +1208,13 @@ msgid "Version found: %s"
 msgstr "Versión encontrada: %s"
 
 msgid "requires an argument"
-msgstr ""
+msgstr "necesita un argumento"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "opción no reconocida"
 
 msgid "invalid option"
-msgstr ""
+msgstr "opción no válida"
 
 msgid "Usage: %s [options]"
 msgstr "Uso: %s [opciones]"
@@ -1265,7 +1272,7 @@ msgid "  -R, --repackage  Repackage contents of pkg/ without building"
 msgstr "  -R, --repackage  Volver a crear el paquete sin recompilar"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
-msgstr "  -s, --syncdeps   Instala las dependencias faltantes con pacman"
+msgstr "  -s, --syncdeps   Instala las dependencias faltantes con Pacman"
 
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
@@ -1288,7 +1295,7 @@ msgstr ""
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Genera un paquetesólo sólo los fuentes, sin incluir los "
+"      --source     Genera un paquete sólo los fuentes, sin incluir los "
 "descargados"
 
 msgid "These options can be passed to pacman:"
@@ -1329,7 +1336,7 @@ msgid "Cleaning up ALL files from %s."
 msgstr "Limpiando TODOS los archivos de %s."
 
 msgid "    Are you sure you wish to do this? "
-msgstr "    ¿Seguro que quieres hacer esto? "
+msgstr "    ¿Seguro que desea hacer esto? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr ""
@@ -1418,6 +1425,7 @@ msgstr "tales como arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
+"El arreglo proporcionado no puede contener operadores de comparación (< o >)."
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "El script de instalación (%s) no existe."
@@ -1541,29 +1549,26 @@ msgstr "Empaquetando %s..."
 msgid "Tar'ing up %s failed."
 msgstr "Falló empaquetando %s."
 
-#, fuzzy
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Creando y haciendo md5 de la base de datos nueva."
+msgstr "Creando y realizando verificación MD5 a la nueva base de datos..."
 
 msgid "Untar'ing %s failed."
 msgstr "Falló desempaquetando %s."
 
-#, fuzzy
 msgid "Syncing database to disk..."
-msgstr ":: Sincronizando las bases de datos de paquetes...\n"
+msgstr "Sincronizando la base de datos con el disco..."
 
 msgid "Checking integrity..."
 msgstr "Verificando la integridad..."
 
 msgid "Integrity check FAILED, reverting to old database."
-msgstr "FALLÓ el test de integridad, volviendo a la base de datos antigua."
+msgstr "FALLÓ la prueba de integridad, volviendo a la base de datos antigua."
 
-#, fuzzy
 msgid "Rotating database into place..."
-msgstr "Colocando la nueva base de datos en su sitio."
+msgstr "Rotando el sitio de la base de datos..."
 
 msgid "Finished. Your pacman database has been optimized."
-msgstr "Finalizado, Su base de datos de pacman ha sido optimizada."
+msgstr "Finalizado, Su base de datos de Pacman fue optimizada."
 
 msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
 msgstr "Uso: repo-add [-q] <ruta-a-bd> <paquete> ...\\n"
@@ -1586,20 +1591,20 @@ msgid ""
 msgstr ""
 "repo-remove actualizará una base de datos eliminando de ella el paquete"
 "\\nespecificado en la linea de comandos. Varios paquetes\\n pueden "
-"eliminarse especificandolo en la línea de comandos.\\n\\n"
+"eliminarse especificándolos en la línea de comandos.\\n\\n"
 
 msgid ""
 "The -q/--quiet flag to either program will force silent running except\\nin "
 "the case of warnings or errors.\\n\\n"
 msgstr ""
-"La bandera -q/--quiet forzarán a cualquier programa a trabajar en modo "
-"silencioso excepto \\nen  el caso the advertencias o errores.\\n\\n"
+"La bandera -q/--quiet forzará a cualquier programa a trabajar en modo "
+"silencioso excepto \\nen  el caso de advertencias o errores.\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Ejemplo: repo-add /ruta/al/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
-msgstr "Ejemplo: repo-remove /path/al/repo.db.tar.gz kernel26"
+msgstr "Ejemplo: repo-remove /ruta/al/repo.db.tar.gz kernel26"
 
 msgid ""
 "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
