@@ -1,5 +1,21 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.2.2         - log pacsave warnings to pacman.log (FS#12531)
+              - separate local DB creation and writing (FS#12263)
+              - pacman-optimize: rewrite and refresh (FS#11767)
+              - repo-add: use openssl instead of md5sum
+              - simplify doc building process for ease of development
+              - ensure correct handling of syscall interruptions
+              - readd missing newline on -Qi/-Si output (FS#11331)
+              - fix TotalDownload regression (FS#11339)
+              - makepkg:
+                - replace getopt with an internal function
+                - detect incorrect usage of provides (FS#12540)
+                - fix bash substitution to work in older versions
+                - fix updating PKGBUILD and simplify logic for SCM packages
+                - save/restore shell options before/after build() (FS#12344)
+              - documentation updates and asciidoc build fix
+              - existing translation updates
 3.2.1         - drop special handling of file:// URLs
               - display optdepends on install and upgrade
               - fix segfault on x86_64 when using UseSyslog (FS#11096)
