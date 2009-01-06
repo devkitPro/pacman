@@ -2,13 +2,13 @@
 # Copyright (C) YEAR Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Vojtěch Gondžala <vojtech.gondzala@gmail.com>, 2007, 2008.
+# Vojtěch Gondžala <vojtech.gondzala@gmail.com>, 2007, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2008-08-23 10:54-0500\n"
-"PO-Revision-Date: 2008-08-24 08:16+0200\n"
+"PO-Revision-Date: 2009-01-04 21:59+0100\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Čeština\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "v seznamu cílů nahrazuji starší verzi %s-%s za %s\n"
+msgstr "v seznamu cílů nahrazena starší verze %s-%s za %s\n"
 
 #, c-format
 msgid "skipping %s-%s because newer version %s is in the target list\n"
-msgstr "přeskakuji %s-%s protože v seznamu cílů je novější veze %s\n"
+msgstr "vynechává se %s-%s, protože v seznamu cílů je novější veze %s\n"
 
 #, c-format
 msgid "conflicting packages were found in the target list\n"
@@ -31,7 +31,7 @@ msgstr "v seznamu cílů byly nalezeny konfliktní balíčky\n"
 
 #, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "nemůžete instalovat dva konfliktní balíčky společně\n"
+msgstr "nelze instalovat dva konfliktní balíčky současně\n"
 
 #, c-format
 msgid "replacing packages with -U is not supported yet\n"
@@ -39,7 +39,7 @@ msgstr "nahrazování balíčků pomocí -U není nyní podporováno\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "balíčky můžete nahradit ručně použitím -Rd a -U\n"
+msgstr "balíčky lze nahradit ručně použitím -Rd a -U\n"
 
 #, c-format
 msgid ""
@@ -67,19 +67,19 @@ msgstr "nelze přejmenovat %s na %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
-msgstr "%s uložen jako %s\n"
+msgstr "%s byl uložen jako %s\n"
 
 #, c-format
 msgid "could not install %s as %s (%s)\n"
-msgstr "nelze nainstalovat %s jako %s (%s)\n"
+msgstr "%s nelze nainstalovat jako %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
-msgstr "%s nainstalován jako %s\n"
+msgstr "%s byl nainstalován jako %s\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
-msgstr "rozbaluji %s jako %s.pacnew\n"
+msgstr "%s byl rozbalen jako %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
@@ -151,7 +151,7 @@ msgstr "pokus o opětovné zaregistrování databáze 'local'\n"
 
 #, c-format
 msgid "database path is undefined\n"
-msgstr "cesta k databázi nebyla určena\n"
+msgstr "cesta k databázi není definována\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -171,15 +171,15 @@ msgstr "byl vybrán nahrazující balíček (%s poskytuje %s)\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "nemohu vyřešit \"%s\", závislost \"%s\"\n"
+msgstr "nelze vyřešit \"%s\", závislost \"%s\"\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "url '%s' je chybná\n"
+msgstr "URL '%s' je chybná\n"
 
 #, c-format
 msgid "url scheme not specified, assuming HTTP\n"
-msgstr "schéma url nedefinováno, předpokládám HTTP\n"
+msgstr "schéma URL nedefinováno, předpokládá se HTTP\n"
 
 #, c-format
 msgid "disk"
@@ -191,7 +191,7 @@ msgstr "selhalo získání souboru '%s' z %s: %s\n"
 
 #, c-format
 msgid "cannot resume download, starting over\n"
-msgstr "nelze navázat stahování, začínám znovu\n"
+msgstr "nelze navázat stahování, začíná se znovu\n"
 
 #, c-format
 msgid "cannot write to file '%s'\n"
@@ -211,7 +211,7 @@ msgstr "nelze změnit adresář na %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr "spouštím XferCommand: větvení selhalo!\n"
+msgstr "spouští se XferCommand: větvení selhalo!\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -231,11 +231,11 @@ msgstr "nedostatečná oprávnění"
 
 #, c-format
 msgid "could not find or read file"
-msgstr "nelze najít nebo číst soubor"
+msgstr "nelze nalézt nebo číst soubor"
 
 #, c-format
 msgid "could not find or read directory"
-msgstr "nelze najít nebo číst adresář"
+msgstr "nelze nalézt nebo číst adresář"
 
 #, c-format
 msgid "wrong or NULL argument passed"
@@ -283,7 +283,7 @@ msgstr "nelze odstranit záznam v databázi"
 
 #, c-format
 msgid "invalid url for server"
-msgstr "nesprávná url pro server"
+msgstr "nesprávná URL pro server"
 
 #, c-format
 msgid "transaction already initialized"
@@ -299,11 +299,11 @@ msgstr "duplicitní cíl"
 
 #, c-format
 msgid "transaction not prepared"
-msgstr "transakce nepřipravena"
+msgstr "transakce není připravena"
 
 #, c-format
 msgid "transaction aborted"
-msgstr "transakce zrušena"
+msgstr "transakce byla zrušena"
 
 #, c-format
 msgid "operation not compatible with the transaction type"
@@ -347,11 +347,11 @@ msgstr "jméno souboru balíčku není platné"
 
 #, c-format
 msgid "no such repository"
-msgstr "není žádný takový repositář"
+msgstr "takový repositář není nastaven"
 
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "neplatný nebo poškozený rozdíl"
+msgstr "neplatný nebo poškozený delta rozdíl"
 
 #, c-format
 msgid "delta patch failed"
@@ -359,7 +359,7 @@ msgstr "aplikace delta rozdílu selhala"
 
 #, c-format
 msgid "group not found"
-msgstr "skupina nenalezena"
+msgstr "skupina nebyla nalezena"
 
 #, c-format
 msgid "could not satisfy dependencies"
@@ -407,7 +407,7 @@ msgstr "neočekávaná chyba"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "nelze nalézt %s v databázi -- přeskakuji\n"
+msgstr "nelze nalézt %s v databázi -- vynechat\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
@@ -423,27 +423,27 @@ msgstr "nelze odstranit položku '%s' z cache\n"
 
 #, c-format
 msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: ignoruji aktualizaci balíčku (bude nahrazen %s-%s)\n"
+msgstr "%s-%s: ignoruje se aktualizace balíčku (měl být nahrazen %s-%s)\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: lokální (%s) je novější než %s (%s)\n"
+msgstr "%s: lokální verze (%s) je novější než v %s (%s)\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: ignoruji aktualizaci balíčku (%s => %s)\n"
+msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
-msgstr "repositář '%s' nenalezen\n"
+msgstr "repositář '%s' nebyl nalezen\n"
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s je aktuální -- přeskakuji\n"
+msgstr "%s-%s je aktuální -- vynechat\n"
 
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s je aktuální -- přeinstalovávám\n"
+msgstr "%s-%s je aktuální -- přeinstalovat\n"
 
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
@@ -455,7 +455,7 @@ msgstr "zjištěn konflikt nerozlišitelných balíčků\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "odstraňuji '%s' ze seznamu cílů, protože je konfliktní s '%s'\n"
+msgstr "'%s' odstraněn ze seznamu cílů, protože je konfliktní s '%s'\n"
 
 #, c-format
 msgid "command: %s\n"
@@ -463,7 +463,7 @@ msgstr "příkaz: %s\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
-msgstr "selhalo stažení některých souborů z %s\n"
+msgstr "selhalo získání některých souborů z %s\n"
 
 #, c-format
 msgid "could not create removal transaction\n"
@@ -503,7 +503,7 @@ msgstr "nelze odstranit zamykací soubor %s\n"
 
 #, c-format
 msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "V rodičovském prostředí chybí /bin/sh, ruším provádění skriptů\n"
+msgstr "V rodičovském prostředí chybí /bin/sh, ruší se provádění skriptů\n"
 
 #, c-format
 msgid "could not create temp directory\n"
@@ -539,7 +539,7 @@ msgstr "volání waitpid selhalo (%s)\n"
 
 #, c-format
 msgid "scriptlet failed to execute correctly\n"
-msgstr "správné spuštění skriptu selhalo\n"
+msgstr "skript se nepodařilo spustit správně\n"
 
 #, c-format
 msgid "could not remove tmpdir %s\n"
@@ -551,8 +551,8 @@ msgstr "nelze otevřít %s: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "neexistuje cache %s, vytvářím...\n"
+msgstr "neexistuje cache %s, vytváří se...\n"
 
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
-msgstr "nelze vytvořit cache balíčků, používám /tmp\n"
+msgstr "nelze vytvořit cache balíčků, používá se /tmp\n"
