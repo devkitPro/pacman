@@ -54,6 +54,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 		return(-1);
 	}
 
+	db->pkgcache_loaded = 1;
 	return(0);
 }
 
@@ -61,7 +62,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || db->pkgcache == NULL) {
+	if(db == NULL || !db->pkgcache_loaded) {
 		return;
 	}
 
@@ -71,10 +72,9 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	alpm_list_free_inner(db->pkgcache, (alpm_list_fn_free)_alpm_pkg_free);
 	alpm_list_free(db->pkgcache);
 	db->pkgcache = NULL;
+	db->pkgcache_loaded = 0;
 
-	if(db->grpcache) {
-		_alpm_db_free_grpcache(db);
-	}
+	_alpm_db_free_grpcache(db);
 }
 
 alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
@@ -85,13 +85,13 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 		return(NULL);
 	}
 
-	if(!db->pkgcache) {
+	if(!db->pkgcache_loaded) {
 		_alpm_db_load_pkgcache(db);
 	}
 
 	/* hmmm, still NULL ?*/
 	if(!db->pkgcache) {
-		_alpm_log(PM_LOG_DEBUG, "error: pkgcache is NULL for db '%s'\n", db->treename);
+		_alpm_log(PM_LOG_DEBUG, "warning: pkgcache is NULL for db '%s'\n", db->treename);
 	}
 
 	return(db->pkgcache);
@@ -104,7 +104,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || pkg == NULL) {
+	if(db == NULL || !db->pkgcache_loaded || pkg == NULL) {
 		return(-1);
 	}
 
@@ -139,7 +139,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || pkg == NULL) {
+	if(db == NULL || !db->pkgcache_loaded || pkg == NULL) {
 		return(-1);
 	}
 
@@ -172,7 +172,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 
 	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db);
 	if(!pkgcache) {
-		_alpm_log(PM_LOG_DEBUG, "error: failed to get '%s' from NULL pkgcache\n",
+		_alpm_log(PM_LOG_DEBUG, "warning: failed to get '%s' from NULL pkgcache\n",
 				target);
 		return(NULL);
 	}
@@ -190,10 +190,6 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 
 	if(db == NULL) {
 		return(-1);
-	}
-
-	if(db->pkgcache == NULL) {
-		_alpm_db_load_pkgcache(db);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'\n",
@@ -230,6 +226,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 		}
 	}
 
+	db->grpcache_loaded = 1;
 	return(0);
 }
 
@@ -239,15 +236,19 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || db->grpcache == NULL) {
+	if(db == NULL || !db->grpcache_loaded) {
 		return;
 	}
+
+	_alpm_log(PM_LOG_DEBUG, "freeing group cache for repository '%s'\n",
+	                        db->treename);
 
 	for(lg = db->grpcache; lg; lg = lg->next) {
 		_alpm_grp_free(lg->data);
 		lg->data = NULL;
 	}
 	FREELIST(db->grpcache);
+	db->grpcache_loaded = 0;
 }
 
 alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
@@ -258,7 +259,7 @@ alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
 		return(NULL);
 	}
 
-	if(db->grpcache == NULL) {
+	if(!db->grpcache_loaded) {
 		_alpm_db_load_grpcache(db);
 	}
 

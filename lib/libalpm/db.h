@@ -42,7 +42,9 @@ struct __pmdb_t {
 	char *path;
 	char *treename;
 	void *handle;
+	unsigned short pkgcache_loaded;
 	alpm_list_t *pkgcache;
+	unsigned short grpcache_loaded;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 };
