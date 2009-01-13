@@ -547,11 +547,13 @@ check_checksums() {
 		exit 1 # $E_MISSING_PROGRAM
 	fi
 
+	local correlation=0
 	local integ required
 	for integ in md5 sha1 sha256 sha384 sha512; do
 		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
 		if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
 			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
+			correlation=1
 			local errors=0
 			local idx=0
 			local file
@@ -586,15 +588,15 @@ check_checksums() {
 				exit 1 # TODO: error code
 			fi
 		else
-			for required in ${INTEGRITY_CHECK[@]}; do
-				required="$(echo $required | tr '[:upper:]' '[:lower:]')"
-				if [ "$integ" = "$required" ]; then
-					warning "$(gettext "Integrity checks (%s) are missing or incomplete.")" "$integ"
-					break
-				fi
-			done
+			error "$(gettext "Integrity checks (%s) differ in size from the source array.")" "$integ"
+			exit 1 # TODO: error code
 		fi
 	done
+
+	if [ $correlation -eq 0 ]; then
+		error "$(gettext "Integrity checks are missing.")"
+		exit 1 # TODO: error code
+	fi
 }
 
 extract_sources() {
