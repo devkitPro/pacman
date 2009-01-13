@@ -63,7 +63,7 @@ Options
 
 **LDFLAGS=**"ldflags"::
 	Flags used for the linker. Several options may be specified with common
-	usage resembling ``-Wl,--hash-style=gnu``. Read ld(1) for more details on
+	usage resembling ``-Wl,--hash-style=gnu''. Read ld(1) for more details on
 	available linker flags.
 
 **MAKEFLAGS=**"makeflags"::
@@ -141,7 +141,7 @@ Options
 	`md5`, `sha1`, `sha256`, `sha384`, and `sha512`.
 
 **MAN_DIRS=(**{usr{,/local}{,/share},opt/*}/{man,info} ...**)**::
-	If "zipman" is specified in the OPTIONS array, this variable will
+	If `zipman` is specified in the OPTIONS array, this variable will
 	instruct makepkg where to look to compress manual (man and info)
 	pages. If you build packages that are located in opt/, you may need
 	to add the directory to this array. *NOTE:* Do not add the leading
@@ -161,7 +161,7 @@ Options
 	name.
 
 **PURGE_TARGETS=(**usr/{,share}/info/dir .podlist *.pod...**)**::
-	If "purge" is specified in the OPTIONS array, this variable will
+	If `purge` is specified in the OPTIONS array, this variable will
 	instruct makepkg which files to remove from the package. This is
 	useful for index files that are added by multiple packages.
 
