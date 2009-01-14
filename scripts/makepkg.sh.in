@@ -587,7 +587,7 @@ check_checksums() {
 				error "$(gettext "One or more files did not pass the validity check!")"
 				exit 1 # TODO: error code
 			fi
-		else
+		elif [ ${#integrity_sums[@]} -gt 0 ]; then
 			error "$(gettext "Integrity checks (%s) differ in size from the source array.")" "$integ"
 			exit 1 # TODO: error code
 		fi
