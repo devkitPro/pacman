@@ -682,7 +682,7 @@ run_build() {
 
 	local ret=0
 	if [ "$LOGGING" = "1" ]; then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
+		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-build.log"
 		if [ -f "$BUILDLOG" ]; then
 			local i=1
 			while true; do
@@ -704,6 +704,46 @@ run_build() {
 
 	if [ $ret -gt 0 ]; then
 		error "$(gettext "Build Failed.")"
+		plain "$(gettext "Aborting...")"
+		remove_deps
+		exit 2 # $E_BUILD_FAILED
+	fi
+}
+
+run_package() {
+	# clear user-specified makeflags if requested
+	if [ "$(check_option makeflags)" = "n" ]; then
+		MAKEFLAGS=""
+	fi
+
+	msg "$(gettext "Starting package()...")"
+	cd "$srcdir"
+
+	# ensure all necessary build variables are exported
+	export CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
+
+	local ret=0
+	if [ "$LOGGING" = "1" ]; then
+		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-package.log"
+		if [ -f "$BUILDLOG" ]; then
+			local i=1
+			while true; do
+				if [ -f "$BUILDLOG.$i" ]; then
+					i=$(($i +1))
+				else
+					break
+				fi
+			done
+			mv "$BUILDLOG" "$BUILDLOG.$i"
+		fi
+
+		package 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
+	else
+		package 2>&1 || ret=$?
+	fi
+
+	if [ $ret -gt 0 ]; then
+		error "$(gettext "Packaging Failed.")"
 		plain "$(gettext "Aborting...")"
 		remove_deps
 		exit 2 # $E_BUILD_FAILED
@@ -1570,7 +1610,11 @@ fi
 # Run the bare minimum in fakeroot
 if [ "$INFAKEROOT" = "1" ]; then
 	if [ "$REPKG" = "0" ]; then
-		run_build
+		if [ "$(type -t package)" != "function" ]; then
+			run_build
+		else
+			run_package
+		fi
 		tidy_install
 	fi
 
@@ -1662,11 +1706,20 @@ else
 		if [ "$REPKG" = "0" ]; then
 			devel_update
 			run_build
+			if [ "$(type -t package)" == "function" ]; then
+				run_package
+			fi
 			tidy_install
 		fi
 
 		create_package
 	else
+		if [ "$(type -t package)" == "function" ]; then
+			devel_update
+			run_build
+			cd "$startdir"
+		fi
+
 		msg "$(gettext "Entering fakeroot environment...")"
 
 		if [ "$newpkgver" != "" ]; then

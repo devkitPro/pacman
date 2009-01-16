@@ -256,6 +256,14 @@ If you create any variables of your own in the build function, it is
 recommended to use the bash `local` keyword to scope the variable to inside
 the build function.
 
+package() Function
+------------------
+An optional package() function can be specified in addition to the build() function.
+This function is run immediately after the build() function. When specified in
+combination with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot
+usage will be limited to running the packaging stage. The build() function will be
+run as the user calling makepkg.
+
 Install/Upgrade/Remove Scripting
 --------------------------------
 Pacman has the ability to store and execute a package-specific script when it
