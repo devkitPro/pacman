@@ -42,9 +42,12 @@ BUILDSCRIPT='@BUILDSCRIPT@'
 startdir="$PWD"
 srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
+
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
 other_options=('ccache' 'distcc' 'makeflags' 'force')
-readonly -a packaging_options other_options
+splitpkg_overrides=('pkgdesc' 'license' 'groups' 'depends' 'optdepends' 'provides' \
+                    'conflicts' 'replaces' 'backup' 'options' 'install')
+readonly -a packaging_options other_options splitpkg_overrides
 
 # Options
 ASROOT=0
@@ -1177,6 +1180,24 @@ devel_update() {
 			fi
 		fi
 	fi
+}
+
+backup_package_variables() {
+	for var in ${splitpkg_overrides[@]}; do
+		indirect="${var}_backup"
+		eval "${indirect}=\"${!var}\""
+	done
+}
+
+restore_package_variables() {
+	for var in ${splitpkg_overrides[@]}; do
+		indirect="${var}_backup"
+		if [ -n "${!indirect}" ]; then
+			eval "${var}=\"${!indirect}\""
+		else
+			unset ${var}
+		fi
+	done
 }
 
 # getopt like parser
