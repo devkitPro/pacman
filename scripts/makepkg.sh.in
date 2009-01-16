@@ -714,12 +714,20 @@ run_build() {
 }
 
 run_package() {
+	if [ -z "$1" ]; then
+		pkgfunc="package"
+		nameofpkg="$pkgname"
+	else
+		pkgfunc="package_$1"
+		nameofpkg="$1"
+	fi
+
 	# clear user-specified makeflags if requested
 	if [ "$(check_option makeflags)" = "n" ]; then
 		MAKEFLAGS=""
 	fi
 
-	msg "$(gettext "Starting package()...")"
+	msg "$(gettext "Starting %s()...")" "$pkgfunc"
 	cd "$srcdir"
 
 	# ensure all necessary build variables are exported
@@ -727,7 +735,7 @@ run_package() {
 
 	local ret=0
 	if [ "$LOGGING" = "1" ]; then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-package.log"
+		BUILDLOG="${startdir}/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}-package.log"
 		if [ -f "$BUILDLOG" ]; then
 			local i=1
 			while true; do
@@ -746,12 +754,12 @@ run_package() {
 		exec 3>&1
 		tee "$BUILDLOG" < "$logpipe" &
 		exec 1>"$logpipe" 2>"$logpipe"
-		package 2>&1 || ret=$?
+		$pkgfunc 2>&1 || ret=$?
 		sync
 		exec 1>&3 2>&3 3>&-
 		rm "$logpipe"
 	else
-		package 2>&1 || ret=$?
+		$pkgfunc 2>&1 || ret=$?
 	fi
 
 	if [ $ret -gt 0 ]; then
@@ -845,6 +853,12 @@ tidy_install() {
 }
 
 create_package() {
+	if [ -z "$1" ]; then
+		nameofpkg="$pkgname"
+	else
+		nameofpkg="$1"
+	fi
+
 	if [ ! -d "$pkgdir" ]; then
 		error "$(gettext "Missing pkg/ directory.")"
 		plain "$(gettext "Aborting...")"
@@ -869,7 +883,7 @@ create_package() {
 		echo "# using $(fakeroot -v)" >>.PKGINFO
 	fi
 	echo "# $(LC_ALL=C date -u)" >>.PKGINFO
-	echo "pkgname = $pkgname" >>.PKGINFO
+	echo "pkgname = $nameofpkg" >>.PKGINFO
 	echo "pkgver = $pkgver-$pkgrel" >>.PKGINFO
 	echo "pkgdesc = $pkgdesc" >>.PKGINFO
 	echo "url = $url" >>.PKGINFO
@@ -953,7 +967,7 @@ create_package() {
 		"$PKGEXT" ;;
 	esac
 
-	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
