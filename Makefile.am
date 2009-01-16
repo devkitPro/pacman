@@ -12,7 +12,7 @@ EXTRA_DIST = HACKING
 
 # Sample makepkg prototype files
 pkgdatadir = ${datadir}/${PACKAGE}
-dist_pkgdata_DATA = PKGBUILD.proto proto.install ChangeLog.proto
+dist_pkgdata_DATA = PKGBUILD.proto PKGBUILD-split.proto proto.install ChangeLog.proto
 
 # run the pactest test suite and vercmp tests
 check-local: pactest src/pacman src/util
