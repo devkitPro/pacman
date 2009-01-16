@@ -67,6 +67,7 @@ LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
 HOLDVER=0
+SPLITPKG=0
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -1565,6 +1566,10 @@ if [ "$GENINTEG" = "1" ]; then
 	exit 0 # $E_OK
 fi
 
+if [ "${#pkgname[@]}" -gt "1" ]; then
+	SPLITPKG=1
+fi
+
 # check for no-no's in the build script
 if [ -z "$pkgname" ]; then
 	error "$(gettext "%s is not allowed to be empty.")" "pkgname"
@@ -1653,16 +1658,28 @@ fi
 
 # Run the bare minimum in fakeroot
 if [ "$INFAKEROOT" = "1" ]; then
-	if [ "$REPKG" = "0" ]; then
-		if [ "$(type -t package)" != "function" ]; then
-			run_build
-		else
-			run_package
+	if [ "$SPLITPKG" = "0" ]; then
+		if [ "$REPKG" = "0" ]; then
+			if [ "$(type -t package)" != "function" ]; then
+				run_build
+			else
+				run_package
+			fi
+			tidy_install
 		fi
-		tidy_install
+		create_package
+	else
+		for pkg in ${pkgname[@]}; do
+			pkgdir="$pkgdir/$pkg"
+			mkdir -p "$pkgdir"
+			backup_package_variables
+			run_package $pkg
+			tidy_install
+			create_package $pkg
+			restore_package_variables
+			pkgdir="${pkgdir%/*}"
+		done
 	fi
-
-	create_package
 
 	msg "$(gettext "Leaving fakeroot environment.")"
 	exit 0 # $E_OK
@@ -1747,18 +1764,32 @@ else
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if [ "$(check_buildenv fakeroot)" != "y" -o $EUID -eq 0 ]; then
-		if [ "$REPKG" = "0" ]; then
+		if [ "$SPLITPKG" = "0" ]; then
+			if [ "$REPKG" = "0" ]; then
+				devel_update
+				run_build
+				if [ "$(type -t package)" == "function" ]; then
+					run_package
+				fi
+				tidy_install
+			fi
+			create_package
+		else
 			devel_update
 			run_build
-			if [ "$(type -t package)" == "function" ]; then
-				run_package
-			fi
-			tidy_install
+			for pkg in ${pkgname[@]}; do
+				pkgdir="$pkgdir/$pkg"
+				mkdir -p "$pkgdir"
+				backup_package_variables
+				run_package $pkg
+				tidy_install
+				create_package $pkg
+				restore_package_variables
+				pkgdir="${pkgdir%/*}"
+			done
 		fi
-
-		create_package
 	else
-		if [ "$(type -t package)" == "function" ]; then
+		if [ "$(type -t package)" == "function" -o "$SPLITPKG" = "1" ]; then
 			devel_update
 			run_build
 			cd "$startdir"
