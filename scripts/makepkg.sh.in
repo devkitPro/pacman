@@ -152,7 +152,7 @@ clean_up() {
 		# If it's a clean exit and -c/--clean has been passed...
 		msg "$(gettext "Cleaning up...")"
 		rm -rf "$pkgdir" "$srcdir"
-		if [ "$pkgname" != "" ]; then
+		if [ -n "$pkgname" ]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
 			rm -f "${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*"
 		fi
@@ -389,7 +389,7 @@ resolve_deps() {
 	local R_DEPS_MISSING=1
 
 	local deplist="$(check_deps $*)"
-	if [ "$deplist" = "" ]; then
+	if [ -z "$deplist" ]; then
 		return $R_DEPS_SATISFIED
 	fi
 
@@ -397,7 +397,7 @@ resolve_deps() {
 		pkgdeps="$pkgdeps $deplist"
 		# check deps again to make sure they were resolved
 		deplist="$(check_deps $*)"
-		[ "$deplist" = "" ] && return $R_DEPS_SATISFIED
+		[ -z "$deplist" ] && return $R_DEPS_SATISFIED
 	elif [ "$DEP_BIN" -eq 1 ]; then
 		error "$(gettext "Failed to install all missing dependencies.")"
 	fi
@@ -415,7 +415,7 @@ resolve_deps() {
 remove_deps() {
 	# $pkgdeps is a GLOBAL variable, set by resolve_deps()
 	[ "$RMDEPS" -eq 0 ] && return
-	[ "$pkgdeps" = "" ] && return
+	[ -z "$pkgdeps" ] && return
 
 	local dep depstrip deplist
 	deplist=""
@@ -871,7 +871,7 @@ create_package() {
 	msg "$(gettext "Creating package...")"
 
 	local builddate=$(date -u "+%s")
-	if [ "$PACKAGER" != "" ]; then
+	if [ -n "$PACKAGER" ]; then
 		local packager="$PACKAGER"
 	else
 		local packager="Unknown Packager"
@@ -892,7 +892,7 @@ create_package() {
 	echo "builddate = $builddate" >>.PKGINFO
 	echo "packager = $packager" >>.PKGINFO
 	echo "size = $size" >>.PKGINFO
-	if [ "$CARCH" != "" ]; then
+	if [ -n "$CARCH" ]; then
 		echo "arch = $CARCH" >>.PKGINFO
 	fi
 	if [ "$(check_option force)" = "y" ]; then
@@ -937,7 +937,7 @@ create_package() {
 
 	# TODO maybe remove this at some point
 	# warn if license array is not present or empty
-	if [ "$license" = "" ]; then
+	if [ -z "$license" ]; then
 		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
 		plain "$(gettext "Example for GPL'ed software: license=('GPL').")"
 	fi
@@ -945,7 +945,7 @@ create_package() {
 	local comp_files=".PKGINFO"
 
 	# check for an install script
-	if [ "$install" != "" ]; then
+	if [ -n "$install" ]; then
 		msg2 "$(gettext "Adding install script...")"
 		cp "$startdir/$install" .INSTALL
 		comp_files="$comp_files .INSTALL"
@@ -1015,7 +1015,7 @@ create_xdelta() {
 
 	rm -f "$pkginfo"
 
-	if [ "$base_file" != "" ]; then
+	if [ -n "$base_file" ]; then
 		msg "$(gettext "Making delta from version %s...")" "$latest_version"
 		local delta_file="$PKGDEST/$pkgname-${latest_version}_to_$pkgver-$pkgrel-$CARCH.delta"
 		local ret=0
@@ -1064,7 +1064,7 @@ create_srcpackage() {
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgname}/"
 
-	if [ "$install" != "" ]; then
+	if [ -n "$install" ]; then
 		if [ -f $install ]; then
 			msg2 "$(gettext "Adding install script...")"
 			ln -s "${startdir}/$install" "${srclinks}/${pkgname}/"
@@ -1131,7 +1131,7 @@ devel_check() {
 	if [ ! -f "./$BUILDSCRIPT" ]; then
 		return
 	fi
-	if [ "$FORCE_VER" = "" ]; then
+	if [ -z "$FORCE_VER" ]; then
 		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
 		# This will only be used on the first call to makepkg; subsequent
 		# calls to makepkg via fakeroot will explicitly pass the version
@@ -1174,7 +1174,7 @@ devel_check() {
 			cd ../../
 		fi
 
-		if [ "$newpkgver" != "" ]; then
+		if [ -n "$newpkgver" ]; then
 			msg2 "$(gettext "Version found: %s")" "$newpkgver"
 			pkgver=$newpkgver
 			pkgrel=1
@@ -1196,7 +1196,7 @@ devel_update() {
 	#  ...
 	#  _foo=pkgver
 	#
-	if [ "$newpkgver" != "" ]; then
+	if [ -n "$newpkgver" ]; then
 		if [ "$newpkgver" != "$pkgver" ]; then
 			if [ -f "./$BUILDSCRIPT" ]; then
 				sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "./$BUILDSCRIPT"
@@ -1453,7 +1453,7 @@ SRCDEST=${_SRCDEST:-$SRCDEST}
 SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 
 
-if [ "$HOLDVER" -eq 1 -a "$FORCE_VER" != "" ]; then
+if [ "$HOLDVER" -eq 1 -a -n "$FORCE_VER" ]; then
 	# The '\\0' is here to prevent gettext from thinking --holdver is an option
 	error "$(gettext "\\0--holdver and --forcever cannot both be specified" )"
 	exit 1
@@ -1520,7 +1520,7 @@ if [ "$INFAKEROOT" -eq 0 ]; then
 		sleep 1
 	fi
 else
-	if [ "$FAKEROOTKEY" = "" ]; then
+	if [ -z "$FAKEROOTKEY" ]; then
 		error "$(gettext "Do not use the '-F' option. This option is only for use by makepkg.")"
 		exit 1 # TODO: error code
 	fi
@@ -1551,7 +1551,7 @@ if [ ! -f "$BUILDSCRIPT" ]; then
 	fi
 else
 	crlftest=$(file $BUILDSCRIPT | grep -F 'CRLF' || true)
-	if [ "$crlftest" != "" ]; then
+	if [ -n "$crlftest" ]; then
 		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDSCRIPT"
 		exit 1
 	fi
@@ -1740,14 +1740,14 @@ if [ "$NOEXTRACT" -eq 1 ]; then
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
 	warning "$(gettext "Skipping source extraction       -- using existing src/ tree")"
 
-	if [ "$NOEXTRACT" -eq 1 -a "$(ls "$srcdir" 2>/dev/null)" = "" ]; then
+	if [ "$NOEXTRACT" -eq 1 -a -z "$(ls "$srcdir" 2>/dev/null)" ]; then
 		error "$(gettext "The source directory is empty, there is nothing to build!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
 	fi
 elif [ "$REPKG" -eq 1 ]; then
 	if [ "$PKGFUNC" -eq 0 -a "$SPLITPKG" -eq 0 \
-	     -a \( ! -d "$pkgdir" -o "$(ls "$pkgdir" 2>/dev/null)" = "" \) ]; then
+	     -a \( ! -d "$pkgdir" -o -z "$(ls "$pkgdir" 2>/dev/null)" \) ]; then
 		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
@@ -1806,7 +1806,7 @@ else
 
 		msg "$(gettext "Entering fakeroot environment...")"
 
-		if [ "$newpkgver" != "" ]; then
+		if [ -n "$newpkgver" ]; then
 			fakeroot -- $0 --forcever $newpkgver -F $ARGLIST || exit $?
 		else
 			fakeroot -- $0 -F $ARGLIST || exit $?
