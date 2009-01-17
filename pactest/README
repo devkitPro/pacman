@@ -70,12 +70,12 @@ Usage
 pactest will run the suite of tests defined by the "--test" parameter.
 
 Example:
-	./pactest.py --test=test/*
+	./pactest.py --test tests/*.py
 
-This example will run tests from the "test" directory.
+This example will run all tests from the "tests" directory.
 Note: several "--test" options can be passed to pactest.
 
-Use the ""help" option to get the full list of parameters:
+Use the "help" option to get the full list of parameters:
 	./pactest.py --help
 
 
@@ -103,15 +103,22 @@ Example:
 	------
 
 A dictionary that holds the data used in the pacman configuration file.
-It has 3 keys, each one of them pointing at a list of strings:
-  - noupgrade
-  - noextract
-  - ignorepkg
+The following options are known to be useful in pactest tests; this list
+is not necessarily complete:
+  - HoldPkg
+  - IgnorePkg
+  - IgnoreGroup
+  - SyncFirst
+  - NoExtract
+  - NoUpgrade
+  - XferCommand
+
+For documentation on these options, see the pacman.conf documentation.
 
 Examples:
-	self.option["noupgrade"] = ["etc/X11/xorg.conf",
+	self.option["NoUpgrade"] = ["etc/X11/xorg.conf",
 	                            "etc/pacman.conf"]
-	self.option["noextract"] = ["etc/lilo.conf"]
+	self.option["NoExtract"] = ["etc/lilo.conf"]
 
 	filesystem
 	----------
