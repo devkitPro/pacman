@@ -67,6 +67,7 @@ LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
 HOLDVER=0
+PKGFUNC=0
 SPLITPKG=0
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
@@ -1526,8 +1527,8 @@ else
 fi
 
 # check for sudo if we will need it during makepkg execution
-if [ "$ASROOT" = "0" -a \( "$DEP_BIN" = "1" \
-                           -o "$RMDEPS" = "1" -o "$INSTALL" = "1" \) ]; then
+if [ "$ASROOT" = "0" \
+     -a \( "$DEP_BIN" = "1" -o "$RMDEPS" = "1" -o "$INSTALL" = "1" \) ]; then
 	if [ ! "$(type -p sudo)" ]; then
 		error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"
 		plain "$(gettext "Missing dependencies cannot be installed or removed as a normal user")"
@@ -1564,6 +1565,10 @@ if [ "$GENINTEG" = "1" ]; then
 	download_sources
 	generate_checksums
 	exit 0 # $E_OK
+fi
+
+if [ "$(type -t package)" == "function" ]; then
+	PKGFUNC=1
 fi
 
 if [ "${#pkgname[@]}" -gt "1" ]; then
@@ -1659,12 +1664,12 @@ fi
 # Run the bare minimum in fakeroot
 if [ "$INFAKEROOT" = "1" ]; then
 	if [ "$SPLITPKG" = "0" ]; then
-		if [ "$REPKG" = "0" ]; then
-			if [ "$(type -t package)" != "function" ]; then
+		if [ "$PKGFUNC" = "0" ]; then
+			if [ "$REPKG" = "0" ]; then
 				run_build
-			else
-				run_package
 			fi
+		else
+			run_package
 			tidy_install
 		fi
 		create_package
@@ -1740,10 +1745,13 @@ if [ "$NOEXTRACT" = "1" ]; then
 		plain "$(gettext "Aborting...")"
 		exit 1
 	fi
-elif [ "$REPKG" = "1" -a \( ! -d "$pkgdir" -o "$(ls "$pkgdir" 2>/dev/null)" = "" \) ]; then
-	error "$(gettext "The package directory is empty, there is nothing to repackage!")"
-	plain "$(gettext "Aborting...")"
-	exit 1
+elif [ "$REPKG" = "1" ]; then
+	if [ "$PKGFUNC" = "0" -a "$SPLITPKG" = "0" \
+	     -a \( ! -d "$pkgdir" -o "$(ls "$pkgdir" 2>/dev/null)" = "" \) ]; then
+		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
 else
 	download_sources
 	check_checksums
@@ -1755,7 +1763,7 @@ if [ "$NOBUILD" = "1" ]; then
 	exit 0 #E_OK
 else
 	# check for existing pkg directory; don't remove if we are repackaging
-	if [ -d "$pkgdir" -a "$REPKG" = "0" ]; then
+	if [ -d "$pkgdir" -a \( "$REPKG" = "0" -o "$PKGFUNC" = "1" -o "$SPLITPKG" = "1" \) ]; then
 		msg "$(gettext "Removing existing pkg/ directory...")"
 		rm -rf "$pkgdir"
 	fi
@@ -1764,19 +1772,19 @@ else
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if [ "$(check_buildenv fakeroot)" != "y" -o $EUID -eq 0 ]; then
+		if [ "$REPKG" = "0" ]; then
+			devel_update
+			run_build
+		fi
 		if [ "$SPLITPKG" = "0" ]; then
-			if [ "$REPKG" = "0" ]; then
-				devel_update
-				run_build
-				if [ "$(type -t package)" == "function" ]; then
-					run_package
-				fi
+			if [ "$PKGFUNC" = "1" ]; then
+				run_package
+				tidy_install
+			elif [ "$REPKG" = "0" ]; then
 				tidy_install
 			fi
 			create_package
 		else
-			devel_update
-			run_build
 			for pkg in ${pkgname[@]}; do
 				pkgdir="$pkgdir/$pkg"
 				mkdir -p "$pkgdir"
@@ -1789,7 +1797,7 @@ else
 			done
 		fi
 	else
-		if [ "$(type -t package)" == "function" -o "$SPLITPKG" = "1" ]; then
+		if [ "$REPKG" = "0" -a \( "$PKGFUNC" == "1" -o "$SPLITPKG" = "1" \) ]; then
 			devel_update
 			run_build
 			cd "$startdir"
