@@ -42,9 +42,12 @@ BUILDSCRIPT='@BUILDSCRIPT@'
 startdir="$PWD"
 srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
+
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
 other_options=('ccache' 'distcc' 'makeflags' 'force')
-readonly -a packaging_options other_options
+splitpkg_overrides=('pkgdesc' 'license' 'groups' 'depends' 'optdepends' 'provides' \
+                    'conflicts' 'replaces' 'backup' 'options' 'install')
+readonly -a packaging_options other_options splitpkg_overrides
 
 # Options
 ASROOT=0
@@ -64,6 +67,7 @@ LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
 HOLDVER=0
+SPLITPKG=0
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -682,7 +686,7 @@ run_build() {
 
 	local ret=0
 	if [ "$LOGGING" = "1" ]; then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log"
+		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-build.log"
 		if [ -f "$BUILDLOG" ]; then
 			local i=1
 			while true; do
@@ -704,6 +708,63 @@ run_build() {
 
 	if [ $ret -gt 0 ]; then
 		error "$(gettext "Build Failed.")"
+		plain "$(gettext "Aborting...")"
+		remove_deps
+		exit 2 # $E_BUILD_FAILED
+	fi
+}
+
+run_package() {
+	if [ -z "$1" ]; then
+		pkgfunc="package"
+		nameofpkg="$pkgname"
+	else
+		pkgfunc="package_$1"
+		nameofpkg="$1"
+	fi
+
+	# clear user-specified makeflags if requested
+	if [ "$(check_option makeflags)" = "n" ]; then
+		MAKEFLAGS=""
+	fi
+
+	msg "$(gettext "Starting %s()...")" "$pkgfunc"
+	cd "$srcdir"
+
+	# ensure all necessary build variables are exported
+	export CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
+
+	local ret=0
+	if [ "$LOGGING" = "1" ]; then
+		BUILDLOG="${startdir}/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}-package.log"
+		if [ -f "$BUILDLOG" ]; then
+			local i=1
+			while true; do
+				if [ -f "$BUILDLOG.$i" ]; then
+					i=$(($i +1))
+				else
+					break
+				fi
+			done
+			mv "$BUILDLOG" "$BUILDLOG.$i"
+		fi
+
+		# ensure overridden package variables suvrive tee with split packages
+		logpipe=$(mktemp -u "$startdir/logpipe.XXXXXXXX")
+		mknod "$logpipe" p
+		exec 3>&1
+		tee "$BUILDLOG" < "$logpipe" &
+		exec 1>"$logpipe" 2>"$logpipe"
+		$pkgfunc 2>&1 || ret=$?
+		sync
+		exec 1>&3 2>&3 3>&-
+		rm "$logpipe"
+	else
+		$pkgfunc 2>&1 || ret=$?
+	fi
+
+	if [ $ret -gt 0 ]; then
+		error "$(gettext "Packaging Failed.")"
 		plain "$(gettext "Aborting...")"
 		remove_deps
 		exit 2 # $E_BUILD_FAILED
@@ -793,6 +854,12 @@ tidy_install() {
 }
 
 create_package() {
+	if [ -z "$1" ]; then
+		nameofpkg="$pkgname"
+	else
+		nameofpkg="$1"
+	fi
+
 	if [ ! -d "$pkgdir" ]; then
 		error "$(gettext "Missing pkg/ directory.")"
 		plain "$(gettext "Aborting...")"
@@ -817,7 +884,7 @@ create_package() {
 		echo "# using $(fakeroot -v)" >>.PKGINFO
 	fi
 	echo "# $(LC_ALL=C date -u)" >>.PKGINFO
-	echo "pkgname = $pkgname" >>.PKGINFO
+	echo "pkgname = $nameofpkg" >>.PKGINFO
 	echo "pkgver = $pkgver-$pkgrel" >>.PKGINFO
 	echo "pkgdesc = $pkgdesc" >>.PKGINFO
 	echo "url = $url" >>.PKGINFO
@@ -901,7 +968,7 @@ create_package() {
 		"$PKGEXT" ;;
 	esac
 
-	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
@@ -1137,6 +1204,24 @@ devel_update() {
 			fi
 		fi
 	fi
+}
+
+backup_package_variables() {
+	for var in ${splitpkg_overrides[@]}; do
+		indirect="${var}_backup"
+		eval "${indirect}=\"${!var}\""
+	done
+}
+
+restore_package_variables() {
+	for var in ${splitpkg_overrides[@]}; do
+		indirect="${var}_backup"
+		if [ -n "${!indirect}" ]; then
+			eval "${var}=\"${!indirect}\""
+		else
+			unset ${var}
+		fi
+	done
 }
 
 # getopt like parser
@@ -1481,6 +1566,10 @@ if [ "$GENINTEG" = "1" ]; then
 	exit 0 # $E_OK
 fi
 
+if [ "${#pkgname[@]}" -gt "1" ]; then
+	SPLITPKG=1
+fi
+
 # check for no-no's in the build script
 if [ -z "$pkgname" ]; then
 	error "$(gettext "%s is not allowed to be empty.")" "pkgname"
@@ -1569,12 +1658,28 @@ fi
 
 # Run the bare minimum in fakeroot
 if [ "$INFAKEROOT" = "1" ]; then
-	if [ "$REPKG" = "0" ]; then
-		run_build
-		tidy_install
+	if [ "$SPLITPKG" = "0" ]; then
+		if [ "$REPKG" = "0" ]; then
+			if [ "$(type -t package)" != "function" ]; then
+				run_build
+			else
+				run_package
+			fi
+			tidy_install
+		fi
+		create_package
+	else
+		for pkg in ${pkgname[@]}; do
+			pkgdir="$pkgdir/$pkg"
+			mkdir -p "$pkgdir"
+			backup_package_variables
+			run_package $pkg
+			tidy_install
+			create_package $pkg
+			restore_package_variables
+			pkgdir="${pkgdir%/*}"
+		done
 	fi
-
-	create_package
 
 	msg "$(gettext "Leaving fakeroot environment.")"
 	exit 0 # $E_OK
@@ -1659,14 +1764,37 @@ else
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if [ "$(check_buildenv fakeroot)" != "y" -o $EUID -eq 0 ]; then
-		if [ "$REPKG" = "0" ]; then
+		if [ "$SPLITPKG" = "0" ]; then
+			if [ "$REPKG" = "0" ]; then
+				devel_update
+				run_build
+				if [ "$(type -t package)" == "function" ]; then
+					run_package
+				fi
+				tidy_install
+			fi
+			create_package
+		else
 			devel_update
 			run_build
-			tidy_install
+			for pkg in ${pkgname[@]}; do
+				pkgdir="$pkgdir/$pkg"
+				mkdir -p "$pkgdir"
+				backup_package_variables
+				run_package $pkg
+				tidy_install
+				create_package $pkg
+				restore_package_variables
+				pkgdir="${pkgdir%/*}"
+			done
+		fi
+	else
+		if [ "$(type -t package)" == "function" -o "$SPLITPKG" = "1" ]; then
+			devel_update
+			run_build
+			cd "$startdir"
 		fi
 
-		create_package
-	else
 		msg "$(gettext "Entering fakeroot environment...")"
 
 		if [ "$newpkgver" != "" ]; then
