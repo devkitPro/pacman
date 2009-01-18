@@ -292,12 +292,12 @@ static int extract_single_file(struct archive *archive,
 		/* the install script goes inside the db */
 		snprintf(filename, PATH_MAX, "%s%s-%s/install", db->path,
 				newpkg->name, newpkg->version);
-		archive_entry_set_mode(entry, 0644);
+		archive_entry_set_perm(entry, 0644);
 	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
 		/* the changelog goes inside the db */
 		snprintf(filename, PATH_MAX, "%s%s-%s/changelog", db->path,
 				newpkg->name, newpkg->version);
-		archive_entry_set_mode(entry, 0644);
+		archive_entry_set_perm(entry, 0644);
 	} else if(*entryname == '.') {
 		/* for now, ignore all files starting with '.' that haven't
 		 * already been handled (for future possibilities) */
