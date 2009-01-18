@@ -310,9 +310,9 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		entryname = archive_entry_pathname(entry);
 		
 		if(S_ISREG(st->st_mode)) {
-			archive_entry_set_mode(entry, 0644);
+			archive_entry_set_perm(entry, 0644);
 		} else if(S_ISDIR(st->st_mode)) {
-			archive_entry_set_mode(entry, 0755);
+			archive_entry_set_perm(entry, 0755);
 		}
 
 		/* If a specific file was requested skip entries that don't match. */
