@@ -288,19 +288,21 @@ int _alpm_lckrm()
  * @param archive  the archive to unpack
  * @param prefix   where to extract the files
  * @param fn       a file within the archive to unpack or NULL for all
+ * @return 0 on success, 1 on failure
  */
 int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 {
-	int ret = 1;
+	int ret = 0;
 	mode_t oldmask;
 	struct archive *_archive;
 	struct archive_entry *entry;
-	char expath[PATH_MAX];
+	char cwd[PATH_MAX];
+	int restore_cwd = 0;
 
 	ALPM_LOG_FUNC;
 
 	if((_archive = archive_read_new()) == NULL)
-		RET_ERR(PM_ERR_LIBARCHIVE, -1);
+		RET_ERR(PM_ERR_LIBARCHIVE, 1);
 
 	archive_read_support_compression_all(_archive);
 	archive_read_support_format_all(_archive);
@@ -309,10 +311,25 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive,
 				archive_error_string(_archive));
-		RET_ERR(PM_ERR_PKG_OPEN, -1);
+		RET_ERR(PM_ERR_PKG_OPEN, 1);
 	}
 
 	oldmask = umask(0022);
+
+	/* save the cwd so we can restore it later */
+	if(getcwd(cwd, PATH_MAX) == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
+	} else {
+		restore_cwd = 1;
+	}
+
+	/* just in case our cwd was removed in the upgrade operation */
+	if(chdir(prefix) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), prefix, strerror(errno));
+		ret = 1;
+		goto cleanup;
+	}
+
 	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
 		const struct stat *st;
 		const char *entryname; /* the name of the file in the archive */
@@ -337,10 +354,6 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 		}
 
 		/* Extract the archive entry. */
-		ret = 0;
-		snprintf(expath, PATH_MAX, "%s/%s", prefix, entryname);
-		archive_entry_set_pathname(entry, expath);
-
 		int readret = archive_read_extract(_archive, entry, 0);
 		if(readret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
@@ -361,6 +374,9 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 cleanup:
 	umask(oldmask);
 	archive_read_finish(_archive);
+	if(restore_cwd) {
+		chdir(cwd);
+	}
 	return(ret);
 }
 
