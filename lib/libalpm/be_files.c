@@ -214,36 +214,6 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	return(0);
 }
 
-int _alpm_db_open(pmdb_t *db)
-{
-	ALPM_LOG_FUNC;
-
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_NULL, -1);
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "opening database from path '%s'\n", db->path);
-	db->handle = opendir(db->path);
-	if(db->handle == NULL) {
-		RET_ERR(PM_ERR_DB_OPEN, -1);
-	}
-
-	return(0);
-}
-
-void _alpm_db_close(pmdb_t *db)
-{
-	ALPM_LOG_FUNC;
-
-	if(db == NULL) {
-		return;
-	}
-
-	if(db->handle) {
-		closedir(db->handle);
-		db->handle = NULL;
-	}
-}
 
 static int splitname(const char *target, pmpkg_t *pkg)
 {
@@ -290,13 +260,17 @@ int _alpm_db_populate(pmdb_t *db)
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
+	DIR *dbdir;
 
 	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	rewinddir(db->handle);
-	while((ent = readdir(db->handle)) != NULL) {
+	dbdir = opendir(db->path);
+	if(dbdir == NULL) {
+		RET_ERR(PM_ERR_DB_OPEN, -1);
+	}
+	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
 		pmpkg_t *pkg;
 
@@ -311,6 +285,7 @@ int _alpm_db_populate(pmdb_t *db)
 
 		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
+			closedir(dbdir);
 			return(-1);
 		}
 		/* split the db entry name */
@@ -336,6 +311,7 @@ int _alpm_db_populate(pmdb_t *db)
 		count++;
 	}
 
+	closedir(dbdir);
 	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
 	return(count);
 }

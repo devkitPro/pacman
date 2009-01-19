@@ -41,7 +41,6 @@ typedef enum _pmdbinfrq_t {
 struct __pmdb_t {
 	char *path;
 	char *treename;
-	void *handle;
 	unsigned short pkgcache_loaded;
 	alpm_list_t *pkgcache;
 	unsigned short grpcache_loaded;
@@ -58,8 +57,6 @@ pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
 
 /* be.c, backend specific calls */
-int _alpm_db_open(pmdb_t *db);
-void _alpm_db_close(pmdb_t *db);
 int _alpm_db_populate(pmdb_t *db);
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info);

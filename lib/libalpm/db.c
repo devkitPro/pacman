@@ -85,9 +85,6 @@ static void _alpm_db_unregister(pmdb_t *db)
 		return;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "closing database '%s'\n", db->treename);
-	_alpm_db_close(db);
-
 	_alpm_log(PM_LOG_DEBUG, "unregistering database '%s'\n", db->treename);
 	_alpm_db_free(db);
 }
@@ -466,12 +463,6 @@ pmdb_t *_alpm_db_register_local(void)
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "opening database '%s'\n", db->treename);
-	if(_alpm_db_open(db) == -1) {
-		_alpm_db_free(db);
-		RET_ERR(PM_ERR_DB_OPEN, NULL);
-	}
-
 	handle->db_local = db;
 	return(db);
 }
@@ -520,12 +511,6 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 	db = _alpm_db_new(path, treename);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "opening database '%s'\n", db->treename);
-	if(_alpm_db_open(db) == -1) {
-		_alpm_db_free(db);
-		RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
