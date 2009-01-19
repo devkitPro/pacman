@@ -428,10 +428,8 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 
 pmdb_t *_alpm_db_register_local(void)
 {
-	struct stat buf;
 	pmdb_t *db;
 	const char *dbpath;
-	char path[PATH_MAX];
 
 	ALPM_LOG_FUNC;
 
@@ -442,20 +440,10 @@ pmdb_t *_alpm_db_register_local(void)
 
 	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 
-	/* make sure the database directory exists */
 	dbpath = alpm_option_get_dbpath();
 	if(!dbpath) {
 		_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
-	}
-	snprintf(path, PATH_MAX, "%slocal", dbpath);
-	/* TODO this is rediculous, we try to do this even if we can't */
-	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
-				path);
-		if(_alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, NULL);
-		}
 	}
 
 	db = _alpm_db_new(dbpath, "local");
@@ -469,7 +457,6 @@ pmdb_t *_alpm_db_register_local(void)
 
 pmdb_t *_alpm_db_register_sync(const char *treename)
 {
-	struct stat buf;
 	pmdb_t *db;
 	const char *dbpath;
 	char path[PATH_MAX];
@@ -487,25 +474,12 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 
 	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
-	/* make sure the database directory exists */
 	dbpath = alpm_option_get_dbpath();
 	if(!dbpath) {
 		_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);
 	}
 	/* all sync DBs now reside in the sync/ subdir of the dbpath */
-	snprintf(path, PATH_MAX, "%ssync/%s", dbpath, treename);
-	/* TODO this is rediculous, we try to do this even if we can't */
-	if(stat(path, &buf) != 0 || !S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
-				path);
-		if(_alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, NULL);
-		}
-	}
-
-	/* Ensure the db gets the real path. */
-	path[0] = '\0';
 	snprintf(path, PATH_MAX, "%ssync/", dbpath);
 
 	db = _alpm_db_new(path, treename);

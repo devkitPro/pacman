@@ -113,6 +113,26 @@ static int setlastupdate(const pmdb_t *db, time_t time)
 	return(ret);
 }
 
+static int checkdbdir(pmdb_t *db)
+{
+	struct stat buf;
+	char *path = db->path;
+
+	if(stat(path, &buf) != 0) {
+		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
+				path);
+		if(_alpm_makepath(path) != 0) {
+			RET_ERR(PM_ERR_SYSTEM, -1);
+		}
+	} else if(!S_ISDIR(buf.st_mode)) {
+		_alpm_log(PM_LOG_WARNING, "removing bogus database: %s\n", path);
+		if(unlink(path) != 0 || _alpm_makepath(path) != 0) {
+			RET_ERR(PM_ERR_SYSTEM, -1);
+		}
+	}
+	return(0);
+}
+
 /** Update a package database
  * @param force if true, then forces the update, otherwise update only in case
  * the database isn't up to date
@@ -122,7 +142,6 @@ static int setlastupdate(const pmdb_t *db, time_t time)
  */
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
-	alpm_list_t *lp;
 	char *dbfile, *dbfilepath;
 	time_t newmtime = 0, lastupdate = 0;
 	const char *dbpath;
@@ -176,14 +195,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		return(-1);
 	} else {
 		/* remove the old dir */
-		_alpm_log(PM_LOG_DEBUG, "flushing database %s\n", db->path);
-		for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
-			pmpkg_t *pkg = lp->data;
-			if(pkg && _alpm_db_remove(db, pkg) == -1) {
-				_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s%s\n"),
-						db->treename, pkg->name);
-				RET_ERR(PM_ERR_DB_REMOVE, -1);
-			}
+		if(_alpm_rmrf(db->path) != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not remove database %s\n"), db->treename);
+			RET_ERR(PM_ERR_DB_REMOVE, -1);
 		}
 
 		/* Cache needs to be rebuilt */
@@ -195,6 +209,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		sprintf(dbfilepath, "%s%s" DBEXT, dbpath, db->treename);
 
 		/* uncompress the sync database */
+		checkdbdir(db);
 		ret = _alpm_unpack(dbfilepath, db->path, NULL);
 		if(ret) {
 			free(dbfilepath);
@@ -268,7 +283,7 @@ int _alpm_db_populate(pmdb_t *db)
 
 	dbdir = opendir(db->path);
 	if(dbdir == NULL) {
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		return(0);
 	}
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
@@ -634,12 +649,16 @@ int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info)
 	int retval = 0;
 	char *pkgpath = NULL;
 
-	oldmask = umask(0000);
+	if(checkdbdir(db) != 0) {
+		return(-1);
+	}
 
+	oldmask = umask(0000);
 	pkgpath = get_pkgpath(db, info);
 
 	if((retval = mkdir(pkgpath, 0755)) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not create directory %s: %s\n"), pkgpath, strerror(errno));
+		_alpm_log(PM_LOG_ERROR, _("could not create directory %s: %s\n"),
+				pkgpath, strerror(errno));
 	}
 
 	free(pkgpath);
