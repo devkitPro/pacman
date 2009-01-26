@@ -399,6 +399,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 {
 	alpm_list_t *deps = NULL;
 	alpm_list_t *list = NULL, *remove = NULL; /* allow checkdeps usage with trans->packages */
+	alpm_list_t *unresolvable = NULL;
 	alpm_list_t *i, *j;
 	int ret = 0;
 
@@ -411,15 +412,13 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		*data = NULL;
 	}
 
-	for(i = trans->packages; i; i = i->next) {
-		pmsyncpkg_t *sync = i->data;
-		list = alpm_list_add(list, sync->pkg);
-	}
-
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		/* store a pointer to the last original target so we can tell what was
-		 * pulled by resolvedeps */
-		alpm_list_t *pulled = alpm_list_last(list);
+	if(trans->flags & PM_TRANS_FLAG_NODEPS) {
+		for(i = trans->packages; i; i = i->next) {
+			pmsyncpkg_t *sync = i->data;
+			list = alpm_list_add(list, sync->pkg);
+		}
+	} else {
+		/* Build up list by repeatedly resolving each transaction package */
 		/* Resolve targets dependencies */
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_DEBUG, "resolving target's dependencies\n");
@@ -432,14 +431,39 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
-		if(_alpm_resolvedeps(db_local, dbs_sync, list, remove, data) == -1) {
+		/* Resolve packages in the transaction one at a time, in addtion
+		   building up a list of packages which could not be resolved. */
+		for(i = trans->packages; i; i = i->next) {
+			pmpkg_t *pkg = ((pmsyncpkg_t *) i->data)->pkg;
+			if(_alpm_resolvedeps(db_local, dbs_sync, pkg, &list, remove, data) == -1) {
+				unresolvable = alpm_list_add(unresolvable, pkg);
+			}
+			/* Else, [list] now additionally contains [pkg] and all of its
+			   dependencies not already on the list */
+		}
+
+		/* If there were unresolvable top-level packages, fail the
+		   transaction. */
+		if(unresolvable != NULL) {
 			/* pm_errno is set by resolvedeps */
 			ret = -1;
 			goto cleanup;
 		}
 
-		for(i = pulled->next; i; i = i->next) {
+		/* Add all packages which were "pulled" (i.e. weren't already in the
+		   transaction) to the transaction in pmsyncpkg_t structures */
+		for(i = list; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
+			for(j = trans->packages; j; j = j->next) {
+				if(_alpm_pkg_cmp(spkg, ((pmsyncpkg_t *) j->data)->pkg) == 0) {
+					spkg = NULL;
+					break;
+				}
+			}
+			if (spkg == NULL) {
+				continue;
+			}
+
 			pmsyncpkg_t *sync = _alpm_sync_new(PM_PKG_REASON_DEPEND, spkg, NULL);
 			if(sync == NULL) {
 				ret = -1;
@@ -627,6 +651,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 cleanup:
 	alpm_list_free(list);
 	alpm_list_free(remove);
+	alpm_list_free(unresolvable);
 
 	return(ret);
 }

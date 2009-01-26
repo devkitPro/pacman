@@ -546,17 +546,33 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *exclud
 	return(NULL);
 }
 
-/* populates list with packages that need to be installed to satisfy all
- * dependencies of packages in list
+/* Computes resolvable dependencies for a given package and adds that package
+ * and those resolvable dependencies to a list.
  *
- * @param remove contains packages elected for removal
+ * @param local is the local database
+ * @param dbs_sync are the sync databases
+ * @param pkg is the package to resolve
+ * @param packages is a pointer to a list of packages which will be
+ *        searched first for any dependency packages needed to complete the
+ *        resolve, and to which will be added any [pkg] and all of its
+ *        dependencies not already on the list
+ * @param remove is the set of packages which will be removed in this
+ *        transaction
+ * @param data returns the dependency which could not be satisfied in the
+ *        event of an error
+ * @return 0 on success, with [pkg] and all of its dependencies not already on
+ *         the [*packages] list added to that list, or -1 on failure due to an
+ *         unresolvable dependency, in which case the [*packages] list will be
+ *         unmodified by this function
  */
-int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
-                      alpm_list_t *remove, alpm_list_t **data)
+int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
+                      alpm_list_t **packages, alpm_list_t *remove,
+                      alpm_list_t **data)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *targ;
 	alpm_list_t *deps = NULL;
+	alpm_list_t *packages_copy;
 
 	ALPM_LOG_FUNC;
 
@@ -564,8 +580,19 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
 		return(-1);
 	}
 
+	if(_alpm_pkg_find(*packages, pkg->name) != NULL) {
+		return(0);
+	}
+
+	/* Create a copy of the packages list, so that it can be restored
+	   on error */
+	packages_copy = alpm_list_copy(*packages);
+	/* [pkg] has not already been resolved into the packages list, so put it
+	   on that list */
+	*packages = alpm_list_add(*packages, pkg);
+
 	_alpm_log(PM_LOG_DEBUG, "started resolving dependencies\n");
-	for(i = list; i; i = i->next) {
+	for(i = alpm_list_last(*packages); i; i = i->next) {
 		pmpkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
 		deps = alpm_checkdeps(_alpm_db_get_pkgcache(local), 0, remove, targ);
@@ -573,12 +600,12 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
 		for(j = deps; j; j = j->next) {
 			pmdepmissing_t *miss = j->data;
 			pmdepend_t *missdep = alpm_miss_get_dep(miss);
-			/* check if one of the packages in list already satisfies this dependency */
-			if(_alpm_find_dep_satisfier(list, missdep)) {
+			/* check if one of the packages in the [*packages] list already satisfies this dependency */
+			if(_alpm_find_dep_satisfier(*packages, missdep)) {
 				continue;
 			}
 			/* find a satisfier package in the given repositories */
-			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, list, tpkg);
+			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, *packages, tpkg);
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
@@ -592,18 +619,21 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, alpm_list_t *list,
 						*data = alpm_list_add(*data, missd);
 					}
 				}
+				alpm_list_free(*packages);
+				*packages = packages_copy;
 				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
 				alpm_list_free(deps);
 				return(-1);
 			}  else {
 				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 					  alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
-				list = alpm_list_add(list, spkg);
+				*packages = alpm_list_add(*packages, spkg);
 			}
 		}
 		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
 		alpm_list_free(deps);
 	}
+	alpm_list_free(packages_copy);
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
 	return(0);
 }
