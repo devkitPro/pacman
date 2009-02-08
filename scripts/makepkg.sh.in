@@ -834,9 +834,9 @@ tidy_install() {
 		find ${STRIP_DIRS[@]} -type f 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
-					/usr/bin/strip --strip-debug "$binary";;
+					/usr/bin/strip -S "$binary";;
 				*application/x-archive*)    # Libraries (.a)
-					/usr/bin/strip --strip-debug "$binary";;
+					/usr/bin/strip -S "$binary";;
 				*application/x-executable*) # Binaries
 					/usr/bin/strip "$binary";;
 			esac
