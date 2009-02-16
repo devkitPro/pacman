@@ -190,7 +190,7 @@ case "${host_os}" in
 		;;
 	darwin*)
 		host_os_darwin=yes
-		SIZECMD="stat -f %z"
+		SIZECMD="/usr/bin/stat -f %z"
 		;;
 esac
 
