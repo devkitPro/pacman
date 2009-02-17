@@ -140,11 +140,11 @@ name. The syntax is: `$$source=('filename::url')$$`
 	depends.
 
 *optdepends (array)*::
-	An array of optional packages (and accompanying reasons) that are not
-	essential to the package, but would offer increased functionality or other
-	features when installed. optdepends are currently for informational
-	purposes only and are not utilized by pacman during dependency resolution.
-	The format should be similar to the following:
+	An array of packages (and accompanying reasons) that are not essential for
+	base functionality, but may be necessary to make full use of the contents
+	of this package. optdepends are currently for informational purposes only
+	and are not utilized by pacman during dependency resolution. The format
+	should be similar to the following:
 
 	optdepends=('fakeroot: for makepkg usage as normal user')
 
