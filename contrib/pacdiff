@@ -1,5 +1,5 @@
-#!/bin/sh
-#   pacdiff : a simple pacnew/pacorig/pacsave updater for /etc/
+#!/bin/bash
+#   pacdiff : a simple pacnew/pacorig/pacsave updater
 #
 #   Copyright (c) 2007 Aaron Griffin <aaronmgriffin@gmail.com>
 #
@@ -17,29 +17,60 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Original http://phraktured.net/config/bin/pacdiff
-
 diffprog=${DIFFPROG:-vimdiff}
-for x in $(find /etc/ -name "*.pacnew" -o -name "*.pacorig" -o -name "*.pacsave")
-do
-    echo "File: ${x%.pac*}"
-    chk="$(cmp $x ${x%.pac*})"
-    if [ -z "${chk}" ]; then
-        echo "  Files are identical, removing..."
-        rm $x
-    else
-        echo -n "  File differences found. (V)iew, (S)kip, (R)emove: [v/s/r] "
-        read c
-        c="$(echo $c| tr A-Z a-z)" #tolower
-        if [ "$c" = "r" ]; then
-            rm $x
-        elif [ "$c" = "s" ]; then
-            continue
-        else
-            [ "$c" = "n" -o "$c" = "N" ] || $diffprog $x ${x%.pac*}
-            echo -n "  Remove file? [Y/n] "
-            read c
-            [ "$c" = "n" -o "$c" = "N" ] || rm $x
-        fi
-    fi
-done
+locate=0
+
+usage() {
+	echo "pacdiff : a simple pacnew/pacorig/pacsave updater"
+	echo "Usage : pacdiff [-l]"
+	echo "The -l/--locate flag makes pacdiff use locate rather than find"
+}
+
+cmd() {
+	if [ $locate -eq 1 ]; then
+		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave
+	else
+		find /etc/ \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave \) -print0
+	fi
+}
+
+if [ $# -gt 0 ]; then
+	case $1 in
+		-l|--locate)
+		locate=1;;
+		*)
+		usage; exit 0;;
+	esac
+fi
+
+# see http://mywiki.wooledge.org/BashFAQ/020
+while IFS= read -u 3 -r -d '' pacfile; do
+	file="${pacfile%.pac*}"
+	echo "File: $file"
+	if [ ! -f "$file" ]; then
+		echo "  $file does not exist"
+		rm -i "$pacfile"
+		continue
+	fi
+	check="$(cmp "$pacfile" "$file")"
+	if [ -z "${check}" ]; then
+		echo "  Files are identical, removing..."
+		rm "$pacfile"
+	else
+		echo -n "  File differences found. (V)iew, (S)kip, (R)emove: [v/s/r] "
+		while read c; do
+			case $c in
+				r|R) rm "$pacfile"; break ;;
+				v|V)
+				$diffprog "$pacfile" "$file"
+				rm -i "$pacfile"; break ;;
+				s|S) break ;;
+				*) echo -n "  Invalid answer. Try again: [v/s/r] "; continue ;;
+			esac
+		done
+	fi
+done 3< <(cmd)
+
+exit 0
+
+# vim: set ts=2 sw=2 noet:
