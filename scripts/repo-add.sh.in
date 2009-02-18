@@ -319,8 +319,7 @@ for arg in "$@"; do
 	elif [ "$arg" == "--quiet" -o "$arg" == "-q" ]; then
 		QUIET=1
 	elif [ -z "$REPO_DB_FILE" ]; then
-		# store absolute path to repo DB
-		REPO_DB_FILE=$($realpath "$arg")
+		REPO_DB_FILE="$arg"
 		if [ -f "$REPO_DB_FILE" ]; then
 			if ! (bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"); then
 				error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
@@ -362,27 +361,27 @@ done
 # if all operations were a success, re-zip database
 if [ $success -eq 1 ]; then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
+
+	case "$REPO_DB_FILE" in
+		*tar.gz)  TAR_OPT="z" ;;
+		*tar.bz2) TAR_OPT="j" ;;
+		*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
+		"$REPO_DB_FILE" ;;
+	esac
+
+	filename=$(basename "$REPO_DB_FILE")
+
 	pushd "$gstmpdir" 2>&1 >/dev/null
-
 	if [ -n "$(ls)" ]; then
-		[ -f "${REPO_DB_FILE}.old" ] && rm "${REPO_DB_FILE}.old"
-		[ -f "$REPO_DB_FILE" ] && mv "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
-
-		case "$REPO_DB_FILE" in
-			*tar.gz)  TAR_OPT="z" ;;
-			*tar.bz2) TAR_OPT="j" ;;
-			*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
-			           "$REPO_DB_FILE" ;;
-		esac
-
-		bsdtar -c${TAR_OPT}f "$REPO_DB_FILE" *
+		bsdtar -c${TAR_OPT}f "$filename" *
 	else
-		# we should only end up with an empty db after a remove of the last package in the database
+		# the database will be moved to .old below, and there will be no new one to replace it
 		error "$(gettext "All packages have been removed from the database. Deleting '%s'.")" "$REPO_DB_FILE"
-		rm "$REPO_DB_FILE"
 	fi
-
 	popd 2>&1 >/dev/null
+
+	[ -f "$REPO_DB_FILE" ] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+	[ -f "$gstmpdir/$filename" ] && mv "$gstmpdir/$filename" "$REPO_DB_FILE"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 fi
