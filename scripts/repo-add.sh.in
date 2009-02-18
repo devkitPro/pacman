@@ -97,8 +97,8 @@ write_list_entry() {
 #   arg1 - path to delta
 db_write_delta()
 {
-	# blank out all variables and set deltafile to absolute path
-	local deltafile=$($realpath "$1")
+	# blank out all variables
+	local deltafile="$1"
 	local filename=$(basename "$deltafile")
 	local deltavars pkgname fromver tover arch csize md5sum
 
@@ -128,12 +128,12 @@ db_write_delta()
 #   arg1 - path to package
 db_write_entry()
 {
-	# blank out all variables and set pkgfile to an absolute path
-	local pkgfile=$($realpath "$1")
+	# blank out all variables
+	local pkgfile="$1"
 	local pkgname pkgver pkgdesc url builddate packager csize size \
 		group depend backup license replaces provides conflict force \
 		_groups _depends _backups _licenses _replaces _provides _conflicts \
-		startdir optdepend _optdepends
+		startdir optdepend _optdepends md5sum
 
 	local OLDIFS="$IFS"
 	# IFS (field separator) is only the newline character
@@ -162,21 +162,21 @@ db_write_entry()
 
 	IFS=$OLDIFS
 
-	# get compressed size of package
+	# get md5sum and compressed size of package
+	md5sum="$(openssl dgst -md5 "$pkgfile" | awk '{print $NF}')"
 	csize=$(@SIZECMD@ "$pkgfile")
-
-	startdir=$(pwd)
-	pushd "$gstmpdir" 2>&1 >/dev/null
 
 	# ensure $pkgname and $pkgver variables were found
 	if [ -z "$pkgname" -o -z "$pkgver" ]; then
 		error "$(gettext "Invalid package file '%s'.")" "$pkgfile"
-		popd 2>&1 >/dev/null
 		return 1
 	fi
 
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
+
+	startdir=$(pwd)
+	pushd "$gstmpdir" 2>&1 >/dev/null
 
 	# create package directory
 	mkdir "$pkgname-$pkgver"
@@ -194,7 +194,7 @@ db_write_entry()
 
 	# compute checksums
 	msg2 "$(gettext "Computing md5 checksums...")"
-	echo -e "%MD5SUM%\n$(openssl dgst -md5 "$pkgfile" | awk '{print $NF}')\n" >>desc
+	echo -e "%MD5SUM%\n$md5sum\n" >>desc
 
 	[ -n "$url" ] && echo -e "%URL%\n$url\n" >>desc
 	write_list_entry "LICENSE" "$_licenses" "desc"
@@ -212,6 +212,7 @@ db_write_entry()
 	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
 	# create deltas entry if there are delta files
+	# Xav : why should deltas be in $startdir?
 	for delta in $startdir/$pkgname-*-*_to_*-*-$arch.delta; do
 		# This for loop also pulls in all files that start with the current package
 		# name and are followed by a -whatever. For instance, running this loop for
@@ -237,11 +238,15 @@ db_write_entry()
 	# add the final newline
 	[ -f "deltas" ] && echo -e "" >>deltas
 
-	# preserve the modification time
-	touch -r "$pkgfile" desc depends
-	[ -f "deltas" ] && touch -r "$pkgfile" deltas
-
 	popd 2>&1 >/dev/null
+
+	# preserve the modification time
+	# Xav : what for?
+	pkgdir="$gstmpdir/$pkgname-$pkgver"
+	touch -r "$pkgfile" "$pkgdir/desc" "$pkgdir/depends"
+	[ -f "$pkgdir/deltas" ] && touch -r "$pkgfile" "$pkgdir/deltas"
+
+	return 0
 } # end db_write_entry
 
 # remove existing entries from the DB
@@ -286,16 +291,6 @@ fi
 if [ $# -lt 2 ]; then
 	usage
 	exit 1
-fi
-
-# check for and store the name of a realpath-like program
-if [ $(type -t realpath) ]; then
-	realpath='realpath'
-elif [ $(type -t readlink) ]; then
-	realpath='readlink -f'
-else
-	error "$(gettext "Either realpath or readlink are required by repo-add.")"
-	exit 1 # $E_MISSING_PROGRAM
 fi
 
 # main routine
