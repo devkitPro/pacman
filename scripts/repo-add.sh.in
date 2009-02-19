@@ -141,19 +141,22 @@ db_write_entry()
 "
 
 	# read info from the zipped package
-	local line
-	for line in $(bsdtar -xOf "$pkgfile" .PKGINFO | \
-		grep -v "^#" | sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
-		eval "$line"
-		case "$line" in
-			group=*)    _groups="$_groups$group\n" ;;
-			depend=*)   _depends="$_depends$depend\n" ;;
-			backup=*)   _backups="$_backups$backup\n" ;;
-			license=*)  _licenses="$_licenses$license\n" ;;
-			replaces=*) _replaces="$_replaces$replaces\n" ;;
-			provides=*) _provides="$_provides$provides\n" ;;
-			conflict=*) _conflicts="$_conflicts$conflict\n" ;;
-			optdepend=*) _optdepends="$_optdepends$optdepend\n" ;;
+	local line var val
+	for line in $(bsdtar -xOf "$pkgfile" .PKGINFO |
+			grep -v '^#' | sed 's|\(\w*\)\s*=\s*\(.*\)|\1 \2|'); do
+		# bash awesomeness here- var is always one word, val is everything else
+		var=${line%% *}
+		val=${line#* }
+		declare $var="$val"
+		case "$var" in
+			group)    _groups="$_groups$group\n" ;;
+			depend)   _depends="$_depends$depend\n" ;;
+			backup)   _backups="$_backups$backup\n" ;;
+			license)  _licenses="$_licenses$license\n" ;;
+			replaces) _replaces="$_replaces$replaces\n" ;;
+			provides) _provides="$_provides$provides\n" ;;
+			conflict) _conflicts="$_conflicts$conflict\n" ;;
+			optdepend) _optdepends="$_optdepends$optdepend\n" ;;
 		esac
 	done
 
