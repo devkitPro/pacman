@@ -14,6 +14,6 @@ self.addpkg2db("sync1", sp3)
 
 self.args = "-S pkg"
 
-self.addrule("PACMAN_RETCODE=1")
+self.addrule("PACMAN_RETCODE=0")
 self.addrule("!PKG_EXIST=pkg")
 self.addrule("!PKG_EXIST=cpkg")

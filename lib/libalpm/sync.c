@@ -442,12 +442,26 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			   dependencies not already on the list */
 		}
 
-		/* If there were unresolvable top-level packages, fail the
-		   transaction. */
+		/* If there were unresolvable top-level packages, prompt the user to
+		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
-			/* pm_errno is set by resolvedeps */
-			ret = -1;
-			goto cleanup;
+			int remove_unresolvable = 0;
+			QUESTION(handle->trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
+					NULL, NULL, &remove_unresolvable);
+			if (remove_unresolvable) {
+				/* User wants to remove the unresolvable packages from the
+				   transaction, so simply drop the unresolvable list.  The
+				   packages will be removed from the actual transaction when
+				   the transaction packages are replaced with a
+				   dependency-reordered list below */
+				alpm_list_free(unresolvable);
+				unresolvable = NULL;
+			}
+			else {
+				/* pm_errno is set by resolvedeps */
+				ret = -1;
+				goto cleanup;
+			}
 		}
 
 		/* Add all packages which were "pulled" (i.e. weren't already in the

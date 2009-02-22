@@ -270,6 +270,22 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 					(char *)data2,
 					(char *)data2);
 			break;
+		case PM_TRANS_CONV_REMOVE_PKGS:
+			{
+				alpm_list_t *unresolved = (alpm_list_t *) data1;
+				alpm_list_t *namelist = NULL, *i;
+				for (i = unresolved; i; i = i->next) {
+					namelist = alpm_list_add(namelist,
+							(char *)alpm_pkg_get_name(i->data));
+				}
+				printf(":: the following package(s) cannot be upgraded due to "
+						"unresolvable dependencies:\n");
+				list_display("     ", namelist);
+				*response = yesno(_("\nDo you want to skip the above "
+							"package(s) for this upgrade?"));
+				alpm_list_free(namelist);
+			}
+			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway?"),

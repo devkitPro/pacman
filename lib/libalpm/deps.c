@@ -531,8 +531,8 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *exclud
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install;
-					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
-				                 tpkg, NULL, &install);
+					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
+								pkg, tpkg, NULL, &install);
 					if(!install) {
 						continue;
 					}
@@ -609,7 +609,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
-				_alpm_log(PM_LOG_ERROR, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
+				_alpm_log(PM_LOG_WARNING, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
 			                               missdepstring, tpkg->name);
 				free(missdepstring);
 				if(data) {

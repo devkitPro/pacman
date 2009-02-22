@@ -371,7 +371,8 @@ typedef enum _pmtransconv_t {
 	PM_TRANS_CONV_REPLACE_PKG = 0x02,
 	PM_TRANS_CONV_CONFLICT_PKG = 0x04,
 	PM_TRANS_CONV_CORRUPTED_PKG = 0x08,
-	PM_TRANS_CONV_LOCAL_NEWER = 0x10
+	PM_TRANS_CONV_LOCAL_NEWER = 0x10,
+	PM_TRANS_CONV_REMOVE_PKGS = 0x20,
 } pmtransconv_t;
 
 /* Transaction Progress */
