@@ -504,8 +504,20 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 	}
 }
 
-/* helper function for resolvedeps: search for dep satisfier in dbs */
-pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *excluding, pmpkg_t *tpkg)
+/**
+ * helper function for resolvedeps: search for dep satisfier in dbs
+ *
+ * @param dep is the dependency to search for
+ * @param dbs are the databases to search
+ * @param excluding are the packages to exclude from the search
+ * @param prompt if true, will cause an unresolvable dependency to issue an
+ *        interactive prompt asking whether the package should be removed from
+ *        the transaction or the transaction aborted; if false, simply returns
+ *        an error code without prompting
+ * @return the resolved package
+ **/
+pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
+		alpm_list_t *excluding, int prompt)
 {
 	alpm_list_t *i, *j;
 	/* 1. literals */
@@ -513,9 +525,11 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *exclud
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
 		if(pkg && alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(pkg)) {
-				int install;
-				QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
-			                 tpkg, NULL, &install);
+				int install = 0;
+				if (prompt) {
+					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+							 NULL, NULL, &install);
+				}
 				if(!install) {
 					continue;
 				}
@@ -530,9 +544,11 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *exclud
 			if(alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
-					int install;
-					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
-								pkg, tpkg, NULL, &install);
+					int install = 0;
+					if (prompt) {
+						QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
+									pkg, NULL, NULL, &install);
+					}
 					if(!install) {
 						continue;
 					}
@@ -605,7 +621,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 				continue;
 			}
 			/* find a satisfier package in the given repositories */
-			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, *packages, tpkg);
+			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, *packages, 0);
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);

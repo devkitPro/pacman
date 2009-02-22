@@ -285,12 +285,12 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 			RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
 		}
 		dep = _alpm_splitdep(targ);
-		spkg = _alpm_resolvedep(dep, dbs, NULL, NULL);
+		spkg = _alpm_resolvedep(dep, dbs, NULL, 1);
 		_alpm_dep_free(dep);
 		alpm_list_free(dbs);
 	} else {
 		dep = _alpm_splitdep(targline);
-		spkg = _alpm_resolvedep(dep, dbs_sync, NULL, NULL);
+		spkg = _alpm_resolvedep(dep, dbs_sync, NULL, 1);
 		_alpm_dep_free(dep);
 	}
 	FREE(targline);
