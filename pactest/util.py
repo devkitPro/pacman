@@ -18,7 +18,7 @@
 
 import sys
 import os
-import md5
+import hashlib
 import stat
 
 
@@ -198,7 +198,7 @@ def getmd5sum(filename):
         print "file %s does not exist!" % filename
         return ""
     fd = open(filename, "rb")
-    checksum = md5.new()
+    checksum = hashlib.md5()
     while 1:
         block = fd.read(1048576)
         if not block:
@@ -211,7 +211,7 @@ def getmd5sum(filename):
 def mkmd5sum(data):
     """
     """
-    checksum = md5.new()
+    checksum = hashlib.md5()
     checksum.update("%s\n" % data)
     digest = checksum.digest()
     return "%02x"*len(digest) % tuple(map(ord, digest))
