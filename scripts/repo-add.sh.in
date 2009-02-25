@@ -57,8 +57,8 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-q] <path-to-db> <package> ...\n")"
-	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename> ...\n\n")"
+	printf "$(gettext "Usage: repo-add [-q] <path-to-db> <package|delta> ...\n")"
+	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n\n")"
@@ -106,6 +106,73 @@ find_pkgentry()
 	done
 	return 1
 }
+
+# Get the package name from the delta filename
+get_delta_pkgname() {
+	local tmp
+
+	tmp=${1##*/}
+	echo ${tmp%-*-*_to*}
+}
+
+# write a delta entry
+#   arg1 - path to delta file
+db_write_delta()
+{
+	deltafile="$1"
+	pkgname="$(get_delta_pkgname $deltafile)"
+
+	pkgentry=$(find_pkgentry $pkgname)
+	if [ -z "$pkgentry" ]; then
+		return 1
+	fi
+	deltas="$pkgentry/deltas"
+	# create deltas file if it does not already exist
+	if [ ! -f "$deltas" ]; then
+		msg2 "$(gettext "Creating 'deltas' db entry...")"
+		echo -e "%DELTAS%" >>$deltas
+	fi
+	# get md5sum and compressed size of package
+	md5sum="$(openssl dgst -md5 "$deltafile" | awk '{print $NF}')"
+	csize=$(@SIZECMD@ "$deltafile")
+
+	oldfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (source)" | sed 's/.*: *//')
+	newfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (output)" | sed 's/.*: *//')
+
+	if grep -q "$oldfile.*$newfile" $deltas; then
+		warning "$(gettext "An entry for '%s' already existed")" "$deltafile"
+		sed -i.backup "/$oldfile.*$newfile/d" $deltas && rm -f $deltas.backup
+		msg2 "$(gettext "Removing existing entry '%s'...")" "$deltafile"
+	fi
+	echo ${deltafile##*/} $md5sum $csize $oldfile $newfile >> $deltas
+
+	return 0
+} # end db_write_delta
+
+# remove a delta entry
+#   arg1 - path to delta file
+db_remove_delta()
+{
+	deltafile="$1"
+	filename=${deltafile##*/}
+	pkgname="$(get_delta_pkgname $deltafile)"
+
+	pkgentry=$(find_pkgentry $pkgname)
+	if [ -z "$pkgentry" ]; then
+		return 1
+	fi
+	deltas="$pkgentry/deltas"
+	if [ ! -f "$deltas" ]; then
+		return 1
+	fi
+	if grep -q "$filename" $deltas; then
+		sed -i.backup "/$filename/d" $deltas && rm -f $deltas.backup
+		msg2 "$(gettext "Removing existing entry '%s'...")" "$filename"
+		return 0
+	fi
+
+	return 1
+} # end db_remove_delta
 
 # write an entry to the pacman database
 #   arg1 - path to package
@@ -222,7 +289,7 @@ db_remove_entry() {
 		if [ -f "$pkgentry/deltas" ]; then
 			mv "$pkgentry/deltas" "$gstmpdir/$pkgname.deltas"
 		fi
-		msg2 "$(gettext "Removing existing package '%s'...")" \
+		msg2 "$(gettext "Removing existing entry '%s'...")" \
 		"$(basename $pkgentry)"
 		rm -rf $pkgentry
 		pkgentry=$(find_pkgentry $pkgname)
@@ -249,12 +316,26 @@ check_repo_db()
 
 add()
 {
-	pkgfile=$1
 	if [ ! -f "$1" ]; then
-		error "$(gettext "Package '%s' not found.")" "$pkgfile"
+		error "$(gettext "File '%s' not found.")" "$1"
 		return 1
 	fi
 
+	if [ "${1##*.}" == "delta" ]; then
+		deltafile=$1
+		msg "$(gettext "Adding delta '%s'")" "$deltafile"
+		if [ ! "$(type -p xdelta3)" ]; then
+			error "$(gettext "Cannot find the xdelta3 binary! Is xdelta3 installed?")"
+			exit 1
+		fi
+		if db_write_delta "$deltafile"; then
+			return 0
+		else
+			return 1
+		fi
+	fi
+
+	pkgfile=$1
 	if ! bsdtar -tf "$pkgfile" .PKGINFO 2>&1 >/dev/null; then
 		error "$(gettext "'%s' is not a package file, skipping")" "$pkgfile"
 		return 1
@@ -267,6 +348,17 @@ add()
 
 remove()
 {
+	if [ "${1##*.}" == "delta" ]; then
+		deltafile=$1
+		msg "$(gettext "Searching for delta '%s'...")" "$deltafile"
+		if db_remove_delta "$deltafile"; then
+			return 0
+		else
+			error "$(gettext "Delta matching '%s' not found.")" "$deltafile"
+			return 1
+		fi
+	fi
+
 	pkgname=$1
 	msg "$(gettext "Searching for package '%s'...")" "$pkgname"
 
