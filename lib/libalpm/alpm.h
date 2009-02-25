@@ -229,9 +229,7 @@ off_t alpm_pkg_download_size(pmpkg_t *newpkg);
  */
 
 const char *alpm_delta_get_from(pmdelta_t *delta);
-const char *alpm_delta_get_from_md5sum(pmdelta_t *delta);
 const char *alpm_delta_get_to(pmdelta_t *delta);
-const char *alpm_delta_get_to_md5sum(pmdelta_t *delta);
 const char *alpm_delta_get_filename(pmdelta_t *delta);
 const char *alpm_delta_get_md5sum(pmdelta_t *delta);
 off_t alpm_delta_get_size(pmdelta_t *delta);

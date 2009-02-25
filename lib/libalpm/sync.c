@@ -372,7 +372,6 @@ static int compute_download_size(pmpkg_t *newpkg)
 		dltsize = _alpm_shortest_delta_path(
 			alpm_pkg_get_deltas(newpkg),
 			alpm_pkg_get_filename(newpkg),
-			alpm_pkg_get_md5sum(newpkg),
 			&newpkg->delta_path);
 
 		if(newpkg->delta_path && (dltsize < pkgsize * MAX_DELTA_RATIO)) {

@@ -43,22 +43,10 @@ const char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
 	return(delta->from);
 }
 
-const char SYMEXPORT *alpm_delta_get_from_md5sum(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return(NULL));
-	return(delta->from_md5);
-}
-
 const char SYMEXPORT *alpm_delta_get_to(pmdelta_t *delta)
 {
 	ASSERT(delta != NULL, return(NULL));
 	return(delta->to);
-}
-
-const char SYMEXPORT *alpm_delta_get_to_md5sum(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return(NULL));
-	return(delta->to_md5);
 }
 
 const char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
@@ -104,12 +92,10 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 
 		/* determine whether a base 'from' file exists */
 		fpath = _alpm_filecache_find(vdelta->from);
-		md5sum = alpm_compute_md5sum(fpath);
-		if(fpath && md5sum && strcmp(md5sum, vdelta->from_md5) == 0) {
+		if(fpath) {
 			v->weight = vdelta->download_size;
 		}
 		FREE(fpath);
-		FREE(md5sum);
 
 		v->data = vdelta;
 		vertices = alpm_list_add(vertices, v);
@@ -131,8 +117,7 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 			 *     3_to_4
 			 * If J 'from' is equal to I 'to', then J is a child of I.
 			 * */
-			if(strcmp(d_j->from, d_i->to) == 0
-					&& strcmp(d_j->from_md5, d_i->to_md5) == 0) {
+			if(strcmp(d_j->from, d_i->to) == 0) {
 				v_i->children = alpm_list_add(v_i->children, v_j);
 			}
 		}
@@ -142,7 +127,7 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 }
 
 static off_t delta_vert(alpm_list_t *vertices,
-		const char *to, const char *to_md5, alpm_list_t **path) {
+		const char *to, alpm_list_t **path) {
 	alpm_list_t *i;
 	pmgraph_t *v;
 	while(1) {
@@ -186,8 +171,7 @@ static off_t delta_vert(alpm_list_t *vertices,
 		pmgraph_t *v_i = i->data;
 		pmdelta_t *d_i = v_i->data;
 
-		if(strcmp(d_i->to, to) == 0
-				|| strcmp(d_i->to_md5, to_md5) == 0) {
+		if(strcmp(d_i->to, to) == 0) {
 			if(v == NULL || v_i->weight < v->weight) {
 				v = v_i;
 				bestsize = v->weight;
@@ -212,14 +196,13 @@ static off_t delta_vert(alpm_list_t *vertices,
  * size, not the length of the path.
  * @param deltas the list of pmdelta_t * objects that a file has
  * @param to the file to start the search at
- * @param to_md5 the md5sum of the above named file
  * @param path the pointer to a list location where pmdelta_t * objects that
  * have the smallest size are placed. NULL is set if there is no path
  * possible with the files available.
  * @return the size of the path stored, or LONG_MAX if path is unfindable
  */
 off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
-		const char *to, const char *to_md5, alpm_list_t **path)
+		const char *to, alpm_list_t **path)
 {
 	alpm_list_t *bestpath = NULL;
 	alpm_list_t *vertices;
@@ -236,7 +219,7 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 
 	vertices = delta_graph_init(deltas);
 
-	bestsize = delta_vert(vertices, to, to_md5, &bestpath);
+	bestsize = delta_vert(vertices, to, &bestpath);
 
 	_alpm_log(PM_LOG_DEBUG, "delta shortest-path search complete\n");
 
@@ -250,7 +233,7 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 /** Parses the string representation of a pmdelta_t object.
  * This function assumes that the string is in the correct format.
  * This format is as follows:
- * $oldfile $oldmd5 $newfile $newmd5 $deltafile $deltamd5 $deltasize
+ * $deltafile $deltamd5 $deltasize $oldfile $newfile
  * @param line the string to parse
  * @return A pointer to the new pmdelta_t object
  */
@@ -262,9 +245,8 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	regex_t reg;
 
 	regcomp(&reg,
-			"^[^[:space:]]* [[:xdigit:]]{32}"
-			" [^[:space:]]* [[:xdigit:]]{32}"
-			" [^[:space:]]* [[:xdigit:]]{32} [[:digit:]]*$",
+			"^[^[:space:]]* [[:xdigit:]]{32} [[:digit:]]*"
+			" [^[:space:]]* [^[:space:]]*$",
 			REG_EXTENDED | REG_NOSUB | REG_NEWLINE);
 	if(regexec(&reg, line, 0, 0, 0) != 0) {
 		/* delta line is invalid, return NULL */
@@ -278,26 +260,6 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	STRDUP(delta->from, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
-
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	STRDUP(delta->from_md5, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
-
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	STRDUP(delta->to, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
-
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	STRDUP(delta->to_md5, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
-
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
 	STRDUP(delta->delta, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	tmp2 = tmp;
@@ -305,7 +267,20 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	*(tmp++) = '\0';
 	STRDUP(delta->delta_md5, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	delta->delta_size = atol(tmp);
+	tmp2 = tmp;
+	tmp = strchr(tmp, ' ');
+	*(tmp++) = '\0';
+	delta->delta_size = atol(tmp2);
+
+	tmp2 = tmp;
+	tmp = strchr(tmp, ' ');
+	*(tmp++) = '\0';
+	STRDUP(delta->from, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
+
+	tmp2 = tmp;
+	STRDUP(delta->to, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
+
+	_alpm_log(PM_LOG_DEBUG, "delta : %s %s '%lld'\n", delta->from, delta->to, (long long)delta->delta_size);
 
 	return(delta);
 }
@@ -313,9 +288,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 void _alpm_delta_free(pmdelta_t *delta)
 {
 	FREE(delta->from);
-	FREE(delta->from_md5);
 	FREE(delta->to);
-	FREE(delta->to_md5);
 	FREE(delta->delta);
 	FREE(delta->delta_md5);
 	FREE(delta);

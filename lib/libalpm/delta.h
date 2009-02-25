@@ -24,20 +24,16 @@
 #include "alpm.h"
 
 struct __pmdelta_t {
-	/** filename of the 'before' file */
-	char *from;
-	/** md5sum of the 'before' file */
-	char *from_md5;
-	/** filename of the 'after' file */
-	char *to;
-	/** md5sum of the 'after' file */
-	char *to_md5;
 	/** filename of the delta patch */
 	char *delta;
 	/** md5sum of the delta file */
 	char *delta_md5;
 	/** filesize of the delta file */
 	off_t delta_size;
+	/** filename of the 'before' file */
+	char *from;
+	/** filename of the 'after' file */
+	char *to;
 	/** download filesize of the delta file */
 	off_t download_size;
 };
@@ -45,7 +41,7 @@ struct __pmdelta_t {
 pmdelta_t *_alpm_delta_parse(char *line);
 void _alpm_delta_free(pmdelta_t *delta);
 off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
-		const char *to, const char *to_md5, alpm_list_t **path);
+		const char *to, alpm_list_t **path);
 
 #endif /* _ALPM_DELTA_H */
 
