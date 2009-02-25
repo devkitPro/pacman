@@ -1,0 +1,165 @@
+#!/bin/bash
+#
+#   pkgdelta - create delta files for use with pacman and repo-add
+#   @configure_input@
+#
+#   Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# bash options
+set -o nounset
+set -o errexit
+
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
+myver='@PACKAGE_VERSION@'
+
+QUIET=0
+
+# ensure we have a sane umask set
+umask 0022
+
+msg() {
+	[ $QUIET -ne 0 ] && return
+	local mesg=$1; shift
+	printf "==> ${mesg}\n" "$@" >&1
+}
+
+warning() {
+	local mesg=$1; shift
+	printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
+}
+
+error() {
+	local mesg=$1; shift
+	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+}
+
+# print usage instructions
+usage() {
+	printf "pkgdelta (pacman) %s\n\n" "$myver"
+	printf "$(gettext "Usage: pkgdelta [-q] <package1> <package2>\n")"
+	printf "$(gettext "\
+	pkgdelta will create a delta file between two packages\n\
+This delta file can then be added to a database using repo-add.\n\n")"
+	echo "$(gettext "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz")"
+}
+
+version() {
+	printf "pkgdelta (pacman) %s\n\n" "$myver"
+	printf "$(gettext "\
+Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\n\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
+}
+
+read_pkginfo()
+{
+	pkgname= pkgver= arch=
+	local OLDIFS=$IFS
+	# IFS (field separator) is only the newline character
+	IFS="
+"
+	local line var val
+	for line in $(bsdtar -xOf "$1" .PKGINFO 2>/dev/null |
+		grep -v "^#" | sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
+		eval "$line"
+		if [ -n "$pkgname" -a -n "$pkgver" -a -n "$arch" ]; then
+			IFS=$OLDIFS
+			return 0
+		fi
+	done
+	IFS=$OLDIFS
+	error "$(gettext "Invalid package '%s'")" "$1"
+	return 1
+}
+
+# $oldfile $oldmd5 $newfile $newmd5 $deltafile $deltamd5 $deltasize
+create_xdelta()
+{
+	local oldfile=$1
+	local newfile=$2
+	local \
+	oldname oldver oldarch \
+	newname newver newarch \
+	deltafile
+
+	read_pkginfo "$oldfile" || return 1
+	oldname="$pkgname"
+	oldver="$pkgver"
+	oldarch="$arch"
+	read_pkginfo "$newfile" || return 1
+	newname="$pkgname"
+	newver="$pkgver"
+	newarch="$arch"
+
+	if [ "$oldname" != "$newname" ]; then
+		error "$(gettext "The package names don't match : '%s' and '%s'")" "$oldname" "$newname"
+		return 1
+	fi
+
+	if [ "$oldarch" != "$newarch" ]; then
+		error "$(gettext "The package architectures don't match : '%s' and '%s'")" "$oldarch" "$newarch"
+		return 1
+	fi
+
+	if [ "$oldver" == "$newver" ]; then
+		error "$(gettext "Both packages have the same version : '%s'")" "$newver"
+		return 1
+	fi
+
+	msg "$(gettext "Generating delta from version %s to version %s")" "$oldver" "$newver"
+	deltafile="$(dirname $newfile)/$pkgname-${oldver}_to_${newver}-$arch.delta"
+	local ret=0
+
+	xdelta3 -q -f -s "$oldfile" "$newfile" "$deltafile" || ret=$?
+	if [ $ret -ne 0 ]; then
+		error "$(gettext "Delta could not be created.")"
+		return 1
+	else
+		msg "$(gettext "Generated delta : '%s'")" "$deltafile"
+		[ $QUIET -eq 1 ] && echo "$deltafile"
+	fi
+	return 0
+}
+
+case "$1" in
+	-q|--quiet) QUIET=1; shift ;;
+esac
+
+if [ $# -ne 2 ]; then
+	usage
+	exit 0
+fi
+
+if [ ! -f "$1" ]; then
+	error "$(gettext "File '%s' does not exist")" "$1"
+	exit 0
+fi
+
+if [ ! -f "$2" ]; then
+	error "$(gettext "File '%s' does not exist")" "$2"
+	exit 0
+fi
+
+if [ ! "$(type -p xdelta3)" ]; then
+	error "$(gettext "Cannot find the xdelta3 binary! Is xdelta3 installed?")"
+	exit 1
+fi
+
+create_xdelta "$1" "$2"
