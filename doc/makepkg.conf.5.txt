@@ -70,7 +70,7 @@ Options
 	This is often used to set the number of jobs used, for example, `-j2`.
 	Other flags that make accepts can also be passed.
 
-**BUILDENV=(**fakeroot !distcc color !ccache !xdelta**)**::
+**BUILDENV=(**fakeroot !distcc color !ccache**)**::
 	This array contains options that affect the build environment, the defaults
 	are shown here. All options should always be left in the array; to enable
 	or disable an option simply remove or place an ``!'' at the front of the
@@ -92,11 +92,6 @@ Options
 		compiles if you are continuously recompiling the same packages. It can
 		be disabled for individual packages by placing `!ccache` in the
 		PKGBUILD options array.
-
-	*xdelta*;;
-		Generate an xdelta binary patch from previous to current package. The
-		previous package must be available in the makepkg cache directory for
-		this to occur.
 
 **DISTCC_HOSTS=**"host1 ..."::
 	If using DistCC, this is used to specify a space-delimited list of hosts

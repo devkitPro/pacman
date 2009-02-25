@@ -982,70 +982,6 @@ create_package() {
 	shopt -u nullglob
 }
 
-create_xdelta() {
-	if [ "$(check_buildenv xdelta)" != "y" ]; then
-		return
-	elif [ ! "$(type -p xdelta)" ]; then
-		error "$(gettext "Cannot find the xdelta binary! Is xdelta installed?")"
-		return
-	fi
-
-	local pkg_file=$1
-	local cache_dir="/var/cache/pacman/pkg" # TODO: autoconf me
-	local pkginfo="$(mktemp "$startdir"/xdelta-pkginfo.XXXXXXXXX)"
-
-	local old_file old_version
-	for old_file in $(ls {"$cache_dir","$PKGDEST"}/${pkgname}-*-*{,-$CARCH}$PKGEXT 2>/dev/null); do
-		bsdtar -xOf "$old_file" .PKGINFO > "$pkginfo" || continue
-		if [ "$(cat "$pkginfo" | grep '^pkgname = ')" != "pkgname = $pkgname" ]; then
-			continue # Package name does not match.
-		elif [ "$(cat "$pkginfo" | grep '^arch = ')" != "arch = $CARCH" ] ; then
-			continue # Not same arch.
-		fi
-
-		old_version="$(cat "$pkginfo" | grep '^pkgver = ' | sed 's/^pkgver = //')"
-
-		# old_version may include the target package, only use the old versions
-		local vercmp=$(vercmp "$old_version" "$latest_version")
-		if [ "$old_version" != "$pkgver-$pkgrel" -a $vercmp -gt 0 ]; then
-			local latest_version=$old_version
-			local base_file=$old_file
-		fi
-	done
-
-	rm -f "$pkginfo"
-
-	if [ -n "$base_file" ]; then
-		msg "$(gettext "Making delta from version %s...")" "$latest_version"
-		local delta_file="$PKGDEST/$pkgname-${latest_version}_to_$pkgver-$pkgrel-$CARCH.delta"
-		local ret=0
-
-		# xdelta will decompress base_file & pkg_file into TMP_DIR (or /tmp if
-		# TMP_DIR is unset) then perform the delta on the resulting tars
-		xdelta delta "$base_file" "$pkg_file" "$delta_file" || ret=$?
-
-		if [ $ret -eq 0 -o $ret -eq 1 ]; then
-			# Generate the final gz using xdelta for compression. xdelta will be our
-			# common denominator compression utility between the packager and the
-			# users. makepkg and pacman must use the same compression algorithm or
-			# the delta generated package may not match, producing md5 checksum
-			# errors.
-			msg2 "$(gettext "Recreating package tarball from delta to match md5 signatures")"
-			msg2 "$(gettext "NOTE: the delta should ONLY be distributed with this tarball")"
-			ret=0
-			xdelta patch "$delta_file" "$base_file" "$pkg_file" || ret=$?
-			if [ $ret -ne 0 ]; then
-				error "$(gettext "Could not generate the package from the delta.")"
-				exit 1
-			fi
-		else
-			warning "$(gettext "Delta was not able to be created.")"
-		fi
-	else
-		warning "$(gettext "No previous version found, skipping xdelta.")"
-	fi
-}
-
 create_srcpackage() {
 	cd "$startdir"
 	if [ "$SOURCEONLY" -eq 2 ]; then
@@ -1810,8 +1746,6 @@ else
 			fakeroot -- $0 -F $ARGLIST || exit $?
 		fi
 	fi
-
-	create_xdelta "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 fi
 
 msg "$(gettext "Finished making: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
