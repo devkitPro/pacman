@@ -93,6 +93,20 @@ write_list_entry() {
 	fi
 }
 
+find_pkgentry()
+{
+	local pkgname=$1
+	local pkgentry
+	for pkgentry in $gstmpdir/$pkgname*; do
+		name=${pkgentry##*/}
+		if [ "${name%-*-*}" = "$pkgname" ]; then
+			echo $pkgentry
+			return 0
+		fi
+	done
+	return 1
+}
+
 # write a delta entry to the pacman database
 #   arg1 - path to delta
 db_write_delta()
@@ -186,6 +200,9 @@ db_write_entry()
 	mkdir "$pkgname-$pkgver"
 	cd "$pkgname-$pkgver"
 
+	# restore an eventual deltas file
+	[ -f "../$pkgname.deltas" ] && mv "../$pkgname.deltas" deltas
+
 	# create desc entry
 	msg2 "$(gettext "Creating 'desc' db entry...")"
 	echo -e "%FILENAME%\n$(basename "$1")\n" >>desc
@@ -256,18 +273,20 @@ db_write_entry()
 # remove existing entries from the DB
 #   arg1 - package name
 db_remove_entry() {
-	pushd "$gstmpdir" 2>&1 >/dev/null
-
-	# remove any other package in the DB with same name
-	local existing
-	for existing in *; do
-		if [ "${existing%-*-*}" = "$1" ]; then
-			msg2 "$(gettext "Removing existing package '%s'...")" "$existing"
-			rm -rf "$existing"
+	local pkgname=$1
+	local notfound=1
+	local pkgentry=$(find_pkgentry $pkgname)
+	while [ -n "$pkgentry" ]; do
+		notfound=0
+		if [ -f "$pkgentry/deltas" ]; then
+			mv "$pkgentry/deltas" "$gstmpdir/$pkgname.deltas"
 		fi
+		msg2 "$(gettext "Removing existing package '%s'...")" \
+		"$(basename $pkgentry)"
+		rm -rf $pkgentry
+		pkgentry=$(find_pkgentry $pkgname)
 	done
-
-	popd 2>&1 >/dev/null
+	return $notfound
 } # end db_remove_entry
 
 check_repo_db()
@@ -307,9 +326,16 @@ add()
 
 remove()
 {
-	msg "$(gettext "Searching for package '%s'...")" "$arg"
+	pkgname=$1
+	msg "$(gettext "Searching for package '%s'...")" "$pkgname"
 
-	db_remove_entry "$arg"
+	if db_remove_entry "$pkgname"; then
+		rm -f "$gstmpdir/$pkgname.deltas"
+		return 0
+	else
+		error "$(gettext "Package matching '%s' not found.")" "$pkgname"
+		return 1
+	fi
 }
 
 # PROGRAM START
