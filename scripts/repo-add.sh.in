@@ -270,6 +270,48 @@ db_remove_entry() {
 	popd 2>&1 >/dev/null
 } # end db_remove_entry
 
+check_repo_db()
+{
+	if [ -f "$REPO_DB_FILE" ]; then
+		if ! (bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"); then
+			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
+			exit 1
+		fi
+		msg "$(gettext "Extracting database to a temporary location...")"
+		bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
+	else
+		if [ "$cmd" == "repo-remove" ]; then
+			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
+			exit 1
+		fi
+	fi
+}
+
+add()
+{
+	pkgfile=$1
+	if [ ! -f "$1" ]; then
+		error "$(gettext "Package '%s' not found.")" "$pkgfile"
+		return 1
+	fi
+
+	if ! bsdtar -tf "$pkgfile" .PKGINFO 2>&1 >/dev/null; then
+		error "$(gettext "'%s' is not a package file, skipping")" "$pkgfile"
+		return 1
+	fi
+
+	msg "$(gettext "Adding package '%s'")" "$pkgfile"
+
+	db_write_entry "$pkgfile"
+}
+
+remove()
+{
+	msg "$(gettext "Searching for package '%s'...")" "$arg"
+
+	db_remove_entry "$arg"
+}
+
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
@@ -279,17 +321,10 @@ if [ ! $(type -t gettext) ]; then
 	}
 fi
 
-# check for help flags
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	usage
-	exit 0
-fi
-
-# check for version flags
-if [ "$1" = "-V" -o "$1" = "--version" ]; then
-	version
-	exit 0
-fi
+case "$1" in
+	-h|--help) usage; exit 0;;
+	-V|--version) version; exit 0;;
+esac
 
 # check for correct number of args
 if [ $# -lt 2 ]; then
@@ -312,52 +347,29 @@ fi
 success=0
 # parse arguments
 for arg in "$@"; do
-	if [ "$arg" == "--force" -o "$arg" == "-f" ]; then
-		warning "$(gettext "the -f and --force options are no longer recognized")"
-		msg2 "$(gettext "use options=(force) in the PKGBUILD instead")"
-	elif [ "$arg" == "--quiet" -o "$arg" == "-q" ]; then
-		QUIET=1
-	elif [ -z "$REPO_DB_FILE" ]; then
-		REPO_DB_FILE="$arg"
-		if [ -f "$REPO_DB_FILE" ]; then
-			if ! (bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"); then
-				error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
-				exit 1
-			fi
-			msg "$(gettext "Extracting database to a temporary location...")"
-			bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
-		elif [ "$cmd" == "repo-remove" ]; then
-			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
-			exit 1
-		fi
-	else
-		if [ "$cmd" == "repo-add" ]; then
-			if [ -f "$arg" ]; then
-				if ! bsdtar -tf "$arg" .PKGINFO 2>&1 >/dev/null; then
-					error "$(gettext "'%s' is not a package file, skipping")" "$arg"
-				else
-					msg "$(gettext "Adding package '%s'")" "$arg"
+	case "$arg" in
+		-q|--quiet) QUIET=1;;
 
-					if db_write_entry "$arg"; then
-						success=1
-					fi
-				fi
-			else
-				error "$(gettext "Package '%s' not found.")" "$arg"
-			fi
-		elif [ "$cmd" == "repo-remove" ]; then
-			msg "$(gettext "Searching for package '%s'...")" "$arg"
+		-f|--force)
+			warning "$(gettext "the -f and --force options are no longer recognized")"
+			msg2 "$(gettext "use options=(force) in the PKGBUILD instead")"
+			;;
 
-			if db_remove_entry "$arg"; then
-				success=1
+		*)
+			if [ -z "$REPO_DB_FILE" ]; then
+				REPO_DB_FILE="$arg"
+				check_repo_db
 			else
-				error "$(gettext "Package matching '%s' not found.")" "$arg"
+				case "$cmd" in
+					repo-add) add $arg && success=1 ;;
+					repo-remove) remove $arg && success=1 ;;
+				esac
 			fi
-		fi
-	fi
+			;;
+	esac
 done
 
-# if all operations were a success, re-zip database
+# if at least one operation was a success, re-zip database
 if [ $success -eq 1 ]; then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 
