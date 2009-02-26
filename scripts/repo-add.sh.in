@@ -172,11 +172,15 @@ db_write_entry()
 		return 1
 	fi
 
-	# remove an existing entry if it exists, ignore failures
-	db_remove_entry "$pkgname"
-
 	startdir=$(pwd)
 	pushd "$gstmpdir" 2>&1 >/dev/null
+
+	if [ -d "$pkgname-$pkgver" ]; then
+		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
+	fi
+
+	# remove an existing entry if it exists, ignore failures
+	db_remove_entry "$pkgname"
 
 	# create package directory
 	mkdir "$pkgname-$pkgver"
