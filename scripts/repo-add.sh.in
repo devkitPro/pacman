@@ -312,10 +312,20 @@ check_repo_db()
 		msg "$(gettext "Extracting database to a temporary location...")"
 		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir"
 	else
-		if [ "$cmd" == "repo-remove" ]; then
+		case "$cmd" in
+			repo-remove)
 			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
 			exit 1
-		fi
+			;;
+			repo-add)
+			# check if the file can be created (write permission, directory existence, etc)
+			if ! touch "$REPO_DB_FILE"; then
+				error "$(gettext "Repository file '%s' could not be created.")" "$REPO_DB_FILE"
+				exit 1
+			fi
+			rm -f "$REPO_DB_FILE"
+			;;
+		esac
 	fi
 }
 
