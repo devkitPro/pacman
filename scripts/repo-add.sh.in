@@ -180,10 +180,8 @@ db_write_entry()
 {
 	# blank out all variables
 	local pkgfile="$1"
-	local pkgname pkgver pkgdesc url builddate packager csize size \
-		group depend backup license replaces provides conflict force \
-		_groups _depends _backups _licenses _replaces _provides _conflicts \
-		startdir optdepend _optdepends md5sum
+	local pkgname pkgver pkgdesc csize size md5sum url arch builddate packager force \
+		_groups _licenses _replaces _depends _conflicts _provides _optdepends
 
 	local OLDIFS="$IFS"
 	# IFS (field separator) is only the newline character
@@ -200,12 +198,11 @@ db_write_entry()
 		declare $var="$val"
 		case "$var" in
 			group)    _groups="$_groups$group\n" ;;
-			depend)   _depends="$_depends$depend\n" ;;
-			backup)   _backups="$_backups$backup\n" ;;
 			license)  _licenses="$_licenses$license\n" ;;
 			replaces) _replaces="$_replaces$replaces\n" ;;
-			provides) _provides="$_provides$provides\n" ;;
+			depend)   _depends="$_depends$depend\n" ;;
 			conflict) _conflicts="$_conflicts$conflict\n" ;;
+			provides) _provides="$_provides$provides\n" ;;
 			optdepend) _optdepends="$_optdepends$optdepend\n" ;;
 		esac
 	done
@@ -222,7 +219,6 @@ db_write_entry()
 		return 1
 	fi
 
-	startdir=$(pwd)
 	pushd "$gstmpdir" 2>&1 >/dev/null
 
 	if [ -d "$pkgname-$pkgver" ]; then
