@@ -126,7 +126,7 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
-AC_CHECK_PROGS([PYTHON], [python2.5 python2.4 python], [false])
+AC_CHECK_PROGS([PYTHON], [python2.6 python2.5 python], [false])
 
 # find installed gettext
 AM_GNU_GETTEXT([external])
