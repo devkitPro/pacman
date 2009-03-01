@@ -756,7 +756,7 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			if(info->isize) {
 				/* only write installed size, csize is irrelevant once installed */
 				fprintf(fp, "%%SIZE%%\n"
-								"%ju\n\n", (intmax_t)info->isize);
+								"%jd\n\n", (intmax_t)info->isize);
 			}
 			if(info->reason) {
 				fprintf(fp, "%%REASON%%\n"
@@ -765,11 +765,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		} else {
 			if(info->size) {
 				fprintf(fp, "%%CSIZE%%\n"
-								"%ju\n\n", (intmax_t)info->size);
+								"%jd\n\n", (intmax_t)info->size);
 			}
 			if(info->isize) {
 				fprintf(fp, "%%ISIZE%%\n"
-								"%ju\n\n", (intmax_t)info->isize);
+								"%jd\n\n", (intmax_t)info->isize);
 			}
 			if(info->md5sum) {
 				fprintf(fp, "%%MD5SUM%%\n"
