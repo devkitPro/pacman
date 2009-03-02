@@ -5,6 +5,7 @@ EXTRA_DIST = \
 	gensync \
 	pacdiff \
 	paclist \
+	pacscripts \
 	pacsearch \
 	pactree \
 	updatesync \

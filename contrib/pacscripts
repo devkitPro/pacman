@@ -1,0 +1,132 @@
+#!/bin/bash
+#
+#   pacscripts : tries to print out the {pre,post}_{install,remove,upgrade}
+#   scripts of a given package
+#
+#   Copyright (c) 2009 Giulio "giulivo" Fidente <giulivo.navigante@gmail.com>
+#   Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# bash options
+set -o nounset
+set -o errexit
+
+progname=$(basename $0)
+progver="0.4"
+
+conf="/etc/pacman.conf"
+
+if [ ! -r "$conf" ]; then
+	echo "ERROR: unable to read $conf"
+	exit 1
+fi
+
+eval $(awk '/DBPath/ {print $1$2$3}' "$conf")
+eval $(awk '/CacheDir/ {print $1$2$3}' "$conf")
+pac_db="${DBPath:-/var/lib/pacman}/local"
+pac_cache="${CacheDir:-/var/cache/pacman/pkg}"
+
+error() {
+	local mesg=$1; shift
+	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+}
+
+usage() {
+	echo "This program prints out the {pre,post}_{install,remove,upgrade} scripts"
+	echo "of a given package."
+	echo "Usage: $progname pkgname|pkgfile"
+	echo
+	echo " OPTIONS:"
+	echo "  -h, --help                 Print this help message"
+	echo "  -v, --version              Print program name and version"
+	echo
+	echo "Example: $progname gconf-editor"
+	echo "Example: $progname gconf-editor-2.24.1-1-x86_64.pkg.tar.gz"
+}
+
+spacman() {
+	if [ $EUID -eq 0 ]; then
+		pacman "$@"
+	else
+		if [ ! "$(type -p sudo)" ]; then
+			error "Cannot find the sudo binary! Is sudo installed?"
+			error "Otherwise try to run the program as root"
+			exit 1
+		else
+			sudo pacman "$@"
+		fi
+	fi
+}
+
+print_db() {
+	pkg=$(pacman -Q "$1")
+	pkg=${pkg/ /-}
+	if [ -f $pac_db/$pkg*/install ]; then
+		cat $pac_db/$pkg*/install
+		echo
+		return 0
+	else
+		error "Package $1 does not include any .INSTALL script"
+		return 1
+	fi
+}
+
+print_pkg() {
+	if ! bsdtar -xOf "$1" .INSTALL 2>/dev/null; then
+		error "Package $1 does not include any .INSTALL script"
+		return 1
+	fi
+	echo
+}
+
+print_scriptlet() {
+	if [ -f "$1" ]; then
+		if bsdtar tf "$1" .PKGINFO &>/dev/null; then
+			print_pkg "$1"
+			return
+		fi
+	fi
+	if pacman -Q "$1" &>/dev/null; then
+		print_db "$1"
+		return
+	fi
+	if ! pacman -Si $1 &>/dev/null; then
+		error "Package $1 not found"
+		return 1
+	fi
+	url=$(spacman -Sdp $1 | tail -n1)
+	filename=$(basename $url)
+	if [ ! -f "$pac_cache/$filename" ]; then
+		if ! spacman -Sdw --noconfirm $1 >&2; then
+			error "Failed to download $1"
+			return 1
+		fi
+		echo >&2
+	fi
+	print_pkg "$pac_cache/$filename"
+	return
+}
+
+if [ $# -ne 1 ] ; then
+	usage
+	exit 1
+fi
+
+case "$1" in
+	--help|-h) usage; exit 0 ;;
+	--version|-v) echo "$progname version $progver"; exit 0 ;;
+	*) print_scriptlet $1 ;;
+esac
