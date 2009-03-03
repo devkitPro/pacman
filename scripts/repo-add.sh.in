@@ -100,7 +100,7 @@ find_pkgentry()
 {
 	local pkgname=$1
 	local pkgentry
-	for pkgentry in $gstmpdir/$pkgname*; do
+	for pkgentry in $tmpdir/$pkgname*; do
 		name=${pkgentry##*/}
 		if [ "${name%-*-*}" = "$pkgname" ]; then
 			echo $pkgentry
@@ -222,7 +222,7 @@ db_write_entry()
 		return 1
 	fi
 
-	cd "$gstmpdir"
+	cd "$tmpdir"
 
 	if [ -d "$pkgname-$pkgver" ]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
@@ -283,7 +283,7 @@ db_remove_entry() {
 	while [ -n "$pkgentry" ]; do
 		notfound=0
 		if [ -f "$pkgentry/deltas" ]; then
-			mv "$pkgentry/deltas" "$gstmpdir/$pkgname.deltas"
+			mv "$pkgentry/deltas" "$tmpdir/$pkgname.deltas"
 		fi
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
 		"$(basename $pkgentry)"
@@ -310,7 +310,7 @@ check_repo_db()
 			exit 1
 		fi
 		msg "$(gettext "Extracting database to a temporary location...")"
-		bsdtar -xf "$REPO_DB_FILE" -C "$gstmpdir"
+		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir"
 	else
 		if [ "$cmd" == "repo-remove" ]; then
 			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
@@ -368,7 +368,7 @@ remove()
 	msg "$(gettext "Searching for package '%s'...")" "$pkgname"
 
 	if db_remove_entry "$pkgname"; then
-		rm -f "$gstmpdir/$pkgname.deltas"
+		rm -f "$tmpdir/$pkgname.deltas"
 		return 0
 	else
 		error "$(gettext "Package matching '%s' not found.")" "$pkgname"
@@ -387,7 +387,7 @@ clean_up() {
 	local exit_code=$?
 
 	cd "$startdir"
-	[ -d "$gstmpdir" ] && rm -rf "$gstmpdir"
+	[ -d "$tmpdir" ] && rm -rf "$tmpdir"
 	[ $CLEAN_LOCK -eq 1 -a -f "$LOCKFILE" ] && rm -f "$LOCKFILE"
 
 	exit $exit_code
@@ -420,7 +420,7 @@ if [ "$cmd" != "repo-add" -a "$cmd" != "repo-remove" ]; then
 	exit 1
 fi
 
-gstmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
+tmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
 	error "$(gettext "Cannot create temp directory for database building.")"; \
 	exit 1)
 
@@ -468,7 +468,7 @@ if [ $success -eq 1 ]; then
 
 	filename=$(basename "$REPO_DB_FILE")
 
-	cd "$gstmpdir"
+	cd "$tmpdir"
 	if [ -n "$(ls)" ]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
 	else
@@ -478,7 +478,7 @@ if [ $success -eq 1 ]; then
 	cd "$startdir"
 
 	[ -f "$REPO_DB_FILE" ] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
-	[ -f "$gstmpdir/$filename" ] && mv "$gstmpdir/$filename" "$REPO_DB_FILE"
+	[ -f "$tmpdir/$filename" ] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 fi
