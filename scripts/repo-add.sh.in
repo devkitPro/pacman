@@ -28,7 +28,10 @@ myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 
 QUIET=0
-REPO_DB_FILE=""
+REPO_DB_FILE=
+LOCKFILE=
+CLEAN_LOCK=0
+startdir="$PWD"
 
 # ensure we have a sane umask set
 umask 0022
@@ -219,7 +222,7 @@ db_write_entry()
 		return 1
 	fi
 
-	pushd "$gstmpdir" 2>&1 >/dev/null
+	cd "$gstmpdir"
 
 	if [ -d "$pkgname-$pkgver" ]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
@@ -264,7 +267,7 @@ db_write_entry()
 	write_list_entry "PROVIDES" "$_provides" "depends"
 	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
-	popd 2>&1 >/dev/null
+	cd "$startdir"
 
 	# preserve the modification time
 	# Xav : what for?
@@ -295,6 +298,15 @@ db_remove_entry() {
 
 check_repo_db()
 {
+	# check lock file
+	if ( set -o noclobber; echo "$$" > "$LOCKFILE") 2> /dev/null; then
+		CLEAN_LOCK=1
+	else
+		error "$(gettext "Failed to acquire lockfile: %s.")" "$LOCKFILE"
+		[ -f "$LOCKFILE" ] && error "$(gettext "Held by %s")" "$(cat $LOCKFILE)"
+		exit 1
+	fi
+
 	if [ -f "$REPO_DB_FILE" ]; then
 		if ! (bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"); then
 			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
@@ -367,6 +379,23 @@ remove()
 	fi
 }
 
+trap_exit()
+{
+	echo
+	error "$@"
+	exit 1
+}
+
+clean_up() {
+	local exit_code=$?
+
+	cd "$startdir"
+	[ -d "$gstmpdir" ] && rm -rf "$gstmpdir"
+	[ $CLEAN_LOCK -eq 1 -a -f "$LOCKFILE" ] && rm -f "$LOCKFILE"
+
+	exit $exit_code
+}
+
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
@@ -387,17 +416,21 @@ if [ $# -lt 2 ]; then
 	exit 1
 fi
 
-# main routine
-gstmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
-	error "$(gettext "Cannot create temp directory for database building.")"; \
-	exit 1)
-
 # figure out what program we are
 cmd="$(basename $0)"
 if [ "$cmd" != "repo-add" -a "$cmd" != "repo-remove" ]; then
 	error "$(gettext "Invalid command name '%s' specified.")" "$cmd"
 	exit 1
 fi
+
+gstmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
+	error "$(gettext "Cannot create temp directory for database building.")"; \
+	exit 1)
+
+trap 'clean_up' EXIT
+trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
+trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
+trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
 
 success=0
 # parse arguments
@@ -413,6 +446,7 @@ for arg in "$@"; do
 		*)
 			if [ -z "$REPO_DB_FILE" ]; then
 				REPO_DB_FILE="$arg"
+				LOCKFILE="$REPO_DB_FILE.lck"
 				check_repo_db
 			else
 				case "$cmd" in
@@ -437,14 +471,14 @@ if [ $success -eq 1 ]; then
 
 	filename=$(basename "$REPO_DB_FILE")
 
-	pushd "$gstmpdir" 2>&1 >/dev/null
+	cd "$gstmpdir"
 	if [ -n "$(ls)" ]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
 	else
 		# the database will be moved to .old below, and there will be no new one to replace it
 		error "$(gettext "All packages have been removed from the database. Deleting '%s'.")" "$REPO_DB_FILE"
 	fi
-	popd 2>&1 >/dev/null
+	cd "$startdir"
 
 	[ -f "$REPO_DB_FILE" ] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 	[ -f "$gstmpdir/$filename" ] && mv "$gstmpdir/$filename" "$REPO_DB_FILE"
@@ -452,7 +486,5 @@ else
 	msg "$(gettext "No packages modified, nothing to do.")"
 fi
 
-# remove the temp directory used to unzip
-[ -d "$gstmpdir" ] && rm -rf "$gstmpdir"
-
+exit 0
 # vim: set ts=2 sw=2 noet:
