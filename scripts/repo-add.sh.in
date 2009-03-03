@@ -262,17 +262,14 @@ db_write_entry()
 
 	# create depends entry
 	msg2 "$(gettext "Creating 'depends' db entry...")"
+	# create the file even if it will remain empty
+	touch "depends"
 	write_list_entry "DEPENDS" "$_depends" "depends"
 	write_list_entry "CONFLICTS" "$_conflicts" "depends"
 	write_list_entry "PROVIDES" "$_provides" "depends"
 	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
 	cd "$startdir"
-
-	# preserve the modification time
-	# Xav : what for?
-	pkgdir="$gstmpdir/$pkgname-$pkgver"
-	touch -r "$pkgfile" "$pkgdir/desc" "$pkgdir/depends"
 
 	return 0
 } # end db_write_entry
