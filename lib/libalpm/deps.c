@@ -530,6 +530,8 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 				if (prompt) {
 					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 							 NULL, NULL, &install);
+				} else {
+					_alpm_log(PM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
 				}
 				if(!install) {
 					ignored = 1;
@@ -550,6 +552,8 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 					if (prompt) {
 						QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
 									pkg, NULL, NULL, &install);
+					} else {
+						_alpm_log(PM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
 					}
 					if(!install) {
 						ignored = 1;
