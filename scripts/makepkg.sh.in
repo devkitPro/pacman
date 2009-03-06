@@ -689,7 +689,7 @@ run_build() {
 
 	local ret=0
 	if [ "$LOGGING" -eq 1 ]; then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-build.log"
+		BUILDLOG="${startdir}/${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"
 		if [ -f "$BUILDLOG" ]; then
 			local i=1
 			while true; do
@@ -997,15 +997,15 @@ create_srcpackage() {
 	fi
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
-	mkdir "${srclinks}"/${pkgname}
+	mkdir "${srclinks}"/${pkgbase}
 
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
-	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgname}/"
+	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgbase}/"
 
 	if [ -n "$install" ]; then
 		if [ -f $install ]; then
 			msg2 "$(gettext "Adding install script...")"
-			ln -s "${startdir}/$install" "${srclinks}/${pkgname}/"
+			ln -s "${startdir}/$install" "${srclinks}/${pkgbase}/"
 		else
 			error "$(gettext "Install script %s not found.")" "$install"
 		fi
@@ -1013,7 +1013,7 @@ create_srcpackage() {
 
 	if [ -f ChangeLog ]; then
 		msg2 "$(gettext "Adding %s...")" "ChangeLog"
-		ln -s "${startdir}/ChangeLog" "${srclinks}/${pkgname}"
+		ln -s "${startdir}/ChangeLog" "${srclinks}/${pkgbase}"
 	fi
 
 	local netfile
@@ -1021,10 +1021,10 @@ create_srcpackage() {
 		local file=$(get_filename "$netfile")
 		if [ -f "$netfile" ]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
-			ln -s "${startdir}/$netfile" "${srclinks}/${pkgname}"
+			ln -s "${startdir}/$netfile" "${srclinks}/${pkgbase}"
 		elif [ "$SOURCEONLY" -eq 2 -a -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
-			ln -s "$SRCDEST/$file" "${srclinks}/${pkgname}/"
+			ln -s "$SRCDEST/$file" "${srclinks}/${pkgbase}/"
 		fi
 	done
 
@@ -1036,12 +1036,12 @@ create_srcpackage() {
 		"$SRCEXT" ;;
 	esac
 
-	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}"
+	local pkg_file="$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}"
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
 	cd "${srclinks}"
-	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgname}; then
+	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgbase}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
@@ -1473,9 +1473,9 @@ if [ "$ASROOT" -eq 0 \
 	fi
 fi
 
-unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums
-unset replaces depends conflicts backup source install build makedepends
-unset optdepends options noextract
+unset pkgname pkgbase pkgver pkgrel pkgdesc url license groups provides
+unset md5sums replaces depends conflicts backup source install build
+unset makedepends optdepends options noextract
 
 if [ ! -f "$BUILDSCRIPT" ]; then
 	if [ -t 0 ]; then
@@ -1507,10 +1507,6 @@ if [ "$(type -t package)" = "function" ]; then
 	PKGFUNC=1
 fi
 
-if [ "${#pkgname[@]}" -gt "1" ]; then
-	SPLITPKG=1
-fi
-
 # check for no-no's in the build script
 if [ -z "$pkgname" ]; then
 	error "$(gettext "%s is not allowed to be empty.")" "pkgname"
@@ -1537,9 +1533,11 @@ if [ "$arch" = 'any' ]; then
 	CARCH='any'
 fi
 
+pkgbase=${pkgbase:-${pkgname[0]}}
+
 if ! in_array $CARCH ${arch[@]}; then
 	if [ "$IGNOREARCH" -eq 0 ]; then
-		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
+		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
 		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
 		plain "$(gettext "such as arch=('%s').")" "$CARCH"
 		exit 1
@@ -1585,6 +1583,10 @@ unset valid_options opt known kopt
 devel_check
 devel_update
 
+if [ "${#pkgname[@]}" -gt "1" ]; then
+	SPLITPKG=1
+fi
+
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
      -a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
 	if [ "$INSTALL" -eq 1 ]; then
@@ -1626,17 +1628,17 @@ if [ "$INFAKEROOT" -eq 1 ]; then
 	exit 0 # $E_OK
 fi
 
-msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
+msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel $CARCH ($(date))"
 
 # if we are creating a source-only package, go no further
 if [ "$SOURCEONLY" -ne 0 ]; then
-	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}" \
+	if [ -f "$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}" \
 	     -a "$FORCE" -eq 0 ]; then
 		error "$(gettext "A package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
 	create_srcpackage
-	msg "$(gettext "Source package created: %s")" "$pkgname ($(date))"
+	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date))"
 	exit 0
 fi
 
@@ -1750,7 +1752,7 @@ else
 	fi
 fi
 
-msg "$(gettext "Finished making: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
+msg "$(gettext "Finished making: %s")" "$pkgbase $pkgver-$pkgrel $CARCH ($(date))"
 
 install_package
 

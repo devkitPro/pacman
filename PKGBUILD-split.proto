@@ -5,6 +5,7 @@
 
 # Contributor: Your Name <youremail@domain.com>
 pkgname=('pkg1' 'pkg2')
+pkgbase=('pkg')
 pkgver=VERSION
 pkgrel=1
 pkgdesc=""
@@ -20,12 +21,12 @@ replaces=()
 backup=()
 options=()
 install=
-source=($pkgname-$pkgver.tar.gz)
+source=($pkgbase-$pkgver.tar.gz)
 noextract=()
 md5sums=() #generate with 'makepkg -g'
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgbase-$pkgver"
   ./configure --prefix=/usr
   make || return 1
 }
@@ -44,6 +45,7 @@ package_pkg1() {
   options=()
   install=
 
+  cd "$srcdir/$pkgbase-$pkgver"
   make DESTDIR="$pkgdir/" install-pkg1
 }
 
@@ -51,5 +53,6 @@ package_pkg2() {
   # options and directives overrides
   pkgdesc=""
 
+  cd "$srcdir/$pkgbase-$pkgver"
   make DESTDIR="$pkgdir/" install-pkg2
 }
