@@ -62,6 +62,7 @@ struct __pmpkg_t {
 	alpm_list_t *provides;
 	alpm_list_t *deltas;
 	alpm_list_t *delta_path;
+	alpm_list_t *removes; /* in transaction targets only */
 	/* internal */
 	pmpkgfrom_t origin;
 	/* Replaced 'void *data' with this union as follows:

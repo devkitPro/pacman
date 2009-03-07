@@ -673,7 +673,7 @@ static int sync_trans(alpm_list_t *targets)
 		/* print uris */
 		alpm_list_t *i;
 		for(i = packages; i; i = alpm_list_next(i)) {
-			pmpkg_t *pkg = alpm_sync_get_pkg((pmsyncpkg_t *)alpm_list_getdata(i));
+			pmpkg_t *pkg = alpm_list_getdata(i);
 			pmdb_t *db = alpm_pkg_get_db(pkg);
 			printf("%s/%s\n", alpm_db_get_url(db), alpm_pkg_get_filename(pkg));
 		}

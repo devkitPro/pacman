@@ -23,24 +23,11 @@
 
 #include "alpm.h"
 
-/* Sync package */
-struct __pmsyncpkg_t {
-	pmpkgreason_t newreason;
-	pmpkg_t *pkg;
-	alpm_list_t *removes;
-};
-
-pmsyncpkg_t *_alpm_sync_new(pmpkgreason_t newreason, pmpkg_t *spkg, alpm_list_t *removes);
-void _alpm_sync_free(pmsyncpkg_t *data);
-
 int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync);
 
 int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, char *name);
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data);
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data);
-
-/* typically trans->packages */
-pmsyncpkg_t *_alpm_sync_find(alpm_list_t *syncpkgs, const char* pkgname);
 
 #endif /* _ALPM_SYNC_H */
 

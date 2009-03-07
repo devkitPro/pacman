@@ -579,7 +579,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 }
 
 /* Display a list of transaction targets.
- * `pkgs` should be a list of pmsyncpkg_t's,
+ * `pkgs` should be a list of pmpkg_t's,
  * retrieved from a transaction object
  */
 void display_synctargets(const alpm_list_t *syncpkgs)
@@ -588,13 +588,12 @@ void display_synctargets(const alpm_list_t *syncpkgs)
 	alpm_list_t *pkglist = NULL, *rpkglist = NULL;
 
 	for(i = syncpkgs; i; i = alpm_list_next(i)) {
-		pmsyncpkg_t *sync = alpm_list_getdata(i);
-		pmpkg_t *pkg = alpm_sync_get_pkg(sync);
+		pmpkg_t *pkg = alpm_list_getdata(i);
 		pkglist = alpm_list_add(pkglist, pkg);
 
 		/* The removes member contains a list of packages to be removed
 		 * due to the package that is being installed. */
-		alpm_list_t *to_replace = alpm_sync_get_removes(sync);
+		alpm_list_t *to_replace = alpm_pkg_get_removes(pkg);
 
 		for(j = to_replace; j; j = alpm_list_next(j)) {
 			pmpkg_t *rp = alpm_list_getdata(j);

@@ -47,7 +47,6 @@ typedef struct __pmpkg_t pmpkg_t;
 typedef struct __pmdelta_t pmdelta_t;
 typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
-typedef struct __pmsyncpkg_t pmsyncpkg_t;
 typedef struct __pmdepend_t pmdepend_t;
 typedef struct __pmdepmissing_t pmdepmissing_t;
 typedef struct __pmconflict_t pmconflict_t;
@@ -213,6 +212,7 @@ alpm_list_t *alpm_pkg_get_deltas(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
+alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg);
 pmdb_t *alpm_pkg_get_db(pmpkg_t *pkg);
 void *alpm_pkg_changelog_open(pmpkg_t *pkg);
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
@@ -244,8 +244,6 @@ alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
  * Sync
  */
 
-pmpkg_t *alpm_sync_get_pkg(const pmsyncpkg_t *sync);
-alpm_list_t *alpm_sync_get_removes(const pmsyncpkg_t *sync);
 pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);
 
 /*
