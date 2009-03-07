@@ -451,14 +451,16 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 					NULL, NULL, &remove_unresolvable);
 			if (remove_unresolvable) {
 				/* User wants to remove the unresolvable packages from the
-				   transaction, so simply drop the unresolvable list.  The
-				   packages will be removed from the actual transaction when
-				   the transaction packages are replaced with a
+				   transaction. The packages will be removed from the actual
+				   transaction when the transaction packages are replaced with a
 				   dependency-reordered list below */
-				alpm_list_free(unresolvable);
-				unresolvable = NULL;
-			}
-			else {
+				pm_errno = 0; /* pm_errno was set by resolvedeps */
+				if(data) {
+					alpm_list_free_inner(*data, (alpm_list_fn_free)_alpm_depmiss_free);
+					alpm_list_free(*data);
+					*data = NULL;
+				}
+			} else {
 				/* pm_errno is set by resolvedeps */
 				ret = -1;
 				goto cleanup;
