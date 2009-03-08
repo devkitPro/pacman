@@ -594,8 +594,8 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
  *         unmodified by this function
  */
 int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
-                      alpm_list_t **packages, alpm_list_t *remove,
-                      alpm_list_t **data)
+                      alpm_list_t *preferred, alpm_list_t **packages,
+                      alpm_list_t *remove, alpm_list_t **data)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *targ;
@@ -632,17 +632,21 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 			if(_alpm_find_dep_satisfier(*packages, missdep)) {
 				continue;
 			}
-			/* find a satisfier package in the given repositories */
-			pmpkg_t *spkg = _alpm_resolvedep(missdep, dbs_sync, *packages, 0);
+			/* check if one of the packages in the [preferred] list already satisfies this dependency */
+			pmpkg_t *spkg = _alpm_find_dep_satisfier(preferred, missdep);
+			if(!spkg) {
+				/* find a satisfier package in the given repositories */
+				spkg = _alpm_resolvedep(missdep, dbs_sync, *packages, 0);
+			}
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
 				_alpm_log(PM_LOG_WARNING, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
-			                               missdepstring, tpkg->name);
+						missdepstring, tpkg->name);
 				free(missdepstring);
 				if(data) {
 					pmdepmissing_t *missd = _alpm_depmiss_new(miss->target,
-					                           miss->depend, miss->causingpkg);
+							miss->depend, miss->causingpkg);
 					if(missd) {
 						*data = alpm_list_add(*data, missd);
 					}
@@ -654,7 +658,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 				return(-1);
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
-					  alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
+						alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
 				*packages = alpm_list_add(*packages, spkg);
 			}
 		}

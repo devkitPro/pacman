@@ -348,6 +348,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
 {
 	alpm_list_t *deps = NULL;
+	alpm_list_t *preferred = NULL;
 	alpm_list_t *unresolvable = NULL;
 	alpm_list_t *remove = NULL; /* allow checkdeps usage with trans->packages */
 	alpm_list_t *i, *j;
@@ -370,19 +371,21 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_DEBUG, "resolving target's dependencies\n");
 
-		/* build remove list for resolvedeps */
+		/* build remove list and preferred list for resolvedeps */
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
 			for(j = spkg->removes; j; j = j->next) {
 				remove = alpm_list_add(remove, j->data);
 			}
+			preferred = alpm_list_add(preferred, spkg);
 		}
 
 		/* Resolve packages in the transaction one at a time, in addtion
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->packages; i; i = i->next) {
 			pmpkg_t *pkg = i->data;
-			if(_alpm_resolvedeps(db_local, dbs_sync, pkg, &resolved, remove, data) == -1) {
+			if(_alpm_resolvedeps(db_local, dbs_sync, pkg, preferred,
+						&resolved, remove, data) == -1) {
 				unresolvable = alpm_list_add(unresolvable, pkg);
 			}
 			/* Else, [resolved] now additionally contains [pkg] and all of its
