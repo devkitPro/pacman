@@ -392,6 +392,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		/* If there were unresolvable top-level packages, prompt the user to
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
+			unresolvable = alpm_list_remove_dupes(unresolvable);
 			int remove_unresolvable = 0;
 			QUESTION(handle->trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
