@@ -547,6 +547,8 @@ generate_checksums() {
 }
 
 check_checksums() {
+	[ ${#source[@]} -eq 0 ] && return 0
+
 	if [ ! $(type -p openssl) ]; then
 		error "$(gettext "Cannot find openssl.")"
 		exit 1 # $E_MISSING_PROGRAM
