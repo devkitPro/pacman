@@ -511,6 +511,9 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
 
+	/* Flush open fds before fork() to avoid cloning buffers */
+	fflush(NULL);
+
 	/* fork- parent and child each have seperate code blocks below */
 	pid = fork();
 	if(pid == -1) {
