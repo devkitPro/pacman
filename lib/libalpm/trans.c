@@ -443,13 +443,6 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		return(0);
 	}
 
-	/* NOTE: popen will use the PARENT's /bin/sh, not the chroot's */
-	if(access("/bin/sh", X_OK)) {
-		/* not found */
-		_alpm_log(PM_LOG_ERROR, _("No /bin/sh in parent environment, aborting scriptlet\n"));
-		return(0);
-	}
-
 	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
 	snprintf(tmpdir, PATH_MAX, "%stmp/", root);
 	if(access(tmpdir, F_OK) != 0) {
