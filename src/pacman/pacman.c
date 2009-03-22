@@ -143,6 +143,7 @@ static void usage(int op, const char * const myname)
 		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 		printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
 		printf(_("  -v, --verbose        be verbose\n"));
+		printf(_("      --debug          display debug messages\n"));
 		printf(_("  -r, --root <path>    set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
 		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
