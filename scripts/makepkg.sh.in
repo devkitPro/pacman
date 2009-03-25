@@ -1052,11 +1052,22 @@ create_srcpackage() {
 
 install_package() {
 	[ "$INSTALL" -eq 0 ] && return
-	msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
-	if [ "$ASROOT" -eq 0 ]; then
-		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
+
+	if [ "$SPLITPKG" -eq 0 ]; then
+		msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
 	else
-		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
+		msg "$(gettext "Installing ${pkgbase} package group with pacman -U...")"
+	fi
+
+	local pkglist
+	for pkg in ${pkgname[@]}; do
+		pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	done
+
+	if [ "$ASROOT" -eq 0 ]; then
+		sudo pacman $PACMAN_OPTS -U ${pkglist} || exit $?
+	else
+		pacman $PACMAN_OPTS -U ${pkglist} || exit $?
 	fi
 }
 
