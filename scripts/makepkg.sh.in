@@ -155,7 +155,14 @@ clean_up() {
 		rm -rf "$pkgdir" "$srcdir"
 		if [ -n "$pkgname" ]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
-			rm -f "${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*"
+			rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
+			if [ "$PKGFUNC" -eq 1 ]; then
+				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
+			elif [ "$SPLITPKG" -eq 1 ]; then
+				for pkg in ${pkgname[@]}; do
+					rm -f "${pkg}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
+				done
+			fi
 		fi
 	fi
 
