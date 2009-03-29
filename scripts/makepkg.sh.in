@@ -1071,10 +1071,16 @@ install_package() {
 		pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 	done
 
+	local ret=0
 	if [ "$ASROOT" -eq 0 ]; then
-		sudo pacman $PACMAN_OPTS -U ${pkglist} || exit $?
+		sudo pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
 	else
-		pacman $PACMAN_OPTS -U ${pkglist} || exit $?
+		pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
+	fi
+
+	if [ $ret -ne 0 ]; then
+		warning "$(gettext "Failed to install built package(s).")"
+		return 0
 	fi
 }
 
