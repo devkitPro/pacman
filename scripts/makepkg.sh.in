@@ -1635,6 +1635,7 @@ if [ "$INFAKEROOT" -eq 1 ]; then
 		if [ "$PKGFUNC" -eq 0 ]; then
 			if [ "$REPKG" -eq 0 ]; then
 				run_build
+				tidy_install
 			fi
 		else
 			run_package
