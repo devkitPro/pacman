@@ -108,6 +108,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -e, --explicit       list packages explicitly installed [filter]\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information (-ii for backup files)\n"));
+			printf(_("  -k, --check          check that the files owned by the package(s) are present\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
 			printf(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
@@ -345,6 +346,7 @@ static int parseargs(int argc, char *argv[])
 		{"help",       no_argument,       0, 'h'},
 		{"info",       no_argument,       0, 'i'},
 		{"dbonly",     no_argument,       0, 'k'},
+		{"check",      no_argument,       0, 'k'},
 		{"list",       no_argument,       0, 'l'},
 		{"foreign",    no_argument,       0, 'm'},
 		{"nosave",     no_argument,       0, 'n'},
@@ -473,7 +475,10 @@ static int parseargs(int argc, char *argv[])
 			case 'g': (config->group)++; break;
 			case 'h': config->help = 1; break;
 			case 'i': (config->op_q_info)++; (config->op_s_info)++; break;
-			case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+			case 'k':
+				config->flags |= PM_TRANS_FLAG_DBONLY;
+				config->op_q_check = 1;
+				break;
 			case 'l': config->op_q_list = 1; break;
 			case 'm': config->op_q_foreign = 1; break;
 			case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;

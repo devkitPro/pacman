@@ -309,8 +309,60 @@ static int filter(pmpkg_t *pkg)
 	return(1);
 }
 
-static void display(pmpkg_t *pkg)
+/* Loop through the packages. For each package,
+ * loop through files to check if they exist. */
+static int check(pmpkg_t *pkg)
 {
+	alpm_list_t *i;
+	const char *root;
+	int allfiles = 0, errors = 0;
+	size_t rootlen;
+	char f[PATH_MAX];
+
+	root = alpm_option_get_root();
+	rootlen = strlen(root);
+	if(rootlen + 1 > PATH_MAX) {
+		/* we are in trouble here */
+		pm_fprintf(stderr, PM_LOG_ERROR, _("root path too long\n"));
+		return(1);
+	}
+	strcpy(f, root);
+
+	const char *pkgname = alpm_pkg_get_name(pkg);
+	for(i = alpm_pkg_get_files(pkg); i; i = alpm_list_next(i)) {
+		struct stat st;
+		const char *path = alpm_list_getdata(i);
+
+		if(rootlen + 1 + strlen(path) > PATH_MAX) {
+			pm_fprintf(stderr, PM_LOG_WARNING, _("file path too long\n"));
+			continue;
+		}
+		strcpy(f + rootlen, path);
+		allfiles++;
+		/* use lstat to prevent errors from symlinks */
+		if(lstat(f, &st) != 0) {
+			if(config->quiet) {
+				printf("%s %s\n", pkgname, f);
+			} else {
+				pm_printf(PM_LOG_WARNING, "%s: missing %s (%s)\n",
+						pkgname, f, strerror(errno));
+			}
+			errors++;
+		}
+	}
+
+	if(!config->quiet) {
+		printf("%s: %d total, %d missing file(s)\n",
+				pkgname, allfiles, errors);
+	}
+
+	return(errors != 0 ? 1 : 0);
+}
+
+static int display(pmpkg_t *pkg)
+{
+	int ret = 0;
+
 	if(config->op_q_info) {
 		if(config->op_q_isfile) {
 			/* omit info that isn't applicable for a file package */
@@ -325,19 +377,25 @@ static void display(pmpkg_t *pkg)
 	if(config->op_q_changelog) {
 		dump_pkg_changelog(pkg);
 	}
-	if(!config->op_q_info && !config->op_q_list && !config->op_q_changelog) {
+	if(config->op_q_check) {
+		ret = check(pkg);
+	}
+	if(!config->op_q_info && !config->op_q_list
+			&& !config->op_q_changelog && !config->op_q_check) {
 		if (!config->quiet) {
 			printf("%s %s\n", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
 			printf("%s\n", alpm_pkg_get_name(pkg));
 		}
 	}
+	return(ret);
 }
 
 int pacman_query(alpm_list_t *targets)
 {
 	int ret = 0;
 	alpm_list_t *i;
+	pmpkg_t *pkg = NULL;
 
 	/* First: operations that do not require targets */
 
@@ -358,12 +416,12 @@ int pacman_query(alpm_list_t *targets)
 		alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 		if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
 			pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
-			return(-1);
+			return(1);
 		}
 	}
 
 	/* operations on all packages in the local DB
-	 * valid: no-op (plain -Q), list, info
+	 * valid: no-op (plain -Q), list, info, check
 	 * invalid: isfile, owns */
 	if(targets == NULL) {
 		if(config->op_q_isfile || config->op_q_owns) {
@@ -372,12 +430,15 @@ int pacman_query(alpm_list_t *targets)
 		}
 
 		for(i = alpm_db_get_pkgcache(db_local); i; i = alpm_list_next(i)) {
-			pmpkg_t *pkg = alpm_list_getdata(i);
+			pkg = alpm_list_getdata(i);
 			if(filter(pkg)) {
-				display(pkg);
+				int value = display(pkg);
+				if(value != 0) {
+					ret = 1;
+				}
 			}
 		}
-		return(0);
+		return(ret);
 	}
 
 	/* Second: operations that require target(s) */
@@ -389,10 +450,9 @@ int pacman_query(alpm_list_t *targets)
 	}
 
 	/* operations on named packages in the local DB
-	 * valid: no-op (plain -Q), list, info */
+	 * valid: no-op (plain -Q), list, info, check */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *strname = alpm_list_getdata(i);
-		pmpkg_t *pkg = NULL;
 
 		if(config->op_q_isfile) {
 			alpm_pkg_load(strname, 1, &pkg);
@@ -402,12 +462,15 @@ int pacman_query(alpm_list_t *targets)
 
 		if(pkg == NULL) {
 			pm_fprintf(stderr, PM_LOG_ERROR, _("package \"%s\" not found\n"), strname);
-			ret++;
+			ret = 1;
 			continue;
 		}
 
 		if(filter(pkg)) {
-			display(pkg);
+			int value = display(pkg);
+			if(value != 0) {
+				ret = 1;
+			}
 		}
 
 		if(config->op_q_isfile) {

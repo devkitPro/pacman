@@ -196,6 +196,11 @@ Query Options[[QO]]
 	'\--info' or '-i' flags will also display the list of backup files and
 	their modification states.
 
+*-k \--check*::
+	Check that all files owned by the given package(s) are present on the
+	system. If packages are not specified or filter flags are not provided,
+	check all installed packages.
+
 *-l, \--list*::
 	List all files owned by a given package. Multiple packages can be
 	specified on the command line.
@@ -220,7 +225,8 @@ Query Options[[QO]]
 	names and not version, group, and description information; owns will
 	only show package names instead of "file is owned by pkg" messages; group
 	will only show package names and omit group names; list will only show
-	files and omit package names; a bare query will only show package names
+	files and omit package names; check will only show pairs of package names
+	and missing files; a bare query will only show package names
 	rather than names and versions.
 
 *-s, \--search* <'regexp'>::
