@@ -79,7 +79,6 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->cachedirs);
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
-	FREE(handle->xfercommand);
 	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
@@ -104,6 +103,15 @@ alpm_cb_download SYMEXPORT alpm_option_get_dlcb()
 		return NULL;
 	}
 	return handle->dlcb;
+}
+
+alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->fetchcb;
 }
 
 alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb()
@@ -205,15 +213,6 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
 	return handle->ignoregrp;
 }
 
-const char SYMEXPORT *alpm_option_get_xfercommand()
-{
-	if (handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
-	return handle->xfercommand;
-}
-
 unsigned short SYMEXPORT alpm_option_get_nopassiveftp()
 {
 	if (handle == NULL) {
@@ -257,6 +256,15 @@ void SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb)
 		return;
 	}
 	handle->dlcb = cb;
+}
+
+void SYMEXPORT alpm_option_set_fetchcb(alpm_cb_fetch cb)
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return;
+	}
+	handle->fetchcb = cb;
 }
 
 void SYMEXPORT alpm_option_set_totaldlcb(alpm_cb_totaldl cb)
@@ -519,12 +527,6 @@ int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
 		return(1);
 	}
 	return(0);
-}
-
-void SYMEXPORT alpm_option_set_xfercommand(const char *cmd)
-{
-	if(handle->xfercommand) FREE(handle->xfercommand);
-	if(cmd) handle->xfercommand = strdup(cmd);
 }
 
 void SYMEXPORT alpm_option_set_nopassiveftp(unsigned short nopasv)

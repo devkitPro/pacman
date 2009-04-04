@@ -581,6 +581,118 @@ static void setrepeatingoption(const char *ptr, const char *option,
 	pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, p);
 }
 
+static char *get_filename(const char *url) {
+	char *filename = strrchr(url, '/');
+	if(filename != NULL) {
+		filename++;
+	}
+	return(filename);
+}
+
+static char *get_destfile(const char *path, const char *filename) {
+	char *destfile;
+	/* len = localpath len + filename len + null */
+	int len = strlen(path) + strlen(filename) + 1;
+	destfile = calloc(len, sizeof(char));
+	snprintf(destfile, len, "%s%s", path, filename);
+
+	return(destfile);
+}
+
+static char *get_tempfile(const char *path, const char *filename) {
+	char *tempfile;
+	/* len = localpath len + filename len + '.part' len + null */
+	int len = strlen(path) + strlen(filename) + 6;
+	tempfile = calloc(len, sizeof(char));
+	snprintf(tempfile, len, "%s%s.part", path, filename);
+
+	return(tempfile);
+}
+
+/** External fetch callback */
+int download_with_xfercommand(const char *url, const char *localpath,
+		time_t mtimeold, time_t *mtimenew) {
+	int ret = 0;
+	int retval;
+	int usepart = 0;
+	char *ptr1, *ptr2;
+	char origCmd[PATH_MAX];
+	char parsedCmd[PATH_MAX] = "";
+	char cwd[PATH_MAX];
+	char *destfile, *tempfile, *filename;
+
+	if(!config->xfercommand) {
+		return -1;
+	}
+
+	filename = get_filename(url);
+	if(!filename) {
+		return -1;
+	}
+	destfile = get_destfile(localpath, filename);
+	tempfile = get_tempfile(localpath, filename);
+
+	strncpy(origCmd, config->xfercommand, sizeof(origCmd));
+	/* replace all occurrences of %o with fn.part */
+	ptr1 = origCmd;
+	while((ptr2 = strstr(ptr1, "%o"))) {
+		usepart = 1;
+		ptr2[0] = '\0';
+		strcat(parsedCmd, ptr1);
+		strcat(parsedCmd, tempfile);
+		ptr1 = ptr2 + 2;
+	}
+	strcat(parsedCmd, ptr1);
+	/* replace all occurrences of %u with the download URL */
+	strncpy(origCmd, parsedCmd, sizeof(origCmd));
+	parsedCmd[0] = '\0';
+	ptr1 = origCmd;
+	while((ptr2 = strstr(ptr1, "%u"))) {
+		ptr2[0] = '\0';
+		strcat(parsedCmd, ptr1);
+		strcat(parsedCmd, url);
+		ptr1 = ptr2 + 2;
+	}
+	strcat(parsedCmd, ptr1);
+	/* cwd to the download directory */
+	getcwd(cwd, PATH_MAX);
+	if(chdir(localpath)) {
+		pm_printf(PM_LOG_WARNING, "could not chdir to %s\n", localpath);
+		ret = -1;
+		goto cleanup;
+	}
+	/* execute the parsed command via /bin/sh -c */
+	pm_printf(PM_LOG_DEBUG, "running command: %s\n", parsedCmd);
+	retval = system(parsedCmd);
+
+	if(retval == -1) {
+		pm_printf(PM_LOG_WARNING, "running XferCommand: fork failed!\n");
+		ret = -1;
+	} else if(retval != 0) {
+		/* download failed */
+		pm_printf(PM_LOG_DEBUG, "XferCommand command returned non-zero status "
+				"code (%d)\n", retval);
+		ret = -1;
+	} else {
+		/* download was successful */
+		if(usepart) {
+			rename(tempfile, destfile);
+		}
+		ret = 0;
+	}
+
+cleanup:
+	chdir(cwd);
+	if(ret == -1) {
+		/* hack to let an user the time to cancel a download */
+		sleep(2);
+	}
+	free(destfile);
+	free(tempfile);
+
+	return(ret);
+}
+
 /* The real parseconfig. Called with a null section argument by the publicly
  * visible parseconfig so we can recall from within ourself on an include */
 static int _parseconfig(const char *file, const char *givensection,
@@ -744,7 +856,8 @@ static int _parseconfig(const char *file, const char *givensection,
 							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
 						}
 					} else if (strcmp(key, "XferCommand") == 0) {
-						alpm_option_set_xfercommand(ptr);
+						config->xfercommand = strdup(ptr);
+						alpm_option_set_fetchcb(download_with_xfercommand);
 						pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", ptr);
 					} else if (strcmp(key, "CleanMethod") == 0) {
 						if (strcmp(ptr, "KeepInstalled") == 0) {

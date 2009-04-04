@@ -41,6 +41,7 @@ typedef struct _pmhandle_t {
 	alpm_cb_log logcb;      /* Log callback function */
 	alpm_cb_download dlcb;  /* Download callback function */
 	alpm_cb_totaldl totaldlcb;  /* Total download callback function */
+	alpm_cb_fetch fetchcb; /* Download file callback function */
 
 	/* filesystem paths */
 	char *root;              /* Root path, default '/' */
@@ -58,7 +59,6 @@ typedef struct _pmhandle_t {
 	/* options */
 	unsigned short usesyslog;    /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
-	char *xfercommand;        /* External download command */
 	unsigned short usedelta;     /* Download deltas if possible */
 } pmhandle_t;
 

@@ -73,6 +73,7 @@ typedef struct __config_t {
 	unsigned short cleanmethod; /* select -Sc behavior */
 	alpm_list_t *holdpkg;
 	alpm_list_t *syncfirst;
+	char *xfercommand;
 } config_t;
 
 /* Operations */

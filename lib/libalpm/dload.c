@@ -263,111 +263,21 @@ cleanup:
 }
 #endif
 
-static int download_external(const char *url, const char *localpath,
-		time_t mtimeold, time_t *mtimenew) {
-	int ret = 0;
-	int retval;
-	int usepart = 0;
-	char *ptr1, *ptr2;
-	char origCmd[PATH_MAX];
-	char parsedCmd[PATH_MAX] = "";
-	char cwd[PATH_MAX];
-	char *destfile, *tempfile, *filename;
-
-	if(!handle->xfercommand) {
-		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
-	}
-
-	filename = get_filename(url);
-	if(!filename) {
-		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
-	}
-	destfile = get_destfile(localpath, filename);
-	tempfile = get_tempfile(localpath, filename);
-
-	/* replace all occurrences of %o with fn.part */
-	strncpy(origCmd, handle->xfercommand, sizeof(origCmd));
-	ptr1 = origCmd;
-	while((ptr2 = strstr(ptr1, "%o"))) {
-		usepart = 1;
-		ptr2[0] = '\0';
-		strcat(parsedCmd, ptr1);
-		strcat(parsedCmd, tempfile);
-		ptr1 = ptr2 + 2;
-	}
-	strcat(parsedCmd, ptr1);
-	/* replace all occurrences of %u with the download URL */
-	strncpy(origCmd, parsedCmd, sizeof(origCmd));
-	parsedCmd[0] = '\0';
-	ptr1 = origCmd;
-	while((ptr2 = strstr(ptr1, "%u"))) {
-		ptr2[0] = '\0';
-		strcat(parsedCmd, ptr1);
-		strcat(parsedCmd, url);
-		ptr1 = ptr2 + 2;
-	}
-	strcat(parsedCmd, ptr1);
-	/* cwd to the download directory */
-	getcwd(cwd, PATH_MAX);
-	if(chdir(localpath)) {
-		_alpm_log(PM_LOG_WARNING, _("could not chdir to %s\n"), localpath);
-		pm_errno = PM_ERR_EXTERNAL_DOWNLOAD;
-		ret = -1;
-		goto cleanup;
-	}
-	/* execute the parsed command via /bin/sh -c */
-	_alpm_log(PM_LOG_DEBUG, "running command: %s\n", parsedCmd);
-	retval = system(parsedCmd);
-
-	if(retval == -1) {
-		_alpm_log(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
-		pm_errno = PM_ERR_EXTERNAL_DOWNLOAD;
-		ret = -1;
-	} else if(retval != 0) {
-		/* download failed */
-		_alpm_log(PM_LOG_DEBUG, "XferCommand command returned non-zero status "
-				"code (%d)\n", retval);
-		ret = -1;
-	} else {
-		/* download was successful */
-		if(usepart) {
-			rename(tempfile, destfile);
-		}
-		ret = 0;
-	}
-
-cleanup:
-	chdir(cwd);
-	if(ret == -1) {
-		/* hack to let an user the time to cancel a download */
-		sleep(2);
-	}
-	FREE(destfile);
-	FREE(tempfile);
-
-	return(ret);
-}
-
 static int download(const char *url, const char *localpath,
 		time_t mtimeold, time_t *mtimenew) {
-	int ret;
-
-	/* We have a few things to take into account here.
-	 * 1. If we have both internal/external available, choose based on
-	 * whether xfercommand is populated.
-	 * 2. If we only have external available, we should first check
-	 * if a command was provided before we drop into download_external.
-	 */
-	if(handle->xfercommand == NULL) {
+	if(handle->fetchcb == NULL) {
 #if defined(INTERNAL_DOWNLOAD)
-		ret = download_internal(url, localpath, mtimeold, mtimenew);
+		return(download_internal(url, localpath, mtimeold, mtimenew));
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
-		ret = download_external(url, localpath, mtimeold, mtimenew);
+		int ret = handle->fetchcb(url, localpath, mtimeold, mtimenew);
+		if(ret == -1) {
+			RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
+		}
+		return(ret);
 	}
-	return(ret);
 }
 
 /*

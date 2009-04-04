@@ -83,6 +83,17 @@ int alpm_logaction(char *fmt, ...);
 typedef void (*alpm_cb_download)(const char *filename,
 		off_t xfered, off_t total);
 typedef void (*alpm_cb_totaldl)(off_t total);
+/** A callback for downloading files
+ * @param url the URL of the file to be downloaded
+ * @param localpath the directory to which the file should be downloaded
+ * @param mtimeold the modification time of the file previously downloaded
+ * @param mtimenew the modification time of the newly downloaded file.
+ * This should be set by the callback.
+ * @return 0 on success, 1 if the modification times are identical, -1 on
+ * error.
+ */
+typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
+		time_t mtimeold, time_t *mtimenew);
 
 /*
  * Options
@@ -93,6 +104,9 @@ void alpm_option_set_logcb(alpm_cb_log cb);
 
 alpm_cb_download alpm_option_get_dlcb();
 void alpm_option_set_dlcb(alpm_cb_download cb);
+
+alpm_cb_fetch alpm_option_get_fetchcb();
+void alpm_option_set_fetchcb(alpm_cb_fetch cb);
 
 alpm_cb_totaldl alpm_option_get_totaldlcb();
 void alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
@@ -136,9 +150,6 @@ alpm_list_t *alpm_option_get_ignoregrps();
 void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
-
-const char *alpm_option_get_xfercommand();
-void alpm_option_set_xfercommand(const char *cmd);
 
 unsigned short alpm_option_get_nopassiveftp();
 void alpm_option_set_nopassiveftp(unsigned short nopasv);

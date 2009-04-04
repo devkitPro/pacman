@@ -61,6 +61,7 @@ int config_free(config_t *oldconfig)
 	free(oldconfig->rootdir);
 	free(oldconfig->dbpath);
 	free(oldconfig->logfile);
+	free(oldconfig->xfercommand);
 	free(oldconfig);
 	oldconfig = NULL;
 
