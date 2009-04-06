@@ -69,6 +69,7 @@ IGNOREARCH=0
 HOLDVER=0
 PKGFUNC=0
 SPLITPKG=0
+COLORMSG=0
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -80,7 +81,7 @@ PACMAN_OPTS=
 
 plain() {
 	local mesg=$1; shift
-	if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+	if [ $COLORMSG -eq 1 ]; then
 		printf "\033[1;1m    ${mesg}\033[1;0m\n" "$@" >&2
 	else
 		printf "    ${mesg}\n" "$@" >&2
@@ -89,7 +90,7 @@ plain() {
 
 msg() {
 	local mesg=$1; shift
-	if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+	if [ $COLORMSG -eq 1 ]; then
 		printf "\033[1;32m==>\033[1;0m\033[1;1m ${mesg}\033[1;0m\n" "$@" >&2
 	else
 		printf "==> ${mesg}\n" "$@" >&2
@@ -98,7 +99,7 @@ msg() {
 
 msg2() {
 	local mesg=$1; shift
-	if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+	if [ $COLORMSG -eq 1 ]; then
 		printf "\033[1;34m  ->\033[1;0m\033[1;1m ${mesg}\033[1;0m\n" "$@" >&2
 	else
 		printf "  -> ${mesg}\n" "$@" >&2
@@ -107,7 +108,7 @@ msg2() {
 
 warning() {
 	local mesg=$1; shift
-	if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+	if [ $COLORMSG -eq 1 ]; then
 		printf "\033[1;33m==> $(gettext "WARNING:")\033[1;0m\033[1;1m ${mesg}\033[1;0m\n" "$@" >&2
 	else
 		printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
@@ -116,7 +117,7 @@ warning() {
 
 error() {
 	local mesg=$1; shift
-	if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+	if [ $COLORMSG -eq 1 ]; then
 		printf "\033[1;31m==> $(gettext "ERROR:")\033[1;0m\033[1;1m ${mesg}\033[1;0m\n" "$@" >&2
 	else
 		printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
@@ -154,7 +155,14 @@ clean_up() {
 		rm -rf "$pkgdir" "$srcdir"
 		if [ -n "$pkgname" ]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
-			rm -f "${pkgname}-${pkgver}-${pkgrel}-${CARCH}.log*"
+			rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
+			if [ "$PKGFUNC" -eq 1 ]; then
+				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
+			elif [ "$SPLITPKG" -eq 1 ]; then
+				for pkg in ${pkgname[@]}; do
+					rm -f "${pkg}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
+				done
+			fi
 		fi
 	fi
 
@@ -689,7 +697,7 @@ run_build() {
 
 	local ret=0
 	if [ "$LOGGING" -eq 1 ]; then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-build.log"
+		BUILDLOG="${startdir}/${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"
 		if [ -f "$BUILDLOG" ]; then
 			local i=1
 			while true; do
@@ -997,15 +1005,15 @@ create_srcpackage() {
 	fi
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
-	mkdir "${srclinks}"/${pkgname}
+	mkdir "${srclinks}"/${pkgbase}
 
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
-	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgname}/"
+	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgbase}/"
 
 	if [ -n "$install" ]; then
 		if [ -f $install ]; then
 			msg2 "$(gettext "Adding install script...")"
-			ln -s "${startdir}/$install" "${srclinks}/${pkgname}/"
+			ln -s "${startdir}/$install" "${srclinks}/${pkgbase}/"
 		else
 			error "$(gettext "Install script %s not found.")" "$install"
 		fi
@@ -1013,7 +1021,7 @@ create_srcpackage() {
 
 	if [ -f ChangeLog ]; then
 		msg2 "$(gettext "Adding %s...")" "ChangeLog"
-		ln -s "${startdir}/ChangeLog" "${srclinks}/${pkgname}"
+		ln -s "${startdir}/ChangeLog" "${srclinks}/${pkgbase}"
 	fi
 
 	local netfile
@@ -1021,10 +1029,10 @@ create_srcpackage() {
 		local file=$(get_filename "$netfile")
 		if [ -f "$netfile" ]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
-			ln -s "${startdir}/$netfile" "${srclinks}/${pkgname}"
+			ln -s "${startdir}/$netfile" "${srclinks}/${pkgbase}"
 		elif [ "$SOURCEONLY" -eq 2 -a -f "$SRCDEST/$file" ]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
-			ln -s "$SRCDEST/$file" "${srclinks}/${pkgname}/"
+			ln -s "$SRCDEST/$file" "${srclinks}/${pkgbase}/"
 		fi
 	done
 
@@ -1036,12 +1044,12 @@ create_srcpackage() {
 		"$SRCEXT" ;;
 	esac
 
-	local pkg_file="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}"
+	local pkg_file="$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}"
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
 	cd "${srclinks}"
-	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgname}; then
+	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgbase}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
@@ -1051,11 +1059,28 @@ create_srcpackage() {
 
 install_package() {
 	[ "$INSTALL" -eq 0 ] && return
-	msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
-	if [ "$ASROOT" -eq 0 ]; then
-		sudo pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
+
+	if [ "$SPLITPKG" -eq 0 ]; then
+		msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
 	else
-		pacman $PACMAN_OPTS -U $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} || exit $?
+		msg "$(gettext "Installing ${pkgbase} package group with pacman -U...")"
+	fi
+
+	local pkglist
+	for pkg in ${pkgname[@]}; do
+		pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	done
+
+	local ret=0
+	if [ "$ASROOT" -eq 0 ]; then
+		sudo pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
+	else
+		pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
+	fi
+
+	if [ $ret -ne 0 ]; then
+		warning "$(gettext "Failed to install built package(s).")"
+		return 0
 	fi
 }
 
@@ -1382,6 +1407,11 @@ if [ -r ~/.makepkg.conf ]; then
 	source ~/.makepkg.conf
 fi
 
+# check if messages are to be printed using color
+if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+	COLORMSG=1
+fi
+
 # override settings with an environment variable for batch processing
 PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
@@ -1473,9 +1503,9 @@ if [ "$ASROOT" -eq 0 \
 	fi
 fi
 
-unset pkgname pkgver pkgrel pkgdesc url license groups provides md5sums
-unset replaces depends conflicts backup source install build makedepends
-unset optdepends options noextract
+unset pkgname pkgbase pkgver pkgrel pkgdesc url license groups provides
+unset md5sums replaces depends conflicts backup source install build
+unset makedepends optdepends options noextract
 
 if [ ! -f "$BUILDSCRIPT" ]; then
 	if [ -t 0 ]; then
@@ -1507,10 +1537,6 @@ if [ "$(type -t package)" = "function" ]; then
 	PKGFUNC=1
 fi
 
-if [ "${#pkgname[@]}" -gt "1" ]; then
-	SPLITPKG=1
-fi
-
 # check for no-no's in the build script
 if [ -z "$pkgname" ]; then
 	error "$(gettext "%s is not allowed to be empty.")" "pkgname"
@@ -1537,9 +1563,11 @@ if [ "$arch" = 'any' ]; then
 	CARCH='any'
 fi
 
+pkgbase=${pkgbase:-${pkgname[0]}}
+
 if ! in_array $CARCH ${arch[@]}; then
 	if [ "$IGNOREARCH" -eq 0 ]; then
-		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgname" "$CARCH"
+		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
 		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
 		plain "$(gettext "such as arch=('%s').")" "$CARCH"
 		exit 1
@@ -1585,6 +1613,10 @@ unset valid_options opt known kopt
 devel_check
 devel_update
 
+if [ "${#pkgname[@]}" -gt "1" ]; then
+	SPLITPKG=1
+fi
+
 if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
      -a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
 	if [ "$INSTALL" -eq 1 ]; then
@@ -1603,6 +1635,7 @@ if [ "$INFAKEROOT" -eq 1 ]; then
 		if [ "$PKGFUNC" -eq 0 ]; then
 			if [ "$REPKG" -eq 0 ]; then
 				run_build
+				tidy_install
 			fi
 		else
 			run_package
@@ -1626,17 +1659,17 @@ if [ "$INFAKEROOT" -eq 1 ]; then
 	exit 0 # $E_OK
 fi
 
-msg "$(gettext "Making package: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
+msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel $CARCH ($(date))"
 
 # if we are creating a source-only package, go no further
 if [ "$SOURCEONLY" -ne 0 ]; then
-	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}${SRCEXT}" \
+	if [ -f "$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}" \
 	     -a "$FORCE" -eq 0 ]; then
 		error "$(gettext "A package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
 	create_srcpackage
-	msg "$(gettext "Source package created: %s")" "$pkgname ($(date))"
+	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date))"
 	exit 0
 fi
 
@@ -1750,7 +1783,7 @@ else
 	fi
 fi
 
-msg "$(gettext "Finished making: %s")" "$pkgname $pkgver-$pkgrel $CARCH ($(date))"
+msg "$(gettext "Finished making: %s")" "$pkgbase $pkgver-$pkgrel $CARCH ($(date))"
 
 install_package
 
