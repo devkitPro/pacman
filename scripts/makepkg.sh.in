@@ -573,6 +573,7 @@ check_checksums() {
 			local idx=0
 			local file
 			for file in "${source[@]}"; do
+				local found=1
 				file="$(get_filename "$file")"
 				echo -n "    $file ... " >&2
 
@@ -580,19 +581,21 @@ check_checksums() {
 					if [ ! -f "$file" ] ; then
 						echo "$(gettext "NOT FOUND")" >&2
 						errors=1
-						continue
+						found=0
 					else
 						file="$SRCDEST/$file"
 					fi
 				fi
 
-				local expectedsum="$(echo ${integrity_sums[$idx]} | tr '[A-F]' '[a-f]')"
-				local realsum="$(openssl dgst -${integ} "$file" | awk '{print $NF}')"
-				if [ "$expectedsum" = "$realsum" ]; then
-					echo "$(gettext "Passed")" >&2
-				else
-					echo "$(gettext "FAILED")" >&2
-					errors=1
+				if [ $found -gt 0 ] ; then
+					local expectedsum="$(echo ${integrity_sums[$idx]} | tr '[A-F]' '[a-f]')"
+					local realsum="$(openssl dgst -${integ} "$file" | awk '{print $NF}')"
+					if [ "$expectedsum" = "$realsum" ]; then
+						echo "$(gettext "Passed")" >&2
+					else
+						echo "$(gettext "FAILED")" >&2
+						errors=1
+					fi
 				fi
 
 				idx=$((idx + 1))
