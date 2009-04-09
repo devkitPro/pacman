@@ -134,6 +134,37 @@ static int checkdbdir(pmdb_t *db)
 }
 
 /** Update a package database
+ *
+ * An update of the package database \a db will be attempted. Unless
+ * \a force is true, the update will only be performed if the remote
+ * database was modified since the last update.
+ *
+ * A transaction is necessary for this operation, in order to obtain a
+ * database lock. During this transaction the front-end will be informed
+ * of the download progress of the database via the download callback.
+ *
+ * Example:
+ * @code
+ * pmdb_t *db;
+ * int result;
+ * db = alpm_list_getdata(alpm_option_get_syncdbs());
+ * if(alpm_trans_init(PM_TRANS_TYPE_SYNC, 0, NULL, NULL, NULL) == 0) {
+ *     result = alpm_db_update(0, db);
+ *     alpm_trans_release();
+ *
+ *     if(result > 0) {
+ *	       printf("Unable to update database: %s\n", alpm_strerrorlast());
+ *     } else if(result < 0) {
+ *         printf("Database already up to date\n");
+ *     } else {
+ *         printf("Database updated\n");
+ *     }
+ * }
+ * @endcode
+ *
+ * @ingroup alpm_databases
+ * @note After a successful update, the \link alpm_db_get_pkgcache()
+ * package cache \endlink will be invalidated
  * @param force if true, then forces the update, otherwise update only in case
  * the database isn't up to date
  * @param db pointer to the package database to update
