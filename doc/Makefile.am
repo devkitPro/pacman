@@ -14,6 +14,22 @@ ASCIIDOC_MANS = \
 
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
+HTML_MANPAGES = \
+	pacman.8.html \
+	makepkg.8.html \
+	repo-add.8.html \
+	PKGBUILD.5.html \
+	makepkg.conf.5.html \
+	pacman.conf.5.html \
+	libalpm.3.html
+
+HTML_OTHER = \
+	index.html
+
+HTML_DOCS = \
+	$(HTML_MANPAGES) \
+	$(HTML_OTHER)
+
 EXTRA_DIST = \
 	asciidoc.conf \
 	pacman.8.txt \
@@ -25,12 +41,13 @@ EXTRA_DIST = \
 	pacman.conf.5.txt \
 	libalpm.3.txt \
 	footer.txt \
+	index.txt \
 	Doxyfile \
 	$(ASCIIDOC_MANS) \
 	$(DOXYGEN_MANS)
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = *.xml $(ASCIIDOC_MANS)
+MOSTLYCLEANFILES = *.xml $(ASCIIDOC_MANS) $(HTML_DOCS)
 
 # Ensure manpages are fresh when building a dist tarball
 dist-hook:
@@ -56,6 +73,8 @@ doxygen.in:
 	$(DOXYGEN) $(srcdir)/Doxyfile
 endif
 
+html: $(HTML_DOCS)
+
 ASCIIDOC_OPTS = \
 	-f asciidoc.conf \
 	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
@@ -72,13 +91,25 @@ A2X_OPTS = \
 $(ASCIIDOC_MANS): asciidoc.conf footer.txt
 	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
-pacman.8: pacman.8.txt
-makepkg.8: makepkg.8.txt
-repo-add.8: repo-add.8.txt
-PKGBUILD.5: PKGBUILD.5.txt PKGBUILD-example.txt
-makepkg.conf.5: makepkg.conf.5.txt
-pacman.conf.5: pacman.conf.5.txt
-libalpm.3: libalpm.3.txt
+%.html: %.txt
+	asciidoc $(ASCIIDOC_OPTS) -a linkcss $*.txt
+	dos2unix $@
+
+# Customizations for certain HTML docs
+$(HTML_MANPAGES): asciidoc.conf footer.txt
+$(HTML_OTHER): asciidoc.conf
+%.8.html: ASCIIDOC_OPTS += -d manpage
+%.5.html: ASCIIDOC_OPTS += -d manpage
+%.3.html: ASCIIDOC_OPTS += -d manpage
+
+# Dependency rules
+pacman.8 pacman.8.html: pacman.8.txt
+makepkg.8 makepkg.8.html: makepkg.8.txt
+repo-add.8 repo-add.8.html: repo-add.8.txt
+PKGBUILD.5 PKGBUILD.5.html: PKGBUILD.5.txt PKGBUILD-example.txt
+makepkg.conf.5 makepkg.conf.5.html: makepkg.conf.5.txt
+pacman.conf.5 pacman.conf.5.html: pacman.conf.5.txt
+libalpm.3 libalpm.3.html: libalpm.3.txt
 # this one is just a symlink
 repo-remove.8: repo-add.8
 	rm -f repo-remove.8
