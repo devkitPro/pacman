@@ -24,7 +24,9 @@ HTML_MANPAGES = \
 	libalpm.3.html
 
 HTML_OTHER = \
-	index.html
+	index.html \
+	submitting-patches.html \
+	translation-help.html
 
 HTML_DOCS = \
 	$(HTML_MANPAGES) \
@@ -42,6 +44,8 @@ EXTRA_DIST = \
 	libalpm.3.txt \
 	footer.txt \
 	index.txt \
+	submitting-patches.txt \
+	translation-help.txt \
 	Doxyfile \
 	$(ASCIIDOC_MANS) \
 	$(DOXYGEN_MANS)
