@@ -607,10 +607,10 @@ off_t SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
 	return(newpkg->download_size);
 }
 
-static int endswith(char *filename, char *extension)
+static int endswith(const char *filename, const char *extension)
 {
-	char *s = filename + strlen(filename) - strlen(extension);
-	return (strcmp(s, extension) == 0);
+	const char *s = filename + strlen(filename) - strlen(extension);
+	return(strcmp(s, extension) == 0);
 }
 
 /** Applies delta files to create an upgraded package file.
