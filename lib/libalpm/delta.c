@@ -21,6 +21,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h> /* intmax_t */
 #include <limits.h>
 #include <sys/types.h>
 #include <regex.h>
@@ -215,13 +216,13 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 		return(bestsize);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search\n");
+	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
 
 	vertices = delta_graph_init(deltas);
 
 	bestsize = delta_vert(vertices, to, &bestpath);
 
-	_alpm_log(PM_LOG_DEBUG, "delta shortest-path search complete\n");
+	_alpm_log(PM_LOG_DEBUG, "delta shortest-path search complete : '%jd'\n", (intmax_t)bestsize);
 
 	alpm_list_free_inner(vertices, _alpm_graph_free);
 	alpm_list_free(vertices);

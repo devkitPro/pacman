@@ -974,25 +974,34 @@ create_package() {
 	# tar it up
 	msg2 "$(gettext "Compressing package...")"
 
-	local TAR_OPT
 	case "$PKGEXT" in
-		*tar.gz)  TAR_OPT="z" ;;
-		*tar.bz2) TAR_OPT="j" ;;
+		*tar.gz)  EXT=${PKGEXT%.gz} ;;
+		*tar.bz2) EXT=${PKGEXT%.bz2} ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
-		"$PKGEXT" ;;
+		"$PKGEXT" ; EXT=$PKGEXT ;;
 	esac
+	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}${EXT}"
 
-	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	local ret=0
 
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
 	shopt -s nullglob
+	bsdtar -cf - $comp_files * > "$pkg_file" || ret=$?
+	shopt -u nullglob
 
-	if ! bsdtar -c${TAR_OPT}f "$pkg_file" $comp_files *; then
+	if [ $ret -eq 0 ]; then
+		case "$PKGEXT" in
+			*tar.gz)  gzip -f -n "$pkg_file" ;;
+			*tar.bz2) bzip2 -f "$pkg_file" ;;
+		esac
+		ret=$?
+	fi
+
+	if [ $ret -ne 0 ]; then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
-	shopt -u nullglob
 }
 
 create_srcpackage() {

@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
+#include <stdint.h> /* intmax_t */
 #include <unistd.h>
 #include <time.h>
 #include <dirent.h>
@@ -387,8 +388,8 @@ static int compute_download_size(pmpkg_t *newpkg)
 		size = alpm_pkg_get_size(newpkg);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "setting download size %lld for pkg %s\n",
-			(long long)size, alpm_pkg_get_name(newpkg));
+	_alpm_log(PM_LOG_DEBUG, "setting download size %jd for pkg %s\n",
+			(intmax_t)size, alpm_pkg_get_name(newpkg));
 
 	newpkg->download_size = size;
 	return(0);
@@ -679,6 +680,12 @@ off_t SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
 	return(newpkg->download_size);
 }
 
+static int endswith(char *filename, char *extension)
+{
+	char *s = filename + strlen(filename) - strlen(extension);
+	return (strcmp(s, extension) == 0);
+}
+
 /** Applies delta files to create an upgraded package file.
  *
  * All intermediate files are deleted, leaving only the starting and
@@ -724,16 +731,18 @@ static int apply_deltas(pmtrans_t *trans)
 			CALLOC(to, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, 1));
 			snprintf(to, len, "%s/%s", cachedir, d->to);
 
-			/* an example of the patch command: (using /cache for cachedir)
-			 * xdelta patch /path/to/pacman_3.0.0-1_to_3.0.1-1-i686.delta \
-			 *              /path/to/pacman-3.0.0-1-i686.pkg.tar.gz       \
-			 *              /cache/pacman-3.0.1-1-i686.pkg.tar.gz
-			 */
-
 			/* build the patch command */
-			snprintf(command, PATH_MAX, "xdelta patch %s %s %s", delta, from, to);
+			/* compression command */
+			char *compress = "cat";
+			if(endswith(to, ".gz")) {
+				compress = "gzip -n";
+			} else if(endswith(to, ".bz2")) {
+				compress = "bzip";
+			}
+			/* -R for disabling external recompression, -c for sending to stdout */
+			snprintf(command, PATH_MAX, "xdelta3 -d -q -R -c -s %s %s | %s > %s", from, delta, compress, to);
 
-			_alpm_log(PM_LOG_DEBUG, _("command: %s\n"), command);
+			_alpm_log(PM_LOG_DEBUG, "command: %s\n", command);
 
 			EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_START, d->to, d->delta);
 
@@ -847,29 +856,31 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 				fname = alpm_pkg_get_filename(spkg);
 				ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
-				if(spkg->download_size != 0) {
-					alpm_list_t *delta_path = spkg->delta_path;
-					if(delta_path) {
-						alpm_list_t *dlts = NULL;
+				alpm_list_t *delta_path = spkg->delta_path;
+				if(delta_path) {
+					/* using deltas */
+					alpm_list_t *dlts = NULL;
 
-						for(dlts = delta_path; dlts; dlts = dlts->next) {
-							pmdelta_t *d = dlts->data;
+					for(dlts = delta_path; dlts; dlts = dlts->next) {
+						pmdelta_t *d = dlts->data;
 
-							if(d->download_size != 0) {
-								/* add the delta filename to the download list if
-								 * it's not in the cache */
-								files = alpm_list_add(files, strdup(d->delta));
-							}
-
-							/* keep a list of the delta files for md5sums */
-							deltas = alpm_list_add(deltas, d);
+						if(d->download_size != 0) {
+							/* add the delta filename to the download list if needed */
+							files = alpm_list_add(files, strdup(d->delta));
 						}
 
-					} else {
-						/* not using deltas, so add the file to the download list */
+						/* keep a list of all the delta files for md5sums */
+						deltas = alpm_list_add(deltas, d);
+					}
+
+				} else {
+					/* not using deltas */
+					if(spkg->download_size != 0) {
+						/* add the filename to the download list if needed */
 						files = alpm_list_add(files, strdup(fname));
 					}
 				}
+
 			}
 		}
 
@@ -890,37 +901,34 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		handle->totaldlcb(0);
 	}
 
-	if(handle->usedelta) {
+	/* if we have deltas to work with */
+	if(handle->usedelta && deltas) {
 		int ret = 0;
+		errors = 0;
+		/* Check integrity of deltas */
+		EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
 
-		/* only output if there are deltas to work with */
-		if(deltas) {
-			errors = 0;
-			/* Check integrity of deltas */
-			EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
+		for(i = deltas; i; i = i->next) {
+			pmdelta_t *d = alpm_list_getdata(i);
+			const char *filename = alpm_delta_get_filename(d);
+			const char *md5sum = alpm_delta_get_md5sum(d);
 
-			for(i = deltas; i; i = i->next) {
-				pmdelta_t *d = alpm_list_getdata(i);
-				const char *filename = alpm_delta_get_filename(d);
-				const char *md5sum = alpm_delta_get_md5sum(d);
-
-				if(test_md5sum(trans, filename, md5sum) != 0) {
-					errors++;
-					*data = alpm_list_add(*data, strdup(filename));
-				}
+			if(test_md5sum(trans, filename, md5sum) != 0) {
+				errors++;
+				*data = alpm_list_add(*data, strdup(filename));
 			}
-			if(errors) {
-				pm_errno = PM_ERR_DLT_INVALID;
-				goto error;
-			}
-			EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
-
-			/* Use the deltas to generate the packages */
-			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
-			ret = apply_deltas(trans);
-			EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
-
 		}
+		if(errors) {
+			pm_errno = PM_ERR_DLT_INVALID;
+			goto error;
+		}
+		EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
+
+		/* Use the deltas to generate the packages */
+		EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
+		ret = apply_deltas(trans);
+		EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
+
 		if(ret) {
 			pm_errno = PM_ERR_DLT_PATCHFAILED;
 			goto error;

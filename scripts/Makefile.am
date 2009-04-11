@@ -8,12 +8,14 @@ bin_SCRIPTS = \
 OURSCRIPTS = \
 	makepkg \
 	pacman-optimize \
+	pkgdelta \
 	rankmirrors \
 	repo-add
 
 EXTRA_DIST = \
 	makepkg.sh.in \
 	pacman-optimize.sh.in \
+	pkgdelta.sh.in \
 	rankmirrors.py.in \
 	repo-add.sh.in
 
@@ -58,6 +60,7 @@ $(OURSCRIPTS): Makefile
 
 makepkg: $(srcdir)/makepkg.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
+pkgdelta: $(srcdir)/pkgdelta.sh.in
 rankmirrors: $(srcdir)/rankmirrors.py.in
 repo-add: $(srcdir)/repo-add.sh.in
 repo-remove: $(srcdir)/repo-add.sh.in
