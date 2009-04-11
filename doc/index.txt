@@ -1,0 +1,194 @@
+Pacman Home Page
+================
+
+A simple library-based package manager
+
+Introduction
+------------
+pacman is a utility which manages software packages in Linux. It uses simple
+compressed files as a package format, and maintains a text-based package
+database (more of a hierarchy), just in case some hand tweaking is necessary.
+
+pacman does not strive to "do everything." It will add, remove and upgrade
+packages in the system, and it will allow you to query the package database for
+installed packages, files and owners. It also attempts to handle dependencies
+automatically and can download packages from a remote server.
+
+History
+~~~~~~~
+Version 2.0 of pacman introduced the ability to sync packages (the `$$--sync$$`
+option) with a master server through the use of package databases. Prior to
+this, packages would have to be installed manually using the `$$--add$$` and
+`$$--upgrade$$` operations.
+
+Version 3.0 was the switch to a two-part pacman- a backend named libalpm
+(library for Arch Linux Package Management), and the familiar pacman frontend.
+Speed in many cases was improved, along with dependency and conflict resolution
+being able to handle a much wider variety of cases. The switch to a
+library-based program should also make it easier in the future to develop
+alternative front ends.
+
+Documentation
+-------------
+
+Manpages
+~~~~~~~~
+There are several manpages available for the programs, utilities, and
+configuration files dealing with pacman.
+
+* linkman:PKGBUILD[5]
+* linkman:libalpm[3]
+* linkman:makepkg[8]
+* linkman:makepkg.conf[5]
+* linkman:pacman[8]
+* linkman:pacman.conf[5]
+* linkman:repo-add[8]
+
+Changelog
+~~~~~~~~~
+For a good idea of what is going on in pacman development, take a look at the
+link:http://projects.archlinux.org/?p=pacman.git[Gitweb] summary
+page for the project.
+
+See the most recent
+link:http://projects.archlinux.org/?p=pacman.git;a=blob_plain;f=NEWS;hb=HEAD[NEWS]
+file for a not-as-frequently-updated list of changes. However, this should
+contain the biggest changes in a format more concise than the commit log.
+
+
+Releases
+--------
+
+`------------`-------
+Date         Version
+---------------------
+2009-01-05   v3.2.2
+2008-08-26   v3.2.1
+2008-07-30   v3.2.0
+2008-04-01   v3.1.4
+2008-03-06   v3.1.3
+2008-02-20   v3.1.2
+2008-01-20   v3.1.1
+2008-01-09   v3.1.0
+2007-09-16   v3.0.6
+2007-06-17   v3.0.5
+2007-05-08   v3.0.4
+2007-04-28   v3.0.3
+2007-04-23   v3.0.2
+2007-04-04   v3.0.1
+2007-03-25   v3.0.0
+2006-02-02   v2.9.8
+2005-09-16   v2.9.7
+2005-06-10   v2.9.6
+2005-01-11   v2.9.5
+2004-12-19   v2.9.4
+2004-12-18   v2.9.3
+2004-09-25   v2.9.2
+2004-09-24   v2.9.1
+2004-09-18   v2.9
+---------------------
+
+Source code for all releases is available at
+link:ftp://ftp.archlinux.org/other/pacman/[]. To install, download the newest
+available source tarball, unpack it in a directory, and run the three magic
+commands:
+
+    $ ./configure
+    $ make
+    # make install
+
+You may wish to read the options presented by `./configure --help` in order to
+set appropriate paths and build options that are correct for your system.
+
+Development
+-----------
+
+Mailing List
+~~~~~~~~~~~~
+There is a mailing list devoted to pacman development, hosted by Arch Linux.
+link:http://www.archlinux.org/mailman/listinfo/pacman-dev/[Subscribe] or
+link:http://www.archlinux.org/pipermail/pacman-dev/[view the archives].
+
+Source Code
+~~~~~~~~~~~
+Development of pacman is currently done in GIT. The central repository is
+hosted by Arch Linux, although some of the developers have their own trees (ask
+on the above mailing lists if you are interested in finding the locations of
+these trees).
+
+The current development tree can be fetched with the following command:
+
+    git clone git://projects.archlinux.org/pacman.git pacman
+
+which will fetch the full development history into a directory named pacman.
+You can browse the source as well using
+link:http://projects.archlinux.org/git/gitweb.cgi?p=pacman.git[Gitweb].
+
+If you are interested in hacking on pacman, it is highly recommended you join
+the mailing list mentioned above, as well as take a quick glance at our
+link:HACKING.html[HACKING] document.
+link:submitting-patches.html[submitting-patches] is also a recommended read.
+
+Not as familiar with code as you'd like to be, but still want to help out? If
+you speak a foreign language, you can help by either creating or updating a
+translation file for your native language. Instructions can be found in
+link:translation-help.html[translation-help].
+
+Other Utilities
+~~~~~~~~~~~~~~~
+Although the package manager itself is quite simple, many scripts have been
+developed that help automate building and installing packages. These are used
+extensively in link:http://archlinux.org[Arch Linux]. Most of these utilities
+are available in the Arch Linux projects
+link:http://projects.archlinux.org/git/gitweb.cgi[Gitweb browser].
+
+Utilities available:
+
+* link:http://projects.archlinux.org/git/?p=abs.git[abs] - ABS (Arch Build System), scripts to download  & use the Arch Linux PKGBUILD tree
+* link:http://projects.archlinux.org/git/?p=devtools.git[devtools] - tools to assist in packaging and dependency checking
+* link:http://projects.archlinux.org/git/?p=namcap.git[namcap] - a package analysis utility written in python
+* link:http://projects.archlinux.org/git/?p=pacbuild.git[pacbuild] - a package building system utilizing a daemon
+* link:http://projects.archlinux.org/git/?p=srcpac.git[srcpac] - a bash build-from-source pacman wrapper
+
+Bugs
+----
+If you find bugs (which is quite likely), please email them to the pacman-dev
+mailing last at mailto:pacman-dev@archlinux.org[] with specific information
+such as your commandline, the nature of the bug, and even the package database
+if it helps.
+
+You can also post a bug to the Archlinux bug tracker
+link:http://bugs.archlinux.org/index.php?project=3[Flyspray]. Be sure to file
+bugs under the Pacman project.
+
+Pacman/libalpm in the Wild
+--------------------------
+Although Arch Linux is the primary user of pacman and libalpm, other
+distributions and projects also use pacman as a package management tool. In
+addition, there have been several projects started to provide a frontend GUI to
+pacman and/or libalpm.
+
+Arch derivatives:
+
+* link:http://archie.dotsrc.org/[Archie] - Arch Live on steroids
+* link:http://www.faunos.com/[FaunOS] - A portable, fully integrated operating system based on Arch Linux
+* link:http://larch.berlios.de/[larch] - A live CD/DVD/USB-stick construction kit for Arch Linux
+
+Other distributions:
+
+* link:http://www.delilinux.org/[DeLi Linux] - "Desktop Light" Linux, a Linux distribution for old computers
+* link:http://www.frugalware.org/[Frugalware Linux] - A general purpose Linux distribution for intermediate users (pacman is forked and maintained separately)
+
+Pacman/libalpm frontends:
+
+* link:http://shaman.iskrembilen.com/[Shaman] - A GUI frontend using Qt and libalpm
+
+Copyright
+---------
+pacman is Copyright (C) 2006-2009 Dan McGee <dan@archlinux.org> and
+Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org> and is
+licensed through the GNU General Public License, version 2 or later.
+
+/////
+vim: set ts=2 sw=2 syntax=asciidoc et:
+/////
