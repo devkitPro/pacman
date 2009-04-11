@@ -578,7 +578,7 @@ check_checksums() {
 				echo -n "    $file ... " >&2
 
 				if [ ! -f "$file" ] ; then
-					if [ ! -f "$file" ] ; then
+					if [ ! -f "$SRCDEST/$file" ] ; then
 						echo "$(gettext "NOT FOUND")" >&2
 						errors=1
 						found=0
