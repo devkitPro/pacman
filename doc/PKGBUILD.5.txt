@@ -65,19 +65,19 @@ similar to `$_basekernver`.
 	This field specifies the license(s) that apply to the package.
 	Commonly-used licenses are found in '/usr/share/licenses/common'. If you
 	see the package's license there, simply reference it in the license
-	field (e.g. `$$license=('GPL')$$`). If the package provides a license not
+	field (e.g. `license=('GPL')`). If the package provides a license not
 	found in '/usr/share/licenses/common', then you should include the license
-	in the package itself and set `$$license=('custom')$$` or
-	`$$license=('custom:LicenseName')$$`. The license should be placed in
+	in the package itself and set `license=('custom')` or
+	`license=('custom:LicenseName')`. The license should be placed in
 	'$pkgdir/usr/share/licenses/$pkgname' when building the package. If
 	multiple licenses are applicable for a package, list all of them:
-	`$$license=('GPL' 'FDL')$$`.
+	`license=('GPL' 'FDL')`.
 
 *install*::
 	Specifies a special install script that is to be included in the package.
 	This file should reside in the same directory as the PKGBUILD, and will
 	be copied into the package by makepkg. It does not need to be included
-	in the source array (e.g. `$$install=pkgname.install$$`).
+	in the source array (e.g. `install=pkgname.install`).
 
 *source (array)*::
 	An array of source files required to build the package. Source files
@@ -90,7 +90,7 @@ similar to `$_basekernver`.
 +
 It is also possible to specify an optional filename, which is helpful
 with weird URLs and for handling multiple source files with the same
-name. The syntax is: `$$source=('filename::url')$$`
+name. The syntax is: `source=('filename::url')`.
 
 *noextract (array)*::
 	An array of filenames corresponding to those from the source array. Files
@@ -118,7 +118,7 @@ name. The syntax is: `$$source=('filename::url')$$`
 
 *arch (array)*::
 	Defines on which architectures the given package is available (e.g.
-	`$$arch=('i686' 'x86_64')$$`).
+	`arch=('i686' 'x86_64')`).
 
 *backup (array)*::
 	A space-delimited array of filenames, without preceding slashes, that
@@ -238,8 +238,8 @@ use during the build and install process. These three variables are as follows:
 *startdir*::
 	This contains the absolute path to the directory where the PKGBUILD was
 	located, which is usually the output of `$(pwd)` when makepkg is started.
-	$$startdir$$ was most often used in combination with `/src` or `/pkg`
-	postfixes, but use of the `srcdir` and `pkgdir` variables is preferred.
+	`$startdir` was most often used in combination with `/src` or `/pkg`
+	postfixes, but use of the `$srcdir` and `$pkgdir` variables is preferred.
 
 *srcdir*::
 	This points to the directory where makepkg extracts or copies all source
