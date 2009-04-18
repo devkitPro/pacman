@@ -99,10 +99,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("transaction aborted");
 		case PM_ERR_TRANS_TYPE:
 			return _("operation not compatible with the transaction type");
-		case PM_ERR_TRANS_COMMITING:
-			return _("could not commit transaction");
-		case PM_ERR_TRANS_DOWNLOADING:
-			return _("could not download all files");
 		/* Packages */
 		case PM_ERR_PKG_NOT_FOUND:
 			return _("could not find or read package");
@@ -112,10 +108,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("invalid or corrupted package");
 		case PM_ERR_PKG_OPEN:
 			return _("cannot open package file");
-		case PM_ERR_PKG_LOAD:
-			return _("cannot load package data");
-		case PM_ERR_PKG_CANT_FRESH:
-			return _("package not installed or lesser version");
 		case PM_ERR_PKG_CANT_REMOVE:
 			return _("cannot remove all files for package");
 		case PM_ERR_PKG_INVALID_NAME:
@@ -127,9 +119,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("invalid or corrupted delta");
 		case PM_ERR_DLT_PATCHFAILED:
 			return _("delta patch failed");
-		/* Groups */
-		case PM_ERR_GRP_NOT_FOUND:
-			return _("group not found");
 		/* Dependencies */
 		case PM_ERR_UNSATISFIED_DEPS:
 			return _("could not satisfy dependencies");
@@ -138,10 +127,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_FILE_CONFLICTS:
 			return _("conflicting files");
 		/* Miscellaenous */
-		case PM_ERR_USER_ABORT:
-			return _("user aborted the operation");
-		case PM_ERR_INTERNAL_ERROR:
-			return _("internal error");
+		case PM_ERR_RETRIEVE:
+			return _("failed to retrieve some files");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
 		/* Errors from external libraries- our own wrapper error */
