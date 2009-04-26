@@ -180,9 +180,11 @@ GCC_GNU89_INLINE_CC
 
 # Host-dependant definitions
 SIZECMD="stat -c %s"
+SEDINPLACE="sed -i"
 case "${host_os}" in
 	*bsd*)
 		SIZECMD="stat -f %z"
+		SEDINPLACE="sed -i ''"
 		;;
 	cygwin*)
 		host_os_cygwin=yes
@@ -191,12 +193,14 @@ case "${host_os}" in
 	darwin*)
 		host_os_darwin=yes
 		SIZECMD="/usr/bin/stat -f %z"
+		SEDINPLACE="sed -i ''"
 		;;
 esac
 
 AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_SUBST(SIZECMD)
+AC_SUBST(SEDINPLACE)
 
 # Check for architecture, used in default makepkg.conf
 # (Note single space left after CARCHFLAGS)
@@ -356,6 +360,7 @@ ${PACKAGE_NAME}:
     Architecture flags     : ${CARCHFLAGS}
     Host Type              : ${CHOST}
     Filesize command       : ${SIZECMD}
+    In-place sed command   : ${SEDINPLACE}
 
     libalpm version        : ${LIB_VERSION}
     libalpm version info   : ${LIB_VERSION_INFO}

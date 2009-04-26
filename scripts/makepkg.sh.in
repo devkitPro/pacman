@@ -1172,8 +1172,8 @@ devel_update() {
 	if [ -n "$newpkgver" ]; then
 		if [ "$newpkgver" != "$pkgver" ]; then
 			if [ -f "./$BUILDSCRIPT" ]; then
-				sed -i "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "./$BUILDSCRIPT"
-				sed -i "s/^pkgrel=[^ ]*/pkgrel=1/" "./$BUILDSCRIPT"
+				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "./$BUILDSCRIPT"
+				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "./$BUILDSCRIPT"
 				source "$BUILDSCRIPT"
 			fi
 		fi
