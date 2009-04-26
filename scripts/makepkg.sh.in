@@ -1100,14 +1100,13 @@ install_package() {
 
 devel_check() {
 	newpkgver=""
-	# Only update pkgver if --holdver is not set
-	if [ "$HOLDVER" -eq 1 ]; then
+
+	# Do not update pkgver if --holdver is set, when building a source package,
+	# or when reading PKGBUILD from pipe
+	if [ "$HOLDVER" -eq 1 -o "$SOURCEONLY" -ne 0 -o ! -f "./$BUILDSCRIPT" ]; then
 		return
 	fi
-	# Cannot update pkgver/pkgrel if reading PKGBUILD from pipe
-	if [ ! -f "./$BUILDSCRIPT" ]; then
-		return
-	fi
+
 	if [ -z "$FORCE_VER" ]; then
 		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
 		# This will only be used on the first call to makepkg; subsequent
