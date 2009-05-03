@@ -193,7 +193,7 @@ case "${host_os}" in
 	darwin*)
 		host_os_darwin=yes
 		SIZECMD="/usr/bin/stat -f %z"
-		SEDINPLACE="sed -i ''"
+		SEDINPLACE="/usr/bin/sed -i ''"
 		;;
 esac
 

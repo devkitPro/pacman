@@ -846,6 +846,8 @@ tidy_install() {
 		local binary
 		find ${STRIP_DIRS[@]} -type f 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
+				*compressed-encoding*)      # Skip compressed binarys
+					;;
 				*application/x-sharedlib*)  # Libraries (.so)
 					/usr/bin/strip -S "$binary";;
 				*application/x-archive*)    # Libraries (.a)
@@ -952,7 +954,7 @@ create_package() {
 	# warn if license array is not present or empty
 	if [ -z "$license" ]; then
 		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
-		plain "$(gettext "Example for GPL'ed software: license=('GPL').")"
+		plain "$(gettext "Example for GPL\'ed software: license=('GPL').")"
 	fi
 
 	local comp_files=".PKGINFO"
