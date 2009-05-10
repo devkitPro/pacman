@@ -238,19 +238,14 @@ use during the build and install process. These three variables are as follows:
 *startdir*::
 	This contains the absolute path to the directory where the PKGBUILD was
 	located, which is usually the output of `$(pwd)` when makepkg is started.
-	`$startdir` was most often used in combination with `/src` or `/pkg`
-	postfixes, but use of the `$srcdir` and `$pkgdir` variables is preferred.
 
 *srcdir*::
 	This points to the directory where makepkg extracts or copies all source
-	files. Although it currently is an alias for `$startdir/src`, this
-	assumption should not be assumed true for all future revisions of makepkg.
+	files.
 
 *pkgdir*::
 	This points to the directory where makepkg bundles the installed package
 	(this directory will become the root directory of your built package).
-	Although it currently is an alias for `$startdir/pkg`, this assumption
-	should not be assumed true for all future revisions of makepkg.
 
 If you create any variables of your own in the build function, it is
 recommended to use the bash `local` keyword to scope the variable to inside
@@ -263,6 +258,26 @@ This function is run immediately after the build() function. When specified in
 combination with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot
 usage will be limited to running the packaging stage. The build() function will be
 run as the user calling makepkg.
+
+Package Splitting
+-----------------
+makepkg supports building multiple packages from a single PKGBUILD. This is achieved
+by assigning an array of package names to the `pkgname` directive. Each split package
+uses a corresponding packaging function with name `package_foo()`, where `foo` is the
+name of the split package.
+
+All options and directives for the split packages default to the global values given
+within the PKGBUILD. However, some of these can be overridden within each split
+package's packaging function. The following variables can be overridden: `pkgdesc`,
+`license`, `groups`, `depends`, `optdepends`, `provides`, `conflicts`, `replaces`,
+`backup`, `options` and `install`.
+
+An optional global directive is available when building a split package:
+
+*pkgbase*::
+	The name used to refer to the group of packages in the output of makepkg
+	and in the naming of source-only tarballs.  If not specified, the first
+	element in the `pkgname` array is used.
 
 Install/Upgrade/Remove Scripting
 --------------------------------
