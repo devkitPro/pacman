@@ -205,7 +205,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 
 /* List all files contained in a package
  */
-void dump_pkg_files(pmpkg_t *pkg)
+void dump_pkg_files(pmpkg_t *pkg, int quiet)
 {
 	const char *pkgname, *root, *filestr;
 	alpm_list_t *i, *pkgfiles;
@@ -216,7 +216,11 @@ void dump_pkg_files(pmpkg_t *pkg)
 
 	for(i = pkgfiles; i; i = alpm_list_next(i)) {
 		filestr = alpm_list_getdata(i);
-		fprintf(stdout, "%s %s%s\n", pkgname, root, filestr);
+		if(!quiet){
+			fprintf(stdout, "%s %s%s\n", pkgname, root, filestr);
+		} else {
+			fprintf(stdout, "%s%s\n", root, filestr);
+		}
 	}
 
 	fflush(stdout);

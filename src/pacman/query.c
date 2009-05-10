@@ -320,7 +320,7 @@ static void display(pmpkg_t *pkg)
 		}
 	}
 	if(config->op_q_list) {
-		dump_pkg_files(pkg);
+		dump_pkg_files(pkg, config->quiet);
 	}
 	if(config->op_q_changelog) {
 		dump_pkg_changelog(pkg);

@@ -204,9 +204,13 @@ Query Options[[QO]]
 	This is useful in combination with '\--info' and '\--list'.
 
 *-q, \--quiet*::
-	Show less information for certain query operations. Search will only show
-	package names and not version, group, and description information; a bare
-	query will only show package names rather than names and versions.
+	Show less information for certain query operations. (This is useful when
+	pacman's output is processed in a script.) Search will only show package
+	names and not version, group, and description information; owns will
+	only show package names and versions instead of "file is owned by pkg"
+	messages; group will only show package names and omit group names; list
+	will only show files and omit package names; a bare query will only
+	show package names rather than names and versions.
 
 *-s, \--search* <'regexp'>::
 	This will search each locally-installed package for names or
@@ -284,9 +288,11 @@ linkman:pacman.conf[5].
 	downloaded at a later time, using a program like wget.
 
 *-q, \--quiet*::
-	Show less information for certain sync operations. Search will only show
-	package names and not version, group, and description information; list
-	will only show package names and omit databases and versions.
+	Show less information for certain sync operations. (This is useful when
+	pacman's output is processed in a script.) Search will only show package
+	names and not repo, version, group, and description information; list
+	will only show package names and omit databases and versions; group will
+	only show package names and omit group names.
 
 *-s, \--search* <'regexp'>::
 	This will search each package in the sync databases for names or
