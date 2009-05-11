@@ -83,7 +83,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			} else if(!strcmp(key, "builddate")) {
 				char first = tolower(ptr[0]);
 				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; //initialize to null in case of failure
+					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
 					setlocale(LC_TIME, "C");
 					strptime(ptr, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					newpkg->builddate = mktime(&tmp_tm);
