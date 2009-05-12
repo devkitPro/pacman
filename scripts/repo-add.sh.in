@@ -357,7 +357,7 @@ add()
 	fi
 
 	pkgfile=$1
-	if ! bsdtar -tqf "$pkgfile" .PKGINFO 2>&1 >/dev/null; then
+	if ! bsdtar -tqf "$pkgfile" .PKGINFO >/dev/null 2>&1; then
 		error "$(gettext "'%s' is not a package file, skipping")" "$pkgfile"
 		return 1
 	fi
