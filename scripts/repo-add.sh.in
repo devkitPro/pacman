@@ -245,8 +245,8 @@ db_write_entry()
 	echo -e "%VERSION%\n$pkgver\n" >>desc
 	[ -n "$pkgdesc" ] && echo -e "%DESC%\n$pkgdesc\n" >>desc
 	write_list_entry "GROUPS" "$_groups" "desc"
-	[ -n $csize ] && echo -e "%CSIZE%\n$csize\n" >>desc
-	[ -n $size ] && echo -e "%ISIZE%\n$size\n" >>desc
+	[ -n "$csize" ] && echo -e "%CSIZE%\n$csize\n" >>desc
+	[ -n "$size" ] && echo -e "%ISIZE%\n$size\n" >>desc
 
 	# compute checksums
 	msg2 "$(gettext "Computing md5 checksums...")"
