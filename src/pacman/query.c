@@ -125,8 +125,7 @@ static int query_fileowner(alpm_list_t *targets)
 						printf(_("%s is owned by %s %s\n"), filename,
 								alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 					} else {
-						printf("%s %s\n", alpm_pkg_get_name(info),
-								alpm_pkg_get_version(info));
+						printf("%s\n", alpm_pkg_get_name(info));
 					}
 					found = 1;
 				}
