@@ -18,7 +18,8 @@ rm -rf scripts/{Makefile.in,Makefile}
 rm -rf etc/{Makefile.in,Makefile}
 rm -rf etc/pacman.d/{Makefile.in,Makefile}
 rm -rf etc/abs/{Makefile.in,Makefile}
-rm -rf pactest/{Makefile.in,Makefile}
+rm -rf pactest{,/tests}/{Makefile.in,Makefile}
+rm -rf contrib/{Makefile.in,Makefile}
 rm -rf doc/{Makefile.in,Makefile}
 rm -rf doc/html/*.html
 rm -rf doc/man3/*.3
