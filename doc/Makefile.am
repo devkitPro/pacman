@@ -51,7 +51,7 @@ EXTRA_DIST = \
 	$(DOXYGEN_MANS)
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = *.xml $(ASCIIDOC_MANS) $(HTML_DOCS)
+MOSTLYCLEANFILES = *.xml $(ASCIIDOC_MANS) $(HTML_DOCS) repo-remove.8
 
 # Ensure manpages are fresh when building a dist tarball
 dist-hook:
