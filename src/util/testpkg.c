@@ -21,7 +21,6 @@
 
 #include <stdio.h> /* printf */
 #include <stdarg.h> /* va_list */
-#include <string.h> /* strlen */
 
 #include <alpm.h>
 

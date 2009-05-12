@@ -24,7 +24,6 @@
 #include <limits.h>
 #include <string.h>
 #include <dirent.h>
-#include <libgen.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
