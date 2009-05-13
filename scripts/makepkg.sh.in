@@ -648,6 +648,8 @@ extract_sources() {
 				cmd="gunzip -d -f $file" ;;
 			*application/x-bzip*)
 				cmd="bunzip2 -f $file" ;;
+			*application/x-xz*)
+				cmd="xz -d -f $file" ;;
 			*)
 				# Don't know what to use to extract this file,
 				# skip to the next file
@@ -979,6 +981,7 @@ create_package() {
 	case "$PKGEXT" in
 		*tar.gz)  EXT=${PKGEXT%.gz} ;;
 		*tar.bz2) EXT=${PKGEXT%.bz2} ;;
+		*tar.xz)  EXT=${PKGEXT%.xz} ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$PKGEXT" ; EXT=$PKGEXT ;;
 	esac
@@ -996,6 +999,7 @@ create_package() {
 		case "$PKGEXT" in
 			*tar.gz)  gzip -f -n "$pkg_file" ;;
 			*tar.bz2) bzip2 -f "$pkg_file" ;;
+			*tar.xz)  xz -z -f "$pkg_file" ;;
 		esac
 		ret=$?
 	fi
@@ -1054,6 +1058,7 @@ create_srcpackage() {
 	case "$SRCEXT" in
 		*tar.gz)  TAR_OPT="z" ;;
 		*tar.bz2) TAR_OPT="j" ;;
+		*tar.xz)  TAR_OPT="J" ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$SRCEXT" ;;
 	esac

@@ -462,6 +462,7 @@ if [ $success -eq 1 ]; then
 	case "$REPO_DB_FILE" in
 		*tar.gz)  TAR_OPT="z" ;;
 		*tar.bz2) TAR_OPT="j" ;;
+		*tar.xz)  TAR_OPT="J" ;;
 		*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
 		"$REPO_DB_FILE" ;;
 	esac
