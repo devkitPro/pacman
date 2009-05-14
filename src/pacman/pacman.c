@@ -103,17 +103,17 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --changelog      view the changelog of a package\n"));
-			printf(_("  -d, --deps           list all packages installed as dependencies\n"));
-			printf(_("  -e, --explicit       list all packages explicitly installed\n"));
+			printf(_("  -d, --deps           list packages installed as dependencies [filter]\n"));
+			printf(_("  -e, --explicit       list packages explicitly installed [filter]\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information (-ii for backup files)\n"));
 			printf(_("  -l, --list           list the contents of the queried package\n"));
-			printf(_("  -m, --foreign        list installed packages not found in sync db(s)\n"));
+			printf(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
-			printf(_("  -t, --unrequired     list all packages not required by any package\n"));
-			printf(_("  -u, --upgrades       list all outdated packages\n"));
+			printf(_("  -t, --unrequired     list packages not required by any package [filter]\n"));
+			printf(_("  -u, --upgrades       list outdated packages [filter]\n"));
 			printf(_("  -q, --quiet          show less information for query and search\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);

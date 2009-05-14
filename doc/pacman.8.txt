@@ -33,7 +33,10 @@ Operations
 	packages and their files, as well as meta-information about individual
 	packages (dependencies, conflicts, install date, build date, size). This
 	can be run against the local package database or can be used on
-	individual '.tar.gz' packages. See <<QO,Query Options>> below.
+	individual '.tar.gz' packages. In the first case, if no package names
+	are provided in the command line, all installed packages will be
+	queried. Additionally, various filters can be applied on the package
+	list. See <<QO,Query Options>> below.
 
 *-R, \--remove*::
 	Remove a package from the system. Groups can also be specified to be
@@ -164,16 +167,17 @@ Query Options[[QO]]
 	it will be shown if available.
 
 *-d, \--deps*::
-	List all packages installed as dependencies. This option can be combined
-	with '-t' for listing real orphans- packages that were installed as
-	dependencies but are no longer required by any installed package. ('-Qdt'
-	is equivalent to the pacman 3.0.X '-Qe' option.)
+	Restrict or filter output to packages installed as dependencies. This
+	option can be combined with '-t' for listing real orphans- packages that
+	were installed as dependencies but are no longer required by any
+	installed package. ('-Qdt' is equivalent to the pacman 3.0.X '-Qe'
+	option.)
 
 *-e, \--explicit*::
-	List all packages explicitly installed. This option can be combined with
-	'-t' to list top-level packages- those packages that were explicitly
-	installed but are not required by any other package. ('-Qet' is equivalent
-	to the pacman 2.9.X '-Qe' option.)
+	Restrict or filter output to packages explicitly installed. This option
+	can be combined with '-t' to list top-level packages- those packages
+	that were explicitly installed but are not required by any other
+	package. ('-Qet' is equivalent to the pacman 2.9.X '-Qe' option.)
 
 *-g, \--groups*::
 	Display all packages that are members of a named group. If a name is not
@@ -221,8 +225,10 @@ Query Options[[QO]]
 	installed package.
 
 *-u, \--upgrades*::
-	Lists all packages that are out of date on the local system. This option
-	works best if the sync database is refreshed using '-Sy'.
+	Restrict or filter output to packages that are out of date on the local
+	system. (Only package versions are used to find outdated packages,
+	replacements are not checked here.) This option works best if the sync
+	database is refreshed using '-Sy'.
 
 
 Remove Options[[RO]]
