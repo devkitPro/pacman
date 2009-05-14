@@ -89,7 +89,7 @@ int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
 /** Search for packages to upgrade and add them to the transaction.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_trans_sysupgrade()
+int SYMEXPORT alpm_trans_sysupgrade(int enable_downgrade)
 {
 	pmtrans_t *trans;
 
@@ -102,7 +102,7 @@ int SYMEXPORT alpm_trans_sysupgrade()
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
-	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync));
+	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync, enable_downgrade));
 }
 
 /** Add a target to the transaction.

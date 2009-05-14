@@ -130,7 +130,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -l, --list <repo>    view a list of packages in a repo\n"));
 			printf(_("  -p, --print-uris     print out URIs for given packages and their dependencies\n"));
 			printf(_("  -s, --search <regex> search remote repositories for matching strings\n"));
-			printf(_("  -u, --sysupgrade     upgrade all packages that are out of date\n"));
+			printf(_("  -u, --sysupgrade     upgrade all outdated packages (-uu enables downgrade)\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
 			printf(_("      --needed         don't reinstall up to date packages\n"));
@@ -508,7 +508,7 @@ static int parseargs(int argc, char *argv[])
 				config->op_q_unrequired = 1;
 				break;
 			case 'u':
-				config->op_s_upgrade = 1;
+				(config->op_s_upgrade)++;
 				config->op_q_upgrade = 1;
 				config->flags |= PM_TRANS_FLAG_UNNEEDED;
 				break;

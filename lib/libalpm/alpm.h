@@ -397,7 +397,7 @@ alpm_list_t * alpm_trans_get_pkgs();
 int alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
-int alpm_trans_sysupgrade(void);
+int alpm_trans_sysupgrade(int enable_downgrade);
 int alpm_trans_addtarget(char *target);
 int alpm_trans_prepare(alpm_list_t **data);
 int alpm_trans_commit(alpm_list_t **data);

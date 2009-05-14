@@ -80,7 +80,7 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 	return(NULL);
 }
 
-int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync)
+int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
 
@@ -116,8 +116,20 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 						trans->packages = alpm_list_add(trans->packages, spkg);
 					}
 				} else if(cmp < 0) {
-					_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
-							lpkg->name, lpkg->version, sdb->treename, spkg->version);
+					if(enable_downgrade) {
+						/* check IgnorePkg/IgnoreGroup */
+						if(_alpm_pkg_should_ignore(spkg) || _alpm_pkg_should_ignore(lpkg)) {
+							_alpm_log(PM_LOG_WARNING, _("%s: ignoring package downgrade (%s => %s)\n"),
+											lpkg->name, lpkg->version, spkg->version);
+						} else {
+							_alpm_log(PM_LOG_WARNING, _("%s: downgrading from version %s to version %s\n"),
+											lpkg->name, lpkg->version, spkg->version);
+							trans->packages = alpm_list_add(trans->packages, spkg);
+						}
+					} else {
+						_alpm_log(PM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
+								lpkg->name, lpkg->version, sdb->treename, spkg->version);
+					}
 				}
 				break; /* jump to next local package */
 			} else { /* 2. search for replacers in sdb */
