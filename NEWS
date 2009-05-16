@@ -1,5 +1,25 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.3.0         - makepkg:
+                - package splitting support! - see PKGBUILD-split.proto
+                - limit fakeroot usage with addition of package() function
+                - info pages are handled like man pages and not other documentation
+                - configuration option for man/info page directories
+                - added ability to automatically remove files from package
+                - configuration option for default LDFLAGS
+                - specify alternative configuration file with --config flag
+                - check all integrity checksums provided in PKGBUILD
+                - fix pkgver/pkgrel updating in SCM packages
+                - BUILDSCRIPT option removed from makepkg.conf. Now specified
+                  during configure
+                - enforce no ">" or "<" in provides array
+                - package compression autodetection
+                - check PKGBUILD for CRLF line endings
+                - fix reading PKGBUILD from pipe
+                - various fixes to increase compatibility with BSDs & Mac OSX
+              - contrib
+                - pacscripts - print install scripts for a package
+
 3.2.2         - log pacsave warnings to pacman.log (FS#12531)
               - separate local DB creation and writing (FS#12263)
               - pacman-optimize: rewrite and refresh (FS#11767)
