@@ -481,6 +481,7 @@ static int parseargs(int argc, char *argv[])
 				config->op_q_isfile = 1;
 				config->op_s_printuris = 1;
 				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
+				config->flags |= PM_TRANS_FLAG_NOLOCK;
 				break;
 			case 'q':
 				config->quiet = 1;
@@ -900,7 +901,7 @@ int main(int argc, char *argv[])
 
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* check if we have sufficient permission for the requested operation */
-	if(myuid > 0 && needs_transaction()) {
+	if(myuid > 0 && needs_root()) {
 		pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
 		cleanup(EXIT_FAILURE);
 	}

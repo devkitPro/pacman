@@ -69,19 +69,16 @@ int trans_release(void)
 	return(0);
 }
 
-int needs_transaction(void)
+int needs_root(void)
 {
-	if(config->op != PM_OP_MAIN && config->op != PM_OP_QUERY && config->op != PM_OP_DEPTEST) {
-		if((config->op == PM_OP_SYNC && !config->op_s_sync &&
-				(config->op_s_search || config->group || config->op_q_list || config->op_q_info))
-			 || config->op == PM_OP_DEPTEST) {
-			/* special case: PM_OP_SYNC can be used w/ config->op_s_search by any user */
-			return(0);
-		} else {
-			return(1);
-		}
+	if(config->op == PM_OP_UPGRADE || config->op == PM_OP_REMOVE || /* -U, -R */
+	   (config->op == PM_OP_SYNC && (config->op_s_clean || config->op_s_sync || /* -Sc, -Sy */
+	      (!config->group && !config->op_s_info && !config->op_q_list /* all other -S combinations, where */
+	        && !config->op_s_search && !config->op_s_printuris)))) {  /* -g, -i, -l, -s, -p is not set */
+		return(1);
+	} else {
+		return(0);
 	}
-	return(0);
 }
 
 /* gets the current screen column width */

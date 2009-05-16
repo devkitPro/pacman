@@ -38,7 +38,7 @@
 
 int trans_init(pmtranstype_t type, pmtransflag_t flags);
 int trans_release(void);
-int needs_transaction(void);
+int needs_root(void);
 int getcols(void);
 int makepath(const char *path);
 int rmrf(const char *path);
