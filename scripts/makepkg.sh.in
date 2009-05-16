@@ -1527,6 +1527,7 @@ if [ ! -f "$BUILDSCRIPT" ]; then
 	else
 		# PKGBUILD passed through a pipe
 		BUILDSCRIPT=/dev/stdin
+		source "$BUILDSCRIPT"
 	fi
 else
 	crlftest=$(file $BUILDSCRIPT | grep -F 'CRLF' || true)
@@ -1534,9 +1535,9 @@ else
 		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDSCRIPT"
 		exit 1
 	fi
-fi
 
-source "$BUILDSCRIPT"
+	source ./"$BUILDSCRIPT"
+fi
 
 if [ "$GENINTEG" -eq 1 ]; then
 	mkdir -p "$srcdir"
