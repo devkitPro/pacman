@@ -99,6 +99,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("transaction aborted");
 		case PM_ERR_TRANS_TYPE:
 			return _("operation not compatible with the transaction type");
+		case PM_ERR_TRANS_NOT_LOCKED:
+			return _("transaction commit attempt when database is not locked");
 		/* Packages */
 		case PM_ERR_PKG_NOT_FOUND:
 			return _("could not find or read package");

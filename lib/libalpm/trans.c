@@ -71,9 +71,11 @@ int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* lock db */
-	handle->lckfd = _alpm_lckmk();
-	if(handle->lckfd == -1) {
-		RET_ERR(PM_ERR_HANDLE_LOCK, -1);
+	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {
+		handle->lckfd = _alpm_lckmk();
+		if(handle->lckfd == -1) {
+			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
+		}
 	}
 
 	handle->trans = _alpm_trans_new();
@@ -158,6 +160,8 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(handle->trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
 
+	ASSERT(!(handle->trans->flags & PM_TRANS_FLAG_NOLOCK), RET_ERR(PM_ERR_TRANS_NOT_LOCKED, -1));
+
 	return(_alpm_trans_commit(handle->trans, data));
 }
 
@@ -199,19 +203,23 @@ int SYMEXPORT alpm_trans_release()
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
+	unsigned int nolock_flag = trans->flags & PM_TRANS_FLAG_NOLOCK;
+
 	_alpm_trans_free(trans);
 	handle->trans = NULL;
 
 	/* unlock db */
-	if(handle->lckfd != -1) {
-		while(close(handle->lckfd) == -1 && errno == EINTR);
-		handle->lckfd = -1;
-	}
-	if(_alpm_lckrm()) {
-		_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),
-				alpm_option_get_lockfile());
-		alpm_logaction("warning: could not remove lock file %s\n",
-				alpm_option_get_lockfile());
+	if(!nolock_flag) {
+		if(handle->lckfd != -1) {
+			while(close(handle->lckfd) == -1 && errno == EINTR);
+			handle->lckfd = -1;
+		}
+		if(_alpm_lckrm()) {
+			_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),
+					alpm_option_get_lockfile());
+			alpm_logaction("warning: could not remove lock file %s\n",
+					alpm_option_get_lockfile());
+		}
 	}
 
 	return(0);
