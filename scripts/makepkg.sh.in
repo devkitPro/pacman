@@ -1100,14 +1100,13 @@ install_package() {
 
 devel_check() {
 	newpkgver=""
-	# Only update pkgver if --holdver is not set
-	if [ "$HOLDVER" -eq 1 ]; then
+
+	# Do not update pkgver if --holdver is set, when building a source package,
+	# or when reading PKGBUILD from pipe
+	if [ "$HOLDVER" -eq 1 -o "$SOURCEONLY" -ne 0 -o ! -f "./$BUILDSCRIPT" ]; then
 		return
 	fi
-	# Cannot update pkgver/pkgrel if reading PKGBUILD from pipe
-	if [ ! -f "./$BUILDSCRIPT" ]; then
-		return
-	fi
+
 	if [ -z "$FORCE_VER" ]; then
 		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
 		# This will only be used on the first call to makepkg; subsequent
@@ -1309,7 +1308,7 @@ usage() {
 	printf "$(gettext "  -p <buildscript> Use an alternate build script (instead of '%s')")\n" "$BUILDSCRIPT"
 	echo "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")"
 	# fix flyspray feature request #2978
-	echo "$(gettext "  -R, --repackage  Repackage contents of pkg/ without building")"
+	echo "$(gettext "  -R, --repackage  Repackage contents of the package without rebuilding")"
 	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
 	echo "$(gettext "      --allsource  Generate a source-only tarball including downloaded sources")"
 	echo "$(gettext "      --asroot     Allow makepkg to run as root user")"
@@ -1528,6 +1527,7 @@ if [ ! -f "$BUILDSCRIPT" ]; then
 	else
 		# PKGBUILD passed through a pipe
 		BUILDSCRIPT=/dev/stdin
+		source "$BUILDSCRIPT"
 	fi
 else
 	crlftest=$(file $BUILDSCRIPT | grep -F 'CRLF' || true)
@@ -1535,9 +1535,9 @@ else
 		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDSCRIPT"
 		exit 1
 	fi
-fi
 
-source "$BUILDSCRIPT"
+	source ./"$BUILDSCRIPT"
+fi
 
 if [ "$GENINTEG" -eq 1 ]; then
 	mkdir -p "$srcdir"
