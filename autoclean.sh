@@ -2,34 +2,34 @@
 
 [ -f Makefile ] && make distclean
 rm -rf autom4te.cache
-rm -rf {Makefile.in,Makefile}
-rm -rf {config.h.in,config.h}
-rm -rf config.status
-rm -rf configure
-rm -rf stamp*
-rm -rf aclocal.m4
-rm -rf compile
-rm -rf libtool
+rm -f {Makefile.in,Makefile}
+rm -f {config.h.in,config.h}
+rm -f config.status
+rm -f configure
+rm -f stamp*
+rm -f aclocal.m4
+rm -f compile
+rm -f libtool
 
-rm -rf lib/libalpm/{Makefile.in,Makefile}
-rm -rf src/util/{Makefile.in,Makefile}
-rm -rf src/pacman/{Makefile.in,Makefile}
-rm -rf scripts/{Makefile.in,Makefile}
-rm -rf etc/{Makefile.in,Makefile}
-rm -rf etc/pacman.d/{Makefile.in,Makefile}
-rm -rf etc/abs/{Makefile.in,Makefile}
-rm -rf pactest{,/tests}/{Makefile.in,Makefile}
-rm -rf contrib/{Makefile.in,Makefile}
-rm -rf doc/{Makefile.in,Makefile}
-rm -rf doc/html/*.html
-rm -rf doc/man3/*.3
+rm -f lib/libalpm/{Makefile.in,Makefile}
+rm -f src/util/{Makefile.in,Makefile}
+rm -f src/pacman/{Makefile.in,Makefile}
+rm -f scripts/{Makefile.in,Makefile}
+rm -f etc/{Makefile.in,Makefile}
+rm -f etc/pacman.d/{Makefile.in,Makefile}
+rm -f etc/abs/{Makefile.in,Makefile}
+rm -f pactest{,/tests}/{Makefile.in,Makefile}
+rm -f contrib/{Makefile.in,Makefile}
+rm -f doc/{Makefile.in,Makefile}
+rm -f doc/html/*.html
+rm -f doc/man3/*.3
 
-rm -rf po/{Makefile.in,Makefile}
-rm -rf po/POTFILES
-rm -rf po/stamp-po
-rm -rf po/*.gmo
+rm -f po/{Makefile.in,Makefile}
+rm -f po/POTFILES
+rm -f po/stamp-po
+rm -f po/*.gmo
 
-rm -rf lib/libalpm/po/{Makefile.in,Makefile}
-rm -rf lib/libalpm/po/POTFILES
-rm -rf lib/libalpm/po/stamp-po
-rm -rf lib/libalpm/po/*.gmo
+rm -f lib/libalpm/po/{Makefile.in,Makefile}
+rm -f lib/libalpm/po/POTFILES
+rm -f lib/libalpm/po/stamp-po
+rm -f lib/libalpm/po/*.gmo
