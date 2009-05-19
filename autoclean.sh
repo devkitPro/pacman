@@ -21,6 +21,8 @@ rm -f etc/abs/{Makefile.in,Makefile}
 rm -f pactest{,/tests}/{Makefile.in,Makefile}
 rm -f contrib/{Makefile.in,Makefile}
 rm -f doc/{Makefile.in,Makefile}
+
+rm -f pactest/*.pyc
 rm -f doc/html/*.html
 rm -f doc/man3/*.3
 
