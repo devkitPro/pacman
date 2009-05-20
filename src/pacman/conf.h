@@ -86,7 +86,8 @@ enum {
 	PM_OP_UPGRADE,
 	PM_OP_QUERY,
 	PM_OP_SYNC,
-	PM_OP_DEPTEST
+	PM_OP_DEPTEST,
+	PM_OP_DATABASE
 };
 
 /* Long Operations */

@@ -77,10 +77,11 @@ static void usage(int op, const char * const myname)
 		printf(_("operations:\n"));
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
-		printf("    %s {-Q --query}   [%s] [%s]\n", myname, str_opt, str_pkg);
-		printf("    %s {-R --remove}  [%s] <%s>\n", myname, str_opt, str_pkg);
-		printf("    %s {-S --sync}    [%s] [%s]\n", myname, str_opt, str_pkg);
-		printf("    %s {-U --upgrade} [%s] <%s>\n", myname, str_opt, str_file);
+		printf("    %s {-D --database} <%s> <%s>\n", myname, str_opt, str_pkg);
+		printf("    %s {-Q --query}    [%s] [%s]\n", myname, str_opt, str_pkg);
+		printf("    %s {-R --remove}   [%s] <%s>\n", myname, str_opt, str_pkg);
+		printf("    %s {-S --sync}     [%s] [%s]\n", myname, str_opt, str_pkg);
+		printf("    %s {-U --upgrade}  [%s] <%s>\n", myname, str_opt, str_file);
 		printf(_("\nuse '%s {-h --help}' with an operation for available options\n"),
 				myname);
 	} else {
@@ -147,6 +148,11 @@ static void usage(int op, const char * const myname)
 			printf(_("      --print-format <string>\n"
 			         "                       specify how the targets should be printed\n"));
 			printf(_("  -q, --quiet          show less information for query and search\n"));
+		} else if (op == PM_OP_DATABASE) {
+			printf("%s:  %s {-D --database} <%s> <%s>\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:\n", str_opt);
+			printf(_("      --asdeps         mark packages as non-explicitly installed\n"));
+			printf(_("      --asexplicit     mark packages as explicitly installed\n"));
 		}
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));
@@ -355,6 +361,7 @@ static int parseargs(int argc, char *argv[])
 	int option_index = 0;
 	static struct option opts[] =
 	{
+		{"database",   no_argument,       0, 'D'},
 		{"query",      no_argument,       0, 'Q'},
 		{"remove",     no_argument,       0, 'R'},
 		{"sync",       no_argument,       0, 'S'},
@@ -409,7 +416,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "RUQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "RUDQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
 		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
 
 		if(opt < 0) {
@@ -498,6 +505,7 @@ static int parseargs(int argc, char *argv[])
 				check_optarg();
 				config->print_format = strdup(optarg);
 				break;
+			case 'D': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DATABASE); break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
 			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
@@ -1184,6 +1192,9 @@ int main(int argc, char *argv[])
 
 	/* start the requested operation */
 	switch(config->op) {
+		case PM_OP_DATABASE:
+			ret = pacman_database(pm_targets);
+			break;
 		case PM_OP_REMOVE:
 			ret = pacman_remove(pm_targets);
 			break;

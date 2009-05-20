@@ -321,6 +321,44 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 	return(_alpm_db_search(db, needles));
 }
 
+/* Set install reason for a package in db
+ * @param db pointer to the package database
+ * @param name the name of the package
+ * @param reason the new install reason
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(db != NULL && name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	pmpkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
+	if(pkg == NULL) {
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
+	/* read DESC */
+	if(_alpm_db_read(db, pkg, INFRQ_DESC)) {
+		return(-1);
+	}
+	if(pkg->reason == reason) {
+		/* we are done */
+		return(0);
+	}
+	/* set reason (in pkgcache) */
+	pkg->reason = reason;
+	/* write DESC */
+	if(_alpm_db_write(db, pkg, INFRQ_DESC)) {
+		return(-1);
+	}
+
+	return(0);
+}
+
 /** @} */
 
 static pmdb_t *_alpm_db_new(const char *treename, int is_local)

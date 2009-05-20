@@ -22,6 +22,8 @@
 
 #include <alpm_list.h>
 
+/* database.c */
+int pacman_database(alpm_list_t *targets);
 /* query.c */
 int pacman_query(alpm_list_t *targets);
 /* remove.c */

@@ -80,6 +80,8 @@ int trans_release(void)
 int needs_root(void)
 {
 	switch(config->op) {
+		case PM_OP_DATABASE:
+			return(1);
 		case PM_OP_UPGRADE:
 		case PM_OP_REMOVE:
 			return(!config->print);

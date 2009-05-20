@@ -24,6 +24,7 @@ endif
 
 pacman_SOURCES = \
 	conf.h conf.c \
+	database.c \
 	deptest.c \
 	package.h package.c \
 	pacman.h pacman.c \

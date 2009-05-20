@@ -159,6 +159,15 @@ pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
 
 /*
+ * Install reasons -- ie, why the package was installed
+ */
+
+typedef enum _pmpkgreason_t {
+	PM_PKG_REASON_EXPLICIT = 0,  /* explicitly requested by the user */
+	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
+} pmpkgreason_t;
+
+/*
  * Databases
  */
 
@@ -181,18 +190,13 @@ alpm_list_t *alpm_db_get_pkgcache(pmdb_t *db);
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_get_grpcache(pmdb_t *db);
 alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
+int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
 
 /*
  * Packages
  */
 
 /* Info parameters */
-
-/* reasons -- ie, why the package was installed */
-typedef enum _pmpkgreason_t {
-	PM_PKG_REASON_EXPLICIT = 0,  /* explicitly requested by the user */
-	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
-} pmpkgreason_t;
 
 int alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
