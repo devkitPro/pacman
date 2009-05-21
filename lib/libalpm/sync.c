@@ -622,15 +622,12 @@ static int apply_deltas(pmtrans_t *trans)
 			snprintf(to, len, "%s/%s", cachedir, d->to);
 
 			/* build the patch command */
-			/* compression command */
-			char *compress = "cat";
 			if(endswith(to, ".gz")) {
-				compress = "gzip -n";
-			} else if(endswith(to, ".bz2")) {
-				compress = "bzip";
+				/* special handling for gzip : we disable timestamp with -n option */
+				snprintf(command, PATH_MAX, "xdelta3 -d -q -R -c -s %s %s | gzip -n > %s", from, delta, to);
+			} else {
+				snprintf(command, PATH_MAX, "xdelta3 -d -q -s %s %s %s", from, delta, to);
 			}
-			/* -R for disabling external recompression, -c for sending to stdout */
-			snprintf(command, PATH_MAX, "xdelta3 -d -q -R -c -s %s %s | %s > %s", from, delta, compress, to);
 
 			_alpm_log(PM_LOG_DEBUG, "command: %s\n", command);
 
