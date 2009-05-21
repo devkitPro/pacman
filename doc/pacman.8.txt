@@ -39,7 +39,7 @@ Operations
 	list. See <<QO,Query Options>> below.
 
 *-R, \--remove*::
-	Remove a package from the system. Groups can also be specified to be
+	Remove package(s) from the system. Groups can also be specified to be
 	removed, in which case every package in that group will be removed.
 	Files belonging to the specified package will be deleted, and the
 	database will be updated. Most configuration files will be saved
@@ -75,7 +75,7 @@ to determine which packages need upgrading. This behavior operates as follows:
     1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
 
 *-U, \--upgrade*::
-	Upgrade or add a package to the system. Either a URL or file path can be
+	Upgrade or add package(s) to the system. Either a URL or file path can be
 	specified. This is a ``remove-then-add'' process. See <<HCF,Handling Config
 	Files>> for an explanation on how pacman takes care of config files.
 

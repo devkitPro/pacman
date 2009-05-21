@@ -65,8 +65,8 @@ static void usage(int op, const char * const myname)
 	/* prefetch some strings for usage below, which moves a lot of calls
 	 * out of gettext. */
 	char const * const str_opt = _("options");
-	char const * const str_file = _("file");
-	char const * const str_pkg = _("package");
+	char const * const str_file = _("file(s)");
+	char const * const str_pkg = _("package(s)");
 	char const * const str_usg = _("usage");
 	char const * const str_opr = _("operation");
 
