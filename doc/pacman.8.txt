@@ -74,6 +74,13 @@ to determine which packages need upgrading. This behavior operates as follows:
   Numeric:
     1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
 
+*-T, \--deptest*::
+	Check dependencies; this is useful in scripts such as makepkg to check
+	installed packages. This operation will check each dependency specified and
+	return a list of those which are not currently satisfied on the system.
+	This operation accepts no other options. Example usage: `pacman -T qt
+	"bash>=3.2"`.
+
 *-U, \--upgrade*::
 	Upgrade or add package(s) to the system. Either a URL or file path can be
 	specified. This is a ``remove-then-add'' process. See <<HCF,Handling Config
