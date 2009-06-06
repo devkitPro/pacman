@@ -49,6 +49,7 @@
 int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 {
 	pmpkg_t *info;
+	const char *targ;
 
 	ALPM_LOG_FUNC;
 
@@ -56,12 +57,19 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	if(_alpm_pkg_find(trans->packages, name)) {
+	targ = strchr(name, '/');
+	if(targ && strncmp(name, "local", 5) == 0) {
+		targ++;
+	} else {
+		targ = name;
+	}
+
+	if(_alpm_pkg_find(trans->packages, targ)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	if((info = _alpm_db_get_pkgfromcache(db, name)) == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "could not find %s in database\n", name);
+	if((info = _alpm_db_get_pkgfromcache(db, targ)) == NULL) {
+		_alpm_log(PM_LOG_DEBUG, "could not find %s in database\n", targ);
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
