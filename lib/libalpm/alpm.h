@@ -480,6 +480,7 @@ enum _pmerrno_t {
 	PM_ERR_DB_REMOVE,
 	/* Servers */
 	PM_ERR_SERVER_BAD_URL,
+	PM_ERR_SERVER_NONE,
 	/* Transactions */
 	PM_ERR_TRANS_NOT_NULL,
 	PM_ERR_TRANS_NULL,

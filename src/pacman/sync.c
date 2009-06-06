@@ -675,7 +675,15 @@ static int sync_trans(alpm_list_t *targets)
 		for(i = packages; i; i = alpm_list_next(i)) {
 			pmpkg_t *pkg = alpm_list_getdata(i);
 			pmdb_t *db = alpm_pkg_get_db(pkg);
-			printf("%s/%s\n", alpm_db_get_url(db), alpm_pkg_get_filename(pkg));
+			const char *dburl = alpm_db_get_url(db);
+			if(dburl) {
+				printf("%s/%s\n", dburl, alpm_pkg_get_filename(pkg));
+			} else {
+				/* can't use WARNING here, we don't show warnings in -Sp... */
+				pm_fprintf(stderr, PM_LOG_ERROR, _("no database for package: %s\n"),
+						alpm_pkg_get_name(pkg));
+			}
+
 		}
 		/* we are done */
 		goto cleanup;

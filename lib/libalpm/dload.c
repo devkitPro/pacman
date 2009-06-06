@@ -388,6 +388,8 @@ int _alpm_download_single_file(const char *filename,
 	alpm_list_t *i;
 	int ret = -1;
 
+	ASSERT(servers != NULL, RET_ERR(PM_ERR_SERVER_NONE, -1));
+
 	for(i = servers; i; i = i->next) {
 		const char *server = i->data;
 		char *fileurl = NULL;

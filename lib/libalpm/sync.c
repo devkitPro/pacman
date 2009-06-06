@@ -769,7 +769,9 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			if(_alpm_download_files(files, current->servers, cachedir)) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
-				pm_errno = PM_ERR_RETRIEVE;
+				if(pm_errno == 0) {
+					pm_errno = PM_ERR_RETRIEVE;
+				}
 				goto error;
 			}
 			FREELIST(files);

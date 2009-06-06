@@ -84,6 +84,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 		/* Servers */
 		case PM_ERR_SERVER_BAD_URL:
 			return _("invalid url for server");
+		case PM_ERR_SERVER_NONE:
+			return _("no servers configured for repository");
 		/* Transactions */
 		case PM_ERR_TRANS_NOT_NULL:
 			return _("transaction already initialized");
