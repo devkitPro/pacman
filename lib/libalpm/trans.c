@@ -248,12 +248,7 @@ void _alpm_trans_free(pmtrans_t *trans)
 	}
 
 	if(trans->type == PM_TRANS_TYPE_SYNC) {
-		alpm_list_t *i;
-		for(i = trans->packages; i; i = i->next) {
-			pmpkg_t *pkg = i->data;
-			alpm_list_free(pkg->removes);
-			pkg->removes = NULL;
-		}
+		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free_trans);
 	} else {
 		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free);
 	}

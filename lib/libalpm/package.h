@@ -79,6 +79,7 @@ struct __pmpkg_t {
 pmpkg_t* _alpm_pkg_new(void);
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
 void _alpm_pkg_free(pmpkg_t *pkg);
+void _alpm_pkg_free_trans(pmpkg_t *pkg);
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
 pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle);

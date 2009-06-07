@@ -857,6 +857,19 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREE(pkg);
 }
 
+/* Free transaction specific fields */
+void _alpm_pkg_free_trans(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	if(pkg == NULL) {
+		return;
+	}
+
+	alpm_list_free(pkg->removes);
+	pkg->removes = NULL;
+}
+
 /* Is spkg an upgrade for locapkg? */
 int _alpm_pkg_compare_versions(pmpkg_t *spkg, pmpkg_t *localpkg)
 {

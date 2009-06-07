@@ -379,12 +379,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		}
 
 		/* Unresolvable packages will be removed from the target list, so
-		   we free the transaction specific field: pkg->removes */
-		for(i = unresolvable; i; i = i->next) {
-			pmpkg_t *pkg = i->data;
-			alpm_list_free(pkg->removes);
-			pkg->removes = NULL;
-		}
+		   we free the transaction specific fields */
+		alpm_list_free_inner(unresolvable, (alpm_list_fn_free)_alpm_pkg_free_trans);
 
 		/* Set DEPEND reason for pulled packages */
 		for(i = resolved; i; i = i->next) {
@@ -458,8 +454,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			_alpm_log(PM_LOG_WARNING,
 					_("removing '%s' from target list because it conflicts with '%s'\n"),
 					rsync->name, sync->name);
-			alpm_list_free(rsync->removes); /* rsync is not transaction target anymore */
-			rsync->removes = NULL;
+			_alpm_pkg_free_trans(rsync); /* rsync is not transaction target anymore */
 			trans->packages = alpm_list_remove(trans->packages, rsync, _alpm_pkg_cmp, NULL);
 			continue;
 		}
