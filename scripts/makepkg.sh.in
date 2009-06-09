@@ -1262,7 +1262,7 @@ devel_update() {
 backup_package_variables() {
 	for var in ${splitpkg_overrides[@]}; do
 		indirect="${var}_backup"
-		eval "${indirect}=\"${!var}\""
+		eval "${indirect}=(\${$var[@]})"
 	done
 }
 
@@ -1270,7 +1270,7 @@ restore_package_variables() {
 	for var in ${splitpkg_overrides[@]}; do
 		indirect="${var}_backup"
 		if [ -n "${!indirect}" ]; then
-			eval "${var}=\"${!indirect}\""
+			eval "${var}=(\${$indirect[@]})"
 		else
 			unset ${var}
 		fi
