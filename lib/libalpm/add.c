@@ -99,91 +99,6 @@ error:
 	return(-1);
 }
 
-int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
-{
-	alpm_list_t *lp = NULL;
-
-	ALPM_LOG_FUNC;
-
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-
-	/* Check dependencies
-	 */
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
-
-		/* look for unsatisfied dependencies */
-		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, NULL, trans->packages);
-		if(lp != NULL) {
-			if(data) {
-				*data = lp;
-			} else {
-				alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
-				alpm_list_free(lp);
-			}
-			RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
-		}
-
-		/* no unsatisfied deps, so look for conflicts */
-		_alpm_log(PM_LOG_DEBUG, "looking for conflicts\n");
-		alpm_list_t *inner = _alpm_innerconflicts(trans->packages);
-		alpm_list_t *outer = _alpm_outerconflicts(db, trans->packages);
-		lp = alpm_list_join(inner, outer);
-
-		/* TODO : factorize the conflict resolving code from sync.c to use it here (FS#3492) */
-
-		if(lp != NULL) {
-			if(data) {
-				*data = lp;
-			} else {
-				alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_conflict_free);
-				alpm_list_free(lp);
-			}
-			if(inner) {
-				_alpm_log(PM_LOG_ERROR, _("conflicting packages were found in the target list\n"));
-				_alpm_log(PM_LOG_ERROR, _("you cannot install two conflicting packages at the same time\n"));
-			}
-			if(outer) {
-				_alpm_log(PM_LOG_ERROR, _("replacing packages with -U is not supported yet\n"));
-				_alpm_log(PM_LOG_ERROR, _("you can replace packages manually using -Rd and -U\n"));
-			}
-			RET_ERR(PM_ERR_CONFLICTING_DEPS, -1);
-		}
-
-		/* re-order w.r.t. dependencies */
-		_alpm_log(PM_LOG_DEBUG, "sorting by dependencies\n");
-		lp = _alpm_sortbydeps(trans->packages, 0);
-		/* free the old alltargs */
-		alpm_list_free(trans->packages);
-		trans->packages = lp;
-
-		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
-	}
-
-	/* Check for file conflicts */
-	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
-		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
-
-		_alpm_log(PM_LOG_DEBUG, "looking for file conflicts\n");
-		lp = _alpm_db_find_fileconflicts(db, trans, trans->packages, NULL);
-		if(lp != NULL) {
-			if(data) {
-				*data = lp;
-			} else {
-				alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_fileconflict_free);
-				alpm_list_free(lp);
-			}
-			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
-		}
-
-		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
-	}
-
-	return(0);
-}
-
 static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pmdb_t *db) {
 	/* this is kinda odd.  If the old package exists, at this point we make a
 	 * NEW transaction, unrelated to handle->trans, and instantiate a "remove"
@@ -858,7 +773,7 @@ cleanup:
 	return(ret);
 }
 
-int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
+int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 {
 	int pkg_count, pkg_current;
 	alpm_list_t *targ;

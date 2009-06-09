@@ -121,25 +121,6 @@ int pacman_upgrade(alpm_list_t *targets)
 					}
 				}
 				break;
-			case PM_ERR_FILE_CONFLICTS:
-				for(i = data; i; i = alpm_list_next(i)) {
-					pmfileconflict_t *conflict = alpm_list_getdata(i);
-					switch(alpm_fileconflict_get_type(conflict)) {
-						case PM_FILECONFLICT_TARGET:
-							printf(_("%s exists in both '%s' and '%s'\n"),
-							        alpm_fileconflict_get_file(conflict),
-							        alpm_fileconflict_get_target(conflict),
-							        alpm_fileconflict_get_ctarget(conflict));
-						break;
-						case PM_FILECONFLICT_FILESYSTEM:
-							printf(_("%s: %s exists in filesystem\n"),
-							        alpm_fileconflict_get_target(conflict),
-							        alpm_fileconflict_get_file(conflict));
-						break;
-					}
-				}
-				printf(_("\nerrors occurred, no packages were upgraded.\n"));
-				break;
 			default:
 				break;
 		}
@@ -147,12 +128,56 @@ int pacman_upgrade(alpm_list_t *targets)
 		FREELIST(data);
 		return(1);
 	}
-	alpm_list_free(data);
 
 	/* Step 3: perform the installation */
-	if(alpm_trans_commit(NULL) == -1) {
+	/* print targets and ask user confirmation */
+	alpm_list_t *packages = alpm_trans_get_pkgs();
+	if(packages == NULL) { /* we are done */
+		trans_release();
+		return(retval);
+	}
+	display_synctargets(packages);
+	printf("\n");
+	int confirm = yesno(_("Proceed with installation?"));
+	if(!confirm) {
+		trans_release();
+		return(retval);
+	}
+
+	if(alpm_trans_commit(&data) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
-			alpm_strerrorlast());
+				alpm_strerrorlast());
+		switch(pm_errno) {
+			alpm_list_t *i;
+			case PM_ERR_FILE_CONFLICTS:
+				for(i = data; i; i = alpm_list_next(i)) {
+					pmfileconflict_t *conflict = alpm_list_getdata(i);
+					switch(alpm_fileconflict_get_type(conflict)) {
+						case PM_FILECONFLICT_TARGET:
+							printf(_("%s exists in both '%s' and '%s'\n"),
+									alpm_fileconflict_get_file(conflict),
+									alpm_fileconflict_get_target(conflict),
+									alpm_fileconflict_get_ctarget(conflict));
+							break;
+						case PM_FILECONFLICT_FILESYSTEM:
+							printf(_("%s: %s exists in filesystem\n"),
+									alpm_fileconflict_get_target(conflict),
+									alpm_fileconflict_get_file(conflict));
+							break;
+					}
+				}
+				break;
+			case PM_ERR_PKG_INVALID:
+			case PM_ERR_DLT_INVALID:
+				for(i = data; i; i = alpm_list_next(i)) {
+					char *filename = alpm_list_getdata(i);
+					printf(_("%s is invalid or corrupted\n"), filename);
+				}
+				break;
+			default:
+				break;
+		}
+		FREELIST(data);
 		trans_release();
 		return(1);
 	}

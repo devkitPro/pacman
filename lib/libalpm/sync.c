@@ -43,6 +43,7 @@
 #include "deps.h"
 #include "conflict.h"
 #include "trans.h"
+#include "add.h"
 #include "util.h"
 #include "handle.h"
 #include "alpm.h"
@@ -282,6 +283,11 @@ static int compute_download_size(pmpkg_t *newpkg)
 	char *fpath;
 	off_t size = 0;
 
+	if(newpkg->origin == PKG_FROM_FILE) {
+		newpkg->download_size = 0;
+		return(0);
+	}
+
 	fname = alpm_pkg_get_filename(newpkg);
 	ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
 	fpath = _alpm_filecache_find(fname);
@@ -392,10 +398,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
-		/* Unresolvable packages will be removed from the target list, so
-		   we free the transaction specific fields */
-		alpm_list_free_inner(unresolvable, (alpm_list_fn_free)_alpm_pkg_free_trans);
-
 		/* Set DEPEND reason for pulled packages */
 		for(i = resolved; i; i = i->next) {
 			pmpkg_t *pkg = i->data;
@@ -403,6 +405,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 				pkg->reason = PM_PKG_REASON_DEPEND;
 			}
 		}
+
+		/* Unresolvable packages will be removed from the target list, so
+		   we free the transaction specific fields */
+		alpm_list_free_inner(unresolvable, (alpm_list_fn_free)_alpm_pkg_free_trans);
 
 		/* re-order w.r.t. dependencies */
 		alpm_list_free(trans->packages);
@@ -468,8 +474,8 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			_alpm_log(PM_LOG_WARNING,
 					_("removing '%s' from target list because it conflicts with '%s'\n"),
 					rsync->name, sync->name);
-			_alpm_pkg_free_trans(rsync); /* rsync is not transaction target anymore */
 			trans->packages = alpm_list_remove(trans->packages, rsync, _alpm_pkg_cmp, NULL);
+			_alpm_pkg_free_trans(rsync); /* rsync is not transaction target anymore */
 			continue;
 		}
 
@@ -711,7 +717,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
 	alpm_list_t *deltas = NULL;
-	pmtrans_t *tr_remove = NULL, *tr_upgrade = NULL;
+	pmtrans_t *tr_remove = NULL;
 	int replaces = 0;
 	int errors = 0;
 	const char *cachedir = NULL;
@@ -743,9 +749,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		for(j = trans->packages; j; j = j->next) {
 			pmpkg_t *spkg = j->data;
-			pmdb_t *dbs = spkg->origin_data.db;
 
-			if(current == dbs) {
+			if(spkg->origin == PKG_FROM_CACHE && current == spkg->origin_data.db) {
 				const char *fname = NULL;
 
 				fname = alpm_pkg_get_filename(spkg);
@@ -837,13 +842,35 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	errors = 0;
 	for(i = trans->packages; i; i = i->next) {
 		pmpkg_t *spkg = i->data;
+		if(spkg->origin == PKG_FROM_FILE) {
+			continue; /* pkg_load() has been already called, this package is valid */
+		}
+
 		const char *filename = alpm_pkg_get_filename(spkg);
 		const char *md5sum = alpm_pkg_get_md5sum(spkg);
 
 		if(test_md5sum(trans, filename, md5sum) != 0) {
 			errors++;
 			*data = alpm_list_add(*data, strdup(filename));
+			continue;
 		}
+		/* load the package file and replace pkgcache entry with it in the target list */
+		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
+		_alpm_log(PM_LOG_DEBUG, "replacing pkgcache entry with package file for target %s\n", spkg->name);
+		char *filepath = _alpm_filecache_find(filename);
+		pmpkg_t *pkgfile;
+		if(alpm_pkg_load(filepath, 1, &pkgfile) != 0) {
+			_alpm_pkg_free(pkgfile);
+			errors++;
+			*data = alpm_list_add(*data, strdup(filename));
+			FREE(filepath);
+			continue;
+		}
+		FREE(filepath);
+		pkgfile->reason = spkg->reason; /* copy over install reason */
+		pkgfile->removes = alpm_list_copy(spkg->removes); /* copy over removes list */
+		i->data = pkgfile;
+		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
 	}
 	if(errors) {
 		pm_errno = PM_ERR_PKG_INVALID;
@@ -856,15 +883,10 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 	trans->state = STATE_COMMITING;
 
-	/* Create remove and upgrade transactions */
+	/* Create remove transaction */
 	tr_remove = _alpm_trans_new();
 	if(tr_remove == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not create removal transaction\n"));
-		goto error;
-	}
-	tr_upgrade = _alpm_trans_new();
-	if(tr_upgrade == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not create transaction\n"));
 		goto error;
 	}
 
@@ -872,16 +894,11 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		_alpm_log(PM_LOG_ERROR, _("could not initialize the removal transaction\n"));
 		goto error;
 	}
-	if(_alpm_trans_init(tr_upgrade, PM_TRANS_TYPE_UPGRADE, trans->flags, trans->cb_event, trans->cb_conv, trans->cb_progress) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not initialize transaction\n"));
-		goto error;
-	}
 
-	/* adding targets */
+	/* adding targets to the remove transaction */
 	for(i = trans->packages; i; i = i->next) {
 		pmpkg_t *spkg = i->data;
 		alpm_list_t *j;
-		/* remove transaction */
 		for(j = spkg->removes; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 			if(!_alpm_pkg_find(tr_remove->packages, pkg->name)) {
@@ -891,27 +908,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				replaces++;
 			}
 		}
-		/* upgrade transaction */
-		const char *fname;
-		char *fpath;
-
-		fname = alpm_pkg_get_filename(spkg);
-		if(fname == NULL) {
-			goto error;
-		}
-		/* Loop through the cache dirs until we find a matching file */
-		fpath = _alpm_filecache_find(fname);
-
-		if(_alpm_trans_addtarget(tr_upgrade, fpath) == -1) {
-			FREE(fpath);
-			goto error;
-		}
-		FREE(fpath);
-
-		/* using alpm_list_last() is ok because addtarget() adds the new target at the
-		 * end of the tr->packages list */
-		pmpkg_t *ipkg = alpm_list_last(tr_upgrade->packages)->data;
-		ipkg->reason = spkg->reason;
 	}
 
 	/* fileconflict check */
@@ -919,8 +915,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, "looking for file conflicts\n");
-		alpm_list_t *conflict = _alpm_db_find_fileconflicts(db_local, tr_upgrade,
-								    tr_upgrade->packages, tr_remove->packages);
+		alpm_list_t *conflict = _alpm_db_find_fileconflicts(db_local, trans,
+								    trans->packages, tr_remove->packages);
 		if(conflict) {
 			pm_errno = PM_ERR_FILE_CONFLICTS;
 			if(data) {
@@ -953,8 +949,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 	/* install targets */
 	_alpm_log(PM_LOG_DEBUG, "installing packages\n");
-	/* add_prepare is not needed */
-	if(_alpm_trans_commit(tr_upgrade, NULL) == -1) {
+	if(_alpm_upgrade_packages(trans, handle->db_local) == -1) {
 		_alpm_log(PM_LOG_ERROR, _("could not commit transaction\n"));
 		goto error;
 	}
@@ -964,7 +959,6 @@ error:
 	FREELIST(files);
 	alpm_list_free(deltas);
 	_alpm_trans_free(tr_remove);
-	_alpm_trans_free(tr_upgrade);
 	return(ret);
 }
 

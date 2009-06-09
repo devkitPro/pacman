@@ -605,7 +605,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 
 	ALPM_LOG_FUNC;
 
-	if(local == NULL || dbs_sync == NULL) {
+	if(local == NULL) {
 		return(-1);
 	}
 

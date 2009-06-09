@@ -858,12 +858,21 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREE(pkg);
 }
 
-/* Free transaction specific fields */
+/* This function should be used when removing a target from upgrade/sync target list
+ * Case 1: If pkg is a loaded package file (PKG_FROM_FILE), it will be freed.
+ * Case 2: If pkg is a pkgcache entry (PKG_FROM_CACHE), it won't be freed,
+ *         only the transaction specific fields of pkg will be freed.
+ */
 void _alpm_pkg_free_trans(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
 	if(pkg == NULL) {
+		return;
+	}
+
+	if(pkg->origin == PKG_FROM_FILE) {
+		_alpm_pkg_free(pkg);
 		return;
 	}
 

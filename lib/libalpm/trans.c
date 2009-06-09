@@ -247,7 +247,7 @@ void _alpm_trans_free(pmtrans_t *trans)
 		return;
 	}
 
-	if(trans->type == PM_TRANS_TYPE_SYNC) {
+	if(trans->type == PM_TRANS_TYPE_SYNC || trans->type == PM_TRANS_TYPE_UPGRADE) {
 		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free_trans);
 	} else {
 		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free);
@@ -367,12 +367,6 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 	}
 
 	switch(trans->type) {
-		case PM_TRANS_TYPE_UPGRADE:
-			if(_alpm_add_prepare(trans, handle->db_local, data) == -1) {
-				/* pm_errno is set by _alpm_add_prepare() */
-				return(-1);
-			}
-		break;
 		case PM_TRANS_TYPE_REMOVE:
 		case PM_TRANS_TYPE_REMOVEUPGRADE:
 			if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
@@ -380,6 +374,7 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 				return(-1);
 			}
 		break;
+		case PM_TRANS_TYPE_UPGRADE:
 		case PM_TRANS_TYPE_SYNC:
 			if(_alpm_sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
 				/* pm_errno is set by _alpm_sync_prepare() */
@@ -411,12 +406,6 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 	trans->state = STATE_COMMITING;
 
 	switch(trans->type) {
-		case PM_TRANS_TYPE_UPGRADE:
-			if(_alpm_add_commit(trans, handle->db_local) == -1) {
-				/* pm_errno is set by _alpm_add_commit() */
-				return(-1);
-			}
-		break;
 		case PM_TRANS_TYPE_REMOVE:
 		case PM_TRANS_TYPE_REMOVEUPGRADE:
 			if(_alpm_remove_commit(trans, handle->db_local) == -1) {
@@ -424,6 +413,7 @@ int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
 				return(-1);
 			}
 		break;
+		case PM_TRANS_TYPE_UPGRADE:
 		case PM_TRANS_TYPE_SYNC:
 			if(_alpm_sync_commit(trans, handle->db_local, data) == -1) {
 				/* pm_errno is set by _alpm_sync_commit() */
