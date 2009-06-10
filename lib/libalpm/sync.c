@@ -930,6 +930,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		}
 		/* we want the frontend to be aware of commit details */
 		tr_remove->cb_event = trans->cb_event;
+		tr_remove->cb_progress = trans->cb_progress;
 		if(_alpm_trans_commit(tr_remove, NULL) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not commit removal transaction\n"));
 			goto error;
