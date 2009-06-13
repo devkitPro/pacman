@@ -1630,10 +1630,7 @@ if [ "$(type -t package)" = "function" ]; then
 fi
 
 # check the PKGBUILD for some basic requirements
-check_sanity || insane=1
-if [ $insane -eq 1 ]; then
-	exit 1
-fi
+check_sanity || exit 1
 
 # We need to run devel_update regardless of whether we are in the fakeroot
 # build process so that if the user runs makepkg --forcever manually, we
