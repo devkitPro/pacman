@@ -225,7 +225,9 @@ Query Options[[QO]]
 
 *-s, \--search* <'regexp'>::
 	This will search each locally-installed package for names or
-	descriptions that match `regexp`.
+	descriptions that match `regexp`. When you include multiple search
+	terms, only packages with descriptions matching ALL of those terms will
+	be returned.
 
 *-t, \--unrequired*::
 	Restrict or filter output to packages not required by any currently
@@ -309,7 +311,9 @@ linkman:pacman.conf[5].
 
 *-s, \--search* <'regexp'>::
 	This will search each package in the sync databases for names or
-	descriptions that match `regexp`.
+	descriptions that match `regexp`. When you include multiple search
+	terms, only packages with descriptions matching ALL of those terms will
+	be returned.
 
 *-u, \--sysupgrade*::
 	Upgrades all packages that are out of date. Each currently-installed
