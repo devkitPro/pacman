@@ -193,7 +193,7 @@ db_write_entry()
 
 	# read info from the zipped package
 	local line var val
-	for line in $(bsdtar -xOf "$pkgfile" .PKGINFO |
+	for line in $(bsdtar -xOqf "$pkgfile" .PKGINFO |
 			grep -v '^#' | sed 's|\(\w*\)\s*=\s*\(.*\)|\1 \2|'); do
 		# bash awesomeness here- var is always one word, val is everything else
 		var=${line%% *}
@@ -305,7 +305,7 @@ check_repo_db()
 	fi
 
 	if [ -f "$REPO_DB_FILE" ]; then
-		if ! (bsdtar -tf "$REPO_DB_FILE" | grep -q "/desc"); then
+		if ! bsdtar -tqf "$REPO_DB_FILE" '*/desc' 2>&1 >/dev/null; then
 			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
 			exit 1
 		fi
@@ -351,7 +351,7 @@ add()
 	fi
 
 	pkgfile=$1
-	if ! bsdtar -tf "$pkgfile" .PKGINFO 2>&1 >/dev/null; then
+	if ! bsdtar -tqf "$pkgfile" .PKGINFO 2>&1 >/dev/null; then
 		error "$(gettext "'%s' is not a package file, skipping")" "$pkgfile"
 		return 1
 	fi
