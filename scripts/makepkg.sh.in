@@ -1012,15 +1012,15 @@ create_package() {
 
 create_srcpackage() {
 	cd "$startdir"
-	if [ "$SOURCEONLY" -eq 2 ]; then
-		# get back to our src directory so we can begin with sources
-		mkdir -p "$srcdir"
-		cd "$srcdir"
-		download_sources
-		# we can only check checksums if we have all files
-		check_checksums
-		cd "$startdir"
-	fi
+
+	# Get back to our src directory so we can begin with sources.
+	mkdir -p "$srcdir"
+	cd "$srcdir"
+	download_sources
+	# We can only check checksums if we have all files.
+	check_checksums
+	cd "$startdir"
+
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
 	mkdir "${srclinks}"/${pkgbase}
