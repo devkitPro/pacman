@@ -871,22 +871,7 @@ tidy_install() {
 	fi
 }
 
-create_package() {
-	if [ -z "$1" ]; then
-		nameofpkg="$pkgname"
-	else
-		nameofpkg="$1"
-	fi
-
-	if [ ! -d "$pkgdir" ]; then
-		error "$(gettext "Missing pkg/ directory.")"
-		plain "$(gettext "Aborting...")"
-		exit 1 # $E_MISSING_PKGDIR
-	fi
-
-	cd "$pkgdir"
-	msg "$(gettext "Creating package...")"
-
+write_pkginfo() {
 	local builddate=$(date -u "+%s")
 	if [ -n "$PACKAGER" ]; then
 		local packager="$PACKAGER"
@@ -958,6 +943,25 @@ create_package() {
 		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
 		plain "$(gettext "Example for GPL\'ed software: license=('GPL').")"
 	fi
+}
+
+create_package() {
+	if [ ! -d "$pkgdir" ]; then
+		error "$(gettext "Missing pkg/ directory.")"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_MISSING_PKGDIR
+	fi
+
+	if [ -z "$1" ]; then
+		nameofpkg="$pkgname"
+	else
+		nameofpkg="$1"
+	fi
+
+	write_pkginfo $nameofpkg
+
+	cd "$pkgdir"
+	msg "$(gettext "Creating package...")"
 
 	local comp_files=".PKGINFO"
 
