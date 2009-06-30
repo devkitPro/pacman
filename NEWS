@@ -1,9 +1,26 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
-3.3.0         - makepkg:
+3.3.0         - xdelta: many fixes and improvements
+                - new pkgdelta script to create deltas
+                - repo-add can add both deltas and packages to a database
+              - xz archive format supported for packages and databases
+              - in case of unresolvable packages, pacman now asks
+                if they should be skipped instead of aborting
+              - replace libdownload dependency by the original libfetch
+              - better support of -q/--quiet flag with -Qo and -Ql
+              - -Sp works without root (FS#8905)
+              - fix a bug where the replacement of a package failed because
+                of a file conflict, and the package was lost (FS#9088)
+              - improved behavior of HoldPkg option (FS#9173)
+              - allow to ignore a package from a group (FS#12059)
+              - search package groups when searching a db (FS#13099)
+              - asciidoc fixes
+              - documentation updates
+              - repo-add: cleanups, improvements and speedup
+              - makepkg:
                 - package splitting support! - see PKGBUILD-split.proto
                 - limit fakeroot usage with addition of package() function
-                - info pages are handled like man pages and not other documentation
+                - info is handled like man pages and not other documentation
                 - configuration option for man/info page directories
                 - added ability to automatically remove files from package
                 - configuration option for default LDFLAGS
@@ -16,10 +33,10 @@ VERSION         DESCRIPTION
                 - package compression autodetection
                 - check PKGBUILD for CRLF line endings
                 - fix reading PKGBUILD from pipe
-                - various fixes to increase compatibility with BSDs & Mac OSX
+                - increase compatibility with BSDs & Mac OSX
               - contrib
+                - pacdiff - improvements and new -l flag for using locate
                 - pacscripts - print install scripts for a package
-
 3.2.2         - log pacsave warnings to pacman.log (FS#12531)
               - separate local DB creation and writing (FS#12263)
               - pacman-optimize: rewrite and refresh (FS#11767)
