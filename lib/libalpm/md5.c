@@ -248,7 +248,7 @@ static inline void md5_update( md5_context *ctx, unsigned char *input, int ilen 
     }
 }
 
-static const unsigned char md5_padding[64] =
+static unsigned char md5_padding[64] =
 {
  0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
