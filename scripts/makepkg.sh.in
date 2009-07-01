@@ -658,7 +658,7 @@ extract_sources() {
 		esac
 
 		local ret=0
-		msg2 "$cmd \"$file\""
+		msg2 '%s' "$cmd \"$file\""
 		$cmd "$file" || ret=$?
 		if [ $ret -ne 0 ]; then
 			error "$(gettext "Failed to extract %s")" "$file"
