@@ -644,13 +644,13 @@ extract_sources() {
 		local cmd=''
 		case "$file_type" in
 			*application/x-tar*|*application/zip*|*application/x-zip*|*application/x-cpio*)
-				cmd="bsdtar -x -f $file" ;;
+				cmd="bsdtar -x -f" ;;
 			*application/x-gzip*)
-				cmd="gunzip -d -f $file" ;;
+				cmd="gunzip -d -f" ;;
 			*application/x-bzip*)
-				cmd="bunzip2 -f $file" ;;
+				cmd="bunzip2 -f" ;;
 			*application/x-xz*)
-				cmd="xz -d -f $file" ;;
+				cmd="xz -d -f" ;;
 			*)
 				# Don't know what to use to extract this file,
 				# skip to the next file
@@ -658,8 +658,8 @@ extract_sources() {
 		esac
 
 		local ret=0
-		msg2 "$cmd"
-		$cmd || ret=$?
+		msg2 "$cmd \"$file\""
+		$cmd "$file" || ret=$?
 		if [ $ret -ne 0 ]; then
 			error "$(gettext "Failed to extract %s")" "$file"
 			plain "$(gettext "Aborting...")"
