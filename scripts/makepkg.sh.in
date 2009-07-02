@@ -1648,16 +1648,45 @@ if [ "${#pkgname[@]}" -gt "1" ]; then
 	SPLITPKG=1
 fi
 
-if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-     -a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
-	if [ "$INSTALL" -eq 1 ]; then
-		warning "$(gettext "A package has already been built, installing existing package...")"
-		install_package
-		exit $?
-	else
-		error "$(gettext "A package has already been built. (use -f to overwrite)")"
-		exit 1
+if [ "$SPLITPKG" -eq 0 ]; then
+	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
+			-a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
+		if [ "$INSTALL" -eq 1 ]; then
+			warning "$(gettext "A package has already been built, installing existing package...")"
+			install_package
+			exit $?
+		else
+			error "$(gettext "A package has already been built. (use -f to overwrite)")"
+			exit 1
+		fi
 	fi
+else
+	allpkgbuilt=1
+	somepkgbuilt=0
+	for pkg in ${pkgname[@]}; do
+		if [ -f "$PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" ]; then
+			somepkgbuilt=1
+		else
+			allpkgbuilt=0
+		fi
+	done
+	if [ "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
+		if [ "$allpkgbuilt" -eq 1 ]; then
+			if [ "$INSTALL" -eq 1 ]; then
+				warning "$(gettext "The package group has already been built, installing existing packages...")"
+				install_package
+				exit $?
+			else
+				error "$(gettext "The package group has already been built. (use -f to overwrite)")"
+				exit 1
+			fi
+		fi
+		if [ "$somepkgbuilt" -eq 1 ]; then
+			error "$(gettext "Part of the package group has already been built. (use -f to overwrite)")"
+			exit 1
+		fi
+	fi
+	unset allpkgbuilt somepkgbuilt
 fi
 
 # Run the bare minimum in fakeroot
