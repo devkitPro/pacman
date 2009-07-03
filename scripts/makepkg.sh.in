@@ -1281,6 +1281,11 @@ restore_package_variables() {
 			unset ${var}
 		fi
 	done
+
+	# pkgdesc gets restored as an array - convert back to a string
+	local pkgdesc_backup="${pkgdesc[@]}"
+	unset pkgdesc
+	pkgdesc=${pkgdesc_backup}
 }
 
 # getopt like parser
