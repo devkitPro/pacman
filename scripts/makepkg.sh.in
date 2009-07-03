@@ -1135,9 +1135,6 @@ check_sanity() {
 	if [ "$arch" = 'any' ]; then
 		CARCH='any'
 	fi
-
-	pkgbase=${pkgbase:-${pkgname[0]}}
-
 	if ! in_array $CARCH ${arch[@]}; then
 		if [ "$IGNOREARCH" -eq 0 ]; then
 			error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
@@ -1177,6 +1174,15 @@ check_sanity() {
 	done
 	if [ $valid_options -eq 0 ]; then
 		return 1
+	fi
+
+	if [ "${#pkgname[@]}" -gt "1" ]; then
+		for pkg in ${pkgname[@]}; do
+			if [ "$(type -t package_${pkg})" != "function" ]; then
+				error "$(gettext "missing package function for split package '%s'")" "$pkg"
+				return 1
+			fi
+		done
 	fi
 
 	return 0
@@ -1654,6 +1660,8 @@ devel_update
 if [ "${#pkgname[@]}" -gt "1" ]; then
 	SPLITPKG=1
 fi
+
+pkgbase=${pkgbase:-${pkgname[0]}}
 
 if [ "$SPLITPKG" -eq 0 ]; then
 	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
