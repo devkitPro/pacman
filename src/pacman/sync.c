@@ -149,7 +149,7 @@ static int sync_cleancache(int level)
 				/* this should not happen : the config parsing doesn't set any other value */
 				return(1);
 		}
-		printf(_("removing old packages from cache... "));
+		printf(_("removing old packages from cache...\n"));
 
 		dir = opendir(cachedir);
 		if(dir == NULL) {
@@ -172,10 +172,13 @@ static int sync_cleancache(int level)
 			/* build the full filepath */
 			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
 
-			/* attempt to load the package, skip file on failures as we may have
+			/* attempt to load the package, prompt removal on failures as we may have
 			 * files here that aren't valid packages. we also don't need a full
 			 * load of the package, just the metadata. */
 			if(alpm_pkg_load(path, 0, &localpkg) != 0 || localpkg == NULL) {
+				if(yesno(_("File %s does not seem to be a valid package, remove it?"), path)) {
+					unlink(path);
+				}
 				continue;
 			}
 			switch(config->cleanmethod) {
@@ -212,14 +215,13 @@ static int sync_cleancache(int level)
 				unlink(path);
 			}
 		}
-		printf(_("done.\n"));
 	} else {
 		/* full cleanup */
 		printf(_("Cache directory: %s\n"), cachedir);
-		if(!noyes(_("Do you want to remove ALL packages from cache?"))) {
+		if(!noyes(_("Do you want to remove ALL files from cache?"))) {
 			return(0);
 		}
-		printf(_("removing all packages from cache... "));
+		printf(_("removing all files from cache...\n"));
 
 		if(rmrf(cachedir)) {
 			pm_fprintf(stderr, PM_LOG_ERROR, _("could not remove cache directory\n"));
@@ -230,7 +232,6 @@ static int sync_cleancache(int level)
 			pm_fprintf(stderr, PM_LOG_ERROR, _("could not create new cache directory\n"));
 			return(1);
 		}
-		printf(_("done.\n"));
 	}
 
 	return(0);
@@ -772,6 +773,7 @@ int pacman_sync(alpm_list_t *targets)
 		}
 
 		ret += sync_cleancache(config->op_s_clean);
+		printf("\n");
 		ret += sync_cleandb_all();
 
 		if(trans_release() == -1) {
