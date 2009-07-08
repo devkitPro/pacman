@@ -27,7 +27,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
@@ -437,11 +436,8 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
 	char tmpdir[PATH_MAX];
-	char cwd[PATH_MAX];
 	char *scriptpath;
-	pid_t pid;
 	int clean_tmpdir = 0;
-	int restore_cwd = 0;
 	int retval = 0;
 
 	ALPM_LOG_FUNC;
@@ -489,21 +485,6 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		goto cleanup;
 	}
 
-	/* save the cwd so we can restore it later */
-	if(getcwd(cwd, PATH_MAX) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
-	} else {
-		restore_cwd = 1;
-	}
-
-	/* just in case our cwd was removed in the upgrade operation */
-	if(chdir(root) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), root, strerror(errno));
-		goto cleanup;
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "executing %s script...\n", script);
-
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, ". %s; %s %s %s",
 				scriptpath, script, ver, oldver);
@@ -511,79 +492,12 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 		snprintf(cmdline, PATH_MAX, ". %s; %s %s",
 				scriptpath, script, ver);
 	}
-	_alpm_log(PM_LOG_DEBUG, "%s\n", cmdline);
 
-	/* Flush open fds before fork() to avoid cloning buffers */
-	fflush(NULL);
-
-	/* fork- parent and child each have seperate code blocks below */
-	pid = fork();
-	if(pid == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not fork a new process (%s)\n"), strerror(errno));
-		retval = 1;
-		goto cleanup;
-	}
-
-	if(pid == 0) {
-		FILE *pipe;
-		/* this code runs for the child only (the actual chroot/exec) */
-		_alpm_log(PM_LOG_DEBUG, "chrooting in %s\n", root);
-		if(chroot(root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)\n"),
-					strerror(errno));
-			exit(1);
-		}
-		if(chdir("/") != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)\n"),
-					strerror(errno));
-			exit(1);
-		}
-		umask(0022);
-		_alpm_log(PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
-		/* execl("/bin/sh", "sh", "-c", cmdline, (char *)NULL); */
-		pipe = popen(cmdline, "r");
-		if(!pipe) {
-			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"),
-					strerror(errno));
-			exit(1);
-		}
-		while(!feof(pipe)) {
-			char line[PATH_MAX];
-			if(fgets(line, PATH_MAX, pipe) == NULL)
-				break;
-			alpm_logaction("%s", line);
-			EVENT(trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
-		}
-		retval = pclose(pipe);
-		exit(WEXITSTATUS(retval));
-	} else {
-		/* this code runs for the parent only (wait on the child) */
-		pid_t retpid;
-		int status;
-		while((retpid = waitpid(pid, &status, 0)) == -1 && errno == EINTR);
-		if(retpid == -1) {
-			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
-			          strerror(errno));
-			retval = 1;
-			goto cleanup;
-		} else {
-			/* check the return status, make sure it is 0 (success) */
-			if(WIFEXITED(status)) {
-				_alpm_log(PM_LOG_DEBUG, "call to waitpid succeeded\n");
-				if(WEXITSTATUS(status) != 0) {
-					_alpm_log(PM_LOG_ERROR, _("scriptlet failed to execute correctly\n"));
-					retval = 1;
-				}
-			}
-		}
-	}
+	retval = _alpm_run_chroot(root, cmdline);
 
 cleanup:
 	if(clean_tmpdir && _alpm_rmrf(tmpdir)) {
 		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
-	}
-	if(restore_cwd) {
-		chdir(cwd);
 	}
 
 	return(retval);

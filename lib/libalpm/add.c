@@ -888,7 +888,6 @@ int _alpm_add_commit(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"\n", handle->root);
 	_alpm_ldconfig(handle->root);
 
 	return(0);

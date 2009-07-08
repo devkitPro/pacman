@@ -404,7 +404,6 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 
 	/* run ldconfig if it exists */
 	if(trans->type != PM_TRANS_TYPE_REMOVEUPGRADE) {
-		_alpm_log(PM_LOG_DEBUG, "running \"ldconfig -r %s\"\n", handle->root);
 		_alpm_ldconfig(handle->root);
 	}
 

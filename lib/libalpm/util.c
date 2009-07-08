@@ -37,6 +37,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 
 /* libarchive */
 #include <archive.h>
@@ -49,6 +50,7 @@
 #include "alpm.h"
 #include "alpm_list.h"
 #include "md5.h"
+#include "handle.h"
 
 #ifndef HAVE_STRSEP
 /* This is a replacement for strsep which is not portable (missing on Solaris).
@@ -455,17 +457,112 @@ int _alpm_logaction(unsigned short usesyslog, FILE *f,
 	return(ret);
 }
 
+int _alpm_run_chroot(const char *root, const char *cmd)
+{
+	char cwd[PATH_MAX];
+	pid_t pid;
+	int restore_cwd = 0;
+	int retval = 0;
+
+	ALPM_LOG_FUNC;
+
+	/* save the cwd so we can restore it later */
+	if(getcwd(cwd, PATH_MAX) == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
+	} else {
+		restore_cwd = 1;
+	}
+
+	/* just in case our cwd was removed in the upgrade operation */
+	if(chdir(root) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), root, strerror(errno));
+		goto cleanup;
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "executing \"%s\" under chroot \"%s\"\n", cmd, root);
+
+	/* Flush open fds before fork() to avoid cloning buffers */
+	fflush(NULL);
+
+	/* fork- parent and child each have seperate code blocks below */
+	pid = fork();
+	if(pid == -1) {
+		_alpm_log(PM_LOG_ERROR, _("could not fork a new process (%s)\n"), strerror(errno));
+		retval = 1;
+		goto cleanup;
+	}
+
+	if(pid == 0) {
+		FILE *pipe;
+		/* this code runs for the child only (the actual chroot/exec) */
+		_alpm_log(PM_LOG_DEBUG, "chrooting in %s\n", root);
+		if(chroot(root) != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)\n"),
+					strerror(errno));
+			exit(1);
+		}
+		if(chdir("/") != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)\n"),
+					strerror(errno));
+			exit(1);
+		}
+		umask(0022);
+		pipe = popen(cmd, "r");
+		if(!pipe) {
+			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"),
+					strerror(errno));
+			exit(1);
+		}
+		while(!feof(pipe)) {
+			char line[PATH_MAX];
+			if(fgets(line, PATH_MAX, pipe) == NULL)
+				break;
+			alpm_logaction("%s", line);
+			EVENT(handle->trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
+		}
+		retval = pclose(pipe);
+		exit(WEXITSTATUS(retval));
+	} else {
+		/* this code runs for the parent only (wait on the child) */
+		pid_t retpid;
+		int status;
+		while((retpid = waitpid(pid, &status, 0)) == -1 && errno == EINTR);
+		if(retpid == -1) {
+			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
+			          strerror(errno));
+			retval = 1;
+			goto cleanup;
+		} else {
+			/* check the return status, make sure it is 0 (success) */
+			if(WIFEXITED(status)) {
+				_alpm_log(PM_LOG_DEBUG, "call to waitpid succeeded\n");
+				if(WEXITSTATUS(status) != 0) {
+					_alpm_log(PM_LOG_ERROR, _("command failed to execute correctly\n"));
+					retval = 1;
+				}
+			}
+		}
+	}
+
+cleanup:
+	if(restore_cwd) {
+		chdir(cwd);
+	}
+
+	return(retval);
+}
+
 int _alpm_ldconfig(const char *root)
 {
 	char line[PATH_MAX];
+
+	_alpm_log(PM_LOG_DEBUG, "running ldconfig\n");
 
 	snprintf(line, PATH_MAX, "%setc/ld.so.conf", root);
 	if(access(line, F_OK) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
 		if(access(line, X_OK) == 0) {
-			char cmd[PATH_MAX];
-			snprintf(cmd, PATH_MAX, "%s -r %s", line, root);
-			system(cmd);
+			_alpm_run_chroot(root, "ldconfig");
 		}
 	}
 
