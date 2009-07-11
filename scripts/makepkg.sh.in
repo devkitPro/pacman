@@ -323,17 +323,17 @@ download_file() {
 
 	# replace %o by the temporary dlfile if it exists
 	if echo "$dlcmd" | grep -q "%o" ; then
-		dlcmd=${dlcmd//\%o/$file.part}
+		dlcmd=${dlcmd//\%o/\"$file.part\"}
 		dlfile="$file.part"
 	fi
 	# add the url, either in place of %u or at the end
 	if echo "$dlcmd" | grep -q "%u" ; then
-		dlcmd=${dlcmd//\%u/$url}
+		dlcmd=${dlcmd//\%u/\"$url\"}
 	else
-		dlcmd="$dlcmd $url"
+		dlcmd="$dlcmd \"$url\""
 	fi
 
-	$dlcmd || return $?
+	eval $dlcmd || return $?
 
 	# rename the temporary download file to the final destination
 	if [ "$dlfile" != "$file" ]; then
