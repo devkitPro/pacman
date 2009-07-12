@@ -1032,7 +1032,7 @@ create_srcpackage() {
 	mkdir "${srclinks}"/${pkgbase}
 
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
-	ln -s "${startdir}/${BUILDSCRIPT}" "${srclinks}/${pkgbase}/"
+	ln -s "${BUILDFILE}" "${srclinks}/${pkgbase}/${BUILDSCRIPT}"
 
 	if [ -n "$install" ]; then
 		if [ -f $install ]; then
@@ -1192,8 +1192,9 @@ devel_check() {
 	newpkgver=""
 
 	# Do not update pkgver if --holdver is set, when building a source package,
-	# or when reading PKGBUILD from pipe
-	if [ "$HOLDVER" -eq 1 -o "$SOURCEONLY" -ne 0 -o ! -f "./$BUILDSCRIPT" ]; then
+	# when reading PKGBUILD from pipe (-f), or if we cannot write to the file (-w)
+	if [ "$HOLDVER" -eq 1 -o "$SOURCEONLY" -ne 0 -o ! -f "$BUILDFILE" \
+	                      -o ! -w "$BUILDFILE" ]; then
 		return
 	fi
 
@@ -1262,10 +1263,10 @@ devel_update() {
 	#
 	if [ -n "$newpkgver" ]; then
 		if [ "$newpkgver" != "$pkgver" ]; then
-			if [ -f "./$BUILDSCRIPT" ]; then
-				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "./$BUILDSCRIPT"
-				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "./$BUILDSCRIPT"
-				source "$BUILDSCRIPT"
+			if [ -f "$BUILDFILE" -a -w "$BUILDFILE" ]; then
+				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
+				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
+				source "$BUILDFILE"
 			fi
 		fi
 	fi
@@ -1480,7 +1481,7 @@ while true; do
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
-		-p)               shift; BUILDSCRIPT=$1 ;;
+		-p)               shift; BUILDFILE=$1 ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--source)         SOURCEONLY=1 ;;
@@ -1565,11 +1566,6 @@ if [ "$CLEANCACHE" -eq 1 ]; then
 	fi
 fi
 
-if [ -z "$BUILDSCRIPT" ]; then
-	error "$(gettext "BUILDSCRIPT is undefined! Ensure you have updated %s.")" "$MAKEPKG_CONF"
-	exit 1
-fi
-
 if [ "$INFAKEROOT" -eq 0 ]; then
 	if [ $EUID -eq 0 -a "$ASROOT" -eq 0 ]; then
 		# Warn those who like to live dangerously.
@@ -1616,23 +1612,27 @@ unset pkgname pkgbase pkgver pkgrel pkgdesc url license groups provides
 unset md5sums replaces depends conflicts backup source install build
 unset makedepends optdepends options noextract
 
-if [ ! -f "$BUILDSCRIPT" ]; then
+BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
+if [ ! -f "$BUILDFILE" ]; then
 	if [ -t 0 ]; then
-		error "$(gettext "%s does not exist.")" "$BUILDSCRIPT"
+		error "$(gettext "%s does not exist.")" "$BUILDFILE"
 		exit 1
 	else
 		# PKGBUILD passed through a pipe
-		BUILDSCRIPT=/dev/stdin
-		source "$BUILDSCRIPT"
+		BUILDFILE=/dev/stdin
+		source "$BUILDFILE"
 	fi
 else
-	crlftest=$(file $BUILDSCRIPT | grep -F 'CRLF' || true)
+	crlftest=$(file "$BUILDFILE" | grep -F 'CRLF' || true)
 	if [ -n "$crlftest" ]; then
-		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDSCRIPT"
+		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDFILE"
 		exit 1
 	fi
 
-	source ./"$BUILDSCRIPT"
+	if [ "${BUILDFILE:0:1}" != "/" ]; then
+		BUILDFILE="$startdir/$BUILDFILE"
+	fi
+	source "$BUILDFILE"
 fi
 
 if [ "$GENINTEG" -eq 1 ]; then
