@@ -225,7 +225,6 @@ alpm_list_t *alpm_pkg_get_deltas(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
-alpm_list_t *alpm_pkg_get_removes(pmpkg_t *pkg);
 pmdb_t *alpm_pkg_get_db(pmpkg_t *pkg);
 void *alpm_pkg_changelog_open(pmpkg_t *pkg);
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
@@ -263,13 +262,6 @@ pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);
  * Transactions
  */
 
-/* Types */
-typedef enum _pmtranstype_t {
-	PM_TRANS_TYPE_UPGRADE = 1,
-	PM_TRANS_TYPE_REMOVE,
-	PM_TRANS_TYPE_REMOVEUPGRADE,
-	PM_TRANS_TYPE_SYNC
-} pmtranstype_t;
 
 /* Flags */
 typedef enum _pmtransflag_t {
@@ -403,14 +395,16 @@ typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
 /* Transaction Progress callback */
 typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, int, int);
 
-pmtranstype_t alpm_trans_get_type();
 unsigned int alpm_trans_get_flags();
-alpm_list_t * alpm_trans_get_pkgs();
-int alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
+alpm_list_t * alpm_trans_get_add();
+alpm_list_t * alpm_trans_get_remove();
+int alpm_trans_init(pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
 int alpm_trans_sysupgrade(int enable_downgrade);
-int alpm_trans_addtarget(char *target);
+int alpm_trans_sync(char *target);
+int alpm_trans_add(char *target);
+int alpm_trans_remove(char *target);
 int alpm_trans_prepare(alpm_list_t **data);
 int alpm_trans_commit(alpm_list_t **data);
 int alpm_trans_interrupt(void);

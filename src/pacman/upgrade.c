@@ -42,7 +42,6 @@
 int pacman_upgrade(alpm_list_t *targets)
 {
 	alpm_list_t *i, *data = NULL;
-	pmtranstype_t transtype = PM_TRANS_TYPE_UPGRADE;
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -65,7 +64,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	/* Step 1: create a new transaction */
-	if(trans_init(transtype, config->flags) == -1) {
+	if(trans_init(config->flags) == -1) {
 		return(1);
 	}
 
@@ -73,7 +72,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	printf(_("loading package data...\n"));
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		if(alpm_trans_addtarget(targ) == -1) {
+		if(alpm_trans_add(targ) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			trans_release();
@@ -131,12 +130,13 @@ int pacman_upgrade(alpm_list_t *targets)
 
 	/* Step 3: perform the installation */
 	/* print targets and ask user confirmation */
-	alpm_list_t *packages = alpm_trans_get_pkgs();
+	alpm_list_t *packages = alpm_trans_get_add();
 	if(packages == NULL) { /* we are done */
 		trans_release();
 		return(retval);
 	}
-	display_synctargets(packages);
+	display_targets(alpm_trans_get_remove(), 0);
+	display_targets(alpm_trans_get_add(), 1);
 	printf("\n");
 	int confirm = yesno(_("Proceed with installation?"));
 	if(!confirm) {

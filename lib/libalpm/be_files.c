@@ -148,7 +148,7 @@ static int checkdbdir(pmdb_t *db)
  * pmdb_t *db;
  * int result;
  * db = alpm_list_getdata(alpm_option_get_syncdbs());
- * if(alpm_trans_init(PM_TRANS_TYPE_SYNC, 0, NULL, NULL, NULL) == 0) {
+ * if(alpm_trans_init(0, NULL, NULL, NULL) == 0) {
  *     result = alpm_db_update(0, db);
  *     alpm_trans_release();
  *
@@ -191,7 +191,6 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	 */
 	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	ASSERT(handle->trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
 	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);

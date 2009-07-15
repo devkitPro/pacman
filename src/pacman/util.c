@@ -45,9 +45,9 @@
 #include "callback.h"
 
 
-int trans_init(pmtranstype_t type, pmtransflag_t flags)
+int trans_init(pmtransflag_t flags)
 {
-	if(alpm_trans_init(type, flags, cb_trans_evt,
+	if(alpm_trans_init(flags, cb_trans_evt,
 				cb_trans_conv, cb_trans_progress) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 				alpm_strerrorlast());
@@ -582,37 +582,6 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	}
 
 	FREELIST(targets);
-}
-
-/* Display a list of transaction targets.
- * `pkgs` should be a list of pmpkg_t's,
- * retrieved from a transaction object
- */
-void display_synctargets(const alpm_list_t *syncpkgs)
-{
-	const alpm_list_t *i, *j;
-	alpm_list_t *pkglist = NULL, *rpkglist = NULL;
-
-	for(i = syncpkgs; i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
-		pkglist = alpm_list_add(pkglist, pkg);
-
-		/* The removes member contains a list of packages to be removed
-		 * due to the package that is being installed. */
-		alpm_list_t *to_replace = alpm_pkg_get_removes(pkg);
-
-		for(j = to_replace; j; j = alpm_list_next(j)) {
-			pmpkg_t *rp = alpm_list_getdata(j);
-			rpkglist = alpm_list_add(rpkglist, rp);
-		}
-	}
-
-	/* start displaying information */
-	display_targets(rpkglist, 0);
-	display_targets(pkglist, 1);
-
-	alpm_list_free(pkglist);
-	alpm_list_free(rpkglist);
 }
 
 /* Helper function for comparing strings using the

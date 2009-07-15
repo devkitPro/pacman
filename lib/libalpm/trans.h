@@ -37,10 +37,10 @@ typedef enum _pmtransstate_t {
 
 /* Transaction */
 struct __pmtrans_t {
-	pmtranstype_t type;
 	pmtransflag_t flags;
 	pmtransstate_t state;
-	alpm_list_t *packages;      /* list of (pmpkg_t *) */
+	alpm_list_t *add;      /* list of (pmpkg_t *) */
+	alpm_list_t *remove;      /* list of (pmpkg_t *) */
 	alpm_list_t *skip_add;      /* list of (char *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
 	alpm_trans_cb_event cb_event;
@@ -69,12 +69,9 @@ do { \
 
 pmtrans_t *_alpm_trans_new(void);
 void _alpm_trans_free(pmtrans_t *trans);
-int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
+int _alpm_trans_init(pmtrans_t *trans, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);
-int _alpm_trans_addtarget(pmtrans_t *trans, char *target);
-int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data);
-int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data);
 int _alpm_runscriptlet(const char *root, const char *installfn,
                        const char *script, const char *ver,
                        const char *oldver, pmtrans_t *trans);

@@ -52,17 +52,18 @@
  */
 
 /** Initialize the transaction.
- * @param type type of the transaction
  * @param flags flags of the transaction (like nodeps, etc)
  * @param event event callback function pointer
  * @param conv question callback function pointer
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
+int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
                               alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                               alpm_trans_cb_progress progress)
 {
+	pmtrans_t *trans;
+
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
@@ -78,12 +79,20 @@ int SYMEXPORT alpm_trans_init(pmtranstype_t type, pmtransflag_t flags,
 		}
 	}
 
-	handle->trans = _alpm_trans_new();
-	if(handle->trans == NULL) {
+	trans = _alpm_trans_new();
+	if(trans == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
 	}
 
-	return(_alpm_trans_init(handle->trans, type, flags, event, conv, progress));
+	trans->flags = flags;
+	trans->cb_event = event;
+	trans->cb_conv = conv;
+	trans->cb_progress = progress;
+	trans->state = STATE_INITIALIZED;
+
+	handle->trans = trans;
+
+	return(0);
 }
 
 /** Search for packages to upgrade and add them to the transaction.
@@ -100,16 +109,15 @@ int SYMEXPORT alpm_trans_sysupgrade(int enable_downgrade)
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	ASSERT(trans->type == PM_TRANS_TYPE_SYNC, RET_ERR(PM_ERR_TRANS_TYPE, -1));
 
 	return(_alpm_sync_sysupgrade(trans, handle->db_local, handle->dbs_sync, enable_downgrade));
 }
 
-/** Add a target to the transaction.
- * @param target the name of the target to add
+/** Add a file target to the transaction.
+ * @param target the name of the file target to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_trans_addtarget(char *target)
+int SYMEXPORT alpm_trans_add(char *target)
 {
 	pmtrans_t *trans;
 
@@ -123,7 +131,87 @@ int SYMEXPORT alpm_trans_addtarget(char *target)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
-	return(_alpm_trans_addtarget(trans, target));
+	if(_alpm_add_loadtarget(trans, handle->db_local, target) == -1) {
+		/* pm_errno is set by _alpm_add_loadtarget() */
+		return(-1);
+	}
+
+	return(0);
+}
+
+/** Add a sync target to the transaction.
+ * @param target the name of the sync target to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_trans_sync(char *target)
+{
+	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+
+	if(_alpm_sync_addtarget(trans, handle->db_local, handle->dbs_sync, target) == -1) {
+		/* pm_errno is set by _alpm_sync_loadtarget() */
+		return(-1);
+	}
+
+	return(0);
+}
+
+int SYMEXPORT alpm_trans_remove(char *target)
+{
+	ALPM_LOG_FUNC;
+
+	pmtrans_t *trans;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+
+	if(_alpm_remove_loadtarget(trans, handle->db_local, target) == -1) {
+		/* pm_errno is set by _alpm_remove_loadtarget() */
+		return(-1);
+	}
+
+	return(0);
+}
+
+static alpm_list_t *check_arch(alpm_list_t *pkgs)
+{
+	alpm_list_t *i;
+	alpm_list_t *invalid = NULL;
+
+	const char *arch = alpm_option_get_arch();
+	if(!arch) {
+		return(NULL);
+	}
+	for(i = pkgs; i; i = i->next) {
+		pmpkg_t *pkg = i->data;
+		const char *pkgarch = alpm_pkg_get_arch(pkg);
+		if(strcmp(pkgarch,arch) && strcmp(pkgarch,"any")) {
+			char *string;
+			const char *pkgname = alpm_pkg_get_name(pkg);
+			const char *pkgver = alpm_pkg_get_version(pkg);
+			size_t len = strlen(pkgname) + strlen(pkgver) + strlen(pkgarch) + 3;
+			MALLOC(string, len, RET_ERR(PM_ERR_MEMORY, invalid));
+			sprintf(string, "%s-%s-%s", pkgname, pkgver, pkgarch);
+			invalid = alpm_list_add(invalid, string);
+		}
+	}
+	return(invalid);
 }
 
 /** Prepare a transaction.
@@ -133,16 +221,47 @@ int SYMEXPORT alpm_trans_addtarget(char *target)
  */
 int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 {
+	pmtrans_t *trans;
+
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	trans = handle->trans;
 
-	return(_alpm_trans_prepare(handle->trans, data));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+
+	/* If there's nothing to do, return without complaining */
+	if(trans->add == NULL && trans->remove == NULL) {
+		return(0);
+	}
+
+	alpm_list_t *invalid = check_arch(trans->add);
+	if(invalid) {
+		if(data) {
+			*data = invalid;
+		}
+		RET_ERR(PM_ERR_PKG_INVALID_ARCH, -1);
+	}
+
+	if(trans->add == NULL) {
+		if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
+			/* pm_errno is set by _alpm_remove_prepare() */
+			return(-1);
+		}
+	}	else {
+		if(_alpm_sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
+			/* pm_errno is set by _alpm_sync_prepare() */
+			return(-1);
+		}
+	}
+
+	trans->state = STATE_PREPARED;
+
+	return(0);
 }
 
 /** Commit a transaction.
@@ -152,17 +271,42 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
  */
 int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 {
+	pmtrans_t *trans;
+
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
-	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(handle->trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
+	trans = handle->trans;
 
-	ASSERT(!(handle->trans->flags & PM_TRANS_FLAG_NOLOCK), RET_ERR(PM_ERR_TRANS_NOT_LOCKED, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
 
-	return(_alpm_trans_commit(handle->trans, data));
+	ASSERT(!(trans->flags & PM_TRANS_FLAG_NOLOCK), RET_ERR(PM_ERR_TRANS_NOT_LOCKED, -1));
+
+	/* If there's nothing to do, return without complaining */
+	if(trans->add == NULL && trans->remove == NULL) {
+		return(0);
+	}
+
+	trans->state = STATE_COMMITING;
+
+	if(trans->add == NULL) {
+		if(_alpm_remove_packages(trans, handle->db_local) == -1) {
+			/* pm_errno is set by _alpm_remove_commit() */
+			return(-1);
+		}
+	} else {
+		if(_alpm_sync_commit(trans, handle->db_local, data) == -1) {
+			/* pm_errno is set by _alpm_sync_commit() */
+			return(-1);
+		}
+	}
+
+	trans->state = STATE_COMMITED;
+
+	return(0);
 }
 
 /** Interrupt a transaction.
@@ -247,184 +391,15 @@ void _alpm_trans_free(pmtrans_t *trans)
 		return;
 	}
 
-	if(trans->type == PM_TRANS_TYPE_SYNC || trans->type == PM_TRANS_TYPE_UPGRADE) {
-		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free_trans);
-	} else {
-		alpm_list_free_inner(trans->packages, (alpm_list_fn_free)_alpm_pkg_free);
-	}
-	alpm_list_free(trans->packages);
+	alpm_list_free_inner(trans->add, (alpm_list_fn_free)_alpm_pkg_free_trans);
+	alpm_list_free(trans->add);
+	alpm_list_free_inner(trans->remove, (alpm_list_fn_free)_alpm_pkg_free);
+	alpm_list_free(trans->remove);
 
 	FREELIST(trans->skip_add);
 	FREELIST(trans->skip_remove);
 
 	FREE(trans);
-}
-
-int _alpm_trans_init(pmtrans_t *trans, pmtranstype_t type, pmtransflag_t flags,
-                     alpm_trans_cb_event event, alpm_trans_cb_conv conv,
-                     alpm_trans_cb_progress progress)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	trans->type = type;
-	trans->flags = flags;
-	trans->cb_event = event;
-	trans->cb_conv = conv;
-	trans->cb_progress = progress;
-	trans->state = STATE_INITIALIZED;
-
-	return(0);
-}
-
-/** Add a target to the transaction.
- * @param trans the current transaction
- * @param target the name of the target to add
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(target != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	switch(trans->type) {
-		case PM_TRANS_TYPE_UPGRADE:
-			if(_alpm_add_loadtarget(trans, handle->db_local, target) == -1) {
-				/* pm_errno is set by _alpm_add_loadtarget() */
-				return(-1);
-			}
-		break;
-		case PM_TRANS_TYPE_REMOVE:
-		case PM_TRANS_TYPE_REMOVEUPGRADE:
-			if(_alpm_remove_loadtarget(trans, handle->db_local, target) == -1) {
-				/* pm_errno is set by _alpm_remove_loadtarget() */
-				return(-1);
-			}
-		break;
-		case PM_TRANS_TYPE_SYNC:
-			if(_alpm_sync_addtarget(trans, handle->db_local, handle->dbs_sync, target) == -1) {
-				/* pm_errno is set by _alpm_sync_loadtarget() */
-				return(-1);
-			}
-		break;
-	}
-
-	return(0);
-}
-
-static alpm_list_t *check_arch(alpm_list_t *pkgs)
-{
-	alpm_list_t *i;
-	alpm_list_t *invalid = NULL;
-
-	const char *arch = alpm_option_get_arch();
-	if(!arch) {
-		return(NULL);
-	}
-	for(i = pkgs; i; i = i->next) {
-		pmpkg_t *pkg = i->data;
-		const char *pkgarch = alpm_pkg_get_arch(pkg);
-		if(strcmp(pkgarch,arch) && strcmp(pkgarch,"any")) {
-			char *string;
-			const char *pkgname = alpm_pkg_get_name(pkg);
-			const char *pkgver = alpm_pkg_get_version(pkg);
-			size_t len = strlen(pkgname) + strlen(pkgver) + strlen(pkgarch) + 3;
-			MALLOC(string, len, RET_ERR(PM_ERR_MEMORY, invalid));
-			sprintf(string, "%s-%s-%s", pkgname, pkgver, pkgarch);
-			invalid = alpm_list_add(invalid, string);
-		}
-	}
-	return(invalid);
-}
-
-int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
-{
-	if(data) {
-		*data = NULL;
-	}
-
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	/* If there's nothing to do, return without complaining */
-	if(trans->packages == NULL) {
-		return(0);
-	}
-
-	alpm_list_t *invalid = check_arch(trans->packages);
-	if(invalid) {
-		if(data) {
-			*data = invalid;
-		}
-		RET_ERR(PM_ERR_PKG_INVALID_ARCH, -1);
-	}
-
-	switch(trans->type) {
-		case PM_TRANS_TYPE_REMOVE:
-		case PM_TRANS_TYPE_REMOVEUPGRADE:
-			if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
-				/* pm_errno is set by _alpm_remove_prepare() */
-				return(-1);
-			}
-		break;
-		case PM_TRANS_TYPE_UPGRADE:
-		case PM_TRANS_TYPE_SYNC:
-			if(_alpm_sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
-				/* pm_errno is set by _alpm_sync_prepare() */
-				return(-1);
-			}
-		break;
-	}
-
-	trans->state = STATE_PREPARED;
-
-	return(0);
-}
-
-int _alpm_trans_commit(pmtrans_t *trans, alpm_list_t **data)
-{
-	ALPM_LOG_FUNC;
-
-	if(data!=NULL)
-		*data = NULL;
-
-	/* Sanity checks */
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	/* If there's nothing to do, return without complaining */
-	if(trans->packages == NULL) {
-		return(0);
-	}
-
-	trans->state = STATE_COMMITING;
-
-	switch(trans->type) {
-		case PM_TRANS_TYPE_REMOVE:
-		case PM_TRANS_TYPE_REMOVEUPGRADE:
-			if(_alpm_remove_commit(trans, handle->db_local) == -1) {
-				/* pm_errno is set by _alpm_remove_commit() */
-				return(-1);
-			}
-		break;
-		case PM_TRANS_TYPE_UPGRADE:
-		case PM_TRANS_TYPE_SYNC:
-			if(_alpm_sync_commit(trans, handle->db_local, data) == -1) {
-				/* pm_errno is set by _alpm_sync_commit() */
-				return(-1);
-			}
-		break;
-	}
-
-	trans->state = STATE_COMMITED;
-
-	return(0);
 }
 
 /* A cheap grep for text files, returns 1 if a substring
@@ -526,15 +501,6 @@ cleanup:
 	return(retval);
 }
 
-pmtranstype_t SYMEXPORT alpm_trans_get_type()
-{
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(handle->trans != NULL, return(-1));
-
-	return handle->trans->type;
-}
-
 unsigned int SYMEXPORT alpm_trans_get_flags()
 {
 	/* Sanity checks */
@@ -544,12 +510,21 @@ unsigned int SYMEXPORT alpm_trans_get_flags()
 	return handle->trans->flags;
 }
 
-alpm_list_t SYMEXPORT * alpm_trans_get_pkgs()
+alpm_list_t SYMEXPORT * alpm_trans_get_add()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(handle->trans != NULL, return(NULL));
 
-	return handle->trans->packages;
+	return handle->trans->add;
+}
+
+alpm_list_t SYMEXPORT * alpm_trans_get_remove()
+{
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(handle->trans != NULL, return(NULL));
+
+	return handle->trans->remove;
 }
 /* vim: set ts=2 sw=2 noet: */

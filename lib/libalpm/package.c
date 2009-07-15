@@ -423,13 +423,6 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 	return pkg->backup;
 }
 
-alpm_list_t SYMEXPORT *alpm_pkg_get_removes(pmpkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return(NULL));
-
-	return(pkg->removes);
-}
-
 pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
 {
 	/* Sanity checks */

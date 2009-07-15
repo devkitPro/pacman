@@ -516,7 +516,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 					/* skip removal of file, but not add. this will prevent a second
 					 * package from removing the file when it was already installed
 					 * by its new owner (whether the file is in backup array or not */
-					trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(path));
+					trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(filestr));
 					_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
 					resolved_conflict = 1;
 				}

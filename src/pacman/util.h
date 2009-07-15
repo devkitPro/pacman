@@ -37,7 +37,7 @@
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 
-int trans_init(pmtranstype_t type, pmtransflag_t flags);
+int trans_init(pmtransflag_t flags);
 int trans_release(void);
 int needs_root(void);
 int getcols(void);
@@ -54,7 +54,6 @@ void string_display(const char *title, const char *string);
 void list_display(const char *title, const alpm_list_t *list);
 void list_display_linebreak(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *pkgs, int install);
-void display_synctargets(const alpm_list_t *syncpkgs);
 void display_new_optdepends(pmpkg_t *oldpkg, pmpkg_t *newpkg);
 void display_optdepends(pmpkg_t *pkg);
 int yesno(char *fmt, ...);

@@ -51,14 +51,14 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* Step 0: create a new transaction */
-	if(trans_init(PM_TRANS_TYPE_REMOVE, config->flags) == -1) {
+	if(trans_init(config->flags) == -1) {
 		return(1);
 	}
 
 	/* Step 1: add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		if(alpm_trans_addtarget(targ) == -1) {
+		if(alpm_trans_remove(targ) == -1) {
 			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
 				printf(_("%s not found, searching for group...\n"), targ);
 				pmgrp_t *grp = alpm_db_readgrp(db_local, targ);
@@ -79,7 +79,7 @@ int pacman_remove(alpm_list_t *targets)
 					for(p = pkgnames; p; p = alpm_list_next(p)) {
 						char *pkgn = alpm_list_getdata(p);
 						if(all || yesno(_(":: Remove %s from group %s?"), pkgn, targ)) {
-							if(alpm_trans_addtarget(pkgn) == -1) {
+							if(alpm_trans_remove(pkgn) == -1) {
 								pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ,
 								           alpm_strerrorlast());
 								retval = 1;
@@ -129,7 +129,7 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Search for holdpkg in target list */
 	int holdpkg = 0;
-	for(i = alpm_trans_get_pkgs(); i; i = alpm_list_next(i)) {
+	for(i = alpm_trans_get_remove(); i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = alpm_list_getdata(i);
 		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
 			pm_printf(PM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
@@ -146,7 +146,7 @@ int pacman_remove(alpm_list_t *targets)
 	if(config->flags & PM_TRANS_FLAG_RECURSE ||
 	   config->flags & PM_TRANS_FLAG_CASCADE) {
 		/* list transaction targets */
-		alpm_list_t *pkglist = alpm_trans_get_pkgs();
+		alpm_list_t *pkglist = alpm_trans_get_remove();
 
 		display_targets(pkglist, 0);
 		printf("\n");

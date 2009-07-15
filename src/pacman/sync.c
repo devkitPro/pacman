@@ -242,7 +242,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	alpm_list_t *i;
 	int success = 0, ret;
 
-	if(trans_init(PM_TRANS_TYPE_SYNC, 0) == -1) {
+	if(trans_init(0) == -1) {
 		return(0);
 	}
 
@@ -552,7 +552,7 @@ static int process_target(char *targ, alpm_list_t *targets)
 {
 	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 
-	if(alpm_trans_addtarget(targ) == -1) {
+	if(alpm_trans_sync(targ) == -1) {
 		pmgrp_t *grp = NULL;
 		int found = 0;
 		alpm_list_t *j;
@@ -617,7 +617,7 @@ static int sync_trans(alpm_list_t *targets)
 	alpm_list_t *i;
 
 	/* Step 1: create a new transaction... */
-	if(trans_init(PM_TRANS_TYPE_SYNC, config->flags) == -1) {
+	if(trans_init(config->flags) == -1) {
 		return(1);
 	}
 
@@ -683,7 +683,7 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	packages = alpm_trans_get_pkgs();
+	packages = alpm_trans_get_add();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
 		printf(_(" local database is up to date\n"));
@@ -711,7 +711,8 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	display_synctargets(packages);
+	display_targets(alpm_trans_get_remove(), 0);
+	display_targets(alpm_trans_get_add(), 1);
 	printf("\n");
 
 	int confirm;
@@ -788,7 +789,7 @@ int pacman_sync(alpm_list_t *targets)
 	if(config->op_s_clean) {
 		int ret = 0;
 
-		if(trans_init(PM_TRANS_TYPE_SYNC, 0) == -1) {
+		if(trans_init(0) == -1) {
 			return(1);
 		}
 

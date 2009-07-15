@@ -72,7 +72,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 
 	/* check if an older version of said package is already in transaction
 	 * packages.  if so, replace it in the list */
-	for(i = trans->packages; i; i = i->next) {
+	for(i = trans->add; i; i = i->next) {
 		pmpkg_t *transpkg = i->data;
 		if(strcmp(transpkg->name, pkgname) == 0) {
 			if(alpm_pkg_vercmp(transpkg->version, pkgver) < 0) {
@@ -90,98 +90,13 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 	}
 
 	/* add the package to the transaction */
-	trans->packages = alpm_list_add(trans->packages, pkg);
+	trans->add = alpm_list_add(trans->add, pkg);
 
 	return(0);
 
 error:
 	_alpm_pkg_free(pkg);
 	return(-1);
-}
-
-static int upgrade_remove(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans, pmdb_t *db) {
-	/* this is kinda odd.  If the old package exists, at this point we make a
-	 * NEW transaction, unrelated to handle->trans, and instantiate a "remove"
-	 * with the type PM_TRANS_TYPE_REMOVEUPGRADE. TODO: kill this weird
-	 * behavior. */
-	pmtrans_t *tr = _alpm_trans_new();
-
-	ALPM_LOG_FUNC;
-
-	_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
-			oldpkg->name, oldpkg->version);
-
-	if(!tr) {
-		RET_ERR(PM_ERR_TRANS_ABORT, -1);
-	}
-
-	if(_alpm_trans_init(tr, PM_TRANS_TYPE_REMOVEUPGRADE, trans->flags,
-				NULL, NULL, NULL) == -1) {
-		_alpm_trans_free(tr);
-		tr = NULL;
-		RET_ERR(PM_ERR_TRANS_ABORT, -1);
-	}
-
-	if(_alpm_remove_loadtarget(tr, db, newpkg->name) == -1) {
-		_alpm_trans_free(tr);
-		tr = NULL;
-		RET_ERR(PM_ERR_TRANS_ABORT, -1);
-	}
-
-	/* copy the remove skiplist over */
-	tr->skip_remove = alpm_list_strdup(trans->skip_remove);
-	const alpm_list_t *b;
-
-	/* Add files in the NEW backup array to the NoUpgrade array
-	 * so this removal operation doesn't kill them */
-	alpm_list_t *old_noupgrade = alpm_list_strdup(handle->noupgrade);
-	/* old package backup list */
-	alpm_list_t *filelist = alpm_pkg_get_files(newpkg);
-	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-		char *backup = _alpm_backup_file(b->data);
-		/* safety check (fix the upgrade026 pactest) */
-		if(!alpm_list_find_str(filelist, backup)) {
-			FREE(backup);
-			continue;
-		}
-		_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
-				backup);
-		handle->noupgrade = alpm_list_add(handle->noupgrade,
-				backup);
-	}
-
-	/* TODO: we could also add files in the OLD backup array, but this would
-	 * change the backup handling behavior, and break several pactests, and we
-	 * can't do this just before 3.1 release.
-	 * The unlink_file function in remove.c would also need to be reviewed. */
-#if 0
-	/* new package backup list */
-	for(b = alpm_pkg_get_backup(oldpkg); b; b = b->next) {
-		char *backup = _alpm_backup_file(b->data);
-		/* make sure we don't add duplicate entries */
-		if(!alpm_list_find_ptr(handle->noupgrade, backup)) {
-			_alpm_log(PM_LOG_DEBUG, "adding %s to the NoUpgrade array temporarily\n",
-					backup);
-			handle->noupgrade = alpm_list_add(handle->noupgrade,
-					backup);
-		}
-	}
-#endif
-
-	int ret = _alpm_remove_commit(tr, db);
-
-	_alpm_trans_free(tr);
-	tr = NULL;
-
-	/* restore our "NoUpgrade" list to previous state */
-	FREELIST(handle->noupgrade);
-	handle->noupgrade = old_noupgrade;
-
-	if(ret == -1) {
-		RET_ERR(PM_ERR_TRANS_ABORT, -1);
-	}
-
-	return(0);
 }
 
 static int extract_single_file(struct archive *archive,
@@ -606,8 +521,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 	if(oldpkg) {
 		/* set up fake remove transaction */
-		int ret = upgrade_remove(oldpkg, newpkg, trans, db);
-		if(ret != 0) {
+		if(_alpm_upgraderemove_package(oldpkg, newpkg, trans) == -1) {
+			pm_errno = PM_ERR_TRANS_ABORT;
+			ret = -1;
 			goto cleanup;
 		}
 	}
@@ -783,15 +699,15 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	if(trans->packages == NULL) {
+	if(trans->add == NULL) {
 		return(0);
 	}
 
-	pkg_count = alpm_list_count(trans->packages);
+	pkg_count = alpm_list_count(trans->add);
 	pkg_current = 1;
 
 	/* loop through our package list adding/upgrading one at a time */
-	for(targ = trans->packages; targ; targ = targ->next) {
+	for(targ = trans->add; targ; targ = targ->next) {
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			return(0);
 		}
