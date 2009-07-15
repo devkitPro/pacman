@@ -51,13 +51,12 @@ library is initialized.
 
 * logcb: The callback function for "log" operations.
 * dlcb: The callback function for download progress of each package.
+* fetchcb: Callback for custom download function.
 * totaldlcb: The callback function for overall download progress.
 * root: The root directory for pacman to install to (Default: /)
 * dbpath: The toplevel database directory (Default: /var/lib/pacman)
 * logfile: The base path to pacman's log file (Default: /var/log/pacman.log)
 * usesyslog: Log to syslog instead of `logfile` for file-base logging.
-* xfercommand: The command to use for downloading instead of pacman's internal
-               downloading functionality.
 * nopassiveftp: Do not use passive FTP commands for ftp connections.
 
 The following options also have `alpm_option_{add,remove}_*` functions, as the
@@ -70,7 +69,6 @@ alpm_option_{get,set}_noupgrades -> alpm_option_{add,remove}_noupgrade.
 * noextracts: Files which will never be extracted at all (no .pacnew file)
 * ignorepkgs: Packages to ignore when upgrading.
 * ignoregrps: Groups to ignore when upgrading.
-* holdpkgs: Important packages which need a confirmation before being removed.
 
 The following options are read-only, having ONLY alpm_option_get_* functions:
 
@@ -246,3 +244,55 @@ API CHANGES BETWEEN 3.1 AND 3.2
 - flags:
     PM_TRANS_FLAG_ALLEXPLICIT, PM_TRANS_FLAG_UNNEEDED and
     PM_TRANS_FLAG_RECURSEALL
+
+
+API CHANGES BETWEEN 3.2 AND 3.3
+===============================
+
+[REMOVED]
+- pmsyncpkg_t struct (pmpkg_t is used for all types of transaction targets):
+  - alpm_sync_get_pkg()
+  - alpm_sync_get_removes() (use alpm_pkg_get_removes() instead)
+- HoldPkg handling (it is the front-end's task):
+  - alpm_option_get_holdpkgs()
+  - alpm_option_add_holdpkg()
+  - alpm_option_set_holdpkgs()
+  - alpm_option_remove_holdpkg()
+  - PM_TRANS_CONV_REMOVE_HOLDPKG conversation
+- Print URIs feature (it is the front-end's task):
+  - flag: PM_TRANS_FLAG_PRINTURIS
+  - event: PM_TRANS_EVT_PRINTURI
+- alpm_delta_get_from_md5sum() and alpm_delta_get_to_md5sum()
+- alpm_sync_sysupgrade()
+- error codes:
+    PM_ERR_TRANS_COMMITING, PM_ERR_TRANS_DOWNLOADING, PM_ERR_PKG_LOAD,
+    PM_ERR_PKG_CANT_FRESH, PM_ERR_GRP_NOT_FOUND, PM_ERR_USER_ABORT,
+    PM_ERR_INTERNAL_ERROR, PM_ERR_DB_SYNC, PM_ERR_PKG_HOLD and
+    PM_ERR_LIBDOWNLOAD
+
+[CHANGED]
+- XferCommand support was removed, any fetch callback function can be defined:
+  - alpm_option_get_xfercommand() and alpm_option_set_xfercommand() were removed
+  - alpm_option_get_fetchcb() and alpm_option_set_fetchcb() were added
+- function renames:
+  - alpm_db_getpkgcache() -> alpm_db_get_pkgcache()
+  - alpm_db_getgrpcache() -> alpm_db_get_grpcache()
+  - alpm_dep_get_string() -> alpm_dep_compute_string()
+  - alpm_get_md5sum() -> alpm_compute_md5sum()
+  - alpm_checkdbconflicts() -> alpm_checkconflicts()
+- alpm_trans_sysupgrade() has a new enable_downgrade parameter
+- alpm_checkdeps() and alpm_checkconflicts() require local package list instead
+  of local database
+- the to-be-upgraded package is passed to the callback function with
+  PM_TRANS_EVT_UPGRADE_START (as the second parameter)
+- the "requiredby" package is never passed to the callback function with
+  PM_TRANS_CONV_INSTALL_IGNOREPKG (the second parameter is always NULL)
+
+[ADDED]
+- alpm_pkg_get_db()
+- alpm_pkg_get_removes()
+- conversation: PM_TRANS_CONV_REMOVE_PKGS (remove unresolvable targets)
+- flag: PM_TRANS_FLAG_NOLOCK (do not lock database)
+- error codes:
+    PM_ERR_SERVER_NONE, PM_ERR_TRANS_NOT_LOCKED, PM_ERR_PKG_IGNORED and
+    PM_ERR_LIBFETCH
