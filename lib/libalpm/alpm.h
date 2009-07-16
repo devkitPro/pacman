@@ -401,14 +401,16 @@ alpm_list_t * alpm_trans_get_remove();
 int alpm_trans_init(pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
-int alpm_trans_sysupgrade(int enable_downgrade);
-int alpm_trans_sync(char *target);
-int alpm_trans_add(char *target);
-int alpm_trans_remove(char *target);
 int alpm_trans_prepare(alpm_list_t **data);
 int alpm_trans_commit(alpm_list_t **data);
 int alpm_trans_interrupt(void);
 int alpm_trans_release(void);
+
+int alpm_sync_sysupgrade(int enable_downgrade);
+int alpm_sync_target(char *target);
+int alpm_sync_dbtarget(char *db, char *target);
+int alpm_add_target(char *target);
+int alpm_remove_target(char *target);
 
 /*
  * Dependencies and conflicts

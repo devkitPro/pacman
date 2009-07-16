@@ -47,35 +47,45 @@
 #include "handle.h"
 #include "alpm.h"
 
-int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
+int SYMEXPORT alpm_remove_target(char *target)
 {
 	pmpkg_t *info;
-	const char *targ;
+	pmtrans_t *trans;
+	pmdb_t *db_local;
+	alpm_list_t *p;
 
 	ALPM_LOG_FUNC;
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	/* Sanity checks */
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	trans = handle->trans;
+	db_local = handle->db_local;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	targ = strchr(name, '/');
-	if(targ && strncmp(name, "local", 5) == 0) {
-		targ++;
-	} else {
-		targ = name;
-	}
 
-	if(_alpm_pkg_find(trans->remove, targ)) {
+	if(_alpm_pkg_find(trans->remove, target)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	if((info = _alpm_db_get_pkgfromcache(db, targ)) == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "could not find %s in database\n", targ);
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	if((info = _alpm_db_get_pkgfromcache(db_local, target)) != NULL) {
+		_alpm_log(PM_LOG_DEBUG, "adding %s in the targets list\n", info->name);
+		trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(info));
+		return(0);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "adding %s in the targets list\n", info->name);
-	trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(info));
+	_alpm_log(PM_LOG_DEBUG, "could not find %s in database\n", target);
+	pmgrp_t *grp = alpm_db_readgrp(db_local, target);
+	if(grp == NULL) {
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	}
+	for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
+		pmpkg_t *pkg = alpm_list_getdata(p);
+		_alpm_log(PM_LOG_DEBUG, "adding %s in the targets list\n", pkg->name);
+		trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(pkg));
+	}
 
 	return(0);
 }

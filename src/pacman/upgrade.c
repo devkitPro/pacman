@@ -72,7 +72,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	printf(_("loading package data...\n"));
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		if(alpm_trans_add(targ) == -1) {
+		if(alpm_add_target(targ) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			trans_release();

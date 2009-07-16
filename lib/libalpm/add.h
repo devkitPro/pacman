@@ -24,7 +24,6 @@
 #include "alpm_list.h"
 #include "trans.h"
 
-int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name);
 int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db);
 
 #endif /* _ALPM_ADD_H */

@@ -57,44 +57,17 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 1: add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
-		char *targ = alpm_list_getdata(i);
-		if(alpm_trans_remove(targ) == -1) {
-			if(pm_errno == PM_ERR_PKG_NOT_FOUND) {
-				printf(_("%s not found, searching for group...\n"), targ);
-				pmgrp_t *grp = alpm_db_readgrp(db_local, targ);
-				if(grp == NULL) {
-					pm_fprintf(stderr, PM_LOG_ERROR, _("'%s': not found in local db\n"), targ);
-					retval = 1;
-					goto cleanup;
-				} else {
-					alpm_list_t *p, *pkgnames = NULL;
-					/* convert packages to package names */
-					for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
-						pmpkg_t *pkg = alpm_list_getdata(p);
-						pkgnames = alpm_list_add(pkgnames, (void *)alpm_pkg_get_name(pkg));
-					}
-					printf(_(":: group %s:\n"), targ);
-					list_display("   ", pkgnames);
-					int all = yesno(_("    Remove whole content?"));
-					for(p = pkgnames; p; p = alpm_list_next(p)) {
-						char *pkgn = alpm_list_getdata(p);
-						if(all || yesno(_(":: Remove %s from group %s?"), pkgn, targ)) {
-							if(alpm_trans_remove(pkgn) == -1) {
-								pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ,
-								           alpm_strerrorlast());
-								retval = 1;
-								alpm_list_free(pkgnames);
-								goto cleanup;
-							}
-						}
-					}
-					alpm_list_free(pkgnames);
-				}
-			} else {
-				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ, alpm_strerrorlast());
-				retval = 1;
-				goto cleanup;
-			}
+		char *target = alpm_list_getdata(i);
+		char *targ = strchr(target, '/');
+		if(targ && strncmp(target, "local", 5) == 0) {
+			targ++;
+		} else {
+			targ = target;
+		}
+		if(alpm_remove_target(targ) == -1) {
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ, alpm_strerrorlast());
+			retval = 1;
+			goto cleanup;
 		}
 	}
 

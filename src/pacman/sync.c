@@ -548,64 +548,34 @@ static alpm_list_t *syncfirst() {
 	return(res);
 }
 
-static int process_target(char *targ, alpm_list_t *targets)
+static int process_target(char *target)
 {
-	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+	/* process targets */
+	char *targ = strchr(target, '/');
+	char *db = NULL;
+	int ret;
+	if(targ) {
+		*targ = '\0';
+		targ++;
+		db = target;
+		ret = alpm_sync_dbtarget(db,targ);
+	} else {
+		targ = target;
+		ret = alpm_sync_target(targ);
+	}
 
-	if(alpm_trans_sync(targ) == -1) {
-		pmgrp_t *grp = NULL;
-		int found = 0;
-		alpm_list_t *j;
-
-		if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
+	if(ret == -1) {
+		if(pm_errno == PM_ERR_TRANS_DUP_TARGET
+				|| pm_errno == PM_ERR_PKG_IGNORED) {
 			/* just skip duplicate or ignored targets */
 			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targ);
 			return(0);
 		}
-		if(pm_errno != PM_ERR_PKG_NOT_FOUND) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
-					targ, alpm_strerrorlast());
-			return(1);
-		}
-		/* target not found: check if it's a group */
-		printf(_("%s package not found, searching for group...\n"), targ);
-		for(j = sync_dbs; j; j = alpm_list_next(j)) {
-			pmdb_t *db = alpm_list_getdata(j);
-			grp = alpm_db_readgrp(db, targ);
-			if(grp) {
-				alpm_list_t *k, *pkgnames = NULL;
-
-				found++;
-				printf(_(":: group %s (including ignored packages):\n"), targ);
-				/* remove dupe entries in case a package exists in multiple repos */
-				alpm_list_t *grppkgs = alpm_grp_get_pkgs(grp);
-				alpm_list_t *pkgs = alpm_list_remove_dupes(grppkgs);
-				for(k = pkgs; k; k = alpm_list_next(k)) {
-					pkgnames = alpm_list_add(pkgnames,
-							(char*)alpm_pkg_get_name(k->data));
-				}
-				list_display("   ", pkgnames);
-				if(yesno(_(":: Install whole content?"))) {
-					for(k = pkgnames; k; k = alpm_list_next(k)) {
-						targets = alpm_list_add(targets, strdup(alpm_list_getdata(k)));
-					}
-				} else {
-					for(k = pkgnames; k; k = alpm_list_next(k)) {
-						char *pkgname = alpm_list_getdata(k);
-						if(yesno(_(":: Install %s from group %s?"), pkgname, targ)) {
-							targets = alpm_list_add(targets, strdup(pkgname));
-						}
-					}
-				}
-				alpm_list_free(pkgnames);
-				alpm_list_free(pkgs);
-			}
-		}
-		if(!found) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("'%s': not found in sync db\n"), targ);
-			return(1);
-		}
+		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
+				targ, alpm_strerrorlast());
+		return(1);
 	}
+
 	return(0);
 }
 
@@ -624,7 +594,7 @@ static int sync_trans(alpm_list_t *targets)
 	/* process targets */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		if(process_target(targ, targets) == 1) {
+		if(process_target(targ) == 1) {
 			retval = 1;
 			goto cleanup;
 		}
@@ -633,7 +603,7 @@ static int sync_trans(alpm_list_t *targets)
 	if(config->op_s_upgrade) {
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction("starting full system upgrade\n");
-		if(alpm_trans_sysupgrade(config->op_s_upgrade >= 2) == -1) {
+		if(alpm_sync_sysupgrade(config->op_s_upgrade >= 2) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
 			retval = 1;
 			goto cleanup;

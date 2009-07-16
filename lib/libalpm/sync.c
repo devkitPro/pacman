@@ -82,11 +82,24 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 	return(NULL);
 }
 
-int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, int enable_downgrade)
+/** Search for packages to upgrade and add them to the transaction.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
+	pmtrans_t *trans;
+	pmdb_t *db_local;
+	alpm_list_t *dbs_sync;
 
 	ALPM_LOG_FUNC;
+
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	trans = handle->trans;
+	db_local = handle->db_local;
+	dbs_sync = handle->dbs_sync;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	_alpm_log(PM_LOG_DEBUG, "checking for package upgrades\n");
 	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
@@ -189,55 +202,16 @@ int _alpm_sync_sysupgrade(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_s
 	return(0);
 }
 
-int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, char *name)
+int _alpm_sync_pkg(pmpkg_t *spkg)
 {
-	char *targline;
-	char *targ;
-	alpm_list_t *j;
-	pmpkg_t *local, *spkg;
-	pmdepend_t *dep; /* provisions and dependencies are also allowed */
+	pmtrans_t *trans;
+	pmdb_t *db_local;
+	pmpkg_t *local;
 
 	ALPM_LOG_FUNC;
 
-	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	STRDUP(targline, name, RET_ERR(PM_ERR_MEMORY, -1));
-	targ = strchr(targline, '/');
-	if(targ) {
-		/* we are looking for a package in a specific database */
-		alpm_list_t *dbs = NULL;
-		*targ = '\0';
-		targ++;
-		_alpm_log(PM_LOG_DEBUG, "searching for target '%s' in repo '%s'\n", targ, targline);
-		for(j = dbs_sync; j; j = j->next) {
-			pmdb_t *db = j->data;
-			if(strcmp(db->treename, targline) == 0) {
-				dbs = alpm_list_add(NULL, db);
-				break;
-			}
-		}
-		if(dbs == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("repository '%s' not found\n"), targline);
-			FREE(targline);
-			RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
-		}
-		dep = _alpm_splitdep(targ);
-		spkg = _alpm_resolvedep(dep, dbs, NULL, 1);
-		_alpm_dep_free(dep);
-		alpm_list_free(dbs);
-	} else {
-		dep = _alpm_splitdep(targline);
-		spkg = _alpm_resolvedep(dep, dbs_sync, NULL, 1);
-		_alpm_dep_free(dep);
-	}
-	FREE(targline);
-
-	if(spkg == NULL) {
-		/* pm_errno is set by _alpm_resolvedep */
-		return(-1);
-	}
+	trans = handle->trans;
+	db_local = handle->db_local;
 
 	if(_alpm_pkg_find(trans->add, alpm_pkg_get_name(spkg))) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
@@ -272,6 +246,104 @@ int _alpm_sync_addtarget(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sy
 	trans->add = alpm_list_add(trans->add, spkg);
 
 	return(0);
+}
+
+int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
+{
+	alpm_list_t *i, *j;
+	pmpkg_t *spkg;
+	pmdepend_t *dep; /* provisions and dependencies are also allowed */
+	pmgrp_t *grp;
+	int found = 0;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	dep = _alpm_splitdep(target);
+	spkg = _alpm_resolvedep(dep, dbs_sync, NULL, 1);
+	_alpm_dep_free(dep);
+
+	if(spkg != NULL) {
+		return(_alpm_sync_pkg(spkg));
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "%s package not found, searching for group...\n", target);
+	for(i = dbs_sync; i; i = i->next) {
+		pmdb_t *db = i->data;
+		grp = alpm_db_readgrp(db, target);
+		if(grp) {
+			found = 1;
+			for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
+				pmpkg_t *pkg = j->data;
+				if(_alpm_sync_pkg(pkg) == -1) {
+					if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
+						/* just skip duplicate or ignored targets */
+						continue;
+					} else {
+						return(-1);
+					}
+				}
+			}
+		}
+	}
+
+	if(!found) {
+		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	}
+
+	return(0);
+}
+
+/** Add a sync target to the transaction.
+ * @param target the name of the sync target to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_sync_dbtarget(char *dbname, char *target)
+{
+	alpm_list_t *i;
+	alpm_list_t *dbs_sync;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	dbs_sync = handle->dbs_sync;
+
+	/* we are looking for a package in a specific database */
+	alpm_list_t *dbs = NULL;
+	_alpm_log(PM_LOG_DEBUG, "searching for target '%s' in repo '%s'\n", target, dbname);
+	for(i = dbs_sync; i; i = i->next) {
+		pmdb_t *db = i->data;
+		if(strcmp(db->treename, dbname) == 0) {
+			dbs = alpm_list_add(NULL, db);
+			break;
+		}
+	}
+	if(dbs == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("repository '%s' not found\n"), dbname);
+		RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
+	}
+	return(_alpm_sync_target(dbs, target));
+}
+
+/** Add a sync target to the transaction.
+ * @param target the name of the sync target to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_sync_target(char *target)
+{
+	alpm_list_t *dbs_sync;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	dbs_sync = handle->dbs_sync;
+
+	return(_alpm_sync_target(dbs_sync,target));
 }
 
 /** Compute the size of the files that will be downloaded to install a
