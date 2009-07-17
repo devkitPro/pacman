@@ -29,6 +29,7 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 /* libalpm */
 #include "conflict.h"
@@ -348,6 +349,50 @@ void _alpm_fileconflict_free(pmfileconflict_t *conflict)
 	FREE(conflict);
 }
 
+static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
+{
+	struct dirent *ent = NULL;
+	struct stat sbuf;
+	char path[PATH_MAX];
+	char abspath[PATH_MAX];
+	DIR *dir;
+
+	snprintf(abspath, PATH_MAX, "%s%s", handle->root, dirpath);
+	dir = opendir(abspath);
+	if(dir == NULL) {
+		return(1);
+	}
+	while((ent = readdir(dir)) != NULL) {
+		const char *name = ent->d_name;
+
+		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
+			continue;
+		}
+		snprintf(path, PATH_MAX, "%s/%s", dirpath, name);
+		snprintf(abspath, PATH_MAX, "%s%s", handle->root, path);
+		if(stat(abspath, &sbuf) != 0) {
+			continue;
+		}
+		if(S_ISDIR(sbuf.st_mode)) {
+			if(dir_belongsto_pkg(path, pkg)) {
+				continue;
+			} else {
+				closedir(dir);
+				return(0);
+			}
+		} else {
+			if(alpm_list_find_str(alpm_pkg_get_files(pkg),path)) {
+				continue;
+			} else {
+				closedir(dir);
+				return(0);
+			}
+		}
+	}
+	closedir(dir);
+	return(1);
+}
+
 /* Find file conflicts that may occur during the transaction with two checks:
  * 1: check every target against every target
  * 2: check every target against the filesystem */
@@ -472,6 +517,18 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 					_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
 					resolved_conflict = 1;
 				}
+			}
+
+			/* check if all files of the dir belong to the installed pkg */
+			if(!resolved_conflict && S_ISDIR(lsbuf.st_mode) && dbpkg) {
+				char *dir = malloc(strlen(filestr) + 2);
+				sprintf(dir, "%s/", filestr);
+				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg),dir)) {
+					_alpm_log(PM_LOG_DEBUG, "check if all files in %s belongs to %s\n",
+							dir, dbpkg->name);
+					resolved_conflict = dir_belongsto_pkg(filestr, dbpkg);
+				}
+				free(dir);
 			}
 
 			if(!resolved_conflict) {

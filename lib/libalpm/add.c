@@ -353,28 +353,30 @@ static int extract_single_file(struct archive *archive,
 	if(_alpm_lstat(filename, &lsbuf) != 0 || stat(filename, &sbuf) != 0) {
 		/* cases 1,2,3: couldn't stat an existing file, skip all backup checks */
 	} else {
-		if(S_ISDIR(lsbuf.st_mode) && S_ISDIR(entrymode)) {
-			/* case 12: existing dir, ignore it */
-			if(lsbuf.st_mode != entrymode) {
-				/* if filesystem perms are different than pkg perms, warn user */
-				int mask = 07777;
-				_alpm_log(PM_LOG_WARNING, _("directory permissions differ on %s\n"
-							"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
-						entrymode & mask);
-				alpm_logaction("warning: directory permissions differ on %s\n"
+		if(S_ISDIR(lsbuf.st_mode)) {
+			if(S_ISDIR(entrymode)) {
+				/* case 12: existing dir, ignore it */
+				if(lsbuf.st_mode != entrymode) {
+					/* if filesystem perms are different than pkg perms, warn user */
+					int mask = 07777;
+					_alpm_log(PM_LOG_WARNING, _("directory permissions differ on %s\n"
+								"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
+							entrymode & mask);
+					alpm_logaction("warning: directory permissions differ on %s\n"
 							"filesystem: %o  package: %o\n", entryname, lsbuf.st_mode & mask,
-						entrymode & mask);
+							entrymode & mask);
+				}
+				_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
+						entryname);
+				archive_read_data_skip(archive);
+				return(0);
+			} else {
+				/* case 10/11: trying to overwrite dir with file/symlink, don't allow it */
+				_alpm_log(PM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
+						entryname);
+				archive_read_data_skip(archive);
+				return(1);
 			}
-			_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
-					entryname);
-			archive_read_data_skip(archive);
-			return(0);
-		} else if(S_ISDIR(lsbuf.st_mode) && S_ISLNK(entrymode)) {
-			/* case 11: existing dir, symlink in package, ignore it */
-			_alpm_log(PM_LOG_DEBUG, "extract: skipping symlink extraction of %s\n",
-					entryname);
-			archive_read_data_skip(archive);
-			return(0);
 		} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 9: existing symlink, dir in package */
 			if(S_ISDIR(sbuf.st_mode)) {
@@ -390,12 +392,6 @@ static int extract_single_file(struct archive *archive,
 				archive_read_data_skip(archive);
 				return(1);
 			}
-		} else if(S_ISDIR(lsbuf.st_mode) && S_ISREG(entrymode)) {
-			/* case 10: trying to overwrite dir tree with file, don't allow it */
-			_alpm_log(PM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
-					entryname);
-			archive_read_data_skip(archive);
-			return(1);
 		} else if(S_ISREG(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 6: trying to overwrite file with dir */
 			_alpm_log(PM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
