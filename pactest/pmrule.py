@@ -116,9 +116,12 @@ class pmrule:
                         if not f.ismodified():
                             success = 0
             elif case == "MODE":
-                mode = os.lstat(filename)[ST_MODE]
-                if int(value,8) != S_IMODE(mode):
+                if not os.path.isfile(filename):
                     success = 0
+                else:
+                    mode = os.lstat(filename)[ST_MODE]
+                    if int(value,8) != S_IMODE(mode):
+                        success = 0
             elif case == "TYPE":
                 if value == "dir":
                     if not os.path.isdir(filename):
