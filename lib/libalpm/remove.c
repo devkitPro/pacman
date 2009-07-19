@@ -228,25 +228,18 @@ static int can_remove_file(pmtrans_t *trans, const char *path)
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
+static void unlink_file(pmpkg_t *info, char *filename, pmtrans_t *trans)
 {
 	struct stat buf;
-	int needbackup = 0;
 	char file[PATH_MAX+1];
 
 	ALPM_LOG_FUNC;
 
-	char *hash = _alpm_needbackup(lp->data, alpm_pkg_get_backup(info));
-	if(hash) {
-		needbackup = 1;
-		FREE(hash);
-	}
-
-	snprintf(file, PATH_MAX, "%s%s", handle->root, (char *)lp->data);
+	snprintf(file, PATH_MAX, "%s%s", handle->root, filename);
 
 	if(trans->type == PM_TRANS_TYPE_REMOVEUPGRADE) {
 		/* check noupgrade */
-		if(alpm_list_find_str(handle->noupgrade, lp->data)) {
+		if(alpm_list_find_str(handle->noupgrade, filename)) {
 			_alpm_log(PM_LOG_DEBUG, "Skipping removal of '%s' due to NoUpgrade\n",
 					file);
 			return;
@@ -277,24 +270,34 @@ static void unlink_file(pmpkg_t *info, alpm_list_t *lp, pmtrans_t *trans)
 			_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_remove, skipping removal\n",
 					file);
 			return;
-		} else if(needbackup) {
-			/* if the file is flagged, back it up to .pacsave */
-			if(!(trans->flags & PM_TRANS_FLAG_NOSAVE)) {
-				char newpath[PATH_MAX];
-				snprintf(newpath, PATH_MAX, "%s.pacsave", file);
-				rename(file, newpath);
-				_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
-				alpm_logaction("warning: %s saved as %s\n", file, newpath);
-				return;
-			} else {
+		}
+
+		/* if the file needs backup and has been modified, back it up to .pacsave */
+		char *pkghash = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
+		if(pkghash) {
+			if(trans->flags & PM_TRANS_FLAG_NOSAVE) {
 				_alpm_log(PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
+			} else {
+				char *filehash = alpm_compute_md5sum(file);
+				int cmp = strcmp(filehash,pkghash);
+				FREE(filehash);
+				FREE(pkghash);
+				if(cmp != 0) {
+					char newpath[PATH_MAX];
+					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
+					rename(file, newpath);
+					_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
+					alpm_logaction("warning: %s saved as %s\n", file, newpath);
+					return;
+				}
 			}
 		}
+
 		_alpm_log(PM_LOG_DEBUG, "unlinking %s\n", file);
 
 		if(unlink(file) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
-								(char *)lp->data, strerror(errno));
+								filename, strerror(errno));
 		}
 	}
 }
@@ -359,7 +362,7 @@ int _alpm_remove_commit(pmtrans_t *trans, pmdb_t *db)
 			/* iterate through the list backwards, unlinking files */
 			newfiles = alpm_list_reverse(files);
 			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
-				unlink_file(info, lp, trans);
+				unlink_file(info, lp->data, trans);
 
 				/* update progress bar after each file */
 				percent = (double)position / (double)filenum;
