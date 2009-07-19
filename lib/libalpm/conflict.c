@@ -531,6 +531,19 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 				free(dir);
 			}
 
+			if(!resolved_conflict && dbpkg) {
+				char *rpath = calloc(PATH_MAX+1, sizeof(char));
+				if(!realpath(path, rpath)) {
+					free(rpath);
+					continue;
+				}
+				char *filestr = rpath + strlen(handle->root);
+				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg),filestr)) {
+					resolved_conflict = 1;
+				}
+				free(rpath);
+			}
+
 			if(!resolved_conflict) {
 				_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
 				conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
