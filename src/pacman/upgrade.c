@@ -69,7 +69,6 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	/* add targets to the created transaction */
-	printf(_("loading package data...\n"));
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(alpm_add_target(targ) == -1) {
@@ -129,6 +128,13 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	/* Step 3: perform the installation */
+
+	if(config->print) {
+		print_packages(alpm_trans_get_add());
+		trans_release();
+		return(0);
+	}
+
 	/* print targets and ask user confirmation */
 	alpm_list_t *packages = alpm_trans_get_add();
 	if(packages == NULL) { /* we are done */

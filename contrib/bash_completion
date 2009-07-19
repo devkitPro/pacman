@@ -167,7 +167,7 @@ _pacman ()
           groups) mod="${mod}g" ;;
           info) mod="${mod}i" ;;
           list) mod="${mod}l" ;;
-          print-uris) mod="${mod}p" ;;
+          print) mod="${mod}p" ;;
           search) mod="${mod}s" ;;
           sysupgrade) mod="${mod}u" ;;
           upgrades) mod="${mod}u" ;;
@@ -231,6 +231,8 @@ _pacman ()
           -v --verbose \
           -r --root \
           -b --dbpath \
+          -p --print \
+          --print-format \
           --cachedir \
           ' -- $cur ) )
         return 0
@@ -252,6 +254,8 @@ _pacman ()
           -v --verbose \
           -r --root \
           -b --dbpath \
+          -p --print \
+          --print-format \
           --cachedir \
           ' -- $cur ) )
         return 0
@@ -267,7 +271,6 @@ _pacman ()
           -h --help \
           -i --info \
           -l --list \
-          -p --print-uris \
           -s --search \
           -u --sysupgrade \
           -w --downloadonly \
@@ -283,6 +286,8 @@ _pacman ()
           -v --verbose \
           -r --root \
           -b --dbpath \
+          -p --print \
+          --print-format \
           --cachedir \
           ' -- $cur ) )
         return 0

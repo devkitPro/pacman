@@ -55,6 +55,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list);
 void display_targets(const alpm_list_t *pkgs, int install);
 void display_new_optdepends(pmpkg_t *oldpkg, pmpkg_t *newpkg);
 void display_optdepends(pmpkg_t *pkg);
+void print_packages(const alpm_list_t *packages);
 int yesno(char *fmt, ...);
 int noyes(char *fmt, ...);
 int pm_printf(pmloglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));

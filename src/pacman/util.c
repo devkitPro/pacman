@@ -47,8 +47,15 @@
 
 int trans_init(pmtransflag_t flags)
 {
-	if(alpm_trans_init(flags, cb_trans_evt,
-				cb_trans_conv, cb_trans_progress) == -1) {
+	int ret;
+	if(config->print) {
+		ret = alpm_trans_init(flags, NULL, NULL, NULL);
+	} else {
+		ret = alpm_trans_init(flags, cb_trans_evt, cb_trans_conv,
+				cb_trans_progress);
+	}
+
+	if(ret == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 				alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
@@ -72,13 +79,16 @@ int trans_release(void)
 
 int needs_root(void)
 {
-	if(config->op == PM_OP_UPGRADE || config->op == PM_OP_REMOVE || /* -U, -R */
-	   (config->op == PM_OP_SYNC && (config->op_s_clean || config->op_s_sync || /* -Sc, -Sy */
-	      (!config->group && !config->op_s_info && !config->op_q_list /* all other -S combinations, where */
-	        && !config->op_s_search && !config->op_s_printuris)))) {  /* -g, -i, -l, -s, -p is not set */
-		return(1);
-	} else {
-		return(0);
+	switch(config->op) {
+		case PM_OP_UPGRADE:
+		case PM_OP_REMOVE:
+			return(!config->print);
+		case PM_OP_SYNC:
+			return(config->op_s_clean || config->op_s_sync ||
+					(!config->group && !config->op_s_info && !config->op_q_list &&
+					 !config->op_s_search && !config->print));
+		default:
+			return(0);
 	}
 }
 
@@ -551,6 +561,98 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	}
 
 	FREELIST(targets);
+}
+
+off_t pkg_get_size(pmpkg_t *pkg)
+{
+	switch(config->op) {
+		case PM_OP_SYNC:
+			return(alpm_pkg_download_size(pkg));
+		case PM_OP_UPGRADE:
+			return(alpm_pkg_get_size(pkg));
+		default:
+			return(alpm_pkg_get_isize(pkg));
+	}
+}
+
+char *pkg_get_location(pmpkg_t *pkg)
+{
+	pmdb_t *db;
+	const char *dburl;
+	char *string;
+	switch(config->op) {
+		case PM_OP_SYNC:
+			db = alpm_pkg_get_db(pkg);
+			dburl = alpm_db_get_url(db);
+			if(dburl) {
+				char *pkgurl = NULL;
+				asprintf(&pkgurl, "%s/%s", dburl, alpm_pkg_get_filename(pkg));
+				return(pkgurl);
+			}
+		case PM_OP_UPGRADE:
+			return(strdup(alpm_pkg_get_filename(pkg)));
+		default:
+			string = NULL;
+			asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			return(string);
+	}
+}
+
+void print_packages(const alpm_list_t *packages)
+{
+	const alpm_list_t *i;
+	if(!config->print_format) {
+		config->print_format = strdup("%l");
+	}
+	for(i = packages; i; i = alpm_list_next(i)) {
+		pmpkg_t *pkg = alpm_list_getdata(i);
+		char *string = strdup(config->print_format);
+		char *temp = string;
+		/* %n : pkgname */
+		if(strstr(temp,"%n")) {
+			string = strreplace(temp, "%n", alpm_pkg_get_name(pkg));
+			free(temp);
+			temp = string;
+		}
+		/* %v : pkgver */
+		if(strstr(temp,"%v")) {
+			string = strreplace(temp, "%v", alpm_pkg_get_version(pkg));
+			free(temp);
+			temp = string;
+		}
+		/* %l : location */
+		if(strstr(temp,"%l")) {
+			char *pkgloc = pkg_get_location(pkg);
+			string = strreplace(temp, "%l", pkgloc);
+			free(pkgloc);
+			free(temp);
+			temp = string;
+		}
+		/* %r : repo */
+		if(strstr(temp,"%r")) {
+			const char *repo = "local";
+			pmdb_t *db = alpm_pkg_get_db(pkg);
+			if(db) {
+				repo = alpm_db_get_name(db);
+			}
+			string = strreplace(temp, "%r", repo);
+			free(temp);
+			temp = string;
+		}
+		/* %s : size */
+		if(strstr(temp,"%s")) {
+			char *size;
+			double mbsize = 0.0;
+			mbsize = pkg_get_size(pkg) / (1024.0 * 1024.0);
+			asprintf(&size, "%.2f", mbsize);
+			string = strreplace(temp, "%s", size);
+			free(size);
+			free(temp);
+			temp = string;
+		}
+		printf("%s\n",string);
+		free(string);
+	}
 }
 
 /* Helper function for comparing strings using the

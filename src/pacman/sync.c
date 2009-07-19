@@ -688,23 +688,8 @@ static int sync_trans(alpm_list_t *targets)
 	}
 
 	/* Step 3: actually perform the operation */
-	if(config->op_s_printuris) {
-		/* print uris */
-		alpm_list_t *i;
-		for(i = packages; i; i = alpm_list_next(i)) {
-			pmpkg_t *pkg = alpm_list_getdata(i);
-			pmdb_t *db = alpm_pkg_get_db(pkg);
-			const char *dburl = alpm_db_get_url(db);
-			if(dburl) {
-				printf("%s/%s\n", dburl, alpm_pkg_get_filename(pkg));
-			} else {
-				/* can't use WARNING here, we don't show warnings in -Sp... */
-				pm_fprintf(stderr, PM_LOG_ERROR, _("no URL for package: %s\n"),
-						alpm_pkg_get_name(pkg));
-			}
-
-		}
-		/* we are done */
+	if(config->print) {
+		print_packages(packages);
 		goto cleanup;
 	}
 
@@ -777,11 +762,6 @@ int pacman_sync(alpm_list_t *targets)
 {
 	alpm_list_t *sync_dbs = NULL;
 
-	/* Display only errors with -Sp and -Sw operations */
-	if((config->flags & PM_TRANS_FLAG_DOWNLOADONLY) || config->op_s_printuris) {
-		config->logmask &= ~PM_LOG_WARNING;
-	}
-
 	/* clean the cache */
 	if(config->op_s_clean) {
 		int ret = 0;
@@ -851,7 +831,7 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	alpm_list_t *targs = alpm_list_strdup(targets);
-	if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY) && !config->op_s_printuris) {
+	if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY) && !config->print) {
 		/* check for newer versions of packages to be upgraded first */
 		alpm_list_t *packages = syncfirst();
 		if(packages) {

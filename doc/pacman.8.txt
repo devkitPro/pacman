@@ -170,6 +170,17 @@ Options
 *\--arch* <'arch'>::
 	Specify an alternate architecture.
 
+*-p, \--print*::
+	Only print the targets instead of performing the actual operation (sync,
+	remove or upgrade).  Use '\--print-format' to specify how targets are
+	displayed.  The default format string is "%l", which displays url with '-S',
+	filename with '-U' and pkgname-pkgver with '-R'.
+
+*\--print-format* <'format'>::
+	Specify a printf-like format to control the output of the '\--print'
+	operation.  The possible are attributes are : %n for pkgname, %v for pkgver, %l
+	for location, %r for repo and %s for size.
+
 Query Options[[QO]]
 -------------------
 *-c, \--changelog*::
@@ -305,11 +316,6 @@ linkman:pacman.conf[5].
 *-l, \--list*::
 	List all packages in the specified repositories. Multiple repositories
 	can be specified on the command line.
-
-*-p, \--print-uris*::
-	Print out URIs for each package that will be installed, including any
-	dependencies yet to be installed. These can be piped to a file and
-	downloaded at a later time, using a program like wget.
 
 *-q, \--quiet*::
 	Show less information for certain sync operations. (This is useful when

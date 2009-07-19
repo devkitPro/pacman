@@ -121,6 +121,12 @@ int pacman_remove(alpm_list_t *targets)
 		printf(_(" there is nothing to do\n"));
 		goto cleanup; /* we are done */
 	}
+
+	if(config->print) {
+		print_packages(pkglist);
+		goto cleanup;
+	}
+
 	/* print targets and ask user confirmation */
 	display_targets(pkglist, 0);
 	printf("\n");

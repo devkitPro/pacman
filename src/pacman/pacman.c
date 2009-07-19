@@ -129,7 +129,6 @@ static void usage(int op, const char * const myname)
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
 			printf(_("  -l, --list <repo>    view a list of packages in a repo\n"));
-			printf(_("  -p, --print-uris     print out URIs for given packages and their dependencies\n"));
 			printf(_("  -s, --search <regex> search remote repositories for matching strings\n"));
 			printf(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
@@ -140,6 +139,9 @@ static void usage(int op, const char * const myname)
 			         "                       ignore a group upgrade (can be used more than once)\n"));
 			printf(_("  -q, --quiet          show less information for query and search\n"));
 		}
+		printf(_("      --print          only print the targets instead of performing the operation\n"));
+		printf(_("      --print-format <string>\n"
+		         "                       specify how the targets should be printed\n"));
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));
 		printf(_("      --noconfirm      do not ask for any confirmation\n"));
@@ -371,7 +373,7 @@ static int parseargs(int argc, char *argv[])
 		{"nosave",     no_argument,       0, 'n'},
 		{"owns",       no_argument,       0, 'o'},
 		{"file",       no_argument,       0, 'p'},
-		{"print-uris", no_argument,       0, 'p'},
+		{"print",      no_argument,       0, 'p'},
 		{"quiet",      no_argument,       0, 'q'},
 		{"root",       required_argument, 0, 'r'},
 		{"recursive",  no_argument,       0, 's'},
@@ -397,6 +399,7 @@ static int parseargs(int argc, char *argv[])
 		{"needed",     no_argument,       0, OP_NEEDED},
 		{"asexplicit",     no_argument,   0, OP_ASEXPLICIT},
 		{"arch",       required_argument, 0, OP_ARCH},
+		{"print-format", required_argument, 0, OP_PRINTFORMAT},
 		{0, 0, 0, 0}
 	};
 
@@ -485,6 +488,9 @@ static int parseargs(int argc, char *argv[])
 				check_optarg();
 				setarch(optarg);
 				break;
+			case OP_PRINTFORMAT:
+				config->print_format = strdup(optarg);
+				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
 			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
@@ -521,9 +527,7 @@ static int parseargs(int argc, char *argv[])
 			case 'o': config->op_q_owns = 1; break;
 			case 'p':
 				config->op_q_isfile = 1;
-				config->op_s_printuris = 1;
-				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
-				config->flags |= PM_TRANS_FLAG_NOLOCK;
+				config->print = 1;
 				break;
 			case 'q':
 				config->quiet = 1;
@@ -1124,6 +1128,15 @@ int main(int argc, char *argv[])
 	/* noask is meant to be non-interactive */
 	if(config->noask) {
 		config->noconfirm = 1;
+	}
+
+	/* set up the print operations */
+	if(config->print) {
+		config->noconfirm = 1;
+		config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
+		config->flags |= PM_TRANS_FLAG_NOLOCK;
+		/* Display only errors */
+		config->logmask &= ~PM_LOG_WARNING;
 	}
 
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)

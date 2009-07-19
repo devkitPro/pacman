@@ -31,6 +31,8 @@ typedef struct __config_t {
 	unsigned short noconfirm;
 	unsigned short noprogressbar;
 	unsigned short logmask;
+	unsigned short print;
+	char *print_format;
 	/* unfortunately, we have to keep track of paths both here and in the library
 	 * because they can come from both the command line or config file, and we
 	 * need to ensure we get the order of preference right. */
@@ -59,7 +61,6 @@ typedef struct __config_t {
 	unsigned short op_s_sync;
 	unsigned short op_s_search;
 	unsigned short op_s_upgrade;
-	unsigned short op_s_printuris;
 
 	unsigned short group;
 	pmtransflag_t flags;
@@ -103,7 +104,8 @@ enum {
 	OP_IGNOREGROUP,
 	OP_NEEDED,
 	OP_ASEXPLICIT,
-	OP_ARCH
+	OP_ARCH,
+	OP_PRINTFORMAT
 };
 
 /* clean method */
