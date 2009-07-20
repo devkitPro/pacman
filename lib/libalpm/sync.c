@@ -352,6 +352,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			/* Else, [resolved] now additionally contains [pkg] and all of its
 			   dependencies not already on the list */
 		}
+		alpm_list_free(preferred);
 
 		/* If there were unresolvable top-level packages, prompt the user to
 		   see if they'd like to ignore them rather than failing the sync */

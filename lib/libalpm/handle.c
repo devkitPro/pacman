@@ -287,6 +287,7 @@ int SYMEXPORT alpm_option_set_root(const char *root)
 
 	realroot = calloc(PATH_MAX+1, sizeof(char));
 	if(!realpath(root, realroot)) {
+		FREE(realroot);
 		pm_errno = PM_ERR_NOT_A_DIR;
 		return(-1);
 	}

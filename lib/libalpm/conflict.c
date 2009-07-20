@@ -534,7 +534,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 			if(!resolved_conflict && dbpkg) {
 				char *rpath = calloc(PATH_MAX+1, sizeof(char));
 				if(!realpath(path, rpath)) {
-					free(rpath);
+					FREE(rpath);
 					continue;
 				}
 				char *filestr = rpath + strlen(handle->root);
