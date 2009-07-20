@@ -482,9 +482,9 @@ static int extract_single_file(struct archive *archive,
 		_alpm_log(PM_LOG_DEBUG, "original: %s\n", hash_orig);
 
 		if(!oldpkg) {
-			/* looks like we have a local file that has a different hash as the
-			 * file in the package, move it to a .pacorig */
 			if(strcmp(hash_local, hash_pkg) != 0) {
+				/* looks like we have a local file that has a different hash as the
+				 * file in the package, move it to a .pacorig */
 				char newpath[PATH_MAX];
 				snprintf(newpath, PATH_MAX, "%s.pacorig", filename);
 
@@ -508,6 +508,9 @@ static int extract_single_file(struct archive *archive,
 						alpm_logaction("warning: %s saved as %s\n", filename, newpath);
 					}
 				}
+			} else {
+				/* local file is identical to pkg one, so just remove pkg one */
+				unlink(checkfile);
 			}
 		} else if(hash_orig) {
 			/* the fun part */
