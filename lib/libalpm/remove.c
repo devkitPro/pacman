@@ -277,6 +277,7 @@ static void unlink_file(pmpkg_t *info, char *filename, pmtrans_t *trans)
 		if(pkghash) {
 			if(trans->flags & PM_TRANS_FLAG_NOSAVE) {
 				_alpm_log(PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
+				FREE(pkghash);
 			} else {
 				char *filehash = alpm_compute_md5sum(file);
 				int cmp = strcmp(filehash,pkghash);
