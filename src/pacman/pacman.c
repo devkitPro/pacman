@@ -149,6 +149,7 @@ static void usage(int op, const char * const myname)
 		printf(_("  -r, --root <path>    set an alternate installation root\n"));
 		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
 		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
+		printf(_("      --arch <arch>    set an alternate architecture\n"));
 	}
 }
 
@@ -193,6 +194,19 @@ static void setuseragent(void)
 	snprintf(agent, 100, "pacman/%s (%s %s) libalpm/%s",
 			PACKAGE_VERSION, un.sysname, un.machine, alpm_version());
 	setenv("HTTP_USER_AGENT", agent, 0);
+}
+
+static void setarch(const char *arch)
+{
+	if (strcmp(arch, "auto") == 0) {
+		struct utsname un;
+		uname(&un);
+		pm_printf(PM_LOG_DEBUG, "config: architecture: %s\n", un.machine);
+		alpm_option_set_arch(un.machine);
+	} else {
+		pm_printf(PM_LOG_DEBUG, "config: architecture: %s\n", arch);
+		alpm_option_set_arch(arch);
+	}
 }
 
 /** Free the resources.
@@ -376,6 +390,7 @@ static int parseargs(int argc, char *argv[])
 		{"ignoregroup", required_argument, 0, 1010},
 		{"needed",     no_argument,       0, 1011},
 		{"asexplicit",     no_argument,   0, 1012},
+		{"arch",       required_argument, 0, 1013},
 		{0, 0, 0, 0}
 	};
 
@@ -449,6 +464,9 @@ static int parseargs(int argc, char *argv[])
 			case 1011: config->flags |= PM_TRANS_FLAG_NEEDED; break;
 			case 1012:
 				config->flags |= PM_TRANS_FLAG_ALLEXPLICIT;
+				break;
+			case 1013:
+				setarch(optarg);
 				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
 			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
@@ -827,6 +845,10 @@ static int _parseconfig(const char *file, const char *givensection,
 						setrepeatingoption(ptr, "HoldPkg", option_add_holdpkg);
 					} else if(strcmp(key, "SyncFirst") == 0) {
 						setrepeatingoption(ptr, "SyncFirst", option_add_syncfirst);
+					} else if(strcmp(key, "Architecture") == 0) {
+						if(!alpm_option_get_arch()) {
+							setarch(ptr);
+						}
 					} else if(strcmp(key, "DBPath") == 0) {
 						/* don't overwrite a path specified on the command line */
 						if(!config->dbpath) {

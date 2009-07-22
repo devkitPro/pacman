@@ -79,6 +79,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->cachedirs);
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
+	FREE(handle->arch);
 	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
@@ -211,6 +212,15 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
 		return NULL;
 	}
 	return handle->ignoregrp;
+}
+
+const char SYMEXPORT *alpm_option_get_arch()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return NULL;
+	}
+	return handle->arch;
 }
 
 pmdb_t SYMEXPORT *alpm_option_get_localdb()
@@ -518,6 +528,12 @@ int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
 		return(1);
 	}
 	return(0);
+}
+
+void SYMEXPORT alpm_option_set_arch(const char *arch)
+{
+	if(handle->arch) FREE(handle->arch);
+	if(arch) handle->arch = strdup(arch);
 }
 
 void SYMEXPORT alpm_option_set_usedelta(unsigned short usedelta)

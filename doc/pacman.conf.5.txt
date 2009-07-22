@@ -97,6 +97,14 @@ Options
 	Include another config file. This file can include repositories or
 	general configuration  options.
 
+*Architecture =* auto | i686 | x86_64 | ...::
+	If set, pacman will only allow installation of packages of the given
+	architecture (e.g. 'i686', 'x86_64', etc). The special value 'auto' will
+	use the system architecture, provided by in ``uname -m''.  If unset, no
+	architecture checks are made. *NOTE*: packages with the special
+	architecture 'any' can always be installed, as they are meant to be
+	architecture independent.
+
 *XferCommand =* /path/to/command %u::
 	If set, an external program will be used to download all remote files.
 	All instances of `%u` will be replaced with the download URL. If present,
