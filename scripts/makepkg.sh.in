@@ -890,6 +890,7 @@ write_pkginfo() {
 	fi
 	echo "# $(LC_ALL=C date -u)" >>.PKGINFO
 	echo "pkgname = $1" >>.PKGINFO
+	[ "$SPLITPKG" -eq 1 ] && echo "pkgbase = $pkgbase" >>.PKGINFO
 	echo "pkgver = $pkgver-$pkgrel" >>.PKGINFO
 	echo "pkgdesc = $pkgdesc" >>.PKGINFO
 	echo "url = $url" >>.PKGINFO

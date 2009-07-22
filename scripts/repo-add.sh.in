@@ -242,6 +242,7 @@ db_write_entry()
 	msg2 "$(gettext "Creating 'desc' db entry...")"
 	echo -e "%FILENAME%\n$(basename "$1")\n" >>desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
+	[ -n "$pkgbase" ] && echo -e "%BASE%\n$pkgbase\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
 	[ -n "$pkgdesc" ] && echo -e "%DESC%\n$pkgdesc\n" >>desc
 	write_list_entry "GROUPS" "$_groups" "desc"
