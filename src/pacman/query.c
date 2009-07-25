@@ -75,7 +75,7 @@ static int query_fileowner(alpm_list_t *targets)
 		struct stat buf;
 		alpm_list_t *i, *j;
 
-		if(stat(filename, &buf) == -1) {
+		if(lstat(filename, &buf) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, _("failed to read file '%s': %s\n"),
 					filename, strerror(errno));
 			ret++;
