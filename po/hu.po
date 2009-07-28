@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-01-02 22:24-0600\n"
+"POT-Creation-Date: 2009-07-27 21:14-0500\n"
 "PO-Revision-Date: 2008-07-30 08:36+0200\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -73,18 +73,8 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Csomagok letöltése a(z) %s repóból...\n"
 
 #, c-format
-msgid ""
-":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-":: %s igényli %s telepítését az IgnorePkg/IgnoreGroup-ból. Mégis telepíti?"
-
-#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ":: %s az IgnorePkg/IgnoreGroup része. Mégis telepíti?"
-
-#, c-format
-msgid ":: %s is designated as a HoldPkg. Remove anyway?"
-msgstr ":: %s HoldPkgnak lett jelölve. Biztosan eltávolítja?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
@@ -93,6 +83,12 @@ msgstr ":: Lecseréli %s-t erre: %s/%s?"
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s ütközik a következővel: %s. Eltávolítja a %s-t?"
+
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Do you want to skip the above package(s) for this upgrade?"
+msgstr "Törölni kívánja az ÖSSZES csomagot a gyorsítótárból?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -270,12 +266,12 @@ msgstr "nem áll rendelkezésre változási napló a(z) '%s' csomaghoz.\n"
 msgid "options"
 msgstr "opciók"
 
-#, c-format
-msgid "file"
+#, fuzzy, c-format
+msgid "file(s)"
 msgstr "fájl"
 
-#, c-format
-msgid "package"
+#, fuzzy, c-format
+msgid "package(s)"
 msgstr "csomag"
 
 #, c-format
@@ -353,13 +349,14 @@ msgstr ""
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      egy csomag változási naplójának megtekintése\n"
 
-#, c-format
-msgid "  -d, --deps           list all packages installed as dependencies\n"
+#, fuzzy, c-format
+msgid ""
+"  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
 "  -d, --deps           az összes függőségként telepített csomag listázása\n"
 
-#, c-format
-msgid "  -e, --explicit       list all packages explicitly installed\n"
+#, fuzzy, c-format
+msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr "  -e, --explicit       az összes kézzel telepített csomag listázása\n"
 
 #, c-format
@@ -374,12 +371,19 @@ msgstr ""
 "is)\n"
 
 #, c-format
+msgid ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
+msgstr ""
+
+#, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           a lekérdezett csomag tartalmának listázása\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -m, --foreign        list installed packages not found in sync db(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
 msgstr ""
 "  -m, --foreign        a távoli repókban nem talált telepített csomagok "
 "listája\n"
@@ -400,14 +404,15 @@ msgid ""
 "strings\n"
 msgstr "  -s, --search <regex> keresés a telepített csomagok között\n"
 
-#, c-format
-msgid "  -t, --unrequired     list all packages not required by any package\n"
+#, fuzzy, c-format
+msgid ""
+"  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
 "  -t, --unrequired     azon csomagok listázása, melyeket nem igényel más "
 "csomag\n"
 
-#, c-format
-msgid "  -u, --upgrades       list all packages that can be upgraded\n"
+#, fuzzy, c-format
+msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       az összes frissíthető csomag listázása\n"
 
 #, c-format
@@ -444,8 +449,10 @@ msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> keresés a távoli csomagadatbázisokban\n"
 
-#, c-format
-msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
+"downgrade)\n"
 msgstr "  -u, --sysupgrade     az összes elavult csomag frissítése\n"
 
 #, c-format
@@ -504,6 +511,10 @@ msgstr "      --noscriptlet    ne futtassa az install szkripteket\n"
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        legyen bőbeszédű\n"
+
+#, fuzzy, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --needed         ne telepítse újra a naprakész csomagokat\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -631,12 +642,12 @@ msgid "group \"%s\" was not found\n"
 msgstr "a(z) \"%s\" csoport nem található\n"
 
 #, c-format
-msgid "Checking for package upgrades... \n"
-msgstr "Frissítések keresése... \n"
+msgid "root path too long\n"
+msgstr ""
 
 #, c-format
-msgid "no upgrades found.\n"
-msgstr "nem találtam frissítést.\n"
+msgid "file path too long\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -677,6 +688,14 @@ msgstr "nem sikerült előkészíteni a tranzakciót (%s)\n"
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: igényli a következőt: %s\n"
+
+#, fuzzy, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr ":: %s HoldPkgnak lett jelölve. Biztosan eltávolítja?"
+
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr ""
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -722,8 +741,8 @@ msgstr "Törölni kívánja az eltávolított csomagokat a gyorsítótárból?"
 msgid "Do you want to remove outdated packages from cache?"
 msgstr "Törölni kívánja az elavult csomagokat a gyorsítótárból?"
 
-#, c-format
-msgid "removing old packages from cache... "
+#, fuzzy, c-format
+msgid "removing old packages from cache...\n"
 msgstr "a régi csomagok törlése a gyorsítótárból... "
 
 #, c-format
@@ -731,15 +750,15 @@ msgid "could not access cache directory\n"
 msgstr "nem sikerült elérni a gyorsítótár könyvtárát\n"
 
 #, c-format
-msgid "done.\n"
-msgstr "kész.\n"
+msgid "File %s does not seem to be a valid package, remove it?"
+msgstr ""
 
-#, c-format
-msgid "Do you want to remove ALL packages from cache?"
+#, fuzzy, c-format
+msgid "Do you want to remove ALL files from cache?"
 msgstr "Törölni kívánja az ÖSSZES csomagot a gyorsítótárból?"
 
-#, c-format
-msgid "removing all packages from cache... "
+#, fuzzy, c-format
+msgid "removing all files from cache...\n"
 msgstr "az összes csomag törlése a gyorsítótárból... "
 
 #, c-format
@@ -783,6 +802,10 @@ msgid ":: Starting full system upgrade...\n"
 msgstr ":: Teljes rendszerfrissítés indítása...\n"
 
 #, c-format
+msgid "skipping target: %s\n"
+msgstr ""
+
+#, c-format
 msgid "%s package not found, searching for group...\n"
 msgstr "%s csomag nem található, csoportot keresek...\n"
 
@@ -809,6 +832,10 @@ msgstr ":: %s: ütközik a következővel: %s\n"
 #, c-format
 msgid " local database is up to date\n"
 msgstr " a helyi adatbázis naprakész\n"
+
+#, c-format
+msgid "no database for package: %s\n"
+msgstr ""
 
 #, c-format
 msgid "Proceed with download?"
@@ -901,6 +928,10 @@ msgstr "Eltávolítás (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Teljes eltávolított méret:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "New optional dependencies for %s\n"
+msgstr "A(z) %s csomag opcionális függőségei:\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -1014,16 +1045,13 @@ msgstr ""
 msgid "Generating checksums for source files..."
 msgstr ""
 
-msgid "Invalid integrity algorithm '%s' specified."
-msgstr ""
-
 msgid "Cannot find openssl."
 msgstr ""
 
-msgid "Unable to find source file %s to generate checksum."
+msgid "Invalid integrity algorithm '%s' specified."
 msgstr ""
 
-msgid "Invalid integrity algorithm '%s' specified"
+msgid "Unable to find source file %s to generate checksum."
 msgstr ""
 
 msgid "Validating source files with %s..."
@@ -1041,7 +1069,10 @@ msgstr ""
 msgid "One or more files did not pass the validity check!"
 msgstr ""
 
-msgid "Integrity checks (%s) are missing or incomplete."
+msgid "Integrity checks (%s) differ in size from the source array."
+msgstr ""
+
+msgid "Integrity checks are missing."
 msgstr ""
 
 msgid "Extracting Sources..."
@@ -1059,13 +1090,24 @@ msgstr ""
 msgid "Build Failed."
 msgstr ""
 
+#, fuzzy
+msgid "Starting %s()..."
+msgstr "%s telepítése...\n"
+
+msgid "Packaging Failed."
+msgstr ""
+
 msgid "Tidying install..."
 msgstr ""
 
-msgid "Removing info/doc files..."
+#, fuzzy
+msgid "Removing doc files..."
+msgstr "%s eltávolítása...\n"
+
+msgid "Purging other files..."
 msgstr ""
 
-msgid "Compressing man pages..."
+msgid "Compressing man and info pages..."
 msgstr ""
 
 msgid "Stripping debugging symbols from binaries and libraries..."
@@ -1077,12 +1119,6 @@ msgstr ""
 msgid "Removing empty directories..."
 msgstr ""
 
-msgid "Missing pkg/ directory."
-msgstr ""
-
-msgid "Creating package..."
-msgstr ""
-
 msgid "Generating .PKGINFO file..."
 msgstr ""
 
@@ -1090,6 +1126,12 @@ msgid "Please add a license line to your %s!"
 msgstr ""
 
 msgid "Example for GPL'ed software: license=('GPL')."
+msgstr ""
+
+msgid "Missing pkg/ directory."
+msgstr ""
+
+msgid "Creating package..."
 msgstr ""
 
 msgid "Adding install script..."
@@ -1101,28 +1143,11 @@ msgstr ""
 msgid "Compressing package..."
 msgstr ""
 
+#, fuzzy
+msgid "'%s' is not a valid archive extension."
+msgstr "a(z) '%s' nem érvényes hibakeresési szint\n"
+
 msgid "Failed to create package file."
-msgstr ""
-
-msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr ""
-
-msgid "Making delta from version %s..."
-msgstr ""
-
-msgid "Recreating package tarball from delta to match md5 signatures"
-msgstr ""
-
-msgid "NOTE: the delta should ONLY be distributed with this tarball"
-msgstr ""
-
-msgid "Could not generate the package from the delta."
-msgstr ""
-
-msgid "Delta was not able to be created."
-msgstr ""
-
-msgid "No previous version found, skipping xdelta."
 msgstr ""
 
 msgid "Creating source package..."
@@ -1138,6 +1163,39 @@ msgid "Compressing source package..."
 msgstr ""
 
 msgid "Failed to create source package file."
+msgstr ""
+
+msgid "Failed to install built package(s)."
+msgstr ""
+
+msgid "%s is not allowed to be empty."
+msgstr ""
+
+msgid "%s is not allowed to start with a hyphen."
+msgstr ""
+
+msgid "%s is not allowed to contain hyphens."
+msgstr ""
+
+msgid "%s is not available for the '%s' architecture."
+msgstr ""
+
+msgid "Note that many packages may need a line added to their %s"
+msgstr ""
+
+msgid "such as arch=('%s')."
+msgstr ""
+
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
+msgid "Install scriptlet (%s) does not exist."
+msgstr ""
+
+msgid "options array contains unknown option '%s'"
+msgstr ""
+
+msgid "missing package function for split package '%s'"
 msgstr ""
 
 msgid "Determining latest darcs revision..."
@@ -1185,6 +1243,10 @@ msgstr ""
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr "      --config <útv.>  alternatív konfigurációs fájl beállítása\n"
+
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr ""
 
@@ -1219,7 +1281,7 @@ msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 
-msgid "  -R, --repackage  Repackage contents of pkg/ without building"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
@@ -1258,9 +1320,10 @@ msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr ""
 
 msgid ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 
 msgid "%s not found."
@@ -1284,13 +1347,10 @@ msgstr ""
 msgid "No files have been removed."
 msgstr ""
 
-msgid "Source destination must be defined in makepkg.conf."
+msgid "Source destination must be defined in %s."
 msgstr ""
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr ""
-
-msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
 msgstr ""
 
 msgid "Running makepkg as root is a BAD idea and can cause"
@@ -1320,7 +1380,7 @@ msgstr ""
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr ""
 
-msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+msgid "placing 'fakeroot' in the BUILDENV array in %s."
 msgstr ""
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
@@ -1338,28 +1398,7 @@ msgstr ""
 msgid "%s does not exist."
 msgstr ""
 
-msgid "%s is not allowed to be empty."
-msgstr ""
-
-msgid "%s is not allowed to contain hyphens."
-msgstr ""
-
-msgid "%s is not available for the '%s' architecture."
-msgstr ""
-
-msgid "Note that many packages may need a line added to their %s"
-msgstr ""
-
-msgid "such as arch=('%s')."
-msgstr ""
-
-msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr ""
-
-msgid "Install scriptlet (%s) does not exist."
-msgstr ""
-
-msgid "options array contains unknown option '%s'"
+msgid "%s contains CRLF characters and cannot be sourced."
 msgstr ""
 
 msgid "A package has already been built, installing existing package..."
@@ -1368,16 +1407,20 @@ msgstr ""
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr ""
 
-msgid "Skipping build."
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr ""
+
+msgid "The package group has already been built. (use -f to overwrite)"
+msgstr ""
+
+msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 
 msgid "Leaving fakeroot environment."
 msgstr ""
 
 msgid "Making package: %s"
-msgstr ""
-
-msgid "Running makepkg as root..."
 msgstr ""
 
 msgid "Source package created: %s"
@@ -1487,10 +1530,10 @@ msgstr ""
 msgid "Finished. Your pacman database has been optimized."
 msgstr ""
 
-msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
+msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
+msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
 
 msgid ""
@@ -1505,8 +1548,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The -q/--quiet flag to either program will force silent running except\\nin "
-"the case of warnings or errors.\\n\\n"
+"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+"\\nand errors\\n\\n"
 msgstr ""
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1522,6 +1565,15 @@ msgid ""
 "permitted by law.\\n"
 msgstr ""
 
+msgid "Creating 'deltas' db entry..."
+msgstr ""
+
+msgid "An entry for '%s' already existed"
+msgstr ""
+
+msgid "Removing existing entry '%s'..."
+msgstr ""
+
 msgid "Invalid package file '%s'."
 msgstr ""
 
@@ -1534,34 +1586,11 @@ msgstr ""
 msgid "Creating 'depends' db entry..."
 msgstr ""
 
-msgid "Creating 'deltas' db entry..."
-msgstr ""
+#, fuzzy
+msgid "Failed to acquire lockfile: %s."
+msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
 
-msgid "Added delta '%s'"
-msgstr ""
-
-msgid "Could not add delta '%s'"
-msgstr ""
-
-msgid "Removing existing package '%s'..."
-msgstr ""
-
-msgid "Either realpath or readlink are required by repo-add."
-msgstr ""
-
-msgid "%s not found. Cannot continue."
-msgstr ""
-
-msgid "Cannot create temp directory for database building."
-msgstr ""
-
-msgid "Invalid command name '%s' specified."
-msgstr ""
-
-msgid "the -f and --force options are no longer recognized"
-msgstr ""
-
-msgid "use options=(force) in the PKGBUILD instead"
+msgid "Held by %s"
 msgstr ""
 
 msgid "Repository file '%s' is not a proper pacman database."
@@ -1573,14 +1602,33 @@ msgstr ""
 msgid "Repository file '%s' was not found."
 msgstr ""
 
+#, fuzzy
+msgid "Repository file '%s' could not be created."
+msgstr "a %s konfigurációs fájl nem olvasható.\n"
+
+#, fuzzy
+msgid "File '%s' not found."
+msgstr "a(z) '%s' csomag nem található\n"
+
+msgid "Adding delta '%s'"
+msgstr ""
+
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr ""
+
 msgid "'%s' is not a package file, skipping"
 msgstr ""
 
 msgid "Adding package '%s'"
 msgstr ""
 
-msgid "Package '%s' not found."
-msgstr ""
+#, fuzzy
+msgid "Searching for delta '%s'..."
+msgstr "delták alkalmazása...\n"
+
+#, fuzzy
+msgid "Delta matching '%s' not found."
+msgstr "a(z) '%s' csomag nem található\n"
 
 msgid "Searching for package '%s'..."
 msgstr ""
@@ -1588,10 +1636,22 @@ msgstr ""
 msgid "Package matching '%s' not found."
 msgstr ""
 
+msgid "Invalid command name '%s' specified."
+msgstr ""
+
+msgid "Cannot create temp directory for database building."
+msgstr ""
+
+msgid "the -f and --force options are no longer recognized"
+msgstr ""
+
+msgid "use options=(force) in the PKGBUILD instead"
+msgstr ""
+
 msgid "Creating updated database file '%s'"
 msgstr ""
 
-msgid "No compression set."
+msgid "'%s' does not have a valid archive extension."
 msgstr ""
 
 msgid "All packages have been removed from the database. Deleting '%s'."
@@ -1599,3 +1659,17 @@ msgstr ""
 
 msgid "No packages modified, nothing to do."
 msgstr ""
+
+#~ msgid ""
+#~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
+#~ msgstr ""
+#~ ":: %s igényli %s telepítését az IgnorePkg/IgnoreGroup-ból. Mégis telepíti?"
+
+#~ msgid "Checking for package upgrades... \n"
+#~ msgstr "Frissítések keresése... \n"
+
+#~ msgid "no upgrades found.\n"
+#~ msgstr "nem találtam frissítést.\n"
+
+#~ msgid "done.\n"
+#~ msgstr "kész.\n"

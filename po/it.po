@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-20 11:57-0700\n"
+"POT-Creation-Date: 2009-07-27 21:14-0500\n"
 "PO-Revision-Date: 2009-01-03 13:30+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
@@ -383,6 +383,12 @@ msgstr ""
 "backup)\n"
 
 #, c-format
+msgid ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
+msgstr ""
+
+#, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           elenca i file contenuti nel pacchetto\n"
 
@@ -457,8 +463,10 @@ msgstr ""
 "  -s, --search <regex> cerca le stringhe corrispondenti nei repository "
 "remoti\n"
 
-#, c-format
-msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
+"downgrade)\n"
 msgstr ""
 "  -u, --sysupgrade     aggiorna tutti i pacchetti installati nel sistema\n"
 
@@ -655,6 +663,14 @@ msgstr "Nessun pacchetto contiene %s\n"
 #, c-format
 msgid "group \"%s\" was not found\n"
 msgstr "il gruppo \"%s\" non è stato trovato\n"
+
+#, c-format
+msgid "root path too long\n"
+msgstr ""
+
+#, c-format
+msgid "file path too long\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -1178,6 +1194,10 @@ msgstr "Impossibile installare il pacchetto creato."
 
 msgid "%s is not allowed to be empty."
 msgstr "%s non può essere vuoto."
+
+#, fuzzy
+msgid "%s is not allowed to start with a hyphen."
+msgstr "%s non può contenere dei trattini."
 
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s non può contenere dei trattini."

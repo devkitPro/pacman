@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.1.4-1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2009-03-23 17:59+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish Arch Linux Users <tr@archlinuxtr.org>\n"
@@ -48,12 +48,12 @@ msgstr ""
 "dosya sistemi: %o paket: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "aç: %s sembolik bağı dizine yöneltilmemiş\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "aç: dizin %s dosyası ile baştan yazılmıyor\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "aç: %s sembolik bağı dizine yöneltilmemiş\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -99,8 +99,8 @@ msgstr "%s-%s veritabanı kaydı güncellenemedi\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "'%s' kaydı tampona eklenemedi\n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "%s%s veritabanı kaydı kaldırılamıyor\n"
 
 #, c-format
@@ -122,6 +122,10 @@ msgstr "%s veritabanı tutarsız: %s paketinde isim uyuşmazlığı\n"
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s veritabanı tutarsız: %s paketinde sürüm uyuşmazlığı\n"
+
+#, fuzzy, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "%s dizinine geçilemedi (%s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -163,6 +167,10 @@ msgstr "%s paketi %s bağımlılığından sonra kaldırılacak\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s paketi %s bağımlılığından önce kurulacak\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "sağlayan paket seçildi ( %s %s'i sağlıyor)\n"
@@ -196,20 +204,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "'%s' dosyasına yazılamıyor\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "'%s' indirilirken hata oluştu: %s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "'%s' dosyasına yazılamıyor: %s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "%s dizinine geçilemiyor\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -284,6 +284,10 @@ msgid "invalid url for server"
 msgstr "hatalı sunucu adresi"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "işlem zaten başlatılmış"
 
@@ -308,16 +312,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "operasyon, işlem tipiyle uyumlu değil"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "işlem teslim edilemiyor"
-
-#, c-format
-msgid "could not download all files"
-msgstr "tüm dosyalar indirilemedi"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "paket bulunamadı veya okunamadı"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -326,14 +330,6 @@ msgstr "geçersiz veya bozuk paket"
 #, c-format
 msgid "cannot open package file"
 msgstr "paket dosyası açılamıyor"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "paket verisi yüklenemiyor"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "paket kurulamadı ya da önceki sürümü kurulu"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -356,10 +352,6 @@ msgid "delta patch failed"
 msgstr "fark yaması başarısız oldu"
 
 #, c-format
-msgid "group not found"
-msgstr "grup bulunamadı"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "bağımlılıklar sağlanamadı"
 
@@ -371,17 +363,9 @@ msgstr "çelişen bağımlılıklar"
 msgid "conflicting files"
 msgstr "çelişen dosyalar"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "işlem kullanıcı tarafından durduruldu"
-
-#, c-format
-msgid "internal error"
-msgstr "dahili hata"
-
-#, c-format
-msgid "not confirmed"
-msgstr "onaylanmadı"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "%s deposundan bazı dosyalar alınamadı\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -420,16 +404,29 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "'%s' kaydı tampondan silinemedi\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: paket güncellemesi göz ardı ediliyor (%s-%s ile değiştirilecek)\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: yerel depodaki paket (%s) %s deposundaki paketten (%s) daha güncel\n"
+msgstr ""
+"%s: yerel depodaki paket (%s) %s deposundaki paketten (%s) daha güncel\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "'%s' dosyası silinemiyor: %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -456,10 +453,6 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' hedef listesindeki '%s' ile çakıştığı için kaldırıldı\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "komut: %s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "%s deposundan bazı dosyalar alınamadı\n"
 
@@ -468,8 +461,16 @@ msgid "could not create removal transaction\n"
 msgstr "kaldırma işlemi oluşturulamıyor\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "işlem oluşturulamadı\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "kaldırma işlemi başlatılamadı\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "işlem başlatılamadı\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -480,18 +481,6 @@ msgid "could not commit removal transaction\n"
 msgstr "kaldırma işlemi teslim edilemedi\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "işlem oluşturulamadı\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "işlem başlatılamadı\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "işlem hazırlanamadı\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "işlem teslim edilemedi\n"
 
@@ -500,16 +489,20 @@ msgid "could not remove lock file %s\n"
 msgstr "kilit dosyası %s silinemedi\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "Bir üst ortamda /bin/sh bulunamadı, betik iptal ediliyor\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "geçici dizin oluşturulamadı\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "geçici dosya %s üzerine kopyalanamadı (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "geçici dizin %s kaldırılamadı\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "%s açılamadı: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -535,17 +528,9 @@ msgstr "popen çağrısı başarısız (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid çağrısı başarısız (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "betik düzgün çalıştırılamadı\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "geçici dizin %s kaldırılamadı\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "%s açılamadı: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -555,3 +540,48 @@ msgstr "%s önbelleği bulunmuyor, oluşturuluyor...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "paket önbelleği oluşturulamadı, /tmp kullanılacak\n"
 
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "'%s' indirilirken hata oluştu: %s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "%s dizinine geçilemiyor\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "işlem teslim edilemiyor"
+
+#~ msgid "could not download all files"
+#~ msgstr "tüm dosyalar indirilemedi"
+
+#~ msgid "cannot load package data"
+#~ msgstr "paket verisi yüklenemiyor"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "paket kurulamadı ya da önceki sürümü kurulu"
+
+#~ msgid "group not found"
+#~ msgstr "grup bulunamadı"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "işlem kullanıcı tarafından durduruldu"
+
+#~ msgid "internal error"
+#~ msgstr "dahili hata"
+
+#~ msgid "not confirmed"
+#~ msgstr "onaylanmadı"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr ""
+#~ "%s-%s: paket güncellemesi göz ardı ediliyor (%s-%s ile değiştirilecek)\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "komut: %s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "işlem hazırlanamadı\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "Bir üst ortamda /bin/sh bulunamadı, betik iptal ediliyor\n"

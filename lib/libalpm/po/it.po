@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-20 12:46-0700\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2008-08-23 19:30+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
@@ -53,12 +53,12 @@ msgstr ""
 "filesystem: %o pacchetto: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "estrazione: il link simbolico %s non punta alla directory\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "estrazione: non posso sovrascrivere la directory con il file %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "estrazione: il link simbolico %s non punta alla directory\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -218,14 +218,6 @@ msgstr "si è verificato un errore durante la scrittura nel file '%s': %s\n"
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s sembra essere incompleto: %jd/%jd byte\n"
-
-#, c-format
-msgid "could not chdir to %s\n"
-msgstr "impossibile spostarsi nella directory %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "avvio di XferCommand: processo non riuscito!\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -423,6 +415,14 @@ msgstr "impossibile rimuovere la voce '%s' dalla cache\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: l'aggiornamento del pacchetto è stato ignorato (%s => %s)\n"
 
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: l'aggiornamento del pacchetto è stato ignorato (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
+
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: la versione installata (%s) è più recente di quella in %s (%s)\n"
@@ -550,3 +550,9 @@ msgstr "la cache di %s non esiste, creazione in corso...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 "impossibile creare la cache del pacchetto, al suo posto sarà usata /tmp\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "impossibile spostarsi nella directory %s\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "avvio di XferCommand: processo non riuscito!\n"

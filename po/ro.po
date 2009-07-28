@@ -1,5 +1,5 @@
 # pacman Romanian translation
-#Copyright (C) 2009 Judd Vinet <jvinet@zeroflux.org>
+# Copyright (C) 2009 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Volodia Macovei <blog@volodia.ro>, 2009.
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-01-02 22:24-0600\n"
+"POT-Creation-Date: 2009-07-27 21:14-0500\n"
 "PO-Revision-Date: 2009-06-26 19:46+0300\n"
 "Last-Translator: volodia macovei <blog@volodia.ro>\n"
 "Language-Team: Romanian SbLUG for Arch <blog@volodia.ro>\n"
@@ -73,18 +73,8 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Se preiau pachetele de la %s...\n"
 
 #, c-format
-msgid ""
-":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-":: %s necesită instalarea %s care este în IgnorePkg/IgnoreGroup. Se instalează totuşi?"
-
-#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ":: %s este în IgnorePkg/IgnoreGroup. Se instalează totuşi?"
-
-#, c-format
-msgid ":: %s is designated as a HoldPkg. Remove anyway?"
-msgstr ":: %s este desemnat ca HoldPkg. Se elimină totuşi?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
@@ -93,6 +83,12 @@ msgstr ":: Se înlocuieşte %s cu %s/%s?"
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s e în conflict cu %s. Se elimină %s?"
+
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Do you want to skip the above package(s) for this upgrade?"
+msgstr "Vreţi să eliminaţi TOATE pachetele din cache?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -270,12 +266,12 @@ msgstr "niciun changelog disponibil pentru '%s'.\n"
 msgid "options"
 msgstr "opţiuni"
 
-#, c-format
-msgid "file"
+#, fuzzy, c-format
+msgid "file(s)"
 msgstr "fişier"
 
-#, c-format
-msgid "package"
+#, fuzzy, c-format
+msgid "package(s)"
 msgstr "pachet"
 
 #, c-format
@@ -302,7 +298,8 @@ msgstr ""
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        elimină pachete precum şi toate pachetele care depind de ele\n"
+"  -c, --cascade        elimină pachete precum şi toate pachetele care depind "
+"de ele\n"
 
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
@@ -312,7 +309,8 @@ msgstr "  -d, --nodeps         treci peste verificarea dependenţelor\n"
 msgid ""
 "  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr ""
-"  -k, --dbonly         elimină doar intrarea în baza de date, nu elimină fişierele\n"
+"  -k, --dbonly         elimină doar intrarea în baza de date, nu elimină "
+"fişierele\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
@@ -323,14 +321,17 @@ msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
 "                       (-ss includes explicitly installed dependencies too)\n"
 msgstr ""
-"  -s, --recursive      elimină, de asemenea, dependenţele (asta nu va rupe pachetele)\n"
-"                       (-ss include şi dependenţele instalate în mod explicit)\n"
+"  -s, --recursive      elimină, de asemenea, dependenţele (asta nu va rupe "
+"pachetele)\n"
+"                       (-ss include şi dependenţele instalate în mod "
+"explicit)\n"
 
 #, c-format
 msgid ""
 "  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
 msgstr ""
-"  -u, --unneeded       elimina pachetele de care nu este nevoie (asta nu va rupe pachetele)\n"
+"  -u, --unneeded       elimina pachetele de care nu este nevoie (asta nu va "
+"rupe pachetele)\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -338,23 +339,28 @@ msgstr "      --asdeps         instalează pachete ca instalare ne-explicită\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     instalează pachete ca instalare în mod explicit\n"
+msgstr ""
+"      --asexplicit     instalează pachete ca instalare în mod explicit\n"
 
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          instalare forţată, suprascrie fişierele aflate în conflict\n"
+msgstr ""
+"  -f, --force          instalare forţată, suprascrie fişierele aflate în "
+"conflict\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      vezi changelog-ul pachetului\n"
 
-#, c-format
-msgid "  -d, --deps           list all packages installed as dependencies\n"
+#, fuzzy, c-format
+msgid ""
+"  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr "  -d, --deps           listează toate pachetele ca dependenţe\n"
 
-#, c-format
-msgid "  -e, --explicit       list all packages explicitly installed\n"
-msgstr "  -e, --explicit       listează toate pachetele instalate în mod explicit\n"
+#, fuzzy, c-format
+msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
+msgstr ""
+"  -e, --explicit       listează toate pachetele instalate în mod explicit\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
@@ -364,17 +370,26 @@ msgstr "  -g, --groups         vezi toţi membrii grupului unui pachet\n"
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
-"  -i, --info           vezi informaţiile despre pachet (-ii pentru fişierele  backup)\n"
+"  -i, --info           vezi informaţiile despre pachet (-ii pentru "
+"fişierele  backup)\n"
+
+#, c-format
+msgid ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
+msgstr ""
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           listează conţinuturile pachetelor interogate\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -m, --foreign        list installed packages not found in sync db(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
 msgstr ""
-"  -m, --foreign        listează pachetele instalate negăsite în baza(bazele) de date sync\n"
+"  -m, --foreign        listează pachetele instalate negăsite în baza(bazele) "
+"de date sync\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -382,7 +397,8 @@ msgstr "  -o, --owns <file>    interoghează pachetul care deţine <file>\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr "  -p, --file <package> interoghează un fişier pachet în locul bazei de date\n"
+msgstr ""
+"  -p, --file <package> interoghează un fişier pachet în locul bazei de date\n"
 
 #, c-format
 msgid ""
@@ -392,25 +408,31 @@ msgstr ""
 "  -s, --search <regex> caută pachete instalate local care se potrivesc "
 "şirurilor de caractere\n"
 
-#, c-format
-msgid "  -t, --unrequired     list all packages not required by any package\n"
-msgstr "  -t, --unrequired     listează toate pachetele care nu sunt necesare niciunui pachet\n"
+#, fuzzy, c-format
+msgid ""
+"  -t, --unrequired     list packages not required by any package [filter]\n"
+msgstr ""
+"  -t, --unrequired     listează toate pachetele care nu sunt necesare "
+"niciunui pachet\n"
 
-#, c-format
-msgid "  -u, --upgrades       list all packages that can be upgraded\n"
-msgstr "  -u, --upgrades       listează toate pachetele care pot fi actualizate\n"
+#, fuzzy, c-format
+msgid "  -u, --upgrades       list outdated packages [filter]\n"
+msgstr ""
+"  -u, --upgrades       listează toate pachetele care pot fi actualizate\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          arată mai puţine informatii pentru interogare şi căutare\n"
+msgstr ""
+"  -q, --quiet          arată mai puţine informatii pentru interogare şi "
+"căutare\n"
 
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
-"  -c, --clean          elimină pachete vechi din directorul cache (-cc pentru "
-"toate)\n"
+"  -c, --clean          elimină pachete vechi din directorul cache (-cc "
+"pentru toate)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -425,18 +447,22 @@ msgid ""
 "  -p, --print-uris     print out URIs for given packages and their "
 "dependencies\n"
 msgstr ""
-"  -p, --print-uris     tipăreşte URI-uri pentru pachetele date şi dependenţele "
-"lor\n"
+"  -p, --print-uris     tipăreşte URI-uri pentru pachetele date şi "
+"dependenţele lor\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search <regex> caută depozitele la distanţă care se potrivesc cu şirurile de caractere\n"
+"  -s, --search <regex> caută depozitele la distanţă care se potrivesc cu "
+"şirurile de caractere\n"
 
-#, c-format
-msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
-msgstr "  -u, --sysupgrade     actualizează toate pachetele care sunt expirate\n"
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
+"downgrade)\n"
+msgstr ""
+"  -u, --sysupgrade     actualizează toate pachetele care sunt expirate\n"
 
 #, c-format
 msgid ""
@@ -450,7 +476,8 @@ msgstr ""
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr ""
-"  -y, --refresh        descarcă baze de date cu pachete proaspete de pe server\n"
+"  -y, --refresh        descarcă baze de date cu pachete proaspete de pe "
+"server\n"
 
 #, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
@@ -461,8 +488,8 @@ msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignore <pkg>   ignoră o actualizare de pachet (se poate folosi mai mult decât "
-"o dată)\n"
+"      --ignore <pkg>   ignoră o actualizare de pachet (se poate folosi mai "
+"mult decât o dată)\n"
 
 #, c-format
 msgid ""
@@ -470,7 +497,8 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <grp>\n"
-"                       ignoră o actualizare de grup (se poate folosi mai mult decât o dată)\n"
+"                       ignoră o actualizare de grup (se poate folosi mai "
+"mult decât o dată)\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -488,17 +516,23 @@ msgstr "      --noconfirm      nu cere nicio confirmare\n"
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
-"      --noprogressbar  nu arată o bară de progresie la descărcarea fişierelor\n"
+"      --noprogressbar  nu arată o bară de progresie la descărcarea "
+"fişierelor\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
-"      --noscriptlet    nu execută scriptlet-ul de instalare dacă există deja unul\n"
+"      --noscriptlet    nu execută scriptlet-ul de instalare dacă există deja "
+"unul\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        forţat să fie comunicativ\n"
+
+#, fuzzy, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --needed         nu reinstalează pachetele actualizate\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -510,7 +544,9 @@ msgstr "  -b, --dbpath <path>  seteaza o locatie alternativa a bazei de date\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <dir> setează o locaţie alternativă pentru cache-ul pachetului\n"
+msgstr ""
+"      --cachedir <dir> setează o locaţie alternativă pentru cache-ul "
+"pachetului\n"
 
 #, c-format
 msgid ""
@@ -558,15 +594,20 @@ msgstr "nu se poate înregistra '%s' database (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "fişierul de configurare %s, linia %d: eroare de sintaxă în fişierul de configurare - cheie lipsă.\n"
+msgstr ""
+"fişierul de configurare %s, linia %d: eroare de sintaxă în fişierul de "
+"configurare - cheie lipsă.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "fişierul de configurare %s, linia %d: Toate directivele trebuie să aparţină unei secţiuni.\n"
+msgstr ""
+"fişierul de configurare %s, linia %d: Toate directivele trebuie să aparţină "
+"unei secţiuni.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
-msgstr "fişierul de configurare %s, linia %d: directiva '%s' nu este recunoscută.\n"
+msgstr ""
+"fişierul de configurare %s, linia %d: directiva '%s' nu este recunoscută.\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -621,12 +662,12 @@ msgid "group \"%s\" was not found\n"
 msgstr "grupul \"%s\" nu a fost găsit\n"
 
 #, c-format
-msgid "Checking for package upgrades... \n"
-msgstr "Se caută actualizări ale pachetului... \n"
+msgid "root path too long\n"
+msgstr ""
 
 #, c-format
-msgid "no upgrades found.\n"
-msgstr "nu s-au găsit actualizări.\n"
+msgid "file path too long\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -667,6 +708,14 @@ msgstr "eşec în pregătirea tranzacţiei (%s)\n"
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: cere %s\n"
+
+#, fuzzy, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr ":: %s este desemnat ca HoldPkg. Se elimină totuşi?"
+
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr ""
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -712,8 +761,8 @@ msgstr "Vreţi să eliminaţi pachetele neinstalate din cache?"
 msgid "Do you want to remove outdated packages from cache?"
 msgstr "Vreţi să eliminaţi pachetele expirate din cache?"
 
-#, c-format
-msgid "removing old packages from cache... "
+#, fuzzy, c-format
+msgid "removing old packages from cache...\n"
 msgstr "se elimină pachetele vechi din cache... "
 
 #, c-format
@@ -721,15 +770,15 @@ msgid "could not access cache directory\n"
 msgstr "nu poate fi accesat directorul cache\n"
 
 #, c-format
-msgid "done.\n"
-msgstr "gata.\n"
+msgid "File %s does not seem to be a valid package, remove it?"
+msgstr ""
 
-#, c-format
-msgid "Do you want to remove ALL packages from cache?"
+#, fuzzy, c-format
+msgid "Do you want to remove ALL files from cache?"
 msgstr "Vreţi să eliminaţi TOATE pachetele din cache?"
 
-#, c-format
-msgid "removing all packages from cache... "
+#, fuzzy, c-format
+msgid "removing all files from cache...\n"
 msgstr "se elimină toate pachetele din cache... "
 
 #, c-format
@@ -772,6 +821,10 @@ msgstr "depozitul \"%s\" nu a fost găsit.\n"
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Se porneşte actualizarea completă a sistemului...\n"
 
+#, fuzzy, c-format
+msgid "skipping target: %s\n"
+msgstr "Se face pachetul: %s"
+
 #, c-format
 msgid "%s package not found, searching for group...\n"
 msgstr "pachetul %s nu este găsit, se caută pentru grup...\n"
@@ -799,6 +852,10 @@ msgstr ":: %s: e în conflict cu %s\n"
 #, c-format
 msgid " local database is up to date\n"
 msgstr " baza de date locală este actualizată\n"
+
+#, c-format
+msgid "no database for package: %s\n"
+msgstr ""
 
 #, c-format
 msgid "Proceed with download?"
@@ -892,6 +949,10 @@ msgstr "Elimină (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Mărimea totală a eliminării:   %.2f MB\n"
 
+#, fuzzy, c-format
+msgid "New optional dependencies for %s\n"
+msgstr "Dependenţe opţionale pentru %s\n"
+
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "Dependenţe opţionale pentru %s\n"
@@ -954,7 +1015,8 @@ msgid "Cleaning up..."
 msgstr "Se curăţă..."
 
 msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Nu există nici un agent înfiinţat pentru a gestiona %s URL. Verifică %s."
+msgstr ""
+"Nu există nici un agent înfiinţat pentru a gestiona %s URL. Verifică %s."
 
 msgid "Aborting..."
 msgstr "Se abandonează..."
@@ -1004,17 +1066,14 @@ msgstr "Eşec în timpul descărcării %s"
 msgid "Generating checksums for source files..."
 msgstr "Se generează checksum pentru fişierele sursă..."
 
-msgid "Invalid integrity algorithm '%s' specified."
-msgstr "Algoritmul de integritate '%s' specificat invalid"
-
 msgid "Cannot find openssl."
 msgstr "Nu se găseşte openssl."
 
+msgid "Invalid integrity algorithm '%s' specified."
+msgstr "Algoritmul de integritate '%s' specificat invalid"
+
 msgid "Unable to find source file %s to generate checksum."
 msgstr "Incapacitate de a găsi fişierul sursă %s pentru a genera checksum."
-
-msgid "Invalid integrity algorithm '%s' specified"
-msgstr "Algoritmul de integritate '%s' specificat invalid"
 
 msgid "Validating source files with %s..."
 msgstr "Se validează fişierele sursă cu %s..."
@@ -1031,7 +1090,12 @@ msgstr "EŞEC"
 msgid "One or more files did not pass the validity check!"
 msgstr "Unul sau mai multe fişiere nu trec de verificarea validităţii!"
 
-msgid "Integrity checks (%s) are missing or incomplete."
+#, fuzzy
+msgid "Integrity checks (%s) differ in size from the source array."
+msgstr "Verificările de integritate (%s) lipsesc sau sunt incomplete."
+
+#, fuzzy
+msgid "Integrity checks are missing."
 msgstr "Verificările de integritate (%s) lipsesc sau sunt incomplete."
 
 msgid "Extracting Sources..."
@@ -1049,13 +1113,26 @@ msgstr "Se porneşte build()..."
 msgid "Build Failed."
 msgstr "Build a eşuat."
 
+#, fuzzy
+msgid "Starting %s()..."
+msgstr "Se porneşte build()..."
+
+#, fuzzy
+msgid "Packaging Failed."
+msgstr "Build a eşuat."
+
 msgid "Tidying install..."
 msgstr "Instalare tidying..."
 
-msgid "Removing info/doc files..."
+#, fuzzy
+msgid "Removing doc files..."
 msgstr "Eliminare fişiere info/doc..."
 
-msgid "Compressing man pages..."
+msgid "Purging other files..."
+msgstr ""
+
+#, fuzzy
+msgid "Compressing man and info pages..."
 msgstr "Comprimare pagini man..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
@@ -1067,12 +1144,6 @@ msgstr "Se elimină fişiere libtool .la..."
 msgid "Removing empty directories..."
 msgstr "Se elimină directoarele goale..."
 
-msgid "Missing pkg/ directory."
-msgstr "Directorul pkg/ lipseşte."
-
-msgid "Creating package..."
-msgstr "Se crează pachet..."
-
 msgid "Generating .PKGINFO file..."
 msgstr "Se generează fişierul .PKGINFO..."
 
@@ -1081,6 +1152,12 @@ msgstr "Rugăm adăugaţi o linie de licenţă la %s dvs!"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Exemplu pentru GPL'ed software: license=('GPL')"
+
+msgid "Missing pkg/ directory."
+msgstr "Directorul pkg/ lipseşte."
+
+msgid "Creating package..."
+msgstr "Se crează pachet..."
 
 msgid "Adding install script..."
 msgstr "Se adaugă script de instalare..."
@@ -1091,29 +1168,12 @@ msgstr "Se adaugă changelog de pachet..."
 msgid "Compressing package..."
 msgstr "Se comprimă pachetul..."
 
+#, fuzzy
+msgid "'%s' is not a valid archive extension."
+msgstr "'%s' nu este un nivel valid pentru debug\n"
+
 msgid "Failed to create package file."
 msgstr "Eşec în crearea fişierului pachet."
-
-msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr "Nu se găseşte binarul xdelta! Este instalat xdelta?"
-
-msgid "Making delta from version %s..."
-msgstr "Se face delta din versiunea %s..."
-
-msgid "Recreating package tarball from delta to match md5 signatures"
-msgstr "Recrearea arhivei pachet din delta pentru potrivirea cu semnăturile md5"
-
-msgid "NOTE: the delta should ONLY be distributed with this tarball"
-msgstr "NOTA: delta va fi distribuit NUMAI cu aceasta arhivă."
-
-msgid "Could not generate the package from the delta."
-msgstr "Nu se poate genera pachetul din delta."
-
-msgid "Delta was not able to be created."
-msgstr "Delta nu poate fi creat."
-
-msgid "No previous version found, skipping xdelta."
-msgstr "Nu s-au găsit versiuni anterioare, se sare peste xdelta."
 
 msgid "Creating source package..."
 msgstr "Se crează pachetul sursa..."
@@ -1129,6 +1189,42 @@ msgstr "Se comprimă pachetul sursă..."
 
 msgid "Failed to create source package file."
 msgstr "Eşec în crearea fişierului sursă."
+
+#, fuzzy
+msgid "Failed to install built package(s)."
+msgstr "Eşec în crearea fişierului pachet."
+
+msgid "%s is not allowed to be empty."
+msgstr "%s nu apare ca fiind gol."
+
+#, fuzzy
+msgid "%s is not allowed to start with a hyphen."
+msgstr "%s nu poate conţine cratime."
+
+msgid "%s is not allowed to contain hyphens."
+msgstr "%s nu poate conţine cratime."
+
+msgid "%s is not available for the '%s' architecture."
+msgstr "%s nu este disponibil pentru arhitectura '%s'."
+
+msgid "Note that many packages may need a line added to their %s"
+msgstr ""
+"Notaţi faptul că multe pachete pot avea nevoie de o linie adăugata la %s lor"
+
+msgid "such as arch=('%s')."
+msgstr "ca şi arch=('%s')."
+
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr "Câmpul ofertelor nu poate conţine operatori de comparaţie (< sau >)."
+
+msgid "Install scriptlet (%s) does not exist."
+msgstr "Scriptlet-ul de instalare (%s) nu există."
+
+msgid "options array contains unknown option '%s'"
+msgstr "câmpul opţiunilor conţine opţiune necunoscută '%s'"
+
+msgid "missing package function for split package '%s'"
+msgstr ""
 
 msgid "Determining latest darcs revision..."
 msgstr "Se determină ultimele revizii darcs..."
@@ -1175,17 +1271,25 @@ msgstr "  -c, --clean      Curăţă fişierele de lucru după construire"
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Curăţă fişierele sursă din cache"
 
+#, fuzzy
+msgid "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr ""
+"  -p <buildscript> Foloseşte un script de construire alternativ (în locul '%"
+"s')"
+
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Săritură peste toate verificările de dependenţă"
 
 msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
-msgstr "  -e, --noextract  Nu extrage fişiere sursă (foloseşte dir src/ existent)"
+msgstr ""
+"  -e, --noextract  Nu extrage fişiere sursă (foloseşte dir src/ existent)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Suprascrie pachetul existent"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr "  -g, --geninteg   Generează verificarea integrităţii pentru fişierele sursă"
+msgstr ""
+"  -g, --geninteg   Generează verificarea integrităţii pentru fişierele sursă"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Ajutor"
@@ -1203,14 +1307,18 @@ msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Doar descarcă şi extrage fişiere"
 
 msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
-msgstr "  -p <buildscript> Foloseşte un script de construire alternativ (în locul '%s')"
+msgstr ""
+"  -p <buildscript> Foloseşte un script de construire alternativ (în locul '%"
+"s')"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     Elimină dependenţele instalate după ce construirea are succes"
+"  -r, --rmdeps     Elimină dependenţele instalate după ce construirea are "
+"succes"
 
-msgid "  -R, --repackage  Repackage contents of pkg/ without building"
+#, fuzzy
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Reîmpachetează conţinutul pkg/ fără construire"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
@@ -1220,8 +1328,7 @@ msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Generează o arhivă doar-sursă incluzând sursele "
-"descărcate"
+"      --allsource  Generează o arhivă doar-sursă incluzând sursele descărcate"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     Face makepkg să ruleze ca user root"
@@ -1230,8 +1337,8 @@ msgid ""
 "      --holdver    Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    Previne ciocnirea automată a versiunii pentru PKGBUILD-uri în "
-"dezvoltare"
+"      --holdver    Previne ciocnirea automată a versiunii pentru PKGBUILD-"
+"uri în dezvoltare"
 
 msgid ""
 "      --source     Generate a source-only tarball without downloaded sources"
@@ -1256,14 +1363,17 @@ msgstr ""
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Dacă -p nu este specificat, makepkg va căuta după '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAcesta este software "
-"gratuit; vezi sursa pentru condiţiile de copiere.\\nNu există GARANŢIE în termenii "
-"pe care îi permite legea.\\n"
+"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
+"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nAcesta este software gratuit; "
+"vedeţi sursa, pentru condiţiile de copiere.\\nNU EXISTĂ GARANŢIE, în măsura "
+"permisă de lege.\\n"
 
 msgid "%s not found."
 msgstr "%s nu se găseşte."
@@ -1278,7 +1388,9 @@ msgid "    Are you sure you wish to do this? "
 msgstr "    Sunteţi sigur că doriţi asta? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr "Problemă la eliminarea fişierelor; probabil nu aveţi permisiunile corecte în %s"
+msgstr ""
+"Problemă la eliminarea fişierelor; probabil nu aveţi permisiunile corecte în "
+"%s"
 
 msgid "Source cache cleaned."
 msgstr "Cache sursă curăţat."
@@ -1286,14 +1398,12 @@ msgstr "Cache sursă curăţat."
 msgid "No files have been removed."
 msgstr "Niciun fişier nu a fost eliminat."
 
-msgid "Source destination must be defined in makepkg.conf."
+#, fuzzy
+msgid "Source destination must be defined in %s."
 msgstr "Destinaţia sursei trebuie definită în makepkg.conf."
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "În plus, vă rugăm executaţi makepkg -C în afara directorului cache."
-
-msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr "BUILDSCRIPT este nedefinit! Asiguraţi-vă că aţi actualizat %s."
 
 msgid "Running makepkg as root is a BAD idea and can cause"
 msgstr "Executarea makepkg ca root este o idee PROASTĂ şi poate provoca"
@@ -1322,47 +1432,31 @@ msgstr "Rularea makepkg ca utilizator neprivilegiat va duce la un proprietar"
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr "non-root al fişierelor pachet. Încercaţi mediul fakeroot prin"
 
-msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+#, fuzzy
+msgid "placing 'fakeroot' in the BUILDENV array in %s."
 msgstr "plasarea 'fakeroot' în câmpul BUILDENV în makepkg.conf"
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
-msgstr "Nu folosiţi opţiunea '-F'. Aceasta opţiune este doar pentru uzul makepkg"
+msgstr ""
+"Nu folosiţi opţiunea '-F'. Aceasta opţiune este doar pentru uzul makepkg"
 
 msgid "Cannot find the sudo binary! Is sudo installed?"
 msgstr "Nu se găseşte binarul sudo! Este instalat sudo?"
 
 msgid "Missing dependencies cannot be installed or removed as a normal user"
-msgstr "Dependenţele lipsă nu pot fi instalate sau eliminate ca utilizator obişnuit"
+msgstr ""
+"Dependenţele lipsă nu pot fi instalate sau eliminate ca utilizator obişnuit"
 
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
-msgstr "fără sudo; instalaţi şi configuraţi sudo pentru rezolvarea automata a dependenţelor."
+msgstr ""
+"fără sudo; instalaţi şi configuraţi sudo pentru rezolvarea automata a "
+"dependenţelor."
 
 msgid "%s does not exist."
 msgstr "%s nu există."
 
-msgid "%s is not allowed to be empty."
-msgstr "%s nu apare ca fiind gol."
-
-msgid "%s is not allowed to contain hyphens."
-msgstr "%s nu poate conţine cratime."
-
-msgid "%s is not available for the '%s' architecture."
-msgstr "%s nu este disponibil pentru arhitectura '%s'."
-
-msgid "Note that many packages may need a line added to their %s"
-msgstr "Notaţi faptul că multe pachete pot avea nevoie de o linie adăugata la %s lor"
-
-msgid "such as arch=('%s')."
-msgstr "ca şi arch=('%s')."
-
-msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr "Câmpul ofertelor nu poate conţine operatori de comparaţie (< sau >)."
-
-msgid "Install scriptlet (%s) does not exist."
-msgstr "Scriptlet-ul de instalare (%s) nu există."
-
-msgid "options array contains unknown option '%s'"
-msgstr "câmpul opţiunilor conţine opţiune necunoscută '%s'"
+msgid "%s contains CRLF characters and cannot be sourced."
+msgstr ""
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Un pachet a fost deja construit, se instalează pachetul existent..."
@@ -1370,17 +1464,24 @@ msgstr "Un pachet a fost deja construit, se instalează pachetul existent..."
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "Un pachet a fost deja construit. (folosiţi -f pentru a suprascrie)"
 
-msgid "Skipping build."
-msgstr "Se trece peste construire."
+#, fuzzy
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "Un pachet a fost deja construit, se instalează pachetul existent..."
+
+#, fuzzy
+msgid "The package group has already been built. (use -f to overwrite)"
+msgstr "Un pachet a fost deja construit. (folosiţi -f pentru a suprascrie)"
+
+#, fuzzy
+msgid "Part of the package group has already been built. (use -f to overwrite)"
+msgstr "Un pachet a fost deja construit. (folosiţi -f pentru a suprascrie)"
 
 msgid "Leaving fakeroot environment."
 msgstr "Se părăseşte mediul fakeroot."
 
 msgid "Making package: %s"
 msgstr "Se face pachetul: %s"
-
-msgid "Running makepkg as root..."
-msgstr "Rularea makepkg ca root..."
 
 msgid "Source package created: %s"
 msgstr "Pachet sursă creat: %s"
@@ -1398,16 +1499,21 @@ msgid "Could not resolve all dependencies."
 msgstr "Nu pot fi rezolvate toate dependenţele."
 
 msgid "pacman was not found in PATH; skipping dependency checks."
-msgstr "pacman nu a fost găsit în PATH; se trece peste verificarea dependenţei."
+msgstr ""
+"pacman nu a fost găsit în PATH; se trece peste verificarea dependenţei."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
-msgstr "Se trece peste refacerea sursei      -- se foloseşte ramura src/ existentă"
+msgstr ""
+"Se trece peste refacerea sursei      -- se foloseşte ramura src/ existentă"
 
 msgid "Skipping source integrity checks -- using existing src/ tree"
-msgstr "Se trece peste verificarea integrităţii sursei -- se foloseşte ramura src/ existentă"
+msgstr ""
+"Se trece peste verificarea integrităţii sursei -- se foloseşte ramura src/ "
+"existentă"
 
 msgid "Skipping source extraction       -- using existing src/ tree"
-msgstr "Se trece peste extragerea sursei     -- se foloseşte ramura src/ existentă"
+msgstr ""
+"Se trece peste extragerea sursei     -- se foloseşte ramura src/ existentă"
 
 msgid "The source directory is empty, there is nothing to build!"
 msgstr "Directorul sursă este gol, nu e nimic de construit!"
@@ -1445,12 +1551,12 @@ msgid ""
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
 msgstr ""
-"Deoarece pacman foloseşte multe fişiere mici pentru a păstra legătura cu pachetele,\\neste "
-"o tendinţă a acestor fişiere să se fragmenteze în timp.\\nAcest script "
-"încearcă relocarea acestor mici fişiere într-o\\nlocaţie continuă pe "
-"hard disk-ul dvs. Rezultatul este acela că hard disk-ul\\nva fi capabil să le citească "
-"mai repede deoarece capul de citire al hard-ului\\nnu se va mai muta atât de mult "
-"pe disc.\\n"
+"Deoarece pacman foloseşte multe fişiere mici pentru a păstra legătura cu "
+"pachetele,\\neste o tendinţă a acestor fişiere să se fragmenteze în timp."
+"\\nAcest script încearcă relocarea acestor mici fişiere într-o\\nlocaţie "
+"continuă pe hard disk-ul dvs. Rezultatul este acela că hard disk-ul\\nva fi "
+"capabil să le citească mai repede deoarece capul de citire al hard-ului\\nnu "
+"se va mai muta atât de mult pe disc.\\n"
 
 msgid "diff tool was not found, please install diffutils."
 msgstr "unealta diff nu a fost găsită, vă rugăm instalaţi diffutils."
@@ -1459,13 +1565,17 @@ msgid "%s does not exist or is not a directory."
 msgstr "%s nu există sau nu este director."
 
 msgid "You must have correct permissions to optimize the database."
-msgstr "Trebuie să aveţi permisiunile corespunzătoare pentru a optimiza baza de date."
+msgstr ""
+"Trebuie să aveţi permisiunile corespunzătoare pentru a optimiza baza de date."
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "A fost găsit fişierul lock al pacman. Nu se poate rula alt pacman când pacman este în lucru."
+msgstr ""
+"A fost găsit fişierul lock al pacman. Nu se poate rula alt pacman când "
+"pacman este în lucru."
 
 msgid "ERROR: Can not create temp directory for database building."
-msgstr "EROARE: Nu poate fi creat directorul temp pentru construirea bazei de date."
+msgstr ""
+"EROARE: Nu poate fi creat directorul temp pentru construirea bazei de date."
 
 msgid "MD5sum'ing the old database..."
 msgstr "MD5sum'ing pentru vechea bază de date..."
@@ -1497,10 +1607,12 @@ msgstr "Se roteşte baza de date în loc..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Finalizat. Baza dvs de date pacman a fost optimizată."
 
-msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 msgstr "Folosire: repo-add [-q] <path-to-db> <package> ...\\n"
 
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr "Folosire: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
 
 msgid ""
@@ -1508,7 +1620,8 @@ msgid ""
 "\\nMultiple packages to add can be specified on the command line.\\n\\n"
 msgstr ""
 "repo-add will va actualiza o bază de date pachet citind un fişier pachet."
-"\\nPachetele multiple de adăugat pot fi specificate în linia de comandă.\\n\\n"
+"\\nPachetele multiple de adăugat pot fi specificate în linia de comandă.\\n"
+"\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1520,11 +1633,9 @@ msgstr ""
 "\\nmultiple de eliminat pot fi specificate în linia de comandă.\\n\\n"
 
 msgid ""
-"The -q/--quiet flag to either program will force silent running except\\nin "
-"the case of warnings or errors.\\n\\n"
+"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+"\\nand errors\\n\\n"
 msgstr ""
-"Marcajul -q/--quiet în program va forţa rularea silenţioasă mai puţin\\nîn "
-"cazul avertizărilor de eroare.\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Exemplu:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1539,9 +1650,19 @@ msgid ""
 "permitted by law.\\n"
 msgstr ""
 "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nAcesta este software gratuit; vedeţi "
-"sursa, pentru condiţiile de copiere.\\nNU EXISTĂ GARANŢIE, în măsura "
+"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nAcesta este software gratuit; "
+"vedeţi sursa, pentru condiţiile de copiere.\\nNU EXISTĂ GARANŢIE, în măsura "
 "permisă de lege.\\n"
+
+msgid "Creating 'deltas' db entry..."
+msgstr "Se crează intrarea db 'deltas'..."
+
+msgid "An entry for '%s' already existed"
+msgstr ""
+
+#, fuzzy
+msgid "Removing existing entry '%s'..."
+msgstr "Se elimină pachetul existent '%s'..."
 
 msgid "Invalid package file '%s'."
 msgstr "Fişier pachet '%s' invalid."
@@ -1555,35 +1676,12 @@ msgstr "Se calculează md5 checksums..."
 msgid "Creating 'depends' db entry..."
 msgstr "Se crează intrarea db 'depends'"
 
-msgid "Creating 'deltas' db entry..."
-msgstr "Se crează intrarea db 'deltas'..."
+#, fuzzy
+msgid "Failed to acquire lockfile: %s."
+msgstr "Eşec în crearea fişierului pachet."
 
-msgid "Added delta '%s'"
-msgstr "Se adaugă delta '%s'"
-
-msgid "Could not add delta '%s'"
-msgstr "Nu poate fi adăugat delta '%s'"
-
-msgid "Removing existing package '%s'..."
-msgstr "Se elimină pachetul existent '%s'..."
-
-msgid "Either realpath or readlink are required by repo-add."
-msgstr "Fiecare, realpath sau readlink, sunt cerute de repo-add."
-
-msgid "%s not found. Cannot continue."
-msgstr "%s nu este găsit. Nu se poate continua."
-
-msgid "Cannot create temp directory for database building."
-msgstr "Nu poate fi creat directorul temp pentru construirea bazei de date."
-
-msgid "Invalid command name '%s' specified."
-msgstr "Este specificat invalid numele de comandă '%s'."
-
-msgid "the -f and --force options are no longer recognized"
-msgstr "opţiunile -f şi --force options nu mai sunt recunoscute"
-
-msgid "use options=(force) in the PKGBUILD instead"
-msgstr "foloseşte în schimb options=(force) în PKGBUILD"
+msgid "Held by %s"
+msgstr ""
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Fişierul depozit '%s' nu este propriu bazei de date pacman."
@@ -1594,14 +1692,35 @@ msgstr "Se extrage baza de date într-o locaţie temporară..."
 msgid "Repository file '%s' was not found."
 msgstr "Fişierul depozit '%s' nu a fost găsit."
 
+#, fuzzy
+msgid "Repository file '%s' could not be created."
+msgstr "fişierul de configurare %s nu poate fi citit.\n"
+
+#, fuzzy
+msgid "File '%s' not found."
+msgstr "Pachetul '%s' nu este găsit."
+
+#, fuzzy
+msgid "Adding delta '%s'"
+msgstr "Se adaugă delta '%s'"
+
+#, fuzzy
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "Nu se găseşte binarul xdelta! Este instalat xdelta?"
+
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' nu este un fişier pachet, se trece peste"
 
 msgid "Adding package '%s'"
 msgstr "Se adaugă pachetul '%s'"
 
-msgid "Package '%s' not found."
-msgstr "Pachetul '%s' nu este găsit."
+#, fuzzy
+msgid "Searching for delta '%s'..."
+msgstr "Se caută pachetul '%s'..."
+
+#, fuzzy
+msgid "Delta matching '%s' not found."
+msgstr "Un pachet potrivit cu '%s' nu este găsit."
 
 msgid "Searching for package '%s'..."
 msgstr "Se caută pachetul '%s'..."
@@ -1609,11 +1728,23 @@ msgstr "Se caută pachetul '%s'..."
 msgid "Package matching '%s' not found."
 msgstr "Un pachet potrivit cu '%s' nu este găsit."
 
+msgid "Invalid command name '%s' specified."
+msgstr "Este specificat invalid numele de comandă '%s'."
+
+msgid "Cannot create temp directory for database building."
+msgstr "Nu poate fi creat directorul temp pentru construirea bazei de date."
+
+msgid "the -f and --force options are no longer recognized"
+msgstr "opţiunile -f şi --force options nu mai sunt recunoscute"
+
+msgid "use options=(force) in the PKGBUILD instead"
+msgstr "foloseşte în schimb options=(force) în PKGBUILD"
+
 msgid "Creating updated database file '%s'"
 msgstr "Se crează fişierul bază de date actualizat '%s'"
 
-msgid "No compression set."
-msgstr "Nu este set de compresie."
+msgid "'%s' does not have a valid archive extension."
+msgstr ""
 
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr "Toate pachetele au fost eliminate din baza de date. Se şterge '%s'."
@@ -1621,3 +1752,76 @@ msgstr "Toate pachetele au fost eliminate din baza de date. Se şterge '%s'."
 msgid "No packages modified, nothing to do."
 msgstr "Nu sunt pachete modificate, nu e nimic de făcut."
 
+#~ msgid ""
+#~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
+#~ msgstr ""
+#~ ":: %s necesită instalarea %s care este în IgnorePkg/IgnoreGroup. Se "
+#~ "instalează totuşi?"
+
+#~ msgid "Checking for package upgrades... \n"
+#~ msgstr "Se caută actualizări ale pachetului... \n"
+
+#~ msgid "no upgrades found.\n"
+#~ msgstr "nu s-au găsit actualizări.\n"
+
+#~ msgid "done.\n"
+#~ msgstr "gata.\n"
+
+#~ msgid "Invalid integrity algorithm '%s' specified"
+#~ msgstr "Algoritmul de integritate '%s' specificat invalid"
+
+#~ msgid "Making delta from version %s..."
+#~ msgstr "Se face delta din versiunea %s..."
+
+#~ msgid "Recreating package tarball from delta to match md5 signatures"
+#~ msgstr ""
+#~ "Recrearea arhivei pachet din delta pentru potrivirea cu semnăturile md5"
+
+#~ msgid "NOTE: the delta should ONLY be distributed with this tarball"
+#~ msgstr "NOTA: delta va fi distribuit NUMAI cu aceasta arhivă."
+
+#~ msgid "Could not generate the package from the delta."
+#~ msgstr "Nu se poate genera pachetul din delta."
+
+#~ msgid "Delta was not able to be created."
+#~ msgstr "Delta nu poate fi creat."
+
+#~ msgid "No previous version found, skipping xdelta."
+#~ msgstr "Nu s-au găsit versiuni anterioare, se sare peste xdelta."
+
+#~ msgid ""
+#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+#~ "free software; see the source for copying conditions.\\nThere is NO "
+#~ "WARRANTY, to the extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAcesta "
+#~ "este software gratuit; vezi sursa pentru condiţiile de copiere.\\nNu "
+#~ "există GARANŢIE în termenii pe care îi permite legea.\\n"
+
+#~ msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
+#~ msgstr "BUILDSCRIPT este nedefinit! Asiguraţi-vă că aţi actualizat %s."
+
+#~ msgid "Skipping build."
+#~ msgstr "Se trece peste construire."
+
+#~ msgid "Running makepkg as root..."
+#~ msgstr "Rularea makepkg ca root..."
+
+#~ msgid ""
+#~ "The -q/--quiet flag to either program will force silent running except"
+#~ "\\nin the case of warnings or errors.\\n\\n"
+#~ msgstr ""
+#~ "Marcajul -q/--quiet în program va forţa rularea silenţioasă mai puţin"
+#~ "\\nîn cazul avertizărilor de eroare.\\n\\n"
+
+#~ msgid "Could not add delta '%s'"
+#~ msgstr "Nu poate fi adăugat delta '%s'"
+
+#~ msgid "Either realpath or readlink are required by repo-add."
+#~ msgstr "Fiecare, realpath sau readlink, sunt cerute de repo-add."
+
+#~ msgid "%s not found. Cannot continue."
+#~ msgstr "%s nu este găsit. Nu se poate continua."
+
+#~ msgid "No compression set."
+#~ msgstr "Nu este set de compresie."

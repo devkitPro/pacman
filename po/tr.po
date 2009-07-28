@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-01-02 22:24-0600\n"
+"POT-Creation-Date: 2009-07-27 21:14-0500\n"
 "PO-Revision-Date: 2009-03-23 17:52+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: Türkçe <tr@archlinuxtr.org>\n"
@@ -74,23 +74,10 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: paketler %s deposundan alınıyor...\n"
 
 #, c-format
-msgid ""
-":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-":: %s paketi IgnorePkg/IgnoreGroup içinde bulunan %s paketine ihtiyaç "
-"duyuyor. Yine de kuracak mısınız?"
-
-#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
 ":: %s paketi IgnorePkg/IgnoreGroup içerisinde bulunuyor. Yine de kuracak "
 "mısınız?"
-
-#, c-format
-msgid ":: %s is designated as a HoldPkg. Remove anyway?"
-msgstr ""
-":: %s paketi HoldPkg olarak işaretlenmiş durumda. Yine de kaldırmak ister "
-"misiniz?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
@@ -99,6 +86,12 @@ msgstr ":: %s paketini %s/%s ile değiştirmek ister misiniz?"
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s paketi %s ile çakışıyor. %s kaldırılsın mı?"
+
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Do you want to skip the above package(s) for this upgrade?"
+msgstr "Önbellekteki TÜM paketleri silmek istiyor musunuz?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -276,12 +269,12 @@ msgstr "'%s' için değişim kaydı bulunmuyor.\n"
 msgid "options"
 msgstr "seçenekler"
 
-#, c-format
-msgid "file"
+#, fuzzy, c-format
+msgid "file(s)"
 msgstr "dosya"
 
-#, c-format
-msgid "package"
+#, fuzzy, c-format
+msgid "package(s)"
 msgstr "paket"
 
 #, c-format
@@ -358,12 +351,13 @@ msgstr "  -f, --force        kurulumu zorla, çakışan dosyaların üzerine yaz
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      paketin değişim kaydını göster\n"
 
-#, c-format
-msgid "  -d, --deps           list all packages installed as dependencies\n"
+#, fuzzy, c-format
+msgid ""
+"  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr "  -d, --deps           bağımlılık olarak yüklenen paketleri listele\n"
 
-#, c-format
-msgid "  -e, --explicit       list all packages explicitly installed\n"
+#, fuzzy, c-format
+msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr "  -e, --explicit       doğrudan kurulan paketleri listele\n"
 
 #, c-format
@@ -377,12 +371,19 @@ msgstr ""
 "  -i, --info           paket bilgisini göster (yedek dosyaları için -ii)\n"
 
 #, c-format
+msgid ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
+msgstr ""
+
+#, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           sorgulanan paketin içeriğini listele\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -m, --foreign        list installed packages not found in sync db(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
 msgstr ""
 "  -m, --foreign        senkronize veritabanında bulunmayan paketleri "
 "listele\n"
@@ -403,14 +404,15 @@ msgstr ""
 "  -s, --search <regex> kurulu paketler içerisinde söz dizimine uyarak arama "
 "yap\n"
 
-#, c-format
-msgid "  -t, --unrequired     list all packages not required by any package\n"
+#, fuzzy, c-format
+msgid ""
+"  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
 "  -t, --unrequired     hiçbir paket tarafından gereksinim duyulmayan "
 "paketleri listele\n"
 
-#, c-format
-msgid "  -u, --upgrades       list all packages that can be upgraded\n"
+#, fuzzy, c-format
+msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       güncellenebilecek paketleri listele\n"
 
 #, c-format
@@ -445,8 +447,10 @@ msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> depo(lar)da söz dizimine uyan arama yap\n"
 
-#, c-format
-msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
+"downgrade)\n"
 msgstr "  -u, --sysupgrade     eski paketlerin hepsini güncelle\n"
 
 #, c-format
@@ -506,6 +510,10 @@ msgstr "      --noscriptlet    kurulum betiği varsa çalıştırma\n"
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        ayrıntı göster\n"
+
+#, fuzzy, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --needed         güncel paketleri tekrar yükleme\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -630,12 +638,12 @@ msgid "group \"%s\" was not found\n"
 msgstr "\"%s\" grubu bulunamadı\n"
 
 #, c-format
-msgid "Checking for package upgrades... \n"
-msgstr "Paket güncellemeleri kontrol ediliyor... \n"
+msgid "root path too long\n"
+msgstr ""
 
 #, c-format
-msgid "no upgrades found.\n"
-msgstr "güncelleme bulunamadı.\n"
+msgid "file path too long\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -676,6 +684,16 @@ msgstr "işlem hazırlığı başarısız oldu (%s)\n"
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: gerekli paket %s\n"
+
+#, fuzzy, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr ""
+":: %s paketi HoldPkg olarak işaretlenmiş durumda. Yine de kaldırmak ister "
+"misiniz?"
+
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr ""
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -721,8 +739,8 @@ msgstr "Kaldırılan paketleri önbellekten silmek istiyor musunuz?"
 msgid "Do you want to remove outdated packages from cache?"
 msgstr "Kaldırılan paketleri önbellekten silmek istiyor musunuz?"
 
-#, c-format
-msgid "removing old packages from cache... "
+#, fuzzy, c-format
+msgid "removing old packages from cache...\n"
 msgstr "önbellekteki eski paketler siliniyor... "
 
 #, c-format
@@ -730,15 +748,15 @@ msgid "could not access cache directory\n"
 msgstr "önbellek dizinine erişilemedi\n"
 
 #, c-format
-msgid "done.\n"
-msgstr "tamamlandı.\n"
+msgid "File %s does not seem to be a valid package, remove it?"
+msgstr ""
 
-#, c-format
-msgid "Do you want to remove ALL packages from cache?"
+#, fuzzy, c-format
+msgid "Do you want to remove ALL files from cache?"
 msgstr "Önbellekteki TÜM paketleri silmek istiyor musunuz?"
 
-#, c-format
-msgid "removing all packages from cache... "
+#, fuzzy, c-format
+msgid "removing all files from cache...\n"
 msgstr "önbellekteki tüm paketler siliniyor... "
 
 #, c-format
@@ -781,6 +799,10 @@ msgstr "\"%s\" deposu bulunamadı.\n"
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Sistem güncellemesi başlatılıyor...\n"
 
+#, fuzzy, c-format
+msgid "skipping target: %s\n"
+msgstr "%s paketi derleniyor"
+
 #, c-format
 msgid "%s package not found, searching for group...\n"
 msgstr "%s paketi bulunamadı, grup için arama yapılıyor...\n"
@@ -808,6 +830,10 @@ msgstr ":: %s: %s ile çakışıyor\n"
 #, c-format
 msgid " local database is up to date\n"
 msgstr " yerel veritabanı güncel\n"
+
+#, c-format
+msgid "no database for package: %s\n"
+msgstr ""
 
 #, c-format
 msgid "Proceed with download?"
@@ -900,6 +926,10 @@ msgstr "Sil (%d):"
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Toplam Silinecek Boyut:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "New optional dependencies for %s\n"
+msgstr "%s için opsiyonel bağımlılık(lar)\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -1015,17 +1045,14 @@ msgstr "%s indirilirken hata oluştu"
 msgid "Generating checksums for source files..."
 msgstr "Kaynak kodları için kontroller oluşturuluyor..."
 
-msgid "Invalid integrity algorithm '%s' specified."
-msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
-
 msgid "Cannot find openssl."
 msgstr "openssl bulunamadı."
 
+msgid "Invalid integrity algorithm '%s' specified."
+msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
+
 msgid "Unable to find source file %s to generate checksum."
 msgstr "Kontrol oluşturmak için kullanılacak kaynak dosyası %s bulunamadı."
-
-msgid "Invalid integrity algorithm '%s' specified"
-msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
 
 msgid "Validating source files with %s..."
 msgstr "Kaynak dosyaları %s ile doğrulanıyor..."
@@ -1042,7 +1069,12 @@ msgstr "BAŞARISIZ"
 msgid "One or more files did not pass the validity check!"
 msgstr "Bir ya da daha fazla dosya doğrulama kontrolünü geçemedi."
 
-msgid "Integrity checks (%s) are missing or incomplete."
+#, fuzzy
+msgid "Integrity checks (%s) differ in size from the source array."
+msgstr "Bütünlük kontrolü (%s) kayıp ya da eksik."
+
+#, fuzzy
+msgid "Integrity checks are missing."
 msgstr "Bütünlük kontrolü (%s) kayıp ya da eksik."
 
 msgid "Extracting Sources..."
@@ -1060,13 +1092,26 @@ msgstr "Derleme safhasına geçiliyor..."
 msgid "Build Failed."
 msgstr "Derleme Başarısız."
 
+#, fuzzy
+msgid "Starting %s()..."
+msgstr "Derleme safhasına geçiliyor..."
+
+#, fuzzy
+msgid "Packaging Failed."
+msgstr "Derleme Başarısız."
+
 msgid "Tidying install..."
 msgstr "Kurulum düzenleniyor..."
 
-msgid "Removing info/doc files..."
+#, fuzzy
+msgid "Removing doc files..."
 msgstr "Bilgi/dökümantasyon dosyaları kaldırılıyor..."
 
-msgid "Compressing man pages..."
+msgid "Purging other files..."
+msgstr ""
+
+#, fuzzy
+msgid "Compressing man and info pages..."
 msgstr "Kılavuz sayfaları sıkıştırılıyor..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
@@ -1079,12 +1124,6 @@ msgstr "libtool .la dosyaları kaldırılıyor..."
 msgid "Removing empty directories..."
 msgstr "Boş dizinler kaldırılıyor..."
 
-msgid "Missing pkg/ directory."
-msgstr "Kayıp pkg/ dizini."
-
-msgid "Creating package..."
-msgstr "Paket oluşturuluyor..."
-
 msgid "Generating .PKGINFO file..."
 msgstr ".PKGINFO dosyası oluşturuluyor..."
 
@@ -1093,6 +1132,12 @@ msgstr "Lütfen %s dosyanıza bir lisans satırı ekleyin!"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "GPL ile lisanslanmış yazılımlar için örnek: license=('GPL')."
+
+msgid "Missing pkg/ directory."
+msgstr "Kayıp pkg/ dizini."
+
+msgid "Creating package..."
+msgstr "Paket oluşturuluyor..."
 
 msgid "Adding install script..."
 msgstr "Yükleme betiği ekleniyor..."
@@ -1103,30 +1148,12 @@ msgstr "Paket değişim kaydı ekleniyor..."
 msgid "Compressing package..."
 msgstr "Paket sıkıştırılıyor..."
 
+#, fuzzy
+msgid "'%s' is not a valid archive extension."
+msgstr "'%s' geçerli bir hata ayıklama seviyesi değil\n"
+
 msgid "Failed to create package file."
 msgstr "Paket oluşturulamadı."
-
-msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr "xdelta ikili dosyası bulunamıyor! xdelta kurulu mu?"
-
-msgid "Making delta from version %s..."
-msgstr "%s sürümünden fark oluşturuluyor..."
-
-msgid "Recreating package tarball from delta to match md5 signatures"
-msgstr ""
-"Farktan, md5 imzasıyla uyuşacak sıkıştırılmış tar dosyası oluşturuluyor"
-
-msgid "NOTE: the delta should ONLY be distributed with this tarball"
-msgstr "NOT: fark, yalnızca bu sıkıştırılmış tar dosyasıyla dağıtılabilir."
-
-msgid "Could not generate the package from the delta."
-msgstr "Farktan paket oluşturulamadı."
-
-msgid "Delta was not able to be created."
-msgstr "Fark oluşturulamadı."
-
-msgid "No previous version found, skipping xdelta."
-msgstr "Öncesine ait sürüm bulunamadı, xdelta adımı geçiliyor."
 
 msgid "Creating source package..."
 msgstr "Kaynak paketi oluşturuluyor..."
@@ -1142,6 +1169,41 @@ msgstr "Kaynak paketi sıkıştırılıyor..."
 
 msgid "Failed to create source package file."
 msgstr "Kaynak paketi oluşturulamadı."
+
+#, fuzzy
+msgid "Failed to install built package(s)."
+msgstr "Paket oluşturulamadı."
+
+msgid "%s is not allowed to be empty."
+msgstr "%s boş olamaz."
+
+#, fuzzy
+msgid "%s is not allowed to start with a hyphen."
+msgstr "%s '-' (tire) işaretini içeremez."
+
+msgid "%s is not allowed to contain hyphens."
+msgstr "%s '-' (tire) işaretini içeremez."
+
+msgid "%s is not available for the '%s' architecture."
+msgstr "%s, '%s' mimarisi için uygun değildir."
+
+msgid "Note that many packages may need a line added to their %s"
+msgstr "Bir çok paketin %s kısmına bir satır eklenmesi gerekebilir"
+
+msgid "such as arch=('%s')."
+msgstr "arch=('%s') gibi."
+
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr "Sağladıkları kısmı karşılaştırma karakterleri (< veya >) barındıramaz."
+
+msgid "Install scriptlet (%s) does not exist."
+msgstr "Kurulum betiği (%s) mevcut değil."
+
+msgid "options array contains unknown option '%s'"
+msgstr "seçenek dizilimindeki %s seçeneği bilinmiyor"
+
+msgid "missing package function for split package '%s'"
+msgstr ""
 
 msgid "Determining latest darcs revision..."
 msgstr "Güncel darcs değişiklik numarası belirleniyor..."
@@ -1188,6 +1250,10 @@ msgstr "  -c, --clean      Derlenme sonrası oluşan dosyaları temizle"
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Kaynak paketlerini önbellekten sil"
 
+#, fuzzy
+msgid "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr "  -p <buildscript> '%s' yerine farklı bir derleme betiği kullan"
+
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Tüm bağımlılık kontrollerini atla"
 
@@ -1225,7 +1291,8 @@ msgstr ""
 "  -r, --rmdeps     Derlenme tamamlandıktan sonra yüklenen bağımlılıkları "
 "kaldır"
 
-msgid "  -R, --repackage  Repackage contents of pkg/ without building"
+#, fuzzy
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "  -R, --repackage  pkg/ dizininin içeriğini derlemeksizin yeniden paketle"
 
@@ -1272,14 +1339,17 @@ msgstr "      --noprogressbar  Dosyalar indirilirken durum çubuğu gösterme"
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Eğer -p kullanılmamışsa, makepkg '%s' dosyasını arayacaktır"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nBu bir özgür "
-"yazılım projesidir, kopyalama şartları için kaynak koduna bakınız.\\nMevcut "
-"yasalar kapsamında da hiçbir garantisi yoktur.\\n"
+"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) 2007-"
+"2008 Dan McGee <dan@archlinux.org>. \\n\\nBu bir özgür yazılım projesidir, "
+"kopyalama şartları için kaynak koduna bakınız.\\nMevcut yasalar kapsamında "
+"da hiçbir garantisi yoktur.\\n"
 
 msgid "%s not found."
 msgstr "%s bulunamadı."
@@ -1302,14 +1372,12 @@ msgstr "Kaynak önbelleği temizlendi."
 msgid "No files have been removed."
 msgstr "Hiçbir dosya silinmedi."
 
-msgid "Source destination must be defined in makepkg.conf."
+#, fuzzy
+msgid "Source destination must be defined in %s."
 msgstr "Kaynak dizini hedefi makepkg.conf içerisinde tanımlanmış olmalı."
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "Ayrıca, lütfen önbellek dizininizin dışında makepkg -C komutunu verin."
-
-msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr "BUILDSCRIPT tanımlanmamış. %s 'i güncellediğinizden emin olun."
 
 msgid "Running makepkg as root is a BAD idea and can cause"
 msgstr "makepkg komutunu yönetici haklarıyla kullanmak kötü bir fikirdir ve"
@@ -1344,7 +1412,8 @@ msgstr ""
 "paket dosyalarının root olmayan sahiplik bilgisiyle oluşturulmasına sebep "
 "olur. Bunun yerine"
 
-msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+#, fuzzy
+msgid "placing 'fakeroot' in the BUILDENV array in %s."
 msgstr ""
 "makepkg.conf dosyası içerisindeki BUILDENV dizisine 'fakeroot' parametresini "
 "eklemeyi deneyin."
@@ -1369,29 +1438,8 @@ msgstr ""
 msgid "%s does not exist."
 msgstr "%s mevcut değil."
 
-msgid "%s is not allowed to be empty."
-msgstr "%s boş olamaz."
-
-msgid "%s is not allowed to contain hyphens."
-msgstr "%s '-' (tire) işaretini içeremez."
-
-msgid "%s is not available for the '%s' architecture."
-msgstr "%s, '%s' mimarisi için uygun değildir."
-
-msgid "Note that many packages may need a line added to their %s"
-msgstr "Bir çok paketin %s kısmına bir satır eklenmesi gerekebilir"
-
-msgid "such as arch=('%s')."
-msgstr "arch=('%s') gibi."
-
-msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr "Sağladıkları kısmı karşılaştırma karakterleri (< veya >) barındıramaz."
-
-msgid "Install scriptlet (%s) does not exist."
-msgstr "Kurulum betiği (%s) mevcut değil."
-
-msgid "options array contains unknown option '%s'"
-msgstr "seçenek dizilimindeki %s seçeneği bilinmiyor"
+msgid "%s contains CRLF characters and cannot be sourced."
+msgstr ""
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
@@ -1399,17 +1447,24 @@ msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "Bir paket zaten derlenmiş. (üzerine yazmak için -f kullanın)"
 
-msgid "Skipping build."
-msgstr "Derlenme atlanıyor."
+#, fuzzy
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
+
+#, fuzzy
+msgid "The package group has already been built. (use -f to overwrite)"
+msgstr "Bir paket zaten derlenmiş. (üzerine yazmak için -f kullanın)"
+
+#, fuzzy
+msgid "Part of the package group has already been built. (use -f to overwrite)"
+msgstr "Bir paket zaten derlenmiş. (üzerine yazmak için -f kullanın)"
 
 msgid "Leaving fakeroot environment."
 msgstr "fakeroot ortamından çıkılıyor."
 
 msgid "Making package: %s"
 msgstr "%s paketi derleniyor"
-
-msgid "Running makepkg as root..."
-msgstr "Makepkg yönetici haklarıyla çalıştırılıyor..."
 
 msgid "Source package created: %s"
 msgstr "Kaynak paketi oluşturuldu: %s"
@@ -1536,10 +1591,12 @@ msgstr "Veritabanı dönüştürülüyor..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Tamamlandı. Pacman veritabanınız optimize edildi."
 
-msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 msgstr "Kullanım: repo-add [-q] <veritabanı-yolu> <paket-adı> ...\\n"
 
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr "Kullanım: repo-remove [-q] <veritabanı-yolu> <paket-adı> ...\\n\\n"
 
 msgid ""
@@ -1559,11 +1616,9 @@ msgstr ""
 "\\nbirden fazla paket tanımlanabilir.\\n\\n"
 
 msgid ""
-"The -q/--quiet flag to either program will force silent running except\\nin "
-"the case of warnings or errors.\\n\\n"
+"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+"\\nand errors\\n\\n"
 msgstr ""
-"Uygulamanın çıktı vermeden çalışmasını istiyorsanız -q/--quiet seçeneği"
-"\\nile uygulamanın sessiz kipte çalışmasını sağlayabilirsiniz.\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr ""
@@ -1583,6 +1638,16 @@ msgstr ""
 "kopyalama şartları için kaynak koduna bakınız.\\nMevcut yasalar kapsamında "
 "da hiçbir garantisi yoktur.\\n"
 
+msgid "Creating 'deltas' db entry..."
+msgstr "veritabanı 'farklar' girdisi oluşturuluyor..."
+
+msgid "An entry for '%s' already existed"
+msgstr ""
+
+#, fuzzy
+msgid "Removing existing entry '%s'..."
+msgstr "Mevcut '%s' paketi siliniyor..."
+
 msgid "Invalid package file '%s'."
 msgstr "Geçersiz paket dosyası '%s'."
 
@@ -1595,38 +1660,12 @@ msgstr "md5 kontrolleri hesaplanıyor..."
 msgid "Creating 'depends' db entry..."
 msgstr "veritabanı 'bağımlılıklar' girdisi oluşturuluyor..."
 
-msgid "Creating 'deltas' db entry..."
-msgstr "veritabanı 'farklar' girdisi oluşturuluyor..."
+#, fuzzy
+msgid "Failed to acquire lockfile: %s."
+msgstr "Paket oluşturulamadı."
 
-msgid "Added delta '%s'"
-msgstr "'%s' farkı eklendi"
-
-msgid "Could not add delta '%s'"
-msgstr "'%s' farkı eklenemedi"
-
-msgid "Removing existing package '%s'..."
-msgstr "Mevcut '%s' paketi siliniyor..."
-
-msgid "Either realpath or readlink are required by repo-add."
+msgid "Held by %s"
 msgstr ""
-"repo-add kullanabilmek için realpath veya readlink tanımlamanız "
-"gerekmektedir."
-
-msgid "%s not found. Cannot continue."
-msgstr "%s bulunamadı. Devam edilemiyor."
-
-msgid "Cannot create temp directory for database building."
-msgstr ""
-"Veritabanı oluşturulması için gerekli olan geçici dizin oluşturulamadı."
-
-msgid "Invalid command name '%s' specified."
-msgstr "Geçersiz komut  '%s' tanımlanmış."
-
-msgid "the -f and --force options are no longer recognized"
-msgstr "-f ve --force seçenekleri artık kullanılmamaktadır"
-
-msgid "use options=(force) in the PKGBUILD instead"
-msgstr "bunun yerine PKGBUILD dosyasında options=(force) kullanılmalıdır"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "'%s' depo dosyası uygun bir pacman veritabanı değil."
@@ -1637,14 +1676,35 @@ msgstr "Veritabanı geçici bir yere açılıyor..."
 msgid "Repository file '%s' was not found."
 msgstr "\"%s\" depo dosyası bulunamadı."
 
+#, fuzzy
+msgid "Repository file '%s' could not be created."
+msgstr "ayar dosyası %s okunamadı.\n"
+
+#, fuzzy
+msgid "File '%s' not found."
+msgstr "'%s' paketi bulunamadı."
+
+#, fuzzy
+msgid "Adding delta '%s'"
+msgstr "'%s' farkı eklendi"
+
+#, fuzzy
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "xdelta ikili dosyası bulunamıyor! xdelta kurulu mu?"
+
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' bir paket dosyası değil, atlanıyor"
 
 msgid "Adding package '%s'"
 msgstr "'%s' paketi ekleniyor"
 
-msgid "Package '%s' not found."
-msgstr "'%s' paketi bulunamadı."
+#, fuzzy
+msgid "Searching for delta '%s'..."
+msgstr "'%s' paketi aranıyor..."
+
+#, fuzzy
+msgid "Delta matching '%s' not found."
+msgstr "'%s' ile eşleşen bir paket bulunamadı."
 
 msgid "Searching for package '%s'..."
 msgstr "'%s' paketi aranıyor..."
@@ -1652,17 +1712,106 @@ msgstr "'%s' paketi aranıyor..."
 msgid "Package matching '%s' not found."
 msgstr "'%s' ile eşleşen bir paket bulunamadı."
 
+msgid "Invalid command name '%s' specified."
+msgstr "Geçersiz komut  '%s' tanımlanmış."
+
+msgid "Cannot create temp directory for database building."
+msgstr ""
+"Veritabanı oluşturulması için gerekli olan geçici dizin oluşturulamadı."
+
+msgid "the -f and --force options are no longer recognized"
+msgstr "-f ve --force seçenekleri artık kullanılmamaktadır"
+
+msgid "use options=(force) in the PKGBUILD instead"
+msgstr "bunun yerine PKGBUILD dosyasında options=(force) kullanılmalıdır"
+
 msgid "Creating updated database file '%s'"
 msgstr "Güncellenmiş veritabanı dosyası '%s' oluşturuluyor"
 
-msgid "No compression set."
-msgstr "Herhangi bir sıkıştırma ayarlanmamış."
+msgid "'%s' does not have a valid archive extension."
+msgstr ""
 
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr "Tüm paketler veritabanından kaldırıldı. '%s' siliniyor."
 
 msgid "No packages modified, nothing to do."
 msgstr "Hiç bir pakette değişiklik yapılmadı, çıkılıyor."
+
+#~ msgid ""
+#~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
+#~ msgstr ""
+#~ ":: %s paketi IgnorePkg/IgnoreGroup içinde bulunan %s paketine ihtiyaç "
+#~ "duyuyor. Yine de kuracak mısınız?"
+
+#~ msgid "Checking for package upgrades... \n"
+#~ msgstr "Paket güncellemeleri kontrol ediliyor... \n"
+
+#~ msgid "no upgrades found.\n"
+#~ msgstr "güncelleme bulunamadı.\n"
+
+#~ msgid "done.\n"
+#~ msgstr "tamamlandı.\n"
+
+#~ msgid "Invalid integrity algorithm '%s' specified"
+#~ msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
+
+#~ msgid "Making delta from version %s..."
+#~ msgstr "%s sürümünden fark oluşturuluyor..."
+
+#~ msgid "Recreating package tarball from delta to match md5 signatures"
+#~ msgstr ""
+#~ "Farktan, md5 imzasıyla uyuşacak sıkıştırılmış tar dosyası oluşturuluyor"
+
+#~ msgid "NOTE: the delta should ONLY be distributed with this tarball"
+#~ msgstr "NOT: fark, yalnızca bu sıkıştırılmış tar dosyasıyla dağıtılabilir."
+
+#~ msgid "Could not generate the package from the delta."
+#~ msgstr "Farktan paket oluşturulamadı."
+
+#~ msgid "Delta was not able to be created."
+#~ msgstr "Fark oluşturulamadı."
+
+#~ msgid "No previous version found, skipping xdelta."
+#~ msgstr "Öncesine ait sürüm bulunamadı, xdelta adımı geçiliyor."
+
+#~ msgid ""
+#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+#~ "free software; see the source for copying conditions.\\nThere is NO "
+#~ "WARRANTY, to the extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nBu bir "
+#~ "özgür yazılım projesidir, kopyalama şartları için kaynak koduna bakınız."
+#~ "\\nMevcut yasalar kapsamında da hiçbir garantisi yoktur.\\n"
+
+#~ msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
+#~ msgstr "BUILDSCRIPT tanımlanmamış. %s 'i güncellediğinizden emin olun."
+
+#~ msgid "Skipping build."
+#~ msgstr "Derlenme atlanıyor."
+
+#~ msgid "Running makepkg as root..."
+#~ msgstr "Makepkg yönetici haklarıyla çalıştırılıyor..."
+
+#~ msgid ""
+#~ "The -q/--quiet flag to either program will force silent running except"
+#~ "\\nin the case of warnings or errors.\\n\\n"
+#~ msgstr ""
+#~ "Uygulamanın çıktı vermeden çalışmasını istiyorsanız -q/--quiet seçeneği"
+#~ "\\nile uygulamanın sessiz kipte çalışmasını sağlayabilirsiniz.\\n\\n"
+
+#~ msgid "Could not add delta '%s'"
+#~ msgstr "'%s' farkı eklenemedi"
+
+#~ msgid "Either realpath or readlink are required by repo-add."
+#~ msgstr ""
+#~ "repo-add kullanabilmek için realpath veya readlink tanımlamanız "
+#~ "gerekmektedir."
+
+#~ msgid "%s not found. Cannot continue."
+#~ msgstr "%s bulunamadı. Devam edilemiyor."
+
+#~ msgid "No compression set."
+#~ msgstr "Herhangi bir sıkıştırma ayarlanmamış."
 
 #~ msgid "segmentation fault\n"
 #~ msgstr "parçalama arızası\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2007-03-14 13:45+0100\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -50,12 +50,12 @@ msgstr ""
 "fájlrendszer: %o  csomag: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "kicsomagolás: %s szimbolikus link nem könyvtárra mutat\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "kicsomagolás: nem írok felül könyvtárat a %s fájllal\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "kicsomagolás: %s szimbolikus link nem könyvtárra mutat\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -101,8 +101,8 @@ msgstr "nem sikerült a(z) %s-%s adatbázisbejegyzés frissítése\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "sikertelen a %s%s adatbázis-bejegyzés eltávolítása\n"
 
 #, c-format
@@ -124,6 +124,10 @@ msgstr "a(z) %s adatbázis inkonzisztens: eltérő nevek a(z) %s csomagnál\n"
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "a(z) %s adatbázis inkonzisztens: eltérő verziók a(z) %s csomagnál\n"
+
+#, fuzzy, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "nem sikerült a könyvtárváltás ide: %s (%s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -165,6 +169,10 @@ msgstr "a(z) %s csomag saját %s függősége után lesz eltávolítva\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "a(z) %s csomag saját %s függősége előtt lesz telepítve\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "közvetett csomagválasztás (%s szolgáltatja %s-t)\n"
@@ -198,20 +206,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "nem sikerült a(z) '%s' fájlba írni\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "hiba '%s' letöltése közben: %s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "hiba a(z) '%s' fájl írása során: %s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "nem sikerült a könyvtárváltás ide: %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand futtatása: sikertelen fork!\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -286,6 +286,10 @@ msgid "invalid url for server"
 msgstr "hibás szerver-URL"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "a tranzakció már inicializált"
 
@@ -310,16 +314,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "a művelet nem egyeztethető össze a jelenlegi tranzakciótípussal"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "nem sikerült végrahajtani a tranzakciót"
-
-#, c-format
-msgid "could not download all files"
-msgstr "nem sikerült letölteni az összes fájlt"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "nem található vagy nem olvasható a csomag"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -328,14 +332,6 @@ msgstr "hibás vagy sérült csomag"
 #, c-format
 msgid "cannot open package file"
 msgstr "nem sikerült megnyitni a csomagfájlt"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "nem sikerült betölteni a csomagadatokat"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "a csomag nincs telepítve vagy kisebb verziójú"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -358,10 +354,6 @@ msgid "delta patch failed"
 msgstr "delta patchelés sikertelen"
 
 #, c-format
-msgid "group not found"
-msgstr "a csoport nem található"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "nem sikerült kielégíteni a függőségeket"
 
@@ -373,17 +365,9 @@ msgstr "ütköző függőségek"
 msgid "conflicting files"
 msgstr "ütköző fájlok"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "felhasználói megszakítás"
-
-#, c-format
-msgid "internal error"
-msgstr "belső hiba"
-
-#, c-format
-msgid "not confirmed"
-msgstr "nem megerősített"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "nem sikerült néhány fájlt letölteni innen: %s\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -422,16 +406,28 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "nem sikerült eltávolítani a(z) '%s' bejegyzést a gyorsítótárból\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: csomagfrissítés kihagyása (a(z) %s-%s le fogja cserélni)\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: a helyi (%s) újabb, mint %s (%s)\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "nem sikerült eltávolítani a '%s' fájlt : %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -458,10 +454,6 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' kihagyása, mert ütközik a következővel: '%s'\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "parancs: %s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "nem sikerült néhány fájlt letölteni innen: %s\n"
 
@@ -470,8 +462,16 @@ msgid "could not create removal transaction\n"
 msgstr "nem sikerült létrehozni az eltávolító tranzakciót\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "nem sikerült létrehozni a tranzakciót\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "nem sikerült inicializálni az eltávolító tranzakciót\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "nem sikerült inicializálni a tranzakciót\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -482,18 +482,6 @@ msgid "could not commit removal transaction\n"
 msgstr "nem sikerült végrehajtani az eltávolító tranzakciót\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "nem sikerült létrehozni a tranzakciót\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "nem sikerült inicializálni a tranzakciót\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "nem sikerült előkészíteni a tranzakciót\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "nem sikerült végrehajtani a tranzakciót\n"
 
@@ -502,16 +490,20 @@ msgid "could not remove lock file %s\n"
 msgstr "nem sikerült a zároló fájl (%s) eltávolítása\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "Nincs /bin/sh a szülő környezetben, szkript megszakítása\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "nem sikerült létrehozni az ideiglenes könyvtárat\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nem sikerült az ideiglenes fájlt ide másolni: %s (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -537,17 +529,9 @@ msgstr "popen hívás sikertelen (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid hívás sikertelen (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "a szkript hibásan futott\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -556,3 +540,48 @@ msgstr "nem létezik a(z) %s gyorsítótár. létrehozás...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nem sikerült létrehozni a csomaggyorsítótárat, a /tmp használata\n"
+
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "hiba '%s' letöltése közben: %s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "nem sikerült a könyvtárváltás ide: %s\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "XferCommand futtatása: sikertelen fork!\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "nem sikerült végrahajtani a tranzakciót"
+
+#~ msgid "could not download all files"
+#~ msgstr "nem sikerült letölteni az összes fájlt"
+
+#~ msgid "cannot load package data"
+#~ msgstr "nem sikerült betölteni a csomagadatokat"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "a csomag nincs telepítve vagy kisebb verziójú"
+
+#~ msgid "group not found"
+#~ msgstr "a csoport nem található"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "felhasználói megszakítás"
+
+#~ msgid "internal error"
+#~ msgstr "belső hiba"
+
+#~ msgid "not confirmed"
+#~ msgstr "nem megerősített"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr "%s-%s: csomagfrissítés kihagyása (a(z) %s-%s le fogja cserélni)\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "parancs: %s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "nem sikerült előkészíteni a tranzakciót\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "Nincs /bin/sh a szülő környezetben, szkript megszakítása\n"

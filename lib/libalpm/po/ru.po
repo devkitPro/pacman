@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2009-01-03 15:55+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -50,12 +50,12 @@ msgstr ""
 "файловая система: %o  пакет: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "извлечение: символическая ссылка %s не указывает на директорию\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "извлечение: не перезаписываю директорию файлом %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "извлечение: символическая ссылка %s не указывает на директорию\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -101,8 +101,8 @@ msgstr "не могу обновить в базе данных запись %s-
 msgid "could not add entry '%s' in cache\n"
 msgstr "не могу добавить запись '%s' в кэш\n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "не могу удалить из базы данных запись %s%s\n"
 
 #, c-format
@@ -126,6 +126,10 @@ msgstr ""
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
 "противоречивая информация в базе данных %s: не совпадает версия пакета %s\n"
+
+#, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "не удалось создать директорию %s: (%s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -167,6 +171,10 @@ msgstr "%s будет удалён после %s, как зависимость\
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s будет установлен перед %s, как зависимость\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%s: игнорирую обновление пакета (%s => %s)\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "выбран пакет %s, предоставляющий %s\n"
@@ -200,20 +208,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "не могу записать в файл '%s'\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "ошибка загрузки '%s': %s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "не могу записать в файл '%s': %s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "не могу изменить директорию на %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "запуск XferCommand: неудача\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -288,6 +288,10 @@ msgid "invalid url for server"
 msgstr "неверный url"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "запрос уже инициализирован"
 
@@ -312,16 +316,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "операция не совместима с типом запроса"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "не могу совершить запрос"
-
-#, c-format
-msgid "could not download all files"
-msgstr "не могу загрузить все файлы"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "не удается найти или прочитать пакет"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -330,14 +334,6 @@ msgstr "пакет неправильный или поврежден"
 #, c-format
 msgid "cannot open package file"
 msgstr "не удается открыть файл пакета"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "не удается загрузить данные пакета"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "пакет не установлен или ранней версии"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -360,10 +356,6 @@ msgid "delta patch failed"
 msgstr "не удалось применить дельта-патч"
 
 #, c-format
-msgid "group not found"
-msgstr "группа не найдена"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "не удается удовлетворить зависимости"
 
@@ -375,17 +367,9 @@ msgstr "конфликтующие зависимости"
 msgid "conflicting files"
 msgstr "конфликтующие файлы"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "пользователь прервал операцию"
-
-#, c-format
-msgid "internal error"
-msgstr "внутренняя ошибка"
-
-#, c-format
-msgid "not confirmed"
-msgstr "не подтверждено"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "не удалось получить некоторые файлы с %s\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -424,16 +408,28 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "не могу удалить запись '%s' из кэша\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: игнорирую обновление пакета (он будет заменен на %s-%s)\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: игнорирую обновление пакета (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: игнорирую обновление пакета (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: установленная версия (%s) новее, чем в %s (%s)\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%s: игнорирую обновление пакета (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "не могу удалить файл '%s': %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -460,10 +456,6 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "удаляю '%s' из списка целей, поскольку он конфликтует с '%s'\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "команда: %s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "не удалось получить некоторые файлы с %s\n"
 
@@ -472,8 +464,16 @@ msgid "could not create removal transaction\n"
 msgstr "не удалось создать запрос на удаление\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "не удалось создать запрос\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "не удалось инициализировать запрос на удаление\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "не удалось инициализировать запрос\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -484,18 +484,6 @@ msgid "could not commit removal transaction\n"
 msgstr "не удалось совершить запрос на удаление\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "не удалось создать запрос\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "не удалось инициализировать запрос\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "не удалось подготовить запрос\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "не удалось совершить запрос\n"
 
@@ -504,16 +492,20 @@ msgid "could not remove lock file %s\n"
 msgstr "не могу удалить lock-файл %s\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "Нету /bin/sh в родительском окружении, отмена скрипта\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "не удалось создать временную директорию\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "не могу скопировать временный файл в %s (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "не могу удалить tmpdir %s\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "не удалось откруть %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -539,17 +531,9 @@ msgstr "вызов popen не удался (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "вызов waitpid не удался (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "не удалось корректно выполнить скрипт\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "не могу удалить tmpdir %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "не удалось откруть %s: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -559,5 +543,47 @@ msgstr "кэш %s не существует, создаю...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не могу создать кэш пакетов, будет использован /tmp\n"
 
-#~ msgid "could not create directory %s: %s\n"
-#~ msgstr "не удалось создать директорию %s: (%s)\n"
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "ошибка загрузки '%s': %s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "не могу изменить директорию на %s\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "запуск XferCommand: неудача\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "не могу совершить запрос"
+
+#~ msgid "could not download all files"
+#~ msgstr "не могу загрузить все файлы"
+
+#~ msgid "cannot load package data"
+#~ msgstr "не удается загрузить данные пакета"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "пакет не установлен или ранней версии"
+
+#~ msgid "group not found"
+#~ msgstr "группа не найдена"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "пользователь прервал операцию"
+
+#~ msgid "internal error"
+#~ msgstr "внутренняя ошибка"
+
+#~ msgid "not confirmed"
+#~ msgstr "не подтверждено"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr "%s-%s: игнорирую обновление пакета (он будет заменен на %s-%s)\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "команда: %s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "не удалось подготовить запрос\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "Нету /bin/sh в родительском окружении, отмена скрипта\n"

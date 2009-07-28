@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-01-02 22:24-0600\n"
+"POT-Creation-Date: 2009-07-27 21:14-0500\n"
 "PO-Revision-Date: 2009-01-03 20:19+0700\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -73,16 +73,9 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: 正在从 %s 软件仓库获取软件包...\n"
 
 #, c-format
-msgid ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ":: %s 需要安装位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中的 %s。一律安装吗?[Y/n]"
-
-#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ":: %s 位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中。确定要安装吗?"
-
-#, c-format
-msgid ":: %s is designated as a HoldPkg. Remove anyway?"
-msgstr ":: %s 被指定为 HoldPkg（保留软件包）。确定要删除吗？"
+msgstr ""
+":: %s 位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中。确定要安装吗?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
@@ -91,6 +84,12 @@ msgstr ":: 用 %2$s/%3$s 替代 %1$s？"
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %1$s 与 %2$s 有冲突。删除 %3$s？"
+
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Do you want to skip the above package(s) for this upgrade?"
+msgstr "打算从缓存中删除所有软件包吗？"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -268,12 +267,12 @@ msgstr "'%s' 没有可获得的更新日志。\n"
 msgid "options"
 msgstr "选项"
 
-#, c-format
-msgid "file"
+#, fuzzy, c-format
+msgid "file(s)"
 msgstr "文件"
 
-#, c-format
-msgid "package"
+#, fuzzy, c-format
+msgid "package(s)"
 msgstr "软件包"
 
 #, c-format
@@ -297,7 +296,8 @@ msgstr ""
 "使用 '%s {-h --help}' 及某个操作以查看可得的选项\n"
 
 #, c-format
-msgid "  -c, --cascade        remove packages and all packages that depend on them\n"
+msgid ""
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr "  -c, --cascade        删除软件包及所有的依赖于此的软件包\n"
 
 #, c-format
@@ -305,7 +305,8 @@ msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         略过依赖关系检查\n"
 
 #, c-format
-msgid "  -k, --dbonly         only remove database entry, do not remove files\n"
+msgid ""
+"  -k, --dbonly         only remove database entry, do not remove files\n"
 msgstr "  -k, --dbonly         只删除数据库记录，不删除文件\n"
 
 #, c-format
@@ -321,8 +322,10 @@ msgstr ""
 "                       (-ss·也包括单独指定安装的依赖关系)\n"
 
 #, c-format
-msgid "  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr "  -u, --unneeded       同时删除不需要的（且不会破坏其他软件包的）依赖关系\n"
+msgid ""
+"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgstr ""
+"  -u, --unneeded       同时删除不需要的（且不会破坏其他软件包的）依赖关系\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -340,12 +343,13 @@ msgstr "  -f,  -force          强制安装，覆盖存在冲突的文件\n"
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      查看某软件包的更新日志\n"
 
-#, c-format
-msgid "  -d, --deps           list all packages installed as dependencies\n"
+#, fuzzy, c-format
+msgid ""
+"  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr "  -d, --deps           列出所有作为依赖关系安装的软件包\n"
 
-#, c-format
-msgid "  -e, --explicit       list all packages explicitly installed\n"
+#, fuzzy, c-format
+msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr "  -e, --explicit       列出所有单独指定安装的软件包\n"
 
 #, c-format
@@ -353,15 +357,24 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         查看某软件包组所属的所有软件包\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
 msgstr "  -i, --info           查看软件包信息（-ii 查看备份文件）\n"
+
+#, c-format
+msgid ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
+msgstr ""
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           列出被查询软件包的内容\n"
 
-#, c-format
-msgid "  -m, --foreign        list installed packages not found in sync db(s)\n"
+#, fuzzy, c-format
+msgid ""
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
 msgstr "  -m, --foreign        列出没有在同步数据库时找到的已安装软件包\n"
 
 #, c-format
@@ -373,15 +386,18 @@ msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <软件包> 从某个软件包而不是数据库查询\n"
 
 #, c-format
-msgid "  -s, --search <regex> search locally-installed packages for matching strings\n"
+msgid ""
+"  -s, --search <regex> search locally-installed packages for matching "
+"strings\n"
 msgstr "  -s, --search <regex> 搜寻符合指定字符串的已安装本地的软件包\n"
 
-#, c-format
-msgid "  -t, --unrequired     list all packages not required by any package\n"
+#, fuzzy, c-format
+msgid ""
+"  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr "  -t, --unrequired     列出所有不被其他软件包要求的软件包\n"
 
-#, c-format
-msgid "  -u, --upgrades       list all packages that can be upgraded\n"
+#, fuzzy, c-format
+msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       列出所有可升级的软件包\n"
 
 #, c-format
@@ -389,7 +405,9 @@ msgid "  -q, --quiet          show less information for query and search\n"
 msgstr "  -q, --quiet          在查询或搜索时显示较少的信息\n"
 
 #, c-format
-msgid "  -c, --clean          remove old packages from cache directory (-cc for all)\n"
+msgid ""
+"  -c, --clean          remove old packages from cache directory (-cc for "
+"all)\n"
 msgstr "  -c, --clean          从缓存目录中删除旧软件包（-cc 清除所有）\n"
 
 #, c-format
@@ -401,23 +419,31 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <软件仓库>    查看在该软件仓库中的软件包清单\n"
 
 #, c-format
-msgid "  -p, --print-uris     print out URIs for given packages and their dependencies\n"
+msgid ""
+"  -p, --print-uris     print out URIs for given packages and their "
+"dependencies\n"
 msgstr "  -p, --print-uris     打印指定软件包及依赖关系中的URI\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件仓库\n"
 
-#, c-format
-msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
+"downgrade)\n"
 msgstr "  -u, --sysupgrade     升级所有过期软件包\n"
 
 #, c-format
-msgid "  -w, --downloadonly   download packages but do not install/upgrade anything\n"
+msgid ""
+"  -w, --downloadonly   download packages but do not install/upgrade "
+"anything\n"
 msgstr "  -w, --downloadonly   下载但不安装/升级软件包\n"
 
 #, c-format
-msgid "  -y, --refresh        download fresh package databases from the server\n"
+msgid ""
+"  -y, --refresh        download fresh package databases from the server\n"
 msgstr "  -y, --refresh        从服务器下载新的软件包数据库\n"
 
 #, c-format
@@ -425,7 +451,9 @@ msgid "      --needed         don't reinstall up to date packages\n"
 msgstr "      --needed         不重新安装已经为最新的软件包\n"
 
 #, c-format
-msgid "      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"
+msgid ""
+"      --ignore <pkg>   ignore a package upgrade (can be used more than "
+"once)\n"
 msgstr "      --ignore <软件包>   升级时忽略某个软件包（可多次使用）\n"
 
 #, c-format
@@ -449,16 +477,22 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      不询问确认\n"
 
 #, c-format
-msgid "      --noprogressbar  do not show a progress bar when downloading files\n"
+msgid ""
+"      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr "      --noprogressbar  下载文件时不显示进度条\n"
 
 #, c-format
-msgid "      --noscriptlet    do not execute the install scriptlet if one exists\n"
+msgid ""
+"      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    不执行安装小脚本\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        循环执行\n"
+
+#, fuzzy, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --needed         不重新安装已经为最新的软件包\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -581,12 +615,12 @@ msgid "group \"%s\" was not found\n"
 msgstr "未找到 \"%s\" 组\n"
 
 #, c-format
-msgid "Checking for package upgrades... \n"
-msgstr "正在检查软件包更新...\n"
+msgid "root path too long\n"
+msgstr ""
 
 #, c-format
-msgid "no upgrades found.\n"
-msgstr "没有发现更新。\n"
+msgid "file path too long\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -627,6 +661,14 @@ msgstr "无法准备事务处理 (%s)\n"
 #, c-format
 msgid ":: %s: requires %s\n"
 msgstr ":: %1$s: 要求 %2$s\n"
+
+#, fuzzy, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr ":: %s 被指定为 HoldPkg（保留软件包）。确定要删除吗？"
+
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr ""
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -672,8 +714,8 @@ msgstr "打算从缓存中删除未安装的软件包吗？"
 msgid "Do you want to remove outdated packages from cache?"
 msgstr "打算从缓存中删除过期的软件包吗？"
 
-#, c-format
-msgid "removing old packages from cache... "
+#, fuzzy, c-format
+msgid "removing old packages from cache...\n"
 msgstr "正在从缓存中删除旧软件包..."
 
 #, c-format
@@ -681,15 +723,15 @@ msgid "could not access cache directory\n"
 msgstr "无法访问缓存目录\n"
 
 #, c-format
-msgid "done.\n"
-msgstr "完毕。\n"
+msgid "File %s does not seem to be a valid package, remove it?"
+msgstr ""
 
-#, c-format
-msgid "Do you want to remove ALL packages from cache?"
+#, fuzzy, c-format
+msgid "Do you want to remove ALL files from cache?"
 msgstr "打算从缓存中删除所有软件包吗？"
 
-#, c-format
-msgid "removing all packages from cache... "
+#, fuzzy, c-format
+msgid "removing all files from cache...\n"
 msgstr "正在从缓存中删除所有软件包..."
 
 #, c-format
@@ -732,6 +774,10 @@ msgstr "软件仓库 \"%s\" 未找到\n"
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: 正在进行全面系统更新...\n"
 
+#, fuzzy, c-format
+msgid "skipping target: %s\n"
+msgstr "正在创建软件包：%s"
+
 #, c-format
 msgid "%s package not found, searching for group...\n"
 msgstr "%s 软件包未找到，正在搜索软件包组...\n"
@@ -759,6 +805,10 @@ msgstr ":: %1$s: 与 %2$s 冲突\n"
 #, c-format
 msgid " local database is up to date\n"
 msgstr "本地数据库已是最新的\n"
+
+#, c-format
+msgid "no database for package: %s\n"
+msgstr ""
 
 #, c-format
 msgid "Proceed with download?"
@@ -851,6 +901,10 @@ msgstr "删除 (%d)："
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "全部删除大小:   %.2f MB\n"
+
+#, c-format
+msgid "New optional dependencies for %s\n"
+msgstr "%s 的新可选依赖\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -964,17 +1018,14 @@ msgstr "无法下载 %s"
 msgid "Generating checksums for source files..."
 msgstr "正在为源代码文件创建完整性检查值..."
 
-msgid "Invalid integrity algorithm '%s' specified."
-msgstr "指定了无效的完整性算法 '%s'"
-
 msgid "Cannot find openssl."
 msgstr "无法找到 openssl。"
 
+msgid "Invalid integrity algorithm '%s' specified."
+msgstr "指定了无效的完整性算法 '%s'"
+
 msgid "Unable to find source file %s to generate checksum."
 msgstr "无法找到源代码文件 %s 来生成校验值。"
-
-msgid "Invalid integrity algorithm '%s' specified"
-msgstr "指定了无效的完整性算法 '%s'"
 
 msgid "Validating source files with %s..."
 msgstr "正在验证源代码文件 %s..."
@@ -991,7 +1042,12 @@ msgstr "失败"
 msgid "One or more files did not pass the validity check!"
 msgstr "一个或多个文件没有通过有效性检查！"
 
-msgid "Integrity checks (%s) are missing or incomplete."
+#, fuzzy
+msgid "Integrity checks (%s) differ in size from the source array."
+msgstr "完整性检查 (%s) 缺失或者不完整"
+
+#, fuzzy
+msgid "Integrity checks are missing."
 msgstr "完整性检查 (%s) 缺失或者不完整"
 
 msgid "Extracting Sources..."
@@ -1009,13 +1065,26 @@ msgstr "正在开始 build()..."
 msgid "Build Failed."
 msgstr "创建失败。"
 
+#, fuzzy
+msgid "Starting %s()..."
+msgstr "正在开始 build()..."
+
+#, fuzzy
+msgid "Packaging Failed."
+msgstr "创建失败。"
+
 msgid "Tidying install..."
 msgstr "正在清理安装..."
 
-msgid "Removing info/doc files..."
+#, fuzzy
+msgid "Removing doc files..."
 msgstr "正在删除 info/doc 文件..."
 
-msgid "Compressing man pages..."
+msgid "Purging other files..."
+msgstr ""
+
+#, fuzzy
+msgid "Compressing man and info pages..."
 msgstr "正在压缩 man 文档..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
@@ -1027,12 +1096,6 @@ msgstr "正在删除 libtool .la 文件..."
 msgid "Removing empty directories..."
 msgstr "正在删除空目录..."
 
-msgid "Missing pkg/ directory."
-msgstr "缺少 pkg/ 目录。"
-
-msgid "Creating package..."
-msgstr "正在创建软件包..."
-
 msgid "Generating .PKGINFO file..."
 msgstr "正在生成 .PKGINFO 文件..."
 
@@ -1041,6 +1104,12 @@ msgstr "请添加软件许可证行到你的 %s！"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "GPL 软件的列子：license=('GPL')"
+
+msgid "Missing pkg/ directory."
+msgstr "缺少 pkg/ 目录。"
+
+msgid "Creating package..."
+msgstr "正在创建软件包..."
 
 msgid "Adding install script..."
 msgstr "正在添加安装脚本..."
@@ -1051,29 +1120,11 @@ msgstr "正在添加软件包更新日志..."
 msgid "Compressing package..."
 msgstr "正在压缩软件包..."
 
+msgid "'%s' is not a valid archive extension."
+msgstr "'%s' 是无效的压缩包扩展名。"
+
 msgid "Failed to create package file."
 msgstr "无法创建软件包文件。"
-
-msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr "无法找到 xdelta 执行文件！xdelta 是否已安装？"
-
-msgid "Making delta from version %s..."
-msgstr "正在从版本 %s 制作 delta..."
-
-msgid "Recreating package tarball from delta to match md5 signatures"
-msgstr "正在从 delta 重新生成软件包打包文档以符合 md5 签名"
-
-msgid "NOTE: the delta should ONLY be distributed with this tarball"
-msgstr "注意：本 delta 应当只与本压缩包一起分发"
-
-msgid "Could not generate the package from the delta."
-msgstr "无法从 delta 生成软件包。"
-
-msgid "Delta was not able to be created."
-msgstr "无法创建 delta。"
-
-msgid "No previous version found, skipping xdelta."
-msgstr "没有发现先前版本，跳过 xdelta。"
 
 msgid "Creating source package..."
 msgstr "正在创建源码包..."
@@ -1089,6 +1140,41 @@ msgstr "正在压缩源码包..."
 
 msgid "Failed to create source package file."
 msgstr "创建源码包文件失败。"
+
+#, fuzzy
+msgid "Failed to install built package(s)."
+msgstr "无法创建软件包文件。"
+
+msgid "%s is not allowed to be empty."
+msgstr "%s 不允许为空。"
+
+#, fuzzy
+msgid "%s is not allowed to start with a hyphen."
+msgstr "%s 不允许含有连字号（减号）"
+
+msgid "%s is not allowed to contain hyphens."
+msgstr "%s 不允许含有连字号（减号）"
+
+msgid "%s is not available for the '%s' architecture."
+msgstr "%1$s 不具备 '%2$s' 架构。"
+
+msgid "Note that many packages may need a line added to their %s"
+msgstr "注意许多软件包可能需要在 %s 中添加"
+
+msgid "such as arch=('%s')."
+msgstr "类似 arch=('%s') 的一行."
+
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr "提供不能含有 (< 或 >)比较操作符的阵列"
+
+msgid "Install scriptlet (%s) does not exist."
+msgstr "安装小脚本 (%s) 不存在。"
+
+msgid "options array contains unknown option '%s'"
+msgstr "选项组含有未知的选项 '%s'"
+
+msgid "missing package function for split package '%s'"
+msgstr ""
 
 msgid "Determining latest darcs revision..."
 msgstr "正在确认最新的 darcs 修正..."
@@ -1135,6 +1221,9 @@ msgstr "  -c, --clean      编译后清理工作文件"
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache 从缓存中清理源码文件"
 
+msgid "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr "  --config <config> 使用替代的配置文件（而不是 '%s'）"
+
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr " -d, --nodeps     跳过所有依赖关系检查"
 
@@ -1165,49 +1254,59 @@ msgstr "  -o, --nobuild    仅下载和解压缩文件"
 msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
 msgstr "  -p <buildscript> 使用另外的编译脚本（而不是 '%s' ）"
 
-msgid "  -r, --rmdeps     Remove installed dependencies after a successful build"
+msgid ""
+"  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr "  -r, --rmdeps     编译成功后删除安装的依赖关系"
 
-msgid "  -R, --repackage  Repackage contents of pkg/ without building"
+#, fuzzy
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  不编译而重新打包 pkg/ 内容"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   使用 pacman 安装缺少的依赖关系"
 
-msgid "      --allsource  Generate a source-only tarball including downloaded sources"
+msgid ""
+"      --allsource  Generate a source-only tarball including downloaded "
+"sources"
 msgstr "    --allsource     只生成源码包（包括有已下载的源码）"
 
 msgid "      --asroot     Allow makepkg to run as root user"
 msgstr "      --asroot     允许makepkg作为 root（根用户）运行"
 
-msgid "      --holdver    Prevent automatic version bumping for development PKGBUILDs"
+msgid ""
+"      --holdver    Prevent automatic version bumping for development "
+"PKGBUILDs"
 msgstr "      --holdver    防止开发中的 PKGBUILD 自动更新版本"
 
-msgid "      --source     Generate a source-only tarball without downloaded sources"
+msgid ""
+"      --source     Generate a source-only tarball without downloaded sources"
 msgstr "    --source     只生成源码包（不包括已下载的源码）"
 
 msgid "These options can be passed to pacman:"
 msgstr "这些选项可以传递给 pacman："
 
-msgid "      --noconfirm      Do not ask for confirmation when resolving dependencies"
+msgid ""
+"      --noconfirm      Do not ask for confirmation when resolving "
+"dependencies"
 msgstr "      --noconfirm      当解决依赖关系时不询问确认"
 
-msgid "      --noprogressbar  Do not show a progress bar when downloading files"
+msgid ""
+"      --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  下载时不显示进度条"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "如果没有指定 -p ，makepkg将寻找 '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n"
-"\\n"
-"This is free software; see the source for copying conditions.\\n"
-"There is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n"
-"\\n"
-"这是自由软件；版权条款见源码\\n"
-"在法律许可下，不承担任何担保责任。\\n"
+"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\nCopyright·(c)·2007-"
+"2008·Dan·McGee·<dan@archlinux.org>.\\n\\n这是一个自由软件；版权条款见源码。"
+"\\n在法律许可下，不承担任何担保责任。\\n"
 
 msgid "%s not found."
 msgstr "%s 未找到。"
@@ -1230,14 +1329,12 @@ msgstr "源代码缓存已清除。"
 msgid "No files have been removed."
 msgstr "没有文件被删除。"
 
-msgid "Source destination must be defined in makepkg.conf."
+#, fuzzy
+msgid "Source destination must be defined in %s."
 msgstr "必须在 makepkg.conf 中指定源码目标地。"
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "此外，请在你的缓存目录外运行 makepkg -C。"
-
-msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-msgstr "BUILDSCRIPT 未定义！确认你已经更新过 %s。"
 
 msgid "Running makepkg as root is a BAD idea and can cause"
 msgstr "以 root（根用户）身份运行 makepkg 的习惯很不好，"
@@ -1266,7 +1363,8 @@ msgstr "以非授权用户身份运行 makepkg 将导致"
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr "打包文件的拥有者权限为非根用户。请尝试"
 
-msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+#, fuzzy
+msgid "placing 'fakeroot' in the BUILDENV array in %s."
 msgstr "在 makepkg.conf 的 BUILDENV 中加入 'fakeroot' 来使用 fakeroot 环境。"
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
@@ -1284,29 +1382,8 @@ msgstr "请安装和配置 sudo 以自动解决依赖关系。"
 msgid "%s does not exist."
 msgstr "%s 不存在。"
 
-msgid "%s is not allowed to be empty."
-msgstr "%s 不允许为空。"
-
-msgid "%s is not allowed to contain hyphens."
-msgstr "%s 不允许含有连字号（减号）"
-
-msgid "%s is not available for the '%s' architecture."
-msgstr "%1$s 不具备 '%2$s' 架构。"
-
-msgid "Note that many packages may need a line added to their %s"
-msgstr "注意许多软件包可能需要在 %s 中添加"
-
-msgid "such as arch=('%s')."
-msgstr "类似 arch=('%s') 的一行."
-
-msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr "提供不能含有 (< 或 >)比较操作符的阵列"
-
-msgid "Install scriptlet (%s) does not exist."
-msgstr "安装小脚本 (%s) 不存在。"
-
-msgid "options array contains unknown option '%s'"
-msgstr "选项组含有未知的选项 '%s'"
+msgid "%s contains CRLF characters and cannot be sourced."
+msgstr ""
 
 msgid "A package has already been built, installing existing package..."
 msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
@@ -1314,17 +1391,24 @@ msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "已有一个编译好的软件包。（使用 -f 覆盖）"
 
-msgid "Skipping build."
-msgstr "跳过编译。"
+#, fuzzy
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
+
+#, fuzzy
+msgid "The package group has already been built. (use -f to overwrite)"
+msgstr "已有一个编译好的软件包。（使用 -f 覆盖）"
+
+#, fuzzy
+msgid "Part of the package group has already been built. (use -f to overwrite)"
+msgstr "已有一个编译好的软件包。（使用 -f 覆盖）"
 
 msgid "Leaving fakeroot environment."
 msgstr "正在退出 fakeroot 环境。"
 
 msgid "Making package: %s"
 msgstr "正在创建软件包：%s"
-
-msgid "Running makepkg as root..."
-msgstr "正在作为 root 运行 makepkg..."
 
 msgid "Source package created: %s"
 msgstr "源代码包已创建：%s"
@@ -1375,26 +1459,23 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "用法：%s [pacman_db_root]"
 
 msgid ""
-"pacman-optimize is a little hack that should improve the performance\\n"
-"of pacman when reading/writing to its filesystem-based database.\\n"
-"\\n"
+"pacman-optimize is a little hack that should improve the performance\\nof "
+"pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
-"pacman-optimize 是一个小 hack，用于提高 pacman\\n"
-"读/写基于文件系统的数据库时的性能。\\n"
-"\\n"
+"pacman-optimize 是一个小 hack，用于提高 pacman\\n读/写基于文件系统的数据库时"
+"的性能。\\n\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\n"
-"there is a tendency for these files to become fragmented over time.\\n"
-"This script attempts to relocate these small files into one\\n"
-"continuous location on your hard drive. The result is that the hard\\n"
-"drive should be able to read them faster, since the hard drive head\\n"
-"does not have to move around the disk as much.\\n"
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
+"attempts to relocate these small files into one\\ncontinuous location on "
+"your hard drive. The result is that the hard\\ndrive should be able to read "
+"them faster, since the hard drive head\\ndoes not have to move around the "
+"disk as much.\\n"
 msgstr ""
-"因为 pacman 使用许多小文件来跟踪软件包。\\n"
-"久而久之这些文件有倾向变得零碎。\\n"
-"本脚本尝试把这些小文件重新放置到硬盘上的一个连续的位置。\\n"
-"结果是硬盘磁头由于不用再在碟片上移来移去，从而可以读取得更快。\\n"
+"因为 pacman 使用许多小文件来跟踪软件包。\\n久而久之这些文件有倾向变得零碎。"
+"\\n本脚本尝试把这些小文件重新放置到硬盘上的一个连续的位置。\\n结果是硬盘磁头"
+"由于不用再在碟片上移来移去，从而可以读取得更快。\\n"
 
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff 工具未找到，请安装 diffutils。"
@@ -1441,44 +1522,33 @@ msgstr "正在把数据库放置到位..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "完毕。你的 pacman 数据库已经优化。"
 
-msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 msgstr "用法：repo-add·[-q]·<path-to-db>·<package>·...\\n"
 
-msgid ""
-"Usage: repo-remove [-q] <path-to-db> <packagename> ...\\n"
-"\\n"
-msgstr ""
-"用法：repo-remove·[-q]·<path-to-db>·<packagename>·...\\n"
-"\\n"
+#, fuzzy
+msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr "用法：repo-remove·[-q]·<path-to-db>·<packagename>·...\\n\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package file.\\n"
-"Multiple packages to add can be specified on the command line.\\n"
-"\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n\\n"
 msgstr ""
-"repo-add 通过读取一个软件包文件来更新软件包数据库。\\n"
-"可以在命令行中指定添加多个软件包\\n"
-"\\n"
+"repo-add 通过读取一个软件包文件来更新软件包数据库。\\n可以在命令行中指定添加"
+"多个软件包\\n\\n"
 
 msgid ""
-"repo-remove will update a package database by removing the package name\\n"
-"specified on the command line from the given repo database. Multiple\\n"
-"packages to remove can be specified on the command line.\\n"
-"\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n\\n"
 msgstr ""
-"repo-remove 通过在指定软件包数据库中删除\\n"
-"在命令行中指定的软件包名来更新这个软件包数据库。\\n"
-"可以在命令行中指定删除多个软件包。\\n"
-"\\n"
+"repo-remove 通过在指定软件包数据库中删除\\n在命令行中指定的软件包名来更新这个"
+"软件包数据库。\\n可以在命令行中指定删除多个软件包。\\n\\n"
 
 msgid ""
-"The -q/--quiet flag to either program will force silent running except\\n"
-"in the case of warnings or errors.\\n"
-"\\n"
+"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+"\\nand errors\\n\\n"
 msgstr ""
-"-q/--quiet 强制程序安静运行，\\n"
-"除非出现警告或错误。\\n"
-"\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "例子：  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1487,17 +1557,24 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "例子：  repo-remove /path/to/repo.db.tar.gz kernel26"
 
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\n"
-"Copyright (c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n"
-"\\n"
-"This is free software; see the source for copying conditions.\\n"
-"There is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
+"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
+"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
+"permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\n"
-"Copyright·(c)·2007-2008·Dan·McGee·<dan@archlinux.org>.\\n"
-"\\n"
-"这是一个自由软件；版权条款见源码。\\n"
-"在法律许可下，不承担任何担保责任。\\n"
+"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\nCopyright·(c)·2007-"
+"2008·Dan·McGee·<dan@archlinux.org>.\\n\\n这是一个自由软件；版权条款见源码。"
+"\\n在法律许可下，不承担任何担保责任。\\n"
+
+msgid "Creating 'deltas' db entry..."
+msgstr "正在生成 'deltas' 数据库记录..."
+
+msgid "An entry for '%s' already existed"
+msgstr ""
+
+#, fuzzy
+msgid "Removing existing entry '%s'..."
+msgstr "正在删除现有的软件包 '%s'..."
 
 msgid "Invalid package file '%s'."
 msgstr "无效的软件包文件 '%s'。"
@@ -1511,35 +1588,12 @@ msgstr "正在计算 md5 校验值..."
 msgid "Creating 'depends' db entry..."
 msgstr "正在生成 'depends' 数据库记录..."
 
-msgid "Creating 'deltas' db entry..."
-msgstr "正在生成 'deltas' 数据库记录..."
+#, fuzzy
+msgid "Failed to acquire lockfile: %s."
+msgstr "无法创建软件包文件。"
 
-msgid "Added delta '%s'"
-msgstr "已添加 delta '%s'"
-
-msgid "Could not add delta '%s'"
-msgstr "无法添加 delta '%s'"
-
-msgid "Removing existing package '%s'..."
-msgstr "正在删除现有的软件包 '%s'..."
-
-msgid "Either realpath or readlink are required by repo-add."
-msgstr "repo-add 要求 realpath 和 readlink 中的一个。"
-
-msgid "%s not found. Cannot continue."
-msgstr "%s 未找到。"
-
-msgid "Cannot create temp directory for database building."
-msgstr "无法为建立数据库而创建临时目录。"
-
-msgid "Invalid command name '%s' specified."
-msgstr "指定了无效的命令名 '%s'"
-
-msgid "the -f and --force options are no longer recognized"
-msgstr "-f 和 --force 选项不再被识别"
-
-msgid "use options=(force) in the PKGBUILD instead"
-msgstr "应当在 PKGBUILD 使用 options=(force) 取而代之"
+msgid "Held by %s"
+msgstr ""
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "库文件 '%s' 不是一个有效的 pacman 数据库。"
@@ -1550,14 +1604,35 @@ msgstr "正在解压缩数据库到一个临时目录..."
 msgid "Repository file '%s' was not found."
 msgstr "软件仓库文件 '%s' 未找到"
 
+#, fuzzy
+msgid "Repository file '%s' could not be created."
+msgstr "配置文件 %s 无法读取。\n"
+
+#, fuzzy
+msgid "File '%s' not found."
+msgstr "软件包 '%s' 未找到。"
+
+#, fuzzy
+msgid "Adding delta '%s'"
+msgstr "已添加 delta '%s'"
+
+#, fuzzy
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "无法找到 xdelta 执行文件！xdelta 是否已安装？"
+
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' 不是一个软件包文件，跳过"
 
 msgid "Adding package '%s'"
 msgstr "正在添加软件包 '%s'"
 
-msgid "Package '%s' not found."
-msgstr "软件包 '%s' 未找到。"
+#, fuzzy
+msgid "Searching for delta '%s'..."
+msgstr "正在搜索软件包 '%s'..."
+
+#, fuzzy
+msgid "Delta matching '%s' not found."
+msgstr "未找到符合 '%s' 的软件包。"
 
 msgid "Searching for package '%s'..."
 msgstr "正在搜索软件包 '%s'..."
@@ -1565,11 +1640,23 @@ msgstr "正在搜索软件包 '%s'..."
 msgid "Package matching '%s' not found."
 msgstr "未找到符合 '%s' 的软件包。"
 
+msgid "Invalid command name '%s' specified."
+msgstr "指定了无效的命令名 '%s'"
+
+msgid "Cannot create temp directory for database building."
+msgstr "无法为建立数据库而创建临时目录。"
+
+msgid "the -f and --force options are no longer recognized"
+msgstr "-f 和 --force 选项不再被识别"
+
+msgid "use options=(force) in the PKGBUILD instead"
+msgstr "应当在 PKGBUILD 使用 options=(force) 取而代之"
+
 msgid "Creating updated database file '%s'"
 msgstr "正在生成更新的数据库文件 '%s'"
 
-msgid "No compression set."
-msgstr "没有设置压缩。"
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' 未包含有效的压缩包扩展名。"
 
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr "所有软件包已经从数据库中删除。正在删除 '%s'。"
@@ -1577,14 +1664,75 @@ msgstr "所有软件包已经从数据库中删除。正在删除 '%s'。"
 msgid "No packages modified, nothing to do."
 msgstr "没有软件包被修改，无事可做。"
 
+#~ msgid ""
+#~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
+#~ msgstr ""
+#~ ":: %s 需要安装位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中的 %"
+#~ "s。一律安装吗?[Y/n]"
+
+#~ msgid "Checking for package upgrades... \n"
+#~ msgstr "正在检查软件包更新...\n"
+
+#~ msgid "no upgrades found.\n"
+#~ msgstr "没有发现更新。\n"
+
+#~ msgid "done.\n"
+#~ msgstr "完毕。\n"
+
+#~ msgid "Invalid integrity algorithm '%s' specified"
+#~ msgstr "指定了无效的完整性算法 '%s'"
+
+#~ msgid "Making delta from version %s..."
+#~ msgstr "正在从版本 %s 制作 delta..."
+
+#~ msgid "Recreating package tarball from delta to match md5 signatures"
+#~ msgstr "正在从 delta 重新生成软件包打包文档以符合 md5 签名"
+
+#~ msgid "NOTE: the delta should ONLY be distributed with this tarball"
+#~ msgstr "注意：本 delta 应当只与本压缩包一起分发"
+
+#~ msgid "Could not generate the package from the delta."
+#~ msgstr "无法从 delta 生成软件包。"
+
+#~ msgid "Delta was not able to be created."
+#~ msgstr "无法创建 delta。"
+
+#~ msgid "No previous version found, skipping xdelta."
+#~ msgstr "没有发现先前版本，跳过 xdelta。"
+
+#~ msgid ""
+#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+#~ "free software; see the source for copying conditions.\\nThere is NO "
+#~ "WARRANTY, to the extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\n这是自由软"
+#~ "件；版权条款见源码\\n在法律许可下，不承担任何担保责任。\\n"
+
+#~ msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
+#~ msgstr "BUILDSCRIPT 未定义！确认你已经更新过 %s。"
+
+#~ msgid "Skipping build."
+#~ msgstr "跳过编译。"
+
+#~ msgid "Running makepkg as root..."
+#~ msgstr "正在作为 root 运行 makepkg..."
+
+#~ msgid ""
+#~ "The -q/--quiet flag to either program will force silent running except"
+#~ "\\nin the case of warnings or errors.\\n\\n"
+#~ msgstr "-q/--quiet 强制程序安静运行，\\n除非出现警告或错误。\\n\\n"
+
+#~ msgid "Could not add delta '%s'"
+#~ msgstr "无法添加 delta '%s'"
+
+#~ msgid "Either realpath or readlink are required by repo-add."
+#~ msgstr "repo-add 要求 realpath 和 readlink 中的一个。"
+
+#~ msgid "%s not found. Cannot continue."
+#~ msgstr "%s 未找到。"
+
+#~ msgid "No compression set."
+#~ msgstr "没有设置压缩。"
+
 #~ msgid "For full benefits of pacman-optimize, run 'sync' now."
 #~ msgstr "为了充分享受到 pacman-optimize 的好处，现在运行 'sync' 吧。"
-#~ msgid "New optional dependencies for %s\n"
-#~ msgstr "%s 的新可选依赖\n"
-#~ msgid "'%s' is not a valid archive extension."
-#~ msgstr "'%s' 是无效的压缩包扩展名。"
-#~ msgid "  --config <config> Use an alternate config file (instead of '%s')"
-#~ msgstr "  --config <config> 使用替代的配置文件（而不是 '%s'）"
-#~ msgid "'%s' does not have a valid archive extension."
-#~ msgstr "'%s' 未包含有效的压缩包扩展名。"
-

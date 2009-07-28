@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2009-01-03 11:58+0100\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
@@ -56,12 +56,12 @@ msgstr ""
 "Dateisystem: %o Paket: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "Entpacken: Symlink %s zeigt nicht zum Verzeichnis\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "Entpacken: Überschreibe Verzeichnis nicht mit Datei %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "Entpacken: Symlink %s zeigt nicht zum Verzeichnis\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -107,8 +107,8 @@ msgstr "Konnte Datenbankeintrag %s-%s nicht aktualisieren\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "Konnte Eintrag '%s' nicht zum Pufferspeicher hinzufügen\n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "Konnte Datenbank-Eintrag %s%s nicht entfernen\n"
 
 #, c-format
@@ -134,6 +134,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
 "Die Datenbank von %s ist inkonsistent: Die Versionsnummern für das Paket %s "
 "stimmen nicht überein\n"
+
+#, fuzzy, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "Konnte nicht zu Verzeichnis %s wechseln (%s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -175,6 +179,10 @@ msgstr "%s wird nach seiner Abhängigkeit %s entfernt werden\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s wird vor seiner Abhängigkeit %s installiert werden\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%s: Ignoriere Paket-Aktualisierung (%s => %s)\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "Bereitstellendes Paket wurde ausgewählt (%s enthält %s)\n"
@@ -208,20 +216,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "Kann Datei '%s' nicht beschreiben\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "Fehler beim Download von '%s': %s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "Fehler beim Beschreiben von Datei '%s': %s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "Konnte nicht zu Verzeichnis %s wechseln\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "Nutze XferCommand: Zweig versagte!\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -296,6 +296,10 @@ msgid "invalid url for server"
 msgstr "Ungültige URL für den Server"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "Vorgang bereits gestartet"
 
@@ -320,16 +324,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "Operation nicht mit dem Vorgangs-Typ kompatibel"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "Konnte den Vorgang nicht durchführen"
-
-#, c-format
-msgid "could not download all files"
-msgstr "Konnte nicht alle Dateien herunterladen"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "Konnte Paket nicht finden oder lesen"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -338,14 +342,6 @@ msgstr "Ungültiges oder beschädigtes Paket"
 #, c-format
 msgid "cannot open package file"
 msgstr "Kann Paketdatei nicht öffnen"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "Kann Paketdaten nicht laden"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "Paket ist nicht installiert oder ältere Version"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -368,10 +364,6 @@ msgid "delta patch failed"
 msgstr "Delta-Patch versagte"
 
 #, c-format
-msgid "group not found"
-msgstr "Gruppe nicht gefunden"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "Kann Abhängigkeiten nicht erfüllen"
 
@@ -383,17 +375,9 @@ msgstr "In Konflikt stehende Abhängigkeiten"
 msgid "conflicting files"
 msgstr "In Konflikt stehende Dateien"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "Benutzer brach die Aktion ab"
-
-#, c-format
-msgid "internal error"
-msgstr "Interner Fehler"
-
-#, c-format
-msgid "not confirmed"
-msgstr "Nicht bestätigt"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "Konnte manche Dateien von %s nicht übertragen\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -432,16 +416,28 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "Konnte Eintrag '%s' nicht aus dem Puffer entfernen\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: Ignoriere zu aktualisierendes Paket (zu ersetzen durch %s-%s)\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: Ignoriere Paket-Aktualisierung (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: Ignoriere Paket-Aktualisierung (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: Lokale Version (%s) ist neuer als %s (%s)\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%s: Ignoriere Paket-Aktualisierung (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "Kann Datei '%s' nicht entfernen: %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -468,10 +464,6 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "Entferne '%s' aus der Ziel-Liste, da es mit '%s' in Konflikt steht\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "Befehl: %s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "Konnte manche Dateien von %s nicht übertragen\n"
 
@@ -480,8 +472,16 @@ msgid "could not create removal transaction\n"
 msgstr "Konnte den Lösch-Vorgang nicht erstellen\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "Konnte den Vorgang nicht erstellen\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "Konnte den Lösch-Vorgang nicht beginnen\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "Konnte den Vorgang nicht beginnen\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -492,18 +492,6 @@ msgid "could not commit removal transaction\n"
 msgstr "Konnte Lösch-Vorgang nicht durchführen\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "Konnte den Vorgang nicht erstellen\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "Konnte den Vorgang nicht beginnen\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "Konnte den Vorgang nicht vorbereiten\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "Konnte den Vorgang nicht durchführen\n"
 
@@ -512,16 +500,20 @@ msgid "could not remove lock file %s\n"
 msgstr "Konnte Sperrdatei %s nicht entfernen\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "Kein /bin/sh im übergeordneten Verzeichnis, breche Skript ab\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "Konnte temporäres Verzeichnis nicht erstellen\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "Konnte temporäre Datei nicht nach %s kopieren (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "Konnte temporäres Verzeichnis %s nicht entfernen\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "Konnte Datei %s nicht öffnen: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -547,17 +539,9 @@ msgstr "Aufruf von 'popen' fehlgeschlagen (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "Aufruf von 'waitpid' fehlgeschlagen (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "Skript konnte nicht korrekt ausgeführt werden\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "Konnte temporäres Verzeichnis %s nicht entfernen\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "Konnte Datei %s nicht öffnen: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -566,3 +550,49 @@ msgstr "Es existiert kein %s-Puffer. Erstelle... \n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "Konnte Paketpuffer nicht erstellen, benutze stattdessen /tmp\n"
+
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "Fehler beim Download von '%s': %s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "Konnte nicht zu Verzeichnis %s wechseln\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "Nutze XferCommand: Zweig versagte!\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "Konnte den Vorgang nicht durchführen"
+
+#~ msgid "could not download all files"
+#~ msgstr "Konnte nicht alle Dateien herunterladen"
+
+#~ msgid "cannot load package data"
+#~ msgstr "Kann Paketdaten nicht laden"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "Paket ist nicht installiert oder ältere Version"
+
+#~ msgid "group not found"
+#~ msgstr "Gruppe nicht gefunden"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "Benutzer brach die Aktion ab"
+
+#~ msgid "internal error"
+#~ msgstr "Interner Fehler"
+
+#~ msgid "not confirmed"
+#~ msgstr "Nicht bestätigt"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr ""
+#~ "%s-%s: Ignoriere zu aktualisierendes Paket (zu ersetzen durch %s-%s)\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "Befehl: %s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "Konnte den Vorgang nicht vorbereiten\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "Kein /bin/sh im übergeordneten Verzeichnis, breche Skript ab\n"

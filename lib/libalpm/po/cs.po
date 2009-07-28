@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2009-01-04 21:59+0100\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Čeština\n"
@@ -50,12 +50,12 @@ msgstr ""
 "souborový systém: %o  balíček: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "rozbalení: symbolický odkaz %s neodkazuje na adresář\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "rozbalení: adresář nebyl přepsán souborem %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "rozbalení: symbolický odkaz %s neodkazuje na adresář\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -101,8 +101,8 @@ msgstr "nelze aktualizovat záznam databáze %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nelze přidat položku '%s' do cache\n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "nelze odstranit záznam v databázi %s%s\n"
 
 #, c-format
@@ -124,6 +124,10 @@ msgstr "databáze %s je nekonzistentní: nesouhlasí jméno balíčku %s\n"
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "databáze %s je nekonzistentní: nesouhlasí verze balíčku %s\n"
+
+#, fuzzy, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "nelze změnit adresář na %s (%s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -165,6 +169,10 @@ msgstr "%s bude odstraněn po %s, na kterém závisí\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s bude nainstalován před %s, na kterém závisí\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "byl vybrán nahrazující balíček (%s poskytuje %s)\n"
@@ -198,20 +206,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "nelze zapisovat do souboru '%s'\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "chyba při stahování '%s': %s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "chyba při zápisu do souboru '%s': %s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "nelze změnit adresář na %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "spouští se XferCommand: větvení selhalo!\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -286,6 +286,10 @@ msgid "invalid url for server"
 msgstr "nesprávná URL pro server"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "transakce inicializována"
 
@@ -310,16 +314,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "operace není kompatibilní s typem transakce"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "nelze provést transakci"
-
-#, c-format
-msgid "could not download all files"
-msgstr "nelze stáhnout všechny soubory"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "nelze nalézt nebo přečíst balíček"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -328,14 +332,6 @@ msgstr "neplatný nebo poškozený balíček"
 #, c-format
 msgid "cannot open package file"
 msgstr "nelze otevřít soubor balíčku"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "nelze načíst data z balíčku"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "balíček není nainstalovaný nebo má nižší verzi"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -358,10 +354,6 @@ msgid "delta patch failed"
 msgstr "aplikace delta rozdílu selhala"
 
 #, c-format
-msgid "group not found"
-msgstr "skupina nebyla nalezena"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "nelze vyřešit závislosti"
 
@@ -373,17 +365,9 @@ msgstr "konfliktní závislosti"
 msgid "conflicting files"
 msgstr "konfliktní soubory"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "uživatel zrušil operaci"
-
-#, c-format
-msgid "internal error"
-msgstr "interní chyba"
-
-#, c-format
-msgid "not confirmed"
-msgstr "nepotvrzeno"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "selhalo získání některých souborů z %s\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -422,16 +406,28 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "nelze odstranit položku '%s' z cache\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%s-%s: ignoruje se aktualizace balíčku (měl být nahrazen %s-%s)\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokální verze (%s) je novější než v %s (%s)\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "nelze odstranit soubor '%s': %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -458,10 +454,6 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' odstraněn ze seznamu cílů, protože je konfliktní s '%s'\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "příkaz: %s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "selhalo získání některých souborů z %s\n"
 
@@ -470,8 +462,16 @@ msgid "could not create removal transaction\n"
 msgstr "nelze vytvořit transakci pro odstranění\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "nelze vytvořit transakci\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "nelze inicializovat transakci pro odstranění\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "nelze inicializovat transakci\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -482,18 +482,6 @@ msgid "could not commit removal transaction\n"
 msgstr "nelze provést transakci pro odstranění\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "nelze vytvořit transakci\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "nelze inicializovat transakci\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "nelze připravit transakci\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "nelze provést transakci\n"
 
@@ -502,16 +490,20 @@ msgid "could not remove lock file %s\n"
 msgstr "nelze odstranit zamykací soubor %s\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "V rodičovském prostředí chybí /bin/sh, ruší se provádění skriptů\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "nelze vytvořit dočasný adresář\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "nelze odstranit dočasný adresář %s\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "nelze otevřít %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -537,17 +529,9 @@ msgstr "volání popen selhalo (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "volání waitpid selhalo (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "skript se nepodařilo spustit správně\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "nelze odstranit dočasný adresář %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nelze otevřít %s: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -556,3 +540,48 @@ msgstr "neexistuje cache %s, vytváří se...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nelze vytvořit cache balíčků, používá se /tmp\n"
+
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "chyba při stahování '%s': %s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "nelze změnit adresář na %s\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "spouští se XferCommand: větvení selhalo!\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "nelze provést transakci"
+
+#~ msgid "could not download all files"
+#~ msgstr "nelze stáhnout všechny soubory"
+
+#~ msgid "cannot load package data"
+#~ msgstr "nelze načíst data z balíčku"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "balíček není nainstalovaný nebo má nižší verzi"
+
+#~ msgid "group not found"
+#~ msgstr "skupina nebyla nalezena"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "uživatel zrušil operaci"
+
+#~ msgid "internal error"
+#~ msgstr "interní chyba"
+
+#~ msgid "not confirmed"
+#~ msgstr "nepotvrzeno"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr "%s-%s: ignoruje se aktualizace balíčku (měl být nahrazen %s-%s)\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "příkaz: %s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "nelze připravit transakci\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "V rodičovském prostředí chybí /bin/sh, ruší se provádění skriptů\n"

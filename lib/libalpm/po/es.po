@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2009-01-03 03:18-0300\n"
 "Last-Translator: Juan Pablo González Tognarelli <jotapesan@gmail.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@lists.kde.org>\n"
@@ -52,12 +52,12 @@ msgstr ""
 "sistema de archivos: %o paquete: %o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "extract: el link simbólico %s no apunta al directorio\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "extract: no sobrescribiendo el dir. con el archivo %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "extract: el link simbólico %s no apunta al directorio\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -103,8 +103,8 @@ msgstr "no se pudo actualizar en la base de datos la entrada %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "no se pudo agregar '%s' en la cache\n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "no se pudo quitar la entrada %s%s en la base de datos\n"
 
 #, c-format
@@ -130,6 +130,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
 "la base de datos %s es inconsistente: versión mal emparejada en el paquete %"
 "s\n"
+
+#, fuzzy, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "no se pudo cambiar el directorio a %s (%s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -171,6 +175,10 @@ msgstr "%s será quitado luego de su dependencia %s\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s será instalado antes de su dependencia %s\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "El paquete proveedor fue seleccionado (%s provee %s)\n"
@@ -204,20 +212,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "no se puede escribir en el archivo '%s'\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "error descargando '%s': %s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "no se pudo escribir al archivo '%s': %s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "no se pudo cambiar el directorio a %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "ejecutando XferCommand: falló en el fork\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -292,6 +292,10 @@ msgid "invalid url for server"
 msgstr "dirección inválida para el servidor"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "la operación ya se inicializó"
 
@@ -316,16 +320,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "la operación no es compatible con el tipo de transacción"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "no se pudo hacer la transacción"
-
-#, c-format
-msgid "could not download all files"
-msgstr "no se pudo descargar todos los archivos"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "no se pudo encontrar o leer el paquete"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -334,14 +338,6 @@ msgstr "paquete invalido o corrupto"
 #, c-format
 msgid "cannot open package file"
 msgstr "no se pudo abrir el archivo de paquetes"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "no se pudo cargar la información del paquete"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "el paquete no está instalado o es una versión menor"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -364,10 +360,6 @@ msgid "delta patch failed"
 msgstr "parche delta fallado"
 
 #, c-format
-msgid "group not found"
-msgstr "grupo no encontrado"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "no se pudieron satisfacer las dependencias"
 
@@ -379,17 +371,9 @@ msgstr "dependencias en conflicto"
 msgid "conflicting files"
 msgstr "archivos en conflicto"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "el usuario abortó la operación"
-
-#, c-format
-msgid "internal error"
-msgstr "error interno"
-
-#, c-format
-msgid "not confirmed"
-msgstr "no confirmado"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "falló al descargar algunos archivos desde %s\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -428,18 +412,28 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "no se pudo quitar la entrada '%s' de la cache\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
 msgstr ""
-"%s-%s: ignorando la actualización del paquete (para ser reemplazado por %s-%"
-"s)\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: local (%s) es más nuevo que %s (%s)\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "no se pudo quitar el archivo '%s': %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -468,10 +462,6 @@ msgstr ""
 "s'\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "comando: %s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "falló al descargar algunos archivos desde %s\n"
 
@@ -480,8 +470,16 @@ msgid "could not create removal transaction\n"
 msgstr "no se pudo crear la operación de eliminación\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "no se pudo crear la operación\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "no se pudo iniciar la operación de eliminación\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "no se pudo iniciar la operación\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -492,18 +490,6 @@ msgid "could not commit removal transaction\n"
 msgstr "no se pudo enviar la operación de eliminación\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "no se pudo crear la operación\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "no se pudo iniciar la operación\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "no se pudo preparar la transacción\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "no se pudo asignar la transacción\n"
 
@@ -512,16 +498,20 @@ msgid "could not remove lock file %s\n"
 msgstr "no se pudo eliminar el archivo de bloqueo %s\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "No existe /bin/sh en el ambiente padre, abortando los scripts\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "no se puede crear el directorio temporal\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "no se pudo copiar el archivo temporal a %s (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "no se pudo eliminar el directorio temporal %s\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "no se pudo abrir %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -547,17 +537,9 @@ msgstr "llamada a popen fallida (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "llamada a waitpid fallida (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "scriplet falló en ejecutarse correctamente\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "no se pudo eliminar el directorio temporal %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "no se pudo abrir %s: %s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -567,3 +549,49 @@ msgstr "no existe la cache %s, creando...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "no se pudo crear la cache de paquetes, usando /tmp en su lugar\n"
 
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "error descargando '%s': %s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "no se pudo cambiar el directorio a %s\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "ejecutando XferCommand: falló en el fork\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "no se pudo hacer la transacción"
+
+#~ msgid "could not download all files"
+#~ msgstr "no se pudo descargar todos los archivos"
+
+#~ msgid "cannot load package data"
+#~ msgstr "no se pudo cargar la información del paquete"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "el paquete no está instalado o es una versión menor"
+
+#~ msgid "group not found"
+#~ msgstr "grupo no encontrado"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "el usuario abortó la operación"
+
+#~ msgid "internal error"
+#~ msgstr "error interno"
+
+#~ msgid "not confirmed"
+#~ msgstr "no confirmado"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr ""
+#~ "%s-%s: ignorando la actualización del paquete (para ser reemplazado por %"
+#~ "s-%s)\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "comando: %s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "no se pudo preparar la transacción\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "No existe /bin/sh en el ambiente padre, abortando los scripts\n"

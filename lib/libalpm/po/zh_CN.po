@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.2.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2008-08-23 10:54-0500\n"
+"POT-Creation-Date: 2009-07-27 21:15-0500\n"
 "PO-Revision-Date: 2008-10-28 16:20+0900\n"
 "Last-Translator: Lyman Li <lymanrb@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -50,12 +50,12 @@ msgstr ""
 "文件系统：%2$o  软件包：%3$o\n"
 
 #, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "解压缩：符号链接 %s 没有指向目录\n"
-
-#, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "解压缩：没有用文件 %s 覆盖目录\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "解压缩：符号链接 %s 没有指向目录\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
@@ -101,8 +101,8 @@ msgstr "无法更新数据库记录 %1$s-%2$s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "无法在缓存中添加记录 '%s' \n"
 
-#, c-format
-msgid "could not remove database entry %s%s\n"
+#, fuzzy, c-format
+msgid "could not remove database %s\n"
 msgstr "无法删除数据库记录 %1$s%2$s\n"
 
 #, c-format
@@ -124,6 +124,10 @@ msgstr "%1$s 数据库不一致：名字和软件包中的 %2$s 不一致\n"
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%1$s 数据库不一致：版本和软件包中的 %2$s 不一致\n"
+
+#, fuzzy, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "无法更改目录到 %1$s (%2$s)\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -165,6 +169,10 @@ msgstr "%1$s 将在它 %2$s 的依赖关系之后被删除\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%1$s 将在它 %2$s 的依赖关系之前被安装\n"
 
+#, fuzzy, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
 msgstr "已选定提供软件包 (%1$s 提供 %2$s)\n"
@@ -198,20 +206,12 @@ msgid "cannot write to file '%s'\n"
 msgstr "无法写入文件 '%s'\n"
 
 #, c-format
-msgid "error downloading '%s': %s\n"
-msgstr "下载 '%1$s' 时出错: %2$s\n"
-
-#, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "写入文件 '%1$s' 时出错: %2$s\n"
 
 #, c-format
-msgid "could not chdir to %s\n"
-msgstr "无法切换目录到 %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "正在运行 XferCommand：fork 失败！\n"
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
 
 #, c-format
 msgid "failed to download %s\n"
@@ -286,6 +286,10 @@ msgid "invalid url for server"
 msgstr "无效的服务器 url"
 
 #, c-format
+msgid "no servers configured for repository"
+msgstr ""
+
+#, c-format
 msgid "transaction already initialized"
 msgstr "处理已初始化"
 
@@ -310,16 +314,16 @@ msgid "operation not compatible with the transaction type"
 msgstr "操作与处理类型不兼容"
 
 #, c-format
-msgid "could not commit transaction"
-msgstr "无法交付处理"
-
-#, c-format
-msgid "could not download all files"
-msgstr "无法下载全部文件"
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
 
 #, c-format
 msgid "could not find or read package"
 msgstr "无法找到或读取软件包"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr ""
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -328,14 +332,6 @@ msgstr "无效的或已损坏的软件包"
 #, c-format
 msgid "cannot open package file"
 msgstr "无法打开软件包文件"
-
-#, c-format
-msgid "cannot load package data"
-msgstr "无法加载软件包数据"
-
-#, c-format
-msgid "package not installed or lesser version"
-msgstr "软件包没有安装或版本较低"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -358,10 +354,6 @@ msgid "delta patch failed"
 msgstr "delta 补丁失败"
 
 #, c-format
-msgid "group not found"
-msgstr "没有找到软件包组"
-
-#, c-format
 msgid "could not satisfy dependencies"
 msgstr "无法满足依赖关系"
 
@@ -373,17 +365,9 @@ msgstr "有冲突的依赖关系"
 msgid "conflicting files"
 msgstr "有冲突的文件"
 
-#, c-format
-msgid "user aborted the operation"
-msgstr "用户中断了操作"
-
-#, c-format
-msgid "internal error"
-msgstr "内部错误"
-
-#, c-format
-msgid "not confirmed"
-msgstr "未确认"
+#, fuzzy, c-format
+msgid "failed to retrieve some files"
+msgstr "无法从 %s 获取某些文件\n"
 
 #, c-format
 msgid "invalid regular expression"
@@ -422,16 +406,28 @@ msgid "could not remove entry '%s' from cache\n"
 msgstr "无法从缓存中删除记录 '%s'\n"
 
 #, c-format
-msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-msgstr "%1$s-%2$s：忽略软件包更新（由 %3$s-%4$s 替代）\n"
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+
+#, fuzzy, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%1$s：本地（%2$s）比 %3$s 的版本更新 (%4$s)\n"
 
-#, c-format
-msgid "%s: ignoring package upgrade (%s => %s)\n"
+#, fuzzy, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+
+#, fuzzy, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "无法删除文件 '%1$s': %2$s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -458,10 +454,6 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "正在从目标清单中删除 '%1$s' ，因为它和 '%2$s' 冲突\n"
 
 #, c-format
-msgid "command: %s\n"
-msgstr "命令：%s\n"
-
-#, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "无法从 %s 获取某些文件\n"
 
@@ -470,8 +462,16 @@ msgid "could not create removal transaction\n"
 msgstr "无法生成可撤销处理\n"
 
 #, c-format
+msgid "could not create transaction\n"
+msgstr "无法创建处理\n"
+
+#, c-format
 msgid "could not initialize the removal transaction\n"
 msgstr "无法初始化可撤销处理\n"
+
+#, c-format
+msgid "could not initialize transaction\n"
+msgstr "无法初始化处理\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
@@ -482,18 +482,6 @@ msgid "could not commit removal transaction\n"
 msgstr "无法交付可撤销处理\n"
 
 #, c-format
-msgid "could not create transaction\n"
-msgstr "无法创建处理\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "无法初始化处理\n"
-
-#, c-format
-msgid "could not prepare transaction\n"
-msgstr "无法准备处理\n"
-
-#, c-format
 msgid "could not commit transaction\n"
 msgstr "无法交付处理\n"
 
@@ -502,16 +490,20 @@ msgid "could not remove lock file %s\n"
 msgstr "无法删除锁定文件 %s\n"
 
 #, c-format
-msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-msgstr "父环境中没有 /bin/sh，正在中断小脚本\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "无法创建临时目录\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "无法复制临时文件到 %1$s (%2$s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "无法删除临时目录 %s\n"
+
+#, c-format
+msgid "could not open %s: %s\n"
+msgstr "无法打开 %1$s: %2$s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -537,17 +529,9 @@ msgstr "调用 popen 失败 (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "调用 waitpid 失败 (%s)\n"
 
-#, c-format
-msgid "scriptlet failed to execute correctly\n"
+#, fuzzy, c-format
+msgid "command failed to execute correctly\n"
 msgstr "小脚本未能被正确执行\n"
-
-#, c-format
-msgid "could not remove tmpdir %s\n"
-msgstr "无法删除临时目录 %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "无法打开 %1$s: %2$s\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -556,3 +540,48 @@ msgstr "没有 %s 缓存存在，正在创建...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "无法创建软件包缓存，正在使用 /tmp 代替\n"
+
+#~ msgid "error downloading '%s': %s\n"
+#~ msgstr "下载 '%1$s' 时出错: %2$s\n"
+
+#~ msgid "could not chdir to %s\n"
+#~ msgstr "无法切换目录到 %s\n"
+
+#~ msgid "running XferCommand: fork failed!\n"
+#~ msgstr "正在运行 XferCommand：fork 失败！\n"
+
+#~ msgid "could not commit transaction"
+#~ msgstr "无法交付处理"
+
+#~ msgid "could not download all files"
+#~ msgstr "无法下载全部文件"
+
+#~ msgid "cannot load package data"
+#~ msgstr "无法加载软件包数据"
+
+#~ msgid "package not installed or lesser version"
+#~ msgstr "软件包没有安装或版本较低"
+
+#~ msgid "group not found"
+#~ msgstr "没有找到软件包组"
+
+#~ msgid "user aborted the operation"
+#~ msgstr "用户中断了操作"
+
+#~ msgid "internal error"
+#~ msgstr "内部错误"
+
+#~ msgid "not confirmed"
+#~ msgstr "未确认"
+
+#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
+#~ msgstr "%1$s-%2$s：忽略软件包更新（由 %3$s-%4$s 替代）\n"
+
+#~ msgid "command: %s\n"
+#~ msgstr "命令：%s\n"
+
+#~ msgid "could not prepare transaction\n"
+#~ msgstr "无法准备处理\n"
+
+#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
+#~ msgstr "父环境中没有 /bin/sh，正在中断小脚本\n"
