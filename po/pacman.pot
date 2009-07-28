@@ -1,6 +1,6 @@
-# Pacman and related scripts messages file
-# Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-01-02 22:24-0600\n"
+"POT-Creation-Date: 2009-07-27 21:14-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,16 +73,7 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ""
 
 #, c-format
-msgid ""
-":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-
-#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-
-#, c-format
-msgid ":: %s is designated as a HoldPkg. Remove anyway?"
 msgstr ""
 
 #, c-format
@@ -91,6 +82,12 @@ msgstr ""
 
 #, c-format
 msgid ":: %s conflicts with %s. Remove %s?"
+msgstr ""
+
+#, c-format
+msgid ""
+"\n"
+"Do you want to skip the above package(s) for this upgrade?"
 msgstr ""
 
 #, c-format
@@ -270,11 +267,11 @@ msgid "options"
 msgstr ""
 
 #, c-format
-msgid "file"
+msgid "file(s)"
 msgstr ""
 
 #, c-format
-msgid "package"
+msgid "package(s)"
 msgstr ""
 
 #, c-format
@@ -341,11 +338,12 @@ msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr ""
 
 #, c-format
-msgid "  -d, --deps           list all packages installed as dependencies\n"
+msgid ""
+"  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
 
 #, c-format
-msgid "  -e, --explicit       list all packages explicitly installed\n"
+msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr ""
 
 #, c-format
@@ -358,12 +356,19 @@ msgid ""
 msgstr ""
 
 #, c-format
+msgid ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
+msgstr ""
+
+#, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr ""
 
 #, c-format
 msgid ""
-"  -m, --foreign        list installed packages not found in sync db(s)\n"
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
 msgstr ""
 
 #, c-format
@@ -381,11 +386,12 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "  -t, --unrequired     list all packages not required by any package\n"
+msgid ""
+"  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
 
 #, c-format
-msgid "  -u, --upgrades       list all packages that can be upgraded\n"
+msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr ""
 
 #, c-format
@@ -418,7 +424,9 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "  -u, --sysupgrade     upgrade all packages that are out of date\n"
+msgid ""
+"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
+"downgrade)\n"
 msgstr ""
 
 #, c-format
@@ -472,6 +480,10 @@ msgstr ""
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
+msgstr ""
+
+#, c-format
+msgid "      --debug          display debug messages\n"
 msgstr ""
 
 #, c-format
@@ -593,11 +605,11 @@ msgid "group \"%s\" was not found\n"
 msgstr ""
 
 #, c-format
-msgid "Checking for package upgrades... \n"
+msgid "root path too long\n"
 msgstr ""
 
 #, c-format
-msgid "no upgrades found.\n"
+msgid "file path too long\n"
 msgstr ""
 
 #, c-format
@@ -638,6 +650,14 @@ msgstr ""
 
 #, c-format
 msgid ":: %s: requires %s\n"
+msgstr ""
+
+#, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr ""
+
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr ""
 
 #, c-format
@@ -685,7 +705,7 @@ msgid "Do you want to remove outdated packages from cache?"
 msgstr ""
 
 #, c-format
-msgid "removing old packages from cache... "
+msgid "removing old packages from cache...\n"
 msgstr ""
 
 #, c-format
@@ -693,15 +713,15 @@ msgid "could not access cache directory\n"
 msgstr ""
 
 #, c-format
-msgid "done.\n"
+msgid "File %s does not seem to be a valid package, remove it?"
 msgstr ""
 
 #, c-format
-msgid "Do you want to remove ALL packages from cache?"
+msgid "Do you want to remove ALL files from cache?"
 msgstr ""
 
 #, c-format
-msgid "removing all packages from cache... "
+msgid "removing all files from cache...\n"
 msgstr ""
 
 #, c-format
@@ -745,6 +765,10 @@ msgid ":: Starting full system upgrade...\n"
 msgstr ""
 
 #, c-format
+msgid "skipping target: %s\n"
+msgstr ""
+
+#, c-format
 msgid "%s package not found, searching for group...\n"
 msgstr ""
 
@@ -770,6 +794,10 @@ msgstr ""
 
 #, c-format
 msgid " local database is up to date\n"
+msgstr ""
+
+#, c-format
+msgid "no database for package: %s\n"
 msgstr ""
 
 #, c-format
@@ -856,6 +884,10 @@ msgstr ""
 
 #, c-format
 msgid "Total Removed Size:   %.2f MB\n"
+msgstr ""
+
+#, c-format
+msgid "New optional dependencies for %s\n"
 msgstr ""
 
 #, c-format
@@ -970,16 +1002,13 @@ msgstr ""
 msgid "Generating checksums for source files..."
 msgstr ""
 
-msgid "Invalid integrity algorithm '%s' specified."
-msgstr ""
-
 msgid "Cannot find openssl."
 msgstr ""
 
-msgid "Unable to find source file %s to generate checksum."
+msgid "Invalid integrity algorithm '%s' specified."
 msgstr ""
 
-msgid "Invalid integrity algorithm '%s' specified"
+msgid "Unable to find source file %s to generate checksum."
 msgstr ""
 
 msgid "Validating source files with %s..."
@@ -997,7 +1026,10 @@ msgstr ""
 msgid "One or more files did not pass the validity check!"
 msgstr ""
 
-msgid "Integrity checks (%s) are missing or incomplete."
+msgid "Integrity checks (%s) differ in size from the source array."
+msgstr ""
+
+msgid "Integrity checks are missing."
 msgstr ""
 
 msgid "Extracting Sources..."
@@ -1015,13 +1047,22 @@ msgstr ""
 msgid "Build Failed."
 msgstr ""
 
+msgid "Starting %s()..."
+msgstr ""
+
+msgid "Packaging Failed."
+msgstr ""
+
 msgid "Tidying install..."
 msgstr ""
 
-msgid "Removing info/doc files..."
+msgid "Removing doc files..."
 msgstr ""
 
-msgid "Compressing man pages..."
+msgid "Purging other files..."
+msgstr ""
+
+msgid "Compressing man and info pages..."
 msgstr ""
 
 msgid "Stripping debugging symbols from binaries and libraries..."
@@ -1033,12 +1074,6 @@ msgstr ""
 msgid "Removing empty directories..."
 msgstr ""
 
-msgid "Missing pkg/ directory."
-msgstr ""
-
-msgid "Creating package..."
-msgstr ""
-
 msgid "Generating .PKGINFO file..."
 msgstr ""
 
@@ -1046,6 +1081,12 @@ msgid "Please add a license line to your %s!"
 msgstr ""
 
 msgid "Example for GPL'ed software: license=('GPL')."
+msgstr ""
+
+msgid "Missing pkg/ directory."
+msgstr ""
+
+msgid "Creating package..."
 msgstr ""
 
 msgid "Adding install script..."
@@ -1057,28 +1098,10 @@ msgstr ""
 msgid "Compressing package..."
 msgstr ""
 
+msgid "'%s' is not a valid archive extension."
+msgstr ""
+
 msgid "Failed to create package file."
-msgstr ""
-
-msgid "Cannot find the xdelta binary! Is xdelta installed?"
-msgstr ""
-
-msgid "Making delta from version %s..."
-msgstr ""
-
-msgid "Recreating package tarball from delta to match md5 signatures"
-msgstr ""
-
-msgid "NOTE: the delta should ONLY be distributed with this tarball"
-msgstr ""
-
-msgid "Could not generate the package from the delta."
-msgstr ""
-
-msgid "Delta was not able to be created."
-msgstr ""
-
-msgid "No previous version found, skipping xdelta."
 msgstr ""
 
 msgid "Creating source package..."
@@ -1094,6 +1117,39 @@ msgid "Compressing source package..."
 msgstr ""
 
 msgid "Failed to create source package file."
+msgstr ""
+
+msgid "Failed to install built package(s)."
+msgstr ""
+
+msgid "%s is not allowed to be empty."
+msgstr ""
+
+msgid "%s is not allowed to start with a hyphen."
+msgstr ""
+
+msgid "%s is not allowed to contain hyphens."
+msgstr ""
+
+msgid "%s is not available for the '%s' architecture."
+msgstr ""
+
+msgid "Note that many packages may need a line added to their %s"
+msgstr ""
+
+msgid "such as arch=('%s')."
+msgstr ""
+
+msgid "Provides array cannot contain comparison (< or >) operators."
+msgstr ""
+
+msgid "Install scriptlet (%s) does not exist."
+msgstr ""
+
+msgid "options array contains unknown option '%s'"
+msgstr ""
+
+msgid "missing package function for split package '%s'"
 msgstr ""
 
 msgid "Determining latest darcs revision..."
@@ -1141,6 +1197,9 @@ msgstr ""
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr ""
 
+msgid "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr ""
+
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr ""
 
@@ -1175,7 +1234,7 @@ msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 
-msgid "  -R, --repackage  Repackage contents of pkg/ without building"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
@@ -1214,9 +1273,10 @@ msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr ""
 
 msgid ""
-"Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 
 msgid "%s not found."
@@ -1240,13 +1300,10 @@ msgstr ""
 msgid "No files have been removed."
 msgstr ""
 
-msgid "Source destination must be defined in makepkg.conf."
+msgid "Source destination must be defined in %s."
 msgstr ""
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr ""
-
-msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
 msgstr ""
 
 msgid "Running makepkg as root is a BAD idea and can cause"
@@ -1276,7 +1333,7 @@ msgstr ""
 msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr ""
 
-msgid "placing 'fakeroot' in the BUILDENV array in makepkg.conf."
+msgid "placing 'fakeroot' in the BUILDENV array in %s."
 msgstr ""
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
@@ -1294,28 +1351,7 @@ msgstr ""
 msgid "%s does not exist."
 msgstr ""
 
-msgid "%s is not allowed to be empty."
-msgstr ""
-
-msgid "%s is not allowed to contain hyphens."
-msgstr ""
-
-msgid "%s is not available for the '%s' architecture."
-msgstr ""
-
-msgid "Note that many packages may need a line added to their %s"
-msgstr ""
-
-msgid "such as arch=('%s')."
-msgstr ""
-
-msgid "Provides array cannot contain comparison (< or >) operators."
-msgstr ""
-
-msgid "Install scriptlet (%s) does not exist."
-msgstr ""
-
-msgid "options array contains unknown option '%s'"
+msgid "%s contains CRLF characters and cannot be sourced."
 msgstr ""
 
 msgid "A package has already been built, installing existing package..."
@@ -1324,16 +1360,20 @@ msgstr ""
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr ""
 
-msgid "Skipping build."
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr ""
+
+msgid "The package group has already been built. (use -f to overwrite)"
+msgstr ""
+
+msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 
 msgid "Leaving fakeroot environment."
 msgstr ""
 
 msgid "Making package: %s"
-msgstr ""
-
-msgid "Running makepkg as root..."
 msgstr ""
 
 msgid "Source package created: %s"
@@ -1443,10 +1483,10 @@ msgstr ""
 msgid "Finished. Your pacman database has been optimized."
 msgstr ""
 
-msgid "Usage: repo-add [-q] <path-to-db> <package> ...\\n"
+msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
+msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
 
 msgid ""
@@ -1461,8 +1501,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The -q/--quiet flag to either program will force silent running except\\nin "
-"the case of warnings or errors.\\n\\n"
+"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+"\\nand errors\\n\\n"
 msgstr ""
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1478,6 +1518,15 @@ msgid ""
 "permitted by law.\\n"
 msgstr ""
 
+msgid "Creating 'deltas' db entry..."
+msgstr ""
+
+msgid "An entry for '%s' already existed"
+msgstr ""
+
+msgid "Removing existing entry '%s'..."
+msgstr ""
+
 msgid "Invalid package file '%s'."
 msgstr ""
 
@@ -1490,34 +1539,10 @@ msgstr ""
 msgid "Creating 'depends' db entry..."
 msgstr ""
 
-msgid "Creating 'deltas' db entry..."
+msgid "Failed to acquire lockfile: %s."
 msgstr ""
 
-msgid "Added delta '%s'"
-msgstr ""
-
-msgid "Could not add delta '%s'"
-msgstr ""
-
-msgid "Removing existing package '%s'..."
-msgstr ""
-
-msgid "Either realpath or readlink are required by repo-add."
-msgstr ""
-
-msgid "%s not found. Cannot continue."
-msgstr ""
-
-msgid "Cannot create temp directory for database building."
-msgstr ""
-
-msgid "Invalid command name '%s' specified."
-msgstr ""
-
-msgid "the -f and --force options are no longer recognized"
-msgstr ""
-
-msgid "use options=(force) in the PKGBUILD instead"
+msgid "Held by %s"
 msgstr ""
 
 msgid "Repository file '%s' is not a proper pacman database."
@@ -1529,13 +1554,28 @@ msgstr ""
 msgid "Repository file '%s' was not found."
 msgstr ""
 
+msgid "Repository file '%s' could not be created."
+msgstr ""
+
+msgid "File '%s' not found."
+msgstr ""
+
+msgid "Adding delta '%s'"
+msgstr ""
+
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr ""
+
 msgid "'%s' is not a package file, skipping"
 msgstr ""
 
 msgid "Adding package '%s'"
 msgstr ""
 
-msgid "Package '%s' not found."
+msgid "Searching for delta '%s'..."
+msgstr ""
+
+msgid "Delta matching '%s' not found."
 msgstr ""
 
 msgid "Searching for package '%s'..."
@@ -1544,10 +1584,22 @@ msgstr ""
 msgid "Package matching '%s' not found."
 msgstr ""
 
+msgid "Invalid command name '%s' specified."
+msgstr ""
+
+msgid "Cannot create temp directory for database building."
+msgstr ""
+
+msgid "the -f and --force options are no longer recognized"
+msgstr ""
+
+msgid "use options=(force) in the PKGBUILD instead"
+msgstr ""
+
 msgid "Creating updated database file '%s'"
 msgstr ""
 
-msgid "No compression set."
+msgid "'%s' does not have a valid archive extension."
 msgstr ""
 
 msgid "All packages have been removed from the database. Deleting '%s'."
