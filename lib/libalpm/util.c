@@ -509,7 +509,7 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 		umask(0022);
 		pipe = popen(cmd, "r");
 		if(!pipe) {
-			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"),
+			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)\n"),
 					strerror(errno));
 			exit(1);
 		}
