@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-28 07:00-0500\n"
-"PO-Revision-Date: 2009-01-03 11:48+0100\n"
+"PO-Revision-Date: 2009-07-28 19:26+0200\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
 "MIME-Version: 1.0\n"
@@ -92,17 +92,18 @@ msgstr ":: Remplacer %s par %s/%s?"
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s est en conflit avec %s. Supprimer %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: the following package(s) cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ":: Les paquets suivants seront mis à jour en premier :\n"
+msgstr ":: les paquets suivants ne peuvent pas être mis à jour à cause de"
+"dépendances insolubles:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Do you want to skip the above package(s) for this upgrade?"
-msgstr "Voulez vous supprimer TOUS les paquets du cache?"
+msgstr "\nVoulez vous omettre les paquets ci-dessus pour cette mise à jour?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -278,19 +279,19 @@ msgstr "(Aucun)\n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
-msgstr "Changelog non disponible pour '%s'.\n"
+msgstr "changelog non disponible pour '%s'.\n"
 
 #, c-format
 msgid "options"
 msgstr "options"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file(s)"
-msgstr "fichier"
+msgstr "fichier(s)"
 
-#, fuzzy, c-format
+#, c-format
 msgid "package(s)"
-msgstr "paquet"
+msgstr "paquet(s)"
 
 #, c-format
 msgid "usage"
@@ -344,7 +345,7 @@ msgid ""
 msgstr ""
 "  -s, --recursive          supprime également les dépendances (inutilisés "
 "par d'autres paquets)\n"
-"                           (-ss inclut aussi les dépendances explicitements "
+"                           (-ss inclut aussi les dépendances explicitement "
 "installés)\n"
 
 #, c-format
@@ -372,17 +373,17 @@ msgstr ""
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog          affiche le Changelog du paquet\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
 "  -d, --deps               liste tous les paquets installés en tant que "
-"dépendance\n"
+"dépendance [filtre]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr ""
-"  -e, --explicit           liste tous les paquets installés explicitement\n"
+"  -e, --explicit           liste tous les paquets installés explicitement [filtre]\n"
 
 # id.
 #, c-format
@@ -402,18 +403,19 @@ msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
 msgstr ""
+"  -k, --check              vérifie que les fichiers sont tous bien présents\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list               liste le contenu du paquet interrogé\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
 "  -m, --foreign            liste les paquets non trouvés dans la ou les "
-"bases de données de synchronisation\n"
+"bases de données de synchronisation [filtre]\n"
 
 # il ne peut y en avoir qu'un seul...
 #, c-format
@@ -437,17 +439,17 @@ msgstr ""
 "  -s, --search <regex>     recherche la chaîne correspondante dans les "
 "paquets installés localement\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
 "  -t, --unrequired         liste tous les paquets qui ne sont requis par "
-"aucun autre\n"
+"aucun autre [filtre]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr ""
-"  -u, --sysupgrade         liste tous les paquets pouvant être mis à jour\n"
+"  -u, --sysupgrade         liste tous les paquets pouvant être mis à jour [filtre]\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
@@ -487,11 +489,12 @@ msgstr ""
 "  -s, --search <regex>     recherche la chaîne correspondante dans les "
 "dépôts distants\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
 "downgrade)\n"
-msgstr "  -u, --sysupgrade         met à jour tous les paquets obsolètes\n"
+msgstr "  -u, --sysupgrade         met à jour tous les paquets obsolètes "
+"(-uu permet de restaurer des versions antérieures\n"
 
 #, c-format
 msgid ""
@@ -561,9 +564,9 @@ msgstr ""
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose            affiche plus de détails\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      --needed             ne réinstalle pas les paquets déjà à jour\n"
+msgstr "      --debug              affiche les messages de débogage\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -693,11 +696,11 @@ msgstr "le groupe \"%s\" n'a pas été trouvé\n"
 
 #, c-format
 msgid "root path too long\n"
-msgstr ""
+msgstr "le chemin de la racine est trop long\n"
 
 #, c-format
 msgid "file path too long\n"
-msgstr ""
+msgstr "le chemin du fichier est trop long\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -740,15 +743,14 @@ msgstr "la préparation de la transaction a échoué (%s)\n"
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: requiert %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s is designated as a HoldPkg.\n"
 msgstr ""
-":: %s est indiqué comme paquet à conserver (HoldPkg). Le supprimer tout de "
-"même?"
+"%s est indiqué comme paquet à conserver (HoldPkg).\n"
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr ""
+msgstr "Une des cibles est un paquet à conserver (HoldPkg). Voulez-vous continuer?"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -794,9 +796,9 @@ msgstr "Voulez-vous supprimer tous les paquets non installés du cache?"
 msgid "Do you want to remove outdated packages from cache?"
 msgstr "Voulez-vous supprimer tous les paquets non installés du cache?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing old packages from cache...\n"
-msgstr "Suppression du cache des paquets obsolètes... "
+msgstr "suppression des paquets obsolètes du cache...\n"
 
 #, c-format
 msgid "could not access cache directory\n"
@@ -804,15 +806,15 @@ msgstr "l'accès au répertoire du cache a échoué\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
-msgstr ""
+msgstr "Le fichier %s n'est pas un paquet valide, voulez-vous le supprimer?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to remove ALL files from cache?"
-msgstr "Voulez vous supprimer TOUS les paquets du cache?"
+msgstr "Voulez vous supprimer TOUS les fichiers dans le cache?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing all files from cache...\n"
-msgstr "Suppression du cache de tous les paquets... "
+msgstr "suppression de tous les fichiers dans le cache...\n"
 
 #, c-format
 msgid "could not remove cache directory\n"
@@ -855,9 +857,9 @@ msgstr "le dépôt \"%s\" n'a pas été trouvé.\n"
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Début de la mise à jour complète du système...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "skipping target: %s\n"
-msgstr "Création du paquet %s"
+msgstr "omission de la cible: %s\n"
 
 #, c-format
 msgid "%s package not found, searching for group...\n"
@@ -889,7 +891,7 @@ msgstr "La base de données locale est à jour.\n"
 
 #, c-format
 msgid "no database for package: %s\n"
-msgstr ""
+msgstr "aucun dépôt pour le paquet: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -985,9 +987,9 @@ msgstr "Suppression (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Taille totale des paquets (suppression):   %.2f Mo\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "New optional dependencies for %s\n"
-msgstr "Dépendances optionnelles pour %s\n"
+msgstr "Nouvelles dépendances optionnelles pour %s\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -1060,7 +1062,7 @@ msgid "The download program %s is not installed."
 msgstr "Le programme de téléchargement %s n'est pas installé."
 
 msgid "Pacman returned a fatal error (%i): %s"
-msgstr "Pacman a recontré une erreur fatale (%i): %s"
+msgstr "Pacman a rencontré une erreur fatale (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Installation des dépendances manquantes... "
@@ -1130,13 +1132,11 @@ msgstr "ECHEC"
 msgid "One or more files did not pass the validity check!"
 msgstr "Un ou plusieurs fichiers sont invalides!"
 
-#, fuzzy
 msgid "Integrity checks (%s) differ in size from the source array."
-msgstr "Les sommes de contrôle (%s) sont manquantes ou incomplètes."
+msgstr "Les sommes de contrôle (%s) sont incomplètes."
 
-#, fuzzy
 msgid "Integrity checks are missing."
-msgstr "Les sommes de contrôle (%s) sont manquantes ou incomplètes."
+msgstr "Des sommes de contrôle sont manquantes."
 
 msgid "Extracting Sources..."
 msgstr "Extraction des sources..."
@@ -1153,27 +1153,23 @@ msgstr "Début de la compilation..."
 msgid "Build Failed."
 msgstr "La compilation a échoué."
 
-#, fuzzy
 msgid "Starting %s()..."
-msgstr "Début de la compilation..."
+msgstr "Lancement de %s()..."
 
-#, fuzzy
 msgid "Packaging Failed."
-msgstr "La compilation a échoué."
+msgstr "La création du paquet a échoué."
 
 msgid "Tidying install..."
 msgstr "Finition de l'installation..."
 
-#, fuzzy
 msgid "Removing doc files..."
 msgstr "Suppression de la documentation..."
 
 msgid "Purging other files..."
-msgstr ""
+msgstr "Suppression d'autres fichiers..."
 
-#, fuzzy
 msgid "Compressing man and info pages..."
-msgstr "Compression des man pages..."
+msgstr "Compression des man/info pages..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
 msgstr ""
@@ -1189,7 +1185,7 @@ msgid "Generating .PKGINFO file..."
 msgstr "Génération du fichier .PKGINFO..."
 
 msgid "Please add a license line to your %s!"
-msgstr "Ajouter une ligne license à votre %s SVP!"
+msgstr "Ajouter une ligne licence à votre %s SVP!"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Exemple pour les logiciels GPL: license=('GPL')."
@@ -1209,9 +1205,8 @@ msgstr "Ajout du ChangeLog... "
 msgid "Compressing package..."
 msgstr "Compression du paquet... "
 
-#, fuzzy
 msgid "'%s' is not a valid archive extension."
-msgstr "'%s' n'est pas un niveau de débogage valide\n"
+msgstr "'%s' n'est pas pas une extension valide pour une archive."
 
 msgid "Failed to create package file."
 msgstr "Echec à la création du paquet."
@@ -1231,16 +1226,14 @@ msgstr "Compression du paquet source... "
 msgid "Failed to create source package file."
 msgstr "Impossible de créer le paquet source."
 
-#, fuzzy
 msgid "Failed to install built package(s)."
-msgstr "Echec à la création du paquet."
+msgstr "Echec à l'installation des paquets."
 
 msgid "%s is not allowed to be empty."
 msgstr "%s ne peut pas être vide."
 
-#, fuzzy
 msgid "%s is not allowed to start with a hyphen."
-msgstr "%s ne peut pas contenir des tirets."
+msgstr "%s ne peut pas commencer par un tiret."
 
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s ne peut pas contenir des tirets."
@@ -1266,7 +1259,7 @@ msgid "options array contains unknown option '%s'"
 msgstr "Le tableau options contient une option inconnue : '%s'"
 
 msgid "missing package function for split package '%s'"
-msgstr ""
+msgstr "il manque la fonction package pour le split-paquet '%s'"
 
 msgid "Determining latest darcs revision..."
 msgstr "Détermination de la dernière révision darcs..."
@@ -1313,9 +1306,8 @@ msgstr "  -c, --clean      Nettoyage des fichiers après compilation"
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Nettoie les fichiers sources dans le cache"
 
-#, fuzzy
 msgid "  --config <config> Use an alternate config file (instead of '%s')"
-msgstr "  -p <buildscript> Utilise un script alternatif (à la place de '%s')"
+msgstr "  --config <config> Utilise un fichier de config alternatif (à la place de '%s')"
 
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     ne vérifie pas les dépendances"
@@ -1357,10 +1349,9 @@ msgstr ""
 "  -r, --rmdeps     Supprime les dépendances installées après une compilation "
 "réussie"
 
-#, fuzzy
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
-"  -R, --repackage  Recréation du paquet à partir de pkg/ sans recompiler"
+"  -R, --repackage  Recréation du paquet sans recompiler"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installe les dépendances manquantes avec pacman"
@@ -1405,17 +1396,16 @@ msgstr ""
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Si -p n'est pas spécifié, makepkg regardera seulement '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 
 msgid "%s not found."
 msgstr "%s introuvable."
@@ -1427,7 +1417,7 @@ msgid "Cleaning up ALL files from %s."
 msgstr "Nettoyage de TOUS les fichiers dans %s."
 
 msgid "    Are you sure you wish to do this? "
-msgstr "    Êtes-vous sur de vouloir faire celà? "
+msgstr "    Êtes-vous sur de vouloir faire cela? "
 
 msgid "Problem removing files; you may not have correct permissions in %s"
 msgstr ""
@@ -1440,9 +1430,8 @@ msgstr "Le cache des sources est nettoyé."
 msgid "No files have been removed."
 msgstr "Aucun fichier n'a été supprimé."
 
-#, fuzzy
 msgid "Source destination must be defined in %s."
-msgstr "La destination source doit être défini dans makepkg.conf."
+msgstr "La destination source doit être définie dans %s."
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "De plus, utilisez makepkg -C en dehors du répertoire de cache."
@@ -1477,9 +1466,8 @@ msgstr ""
 "non-appartenance à root des fichiers. Essayez d'utiliser l'environnement "
 "fakeroot en"
 
-#, fuzzy
 msgid "placing 'fakeroot' in the BUILDENV array in %s."
-msgstr "plaçant 'fakeroot' dans le tableau BUILDENV dans makepkg.conf."
+msgstr "plaçant 'fakeroot' dans le tableau BUILDENV dans %s."
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr ""
@@ -1502,7 +1490,7 @@ msgid "%s does not exist."
 msgstr "%s n'existe pas."
 
 msgid "%s contains CRLF characters and cannot be sourced."
-msgstr ""
+msgstr "%s contient des caractères CRLF et ne peut pas être lu."
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Un paquet a déjà été compilé, installation du paquet existant..."
@@ -1510,18 +1498,15 @@ msgstr "Un paquet a déjà été compilé, installation du paquet existant..."
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "Un paquet a déjà été compilé. (utilisez -f pour l'écraser)"
 
-#, fuzzy
 msgid ""
 "The package group has already been built, installing existing packages..."
-msgstr "Un paquet a déjà été compilé, installation du paquet existant..."
+msgstr "Un groupe de paquets a déjà été compilé, installation des paquet existants..."
 
-#, fuzzy
 msgid "The package group has already been built. (use -f to overwrite)"
-msgstr "Un paquet a déjà été compilé. (utilisez -f pour l'écraser)"
+msgstr "Un groupe de paquets a déjà été compilé. (utilisez -f pour l'écraser)"
 
-#, fuzzy
 msgid "Part of the package group has already been built. (use -f to overwrite)"
-msgstr "Un paquet a déjà été compilé. (utilisez -f pour l'écraser)"
+msgstr "Une partie du groupe de paquets a déjà été compilé. (utilisez -f pour l'écraser)"
 
 msgid "Leaving fakeroot environment."
 msgstr "Quitte l'environnement fakeroot."
@@ -1634,7 +1619,7 @@ msgid "Making and MD5sum'ing the new database..."
 msgstr "Création de la nouvelle base de données et calcul du md5sum..."
 
 msgid "Untar'ing %s failed."
-msgstr "Le désarchivage de %s a échoué."
+msgstr "L'extraction de %s a échoué."
 
 msgid "Syncing database to disk..."
 msgstr "Synchronise la base de données sur le disque..."
@@ -1650,15 +1635,13 @@ msgid "Rotating database into place..."
 msgstr "Mise en place de la base de données..."
 
 msgid "Finished. Your pacman database has been optimized."
-msgstr "Fini. La base de données de pacman a été optimisé."
+msgstr "Fini. La base de données de pacman a été optimisée."
 
-#, fuzzy
 msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "utilisation: repo-add [-q] <path-to-db> <packagename> ...\\n"
+msgstr "utilisation: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "utilisation: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
+msgstr "utilisation: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1680,6 +1663,7 @@ msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
 "\\nand errors\\n\\n"
 msgstr ""
+"Utilisez -q/--quiet pour réduire la verbosité\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Exemple:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1702,11 +1686,10 @@ msgid "Creating 'deltas' db entry..."
 msgstr "Création de l'entrée 'deltas'..."
 
 msgid "An entry for '%s' already existed"
-msgstr ""
+msgstr "Une entrée pour '%s' existait déjà"
 
-#, fuzzy
 msgid "Removing existing entry '%s'..."
-msgstr "Suppression du paquet '%s'..."
+msgstr "Suppression de l'entrée existante '%s'..."
 
 msgid "Invalid package file '%s'."
 msgstr "Le paquet '%s' est invalide."
@@ -1720,12 +1703,11 @@ msgstr "Calcul des md5..."
 msgid "Creating 'depends' db entry..."
 msgstr "Création du fichier 'depends'... "
 
-#, fuzzy
 msgid "Failed to acquire lockfile: %s."
-msgstr "Echec à la création du paquet."
+msgstr "Echec à l'acquisition du fichier de verrou: %s."
 
 msgid "Held by %s"
-msgstr ""
+msgstr "Tenu par %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Le fichier de dépôt '%s' n'est pas un dépôt pacman valide."
@@ -1736,21 +1718,17 @@ msgstr "Extraction de la base de données vers un répertoire temporaire..."
 msgid "Repository file '%s' was not found."
 msgstr "Le fichier de dépôt '%s' n'a pas été trouvé."
 
-#, fuzzy
 msgid "Repository file '%s' could not be created."
-msgstr "Le fichier de config %s n'a pas pu être lu.\n"
+msgstr "Le fichier de dépôt '%s' n'a pas pu être créé."
 
-#, fuzzy
 msgid "File '%s' not found."
-msgstr "le paquet '%s' n'a pas été trouvé."
+msgstr "le fichier '%s' n'a pas été trouvé."
 
-#, fuzzy
 msgid "Adding delta '%s'"
 msgstr "Ajout du delta '%s'"
 
-#, fuzzy
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Le programme xdelta est introuvable! Vérifiez qu'il est bien installé."
+msgstr "Le programme xdelta3 est introuvable! Vérifiez qu'il est bien installé."
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' n'est pas un paquet, ignore"
@@ -1758,13 +1736,11 @@ msgstr "'%s' n'est pas un paquet, ignore"
 msgid "Adding package '%s'"
 msgstr "Ajoute le paquet '%s'"
 
-#, fuzzy
 msgid "Searching for delta '%s'..."
-msgstr "Recherche le paquet '%s'..."
+msgstr "Recherche le delta '%s'..."
 
-#, fuzzy
 msgid "Delta matching '%s' not found."
-msgstr "le paquet '%s' n'a pas été trouvé."
+msgstr "aucun delta correspondant à '%s' n'a été trouvé."
 
 msgid "Searching for package '%s'..."
 msgstr "Recherche le paquet '%s'..."
@@ -1790,7 +1766,7 @@ msgid "Creating updated database file '%s'"
 msgstr "Création du nouveau fichier de dépôt '%s'"
 
 msgid "'%s' does not have a valid archive extension."
-msgstr ""
+msgstr "'%s' n'a pas une extension valide pour une archive."
 
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr ""
@@ -1798,82 +1774,4 @@ msgstr ""
 "s'."
 
 msgid "No packages modified, nothing to do."
-msgstr "Aucun paquets modifiés, il n'y a rien à faire."
-
-# plus clair
-#~ msgid ""
-#~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-#~ msgstr ""
-#~ ":: %s requiert %s, défini comme paquet à ignorer (IgnorePkg/IgnoreGroup). "
-#~ "L'installer tout de même?"
-
-# le sens est plus clair
-#~ msgid "Checking for package upgrades... \n"
-#~ msgstr "Vérification des mises à jour disponibles...\n"
-
-#~ msgid "no upgrades found.\n"
-#~ msgstr "pas de mises à jour trouvées.\n"
-
-# "fait" est incompréhensible
-#~ msgid "done.\n"
-#~ msgstr "terminé.\n"
-
-#~ msgid "Invalid integrity algorithm '%s' specified"
-#~ msgstr "L'algorithme d'intégrité '%s' spécifié est invalide."
-
-#~ msgid "Making delta from version %s..."
-#~ msgstr "Création du delta à partir de la version %s..."
-
-#~ msgid "Recreating package tarball from delta to match md5 signatures"
-#~ msgstr ""
-#~ "Recréation du paquet à partir des deltas pour obtenir la même somme de "
-#~ "contrôle."
-
-#~ msgid "NOTE: the delta should ONLY be distributed with this tarball"
-#~ msgstr "NOTE: le delta devrait être distribué SEULEMENT avec cette archive."
-
-#~ msgid "Could not generate the package from the delta."
-#~ msgstr "Impossible de générer le paquet à partir des deltas."
-
-#~ msgid "Delta was not able to be created."
-#~ msgstr "Impossible de créer les deltas."
-
-#~ msgid "No previous version found, skipping xdelta."
-#~ msgstr "Aucune version précédente n'a été trouvée, passe xdelta."
-
-#~ msgid ""
-#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
-#~ "free software; see the source for copying conditions.\\nThere is NO "
-#~ "WARRANTY, to the extent permitted by law.\\n"
-#~ msgstr ""
-#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
-#~ "free software; see the source for copying conditions.\\nThere is NO "
-#~ "WARRANTY, to the extent permitted by law.\\n"
-
-#~ msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-#~ msgstr "BUILDSCRIPT n'est pas défini! Vérifiez que vous avez mis à jour %s."
-
-#~ msgid "Skipping build."
-#~ msgstr "Passe la compilation."
-
-#~ msgid "Running makepkg as root..."
-#~ msgstr "Lancement de makepkg en root..."
-
-#~ msgid ""
-#~ "The -q/--quiet flag to either program will force silent running except"
-#~ "\\nin the case of warnings or errors.\\n\\n"
-#~ msgstr ""
-#~ "L'option -q/--quiet force une exécution en silence sauf\\ndans le cas "
-#~ "d'avertissements ou d'erreurs.\\n\\n"
-
-#~ msgid "Could not add delta '%s'"
-#~ msgstr "n'a pas pu ajouter le delta '%s'"
-
-#~ msgid "Either realpath or readlink are required by repo-add."
-#~ msgstr "repo-add a besoin soit de realpath, soit de readlink."
-
-#~ msgid "%s not found. Cannot continue."
-#~ msgstr "%s introuvable. Ne peut pas continuer."
-
-#~ msgid "No compression set."
-#~ msgstr "Aucune compression spécifiée."
+msgstr "Aucun paquet modifié, il n'y a rien à faire."
