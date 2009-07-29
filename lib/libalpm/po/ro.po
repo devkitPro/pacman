@@ -31,7 +31,7 @@ msgstr "s-au găsit pachete în conflict în lista ţintă\n"
 
 #, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "nu puteţi instala două pachete în conflict în acelaşi timp\n"
+msgstr "nu puteţi instala două pachete aflate în conflict în acelaşi timp\n"
 
 #, c-format
 msgid "replacing packages with -U is not supported yet\n"
@@ -101,9 +101,9 @@ msgstr "nu se poate actualiza intrarea în baza de date %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nu se poate adăuga intrarea '%s' în cache\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "nu poate fi eliminată intrarea în baza de date %s%s\n"
+msgstr "nu poate fi eliminată baza de date %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -120,17 +120,17 @@ msgstr "nu poate fi deschis fişierul %s: %s\n"
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr ""
-"%s baza de date este inconsistentă: numele nu se potriveşte cu pachetul %s\n"
+"baza de date %s este inconsistentă: numele nu se potriveşte cu pachetul %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
-"%s baza de date este inconsistentă: versiunea nu se potriveşte cu pachetul %"
+"baza de date %s este inconsistentă: versiunea nu se potriveşte cu pachetul %"
 "s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "nu poate fi schimbat directorul la %s (%s)\n"
+msgstr "nu poate fi creat director %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -172,17 +172,17 @@ msgstr "%s va fi eliminat înaintea dependenţei sale %s\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s va fi instalat înaintea dependenţei sale %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%s: se ignoră actualizarea pachetului (%s => %s)\n"
+msgstr "se ignoră pachetul %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
-msgstr "furnizorul de pachet a fost selectat (%s furnizează %s)\n"
+msgstr "pachetul furnizor a fost selectat (%s furnizează %s)\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "nu se poate rezolva \"%s\", ca dependenţă de f \"%s\"\n"
+msgstr "nu se poate rezolva \"%s\", o dependenţă a \"%s\"\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -214,7 +214,7 @@ msgstr "eroare la scriere în fişierul '%s': %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s apare a fi trunchiat: %jd/%jd bytes\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -290,7 +290,7 @@ msgstr "URL nevalid pentru server"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "nu sunt servere confugurate pentru depozit"
 
 #, c-format
 msgid "transaction already initialized"
@@ -318,7 +318,7 @@ msgstr "operaţiune incompatibilă cu tipul tranzacţiei"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "efectuarea tranzacției așteaptă până baza de date nu va fi blocată"
 
 #, c-format
 msgid "could not find or read package"
@@ -326,7 +326,7 @@ msgstr "pachetul nu poate fi găsit sau citit"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "operație abandonată datorită ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -368,9 +368,9 @@ msgstr "dependenţe în conflict"
 msgid "conflicting files"
 msgstr "fişiere în conflict"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "eşec în refacerea unor fişiere din %s\n"
+msgstr "eşec în refacerea unor fişiere"
 
 #, c-format
 msgid "invalid regular expression"
@@ -412,25 +412,25 @@ msgstr "nu se poate elimina intrarea '%s' din cache\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: se ignoră actualizarea pachetului (%s => %s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: se ignoră actualizarea pachetului (%s => %s)\n"
+msgstr "%s: se ignoră declasificarea pachetului (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: declasare de la versiunea %s la versiunea %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: (%s) local este mai nou decât %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%s: se ignoră actualizarea pachetului (%s => %s)\n"
+msgstr "se ignoră înlocuirea pachetului (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "nu poate fi eliminat fişierul '%s': %s\n"
+msgstr "nu poate fi înlocuit %s de %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -490,7 +490,7 @@ msgstr "nu poate fi efectuată tranzacţia\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "nu poate fi eliminat fişierul lock %s\n"
+msgstr "nu poate fi eliminat fişierul blocat %s\n"
 
 #, c-format
 msgid "could not create temp directory\n"
@@ -532,9 +532,9 @@ msgstr "cererea către popen a eşuat (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "cererea către waitpid a eşuat (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "executarea corectă a scriptlet-ului a eşuat\n"
+msgstr "executarea corectă a comenzii a eşuat\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
@@ -543,49 +543,3 @@ msgstr "nu există %s cache, se crează...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nu se poate crea cache pachet, se foloseşte mai degrabă /tmp\n"
-
-#~ msgid "error downloading '%s': %s\n"
-#~ msgstr "eroare la descărcarea  '%s': %s\n"
-
-#~ msgid "could not chdir to %s\n"
-#~ msgstr "nu se poate aplica chdir la %s\n"
-
-#~ msgid "running XferCommand: fork failed!\n"
-#~ msgstr "se rulează XferCommand: eşec ramificare!\n"
-
-#~ msgid "could not commit transaction"
-#~ msgstr "nu poate fi realizată tranzacţia"
-
-#~ msgid "could not download all files"
-#~ msgstr "nu pot fi descărcate toate fişierele"
-
-#~ msgid "cannot load package data"
-#~ msgstr "nu se pot încărca datele pachetului"
-
-#~ msgid "package not installed or lesser version"
-#~ msgstr "pachet neinstalat sau versiune mai mică"
-
-#~ msgid "group not found"
-#~ msgstr "grup negăsit"
-
-#~ msgid "user aborted the operation"
-#~ msgstr "utilizatorul a abandonat operaţiunea"
-
-#~ msgid "internal error"
-#~ msgstr "eroare internă"
-
-#~ msgid "not confirmed"
-#~ msgstr "nu se confirmă"
-
-#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-#~ msgstr ""
-#~ "%s-%s: se ignoră actualizarea pachetului (să fie înlocuit cu %s-%s)\n"
-
-#~ msgid "command: %s\n"
-#~ msgstr "comandă: %s\n"
-
-#~ msgid "could not prepare transaction\n"
-#~ msgstr "nu poate fi pregătită tranzacţia\n"
-
-#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-#~ msgstr "Nu există /bin/sh în mediul părinte, se abandonează scriptlet\n"
