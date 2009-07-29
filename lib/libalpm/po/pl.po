@@ -3,14 +3,14 @@
 # Copyright (C) 2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package manager package.
 # Mateusz Jędrasik <m.jedrasik@gmail.com>, 2007.
-# Mateusz Herych <heniekk@gmail.com>, 2008.
+# Mateusz Herych <heniekk@gmail.com>, 2008-2009.
 # #
 msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-27 21:15-0500\n"
-"PO-Revision-Date: 2009-01-03 16:50+0100\n"
+"PO-Revision-Date: 2009-07-29 10:39+0100\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -107,9 +107,9 @@ msgstr "nie udało się zaktualizować pozycji bazy danych %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nie udało się dodać pozycji '%s' w pliku podręcznym\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "nie udało się usunąć wpisu %s%s z bazy danych\n"
+msgstr "nie można usunąć bazy danych %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -131,9 +131,9 @@ msgstr "baza danych %s jest sprzeczna: niedopasowana nazwa w pakiecie %s\n"
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "baza danych %s jest sprzeczna: niedopasowana wersja w pakiecie %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "nie udało się zmienić katalogu na %s (%s)\n"
+msgstr "nie można stworzyć katalogu %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -175,9 +175,9 @@ msgstr "%s zostanie usunięta po zależniościach %s\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s zostanie zainstalowane przed zależnościami %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%s: ignorowanie aktualizacji pakietu (%s => %s)\n"
+msgstr "ignorowanie pakietu %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
@@ -217,7 +217,7 @@ msgstr "Błąd podczas zapisywania do pliku '%s': %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s wygląda, jakby został obcięty %jd/%jd bajtów\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -293,7 +293,7 @@ msgstr "nieprawidłowy url dla serwera"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "brak serwerów skonfigurowanych dla repozytorium"
 
 #, c-format
 msgid "transaction already initialized"
@@ -321,7 +321,7 @@ msgstr "operacja niekompatybilna z typem tranzakcji"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "zmiana tranzakcji następuje, kiedy baza danych nie jest zablokowana"
 
 #, c-format
 msgid "could not find or read package"
@@ -329,7 +329,7 @@ msgstr "nie udało się znaleźć bądź odczytać pakietu"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "operacja anulowana przez ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -371,9 +371,9 @@ msgstr "konfliktujące zależności"
 msgid "conflicting files"
 msgstr "konfliktujące pliki"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "nie udało się pobrać niektórych plików z %s\n"
+msgstr "nie udało się odzyskać niektórych plików"
 
 #, c-format
 msgid "invalid regular expression"
@@ -416,25 +416,25 @@ msgstr "nie udało się usunąć wpisu '%s' z pamięci podręcznej\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignorowanie aktualizacji pakietu (%s => %s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ignorowanie aktualizacji pakietu (%s => %s)\n"
+msgstr "%s: ignorowanie dezaktualizacji pakietu (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: dezaktualizowanie z wersji %s do wersji %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: local (%s) jest nowsze niż %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%s: ignorowanie aktualizacji pakietu (%s => %s)\n"
+msgstr "ignorowanie zastępowania pakietu (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "nie udało się usunąć pliku '%s': %s\n"
+msgstr "nie udało się zastąpić %s przez %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -536,9 +536,9 @@ msgstr "zawołanie do popen nieudane (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "zawołanie do waitpid nieudane (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "skrypt nie mógł zostać poprawnie wykonany\n"
+msgstr "komenda nie wykonała się poprawnie\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
