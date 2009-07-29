@@ -102,9 +102,9 @@ msgstr "неможливо поновити запис бази даних %s-%s
 msgid "could not add entry '%s' in cache\n"
 msgstr "неможливо додати запис '%s' у кеш\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "неможливо видалити запис бази даних %s%s\n"
+msgstr "неможливо видалити базу даних %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -126,9 +126,9 @@ msgstr "база даних %s неоднорідна: неспівпадінн�
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "база даних %s неоднорідна: неспівпадіння версій для пакунка %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "неможливо змінити каталог на %s (%s)\n"
+msgstr "неможливо створити каталог %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -170,9 +170,9 @@ msgstr "%s буде видалено після його залежності %s
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s буде встановлено перед його %s залежністю\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%s: ігнорування поновлення пакунку (%s => %s)\n"
+msgstr "ігнорування пакунка %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
@@ -212,7 +212,7 @@ msgstr "помилка при запису до файлу '%s': %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "здається %s обрізаний: %jd/%jd байтів\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -288,7 +288,7 @@ msgstr "невірне посилання чи сервер"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "для репозиторія не налаштовано жодного сервера"
 
 #, c-format
 msgid "transaction already initialized"
@@ -316,7 +316,7 @@ msgstr "операція несумісна з типом транзакції"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "спроба здійснити транзакцію в той час як база даних не є замкненою"
 
 #, c-format
 msgid "could not find or read package"
@@ -324,7 +324,7 @@ msgstr "неможливо знайти чи прочитати пакунок"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "операцію відмінено через ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -366,9 +366,9 @@ msgstr "конфліктуючі залежності"
 msgid "conflicting files"
 msgstr "конфліктуючі файли"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "не вдалося отримати деякі файли з %s\n"
+msgstr "не вдалося отримати деякі файли"
 
 #, c-format
 msgid "invalid regular expression"
@@ -410,25 +410,25 @@ msgstr "неможливо видалити запис '%s' з кешу\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ігнорування поновлення пакунку (%s => %s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ігнорування поновлення пакунку (%s => %s)\n"
+msgstr "%s: ігнорування пониження версії пакунка (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: пониження версії з %s до %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: локальна версія (%s) новіша за %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%s: ігнорування поновлення пакунку (%s => %s)\n"
+msgstr "ігнорування заміни пакунка (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "неможливо видалити файл '%s': %s\n"
+msgstr "неможливо замінити %s на %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -530,9 +530,9 @@ msgstr "виклик popen невдалий (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "виклик waitpid невдалий (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "скрипт встановлення не зміг виконатися коректно\n"
+msgstr "команда не змогла виконатися коректно\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
