@@ -1,14 +1,14 @@
 # English (British) translations for Pacman package manager package.
 # Copyright (C) 2007 Judd Vinet <jvinet@zeroflux.org>
 # This file is distributed under the same license as the Pacman package manager package.
-# Jeff Bailes <thepizzaking@gmail.com>, 2007.
 #
+# Jeff Bailes <thepizzaking@gmail.com>, 2007, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-27 21:15-0500\n"
-"PO-Revision-Date: 2008-08-23 23:38+0200\n"
+"PO-Revision-Date: 2009-07-30 18:37+1000\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -100,9 +100,9 @@ msgstr "could not update database entry %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "could not add entry '%s' in cache\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "could not remove database entry %s%s\n"
+msgstr "could not remove database %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -124,9 +124,9 @@ msgstr "%s database is inconsistent: name mismatch on package %s\n"
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s database is inconsistent: version mismatch on package %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "could not change directory to %s (%s)\n"
+msgstr "could not create directory %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -168,9 +168,9 @@ msgstr "%s will be removed after its %s dependency\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s will be installed before its %s dependency\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "ignoring package %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
@@ -210,7 +210,7 @@ msgstr "error writing to file '%s': %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s appears to be truncated: %jd/%jd bytes\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -286,7 +286,7 @@ msgstr "invalid url for server"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "no servers configured for repository"
 
 #, c-format
 msgid "transaction already initialized"
@@ -314,7 +314,7 @@ msgstr "operation not compatible with the transaction type"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "transaction commit attempt when database is not locked"
 
 #, c-format
 msgid "could not find or read package"
@@ -322,7 +322,7 @@ msgstr "could not find or read package"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "operation cancelled due to ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -364,9 +364,9 @@ msgstr "conflicting dependencies"
 msgid "conflicting files"
 msgstr "conflicting files"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "failed to retrieve some files from %s\n"
+msgstr "failed to retrieve some files"
 
 #, c-format
 msgid "invalid regular expression"
@@ -408,25 +408,25 @@ msgstr "could not remove entry '%s' from cache\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignoring package upgrade (%s => %s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: ignoring package downgrade (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: downgrading from version %s to version %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: local (%s) is newer than %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "ignoring package replacement (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "cannot remove file '%s': %s\n"
+msgstr "cannot replace %s by %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -528,9 +528,9 @@ msgstr "call to popen failed (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "call to waitpid failed (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "scriptlet failed to execute correctly\n"
+msgstr "command failed to execute correctly\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
