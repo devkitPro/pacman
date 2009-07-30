@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.2.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-27 21:15-0500\n"
-"PO-Revision-Date: 2008-10-28 16:20+0900\n"
-"Last-Translator: Lyman Li <lymanrb@gmail.com>\n"
+"PO-Revision-Date: 2009-07-30 20:39+0700\n"
+"Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,9 +101,9 @@ msgstr "无法更新数据库记录 %1$s-%2$s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "无法在缓存中添加记录 '%s' \n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "无法删除数据库记录 %1$s%2$s\n"
+msgstr "无法删除数据库 %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -125,9 +125,9 @@ msgstr "%1$s 数据库不一致：名字和软件包中的 %2$s 不一致\n"
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%1$s 数据库不一致：版本和软件包中的 %2$s 不一致\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "无法更改目录到 %1$s (%2$s)\n"
+msgstr "无法更改目录到 %1$s：%2$s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -169,9 +169,9 @@ msgstr "%1$s 将在它 %2$s 的依赖关系之后被删除\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%1$s 将在它 %2$s 的依赖关系之前被安装\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+msgstr "正在忽略软件包更新 %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
@@ -211,7 +211,7 @@ msgstr "写入文件 '%1$s' 时出错: %2$s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s 可缩小：%jd/%jd bytes\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -287,7 +287,7 @@ msgstr "无效的服务器 url"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "软件仓库没有配置服务器信息"
 
 #, c-format
 msgid "transaction already initialized"
@@ -315,7 +315,7 @@ msgstr "操作与处理类型不兼容"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "未锁定数据库即提交了事务处理尝试"
 
 #, c-format
 msgid "could not find or read package"
@@ -323,7 +323,7 @@ msgstr "无法找到或读取软件包"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "由于 ignorepkg 指定，操作已取消"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -365,9 +365,9 @@ msgstr "有冲突的依赖关系"
 msgid "conflicting files"
 msgstr "有冲突的文件"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "无法从 %s 获取某些文件\n"
+msgstr "无法获取某些文件"
 
 #, c-format
 msgid "invalid regular expression"
@@ -409,25 +409,25 @@ msgstr "无法从缓存中删除记录 '%s'\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+msgstr "%1$s：正在忽略软件包经济（%2$s => %3$s）\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s：正在从版本 %s 降级为 %s \n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%1$s：本地（%2$s）比 %3$s 的版本更新 (%4$s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+msgstr "正在忽略软件包更新 (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "无法删除文件 '%1$s': %2$s\n"
+msgstr "无法用文件 '%2$s' 替代 %1$s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -529,9 +529,9 @@ msgstr "调用 popen 失败 (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "调用 waitpid 失败 (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "小脚本未能被正确执行\n"
+msgstr "命令未能被正确执行\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
