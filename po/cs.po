@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-28 07:00-0500\n"
-"PO-Revision-Date: 2009-01-05 16:50+0100\n"
+"PO-Revision-Date: 2009-07-29 11:08+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
-"Language-Team: Čeština\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, c-format
@@ -85,17 +85,20 @@ msgstr ":: Nahradit %s za %s/%s?"
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s je konfliktní s %s. Odstranit %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: the following package(s) cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ":: Následující balíčky by měly být aktualizovány nejdříve:\n"
+msgstr ""
+":: Následující balíčky nemohou být aktualizovány, nelze vyřešit závislosti:\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Do you want to skip the above package(s) for this upgrade?"
-msgstr "Chcete odstranit VŠECHNY balíčky z cache?"
+msgstr ""
+"\n"
+"Chcete přeskočit aktualizaci balíčků uvedených výše?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -273,13 +276,13 @@ msgstr "seznam změn pro '%s' není dostupný.\n"
 msgid "options"
 msgstr "volby"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file(s)"
-msgstr "soubor"
+msgstr "soubor(y)"
 
-#, fuzzy, c-format
+#, c-format
 msgid "package(s)"
-msgstr "balíček"
+msgstr "balíček(y)"
 
 #, c-format
 msgid "usage"
@@ -355,15 +358,17 @@ msgstr ""
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      vypsat seznam změn balíčku\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
-"  -d, --deps           seznam všech balíčků instalovaných jako závislosti\n"
+"  -d, --deps           seznam všech balíčků instalovaných jako závislosti "
+"[filter]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       seznam všech výslovně instalovaných balíčků\n"
+msgstr ""
+"  -e, --explicit       seznam všech výslovně instalovaných balíčků [filter]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
@@ -381,18 +386,20 @@ msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
 msgstr ""
+"  -k, --check          kontrola, zda jsou přítomny všechny soubory z "
+"balíčku\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           seznam souborů v balíčku\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
 "  -m, --foreign        seznam nainstalovaných balíčků nalezených "
-"repositářích\n"
+"repositářích  [filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -409,15 +416,17 @@ msgid ""
 msgstr ""
 "  -s, --search <regex> vyhledat nainstalované balíčky, odpovídající řetězci\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
-"  -t, --unrequired     seznam všech balíčků nevyžadovaných jiným balíčkem\n"
+"  -t, --unrequired     seznam všech balíčků nevyžadovaných jiným balíčkem  "
+"[filter]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
-msgstr "  -u, --upgrades       seznam všech aktualizovatelných balíčků\n"
+msgstr ""
+"  -u, --upgrades       seznam všech aktualizovatelných balíčků [filter]\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
@@ -452,11 +461,13 @@ msgstr ""
 "  -s, --search <regex> vyhledat balíčky v repositářích, odpovídající "
 "řetězci\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
 "downgrade)\n"
-msgstr "  -u, --sysupgrade     aktualizovat všechny zastaralé balíčky\n"
+msgstr ""
+"  -u, --sysupgrade     aktualizovat všechny zastaralé balíčky (--uu umožní "
+"ponížení)\n"
 
 #, c-format
 msgid ""
@@ -515,9 +526,9 @@ msgstr "      --noscriptlet    nespouštět instalační skripty\n"
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        zobrazit více informací\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      --needed         potlačit instalaci aktuálních balíčků\n"
+msgstr "      --debug         zobrazí ladící zprávy\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -645,11 +656,11 @@ msgstr "skupina \"%s\" nebyla nalezena\n"
 
 #, c-format
 msgid "root path too long\n"
-msgstr ""
+msgstr "cesta ke kořenovému adresáři je příliš dlouhá\n"
 
 #, c-format
 msgid "file path too long\n"
-msgstr ""
+msgstr "cesta k souboru je příliš dlouhá\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -691,13 +702,13 @@ msgstr "selhala příprava transakce (%s)\n"
 msgid ":: %s: requires %s\n"
 msgstr ":: %s: vyžaduje %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s is designated as a HoldPkg.\n"
-msgstr ":: %s je označen jako HoldPkg. Přesto odstranit?"
+msgstr "%s je označen jako HoldPkg.\n"
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr ""
+msgstr "Mezi cíly byl naleze balíček označený jako HoldPkg. Chcete pokračovat?"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -743,9 +754,9 @@ msgstr "Chcete odstranit odinstalované balíčky z cache?"
 msgid "Do you want to remove outdated packages from cache?"
 msgstr "Chcete odstranit staré balíčky z cache?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing old packages from cache...\n"
-msgstr "odstraňují se staré balíčky z cache... "
+msgstr "odstraňují se staré balíčky z cache...\n"
 
 #, c-format
 msgid "could not access cache directory\n"
@@ -753,15 +764,15 @@ msgstr "nelze přistoupit k adresáři s cache\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
-msgstr ""
+msgstr "Soubor %s nevypadá jako platný balíček, má se odstranit?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to remove ALL files from cache?"
-msgstr "Chcete odstranit VŠECHNY balíčky z cache?"
+msgstr "Chcete odstranit VŠECHNY soubory z cache?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing all files from cache...\n"
-msgstr "odstraňují se všechny balíčky z cache... "
+msgstr "odstraňují se všechny soubory z cache...\n"
 
 #, c-format
 msgid "could not remove cache directory\n"
@@ -803,9 +814,9 @@ msgstr "repositář \"%s\" nebyl nalezen.\n"
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Spouští se aktualizace systému...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "skipping target: %s\n"
-msgstr "Vytváří se balíček: %s"
+msgstr "přeskakuje se cíl: %s\n"
 
 #, c-format
 msgid "%s package not found, searching for group...\n"
@@ -837,7 +848,7 @@ msgstr " lokální databáze je aktuální\n"
 
 #, c-format
 msgid "no database for package: %s\n"
-msgstr ""
+msgstr "neexistuje databáze pro balíček: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -929,9 +940,9 @@ msgstr "Odstranit (%d):"
 msgid "Total Removed Size:   %.2f MB\n"
 msgstr "Celková uvolněná velikost:    %.2f MB\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "New optional dependencies for %s\n"
-msgstr "Volitelné závislosti pro %s\n"
+msgstr "Nové volitelné závislosti pro %s\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -1070,13 +1081,11 @@ msgstr "NEPROŠEL"
 msgid "One or more files did not pass the validity check!"
 msgstr "Jeden nebo více souborů neprošlo kontrolou validity!"
 
-#, fuzzy
 msgid "Integrity checks (%s) differ in size from the source array."
-msgstr "Kontrolní součty (%s) nebyly nalezeny nebo nejsou kompletní."
+msgstr "Kontrolní součty (%s) nesouhlasí s velikostí pole zdrojů."
 
-#, fuzzy
 msgid "Integrity checks are missing."
-msgstr "Kontrolní součty (%s) nebyly nalezeny nebo nejsou kompletní."
+msgstr "Kontrolní součty nebyly nalezeny."
 
 msgid "Extracting Sources..."
 msgstr "Rozbalují se zdrojové soubory..."
@@ -1093,27 +1102,23 @@ msgstr "Spouští se build()..."
 msgid "Build Failed."
 msgstr "Sestavení selhalo."
 
-#, fuzzy
 msgid "Starting %s()..."
-msgstr "Spouští se build()..."
+msgstr "Spouští se %s()..."
 
-#, fuzzy
 msgid "Packaging Failed."
-msgstr "Sestavení selhalo."
+msgstr "Vytváření balíčku selhalo."
 
 msgid "Tidying install..."
 msgstr "Uklízí se instalace..."
 
-#, fuzzy
 msgid "Removing doc files..."
-msgstr "Odstraňují se info/doc soubory..."
+msgstr "Odstraňují se doc soubory..."
 
 msgid "Purging other files..."
-msgstr ""
+msgstr "Odstraňují se další soubory..."
 
-#, fuzzy
 msgid "Compressing man and info pages..."
-msgstr "Komprimují se manuálové stránky..."
+msgstr "Komprimují se man a info stránky..."
 
 msgid "Stripping debugging symbols from binaries and libraries..."
 msgstr "Odstraňují se ladící informace z binárních souborů a knihoven..."
@@ -1148,9 +1153,8 @@ msgstr "Přidává se seznam změn balíčku..."
 msgid "Compressing package..."
 msgstr "Komprimuje se balíček..."
 
-#, fuzzy
 msgid "'%s' is not a valid archive extension."
-msgstr "'%s' není validní ladící úroveň\n"
+msgstr "'%s' není platná přípona archívu."
 
 msgid "Failed to create package file."
 msgstr "Selhalo vytvoření balíčku."
@@ -1170,16 +1174,14 @@ msgstr "Komprimuje se zdrojový balíček..."
 msgid "Failed to create source package file."
 msgstr "Selhalo vytváření zdrojového balíčku."
 
-#, fuzzy
 msgid "Failed to install built package(s)."
-msgstr "Selhalo vytvoření balíčku."
+msgstr "Selhala instalace vytvořeného balíčku."
 
 msgid "%s is not allowed to be empty."
 msgstr "%s nemůže být prázdné."
 
-#, fuzzy
 msgid "%s is not allowed to start with a hyphen."
-msgstr "%s nemůže obsahovat pomlčky."
+msgstr "%s nemůže začínat pomlčkou."
 
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s nemůže obsahovat pomlčky."
@@ -1203,7 +1205,7 @@ msgid "options array contains unknown option '%s'"
 msgstr "seznam voleb obsahuje neznámou volbu '%s'"
 
 msgid "missing package function for split package '%s'"
-msgstr ""
+msgstr "chybí funkce balíčku pro rozdělení balíčku '%s'"
 
 msgid "Determining latest darcs revision..."
 msgstr "Určuje se poslední darcs revize..."
@@ -1250,9 +1252,9 @@ msgstr "  -c, --clean      Odstranit pracovní soubory po sestavení"
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Odstranit zdrojové soubory v cache"
 
-#, fuzzy
 msgid "  --config <config> Use an alternate config file (instead of '%s')"
-msgstr "  -p <buildscript> Použít alternativní build skript (namísto '%s')"
+msgstr ""
+"  --config <config> Použít alternativní konfigurační soubor (namísto '%s')"
 
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Přeskočit všechny kontroly závislostí"
@@ -1290,9 +1292,8 @@ msgid ""
 msgstr ""
 "  -r, --rmdeps     Po úspěšném sestavení odstranit nainstalované závislosti"
 
-#, fuzzy
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
-msgstr "  -R, --repackage  Znovu zabalit obsah pkg/ bez sestavení"
+msgstr "  -R, --repackage  Znovu zabalit obsah balícku bez sestavení"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Nainstalovat chybějící závislosti pomocí pacman"
@@ -1332,17 +1333,16 @@ msgstr "      --noprogressbar  Nezobrazovat průběh stahování souborů"
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Když není zadáno -p, makepkg bude hledat '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\\n"
-"Toto je svobodný software; více o podmínkách použití naleznete\\nve "
-"zdrojovém kódu.Ze zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY.\\n"
+"Copyright (C) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je "
+"svobodný software; více o podmínkách použití naleznete\\nve zdrojovém kódu."
+"Ze zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY.\\n"
 
 msgid "%s not found."
 msgstr "%s nebyl nalezen."
@@ -1365,9 +1365,8 @@ msgstr "Cache zdrojových souborů vyčištěna."
 msgid "No files have been removed."
 msgstr "Žádné soubory nebyly odstraněny."
 
-#, fuzzy
 msgid "Source destination must be defined in %s."
-msgstr "V makepkg.conf musí být specifikováno umístění zdrojových souborů."
+msgstr "V %s musí být specifikováno umístění zdrojových souborů."
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "Dodatek: spusťte makepkg -C mino váš adresář s cache."
@@ -1400,9 +1399,8 @@ msgid "ownership of the packaged files. Try using the fakeroot environment by"
 msgstr ""
 "vlastnění souborů v balíčku někým jiným než rootem. Používejte fakeroot"
 
-#, fuzzy
 msgid "placing 'fakeroot' in the BUILDENV array in %s."
-msgstr "prostředí, přidáním 'fakeroot' do BUILDENV pole v makepkg.conf."
+msgstr "prostředí, přidáním 'fakeroot' do BUILDENV pole v %s."
 
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr "Nepoužívejte volbu '-F'. Tato volba je použitelná jen pro makepkg."
@@ -1422,7 +1420,7 @@ msgid "%s does not exist."
 msgstr "%s neexistuje."
 
 msgid "%s contains CRLF characters and cannot be sourced."
-msgstr ""
+msgstr "%s obsahuje CRLF znaky a nemůže být použit."
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je již sestaven, instaluje se existující balíček..."
@@ -1430,18 +1428,15 @@ msgstr "Balíček je již sestaven, instaluje se existující balíček..."
 msgid "A package has already been built. (use -f to overwrite)"
 msgstr "Balíček je již sestaven. (použijte -f pro přepsání)"
 
-#, fuzzy
 msgid ""
 "The package group has already been built, installing existing packages..."
-msgstr "Balíček je již sestaven, instaluje se existující balíček..."
+msgstr "Skupina balíčků je již sestavena, instalují se existující balíčky..."
 
-#, fuzzy
 msgid "The package group has already been built. (use -f to overwrite)"
-msgstr "Balíček je již sestaven. (použijte -f pro přepsání)"
+msgstr "Skupina balíčků je již sestavena. (použijte -f pro přepsání)"
 
-#, fuzzy
 msgid "Part of the package group has already been built. (use -f to overwrite)"
-msgstr "Balíček je již sestaven. (použijte -f pro přepsání)"
+msgstr "Část skupiny balíčků je již sestavena. (použijte -f pro přepsání)"
 
 msgid "Leaving fakeroot environment."
 msgstr "Opouští se prostředí fakeroot."
@@ -1563,13 +1558,11 @@ msgstr "Vyměňují se databáze..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Dokončeno. Databáze pacmana byla optimalizována."
 
-#, fuzzy
 msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "Použití: repo-add [-q] <path-to-db> <package> ...\\n"
+msgstr "Použití: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "Použití: repo-remove [-q] <path-to-db> <packagename> ...\\n\\n"
+msgstr "Použití: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1591,6 +1584,8 @@ msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
 "\\nand errors\\n\\n"
 msgstr ""
+"Použijte přepínač -q/--quiet pro zkrácení výstupu na základní zprávy, "
+"varování \\n a chyby\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Příklad:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1613,11 +1608,10 @@ msgid "Creating 'deltas' db entry..."
 msgstr "Vytváří se 'deltas' záznam databáze..."
 
 msgid "An entry for '%s' already existed"
-msgstr ""
+msgstr "Záznam pro '%s' již existuje"
 
-#, fuzzy
 msgid "Removing existing entry '%s'..."
-msgstr "Odstraňuje se existující balíček '%s'..."
+msgstr "Odstraňuje se existující záznam '%s'..."
 
 msgid "Invalid package file '%s'."
 msgstr "Neplatný soubor balíčku '%s'."
@@ -1631,12 +1625,11 @@ msgstr "Počítá se kontrolní MD5 součet..."
 msgid "Creating 'depends' db entry..."
 msgstr "Vytváří se'depends' záznam databáze..."
 
-#, fuzzy
 msgid "Failed to acquire lockfile: %s."
-msgstr "Selhalo vytvoření balíčku."
+msgstr "Selhalo získání zamykacího souboru: %s."
 
 msgid "Held by %s"
-msgstr ""
+msgstr "Vlastněný %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Soubor repositáře '%s' není vhodná databáze pacman."
@@ -1647,21 +1640,17 @@ msgstr "Rozbaluje se databáze do dočasného umístění..."
 msgid "Repository file '%s' was not found."
 msgstr "Repositář \"%s\" nebyl nalezen."
 
-#, fuzzy
 msgid "Repository file '%s' could not be created."
-msgstr "konfigurační soubor %s nelze přečíst.\n"
+msgstr "Nepodařilo se vytvořit soubor repositáře %s."
 
-#, fuzzy
 msgid "File '%s' not found."
-msgstr "Balíček '%s' nebyl nalezen."
+msgstr "Soubor '%s' nebyl nalezen."
 
-#, fuzzy
 msgid "Adding delta '%s'"
 msgstr "Přidává se delta rozdíl '%s'"
 
-#, fuzzy
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Nelze nalézt příkaz xdelta! Je xdelta nainstalován?"
+msgstr "Nelze nalézt příkaz xdelta3! Je xdelta3 nainstalován?"
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' není soubor balíčku, přeskočit"
@@ -1669,13 +1658,11 @@ msgstr "'%s' není soubor balíčku, přeskočit"
 msgid "Adding package '%s'"
 msgstr "Přidává se balíček '%s'"
 
-#, fuzzy
 msgid "Searching for delta '%s'..."
-msgstr "Vyhledává se balíček '%s'..."
+msgstr "Vyhledává se delta rozdíl '%s'..."
 
-#, fuzzy
 msgid "Delta matching '%s' not found."
-msgstr "Balíček odpovídající '%s' nebyl nalezen."
+msgstr "Delta rozdíl odpovídající '%s' nebyl nalezen."
 
 msgid "Searching for package '%s'..."
 msgstr "Vyhledává se balíček '%s'..."
@@ -1699,7 +1686,7 @@ msgid "Creating updated database file '%s'"
 msgstr "Vytváří se aktualizovaný soubor databáze '%s'"
 
 msgid "'%s' does not have a valid archive extension."
-msgstr ""
+msgstr "'%s' nemá platnou příponu archívu."
 
 msgid "All packages have been removed from the database. Deleting '%s'."
 msgstr "Všechny balíčky budou odstraněny z databáze. Odstraňuje se '%s'."

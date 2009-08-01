@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 3.1.4-1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-27 21:15-0500\n"
-"PO-Revision-Date: 2009-03-23 17:59+0200\n"
+"PO-Revision-Date: 2009-07-29 03:26+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish Arch Linux Users <tr@archlinuxtr.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "çakışan iki paketi aynı anda kuramazsınız\n"
 
 #, c-format
 msgid "replacing packages with -U is not supported yet\n"
-msgstr "-A ve -U kullanarak paket değiştirme henüz desteklenmemektedir\n"
+msgstr "-U kullanarak paket değiştirme henüz desteklenmemektedir\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
@@ -49,7 +49,7 @@ msgstr ""
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "aç: dizin %s dosyası ile baştan yazılmıyor\n"
+msgstr "aç: %s dosyası dizinin üzerine yazılmıyor\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
@@ -99,13 +99,13 @@ msgstr "%s-%s veritabanı kaydı güncellenemedi\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "'%s' kaydı tampona eklenemedi\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "%s%s veritabanı kaydı kaldırılamıyor\n"
+msgstr "veritabanı kaldırılamıyor %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "veritabanı kaydı için geçersiz isim '%s'\n"
+msgstr "geçersiz bir veritabanı kaydı '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -123,9 +123,9 @@ msgstr "%s veritabanı tutarsız: %s paketinde isim uyuşmazlığı\n"
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s veritabanı tutarsız: %s paketinde sürüm uyuşmazlığı\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "%s dizinine geçilemedi (%s)\n"
+msgstr "dizin oluşturulamadı %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -167,13 +167,13 @@ msgstr "%s paketi %s bağımlılığından sonra kaldırılacak\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s paketi %s bağımlılığından önce kurulacak\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+msgstr "paket gözardı ediliyor %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
-msgstr "sağlayan paket seçildi ( %s %s'i sağlıyor)\n"
+msgstr "sağlayan paket seçildi ( %s %s paketini sağlıyor)\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
@@ -185,7 +185,7 @@ msgstr "'%s' adresi geçersiz\n"
 
 #, c-format
 msgid "url scheme not specified, assuming HTTP\n"
-msgstr "adres şeması belirtilmemiş, http kullanılacak\n"
+msgstr "adres şeması belirtilmemiş, HTTP kullanılacak\n"
 
 #, c-format
 msgid "disk"
@@ -197,7 +197,7 @@ msgstr "%3$s hatası nedeniyle '%1$s' dosyası %2$s adresinden alınamadı\n"
 
 #, c-format
 msgid "cannot resume download, starting over\n"
-msgstr "indirmeye devam edilemiyor, baştan başlanıyor\n"
+msgstr "indirme işlemine devam edilemiyor, baştan başlanıyor\n"
 
 #, c-format
 msgid "cannot write to file '%s'\n"
@@ -209,7 +209,7 @@ msgstr "'%s' dosyasına yazılamıyor: %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s eksik görünüyor: %jd/%jd bayt\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -233,19 +233,19 @@ msgstr "dosya bulunamadı veya okunamadı"
 
 #, c-format
 msgid "could not find or read directory"
-msgstr "klasör bulunamadı veya okunamadı"
+msgstr "dizin bulunamadı veya okunamadı"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "eksik ya da geçersiz parametre geçilmiş"
+msgstr "hatalı ya da BOŞ parametre geçilmiş"
 
 #, c-format
 msgid "library not initialized"
-msgstr "kitaplık başlatılamadı"
+msgstr "kütüphane başlatılamadı"
 
 #, c-format
 msgid "library already initialized"
-msgstr "kitaplık zaten başlatıldı"
+msgstr "kütüphane zaten başlatılmış"
 
 #, c-format
 msgid "unable to lock database"
@@ -281,11 +281,11 @@ msgstr "veritabanı kaydı kaldırılamadı"
 
 #, c-format
 msgid "invalid url for server"
-msgstr "hatalı sunucu adresi"
+msgstr "sunucu için geçersiz adres"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "depo için sunucu ayarlanmamış"
 
 #, c-format
 msgid "transaction already initialized"
@@ -293,7 +293,7 @@ msgstr "işlem zaten başlatılmış"
 
 #, c-format
 msgid "transaction not initialized"
-msgstr "işlem başlatılmamış"
+msgstr "işlem başlatılmadı"
 
 #, c-format
 msgid "duplicate target"
@@ -301,7 +301,7 @@ msgstr "birden fazla hedef"
 
 #, c-format
 msgid "transaction not prepared"
-msgstr "işlem hazırlanamadı"
+msgstr "işlem hazırlanmadı"
 
 #, c-format
 msgid "transaction aborted"
@@ -309,11 +309,11 @@ msgstr "işlem iptal edildi"
 
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "operasyon, işlem tipiyle uyumlu değil"
+msgstr "operasyon, işlem türüyle uyumlu değil"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "veritabanı kilitli değil iken işlem girişimi"
 
 #, c-format
 msgid "could not find or read package"
@@ -321,7 +321,7 @@ msgstr "paket bulunamadı veya okunamadı"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "ignorepkg nedeniyle işlem iptal edildi"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -357,15 +357,15 @@ msgstr "bağımlılıklar sağlanamadı"
 
 #, c-format
 msgid "conflicting dependencies"
-msgstr "çelişen bağımlılıklar"
+msgstr "çakışan bağımlılıklar"
 
 #, c-format
 msgid "conflicting files"
-msgstr "çelişen dosyalar"
+msgstr "çakışan dosyalar"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "%s deposundan bazı dosyalar alınamadı\n"
+msgstr "bazı dosyalar alınamadı"
 
 #, c-format
 msgid "invalid regular expression"
@@ -377,7 +377,7 @@ msgstr "libarchive hatası"
 
 #, c-format
 msgid "download library error"
-msgstr "kütüphane indirilirken hata oluştu"
+msgstr "indirme kütüphanesi hatası"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -407,26 +407,26 @@ msgstr "'%s' kaydı tampondan silinemedi\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+msgstr "%s: paket sürümü geri alma işlemi göz ardı ediliyor (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: %s sürümünden %s sürümüne çevriliyor.\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr ""
 "%s: yerel depodaki paket (%s) %s deposundaki paketten (%s) daha güncel\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%s: paket güncellemesi göz ardı ediliyor (%s => %s)\n"
+msgstr "paket değiştirme işlemi göz ardı ediliyor (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "'%s' dosyası silinemiyor: %s\n"
+msgstr "%s ile %s değiştirilemiyor\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -458,7 +458,7 @@ msgstr "%s deposundan bazı dosyalar alınamadı\n"
 
 #, c-format
 msgid "could not create removal transaction\n"
-msgstr "kaldırma işlemi oluşturulamıyor\n"
+msgstr "kaldırma işlemi oluşturulamadı\n"
 
 #, c-format
 msgid "could not create transaction\n"
@@ -518,7 +518,7 @@ msgstr "kök dizini değiştirilemedi (%s)\n"
 
 #, c-format
 msgid "could not change directory to / (%s)\n"
-msgstr "/ dizinine gidilemedi (%s)\n"
+msgstr "/ dizinine geçilemedi (%s)\n"
 
 #, c-format
 msgid "call to popen failed (%s)"
@@ -528,13 +528,13 @@ msgstr "popen çağrısı başarısız (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid çağrısı başarısız (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "betik düzgün çalıştırılamadı\n"
+msgstr "komut düzgün çalıştırılamadı\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "%s önbelleği bulunmuyor, oluşturuluyor...\n"
+msgstr "%s önbelleği yok, oluşturuluyor...\n"
 
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"

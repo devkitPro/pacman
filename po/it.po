@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-28 07:00-0500\n"
-"PO-Revision-Date: 2009-01-03 13:30+0200\n"
+"PO-Revision-Date: 2009-07-28 15:00+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -87,11 +87,13 @@ msgstr ":: Vuoi sostituire %s con %s/%s?"
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s va in conflitto con %s. Vuoi rimuovere %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: the following package(s) cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ":: I seguenti pacchetti dovrebbero essere aggiornati prima :\n"
+msgstr ""
+":: i seguenti pacchetti non possono essere aggiornati a causa di una "
+"dipendenza non risolvibile:\n"
 
 #, c-format
 msgid ""
@@ -227,7 +229,7 @@ msgstr "Script install :"
 
 #, c-format
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 #, c-format
 msgid "No"
@@ -283,7 +285,7 @@ msgstr "file"
 
 #, c-format
 msgid "package(s)"
-msgstr "pacchetto/i"
+msgstr "pacchetto(i)"
 
 #, c-format
 msgid "usage"
@@ -333,7 +335,7 @@ msgid ""
 "                       (-ss includes explicitly installed dependencies too)\n"
 msgstr ""
 "  -s, --recursive      rimuove anche le dipendenze (non richieste altrove)\n"
-"                       (-ss include anche le dipendenze installate "
+"                       (-ss include le dipendenze installate "
 "esplicitamente)\n"
 
 #, c-format
@@ -393,6 +395,8 @@ msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
 msgstr ""
+"  -k, --check          controlla che i file del(i) pacchetto(i) siano "
+"presenti\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -469,12 +473,13 @@ msgstr ""
 "  -s, --search <regex> cerca le stringhe corrispondenti nei repository "
 "remoti\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
 "downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     aggiorna tutti i pacchetti installati nel sistema\n"
+"  -u, --sysupgrade     aggiorna tutti i pacchetti (-uu abilita il "
+"downgrade)\n"
 
 #, c-format
 msgid ""
@@ -672,11 +677,11 @@ msgstr "il gruppo \"%s\" non è stato trovato\n"
 
 #, c-format
 msgid "root path too long\n"
-msgstr ""
+msgstr "il path di root è troppo lungo\n"
 
 #, c-format
 msgid "file path too long\n"
-msgstr ""
+msgstr "il path del file è troppo lungo\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -1201,9 +1206,8 @@ msgstr "Impossibile installare il pacchetto creato."
 msgid "%s is not allowed to be empty."
 msgstr "%s non può essere vuoto."
 
-#, fuzzy
 msgid "%s is not allowed to start with a hyphen."
-msgstr "%s non può contenere dei trattini."
+msgstr "%s non può iniziare con un trattino."
 
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s non può contenere dei trattini."
@@ -1213,7 +1217,8 @@ msgstr "%s non è disponibile per l'architettura '%s'."
 
 msgid "Note that many packages may need a line added to their %s"
 msgstr ""
-"Nota che molti pacchetti potrebbero aver bisogno di una linea al loro %s"
+"Nota che molti pacchetti potrebbero aver bisogno di una linea aggiunta al "
+"loro %s"
 
 msgid "such as arch=('%s')."
 msgstr "come ad esempio arch=('%s')."

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-07-27 21:15-0500\n"
-"PO-Revision-Date: 2009-01-04 21:59+0100\n"
+"PO-Revision-Date: 2009-07-29 14:14+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
-"Language-Team: Čeština\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, c-format
@@ -101,9 +101,9 @@ msgstr "nelze aktualizovat záznam databáze %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nelze přidat položku '%s' do cache\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "nelze odstranit záznam v databázi %s%s\n"
+msgstr "nelze odstranit záznam v databázi %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -125,9 +125,9 @@ msgstr "databáze %s je nekonzistentní: nesouhlasí jméno balíčku %s\n"
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "databáze %s je nekonzistentní: nesouhlasí verze balíčku %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "nelze změnit adresář na %s (%s)\n"
+msgstr "nelze změnit adresář %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
@@ -169,9 +169,9 @@ msgstr "%s bude odstraněn po %s, na kterém závisí\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s bude nainstalován před %s, na kterém závisí\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+msgstr "ignoruje se balíček %s-%s\n"
 
 #, c-format
 msgid "provider package was selected (%s provides %s)\n"
@@ -211,7 +211,7 @@ msgstr "chyba při zápisu do souboru '%s': %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s se zdá být zkrácen:  %jd/%jd bytů\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -287,7 +287,7 @@ msgstr "nesprávná URL pro server"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "pro repositář nejsou nastaveny žádné servery"
 
 #, c-format
 msgid "transaction already initialized"
@@ -315,7 +315,7 @@ msgstr "operace není kompatibilní s typem transakce"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "pokus o uskutečnění transakce v době, kdy není uzamčena databáze"
 
 #, c-format
 msgid "could not find or read package"
@@ -323,7 +323,7 @@ msgstr "nelze nalézt nebo přečíst balíček"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "operace byla zrušena kvůli ignorovanému balíčku"
 
 #, c-format
 msgid "invalid or corrupted package"
@@ -365,9 +365,9 @@ msgstr "konfliktní závislosti"
 msgid "conflicting files"
 msgstr "konfliktní soubory"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files"
-msgstr "selhalo získání některých souborů z %s\n"
+msgstr "selhalo získání některých souborů"
 
 #, c-format
 msgid "invalid regular expression"
@@ -409,25 +409,25 @@ msgstr "nelze odstranit položku '%s' z cache\n"
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+msgstr "%s: ignoruje se ponížení verze balíčku (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: ponížení z verze %s na verzi %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokální verze (%s) je novější než v %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "%s: ignoruje se aktualizace balíčku (%s => %s)\n"
+msgstr "ignoruje se náhrada balíčku (%s-%s => %s-%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "nelze odstranit soubor '%s': %s\n"
+msgstr "nelze nahradit soubor %s souborem %s\n"
 
 #, c-format
 msgid "repository '%s' not found\n"
@@ -529,9 +529,9 @@ msgstr "volání popen selhalo (%s)"
 msgid "call to waitpid failed (%s)\n"
 msgstr "volání waitpid selhalo (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "skript se nepodařilo spustit správně\n"
+msgstr "příkaz se nepodařilo spustit správně\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
