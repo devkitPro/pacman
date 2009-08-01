@@ -84,7 +84,7 @@ msgstr ""
 "tout de même ?"
 
 #, c-format
-msgid ":: Replace %s with %s/%s ?"
+msgid ":: Replace %s with %s/%s?"
 msgstr ":: Remplacer %s par %s/%s ?"
 
 # pour être cohérent
@@ -96,14 +96,17 @@ msgstr ":: %s est en conflit avec %s. Supprimer %s ?"
 msgid ""
 ":: the following package(s) cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ":: les paquets suivants ne peuvent pas être mis à jour à cause de"
-"dépendances manquantes :\n"
+msgstr ""
+":: les paquets suivants ne peuvent pas être mis à jour à cause dedépendances "
+"manquantes :\n"
 
 #, c-format
 msgid ""
 "\n"
 "Do you want to skip the above package(s) for this upgrade?"
-msgstr "\nVoulez-vous omettre les paquets ci-dessus pour cette mise à jour ?"
+msgstr ""
+"\n"
+"Voulez-vous omettre les paquets ci-dessus pour cette mise à jour ?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -383,7 +386,8 @@ msgstr ""
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr ""
-"  -e, --explicit           liste tous les paquets installés explicitement [filtre]\n"
+"  -e, --explicit           liste tous les paquets installés explicitement "
+"[filtre]\n"
 
 # id.
 #, c-format
@@ -403,7 +407,8 @@ msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
 msgstr ""
-"  -k, --check              vérifie que les fichiers du paquet sont tous bien présents\n"
+"  -k, --check              vérifie que les fichiers du paquet sont tous bien "
+"présents\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -449,9 +454,10 @@ msgstr ""
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr ""
-"  -u, --upgrades           liste tous les paquets pouvant être mis à jour [filtre]\n"
+"  -u, --upgrades           liste tous les paquets pouvant être mis à jour "
+"[filtre]\n"
 
-#en fait, montre seulement les noms des paquets, on pourrait le dire non ?
+# en fait, montre seulement les noms des paquets, on pourrait le dire non ?
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr "  -q, --quiet              montre moins d'informations\n"
@@ -466,13 +472,11 @@ msgstr ""
 
 #, c-format
 msgid "  -i, --info           view package information\n"
-msgstr ""
-"  -i, --info               affiche les informations du paquet\n"
+msgstr "  -i, --info               affiche les informations du paquet\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr ""
-"  -l, --list <dépôt>       liste tous les paquets d'un dépôt\n"
+msgstr "  -l, --list <dépôt>       liste tous les paquets d'un dépôt\n"
 
 # plus clair
 #, c-format
@@ -494,8 +498,9 @@ msgstr ""
 msgid ""
 "  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
 "downgrade)\n"
-msgstr "  -u, --sysupgrade         met à jour tous les paquets obsolètes "
-"(-uu permet de restaurer des versions antérieures\n"
+msgstr ""
+"  -u, --sysupgrade         met à jour tous les paquets obsolètes (-uu permet "
+"de restaurer des versions antérieures\n"
 
 #, c-format
 msgid ""
@@ -509,8 +514,8 @@ msgstr ""
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr ""
-"  -y, --refresh            met à jour les bases de données depuis "
-"le serveur\n"
+"  -y, --refresh            met à jour les bases de données depuis le "
+"serveur\n"
 
 #, c-format
 msgid "      --needed         don't reinstall up to date packages\n"
@@ -571,14 +576,12 @@ msgstr "      --debug              affiche les messages de débogage\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr ""
-"  -r, --root <chemin>      définit la racine où installer\n"
+msgstr "  -r, --root <chemin>      définit la racine où installer\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr ""
-"  -b, --dbpath <chemin>    définit l'emplacement de la base "
-"de données\n"
+"  -b, --dbpath <chemin>    définit l'emplacement de la base de données\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
@@ -630,18 +633,20 @@ msgstr "l'enregistrement de la base de données '%s' a échoué (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "fichier de configuration %s, ligne %d: erreur de syntaxe - clé manquante.\n"
+msgstr ""
+"fichier de configuration %s, ligne %d: erreur de syntaxe - clé manquante.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
-"fichier de configuration %s, ligne %d: toutes les instructions doivent appartenir à "
-"une section.\n"
+"fichier de configuration %s, ligne %d: toutes les instructions doivent "
+"appartenir à une section.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr ""
-"fichier de configuration %s, ligne %d: l'instruction '%s' n'est pas reconnue\n"
+"fichier de configuration %s, ligne %d: l'instruction '%s' n'est pas "
+"reconnue\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -649,7 +654,9 @@ msgstr "valeur invalide pour 'CleanMethod' : '%s'\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "ne peut pas ajouter l'URL du serveur '%2$s' à la base de données '%1$s' (%3$s)\n"
+msgstr ""
+"ne peut pas ajouter l'URL du serveur '%2$s' à la base de données '%1$s' (%3"
+"$s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -746,12 +753,12 @@ msgstr ":: %s: requiert %s\n"
 
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
-msgstr ""
-"%s est indiqué comme paquet à conserver (HoldPkg).\n"
+msgstr "%s est indiqué comme paquet à conserver (HoldPkg).\n"
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr "Une des cibles est un paquet à conserver (HoldPkg). Voulez-vous continuer?"
+msgstr ""
+"Une des cibles est un paquet à conserver (HoldPkg). Voulez-vous continuer?"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -1250,8 +1257,7 @@ msgstr "par exemple arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
-"Le champ provides ne peut pas contenir d'opérateurs de comparaison (< ou "
-">)."
+"Le champ provides ne peut pas contenir d'opérateurs de comparaison (< ou >)."
 
 msgid "Install scriptlet (%s) does not exist."
 msgstr "Le script d'installation (%s) n'a pas été trouvé."
@@ -1308,7 +1314,9 @@ msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Nettoie les fichiers sources dans le cache"
 
 msgid "  --config <config> Use an alternate config file (instead of '%s')"
-msgstr "  --config <config> Utilise un fichier de configuration alternatif (au lieu de '%s')"
+msgstr ""
+"  --config <config> Utilise un fichier de configuration alternatif (au lieu "
+"de '%s')"
 
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     ne vérifie pas les dépendances"
@@ -1351,8 +1359,7 @@ msgstr ""
 "réussie"
 
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
-msgstr ""
-"  -R, --repackage  Recréation du paquet sans recompiler"
+msgstr "  -R, --repackage  Recréation du paquet sans recompiler"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installe les dépendances manquantes avec pacman"
@@ -1435,7 +1442,8 @@ msgid "Source destination must be defined in %s."
 msgstr "La destination source doit être définie dans %s."
 
 msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "De plus, veuillez utiliser makepkg -C en dehors du répertoire de cache."
+msgstr ""
+"De plus, veuillez utiliser makepkg -C en dehors du répertoire de cache."
 
 msgid "Running makepkg as root is a BAD idea and can cause"
 msgstr "Lancer makepkg en root est une MAUVAISE idée et peut causer"
@@ -1479,8 +1487,8 @@ msgstr "Binaire sudo introuvable ! Est-il installé ?"
 
 msgid "Missing dependencies cannot be installed or removed as a normal user"
 msgstr ""
-"Les dépendances manquantes ne peuvent pas être installées ou désinstallées par "
-"un utilisateur normal"
+"Les dépendances manquantes ne peuvent pas être installées ou désinstallées "
+"par un utilisateur normal"
 
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
 msgstr ""
@@ -1501,13 +1509,17 @@ msgstr "Un paquet a déjà été compilé. (utilisez -f pour l'écraser)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
-msgstr "Un groupe de paquets a déjà été compilé, installation des paquets existants..."
+msgstr ""
+"Un groupe de paquets a déjà été compilé, installation des paquets "
+"existants..."
 
 msgid "The package group has already been built. (use -f to overwrite)"
 msgstr "Un groupe de paquets a déjà été compilé. (utilisez -f pour l'écraser)"
 
 msgid "Part of the package group has already been built. (use -f to overwrite)"
-msgstr "Une partie du groupe de paquets a déjà été compilé. (utilisez -f pour l'écraser)"
+msgstr ""
+"Une partie du groupe de paquets a déjà été compilé. (utilisez -f pour "
+"l'écraser)"
 
 msgid "Leaving fakeroot environment."
 msgstr "Quitte l'environnement fakeroot."
@@ -1579,12 +1591,12 @@ msgid ""
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
 msgstr ""
-"Pacman utilise beaucoup de petits fichiers pour garder des traces des paquets,"
-"\\nces fichiers ont ainsi tendance à se fragmenter avec le temps. "
-"\\nCe script tente de replacer tous ces fichiers ensemble sur votre "
-"disque dur.\\nLe résultat est que le disque devrait être capable de les lire "
-"plus rapidement\\n,puisque la tête de lecture n'aura plus besoin de bouger "
-"autant.\\n"
+"Pacman utilise beaucoup de petits fichiers pour garder des traces des "
+"paquets,\\nces fichiers ont ainsi tendance à se fragmenter avec le temps. "
+"\\nCe script tente de replacer tous ces fichiers ensemble sur votre disque "
+"dur.\\nLe résultat est que le disque devrait être capable de les lire plus "
+"rapidement\\n,puisque la tête de lecture n'aura plus besoin de bouger autant."
+"\\n"
 
 msgid "diff tool was not found, please install diffutils."
 msgstr "L'outil diff est introuvable, veuillez installer diffutils."
@@ -1630,7 +1642,8 @@ msgstr "Analyse de l'intégrité... "
 
 msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
-"La vérification de l'intégrité a échoué, restauration de l'ancienne base de données."
+"La vérification de l'intégrité a échoué, restauration de l'ancienne base de "
+"données."
 
 msgid "Rotating database into place..."
 msgstr "Mise en place de la base de données..."
@@ -1642,7 +1655,8 @@ msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 msgstr "utilisation: repo-add [-q] <path-to-db> <package|delta> ...\\n"
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "utilisation: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr ""
+"utilisation: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1663,8 +1677,7 @@ msgstr ""
 msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
 "\\nand errors\\n\\n"
-msgstr ""
-"Utilisez -q/--quiet pour masquer les messages et erreurs\\n\\n"
+msgstr "Utilisez -q/--quiet pour masquer les messages et erreurs\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Exemple:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1729,7 +1742,8 @@ msgid "Adding delta '%s'"
 msgstr "Ajout du delta '%s'"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Le programme xdelta3 est introuvable ! Vérifiez qu'il est bien installé."
+msgstr ""
+"Le programme xdelta3 est introuvable ! Vérifiez qu'il est bien installé."
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' n'est pas un paquet, ignore"
