@@ -55,6 +55,7 @@ static char *get_filename(const char *url) {
 	return(filename);
 }
 
+#if defined(INTERNAL_DOWNLOAD)
 static char *get_destfile(const char *path, const char *filename) {
 	char *destfile;
 	/* len = localpath len + filename len + null */
@@ -75,7 +76,6 @@ static char *get_tempfile(const char *path, const char *filename) {
 	return(tempfile);
 }
 
-#if defined(INTERNAL_DOWNLOAD)
 /* Build a 'struct url' from an url. */
 static struct url *url_for_string(const char *url)
 {
