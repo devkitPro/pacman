@@ -301,7 +301,7 @@ check_repo_db()
 		CLEAN_LOCK=1
 	else
 		error "$(gettext "Failed to acquire lockfile: %s.")" "$LOCKFILE"
-		[ -f "$LOCKFILE" ] && error "$(gettext "Held by %s")" "$(cat $LOCKFILE)"
+		[ -f "$LOCKFILE" ] && error "$(gettext "Held by process %s")" "$(cat $LOCKFILE)"
 		exit 1
 	fi
 
