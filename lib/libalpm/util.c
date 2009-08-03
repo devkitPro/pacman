@@ -562,7 +562,7 @@ int _alpm_ldconfig(const char *root)
 	if(access(line, F_OK) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
 		if(access(line, X_OK) == 0) {
-			_alpm_run_chroot(root, "ldconfig");
+			_alpm_run_chroot(root, "/sbin/ldconfig");
 		}
 	}
 
