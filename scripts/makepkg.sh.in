@@ -646,16 +646,26 @@ extract_sources() {
 
 		# fix flyspray #6246
 		local file_type=$(file -bizL "$file")
+		local ext=${file##*.}
 		local cmd=''
 		case "$file_type" in
 			*application/x-tar*|*application/zip*|*application/x-zip*|*application/x-cpio*)
-				cmd="bsdtar -x -f" ;;
+				cmd="bsdtar" ;;
 			*application/x-gzip*)
-				cmd="gunzip -d -f" ;;
+				case "$ext" in
+					gz|z|Z) cmd="gzip" ;;
+					*) continue;;
+				esac ;;
 			*application/x-bzip*)
-				cmd="bunzip2 -f" ;;
+				case "$ext" in
+					bz2|bz) cmd="bzip2" ;;
+					*) continue;;
+				esac ;;
 			*application/x-xz*)
-				cmd="xz -d -f" ;;
+				case "$ext" in
+					xz) cmd="xz" ;;
+					*) continue;;
+				esac ;;
 			*)
 				# Don't know what to use to extract this file,
 				# skip to the next file
@@ -663,8 +673,13 @@ extract_sources() {
 		esac
 
 		local ret=0
-		msg2 '%s' "$cmd \"$file\""
-		$cmd "$file" || ret=$?
+		msg2 "$(gettext "extracting %s with %s")" "$file" "$cmd"
+		if [ "$cmd" = "bsdtar" ]; then
+			$cmd -xf "$file" || ret=?
+		else
+			rm -f "${file%.*}"
+			$cmd -dcf "$file" > "${file%.*}" || ret=?
+		fi
 		if [ $ret -ne 0 ]; then
 			error "$(gettext "Failed to extract %s")" "$file"
 			plain "$(gettext "Aborting...")"
