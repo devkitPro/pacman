@@ -354,7 +354,7 @@ check_deps() {
 	fi
 }
 
-handledeps() {
+handle_deps() {
 	local R_DEPS_SATISFIED=0
 	local R_DEPS_MISSING=1
 
@@ -402,7 +402,7 @@ resolve_deps() {
 		return $R_DEPS_SATISFIED
 	fi
 
-	if handledeps $deplist; then
+	if handle_deps $deplist; then
 		pkgdeps="$pkgdeps $deplist"
 		# check deps again to make sure they were resolved
 		deplist="$(check_deps $*)"
