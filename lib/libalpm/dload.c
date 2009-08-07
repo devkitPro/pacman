@@ -124,6 +124,10 @@ static int download_internal(const char *url, const char *localpath,
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
 
+	if(mtimeold) {
+		fileurl->last_modified = mtimeold;
+	}
+
 	/* pass the raw filename for passing to the callback function */
 	_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", filename);
 
@@ -157,7 +161,13 @@ static int download_internal(const char *url, const char *localpath,
 	sigaction(SIGPIPE, NULL, &old_action);
 	sigaction(SIGPIPE, &new_action, NULL);
 
-	dlf = fetchXGet(fileurl, &ust, (handle->nopassiveftp ? "" : "p"));
+	dlf = fetchXGet(fileurl, &ust, (handle->nopassiveftp ? "i" : "pi"));
+
+	if(fetchLastErrCode == FETCH_UNCHANGED) {
+		_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", filename);
+		ret = 1;
+		goto cleanup;
+	}
 
 	if(fetchLastErrCode != 0 || dlf == NULL) {
 		const char *host = _("disk");
@@ -171,12 +181,6 @@ static int download_internal(const char *url, const char *localpath,
 		goto cleanup;
 	} else {
 		_alpm_log(PM_LOG_DEBUG, "connected to %s successfully\n", fileurl->host);
-	}
-
-	if(ust.mtime && mtimeold && ust.mtime == mtimeold) {
-		_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", filename);
-		ret = 1;
-		goto cleanup;
 	}
 
 	if(ust.mtime && mtimenew) {
