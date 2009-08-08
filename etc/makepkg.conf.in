@@ -26,7 +26,7 @@ DLAGENTS=('ftp::/usr/bin/wget -c --passive-ftp -t 3 --waitretry=3 -O %o %u'
 CARCH="@CARCH@"
 CHOST="@CHOST@"
 
-#-- Exclusive: will only run on @CARCHFLAGS@
+#-- Exclusive: will only run on @CARCH@
 # -march (or -mcpu) builds exclusively for an architecture
 # -mtune optimizes for an architecture, but builds for whole processor family
 CFLAGS="@CARCHFLAGS@-mtune=generic -O2 -pipe"
