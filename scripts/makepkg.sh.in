@@ -953,6 +953,9 @@ create_package() {
 		exit 1 # $E_MISSING_PKGDIR
 	fi
 
+	cd "$pkgdir"
+	msg "$(gettext "Creating package...")"
+
 	if [ -z "$1" ]; then
 		nameofpkg="$pkgname"
 	else
@@ -960,9 +963,6 @@ create_package() {
 	fi
 
 	write_pkginfo $nameofpkg
-
-	cd "$pkgdir"
-	msg "$(gettext "Creating package...")"
 
 	local comp_files=".PKGINFO"
 
