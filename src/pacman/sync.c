@@ -837,18 +837,26 @@ int pacman_sync(alpm_list_t *targets)
 		/* check for newer versions of packages to be upgraded first */
 		alpm_list_t *packages = syncfirst();
 		if(packages) {
-			printf(_(":: The following packages should be upgraded first :\n"));
-			list_display("   ", packages);
-			if(yesno(_(":: Do you want to cancel the current operation\n"
-							":: and upgrade these packages now?"))) {
-				FREELIST(targs);
-				targs = packages;
-				config->flags = 0;
-				config->op_s_upgrade = 0;
+			/* Do not ask user if all the -S targets are SyncFirst packages, see FS#15810 */
+			alpm_list_t *tmp = NULL;
+			if(config->op_s_upgrade || (tmp = alpm_list_diff(targets, packages, (alpm_list_fn_cmp)strcmp))) {
+				alpm_list_free(tmp);
+				printf(_(":: The following packages should be upgraded first :\n"));
+				list_display("   ", packages);
+				if(yesno(_(":: Do you want to cancel the current operation\n"
+								":: and upgrade these packages now?"))) {
+					FREELIST(targs);
+					targs = packages;
+					config->flags = 0;
+					config->op_s_upgrade = 0;
+				} else {
+					FREELIST(packages);
+				}
+				printf("\n");
 			} else {
+				pm_printf(PM_LOG_DEBUG, "skipping SyncFirst dialog\n");
 				FREELIST(packages);
 			}
-			printf("\n");
 		}
 	}
 

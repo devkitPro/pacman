@@ -509,7 +509,7 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 		umask(0022);
 		pipe = popen(cmd, "r");
 		if(!pipe) {
-			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)"),
+			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)\n"),
 					strerror(errno));
 			exit(1);
 		}
@@ -562,7 +562,7 @@ int _alpm_ldconfig(const char *root)
 	if(access(line, F_OK) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
 		if(access(line, X_OK) == 0) {
-			_alpm_run_chroot(root, "ldconfig");
+			_alpm_run_chroot(root, "/sbin/ldconfig");
 		}
 	}
 
