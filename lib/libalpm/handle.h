@@ -58,7 +58,6 @@ typedef struct _pmhandle_t {
 
 	/* options */
 	unsigned short usesyslog;    /* Use syslog instead of logfile? */ /* TODO move to frontend */
-	unsigned short nopassiveftp; /* Don't use PASV ftp connections */
 	unsigned short usedelta;     /* Download deltas if possible */
 } pmhandle_t;
 

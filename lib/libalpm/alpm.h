@@ -151,8 +151,6 @@ void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
 
-unsigned short alpm_option_get_nopassiveftp();
-void alpm_option_set_nopassiveftp(unsigned short nopasv);
 void alpm_option_set_usedelta(unsigned short usedelta);
 
 pmdb_t *alpm_option_get_localdb();

@@ -76,30 +76,6 @@ static char *get_tempfile(const char *path, const char *filename) {
 	return(tempfile);
 }
 
-/* Build a 'struct url' from an url. */
-static struct url *url_for_string(const char *url)
-{
-	struct url *ret = NULL;
-	ret = fetchParseURL(url);
-	if(!ret) {
-		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
-		RET_ERR(PM_ERR_SERVER_BAD_URL, NULL);
-	}
-
-	/* if no URL scheme specified, assume HTTP */
-	if(strlen(ret->scheme) == 0) {
-		_alpm_log(PM_LOG_WARNING, _("url scheme not specified, assuming HTTP\n"));
-		strcpy(ret->scheme, SCHEME_HTTP);
-	}
-	/* add a user & password for anonymous FTP */
-	if(strcmp(ret->scheme,SCHEME_FTP) == 0 && strlen(ret->user) == 0) {
-		strcpy(ret->user, "anonymous");
-		strcpy(ret->pwd, "libalpm@guest");
-	}
-
-	return(ret);
-}
-
 static int download_internal(const char *url, const char *localpath,
 		time_t mtimeold, time_t *mtimenew) {
 	fetchIO *dlf = NULL;
@@ -110,17 +86,20 @@ static int download_internal(const char *url, const char *localpath,
 	size_t dl_thisfile = 0, nread = 0;
 	char *tempfile, *destfile, *filename;
 	struct sigaction new_action, old_action;
-	struct url *fileurl = url_for_string(url);
+	struct url *fileurl;
 	char buffer[PM_DLBUF_LEN];
-
-	if(!fileurl) {
-		return(-1);
-	}
 
 	filename = get_filename(url);
 	if(!filename) {
 		return(-1);
 	}
+
+	fileurl = fetchParseURL(url);
+	if(!fileurl) {
+		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
+		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
+	}
+
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
 
@@ -161,7 +140,7 @@ static int download_internal(const char *url, const char *localpath,
 	sigaction(SIGPIPE, NULL, &old_action);
 	sigaction(SIGPIPE, &new_action, NULL);
 
-	dlf = fetchXGet(fileurl, &ust, (handle->nopassiveftp ? "i" : "pi"));
+	dlf = fetchXGet(fileurl, &ust, "i");
 
 	if(fetchLastErrCode == FETCH_UNCHANGED) {
 		_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", filename);
