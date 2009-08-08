@@ -214,14 +214,12 @@ static int download_internal(const char *url, const char *localpath,
 
 	while((nread = fetchIO_read(dlf, buffer, PM_DLBUF_LEN)) > 0) {
 		size_t nwritten = 0;
-		while(nwritten < nread) {
-			nwritten += fwrite(buffer, 1, (nread - nwritten), localf);
-			if(ferror(localf)) {
-				_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
-						destfile, strerror(errno));
-				ret = -1;
-				goto cleanup;
-			}
+		nwritten = fwrite(buffer, 1, nread, localf);
+		if((nwritten != nread) || ferror(localf)) {
+			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
+					destfile, strerror(errno));
+			ret = -1;
+			goto cleanup;
 		}
 		dl_thisfile += nread;
 
