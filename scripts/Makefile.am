@@ -16,7 +16,7 @@ EXTRA_DIST = \
 	makepkg.sh.in \
 	pacman-optimize.sh.in \
 	pkgdelta.sh.in \
-	rankmirrors.py.in \
+	rankmirrors.sh.in \
 	repo-add.sh.in
 
 # Files that should be removed, but which Automake does not know.
@@ -62,7 +62,7 @@ $(OURSCRIPTS): Makefile
 makepkg: $(srcdir)/makepkg.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
 pkgdelta: $(srcdir)/pkgdelta.sh.in
-rankmirrors: $(srcdir)/rankmirrors.py.in
+rankmirrors: $(srcdir)/rankmirrors.sh.in
 repo-add: $(srcdir)/repo-add.sh.in
 repo-remove: $(srcdir)/repo-add.sh.in
 	rm -f repo-remove
