@@ -58,6 +58,7 @@ DEP_BIN=0
 FORCE=0
 INFAKEROOT=0
 GENINTEG=0
+SKIPINTEG=0
 INSTALL=0
 NOBUILD=0
 NODEPS=0
@@ -613,8 +614,12 @@ check_checksums() {
 	done
 
 	if [ $correlation -eq 0 ]; then
-		error "$(gettext "Integrity checks are missing.")"
-		exit 1 # TODO: error code
+		if [ $SKIPINTEG -eq 1 ]; then
+			warning "$(gettext "Integrity checks are missing.")"
+		else
+			error "$(gettext "Integrity checks are missing.")"
+			exit 1 # TODO: error code
+		fi
 	fi
 }
 
@@ -1399,6 +1404,7 @@ usage() {
 	echo "$(gettext "  -e, --noextract  Do not extract source files (use existing src/ dir)")"
 	echo "$(gettext "  -f, --force      Overwrite existing package")"
 	echo "$(gettext "  -g, --geninteg   Generate integrity checks for source files")"
+	echo "$(gettext "      --skipinteg  Do not fail when integrity checks are missing")"
 	echo "$(gettext "  -h, --help       This help")"
 	echo "$(gettext "  -i, --install    Install package after successful build")"
 	echo "$(gettext "  -L, --log        Log package build process")"
@@ -1447,8 +1453,8 @@ ARGLIST=$@
 OPT_SHORT="AcCdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,clean,cleancache,nodeps"
 OPT_LONG="$OPT_LONG,noextract,force,forcever:,geninteg,help,holdver"
-OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,source"
-OPT_LONG="$OPT_LONG,syncdeps,version,config:"
+OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,skipinteg"
+OPT_LONG="$OPT_LONG,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@" || echo 'PARSE_OPTIONS FAILED')"
@@ -1487,6 +1493,7 @@ while true; do
 		-p)               shift; BUILDFILE=$1 ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
+		--skipinteg)      SKIPINTEG=1 ;;
 		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
 
