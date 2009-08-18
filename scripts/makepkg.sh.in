@@ -949,12 +949,26 @@ write_pkginfo() {
 	fi
 }
 
+check_package() {
+	cd "$pkgdir"
+
+	# check existence of backup files
+	local file
+	for file in "${backup[@]}"; do
+		if [ ! -f "$file" ]; then
+			warning "$(gettext "Invalid backup entry : %s")" "$file"
+		fi
+	done
+}
+
 create_package() {
 	if [ ! -d "$pkgdir" ]; then
 		error "$(gettext "Missing pkg/ directory.")"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_MISSING_PKGDIR
 	fi
+
+	check_package
 
 	cd "$pkgdir"
 	msg "$(gettext "Creating package...")"
@@ -1154,6 +1168,14 @@ check_sanity() {
 	for provide in ${provides[@]}; do
 		if [ $provide != ${provide//</} -o $provide != ${provide//>/} ]; then
 			error "$(gettext "Provides array cannot contain comparison (< or >) operators.")"
+			return 1
+		fi
+	done
+
+	local file
+	for file in "${backup[@]}"; do
+		if [ "${file:0:1}" = "/" ]; then
+			error "$(gettext "Invalid backup entry : %s")" "$file"
 			return 1
 		fi
 	done
