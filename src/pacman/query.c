@@ -172,7 +172,7 @@ static int query_search(alpm_list_t *targets)
 		}
 
 		/* print the package size with the output if ShowSize option set */
-		if(config->showsize) {
+		if(!config->quiet && config->showsize) {
 			/* Convert byte size to MB */
 			double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
