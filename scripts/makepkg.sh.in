@@ -1,6 +1,6 @@
 #!/bin/bash -e
 #
-#   makepkg - make packages compatable for use with pacman
+#   makepkg - make packages compatible for use with pacman
 #   @configure_input@
 #
 #   Copyright (c) 2006-2009 Pacman Development Team <pacman-dev@archlinux.org>
@@ -178,7 +178,7 @@ clean_up() {
 trap 'clean_up' 0
 trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
-trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
+trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
 # a source entry can have two forms :
 # 1) "filename::http://path/to/file"
@@ -188,11 +188,11 @@ trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
 get_filename() {
 	# if a filename is specified, use it
 	local filename=$(echo $1 | sed 's|::.*||')
-	# if it is just an url, we only keep the last component
+	# if it is just an URL, we only keep the last component
 	echo "$filename" | sed 's|^.*://.*/||g'
 }
 
-# extract the url from a source entry
+# extract the URL from a source entry
 get_url() {
 	# strip an eventual filename
 	echo $1 | sed 's|.*::||'
@@ -279,7 +279,7 @@ in_array() {
 }
 
 get_downloadclient() {
-	# $1 = url with valid protocol prefix
+	# $1 = URL with valid protocol prefix
 	local url=$1
 	local proto=$(echo "$url" | sed 's|://.*||')
 
@@ -315,11 +315,11 @@ get_downloadclient() {
 download_file() {
 	# download command
 	local dlcmd=$1
-	# url of the file
+	# URL of the file
 	local url=$2
 	# destination file
 	local file=$3
-	# temporary download file, default to last component of the url
+	# temporary download file, default to last component of the URL
 	local dlfile=$(echo "$url" | sed 's|^.*://.*/||g')
 
 	# replace %o by the temporary dlfile if it exists
@@ -327,7 +327,7 @@ download_file() {
 		dlcmd=${dlcmd//\%o/\"$file.part\"}
 		dlfile="$file.part"
 	fi
-	# add the url, either in place of %u or at the end
+	# add the URL, either in place of %u or at the end
 	if echo "$dlcmd" | grep -q "%u" ; then
 		dlcmd=${dlcmd//\%u/\"$url\"}
 	else
@@ -786,7 +786,7 @@ run_package() {
 			mv "$BUILDLOG" "$BUILDLOG.$i"
 		fi
 
-		# ensure overridden package variables suvrive tee with split packages
+		# ensure overridden package variables survive tee with split packages
 		logpipe=$(mktemp -u "$startdir/logpipe.XXXXXXXX")
 		mknod "$logpipe" p
 		exec 3>&1
@@ -869,7 +869,7 @@ tidy_install() {
 		local binary
 		find ${STRIP_DIRS[@]} -type f 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
-				*compressed-encoding*)      # Skip compressed binarys
+				*compressed-encoding*)      # Skip compressed binaries
 					;;
 				*application/x-sharedlib*)  # Libraries (.so)
 					/usr/bin/strip -S "$binary";;
