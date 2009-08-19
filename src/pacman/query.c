@@ -172,7 +172,7 @@ static int query_search(alpm_list_t *targets)
 		}
 
 		/* print the package size with the output if ShowSize option set */
-		if(config->showsize) {
+		if(!config->quiet && config->showsize) {
 			/* Convert byte size to MB */
 			double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
@@ -394,6 +394,7 @@ static int display(pmpkg_t *pkg)
 int pacman_query(alpm_list_t *targets)
 {
 	int ret = 0;
+	int match = 0;
 	alpm_list_t *i;
 	pmpkg_t *pkg = NULL;
 
@@ -436,7 +437,11 @@ int pacman_query(alpm_list_t *targets)
 				if(value != 0) {
 					ret = 1;
 				}
+				match = 1;
 			}
+		}
+		if(!match) {
+			ret = 1;
 		}
 		return(ret);
 	}
@@ -471,12 +476,17 @@ int pacman_query(alpm_list_t *targets)
 			if(value != 0) {
 				ret = 1;
 			}
+			match = 1;
 		}
 
 		if(config->op_q_isfile) {
 			alpm_pkg_free(pkg);
 			pkg = NULL;
 		}
+	}
+
+	if(!match) {
+		ret = 1;
 	}
 
 	return(ret);

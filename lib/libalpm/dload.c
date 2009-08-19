@@ -130,8 +130,8 @@ static int download_internal(const char *url, const char *localpath,
 	/* libfetch does not reset the error code */
 	fetchLastErrCode = 0;
 
-	/* 10s timeout - TODO make a config option */
-	fetchTimeout = 10000;
+	/* 10s timeout */
+	fetchTimeout = 10;
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */

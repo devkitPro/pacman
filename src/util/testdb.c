@@ -183,9 +183,9 @@ int check_syncdbs(char *dbpath, alpm_list_t *dbnames) {
 
 void usage() {
 	fprintf(stderr, "usage:\n");
-  fprintf(stderr,
+	fprintf(stderr,
 			"\t%s [-b <pacman db>]                : check the local database\n", BASENAME);
-  fprintf(stderr,
+	fprintf(stderr,
 			"\t%s [-b <pacman db>] core extra ... : check the listed sync databases\n", BASENAME);
 	exit(1);
 }
@@ -224,10 +224,8 @@ int main(int argc, char **argv)
 	alpm_option_set_dbpath(dbpath);
 
 	if(!dbnames) {
-		printf("Checking the integrity of the local database in %s\n",dbpath);
 		ret = check_localdb(dbpath);
 	} else {
-		printf("Checking the integrity of the sync databases in %s\n",dbpath);
 		ret = check_syncdbs(dbpath,dbnames);
 	}
 
