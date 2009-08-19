@@ -317,6 +317,31 @@ int _alpm_trans_addtarget(pmtrans_t *trans, char *target)
 	return(0);
 }
 
+static alpm_list_t *check_arch(alpm_list_t *pkgs)
+{
+	alpm_list_t *i;
+	alpm_list_t *invalid = NULL;
+
+	const char *arch = alpm_option_get_arch();
+	if(!arch) {
+		return(NULL);
+	}
+	for(i = pkgs; i; i = i->next) {
+		pmpkg_t *pkg = i->data;
+		const char *pkgarch = alpm_pkg_get_arch(pkg);
+		if(strcmp(pkgarch,arch) && strcmp(pkgarch,"any")) {
+			char *string;
+			const char *pkgname = alpm_pkg_get_name(pkg);
+			const char *pkgver = alpm_pkg_get_version(pkg);
+			size_t len = strlen(pkgname) + strlen(pkgver) + strlen(pkgarch) + 3;
+			MALLOC(string, len, RET_ERR(PM_ERR_MEMORY, invalid));
+			sprintf(string, "%s-%s-%s", pkgname, pkgver, pkgarch);
+			invalid = alpm_list_add(invalid, string);
+		}
+	}
+	return(invalid);
+}
+
 int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 {
 	if(data) {
@@ -331,6 +356,14 @@ int _alpm_trans_prepare(pmtrans_t *trans, alpm_list_t **data)
 	/* If there's nothing to do, return without complaining */
 	if(trans->packages == NULL) {
 		return(0);
+	}
+
+	alpm_list_t *invalid = check_arch(trans->packages);
+	if(invalid) {
+		if(data) {
+			*data = invalid;
+		}
+		RET_ERR(PM_ERR_PKG_INVALID_ARCH, -1);
 	}
 
 	switch(trans->type) {
