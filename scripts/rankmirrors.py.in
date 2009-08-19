@@ -156,6 +156,8 @@ if __name__ == "__main__":
 
         # if the $repo var is used in the url, replace it by core
         tempUrl = Template(serverUrl).safe_substitute(repo='core')
+        # if the $arch var is used in the url, replace it by i686
+        tempUrl = Template(tempUrl).safe_substitute(arch='i686')
 
         # add @DBEXT@ to server name. the repo name is parsed
         # from the mirror url; it is the third (or fourth) dir

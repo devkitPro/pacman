@@ -42,6 +42,7 @@ Architecture = auto
 #   - repositories listed first will take precedence when packages
 #     have identical names, regardless of version number
 #   - URLs will have $repo replaced by the name of the current repo
+#   - URLs will have $arch replaced by the name of the architecture
 #
 # Repository entries are of the format:
 #       [repo-name]
@@ -57,7 +58,7 @@ Architecture = auto
 # servers immediately after the header and they will be used before the
 # default mirrors.
 #[core]
-#Server = ftp://ftp.example.com/foobar/$repo/os/i686/
+#Server = ftp://ftp.example.com/foobar/$repo/os/$arch/
 # The file referenced here should contain a list of 'Server = ' lines.
 #Include = @sysconfdir@/pacman.d/mirrorlist
 

@@ -181,10 +181,12 @@ Include = /etc/pacman.d/mirrorlist
 
 During parsing, pacman will define the `$repo` variable to the name of the
 current section. This is often utilized in files specified using the 'Include'
-directive so all repositories can use the same mirrorfile.
+directive so all repositories can use the same mirrorfile. pacman also defines
+the `$arch` variable to the value of `Architecture`, so the same mirrorfile can
+even be used for different architectures.
 
 --------
-Server = ftp://ftp.archlinux.org/$repo/os/arch
+Server = ftp://ftp.archlinux.org/$repo/os/$arch
 --------
 
 The order of repositories in the configuration files matters; repositories

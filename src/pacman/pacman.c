@@ -897,7 +897,22 @@ static int _parseconfig(const char *file, const char *givensection,
 					}
 				} else if(strcmp(key, "Server") == 0) {
 					/* let's attempt a replacement for the current repo */
-					char *server = strreplace(ptr, "$repo", section);
+					char *temp = strreplace(ptr, "$repo", section);
+					/* let's attempt a replacement for the arch */
+					const char *arch = alpm_option_get_arch();
+					char *server;
+					if(arch) {
+						server = strreplace(temp, "$arch", arch);
+						free(temp);
+					} else {
+						if(strstr(temp, "$arch")) {
+							pm_printf(PM_LOG_ERROR, _("The mirror '%s' contains the $arch"
+										" variable, but no Architecture is defined.\n"), ptr);
+							ret = 1;
+							goto cleanup;
+						}
+						server = temp;
+					}
 
 					if(alpm_db_setserver(db, server) != 0) {
 						/* pm_errno is set by alpm_db_setserver */
