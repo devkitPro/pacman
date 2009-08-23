@@ -175,6 +175,7 @@ clean_up() {
 ##
 # Signal Traps
 ##
+set -E
 trap 'clean_up' 0
 trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
@@ -693,6 +694,16 @@ extract_sources() {
 	fi
 }
 
+error_build() {
+	# first exit all subshells, then print the error
+	if [ $BASH_SUBSHELL -eq 0 ]; then
+		error "$(gettext "Build Failed.")"
+		plain "$(gettext "Aborting...")"
+		remove_deps
+	fi
+	exit 2 # $E_BUILD_FAILED
+}
+
 run_build() {
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
 	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
@@ -736,19 +747,31 @@ run_build() {
 			mv "$BUILDLOG" "$BUILDLOG.$i"
 		fi
 
+		set +E
 		build 2>&1 | tee "$BUILDLOG"; ret=${PIPESTATUS[0]}
+		set -E
+		if [ $ret -gt 0 ]; then error_build; fi
 	else
-		build 2>&1 || ret=$?
+		restoretrap=$(trap -p ERR)
+		trap 'error_build' ERR
+		build 2>&1
+		eval $restoretrap
 	fi
 	# reset our shell options
 	eval "$shellopts"
+}
 
-	if [ $ret -gt 0 ]; then
-		error "$(gettext "Build Failed.")"
+error_package() {
+	if [ -p "$logpipe" ]; then
+		rm "$logpipe"
+	fi
+	# first exit all subshells, then print the error
+	if [ $BASH_SUBSHELL -eq 0 ]; then
+		error "$(gettext "Packaging Failed.")"
 		plain "$(gettext "Aborting...")"
 		remove_deps
-		exit 2 # $E_BUILD_FAILED
 	fi
+	exit 2 # $E_BUILD_FAILED
 }
 
 run_package() {
@@ -792,19 +815,18 @@ run_package() {
 		exec 3>&1
 		tee "$BUILDLOG" < "$logpipe" &
 		exec 1>"$logpipe" 2>"$logpipe"
-		$pkgfunc 2>&1 || ret=$?
+		restoretrap=$(trap -p ERR)
+		trap 'error_package' ERR
+		$pkgfunc 2>&1
+		eval $restoretrap
 		sync
 		exec 1>&3 2>&3 3>&-
 		rm "$logpipe"
 	else
-		$pkgfunc 2>&1 || ret=$?
-	fi
-
-	if [ $ret -gt 0 ]; then
-		error "$(gettext "Packaging Failed.")"
-		plain "$(gettext "Aborting...")"
-		remove_deps
-		exit 2 # $E_BUILD_FAILED
+		restoretrap=$(trap -p ERR)
+		trap 'error_package' ERR
+		$pkgfunc 2>&1
+		eval $restoretrap
 	fi
 }
 
