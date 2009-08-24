@@ -31,6 +31,7 @@ QUIET=0
 DELTA=0
 WITHFILES=0
 SIGN=0
+VERIFY=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
@@ -200,6 +201,29 @@ create_signature() {
 		msg2 "$(gettext "Created signature file %s.")" "$dbfile.sig"
 	else
 		warning "$(gettext "Failed to sign package database.")"
+	fi
+}
+
+# verify the existing package database signature
+verify_signature() {
+	(( ! VERIFY )) && return
+	local dbfile="$1"
+	local ret=0
+	msg "$(gettext "Verifying database signature...")"
+	if [ ! $(type -p "gpg") ]; then
+		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+	if [[ ! -f $dbfile.sig ]]; then
+		warning "$(gettext "No existing signature found, skipping verification.")"
+		return
+	fi
+	gpg --verify "$dbfile.sig" || ret=$?
+	if (( ! ret )); then
+		msg2 "$(gettext "Database signature file verified.")"
+	else
+		error "$(gettext "Database signature was NOT valid!")"
+		exit 1
 	fi
 }
 
@@ -377,6 +401,7 @@ check_repo_db()
 				exit 1
 			fi
 		fi
+		verify_signature "$REPO_DB_FILE"
 		msg "$(gettext "Extracting database to a temporary location...")"
 		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir"
 	else
@@ -508,6 +533,7 @@ for arg in "$@"; do
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
 		-s|--sign) SIGN=1;;
+		-v|--verify) VERIFY=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
