@@ -1068,6 +1068,9 @@ create_package() {
 	local pkg_file="$PKGDEST/${nameofpkg}-${fullver}-${PKGARCH}${PKGEXT}"
 	local ret=0
 
+	[[ -f $pkg_file ]] && rm -f "$pkg_file"
+	[[ -f $pkg_file.sig ]] && rm -f "$pkg_file.sig"
+
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
 	shopt -s nullglob
@@ -1097,6 +1100,8 @@ create_package() {
 	if (( ret )); then
 		warning "$(gettext "Failed to create symlink to package file.")"
 	fi
+
+	create_signature "$pkg_file"
 }
 
 create_signature() {
@@ -1104,15 +1109,15 @@ create_signature() {
 		return
 	fi
 	local ret=0
-	local filename="$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+	local filename="$1"
 	msg "$(gettext "Signing package...")"
 	if [ ! $(type -p "gpg") ]; then
 		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
-	gpg --detach-sign --use-agent $filename || ret=$?
+	gpg --detach-sign --use-agent "$filename" || ret=$?
 	if (( ! ret )); then
-		msg2 "$(gettext "Created signature file %s.")" $filename.sig
+		msg2 "$(gettext "Created signature file %s.")" "$filename.sig"
 	else
 		warning "$(gettext "Failed to sign package file.")"
 	fi
@@ -2133,8 +2138,6 @@ fi
 
 fullver=$(get_full_version $epoch $pkgver $pkgrel)
 msg "$(gettext "Finished making: %s")" "$pkgbase $fullver ($(date))"
-
-create_signature
 
 install_package
 
