@@ -418,12 +418,6 @@ case "$1" in
 	-V|--version) version; exit 0;;
 esac
 
-# check for correct number of args
-if [ $# -lt 2 ]; then
-	usage
-	exit 1
-fi
-
 # figure out what program we are
 cmd="$(basename $0)"
 if [ "$cmd" != "repo-add" -a "$cmd" != "repo-remove" ]; then
@@ -445,12 +439,6 @@ success=0
 for arg in "$@"; do
 	case "$arg" in
 		-q|--quiet) QUIET=1;;
-
-		-f|--force)
-			warning "$(gettext "the -f and --force options are no longer recognized")"
-			msg2 "$(gettext "use options=(force) in the PKGBUILD instead")"
-			;;
-
 		*)
 			if [ -z "$REPO_DB_FILE" ]; then
 				REPO_DB_FILE="$arg"
@@ -493,6 +481,7 @@ if [ $success -eq 1 ]; then
 	[ -f "$tmpdir/$filename" ] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
+	exit 1
 fi
 
 exit 0
