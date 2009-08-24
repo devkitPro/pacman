@@ -30,6 +30,7 @@ confdir='@sysconfdir@'
 QUIET=0
 DELTA=0
 WITHFILES=0
+SIGN=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
@@ -183,6 +184,24 @@ db_remove_delta()
 
 	return 1
 } # end db_remove_delta
+
+# sign the package database once repackaged
+create_signature() {
+	(( ! SIGN )) && return
+	local dbfile="$1"
+	local ret=0
+	msg "$(gettext "Signing database...")"
+	if [ ! $(type -p "gpg") ]; then
+		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+	gpg --detach-sign --use-agent "$dbfile" || ret=$?
+	if (( ! ret )); then
+		msg2 "$(gettext "Created signature file %s.")" "$dbfile.sig"
+	else
+		warning "$(gettext "Failed to sign package database.")"
+	fi
+}
 
 # write an entry to the pacman database
 #   arg1 - path to package
@@ -488,6 +507,7 @@ for arg in "$@"; do
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
+		-s|--sign) SIGN=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
@@ -520,6 +540,7 @@ if (( success )); then
 	pushd "$tmpdir" >/dev/null
 	if [[ -n $(ls) ]]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
+		create_signature "$filename"
 	else
 		# we have no packages remaining? zip up some emptyness
 		warning "$(gettext "No packages remain, creating empty database.")"
@@ -528,7 +549,9 @@ if (( success )); then
 	popd >/dev/null
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+	[[ -f $REPO_DB_FILE.sig ]] && rm -f "$REPO_DB_FILE.sig"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
+	[[ -f $tmpdir/$filename.sig ]] && mv "$tmpdir/$filename.sig" "$REPO_DB_FILE.sig"
 	dblink="${REPO_DB_FILE%.tar.*}"
 	target=${REPO_DB_FILE##*/}
 	ln -sf "$target" "$dblink" 2>/dev/null || \
