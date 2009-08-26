@@ -85,34 +85,18 @@ int needs_root(void)
 /* gets the current screen column width */
 int getcols(void)
 {
-	if(!isatty(1)) {
-		/* We will default to 80 columns if we're not a tty
-		 * this seems a fairly standard file width.
-		 */
-		return 80;
-	} else {
 #ifdef TIOCGSIZE
-		struct ttysize win;
-		if(ioctl(1, TIOCGSIZE, &win) == 0) {
-			return win.ts_cols;
-		}
+	struct ttysize win;
+	if(ioctl(1, TIOCGSIZE, &win) == 0) {
+		return win.ts_cols;
+	}
 #elif defined(TIOCGWINSZ)
-		struct winsize win;
-		if(ioctl(1, TIOCGWINSZ, &win) == 0) {
-			return win.ws_col;
-		}
+	struct winsize win;
+	if(ioctl(1, TIOCGWINSZ, &win) == 0) {
+		return win.ws_col;
+	}
 #endif
-		/* If we can't figure anything out, we'll just assume 80 columns */
-		/* TODO any problems caused by this assumption? */
-		return 80;
-	}
-	/* Original envvar way - prone to display issues
-	const char *cenv = getenv("COLUMNS");
-	if(cenv != NULL) {
-		return atoi(cenv);
-	}
-	return -1;
-	*/
+	return 0;
 }
 
 /* does the same thing as 'mkdir -p' */
@@ -256,6 +240,14 @@ void indentprint(const char *str, int indent)
 		return;
 	}
 
+	cols = getcols();
+
+	/* if we're not a tty, print without indenting */
+	if(cols == 0) {
+		printf("%s", str);
+		return;
+	}
+
 	len = strlen(str) + 1;
 	wcstr = calloc(len, sizeof(wchar_t));
 	len = mbstowcs(wcstr, str, len);
@@ -265,7 +257,6 @@ void indentprint(const char *str, int indent)
 	if(!p) {
 		return;
 	}
-	cols = getcols();
 
 	while(*p) {
 		if(*p == L' ') {
@@ -284,7 +275,7 @@ void indentprint(const char *str, int indent)
 			}
 			if(len > (cols - cidx - 1)) {
 				/* wrap to a newline and reindent */
-				fprintf(stdout, "\n%-*s", indent, "");
+				printf("\n%-*s", indent, "");
 				cidx = indent;
 			} else {
 				printf(" ");
@@ -292,7 +283,7 @@ void indentprint(const char *str, int indent)
 			}
 			continue;
 		}
-		fprintf(stdout, "%lc", (wint_t)*p);
+		printf("%lc", (wint_t)*p);
 		cidx += wcwidth(*p);
 		p++;
 	}
@@ -476,7 +467,7 @@ void list_display(const char *title, const alpm_list_t *list)
 			/* two additional spaces are added to the length */
 			s += 2;
 			int maxcols = getcols();
-			if(s + cols > maxcols) {
+			if(s + cols > maxcols && maxcols > 0) {
 				int j;
 				cols = len;
 				printf("\n");
