@@ -1180,6 +1180,14 @@ check_sanity() {
 		fi
 	done
 
+	local optdepend
+	for optdepend in "${optdepends[@]}"; do
+		pkg=${optdepend%%:*}
+		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]*$ ]]; then
+			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$optdepend"
+		fi
+	done
+
 	if [ "$install" -a ! -f "$install" ]; then
 		error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
 		return 1
