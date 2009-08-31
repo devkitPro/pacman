@@ -110,8 +110,15 @@ int pacman_upgrade(alpm_list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
-					printf(_(":: %s: conflicts with %s\n"),
-						alpm_conflict_get_package1(conflict), alpm_conflict_get_package2(conflict));
+					const char *package1 = alpm_conflict_get_package1(conflict);
+					const char *package2 = alpm_conflict_get_package2(conflict);
+					const char *reason = alpm_conflict_get_reason(conflict);
+					/* only print reason if it contains new information */
+					if(!strcmp(package1, reason) || !strcmp(package2, reason)) {
+						printf(_(":: %s and %s are in conflict\n"), package1, package2);
+					} else {
+						printf(_(":: %s and %s are in conflict (%s)\n"), package1, package2, reason);
+					}
 				}
 				break;
 			case PM_ERR_FILE_CONFLICTS:

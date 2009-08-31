@@ -504,7 +504,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, conflict->package2);
 			int doremove = 0;
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
-								conflict->package2, NULL, &doremove);
+							conflict->package2, conflict->reason, &doremove);
 			if(doremove) {
 				/* append to the removes list */
 				_alpm_log(PM_LOG_DEBUG, "electing '%s' for removal\n", conflict->package2);

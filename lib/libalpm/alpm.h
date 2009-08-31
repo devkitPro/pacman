@@ -442,6 +442,7 @@ alpm_list_t *alpm_checkconflicts(alpm_list_t *pkglist);
 
 const char *alpm_conflict_get_package1(pmconflict_t *conflict);
 const char *alpm_conflict_get_package2(pmconflict_t *conflict);
+const char *alpm_conflict_get_reason(pmconflict_t *conflict);
 
 pmdepmod_t alpm_dep_get_mod(const pmdepend_t *dep);
 const char *alpm_dep_get_name(const pmdepend_t *dep);

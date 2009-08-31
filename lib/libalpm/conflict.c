@@ -41,7 +41,7 @@
 #include "cache.h"
 #include "deps.h"
 
-pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2)
+pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2, const char *reason)
 {
 	pmconflict_t *conflict;
 
@@ -51,6 +51,7 @@ pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2)
 
 	STRDUP(conflict->package1, package1, RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(conflict->package2, package2, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(conflict->reason, reason, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(conflict);
 }
@@ -59,6 +60,7 @@ void _alpm_conflict_free(pmconflict_t *conflict)
 {
 	FREE(conflict->package2);
 	FREE(conflict->package1);
+	FREE(conflict->reason);
 	FREE(conflict);
 }
 
@@ -69,6 +71,7 @@ pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
 
 	STRDUP(newconflict->package1, conflict->package1, RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(newconflict->package2, conflict->package2, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newconflict->reason, conflict->reason, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return(newconflict);
 }
@@ -122,9 +125,9 @@ static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
  * @param pkg2 package causing conflict
  */
 static void add_conflict(alpm_list_t **baddeps, const char *pkg1,
-		const char *pkg2)
+		const char *pkg2, const char *reason)
 {
-	pmconflict_t *conflict = _alpm_conflict_new(pkg1, pkg2);
+	pmconflict_t *conflict = _alpm_conflict_new(pkg1, pkg2, reason);
 	if(conflict && !_alpm_conflict_isin(conflict, *baddeps)) {
 		*baddeps = alpm_list_add(*baddeps, conflict);
 	} else {
@@ -168,9 +171,9 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 
 				if(does_conflict(pkg1, conflict, pkg2)) {
 					if(order >= 0) {
-						add_conflict(baddeps, pkg1name, pkg2name);
+						add_conflict(baddeps, pkg1name, pkg2name, conflict);
 					} else {
-						add_conflict(baddeps, pkg2name, pkg1name);
+						add_conflict(baddeps, pkg2name, pkg1name, conflict);
 					}
 				}
 			}
@@ -576,6 +579,17 @@ const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
 	ASSERT(conflict != NULL, return(NULL));
 
 	return conflict->package2;
+}
+
+const char SYMEXPORT *alpm_conflict_get_reason(pmconflict_t *conflict)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(conflict != NULL, return(NULL));
+
+	return conflict->reason;
 }
 
 const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
