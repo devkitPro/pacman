@@ -12,7 +12,7 @@ lp2 = pmpkg("pkg2")
 lp2.depends = ["foo"]
 self.addpkg2db("local", lp2)
 
-self.args = "-S %s" % sp.name
+self.args = "-S %s --ask=4" % sp.name
 
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("PKG_EXIST=pkg1")

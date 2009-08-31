@@ -12,7 +12,7 @@ lp2.conflicts = ["pkg3"]
 for p in lp1, lp2:
 	self.addpkg2db("local", p)
 
-self.args = "-S %s" % sp.name
+self.args = "-S %s --ask=4" % sp.name
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")

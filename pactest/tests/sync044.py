@@ -11,7 +11,7 @@ sp3 = pmpkg("pkg3")
 sp3.conflicts = ["pkg1"]
 self.addpkg2db("sync", sp3);
 
-self.args = "-S pkg2"
+self.args = "-S pkg2 --ask=4"
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("!PKG_EXIST=pkg1")

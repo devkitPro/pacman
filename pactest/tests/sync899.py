@@ -11,7 +11,7 @@ self.addpkg2db("local", lp1)
 lp2 = pmpkg("pkg2")
 self.addpkg2db("local", lp2)
 
-self.args = "-Su"
+self.args = "-Su --ask=4"
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")

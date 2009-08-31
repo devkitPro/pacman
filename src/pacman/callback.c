@@ -262,12 +262,12 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			/* data parameters: target package, local package, conflict (strings) */
 			/* print conflict only if it contains new information */
 			if(!strcmp(data1, data3) || !strcmp(data2, data3)) {
-				*response = yesno(_(":: %s and %s are in conflict. Remove %s?"),
+				*response = noyes(_(":: %s and %s are in conflict. Remove %s?"),
 						(char *)data1,
 						(char *)data2,
 						(char *)data2);
 			} else {
-				*response = yesno(_(":: %s and %s are in conflict (%s). Remove %s?"),
+				*response = noyes(_(":: %s and %s are in conflict (%s). Remove %s?"),
 						(char *)data1,
 						(char *)data2,
 						(char *)data3,

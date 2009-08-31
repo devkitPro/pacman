@@ -11,7 +11,7 @@ self.addpkg2db("sync", sp2)
 lp = pmpkg("depend")
 self.addpkg2db("local", lp)
 
-self.args = "-S pkg1 pkg2"
+self.args = "-S pkg1 pkg2 --ask=4"
 
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("PKG_EXIST=depend")
