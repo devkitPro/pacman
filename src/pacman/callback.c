@@ -304,6 +304,12 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 					(char *)data1);
 			break;
 	}
+	if(config->noask) {
+		if(config->ask & event) {
+			/* inverse the default answer */
+			*response = !*response;
+		}
+	}
 }
 
 /* callback to handle display of transaction progress */

@@ -384,6 +384,7 @@ static int parseargs(int argc, char *argv[])
 		{"debug",      optional_argument, 0, 1003},
 		{"noprogressbar", no_argument,    0, 1004},
 		{"noscriptlet", no_argument,      0, 1005},
+		{"ask",        required_argument, 0, 1006},
 		{"cachedir",   required_argument, 0, 1007},
 		{"asdeps",     no_argument,       0, 1008},
 		{"logfile",    required_argument, 0, 1009},
@@ -441,6 +442,7 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case 1004: config->noprogressbar = 1; break;
 			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
 			case 1007:
 				if(alpm_option_add_cachedir(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
@@ -1063,6 +1065,11 @@ int main(int argc, char *argv[])
 	/* set TotalDownload callback if option enabled */
 	if(config->totaldownload) {
 		alpm_option_set_totaldlcb(cb_dl_total);
+	}
+
+	/* noask is meant to be non-interactive */
+	if(config->noask) {
+		config->noconfirm = 1;
 	}
 
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
