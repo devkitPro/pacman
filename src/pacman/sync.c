@@ -279,6 +279,21 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	return(success > 0);
 }
 
+static void print_installed(pmpkg_t *pkg)
+{
+	const char *pkgname = alpm_pkg_get_name(pkg);
+	const char *pkgver = alpm_pkg_get_version(pkg);
+	pmpkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
+	if(lpkg) {
+		const char *lpkgver = alpm_pkg_get_version(lpkg);
+		if(strcmp(lpkgver,pkgver) == 0) {
+			printf(" [%s]", _("installed"));
+		} else {
+			printf(_(" [%s: %s]"), _("installed"), lpkgver);
+		}
+	}
+}
+
 /* search the sync dbs for a matching package */
 static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
@@ -334,6 +349,8 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 					}
 					printf(")");
 				}
+
+				print_installed(pkg);
 
 				/* we need a newline and initial indent first */
 				printf("\n    ");
@@ -519,9 +536,12 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 		for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
 			pmpkg_t *pkg = alpm_list_getdata(j);
+
 			if (!config->quiet) {
-				printf("%s %s %s\n", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-							 alpm_pkg_get_version(pkg));
+				printf("%s %s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
+						alpm_pkg_get_version(pkg));
+				print_installed(pkg);
+				printf("\n");
 			} else {
 				printf("%s\n", alpm_pkg_get_name(pkg));
 			}
