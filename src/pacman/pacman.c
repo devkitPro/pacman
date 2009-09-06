@@ -906,6 +906,7 @@ static int _parseconfig(const char *file, const char *givensection,
 						free(temp);
 					} else {
 						if(strstr(temp, "$arch")) {
+							free(temp);
 							pm_printf(PM_LOG_ERROR, _("The mirror '%s' contains the $arch"
 										" variable, but no Architecture is defined.\n"), ptr);
 							ret = 1;
