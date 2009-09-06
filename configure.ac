@@ -144,6 +144,11 @@ if test "x$internaldownload" = "xyes" ; then
 	# Check for a download library if it was actually requested
 	AC_CHECK_LIB([fetch], [fetchParseURL], ,
 		AC_MSG_ERROR([libfetch is needed to compile with internal download support]) )
+	# Check if libfetch supports conditional GET
+	# (version >=2.21, struct url has member last_modified)
+	AC_CHECK_MEMBER(struct url.last_modified, ,
+		AC_MSG_ERROR([libfetch must be version 2.21 or greater]),
+		[#include <fetch.h>] )
 else
 	AC_MSG_RESULT(no)
 fi
