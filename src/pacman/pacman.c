@@ -633,9 +633,7 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	int ret = 0;
 	int retval;
 	int usepart = 0;
-	char *ptr1, *ptr2;
-	char origCmd[PATH_MAX];
-	char parsedCmd[PATH_MAX] = "";
+	char *parsedcmd,*tempcmd;
 	char cwd[PATH_MAX];
 	char *destfile, *tempfile, *filename;
 
@@ -650,28 +648,18 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
 
-	strncpy(origCmd, config->xfercommand, sizeof(origCmd));
+	tempcmd = strdup(config->xfercommand);
 	/* replace all occurrences of %o with fn.part */
-	ptr1 = origCmd;
-	while((ptr2 = strstr(ptr1, "%o"))) {
+	if(strstr(tempcmd, "%o")) {
 		usepart = 1;
-		ptr2[0] = '\0';
-		strcat(parsedCmd, ptr1);
-		strcat(parsedCmd, tempfile);
-		ptr1 = ptr2 + 2;
+		parsedcmd = strreplace(tempcmd, "%o", tempfile);
+		free(tempcmd);
+		tempcmd = parsedcmd;
 	}
-	strcat(parsedCmd, ptr1);
 	/* replace all occurrences of %u with the download URL */
-	strncpy(origCmd, parsedCmd, sizeof(origCmd));
-	parsedCmd[0] = '\0';
-	ptr1 = origCmd;
-	while((ptr2 = strstr(ptr1, "%u"))) {
-		ptr2[0] = '\0';
-		strcat(parsedCmd, ptr1);
-		strcat(parsedCmd, url);
-		ptr1 = ptr2 + 2;
-	}
-	strcat(parsedCmd, ptr1);
+	parsedcmd = strreplace(tempcmd, "%u", url);
+	free(tempcmd);
+
 	/* cwd to the download directory */
 	getcwd(cwd, PATH_MAX);
 	if(chdir(localpath)) {
@@ -680,8 +668,8 @@ int download_with_xfercommand(const char *url, const char *localpath,
 		goto cleanup;
 	}
 	/* execute the parsed command via /bin/sh -c */
-	pm_printf(PM_LOG_DEBUG, "running command: %s\n", parsedCmd);
-	retval = system(parsedCmd);
+	pm_printf(PM_LOG_DEBUG, "running command: %s\n", parsedcmd);
+	retval = system(parsedcmd);
 
 	if(retval == -1) {
 		pm_printf(PM_LOG_WARNING, "running XferCommand: fork failed!\n");
@@ -707,6 +695,7 @@ cleanup:
 	}
 	free(destfile);
 	free(tempfile);
+	free(parsedcmd);
 
 	return(ret);
 }
