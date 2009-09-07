@@ -146,7 +146,8 @@ Options
 	Do not actually build the package, but build a source-only tarball that
 	does not include sources that can be fetched via a download URL. This is
 	useful for passing a single tarball to another program such as a chroot,
-	remote builder, or a tarball upload.
+	remote builder, or a tarball upload. Because integrity checks are verified,
+	all source files of the package need to be present or downloadable.
 
 *\--noconfirm*::
 	(Passed to pacman) Prevent pacman from waiting for user input before
