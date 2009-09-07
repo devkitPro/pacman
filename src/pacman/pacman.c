@@ -749,11 +749,8 @@ static int _parseconfig(const char *file, const char *givensection,
 				ret = 1;
 				goto cleanup;
 			}
-			/* if we are not looking at the options section, register a db and also
-			 * ensure we have set all of our library paths as the library is too stupid
-			 * at the moment to do lazy opening of the databases */
+			/* if we are not looking at the options section, register a db */
 			if(strcmp(section, "options") != 0) {
-				setlibpaths();
 				db = alpm_db_register_sync(section);
 				if(db == NULL) {
 					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
