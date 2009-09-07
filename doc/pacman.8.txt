@@ -332,7 +332,9 @@ linkman:pacman.conf[5].
 	necessary. Pass this option twice to enable package downgrade; in this
 	case pacman will select sync packages whose version does not match with
 	the local version. This can be useful when the user switches from a testing
-	repo to a stable one.
+	repo to a stable one. Additional targets can also be specified manually, so
+	that '-Su foo' will do a system upgrade and install/upgrade the foo package in
+	the same operation.
 
 *-w, \--downloadonly*::
 	Retrieve all packages from the server, but do not install/upgrade
