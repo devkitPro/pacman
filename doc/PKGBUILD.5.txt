@@ -118,7 +118,8 @@ name. The syntax is: `source=('filename::url')`.
 
 *arch (array)*::
 	Defines on which architectures the given package is available (e.g.
-	`arch=('i686' 'x86_64')`).
+	`arch=('i686' 'x86_64')`). Packages that contain no architecture specific
+	files may use arch=('any').
 
 *backup (array)*::
 	A space-delimited array of filenames, without preceding slashes, that
