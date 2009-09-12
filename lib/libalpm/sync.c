@@ -399,7 +399,6 @@ static int compute_download_size(pmpkg_t *newpkg)
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
 {
 	alpm_list_t *deps = NULL;
-	alpm_list_t *preferred = NULL;
 	alpm_list_t *unresolvable = NULL;
 	alpm_list_t *i, *j;
 	alpm_list_t *remove = NULL;
@@ -422,32 +421,29 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(PM_LOG_DEBUG, "resolving target's dependencies\n");
 
-		/* build remove list and preferred list for resolvedeps */
+		/* build remove list for resolvedeps */
 		for(i = trans->add; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
 			for(j = spkg->removes; j; j = j->next) {
 				remove = alpm_list_add(remove, j->data);
 			}
-			preferred = alpm_list_add(preferred, spkg);
 		}
 
 		/* Resolve packages in the transaction one at a time, in addtion
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->add; i; i = i->next) {
 			pmpkg_t *pkg = i->data;
-			if(_alpm_resolvedeps(db_local, dbs_sync, pkg, preferred,
+			if(_alpm_resolvedeps(db_local, dbs_sync, pkg, trans->add,
 						&resolved, remove, data) == -1) {
 				unresolvable = alpm_list_add(unresolvable, pkg);
 			}
 			/* Else, [resolved] now additionally contains [pkg] and all of its
 			   dependencies not already on the list */
 		}
-		alpm_list_free(preferred);
 
 		/* If there were unresolvable top-level packages, prompt the user to
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
-			unresolvable = alpm_list_remove_dupes(unresolvable);
 			int remove_unresolvable = 0;
 			QUESTION(handle->trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
@@ -607,17 +603,15 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		alpm_list_free(deps);
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
-		/* rebuild remove list */
-		alpm_list_free(remove);
-		trans->remove = NULL;
-		for(i = trans->add; i; i = i->next) {
-			pmpkg_t *spkg = i->data;
-			for(j = spkg->removes; j; j = j->next) {
-				trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(j->data));
-			}
+	/* Build trans->remove list */
+	for(i = trans->add; i; i = i->next) {
+		pmpkg_t *spkg = i->data;
+		for(j = spkg->removes; j; j = j->next) {
+			trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(j->data));
 		}
+	}
 
+	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		_alpm_log(PM_LOG_DEBUG, "checking dependencies\n");
 		deps = alpm_checkdeps(_alpm_db_get_pkgcache(db_local), 1, trans->remove, trans->add);
 		if(deps) {
@@ -643,6 +637,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 
 cleanup:
 	alpm_list_free(unresolvable);
+	alpm_list_free(remove);
 
 	return(ret);
 }
