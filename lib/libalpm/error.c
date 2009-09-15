@@ -120,7 +120,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_PKG_INVALID_ARCH:
 			return _("package architecture is not valid");
 		case PM_ERR_PKG_REPO_NOT_FOUND:
-			return _("no such repository");
+			return _("could not find repository for target");
 		/* Deltas */
 		case PM_ERR_DLT_INVALID:
 			return _("invalid or corrupted delta");

@@ -323,7 +323,6 @@ int SYMEXPORT alpm_sync_dbtarget(char *dbname, char *target)
 		}
 	}
 	if(dbs == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("repository '%s' not found\n"), dbname);
 		RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
 	}
 	return(_alpm_sync_target(dbs, target));

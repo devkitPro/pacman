@@ -551,32 +551,34 @@ static alpm_list_t *syncfirst() {
 static int process_target(char *target)
 {
 	/* process targets */
-	char *targ = strchr(target, '/');
-	char *db = NULL;
-	int ret;
-	if(targ) {
-		*targ = '\0';
-		targ++;
-		db = target;
-		ret = alpm_sync_dbtarget(db,targ);
+	char *targstring = strdup(target);
+	char *targname = strchr(targstring, '/');
+	char *dbname = NULL;
+	int ret = 0;
+	if(targname) {
+		*targname = '\0';
+		targname++;
+		dbname = targstring;
+		ret = alpm_sync_dbtarget(dbname,targname);
 	} else {
-		targ = target;
-		ret = alpm_sync_target(targ);
+		targname = targstring;
+		ret = alpm_sync_target(targname);
 	}
 
 	if(ret == -1) {
 		if(pm_errno == PM_ERR_TRANS_DUP_TARGET
 				|| pm_errno == PM_ERR_PKG_IGNORED) {
 			/* just skip duplicate or ignored targets */
-			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targ);
-			return(0);
+			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), target);
+		} else {
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,
+					alpm_strerrorlast());
+			ret = 1;
 		}
-		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
-				targ, alpm_strerrorlast());
-		return(1);
 	}
 
-	return(0);
+	free(targstring);
+	return(ret);
 }
 
 static int sync_trans(alpm_list_t *targets)
