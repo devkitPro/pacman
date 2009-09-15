@@ -126,7 +126,7 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 					&vpkg);
 			pkg = vpkg;
 			if(pkg) {
-				_alpm_log(PM_LOG_WARNING, "removing %s from the target-list\n",
+				_alpm_log(PM_LOG_WARNING, _("removing %s from the target-list\n"),
 						alpm_pkg_get_name(pkg));
 				_alpm_pkg_free(pkg);
 			}
