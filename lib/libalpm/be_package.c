@@ -112,6 +112,8 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 				newpkg->provides = alpm_list_add(newpkg->provides, strdup(ptr));
 			} else if(!strcmp(key, "backup")) {
 				newpkg->backup = alpm_list_add(newpkg->backup, strdup(ptr));
+			} else if(!strcmp(key, "makepkgopt")) {
+				/* not used atm */
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
 									newpkg->name ? newpkg->name : "error", linenum);
