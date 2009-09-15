@@ -40,18 +40,20 @@ typedef enum _pmdbinfrq_t {
 
 /* Database */
 struct __pmdb_t {
-	char *path;
 	char *treename;
+	/* do not access directly, use _alpm_db_path(db) for lazy access */
+	char *_path;
 	unsigned short pkgcache_loaded;
-	alpm_list_t *pkgcache;
 	unsigned short grpcache_loaded;
+	unsigned short is_local;
+	alpm_list_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 };
 
 /* db.c, database general calls */
-pmdb_t *_alpm_db_new(const char *dbpath, const char *treename);
 void _alpm_db_free(pmdb_t *db);
+const char *_alpm_db_path(pmdb_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(void);

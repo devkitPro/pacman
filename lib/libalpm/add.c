@@ -132,13 +132,13 @@ static int extract_single_file(struct archive *archive,
 
 	if(strcmp(entryname, ".INSTALL") == 0) {
 		/* the install script goes inside the db */
-		snprintf(filename, PATH_MAX, "%s%s-%s/install", db->path,
-				newpkg->name, newpkg->version);
+		snprintf(filename, PATH_MAX, "%s%s-%s/install",
+				_alpm_db_path(db), newpkg->name, newpkg->version);
 		archive_entry_set_perm(entry, 0644);
 	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
 		/* the changelog goes inside the db */
-		snprintf(filename, PATH_MAX, "%s%s-%s/changelog", db->path,
-				newpkg->name, newpkg->version);
+		snprintf(filename, PATH_MAX, "%s%s-%s/changelog",
+				_alpm_db_path(db), newpkg->name, newpkg->version);
 		archive_entry_set_perm(entry, 0644);
 	} else if(*entryname == '.') {
 		/* for now, ignore all files starting with '.' that haven't
@@ -483,8 +483,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 	ALPM_LOG_FUNC;
 
-	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install", db->path,
-			alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
+	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
+			_alpm_db_path(db), alpm_pkg_get_name(newpkg),
+			alpm_pkg_get_version(newpkg));
 
 	/* see if this is an upgrade. if so, remove the old package first */
 	pmpkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);

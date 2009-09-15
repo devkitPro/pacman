@@ -51,10 +51,11 @@
  * Return the last update time as number of seconds from the epoch.
  * Returns 0 if the value is unknown or can't be read.
  */
-static time_t getlastupdate(const pmdb_t *db)
+static time_t getlastupdate(pmdb_t *db)
 {
 	FILE *fp;
 	char *file;
+	const char *dbpath;
 	time_t ret = 0;
 
 	ALPM_LOG_FUNC;
@@ -63,9 +64,10 @@ static time_t getlastupdate(const pmdb_t *db)
 		return(ret);
 	}
 
-	/* db->path + '.lastupdate' + NULL */
-	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
-	sprintf(file, "%s.lastupdate", db->path);
+	dbpath = _alpm_db_path(db);
+	/* dbpath + '.lastupdate' + NULL */
+	MALLOC(file, strlen(dbpath) + 12, RET_ERR(PM_ERR_MEMORY, ret));
+	sprintf(file, "%s.lastupdate", dbpath);
 
 	/* get the last update time, if it's there */
 	if((fp = fopen(file, "r")) == NULL) {
@@ -85,10 +87,11 @@ static time_t getlastupdate(const pmdb_t *db)
 /*
  * writes the dbpath/.lastupdate file with the value in time
  */
-static int setlastupdate(const pmdb_t *db, time_t time)
+static int setlastupdate(pmdb_t *db, time_t time)
 {
 	FILE *fp;
 	char *file;
+	const char *dbpath;
 	int ret = 0;
 
 	ALPM_LOG_FUNC;
@@ -97,9 +100,10 @@ static int setlastupdate(const pmdb_t *db, time_t time)
 		return(-1);
 	}
 
-	/* db->path + '.lastupdate' + NULL */
-	MALLOC(file, strlen(db->path) + 12, RET_ERR(PM_ERR_MEMORY, ret));
-	sprintf(file, "%s.lastupdate", db->path);
+	dbpath = _alpm_db_path(db);
+	/* dbpath + '.lastupdate' + NULL */
+	MALLOC(file, strlen(dbpath) + 12, RET_ERR(PM_ERR_MEMORY, ret));
+	sprintf(file, "%s.lastupdate", dbpath);
 
 	if((fp = fopen(file, "w")) == NULL) {
 		free(file);
@@ -116,7 +120,7 @@ static int setlastupdate(const pmdb_t *db, time_t time)
 static int checkdbdir(pmdb_t *db)
 {
 	struct stat buf;
-	char *path = db->path;
+	const char *path = _alpm_db_path(db);
 
 	if(stat(path, &buf) != 0) {
 		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
@@ -224,8 +228,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
 		return(-1);
 	} else {
+		const char *syncdbpath = _alpm_db_path(db);
 		/* remove the old dir */
-		if(_alpm_rmrf(db->path) != 0) {
+		if(_alpm_rmrf(syncdbpath) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove database %s\n"), db->treename);
 			RET_ERR(PM_ERR_DB_REMOVE, -1);
 		}
@@ -240,7 +245,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 		/* uncompress the sync database */
 		checkdbdir(db);
-		ret = _alpm_unpack(dbfilepath, db->path, NULL);
+		ret = _alpm_unpack(dbfilepath, syncdbpath, NULL);
 		if(ret) {
 			free(dbfilepath);
 			RET_ERR(PM_ERR_SYSTEM, -1);
@@ -305,13 +310,15 @@ int _alpm_db_populate(pmdb_t *db)
 	struct dirent *ent = NULL;
 	struct stat sbuf;
 	char path[PATH_MAX];
+	const char *dbpath;
 	DIR *dbdir;
 
 	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	dbdir = opendir(db->path);
+	dbpath = _alpm_db_path(db);
+	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
 		return(0);
 	}
@@ -323,7 +330,7 @@ int _alpm_db_populate(pmdb_t *db)
 			continue;
 		}
 		/* stat the entry, make sure it's a directory */
-		snprintf(path, PATH_MAX, "%s%s", db->path, name);
+		snprintf(path, PATH_MAX, "%s%s", dbpath, name);
 		if(stat(path, &sbuf) != 0 || !S_ISDIR(sbuf.st_mode)) {
 			continue;
 		}
@@ -366,10 +373,12 @@ static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
 {
 	size_t len;
 	char *pkgpath;
+	const char *dbpath;
 
-	len = strlen(db->path) + strlen(info->name) + strlen(info->version) + 3;
+	dbpath = _alpm_db_path(db);
+	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
 	MALLOC(pkgpath, len, RET_ERR(PM_ERR_MEMORY, NULL));
-	sprintf(pkgpath, "%s%s-%s/", db->path, info->name, info->version);
+	sprintf(pkgpath, "%s%s-%s/", dbpath, info->name, info->version);
 	return(pkgpath);
 }
 

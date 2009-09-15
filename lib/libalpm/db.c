@@ -323,18 +323,15 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 
 /** @} */
 
-pmdb_t *_alpm_db_new(const char *dbpath, const char *treename)
+static pmdb_t *_alpm_db_new(const char *treename, unsigned short is_local)
 {
 	pmdb_t *db;
-	const size_t pathsize = strlen(dbpath) + strlen(treename) + 2;
 
 	ALPM_LOG_FUNC;
 
 	CALLOC(db, 1, sizeof(pmdb_t), RET_ERR(PM_ERR_MEMORY, NULL));
-	CALLOC(db->path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
-
-	sprintf(db->path, "%s%s/", dbpath, treename);
 	STRDUP(db->treename, treename, RET_ERR(PM_ERR_MEMORY, NULL));
+	db->is_local = is_local;
 
 	return(db);
 }
@@ -347,11 +344,42 @@ void _alpm_db_free(pmdb_t *db)
 	_alpm_db_free_pkgcache(db);
 	/* cleanup server list */
 	FREELIST(db->servers);
-	FREE(db->path);
+	FREE(db->_path);
 	FREE(db->treename);
 	FREE(db);
 
 	return;
+}
+
+const char *_alpm_db_path(pmdb_t *db)
+{
+	if(!db) {
+		return(NULL);
+	}
+	if(!db->_path) {
+		const char *dbpath;
+		size_t pathsize;
+
+		dbpath = alpm_option_get_dbpath();
+		if(!dbpath) {
+			_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
+			RET_ERR(PM_ERR_DB_OPEN, NULL);
+		}
+
+		if(db->is_local) {
+			pathsize = strlen(dbpath) + strlen(db->treename) + 2;
+			CALLOC(db->_path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
+			sprintf(db->_path, "%s%s/", dbpath, db->treename);
+		} else {
+			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + 2;
+			CALLOC(db->_path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
+			/* all sync DBs now reside in the sync/ subdir of the dbpath */
+			sprintf(db->_path, "%ssync/%s/", dbpath, db->treename);
+		}
+		_alpm_log(PM_LOG_DEBUG, "database path for tree %s set to %s\n",
+				db->treename, db->_path);
+	}
+	return(db->_path);
 }
 
 int _alpm_db_cmp(const void *d1, const void *d2)
@@ -440,7 +468,6 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 pmdb_t *_alpm_db_register_local(void)
 {
 	pmdb_t *db;
-	const char *dbpath;
 
 	ALPM_LOG_FUNC;
 
@@ -451,13 +478,7 @@ pmdb_t *_alpm_db_register_local(void)
 
 	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 
-	dbpath = alpm_option_get_dbpath();
-	if(!dbpath) {
-		_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
-			RET_ERR(PM_ERR_DB_OPEN, NULL);
-	}
-
-	db = _alpm_db_new(dbpath, "local");
+	db = _alpm_db_new("local", 1);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
@@ -469,8 +490,6 @@ pmdb_t *_alpm_db_register_local(void)
 pmdb_t *_alpm_db_register_sync(const char *treename)
 {
 	pmdb_t *db;
-	const char *dbpath;
-	char path[PATH_MAX];
 	alpm_list_t *i;
 
 	ALPM_LOG_FUNC;
@@ -485,15 +504,7 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 
 	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
-	dbpath = alpm_option_get_dbpath();
-	if(!dbpath) {
-		_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
-			RET_ERR(PM_ERR_DB_OPEN, NULL);
-	}
-	/* all sync DBs now reside in the sync/ subdir of the dbpath */
-	snprintf(path, PATH_MAX, "%ssync/", dbpath);
-
-	db = _alpm_db_new(path, treename);
+	db = _alpm_db_new(treename, 0);
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
