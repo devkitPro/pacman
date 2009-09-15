@@ -115,23 +115,19 @@ int pacman_remove(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	/* Warn user in case of dangerous operation */
-	if(config->flags & PM_TRANS_FLAG_RECURSE ||
-	   config->flags & PM_TRANS_FLAG_CASCADE) {
-		/* list transaction targets */
-		alpm_list_t *pkglist = alpm_trans_get_remove();
-
-		display_targets(pkglist, 0);
-		printf("\n");
-
-		/* get confirmation */
-		if(yesno(_("Do you want to remove these packages?")) == 0) {
-			retval = 1;
-			goto cleanup;
-		}
+	/* Step 3: actually perform the removal */
+	alpm_list_t *pkglist = alpm_trans_get_remove();
+	if(pkglist == NULL) {
+		goto cleanup; /* we are done */
+	}
+	/* print targets and ask user confirmation */
+	display_targets(pkglist, 0);
+	printf("\n");
+	if(yesno(_("Do you want to remove these packages?")) == 0) {
+		retval = 1;
+		goto cleanup;
 	}
 
-	/* Step 3: actually perform the removal */
 	if(alpm_trans_commit(NULL) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
