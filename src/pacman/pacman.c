@@ -437,7 +437,7 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
 			case 1009:
-				config->logfile = strdup(optarg);
+				config->logfile = strndup(optarg, PATH_MAX);
 				break;
 			case 1010:
 				list = strsplit(optarg, ',');

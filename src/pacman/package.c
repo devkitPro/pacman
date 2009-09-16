@@ -84,7 +84,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	}
 
 	if(level>0) {
-		/* compute this here so we don't get a puase in the middle of output */
+		/* compute this here so we don't get a pause in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
 	}
 
