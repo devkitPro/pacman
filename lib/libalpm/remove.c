@@ -74,7 +74,7 @@ int _alpm_remove_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "adding %s in the targets list\n", info->name);
+	_alpm_log(PM_LOG_DEBUG, "adding %s in target list\n", info->name);
 	trans->packages = alpm_list_add(trans->packages, _alpm_pkg_dup(info));
 
 	return(0);
@@ -92,7 +92,7 @@ static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
 			pmpkg_t *info = _alpm_db_get_pkgfromcache(db, miss->target);
 			if(info) {
 				if(!_alpm_pkg_find(trans->packages, alpm_pkg_get_name(info))) {
-					_alpm_log(PM_LOG_DEBUG, "pulling %s in the targets list\n",
+					_alpm_log(PM_LOG_DEBUG, "pulling %s in target list\n",
 							alpm_pkg_get_name(info));
 					trans->packages = alpm_list_add(trans->packages, _alpm_pkg_dup(info));
 				}
@@ -112,7 +112,7 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 {
 	ALPM_LOG_FUNC;
 
-	/* Remove needed packages (which break dependencies) from the target list */
+	/* Remove needed packages (which break dependencies) from target list */
 	while(lp != NULL) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
@@ -126,7 +126,7 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 					&vpkg);
 			pkg = vpkg;
 			if(pkg) {
-				_alpm_log(PM_LOG_WARNING, _("removing %s from the target-list\n"),
+				_alpm_log(PM_LOG_WARNING, _("removing %s from target list\n"),
 						alpm_pkg_get_name(pkg));
 				_alpm_pkg_free(pkg);
 			}
@@ -167,7 +167,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 				remove_prepare_cascade(trans, db, lp);
 			} else if (trans->flags & PM_TRANS_FLAG_UNNEEDED) {
 				/* Remove needed packages (which would break dependencies)
-				 * from the target list */
+				 * from target list */
 				remove_prepare_keep_needed(trans, db, lp);
 			} else {
 				if(data) {

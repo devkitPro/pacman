@@ -81,7 +81,7 @@ int _alpm_add_loadtarget(pmtrans_t *trans, pmdb_t *db, char *name)
 				_alpm_pkg_free(i->data);
 				i->data = pkg;
 			} else {
-				_alpm_log(PM_LOG_WARNING, _("skipping %s-%s because newer version %s is in the target list\n"),
+				_alpm_log(PM_LOG_WARNING, _("skipping %s-%s because newer version %s is in target list\n"),
 				          pkgname, pkgver, transpkg->version);
 				_alpm_pkg_free(pkg);
 			}
@@ -142,7 +142,7 @@ int _alpm_add_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 				alpm_list_free(lp);
 			}
 			if(inner) {
-				_alpm_log(PM_LOG_ERROR, _("conflicting packages were found in the target list\n"));
+				_alpm_log(PM_LOG_ERROR, _("conflicting packages were found in target list\n"));
 				_alpm_log(PM_LOG_ERROR, _("you cannot install two conflicting packages at the same time\n"));
 			}
 			if(outer) {

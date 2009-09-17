@@ -125,7 +125,7 @@ static int checkdbdir(pmdb_t *db)
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_WARNING, "removing bogus database: %s\n", path);
+		_alpm_log(PM_LOG_WARNING, _("removing invalid database: %s\n"), path);
 		if(unlink(path) != 0 || _alpm_makepath(path) != 0) {
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}

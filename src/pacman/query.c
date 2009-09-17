@@ -344,7 +344,7 @@ static int check(pmpkg_t *pkg)
 			if(config->quiet) {
 				printf("%s %s\n", pkgname, f);
 			} else {
-				pm_printf(PM_LOG_WARNING, "%s: missing %s (%s)\n",
+				pm_printf(PM_LOG_WARNING, "%s: %s (%s)\n",
 						pkgname, f, strerror(errno));
 			}
 			errors++;
@@ -352,7 +352,7 @@ static int check(pmpkg_t *pkg)
 	}
 
 	if(!config->quiet) {
-		printf("%s: %d total, %d missing file(s)\n",
+		printf(_("%s: %d total files, %d missing file(s)\n"),
 				pkgname, allfiles, errors);
 	}
 
