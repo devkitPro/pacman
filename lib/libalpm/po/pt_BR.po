@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: 2009-07-28 23:17-0300\n"
 "Last-Translator: Armando M. Baratti <ambaratti.listas@gmail.com.br>\n"
 "Language-Team: Português do Brasil <www.archlinux-br.org>\n"
@@ -27,14 +27,14 @@ msgstr ""
 "substituindo a versão antiga %s-%s por %s na lista de pacotes a serem "
 "atualizados\n"
 
-#, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+#, fuzzy, c-format
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "ignorando %s-%s porque uma nova versão %s está na lista de pacotes a serem "
 "atualizados\n"
 
-#, c-format
-msgid "conflicting packages were found in the target list\n"
+#, fuzzy, c-format
+msgid "conflicting packages were found in target list\n"
 msgstr ""
 "pacotes conflitantes foram encontrados na lista de pacotes a serem "
 "atualizados\n"
@@ -110,6 +110,10 @@ msgstr "não foi possível atualizar a entrada na base de dados %s-%s\n"
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "não foi possível adicionar a entrada '%s' ao cache\n"
+
+#, fuzzy, c-format
+msgid "removing invalid database: %s\n"
+msgstr "não foi possível remover a base de dados %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -404,6 +408,10 @@ msgstr "erro inesperado"
 msgid "could not find %s in database -- skipping\n"
 msgstr "não foi possível encontrar %s na base de dados - pulando\n"
 
+#, fuzzy, c-format
+msgid "removing %s from target list\n"
+msgstr "removendo '%s' da lista de pacotes porque ele conflita com '%s'\n"
+
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "não foi possível remover o arquivo '%s': %s\n"
@@ -532,8 +540,8 @@ msgstr "não foi possível mudar o diretório raiz (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "não foi possível mudar o diretório para / (%s)\n"
 
-#, c-format
-msgid "call to popen failed (%s)"
+#, fuzzy, c-format
+msgid "call to popen failed (%s)\n"
 msgstr "chamada para popen falhou (%s)"
 
 #, c-format

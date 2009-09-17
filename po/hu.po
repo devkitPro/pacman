@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-30 11:49+0100\n"
 "Last-Translator: Avramucz Péter <muczyjoe@gmail.com>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -462,10 +462,9 @@ msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> keresés a távoli csomagadatbázisokban\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
 "  -u, --sysupgrade     az elavult csomagok frissítése (-uu: ill. "
 "downgradelése)\n"
@@ -578,6 +577,14 @@ msgstr "hiba történt a(z) '%s' gyorsítótár-könyvtár hozzáadása során (
 msgid "only one operation may be used at a time\n"
 msgstr "csak egy művelet hajtható végre egyszerre\n"
 
+#, fuzzy, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "nem sikerült létrehozni az új gyorsítótár könyvtárát\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "a %s konfigurációs fájl nem olvasható.\n"
@@ -663,6 +670,10 @@ msgstr "a telepítési gyökérkönyvtár útvonal túl hosszú\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "a fájl útvonal túl hosszú\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -849,8 +860,8 @@ msgstr ":: %s: ütközik a következővel: %s\n"
 msgid " local database is up to date\n"
 msgstr " a helyi adatbázis naprakész\n"
 
-#, c-format
-msgid "no database for package: %s\n"
+#, fuzzy, c-format
+msgid "no URL for package: %s\n"
 msgstr "hiányzó adatbázis URL: %s\n"
 
 #, c-format
@@ -1097,6 +1108,10 @@ msgstr "Források kitömörítése..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Nem található a %s forrásfájl a kitömörítéshez."
 
+#, fuzzy
+msgid "Extracting %s with %s"
+msgstr "%s létrehozása %s segítségével... "
+
 msgid "Failed to extract %s"
 msgstr "%s kitömörítése nem sikerült"
 
@@ -1277,6 +1292,11 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Létező csomag felülírása"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr ""
+"  -g, --geninteg   Integritás ellenőrzések generálása a forrásfájlokhoz"
+
+#, fuzzy
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr ""
 "  -g, --geninteg   Integritás ellenőrzések generálása a forrásfájlokhoz"
 
@@ -1665,7 +1685,8 @@ msgstr "'depends' db bejegyzés létrehozása..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "A zároló fájl megszerzése nem sikerült: %s."
 
-msgid "Held by %s"
+#, fuzzy
+msgid "Held by process %s"
 msgstr "%s által tartva"
 
 msgid "Repository file '%s' is not a proper pacman database."

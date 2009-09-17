@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: 2009-07-29 11:51+0200\n"
 "Last-Translator: Juan Pablo González Tognarelli <juan.gonzalez."
 "tognarelli@gmail.com>\n"
@@ -23,12 +23,12 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr ""
 "reemplazando la versión antigua  %s-%s por %s en la lista de objetivos\n"
 
-#, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+#, fuzzy, c-format
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "saltando %s-%s debido a que una nueva versión de %s esta en la lista\n"
 
-#, c-format
-msgid "conflicting packages were found in the target list\n"
+#, fuzzy, c-format
+msgid "conflicting packages were found in target list\n"
 msgstr "paquetes con conflictos fueron encontrados en la lista\n"
 
 #, c-format
@@ -104,6 +104,10 @@ msgstr "no se pudo actualizar en la base de datos la entrada %s-%s\n"
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "no se pudo agregar '%s' en la cache\n"
+
+#, fuzzy, c-format
+msgid "removing invalid database: %s\n"
+msgstr "no se pudo quitar la base de datos %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -402,6 +406,12 @@ msgstr "error inesperado"
 msgid "could not find %s in database -- skipping\n"
 msgstr "no se pudo encontrar %s en la base de datos -- saltando\n"
 
+#, fuzzy, c-format
+msgid "removing %s from target list\n"
+msgstr ""
+"quitando '%s' de la lista de objetivos debido a que posee conflictos con '%"
+"s'\n"
+
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "no se pudo quitar el archivo '%s': %s\n"
@@ -532,8 +542,8 @@ msgstr "no se pudo cambiar el directorio raíz (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "no se pudo cambiar el directorio a / (%s)\n"
 
-#, c-format
-msgid "call to popen failed (%s)"
+#, fuzzy, c-format
+msgid "call to popen failed (%s)\n"
 msgstr "llamada a popen fallida (%s)"
 
 #, c-format

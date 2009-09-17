@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: 2009-07-30 18:37+1000\n"
 "Last-Translator: Jeff Bailes <thepizzaking@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
@@ -20,12 +20,12 @@ msgstr ""
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "replacing older version %s-%s by %s in target list\n"
 
-#, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+#, fuzzy, c-format
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "skipping %s-%s because newer version %s is in the target list\n"
 
-#, c-format
-msgid "conflicting packages were found in the target list\n"
+#, fuzzy, c-format
+msgid "conflicting packages were found in target list\n"
 msgstr "conflicting packages were found in the target list\n"
 
 #, c-format
@@ -99,6 +99,10 @@ msgstr "could not update database entry %s-%s\n"
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "could not add entry '%s' in cache\n"
+
+#, fuzzy, c-format
+msgid "removing invalid database: %s\n"
+msgstr "could not remove database %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -392,6 +396,10 @@ msgstr "unexpected error"
 msgid "could not find %s in database -- skipping\n"
 msgstr "could not find %s in database -- skipping\n"
 
+#, fuzzy, c-format
+msgid "removing %s from target list\n"
+msgstr "removing '%s' from target list because it conflicts with '%s'\n"
+
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "cannot remove file '%s': %s\n"
@@ -520,8 +528,8 @@ msgstr "could not change the root directory (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "could not change directory to / (%s)\n"
 
-#, c-format
-msgid "call to popen failed (%s)"
+#, fuzzy, c-format
+msgid "call to popen failed (%s)\n"
 msgstr "call to popen failed (%s)"
 
 #, c-format

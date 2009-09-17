@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman 3.3.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-30 00:11+0300\n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
 "Language-Team: Ukrainian\n"
@@ -461,10 +461,9 @@ msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> шукати задані рядки у віддалених репозиторіях\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
 "  -u, --sysupgrade     поновити всі застарілі пакунки (-uu дозволяє "
 "пониження версії)\n"
@@ -587,6 +586,14 @@ msgstr "проблема під час додання каталога кешу 
 msgid "only one operation may be used at a time\n"
 msgstr "тільки одна операція може використовуватися одночасно\n"
 
+#, fuzzy, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "неможливо створити новий каталог кешу\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "неможливо прочитати файл налаштувань %s.\n"
@@ -673,6 +680,10 @@ msgstr "шлях до кореневого каталогу надто довг�
 #, c-format
 msgid "file path too long\n"
 msgstr "шлях до файлу надто довгий\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -858,8 +869,8 @@ msgstr ":: %s: конфліктує з %s\n"
 msgid " local database is up to date\n"
 msgstr " локальна база даних не потребує поновлення\n"
 
-#, c-format
-msgid "no database for package: %s\n"
+#, fuzzy, c-format
+msgid "no URL for package: %s\n"
 msgstr "відсутня база даних для пакунка: %s\n"
 
 #, c-format
@@ -1106,6 +1117,10 @@ msgstr "Розпаковуються файли..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Неможливо знайти файли %s для розпакування."
 
+#, fuzzy
+msgid "Extracting %s with %s"
+msgstr "генерування %s з %s... "
+
 msgid "Failed to extract %s"
 msgstr "Не вдалося розпакувати %s"
 
@@ -1280,6 +1295,10 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Перезаписати існуючий пакунок"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr "  -g, --geninteg   Згенерувати перевірки цілісності вихідних файлів"
+
+#, fuzzy
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr "  -g, --geninteg   Згенерувати перевірки цілісності вихідних файлів"
 
 msgid "  -h, --help       This help"
@@ -1657,7 +1676,8 @@ msgstr "Створення запису 'depends'..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Не вдалося отримати файл замкнення: %s."
 
-msgid "Held by %s"
+#, fuzzy
+msgid "Held by process %s"
 msgstr "Утримано %s"
 
 msgid "Repository file '%s' is not a proper pacman database."

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: 2009-07-28 14:01+0200\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
@@ -20,14 +20,14 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr ""
 "remplacement de l'ancienne version %s-%s par %s dans la liste des cibles\n"
 
-#, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+#, fuzzy, c-format
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "ignore le paquet %s-%s car une version plus récente %s est dans la liste des "
 "cibles\n"
 
-#, c-format
-msgid "conflicting packages were found in the target list\n"
+#, fuzzy, c-format
+msgid "conflicting packages were found in target list\n"
 msgstr "des paquets en conflit ont été trouvés dans la liste des cibles\n"
 
 #, c-format
@@ -103,6 +103,10 @@ msgstr "la mise à jour l'entrée de base de données %s-%s a échoué\n"
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "l'ajout au cache de l'entrée '%s' a échoué\n"
+
+#, fuzzy, c-format
+msgid "removing invalid database: %s\n"
+msgstr "la suppression de la base de données %s a échoué\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -398,6 +402,10 @@ msgstr "erreur non prévue"
 msgid "could not find %s in database -- skipping\n"
 msgstr "trouver %s dans la base de données a échoué -- ignoré\n"
 
+#, fuzzy, c-format
+msgid "removing %s from target list\n"
+msgstr "supprime '%s' de la liste de cible car il est en conflit avec '%s'\n"
+
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "suppression du fichier '%s' impossible: %s\n"
@@ -526,8 +534,8 @@ msgstr "changer le répertoire racine a échoué (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "changer de répertoire vers / a échoué (%s)\n"
 
-#, c-format
-msgid "call to popen failed (%s)"
+#, fuzzy, c-format
+msgid "call to popen failed (%s)\n"
 msgstr "l'appel de popen a échoué (%s)"
 
 #, c-format

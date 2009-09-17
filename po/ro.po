@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-06-26 19:46+0300\n"
 "Last-Translator: volodia macovei <blog@volodia.ro>\n"
 "Language-Team: Romanian SbLUG for Arch <blog@volodia.ro>\n"
@@ -470,10 +470,9 @@ msgstr ""
 "  -s, --search <regex> caută depozitele la distanţă care se potrivesc cu "
 "şirurile de caractere\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
 "  -u, --sysupgrade     actualizează toate pachetele expirate (-uu activează "
 "declasificarea)\n"
@@ -594,6 +593,14 @@ msgstr "problemă la adăugarea cachedir '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "doar o operaţiune poate fi utilizată în acelaşi moment\n"
 
+#, fuzzy, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "nu poate fi creat un nou director cache\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "fişierul de configurare %s nu poate fi citit.\n"
@@ -682,6 +689,10 @@ msgstr "cale root prea lungă\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "cale fișier prea lungă\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -867,8 +878,8 @@ msgstr ":: %s: e în conflict cu %s\n"
 msgid " local database is up to date\n"
 msgstr " baza de date locală este actualizată\n"
 
-#, c-format
-msgid "no database for package: %s\n"
+#, fuzzy, c-format
+msgid "no URL for package: %s\n"
 msgstr "nu există bază de date pentru pachetul: %s\n"
 
 #, c-format
@@ -1116,6 +1127,10 @@ msgstr "Se extrag sursele..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Incapacitate de a găsi fisierele sursă %s pentru extragere."
 
+#, fuzzy
+msgid "Extracting %s with %s"
+msgstr "se generează %s cu %s..."
+
 msgid "Failed to extract %s"
 msgstr "Eşec la extragerea %s"
 
@@ -1291,6 +1306,11 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Suprascrie pachetul existent"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr ""
+"  -g, --geninteg   Generează verificarea integrităţii pentru fişierele sursă"
+
+#, fuzzy
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr ""
 "  -g, --geninteg   Generează verificarea integrităţii pentru fişierele sursă"
 
@@ -1678,7 +1698,8 @@ msgstr "Se crează intrarea db 'depends'"
 msgid "Failed to acquire lockfile: %s."
 msgstr "Eşec în achiziționarea lockfile: %s."
 
-msgid "Held by %s"
+#, fuzzy
+msgid "Held by process %s"
 msgstr "Ținut de %s"
 
 msgid "Repository file '%s' is not a proper pacman database."

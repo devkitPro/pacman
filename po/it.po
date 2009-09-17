@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-28 15:00+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
@@ -473,10 +473,9 @@ msgstr ""
 "  -s, --search <regex> cerca le stringhe corrispondenti nei repository "
 "remoti\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
 "  -u, --sysupgrade     aggiorna tutti i pacchetti (-uu abilita il "
 "downgrade)\n"
@@ -594,6 +593,14 @@ msgstr "impossibile aggiungere la directory di cache '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "è consentito eseguire solo un'operazione per volta\n"
 
+#, fuzzy, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "impossibile creare una nuova directory della cache\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "il file di configurazione %s potrebbe non essere leggibile.\n"
@@ -682,6 +689,10 @@ msgstr "il path di root è troppo lungo\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "il path del file è troppo lungo\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -867,8 +878,8 @@ msgstr ":: %s: va in conflitto con %s\n"
 msgid " local database is up to date\n"
 msgstr " Il database locale è aggiornato\n"
 
-#, c-format
-msgid "no database for package: %s\n"
+#, fuzzy, c-format
+msgid "no URL for package: %s\n"
 msgstr "nessun database per il pacchetto: %s\n"
 
 #, c-format
@@ -1119,6 +1130,10 @@ msgstr "Estrazione dei sorgenti in corso..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Impossibile trovare i sorgenti di %s per estrarli."
 
+#, fuzzy
+msgid "Extracting %s with %s"
+msgstr "generazione di %s con %s in corso... "
+
 msgid "Failed to extract %s"
 msgstr "Impossibile estrarre %s"
 
@@ -1293,6 +1308,10 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Sovrascrive i pacchetti esistenti"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr "  -g, --geninteg   Genera i controlli dell'integrità dei sorgenti"
+
+#, fuzzy
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr "  -g, --geninteg   Genera i controlli dell'integrità dei sorgenti"
 
 msgid "  -h, --help       This help"
@@ -1687,7 +1706,8 @@ msgstr "Creazione della voce del database 'depends' in corso..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Impossibile trovare il file di lock: %s."
 
-msgid "Held by %s"
+#, fuzzy
+msgid "Held by process %s"
 msgstr "Mantenuto da %s"
 
 msgid "Repository file '%s' is not a proper pacman database."

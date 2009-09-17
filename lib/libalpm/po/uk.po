@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm 3.2.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
 "Language-Team: http://archlinux.org.ua\n"
@@ -21,13 +21,13 @@ msgstr ""
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "старіша версія %s-%s замінюється на %s в цільовому списку пакунків\n"
 
-#, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+#, fuzzy, c-format
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "%s-%s пропускається, бо в списку цільових пакунків є новіша версія %s\n"
 
-#, c-format
-msgid "conflicting packages were found in the target list\n"
+#, fuzzy, c-format
+msgid "conflicting packages were found in target list\n"
 msgstr "в списку цільових пакунків були знайдені конфліктуючі пакунки\n"
 
 #, c-format
@@ -101,6 +101,10 @@ msgstr "неможливо поновити запис бази даних %s-%s
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "неможливо додати запис '%s' у кеш\n"
+
+#, fuzzy, c-format
+msgid "removing invalid database: %s\n"
+msgstr "неможливо видалити базу даних %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -394,6 +398,10 @@ msgstr "неочікувана помилка"
 msgid "could not find %s in database -- skipping\n"
 msgstr "неможливо знайти %s в базі даних -- пропускається\n"
 
+#, fuzzy, c-format
+msgid "removing %s from target list\n"
+msgstr "видалення '%s' з списку пакунків, бо він конфліктує з '%s'\n"
+
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "неможливо видалити файл '%s': %s\n"
@@ -522,8 +530,8 @@ msgstr "неможливо змінити кореневий каталог (%s)
 msgid "could not change directory to / (%s)\n"
 msgstr "неможливо змінити каталог на / (%s)\n"
 
-#, c-format
-msgid "call to popen failed (%s)"
+#, fuzzy, c-format
+msgid "call to popen failed (%s)\n"
 msgstr "виклик popen невдалий (%s)"
 
 #, c-format

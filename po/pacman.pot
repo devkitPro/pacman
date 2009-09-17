@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -431,8 +431,7 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
 
 #, c-format
@@ -535,6 +534,14 @@ msgid "only one operation may be used at a time\n"
 msgstr ""
 
 #, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr ""
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
+#, c-format
 msgid "config file %s could not be read.\n"
 msgstr ""
 
@@ -616,6 +623,10 @@ msgstr ""
 
 #, c-format
 msgid "file path too long\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
 msgstr ""
 
 #, c-format
@@ -803,7 +814,7 @@ msgid " local database is up to date\n"
 msgstr ""
 
 #, c-format
-msgid "no database for package: %s\n"
+msgid "no URL for package: %s\n"
 msgstr ""
 
 #, c-format
@@ -1044,6 +1055,9 @@ msgstr ""
 msgid "Unable to find source file %s for extraction."
 msgstr ""
 
+msgid "Extracting %s with %s"
+msgstr ""
+
 msgid "Failed to extract %s"
 msgstr ""
 
@@ -1216,6 +1230,9 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr ""
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr ""
+
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr ""
 
 msgid "  -h, --help       This help"
@@ -1548,7 +1565,7 @@ msgstr ""
 msgid "Failed to acquire lockfile: %s."
 msgstr ""
 
-msgid "Held by %s"
+msgid "Held by process %s"
 msgstr ""
 
 msgid "Repository file '%s' is not a proper pacman database."

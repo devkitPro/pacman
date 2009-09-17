@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: 2007-03-14 13:45+0100\n"
 "Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "régebbi verzió (%s-%s) lecserélése %s verzióra a célok listájában\n"
 
-#, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+#, fuzzy, c-format
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "%s-%s kihagyása, mert újabb verzió (%s) van a célok között\n"
 
-#, c-format
-msgid "conflicting packages were found in the target list\n"
+#, fuzzy, c-format
+msgid "conflicting packages were found in target list\n"
 msgstr "ütköző csomagokat találtam a célok között\n"
 
 #, c-format
@@ -100,6 +100,10 @@ msgstr "nem sikerült a(z) %s-%s adatbázisbejegyzés frissítése\n"
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
+
+#, fuzzy, c-format
+msgid "removing invalid database: %s\n"
+msgstr "sikertelen a %s adatbázis-bejegyzés eltávolítása\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -393,6 +397,10 @@ msgstr "nemvárt hiba"
 msgid "could not find %s in database -- skipping\n"
 msgstr "nem található a(z) %s az adatbázisban -- kihagyás\n"
 
+#, fuzzy, c-format
+msgid "removing %s from target list\n"
+msgstr "'%s' kihagyása, mert ütközik a következővel: '%s'\n"
+
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "nem sikerült eltávolítani a '%s' fájlt : %s\n"
@@ -521,8 +529,8 @@ msgstr "nem sikerült a chroot (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "nem sikerült a könyvtárat a /-re váltani (%s)\n"
 
-#, c-format
-msgid "call to popen failed (%s)"
+#, fuzzy, c-format
+msgid "call to popen failed (%s)\n"
 msgstr "popen hívás sikertelen (%s)"
 
 #, c-format
