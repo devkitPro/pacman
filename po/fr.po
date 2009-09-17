@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: pacman\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
-"PO-Revision-Date: 2009-07-29 00:45+0200\n"
+"PO-Revision-Date: 2009-09-17 02:33+0200\n"
 "Last-Translator: Xavier <shiningxc@gmail.com>\n"
 "Language-Team: solsTiCe d'Hiver <solstice.dhiver@laposte.net>\n"
 "MIME-Version: 1.0\n"
@@ -494,12 +494,13 @@ msgstr ""
 "  -s, --search <regex>     recherche la chaîne correspondante dans les "
 "dépôts distants\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade         met à jour tous les paquets obsolètes (-uu permet "
-"de restaurer des versions antérieures\n"
+"  -u, --sysupgrade         met à jour tous les paquets installés\n"
+"                           (-uu permet de restaurer des versions "
+"antérieures)\n"
 
 #, c-format
 msgid ""
@@ -618,13 +619,13 @@ msgstr "problème à l'ajout du dossier cache '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "une seule opération peut être effectuée à la fois\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "ne peut pas créer le nouveau dossier de cache\n"
+msgstr "le déplacment vers le répertoire de téléchargement %s a échoué\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "exécution de XferCommand: le fork a échoué!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -719,7 +720,7 @@ msgstr "le chemin du fichier est trop long\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d fichiers au total, %d fichiers manquants\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -908,9 +909,9 @@ msgstr ":: %s: est en conflit avec %s\n"
 msgid " local database is up to date\n"
 msgstr "La base de données locale est à jour.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "aucun dépôt pour le paquet: %s\n"
+msgstr "pas d'URL pour le paquet: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1163,9 +1164,8 @@ msgstr "Extraction des sources..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Impossible de trouver le fichier source %s pour l'extraction."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "Génération de %s avec %s... "
+msgstr "Extraction de %s avec %s"
 
 msgid "Failed to extract %s"
 msgstr "L'extraction de %s a échoué"
@@ -1349,11 +1349,10 @@ msgstr ""
 "  -g, --geninteg   Génération des sommes de contrôle à partir des fichiers "
 "source"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr ""
-"  -g, --geninteg   Génération des sommes de contrôle à partir des fichiers "
-"source"
+"      --skipinteg  Ne pas échouer lorsque les sommes de contrôles sont "
+"absentes"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Cette aide"
@@ -1741,9 +1740,8 @@ msgstr "Création du fichier 'depends'... "
 msgid "Failed to acquire lockfile: %s."
 msgstr "Echec à l'acquisition du fichier de verrou: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Occupé par %s"
+msgstr "Occupé par le processus %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Le fichier de dépôt '%s' n'est pas un dépôt pacman valide."
