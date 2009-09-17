@@ -22,27 +22,30 @@ msgstr ""
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "sostituzione in corso della vecchia versione di %s-%s con %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
-"ignoro %s-%s perché la nuova versione %s è già presente nella lista dei "
+"ignoro %s-%s perché la nuova versione %s è presente nella lista dei "
 "pacchetti\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting packages were found in target list\n"
-msgstr "sono stati individuati dei pacchetti che vanno in conflitto\n"
+msgstr ""
+"ci sono dei pacchetti in conflitto all'interno della lista dei pacchetti\n"
 
 #, c-format
 msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "impossibile installare due pacchetti che vanno in conflitto\n"
+msgstr ""
+"non puoi installare contemporaneamente due pacchetti che vanno in conflitto\n"
 
 #, c-format
 msgid "replacing packages with -U is not supported yet\n"
-msgstr "la sostituzione dei pacchetti con -U non è ancora supportata\n"
+msgstr ""
+"la sostituzione dei pacchetti con l'opzione -U non è ancora supportata\n"
 
 #, c-format
 msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "puoi sostituire manualmente i pacchetti, usando le opzioni -Rd e -U\n"
+msgstr "puoi sostituire i pacchetti manualmente, usando le opzioni -Rd e -U\n"
 
 #, c-format
 msgid ""
@@ -104,9 +107,9 @@ msgstr "impossibile aggiornare la voce %s-%s nel database\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "impossible includere la voce '%s' nella cache\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing invalid database: %s\n"
-msgstr "impossibile rimuovere il database %s\n"
+msgstr "rimozione del database: %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -197,7 +200,7 @@ msgstr "l'url '%s' non è esatto\n"
 
 #, c-format
 msgid "url scheme not specified, assuming HTTP\n"
-msgstr "non è stato specificato il protocollo dell'url, sarà usato HTTP\n"
+msgstr "il protocollo dell'url non è stato specificato, sarà usato HTTP\n"
 
 #, c-format
 msgid "disk"
@@ -403,10 +406,9 @@ msgstr "errore inaspettato"
 msgid "could not find %s in database -- skipping\n"
 msgstr "impossibile trovare %s nel database, sarà ignorato\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s from target list\n"
-msgstr ""
-"rimozione di '%s' dalla lista dei pacchetti perché va in conflitto con '%s'\n"
+msgstr "rimozione di %s dalla lista dei pacchetti\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
@@ -478,11 +480,11 @@ msgstr "impossibile scaricare alcuni file da %s\n"
 
 #, c-format
 msgid "could not create removal transaction\n"
-msgstr "impossibile avviare l'operazione di rimozione\n"
+msgstr "impossibile eseguire l'operazione di rimozione\n"
 
 #, c-format
 msgid "could not create transaction\n"
-msgstr "impossibile avviare l'operazione\n"
+msgstr "impossibile eseguire l'operazione\n"
 
 #, c-format
 msgid "could not initialize the removal transaction\n"
@@ -540,9 +542,9 @@ msgstr "impossibile cambiare la root directory (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "impossibile spostarsi nella directory / (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "call to popen failed (%s)\n"
-msgstr "chiamata a popen non riuscita (%s)"
+msgstr "chiamata a popen non riuscita (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
