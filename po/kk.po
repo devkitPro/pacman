@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
-"PO-Revision-Date: 2009-07-29 19:35+0200\n"
+"PO-Revision-Date: 2009-09-17 12:58+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh\n"
 "MIME-Version: 1.0\n"
@@ -464,12 +464,12 @@ msgstr ""
 "  -s, --search <regex> қашықтағы репозиторийлардың ішінен көрсетілген "
 "мәтінді іздеу\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     барлық ескірген дестелерді жаңарту (-uu нұсқасын "
-"төмендету үшін)\n"
+"  -u, --sysupgrade     орнатылған дестелерді жаңарту (-uu нұсқасын төмендету "
+"үшін)\n"
 
 #, c-format
 msgid ""
@@ -579,13 +579,13 @@ msgstr "'%s' кэш бумасын қосқанда қате кетті (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "бір уақытта тек бір әрекет орындалуы мүмкін\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "кэш үшін жаңа буманы құру мүмкін емес\n"
+msgstr "%s жүктеме бумасына өту мүмкін емес\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "XferCommand орындау: үрдісті жасау сәтсіз аяқталды!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -675,7 +675,7 @@ msgstr "файл жолы тым ұзын\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d барлық файлдар, %d файл жоқ\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -861,9 +861,9 @@ msgstr ":: %s: ерегіседі %s\n"
 msgid " local database is up to date\n"
 msgstr "жергілікті дерекқор ескірмеді\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "десте үшін дерекқор жоқ: %s\n"
+msgstr "десте үішн URL табылмады: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1110,9 +1110,8 @@ msgstr "Бастапқы кодаларын тарқату..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Тарқату үшін %s файлы табылмады."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "%s құрылуда %s көмегімен..."
+msgstr "%s тарқатылуда %s көмегімен"
 
 msgid "Failed to extract %s"
 msgstr "%s тарқату мүмкін емес"
@@ -1293,11 +1292,8 @@ msgstr ""
 "  -g, --geninteg   Бастапқы файлдардың бүтіндігін тексеру үшін ақпаратты "
 "дайындау"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr ""
-"  -g, --geninteg   Бастапқы файлдардың бүтіндігін тексеру үшін ақпаратты "
-"дайындау"
+msgstr "      --skipinteg  Бүтіндікке тексеру жоқ болған кезде құлап түспеу"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Осы көмек ақпараты"
@@ -1675,9 +1671,8 @@ msgstr "ДҚ ішінде 'depends' жазбасын құру..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Оқшау файлын алу мүмкін емес: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Ұстап тұрған %s"
+msgstr "Ұстап тұрған үрдісі %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "'%s' репозиторий файлы pacman дерекқоры үшін дұрыс файлы емес."
