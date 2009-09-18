@@ -234,6 +234,7 @@ int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 int alpm_pkg_has_force(pmpkg_t *pkg);
 
 off_t alpm_pkg_download_size(pmpkg_t *newpkg);
+alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 
 /*
  * Deltas

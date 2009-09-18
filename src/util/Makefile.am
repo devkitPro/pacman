@@ -3,7 +3,7 @@ conffile  = ${sysconfdir}/pacman.conf
 dbpath    = ${localstatedir}/lib/pacman/
 cachedir  = ${localstatedir}/cache/pacman/pkg/
 
-bin_PROGRAMS = vercmp testpkg testdb
+bin_PROGRAMS = vercmp testpkg testdb cleanupdelta
 
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
@@ -23,5 +23,9 @@ testpkg_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 testdb_SOURCES = testdb.c
 testdb_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
+
+cleanupdelta_SOURCES = cleanupdelta.c
+cleanupdelta_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
+
 
 # vim:set ts=2 sw=2 noet:

@@ -71,7 +71,7 @@ off_t SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
 
 /** @} */
 
-static alpm_list_t *graph_init(alpm_list_t *deltas)
+static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *vertices = NULL;
@@ -101,7 +101,8 @@ static alpm_list_t *graph_init(alpm_list_t *deltas)
 			 *     3_to_4
 			 * If J 'from' is equal to I 'to', then J is a child of I.
 			 * */
-			if(strcmp(d_j->from, d_i->to) == 0) {
+			if((!reverse && strcmp(d_j->from, d_i->to) == 0) ||
+					(reverse && strcmp(d_j->to, d_i->from) == 0)) {
 				v_i->children = alpm_list_add(v_i->children, v_j);
 			}
 		}
@@ -233,7 +234,7 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 
 	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
 
-	vertices = graph_init(deltas);
+	vertices = graph_init(deltas, 0);
 	graph_init_size(vertices);
 	dijkstra(vertices);
 	bestsize = shortest_path(vertices, to, &bestpath);
@@ -246,6 +247,45 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 	*path = bestpath;
 	return(bestsize);
 }
+
+static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota)
+{
+	alpm_list_t *unused = NULL;
+	alpm_list_t *vertices;
+	alpm_list_t *i;
+	vertices = graph_init(deltas, 1);
+
+	for(i = vertices; i; i = i->next) {
+		pmgraph_t *v = i->data;
+		pmdelta_t *vdelta = v->data;
+		if(strcmp(vdelta->to, to) == 0)
+		{
+			v->weight = vdelta->download_size;
+		}
+	}
+	dijkstra(vertices);
+	for(i = vertices; i; i = i->next) {
+		pmgraph_t *v = i->data;
+		pmdelta_t *vdelta = v->data;
+		if(v->weight > quota) {
+			unused = alpm_list_add(unused, vdelta->delta);
+		}
+	}
+	alpm_list_free_inner(vertices, _alpm_graph_free);
+	alpm_list_free(vertices);
+	return(unused);
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
+{
+	off_t pkgsize = alpm_pkg_get_size(pkg);
+	alpm_list_t *unused = find_unused(
+			alpm_pkg_get_deltas(pkg),
+			alpm_pkg_get_filename(pkg),
+			pkgsize * MAX_DELTA_RATIO);
+	return(unused);
+}
+
 
 /** Parses the string representation of a pmdelta_t object.
  * This function assumes that the string is in the correct format.
