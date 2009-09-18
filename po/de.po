@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
-"PO-Revision-Date: 2009-07-29 18:56+0100\n"
+"PO-Revision-Date: 2009-09-17 17:00+0100\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
 "MIME-Version: 1.0\n"
@@ -475,11 +475,11 @@ msgid ""
 msgstr ""
 "  -s, --search <regex> Durchsucht entfernte Repositorien nach einem Wort\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     Aktualisiert alle veralteten Pakete (-uu ermöglicht "
+"  -u, --sysupgrade     Aktualisiert installierte Pakete (-uu ermöglicht "
 "Downgrades)\n"
 
 #, c-format
@@ -598,13 +598,13 @@ msgstr "Problem beim Hinzufügen des Puffer-Verzeichnisses '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "Es ist nur eine Operation zur selben Zeit erlaubt\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "Konnte kein neues Puffer-Verzeichnis erstellen\n"
+msgstr "chdir in neues Download-Verzeichnis %s fehlgeschlagen\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "Verwende XferCommand: Fork fehlgeschlagen!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -697,7 +697,7 @@ msgstr "Datei-Pfad ist zu lang\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d Dateien insgesamt, %d fehlende Datei(en)\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -885,9 +885,9 @@ msgstr ":: %s: steht im Konflikt mit %s\n"
 msgid " local database is up to date\n"
 msgstr " Lokale Datenbank ist aktuell\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "Keine Datenbank für das Paket: %s\n"
+msgstr "Keine URL für das Paket: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1137,9 +1137,8 @@ msgstr "Entpacke Quellen..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Konnte die Quell-Datei %s zum Entpacken nicht finden."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "Erstelle %s mit %s... "
+msgstr "Entpacke %s mit %s "
 
 msgid "Failed to extract %s"
 msgstr "Konnte %s nicht entpacken"
@@ -1323,9 +1322,8 @@ msgstr "  -f, --force          Existierendes Paket überschreiben"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Erstelle Integritäts-Prüfung für Quell-Dateien"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "  -g, --geninteg   Erstelle Integritäts-Prüfung für Quell-Dateien"
+msgstr "      --skipinteg  Nicht abbrechen, wenn die Integritäts-Prüfung fehlt"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Diese Hilfe"
@@ -1725,9 +1723,8 @@ msgstr "Erstelle 'depends' DB-Eintrag... "
 msgid "Failed to acquire lockfile: %s."
 msgstr "Konnte die Lock-Datei nicht erreichen: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Gehalten von %s"
+msgstr "Gehalten vom Prozess %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Repositorien-Datei '%s' ist keine korrekte pacman-Datenbank."
