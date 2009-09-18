@@ -21,11 +21,11 @@ msgstr ""
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "régebbi verzió (%s-%s) lecserélése %s verzióra a célok listájában\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "%s-%s kihagyása, mert újabb verzió (%s) van a célok között\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting packages were found in target list\n"
 msgstr "ütköző csomagokat találtam a célok között\n"
 
@@ -101,13 +101,13 @@ msgstr "nem sikerült a(z) %s-%s adatbázisbejegyzés frissítése\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing invalid database: %s\n"
-msgstr "sikertelen a %s adatbázis-bejegyzés eltávolítása\n"
+msgstr "hibás adatbázis eltávolítása: %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
-msgstr "sikertelen a %s adatbázis-bejegyzés eltávolítása\n"
+msgstr "sikertelen a(z) %s adatbázis eltávolítása\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -397,9 +397,9 @@ msgstr "nemvárt hiba"
 msgid "could not find %s in database -- skipping\n"
 msgstr "nem található a(z) %s az adatbázisban -- kihagyás\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s from target list\n"
-msgstr "'%s' kihagyása, mert ütközik a következővel: '%s'\n"
+msgstr "%s eltávolítása a cél listából\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
@@ -529,9 +529,9 @@ msgstr "nem sikerült a chroot (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "nem sikerült a könyvtárat a /-re váltani (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "call to popen failed (%s)\n"
-msgstr "popen hívás sikertelen (%s)"
+msgstr "popen hívás sikertelen (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
