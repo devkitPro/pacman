@@ -71,34 +71,16 @@ off_t SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
 
 /** @} */
 
-static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
+static alpm_list_t *graph_init(alpm_list_t *deltas)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *vertices = NULL;
 	/* create the vertices */
 	for(i = deltas; i; i = i->next) {
-		char *fpath, *md5sum;
 		pmgraph_t *v = _alpm_graph_new();
 		pmdelta_t *vdelta = i->data;
 		vdelta->download_size = vdelta->delta_size;
 		v->weight = LONG_MAX;
-
-		/* determine whether the delta file already exists */
-		fpath = _alpm_filecache_find(vdelta->delta);
-		md5sum = alpm_compute_md5sum(fpath);
-		if(fpath && md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
-			vdelta->download_size = 0;
-		}
-		FREE(fpath);
-		FREE(md5sum);
-
-		/* determine whether a base 'from' file exists */
-		fpath = _alpm_filecache_find(vdelta->from);
-		if(fpath) {
-			v->weight = vdelta->download_size;
-		}
-		FREE(fpath);
-
 		v->data = vdelta;
 		vertices = alpm_list_add(vertices, v);
 	}
@@ -128,8 +110,36 @@ static alpm_list_t *delta_graph_init(alpm_list_t *deltas)
 	return(vertices);
 }
 
-static off_t delta_vert(alpm_list_t *vertices,
-		const char *to, alpm_list_t **path) {
+static void graph_init_size(alpm_list_t *vertices)
+{
+	alpm_list_t *i;
+
+	for(i = vertices; i; i = i->next) {
+		char *fpath, *md5sum;
+		pmgraph_t *v = i->data;
+		pmdelta_t *vdelta = v->data;
+
+		/* determine whether the delta file already exists */
+		fpath = _alpm_filecache_find(vdelta->delta);
+		md5sum = alpm_compute_md5sum(fpath);
+		if(fpath && md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
+			vdelta->download_size = 0;
+		}
+		FREE(fpath);
+		FREE(md5sum);
+
+		/* determine whether a base 'from' file exists */
+		fpath = _alpm_filecache_find(vdelta->from);
+		if(fpath) {
+			v->weight = vdelta->download_size;
+		}
+		FREE(fpath);
+	}
+}
+
+
+static void dijkstra(alpm_list_t *vertices)
+{
 	alpm_list_t *i;
 	pmgraph_t *v;
 	while(1) {
@@ -165,9 +175,14 @@ static off_t delta_vert(alpm_list_t *vertices,
 
 		}
 	}
+}
 
-	v = NULL;
+static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **path)
+{
+	alpm_list_t *i;
+	pmgraph_t *v = NULL;
 	off_t bestsize = 0;
+	alpm_list_t *rpath = NULL;
 
 	for(i = vertices; i; i = i->next) {
 		pmgraph_t *v_i = i->data;
@@ -181,7 +196,6 @@ static off_t delta_vert(alpm_list_t *vertices,
 		}
 	}
 
-	alpm_list_t *rpath = NULL;
 	while(v != NULL) {
 		pmdelta_t *vdelta = v->data;
 		rpath = alpm_list_add(rpath, vdelta);
@@ -219,9 +233,10 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 
 	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
 
-	vertices = delta_graph_init(deltas);
-
-	bestsize = delta_vert(vertices, to, &bestpath);
+	vertices = graph_init(deltas);
+	graph_init_size(vertices);
+	dijkstra(vertices);
+	bestsize = shortest_path(vertices, to, &bestpath);
 
 	_alpm_log(PM_LOG_DEBUG, "delta shortest-path search complete : '%jd'\n", (intmax_t)bestsize);
 
