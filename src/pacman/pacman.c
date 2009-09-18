@@ -379,7 +379,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "RUFQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "RUQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
 		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
 
 		if(opt < 0) {
