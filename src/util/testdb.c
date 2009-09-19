@@ -92,6 +92,11 @@ static int db_test(char *dbpath, int local)
 			}
 		}
 	}
+	if(closedir(dir)) {
+		fprintf(stderr, "error closing dbpath : %s\n", strerror(errno));
+		return(1);
+	}
+
 	return(ret);
 }
 
@@ -110,6 +115,7 @@ int checkdeps(alpm_list_t *pkglist)
 		free(depstring);
 		ret++;
 	}
+	FREELIST(data);
 	return(ret);
 }
 
@@ -125,6 +131,7 @@ int checkconflicts(alpm_list_t *pkglist)
 				alpm_conflict_get_package2(conflict));
 		ret++;
 	}
+	FREELIST(data);
 	return(ret);
 }
 
@@ -163,21 +170,23 @@ int check_syncdbs(char *dbpath, alpm_list_t *dbnames) {
 		snprintf(syncdbpath, PATH_MAX, "%s/sync/%s", dbpath, dbname);
 		ret = db_test(syncdbpath, 0);
 		if(ret) {
-			return(ret);
+			ret = 1;
+			goto cleanup;
 		}
 		db = alpm_db_register_sync(dbname);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database (%s)\n",
 					alpm_strerrorlast());
-			cleanup(EXIT_FAILURE);
+			ret = 1;
+			goto cleanup;
 		}
 		pkglist = alpm_db_get_pkgcache(db);
 		syncpkglist = alpm_list_join(syncpkglist, alpm_list_copy(pkglist));
 	}
 	ret += checkdeps(syncpkglist);
-	alpm_list_free(syncpkglist);
 
-	alpm_db_unregister_all();
+cleanup:
+	alpm_list_free(syncpkglist);
 	return(ret);
 }
 
@@ -227,6 +236,7 @@ int main(int argc, char **argv)
 		ret = check_localdb(dbpath);
 	} else {
 		ret = check_syncdbs(dbpath,dbnames);
+		alpm_list_free(dbnames);
 	}
 
 	cleanup(ret);
