@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
-"PO-Revision-Date: 2009-08-19 22:47+0200\n"
+"PO-Revision-Date: 2009-09-17 12:46+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -463,11 +463,11 @@ msgid ""
 msgstr ""
 "  -s, --search <regex> искать указанную строку в удаленных репозиториях\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     обновить все устаревшие пакеты(-uu включает откат)\n"
+"  -u, --sysupgrade     обновить установленные пакеты(-uu включает откат)\n"
 
 #, c-format
 msgid ""
@@ -581,13 +581,13 @@ msgstr "не удалось добавить каталог для кэша '%s'
 msgid "only one operation may be used at a time\n"
 msgstr "одновременно может выполняться только одна операция\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "не удалось создать новый каталог для кэша\n"
+msgstr "не удалось перейти в каталог %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "запуск XferCommand: fork failed!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -679,7 +679,7 @@ msgstr "путь к файлу слишком длинный\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d всего файлов, %d отсутствующих\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -865,9 +865,9 @@ msgstr ":: %s: конфликтует с %s\n"
 msgid " local database is up to date\n"
 msgstr " локальная база данных не устарела\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "нет базы данных для пакета: %s\n"
+msgstr "не найден URL для пакета: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1115,9 +1115,8 @@ msgstr "Распаковка исходных файлов..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Не удалось найти файл %s для распаковки."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "создание %s с помощью %s..."
+msgstr "Извлечение %s с помощью %s"
 
 msgid "Failed to extract %s"
 msgstr "Не удалось распаковать %s"
@@ -1298,11 +1297,9 @@ msgstr ""
 "  -g, --geninteg   Посчитать контрольные суммы для проверки целостности "
 "исходных файлов"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr ""
-"  -g, --geninteg   Посчитать контрольные суммы для проверки целостности "
-"исходных файлов"
+"      --skipinteg  Продолжить, даже если проверки целостности пропущены"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Эта помощь"
@@ -1680,9 +1677,8 @@ msgstr "Создание записи 'depends' в БД..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Не удалось получить файл блокировки: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Удерживается %s"
+msgstr "Удерживается процессом %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Файл репозитория '%s' не специфичен для базы данных pacman'а."
