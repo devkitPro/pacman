@@ -92,7 +92,7 @@ int SYMEXPORT alpm_add_target(char *target)
 				i->data = pkg;
 			} else {
 				_alpm_log(PM_LOG_WARNING,
-						_("skipping %s-%s because newer version %s is in the target list\n"),
+						_("skipping %s-%s because newer version %s is in target list\n"),
 						pkgname, pkgver, transpkg->version);
 				_alpm_pkg_free(pkg);
 			}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.1.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-30 20:25+0700\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -438,10 +438,9 @@ msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件仓库\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr "  -u, --sysupgrade     升级所有过期软件包 (-uu 启用降级)\n"
 
 #, c-format
@@ -547,6 +546,14 @@ msgstr "设置缓存目录 '%1$s' (%2$s)时出现问题 \n"
 msgid "only one operation may be used at a time\n"
 msgstr "一次只能运行一个操作\n"
 
+#, fuzzy, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "无法创建新缓存目录\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "配置文件 %s 无法读取。\n"
@@ -630,6 +637,10 @@ msgstr "根路径过长\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "文件路径过长\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -815,8 +826,8 @@ msgstr ":: %1$s: 与 %2$s 冲突\n"
 msgid " local database is up to date\n"
 msgstr "本地数据库已是最新的\n"
 
-#, c-format
-msgid "no database for package: %s\n"
+#, fuzzy, c-format
+msgid "no URL for package: %s\n"
 msgstr "无软件包的数据库：%s\n"
 
 #, c-format
@@ -1063,6 +1074,10 @@ msgstr "解压缩源码..."
 msgid "Unable to find source file %s for extraction."
 msgstr "无法找到源代码文件 %s 进行解压缩。"
 
+#, fuzzy
+msgid "Extracting %s with %s"
+msgstr "正在使用 %2$s 生成 %1$s..."
+
 msgid "Failed to extract %s"
 msgstr "无法解压缩 %s"
 
@@ -1235,6 +1250,10 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      覆盖现存的软件包"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr "  -g, --geninteg   为源码文件生成完整性检查值"
+
+#, fuzzy
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr "  -g, --geninteg   为源码文件生成完整性检查值"
 
 msgid "  -h, --help       This help"
@@ -1582,7 +1601,8 @@ msgstr "正在生成 'depends' 数据库记录..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "无法要求锁定文件：%s。"
 
-msgid "Held by %s"
+#, fuzzy
+msgid "Held by process %s"
 msgstr "保留由 %s"
 
 msgid "Repository file '%s' is not a proper pacman database."

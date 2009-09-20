@@ -1,5 +1,17 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.3.1         - use full path to ldconfig when calling in chroot
+              - optimize the check for modified databases during sync
+              - ensure installed libfetch is new enough
+              - have -Q ops return 1 when no package matches (FS#15938)
+              - skip SyncFirst dialog if unnecessary (FS#15810)
+              - misc documentation updates (FS#15870, FS#15984)
+              - testdb: be less verbose during checks
+              - existing translation updates
+              - makepkg:
+                - add --skipinteg option (FS#15830)
+                - fix .PKGINFO creation with -R option (FS#15851)
+                - always keep symlinks to sources when unpacking
 3.3.0         - xdelta: many fixes and improvements
                 - new pkgdelta script to create deltas
                 - repo-add can add both deltas and packages to a database

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libalpm 3.2.2\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
 "Language-Team: http://archlinux.org.ua\n"
@@ -22,12 +22,12 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "старіша версія %s-%s замінюється на %s в цільовому списку пакунків\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "%s-%s пропускається, бо в списку цільових пакунків є новіша версія %s\n"
 
 #, c-format
-msgid "conflicting packages were found in the target list\n"
+msgid "conflicting packages were found in target list\n"
 msgstr "в списку цільових пакунків були знайдені конфліктуючі пакунки\n"
 
 #, c-format
@@ -88,7 +88,7 @@ msgstr "неможливо отримати поточний робочий ка
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "з'явилась проблема при поновленні %s\n"
+msgstr "з'явилась проблема при оновленні %s\n"
 
 #, c-format
 msgid "problem occurred while installing %s\n"
@@ -96,15 +96,19 @@ msgstr "з'явилась проблема при встановленні %s\n"
 
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr "неможливо поновити запис бази даних %s-%s\n"
+msgstr "неможливо оновити запис бази даних %s-%s\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "неможливо додати запис '%s' у кеш\n"
 
 #, c-format
+msgid "removing invalid database: %s\n"
+msgstr "вилучення невірної бази даних: %s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
-msgstr "неможливо видалити базу даних %s\n"
+msgstr "неможливо вилучити базу даних %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -164,7 +168,7 @@ msgstr "виявлено цикл залежностей:\n"
 
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s буде видалено після його залежності %s\n"
+msgstr "%s буде вилучено після його залежності %s\n"
 
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
@@ -276,11 +280,11 @@ msgstr "неможливо знайти базу даних"
 
 #, c-format
 msgid "could not update database"
-msgstr "неможливо поновити базу даних"
+msgstr "неможливо оновити базу даних"
 
 #, c-format
 msgid "could not remove database entry"
-msgstr "неможливо видалити запис з бази даних"
+msgstr "неможливо вилучити запис з бази даних"
 
 #, c-format
 msgid "invalid url for server"
@@ -336,7 +340,7 @@ msgstr "неможливо відкрити файл пакунку"
 
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "неможливо видалити всі файли для пакунку"
+msgstr "неможливо вилучити всі файли для пакунку"
 
 #, c-format
 msgid "package filename is not valid"
@@ -395,20 +399,24 @@ msgid "could not find %s in database -- skipping\n"
 msgstr "неможливо знайти %s в базі даних -- пропускається\n"
 
 #, c-format
+msgid "removing %s from target list\n"
+msgstr "вилучення '%s' зі списку пакунків\n"
+
+#, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "неможливо видалити файл '%s': %s\n"
+msgstr "неможливо вилучити файл '%s': %s\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "неможливо видалити запис бази даних %s-%s\n"
+msgstr "неможливо вилучити запис бази даних %s-%s\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "неможливо видалити запис '%s' з кешу\n"
+msgstr "неможливо вилучити запис '%s' з кешу\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: ігнорування поновлення пакунку (%s => %s)\n"
+msgstr "%s: ігнорування оновлення пакунку (%s => %s)\n"
 
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
@@ -436,11 +444,11 @@ msgstr "репозиторій '%s' не знайдено\n"
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s не потребує поновлення -- пропускається\n"
+msgstr "%s-%s не потребує оновлення -- пропущено\n"
 
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s не потребує поновлення -- перевстановлюється\n"
+msgstr "%s-%s не потребує оновлення -- перевстановлюється\n"
 
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
@@ -452,7 +460,7 @@ msgstr "виявлені нерозв'язні конфлікти пакункі
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "видалення '%s' з списку пакунків, бо він конфліктує з '%s'\n"
+msgstr "вилучення '%s' з списку пакунків, бо він конфліктує з '%s'\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -460,7 +468,7 @@ msgstr "не вдалося отримати деякі файли з %s\n"
 
 #, c-format
 msgid "could not create removal transaction\n"
-msgstr "неможливо створити транзакцію видалення\n"
+msgstr "неможливо створити транзакцію вилучення\n"
 
 #, c-format
 msgid "could not create transaction\n"
@@ -468,7 +476,7 @@ msgstr "неможливо створити транзакцію\n"
 
 #, c-format
 msgid "could not initialize the removal transaction\n"
-msgstr "неможливо почати транзакцію видалення\n"
+msgstr "неможливо почати транзакцію вилучення\n"
 
 #, c-format
 msgid "could not initialize transaction\n"
@@ -476,11 +484,11 @@ msgstr "неможливо почати транзакцію\n"
 
 #, c-format
 msgid "could not prepare removal transaction\n"
-msgstr "неможливо підготувати транзакцію видалення\n"
+msgstr "неможливо підготувати транзакцію вилучення\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "неможливо здійснити транзакцію видалення\n"
+msgstr "неможливо здійснити транзакцію вилучення\n"
 
 #, c-format
 msgid "could not commit transaction\n"
@@ -488,7 +496,7 @@ msgstr "неможливо здійснити транзакцію\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "неможливо видалити файл блокування %s\n"
+msgstr "неможливо вилучити файл блокування %s\n"
 
 #, c-format
 msgid "could not create temp directory\n"
@@ -500,7 +508,7 @@ msgstr "неможливо скопіювати тимчасовий файл д
 
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "неможливо видалити тимчасовий каталог %s\n"
+msgstr "неможливо вилучити тимчасовий каталог %s\n"
 
 #, c-format
 msgid "could not open %s: %s\n"
@@ -523,8 +531,8 @@ msgid "could not change directory to / (%s)\n"
 msgstr "неможливо змінити каталог на / (%s)\n"
 
 #, c-format
-msgid "call to popen failed (%s)"
-msgstr "виклик popen невдалий (%s)"
+msgid "call to popen failed (%s)\n"
+msgstr "виклик popen невдалий (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"

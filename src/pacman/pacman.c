@@ -130,7 +130,7 @@ static void usage(int op, const char * const myname)
 			printf(_("  -l, --list <repo>    view a list of packages in a repo\n"));
 			printf(_("  -p, --print-uris     print out URIs for given packages and their dependencies\n"));
 			printf(_("  -s, --search <regex> search remote repositories for matching strings\n"));
-			printf(_("  -u, --sysupgrade     upgrade all outdated packages (-uu enables downgrade)\n"));
+			printf(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
 			printf(_("      --needed         don't reinstall up to date packages\n"));
@@ -395,7 +395,7 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "RUFQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "RUQSTr:b:vkhscVfmnoldepqituwygz", opts, &option_index))) {
 		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
 
 		if(opt < 0) {
@@ -454,7 +454,7 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
 			case 1009:
-				config->logfile = strdup(optarg);
+				config->logfile = strndup(optarg, PATH_MAX);
 				break;
 			case 1010:
 				list = strsplit(optarg, ',');
@@ -665,7 +665,7 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	/* cwd to the download directory */
 	getcwd(cwd, PATH_MAX);
 	if(chdir(localpath)) {
-		pm_printf(PM_LOG_WARNING, "could not chdir to %s\n", localpath);
+		pm_printf(PM_LOG_WARNING, _("could not chdir to download directory %s\n"), localpath);
 		ret = -1;
 		goto cleanup;
 	}
@@ -674,7 +674,7 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	retval = system(parsedcmd);
 
 	if(retval == -1) {
-		pm_printf(PM_LOG_WARNING, "running XferCommand: fork failed!\n");
+		pm_printf(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
 		ret = -1;
 	} else if(retval != 0) {
 		/* download failed */

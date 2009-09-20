@@ -674,7 +674,7 @@ static int sync_trans(alpm_list_t *targets)
 				printf("%s/%s\n", dburl, alpm_pkg_get_filename(pkg));
 			} else {
 				/* can't use WARNING here, we don't show warnings in -Sp... */
-				pm_fprintf(stderr, PM_LOG_ERROR, _("no database for package: %s\n"),
+				pm_fprintf(stderr, PM_LOG_ERROR, _("no URL for package: %s\n"),
 						alpm_pkg_get_name(pkg));
 			}
 

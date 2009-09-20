@@ -9,17 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
-"PO-Revision-Date: 2009-07-29 14:06+0200\n"
-"Last-Translator: Juan Pablo González Tognarelli <juan.gonzalez."
-"tognarelli@gmail.com>\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
+"PO-Revision-Date: 2009-09-17 11:18-0400\n"
+"Last-Translator: Juan Pablo González Tognarelli <jotapesan@gmail.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: CHILE\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -56,11 +55,11 @@ msgstr "Verificando la integridad de los paquetes...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "Verificando la integridad delta...\n"
+msgstr "Verificando la integridad diferencial...\n"
 
 #, c-format
 msgid "applying deltas...\n"
-msgstr "aplicando las deltas...\n"
+msgstr "aplicando los diferenciales...\n"
 
 #, c-format
 msgid "generating %s with %s... "
@@ -269,7 +268,7 @@ msgstr "No Modificado\t%s\n"
 
 #, c-format
 msgid "MISSING\t\t%s\n"
-msgstr "FALTANTE\t\t%s\n"
+msgstr "FALTAN\t\t%s\n"
 
 #, c-format
 msgid "(none)\n"
@@ -348,19 +347,19 @@ msgstr ""
 msgid ""
 "  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
 msgstr ""
-"  -u, --unneeded      quita los paquetes no necesitados (que no rompan a "
-"otros paquetes)\n"
+"  -u, --unneeded       elimina los paquetes innecesarios (sin romper a otros "
+"paquetes)\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr ""
 "      --asdeps         instala paquetes como dependencia (no-"
-"explicitamente)\n"
+"explícitamente)\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr ""
-"      --asexplicit     instala paquetes como explicitamente instalados\n"
+"      --asexplicit     instala paquetes como explícitamente instalados\n"
 
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
@@ -436,8 +435,8 @@ msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search <busqu.> busca paquetes instalados localmente que coincidan "
-"con la cadena\n"
+"  -s, --search <busqu.>busca los paquetes instalados que coincidan con la "
+"cadena especificada\n"
 
 #, c-format
 msgid ""
@@ -490,13 +489,13 @@ msgstr ""
 "  -s, --search <busq.> busca en los repositorios remotos por coincidencias "
 "de la cadena especificada.\n"
 
+# , c-format
 #, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     actualiza todos los paquetes que están "
-"desactualizados (-uu permite degradar paquetes)\n"
+"  -u, --sysupgrade     actualiza los paquetes instalados (-uu permite "
+"degradarlos)\n"
 
 #, c-format
 msgid ""
@@ -617,13 +616,22 @@ msgstr "problema al agregar el directorio de cache'%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "sólo una operación puede utilizarse a la vez\n"
 
+# , c-format
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "no se pudo cambiar al directorio de descargas %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "ejecutando XferCommand: falló la creación del proceso!\n"
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "el archivo de configuración %s no se ha podido leer.\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "archivo de configuración %s, linea %d: nombre de sección erróneo.\n"
+msgstr "archivo de configuración %s, línea %d: nombre de sección erróneo.\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -632,8 +640,7 @@ msgstr "no se pudo registrar la base de datos '%s' (%s)\n"
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
-"archivo de configuración %s, linea %d: error de sintaxis - clave "
-"desaparecida.\n"
+"archivo de configuración %s, línea %d: error de sintaxis - falta la clave.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
@@ -644,7 +651,7 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: directive '%s' not recognized.\n"
 msgstr ""
-"archivo de configuración %s, linea %d: directiva '%s' no es reconocida.\n"
+"archivo de configuración %s, línea %d: directiva '%s' no es reconocida.\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -706,6 +713,10 @@ msgstr "la ruta raíz es demasiado larga\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "la ruta del archivo es demasiado larga\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr "%s: %d archivos totales , %d archivo(s) extraviados(s)\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -891,9 +902,10 @@ msgstr ":: %s: posee conflictos con %s\n"
 msgid " local database is up to date\n"
 msgstr "la base de datos local está actualizada\n"
 
+# , c-format
 #, c-format
-msgid "no database for package: %s\n"
-msgstr "el paquete: %s no tiene una base de datos\n"
+msgid "no URL for package: %s\n"
+msgstr "No se encontró la URL para el paquete: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1065,16 +1077,16 @@ msgid "Pacman returned a fatal error (%i): %s"
 msgstr "Pacman retornó un error fatal (%i): %s"
 
 msgid "Installing missing dependencies..."
-msgstr "Instalado dependencias faltantes... "
+msgstr "Instalado las dependencias que faltan... "
 
 msgid "Pacman failed to install missing dependencies."
-msgstr "Pacman falló al instalar las dependencias faltantes."
+msgstr "Pacman falló al instalar las dependencias que faltan."
 
 msgid "Failed to install all missing dependencies."
 msgstr "Falló al instalar todas las dependencias faltantes."
 
 msgid "Missing Dependencies:"
-msgstr "Dependencias Faltantes "
+msgstr "Dependencias que faltan:"
 
 msgid "Failed to remove installed dependencies."
 msgstr "Falló al quitar las dependencias instaladas."
@@ -1140,6 +1152,9 @@ msgstr "Descomprimiendo fuentes..."
 
 msgid "Unable to find source file %s for extraction."
 msgstr "Incapaz de abrir el archivo fuente %s para extraerlo."
+
+msgid "Extracting %s with %s"
+msgstr "Extrayendo %s con %s"
 
 msgid "Failed to extract %s"
 msgstr "Falló al extraer %s"
@@ -1319,6 +1334,9 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 "  -g, --geninteg   Generar verificaciones de integridad para los fuentes"
 
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
+msgstr "  --skipinteg  No falla cuando faltan las verificaciones de integridad"
+
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Esta ayuda"
 
@@ -1347,7 +1365,7 @@ msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Vuelve a crear el paquete sin recompilar"
 
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
-msgstr "  -s, --syncdeps   Instala las dependencias faltantes con Pacman"
+msgstr "  -s, --syncdeps   Instala las dependencias que faltan con Pacman"
 
 msgid ""
 "      --allsource  Generate a source-only tarball including downloaded "
@@ -1474,7 +1492,7 @@ msgstr "¡No se pudo encontrar sudo! ¿Está sudo instalado?"
 
 msgid "Missing dependencies cannot be installed or removed as a normal user"
 msgstr ""
-"Las dependencias faltantes no se pueden instalar o eliminar siendo un "
+"Las dependencias que faltan no se pueden instalar o eliminar siendo un "
 "usuario normal"
 
 msgid "without sudo; install and configure sudo to auto-resolve dependencies."
@@ -1630,10 +1648,11 @@ msgid "Finished. Your pacman database has been optimized."
 msgstr "Finalizado, Su base de datos de Pacman fue optimizada."
 
 msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "Uso: repo-add [-q] <ruta-a-bd> <paquete|delta> ...\\n"
+msgstr "Uso: repo-add [-q] <ruta-a-bd> <paquete|diferencial> ...\\n"
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "Uso: repo-remove [-q] <ruta-a-bd> <nombre_de_paquete|delta> ...\\n\\n"
+msgstr ""
+"Uso: repo-remove [-q] <ruta-a-bd> <nombre_de_paquete|diferencial> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1649,7 +1668,7 @@ msgid ""
 "\\npackages to remove can be specified on the command line.\\n\\n"
 msgstr ""
 "repo-remove actualizará una base de datos eliminando de ella el paquete"
-"\\nespecificado en la linea de comandos. Varios paquetes\\n pueden "
+"\\nespecificado en la línea de comandos. Varios paquetes\\n pueden "
 "eliminarse especificándolos en la línea de comandos.\\n\\n"
 
 msgid ""
@@ -1677,7 +1696,7 @@ msgstr ""
 "GARANTÍA, a el grado permitido permitido por la ley.\\n"
 
 msgid "Creating 'deltas' db entry..."
-msgstr "Creando entrada 'deltas' en la base de datos..."
+msgstr "Creando entrada las entradas 'diferenciales' en la bd..."
 
 msgid "An entry for '%s' already existed"
 msgstr "Una entrada para '%s' ya existía"
@@ -1700,8 +1719,8 @@ msgstr "Creando entradas 'depends' en la base de datos..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Falló al obtener el archivo de bloqueo: %s."
 
-msgid "Held by %s"
-msgstr "Sujeto por %s"
+msgid "Held by process %s"
+msgstr "Detenido por el proceso %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "El archivo '%s' no es una base de datos pacman válida."
@@ -1719,7 +1738,7 @@ msgid "File '%s' not found."
 msgstr "El archivo '%s' no fue encontrado."
 
 msgid "Adding delta '%s'"
-msgstr "Agregando delta '%s'"
+msgstr "Agregando diferencial '%s'"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "¡No se pudo encontrar el binario xdelta3! ¿xdelta3 está instalado?"
@@ -1731,10 +1750,10 @@ msgid "Adding package '%s'"
 msgstr "Agregando el paquete %s"
 
 msgid "Searching for delta '%s'..."
-msgstr "Buscando por delta '%s'..."
+msgstr "Buscando por el diferencial '%s'..."
 
 msgid "Delta matching '%s' not found."
-msgstr "No fueron encontrados paquetes que coincidan con '%s'."
+msgstr "No fueron encontrados diferenciales que coincidan con '%s'."
 
 msgid "Searching for package '%s'..."
 msgstr "Buscando el paquete '%s'..."
@@ -1752,10 +1771,10 @@ msgid "the -f and --force options are no longer recognized"
 msgstr "las opciones -f y --force ya no son reconocidas"
 
 msgid "use options=(force) in the PKGBUILD instead"
-msgstr "use options=(force) in the PKGBUILD en su lugar"
+msgstr "en su lugar, use options=(force) en el PKGBUILD "
 
 msgid "Creating updated database file '%s'"
-msgstr "Creado el archivo actualizado de base de datos %s"
+msgstr "Creado una base de datos actualizada '%s'"
 
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' no tiene una extensión de archivo válida."

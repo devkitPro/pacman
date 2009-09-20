@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-27 21:15-0500\n"
+"POT-Creation-Date: 2009-09-17 02:04+0200\n"
 "PO-Revision-Date: 2009-06-28 14:30+0700\n"
 "Last-Translator: volodia macovei <blog@volodia.ro>\n"
 "Language-Team: Romanian SbLUG for Arch <blog@volodia.ro>\n"
@@ -21,12 +21,12 @@ msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "se înlocuieşte versiunea veche %s-%s cu %s în lista ţintă\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in the target list\n"
+msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "se trece peste %s-%s deoarece o versiune mai nouă %s există în lista ţintă\n"
 
 #, c-format
-msgid "conflicting packages were found in the target list\n"
+msgid "conflicting packages were found in target list\n"
 msgstr "s-au găsit pachete în conflict în lista ţintă\n"
 
 #, c-format
@@ -100,6 +100,10 @@ msgstr "nu se poate actualiza intrarea în baza de date %s-%s\n"
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "nu se poate adăuga intrarea '%s' în cache\n"
+
+#, c-format
+msgid "removing invalid database: %s\n"
+msgstr "se elimină baza de date nevalidă %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -397,6 +401,10 @@ msgid "could not find %s in database -- skipping\n"
 msgstr "nu poate fi găsit %s în baza de date -- se trece peste\n"
 
 #, c-format
+msgid "removing %s from target list\n"
+msgstr "se elimină '%s' din lista ţintă\n"
+
+#, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "nu poate fi eliminat fişierul '%s': %s\n"
 
@@ -525,8 +533,8 @@ msgid "could not change directory to / (%s)\n"
 msgstr "nu poate fi schimbat directorul la / (%s)\n"
 
 #, c-format
-msgid "call to popen failed (%s)"
-msgstr "cererea către popen a eşuat (%s)"
+msgid "call to popen failed (%s)\n"
+msgstr "cererea către popen a eşuat (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"

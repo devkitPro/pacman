@@ -674,7 +674,7 @@ extract_sources() {
 		esac
 
 		local ret=0
-		msg2 "$(gettext "extracting %s with %s")" "$file" "$cmd"
+		msg2 "$(gettext "Extracting %s with %s")" "$file" "$cmd"
 		if [ "$cmd" = "bsdtar" ]; then
 			$cmd -xf "$file" || ret=?
 		else

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-06-26 19:46+0300\n"
 "Last-Translator: volodia macovei <blog@volodia.ro>\n"
 "Language-Team: Romanian SbLUG for Arch <blog@volodia.ro>\n"
@@ -472,10 +472,9 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     actualizează toate pachetele expirate (-uu activează "
+"  -u, --sysupgrade     actualizează pachetele instalate (-uu activează "
 "declasificarea)\n"
 
 #, c-format
@@ -537,7 +536,7 @@ msgstr ""
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
-"      --noscriptlet    nu execută scriptlet-ul de instalare dacă există deja "
+"      --noscriptlet    nu executa scriptlet-ul de instalare dacă există deja "
 "unul\n"
 
 #, c-format
@@ -593,6 +592,14 @@ msgstr "problemă la adăugarea cachedir '%s' (%s)\n"
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "doar o operaţiune poate fi utilizată în acelaşi moment\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "nu se poate chdir la directorul de descărcare %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "se rulează XferCommand: eșec fork!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -682,6 +689,10 @@ msgstr "cale root prea lungă\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "cale fișier prea lungă\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr "%s: %d fișiere în total, %d fișier(e) lipsă\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -868,8 +879,8 @@ msgid " local database is up to date\n"
 msgstr " baza de date locală este actualizată\n"
 
 #, c-format
-msgid "no database for package: %s\n"
-msgstr "nu există bază de date pentru pachetul: %s\n"
+msgid "no URL for package: %s\n"
+msgstr "nu există URL pentru pachetul: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1116,6 +1127,9 @@ msgstr "Se extrag sursele..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Incapacitate de a găsi fisierele sursă %s pentru extragere."
 
+msgid "Extracting %s with %s"
+msgstr "Se extrage %s cu %s..."
+
 msgid "Failed to extract %s"
 msgstr "Eşec la extragerea %s"
 
@@ -1293,6 +1307,9 @@ msgstr "  -f, --force      Suprascrie pachetul existent"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 "  -g, --geninteg   Generează verificarea integrităţii pentru fişierele sursă"
+
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
+msgstr "  -g, --geninteg   Nu eșuează când verificările de integritate lipsesc"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Ajutor"
@@ -1678,8 +1695,8 @@ msgstr "Se crează intrarea db 'depends'"
 msgid "Failed to acquire lockfile: %s."
 msgstr "Eşec în achiziționarea lockfile: %s."
 
-msgid "Held by %s"
-msgstr "Ținut de %s"
+msgid "Held by process %s"
+msgstr "Ținut de procesul %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Fişierul depozit '%s' nu este propriu bazei de date pacman."

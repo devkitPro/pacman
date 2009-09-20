@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.0.0\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-28 15:00+0200\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Arch Linux Italian Team <giovanni@archlinux.org>\n"
@@ -101,7 +101,7 @@ msgid ""
 "Do you want to skip the above package(s) for this upgrade?"
 msgstr ""
 "\n"
-"Vuoi ignorare i sottoelencati pacchetti per questo aggiornamento?"
+"Vuoi ignorare i pacchetti sopra elencati per questo aggiornamento?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -475,10 +475,9 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     aggiorna tutti i pacchetti (-uu abilita il "
+"  -u, --sysupgrade     aggiorna tutti i pacchetti (-uu permette il "
 "downgrade)\n"
 
 #, c-format
@@ -595,6 +594,14 @@ msgid "only one operation may be used at a time\n"
 msgstr "è consentito eseguire solo un'operazione per volta\n"
 
 #, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "impossibile entrare nella directory del download %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "avvio in corso di XferCommand: processo non riuscito!\n"
+
+#, c-format
 msgid "config file %s could not be read.\n"
 msgstr "il file di configurazione %s potrebbe non essere leggibile.\n"
 
@@ -684,6 +691,10 @@ msgid "file path too long\n"
 msgstr "il path del file è troppo lungo\n"
 
 #, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr "%s: %d file totali, %d file mancanti\n"
+
+#, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "non è stato configurato nessun repository di pacchetti valido.\n"
 
@@ -697,11 +708,11 @@ msgstr "il pacchetto \"%s\" non è stato trovato\n"
 
 #, c-format
 msgid "%s not found, searching for group...\n"
-msgstr "%s non è stato trovato, ricerca in corso all'interno di un gruppo...\n"
+msgstr "%s non è stato trovato, ricerca all'interno dei gruppi in corso...\n"
 
 #, c-format
 msgid "'%s': not found in local db\n"
-msgstr "'%s' non è stato trovato nel database\n"
+msgstr "'%s': non è presente nel database locale\n"
 
 #, c-format
 msgid ":: group %s:\n"
@@ -841,11 +852,13 @@ msgstr "sto ignorando il pacchetto: %s\n"
 
 #, c-format
 msgid "%s package not found, searching for group...\n"
-msgstr "il pacchetto %s non è stato trovato, ricerca nei gruppi in corso...\n"
+msgstr ""
+"il pacchetto %s non è stato trovato, ricerca all'interno di un gruppo in "
+"corso...\n"
 
 #, c-format
 msgid ":: group %s (including ignored packages):\n"
-msgstr ":: gruppo %s (include i pacchetti ignorati):\n"
+msgstr ":: gruppo %s (inclusi i pacchetti ignorati):\n"
 
 #, c-format
 msgid ":: Install whole content?"
@@ -853,11 +866,11 @@ msgstr ":: Vuoi installare l'intero contenuto?"
 
 #, c-format
 msgid ":: Install %s from group %s?"
-msgstr ":: Vuoi installare %s dal gruppo %s?"
+msgstr "Vuoi installare %s dal gruppo %s?"
 
 #, c-format
 msgid "'%s': not found in sync db\n"
-msgstr "'%s': non è stato trovato nel database\n"
+msgstr "'%s': non è presente all'interno del database\n"
 
 #, c-format
 msgid ":: %s: conflicts with %s\n"
@@ -868,8 +881,8 @@ msgid " local database is up to date\n"
 msgstr " Il database locale è aggiornato\n"
 
 #, c-format
-msgid "no database for package: %s\n"
-msgstr "nessun database per il pacchetto: %s\n"
+msgid "no URL for package: %s\n"
+msgstr "nessun URL per il pacchetto: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -922,7 +935,7 @@ msgid ""
 "errors occurred, no packages were upgraded.\n"
 msgstr ""
 "\n"
-"si sono verificati degli errori, nessun pacchetto è stato aggiornato.\n"
+"Si sono verificati degli errori, nessun pacchetto è stato aggiornato.\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1119,6 +1132,9 @@ msgstr "Estrazione dei sorgenti in corso..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Impossibile trovare i sorgenti di %s per estrarli."
 
+msgid "Extracting %s with %s"
+msgstr "estrazione di %s con %s in corso... "
+
 msgid "Failed to extract %s"
 msgstr "Impossibile estrarre %s"
 
@@ -1126,13 +1142,13 @@ msgid "Starting build()..."
 msgstr "Avvio di build() in corso..."
 
 msgid "Build Failed."
-msgstr "Compilazione interrotta."
+msgstr "Compilazione non riuscita."
 
 msgid "Starting %s()..."
 msgstr "Avvio di %s() in corso..."
 
 msgid "Packaging Failed."
-msgstr "Compilazione interrotta."
+msgstr "Pacchettizzazione non riuscita."
 
 msgid "Tidying install..."
 msgstr "Rimozione dei dati superflui in corso..."
@@ -1294,6 +1310,10 @@ msgstr "  -f, --force      Sovrascrive i pacchetti esistenti"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Genera i controlli dell'integrità dei sorgenti"
+
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
+msgstr ""
+"      --skipinteg  Non fallisce quando mancano i controlli dell'integrità"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Visualizza questo help"
@@ -1687,8 +1707,8 @@ msgstr "Creazione della voce del database 'depends' in corso..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Impossibile trovare il file di lock: %s."
 
-msgid "Held by %s"
-msgstr "Mantenuto da %s"
+msgid "Held by process %s"
+msgstr "Tenuto dal processo %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Il file di repository '%s' non è un valido database di pacman."

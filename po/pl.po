@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-07-28 07:00-0500\n"
+"POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-29 10:34+0100\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polski <pl@li.org>\n"
@@ -470,10 +470,9 @@ msgstr ""
 "  -s, --search <regex> przeszukuje zdalne repozytoria wedle pasujących "
 "ciągów\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade all outdated packages (-uu enables "
-"downgrade)\n"
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
 "  -u, --sysupgrade     uaktualnia wszystkie niektualne pakiety (-uu włącza "
 "dezaktualizację)\n"
@@ -591,6 +590,14 @@ msgstr "problem z dodaniem cachedir '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "tylko jedna operacja może być użyta na raz\n"
 
+#, fuzzy, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "nie udało się utworzyć nowego katalogu pamięci podręcznej\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "plik konfigu %s nie może być odczytany.\n"
@@ -675,6 +682,10 @@ msgstr "ścieżka katalogu głownego jest zbyt długa\n"
 #, c-format
 msgid "file path too long\n"
 msgstr "ścieżka do pliku jest za długa\n"
+
+#, c-format
+msgid "%s: %d total files, %d missing file(s)\n"
+msgstr ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -860,8 +871,8 @@ msgstr ":: %s: konfliktuje z %s\n"
 msgid " local database is up to date\n"
 msgstr " lokalna baza pakietów jest już w najnowszej wersji\n"
 
-#, c-format
-msgid "no database for package: %s\n"
+#, fuzzy, c-format
+msgid "no URL for package: %s\n"
 msgstr "brak bazy danych dla pakietu: %s\n"
 
 #, c-format
@@ -1108,6 +1119,10 @@ msgstr "Rozpakowuję źródła..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Nie znaleziono pliku źródeł %s do rozpakowania."
 
+#, fuzzy
+msgid "Extracting %s with %s"
+msgstr "aktualizowanie %s przez %s... "
+
 msgid "Failed to extract %s"
 msgstr "Nie udało się rozpakować %s"
 
@@ -1284,6 +1299,10 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Nadpisuje istniejące pakiety"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr "  -g, --geninteg   Wygeneruj symy kontrolne dla źródeł"
+
+#, fuzzy
+msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr "  -g, --geninteg   Wygeneruj symy kontrolne dla źródeł"
 
 msgid "  -h, --help       This help"
@@ -1649,7 +1668,8 @@ msgstr "Tworzę pole 'depends' w bazie..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Nie udało się użyć pliku blokady: %s."
 
-msgid "Held by %s"
+#, fuzzy
+msgid "Held by process %s"
 msgstr "Posiadany przez %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
