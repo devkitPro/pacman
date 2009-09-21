@@ -103,9 +103,11 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 }
 
 static int sync_cleandb_all(void) {
-	const char *dbpath = alpm_option_get_dbpath();
+	const char *dbpath;
 	char newdbpath[PATH_MAX];
+	int ret = 0;
 
+	dbpath = alpm_option_get_dbpath();
 	printf(_("Database directory: %s\n"), dbpath);
 	if(!yesno(_("Do you want to remove unused repositories?"))) {
 		return(0);
@@ -113,13 +115,13 @@ static int sync_cleandb_all(void) {
 	/* The sync dbs were previously put in dbpath/, but are now in dbpath/sync/,
 	 * so we will clean everything in dbpath/ (except dbpath/local/ and dbpath/sync/,
 	 * and only the unused sync dbs in dbpath/sync/ */
-	sync_cleandb(dbpath, 0);
+	ret += sync_cleandb(dbpath, 0);
 
 	sprintf(newdbpath, "%s%s", dbpath, "sync/");
-	sync_cleandb(newdbpath, 1);
+	ret += sync_cleandb(newdbpath, 1);
 
 	printf(_("Database directory cleaned up\n"));
-	return(0);
+	return(ret);
 }
 
 static int sync_cleancache(int level)
