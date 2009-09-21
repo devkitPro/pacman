@@ -93,11 +93,12 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 			if(rmrf(path)) {
 				pm_fprintf(stderr, PM_LOG_ERROR,
 					_("could not remove repository directory\n"));
+				closedir(dir);
 				return(1);
 			}
 		}
-
 	}
+	closedir(dir);
 	return(0);
 }
 
@@ -215,6 +216,7 @@ static int sync_cleancache(int level)
 				unlink(path);
 			}
 		}
+		closedir(dir);
 	} else {
 		/* full cleanup */
 		printf(_("Cache directory: %s\n"), cachedir);
