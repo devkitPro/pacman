@@ -126,17 +126,15 @@ static int sync_cleandb_all(void) {
 
 static int sync_cleancache(int level)
 {
-	/* TODO for now, just mess with the first cache directory */
-	alpm_list_t* cachedirs = alpm_option_get_cachedirs();
-	const char *cachedir = alpm_list_getdata(cachedirs);
+	alpm_list_t *i;
+	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+	int ret = 0;
+
+	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		printf(_("Cache directory: %s\n"), (char*)alpm_list_getdata(i));
+	}
 
 	if(level == 1) {
-		/* incomplete cleanup */
-		DIR *dir;
-		struct dirent *ent;
-		/* Open up each package and see if it should be deleted,
-		 * depending on the clean method used */
-		printf(_("Cache directory: %s\n"), cachedir);
 		switch(config->cleanmethod) {
 			case PM_CLEAN_KEEPINST:
 				if(!yesno(_("Do you want to remove uninstalled packages from cache?"))) {
@@ -153,11 +151,23 @@ static int sync_cleancache(int level)
 				return(1);
 		}
 		printf(_("removing old packages from cache...\n"));
+	} else {
+		if(!noyes(_("Do you want to remove ALL files from cache?"))) {
+			return(0);
+		}
+		printf(_("removing all files from cache...\n"));
+	}
 
-		dir = opendir(cachedir);
+	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		const char *cachedir = alpm_list_getdata(i);
+		DIR *dir = opendir(cachedir);
+		struct dirent *ent;
+
 		if(dir == NULL) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("could not access cache directory\n"));
-			return(1);
+			pm_fprintf(stderr, PM_LOG_ERROR,
+					_("could not access cache directory %s\n"), cachedir);
+			ret++;
+			continue;
 		}
 
 		rewinddir(dir);
@@ -166,7 +176,6 @@ static int sync_cleancache(int level)
 			char path[PATH_MAX];
 			int delete = 1;
 			pmpkg_t *localpkg = NULL, *pkg = NULL;
-			alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 			alpm_list_t *j;
 
 			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
@@ -175,11 +184,20 @@ static int sync_cleancache(int level)
 			/* build the full filepath */
 			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
 
+			/* short circuit for removing all packages from cache */
+			if(level > 1) {
+				unlink(path);
+				continue;
+			}
+
 			/* attempt to load the package, prompt removal on failures as we may have
 			 * files here that aren't valid packages. we also don't need a full
 			 * load of the package, just the metadata. */
 			if(alpm_pkg_load(path, 0, &localpkg) != 0 || localpkg == NULL) {
 				if(yesno(_("File %s does not seem to be a valid package, remove it?"), path)) {
+					if(localpkg) {
+						alpm_pkg_free(localpkg);
+					}
 					unlink(path);
 				}
 				continue;
@@ -219,26 +237,9 @@ static int sync_cleancache(int level)
 			}
 		}
 		closedir(dir);
-	} else {
-		/* full cleanup */
-		printf(_("Cache directory: %s\n"), cachedir);
-		if(!noyes(_("Do you want to remove ALL files from cache?"))) {
-			return(0);
-		}
-		printf(_("removing all files from cache...\n"));
-
-		if(rmrf(cachedir)) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("could not remove cache directory\n"));
-			return(1);
-		}
-
-		if(makepath(cachedir)) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("could not create new cache directory\n"));
-			return(1);
-		}
 	}
 
-	return(0);
+	return(ret);
 }
 
 static int sync_synctree(int level, alpm_list_t *syncs)
