@@ -1,18 +1,18 @@
 # translation of pl.po to Polski
 # Polish translations for Pacman package manager package
 # Polskie tłumaczenia dla pakietu Pacman package manager.
-# Copyright (C) 2007 Judd Vinet <jvinet@zeroflux.org>
-# This file is distributed under the same license as the Pacman package manager package.
+# Copyright (C) 2009 Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the pacman package manager package.
 #
 # Mateusz Jędrasik <m.jedrasik@gmail.com>, 2007.
 # Jaroslaw Swierczynski <swiergot@gmail.com>, 2008.
 # Mateusz Herych <heniekk@gmail.com>, 2008-2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: pl\n"
+"Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
-"PO-Revision-Date: 2009-07-29 10:34+0100\n"
+"PO-Revision-Date: 2009-09-19 10:11+0100\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polski <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +56,11 @@ msgstr "sprawdzanie spójności pakietów...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "sprawdzanie spójności archiwów przyrostowych...\n"
+msgstr "sprawdzanie spójności pakietów przyrostowych...\n"
 
 #, c-format
 msgid "applying deltas...\n"
-msgstr "aplikowanie delt...\n"
+msgstr "aplikowanie pakietów przyrostowych...\n"
 
 #, c-format
 msgid "generating %s with %s... "
@@ -470,11 +470,11 @@ msgstr ""
 "  -s, --search <regex> przeszukuje zdalne repozytoria wedle pasujących "
 "ciągów\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     uaktualnia wszystkie niektualne pakiety (-uu włącza "
+"  -u, --sysupgrade     uaktualnia zainstalowane pakiety (-uu pozwala na "
 "dezaktualizację)\n"
 
 #, c-format
@@ -590,13 +590,13 @@ msgstr "problem z dodaniem cachedir '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "tylko jedna operacja może być użyta na raz\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "nie udało się utworzyć nowego katalogu pamięci podręcznej\n"
+msgstr "nie udało się zmienić katalogu na katalog pobierania %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "uruchamianie XferCommand: fork nieudany!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -685,7 +685,7 @@ msgstr "ścieżka do pliku jest za długa\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d wszystkich plików, %d brakujące plik(i)\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -871,9 +871,9 @@ msgstr ":: %s: konfliktuje z %s\n"
 msgid " local database is up to date\n"
 msgstr " lokalna baza pakietów jest już w najnowszej wersji\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "brak bazy danych dla pakietu: %s\n"
+msgstr "brak URL dla pakietu: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1119,9 +1119,8 @@ msgstr "Rozpakowuję źródła..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Nie znaleziono pliku źródeł %s do rozpakowania."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "aktualizowanie %s przez %s... "
+msgstr "Rozpakowywanie %s za pomocą %s"
 
 msgid "Failed to extract %s"
 msgstr "Nie udało się rozpakować %s"
@@ -1301,9 +1300,8 @@ msgstr "  -f, --force      Nadpisuje istniejące pakiety"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Wygeneruj symy kontrolne dla źródeł"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "  -g, --geninteg   Wygeneruj symy kontrolne dla źródeł"
+msgstr "      --skipinteg Nie kończ jeżeli sumy kontrolne nie istnieją"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Niniejsza pomoc"
@@ -1668,9 +1666,8 @@ msgstr "Tworzę pole 'depends' w bazie..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Nie udało się użyć pliku blokady: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Posiadany przez %s"
+msgstr "Przetrzymywany przez proces %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Plik repozytorium '%s' nie jest poprawną bazą pacmana."
@@ -1688,7 +1685,7 @@ msgid "File '%s' not found."
 msgstr "Plik '%s' nie został odnaleziony."
 
 msgid "Adding delta '%s'"
-msgstr "Dodawanie archiwum przyrostowego '%s'"
+msgstr "Dodawanie pakietu przyrostowego '%s'"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Nie znaleziono programu xdelta3! Czy jest on zainstalowany?"

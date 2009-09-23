@@ -1,14 +1,14 @@
 # translation of cs.po to Čeština
-# Copyright (C) YEAR Judd Vinet <jvinet@zeroflux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2009 Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the pacman package manager package.
 #
 # Vojtěch Gondžala <vojtech.gondzala@gmail.com>, 2007, 2008, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: cs\n"
+"Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
-"PO-Revision-Date: 2009-07-29 11:08+0200\n"
+"PO-Revision-Date: 2009-09-22 21:33+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -461,12 +461,12 @@ msgstr ""
 "  -s, --search <regex> vyhledat balíčky v repositářích, odpovídající "
 "řetězci\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     aktualizovat všechny zastaralé balíčky (--uu umožní "
-"ponížení)\n"
+"  -u, --sysupgrade     aktualizovat nainstalované balíčky (--uu umožní "
+"ponížení verze)\n"
 
 #, c-format
 msgid ""
@@ -573,13 +573,13 @@ msgstr "problém při přidání adresáře s cache '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "současně lze spustit jen jednu operaci\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "nelze vytvořit nový adresář cache\n"
+msgstr "nelze se přesunout do adresáře pro stahování (%s)\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "spuštění XferCommand selhalo!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -671,7 +671,7 @@ msgstr "cesta k souboru je příliš dlouhá\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d souborů celkem, %d chybějících souborů\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -857,9 +857,9 @@ msgstr ":: %s: konflikt s %s\n"
 msgid " local database is up to date\n"
 msgstr " lokální databáze je aktuální\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "neexistuje databáze pro balíček: %s\n"
+msgstr "neexistuje URL pro balíček: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1104,9 +1104,8 @@ msgstr "Rozbalují se zdrojové soubory..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Nebyl nalezen zdrojový soubor %s pro rozbalení."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "vytváří se %s pomocí %s... "
+msgstr "Rozbaluje se %s pomocí %s"
 
 msgid "Failed to extract %s"
 msgstr "Selhalo rozbalení %s"
@@ -1284,9 +1283,8 @@ msgstr "  -f, --force      Přepsat existující balíček"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Vygenerovat kontrolní součty zdrojových souborů"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "  -g, --geninteg   Vygenerovat kontrolní součty zdrojových souborů"
+msgstr "      --skipinteg  Neselhat při absenci kontrolních součtů"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Vypsat nápovědu"
@@ -1647,9 +1645,8 @@ msgstr "Vytváří se'depends' záznam databáze..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Selhalo získání zamykacího souboru: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Vlastněný %s"
+msgstr "Vlastněný procesem %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Soubor repositáře '%s' není vhodná databáze pacman."

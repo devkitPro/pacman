@@ -1,7 +1,7 @@
 # translation of pt_BR.po to Brazillian Portuguese
 # Brazilian Portuguese translations for Pacman package manager package.
-# Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>
-# This file is distributed under the same license as the Pacman package manager package.
+# Copyright (C) 2009 Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the pacman package manager package.
 #
 #
 # Lincoln de Sousa <lincoln@archlinux-br.org>, 2007.
@@ -15,7 +15,7 @@
 # Marcelo Kalib <kalibslack@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-09-17 02:29+0200\n"
 "PO-Revision-Date: 2009-07-31 15:57-0300\n"
@@ -95,7 +95,6 @@ msgstr ":: Substituir %s por %s/%s?"
 msgid ":: %s conflicts with %s. Remove %s?"
 msgstr ":: %s conflita com %s. Remover %s?"
 
-# , c-format
 #, c-format
 msgid ""
 ":: the following package(s) cannot be upgraded due to unresolvable "
@@ -104,7 +103,6 @@ msgstr ""
 ":: Os seguintes pacotes não podem ser atualizados por motivo de dependências "
 "não satisfeitas:\n"
 
-# , c-format
 #, c-format
 msgid ""
 "\n"
@@ -289,12 +287,10 @@ msgstr "nenhum changelog disponível para '%s'.\n"
 msgid "options"
 msgstr "opções"
 
-# , c-format
 #, c-format
 msgid "file(s)"
 msgstr "arquivo(s)"
 
-# , c-format
 #, c-format
 msgid "package(s)"
 msgstr "pacote(s)"
@@ -410,7 +406,6 @@ msgstr ""
 msgid "  -l, --list           list the contents of the queried package\n"
 msgstr "  -l, --list           lista o conteúdo do pacote consultado\n"
 
-# , c-format
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
@@ -486,12 +481,12 @@ msgstr ""
 "  -s, --search <regex> pesquisa em repositórios remotos por textos "
 "coincidentes\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade       atualiza todos os pacotes que estão desatualizados "
-"no sistema (-uu habilita downgrades)\n"
+"  -u, --sysupgrade      atualiza os pacotes instalados (-uu permite "
+"downgrades)\n"
 
 #, c-format
 msgid ""
@@ -613,13 +608,13 @@ msgstr "problema ao adicionar cachedir '%s' (%s)\n"
 msgid "only one operation may be used at a time\n"
 msgstr "somente uma operação pode ser usada de cada vez\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "não foi possível criar um novo diretório de cache\n"
+msgstr "não foi enviar um chdir ao diretório de download %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "executando XferCommand: erro no fork!\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -711,7 +706,7 @@ msgstr "diretório do arquivo muito longo\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s: %d arquivos no total, %d arquivo(s) faltando\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -897,9 +892,9 @@ msgstr ":: %s: conflita com %s\n"
 msgid " local database is up to date\n"
 msgstr " base de dados local está atualizada\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "sem base de dados para pacote: %s\n"
+msgstr "sem URL para o pacote: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1145,9 +1140,8 @@ msgstr "Extraindo Fontes..."
 msgid "Unable to find source file %s for extraction."
 msgstr "Não foi possível encontrar arquivo fonte %s para extração."
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "gerando %s com %s... "
+msgstr "Extraindo %s com %s"
 
 msgid "Failed to extract %s"
 msgstr "Falha ao extrair %s"
@@ -1328,9 +1322,9 @@ msgstr "  -f, --force      Sobrescrever pacote existente"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Gera testes de integridade para arquivos fonte"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "  -g, --geninteg   Gera testes de integridade para arquivos fonte"
+msgstr ""
+"      --skipinteg   Não dar erro quando testes de integridade estão faltando"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Esta ajuda"
@@ -1715,9 +1709,8 @@ msgstr "Criando entrada 'depends' na base de dados..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "Falha ao adquirir o arquivo de lock: %s."
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "Contido por %s"
+msgstr "Contido pelo processo %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Arquivo de repositório '%s' não é uma base de dados do pacman."
