@@ -306,9 +306,14 @@ check_repo_db()
 	fi
 
 	if [ -f "$REPO_DB_FILE" ]; then
-		if ! bsdtar -tqf "$REPO_DB_FILE" '*/desc' 2>&1 >/dev/null; then
-			error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
-			exit 1
+		# there are two situations we can have here- a DB with some entries,
+		# or a DB with no contents at all.
+		if ! bsdtar -tqf "$REPO_DB_FILE" '*/desc' >/dev/null 2>&1; then
+			# check empty case
+			if [ -n "$(bsdtar -tqf "$REPO_DB_FILE" '*' 2>/dev/null)" ]; then
+				error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
+				exit 1
+			fi
 		fi
 		msg "$(gettext "Extracting database to a temporary location...")"
 		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir"
@@ -484,8 +489,9 @@ if [ $success -eq 1 ]; then
 	if [ -n "$(ls)" ]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
 	else
-		# the database will be moved to .old below, and there will be no new one to replace it
-		error "$(gettext "All packages have been removed from the database. Deleting '%s'.")" "$REPO_DB_FILE"
+		# we have no packages remaining? zip up some emptyness
+		warning "$(gettext "No packages remain, creating empty database.")"
+		bsdtar -c${TAR_OPT}f "$filename" -T /dev/null
 	fi
 	cd "$startdir"
 
