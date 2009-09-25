@@ -297,7 +297,7 @@ char *strtoupper(char *str)
 	char *ptr = str;
 
 	while(*ptr) {
-		(*ptr) = toupper(*ptr);
+		(*ptr) = toupper((unsigned char)*ptr);
 		ptr++;
 	}
 	return str;
@@ -314,7 +314,7 @@ char *strtrim(char *str)
 		return(str);
 	}
 
-	while(isspace(*pch)) {
+	while(isspace((unsigned char)*pch)) {
 		pch++;
 	}
 	if(pch != str) {
@@ -327,7 +327,7 @@ char *strtrim(char *str)
 	}
 
 	pch = (str + (strlen(str) - 1));
-	while(isspace(*pch)) {
+	while(isspace((unsigned char)*pch)) {
 		pch--;
 	}
 	*++pch = '\0';

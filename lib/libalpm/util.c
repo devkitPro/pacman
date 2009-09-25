@@ -175,7 +175,7 @@ char *_alpm_strtrim(char *str)
 		return(str);
 	}
 
-	while(isspace((int)*pch)) {
+	while(isspace((unsigned char)*pch)) {
 		pch++;
 	}
 	if(pch != str) {
@@ -188,7 +188,7 @@ char *_alpm_strtrim(char *str)
 	}
 
 	pch = (str + (strlen(str) - 1));
-	while(isspace((int)*pch)) {
+	while(isspace((unsigned char)*pch)) {
 		pch--;
 	}
 	*++pch = '\0';

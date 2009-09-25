@@ -495,7 +495,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				_alpm_strtrim(line);
 
-				char first = tolower(line[0]);
+				char first = tolower((unsigned char)line[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
 					setlocale(LC_TIME, "C");
@@ -511,7 +511,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 				_alpm_strtrim(line);
 
-				char first = tolower(line[0]);
+				char first = tolower((unsigned char)line[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
 					setlocale(LC_TIME, "C");

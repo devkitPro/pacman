@@ -82,7 +82,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			} else if(!strcmp(key, "license")) {
 				newpkg->licenses = alpm_list_add(newpkg->licenses, strdup(ptr));
 			} else if(!strcmp(key, "builddate")) {
-				char first = tolower(ptr[0]);
+				char first = tolower((unsigned char)ptr[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
 					setlocale(LC_TIME, "C");
