@@ -28,12 +28,12 @@
 
 /* Database entries */
 typedef enum _pmdbinfrq_t {
-	INFRQ_BASE = 0x01,
-	INFRQ_DESC = 0x02,
-	INFRQ_DEPENDS = 0x04,
-	INFRQ_FILES = 0x08,
-	INFRQ_SCRIPTLET = 0x10,
-	INFRQ_DELTAS = 0x20,
+	INFRQ_BASE = 1,
+	INFRQ_DESC = (1 << 1),
+	INFRQ_DEPENDS = (1 << 2),
+	INFRQ_FILES = (1 << 3),
+	INFRQ_SCRIPTLET = (1 << 4),
+	INFRQ_DELTAS = (1 << 5),
 	/* ALL should be sum of all above */
 	INFRQ_ALL = 0x3F
 } pmdbinfrq_t;

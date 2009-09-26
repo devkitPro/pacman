@@ -67,10 +67,10 @@ const char *alpm_version(void);
 
 /* Levels */
 typedef enum _pmloglevel_t {
-	PM_LOG_ERROR    = 0x01,
-	PM_LOG_WARNING  = 0x02,
-	PM_LOG_DEBUG    = 0x04,
-	PM_LOG_FUNCTION = 0x08
+	PM_LOG_ERROR    = 1,
+	PM_LOG_WARNING  = (1 << 1),
+	PM_LOG_DEBUG    = (1 << 2),
+	PM_LOG_FUNCTION = (1 << 3)
 } pmloglevel_t;
 
 typedef void (*alpm_cb_log)(pmloglevel_t, char *, va_list);
@@ -266,24 +266,24 @@ pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);
 
 /* Flags */
 typedef enum _pmtransflag_t {
-	PM_TRANS_FLAG_NODEPS = 0x01,
-	PM_TRANS_FLAG_FORCE = 0x02,
-	PM_TRANS_FLAG_NOSAVE = 0x04,
-	/* 0x08 flag can go here */
-	PM_TRANS_FLAG_CASCADE = 0x10,
-	PM_TRANS_FLAG_RECURSE = 0x20,
-	PM_TRANS_FLAG_DBONLY = 0x40,
-	/* 0x80 flag can go here */
-	PM_TRANS_FLAG_ALLDEPS = 0x100,
-	PM_TRANS_FLAG_DOWNLOADONLY = 0x200,
-	PM_TRANS_FLAG_NOSCRIPTLET = 0x400,
-	PM_TRANS_FLAG_NOCONFLICTS = 0x800,
-	/* 0x1000 flag can go here */
-	PM_TRANS_FLAG_NEEDED = 0x2000,
-	PM_TRANS_FLAG_ALLEXPLICIT = 0x4000,
-	PM_TRANS_FLAG_UNNEEDED = 0x8000,
-	PM_TRANS_FLAG_RECURSEALL = 0x10000,
-	PM_TRANS_FLAG_NOLOCK = 0x20000
+	PM_TRANS_FLAG_NODEPS = 1,
+	PM_TRANS_FLAG_FORCE = (1 << 1),
+	PM_TRANS_FLAG_NOSAVE = (1 << 2),
+	/* (1 << 3) flag can go here */
+	PM_TRANS_FLAG_CASCADE = (1 << 4),
+	PM_TRANS_FLAG_RECURSE = (1 << 5),
+	PM_TRANS_FLAG_DBONLY = (1 << 6),
+	/* (1 << 7) flag can go here */
+	PM_TRANS_FLAG_ALLDEPS = (1 << 8),
+	PM_TRANS_FLAG_DOWNLOADONLY = (1 << 9),
+	PM_TRANS_FLAG_NOSCRIPTLET = (1 << 10),
+	PM_TRANS_FLAG_NOCONFLICTS = (1 << 11),
+	/* (1 << 12) flag can go here */
+	PM_TRANS_FLAG_NEEDED = (1 << 13),
+	PM_TRANS_FLAG_ALLEXPLICIT = (1 << 14),
+	PM_TRANS_FLAG_UNNEEDED = (1 << 15),
+	PM_TRANS_FLAG_RECURSEALL = (1 << 16),
+	PM_TRANS_FLAG_NOLOCK = (1 << 17)
 } pmtransflag_t;
 
 /**
@@ -370,12 +370,12 @@ typedef enum _pmtransevt_t {
 
 /* Transaction Conversations (ie, questions) */
 typedef enum _pmtransconv_t {
-	PM_TRANS_CONV_INSTALL_IGNOREPKG = 0x01,
-	PM_TRANS_CONV_REPLACE_PKG = 0x02,
-	PM_TRANS_CONV_CONFLICT_PKG = 0x04,
-	PM_TRANS_CONV_CORRUPTED_PKG = 0x08,
-	PM_TRANS_CONV_LOCAL_NEWER = 0x10,
-	PM_TRANS_CONV_REMOVE_PKGS = 0x20,
+	PM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
+	PM_TRANS_CONV_REPLACE_PKG = (1 << 1),
+	PM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
+	PM_TRANS_CONV_CORRUPTED_PKG = (1 << 3),
+	PM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
+	PM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
 } pmtransconv_t;
 
 /* Transaction Progress */
