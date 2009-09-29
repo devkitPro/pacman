@@ -100,6 +100,15 @@ static struct url *url_for_string(const char *url)
 	return(ret);
 }
 
+static const char *gethost(struct url *fileurl)
+{
+	const char *host = _("disk");
+	if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
+		host = fileurl->host;
+	}
+	return(host);
+}
+
 static int download_internal(const char *url, const char *localpath,
 		time_t mtimeold, time_t *mtimenew) {
 	fetchIO *dlf = NULL;
@@ -107,7 +116,8 @@ static int download_internal(const char *url, const char *localpath,
 	struct url_stat ust;
 	struct stat st;
 	int chk_resume = 0, ret = 0;
-	size_t dl_thisfile = 0, nread = 0;
+	size_t dl_thisfile = 0;
+	ssize_t nread = 0;
 	char *tempfile, *destfile, *filename;
 	struct sigaction new_action, old_action;
 	struct url *fileurl = url_for_string(url);
@@ -170,13 +180,9 @@ static int download_internal(const char *url, const char *localpath,
 	}
 
 	if(fetchLastErrCode != 0 || dlf == NULL) {
-		const char *host = _("disk");
-		if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
-			host = fileurl->host;
-		}
 		pm_errno = PM_ERR_LIBFETCH;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, host, fetchLastErrString);
+				filename, gethost(fileurl), fetchLastErrString);
 		ret = -1;
 		goto cleanup;
 	} else {
@@ -231,8 +237,17 @@ static int download_internal(const char *url, const char *localpath,
 	}
 
 	/* did the transfer complete normally? */
+	if (nread == -1) {
+		/* not PM_ERR_LIBFETCH here because libfetch error string might be empty */
+		pm_errno = PM_ERR_RETRIEVE;
+		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s\n"),
+				filename, gethost(fileurl));
+		ret = -1;
+		goto cleanup;
+	}
+
 	if (ust.size != -1 && dl_thisfile < ust.size) {
-		pm_errno = PM_ERR_LIBFETCH;
+		pm_errno = PM_ERR_RETRIEVE;
 		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				filename, (intmax_t)dl_thisfile, (intmax_t)ust.size);
 		ret = -1;
