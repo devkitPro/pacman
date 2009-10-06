@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2009-10-04 16:48+0200\n"
-"PO-Revision-Date: 2009-07-30 20:25+0700\n"
+"PO-Revision-Date: 2009-10-06 19:12+0200\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -438,10 +438,10 @@ msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件仓库\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     升级所有过期软件包 (-uu 启用降级)\n"
+msgstr "  -u, --sysupgrade     升级所有已安装的软件包 (-uu 可启用降级)\n"
 
 #, c-format
 msgid ""
@@ -546,13 +546,13 @@ msgstr "设置缓存目录 '%1$s' (%2$s)时出现问题 \n"
 msgid "only one operation may be used at a time\n"
 msgstr "一次只能运行一个操作\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "无法创建新缓存目录\n"
+msgstr "无法 chdir 到下载目录 %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr ""
+msgstr "正在运行 XferCommand：分支失败！\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -640,7 +640,7 @@ msgstr "文件路径过长\n"
 
 #, c-format
 msgid "%s: %d total files, %d missing file(s)\n"
-msgstr ""
+msgstr "%s：共有 %d 文件，缺失 %d 文件\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -826,9 +826,9 @@ msgstr ":: %1$s: 与 %2$s 冲突\n"
 msgid " local database is up to date\n"
 msgstr "本地数据库已是最新的\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "no URL for package: %s\n"
-msgstr "无软件包的数据库：%s\n"
+msgstr "无软件包的URL：%s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1074,9 +1074,8 @@ msgstr "解压缩源码..."
 msgid "Unable to find source file %s for extraction."
 msgstr "无法找到源代码文件 %s 进行解压缩。"
 
-#, fuzzy
 msgid "Extracting %s with %s"
-msgstr "正在使用 %2$s 生成 %1$s..."
+msgstr "正在使用 %2$s 解压缩 %1$s"
 
 msgid "Failed to extract %s"
 msgstr "无法解压缩 %s"
@@ -1252,9 +1251,8 @@ msgstr "  -f, --force      覆盖现存的软件包"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   为源码文件生成完整性检查值"
 
-#, fuzzy
 msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "  -g, --geninteg   为源码文件生成完整性检查值"
+msgstr "  -g, --geninteg   如缺少完整性检查值也继续"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       获得帮助"
@@ -1601,9 +1599,8 @@ msgstr "正在生成 'depends' 数据库记录..."
 msgid "Failed to acquire lockfile: %s."
 msgstr "无法要求锁定文件：%s。"
 
-#, fuzzy
 msgid "Held by process %s"
-msgstr "保留由 %s"
+msgstr "被过程 %s 保留"
 
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "库文件 '%s' 不是一个有效的 pacman 数据库。"
