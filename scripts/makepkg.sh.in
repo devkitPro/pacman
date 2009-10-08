@@ -47,7 +47,7 @@ pkgdir="$startdir/pkg"
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
 other_options=('ccache' 'distcc' 'makeflags' 'force')
 splitpkg_overrides=('pkgdesc' 'license' 'groups' 'depends' 'optdepends' 'provides' \
-                    'conflicts' 'replaces' 'backup' 'options' 'install')
+                    'conflicts' 'replaces' 'backup' 'options' 'install' 'changelog')
 readonly -a packaging_options other_options splitpkg_overrides
 
 # Options
@@ -991,9 +991,9 @@ create_package() {
 	fi
 
 	# do we have a changelog?
-	if [ -f "$startdir/ChangeLog" ]; then
+	if [ -n "$changelog" ]; then
 		msg2 "$(gettext "Adding package changelog...")"
-		cp "$startdir/ChangeLog" .CHANGELOG
+		cp "$startdir/$changelog" .CHANGELOG
 		comp_files="$comp_files .CHANGELOG"
 	fi
 
@@ -1055,13 +1055,17 @@ create_srcpackage() {
 			msg2 "$(gettext "Adding install script...")"
 			ln -s "${startdir}/$install" "${srclinks}/${pkgbase}/"
 		else
-			error "$(gettext "Install script %s not found.")" "$install"
+			error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
 		fi
 	fi
 
-	if [ -f ChangeLog ]; then
-		msg2 "$(gettext "Adding %s...")" "ChangeLog"
-		ln -s "${startdir}/ChangeLog" "${srclinks}/${pkgbase}"
+	if [ -n "$changelog" ]; then
+		if [ -f "$changelog" ]; then
+			msg2 "$(gettext "Adding package changelog...")"
+			ln -s "${startdir}/$changelog" "${srclinks}/${pkgbase}/"
+		else
+			error "$(gettext "Changelog file (%s) does not exist.")" "$changelog"
+		fi
 	fi
 
 	local netfile
@@ -1190,6 +1194,11 @@ check_sanity() {
 
 	if [ "$install" -a ! -f "$install" ]; then
 		error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
+		return 1
+	fi
+
+	if [ -n "$changelog" -a ! -f "$changelog" ]; then
+		error "$(gettext "Changelog file (%s) does not exist.")" "$changelog"
 		return 1
 	fi
 
@@ -1646,7 +1655,7 @@ if [ "$ASROOT" -eq 0 \
 fi
 
 unset pkgname pkgbase pkgver pkgrel pkgdesc url license groups provides
-unset md5sums replaces depends conflicts backup source install build
+unset md5sums replaces depends conflicts backup source install changelog build
 unset makedepends optdepends options noextract
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}

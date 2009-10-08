@@ -21,6 +21,7 @@ replaces=()
 backup=()
 options=()
 install=
+changelog=
 source=($pkgbase-$pkgver.tar.gz)
 noextract=()
 md5sums=() #generate with 'makepkg -g'
@@ -44,6 +45,7 @@ package_pkg1() {
   backup=()
   options=()
   install=
+  changelog=
 
   cd "$srcdir/$pkgbase-$pkgver"
   make DESTDIR="$pkgdir/" install-pkg1

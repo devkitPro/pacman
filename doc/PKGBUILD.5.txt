@@ -79,6 +79,12 @@ similar to `$_basekernver`.
 	be copied into the package by makepkg. It does not need to be included
 	in the source array (e.g. `install=pkgname.install`).
 
+*changelog*::
+	Specifies a changelog file that is to be included in the package.
+	This file should reside in the same directory as the PKGBUILD, and will
+	be copied into the package by makepkg. It does not need to be included
+	in the source array (e.g. `changelog=$pkgname.changelog`).
+
 *source (array)*::
 	An array of source files required to build the package. Source files
 	must either reside in the same directory as the PKGBUILD file, or be a
@@ -271,7 +277,7 @@ All options and directives for the split packages default to the global values g
 within the PKGBUILD. However, some of these can be overridden within each split
 package's packaging function. The following variables can be overridden: `pkgdesc`,
 `license`, `groups`, `depends`, `optdepends`, `provides`, `conflicts`, `replaces`,
-`backup`, `options` and `install`.
+`backup`, `options`, `install` and `changelog`.
 
 An optional global directive is available when building a split package:
 

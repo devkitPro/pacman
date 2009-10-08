@@ -115,6 +115,12 @@ syn match pbValidInstall /\([[:alnum:]]\|\$\|+\|-\|_\)*\.install/ contained
 syn match pbIllegalInstall /[^=]/ contained contains=pbValidInstall
 syn match pbInstallGroup /^install=.*/ contains=pb_k_install,pbValidInstall,pbIllegalInstall,shDeref,shDoubleQuote,shSingleQuote
 
+" changelog
+syn keyword pb_k_changelog changelog contained
+syn match pbValidChangelog /\([[:alnum:]]\|\$\|+\|-\|_\)*/ contained
+syn match pbIllegalChangelog /[^=]/ contained contains=pbValidChangelog
+syn match pbChangelogGroup /^changelog=.*/ contains=pb_k_changelog,pbValidChangelog,pbIllegalChangelog,shDeref,shDoubleQuote,shSingleQuote
+
 " source:
 " XXX remove source from shStatement, fix strange bug
 syn clear shStatement
@@ -211,6 +217,9 @@ hi def link pb_k_provides pbKeywords
 
 hi def link pbIllegalInstall Error
 hi def link pb_k_install pbKeywords
+
+hi def link pbIllegalChangelog Error
+hi def link pb_k_changelog pbKeywords
 
 hi def link pb_k_source pbKeywords
 hi def link pbIllegalSource Error
