@@ -555,6 +555,21 @@ int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 	return pkg->scriptlet;
 }
 
+static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
+{
+	const alpm_list_t *i;
+	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
+		if(!i->data) {
+			continue;
+		}
+		pmpkg_t *cachepkg = i->data;
+		if(_alpm_dep_edge(cachepkg, pkg)) {
+			const char *cachepkgname = cachepkg->name;
+			*reqs = alpm_list_add(*reqs, strdup(cachepkgname));
+		}
+	}
+}
+
 /**
  * @brief Compute the packages requiring a given package.
  * @param pkg a package
@@ -564,16 +579,23 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 {
 	const alpm_list_t *i;
 	alpm_list_t *reqs = NULL;
+	pmdb_t *db;
 
-	pmdb_t *localdb = alpm_option_get_localdb();
-	for(i = _alpm_db_get_pkgcache(localdb); i; i = i->next) {
-		if(!i->data) {
-			continue;
-		}
-		pmpkg_t *cachepkg = i->data;
-		if(_alpm_dep_edge(cachepkg, pkg)) {
-			const char *cachepkgname = cachepkg->name;
-			reqs = alpm_list_add(reqs, strdup(cachepkgname));
+	if(pkg->origin == PKG_FROM_FILE) {
+		/* The sane option; search locally for things that require this. */
+		db = alpm_option_get_localdb();
+		find_requiredby(pkg, db, &reqs);
+	} else {
+		/* We have a DB package. if it is a local package, then we should
+		 * only search the local DB; else search all known sync databases. */
+		db = pkg->origin_data.db;
+		if(db->is_local) {
+			find_requiredby(pkg, db, &reqs);
+		} else {
+			for(i = handle->dbs_sync; i; i = i->next) {
+				db = i->data;
+				find_requiredby(pkg, db, &reqs);
+			}
 		}
 	}
 	return(reqs);

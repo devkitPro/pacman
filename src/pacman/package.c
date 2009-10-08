@@ -38,7 +38,9 @@
 
 /* Display the content of a package
  *
- * level: <0 - sync package [-Si]
+ * levels:
+ *       <-1 - sync package, extra information (required by) [-Sii]
+ *        -1 - sync package, normal level [-Si]
  *        =0 - file query [-Qip]
  *         1 - localdb query, normal level [-Qi]
  *        >1 - localdb query, extra information (backup files) [-Qii]
@@ -83,7 +85,7 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 		depstrings = alpm_list_add(depstrings, alpm_dep_compute_string(dep));
 	}
 
-	if(level>0) {
+	if(level > 0 || level < -1) {
 		/* compute this here so we don't get a pause in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
 	}
@@ -97,10 +99,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), depstrings);
 	list_display_linebreak(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
-	/* Only applicable if installed */
-	if(level > 0) {
+	if(level > 0 || level < -1) {
 		list_display(_("Required By    :"), requiredby);
-		FREELIST(requiredby);
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
@@ -142,17 +142,19 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	printf("\n");
 
 	FREELIST(depstrings);
+	FREELIST(requiredby);
 }
 
 /* Display the content of a sync package
  */
-void dump_pkg_sync(pmpkg_t *pkg, const char *treename)
+void dump_pkg_sync(pmpkg_t *pkg, const char *treename, int level)
 {
 	if(pkg == NULL) {
 		return;
 	}
 	string_display(_("Repository     :"), treename);
-	dump_pkg_full(pkg, -1);
+	/* invert the level since we are a sync package */
+	dump_pkg_full(pkg, -level);
 }
 
 /* Display list of backup files and their modification states
