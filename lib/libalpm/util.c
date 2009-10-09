@@ -333,12 +333,13 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 			char *found = alpm_list_find_str(list, prefix);
 			free(prefix);
 			if(!found) {
-				_alpm_log(PM_LOG_DEBUG, "skipping: %s\n", entryname);
 				if (archive_read_data_skip(_archive) != ARCHIVE_OK) {
 					ret = 1;
 					goto cleanup;
 				}
 				continue;
+			} else {
+				_alpm_log(PM_LOG_DEBUG, "extracting: %s\n", entryname);
 			}
 		}
 
