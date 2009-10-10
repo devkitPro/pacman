@@ -309,6 +309,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 
 	while(i) {
 		if(i->data == NULL) {
+			i = i->next;
 			continue;
 		}
 		tmp = i->next;
