@@ -368,7 +368,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	/* either extract or copy the scriptlet */
 	snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
 	if(!strcmp(script, "pre_upgrade") || !strcmp(script, "pre_install")) {
-		if(_alpm_unpack(installfn, tmpdir, ".INSTALL")) {
+		if(_alpm_unpack_single(installfn, tmpdir, ".INSTALL")) {
 			retval = 1;
 		}
 	} else {

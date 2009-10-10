@@ -245,7 +245,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 		/* uncompress the sync database */
 		checkdbdir(db);
-		ret = _alpm_unpack(dbfilepath, syncdbpath, NULL);
+		ret = _alpm_unpack(dbfilepath, syncdbpath, NULL, 0);
 		if(ret) {
 			free(dbfilepath);
 			RET_ERR(PM_ERR_SYSTEM, -1);

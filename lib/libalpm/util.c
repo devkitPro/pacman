@@ -238,14 +238,38 @@ int _alpm_lckrm()
 /* Compression functions */
 
 /**
- * @brief Unpack a specific file or all files in an archive.
+ * @brief Unpack a specific file in an archive.
  *
  * @param archive  the archive to unpack
  * @param prefix   where to extract the files
- * @param fn       a file within the archive to unpack or NULL for all
+ * @param fn       a file within the archive to unpack
  * @return 0 on success, 1 on failure
  */
-int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
+int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn)
+{
+	alpm_list_t *list = NULL;
+	int ret = 0;
+	if(fn == NULL) {
+		return(1);
+	}
+	list = alpm_list_add(list, (void *)fn);
+	ret = _alpm_unpack(archive, prefix, list, 1);
+	alpm_list_free(list);
+	return(ret);
+}
+
+/**
+ * @brief Unpack a list of files in an archive.
+ *
+ * @param archive  the archive to unpack
+ * @param prefix   where to extract the files
+ * @param list     a list of files within the archive to unpack or
+ * NULL for all
+ * @param breakfirst break after the first entry found
+ *
+ * @return 0 on success, 1 on failure
+ */
+int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int breakfirst)
 {
 	int ret = 0;
 	mode_t oldmask;
@@ -298,14 +322,23 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 			archive_entry_set_perm(entry, 0755);
 		}
 
-		/* If a specific file was requested skip entries that don't match. */
-		if (fn && strcmp(fn, entryname)) {
-			_alpm_log(PM_LOG_DEBUG, "skipping: %s\n", entryname);
-			if (archive_read_data_skip(_archive) != ARCHIVE_OK) {
-				ret = 1;
-				goto cleanup;
+		/* If specific files were requested, skip entries that don't match. */
+		if(list) {
+			char *prefix = strdup(entryname);
+			char *p = strstr(prefix,"/");
+			if(p) {
+				*(p+1) = '\0';
 			}
-			continue;
+			char *found = alpm_list_find_str(list, prefix);
+			free(prefix);
+			if(!found) {
+				_alpm_log(PM_LOG_DEBUG, "skipping: %s\n", entryname);
+				if (archive_read_data_skip(_archive) != ARCHIVE_OK) {
+					ret = 1;
+					goto cleanup;
+				}
+				continue;
+			}
 		}
 
 		/* Extract the archive entry. */
@@ -321,7 +354,7 @@ int _alpm_unpack(const char *archive, const char *prefix, const char *fn)
 			goto cleanup;
 		}
 
-		if(fn) {
+		if(breakfirst) {
 			break;
 		}
 	}

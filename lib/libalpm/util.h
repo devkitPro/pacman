@@ -26,6 +26,8 @@
 
 #include "config.h"
 
+#include "alpm_list.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -62,7 +64,8 @@ int _alpm_copyfile(const char *src, const char *dest);
 char *_alpm_strtrim(char *str);
 int _alpm_lckmk();
 int _alpm_lckrm();
-int _alpm_unpack(const char *archive, const char *prefix, const char *fn);
+int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn);
+int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int breakfirst);
 int _alpm_rmrf(const char *path);
 int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args);
 int _alpm_run_chroot(const char *root, const char *cmd);
