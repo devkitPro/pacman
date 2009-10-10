@@ -1,6 +1,6 @@
 self.description = "Synchronize the local database"
 
-if not "download" in "@LIBS@":
+if not "fetch" in "@LIBS@":
 	self.option['XferCommand'] = ['/usr/bin/curl %u > %o']
 
 sp1 = pmpkg("spkg1", "1.0-1")
