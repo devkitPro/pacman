@@ -295,7 +295,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 	return pkg->groups;
 }
 
-unsigned short SYMEXPORT alpm_pkg_has_force(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_has_force(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -541,7 +541,7 @@ int SYMEXPORT alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp)
 	return(ret);
 }
 
-unsigned short SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 

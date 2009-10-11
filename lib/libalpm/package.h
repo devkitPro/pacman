@@ -49,8 +49,8 @@ struct __pmpkg_t {
 	off_t size;
 	off_t isize;
 	off_t download_size;
-	unsigned short scriptlet;
-	unsigned short force;
+	int scriptlet;
+	int force;
 	pmpkgreason_t reason;
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;

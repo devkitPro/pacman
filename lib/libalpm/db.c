@@ -323,7 +323,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 
 /** @} */
 
-static pmdb_t *_alpm_db_new(const char *treename, unsigned short is_local)
+static pmdb_t *_alpm_db_new(const char *treename, int is_local)
 {
 	pmdb_t *db;
 

@@ -57,9 +57,9 @@ typedef struct _pmhandle_t {
 	alpm_list_t *ignoregrp;   /* List of groups to ignore */
 
 	/* options */
-	unsigned short usesyslog;    /* Use syslog instead of logfile? */ /* TODO move to frontend */
+	int usesyslog;    /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	char *arch;       /* Architecture of packages we should allow */
-	unsigned short usedelta;     /* Download deltas if possible */
+	int usedelta;     /* Download deltas if possible */
 } pmhandle_t;
 
 /* global handle variable */

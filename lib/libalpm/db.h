@@ -43,9 +43,9 @@ struct __pmdb_t {
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
 	char *_path;
-	unsigned short pkgcache_loaded;
-	unsigned short grpcache_loaded;
-	unsigned short is_local;
+	int pkgcache_loaded;
+	int grpcache_loaded;
+	int is_local;
 	alpm_list_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;

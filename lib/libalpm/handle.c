@@ -169,7 +169,7 @@ const char SYMEXPORT *alpm_option_get_lockfile()
 	return handle->lockfile;
 }
 
-unsigned short SYMEXPORT alpm_option_get_usesyslog()
+int SYMEXPORT alpm_option_get_usesyslog()
 {
 	if (handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
@@ -437,7 +437,7 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 	return(0);
 }
 
-void SYMEXPORT alpm_option_set_usesyslog(unsigned short usesyslog)
+void SYMEXPORT alpm_option_set_usesyslog(int usesyslog)
 {
 	handle->usesyslog = usesyslog;
 }
@@ -536,7 +536,7 @@ void SYMEXPORT alpm_option_set_arch(const char *arch)
 	if(arch) handle->arch = strdup(arch);
 }
 
-void SYMEXPORT alpm_option_set_usedelta(unsigned short usedelta)
+void SYMEXPORT alpm_option_set_usedelta(int usedelta)
 {
 	handle->usedelta = usedelta;
 }

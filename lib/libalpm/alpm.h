@@ -128,8 +128,8 @@ int alpm_option_set_logfile(const char *logfile);
 const char *alpm_option_get_lockfile();
 /* no set_lockfile, path is determined from dbpath */
 
-unsigned short alpm_option_get_usesyslog();
-void alpm_option_set_usesyslog(unsigned short usesyslog);
+int alpm_option_get_usesyslog();
+void alpm_option_set_usesyslog(int usesyslog);
 
 alpm_list_t *alpm_option_get_noupgrades();
 void alpm_option_add_noupgrade(const char *pkg);
@@ -154,7 +154,7 @@ int alpm_option_remove_ignoregrp(const char *grp);
 const char *alpm_option_get_arch();
 void alpm_option_set_arch(const char *arch);
 
-void alpm_option_set_usedelta(unsigned short usedelta);
+void alpm_option_set_usedelta(int usedelta);
 
 pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
@@ -195,7 +195,7 @@ typedef enum _pmpkgreason_t {
 	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
 } pmpkgreason_t;
 
-int alpm_pkg_load(const char *filename, unsigned short full, pmpkg_t **pkg);
+int alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
 char *alpm_fetch_pkgurl(const char *url);
@@ -231,8 +231,8 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp);
 /*int alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp);*/
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
-unsigned short alpm_pkg_has_scriptlet(pmpkg_t *pkg);
-unsigned short alpm_pkg_has_force(pmpkg_t *pkg);
+int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
+int alpm_pkg_has_force(pmpkg_t *pkg);
 
 off_t alpm_pkg_download_size(pmpkg_t *newpkg);
 

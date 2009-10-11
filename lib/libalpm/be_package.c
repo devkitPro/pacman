@@ -132,7 +132,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
  *             through the full archive
  * @return An information filled pmpkg_t struct
  */
-static pmpkg_t *pkg_load(const char *pkgfile, unsigned short full)
+static pmpkg_t *pkg_load(const char *pkgfile, int full)
 {
 	int ret = ARCHIVE_OK;
 	int config = 0;
@@ -269,8 +269,7 @@ error:
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_pkg_load(const char *filename, unsigned short full,
-		pmpkg_t **pkg)
+int SYMEXPORT alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg)
 {
 	ALPM_LOG_FUNC;
 

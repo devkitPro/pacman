@@ -380,8 +380,7 @@ int _alpm_rmrf(const char *path)
 	return(0);
 }
 
-int _alpm_logaction(unsigned short usesyslog, FILE *f,
-		const char *fmt, va_list args)
+int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
 {
 	int ret = 0;
 
