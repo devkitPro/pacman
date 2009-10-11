@@ -644,11 +644,65 @@ char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
 }
 
 /**
- * @brief Find the items in list `lhs` that are not present in list `rhs`.
+ * @brief Find the differences between list `left` and list `right`
  *
- * Entries are not duplicated. Operation is O(m*n). The first list is stepped
- * through one node at a time, and for each node in the first list, each node
- * in the second list is compared to it.
+ * The two lists must be sorted. Items only in list `left` are added to the
+ * `onlyleft` list. Items only in list `right` are added to the `onlyright`
+ * list.
+ *
+ * @param left      the first list
+ * @param right     the second list
+ * @param fn        the comparison function
+ * @param onlyleft  pointer to the first result list
+ * @param onlyright pointer to the second result list
+ *
+ */
+void SYMEXPORT alpm_list_diff_sorted(alpm_list_t *left,
+		alpm_list_t *right, alpm_list_fn_cmp fn,
+		alpm_list_t **onlyleft, alpm_list_t **onlyright)
+{
+	alpm_list_t *l = left;
+	alpm_list_t *r = right;
+
+	if(!onlyleft && !onlyright) {
+		return;
+	}
+
+	while (l != NULL && r != NULL) {
+		int cmp = fn(l->data, r->data);
+		if(cmp < 0) {
+			if(onlyleft) {
+				*onlyleft = alpm_list_add(*onlyleft, l->data);
+			}
+			l = l->next;
+		}
+		else if(cmp > 0) {
+			if(onlyright) {
+				*onlyright = alpm_list_add(*onlyright, r->data);
+			}
+			r = r->next;
+		} else {
+			l = l->next;
+			r = r->next;
+		}
+	}
+	while (l != NULL) {
+		if(onlyleft) {
+			*onlyleft = alpm_list_add(*onlyleft, l->data);
+		}
+		l = l->next;
+	}
+	while (r != NULL) {
+		if(onlyright) {
+			*onlyright = alpm_list_add(*onlyright, r->data);
+		}
+		r = r->next;
+	}
+}
+
+
+/**
+ * @brief Find the items in list `lhs` that are not present in list `rhs`.
  *
  * @param lhs the first list
  * @param rhs the second list
@@ -659,21 +713,18 @@ char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
 alpm_list_t SYMEXPORT *alpm_list_diff(const alpm_list_t *lhs,
 		const alpm_list_t *rhs, alpm_list_fn_cmp fn)
 {
-	const alpm_list_t *i, *j;
+	alpm_list_t *left, *right;
 	alpm_list_t *ret = NULL;
-	for(i = lhs; i; i = i->next) {
-		int found = 0;
-		for(j = rhs; j; j = j->next) {
-			if(fn(i->data, j->data) == 0) {
-				found = 1;
-				break;
-			}
-		}
-		if(!found) {
-			ret = alpm_list_add(ret, i->data);
-		}
-	}
 
+	left = alpm_list_copy(lhs);
+	left = alpm_list_msort(left, alpm_list_count(left), fn);
+	right = alpm_list_copy(rhs);
+	right = alpm_list_msort(right, alpm_list_count(right), fn);
+
+	alpm_list_diff_sorted(left, right, fn, &ret, NULL);
+
+	alpm_list_free(left);
+	alpm_list_free(right);
 	return(ret);
 }
 

@@ -78,6 +78,8 @@ void *alpm_list_find(const alpm_list_t *haystack, const void *needle, alpm_list_
 void *alpm_list_find_ptr(const alpm_list_t *haystack, const void *needle);
 char *alpm_list_find_str(const alpm_list_t *haystack, const char *needle);
 alpm_list_t *alpm_list_diff(const alpm_list_t *lhs, const alpm_list_t *rhs, alpm_list_fn_cmp fn);
+void alpm_list_diff_sorted(alpm_list_t *left, alpm_list_t *right,
+		alpm_list_fn_cmp fn, alpm_list_t **onlyleft, alpm_list_t **onlyright);
 
 #ifdef __cplusplus
 }
