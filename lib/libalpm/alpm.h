@@ -154,6 +154,7 @@ int alpm_option_remove_ignoregrp(const char *grp);
 const char *alpm_option_get_arch();
 void alpm_option_set_arch(const char *arch);
 
+int alpm_option_get_usedelta();
 void alpm_option_set_usedelta(int usedelta);
 
 pmdb_t *alpm_option_get_localdb();

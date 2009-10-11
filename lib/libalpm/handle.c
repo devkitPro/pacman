@@ -223,6 +223,15 @@ const char SYMEXPORT *alpm_option_get_arch()
 	return handle->arch;
 }
 
+int SYMEXPORT alpm_option_get_usedelta()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return -1;
+	}
+	return handle->usedelta;
+}
+
 pmdb_t SYMEXPORT *alpm_option_get_localdb()
 {
 	if (handle == NULL) {
