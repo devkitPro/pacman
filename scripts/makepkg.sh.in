@@ -46,7 +46,7 @@ pkgdir="$startdir/pkg"
 
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
 other_options=('ccache' 'distcc' 'makeflags' 'force')
-splitpkg_overrides=('pkgver' 'pkgrel' 'pkgdesc' 'license' 'groups' \
+splitpkg_overrides=('pkgver' 'pkgrel' 'pkgdesc' 'arch' 'license' 'groups' \
                     'depends' 'optdepends' 'provides' 'conflicts' 'replaces' \
                     'backup' 'options' 'install' 'changelog')
 readonly -a packaging_options other_options splitpkg_overrides
@@ -902,9 +902,7 @@ write_pkginfo() {
 	echo "builddate = $builddate" >>.PKGINFO
 	echo "packager = $packager" >>.PKGINFO
 	echo "size = $size" >>.PKGINFO
-	if [ -n "$CARCH" ]; then
-		echo "arch = $CARCH" >>.PKGINFO
-	fi
+	echo "arch = $PKGARCH" >>.PKGINFO
 	if [ "$(check_option force)" = "y" ]; then
 		echo "force = true" >> .PKGINFO
 	fi
@@ -983,6 +981,12 @@ create_package() {
 		nameofpkg="$1"
 	fi
 
+	if [ "$arch" = "any" ]; then
+		PKGARCH="any"
+	else
+		PKGARCH=$CARCH
+	fi
+
 	write_pkginfo $nameofpkg
 
 	local comp_files=".PKGINFO"
@@ -1011,7 +1015,7 @@ create_package() {
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$PKGEXT" ; EXT=$PKGEXT ;;
 	esac
-	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${CARCH}${EXT}"
+	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${EXT}"
 
 	local ret=0
 
@@ -1117,7 +1121,11 @@ install_package() {
 
 	local pkglist
 	for pkg in ${pkgname[@]}; do
-		pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+		if [ -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} ]; then
+			pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+		else
+			pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT}"
+		fi
 	done
 
 	local ret=0
@@ -1160,15 +1168,14 @@ check_sanity() {
 		return 1
 	fi
 
-	if [ "$arch" = 'any' ]; then
-		CARCH='any'
-	fi
-	if ! in_array $CARCH ${arch[@]}; then
-		if [ "$IGNOREARCH" -eq 0 ]; then
-			error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
-			plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
-			plain "$(gettext "such as arch=('%s').")" "$CARCH"
-			return 1
+	if [ "$arch" != 'any' ]; then
+		if ! in_array $CARCH ${arch[@]}; then
+			if [ "$IGNOREARCH" -eq 0 ]; then
+				error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
+				plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
+				plain "$(gettext "such as arch=('%s').")" "$CARCH"
+				return 1
+			fi
 		fi
 	fi
 
@@ -1714,8 +1721,9 @@ fi
 pkgbase=${pkgbase:-${pkgname[0]}}
 
 if [ "$SPLITPKG" -eq 0 ]; then
-	if [ -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-			-a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
+	if [ \( -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
+	     -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-any${PKGEXT}" \) \
+			 -a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
 		if [ "$INSTALL" -eq 1 ]; then
 			warning "$(gettext "A package has already been built, installing existing package...")"
 			install_package
@@ -1729,7 +1737,8 @@ else
 	allpkgbuilt=1
 	somepkgbuilt=0
 	for pkg in ${pkgname[@]}; do
-		if [ -f "$PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" ]; then
+		if [ \( -f "$PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
+		     -f "$PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT}" \) ]; then
 			somepkgbuilt=1
 		else
 			allpkgbuilt=0
@@ -1784,7 +1793,7 @@ if [ "$INFAKEROOT" -eq 1 ]; then
 	exit 0 # $E_OK
 fi
 
-msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel $CARCH ($(date))"
+msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel ($(date))"
 
 # if we are creating a source-only package, go no further
 if [ "$SOURCEONLY" -ne 0 ]; then
@@ -1908,7 +1917,7 @@ else
 	fi
 fi
 
-msg "$(gettext "Finished making: %s")" "$pkgbase $pkgver-$pkgrel $CARCH ($(date))"
+msg "$(gettext "Finished making: %s")" "$pkgbase $pkgver-$pkgrel ($(date))"
 
 install_package
 
