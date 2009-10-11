@@ -99,42 +99,6 @@ int getcols(void)
 	return 0;
 }
 
-/* does the same thing as 'mkdir -p' */
-int makepath(const char *path)
-{
-	/* A bit of pointer hell here. Descriptions:
-	 * orig - a copy of path so we can safely butcher it with strsep
-	 * str - the current position in the path string (after the delimiter)
-	 * ptr - the original position of str after calling strsep
-	 * incr - incrementally generated path for use in access/mkdir call
-	 */
-	char *orig, *str, *ptr, *incr;
-	mode_t oldmask = umask(0000);
-	int ret = 0;
-
-	orig = strdup(path);
-	incr = calloc(strlen(orig) + 1, sizeof(char));
-	str = orig;
-	while((ptr = strsep(&str, "/"))) {
-		if(strlen(ptr)) {
-			/* we have another path component- append the newest component to
-			 * existing string and create one more level of dir structure */
-			strcat(incr, "/");
-			strcat(incr, ptr);
-			if(access(incr, F_OK)) {
-				if(mkdir(incr, 0755)) {
-					ret = 1;
-					break;
-				}
-			}
-		}
-	}
-	free(orig);
-	free(incr);
-	umask(oldmask);
-	return(ret);
-}
-
 /* does the same thing as 'rm -rf' */
 int rmrf(const char *path)
 {
