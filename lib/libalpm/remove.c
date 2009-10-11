@@ -379,6 +379,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 		char scriptlet[PATH_MAX];
 		info = (pmpkg_t*)targ->data;
 		const char *pkgname = NULL;
+		int targcount = alpm_list_count(targ);
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			return(0);
@@ -399,7 +400,6 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 					alpm_pkg_get_version(info), NULL, trans);
 		}
 
-
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 			alpm_list_t *files = alpm_pkg_get_files(info);
 			for(lp = files; lp; lp = lp->next) {
@@ -411,20 +411,20 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 			}
 
 			int filenum = alpm_list_count(files);
-			double percent = 0.0;
 			alpm_list_t *newfiles;
 			_alpm_log(PM_LOG_DEBUG, "removing %d files\n", filenum);
 
 			/* iterate through the list backwards, unlinking files */
 			newfiles = alpm_list_reverse(files);
 			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
+				double percent;
 				unlink_file(info, lp->data, NULL, trans->flags & PM_TRANS_FLAG_NOSAVE);
 
 				/* update progress bar after each file */
 				percent = (double)position / (double)filenum;
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name,
 						(double)(percent * 100), pkg_count,
-						(pkg_count - alpm_list_count(targ) + 1));
+						(pkg_count - targcount + 1));
 				position++;
 			}
 			alpm_list_free(newfiles);
@@ -432,7 +432,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 
 		/* set progress to 100% after we finish unlinking files */
 		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
-		         pkg_count, (pkg_count - alpm_list_count(targ) + 1));
+		         pkg_count, (pkg_count - targcount + 1));
 
 		/* run the post-remove script if it exists  */
 		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
