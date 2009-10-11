@@ -453,13 +453,13 @@ void string_display(const char *title, const char *string)
 	int len = 0;
 
 	if(title) {
-		/* compute the length of title + a space */
-		len = string_length(title) + 1;
 		printf("%s ", title);
 	}
 	if(string == NULL || string[0] == '\0') {
 		printf(_("None"));
 	} else {
+		/* compute the length of title + a space */
+		len = string_length(title) + 1;
 		indentprint(string, len);
 	}
 	printf("\n");

@@ -612,7 +612,7 @@ static char *get_filename(const char *url) {
 static char *get_destfile(const char *path, const char *filename) {
 	char *destfile;
 	/* len = localpath len + filename len + null */
-	int len = strlen(path) + strlen(filename) + 1;
+	size_t len = strlen(path) + strlen(filename) + 1;
 	destfile = calloc(len, sizeof(char));
 	snprintf(destfile, len, "%s%s", path, filename);
 
@@ -622,7 +622,7 @@ static char *get_destfile(const char *path, const char *filename) {
 static char *get_tempfile(const char *path, const char *filename) {
 	char *tempfile;
 	/* len = localpath len + filename len + '.part' len + null */
-	int len = strlen(path) + strlen(filename) + 6;
+	size_t len = strlen(path) + strlen(filename) + 6;
 	tempfile = calloc(len, sizeof(char));
 	snprintf(tempfile, len, "%s%s.part", path, filename);
 
