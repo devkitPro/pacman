@@ -455,7 +455,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcfname;
 
-	int totaldownload;
+	int totaldownload = 0;
 	off_t xfered, total;
 	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
@@ -472,9 +472,14 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	/* only use TotalDownload if enabled and we have a callback value */
 	if(config->totaldownload && list_total) {
-		totaldownload = 1;
-	} else {
-		totaldownload = 0;
+		/* sanity check */
+		if(list_xfered + file_total <= list_total) {
+			totaldownload = 1;
+		} else {
+			/* bogus values : don't enable totaldownload and reset */
+			list_xfered = 0;
+			list_total = 0;
+		}
 	}
 
 	if(totaldownload) {
@@ -483,6 +488,11 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	} else {
 		xfered = file_xfered;
 		total = file_total;
+	}
+
+	/* bogus values : stop here */
+	if(xfered > total) {
+		return;
 	}
 
 	/* this is basically a switch on xfered: 0, total, and

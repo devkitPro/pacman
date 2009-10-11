@@ -26,7 +26,8 @@ HTML_MANPAGES = \
 HTML_OTHER = \
 	index.html \
 	submitting-patches.html \
-	translation-help.html
+	translation-help.html \
+	HACKING.html
 
 HTML_DOCS = \
 	$(HTML_MANPAGES) \
@@ -97,6 +98,10 @@ $(ASCIIDOC_MANS): asciidoc.conf footer.txt
 
 %.html: %.txt
 	asciidoc $(ASCIIDOC_OPTS) -a linkcss $*.txt
+	dos2unix $@
+
+HACKING.html: ../HACKING
+	asciidoc $(ASCIIDOC_OPTS) -a linkcss -o $@ ../HACKING
 	dos2unix $@
 
 # Customizations for certain HTML docs

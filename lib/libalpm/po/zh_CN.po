@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-09-17 02:04+0200\n"
-"PO-Revision-Date: 2009-07-30 20:39+0700\n"
+"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"PO-Revision-Date: 2009-10-08 20:48+0700\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr "正在用目标清单中的 %3$s 替换老版本 %1$s-%2$s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr "跳过 %1$s-%2$s，因为较新版本的 %3$s 在目标清单中\n"
+msgstr "正在跳过 %1$s-%2$s，因为较新版本的 %3$s 在目标清单中\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting packages were found in target list\n"
 msgstr "目标清单中发现有冲突的软件包\n"
 
@@ -101,9 +101,9 @@ msgstr "无法更新数据库记录 %1$s-%2$s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "无法在缓存中添加记录 '%s' \n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing invalid database: %s\n"
-msgstr "无法删除数据库 %s\n"
+msgstr "正在删除无效的数据库： %s\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -212,6 +212,10 @@ msgstr "无法写入文件 '%s'\n"
 #, c-format
 msgid "error writing to file '%s': %s\n"
 msgstr "写入文件 '%1$s' 时出错: %2$s\n"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s\n"
+msgstr "无法从 %2$s 获取文件 '%1$s'\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -397,9 +401,9 @@ msgstr "未预期的错误"
 msgid "could not find %s in database -- skipping\n"
 msgstr "无法在数据库中找到 %s -- 跳过\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s from target list\n"
-msgstr "正在从目标清单中删除 '%1$s' ，因为它和 '%2$s' 冲突\n"
+msgstr "正在从目标清单中删除 '%s' \n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
@@ -529,9 +533,9 @@ msgstr "无法更改根目录 (%s)\n"
 msgid "could not change directory to / (%s)\n"
 msgstr "无法切换目录到 / (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "call to popen failed (%s)\n"
-msgstr "调用 popen 失败 (%s)"
+msgstr "调用 popen 失败 (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
