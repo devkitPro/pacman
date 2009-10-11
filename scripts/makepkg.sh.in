@@ -1077,9 +1077,15 @@ create_srcpackage() {
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd "$srcdir"
-	download_sources
-	# We can only check checksums if we have all files.
-	check_checksums
+	if (( ! SKIPINTEG || SOURCEONLY == 2 )); then
+		download_sources
+	fi
+	if (( ! SKIPINTEG )); then
+		# We can only check checksums if we have all files.
+		check_checksums
+	else
+		warning "$(gettext "Skipping integrity checks.")"
+	fi
 	cd "$startdir"
 
 	msg "$(gettext "Creating source package...")"
