@@ -253,7 +253,7 @@ int SYMEXPORT alpm_trans_release()
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
-	unsigned int nolock_flag = trans->flags & PM_TRANS_FLAG_NOLOCK;
+	int nolock_flag = trans->flags & PM_TRANS_FLAG_NOLOCK;
 
 	_alpm_trans_free(trans);
 	handle->trans = NULL;
@@ -407,7 +407,7 @@ cleanup:
 	return(retval);
 }
 
-unsigned int SYMEXPORT alpm_trans_get_flags()
+int SYMEXPORT alpm_trans_get_flags()
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return(-1));

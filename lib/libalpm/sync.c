@@ -691,7 +691,7 @@ static int apply_deltas(pmtrans_t *trans)
 			pmdelta_t *d = dlts->data;
 			char *delta, *from, *to;
 			char command[PATH_MAX];
-			int len = 0;
+			size_t len = 0;
 
 			delta = _alpm_filecache_find(d->delta);
 			/* the initial package might be in a different cachedir */

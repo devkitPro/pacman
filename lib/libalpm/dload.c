@@ -59,7 +59,7 @@ static char *get_filename(const char *url) {
 static char *get_destfile(const char *path, const char *filename) {
 	char *destfile;
 	/* len = localpath len + filename len + null */
-	int len = strlen(path) + strlen(filename) + 1;
+	size_t len = strlen(path) + strlen(filename) + 1;
 	CALLOC(destfile, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
 	snprintf(destfile, len, "%s%s", path, filename);
 
@@ -69,7 +69,7 @@ static char *get_destfile(const char *path, const char *filename) {
 static char *get_tempfile(const char *path, const char *filename) {
 	char *tempfile;
 	/* len = localpath len + filename len + '.part' len + null */
-	int len = strlen(path) + strlen(filename) + 6;
+	size_t len = strlen(path) + strlen(filename) + 6;
 	CALLOC(tempfile, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
 	snprintf(tempfile, len, "%s%s.part", path, filename);
 
@@ -92,7 +92,7 @@ static int download_internal(const char *url, const char *localpath,
 	struct url_stat ust;
 	struct stat st;
 	int chk_resume = 0, ret = 0;
-	size_t dl_thisfile = 0;
+	off_t dl_thisfile = 0;
 	ssize_t nread = 0;
 	char *tempfile, *destfile, *filename;
 	struct sigaction new_action, old_action;
@@ -300,7 +300,7 @@ int _alpm_download_single_file(const char *filename,
 	for(i = servers; i; i = i->next) {
 		const char *server = i->data;
 		char *fileurl = NULL;
-		int len;
+		size_t len;
 
 		/* print server + filename into a buffer */
 		len = strlen(server) + strlen(filename) + 2;

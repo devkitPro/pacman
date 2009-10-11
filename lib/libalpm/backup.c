@@ -33,7 +33,7 @@
 #include "util.h"
 
 /* split a backup string "file\thash" into two strings : file and hash */
-int _alpm_backup_split(const char *string, char **file, char **hash)
+static int backup_split(const char *string, char **file, char **hash)
 {
 	char *str = strdup(string);
 	char *ptr;
@@ -65,14 +65,14 @@ int _alpm_backup_split(const char *string, char **file, char **hash)
 char *_alpm_backup_file(const char *string)
 {
 	char *file = NULL;
-	_alpm_backup_split(string, &file, NULL);
+	backup_split(string, &file, NULL);
 	return(file);
 }
 
 char *_alpm_backup_hash(const char *string)
 {
 	char *hash = NULL;
-	_alpm_backup_split(string, NULL, &hash);
+	backup_split(string, NULL, &hash);
 	return(hash);
 }
 
@@ -95,7 +95,7 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 		char *hash = NULL;
 
 		/* no hash found */
-		if(!_alpm_backup_split((char *)lp->data, &filename, &hash)) {
+		if(!backup_split((char *)lp->data, &filename, &hash)) {
 			FREE(filename);
 			continue;
 		}

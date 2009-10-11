@@ -199,7 +199,7 @@ static int extract_single_file(struct archive *archive,
 				/* case 12: existing dir, ignore it */
 				if(lsbuf.st_mode != entrymode) {
 					/* if filesystem perms are different than pkg perms, warn user */
-					int mask = 07777;
+					mode_t mask = 07777;
 					_alpm_log(PM_LOG_WARNING, _("directory permissions differ on %s\n"
 								"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
 							entrymode & mask);
