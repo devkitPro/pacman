@@ -636,12 +636,8 @@ check_checksums() {
 	done
 
 	if (( ! correlation )); then
-		if (( SKIPINTEG )); then
-			warning "$(gettext "Integrity checks are missing.")"
-		else
-			error "$(gettext "Integrity checks are missing.")"
-			exit 1 # TODO: error code
-		fi
+		error "$(gettext "Integrity checks are missing.")"
+		exit 1 # TODO: error code
 	fi
 }
 
@@ -1970,7 +1966,11 @@ elif (( REPKG )); then
 	fi
 else
 	download_sources
-	check_checksums
+	if (( ! SKIPINTEG )); then
+		check_checksums
+	else
+		warning "$(gettext "Skipping integrity checks.")"
+	fi
 	extract_sources
 fi
 
