@@ -200,8 +200,7 @@ char *_alpm_strtrim(char *str)
 int _alpm_lckmk()
 {
 	int fd;
-	pid_t pid;
-	char *dir, *ptr, *spid = NULL;
+	char *dir, *ptr;
 	const char *file = alpm_option_get_lockfile();
 
 	/* create the dir of the lockfile first */
@@ -216,13 +215,11 @@ int _alpm_lckmk()
 	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1
 			&& errno == EINTR);
 	if(fd > 0) {
-		pid = getpid();
-		size_t len = snprintf(spid, 0, "%ld\n", (long)pid) + 1;
-		spid = malloc(len);
-		snprintf(spid, len, "%ld\n", (long)pid);
-		while(write(fd, (void *)spid, len) == -1 && errno == EINTR);
+		FILE *f = fdopen(fd, "w");
+		fprintf(f, "%ld\n", (long)getpid());
+		fflush(f);
 		fsync(fd);
-		free(spid);
+		fclose(f);
 		return(fd);
 	}
 	return(-1);
