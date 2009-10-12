@@ -147,6 +147,7 @@ static int download_internal(const char *url, const char *localpath,
 	 * something along those lines. Store the old signal handler first. */
 	new_action.sa_handler = SIG_IGN;
 	sigemptyset(&new_action.sa_mask);
+	new_action.sa_flags = 0;
 	sigaction(SIGPIPE, NULL, &old_action);
 	sigaction(SIGPIPE, &new_action, NULL);
 
