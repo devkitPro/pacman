@@ -88,6 +88,24 @@ enum {
 	PM_OP_DEPTEST
 };
 
+/* Long Operations */
+enum {
+	OP_NOCONFIRM = 1000,
+	OP_CONFIG,
+	OP_IGNORE,
+	OP_DEBUG,
+	OP_NOPROGRESSBAR,
+	OP_NOSCRIPTLET,
+	OP_ASK,
+	OP_CACHEDIR,
+	OP_ASDEPS,
+	OP_LOGFILE,
+	OP_IGNOREGROUP,
+	OP_NEEDED,
+	OP_ASEXPLICIT,
+	OP_ARCH
+};
+
 /* clean method */
 enum {
 	PM_CLEAN_KEEPINST = 0, /* default */

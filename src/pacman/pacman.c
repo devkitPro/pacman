@@ -378,20 +378,20 @@ static int parseargs(int argc, char *argv[])
 		{"verbose",    no_argument,       0, 'v'},
 		{"downloadonly", no_argument,     0, 'w'},
 		{"refresh",    no_argument,       0, 'y'},
-		{"noconfirm",  no_argument,       0, 1000},
-		{"config",     required_argument, 0, 1001},
-		{"ignore",     required_argument, 0, 1002},
-		{"debug",      optional_argument, 0, 1003},
-		{"noprogressbar", no_argument,    0, 1004},
-		{"noscriptlet", no_argument,      0, 1005},
-		{"ask",        required_argument, 0, 1006},
-		{"cachedir",   required_argument, 0, 1007},
-		{"asdeps",     no_argument,       0, 1008},
-		{"logfile",    required_argument, 0, 1009},
-		{"ignoregroup", required_argument, 0, 1010},
-		{"needed",     no_argument,       0, 1011},
-		{"asexplicit",     no_argument,   0, 1012},
-		{"arch",       required_argument, 0, 1013},
+		{"noconfirm",  no_argument,       0, OP_NOCONFIRM},
+		{"config",     required_argument, 0, OP_CONFIG},
+		{"ignore",     required_argument, 0, OP_IGNORE},
+		{"debug",      optional_argument, 0, OP_DEBUG},
+		{"noprogressbar", no_argument,    0, OP_NOPROGRESSBAR},
+		{"noscriptlet", no_argument,      0, OP_NOSCRIPTLET},
+		{"ask",        required_argument, 0, OP_ASK},
+		{"cachedir",   required_argument, 0, OP_CACHEDIR},
+		{"asdeps",     no_argument,       0, OP_ASDEPS},
+		{"logfile",    required_argument, 0, OP_LOGFILE},
+		{"ignoregroup", required_argument, 0, OP_IGNOREGROUP},
+		{"needed",     no_argument,       0, OP_NEEDED},
+		{"asexplicit",     no_argument,   0, OP_ASEXPLICIT},
+		{"arch",       required_argument, 0, OP_ARCH},
 		{0, 0, 0, 0}
 	};
 
@@ -403,21 +403,21 @@ static int parseargs(int argc, char *argv[])
 		}
 		switch(opt) {
 			case 0: break;
-			case 1000: config->noconfirm = 1; break;
-			case 1001:
+			case OP_NOCONFIRM: config->noconfirm = 1; break;
+			case OP_CONFIG:
 				if(config->configfile) {
 					free(config->configfile);
 				}
 				config->configfile = strndup(optarg, PATH_MAX);
 				break;
-			case 1002:
+			case OP_IGNORE:
 				list = strsplit(optarg, ',');
 				for(item = list; item; item = alpm_list_next(item)) {
 					alpm_option_add_ignorepkg((char *)alpm_list_getdata(item));
 				}
 				FREELIST(list);
 				break;
-			case 1003:
+			case OP_DEBUG:
 				/* debug levels are made more 'human readable' than using a raw logmask
 				 * here, error and warning are set in config_new, though perhaps a
 				 * --quiet option will remove these later */
@@ -440,34 +440,34 @@ static int parseargs(int argc, char *argv[])
 				/* progress bars get wonky with debug on, shut them off */
 				config->noprogressbar = 1;
 				break;
-			case 1004: config->noprogressbar = 1; break;
-			case 1005: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-			case 1006: config->noask = 1; config->ask = atoi(optarg); break;
-			case 1007:
+			case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
+			case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+			case OP_ASK: config->noask = 1; config->ask = atoi(optarg); break;
+			case OP_CACHEDIR:
 				if(alpm_option_add_cachedir(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
 							optarg, alpm_strerrorlast());
 					return(1);
 				}
 				break;
-			case 1008:
+			case OP_ASDEPS:
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
-			case 1009:
+			case OP_LOGFILE:
 				config->logfile = strndup(optarg, PATH_MAX);
 				break;
-			case 1010:
+			case OP_IGNOREGROUP:
 				list = strsplit(optarg, ',');
 				for(item = list; item; item = alpm_list_next(item)) {
 					alpm_option_add_ignoregrp((char *)alpm_list_getdata(item));
 				}
 				FREELIST(list);
 				break;
-			case 1011: config->flags |= PM_TRANS_FLAG_NEEDED; break;
-			case 1012:
+			case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
+			case OP_ASEXPLICIT:
 				config->flags |= PM_TRANS_FLAG_ALLEXPLICIT;
 				break;
-			case 1013:
+			case OP_ARCH:
 				setarch(optarg);
 				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
