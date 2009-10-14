@@ -497,6 +497,24 @@ download_sources() {
 	popd &>/dev/null
 }
 
+get_integlist() {
+	local integ
+	local integlist=()
+
+	for integ in md5 sha1 sha256 sha384 sha512; do
+		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
+		if [[ -n "$integrity_sums" ]]; then
+			integlist=(${integlist[@]} $integ)
+		fi
+	done
+
+	if (( ${#integlist[@]} > 0 )); then
+		echo ${integlist[@]}
+	else
+		echo ${INTEGRITY_CHECK[@]}
+	fi
+}
+
 generate_checksums() {
 	msg "$(gettext "Generating checksums for source files...")"
 	plain ""
@@ -506,8 +524,15 @@ generate_checksums() {
 		exit 1 # $E_MISSING_PROGRAM
 	fi
 
+	local integlist
+	if (( $# == 0 )); then
+		integlist=$(get_integlist)
+	else
+		integlist=$@
+	fi
+
 	local integ
-	for integ in ${INTEGRITY_CHECK[@]}; do
+	for integ in ${integlist[@]}; do
 		integ="${integ,,}"
 		case "$integ" in
 			md5|sha1|sha256|sha384|sha512) : ;;

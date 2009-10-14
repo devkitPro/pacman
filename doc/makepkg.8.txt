@@ -81,10 +81,11 @@ Options
 
 *-g, \--geninteg*::
 	For each source file in the source array of PKGBUILD, download the file
-	if required and generate integrity checks. The integrity checks
-	generated are determined by the value of the INTEGRITY_CHECK array in
-	linkman:makepkg.conf[5]. This output can be redirected into your
-	PKGBUILD for source validation using "`makepkg -g >> PKGBUILD`".
+	if required and generate integrity checks. The integrity checks generated
+	are determined by the checks present in the PKGBUILD, falling back to the
+	value of the INTEGRITY_CHECK array in makepkg.conf(5) if these are absent
+	This output can be redirected into your PKGBUILD for source validation
+	using "`makepkg -g >> PKGBUILD`".
 
 *--skipinteg*::
 	Do not fail when the PKGBUILD does not contain any integrity checks, just
