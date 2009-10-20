@@ -136,7 +136,8 @@ db_write_delta()
 		echo -e "%DELTAS%" >>$deltas
 	fi
 	# get md5sum and compressed size of package
-	md5sum="$(openssl dgst -md5 "$deltafile" | awk '{print $NF}')"
+	md5sum="$(openssl dgst -md5 "$deltafile")"
+	md5sum="${md5sum##* }"
 	csize=$(@SIZECMD@ "$deltafile")
 
 	oldfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (source)" | sed 's/.*: *//')
@@ -213,7 +214,8 @@ db_write_entry()
 	IFS=$OLDIFS
 
 	# get md5sum and compressed size of package
-	md5sum="$(openssl dgst -md5 "$pkgfile" | awk '{print $NF}')"
+	md5sum="$(openssl dgst -md5 "$pkgfile")"
+	md5sum="${md5sum##* }"
 	csize=$(@SIZECMD@ "$pkgfile")
 
 	# ensure $pkgname and $pkgver variables were found
