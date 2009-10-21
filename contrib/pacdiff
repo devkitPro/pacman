@@ -18,19 +18,23 @@
 #
 
 diffprog=${DIFFPROG:-vimdiff}
+diffsearchpath=${DIFFSEARCHPATH:-/etc}
 locate=0
 
 usage() {
 	echo "pacdiff : a simple pacnew/pacorig/pacsave updater"
 	echo "Usage : pacdiff [-l]"
-	echo "The -l/--locate flag makes pacdiff use locate rather than find"
+	echo "  -l/--locate makes pacdiff use locate rather than find"
+	echo "  DIFFPROG variable allows to override the default vimdiff"
+	echo "  DIFFSEARCHPATH allows to override the default /etc path"
+	echo "Example : DIFFPROG=meld DIFFSEARCHPATH=\"/boot /etc /usr\" pacdiff"
 }
 
 cmd() {
 	if [ $locate -eq 1 ]; then
 		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave
 	else
-		find /etc/ \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave \) -print0
+		find $diffsearchpath \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave \) -print0
 	fi
 }
 
