@@ -573,7 +573,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 		}
 		pmpkg_t *cachepkg = i->data;
 		if(_alpm_dep_edge(cachepkg, pkg)) {
-			const char *cachepkgname = alpm_pkg_get_name(cachepkg);
+			const char *cachepkgname = pkg->name;
 			reqs = alpm_list_add(reqs, strdup(cachepkgname));
 		}
 	}
@@ -896,7 +896,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
 	pmpkg_t *pkg1 = (pmpkg_t *)p1;
 	pmpkg_t *pkg2 = (pmpkg_t *)p2;
-	return(strcmp(alpm_pkg_get_name(pkg1), alpm_pkg_get_name(pkg2)));
+	return(strcmp(pkg1->name, pkg2->name));
 }
 
 /* Test for existence of a package in a alpm_list_t*
@@ -915,7 +915,7 @@ pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 	for(lp = haystack; lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(info && strcmp(alpm_pkg_get_name(info), needle) == 0) {
+		if(info && strcmp(info->name, needle) == 0) {
 			return(info);
 		}
 	}
