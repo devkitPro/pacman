@@ -155,7 +155,7 @@ clean_up() {
 		# If it's a clean exit and -c/--clean has been passed...
 		msg "$(gettext "Cleaning up...")"
 		rm -rf "$pkgdir" "$srcdir"
-		if [ -n "$pkgname" ]; then
+		if [ -n "$pkgbase" ]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
 			rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
 			if [ "$PKGFUNC" -eq 1 ]; then
