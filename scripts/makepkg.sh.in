@@ -336,7 +336,12 @@ download_file() {
 		dlcmd="$dlcmd \"$url\""
 	fi
 
-	eval $dlcmd || return $?
+	local ret=0
+	eval "$dlcmd || ret=\$?"
+	if [ $ret -gt 0 ]; then
+		[ ! -s "$dlfile" ] && rm -f -- "$dlfile"
+		return $ret
+	fi
 
 	# rename the temporary download file to the final destination
 	if [ "$dlfile" != "$file" ]; then
