@@ -1462,7 +1462,7 @@ if [ ! $(type -t gettext) ]; then
 	}
 fi
 
-ARGLIST=$@
+ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcCdefFghiLmop:rRsV"
@@ -1876,9 +1876,9 @@ else
 		msg "$(gettext "Entering fakeroot environment...")"
 
 		if [ -n "$newpkgver" ]; then
-			fakeroot -- $0 --forcever $newpkgver -F $ARGLIST || exit $?
+			fakeroot -- $0 --forcever $newpkgver -F "${ARGLIST[@]}" || exit $?
 		else
-			fakeroot -- $0 -F $ARGLIST || exit $?
+			fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
 		fi
 	fi
 fi
