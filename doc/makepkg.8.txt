@@ -149,6 +149,10 @@ Options
 	remote builder, or a tarball upload. Because integrity checks are verified,
 	all source files of the package need to be present or downloadable.
 
+*\--pkg <`list`>*::
+	Only build listed packages from a split package. The use of quotes is
+	necessary when specifying multiple packages. e.g. `--pkg "pkg1 pkg3"`
+
 *\--noconfirm*::
 	(Passed to pacman) Prevent pacman from waiting for user input before
 	proceeding with operations.

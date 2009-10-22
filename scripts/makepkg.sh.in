@@ -73,6 +73,7 @@ HOLDVER=0
 BUILDFUNC=0
 PKGFUNC=0
 SPLITPKG=0
+PKGLIST=""
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -1247,6 +1248,15 @@ check_sanity() {
 		done
 	fi
 
+	if [[ -n "${PKGLIST[@]}" ]]; then
+		for pkg in ${PKGLIST[@]}; do
+			if ! in_array $pkg ${pkgname[@]}; then
+				error "$(gettext "requested package %s is not provided in %s")" "$pkg" "$BUILDSCRIPT"
+				return 1
+			fi
+		done
+	fi
+
 	return 0
 }
 
@@ -1465,6 +1475,7 @@ usage() {
 	echo "$(gettext "  --asroot         Allow makepkg to run as root user")"
 	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	echo "$(gettext "  --holdver        Prevent automatic version bumping for development PKGBUILDs")"
+	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
 	echo "$(gettext "  --skipinteg      Do not fail when integrity checks are missing")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
 	echo
@@ -1501,7 +1512,7 @@ ARGLIST=("$@")
 OPT_SHORT="AcCdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,clean,cleancache,nodeps"
 OPT_LONG="$OPT_LONG,noextract,force,forcever:,geninteg,help,holdver"
-OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,rmdeps,repackage,skipinteg"
+OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,pkg:,rmdeps,repackage,skipinteg"
 OPT_LONG="$OPT_LONG,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
@@ -1539,6 +1550,7 @@ while true; do
 		-m|--nocolor)     USE_COLOR='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
+		--pkg)            shift; PKGLIST=$1 ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--skipinteg)      SKIPINTEG=1 ;;
@@ -1734,6 +1746,11 @@ elif [ $SPLITPKG -eq 0 -a "$(type -t package_${pkgname})" = "function" ]; then
 fi
 
 pkgbase=${pkgbase:-${pkgname[0]}}
+
+if [[ -n "${PKGLIST[@]}" ]]; then
+	unset pkgname
+	pkgname="${PKGLIST[@]}"
+fi
 
 if (( ! SPLITPKG )); then
 	if [[ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} \
