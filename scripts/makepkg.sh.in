@@ -344,7 +344,7 @@ download_file() {
 
 run_pacman() {
 	local ret=0
-	if (( ! ASROOT )) && [[ $1 != "-T" ]] && sudo -l $PACMAN &>/dev/null; then
+	if (( ! ASROOT )) && [[ $1 != "-T" && $1 != "-Qq" ]] && sudo -l $PACMAN &>/dev/null; then
 		sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
 	else
 		$PACMAN $PACMAN_OPTS "$@" || ret=$?
@@ -399,7 +399,6 @@ handle_deps() {
 }
 
 resolve_deps() {
-	# $pkgdeps is a GLOBAL variable, used by remove_deps()
 	local R_DEPS_SATISFIED=0
 	local R_DEPS_MISSING=1
 
@@ -409,7 +408,6 @@ resolve_deps() {
 	fi
 
 	if handle_deps $deplist; then
-		pkgdeps="$pkgdeps $deplist"
 		# check deps again to make sure they were resolved
 		deplist="$(check_deps $*)"
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
@@ -426,23 +424,24 @@ resolve_deps() {
 	return $R_DEPS_MISSING
 }
 
-# fix flyspray bug #5923
 remove_deps() {
-	# $pkgdeps is a GLOBAL variable, set by resolve_deps()
 	(( ! RMDEPS )) && return
-	[[ -z $pkgdeps ]] && return
 
-	local dep depstrip deplist
-	deplist=""
-	for dep in $pkgdeps; do
-		depstrip="${dep%%[<=>]*}"
-		deplist="$deplist $depstrip"
-	done
+	# check for packages removed during dependency install (e.g. due to conflicts)
+	# removing all installed packages is risky in this case
+	if [[ -n  $(comm -23 <(printf "%s\n" "${original_pkglist[@]}") \
+			<(printf "%s\n" "${current_pkglist[@]}")) ]]; then
+	  warning "$(gettext "Failed to remove installed dependencies.")"
+	  return 0
+	fi
+
+	local deplist=($(comm -13  <(printf "%s\n" "${original_pkglist[@]}") \
+			<(printf "%s\n" "${current_pkglist[@]}")))
+	(( ${#deplist[@]} == 0 )) && return
 
 	msg "Removing installed dependencies..."
-
 	# exit cleanly on failure to remove deps as package has been built successfully
-	if ! run_pacman -Rns $deplist; then
+	if ! run_pacman -Rn ${deplist[@]}; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return 0
 	fi
@@ -1866,14 +1865,15 @@ if (( SOURCEONLY )); then
 	exit 0
 fi
 
-# fix flyspray bug #5973
 if (( NODEPS || NOBUILD || REPKG )); then
 	# no warning message needed for nobuild, repkg
 	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
 elif [ $(type -p "${PACMAN%% *}") ]; then
-	unset pkgdeps # Set by resolve_deps() and used by remove_deps()
+	if (( RMDEPS )); then
+		original_pkglist=($(run_pacman -Qq | sort))    # required by remove_dep
+	fi
 	deperr=0
 
 	msg "$(gettext "Checking Runtime Dependencies...")"
@@ -1881,6 +1881,10 @@ elif [ $(type -p "${PACMAN%% *}") ]; then
 
 	msg "$(gettext "Checking Buildtime Dependencies...")"
 	resolve_deps ${makedepends[@]} || deperr=1
+
+	if (( RMDEPS )); then
+		current_pkglist=($(run_pacman -Qq | sort))    # required by remove_deps
+	fi
 
 	if (( deperr )); then
 		error "$(gettext "Could not resolve all dependencies.")"
