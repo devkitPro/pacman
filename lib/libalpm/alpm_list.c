@@ -616,7 +616,7 @@ static int ptr_cmp(const void *p, const void *q)
 /**
  * @brief Find an item in a list.
  *
- * Search for the item whos data matches that of the `needle`.
+ * Search for the item whose data matches that of the `needle`.
  *
  * @param needle   the data to search for (== comparison)
  * @param haystack the list
