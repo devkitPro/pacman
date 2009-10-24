@@ -1588,7 +1588,7 @@ if [ "$CLEANCACHE" -eq 1 ]; then
 	if [ -n "$SRCDEST" -a "$SRCDEST" != "$startdir" ]; then
 		msg "$(gettext "Cleaning up ALL files from %s.")" "$SRCDEST"
 		echo -n "$(gettext "    Are you sure you wish to do this? ")"
-		echo -n "$(gettext "[Y/n]")"
+		echo -n "$(gettext "[y/N]")"
 		read answer
 		answer="${answer^^}"
 		if [ "$answer" = "$(gettext "YES")" -o "$answer" = "$(gettext "Y")" ]; then
