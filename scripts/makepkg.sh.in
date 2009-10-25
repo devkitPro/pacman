@@ -1686,10 +1686,6 @@ if (( GENINTEG )); then
 	exit 0 # $E_OK
 fi
 
-if [ "$(type -t package)" = "function" ]; then
-	PKGFUNC=1
-fi
-
 # check the PKGBUILD for some basic requirements
 check_sanity || exit 1
 
@@ -1701,6 +1697,12 @@ devel_check
 devel_update
 
 if (( ${#pkgname[@]} > 1 )); then
+	SPLITPKG=1
+fi
+
+if [ "$(type -t package)" = "function" ]; then
+	PKGFUNC=1
+elif [ $SPLITPKG -eq 0 -a "$(type -t package_${pkgname})" = "function" ]; then
 	SPLITPKG=1
 fi
 
