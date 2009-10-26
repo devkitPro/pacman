@@ -1140,8 +1140,17 @@ check_sanity() {
 		error "$(gettext "%s is not allowed to be empty.")" "pkgrel"
 		return 1
 	fi
-	if [[ ${pkgname:0:1} == "-" ]]; then
-		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
+
+	local name
+	for name in "${pkgname[@]}"; do
+		if [[ ${name:0:1} = "-" ]]; then
+			error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
+			return 1
+		fi
+	done
+
+	if [[ ${pkgbase:0:1} = "-" ]]; then
+		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgbase"
 		return 1
 	fi
 	if [[ $pkgver != ${pkgver//-/} ]]; then
