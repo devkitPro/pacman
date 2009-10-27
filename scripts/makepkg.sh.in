@@ -70,6 +70,7 @@ LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
 HOLDVER=0
+BUILDFUNC=0
 PKGFUNC=0
 SPLITPKG=0
 
@@ -137,7 +138,9 @@ clean_up() {
 		rm -rf "$pkgdir" "$srcdir"
 		if [[ -n $pkgbase ]]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
-			rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
+			if (( BUILDFUNC )); then
+				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
+			fi
 			if (( PKGFUNC )); then
 				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
 			elif (( SPLITPKG )); then
@@ -1709,6 +1712,12 @@ if (( ${#pkgname[@]} > 1 )); then
 	SPLITPKG=1
 fi
 
+# test for available PKGBUILD functions
+# The exclamation mark is required here to avoid triggering the ERR trap when
+# a tested function does not exist.
+if [[ $(! type -t build) = "function" ]]; then
+	BUILDFUNC=1
+fi
 if [ "$(type -t package)" = "function" ]; then
 	PKGFUNC=1
 elif [ $SPLITPKG -eq 0 -a "$(type -t package_${pkgname})" = "function" ]; then
@@ -1764,7 +1773,7 @@ fi
 if (( INFAKEROOT )); then
 	if (( ! SPLITPKG )); then
 		if (( ! PKGFUNC )); then
-			if (( ! REPKG )); then
+			if (( BUILDFUNC && ! REPKG )); then
 				run_build
 				tidy_install
 			fi
@@ -1874,7 +1883,7 @@ else
 	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
 		if (( ! REPKG )); then
 			devel_update
-			run_build
+			(( BUILDFUNC )) && run_build
 		fi
 		if (( ! SPLITPKG )); then
 			if (( PKGFUNC )); then
@@ -1899,7 +1908,7 @@ else
 	else
 		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
 			devel_update
-			run_build
+			(( BUILDFUNC )) && run_build
 			cd "$startdir"
 		fi
 
