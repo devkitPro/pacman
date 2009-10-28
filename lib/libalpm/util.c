@@ -404,7 +404,8 @@ int _alpm_rmrf(const char *path)
 				}
 			}
 		} else {
-			if((dirp = opendir(path)) == (DIR *)-1) {
+			dirp = opendir(path);
+			if(!dirp) {
 				return(1);
 			}
 			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
