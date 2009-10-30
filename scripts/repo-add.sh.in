@@ -64,7 +64,7 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\n")"
+	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> ...\n")"
 	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
@@ -81,7 +81,8 @@ Use the -d/--delta flag to automatically generate and add a delta file\n\
 between the old entry and the new one, if the old package file is found\n\
 next to the new one.\n\n")"
 	printf "$(gettext "\
-Use the -f/--files flag to update a database including file entries.\n\n")"
+Use the -f/--files flag to update a database including file entries.\n\n
+See repo-add(8) for more details and descriptions of the available options.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
