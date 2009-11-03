@@ -148,6 +148,15 @@ clean_up() {
 					rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package_${pkg}.log"*
 				done
 			fi
+
+			# clean up dangling symlinks to packages
+			for pkg in ${pkgname[@]}; do
+				for file in ${pkg}-*-*-${CARCH}${PKGEXT}; do
+					if [[ -h $file && ! -e $file ]]; then
+						rm -f $file
+					fi
+				done
+			done
 		fi
 	fi
 
@@ -1002,21 +1011,22 @@ create_package() {
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$PKGEXT" ; EXT=$PKGEXT ;;
 	esac
-	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${EXT}"
+	local tar_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${EXT}"
+	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${PKGEXT}"
 
 	local ret=0
 
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
 	shopt -s nullglob
-	bsdtar -cf - $comp_files * > "$pkg_file" || ret=$?
+	bsdtar -cf - $comp_files * > "$tar_file" || ret=$?
 	shopt -u nullglob
 
 	if (( ! ret )); then
 		case "$PKGEXT" in
-			*tar.gz)  gzip -f -n "$pkg_file" ;;
-			*tar.bz2) bzip2 -f "$pkg_file" ;;
-			*tar.xz)  xz -z -f "$pkg_file" ;;
+			*tar.gz)  gzip -f -n "$tar_file" ;;
+			*tar.bz2) bzip2 -f "$tar_file" ;;
+			*tar.xz)  xz -z -f "$tar_file" ;;
 		esac
 		ret=$?
 	fi
@@ -1024,6 +1034,15 @@ create_package() {
 	if (( ret )); then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
+	fi
+
+	if (( ! ret )) && [[ "$PKGDEST" != "${startdir}" ]]; then
+		ln -sf "${pkg_file}" "${pkg_file/$PKGDEST/$startdir}"
+		ret=$?
+	fi
+
+	if (( ret )); then
+		warning "$(gettext "Failed to create symlink to package file.")"
 	fi
 }
 
