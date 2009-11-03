@@ -145,7 +145,7 @@ clean_up() {
 				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
 			elif (( SPLITPKG )); then
 				for pkg in ${pkgname[@]}; do
-					rm -f "${pkg}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
+					rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package_${pkg}.log"*
 				done
 			fi
 		fi
@@ -718,7 +718,7 @@ run_function() {
 
 	local ret=0
 	if (( LOGGING )); then
-		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-$pkgfunc.log"
+		BUILDLOG="${startdir}/${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-$pkgfunc.log"
 		if [[ -f $BUILDLOG ]]; then
 			local i=1
 			while true; do
