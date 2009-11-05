@@ -35,7 +35,7 @@ QUIET=0
 umask 0022
 
 msg() {
-	[ $QUIET -ne 0 ] && return
+	(( QUIET )) && return
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
 }
@@ -79,7 +79,7 @@ read_pkginfo()
 	for line in $(bsdtar -xOf "$1" .PKGINFO 2>/dev/null |
 		grep -v "^#" | sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
 		eval "$line"
-		if [ -n "$pkgname" -a -n "$pkgver" -a -n "$arch" ]; then
+		if [[ -n $pkgname && -n $pkgver && -n $arch ]]; then
 			IFS=$OLDIFS
 			return 0
 		fi
@@ -108,17 +108,17 @@ create_xdelta()
 	newver="$pkgver"
 	newarch="$arch"
 
-	if [ "$oldname" != "$newname" ]; then
+	if [[ $oldname != $newname ]]; then
 		error "$(gettext "The package names don't match : '%s' and '%s'")" "$oldname" "$newname"
 		return 1
 	fi
 
-	if [ "$oldarch" != "$newarch" ]; then
+	if [[ $oldarch != $newarch ]]; then
 		error "$(gettext "The package architectures don't match : '%s' and '%s'")" "$oldarch" "$newarch"
 		return 1
 	fi
 
-	if [ "$oldver" == "$newver" ]; then
+	if [[ $oldver == $newver ]]; then
 		error "$(gettext "Both packages have the same version : '%s'")" "$newver"
 		return 1
 	fi
@@ -128,12 +128,12 @@ create_xdelta()
 	local ret=0
 
 	xdelta3 -q -f -s "$oldfile" "$newfile" "$deltafile" || ret=$?
-	if [ $ret -ne 0 ]; then
+	if (( ret )); then
 		error "$(gettext "Delta could not be created.")"
 		return 1
 	else
 		msg "$(gettext "Generated delta : '%s'")" "$deltafile"
-		[ $QUIET -eq 1 ] && echo "$deltafile"
+		(( QUIET )) && echo "$deltafile"
 	fi
 	return 0
 }
@@ -142,22 +142,22 @@ case "$1" in
 	-q|--quiet) QUIET=1; shift ;;
 esac
 
-if [ $# -ne 2 ]; then
+if (( $# != 2 )); then
 	usage
 	exit 0
 fi
 
-if [ ! -f "$1" ]; then
+if [[ ! -f $1 ]]; then
 	error "$(gettext "File '%s' does not exist")" "$1"
 	exit 0
 fi
 
-if [ ! -f "$2" ]; then
+if [[ ! -f $2 ]]; then
 	error "$(gettext "File '%s' does not exist")" "$2"
 	exit 0
 fi
 
-if [ ! "$(type -p xdelta3)" ]; then
+if ! type xdelta3 &>/dev/null; then
 	error "$(gettext "Cannot find the xdelta3 binary! Is xdelta3 installed?")"
 	exit 1
 fi

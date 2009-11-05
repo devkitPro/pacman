@@ -74,23 +74,23 @@ die_r() {
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
-if [ ! $(type -t gettext) ]; then
+if ! type gettext &>/dev/null; then
 	gettext() {
 		echo "$@"
 	}
 fi
 
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
+if [[ $1 = "-h" || $1 = "--help" ]]; then
 	usage
 	exit 0
 fi
 
-if [ "$1" = "-V" -o "$1" = "--version" ]; then
+if [[ $1 = "-V" || $1 = "--version" ]]; then
 	version
 	exit 0
 fi
 
-if [ "$1" != "" ]; then
+if [[ -n $1 ]]; then
 	dbroot="$1"
 fi
 
@@ -99,11 +99,11 @@ if ! type diff >/dev/null 2>&1; then
 	die "$(gettext "diff tool was not found, please install diffutils.")"
 fi
 
-if [ ! -d "$dbroot" ]; then
+if [[ ! -d $dbroot ]]; then
 	die "$(gettext "%s does not exist or is not a directory.")" "$dbroot"
 fi
 
-if [ ! -w "$dbroot" ]; then
+if [[ ! -w $dbroot ]]; then
 	die "$(gettext "You must have correct permissions to optimize the database.")"
 fi
 
@@ -113,7 +113,7 @@ dbroot="${dbroot%/}"
 lockfile="${dbroot}/db.lck"
 
 # make sure pacman isn't running
-if [ -f "$lockfile" ]; then
+if [[ -f $lockfile ]]; then
 	die "$(gettext "Pacman lock file was found. Cannot run while pacman is running.")"
 fi
 # do not let pacman run while we do this
@@ -130,7 +130,7 @@ find "$dbroot" -type f | sort | xargs md5sum > "$workdir/pacsums.old"
 msg "$(gettext "Tar'ing up %s...")" "$dbroot"
 cd "$dbroot"
 bsdtar -czf "$workdir/pacman-db.tar.gz" ./
-if [ $? -ne 0 ]; then
+if (( $? )); then
 	rm -rf "$workdir"
 	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"
 fi
@@ -139,7 +139,7 @@ fi
 msg "$(gettext "Making and MD5sum'ing the new database...")"
 mkdir "$dbroot.new"
 bsdtar -xpf "$workdir/pacman-db.tar.gz" -C "$dbroot.new"
-if [ $? -ne 0 ]; then
+if (( $? )); then
        rm -rf "$workdir"
        die_r "$(gettext "Untar'ing %s failed.")" "$dbroot"
 fi
@@ -152,7 +152,7 @@ find "$dbroot.new" -type f | sort | \
 # step 4: compare the sums
 msg "$(gettext "Checking integrity...")"
 diff "$workdir/pacsums.old" "$workdir/pacsums.new" >/dev/null 2>&1
-if [ $? -ne 0 ]; then
+if (( $? )); then
 	# failed
 	# leave our pacman-optimize tmpdir for checking to see what doesn't match up
 	rm -rf "$dbroot.new"
@@ -167,7 +167,7 @@ mv "$dbroot" "$dbroot.old" || fail=1
 mv "$dbroot.new" "$dbroot" || fail=1
 chmod --reference="$dbroot.old" "$dbroot" || fail=1
 chown --reference="$dbroot.old" "$dbroot" || fail=1
-if [ $fail -ne 0 ]; then
+if (( fail )); then
 	# failure with our directory shuffle
 	die_r "$(gettext "New database substitution failed. Check for $dbroot,\n$dbroot.old, and $dbroot.new directories.")"
 fi

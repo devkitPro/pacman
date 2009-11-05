@@ -56,8 +56,8 @@ err() {
 # returns the fetching time, or timeout, or unreachable
 gettime() {
 	IFS=' ' output=( $(curl -s -m 10 -w "%{time_total} %{http_code}" "$1" -o/dev/null) )
-	[[ $? = 28 ]] && echo timeout && return
-	[[ ${output[1]} -ge 400 || ${output[1]} -eq 0 ]] && echo unreachable && return
+	(( $? == 28 )) && echo timeout && return
+	(( ${output[1]} >= 400 || ! ${output[1]} )) && echo unreachable && return
 	echo "${output[0]}"
 }
 
@@ -96,13 +96,13 @@ finaloutput() {
 		for line in "${sortedarray[@]}"; do
 			echo "${line#* } : ${line% *}"
 			((numiterator++))
-			[[ $NUM -ne 0 && $numiterator -ge $NUM ]] && break
+			(( NUM && numiterator >= NUM )) && break
 		done
 	else
 		for line in "${sortedarray[@]}"; do
 			echo "Server = ${line#* }"
 			((numiterator++))
-			[[ $NUM -ne 0 && $numiterator -ge $NUM ]] && break
+			(( NUM && numiterator >= NUM )) && break
 		done
 	fi
 	exit 0
@@ -112,7 +112,7 @@ finaloutput() {
 # Argument parsing
 [[ $1 ]] || usage
 while [[ $1 ]]; do
-	if [[ "${1:0:2}" = -- ]]; then
+	if [[ ${1:0:2} = -- ]]; then
 		case "${1:2}" in
 			help) usage ;;
 			version) version ;;
@@ -142,7 +142,7 @@ while [[ $1 ]]; do
 			done
 			shift $snum
 		fi
-	elif [[ -f "$1" ]]; then
+	elif [[ -f $1 ]]; then
 		FILE="1"
 		IFS=$'\n' linearray=( $(<$1) )
 		[[ $linearray ]] || err "File is empty."

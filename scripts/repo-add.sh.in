@@ -42,7 +42,7 @@ msg() {
 }
 
 msg2() {
-	[ $QUIET -ne 0 ] && return
+	(( QUIET )) && return
 	local mesg=$1; shift
 	printf "  -> ${mesg}\n" "$@" >&1
 }
@@ -90,7 +90,7 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 #		arg2 - List
 #		arg3 - File to write to
 write_list_entry() {
-	if [ -n "$2" ]; then
+	if [[ -n $2 ]]; then
 		echo "%$1%" >>$3
 		echo -e $2 >>$3
 	fi
@@ -102,7 +102,7 @@ find_pkgentry()
 	local pkgentry
 	for pkgentry in $tmpdir/$pkgname*; do
 		name=${pkgentry##*/}
-		if [ "${name%-*-*}" = "$pkgname" ]; then
+		if [[ ${name%-*-*} = $pkgname ]]; then
 			echo $pkgentry
 			return 0
 		fi
@@ -126,12 +126,12 @@ db_write_delta()
 	pkgname="$(get_delta_pkgname $deltafile)"
 
 	pkgentry=$(find_pkgentry $pkgname)
-	if [ -z "$pkgentry" ]; then
+	if [[ -z $pkgentry ]]; then
 		return 1
 	fi
 	deltas="$pkgentry/deltas"
 	# create deltas file if it does not already exist
-	if [ ! -f "$deltas" ]; then
+	if [[ ! -f $deltas ]]; then
 		msg2 "$(gettext "Creating 'deltas' db entry...")"
 		echo -e "%DELTAS%" >>$deltas
 	fi
@@ -162,11 +162,11 @@ db_remove_delta()
 	pkgname="$(get_delta_pkgname $deltafile)"
 
 	pkgentry=$(find_pkgentry $pkgname)
-	if [ -z "$pkgentry" ]; then
+	if [[ -z $pkgentry ]]; then
 		return 1
 	fi
 	deltas="$pkgentry/deltas"
-	if [ ! -f "$deltas" ]; then
+	if [[ ! -f $deltas ]]; then
 		return 1
 	fi
 	if grep -q "$filename" $deltas; then
@@ -219,14 +219,14 @@ db_write_entry()
 	csize=$(@SIZECMD@ "$pkgfile")
 
 	# ensure $pkgname and $pkgver variables were found
-	if [ -z "$pkgname" -o -z "$pkgver" ]; then
+	if [[ -z $pkgname || -z $pkgver ]]; then
 		error "$(gettext "Invalid package file '%s'.")" "$pkgfile"
 		return 1
 	fi
 
 	cd "$tmpdir"
 
-	if [ -d "$pkgname-$pkgver" ]; then
+	if [[ -d $pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 	fi
 
@@ -238,30 +238,30 @@ db_write_entry()
 	cd "$pkgname-$pkgver"
 
 	# restore an eventual deltas file
-	[ -f "../$pkgname.deltas" ] && mv "../$pkgname.deltas" deltas
+	[[ -f ../$pkgname.deltas ]] && mv "../$pkgname.deltas" deltas
 
 	# create desc entry
 	msg2 "$(gettext "Creating 'desc' db entry...")"
 	echo -e "%FILENAME%\n$(basename "$1")\n" >>desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
-	[ -n "$pkgbase" ] && echo -e "%BASE%\n$pkgbase\n" >>desc
+	[[ -n $pkgbase ]] && echo -e "%BASE%\n$pkgbase\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
-	[ -n "$pkgdesc" ] && echo -e "%DESC%\n$pkgdesc\n" >>desc
+	[[ -n $pkgdesc ]] && echo -e "%DESC%\n$pkgdesc\n" >>desc
 	write_list_entry "GROUPS" "$_groups" "desc"
-	[ -n "$csize" ] && echo -e "%CSIZE%\n$csize\n" >>desc
-	[ -n "$size" ] && echo -e "%ISIZE%\n$size\n" >>desc
+	[[ -n $csize ]] && echo -e "%CSIZE%\n$csize\n" >>desc
+	[[ -n $size ]] && echo -e "%ISIZE%\n$size\n" >>desc
 
 	# compute checksums
 	msg2 "$(gettext "Computing md5 checksums...")"
 	echo -e "%MD5SUM%\n$md5sum\n" >>desc
 
-	[ -n "$url" ] && echo -e "%URL%\n$url\n" >>desc
+	[[ -n $url ]] && echo -e "%URL%\n$url\n" >>desc
 	write_list_entry "LICENSE" "$_licenses" "desc"
-	[ -n "$arch" ] && echo -e "%ARCH%\n$arch\n" >>desc
-	[ -n "$builddate" ] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
-	[ -n "$packager" ] && echo -e "%PACKAGER%\n$packager\n" >>desc
+	[[ -n $arch ]] && echo -e "%ARCH%\n$arch\n" >>desc
+	[[ -n $builddate ]] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
+	[[ -n $packager ]] && echo -e "%PACKAGER%\n$packager\n" >>desc
 	write_list_entry "REPLACES" "$_replaces" "desc"
-	[ -n "$force" ] && echo -e "%FORCE%\n" >>desc
+	[[ -n $force ]] && echo -e "%FORCE%\n" >>desc
 
 	# create depends entry
 	msg2 "$(gettext "Creating 'depends' db entry...")"
@@ -283,9 +283,9 @@ db_remove_entry() {
 	local pkgname=$1
 	local notfound=1
 	local pkgentry=$(find_pkgentry $pkgname)
-	while [ -n "$pkgentry" ]; do
+	while [[ -n $pkgentry ]]; do
 		notfound=0
-		if [ -f "$pkgentry/deltas" ]; then
+		if [[ -f $pkgentry/deltas ]]; then
 			mv "$pkgentry/deltas" "$tmpdir/$pkgname.deltas"
 		fi
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
@@ -303,16 +303,16 @@ check_repo_db()
 		CLEAN_LOCK=1
 	else
 		error "$(gettext "Failed to acquire lockfile: %s.")" "$LOCKFILE"
-		[ -f "$LOCKFILE" ] && error "$(gettext "Held by process %s")" "$(cat $LOCKFILE)"
+		[[ -f $LOCKFILE ]] && error "$(gettext "Held by process %s")" "$(cat $LOCKFILE)"
 		exit 1
 	fi
 
-	if [ -f "$REPO_DB_FILE" ]; then
+	if [[ -f $REPO_DB_FILE ]]; then
 		# there are two situations we can have here- a DB with some entries,
 		# or a DB with no contents at all.
 		if ! bsdtar -tqf "$REPO_DB_FILE" '*/desc' >/dev/null 2>&1; then
 			# check empty case
-			if [ -n "$(bsdtar -tqf "$REPO_DB_FILE" '*' 2>/dev/null)" ]; then
+			if [[ -n $(bsdtar -tqf "$REPO_DB_FILE" '*' 2>/dev/null) ]]; then
 				error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
 				exit 1
 			fi
@@ -339,15 +339,15 @@ check_repo_db()
 
 add()
 {
-	if [ ! -f "$1" ]; then
+	if [[ ! -f $1 ]]; then
 		error "$(gettext "File '%s' not found.")" "$1"
 		return 1
 	fi
 
-	if [ "${1##*.}" == "delta" ]; then
+	if [[ ${1##*.} == "delta" ]]; then
 		deltafile=$1
 		msg "$(gettext "Adding delta '%s'")" "$deltafile"
-		if [ ! "$(type -p xdelta3)" ]; then
+		if ! type xdelta3 &>/dev/null; then
 			error "$(gettext "Cannot find the xdelta3 binary! Is xdelta3 installed?")"
 			exit 1
 		fi
@@ -371,7 +371,7 @@ add()
 
 remove()
 {
-	if [ "${1##*.}" == "delta" ]; then
+	if [[ ${1##*.} == "delta" ]]; then
 		deltafile=$1
 		msg "$(gettext "Searching for delta '%s'...")" "$deltafile"
 		if db_remove_delta "$deltafile"; then
@@ -405,8 +405,8 @@ clean_up() {
 	local exit_code=$?
 
 	cd "$startdir"
-	[ -d "$tmpdir" ] && rm -rf "$tmpdir"
-	[ $CLEAN_LOCK -eq 1 -a -f "$LOCKFILE" ] && rm -f "$LOCKFILE"
+	[[ -d $tmpdir ]] && rm -rf "$tmpdir"
+	(( CLEAN_LOCK )) && [[ -f $LOCKFILE ]] && rm -f "$LOCKFILE"
 
 	exit $exit_code
 }
@@ -414,7 +414,7 @@ clean_up() {
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
-if [ ! $(type -t gettext) ]; then
+if ! type gettext &>/dev/null; then
 	gettext() {
 		echo "$@"
 	}
@@ -427,7 +427,7 @@ esac
 
 # figure out what program we are
 cmd="$(basename $0)"
-if [ "$cmd" != "repo-add" -a "$cmd" != "repo-remove" ]; then
+if [[ $cmd != "repo-add" && $cmd != "repo-remove" ]]; then
 	error "$(gettext "Invalid command name '%s' specified.")" "$cmd"
 	exit 1
 fi
@@ -447,7 +447,7 @@ for arg in "$@"; do
 	case "$arg" in
 		-q|--quiet) QUIET=1;;
 		*)
-			if [ -z "$REPO_DB_FILE" ]; then
+			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
 				LOCKFILE="$REPO_DB_FILE.lck"
 				check_repo_db
@@ -462,7 +462,7 @@ for arg in "$@"; do
 done
 
 # if at least one operation was a success, re-zip database
-if [ $success -eq 1 ]; then
+if (( success )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 
 	case "$REPO_DB_FILE" in
@@ -476,7 +476,7 @@ if [ $success -eq 1 ]; then
 	filename=$(basename "$REPO_DB_FILE")
 
 	cd "$tmpdir"
-	if [ -n "$(ls)" ]; then
+	if [[ -n $(ls) ]]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
 	else
 		# we have no packages remaining? zip up some emptyness
@@ -485,8 +485,8 @@ if [ $success -eq 1 ]; then
 	fi
 	cd "$startdir"
 
-	[ -f "$REPO_DB_FILE" ] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
-	[ -f "$tmpdir/$filename" ] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
+	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 	exit 1
