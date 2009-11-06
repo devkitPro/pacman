@@ -1786,7 +1786,7 @@ msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel ($(date))"
 if [ "$SOURCEONLY" -ne 0 ]; then
 	if [ -f "$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}" \
 	     -a "$FORCE" -eq 0 ]; then
-		error "$(gettext "A package has already been built. (use -f to overwrite)")"
+		error "$(gettext "A source package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
 	create_srcpackage
