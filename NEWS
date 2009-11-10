@@ -1,5 +1,14 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.3.3         - correctly check the return code from opendir()
+              - fix possible infinite loop in alpm_list_remove()
+              - makepkg:
+                - quote arrays to preserve spaces in arrays (FS#16871)
+                - allow passing arguments with spaces
+                - adjust preselected option for clearing cache
+              - translations:
+                - zh_CN: fix positional parameter usage in makepkg (FS#16983)
+                - el: fix Y/N response translation (FS#16568)
 3.3.2         - fix infinite filesize download issue (FS#16359)
               - fix bogus download size on TotalDownload
               - documentation updates
