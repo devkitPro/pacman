@@ -371,10 +371,11 @@ handle_deps() {
 	fi
 
 	# we might need the new system environment
-	# set -e can cause problems during sourcing profile scripts
-	set +e
+	# avoid triggering the ERR trap
+	local restoretrap=$(trap -p ERR)
+	trap - ERR
 	source /etc/profile &>/dev/null
-	set -e
+	eval $restoretrap
 
 	return $R_DEPS_SATISFIED
 }
