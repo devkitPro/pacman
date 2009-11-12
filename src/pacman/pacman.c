@@ -234,7 +234,9 @@ static void cleanup(int ret) {
 static ssize_t xwrite(int fd, const void *buf, size_t count)
 {
 	ssize_t ret;
-	while((ret = write(fd, buf, count)) == -1 && errno == EINTR);
+	do {
+		ret = write(fd, buf, count);
+	} while(ret == -1 && errno == EINTR);
 	return(ret);
 }
 

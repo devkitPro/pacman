@@ -261,7 +261,10 @@ int SYMEXPORT alpm_trans_release()
 	/* unlock db */
 	if(!nolock_flag) {
 		if(handle->lckfd != -1) {
-			while(close(handle->lckfd) == -1 && errno == EINTR);
+			int fd;
+			do {
+				fd = close(handle->lckfd);
+			} while(fd == -1 && errno == EINTR);
 			handle->lckfd = -1;
 		}
 		if(_alpm_lckrm()) {

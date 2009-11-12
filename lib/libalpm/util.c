@@ -212,8 +212,9 @@ int _alpm_lckmk()
 	_alpm_makepath(dir);
 	FREE(dir);
 
-	while((fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000)) == -1
-			&& errno == EINTR);
+	do {
+		fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000);
+	} while (fd == -1 && errno == EINTR);
 	if(fd > 0) {
 		FILE *f = fdopen(fd, "w");
 		fprintf(f, "%ld\n", (long)getpid());
@@ -315,7 +316,7 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 
 		st = archive_entry_stat(entry);
 		entryname = archive_entry_pathname(entry);
-		
+
 		if(S_ISREG(st->st_mode)) {
 			archive_entry_set_perm(entry, 0644);
 		} else if(S_ISDIR(st->st_mode)) {
@@ -511,7 +512,9 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 		/* this code runs for the parent only (wait on the child) */
 		pid_t retpid;
 		int status;
-		while((retpid = waitpid(pid, &status, 0)) == -1 && errno == EINTR);
+		do {
+			retpid = waitpid(pid, &status, 0);
+		} while(retpid == -1 && errno == EINTR);
 		if(retpid == -1) {
 			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
 			          strerror(errno));
