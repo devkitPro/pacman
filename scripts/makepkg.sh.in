@@ -1096,9 +1096,9 @@ create_srcpackage() {
 }
 
 install_package() {
-	[ "$INSTALL" -eq 0 ] && return
+	(( ! INSTALL )) && return
 
-	if [ "$SPLITPKG" -eq 0 ]; then
+	if (( ! SPLITPKG )); then
 		msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
 	else
 		msg "$(gettext "Installing ${pkgbase} package group with pacman -U...")"
@@ -1106,7 +1106,7 @@ install_package() {
 
 	local pkglist
 	for pkg in ${pkgname[@]}; do
-		if [ -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} ]; then
+		if [[ -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} ]]; then
 			pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 		else
 			pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT}"
@@ -1114,13 +1114,13 @@ install_package() {
 	done
 
 	local ret=0
-	if [ "$ASROOT" -eq 0 ]; then
+	if (( ! ASROOT )); then
 		sudo pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
 	else
 		pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
 	fi
 
-	if [ $ret -ne 0 ]; then
+	if (( ret )); then
 		warning "$(gettext "Failed to install built package(s).")"
 		return 0
 	fi
@@ -1128,34 +1128,34 @@ install_package() {
 
 check_sanity() {
 	# check for no-no's in the build script
-	if [ -z "$pkgname" ]; then
+	if [[ -z $pkgname ]]; then
 		error "$(gettext "%s is not allowed to be empty.")" "pkgname"
 		return 1
 	fi
-	if [ -z "$pkgver" ]; then
+	if [[ -z $pkgver ]]; then
 		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
 		return 1
 	fi
-	if [ -z "$pkgrel" ]; then
+	if [[ -z $pkgrel ]]; then
 		error "$(gettext "%s is not allowed to be empty.")" "pkgrel"
 		return 1
 	fi
-	if [ "${pkgname:0:1}" == "-" ]; then
+	if [[ ${pkgname:0:1} == "-" ]]; then
 		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
 		return 1
 	fi
-	if [ "$pkgver" != "${pkgver//-/}" ]; then
+	if [[ $pkgver != ${pkgver//-/} ]]; then
 		error "$(gettext "%s is not allowed to contain hyphens.")" "pkgver"
 		return 1
 	fi
-	if [ "$pkgrel" != "${pkgrel//-/}" ]; then
+	if [[ $pkgrel != ${pkgrel//-/} ]]; then
 		error "$(gettext "%s is not allowed to contain hyphens.")" "pkgrel"
 		return 1
 	fi
 
-	if [ "$arch" != 'any' ]; then
+	if [[ $arch != 'any' ]]; then
 		if ! in_array $CARCH ${arch[@]}; then
-			if [ "$IGNOREARCH" -eq 0 ]; then
+			if (( ! IGNOREARCH )); then
 				error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
 				plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
 				plain "$(gettext "such as arch=('%s').")" "$CARCH"
@@ -1166,7 +1166,7 @@ check_sanity() {
 
 	local provide
 	for provide in ${provides[@]}; do
-		if [ $provide != ${provide//</} -o $provide != ${provide//>/} ]; then
+		if [[ $provide != ${provide//</} || $provide != ${provide//>/} ]]; then
 			error "$(gettext "Provides array cannot contain comparison (< or >) operators.")"
 			return 1
 		fi
@@ -1174,7 +1174,7 @@ check_sanity() {
 
 	local file
 	for file in "${backup[@]}"; do
-		if [ "${file:0:1}" = "/" ]; then
+		if [[ ${file:0:1} = "/" ]]; then
 			error "$(gettext "Invalid backup entry : %s")" "$file"
 			return 1
 		fi
@@ -1188,12 +1188,12 @@ check_sanity() {
 		fi
 	done
 
-	if [ "$install" -a ! -f "$install" ]; then
+	if [[ $install && ! -f $install ]]; then
 		error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
 		return 1
 	fi
 
-	if [ -n "$changelog" -a ! -f "$changelog" ]; then
+	if [[ -n $changelog && ! -f $changelog ]]; then
 		error "$(gettext "Changelog file (%s) does not exist.")" "$changelog"
 		return 1
 	fi
@@ -1204,20 +1204,20 @@ check_sanity() {
 		known=0
 		# check if option matches a known option or its inverse
 		for kopt in ${packaging_options[@]} ${other_options[@]}; do
-			if [ "${opt}" = "${kopt}" -o "${opt}" = "!${kopt}" ]; then
+			if [[ ${opt} = ${kopt} || ${opt} = "!${kopt}" ]]; then
 				known=1
 			fi
 		done
-		if [ $known -eq 0 ]; then
+		if (( ! known )); then
 			error "$(gettext "options array contains unknown option '%s'")" "$opt"
 			valid_options=0
 		fi
 	done
-	if [ $valid_options -eq 0 ]; then
+	if (( ! valid_options )); then
 		return 1
 	fi
 
-	if [ "${#pkgname[@]}" -gt "1" ]; then
+	if (( ${#pkgname[@]} > 1 )); then
 		for pkg in ${pkgname[@]}; do
 			if [ "$(type -t package_${pkg})" != "function" ]; then
 				error "$(gettext "missing package function for split package '%s'")" "$pkg"
@@ -1234,42 +1234,42 @@ devel_check() {
 
 	# Do not update pkgver if --holdver is set, when building a source package,
 	# when reading PKGBUILD from pipe (-f), or if we cannot write to the file (-w)
-	if [ "$HOLDVER" -eq 1 -o "$SOURCEONLY" -ne 0 -o ! -f "$BUILDFILE" \
-	                      -o ! -w "$BUILDFILE" ]; then
+	if (( HOLDVER || SOURCEONLY )) \
+		            || [[ ! -f $BUILDFILE || ! -w $BUILDFILE ]]; then
 		return
 	fi
 
-	if [ -z "$FORCE_VER" ]; then
+	if [[ -z $FORCE_VER ]]; then
 		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
 		# This will only be used on the first call to makepkg; subsequent
 		# calls to makepkg via fakeroot will explicitly pass the version
 		# number to avoid having to determine the version number twice.
 		# Also do a brief check to make sure we have the VCS tool available.
 		oldpkgver=$pkgver
-		if [ -n "${_darcstrunk}" -a -n "${_darcsmod}" ] ; then
+		if [[ -n ${_darcstrunk} && -n ${_darcsmod} ]] ; then
 			[ $(type -p darcs) ] || return 0
 			msg "$(gettext "Determining latest darcs revision...")"
 			newpkgver=$(date +%Y%m%d)
-		elif [ -n "${_cvsroot}" -a -n "${_cvsmod}" ] ; then
+		elif [[ -n ${_cvsroot} && -n ${_cvsmod} ]] ; then
 			[ $(type -p cvs) ] || return 0
 			msg "$(gettext "Determining latest cvs revision...")"
 			newpkgver=$(date +%Y%m%d)
-		elif [ -n "${_gitroot}" -a -n "${_gitname}" ] ; then
+		elif [[ -n ${_gitroot} && -n ${_gitname} ]] ; then
 			[ $(type -p git) ] || return 0
 			msg "$(gettext "Determining latest git revision...")"
 			newpkgver=$(date +%Y%m%d)
-		elif [ -n "${_svntrunk}" -a -n "${_svnmod}" ] ; then
+		elif [[ -n ${_svntrunk} && -n ${_svnmod} ]] ; then
 			[ $(type -p svn) ] || return 0
 			msg "$(gettext "Determining latest svn revision...")"
 			newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
-		elif [ -n "${_bzrtrunk}" -a -n "${_bzrmod}" ] ; then
+		elif [[ -n ${_bzrtrunk} && -n ${_bzrmod} ]] ; then
 			[ $(type -p bzr) ] || return 0
 			msg "$(gettext "Determining latest bzr revision...")"
 			newpkgver=$(bzr revno ${_bzrtrunk})
-		elif [ -n "${_hgroot}" -a -n "${_hgrepo}" ] ; then
+		elif [[ -n ${_hgroot} && -n ${_hgrepo} ]] ; then
 			[ $(type -p hg) ] || return 0
 			msg "$(gettext "Determining latest hg revision...")"
-			if [ -d ./src/$_hgrepo ] ; then
+			if [[ -d ./src/$_hgrepo ]] ; then
 				cd ./src/$_hgrepo
 				hg pull
 				hg update
@@ -1282,7 +1282,7 @@ devel_check() {
 			cd ../../
 		fi
 
-		if [ -n "$newpkgver" ]; then
+		if [[ -n $newpkgver ]]; then
 			msg2 "$(gettext "Version found: %s")" "$newpkgver"
 		fi
 
@@ -1302,9 +1302,9 @@ devel_update() {
 	#  ...
 	#  _foo=pkgver
 	#
-	if [ -n "$newpkgver" ]; then
-		if [ "$newpkgver" != "$pkgver" ]; then
-			if [ -f "$BUILDFILE" -a -w "$BUILDFILE" ]; then
+	if [[ -n $newpkgver ]]; then
+		if [[ $newpkgver != $pkgver ]]; then
+			if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
 				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
 				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
 				source "$BUILDFILE"
@@ -1323,7 +1323,7 @@ backup_package_variables() {
 restore_package_variables() {
 	for var in ${splitpkg_overrides[@]}; do
 		indirect="${var}_backup"
-		if [ -n "${!indirect}" ]; then
+		if [[ -n ${!indirect} ]]; then
 			eval "${var}=(\"\${$indirect[@]}\")"
 		else
 			unset ${var}
@@ -1338,21 +1338,21 @@ parse_options() {
 	local ret=0;
 	local unused_options=""
 
-	while [ -n "$1" ]; do
-		if [ ${1:0:2} = '--' ]; then
-			if [ -n "${1:2}" ]; then
+	while [[ -n $1 ]]; do
+		if [[ ${1:0:2} = '--' ]]; then
+			if [[ -n ${1:2} ]]; then
 				local match=""
 				for i in ${long_options//,/ }; do
-					if [ ${1:2} = ${i//:} ]; then
+					if [[ ${1:2} = ${i//:} ]]; then
 						match=$i
 						break
 					fi
 				done
-				if [ -n "$match" ]; then
-					if [ ${1:2} = $match ]; then
+				if [[ -n $match ]]; then
+					if [[ ${1:2} = $match ]]; then
 						printf ' %s' "$1"
 					else
-						if [ -n "$2" ]; then
+						if [[ -n $2 ]]; then
 							printf ' %s' "$1"
 							shift
 							printf " '%s'" "$1"
@@ -1369,15 +1369,15 @@ parse_options() {
 				shift
 				break
 			fi
-		elif [ ${1:0:1} = '-' ]; then
+		elif [[ ${1:0:1} = '-' ]]; then
 			for ((i=1; i<${#1}; i++)); do
-				if [[ "$short_options" =~ "${1:i:1}" ]]; then
-					if [[ "$short_options" =~ "${1:i:1}:" ]]; then
-						if [ -n "${1:$i+1}" ]; then
+				if [[ $short_options =~ ${1:i:1} ]]; then
+					if [[ $short_options =~ "${1:i:1}:" ]]; then
+						if [[ -n ${1:$i+1} ]]; then
 							printf ' -%s' "${1:i:1}"
 							printf " '%s'" "${1:$i+1}"
 						else
-							if [ -n "$2" ]; then
+							if [[ -n $2 ]]; then
 								printf ' -%s' "${1:i:1}"
 								shift
 								printf " '%s'" "${1}"
@@ -1402,13 +1402,13 @@ parse_options() {
 	done
 
 	printf " --"
-	if [ -n "$unused_options" ]; then
+	if [[ -n $unused_options ]]; then
 		for i in ${unused_options[@]}; do
 			printf ' %s' "$i"
 		done
 	fi
-	if [ -n "$1" ]; then
-		while [ -n "$1" ]; do
+	if [[ -n $1 ]]; then
+		while [[ -n $1 ]]; do
 			printf " '%s'" "${1}"
 			shift
 		done
@@ -1541,7 +1541,7 @@ _SRCDEST=${SRCDEST}
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
 
 # Source the config file; fail if it is not found
-if [ -r "$MAKEPKG_CONF" ]; then
+if [[ -r $MAKEPKG_CONF ]]; then
 	source "$MAKEPKG_CONF"
 else
 	error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
@@ -1550,13 +1550,13 @@ else
 fi
 
 # Source user-specific makepkg.conf overrides
-if [ -r ~/.makepkg.conf ]; then
+if [[ -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
 
 # check if messages are to be printed using color
 unset ALL_OFF BOLD BLUE GREEN RED YELLOW
-if [ -t 2 -a ! "$USE_COLOR" = "n" -a "$(check_buildenv color)" = "y" ]; then
+if [[ -t 2 && ! $USE_COLOR = "n" && $(check_buildenv color) = "y" ]]; then
 	ALL_OFF="$(tput sgr0)"
 	BOLD="$(tput bold)"
 	BLUE="${BOLD}$(tput setaf 4)"
@@ -1573,23 +1573,23 @@ SRCDEST=${_SRCDEST:-$SRCDEST}
 SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 
 
-if [ "$HOLDVER" -eq 1 -a -n "$FORCE_VER" ]; then
+if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
 	# The '\\0' is here to prevent gettext from thinking --holdver is an option
 	error "$(gettext "\\0--holdver and --forcever cannot both be specified" )"
 	exit 1
 fi
 
-if [ "$CLEANCACHE" -eq 1 ]; then
+if (( CLEANCACHE )); then
 	#fix flyspray feature request #5223
-	if [ -n "$SRCDEST" -a "$SRCDEST" != "$startdir" ]; then
+	if [[ -n $SRCDEST && $SRCDEST != $startdir ]]; then
 		msg "$(gettext "Cleaning up ALL files from %s.")" "$SRCDEST"
 		echo -n "$(gettext "    Are you sure you wish to do this? ")"
 		echo -n "$(gettext "[y/N]")"
 		read answer
 		answer="${answer^^}"
-		if [ "$answer" = "$(gettext "YES")" -o "$answer" = "$(gettext "Y")" ]; then
+		if [[ $answer = $(gettext YES) || $answer = $(gettext Y) ]]; then
 			rm "$SRCDEST"/*
-			if [ $? -ne 0 ]; then
+			if (( $? )); then
 				error "$(gettext "Problem removing files; you may not have correct permissions in %s")" "$SRCDEST"
 				exit 1
 			else
@@ -1610,40 +1610,39 @@ if [ "$CLEANCACHE" -eq 1 ]; then
 	fi
 fi
 
-if [ "$INFAKEROOT" -eq 0 ]; then
-	if [ $EUID -eq 0 -a "$ASROOT" -eq 0 ]; then
+if (( ! INFAKEROOT )); then
+	if (( EUID == 0 && ! ASROOT )); then
 		# Warn those who like to live dangerously.
 		error "$(gettext "Running makepkg as root is a BAD idea and can cause")"
 		plain "$(gettext "permanent, catastrophic damage to your system. If you")"
 		plain "$(gettext "wish to run as root, please use the --asroot option.")"
 		exit 1 # $E_USER_ABORT
-	elif [ $EUID -gt 0 -a "$ASROOT" -eq 1 ]; then
+	elif (( EUID > 0 && ASROOT )); then
 		# Warn those who try to use the --asroot option when they are not root
 		error "$(gettext "The --asroot option is meant for the root user only.")"
 		plain "$(gettext "Please rerun makepkg without the --asroot flag.")"
 		exit 1 # $E_USER_ABORT
-	elif [ "$(check_buildenv fakeroot)" = "y" -a $EUID -gt 0 ]; then
+	elif [[ $(check_buildenv fakeroot) = "y" ]] && (( EUID > 0 )); then
 		if [ ! $(type -p fakeroot) ]; then
 			error "$(gettext "Fakeroot must be installed if using the 'fakeroot' option")"
 			plain "$(gettext "in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
 			exit 1
 		fi
-	elif [ $EUID -gt 0 ]; then
+	elif (( EUID > 0 )); then
 		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
 		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
 		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
 		sleep 1
 	fi
 else
-	if [ -z "$FAKEROOTKEY" ]; then
+	if [[ -z $FAKEROOTKEY ]]; then
 		error "$(gettext "Do not use the '-F' option. This option is only for use by makepkg.")"
 		exit 1 # TODO: error code
 	fi
 fi
 
 # check for sudo if we will need it during makepkg execution
-if [ "$ASROOT" -eq 0 \
-     -a \( "$DEP_BIN" -eq 1 -o "$RMDEPS" -eq 1 -o "$INSTALL" -eq 1 \) ]; then
+if (( ! ASROOT && ( DEP_BIN || RMDEPS || INSTALL ) )); then
 	if [ ! "$(type -p sudo)" ]; then
 		error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"
 		plain "$(gettext "Missing dependencies cannot be installed or removed as a normal user")"
@@ -1657,8 +1656,8 @@ unset md5sums replaces depends conflicts backup source install changelog build
 unset makedepends optdepends options noextract
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
-if [ ! -f "$BUILDFILE" ]; then
-	if [ -t 0 ]; then
+if [[ ! -f $BUILDFILE ]]; then
+	if [[ -t 0 ]]; then
 		error "$(gettext "%s does not exist.")" "$BUILDFILE"
 		exit 1
 	else
@@ -1668,18 +1667,18 @@ if [ ! -f "$BUILDFILE" ]; then
 	fi
 else
 	crlftest=$(file "$BUILDFILE" | grep -F 'CRLF' || true)
-	if [ -n "$crlftest" ]; then
+	if [[ -n $crlftest ]]; then
 		error "$(gettext "%s contains CRLF characters and cannot be sourced.")" "$BUILDFILE"
 		exit 1
 	fi
 
-	if [ "${BUILDFILE:0:1}" != "/" ]; then
+	if [[ ${BUILDFILE:0:1} != "/" ]]; then
 		BUILDFILE="$startdir/$BUILDFILE"
 	fi
 	source "$BUILDFILE"
 fi
 
-if [ "$GENINTEG" -eq 1 ]; then
+if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	cd "$srcdir"
 	download_sources
@@ -1701,17 +1700,17 @@ check_sanity || exit 1
 devel_check
 devel_update
 
-if [ "${#pkgname[@]}" -gt "1" ]; then
+if (( ${#pkgname[@]} > 1 )); then
 	SPLITPKG=1
 fi
 
 pkgbase=${pkgbase:-${pkgname[0]}}
 
-if [ "$SPLITPKG" -eq 0 ]; then
-	if [ \( -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-	     -o -f "$PKGDEST/${pkgname}-${pkgver}-${pkgrel}-any${PKGEXT}" \) \
-			 -a "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
-		if [ "$INSTALL" -eq 1 ]; then
+if (( ! SPLITPKG )); then
+	if [[ -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} \
+	     || -f $PKGDEST/${pkgname}-${pkgver}-${pkgrel}-any${PKGEXT} ]] \
+			 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
+		if (( INSTALL )); then
 			warning "$(gettext "A package has already been built, installing existing package...")"
 			install_package
 			exit $?
@@ -1724,16 +1723,16 @@ else
 	allpkgbuilt=1
 	somepkgbuilt=0
 	for pkg in ${pkgname[@]}; do
-		if [ \( -f "$PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}" \
-		     -o -f "$PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT}" \) ]; then
+		if [[ -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} \
+		     || -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT} ]]; then
 			somepkgbuilt=1
 		else
 			allpkgbuilt=0
 		fi
 	done
-	if [ "$FORCE" -eq 0 -a "$SOURCEONLY" -eq 0 -a "$NOBUILD" -eq 0 ]; then
-		if [ "$allpkgbuilt" -eq 1 ]; then
-			if [ "$INSTALL" -eq 1 ]; then
+	if ! (( FORCE || SOURCEONLY || NOBUILD )); then
+		if (( allpkgbuilt )); then
+			if (( INSTALL )); then
 				warning "$(gettext "The package group has already been built, installing existing packages...")"
 				install_package
 				exit $?
@@ -1742,7 +1741,7 @@ else
 				exit 1
 			fi
 		fi
-		if [ "$somepkgbuilt" -eq 1 ]; then
+		if (( somepkgbuilt )); then
 			error "$(gettext "Part of the package group has already been built. (use -f to overwrite)")"
 			exit 1
 		fi
@@ -1751,10 +1750,10 @@ else
 fi
 
 # Run the bare minimum in fakeroot
-if [ "$INFAKEROOT" -eq 1 ]; then
-	if [ "$SPLITPKG" -eq 0 ]; then
-		if [ "$PKGFUNC" -eq 0 ]; then
-			if [ "$REPKG" -eq 0 ]; then
+if (( INFAKEROOT )); then
+	if (( ! SPLITPKG )); then
+		if (( ! PKGFUNC )); then
+			if (( ! REPKG )); then
 				run_build
 				tidy_install
 			fi
@@ -1783,9 +1782,9 @@ fi
 msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel ($(date))"
 
 # if we are creating a source-only package, go no further
-if [ "$SOURCEONLY" -ne 0 ]; then
-	if [ -f "$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}" \
-	     -a "$FORCE" -eq 0 ]; then
+if (( SOURCEONLY )); then
+	if [[ -f $PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT} ]] \
+	     && (( ! FORCE )); then
 		error "$(gettext "A source package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
@@ -1795,9 +1794,9 @@ if [ "$SOURCEONLY" -ne 0 ]; then
 fi
 
 # fix flyspray bug #5973
-if [ "$NODEPS" -eq 1 -o "$NOBUILD" -eq 1 -o "$REPKG" -eq 1 ]; then
+if (( NODEPS || NOBUILD || REPKG )); then
 	# no warning message needed for nobuild, repkg
-	if [ "$NODEPS" -eq 1 ]; then
+	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
 elif [ $(type -p pacman) ]; then
@@ -1810,7 +1809,7 @@ elif [ $(type -p pacman) ]; then
 	msg "$(gettext "Checking Buildtime Dependencies...")"
 	resolve_deps ${makedepends[@]} || deperr=1
 
-	if [ $deperr -eq 1 ]; then
+	if (( deperr )); then
 		error "$(gettext "Could not resolve all dependencies.")"
 		exit 1
 	fi
@@ -1825,19 +1824,19 @@ umask 0022
 mkdir -p "$srcdir"
 cd "$srcdir"
 
-if [ "$NOEXTRACT" -eq 1 ]; then
+if (( NOEXTRACT )); then
 	warning "$(gettext "Skipping source retrieval        -- using existing src/ tree")"
 	warning "$(gettext "Skipping source integrity checks -- using existing src/ tree")"
 	warning "$(gettext "Skipping source extraction       -- using existing src/ tree")"
 
-	if [ "$NOEXTRACT" -eq 1 -a -z "$(ls "$srcdir" 2>/dev/null)" ]; then
+	if (( NOEXTRACT )) && [[ -z $(ls "$srcdir" 2>/dev/null) ]]; then
 		error "$(gettext "The source directory is empty, there is nothing to build!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
 	fi
-elif [ "$REPKG" -eq 1 ]; then
-	if [ "$PKGFUNC" -eq 0 -a "$SPLITPKG" -eq 0 \
-	     -a \( ! -d "$pkgdir" -o -z "$(ls "$pkgdir" 2>/dev/null)" \) ]; then
+elif (( REPKG )); then
+	if (( ! PKGFUNC && ! SPLITPKG )) \
+	     && [[ ! -d $pkgdir || -z $(ls "$pkgdir" 2>/dev/null) ]]; then
 		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
@@ -1848,13 +1847,12 @@ else
 	extract_sources
 fi
 
-if [ "$NOBUILD" -eq 1 ]; then
+if (( NOBUILD )); then
 	msg "$(gettext "Sources are ready.")"
 	exit 0 #E_OK
 else
 	# check for existing pkg directory; don't remove if we are repackaging
-	if [ -d "$pkgdir" \
-	     -a \( "$REPKG" -eq 0 -o "$PKGFUNC" -eq 1 -o "$SPLITPKG" -eq 1 \) ]; then
+	if [[ -d $pkgdir ]] && (( ! REPKG || PKGFUNC || SPLITPKG )); then
 		msg "$(gettext "Removing existing pkg/ directory...")"
 		rm -rf "$pkgdir"
 	fi
@@ -1862,16 +1860,16 @@ else
 	cd "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
-	if [ "$(check_buildenv fakeroot)" != "y" -o $EUID -eq 0 ]; then
-		if [ "$REPKG" -eq 0 ]; then
+	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
+		if (( ! REPKG )); then
 			devel_update
 			run_build
 		fi
-		if [ "$SPLITPKG" -eq 0 ]; then
-			if [ "$PKGFUNC" -eq 1 ]; then
+		if (( ! SPLITPKG )); then
+			if (( PKGFUNC )); then
 				run_package
 				tidy_install
-			elif [ "$REPKG" -eq 0 ]; then
+			elif (( ! REPKG )); then
 				tidy_install
 			fi
 			create_package
@@ -1888,7 +1886,7 @@ else
 			done
 		fi
 	else
-		if [ "$REPKG" -eq 0 -a \( "$PKGFUNC" -eq 1 -o "$SPLITPKG" -eq 1 \) ]; then
+		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
 			devel_update
 			run_build
 			cd "$startdir"
@@ -1896,7 +1894,7 @@ else
 
 		msg "$(gettext "Entering fakeroot environment...")"
 
-		if [ -n "$newpkgver" ]; then
+		if [[ -n $newpkgver ]]; then
 			fakeroot -- $0 --forcever $newpkgver -F "${ARGLIST[@]}" || exit $?
 		else
 			fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
