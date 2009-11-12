@@ -112,7 +112,7 @@ error() {
 # the fakeroot call, the error message will be printed by the main call.
 ##
 trap_exit() {
-	if [ "$INFAKEROOT" -eq 0 ]; then
+	if (( ! INFAKEROOT )); then
 		echo
 		error "$@"
 	fi
@@ -126,21 +126,21 @@ trap_exit() {
 clean_up() {
 	local EXIT_CODE=$?
 
-	if [ "$INFAKEROOT" -eq 1 ]; then
+	if (( INFAKEROOT )); then
 		# Don't clean up when leaving fakeroot, we're not done yet.
 		return
 	fi
 
-	if [ $EXIT_CODE -eq 0 -a "$CLEANUP" -eq 1 ]; then
+	if (( ! EXIT_CODE && CLEANUP )); then
 		# If it's a clean exit and -c/--clean has been passed...
 		msg "$(gettext "Cleaning up...")"
 		rm -rf "$pkgdir" "$srcdir"
-		if [ -n "$pkgbase" ]; then
+		if [[ -n $pkgbase ]]; then
 			# Can't do this unless the BUILDSCRIPT has been sourced.
 			rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
-			if [ "$PKGFUNC" -eq 1 ]; then
+			if (( PKGFUNC )); then
 				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
-			elif [ "$SPLITPKG" -eq 1 ]; then
+			elif (( SPLITPKG )); then
 				for pkg in ${pkgname[@]}; do
 					rm -f "${pkg}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
 				done
@@ -190,14 +190,14 @@ get_url() {
 ##
 check_option() {
 	local ret=$(in_opt_array "$1" ${options[@]})
-	if [ "$ret" != '?' ]; then
+	if [[ $ret != '?' ]]; then
 		echo $ret
 		return
 	fi
 
 	# fall back to makepkg.conf options
 	ret=$(in_opt_array "$1" ${OPTIONS[@]})
-	if [ "$ret" != '?' ]; then
+	if [[ $ret != '?' ]]; then
 		echo $ret
 		return
 	fi
@@ -231,10 +231,10 @@ in_opt_array() {
 	local opt
 	for opt in "$@"; do
 		opt="${opt,,}"
-		if [ "$opt" = "$needle" ]; then
+		if [[ $opt = $needle ]]; then
 			echo 'y' # Enabled
 			return
-		elif [ "$opt" = "!$needle" ]; then
+		elif [[ $opt = "!$needle" ]]; then
 			echo 'n' # Disabled
 			return
 		fi
@@ -251,10 +251,10 @@ in_opt_array() {
 ##
 in_array() {
 	local needle=$1; shift
-	[ -z "$1" ] && return 1 # Not Found
+	[[ -z $1 ]] && return 1 # Not Found
 	local item
 	for item in "$@"; do
-		[ "$item" = "$needle" ] && return 0 # Found
+		[[ $item = $needle ]] && return 0 # Found
 	done
 	return 1 # Not Found
 }
@@ -268,14 +268,14 @@ get_downloadclient() {
 	local i
 	for i in "${DLAGENTS[@]}"; do
 		local handler="${i%%::*}"
-		if [ "$proto" = "$handler" ]; then
+		if [[ $proto = $handler ]]; then
 			agent="${i##*::}"
 			break
 		fi
 	done
 
 	# if we didn't find an agent, return an error
-	if [ -z "$agent" ]; then
+	if [[ -z $agent ]]; then
 		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_CONFIG_ERROR
@@ -283,7 +283,7 @@ get_downloadclient() {
 
 	# ensure specified program is installed
 	local program="${agent%% *}"
-	if [ ! -x "$program" ]; then
+	if [[ ! -x $program ]]; then
 		local baseprog=$(basename $program)
 		error "$(gettext "The download program %s is not installed.")" "$baseprog"
 		plain "$(gettext "Aborting...")"
@@ -317,25 +317,25 @@ download_file() {
 
 	local ret=0
 	eval "$dlcmd || ret=\$?"
-	if [ $ret -gt 0 ]; then
-		[ ! -s "$dlfile" ] && rm -f -- "$dlfile"
+	if (( ret )); then
+		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
 		return $ret
 	fi
 
 	# rename the temporary download file to the final destination
-	if [ "$dlfile" != "$file" ]; then
+	if [[ $dlfile != $file ]]; then
 		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
 	fi
 }
 
 check_deps() {
-	[ $# -gt 0 ] || return
+	(( $# > 0 )) || return
 
 	pmout=$(pacman $PACMAN_OPTS -T "$@")
 	ret=$?
-	if [ $ret -eq 127 ]; then #unresolved deps
+	if (( ret == 127 )); then #unresolved deps
 		echo "$pmout"
-	elif [ $ret -ne 0 ]; then
+	elif (( ret )); then
 		error "$(gettext "Pacman returned a fatal error (%i): %s")" "$ret" "$pmout"
 		exit 1
 	fi
@@ -345,26 +345,26 @@ handle_deps() {
 	local R_DEPS_SATISFIED=0
 	local R_DEPS_MISSING=1
 
-	[ $# -eq 0 ] && return $R_DEPS_SATISFIED
+	(( $# == 0 )) && return $R_DEPS_SATISFIED
 
 	local deplist="$*"
 
-	if [ "$DEP_BIN" -eq 0 ]; then
+	if (( ! DEP_BIN )); then
 		return $R_DEPS_MISSING
 	fi
 
-	if [ "$DEP_BIN" -eq 1 ]; then
+	if (( DEP_BIN )); then
 		# install missing deps from binary packages (using pacman -S)
 		msg "$(gettext "Installing missing dependencies...")"
 		local ret=0
 
-		if [ "$ASROOT" -eq 0 ]; then
+		if (( ! ASROOT )); then
 			sudo pacman $PACMAN_OPTS -S --asdeps $deplist || ret=$?
 		else
 			pacman $PACMAN_OPTS -S --asdeps $deplist || ret=$?
 		fi
 
-		if [ $ret -ne 0 ]; then
+		if (( ret )); then
 			error "$(gettext "Pacman failed to install missing dependencies.")"
 			exit 1 # TODO: error code
 		fi
@@ -386,7 +386,7 @@ resolve_deps() {
 	local R_DEPS_MISSING=1
 
 	local deplist="$(check_deps $*)"
-	if [ -z "$deplist" ]; then
+	if [[ -z $deplist ]]; then
 		return $R_DEPS_SATISFIED
 	fi
 
@@ -394,8 +394,8 @@ resolve_deps() {
 		pkgdeps="$pkgdeps $deplist"
 		# check deps again to make sure they were resolved
 		deplist="$(check_deps $*)"
-		[ -z "$deplist" ] && return $R_DEPS_SATISFIED
-	elif [ "$DEP_BIN" -eq 1 ]; then
+		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
+	elif (( DEP_BIN )); then
 		error "$(gettext "Failed to install all missing dependencies.")"
 	fi
 
@@ -411,8 +411,8 @@ resolve_deps() {
 # fix flyspray bug #5923
 remove_deps() {
 	# $pkgdeps is a GLOBAL variable, set by resolve_deps()
-	[ "$RMDEPS" -eq 0 ] && return
-	[ -z "$pkgdeps" ] && return
+	(( ! RMDEPS )) && return
+	[[ -z $pkgdeps ]] && return
 
 	local dep depstrip deplist
 	deplist=""
@@ -423,14 +423,14 @@ remove_deps() {
 
 	msg "Removing installed dependencies..."
 	local ret=0
-	if [ "$ASROOT" -eq 0 ]; then
+	if (( ! ASROOT )); then
 		sudo pacman $PACMAN_OPTS -Rns $deplist || ret=$?
 	else
 		pacman $PACMAN_OPTS -Rns $deplist || ret=$?
 	fi
 
 	# Fixes FS#10039 - exit cleanly as package has built successfully
-	if [ $ret -ne 0 ]; then
+	if (( ret )); then
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return 0
 	fi
@@ -439,7 +439,7 @@ remove_deps() {
 download_sources() {
 	msg "$(gettext "Retrieving Sources...")"
 
-	if [ ! -w "$SRCDEST" ] ; then
+	if [[ ! -w $SRCDEST ]] ; then
 		error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
 		plain "$(gettext "Aborting...")"
 		exit 1
@@ -451,12 +451,12 @@ download_sources() {
 	for netfile in "${source[@]}"; do
 		local file=$(get_filename "$netfile")
 		local url=$(get_url "$netfile")
-		if [ -f "$startdir/$file" ]; then
+		if [[ -f $startdir/$file ]]; then
 			msg2 "$(gettext "Found %s in build dir")" "$file"
 			rm -f "$srcdir/$file"
 			ln -s "$startdir/$file" "$srcdir/"
 			continue
-		elif [ -f "$SRCDEST/$file" ]; then
+		elif [[ -f $SRCDEST/$file ]]; then
 			msg2 "$(gettext "Using cached copy of %s")" "$file"
 			rm -f "$srcdir/$file"
 			ln -s "$SRCDEST/$file" "$srcdir/"
@@ -464,7 +464,7 @@ download_sources() {
 		fi
 
 		# if we get here, check to make sure it was a URL, else fail
-		if [ "$file" = "$url" ]; then
+		if [[ $file = $url ]]; then
 			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
 			exit 1 # $E_MISSING_FILE
 		fi
@@ -476,7 +476,7 @@ download_sources() {
 		# fix flyspray bug #3289
 		local ret=0
 		download_file "$dlclient" "$url" "$file" || ret=$?
-		if [ $ret -gt 0 ]; then
+		if (( ret )); then
 			error "$(gettext "Failure while downloading %s")" "$file"
 			plain "$(gettext "Aborting...")"
 			exit 1
@@ -522,8 +522,8 @@ generate_checksums() {
 		for netfile in "${source[@]}"; do
 			local file="$(get_filename "$netfile")"
 
-			if [ ! -f "$file" ] ; then
-				if [ ! -f "$SRCDEST/$file" ] ; then
+			if [[ ! -f $file ]] ; then
+				if [[ ! -f $SRCDEST/$file ]] ; then
 					error "$(gettext "Unable to find source file %s to generate checksum.")" "$file"
 					plain "$(gettext "Aborting...")"
 					exit 1
@@ -534,10 +534,10 @@ generate_checksums() {
 
 			local sum="$(openssl dgst -${integ} "$file")"
 			sum=${sum##* }
-			[ $ct -gt 0 ] && echo -n "$indent"
+			(( ct )) && echo -n "$indent"
 			echo -n "'$sum'"
 			ct=$(($ct+1))
-			[ $ct -lt $numsrc ] && echo
+			(( $ct < $numsrc )) && echo
 		done
 
 		echo ")"
@@ -545,7 +545,7 @@ generate_checksums() {
 }
 
 check_checksums() {
-	[ ${#source[@]} -eq 0 ] && return 0
+	(( ! ${#source[@]} )) && return 0
 
 	if [ ! $(type -p openssl) ]; then
 		error "$(gettext "Cannot find openssl.")"
@@ -556,7 +556,7 @@ check_checksums() {
 	local integ required
 	for integ in md5 sha1 sha256 sha384 sha512; do
 		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
-		if [ ${#integrity_sums[@]} -eq ${#source[@]} ]; then
+		if (( ${#integrity_sums[@]} == ${#source[@]} )); then
 			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
 			correlation=1
 			local errors=0
@@ -567,8 +567,8 @@ check_checksums() {
 				file="$(get_filename "$file")"
 				echo -n "    $file ... " >&2
 
-				if [ ! -f "$file" ] ; then
-					if [ ! -f "$SRCDEST/$file" ] ; then
+				if [[ ! -f $file ]] ; then
+					if [[ ! -f $SRCDEST/$file ]] ; then
 						echo "$(gettext "NOT FOUND")" >&2
 						errors=1
 						found=0
@@ -577,11 +577,11 @@ check_checksums() {
 					fi
 				fi
 
-				if [ $found -gt 0 ] ; then
+				if (( $found )) ; then
 					local expectedsum="${integrity_sums[$idx],,}"
 					local realsum="$(openssl dgst -${integ} "$file")"
 					realsum="${realsum##* }"
-					if [ "$expectedsum" = "$realsum" ]; then
+					if [[ $expectedsum = $realsum ]]; then
 						echo "$(gettext "Passed")" >&2
 					else
 						echo "$(gettext "FAILED")" >&2
@@ -592,18 +592,18 @@ check_checksums() {
 				idx=$((idx + 1))
 			done
 
-			if [ $errors -gt 0 ]; then
+			if (( errors )); then
 				error "$(gettext "One or more files did not pass the validity check!")"
 				exit 1 # TODO: error code
 			fi
-		elif [ ${#integrity_sums[@]} -gt 0 ]; then
+		elif (( ${#integrity_sums[@]} )); then
 			error "$(gettext "Integrity checks (%s) differ in size from the source array.")" "$integ"
 			exit 1 # TODO: error code
 		fi
 	done
 
-	if [ $correlation -eq 0 ]; then
-		if [ $SKIPINTEG -eq 1 ]; then
+	if (( ! correlation )); then
+		if (( SKIPINTEG )); then
 			warning "$(gettext "Integrity checks are missing.")"
 		else
 			error "$(gettext "Integrity checks are missing.")"
@@ -623,8 +623,8 @@ extract_sources() {
 			continue
 		fi
 
-		if [ ! -f "$file" ] ; then
-			if [ ! -f "$SRCDEST/$file" ] ; then
+		if [[ ! -f $file ]] ; then
+			if [[ ! -f $SRCDEST/$file ]] ; then
 				error "$(gettext "Unable to find source file %s for extraction.")" "$file"
 				plain "$(gettext "Aborting...")"
 				exit 1
@@ -663,31 +663,31 @@ extract_sources() {
 
 		local ret=0
 		msg2 "$(gettext "Extracting %s with %s")" "$file" "$cmd"
-		if [ "$cmd" = "bsdtar" ]; then
+		if [[ $cmd = bsdtar ]]; then
 			$cmd -xf "$file" || ret=?
 		else
 			rm -f "${file%.*}"
 			$cmd -dcf "$file" > "${file%.*}" || ret=?
 		fi
-		if [ $ret -ne 0 ]; then
+		if (( ret )); then
 			error "$(gettext "Failed to extract %s")" "$file"
 			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
 	done
 
-	if [ $EUID -eq 0 ]; then
+	if (( EUID == 0 )); then
 		# change perms of all source files to root user & root group
 		chown -R 0:0 "$srcdir"
 	fi
 }
 
 error_function() {
-	if [ -p "$logpipe" ]; then
+	if [[ -p $logpipe ]]; then
 		rm "$logpipe"
 	fi
 	# first exit all subshells, then print the error
-	if [ $BASH_SUBSHELL -eq 0 ]; then
+	if (( ! BASH_SUBSHELL )); then
 		plain "$(gettext "Aborting...")"
 		remove_deps
 	fi
@@ -695,13 +695,13 @@ error_function() {
 }
 
 run_function() {
-	if [ -z "$1" ]; then
+	if [[ -z $1 ]]; then
 		return 1
 	fi
 	pkgfunc="$1"
 
 	# clear user-specified makeflags if requested
-	if [ "$(check_option makeflags)" = "n" ]; then
+	if [[ $(check_option makeflags) = "n" ]]; then
 		MAKEFLAGS=""
 	fi
 
@@ -714,12 +714,12 @@ run_function() {
 	local shellopts=$(shopt -p)
 
 	local ret=0
-	if [ "$LOGGING" -eq 1 ]; then
+	if (( LOGGING )); then
 		BUILDLOG="${startdir}/${pkgname}-${pkgver}-${pkgrel}-${CARCH}-$pkgfunc.log"
-		if [ -f "$BUILDLOG" ]; then
+		if [[ -f $BUILDLOG ]]; then
 			local i=1
 			while true; do
-				if [ -f "$BUILDLOG.$i" ]; then
+				if [[ -f $BUILDLOG.$i ]]; then
 					i=$(($i +1))
 				else
 					break
@@ -753,24 +753,24 @@ run_function() {
 
 run_build() {
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if [ "$(check_buildenv distcc)" = "y" -a "$(check_option distcc)" != "n" ]; then
-		[ -d /usr/lib/distcc/bin ] && export PATH="/usr/lib/distcc/bin:$PATH"
+	if [[ $(check_buildenv distcc) = "y" && $(check_option distcc) != "n" ]]; then
+		[[ -d /usr/lib/distcc/bin ]] && export PATH="/usr/lib/distcc/bin:$PATH"
 		export DISTCC_HOSTS
-	elif [ "$(check_option distcc)" = "n" ]; then
+	elif [[ $(check_option distcc) = "n" ]]; then
 		# if it is not wanted, clear the makeflags too
 		MAKEFLAGS=""
 	fi
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if [ "$(check_buildenv ccache)" = "y" -a "$(check_option ccache)" != "n" ]; then
-		[ -d /usr/lib/ccache/bin ] && export PATH="/usr/lib/ccache/bin:$PATH"
+	if [[ $(check_buildenv ccache) = "y" && $(check_option ccache) != "n" ]]; then
+		[[ -d /usr/lib/ccache/bin ]] && export PATH="/usr/lib/ccache/bin:$PATH"
 	fi
 
 	run_function "build"
 }
 
 run_package() {
-	if [ -z "$1" ]; then
+	if [[ -z $1 ]]; then
 		pkgfunc="package"
 	else
 		pkgfunc="package_$1"
@@ -783,16 +783,16 @@ tidy_install() {
 	cd "$pkgdir"
 	msg "$(gettext "Tidying install...")"
 
-	if [ "$(check_option docs)" = "n" -a -n "${DOC_DIRS[*]}" ]; then
+	if [[ $(check_option docs) = "n" && -n ${DOC_DIRS[*]} ]]; then
 		msg2 "$(gettext "Removing doc files...")"
 		rm -rf ${DOC_DIRS[@]}
 	fi
 
-	if [ "$(check_option purge)" = "y" -a -n "${PURGE_TARGETS[*]}" ]; then
+	if [[ $(check_option purge) = "y" && -n ${PURGE_TARGETS[*]} ]]; then
 		msg2 "$(gettext "Purging other files...")"
 		local pt
 		for pt in "${PURGE_TARGETS[@]}"; do
-			if [ "${pt}" = "${pt//\/}" ]; then
+			if [[ ${pt} = ${pt//\/} ]]; then
 				find . -type f -name "${pt}" -exec rm -f -- '{}' \;
 			else
 				rm -f ${pt}
@@ -800,16 +800,16 @@ tidy_install() {
 		done
 	fi
 
-	if [ "$(check_option zipman)" = "y" -a -n "${MAN_DIRS[*]}" ]; then
+	if [[ $(check_option zipman) = "y" && -n ${MAN_DIRS[*]} ]]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local manpage ext file link hardlinks hl
 		find ${MAN_DIRS[@]} -type f 2>/dev/null |
 		while read manpage ; do
 			# check file still exists (potentially compressed with hard link)
-			if [ -f ${manpage} ]; then
+			if [[ -f ${manpage} ]]; then
 				ext="${manpage##*.}"
 				file="${manpage##*/}"
-				if [ "$ext" != "gz" -a "$ext" != "bz2" ]; then
+				if [[ $ext != gz && $ext != bz2 ]]; then
 					# update symlinks to this manpage
 					find ${MAN_DIRS[@]} -lname "$file" 2>/dev/null |
 					while read link ; do
@@ -835,7 +835,7 @@ tidy_install() {
 		done
 	fi
 
-	if [ "$(check_option strip)" = "y" -a -n "${STRIP_DIRS[*]}" ]; then
+	if [[ $(check_option strip) = y && -n ${STRIP_DIRS[*]} ]]; then
 		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"
 		local binary
 		find ${STRIP_DIRS[@]} -type f 2>/dev/null | while read binary ; do
@@ -852,12 +852,12 @@ tidy_install() {
 		done
 	fi
 
-	if [ "$(check_option libtool)" = "n" ]; then
+	if [[ $(check_option libtool) = "n" ]]; then
 		msg2 "$(gettext "Removing libtool .la files...")"
 		find . ! -type d -name "*.la" -exec rm -f -- '{}' \;
 	fi
 
-	if [ "$(check_option emptydirs)" = "n" ]; then
+	if [[ $(check_option emptydirs) = "n" ]]; then
 		msg2 "$(gettext "Removing empty directories...")"
 		find . -depth -type d -empty -delete
 	fi
@@ -865,7 +865,7 @@ tidy_install() {
 
 write_pkginfo() {
 	local builddate=$(date -u "+%s")
-	if [ -n "$PACKAGER" ]; then
+	if [[ -n $PACKAGER ]]; then
 		local packager="$PACKAGER"
 	else
 		local packager="Unknown Packager"
@@ -875,12 +875,12 @@ write_pkginfo() {
 
 	msg2 "$(gettext "Generating .PKGINFO file...")"
 	echo "# Generated by makepkg $myver" >.PKGINFO
-	if [ "$INFAKEROOT" -eq 1 ]; then
+	if (( INFAKEROOT )); then
 		echo "# using $(fakeroot -v)" >>.PKGINFO
 	fi
 	echo "# $(LC_ALL=C date -u)" >>.PKGINFO
 	echo "pkgname = $1" >>.PKGINFO
-	[ "$SPLITPKG" -eq 1 ] && echo "pkgbase = $pkgbase" >>.PKGINFO
+	(( SPLITPKG )) && echo pkgbase = $pkgbase >>.PKGINFO
 	echo "pkgver = $pkgver-$pkgrel" >>.PKGINFO
 	echo "pkgdesc = $pkgdesc" >>.PKGINFO
 	echo "url = $url" >>.PKGINFO
@@ -888,7 +888,7 @@ write_pkginfo() {
 	echo "packager = $packager" >>.PKGINFO
 	echo "size = $size" >>.PKGINFO
 	echo "arch = $PKGARCH" >>.PKGINFO
-	if [ "$(check_option force)" = "y" ]; then
+	if [[ $(check_option force) = "y" ]]; then
 		echo "force = true" >> .PKGINFO
 	fi
 
@@ -919,8 +919,8 @@ write_pkginfo() {
 	done
 	for it in "${packaging_options[@]}"; do
 		local ret="$(check_option $it)"
-		if [ "$ret" != "?" ]; then
-			if [ "$ret" = "y" ]; then
+		if [[ $ret != "?" ]]; then
+			if [[ $ret = y ]]; then
 				echo "makepkgopt = $it" >>.PKGINFO
 			else
 				echo "makepkgopt = !$it" >>.PKGINFO
@@ -930,7 +930,7 @@ write_pkginfo() {
 
 	# TODO maybe remove this at some point
 	# warn if license array is not present or empty
-	if [ -z "$license" ]; then
+	if [[ -z $license ]]; then
 		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
 		plain "$(gettext "Example for GPL\'ed software: license=('GPL').")"
 	fi
@@ -942,14 +942,14 @@ check_package() {
 	# check existence of backup files
 	local file
 	for file in "${backup[@]}"; do
-		if [ ! -f "$file" ]; then
+		if [[ ! -f $file ]]; then
 			warning "$(gettext "Invalid backup entry : %s")" "$file"
 		fi
 	done
 }
 
 create_package() {
-	if [ ! -d "$pkgdir" ]; then
+	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing pkg/ directory.")"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_MISSING_PKGDIR
@@ -960,13 +960,13 @@ create_package() {
 	cd "$pkgdir"
 	msg "$(gettext "Creating package...")"
 
-	if [ -z "$1" ]; then
+	if [[ -z $1 ]]; then
 		nameofpkg="$pkgname"
 	else
 		nameofpkg="$1"
 	fi
 
-	if [ "$arch" = "any" ]; then
+	if [[ $arch = "any" ]]; then
 		PKGARCH="any"
 	else
 		PKGARCH=$CARCH
@@ -977,14 +977,14 @@ create_package() {
 	local comp_files=".PKGINFO"
 
 	# check for an install script
-	if [ -n "$install" ]; then
+	if [[ -n $install ]]; then
 		msg2 "$(gettext "Adding install script...")"
 		cp "$startdir/$install" .INSTALL
 		comp_files="$comp_files .INSTALL"
 	fi
 
 	# do we have a changelog?
-	if [ -n "$changelog" ]; then
+	if [[ -n $changelog ]]; then
 		msg2 "$(gettext "Adding package changelog...")"
 		cp "$startdir/$changelog" .CHANGELOG
 		comp_files="$comp_files .CHANGELOG"
@@ -1010,7 +1010,7 @@ create_package() {
 	bsdtar -cf - $comp_files * > "$pkg_file" || ret=$?
 	shopt -u nullglob
 
-	if [ $ret -eq 0 ]; then
+	if (( ! ret )); then
 		case "$PKGEXT" in
 			*tar.gz)  gzip -f -n "$pkg_file" ;;
 			*tar.bz2) bzip2 -f "$pkg_file" ;;
@@ -1019,7 +1019,7 @@ create_package() {
 		ret=$?
 	fi
 
-	if [ $ret -ne 0 ]; then
+	if (( ret )); then
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
@@ -1043,8 +1043,8 @@ create_srcpackage() {
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 	ln -s "${BUILDFILE}" "${srclinks}/${pkgbase}/${BUILDSCRIPT}"
 
-	if [ -n "$install" ]; then
-		if [ -f $install ]; then
+	if [[ -n $install ]]; then
+		if [[ -f $install ]]; then
 			msg2 "$(gettext "Adding install script...")"
 			ln -s "${startdir}/$install" "${srclinks}/${pkgbase}/"
 		else
@@ -1052,8 +1052,8 @@ create_srcpackage() {
 		fi
 	fi
 
-	if [ -n "$changelog" ]; then
-		if [ -f "$changelog" ]; then
+	if [[ -n $changelog ]]; then
+		if [[ -f $changelog ]]; then
 			msg2 "$(gettext "Adding package changelog...")"
 			ln -s "${startdir}/$changelog" "${srclinks}/${pkgbase}/"
 		else
@@ -1064,10 +1064,10 @@ create_srcpackage() {
 	local netfile
 	for netfile in "${source[@]}"; do
 		local file=$(get_filename "$netfile")
-		if [ -f "$netfile" ]; then
+		if [[ -f $netfile ]]; then
 			msg2 "$(gettext "Adding %s...")" "$netfile"
 			ln -s "${startdir}/$netfile" "${srclinks}/${pkgbase}"
-		elif [ "$SOURCEONLY" -eq 2 -a -f "$SRCDEST/$file" ]; then
+		elif (( SOURCEONLY == 2 )) && [[ -f $SRCDEST/$file ]]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
 			ln -s "$SRCDEST/$file" "${srclinks}/${pkgbase}/"
 		fi
