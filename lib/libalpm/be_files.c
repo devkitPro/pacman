@@ -47,76 +47,6 @@
 #include "dload.h"
 
 
-/*
- * Return the last update time as number of seconds from the epoch.
- * Returns 0 if the value is unknown or can't be read.
- */
-static time_t getlastupdate(pmdb_t *db)
-{
-	FILE *fp;
-	char *file;
-	const char *dbpath;
-	time_t ret = 0;
-
-	ALPM_LOG_FUNC;
-
-	if(db == NULL) {
-		return(ret);
-	}
-
-	dbpath = _alpm_db_path(db);
-	/* dbpath + '.lastupdate' + NULL */
-	MALLOC(file, strlen(dbpath) + 12, RET_ERR(PM_ERR_MEMORY, ret));
-	sprintf(file, "%s.lastupdate", dbpath);
-
-	/* get the last update time, if it's there */
-	if((fp = fopen(file, "r")) == NULL) {
-		free(file);
-		return(ret);
-	} else {
-		char line[64];
-		if(fgets(line, sizeof(line), fp)) {
-			ret = atol(line);
-		}
-	}
-	fclose(fp);
-	free(file);
-	return(ret);
-}
-
-/*
- * writes the dbpath/.lastupdate file with the value in time
- */
-static int setlastupdate(pmdb_t *db, time_t time)
-{
-	FILE *fp;
-	char *file;
-	const char *dbpath;
-	int ret = 0;
-
-	ALPM_LOG_FUNC;
-
-	if(db == NULL || time == 0) {
-		return(-1);
-	}
-
-	dbpath = _alpm_db_path(db);
-	/* dbpath + '.lastupdate' + NULL */
-	MALLOC(file, strlen(dbpath) + 12, RET_ERR(PM_ERR_MEMORY, ret));
-	sprintf(file, "%s.lastupdate", dbpath);
-
-	if((fp = fopen(file, "w")) == NULL) {
-		free(file);
-		return(-1);
-	}
-	if(fprintf(fp, "%ju", (uintmax_t)time) <= 0) {
-		ret = -1;
-	}
-	fclose(fp);
-	free(file);
-	return(ret);
-}
-
 static int checkdbdir(pmdb_t *db)
 {
 	struct stat buf;
@@ -178,7 +108,6 @@ static int checkdbdir(pmdb_t *db)
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	char *dbfile, *dbfilepath;
-	time_t newmtime = 0, lastupdate = 0;
 	const char *dbpath;
 	size_t len;
 
@@ -200,27 +129,17 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	if(!force) {
-		/* get the lastupdate time */
-		lastupdate = getlastupdate(db);
-		if(lastupdate == 0) {
-			_alpm_log(PM_LOG_DEBUG, "failed to get lastupdate time for %s\n",
-					db->treename);
-		}
-	}
-
 	len = strlen(db->treename) + strlen(DBEXT) + 1;
 	MALLOC(dbfile, len, RET_ERR(PM_ERR_MEMORY, -1));
 	sprintf(dbfile, "%s" DBEXT, db->treename);
 
 	dbpath = alpm_option_get_dbpath();
 
-	ret = _alpm_download_single_file(dbfile, db->servers, dbpath,
-			lastupdate, &newmtime);
+	ret = _alpm_download_single_file(dbfile, db->servers, dbpath, force);
 	free(dbfile);
 
 	if(ret == 1) {
-		/* mtimes match, do nothing */
+		/* files match, do nothing */
 		pm_errno = 0;
 		return(1);
 	} else if(ret == -1) {
@@ -233,7 +152,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		if(_alpm_rmrf(syncdbpath) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove database %s\n"), db->treename);
 			RET_ERR(PM_ERR_DB_REMOVE, -1);
+		} else {
+			_alpm_log(PM_LOG_DEBUG, "database dir %s removed\n", _alpm_db_path(db));
 		}
+
 
 		/* Cache needs to be rebuilt */
 		_alpm_db_free_pkgcache(db);
@@ -250,15 +172,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 			free(dbfilepath);
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
-		unlink(dbfilepath);
 		free(dbfilepath);
-
-		/* if we have a new mtime, set the DB last update value */
-		if(newmtime) {
-			_alpm_log(PM_LOG_DEBUG, "sync: new mtime for %s: %ju\n",
-					db->treename, (uintmax_t)newmtime);
-			setlastupdate(db, newmtime);
-		}
 	}
 
 	return(0);

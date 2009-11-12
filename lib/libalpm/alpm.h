@@ -86,14 +86,12 @@ typedef void (*alpm_cb_totaldl)(off_t total);
 /** A callback for downloading files
  * @param url the URL of the file to be downloaded
  * @param localpath the directory to which the file should be downloaded
- * @param mtimeold the modification time of the file previously downloaded
- * @param mtimenew the modification time of the newly downloaded file.
- * This should be set by the callback.
- * @return 0 on success, 1 if the modification times are identical, -1 on
+ * @param force whether to force an update, even if the file is the same
+ * @return 0 on success, 1 if the file exists and is identical, -1 on
  * error.
  */
 typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
-		time_t mtimeold, time_t *mtimenew);
+		int force);
 
 /*
  * Options

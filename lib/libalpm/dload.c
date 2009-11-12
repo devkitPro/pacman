@@ -25,6 +25,9 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <signal.h>
 #include <limits.h>
 /* the following two are needed on BSD for libfetch */
@@ -85,18 +88,32 @@ static const char *gethost(struct url *fileurl)
 	return(host);
 }
 
+int dload_interrupted;
+static RETSIGTYPE inthandler(int signum)
+{
+	dload_interrupted = 1;
+}
+
+#define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
+enum sighandlers { OLD = 0, NEW = 1 };
+
 static int download_internal(const char *url, const char *localpath,
-		time_t mtimeold, time_t *mtimenew) {
-	fetchIO *dlf = NULL;
+		int force) {
 	FILE *localf = NULL;
-	struct url_stat ust;
 	struct stat st;
-	int chk_resume = 0, ret = 0;
+	int ret = 0;
 	off_t dl_thisfile = 0;
 	ssize_t nread = 0;
 	char *tempfile, *destfile, *filename;
-	struct sigaction new_action, old_action;
+	struct sigaction sig_pipe[2], sig_int[2];
+
+	off_t local_size = 0;
+	time_t local_time = 0;
+
 	struct url *fileurl;
+	struct url_stat ust;
+	fetchIO *dlf = NULL;
+
 	char buffer[PM_DLBUF_LEN];
 
 	filename = get_filename(url);
@@ -113,23 +130,22 @@ static int download_internal(const char *url, const char *localpath,
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
 
-	if(mtimeold) {
-		fileurl->last_modified = mtimeold;
+	if(stat(tempfile, &st) == 0 && st.st_size > 0) {
+		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation\n");
+		local_time = fileurl->last_modified = st.st_mtime;
+		local_size = fileurl->offset = (off_t)st.st_size;
+		dl_thisfile = st.st_size;
+		localf = fopen(tempfile, "ab");
+	} else if(!force && stat(destfile, &st) == 0 && st.st_size > 0) {
+		_alpm_log(PM_LOG_DEBUG, "destfile found, using mtime only\n");
+		local_time = fileurl->last_modified = st.st_mtime;
+		local_size = /* no fu->off here */ (off_t)st.st_size;
+	} else {
+		_alpm_log(PM_LOG_DEBUG, "no file found matching criteria, starting from scratch\n");
 	}
 
 	/* pass the raw filename for passing to the callback function */
 	_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", filename);
-
-	if(stat(tempfile, &st) == 0 && st.st_size > 0) {
-		_alpm_log(PM_LOG_DEBUG, "existing file found, using it\n");
-		fileurl->offset = (off_t)st.st_size;
-		dl_thisfile = st.st_size;
-		localf = fopen(tempfile, "ab");
-		chk_resume = 1;
-	} else {
-		fileurl->offset = (off_t)0;
-		dl_thisfile = 0;
-	}
 
 	/* print proxy info for debug purposes */
 	_alpm_log(PM_LOG_DEBUG, "HTTP_PROXY: %s\n", getenv("HTTP_PROXY"));
@@ -137,27 +153,57 @@ static int download_internal(const char *url, const char *localpath,
 	_alpm_log(PM_LOG_DEBUG, "FTP_PROXY:  %s\n", getenv("FTP_PROXY"));
 	_alpm_log(PM_LOG_DEBUG, "ftp_proxy:  %s\n", getenv("ftp_proxy"));
 
-	/* libfetch does not reset the error code */
-	fetchLastErrCode = 0;
-
 	/* 10s timeout */
 	fetchTimeout = 10;
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */
-	new_action.sa_handler = SIG_IGN;
-	sigemptyset(&new_action.sa_mask);
-	new_action.sa_flags = 0;
-	sigaction(SIGPIPE, NULL, &old_action);
-	sigaction(SIGPIPE, &new_action, NULL);
+	sig_pipe[NEW].sa_handler = SIG_IGN;
+	sigemptyset(&sig_pipe[NEW].sa_mask);
+	sig_pipe[NEW].sa_flags = 0;
+	sigaction(SIGPIPE, NULL, &sig_pipe[OLD]);
+	sigaction(SIGPIPE, &sig_pipe[NEW], NULL);
 
-	dlf = fetchXGet(fileurl, &ust, "i");
+	dload_interrupted = 0;
+	sig_int[NEW].sa_handler = &inthandler;
+	sigemptyset(&sig_int[NEW].sa_mask);
+	sig_int[NEW].sa_flags = 0;
+	sigaction(SIGINT, NULL, &sig_int[OLD]);
+	sigaction(SIGINT, &sig_int[NEW], NULL);
 
-	if(fetchLastErrCode == FETCH_UNCHANGED) {
-		_alpm_log(PM_LOG_DEBUG, "mtimes are identical, skipping %s\n", filename);
+	/* NOTE: libfetch does not reset the error code, be sure to do it before
+	 * calls into the library */
+
+	/* find out the remote size *and* mtime in one go. there is a lot of
+	 * trouble in trying to do both size and "if-modified-since" logic in a
+	 * non-stat request, so avoid it. */
+	fetchLastErrCode = 0;
+	if(fetchStat(fileurl, &ust, "") == -1) {
+		ret = -1;
+		goto cleanup;
+	}
+	check_stop();
+
+	_alpm_log(PM_LOG_DEBUG, "ust.mtime: %ld local_time: %ld compare: %ld\n",
+			ust.mtime, local_time, local_time - ust.mtime);
+	_alpm_log(PM_LOG_DEBUG, "ust.size: %"PRId64" local_size: %"PRId64" compare: %"PRId64"\n",
+			ust.size, local_size, local_size - ust.size);
+	if(!force && ust.mtime && ust.mtime == local_time
+			&& ust.size && ust.size == local_size) {
+		/* the remote time and size values agreed with what we have, so move on
+		 * because there is nothing more to do. */
+		_alpm_log(PM_LOG_DEBUG, "files are identical, skipping %s\n", filename);
 		ret = 1;
 		goto cleanup;
 	}
+	if(!ust.mtime || ust.mtime != local_time) {
+		_alpm_log(PM_LOG_DEBUG, "mtimes were different or unavailable, downloading %s from beginning\n", filename);
+		fileurl->offset = 0;
+	}
+
+	fetchLastErrCode = 0;
+	dlf = fetchGet(fileurl, "");
+	check_stop();
 
 	if(fetchLastErrCode != 0 || dlf == NULL) {
 		pm_errno = PM_ERR_LIBFETCH;
@@ -169,17 +215,14 @@ static int download_internal(const char *url, const char *localpath,
 		_alpm_log(PM_LOG_DEBUG, "connected to %s successfully\n", fileurl->host);
 	}
 
-	if(ust.mtime && mtimenew) {
-		*mtimenew = ust.mtime;
+	if(localf && fileurl->offset == 0) {
+		_alpm_log(PM_LOG_WARNING, _("resuming download of %s not possible; starting over\n"), filename);
+		fclose(localf);
+		localf = NULL;
+	} else if(fileurl->offset) {
+		_alpm_log(PM_LOG_DEBUG, "resuming download at position %"PRId64"\n", fileurl->offset);
 	}
 
-	if(chk_resume && fileurl->offset == 0) {
-		_alpm_log(PM_LOG_WARNING, _("cannot resume download, starting over\n"));
-		if(localf != NULL) {
-			fclose(localf);
-			localf = NULL;
-		}
-	}
 
 	if(localf == NULL) {
 		_alpm_rmrf(tempfile);
@@ -187,7 +230,8 @@ static int download_internal(const char *url, const char *localpath,
 		dl_thisfile = 0;
 		localf = fopen(tempfile, "wb");
 		if(localf == NULL) { /* still null? */
-			_alpm_log(PM_LOG_ERROR, _("cannot write to file '%s'\n"), tempfile);
+			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
+					tempfile, strerror(errno));
 			ret = -1;
 			goto cleanup;
 		}
@@ -199,11 +243,12 @@ static int download_internal(const char *url, const char *localpath,
 	}
 
 	while((nread = fetchIO_read(dlf, buffer, PM_DLBUF_LEN)) > 0) {
+		check_stop();
 		size_t nwritten = 0;
 		nwritten = fwrite(buffer, 1, nread, localf);
 		if((nwritten != nread) || ferror(localf)) {
 			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
-					destfile, strerror(errno));
+					tempfile, strerror(errno));
 			ret = -1;
 			goto cleanup;
 		}
@@ -240,36 +285,60 @@ static int download_internal(const char *url, const char *localpath,
 	fetchIO_close(dlf);
 	dlf = NULL;
 
+	/* set the times on the file to the same as that of the remote file */
+	if(ust.mtime) {
+		struct timeval tv[2];
+		memset(&tv, 0, sizeof(tv));
+		tv[0].tv_sec = ust.atime;
+		tv[1].tv_sec = ust.mtime;
+		utimes(tempfile, tv);
+	}
 	rename(tempfile, destfile);
 	ret = 0;
 
 cleanup:
-	/* restore any existing SIGPIPE signal handler */
-	sigaction(SIGPIPE, &old_action, NULL);
-
 	FREE(tempfile);
 	FREE(destfile);
 	if(localf != NULL) {
+		/* if we still had a local file open, we got interrupted. set the mtimes on
+		 * the file accordingly. */
+		fflush(localf);
+		if(ust.mtime) {
+			struct timeval tv[2];
+			memset(&tv, 0, sizeof(tv));
+			tv[0].tv_sec = ust.atime;
+			tv[1].tv_sec = ust.mtime;
+			futimes(fileno(localf), tv);
+		}
 		fclose(localf);
 	}
 	if(dlf != NULL) {
 		fetchIO_close(dlf);
 	}
 	fetchFreeURL(fileurl);
+
+	/* restore the old signal handlers */
+	sigaction(SIGINT, &sig_int[OLD], NULL);
+	sigaction(SIGPIPE, &sig_pipe[OLD], NULL);
+	/* if we were interrupted, trip the old handler */
+	if(dload_interrupted) {
+		raise(SIGINT);
+	}
+
 	return(ret);
 }
 #endif
 
 static int download(const char *url, const char *localpath,
-		time_t mtimeold, time_t *mtimenew) {
+		int force) {
 	if(handle->fetchcb == NULL) {
 #if defined(INTERNAL_DOWNLOAD)
-		return(download_internal(url, localpath, mtimeold, mtimenew));
+		return(download_internal(url, localpath, force));
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
-		int ret = handle->fetchcb(url, localpath, mtimeold, mtimenew);
+		int ret = handle->fetchcb(url, localpath, force);
 		if(ret == -1) {
 			RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 		}
@@ -279,19 +348,15 @@ static int download(const char *url, const char *localpath,
 
 /*
  * Download a single file
- *   - if mtimeold is non-NULL, then only download the file if it's different
- *     than mtimeold.
- *   - if *mtimenew is non-NULL, it will be filled with the mtime of the remote
- *     file.
  *   - servers must be a list of urls WITHOUT trailing slashes.
  *
  * RETURN:  0 for successful download
- *          1 if the mtimes are identical
+ *          1 if the files are identical
  *         -1 on error
  */
 int _alpm_download_single_file(const char *filename,
 		alpm_list_t *servers, const char *localpath,
-		time_t mtimeold, time_t *mtimenew)
+		int force)
 {
 	alpm_list_t *i;
 	int ret = -1;
@@ -308,7 +373,7 @@ int _alpm_download_single_file(const char *filename,
 		CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
 		snprintf(fileurl, len, "%s/%s", server, filename);
 
-		ret = download(fileurl, localpath, mtimeold, mtimenew);
+		ret = download(fileurl, localpath, force);
 		FREE(fileurl);
 		if(ret != -1) {
 			break;
@@ -327,7 +392,7 @@ int _alpm_download_files(alpm_list_t *files,
 	for(lp = files; lp; lp = lp->next) {
 		char *filename = lp->data;
 		if(_alpm_download_single_file(filename, servers,
-					localpath, 0, NULL) == -1) {
+					localpath, 0) == -1) {
 			ret++;
 		}
 	}
@@ -354,7 +419,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	cachedir = _alpm_filecache_setup();
 
 	/* download the file */
-	ret = download(url, cachedir, 0, NULL);
+	ret = download(url, cachedir, 0);
 	if(ret == -1) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return(NULL);

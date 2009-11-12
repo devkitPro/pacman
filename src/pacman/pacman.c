@@ -34,6 +34,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/utsname.h> /* uname */
 #include <locale.h> /* setlocale */
 #include <time.h> /* time_t */
@@ -633,10 +634,11 @@ static char *get_tempfile(const char *path, const char *filename) {
 
 /** External fetch callback */
 int download_with_xfercommand(const char *url, const char *localpath,
-		time_t mtimeold, time_t *mtimenew) {
+		int force) {
 	int ret = 0;
 	int retval;
 	int usepart = 0;
+	struct stat st;
 	char *parsedcmd,*tempcmd;
 	char cwd[PATH_MAX];
 	char *destfile, *tempfile, *filename;
@@ -651,6 +653,13 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	}
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
+
+	if(force && stat(tempfile, &st) == 0) {
+		unlink(tempfile);
+	}
+	if(force && stat(destfile, &st) == 0) {
+		unlink(destfile);
+	}
 
 	tempcmd = strdup(config->xfercommand);
 	/* replace all occurrences of %o with fn.part */
