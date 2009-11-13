@@ -262,6 +262,13 @@ int _alpm_db_populate(pmdb_t *db)
 			continue;
 		}
 
+		/* duplicated database entries are not allowed */
+		if(_alpm_pkg_find(db->pkgcache, pkg->name)) {
+			_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
+			_alpm_pkg_free(pkg);
+			continue;
+		}
+
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
 		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
