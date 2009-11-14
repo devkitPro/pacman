@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <stdint.h> /* uintmax_t, intmax_t */
+#include <stdint.h> /* intmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
 #include <ctype.h>
@@ -831,11 +831,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			if(info->builddate) {
 				fprintf(fp, "%%BUILDDATE%%\n"
-								"%ju\n\n", (uintmax_t)info->builddate);
+								"%ld\n\n", info->builddate);
 			}
 			if(info->installdate) {
 				fprintf(fp, "%%INSTALLDATE%%\n"
-								"%ju\n\n", (uintmax_t)info->installdate);
+								"%ld\n\n", info->installdate);
 			}
 			if(info->packager) {
 				fprintf(fp, "%%PACKAGER%%\n"

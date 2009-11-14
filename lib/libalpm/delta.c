@@ -337,7 +337,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	tmp2 = tmp;
 	STRDUP(delta->to, tmp2, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	_alpm_log(PM_LOG_DEBUG, "delta : %s %s '%lld'\n", delta->from, delta->to, (long long)delta->delta_size);
+	_alpm_log(PM_LOG_DEBUG, "delta : %s %s '%jd'\n", delta->from, delta->to, (intmax_t)delta->delta_size);
 
 	return(delta);
 }

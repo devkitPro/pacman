@@ -190,8 +190,8 @@ static int download_internal(const char *url, const char *localpath,
 
 	_alpm_log(PM_LOG_DEBUG, "ust.mtime: %ld local_time: %ld compare: %ld\n",
 			ust.mtime, local_time, local_time - ust.mtime);
-	_alpm_log(PM_LOG_DEBUG, "ust.size: %"PRId64" local_size: %"PRId64" compare: %"PRId64"\n",
-			ust.size, local_size, local_size - ust.size);
+	_alpm_log(PM_LOG_DEBUG, "ust.size: %jd local_size: %jd compare: %jd\n",
+			(intmax_t)ust.size, (intmax_t)local_size, (intmax_t)(local_size - ust.size));
 	if(!force && ust.mtime && ust.mtime == local_time
 			&& ust.size && ust.size == local_size) {
 		/* the remote time and size values agreed with what we have, so move on
@@ -224,7 +224,7 @@ static int download_internal(const char *url, const char *localpath,
 		fclose(localf);
 		localf = NULL;
 	} else if(fileurl->offset) {
-		_alpm_log(PM_LOG_DEBUG, "resuming download at position %"PRId64"\n", fileurl->offset);
+		_alpm_log(PM_LOG_DEBUG, "resuming download at position %jd\n", (intmax_t)fileurl->offset);
 	}
 
 
