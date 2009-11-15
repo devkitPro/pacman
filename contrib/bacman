@@ -21,7 +21,7 @@
 #
 
 readonly progname="bacman"
-readonly progver="0.2.0"
+readonly progver="0.2.1"
 
 #
 # User Friendliness
@@ -137,7 +137,7 @@ while read i; do
                 bsdtar -cnf - "/$i" 2> /dev/null | bsdtar -xpf -
 
                 # Workaround to bsdtar not reporting a missing file as an error
-                if [ ! -e "$work_dir/$i" ] && [ -L "$work_dir/$i"]; then
+                if [ ! -e "$work_dir/$i" -a ! -L "$work_dir/$i" ]; then
                     echo ""
                     echo "ERROR: unable to add /$i to the package"
                     echo "       If your user does not have permssion to read this file then"
