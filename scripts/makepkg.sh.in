@@ -514,11 +514,10 @@ generate_checksums() {
 		local numsrc=${#source[@]}
 		echo -n "${integ}sums=("
 
-		local i=0;
+		local i
 		local indent=''
-		while [ $i -lt $((${#integ}+6)) ]; do
+		for (( i = 0; i < ${#integ} + 6; i++ )); do
 			indent="$indent "
-			i=$(($i+1))
 		done
 
 		local netfile
