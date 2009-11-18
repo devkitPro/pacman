@@ -340,10 +340,21 @@ download_file() {
 	fi
 }
 
+run_pacman() {
+	local ret=0
+	if (( ! ASROOT )) && [[ $1 != "-T" ]]; then
+		sudo pacman $PACMAN_OPTS "$@" || ret=$?
+	else
+		pacman $PACMAN_OPTS "$@" || ret=$?
+	fi
+	return $ret
+}
+
 check_deps() {
 	(( $# > 0 )) || return
 
-	pmout=$(pacman $PACMAN_OPTS -T "$@")
+	local ret=0
+	pmout=$(run_pacman -T "$@")
 	ret=$?
 	if (( ret == 127 )); then #unresolved deps
 		echo "$pmout"
@@ -368,15 +379,8 @@ handle_deps() {
 	if (( DEP_BIN )); then
 		# install missing deps from binary packages (using pacman -S)
 		msg "$(gettext "Installing missing dependencies...")"
-		local ret=0
 
-		if (( ! ASROOT )); then
-			sudo pacman $PACMAN_OPTS -S --asdeps $deplist || ret=$?
-		else
-			pacman $PACMAN_OPTS -S --asdeps $deplist || ret=$?
-		fi
-
-		if (( ret )); then
+		if ! run_pacman -S --asdeps $deplist; then
 			error "$(gettext "Pacman failed to install missing dependencies.")"
 			exit 1 # TODO: error code
 		fi
@@ -434,15 +438,9 @@ remove_deps() {
 	done
 
 	msg "Removing installed dependencies..."
-	local ret=0
-	if (( ! ASROOT )); then
-		sudo pacman $PACMAN_OPTS -Rns $deplist || ret=$?
-	else
-		pacman $PACMAN_OPTS -Rns $deplist || ret=$?
-	fi
 
-	# Fixes FS#10039 - exit cleanly as package has built successfully
-	if (( ret )); then
+	# exit cleanly on failure to remove deps as package has been built successfully
+	if ! run_pacman -Rns $deplist; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return 0
 	fi
@@ -1134,14 +1132,7 @@ install_package() {
 		fi
 	done
 
-	local ret=0
-	if (( ! ASROOT )); then
-		sudo pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
-	else
-		pacman $PACMAN_OPTS -U ${pkglist} || ret=$?
-	fi
-
-	if (( ret )); then
+	if ! run_pacman -U $pkglist; then
 		warning "$(gettext "Failed to install built package(s).")"
 		return 0
 	fi
