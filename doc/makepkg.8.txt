@@ -170,6 +170,15 @@ separate utility 'versionpkg'. See linkman:PKGBUILD[5] for details on how to
 set up a development PKGBUILD.
 
 
+Environment Variables
+---------------------
+*PACMAN*::
+	The command that will be used to check for missing dependencies and to
+	install and remove packages. Pacman's -U, -T, -S and -Rns operations
+	must be supported by this command. If the variable is not set or
+	empty, makepkg will fall back to `pacman'.
+
+
 Configuration
 -------------
 See linkman:makepkg.conf[5] for more details on configuring makepkg using the

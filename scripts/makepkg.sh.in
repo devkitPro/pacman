@@ -344,9 +344,9 @@ download_file() {
 run_pacman() {
 	local ret=0
 	if (( ! ASROOT )) && [[ $1 != "-T" ]]; then
-		sudo pacman $PACMAN_OPTS "$@" || ret=$?
+		sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
 	else
-		pacman $PACMAN_OPTS "$@" || ret=$?
+		$PACMAN $PACMAN_OPTS "$@" || ret=$?
 	fi
 	return $ret
 }
@@ -360,7 +360,7 @@ check_deps() {
 	if (( ret == 127 )); then #unresolved deps
 		echo "$pmout"
 	elif (( ret )); then
-		error "$(gettext "Pacman returned a fatal error (%i): %s")" "$ret" "$pmout"
+		error "$(gettext "'%s' returned a fatal error (%i): %s")" "$PACMAN" "$ret" "$pmout"
 		exit 1
 	fi
 }
@@ -382,7 +382,7 @@ handle_deps() {
 		msg "$(gettext "Installing missing dependencies...")"
 
 		if ! run_pacman -S --asdeps $deplist; then
-			error "$(gettext "Pacman failed to install missing dependencies.")"
+			error "$(gettext "'%s' failed to install missing dependencies.")" "$PACMAN"
 			exit 1 # TODO: error code
 		fi
 	fi
@@ -1124,9 +1124,9 @@ install_package() {
 	(( ! INSTALL )) && return
 
 	if (( ! SPLITPKG )); then
-		msg "$(gettext "Installing package ${pkgname} with pacman -U...")"
+		msg "$(gettext "Installing package %s with %s -U...")" "$pkgname" "$PACMAN"
 	else
-		msg "$(gettext "Installing ${pkgbase} package group with pacman -U...")"
+		msg "$(gettext "Installing %s package group with %s -U...")" "$pkgbase" "$PACMAN"
 	fi
 
 	local pkglist
@@ -1592,6 +1592,9 @@ if [[ -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
 
+# set pacman command if not already defined
+PACMAN=${PACMAN:-pacman}
+
 # check if messages are to be printed using color
 unset ALL_OFF BOLD BLUE GREEN RED YELLOW
 if [[ -t 2 && ! $USE_COLOR = "n" && $(check_buildenv color) = "y" ]]; then
@@ -1850,7 +1853,7 @@ if (( NODEPS || NOBUILD || REPKG )); then
 	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
-elif [ $(type -p pacman) ]; then
+elif [ $(type -p "${PACMAN%% *}") ]; then
 	unset pkgdeps # Set by resolve_deps() and used by remove_deps()
 	deperr=0
 
@@ -1865,7 +1868,7 @@ elif [ $(type -p pacman) ]; then
 		exit 1
 	fi
 else
-	warning "$(gettext "pacman was not found in PATH; skipping dependency checks.")"
+	warning "$(gettext "%s was not found in PATH; skipping dependency checks.")" "${PACMAN%% *}"
 fi
 
 # ensure we have a sane umask set
