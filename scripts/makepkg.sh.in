@@ -118,6 +118,7 @@ trap_exit() {
 		echo
 		error "$@"
 	fi
+	[[ -n $srclinks ]] && rm -rf "$srclinks"
 	exit 1
 }
 
