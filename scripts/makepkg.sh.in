@@ -343,7 +343,7 @@ download_file() {
 
 run_pacman() {
 	local ret=0
-	if (( ! ASROOT )) && [[ $1 != "-T" ]]; then
+	if (( ! ASROOT )) && [[ $1 != "-T" ]] && sudo -l $PACMAN &>/dev/null; then
 		sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
 	else
 		$PACMAN $PACMAN_OPTS "$@" || ret=$?
