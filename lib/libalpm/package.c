@@ -459,7 +459,6 @@ void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 		struct archive *archive = NULL;
 		struct archive_entry *entry;
 		const char *pkgfile = pkg->origin_data.file;
-		int ret = ARCHIVE_OK;
 
 		if((archive = archive_read_new()) == NULL) {
 			RET_ERR(PM_ERR_LIBARCHIVE, NULL);
@@ -473,7 +472,7 @@ void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 			RET_ERR(PM_ERR_PKG_OPEN, NULL);
 		}
 
-		while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
+		while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 			const char *entry_name = archive_entry_pathname(entry);
 
 			if(strcmp(entry_name, ".CHANGELOG") == 0) {

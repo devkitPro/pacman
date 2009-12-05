@@ -371,6 +371,8 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			opr = _("checking for file conflicts");
 			break;
+		default:
+			return;
 	}
 
 	/* find # of digits in package counts to scale output */
@@ -517,7 +519,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 			gettimeofday(&initial_time, NULL);
 			xfered_last = (off_t)0;
 			rate_last = 0.0;
-			timediff = get_update_timediff(1);
+			get_update_timediff(1);
 		}
 	} else if(file_xfered == file_total) {
 		/* compute final values */

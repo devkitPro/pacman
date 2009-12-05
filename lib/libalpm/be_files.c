@@ -140,8 +140,8 @@ static int dirlist_from_fs(const char *syncdbpath, alpm_list_t **dirlist)
 			entry[len+1] = '\0';
 			*dirlist = alpm_list_add(*dirlist, entry);
 		}
+		closedir(dbdir);
 	}
-	closedir(dbdir);
 
 	*dirlist = alpm_list_msort(*dirlist, alpm_list_count(*dirlist), _alpm_str_cmp);
 	return(0);

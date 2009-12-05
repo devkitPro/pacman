@@ -408,7 +408,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 
 	ALPM_LOG_FUNC;
 
-	if(db == NULL || upgrade == NULL) {
+	if(db == NULL || upgrade == NULL || trans == NULL) {
 		return(NULL);
 	}
 

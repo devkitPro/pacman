@@ -229,7 +229,7 @@ void indentprint(const char *str, int indent)
 	p = wcstr;
 	cidx = indent;
 
-	if(!p) {
+	if(!p || !len) {
 		return;
 	}
 

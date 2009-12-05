@@ -483,6 +483,8 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 	ALPM_LOG_FUNC;
 
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
 			_alpm_db_path(db), alpm_pkg_get_name(newpkg),
 			alpm_pkg_get_version(newpkg));

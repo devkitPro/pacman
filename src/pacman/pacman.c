@@ -219,7 +219,7 @@ static void setarch(const char *arch)
 static void cleanup(int ret) {
 	/* free alpm library resources */
 	if(alpm_release() == -1) {
-		pm_printf(PM_LOG_ERROR, alpm_strerrorlast());
+		pm_printf(PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
 	}
 
 	/* free memory */
