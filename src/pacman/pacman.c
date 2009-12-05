@@ -713,6 +713,127 @@ cleanup:
 	return(ret);
 }
 
+static int _parse_options(char *key, char *value)
+{
+	if(value == NULL) {
+		/* options without settings */
+		if(strcmp(key, "UseSyslog") == 0) {
+			alpm_option_set_usesyslog(1);
+			pm_printf(PM_LOG_DEBUG, "config: usesyslog\n");
+		} else if(strcmp(key, "ILoveCandy") == 0) {
+			config->chomp = 1;
+			pm_printf(PM_LOG_DEBUG, "config: chomp\n");
+		} else if(strcmp(key, "ShowSize") == 0) {
+			config->showsize = 1;
+			pm_printf(PM_LOG_DEBUG, "config: showsize\n");
+		} else if(strcmp(key, "UseDelta") == 0) {
+			alpm_option_set_usedelta(1);
+			pm_printf(PM_LOG_DEBUG, "config: usedelta\n");
+		} else if(strcmp(key, "TotalDownload") == 0) {
+			config->totaldownload = 1;
+			pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
+		} else {
+			pm_printf(PM_LOG_ERROR, _("directive '%s' without value not recognized\n"), key);
+			return(1);
+		}
+	} else {
+		/* options with settings */
+		if(strcmp(key, "NoUpgrade") == 0) {
+			setrepeatingoption(value, "NoUpgrade", alpm_option_add_noupgrade);
+		} else if(strcmp(key, "NoExtract") == 0) {
+			setrepeatingoption(value, "NoExtract", alpm_option_add_noextract);
+		} else if(strcmp(key, "IgnorePkg") == 0) {
+			setrepeatingoption(value, "IgnorePkg", alpm_option_add_ignorepkg);
+		} else if(strcmp(key, "IgnoreGroup") == 0) {
+			setrepeatingoption(value, "IgnoreGroup", alpm_option_add_ignoregrp);
+		} else if(strcmp(key, "HoldPkg") == 0) {
+			setrepeatingoption(value, "HoldPkg", option_add_holdpkg);
+		} else if(strcmp(key, "SyncFirst") == 0) {
+			setrepeatingoption(value, "SyncFirst", option_add_syncfirst);
+		} else if(strcmp(key, "Architecture") == 0) {
+			if(!alpm_option_get_arch()) {
+				setarch(value);
+			}
+		} else if(strcmp(key, "DBPath") == 0) {
+			/* don't overwrite a path specified on the command line */
+			if(!config->dbpath) {
+				config->dbpath = strdup(value);
+				pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", value);
+			}
+		} else if(strcmp(key, "CacheDir") == 0) {
+			if(alpm_option_add_cachedir(value) != 0) {
+				pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
+						value, alpm_strerrorlast());
+				return(1);
+			}
+			pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", value);
+		} else if(strcmp(key, "RootDir") == 0) {
+			/* don't overwrite a path specified on the command line */
+			if(!config->rootdir) {
+				config->rootdir = strdup(value);
+				pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", value);
+			}
+		} else if (strcmp(key, "LogFile") == 0) {
+			if(!config->logfile) {
+				config->logfile = strdup(value);
+				pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", value);
+			}
+		} else if (strcmp(key, "XferCommand") == 0) {
+			config->xfercommand = strdup(value);
+			alpm_option_set_fetchcb(download_with_xfercommand);
+			pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", value);
+		} else if (strcmp(key, "CleanMethod") == 0) {
+			if (strcmp(value, "KeepInstalled") == 0) {
+				config->cleanmethod = PM_CLEAN_KEEPINST;
+			} else if (strcmp(value, "KeepCurrent") == 0) {
+				config->cleanmethod = PM_CLEAN_KEEPCUR;
+			} else {
+				pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"), value);
+				return(1);
+			}
+			pm_printf(PM_LOG_DEBUG, "config: cleanmethod: %s\n", value);
+		} else {
+			pm_printf(PM_LOG_ERROR, _("directive '%s' with a value not recognized\n"), key);
+			return(1);
+		}
+
+	}
+	return(0);
+}
+
+static int _add_mirror(pmdb_t *db, char *value)
+{
+	const char *dbname = alpm_db_get_name(db);
+	/* let's attempt a replacement for the current repo */
+	char *temp = strreplace(value, "$repo", dbname);
+	/* let's attempt a replacement for the arch */
+	const char *arch = alpm_option_get_arch();
+	char *server;
+	if(arch) {
+		server = strreplace(temp, "$arch", arch);
+		free(temp);
+	} else {
+		if(strstr(temp, "$arch")) {
+			free(temp);
+			pm_printf(PM_LOG_ERROR, _("The mirror '%s' contains the $arch"
+						" variable, but no Architecture is defined.\n"), value);
+			return(1);
+		}
+		server = temp;
+	}
+
+	if(alpm_db_setserver(db, server) != 0) {
+		/* pm_errno is set by alpm_db_setserver */
+		pm_printf(PM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
+				dbname, server, alpm_strerrorlast());
+		free(server);
+		return(1);
+	}
+
+	free(server);
+	return(0);
+}
+
 /* The real parseconfig. Called with a null section argument by the publicly
  * visible parseconfig so we can recall from within ourself on an include */
 static int _parseconfig(const char *file, const char *givensection,
@@ -779,159 +900,70 @@ static int _parseconfig(const char *file, const char *givensection,
 					goto cleanup;
 				}
 			}
-		} else {
-			/* directive */
-			char *key;
-			/* strsep modifies the 'line' string: 'key \0 ptr' */
-			key = line;
-			ptr = line;
-			strsep(&ptr, "=");
-			strtrim(key);
-			strtrim(ptr);
+			continue;
+		}
 
-			if(key == NULL) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
+		/* directive */
+		char *key, *value;
+		/* strsep modifies the 'line' string: 'key \0 value' */
+		key = line;
+		value = line;
+		strsep(&value, "=");
+		strtrim(key);
+		strtrim(value);
+
+		if(key == NULL) {
+			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
+					file, linenum);
+			ret = 1;
+			goto cleanup;
+		}
+		/* For each directive, compare to the camelcase string. */
+		if(section == NULL) {
+			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
+					file, linenum);
+			ret = 1;
+			goto cleanup;
+		}
+		if(strcmp(section, "options") == 0) {
+			if((ret = _parse_options(key, value)) != 0) {
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: problem in options section\n"),
 						file, linenum);
 				ret = 1;
 				goto cleanup;
 			}
-			/* For each directive, compare to the camelcase string. */
-			if(section == NULL) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
-						file, linenum);
-				ret = 1;
-				goto cleanup;
-			}
-			if(ptr == NULL && strcmp(section, "options") == 0) {
-				/* directives without settings, all in [options] */
-				if(strcmp(key, "UseSyslog") == 0) {
-					alpm_option_set_usesyslog(1);
-					pm_printf(PM_LOG_DEBUG, "config: usesyslog\n");
-				} else if(strcmp(key, "ILoveCandy") == 0) {
-					config->chomp = 1;
-					pm_printf(PM_LOG_DEBUG, "config: chomp\n");
-				} else if(strcmp(key, "ShowSize") == 0) {
-					config->showsize = 1;
-					pm_printf(PM_LOG_DEBUG, "config: showsize\n");
-				} else if(strcmp(key, "UseDelta") == 0) {
-					alpm_option_set_usedelta(1);
-					pm_printf(PM_LOG_DEBUG, "config: usedelta\n");
-				} else if(strcmp(key, "TotalDownload") == 0) {
-					config->totaldownload = 1;
-					pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
-				} else {
-					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
+			continue;
+		} else {
+			/* we are in a repo section */
+			if(strcmp(key, "Include") == 0) {
+				if(value == NULL) {
+					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
 							file, linenum, key);
+					ret = 1;
+					goto cleanup;
+				}
+				pm_printf(PM_LOG_DEBUG, "config: including %s\n", value);
+				_parseconfig(value, section, db);
+				/* Ignore include failures... assume non-critical */
+			} else if(strcmp(key, "Server") == 0) {
+				if(value == NULL) {
+					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
+							file, linenum, key);
+					ret = 1;
+					goto cleanup;
+				}
+				if(_add_mirror(db, value) != 0) {
 					ret = 1;
 					goto cleanup;
 				}
 			} else {
-				/* directives with settings */
-				if(strcmp(key, "Include") == 0) {
-					pm_printf(PM_LOG_DEBUG, "config: including %s\n", ptr);
-					_parseconfig(ptr, section, db);
-					/* Ignore include failures... assume non-critical */
-				} else if(strcmp(section, "options") == 0) {
-					if(strcmp(key, "NoUpgrade") == 0) {
-						setrepeatingoption(ptr, "NoUpgrade", alpm_option_add_noupgrade);
-					} else if(strcmp(key, "NoExtract") == 0) {
-						setrepeatingoption(ptr, "NoExtract", alpm_option_add_noextract);
-					} else if(strcmp(key, "IgnorePkg") == 0) {
-						setrepeatingoption(ptr, "IgnorePkg", alpm_option_add_ignorepkg);
-					} else if(strcmp(key, "IgnoreGroup") == 0) {
-						setrepeatingoption(ptr, "IgnoreGroup", alpm_option_add_ignoregrp);
-					} else if(strcmp(key, "HoldPkg") == 0) {
-						setrepeatingoption(ptr, "HoldPkg", option_add_holdpkg);
-					} else if(strcmp(key, "SyncFirst") == 0) {
-						setrepeatingoption(ptr, "SyncFirst", option_add_syncfirst);
-					} else if(strcmp(key, "Architecture") == 0) {
-						if(!alpm_option_get_arch()) {
-							setarch(ptr);
-						}
-					} else if(strcmp(key, "DBPath") == 0) {
-						/* don't overwrite a path specified on the command line */
-						if(!config->dbpath) {
-							config->dbpath = strdup(ptr);
-							pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", ptr);
-						}
-					} else if(strcmp(key, "CacheDir") == 0) {
-						if(alpm_option_add_cachedir(ptr) != 0) {
-							pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
-									ptr, alpm_strerrorlast());
-							ret = 1;
-							goto cleanup;
-						}
-						pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", ptr);
-					} else if(strcmp(key, "RootDir") == 0) {
-						/* don't overwrite a path specified on the command line */
-						if(!config->rootdir) {
-							config->rootdir = strdup(ptr);
-							pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", ptr);
-						}
-					} else if (strcmp(key, "LogFile") == 0) {
-						if(!config->logfile) {
-							config->logfile = strdup(ptr);
-							pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", ptr);
-						}
-					} else if (strcmp(key, "XferCommand") == 0) {
-						config->xfercommand = strdup(ptr);
-						alpm_option_set_fetchcb(download_with_xfercommand);
-						pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", ptr);
-					} else if (strcmp(key, "CleanMethod") == 0) {
-						if (strcmp(ptr, "KeepInstalled") == 0) {
-							config->cleanmethod = PM_CLEAN_KEEPINST;
-						} else if (strcmp(ptr, "KeepCurrent") == 0) {
-							config->cleanmethod = PM_CLEAN_KEEPCUR;
-						} else {
-							pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"), ptr);
-							ret = 1;
-							goto cleanup;
-						}
-						pm_printf(PM_LOG_DEBUG, "config: cleanmethod: %s\n", ptr);
-					} else {
-						pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
-								file, linenum, key);
-						ret = 1;
-						goto cleanup;
-					}
-				} else if(strcmp(key, "Server") == 0) {
-					/* let's attempt a replacement for the current repo */
-					char *temp = strreplace(ptr, "$repo", section);
-					/* let's attempt a replacement for the arch */
-					const char *arch = alpm_option_get_arch();
-					char *server;
-					if(arch) {
-						server = strreplace(temp, "$arch", arch);
-						free(temp);
-					} else {
-						if(strstr(temp, "$arch")) {
-							free(temp);
-							pm_printf(PM_LOG_ERROR, _("The mirror '%s' contains the $arch"
-										" variable, but no Architecture is defined.\n"), ptr);
-							ret = 1;
-							goto cleanup;
-						}
-						server = temp;
-					}
-
-					if(alpm_db_setserver(db, server) != 0) {
-						/* pm_errno is set by alpm_db_setserver */
-						pm_printf(PM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
-								alpm_db_get_name(db), server, alpm_strerrorlast());
-						free(server);
-						ret = 1;
-						goto cleanup;
-					}
-
-					free(server);
-				} else {
-					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' not recognized.\n"),
-							file, linenum, key);
-					ret = 1;
-					goto cleanup;
-				}
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' in repository section '%s' not recognized.\n"),
+						file, linenum, key, section);
+				ret = 1;
+				goto cleanup;
 			}
 		}
+
 	}
 
 cleanup:
