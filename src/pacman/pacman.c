@@ -334,6 +334,8 @@ static void setlibpaths(void)
 	}
 }
 
+#define check_optarg() if(!optarg) { return(1); }
+
 /** Parse command-line arguments for each operation.
  * @param argc argc
  * @param argv argv
@@ -408,12 +410,14 @@ static int parseargs(int argc, char *argv[])
 			case 0: break;
 			case OP_NOCONFIRM: config->noconfirm = 1; break;
 			case OP_CONFIG:
+				check_optarg();
 				if(config->configfile) {
 					free(config->configfile);
 				}
 				config->configfile = strndup(optarg, PATH_MAX);
 				break;
 			case OP_IGNORE:
+				check_optarg();
 				list = strsplit(optarg, ',');
 				for(item = list; item; item = alpm_list_next(item)) {
 					alpm_option_add_ignorepkg((char *)alpm_list_getdata(item));
@@ -445,8 +449,13 @@ static int parseargs(int argc, char *argv[])
 				break;
 			case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
 			case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-			case OP_ASK: config->noask = 1; config->ask = atoi(optarg); break;
+			case OP_ASK:
+				check_optarg();
+				config->noask = 1;
+				config->ask = atoi(optarg);
+				break;
 			case OP_CACHEDIR:
+				check_optarg();
 				if(alpm_option_add_cachedir(optarg) != 0) {
 					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
 							optarg, alpm_strerrorlast());
@@ -457,9 +466,11 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_ALLDEPS;
 				break;
 			case OP_LOGFILE:
+				check_optarg();
 				config->logfile = strndup(optarg, PATH_MAX);
 				break;
 			case OP_IGNOREGROUP:
+				check_optarg();
 				list = strsplit(optarg, ',');
 				for(item = list; item; item = alpm_list_next(item)) {
 					alpm_option_add_ignoregrp((char *)alpm_list_getdata(item));
@@ -471,6 +482,7 @@ static int parseargs(int argc, char *argv[])
 				config->flags |= PM_TRANS_FLAG_ALLEXPLICIT;
 				break;
 			case OP_ARCH:
+				check_optarg();
 				setarch(optarg);
 				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
@@ -480,6 +492,7 @@ static int parseargs(int argc, char *argv[])
 			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
 			case 'V': config->version = 1; break;
 			case 'b':
+				check_optarg();
 				config->dbpath = strdup(optarg);
 				break;
 			case 'c':
@@ -516,6 +529,7 @@ static int parseargs(int argc, char *argv[])
 				config->quiet = 1;
 				break;
 			case 'r':
+				check_optarg();
 				config->rootdir = strdup(optarg);
 				break;
 			case 's':
