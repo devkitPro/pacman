@@ -573,7 +573,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 		}
 		pmpkg_t *cachepkg = i->data;
 		if(_alpm_dep_edge(cachepkg, pkg)) {
-			const char *cachepkgname = pkg->name;
+			const char *cachepkgname = cachepkg->name;
 			reqs = alpm_list_add(reqs, strdup(cachepkgname));
 		}
 	}
