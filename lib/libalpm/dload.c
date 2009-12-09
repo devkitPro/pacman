@@ -118,13 +118,14 @@ static int download_internal(const char *url, const char *localpath,
 
 	filename = get_filename(url);
 	if(!filename) {
-		return(-1);
+		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
+		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
 	}
 
 	fileurl = fetchParseURL(url);
 	if(!fileurl) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
-		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
+		RET_ERR(PM_ERR_LIBFETCH, -1);
 	}
 
 	destfile = get_destfile(localpath, filename);
@@ -179,6 +180,9 @@ static int download_internal(const char *url, const char *localpath,
 	 * non-stat request, so avoid it. */
 	fetchLastErrCode = 0;
 	if(fetchStat(fileurl, &ust, "") == -1) {
+		pm_errno = PM_ERR_LIBFETCH;
+		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+				filename, gethost(fileurl), fetchLastErrString);
 		ret = -1;
 		goto cleanup;
 	}
@@ -230,6 +234,7 @@ static int download_internal(const char *url, const char *localpath,
 		dl_thisfile = 0;
 		localf = fopen(tempfile, "wb");
 		if(localf == NULL) { /* still null? */
+			pm_errno = PM_ERR_RETRIEVE;
 			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
 					tempfile, strerror(errno));
 			ret = -1;
@@ -247,6 +252,7 @@ static int download_internal(const char *url, const char *localpath,
 		size_t nwritten = 0;
 		nwritten = fwrite(buffer, 1, nread, localf);
 		if((nwritten != nread) || ferror(localf)) {
+			pm_errno = PM_ERR_RETRIEVE;
 			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
 					tempfile, strerror(errno));
 			ret = -1;
