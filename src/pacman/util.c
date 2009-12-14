@@ -446,18 +446,20 @@ void list_display(const char *title, const alpm_list_t *list)
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
 			int s = string_length(str);
-			/* two additional spaces are added to the length */
-			s += 2;
 			int maxcols = getcols();
-			if(s + cols > maxcols && maxcols > 0) {
+			if(maxcols > 0 && (cols + s + 2) >= maxcols) {
 				int j;
 				cols = len;
 				printf("\n");
 				for (j = 1; j <= len; j++) {
 					printf(" ");
 				}
+			} else if (cols != len) {
+				/* 2 spaces are added if this is not the first element on a line. */
+				printf("  ");
+				cols += 2;
 			}
-			printf("%s  ", str);
+			printf("%s", str);
 			cols += s;
 		}
 		printf("\n");
