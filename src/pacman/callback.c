@@ -320,7 +320,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	float timediff;
 
 	/* size of line to allocate for text printing (e.g. not progressbar) */
-	const int infolen = 50;
+	int infolen;
 	int tmp, digits, textlen;
 	char *opr = NULL;
 	/* used for wide character width determination and printing */
@@ -329,6 +329,11 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	if(config->noprogressbar) {
 		return;
+	}
+
+	infolen = getcols() * 6 / 10;
+	if (infolen < 50) {
+		infolen = 50;
 	}
 
 	if(percent == 0) {
@@ -449,9 +454,8 @@ void cb_dl_total(off_t total)
 /* callback to handle display of download progress */
 void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 {
-	const int infolen = 50;
-	/* explanation of magic 28 number at the end */
-	const int filenamelen = infolen - 28;
+	int infolen;
+	int filenamelen;
 	char *fname, *p;
 	/* used for wide character width determination and printing */
 	int len, wclen, wcwid, padwid;
@@ -471,6 +475,13 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		}
 		return;
 	}
+
+	infolen = getcols() * 6 / 10;
+	if (infolen < 50) {
+		infolen = 50;
+	}
+	/* explanation of magic 28 number at the end */
+	filenamelen = infolen - 28;
 
 	/* only use TotalDownload if enabled and we have a callback value */
 	if(config->totaldownload && list_total) {
