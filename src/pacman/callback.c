@@ -90,20 +90,20 @@ static float get_update_timediff(int first_call)
 static void fill_progress(const int bar_percent, const int disp_percent,
 		const int proglen)
 {
-	const unsigned int hashlen = proglen - 8;
-	const unsigned int hash = bar_percent * hashlen / 100;
-	static unsigned int lasthash = 0, mouth = 0;
-	unsigned int i;
+	/* 8 = 1 space + 1 [ + 1 ] + 5 for percent */
+	const int hashlen = proglen - 8;
+	const int hash = bar_percent * hashlen / 100;
+	static int lasthash = 0, mouth = 0;
+	int i;
 
 	if(bar_percent == 0) {
 		lasthash = 0;
 		mouth = 0;
 	}
 
-	/* magic numbers, how I loathe thee */
-	if(proglen > 8) {
+	if(hashlen > 0) {
 		printf(" [");
-		for(i = hashlen; i > 1; --i) {
+		for(i = hashlen; i > 0; --i) {
 			/* if special progress bar enabled */
 			if(config->chomp) {
 				if(i > hashlen - hash) {
@@ -139,7 +139,8 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 		printf("]");
 	}
 	/* print display percent after progress bar */
-	if(proglen > 5) {
+	/* 5 = 1 space + 3 digits + 1 % */
+	if(proglen >= 5) {
 		printf(" %3d%%", disp_percent);
 	}
 
@@ -374,7 +375,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 		++digits;
 	}
 	/* determine room left for non-digits text [not ( 1/12) part] */
-	textlen = infolen - 3 - (2 * digits);
+	textlen = infolen - 3 /* (/) */ - (2 * digits) - 1 /* space */;
 
 	/* In order to deal with characters from all locales, we have to worry
 	 * about wide characters and their column widths. A lot of stuff is
@@ -449,7 +450,8 @@ void cb_dl_total(off_t total)
 void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 {
 	const int infolen = 50;
-	const int filenamelen = infolen - 27;
+	/* explanation of magic 28 number at the end */
+	const int filenamelen = infolen - 28;
 	char *fname, *p;
 	/* used for wide character width determination and printing */
 	int len, wclen, wcwid, padwid;
@@ -611,6 +613,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		}
 	}
 
+	/* 1 space + filenamelen + 1 space + 7 for size + 1 + 7 for rate + 2 for /s + 1 space + 8 for eta */
 	printf(" %ls%-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", wcfname,
 			padwid, "", f_xfered, xfered_size,
 			rate, rate_size, eta_h, eta_m, eta_s);
