@@ -186,6 +186,9 @@ GCC_GNU89_INLINE_CC
 # Host-dependant definitions
 SIZECMD="stat -L -c %s"
 SEDINPLACE="sed -i"
+STRIP_BINARIES="--strip-all"
+STRIP_SHARED="--strip-unneeded"
+STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
 		SIZECMD="stat -L -f %z"
@@ -199,6 +202,9 @@ case "${host_os}" in
 		host_os_darwin=yes
 		SIZECMD="/usr/bin/stat -L -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
+		STRIP_BINARIES=""
+		STRIP_SHARED="-S"
+		STRIP_STATIC="-S"
 		;;
 esac
 
@@ -206,6 +212,9 @@ AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_SUBST(SIZECMD)
 AC_SUBST(SEDINPLACE)
+AC_SUBST(STRIP_BINARIES)
+AC_SUBST(STRIP_SHARED)
+AC_SUBST(STRIP_STATIC)
 
 # Check for architecture, used in default makepkg.conf
 # (Note single space left after CARCHFLAGS)

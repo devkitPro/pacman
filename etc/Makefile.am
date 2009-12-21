@@ -13,6 +13,9 @@ edit = sed \
 	-e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 	-e 's|@PKGEXT[@]|$(PKGEXT)|g' \
 	-e 's|@SRCEXT[@]|$(SRCEXT)|g' \
+	-e 's|@STRIP_BINARIES[@]|$(STRIP_BINARIES)|g' \
+	-e 's|@STRIP_SHARED[@]|$(STRIP_SHARED)|g' \
+	-e 's|@STRIP_STATIC[@]|$(STRIP_STATIC)|g' \
 	-e 's|@CARCH[@]|$(CARCH)|g' \
 	-e 's|@CHOST[@]|$(CHOST)|g' \
 	-e 's|@ARCHSWITCH[@]|$(ARCHSWITCH)|g' \

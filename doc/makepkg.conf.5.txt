@@ -135,6 +135,18 @@ Options
 	affects both generation and checking. The current valid options are:
 	`md5`, `sha1`, `sha256`, `sha384`, and `sha512`.
 
+**STRIP_BINARIES=**"@STRIP_BINARIES@"::
+	Options to be used when stripping binaries. See `strip''s man page
+	for details.
+
+**STRIP_SHARED=**"@STRIP_SHARED@"::
+	Options to be used when stripping shared libraries. See `strip''s
+	man page for details.
+
+**STRIP_STATIC=**"@STRIP_STATIC@"::
+	Options to be used when stripping static libraries. See `strip''s
+	man page for details.
+
 **MAN_DIRS=(**{usr{,/local}{,/share},opt/*}/{man,info} ...**)**::
 	If `zipman` is specified in the OPTIONS array, this variable will
 	instruct makepkg where to look to compress manual (man and info)

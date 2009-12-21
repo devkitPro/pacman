@@ -841,18 +841,18 @@ tidy_install() {
 	fi
 
 	if [[ $(check_option strip) = y && -n ${STRIP_DIRS[*]} ]]; then
-		msg2 "$(gettext "Stripping debugging symbols from binaries and libraries...")"
+		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
 		local binary
 		find ${STRIP_DIRS[@]} -type f -writable 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
 				*compressed-encoding*)      # Skip compressed binaries
 					;;
 				*application/x-sharedlib*)  # Libraries (.so)
-					/usr/bin/strip -S "$binary";;
+					/usr/bin/strip $STRIP_SHARED "$binary";;
 				*application/x-archive*)    # Libraries (.a)
-					/usr/bin/strip -S "$binary";;
+					/usr/bin/strip $STRIP_STATIC "$binary";;
 				*application/x-executable*) # Binaries
-					/usr/bin/strip "$binary";;
+					/usr/bin/strip $STRIP_BINARIES "$binary";;
 			esac
 		done
 	fi

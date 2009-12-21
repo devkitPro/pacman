@@ -72,6 +72,12 @@ OPTIONS=(strip docs libtool emptydirs zipman purge)
 
 #-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
 INTEGRITY_CHECK=(md5)
+#-- Options to be used when stripping binaries. See `man strip' for details.
+STRIP_BINARIES="@STRIP_BINARIES@"
+#-- Options to be used when stripping shared libraries. See `man strip' for details.
+STRIP_SHARED="@STRIP_SHARED@"
+#-- Options to be used when stripping static libraries. See `man strip' for details.
+STRIP_STATIC="@STRIP_STATIC@"
 #-- Manual (man and info) directories to compress (if zipman is specified)
 MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
 #-- Doc directories to remove (if !docs is specified)
