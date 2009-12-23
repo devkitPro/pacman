@@ -538,7 +538,9 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		printf("\n");
 
 		printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
-		printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
+		if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
+			printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
+		}
 	} else {
 		asprintf(&str, _("Remove (%d):"), alpm_list_count(targets));
 		list_display(str, targets);
