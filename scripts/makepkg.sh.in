@@ -1108,7 +1108,7 @@ create_srcpackage() {
 		"$SRCEXT" ;;
 	esac
 
-	local pkg_file="$PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}"
+	local pkg_file="$SRCPKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT}"
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
@@ -1575,6 +1575,7 @@ done
 #preserve environment variables
 _PKGDEST=${PKGDEST}
 _SRCDEST=${SRCDEST}
+_SRCPKGDEST=${SRCPKGDEST}
 
 # default config is makepkg.conf
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
@@ -1613,6 +1614,8 @@ PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 SRCDEST=${_SRCDEST:-$SRCDEST}
 SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
+SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
+SRCPKGDEST=${SRCPKGDEST:-$PKGDEST} #default to $PKGDEST if undefined
 
 
 if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
@@ -1838,7 +1841,7 @@ msg "$(gettext "Making package: %s")" "$pkgbase $pkgver-$pkgrel ($(date))"
 
 # if we are creating a source-only package, go no further
 if (( SOURCEONLY )); then
-	if [[ -f $PKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT} ]] \
+	if [[ -f $SRCPKGDEST/${pkgbase}-${pkgver}-${pkgrel}${SRCEXT} ]] \
 	     && (( ! FORCE )); then
 		error "$(gettext "A source package has already been built. (use -f to overwrite)")"
 		exit 1
