@@ -132,6 +132,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* print targets and ask user confirmation */
 	alpm_list_t *packages = alpm_trans_get_add();
 	if(packages == NULL) { /* we are done */
+		printf(_(" there is nothing to do\n"));
 		trans_release();
 		return(retval);
 	}

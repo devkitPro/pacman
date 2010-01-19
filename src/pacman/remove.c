@@ -118,6 +118,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 3: actually perform the removal */
 	alpm_list_t *pkglist = alpm_trans_get_remove();
 	if(pkglist == NULL) {
+		printf(_(" there is nothing to do\n"));
 		goto cleanup; /* we are done */
 	}
 	/* print targets and ask user confirmation */

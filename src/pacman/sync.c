@@ -663,7 +663,7 @@ static int sync_trans(alpm_list_t *targets)
 	packages = alpm_trans_get_add();
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
-		printf(_(" local database is up to date\n"));
+		printf(_(" there is nothing to do\n"));
 		goto cleanup;
 	}
 
