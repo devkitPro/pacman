@@ -932,6 +932,33 @@ tidy_install() {
 	fi
 }
 
+find_libprovides() {
+	local libprovides
+	find "$pkgdir" -type f -name \*.so\* | while read filename
+	do
+		# check if we really have a shared object
+		if LC_ALL=C readelf -h "$filename" 2>/dev/null | grep -q '.*Type:.*DYN (Shared object file).*'; then
+			# 64
+			soarch=$(LC_ALL=C readelf -h "$filename" | sed -n 's/.*Class.*ELF\(32\|64\)/\1/p')
+			# get the string binaries link to: libfoo.so.1.2 -> libfoo.so.1
+			sofile=$(LC_ALL=C readelf -d "$filename" 2>/dev/null | sed -n 's/.*Library soname: \[\(.*\)\].*/\1/p')
+			[ -z "$sofile" ] && sofile="${$filename##*/}"
+
+			# extract the library name: libfoo.so
+			soname="${sofile%%\.so\.*}.so"
+			# extract the major version: 1
+			soversion="${sofile##*\.so\.}"
+			if in_array "${soname}" ${provides[@]}; then
+				if ! in_array "${soname}=${soversion}-${soarch}" ${libprovides[@]}; then
+					# libfoo.so=1-64
+					echo "${soname}=${soversion}-${soarch}"
+					libprovides=(${libprovides[@]} "${soname}=${soversion}-${soarch}")
+				fi
+			fi
+    fi
+	done
+}
+
 write_pkginfo() {
 	local builddate=$(date -u "+%s")
 	if [[ -n $PACKAGER ]]; then
@@ -964,10 +991,27 @@ write_pkginfo() {
 	[[ $depends ]]    && printf "depend = %s\n"    "${depends[@]}"
 	[[ $optdepends ]] && printf "optdepend = %s\n" "${optdepends[@]}"
 	[[ $conflicts ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
-	[[ $provides ]]   && printf "provides = %s\n"  "${provides[@]}"
 	[[ $backup ]]     && printf "backup = %s\n"    "${backup[@]}"
 
 	local it
+
+	libprovides=$(find_libprovides)
+	provides=("${provides[@]}" ${libprovides})
+
+	for it in "${provides[@]}"; do
+		# ignore versionless entires (those come from the PKGBUILD)
+		if [[ $it  = *.so ]]; then
+			# check if the entry has been found by find_libprovides
+			# if not, it's unneeded; tell the user so he can remove it
+			if [[ ! $libprovides =~ (^|\s)${it}=.* ]]; then
+				error "$(gettext "Can't find library listed in \$provides: %s")" "$it"
+				return 1
+			fi
+		else
+			echo "provides = $it"
+		fi
+	done
+
 	for it in "${packaging_options[@]}"; do
 		local ret="$(check_option $it)"
 		if [[ $ret != "?" ]]; then
