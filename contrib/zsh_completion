@@ -32,7 +32,7 @@ _pacman_opts_common=(
 _pacman_opts_pkgfile=(
 	'-d[Skip dependency checks]'
 	'-f[Overwrite conflicting files]'
-	'*:package file:_files -g "*.pkg.tar.gz(.)"'
+	'*:package file:_files -g "*.pkg.tar.*(.)"'
 )
 
 # options for passing to _arguments: subactions for --query command
@@ -120,7 +120,7 @@ _pacman_action_query() {
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
-				'*:package file:_files -g "*.pkg.tar.gz"'
+				'*:package file:_files -g "*.pkg.tar.*"'
 				;;
 		query_group)
 			_arguments -s : \
@@ -295,11 +295,11 @@ _pacman() {
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files'
 				;;
-		-Q*p*) # file *.pkg.tar.gz
+		-Q*p*) # file *.pkg.tar.*
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
-				'*:package file:_files -g "*.pkg.tar.gz"'
+				'*:package file:_files -g "*.pkg.tar.*"'
 				;;
 		-Q*)  _pacman_action_query    ;;
 		-R*)  _pacman_action_remove   ;;
