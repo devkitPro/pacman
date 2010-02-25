@@ -14,7 +14,7 @@ rem_selected ()
   # (Adapted from bash_completion by Ian Macdonald <ian@caliban.org>)
   # This removes any options from the list of completions that have
   # already been specified on the command line.
-  COMPREPLY=($(/bin/echo "${COMP_WORDS[@]}" | \
+  COMPREPLY=($(\echo "${COMP_WORDS[@]}" | \
     (while read -d ' ' i; do
       [ "${i}" == "" ] && continue
       # flatten array with spaces on either side,
@@ -24,20 +24,20 @@ rem_selected ()
       # remove word from list of completions
       COMPREPLY=(${COMPREPLY/ ${i%% *} / })
     done
-    /bin/echo ${COMPREPLY[@]})))
+    \echo ${COMPREPLY[@]})))
   return 0
 }
 
 _available_repos ()
 {
-  COMPREPLY=( $( compgen -W "$(/bin/grep '\[' /etc/pacman.conf | /bin/grep -v -e 'options' -e '^#' | tr -d '[]' )" -- $cur ) )
+  COMPREPLY=( $( compgen -W "$(\grep '\[' /etc/pacman.conf | \grep -v -e 'options' -e '^#' | \tr -d '[]' )" -- $cur ) )
 }
 
 _installed_pkgs ()
 {
   local installed_pkgs
-  installed_pkgs=$( /bin/ls /var/lib/pacman/local/ )
-  COMPREPLY=( $( compgen -W "$( for i in $installed_pkgs; do /bin/echo ${i%-*-*}; done )" -- $cur ) )
+  installed_pkgs=$( \ls /var/lib/pacman/local/ )
+  COMPREPLY=( $( compgen -W "$( for i in $installed_pkgs; do \echo ${i%-*-*}; done )" -- $cur ) )
 }
 
 _available_pkgs ()
@@ -47,16 +47,16 @@ _available_pkgs ()
   # This little change-up removes the find *and* only uses enabled repos
   local available_pkgs
   local enabled_repos
-  enabled_repos=$( /bin/grep '\[' /etc/pacman.conf | /bin/grep -v -e 'options' -e '^#' | tr -d '[]' )
-  available_pkgs=$( for r in $enabled_repos; do /bin/echo /var/lib/pacman/sync/$r/*; done )
+  enabled_repos=$( \grep '\[' /etc/pacman.conf | \grep -v -e 'options' -e '^#' | \tr -d '[]' )
+  available_pkgs=$( for r in $enabled_repos; do \echo /var/lib/pacman/sync/$r/*; done )
   COMPREPLY=( $( compgen -W "$( for i in $available_pkgs; do j=${i##*/}; echo ${j%-*-*}; done )" -- $cur ) )
 }
 
 _installed_groups ()
 {
   local installed_groups
-  installed_groups=$( /bin/find /var/lib/pacman/local -name desc -exec /bin/sed -ne '/%GROUPS%/,/^$/{//d; p}' {} \; | /bin/sort -u )
-  COMPREPLY=( $( compgen -W "$( for i in $installed_groups; do /bin/echo ${i%-*-*}; done )" -- $cur ) )
+  installed_groups=$( \find /var/lib/pacman/local -name desc -exec \sed -ne '/%GROUPS%/,/^$/{//d; p}' {} \; | \sort -u )
+  COMPREPLY=( $( compgen -W "$( for i in $installed_groups; do \echo ${i%-*-*}; done )" -- $cur ) )
 }
 
 _available_groups ()
@@ -66,9 +66,9 @@ _available_groups ()
   # This little change-up removes the find *and* only uses enabled repos
   local available_groups
   local enabled_repos
-  enabled_repos=$( /bin/grep '\[' /etc/pacman.conf | /bin/grep -v -e 'options' -e '^#' | tr -d '[]' )
-  available_groups=$( for r in $enabled_repos; do /bin/sed '/%GROUPS%/,/^$/{//d; p}' /var/lib/pacman/sync/$r/*/desc | /bin/sort -u; done )
-  COMPREPLY=( $( compgen -W "$( for i in $available_groups; do /bin/echo ${i%-*-*}; done )" -- $cur ) )
+  enabled_repos=$( \grep '\[' /etc/pacman.conf | \grep -v -e 'options' -e '^#' | tr -d '[]' )
+  available_groups=$( for r in $enabled_repos; do \sed '/%GROUPS%/,/^$/{//d; p}' /var/lib/pacman/sync/$r/*/desc | \sort -u; done )
+  COMPREPLY=( $( compgen -W "$( for i in $available_groups; do \echo ${i%-*-*}; done )" -- $cur ) )
 }
 
 ## makepkg completion
@@ -126,7 +126,7 @@ _instring ()
   str="${1}"
   shift 1
   for c in "${@}"; do
-    if [ $(/bin/expr index "${str}" "${c}") -gt 0 ]; then
+    if [ $(\expr index "${str}" "${c}") -gt 0 ]; then
       return 0
     fi
   done
@@ -193,7 +193,7 @@ _pacman ()
     esac
 
     arglen=$(( ${#toparse}-1 ))
-    for c in $(/bin/seq 0 "${arglen}"); do
+    for c in $(\seq 0 "${arglen}"); do
       arg=${toparse:$c:1}
       [ "${arg}" != "-" ] && mod="${mod}${arg}"
     done
