@@ -344,8 +344,12 @@ download_file() {
 
 run_pacman() {
 	local ret=0
-	if (( ! ASROOT )) && [[ $1 != "-T" && $1 != "-Qq" ]] && sudo -l $PACMAN &>/dev/null; then
-		sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
+	if (( ! ASROOT )) && [[ $1 != "-T" && $1 != "-Qq" ]]; then
+		if [ "$(type -p sudo)" ] && sudo -l $PACMAN &>/dev/null; then
+			sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
+		else
+			su -c "$PACMAN $PACMAN_OPTS $*" || ret=$?
+		fi
 	else
 		$PACMAN $PACMAN_OPTS "$@" || ret=$?
 	fi
@@ -1694,12 +1698,9 @@ else
 fi
 
 # check for sudo if we will need it during makepkg execution
-if (( ! ASROOT && ( DEP_BIN || RMDEPS || INSTALL ) )); then
+if (( ! ( ASROOT || INFAKEROOT ) && ( DEP_BIN || RMDEPS || INSTALL ) )); then
 	if [ ! "$(type -p sudo)" ]; then
-		error "$(gettext "Cannot find the sudo binary! Is sudo installed?")"
-		plain "$(gettext "Missing dependencies cannot be installed or removed as a normal user")"
-		plain "$(gettext "without sudo; install and configure sudo to auto-resolve dependencies.")"
-		exit 1
+		warning "$(gettext "Sudo can not be found. Will use su to acquire root privileges.")"
 	fi
 fi
 
