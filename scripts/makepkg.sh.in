@@ -1050,6 +1050,7 @@ create_srcpackage() {
 
 	# Get back to our src directory so we can begin with sources.
 	mkdir -p "$srcdir"
+	chmod a-s "$srcdir"
 	cd "$srcdir"
 	download_sources
 	# We can only check checksums if we have all files.
@@ -1731,6 +1732,7 @@ fi
 
 if (( GENINTEG )); then
 	mkdir -p "$srcdir"
+	chmod a-s "$srcdir"
 	cd "$srcdir"
 	download_sources
 	generate_checksums
@@ -1830,6 +1832,7 @@ if (( INFAKEROOT )); then
 		for pkg in ${pkgname[@]}; do
 			pkgdir="$pkgdir/$pkg"
 			mkdir -p "$pkgdir"
+			chmod a-s "$pkgdir"
 			backup_package_variables
 			run_package $pkg
 			tidy_install
@@ -1886,6 +1889,7 @@ umask 0022
 
 # get back to our src directory so we can begin with sources
 mkdir -p "$srcdir"
+chmod a-s "$srcdir"
 cd "$srcdir"
 
 if (( NOEXTRACT )); then
@@ -1921,6 +1925,7 @@ else
 		rm -rf "$pkgdir"
 	fi
 	mkdir -p "$pkgdir"
+	chmod a-s "$pkgdir"
 	cd "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
@@ -1941,6 +1946,7 @@ else
 			for pkg in ${pkgname[@]}; do
 				pkgdir="$pkgdir/$pkg"
 				mkdir -p "$pkgdir"
+				chmod a-s "$pkgdir"
 				backup_package_variables
 				run_package $pkg
 				tidy_install
