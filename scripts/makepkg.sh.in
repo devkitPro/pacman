@@ -451,12 +451,6 @@ remove_deps() {
 download_sources() {
 	msg "$(gettext "Retrieving Sources...")"
 
-	if [[ ! -w $SRCDEST ]] ; then
-		error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
-		plain "$(gettext "Aborting...")"
-		exit 1
-	fi
-
 	pushd "$SRCDEST" &>/dev/null
 
 	local netfile
@@ -1612,8 +1606,20 @@ readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
 # override settings with an environment variable for batch processing
 PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
+if [[ ! -w $PKGDEST ]]; then
+	error "$(gettext "You do not have write permission to store packages in %s.")" "$PKGDEST"
+	plain "$(gettext "Aborting...")"
+	exit 1
+fi
+
 SRCDEST=${_SRCDEST:-$SRCDEST}
 SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
+if [[ ! -w $SRCDEST ]] ; then
+	error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
+	plain "$(gettext "Aborting...")"
+	exit 1
+fi
+
 SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
 SRCPKGDEST=${SRCPKGDEST:-$PKGDEST} #default to $PKGDEST if undefined
 
