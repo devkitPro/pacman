@@ -56,9 +56,48 @@ static char *resolve_path(const char* file)
 	return(str);
 }
 
+/* check if filename exists in PATH */
+static int search_path(char **filename, struct stat *bufptr)
+{
+	char *envpath, *envpathsplit, *path, *fullname;
+	size_t flen;
+
+	if ((envpath = getenv("PATH")) == NULL) {
+		return(-1);
+	}
+	if ((envpath = envpathsplit = strdup(envpath)) == NULL) {
+		return(-1);
+	}
+
+	flen = strlen(*filename);
+
+	while ((path = strsep(&envpathsplit, ":")) != NULL) {
+		size_t plen = strlen(path);
+
+		/* strip the trailing slash if one exists */
+		while(path[plen - 1] == '/') {
+				path[--plen] = '\0';
+		}
+
+		fullname = malloc(plen + flen + 2);
+		sprintf(fullname, "%s/%s", path, *filename);
+
+		if(lstat(fullname, bufptr) == 0) {
+			free(*filename);
+			*filename = fullname;
+			free(envpath);
+			return(0);
+		}
+		free(fullname);
+	}
+	free(envpath);
+	return(-1);
+}
+
 static int query_fileowner(alpm_list_t *targets)
 {
 	int ret = 0;
+	char *filename;
 	alpm_list_t *t;
 
 	/* This code is here for safety only */
@@ -69,23 +108,36 @@ static int query_fileowner(alpm_list_t *targets)
 
 	for(t = targets; t; t = alpm_list_next(t)) {
 		int found = 0;
-		char *filename = alpm_list_getdata(t);
+		filename = strdup(alpm_list_getdata(t));
 		char *bname, *dname, *rpath;
 		const char *root;
 		struct stat buf;
 		alpm_list_t *i, *j;
 
 		if(lstat(filename, &buf) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("failed to read file '%s': %s\n"),
-					filename, strerror(errno));
-			ret++;
-			continue;
+			/*  if it is not a path but a program name, then check in PATH */
+			if(strchr(filename, '/') == NULL) {
+				if(search_path(&filename, &buf) == -1) {
+					pm_fprintf(stderr, PM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
+							filename, strerror(errno));
+					ret++;
+					free(filename);
+					continue;
+				}
+			} else {
+				pm_fprintf(stderr, PM_LOG_ERROR, _("failed to read file '%s': %s\n"),
+						filename, strerror(errno));
+				ret++;
+				free(filename);
+				continue;
+			}
 		}
 
 		if(S_ISDIR(buf.st_mode)) {
 			pm_fprintf(stderr, PM_LOG_ERROR,
 				_("cannot determine ownership of a directory\n"));
 			ret++;
+			free(filename);
 			continue;
 		}
 
@@ -97,6 +149,7 @@ static int query_fileowner(alpm_list_t *targets)
 		if(!rpath) {
 			pm_fprintf(stderr, PM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
 					filename, strerror(errno));
+			free(filename);
 			free(rpath);
 			ret++;
 			continue;
@@ -137,6 +190,7 @@ static int query_fileowner(alpm_list_t *targets)
 			pm_fprintf(stderr, PM_LOG_ERROR, _("No package owns %s\n"), filename);
 			ret++;
 		}
+		free(filename);
 		free(rpath);
 	}
 
