@@ -563,7 +563,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	FREELIST(targets);
 }
 
-off_t pkg_get_size(pmpkg_t *pkg)
+static off_t pkg_get_size(pmpkg_t *pkg)
 {
 	switch(config->op) {
 		case PM_OP_SYNC:
@@ -575,7 +575,7 @@ off_t pkg_get_size(pmpkg_t *pkg)
 	}
 }
 
-char *pkg_get_location(pmpkg_t *pkg)
+static char *pkg_get_location(pmpkg_t *pkg)
 {
 	pmdb_t *db;
 	const char *dburl;
