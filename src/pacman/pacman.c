@@ -94,6 +94,9 @@ static void usage(int op, const char * const myname)
 			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
 				 "                       (-ss includes explicitly installed dependencies too)\n"));
 			printf(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
+			printf(_("      --print          only print the targets instead of performing the operation\n"));
+			printf(_("      --print-format <string>\n"
+			         "                       specify how the targets should be printed\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
@@ -101,6 +104,9 @@ static void usage(int op, const char * const myname)
 			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
+			printf(_("      --print          only print the targets instead of performing the operation\n"));
+			printf(_("      --print-format <string>\n"
+			         "                       specify how the targets should be printed\n"));
 		} else if(op == PM_OP_QUERY) {
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -137,11 +143,11 @@ static void usage(int op, const char * const myname)
 			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 			printf(_("      --ignoregroup <grp>\n"
 			         "                       ignore a group upgrade (can be used more than once)\n"));
+			printf(_("      --print          only print the targets instead of performing the operation\n"));
+			printf(_("      --print-format <string>\n"
+			         "                       specify how the targets should be printed\n"));
 			printf(_("  -q, --quiet          show less information for query and search\n"));
 		}
-		printf(_("      --print          only print the targets instead of performing the operation\n"));
-		printf(_("      --print-format <string>\n"
-		         "                       specify how the targets should be printed\n"));
 		printf(_("      --config <path>  set an alternate configuration file\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));
 		printf(_("      --noconfirm      do not ask for any confirmation\n"));
