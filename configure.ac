@@ -100,8 +100,8 @@ AC_ARG_ENABLE(internal-download,
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
-	AS_HELP_STRING([--disable-doc], [prevent make from looking at doc/ dir]),
-	[wantdoc=$enableval], [wantdoc=yes])
+	AS_HELP_STRING([--enable-doc], [run make in doc/ dir]),
+	[wantdoc=$enableval], [wantdoc=no])
 
 # Help line for doxygen
 AC_ARG_ENABLE(doxygen,
@@ -261,12 +261,18 @@ AC_SUBST(CARCHFLAGS)
 AC_SUBST(CHOST)
 
 # Check for documentation support and status
+AC_CHECK_PROGS([ASCIIDOC], [asciidoc])
 AC_MSG_CHECKING([for building documentation])
 if test "x$wantdoc" = "xyes" ; then
-	AC_MSG_RESULT([yes])
+	if test $ASCIIDOC ; then
+		AC_MSG_RESULT([yes, enabled by configure])
+	else
+		asciidoc="(warning : asciidoc not installed)"
+		AC_MSG_RESULT([yes $asciidoc])
+	fi
 	wantdoc=yes
 else
-	AC_MSG_RESULT([no, disabled by configure])
+	AC_MSG_RESULT([no])
 	wantdoc=no
 fi
 AM_CONDITIONAL(WANT_DOC, test "x$wantdoc" = "xyes")
@@ -389,7 +395,7 @@ ${PACKAGE_NAME}:
     build script name      : ${BUILDSCRIPT}
 
   Compilation options:
-    Run make in doc/ dir   : ${wantdoc}
+    Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Use download library   : ${internaldownload}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
