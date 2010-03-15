@@ -209,9 +209,9 @@ static int remove_olddir(const char *syncdbpath, alpm_list_t *dirlist)
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	char *dbfile, *dbfilepath;
-	const char *dbpath;
+	const char *dbpath, *syncdbpath;
+	alpm_list_t *filelist = NULL;
 	size_t len;
-
 	int ret;
 
 	ALPM_LOG_FUNC;
@@ -249,7 +249,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		return(-1);
 	}
 
-	const char *syncdbpath = _alpm_db_path(db);
+	syncdbpath = _alpm_db_path(db);
 
 	/* form the path to the db location */
 	len = strlen(dbpath) + strlen(db->treename) + strlen(DBEXT) + 1;
@@ -264,54 +264,43 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		} else {
 			_alpm_log(PM_LOG_DEBUG, "database dir %s removed\n", _alpm_db_path(db));
 		}
+	} else {
+		/* if not forcing, only remove and extract what is necessary */
+		alpm_list_t *newdirlist = NULL;
+		alpm_list_t *olddirlist = NULL;
+		alpm_list_t *onlyold = NULL;
 
-		/* Cache needs to be rebuilt */
-		_alpm_db_free_pkgcache(db);
-
-		checkdbdir(db);
-		ret = _alpm_unpack(dbfilepath, syncdbpath, NULL, 0);
-
-		free(dbfilepath);
+		ret = dirlist_from_tar(dbfilepath, &newdirlist);
 		if(ret) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
+			FREELIST(newdirlist);
+			goto cleanup;
 		}
-		return(0);
+		ret = dirlist_from_fs(syncdbpath, &olddirlist);
+		if(ret) {
+			FREELIST(olddirlist);
+			FREELIST(newdirlist);
+			goto cleanup;
+		}
+
+		alpm_list_diff_sorted(olddirlist, newdirlist, _alpm_str_cmp, &onlyold, &filelist);
+		FREELIST(olddirlist);
+		FREELIST(newdirlist);
+
+		ret = remove_olddir(syncdbpath, onlyold);
+		alpm_list_free(onlyold);
+		if(ret) {
+			goto cleanup;
+		}
 	}
-
-	/* if not forcing, only remove and extract what is necessary */
-	alpm_list_t *onlyold = NULL;
-	alpm_list_t *onlynew = NULL;
-	alpm_list_t *olddirlist = NULL;
-	alpm_list_t *newdirlist = NULL;
-
-	ret = dirlist_from_tar(dbfilepath, &newdirlist);
-	if(ret) {
-		goto cleanup;
-	}
-	ret = dirlist_from_fs(syncdbpath, &olddirlist);
-	if(ret) {
-		goto cleanup;
-	}
-
-	alpm_list_diff_sorted(olddirlist, newdirlist, _alpm_str_cmp, &onlyold, &onlynew);
-
-	ret = remove_olddir(syncdbpath, onlyold);
 
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
-	if(ret) {
-		goto cleanup;
-	}
 	checkdbdir(db);
-	ret = _alpm_unpack(dbfilepath, syncdbpath, onlynew, 0);
+	ret = _alpm_unpack(dbfilepath, syncdbpath, filelist, 0);
 
 cleanup:
 	free(dbfilepath);
-	alpm_list_free(onlyold);
-	alpm_list_free(onlynew);
-	FREELIST(olddirlist);
-	FREELIST(newdirlist);
 
 	if(ret) {
 		RET_ERR(PM_ERR_SYSTEM, -1);
