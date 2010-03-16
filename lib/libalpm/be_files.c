@@ -210,7 +210,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	char *dbfile, *dbfilepath;
 	const char *dbpath, *syncdbpath;
-	alpm_list_t *filelist = NULL;
+	alpm_list_t *newdirlist = NULL, *olddirlist = NULL;
+	alpm_list_t *onlynew = NULL, *onlyold = NULL;
 	size_t len;
 	int ret;
 
@@ -266,28 +267,18 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		}
 	} else {
 		/* if not forcing, only remove and extract what is necessary */
-		alpm_list_t *newdirlist = NULL;
-		alpm_list_t *olddirlist = NULL;
-		alpm_list_t *onlyold = NULL;
-
 		ret = dirlist_from_tar(dbfilepath, &newdirlist);
 		if(ret) {
-			FREELIST(newdirlist);
 			goto cleanup;
 		}
 		ret = dirlist_from_fs(syncdbpath, &olddirlist);
 		if(ret) {
-			FREELIST(olddirlist);
-			FREELIST(newdirlist);
 			goto cleanup;
 		}
 
-		alpm_list_diff_sorted(olddirlist, newdirlist, _alpm_str_cmp, &onlyold, &filelist);
-		FREELIST(olddirlist);
-		FREELIST(newdirlist);
+		alpm_list_diff_sorted(olddirlist, newdirlist, _alpm_str_cmp, &onlyold, &onlynew);
 
 		ret = remove_olddir(syncdbpath, onlyold);
-		alpm_list_free(onlyold);
 		if(ret) {
 			goto cleanup;
 		}
@@ -297,9 +288,14 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	_alpm_db_free_pkgcache(db);
 
 	checkdbdir(db);
-	ret = _alpm_unpack(dbfilepath, syncdbpath, filelist, 0);
+	ret = _alpm_unpack(dbfilepath, syncdbpath, onlynew, 0);
 
 cleanup:
+	FREELIST(newdirlist);
+	FREELIST(olddirlist);
+	alpm_list_free(onlynew);
+	alpm_list_free(onlyold);
+
 	free(dbfilepath);
 
 	if(ret) {
