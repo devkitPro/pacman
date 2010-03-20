@@ -35,6 +35,7 @@ usage() {
 	echo "  -t, --times    only output mirrors and their response times"
 	echo "  -u, --url      test a specific url"
 	echo "  -v, --verbose  be verbose in ouptut"
+	echo "  -r, --repo     specify a specific repo name instead of guessing"
 	exit 0
 }
 
@@ -69,13 +70,18 @@ ARCH="$(uname -m)"
 getfetchurl() {
 	local strippedurl="${1%/}"
 
-	local replacedurl="${strippedurl//'$repo'/core}"
-	replacedurl="${replacedurl//'$arch'/$ARCH}"
+	local replacedurl="${replacedurl//'$arch'/$ARCH}"
+	if [[ ! $TARGETREPO ]]; then
+		replacedurl="${strippedurl//'$repo'/core}"
+		local tmp="${replacedurl%/*}"
+		tmp="${tmp%/*}"
 
-	local tmp="${replacedurl%/*}"
-	tmp="${tmp%/*}"
+		local reponame="${tmp##*/}"
+	else
+		replacedurl="${strippedurl//'$repo'/$TARGETREPO}"
+		local reponame="$TARGETREPO"
+	fi
 
-	local reponame="${tmp##*/}"
 	if [[ -z $reponame || $reponame = $replacedurl ]]; then
 		echo "fail"
 	else
@@ -119,6 +125,7 @@ while [[ $1 ]]; do
 			times) TIMESONLY=1 ; shift ;;
 			verbose) VERBOSE=1 ; shift ;;
 			url) CHECKURL=1; [[ $2 ]] || err "Must specify url."; URL="$2"; shift 2;;
+			repo) [[ $2 ]] || err "Must specify repo name."; TARGETREPO="$2"; shift 2;;
 			*) err "\`$1' is an invalid argument."
 		esac
 	elif [[ ${1:0:1} = - ]]; then
@@ -136,6 +143,7 @@ while [[ $1 ]]; do
 					t) TIMESONLY=1 ;;
 					v) VERBOSE=1 ;;
 					u) CHECKURL=1; [[ $2 ]] || err "Must specify url."; URL="$2"; snum=2;;
+					r) [[ $2 ]] || err "Must specify repo name."; TARGETREPO="$2"; snum=2;;
 					n) [[ $2 ]] || err "Must specify number." ; NUM="$2" ; snum=2;;
 					*) err "\`-$1' is an invald argument." ;;
 				esac
@@ -182,6 +190,7 @@ for line in  "${linearray[@]}"; do
 
 		# Getting values and times and such
 		server="${line#*= }"
+		server="${server%%#*}"
 		url="$(getfetchurl "$server")"
 		[[ $url = fail ]] && err "url \`$URL' is malformed."
 		time=$(gettime "$url")
