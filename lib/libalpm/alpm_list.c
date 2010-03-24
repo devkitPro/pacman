@@ -657,12 +657,12 @@ char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
  * @param onlyright pointer to the second result list
  *
  */
-void SYMEXPORT alpm_list_diff_sorted(alpm_list_t *left,
-		alpm_list_t *right, alpm_list_fn_cmp fn,
+void SYMEXPORT alpm_list_diff_sorted(const alpm_list_t *left,
+		const alpm_list_t *right, alpm_list_fn_cmp fn,
 		alpm_list_t **onlyleft, alpm_list_t **onlyright)
 {
-	alpm_list_t *l = left;
-	alpm_list_t *r = right;
+	const alpm_list_t *l = left;
+	const alpm_list_t *r = right;
 
 	if(!onlyleft && !onlyright) {
 		return;
