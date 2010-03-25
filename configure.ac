@@ -142,8 +142,8 @@ if test "x$internaldownload" = "xyes" ; then
 	AC_MSG_RESULT(yes)
 	AC_DEFINE([INTERNAL_DOWNLOAD], , [Use internal download library])
 	# Check for a download library if it was actually requested
-	AC_CHECK_LIB([fetch], [fetchParseURL], ,
-		AC_MSG_ERROR([libfetch is needed to compile with internal download support]) )
+	AC_CHECK_LIB([fetch], [fetchParseURL], [AC_SUBST([LIBS], ["-lfetch -lssl -lcrypto -ldl $LIBS"])],
+		AC_MSG_ERROR([libfetch is needed to compile with internal download support]), [-lssl -lcrypto -ldl] )
 	# Check if libfetch supports conditional GET
 	# (version >=2.21, struct url has member last_modified)
 	AC_CHECK_MEMBER(struct url.last_modified, ,
@@ -305,10 +305,10 @@ else
 fi
 
 # Enable or disable use of git version in pacman version string
-AC_CHECK_PROGS([GIT], [git])
-AC_CHECK_FILE([.git/], hasgitdir=yes)
 AC_MSG_CHECKING(whether to use git version if available)
 if test "x$wantgitver" = "xyes" ; then
+	AC_CHECK_PROGS([GIT], [git])
+	AC_CHECK_FILE([.git/], hasgitdir=yes)
 	if test $GIT -a "x$hasgitdir" = "xyes"; then
 		AC_MSG_RESULT([yes])
 		usegitver=yes
