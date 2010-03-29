@@ -844,7 +844,7 @@ tidy_install() {
 	if [[ $(check_option strip) = y && -n ${STRIP_DIRS[*]} ]]; then
 		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
 		local binary
-		find ${STRIP_DIRS[@]} -type f -writable 2>/dev/null | while read binary ; do
+		find ${STRIP_DIRS[@]} -type f -perm -u+w 2>/dev/null | while read binary ; do
 			case "$(file -biz "$binary")" in
 				*compressed-encoding*)      # Skip compressed binaries
 					;;
