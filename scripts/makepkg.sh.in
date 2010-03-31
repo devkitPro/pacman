@@ -1092,16 +1092,17 @@ create_package() {
 		exit 1 # TODO: error code
 	fi
 
+	create_signature "$pkg_file"
+
 	if (( ! ret )) && [[ ! "$PKGDEST" -ef "${startdir}" ]]; then
 		ln -sf "${pkg_file}" "${pkg_file/$PKGDEST/$startdir}"
 		ret=$?
+		[[ -f $pkg_file.sig ]] && ln -sf "$pkg_file.sig" "${pkg_file/$PKGDEST/$startdir}.sig"
 	fi
 
 	if (( ret )); then
 		warning "$(gettext "Failed to create symlink to package file.")"
 	fi
-
-	create_signature "$pkg_file"
 }
 
 create_signature() {
