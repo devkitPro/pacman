@@ -43,7 +43,8 @@ libalpm_la_SOURCES = \
 	remove.h remove.c \
 	sync.h sync.c \
 	trans.h trans.c \
-	util.h util.c
+	util.h util.c \
+	version.c
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
 libalpm_la_LIBADD = $(LTLIBINTL)
