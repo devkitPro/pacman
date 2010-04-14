@@ -1820,9 +1820,14 @@ fi
 if (( INFAKEROOT )); then
 	if (( ! SPLITPKG )); then
 		if (( ! PKGFUNC )); then
-			if (( BUILDFUNC && ! REPKG )); then
-				run_build
-				tidy_install
+			if (( ! REPKG )); then
+				if (( BUILDFUNC )); then
+					run_build
+					tidy_install
+				fi
+			else
+				warning "$(gettext "Repackaging without the use of a package() function is deprecated.")"
+				plain "$(gettext "File permissions may not be preserved.")"
 			fi
 		else
 			run_package
@@ -1939,8 +1944,13 @@ else
 			if (( PKGFUNC )); then
 				run_package
 				tidy_install
-			elif (( ! REPKG )); then
-				tidy_install
+			else
+				if (( ! REPKG )); then
+					tidy_install
+				else
+					warning "$(gettext "Repackaging without the use of a package() function is deprecated.")"
+					plain "$(gettext "File permissions may not be preserved.")"
+				fi
 			fi
 			create_package
 		else
