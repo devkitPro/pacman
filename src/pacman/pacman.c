@@ -495,6 +495,7 @@ static int parseargs(int argc, char *argv[])
 				setarch(optarg);
 				break;
 			case OP_PRINTFORMAT:
+				check_optarg();
 				config->print_format = strdup(optarg);
 				break;
 			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
