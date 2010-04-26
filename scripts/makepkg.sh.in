@@ -1068,24 +1068,6 @@ create_srcpackage() {
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 	ln -s "${BUILDFILE}" "${srclinks}/${pkgbase}/${BUILDSCRIPT}"
 
-	if [[ -n $install ]]; then
-		if [[ -f $install ]]; then
-			msg2 "$(gettext "Adding install script...")"
-			ln -s "${startdir}/$install" "${srclinks}/${pkgbase}/"
-		else
-			error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
-		fi
-	fi
-
-	if [[ -n $changelog ]]; then
-		if [[ -f $changelog ]]; then
-			msg2 "$(gettext "Adding package changelog...")"
-			ln -s "${startdir}/$changelog" "${srclinks}/${pkgbase}/"
-		else
-			error "$(gettext "Changelog file (%s) does not exist.")" "$changelog"
-		fi
-	fi
-
 	local netfile
 	for netfile in "${source[@]}"; do
 		local file=$(get_filename "$netfile")
@@ -1097,6 +1079,32 @@ create_srcpackage() {
 			ln -s "$SRCDEST/$file" "${srclinks}/${pkgbase}/"
 		fi
 	done
+
+	local install_files=( $(grep "^[[:space:]]*install=" "$BUILDSCRIPT" | sed "s/install=//") )
+	if [[ -n $install_files ]]; then
+		local file
+		for file in ${install_files[@]}; do
+		# evaluate any bash variables used
+		eval file=${file}
+			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
+				msg2 "$(gettext "Adding install script (%s)...")" "$file"
+				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
+			fi
+		done
+	fi
+
+	local changelog_files=( $(grep "^[[:space:]]*changelog=" "$BUILDSCRIPT" | sed "s/changelog=//") )
+	if [[ -n $changelog_files ]]; then
+		local file
+		for file in ${changelog_files[@]}; do
+			# evaluate any bash variables used
+			eval file=${file}
+			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
+				msg2 "$(gettext "Adding package changelog (%s)...")" "$file"
+				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
+			fi
+		done
+	fi
 
 	local TAR_OPT
 	case "$SRCEXT" in
@@ -1215,14 +1223,29 @@ check_sanity() {
 		fi
 	done
 
-	if [[ $install && ! -f $install ]]; then
-		error "$(gettext "Install scriptlet (%s) does not exist.")" "$install"
-		return 1
+	local install_files=( $(grep "^[[:space:]]*install=" "$BUILDSCRIPT" | sed "s/install=//") )
+	if [[ -n $install_files ]]; then
+		local file
+		for file in ${install_files[@]}; do
+		# evaluate any bash variables used
+		eval file=${file}
+			if [[ ! -f $file ]]; then
+				error "$(gettext "Install scriptlet (%s) does not exist.")" "$file"
+				return 1
+			fi
+		done
 	fi
 
-	if [[ -n $changelog && ! -f $changelog ]]; then
-		error "$(gettext "Changelog file (%s) does not exist.")" "$changelog"
-		return 1
+	local changelog_files=( $(grep "^[[:space:]]*changelog=" "$BUILDSCRIPT" | sed "s/changelog=//") )
+	if [[ -n $changelog_files ]]; then
+		for file in ${changelog_files[@]}; do
+			# evaluate any bash variables used
+			eval file=${file}
+			if [[ ! -f $file ]]; then
+				error "$(gettext "Changelog file (%s) does not exist.")" "$file"
+				return 1
+			fi
+		done
 	fi
 
 	local valid_options=1
