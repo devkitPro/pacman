@@ -356,6 +356,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	off_t size = 0;
 
 	if(newpkg->origin == PKG_FROM_FILE) {
+		newpkg->infolevel |= INFRQ_DSIZE;
 		newpkg->download_size = 0;
 		return(0);
 	}
@@ -392,6 +393,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	_alpm_log(PM_LOG_DEBUG, "setting download size %jd for pkg %s\n",
 			(intmax_t)size, alpm_pkg_get_name(newpkg));
 
+	newpkg->infolevel |= INFRQ_DSIZE;
 	newpkg->download_size = size;
 	return(0);
 }
@@ -649,6 +651,9 @@ cleanup:
  */
 off_t SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
 {
+	if(!(newpkg->infolevel & INFRQ_DSIZE)) {
+		compute_download_size(newpkg);
+	}
 	return(newpkg->download_size);
 }
 
@@ -850,7 +855,15 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		if(files) {
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
-			if(_alpm_download_files(files, current->servers, cachedir)) {
+			errors = _alpm_download_files(files, current->servers, cachedir);
+
+			for(j = trans->add; j; j = j->next) {
+				pmpkg_t *pkg = j->data;
+				pkg->infolevel &= ~INFRQ_DSIZE;
+				pkg->download_size = 0;
+			}
+
+			if (errors) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
 				if(pm_errno == 0) {
