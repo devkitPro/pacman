@@ -21,7 +21,6 @@
 #include <ctype.h>
 
 /* libalpm */
-#include "log.h"
 #include "util.h"
 
 /** Compare two version strings and determine which one is 'newer'.
@@ -49,8 +48,6 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 	int rc;
 	int isnum;
 	int ret = 0;
-
-	ALPM_LOG_FUNC;
 
 	/* libalpm added code. ensure our strings are not null */
 	if(!a) {
