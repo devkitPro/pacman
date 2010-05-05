@@ -90,7 +90,7 @@ static void usage(int op, const char * const myname)
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
-			printf(_("  -k, --dbonly         only remove database entry, do not remove files\n"));
+			printf(_("  -k, --dbonly         only remove database entries, do not remove files\n"));
 			printf(_("  -n, --nosave         remove configuration files as well\n"));
 			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
 				 "                       (-ss includes explicitly installed dependencies too)\n"));
@@ -105,6 +105,7 @@ static void usage(int op, const char * const myname)
 			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
+			printf(_("  -k, --dbonly         add database entries, do not install or keep existing files\n"));
 			printf(_("      --print          only print the targets instead of performing the operation\n"));
 			printf(_("      --print-format <string>\n"
 			         "                       specify how the targets should be printed\n"));

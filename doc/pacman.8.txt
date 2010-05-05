@@ -90,8 +90,9 @@ to determine which packages need upgrading. This behavior operates as follows:
 *-U, \--upgrade*::
 	Upgrade or add package(s) to the system and install the required
 	dependencies from sync repos. Either a URL or file path can be
-	specified. This is a ``remove-then-add'' process. See <<HCF,Handling Config
-	Files>> for an explanation on how pacman takes care of config files.
+	specified. This is a ``remove-then-add'' process. See <<UO,Upgrade
+	Options>> below; also see <<HCF,Handling Config Files>> for an explanation
+	on how pacman takes care of config files.
 
 *-V, \--version*::
 	Display version and exit.
@@ -273,7 +274,7 @@ Remove Options[[RO]]
 	or more target packages. This operation is recursive, and must be used
 	with care since it can remove many potentially needed packages.
 
-*-k, \--keep*::
+*-k, \--dbonly*::
 	Removes the database entry only. Leaves all files in place.
 
 *-n, \--nosave*::
@@ -373,6 +374,14 @@ linkman:pacman.conf[5].
 	Directs pacman to ignore upgrades of all packages in 'group' even if
 	there is one available. Multiple groups can be specified by
 	separating them with a comma.
+
+
+Upgrade Options[[UO]]
+--------------------
+*-k, \--dbonly*::
+	Adds the database entries for the specified packages but do not install any
+	of the files. On an upgrade operation, the existing package and all files
+	will be removed and the database entry for the new package will be added.
 
 
 Handling Config Files[[HCF]]
