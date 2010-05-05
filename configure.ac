@@ -142,8 +142,8 @@ if test "x$internaldownload" = "xyes" ; then
 	AC_MSG_RESULT(yes)
 	AC_DEFINE([INTERNAL_DOWNLOAD], , [Use internal download library])
 	# Check for a download library if it was actually requested
-	AC_CHECK_LIB([fetch], [fetchParseURL], [AC_SUBST([LIBS], ["-lfetch -lssl -lcrypto -ldl $LIBS"])],
-		AC_MSG_ERROR([libfetch is needed to compile with internal download support]), [-lssl -lcrypto -ldl] )
+	AC_CHECK_LIB([fetch], [fetchParseURL], ,
+		AC_MSG_ERROR([libfetch is needed to compile with internal download support]), [-lcrypto -ldl] )
 	# Check if libfetch supports conditional GET
 	# (version >=2.21, struct url has member last_modified)
 	AC_CHECK_MEMBER(struct url.last_modified, ,
