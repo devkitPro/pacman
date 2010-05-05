@@ -16,7 +16,7 @@ INCLUDES = -I$(top_srcdir)/lib/libalpm
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
 vercmp_SOURCES = vercmp.c
-vercmp_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
+vercmp_LDADD = $(top_builddir)/lib/libalpm/version.o
 
 testpkg_SOURCES = testpkg.c
 testpkg_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la

@@ -23,11 +23,13 @@
 #include <stdio.h> /* printf */
 #include <string.h> /* strncpy */
 
-#include <alpm.h>
-
 #define BASENAME "vercmp"
 
 #define MAX_LEN 255
+
+/* forward declaration, comes from vercmp.o in libalpm source that is linked in
+ * directly so we don't have any library deps */
+int alpm_pkg_vercmp(const char *a, const char *b);
 
 static void usage()
 {
