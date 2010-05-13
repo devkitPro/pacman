@@ -54,7 +54,7 @@ syn match pbUrlGroup /^url=.*/ contains=pbValidUrl,pb_k_url,pbIllegalUrl,shDoubl
 
 " license
 syn keyword pb_k_license license contained
-syn keyword pbLicense  APACHE CDDL EPL FDL GPL LGPL MPL PHP RUBY ZLIB ISC MIT BSD contained
+syn keyword pbLicense  APACHE CCPL CDDL CPL EPL FDL FDL1.2 FDL1.3 GPL GPL2 GPL3 LGPL LGPL2.1 LGPL3 LPPL MPL PHP PSF PerlArtistic RALINK RUBY ZPL contained
 syn match pbLicenseCustom /custom\(:[[:alnum:]]*\)*/ contained
 syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicense
 syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense
