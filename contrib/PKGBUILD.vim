@@ -142,10 +142,10 @@ hi def link pbDerefEmulation PreProc
 " md5sums
 syn keyword pb_k_md5sums md5sums contained
 syn match pbIllegalMd5sums /[^='"()\/ ]/ contained contains=pbValidMd5sums
-syn match pbValidMd5sums /[[:alnum:]]\{32\}/ contained
+syn match pbValidMd5sums /\x\{32\}/ contained
 syn region pbMd5sumsGroup start=/^md5sums/ end=/)/ contains=pb_k_md5sums,pbMd5Quotes,pbMd5Hash,pbIllegalMd5sums keepend
 syn match pbMd5Quotes /'.*'\|".*"/ contained contains=pbMd5Hash,pbIllegalMd5sums
-syn match pbMd5Hash /[[:alnum:]]\+/ contained contains=pbValidMd5sums
+syn match pbMd5Hash /\x\+/ contained contains=pbValidMd5sums
 hi def link pbMd5Quotes Keyword
 hi def link pbMd5Hash Error
 hi def link pbValidMd5sums  Number
@@ -153,10 +153,10 @@ hi def link pbValidMd5sums  Number
 " sha1sums
 syn keyword pb_k_sha1sums sha1sums contained
 syn match pbIllegalSha1sums /[^='"()\/ ]/ contained contains=pbValidSha1sums
-syn match pbValidSha1sums /[[:alnum:]]\{40\}/ contained
+syn match pbValidSha1sums /\x\{40\}/ contained
 syn region pbSha1sumsGroup start=/^sha1sums/ end=/)/ contains=pb_k_sha1sums,pbSha1Quotes,pbSha1Hash,pbIllegalSha1sums keepend
 syn match pbSha1Quotes /'.*'\|".*"/ contained contains=pbSha1Hash,pbIllegalSha1sums
-syn match pbSha1Hash /[[:alnum:]]\+/ contained contains=pbValidSha1sums
+syn match pbSha1Hash /\x\+/ contained contains=pbValidSha1sums
 hi def link pbSha1Quotes Keyword
 hi def link pbSha1Hash Error
 hi def link pbValidSha1sums  Number
