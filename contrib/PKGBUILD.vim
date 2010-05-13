@@ -25,6 +25,13 @@ syn match pbValidPkgname /\([[:alnum:]]\|+\|-\|_\){,32}/ contained contains=pbIl
 syn match pbIllegalPkgname /[[:upper:]]\|[^[:alnum:]-+_=]\|=.*=\|=['"]\?.\{33,\}['"]\?/ contained
 syn match pbPkgnameGroup /^pkgname=.*/ contains=pbIllegalPkgname,pb_k_pkgname,shDoubleQuote,shSingleQuote
 
+" pkgbase
+" FIXME if '=' is in pkgbase/pkgname/pkgver, it highlights whole string, not just '='
+syn keyword pb_k_pkgbase pkgbase contained
+syn match pbValidPkgbase /\([[:alnum:]]\|+\|-\|_\){,32}/ contained contains=pbIllegalPkgbase
+syn match pbIllegalPkgbase /[[:upper:]]\|[^[:alnum:]-+_=]\|=.*=\|=['"]\?.\{33,\}['"]\?/ contained
+syn match pbPkgbaseGroup /^pkgbase=.*/ contains=pbIllegalPkgbase,pb_k_pkgbase,shDoubleQuote,shSingleQuote
+
 " pkgver
 syn keyword pb_k_pkgver pkgver contained
 syn match pbValidPkgver /\([[:alnum:]]\|\.\|+\|_\)/ contained contains=pbIllegalPkgver
@@ -133,7 +140,6 @@ syn match pbDerefEmulation /\$[{]\?[[:alnum:]_]*[}]\?/ contained
 hi def link pbDerefEmulation PreProc
 
 " md5sums
-
 syn keyword pb_k_md5sums md5sums contained
 syn match pbIllegalMd5sums /[^='"()\/ ]/ contained contains=pbValidMd5sums
 syn match pbValidMd5sums /[[:alnum:]]\{32\}/ contained
@@ -186,6 +192,9 @@ hi def link pbTodo Todo
 
 hi def link pbIllegalPkgname Error
 hi def link pb_k_pkgname pbKeywords
+
+hi def link pbIllegalPkgbase Error
+hi def link pb_k_pkgbase pbKeywords
 
 hi def link pbIllegalPkgver Error
 hi def link pb_k_pkgver pbKeywords
