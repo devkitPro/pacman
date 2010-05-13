@@ -86,10 +86,13 @@ endif
 
 html: $(HTML_DOCS)
 
+pkgdatadir = ${datadir}/${PACKAGE}
+
 ASCIIDOC_OPTS = \
 	-f asciidoc.conf \
 	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
 	-a pacman_date="`date +%Y-%m-%d`" \
+	-a pkgdatadir=$(pkgdatadir) \
 	-a sysconfdir=$(sysconfdir)
 
 A2X_OPTS = \
