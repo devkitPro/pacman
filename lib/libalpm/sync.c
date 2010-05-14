@@ -857,12 +857,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
 			errors = _alpm_download_files(files, current->servers, cachedir);
 
-			for(j = trans->add; j; j = j->next) {
-				pmpkg_t *pkg = j->data;
-				pkg->infolevel &= ~INFRQ_DSIZE;
-				pkg->download_size = 0;
-			}
-
 			if (errors) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
@@ -873,6 +867,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			}
 			FREELIST(files);
 		}
+	}
+
+	for(j = trans->add; j; j = j->next) {
+		pmpkg_t *pkg = j->data;
+		pkg->infolevel &= ~INFRQ_DSIZE;
+		pkg->download_size = 0;
 	}
 
 	/* clear out value to let callback know we are done */
