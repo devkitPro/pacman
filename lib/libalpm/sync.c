@@ -959,7 +959,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	}
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);
 	if(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY) {
-		return(0);
+		ret = 0;
+		goto error;
 	}
 
 	trans->state = STATE_COMMITING;
