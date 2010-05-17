@@ -1910,9 +1910,9 @@ if (( SOURCEONLY )); then
 	exit 0
 fi
 
-if (( NODEPS || NOBUILD || REPKG )); then
+if (( NODEPS || ( (NOBUILD || REPKG) && !DEP_BIN ) )); then
 	# no warning message needed for nobuild, repkg
-	if (( NODEPS )); then
+	if (( NODEPS || ( REPKG && PKGFUNC ) )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
 elif [ $(type -p "${PACMAN%% *}") ]; then
