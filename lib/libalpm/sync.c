@@ -431,17 +431,21 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
+		/* Compute the fake local database for resolvedeps (partial fix for the phonon/qt issue) */
+		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(db_local), trans->add, _alpm_pkg_cmp);
+
 		/* Resolve packages in the transaction one at a time, in addtion
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->add; i; i = i->next) {
 			pmpkg_t *pkg = i->data;
-			if(_alpm_resolvedeps(db_local, dbs_sync, pkg, trans->add,
+			if(_alpm_resolvedeps(localpkgs, dbs_sync, pkg, trans->add,
 						&resolved, remove, data) == -1) {
 				unresolvable = alpm_list_add(unresolvable, pkg);
 			}
 			/* Else, [resolved] now additionally contains [pkg] and all of its
 			   dependencies not already on the list */
 		}
+		alpm_list_free(localpkgs);
 
 		/* If there were unresolvable top-level packages, prompt the user to
 		   see if they'd like to ignore them rather than failing the sync */

@@ -49,7 +49,7 @@ void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
 pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *excluding, int prompt);
-int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
+int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 		alpm_list_t *preferred, alpm_list_t **packages, alpm_list_t *remove,
 		alpm_list_t **data);
 int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2);

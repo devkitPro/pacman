@@ -578,7 +578,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 /* Computes resolvable dependencies for a given package and adds that package
  * and those resolvable dependencies to a list.
  *
- * @param local is the local database
+ * @param localpkgs is the list of local packages
  * @param dbs_sync are the sync databases
  * @param pkg is the package to resolve
  * @param packages is a pointer to a list of packages which will be
@@ -594,7 +594,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
  *         unresolvable dependency, in which case the [*packages] list will be
  *         unmodified by this function
  */
-int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
+int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pkg,
                       alpm_list_t *preferred, alpm_list_t **packages,
                       alpm_list_t *remove, alpm_list_t **data)
 {
@@ -604,10 +604,6 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 	alpm_list_t *packages_copy;
 
 	ALPM_LOG_FUNC;
-
-	if(local == NULL) {
-		return(-1);
-	}
 
 	if(_alpm_pkg_find(*packages, pkg->name) != NULL) {
 		return(0);
@@ -624,7 +620,7 @@ int _alpm_resolvedeps(pmdb_t *local, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 	for(i = alpm_list_last(*packages); i; i = i->next) {
 		pmpkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
-		deps = alpm_checkdeps(_alpm_db_get_pkgcache(local), 0, remove, targ);
+		deps = alpm_checkdeps(localpkgs, 0, remove, targ);
 		alpm_list_free(targ);
 		for(j = deps; j; j = j->next) {
 			pmdepmissing_t *miss = j->data;
