@@ -178,11 +178,14 @@ def mkcfgfile(filename, root, option, db):
         data.extend(["%s = %s" % (key, j) for j in value])
 
     # Repositories
-    data.extend(["[%s]\n" \
-                 "Server = file://%s\n" \
-                 % (value.treename, \
-                    os.path.join(root, SYNCREPO, value.treename)) \
-                 for key, value in db.iteritems() if key != "local"])
+    for key, value in db.iteritems():
+        if key != "local":
+            data.append("[%s]\n" \
+                    "Server = file://%s" \
+                     % (value.treename,
+                        os.path.join(root, SYNCREPO, value.treename)))
+            for optkey, optval in value.option.iteritems():
+                data.extend(["%s = %s" % (optkey, j) for j in optval])
 
     mkfile(os.path.join(root, filename), "\n".join(data))
 

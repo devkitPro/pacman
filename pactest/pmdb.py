@@ -85,6 +85,7 @@ class pmdb:
         self.treename = treename
         self.dbdir = dbdir
         self.pkgs = []
+        self.option = {}
 
     def __str__(self):
         return "%s" % self.treename
