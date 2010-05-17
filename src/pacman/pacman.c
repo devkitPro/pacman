@@ -959,7 +959,21 @@ static int _parseconfig(const char *file, const char *givensection,
 			ret = 1;
 			goto cleanup;
 		}
+		/* Include is allowed in both options and repo sections */
+		if(strcmp(key, "Include") == 0) {
+			if(value == NULL) {
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
+						file, linenum, key);
+				ret = 1;
+				goto cleanup;
+			}
+			pm_printf(PM_LOG_DEBUG, "config: including %s\n", value);
+			/* Ignore include failures... assume non-critical */
+			_parseconfig(value, section, db);
+			continue;
+		}
 		if(strcmp(section, "options") == 0) {
+			/* we are either in options ... */
 			if((ret = _parse_options(key, value)) != 0) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: problem in options section\n"),
 						file, linenum);
@@ -968,18 +982,8 @@ static int _parseconfig(const char *file, const char *givensection,
 			}
 			continue;
 		} else {
-			/* we are in a repo section */
-			if(strcmp(key, "Include") == 0) {
-				if(value == NULL) {
-					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
-							file, linenum, key);
-					ret = 1;
-					goto cleanup;
-				}
-				pm_printf(PM_LOG_DEBUG, "config: including %s\n", value);
-				_parseconfig(value, section, db);
-				/* Ignore include failures... assume non-critical */
-			} else if(strcmp(key, "Server") == 0) {
+			/* ... or in a repo section */
+			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
 					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
 							file, linenum, key);
