@@ -79,13 +79,7 @@ class pmtest:
         self.filesystem = []
 
         self.description = ""
-        self.option = {
-            "noupgrade": [],
-            "ignorepkg": [],
-            "ignoregroup": [],
-            "noextract": [],
-            "syncfirst": []
-        }
+        self.option = {}
 
         # Test rules
         self.rules = []
