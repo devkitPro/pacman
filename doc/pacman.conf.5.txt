@@ -98,7 +98,8 @@ Options
 
 *Include =* path::
 	Include another config file. This file can include repositories or
-	general configuration  options.
+	general configuration options. Wildcards in the specified paths will get
+	expanded based on linkman:glob[7] rules.
 
 *Architecture =* auto | i686 | x86_64 | ...::
 	If set, pacman will only allow installation of packages of the given

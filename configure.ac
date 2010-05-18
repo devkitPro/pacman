@@ -155,7 +155,7 @@ fi
 AM_CONDITIONAL(INTERNAL_DOWNLOAD, test "x$internaldownload" = "xyes")
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/param.h sys/statvfs.h sys/syslimits.h sys/time.h syslog.h wchar.h])
+AC_CHECK_HEADERS([fcntl.h glob.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/param.h sys/statvfs.h sys/syslimits.h sys/time.h syslog.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE

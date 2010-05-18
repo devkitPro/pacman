@@ -39,6 +39,7 @@
 #include <locale.h> /* setlocale */
 #include <time.h> /* time_t */
 #include <errno.h>
+#include <glob.h>
 #if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
 #include <mcheck.h> /* debug tracing (mtrace) */
 #endif
@@ -967,9 +968,35 @@ static int _parseconfig(const char *file, const char *givensection,
 				ret = 1;
 				goto cleanup;
 			}
-			pm_printf(PM_LOG_DEBUG, "config: including %s\n", value);
 			/* Ignore include failures... assume non-critical */
-			_parseconfig(value, section, db);
+			int globret;
+			glob_t globbuf;
+			globret = glob(value, GLOB_NOCHECK, NULL, &globbuf);
+			switch(globret) {
+				case GLOB_NOSPACE:
+					pm_printf(PM_LOG_DEBUG,
+							"config file %s, line %d: include globing out of space\n",
+							file, linenum);
+				break;
+				case GLOB_ABORTED:
+					pm_printf(PM_LOG_DEBUG,
+							"config file %s, line %d: include globing read error for %s\n",
+							file, linenum, value);
+				break;
+				case GLOB_NOMATCH:
+					pm_printf(PM_LOG_DEBUG,
+							"config file %s, line %d: no include found for %s\n",
+							file, linenum, value);
+				break;
+				default:
+					for(int gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
+						pm_printf(PM_LOG_DEBUG, "config file %s, line %d: including %s\n",
+								file, linenum, globbuf.gl_pathv[gindex]);
+						_parseconfig(globbuf.gl_pathv[gindex], section, db);
+					}
+				break;
+			}
+			globfree(&globbuf);
 			continue;
 		}
 		if(strcmp(section, "options") == 0) {
