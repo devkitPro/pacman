@@ -1013,6 +1013,7 @@ create_package() {
 	if [[ -n $install ]]; then
 		msg2 "$(gettext "Adding install script...")"
 		cp "$startdir/$install" .INSTALL
+		chmod 644 .INSTALL
 		comp_files="$comp_files .INSTALL"
 	fi
 
@@ -1020,6 +1021,7 @@ create_package() {
 	if [[ -n $changelog ]]; then
 		msg2 "$(gettext "Adding package changelog...")"
 		cp "$startdir/$changelog" .CHANGELOG
+		chmod 644 .CHANGELOG
 		comp_files="$comp_files .CHANGELOG"
 	fi
 
