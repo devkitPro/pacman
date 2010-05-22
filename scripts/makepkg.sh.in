@@ -318,12 +318,12 @@ download_file() {
 	local dlfile="${url##*/}"
 
 	# replace %o by the temporary dlfile if it exists
-	if echo "$dlcmd" | grep -q "%o" ; then
+	if [[ $dlcmd = *%o* ]]; then
 		dlcmd=${dlcmd//\%o/\"$file.part\"}
 		dlfile="$file.part"
 	fi
 	# add the URL, either in place of %u or at the end
-	if echo "$dlcmd" | grep -q "%u" ; then
+	if [[ $dlcmd = *%u* ]]; then
 		dlcmd=${dlcmd//\%u/\"$url\"}
 	else
 		dlcmd="$dlcmd \"$url\""
@@ -1107,7 +1107,7 @@ create_srcpackage() {
 		fi
 	done
 
-	local install_files=( $(grep "^[[:space:]]*install=" "$BUILDSCRIPT" | sed "s/install=//") )
+	local install_files=( $(sed -n "s/^\([[:space:]]*\)install=/\1/p" "$BUILDSCRIPT") )
 	if [[ -n $install_files ]]; then
 		local file
 		for file in ${install_files[@]}; do
@@ -1120,7 +1120,7 @@ create_srcpackage() {
 		done
 	fi
 
-	local changelog_files=( $(grep "^[[:space:]]*changelog=" "$BUILDSCRIPT" | sed "s/changelog=//") )
+	local changelog_files=( $(sed -n "s/^\([[:space:]]*\)changelog=/\1/p" "$BUILDSCRIPT") )
 	if [[ -n $changelog_files ]]; then
 		local file
 		for file in ${changelog_files[@]}; do
@@ -1250,7 +1250,7 @@ check_sanity() {
 		fi
 	done
 
-	local install_files=( $(grep "^[[:space:]]*install=" "$BUILDSCRIPT" | sed "s/install=//") )
+	local install_files=( $(sed -n "s/^\([[:space:]]*\)install=/\1/p" "$BUILDSCRIPT") )
 	if [[ -n $install_files ]]; then
 		local file
 		for file in ${install_files[@]}; do
@@ -1263,7 +1263,7 @@ check_sanity() {
 		done
 	fi
 
-	local changelog_files=( $(grep "^[[:space:]]*changelog=" "$BUILDSCRIPT" | sed "s/changelog=//") )
+	local changelog_files=( $(sed -n "s/^\([[:space:]]*\)changelog=/\1/p" "$BUILDSCRIPT") )
 	if [[ -n $changelog_files ]]; then
 		for file in ${changelog_files[@]}; do
 			# evaluate any bash variables used
@@ -1572,7 +1572,7 @@ OPT_LONG="$OPT_LONG,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
 OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@" || echo 'PARSE_OPTIONS FAILED')"
-if echo "$OPT_TEMP" | grep -q 'PARSE_OPTIONS FAILED'; then
+if [[ $OPT_TEMP = *'PARSE_OPTIONS FAILED'* ]]; then
 	# This is a small hack to stop the script bailing with 'set -e'
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
