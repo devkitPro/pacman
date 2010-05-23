@@ -920,31 +920,15 @@ write_pkginfo() {
 		echo "force = true"
 	fi
 
-	local it
-	for it in "${license[@]}"; do
-		echo "license = $it"
-	done
-	for it in "${replaces[@]}"; do
-		echo "replaces = $it"
-	done
-	for it in "${groups[@]}"; do
-		echo "group = $it"
-	done
-	for it in "${depends[@]}"; do
-		echo "depend = $it"
-	done
-	for it in "${optdepends[@]}"; do
-		echo "optdepend = $it"
-	done
-	for it in "${conflicts[@]}"; do
-		echo "conflict = $it"
-	done
-	for it in "${provides[@]}"; do
-		echo "provides = $it"
-	done
-	for it in "${backup[@]}"; do
-		echo "backup = $it"
-	done
+	[[ $license ]]   && printf "license = %s\n"   "${license[@]}"
+	[[ $replaces ]]  && printf "replaces = %s\n"  "${replaces[@]}"
+	[[ $groups ]]    && printf "group = %s\n"     "${groups[@]}"
+	[[ $depends ]]   && printf "depend = %s\n"    "${depends[@]}"
+	[[ $optdepend ]] && printf "optdepend = %s\n" "${optdepends[@]}"
+	[[ $conflict ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
+	[[ $provides ]]  && printf "provides = %s\n"  "${provides[@]}"
+	[[ $backup ]]    && printf "backup = %s\n"    "${backup[@]}"
+
 	for it in "${packaging_options[@]}"; do
 		local ret="$(check_option $it)"
 		if [[ $ret != "?" ]]; then
