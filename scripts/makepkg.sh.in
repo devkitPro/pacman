@@ -869,9 +869,7 @@ tidy_install() {
 		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
 		local binary
 		find ${STRIP_DIRS[@]} -type f -perm -u+w 2>/dev/null | while read binary ; do
-			case "$(file -biz "$binary")" in
-				*compressed-encoding*)      # Skip compressed binaries
-					;;
+			case "$(file -bi "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
 					/usr/bin/strip $STRIP_SHARED "$binary";;
 				*application/x-archive*)    # Libraries (.a)
