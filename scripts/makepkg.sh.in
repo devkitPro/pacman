@@ -1107,31 +1107,19 @@ create_srcpackage() {
 		fi
 	done
 
-	local install_files=( $(sed -n "s/^\([[:space:]]*\)install=/\1/p" "$BUILDSCRIPT") )
-	if [[ -n $install_files ]]; then
+	local i
+	for i in 'changelog' 'install'; do
+		local $i=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT")
 		local file
-		for file in ${install_files[@]}; do
-		# evaluate any bash variables used
-		eval file=${file}
-			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
-				msg2 "$(gettext "Adding install script (%s)...")" "$file"
-				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
-			fi
-		done
-	fi
-
-	local changelog_files=( $(sed -n "s/^\([[:space:]]*\)changelog=/\1/p" "$BUILDSCRIPT") )
-	if [[ -n $changelog_files ]]; then
-		local file
-		for file in ${changelog_files[@]}; do
+		for file in ${!i}; do
 			# evaluate any bash variables used
-			eval file=${file}
-			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
-				msg2 "$(gettext "Adding package changelog (%s)...")" "$file"
+			eval file='${srclinks}/${pkgbase}/'${file}
+			if [[ ! -f $file ]]; then
+				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "$file"
 				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
 			fi
 		done
-	fi
+	done
 
 	local TAR_OPT
 	case "$SRCEXT" in
@@ -1250,30 +1238,19 @@ check_sanity() {
 		fi
 	done
 
-	local install_files=( $(sed -n "s/^\([[:space:]]*\)install=/\1/p" "$BUILDSCRIPT") )
-	if [[ -n $install_files ]]; then
+	local i
+	for i in 'changelog' 'install'; do
+		local $i=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT")
 		local file
-		for file in ${install_files[@]}; do
-		# evaluate any bash variables used
-		eval file=${file}
-			if [[ ! -f $file ]]; then
-				error "$(gettext "Install scriptlet (%s) does not exist.")" "$file"
-				return 1
-			fi
-		done
-	fi
-
-	local changelog_files=( $(sed -n "s/^\([[:space:]]*\)changelog=/\1/p" "$BUILDSCRIPT") )
-	if [[ -n $changelog_files ]]; then
-		for file in ${changelog_files[@]}; do
+		for file in ${!i}; do
 			# evaluate any bash variables used
 			eval file=${file}
 			if [[ ! -f $file ]]; then
-				error "$(gettext "Changelog file (%s) does not exist.")" "$file"
+				error "$(gettext "%s file (%s) does not exist.")" "${i^}" "$file"
 				return 1
 			fi
 		done
-	fi
+	done
 
 	local valid_options=1
 	local opt known kopt
