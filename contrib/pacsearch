@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # pacsearch - Adds color and install information to a 'pacman -Ss' search
 #
-# Copyright (C) 2008 Dan McGee <dpmcgee@gmail.com>
+# Copyright (C) 2008, 2010 Dan McGee <dpmcgee@gmail.com>
 #
 # Based off original shell script version:
 # Copyright (C) 2006-2007 Dan McGee <dpmcgee@gmail.com>
@@ -39,7 +39,7 @@ if ($#ARGV lt 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
 
 if ($ARGV[0] eq "--version" || $ARGV[0] eq "-v") {
 	print "$progname version $version\n";
-	print "Copyright (C) 2006-2008 Dan McGee\n";
+	print "Copyright (C) 2006-2010 Dan McGee\n";
 	exit 0;
 }
 
@@ -53,17 +53,18 @@ my $CLR6 = "\e[0;33m";
 my $CLR7 = "\e[1;36m";
 my $INST = "\e[1;31m";
 my $BASE = "\e[0m";
-my $INSTMARK = $INST."***";
 
-# color a "repo/pkgname pkgver" line based on the respository name
+# color a "repo/pkgname pkgver" line based on the repository name
 sub to_color {
 	my $line = shift;
+	# get the installed text colored first
+	$line =~ s/(\[.*\]$)/$INST$1$BASE/;
+	# and now the repo and dealings
 	$line =~ s/(^core\/.*)/$CLR1$1$BASE/;
 	$line =~ s/(^extra\/.*)/$CLR2$1$BASE/;
 	$line =~ s/(^community\/.*)/$CLR3$1$BASE/;
 	$line =~ s/(^testing\/.*)/$CLR4$1$BASE/;
-	$line =~ s/(^unstable\/.*)/$CLR5$1$BASE/;
-	$line =~ s/(^custom\/.*)/$CLR6$1$BASE/;
+	$line =~ s/(^community-testing\/.*)/$CLR5$1$BASE/;
 	$line =~ s/(^local\/.*)/$CLR7$1$BASE/;
 	# any other unknown repository
 	$line =~ s/(^[\w-]*\/.*)/$CLR6$1$BASE/;
@@ -83,10 +84,10 @@ if ($#syncpkgs >= 0) {
 # counter var for packages, used here and in the query loop too
 my $cnt = 0;
 foreach $_ (@syncpkgs) {
-	# we grab 3 fields here: repo, name/ver, and desc
-	my @pkgfields = /^(.*?)\/(.*?)\n(.*)$/s;
-	# add a fourth field that will indicate install status
-	push (@pkgfields, "");
+	# we grab 4 fields here: repo, name/ver, installed, and desc
+	my @pkgfields = /^(.*?)\/(.*?) ?(\[.*\])?\n(.*)$/s;
+	# since installed is optional, we should fill it in if necessary
+	$pkgfields[2] = "" if not defined $pkgfields[2];
 	# add a fifth field that indicates original order
 	push (@pkgfields, $cnt++);
 	# add each sync pkg by name/ver to a hash table for quick lookup
@@ -102,16 +103,13 @@ if ($#querypkgs >= 0) {
 }
 
 foreach $_ (@querypkgs) {
-	# we grab 3 fields here: repo, name/ver, and desc
-	my @pkgfields = /^(.*?)\/(.*?)\n(.*)$/s;
+	# we grab 4 fields here: repo, name/ver, installed, and desc
+	my @pkgfields = /^(.*?)\/(.*?) ?(\[.*\])?\n(.*)$/s;
+	# since installed is optional, we should fill it in if necessary
+	$pkgfields[2] = "" if not defined $pkgfields[2];
 	# check if the package was listed in the sync out
-	# if it is we want to mark it with a *** marker
-	if (exists $allpkgs{$pkgfields[1]}) {
-		# mark it in our fourth field as installed
-		@{ $allpkgs{$pkgfields[1]} }[3] = $INSTMARK;
-	} else {
-		# add a fourth field that will indicate install status
-		push (@pkgfields, $INSTMARK);
+	if (not exists $allpkgs{$pkgfields[1]}) {
+		$pkgfields[2] = "[installed]";
 		# add a fifth field that indicates original order (after sync)
 		push (@pkgfields, $cnt++);
 		# add our local-only package to the hash
@@ -122,11 +120,11 @@ foreach $_ (@querypkgs) {
 # sort by original order (the fifth field) and print
 foreach $_ ( sort{ @{$allpkgs{$a}}[4] <=> @{$allpkgs{$b}}[4] } keys %allpkgs) {
 	my @v = @{$allpkgs{$_}};
-	my $line = "$v[0]/$v[1]";
+	my $line = "$v[0]/$v[1] $v[2]";
 	$line = to_color($line);
-	# print install marker + colorized "repo/pkgname pkgver" string
-	print "$v[3]$line\n";
-	print "$v[2]\n";
+	# print colorized "repo/pkgname pkgver" string with possible installed text
+	print "$line\n";
+	print "$v[3]\n";
 }
 
 #vim: set noet:
