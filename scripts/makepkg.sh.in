@@ -1273,7 +1273,7 @@ check_sanity() {
 
 	if (( ${#pkgname[@]} > 1 )); then
 		for pkg in ${pkgname[@]}; do
-			if [ "$(type -t package_${pkg})" != "function" ]; then
+			if [[ $(type -t package_${pkg}) != "function" ]]; then
 				error "$(gettext "missing package function for split package '%s'")" "$pkg"
 				return 1
 			fi
@@ -1782,14 +1782,12 @@ if (( ${#pkgname[@]} > 1 )); then
 fi
 
 # test for available PKGBUILD functions
-# The exclamation mark is required here to avoid triggering the ERR trap when
-# a tested function does not exist.
-if [[ $(! type -t build) = "function" ]]; then
+if [[ $(type -t build) = "function" ]]; then
 	BUILDFUNC=1
 fi
-if [ "$(type -t package)" = "function" ]; then
+if [[ $(type -t package) = "function" ]]; then
 	PKGFUNC=1
-elif [ $SPLITPKG -eq 0 -a "$(type -t package_${pkgname})" = "function" ]; then
+elif [[ $SPLITPKG -eq 0 && $(type -t package_${pkgname}) = "function" ]]; then
 	SPLITPKG=1
 fi
 
