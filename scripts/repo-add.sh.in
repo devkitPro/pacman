@@ -487,6 +487,7 @@ if (( success )); then
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
+	ln -sf "$REPO_DB_FILE" "${REPO_DB_FILE%.tar.*}"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 	exit 1
