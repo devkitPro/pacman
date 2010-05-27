@@ -370,7 +370,7 @@ download_file() {
 run_pacman() {
 	local ret=0
 	if (( ! ASROOT )) && [[ $1 != "-T" && $1 != "-Qq" ]]; then
-		if [ "$(type -p sudo)" ] && sudo -l $PACMAN &>/dev/null; then
+		if type -p sudo >/dev/null && sudo -l $PACMAN &>/dev/null; then
 			sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
 		else
 			su -c "$PACMAN $PACMAN_OPTS $*" || ret=$?
@@ -540,7 +540,7 @@ generate_checksums() {
 	msg "$(gettext "Generating checksums for source files...")"
 	plain ""
 
-	if [ ! $(type -p openssl) ]; then
+	if ! type -p openssl >/dev/null; then
 		error "$(gettext "Cannot find openssl.")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
@@ -590,7 +590,7 @@ generate_checksums() {
 check_checksums() {
 	(( ! ${#source[@]} )) && return 0
 
-	if [ ! $(type -p openssl) ]; then
+	if ! type -p openssl >/dev/null; then
 		error "$(gettext "Cannot find openssl.")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
@@ -1310,27 +1310,27 @@ devel_check() {
 		# Also do a brief check to make sure we have the VCS tool available.
 		oldpkgver=$pkgver
 		if [[ -n ${_darcstrunk} && -n ${_darcsmod} ]] ; then
-			[ $(type -p darcs) ] || return 0
+			type -p darcs >/dev/null || return 0
 			msg "$(gettext "Determining latest darcs revision...")"
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_cvsroot} && -n ${_cvsmod} ]] ; then
-			[ $(type -p cvs) ] || return 0
+			type -p cvs >/dev/null || return 0
 			msg "$(gettext "Determining latest cvs revision...")"
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_gitroot} && -n ${_gitname} ]] ; then
-			[ $(type -p git) ] || return 0
+			type -p git >/dev/null || return 0
 			msg "$(gettext "Determining latest git revision...")"
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_svntrunk} && -n ${_svnmod} ]] ; then
-			[ $(type -p svn) ] || return 0
+			type -p svn >/dev/null || return 0
 			msg "$(gettext "Determining latest svn revision...")"
 			newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
 		elif [[ -n ${_bzrtrunk} && -n ${_bzrmod} ]] ; then
-			[ $(type -p bzr) ] || return 0
+			type -p bzr >/dev/null || return 0
 			msg "$(gettext "Determining latest bzr revision...")"
 			newpkgver=$(bzr revno ${_bzrtrunk})
 		elif [[ -n ${_hgroot} && -n ${_hgrepo} ]] ; then
-			[ $(type -p hg) ] || return 0
+			type -p hg >/dev/null || return 0
 			msg "$(gettext "Determining latest hg revision...")"
 			if [[ -d ./src/$_hgrepo ]] ; then
 				cd ./src/$_hgrepo
@@ -1532,7 +1532,7 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
-if [ ! $(type -t gettext) ]; then
+if ! type -p gettext >/dev/null; then
 	gettext() {
 		echo "$@"
 	}
@@ -1706,7 +1706,7 @@ if (( ! INFAKEROOT )); then
 		plain "$(gettext "Please rerun makepkg without the --asroot flag.")"
 		exit 1 # $E_USER_ABORT
 	elif [[ $(check_buildenv fakeroot) = "y" ]] && (( EUID > 0 )); then
-		if [ ! $(type -p fakeroot) ]; then
+		if ! type -p fakeroot >/dev/null; then
 			error "$(gettext "Fakeroot must be installed if using the 'fakeroot' option")"
 			plain "$(gettext "in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
 			exit 1
@@ -1726,7 +1726,7 @@ fi
 
 # check for sudo if we will need it during makepkg execution
 if (( ! ( ASROOT || INFAKEROOT ) && ( DEP_BIN || RMDEPS || INSTALL ) )); then
-	if [ ! "$(type -p sudo)" ]; then
+	if ! type -p sudo >/dev/null; then
 		warning "$(gettext "Sudo can not be found. Will use su to acquire root privileges.")"
 	fi
 fi
@@ -1898,7 +1898,7 @@ if (( NODEPS || ( (NOBUILD || REPKG) && !DEP_BIN ) )); then
 	if (( NODEPS || ( REPKG && PKGFUNC ) )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
-elif [ $(type -p "${PACMAN%% *}") ]; then
+elif type -p "${PACMAN%% *}" >/dev/null; then
 	if (( RMDEPS )); then
 		original_pkglist=($(run_pacman -Qq | sort))    # required by remove_dep
 	fi
