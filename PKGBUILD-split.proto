@@ -29,7 +29,7 @@ md5sums=() #generate with 'makepkg -g'
 build() {
   cd "$srcdir/$pkgbase-$pkgver"
   ./configure --prefix=/usr
-  make || return 1
+  make
 }
 
 package_pkg1() {
