@@ -1,4 +1,4 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts etc po pactest contrib
+SUBDIRS = lib/libalpm src/util src/pacman scripts etc po test/pacman contrib
 if WANT_DOC
 SUBDIRS += doc
 endif
@@ -15,12 +15,12 @@ pkgdatadir = ${datadir}/${PACKAGE}
 dist_pkgdata_DATA = PKGBUILD.proto PKGBUILD-split.proto proto.install ChangeLog.proto
 
 # run the pactest test suite and vercmp tests
-check-local: pactest src/pacman src/util
-	$(PYTHON) $(top_srcdir)/pactest/pactest.py --debug=1 \
-		--test $(top_srcdir)/pactest/tests/*.py \
+check-local: test/pacman src/pacman src/util
+	$(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
+		--test $(top_srcdir)/test/pacman/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
 	rm -rf $(top_builddir)/root
-	$(SH) $(top_srcdir)/pactest/vercmptest.sh \
+	$(SH) $(top_srcdir)/test/pacman/vercmptest.sh \
 		$(top_builddir)/src/util/vercmp
 
 # create the pacman DB and cache directories upon install

@@ -354,8 +354,8 @@ scripts/Makefile
 doc/Makefile
 etc/Makefile
 po/Makefile.in
-pactest/Makefile
-pactest/tests/Makefile
+test/pacman/Makefile
+test/pacman/tests/Makefile
 contrib/Makefile
 Makefile
 ])
