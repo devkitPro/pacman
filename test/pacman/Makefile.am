@@ -8,8 +8,7 @@ check_SCRIPTS = \
 	pmpkg.py \
 	pmrule.py \
 	pmtest.py \
-	util.py \
-	vercmptest.sh
+	util.py
 
 noinst_SCRIPTS = $(check_SCRIPTS)
 
