@@ -1115,7 +1115,7 @@ create_srcpackage() {
 			# evaluate any bash variables used
 			eval file='${srclinks}/${pkgbase}/'${file}
 			if [[ ! -f $file ]]; then
-				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "$file"
+				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "${file##*/}"
 				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
 			fi
 		done
