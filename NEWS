@@ -1,5 +1,42 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.4.0         - new "Architecture" option that will restrict pacman to
+                installing only packages from the given architecture. Can be
+                set to "auto" in which case the output of "uname -m" is used
+              - use "$arch" when specifying a mirror url to automatically
+                select the correct architecture
+              - Installing packages with -U can handle installing
+                dependencies, conflict resolution and replacing packages
+              - can upgrade the system and install a new package using 
+                "pacman -Syu <pkg>"
+              - new -D/--database operation for modifying package install
+                reasons
+              - new --print and --print-format options to output information
+                in suitable format for wrapper scripts
+              - only extract new entries when updating a repo database
+              - show "Required by" in -Sii output
+              - -U and -R options always ask for confirmation
+              - allow -Qo to perform a functional 'which'
+              - cache cleaning cleans all directories, not just first
+              - cleanupdelta: new utility to help remove unused deltas from
+                a repo database 
+              - repo-add: handle removing the final package from a repo
+              - rankmirrors: rewrite using bash
+              - vercmp: does not link to libalpm to prevent upgrade issues
+              - makepkg:
+                - automatically aborts on any errors during packaging
+                - changelogs are now included via the "changelog" variable
+                - can override pkgver, pkgrel and arch in split packages
+                - repackaging without a package() function is deprecated
+                - stricter syntax checking for backup and optdepends entries
+                - file stripping options are configurable
+                - New --pkg flag to allow building specific package(s) from
+                  split PKGBUILDs.
+                - build() function is now optional
+                - warns about reference to the build root in a package
+                - configure source package destination with SRCPKGDEST
+                - major internal refactoring of handling tests ("[" to "[[")
+              - contrib/pactree: print reverse dependency tree
 3.3.3         - correctly check the return code from opendir()
               - fix possible infinite loop in alpm_list_remove()
               - makepkg:
