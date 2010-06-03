@@ -83,11 +83,6 @@ AC_ARG_WITH(src-ext,
 	AS_HELP_STRING([--with-src-ext=ext], [set the file extension used by source packages]),
 	[SRCEXT=$withval], [SRCEXT=.src.tar.gz])
 
-# Help line for database extension
-AC_ARG_WITH(db-ext,
-	AS_HELP_STRING([--with-db-ext=ext], [set the file extension used by the database]),
-	[DBEXT=$withval], [DBEXT=.db.tar.gz])
-
 # Help line for buildscript filename
 AC_ARG_WITH(buildscript,
 	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
@@ -338,9 +333,6 @@ AC_DEFINE_UNQUOTED([PKGEXT], "$PKGEXT", [The file extension used by pacman packa
 # Set source package file extension
 AC_SUBST(SRCEXT)
 AC_DEFINE_UNQUOTED([SRCEXT], "$SRCEXT", [The file extension used by pacman source packages])
-# Set database file extension
-AC_SUBST(DBEXT)
-AC_DEFINE_UNQUOTED([DBEXT], "$DBEXT", [The file extension used by pacman databases])
 # Set makepkg build script name
 AC_SUBST(BUILDSCRIPT)
 AC_DEFINE_UNQUOTED([BUILDSCRIPT], "$BUILDSCRIPT", [The build script name used by makepkg])
@@ -393,7 +385,6 @@ ${PACKAGE_NAME}:
     root working directory : ${ROOTDIR}
     package extension      : ${PKGEXT}
     source pkg extension   : ${SRCEXT}
-    database extension     : ${DBEXT}
     build script name      : ${BUILDSCRIPT}
 
   Compilation options:

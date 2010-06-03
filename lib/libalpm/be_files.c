@@ -231,9 +231,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	len = strlen(db->treename) + strlen(DBEXT) + 1;
+	len = strlen(db->treename) + 4;
 	MALLOC(dbfile, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfile, "%s" DBEXT, db->treename);
+	sprintf(dbfile, "%s.db", db->treename);
 
 	dbpath = alpm_option_get_dbpath();
 
@@ -253,9 +253,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	syncdbpath = _alpm_db_path(db);
 
 	/* form the path to the db location */
-	len = strlen(dbpath) + strlen(db->treename) + strlen(DBEXT) + 1;
+	len = strlen(dbpath) + strlen(db->treename) + 4;
 	MALLOC(dbfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfilepath, "%s%s" DBEXT, dbpath, db->treename);
+	sprintf(dbfilepath, "%s%s.db", dbpath, db->treename);
 
 	if(force) {
 		/* if forcing update, remove the old dir and extract the db */

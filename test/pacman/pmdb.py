@@ -344,7 +344,7 @@ class pmdb:
 
         # Generate database archive
         mkdir(path)
-        archive = os.path.join(path, "%s%s" % (self.treename, PM_EXT_DB))
+        archive = os.path.join(path, "%s.db" % (self.treename))
         tar = tarfile.open(archive, "w:gz")
         for root, dirs, files in os.walk('.'):
             for d in dirs:

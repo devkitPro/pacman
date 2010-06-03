@@ -149,7 +149,7 @@ class pmtest:
         vprint("    Creating sync database archives")
         for key, value in self.db.iteritems():
             if key == "local": continue
-            archive = value.treename + PM_EXT_DB
+            archive = value.treename + ".db"
             vprint("\t" + os.path.join(SYNCREPO, archive))
             value.gensync(os.path.join(syncdir, value.treename))
 

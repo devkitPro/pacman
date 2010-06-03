@@ -85,7 +85,7 @@ getfetchurl() {
 	if [[ -z $reponame || $reponame = $replacedurl ]]; then
 		echo "fail"
 	else
-		local fetchurl="${replacedurl}/$reponame@DBEXT@"
+		local fetchurl="${replacedurl}/$reponame.db"
 		echo "$fetchurl"
 	fi
 }
