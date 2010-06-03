@@ -179,6 +179,31 @@ trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 # 1) "filename::http://path/to/file"
 # 2) "http://path/to/file"
 
+# Return the absolute filename of a source entry
+#
+# This function accepts a source entry or the already extracted filename of a
+# source entry as input
+get_filepath() {
+	local file="$(get_filename "$1")"
+
+	if [[ -f "$startdir/$file" ]]; then
+		file="$startdir/$file"
+	elif [[ -f "$SRCDEST/$file" ]]; then
+		file="$SRCDEST/$file"
+	else
+		return 1
+	fi
+
+	echo "$file"
+}
+
+# Print 'source not found' error message and exit makepkg
+missing_source_file() {
+	error "$(gettext "Unable to find source file %s.")" "$(get_filename "$1")"
+	plain "$(gettext "Aborting...")"
+	exit 1 # $E_MISSING_FILE
+}
+
 # extract the filename from a source entry
 get_filename() {
 	# if a filename is specified, use it
@@ -458,19 +483,15 @@ download_sources() {
 
 	local netfile
 	for netfile in "${source[@]}"; do
-		local file=$(get_filename "$netfile")
-		local url=$(get_url "$netfile")
-		if [[ -f $startdir/$file ]]; then
-			msg2 "$(gettext "Found %s in build dir")" "$file"
-			rm -f "$srcdir/$file"
-			ln -s "$startdir/$file" "$srcdir/"
-			continue
-		elif [[ -f $SRCDEST/$file ]]; then
-			msg2 "$(gettext "Using cached copy of %s")" "$file"
-			rm -f "$srcdir/$file"
-			ln -s "$SRCDEST/$file" "$srcdir/"
+		local file
+		if file=$(get_filepath "$netfile"); then
+			msg2 "$(gettext "Found %s")" "${file##*/}"
+			ln -sf "$file" "$srcdir/"
 			continue
 		fi
+
+		file=$(get_filename "$netfile")
+		local url=$(get_url "$netfile")
 
 		# if we get here, check to make sure it was a URL, else fail
 		if [[ $file = $url ]]; then
@@ -553,18 +574,7 @@ generate_checksums() {
 
 		local netfile
 		for netfile in "${source[@]}"; do
-			local file="$(get_filename "$netfile")"
-
-			if [[ ! -f $file ]] ; then
-				if [[ ! -f $SRCDEST/$file ]] ; then
-					error "$(gettext "Unable to find source file %s to generate checksum.")" "$file"
-					plain "$(gettext "Aborting...")"
-					exit 1
-				else
-					file="$SRCDEST/$file"
-				fi
-			fi
-
+			local file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
 			local sum="$(openssl dgst -${integ} "$file")"
 			sum=${sum##* }
 			(( ct )) && echo -n "$indent"
@@ -600,14 +610,10 @@ check_checksums() {
 				file="$(get_filename "$file")"
 				echo -n "    $file ... " >&2
 
-				if [[ ! -f $file ]] ; then
-					if [[ ! -f $SRCDEST/$file ]] ; then
-						echo "$(gettext "NOT FOUND")" >&2
-						errors=1
-						found=0
-					else
-						file="$SRCDEST/$file"
-					fi
+				if ! file="$(get_filepath "$file")"; then
+					echo "$(gettext "NOT FOUND")" >&2
+					errors=1
+					found=0
 				fi
 
 				if (( $found )) ; then
@@ -652,15 +658,6 @@ extract_sources() {
 			continue
 		fi
 
-		if [[ ! -f $file ]] ; then
-			if [[ ! -f $SRCDEST/$file ]] ; then
-				error "$(gettext "Unable to find source file %s for extraction.")" "$file"
-				plain "$(gettext "Aborting...")"
-				exit 1
-			else
-				file="$SRCDEST/$file"
-			fi
-		fi
 
 		# fix flyspray #6246
 		local file_type=$(file -bizL "$file")
@@ -1095,15 +1092,15 @@ create_srcpackage() {
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 	ln -s "${BUILDFILE}" "${srclinks}/${pkgbase}/${BUILDSCRIPT}"
 
-	local netfile
-	for netfile in "${source[@]}"; do
-		local file=$(get_filename "$netfile")
-		if [[ -f $netfile ]]; then
-			msg2 "$(gettext "Adding %s...")" "$netfile"
-			ln -s "${startdir}/$netfile" "${srclinks}/${pkgbase}"
-		elif (( SOURCEONLY == 2 )) && [[ -f $SRCDEST/$file ]]; then
+	local file
+	for file in "${source[@]}"; do
+		if [[ -f $file ]]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
-			ln -s "$SRCDEST/$file" "${srclinks}/${pkgbase}/"
+			ln -s "$file" "$srclinks/$pkgbase"
+		elif (( SOURCEONLY == 2 )); then
+			local absfile=$(get_filepath "$file") || missing_source_file "$file"
+			msg2 "$(gettext "Adding %s...")" "${absfile##*/}"
+			ln -s "$absfile" "$srclinks/$pkgbase"
 		fi
 	done
 
