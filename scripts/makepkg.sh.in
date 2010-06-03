@@ -682,9 +682,12 @@ extract_sources() {
 					*) continue;;
 				esac ;;
 			*)
-				# Don't know what to use to extract this file,
-				# skip to the next file
-				continue;;
+				# See if bsdtar can recognize the file
+				if bsdtar -tf "$file" -q '*' &>/dev/null; then
+					cmd="bsdtar"
+				else
+					continue
+				fi ;;
 		esac
 
 		local ret=0
