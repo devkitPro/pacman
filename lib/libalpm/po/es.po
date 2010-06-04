@@ -4,10 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-04 17:08+0200\n"
 "Last-Translator: Juan Pablo González Tognarelli <jotapesan@gmail.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,25 +29,6 @@ msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "saltando %s-%s debido a la nueva versión de %s esta en la lista de "
 "objetivos\n"
-
-# , c-format
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "se encontraron paquetes con conflictos en la lista de objetivos\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
-"usted no puede instalar simultáneamente dos paquetes que poseen conflictos "
-"entre si\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "reemplazar paquetes con -U aún no esta soportado\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "usted puede reemplazar manualmente los paquetes usando -Rd y -U\n"
 
 #, c-format
 msgid ""
@@ -114,12 +96,24 @@ msgid "removing invalid database: %s\n"
 msgstr "quitando la base de datos inválida: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "no se pudo abrir %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "no se pudo quitar de la base de datos %s-%s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "no se pudo quitar la base de datos %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nombre invalido para la entrada de la base de datos '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "entrada corrupta en la base de datos '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -132,14 +126,14 @@ msgstr "no se pudo abrir el archivo %s: %s\n"
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr ""
-"la base de datos %s es inconsistente: nombre mal emparejado en el paquete %"
-"s\n"
+"la base de datos %s es inconsistente: nombre mal emparejado en el paquete "
+"%s\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
-"la base de datos %s es inconsistente: versión mal emparejada en el paquete %"
-"s\n"
+"la base de datos %s es inconsistente: versión mal emparejada en el paquete "
+"%s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -166,12 +160,12 @@ msgid "missing package metadata in %s\n"
 msgstr "faltan los metadatos del paquete en %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "intento para re-registrar la base de datos 'local'\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "la ruta para la base de datos no está definida\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "intento para re-registrar la base de datos 'local'\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -198,28 +192,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "no se pudo resolver \"%s\", una dependencia para \"%s\"\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "la url %s no es válida\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "no fue especificado el esquema de url, asumiendo HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "disco"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "la url %s no es válida\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falló al obtener archivo '%s' desde %s: %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "no se puede resumir la descarga, empezando de nuevo\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "no se puede escribir en el archivo '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -362,9 +348,13 @@ msgstr "no se pudo quitar todos los archivos del paquete"
 msgid "package filename is not valid"
 msgstr "el nombre de archivo del paquete no es válido"
 
-#, c-format
-msgid "no such repository"
-msgstr "no existe el repositorio"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "el nombre de archivo del paquete no es válido"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "no se pudo encontrar o leer el paquete"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -456,10 +446,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "no se pudo reemplazar el archivo %s por %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "repositorio '%s' no encontrado\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s esta al día -- saltando\n"
 
@@ -478,32 +464,12 @@ msgstr "se han detectado paquetes con conflictos no resueltos\n"
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
-"quitando '%s' de la lista de objetivos debido a que posee conflictos con '%"
-"s'\n"
+"quitando '%s' de la lista de objetivos debido a que posee conflictos con "
+"'%s'\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "falló al descargar algunos archivos desde %s\n"
-
-#, c-format
-msgid "could not create removal transaction\n"
-msgstr "no se pudo crear la operación de eliminación\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "no se pudo crear la operación\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "no se pudo iniciar la operación de eliminación\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "no se pudo iniciar la operación\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "no se pudo preparar la operación de eliminación\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -528,10 +494,6 @@ msgstr "no se pudo copiar el archivo temporal a %s (%s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "no se pudo eliminar el directorio temporal %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "no se pudo abrir %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -569,3 +531,45 @@ msgstr "no existe la cache %s, creando...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "no se pudo crear la cache de paquetes, usando /tmp en su lugar\n"
+
+# , c-format
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "se encontraron paquetes con conflictos en la lista de objetivos\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr ""
+#~ "usted no puede instalar simultáneamente dos paquetes que poseen "
+#~ "conflictos entre si\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "reemplazar paquetes con -U aún no esta soportado\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "usted puede reemplazar manualmente los paquetes usando -Rd y -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "no fue especificado el esquema de url, asumiendo HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "no se puede escribir en el archivo '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "no existe el repositorio"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "repositorio '%s' no encontrado\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "no se pudo crear la operación de eliminación\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "no se pudo crear la operación\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "no se pudo iniciar la operación de eliminación\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "no se pudo iniciar la operación\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "no se pudo preparar la operación de eliminación\n"

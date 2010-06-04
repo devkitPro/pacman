@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-11-15 23:05+0100\n"
 "Last-Translator: Manuel Tortosa <manutortosa@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,30 +21,12 @@ msgstr ""
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
 msgstr ""
-"s'està reemplaçant l'antiga versió %s-%s per %s en la llista "
-"d'objectius\n"
+"s'està reemplaçant l'antiga versió %s-%s per %s en la llista d'objectius\n"
 
 #, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
-"s'ometrà %s-%s perquè la versió més nova %s és en la llista "
-"d'objectius\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "s'han trobat paquets conflictius en la llista d'objectius\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "no podeu instal·lar dos paquets amb conflictes alhora\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "no està implementat reemplaçar paquets amb -U\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "podeu reemplaçar paquets manualment usant -Rd i -U\n"
+"s'ometrà %s-%s perquè la versió més nova %s és en la llista d'objectius\n"
 
 #, c-format
 msgid ""
@@ -99,8 +82,7 @@ msgstr "ha ocorregut un problema en instal·lar %s\n"
 
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr ""
-"no s'ha pogut actualitzar l'entrada de la base de dades %s-%s\n"
+msgstr "no s'ha pogut actualitzar l'entrada de la base de dades %s-%s\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
@@ -111,12 +93,24 @@ msgid "removing invalid database: %s\n"
 msgstr "s'està eliminant la base de dades invàlida: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "no s'ha pogut obrir %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "no s'ha pogut eliminar la entrada de la base de dades %s-%s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "no s'ha pogut eliminar la base de dades %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nom invàlid per l'entrada de la base de dades '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "entrada de la base de dades corrupta '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -128,13 +122,11 @@ msgstr "no es pot obrir el fitxer %s: %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr ""
-"la base de dades %s és inconsistent: nom erroni en el paquet %s\n"
+msgstr "la base de dades %s és inconsistent: nom erroni en el paquet %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr ""
-"la base de dades %s és inconsistent: versió errònia en el paquet %s\n"
+msgstr "la base de dades %s és inconsistent: versió errònia en el paquet %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -142,8 +134,7 @@ msgstr "no s'ha pogut crear el directori %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr ""
-"no s'ha pogut analitzar el fitxers de descripció de paquet en %s\n"
+msgstr "no s'ha pogut analitzar el fitxers de descripció de paquet en %s\n"
 
 #, c-format
 msgid "missing package name in %s\n"
@@ -162,12 +153,12 @@ msgid "missing package metadata in %s\n"
 msgstr "falten les metadades del paquet en %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "intent de re-registre de la BD 'local'\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "no s'ha definit la ruta de la base de dades\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "intent de re-registre de la BD 'local'\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -194,28 +185,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "no es pot resoldre \"%s\", una dependència de \"%s\"\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "l'url '%s' és invàlid\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "no s'ha especificat l'esquema url, s'està assumint HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "disc"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "l'url '%s' és invàlid\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ha fallat en recuperar el fitxer '%s' des de %s : %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "no es pot la reprendre la baixada, s'està iniciant de nou\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "no s'ha pogut escriure al fitxer '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -332,8 +315,7 @@ msgstr "l'operació no és compatible amb el tipus de transacció"
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr ""
-"intent de publicació de la transacció amb la base de dades no "
-"bloquejada"
+"intent de publicació de la transacció amb la base de dades no bloquejada"
 
 #, c-format
 msgid "could not find or read package"
@@ -359,9 +341,13 @@ msgstr "no s'han pogut eliminar tots els fitxers del paquet"
 msgid "package filename is not valid"
 msgstr "el nom de fitxer del paquet no és vàlid"
 
-#, c-format
-msgid "no such repository"
-msgstr "no existeix aquest repositori"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "el nom de fitxer del paquet no és vàlid"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "no s'ha pogut trobar o llegir el paquet"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -452,10 +438,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "no s'ha pogut reemplaçar %s per %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "no s'ha trobat el repositori '%s'\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s és al dia -- s'ignorarà\n"
 
@@ -469,38 +451,17 @@ msgstr "desactualitzant paquet %s (%s => %s)\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr ""
-"s'ha detectat un paquet amb un conflicte impossible de resoldre\n"
+msgstr "s'ha detectat un paquet amb un conflicte impossible de resoldre\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
-"s'està eliminant '%s' de la llista d'objectius perquè té conflictes "
-"amb '%s'\n"
+"s'està eliminant '%s' de la llista d'objectius perquè té conflictes amb "
+"'%s'\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
 msgstr "ha fallat en recuperar alguns fitxers de %s\n"
-
-#, c-format
-msgid "could not create removal transaction\n"
-msgstr "no s'ha pogut crear la transacció d'eliminació\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "no s'ha pogut crear la transacció\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "no s'ha pogut inicialitzar la transacció d'eliminació\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "no s'ha pogut inicialitzar la transacció\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "no s'ha pogut preparar la transacció d'eliminació\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -525,10 +486,6 @@ msgstr "no s'ha pogut copiar el fitxer temporal a %s (%s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "no s'ha pogut eliminar el directori temporal %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "no s'ha pogut obrir %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -566,4 +523,41 @@ msgstr "no existeix memòria cau %s, s'està creant...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "no s'ha pogut crear la memòria cau del paquet, s'usarà /tmp\n"
 
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "s'han trobat paquets conflictius en la llista d'objectius\n"
 
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr "no podeu instal·lar dos paquets amb conflictes alhora\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "no està implementat reemplaçar paquets amb -U\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "podeu reemplaçar paquets manualment usant -Rd i -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "no s'ha especificat l'esquema url, s'està assumint HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "no s'ha pogut escriure al fitxer '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "no existeix aquest repositori"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "no s'ha trobat el repositori '%s'\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "no s'ha pogut crear la transacció d'eliminació\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "no s'ha pogut crear la transacció\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "no s'ha pogut inicialitzar la transacció d'eliminació\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "no s'ha pogut inicialitzar la transacció\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "no s'ha pogut preparar la transacció d'eliminació\n"

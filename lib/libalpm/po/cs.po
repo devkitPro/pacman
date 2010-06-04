@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-04 17:08+0200\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,22 +25,6 @@ msgstr "v seznamu cílů nahrazena starší verze %s-%s za %s\n"
 #, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "vynechává se %s-%s, protože v seznamu cílů je novější veze %s\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "v seznamu cílů byly nalezeny konfliktní balíčky\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "nelze instalovat dva konfliktní balíčky současně\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "nahrazování balíčků pomocí -U není nyní podporováno\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "balíčky lze nahradit ručně použitím -Rd a -U\n"
 
 #, c-format
 msgid ""
@@ -106,12 +91,24 @@ msgid "removing invalid database: %s\n"
 msgstr "odstraňuje se chybná databáze: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "nelze otevřít %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "nelze odstranit záznam databáze %s-%s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "nelze odstranit záznam v databázi %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "chybný název záznamu v databázi '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "poškozený záznam v databázi '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -154,12 +151,12 @@ msgid "missing package metadata in %s\n"
 msgstr "chybí metadata balíčku v %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "pokus o opětovné zaregistrování databáze 'local'\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "cesta k databázi není definována\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "pokus o opětovné zaregistrování databáze 'local'\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -186,28 +183,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nelze vyřešit \"%s\", závislost \"%s\"\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "URL '%s' je chybná\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "schéma URL nedefinováno, předpokládá se HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "disk"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "URL '%s' je chybná\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "selhalo získání souboru '%s' z %s: %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "nelze navázat stahování, začíná se znovu\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "nelze zapisovat do souboru '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -349,9 +338,13 @@ msgstr "nelze odstranit všechny soubory balíčku"
 msgid "package filename is not valid"
 msgstr "jméno souboru balíčku není platné"
 
-#, c-format
-msgid "no such repository"
-msgstr "takový repositář není nastaven"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "jméno souboru balíčku není platné"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "nelze nalézt nebo přečíst balíček"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -442,10 +435,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "nelze nahradit soubor %s souborem %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "repositář '%s' nebyl nalezen\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s je aktuální -- vynechat\n"
 
@@ -470,26 +459,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "selhalo získání některých souborů z %s\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "nelze vytvořit transakci pro odstranění\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "nelze vytvořit transakci\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "nelze inicializovat transakci pro odstranění\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "nelze inicializovat transakci\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "nelze připravit transakci pro odstranění\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "nelze provést transakci pro odstranění\n"
 
@@ -512,10 +481,6 @@ msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nelze odstranit dočasný adresář %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nelze otevřít %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -552,6 +517,45 @@ msgstr "neexistuje cache %s, vytváří se...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nelze vytvořit cache balíčků, používá se /tmp\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "v seznamu cílů byly nalezeny konfliktní balíčky\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr "nelze instalovat dva konfliktní balíčky současně\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "nahrazování balíčků pomocí -U není nyní podporováno\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "balíčky lze nahradit ručně použitím -Rd a -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "schéma URL nedefinováno, předpokládá se HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "nelze zapisovat do souboru '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "takový repositář není nastaven"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "repositář '%s' nebyl nalezen\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "nelze vytvořit transakci pro odstranění\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "nelze vytvořit transakci\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "nelze inicializovat transakci pro odstranění\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "nelze inicializovat transakci\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "nelze připravit transakci pro odstranění\n"
 
 #~ msgid "error downloading '%s': %s\n"
 #~ msgstr "chyba při stahování '%s': %s\n"

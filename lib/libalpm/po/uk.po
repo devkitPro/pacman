@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-04 17:15+0200\n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
 "Language-Team: http://archlinux.org.ua\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,22 +26,6 @@ msgstr "старіша версія %s-%s замінюється на %s в ці
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "%s-%s пропускається, бо в списку цільових пакунків є новіша версія %s\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "в списку цільових пакунків були знайдені конфліктуючі пакунки\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "ви не можете одночасно встановити два пакунки, що конфліктують\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "заміна пакунків за допомогою -U поки-що не підтримується\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "ви можете власноруч замінити пакунки використавши -Rd та -U\n"
 
 #, c-format
 msgid ""
@@ -107,12 +92,24 @@ msgid "removing invalid database: %s\n"
 msgstr "вилучення невірної бази даних: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "неможливо відкрити %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "неможливо вилучити запис бази даних %s-%s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "неможливо вилучити базу даних %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "невірне ім'я для запису бази даних '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "пошкоджений запис у базі даних '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -155,12 +152,12 @@ msgid "missing package metadata in %s\n"
 msgstr "бракує метаданих пакунку в %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "спроба перереєструвати базу даних 'local'\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "шлях до бази даних не вказано\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "спроба перереєструвати базу даних 'local'\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -187,28 +184,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "неможливо розв'язати \"%s\", залежність \"%s\"\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "посилання '%s' невірне\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "протокол посилання не вказано, вважається HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "диск"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "посилання '%s' невірне\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не вдалося отримати файл '%s' з %s : %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "неможливо продовжити завантаження, починається з початку\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "неможливо писати у файл '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -350,9 +339,13 @@ msgstr "неможливо вилучити всі файли для пакун�
 msgid "package filename is not valid"
 msgstr "ім'я файлу пакунку невірне"
 
-#, c-format
-msgid "no such repository"
-msgstr "немає такого репозиторію"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "ім'я файлу пакунку невірне"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "неможливо знайти чи прочитати пакунок"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -443,10 +436,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "неможливо замінити %s на %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "репозиторій '%s' не знайдено\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s не потребує оновлення -- пропущено\n"
 
@@ -471,26 +460,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "не вдалося отримати деякі файли з %s\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "неможливо створити транзакцію вилучення\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "неможливо створити транзакцію\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "неможливо почати транзакцію вилучення\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "неможливо почати транзакцію\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "неможливо підготувати транзакцію вилучення\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "неможливо здійснити транзакцію вилучення\n"
 
@@ -513,10 +482,6 @@ msgstr "неможливо скопіювати тимчасовий файл д
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "неможливо вилучити тимчасовий каталог %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "неможливо відкрити %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -553,6 +518,45 @@ msgstr "кеш %s не існує, створюється...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "неможливо створити кеш пакунку, використовуватиметься /tmp\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "в списку цільових пакунків були знайдені конфліктуючі пакунки\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr "ви не можете одночасно встановити два пакунки, що конфліктують\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "заміна пакунків за допомогою -U поки-що не підтримується\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "ви можете власноруч замінити пакунки використавши -Rd та -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "протокол посилання не вказано, вважається HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "неможливо писати у файл '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "немає такого репозиторію"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "репозиторій '%s' не знайдено\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "неможливо створити транзакцію вилучення\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "неможливо створити транзакцію\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "неможливо почати транзакцію вилучення\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "неможливо почати транзакцію\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "неможливо підготувати транзакцію вилучення\n"
 
 #~ msgid "error downloading '%s': %s\n"
 #~ msgstr "помилка при завантаженні '%s': %s\n"

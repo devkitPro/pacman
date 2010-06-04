@@ -11,10 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-04 17:08+0200\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German <archlinux.de>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,24 +30,6 @@ msgstr "Ersetze ältere Version %s-%s durch %s in der Ziel-Liste\n"
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr ""
 "Überspringe %s-%s, da sich die neuere Version %s in der Ziel-Liste befindet\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "In Konflikt stehende Pakete wurden in der Ziel-Liste gefunden\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
-"Sie können nicht zwei in Konflikt stehende Pakete zur selben Zeit "
-"installieren\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "Das Ersetzen von Paketen mit -U wird noch nicht unterstützt\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "Sie können Pakete manuell mit -Rd und -U ersetzen\n"
 
 #, c-format
 msgid ""
@@ -113,12 +96,24 @@ msgid "removing invalid database: %s\n"
 msgstr "Entferne die ungültige Datenbank: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "Konnte Datei %s nicht öffnen: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "Konnte Datenbank-Eintrag %s-%s nicht entfernen\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "Konnte Datenbank %s nicht entfernen\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "Ungültiger Name für Datenbank-Eintrag '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "Beschädigter Datenbank-Eintrag '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -165,12 +160,12 @@ msgid "missing package metadata in %s\n"
 msgstr "Fehlende Paket-Metadaten in %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "Versuche die lokale Datenbank neu zu registrieren\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "Datenbank-Pfad ist nicht definiert\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "Versuche die lokale Datenbank neu zu registrieren\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -197,28 +192,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "Kann \"%s\" nicht auflösen (eine Abhängigkeit von \"%s\")\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "URL '%s' ist ungültig\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "URL-Schema nicht spezifiziert, vermute HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "Platte"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "URL '%s' ist ungültig\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "Kann den Download nicht wieder aufnehmen, starte neu\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "Kann Datei '%s' nicht beschreiben\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -361,9 +348,13 @@ msgstr "Konnte nicht alle Dateien des Paketes entfernen"
 msgid "package filename is not valid"
 msgstr "Der Dateiname des Paketes ist nicht gültig"
 
-#, c-format
-msgid "no such repository"
-msgstr "Kein solches Repositorium"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "Der Dateiname des Paketes ist nicht gültig"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "Konnte Paket nicht finden oder lesen"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -454,10 +445,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "Kann %s nicht durch %s ersetzen\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "Repositorium '%s' nicht gefunden\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s ist aktuell -- Überspringe\n"
 
@@ -482,26 +469,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "Konnte manche Dateien von %s nicht übertragen\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "Konnte den Lösch-Vorgang nicht erstellen\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "Konnte den Vorgang nicht erstellen\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "Konnte den Lösch-Vorgang nicht beginnen\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "Konnte den Vorgang nicht beginnen\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "Konnte Lösch-Vorgang nicht vorbereiten\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "Konnte Lösch-Vorgang nicht durchführen\n"
 
@@ -524,10 +491,6 @@ msgstr "Konnte temporäre Datei nicht nach %s kopieren (%s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "Konnte temporäres Verzeichnis %s nicht entfernen\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "Konnte Datei %s nicht öffnen: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -564,3 +527,44 @@ msgstr "Es existiert kein %s-Puffer. Erstelle... \n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "Konnte Paketpuffer nicht erstellen, benutze stattdessen /tmp\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "In Konflikt stehende Pakete wurden in der Ziel-Liste gefunden\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr ""
+#~ "Sie können nicht zwei in Konflikt stehende Pakete zur selben Zeit "
+#~ "installieren\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "Das Ersetzen von Paketen mit -U wird noch nicht unterstützt\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "Sie können Pakete manuell mit -Rd und -U ersetzen\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "URL-Schema nicht spezifiziert, vermute HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "Kann Datei '%s' nicht beschreiben\n"
+
+#~ msgid "no such repository"
+#~ msgstr "Kein solches Repositorium"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "Repositorium '%s' nicht gefunden\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "Konnte den Lösch-Vorgang nicht erstellen\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "Konnte den Vorgang nicht erstellen\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "Konnte den Lösch-Vorgang nicht beginnen\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "Konnte den Vorgang nicht beginnen\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "Konnte Lösch-Vorgang nicht vorbereiten\n"

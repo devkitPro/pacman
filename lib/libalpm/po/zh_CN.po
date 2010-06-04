@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-08 20:48+0700\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,22 +25,6 @@ msgstr "正在用目标清单中的 %3$s 替换老版本 %1$s-%2$s\n"
 #, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "正在跳过 %1$s-%2$s，因为较新版本的 %3$s 在目标清单中\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "目标清单中发现有冲突的软件包\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "你不能同时安装有冲突的两个软件包\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "目前尚不支持用 -U 参数替换软件包\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "你可以使用 -Rd 及 -U 来手动替换软件包\n"
 
 #, c-format
 msgid ""
@@ -106,12 +91,24 @@ msgid "removing invalid database: %s\n"
 msgstr "正在删除无效的数据库： %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "无法打开 %1$s: %2$s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "无法删除数据库记录 %1$s-%2$s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "无法删除数据库 %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "数据库记录 '%s' 名字无效\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "损坏的数据库记录 '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -154,12 +151,12 @@ msgid "missing package metadata in %s\n"
 msgstr "%s 中缺少软件包元数据\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "尝试重新登记“本地”数据库\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "数据库路径未定义\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "尝试重新登记“本地”数据库\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -186,28 +183,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "无法解决 \"%1$s\"，\"%2$s\" 的一个依赖关系\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "url '%s' 无效\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "url scheme 未指定，假定为 HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "硬盘"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' 无效\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "无法从 %2$s : %3$s 获取文件 '%1$s'\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "无法恢复下载，重新开始\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "无法写入文件 '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -349,9 +338,13 @@ msgstr "无法为软件包删除全部文件"
 msgid "package filename is not valid"
 msgstr "软件包文件名无效"
 
-#, c-format
-msgid "no such repository"
-msgstr "没有该软件库"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "软件包文件名无效"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "无法找到或读取软件包"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -442,10 +435,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "无法用文件 '%2$s' 替代 %1$s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "没有找到软件库 '%s'\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%1$s-%2$s 已经为最新 -- 跳过\n"
 
@@ -470,26 +459,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "无法从 %s 获取某些文件\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "无法生成可撤销处理\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "无法创建处理\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "无法初始化可撤销处理\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "无法初始化处理\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "无法准备可撤销处理\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "无法交付可撤销处理\n"
 
@@ -512,10 +481,6 @@ msgstr "无法复制临时文件到 %1$s (%2$s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "无法删除临时目录 %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "无法打开 %1$s: %2$s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -552,6 +517,45 @@ msgstr "没有 %s 缓存存在，正在创建...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "无法创建软件包缓存，正在使用 /tmp 代替\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "目标清单中发现有冲突的软件包\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr "你不能同时安装有冲突的两个软件包\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "目前尚不支持用 -U 参数替换软件包\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "你可以使用 -Rd 及 -U 来手动替换软件包\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "url scheme 未指定，假定为 HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "无法写入文件 '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "没有该软件库"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "没有找到软件库 '%s'\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "无法生成可撤销处理\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "无法创建处理\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "无法初始化可撤销处理\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "无法初始化处理\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "无法准备可撤销处理\n"
 
 #~ msgid "error downloading '%s': %s\n"
 #~ msgstr "下载 '%1$s' 时出错: %2$s\n"

@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-06 21:10+0200\n"
 "Last-Translator: Christian Larsson <congacx@gmail.com>\n"
 "Language-Team: Northern Sami\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,22 +23,6 @@ msgstr "ersätter den äldre versionen %s-%s med %s i mållistan\n"
 #, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "hoppar över %s-%s för en nyare version %s finns i mållistan\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "motstridande paket hittades i mållistan\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr "du kan inte installera två motstridiga paket på samma gång\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "erstätta paket med -U stödjs inte än\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "du kan ersätta paket manuellt genom att använda -Rd och -U\n"
 
 #, c-format
 msgid ""
@@ -104,12 +89,24 @@ msgid "removing invalid database: %s\n"
 msgstr "tar bort ogiltig databas: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "kunde inte öppna %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "kunde inte ta bort databasinlägget %s-%s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "kunde inte ta bort databasen %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "ogiltigt namn för databasinlägget '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "korrupt databasinlägg '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -152,12 +149,12 @@ msgid "missing package metadata in %s\n"
 msgstr "saknar metadata för paketet i %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "försöker att återregistrera den 'lokala' DB\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "sökväg till databasen är odefinierad\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "försöker att återregistrera den 'lokala' DB\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -184,28 +181,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "kan inte lösa \"%s\", beroende till \"%s\", \n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "url '%s' är ogiltigt\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "url schema inte specifierat, antar HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "disk"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' är ogiltigt\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "misslyckades hämta filen '%s' från %s : %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "kan inte återuppta nerladdning, börjar om\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "kan inte skriva till filen '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -347,9 +336,13 @@ msgstr "kan inte ta bort alla filer för paketet"
 msgid "package filename is not valid"
 msgstr "paketnamn är inte giltigt"
 
-#, c-format
-msgid "no such repository"
-msgstr "inget sådant förråd"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "paketnamn är inte giltigt"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "kunde inte hitta eller förbereda paket"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -440,10 +433,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "kan inte ersätta %s med %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "förrådet '%s' hittades inte\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s är senaste versionen -- hoppar över\n"
 
@@ -468,26 +457,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "misslyckades att hämta vissa filer från %s\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "kunde inte skapa överföring för borttagning\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "kunde inte skapa överföring\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "kunde inte påbörja överföring för borttagning\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "kunde inte påbörja överföring\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "kunde inte förbereda överföring för borttagning\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunde inte skicka överföring för borttagning\n"
 
@@ -510,10 +479,6 @@ msgstr "kunde inte kopiera temporär fil till %s (%s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kunde inte ta bort tmpdir %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "kunde inte öppna %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -550,3 +515,42 @@ msgstr "ingen %s cache existerar, skapar...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "kunde inte skapa paket-cache, använder /tmp istället\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "motstridande paket hittades i mållistan\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr "du kan inte installera två motstridiga paket på samma gång\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "erstätta paket med -U stödjs inte än\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "du kan ersätta paket manuellt genom att använda -Rd och -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "url schema inte specifierat, antar HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "kan inte skriva till filen '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "inget sådant förråd"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "förrådet '%s' hittades inte\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "kunde inte skapa överföring för borttagning\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "kunde inte skapa överföring\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "kunde inte påbörja överföring för borttagning\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "kunde inte påbörja överföring\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "kunde inte förbereda överföring för borttagning\n"

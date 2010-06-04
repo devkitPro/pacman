@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-04 17:09+0200\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,25 +27,6 @@ msgstr "zastępowanie starszej wersji %s-%s na %s z listy celów\n"
 #, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "pomijam %s-%s ponieważ nowsza wersja %s jest na liście celów\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "konfliktujące pakiety zostały znalezione na liście celów\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
-"nie możesz mieć zainstalowanych dwóch konfliktujących ze sobą pakietów w tym "
-"samym czasie\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr "zastępowanie pakietów za pomocą -U nie jest już wspierane\n"
-
-# hmm
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "możesz zastąpić pakiety ręcznie, używając opcji -Rd oraz -U\n"
 
 #, c-format
 msgid ""
@@ -111,12 +93,24 @@ msgid "removing invalid database: %s\n"
 msgstr "usuwanie niepoprawnej bazy danych: %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "nie udało się otworzyć %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "nie udało się usunąć wpisu %s-%s z bazy danych\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "nie można usunąć bazy danych %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nieprawidłowa nazwa dla wpisu bazy danych '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "zepsuty wpis w bazie danych '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -159,12 +153,12 @@ msgid "missing package metadata in %s\n"
 msgstr "brak metadanych pakietu w %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "próba ponownej rejestracji 'lokalnej' BD\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "ścieżka bazy danych jest niezdefiniowana\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "próba ponownej rejestracji 'lokalnej' BD\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -191,28 +185,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nie można rozwiązać \"%s\", zależności od \"%s\"\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "url '%s' jest błędny\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "schemat url nie został sprecyzowany, wybieranie HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "dysk"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' jest błędny\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nie udało się pobrać pliku '%s' z %s : %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "nie można kontynuować pobieranie, zaczynanie od początku\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "nie można zapisywać do pliku '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -354,9 +340,13 @@ msgstr "nie udało się usunąć wszystkich plików pakietu"
 msgid "package filename is not valid"
 msgstr "nazwa pakietu jest nieprawidłowa"
 
-#, c-format
-msgid "no such repository"
-msgstr "nie ma takiego repozytorium"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "nazwa pakietu jest nieprawidłowa"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "nie udało się znaleźć bądź odczytać pakietu"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -448,10 +438,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "nie udało się zastąpić %s przez %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "repozytorium '%s' nie zostało znalezione\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s jest w najnowszej wersji -- pomijanie\n"
 
@@ -476,26 +462,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "nie udało się pobrać niektórych plików z %s\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "nie udało się utworzyć tranzakcji usuwania\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "nie udało się stworzyć tranzakcji\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "nie udało się zainicjować tranzakcji usuwania\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "nie udało się zainicjować tranzakcji\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "nie udało się przygotować tranzakcji usuwania\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "nie udało się wykonać tranzakcji usuwania\n"
 
@@ -518,10 +484,6 @@ msgstr "nie udało się skopiować pliku tymczasowego do %s (%s)\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nie udało się usunąć katalogu tymczasowego %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nie udało się otworzyć %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -559,6 +521,48 @@ msgstr "brak pamięci podręcznej dla %s, tworzenie...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 "nie udało się stworzyć pamięci podręcznej pakietu, używanie /tmp w zamian\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "konfliktujące pakiety zostały znalezione na liście celów\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr ""
+#~ "nie możesz mieć zainstalowanych dwóch konfliktujących ze sobą pakietów w "
+#~ "tym samym czasie\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr "zastępowanie pakietów za pomocą -U nie jest już wspierane\n"
+
+# hmm
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "możesz zastąpić pakiety ręcznie, używając opcji -Rd oraz -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "schemat url nie został sprecyzowany, wybieranie HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "nie można zapisywać do pliku '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "nie ma takiego repozytorium"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "repozytorium '%s' nie zostało znalezione\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "nie udało się utworzyć tranzakcji usuwania\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "nie udało się stworzyć tranzakcji\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "nie udało się zainicjować tranzakcji usuwania\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "nie udało się zainicjować tranzakcji\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "nie udało się przygotować tranzakcji usuwania\n"
 
 #~ msgid "error downloading '%s': %s\n"
 #~ msgstr "błąd podczas pobierania '%s': %s\n"

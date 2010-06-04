@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:36-0500\n"
 "PO-Revision-Date: 2009-10-04 17:10+0200\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #, c-format
 msgid "replacing older version %s-%s by %s in target list\n"
@@ -24,24 +25,6 @@ msgstr "заменяется устаревшая версия %s-%s на %s в 
 #, c-format
 msgid "skipping %s-%s because newer version %s is in target list\n"
 msgstr "пропускается %s-%s, поскольку новая версия %s в списке целей\n"
-
-#, c-format
-msgid "conflicting packages were found in target list\n"
-msgstr "в списке целей найдены конфликтующие пакеты\n"
-
-#, c-format
-msgid "you cannot install two conflicting packages at the same time\n"
-msgstr ""
-"вы не можете одновременно установить конфликтующие между собой пакеты\n"
-
-#, c-format
-msgid "replacing packages with -U is not supported yet\n"
-msgstr ""
-"замещение пакетов с использованием параметров -A и -U еще не реализовано\n"
-
-#, c-format
-msgid "you can replace packages manually using -Rd and -U\n"
-msgstr "вы можете заменить пакеты вручную, используя -Rd и -U\n"
 
 #, c-format
 msgid ""
@@ -108,12 +91,24 @@ msgid "removing invalid database: %s\n"
 msgstr "удаление некорректной базы данных %s\n"
 
 #, c-format
+msgid "could not open %s: %s\n"
+msgstr "не удалось открыть %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not remove database directory %s\n"
+msgstr "не удалось удалить из базы данных запись %s-%s\n"
+
+#, c-format
 msgid "could not remove database %s\n"
 msgstr "не удалось удалить базу данных %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "неправильное имя для записи в базе данных '%s'\n"
+
+#, fuzzy, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "повреждённая запись в базе данных '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
@@ -158,12 +153,12 @@ msgid "missing package metadata in %s\n"
 msgstr "отсутствуют метаданные пакета в %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "попытка перерегистрировать локальную БД\n"
-
-#, c-format
 msgid "database path is undefined\n"
 msgstr "путь к базе данных не определён\n"
+
+#, c-format
+msgid "attempt to re-register the 'local' DB\n"
+msgstr "попытка перерегистрировать локальную БД\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -190,28 +185,20 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "не удалось разрешить \"%s\", зависимость \"%s\"\n"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "ссылка '%s' некорректна\n"
-
-#, c-format
-msgid "url scheme not specified, assuming HTTP\n"
-msgstr "схема ссылки не определена, подразумевается HTTP\n"
-
-#, c-format
 msgid "disk"
 msgstr "диск"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "ссылка '%s' некорректна\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не удалось получить файл '%s' из %s : %s\n"
 
-#, c-format
-msgid "cannot resume download, starting over\n"
+#, fuzzy, c-format
+msgid "resuming download of %s not possible; starting over\n"
 msgstr "не удалось продолжить закачку, начинаю заново\n"
-
-#, c-format
-msgid "cannot write to file '%s'\n"
-msgstr "не удалось записать в файл '%s'\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -353,9 +340,13 @@ msgstr "не удалось удалить все файлы пакета"
 msgid "package filename is not valid"
 msgstr "неверное имя файла пакета"
 
-#, c-format
-msgid "no such repository"
-msgstr "нет такого репозитория"
+#, fuzzy, c-format
+msgid "package architecture is not valid"
+msgstr "неверное имя файла пакета"
+
+#, fuzzy, c-format
+msgid "could not find repository for target"
+msgstr "не удалось найти или прочитать пакет"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -446,10 +437,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "не удалось заменить %s на %s\n"
 
 #, c-format
-msgid "repository '%s' not found\n"
-msgstr "репозиторий '%s' не найден\n"
-
-#, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s не устарел -- пропускается\n"
 
@@ -474,26 +461,6 @@ msgid "failed to retrieve some files from %s\n"
 msgstr "не удалось получить некоторые файлы с %s\n"
 
 #, c-format
-msgid "could not create removal transaction\n"
-msgstr "не удалось создать запрос на удаление\n"
-
-#, c-format
-msgid "could not create transaction\n"
-msgstr "не удалось создать запрос\n"
-
-#, c-format
-msgid "could not initialize the removal transaction\n"
-msgstr "не удалось инициализировать запрос на удаление\n"
-
-#, c-format
-msgid "could not initialize transaction\n"
-msgstr "не удалось инициализировать запрос\n"
-
-#, c-format
-msgid "could not prepare removal transaction\n"
-msgstr "не удалось подготовить запрос на удаление\n"
-
-#, c-format
 msgid "could not commit removal transaction\n"
 msgstr "не удалось совершить запрос на удаление\n"
 
@@ -516,10 +483,6 @@ msgstr "не удалось скопировать временный файл �
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "не удалось удалить временный каталог %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "не удалось открыть %s: %s\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -556,6 +519,47 @@ msgstr "кэш %s не существует, создается...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не удалось создать кэш пакетов, будет использован /tmp\n"
+
+#~ msgid "conflicting packages were found in target list\n"
+#~ msgstr "в списке целей найдены конфликтующие пакеты\n"
+
+#~ msgid "you cannot install two conflicting packages at the same time\n"
+#~ msgstr ""
+#~ "вы не можете одновременно установить конфликтующие между собой пакеты\n"
+
+#~ msgid "replacing packages with -U is not supported yet\n"
+#~ msgstr ""
+#~ "замещение пакетов с использованием параметров -A и -U еще не реализовано\n"
+
+#~ msgid "you can replace packages manually using -Rd and -U\n"
+#~ msgstr "вы можете заменить пакеты вручную, используя -Rd и -U\n"
+
+#~ msgid "url scheme not specified, assuming HTTP\n"
+#~ msgstr "схема ссылки не определена, подразумевается HTTP\n"
+
+#~ msgid "cannot write to file '%s'\n"
+#~ msgstr "не удалось записать в файл '%s'\n"
+
+#~ msgid "no such repository"
+#~ msgstr "нет такого репозитория"
+
+#~ msgid "repository '%s' not found\n"
+#~ msgstr "репозиторий '%s' не найден\n"
+
+#~ msgid "could not create removal transaction\n"
+#~ msgstr "не удалось создать запрос на удаление\n"
+
+#~ msgid "could not create transaction\n"
+#~ msgstr "не удалось создать запрос\n"
+
+#~ msgid "could not initialize the removal transaction\n"
+#~ msgstr "не удалось инициализировать запрос на удаление\n"
+
+#~ msgid "could not initialize transaction\n"
+#~ msgstr "не удалось инициализировать запрос\n"
+
+#~ msgid "could not prepare removal transaction\n"
+#~ msgstr "не удалось подготовить запрос на удаление\n"
 
 #~ msgid "error downloading '%s': %s\n"
 #~ msgstr "ошибка загрузки '%s': %s\n"
