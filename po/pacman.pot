@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:33-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -81,7 +82,11 @@ msgid ":: Replace %s with %s/%s?"
 msgstr ""
 
 #, c-format
-msgid ":: %s conflicts with %s. Remove %s?"
+msgid ":: %s and %s are in conflict. Remove %s?"
+msgstr ""
+
+#, c-format
+msgid ":: %s and %s are in conflict (%s). Remove %s?"
 msgstr ""
 
 #, c-format
@@ -309,7 +314,7 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -k, --dbonly         only remove database entry, do not remove files\n"
+"  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
 
 #, c-format
@@ -328,6 +333,18 @@ msgid ""
 msgstr ""
 
 #, c-format
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+
+#, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr ""
 
@@ -337,6 +354,12 @@ msgstr ""
 
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"  -k, --dbonly         add database entries, do not install or keep existing "
+"files\n"
 msgstr ""
 
 #, c-format
@@ -420,12 +443,6 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -p, --print-uris     print out URIs for given packages and their "
-"dependencies\n"
-msgstr ""
-
-#, c-format
-msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
 
@@ -459,6 +476,14 @@ msgstr ""
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
+msgstr ""
+
+#, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr ""
+
+#, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
 
 #, c-format
@@ -504,6 +529,10 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 
 #, c-format
+msgid "      --arch <arch>    set an alternate architecture\n"
+msgstr ""
+
+#, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
@@ -542,6 +571,28 @@ msgid "running XferCommand: fork failed!\n"
 msgstr ""
 
 #, c-format
+msgid "directive '%s' without value not recognized\n"
+msgstr ""
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr ""
+
+#, c-format
+msgid "directive '%s' with a value not recognized\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr ""
+
+#, c-format
 msgid "config file %s could not be read.\n"
 msgstr ""
 
@@ -562,15 +613,17 @@ msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 
 #, c-format
-msgid "config file %s, line %d: directive '%s' not recognized.\n"
+msgid "config file %s, line %d: directive %s needs a value\n"
 msgstr ""
 
 #, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgid "config file %s, line %d: problem in options section\n"
 msgstr ""
 
 #, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
+msgid ""
+"config file %s, line %d: directive '%s' in repository section '%s' not "
+"recognized.\n"
 msgstr ""
 
 #, c-format
@@ -591,6 +644,10 @@ msgstr ""
 
 #, c-format
 msgid "no file was specified for --owns\n"
+msgstr ""
+
+#, c-format
+msgid "failed to find '%s' in PATH: %s\n"
 msgstr ""
 
 #, c-format
@@ -642,27 +699,11 @@ msgid "package \"%s\" not found\n"
 msgstr ""
 
 #, c-format
-msgid "%s not found, searching for group...\n"
-msgstr ""
-
-#, c-format
-msgid "'%s': not found in local db\n"
-msgstr ""
-
-#, c-format
-msgid ":: group %s:\n"
-msgstr ""
-
-#, c-format
-msgid "    Remove whole content?"
-msgstr ""
-
-#, c-format
-msgid ":: Remove %s from group %s?"
-msgstr ""
-
-#, c-format
 msgid "failed to prepare transaction (%s)\n"
+msgstr ""
+
+#, c-format
+msgid ":: package %s does not have a valid architecture\n"
 msgstr ""
 
 #, c-format
@@ -675,6 +716,10 @@ msgstr ""
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr ""
+
+#, c-format
+msgid " there is nothing to do\n"
 msgstr ""
 
 #, c-format
@@ -726,14 +771,6 @@ msgid "removing old packages from cache...\n"
 msgstr ""
 
 #, c-format
-msgid "could not access cache directory\n"
-msgstr ""
-
-#, c-format
-msgid "File %s does not seem to be a valid package, remove it?"
-msgstr ""
-
-#, c-format
 msgid "Do you want to remove ALL files from cache?"
 msgstr ""
 
@@ -742,11 +779,11 @@ msgid "removing all files from cache...\n"
 msgstr ""
 
 #, c-format
-msgid "could not remove cache directory\n"
+msgid "could not access cache directory %s\n"
 msgstr ""
 
 #, c-format
-msgid "could not create new cache directory\n"
+msgid "File %s does not seem to be a valid package, remove it?"
 msgstr ""
 
 #, c-format
@@ -759,6 +796,14 @@ msgstr ""
 
 #, c-format
 msgid "failed to synchronize any databases\n"
+msgstr ""
+
+#, c-format
+msgid "installed"
+msgstr ""
+
+#, c-format
+msgid " [%s: %s]"
 msgstr ""
 
 #, c-format
@@ -778,43 +823,19 @@ msgid "repository \"%s\" was not found.\n"
 msgstr ""
 
 #, c-format
-msgid ":: Starting full system upgrade...\n"
-msgstr ""
-
-#, c-format
 msgid "skipping target: %s\n"
 msgstr ""
 
 #, c-format
-msgid "%s package not found, searching for group...\n"
+msgid ":: Starting full system upgrade...\n"
 msgstr ""
 
 #, c-format
-msgid ":: group %s (including ignored packages):\n"
+msgid ":: %s and %s are in conflict\n"
 msgstr ""
 
 #, c-format
-msgid ":: Install whole content?"
-msgstr ""
-
-#, c-format
-msgid ":: Install %s from group %s?"
-msgstr ""
-
-#, c-format
-msgid "'%s': not found in sync db\n"
-msgstr ""
-
-#, c-format
-msgid ":: %s: conflicts with %s\n"
-msgstr ""
-
-#, c-format
-msgid " local database is up to date\n"
-msgstr ""
-
-#, c-format
-msgid "no URL for package: %s\n"
+msgid ":: %s and %s are in conflict (%s)\n"
 msgstr ""
 
 #, c-format
@@ -853,16 +874,6 @@ msgstr ""
 msgid ""
 ":: Do you want to cancel the current operation\n"
 ":: and upgrade these packages now?"
-msgstr ""
-
-#, c-format
-msgid "loading package data...\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"\n"
-"errors occurred, no packages were upgraded.\n"
 msgstr ""
 
 #, c-format
@@ -968,22 +979,25 @@ msgstr ""
 msgid "Cleaning up..."
 msgstr ""
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
+msgid "Unable to find source file %s."
 msgstr ""
 
 msgid "Aborting..."
 msgstr ""
 
+msgid "There is no agent set up to handle %s URLs. Check %s."
+msgstr ""
+
 msgid "The download program %s is not installed."
 msgstr ""
 
-msgid "Pacman returned a fatal error (%i): %s"
+msgid "'%s' returned a fatal error (%i): %s"
 msgstr ""
 
 msgid "Installing missing dependencies..."
 msgstr ""
 
-msgid "Pacman failed to install missing dependencies."
+msgid "'%s' failed to install missing dependencies."
 msgstr ""
 
 msgid "Failed to install all missing dependencies."
@@ -998,13 +1012,7 @@ msgstr ""
 msgid "Retrieving Sources..."
 msgstr ""
 
-msgid "You do not have write permission to store downloads in %s."
-msgstr ""
-
-msgid "Found %s in build dir"
-msgstr ""
-
-msgid "Using cached copy of %s"
+msgid "Found %s"
 msgstr ""
 
 msgid "%s was not found in the build directory and is not a URL."
@@ -1023,9 +1031,6 @@ msgid "Cannot find openssl."
 msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr ""
-
-msgid "Unable to find source file %s to generate checksum."
 msgstr ""
 
 msgid "Validating source files with %s..."
@@ -1052,25 +1057,13 @@ msgstr ""
 msgid "Extracting Sources..."
 msgstr ""
 
-msgid "Unable to find source file %s for extraction."
-msgstr ""
-
 msgid "Extracting %s with %s"
 msgstr ""
 
 msgid "Failed to extract %s"
 msgstr ""
 
-msgid "Starting build()..."
-msgstr ""
-
-msgid "Build Failed."
-msgstr ""
-
 msgid "Starting %s()..."
-msgstr ""
-
-msgid "Packaging Failed."
 msgstr ""
 
 msgid "Tidying install..."
@@ -1085,7 +1078,7 @@ msgstr ""
 msgid "Compressing man and info pages..."
 msgstr ""
 
-msgid "Stripping debugging symbols from binaries and libraries..."
+msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr ""
 
 msgid "Removing libtool .la files..."
@@ -1101,6 +1094,12 @@ msgid "Please add a license line to your %s!"
 msgstr ""
 
 msgid "Example for GPL'ed software: license=('GPL')."
+msgstr ""
+
+msgid "Invalid backup entry : %s"
+msgstr ""
+
+msgid "Package contains reference to %s"
 msgstr ""
 
 msgid "Missing pkg/ directory."
@@ -1124,19 +1123,31 @@ msgstr ""
 msgid "Failed to create package file."
 msgstr ""
 
+msgid "Failed to create symlink to package file."
+msgstr ""
+
+msgid "Skipping integrity checks."
+msgstr ""
+
 msgid "Creating source package..."
 msgstr ""
 
 msgid "Adding %s..."
 msgstr ""
 
-msgid "Install script %s not found."
+msgid "Adding %s file (%s)..."
 msgstr ""
 
 msgid "Compressing source package..."
 msgstr ""
 
 msgid "Failed to create source package file."
+msgstr ""
+
+msgid "Installing package %s with %s -U..."
+msgstr ""
+
+msgid "Installing %s package group with %s -U..."
 msgstr ""
 
 msgid "Failed to install built package(s)."
@@ -1163,13 +1174,19 @@ msgstr ""
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
 
-msgid "Install scriptlet (%s) does not exist."
+msgid "Invalid syntax for optdepend : '%s'"
+msgstr ""
+
+msgid "%s file (%s) does not exist."
 msgstr ""
 
 msgid "options array contains unknown option '%s'"
 msgstr ""
 
 msgid "missing package function for split package '%s'"
+msgstr ""
+
+msgid "requested package %s is not provided in %s"
 msgstr ""
 
 msgid "Determining latest darcs revision..."
@@ -1217,9 +1234,6 @@ msgstr ""
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr ""
 
-msgid "  --config <config> Use an alternate config file (instead of '%s')"
-msgstr ""
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr ""
 
@@ -1230,9 +1244,6 @@ msgid "  -f, --force      Overwrite existing package"
 msgstr ""
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr ""
-
-msgid "      --skipinteg  Do not fail when integrity checks are missing"
 msgstr ""
 
 msgid "  -h, --help       This help"
@@ -1250,7 +1261,7 @@ msgstr ""
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr ""
 
-msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
+msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
 
 msgid ""
@@ -1264,32 +1275,39 @@ msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr ""
 
 msgid ""
-"      --allsource  Generate a source-only tarball including downloaded "
+"  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
 
-msgid "      --asroot     Allow makepkg to run as root user"
+msgid "  --asroot         Allow makepkg to run as root user"
+msgstr ""
+
+msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 
 msgid ""
-"      --holdver    Prevent automatic version bumping for development "
+"  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
 
+msgid "  --pkg <list>     Only build listed packages from a split package"
+msgstr ""
+
+msgid "  --skipinteg      Do not fail when integrity checks are missing"
+msgstr ""
+
 msgid ""
-"      --source     Generate a source-only tarball without downloaded sources"
+"  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
 
 msgid "These options can be passed to pacman:"
 msgstr ""
 
 msgid ""
-"      --noconfirm      Do not ask for confirmation when resolving "
-"dependencies"
+"  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
 
-msgid ""
-"      --noprogressbar  Do not show a progress bar when downloading files"
+msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 
 msgid "If -p is not specified, makepkg will look for '%s'"
@@ -1303,6 +1321,12 @@ msgid ""
 msgstr ""
 
 msgid "%s not found."
+msgstr ""
+
+msgid "You do not have write permission to store packages in %s."
+msgstr ""
+
+msgid "You do not have write permission to store downloads in %s."
 msgstr ""
 
 msgid "\\0--holdver and --forcever cannot both be specified"
@@ -1362,13 +1386,7 @@ msgstr ""
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr ""
 
-msgid "Cannot find the sudo binary! Is sudo installed?"
-msgstr ""
-
-msgid "Missing dependencies cannot be installed or removed as a normal user"
-msgstr ""
-
-msgid "without sudo; install and configure sudo to auto-resolve dependencies."
+msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
 
 msgid "%s does not exist."
@@ -1393,10 +1411,19 @@ msgstr ""
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 
+msgid "Repackaging without the use of a package() function is deprecated."
+msgstr ""
+
+msgid "File permissions may not be preserved."
+msgstr ""
+
 msgid "Leaving fakeroot environment."
 msgstr ""
 
 msgid "Making package: %s"
+msgstr ""
+
+msgid "A source package has already been built. (use -f to overwrite)"
 msgstr ""
 
 msgid "Source package created: %s"
@@ -1414,7 +1441,7 @@ msgstr ""
 msgid "Could not resolve all dependencies."
 msgstr ""
 
-msgid "pacman was not found in PATH; skipping dependency checks."
+msgid "%s was not found in PATH; skipping dependency checks."
 msgstr ""
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
@@ -1611,12 +1638,6 @@ msgid "Invalid command name '%s' specified."
 msgstr ""
 
 msgid "Cannot create temp directory for database building."
-msgstr ""
-
-msgid "the -f and --force options are no longer recognized"
-msgstr ""
-
-msgid "use options=(force) in the PKGBUILD instead"
 msgstr ""
 
 msgid "Creating updated database file '%s'"

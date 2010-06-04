@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:33-0500\n"
 "PO-Revision-Date: 2009-10-08 19:48+0200\n"
 "Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
 "Language-Team: greek <el@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -80,8 +81,12 @@ msgstr ":: Το %s βρίσκεται στο IgnorePkg/IgnoreGroup. Εγκατά
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Αντικατάσταση%s με %s/%s?"
 
-#, c-format
-msgid ":: %s conflicts with %s. Remove %s?"
+#, fuzzy, c-format
+msgid ":: %s and %s are in conflict. Remove %s?"
+msgstr ":: Το %s αντιτίθεται στο %s. Κατάργηση %s?"
+
+#, fuzzy, c-format
+msgid ":: %s and %s are in conflict (%s). Remove %s?"
 msgstr ":: Το %s αντιτίθεται στο %s. Κατάργηση %s?"
 
 #, c-format
@@ -314,9 +319,9 @@ msgstr ""
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         παράλειψη ελέγχου εξαρτήσεων\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only remove database entry, do not remove files\n"
+"  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
 "  -k, --dbonly         διαγραφή από την βάση δεδομένων, όχι κατάργηση "
 "αρχείων\n"
@@ -343,6 +348,18 @@ msgstr ""
 "άλλα)\n"
 
 #, c-format
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+
+#, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "      --asdeps         εγκατάταση πακέτων ως μη-ρητώς εγκατεστημένα\n"
 
@@ -354,6 +371,14 @@ msgstr "      --asexplicit     εγκατάταση πακέτων ως ρητώ
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
 "  -f, --force          βίαιη εγκατάσταση, αντικατάσταση υπαρχόντων αρχείων\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -k, --dbonly         add database entries, do not install or keep existing "
+"files\n"
+msgstr ""
+"  -k, --dbonly         διαγραφή από την βάση δεδομένων, όχι κατάργηση "
+"αρχείων\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -450,14 +475,6 @@ msgstr "  -l, --list <repo>    εμφάνιση καταλόγου πακέτω�
 
 #, c-format
 msgid ""
-"  -p, --print-uris     print out URIs for given packages and their "
-"dependencies\n"
-msgstr ""
-"  -p, --print-uris     εμφάνιση των URIs των δοθέντων πακέτων και των "
-"εξαρτήσεών τους\n"
-
-#, c-format
-msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> αναζήτηση συμβολοσειρών στις αποθήκες\n"
 
@@ -502,6 +519,14 @@ msgstr ""
 "                       αγνόηση αναβάθμισης ομάδας (επιτρέπεται και πολλαπλή "
 "χρήση)\n"
 
+#, fuzzy, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr "      --asdeps         εγκατάταση πακέτων ως μη-ρητώς εγκατεστημένα\n"
+
+#, fuzzy, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr "      --asexplicit     εγκατάταση πακέτων ως ρητώς εγκατεστημένα\n"
+
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <path>  ορισμός εναλλακτικού αρχείου ρυθμίσεων\n"
@@ -544,6 +569,10 @@ msgstr "  -b, --dbpath <path>  ορισμός εναλλακτικής θέση�
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> ορισμός εναλλακτικής θέσης κρύπτης πακέτων\n"
 
+#, fuzzy, c-format
+msgid "      --arch <arch>    set an alternate architecture\n"
+msgstr "      --config <path>  ορισμός εναλλακτικού αρχείου ρυθμίσεων\n"
+
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -585,6 +614,28 @@ msgstr "αδυναμία χρήσης του καταλόγου λήψης %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "εκτέλεση XferCommand: αποτυχία fork!\n"
 
+#, fuzzy, c-format
+msgid "directive '%s' without value not recognized\n"
+msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άγνωστη οδηγία '%s'.\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "άκυρη τιμή 'CleanMethod' : '%s'\n"
+
+#, fuzzy, c-format
+msgid "directive '%s' with a value not recognized\n"
+msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άγνωστη οδηγία '%s'.\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "αδυναμία προσθήκης διεύθυνσης διακομιστή στην βάση '%s': %s (%s)\n"
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "αδύνατη η ανάγνωση του αρχείου ρυθμίσεων %s.\n"
@@ -607,17 +658,19 @@ msgstr ""
 "αρχείο ρυθμίσεων %s, γραμμή %d: όλες οι οδηγίες πρέπει να ανήκουν σε "
 "ενότητα.\n"
 
-#, c-format
-msgid "config file %s, line %d: directive '%s' not recognized.\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive %s needs a value\n"
 msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άγνωστη οδηγία '%s'.\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "άκυρη τιμή 'CleanMethod' : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: problem in options section\n"
+msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άκυρο όνομα ενότητας.\n"
 
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "αδυναμία προσθήκης διεύθυνσης διακομιστή στην βάση '%s': %s (%s)\n"
+#, fuzzy, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in repository section '%s' not "
+"recognized.\n"
+msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άγνωστη οδηγία '%s'.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -638,6 +691,10 @@ msgstr "ακαθόριστη λειτουργία ('-h' για βοήθεια)\n
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "δεν ορίσθηκε αρχείο στην --owns\n"
+
+#, fuzzy, c-format
+msgid "failed to find '%s' in PATH: %s\n"
+msgstr "αποτυχία ανάγνωσης αρχείου '%s': %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -688,28 +745,12 @@ msgid "package \"%s\" not found\n"
 msgstr "δεν βρέθηκε το πακέτο \"%s\"\n"
 
 #, c-format
-msgid "%s not found, searching for group...\n"
-msgstr "το %s δεν βρέθηκε, αναζήτηση ομάδας...\n"
-
-#, c-format
-msgid "'%s': not found in local db\n"
-msgstr "'%s': δεν υπάρχει στην τοπική βάση\n"
-
-#, c-format
-msgid ":: group %s:\n"
-msgstr ":: ομάδα %s:\n"
-
-#, c-format
-msgid "    Remove whole content?"
-msgstr "    Κατάργηση όλων;"
-
-#, c-format
-msgid ":: Remove %s from group %s?"
-msgstr ":: Κατάργηση %s από ομάδα %s;"
-
-#, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "αποτυχία προετοιμασίας διεκπεραίωσης (%s)\n"
+
+#, fuzzy, c-format
+msgid ":: package %s does not have a valid architecture\n"
+msgstr "Το '%s' δεν έχει έγκυρη επέκταση συμπιεσμένου πακέτου."
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -722,6 +763,10 @@ msgstr "Το %s είναι προσδιορισμένο ως HoldPkg.\n"
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "Βρέθηκε πακέτο HoldPkg στην λίστα διεκπεραίωσης. Συνέχεια;"
+
+#, fuzzy, c-format
+msgid " there is nothing to do\n"
+msgstr "Ουδέν πακέτο τροποποιήθηκε, πέρας εκτέλεσης."
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -772,14 +817,6 @@ msgid "removing old packages from cache...\n"
 msgstr "διαγραφή παλαιών πακέτων από την κρύπτη...\n"
 
 #, c-format
-msgid "could not access cache directory\n"
-msgstr "αδυναμία πρόσβασης καταλόγου κρύπτης\n"
-
-#, c-format
-msgid "File %s does not seem to be a valid package, remove it?"
-msgstr "Το αρχείο %s δεν είναι έγκυρο πακέτο, διαγραφή;"
-
-#, c-format
 msgid "Do you want to remove ALL files from cache?"
 msgstr "Διαγραφή ΟΛΩΝ των πακέτων από την κρύπτη;"
 
@@ -787,13 +824,13 @@ msgstr "Διαγραφή ΟΛΩΝ των πακέτων από την κρύπτ
 msgid "removing all files from cache...\n"
 msgstr "διαγραφή όλων των πακέτων από την κρύπτη...\n"
 
-#, c-format
-msgid "could not remove cache directory\n"
-msgstr "αδυναμία διαγραφής καταλόγου κρύπτης\n"
+#, fuzzy, c-format
+msgid "could not access cache directory %s\n"
+msgstr "αδυναμία πρόσβασης καταλόγου κρύπτης\n"
 
 #, c-format
-msgid "could not create new cache directory\n"
-msgstr "αδυναμία δημιουργίας νέου καταλόγου κρύπτης\n"
+msgid "File %s does not seem to be a valid package, remove it?"
+msgstr "Το αρχείο %s δεν είναι έγκυρο πακέτο, διαγραφή;"
 
 #, c-format
 msgid "failed to update %s (%s)\n"
@@ -806,6 +843,14 @@ msgstr " %s ενημερωμένο\n"
 #, c-format
 msgid "failed to synchronize any databases\n"
 msgstr "αποτυχία συγχρονισμού βάσεων\n"
+
+#, fuzzy, c-format
+msgid "installed"
+msgstr "εγκατάσταση"
+
+#, c-format
+msgid " [%s: %s]"
+msgstr ""
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -824,44 +869,20 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "η αποθήκη '%s' δεν βρέθηκε.\n"
 
 #, c-format
-msgid ":: Starting full system upgrade...\n"
-msgstr ":: Έναρξη πλήρους αναβάθμισης συστήματος...\n"
-
-#, c-format
 msgid "skipping target: %s\n"
 msgstr "παράλειψη %s\n"
 
 #, c-format
-msgid "%s package not found, searching for group...\n"
-msgstr "πακέτο %s δεν υπάρχει, αναζήτηση ομάδων...\n"
+msgid ":: Starting full system upgrade...\n"
+msgstr ":: Έναρξη πλήρους αναβάθμισης συστήματος...\n"
 
 #, c-format
-msgid ":: group %s (including ignored packages):\n"
-msgstr ":: ομάδα %s (περιλαμβάνονται πακέτα σημειωμένα IgnorePkg):\n"
+msgid ":: %s and %s are in conflict\n"
+msgstr ""
 
-#, c-format
-msgid ":: Install whole content?"
-msgstr ":: Εγκατάσταση όλων;"
-
-#, c-format
-msgid ":: Install %s from group %s?"
-msgstr ":: Εγκατάσταση %s από ομάδα %s;"
-
-#, c-format
-msgid "'%s': not found in sync db\n"
-msgstr "'%s': δεν υπάρχει στην βάση συγχρονισμού\n"
-
-#, c-format
-msgid ":: %s: conflicts with %s\n"
+#, fuzzy, c-format
+msgid ":: %s and %s are in conflict (%s)\n"
 msgstr ":: %s: διένεξη με %s\n"
-
-#, c-format
-msgid " local database is up to date\n"
-msgstr " η τοπική βάση είναι ενημερωμένη\n"
-
-#, c-format
-msgid "no URL for package: %s\n"
-msgstr "δεν υπάρχει URL για το πακέτο: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -902,18 +923,6 @@ msgid ""
 msgstr ""
 ":: Ακύρωση τρέχουσας λειτουργίας\n"
 ":: και αναβάθμιση αυτών των πακέτων τώρα;"
-
-#, c-format
-msgid "loading package data...\n"
-msgstr "φόρτωση δεδομένων των πακέτων...\n"
-
-#, c-format
-msgid ""
-"\n"
-"errors occurred, no packages were upgraded.\n"
-msgstr ""
-"\n"
-"προέκυψαν σφάλματα, δεν αναβαθμίστηκαν πακέτα.\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1020,22 +1029,28 @@ msgstr "ΣΦΑΛΜΑ:"
 msgid "Cleaning up..."
 msgstr "Αποκατάσταση..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Δεν βρέθηκε πρόγραμμα χειρισμού %s URLs. Έλεγξε το %s."
+#, fuzzy
+msgid "Unable to find source file %s."
+msgstr "Αδυναμία εύρεσης πηγαίου αρχείου %s προς εξαγωγή."
 
 msgid "Aborting..."
 msgstr "Ματαίωση..."
 
+msgid "There is no agent set up to handle %s URLs. Check %s."
+msgstr "Δεν βρέθηκε πρόγραμμα χειρισμού %s URLs. Έλεγξε το %s."
+
 msgid "The download program %s is not installed."
 msgstr "Το πρόγραμμα λήψης %s δεν είναι εγκατεστημένο."
 
-msgid "Pacman returned a fatal error (%i): %s"
+#, fuzzy
+msgid "'%s' returned a fatal error (%i): %s"
 msgstr "Κρίσιμο σφάλμα (%i) εκτέλεσης του pacman: %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Εγκατάσταση απουσών εξαρτήσεων..."
 
-msgid "Pacman failed to install missing dependencies."
+#, fuzzy
+msgid "'%s' failed to install missing dependencies."
 msgstr "Αποτυχία εγκατάστασης απουσών εξαρτήσεων."
 
 msgid "Failed to install all missing dependencies."
@@ -1050,14 +1065,8 @@ msgstr "Αποτυχία κατάργησης εγκατεστημένων εξ�
 msgid "Retrieving Sources..."
 msgstr "Λήψη Πηγών..."
 
-msgid "You do not have write permission to store downloads in %s."
-msgstr "Δεν έχεις δικαίωμα εγγραφής/αποθήκευσης λήψεων στο %s."
-
-msgid "Found %s in build dir"
-msgstr "Βρέθηκε %s στον κατάλογο δημιουργίας"
-
-msgid "Using cached copy of %s"
-msgstr "Χρήση αποθηκευμένου αντιγράφου του %s"
+msgid "Found %s"
+msgstr ""
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "Το %s δεν βρέθηκε στον κατάλογο δημιουργίας και δεν είναι URL."
@@ -1076,10 +1085,6 @@ msgstr "Αδυναμία εύρεσης openssl."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Καθορίστηκε άκυρος αλγόριθμος ακεραιότητας: '%s'."
-
-msgid "Unable to find source file %s to generate checksum."
-msgstr ""
-"Αδυναμία εύρεσης πηγαίου αρχείου %s για δημιουργία αθροίσματος ελέγχου."
 
 msgid "Validating source files with %s..."
 msgstr "Επικύρωση πηγαίων αρχείων με %s..."
@@ -1105,26 +1110,14 @@ msgstr "Απουσία ελέγχων ακεραιότητας."
 msgid "Extracting Sources..."
 msgstr "Εξαγωγή πηγαίων αρχείων..."
 
-msgid "Unable to find source file %s for extraction."
-msgstr "Αδυναμία εύρεσης πηγαίου αρχείου %s προς εξαγωγή."
-
 msgid "Extracting %s with %s"
 msgstr "Εξαγωγή %s με %s"
 
 msgid "Failed to extract %s"
 msgstr "Αποτυχία εξαγωγής %s"
 
-msgid "Starting build()..."
-msgstr "Έναρξη δημιουργίας..."
-
-msgid "Build Failed."
-msgstr "Αποτυχία δημιουργίας."
-
 msgid "Starting %s()..."
 msgstr "Έναρξη %s()..."
-
-msgid "Packaging Failed."
-msgstr "Αποτυχία δημιουργίας πακέτου."
 
 msgid "Tidying install..."
 msgstr "Ευπρεπισμός εγκατάστασης..."
@@ -1138,7 +1131,8 @@ msgstr "Διαγραφή άλλων αρχείων..."
 msgid "Compressing man and info pages..."
 msgstr "Συμπίεση σελίδων man και info..."
 
-msgid "Stripping debugging symbols from binaries and libraries..."
+#, fuzzy
+msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Αφαίρεση συμβόλων αποσφαλμάτωσης από εκτελέσιμα και βιβλιοθήκες..."
 
 msgid "Removing libtool .la files..."
@@ -1155,6 +1149,13 @@ msgstr "Παρακαλώ πρόσθεσε γραμμή license στο %s!"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Παράδειγμα για ΕΛ/ΛΑΚ: license=('GPL')."
+
+#, fuzzy
+msgid "Invalid backup entry : %s"
+msgstr "Άκυρο όνομα πακέτου '%s'."
+
+msgid "Package contains reference to %s"
+msgstr ""
 
 msgid "Missing pkg/ directory."
 msgstr "Απών κατάλογος pkg/"
@@ -1177,20 +1178,36 @@ msgstr "Το '%s' δεν είναι έγκυρη επέκταση συμπιεσ
 msgid "Failed to create package file."
 msgstr "Αποτυχία δημιουργίας πακέτου."
 
+#, fuzzy
+msgid "Failed to create symlink to package file."
+msgstr "Αποτυχία δημιουργίας πηγαίου πακέτου."
+
+#, fuzzy
+msgid "Skipping integrity checks."
+msgstr "Παράλειψη ελέγχου εξαρτήσεων."
+
 msgid "Creating source package..."
 msgstr "Δημιουργία πηγαίου πακέτου..."
 
 msgid "Adding %s..."
 msgstr "Προσθήκη %s..."
 
-msgid "Install script %s not found."
-msgstr "Απόν σενάριο εγκατάστασης %s."
+#, fuzzy
+msgid "Adding %s file (%s)..."
+msgstr "Προσθήκη %s..."
 
 msgid "Compressing source package..."
 msgstr "Συμπίεση πηγαίου πακέτου..."
 
 msgid "Failed to create source package file."
 msgstr "Αποτυχία δημιουργίας πηγαίου πακέτου."
+
+#, fuzzy
+msgid "Installing package %s with %s -U..."
+msgstr "δημιουργία %s με %s... "
+
+msgid "Installing %s package group with %s -U..."
+msgstr ""
 
 msgid "Failed to install built package(s)."
 msgstr "Αποτυχία εγκατάστασης δημιουργημένου(-ων) πακέτου(-ων)."
@@ -1216,7 +1233,12 @@ msgstr "όπως arch=('%s')."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Ο πίνακας provide δεν μπορεί να περιέχει τελεστές σύγκρισης (< ή >)."
 
-msgid "Install scriptlet (%s) does not exist."
+#, fuzzy
+msgid "Invalid syntax for optdepend : '%s'"
+msgstr "άκυρη τιμή 'CleanMethod' : '%s'\n"
+
+#, fuzzy
+msgid "%s file (%s) does not exist."
 msgstr "Απόν σενάριο εγκατάστασης (%s)."
 
 msgid "options array contains unknown option '%s'"
@@ -1224,6 +1246,9 @@ msgstr "Ο πίνακας options περιέχει άγνωστη επιλογή
 
 msgid "missing package function for split package '%s'"
 msgstr "Απούσα λειτουργία πακέτου για το διαιρεμένο πακέτο '%s'"
+
+msgid "requested package %s is not provided in %s"
+msgstr ""
 
 msgid "Determining latest darcs revision..."
 msgstr "Εύρεση της πιο πρόσφατης αναθεώρησης darcs..."
@@ -1270,10 +1295,6 @@ msgstr "  -c, --clean      Διαγραφή αρχείων εργασίας με
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Διαγραφή πηγαίων αρχείων από την κρύπτη"
 
-msgid "  --config <config> Use an alternate config file (instead of '%s')"
-msgstr ""
-"  --config <config> Χρήση εναλλακτικού αρχείου ρυθμίσεων (αντί του '%s')"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Παράλειψη όλων των ελέγχων εξαρτήσεων"
 
@@ -1287,9 +1308,6 @@ msgstr "  -f, --force      Αντικατάσταση υπάρχοντος πα�
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Δημιουργία ελέγχων ακεραιότητας των πηγαίων αρχείων"
-
-msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "      --skipinteg  Συνέχιση εάν ο έλεγχος ακεραιότητας δεν υπάρχει"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Αυτή η βοήθεια"
@@ -1306,7 +1324,8 @@ msgstr "  -m, --nocolor    Αναστολή χρωμάτων στην έξοδο
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Λήψη αρχείων και εξαγωγή μόνο"
 
-msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
+#, fuzzy
+msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
 "  -p <buildscript> Χρήση εναλλακτικού σεναρίου δημιουργίας (αντί του '%s')"
 
@@ -1322,38 +1341,54 @@ msgstr "  -R, --repackage  Ανασύνθεση πακέτου χωρίς ανα
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Εγκατάσταση απουσών εξαρτήσεων με τον pacman"
 
+#, fuzzy
 msgid ""
-"      --allsource  Generate a source-only tarball including downloaded "
+"  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
 "      --allsource  Δημιουργία πηγαίου αρχείου tar συμπεριλαμβάνοντας "
 "ληφθείσες πηγές"
 
-msgid "      --asroot     Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "      --asroot     Άδεια εκτέλεσης του makepkg ως root"
 
+#, fuzzy
+msgid "  --config <file>  Use an alternate config file (instead of '%s')"
+msgstr ""
+"  --config <config> Χρήση εναλλακτικού αρχείου ρυθμίσεων (αντί του '%s')"
+
+#, fuzzy
 msgid ""
-"      --holdver    Prevent automatic version bumping for development "
+"  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
 "      --holdver    Πρόληψη αυτόματης ενημέρωσης έκδοσης των υπό ανάπτυξη "
 "PKGBUILDs"
 
+msgid "  --pkg <list>     Only build listed packages from a split package"
+msgstr ""
+
+#, fuzzy
+msgid "  --skipinteg      Do not fail when integrity checks are missing"
+msgstr "      --skipinteg  Συνέχιση εάν ο έλεγχος ακεραιότητας δεν υπάρχει"
+
+#, fuzzy
 msgid ""
-"      --source     Generate a source-only tarball without downloaded sources"
+"  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
 "      --source     Δημιουργία πηγαίου αρχείου tar χωρίς τις ληφθείσες πηγές"
 
 msgid "These options can be passed to pacman:"
 msgstr "Οι εξής επιλογές αναγνωρίζονται από τον pacman:"
 
+#, fuzzy
 msgid ""
-"      --noconfirm      Do not ask for confirmation when resolving "
-"dependencies"
+"  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "      --noconfirm      Επίλυση εξαρτήσεων χωρίς επιβεβαίωση"
 
-msgid ""
-"      --noprogressbar  Do not show a progress bar when downloading files"
+#, fuzzy
+msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  Λήψη αρχείων χωρίς γραμμή προόδου"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
@@ -1373,6 +1408,13 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "Το %s δεν βρέθηκε."
+
+#, fuzzy
+msgid "You do not have write permission to store packages in %s."
+msgstr "Δεν έχεις δικαίωμα εγγραφής/αποθήκευσης λήψεων στο %s."
+
+msgid "You do not have write permission to store downloads in %s."
+msgstr "Δεν έχεις δικαίωμα εγγραφής/αποθήκευσης λήψεων στο %s."
 
 msgid "\\0--holdver and --forcever cannot both be specified"
 msgstr "\\0--holdver και --forcever δεν μπορούν να ορίζονται ταυτόχρονα"
@@ -1435,16 +1477,8 @@ msgstr "επιλογής 'fakeroot' στον πίνακα BUILDENV του %s."
 msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr "Μην ορίζεις την επιλογή '-F', χρησιμοποιείται μόνο από το makepkg."
 
-msgid "Cannot find the sudo binary! Is sudo installed?"
-msgstr "Το εκτελέσιμο sudo δεν υπάρχει! Είναι εγκατεστημένο;"
-
-msgid "Missing dependencies cannot be installed or removed as a normal user"
+msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
-"Απλός χρήστης δεν μπορεί να εγκαταστήσει ή να καταργήσει εξαρτήσεις χωρίς το"
-
-msgid "without sudo; install and configure sudo to auto-resolve dependencies."
-msgstr ""
-"sudo. Απαιτείται εγκατάσταση και ρύθμισή του για αυτόματη επίλυση εξαρτήσεων."
 
 msgid "%s does not exist."
 msgstr "Δεν υπάρχει %s."
@@ -1470,11 +1504,21 @@ msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 "Έχει ήδη δημιουργηθεί μέρος της ομάδας πακέτων (όρισε -f για αντικατάσταση)"
 
+msgid "Repackaging without the use of a package() function is deprecated."
+msgstr ""
+
+msgid "File permissions may not be preserved."
+msgstr ""
+
 msgid "Leaving fakeroot environment."
 msgstr "Αποχώρηση από περιβάλλον fakeroot."
 
 msgid "Making package: %s"
 msgstr "Δημιουργία πακέτου: %s"
+
+#, fuzzy
+msgid "A source package has already been built. (use -f to overwrite)"
+msgstr "Έχει ήδη δημιουργηθεί πακέτο (όρισε -f για αντικατάσταση)"
 
 msgid "Source package created: %s"
 msgstr "Δημιουργία πηγαίου πακέτου: %s"
@@ -1491,7 +1535,8 @@ msgstr "Έλεγχος εξαρτήσεων δημιουργίας..."
 msgid "Could not resolve all dependencies."
 msgstr "Αδυναμία επίλυσης εξαρτήσεων."
 
-msgid "pacman was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in PATH; skipping dependency checks."
 msgstr "Ο pacman δεν υπάρχει στο PATH. Παράλειψη ελέγχου εξαρτήσεων."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
@@ -1713,12 +1758,6 @@ msgstr "Ορίστηκε άκυρη εντολή: '%s'."
 msgid "Cannot create temp directory for database building."
 msgstr "Αδυναμία δημιουργίας προσωρινού καταλόγου για δημιουργία βάσης."
 
-msgid "the -f and --force options are no longer recognized"
-msgstr "Οι επιλογές -f και --force δεν αναγνωρίζονται πλέον"
-
-msgid "use options=(force) in the PKGBUILD instead"
-msgstr "αντ' αυτών όρισε options=(force) στο PKGBUILD"
-
 msgid "Creating updated database file '%s'"
 msgstr "Δημιουργία ενημερωμένου αρχείου βάσης '%s'"
 
@@ -1730,6 +1769,107 @@ msgstr "Δεν απομένουν άλλα πακέτα, δημιουργία κ
 
 msgid "No packages modified, nothing to do."
 msgstr "Ουδέν πακέτο τροποποιήθηκε, πέρας εκτέλεσης."
+
+#~ msgid ""
+#~ "  -p, --print-uris     print out URIs for given packages and their "
+#~ "dependencies\n"
+#~ msgstr ""
+#~ "  -p, --print-uris     εμφάνιση των URIs των δοθέντων πακέτων και των "
+#~ "εξαρτήσεών τους\n"
+
+#~ msgid "%s not found, searching for group...\n"
+#~ msgstr "το %s δεν βρέθηκε, αναζήτηση ομάδας...\n"
+
+#~ msgid "'%s': not found in local db\n"
+#~ msgstr "'%s': δεν υπάρχει στην τοπική βάση\n"
+
+#~ msgid ":: group %s:\n"
+#~ msgstr ":: ομάδα %s:\n"
+
+#~ msgid "    Remove whole content?"
+#~ msgstr "    Κατάργηση όλων;"
+
+#~ msgid ":: Remove %s from group %s?"
+#~ msgstr ":: Κατάργηση %s από ομάδα %s;"
+
+#~ msgid "could not remove cache directory\n"
+#~ msgstr "αδυναμία διαγραφής καταλόγου κρύπτης\n"
+
+#~ msgid "could not create new cache directory\n"
+#~ msgstr "αδυναμία δημιουργίας νέου καταλόγου κρύπτης\n"
+
+#~ msgid "%s package not found, searching for group...\n"
+#~ msgstr "πακέτο %s δεν υπάρχει, αναζήτηση ομάδων...\n"
+
+#~ msgid ":: group %s (including ignored packages):\n"
+#~ msgstr ":: ομάδα %s (περιλαμβάνονται πακέτα σημειωμένα IgnorePkg):\n"
+
+#~ msgid ":: Install whole content?"
+#~ msgstr ":: Εγκατάσταση όλων;"
+
+#~ msgid ":: Install %s from group %s?"
+#~ msgstr ":: Εγκατάσταση %s από ομάδα %s;"
+
+#~ msgid "'%s': not found in sync db\n"
+#~ msgstr "'%s': δεν υπάρχει στην βάση συγχρονισμού\n"
+
+#~ msgid " local database is up to date\n"
+#~ msgstr " η τοπική βάση είναι ενημερωμένη\n"
+
+#~ msgid "no URL for package: %s\n"
+#~ msgstr "δεν υπάρχει URL για το πακέτο: %s\n"
+
+#~ msgid "loading package data...\n"
+#~ msgstr "φόρτωση δεδομένων των πακέτων...\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "errors occurred, no packages were upgraded.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "προέκυψαν σφάλματα, δεν αναβαθμίστηκαν πακέτα.\n"
+
+#~ msgid "Found %s in build dir"
+#~ msgstr "Βρέθηκε %s στον κατάλογο δημιουργίας"
+
+#~ msgid "Using cached copy of %s"
+#~ msgstr "Χρήση αποθηκευμένου αντιγράφου του %s"
+
+#~ msgid "Unable to find source file %s to generate checksum."
+#~ msgstr ""
+#~ "Αδυναμία εύρεσης πηγαίου αρχείου %s για δημιουργία αθροίσματος ελέγχου."
+
+#~ msgid "Starting build()..."
+#~ msgstr "Έναρξη δημιουργίας..."
+
+#~ msgid "Build Failed."
+#~ msgstr "Αποτυχία δημιουργίας."
+
+#~ msgid "Packaging Failed."
+#~ msgstr "Αποτυχία δημιουργίας πακέτου."
+
+#~ msgid "Install script %s not found."
+#~ msgstr "Απόν σενάριο εγκατάστασης %s."
+
+#~ msgid "Cannot find the sudo binary! Is sudo installed?"
+#~ msgstr "Το εκτελέσιμο sudo δεν υπάρχει! Είναι εγκατεστημένο;"
+
+#~ msgid "Missing dependencies cannot be installed or removed as a normal user"
+#~ msgstr ""
+#~ "Απλός χρήστης δεν μπορεί να εγκαταστήσει ή να καταργήσει εξαρτήσεις χωρίς "
+#~ "το"
+
+#~ msgid ""
+#~ "without sudo; install and configure sudo to auto-resolve dependencies."
+#~ msgstr ""
+#~ "sudo. Απαιτείται εγκατάσταση και ρύθμισή του για αυτόματη επίλυση "
+#~ "εξαρτήσεων."
+
+#~ msgid "the -f and --force options are no longer recognized"
+#~ msgstr "Οι επιλογές -f και --force δεν αναγνωρίζονται πλέον"
+
+#~ msgid "use options=(force) in the PKGBUILD instead"
+#~ msgstr "αντ' αυτών όρισε options=(force) στο PKGBUILD"
 
 #~ msgid "All packages have been removed from the database. Deleting '%s'."
 #~ msgstr "Όλα τα πακέτα διεγράφησαν από την βάση. Διαγραφή '%s'."

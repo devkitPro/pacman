@@ -11,10 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2009-10-04 16:48+0200\n"
+"POT-Creation-Date: 2010-06-04 13:33-0500\n"
 "PO-Revision-Date: 2009-10-05 19:30+0200\n"
 "Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
 "Language-Team: Polski <pl@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,8 +87,12 @@ msgstr ":: %s jest w IgnorePkg/IgnoreGroup. Zainstalować mimo tego?"
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Zastąpić %s przez %s/%s?"
 
-#, c-format
-msgid ":: %s conflicts with %s. Remove %s?"
+#, fuzzy, c-format
+msgid ":: %s and %s are in conflict. Remove %s?"
+msgstr ":: %s konfliktuje z %s. Usunąć %s?"
+
+#, fuzzy, c-format
+msgid ":: %s and %s are in conflict (%s). Remove %s?"
 msgstr ":: %s konfliktuje z %s. Usunąć %s?"
 
 #, c-format
@@ -320,9 +325,9 @@ msgstr ""
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         pomija sprawdzanie zależności\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only remove database entry, do not remove files\n"
+"  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
 "  -k, --dbonly         usuwa jedynie wpis w bazie danych, bez zmian na "
 "plikach \n"
@@ -348,6 +353,18 @@ msgstr ""
 "działania innych pakietów)\n"
 
 #, c-format
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+
+#, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr ""
 "      --asdeps       instaluje pakiety jako zależności (nie na życzenie)\n"
@@ -360,6 +377,14 @@ msgstr "      --asexplicit     zainstaluj pakiet jako wyraźnie zainstalowany\n"
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
 "  -f, --force          wymusza instalację, nadpisując konfliktujące pliki\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -k, --dbonly         add database entries, do not install or keep existing "
+"files\n"
+msgstr ""
+"  -k, --dbonly         usuwa jedynie wpis w bazie danych, bez zmian na "
+"plikach \n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -458,13 +483,6 @@ msgstr "  -l, --list <repo>    przegląda listę pakietów w repozytorium \n"
 
 #, c-format
 msgid ""
-"  -p, --print-uris     print out URIs for given packages and their "
-"dependencies\n"
-msgstr ""
-"  -p, --print-uris     wykazuje URI dla danych pakietów oraz ich zależności\n"
-
-#, c-format
-msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
 "  -s, --search <regex> przeszukuje zdalne repozytoria wedle pasujących "
@@ -510,6 +528,15 @@ msgstr ""
 "      --ignoregroup <grp>\n"
 "                       ignoruje uaktualnienie grupy (może zostać użyte "
 "więcej niż raz)\n"
+
+#, fuzzy, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr ""
+"      --asdeps       instaluje pakiety jako zależności (nie na życzenie)\n"
+
+#, fuzzy, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr "      --asexplicit     zainstaluj pakiet jako wyraźnie zainstalowany\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -558,6 +585,10 @@ msgstr ""
 "      --cachedir <dir> ustawia alternatywną lokalizację pliku pamięci "
 "podręcznej (cache) pakietów\n"
 
+#, fuzzy, c-format
+msgid "      --arch <arch>    set an alternate architecture\n"
+msgstr "      --config <path>  ustawia alternatywny plik konfiguracji\n"
+
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -598,6 +629,28 @@ msgstr "nie udało się zmienić katalogu na katalog pobierania %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "uruchamianie XferCommand: fork nieudany!\n"
 
+#, fuzzy, c-format
+msgid "directive '%s' without value not recognized\n"
+msgstr "plik konfigu %s, linia %d: dyrektywa '%s' nie rozpoznana.\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
+
+#, fuzzy, c-format
+msgid "directive '%s' with a value not recognized\n"
+msgstr "plik konfigu %s, linia %d: dyrektywa '%s' nie rozpoznana.\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "nie można dodać URL serwera do bazy danych '%s': %s (%s)\n"
+
 #, c-format
 msgid "config file %s could not be read.\n"
 msgstr "plik konfigu %s nie może być odczytany.\n"
@@ -619,17 +672,19 @@ msgstr ""
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "plik %s, linia %d: Wszystkie dyrektywy muszą należeć do sekcji.\n"
 
-#, c-format
-msgid "config file %s, line %d: directive '%s' not recognized.\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive %s needs a value\n"
 msgstr "plik konfigu %s, linia %d: dyrektywa '%s' nie rozpoznana.\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: problem in options section\n"
+msgstr "plik konfigu %s, linia %d: zła nazwa sekcji.\n"
 
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "nie można dodać URL serwera do bazy danych '%s': %s (%s)\n"
+#, fuzzy, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in repository section '%s' not "
+"recognized.\n"
+msgstr "plik konfigu %s, linia %d: dyrektywa '%s' nie rozpoznana.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -650,6 +705,10 @@ msgstr "nie podano żadnej operacji (użyj -h aby otrzymać pomoc)\n"
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "nie podano pliku dla --owns\n"
+
+#, fuzzy, c-format
+msgid "failed to find '%s' in PATH: %s\n"
+msgstr "nie udało się odczytać pliku '%s': %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -700,28 +759,12 @@ msgid "package \"%s\" not found\n"
 msgstr "pakiet \"%s\" nie został odnaleziony\n"
 
 #, c-format
-msgid "%s not found, searching for group...\n"
-msgstr "%s nie zostało znalezione, szukanie grupy...\n"
-
-#, c-format
-msgid "'%s': not found in local db\n"
-msgstr "'%s': nie znaleziono w bazie danych synchronizacji\n"
-
-#, c-format
-msgid ":: group %s:\n"
-msgstr ":: grupa %s:\n"
-
-#, c-format
-msgid "    Remove whole content?"
-msgstr "    Usunąć całą zawartość?"
-
-#, c-format
-msgid ":: Remove %s from group %s?"
-msgstr ":: Usunąć %s z grupy %s?"
-
-#, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "nie udało się przygotować transakcji (%s)\n"
+
+#, fuzzy, c-format
+msgid ":: package %s does not have a valid architecture\n"
+msgstr "'%s' nie ma poprawnego rozszerzenia archiwum"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -734,6 +777,10 @@ msgstr "%s desygnowany jest jako HoldPkg.\n"
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "HoldPkg został znaleziony na liście celów. Czy chcesz kontynuować?"
+
+#, fuzzy, c-format
+msgid " there is nothing to do\n"
+msgstr "Nie zmodyfikowano żadnego pakietu, nie ma nic do zrobienia."
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -784,14 +831,6 @@ msgid "removing old packages from cache...\n"
 msgstr "usuwanie starych pakietów z pamięci podręcznej...\n"
 
 #, c-format
-msgid "could not access cache directory\n"
-msgstr "brak dostępu do katalogu pamięci podręcznej\n"
-
-#, c-format
-msgid "File %s does not seem to be a valid package, remove it?"
-msgstr "Plik %s nie wygląda na poprawny pakiet, usunąć go?"
-
-#, c-format
 msgid "Do you want to remove ALL files from cache?"
 msgstr "Czy chcesz usunąć WSZYSTKIE pliki z pamięci podręcznej?"
 
@@ -799,13 +838,13 @@ msgstr "Czy chcesz usunąć WSZYSTKIE pliki z pamięci podręcznej?"
 msgid "removing all files from cache...\n"
 msgstr "usuwanie wszystkich plików z pamięci podręcznej...\n"
 
-#, c-format
-msgid "could not remove cache directory\n"
-msgstr "nie udało się usunąć katalogu pamięci podręcznej\n"
+#, fuzzy, c-format
+msgid "could not access cache directory %s\n"
+msgstr "brak dostępu do katalogu pamięci podręcznej\n"
 
 #, c-format
-msgid "could not create new cache directory\n"
-msgstr "nie udało się utworzyć nowego katalogu pamięci podręcznej\n"
+msgid "File %s does not seem to be a valid package, remove it?"
+msgstr "Plik %s nie wygląda na poprawny pakiet, usunąć go?"
 
 #, c-format
 msgid "failed to update %s (%s)\n"
@@ -818,6 +857,14 @@ msgstr " %s jest już w najnowszej wersji\n"
 #, c-format
 msgid "failed to synchronize any databases\n"
 msgstr "nie udało się zsynchronizować żadnej bazy danych\n"
+
+#, fuzzy, c-format
+msgid "installed"
+msgstr "instalowanie"
+
+#, c-format
+msgid " [%s: %s]"
+msgstr ""
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -836,44 +883,20 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "repozytorium \"%s\" nie zostało znalezione.\n"
 
 #, c-format
-msgid ":: Starting full system upgrade...\n"
-msgstr ":: Rozpoczynanie pełnej aktualizacji systemu...\n"
-
-#, c-format
 msgid "skipping target: %s\n"
 msgstr "Pomijam cel: %s\n"
 
 #, c-format
-msgid "%s package not found, searching for group...\n"
-msgstr "pakiet %s nie został znaleziony, szukanie grupy...\n"
+msgid ":: Starting full system upgrade...\n"
+msgstr ":: Rozpoczynanie pełnej aktualizacji systemu...\n"
 
 #, c-format
-msgid ":: group %s (including ignored packages):\n"
-msgstr ":: grupa %s (włączająć ignorowane pakiety):\n"
+msgid ":: %s and %s are in conflict\n"
+msgstr ""
 
-#, c-format
-msgid ":: Install whole content?"
-msgstr ":: Zainstalować całą zawartość?"
-
-#, c-format
-msgid ":: Install %s from group %s?"
-msgstr ":: Zainstalować %s z grupy %s?"
-
-#, c-format
-msgid "'%s': not found in sync db\n"
-msgstr "'%s': nie znaleziono w bazie danych synchronizacji\n"
-
-#, c-format
-msgid ":: %s: conflicts with %s\n"
+#, fuzzy, c-format
+msgid ":: %s and %s are in conflict (%s)\n"
 msgstr ":: %s: konfliktuje z %s\n"
-
-#, c-format
-msgid " local database is up to date\n"
-msgstr " lokalna baza pakietów jest już w najnowszej wersji\n"
-
-#, c-format
-msgid "no URL for package: %s\n"
-msgstr "brak URL dla pakietu: %s\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -914,18 +937,6 @@ msgid ""
 msgstr ""
 ":: Czy chcesz anulować obecną operację\n"
 ":: i zaktualizować te pakiety teraz?"
-
-#, c-format
-msgid "loading package data...\n"
-msgstr "ładowanie informacji o pakietach...\n"
-
-#, c-format
-msgid ""
-"\n"
-"errors occurred, no packages were upgraded.\n"
-msgstr ""
-"\n"
-"wystąpiły błędy, nie zaktualizowano żadnych pakietów.\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1032,22 +1043,28 @@ msgstr "BŁĄD:"
 msgid "Cleaning up..."
 msgstr "Sprzątam..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Brak agenta do obslugi URL-i %s. Sprawdź %s."
+#, fuzzy
+msgid "Unable to find source file %s."
+msgstr "Nie znaleziono pliku źródeł %s do rozpakowania."
 
 msgid "Aborting..."
 msgstr "Przerywam..."
 
+msgid "There is no agent set up to handle %s URLs. Check %s."
+msgstr "Brak agenta do obslugi URL-i %s. Sprawdź %s."
+
 msgid "The download program %s is not installed."
 msgstr "Program do pobierania %s nie jest zainstalowany."
 
-msgid "Pacman returned a fatal error (%i): %s"
+#, fuzzy
+msgid "'%s' returned a fatal error (%i): %s"
 msgstr "Pacman zwrócił błąd krytyczny (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Instaluję brakujące zależności..."
 
-msgid "Pacman failed to install missing dependencies."
+#, fuzzy
+msgid "'%s' failed to install missing dependencies."
 msgstr "Pacman nie zdołał zainstalować brakujących zależności."
 
 msgid "Failed to install all missing dependencies."
@@ -1062,14 +1079,8 @@ msgstr "Nie udało się usunąć zainstalowanych zależności"
 msgid "Retrieving Sources..."
 msgstr "Pobieranie źródeł..."
 
-msgid "You do not have write permission to store downloads in %s."
-msgstr "Nie masz prawa zapisu do umieszczania plików w %s."
-
-msgid "Found %s in build dir"
-msgstr "Znaleziono %s w katalogu budowania"
-
-msgid "Using cached copy of %s"
-msgstr "Używam zachowanej kopii %s"
+msgid "Found %s"
+msgstr ""
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s nie jest URL i nie znalazłem go w katalgu źródłowym."
@@ -1088,9 +1099,6 @@ msgstr "Nie znaleziono openssl."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Algorytm sprawdzania spójności '%s' jest niepoprawny."
-
-msgid "Unable to find source file %s to generate checksum."
-msgstr "Brak pliku źródeł %s do generacji sumy kontrolnej."
 
 msgid "Validating source files with %s..."
 msgstr "Sprawdzam pliki źródłowe przy użyciu %s..."
@@ -1116,26 +1124,14 @@ msgstr "Sumy kontrolne są brakujące"
 msgid "Extracting Sources..."
 msgstr "Rozpakowuję źródła..."
 
-msgid "Unable to find source file %s for extraction."
-msgstr "Nie znaleziono pliku źródeł %s do rozpakowania."
-
 msgid "Extracting %s with %s"
 msgstr "Rozpakowywanie %s za pomocą %s"
 
 msgid "Failed to extract %s"
 msgstr "Nie udało się rozpakować %s"
 
-msgid "Starting build()..."
-msgstr "Uruchamiam build()..."
-
-msgid "Build Failed."
-msgstr "Budowanie nie powiodło się."
-
 msgid "Starting %s()..."
 msgstr "Zaczynam %s()"
-
-msgid "Packaging Failed."
-msgstr "Budowanie paczki nie powiodło się."
 
 msgid "Tidying install..."
 msgstr "Sprzątam..."
@@ -1149,7 +1145,8 @@ msgstr "Czyszczenie innych plików..."
 msgid "Compressing man and info pages..."
 msgstr "Kompresuję strony man oraz info..."
 
-msgid "Stripping debugging symbols from binaries and libraries..."
+#, fuzzy
+msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Usuwam symbole odpluskwiania z binariów i bibliotek..."
 
 msgid "Removing libtool .la files..."
@@ -1166,6 +1163,13 @@ msgstr "Dodaj pole z licencją do %s!"
 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Przykład dla programu na GPL: license=('GPL')."
+
+#, fuzzy
+msgid "Invalid backup entry : %s"
+msgstr "Błędny plik pakietu '%s'."
+
+msgid "Package contains reference to %s"
+msgstr ""
 
 msgid "Missing pkg/ directory."
 msgstr "Brakujący katalog pkg."
@@ -1188,20 +1192,36 @@ msgstr "'%s' nie jest poprawnym rozszerzeniem archiwum"
 msgid "Failed to create package file."
 msgstr "Nie udało się utworzyć pliku pakietu."
 
+#, fuzzy
+msgid "Failed to create symlink to package file."
+msgstr "Nie udało się stworzyć pakietu źródłowego."
+
+#, fuzzy
+msgid "Skipping integrity checks."
+msgstr "Pomijam sprawdzanie zależności."
+
 msgid "Creating source package..."
 msgstr "Tworzę pakiet źródłowy..."
 
 msgid "Adding %s..."
 msgstr "Dodaję %s..."
 
-msgid "Install script %s not found."
-msgstr "Nie znaleziono skryptu instalacyjnego %s."
+#, fuzzy
+msgid "Adding %s file (%s)..."
+msgstr "Dodaję %s..."
 
 msgid "Compressing source package..."
 msgstr "Kompresuję pakiet źródłowy..."
 
 msgid "Failed to create source package file."
 msgstr "Nie udało się stworzyć pakietu źródłowego."
+
+#, fuzzy
+msgid "Installing package %s with %s -U..."
+msgstr "aktualizowanie %s przez %s... "
+
+msgid "Installing %s package group with %s -U..."
+msgstr ""
 
 msgid "Failed to install built package(s)."
 msgstr "Nie udało się zainstalować zbudowanych pakietów"
@@ -1228,7 +1248,12 @@ msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
 "Dostarczana tablica nie może zawierać operatorów porównania ( < lub > )"
 
-msgid "Install scriptlet (%s) does not exist."
+#, fuzzy
+msgid "Invalid syntax for optdepend : '%s'"
+msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
+
+#, fuzzy
+msgid "%s file (%s) does not exist."
 msgstr "Skrypt instalacyjny (%s) nie istnieje."
 
 msgid "options array contains unknown option '%s'"
@@ -1236,6 +1261,9 @@ msgstr "pole options zawiera nieznaną opcję '%s'"
 
 msgid "missing package function for split package '%s'"
 msgstr "brakująca funkcja pakietu do połączenia pakietu '%s'"
+
+msgid "requested package %s is not provided in %s"
+msgstr ""
 
 msgid "Determining latest darcs revision..."
 msgstr "Sprawdzam ostatnią rewizję repozytorium darcs..."
@@ -1282,11 +1310,6 @@ msgstr "  -c, --clean      Usuń plik robocze po wszystkim"
 msgid "  -C, --cleancache Clean up source files from the cache"
 msgstr "  -C, --cleancache Usuń pliki źródłowe z pamięci podręcznej"
 
-msgid "  --config <config> Use an alternate config file (instead of '%s')"
-msgstr ""
-"  --config <konfiguracja> Użyj alternatywnego pliku konfiguracyjnego "
-"(zamiast '%s')"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Pomija sprawdzanie zależności"
 
@@ -1299,9 +1322,6 @@ msgstr "  -f, --force      Nadpisuje istniejące pakiety"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Wygeneruj symy kontrolne dla źródeł"
-
-msgid "      --skipinteg  Do not fail when integrity checks are missing"
-msgstr "      --skipinteg Nie kończ jeżeli sumy kontrolne nie istnieją"
 
 msgid "  -h, --help       This help"
 msgstr "  -h, --help       Niniejsza pomoc"
@@ -1318,7 +1338,8 @@ msgstr "  -m, --nocolor    Wyłącz kolorowe komunikaty"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Tylko pobierz i rozpakuj pliki"
 
-msgid "  -p <buildscript> Use an alternate build script (instead of '%s')"
+#, fuzzy
+msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <buildscript> Użyj alternatywnego skryptu budowy (zamiast '%s')"
 
 msgid ""
@@ -1331,37 +1352,54 @@ msgstr "  -R, --repackage  Przepakuj zawartość pakietu bez ponownego budowania
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Zainstaluj brakujące zależności pacmanem"
 
+#, fuzzy
 msgid ""
-"      --allsource  Generate a source-only tarball including downloaded "
+"  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
 "      --allsource  Generuje archiwum źródłowe zawierające pobrane źródła"
 
-msgid "      --asroot     Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "      --asroot     Pozwól makepkg pracować jako root"
 
+#, fuzzy
+msgid "  --config <file>  Use an alternate config file (instead of '%s')"
+msgstr ""
+"  --config <konfiguracja> Użyj alternatywnego pliku konfiguracyjnego "
+"(zamiast '%s')"
+
+#, fuzzy
 msgid ""
-"      --holdver    Prevent automatic version bumping for development "
+"  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
 "      --holdver    Zapobiega autopodnoszeniu wersji dla rozwojowych "
 "PKGBUILDów"
 
+msgid "  --pkg <list>     Only build listed packages from a split package"
+msgstr ""
+
+#, fuzzy
+msgid "  --skipinteg      Do not fail when integrity checks are missing"
+msgstr "      --skipinteg Nie kończ jeżeli sumy kontrolne nie istnieją"
+
+#, fuzzy
 msgid ""
-"      --source     Generate a source-only tarball without downloaded sources"
+"  --source         Generate a source-only tarball without downloaded sources"
 msgstr "      --source     Generuje archiwum źródłowe bez pobranych źródeł"
 
 msgid "These options can be passed to pacman:"
 msgstr "Poniższe opcje mogą być przekazane do pacmana:"
 
+#, fuzzy
 msgid ""
-"      --noconfirm      Do not ask for confirmation when resolving "
-"dependencies"
+"  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
 "      --noconfirm      Nie pyta o potwierdzenie przy rozwiązywaniu zależności"
 
-msgid ""
-"      --noprogressbar  Do not show a progress bar when downloading files"
+#, fuzzy
+msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  Wyłącza pasek postępu podczas pobierania plików"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
@@ -1380,6 +1418,13 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s nie znaleziony."
+
+#, fuzzy
+msgid "You do not have write permission to store packages in %s."
+msgstr "Nie masz prawa zapisu do umieszczania plików w %s."
+
+msgid "You do not have write permission to store downloads in %s."
+msgstr "Nie masz prawa zapisu do umieszczania plików w %s."
 
 msgid "\\0--holdver and --forcever cannot both be specified"
 msgstr "\\0--holdver oraz --forcever nie mogą być użyte jednocześnie"
@@ -1440,16 +1485,8 @@ msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr ""
 "Nie używaj opcji '-F'. Jest ona przeznaczona tylko do użytku przez makepkg."
 
-msgid "Cannot find the sudo binary! Is sudo installed?"
-msgstr "Nie znaleziono programu sudo! Czy jest zainstalowany?"
-
-msgid "Missing dependencies cannot be installed or removed as a normal user"
+msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
-"Brakujące zależności nie mogą być dodane lub usunięte jako zwykły użytkownik"
-
-msgid "without sudo; install and configure sudo to auto-resolve dependencies."
-msgstr ""
-"bez sudo; zainstaluj i ustaw sudo aby automatycznie rozwiązywać zależności."
 
 msgid "%s does not exist."
 msgstr "%s nie istnieje."
@@ -1474,11 +1511,21 @@ msgstr "Grupa pakietów została już zbudowana. (użyj -f aby nadpisać)"
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "Część grupy pakietów została już zbudowana. (użyj -f aby nadpisać)"
 
+msgid "Repackaging without the use of a package() function is deprecated."
+msgstr ""
+
+msgid "File permissions may not be preserved."
+msgstr ""
+
 msgid "Leaving fakeroot environment."
 msgstr "Opuszczam środowisko fakeroot."
 
 msgid "Making package: %s"
 msgstr "Tworzę pakiet: %s"
+
+#, fuzzy
+msgid "A source package has already been built. (use -f to overwrite)"
+msgstr "Pakiet został już zbudowany. (użyj -f aby obejść)"
 
 msgid "Source package created: %s"
 msgstr "Utworzono pakiet źródłowy: %s"
@@ -1495,7 +1542,8 @@ msgstr "Sprawdzanie zależności dla zbudowania..."
 msgid "Could not resolve all dependencies."
 msgstr "Nie udało się rozwiązać wszystkich zależności."
 
-msgid "pacman was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in PATH; skipping dependency checks."
 msgstr "pacman nie został znaleziono w PATH; pomijam sprawdzanie zależności."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
@@ -1714,12 +1762,6 @@ msgstr "Zła nazwa komenty '%s' została podana"
 msgid "Cannot create temp directory for database building."
 msgstr "Nie udało się utworzyć katalogu tymczasowego do zbudowania bazy."
 
-msgid "the -f and --force options are no longer recognized"
-msgstr "opcje -f oraz --force nie są dłużej rozpoznawane"
-
-msgid "use options=(force) in the PKGBUILD instead"
-msgstr "zamiast tego używaj options=(force) w pliku PKGBUILD"
-
 msgid "Creating updated database file '%s'"
 msgstr "Tworzę uaktualniony plik bazy '%s'"
 
@@ -1731,6 +1773,106 @@ msgstr "Brak pakietów, tworzenie pustej bazy danych."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nie zmodyfikowano żadnego pakietu, nie ma nic do zrobienia."
+
+#~ msgid ""
+#~ "  -p, --print-uris     print out URIs for given packages and their "
+#~ "dependencies\n"
+#~ msgstr ""
+#~ "  -p, --print-uris     wykazuje URI dla danych pakietów oraz ich "
+#~ "zależności\n"
+
+#~ msgid "%s not found, searching for group...\n"
+#~ msgstr "%s nie zostało znalezione, szukanie grupy...\n"
+
+#~ msgid "'%s': not found in local db\n"
+#~ msgstr "'%s': nie znaleziono w bazie danych synchronizacji\n"
+
+#~ msgid ":: group %s:\n"
+#~ msgstr ":: grupa %s:\n"
+
+#~ msgid "    Remove whole content?"
+#~ msgstr "    Usunąć całą zawartość?"
+
+#~ msgid ":: Remove %s from group %s?"
+#~ msgstr ":: Usunąć %s z grupy %s?"
+
+#~ msgid "could not remove cache directory\n"
+#~ msgstr "nie udało się usunąć katalogu pamięci podręcznej\n"
+
+#~ msgid "could not create new cache directory\n"
+#~ msgstr "nie udało się utworzyć nowego katalogu pamięci podręcznej\n"
+
+#~ msgid "%s package not found, searching for group...\n"
+#~ msgstr "pakiet %s nie został znaleziony, szukanie grupy...\n"
+
+#~ msgid ":: group %s (including ignored packages):\n"
+#~ msgstr ":: grupa %s (włączająć ignorowane pakiety):\n"
+
+#~ msgid ":: Install whole content?"
+#~ msgstr ":: Zainstalować całą zawartość?"
+
+#~ msgid ":: Install %s from group %s?"
+#~ msgstr ":: Zainstalować %s z grupy %s?"
+
+#~ msgid "'%s': not found in sync db\n"
+#~ msgstr "'%s': nie znaleziono w bazie danych synchronizacji\n"
+
+#~ msgid " local database is up to date\n"
+#~ msgstr " lokalna baza pakietów jest już w najnowszej wersji\n"
+
+#~ msgid "no URL for package: %s\n"
+#~ msgstr "brak URL dla pakietu: %s\n"
+
+#~ msgid "loading package data...\n"
+#~ msgstr "ładowanie informacji o pakietach...\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "errors occurred, no packages were upgraded.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "wystąpiły błędy, nie zaktualizowano żadnych pakietów.\n"
+
+#~ msgid "Found %s in build dir"
+#~ msgstr "Znaleziono %s w katalogu budowania"
+
+#~ msgid "Using cached copy of %s"
+#~ msgstr "Używam zachowanej kopii %s"
+
+#~ msgid "Unable to find source file %s to generate checksum."
+#~ msgstr "Brak pliku źródeł %s do generacji sumy kontrolnej."
+
+#~ msgid "Starting build()..."
+#~ msgstr "Uruchamiam build()..."
+
+#~ msgid "Build Failed."
+#~ msgstr "Budowanie nie powiodło się."
+
+#~ msgid "Packaging Failed."
+#~ msgstr "Budowanie paczki nie powiodło się."
+
+#~ msgid "Install script %s not found."
+#~ msgstr "Nie znaleziono skryptu instalacyjnego %s."
+
+#~ msgid "Cannot find the sudo binary! Is sudo installed?"
+#~ msgstr "Nie znaleziono programu sudo! Czy jest zainstalowany?"
+
+#~ msgid "Missing dependencies cannot be installed or removed as a normal user"
+#~ msgstr ""
+#~ "Brakujące zależności nie mogą być dodane lub usunięte jako zwykły "
+#~ "użytkownik"
+
+#~ msgid ""
+#~ "without sudo; install and configure sudo to auto-resolve dependencies."
+#~ msgstr ""
+#~ "bez sudo; zainstaluj i ustaw sudo aby automatycznie rozwiązywać "
+#~ "zależności."
+
+#~ msgid "the -f and --force options are no longer recognized"
+#~ msgstr "opcje -f oraz --force nie są dłużej rozpoznawane"
+
+#~ msgid "use options=(force) in the PKGBUILD instead"
+#~ msgstr "zamiast tego używaj options=(force) w pliku PKGBUILD"
 
 #~ msgid "All packages have been removed from the database. Deleting '%s'."
 #~ msgstr "Wszystkie pakiety zostały usunięte z bazy danych. Usuwanie '%s'."
