@@ -7,33 +7,35 @@ VERSION         DESCRIPTION
                 select the correct architecture
               - Installing packages with -U can handle installing
                 dependencies, conflict resolution and replacing packages
+                (FS#3492, FS#5798)
               - can upgrade the system and install a new package using 
-                "pacman -Syu <pkg>"
+                "pacman -Syu <pkg>" (FS#15581)
               - new -D/--database operation for modifying package install
-                reasons
+                reasons (FS#12950)
               - new --print and --print-format options to output information
-                in suitable format for wrapper scripts
+                in suitable format for wrapper scripts (FS#14208)
               - only extract new entries when updating a repo database
-              - show "Required by" in -Sii output
+              - show "Required by" in -Sii output (FS#16244)
               - -U and -R options always ask for confirmation
-              - allow -Qo to perform a functional 'which'
+              - allow -Qo to perform a functional 'which' (FS#8798)
               - cache cleaning cleans all directories, not just first
               - cleanupdelta: new utility to help remove unused deltas from
                 a repo database 
+              - bash completion: rewrite for size and performance (FS#16630)
               - repo-add: handle removing the final package from a repo
               - rankmirrors: rewrite using bash
               - vercmp: does not link to libalpm to prevent upgrade issues
               - makepkg:
                 - automatically aborts on any errors during packaging
                 - changelogs are now included via the "changelog" variable
-                - can override pkgver, pkgrel and arch in split packages
+                - override pkgver, pkgrel and arch in split packages (FS#15955)
                 - repackaging without a package() function is deprecated
                 - stricter syntax checking for backup and optdepends entries
                 - file stripping options are configurable
                 - New --pkg flag to allow building specific package(s) from
-                  split PKGBUILDs.
-                - build() function is now optional
-                - warns about reference to the build root in a package
+                  split PKGBUILDs (FS#15956)
+                - build() function is now optional (FS#15147)
+                - warn about reference to build root in a package (FS#14751)
                 - configure source package destination with SRCPKGDEST
                 - major internal refactoring of handling tests ("[" to "[[")
               - contrib/pactree: print reverse dependency tree
