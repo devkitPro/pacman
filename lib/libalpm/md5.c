@@ -37,6 +37,9 @@
  *      to
  *        int md5_file( const char *path, unsigned char *output )
  *  * various static/inline changes
+ *
+ *  NOTE: XySSL has been renamed to PolarSSL, which is available at
+ *  www.polarssl.org. If we update, we should get it from there.
  */
 
 #include <string.h>
