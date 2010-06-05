@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2010-06-04 13:33-0500\n"
-"PO-Revision-Date: 2009-10-18 23:53+0700\n"
+"PO-Revision-Date: 2010-06-05 10:41+0700\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: \n"
@@ -71,24 +71,24 @@ msgstr "失败。\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
-msgstr ":: 正在从 %s 软件仓库获取软件包...\n"
+msgstr ":: 正在从 %s 软件库获取软件包...\n"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
-":: %s 位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中。确定要安装吗?"
+":: %s 位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中。确定要安装吗?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: 用 %2$s/%3$s 替代 %1$s？"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
 msgstr ":: %1$s 与 %2$s 有冲突。删除 %3$s？"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %1$s 与 %2$s 有冲突。删除 %3$s？"
+msgstr ":: %1$s 与 %2$s 有冲突 (%3$s)。删除 %4$s？"
 
 #, c-format
 msgid ""
@@ -246,7 +246,7 @@ msgstr "描述　　　："
 
 #, c-format
 msgid "Repository     :"
-msgstr "软件仓库　："
+msgstr "软件库　："
 
 #, c-format
 msgid "Backup Files:\n"
@@ -270,7 +270,7 @@ msgstr "缺少\t\t%s\n"
 
 #, c-format
 msgid "(none)\n"
-msgstr "（无）\n"
+msgstr " (无) \n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
@@ -317,7 +317,7 @@ msgstr "  -c, --cascade        删除软件包及所有的依赖于此的软件�
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         略过依赖关系检查\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr "  -k, --dbonly         只删除数据库记录，不删除文件\n"
@@ -331,26 +331,28 @@ msgid ""
 "  -s, --recursive      remove dependencies also (that won't break packages)\n"
 "                       (-ss includes explicitly installed dependencies too)\n"
 msgstr ""
-"  -s, --recursive      同时删除（不会破坏其他软件包的）依赖关系\n"
+"  -s, --recursive      同时删除 (不会破坏其他软件包的) 依赖关系\n"
 "                       (-ss·也包括单独指定安装的依赖关系)\n"
 
 #, c-format
 msgid ""
 "  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
 msgstr ""
-"  -u, --unneeded       同时删除不需要的（且不会破坏其他软件包的）依赖关系\n"
+"  -u, --unneeded       同时删除不需要的 (且不会破坏其他软件包的) 依赖关系\n"
 
 #, c-format
 msgid ""
 "      --print          only print the targets instead of performing the "
 "operation\n"
-msgstr ""
+msgstr "      --print          仅打印目标而不执行操作\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
+"      --print-format <字符串>\n"
+"                       指定如何打印目标\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -364,11 +366,11 @@ msgstr "      --asexplicit     作为单独指定安装的软件包安装\n"
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr "  -f,  -force          强制安装，覆盖存在冲突的文件\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         add database entries, do not install or keep existing "
 "files\n"
-msgstr "  -k, --dbonly         只删除数据库记录，不删除文件\n"
+msgstr "  -k, --dbonly         添加数据库记录，不安装或保持现存文件\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -390,7 +392,7 @@ msgstr "  -g, --groups         查看某软件包组所属的所有软件包\n"
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           查看软件包信息（-ii 查看备份文件）\n"
+msgstr "  -i, --info           查看软件包信息 (-ii 查看备份文件) \n"
 
 #, c-format
 msgid ""
@@ -440,7 +442,7 @@ msgstr "  -q, --quiet          在查询或搜索时显示较少的信息\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          从缓存目录中删除旧软件包（-cc 清除所有）\n"
+msgstr "  -c, --clean          从缓存目录中删除旧软件包 (-cc 清除所有) \n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -448,12 +450,12 @@ msgstr "  -i, --info           查看软件包信息\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <软件仓库>    查看在该软件仓库中的软件包清单\n"
+msgstr "  -l, --list <软件库>    查看在该软件库中的软件包清单\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件仓库\n"
+msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件库\n"
 
 #, c-format
 msgid ""
@@ -479,7 +481,7 @@ msgstr "      --needed         不重新安装已经为最新的软件包\n"
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <软件包>   升级时忽略某个软件包（可多次使用）\n"
+msgstr "      --ignore <软件包>   升级时忽略某个软件包 (可多次使用) \n"
 
 #, c-format
 msgid ""
@@ -487,15 +489,15 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <软件包组>\n"
-"                         升级时忽略某个软件包组（可多次使用）\n"
+"                         升级时忽略某个软件包组 (可多次使用) \n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         作为非单独指定安装的软件包安装\n"
+msgstr "      --asdeps         标记为非单独指定安装的软件包\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     作为单独指定安装的软件包安装\n"
+msgstr "      --asexplicit     标记为单独指定安装的软件包\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -539,9 +541,9 @@ msgstr "  -b, --dbpath <路径>  指定另外的数据库位置\n"
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <目录> 指定另外的软件包缓存位置\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --config <路径>  指定另外的配置文件\n"
+msgstr "      --arch <架构>    设定另外的架构\n"
 
 #, c-format
 msgid ""
@@ -583,23 +585,23 @@ msgstr "无法 chdir 到下载目录 %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "正在运行 XferCommand：分支失败！\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "配置文件 %s，第 %d 行：未知命令 '%s'\n"
+msgstr "无法识别无值指令 '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "配置文件 %s，第 %d 行：未知命令 '%s'\n"
+msgstr "无法识别带值指令 '%s'\n"
 
 #, c-format
 msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
-msgstr ""
+msgstr "镜像 '%s' 包含有 $arch 参数，但没有定义架构。\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -625,19 +627,19 @@ msgstr "配置文件 %s，第 %d 行：配置文件中语法错误－缺少关�
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "配置文件 %s，第 %d 行：所有的命令必须属于同一章节。\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "配置文件 %s，第 %d 行：未知命令 '%s'\n"
+msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要一个值\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "配置文件 %s，第 %d 行：坏的章节名。\n"
+msgstr "配置文件 %s，第 %d 行：选项段中有问题\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "配置文件 %s，第 %d 行：未知命令 '%s'\n"
+msgstr "配置文件 %s，第 %d 行：无法识别指令 '%s' (位在软件库段 '%s' 中)。\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -645,7 +647,7 @@ msgstr "初始化 alpm 库失败 (%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "非 root（根用户）无法执行指定操作。\n"
+msgstr "非 root (根用户) 无法执行指定操作。\n"
 
 #, c-format
 msgid "could not register 'local' database (%s)\n"
@@ -653,15 +655,15 @@ msgstr "无法登记“本地”数据库 (%s)\n"
 
 #, c-format
 msgid "no operation specified (use -h for help)\n"
-msgstr "没有指定的操作（使用 -h 获取帮助）\n"
+msgstr "没有指定的操作 (使用 -h 获取帮助) \n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "错误：没有为 --owns 指定文件\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "无法读取文件 '%1$s': %2$s\n"
+msgstr "无法在 PATH：%2$s 中找到 '%1$s' \n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -705,7 +707,7 @@ msgstr "没有设置可用的软件包库。\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
-msgstr "没有指定目标（使用 -h 获取帮助）\n"
+msgstr "没有指定目标 (使用 -h 获取帮助) \n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -715,9 +717,9 @@ msgstr "软件包 \"%s\" 未找到\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "无法准备事务处理 (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' 未包含有效的压缩包扩展名。"
+msgstr ":: 软件包 '%s' 未包含一个有效的架构\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -725,15 +727,15 @@ msgstr ":: %1$s: 要求 %2$s\n"
 
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
-msgstr "%s 被指定为 HoldPkg（保留软件包）。\n"
+msgstr "%s 被指定为 HoldPkg (保留软件包) 。\n"
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "在目标清单中发现 HoldPkg 指定的软件包。你确定要继续吗？"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "没有软件包被修改，无事可做。"
+msgstr "已无事可做\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -753,7 +755,7 @@ msgstr "打算删除 %s？"
 
 #, c-format
 msgid "could not remove repository directory\n"
-msgstr "无法删除软件仓库目录\n"
+msgstr "无法删除软件库目录\n"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -761,7 +763,7 @@ msgstr "数据库目录：%s\n"
 
 #, c-format
 msgid "Do you want to remove unused repositories?"
-msgstr "打算删除无用的软件仓库？"
+msgstr "打算删除无用的软件库？"
 
 #, c-format
 msgid "Database directory cleaned up\n"
@@ -791,9 +793,9 @@ msgstr "打算从缓存中删除所有文件吗？"
 msgid "removing all files from cache...\n"
 msgstr "正在从缓存中删除所有文件...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "无法访问缓存目录\n"
+msgstr "无法访问缓存目录 %s\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -811,21 +813,21 @@ msgstr " %s 已经是最新版本\n"
 msgid "failed to synchronize any databases\n"
 msgstr "无法同步任何数据库\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "installed"
-msgstr "正在安装"
+msgstr "已安装"
 
 #, c-format
 msgid " [%s: %s]"
-msgstr ""
+msgstr " [%s: %s]"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
-msgstr "软件仓库 '%s' 不存在\n"
+msgstr "软件库 '%s' 不存在\n"
 
 #, c-format
 msgid "package '%s' was not found in repository '%s'\n"
-msgstr "软件包 '%1$s' 没有在 '%2$s' 软件仓库里找到\n"
+msgstr "软件包 '%1$s' 没有在 '%2$s' 软件库里找到\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -833,7 +835,7 @@ msgstr "软件包 '%s' 未找到\n"
 
 #, c-format
 msgid "repository \"%s\" was not found.\n"
-msgstr "软件仓库 \"%s\" 未找到\n"
+msgstr "软件库 \"%s\" 未找到\n"
 
 #, c-format
 msgid "skipping target: %s\n"
@@ -845,11 +847,11 @@ msgstr ":: 正在进行全面系统更新...\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ""
+msgstr ":: %s 与 %s 有冲突\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %1$s: 与 %2$s 冲突\n"
+msgstr ":: %1$s: 与 %2$s 冲突(%3$s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -996,9 +998,8 @@ msgstr "错误："
 msgid "Cleaning up..."
 msgstr "正在清理..."
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "无法找到源代码文件 %s 进行解压缩。"
+msgstr "无法找到源文件 %s。"
 
 msgid "Aborting..."
 msgstr "正在放弃..."
@@ -1009,16 +1010,14 @@ msgstr "没有设置程序来处理 %1$s URLs。请检查 %2$s。"
 msgid "The download program %s is not installed."
 msgstr "下载程序 %s 没有安装。"
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "Pacman 出现致命错误 (%i)：%s"
+msgstr "'%1$s' 返回一个致命错误 (%i)：%2$s"
 
 msgid "Installing missing dependencies..."
 msgstr "正在安装缺少的依赖关系..."
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "Pacman 无法安装缺少的依赖关系..."
+msgstr "'%s' 无法安装缺少的依赖关系。"
 
 msgid "Failed to install all missing dependencies."
 msgstr "无法安装所有缺少的依赖关系。"
@@ -1033,7 +1032,7 @@ msgid "Retrieving Sources..."
 msgstr "获取源代码..."
 
 msgid "Found %s"
-msgstr ""
+msgstr "找到 %s"
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s 没有在创建目录中找到，也不是一个 URL。"
@@ -1098,9 +1097,8 @@ msgstr "正在清除其他文件..."
 msgid "Compressing man and info pages..."
 msgstr "正在压缩 man 及 info 文档..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "正在从二进制文件和库中清除 debug 符号..."
+msgstr "正在从二进制文件和库中清除不需要的系统符号..."
 
 msgid "Removing libtool .la files..."
 msgstr "正在删除 libtool .la 文件..."
@@ -1117,12 +1115,11 @@ msgstr "请添加软件许可证行到你的 %s！"
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "GPL 软件的列子：license=('GPL')"
 
-#, fuzzy
 msgid "Invalid backup entry : %s"
-msgstr "无效的软件包文件 '%s'。"
+msgstr "无效的备份记录：%s"
 
 msgid "Package contains reference to %s"
-msgstr ""
+msgstr "软件包提及含有 %s"
 
 msgid "Missing pkg/ directory."
 msgstr "缺少 pkg/ 目录。"
@@ -1145,13 +1142,11 @@ msgstr "'%s' 是无效的压缩包扩展名。"
 msgid "Failed to create package file."
 msgstr "无法创建软件包文件。"
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "创建源码包文件失败。"
+msgstr "创建软件包文件系统链接失败。"
 
-#, fuzzy
 msgid "Skipping integrity checks."
-msgstr "跳过依赖关系检查。"
+msgstr "正在跳过完整性检查。"
 
 msgid "Creating source package..."
 msgstr "正在创建源码包..."
@@ -1159,9 +1154,8 @@ msgstr "正在创建源码包..."
 msgid "Adding %s..."
 msgstr "正在添加 %s..."
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "正在添加 %s..."
+msgstr "正在添加 %1$s 文件 (%2$s) ..."
 
 msgid "Compressing source package..."
 msgstr "正在压缩源码包..."
@@ -1169,12 +1163,11 @@ msgstr "正在压缩源码包..."
 msgid "Failed to create source package file."
 msgstr "创建源码包文件失败。"
 
-#, fuzzy
 msgid "Installing package %s with %s -U..."
-msgstr "正在使用 %2$s 生成 %1$s..."
+msgstr "正在使用 %2$s  -U 安装软件包 %1$s..."
 
 msgid "Installing %s package group with %s -U..."
-msgstr ""
+msgstr "正在使用 %2$s -U 安装软件包组 %1$s..."
 
 msgid "Failed to install built package(s)."
 msgstr "安装创建的软件包失败。"
@@ -1186,7 +1179,7 @@ msgid "%s is not allowed to start with a hyphen."
 msgstr "%s 不允许以连字号开始。"
 
 msgid "%s is not allowed to contain hyphens."
-msgstr "%s 不允许含有连字号（减号）"
+msgstr "%s 不允许含有连字号 (减号) "
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s 不具备 '%s' 架构。"
@@ -1200,13 +1193,11 @@ msgstr "类似 arch=('%s') 的一行."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "提供不能含有 (< 或 >)比较操作符的阵列"
 
-#, fuzzy
 msgid "Invalid syntax for optdepend : '%s'"
-msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
+msgstr "无效的 optdepend 语法： '%s'"
 
-#, fuzzy
 msgid "%s file (%s) does not exist."
-msgstr "安装小脚本 (%s) 不存在。"
+msgstr "%1$s 文件 (%2$s) 不存在。"
 
 msgid "options array contains unknown option '%s'"
 msgstr "选项组含有未知的选项 '%s'"
@@ -1215,7 +1206,7 @@ msgid "missing package function for split package '%s'"
 msgstr "拆分软件包 '%s' 缺少软件包功能"
 
 msgid "requested package %s is not provided in %s"
-msgstr ""
+msgstr "%2$s 里没有提供所需求的软件包 %1$s "
 
 msgid "Determining latest darcs revision..."
 msgstr "正在确认最新的 darcs 修正..."
@@ -1266,7 +1257,7 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr " -d, --nodeps     跳过所有依赖关系检查"
 
 msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
-msgstr "  -e, --noextract  不解压缩源码文件（使用现存的 src/ 目录）"
+msgstr "  -e, --noextract  不解压缩源码文件 (使用现存的 src/ 目录) "
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      覆盖现存的软件包"
@@ -1289,9 +1280,8 @@ msgstr "  -m, --nocolor    禁止彩色输出信息"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    仅下载和解压缩文件"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr "  -p <buildscript> 使用另外的编译脚本（而不是 '%s' ）"
+msgstr "  -p <文件> 使用另外的编译脚本 (而不是 '%s' ) "
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
@@ -1303,49 +1293,41 @@ msgstr "  -R, --repackage  不编译而重新打包软件包内容"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   使用 pacman 安装缺少的依赖关系"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "    --allsource     只生成源码包（包括有已下载的源码）"
+msgstr "    --allsource     只生成源码包 (包括有已下载的源码) "
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
-msgstr "      --asroot     允许makepkg作为 root（根用户）运行"
+msgstr "      --asroot     允许 makepkg 作为根用户运行"
 
-#, fuzzy
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config <config> 使用替代的配置文件（而不是 '%s'）"
+msgstr "  --config <文件> 使用替代的配置文件 (而不是 '%s')"
 
-#, fuzzy
 msgid ""
 "  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
-msgstr "      --holdver    防止开发中的 PKGBUILD 自动更新版本"
+msgstr "  --holdver        防止开发中的 PKGBUILD 自动更新版本"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr ""
+msgstr "  --pkg <清单>     仅从分割软件包中创建清单中所列的软件包"
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
-msgstr "  -g, --geninteg   如缺少完整性检查值也继续"
+msgstr "  --skipinteg      如缺少完整性检查值也继续"
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
-msgstr "    --source     只生成源码包（不包括已下载的源码）"
+msgstr "  --source         只生成源码包 (不包括已下载的源码) "
 
 msgid "These options can be passed to pacman:"
 msgstr "这些选项可以传递给 pacman："
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
-msgstr "      --noconfirm      当解决依赖关系时不询问确认"
+msgstr "   --noconfirm      当解决依赖关系时不询问确认"
 
-#, fuzzy
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "      --noprogressbar  下载时不显示进度条"
+msgstr "  --noprogressbar  下载文件时不显示进度条"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "如果没有指定 -p ，makepkg将寻找 '%s'"
@@ -1363,9 +1345,8 @@ msgstr ""
 msgid "%s not found."
 msgstr "%s 未找到。"
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
-msgstr "你没有权限将下载数据写入 %s。"
+msgstr "你没有写入权限来保存软件包到 %s。"
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "你没有权限将下载数据写入 %s。"
@@ -1395,16 +1376,16 @@ msgid "In addition, please run makepkg -C outside of your cache directory."
 msgstr "此外，请在你的缓存目录外运行 makepkg -C。"
 
 msgid "Running makepkg as root is a BAD idea and can cause"
-msgstr "以 root（根用户）身份运行 makepkg 的习惯很不好，"
+msgstr "以 root (根用户) 身份运行 makepkg 的习惯很不好，"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "可能会造成你的系统永久性、灾难性的损坏；"
 
 msgid "wish to run as root, please use the --asroot option."
-msgstr "如果你希望以 root（根用户）来运行，请使用 --asroot 选项。"
+msgstr "如果你希望以 root (根用户) 来运行，请使用 --asroot 选项。"
 
 msgid "The --asroot option is meant for the root user only."
-msgstr "--asroot 选项仅针对 root（根用户）。"
+msgstr "--asroot 选项仅针对 root (根用户) 。"
 
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "请不带 --asroot 参数再运行一次 makepkg。"
@@ -1428,7 +1409,7 @@ msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr "不要使用 '-F' 选项。该选项仅供 makepkg 使用。"
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
+msgstr "Sudo 命令没有找到。将使用 su 获取根用户特权。"
 
 msgid "%s does not exist."
 msgstr "%s 不存在。"
@@ -1440,23 +1421,23 @@ msgid "A package has already been built, installing existing package..."
 msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
 
 msgid "A package has already been built. (use -f to overwrite)"
-msgstr "已有一个编译好的软件包。（使用 -f 覆盖）"
+msgstr "已有一个编译好的软件包。 (使用 -f 覆盖) "
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "已有一个编译好的软件包组，正在安装现有的软件包..."
 
 msgid "The package group has already been built. (use -f to overwrite)"
-msgstr "已有一个编译好的软件包组。（使用 -f 覆盖）"
+msgstr "已有一个编译好的软件包组。 (使用 -f 覆盖) "
 
 msgid "Part of the package group has already been built. (use -f to overwrite)"
-msgstr "一部分软件包组已经编译完毕。（使用 -f 覆盖）"
+msgstr "一部分软件包组已经编译完毕。 (使用 -f 覆盖) "
 
 msgid "Repackaging without the use of a package() function is deprecated."
-msgstr ""
+msgstr "不使用 package() 功能来打包已经不再使用。"
 
 msgid "File permissions may not be preserved."
-msgstr ""
+msgstr "文件权限无法保留。"
 
 msgid "Leaving fakeroot environment."
 msgstr "正在退出 fakeroot 环境。"
@@ -1464,9 +1445,8 @@ msgstr "正在退出 fakeroot 环境。"
 msgid "Making package: %s"
 msgstr "正在创建软件包：%s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "已有一个编译好的软件包。（使用 -f 覆盖）"
+msgstr "已有一个编译好的源软件包。 (使用 -f 覆盖) "
 
 msgid "Source package created: %s"
 msgstr "源代码包已创建：%s"
@@ -1483,9 +1463,8 @@ msgstr "正在检查编译时依赖关系..."
 msgid "Could not resolve all dependencies."
 msgstr "无法解决所有的依赖关系。"
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "没有在 PATH 中找到 pacman；跳过依赖关系检查。"
+msgstr "没有在 PATH 中找到 %s；正在跳过依赖关系检查。"
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "跳过源码获取        -- 使用现有的 src/ 目录树"
@@ -1657,7 +1636,7 @@ msgid "Extracting database to a temporary location..."
 msgstr "正在解压缩数据库到一个临时目录..."
 
 msgid "Repository file '%s' was not found."
-msgstr "软件仓库文件 '%s' 未找到"
+msgstr "软件库文件 '%s' 未找到"
 
 msgid "Repository file '%s' could not be created."
 msgstr "库文件 %s 无法创建。"
@@ -1737,7 +1716,7 @@ msgstr "没有软件包被修改，无事可做。"
 #~ msgstr "%s 软件包未找到，正在搜索软件包组...\n"
 
 #~ msgid ":: group %s (including ignored packages):\n"
-#~ msgstr ":: 软件包组 %s（包含忽略的软件包）：\n"
+#~ msgstr ":: 软件包组 %s (包含忽略的软件包) ：\n"
 
 #~ msgid ":: Install whole content?"
 #~ msgstr ":: 安装全部内容？"
@@ -1807,7 +1786,7 @@ msgstr "没有软件包被修改，无事可做。"
 #~ msgid ""
 #~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
 #~ msgstr ""
-#~ ":: %s 需要安装位于 IgnorePkg/IgnoreGroup（忽略软件包／忽略软件包组）中的 "
+#~ ":: %s 需要安装位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中的 "
 #~ "%s。一律安装吗?[Y/n]"
 
 #~ msgid "Checking for package upgrades... \n"
