@@ -81,13 +81,13 @@ msgstr ":: %s az IgnorePkg/IgnoreGroup része. Mégis telepíti?"
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Lecseréli %s-t erre: %s/%s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %s ütközik a következővel: %s. Eltávolítja a %s-t?"
+msgstr ":: A(z) %s és a(z) %s ütközik egymással. Eltávolítja a %s-t?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %s ütközik a következővel: %s. Eltávolítja a %s-t?"
+msgstr ":: A(z) %s és a(z) %s ütközik egymással (%s). Eltávolítja a %s-t?"
 
 #, c-format
 msgid ""
@@ -319,7 +319,7 @@ msgstr ""
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         függőségi ellenőrzések kihagyása\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
@@ -351,12 +351,16 @@ msgid ""
 "      --print          only print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"      --print          csak listázza a csomagokat a művelet végrehajtása "
+"helyett\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
+"      --print-format <sztring>\n"
+"                       a megadott formátum használata csomaglistázás során\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -372,12 +376,13 @@ msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
 "  -f, --force          a telepítés erőltetése, ütköző fájlok felülírása\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         add database entries, do not install or keep existing "
 "files\n"
 msgstr ""
-"  -k, --dbonly         csak az adatbázis-bejegyzést törölje, a fájlokat ne\n"
+"  -k, --dbonly         adatbázis-bejegyzés hozzáadása fájltelepítés és -"
+"felülírás nélkül\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -516,14 +521,14 @@ msgstr ""
 "      --ignoregroup <csoport>\n"
 "                       csoportfrissítés mellőzése (többször is használható)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         csomagok telepítése 'függőség' jelöléssel\n"
-
-#, fuzzy, c-format
-msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
-"      --asexplicit     csomagok telepítése 'kézzel telepítve' jelöléssel\n"
+"      --asdeps         csomagok megjelölése függőségként telepítettként\n"
+
+#, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr "      --asexplicit     csomagok megjelölése kézzel telepítettként\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -570,9 +575,9 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 "      --cachedir <kvt> alternatív csomaggyorsítótár-könyvtár beállítása\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --config <útv.>  alternatív konfigurációs fájl beállítása\n"
+msgstr "      --arch <arch>    alternatív architektúra beállítása\n"
 
 #, c-format
 msgid ""
@@ -615,23 +620,24 @@ msgstr "nem sikerült belépni a %s letöltési könytárba\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand futtatása: sikertelen fork!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "%s konfigurációs fájl, %d. sor: a '%s' direktíva nem értelmezhető.\n"
+msgstr "ismeretlen direktíva (megadott érték nélkül): %s\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "hibás 'CleanMethod' érték: '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "%s konfigurációs fájl, %d. sor: a '%s' direktíva nem értelmezhető.\n"
+msgstr "ismeretlen direktíva (megadott értékkel): %s\n"
 
 #, c-format
 msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
 msgstr ""
+"A(z) '%s' tükör $arch változót tartalmaz, de nincs architektúra definiálva.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -659,19 +665,21 @@ msgstr ""
 "%s konfigurációs fájl, %d. sor: Minden direktívának egy szekcióhoz kell "
 "tartoznia.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "%s konfigurációs fájl, %d. sor: a '%s' direktíva nem értelmezhető.\n"
+msgstr "%s konfigurációs fájl, %d. sor: hiányzik a %s direktíva értéke\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "%s konfigurációs fájl, %d. sor: hibás szekciónév.\n"
+msgstr "%s konfigurációs fájl, %d. sor: hiba az options szekcióban\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "%s konfigurációs fájl, %d. sor: a '%s' direktíva nem értelmezhető.\n"
+msgstr ""
+"%s konfigurációs fájl, %d. sor: ismeretlen '%s' direktíva a '%s' repó "
+"szekcióban.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -693,9 +701,9 @@ msgstr "nincs megadva egyetlen művelet sem (használja a '-h'-t segítségért)
 msgid "no file was specified for --owns\n"
 msgstr "nincs megadva fájl a --owns számára\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
+msgstr "nem található '%s' a PATH-ben: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -749,9 +757,9 @@ msgstr "a(z) \"%s\" csomag nem található\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "nem sikerült előkészíteni a tranzakciót (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' nem érvényes archívum kiterjesztésű."
+msgstr ":: a(z) %s csomagnak nincs érvényes architektúra-definíciója\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -766,9 +774,9 @@ msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr ""
 "HoldPkg csomagot találtam a cél listában. Biztos benne, hogy folytatja?"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "Nem módosultak csomagok, nincs mit tenni."
+msgstr " nincs teendő\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -826,9 +834,9 @@ msgstr "Törölni kívánja az ÖSSZES fájlt a gyorsítótárból?"
 msgid "removing all files from cache...\n"
 msgstr "az összes fájl törlése a gyorsítótárból...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "nem sikerült elérni a gyorsítótár könyvtárát\n"
+msgstr "nem sikerült elérni a %s gyorsítótár-könyvtárat\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -846,13 +854,13 @@ msgstr " a(z) %s naprakész\n"
 msgid "failed to synchronize any databases\n"
 msgstr "nem sikerült szinkronizálni egyik adatbázist sem\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "installed"
-msgstr "telepítés:"
+msgstr "telepítve"
 
 #, c-format
 msgid " [%s: %s]"
-msgstr ""
+msgstr " [%s: %s]"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -880,11 +888,11 @@ msgstr ":: Teljes rendszerfrissítés indítása...\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ""
+msgstr ":: a(z) %s és a(z) %s ütközik egymással\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %s: ütközik a következővel: %s\n"
+msgstr ":: a(z) %s és a(z) %s ütközik egymással (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1031,9 +1039,8 @@ msgstr "HIBA:"
 msgid "Cleaning up..."
 msgstr "Tisztítás..."
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "Nem található a %s forrásfájl a kitömörítéshez."
+msgstr "Nem található a %s forrásfájl."
 
 msgid "Aborting..."
 msgstr "Megszakítás..."
@@ -1044,16 +1051,14 @@ msgstr "Nincs beállítva ügynök a %s URL kezelésére. Ellenőrizze %s -t."
 msgid "The download program %s is not installed."
 msgstr "A letöltő %s program nincs telepítve."
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "A Pacman végzetes hibával tért vissza (%i): %s"
+msgstr "'%s' végzetes hibával tért vissza (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Hiányzó függőségek telepítése..."
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "A Pacman nem tudta telepíteni a hiányzó függőségeket."
+msgstr "'%s' nem tudta telepíteni a hiányzó függőségeket."
 
 msgid "Failed to install all missing dependencies."
 msgstr "Nem sikerült telepíteni minden függőséget."
@@ -1068,7 +1073,7 @@ msgid "Retrieving Sources..."
 msgstr "Források letöltése..."
 
 msgid "Found %s"
-msgstr ""
+msgstr "%s helyi forrás"
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s nem található a fordítási könyvtárban és nem URL."
@@ -1133,7 +1138,6 @@ msgstr "Más fájlok kitisztítása..."
 msgid "Compressing man and info pages..."
 msgstr "A man és info oldalak tömörítése..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Hibakereső szimbólumok kivétele a binárisokból és könyvtárakból..."
 
@@ -1152,12 +1156,11 @@ msgstr "Kérem adjon license sort a %s -jéhez!"
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "GPL-es szoftverekhez példa: license=('GPL')."
 
-#, fuzzy
 msgid "Invalid backup entry : %s"
-msgstr "Érvénytelen csomagfájl '%s'."
+msgstr "Érvénytelen backup bejegyzés : %s"
 
 msgid "Package contains reference to %s"
-msgstr ""
+msgstr "A csomag hivatkozik a %s-ra"
 
 msgid "Missing pkg/ directory."
 msgstr "Hiányzó pkg/ könyvtár."
@@ -1180,13 +1183,11 @@ msgstr "A '%s' nem egy érvényes archívum kiterjesztés."
 msgid "Failed to create package file."
 msgstr "Nem sikerült létrehozni a csomagfájlt."
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "Nem sikerült létrehozni a forráscsomagfájlt."
+msgstr "Nem sikerült létrehozni a csomagfájlra mutató szimbolikus linket."
 
-#, fuzzy
 msgid "Skipping integrity checks."
-msgstr "Függőség ellenőrzések kihagyása."
+msgstr "Integritás-ellenőrzések kihagyása."
 
 msgid "Creating source package..."
 msgstr "Forrás csomag létrehozása..."
@@ -1194,9 +1195,8 @@ msgstr "Forrás csomag létrehozása..."
 msgid "Adding %s..."
 msgstr "%s hozzáadása..."
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "%s hozzáadása..."
+msgstr "%s fájl hozzáadása (%s)..."
 
 msgid "Compressing source package..."
 msgstr "Forráscsomag tömörítése..."
@@ -1204,12 +1204,11 @@ msgstr "Forráscsomag tömörítése..."
 msgid "Failed to create source package file."
 msgstr "Nem sikerült létrehozni a forráscsomagfájlt."
 
-#, fuzzy
 msgid "Installing package %s with %s -U..."
-msgstr "%s létrehozása %s segítségével... "
+msgstr "A(z) %s csomag telepítése a %s -U paranccsal..."
 
 msgid "Installing %s package group with %s -U..."
-msgstr ""
+msgstr "A(z) %s csomag-csoport telepítése a %s -U paranccsal..."
 
 msgid "Failed to install built package(s)."
 msgstr "Nem sikerült a lefordított csomag(ok) telepítése."
@@ -1238,22 +1237,20 @@ msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
 "A Provides tömb nem tartalmazhat összehasonlító (< vagy >) operátorokat."
 
-#, fuzzy
 msgid "Invalid syntax for optdepend : '%s'"
-msgstr "hibás 'CleanMethod' érték: '%s'\n"
+msgstr "Hibás optdepend szintaxis: '%s'"
 
-#, fuzzy
 msgid "%s file (%s) does not exist."
-msgstr "A telepítő szkript (%s) nem létezik."
+msgstr "A(z) %s fájl (%s) nem létezik."
 
 msgid "options array contains unknown option '%s'"
 msgstr "Az options tömb ismeretlen '%s' opciót tartalmaz."
 
 msgid "missing package function for split package '%s'"
-msgstr "hiányzó csomag funkció a(z) '%s' hasított csomaghoz"
+msgstr "hiányzó csomag funkció a(z) '%s' osztott csomaghoz"
 
 msgid "requested package %s is not provided in %s"
-msgstr ""
+msgstr "az igényelt %s csomagot nem szolgáltatja a %s"
 
 msgid "Determining latest darcs revision..."
 msgstr "Legfrissebb darcs revízió meghatározása..."
@@ -1331,10 +1328,9 @@ msgstr "  -m, --nocolor    Színezett kimeneti üzenetek kikapcsolása"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Csak a fájlok letöltése és kitömörítése"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <buildscript> Alternatív fordító szkript használata ('%s' helyett)"
+"  -p <file>        Alternatív fordító szkript használata ('%s' helyett)"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
@@ -1348,57 +1344,52 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   A hiányzó függőségek telepítése pacman-nal"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Csak forrás tarball generálása a letöltött forrásokból"
+"  --allsource      Csak forrás tarball generálása a letöltött forrásokkal "
+"együtt"
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
 msgstr ""
-"      --asroot     A makepkg futtatásának engedélyezése root felhasználóként"
+"  --asroot         A makepkg futtatásának engedélyezése root felhasználóként"
 
-#, fuzzy
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-"  --config <config> Használjon egy alternatív konfiguráció fájlt ('%s' "
+"  --config <file>  Használjon egy alternatív konfiguráció fájlt ('%s' "
 "helyett)"
 
-#, fuzzy
 msgid ""
 "  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    A fejlesztői PKGBUILD automatikus verziószám növelésének "
+"  --holdver        A fejlesztői PKGBUILD automatikus verziószám növelésének "
 "megakadályozása"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
+"  --pkg <list>     Csak a felsorolt csomagok elkészítése osztott csomag "
+"esetén"
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
-msgstr "      --skipinteg  Ne álljon le, ha az ellenőrző összegek hiányoznak"
+msgstr "  --skipinteg      Ne álljon le, ha az ellenőrző összegek hiányoznak"
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Csak forrás tarball generálása a letöltött források nélkül"
+"  --source         Csak forrás tarball generálása a letöltött források nélkül"
 
 msgid "These options can be passed to pacman:"
 msgstr "Ezen opciókat lehet átadni a pacman-nak:"
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
-msgstr "      --noconfirm      ne kérjen soha megerősítést"
-
-#, fuzzy
-msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
-"      --noprogressbar  ne mutasson folyamatsávot a fájlok letöltése közben"
+"  --noconfirm      Ne kérjen soha megerősítést a függőségek feloldása közben"
+
+msgid "  --noprogressbar  Do not show a progress bar when downloading files"
+msgstr "  --noprogressbar  Ne mutasson folyamatsávot a fájlok letöltése közben"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Ha a -p nincs megadva, a makepkg a '%s'-et fogja keresni"
@@ -1417,7 +1408,6 @@ msgstr ""
 msgid "%s not found."
 msgstr "%s nem található"
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
 msgstr "Nincs írási jogosultsága ahhoz, hogy itt tároljon letöltéseket: %s."
 
@@ -1490,6 +1480,8 @@ msgstr "Ne hasnzálja a '-F' opciót. Ezt az opciót csak a makepkg használhatj
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
+"Nem található sudo, ezért su-t fogok használni a root privilégiumok "
+"megszerzéséhez."
 
 msgid "%s does not exist."
 msgstr "%s nem létezik."
@@ -1517,10 +1509,10 @@ msgstr ""
 "felülíráshoz)"
 
 msgid "Repackaging without the use of a package() function is deprecated."
-msgstr ""
+msgstr "A package() függvény használata nélküli újracsomagolás nem javasolt."
 
 msgid "File permissions may not be preserved."
-msgstr ""
+msgstr "Lehetséges, hogy a fájl-jogosultságok nem lesznek megőrizve."
 
 msgid "Leaving fakeroot environment."
 msgstr "A fakeroot környezet elhagyása."
@@ -1528,9 +1520,9 @@ msgstr "A fakeroot környezet elhagyása."
 msgid "Making package: %s"
 msgstr "Csomag készítése: %s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "Egy csomag már le lett fordítva. (használja a -f -et a felülíráshoz)"
+msgstr ""
+"A forráscsomag már el lett készítve. (használja a -f -et a felülíráshoz)"
 
 msgid "Source package created: %s"
 msgstr "Forráscsomag létrehozva: %s"
@@ -1547,9 +1539,8 @@ msgstr "Fordítási függőségek ellenőrzése..."
 msgid "Could not resolve all dependencies."
 msgstr "Nem sikerült teljesíteni az összes függőséget."
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "A pacman nem található a PATH-ban; függőség ellenőrzések kihagyása."
+msgstr "%s található a PATH-ban; függőség ellenőrzések kihagyása."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "Források letöltésének kihagyása        -- létező src/ fa használata"
@@ -1787,106 +1778,3 @@ msgstr "Nem maradt csomag, üres adatbázis létrehozása."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nem módosultak csomagok, nincs mit tenni."
-
-#~ msgid ""
-#~ "  -p, --print-uris     print out URIs for given packages and their "
-#~ "dependencies\n"
-#~ msgstr ""
-#~ "  -p, --print-uris     listázza a megadott csomagok és függőségeik URI-"
-#~ "jait\n"
-
-#~ msgid "%s not found, searching for group...\n"
-#~ msgstr "%s nem található, csoportot keresek...\n"
-
-#~ msgid "'%s': not found in local db\n"
-#~ msgstr "'%s': nem található a helyi adatbázisban\n"
-
-#~ msgid ":: group %s:\n"
-#~ msgstr ":: %s csoport:\n"
-
-#~ msgid "    Remove whole content?"
-#~ msgstr "    Eltávolítja a teljes tartalmat?"
-
-#~ msgid ":: Remove %s from group %s?"
-#~ msgstr ":: Eltávolítja %s-t a(z) %s csoportból?"
-
-#~ msgid "could not remove cache directory\n"
-#~ msgstr "nem sikerült törölni a gyorsítótár könyvtárát\n"
-
-#~ msgid "could not create new cache directory\n"
-#~ msgstr "nem sikerült létrehozni az új gyorsítótár könyvtárát\n"
-
-#~ msgid "%s package not found, searching for group...\n"
-#~ msgstr "%s csomag nem található, csoportot keresek...\n"
-
-#~ msgid ":: group %s (including ignored packages):\n"
-#~ msgstr ":: %s csoport (mellőzött csomagok is):\n"
-
-#~ msgid ":: Install whole content?"
-#~ msgstr ":: A teljes tartalom telepítése?"
-
-#~ msgid ":: Install %s from group %s?"
-#~ msgstr ":: Telepíti %s-t a(z) %s csoportból?"
-
-#~ msgid "'%s': not found in sync db\n"
-#~ msgstr "'%s': nem található a távoli adatbázisban\n"
-
-#~ msgid " local database is up to date\n"
-#~ msgstr " a helyi adatbázis naprakész\n"
-
-#~ msgid "no URL for package: %s\n"
-#~ msgstr "hiányzó URL a(z) %s csomagnál\n"
-
-#~ msgid "loading package data...\n"
-#~ msgstr "csomag adatainak betöltése...\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "errors occurred, no packages were upgraded.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "hibák léptek fel, nem frissült csomag.\n"
-
-#~ msgid "Found %s in build dir"
-#~ msgstr "%s megtalálva a fordító könyvtárban"
-
-#~ msgid "Using cached copy of %s"
-#~ msgstr "%s gyorsítótárazott másolatának használata"
-
-#~ msgid "Unable to find source file %s to generate checksum."
-#~ msgstr "A %s forrásfájl nem található az ellenőrzőösszeg generálásához."
-
-#~ msgid "Starting build()..."
-#~ msgstr "build() indítása..."
-
-#~ msgid "Build Failed."
-#~ msgstr "A fordítás nem sikerült."
-
-#~ msgid "Packaging Failed."
-#~ msgstr "A csomagolás nem sikerült."
-
-#~ msgid "Install script %s not found."
-#~ msgstr "A %s telepítő szkript nem található."
-
-#~ msgid "Cannot find the sudo binary! Is sudo installed?"
-#~ msgstr "Nem található a sudo bináris! Telepítve van a sudo?"
-
-#~ msgid "Missing dependencies cannot be installed or removed as a normal user"
-#~ msgstr ""
-#~ "A hiányzó függőségek nem telepíthetők vagy távolíthatók el normál "
-#~ "felhasználóként"
-
-#~ msgid ""
-#~ "without sudo; install and configure sudo to auto-resolve dependencies."
-#~ msgstr ""
-#~ "sudo nélkül; telepítse és állítsa be a sudo -t, hogy automatikusan "
-#~ "feloldhatóak legyenek a függőségek."
-
-#~ msgid "the -f and --force options are no longer recognized"
-#~ msgstr "a -f és --force opciók többé nincsenek kezelve"
-
-#~ msgid "use options=(force) in the PKGBUILD instead"
-#~ msgstr "használja az options=(force) a PKGBUILD-ben helyette"
-
-#~ msgid "All packages have been removed from the database. Deleting '%s'."
-#~ msgstr "Minden csomag el lett távolítva az adatbázisból. '%s' törlése."

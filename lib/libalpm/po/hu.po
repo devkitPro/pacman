@@ -94,9 +94,9 @@ msgstr "hibás adatbázis eltávolítása: %s\n"
 msgid "could not open %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove database directory %s\n"
-msgstr "nem sikerült eltávolítani a(z) %s-%s adatbázis-bejegyzést\n"
+msgstr "nem sikerült eltávolítani a(z) %s adatbázis-könyvtárat\n"
 
 #, c-format
 msgid "could not remove database %s\n"
@@ -106,13 +106,13 @@ msgstr "sikertelen a(z) %s adatbázis eltávolítása\n"
 msgid "invalid name for database entry '%s'\n"
 msgstr "hibás név a '%s' adatbázis-bejegyzés számára\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "sérült adatbázis bejegyzés: '%s'\n"
+msgstr "duplikált adatbázis-bejegyzés: '%s'\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "sérült adatbázis bejegyzés: '%s'\n"
+msgstr "sérült adatbázis-bejegyzés: '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -194,9 +194,9 @@ msgstr "a '%s' URL hibás\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nem sikerült a(z) '%s' fájlt letölteni a %s helyről : %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "resuming download of %s not possible; starting over\n"
-msgstr "nem tudom folytatni a letöltést, újrakezdem\n"
+msgstr "nem tudom folytatni a(z) %s letöltését; újrakezdem\n"
 
 #, c-format
 msgid "error writing to file '%s': %s\n"
@@ -338,13 +338,13 @@ msgstr "nem sikerült eltávolítani a csomag összes fájlját"
 msgid "package filename is not valid"
 msgstr "érvénytelen csomagnév"
 
-#, fuzzy, c-format
+#, c-format
 msgid "package architecture is not valid"
-msgstr "érvénytelen csomagnév"
+msgstr "érvénytelen csomag-architektúra"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not find repository for target"
-msgstr "nem található vagy nem olvasható a csomag"
+msgstr "nem található repó a célcsomaghoz"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -517,42 +517,3 @@ msgstr "nem létezik a(z) %s gyorsítótár. létrehozás...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nem sikerült létrehozni a csomaggyorsítótárat, a /tmp használata\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "ütköző csomagokat találtam a célok között\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr "nem telepíthető két ütköző csomag egyszerre\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr "csomagok lecserélése még nem támogatott -U esetén\n"
-
-#~ msgid "you can replace packages manually using -Rd and -U\n"
-#~ msgstr "a -Rd és -U használatával elvégezhető a csere\n"
-
-#~ msgid "url scheme not specified, assuming HTTP\n"
-#~ msgstr "az URL séma nem definiált, http feltételezése\n"
-
-#~ msgid "cannot write to file '%s'\n"
-#~ msgstr "nem sikerült a(z) '%s' fájlba írni\n"
-
-#~ msgid "no such repository"
-#~ msgstr "nincs ilyen repó"
-
-#~ msgid "repository '%s' not found\n"
-#~ msgstr "a(z) '%s' repó nem található\n"
-
-#~ msgid "could not create removal transaction\n"
-#~ msgstr "nem sikerült létrehozni az eltávolító tranzakciót\n"
-
-#~ msgid "could not create transaction\n"
-#~ msgstr "nem sikerült létrehozni a tranzakciót\n"
-
-#~ msgid "could not initialize the removal transaction\n"
-#~ msgstr "nem sikerült inicializálni az eltávolító tranzakciót\n"
-
-#~ msgid "could not initialize transaction\n"
-#~ msgstr "nem sikerült inicializálni a tranzakciót\n"
-
-#~ msgid "could not prepare removal transaction\n"
-#~ msgstr "nem sikerült előkészíteni az eltávolító tranzakciót\n"
