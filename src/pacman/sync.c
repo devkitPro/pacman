@@ -289,7 +289,7 @@ static void print_installed(pmpkg_t *pkg)
 		if(strcmp(lpkgver,pkgver) == 0) {
 			printf(" [%s]", _("installed"));
 		} else {
-			printf(_(" [%s: %s]"), _("installed"), lpkgver);
+			printf(" [%s: %s]", _("installed"), lpkgver);
 		}
 	}
 }
