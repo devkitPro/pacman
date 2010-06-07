@@ -295,3 +295,36 @@ API CHANGES BETWEEN 3.2 AND 3.3
 - error codes:
     PM_ERR_SERVER_NONE, PM_ERR_TRANS_NOT_LOCKED, PM_ERR_PKG_IGNORED and
     PM_ERR_LIBFETCH
+
+
+API CHANGES BETWEEN 3.3 AND 3.4
+===============================
+
+[REMOVED]
+- pmtranstype_t struct (transaction type), alpm_trans_get_type()
+- alpm_option_get_nopassiveftp(), alpm_option_set_nopassiveftp()
+
+[CHANGED]
+- interface for target loading:
+  - alpm_trans_addtarget() and alpm_trans_sysupgrade() were removed
+  - alpm_sync_target() and alpm_sync_dbtarget() can be used to add a sync target
+  - alpm_sync_sysupgrade() can be used to add outdated packages (for sysupgrade)
+  - alpm_add_target() can be used to add an add/upgrade target
+  - alpm_remove_target() can be used to add a remove target
+- interface for target listing:
+  - alpm_trans_get_pkgs() was removed
+  - alpm_pkg_get_removes() was removed
+  - alpm_trans_get_add() can be used to list add/upgrade/sync targets
+  - alpm_trans_get_remove() can be used to list to-be-removed packages
+- the type parameter of alpm_trans_init() was removed
+- the type of alpm_db_fetch callback function: mtimeold and mtimenew parameters
+  were replaced by force parameter
+- unsigned short -> int changes for Boolean variables
+
+[ADDED]
+- alpm_db_set_pkgreason()
+- alpm_option_get_arch(), alpm_option_set_arch()
+- alpm_option_get_usedelta()
+- alpm_pkg_unused_deltas()
+- alpm_conflict_get_reason()
+- error code: PM_ERR_PKG_INVALID_ARCH
