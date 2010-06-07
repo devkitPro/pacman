@@ -1,5 +1,5 @@
 # Pacman Russian Translation
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
+# Copyright (C) 2009 Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the pacman package manager package.
 # Vladimir Bayrakovskiy <4rayven@gmail.com> 2008
 # Vitaly Dolgov <ferhiord@gmail.com>, Sergey Tereschenko <serg.partizan@gmail.com> 2009
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2010-06-04 13:33-0500\n"
-"PO-Revision-Date: 2009-10-04 22:42+0200\n"
+"PO-Revision-Date: 2010-06-06 10:02+0300\n"
 "Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: \n"
@@ -82,13 +82,13 @@ msgstr ":: %s указан в IgnorePkg/IgnoreGroup. Всё равно уста�
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Заменить %s на %s/%s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %s конфликтует с %s. Удалить %s?"
+msgstr ":: %s и %s конфликтуют. Удалить %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %s конфликтует с %s. Удалить %s?"
+msgstr ":: %s и %s конфликтуют (%s). Удалить %s?"
 
 #, c-format
 msgid ""
@@ -274,7 +274,7 @@ msgstr "(пусто)\n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
-msgstr "список изменений недоступен для '%s'.\n"
+msgstr "для '%s' нет списка изменений.\n"
 
 #, c-format
 msgid "options"
@@ -318,11 +318,11 @@ msgstr "  -c, --cascade        удалить пакет и все завися�
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         не проверять зависимости\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
-"  -k, --dbonly         стереть только запись в базе данных, файлы не "
+"  -k, --dbonly          стереть только запись в базе данных, файлы не "
 "удалять\n"
 
 #, c-format
@@ -350,12 +350,15 @@ msgid ""
 "      --print          only print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"      --print          только показать цели, вместо выполнения действия\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
+"      --print-format <строка>\n"
+"                       укажите формат вывода целей\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -371,13 +374,14 @@ msgstr ""
 "  -f, --force          принудительная установка, перезаписывать "
 "конфликтующие файлы\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         add database entries, do not install or keep existing "
 "files\n"
 msgstr ""
-"  -k, --dbonly         стереть только запись в базе данных, файлы не "
-"удалять\n"
+"  -k, --dbonly         только добавить запись в базу данных, ничего не "
+"устанавливать \n"
+"                       или оставить существующие файлы\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -520,13 +524,13 @@ msgstr ""
 "                       пропустить группу при обновлении (может быть "
 "использовано неоднократно)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         установить пакеты как неявно установленные\n"
+msgstr "      --asdeps         отметить пакеты как неявно установленные\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     установить пакеты как явно установленные\n"
+msgstr "      --asexplicit     отметить пакеты как явно установленные\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -574,10 +578,9 @@ msgstr ""
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <каталог> указать альтернативное расположение кэша\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr ""
-"      --config <путь>  использовать альтернативный конфигурационный файл\n"
+msgstr "      --arch <arch>    установить альтернативную архитектуру\n"
 
 #, c-format
 msgid ""
@@ -619,23 +622,24 @@ msgstr "не удалось перейти в каталог %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "запуск XferCommand: fork failed!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "конфигурационный файл %s, строка %d: директива '%s' не распознана.\n"
+msgstr "директива '%s' без значения не распознана\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "неверное значение для 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "конфигурационный файл %s, строка %d: директива '%s' не распознана.\n"
+msgstr "директива '%s' со значением не распознана\n"
 
 #, c-format
 msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
 msgstr ""
+"Зеркало '%s' содержит переменную $arch, но архитектура не определена.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -664,19 +668,21 @@ msgstr ""
 "конфигурационный файл %s, строка %d: все директивы должны находиться в "
 "секциях.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "конфигурационный файл %s, строка %d: директива '%s' не распознана.\n"
+msgstr "конфигурационный файл %s, строка %d: директива '%s' требует значения\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "конфигурационный файл %s, строка %d: неверное название секции.\n"
+msgstr "конфигурационный файл %s, строка %d: проблема в секции options\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "конфигурационный файл %s, строка %d: директива '%s' не распознана.\n"
+msgstr ""
+"конфигурационный файл %s, строка %d: директива '%s' в секции репозитория "
+"'%s' не распознана.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -699,9 +705,9 @@ msgstr "не задана операция (для справки использ
 msgid "no file was specified for --owns\n"
 msgstr "не был указан файл для --owns\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "не удалось прочитать файл '%s': %s\n"
+msgstr "не удалось найти '%s' в PATH: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -755,9 +761,9 @@ msgstr "пакет \"%s\" не найден\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "не удалось подготовить запрос (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' это недопустимое расширение для архива."
+msgstr ":: пакет %s не имеет допустимой архитектуры\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -771,9 +777,9 @@ msgstr "%s указан в HoldPkg.\n"
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "Пакет из HoldPkg обнаружен в списке целей. Продолжить?"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "Пакеты не изменялись, делать нечего."
+msgstr " нечего выполнять\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -831,9 +837,9 @@ msgstr "Хотите удалить ВСЕ файлы из кэша?"
 msgid "removing all files from cache...\n"
 msgstr "удаление всех файлов из кэша... \n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "нет доступа к каталогу для кэша\n"
+msgstr "нет доступа к каталогу для кэша %s\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -851,13 +857,9 @@ msgstr " %s не устарел\n"
 msgid "failed to synchronize any databases\n"
 msgstr "не удалось синхронизировать ни одну базу данных\n"
 
-#, fuzzy, c-format
-msgid "installed"
-msgstr "установка"
-
 #, c-format
-msgid " [%s: %s]"
-msgstr ""
+msgid "installed"
+msgstr "установлен"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -885,11 +887,11 @@ msgstr ":: Запускается полное обновление систем
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ""
+msgstr ":: %s и %s конфликтуют\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %s: конфликтует с %s\n"
+msgstr ":: %s и %s конфликтуют (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1036,9 +1038,8 @@ msgstr "ОШИБКА:"
 msgid "Cleaning up..."
 msgstr "Очистка... "
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "Не удалось найти файл %s для распаковки."
+msgstr "Не удалось найти исходный файл %s."
 
 msgid "Aborting..."
 msgstr "Преждевременный выход..."
@@ -1049,16 +1050,14 @@ msgstr "Не указан агент для обработки URL %s. Пров�
 msgid "The download program %s is not installed."
 msgstr "Программа для закачки %s не установлена."
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "Pacman завершился с критической ошибкой (%i): %s"
+msgstr "'%s' завершился с критической ошибкой (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Установка недостающих зависимостей... "
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "Pacman не смог установить недостающие зависимости."
+msgstr "'%s' не удалось установить недостающие зависимости."
 
 msgid "Failed to install all missing dependencies."
 msgstr "Не удалось установить все недостающие зависимости."
@@ -1073,7 +1072,7 @@ msgid "Retrieving Sources..."
 msgstr "Получение исходных файлов..."
 
 msgid "Found %s"
-msgstr ""
+msgstr "Найден %s"
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s не найден в каталоге сборки и это не URL."
@@ -1140,7 +1139,6 @@ msgstr "Очистка других файлов..."
 msgid "Compressing man and info pages..."
 msgstr "Сжатие страниц man и info..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Удаление отладочной информации из бинарных файлов и библиотек..."
 
@@ -1159,12 +1157,11 @@ msgstr "Добавьте строку с указанием лицензии в 
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Пример для программ под лицензией GPL: license=('GPL')."
 
-#, fuzzy
 msgid "Invalid backup entry : %s"
-msgstr "Неверный файл пакета '%s'."
+msgstr "Неверная запись резервной копии: '%s'."
 
 msgid "Package contains reference to %s"
-msgstr ""
+msgstr "Пакет содержит ссылку на %s"
 
 msgid "Missing pkg/ directory."
 msgstr "Каталог pkg/ отсутствует."
@@ -1187,11 +1184,9 @@ msgstr "'%s' это недопустимое расширение для арх�
 msgid "Failed to create package file."
 msgstr "Не удалось создать файл пакета."
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "Не удалось создать пакет с исходным кодом."
+msgstr "Не удалось создать символическую ссылку на файл пакета."
 
-#, fuzzy
 msgid "Skipping integrity checks."
 msgstr "Пропуск проверки зависимостей."
 
@@ -1201,9 +1196,8 @@ msgstr "Создание пакета с исходным кодом..."
 msgid "Adding %s..."
 msgstr "Добавление %s... "
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "Добавление %s... "
+msgstr "Добавление файла %s (%s)... "
 
 msgid "Compressing source package..."
 msgstr "Сжатие исходного пакета..."
@@ -1211,12 +1205,11 @@ msgstr "Сжатие исходного пакета..."
 msgid "Failed to create source package file."
 msgstr "Не удалось создать пакет с исходным кодом."
 
-#, fuzzy
 msgid "Installing package %s with %s -U..."
-msgstr "создание %s с помощью %s..."
+msgstr "Установка пакета %s с помощью %s -U..."
 
 msgid "Installing %s package group with %s -U..."
-msgstr ""
+msgstr "Установка группы пакетов %s с помощью %s -U"
 
 msgid "Failed to install built package(s)."
 msgstr "Не удалось установить собранные пакеты."
@@ -1242,13 +1235,11 @@ msgstr "строка вида arch=('%s')."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Массив provides не может содержать операторы сравнения(< или >)."
 
-#, fuzzy
 msgid "Invalid syntax for optdepend : '%s'"
-msgstr "неверное значение для 'CleanMethod' : '%s'\n"
+msgstr "Неправильный синтаксис для optdepend : '%s'"
 
-#, fuzzy
 msgid "%s file (%s) does not exist."
-msgstr "Установочный скрипт (%s) не существует."
+msgstr "%s файл (%s) не существует."
 
 msgid "options array contains unknown option '%s'"
 msgstr "неизвестный параметр '%s'"
@@ -1257,7 +1248,7 @@ msgid "missing package function for split package '%s'"
 msgstr "пропущена функция для разделения пакета '%s'"
 
 msgid "requested package %s is not provided in %s"
-msgstr ""
+msgstr "требуемый пакет %s не предоставляется %s"
 
 msgid "Determining latest darcs revision..."
 msgstr "Определяется последняя версия в darcs..."
@@ -1278,7 +1269,7 @@ msgid "Determining latest hg revision..."
 msgstr "Определяется последняя версия в hg..."
 
 msgid "Version found: %s"
-msgstr "Обнаружена версия: %s"
+msgstr "Найдена версия: %s"
 
 msgid "requires an argument"
 msgstr "требуется аргумент"
@@ -1335,10 +1326,9 @@ msgstr "  -m, --nocolor    Отключить цветные сообщения"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Только загрузить и распаковать файлы"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <buildscript> Использовать альтернативный скрипт для сборки (вместо "
+"  -p <файл>        Использовать альтернативный скрипт для сборки (вместо "
 "'%s')"
 
 msgid ""
@@ -1352,57 +1342,49 @@ msgstr "  -R, --repackage  Переупаковать содержимое па�
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Установить необходимые зависимости с помощью pacman"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Создать архив с исходным кодом, включая загруженные файлы"
+"  --allsource      Создать архив с исходным кодом, включая загруженные файлы"
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
-msgstr "      --asroot     Позволить запуск makepkg от имени root"
+msgstr "  --asroot         Позволить запуск makepkg от имени root"
 
-#, fuzzy
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-"  --config <config> Использовать альтернативный файл настроек (вместо '%s')"
+"  --config <файл>  Использовать альтернативный файл настроек (вместо '%s')"
 
-#, fuzzy
 msgid ""
 "  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    Не допускать автоматического изменения версий в "
-"PKGBUILD'ах пакетов из svn/cvs/etc"
+"  --holdver        Не допускать автоматического изменения версий в "
+"PKGBUILD'ах пакетов из систем контроля версий"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
+"  --pkg <список>     Собрать только указанные пакеты из разделённого пакета"
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
-"      --skipinteg  Продолжить, даже если проверки целостности пропущены"
+"  --skipinteg      Продолжить, даже если проверки целостности пропущены"
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Создать архив с исходным кодом, без загруженных файлов"
+"  --source         Создать архив с исходным кодом, без загруженных файлов"
 
 msgid "These options can be passed to pacman:"
 msgstr "Следующие параметры могут быть переданы pacman:"
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
-"      --noconfirm      Не спрашивать подтверждения при разрешении "
-"зависимостей"
+"  --noconfirm      Не спрашивать подтверждения при разрешении зависимостей"
 
-#, fuzzy
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "      --noprogressbar  Не показывать индикатор выполнения при загрузке"
+msgstr "  --noprogressbar  Не показывать индикатор выполнения при загрузке"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Если параметр -p не указан, makepkg будет искать '%s'"
@@ -1422,9 +1404,8 @@ msgstr ""
 msgid "%s not found."
 msgstr "%s не найден."
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
-msgstr "У вас нет прав на запись, чтобы сохранить загруженные файлы в %s."
+msgstr "У вас нет прав на запись, чтобы сохранять пакеты в %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "У вас нет прав на запись, чтобы сохранить загруженные файлы в %s."
@@ -1492,7 +1473,7 @@ msgstr ""
 "makepkg."
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
+msgstr "Не удалось найти sudo. Для получения привилегий root используется su."
 
 msgid "%s does not exist."
 msgstr "%s не существует."
@@ -1518,9 +1499,11 @@ msgstr "Часть группы пакетов собрана. (использу
 
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr ""
+"Перепаковка без использования функции package() устарела и не рекомендуется "
+"к использованию."
 
 msgid "File permissions may not be preserved."
-msgstr ""
+msgstr "Права доступа к файлам могут быть не сохранены."
 
 msgid "Leaving fakeroot environment."
 msgstr "Выход из окружения fakeroot."
@@ -1528,9 +1511,8 @@ msgstr "Выход из окружения fakeroot."
 msgid "Making package: %s"
 msgstr "Сборка пакета: %s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "Пакет уже собран. (используйте -f для перезаписи)"
+msgstr "Пакет исходных кодов уже собран. (используйте -f для перезаписи)"
 
 msgid "Source package created: %s"
 msgstr "Создан пакет с исходным кодом: %s"
@@ -1547,9 +1529,8 @@ msgstr "Проверяю необходимые для сборки зависи
 msgid "Could not resolve all dependencies."
 msgstr "Не удалось разрешить все зависимости."
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "pacman не найден в PATH; пропуск проверки зависимостей."
+msgstr "'%s' не найден в PATH; зависимости не проверяются."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "Пропуск получения исходных файлов  -- используются существующие в src/"
@@ -1958,10 +1939,6 @@ msgstr "Пакеты не изменялись, делать нечего."
 
 #~ msgid "No compression set."
 #~ msgstr "Метод сжатия не задан."
-
-#, fuzzy
-#~ msgid "Removing pugre targets..."
-#~ msgstr "Удаление ненужных файлов..."
 
 #~ msgid "segmentation fault\n"
 #~ msgstr "ошибка сегментации\n"
