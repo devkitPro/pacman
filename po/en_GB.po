@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2010-06-04 13:33-0500\n"
-"PO-Revision-Date: 2009-10-04 17:07+0200\n"
+"PO-Revision-Date: 2010-06-07 20:14-0600\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: English <en_gb@li.org>\n"
 "Language: en\n"
@@ -81,13 +81,13 @@ msgstr ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Replace %s with %s/%s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %s conflicts with %s. Remove %s?"
+msgstr ":: %s and %s are in conflict. Remove %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %s conflicts with %s. Remove %s?"
+msgstr ":: %s and %s are in conflict (%s). Remove %s?"
 
 #, c-format
 msgid ""
@@ -319,11 +319,11 @@ msgstr ""
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         skip dependency checks\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
-"  -k, --dbonly         only remove database entry, do not remove files\n"
+"  -k, --dbonly         only remove database entries, do not remove files\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
@@ -348,12 +348,16 @@ msgid ""
 "      --print          only print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -367,12 +371,13 @@ msgstr "      --asexplicit     install packages as explicitly installed\n"
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr "  -f, --force          force install, overwrite conflicting files\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         add database entries, do not install or keep existing "
 "files\n"
 msgstr ""
-"  -k, --dbonly         only remove database entry, do not remove files\n"
+"  -k, --dbonly         add database entries, do not install or keep existing "
+"files\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -510,13 +515,13 @@ msgstr ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         install packages as non-explicitly installed\n"
+msgstr "      --asdeps         mark packages as non-explicitly installed\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     install packages as explicitly installed\n"
+msgstr "      --asexplicit     mark packages as explicitly installed\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -562,9 +567,9 @@ msgstr "  -b, --dbpath <path>  set an alternate database location\n"
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> set an alternate package cache location\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --config <path>  set an alternate configuration file\n"
+msgstr "      --arch <arch>    set an alternate architecture\n"
 
 #, c-format
 msgid ""
@@ -606,23 +611,25 @@ msgstr "could not chdir to download directory %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "running XferCommand: fork failed!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "config file %s, line %d: directive '%s' not recognised.\n"
+msgstr "directive '%s' without value not recognised\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "invalid value for 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "config file %s, line %d: directive '%s' not recognised.\n"
+msgstr "directive '%s' with a value not recognised\n"
 
 #, c-format
 msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
 msgstr ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -648,19 +655,21 @@ msgstr "config file %s, line %d: syntax error in config file- missing key.\n"
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "config file %s, line %d: All directives must belong to a section.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "config file %s, line %d: directive '%s' not recognised.\n"
+msgstr "config file %s, line %d: directive %s needs a value\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "config file %s, line %d: bad section name.\n"
+msgstr "config file %s, line %d: problem in options section\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "config file %s, line %d: directive '%s' not recognised.\n"
+msgstr ""
+"config file %s, line %d: directive '%s' in repository section '%s' not "
+"recognised.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -682,9 +691,9 @@ msgstr "no operation specified (use -h for help)\n"
 msgid "no file was specified for --owns\n"
 msgstr "no file was specified for --owns\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "failed to read file '%s': %s\n"
+msgstr "failed to find '%s' in PATH: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -738,9 +747,9 @@ msgstr "package \"%s\" not found\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "failed to prepare transaction (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' does not have a valid archive extension."
+msgstr ":: package %s does not have a valid architecture\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -754,9 +763,9 @@ msgstr "%s is designated as a HoldPkg.\n"
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "HoldPkg was found in target list. Do you want to continue?"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "No packages modified, nothing to do."
+msgstr " there is nothing to do\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -814,9 +823,9 @@ msgstr "Do you want to remove ALL files from cache?"
 msgid "removing all files from cache...\n"
 msgstr "removing all files from cache...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "could not access cache directory\n"
+msgstr "could not access cache directory %s\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -834,13 +843,13 @@ msgstr " %s is up to date\n"
 msgid "failed to synchronize any databases\n"
 msgstr "failed to synchronise any databases\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "installed"
-msgstr "installing"
+msgstr "installed"
 
 #, c-format
 msgid " [%s: %s]"
-msgstr ""
+msgstr " [%s: %s]"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -868,11 +877,11 @@ msgstr ":: Starting full system upgrade...\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ""
+msgstr ":: %s and %s are in conflict\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %s: conflicts with %s\n"
+msgstr ":: %s and %s are in conflict (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1019,9 +1028,8 @@ msgstr "ERROR:"
 msgid "Cleaning up..."
 msgstr "Cleaning up..."
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "Unable to find source file %s for extraction."
+msgstr "Unable to find source file %s."
 
 msgid "Aborting..."
 msgstr "Aborting..."
@@ -1032,16 +1040,14 @@ msgstr "There is no agent set up to handle %s URLs. Check %s."
 msgid "The download program %s is not installed."
 msgstr "The download program %s is not installed."
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "Pacman returned a fatal error (%i): %s"
+msgstr "'%s' returned a fatal error (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Installing missing dependencies..."
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "Pacman failed to install missing dependencies."
+msgstr "'%s' failed to install missing dependencies."
 
 msgid "Failed to install all missing dependencies."
 msgstr "Failed to install all missing dependencies."
@@ -1056,7 +1062,7 @@ msgid "Retrieving Sources..."
 msgstr "Retrieving Sources..."
 
 msgid "Found %s"
-msgstr ""
+msgstr "Found %s"
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s was not found in the build directory and is not a URL."
@@ -1121,9 +1127,8 @@ msgstr "Purging other files..."
 msgid "Compressing man and info pages..."
 msgstr "Compressing man and info pages..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Stripping debugging symbols from binaries and libraries..."
+msgstr "Stripping unneeded symbols from binaries and libraries..."
 
 msgid "Removing libtool .la files..."
 msgstr "Removing libtool .la files..."
@@ -1140,12 +1145,11 @@ msgstr "Please add a license line to your %s!"
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Example for GPL'ed software: license=('GPL')."
 
-#, fuzzy
 msgid "Invalid backup entry : %s"
-msgstr "Invalid package file '%s'."
+msgstr "Invalid backup entry : %s"
 
 msgid "Package contains reference to %s"
-msgstr ""
+msgstr "Package contains reference to %s"
 
 msgid "Missing pkg/ directory."
 msgstr "Missing pkg/ directory."
@@ -1168,13 +1172,11 @@ msgstr "'%s' is not a valid archive extension."
 msgid "Failed to create package file."
 msgstr "Failed to create package file."
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "Failed to create source package file."
+msgstr "Failed to create symlink to package file."
 
-#, fuzzy
 msgid "Skipping integrity checks."
-msgstr "Skipping dependency checks."
+msgstr "Skipping integrity checks."
 
 msgid "Creating source package..."
 msgstr "Creating source package..."
@@ -1182,9 +1184,8 @@ msgstr "Creating source package..."
 msgid "Adding %s..."
 msgstr "Adding %s..."
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "Adding %s..."
+msgstr "Adding %s file (%s)..."
 
 msgid "Compressing source package..."
 msgstr "Compressing source package..."
@@ -1192,12 +1193,11 @@ msgstr "Compressing source package..."
 msgid "Failed to create source package file."
 msgstr "Failed to create source package file."
 
-#, fuzzy
 msgid "Installing package %s with %s -U..."
-msgstr "generating %s with %s... "
+msgstr "Installing package %s with %s -U..."
 
 msgid "Installing %s package group with %s -U..."
-msgstr ""
+msgstr "Installing %s package group with %s -U..."
 
 msgid "Failed to install built package(s)."
 msgstr "Failed to install built package(s)."
@@ -1223,13 +1223,11 @@ msgstr "such as arch=('%s')."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Provides array cannot contain comparison (< or >) operators."
 
-#, fuzzy
 msgid "Invalid syntax for optdepend : '%s'"
-msgstr "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "Invalid syntax for optdepend : '%s'"
 
-#, fuzzy
 msgid "%s file (%s) does not exist."
-msgstr "Install scriptlet (%s) does not exist."
+msgstr "%s file (%s) does not exist."
 
 msgid "options array contains unknown option '%s'"
 msgstr "options array contains unknown option '%s'"
@@ -1238,7 +1236,7 @@ msgid "missing package function for split package '%s'"
 msgstr "missing package function for split package '%s'"
 
 msgid "requested package %s is not provided in %s"
-msgstr ""
+msgstr "requested package %s is not provided in %s"
 
 msgid "Determining latest darcs revision..."
 msgstr "Determining latest darcs revision..."
@@ -1312,9 +1310,8 @@ msgstr "  -m, --nocolor    Disable colourised output messages"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Download and extract files only"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr "  -p <buildscript> Use an alternate build script (instead of '%s')"
+msgstr "  -p <file>        Use an alternate build script (instead of '%s')"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
@@ -1328,57 +1325,47 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Install missing dependencies with pacman"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Generate a source-only tarball including downloaded "
+"  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
-msgstr "      --asroot     Allow makepkg to run as root user"
+msgstr "  --asroot         Allow makepkg to run as root user"
 
-#, fuzzy
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config <config> Use an alternate config file (instead of '%s')"
+msgstr "  --config <file>  Use an alternate config file (instead of '%s')"
 
-#, fuzzy
 msgid ""
 "  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    Prevent automatic version bumping for development "
+"  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr ""
+msgstr "  --pkg <list>     Only build listed packages from a split package"
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
-msgstr "      --skipinteg  Do not fail when integrity checks are missing"
+msgstr "  --skipinteg      Do not fail when integrity checks are missing"
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Generate a source-only tarball without downloaded sources"
+"  --source         Generate a source-only tarball without downloaded sources"
 
 msgid "These options can be passed to pacman:"
 msgstr "These options can be passed to pacman:"
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
-"      --noconfirm      Do not ask for confirmation when resolving "
-"dependencies"
+"  --noconfirm      Do not ask for confirmation when resolving dependencies"
 
-#, fuzzy
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr ""
-"      --noprogressbar  Do not show a progress bar when downloading files"
+msgstr "  --noprogressbar  Do not show a progress bar when downloading files"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "If -p is not specified, makepkg will look for '%s'"
@@ -1397,9 +1384,8 @@ msgstr ""
 msgid "%s not found."
 msgstr "%s not found."
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
-msgstr "You do not have write permission to store downloads in %s."
+msgstr "You do not have write permission to store packages in %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "You do not have write permission to store downloads in %s."
@@ -1462,7 +1448,7 @@ msgid "Do not use the '-F' option. This option is only for use by makepkg."
 msgstr "Do not use the '-F' option. This option is only for use by makepkg."
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
+msgstr "Sudo can not be found. Will use su to acquire root privileges."
 
 msgid "%s does not exist."
 msgstr "%s does not exist."
@@ -1489,10 +1475,10 @@ msgstr ""
 "Part of the package group has already been built. (use -f to overwrite)"
 
 msgid "Repackaging without the use of a package() function is deprecated."
-msgstr ""
+msgstr "Repackaging without the use of a package() function is deprecated."
 
 msgid "File permissions may not be preserved."
-msgstr ""
+msgstr "File permissions may not be preserved."
 
 msgid "Leaving fakeroot environment."
 msgstr "Leaving fakeroot environment."
@@ -1500,9 +1486,8 @@ msgstr "Leaving fakeroot environment."
 msgid "Making package: %s"
 msgstr "Making package: %s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "A package has already been built. (use -f to overwrite)"
+msgstr "A source package has already been built. (use -f to overwrite)"
 
 msgid "Source package created: %s"
 msgstr "Source package created: %s"
@@ -1519,9 +1504,8 @@ msgstr "Checking Buildtime Dependencies..."
 msgid "Could not resolve all dependencies."
 msgstr "Could not resolve all dependencies."
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "pacman was not found in PATH; skipping dependency checks."
+msgstr "%s was not found in PATH; skipping dependency checks."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "Skipping source retrieval        -- using existing src/ tree"
@@ -1749,101 +1733,3 @@ msgstr "No packages modified, nothing to do."
 
 msgid "No packages modified, nothing to do."
 msgstr "No packages modified, nothing to do."
-
-#~ msgid ""
-#~ "  -p, --print-uris     print out URIs for given packages and their "
-#~ "dependencies\n"
-#~ msgstr ""
-#~ "  -p, --print-uris     print out URIs for given packages and their "
-#~ "dependencies\n"
-
-#~ msgid "%s not found, searching for group...\n"
-#~ msgstr "%s not found, searching for group...\n"
-
-#~ msgid "'%s': not found in local db\n"
-#~ msgstr "'%s': not found in local db\n"
-
-#~ msgid ":: group %s:\n"
-#~ msgstr ":: group %s:\n"
-
-#~ msgid "    Remove whole content?"
-#~ msgstr "    Remove whole content?"
-
-#~ msgid ":: Remove %s from group %s?"
-#~ msgstr ":: Remove %s from group %s?"
-
-#~ msgid "could not remove cache directory\n"
-#~ msgstr "could not remove cache directory\n"
-
-#~ msgid "could not create new cache directory\n"
-#~ msgstr "could not create new cache directory\n"
-
-#~ msgid "%s package not found, searching for group...\n"
-#~ msgstr "%s package not found, searching for group...\n"
-
-#~ msgid ":: group %s (including ignored packages):\n"
-#~ msgstr ":: group %s (including ignored packages):\n"
-
-#~ msgid ":: Install whole content?"
-#~ msgstr ":: Install whole content?"
-
-#~ msgid ":: Install %s from group %s?"
-#~ msgstr ":: Install %s from group %s?"
-
-#~ msgid "'%s': not found in sync db\n"
-#~ msgstr "'%s': not found in sync db\n"
-
-#~ msgid " local database is up to date\n"
-#~ msgstr " local database is up to date\n"
-
-#~ msgid "no URL for package: %s\n"
-#~ msgstr "no URL for package: %s\n"
-
-#~ msgid "loading package data...\n"
-#~ msgstr "loading package data...\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "errors occurred, no packages were upgraded.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "errors occurred, no packages were upgraded.\n"
-
-#~ msgid "Found %s in build dir"
-#~ msgstr "Found %s in build dir"
-
-#~ msgid "Using cached copy of %s"
-#~ msgstr "Using cached copy of %s"
-
-#~ msgid "Unable to find source file %s to generate checksum."
-#~ msgstr "Unable to find source file %s to generate checksum."
-
-#~ msgid "Starting build()..."
-#~ msgstr "Starting build()..."
-
-#~ msgid "Build Failed."
-#~ msgstr "Build Failed."
-
-#~ msgid "Packaging Failed."
-#~ msgstr "Packaging Failed."
-
-#~ msgid "Install script %s not found."
-#~ msgstr "Install script %s not found."
-
-#~ msgid "Cannot find the sudo binary! Is sudo installed?"
-#~ msgstr "Cannot find the sudo binary! Is sudo installed?"
-
-#~ msgid "Missing dependencies cannot be installed or removed as a normal user"
-#~ msgstr ""
-#~ "Missing dependencies cannot be installed or removed as a normal user"
-
-#~ msgid ""
-#~ "without sudo; install and configure sudo to auto-resolve dependencies."
-#~ msgstr ""
-#~ "without sudo; install and configure sudo to auto-resolve dependencies."
-
-#~ msgid "the -f and --force options are no longer recognized"
-#~ msgstr "the -f and --force options are no longer recognised"
-
-#~ msgid "use options=(force) in the PKGBUILD instead"
-#~ msgstr "use options=(force) in the PKGBUILD instead"
