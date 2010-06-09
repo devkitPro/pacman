@@ -1106,9 +1106,9 @@ create_srcpackage() {
 
 	local i
 	for i in 'changelog' 'install'; do
-		local $i=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT")
+		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT")
 		local file
-		for file in ${!i}; do
+		for file in $filelist; do
 			# evaluate any bash variables used
 			eval file=${file}
 			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
@@ -1237,9 +1237,9 @@ check_sanity() {
 
 	local i
 	for i in 'changelog' 'install'; do
-		local $i=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT")
+		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT") 
 		local file
-		for file in ${!i}; do
+		for file in $filelist; do
 			# evaluate any bash variables used
 			eval file=${file}
 			if [[ ! -f $file ]]; then
