@@ -1237,7 +1237,7 @@ check_sanity() {
 
 	local i
 	for i in 'changelog' 'install'; do
-		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT") 
+		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE") 
 		local file
 		for file in $filelist; do
 			# evaluate any bash variables used
@@ -1280,7 +1280,7 @@ check_sanity() {
 	if [[ -n "${PKGLIST[@]}" ]]; then
 		for pkg in ${PKGLIST[@]}; do
 			if ! in_array $pkg ${pkgname[@]}; then
-				error "$(gettext "requested package %s is not provided in %s")" "$pkg" "$BUILDSCRIPT"
+				error "$(gettext "requested package %s is not provided in %s")" "$pkg" "$BUILDFILE"
 				return 1
 			fi
 		done
