@@ -1096,7 +1096,7 @@ create_srcpackage() {
 	for file in "${source[@]}"; do
 		if [[ -f $file ]]; then
 			msg2 "$(gettext "Adding %s...")" "$file"
-			ln -s "$file" "$srclinks/$pkgbase"
+			ln -s "${startdir}/$file" "$srclinks/$pkgbase"
 		elif (( SOURCEONLY == 2 )); then
 			local absfile=$(get_filepath "$file") || missing_source_file "$file"
 			msg2 "$(gettext "Adding %s...")" "${absfile##*/}"
@@ -1110,9 +1110,9 @@ create_srcpackage() {
 		local file
 		for file in ${!i}; do
 			# evaluate any bash variables used
-			eval file='${srclinks}/${pkgbase}/'${file}
-			if [[ ! -f $file ]]; then
-				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "${file##*/}"
+			eval file=${file}
+			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
+				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "${file}"
 				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
 			fi
 		done
