@@ -2,18 +2,17 @@
 # Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the pacman package manager package.
 # Ivan Kovnatsky <sevenfourk@gmail.com>, 2008.
-# Roman Kyrylych <roman@archlinux.org>, 2008, 2009.
 # Danylo Korostil <ted.korostiled@gmail.com>
-#
+# Roman Kyrylych <roman@archlinux.org>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2010-06-04 13:33-0500\n"
-"PO-Revision-Date: 2009-10-04 17:05+0200\n"
+"PO-Revision-Date: 2010-06-13 20:07+0300\n"
 "Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
-"Language-Team: Ukrainian\n"
-"Language: \n"
+"Language-Team: Ukrainian (archlinux.org.ua)\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,13 +82,13 @@ msgstr ":: %s є в IgnorePkg/IgnoreGroup. Встановити попри вс�
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Замінити %s на %s/%s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %s конфліктує з %s. Вилучити %s?"
+msgstr ":: %s і %s конфліктують. Вилучити %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %s конфліктує з %s. Вилучити %s?"
+msgstr ":: %s і %s конфліктують (%s). Вилучити %s?"
 
 #, c-format
 msgid ""
@@ -320,11 +319,11 @@ msgstr ""
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         пропустити перевірку залежностей\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
-"  -k, --dbonly         вилучити запис у базі даних, не вилучити файли\n"
+"  -k, --dbonly         лише вилучати записи з бази даних, не вилучати файли\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
@@ -350,12 +349,15 @@ msgid ""
 "      --print          only print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"      --print          тільки вивести цілі замість виконання операції\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
+"      --print-format <string>\n"
+"                       вказати як виводити цілі\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -371,12 +373,13 @@ msgstr ""
 "  -f, --force          примусово встановити, перезаписувати конфліктуючі "
 "файли\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         add database entries, do not install or keep existing "
 "files\n"
 msgstr ""
-"  -k, --dbonly         вилучити запис у базі даних, не вилучити файли\n"
+"  -k, --dbonly         додати записи до бази даних, не встановлювати існуючі "
+"файли\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -522,13 +525,13 @@ msgstr ""
 "                       ігнорувати оновлення групи (можна використовувати "
 "неодноразово)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         встановити пакунки як неявно встановлені\n"
+msgstr "      --asdeps         позначити пакунки як неявно встановлені\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     встановити пакунки як явно встановлені\n"
+msgstr "      --asexplicit     позначити пакунки як явно встановлені\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -579,10 +582,9 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 "      --cachedir <dir> використовувати альтернативний шлях до кешу пакунків\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr ""
-"      --config <path>  використовувати альтернативний файл налаштувань\n"
+msgstr "      --arch <arch>    встановити альтернативну архітектуру\n"
 
 #, c-format
 msgid ""
@@ -624,23 +626,23 @@ msgstr "неможливо перейти в каталог завантажен
 msgid "running XferCommand: fork failed!\n"
 msgstr "виконання XferCommand: не вдалося зробити fork!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "файл налаштувань %s, рядок %d: директива '%s' не розпізнана.\n"
+msgstr "директива '%s' без значення не розпізнана.\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "невірне значення для 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "файл налаштувань %s, рядок %d: директива '%s' не розпізнана.\n"
+msgstr "директива '%s' зі значенням не розпізнана.\n"
 
 #, c-format
 msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
-msgstr ""
+msgstr "Дзеркало '%s' містить змінну $arch, але архітектуру не визначено\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -669,19 +671,21 @@ msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "файл налаштувань %s, рядок %d: Всі директиви повинні належати секції.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "файл налаштувань %s, рядок %d: директива '%s' не розпізнана.\n"
+msgstr "файл налаштувань %s, рядок %d: директива '%s' потребує значення\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "файл налаштувань %s, рядок %d: погана назва секції.\n"
+msgstr "файл налаштувань %s, рядок %d: проблема в секції опцій.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "файл налаштувань %s, рядок %d: директива '%s' не розпізнана.\n"
+msgstr ""
+"файл налаштувань %s, рядок %d: директива '%s' в секцій репозиторія '%s' не "
+"розпізнана.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -703,9 +707,9 @@ msgstr "не вказано операцію (використайте -h для
 msgid "no file was specified for --owns\n"
 msgstr "не було вказано файл для --owns\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "не вдалося прочитати файл '%s': %s\n"
+msgstr "не вдалося знайти файл '%s' в PATH: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -759,9 +763,9 @@ msgstr "пакунок \"%s\" не знайдено\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "не вдалося підготувати операцію (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' не має вірного розширення архіву."
+msgstr ":: пакунок %s має невірну архітектуру\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -775,9 +779,9 @@ msgstr ":: %s позначений як HoldPkg.\n"
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "HoldPkg знайдено в списку пакунків. Бажаєте продовжити?"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "Жодні пакунки не були змінені, нема що робити."
+msgstr " нема що робити\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -835,9 +839,9 @@ msgstr "Ви хочете вилучити ВСІ файли з кешу?"
 msgid "removing all files from cache...\n"
 msgstr "вилучення всіх файлів з кешу...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "немає доступу до кешу\n"
+msgstr "немає доступу до каталогу кешу %s\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -855,13 +859,13 @@ msgstr " %s не потребує оновлення\n"
 msgid "failed to synchronize any databases\n"
 msgstr "не вдалося синхронізувати жодну базу даних\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "installed"
-msgstr "встановлення"
+msgstr "встановлено"
 
 #, c-format
 msgid " [%s: %s]"
-msgstr ""
+msgstr " [%s: %s]"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -889,11 +893,11 @@ msgstr ":: Починається оновлення системи...\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ""
+msgstr ":: %s і %s конфліктують\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %s: конфліктує з %s\n"
+msgstr ":: %s і %s конфліктують (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1040,9 +1044,8 @@ msgstr "ПОМИЛКА:"
 msgid "Cleaning up..."
 msgstr "Очищення..."
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "Неможливо знайти файл %s для розпакування."
+msgstr "Неможливо знайти вихідний файл %s."
 
 msgid "Aborting..."
 msgstr "Припинення..."
@@ -1053,16 +1056,14 @@ msgstr "Немає агента, щоб опрацювати %s посиланн
 msgid "The download program %s is not installed."
 msgstr "Програму для завантаження %s не встановлено."
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "Pacman повернув фатальну помилку (%i): %s"
+msgstr "'%s' повернув фатальну помилку (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Встановлення відсутніх залежностей..."
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "Pacman не зміг встановити відсутні залежності."
+msgstr "'%' не зміг встановити відсутні залежності."
 
 msgid "Failed to install all missing dependencies."
 msgstr "Не вдалося встановити всі відсутні залежності."
@@ -1077,7 +1078,7 @@ msgid "Retrieving Sources..."
 msgstr "Стягування файлів..."
 
 msgid "Found %s"
-msgstr ""
+msgstr "Знайдено %s"
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s не було знайдено в каталозі збирання і це не посилання."
@@ -1142,9 +1143,8 @@ msgstr "Вилучення інших файлів..."
 msgid "Compressing man and info pages..."
 msgstr "Стиснення сторінок man/info..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Вилучення відлагоджувальних символів з бінарних файлів та бібліотек..."
+msgstr "Вилучення непотрібних символів з бінарних файлів та бібліотек..."
 
 msgid "Removing libtool .la files..."
 msgstr "Вилучення файлів libtool .la..."
@@ -1161,12 +1161,11 @@ msgstr "Будь-ласка, додайте рядок ліцензії до в�
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Приклад для GPL програм: license=('GPL')."
 
-#, fuzzy
 msgid "Invalid backup entry : %s"
-msgstr "Невірний файл пакунка '%s'."
+msgstr "Невірний запис резервного збереження : '%s'"
 
 msgid "Package contains reference to %s"
-msgstr ""
+msgstr "Пакунок не містить згадки про %s"
 
 msgid "Missing pkg/ directory."
 msgstr "Каталог pkg/ відсутній."
@@ -1189,13 +1188,11 @@ msgstr "'%s' є невірним розширенням архіву."
 msgid "Failed to create package file."
 msgstr "Не вдалося створити файл пакунка."
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "Не вдалося створити файл вихідного пакунку."
+msgstr "Не вдалося створити посилання на файл пакунку."
 
-#, fuzzy
 msgid "Skipping integrity checks."
-msgstr "Пропуск перевірок залежностей."
+msgstr "Пропуск перевірок цілісності."
 
 msgid "Creating source package..."
 msgstr "Створення пакунку вихідних файлів..."
@@ -1203,9 +1200,8 @@ msgstr "Створення пакунку вихідних файлів..."
 msgid "Adding %s..."
 msgstr "Долучення %s..."
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "Долучення %s..."
+msgstr "Долучення файлу %s (%s)..."
 
 msgid "Compressing source package..."
 msgstr "Стиснення вихідного пакунку..."
@@ -1213,12 +1209,11 @@ msgstr "Стиснення вихідного пакунку..."
 msgid "Failed to create source package file."
 msgstr "Не вдалося створити файл вихідного пакунку."
 
-#, fuzzy
 msgid "Installing package %s with %s -U..."
-msgstr "генерування %s з %s... "
+msgstr "Встановлення пакунку %s з %s -U..."
 
 msgid "Installing %s package group with %s -U..."
-msgstr ""
+msgstr "Встановлення групи пакунків %s з %s -U..."
 
 msgid "Failed to install built package(s)."
 msgstr "Не вдалося встановити зібрані пакунки."
@@ -1244,13 +1239,11 @@ msgstr ", такого як arch=('%s')."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Масив provides не може містити оператори порівняння (< або >)."
 
-#, fuzzy
 msgid "Invalid syntax for optdepend : '%s'"
-msgstr "невірне значення для 'CleanMethod' : '%s'\n"
+msgstr "невірне синтаксис для optdepend : '%s'"
 
-#, fuzzy
 msgid "%s file (%s) does not exist."
-msgstr "Скрипт встановлення (%s) не існує."
+msgstr "файл %s (%s) не існує."
 
 msgid "options array contains unknown option '%s'"
 msgstr "Масив options містить невідому опцію '%s'"
@@ -1259,7 +1252,7 @@ msgid "missing package function for split package '%s'"
 msgstr "відсутня функція package для розділеного пакунка '%s'"
 
 msgid "requested package %s is not provided in %s"
-msgstr ""
+msgstr "потрібний пакунок %s не наданий в %s"
 
 msgid "Determining latest darcs revision..."
 msgstr "Визначення останніх змін darcs..."
@@ -1334,10 +1327,9 @@ msgstr "  -m, --nocolor    Вимкнути кольорові повідомл�
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Тільки завантажити і розпакувати файли"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <buildscript> Використовувати інший скрипт збирання (замість '%s')"
+"  -p <file>        Використовувати інший скрипт збирання (замість '%s')"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
@@ -1351,58 +1343,51 @@ msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr ""
 "  -s, --syncdeps   Встановити відсутні залежності, використовуючи pacman"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Генерувати пакунок вихідного коду, включно із завантаженим"
+"  --allsource      Генерувати пакунок вихідного коду, включно із завантаженим"
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
-msgstr "      --asroot     Дозволити makepkg запускатися з-під root'а"
+msgstr "  --asroot         Дозволити makepkg запускатися з-під root'а"
 
-#, fuzzy
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-" --config <config> Використовувати інший файл налаштувань (замість '%s')"
+"  --config <file>  Використовувати інший файл налаштувань (замість '%s')"
 
-#, fuzzy
 msgid ""
 "  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    Попереджувати про автоматичну зміну версії для PKGBUILDів "
+"  --holdver        Запобігати автоматичній зміні версії для PKGBUILDів "
 "версій в розробці"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
+"  --pkg <list>     Тільки зібрати вказані пакунки з розділеного пакунку"
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
-"      --skipinteg  Не видавати помилку, коли перевірки цілісності вихідних "
+"  --skipinteg      Не видавати помилку, коли перевірки цілісності вихідних "
 "файлів відсутні"
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Генерувати пакунок вихідного коду, крім завантаженого"
+"  --source         Генерувати пакунок вихідного коду, крім завантаженого"
 
 msgid "These options can be passed to pacman:"
 msgstr "Можуть бути вказані такі опції:"
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
-"      --noconfirm      Не питати підтверження під час розв'язання залежностей"
+"  --noconfirm      Не питати підтвердження під час розв'язання залежностей"
 
-#, fuzzy
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
-"      --noprogressbar  Не показувати лінійку прогресу під час завантаження "
+"  --noprogressbar  Не показувати індикатор прогресу під час завантаження "
 "файлів"
 
 msgid "If -p is not specified, makepkg will look for '%s'"
@@ -1422,9 +1407,8 @@ msgstr ""
 msgid "%s not found."
 msgstr "%s не знайдено."
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
-msgstr "У вас немає прав для того, щоб зберегти завантаження в %s."
+msgstr "У вас немає прав для того, щоб зберегти пакунки в %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "У вас немає прав для того, щоб зберегти завантаження в %s."
@@ -1493,6 +1477,8 @@ msgstr ""
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
+"Sudo не може бути знайдено. Для отримання прав root'а буде використовуватися "
+"su."
 
 msgid "%s does not exist."
 msgstr "%s не існує."
@@ -1518,10 +1504,10 @@ msgstr ""
 "Частина групи пакунків уже була зібрана. (використайте -f щоб перезаписати)"
 
 msgid "Repackaging without the use of a package() function is deprecated."
-msgstr ""
+msgstr "Перепаковування без використання функції package() не рекомендовано."
 
 msgid "File permissions may not be preserved."
-msgstr ""
+msgstr "Права доступу до файлів можуть бути не збережені."
 
 msgid "Leaving fakeroot environment."
 msgstr "Вихід із середовища fakeroot."
@@ -1529,9 +1515,8 @@ msgstr "Вихід із середовища fakeroot."
 msgid "Making package: %s"
 msgstr "Створення пакунка: %s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "Пакунок уже був зібраний. (використайте -f щоб перезаписати)"
+msgstr "Вихідний пакунок уже був зібраний. (використайте -f щоб перезаписати)"
 
 msgid "Source package created: %s"
 msgstr "Вихідний пакунок створено: %s"
@@ -1548,9 +1533,8 @@ msgstr "Перевірка залежностей, необхідних для �
 msgid "Could not resolve all dependencies."
 msgstr "Неможливо розв'язати усі залежності."
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "pacman не знайдено в PATH; пропуск перевірок залежностей."
+msgstr "%s не знайдено в PATH; пропуск перевірок залежностей."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "Пропуск стягування вихідних файлів           -- використання src/"
