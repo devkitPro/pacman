@@ -1888,10 +1888,10 @@ elif type -p "${PACMAN%% *}" >/dev/null; then
 	fi
 	deperr=0
 
-	msg "$(gettext "Checking Runtime Dependencies...")"
+	msg "$(gettext "Checking runtime dependencies...")"
 	resolve_deps ${depends[@]} || deperr=1
 
-	msg "$(gettext "Checking Buildtime Dependencies...")"
+	msg "$(gettext "Checking buildtime dependencies...")"
 	resolve_deps ${makedepends[@]} || deperr=1
 
 	if (( RMDEPS )); then
