@@ -1376,6 +1376,20 @@ restore_package_variables() {
 	done
 }
 
+run_split_packaging() {
+	for pkg in ${pkgname[@]}; do
+		pkgdir="$pkgdir/$pkg"
+		mkdir -p "$pkgdir"
+		chmod a-s "$pkgdir"
+		backup_package_variables
+		run_package $pkg
+		tidy_install
+		create_package $pkg
+		restore_package_variables
+		pkgdir="${pkgdir%/*}"
+	done
+}
+
 # getopt like parser
 parse_options() {
 	local short_options=$1; shift;
@@ -1842,17 +1856,7 @@ if (( INFAKEROOT )); then
 		fi
 		create_package
 	else
-		for pkg in ${pkgname[@]}; do
-			pkgdir="$pkgdir/$pkg"
-			mkdir -p "$pkgdir"
-			chmod a-s "$pkgdir"
-			backup_package_variables
-			run_package $pkg
-			tidy_install
-			create_package $pkg
-			restore_package_variables
-			pkgdir="${pkgdir%/*}"
-		done
+		run_split_packaging
 	fi
 
 	msg "$(gettext "Leaving fakeroot environment.")"
@@ -1970,17 +1974,7 @@ else
 			fi
 			create_package
 		else
-			for pkg in ${pkgname[@]}; do
-				pkgdir="$pkgdir/$pkg"
-				mkdir -p "$pkgdir"
-				chmod a-s "$pkgdir"
-				backup_package_variables
-				run_package $pkg
-				tidy_install
-				create_package $pkg
-				restore_package_variables
-				pkgdir="${pkgdir%/*}"
-			done
+			run_split_packaging
 		fi
 	else
 		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
