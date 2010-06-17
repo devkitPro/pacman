@@ -1260,7 +1260,7 @@ check_sanity() {
 
 	if (( ${#pkgname[@]} > 1 )); then
 		for pkg in ${pkgname[@]}; do
-			if [[ $(type -t package_${pkg}) != "function" ]]; then
+			if declare -f package_${pkg} >/dev/null; then
 				error "$(gettext "missing package function for split package '%s'")" "$pkg"
 				return 1
 			fi
@@ -1769,12 +1769,12 @@ if (( ${#pkgname[@]} > 1 )); then
 fi
 
 # test for available PKGBUILD functions
-if [[ $(type -t build) = "function" ]]; then
+if declare -f build >/dev/null; then
 	BUILDFUNC=1
 fi
-if [[ $(type -t package) = "function" ]]; then
+if declare -f package >/dev/null; then
 	PKGFUNC=1
-elif [[ $SPLITPKG -eq 0 && $(type -t package_${pkgname}) = "function" ]]; then
+elif [[ $SPLITPKG -eq 0 ]] && declare -f package_${pkgname} >/dev/null; then
 	SPLITPKG=1
 fi
 
