@@ -66,12 +66,6 @@ else
 REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
 endif
 
-#### Taken from the autoconf scripts Makefile.am ####
-edit = sed \
-	-e 's|@STRIP_BINARIES[@]|$(STRIP_BINARIES)|g' \
-	-e 's|@STRIP_SHARED[@]|$(STRIP_SHARED)|g' \
-	-e 's|@STRIP_STATIC[@]|$(STRIP_STATIC)|g'
-
 man_MANS =
 dist_man_MANS = $(ASCIIDOC_MANS) repo-remove.8
 
@@ -102,11 +96,8 @@ A2X_OPTS = \
 	--xsltproc-opts='-param man.endnotes.list.enabled 0 -param man.endnotes.are.numbered 0'
 
 # These rules are due to the includes and files of the asciidoc text
-$(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile
-	@echo GEN $@;
-	@test -f $(srcdir)/$@.txt && $(edit) $(srcdir)/$@.txt >$@.tmp || true
-	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.tmp
-	@rm -f $@.tmp
+$(ASCIIDOC_MANS): asciidoc.conf footer.txt
+	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
 %.html: %.txt
 	asciidoc $(ASCIIDOC_OPTS) -a linkcss $*.txt
