@@ -1142,9 +1142,9 @@ install_package() {
 	local pkglist
 	for pkg in ${pkgname[@]}; do
 		if [[ -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} ]]; then
-			pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
+			pkglist+=" $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
 		else
-			pkglist="${pkglist} $PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT}"
+			pkglist+=" $PKGDEST/${pkg}-${pkgver}-${pkgrel}-any${PKGEXT}"
 		fi
 	done
 
@@ -1525,11 +1525,11 @@ ARGLIST=("$@")
 # Parse Command Line Options.
 OPT_SHORT="AcCdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,clean,cleancache,nodeps"
-OPT_LONG="$OPT_LONG,noextract,force,forcever:,geninteg,help,holdver"
-OPT_LONG="$OPT_LONG,install,log,nocolor,nobuild,pkg:,rmdeps,repackage,skipinteg"
-OPT_LONG="$OPT_LONG,source,syncdeps,version,config:"
+OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver"
+OPT_LONG+=",install,log,nocolor,nobuild,pkg:,rmdeps,repackage,skipinteg"
+OPT_LONG+=",source,syncdeps,version,config:"
 # Pacman Options
-OPT_LONG="$OPT_LONG,noconfirm,noprogressbar"
+OPT_LONG+=",noconfirm,noprogressbar"
 OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@" || echo 'PARSE_OPTIONS FAILED')"
 if [[ $OPT_TEMP = *'PARSE_OPTIONS FAILED'* ]]; then
 	# This is a small hack to stop the script bailing with 'set -e'
@@ -1541,8 +1541,8 @@ unset OPT_SHORT OPT_LONG OPT_TEMP
 while true; do
 	case "$1" in
 		# Pacman Options
-		--noconfirm)      PACMAN_OPTS="$PACMAN_OPTS --noconfirm" ;;
-		--noprogressbar)  PACMAN_OPTS="$PACMAN_OPTS --noprogressbar" ;;
+		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
+		--noprogressbar)  PACMAN_OPTS+=" --noprogressbar" ;;
 
 		# Makepkg Options
 		--allsource)      SOURCEONLY=2 ;;
