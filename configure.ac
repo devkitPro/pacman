@@ -356,6 +356,7 @@ etc/Makefile
 po/Makefile.in
 test/pacman/Makefile
 test/pacman/tests/Makefile
+test/util/Makefile
 contrib/Makefile
 Makefile
 ])

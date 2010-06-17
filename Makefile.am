@@ -1,4 +1,4 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts etc po test/pacman contrib
+SUBDIRS = lib/libalpm src/util src/pacman scripts etc po test/pacman test/util contrib
 if WANT_DOC
 SUBDIRS += doc
 endif
