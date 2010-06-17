@@ -864,6 +864,9 @@ tidy_install() {
 
 	if [[ $(check_option strip) = y && -n ${STRIP_DIRS[*]} ]]; then
 		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
+		# make sure library stripping variables are defined to prevent excess stripping
+		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
+		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
 		local binary
 		find ${STRIP_DIRS[@]} -type f -perm -u+w 2>/dev/null | while read binary ; do
 			case "$(file -bi "$binary")" in
