@@ -1156,18 +1156,13 @@ install_package() {
 
 check_sanity() {
 	# check for no-no's in the build script
-	if [[ -z $pkgname ]]; then
-		error "$(gettext "%s is not allowed to be empty.")" "pkgname"
-		return 1
-	fi
-	if [[ -z $pkgver ]]; then
-		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
-		return 1
-	fi
-	if [[ -z $pkgrel ]]; then
-		error "$(gettext "%s is not allowed to be empty.")" "pkgrel"
-		return 1
-	fi
+	local i
+	for i in 'pkgname' 'pkgrel' 'pkgver'; do
+		if [[ -z ${!i} ]]; then
+			error "$(gettext "%s is not allowed to be empty.")" "$i"
+			return 1
+		fi
+	done
 
 	local name
 	for name in "${pkgname[@]}"; do
