@@ -923,14 +923,14 @@ write_pkginfo() {
 		echo "force = true"
 	fi
 
-	[[ $license ]]   && printf "license = %s\n"   "${license[@]}"
-	[[ $replaces ]]  && printf "replaces = %s\n"  "${replaces[@]}"
-	[[ $groups ]]    && printf "group = %s\n"     "${groups[@]}"
-	[[ $depends ]]   && printf "depend = %s\n"    "${depends[@]}"
-	[[ $optdepend ]] && printf "optdepend = %s\n" "${optdepends[@]}"
-	[[ $conflict ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
-	[[ $provides ]]  && printf "provides = %s\n"  "${provides[@]}"
-	[[ $backup ]]    && printf "backup = %s\n"    "${backup[@]}"
+	[[ $license ]]    && printf "license = %s\n"   "${license[@]}"
+	[[ $replaces ]]   && printf "replaces = %s\n"  "${replaces[@]}"
+	[[ $groups ]]     && printf "group = %s\n"     "${groups[@]}"
+	[[ $depends ]]    && printf "depend = %s\n"    "${depends[@]}"
+	[[ $optdepends ]] && printf "optdepend = %s\n" "${optdepends[@]}"
+	[[ $conflicts ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
+	[[ $provides ]]   && printf "provides = %s\n"  "${provides[@]}"
+	[[ $backup ]]     && printf "backup = %s\n"    "${backup[@]}"
 
 	for it in "${packaging_options[@]}"; do
 		local ret="$(check_option $it)"
