@@ -100,8 +100,8 @@ AC_ARG_ENABLE(internal-download,
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
-	AS_HELP_STRING([--enable-doc], [run make in doc/ dir]),
-	[wantdoc=$enableval], [wantdoc=no])
+	AS_HELP_STRING([--disable-doc], [prevent make from looking at doc/ dir]),
+	[wantdoc=$enableval], [wantdoc=yes])
 
 # Help line for doxygen
 AC_ARG_ENABLE(doxygen,
@@ -272,7 +272,7 @@ if test "x$wantdoc" = "xyes" ; then
 	fi
 	wantdoc=yes
 else
-	AC_MSG_RESULT([no])
+	AC_MSG_RESULT([no, disabled by configure])
 	wantdoc=no
 fi
 AM_CONDITIONAL(WANT_DOC, test "x$wantdoc" = "xyes")
