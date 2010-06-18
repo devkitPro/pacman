@@ -1884,7 +1884,7 @@ if (( NODEPS || ( (NOBUILD || REPKG) && !DEP_BIN ) )); then
 	fi
 elif type -p "${PACMAN%% *}" >/dev/null; then
 	if (( RMDEPS )); then
-		original_pkglist=($(run_pacman -Qq | sort))    # required by remove_dep
+		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
 	fi
 	deperr=0
 
@@ -1895,7 +1895,7 @@ elif type -p "${PACMAN%% *}" >/dev/null; then
 	resolve_deps ${makedepends[@]} || deperr=1
 
 	if (( RMDEPS )); then
-		current_pkglist=($(run_pacman -Qq | sort))    # required by remove_deps
+		current_pkglist=($(run_pacman -Qq))    # required by remove_deps
 	fi
 
 	if (( deperr )); then
