@@ -749,7 +749,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
 	pmpkg_t *pkg1 = (pmpkg_t *)p1;
 	pmpkg_t *pkg2 = (pmpkg_t *)p2;
-	return(strcmp(pkg1->name, pkg2->name));
+	return(strcoll(pkg1->name, pkg2->name));
 }
 
 /* Test for existence of a package in a alpm_list_t*
