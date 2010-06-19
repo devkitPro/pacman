@@ -546,7 +546,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	for(i = dbs; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) &&
+			if(alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install = 0;

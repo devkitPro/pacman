@@ -142,7 +142,7 @@ int rmrf(const char *path)
 			if(dp->d_ino) {
 				char name[PATH_MAX];
 				sprintf(name, "%s/%s", path, dp->d_name);
-				if(strcmp(dp->d_name, "..") && strcmp(dp->d_name, ".")) {
+				if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
 					errflag += rmrf(name);
 				}
 			}
@@ -718,9 +718,9 @@ static int question(short preset, char *fmt, va_list args)
 			return(preset);
 		}
 
-		if(!strcasecmp(response, _("Y")) || !strcasecmp(response, _("YES"))) {
+		if(strcasecmp(response, _("Y")) == 0 || strcasecmp(response, _("YES")) == 0) {
 			return(1);
-		} else if (!strcasecmp(response, _("N")) || !strcasecmp(response, _("NO"))) {
+		} else if (strcasecmp(response, _("N")) == 0 || strcasecmp(response, _("NO")) == 0) {
 			return(0);
 		}
 	}

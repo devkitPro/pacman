@@ -189,7 +189,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 				}
 
 				/* if checksums don't match, file has been modified */
-				if (strcmp(md5sum, ptr)) {
+				if (strcmp(md5sum, ptr) != 0) {
 					printf(_("MODIFIED\t%s\n"), path);
 				} else {
 					printf(_("Not Modified\t%s\n"), path);

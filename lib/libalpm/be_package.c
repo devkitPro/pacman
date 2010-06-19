@@ -69,19 +69,19 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 		} else {
 			key = _alpm_strtrim(key);
 			ptr = _alpm_strtrim(ptr);
-			if(!strcmp(key, "pkgname")) {
+			if(strcmp(key, "pkgname") == 0) {
 				STRDUP(newpkg->name, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(!strcmp(key, "pkgver")) {
+			} else if(strcmp(key, "pkgver") == 0) {
 				STRDUP(newpkg->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(!strcmp(key, "pkgdesc")) {
+			} else if(strcmp(key, "pkgdesc") == 0) {
 				STRDUP(newpkg->desc, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(!strcmp(key, "group")) {
+			} else if(strcmp(key, "group") == 0) {
 				newpkg->groups = alpm_list_add(newpkg->groups, strdup(ptr));
-			} else if(!strcmp(key, "url")) {
+			} else if(strcmp(key, "url") == 0) {
 				STRDUP(newpkg->url, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(!strcmp(key, "license")) {
+			} else if(strcmp(key, "license") == 0) {
 				newpkg->licenses = alpm_list_add(newpkg->licenses, strdup(ptr));
-			} else if(!strcmp(key, "builddate")) {
+			} else if(strcmp(key, "builddate") == 0) {
 				char first = tolower((unsigned char)ptr[0]);
 				if(first > 'a' && first < 'z') {
 					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
@@ -92,27 +92,27 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 				} else {
 					newpkg->builddate = atol(ptr);
 				}
-			} else if(!strcmp(key, "packager")) {
+			} else if(strcmp(key, "packager") == 0) {
 				STRDUP(newpkg->packager, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(!strcmp(key, "arch")) {
+			} else if(strcmp(key, "arch") == 0) {
 				STRDUP(newpkg->arch, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(!strcmp(key, "size")) {
+			} else if(strcmp(key, "size") == 0) {
 				/* size in the raw package is uncompressed (installed) size */
 				newpkg->isize = atol(ptr);
-			} else if(!strcmp(key, "depend")) {
+			} else if(strcmp(key, "depend") == 0) {
 				pmdepend_t *dep = _alpm_splitdep(ptr);
 				newpkg->depends = alpm_list_add(newpkg->depends, dep);
-			} else if(!strcmp(key, "optdepend")) {
+			} else if(strcmp(key, "optdepend") == 0) {
 				newpkg->optdepends = alpm_list_add(newpkg->optdepends, strdup(ptr));
-			} else if(!strcmp(key, "conflict")) {
+			} else if(strcmp(key, "conflict") == 0) {
 				newpkg->conflicts = alpm_list_add(newpkg->conflicts, strdup(ptr));
-			} else if(!strcmp(key, "replaces")) {
+			} else if(strcmp(key, "replaces") == 0) {
 				newpkg->replaces = alpm_list_add(newpkg->replaces, strdup(ptr));
-			} else if(!strcmp(key, "provides")) {
+			} else if(strcmp(key, "provides") == 0) {
 				newpkg->provides = alpm_list_add(newpkg->provides, strdup(ptr));
-			} else if(!strcmp(key, "backup")) {
+			} else if(strcmp(key, "backup") == 0) {
 				newpkg->backup = alpm_list_add(newpkg->backup, strdup(ptr));
-			} else if(!strcmp(key, "makepkgopt")) {
+			} else if(strcmp(key, "makepkgopt") == 0) {
 				/* not used atm */
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",

@@ -88,8 +88,8 @@ int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
 		char *cpkg2 = conflict->package2;
 		char *npkg1 = needle->package1;
 		char *npkg2 = needle->package2;
-		if((!strcmp(cpkg1, npkg1)  && !strcmp(cpkg2, npkg2))
-				|| (!strcmp(cpkg1, npkg2) && !strcmp(cpkg2, npkg1))) {
+		if((strcmp(cpkg1, npkg1) == 0  && strcmp(cpkg2, npkg2) == 0)
+				|| (strcmp(cpkg1, npkg2) == 0 && strcmp(cpkg2, npkg1) == 0)) {
 			return(1);
 		}
 	}

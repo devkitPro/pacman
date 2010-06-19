@@ -60,11 +60,11 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		int found = 0;
 		const char *dname = ent->d_name;
 
-		if(!strcmp(dname, ".") || !strcmp(dname, "..")) {
+		if(strcmp(dname, ".") == 0 || strcmp(dname, "..") == 0) {
 			continue;
 		}
 		/* skip the local and sync directories */
-		if(!strcmp(dname, "sync") || !strcmp(dname, "local")) {
+		if(strcmp(dname, "sync") == 0 || strcmp(dname, "local") == 0) {
 			continue;
 		}
 
@@ -178,7 +178,7 @@ static int sync_cleancache(int level)
 			pmpkg_t *localpkg = NULL, *pkg = NULL;
 			alpm_list_t *j;
 
-			if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) {
+			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
 				continue;
 			}
 			/* build the full filepath */
@@ -666,7 +666,7 @@ static int sync_trans(alpm_list_t *targets)
 					const char *package2 = alpm_conflict_get_package2(conflict);
 					const char *reason = alpm_conflict_get_reason(conflict);
 					/* only print reason if it contains new information */
-					if(!strcmp(package1, reason) || !strcmp(package2, reason)) {
+					if(strcmp(package1, reason) == 0 || strcmp(package2, reason) == 0) {
 						printf(_(":: %s and %s are in conflict\n"), package1, package2);
 					} else {
 						printf(_(":: %s and %s are in conflict (%s)\n"), package1, package2, reason);

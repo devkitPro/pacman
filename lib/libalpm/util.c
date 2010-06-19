@@ -398,7 +398,7 @@ int _alpm_rmrf(const char *path)
 			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
 				if(dp->d_ino) {
 					sprintf(name, "%s/%s", path, dp->d_name);
-					if(strcmp(dp->d_name, "..") && strcmp(dp->d_name, ".")) {
+					if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
 						errflag += _alpm_rmrf(name);
 					}
 				}

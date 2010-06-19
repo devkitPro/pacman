@@ -112,7 +112,7 @@ int pacman_upgrade(alpm_list_t *targets)
 					const char *package2 = alpm_conflict_get_package2(conflict);
 					const char *reason = alpm_conflict_get_reason(conflict);
 					/* only print reason if it contains new information */
-					if(!strcmp(package1, reason) || !strcmp(package2, reason)) {
+					if(strcmp(package1, reason) == 0 || strcmp(package2, reason) == 0) {
 						printf(_(":: %s and %s are in conflict\n"), package1, package2);
 					} else {
 						printf(_(":: %s and %s are in conflict (%s)\n"), package1, package2, reason);
