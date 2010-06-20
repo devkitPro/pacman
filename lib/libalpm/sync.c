@@ -291,7 +291,11 @@ int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
 	}
 
 	if(!found) {
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+		/* pass through any 'found but ignored' errors */
+		if(pm_errno != PM_ERR_PKG_IGNORED) {
+			pm_errno = PM_ERR_PKG_NOT_FOUND;
+		}
+		return(-1);
 	}
 
 	return(0);
