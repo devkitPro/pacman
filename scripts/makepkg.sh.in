@@ -265,11 +265,11 @@ check_buildenv() {
 #          ? - not found
 ##
 in_opt_array() {
-	local needle="${1,,}"; shift
+	local needle=$(tr '[:upper:]' '[:lower:]' <<< $1); shift
 
 	local opt
 	for opt in "$@"; do
-		opt="${opt,,}"
+		opt=$(tr '[:upper:]' '[:lower:]' <<< $opt)
 		if [[ $opt = $needle ]]; then
 			echo 'y' # Enabled
 			return
@@ -554,7 +554,7 @@ generate_checksums() {
 
 	local integ
 	for integ in ${integlist[@]}; do
-		integ="${integ,,}"
+		integ=$(tr '[:upper:]' '[:lower:]' <<< "$integ")
 		case "$integ" in
 			md5|sha1|sha256|sha384|sha512) : ;;
 			*)
@@ -617,7 +617,7 @@ check_checksums() {
 				fi
 
 				if (( $found )) ; then
-					local expectedsum="${integrity_sums[$idx],,}"
+					local expectedsum=$(tr '[:upper:]' '[:lower:]' <<< "${integrity_sums[$idx]}")
 					local realsum="$(openssl dgst -${integ} "$file")"
 					realsum="${realsum##* }"
 					if [[ $expectedsum = $realsum ]]; then
@@ -1669,7 +1669,7 @@ if (( CLEANCACHE )); then
 		echo -n "$(gettext "    Are you sure you wish to do this? ")"
 		echo -n "$(gettext "[y/N]")"
 		read answer
-		answer="${answer^^}"
+		answer=$(tr '[:lower:]' '[:upper:]' <<< "$answer")
 		if [[ $answer = $(gettext YES) || $answer = $(gettext Y) ]]; then
 			rm "$SRCDEST"/*
 			if (( $? )); then
