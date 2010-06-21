@@ -1255,7 +1255,7 @@ check_sanity() {
 
 	if (( ${#pkgname[@]} > 1 )); then
 		for pkg in ${pkgname[@]}; do
-			if declare -f package_${pkg} >/dev/null; then
+			if ! declare -f package_${pkg} >/dev/null; then
 				error "$(gettext "missing package function for split package '%s'")" "$pkg"
 				return 1
 			fi
