@@ -52,10 +52,6 @@ _pacman_pkg() {
   )"
 }
 
-_pacman_file() {
-  compopt -o filenames; _filedir 'pkg.tar.*'
-}
-
 _pacman() {
   local common core cur database prev query remove sync upgrade o
   COMPREPLY=()
@@ -102,7 +98,18 @@ _pacman() {
   true
 }
 
+if [[ $(type -t compopt) = "builtin" ]]; then
+  _pacman_file() {
+    compopt -o filenames; _filedir 'pkg.tar.*'
+  }
+  complete -F _pacman -o default pacman
+else
+  _pacman_file() {
+    _filedir 'pkg.tar.*'
+  }
+  complete -F _pacman -o filenames -o default pacman
+fi
+
 complete -F _makepkg -o default makepkg
-complete -F _pacman  -o default pacman
 
 # ex:et ts=2 sw=2 ft=sh
