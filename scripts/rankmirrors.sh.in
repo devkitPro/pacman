@@ -184,9 +184,9 @@ fi
 
 timesarray=()
 for line in  "${linearray[@]}"; do
-	if [[ $line =~ ^# ]]; then
+	if [[ $line =~ ^[[:space:]]*# ]]; then
 		[[ $TIMESONLY ]] || echo $line
-	elif [[ $line =~ ^Server ]]; then
+	elif [[ $line =~ ^[[:space:]]*Server ]]; then
 
 		# Getting values and times and such
 		server="${line#*= }"
