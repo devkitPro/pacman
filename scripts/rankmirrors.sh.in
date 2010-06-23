@@ -70,15 +70,15 @@ ARCH="$(uname -m)"
 getfetchurl() {
 	local strippedurl="${1%/}"
 
-	local replacedurl="${replacedurl//'$arch'/$ARCH}"
+	local replacedurl="${strippedurl//'$arch'/$ARCH}"
 	if [[ ! $TARGETREPO ]]; then
-		replacedurl="${strippedurl//'$repo'/core}"
+		replacedurl="${replacedurl//'$repo'/core}"
 		local tmp="${replacedurl%/*}"
 		tmp="${tmp%/*}"
 
 		local reponame="${tmp##*/}"
 	else
-		replacedurl="${strippedurl//'$repo'/$TARGETREPO}"
+		replacedurl="${replacedurl//'$repo'/$TARGETREPO}"
 		local reponame="$TARGETREPO"
 	fi
 
