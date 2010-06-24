@@ -49,7 +49,7 @@ version() {
 }
 
 err() {
-	echo "$1"
+	echo "$1" >&2
 	exit 1
 }
 
@@ -70,15 +70,15 @@ ARCH="$(uname -m)"
 getfetchurl() {
 	local strippedurl="${1%/}"
 
-	local replacedurl="${replacedurl//'$arch'/$ARCH}"
+	local replacedurl="${strippedurl//'$arch'/$ARCH}"
 	if [[ ! $TARGETREPO ]]; then
-		replacedurl="${strippedurl//'$repo'/core}"
+		replacedurl="${replacedurl//'$repo'/core}"
 		local tmp="${replacedurl%/*}"
 		tmp="${tmp%/*}"
 
 		local reponame="${tmp##*/}"
 	else
-		replacedurl="${strippedurl//'$repo'/$TARGETREPO}"
+		replacedurl="${replacedurl//'$repo'/$TARGETREPO}"
 		local reponame="$TARGETREPO"
 	fi
 
@@ -184,9 +184,9 @@ fi
 
 timesarray=()
 for line in  "${linearray[@]}"; do
-	if [[ $line =~ ^# ]]; then
+	if [[ $line =~ ^[[:space:]]*# ]]; then
 		[[ $TIMESONLY ]] || echo $line
-	elif [[ $line =~ ^Server ]]; then
+	elif [[ $line =~ ^[[:space:]]*Server ]]; then
 
 		# Getting values and times and such
 		server="${line#*= }"

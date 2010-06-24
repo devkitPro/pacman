@@ -382,11 +382,15 @@ run_pacman() {
 }
 
 check_deps() {
-	(( $# > 0 )) || return
+	(( $# > 0 )) || return 0
 
+	# Disable error trap in pacman subshell call as this breaks bash-3.2 compatibility
+	# Also, a non-zero return value is not unexpected and we are manually dealing them
+	set +E
 	local ret=0
-	pmout=$(run_pacman -T "$@")
-	ret=$?
+	pmout=$(run_pacman -T "$@") || ret=$?
+	set -E 
+	
 	if (( ret == 127 )); then #unresolved deps
 		echo "$pmout"
 	elif (( ret )); then
