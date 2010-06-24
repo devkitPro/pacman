@@ -487,7 +487,10 @@ if (( success )); then
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
-	ln -sf "$REPO_DB_FILE" "${REPO_DB_FILE%.tar.*}"
+	dblink="${REPO_DB_FILE%.tar.*}"
+	ln -sf "$REPO_DB_FILE" "$dblink" 2>/dev/null || \
+		ln -f "$REPO_DB_FILE" "$dblink" 2>/dev/null || \
+		cp "$REPO_DB_FILE" "$dblink"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 	exit 1
