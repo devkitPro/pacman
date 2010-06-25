@@ -135,6 +135,8 @@ clean_up() {
 	fi
 
 	if (( ! EXIT_CODE && CLEANUP )); then
+		local pkg file
+
 		# If it's a clean exit and -c/--clean has been passed...
 		msg "$(gettext "Cleaning up...")"
 		rm -rf "$pkgdir" "$srcdir"
@@ -308,7 +310,7 @@ get_downloadclient() {
 	for i in "${DLAGENTS[@]}"; do
 		local handler="${i%%::*}"
 		if [[ $proto = $handler ]]; then
-			agent="${i##*::}"
+			local agent="${i##*::}"
 			break
 		fi
 	done
@@ -388,6 +390,7 @@ check_deps() {
 	# Also, a non-zero return value is not unexpected and we are manually dealing them
 	set +E
 	local ret=0
+	local pmout
 	pmout=$(run_pacman -T "$@") || ret=$?
 	set -E 
 	
@@ -655,7 +658,7 @@ extract_sources() {
 	msg "$(gettext "Extracting Sources...")"
 	local netfile
 	for netfile in "${source[@]}"; do
-		file=$(get_filename "$netfile")
+		local file=$(get_filename "$netfile")
 		if in_array "$file" ${noextract[@]}; then
 			#skip source files in the noextract=() array
 			#  these are marked explicitly to NOT be extracted
@@ -732,7 +735,7 @@ run_function() {
 	if [[ -z $1 ]]; then
 		return 1
 	fi
-	pkgfunc="$1"
+	local pkgfunc="$1"
 
 	# clear user-specified makeflags if requested
 	if [[ $(check_option makeflags) = "n" ]]; then
@@ -748,8 +751,9 @@ run_function() {
 	local shellopts=$(shopt -p)
 
 	local ret=0
+	local restoretrap
 	if (( LOGGING )); then
-		BUILDLOG="${startdir}/${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-$pkgfunc.log"
+		local BUILDLOG="${startdir}/${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-$pkgfunc.log"
 		if [[ -f $BUILDLOG ]]; then
 			local i=1
 			while true; do
@@ -804,6 +808,7 @@ run_build() {
 }
 
 run_package() {
+	local pkgfunc
 	if [[ -z $1 ]]; then
 		pkgfunc="package"
 	else
@@ -937,6 +942,7 @@ write_pkginfo() {
 	[[ $provides ]]   && printf "provides = %s\n"  "${provides[@]}"
 	[[ $backup ]]     && printf "backup = %s\n"    "${backup[@]}"
 
+	local it
 	for it in "${packaging_options[@]}"; do
 		local ret="$(check_option $it)"
 		if [[ $ret != "?" ]]; then
@@ -985,6 +991,7 @@ create_package() {
 	cd "$pkgdir"
 	msg "$(gettext "Creating package...")"
 
+	local nameofpkg
 	if [[ -z $1 ]]; then
 		nameofpkg="$pkgname"
 	else
@@ -1020,6 +1027,7 @@ create_package() {
 	# tar it up
 	msg2 "$(gettext "Compressing package...")"
 
+	local EXT
 	case "$PKGEXT" in
 		*tar.gz)  EXT=${PKGEXT%.gz} ;;
 		*tar.bz2) EXT=${PKGEXT%.bz2} ;;
@@ -1154,7 +1162,7 @@ install_package() {
 		msg "$(gettext "Installing %s package group with %s -U...")" "$pkgbase" "$PACMAN"
 	fi
 
-	local pkglist
+	local pkg pkglist
 	for pkg in ${pkgname[@]}; do
 		if [[ -f $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT} ]]; then
 			pkglist+=" $PKGDEST/${pkg}-${pkgver}-${pkgrel}-${CARCH}${PKGEXT}"
@@ -1229,7 +1237,7 @@ check_sanity() {
 
 	local optdepend
 	for optdepend in "${optdepends[@]}"; do
-		pkg=${optdepend%%:*}
+		local pkg=${optdepend%%:*}
 		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]*$ ]]; then
 			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$optdepend"
 		fi
@@ -1268,6 +1276,7 @@ check_sanity() {
 		return 1
 	fi
 
+	local pkg
 	if (( ${#pkgname[@]} > 1 )); then
 		for pkg in ${pkgname[@]}; do
 			if ! declare -f package_${pkg} >/dev/null; then
@@ -1374,15 +1383,17 @@ devel_update() {
 }
 
 backup_package_variables() {
+	local var
 	for var in ${splitpkg_overrides[@]}; do
-		indirect="${var}_backup"
+		local indirect="${var}_backup"
 		eval "${indirect}=(\"\${$var[@]}\")"
 	done
 }
 
 restore_package_variables() {
+	local var
 	for var in ${splitpkg_overrides[@]}; do
-		indirect="${var}_backup"
+		local indirect="${var}_backup"
 		if [[ -n ${!indirect} ]]; then
 			eval "${var}=(\"\${$indirect[@]}\")"
 		else
@@ -1411,6 +1422,7 @@ parse_options() {
 	local long_options=$1; shift;
 	local ret=0;
 	local unused_options=""
+	local i
 
 	while [[ -n $1 ]]; do
 		if [[ ${1:0:2} = '--' ]]; then
