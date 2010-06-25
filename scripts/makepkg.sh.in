@@ -397,7 +397,7 @@ check_deps() {
 		echo "$pmout"
 	elif (( ret )); then
 		error "$(gettext "'%s' returned a fatal error (%i): %s")" "$PACMAN" "$ret" "$pmout"
-		exit 1
+		return "$ret"
 	fi
 }
 
@@ -437,14 +437,15 @@ resolve_deps() {
 	local R_DEPS_SATISFIED=0
 	local R_DEPS_MISSING=1
 
-	local deplist="$(check_deps $*)"
-	if [[ -z $deplist ]]; then
-		return $R_DEPS_SATISFIED
-	fi
+	# deplist cannot be declared like this: local deplist=$(foo)
+	# Otherwise, the return value will depend on the assignment.
+	local deplist
+	deplist="$(set +E; check_deps $*)" || exit 1
+	[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 
 	if handle_deps $deplist; then
 		# check deps again to make sure they were resolved
-		deplist="$(check_deps $*)"
+		deplist="$(set +E; check_deps $*)" || exit 1
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 	elif (( DEP_BIN )); then
 		error "$(gettext "Failed to install all missing dependencies.")"
