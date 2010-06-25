@@ -1250,7 +1250,7 @@ check_sanity() {
 			# evaluate any bash variables used
 			eval file=${file}
 			if [[ ! -f $file ]]; then
-				error "$(gettext "%s file (%s) does not exist.")" "${i^}" "$file"
+				error "$(gettext "%s file (%s) does not exist.")" "$i" "$file"
 				return 1
 			fi
 		done
