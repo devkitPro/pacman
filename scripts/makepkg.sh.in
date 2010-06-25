@@ -1007,21 +1007,18 @@ create_package() {
 
 	local comp_files=".PKGINFO"
 
-	# check for an install script
-	if [[ -n $install ]]; then
-		msg2 "$(gettext "Adding install script...")"
-		cp "$startdir/$install" .INSTALL
-		chmod 644 .INSTALL
-		comp_files="$comp_files .INSTALL"
-	fi
+	# check for changelog/install files
+	for i in 'changelog' 'install'; do
+		orig=${!i}
+		dest=$(tr '[:lower:]' '[:upper:]' <<<".$i")
 
-	# do we have a changelog?
-	if [[ -n $changelog ]]; then
-		msg2 "$(gettext "Adding package changelog...")"
-		cp "$startdir/$changelog" .CHANGELOG
-		chmod 644 .CHANGELOG
-		comp_files="$comp_files .CHANGELOG"
-	fi
+		if [[ -n $orig ]]; then
+			msg2 "$(gettext "Adding %s file...")" "$i"
+			cp "$startdir/$orig" "$dest"
+			chmod 644 "$dest"
+			comp_files+=" $dest"
+		fi
+	done
 
 	# tar it up
 	msg2 "$(gettext "Compressing package...")"
