@@ -38,18 +38,21 @@ This will prevent any possible name clashes with internal makepkg variables.
 For example, to store the base kernel version in a variable, use something
 similar to `$_basekernver`.
 
-*pkgname*::
+*pkgname (array)*::
 	The name of the package. This has be a unix-friendly name as it will be
-	used in the package filename.
+	used in the package filename. Members of the array are not allowed to start
+	with hyphens.
 
 *pkgver*::
 	The version of the software as released from the author (e.g. '2.7.1').
+	The variable is not allowed to contain hyphens.
 
 *pkgrel*::
 	This is the release number specific to the Arch Linux release. This
 	allows package maintainers to make updates to the package's configure
 	flags, for example. A pkgrel of 1 is typically used for each upstream
-	software release and is incremented for intermediate PKGBUILD updates.
+	software release and is incremented for intermediate PKGBUILD updates. The
+	variable is not allowed to contain hyphens.
 
 *pkgdesc*::
 	This should be a brief description of the package and its functionality.
@@ -282,7 +285,8 @@ An optional global directive is available when building a split package:
 *pkgbase*::
 	The name used to refer to the group of packages in the output of makepkg
 	and in the naming of source-only tarballs.  If not specified, the first
-	element in the `pkgname` array is used.
+	element in the `pkgname` array is used.  The variable is not allowed to
+	begin with a hyphen.
 
 Install/Upgrade/Remove Scripting
 --------------------------------
