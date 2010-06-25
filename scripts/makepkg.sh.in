@@ -447,8 +447,6 @@ resolve_deps() {
 		# check deps again to make sure they were resolved
 		deplist="$(set +E; check_deps $*)" || exit 1
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
-	elif (( DEP_BIN )); then
-		error "$(gettext "Failed to install all missing dependencies.")"
 	fi
 
 	msg "$(gettext "Missing Dependencies:")"
