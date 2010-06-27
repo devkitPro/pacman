@@ -324,8 +324,7 @@ static int grep(const char *fn, const char *needle)
 	while(!feof(fp)) {
 		char line[1024];
 		int sline = sizeof(line)-1;
-		fgets(line, sline, fp);
-		if(feof(fp)) {
+		if(fgets(line, sline, fp) == NULL) {
 			continue;
 		}
 		if(strstr(line, needle)) {

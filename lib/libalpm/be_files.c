@@ -657,7 +657,9 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			goto error;
 		}
 		while(!feof(fp)) {
-			fgets(line, 255, fp);
+			if(fgets(line, 256, fp) == NULL) {
+				break;
+			}
 			_alpm_strtrim(line);
 			if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
@@ -693,7 +695,9 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
 		if((fp = fopen(path, "r"))) {
 			while(!feof(fp)) {
-				fgets(line, 255, fp);
+				if(fgets(line, 256, fp) == NULL) {
+					break;
+				}
 				_alpm_strtrim(line);
 				if(strcmp(line, "%DELTAS%") == 0) {
 					while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
