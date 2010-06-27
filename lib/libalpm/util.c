@@ -143,7 +143,15 @@ int _alpm_copyfile(const char *src, const char *dest)
 
 	/* do the actual file copy */
 	while((len = fread(buf, 1, CPBUFSIZE, in))) {
-		fwrite(buf, 1, len, out);
+		size_t nwritten = 0;
+		nwritten = fwrite(buf, 1, len, out);
+		if((nwritten != len) || ferror(out)) {
+			pm_errno = PM_ERR_WRITE;
+			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
+					dest, strerror(errno));
+			ret = -1;
+			goto cleanup;
+		}
 	}
 
 	/* chmod dest to permissions of src, as long as it is not a symlink */

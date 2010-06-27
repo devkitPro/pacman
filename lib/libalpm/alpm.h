@@ -522,6 +522,7 @@ enum _pmerrno_t {
 	PM_ERR_FILE_CONFLICTS,
 	/* Misc */
 	PM_ERR_RETRIEVE,
+	PM_ERR_WRITE,
 	PM_ERR_INVALID_REGEX,
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,
