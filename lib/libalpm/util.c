@@ -372,8 +372,8 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 cleanup:
 	umask(oldmask);
 	archive_read_finish(_archive);
-	if(restore_cwd) {
-		chdir(cwd);
+	if(restore_cwd && chdir(cwd) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
 	}
 	return(ret);
 }
@@ -542,8 +542,8 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 	}
 
 cleanup:
-	if(restore_cwd) {
-		chdir(cwd);
+	if(restore_cwd && chdir(cwd) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
 	}
 
 	return(retval);

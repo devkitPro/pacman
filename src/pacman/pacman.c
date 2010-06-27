@@ -676,6 +676,7 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	struct stat st;
 	char *parsedcmd,*tempcmd;
 	char cwd[PATH_MAX];
+	int restore_cwd = 0;
 	char *destfile, *tempfile, *filename;
 
 	if(!config->xfercommand) {
@@ -708,8 +709,14 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	parsedcmd = strreplace(tempcmd, "%u", url);
 	free(tempcmd);
 
+	/* save the cwd so we can restore it later */
+	if(getcwd(cwd, PATH_MAX) == NULL) {
+		pm_printf(PM_LOG_ERROR, _("could not get current working directory\n"));
+	} else {
+		restore_cwd = 1;
+	}
+
 	/* cwd to the download directory */
-	getcwd(cwd, PATH_MAX);
 	if(chdir(localpath)) {
 		pm_printf(PM_LOG_WARNING, _("could not chdir to download directory %s\n"), localpath);
 		ret = -1;
@@ -736,7 +743,11 @@ int download_with_xfercommand(const char *url, const char *localpath,
 	}
 
 cleanup:
-	chdir(cwd);
+	/* restore the old cwd if we have it */
+	if(restore_cwd && chdir(cwd) != 0) {
+		pm_printf(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
+	}
+
 	if(ret == -1) {
 		/* hack to let an user the time to cancel a download */
 		sleep(2);

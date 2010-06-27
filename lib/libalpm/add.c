@@ -556,6 +556,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		struct archive *archive;
 		struct archive_entry *entry;
 		char cwd[PATH_MAX] = "";
+		int restore_cwd = 0;
 
 		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
 
@@ -579,11 +580,16 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		/* save the cwd so we can restore it later */
 		if(getcwd(cwd, PATH_MAX) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
-			cwd[0] = 0;
+		} else {
+			restore_cwd = 1;
 		}
 
 		/* libarchive requires this for extracting hard links */
-		chdir(handle->root);
+		if(chdir(handle->root) != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), handle->root, strerror(errno));
+			ret = -1;
+			goto cleanup;
+		}
 
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
 		if(is_upgrade) {
@@ -629,9 +635,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		}
 		archive_read_finish(archive);
 
-		/* restore the old cwd is we have it */
-		if(strlen(cwd)) {
-			chdir(cwd);
+		/* restore the old cwd if we have it */
+		if(restore_cwd && chdir(cwd) != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
 		}
 
 		if(errors) {
