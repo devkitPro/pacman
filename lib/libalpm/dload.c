@@ -251,7 +251,7 @@ static int download_internal(const char *url, const char *localpath,
 		check_stop();
 		size_t nwritten = 0;
 		nwritten = fwrite(buffer, 1, nread, localf);
-		if((nwritten != nread) || ferror(localf)) {
+		if((nwritten != (size_t)nread) || ferror(localf)) {
 			pm_errno = PM_ERR_RETRIEVE;
 			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
 					tempfile, strerror(errno));

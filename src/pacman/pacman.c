@@ -989,7 +989,7 @@ static int _parseconfig(const char *file, const char *givensection,
 							file, linenum, value);
 				break;
 				default:
-					for(int gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
+					for(size_t gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(PM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
 						_parseconfig(globbuf.gl_pathv[gindex], section, db);
