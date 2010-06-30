@@ -906,7 +906,7 @@ write_pkginfo() {
 	else
 		local packager="Unknown Packager"
 	fi
-	local size="$(du -sk)"
+	local size="$(@DUPATH@ -sk)"
 	size="$(( ${size%%[^0-9]*} * 1024 ))"
 
 	msg2 "$(gettext "Generating .PKGINFO file...")"
@@ -968,7 +968,7 @@ check_package() {
 	done
 
 	# check for references to the build directory
-	if grep -R "${srcdir}" "${pkgdir}" &>/dev/null; then
+	if find "${pkgdir}" -type f -exec grep -q "${srcdir}" {} +; then
 		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
 	fi
 }
@@ -1243,7 +1243,7 @@ check_sanity() {
 			# evaluate any bash variables used
 			eval file=${file}
 			if [[ ! -f $file ]]; then
-				error "$(gettext "%s file (%s) does not exist.")" "${i^}" "$file"
+				error "$(gettext "%s file (%s) does not exist.")" "$i" "$file"
 				return 1
 			fi
 		done

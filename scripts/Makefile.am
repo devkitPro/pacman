@@ -42,6 +42,7 @@ edit = sed \
 	-e 's|@BUILDSCRIPT[@]|$(BUILDSCRIPT)|g' \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
+	-e 's|@DUPATH[@]|$(DUPATH)|g' \
 	-e 's|@configure_input[@]|Generated from $@.in; do not edit by hand.|g'
 
 ## All the scripts depend on Makefile so that they are rebuilt when the
