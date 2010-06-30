@@ -721,6 +721,7 @@ error_function() {
 	fi
 	# first exit all subshells, then print the error
 	if (( ! BASH_SUBSHELL )); then
+		error "$(gettext "A failure occurred in %s().")" "$1"
 		plain "$(gettext "Aborting...")"
 		remove_deps
 	fi
@@ -768,7 +769,7 @@ run_function() {
 		tee "$BUILDLOG" < "$logpipe" &
 		exec 1>"$logpipe" 2>"$logpipe"
 		restoretrap=$(trap -p ERR)
-		trap 'error_function' ERR
+		trap 'error_function $pkgfunc' ERR
 		$pkgfunc 2>&1
 		eval $restoretrap
 		sync
@@ -776,7 +777,7 @@ run_function() {
 		rm "$logpipe"
 	else
 		restoretrap=$(trap -p ERR)
-		trap 'error_function' ERR
+		trap 'error_function $pkgfunc' ERR
 		$pkgfunc 2>&1
 		eval $restoretrap
 	fi
