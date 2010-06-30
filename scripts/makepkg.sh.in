@@ -902,7 +902,7 @@ write_pkginfo() {
 	else
 		local packager="Unknown Packager"
 	fi
-	local size="$(du -sk)"
+	local size="$(@DUPATH@ -sk)"
 	size="$(( ${size%%[^0-9]*} * 1024 ))"
 
 	msg2 "$(gettext "Generating .PKGINFO file...")"
