@@ -415,6 +415,25 @@ original=X, current=Y, new=Z::
 	necessary changes into the original file.
 
 
+Examples
+--------
+
+pacman -Ss ne.hack::
+	Search for regexp "ne.hack" in package database.
+
+pacman -S gpm::
+	Download and install gpm including dependencies.
+
+pacman -U /home/user/ceofhack-0.6-1-x86_64.pkg.tar.gz::
+	Install ceofhack-0.6-1 package from a local file.
+
+pacman -Syu::
+	Update package list and upgrade all packages afterwards.
+
+pacman -Syu gpm::
+	Update package list, upgrade all packages, and then install gpm if it
+	wasn't already installed.
+
 Configuration
 -------------
 See linkman:pacman.conf[5] for more details on configuring pacman using the
