@@ -370,17 +370,16 @@ download_file() {
 }
 
 run_pacman() {
-	local ret=0
+	local cmd
+	printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
 	if (( ! ASROOT )) && [[ $1 != "-T" && $1 != "-Qq" ]]; then
-		if type -p sudo >/dev/null && sudo -l $PACMAN &>/dev/null; then
-			sudo $PACMAN $PACMAN_OPTS "$@" || ret=$?
+		if [ "$(type -p sudo)" ]; then
+			cmd="sudo $cmd"
 		else
-			su -c "$PACMAN $PACMAN_OPTS $*" || ret=$?
+			cmd="su -c '$cmd'"
 		fi
-	else
-		$PACMAN $PACMAN_OPTS "$@" || ret=$?
 	fi
-	return $ret
+	eval "$cmd"
 }
 
 check_deps() {

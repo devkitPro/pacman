@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2010-06-04 13:33-0500\n"
-"PO-Revision-Date: 2010-06-16 19:29+0700\n"
+"PO-Revision-Date: 2010-06-24 21:38+0700\n"
 "Last-Translator: 甘露(Gan Lu) <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: \n"
@@ -59,7 +59,7 @@ msgstr "正在应用增量包...\n"
 
 #, c-format
 msgid "generating %s with %s... "
-msgstr "正在使用 %2$s 生成 %1$s..."
+msgstr "正在生成 %s (使用 %s) ..."
 
 #, c-format
 msgid "success!\n"
@@ -80,21 +80,21 @@ msgstr ""
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
-msgstr ":: 用 %2$s/%3$s 替代 %1$s？"
+msgstr ":: 替换 %s 吗 (使用 %s/%s )？"
 
 #, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %1$s 与 %2$s 有冲突。删除 %3$s？"
+msgstr ":: %s 与 %s 有冲突。删除 %s 吗？"
 
 #, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %1$s 与 %2$s 有冲突 (%3$s)。删除 %4$s？"
+msgstr ":: %s 与 %s 有冲突 (%s)。删除 %s 吗？"
 
 #, c-format
 msgid ""
 ":: the following package(s) cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ":: 由于无法解决依赖关系，下列软件包无法更新：\n"
+msgstr ":: 由于无法解决依赖关系，下列软件包将无法更新：\n"
 
 #, c-format
 msgid ""
@@ -106,7 +106,7 @@ msgstr ""
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
-msgstr ":: %1$s-%2$s：本地版本较新。确定要更新吗？"
+msgstr ":: %s-%s：本地版本较新。确定要更新吗？"
 
 #, c-format
 msgid ":: File %s is corrupted. Do you want to delete it?"
@@ -142,7 +142,7 @@ msgstr "单独指定安装"
 
 #, c-format
 msgid "Installed as a dependency for another package"
-msgstr "已作为其他软件包的依赖关系安装"
+msgstr "作为其他软件包的依赖关系安装"
 
 #, c-format
 msgid "Unknown"
@@ -258,15 +258,15 @@ msgstr "无法计算 %s 的完整性校验值\n"
 
 #, c-format
 msgid "MODIFIED\t%s\n"
-msgstr "修改\t%s\n"
+msgstr "修改过的 \t%s\n"
 
 #, c-format
 msgid "Not Modified\t%s\n"
-msgstr "未修改过\t%s\n"
+msgstr "未修改过的 \t%s\n"
 
 #, c-format
 msgid "MISSING\t\t%s\n"
-msgstr "缺少\t\t%s\n"
+msgstr "缺少 \t\t%s\n"
 
 #, c-format
 msgid "(none)\n"
@@ -274,7 +274,7 @@ msgstr " (无) \n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
-msgstr "'%s' 没有可获得的更新日志。\n"
+msgstr "'%s' 没有可用的更新日志。\n"
 
 #, c-format
 msgid "options"
@@ -306,12 +306,12 @@ msgid ""
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"使用 '%s {-h --help}' 及某个操作以查看可得的选项\n"
+"使用 '%s {-h --help}' 及某个操作以查看可用选项\n"
 
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr "  -c, --cascade        删除软件包及所有的依赖于此的软件包\n"
+msgstr "  -c, --cascade        删除软件包及所有依赖于此的软件包\n"
 
 #, c-format
 msgid "  -d, --nodeps         skip dependency checks\n"
@@ -555,23 +555,23 @@ msgstr ""
 
 #, c-format
 msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "设置根目录'%1$s' (%2$s) 时出现问题 \n"
+msgstr "设置根目录'%s' (%s) 时出现问题 \n"
 
 #, c-format
 msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "设置数据库路径 '%1$s' (%2$s) 时出现问题 \n"
+msgstr "设置数据库路径 '%s' (%s) 时出现问题 \n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "设置日志文件 '%1$s' (%2$s)时出现问题\n"
+msgstr "设定日志文件 '%s' (%s) 时出现问题\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' 是无效的 debug 等级\n"
+msgstr "'%s' 不是有效的除错级别\n"
 
 #, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "设置缓存目录 '%1$s' (%2$s)时出现问题 \n"
+msgstr "添加缓存目录 '%s' (%s)时出现问题 \n"
 
 #, c-format
 msgid "only one operation may be used at a time\n"
@@ -587,7 +587,7 @@ msgstr "正在运行 XferCommand：分支失败！\n"
 
 #, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "无法识别无值指令 '%s'\n"
+msgstr "无法识别无参数值的指令 '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -595,7 +595,7 @@ msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
 
 #, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "无法识别带值指令 '%s'\n"
+msgstr "无法识别带参数值的指令 '%s'\n"
 
 #, c-format
 msgid ""
@@ -605,15 +605,15 @@ msgstr "镜像 '%s' 包含有 $arch 参数，但没有定义架构。\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "无法添加服务器 URL 到数据库 '%s': %s (%s)\n"
+msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
-msgstr "配置文件 %s 无法读取。\n"
+msgstr "无法读取配置文件 %s。\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "配置文件 %s，第 %d 行：坏的章节名。\n"
+msgstr "配置文件 %s，第 %d 行：坏的章节名字。\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -663,11 +663,11 @@ msgstr "错误：没有为 --owns 指定文件\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "无法在 PATH：%2$s 中找到 '%1$s' \n"
+msgstr "无法找到 '%s' (在路径：%s 中)\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
-msgstr "无法读取文件 '%1$s': %2$s\n"
+msgstr "无法读取文件 '%s'：%s\n"
 
 #, c-format
 msgid "cannot determine ownership of a directory\n"
@@ -675,11 +675,11 @@ msgstr "无法确定目录的所有者属性\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
-msgstr "无法确定 '%1$s' 的真实路径：%2$s\n"
+msgstr "无法确定 '%s' 的真实路径：%s\n"
 
 #, c-format
 msgid "%s is owned by %s %s\n"
-msgstr "%1$s 属于 %2$s %3$s\n"
+msgstr "%s 属于 %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -723,7 +723,7 @@ msgstr ":: 软件包 '%s' 未包含一个有效的架构\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
-msgstr ":: %1$s: 要求 %2$s\n"
+msgstr ":: %s: 要求 %s\n"
 
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
@@ -803,7 +803,7 @@ msgstr "文件 %s 不像是个有效的软件包，删除它吗？"
 
 #, c-format
 msgid "failed to update %s (%s)\n"
-msgstr "无法升级 %1$s (%2$s)\n"
+msgstr "无法升级 %s (%s)\n"
 
 #, c-format
 msgid " %s is up to date\n"
@@ -827,7 +827,7 @@ msgstr "软件库 '%s' 不存在\n"
 
 #, c-format
 msgid "package '%s' was not found in repository '%s'\n"
-msgstr "软件包 '%1$s' 没有在 '%2$s' 软件库里找到\n"
+msgstr "软件包 '%s' 没有在 '%s' 软件库里找到\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -851,7 +851,7 @@ msgstr ":: %s 与 %s 有冲突\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %1$s: 与 %2$s 冲突(%3$s)\n"
+msgstr ":: %s: 与 %s 冲突 (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -863,11 +863,11 @@ msgstr "进行安装吗？"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
-msgstr "%1$s 存在于 '%2$s' 和 '%3$s'\n"
+msgstr "%s 同时存在于 '%s' 和 '%s'\n"
 
 #, c-format
 msgid "%s: %s exists in filesystem\n"
-msgstr "%1$s: 文件系统中已存在 %2$s \n"
+msgstr "%s: 文件系统中已存在 %s \n"
 
 #, c-format
 msgid "%s is invalid or corrupted\n"
@@ -1005,13 +1005,13 @@ msgid "Aborting..."
 msgstr "正在放弃..."
 
 msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "没有设置程序来处理 %1$s URLs。请检查 %2$s。"
+msgstr "没有设置程序来处理 %s URLs。请检查 %s。"
 
 msgid "The download program %s is not installed."
 msgstr "下载程序 %s 没有安装。"
 
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "'%1$s' 返回一个致命错误 (%i)：%2$s"
+msgstr "'%s' 返回一个致命错误 (%i)：%s"
 
 msgid "Installing missing dependencies..."
 msgstr "正在安装缺少的依赖关系..."
@@ -1155,7 +1155,7 @@ msgid "Adding %s..."
 msgstr "正在添加 %s..."
 
 msgid "Adding %s file (%s)..."
-msgstr "正在添加 %1$s 文件 (%2$s) ..."
+msgstr "正在添加 %s 文件 (%s) ..."
 
 msgid "Compressing source package..."
 msgstr "正在压缩源码包..."
@@ -1164,10 +1164,10 @@ msgid "Failed to create source package file."
 msgstr "创建源码包文件失败。"
 
 msgid "Installing package %s with %s -U..."
-msgstr "正在使用 %2$s  -U 安装软件包 %1$s..."
+msgstr "正在安装软件包 %s (使用 %s  -U )..."
 
 msgid "Installing %s package group with %s -U..."
-msgstr "正在使用 %2$s -U 安装软件包组 %1$s..."
+msgstr "正在安装软件包组 %s (使用 %s  -U )..."
 
 msgid "Failed to install built package(s)."
 msgstr "安装创建的软件包失败。"
@@ -1197,7 +1197,7 @@ msgid "Invalid syntax for optdepend : '%s'"
 msgstr "无效的 optdepend 语法： '%s'"
 
 msgid "%s file (%s) does not exist."
-msgstr "%1$s 文件 (%2$s) 不存在。"
+msgstr "%s 文件 (%s) 不存在。"
 
 msgid "options array contains unknown option '%s'"
 msgstr "选项组含有未知的选项 '%s'"
@@ -1206,7 +1206,7 @@ msgid "missing package function for split package '%s'"
 msgstr "拆分软件包 '%s' 缺少软件包功能"
 
 msgid "requested package %s is not provided in %s"
-msgstr "%2$s 里没有提供所需求的软件包 %1$s "
+msgstr "提供所需求的软件包 %s，在 %s 里没有"
 
 msgid "Determining latest darcs revision..."
 msgstr "正在确认最新的 darcs 修正..."
