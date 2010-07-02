@@ -80,6 +80,15 @@ endif
 
 html: $(HTML_DOCS)
 
+website: html
+	bsdtar czf website.tar.gz $(HTML_DOCS) \
+		-C /etc/asciidoc/stylesheets/ \
+		xhtml11.css xhtml11-manpage.css xhtml11-quirks.css \
+		-C /etc/asciidoc/javascripts/ \
+		asciidoc-xhtml11.js \
+		-C /etc/asciidoc/ \
+		images
+
 pkgdatadir = ${datadir}/${PACKAGE}
 
 ASCIIDOC_OPTS = \
@@ -100,16 +109,17 @@ $(ASCIIDOC_MANS): asciidoc.conf footer.txt
 	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
 
 %.html: %.txt
-	asciidoc $(ASCIIDOC_OPTS) -a linkcss $*.txt
+	asciidoc $(ASCIIDOC_OPTS) $*.txt
 	dos2unix $@
 
 HACKING.html: ../HACKING
-	asciidoc $(ASCIIDOC_OPTS) -a linkcss -o $@ ../HACKING
+	asciidoc $(ASCIIDOC_OPTS) -o $@ ../HACKING
 	dos2unix $@
 
 # Customizations for certain HTML docs
 $(HTML_MANPAGES): asciidoc.conf footer.txt
 $(HTML_OTHER): asciidoc.conf
+%.html: ASCIIDOC_OPTS += -a linkcss -a toc -a icons
 %.8.html: ASCIIDOC_OPTS += -d manpage
 %.5.html: ASCIIDOC_OPTS += -d manpage
 %.3.html: ASCIIDOC_OPTS += -d manpage
