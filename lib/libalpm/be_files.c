@@ -208,7 +208,7 @@ static int remove_olddir(const char *syncdbpath, alpm_list_t *dirlist)
  */
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
-	char *dbfile, *dbfilepath;
+	char *dbfile, *dbfilepath, *syncpath;
 	const char *dbpath, *syncdbpath;
 	alpm_list_t *newdirlist = NULL, *olddirlist = NULL;
 	alpm_list_t *onlynew = NULL, *onlyold = NULL;
@@ -236,9 +236,13 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	sprintf(dbfile, "%s.db", db->treename);
 
 	dbpath = alpm_option_get_dbpath();
+	len = strlen(dbpath) + 6;
+	MALLOC(syncpath, len, RET_ERR(PM_ERR_MEMORY, -1));
+	sprintf(syncpath, "%s%s", dbpath, "sync/");
 
-	ret = _alpm_download_single_file(dbfile, db->servers, dbpath, force);
+	ret = _alpm_download_single_file(dbfile, db->servers, syncpath, force);
 	free(dbfile);
+	free(syncpath);
 
 	if(ret == 1) {
 		/* files match, do nothing */
@@ -253,9 +257,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	syncdbpath = _alpm_db_path(db);
 
 	/* form the path to the db location */
-	len = strlen(dbpath) + strlen(db->treename) + 4;
+	len = strlen(dbpath) + strlen(db->treename) + 9;
 	MALLOC(dbfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfilepath, "%s%s.db", dbpath, db->treename);
+	sprintf(dbfilepath, "%ssync/%s.db", dbpath, db->treename);
 
 	if(force) {
 		/* if forcing update, remove the old dir and extract the db */
