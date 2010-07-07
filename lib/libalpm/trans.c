@@ -323,10 +323,11 @@ static int grep(const char *fn, const char *needle)
 	}
 	while(!feof(fp)) {
 		char line[1024];
-		int sline = sizeof(line)-1;
-		if(fgets(line, sline, fp) == NULL) {
+		if(fgets(line, sizeof(line), fp) == NULL) {
 			continue;
 		}
+		/* TODO: this will not work if the search string
+		 * ends up being split across line reads */
 		if(strstr(line, needle)) {
 			fclose(fp);
 			return(1);

@@ -690,7 +690,6 @@ void display_optdepends(pmpkg_t *pkg)
 static int question(short preset, char *fmt, va_list args)
 {
 	char response[32];
-	int sresponse = sizeof(response)-1;
 	FILE *stream;
 
 	if(config->noconfirm) {
@@ -713,7 +712,7 @@ static int question(short preset, char *fmt, va_list args)
 		return(preset);
 	}
 
-	if(fgets(response, sresponse, stdin)) {
+	if(fgets(response, sizeof(response), stdin)) {
 		strtrim(response);
 		if(strlen(response) == 0) {
 			return(preset);

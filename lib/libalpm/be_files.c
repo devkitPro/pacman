@@ -438,8 +438,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
-	char line[513];
-	int	sline = sizeof(line)-1;
+	char line[1024];
 	char *pkgpath = NULL;
 
 	ALPM_LOG_FUNC;
@@ -471,7 +470,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			info->name, inforeq);
 
 	/* clear out 'line', to be certain - and to make valgrind happy */
-	memset(line, 0, sline+1);
+	memset(line, 0, sizeof(line));
 
 	pkgpath = get_pkgpath(db, info);
 
@@ -490,12 +489,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			goto error;
 		}
 		while(!feof(fp)) {
-			if(fgets(line, 256, fp) == NULL) {
+			if(fgets(line, sizeof(line), fp) == NULL) {
 				break;
 			}
 			_alpm_strtrim(line);
 			if(strcmp(line, "%NAME%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				if(strcmp(_alpm_strtrim(line), info->name) != 0) {
@@ -503,7 +502,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
 			} else if(strcmp(line, "%VERSION%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				if(strcmp(_alpm_strtrim(line), info->version) != 0) {
@@ -511,39 +510,39 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
 			} else if(strcmp(line, "%FILENAME%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				STRDUP(info->filename, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%DESC%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				STRDUP(info->desc, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%GROUPS%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->groups = alpm_list_add(info->groups, linedup);
 				}
 			} else if(strcmp(line, "%URL%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				STRDUP(info->url, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%LICENSE%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->licenses = alpm_list_add(info->licenses, linedup);
 				}
 			} else if(strcmp(line, "%ARCH%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				STRDUP(info->arch, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%BUILDDATE%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				_alpm_strtrim(line);
@@ -559,7 +558,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					info->builddate = atol(line);
 				}
 			} else if(strcmp(line, "%INSTALLDATE%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				_alpm_strtrim(line);
@@ -575,12 +574,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					info->installdate = atol(line);
 				}
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				STRDUP(info->packager, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%REASON%") == 0) {
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				info->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
@@ -590,7 +589,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				 *       is currently only used in sync databases, and SIZE is
 				 *       only used in local databases.
 				 */
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				info->size = atol(_alpm_strtrim(line));
@@ -601,19 +600,19 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			} else if(strcmp(line, "%ISIZE%") == 0) {
 				/* ISIZE (installed size) tag only appears in sync repositories,
 				 * not the local one. */
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				info->isize = atol(_alpm_strtrim(line));
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
-				if(fgets(line, sline, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				STRDUP(info->md5sum, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->replaces = alpm_list_add(info->replaces, linedup);
@@ -633,16 +632,16 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			goto error;
 		}
-		while(fgets(line, 256, fp)) {
+		while(fgets(line, sizeof(line), fp)) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%FILES%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->files = alpm_list_add(info->files, linedup);
 				}
 			} else if(strcmp(line, "%BACKUP%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->backup = alpm_list_add(info->backup, linedup);
@@ -661,29 +660,29 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			goto error;
 		}
 		while(!feof(fp)) {
-			if(fgets(line, 256, fp) == NULL) {
+			if(fgets(line, sizeof(line), fp) == NULL) {
 				break;
 			}
 			_alpm_strtrim(line);
 			if(strcmp(line, "%DEPENDS%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
 					info->depends = alpm_list_add(info->depends, dep);
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->optdepends = alpm_list_add(info->optdepends, linedup);
 				}
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->conflicts = alpm_list_add(info->conflicts, linedup);
 				}
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
-				while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->provides = alpm_list_add(info->provides, linedup);
@@ -699,12 +698,12 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
 		if((fp = fopen(path, "r"))) {
 			while(!feof(fp)) {
-				if(fgets(line, 256, fp) == NULL) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
 					break;
 				}
 				_alpm_strtrim(line);
 				if(strcmp(line, "%DELTAS%") == 0) {
-					while(fgets(line, sline, fp) && strlen(_alpm_strtrim(line))) {
+					while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 						pmdelta_t *delta = _alpm_delta_parse(line);
 						if(delta) {
 							info->deltas = alpm_list_add(info->deltas, delta);
