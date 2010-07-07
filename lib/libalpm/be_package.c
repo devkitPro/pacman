@@ -230,7 +230,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 		goto pkg_invalid;
 	}
 
-  archive_read_finish(archive);
+	archive_read_finish(archive);
 
 	/* internal fields for package struct */
 	newpkg->origin = PKG_FROM_FILE;

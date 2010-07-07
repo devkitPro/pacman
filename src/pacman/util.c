@@ -823,7 +823,7 @@ int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list ar
 
 #if defined(PACMAN_DEBUG)
 	/* If debug is on, we'll timestamp the output */
-  if(config->logmask & PM_LOG_DEBUG) {
+	if(config->logmask & PM_LOG_DEBUG) {
 		time_t t;
 		struct tm *tmp;
 		char timestr[10] = {0};

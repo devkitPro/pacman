@@ -67,10 +67,10 @@ struct __pmpkg_t {
 	/* internal */
 	pmpkgfrom_t origin;
 	/* Replaced 'void *data' with this union as follows:
-  origin == PKG_FROM_CACHE, use pkg->origin_data.db
-  origin == PKG_FROM_FILE, use pkg->origin_data.file
+	origin == PKG_FROM_CACHE, use pkg->origin_data.db
+	origin == PKG_FROM_FILE, use pkg->origin_data.file
 	*/
-  union {
+	union {
 		pmdb_t *db;
 		char *file;
 	} origin_data;

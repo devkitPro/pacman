@@ -321,7 +321,7 @@ static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
  */
 static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
                     pmfileconflicttype_t type, const char *filestr,
-										const char* name1, const char* name2)
+                    const char* name1, const char* name2)
 {
 	pmfileconflict_t *conflict;
 	MALLOC(conflict, sizeof(pmfileconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
