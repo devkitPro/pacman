@@ -100,18 +100,19 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	return(retval);
 }
 
+#define LAZY_LOAD(info, errret) \
+	do { \
+	ALPM_LOG_FUNC; \
+	ASSERT(handle != NULL, return(errret)); \
+	ASSERT(pkg != NULL, return(errret)); \
+	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & info)) { \
+		_alpm_db_read(pkg->origin_data.db, pkg, info); \
+	} \
+	} while(0)
+
 const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
-
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->filename;
 }
 
@@ -129,267 +130,115 @@ const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->desc;
 }
 
 const char SYMEXPORT *alpm_pkg_get_url(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->url;
 }
 
 time_t SYMEXPORT alpm_pkg_get_builddate(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(0));
-	ASSERT(pkg != NULL, return(0));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->builddate;
 }
 
 time_t SYMEXPORT alpm_pkg_get_installdate(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(0));
-	ASSERT(pkg != NULL, return(0));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->installdate;
 }
 
 const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->packager;
 }
 
 const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->md5sum;
 }
 
 const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->arch;
 }
 
 off_t SYMEXPORT alpm_pkg_get_size(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->size;
 }
 
 off_t SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->isize;
 }
 
 pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->reason;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->licenses;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_groups(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->groups;
 }
 
 int SYMEXPORT alpm_pkg_has_force(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->force;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_depends(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
-	}
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
 	return pkg->depends;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_optdepends(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
-	}
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
 	return pkg->optdepends;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
-	}
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
 	return pkg->conflicts;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_provides(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DEPENDS)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DEPENDS);
-	}
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
 	return pkg->provides;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DELTAS)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DELTAS);
-	}
+	LAZY_LOAD(INFRQ_DELTAS, NULL);
 	return pkg->deltas;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_CACHE && !(pkg->infolevel & INFRQ_DESC)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_DESC);
-	}
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->replaces;
 }
 
