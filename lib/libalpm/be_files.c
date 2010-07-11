@@ -367,7 +367,7 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 
 	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository '%s'\n",
 			db->treename);
-	if(_alpm_db_populate(db) == -1) {
+	if(db->ops->populate(db) == -1) {
 		_alpm_log(PM_LOG_DEBUG,
 				"failed to load package cache for repository '%s'\n", db->treename);
 		return(-1);

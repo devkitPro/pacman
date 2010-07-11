@@ -39,6 +39,11 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_ALL = 0x3F
 } pmdbinfrq_t;
 
+struct db_operations {
+	int (*populate) (pmdb_t *);
+	void (*unregister) (pmdb_t *);
+};
+
 /* Database */
 struct __pmdb_t {
 	char *treename;
@@ -46,11 +51,16 @@ struct __pmdb_t {
 	char *_path;
 	int pkgcache_loaded;
 	int grpcache_loaded;
+	/* also indicates whether we are RO or RW */
 	int is_local;
 	alpm_list_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
+
+	struct db_operations *ops;
 };
+
+extern struct db_operations default_db_ops;
 
 /* db.c, database general calls */
 void _alpm_db_free(pmdb_t *db);
@@ -59,6 +69,7 @@ int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
+void _alpm_db_unregister(pmdb_t *db);
 
 /* be.c, backend specific calls */
 int _alpm_db_populate(pmdb_t *db);

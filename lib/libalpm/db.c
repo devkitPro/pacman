@@ -42,6 +42,11 @@
 #include "alpm.h"
 #include "package.h"
 
+struct db_operations default_db_ops = {
+	.populate         = _alpm_db_populate,
+	.unregister       = _alpm_db_unregister,
+};
+
 /** \addtogroup alpm_databases Database Functions
  * @brief Functions to query and manipulate the database of libalpm
  * @{
@@ -80,7 +85,7 @@ pmdb_t SYMEXPORT *alpm_db_register_local(void)
 }
 
 /* Helper function for alpm_db_unregister{_all} */
-static void _alpm_db_unregister(pmdb_t *db)
+void _alpm_db_unregister(pmdb_t *db)
 {
 	if(db == NULL) {
 		return;
@@ -96,6 +101,7 @@ static void _alpm_db_unregister(pmdb_t *db)
 int SYMEXPORT alpm_db_unregister_all(void)
 {
 	alpm_list_t *i;
+	pmdb_t *db;
 
 	ALPM_LOG_FUNC;
 
@@ -105,13 +111,16 @@ int SYMEXPORT alpm_db_unregister_all(void)
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* close local database */
-	_alpm_db_unregister(handle->db_local);
-	handle->db_local = NULL;
+	db = handle->db_local;
+	if(db) {
+		db->ops->unregister(db);
+		handle->db_local = NULL;
+	}
 
 	/* and also sync ones */
 	for(i = handle->dbs_sync; i; i = i->next) {
-		pmdb_t *db = i->data;
-		_alpm_db_unregister(db);
+		db = i->data;
+		db->ops->unregister(db);
 		i->data = NULL;
 	}
 	FREELIST(handle->dbs_sync);
@@ -154,7 +163,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
 	}
 
-	_alpm_db_unregister(db);
+	db->ops->unregister(db);
 	return(0);
 }
 
@@ -517,6 +526,7 @@ pmdb_t *_alpm_db_register_local(void)
 	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 
 	db = _alpm_db_new("local", 1);
+	db->ops = &default_db_ops;
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
@@ -543,6 +553,7 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
 	db = _alpm_db_new(treename, 0);
+	db->ops = &default_db_ops;
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
