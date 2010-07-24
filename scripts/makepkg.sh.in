@@ -73,7 +73,7 @@ HOLDVER=0
 BUILDFUNC=0
 PKGFUNC=0
 SPLITPKG=0
-PKGLIST=""
+PKGLIST=()
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -1585,7 +1585,7 @@ while true; do
 		-m|--nocolor)     USE_COLOR='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
-		--pkg)            shift; PKGLIST=$1 ;;
+		--pkg)            shift; PKGLIST=($1) ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--skipinteg)      SKIPINTEG=1 ;;
@@ -1800,7 +1800,7 @@ pkgbase=${pkgbase:-${pkgname[0]}}
 
 if [[ -n "${PKGLIST[@]}" ]]; then
 	unset pkgname
-	pkgname="${PKGLIST[@]}"
+	pkgname=("${PKGLIST[@]}")
 fi
 
 if (( ! SPLITPKG )); then
