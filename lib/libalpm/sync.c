@@ -202,7 +202,7 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 	return(0);
 }
 
-int _alpm_sync_pkg(pmpkg_t *spkg)
+int _alpm_sync_pkg(pmpkg_t *spkg, alpm_list_t *pkg_list)
 {
 	pmtrans_t *trans;
 	pmdb_t *db_local;
@@ -213,7 +213,7 @@ int _alpm_sync_pkg(pmpkg_t *spkg)
 	trans = handle->trans;
 	db_local = handle->db_local;
 
-	if(_alpm_pkg_find(trans->add, alpm_pkg_get_name(spkg))) {
+	if(_alpm_pkg_find(pkg_list, alpm_pkg_get_name(spkg))) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
@@ -251,6 +251,7 @@ int _alpm_sync_pkg(pmpkg_t *spkg)
 int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
 {
 	alpm_list_t *i, *j;
+	alpm_list_t *known_pkgs = NULL;
 	pmpkg_t *spkg;
 	pmdepend_t *dep; /* provisions and dependencies are also allowed */
 	pmgrp_t *grp;
@@ -267,7 +268,7 @@ int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
 	_alpm_dep_free(dep);
 
 	if(spkg != NULL) {
-		return(_alpm_sync_pkg(spkg));
+		return(_alpm_sync_pkg(spkg, handle->trans->add));
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "%s package not found, searching for group...\n", target);
@@ -278,17 +279,20 @@ int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
 			found = 1;
 			for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
 				pmpkg_t *pkg = j->data;
-				if(_alpm_sync_pkg(pkg) == -1) {
+				if(_alpm_sync_pkg(pkg, known_pkgs) == -1) {
 					if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
 						/* just skip duplicate or ignored targets */
 						continue;
 					} else {
+						alpm_list_free(known_pkgs);
 						return(-1);
 					}
 				}
+				known_pkgs = alpm_list_add(known_pkgs, pkg);
 			}
 		}
 	}
+	alpm_list_free(known_pkgs);
 
 	if(!found) {
 		/* pass through any 'found but ignored' errors */
