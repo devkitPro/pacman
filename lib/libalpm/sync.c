@@ -202,7 +202,7 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 	return(0);
 }
 
-int _alpm_sync_pkg(pmpkg_t *spkg, alpm_list_t *pkg_list)
+static int sync_pkg(pmpkg_t *spkg, alpm_list_t *pkg_list)
 {
 	pmtrans_t *trans;
 	pmdb_t *db_local;
@@ -248,7 +248,7 @@ int _alpm_sync_pkg(pmpkg_t *spkg, alpm_list_t *pkg_list)
 	return(0);
 }
 
-int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
+static int sync_target(alpm_list_t *dbs_sync, char *target)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *known_pkgs = NULL;
@@ -268,7 +268,7 @@ int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
 	_alpm_dep_free(dep);
 
 	if(spkg != NULL) {
-		return(_alpm_sync_pkg(spkg, handle->trans->add));
+		return(sync_pkg(spkg, handle->trans->add));
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "%s package not found, searching for group...\n", target);
@@ -279,7 +279,7 @@ int _alpm_sync_target(alpm_list_t *dbs_sync, char *target)
 			found = 1;
 			for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
 				pmpkg_t *pkg = j->data;
-				if(_alpm_sync_pkg(pkg, known_pkgs) == -1) {
+				if(sync_pkg(pkg, known_pkgs) == -1) {
 					if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
 						/* just skip duplicate or ignored targets */
 						continue;
@@ -333,7 +333,7 @@ int SYMEXPORT alpm_sync_dbtarget(char *dbname, char *target)
 	if(dbs == NULL) {
 		RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
 	}
-	return(_alpm_sync_target(dbs, target));
+	return(sync_target(dbs, target));
 }
 
 /** Add a sync target to the transaction.
@@ -350,7 +350,7 @@ int SYMEXPORT alpm_sync_target(char *target)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	dbs_sync = handle->dbs_sync;
 
-	return(_alpm_sync_target(dbs_sync,target));
+	return(sync_target(dbs_sync,target));
 }
 
 /** Compute the size of the files that will be downloaded to install a
