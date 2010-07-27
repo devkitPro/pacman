@@ -30,8 +30,10 @@
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
 /* define _() as shortcut for gettext() */
 #define _(str) gettext(str)
+#define _n(str1, str2, ct) ngettext(str1, str2, ct)
 #else
 #define _(str) str
+#define _n(str1, str2, ct) (ct == 1 ? str1 : str2)
 #endif
 
 /* update speed for the fill_progress based functions */

@@ -283,11 +283,16 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 					namelist = alpm_list_add(namelist,
 							(char *)alpm_pkg_get_name(i->data));
 				}
-				printf(_(":: the following package(s) cannot be upgraded due to "
-						"unresolvable dependencies:\n"));
+				printf(_n(
+							":: The following package cannot be upgraded due to unresolvable dependencies:\n",
+							":: The following packages cannot be upgraded due to unresolvable dependencies:\n",
+							alpm_list_count(namelist)));
 				list_display("     ", namelist);
-				*response = noyes(_("\nDo you want to skip the above "
-							"package(s) for this upgrade?"));
+				printf("\n");
+				*response = noyes(_n(
+							"Do you want to skip the above package for this upgrade?",
+							"Do you want to skip the above packages for this upgrade?",
+							alpm_list_count(namelist)));
 				alpm_list_free(namelist);
 			}
 			break;
