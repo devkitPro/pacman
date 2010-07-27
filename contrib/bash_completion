@@ -75,8 +75,8 @@ _pacman() {
 
   if [[ $? != 0 ]]; then
     _arch_ptr2comp core
-  elif ! [[ $prev =~ ^-\w*[Vbhr] ||
-    $prev = --@(cachedir|config|dbpath|help|logfile|root|version) ]]
+  elif [[ ! $prev =~ ^-\w*[Vbhr] &&
+    ! $prev = --@(cachedir|config|dbpath|help|logfile|root|version) ]]
   then
     [[ $cur = -* ]] && _arch_ptr2comp ${o#* } common ||
       case ${o% *} in
