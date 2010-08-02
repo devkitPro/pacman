@@ -100,7 +100,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 /* Default package accessor functions. These will get overridden by any
  * backend logic that needs lazy access, such as the local database through
- * a lazy-laod cache. However, the defaults will work just fine for fully-
+ * a lazy-load cache. However, the defaults will work just fine for fully-
  * populated package structures. */
 const char *_pkg_get_filename(pmpkg_t *pkg)    { return pkg->filename; }
 const char *_pkg_get_name(pmpkg_t *pkg)        { return pkg->name; }

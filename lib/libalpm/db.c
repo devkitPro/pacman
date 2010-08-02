@@ -330,7 +330,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 	return(_alpm_db_search(db, needles));
 }
 
-/* Set install reason for a package in db
+/** Set install reason for a package in db
  * @param db pointer to the package database
  * @param name the name of the package
  * @param reason the new install reason
