@@ -1186,9 +1186,8 @@ check_sanity() {
 		fi
 	done
 
-	local name
-	for name in "${pkgname[@]}"; do
-		if [[ ${name:0:1} = "-" ]]; then
+	for i in "${pkgname[@]}"; do
+		if [[ ${i:0:1} = "-" ]]; then
 			error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
 			return 1
 		fi
@@ -1218,31 +1217,27 @@ check_sanity() {
 		fi
 	fi
 
-	local provide
-	for provide in ${provides[@]}; do
-		if [[ $provide != ${provide//</} || $provide != ${provide//>/} ]]; then
+	for i in ${provides[@]}; do
+		if [[ $i != ${i//</} || $i != ${i//>/} ]]; then
 			error "$(gettext "Provides array cannot contain comparison (< or >) operators.")"
 			return 1
 		fi
 	done
 
-	local file
-	for file in "${backup[@]}"; do
-		if [[ ${file:0:1} = "/" ]]; then
-			error "$(gettext "Backup entry should not contain leading slash : %s")" "$file"
+	for i in "${backup[@]}"; do
+		if [[ ${i:0:1} = "/" ]]; then
+			error "$(gettext "Backup entry should not contain leading slash : %s")" "$i"
 			return 1
 		fi
 	done
 
-	local optdepend
-	for optdepend in "${optdepends[@]}"; do
-		local pkg=${optdepend%%:*}
+	for i in "${optdepends[@]}"; do
+		local pkg=${i%%:*}
 		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]*$ ]]; then
-			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$optdepend"
+			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$i"
 		fi
 	done
 
-	local i
 	for i in 'changelog' 'install'; do
 		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE") 
 		local file
@@ -1257,17 +1252,17 @@ check_sanity() {
 	done
 
 	local valid_options=1
-	local opt known kopt
-	for opt in ${options[@]}; do
+	local known kopt
+	for i in ${options[@]}; do
 		known=0
 		# check if option matches a known option or its inverse
 		for kopt in ${packaging_options[@]} ${other_options[@]}; do
-			if [[ ${opt} = ${kopt} || ${opt} = "!${kopt}" ]]; then
+			if [[ ${i} = ${kopt} || ${i} = "!${kopt}" ]]; then
 				known=1
 			fi
 		done
 		if (( ! known )); then
-			error "$(gettext "options array contains unknown option '%s'")" "$opt"
+			error "$(gettext "options array contains unknown option '%s'")" "$i"
 			valid_options=0
 		fi
 	done
@@ -1275,19 +1270,18 @@ check_sanity() {
 		return 1
 	fi
 
-	local pkg
 	if (( ${#pkgname[@]} > 1 )); then
-		for pkg in ${pkgname[@]}; do
-			if ! declare -f package_${pkg} >/dev/null; then
-				error "$(gettext "missing package function for split package '%s'")" "$pkg"
+		for i in ${pkgname[@]}; do
+			if ! declare -f package_${i} >/dev/null; then
+				error "$(gettext "missing package function for split package '%s'")" "$i"
 				return 1
 			fi
 		done
 	fi
 
-	for pkg in ${PKGLIST[@]}; do
-		if ! in_array $pkg ${pkgname[@]}; then
-			error "$(gettext "requested package %s is not provided in %s")" "$pkg" "$BUILDFILE"
+	for i in ${PKGLIST[@]}; do
+		if ! in_array $i ${pkgname[@]}; then
+			error "$(gettext "requested package %s is not provided in %s")" "$i" "$BUILDFILE"
 			return 1
 		fi
 	done
