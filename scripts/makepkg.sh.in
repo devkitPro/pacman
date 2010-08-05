@@ -1233,7 +1233,7 @@ check_sanity() {
 
 	for i in "${optdepends[@]}"; do
 		local pkg=${i%%:*}
-		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]*$ ]]; then
+		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]+$ ]]; then
 			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$i"
 		fi
 	done
