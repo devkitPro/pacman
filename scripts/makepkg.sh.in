@@ -372,7 +372,7 @@ download_file() {
 run_pacman() {
 	local cmd
 	printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
-	if (( ! ASROOT )) && [[ $1 != "-T" && $1 != "-Qq" ]]; then
+	if (( ! ASROOT )) && [[ ! $1 =~ ^-(T|Qq)$" ]]; then
 		if [ "$(type -p sudo)" ]; then
 			cmd="sudo $cmd"
 		else
