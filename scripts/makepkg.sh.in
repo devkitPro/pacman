@@ -968,7 +968,7 @@ check_package() {
 	local file
 	for file in "${backup[@]}"; do
 		if [[ ! -f $file ]]; then
-			warning "$(gettext "Invalid backup entry : %s")" "$file"
+			warning "$(gettext "Backup entry file not in package : %s")" "$file"
 		fi
 	done
 
@@ -1229,7 +1229,7 @@ check_sanity() {
 	local file
 	for file in "${backup[@]}"; do
 		if [[ ${file:0:1} = "/" ]]; then
-			error "$(gettext "Invalid backup entry : %s")" "$file"
+			error "$(gettext "Backup entry should not contain leading slash : %s")" "$file"
 			return 1
 		fi
 	done
