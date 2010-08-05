@@ -1285,14 +1285,12 @@ check_sanity() {
 		done
 	fi
 
-	if [[ -n "${PKGLIST[@]}" ]]; then
-		for pkg in ${PKGLIST[@]}; do
-			if ! in_array $pkg ${pkgname[@]}; then
-				error "$(gettext "requested package %s is not provided in %s")" "$pkg" "$BUILDFILE"
-				return 1
-			fi
-		done
-	fi
+	for pkg in ${PKGLIST[@]}; do
+		if ! in_array $pkg ${pkgname[@]}; then
+			error "$(gettext "requested package %s is not provided in %s")" "$pkg" "$BUILDFILE"
+			return 1
+		fi
+	done
 
 	return 0
 }
