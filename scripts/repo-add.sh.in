@@ -37,6 +37,7 @@ startdir="$PWD"
 umask 0022
 
 msg() {
+	(( QUIET )) && return
 	local mesg=$1; shift
 	printf "==> ${mesg}\n" "$@" >&1
 }
