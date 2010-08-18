@@ -68,7 +68,7 @@ int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn)
 int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int breakfirst);
 int _alpm_rmrf(const char *path);
 int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args);
-int _alpm_run_chroot(const char *root, const char *cmd);
+int _alpm_run_chroot(const char *root, const char *path, char *const argv[]);
 int _alpm_ldconfig(const char *root);
 int _alpm_str_cmp(const void *s1, const void *s2);
 char *_alpm_filecache_find(const char *filename);

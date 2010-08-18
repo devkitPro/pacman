@@ -452,7 +452,7 @@ int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
 	return(ret);
 }
 
-int _alpm_run_chroot(const char *root, const char *cmd)
+int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
 {
 	char cwd[PATH_MAX];
 	pid_t pid;
@@ -475,7 +475,7 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 		goto cleanup;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "executing \"%s\" under chroot \"%s\"\n", cmd, root);
+	_alpm_log(PM_LOG_DEBUG, "executing \"%s\" under chroot \"%s\"\n", path, root);
 
 	/* Flush open fds before fork() to avoid cloning buffers */
 	fflush(NULL);
@@ -513,8 +513,8 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 			exit(1);
 		}
 		umask(0022);
-		execl("/bin/sh", "sh", "-c", cmd, (char *) NULL);
-		fprintf(stderr, _("call to execl failed (%s)\n"), strerror(errno));
+		execv(path, argv);
+		fprintf(stderr, _("call to execv failed (%s)\n"), strerror(errno));
 		exit(1);
 	} else {
 		/* this code runs for the parent only (wait on the child) */
@@ -578,7 +578,8 @@ int _alpm_ldconfig(const char *root)
 	if(access(line, F_OK) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
 		if(access(line, X_OK) == 0) {
-			_alpm_run_chroot(root, "/sbin/ldconfig");
+			char *argv[] = { "ldconfig", NULL };
+			_alpm_run_chroot(root, "/sbin/ldconfig", argv);
 		}
 	}
 

@@ -344,6 +344,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
 	char tmpdir[PATH_MAX];
+	char *argv[] = { "sh", "-c", cmdline, NULL };
 	char *scriptpath;
 	int clean_tmpdir = 0;
 	int retval = 0;
@@ -401,7 +402,9 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 				scriptpath, script, ver);
 	}
 
-	retval = _alpm_run_chroot(root, cmdline);
+	_alpm_log(PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
+
+	retval = _alpm_run_chroot(root, "/bin/sh", argv);
 
 cleanup:
 	if(clean_tmpdir && _alpm_rmrf(tmpdir)) {
