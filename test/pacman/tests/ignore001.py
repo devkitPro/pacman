@@ -9,7 +9,7 @@ self.addpkg2db("local", package2)
 package2up = pmpkg("package2", "2.0-1")
 self.addpkg2db("sync", package2up)
 
-self.option["IgnorePkg"] = ["irrelavent"]
+self.option["IgnorePkg"] = ["irrelevant"]
 self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
