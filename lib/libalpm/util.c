@@ -456,6 +456,7 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 {
 	char cwd[PATH_MAX];
 	pid_t pid;
+	int pipefd[2];
 	int restore_cwd = 0;
 	int retval = 0;
 
@@ -479,6 +480,12 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 	/* Flush open fds before fork() to avoid cloning buffers */
 	fflush(NULL);
 
+	if(pipe(pipefd) == -1) {
+		_alpm_log(PM_LOG_ERROR, _("could not create pipe (%s)\n"), strerror(errno));
+		retval = 1;
+		goto cleanup;
+	}
+
 	/* fork- parent and child each have seperate code blocks below */
 	pid = fork();
 	if(pid == -1) {
@@ -488,55 +495,67 @@ int _alpm_run_chroot(const char *root, const char *cmd)
 	}
 
 	if(pid == 0) {
-		FILE *pipe;
 		/* this code runs for the child only (the actual chroot/exec) */
-		_alpm_log(PM_LOG_DEBUG, "chrooting in %s\n", root);
+		close(1);
+		close(2);
+		while(dup2(pipefd[1], 1) == -1 && errno == EINTR);
+		while(dup2(pipefd[1], 2) == -1 && errno == EINTR);
+		close(pipefd[0]);
+		close(pipefd[1]);
+
+		/* use fprintf instead of _alpm_log to send output through the parent */
 		if(chroot(root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change the root directory (%s)\n"),
-					strerror(errno));
+			fprintf(stderr, _("could not change the root directory (%s)\n"), strerror(errno));
 			exit(1);
 		}
 		if(chdir("/") != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to / (%s)\n"),
-					strerror(errno));
+			fprintf(stderr, _("could not change directory to / (%s)\n"), strerror(errno));
 			exit(1);
 		}
 		umask(0022);
-		pipe = popen(cmd, "r");
-		if(!pipe) {
-			_alpm_log(PM_LOG_ERROR, _("call to popen failed (%s)\n"),
-					strerror(errno));
-			exit(1);
-		}
-		while(!feof(pipe)) {
-			char line[PATH_MAX];
-			if(fgets(line, PATH_MAX, pipe) == NULL)
-				break;
-			alpm_logaction("%s", line);
-			EVENT(handle->trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
-		}
-		retval = pclose(pipe);
-		exit(WEXITSTATUS(retval));
+		execl("/bin/sh", "sh", "-c", cmd, (char *) NULL);
+		fprintf(stderr, _("call to execl failed (%s)\n"), strerror(errno));
+		exit(1);
 	} else {
 		/* this code runs for the parent only (wait on the child) */
-		pid_t retpid;
 		int status;
-		do {
-			retpid = waitpid(pid, &status, 0);
-		} while(retpid == -1 && errno == EINTR);
-		if(retpid == -1) {
-			_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"),
-			          strerror(errno));
+		FILE *pipe;
+
+		close(pipefd[1]);
+		pipe = fdopen(pipefd[0], "r");
+		if(pipe == NULL) {
+			close(pipefd[0]);
 			retval = 1;
-			goto cleanup;
 		} else {
-			/* check the return status, make sure it is 0 (success) */
-			if(WIFEXITED(status)) {
-				_alpm_log(PM_LOG_DEBUG, "call to waitpid succeeded\n");
-				if(WEXITSTATUS(status) != 0) {
-					_alpm_log(PM_LOG_ERROR, _("command failed to execute correctly\n"));
-					retval = 1;
-				}
+			while(!feof(pipe)) {
+				char line[PATH_MAX];
+				if(fgets(line, PATH_MAX, pipe) == NULL)
+					break;
+				alpm_logaction("%s", line);
+				EVENT(handle->trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
+			}
+			fclose(pipe);
+		}
+
+		while(waitpid(pid, &status, 0) == -1) {
+			if(errno != EINTR) {
+				_alpm_log(PM_LOG_ERROR, _("call to waitpid failed (%s)\n"), strerror(errno));
+				retval = 1;
+				goto cleanup;
+			}
+		}
+
+		/* report error from above after the child has exited */
+		if(retval != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not open pipe (%s)\n"), strerror(errno));
+			goto cleanup;
+		}
+		/* check the return status, make sure it is 0 (success) */
+		if(WIFEXITED(status)) {
+			_alpm_log(PM_LOG_DEBUG, "call to waitpid succeeded\n");
+			if(WEXITSTATUS(status) != 0) {
+				_alpm_log(PM_LOG_ERROR, _("command failed to execute correctly\n"));
+				retval = 1;
 			}
 		}
 	}
