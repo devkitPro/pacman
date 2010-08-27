@@ -1032,26 +1032,25 @@ create_package() {
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$PKGEXT" ; EXT=$PKGEXT ;;
 	esac
-	local tar_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${EXT}"
-	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${PKGEXT}"
 
+	local pkg_file="$PKGDEST/${nameofpkg}-${pkgver}-${pkgrel}-${PKGARCH}${PKGEXT}"
 	local ret=0
 
 	# when fileglobbing, we want * in an empty directory to expand to
 	# the null string rather than itself
 	shopt -s nullglob
-	bsdtar -cf - $comp_files * > "$tar_file" || ret=$?
-	shopt -u nullglob
+	# TODO: Maybe this can be set globally for robustness
+	shopt -s -o pipefail
+	bsdtar -cf - $comp_files * |
+	case "$PKGEXT" in
+	    *tar.gz)  gzip -c -f -n ;;
+	    *tar.bz2) bzip2 -c -f ;;
+	    *tar.xz)  xz -c -z - ;;
+	    *tar)     cat ;;
+	esac > ${pkg_file} || ret=$?
 
-	if (( ! ret )); then
-		case "$PKGEXT" in
-			*tar.gz)  gzip -f -n "$tar_file" ;;
-			*tar.bz2) bzip2 -f "$tar_file" ;;
-			*tar.xz)  xz -z -f "$tar_file" ;;
-			*tar)     true ;;
-		esac
-		ret=$?
-	fi
+	shopt -u nullglob
+	shopt -u -o pipefail
 
 	if (( ret )); then
 		error "$(gettext "Failed to create package file.")"
