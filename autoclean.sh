@@ -18,7 +18,7 @@ rm -f scripts/{Makefile.in,Makefile}
 rm -f etc/{Makefile.in,Makefile}
 rm -f etc/pacman.d/{Makefile.in,Makefile}
 rm -f etc/abs/{Makefile.in,Makefile}
-rm -f test/pacman{,/tests}/{Makefile.in,Makefile}
+rm -f test/{pacman,util}{,/tests}/{Makefile.in,Makefile}
 rm -f contrib/{Makefile.in,Makefile}
 rm -f doc/{Makefile.in,Makefile}
 
