@@ -94,9 +94,9 @@ AC_ARG_WITH(openssl,
 	[], [with_openssl=check])
 
 # Help line for libfetch
-AC_ARG_ENABLE(internal-download,
-	AS_HELP_STRING([--disable-internal-download], [do not build with libfetch support]),
-	[internaldownload=$enableval], [internaldownload=yes])
+AC_ARG_WITH(fetch,
+	AS_HELP_STRING([--with-fetch], [use libfetch as an internal downloader]),
+	[], [with_fetch=check])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
@@ -150,21 +150,20 @@ AM_CONDITIONAL([HAVE_LIBSSL], [test "x$ac_cv_lib_ssl_MD5_Final" = "xyes"])
 
 # Enable or disable usage of libfetch
 AC_MSG_CHECKING(whether to link with libfetch)
-if test "x$internaldownload" = "xyes" ; then
-	AC_MSG_RESULT(yes)
-	AC_DEFINE([INTERNAL_DOWNLOAD], , [Use internal download library])
-	# Check for a download library if it was actually requested
+AS_IF([test "x$with_fetch" = "xyes"],
+	[AC_MSG_RESULT(yes)
 	AC_CHECK_LIB([fetch], [fetchParseURL], ,
-		AC_MSG_ERROR([libfetch is needed to compile with internal download support]), [-lcrypto -ldl] )
-	# Check if libfetch supports conditional GET
-	# (version >=2.21, struct url has member last_modified)
-	AC_CHECK_MEMBER(struct url.last_modified, ,
-		AC_MSG_ERROR([libfetch must be version 2.21 or greater]),
-		[#include <fetch.h>] )
-else
-	AC_MSG_RESULT(no)
-fi
-AM_CONDITIONAL(INTERNAL_DOWNLOAD, test "x$internaldownload" = "xyes")
+	[if test "x$with_fetch" != "xcheck"; then
+		AC_MSG_FAILURE([--with-fetch was given, but -lfetch was not found])
+	fi],
+	[-lcrypto -ldl])
+	# Check if libfetch supports connnection caching which we use
+	AC_CHECK_DECL(fetchConnectionCacheInit, ,
+		AC_MSG_ERROR([libfetch must be version 2.28 or greater]),
+		[#include <fetch.h>])
+	],
+	AC_MSG_RESULT(no))
+AM_CONDITIONAL([HAVE_LIBFETCH], [test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h glob.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/param.h sys/statvfs.h sys/syslimits.h sys/time.h syslog.h wchar.h])
@@ -406,7 +405,6 @@ ${PACKAGE_NAME}:
 
   Compilation options:
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
-    Use download library   : ${internaldownload}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
 "

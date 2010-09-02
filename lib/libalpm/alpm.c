@@ -24,7 +24,7 @@
 #include "config.h"
 
 /* connection caching setup */
-#if defined(INTERNAL_DOWNLOAD)
+#ifdef HAVE_FETCH
 #include <fetch.h>
 #endif
 
@@ -59,7 +59,7 @@ int SYMEXPORT alpm_initialize(void)
 	bindtextdomain("libalpm", LOCALEDIR);
 #endif
 
-#ifdef INTERNAL_DOWNLOAD
+#ifdef HAVE_FETCH
 	fetchConnectionCacheInit(5, 1);
 #endif
 
@@ -82,7 +82,7 @@ int SYMEXPORT alpm_release(void)
 	_alpm_handle_free(handle);
 	handle = NULL;
 
-#ifdef INTERNAL_DOWNLOAD
+#ifdef HAVE_FETCH
 	fetchConnectionCacheClose();
 #endif
 
