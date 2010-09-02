@@ -36,6 +36,8 @@
  *        int md5_file( char *path, unsigned char *output )
  *      to
  *        int md5_file( const char *path, unsigned char *output )
+ *  * use a dynamically-allocated buffer in md5_file, and increase the size
+ *    for performance reasons
  *  * various static/inline changes
  *
  *  NOTE: XySSL has been renamed to PolarSSL, which is available at
@@ -44,6 +46,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "md5.h"
 
@@ -309,10 +312,15 @@ int md5_file( const char *path, unsigned char output[16] )
     FILE *f;
     size_t n;
     md5_context ctx;
-    unsigned char buf[1024];
+    unsigned char *buf;
 
-    if( ( f = fopen( path, "rb" ) ) == NULL )
+    if( ( buf = calloc(8192, sizeof(unsigned char)) ) == NULL )
         return( 1 );
+
+    if( ( f = fopen( path, "rb" ) ) == NULL ) {
+        free( buf );
+        return( 1 );
+    }
 
     md5_starts( &ctx );
 
@@ -322,6 +330,7 @@ int md5_file( const char *path, unsigned char output[16] )
     md5_finish( &ctx, output );
 
     memset( &ctx, 0, sizeof( md5_context ) );
+    free( buf );
 
     if( ferror( f ) != 0 )
     {
