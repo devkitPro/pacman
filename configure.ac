@@ -70,7 +70,7 @@ AC_DEFINE_UNQUOTED([LIB_VERSION], ["$LIB_VERSION"], [libalpm version number])
 
 # Help line for root directory
 AC_ARG_WITH(root-dir,
-	AS_HELP_STRING([--with-root-dir=path], [set the location of pacman's root operating directory]),
+	AS_HELP_STRING([--with-root-dir=path], [set the location of the root operating directory]),
 	[ROOTDIR=$withval], [ROOTDIR=/])
 
 # Help line for package extension
@@ -87,6 +87,11 @@ AC_ARG_WITH(src-ext,
 AC_ARG_WITH(buildscript,
 	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
 	[BUILDSCRIPT=$withval], [BUILDSCRIPT=PKGBUILD])
+
+# Help line for using OpenSSL
+AC_ARG_WITH(openssl,
+	AS_HELP_STRING([--with-openssl], [use OpenSSL crypto implementations instead of internal routines]),
+	[], [with_openssl=check])
 
 # Help line for libfetch
 AC_ARG_ENABLE(internal-download,
@@ -130,6 +135,18 @@ AM_GNU_GETTEXT_VERSION(0.13.1)
 # Check for libarchive
 AC_CHECK_LIB([archive], [archive_read_data], ,
 	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
+
+# Check for OpenSSL
+AC_MSG_CHECKING(whether to link with libssl)
+AS_IF([test "x$with_openssl" != "xno"],
+	[AC_MSG_RESULT(yes)
+	AC_CHECK_LIB([ssl], [MD5_Final], ,
+	[if test "x$with_openssl" != "xcheck"; then
+		AC_MSG_FAILURE([--with-openssl was given, but -lssl was not found])
+	fi],
+	[-lcrypto])],
+	AC_MSG_RESULT(no))
+AM_CONDITIONAL([HAVE_LIBSSL], [test "x$ac_cv_lib_ssl_MD5_Final" = "xyes"])
 
 # Enable or disable usage of libfetch
 AC_MSG_CHECKING(whether to link with libfetch)

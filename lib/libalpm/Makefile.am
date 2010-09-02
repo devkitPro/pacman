@@ -38,13 +38,17 @@ libalpm_la_SOURCES = \
 	group.h group.c \
 	handle.h handle.c \
 	log.h log.c \
-	md5.h md5.c \
 	package.h package.c \
 	remove.h remove.c \
 	sync.h sync.c \
 	trans.h trans.c \
 	util.h util.c \
 	version.c
+
+if !HAVE_LIBSSL
+libalpm_la_SOURCES += \
+	md5.h md5.c
+endif
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
 libalpm_la_LIBADD = $(LTLIBINTL)

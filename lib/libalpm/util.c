@@ -43,13 +43,18 @@
 #include <archive.h>
 #include <archive_entry.h>
 
+#ifdef HAVE_LIBSSL
+#include <openssl/md5.h>
+#else
+#include "md5.h"
+#endif
+
 /* libalpm */
 #include "util.h"
 #include "log.h"
 #include "package.h"
 #include "alpm.h"
 #include "alpm_list.h"
-#include "md5.h"
 #include "handle.h"
 
 #ifndef HAVE_STRSEP
@@ -676,6 +681,42 @@ int _alpm_lstat(const char *path, struct stat *buf)
 	return(ret);
 }
 
+#ifdef HAVE_LIBSSL
+static int md5_file(const char *path, unsigned char output[16])
+{
+    FILE *f;
+    size_t n;
+    MD5_CTX ctx;
+    unsigned char *buf;
+
+		CALLOC(buf, 8192, sizeof(unsigned char), return(1));
+
+    if((f = fopen(path, "rb")) == NULL) {
+        free(buf);
+        return(1);
+    }
+
+    MD5_Init(&ctx);
+
+    while((n = fread(buf, 1, sizeof(buf), f)) > 0) {
+        MD5_Update(&ctx, buf, n);
+		}
+
+    MD5_Final(output, &ctx);
+
+    memset(&ctx, 0, sizeof(MD5_CTX));
+    free(buf);
+
+    if(ferror(f) != 0) {
+        fclose(f);
+        return(2);
+    }
+
+    fclose(f);
+    return(0);
+}
+#endif
+
 /** Get the md5 sum of file.
  * @param filename name of the file
  * @return the checksum on success, NULL on error
@@ -693,6 +734,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 
 	/* allocate 32 chars plus 1 for null */
 	md5sum = calloc(33, sizeof(char));
+	/* defined above for OpenSSL, otherwise defined in md5.h */
 	ret = md5_file(filename, output);
 
 	if (ret > 0) {
