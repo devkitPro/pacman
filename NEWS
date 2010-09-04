@@ -1,7 +1,6 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
 3.4.1         - fix interaction of --needed and multiple repo groups (FS#20221)
-              - fix crash when using zh_CN.utf8 during install (FS#20188)
               - bash completion: small fixes to prevent alias problems
               - rankmirrors: fix bogus/empty variable assignment (FS#19911)
               - repo-add: ensure bare DB symlinks are relative (FS#20498)
@@ -10,6 +9,11 @@ VERSION         DESCRIPTION
                 - use absolute path to 'du' to exclude wrapper progs (FS#19932)
                 - ensure $startdir check doesn't stall indefinitely (FS#19975)
                 - fix repackaging with multiple passed packages (FS#20272)
+              - translations:
+                - zh_CN: fix crash when using during install (FS#20188)
+                - sk: new Slovak translation
+                - pt: new European Portuguese translation
+                - other small updates to various translations
 3.4.0         - new "Architecture" option that will restrict pacman to
                 installing only packages from the given architecture. Can be
                 set to "auto" in which case the output of "uname -m" is used
