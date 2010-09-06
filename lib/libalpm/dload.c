@@ -38,7 +38,7 @@
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
 
-#ifdef HAVE_FETCH
+#ifdef HAVE_LIBFETCH
 #include <fetch.h>
 #endif
 
@@ -58,7 +58,7 @@ static char *get_filename(const char *url) {
 	return(filename);
 }
 
-#ifdef HAVE_FETCH
+#ifdef HAVE_LIBFETCH
 static char *get_destfile(const char *path, const char *filename) {
 	char *destfile;
 	/* len = localpath len + filename len + null */
@@ -338,7 +338,7 @@ cleanup:
 static int download(const char *url, const char *localpath,
 		int force) {
 	if(handle->fetchcb == NULL) {
-#ifdef HAVE_FETCH
+#ifdef HAVE_LIBFETCH
 		return(download_internal(url, localpath, force));
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);

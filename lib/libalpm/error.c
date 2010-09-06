@@ -31,7 +31,7 @@
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
 
-#ifdef HAVE_FETCH
+#ifdef HAVE_LIBFETCH
 #include <fetch.h> /* fetchLastErrString */
 #endif
 
@@ -145,7 +145,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 			 * error string instead. */
 			return _("libarchive error");
 		case PM_ERR_LIBFETCH:
-#ifdef HAVE_FETCH
+#ifdef HAVE_LIBFETCH
 			return fetchLastErrString;
 #else
 			/* obviously shouldn't get here... */

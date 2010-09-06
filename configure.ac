@@ -150,7 +150,7 @@ AM_CONDITIONAL([HAVE_LIBSSL], [test "x$ac_cv_lib_ssl_MD5_Final" = "xyes"])
 
 # Enable or disable usage of libfetch
 AC_MSG_CHECKING(whether to link with libfetch)
-AS_IF([test "x$with_fetch" = "xyes"],
+AS_IF([test "x$with_fetch" != "xno"],
 	[AC_MSG_RESULT(yes)
 	AC_CHECK_LIB([fetch], [fetchParseURL], ,
 	[if test "x$with_fetch" != "xcheck"; then
