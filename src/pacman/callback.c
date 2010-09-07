@@ -575,7 +575,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	fname = strdup(filename);
 	/* strip package or DB extension for cleaner look */
-	if((p = strstr(fname, ".pkg.tar.")) || (p = strstr(fname, ".db.tar."))) {
+	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db"))) {
 			*p = '\0';
 	}
 	/* In order to deal with characters from all locales, we have to worry
