@@ -488,12 +488,15 @@ void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 
 /**
  * Read data from an open changelog 'file stream'. Similar to fread in
- * functionality, this function takes a buffer and amount of data to read.
+ * functionality, this function takes a buffer and amount of data to read. If an
+ * error occurs pm_errno will be set.
+ *
  * @param ptr a buffer to fill with raw changelog data
  * @param size the size of the buffer
  * @param pkg the package that the changelog is being read from
  * @param fp a 'file stream' to the package changelog
- * @return the number of characters read, or 0 if there is no more data
+ * @return the number of characters read, or 0 if there is no more data or an
+ * error occurred.
  */
 size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp)
@@ -502,7 +505,14 @@ size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 	if(pkg->origin == PKG_FROM_CACHE) {
 		ret = fread(ptr, 1, size, (FILE*)fp);
 	} else if(pkg->origin == PKG_FROM_FILE) {
-		ret = archive_read_data((struct archive*)fp, ptr, size);
+		ssize_t sret = archive_read_data((struct archive*)fp, ptr, size);
+		/* Report error (negative values) */
+		if(sret < 0) {
+			pm_errno = PM_ERR_LIBARCHIVE;
+			ret = 0;
+		} else {
+			ret = (size_t)sret;
+		}
 	}
 	return(ret);
 }
