@@ -87,7 +87,6 @@ fi
 
 pkg_arch=${CARCH:-'unknown'}
 pkg_dest="${PKGDEST:-$PWD}"
-pkg_ext=${PKGEXT:-'.pkg.tar.gz'}
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
 pkg_name="$1"
@@ -163,13 +162,6 @@ if [ $ret -ne 0 ]; then
 fi
 
 pkg_size=$(du -sk | awk '{print $1 * 1024}')
-
-if [ -f "$pkg_dir/install" ] ; then
-    cp "$pkg_dir/install" "$work_dir/.INSTALL"
-fi
-if  [ -f $pkg_dir/changelog ] ; then
-    cp "$pkg_dir/changelog" "$work_dir/.CHANGELOG"
-fi
 
 #
 # .PKGINFO stuff
@@ -254,6 +246,17 @@ while read i; do
     esac
 done
 
+comp_files=".PKGINFO"
+
+if [ -f "$pkg_dir/install" ] ; then
+    cp "$pkg_dir/install" "$work_dir/.INSTALL"
+    comp_files+=" .INSTALL"
+fi
+if  [ -f $pkg_dir/changelog ] ; then
+    cp "$pkg_dir/changelog" "$work_dir/.CHANGELOG"
+    comp_files+=" .CHANGELOG"
+fi
+
 #
 # Fixes owner:group and permissions for .PKGINFO, .CHANGELOG, .INSTALL
 #
@@ -265,8 +268,31 @@ chmod 644 "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
 #
 echo "Generating the package..."
 
+case "$PKGEXT" in
+	*tar.gz)  EXT=${PKGEXT%.gz} ;;
+	*tar.bz2) EXT=${PKGEXT%.bz2} ;;
+	*tar.xz)  EXT=${PKGEXT%.xz} ;;
+	*tar)     EXT=${PKGEXT} ;;
+	*) echo "WARNING: '%s' is not a valid archive extension." \
+	"$PKGEXT" ; EXT=$PKGEXT ;;
+esac
+
+pkg_file="$pkg_dest/$pkg_namver-$pkg_arch${PKGEXT}"
 ret=0
-bsdtar -czf "$pkg_dest/$pkg_namver-$pkg_arch$pkg_ext" $(ls -A) || ret=$?
+
+# when fileglobbing, we want * in an empty directory to expand to
+# the null string rather than itself
+shopt -s nullglob
+# TODO: Maybe this can be set globally for robustness
+shopt -s -o pipefail
+bsdtar -cf - $comp_files * |
+case "$PKGEXT" in
+    *tar.gz)  gzip -c -f -n ;;
+    *tar.bz2) bzip2 -c -f ;;
+    *tar.xz)  xz -c -z - ;;
+    *tar)     cat ;;
+esac > ${pkg_file} || ret=$?
+
 if [ $ret -ne 0 ]; then
     echo "ERROR: unable to write package to $pkg_dest"
     echo "       Maybe the disk is full or you do not have write access"
