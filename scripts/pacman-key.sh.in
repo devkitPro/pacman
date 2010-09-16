@@ -1,0 +1,274 @@
+#!@BASH_SHELL@ -e
+#
+#   pacman-key - manages pacman's keyring
+#                Based on apt-key, from Debian
+#   @configure_input@
+#
+#   Copyright (c) 2010 - Pacman Development Team <pacman-dev@archlinux.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
+myver="@PACKAGE_VERSION@"
+
+msg() {
+	local mesg=$1; shift
+	printf "==> ${mesg}\n" "$@" >&1
+}
+
+msg2() {
+	(( QUIET )) && return
+	local mesg=$1; shift
+	printf "  -> ${mesg}\n" "$@" >&1
+}
+
+warning() {
+	local mesg=$1; shift
+	printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
+}
+
+error() {
+	local mesg=$1; shift
+	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+}
+
+usage() {
+	printf "pacman-key (pacman) %s\n" ${myver}
+	echo
+	printf "$(gettext "Usage: %s [options] command [arguments]")\n" $(basename $0)
+	echo
+	echo "$(gettext "Manage pacman's list of trusted keys")"
+	echo
+	echo "$(gettext "Options must be placed before commands. The available options are:")"
+	echo "$(gettext " --config    - set an alternative configuration file to use. ")"
+	printf "$(gettext "               Default is %s")\n" "@sysconfdir@/pacman.conf"
+	echo "$(gettext " --gpgdir    - set an alternative home directory for gnupg. ")"
+	printf "$(gettext "               Default is set in %s")\n" "@sysconfdir@/pacman.conf"
+	echo
+	echo "$(gettext "The available commands are:")"
+	echo "$(gettext "  pacman-key -a | --add [<file>] ...                - add the key contained ")"
+	echo "$(gettext "                                                      in <file> (empty for stdin)")"
+	echo "$(gettext "  pacman-key -d | --del <keyid> ...                 - remove the key <keyid>")"
+	echo "$(gettext "  pacman-key -e | --export <keyid> ...              - output the key <keyid>")"
+	echo "$(gettext "  pacman-key -r | --receive <keyserver> <keyid> ... - fetch the keyids from")"
+	echo "$(gettext "                                                      the specified keyserver URL")"
+	echo "$(gettext "  pacman-key -t | --trust <keyid> ...               - set the trust level of the given key")"
+	echo "$(gettext "  pacman-key -u | --updatedb                        - update the trustdb of pacman")"
+	echo "$(gettext "  pacman-key --reload                               - reloads the keys from the keyring package")"
+	echo "$(gettext "  pacman-key -l | --list                            - list keys")"
+	echo "$(gettext "  pacman-key -f | --finger [<keyid]> ...            - list fingerprint for specified keyids (or for all, if none is specified)")"
+	echo "$(gettext "  pacman-key --adv <params>                         - use pacman's keyring as target for advanced commands")"
+	echo "$(gettext "  pacman-key -h | --help                            - displays this message")"
+	echo "$(gettext "  pacman-key -v | --version                         - displays the current version")"
+}
+
+version() {
+	printf "pacman-key (pacman) %s\n" "${myver}"
+	printf "$(gettext "\
+Copyright (c) 2010 Pacman Development Team <pacman-dev@archlinux.org>.\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
+}
+
+reload_keyring() {
+	local PACMAN_SHARE_DIR='@prefix@/share/pacman'
+	local GPG_NOKEYRING="gpg --batch --quiet --ignore-time-conflict --no-options --no-default-keyring --homedir ${PACMAN_KEYRING_DIR}"
+
+	# Read-only keyring with keys to be added to the keyring
+	local ADDED_KEYS="${PACMAN_SHARE_DIR}/addedkeys.gpg"
+
+	# Read-only list of keys removed from the keyring.
+	local REMOVED_KEYS="${PACMAN_SHARE_DIR}/removedkeys"
+
+	# Add keys from the current set of keys from pacman-keyring package. The web of trust will
+	# be updated automatically.
+	if [[ -r "${ADDED_KEYS}" ]]; then
+		msg "$(gettext "Verifying official keys file signature...")"
+		if ! ${GPG_PACMAN} --quiet --verify "${ADDED_KEYS}.sig" 1>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
+			exit 1
+		fi
+
+		msg "$(gettext "Appending official keys...")"
+		local add_keys=$(${GPG_NOKEYRING} --keyring "${ADDED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)
+		for key in ${add_keys}; do
+			msg "$(gettext "  key id: %s")" "$key"
+			${GPG_NOKEYRING} --keyring "${ADDED_KEYS}" --export "${key}" | ${GPG_PACMAN} --import
+		done
+	fi
+
+	# Remove the keys from REMOVED_KEYS keyring
+	if [[ -r "${REMOVED_KEYS}" ]]; then
+		msg "$(gettext "Verifying deleted keys file signature...")"
+		if ! ${GPG_PACMAN} --quiet --verify "${REMOVED_KEYS}.sig"; then
+			error "$(gettext "The signature of file %s is not valid.")" "${REMOVED_KEYS}"
+			exit 1
+		fi
+
+		msg "$(gettext "Removing deleted keys from keyring...")"
+		cat "${REMOVED_KEYS}" | while read key; do
+			msg "$(gettext "  key id: %s")" "$key"
+			${GPG_PACMAN} --quiet --batch --yes --delete-key "${key}"
+		done
+	fi
+
+	# Update trustdb, just to be sure
+	msg "$(gettext "Updating trust database...")"
+	${GPG_PACMAN} --batch --check-trustdb
+}
+
+# PROGRAM START
+if ! type gettext &>/dev/null; then
+	gettext() {
+		echo "$@"
+	}
+fi
+
+if [[ $1 != "--version" && $1 != "-v" && $1 != "--help" && $1 != "-h" ]]; then
+	if type -p gpg >/dev/null 2>&1 = 1; then
+		error "$(gettext "gnupg does not seem to be installed.")"
+		msg2 "$(gettext "pacman-key requires gnupg for most operations.")"
+		exit 1
+	elif (( EUID != 0 )); then
+		error "$(gettext "pacman-key needs to be run as root.")"
+		exit 1
+	fi
+fi
+
+# Parse global options
+CONFIG="@sysconfdir@/pacman.conf"
+PACMAN_KEYRING_DIR="@sysconfdir@/pacman.d/gnupg"
+while [[ $1 =~ ^--(config|gpgdir)$ ]]; do
+	case "$1" in
+		--config) shift; CONFIG="$1" ;;
+		--gpgdir) shift; PACMAN_KEYRING_DIR="$1" ;;
+	esac
+	shift
+done
+
+if [[ ! -r "${CONFIG}" ]]; then
+	error "$(gettext "It is not possible to read %s")" "${CONFIG}"
+	exit 1
+fi
+
+# Read GPGDIR from $CONFIG.
+# The pattern is: any spaces or tabs, GPGDir, any spaces or tabs, equal sign
+# and the rest of the line. The string is splitted after the first occurrence of =
+if [[ GPGDIR=$(grep -e '^[[:blank:]]*GPGDir[[:blank:]]*=.*' "$CONFIG") == 0 ]]; then
+  GPGDIR=${GPGDIR#*=}
+	PACMAN_KEYRING_DIR="${GPGDIR}"
+fi
+GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR}"
+
+# Parse and execute command
+command="$1"
+if [[ -z "${command}" ]]; then
+	usage
+	exit 1
+fi
+shift
+
+case "${command}" in
+	-a|--add)
+		if (( $# == 0 )); then
+			error "$(gettext "You need to specify at least one key identifier")"
+			usage
+			exit 1
+		fi
+		while (( $# > 0 )); do
+			${GPG_PACMAN} --quiet --batch --import "$1"
+			shift
+		done
+		;;
+	-d|--del)
+		if (( $# == 0 )); then
+			error "$(gettext "You need to specify at least one key identifier")"
+			usage
+			exit 1
+		fi
+		while (( $# > 0 )); do
+			${GPG_PACMAN} --quiet --batch --delete-key --yes "$1"
+			shift
+		done
+		;;
+	-u|--updatedb)
+		${GPG_PACMAN} --batch --check-trustdb
+		;;
+	--reload)
+		reload_keyring
+		;;
+	-l|--list)
+		${GPG_PACMAN} --batch --list-sigs
+		;;
+	-f|--finger)
+		${GPG_PACMAN} --batch --fingerprint $*
+		;;
+	-e|--export)
+		if (( $# == 0 )); then
+			${GPG_PACMAN} --armor --export
+		else
+			while (( $# > 0 )); do
+				${GPG_PACMAN} --armor --export "$1"
+				shift
+			done
+		fi
+		;;
+	-r|--receive)
+		if (( $# < 2 )); then
+			error "$(gettext "You need to specify the keyserver and at least one key identifier")"
+			usage
+			exit 1
+		fi
+		keyserver="$1"
+		shift
+		${GPG_PACMAN} --keyserver "${keyserver}" --recv-keys $*
+		;;
+	-t|--trust)
+		if (( $# == 0 )); then
+			error "$(gettext "You need to specify at least one key identifier")"
+			usage
+			exit 1
+		fi
+		while (( $# > 0 )); do
+			# Verify if the key exists in pacman's keyring
+			if ${GPG_PACMAN} --list-keys "$1" > /dev/null 2>&1; then
+				${GPG_PACMAN} --edit-key "$1"
+			else
+				error "$(gettext "The key identified by %s doesn't exist")" "$1"
+				exit 1
+			fi
+			shift
+		done
+		;;
+	--adv)
+		msg "$(gettext "Executing: %s ")$*" "${GPG_PACMAN}"
+		${GPG_PACMAN} $* || ret=$?
+		exit $ret
+		;;
+	--help)
+		usage
+		;;
+	--version)
+		version
+		exit 0
+		;;
+	*)
+		usage
+		exit 1
+		;;
+esac
