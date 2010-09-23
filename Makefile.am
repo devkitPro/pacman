@@ -3,6 +3,8 @@ if WANT_DOC
 SUBDIRS += doc
 endif
 
+ACLOCAL_AMFLAGS = -I m4 --install
+
 # Make sure we test and build manpages when doing distcheck
 DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version
 
