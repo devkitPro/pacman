@@ -316,6 +316,7 @@ if test "x$debug" = "xyes" ; then
 	# Check for -fstack-protector availability
 	GCC_STACK_PROTECT_LIB
 	GCC_STACK_PROTECT_CC
+	GCC_FORTIFY_SOURCE_CC
 	CFLAGS="$CFLAGS -g -Wall -Werror"
 else
 	AC_MSG_RESULT(no)

@@ -4910,6 +4910,29 @@ AC_DEFUN([GCC_STACK_PROTECT_CC],[
   fi
 ])
 
+dnl GCC_FORTIFY_SOURCE_CC
+dnl checks -D_FORTIFY_SOURCE with the C compiler, if it exists then updates
+dnl CFLAGS
+AC_DEFUN([GCC_FORTIFY_SOURCE_CC],[
+  AC_LANG_ASSERT(C)
+  if test "X$CC" != "X"; then
+    AC_MSG_CHECKING(for FORTIFY_SOURCE support)
+    AC_TRY_COMPILE([#include <features.h>], [
+      int main() {
+      #if !(__GNUC_PREREQ (4, 1) )
+      #error No FORTIFY_SOURCE support
+      #endif
+        return 0;
+      }
+    ], [
+      AC_MSG_RESULT(yes)
+      CFLAGS="$CFLAGS -D_FORTIFY_SOURCE=2"
+    ], [
+      AC_MSG_RESULT(no)
+  ])
+  fi
+])
+
 dnl GCC_VISIBILITY_CC
 dnl checks -fvisibility=internal with the C compiler, if it exists then
 dnl defines ENABLE_VISIBILITY_CC in both configure script and Makefiles
