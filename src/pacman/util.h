@@ -62,6 +62,7 @@ int yesno(char *fmt, ...);
 int noyes(char *fmt, ...);
 int pm_printf(pmloglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...) __attribute__((format(printf,3,4)));
+int pm_asprintf(char **string, const char *format, ...);
 int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 

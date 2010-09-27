@@ -531,10 +531,10 @@ void display_targets(const alpm_list_t *pkgs, int install)
 			double mbsize = 0.0;
 			mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
-			asprintf(&str, "%s-%s [%.2f MB]", alpm_pkg_get_name(pkg),
+			pm_asprintf(&str, "%s-%s [%.2f MB]", alpm_pkg_get_name(pkg),
 					alpm_pkg_get_version(pkg), mbsize);
 		} else {
-			asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
+			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
 					alpm_pkg_get_version(pkg));
 		}
 		targets = alpm_list_add(targets, str);
@@ -545,7 +545,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	mbisize = isize / (1024.0 * 1024.0);
 
 	if(install) {
-		asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
+		pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
 		list_display(str, targets);
 		free(str);
 		printf("\n");
@@ -555,7 +555,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 			printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
 		}
 	} else {
-		asprintf(&str, _("Remove (%d):"), alpm_list_count(targets));
+		pm_asprintf(&str, _("Remove (%d):"), alpm_list_count(targets));
 		list_display(str, targets);
 		free(str);
 		printf("\n");
@@ -589,14 +589,14 @@ static char *pkg_get_location(pmpkg_t *pkg)
 			dburl = alpm_db_get_url(db);
 			if(dburl) {
 				char *pkgurl = NULL;
-				asprintf(&pkgurl, "%s/%s", dburl, alpm_pkg_get_filename(pkg));
+				pm_asprintf(&pkgurl, "%s/%s", dburl, alpm_pkg_get_filename(pkg));
 				return(pkgurl);
 			}
 		case PM_OP_UPGRADE:
 			return(strdup(alpm_pkg_get_filename(pkg)));
 		default:
 			string = NULL;
-			asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			pm_asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 			return(string);
 	}
 }
@@ -647,7 +647,7 @@ void print_packages(const alpm_list_t *packages)
 			char *size;
 			double mbsize = 0.0;
 			mbsize = pkg_get_size(pkg) / (1024.0 * 1024.0);
-			asprintf(&size, "%.2f", mbsize);
+			pm_asprintf(&size, "%.2f", mbsize);
 			string = strreplace(temp, "%s", size);
 			free(size);
 			free(temp);
@@ -777,6 +777,22 @@ int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...)
 	return(ret);
 }
 
+int pm_asprintf(char **string, const char *format, ...)
+{
+	int ret = 0;
+	va_list args;
+
+	/* print the message using va_arg list */
+	va_start(args, format);
+	if(vasprintf(string, format, args) == -1) {
+		pm_fprintf(stderr, PM_LOG_ERROR,  _("failed to allocate string\n"));
+		ret = -1;
+	}
+	va_end(args);
+
+	return(ret);
+}
+
 int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list args)
 {
 	int ret = 0;
@@ -793,16 +809,16 @@ int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list 
 	/* print a prefix to the message */
 	switch(level) {
 		case PM_LOG_DEBUG:
-			asprintf(string, "debug: %s", msg);
+			pm_asprintf(string, "debug: %s", msg);
 			break;
 		case PM_LOG_ERROR:
-			asprintf(string, _("error: %s"), msg);
+			pm_asprintf(string, _("error: %s"), msg);
 			break;
 		case PM_LOG_WARNING:
-			asprintf(string, _("warning: %s"), msg);
+			pm_asprintf(string, _("warning: %s"), msg);
 			break;
 		case PM_LOG_FUNCTION:
-			asprintf(string, _("function: %s"), msg);
+			pm_asprintf(string, _("function: %s"), msg);
 			break;
 		default:
 			break;
