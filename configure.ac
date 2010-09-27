@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 # Minimum version of autoconf required
-AC_PREREQ(2.60)
+AC_PREREQ(2.62)
 
 # UPDATING VERSION NUMBERS FOR RELEASES
 #
