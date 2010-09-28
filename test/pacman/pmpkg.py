@@ -164,14 +164,8 @@ class pmpkg:
 
         # Generate package archive
         tar = tarfile.open(self.path, "w:gz")
-
-        # package files
-        for root, dirs, files in os.walk('.'):
-            for d in dirs:
-                tar.add(os.path.join(root, d), recursive=False)
-            for f in files:
-                tar.add(os.path.join(root, f))
-
+        for i in os.listdir("."):
+            tar.add(i)
         tar.close()
 
         os.chdir(curdir)
