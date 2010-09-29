@@ -1410,6 +1410,20 @@ run_split_packaging() {
 	done
 }
 
+# Canonicalize a directory path if it exists
+canonicalize_path() {
+	local path="$1";
+
+	if [[ -d $path ]]; then
+		(
+			cd "$path"
+			pwd -P
+		)
+	else
+		echo "$path"
+	fi
+}
+
 # getopt like parser
 parse_options() {
 	local short_options=$1; shift;
@@ -1615,10 +1629,10 @@ while true; do
 	shift
 done
 
-#preserve environment variables
-_PKGDEST=${PKGDEST}
-_SRCDEST=${SRCDEST}
-_SRCPKGDEST=${SRCPKGDEST}
+# preserve environment variables and canonicalize path
+[[ -n ${PKGDEST} ]] && _PKGDEST=$(canonicalize_path ${PKGDEST})
+[[ -n ${SRCDEST} ]] && _SRCDEST=$(canonicalize_path ${SRCDEST})
+[[ -n ${SRCPKGDEST} ]] && _SRCPKGDEST=$(canonicalize_path ${SRCPKGDEST})
 
 # default config is makepkg.conf
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
