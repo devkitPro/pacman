@@ -160,13 +160,6 @@ Options
 	that are located in opt/, you may need to add the directory to this
 	array. *NOTE:* Do not add the leading slash to the directory name.
 
-**STRIP_DIRS=(**bin lib sbin usr/{bin,lib} ...**)**::
-	If `strip` is specified in the OPTIONS array, this variable will
-	instruct makepkg where to look to for files to strip. If you build
-	packages that are located in opt/, you may need to add the directory
-	to this array. *NOTE:* Do not add the leading slash to the directory
-	name.
-
 **PURGE_TARGETS=(**usr/{,share}/info/dir .podlist *.pod...**)**::
 	If `purge` is specified in the OPTIONS array, this variable will
 	instruct makepkg which files to remove from the package. This is
