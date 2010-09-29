@@ -972,10 +972,14 @@ check_package() {
 		fi
 	done
 
-	# check for references to the build directory
-	if find "${pkgdir}" -type f -exec grep -q "${srcdir}" {} +; then
+	# check for references to the build and package directory
+	if find "${pkgdir}" -type f -exec grep -q -I "${srcdir}" {} +; then
 		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
 	fi
+	if find "${pkgdir}" -type f -exec grep -q -I "${pkgdir}" {} +; then
+		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
+	fi
+
 }
 
 create_package() {
