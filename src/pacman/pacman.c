@@ -552,7 +552,13 @@ static int parsearg_query(int opt)
 static int parsearg_trans(int opt)
 {
 	switch(opt) {
-		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
+		case 'd':
+			if(config->flags & PM_TRANS_FLAG_NODEPVERSION) {
+				config->flags |= PM_TRANS_FLAG_NODEPS;
+			} else {
+				config->flags |= PM_TRANS_FLAG_NODEPVERSION;
+			}
+			break;
 		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
 		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
 		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;

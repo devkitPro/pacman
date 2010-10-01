@@ -1,4 +1,4 @@
-self.description = "Install a sync package conflicting with two local ones (-d)"
+self.description = "Install a sync package conflicting with two local ones (-dd)"
 
 sp = pmpkg("pkg1")
 sp.conflicts = ["pkg2", "pkg3"]
@@ -10,7 +10,7 @@ self.addpkg2db("local", lp1);
 lp2 = pmpkg("pkg3")
 self.addpkg2db("local", lp2);
 
-self.args = "-Sd %s --ask=4" % sp.name
+self.args = "-Sdd %s --ask=4" % sp.name
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")

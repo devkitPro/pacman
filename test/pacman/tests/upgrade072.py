@@ -6,7 +6,7 @@ p.files = ["bin/dummy",
 p.depends = ["dep1"]
 self.addpkg(p)
 
-self.args = "-Ud %s" % p.filename()
+self.args = "-Udd %s" % p.filename()
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=dummy")
