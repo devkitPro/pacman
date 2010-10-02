@@ -265,6 +265,18 @@ static int sync_group(alpm_list_t *dbs_sync, const char *target)
 			found = 1;
 			for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
 				pmpkg_t *pkg = j->data;
+
+				/* check if group member is ignored */
+				if(_alpm_pkg_should_ignore(pkg)) {
+					int install = 0;
+					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+							NULL, NULL, &install);
+					if(install == 0) {
+						_alpm_log(PM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
+						continue;
+					}
+				}
+
 				if(sync_pkg(pkg, known_pkgs) == -1) {
 					if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
 						/* just skip duplicate or ignored targets */
