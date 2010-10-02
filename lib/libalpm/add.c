@@ -53,7 +53,7 @@
  * @param target the name of the file target to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_add_target(char *target)
+int SYMEXPORT alpm_add_target(const char *target)
 {
 	pmpkg_t *pkg = NULL;
 	const char *pkgname, *pkgver;

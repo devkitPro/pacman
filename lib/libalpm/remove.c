@@ -46,7 +46,7 @@
 #include "handle.h"
 #include "alpm.h"
 
-int SYMEXPORT alpm_remove_target(char *target)
+int SYMEXPORT alpm_remove_target(const char *target)
 {
 	pmpkg_t *info;
 	pmtrans_t *trans;

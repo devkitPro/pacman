@@ -248,7 +248,7 @@ static int sync_pkg(pmpkg_t *spkg, alpm_list_t *pkg_list)
 	return(0);
 }
 
-static int sync_target(alpm_list_t *dbs_sync, char *target)
+static int sync_target(alpm_list_t *dbs_sync, const char *target)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *known_pkgs = NULL;
@@ -309,7 +309,7 @@ static int sync_target(alpm_list_t *dbs_sync, char *target)
  * @param target the name of the sync target to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_sync_dbtarget(char *dbname, char *target)
+int SYMEXPORT alpm_sync_dbtarget(const char *dbname, const char *target)
 {
 	alpm_list_t *i;
 	alpm_list_t *dbs_sync;
@@ -342,7 +342,7 @@ int SYMEXPORT alpm_sync_dbtarget(char *dbname, char *target)
  * @param target the name of the sync target to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_sync_target(char *target)
+int SYMEXPORT alpm_sync_target(const char *target)
 {
 	alpm_list_t *dbs_sync;
 
