@@ -1061,7 +1061,7 @@ create_package() {
 		exit 1 # TODO: error code
 	fi
 
-	if (( ! ret )) && [[ "$PKGDEST" != "${startdir}" ]]; then
+	if (( ! ret )) && [[ ! "$PKGDEST" -ef "${startdir}" ]]; then
 		ln -sf "${pkg_file}" "${pkg_file/$PKGDEST/$startdir}"
 		ret=$?
 	fi
@@ -1142,7 +1142,7 @@ create_srcpackage() {
 		exit 1 # TODO: error code
 	fi
 
-       if (( ! ret )) && [[ "$SRCPKGDEST" != "${startdir}" ]]; then
+       if (( ! ret )) && [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
            ln -sf "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
            ret=$?
        fi
@@ -1691,7 +1691,7 @@ fi
 
 if (( CLEANCACHE )); then
 	#fix flyspray feature request #5223
-	if [[ -n $SRCDEST && $SRCDEST != $startdir ]]; then
+	if [[ -n $SRCDEST && ! $SRCDEST -ef "${startdir}" ]]; then
 		msg "$(gettext "Cleaning up ALL files from %s.")" "$SRCDEST"
 		echo -n "$(gettext "    Are you sure you wish to do this? ")"
 		echo -n "$(gettext "[y/N]")"
