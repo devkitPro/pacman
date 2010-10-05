@@ -108,13 +108,28 @@ static int dirlist_from_tar(const char *archive, alpm_list_t **dirlist)
 	return(0);
 }
 
+static int is_dir(const char *path, struct dirent *entry)
+{
+#ifdef DT_DIR
+	return(entry->d_type == DT_DIR);
+#else
+	char buffer[PATH_MAX];
+	snprintf(buffer, PATH_MAX, "%s/%s", path, entry->d_name);
+
+	struct stat sbuf;
+	if (!stat(buffer, &sbuf)) {
+		return(S_ISDIR(sbuf.st_mode));
+	}
+
+	return(0);
+#endif
+}
+
 /* create list of directories in db */
 static int dirlist_from_fs(const char *syncdbpath, alpm_list_t **dirlist)
 {
 	DIR *dbdir;
 	struct dirent *ent = NULL;
-	struct stat sbuf;
-	char path[PATH_MAX];
 
 	dbdir = opendir(syncdbpath);
 	if (dbdir != NULL) {
@@ -127,9 +142,7 @@ static int dirlist_from_fs(const char *syncdbpath, alpm_list_t **dirlist)
 				continue;
 			}
 
-			/* stat the entry, make sure it's a directory */
-			snprintf(path, PATH_MAX, "%s%s", syncdbpath, name);
-			if(stat(path, &sbuf) != 0 || !S_ISDIR(sbuf.st_mode)) {
+			if(!is_dir(syncdbpath, ent)) {
 				continue;
 			}
 
@@ -353,8 +366,6 @@ int _alpm_db_populate(pmdb_t *db)
 {
 	int count = 0;
 	struct dirent *ent = NULL;
-	struct stat sbuf;
-	char path[PATH_MAX];
 	const char *dbpath;
 	DIR *dbdir;
 
@@ -374,9 +385,7 @@ int _alpm_db_populate(pmdb_t *db)
 		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
 			continue;
 		}
-		/* stat the entry, make sure it's a directory */
-		snprintf(path, PATH_MAX, "%s%s", dbpath, name);
-		if(stat(path, &sbuf) != 0 || !S_ISDIR(sbuf.st_mode)) {
+		if(!is_dir(dbpath, ent)) {
 			continue;
 		}
 
