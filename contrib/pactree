@@ -130,9 +130,10 @@ _tree(){
 
 		# Generate the spacer
 		spacer=""
-		for each in $(seq 1 $spaces); do
+		for ((count = 0; count < spaces; count++)); do
 			spacer="$spacer$separator"
 		done
+		unset count
 		spacer="$spacer$branch_tip"
 
 		[ $silent -ne 1 ] &&	echo -e "$branch_color$spacer$leaf_color$pkg_name$provided"
