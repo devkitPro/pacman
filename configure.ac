@@ -158,9 +158,11 @@ AS_IF([test "x$with_fetch" != "xno"],
 	fi],
 	[-lcrypto -ldl])
 	# Check if libfetch supports connnection caching which we use
-	AC_CHECK_DECL(fetchConnectionCacheInit, ,
+	AS_IF([test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"],
+	[AC_CHECK_DECL(fetchConnectionCacheInit, ,
 		AC_MSG_ERROR([libfetch must be version 2.28 or greater]),
 		[#include <fetch.h>])
+	])
 	],
 	AC_MSG_RESULT(no))
 AM_CONDITIONAL([HAVE_LIBFETCH], [test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"])
