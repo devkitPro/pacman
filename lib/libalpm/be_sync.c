@@ -345,8 +345,17 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					pkg->replaces = alpm_list_add(pkg->replaces, linedup);
 				}
+			} else if(strcmp(line, "%EPOCH%") == 0) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
+					goto error;
+				}
+				pkg->epoch = atoi(_alpm_strtrim(line));
 			} else if(strcmp(line, "%FORCE%") == 0) {
-				pkg->force = 1;
+				/* For backward compatibility, treat force as a non-zero epoch
+				 * but only if we didn't already have a known epoch value. */
+				if(!pkg->epoch) {
+					pkg->epoch = 1;
+				}
 			}
 		}
 	} else if(strcmp(filename, "depends") == 0) {

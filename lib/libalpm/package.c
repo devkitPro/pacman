@@ -111,7 +111,7 @@ const char *_pkg_get_arch(pmpkg_t *pkg)        { return pkg->arch; }
 off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
 off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
 pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
-int _pkg_has_force(pmpkg_t *pkg)               { return pkg->force; }
+int _pkg_get_epoch(pmpkg_t *pkg)               { return pkg->epoch; }
 
 alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
 alpm_list_t *_pkg_get_groups(pmpkg_t *pkg)     { return pkg->groups; }
@@ -141,7 +141,7 @@ struct pkg_operations default_pkg_ops = {
 	.get_size        = _pkg_get_size,
 	.get_isize       = _pkg_get_isize,
 	.get_reason      = _pkg_get_reason,
-	.has_force       = _pkg_has_force,
+	.get_epoch       = _pkg_get_epoch,
 	.get_licenses    = _pkg_get_licenses,
 	.get_groups      = _pkg_get_groups,
 	.get_depends     = _pkg_get_depends,
@@ -222,9 +222,9 @@ pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 	return pkg->ops->get_reason(pkg);
 }
 
-int SYMEXPORT alpm_pkg_has_force(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_get_epoch(pmpkg_t *pkg)
 {
-	return pkg->ops->has_force(pkg);
+	return pkg->ops->get_epoch(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
@@ -435,7 +435,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->size = pkg->size;
 	newpkg->isize = pkg->isize;
 	newpkg->scriptlet = pkg->scriptlet;
-	newpkg->force = pkg->force;
+	newpkg->epoch = pkg->epoch;
 	newpkg->reason = pkg->reason;
 
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
@@ -523,21 +523,25 @@ void _alpm_pkg_free_trans(pmpkg_t *pkg)
 	pkg->removes = NULL;
 }
 
-/* Is spkg an upgrade for locapkg? */
+/* Is spkg an upgrade for localpkg? */
 int _alpm_pkg_compare_versions(pmpkg_t *spkg, pmpkg_t *localpkg)
 {
-	int cmp = 0;
+	int spkg_epoch, localpkg_epoch;
 
 	ALPM_LOG_FUNC;
 
-	cmp = alpm_pkg_vercmp(alpm_pkg_get_version(spkg),
-			alpm_pkg_get_version(localpkg));
+	spkg_epoch = alpm_pkg_get_epoch(spkg);
+	localpkg_epoch = alpm_pkg_get_epoch(localpkg);
 
-	if(cmp < 0 && alpm_pkg_has_force(spkg)) {
-		cmp = 1;
+	if(spkg_epoch > localpkg_epoch) {
+		return(1);
+	} else if(spkg_epoch < localpkg_epoch) {
+		return(-1);
 	}
 
-	return(cmp);
+	/* equal epoch values, move on to version comparison */
+	return alpm_pkg_vercmp(alpm_pkg_get_version(spkg),
+			alpm_pkg_get_version(localpkg));
 }
 
 /* Helper function for comparing packages

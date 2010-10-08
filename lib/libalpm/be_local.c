@@ -157,10 +157,10 @@ alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
 	return pkg->groups;
 }
 
-int _cache_has_force(pmpkg_t *pkg)
+int _cache_get_epoch(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->force;
+	return pkg->epoch;
 }
 
 alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
@@ -301,7 +301,7 @@ static struct pkg_operations local_pkg_ops = {
 	.get_size        = _cache_get_size,
 	.get_isize       = _cache_get_isize,
 	.get_reason      = _cache_get_reason,
-	.has_force       = _cache_has_force,
+	.get_epoch       = _cache_get_epoch,
 	.get_licenses    = _cache_get_licenses,
 	.get_groups      = _cache_get_groups,
 	.get_depends     = _cache_get_depends,
@@ -603,8 +603,17 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->replaces = alpm_list_add(info->replaces, linedup);
 				}
+			} else if(strcmp(line, "%EPOCH%") == 0) {
+				if(fgets(line, sizeof(line), fp) == NULL) {
+					goto error;
+				}
+				info->epoch = atoi(_alpm_strtrim(line));
 			} else if(strcmp(line, "%FORCE%") == 0) {
-				info->force = 1;
+				/* For backward compatibility, treat force as a non-zero epoch
+				 * but only if we didn't already have a known epoch value. */
+				if(!info->epoch) {
+					info->epoch = 1;
+				}
 			}
 		}
 		fclose(fp);
@@ -779,8 +788,9 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			fprintf(fp, "\n");
 		}
-		if(info->force) {
-			fprintf(fp, "%%FORCE%%\n\n");
+		if(info->epoch) {
+			fprintf(fp, "%%EPOCH%%\n"
+							"%d\n\n", info->epoch);
 		}
 		if(info->url) {
 			fprintf(fp, "%%URL%%\n"

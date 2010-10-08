@@ -57,7 +57,7 @@ struct pkg_operations {
 	off_t (*get_size) (pmpkg_t *);
 	off_t (*get_isize) (pmpkg_t *);
 	pmpkgreason_t (*get_reason) (pmpkg_t *);
-	int (*has_force) (pmpkg_t *);
+	int (*get_epoch) (pmpkg_t *);
 
 	alpm_list_t *(*get_licenses) (pmpkg_t *);
 	alpm_list_t *(*get_groups) (pmpkg_t *);
@@ -105,7 +105,7 @@ struct __pmpkg_t {
 	off_t isize;
 	off_t download_size;
 	int scriptlet;
-	int force;
+	int epoch;
 	pmpkgreason_t reason;
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;
