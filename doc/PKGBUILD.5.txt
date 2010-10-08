@@ -50,13 +50,22 @@ similar to `$_basekernver`.
 *pkgrel*::
 	This is the release number specific to the Arch Linux release. This
 	allows package maintainers to make updates to the package's configure
-	flags, for example. A pkgrel of 1 is typically used for each upstream
+	flags, for example. A pkgrel of '1' is typically used for each upstream
 	software release and is incremented for intermediate PKGBUILD updates. The
 	variable is not allowed to contain hyphens.
 
 *pkgdesc*::
 	This should be a brief description of the package and its functionality.
 	Try to keep the description to one line of text.
+
+*epoch*::
+	Used to force the package to be seen as newer than any previous versions
+	with a lower epoch, even if the version number would normally not trigger
+	such an upgrade. This value is required to be a positive integer; the
+	default value if left unspecified is '0'. This is useful when the version
+	numbering scheme of a package changes (or is alphanumeric), breaking normal
+	version comparison logic. See linkman:pacman[8] for more information on
+	version comparisons.
 
 *url*::
 	This field contains a URL that is associated with the software being
@@ -186,8 +195,8 @@ name. The syntax is: `source=('filename::url')`.
 	in the options array. To reverse the default behavior, place an ``!'' at
 	the front of the option. Only specify the options you specifically want
 	to override, the rest will be taken from linkman:makepkg.conf[5].
-	*NOTE:* 'force' is a special option only used in a linkman:PKGBUILD[5],
-	do not use it unless you know what you are doing.
+	*NOTE:* 'force' is a now-removed option in favor of the top level 'epoch'
+	variable.
 
 	*strip*;;
 		Strip symbols from binaries and libraries. If you frequently
@@ -223,13 +232,6 @@ name. The syntax is: `source=('filename::url')`.
 		in linkman:makepkg.conf[5]. More useful in its negative form
 		`!makeflags` with select packages that have problems building with
 		custom makeflags such as `-j2` (or higher).
-
-	*force*;;
-		Force the package to be upgraded by a pacman system upgrade
-		operation, even if the version number would normally not trigger
-		such an upgrade. This is useful when the version numbering scheme
-		of a package changes (or is alphanumeric). See linkman:pacman[8] for
-		more information on version comparisons.
 
 
 build() Function

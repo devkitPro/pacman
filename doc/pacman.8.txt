@@ -79,6 +79,9 @@ to determine which packages need upgrading. This behavior operates as follows:
     1.0a < 1.0alpha < 1.0b < 1.0beta < 1.0p < 1.0pre < 1.0rc < 1.0
   Numeric:
     1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
++
+Additionally, packages can have an 'epoch' value defined that will override any
+version comparison and force an upgrade.
 
 *-T, \--deptest*::
 	Check dependencies; this is useful in scripts such as makepkg to check
