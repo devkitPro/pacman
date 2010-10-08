@@ -352,6 +352,21 @@ static void setlibpaths(void)
 
 #define check_optarg() if(!optarg) { return(1); }
 
+typedef void (*fn_add) (const char *s);
+
+static int parsearg_util_addlist(fn_add fn)
+{
+	alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
+
+	check_optarg();
+	list = strsplit(optarg, ',');
+	for(item = list; item; item = alpm_list_next(item)) {
+		fn((char *)alpm_list_getdata(item));
+	}
+	FREELIST(list);
+	return(0);
+}
+
 /** Helper function for parsing operation from command-line arguments.
  * @param opt Keycode returned by getopt_long
  * @param dryrun If nonzero, application state is NOT changed
@@ -398,8 +413,6 @@ static int parsearg_op(int opt, int dryrun)
 static int parsearg_global(int opt)
 {
 	switch(opt) {
-		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
 		case OP_ARCH: check_optarg(); setarch(optarg); break;
 		case OP_ASK:
 			check_optarg();
@@ -449,22 +462,10 @@ static int parsearg_global(int opt)
 			config->logfile = strndup(optarg, PATH_MAX);
 			break;
 		case OP_NOCONFIRM: config->noconfirm = 1; break;
-		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-		case OP_PRINTFORMAT:
-			check_optarg();
-			config->print_format = strdup(optarg);
-			break;
 		case 'b':
 			check_optarg();
 			config->dbpath = strdup(optarg);
 			break;
-		case 'd':
-			config->op_q_deps = 1;
-			config->flags |= PM_TRANS_FLAG_NODEPS;
-			break;
-		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-		case 'p': config->op_q_isfile = 1; config->print = 1; break;
 		case 'r': check_optarg(); config->rootdir = strdup(optarg); break;
 		case 'v': (config->verbose)++; break;
 		default: return(1);
@@ -475,6 +476,8 @@ static int parsearg_global(int opt)
 static int parsearg_database(int opt)
 {
 	switch(opt) {
+		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
 		default: return(1);
 	}
 	return(0);
@@ -484,6 +487,7 @@ static int parsearg_query(int opt)
 {
 	switch(opt) {
 		case 'c': config->op_q_changelog = 1; break;
+		case 'd': config->op_q_deps = 1; break;
 		case 'e': config->op_q_explicit = 1; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_q_info)++; break;
@@ -491,6 +495,7 @@ static int parsearg_query(int opt)
 		case 'l': config->op_q_list = 1; break;
 		case 'm': config->op_q_foreign = 1; break;
 		case 'o': config->op_q_owns = 1; break;
+		case 'p': config->op_q_isfile = 1; break;
 		case 'q': config->quiet = 1; break;
 		case 's': config->op_q_search = 1; break;
 		case 't': config->op_q_unrequired = 1; break;
@@ -503,9 +508,14 @@ static int parsearg_query(int opt)
 static int parsearg_remove(int opt)
 {
 	switch(opt) {
+		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
+		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+		case OP_PRINTFORMAT: check_optarg(); config->print_format = strdup(optarg); break;
 		case 'c': config->flags |= PM_TRANS_FLAG_CASCADE; break;
+		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
 		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
 		case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
+		case 'p': config->print = 1; break;
 		case 's':
 			if(config->flags & PM_TRANS_FLAG_RECURSE) {
 				config->flags |= PM_TRANS_FLAG_RECURSEALL;
@@ -521,30 +531,23 @@ static int parsearg_remove(int opt)
 
 static int parsearg_sync(int opt)
 {
-	alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
-
 	switch(opt) {
-		case OP_IGNORE:
-			check_optarg();
-			list = strsplit(optarg, ',');
-			for(item = list; item; item = alpm_list_next(item)) {
-				alpm_option_add_ignorepkg((char *)alpm_list_getdata(item));
-			}
-			FREELIST(list);
-			break;
-		case OP_IGNOREGROUP:
-			check_optarg();
-			list = strsplit(optarg, ',');
-			for(item = list; item; item = alpm_list_next(item)) {
-				alpm_option_add_ignoregrp((char *)alpm_list_getdata(item));
-			}
-			FREELIST(list);
-			break;
+		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case OP_IGNORE: parsearg_util_addlist(alpm_option_add_ignorepkg); break;
+		case OP_IGNOREGROUP: parsearg_util_addlist(alpm_option_add_ignoregrp); break;
 		case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
+		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
+		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+		case OP_PRINTFORMAT: check_optarg(); config->print_format = strdup(optarg); break;
 		case 'c': (config->op_s_clean)++; break;
+		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
+		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_s_info)++; break;
 		case 'l': config->op_q_list = 1; break;
+		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+		case 'p': config->print = 1; break;
 		case 'q': config->quiet = 1; break;
 		case 's': config->op_s_search = 1; break;
 		case 'u': (config->op_s_upgrade)++; break;
@@ -570,7 +573,17 @@ static int parsearg_deptest(int opt)
 static int parsearg_upgrade(int opt)
 {
 	switch(opt) {
+		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case OP_IGNORE: parsearg_util_addlist(alpm_option_add_ignorepkg); break;
+		case OP_IGNOREGROUP: parsearg_util_addlist(alpm_option_add_ignoregrp); break;
+		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
+		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+		case OP_PRINTFORMAT: check_optarg(); config->print_format = strdup(optarg); break;
+		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
+		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+		case 'p': config->print = 1; break;
 		default: return(1);
 	}
 	return(0);

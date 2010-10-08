@@ -158,6 +158,16 @@ Options
 *\--config* <'file'>::
 	Specify an alternate configuration file.
 
+*\--ignore* <'package'>::
+	Directs pacman to ignore upgrades of package even if there is one
+	available. Multiple packages can be specified by separating them
+	with a comma.
+
+*\--ignoregroup* <'group'>::
+	Directs pacman to ignore upgrades of all packages in 'group' even if
+	there is one available. Multiple groups can be specified by
+	separating them with a comma.
+
 *\--logfile* <'file'>::
 	Specify an alternate log file. This is an absolute path, regardless of
 	the installation root setting.
@@ -321,6 +331,10 @@ linkman:pacman.conf[5].
 	or '-i' flags will also display those packages in all repositories that
 	depend on this package.
 
+*-k, \--dbonly*::
+	Adds the database entries for the specified packages but does not install any
+	of the files.
+
 *-l, \--list*::
 	List all packages in the specified repositories. Multiple repositories
 	can be specified on the command line.
@@ -365,21 +379,11 @@ linkman:pacman.conf[5].
 *\--needed*::
 	Don't reinstall the targets that are already up-to-date.
 
-*\--ignore* <'package'>::
-	Directs pacman to ignore upgrades of package even if there is one
-	available. Multiple packages can be specified by separating them
-	with a comma.
-
-*\--ignoregroup* <'group'>::
-	Directs pacman to ignore upgrades of all packages in 'group' even if
-	there is one available. Multiple groups can be specified by
-	separating them with a comma.
-
 
 Upgrade Options[[UO]]
 --------------------
 *-k, \--dbonly*::
-	Adds the database entries for the specified packages but do not install any
+	Adds the database entries for the specified packages but does not install any
 	of the files. On an upgrade operation, the existing package and all files
 	will be removed and the database entry for the new package will be added.
 
