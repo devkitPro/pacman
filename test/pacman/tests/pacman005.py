@@ -6,6 +6,3 @@ self.addpkg2db("local", p)
 self.args = "-Qy"
 
 self.addrule("PACMAN_RETCODE=1")
-
-self.expectfailure = True
-

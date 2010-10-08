@@ -352,6 +352,230 @@ static void setlibpaths(void)
 
 #define check_optarg() if(!optarg) { return(1); }
 
+/** Helper function for parsing operation from command-line arguments.
+ * @param opt Keycode returned by getopt_long
+ * @param dryrun If nonzero, application state is NOT changed
+ * @return 0 if opt was handled, 1 if it was not handled
+ */
+static int parsearg_op(int opt, int dryrun)
+{
+	switch(opt) {
+		/* operations */
+		case 'D':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DATABASE); break;
+		case 'Q':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
+		case 'R':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
+		case 'S':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
+		case 'T':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
+		case 'U':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
+		case 'V':
+			if(dryrun) break;
+			config->version = 1; break;
+		case 'h':
+			if(dryrun) break;
+			config->help = 1; break;
+		default:
+			return(1);
+	}
+	return(0);
+}
+
+/** Helper functions for parsing command-line arguments.
+ * @param opt Keycode returned by getopt_long
+ * @return 0 on success, 1 on failure
+ */
+static int parsearg_global(int opt)
+{
+	switch(opt) {
+		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case OP_ARCH: check_optarg(); setarch(optarg); break;
+		case OP_ASK:
+			check_optarg();
+			config->noask = 1;
+			config->ask = atoi(optarg);
+			break;
+		case OP_CACHEDIR:
+			check_optarg();
+			if(alpm_option_add_cachedir(optarg) != 0) {
+				pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
+						optarg, alpm_strerrorlast());
+				return(1);
+			}
+			break;
+		case OP_CONFIG:
+			check_optarg();
+			if(config->configfile) {
+				free(config->configfile);
+			}
+			config->configfile = strndup(optarg, PATH_MAX);
+			break;
+		case OP_DEBUG:
+			/* debug levels are made more 'human readable' than using a raw logmask
+			 * here, error and warning are set in config_new, though perhaps a
+			 * --quiet option will remove these later */
+			if(optarg) {
+				unsigned short debug = atoi(optarg);
+				switch(debug) {
+					case 2:
+						config->logmask |= PM_LOG_FUNCTION; /* fall through */
+					case 1:
+						config->logmask |= PM_LOG_DEBUG;
+						break;
+					default:
+						pm_printf(PM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
+								optarg);
+						return(1);
+				}
+			} else {
+				config->logmask |= PM_LOG_DEBUG;
+			}
+			/* progress bars get wonky with debug on, shut them off */
+			config->noprogressbar = 1;
+			break;
+		case OP_LOGFILE:
+			check_optarg();
+			config->logfile = strndup(optarg, PATH_MAX);
+			break;
+		case OP_NOCONFIRM: config->noconfirm = 1; break;
+		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
+		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+		case OP_PRINTFORMAT:
+			check_optarg();
+			config->print_format = strdup(optarg);
+			break;
+		case 'b':
+			check_optarg();
+			config->dbpath = strdup(optarg);
+			break;
+		case 'd':
+			config->op_q_deps = 1;
+			config->flags |= PM_TRANS_FLAG_NODEPS;
+			break;
+		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
+		case 'p': config->op_q_isfile = 1; config->print = 1; break;
+		case 'r': check_optarg(); config->rootdir = strdup(optarg); break;
+		case 'v': (config->verbose)++; break;
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_database(int opt)
+{
+	switch(opt) {
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_query(int opt)
+{
+	switch(opt) {
+		case 'c': config->op_q_changelog = 1; break;
+		case 'e': config->op_q_explicit = 1; break;
+		case 'g': (config->group)++; break;
+		case 'i': (config->op_q_info)++; break;
+		case 'k': config->op_q_check = 1; break;
+		case 'l': config->op_q_list = 1; break;
+		case 'm': config->op_q_foreign = 1; break;
+		case 'o': config->op_q_owns = 1; break;
+		case 'q': config->quiet = 1; break;
+		case 's': config->op_q_search = 1; break;
+		case 't': config->op_q_unrequired = 1; break;
+		case 'u': config->op_q_upgrade = 1; break;
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_remove(int opt)
+{
+	switch(opt) {
+		case 'c': config->flags |= PM_TRANS_FLAG_CASCADE; break;
+		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+		case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
+		case 's':
+			if(config->flags & PM_TRANS_FLAG_RECURSE) {
+				config->flags |= PM_TRANS_FLAG_RECURSEALL;
+			} else {
+				config->flags |= PM_TRANS_FLAG_RECURSE;
+			}
+			break;
+		case 'u': config->flags |= PM_TRANS_FLAG_UNNEEDED; break;
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_sync(int opt)
+{
+	alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
+
+	switch(opt) {
+		case OP_IGNORE:
+			check_optarg();
+			list = strsplit(optarg, ',');
+			for(item = list; item; item = alpm_list_next(item)) {
+				alpm_option_add_ignorepkg((char *)alpm_list_getdata(item));
+			}
+			FREELIST(list);
+			break;
+		case OP_IGNOREGROUP:
+			check_optarg();
+			list = strsplit(optarg, ',');
+			for(item = list; item; item = alpm_list_next(item)) {
+				alpm_option_add_ignoregrp((char *)alpm_list_getdata(item));
+			}
+			FREELIST(list);
+			break;
+		case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
+		case 'c': (config->op_s_clean)++; break;
+		case 'g': (config->group)++; break;
+		case 'i': (config->op_s_info)++; break;
+		case 'l': config->op_q_list = 1; break;
+		case 'q': config->quiet = 1; break;
+		case 's': config->op_s_search = 1; break;
+		case 'u': (config->op_s_upgrade)++; break;
+		case 'w':
+			config->op_s_downloadonly = 1;
+			config->flags |= PM_TRANS_FLAG_DOWNLOADONLY;
+			config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
+			break;
+		case 'y': (config->op_s_sync)++; break;
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_deptest(int opt)
+{
+	switch(opt) {
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_upgrade(int opt)
+{
+	switch(opt) {
+		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+		default: return(1);
+	}
+	return(0);
+}
+
 /** Parse command-line arguments for each operation.
  * @param argc argc
  * @param argv argv
@@ -361,6 +585,8 @@ static int parseargs(int argc, char *argv[])
 {
 	int opt;
 	int option_index = 0;
+	int result;
+	const char *optstring = "DQRSTUVb:cdefghiklmnopqr:stuvwy";
 	static struct option opts[] =
 	{
 		{"database",   no_argument,       0, 'D'},
@@ -418,175 +644,22 @@ static int parseargs(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "DQRSTUVb:cdefghiklmnopqr:stuvwy", opts, &option_index))) {
-		alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
-
+	/* parse operation */
+	while((opt = getopt_long(argc, argv, optstring, opts, &option_index))) {
 		if(opt < 0) {
 			break;
+		} else if(opt == 0) {
+			continue;
+		} else if(opt == '?') {
+			return(1);
 		}
-		switch(opt) {
-			case 0: break;
-			case OP_NOCONFIRM: config->noconfirm = 1; break;
-			case OP_CONFIG:
-				check_optarg();
-				if(config->configfile) {
-					free(config->configfile);
-				}
-				config->configfile = strndup(optarg, PATH_MAX);
-				break;
-			case OP_IGNORE:
-				check_optarg();
-				list = strsplit(optarg, ',');
-				for(item = list; item; item = alpm_list_next(item)) {
-					alpm_option_add_ignorepkg((char *)alpm_list_getdata(item));
-				}
-				FREELIST(list);
-				break;
-			case OP_DEBUG:
-				/* debug levels are made more 'human readable' than using a raw logmask
-				 * here, error and warning are set in config_new, though perhaps a
-				 * --quiet option will remove these later */
-				if(optarg) {
-					unsigned short debug = atoi(optarg);
-					switch(debug) {
-						case 2:
-							config->logmask |= PM_LOG_FUNCTION; /* fall through */
-						case 1:
-							config->logmask |= PM_LOG_DEBUG;
-							break;
-						default:
-						  pm_printf(PM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
-									optarg);
-							return(1);
-					}
-				} else {
-					config->logmask |= PM_LOG_DEBUG;
-				}
-				/* progress bars get wonky with debug on, shut them off */
-				config->noprogressbar = 1;
-				break;
-			case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-			case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-			case OP_ASK:
-				check_optarg();
-				config->noask = 1;
-				config->ask = atoi(optarg);
-				break;
-			case OP_CACHEDIR:
-				check_optarg();
-				if(alpm_option_add_cachedir(optarg) != 0) {
-					pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
-							optarg, alpm_strerrorlast());
-					return(1);
-				}
-				break;
-			case OP_ASDEPS:
-				config->flags |= PM_TRANS_FLAG_ALLDEPS;
-				break;
-			case OP_LOGFILE:
-				check_optarg();
-				config->logfile = strndup(optarg, PATH_MAX);
-				break;
-			case OP_IGNOREGROUP:
-				check_optarg();
-				list = strsplit(optarg, ',');
-				for(item = list; item; item = alpm_list_next(item)) {
-					alpm_option_add_ignoregrp((char *)alpm_list_getdata(item));
-				}
-				FREELIST(list);
-				break;
-			case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
-			case OP_ASEXPLICIT:
-				config->flags |= PM_TRANS_FLAG_ALLEXPLICIT;
-				break;
-			case OP_ARCH:
-				check_optarg();
-				setarch(optarg);
-				break;
-			case OP_PRINTFORMAT:
-				check_optarg();
-				config->print_format = strdup(optarg);
-				break;
-			case 'D': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DATABASE); break;
-			case 'Q': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
-			case 'R': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_REMOVE); break;
-			case 'S': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_SYNC); break;
-			case 'T': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DEPTEST); break;
-			case 'U': config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_UPGRADE); break;
-			case 'V': config->version = 1; break;
-			case 'b':
-				check_optarg();
-				config->dbpath = strdup(optarg);
-				break;
-			case 'c':
-				(config->op_s_clean)++;
-				config->flags |= PM_TRANS_FLAG_CASCADE;
-				config->op_q_changelog = 1;
-				break;
-			case 'd':
-				config->op_q_deps = 1;
-				config->flags |= PM_TRANS_FLAG_NODEPS;
-				break;
-			case 'e':
-				config->op_q_explicit = 1;
-				break;
-			case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-			case 'g': (config->group)++; break;
-			case 'h': config->help = 1; break;
-			case 'i': (config->op_q_info)++; (config->op_s_info)++; break;
-			case 'k':
-				config->flags |= PM_TRANS_FLAG_DBONLY;
-				config->op_q_check = 1;
-				break;
-			case 'l': config->op_q_list = 1; break;
-			case 'm': config->op_q_foreign = 1; break;
-			case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
-			case 'o': config->op_q_owns = 1; break;
-			case 'p':
-				config->op_q_isfile = 1;
-				config->print = 1;
-				break;
-			case 'q':
-				config->quiet = 1;
-				break;
-			case 'r':
-				check_optarg();
-				config->rootdir = strdup(optarg);
-				break;
-			case 's':
-				config->op_s_search = 1;
-				config->op_q_search = 1;
-				if(config->flags & PM_TRANS_FLAG_RECURSE) {
-					config->flags |= PM_TRANS_FLAG_RECURSEALL;
-				} else {
-					config->flags |= PM_TRANS_FLAG_RECURSE;
-				}
-				break;
-			case 't':
-				config->op_q_unrequired = 1;
-				break;
-			case 'u':
-				(config->op_s_upgrade)++;
-				config->op_q_upgrade = 1;
-				config->flags |= PM_TRANS_FLAG_UNNEEDED;
-				break;
-			case 'v': (config->verbose)++; break;
-			case 'w':
-				config->op_s_downloadonly = 1;
-				config->flags |= PM_TRANS_FLAG_DOWNLOADONLY;
-				config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
-				break;
-			case 'y': (config->op_s_sync)++; break;
-			case '?': return(1);
-			default: return(1);
-		}
+		parsearg_op(opt, 0);
 	}
 
 	if(config->op == 0) {
 		pm_printf(PM_LOG_ERROR, _("only one operation may be used at a time\n"));
 		return(1);
 	}
-
 	if(config->help) {
 		usage(config->op, mbasename(argv[0]));
 		return(2);
@@ -594,6 +667,53 @@ static int parseargs(int argc, char *argv[])
 	if(config->version) {
 		version();
 		return(2);
+	}
+
+	/* parse all other options */
+	optind = 1;
+	while((opt = getopt_long(argc, argv, optstring, opts, &option_index))) {
+
+		if(opt < 0) {
+			break;
+		} else if(opt == 0) {
+			continue;
+		} else if(opt == '?') {
+			return(1);
+		} else if(parsearg_op(opt, 1) == 0) {	/* opt is an operation */
+			continue;
+		}
+
+		switch(config->op) {
+			case PM_OP_DATABASE:
+				result = parsearg_database(opt);
+				break;
+			case PM_OP_QUERY:
+				result = parsearg_query(opt);
+				break;
+			case PM_OP_REMOVE:
+				result = parsearg_remove(opt);
+				break;
+			case PM_OP_SYNC:
+				result = parsearg_sync(opt);
+				break;
+			case PM_OP_DEPTEST:
+				result = parsearg_deptest(opt);
+				break;
+			case PM_OP_UPGRADE:
+				result = parsearg_upgrade(opt);
+				break;
+			default:
+				return(1);
+		}
+		if(result != 0) {
+			/* operation-specific option parsing failed, fall back to global options */
+			result = parsearg_global(opt);
+			if(result != 0) {
+				/* global option parsing failed, abort */
+				pm_printf(PM_LOG_ERROR, _("invalid option\n"));
+				return(result);
+			}
+		}
 	}
 
 	while(optind < argc) {
