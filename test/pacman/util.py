@@ -154,6 +154,10 @@ def mkdescfile(filename, pkg):
         data.append("provides = %s" % i)
     for i in pkg.backup:
         data.append("backup = %s" % i)
+    if pkg.epoch:
+        data.append("epoch = %d" % pkg.epoch)
+        if not pkg.force:
+            data.append("force = 1")
     if pkg.force:
         data.append("force = 1")
 

@@ -158,6 +158,8 @@ class pmdb:
                 pkg.md5sum = fd.readline().strip("\n")
             elif line == "%REPLACES%":
                 pkg.replaces = _getsection(fd)
+            elif line == "%EPOCH%":
+                pkg.epoch = int(fd.readline().strip("\n"))
             elif line == "%FORCE%":
                 fd.readline()
                 pkg.force = 1
@@ -206,12 +208,6 @@ class pmdb:
                 pkg.conflicts = _getsection(fd)
             elif line == "%PROVIDES%":
                 pkg.provides = _getsection(fd)
-            # TODO this was going to be changed, but isn't anymore
-            #elif line == "%REPLACES%":
-            #    pkg.replaces = _getsection(fd)
-            #elif line == "%FORCE%":
-            #    fd.readline()
-            #    pkg.force = 1
         fd.close()
         pkg.checksum["depends"] = getmd5sum(filename)
         pkg.mtime["depends"] = getmtime(filename)
@@ -267,6 +263,11 @@ class pmdb:
             data.append(_mksection("FILENAME", pkg.filename()))
             if pkg.replaces:
                 data.append(_mksection("REPLACES", pkg.replaces))
+            if pkg.epoch:
+                data.append(_mksection("EPOCH", pkg.epoch))
+                # for backward compatibility
+                if not pkg.force:
+                    data.append(_mksection("FORCE", ""))
             if pkg.force:
                 data.append(_mksection("FORCE", ""))
             if pkg.csize:
@@ -308,11 +309,6 @@ class pmdb:
             data.append(_mksection("CONFLICTS", pkg.conflicts))
         if pkg.provides:
             data.append(_mksection("PROVIDES", pkg.provides))
-        #if self.treename != "local":
-        #    if pkg.replaces:
-        #        data.append(_mksection("REPLACES", pkg.replaces))
-        #    if pkg.force:
-        #        data.append(_mksection("FORCE", ""))
         if data:
             data.append("")
         filename = os.path.join(path, "depends")

@@ -48,8 +48,9 @@ class pmpkg:
         self.csize = 0
         self.reason = 0
         self.md5sum = ""      # sync only
-        self.replaces = []    # sync only (will be moved to depends)
-        self.force = 0        # sync only (will be moved to depends)
+        self.replaces = []
+        self.force = 0
+        self.epoch = 0
         # depends
         self.depends = []
         self.optdepends = []
