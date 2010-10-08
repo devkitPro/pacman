@@ -40,7 +40,7 @@ syn match pbPkgverGroup /^pkgver=.*/ contains=pbIllegalPkgver,pbValidPkgver,pb_k
 
 " pkgrel
 syn keyword pb_k_pkgrel pkgrel contained
-syn match pbValidPkgrel /[[:digit:]]*/ contained contains=pbIllegalPkgver
+syn match pbValidPkgrel /[[:digit:]]*/ contained contains=pbIllegalPkgrel
 syn match pbIllegalPkgrel /[^[:digit:]=]\|=.*=/ contained
 syn match pbPkgrelGroup /^pkgrel=.*/ contains=pbIllegalPkgrel,pbValidPkgrel,pb_k_pkgrel,shDoubleQuote,shSingleQuote
 
@@ -51,6 +51,12 @@ syn match pbIllegalPkgdesc /.\{90,}\|=['"]\?.*['" ]\+[iI][sS] [aA]/ contained co
 syn match pbValidPkgdesc /[^='"]\.\{,80}/ contained contains=pbIllegalPkgdesc
 syn match pbPkgdescGroup /^pkgdesc=.*/ contains=pbIllegalPkgdesc,pb_k_desc,pbValidPkgdesc,shDoubleQuote,shSingleQuote
 syn match pbPkgdescSign /[='"]/ contained
+
+" epoch
+syn keyword pb_k_epoch epoch contained
+syn match pbValidEpoch /[[:digit:]]*/ contained contains=pbIllegalEpoch
+syn match pbIllegalEpoch /[^[:digit:]=]\|=.*=/ contained
+syn match pbEpochGroup /^epoch=.*/ contains=pbIllegalEpoch,pbValidEpoch,pb_k_epoch,shDoubleQuote,shSingleQuote
 
 " url
 syn keyword pb_k_url url contained
@@ -163,7 +169,7 @@ hi def link pbValidSha1sums  Number
 
 " options
 syn keyword pb_k_options options contained
-syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|zipman\|ccache\|distcc\|makeflags\|force\)/ contained
+syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|zipman\|ccache\|distcc\|makeflags\)/ contained
 syn match   pbOptionsNeg     /\!/ contained
 syn match   pbOptionsDeprec  /no/ contained
 syn region pbOptionsGroup start=/^options=(/ end=/)/ contains=pb_k_options,pbOptions,pbOptionsNeg,pbOptionsDeprec,pbIllegalOption,shDoubleQuote,shSingleQuote
