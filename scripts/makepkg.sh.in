@@ -45,7 +45,7 @@ srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
 
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
-other_options=('ccache' 'distcc' 'makeflags' 'force')
+other_options=('ccache' 'distcc' 'makeflags')
 splitpkg_overrides=('pkgver' 'pkgrel' 'pkgdesc' 'arch' 'license' 'groups' \
                     'depends' 'optdepends' 'provides' 'conflicts' 'replaces' \
                     'backup' 'options' 'install' 'changelog')
@@ -923,14 +923,12 @@ write_pkginfo() {
 	(( SPLITPKG )) && echo pkgbase = $pkgbase
 	echo "pkgver = $pkgver-$pkgrel"
 	echo "pkgdesc = $pkgdesc"
+	[[ $epoch ]] && echo "epoch = $epoch"
 	echo "url = $url"
 	echo "builddate = $builddate"
 	echo "packager = $packager"
 	echo "size = $size"
 	echo "arch = $PKGARCH"
-	if [[ $(check_option force) = "y" ]]; then
-		echo "force = true"
-	fi
 
 	[[ $license ]]    && printf "license = %s\n"   "${license[@]}"
 	[[ $replaces ]]   && printf "replaces = %s\n"  "${replaces[@]}"
