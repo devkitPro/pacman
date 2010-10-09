@@ -358,6 +358,7 @@ int _alpm_local_db_populate(pmdb_t *db)
 	}
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
+
 		pmpkg_t *pkg;
 
 		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {

@@ -414,10 +414,10 @@ const char *_alpm_db_path(pmdb_t *db)
 			CALLOC(db->_path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
 			sprintf(db->_path, "%s%s/", dbpath, db->treename);
 		} else {
-			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + 2;
+			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + 4;
 			CALLOC(db->_path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
 			/* all sync DBs now reside in the sync/ subdir of the dbpath */
-			sprintf(db->_path, "%ssync/%s/", dbpath, db->treename);
+			sprintf(db->_path, "%ssync/%s.db", dbpath, db->treename);
 		}
 		_alpm_log(PM_LOG_DEBUG, "database path for tree %s set to %s\n",
 				db->treename, db->_path);
@@ -765,6 +765,12 @@ int splitname(const char *target, pmpkg_t *pkg)
 	}
 	STRDUP(tmp, target, RET_ERR(PM_ERR_MEMORY, -1));
 	p = tmp + strlen(tmp);
+
+	/* remove any trailing '/' */
+	while (*(p - 1) == '/') {
+	  --p;
+	  *p = '\0';
+	}
 
 	/* do the magic parsing- find the beginning of the version string
 	 * by doing two iterations of same loop to lop off two hyphens */

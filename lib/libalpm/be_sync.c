@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <dirent.h>
 #include <ctype.h>
+#include <locale.h>
 
 /* libarchive */
 #include <archive.h>
@@ -500,40 +501,53 @@ cleanup:
 	return(0);
 }
 
-
 int _alpm_sync_db_populate(pmdb_t *db)
 {
 	int count = 0;
-	struct dirent *ent = NULL;
-	const char *dbpath;
-	DIR *dbdir;
+	struct archive *archive;
+	struct archive_entry *entry;
+	const char * archive_path;
 
 	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	dbpath = _alpm_db_path(db);
-	dbdir = opendir(dbpath);
-	if(dbdir == NULL) {
-		return(0);
+	if((archive = archive_read_new()) == NULL)
+		RET_ERR(PM_ERR_LIBARCHIVE, 1);
+
+	archive_read_support_compression_all(archive);
+	archive_read_support_format_all(archive);
+
+	if(archive_read_open_filename(archive, _alpm_db_path(db),
+				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), _alpm_db_path(db),
+				archive_error_string(archive));
+		RET_ERR(PM_ERR_PKG_OPEN, 1);
 	}
-	while((ent = readdir(dbdir)) != NULL) {
-		const char *name = ent->d_name;
+
+	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
+		const struct stat *st;
+		const char *name;
 		pmpkg_t *pkg;
 
-		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
+		st = archive_entry_stat(entry);
+
+		/* only parse directory names */
+		if(S_ISREG(st->st_mode)) {
+			/* we have desc or depends or something else */
 			continue;
 		}
-		if(!is_dir(dbpath, ent)) {
-			continue;
-		}
+
+		archive_path = archive_entry_pathname(entry);
 
 		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
-			closedir(dbdir);
+			archive_read_finish(archive);
 			return(-1);
 		}
-		/* split the db entry name */
+
+		name = archive_entry_pathname(entry);
+
 		if(splitname(name, pkg) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
 					name);
@@ -548,17 +562,10 @@ int _alpm_sync_db_populate(pmdb_t *db)
 			continue;
 		}
 
-		/* explicitly read with only 'BASE' data, accessors will handle the rest */
-		if(_alpm_sync_db_read(db, pkg, INFRQ_BASE) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
-			_alpm_pkg_free(pkg);
-			continue;
-		}
-
 		pkg->origin = PKG_FROM_SYNCDB;
 		pkg->ops = &sync_pkg_ops;
-
 		pkg->origin_data.db = db;
+
 		/* add to the collection */
 		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
@@ -566,8 +573,9 @@ int _alpm_sync_db_populate(pmdb_t *db)
 		count++;
 	}
 
-	closedir(dbdir);
 	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
+	archive_read_finish(archive);
+
 	return(count);
 }
 
