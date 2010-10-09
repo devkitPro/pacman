@@ -350,7 +350,7 @@ int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
+		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
 	}
 	return pkg->scriptlet;
 }

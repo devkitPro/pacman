@@ -60,7 +60,6 @@ struct __pmdb_t {
 	struct db_operations *ops;
 };
 
-extern struct db_operations default_db_ops;
 
 /* db.c, database general calls */
 void _alpm_db_free(pmdb_t *db);
@@ -73,12 +72,13 @@ void _alpm_db_unregister(pmdb_t *db);
 pmdb_t *_alpm_db_new(const char *treename, int is_local);
 
 /* be.c, backend specific calls */
-int _alpm_db_populate(pmdb_t *db);
-int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-
+int _alpm_local_db_populate(pmdb_t *db);
+int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info);
 int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
+int _alpm_sync_db_populate(pmdb_t *db);
+int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 
 /* cache bullshit */
 /* packages */

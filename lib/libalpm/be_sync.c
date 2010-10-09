@@ -39,14 +39,13 @@
 #include "deps.h"
 #include "dload.h"
 
-
 #define LAZY_LOAD(info, errret) \
 	do { \
 		ALPM_LOG_FUNC; \
 		ASSERT(handle != NULL, return(errret)); \
 		ASSERT(pkg != NULL, return(errret)); \
 		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
-			_alpm_db_read(pkg->origin_data.db, pkg, info); \
+			_alpm_sync_db_read(pkg->origin_data.db, pkg, info); \
 		} \
 	} while(0)
 
@@ -199,7 +198,7 @@ alpm_list_t *_sync_cache_get_files(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+		_alpm_sync_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
 	}
 	return pkg->files;
 }
@@ -214,7 +213,7 @@ alpm_list_t *_sync_cache_get_backup(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+		_alpm_sync_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
 	}
 	return pkg->backup;
 }
@@ -249,33 +248,6 @@ static struct pkg_operations sync_pkg_ops = {
 	.get_files       = _sync_cache_get_files,
 	.get_backup      = _sync_cache_get_backup,
 };
-
-pmdb_t *_alpm_db_register_sync(const char *treename)
-{
-	pmdb_t *db;
-	alpm_list_t *i;
-
-	ALPM_LOG_FUNC;
-
-	for(i = handle->dbs_sync; i; i = i->next) {
-		pmdb_t *sdb = i->data;
-		if(strcmp(treename, sdb->treename) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
-			return sdb;
-		}
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
-
-	db = _alpm_db_new(treename, 0);
-	db->ops = &default_db_ops;
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_CREATE, NULL);
-	}
-
-	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
-	return(db);
-}
 
 /* create list of directories in db */
 static int dirlist_from_tar(const char *archive, alpm_list_t **dirlist)
@@ -577,7 +549,7 @@ int _alpm_sync_db_populate(pmdb_t *db)
 		}
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
-		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
+		if(_alpm_sync_db_read(db, pkg, INFRQ_BASE) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
 			_alpm_pkg_free(pkg);
 			continue;
@@ -613,7 +585,7 @@ int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	if(info == NULL || info->name == NULL || info->version == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping\n");
+		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_sync_db_read, skipping\n");
 		return(-1);
 	}
 
@@ -902,5 +874,38 @@ error:
 	}
 	return(-1);
 }
+
+struct db_operations sync_db_ops = {
+	.populate         = _alpm_sync_db_populate,
+	.unregister       = _alpm_db_unregister,
+};
+
+pmdb_t *_alpm_db_register_sync(const char *treename)
+{
+	pmdb_t *db;
+	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
+
+	for(i = handle->dbs_sync; i; i = i->next) {
+		pmdb_t *sdb = i->data;
+		if(strcmp(treename, sdb->treename) == 0) {
+			_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
+			return sdb;
+		}
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
+
+	db = _alpm_db_new(treename, 0);
+	db->ops = &sync_db_ops;
+	if(db == NULL) {
+		RET_ERR(PM_ERR_DB_CREATE, NULL);
+	}
+
+	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
+	return(db);
+}
+
 
 /* vim: set ts=2 sw=2 noet: */

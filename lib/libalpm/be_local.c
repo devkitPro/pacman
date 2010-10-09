@@ -57,7 +57,7 @@
 		ASSERT(handle != NULL, return(errret)); \
 		ASSERT(pkg != NULL, return(errret)); \
 		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
-			_alpm_db_read(pkg->origin_data.db, pkg, info); \
+			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
 		} \
 	} while(0)
 
@@ -210,7 +210,7 @@ alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
 	}
 	return pkg->files;
 }
@@ -225,7 +225,7 @@ alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
 	}
 	return pkg->backup;
 }
@@ -340,31 +340,7 @@ static int is_dir(const char *path, struct dirent *entry)
 #endif
 }
 
-pmdb_t *_alpm_db_register_local(void)
-{
-	pmdb_t *db;
-
-	ALPM_LOG_FUNC;
-
-	if(handle->db_local != NULL) {
-		_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
-		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
-
-	db = _alpm_db_new("local", 1);
-	db->ops = &default_db_ops;
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_CREATE, NULL);
-	}
-
-	handle->db_local = db;
-	return(db);
-}
-
-
-int _alpm_db_populate(pmdb_t *db)
+int _alpm_local_db_populate(pmdb_t *db)
 {
 	int count = 0;
 	struct dirent *ent = NULL;
@@ -412,7 +388,7 @@ int _alpm_db_populate(pmdb_t *db)
 		}
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
-		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
+		if(_alpm_local_db_read(db, pkg, INFRQ_BASE) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
 			_alpm_pkg_free(pkg);
 			continue;
@@ -434,7 +410,7 @@ int _alpm_db_populate(pmdb_t *db)
 	return(count);
 }
 
-int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -448,7 +424,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	if(info == NULL || info->name == NULL || info->version == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping\n");
+		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_local_db_read, skipping\n");
 		return(-1);
 	}
 
@@ -981,5 +957,34 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 	}
 	return(ret);
 }
+
+struct db_operations local_db_ops = {
+	.populate         = _alpm_local_db_populate,
+	.unregister       = _alpm_db_unregister,
+};
+
+pmdb_t *_alpm_db_register_local(void)
+{
+	pmdb_t *db;
+
+	ALPM_LOG_FUNC;
+
+	if(handle->db_local != NULL) {
+		_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
+		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
+
+	db = _alpm_db_new("local", 1);
+	db->ops = &local_db_ops;
+	if(db == NULL) {
+		RET_ERR(PM_ERR_DB_CREATE, NULL);
+	}
+
+	handle->db_local = db;
+	return(db);
+}
+
 
 /* vim: set ts=2 sw=2 noet: */

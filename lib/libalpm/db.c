@@ -43,12 +43,6 @@
 #include "package.h"
 #include "group.h"
 
-
-struct db_operations default_db_ops = {
-	.populate         = _alpm_db_populate,
-	.unregister       = _alpm_db_unregister,
-};
-
 /** \addtogroup alpm_databases Database Functions
  * @brief Functions to query and manipulate the database of libalpm
  * @{
@@ -353,7 +347,7 @@ int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t 
 
 	_alpm_log(PM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
 	/* read DESC */
-	if(_alpm_db_read(db, pkg, INFRQ_DESC)) {
+	if(_alpm_local_db_read(db, pkg, INFRQ_DESC)) {
 		return(-1);
 	}
 	if(pkg->reason == reason) {
