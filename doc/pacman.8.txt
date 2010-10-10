@@ -107,34 +107,11 @@ version comparison and force an upgrade.
 
 Options
 -------
-*\--asdeps*::
-	Install packages non-explicitly; in other words, fake their install reason
-	to be installed as a dependency. This is useful for makepkg and other
-	build from source tools that need to install dependencies before building
-	the package.
-
-*\--asexplicit*::
-	Install packages explicitly; in other words, fake their install reason to
-	be explicitly installed. This is useful if you want to mark a dependency
-	as explicitly installed so it will not be removed by the '\--recursive'
-	remove operation.
-
 *-b, \--dbpath* <'path'>::
 	Specify an alternative database location (a typical default is
 	``{localstatedir}/lib/pacman'').  This should not be used unless you know what you are
 	doing. *NOTE*: if specified, this is an absolute path and the root path is
 	not automatically prepended.
-
-*-d, \--nodeps*::
-	Skips all dependency checks. Normally, pacman will always check a
-	package's dependency fields to ensure that all dependencies are
-	installed and there are no package conflicts in the system.
-
-*-f, \--force*::
-	Bypass file conflict checks and overwrite conflicting files. If the
-	package that is about to be installed contains files that are already
-	installed, this option will cause all those files to be overwritten.
-	This option should be used with care, ideally not at all.
 
 *-r, \--root* <'path'>::
 	Specify an alternative installation root (default is ``/''). This should
@@ -148,9 +125,8 @@ Options
 *-v, \--verbose*::
 	Output paths such as as the Root, Conf File, DB Path, Cache Dirs, etc.
 
-*\--debug*::
-	Display debug messages. When reporting bugs, this option is recommended
-	to be used.
+*\--arch* <'arch'>::
+	Specify an alternate architecture.
 
 *\--cachedir* <'dir'>::
 	Specify an alternative package cache location (a typical default is
@@ -161,15 +137,9 @@ Options
 *\--config* <'file'>::
 	Specify an alternate configuration file.
 
-*\--ignore* <'package'>::
-	Directs pacman to ignore upgrades of package even if there is one
-	available. Multiple packages can be specified by separating them
-	with a comma.
-
-*\--ignoregroup* <'group'>::
-	Directs pacman to ignore upgrades of all packages in 'group' even if
-	there is one available. Multiple groups can be specified by
-	separating them with a comma.
+*\--debug*::
+	Display debug messages. When reporting bugs, this option is recommended
+	to be used.
 
 *\--logfile* <'file'>::
 	Specify an alternate log file. This is an absolute path, regardless of
@@ -179,6 +149,18 @@ Options
 	Bypass any and all ``Are you sure?'' messages. It's not a good idea to do
 	this unless you want to run pacman from a script.
 
+Transaction Options (apply to '-S', '-R' and '-U')
+--------------------------------------------------
+*-d, \--nodeps*::
+	Skips all dependency checks. Normally, pacman will always check a
+	package's dependency fields to ensure that all dependencies are
+	installed and there are no package conflicts in the system.
+
+*-k, \--dbonly*::
+	Adds/Removes the database entry only, leaves all files in place.
+	On an upgrade operation, the existing package and all files
+	will be removed and the database entry for the new package will be added.
+
 *\--noprogressbar*::
 	Do not show a progress bar when downloading files. This can be useful
 	for scripts that call pacman and capture the output.
@@ -187,19 +169,46 @@ Options
 	If an install scriptlet exists, do not execute it. Do not use this
 	unless you know what you are doing.
 
-*\--arch* <'arch'>::
-	Specify an alternate architecture.
-
 *-p, \--print*::
 	Only print the targets instead of performing the actual operation (sync,
-	remove or upgrade).  Use '\--print-format' to specify how targets are
-	displayed.  The default format string is "%l", which displays url with '-S',
-	filename with '-U' and pkgname-pkgver with '-R'.
+	remove or upgrade). Use '\--print-format' to specify how targets are
+	displayed. The default format string is "%l", which displays url with
+	'-S', filename with '-U' and pkgname-pkgver with '-R'.
 
 *\--print-format* <'format'>::
 	Specify a printf-like format to control the output of the '\--print'
-	operation.  The possible are attributes are : %n for pkgname, %v for pkgver, %l
-	for location, %r for repo and %s for size.
+	operation. The possible are attributes are : %n for pkgname, %v for pkgver,
+	%l for location, %r for repo and %s for size.
+
+Upgrade Options (apply to 'S' and 'U')[[UO]]
+--------------------------------------------
+*-f, \--force*::
+	Bypass file conflict checks and overwrite conflicting files. If the
+	package that is about to be installed contains files that are already
+	installed, this option will cause all those files to be overwritten.
+	This option should be used with care, ideally not at all.
+
+*\--asdeps*::
+	Install packages non-explicitly; in other words, fake their install reason
+	to be installed as a dependency. This is useful for makepkg and other
+	build from source tools that need to install dependencies before building
+	the package.
+
+*\--asexplicit*::
+	Install packages explicitly; in other words, fake their install reason to
+	be explicitly installed. This is useful if you want to mark a dependency
+	as explicitly installed so it will not be removed by the '\--recursive'
+	remove operation.
+
+*\--ignore* <'package'>::
+	Directs pacman to ignore upgrades of package even if there is one
+	available. Multiple packages can be specified by separating them
+	with a comma.
+
+*\--ignoregroup* <'group'>::
+	Directs pacman to ignore upgrades of all packages in 'group' even if
+	there is one available. Multiple groups can be specified by
+	separating them with a comma.
 
 Query Options[[QO]]
 -------------------
@@ -287,9 +296,6 @@ Remove Options[[RO]]
 	or more target packages. This operation is recursive, and must be used
 	with care since it can remove many potentially needed packages.
 
-*-k, \--dbonly*::
-	Removes the database entry only. Leaves all files in place.
-
 *-n, \--nosave*::
 	Instructs pacman to ignore file backup designations. Normally, when a
 	file is removed from the system the database is checked to see if the
@@ -334,10 +340,6 @@ linkman:pacman.conf[5].
 	or '-i' flags will also display those packages in all repositories that
 	depend on this package.
 
-*-k, \--dbonly*::
-	Adds the database entries for the specified packages but does not install any
-	of the files.
-
 *-l, \--list*::
 	List all packages in the specified repositories. Multiple repositories
 	can be specified on the command line.
@@ -381,14 +383,6 @@ linkman:pacman.conf[5].
 
 *\--needed*::
 	Don't reinstall the targets that are already up-to-date.
-
-
-Upgrade Options[[UO]]
---------------------
-*-k, \--dbonly*::
-	Adds the database entries for the specified packages but does not install any
-	of the files. On an upgrade operation, the existing package and all files
-	will be removed and the database entry for the new package will be added.
 
 
 Handling Config Files[[HCF]]

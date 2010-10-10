@@ -91,26 +91,14 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
-			printf(_("  -d, --nodeps         skip dependency checks\n"));
 			printf(_("  -k, --dbonly         only remove database entries, do not remove files\n"));
 			printf(_("  -n, --nosave         remove configuration files as well\n"));
 			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
 				 "                       (-ss includes explicitly installed dependencies too)\n"));
 			printf(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
-			printf(_("      --print          only print the targets instead of performing the operation\n"));
-			printf(_("      --print-format <string>\n"
-			         "                       specify how the targets should be printed\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
-			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
-			printf(_("      --asexplicit     install packages as explicitly installed\n"));
-			printf(_("  -d, --nodeps         skip dependency checks\n"));
-			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
-			printf(_("  -k, --dbonly         add database entries, do not install or keep existing files\n"));
-			printf(_("      --print          only print the targets instead of performing the operation\n"));
-			printf(_("      --print-format <string>\n"
-			         "                       specify how the targets should be printed\n"));
 		} else if(op == PM_OP_QUERY) {
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -124,50 +112,59 @@ static void usage(int op, const char * const myname)
 			printf(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
 			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			printf(_("  -p, --file <package> query a package file instead of the database\n"));
+			printf(_("  -q, --quiet          show less information for query and search\n"));
 			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
 			printf(_("  -t, --unrequired     list packages not required by any package [filter]\n"));
 			printf(_("  -u, --upgrades       list outdated packages [filter]\n"));
-			printf(_("  -q, --quiet          show less information for query and search\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
-			printf(_("      --asdeps         install packages as non-explicitly installed\n"));
-			printf(_("      --asexplicit     install packages as explicitly installed\n"));
 			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
-			printf(_("  -d, --nodeps         skip dependency checks\n"));
-			printf(_("  -f, --force          force install, overwrite conflicting files\n"));
 			printf(_("  -g, --groups         view all members of a package group\n"));
 			printf(_("  -i, --info           view package information\n"));
 			printf(_("  -l, --list <repo>    view a list of packages in a repo\n"));
+			printf(_("  -q, --quiet          show less information for query and search\n"));
 			printf(_("  -s, --search <regex> search remote repositories for matching strings\n"));
 			printf(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
 			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
 			printf(_("      --needed         don't reinstall up to date packages\n"));
-			printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
-			printf(_("      --ignoregroup <grp>\n"
-			         "                       ignore a group upgrade (can be used more than once)\n"));
-			printf(_("      --print          only print the targets instead of performing the operation\n"));
-			printf(_("      --print-format <string>\n"
-			         "                       specify how the targets should be printed\n"));
-			printf(_("  -q, --quiet          show less information for query and search\n"));
 		} else if (op == PM_OP_DATABASE) {
 			printf("%s:  %s {-D --database} <%s> <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			printf(_("      --asdeps         mark packages as non-explicitly installed\n"));
 			printf(_("      --asexplicit     mark packages as explicitly installed\n"));
 		}
+		switch(op) {
+			case PM_OP_SYNC:
+			case PM_OP_UPGRADE:
+				printf(_("  -f, --force          force install, overwrite conflicting files\n"));
+				printf(_("  -k, --dbonly         add database entries, do not install or keep existing files\n"));
+				printf(_("      --asdeps         install packages as non-explicitly installed\n"));
+				printf(_("      --asexplicit     install packages as explicitly installed\n"));
+				printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
+				printf(_("      --ignoregroup <grp>\n"
+				         "                       ignore a group upgrade (can be used more than once)\n"));
+				/* pass through */
+			case PM_OP_REMOVE:
+				printf(_("  -d, --nodeps         skip dependency checks\n"));
+				printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
+				printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
+				printf(_("      --print          only print the targets instead of performing the operation\n"));
+				printf(_("      --print-format <string>\n"
+				         "                       specify how the targets should be printed\n"));
+				break;
+		}
+
+		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
+		printf(_("  -r, --root <path>    set an alternate installation root\n"));
+		printf(_("  -v, --verbose        be verbose\n"));
+		printf(_("      --arch <arch>    set an alternate architecture\n"));
+		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
 		printf(_("      --config <path>  set an alternate configuration file\n"));
+		printf(_("      --debug          display debug messages\n"));
 		printf(_("      --logfile <path> set an alternate log file\n"));
 		printf(_("      --noconfirm      do not ask for any confirmation\n"));
-		printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
-		printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
-		printf(_("  -v, --verbose        be verbose\n"));
-		printf(_("      --debug          display debug messages\n"));
-		printf(_("  -r, --root <path>    set an alternate installation root\n"));
-		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
-		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
-		printf(_("      --arch <arch>    set an alternate architecture\n"));
 	}
 }
 
@@ -506,17 +503,31 @@ static int parsearg_query(int opt)
 	return(0);
 }
 
-static int parsearg_remove(int opt)
+/* options common to -S -R -U */
+static int parsearg_trans(int opt)
 {
 	switch(opt) {
-		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-		case OP_PRINTFORMAT: check_optarg(); config->print_format = strdup(optarg); break;
-		case 'c': config->flags |= PM_TRANS_FLAG_CASCADE; break;
 		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
 		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
-		case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
+		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
+		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
 		case 'p': config->print = 1; break;
+		case OP_PRINTFORMAT:
+			check_optarg();
+			config->print_format = strdup(optarg);
+			break;
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_remove(int opt)
+{
+	if (parsearg_trans(opt) == 0)
+		return(0);
+	switch(opt) {
+		case 'c': config->flags |= PM_TRANS_FLAG_CASCADE; break;
+		case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
 		case 's':
 			if(config->flags & PM_TRANS_FLAG_RECURSE) {
 				config->flags |= PM_TRANS_FLAG_RECURSEALL;
@@ -530,25 +541,36 @@ static int parsearg_remove(int opt)
 	return(0);
 }
 
-static int parsearg_sync(int opt)
+/* options common to -S -U */
+static int parsearg_upgrade(int opt)
 {
+	if (parsearg_trans(opt) == 0)
+		return(0);
 	switch(opt) {
+		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
 		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
-		case OP_IGNORE: parsearg_util_addlist(alpm_option_add_ignorepkg); break;
-		case OP_IGNOREGROUP: parsearg_util_addlist(alpm_option_add_ignoregrp); break;
+		case OP_IGNORE:
+			parsearg_util_addlist(alpm_option_add_ignorepkg);
+			break;
+		case OP_IGNOREGROUP:
+			parsearg_util_addlist(alpm_option_add_ignoregrp);
+			break;
+		default: return(1);
+	}
+	return(0);
+}
+
+static int parsearg_sync(int opt)
+{
+	if (parsearg_upgrade(opt) == 0)
+		return(0);
+	switch(opt) {
 		case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
-		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-		case OP_PRINTFORMAT: check_optarg(); config->print_format = strdup(optarg); break;
 		case 'c': (config->op_s_clean)++; break;
-		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
-		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_s_info)++; break;
 		case 'l': config->op_q_list = 1; break;
-		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
-		case 'p': config->print = 1; break;
 		case 'q': config->quiet = 1; break;
 		case 's': config->op_s_search = 1; break;
 		case 'u': (config->op_s_upgrade)++; break;
@@ -558,33 +580,6 @@ static int parsearg_sync(int opt)
 			config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 			break;
 		case 'y': (config->op_s_sync)++; break;
-		default: return(1);
-	}
-	return(0);
-}
-
-static int parsearg_deptest(int opt)
-{
-	switch(opt) {
-		default: return(1);
-	}
-	return(0);
-}
-
-static int parsearg_upgrade(int opt)
-{
-	switch(opt) {
-		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
-		case OP_IGNORE: parsearg_util_addlist(alpm_option_add_ignorepkg); break;
-		case OP_IGNOREGROUP: parsearg_util_addlist(alpm_option_add_ignoregrp); break;
-		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
-		case OP_PRINTFORMAT: check_optarg(); config->print_format = strdup(optarg); break;
-		case 'd': config->flags |= PM_TRANS_FLAG_NODEPS; break;
-		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
-		case 'p': config->print = 1; break;
 		default: return(1);
 	}
 	return(0);
@@ -665,6 +660,7 @@ static int parseargs(int argc, char *argv[])
 		} else if(opt == 0) {
 			continue;
 		} else if(opt == '?') {
+			/* unknown option, getopt printed an error */
 			return(1);
 		}
 		parsearg_op(opt, 0);
@@ -686,12 +682,12 @@ static int parseargs(int argc, char *argv[])
 	/* parse all other options */
 	optind = 1;
 	while((opt = getopt_long(argc, argv, optstring, opts, &option_index))) {
-
 		if(opt < 0) {
 			break;
 		} else if(opt == 0) {
 			continue;
 		} else if(opt == '?') {
+			/* this should have failed during first pass already */
 			return(1);
 		} else if(parsearg_op(opt, 1) == 0) {	/* opt is an operation */
 			continue;
@@ -711,22 +707,24 @@ static int parseargs(int argc, char *argv[])
 				result = parsearg_sync(opt);
 				break;
 			case PM_OP_DEPTEST:
-				result = parsearg_deptest(opt);
+				result = 1;
 				break;
 			case PM_OP_UPGRADE:
 				result = parsearg_upgrade(opt);
 				break;
 			default:
+				pm_printf(PM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
 				return(1);
 		}
+		if (result == 0)
+			continue;
+
+		/* fall back to global options */
+		result = parsearg_global(opt);
 		if(result != 0) {
-			/* operation-specific option parsing failed, fall back to global options */
-			result = parsearg_global(opt);
-			if(result != 0) {
-				/* global option parsing failed, abort */
-				pm_printf(PM_LOG_ERROR, _("invalid option\n"));
-				return(result);
-			}
+			/* global option parsing failed, abort */
+			pm_printf(PM_LOG_ERROR, _("invalid option\n"));
+			return(result);
 		}
 	}
 
