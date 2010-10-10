@@ -40,216 +40,6 @@
 #include "deps.h"
 #include "dload.h"
 
-#define LAZY_LOAD(info, errret) \
-	do { \
-		ALPM_LOG_FUNC; \
-		ASSERT(handle != NULL, return(errret)); \
-		ASSERT(pkg != NULL, return(errret)); \
-		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
-			_alpm_sync_db_read(pkg->origin_data.db, pkg, info); \
-		} \
-	} while(0)
-
-
-/* Cache-specific accessor functions. These implementations allow for lazy
- * loading by the files backend when a data member is actually needed
- * rather than loading all pieces of information when the package is first
- * initialized.
- */
-
-const char *_sync_cache_get_filename(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->filename;
-}
-
-const char *_sync_cache_get_name(pmpkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return(NULL));
-	return pkg->name;
-}
-
-static const char *_sync_cache_get_version(pmpkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return(NULL));
-	return pkg->version;
-}
-
-static const char *_sync_cache_get_desc(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->desc;
-}
-
-const char *_sync_cache_get_url(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->url;
-}
-
-time_t _sync_cache_get_builddate(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, 0);
-	return pkg->builddate;
-}
-
-time_t _sync_cache_get_installdate(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, 0);
-	return pkg->installdate;
-}
-
-const char *_sync_cache_get_packager(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->packager;
-}
-
-const char *_sync_cache_get_md5sum(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->md5sum;
-}
-
-const char *_sync_cache_get_arch(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->arch;
-}
-
-off_t _sync_cache_get_size(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->size;
-}
-
-off_t _sync_cache_get_isize(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->isize;
-}
-
-pmpkgreason_t _sync_cache_get_reason(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->reason;
-}
-
-alpm_list_t *_sync_cache_get_licenses(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->licenses;
-}
-
-alpm_list_t *_sync_cache_get_groups(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->groups;
-}
-
-int _sync_cache_has_force(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->force;
-}
-
-alpm_list_t *_sync_cache_get_depends(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->depends;
-}
-
-alpm_list_t *_sync_cache_get_optdepends(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->optdepends;
-}
-
-alpm_list_t *_sync_cache_get_conflicts(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->conflicts;
-}
-
-alpm_list_t *_sync_cache_get_provides(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
-	return pkg->provides;
-}
-
-alpm_list_t *_sync_cache_get_replaces(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->replaces;
-}
-
-alpm_list_t *_sync_cache_get_deltas(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DELTAS, NULL);
-	return pkg->deltas;
-}
-
-alpm_list_t *_sync_cache_get_files(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_sync_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
-	}
-	return pkg->files;
-}
-
-alpm_list_t *_sync_cache_get_backup(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
-
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_sync_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
-	}
-	return pkg->backup;
-}
-
-/** The sync database operations struct. Get package fields through
- * lazy accessor methods that handle any backend loading and caching
- * logic.
- */
-static struct pkg_operations sync_pkg_ops = {
-	.get_filename    = _sync_cache_get_filename,
-	.get_name        = _sync_cache_get_name,
-	.get_version     = _sync_cache_get_version,
-	.get_desc        = _sync_cache_get_desc,
-	.get_url         = _sync_cache_get_url,
-	.get_builddate   = _sync_cache_get_builddate,
-	.get_installdate = _sync_cache_get_installdate,
-	.get_packager    = _sync_cache_get_packager,
-	.get_md5sum      = _sync_cache_get_md5sum,
-	.get_arch        = _sync_cache_get_arch,
-	.get_size        = _sync_cache_get_size,
-	.get_isize       = _sync_cache_get_isize,
-	.get_reason      = _sync_cache_get_reason,
-	.has_force       = _sync_cache_has_force,
-	.get_licenses    = _sync_cache_get_licenses,
-	.get_groups      = _sync_cache_get_groups,
-	.get_depends     = _sync_cache_get_depends,
-	.get_optdepends  = _sync_cache_get_optdepends,
-	.get_conflicts   = _sync_cache_get_conflicts,
-	.get_provides    = _sync_cache_get_provides,
-	.get_replaces    = _sync_cache_get_replaces,
-	.get_deltas      = _sync_cache_get_deltas,
-	.get_files       = _sync_cache_get_files,
-	.get_backup      = _sync_cache_get_backup,
-};
-
 /* create list of directories in db */
 static int dirlist_from_tar(const char *archive, alpm_list_t **dirlist)
 {
@@ -532,45 +322,44 @@ int _alpm_sync_db_populate(pmdb_t *db)
 
 		st = archive_entry_stat(entry);
 
-		/* only parse directory names */
-		if(S_ISREG(st->st_mode)) {
-			/* we have desc or depends or something else */
-			continue;
+		if(S_ISDIR(st->st_mode)) {
+			archive_path = archive_entry_pathname(entry);
+
+			pkg = _alpm_pkg_new();
+			if(pkg == NULL) {
+				archive_read_finish(archive);
+				return(-1);
+			}
+
+			name = archive_entry_pathname(entry);
+
+			if(splitname(name, pkg) != 0) {
+				_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
+						name);
+				_alpm_pkg_free(pkg);
+				continue;
+			}
+
+			/* duplicated database entries are not allowed */
+			if(_alpm_pkg_find(db->pkgcache, pkg->name)) {
+				_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
+				_alpm_pkg_free(pkg);
+				continue;
+			}
+
+			pkg->origin = PKG_FROM_SYNCDB;
+			pkg->ops = &default_pkg_ops;
+			pkg->origin_data.db = db;
+
+			/* add to the collection */
+			_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
+					pkg->name, db->treename);
+			db->pkgcache = alpm_list_add(db->pkgcache, pkg);
+			count++;
+		} else {
+			/* we have desc, depends or deltas - parse it */
+			_alpm_sync_db_read(db, archive, entry);
 		}
-
-		archive_path = archive_entry_pathname(entry);
-
-		pkg = _alpm_pkg_new();
-		if(pkg == NULL) {
-			archive_read_finish(archive);
-			return(-1);
-		}
-
-		name = archive_entry_pathname(entry);
-
-		if(splitname(name, pkg) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
-					name);
-			_alpm_pkg_free(pkg);
-			continue;
-		}
-
-		/* duplicated database entries are not allowed */
-		if(_alpm_pkg_find(db->pkgcache, pkg->name)) {
-			_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
-			_alpm_pkg_free(pkg);
-			continue;
-		}
-
-		pkg->origin = PKG_FROM_SYNCDB;
-		pkg->ops = &sync_pkg_ops;
-		pkg->origin_data.db = db;
-
-		/* add to the collection */
-		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
-				pkg->name, db->treename);
-		db->pkgcache = alpm_list_add(db->pkgcache, pkg);
-		count++;
 	}
 
 	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
@@ -579,12 +368,12 @@ int _alpm_sync_db_populate(pmdb_t *db)
 	return(count);
 }
 
-int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
 {
-	FILE *fp = NULL;
-	char path[PATH_MAX];
 	char line[1024];
-	char *pkgpath = NULL;
+	const char *entryname;
+	char *filename, *pkgname, *p, *q;
+	pmpkg_t *pkg;
 
 	ALPM_LOG_FUNC;
 
@@ -592,102 +381,87 @@ int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	if(info == NULL || info->name == NULL || info->version == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_sync_db_read, skipping\n");
+	if(entry == NULL) {
+		_alpm_log(PM_LOG_DEBUG, "invalid archive entry provided to _alpm_sync_db_read, skipping\n");
 		return(-1);
 	}
 
-	if(info->origin == PKG_FROM_FILE) {
-		_alpm_log(PM_LOG_DEBUG, "request to read database info for a file-based package '%s', skipping...\n", info->name);
+	entryname = archive_entry_pathname(entry);
+
+	_alpm_log(PM_LOG_FUNCTION, "loading package data from archive entry %s\n",
+			entryname);
+
+	/* get package and db file names */
+	STRDUP(pkgname, entryname, RET_ERR(PM_ERR_MEMORY, -1));
+	p = pkgname + strlen(pkgname);
+	for(q = --p; *q && *q != '/'; q--);
+	STRDUP(filename, q+1, RET_ERR(PM_ERR_MEMORY, -1));
+	for(p = --q; *p && *p != '-'; p--);
+	for(q = --p; *q && *q != '-'; q--);
+	*q = '\0';
+
+	/* package is already in db due to parsing of directory name */
+	pkg = _alpm_pkg_find(db->pkgcache, pkgname);
+	if(pkg == NULL) {
+		_alpm_log(PM_LOG_DEBUG, "package %s not found in %s sync database",
+					pkgname, db->treename);
 		return(-1);
 	}
 
-	/* bitmask logic here:
-	 * infolevel: 00001111
-	 * inforeq:   00010100
-	 * & result:  00000100
-	 * == to inforeq? nope, we need to load more info. */
-	if((info->infolevel & inforeq) == inforeq) {
-		/* already loaded this info, do nothing */
-		return(0);
-	}
-	_alpm_log(PM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
-			info->name, inforeq);
-
-	/* clear out 'line', to be certain - and to make valgrind happy */
-	memset(line, 0, sizeof(line));
-
-	pkgpath = get_pkgpath(db, info);
-
-	if(access(pkgpath, F_OK)) {
-		/* directory doesn't exist or can't be opened */
-		_alpm_log(PM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'\n",
-				info->name, info->version, db->treename);
-		goto error;
-	}
-
-	/* DESC */
-	if(inforeq & INFRQ_DESC) {
-		snprintf(path, PATH_MAX, "%sdesc", pkgpath);
-		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
-			goto error;
-		}
-		while(!feof(fp)) {
-			if(fgets(line, sizeof(line), fp) == NULL) {
-				break;
-			}
+	if(strcmp(filename, "desc") == 0) {
+		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%NAME%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				if(strcmp(_alpm_strtrim(line), info->name) != 0) {
+				if(strcmp(_alpm_strtrim(line), pkg->name) != 0) {
 					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: name "
-								"mismatch on package %s\n"), db->treename, info->name);
+								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%VERSION%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				if(strcmp(_alpm_strtrim(line), info->version) != 0) {
+				if(strcmp(_alpm_strtrim(line), pkg->version) != 0) {
 					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: version "
-								"mismatch on package %s\n"), db->treename, info->name);
+								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%FILENAME%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				STRDUP(info->filename, _alpm_strtrim(line), goto error);
+				STRDUP(pkg->filename, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%DESC%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				STRDUP(info->desc, _alpm_strtrim(line), goto error);
+				STRDUP(pkg->desc, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%GROUPS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->groups = alpm_list_add(info->groups, linedup);
+					pkg->groups = alpm_list_add(pkg->groups, linedup);
 				}
 			} else if(strcmp(line, "%URL%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				STRDUP(info->url, _alpm_strtrim(line), goto error);
+				STRDUP(pkg->url, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%LICENSE%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
+							strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->licenses = alpm_list_add(info->licenses, linedup);
+					pkg->licenses = alpm_list_add(pkg->licenses, linedup);
 				}
 			} else if(strcmp(line, "%ARCH%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				STRDUP(info->arch, _alpm_strtrim(line), goto error);
+				STRDUP(pkg->arch, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%BUILDDATE%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
 				_alpm_strtrim(line);
@@ -697,13 +471,13 @@ int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
 					setlocale(LC_TIME, "C");
 					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					info->builddate = mktime(&tmp_tm);
+					pkg->builddate = mktime(&tmp_tm);
 					setlocale(LC_TIME, "");
 				} else {
-					info->builddate = atol(line);
+					pkg->builddate = atol(line);
 				}
 			} else if(strcmp(line, "%INSTALLDATE%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
 				_alpm_strtrim(line);
@@ -713,174 +487,113 @@ int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
 					setlocale(LC_TIME, "C");
 					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					info->installdate = mktime(&tmp_tm);
+					pkg->installdate = mktime(&tmp_tm);
 					setlocale(LC_TIME, "");
 				} else {
-					info->installdate = atol(line);
+					pkg->installdate = atol(line);
 				}
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				STRDUP(info->packager, _alpm_strtrim(line), goto error);
+				STRDUP(pkg->packager, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%REASON%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				info->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
+				pkg->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
 			} else if(strcmp(line, "%SIZE%") == 0 || strcmp(line, "%CSIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
 				 *       only used in local databases.
 				 */
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				info->size = atol(_alpm_strtrim(line));
+				pkg->size = atol(_alpm_strtrim(line));
 				/* also store this value to isize if isize is unset */
-				if(info->isize == 0) {
-					info->isize = info->size;
+				if(pkg->isize == 0) {
+					pkg->isize = pkg->size;
 				}
 			} else if(strcmp(line, "%ISIZE%") == 0) {
 				/* ISIZE (installed size) tag only appears in sync repositories,
 				 * not the local one. */
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				info->isize = atol(_alpm_strtrim(line));
+				pkg->isize = atol(_alpm_strtrim(line));
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
 				/* MD5SUM tag only appears in sync repositories,
 				 * not the local one. */
-				if(fgets(line, sizeof(line), fp) == NULL) {
+				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
-				STRDUP(info->md5sum, _alpm_strtrim(line), goto error);
+				STRDUP(pkg->md5sum, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
+							strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->replaces = alpm_list_add(info->replaces, linedup);
+					pkg->replaces = alpm_list_add(pkg->replaces, linedup);
 				}
 			} else if(strcmp(line, "%FORCE%") == 0) {
-				info->force = 1;
+				pkg->force = 1;
 			}
 		}
-		fclose(fp);
-		fp = NULL;
-	}
-
-	/* FILES */
-	if(inforeq & INFRQ_FILES) {
-		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
-		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
-			goto error;
-		}
-		while(fgets(line, sizeof(line), fp)) {
-			_alpm_strtrim(line);
-			if(strcmp(line, "%FILES%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->files = alpm_list_add(info->files, linedup);
-				}
-			} else if(strcmp(line, "%BACKUP%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->backup = alpm_list_add(info->backup, linedup);
-				}
-			}
-		}
-		fclose(fp);
-		fp = NULL;
-	}
-
-	/* DEPENDS */
-	if(inforeq & INFRQ_DEPENDS) {
-		snprintf(path, PATH_MAX, "%sdepends", pkgpath);
-		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
-			goto error;
-		}
-		while(!feof(fp)) {
-			if(fgets(line, sizeof(line), fp) == NULL) {
-				break;
-			}
+	} else if(strcmp(filename, "depends") == 0) {
+		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%DEPENDS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
+							strlen(_alpm_strtrim(line))) {
 					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
-					info->depends = alpm_list_add(info->depends, dep);
+					pkg->depends = alpm_list_add(pkg->depends, dep);
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
+							strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->optdepends = alpm_list_add(info->optdepends, linedup);
+					pkg->optdepends = alpm_list_add(pkg->optdepends, linedup);
 				}
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
+							strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->conflicts = alpm_list_add(info->conflicts, linedup);
+					pkg->conflicts = alpm_list_add(pkg->conflicts, linedup);
 				}
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
+							strlen(_alpm_strtrim(line))) {
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->provides = alpm_list_add(info->provides, linedup);
+					pkg->provides = alpm_list_add(pkg->provides, linedup);
 				}
 			}
 		}
-		fclose(fp);
-		fp = NULL;
-	}
-
-	/* DELTAS */
-	if(inforeq & INFRQ_DELTAS) {
-		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
-		if((fp = fopen(path, "r"))) {
-			while(!feof(fp)) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					break;
-				}
-				_alpm_strtrim(line);
+	} else if(strcmp(filename, "deltas") == 0) {
+		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
+			_alpm_strtrim(line);
 				if(strcmp(line, "%DELTAS%") == 0) {
-					while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+					while(_alpm_archive_fgets(line, sizeof(line), archive) && strlen(_alpm_strtrim(line))) {
 						pmdelta_t *delta = _alpm_delta_parse(line);
 						if(delta) {
-							info->deltas = alpm_list_add(info->deltas, delta);
+							pkg->deltas = alpm_list_add(pkg->deltas, delta);
 						}
 					}
 				}
-			}
-			fclose(fp);
-			fp = NULL;
 		}
+	} else {
+		 /* unknown database file */
+		_alpm_log(PM_LOG_DEBUG, "unknown database file: %s", filename);
 	}
-
-	/* INSTALL */
-	if(inforeq & INFRQ_SCRIPTLET) {
-		snprintf(path, PATH_MAX, "%sinstall", pkgpath);
-		if(access(path, F_OK) == 0) {
-			info->scriptlet = 1;
-		}
-	}
-
-	/* internal */
-	info->infolevel |= inforeq;
-
-	free(pkgpath);
-	return(0);
 
 error:
-	free(pkgpath);
-	if(fp) {
-		fclose(fp);
-	}
-	return(-1);
+	FREE(pkgname);
+	FREE(filename);
+	return(0);
 }
 
 struct db_operations sync_db_ops = {

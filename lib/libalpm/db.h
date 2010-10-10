@@ -26,6 +26,10 @@
 #include <limits.h>
 #include <time.h>
 
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
+
 /* Database entries */
 typedef enum _pmdbinfrq_t {
 	INFRQ_BASE = 1,
@@ -71,14 +75,15 @@ pmdb_t *_alpm_db_register_sync(const char *treename);
 void _alpm_db_unregister(pmdb_t *db);
 pmdb_t *_alpm_db_new(const char *treename, int is_local);
 
-/* be.c, backend specific calls */
+/* be_*.c, backend specific calls */
 int _alpm_local_db_populate(pmdb_t *db);
 int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info);
 int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
+
 int _alpm_sync_db_populate(pmdb_t *db);
-int _alpm_sync_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry);
 
 /* cache bullshit */
 /* packages */
