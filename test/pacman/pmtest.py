@@ -47,7 +47,7 @@ class pmtest:
         """
         """
         if not treename in self.db:
-            self.db[treename] = pmdb.pmdb(treename, os.path.join(self.root, PM_DBPATH))
+            self.db[treename] = pmdb.pmdb(treename, self.root)
         self.db[treename].pkgs.append(pkg)
 
     def addpkg(self, pkg):
@@ -73,7 +73,7 @@ class pmtest:
         self.args = ""
         self.retcode = 0
         self.db = {
-            "local": pmdb.pmdb("local", os.path.join(self.root, PM_DBPATH))
+            "local": pmdb.pmdb("local", self.root)
         }
         self.localpkgs = []
         self.filesystem = []
@@ -152,9 +152,11 @@ class pmtest:
         vprint("    Creating sync database archives")
         for key, value in self.db.iteritems():
             if key == "local": continue
-            archive = value.treename + ".db"
-            vprint("\t" + os.path.join(SYNCREPO, archive))
-            value.gensync(os.path.join(syncdir, value.treename))
+            vprint("\t" + value.treename)
+            value.gensync()
+            serverpath = os.path.join(syncdir, value.treename)
+            mkdir(serverpath)
+            shutil.copy(value.dbfile, serverpath)
 
         # Filesystem
         vprint("    Populating file system")

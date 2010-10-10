@@ -81,11 +81,15 @@ class pmdb:
     """Database object
     """
 
-    def __init__(self, treename, dbdir):
+    def __init__(self, treename, root):
         self.treename = treename
-        self.dbdir = dbdir
         self.pkgs = []
         self.option = {}
+        if self.treename == "local":
+            self.dbdir = os.path.join(root, PM_DBPATH, treename)
+        else:
+            self.dbdir = os.path.join(root, PM_SYNCDBPATH, treename)
+            self.dbfile = os.path.join(root, PM_SYNCDBPATH, treename + ".db")
 
     def __str__(self):
         return "%s" % self.treename
@@ -101,7 +105,7 @@ class pmdb:
         """
         """
 
-        path = os.path.join(self.dbdir, self.treename)
+        path = self.dbdir
         if not os.path.isdir(path):
             return None
 
@@ -227,10 +231,7 @@ class pmdb:
         """
         """
 
-        if self.treename == "local":
-            path = os.path.join(self.dbdir, self.treename, pkg.fullname())
-        else:
-            path = os.path.join(self.dbdir, "sync", self.treename, pkg.fullname())
+        path = os.path.join(self.dbdir, pkg.fullname())
         mkdir(path)
 
         # desc
@@ -331,27 +332,22 @@ class pmdb:
                 pkg.checksum["install"] = getmd5sum(filename)
                 pkg.mtime["install"] = getmtime(filename)
 
-    def gensync(self, path):
+    def gensync(self):
         """
         """
 
+        if not self.dbfile:
+            return
         curdir = os.getcwd()
-        tmpdir = tempfile.mkdtemp()
-        os.chdir(tmpdir)
-
-        for pkg in self.pkgs:
-            mkdescfile(pkg.fullname(), pkg)
+        os.chdir(self.dbdir)
 
         # Generate database archive
-        mkdir(path)
-        archive = os.path.join(path, "%s.db" % (self.treename))
-        tar = tarfile.open(archive, "w:gz")
+        tar = tarfile.open(self.dbfile, "w:gz")
         for i in os.listdir("."):
             tar.add(i)
         tar.close()
 
         os.chdir(curdir)
-        shutil.rmtree(tmpdir)
 
     def ispkgmodified(self, pkg):
         """
