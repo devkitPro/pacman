@@ -40,116 +40,6 @@
 #include "deps.h"
 #include "dload.h"
 
-/* create list of directories in db */
-static int dirlist_from_tar(const char *archive, alpm_list_t **dirlist)
-{
-	struct archive *_archive;
-	struct archive_entry *entry;
-
-	if((_archive = archive_read_new()) == NULL)
-		RET_ERR(PM_ERR_LIBARCHIVE, -1);
-
-	archive_read_support_compression_all(_archive);
-	archive_read_support_format_all(_archive);
-
-	if(archive_read_open_filename(_archive, archive,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive,
-				archive_error_string(_archive));
-		RET_ERR(PM_ERR_PKG_OPEN, -1);
-	}
-
-	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
-		const struct stat *st;
-		const char *entryname; /* the name of the file in the archive */
-
-		st = archive_entry_stat(entry);
-		entryname = archive_entry_pathname(entry);
-
-		if(S_ISDIR(st->st_mode)) {
-			char *name = strdup(entryname);
-			*dirlist = alpm_list_add(*dirlist, name);
-		}
-	}
-	archive_read_finish(_archive);
-
-	*dirlist = alpm_list_msort(*dirlist, alpm_list_count(*dirlist), _alpm_str_cmp);
-	return(0);
-}
-
-static int is_dir(const char *path, struct dirent *entry)
-{
-#ifdef DT_DIR
-	return(entry->d_type == DT_DIR);
-#else
-	char buffer[PATH_MAX];
-	snprintf(buffer, PATH_MAX, "%s/%s", path, entry->d_name);
-
-	struct stat sbuf;
-	if (!stat(buffer, &sbuf)) {
-		return(S_ISDIR(sbuf.st_mode));
-	}
-
-	return(0);
-#endif
-}
-
-/* create list of directories in db */
-static int dirlist_from_fs(const char *syncdbpath, alpm_list_t **dirlist)
-{
-	DIR *dbdir;
-	struct dirent *ent = NULL;
-
-	dbdir = opendir(syncdbpath);
-	if (dbdir != NULL) {
-		while((ent = readdir(dbdir)) != NULL) {
-			char *name = ent->d_name;
-			size_t len;
-			char *entry;
-
-			if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
-				continue;
-			}
-
-			if(!is_dir(syncdbpath, ent)) {
-				continue;
-			}
-
-			len = strlen(name);
-			MALLOC(entry, len + 2, RET_ERR(PM_ERR_MEMORY, -1));
-			strcpy(entry, name);
-			entry[len] = '/';
-			entry[len+1] = '\0';
-			*dirlist = alpm_list_add(*dirlist, entry);
-		}
-		closedir(dbdir);
-	}
-
-	*dirlist = alpm_list_msort(*dirlist, alpm_list_count(*dirlist), _alpm_str_cmp);
-	return(0);
-}
-
-/* remove old directories from dbdir */
-static int remove_olddir(const char *syncdbpath, alpm_list_t *dirlist)
-{
-	alpm_list_t *i;
-	for (i = dirlist; i; i = i->next) {
-		const char *name = i->data;
-		char *dbdir;
-		size_t len = strlen(syncdbpath) + strlen(name) + 2;
-		MALLOC(dbdir, len, RET_ERR(PM_ERR_MEMORY, -1));
-		snprintf(dbdir, len, "%s%s", syncdbpath, name);
-		_alpm_log(PM_LOG_DEBUG, "removing: %s\n", dbdir);
-		if(_alpm_rmrf(dbdir) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove database directory %s\n"), dbdir);
-			free(dbdir);
-			RET_ERR(PM_ERR_DB_REMOVE, -1);
-		}
-		free(dbdir);
-	}
-	return(0);
-}
-
 /** Update a package database
  *
  * An update of the package database \a db will be attempted. Unless
@@ -190,10 +80,8 @@ static int remove_olddir(const char *syncdbpath, alpm_list_t *dirlist)
  */
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
-	char *dbfile, *dbfilepath, *syncpath;
-	const char *dbpath, *syncdbpath;
-	alpm_list_t *newdirlist = NULL, *olddirlist = NULL;
-	alpm_list_t *onlynew = NULL, *onlyold = NULL;
+	char *dbfile, *syncpath;
+	const char *dbpath;
 	size_t len;
 	int ret;
 
@@ -236,57 +124,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		return(-1);
 	}
 
-	syncdbpath = _alpm_db_path(db);
-
-	/* form the path to the db location */
-	len = strlen(dbpath) + strlen(db->treename) + 9;
-	MALLOC(dbfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfilepath, "%ssync/%s.db", dbpath, db->treename);
-
-	if(force) {
-		/* if forcing update, remove the old dir and extract the db */
-		if(_alpm_rmrf(syncdbpath) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove database %s\n"), db->treename);
-			RET_ERR(PM_ERR_DB_REMOVE, -1);
-		} else {
-			_alpm_log(PM_LOG_DEBUG, "database dir %s removed\n", _alpm_db_path(db));
-		}
-	} else {
-		/* if not forcing, only remove and extract what is necessary */
-		ret = dirlist_from_tar(dbfilepath, &newdirlist);
-		if(ret) {
-			goto cleanup;
-		}
-		ret = dirlist_from_fs(syncdbpath, &olddirlist);
-		if(ret) {
-			goto cleanup;
-		}
-
-		alpm_list_diff_sorted(olddirlist, newdirlist, _alpm_str_cmp, &onlyold, &onlynew);
-
-		ret = remove_olddir(syncdbpath, onlyold);
-		if(ret) {
-			goto cleanup;
-		}
-	}
-
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
-
-	checkdbdir(db);
-	ret = _alpm_unpack(dbfilepath, syncdbpath, onlynew, 0);
-
-cleanup:
-	FREELIST(newdirlist);
-	FREELIST(olddirlist);
-	alpm_list_free(onlynew);
-	alpm_list_free(onlyold);
-
-	free(dbfilepath);
-
-	if(ret) {
-		RET_ERR(PM_ERR_SYSTEM, -1);
-	}
 
 	return(0);
 }
