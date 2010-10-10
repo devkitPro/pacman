@@ -346,11 +346,8 @@ class pmdb:
         mkdir(path)
         archive = os.path.join(path, "%s.db" % (self.treename))
         tar = tarfile.open(archive, "w:gz")
-        for root, dirs, files in os.walk('.'):
-            for d in dirs:
-                tar.add(os.path.join(root, d), recursive=False)
-            for f in files:
-                tar.add(os.path.join(root, f))
+        for i in os.listdir("."):
+            tar.add(i)
         tar.close()
 
         os.chdir(curdir)
