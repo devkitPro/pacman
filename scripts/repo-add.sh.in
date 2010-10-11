@@ -133,13 +133,12 @@ db_write_delta()
 
 	pkgentry=$(find_pkgentry $pkgname)
 	if [[ -z $pkgentry ]]; then
+		error "$(gettext "No database entry for package '%s'.")" "$pkgname"
 		return 1
 	fi
 	deltas="$pkgentry/deltas"
-	# create deltas file if it does not already exist
 	if [[ ! -f $deltas ]]; then
-		msg2 "$(gettext "Creating 'deltas' db entry...")"
-		echo -e "%DELTAS%" >>$deltas
+		echo -e "%DELTAS%" >$deltas
 	fi
 	# get md5sum and compressed size of package
 	md5sum="$(openssl dgst -md5 "$deltafile")"
@@ -150,10 +149,9 @@ db_write_delta()
 	newfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (output)" | sed 's/.*: *//')
 
 	if grep -q "$oldfile.*$newfile" $deltas; then
-		warning "$(gettext "An entry for '%s' already existed")" "$deltafile"
 		sed -i.backup "/$oldfile.*$newfile/d" $deltas && rm -f $deltas.backup
-		msg2 "$(gettext "Removing existing entry '%s'...")" "$deltafile"
 	fi
+	msg2 "$(gettext "Adding 'deltas' entry : %s -> %s")" "$oldfile" "$newfile"
 	echo ${deltafile##*/} $md5sum $csize $oldfile $newfile >> $deltas
 
 	return 0
