@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@BASH@
 #
 #   rankmirrors - read a list of mirrors from a file and rank them by speed
 #   @configure_input@
@@ -25,7 +25,7 @@ usage() {
 	echo "Usage: rankmirrors [options] MIRRORFILE | URL"
 	echo
 	echo "Ranks pacman mirrors by their connection and opening speed. Pacman mirror"
-	echo "files are located in /etc/pacman.d/. It can also rank one mirror if the URL is"
+	echo "files are located in @sysconfdir@/pacman.d/. It can also rank one mirror if the URL is"
 	echo "provided."
 	echo
 	echo "Options:"

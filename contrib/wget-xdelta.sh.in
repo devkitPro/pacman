@@ -1,7 +1,7 @@
-#!/bin/bash
+#!@BASH@
 
-if [ -r "/etc/makepkg.conf" ]; then
-	source /etc/makepkg.conf
+if [ -r "@sysconfdir@/makepkg.conf" ]; then
+	source @sysconfdir@/makepkg.conf
 else
 	echo "wget-xdelta: Unable to find makepkg.conf"
 	exit 1
@@ -30,11 +30,11 @@ new_version=$(echo $pkg_data | cut -d ' ' -f 2)
 base_url=${file_url%/*}
 
 # Look for the last version
-for file in $(ls -r /var/cache/pacman/pkg/${pkgname}-*-*{,-$CARCH}$PKGEXT 2>/dev/null); do
+for file in $(ls -r @localstatedir@/cache/pacman/pkg/${pkgname}-*-*{,-$CARCH}$PKGEXT 2>/dev/null); do
 	[[ "$file" =~ "$CARCH" ]] && arch="-$CARCH" || arch=""
 	check_version=$(echo $file | \
 		sed "s|^.*/${pkgname}-\([[:alnum:]_\.]*-[[:alnum:]_\.]*\)${arch}$PKGEXT$|\1|" | \
-		grep -v "^/var/cache/pacman/pkg")
+		grep -v "^@localstatedir@/cache/pacman/pkg")
 
 	[ "$check_version" = "" ] && continue
 

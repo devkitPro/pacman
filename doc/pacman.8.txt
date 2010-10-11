@@ -118,7 +118,7 @@ Options
 
 *-b, \--dbpath* <'path'>::
 	Specify an alternative database location (a typical default is
-	``/var/lib/pacman'').  This should not be used unless you know what you are
+	``{localstatedir}/lib/pacman'').  This should not be used unless you know what you are
 	doing. *NOTE*: if specified, this is an absolute path and the root path is
 	not automatically prepended.
 
@@ -151,7 +151,7 @@ Options
 
 *\--cachedir* <'dir'>::
 	Specify an alternative package cache location (a typical default is
-	``/var/cache/pacman/pkg''). Multiple cache directories can be specified,
+	``{localstatedir}/cache/pacman/pkg''). Multiple cache directories can be specified,
 	and they are tried in the order they are passed to pacman. *NOTE*: this
 	is an absolute path, the root path is not automatically prepended.
 

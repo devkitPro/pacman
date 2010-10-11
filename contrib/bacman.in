@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@BASH@
 #
 #   bacman: recreate a package from a running system
 #   This script rebuilds an already installed package using metadata
@@ -67,20 +67,20 @@ fi
 #
 # Setting environmental variables
 #
-if [ ! -r /etc/pacman.conf ]; then
-    echo "ERROR: unable to read /etc/pacman.conf"
+if [ ! -r @sysconfdir@/pacman.conf ]; then
+    echo "ERROR: unable to read @sysconfdir@/pacman.conf"
     exit 1
 fi
 
-eval $(awk '/DBPath/ {print $1$2$3}' /etc/pacman.conf)
-pac_db="${DBPath:-/var/lib/pacman/}/local"
+eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
+pac_db="${DBPath:-@localstatedir@/lib/pacman/}/local"
 
-if [ ! -r /etc/makepkg.conf ]; then
-    echo "ERROR: unable to read /etc/makepkg.conf"
+if [ ! -r @sysconfdir@/makepkg.conf ]; then
+    echo "ERROR: unable to read @sysconfdir@/makepkg.conf"
     exit 1
 fi
 
-source "/etc/makepkg.conf"
+source "@sysconfdir@/makepkg.conf"
 if [ -r ~/.makepkg.conf ]; then
     source ~/.makepkg.conf
 fi

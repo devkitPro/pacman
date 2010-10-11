@@ -96,6 +96,7 @@ ASCIIDOC_OPTS = \
 	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
 	-a pacman_date="`date +%Y-%m-%d`" \
 	-a pkgdatadir=$(pkgdatadir) \
+	-a localstatedir=$(localstatedir) \
 	-a sysconfdir=$(sysconfdir)
 
 A2X_OPTS = \

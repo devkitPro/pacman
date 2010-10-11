@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@BASH@
 # pactree : a simple dependency tree viewer
 #
 # Copyright (C) 2008 Carlo "carlocci" Bersani <carlocci@gmail.com>
@@ -272,14 +272,14 @@ if [ $graphviz -eq 1 ]; then
 	fi
 fi
 
-if [ ! -r /etc/pacman.conf ]; then
-	echo "ERROR: unable to read /etc/pacman.conf"
+if [ ! -r @sysconfdir@/pacman.conf ]; then
+	echo "ERROR: unable to read @sysconfdir@/pacman.conf"
 	exit 1
 else
-	eval $(awk '/DBPath/ {print $1$2$3}' /etc/pacman.conf)
+	eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 fi
 
-pac_db="${DBPath:-/var/lib/pacman}/local"
+pac_db="${DBPath:-@localstatedir@/lib/pacman}/local"
 
 if [ ! -d "$pac_db" ] ; then
 	echo "ERROR: pacman database directory ${pac_db} not found"

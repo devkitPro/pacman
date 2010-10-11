@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@BASH@
 #
 #   pacscripts : tries to print out the {pre,post}_{install,remove,upgrade}
 #   scripts of a given package
@@ -27,7 +27,7 @@ set -o errexit
 progname=$(basename $0)
 progver="0.4"
 
-conf="/etc/pacman.conf"
+conf="@sysconfdir@/pacman.conf"
 
 if [ ! -r "$conf" ]; then
 	echo "ERROR: unable to read $conf"
@@ -36,8 +36,8 @@ fi
 
 eval $(awk '/DBPath/ {print $1$2$3}' "$conf")
 eval $(awk '/CacheDir/ {print $1$2$3}' "$conf")
-pac_db="${DBPath:-/var/lib/pacman}/local"
-pac_cache="${CacheDir:-/var/cache/pacman/pkg}"
+pac_db="${DBPath:-@localstatedir@/lib/pacman}/local"
+pac_cache="${CacheDir:-@localstatedir@/cache/pacman/pkg}"
 
 error() {
 	local mesg=$1; shift
