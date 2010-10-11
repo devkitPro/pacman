@@ -521,11 +521,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
-			} else if(strcmp(line, "%FILENAME%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->filename, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%DESC%") == 0) {
 				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
@@ -595,7 +590,7 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					goto error;
 				}
 				info->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
-			} else if(strcmp(line, "%SIZE%") == 0 || strcmp(line, "%CSIZE%") == 0) {
+			} else if(strcmp(line, "%SIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
@@ -605,24 +600,8 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					goto error;
 				}
 				info->size = atol(_alpm_strtrim(line));
-				/* also store this value to isize if isize is unset */
-				if(info->isize == 0) {
-					info->isize = info->size;
-				}
-			} else if(strcmp(line, "%ISIZE%") == 0) {
-				/* ISIZE (installed size) tag only appears in sync repositories,
-				 * not the local one. */
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				info->isize = atol(_alpm_strtrim(line));
-			} else if(strcmp(line, "%MD5SUM%") == 0) {
-				/* MD5SUM tag only appears in sync repositories,
-				 * not the local one. */
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->md5sum, _alpm_strtrim(line), goto error);
+				/* also store this value to isize */
+				info->isize = info->size;
 			} else if(strcmp(line, "%REPLACES%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
