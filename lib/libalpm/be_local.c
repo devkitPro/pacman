@@ -393,7 +393,7 @@ int _alpm_local_db_populate(pmdb_t *db)
 			return(-1);
 		}
 		/* split the db entry name */
-		if(splitname(name, pkg) != 0) {
+		if(_alpm_splitname(name, pkg) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
 					name);
 			_alpm_pkg_free(pkg);
