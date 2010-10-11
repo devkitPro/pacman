@@ -1207,6 +1207,11 @@ check_sanity() {
 		return 1
 	fi
 
+	if [[ ! $epoch =~ ^[0-9]*$ ]]; then
+		error "$(gettext "%s must be an integer.")" "epoch"
+		return 1
+	fi
+
 	if [[ $arch != 'any' ]]; then
 		if ! in_array $CARCH ${arch[@]}; then
 			if (( ! IGNOREARCH )); then
