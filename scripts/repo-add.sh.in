@@ -28,6 +28,7 @@ myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 
 QUIET=0
+DELTA=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
@@ -61,7 +62,7 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-q] <path-to-db> <package|delta> ...\n")"
+	printf "$(gettext "Usage: repo-add [-d] [-q] <path-to-db> <package|delta> ...\n")"
 	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
@@ -73,6 +74,10 @@ packages to remove can be specified on the command line.\n\n")"
 	printf "$(gettext "\
 Use the -q/--quiet flag to minimize output to basic messages, warnings,\n\
 and errors\n\n")"
+	printf "$(gettext "\
+Use the -d/--delta flag to automatically generate and add a delta file\n\
+between the old entry and the new one, if the old package file is found\n\
+next to the new one.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
@@ -229,6 +234,14 @@ db_write_entry()
 
 	if [[ -d $pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
+	else
+		if [ $DELTA -eq 1 ]; then
+			pkgentry=$(find_pkgentry $pkgname)
+			if [ -n "$pkgentry" ]; then
+				local oldfilename=$(grep -A1 FILENAME $pkgentry/desc | tail -n1)
+				local oldfile="$(dirname $1)/$oldfilename"
+			fi
+		fi
 	fi
 
 	# remove an existing entry if it exists, ignore failures
@@ -274,6 +287,16 @@ db_write_entry()
 	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
 	cd "$startdir"
+
+	# create a delta file
+	if [ -n "$oldfilename" -a -f "$oldfile" ]; then
+		delta=$(pkgdelta -q $oldfile $1)
+		if [ -f "$delta" ]; then
+			db_write_delta $delta
+		else
+			warning "$(gettext "Old package file not found : %s")" "$oldfilename"
+		fi
+	fi
 
 	return 0
 } # end db_write_entry
@@ -447,6 +470,7 @@ success=0
 for arg in "$@"; do
 	case "$arg" in
 		-q|--quiet) QUIET=1;;
+		-d|--delta) DELTA=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
