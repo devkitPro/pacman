@@ -315,33 +315,12 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 				} else {
 					pkg->builddate = atol(line);
 				}
-			} else if(strcmp(line, "%INSTALLDATE%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				_alpm_strtrim(line);
-
-				char first = tolower((unsigned char)line[0]);
-				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
-					setlocale(LC_TIME, "C");
-					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					pkg->installdate = mktime(&tmp_tm);
-					setlocale(LC_TIME, "");
-				} else {
-					pkg->installdate = atol(line);
-				}
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
 				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
 				STRDUP(pkg->packager, _alpm_strtrim(line), goto error);
-			} else if(strcmp(line, "%REASON%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				pkg->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
-			} else if(strcmp(line, "%SIZE%") == 0 || strcmp(line, "%CSIZE%") == 0) {
+			} else if(strcmp(line, "%CSIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
@@ -356,15 +335,11 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 					pkg->isize = pkg->size;
 				}
 			} else if(strcmp(line, "%ISIZE%") == 0) {
-				/* ISIZE (installed size) tag only appears in sync repositories,
-				 * not the local one. */
 				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
 				pkg->isize = atol(_alpm_strtrim(line));
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
-				/* MD5SUM tag only appears in sync repositories,
-				 * not the local one. */
 				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
 					goto error;
 				}
