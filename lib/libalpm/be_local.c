@@ -196,7 +196,8 @@ alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
 
 alpm_list_t *_cache_get_deltas(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DELTAS, NULL);
+	ASSERT(pkg != NULL, return(NULL));
+	/* local pkgs do not have deltas so nothing to load */
 	return pkg->deltas;
 }
 
@@ -702,29 +703,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		}
 		fclose(fp);
 		fp = NULL;
-	}
-
-	/* DELTAS */
-	if(inforeq & INFRQ_DELTAS) {
-		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
-		if((fp = fopen(path, "r"))) {
-			while(!feof(fp)) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					break;
-				}
-				_alpm_strtrim(line);
-				if(strcmp(line, "%DELTAS%") == 0) {
-					while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-						pmdelta_t *delta = _alpm_delta_parse(line);
-						if(delta) {
-							info->deltas = alpm_list_add(info->deltas, delta);
-						}
-					}
-				}
-			}
-			fclose(fp);
-			fp = NULL;
-		}
 	}
 
 	/* INSTALL */

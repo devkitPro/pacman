@@ -37,8 +37,7 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_DEPENDS = (1 << 2),
 	INFRQ_FILES = (1 << 3),
 	INFRQ_SCRIPTLET = (1 << 4),
-	INFRQ_DELTAS = (1 << 5),
-	INFRQ_DSIZE = (1 << 6),
+	INFRQ_DSIZE = (1 << 5),
 	/* ALL should be info stored in the package or database */
 	INFRQ_ALL = 0x3F
 } pmdbinfrq_t;
