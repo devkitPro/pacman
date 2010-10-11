@@ -21,11 +21,5 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=dummy")
 self.addrule("PKG_VERSION=dummy|2.0-1")
 for f in lp.files:
-	self.addrule("!FILE_EXIST=%s" % f)
-# TODO: I honestly think the above should NOT delete the original files, it
-# should upgrade the DB entry without touching anything on the file system.
-# E.g. this test should be the same as:
-#    pacman -R --dbonly dummy && pacman -U --dbonly dummy.pkg.tar.gz
-#for f in lp.files:
-#	self.addrule("FILE_EXIST=%s" % f)
+	self.addrule("FILE_EXIST=%s" % f)
 self.addrule("!FILE_EXIST=bin/dummy2")

@@ -132,7 +132,6 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			addlist(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
-			addlist(_("  -k, --dbonly         only remove database entries, do not remove files\n"));
 			addlist(_("  -n, --nosave         remove configuration files as well\n"));
 			addlist(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
 				 "                       (-ss includes explicitly installed dependencies too)\n"));
@@ -180,7 +179,6 @@ static void usage(int op, const char * const myname)
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
 				addlist(_("  -f, --force          force install, overwrite conflicting files\n"));
-				addlist(_("  -k, --dbonly         add database entries, do not install or keep existing files\n"));
 				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
 				addlist(_("      --asexplicit     install packages as explicitly installed\n"));
 				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
@@ -189,6 +187,7 @@ static void usage(int op, const char * const myname)
 				/* pass through */
 			case PM_OP_REMOVE:
 				addlist(_("  -d, --nodeps         skip dependency checks\n"));
+				addlist(_("  -k, --dbonly         only modify database entries, not package files\n"));
 				addlist(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 				addlist(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
 				addlist(_("      --print          only print the targets instead of performing the operation\n"));

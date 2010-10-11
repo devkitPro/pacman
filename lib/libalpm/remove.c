@@ -310,6 +310,10 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *tra
 	_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 			oldpkg->name, oldpkg->version);
 
+	if(trans->flags & PM_TRANS_FLAG_DBONLY) {
+		goto db;
+	}
+
 	/* copy the remove skiplist over */
 	skip_remove =
 		alpm_list_join(alpm_list_strdup(trans->skip_remove),alpm_list_strdup(handle->noupgrade));
@@ -344,6 +348,7 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *tra
 	alpm_list_free(newfiles);
 	FREELIST(skip_remove);
 
+db:
 	/* remove the package from the database */
 	_alpm_log(PM_LOG_DEBUG, "updating database\n");
 	_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
