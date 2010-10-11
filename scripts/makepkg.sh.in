@@ -767,7 +767,7 @@ run_function() {
 
 		# ensure overridden package variables survive tee with split packages
 		logpipe=$(mktemp -u "$startdir/logpipe.XXXXXXXX")
-		mknod "$logpipe" p
+		mkfifo "$logpipe"
 		exec 3>&1
 		tee "$BUILDLOG" < "$logpipe" &
 		exec 1>"$logpipe" 2>"$logpipe"
