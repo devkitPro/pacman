@@ -796,41 +796,4 @@ int splitname(const char *target, pmpkg_t *pkg)
 	return(0);
 }
 
-
-/* TODO: move these two functions to be_local once be_sync no longer uses them */
-
-int checkdbdir(pmdb_t *db)
-{
-	struct stat buf;
-	const char *path = _alpm_db_path(db);
-
-	if(stat(path, &buf) != 0) {
-		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
-				path);
-		if(_alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
-		}
-	} else if(!S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_WARNING, _("removing invalid database: %s\n"), path);
-		if(unlink(path) != 0 || _alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
-		}
-	}
-	return(0);
-}
-
-/* Note: the return value must be freed by the caller */
-char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
-{
-	size_t len;
-	char *pkgpath;
-	const char *dbpath;
-
-	dbpath = _alpm_db_path(db);
-	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
-	MALLOC(pkgpath, len, RET_ERR(PM_ERR_MEMORY, NULL));
-	sprintf(pkgpath, "%s%s-%s/", dbpath, info->name, info->version);
-	return(pkgpath);
-}
-
 /* vim: set ts=2 sw=2 noet: */
