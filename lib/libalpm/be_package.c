@@ -75,6 +75,8 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 				STRDUP(newpkg->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(!strcmp(key, "pkgdesc")) {
 				STRDUP(newpkg->desc, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+			} else if(!strcmp(key, "force")) {
+				newpkg->force = 1;
 			} else if(!strcmp(key, "group")) {
 				newpkg->groups = alpm_list_add(newpkg->groups, strdup(ptr));
 			} else if(!strcmp(key, "url")) {
