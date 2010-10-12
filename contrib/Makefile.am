@@ -1,5 +1,4 @@
 OURFILES = \
-	PKGBUILD.vim \
 	bacman \
 	bash_completion \
 	pacdiff \
@@ -7,12 +6,11 @@ OURFILES = \
 	pacscripts \
 	pacsearch \
 	pactree \
-	vimprojects \
 	wget-xdelta.sh \
 	zsh_completion
 
 EXTRA_DIST = \
-	PKGBUILD.vim.in \
+	PKGBUILD.vim \
 	bacman.in \
 	bash_completion.in \
 	pacdiff.in \
@@ -20,7 +18,7 @@ EXTRA_DIST = \
 	pacscripts.in \
 	pacsearch.in \
 	pactree.in \
-	vimprojects.in \
+	vimprojects \
 	wget-xdelta.sh.in \
 	zsh_completion.in \
 	README
@@ -34,9 +32,10 @@ edit = sed \
 	-e 's|@BASH[@]|$(BASH)|g'
 
 $(OURFILES): Makefile
+	@echo '    ' GEN $@;
 	@rm -f $@ $@.tmp
 	@cp -a $@.in $@.tmp
-	$(edit) $@.in >$@.tmp
+	@$(edit) $@.in >$@.tmp
 	@mv $@.tmp $@
 
 all-am: $(OURFILES)
