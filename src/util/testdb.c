@@ -30,11 +30,6 @@
 
 #define BASENAME "testdb"
 
-int str_cmp(const void *s1, const void *s2)
-{
-	return(strcmp(s1, s2));
-}
-
 static void cleanup(int signum) {
 	if(alpm_release() == -1) {
 		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
@@ -100,7 +95,7 @@ static int db_test(char *dbpath, int local)
 	return(ret);
 }
 
-int checkdeps(alpm_list_t *pkglist)
+static int checkdeps(alpm_list_t *pkglist)
 {
 	alpm_list_t *data, *i;
 	int ret = 0;
@@ -119,7 +114,7 @@ int checkdeps(alpm_list_t *pkglist)
 	return(ret);
 }
 
-int checkconflicts(alpm_list_t *pkglist)
+static int checkconflicts(alpm_list_t *pkglist)
 {
 	alpm_list_t *data, *i;
 	int ret = 0;
@@ -135,7 +130,7 @@ int checkconflicts(alpm_list_t *pkglist)
 	return(ret);
 }
 
-int check_localdb(char *dbpath) {
+static int check_localdb(char *dbpath) {
 	char localdbpath[PATH_MAX];
 	int ret = 0;
 	pmdb_t *db = NULL;
@@ -159,7 +154,7 @@ int check_localdb(char *dbpath) {
 	return(ret);
 }
 
-int check_syncdbs(char *dbpath, alpm_list_t *dbnames) {
+static int check_syncdbs(char *dbpath, alpm_list_t *dbnames) {
 	char syncdbpath[PATH_MAX];
 	int ret = 0;
 	pmdb_t *db = NULL;
@@ -190,7 +185,7 @@ cleanup:
 	return(ret);
 }
 
-void usage() {
+static void usage(void) {
 	fprintf(stderr, "usage:\n");
 	fprintf(stderr,
 			"\t%s [-b <pacman db>]                : check the local database\n", BASENAME);
@@ -199,7 +194,7 @@ void usage() {
 	exit(1);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	int ret = 0;
 	char *dbpath = DBPATH;

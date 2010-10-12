@@ -49,7 +49,7 @@ void output_cb(pmloglevel_t level, char *fmt, va_list args)
 }
 
 
-void checkpkgs(alpm_list_t *pkglist)
+static void checkpkgs(alpm_list_t *pkglist)
 {
 	alpm_list_t *i, *j;
 	for(i = pkglist; i; i = alpm_list_next(i)) {
@@ -63,7 +63,7 @@ void checkpkgs(alpm_list_t *pkglist)
 	}
 }
 
-void checkdbs(char *dbpath, alpm_list_t *dbnames) {
+static void checkdbs(char *dbpath, alpm_list_t *dbnames) {
 	char syncdbpath[PATH_MAX];
 	pmdb_t *db = NULL;
 	alpm_list_t *i;
@@ -82,14 +82,14 @@ void checkdbs(char *dbpath, alpm_list_t *dbnames) {
 
 }
 
-void usage() {
+static void usage(void) {
 	fprintf(stderr, "usage:\n");
 	fprintf(stderr,
 			"\t%s [-b <pacman db>] core extra ... : check the listed sync databases\n", BASENAME);
 	exit(1);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	char *dbpath = DBPATH;
 	int a = 1;

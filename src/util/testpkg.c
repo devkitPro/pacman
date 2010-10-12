@@ -17,8 +17,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-
 #include <stdio.h> /* printf */
 #include <stdarg.h> /* va_list */
 
@@ -26,7 +24,7 @@
 
 #define BASENAME "testpkg"
 
-static void output_cb(pmloglevel_t level, char *fmt, va_list args)
+void output_cb(pmloglevel_t level, char *fmt, va_list args)
 {
 	if(fmt[0] == '\0') {
 		return;
@@ -39,7 +37,7 @@ static void output_cb(pmloglevel_t level, char *fmt, va_list args)
 	vprintf(fmt, args);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	int retval = 1; /* default = false */
 	pmpkg_t *pkg = NULL;

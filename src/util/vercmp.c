@@ -18,20 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-
 #include <stdio.h> /* printf */
 #include <string.h> /* strncpy */
 
 #define BASENAME "vercmp"
 
-#define MAX_LEN 255
-
 /* forward declaration, comes from vercmp.o in libalpm source that is linked in
  * directly so we don't have any library deps */
 int alpm_pkg_vercmp(const char *a, const char *b);
 
-static void usage()
+static void usage(void)
 {
 	fprintf(stderr, "usage: %s <ver1> <ver2>\n\n", BASENAME);
 	fprintf(stderr, "return values:\n");
@@ -42,8 +38,8 @@ static void usage()
 
 int main(int argc, char *argv[])
 {
-	char s1[MAX_LEN] = "";
-	char s2[MAX_LEN] = "";
+	const char *s1 = "";
+	const char *s2 = "";
 	int ret;
 
 	if(argc == 1) {
@@ -56,16 +52,11 @@ int main(int argc, char *argv[])
 		usage();
 		return(0);
 	}
-	if(argc > 1) {
-		strncpy(s1, argv[1], MAX_LEN);
-		s1[MAX_LEN -1] = '\0';
-	}
 	if(argc > 2) {
-		strncpy(s2, argv[2], MAX_LEN);
-		s2[MAX_LEN -1] = '\0';
-	} else {
-		printf("0\n");
-		return(0);
+		s2 = argv[2];
+	}
+	if(argc > 1) {
+		s1 = argv[1];
 	}
 
 	ret = alpm_pkg_vercmp(s1, s2);
