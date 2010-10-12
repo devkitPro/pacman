@@ -218,31 +218,6 @@ pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
- * @param db pointer to the local package database
- * @param targets an alpm_list_t* of dependencies strings to satisfy
- * @return an alpm_list_t* of missing dependencies strings
- */
-alpm_list_t SYMEXPORT *alpm_deptest(pmdb_t *db, alpm_list_t *targets)
-{
-	alpm_list_t *i, *ret = NULL;
-
-	for(i = targets; i; i = alpm_list_next(i)) {
-		pmdepend_t *dep;
-		char *target;
-
-		target = alpm_list_getdata(i);
-		dep = _alpm_splitdep(target);
-
-		if(!_alpm_find_dep_satisfier(_alpm_db_get_pkgcache(db), dep)) {
-			ret = alpm_list_add(ret, target);
-		}
-		_alpm_dep_free(dep);
-	}
-	return(ret);
-}
-
-/** Checks dependencies and returns missing ones in a list.
- * Dependencies can include versions with depmod operators.
  * @param pkglist the list of local packages
  * @param reversedeps handles the backward dependencies
  * @param remove an alpm_list_t* of packages to be removed
