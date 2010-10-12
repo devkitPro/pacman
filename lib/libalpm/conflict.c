@@ -109,7 +109,7 @@ static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
 	pmdepend_t *conf = _alpm_splitdep(conflict);
 	int match = 0;
 
-	match = alpm_depcmp(pkg2, conf);
+	match = _alpm_depcmp(pkg2, conf);
 	if(match) {
 		_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
 				pkg1name, pkg2name, conflict);

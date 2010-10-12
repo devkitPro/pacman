@@ -195,7 +195,7 @@ pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = i->data;
-		if(alpm_depcmp(pkg, dep)) {
+		if(_alpm_depcmp(pkg, dep)) {
 			return(pkg);
 		}
 	}
@@ -319,7 +319,7 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 	return(equal);
 }
 
-int SYMEXPORT alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
+int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	alpm_list_t *i;
 
@@ -513,7 +513,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
-		if(pkg && alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
+		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(pkg)) {
 				int install = 0;
 				if (prompt) {
@@ -534,7 +534,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	for(i = dbs; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
+			if(_alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install = 0;
@@ -660,7 +660,7 @@ int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2)
 {
 	alpm_list_t *i;
 	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
-		if(alpm_depcmp(pkg2, i->data)) {
+		if(_alpm_depcmp(pkg2, i->data)) {
 			return(1);
 		}
 	}

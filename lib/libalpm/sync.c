@@ -528,10 +528,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			/* if sync1 provides sync2, we remove sync2 from the targets, and vice versa */
 			pmdepend_t *dep1 = _alpm_splitdep(conflict->package1);
 			pmdepend_t *dep2 = _alpm_splitdep(conflict->package2);
-			if(alpm_depcmp(sync1, dep2)) {
+			if(_alpm_depcmp(sync1, dep2)) {
 				rsync = sync2;
 				sync = sync1;
-			} else if(alpm_depcmp(sync2, dep1)) {
+			} else if(_alpm_depcmp(sync2, dep1)) {
 				rsync = sync1;
 				sync = sync2;
 			} else {

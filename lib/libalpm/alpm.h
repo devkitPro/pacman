@@ -429,7 +429,6 @@ typedef enum _pmdepmod_t {
 	PM_DEP_MOD_LT
 } pmdepmod_t;
 
-int alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
 alpm_list_t *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 		alpm_list_t *remove, alpm_list_t *upgrade);
 pmpkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
