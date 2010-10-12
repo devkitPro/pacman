@@ -35,16 +35,24 @@
 int pacman_deptest(alpm_list_t *targets)
 {
 	alpm_list_t *i;
+	alpm_list_t *deps = NULL;
+	pmdb_t *localdb = alpm_option_get_localdb();
 
-	alpm_list_t *deps = alpm_deptest(alpm_option_get_localdb(), targets);
+	for(i = targets; i; i = alpm_list_next(i)) {
+		char *target = alpm_list_getdata(i);
+
+		if(!alpm_find_satisfier(alpm_db_get_pkgcache(localdb), target)) {
+			deps = alpm_list_add(deps, target);
+		}
+	}
+
 	if(deps == NULL) {
 		return(0);
 	}
 
 	for(i = deps; i; i = alpm_list_next(i)) {
-		const char *dep;
+		const char *dep = alpm_list_getdata(i);
 
-		dep = alpm_list_getdata(i);
 		printf("%s\n", dep);
 	}
 	alpm_list_free(deps);
