@@ -202,6 +202,20 @@ pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 	return(NULL);
 }
 
+/** Find a package satisfying a specified dependency.
+ * The dependency can include versions with depmod operators.
+ * @param pkgs an alpm_list_t* of pmpkg_t where the satisfier will be searched
+ * @param depstring package or provision name, versioned or not
+ * @return a pmpkg_t* satisfying depstring
+ */
+pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
+{
+	pmdepend_t *dep = _alpm_splitdep(depstring);
+	pmpkg_t *pkg = _alpm_find_dep_satisfier(pkgs, dep);
+	_alpm_dep_free(dep);
+	return(pkg);
+}
+
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
  * @param db pointer to the local package database
