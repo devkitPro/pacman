@@ -543,7 +543,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 	/* prepare directory for database entries so permission are correct after
 	   changelog/install script installation (FS#12263) */
-	if(_alpm_db_prepare(db, newpkg)) {
+	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction("error: could not create database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		pm_errno = PM_ERR_DB_WRITE;
@@ -661,7 +661,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	_alpm_log(PM_LOG_DEBUG, "updating database\n");
 	_alpm_log(PM_LOG_DEBUG, "adding database entry '%s'\n", newpkg->name);
 
-	if(_alpm_db_write(db, newpkg, INFRQ_ALL)) {
+	if(_alpm_local_db_write(db, newpkg, INFRQ_ALL)) {
 		_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s\n"),
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		alpm_logaction("error: could not update database entry %s-%s\n",

@@ -347,7 +347,7 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *tra
 	/* remove the package from the database */
 	_alpm_log(PM_LOG_DEBUG, "updating database\n");
 	_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
-	if(_alpm_db_remove(handle->db_local, oldpkg) == -1) {
+	if(_alpm_local_db_remove(handle->db_local, oldpkg) == -1) {
 		_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
 				pkgname, alpm_pkg_get_version(oldpkg));
 	}
@@ -442,7 +442,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 		/* remove the package from the database */
 		_alpm_log(PM_LOG_DEBUG, "updating database\n");
 		_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
-		if(_alpm_db_remove(db, info) == -1) {
+		if(_alpm_local_db_remove(db, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
 			          pkgname, alpm_pkg_get_version(info));
 		}

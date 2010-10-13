@@ -43,6 +43,7 @@
 #include "package.h"
 #include "group.h"
 
+
 struct db_operations default_db_ops = {
 	.populate         = _alpm_db_populate,
 	.unregister       = _alpm_db_unregister,
@@ -362,7 +363,7 @@ int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t 
 	/* set reason (in pkgcache) */
 	pkg->reason = reason;
 	/* write DESC */
-	if(_alpm_db_write(db, pkg, INFRQ_DESC)) {
+	if(_alpm_local_db_write(db, pkg, INFRQ_DESC)) {
 		return(-1);
 	}
 
@@ -371,7 +372,7 @@ int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t 
 
 /** @} */
 
-static pmdb_t *_alpm_db_new(const char *treename, int is_local)
+pmdb_t *_alpm_db_new(const char *treename, int is_local)
 {
 	pmdb_t *db;
 
@@ -511,56 +512,6 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 	}
 
 	return(ret);
-}
-
-pmdb_t *_alpm_db_register_local(void)
-{
-	pmdb_t *db;
-
-	ALPM_LOG_FUNC;
-
-	if(handle->db_local != NULL) {
-		_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
-		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
-
-	db = _alpm_db_new("local", 1);
-	db->ops = &default_db_ops;
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_CREATE, NULL);
-	}
-
-	handle->db_local = db;
-	return(db);
-}
-
-pmdb_t *_alpm_db_register_sync(const char *treename)
-{
-	pmdb_t *db;
-	alpm_list_t *i;
-
-	ALPM_LOG_FUNC;
-
-	for(i = handle->dbs_sync; i; i = i->next) {
-		pmdb_t *sdb = i->data;
-		if(strcmp(treename, sdb->treename) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
-			return sdb;
-		}
-	}
-
-	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
-
-	db = _alpm_db_new(treename, 0);
-	db->ops = &default_db_ops;
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_CREATE, NULL);
-	}
-
-	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
-	return(db);
 }
 
 /* Returns a new package cache from db.
