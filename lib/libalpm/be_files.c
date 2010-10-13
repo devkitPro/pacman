@@ -595,26 +595,6 @@ pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target)
 	return(NULL);
 }
 
-static int checkdbdir(pmdb_t *db)
-{
-	struct stat buf;
-	const char *path = _alpm_db_path(db);
-
-	if(stat(path, &buf) != 0) {
-		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
-				path);
-		if(_alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
-		}
-	} else if(!S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_WARNING, _("removing invalid database: %s\n"), path);
-		if(unlink(path) != 0 || _alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
-		}
-	}
-	return(0);
-}
-
 /* create list of directories in db */
 static int dirlist_from_tar(const char *archive, alpm_list_t **dirlist)
 {
@@ -866,46 +846,6 @@ cleanup:
 	return(0);
 }
 
-
-static int splitname(const char *target, pmpkg_t *pkg)
-{
-	/* the format of a db entry is as follows:
-	 *    package-version-rel/
-	 * package name can contain hyphens, so parse from the back- go back
-	 * two hyphens and we have split the version from the name.
-	 */
-	char *tmp, *p, *q;
-
-	if(target == NULL || pkg == NULL) {
-		return(-1);
-	}
-	STRDUP(tmp, target, RET_ERR(PM_ERR_MEMORY, -1));
-	p = tmp + strlen(tmp);
-
-	/* do the magic parsing- find the beginning of the version string
-	 * by doing two iterations of same loop to lop off two hyphens */
-	for(q = --p; *q && *q != '-'; q--);
-	for(p = --q; *p && *p != '-'; p--);
-	if(*p != '-' || p == tmp) {
-		return(-1);
-	}
-
-	/* copy into fields and return */
-	if(pkg->version) {
-		FREE(pkg->version);
-	}
-	STRDUP(pkg->version, p+1, RET_ERR(PM_ERR_MEMORY, -1));
-	/* insert a terminator at the end of the name (on hyphen)- then copy it */
-	*p = '\0';
-	if(pkg->name) {
-		FREE(pkg->name);
-	}
-	STRDUP(pkg->name, tmp, RET_ERR(PM_ERR_MEMORY, -1));
-
-	free(tmp);
-	return(0);
-}
-
 int _alpm_db_populate(pmdb_t *db)
 {
 	int count = 0;
@@ -977,20 +917,6 @@ int _alpm_db_populate(pmdb_t *db)
 	closedir(dbdir);
 	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
 	return(count);
-}
-
-/* Note: the return value must be freed by the caller */
-static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
-{
-	size_t len;
-	char *pkgpath;
-	const char *dbpath;
-
-	dbpath = _alpm_db_path(db);
-	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
-	MALLOC(pkgpath, len, RET_ERR(PM_ERR_MEMORY, NULL));
-	sprintf(pkgpath, "%s%s-%s/", dbpath, info->name, info->version);
-	return(pkgpath);
 }
 
 int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)

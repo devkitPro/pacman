@@ -93,6 +93,10 @@ void _alpm_db_free_grpcache(pmdb_t *db);
 alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db);
 pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target);
 
+int splitname(const char *target, pmpkg_t *pkg);
+int checkdbdir(pmdb_t *db);
+char *get_pkgpath(pmdb_t *db, pmpkg_t *info);
+
 #endif /* _ALPM_DB_H */
 
 /* vim: set ts=2 sw=2 noet: */
