@@ -43,6 +43,7 @@
 /* globals */
 pmdb_t *db_local;
 alpm_list_t *walked = NULL;
+alpm_list_t *provisions = NULL;
 
 /* options */
 int color = 0;
@@ -168,25 +169,43 @@ static void cleanup(void)
 	}
 
 	alpm_list_free(walked);
+	alpm_list_free(provisions);
 	alpm_release();
 }
 
-static void print_text(const char *pkg, const char *provider, int depth)
+/* pkg provides provision */
+static void print_text(const char *pkg, const char *provision, int depth)
 {
-	int indent_sz;
+	int indent_sz = (depth + 1) * INDENT_SZ;
 
-	if(unique && alpm_list_find_str(walked, pkg)) {
+	if(!pkg) {
 		return;
 	}
 
-	indent_sz =  (depth + 1) * INDENT_SZ;
+#if 0
+	if(!pkg) {
+		/* can't resolve, but the show must go on */
+		if(color) {
+			printf(BRANCH1_COLOR "%*s" LEAF1_COLOR "%s" BRANCH1_COLOR UNRESOLVABLE
+					COLOR_OFF "\n", indent_sz, BRANCH_TIP1, provision);
+		} else {
+			printf("%*s%s" UNRESOLVABLE "\n", indent_sz, BRANCH_TIP1, provision);
+		}
+	}
+#endif
+
+	if(provision) {
+		if(strcmp(pkg, provision) == 0) {
+			provision = NULL;
+		}
+	}
 
 	if(linear) {
 		if(color) {
 			printf(LEAF1_COLOR);
 		}
-		if(provider) {
-			printf("%s %s\n", pkg, provider);
+		if(provision) {
+			printf("%s %s\n", pkg, provision);
 		} else {
 			printf("%s\n", pkg);
 		}
@@ -194,12 +213,12 @@ static void print_text(const char *pkg, const char *provider, int depth)
 			printf(COLOR_OFF);
 		}
 	} else {
-		if(provider) {
+		if(provision) {
 			if(color) {
 				printf(BRANCH2_COLOR "%*s" LEAF1_COLOR "%s" LEAF2_COLOR PROVIDES
-						LEAF1_COLOR"%s\n"COLOR_OFF, indent_sz, BRANCH_TIP2, pkg, provider);
+						LEAF1_COLOR"%s\n"COLOR_OFF, indent_sz, BRANCH_TIP2, pkg, provision);
 			} else {
-				printf("%*s%s" PROVIDES "%s\n", indent_sz, BRANCH_TIP2, pkg, provider);
+				printf("%*s%s" PROVIDES "%s\n", indent_sz, BRANCH_TIP2, pkg, provision);
 			}
 		} else {
 			if(color) {
@@ -212,18 +231,48 @@ static void print_text(const char *pkg, const char *provider, int depth)
 	}
 }
 
-static void print_graph(const char *pkg, const char *dep, int provide)
+static void print_graph(const char *parentname, const char *pkgname, const char *depname)
 {
-	if(unique && alpm_list_find_str(walked, pkg)) {
-		return;
-	}
-
-	if(provide) {
-		printf("\"%s\" -> \"%s\" [color=grey];\n", pkg, dep);
-	} else {
-		printf("\"%s\" -> \"%s\" [color=chocolate4];\n", pkg, dep);
+	if(depname) {
+		printf("\"%s\" -> \"%s\" [color=chocolate4];\n", parentname, depname);
+		if(pkgname && strcmp(depname, pkgname) != 0 && !alpm_list_find_str(provisions, depname)) {
+			printf("\"%s\" -> \"%s\" [arrowhead=none, color=grey];\n", depname, pkgname);
+			provisions = alpm_list_add(provisions, (char *)depname);
+		}
+	} else if(pkgname) {
+		printf("\"%s\" -> \"%s\" [color=chocolate4];\n", parentname, pkgname);
 	}
 }
+
+/* parent depends on dep which is satisfied by pkg */
+static void print(const char *parentname, const char *pkgname, const char *depname, int depth)
+{
+	if(graphviz) {
+		print_graph(parentname, pkgname, depname);
+	} else {
+		print_text(pkgname, depname, depth);
+	}
+}
+
+static void print_start(const char *pkgname, const char *provname)
+{
+	if(graphviz) {
+		printf("digraph G { START [color=red, style=filled];\n"
+				"node [style=filled, color=green];\n"
+				" \"START\" -> \"%s\";\n", pkgname);
+	} else {
+		print_text(pkgname, provname, 0);
+	}
+}
+
+static void print_end(void)
+{
+	if(graphviz) {
+		/* close graph output */
+		printf("}\n");
+	}
+}
+
 
 /**
  * walk dependencies in reverse, showing packages which require the target
@@ -242,13 +291,14 @@ static void walk_reverse_deps(pmpkg_t *pkg, int depth)
 	for(i = required_by; i; i = alpm_list_next(i)) {
 		const char *pkgname = alpm_list_getdata(i);
 
-		if(graphviz) {
-			print_graph(alpm_pkg_get_name(pkg), pkgname, 0);
+		if(alpm_list_find_str(walked, pkgname)) {
+			/* if we've already seen this package, don't print in "unique" output
+			 * and don't recurse */
+			if(!unique) {
+				print(alpm_pkg_get_name(pkg), pkgname, NULL, depth);
+			}
 		} else {
-			print_text(pkgname, NULL, depth);
-		}
-
-		if(!alpm_list_find_str(walked, pkgname)) {
+			print(alpm_pkg_get_name(pkg), pkgname, NULL, depth);
 			walk_reverse_deps(alpm_db_get_pkg(db_local, pkgname), depth + 1);
 		}
 	}
@@ -264,7 +314,7 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 	alpm_list_t *i;
 
 	if((max_depth >= 0) && (depth == max_depth + 1)) {
-	  return;
+		return;
 	}
 
 	walked = alpm_list_add(walked, (void*)alpm_pkg_get_name(pkg));
@@ -274,29 +324,22 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 		pmpkg_t *provider = alpm_find_satisfier(alpm_db_get_pkgcache(db_local),
 				alpm_dep_get_name(depend));
 
-		if(!provider) {
-			/* can't resolve, but the show must go on */
-			if(color) {
-				printf(BRANCH1_COLOR "%*s" LEAF1_COLOR "%s" BRANCH1_COLOR UNRESOLVABLE
-						COLOR_OFF "\n", (depth + 1) * INDENT_SZ, BRANCH_TIP1,
-						alpm_dep_get_name(depend));
-			} else {
-				printf("%*s%s" UNRESOLVABLE "\n", (depth + 1) * INDENT_SZ, BRANCH_TIP1,
-						alpm_dep_get_name(depend));
-			}
-		} else {
-			if(graphviz) {
-				print_graph(alpm_pkg_get_name(pkg), alpm_dep_get_name(depend), 0);
-			} else if(strcmp(alpm_pkg_get_name(provider), alpm_dep_get_name(depend)) == 0) {
-					print_text(alpm_pkg_get_name(provider), NULL, depth);
-			} else {
-				print_text(alpm_pkg_get_name(provider), alpm_dep_get_name(depend), depth);
-			}
+		if(provider) {
+			const char *provname = alpm_pkg_get_name(provider);
 
-			/* don't recurse if we've walked this package already */
-			if(!alpm_list_find_str(walked, alpm_pkg_get_name(provider))) {
+			if(alpm_list_find_str(walked, provname)) {
+				/* if we've already seen this package, don't print in "unique" output
+				 * and don't recurse */
+				if(!unique) {
+					print(alpm_pkg_get_name(pkg), provname, alpm_dep_get_name(depend), depth);
+				}
+			} else {
+				print(alpm_pkg_get_name(pkg), provname, alpm_dep_get_name(depend), depth);
 				walk_deps(provider, depth + 1);
 			}
+		} else {
+			/* unresolvable package */
+			print(alpm_pkg_get_name(pkg), NULL, alpm_dep_get_name(depend), depth);
 		}
 	}
 }
@@ -305,7 +348,7 @@ int main(int argc, char *argv[])
 {
 	int ret;
 	const char *target_name;
-	pmpkg_t *target;
+	pmpkg_t *pkg;
 
 	ret = parse_options(argc, argv);
 	if(ret != 0) {
@@ -322,33 +365,22 @@ int main(int argc, char *argv[])
 	/* we only care about the first non option arg for walking */
 	target_name = argv[optind];
 
-	target = alpm_find_satisfier(alpm_db_get_pkgcache(db_local), target_name);
-	if(!target) {
+	pkg = alpm_find_satisfier(alpm_db_get_pkgcache(db_local), target_name);
+	if(!pkg) {
 		fprintf(stderr, "error: package '%s' not found\n", target_name);
 		ret = 1;
 		goto finish;
 	}
 
-	if(graphviz) {
-		printf("digraph G { START [color=red, style=filled];\n"
-				"node [style=filled, color=green];\n"
-				" \"START\" -> \"%s\";\n", alpm_pkg_get_name(target));
-	} else if(strcmp(target_name, alpm_pkg_get_name(target)) == 0) {
-		print_text(target_name, NULL, 0);
-	} else {
-		print_text(alpm_pkg_get_name(target), target_name, 0);
-	}
+	print_start(alpm_pkg_get_name(pkg), target_name);
 
 	if(reverse) {
-		walk_reverse_deps(target, 1);
+		walk_reverse_deps(pkg, 1);
 	} else {
-		walk_deps(target, 1);
+		walk_deps(pkg, 1);
 	}
 
-	/* close graph output */
-	if(graphviz) {
-		printf("}\n");
-	}
+	print_end();
 
 finish:
 	cleanup();
