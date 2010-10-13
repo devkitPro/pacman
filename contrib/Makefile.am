@@ -5,7 +5,6 @@ OURFILES = \
 	paclist \
 	pacscripts \
 	pacsearch \
-	pactree \
 	wget-xdelta.sh \
 	zsh_completion
 
@@ -17,7 +16,6 @@ EXTRA_DIST = \
 	paclist.in \
 	pacscripts.in \
 	pacsearch.in \
-	pactree.in \
 	vimprojects \
 	wget-xdelta.sh.in \
 	zsh_completion.in \
