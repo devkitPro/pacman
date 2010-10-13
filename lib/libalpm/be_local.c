@@ -737,7 +737,6 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	mode_t oldmask;
 	alpm_list_t *lp = NULL;
 	int retval = 0;
-	int local = 0;
 	char *pkgpath = NULL;
 
 	ALPM_LOG_FUNC;
@@ -751,8 +750,8 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
-	if(strcmp(db->treename, "local") == 0) {
-		local = 1;
+	if(strcmp(db->treename, "local") != 0) {
+		return(-1);
 	}
 
 	/* DESC */
@@ -788,63 +787,49 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->force) {
 			fprintf(fp, "%%FORCE%%\n\n");
 		}
-		if(local) {
-			if(info->url) {
-				fprintf(fp, "%%URL%%\n"
-								"%s\n\n", info->url);
-			}
-			if(info->licenses) {
-				fputs("%LICENSE%\n", fp);
-				for(lp = info->licenses; lp; lp = lp->next) {
-					fprintf(fp, "%s\n", (char *)lp->data);
-				}
-				fprintf(fp, "\n");
-			}
-			if(info->arch) {
-				fprintf(fp, "%%ARCH%%\n"
-								"%s\n\n", info->arch);
-			}
-			if(info->builddate) {
-				fprintf(fp, "%%BUILDDATE%%\n"
-								"%ld\n\n", info->builddate);
-			}
-			if(info->installdate) {
-				fprintf(fp, "%%INSTALLDATE%%\n"
-								"%ld\n\n", info->installdate);
-			}
-			if(info->packager) {
-				fprintf(fp, "%%PACKAGER%%\n"
-								"%s\n\n", info->packager);
-			}
-			if(info->isize) {
-				/* only write installed size, csize is irrelevant once installed */
-				fprintf(fp, "%%SIZE%%\n"
-								"%jd\n\n", (intmax_t)info->isize);
-			}
-			if(info->reason) {
-				fprintf(fp, "%%REASON%%\n"
-								"%u\n\n", info->reason);
-			}
-		} else {
-			if(info->size) {
-				fprintf(fp, "%%CSIZE%%\n"
-								"%jd\n\n", (intmax_t)info->size);
-			}
-			if(info->isize) {
-				fprintf(fp, "%%ISIZE%%\n"
-								"%jd\n\n", (intmax_t)info->isize);
-			}
-			if(info->md5sum) {
-				fprintf(fp, "%%MD5SUM%%\n"
-								"%s\n\n", info->md5sum);
-			}
+		if(info->url) {
+			fprintf(fp, "%%URL%%\n"
+							"%s\n\n", info->url);
 		}
+		if(info->licenses) {
+			fputs("%LICENSE%\n", fp);
+			for(lp = info->licenses; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+		if(info->arch) {
+			fprintf(fp, "%%ARCH%%\n"
+							"%s\n\n", info->arch);
+		}
+		if(info->builddate) {
+			fprintf(fp, "%%BUILDDATE%%\n"
+							"%ld\n\n", info->builddate);
+		}
+		if(info->installdate) {
+			fprintf(fp, "%%INSTALLDATE%%\n"
+							"%ld\n\n", info->installdate);
+		}
+		if(info->packager) {
+			fprintf(fp, "%%PACKAGER%%\n"
+							"%s\n\n", info->packager);
+		}
+		if(info->isize) {
+			/* only write installed size, csize is irrelevant once installed */
+			fprintf(fp, "%%SIZE%%\n"
+							"%jd\n\n", (intmax_t)info->isize);
+		}
+		if(info->reason) {
+			fprintf(fp, "%%REASON%%\n"
+							"%u\n\n", info->reason);
+		}
+
 		fclose(fp);
 		fp = NULL;
 	}
 
 	/* FILES */
-	if(local && (inforeq & INFRQ_FILES)) {
+	if(inforeq & INFRQ_FILES) {
 		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
 				info->name, info->version);
 		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
