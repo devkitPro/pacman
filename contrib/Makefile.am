@@ -29,7 +29,7 @@ MOSTLYCLEANFILES = $(OURFILES) *.tmp
 edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
-	-e 's|@BASH[@]|$(BASH)|g'
+	-e 's|@BASH_SHELL[@]|$(BASH_SHELL)|g'
 
 $(OURFILES): Makefile
 	@echo '    ' GEN $@;

@@ -35,7 +35,7 @@ edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
 	-e 's|@prefix[@]|$(prefix)|g' \
-	-e 's|@BASH[@]|$(BASH)|g' \
+	-e 's|@BASH_SHELL[@]|$(BASH_SHELL)|g' \
 	-e 's|@PACKAGE_VERSION[@]|$(REAL_PACKAGE_VERSION)|g' \
 	-e 's|@PACKAGE_BUGREPORT[@]|$(PACKAGE_BUGREPORT)|g' \
 	-e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
