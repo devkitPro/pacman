@@ -41,6 +41,7 @@
 #include "handle.h"
 #include "alpm.h"
 #include "package.h"
+#include "group.h"
 
 struct db_operations default_db_ops = {
 	.populate         = _alpm_db_populate,
@@ -560,6 +561,248 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return(db);
+}
+
+/* Returns a new package cache from db.
+ * It frees the cache if it already exists.
+ */
+int _alpm_db_load_pkgcache(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	if(db == NULL) {
+		return(-1);
+	}
+	_alpm_db_free_pkgcache(db);
+
+	_alpm_log(PM_LOG_DEBUG, "loading package cache for repository '%s'\n",
+			db->treename);
+	if(db->ops->populate(db) == -1) {
+		_alpm_log(PM_LOG_DEBUG,
+				"failed to load package cache for repository '%s'\n", db->treename);
+		return(-1);
+	}
+
+	db->pkgcache_loaded = 1;
+	return(0);
+}
+
+void _alpm_db_free_pkgcache(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || !db->pkgcache_loaded) {
+		return;
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'\n",
+	                        db->treename);
+
+	alpm_list_free_inner(db->pkgcache, (alpm_list_fn_free)_alpm_pkg_free);
+	alpm_list_free(db->pkgcache);
+	db->pkgcache_loaded = 0;
+
+	_alpm_db_free_grpcache(db);
+}
+
+alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	if(db == NULL) {
+		return(NULL);
+	}
+
+	if(!db->pkgcache_loaded) {
+		_alpm_db_load_pkgcache(db);
+	}
+
+	/* hmmm, still NULL ?*/
+	if(!db->pkgcache) {
+		_alpm_log(PM_LOG_DEBUG, "warning: pkgcache is NULL for db '%s'\n", db->treename);
+	}
+
+	return(db->pkgcache);
+}
+
+/* "duplicate" pkg then add it to pkgcache */
+int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
+{
+	pmpkg_t *newpkg;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || !db->pkgcache_loaded || pkg == NULL) {
+		return(-1);
+	}
+
+	newpkg = _alpm_pkg_dup(pkg);
+	if(newpkg == NULL) {
+		return(-1);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
+						alpm_pkg_get_name(newpkg), db->treename);
+	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
+
+	_alpm_db_free_grpcache(db);
+
+	return(0);
+}
+
+int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
+{
+	void *vdata;
+	pmpkg_t *data;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || !db->pkgcache_loaded || pkg == NULL) {
+		return(-1);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "removing entry '%s' from '%s' cache\n",
+						alpm_pkg_get_name(pkg), db->treename);
+
+	db->pkgcache = alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
+	data = vdata;
+	if(data == NULL) {
+		/* package not found */
+		_alpm_log(PM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found\n",
+							alpm_pkg_get_name(pkg), db->treename);
+		return(-1);
+	}
+
+	_alpm_pkg_free(data);
+
+	_alpm_db_free_grpcache(db);
+
+	return(0);
+}
+
+pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
+{
+	ALPM_LOG_FUNC;
+
+	if(db == NULL) {
+		return(NULL);
+	}
+
+	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db);
+	if(!pkgcache) {
+		_alpm_log(PM_LOG_DEBUG, "warning: failed to get '%s' from NULL pkgcache\n",
+				target);
+		return(NULL);
+	}
+
+	return(_alpm_pkg_find(pkgcache, target));
+}
+
+/* Returns a new group cache from db.
+ */
+int _alpm_db_load_grpcache(pmdb_t *db)
+{
+	alpm_list_t *lp;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL) {
+		return(-1);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'\n",
+			db->treename);
+
+	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+		const alpm_list_t *i;
+		pmpkg_t *pkg = lp->data;
+
+		for(i = alpm_pkg_get_groups(pkg); i; i = i->next) {
+			const char *grpname = i->data;
+			alpm_list_t *j;
+			pmgrp_t *grp = NULL;
+			int found = 0;
+
+			/* first look through the group cache for a group with this name */
+			for(j = db->grpcache; j; j = j->next) {
+				grp = j->data;
+
+				if(strcmp(grp->name, grpname) == 0
+						&& !alpm_list_find_ptr(grp->packages, pkg)) {
+					grp->packages = alpm_list_add(grp->packages, pkg);
+					found = 1;
+					break;
+				}
+			}
+			if(found) {
+				continue;
+			}
+			/* we didn't find the group, so create a new one with this name */
+			grp = _alpm_grp_new(grpname);
+			grp->packages = alpm_list_add(grp->packages, pkg);
+			db->grpcache = alpm_list_add(db->grpcache, grp);
+		}
+	}
+
+	db->grpcache_loaded = 1;
+	return(0);
+}
+
+void _alpm_db_free_grpcache(pmdb_t *db)
+{
+	alpm_list_t *lg;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || !db->grpcache_loaded) {
+		return;
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "freeing group cache for repository '%s'\n",
+	                        db->treename);
+
+	for(lg = db->grpcache; lg; lg = lg->next) {
+		_alpm_grp_free(lg->data);
+		lg->data = NULL;
+	}
+	FREELIST(db->grpcache);
+	db->grpcache_loaded = 0;
+}
+
+alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	if(db == NULL) {
+		return(NULL);
+	}
+
+	if(!db->grpcache_loaded) {
+		_alpm_db_load_grpcache(db);
+	}
+
+	return(db->grpcache);
+}
+
+pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target)
+{
+	alpm_list_t *i;
+
+	ALPM_LOG_FUNC;
+
+	if(db == NULL || target == NULL || strlen(target) == 0) {
+		return(NULL);
+	}
+
+	for(i = _alpm_db_get_grpcache(db); i; i = i->next) {
+		pmgrp_t *info = i->data;
+
+		if(strcmp(info->name, target) == 0) {
+			return(info);
+		}
+	}
+
+	return(NULL);
 }
 
 
