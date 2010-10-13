@@ -27,18 +27,18 @@
 #include <alpm_list.h>
 
 /* output */
-#define PROVIDES      " provides "
-#define UNRESOLVABLE  " [unresolvable]"
-#define INDENT_SZ     3
-#define BRANCH_TIP1   "|--"
-#define BRANCH_TIP2   "+--"
+char *provides     = " provides";
+char *unresolvable = " [unresolvable]";
+char *branch_tip1  = "|--";
+char *branch_tip2  = "+--";
+int   indent_size  = 3;
 
 /* color */
-#define BRANCH1_COLOR "\033[0;33m" /* yellow */
-#define BRANCH2_COLOR "\033[0;37m" /* white */
-#define LEAF1_COLOR   "\033[1;32m" /* bold green */
-#define LEAF2_COLOR   "\033[0;32m" /* green */
-#define COLOR_OFF     "\033[0m"
+char *branch1_color = "\033[0;33m"; /* yellow */
+char *branch2_color = "\033[0;37m"; /* white */
+char *leaf1_color   = "\033[1;32m"; /* bold green */
+char *leaf2_color   = "\033[0;32m"; /* green */
+char *color_off     = "\033[0m";
 
 /* globals */
 pmdb_t *db_local;
@@ -145,6 +145,20 @@ static int parse_options(int argc, char *argv[])
 		return(1);
 	}
 
+	if(!color) {
+		branch1_color = "";
+		branch2_color = "";
+		leaf1_color   = "";
+		leaf2_color   = "";
+		color_off     = "";
+	}
+	if(linear) {
+		provides     = "";
+		branch_tip1  = "";
+		branch_tip2  = "";
+		indent_size  = 0;
+	}
+
 	return(0);
 }
 
@@ -176,58 +190,26 @@ static void cleanup(void)
 /* pkg provides provision */
 static void print_text(const char *pkg, const char *provision, int depth)
 {
-	int indent_sz = (depth + 1) * INDENT_SZ;
+	int indent_sz = (depth + 1) * indent_size;
 
-	if(!pkg) {
+	if(!pkg && !provision) {
+		/* not much we can do */
 		return;
 	}
 
-#if 0
-	if(!pkg) {
-		/* can't resolve, but the show must go on */
-		if(color) {
-			printf(BRANCH1_COLOR "%*s" LEAF1_COLOR "%s" BRANCH1_COLOR UNRESOLVABLE
-					COLOR_OFF "\n", indent_sz, BRANCH_TIP1, provision);
-		} else {
-			printf("%*s%s" UNRESOLVABLE "\n", indent_sz, BRANCH_TIP1, provision);
-		}
-	}
-#endif
-
-	if(provision) {
-		if(strcmp(pkg, provision) == 0) {
-			provision = NULL;
-		}
-	}
-
-	if(linear) {
-		if(color) {
-			printf(LEAF1_COLOR);
-		}
-		if(provision) {
-			printf("%s %s\n", pkg, provision);
-		} else {
-			printf("%s\n", pkg);
-		}
-		if(color) {
-			printf(COLOR_OFF);
-		}
+	if(!pkg && provision) {
+		/* we failed to resolve provision */
+		printf("%s%*s%s%s%s%s%s\n", branch1_color, indent_sz, branch_tip1,
+				leaf1_color, provision, branch1_color, unresolvable, color_off);
+	} else if(provision && strcmp(pkg, provision) != 0) {
+		/* pkg provides provision */
+		printf("%s%*s%s%s%s%s %s%s%s\n", branch2_color, indent_sz, branch_tip2,
+				leaf1_color, pkg, leaf2_color, provides, leaf1_color, provision,
+				color_off);
 	} else {
-		if(provision) {
-			if(color) {
-				printf(BRANCH2_COLOR "%*s" LEAF1_COLOR "%s" LEAF2_COLOR PROVIDES
-						LEAF1_COLOR"%s\n"COLOR_OFF, indent_sz, BRANCH_TIP2, pkg, provision);
-			} else {
-				printf("%*s%s" PROVIDES "%s\n", indent_sz, BRANCH_TIP2, pkg, provision);
-			}
-		} else {
-			if(color) {
-				printf(BRANCH1_COLOR"%*s"LEAF1_COLOR"%s\n"COLOR_OFF, indent_sz,
-						BRANCH_TIP1, pkg);
-			} else {
-				printf("%*s%s\n", indent_sz, BRANCH_TIP1, pkg);
-			}
-		}
+		/* pkg is a normal package */
+		printf("%s%*s%s%s%s\n", branch1_color, indent_sz, branch_tip1, leaf1_color,
+				pkg, color_off);
 	}
 }
 
