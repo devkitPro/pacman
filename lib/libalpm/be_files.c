@@ -810,10 +810,11 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			}
 			fprintf(fp, "\n");
 		}
-		if(info->force) {
-			fprintf(fp, "%%FORCE%%\n\n");
-		}
 		if(local) {
+			if(info->force) {
+				fprintf(fp, "%%EPOCH%%\n"
+						"1\n\n");
+			}
 			if(info->url) {
 				fprintf(fp, "%%URL%%\n"
 								"%s\n\n", info->url);
