@@ -29,6 +29,7 @@
 #include <ctype.h> /* isspace */
 #include <stdlib.h> /* atoi */
 #include <stdio.h>
+#include <ctype.h> /* isspace */
 #include <limits.h>
 #include <getopt.h>
 #include <string.h>
@@ -60,12 +61,52 @@ pmdb_t *db_local;
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;
 
+/* Used to sort the options in --help */
+static int options_cmp(const void *p1, const void *p2)
+{
+	const char *s1 = p1;
+	const char *s2 = p2;
+
+	if(s1 == s2) return(0);
+	if(!s1) return(-1);
+	if(!s2) return(1);
+	/* First skip all spaces in both strings */
+	while(isspace((unsigned char)*s1)) {
+		s1++;
+	}
+	while(isspace((unsigned char)*s2)) {
+		s2++;
+	}
+	/* If we compare a long option (--abcd) and a short one (-a),
+	 * the short one always wins */
+	if(*s1 == '-' && *s2 == '-') {
+		s1++;
+		s2++;
+		if(*s1 == '-' && *s2 == '-') {
+			/* two long -> strcmp */
+			s1++;
+			s2++;
+		} else if(*s2 == '-') {
+			/* s1 short, s2 long */
+			return(-1);
+		} else if(*s1 == '-') {
+			/* s1 long, s2 short */
+			return(1);
+		}
+		/* two short -> strcmp */
+	}
+
+	return(strcmp(s1, s2));
+}
+
 /** Display usage/syntax for the specified operation.
  * @param op     the operation code requested
  * @param myname basename(argv[0])
  */
 static void usage(int op, const char * const myname)
 {
+#define addlist(s) (list = alpm_list_add(list, s))
+	alpm_list_t *list = NULL, *i;
 	/* prefetch some strings for usage below, which moves a lot of calls
 	 * out of gettext. */
 	char const * const str_opt = _("options");
@@ -90,82 +131,88 @@ static void usage(int op, const char * const myname)
 		if(op == PM_OP_REMOVE) {
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
-			printf(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
-			printf(_("  -k, --dbonly         only remove database entries, do not remove files\n"));
-			printf(_("  -n, --nosave         remove configuration files as well\n"));
-			printf(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
+			addlist(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
+			addlist(_("  -k, --dbonly         only remove database entries, do not remove files\n"));
+			addlist(_("  -n, --nosave         remove configuration files as well\n"));
+			addlist(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
 				 "                       (-ss includes explicitly installed dependencies too)\n"));
-			printf(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
+			addlist(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
 		} else if(op == PM_OP_QUERY) {
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
-			printf(_("  -c, --changelog      view the changelog of a package\n"));
-			printf(_("  -d, --deps           list packages installed as dependencies [filter]\n"));
-			printf(_("  -e, --explicit       list packages explicitly installed [filter]\n"));
-			printf(_("  -g, --groups         view all members of a package group\n"));
-			printf(_("  -i, --info           view package information (-ii for backup files)\n"));
-			printf(_("  -k, --check          check that the files owned by the package(s) are present\n"));
-			printf(_("  -l, --list           list the contents of the queried package\n"));
-			printf(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
-			printf(_("  -o, --owns <file>    query the package that owns <file>\n"));
-			printf(_("  -p, --file <package> query a package file instead of the database\n"));
-			printf(_("  -q, --quiet          show less information for query and search\n"));
-			printf(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
-			printf(_("  -t, --unrequired     list packages not required by any package [filter]\n"));
-			printf(_("  -u, --upgrades       list outdated packages [filter]\n"));
+			addlist(_("  -c, --changelog      view the changelog of a package\n"));
+			addlist(_("  -d, --deps           list packages installed as dependencies [filter]\n"));
+			addlist(_("  -e, --explicit       list packages explicitly installed [filter]\n"));
+			addlist(_("  -g, --groups         view all members of a package group\n"));
+			addlist(_("  -i, --info           view package information (-ii for backup files)\n"));
+			addlist(_("  -k, --check          check that the files owned by the package(s) are present\n"));
+			addlist(_("  -l, --list           list the contents of the queried package\n"));
+			addlist(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
+			addlist(_("  -o, --owns <file>    query the package that owns <file>\n"));
+			addlist(_("  -p, --file <package> query a package file instead of the database\n"));
+			addlist(_("  -q, --quiet          show less information for query and search\n"));
+			addlist(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
+			addlist(_("  -t, --unrequired     list packages not required by any package [filter]\n"));
+			addlist(_("  -u, --upgrades       list outdated packages [filter]\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
-			printf(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
-			printf(_("  -g, --groups         view all members of a package group\n"));
-			printf(_("  -i, --info           view package information\n"));
-			printf(_("  -l, --list <repo>    view a list of packages in a repo\n"));
-			printf(_("  -q, --quiet          show less information for query and search\n"));
-			printf(_("  -s, --search <regex> search remote repositories for matching strings\n"));
-			printf(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
-			printf(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
-			printf(_("  -y, --refresh        download fresh package databases from the server\n"));
-			printf(_("      --needed         don't reinstall up to date packages\n"));
+			addlist(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
+			addlist(_("  -g, --groups         view all members of a package group\n"));
+			addlist(_("  -i, --info           view package information\n"));
+			addlist(_("  -l, --list <repo>    view a list of packages in a repo\n"));
+			addlist(_("  -q, --quiet          show less information for query and search\n"));
+			addlist(_("  -s, --search <regex> search remote repositories for matching strings\n"));
+			addlist(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
+			addlist(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
+			addlist(_("  -y, --refresh        download fresh package databases from the server\n"));
+			addlist(_("      --needed         don't reinstall up to date packages\n"));
 		} else if (op == PM_OP_DATABASE) {
 			printf("%s:  %s {-D --database} <%s> <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
-			printf(_("      --asdeps         mark packages as non-explicitly installed\n"));
-			printf(_("      --asexplicit     mark packages as explicitly installed\n"));
+			addlist(_("      --asdeps         mark packages as non-explicitly installed\n"));
+			addlist(_("      --asexplicit     mark packages as explicitly installed\n"));
 		}
 		switch(op) {
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
-				printf(_("  -f, --force          force install, overwrite conflicting files\n"));
-				printf(_("  -k, --dbonly         add database entries, do not install or keep existing files\n"));
-				printf(_("      --asdeps         install packages as non-explicitly installed\n"));
-				printf(_("      --asexplicit     install packages as explicitly installed\n"));
-				printf(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
-				printf(_("      --ignoregroup <grp>\n"
+				addlist(_("  -f, --force          force install, overwrite conflicting files\n"));
+				addlist(_("  -k, --dbonly         add database entries, do not install or keep existing files\n"));
+				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
+				addlist(_("      --asexplicit     install packages as explicitly installed\n"));
+				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
+				addlist(_("      --ignoregroup <grp>\n"
 				         "                       ignore a group upgrade (can be used more than once)\n"));
 				/* pass through */
 			case PM_OP_REMOVE:
-				printf(_("  -d, --nodeps         skip dependency checks\n"));
-				printf(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
-				printf(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
-				printf(_("      --print          only print the targets instead of performing the operation\n"));
-				printf(_("      --print-format <string>\n"
+				addlist(_("  -d, --nodeps         skip dependency checks\n"));
+				addlist(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
+				addlist(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
+				addlist(_("      --print          only print the targets instead of performing the operation\n"));
+				addlist(_("      --print-format <string>\n"
 				         "                       specify how the targets should be printed\n"));
 				break;
 		}
 
-		printf(_("  -b, --dbpath <path>  set an alternate database location\n"));
-		printf(_("  -r, --root <path>    set an alternate installation root\n"));
-		printf(_("  -v, --verbose        be verbose\n"));
-		printf(_("      --arch <arch>    set an alternate architecture\n"));
-		printf(_("      --cachedir <dir> set an alternate package cache location\n"));
-		printf(_("      --config <path>  set an alternate configuration file\n"));
-		printf(_("      --debug          display debug messages\n"));
-		printf(_("      --logfile <path> set an alternate log file\n"));
-		printf(_("      --noconfirm      do not ask for any confirmation\n"));
+		addlist(_("  -b, --dbpath <path>  set an alternate database location\n"));
+		addlist(_("  -r, --root <path>    set an alternate installation root\n"));
+		addlist(_("  -v, --verbose        be verbose\n"));
+		addlist(_("      --arch <arch>    set an alternate architecture\n"));
+		addlist(_("      --cachedir <dir> set an alternate package cache location\n"));
+		addlist(_("      --config <path>  set an alternate configuration file\n"));
+		addlist(_("      --debug          display debug messages\n"));
+		addlist(_("      --logfile <path> set an alternate log file\n"));
+		addlist(_("      --noconfirm      do not ask for any confirmation\n"));
 	}
+	list = alpm_list_msort(list, alpm_list_count(list), options_cmp);
+	for (i = list; i; i = alpm_list_next(i)) {
+		printf("%s", (char *)alpm_list_getdata(i));
+	}
+	alpm_list_free(list);
+#undef addlist
 }
 
 /** Output pacman version and copyright.
