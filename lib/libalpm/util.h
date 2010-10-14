@@ -27,6 +27,7 @@
 #include "config.h"
 
 #include "alpm_list.h"
+#include "package.h" /* pmpkg_t */
 
 #include <stdio.h>
 #include <string.h>
@@ -76,6 +77,7 @@ const char *_alpm_filecache_setup(void);
 int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_md5sum(const char *filepath, const char *md5sum);
 char *_alpm_archive_fgets(char *line, size_t size, struct archive *a);
+int _alpm_splitname(const char *target, pmpkg_t *pkg);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);

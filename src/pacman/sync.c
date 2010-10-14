@@ -39,7 +39,7 @@
 
 extern pmdb_t *db_local;
 
-/* if keep_used != 0, then the dirnames which match an used syncdb
+/* if keep_used != 0, then the db files which match an used syncdb
  * will be kept  */
 static int sync_cleandb(const char *dbpath, int keep_used) {
 	DIR *dir;
@@ -59,6 +59,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		alpm_list_t *syncdbs = NULL, *i;
 		int found = 0;
 		const char *dname = ent->d_name;
+		size_t len;
 
 		if(strcmp(dname, ".") == 0 || strcmp(dname, "..") == 0) {
 			continue;
@@ -67,23 +68,38 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		if(strcmp(dname, "sync") == 0 || strcmp(dname, "local") == 0) {
 			continue;
 		}
+		/* skip the db.lck file */
+		if(strcmp(dname, "db.lck") == 0) {
+			continue;
+		}
 
 		/* build the full path */
 		snprintf(path, PATH_MAX, "%s%s", dbpath, dname);
-		/* skip entries that are not dirs (lock file, etc.) */
+
+		/* remove all non-skipped directories and non-database files */
 		stat(path, &buf);
-		if(!S_ISDIR(buf.st_mode)) {
+		len = strlen(path);
+		if(S_ISDIR(buf.st_mode) || strcmp(path+(len-3),".db") != 0) {
+			if(rmrf(path)) {
+				pm_fprintf(stderr, PM_LOG_ERROR,
+					_("could not remove %s\n"), path);
+				closedir(dir);
+				return(1);
+			}
 			continue;
 		}
 
 		if(keep_used) {
+			len = strlen(dname);
+			char *dbname = strndup(dname, len-3);
 			syncdbs = alpm_option_get_syncdbs();
 			for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
 				pmdb_t *db = alpm_list_getdata(i);
-				found = !strcmp(dname, alpm_db_get_name(db));
+				found = !strcmp(dbname, alpm_db_get_name(db));
 			}
+			free(dbname);
 		}
-		/* We have a directory that doesn't match any syncdb.
+		/* We have a database that doesn't match any syncdb.
 		 * Ask the user if he wants to remove it. */
 		if(!found) {
 			if(!yesno(_("Do you want to remove %s?"), path)) {
@@ -92,7 +108,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 
 			if(rmrf(path)) {
 				pm_fprintf(stderr, PM_LOG_ERROR,
-					_("could not remove repository directory\n"));
+					_("could not remove %s\n"), path);
 				closedir(dir);
 				return(1);
 			}
@@ -113,8 +129,8 @@ static int sync_cleandb_all(void) {
 		return(0);
 	}
 	/* The sync dbs were previously put in dbpath/, but are now in dbpath/sync/,
-	 * so we will clean everything in dbpath/ (except dbpath/local/ and dbpath/sync/,
-	 * and only the unused sync dbs in dbpath/sync/ */
+	 * so we will clean everything in dbpath/ (except dbpath/local/ and dbpath/sync/
+	 * and db.lck) and only the unused sync dbs in dbpath/sync/ */
 	ret += sync_cleandb(dbpath, 0);
 
 	sprintf(newdbpath, "%s%s", dbpath, "sync/");

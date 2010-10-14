@@ -800,4 +800,49 @@ char *_alpm_archive_fgets(char *line, size_t size, struct archive *a)
 	return(line);
 }
 
+int _alpm_splitname(const char *target, pmpkg_t *pkg)
+{
+	/* the format of a db entry is as follows:
+	 *    package-version-rel/
+	 * package name can contain hyphens, so parse from the back- go back
+	 * two hyphens and we have split the version from the name.
+	 */
+	char *tmp, *p, *q;
+
+	if(target == NULL || pkg == NULL) {
+		return(-1);
+	}
+	STRDUP(tmp, target, RET_ERR(PM_ERR_MEMORY, -1));
+	p = tmp + strlen(tmp);
+
+	/* remove any trailing '/' */
+	while (*(p - 1) == '/') {
+	  --p;
+	  *p = '\0';
+	}
+
+	/* do the magic parsing- find the beginning of the version string
+	 * by doing two iterations of same loop to lop off two hyphens */
+	for(q = --p; *q && *q != '-'; q--);
+	for(p = --q; *p && *p != '-'; p--);
+	if(*p != '-' || p == tmp) {
+		return(-1);
+	}
+
+	/* copy into fields and return */
+	if(pkg->version) {
+		FREE(pkg->version);
+	}
+	STRDUP(pkg->version, p+1, RET_ERR(PM_ERR_MEMORY, -1));
+	/* insert a terminator at the end of the name (on hyphen)- then copy it */
+	*p = '\0';
+	if(pkg->name) {
+		FREE(pkg->name);
+	}
+	STRDUP(pkg->name, tmp, RET_ERR(PM_ERR_MEMORY, -1));
+
+	free(tmp);
+	return(0);
+}
+
 /* vim: set ts=2 sw=2 noet: */

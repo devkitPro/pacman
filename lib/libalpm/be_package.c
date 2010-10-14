@@ -26,6 +26,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include <locale.h> /* setlocale */
+#include <errno.h>
 
 /* libarchive */
 #include <archive.h>
@@ -37,6 +38,114 @@
 #include "log.h"
 #include "package.h"
 #include "deps.h" /* _alpm_splitdep */
+
+/**
+ * Open a package changelog for reading. Similar to fopen in functionality,
+ * except that the returned 'file stream' is from an archive.
+ * @param pkg the package (file) to read the changelog
+ * @return a 'file stream' to the package changelog
+ */
+void *_package_changelog_open(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	ASSERT(pkg != NULL, return(NULL));
+
+	struct archive *archive = NULL;
+	struct archive_entry *entry;
+	const char *pkgfile = pkg->origin_data.file;
+	int ret = ARCHIVE_OK;
+
+	if((archive = archive_read_new()) == NULL) {
+		RET_ERR(PM_ERR_LIBARCHIVE, NULL);
+	}
+
+	archive_read_support_compression_all(archive);
+	archive_read_support_format_all(archive);
+
+	if (archive_read_open_filename(archive, pkgfile,
+				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+	}
+
+	while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
+		const char *entry_name = archive_entry_pathname(entry);
+
+		if(strcmp(entry_name, ".CHANGELOG") == 0) {
+			return(archive);
+		}
+	}
+	/* we didn't find a changelog */
+	archive_read_finish(archive);
+	errno = ENOENT;
+
+	return(NULL);
+}
+
+/**
+ * Read data from an open changelog 'file stream'. Similar to fread in
+ * functionality, this function takes a buffer and amount of data to read.
+ * @param ptr a buffer to fill with raw changelog data
+ * @param size the size of the buffer
+ * @param pkg the package that the changelog is being read from
+ * @param fp a 'file stream' to the package changelog
+ * @return the number of characters read, or 0 if there is no more data
+ */
+size_t _package_changelog_read(void *ptr, size_t size,
+		const pmpkg_t *pkg, const void *fp)
+{
+	ssize_t sret = archive_read_data((struct archive*)fp, ptr, size);
+	/* Report error (negative values) */
+	if(sret < 0) {
+		pm_errno = PM_ERR_LIBARCHIVE;
+		return(0);
+	} else {
+		return((size_t)sret);
+	}
+}
+
+/*
+int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
+{
+	// note: this doesn't quite work, no feof in libarchive
+	return( archive_read_data((struct archive*)fp, NULL, 0) );
+}
+*/
+
+/**
+ * Close a package changelog for reading. Similar to fclose in functionality,
+ * except that the 'file stream' is from an archive.
+ * @param pkg the package (file) that the changelog was read from
+ * @param fp a 'file stream' to the package changelog
+ * @return whether closing the package changelog stream was successful
+ */
+int _package_changelog_close(const pmpkg_t *pkg, void *fp)
+{
+	return( archive_read_finish((struct archive *)fp) );
+}
+
+
+/** Package file operations struct accessor. We implement this as a method
+ * rather than a static struct as in be_files because we want to reuse the
+ * majority of the default_pkg_ops struct and add only a few operations of
+ * our own on top. The static file_pkg_ops variable inside this function
+ * lets us only initialize an operations struct once which can always be
+ * accessed by this method.
+ */
+static struct pkg_operations *get_file_pkg_ops()
+{
+	static struct pkg_operations *file_pkg_ops = NULL;
+	/* determine whether our static file_pkg_ops struct has been initialized */
+	if(!file_pkg_ops) {
+		MALLOC(file_pkg_ops, sizeof(struct pkg_operations),
+				RET_ERR(PM_ERR_MEMORY, NULL));
+		memcpy(file_pkg_ops, &default_pkg_ops, sizeof(struct pkg_operations));
+		file_pkg_ops->changelog_open  = _package_changelog_open;
+		file_pkg_ops->changelog_read  = _package_changelog_read;
+		file_pkg_ops->changelog_close = _package_changelog_close;
+	}
+	return(file_pkg_ops);
+}
 
 /**
  * Parses the package description file for a package into a pmpkg_t struct.
@@ -234,7 +343,9 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 
 	/* internal fields for package struct */
 	newpkg->origin = PKG_FROM_FILE;
+	/* TODO eventually kill/move this? */
 	newpkg->origin_data.file = strdup(pkgfile);
+	newpkg->ops = get_file_pkg_ops();
 
 	if(full) {
 		/* "checking for conflicts" requires a sorted list, ensure that here */

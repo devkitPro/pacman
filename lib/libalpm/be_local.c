@@ -1,8 +1,8 @@
 /*
- *  be_files.c
+ *  be_local.c
  *
- *  Copyright (c) 2006 by Christian Hamar <krics@linuxforum.hu>
- *  Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
+ *  Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -40,16 +40,288 @@
 /* libalpm */
 #include "db.h"
 #include "alpm_list.h"
-#include "cache.h"
 #include "log.h"
 #include "util.h"
 #include "alpm.h"
 #include "handle.h"
 #include "package.h"
+#include "group.h"
 #include "delta.h"
 #include "deps.h"
 #include "dload.h"
 
+
+#define LAZY_LOAD(info, errret) \
+	do { \
+		ALPM_LOG_FUNC; \
+		ASSERT(handle != NULL, return(errret)); \
+		ASSERT(pkg != NULL, return(errret)); \
+		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
+			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
+		} \
+	} while(0)
+
+
+/* Cache-specific accessor functions. These implementations allow for lazy
+ * loading by the files backend when a data member is actually needed
+ * rather than loading all pieces of information when the package is first
+ * initialized.
+ */
+
+const char *_cache_get_filename(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->filename;
+}
+
+const char *_cache_get_name(pmpkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return(NULL));
+	return pkg->name;
+}
+
+static const char *_cache_get_version(pmpkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return(NULL));
+	return pkg->version;
+}
+
+static const char *_cache_get_desc(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->desc;
+}
+
+const char *_cache_get_url(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->url;
+}
+
+time_t _cache_get_builddate(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, 0);
+	return pkg->builddate;
+}
+
+time_t _cache_get_installdate(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, 0);
+	return pkg->installdate;
+}
+
+const char *_cache_get_packager(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->packager;
+}
+
+const char *_cache_get_md5sum(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->md5sum;
+}
+
+const char *_cache_get_arch(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->arch;
+}
+
+off_t _cache_get_size(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->size;
+}
+
+off_t _cache_get_isize(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->isize;
+}
+
+pmpkgreason_t _cache_get_reason(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->reason;
+}
+
+alpm_list_t *_cache_get_licenses(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->licenses;
+}
+
+alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->groups;
+}
+
+int _cache_has_force(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->force;
+}
+
+alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->depends;
+}
+
+alpm_list_t *_cache_get_optdepends(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->optdepends;
+}
+
+alpm_list_t *_cache_get_conflicts(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->conflicts;
+}
+
+alpm_list_t *_cache_get_provides(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	return pkg->provides;
+}
+
+alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->replaces;
+}
+
+alpm_list_t *_cache_get_deltas(pmpkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return(NULL));
+	/* local pkgs do not have deltas so nothing to load */
+	return pkg->deltas;
+}
+
+alpm_list_t *_cache_get_files(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_LOCALDB
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+	}
+	return pkg->files;
+}
+
+alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	if(pkg->origin == PKG_FROM_LOCALDB
+		 && !(pkg->infolevel & INFRQ_FILES)) {
+		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
+	}
+	return pkg->backup;
+}
+
+/**
+ * Open a package changelog for reading. Similar to fopen in functionality,
+ * except that the returned 'file stream' is from the database.
+ * @param pkg the package (from db) to read the changelog
+ * @return a 'file stream' to the package changelog
+ */
+void *_cache_changelog_open(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(pkg != NULL, return(NULL));
+
+	char clfile[PATH_MAX];
+	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
+			alpm_option_get_dbpath(),
+			alpm_db_get_name(alpm_pkg_get_db(pkg)),
+			alpm_pkg_get_name(pkg),
+			alpm_pkg_get_version(pkg));
+	return fopen(clfile, "r");
+}
+
+/**
+ * Read data from an open changelog 'file stream'. Similar to fread in
+ * functionality, this function takes a buffer and amount of data to read.
+ * @param ptr a buffer to fill with raw changelog data
+ * @param size the size of the buffer
+ * @param pkg the package that the changelog is being read from
+ * @param fp a 'file stream' to the package changelog
+ * @return the number of characters read, or 0 if there is no more data
+ */
+size_t _cache_changelog_read(void *ptr, size_t size,
+		const pmpkg_t *pkg, const void *fp)
+{
+	return ( fread(ptr, 1, size, (FILE*)fp) );
+}
+
+/*
+int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
+{
+	return( feof((FILE*)fp) );
+}
+*/
+
+/**
+ * Close a package changelog for reading. Similar to fclose in functionality,
+ * except that the 'file stream' is from the database.
+ * @param pkg the package that the changelog was read from
+ * @param fp a 'file stream' to the package changelog
+ * @return whether closing the package changelog stream was successful
+ */
+int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
+{
+	return( fclose((FILE*)fp) );
+}
+
+/** The local database operations struct. Get package fields through
+ * lazy accessor methods that handle any backend loading and caching
+ * logic.
+ */
+static struct pkg_operations local_pkg_ops = {
+	.get_filename    = _cache_get_filename,
+	.get_name        = _cache_get_name,
+	.get_version     = _cache_get_version,
+	.get_desc        = _cache_get_desc,
+	.get_url         = _cache_get_url,
+	.get_builddate   = _cache_get_builddate,
+	.get_installdate = _cache_get_installdate,
+	.get_packager    = _cache_get_packager,
+	.get_md5sum      = _cache_get_md5sum,
+	.get_arch        = _cache_get_arch,
+	.get_size        = _cache_get_size,
+	.get_isize       = _cache_get_isize,
+	.get_reason      = _cache_get_reason,
+	.has_force       = _cache_has_force,
+	.get_licenses    = _cache_get_licenses,
+	.get_groups      = _cache_get_groups,
+	.get_depends     = _cache_get_depends,
+	.get_optdepends  = _cache_get_optdepends,
+	.get_conflicts   = _cache_get_conflicts,
+	.get_provides    = _cache_get_provides,
+	.get_replaces    = _cache_get_replaces,
+	.get_deltas      = _cache_get_deltas,
+	.get_files       = _cache_get_files,
+	.get_backup      = _cache_get_backup,
+
+	.changelog_open  = _cache_changelog_open,
+	.changelog_read  = _cache_changelog_read,
+	.changelog_close = _cache_changelog_close,
+};
 
 static int checkdbdir(pmdb_t *db)
 {
@@ -71,43 +343,6 @@ static int checkdbdir(pmdb_t *db)
 	return(0);
 }
 
-/* create list of directories in db */
-static int dirlist_from_tar(const char *archive, alpm_list_t **dirlist)
-{
-	struct archive *_archive;
-	struct archive_entry *entry;
-
-	if((_archive = archive_read_new()) == NULL)
-		RET_ERR(PM_ERR_LIBARCHIVE, -1);
-
-	archive_read_support_compression_all(_archive);
-	archive_read_support_format_all(_archive);
-
-	if(archive_read_open_filename(_archive, archive,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive,
-				archive_error_string(_archive));
-		RET_ERR(PM_ERR_PKG_OPEN, -1);
-	}
-
-	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
-		const struct stat *st;
-		const char *entryname; /* the name of the file in the archive */
-
-		st = archive_entry_stat(entry);
-		entryname = archive_entry_pathname(entry);
-
-		if(S_ISDIR(st->st_mode)) {
-			char *name = strdup(entryname);
-			*dirlist = alpm_list_add(*dirlist, name);
-		}
-	}
-	archive_read_finish(_archive);
-
-	*dirlist = alpm_list_msort(*dirlist, alpm_list_count(*dirlist), _alpm_str_cmp);
-	return(0);
-}
-
 static int is_dir(const char *path, struct dirent *entry)
 {
 #ifdef DT_DIR
@@ -125,244 +360,7 @@ static int is_dir(const char *path, struct dirent *entry)
 #endif
 }
 
-/* create list of directories in db */
-static int dirlist_from_fs(const char *syncdbpath, alpm_list_t **dirlist)
-{
-	DIR *dbdir;
-	struct dirent *ent = NULL;
-
-	dbdir = opendir(syncdbpath);
-	if (dbdir != NULL) {
-		while((ent = readdir(dbdir)) != NULL) {
-			char *name = ent->d_name;
-			size_t len;
-			char *entry;
-
-			if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
-				continue;
-			}
-
-			if(!is_dir(syncdbpath, ent)) {
-				continue;
-			}
-
-			len = strlen(name);
-			MALLOC(entry, len + 2, RET_ERR(PM_ERR_MEMORY, -1));
-			strcpy(entry, name);
-			entry[len] = '/';
-			entry[len+1] = '\0';
-			*dirlist = alpm_list_add(*dirlist, entry);
-		}
-		closedir(dbdir);
-	}
-
-	*dirlist = alpm_list_msort(*dirlist, alpm_list_count(*dirlist), _alpm_str_cmp);
-	return(0);
-}
-
-/* remove old directories from dbdir */
-static int remove_olddir(const char *syncdbpath, alpm_list_t *dirlist)
-{
-	alpm_list_t *i;
-	for (i = dirlist; i; i = i->next) {
-		const char *name = i->data;
-		char *dbdir;
-		size_t len = strlen(syncdbpath) + strlen(name) + 2;
-		MALLOC(dbdir, len, RET_ERR(PM_ERR_MEMORY, -1));
-		snprintf(dbdir, len, "%s%s", syncdbpath, name);
-		_alpm_log(PM_LOG_DEBUG, "removing: %s\n", dbdir);
-		if(_alpm_rmrf(dbdir) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove database directory %s\n"), dbdir);
-			free(dbdir);
-			RET_ERR(PM_ERR_DB_REMOVE, -1);
-		}
-		free(dbdir);
-	}
-	return(0);
-}
-
-/** Update a package database
- *
- * An update of the package database \a db will be attempted. Unless
- * \a force is true, the update will only be performed if the remote
- * database was modified since the last update.
- *
- * A transaction is necessary for this operation, in order to obtain a
- * database lock. During this transaction the front-end will be informed
- * of the download progress of the database via the download callback.
- *
- * Example:
- * @code
- * pmdb_t *db;
- * int result;
- * db = alpm_list_getdata(alpm_option_get_syncdbs());
- * if(alpm_trans_init(0, NULL, NULL, NULL) == 0) {
- *     result = alpm_db_update(0, db);
- *     alpm_trans_release();
- *
- *     if(result > 0) {
- *	       printf("Unable to update database: %s\n", alpm_strerrorlast());
- *     } else if(result < 0) {
- *         printf("Database already up to date\n");
- *     } else {
- *         printf("Database updated\n");
- *     }
- * }
- * @endcode
- *
- * @ingroup alpm_databases
- * @note After a successful update, the \link alpm_db_get_pkgcache()
- * package cache \endlink will be invalidated
- * @param force if true, then forces the update, otherwise update only in case
- * the database isn't up to date
- * @param db pointer to the package database to update
- * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
- * to date
- */
-int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
-{
-	char *dbfile, *dbfilepath, *syncpath;
-	const char *dbpath, *syncdbpath;
-	alpm_list_t *newdirlist = NULL, *olddirlist = NULL;
-	alpm_list_t *onlynew = NULL, *onlyold = NULL;
-	size_t len;
-	int ret;
-
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	/* Verify we are in a transaction.  This is done _mainly_ because we need a DB
-	 * lock - if we update without a db lock, we may kludge some other pacman
-	 * process that _has_ a lock.
-	 */
-	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-
-	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
-		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
-	}
-
-	len = strlen(db->treename) + 4;
-	MALLOC(dbfile, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfile, "%s.db", db->treename);
-
-	dbpath = alpm_option_get_dbpath();
-	len = strlen(dbpath) + 6;
-	MALLOC(syncpath, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(syncpath, "%s%s", dbpath, "sync/");
-
-	ret = _alpm_download_single_file(dbfile, db->servers, syncpath, force);
-	free(dbfile);
-	free(syncpath);
-
-	if(ret == 1) {
-		/* files match, do nothing */
-		pm_errno = 0;
-		return(1);
-	} else if(ret == -1) {
-		/* pm_errno was set by the download code */
-		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
-		return(-1);
-	}
-
-	syncdbpath = _alpm_db_path(db);
-
-	/* form the path to the db location */
-	len = strlen(dbpath) + strlen(db->treename) + 9;
-	MALLOC(dbfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfilepath, "%ssync/%s.db", dbpath, db->treename);
-
-	if(force) {
-		/* if forcing update, remove the old dir and extract the db */
-		if(_alpm_rmrf(syncdbpath) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove database %s\n"), db->treename);
-			RET_ERR(PM_ERR_DB_REMOVE, -1);
-		} else {
-			_alpm_log(PM_LOG_DEBUG, "database dir %s removed\n", _alpm_db_path(db));
-		}
-	} else {
-		/* if not forcing, only remove and extract what is necessary */
-		ret = dirlist_from_tar(dbfilepath, &newdirlist);
-		if(ret) {
-			goto cleanup;
-		}
-		ret = dirlist_from_fs(syncdbpath, &olddirlist);
-		if(ret) {
-			goto cleanup;
-		}
-
-		alpm_list_diff_sorted(olddirlist, newdirlist, _alpm_str_cmp, &onlyold, &onlynew);
-
-		ret = remove_olddir(syncdbpath, onlyold);
-		if(ret) {
-			goto cleanup;
-		}
-	}
-
-	/* Cache needs to be rebuilt */
-	_alpm_db_free_pkgcache(db);
-
-	checkdbdir(db);
-	ret = _alpm_unpack(dbfilepath, syncdbpath, onlynew, 0);
-
-cleanup:
-	FREELIST(newdirlist);
-	FREELIST(olddirlist);
-	alpm_list_free(onlynew);
-	alpm_list_free(onlyold);
-
-	free(dbfilepath);
-
-	if(ret) {
-		RET_ERR(PM_ERR_SYSTEM, -1);
-	}
-
-	return(0);
-}
-
-
-static int splitname(const char *target, pmpkg_t *pkg)
-{
-	/* the format of a db entry is as follows:
-	 *    package-version-rel/
-	 * package name can contain hyphens, so parse from the back- go back
-	 * two hyphens and we have split the version from the name.
-	 */
-	char *tmp, *p, *q;
-
-	if(target == NULL || pkg == NULL) {
-		return(-1);
-	}
-	STRDUP(tmp, target, RET_ERR(PM_ERR_MEMORY, -1));
-	p = tmp + strlen(tmp);
-
-	/* do the magic parsing- find the beginning of the version string
-	 * by doing two iterations of same loop to lop off two hyphens */
-	for(q = --p; *q && *q != '-'; q--);
-	for(p = --q; *p && *p != '-'; p--);
-	if(*p != '-' || p == tmp) {
-		return(-1);
-	}
-
-	/* copy into fields and return */
-	if(pkg->version) {
-		FREE(pkg->version);
-	}
-	STRDUP(pkg->version, p+1, RET_ERR(PM_ERR_MEMORY, -1));
-	/* insert a terminator at the end of the name (on hyphen)- then copy it */
-	*p = '\0';
-	if(pkg->name) {
-		FREE(pkg->name);
-	}
-	STRDUP(pkg->name, tmp, RET_ERR(PM_ERR_MEMORY, -1));
-
-	free(tmp);
-	return(0);
-}
-
-int _alpm_db_populate(pmdb_t *db)
+int _alpm_local_db_populate(pmdb_t *db)
 {
 	int count = 0;
 	struct dirent *ent = NULL;
@@ -380,6 +378,7 @@ int _alpm_db_populate(pmdb_t *db)
 	}
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
+
 		pmpkg_t *pkg;
 
 		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
@@ -395,7 +394,7 @@ int _alpm_db_populate(pmdb_t *db)
 			return(-1);
 		}
 		/* split the db entry name */
-		if(splitname(name, pkg) != 0) {
+		if(_alpm_splitname(name, pkg) != 0) {
 			_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
 					name);
 			_alpm_pkg_free(pkg);
@@ -410,12 +409,15 @@ int _alpm_db_populate(pmdb_t *db)
 		}
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
-		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
+		if(_alpm_local_db_read(db, pkg, INFRQ_BASE) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
 			_alpm_pkg_free(pkg);
 			continue;
 		}
-		pkg->origin = PKG_FROM_CACHE;
+
+		pkg->origin = PKG_FROM_LOCALDB;
+		pkg->ops = &local_pkg_ops;
+
 		pkg->origin_data.db = db;
 		/* add to the collection */
 		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
@@ -443,7 +445,8 @@ static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
 	return(pkgpath);
 }
 
-int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+
+int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -457,7 +460,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	if(info == NULL || info->name == NULL || info->version == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_db_read, skipping\n");
+		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_local_db_read, skipping\n");
 		return(-1);
 	}
 
@@ -518,11 +521,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
-			} else if(strcmp(line, "%FILENAME%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->filename, _alpm_strtrim(line), goto error);
 			} else if(strcmp(line, "%DESC%") == 0) {
 				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
@@ -592,7 +590,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					goto error;
 				}
 				info->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
-			} else if(strcmp(line, "%SIZE%") == 0 || strcmp(line, "%CSIZE%") == 0) {
+			} else if(strcmp(line, "%SIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
@@ -602,24 +600,8 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					goto error;
 				}
 				info->size = atol(_alpm_strtrim(line));
-				/* also store this value to isize if isize is unset */
-				if(info->isize == 0) {
-					info->isize = info->size;
-				}
-			} else if(strcmp(line, "%ISIZE%") == 0) {
-				/* ISIZE (installed size) tag only appears in sync repositories,
-				 * not the local one. */
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				info->isize = atol(_alpm_strtrim(line));
-			} else if(strcmp(line, "%MD5SUM%") == 0) {
-				/* MD5SUM tag only appears in sync repositories,
-				 * not the local one. */
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->md5sum, _alpm_strtrim(line), goto error);
+				/* also store this value to isize */
+				info->isize = info->size;
 			} else if(strcmp(line, "%REPLACES%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
@@ -702,29 +684,6 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		fp = NULL;
 	}
 
-	/* DELTAS */
-	if(inforeq & INFRQ_DELTAS) {
-		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
-		if((fp = fopen(path, "r"))) {
-			while(!feof(fp)) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					break;
-				}
-				_alpm_strtrim(line);
-				if(strcmp(line, "%DELTAS%") == 0) {
-					while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-						pmdelta_t *delta = _alpm_delta_parse(line);
-						if(delta) {
-							info->deltas = alpm_list_add(info->deltas, delta);
-						}
-					}
-				}
-			}
-			fclose(fp);
-			fp = NULL;
-		}
-	}
-
 	/* INSTALL */
 	if(inforeq & INFRQ_SCRIPTLET) {
 		snprintf(path, PATH_MAX, "%sinstall", pkgpath);
@@ -747,7 +706,7 @@ error:
 	return(-1);
 }
 
-int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info)
+int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info)
 {
 	mode_t oldmask;
 	int retval = 0;
@@ -771,14 +730,13 @@ int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info)
 	return(retval);
 }
 
-int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
 	mode_t oldmask;
 	alpm_list_t *lp = NULL;
 	int retval = 0;
-	int local = 0;
 	char *pkgpath = NULL;
 
 	ALPM_LOG_FUNC;
@@ -792,8 +750,8 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
-	if(strcmp(db->treename, "local") == 0) {
-		local = 1;
+	if(strcmp(db->treename, "local") != 0) {
+		return(-1);
 	}
 
 	/* DESC */
@@ -829,63 +787,49 @@ int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->force) {
 			fprintf(fp, "%%FORCE%%\n\n");
 		}
-		if(local) {
-			if(info->url) {
-				fprintf(fp, "%%URL%%\n"
-								"%s\n\n", info->url);
-			}
-			if(info->licenses) {
-				fputs("%LICENSE%\n", fp);
-				for(lp = info->licenses; lp; lp = lp->next) {
-					fprintf(fp, "%s\n", (char *)lp->data);
-				}
-				fprintf(fp, "\n");
-			}
-			if(info->arch) {
-				fprintf(fp, "%%ARCH%%\n"
-								"%s\n\n", info->arch);
-			}
-			if(info->builddate) {
-				fprintf(fp, "%%BUILDDATE%%\n"
-								"%ld\n\n", info->builddate);
-			}
-			if(info->installdate) {
-				fprintf(fp, "%%INSTALLDATE%%\n"
-								"%ld\n\n", info->installdate);
-			}
-			if(info->packager) {
-				fprintf(fp, "%%PACKAGER%%\n"
-								"%s\n\n", info->packager);
-			}
-			if(info->isize) {
-				/* only write installed size, csize is irrelevant once installed */
-				fprintf(fp, "%%SIZE%%\n"
-								"%jd\n\n", (intmax_t)info->isize);
-			}
-			if(info->reason) {
-				fprintf(fp, "%%REASON%%\n"
-								"%u\n\n", info->reason);
-			}
-		} else {
-			if(info->size) {
-				fprintf(fp, "%%CSIZE%%\n"
-								"%jd\n\n", (intmax_t)info->size);
-			}
-			if(info->isize) {
-				fprintf(fp, "%%ISIZE%%\n"
-								"%jd\n\n", (intmax_t)info->isize);
-			}
-			if(info->md5sum) {
-				fprintf(fp, "%%MD5SUM%%\n"
-								"%s\n\n", info->md5sum);
-			}
+		if(info->url) {
+			fprintf(fp, "%%URL%%\n"
+							"%s\n\n", info->url);
 		}
+		if(info->licenses) {
+			fputs("%LICENSE%\n", fp);
+			for(lp = info->licenses; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+		if(info->arch) {
+			fprintf(fp, "%%ARCH%%\n"
+							"%s\n\n", info->arch);
+		}
+		if(info->builddate) {
+			fprintf(fp, "%%BUILDDATE%%\n"
+							"%ld\n\n", info->builddate);
+		}
+		if(info->installdate) {
+			fprintf(fp, "%%INSTALLDATE%%\n"
+							"%ld\n\n", info->installdate);
+		}
+		if(info->packager) {
+			fprintf(fp, "%%PACKAGER%%\n"
+							"%s\n\n", info->packager);
+		}
+		if(info->isize) {
+			/* only write installed size, csize is irrelevant once installed */
+			fprintf(fp, "%%SIZE%%\n"
+							"%jd\n\n", (intmax_t)info->isize);
+		}
+		if(info->reason) {
+			fprintf(fp, "%%REASON%%\n"
+							"%u\n\n", info->reason);
+		}
+
 		fclose(fp);
 		fp = NULL;
 	}
 
 	/* FILES */
-	if(local && (inforeq & INFRQ_FILES)) {
+	if(inforeq & INFRQ_FILES) {
 		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
 				info->name, info->version);
 		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
@@ -970,7 +914,7 @@ cleanup:
 	return(retval);
 }
 
-int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
+int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 {
 	int ret = 0;
 	char *pkgpath = NULL;
@@ -990,5 +934,34 @@ int _alpm_db_remove(pmdb_t *db, pmpkg_t *info)
 	}
 	return(ret);
 }
+
+struct db_operations local_db_ops = {
+	.populate         = _alpm_local_db_populate,
+	.unregister       = _alpm_db_unregister,
+};
+
+pmdb_t *_alpm_db_register_local(void)
+{
+	pmdb_t *db;
+
+	ALPM_LOG_FUNC;
+
+	if(handle->db_local != NULL) {
+		_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
+		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
+
+	db = _alpm_db_new("local", 1);
+	db->ops = &local_db_ops;
+	if(db == NULL) {
+		RET_ERR(PM_ERR_DB_CREATE, NULL);
+	}
+
+	handle->db_local = db;
+	return(db);
+}
+
 
 /* vim: set ts=2 sw=2 noet: */

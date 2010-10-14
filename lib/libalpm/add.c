@@ -40,7 +40,6 @@
 #include "alpm_list.h"
 #include "trans.h"
 #include "util.h"
-#include "cache.h"
 #include "log.h"
 #include "backup.h"
 #include "package.h"
@@ -498,7 +497,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 		oldpkg = _alpm_pkg_dup(local);
 		/* make sure all infos are loaded because the database entry
 		 * will be removed soon */
-		_alpm_db_read(oldpkg->origin_data.db, oldpkg, INFRQ_ALL);
+		_alpm_local_db_read(oldpkg->origin_data.db, oldpkg, INFRQ_ALL);
 
 		EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
 		_alpm_log(PM_LOG_DEBUG, "upgrading package %s-%s\n",
@@ -544,7 +543,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 
 	/* prepare directory for database entries so permission are correct after
 	   changelog/install script installation (FS#12263) */
-	if(_alpm_db_prepare(db, newpkg)) {
+	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction("error: could not create database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		pm_errno = PM_ERR_DB_WRITE;
@@ -662,7 +661,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
 	_alpm_log(PM_LOG_DEBUG, "updating database\n");
 	_alpm_log(PM_LOG_DEBUG, "adding database entry '%s'\n", newpkg->name);
 
-	if(_alpm_db_write(db, newpkg, INFRQ_ALL)) {
+	if(_alpm_local_db_write(db, newpkg, INFRQ_ALL)) {
 		_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s\n"),
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		alpm_logaction("error: could not update database entry %s-%s\n",

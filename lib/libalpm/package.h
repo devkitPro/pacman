@@ -31,9 +31,64 @@
 #include "db.h"
 
 typedef enum _pmpkgfrom_t {
-	PKG_FROM_CACHE = 1,
-	PKG_FROM_FILE
+	PKG_FROM_FILE = 1,
+	PKG_FROM_LOCALDB,
+	PKG_FROM_SYNCDB
 } pmpkgfrom_t;
+
+/** Package operations struct. This struct contains function pointers to
+ * all methods used to access data in a package to allow for things such
+ * as lazy package intialization (such as used by the file backend). Each
+ * backend is free to define a stuct containing pointers to a specific
+ * implementation of these methods. Some backends may find using the
+ * defined default_pkg_ops struct to work just fine for their needs.
+ */
+struct pkg_operations {
+	const char *(*get_filename) (pmpkg_t *);
+	const char *(*get_name) (pmpkg_t *);
+	const char *(*get_version) (pmpkg_t *);
+	const char *(*get_desc) (pmpkg_t *);
+	const char *(*get_url) (pmpkg_t *);
+	time_t (*get_builddate) (pmpkg_t *);
+	time_t (*get_installdate) (pmpkg_t *);
+	const char *(*get_packager) (pmpkg_t *);
+	const char *(*get_md5sum) (pmpkg_t *);
+	const char *(*get_arch) (pmpkg_t *);
+	off_t (*get_size) (pmpkg_t *);
+	off_t (*get_isize) (pmpkg_t *);
+	pmpkgreason_t (*get_reason) (pmpkg_t *);
+	int (*has_force) (pmpkg_t *);
+
+	alpm_list_t *(*get_licenses) (pmpkg_t *);
+	alpm_list_t *(*get_groups) (pmpkg_t *);
+	alpm_list_t *(*get_depends) (pmpkg_t *);
+	alpm_list_t *(*get_optdepends) (pmpkg_t *);
+	alpm_list_t *(*get_conflicts) (pmpkg_t *);
+	alpm_list_t *(*get_provides) (pmpkg_t *);
+	alpm_list_t *(*get_replaces) (pmpkg_t *);
+	alpm_list_t *(*get_deltas) (pmpkg_t *);
+	alpm_list_t *(*get_files) (pmpkg_t *);
+	alpm_list_t *(*get_backup) (pmpkg_t *);
+
+	void *(*changelog_open) (pmpkg_t *);
+	size_t (*changelog_read) (void *, size_t, const pmpkg_t *, const void *);
+	int (*changelog_close) (const pmpkg_t *, void *);
+
+	/* still to add:
+	 * free()
+	 * dup()
+	 * checkmd5sum() ?
+	 * has_scriptlet()
+	 * compute_requiredby()
+	 */
+};
+
+/** The standard package operations struct. get fields directly from the
+ * struct itself with no abstraction layer or any type of lazy loading.
+ * The actual definition is in package.c so it can have access to the
+ * default accessor functions which are defined there.
+ */
+extern struct pkg_operations default_pkg_ops;
 
 struct __pmpkg_t {
 	char *filename;
@@ -67,14 +122,16 @@ struct __pmpkg_t {
 	/* internal */
 	pmpkgfrom_t origin;
 	/* Replaced 'void *data' with this union as follows:
-	origin == PKG_FROM_CACHE, use pkg->origin_data.db
 	origin == PKG_FROM_FILE, use pkg->origin_data.file
+	origin == PKG_FROM_*DB, use pkg->origin_data.db
 	*/
 	union {
 		pmdb_t *db;
 		char *file;
 	} origin_data;
 	pmdbinfrq_t infolevel;
+
+	struct pkg_operations *ops;
 };
 
 pmpkg_t* _alpm_pkg_new(void);

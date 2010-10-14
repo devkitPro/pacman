@@ -26,6 +26,10 @@
 #include <limits.h>
 #include <time.h>
 
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
+
 /* Database entries */
 typedef enum _pmdbinfrq_t {
 	INFRQ_BASE = 1,
@@ -33,11 +37,15 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_DEPENDS = (1 << 2),
 	INFRQ_FILES = (1 << 3),
 	INFRQ_SCRIPTLET = (1 << 4),
-	INFRQ_DELTAS = (1 << 5),
-	INFRQ_DSIZE = (1 << 6),
+	INFRQ_DSIZE = (1 << 5),
 	/* ALL should be info stored in the package or database */
 	INFRQ_ALL = 0x3F
 } pmdbinfrq_t;
+
+struct db_operations {
+	int (*populate) (pmdb_t *);
+	void (*unregister) (pmdb_t *);
+};
 
 /* Database */
 struct __pmdb_t {
@@ -46,11 +54,15 @@ struct __pmdb_t {
 	char *_path;
 	int pkgcache_loaded;
 	int grpcache_loaded;
+	/* also indicates whether we are RO or RW */
 	int is_local;
 	alpm_list_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
+
+	struct db_operations *ops;
 };
+
 
 /* db.c, database general calls */
 void _alpm_db_free(pmdb_t *db);
@@ -59,13 +71,33 @@ int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
+void _alpm_db_unregister(pmdb_t *db);
+pmdb_t *_alpm_db_new(const char *treename, int is_local);
 
-/* be.c, backend specific calls */
-int _alpm_db_populate(pmdb_t *db);
-int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-int _alpm_db_prepare(pmdb_t *db, pmpkg_t *info);
-int _alpm_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-int _alpm_db_remove(pmdb_t *db, pmpkg_t *info);
+/* be_*.c, backend specific calls */
+int _alpm_local_db_populate(pmdb_t *db);
+int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info);
+int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
+
+int _alpm_sync_db_populate(pmdb_t *db);
+int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry);
+
+/* cache bullshit */
+/* packages */
+int _alpm_db_load_pkgcache(pmdb_t *db);
+void _alpm_db_free_pkgcache(pmdb_t *db);
+int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
+int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
+alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db);
+int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
+pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target);
+/* groups */
+int _alpm_db_load_grpcache(pmdb_t *db);
+void _alpm_db_free_grpcache(pmdb_t *db);
+alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db);
+pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target);
 
 #endif /* _ALPM_DB_H */
 
