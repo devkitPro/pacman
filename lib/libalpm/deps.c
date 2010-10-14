@@ -195,7 +195,7 @@ pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = i->data;
-		if(_alpm_depcmp(pkg, dep)) {
+		if(_alpm_depcmp_tolerant(pkg, dep)) {
 			return(pkg);
 		}
 	}
@@ -319,10 +319,18 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 	return(equal);
 }
 
-int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
+/* nodepversion: skip version checking */
+static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 {
 	alpm_list_t *i;
 	int satisfy = 0;
+	int depmod;
+
+	if(nodepversion) {
+		depmod = PM_DEP_MOD_ANY;
+	} else {
+		depmod = dep->mod;
+	}
 
 	/* check (pkg->name, pkg->version) */
 	if(pkg->name_hash && dep->name_hash
@@ -330,7 +338,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		/* skip more expensive checks */
 	} else {
 		satisfy = (strcmp(pkg->name, dep->name) == 0
-				&& dep_vercmp(pkg->version, dep->mod, dep->version));
+				&& dep_vercmp(pkg->version, depmod, dep->version));
 		if(satisfy) {
 			return(satisfy);
 		}
@@ -342,7 +350,7 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
-			satisfy = (dep->mod == PM_DEP_MOD_ANY
+			satisfy = (depmod == PM_DEP_MOD_ANY
 					&& strcmp(provision, dep->name) == 0);
 		} else {
 			/* This is a bit tricker than the old code for performance reasons. To
@@ -354,11 +362,30 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 			provver += 1;
 			satisfy = (strlen(dep->name) == namelen
 					&& strncmp(provision, dep->name, namelen) == 0
-					&& dep_vercmp(provver, dep->mod, dep->version));
+					&& dep_vercmp(provver, depmod, dep->version));
 		}
 	}
 
 	return(satisfy);
+}
+
+/* tolerant : respects NODEPVERSION flag */
+int _alpm_depcmp_tolerant(pmpkg_t *pkg, pmdepend_t *dep)
+{
+	int nodepversion = 0;
+	int flags = alpm_trans_get_flags();
+
+	if (flags != -1) {
+		nodepversion = flags & PM_TRANS_FLAG_NODEPVERSION;
+	}
+
+	return(_depcmp(pkg, dep, nodepversion));
+}
+
+/* strict : ignores NODEPVERSION flag */
+int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
+{
+	return(_depcmp(pkg, dep, 0));
 }
 
 pmdepend_t *_alpm_splitdep(const char *depstring)
@@ -540,7 +567,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
-		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
+		if(pkg && _alpm_depcmp_tolerant(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(pkg)) {
 				int install = 0;
 				if (prompt) {
@@ -561,7 +588,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	for(i = dbs; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(_alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
+			if(_alpm_depcmp_tolerant(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install = 0;
@@ -715,7 +742,7 @@ int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2)
 {
 	alpm_list_t *i;
 	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
-		if(_alpm_depcmp(pkg2, i->data)) {
+		if(_alpm_depcmp_tolerant(pkg2, i->data)) {
 			return(1);
 		}
 	}

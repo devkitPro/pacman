@@ -273,7 +273,7 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_NODEPS = 1,
 	PM_TRANS_FLAG_FORCE = (1 << 1),
 	PM_TRANS_FLAG_NOSAVE = (1 << 2),
-	/* (1 << 3) flag can go here */
+	PM_TRANS_FLAG_NODEPVERSION = (1 << 3),
 	PM_TRANS_FLAG_CASCADE = (1 << 4),
 	PM_TRANS_FLAG_RECURSE = (1 << 5),
 	PM_TRANS_FLAG_DBONLY = (1 << 6),
