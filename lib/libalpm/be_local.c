@@ -46,7 +46,6 @@
 #include "handle.h"
 #include "package.h"
 #include "group.h"
-#include "delta.h"
 #include "deps.h"
 #include "dload.h"
 
@@ -194,13 +193,6 @@ alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
 	return pkg->replaces;
 }
 
-alpm_list_t *_cache_get_deltas(pmpkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return(NULL));
-	/* local pkgs do not have deltas so nothing to load */
-	return pkg->deltas;
-}
-
 alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -288,6 +280,9 @@ int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
 	return( fclose((FILE*)fp) );
 }
 
+/* We're cheating, local packages can't have deltas anyway. */
+alpm_list_t *_pkg_get_deltas(pmpkg_t *pkg);
+
 /** The local database operations struct. Get package fields through
  * lazy accessor methods that handle any backend loading and caching
  * logic.
@@ -314,7 +309,7 @@ static struct pkg_operations local_pkg_ops = {
 	.get_conflicts   = _cache_get_conflicts,
 	.get_provides    = _cache_get_provides,
 	.get_replaces    = _cache_get_replaces,
-	.get_deltas      = _cache_get_deltas,
+	.get_deltas      = _pkg_get_deltas,
 	.get_files       = _cache_get_files,
 	.get_backup      = _cache_get_backup,
 

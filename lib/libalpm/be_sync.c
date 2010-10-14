@@ -90,12 +90,6 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	/* Verify we are in a transaction.  This is done _mainly_ because we need a DB
-	 * lock - if we update without a db lock, we may kludge some other pacman
-	 * process that _has_ a lock.
-	 */
-	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(handle->trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
 		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
