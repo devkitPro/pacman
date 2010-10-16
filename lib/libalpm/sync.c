@@ -375,6 +375,48 @@ int SYMEXPORT alpm_sync_target(const char *target)
 	return(sync_target(dbs_sync,target));
 }
 
+/** Find group members across a list of databases.
+ * If a member exists in several databases, only the first database is used.
+ * IgnorePkg is also handled.
+ * @param dbs the list of pmdb_t *
+ * @pram name the name of the group
+ * @return the list of pmpkg_t * (caller is responsible for alpm_list_free)
+ */
+alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
+		const char *name)
+{
+	alpm_list_t *i, *j, *pkgs = NULL, *ignorelist = NULL;
+
+	for(i = dbs; i; i = i->next) {
+		pmdb_t *db = i->data;
+		pmgrp_t *grp = alpm_db_readgrp(db, name);
+
+		if(!grp)
+			continue;
+
+		for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
+			pmpkg_t *pkg = j->data;
+
+			if(_alpm_pkg_find(ignorelist, alpm_pkg_get_name(pkg))) {
+				continue;
+			}
+			if(_alpm_pkg_should_ignore(pkg)) {
+				ignorelist = alpm_list_add(ignorelist, pkg);
+				int install = 0;
+				QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+						NULL, NULL, &install);
+				if(!install)
+					continue;
+			}
+			if(!_alpm_pkg_find(pkgs, alpm_pkg_get_name(pkg))) {
+				pkgs = alpm_list_add(pkgs, pkg);
+			}
+		}
+	}
+	alpm_list_free(ignorelist);
+	return(pkgs);
+}
+
 /** Compute the size of the files that will be downloaded to install a
  * package.
  * @param newpkg the new package to upgrade to

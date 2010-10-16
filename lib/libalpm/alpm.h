@@ -255,6 +255,7 @@ off_t alpm_delta_get_size(pmdelta_t *delta);
  */
 const char *alpm_grp_get_name(const pmgrp_t *grp);
 alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
+alpm_list_t *alpm_find_grp_pkgs(alpm_list_t *dbs, const char *name);
 
 /*
  * Sync
