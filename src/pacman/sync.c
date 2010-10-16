@@ -590,6 +590,84 @@ static alpm_list_t *syncfirst(void) {
 	return(res);
 }
 
+static pmdb_t *get_db(const char *dbname)
+{
+	alpm_list_t *i;
+	for(i = alpm_option_get_syncdbs(); i; i = i->next) {
+		pmdb_t *db = i->data;
+		if(strcmp(alpm_db_get_name(db), dbname) == 0) {
+			return(db);
+		}
+	}
+	return(NULL);
+}
+
+static int process_pkg(pmpkg_t *pkg)
+{
+	int ret = alpm_add_pkg(pkg);
+
+	if(ret == -1) {
+		if(pm_errno == PM_ERR_TRANS_DUP_TARGET
+				|| pm_errno == PM_ERR_PKG_IGNORED) {
+			/* just skip duplicate or ignored targets */
+			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
+			return(0);
+		} else {
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
+					alpm_strerrorlast());
+			return(1);
+		}
+	}
+	return(0);
+}
+
+static int process_group(alpm_list_t *dbs, char *group)
+{
+	int ret = 0;
+	alpm_list_t *i;
+	alpm_list_t *pkgs = alpm_find_grp_pkgs(dbs, group);
+	int count = alpm_list_count(pkgs);
+
+	if(!count) {
+		pm_fprintf(stderr, PM_LOG_ERROR, _("target not found: %s\n"), group);
+		return(1);
+	}
+
+	printf(_(":: There are %d members in group %s:\n"), count,
+			group);
+	select_display(pkgs);
+	select_question(count,
+			_("Which ones do you want to install?"));
+	char *array = malloc(count);
+	memset(array, 1, count);
+	int n = 0;
+	for(i = pkgs; i; i = alpm_list_next(i)) {
+		if(array[n++] == 0)
+			continue;
+		pmpkg_t *pkg = alpm_list_getdata(i);
+
+		if(process_pkg(pkg) == 1) {
+			ret = 1;
+			goto cleanup;
+		}
+	}
+cleanup:
+	alpm_list_free(pkgs);
+	free(array);
+	return(ret);
+}
+
+static int process_targname(alpm_list_t *dblist, char *targname)
+{
+	pmpkg_t *pkg = alpm_find_dbs_satisfier(dblist, targname);
+
+	if(pkg) {
+		return(process_pkg(pkg));
+	}
+	/* fallback on group */
+	return(process_group(dblist, targname));
+}
+
 static int process_target(char *target)
 {
 	/* process targets */
@@ -597,28 +675,30 @@ static int process_target(char *target)
 	char *targname = strchr(targstring, '/');
 	char *dbname = NULL;
 	int ret = 0;
+	alpm_list_t *dblist = NULL;
+
 	if(targname) {
+		pmdb_t *db = NULL;
+
 		*targname = '\0';
 		targname++;
 		dbname = targstring;
-		ret = alpm_sync_dbtarget(dbname,targname);
+		db = get_db(dbname);
+		if(!db) {
+			pm_fprintf(stderr, PM_LOG_ERROR, _("database not found: %s\n"),
+					dbname);
+			ret = 1;
+			goto cleanup;
+		}
+		dblist = alpm_list_add(dblist, db);
+		ret = process_targname(dblist, targname);
+		alpm_list_free(dblist);
 	} else {
 		targname = targstring;
-		ret = alpm_sync_target(targname);
+		dblist = alpm_option_get_syncdbs();
+		ret = process_targname(dblist, targname);
 	}
-
-	if(ret == -1) {
-		if(pm_errno == PM_ERR_TRANS_DUP_TARGET
-				|| pm_errno == PM_ERR_PKG_IGNORED) {
-			/* just skip duplicate or ignored targets */
-			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), target);
-		} else {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,
-					alpm_strerrorlast());
-			ret = 1;
-		}
-	}
-
+cleanup:
 	free(targstring);
 	return(ret);
 }
