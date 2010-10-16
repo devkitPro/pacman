@@ -302,6 +302,19 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 				alpm_list_free(namelist);
 			}
 			break;
+		case PM_TRANS_CONV_SELECT_PROVIDER:
+			{
+				alpm_list_t *providers = (alpm_list_t *)data1;
+				int count = alpm_list_count(providers);
+				char *depstring = alpm_dep_compute_string((pmdepend_t *)data2);
+				printf(_(":: There are %d providers available for %s:\n"), count,
+						depstring);
+				free(depstring);
+				select_display(providers);
+				printf("\n");
+				*response = select_question(count);
+			}
+			break;
 		case PM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway?"),

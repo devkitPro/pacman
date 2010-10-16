@@ -677,6 +677,61 @@ void display_optdepends(pmpkg_t *pkg)
 	}
 }
 
+void select_display(const alpm_list_t *pkglist)
+{
+	const alpm_list_t *i;
+	int nth = 1;
+	alpm_list_t *list = NULL;
+	char *string = NULL;
+
+	for (i = pkglist; i; i = i->next) {
+		string = NULL;
+		pm_asprintf(&string, "%d) %s", nth, alpm_pkg_get_name(i->data));
+		list = alpm_list_add(list, string);
+		nth++;
+	}
+	list_display("  ", list);
+	FREELIST(list);
+}
+
+int select_question(int count)
+{
+	char response[32];
+	FILE *stream;
+	int preset = 1;
+
+	if(config->noconfirm) {
+		stream = stdout;
+	} else {
+		/* Use stderr so questions are always displayed when redirecting output */
+		stream = stderr;
+	}
+
+	fprintf(stream, _("Enter a number (default=%d)"), preset);
+	fprintf(stream,	": ");
+
+	if(config->noconfirm) {
+		fprintf(stream, "\n");
+		return(preset-1);
+	}
+
+	if(fgets(response, sizeof(response), stdin)) {
+		strtrim(response);
+		if(strlen(response) > 0) {
+			char *endptr = NULL;
+			int n = strtol(response, &endptr, 10);
+			if(*endptr == '\0' && n >= 1 && n <= count) {
+				return(n-1);
+			} else {
+				fprintf(stream, _("Invalid number: %s\n"), response);
+				return(-1);
+			}
+		}
+	}
+	return(preset-1);
+}
+
+
 /* presents a prompt and gets a Y/N answer */
 static int question(short preset, char *fmt, va_list args)
 {

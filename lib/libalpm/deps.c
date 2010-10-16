@@ -511,6 +511,10 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 {
 	alpm_list_t *i, *j;
 	int ignored = 0;
+
+	alpm_list_t *providers = NULL;
+	int count;
+
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
@@ -550,12 +554,40 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 						continue;
 					}
 				}
-				_alpm_log(PM_LOG_WARNING, _("provider package was selected (%s provides %s)\n"),
-				                         pkg->name, dep->name);
-				return(pkg);
+				_alpm_log(PM_LOG_DEBUG, "provider found (%s provides %s)\n",
+						pkg->name, dep->name);
+				providers = alpm_list_add(providers, pkg);
+				/* keep looking for other providers in the all dbs */
 			}
 		}
 	}
+
+	/* first check if one provider is already installed locally */
+	for(i = providers; i; i = i->next) {
+		pmpkg_t *pkg = i->data;
+		if (_alpm_pkg_find(_alpm_db_get_pkgcache(handle->db_local), pkg->name)) {
+			alpm_list_free(providers);
+			return(pkg);
+		}
+	}
+	count = alpm_list_count(providers);
+	if (count >= 1) {
+		/* default to first provider if there is no QUESTION callback */
+		int index = 0;
+		if(count > 1) {
+			/* if there is more than one provider, we ask the user */
+			QUESTION(handle->trans, PM_TRANS_CONV_SELECT_PROVIDER,
+					providers, dep, NULL, &index);
+		}
+		if(index >= 0 && index < count) {
+			pmpkg_t *pkg = alpm_list_getdata(alpm_list_nth(providers, index));
+			alpm_list_free(providers);
+			return(pkg);
+		}
+		alpm_list_free(providers);
+		providers = NULL;
+	}
+
 	if(ignored) { /* resolvedeps will override these */
 		pm_errno = PM_ERR_PKG_IGNORED;
 	} else {
