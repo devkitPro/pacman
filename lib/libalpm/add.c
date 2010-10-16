@@ -49,6 +49,70 @@
 #include "remove.h"
 #include "handle.h"
 
+/** Add a package to the transaction.
+ * @param pkg the package to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
+{
+	const char *pkgname, *pkgver;
+	pmtrans_t *trans;
+	pmdb_t *db_local;
+	pmpkg_t *local;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	db_local = handle->db_local;
+
+	pkgname = alpm_pkg_get_name(pkg);
+	pkgver = alpm_pkg_get_version(pkg);
+
+	_alpm_log(PM_LOG_DEBUG, "adding package '%s'\n", pkgname);
+
+	if(_alpm_pkg_find(trans->add, pkgname)) {
+		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+	}
+
+	local = _alpm_db_get_pkgfromcache(db_local, pkgname);
+	if(local) {
+		const char *localpkgname = alpm_pkg_get_name(local);
+		const char *localpkgver = alpm_pkg_get_version(local);
+		int cmp = _alpm_pkg_compare_versions(pkg, local);
+
+		if(cmp == 0) {
+			if(trans->flags & PM_TRANS_FLAG_NEEDED) {
+				/* with the NEEDED flag, packages up to date are not reinstalled */
+				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
+						localpkgname, localpkgver);
+				return(0);
+			} else {
+				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
+						localpkgname, localpkgver);
+			}
+		} else if(cmp < 0) {
+			/* local version is newer */
+			_alpm_log(PM_LOG_WARNING, _("downgrading package %s (%s => %s)\n"),
+					localpkgname, localpkgver, pkgver);
+		}
+	}
+
+	/* add the package to the transaction */
+	pkg->reason = PM_PKG_REASON_EXPLICIT;
+	_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+						pkgname, pkgver);
+	trans->add = alpm_list_add(trans->add, pkg);
+
+	return(0);
+}
+
+
 /** Add a file target to the transaction.
  * @param target the name of the file target to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
