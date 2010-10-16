@@ -333,7 +333,9 @@ int SYMEXPORT alpm_sync_dbtarget(char *dbname, char *target)
 	if(dbs == NULL) {
 		RET_ERR(PM_ERR_PKG_REPO_NOT_FOUND, -1);
 	}
-	return(sync_target(dbs, target));
+	int ret = sync_target(dbs, target);
+	alpm_list_free(dbs);
+	return(ret);
 }
 
 /** Add a sync target to the transaction.
