@@ -122,27 +122,23 @@ static int _package_changelog_close(const pmpkg_t *pkg, void *fp)
 	return( archive_read_finish((struct archive *)fp) );
 }
 
-
 /** Package file operations struct accessor. We implement this as a method
  * rather than a static struct as in be_files because we want to reuse the
  * majority of the default_pkg_ops struct and add only a few operations of
- * our own on top. The static file_pkg_ops variable inside this function
- * lets us only initialize an operations struct once which can always be
- * accessed by this method.
+ * our own on top.
  */
 static struct pkg_operations *get_file_pkg_ops(void)
 {
-	static struct pkg_operations *file_pkg_ops = NULL;
-	/* determine whether our static file_pkg_ops struct has been initialized */
-	if(!file_pkg_ops) {
-		MALLOC(file_pkg_ops, sizeof(struct pkg_operations),
-				RET_ERR(PM_ERR_MEMORY, NULL));
-		memcpy(file_pkg_ops, &default_pkg_ops, sizeof(struct pkg_operations));
-		file_pkg_ops->changelog_open  = _package_changelog_open;
-		file_pkg_ops->changelog_read  = _package_changelog_read;
-		file_pkg_ops->changelog_close = _package_changelog_close;
+	static struct pkg_operations file_pkg_ops;
+	static int file_pkg_ops_initialized = 0;
+	if(!file_pkg_ops_initialized) {
+		file_pkg_ops = default_pkg_ops;
+		file_pkg_ops.changelog_open  = _package_changelog_open;
+		file_pkg_ops.changelog_read  = _package_changelog_read;
+		file_pkg_ops.changelog_close = _package_changelog_close;
+		file_pkg_ops_initialized = 1;
 	}
-	return(file_pkg_ops);
+	return(&file_pkg_ops);
 }
 
 /**
