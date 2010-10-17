@@ -61,6 +61,7 @@ void display_optdepends(pmpkg_t *pkg);
 void print_packages(const alpm_list_t *packages);
 void select_display(const alpm_list_t *pkglist);
 int select_question(int count);
+int multiselect_question(char *array, int count);
 int yesno(char *fmt, ...);
 int noyes(char *fmt, ...);
 int pm_printf(pmloglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));

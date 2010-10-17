@@ -694,6 +694,114 @@ void select_display(const alpm_list_t *pkglist)
 	FREELIST(list);
 }
 
+static int parseindex(char *s, int *val, int min, int max)
+{
+	char *endptr = NULL;
+	int n = strtol(s, &endptr, 10);
+	if(*endptr == '\0') {
+		if(n < min || n > max) {
+			fprintf(stderr, _("Invalid value: %d is not between %d and %d\n"),
+					n, min, max);
+			return(-1);
+		}
+		*val = n;
+		return(0);
+	} else {
+		fprintf(stderr, _("Invalid number: %s\n"), s);
+		return(-1);
+	}
+}
+
+static int multiselect_parse(char *array, int count, char *response)
+{
+	char *str, *saveptr;
+
+	for (str = response; ; str = NULL) {
+		int include = 1;
+		int start, end;
+		char *ends = NULL;
+		char *starts = strtok_r(str, " ", &saveptr);
+
+		if (starts == NULL)
+			break;
+		strtrim(starts);
+		int len = strlen(starts);
+		if(len == 0)
+			continue;
+
+		if (*starts == '^') {
+			starts++;
+			len--;
+			include = 0;
+		} else if(str) {
+			/* if first token is including, we unselect all targets */
+			memset(array, 0, count);
+		}
+
+		if(len > 1) {
+			/* check for range */
+			char *p;
+			if((p = strchr(starts+1, '-'))) {
+				*p = 0;
+				ends = p+1;
+			}
+		}
+
+		if(parseindex(starts, &start, 1, count) != 0)
+			return(-1);
+
+		if(!ends) {
+			array[start-1] = include;
+		} else {
+			if(parseindex(ends, &end, start, count) != 0)
+				return(-1);
+			for(int d = start; d <= end; d++) {
+				array[d-1] = include;
+			}
+		}
+	}
+
+	return(0);
+}
+
+int multiselect_question(char *array, int count)
+{
+	char response[64];
+	FILE *stream;
+
+	if(config->noconfirm) {
+		stream = stdout;
+	} else {
+		/* Use stderr so questions are always displayed when redirecting output */
+		stream = stderr;
+	}
+
+	while(1) {
+		memset(array, 1, count);
+
+		fprintf(stream, "\n");
+		fprintf(stream, _("Enter a selection (default=all)"));
+		fprintf(stream,	": ");
+
+		if(config->noconfirm) {
+			fprintf(stream, "\n");
+			break;
+		}
+
+		if(fgets(response, sizeof(response), stdin)) {
+			strtrim(response);
+			if(strlen(response) > 0) {
+				if(multiselect_parse(array, count, response) == -1) {
+					/* only loop if user gave an invalid answer */
+					continue;
+				}
+			}
+		}
+		break;
+	}
+	return(0);
+}
+
 int select_question(int count)
 {
 	char response[32];

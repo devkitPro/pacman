@@ -636,9 +636,8 @@ static int process_group(alpm_list_t *dbs, char *group)
 	printf(_(":: There are %d members in group %s:\n"), count,
 			group);
 	select_display(pkgs);
-	select_question(count);
 	char *array = malloc(count);
-	memset(array, 1, count);
+	multiselect_question(array, count);
 	int n = 0;
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		if(array[n++] == 0)
