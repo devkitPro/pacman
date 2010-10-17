@@ -414,6 +414,10 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 			alpm_list_t *newfiles;
 			_alpm_log(PM_LOG_DEBUG, "removing %d files\n", filenum);
 
+			/* init progress bar */
+			PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 0,
+					pkg_count, (pkg_count - targcount + 1));
+
 			/* iterate through the list backwards, unlinking files */
 			newfiles = alpm_list_reverse(files);
 			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
