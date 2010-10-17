@@ -422,11 +422,6 @@ int alpm_sync_sysupgrade(int enable_downgrade);
 int alpm_add_pkg(pmpkg_t *pkg);
 int alpm_remove_pkg(pmpkg_t *pkg);
 
-DEPRECATED int alpm_sync_target(const char *target);
-DEPRECATED int alpm_sync_dbtarget(const char *db, const char *target);
-DEPRECATED int alpm_add_target(const char *target);
-DEPRECATED int alpm_remove_target(const char *target);
-
 /*
  * Dependencies and conflicts
  */

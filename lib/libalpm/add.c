@@ -112,67 +112,6 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 	return(0);
 }
 
-
-/** Add a file target to the transaction.
- * @param target the name of the file target to add
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int SYMEXPORT alpm_add_target(const char *target)
-{
-	pmpkg_t *pkg = NULL;
-	const char *pkgname, *pkgver;
-	alpm_list_t *i;
-	pmtrans_t *trans;
-
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	_alpm_log(PM_LOG_DEBUG, "loading target '%s'\n", target);
-
-	if(alpm_pkg_load(target, 1, &pkg) != 0) {
-		goto error;
-	}
-	pkgname = alpm_pkg_get_name(pkg);
-	pkgver = alpm_pkg_get_version(pkg);
-
-	/* check if an older version of said package is already in transaction
-	 * packages.  if so, replace it in the list */
-	for(i = trans->add; i; i = i->next) {
-		pmpkg_t *transpkg = i->data;
-		if(strcmp(transpkg->name, pkgname) == 0) {
-			if(alpm_pkg_vercmp(transpkg->version, pkgver) < 0) {
-				_alpm_log(PM_LOG_WARNING,
-						_("replacing older version %s-%s by %s in target list\n"),
-						transpkg->name, transpkg->version, pkgver);
-				_alpm_pkg_free(i->data);
-				i->data = pkg;
-			} else {
-				_alpm_log(PM_LOG_WARNING,
-						_("skipping %s-%s because newer version %s is in target list\n"),
-						pkgname, pkgver, transpkg->version);
-				_alpm_pkg_free(pkg);
-			}
-			return(0);
-		}
-	}
-
-	/* add the package to the transaction */
-	trans->add = alpm_list_add(trans->add, pkg);
-
-	return(0);
-
-error:
-	_alpm_pkg_free(pkg);
-	return(-1);
-}
-
 static int perform_extraction(struct archive *archive,
 		struct archive_entry *entry, const char *filename, const char *origname)
 {
