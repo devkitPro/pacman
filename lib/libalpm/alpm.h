@@ -425,6 +425,7 @@ int alpm_add_target(const char *target);
 int alpm_remove_target(const char *target);
 
 int alpm_add_pkg(pmpkg_t *pkg);
+int alpm_remove_pkg(pmpkg_t *pkg);
 
 /*
  * Dependencies and conflicts

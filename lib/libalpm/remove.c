@@ -46,6 +46,32 @@
 #include "handle.h"
 #include "alpm.h"
 
+int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
+{
+	pmtrans_t *trans;
+	const char *pkgname;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	trans = handle->trans;
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED,
+			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+
+	pkgname = alpm_pkg_get_name(pkg);
+
+	if(_alpm_pkg_find(trans->remove, pkgname)) {
+		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "adding %s in the target list\n", pkgname);
+	trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(pkg));
+	return(0);
+}
+
 int SYMEXPORT alpm_remove_target(const char *target)
 {
 	pmpkg_t *info;
