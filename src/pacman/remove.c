@@ -31,6 +31,36 @@
 #include "util.h"
 #include "conf.h"
 
+static int remove_target(char *target)
+{
+	pmpkg_t *info;
+	pmdb_t *db_local = alpm_option_get_localdb();
+	alpm_list_t *p;
+
+	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {
+		if(alpm_remove_pkg(info) == -1) {
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target, alpm_strerrorlast());
+			return(-1);
+		}
+		return(0);
+	}
+
+		/* fallback to group */
+	pmgrp_t *grp = alpm_db_readgrp(db_local, target);
+	if(grp == NULL) {
+		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': target not found\n", target);
+		return(-1);
+	}
+	for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
+		pmpkg_t *pkg = alpm_list_getdata(p);
+		if(alpm_remove_pkg(pkg) == -1) {
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target, alpm_strerrorlast());
+			return(-1);
+		}
+	}
+	return(0);
+}
+
 /**
  * @brief Remove a specified list of packages.
  *
@@ -62,8 +92,7 @@ int pacman_remove(alpm_list_t *targets)
 		} else {
 			targ = target;
 		}
-		if(alpm_remove_target(targ) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", targ, alpm_strerrorlast());
+		if(remove_target(targ) == -1) {
 			retval = 1;
 			goto cleanup;
 		}

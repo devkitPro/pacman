@@ -636,8 +636,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 	printf(_(":: There are %d members in group %s:\n"), count,
 			group);
 	select_display(pkgs);
-	select_question(count,
-			_("Which ones do you want to install?"));
+	select_question(count);
 	char *array = malloc(count);
 	memset(array, 1, count);
 	int n = 0;
