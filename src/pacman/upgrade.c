@@ -71,9 +71,18 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		if(alpm_add_target(targ) == -1) {
+		pmpkg_t *pkg;
+
+		if(alpm_pkg_load(targ, 1, &pkg) != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
+			trans_release();
+			return(1);
+		}
+		if(alpm_add_pkg(pkg) == -1) {
+			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
+					targ, alpm_strerrorlast());
+			alpm_pkg_free(pkg);
 			trans_release();
 			return(1);
 		}
