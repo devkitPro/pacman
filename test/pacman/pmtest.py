@@ -202,7 +202,7 @@ class pmtest:
         if pacman["gdb"]:
             cmd.append("libtool execute gdb --args")
         if pacman["valgrind"]:
-            cmd.append("valgrind -q --tool=memcheck --leak-check=full --show-reachable=yes")
+            cmd.append("valgrind -q --tool=memcheck --leak-check=full --show-reachable=yes --suppressions=%s/valgrind.supp" % os.getcwd())
         cmd.append("\"%s\" --config=\"%s\" --root=\"%s\" --dbpath=\"%s\" --cachedir=\"%s\"" \
                    % (pacman["bin"],
                        os.path.join(self.root, PACCONF),
