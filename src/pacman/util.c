@@ -677,20 +677,40 @@ void display_optdepends(pmpkg_t *pkg)
 	}
 }
 
+static void display_repo_list(const char *dbname, alpm_list_t *list)
+{
+	const char *prefix= "  ";
+
+	printf(":: ");
+	printf(_("Repository %s\n"), dbname);
+	list_display(prefix, list);
+}
+
 void select_display(const alpm_list_t *pkglist)
 {
 	const alpm_list_t *i;
 	int nth = 1;
 	alpm_list_t *list = NULL;
 	char *string = NULL;
+	const char *dbname = NULL;
 
 	for (i = pkglist; i; i = i->next) {
+		pmpkg_t *pkg = alpm_list_getdata(i);
+		pmdb_t *db = alpm_pkg_get_db(pkg);
+
+		if(!dbname)
+			dbname = alpm_db_get_name(db);
+		if(strcmp(alpm_db_get_name(db), dbname) != 0) {
+			display_repo_list(dbname, list);
+			FREELIST(list);
+			dbname = alpm_db_get_name(db);
+		}
 		string = NULL;
-		pm_asprintf(&string, "%d) %s", nth, alpm_pkg_get_name(i->data));
+		pm_asprintf(&string, "%d) %s", nth, alpm_pkg_get_name(pkg));
 		list = alpm_list_add(list, string);
 		nth++;
 	}
-	list_display("  ", list);
+	display_repo_list(dbname, list);
 	FREELIST(list);
 }
 
