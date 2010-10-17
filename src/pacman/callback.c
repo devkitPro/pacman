@@ -311,7 +311,6 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 						depstring);
 				free(depstring);
 				select_display(providers);
-				printf("\n");
 				*response = select_question(count);
 			}
 			break;

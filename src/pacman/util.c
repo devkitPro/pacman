@@ -815,27 +815,28 @@ int select_question(int count)
 		stream = stderr;
 	}
 
-	fprintf(stream, _("Enter a number (default=%d)"), preset);
-	fprintf(stream,	": ");
-
-	if(config->noconfirm) {
+	while(1) {
 		fprintf(stream, "\n");
-		return(preset-1);
-	}
+		fprintf(stream, _("Enter a number (default=%d)"), preset);
+		fprintf(stream,	": ");
 
-	if(fgets(response, sizeof(response), stdin)) {
-		strtrim(response);
-		if(strlen(response) > 0) {
-			char *endptr = NULL;
-			int n = strtol(response, &endptr, 10);
-			if(*endptr == '\0' && n >= 1 && n <= count) {
+		if(config->noconfirm) {
+			fprintf(stream, "\n");
+			break;
+		}
+
+		if(fgets(response, sizeof(response), stdin)) {
+			strtrim(response);
+			if(strlen(response) > 0) {
+				int n;
+				if(parseindex(response, &n, 1, count) != 0)
+					continue;
 				return(n-1);
-			} else {
-				fprintf(stream, _("Invalid number: %s\n"), response);
-				return(-1);
 			}
 		}
+		break;
 	}
+
 	return(preset-1);
 }
 
