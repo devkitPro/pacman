@@ -387,7 +387,7 @@ static int _add_mirror(pmdb_t *db, char *value)
 		server = temp;
 	}
 
-	if(alpm_db_setserver(db, server) != 0) {
+	if(alpm_db_add_server(db, server) != 0) {
 		/* pm_errno is set by alpm_db_setserver */
 		pm_printf(PM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
 				dbname, server, alpm_strerrorlast());

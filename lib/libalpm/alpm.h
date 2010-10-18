@@ -174,7 +174,7 @@ const char *alpm_option_get_dbpath(void);
 /** Sets the path to the database directory. */
 int alpm_option_set_dbpath(const char *dbpath);
 
-/** @name Accessors to the list of package cache directories
+/** @name Accessors to the list of package cache directories.
  * @{
  */
 alpm_list_t *alpm_option_get_cachedirs(void);
@@ -317,13 +317,14 @@ const char *alpm_db_get_name(const pmdb_t *db);
  */
 const char *alpm_db_get_url(const pmdb_t *db);
 
-/** Add a new server for a database.
- * An empty string or NULL can be passed to empty the current server list.
- * @param db database pointer
- * @param url url of the server
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
+/** @name Accessors to the list of servers for a database.
+ * @{
  */
-int alpm_db_setserver(pmdb_t *db, const char *url);
+alpm_list_t *alpm_db_get_servers(const pmdb_t *db);
+int alpm_db_set_servers(pmdb_t *db, alpm_list_t *servers);
+int alpm_db_add_server(pmdb_t *db, const char *url);
+int alpm_db_remove_server(pmdb_t *db, const char *url);
+/** @} */
 
 int alpm_db_update(int level, pmdb_t *db);
 

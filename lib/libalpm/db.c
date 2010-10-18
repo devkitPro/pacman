@@ -129,35 +129,99 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	return 0;
 }
 
-/** Set the serverlist of a database. */
-int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
+/** Get the serverlist of a database. */
+alpm_list_t SYMEXPORT *alpm_db_get_servers(const pmdb_t *db)
 {
-	char *newurl;
-	size_t len = 0;
+	ALPM_LOG_FUNC;
 
+	/* Sanity checks */
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, NULL));
+
+	return(db->servers);
+}
+
+/** Set the serverlist of a database. */
+int SYMEXPORT alpm_db_set_servers(pmdb_t *db, alpm_list_t *servers)
+{
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	if(url) {
-		len = strlen(url);
+	if(db->servers) FREELIST(db->servers);
+	db->servers = servers;
+	return 0;
+}
+
+static char *sanitize_url(const char *url)
+{
+	char *newurl;
+	size_t len = strlen(url);
+
+	STRDUP(newurl, url, RET_ERR(PM_ERR_MEMORY, NULL));
+	/* strip the trailing slash if one exists */
+	if(newurl[len - 1] == '/') {
+		newurl[len - 1] = '\0';
 	}
-	if(len) {
-		newurl = strdup(url);
-		/* strip the trailing slash if one exists */
-		if(newurl[len - 1] == '/') {
-			newurl[len - 1] = '\0';
-		}
-		db->servers = alpm_list_add(db->servers, newurl);
-		_alpm_log(PM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
-				db->treename, newurl);
-	} else {
-		FREELIST(db->servers);
-		_alpm_log(PM_LOG_DEBUG, "serverlist flushed for '%s'\n", db->treename);
+	return newurl;
+}
+
+/** Add a download server to a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_db_add_server(pmdb_t *db, const char *url)
+{
+	char *newurl;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	newurl = sanitize_url(url);
+	if(!newurl) {
+		return -1;
 	}
+	db->servers = alpm_list_add(db->servers, newurl);
+	_alpm_log(PM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
+			db->treename, newurl);
 
 	return 0;
+}
+
+/** Remove a download server from a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, 1 on server not present,
+ * -1 on error (pm_errno is set accordingly)
+ */
+int SYMEXPORT alpm_db_remove_server(pmdb_t *db, const char *url)
+{
+	char *newurl, *vdata = NULL;
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+
+	newurl = sanitize_url(url);
+	if(!newurl) {
+		return -1;
+	}
+	db->servers = alpm_list_remove_str(db->servers, newurl, &vdata);
+	free(newurl);
+	if(vdata) {
+		_alpm_log(PM_LOG_DEBUG, "removed server URL from database '%s': %s\n",
+				db->treename, newurl);
+		free(vdata);
+		return 0;
+	}
+
+	return 1;
 }
 /** Set the verify gpg signature option for a database.
  * @param db database pointer
