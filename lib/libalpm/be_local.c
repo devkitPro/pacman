@@ -367,6 +367,9 @@ int _alpm_local_db_populate(pmdb_t *db)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
 	dbpath = _alpm_db_path(db);
+	if(dbpath == NULL) {
+		return(-1);
+	}
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
 		return(0);
