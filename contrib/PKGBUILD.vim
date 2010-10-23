@@ -61,10 +61,13 @@ syn match pbUrlGroup /^url=.*/ contains=pbValidUrl,pb_k_url,pbIllegalUrl,shDoubl
 
 " license
 syn keyword pb_k_license license contained
-syn keyword pbLicense  APACHE CCPL CDDL CPL EPL FDL FDL1.2 FDL1.3 GPL GPL2 GPL3 LGPL LGPL2.1 LGPL3 LPPL MPL PHP PSF PerlArtistic RALINK RUBY ZPL contained
+" echo $(pacman -Ql licenses | grep '/usr/share/licenses/common/' | cut -d'/' -f6 | sort -u)
+syn keyword pbLicense  APACHE CCPL CDDL CPL EPL FDL FDL1.2 FDL1.3 GPL GPL2 GPL3 LGPL LGPL2.1 LGPL3 LPPL MPL PerlArtistic PHP PSF RALINK RUBY ZPL contained
+" special cases from http://wiki.archlinux.org/index.php/Arch_Packaging_Standards
+syn keyword pbLicenseSpecial  BSD MIT ZLIB Python contained
 syn match pbLicenseCustom /custom\(:[[:alnum:]]*\)*/ contained
-syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicense
-syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicense,pbIllegalLicense
+syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicenseSpecial,pbLicense
+syn region pbLicenseGroup start=/^license=(/ end=/)/ contains=pb_k_license,pbLicenseCustom,pbLicenseSpecial,pbLicense,pbIllegalLicense
 
 " backup
 syn keyword pb_k_backup backup contained
