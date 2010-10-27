@@ -16,8 +16,9 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from util import *
-from stat import *
+import stat
+
+import util
 
 class pmrule:
     """Rule object
@@ -54,11 +55,11 @@ class pmrule:
                 if retcode != int(key):
                     success = 0
             elif case == "OUTPUT":
-                logfile = os.path.join(root, LOGFILE)
+                logfile = os.path.join(root, util.LOGFILE)
                 if not os.access(logfile, os.F_OK):
                     print "LOGFILE not found, cannot validate 'OUTPUT' rule"
                     success = 0
-                elif not grep(os.path.join(root, LOGFILE), key):
+                elif not util.grep(os.path.join(root, util.LOGFILE), key):
                     success = 0
             else:
                 print "PACMAN rule '%s' not found" % case
@@ -68,8 +69,8 @@ class pmrule:
             if not newpkg:
                 success = 0
             else:
-                vprint("\tnewpkg.checksum : %s" % newpkg.checksum)
-                vprint("\tnewpkg.mtime    : %s" % newpkg.mtime)
+                util.vprint("\tnewpkg.checksum : %s" % newpkg.checksum)
+                util.vprint("\tnewpkg.mtime    : %s" % newpkg.mtime)
                 if case == "EXIST":
                     success = 1
                 elif case == "MODIFIED":
@@ -124,8 +125,8 @@ class pmrule:
                 if not os.path.isfile(filename):
                     success = 0
                 else:
-                    mode = os.lstat(filename)[ST_MODE]
-                    if int(value,8) != S_IMODE(mode):
+                    mode = os.lstat(filename)[stat.ST_MODE]
+                    if int(value, 8) != stat.S_IMODE(mode):
                         success = 0
             elif case == "TYPE":
                 if value == "dir":
@@ -138,13 +139,13 @@ class pmrule:
                     if not os.path.islink(filename):
                         success = 0
             elif case == "PACNEW":
-                if not os.path.isfile("%s%s" % (filename, PM_PACNEW)):
+                if not os.path.isfile("%s.pacnew" % filename):
                     success = 0
             elif case == "PACORIG":
-                if not os.path.isfile("%s%s" % (filename, PM_PACORIG)):
+                if not os.path.isfile("%s.pacorig" % filename):
                     success = 0
             elif case == "PACSAVE":
-                if not os.path.isfile("%s%s" % (filename, PM_PACSAVE)):
+                if not os.path.isfile("%s.pacsave" % filename):
                     success = 0
             else:
                 print "FILE rule '%s' not found" % case
