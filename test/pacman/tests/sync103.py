@@ -9,5 +9,5 @@ self.addpkg2db("local", lp)
 self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("!PKG_MODIFIED=lpkg")
+self.addrule("PKG_EXIST=lpkg")
 self.addrule("!PKG_EXIST=spkg")
