@@ -69,13 +69,8 @@ class pmrule:
             if not newpkg:
                 success = 0
             else:
-                util.vprint("\tnewpkg.checksum : %s" % newpkg.checksum)
-                util.vprint("\tnewpkg.mtime    : %s" % newpkg.mtime)
                 if case == "EXIST":
                     success = 1
-                elif case == "MODIFIED":
-                    if not localdb.ispkgmodified(newpkg):
-                        success = 0
                 elif case == "VERSION":
                     if value != newpkg.version:
                         success = 0
@@ -121,6 +116,7 @@ class pmrule:
                     if f.name == key:
                         if not f.ismodified():
                             success = 0
+                        break
             elif case == "MODE":
                 if not os.path.isfile(filename):
                     success = 0

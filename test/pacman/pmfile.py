@@ -27,10 +27,10 @@ class pmfile:
     def __init__(self, root, name):
         self.name = name
         self.root = root
+        self.filename = os.path.join(self.root, self.name)
 
-        filename = os.path.join(self.root, self.name)
-        self.checksum = util.getmd5sum(filename)
-        self.mtime = util.getmtime(filename)
+        self.checksum = util.getmd5sum(self.filename)
+        self.mtime = util.getmtime(self.filename)
 
     def __str__(self):
         return "%s (%s / %lu)" % (self.name, self.checksum, self.mtime)
@@ -38,12 +38,8 @@ class pmfile:
     def ismodified(self):
         """
         """
-
-        retval = 0
-
-        filename = os.path.join(self.root, self.name)
-        checksum = util.getmd5sum(filename)
-        mtime = util.getmtime(filename)
+        checksum = util.getmd5sum(self.filename)
+        mtime = util.getmtime(self.filename)
 
         util.vprint("\tismodified(%s)" % self.name)
         util.vprint("\t\told: %s / %s" % (self.checksum, self.mtime))
@@ -51,17 +47,8 @@ class pmfile:
 
         if self.checksum != checksum \
            or (self.mtime[1], self.mtime[2]) != (mtime[1], mtime[2]):
-            retval = 1
+            return 1
 
-        return retval
-
-    def resettimes(self):
-        """
-        """
-
-        filename = os.path.join(self.root, self.name)
-        os.utime(filename, (355, 355))
-        self.mtime = util.getmtime(filename)
-        util.vprint("\tmtime reset (%s)" % self.name)
+        return 0
 
 # vim: set ts=4 sw=4 et:

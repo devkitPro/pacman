@@ -68,13 +68,6 @@ class pmenv:
             print "----------"*8
 
             t.generate()
-            # Hack for mtimes consistency
-            for i in t.rules:
-                if i.rule.find("FILE_MODIFIED") != -1:
-                    [test, arg] = i.rule.split("=")
-                    for f in t.files:
-                        if f.name == arg:
-                            f.resettimes()
 
             t.run(self.pacman)
 

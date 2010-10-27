@@ -161,8 +161,6 @@ class pmdb:
             elif line == "%PROVIDES%":
                 pkg.provides = _getsection(fd)
         fd.close()
-        pkg.checksum["desc"] = util.getmd5sum(filename)
-        pkg.mtime["desc"] = util.getmtime(filename)
 
         # files
         filename = os.path.join(path, "files")
@@ -183,14 +181,9 @@ class pmdb:
             if line == "%BACKUP%":
                 pkg.backup = _getsection(fd)
         fd.close()
-        pkg.checksum["files"] = util.getmd5sum(filename)
-        pkg.mtime["files"] = util.getmtime(filename)
 
         # install
         filename = os.path.join(path, "install")
-        if os.path.isfile(filename):
-            pkg.checksum["install"] = util.getmd5sum(filename)
-            pkg.mtime["install"] = util.getmtime(filename)
 
         return pkg
 
@@ -252,8 +245,6 @@ class pmdb:
             data.append("")
         filename = os.path.join(path, "desc")
         util.mkfile(filename, "\n".join(data))
-        pkg.checksum["desc"] = util.getmd5sum(filename)
-        pkg.mtime["desc"] = util.getmtime(filename)
 
         # files
         # for local entries, fields are: files, backup
@@ -268,8 +259,6 @@ class pmdb:
                 data.append("")
             filename = os.path.join(path, "files")
             util.mkfile(filename, "\n".join(data))
-            pkg.checksum["files"] = util.getmd5sum(filename)
-            pkg.mtime["files"] = util.getmtime(filename)
 
         # install
         if self.treename == "local":
@@ -280,8 +269,6 @@ class pmdb:
             if not empty:
                 filename = os.path.join(path, "install")
                 util.mkinstallfile(filename, pkg.install)
-                pkg.checksum["install"] = util.getmd5sum(filename)
-                pkg.mtime["install"] = util.getmtime(filename)
 
     def gensync(self):
         """
@@ -300,31 +287,4 @@ class pmdb:
 
         os.chdir(curdir)
 
-    def ispkgmodified(self, pkg):
-        """
-        """
-
-        modified = 0
-
-        oldpkg = self.getpkg(pkg.name)
-        if not oldpkg:
-            return 0
-
-        util.vprint("\toldpkg.checksum : %s" % oldpkg.checksum)
-        util.vprint("\toldpkg.mtime    : %s" % oldpkg.mtime)
-
-        for key in pkg.mtime.keys():
-            if key == "install" \
-               and oldpkg.mtime[key] == (0, 0, 0) \
-               and pkg.mtime[key] == (0, 0, 0):
-                continue
-            if oldpkg.mtime[key][1:3] != pkg.mtime[key][1:3]:
-                modified += 1
-
-        return modified
-
-
-if __name__ == "__main__":
-    db = pmdb("local")
-    print db
 # vim: set ts=4 sw=4 et:

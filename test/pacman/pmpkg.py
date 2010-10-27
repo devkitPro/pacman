@@ -64,16 +64,6 @@ class pmpkg:
             "pre_upgrade": "",
             "post_upgrade": ""
         }
-        self.checksum = {
-            "desc": "",
-            "files": "",
-            "install": ""
-        }
-        self.mtime = {
-            "desc": (0, 0, 0),
-            "files": (0, 0, 0),
-            "install": (0, 0, 0)
-        }
 
     def __str__(self):
         s = ["%s" % self.fullname()]
@@ -96,13 +86,6 @@ class pmpkg:
         Returns a string formatted as follows: "pkgname-pkgver.PKG_EXT_PKG".
         """
         return "%s%s" % (self.fullname(), util.PM_EXT_PKG)
-
-    def install_files(self, root):
-        """Install files in the filesystem located under "root".
-        
-        Files are created with content generated automatically.
-        """
-        [util.mkfile(os.path.join(root, f), f) for f in self.files]
 
     def makepkg(self, path):
         """Creates an ArchLinux package archive.
