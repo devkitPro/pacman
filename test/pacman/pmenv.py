@@ -18,7 +18,6 @@
 
 import os
 import os.path
-import time
 
 import pmtest
 
