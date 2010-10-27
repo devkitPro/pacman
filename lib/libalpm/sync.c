@@ -385,7 +385,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	char *fpath;
 	off_t size = 0;
 
-	if(newpkg->origin == PKG_FROM_FILE) {
+	if(newpkg->origin != PKG_FROM_SYNCDB) {
 		newpkg->infolevel |= INFRQ_DSIZE;
 		newpkg->download_size = 0;
 		return(0);
