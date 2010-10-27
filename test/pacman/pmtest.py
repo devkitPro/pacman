@@ -19,14 +19,14 @@
 import os
 import os.path
 import shutil
+import stat
 import time
 
 import pmrule
 import pmdb
 import pmfile
-from pmpkg import pmpkg
-from util import *
-
+import util
+from util import vprint
 
 class pmtest:
     """Test object
@@ -87,9 +87,11 @@ class pmtest:
         self.expectfailure = False
         
         if os.path.isfile(self.name):
+            # all tests expect this to be available
+            from pmpkg import pmpkg
             execfile(self.name)
         else:
-            raise IOerror("file %s does not exist!" % self.name)
+            raise IOError("file %s does not exist!" % self.name)
 
     def generate(self):
         """
@@ -104,39 +106,40 @@ class pmtest:
 
         # Create directory structure
         vprint("    Creating directory structure:")
-        dbdir = os.path.join(self.root, PM_DBPATH)
-        cachedir = os.path.join(self.root, PM_CACHEDIR)
-        syncdir = os.path.join(self.root, SYNCREPO)
-        tmpdir = os.path.join(self.root, TMPDIR)
-        logdir = os.path.join(self.root, os.path.dirname(LOGFILE))
-        etcdir = os.path.join(self.root, os.path.dirname(PACCONF))
+        dbdir = os.path.join(self.root, util.PM_DBPATH)
+        cachedir = os.path.join(self.root, util.PM_CACHEDIR)
+        syncdir = os.path.join(self.root, util.SYNCREPO)
+        tmpdir = os.path.join(self.root, util.TMPDIR)
+        logdir = os.path.join(self.root, os.path.dirname(util.LOGFILE))
+        etcdir = os.path.join(self.root, os.path.dirname(util.PACCONF))
         bindir = os.path.join(self.root, "bin")
-        for dir in [dbdir, cachedir, syncdir, tmpdir, logdir, etcdir, bindir]:
-            if not os.path.isdir(dir):
-                vprint("\t%s" % dir[len(self.root)+1:])
-                os.makedirs(dir, 0755)
+        sys_dirs = [dbdir, cachedir, syncdir, tmpdir, logdir, etcdir, bindir]
+        for sys_dir in sys_dirs:
+            if not os.path.isdir(sys_dir):
+                vprint("\t%s" % sys_dir[len(self.root)+1:])
+                os.makedirs(sys_dir, 0755)
         # Only the dynamically linked binary is needed for fakechroot
         shutil.copy("/bin/sh", bindir)
 
         # Configuration file
         vprint("    Creating configuration file")
-        vprint("\t%s" % PACCONF)
-        mkcfgfile(PACCONF, self.root, self.option, self.db)
+        util.mkcfgfile(util.PACCONF, self.root, self.option, self.db)
 
         # Creating packages
         vprint("    Creating package archives")
         for pkg in self.localpkgs:
-            vprint("\t%s" % os.path.join(TMPDIR, pkg.filename()))
+            vprint("\t%s" % os.path.join(util.TMPDIR, pkg.filename()))
             pkg.makepkg(tmpdir)
         for key, value in self.db.iteritems():
-            if key == "local": continue
+            if key == "local":
+                continue
             for pkg in value.pkgs:
-                vprint("\t%s" % os.path.join(PM_CACHEDIR, pkg.filename()))
+                vprint("\t%s" % os.path.join(util.PM_CACHEDIR, pkg.filename()))
                 if self.cachepkgs:
                     pkg.makepkg(cachedir)
                 else:
                     pkg.makepkg(os.path.join(syncdir, value.treename))
-                pkg.md5sum = getmd5sum(pkg.path)
+                pkg.md5sum = util.getmd5sum(pkg.path)
                 pkg.csize = os.stat(pkg.path)[stat.ST_SIZE]
 
         # Populating databases
@@ -151,11 +154,12 @@ class pmtest:
         # Creating sync database archives
         vprint("    Creating sync database archives")
         for key, value in self.db.iteritems():
-            if key == "local": continue
+            if key == "local":
+                continue
             vprint("\t" + value.treename)
             value.gensync()
             serverpath = os.path.join(syncdir, value.treename)
-            mkdir(serverpath)
+            util.mkdir(serverpath)
             shutil.copy(value.dbfile, serverpath)
 
         # Filesystem
@@ -165,7 +169,7 @@ class pmtest:
             pkg.install_files(self.root)
         for f in self.filesystem:
             vprint("\t%s" % f)
-            mkfile(os.path.join(self.root, f), f)
+            util.mkfile(os.path.join(self.root, f), f)
 
         # Done.
         vprint("    Taking a snapshot of the file system")
@@ -180,7 +184,7 @@ class pmtest:
         """
         """
 
-        if os.path.isfile(PM_LOCK):
+        if os.path.isfile(util.PM_LOCK):
             print "\tERROR: another pacman session is on-going -- skipping"
             return
 
@@ -189,13 +193,13 @@ class pmtest:
 
         cmd = [""]
         if os.geteuid() != 0:
-            fakeroot = which("fakeroot")
+            fakeroot = util.which("fakeroot")
             if not fakeroot:
                 print "WARNING: fakeroot not found!"
             else:
                 cmd.append("fakeroot")
 
-            fakechroot = which("fakechroot")
+            fakechroot = util.which("fakechroot")
             if fakechroot:
                 cmd.append("fakechroot")
 
@@ -205,29 +209,29 @@ class pmtest:
             cmd.append("valgrind -q --tool=memcheck --leak-check=full --show-reachable=yes --suppressions=%s/valgrind.supp" % os.getcwd())
         cmd.append("\"%s\" --config=\"%s\" --root=\"%s\" --dbpath=\"%s\" --cachedir=\"%s\"" \
                    % (pacman["bin"],
-                       os.path.join(self.root, PACCONF),
+                       os.path.join(self.root, util.PACCONF),
                        self.root,
-                       os.path.join(self.root, PM_DBPATH),
-                       os.path.join(self.root, PM_CACHEDIR)))
+                       os.path.join(self.root, util.PM_DBPATH),
+                       os.path.join(self.root, util.PM_CACHEDIR)))
         if not pacman["manual-confirm"]:
             cmd.append("--noconfirm")
         if pacman["debug"]:
             cmd.append("--debug=%s" % pacman["debug"])
         cmd.append("%s" % self.args)
         if not pacman["gdb"] and not pacman["valgrind"] and not pacman["nolog"]: 
-            cmd.append(">\"%s\" 2>&1" % os.path.join(self.root, LOGFILE))
+            cmd.append(">\"%s\" 2>&1" % os.path.join(self.root, util.LOGFILE))
         vprint("\trunning: %s" % " ".join(cmd))
 
         # Change to the tmp dir before running pacman, so that local package
         # archives are made available more easily.
         curdir = os.getcwd()
-        tmpdir = os.path.join(self.root, TMPDIR)
+        tmpdir = os.path.join(self.root, util.TMPDIR)
         os.chdir(tmpdir)
 
-        t0 = time.time()
+        time_start = time.time()
         self.retcode = os.system(" ".join(cmd))
-        t1 = time.time()
-        vprint("\ttime elapsed: %ds" % (t1-t0))
+        time_end = time.time()
+        vprint("\ttime elapsed: %ds" % (time_end - time_start))
 
         if self.retcode == None:
             self.retcode = 0
@@ -237,11 +241,11 @@ class pmtest:
         os.chdir(curdir)
 
         # Check if the lock is still there
-        if os.path.isfile(PM_LOCK):
-            print "\tERROR: %s not removed" % PM_LOCK
-            os.unlink(PM_LOCK)
+        if os.path.isfile(util.PM_LOCK):
+            print "\tERROR: %s not removed" % util.PM_LOCK
+            os.unlink(util.PM_LOCK)
         # Look for a core file
-        if os.path.isfile(os.path.join(self.root, TMPDIR, "core")):
+        if os.path.isfile(os.path.join(self.root, util.TMPDIR, "core")):
             print "\tERROR: pacman dumped a core file"
 
     def check(self):
