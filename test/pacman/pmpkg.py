@@ -22,8 +22,7 @@ import stat
 import shutil
 import tarfile
 
-from util import *
-
+import util
 
 class pmpkg:
     """Package object.
@@ -96,14 +95,14 @@ class pmpkg:
         
         Returns a string formatted as follows: "pkgname-pkgver.PKG_EXT_PKG".
         """
-        return "%s%s" % (self.fullname(), PM_EXT_PKG)
+        return "%s%s" % (self.fullname(), util.PM_EXT_PKG)
 
     def install_files(self, root):
         """Install files in the filesystem located under "root".
         
         Files are created with content generated automatically.
         """
-        [mkfile(os.path.join(root, f), f) for f in self.files]
+        [util.mkfile(os.path.join(root, f), f) for f in self.files]
 
     def makepkg(self, path):
         """Creates an ArchLinux package archive.
@@ -119,8 +118,8 @@ class pmpkg:
 
         # Generate package file system
         for f in self.files:
-            mkfile(f, f)
-            self.size += os.stat(getfilename(f))[stat.ST_SIZE]
+            util.mkfile(f, f)
+            self.size += os.stat(util.getfilename(f))[stat.ST_SIZE]
 
         # .PKGINFO
         data = ["pkgname = %s" % self.name]
@@ -148,14 +147,14 @@ class pmpkg:
             data.append("provides = %s" % i)
         for i in self.backup:
             data.append("backup = %s" % i)
-        mkfile(".PKGINFO", "\n".join(data))
+        util.mkfile(".PKGINFO", "\n".join(data))
 
         # .INSTALL
         if len(self.install.values()) > 0:
-            mkinstallfile(".INSTALL", self.install)
+            util.mkinstallfile(".INSTALL", self.install)
 
         # safely create the dir
-        mkdir(os.path.dirname(self.path))
+        util.mkdir(os.path.dirname(self.path))
 
         # Generate package archive
         tar = tarfile.open(self.path, "w:gz")
@@ -166,8 +165,4 @@ class pmpkg:
         os.chdir(curdir)
         shutil.rmtree(tmpdir)
 
-
-if __name__ == "__main__":
-    pkg = pmpkg("dummy")
-    print pkg
 # vim: set ts=4 sw=4 et:
