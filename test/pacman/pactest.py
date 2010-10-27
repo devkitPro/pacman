@@ -30,7 +30,7 @@ def resolveBinPath(option, opt_str, value, parser):
     setattr(parser.values, option.dest, os.path.abspath(value))
 
 def globTests(option, opt_str, value, parser):
-    idx=0
+    idx = 0
     globlist = []
 
     # maintain the idx so we can modify rargs
@@ -81,8 +81,8 @@ def createOptParser():
 if __name__ == "__main__":
     # instantiate env and parser objects 
     env = pmenv.pmenv()
-    parser = createOptParser()
-    (opts, args) = parser.parse_args()
+    opt_parser = createOptParser()
+    (opts, args) = opt_parser.parse_args()
 
     # add parsed options to env object
     util.verbose = opts.verbose
