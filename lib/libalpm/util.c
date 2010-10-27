@@ -831,46 +831,54 @@ cleanup:
 	}
 }
 
-int _alpm_splitname(const char *target, pmpkg_t *pkg)
+int _alpm_splitname(const char *target, char **name, char **version,
+		unsigned long *name_hash)
 {
 	/* the format of a db entry is as follows:
 	 *    package-version-rel/
+	 *    package-version-rel/desc (we ignore the filename portion)
 	 * package name can contain hyphens, so parse from the back- go back
 	 * two hyphens and we have split the version from the name.
 	 */
-	const char *version, *end;
+	const char *pkgver, *end;
 
-	if(target == NULL || pkg == NULL) {
+	if(target == NULL) {
 		return -1;
 	}
-	end = target + strlen(target);
 
-	/* remove any trailing '/' */
-	while(*(end - 1) == '/') {
-	  --end;
+	/* remove anything trailing a '/' */
+	end = strchr(target, '/');
+	if(!end) {
+		end = target + strlen(target);
 	}
 
 	/* do the magic parsing- find the beginning of the version string
 	 * by doing two iterations of same loop to lop off two hyphens */
-	for(version = end - 1; *version && *version != '-'; version--);
-	for(version = version - 1; *version && *version != '-'; version--);
-	if(*version != '-' || version == target) {
+	for(pkgver = end - 1; *pkgver && *pkgver != '-'; pkgver--);
+	for(pkgver = pkgver - 1; *pkgver && *pkgver != '-'; pkgver--);
+	if(*pkgver != '-' || pkgver == target) {
 		return -1;
 	}
 
 	/* copy into fields and return */
-	if(pkg->version) {
-		FREE(pkg->version);
+	if(version) {
+		if(*version) {
+			FREE(*version);
+		}
+		/* version actually points to the dash, so need to increment 1 and account
+		 * for potential end character */
+		STRNDUP(*version, pkgver + 1, end - pkgver - 1, return -1);
 	}
-	/* version actually points to the dash, so need to increment 1 and account
-	 * for potential end character */
-	STRNDUP(pkg->version, version + 1, end - version - 1, return -1);
 
-	if(pkg->name) {
-		FREE(pkg->name);
+	if(name) {
+		if(*name) {
+			FREE(*name);
+		}
+		STRNDUP(*name, target, pkgver - target, return -1);
+		if(name_hash) {
+			*name_hash = _alpm_hash_sdbm(*name);
+		}
 	}
-	STRNDUP(pkg->name, target, version - target, return -1);
-	pkg->name_hash = _alpm_hash_sdbm(pkg->name);
 
 	return 0;
 }

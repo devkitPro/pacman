@@ -109,7 +109,8 @@ const char *_alpm_filecache_setup(pmhandle_t *handle);
 int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_md5sum(const char *filepath, const char *md5sum);
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b);
-int _alpm_splitname(const char *target, pmpkg_t *pkg);
+int _alpm_splitname(const char *target, char **name, char **version,
+		unsigned long *name_hash);
 unsigned long _alpm_hash_sdbm(const char *str);
 long _alpm_parsedate(const char *line);
 

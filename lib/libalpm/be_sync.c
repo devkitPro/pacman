@@ -245,7 +245,61 @@ cleanup:
 
 /* Forward decl so I don't reorganize the whole file right now */
 static int sync_db_read(pmdb_t *db, struct archive *archive,
-		struct archive_entry *entry, pmpkg_t *likely_pkg);
+		struct archive_entry *entry, pmpkg_t **likely_pkg);
+
+static pmpkg_t *load_pkg_for_entry(pmdb_t *db, const char *entryname,
+		const char **entry_filename, pmpkg_t *likely_pkg)
+{
+	char *pkgname = NULL, *pkgver = NULL;
+	unsigned long pkgname_hash;
+	pmpkg_t *pkg;
+
+	/* get package and db file names */
+	if(entry_filename) {
+		char *fname = strrchr(entryname, '/');
+		if(fname) {
+			*entry_filename = fname + 1;
+		} else {
+			*entry_filename = NULL;
+		}
+	}
+	if(_alpm_splitname(entryname, &pkgname, &pkgver, &pkgname_hash) != 0) {
+		_alpm_log(db->handle, PM_LOG_ERROR,
+				_("invalid name for database entry '%s'\n"), entryname);
+		return NULL;
+	}
+
+	if(likely_pkg && strcmp(likely_pkg->name, pkgname) == 0) {
+		pkg = likely_pkg;
+	} else {
+		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
+	}
+	if(pkg == NULL) {
+		pkg = _alpm_pkg_new();
+		if(pkg == NULL) {
+			RET_ERR(db->handle, PM_ERR_MEMORY, NULL);
+		}
+
+		pkg->name = pkgname;
+		pkg->version = pkgver;
+		pkg->name_hash = pkgname_hash;
+
+		pkg->origin = PKG_FROM_SYNCDB;
+		pkg->origin_data.db = db;
+		pkg->ops = &default_pkg_ops;
+		pkg->handle = db->handle;
+
+		/* add to the collection */
+		_alpm_log(db->handle, PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
+				pkg->name, db->treename);
+		db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
+	} else {
+		free(pkgname);
+		free(pkgver);
+	}
+
+	return pkg;
+}
 
 /*
  * This is the data table used to generate the estimating function below.
@@ -355,45 +409,10 @@ static int sync_db_populate(pmdb_t *db)
 		st = archive_entry_stat(entry);
 
 		if(S_ISDIR(st->st_mode)) {
-			const char *name;
-
-			pkg = _alpm_pkg_new();
-			if(pkg == NULL) {
-				archive_read_finish(archive);
-				RET_ERR(db->handle, PM_ERR_MEMORY, -1);
-			}
-
-			name = archive_entry_pathname(entry);
-
-			if(_alpm_splitname(name, pkg) != 0) {
-				_alpm_log(db->handle, PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
-						name);
-				_alpm_pkg_free(pkg);
-				pkg = NULL;
-				continue;
-			}
-
-			/* duplicated database entries are not allowed */
-			if(_alpm_pkghash_find(db->pkgcache, pkg->name)) {
-				_alpm_log(db->handle, PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
-				_alpm_pkg_free(pkg);
-				pkg = NULL;
-				continue;
-			}
-
-			pkg->origin = PKG_FROM_SYNCDB;
-			pkg->origin_data.db = db;
-			pkg->ops = &default_pkg_ops;
-			pkg->handle = db->handle;
-
-			/* add to the collection */
-			_alpm_log(db->handle, PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
-					pkg->name, db->treename);
-			db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
-			count++;
+			continue;
 		} else {
 			/* we have desc, depends or deltas - parse it */
-			if(sync_db_read(db, archive, entry, pkg) != 0) {
+			if(sync_db_read(db, archive, entry, &pkg) != 0) {
 				_alpm_log(db->handle, PM_LOG_ERROR,
 						_("could not parse package description file '%s' from db '%s'\n"),
 						archive_entry_pathname(entry), db->treename);
@@ -401,6 +420,8 @@ static int sync_db_populate(pmdb_t *db)
 			}
 		}
 	}
+
+	count = alpm_list_count(db->pkgcache->list);
 
 	if(count > 0) {
 		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
@@ -431,10 +452,9 @@ static int sync_db_populate(pmdb_t *db)
 } while(1) /* note the while(1) and not (0) */
 
 static int sync_db_read(pmdb_t *db, struct archive *archive,
-		struct archive_entry *entry, pmpkg_t *likely_pkg)
+		struct archive_entry *entry, pmpkg_t **likely_pkg)
 {
 	const char *entryname, *filename;
-	char *pkgname, *p, *q;
 	pmpkg_t *pkg;
 	struct archive_read_buffer buf;
 
@@ -452,27 +472,12 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	/* 512K for a line length seems reasonable */
 	buf.max_line_size = 512 * 1024;
 
-	/* get package and db file names */
-	STRDUP(pkgname, entryname, RET_ERR(db->handle, PM_ERR_MEMORY, -1));
-	p = pkgname + strlen(pkgname);
-	for(q = --p; *q && *q != '/'; q--);
-	filename = q + 1;
-	for(p = --q; *p && *p != '-'; p--);
-	for(q = --p; *q && *q != '-'; q--);
-	*q = '\0';
+	pkg = load_pkg_for_entry(db, entryname, &filename, *likely_pkg);
 
-	/* package is already in db due to parsing of directory name */
-	if(likely_pkg && strcmp(likely_pkg->name, pkgname) == 0) {
-		pkg = likely_pkg;
-	} else {
-		if(db->pkgcache == NULL) {
-			RET_ERR(db->handle, PM_ERR_MEMORY, -1);
-		}
-		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
-	}
 	if(pkg == NULL) {
-		_alpm_log(db->handle, PM_LOG_DEBUG, "package %s not found in %s sync database",
-					pkgname, db->treename);
+		_alpm_log(db->handle, PM_LOG_DEBUG,
+				"entry %s could not be loaded into %s sync database",
+				entryname, db->treename);
 		return -1;
 	}
 
@@ -559,6 +564,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		if(ret != ARCHIVE_EOF) {
 			goto error;
 		}
+		*likely_pkg = pkg;
 	} else if(strcmp(filename, "files") == 0) {
 		/* currently do nothing with this file */
 	} else {
@@ -566,12 +572,10 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		_alpm_log(db->handle, PM_LOG_DEBUG, "unknown database file: %s\n", filename);
 	}
 
-	FREE(pkgname);
 	return 0;
 
 error:
 	_alpm_log(db->handle, PM_LOG_DEBUG, "error parsing database file: %s\n", filename);
-	FREE(pkgname);
 	return -1;
 }
 
