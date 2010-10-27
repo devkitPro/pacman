@@ -18,8 +18,7 @@
 
 import os
 
-from util import *
-
+import util
 
 class pmfile:
     """File object
@@ -30,8 +29,8 @@ class pmfile:
         self.root = root
 
         filename = os.path.join(self.root, self.name)
-        self.checksum = getmd5sum(filename)
-        self.mtime = getmtime(filename)
+        self.checksum = util.getmd5sum(filename)
+        self.mtime = util.getmtime(filename)
 
     def __str__(self):
         return "%s (%s / %lu)" % (self.name, self.checksum, self.mtime)
@@ -43,12 +42,12 @@ class pmfile:
         retval = 0
 
         filename = os.path.join(self.root, self.name)
-        checksum = getmd5sum(filename)
-        mtime = getmtime(filename)
+        checksum = util.getmd5sum(filename)
+        mtime = util.getmtime(filename)
 
-        vprint("\tismodified(%s)" % self.name)
-        vprint("\t\told: %s / %s" % (self.checksum, self.mtime))
-        vprint("\t\tnew: %s / %s" % (checksum, mtime))
+        util.vprint("\tismodified(%s)" % self.name)
+        util.vprint("\t\told: %s / %s" % (self.checksum, self.mtime))
+        util.vprint("\t\tnew: %s / %s" % (checksum, mtime))
 
         if self.checksum != checksum \
            or (self.mtime[1], self.mtime[2]) != (mtime[1], mtime[2]):
@@ -62,10 +61,7 @@ class pmfile:
 
         filename = os.path.join(self.root, self.name)
         os.utime(filename, (355, 355))
-        self.mtime = getmtime(filename)
-        vprint("\tmtime reset (%s)" % self.name)
+        self.mtime = util.getmtime(filename)
+        util.vprint("\tmtime reset (%s)" % self.name)
 
-if __name__ == "__main__":
-    f = pmfile("/tmp", "foobar")
-    print f
 # vim: set ts=4 sw=4 et:
