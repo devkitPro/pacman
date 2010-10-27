@@ -16,7 +16,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import sys
 import os
 import hashlib
 import stat
@@ -86,11 +85,8 @@ def mkfile(name, data = ""):
         path = filename
     else:
         path = os.path.dirname(filename)
-    try:
-        if path and not os.path.isdir(path):
-            os.makedirs(path, 0755)
-    except:
-        error("mkfile: could not create directory hierarchy '%s'" % path)
+    if path and not os.path.isdir(path):
+        os.makedirs(path, 0755)
 
     if isdir:
         return
@@ -154,21 +150,19 @@ def getmd5sum(filename):
     fd = open(filename, "rb")
     checksum = hashlib.md5()
     while 1:
-        block = fd.read(1048576)
+        block = fd.read(32 * 1024)
         if not block:
             break
         checksum.update(block)
     fd.close()
-    digest = checksum.digest()
-    return "%02x"*len(digest) % tuple(map(ord, digest))
+    return checksum.hexdigest()
 
 def mkmd5sum(data):
     """
     """
     checksum = hashlib.md5()
     checksum.update("%s\n" % data)
-    digest = checksum.digest()
-    return "%02x"*len(digest) % tuple(map(ord, digest))
+    return checksum.hexdigest()
 
 
 #
@@ -183,12 +177,6 @@ def getmtime(filename):
         return 0, 0, 0
     st = os.stat(filename)
     return st[stat.ST_ATIME], st[stat.ST_MTIME], st[stat.ST_CTIME]
-
-def diffmtime(mt1, mt2):
-    """ORE: TBD
-    """
-    return not mt1 == mt2
-
 
 #
 # Miscellaneous
@@ -210,18 +198,11 @@ def grep(filename, pattern):
             return True
     return False
 
-def mkdir(dir):
-    if os.path.isdir(dir):
+def mkdir(path):
+    if os.path.isdir(path):
         return
-    elif os.path.isfile(dir):
-        raise OSError("'%s' already exists and is not a directory" % dir)
-    else:
-        parent, thisdir = os.path.split(dir)
-        if parent: mkdir(parent) #recurse to make all parents
-        vprint("making dir %s" % thisdir)
-        if thisdir: os.mkdir(dir)
-
-if __name__ == "__main__":
-    pass
+    elif os.path.isfile(path):
+        raise OSError("'%s' already exists and is not a directory" % path)
+    os.makedirs(path, 0755)
 
 # vim: set ts=4 sw=4 et:
