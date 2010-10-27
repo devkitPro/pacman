@@ -17,13 +17,10 @@
 
 
 import os
-import tempfile
-import shutil
 import tarfile
 
 import pmpkg
-from util import *
-
+import util
 
 def _mkfilelist(files):
     """Generate a list of files from the list supplied as an argument.
@@ -38,19 +35,19 @@ def _mkfilelist(files):
         usr/local/bin/
         usr/local/bin/dummy
     """
-    file_list = set()
+    file_set = set()
     for f in files:
-        dir = getfilename(f)
-        file_list.add(dir)
-        while "/" in dir:
-            [dir, tmp] = dir.rsplit("/", 1)
-            file_list.add(dir + "/")
-    return sorted(file_list)
+        name = util.getfilename(f)
+        file_set.add(name)
+        while "/" in name:
+            [name, tmp] = name.rsplit("/", 1)
+            file_set.add(name + "/")
+    return sorted(file_set)
 
 def _mkbackuplist(backup):
     """
     """
-    return ["%s\t%s" % (getfilename(i), mkmd5sum(i)) for i in backup]
+    return ["%s\t%s" % (util.getfilename(i), util.mkmd5sum(i)) for i in backup]
 
 def _getsection(fd):
     """
@@ -84,10 +81,10 @@ class pmdb:
         self.pkgs = []
         self.option = {}
         if self.treename == "local":
-            self.dbdir = os.path.join(root, PM_DBPATH, treename)
+            self.dbdir = os.path.join(root, util.PM_DBPATH, treename)
         else:
-            self.dbdir = os.path.join(root, PM_SYNCDBPATH, treename)
-            self.dbfile = os.path.join(root, PM_SYNCDBPATH, treename + ".db")
+            self.dbdir = os.path.join(root, util.PM_SYNCDBPATH, treename)
+            self.dbfile = os.path.join(root, util.PM_SYNCDBPATH, treename + ".db")
 
     def __str__(self):
         return "%s" % self.treename
@@ -102,7 +99,6 @@ class pmdb:
     def db_read(self, name):
         """
         """
-
         path = self.dbdir
         if not os.path.isdir(path):
             return None
@@ -165,8 +161,8 @@ class pmdb:
             elif line == "%PROVIDES%":
                 pkg.provides = _getsection(fd)
         fd.close()
-        pkg.checksum["desc"] = getmd5sum(filename)
-        pkg.mtime["desc"] = getmtime(filename)
+        pkg.checksum["desc"] = util.getmd5sum(filename)
+        pkg.mtime["desc"] = util.getmtime(filename)
 
         # files
         filename = os.path.join(path, "files")
@@ -187,14 +183,14 @@ class pmdb:
             if line == "%BACKUP%":
                 pkg.backup = _getsection(fd)
         fd.close()
-        pkg.checksum["files"] = getmd5sum(filename)
-        pkg.mtime["files"] = getmtime(filename)
+        pkg.checksum["files"] = util.getmd5sum(filename)
+        pkg.mtime["files"] = util.getmtime(filename)
 
         # install
         filename = os.path.join(path, "install")
         if os.path.isfile(filename):
-            pkg.checksum["install"] = getmd5sum(filename)
-            pkg.mtime["install"] = getmtime(filename)
+            pkg.checksum["install"] = util.getmd5sum(filename)
+            pkg.mtime["install"] = util.getmtime(filename)
 
         return pkg
 
@@ -204,9 +200,8 @@ class pmdb:
     def db_write(self, pkg):
         """
         """
-
         path = os.path.join(self.dbdir, pkg.fullname())
-        mkdir(path)
+        util.mkdir(path)
 
         # desc
         # for local db entries: name, version, desc, groups, url, license,
@@ -256,9 +251,9 @@ class pmdb:
         if data:
             data.append("")
         filename = os.path.join(path, "desc")
-        mkfile(filename, "\n".join(data))
-        pkg.checksum["desc"] = getmd5sum(filename)
-        pkg.mtime["desc"] = getmtime(filename)
+        util.mkfile(filename, "\n".join(data))
+        pkg.checksum["desc"] = util.getmd5sum(filename)
+        pkg.mtime["desc"] = util.getmtime(filename)
 
         # files
         # for local entries, fields are: files, backup
@@ -272,9 +267,9 @@ class pmdb:
             if data:
                 data.append("")
             filename = os.path.join(path, "files")
-            mkfile(filename, "\n".join(data))
-            pkg.checksum["files"] = getmd5sum(filename)
-            pkg.mtime["files"] = getmtime(filename)
+            util.mkfile(filename, "\n".join(data))
+            pkg.checksum["files"] = util.getmd5sum(filename)
+            pkg.mtime["files"] = util.getmtime(filename)
 
         # install
         if self.treename == "local":
@@ -284,9 +279,9 @@ class pmdb:
                     empty = 0
             if not empty:
                 filename = os.path.join(path, "install")
-                mkinstallfile(filename, pkg.install)
-                pkg.checksum["install"] = getmd5sum(filename)
-                pkg.mtime["install"] = getmtime(filename)
+                util.mkinstallfile(filename, pkg.install)
+                pkg.checksum["install"] = util.getmd5sum(filename)
+                pkg.mtime["install"] = util.getmtime(filename)
 
     def gensync(self):
         """
@@ -315,8 +310,8 @@ class pmdb:
         if not oldpkg:
             return 0
 
-        vprint("\toldpkg.checksum : %s" % oldpkg.checksum)
-        vprint("\toldpkg.mtime    : %s" % oldpkg.mtime)
+        util.vprint("\toldpkg.checksum : %s" % oldpkg.checksum)
+        util.vprint("\toldpkg.mtime    : %s" % oldpkg.mtime)
 
         for key in pkg.mtime.keys():
             if key == "install" \
