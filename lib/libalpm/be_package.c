@@ -362,7 +362,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 	} else {
 		/* get rid of any partial filelist we may have collected, it is invalid */
 		FREELIST(newpkg->files);
-		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_DEPENDS;
+		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC;
 	}
 
 	return(newpkg);

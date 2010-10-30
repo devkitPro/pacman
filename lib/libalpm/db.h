@@ -34,12 +34,11 @@
 typedef enum _pmdbinfrq_t {
 	INFRQ_BASE = 1,
 	INFRQ_DESC = (1 << 1),
-	INFRQ_DEPENDS = (1 << 2),
-	INFRQ_FILES = (1 << 3),
-	INFRQ_SCRIPTLET = (1 << 4),
-	INFRQ_DSIZE = (1 << 5),
+	INFRQ_FILES = (1 << 2),
+	INFRQ_SCRIPTLET = (1 << 3),
+	INFRQ_DSIZE = (1 << 4),
 	/* ALL should be info stored in the package or database */
-	INFRQ_ALL = 0x3F
+	INFRQ_ALL = 0x1F
 } pmdbinfrq_t;
 
 struct db_operations {

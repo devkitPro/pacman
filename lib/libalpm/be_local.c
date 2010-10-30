@@ -165,25 +165,25 @@ int _cache_get_epoch(pmpkg_t *pkg)
 
 alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->depends;
 }
 
 alpm_list_t *_cache_get_optdepends(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->optdepends;
 }
 
 alpm_list_t *_cache_get_conflicts(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->conflicts;
 }
 
 alpm_list_t *_cache_get_provides(pmpkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DEPENDS, NULL);
+	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->provides;
 }
 
@@ -614,6 +614,29 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				if(!info->epoch) {
 					info->epoch = 1;
 				}
+			} else if(strcmp(line, "%DEPENDS%") == 0) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
+					info->depends = alpm_list_add(info->depends, dep);
+				}
+			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->optdepends = alpm_list_add(info->optdepends, linedup);
+				}
+			} else if(strcmp(line, "%CONFLICTS%") == 0) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->conflicts = alpm_list_add(info->conflicts, linedup);
+				}
+			} else if(strcmp(line, "%PROVIDES%") == 0) {
+				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+					char *linedup;
+					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					info->provides = alpm_list_add(info->provides, linedup);
+				}
 			}
 		}
 		fclose(fp);
@@ -640,47 +663,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					char *linedup;
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->backup = alpm_list_add(info->backup, linedup);
-				}
-			}
-		}
-		fclose(fp);
-		fp = NULL;
-	}
-
-	/* DEPENDS */
-	if(inforeq & INFRQ_DEPENDS) {
-		snprintf(path, PATH_MAX, "%sdepends", pkgpath);
-		if((fp = fopen(path, "r")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
-			goto error;
-		}
-		while(!feof(fp)) {
-			if(fgets(line, sizeof(line), fp) == NULL) {
-				break;
-			}
-			_alpm_strtrim(line);
-			if(strcmp(line, "%DEPENDS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
-					info->depends = alpm_list_add(info->depends, dep);
-				}
-			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->optdepends = alpm_list_add(info->optdepends, linedup);
-				}
-			} else if(strcmp(line, "%CONFLICTS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->conflicts = alpm_list_add(info->conflicts, linedup);
-				}
-			} else if(strcmp(line, "%PROVIDES%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					info->provides = alpm_list_add(info->provides, linedup);
 				}
 			}
 		}
@@ -828,49 +810,6 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			fprintf(fp, "%%REASON%%\n"
 							"%u\n\n", info->reason);
 		}
-
-		fclose(fp);
-		fp = NULL;
-	}
-
-	/* FILES */
-	if(inforeq & INFRQ_FILES) {
-		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
-				info->name, info->version);
-		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
-		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
-			retval = -1;
-			goto cleanup;
-		}
-		if(info->files) {
-			fprintf(fp, "%%FILES%%\n");
-			for(lp = info->files; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
-			}
-			fprintf(fp, "\n");
-		}
-		if(info->backup) {
-			fprintf(fp, "%%BACKUP%%\n");
-			for(lp = info->backup; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
-			}
-			fprintf(fp, "\n");
-		}
-		fclose(fp);
-		fp = NULL;
-	}
-
-	/* DEPENDS */
-	if(inforeq & INFRQ_DEPENDS) {
-		_alpm_log(PM_LOG_DEBUG, "writing %s-%s DEPENDS information back to db\n",
-			info->name, info->version);
-		snprintf(path, PATH_MAX, "%sdepends", pkgpath);
-		if((fp = fopen(path, "w")) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
-			retval = -1;
-			goto cleanup;
-		}
 		if(info->depends) {
 			fputs("%DEPENDS%\n", fp);
 			for(lp = info->depends; lp; lp = lp->next) {
@@ -897,6 +836,35 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->provides) {
 			fputs("%PROVIDES%\n", fp);
 			for(lp = info->provides; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+
+		fclose(fp);
+		fp = NULL;
+	}
+
+	/* FILES */
+	if(inforeq & INFRQ_FILES) {
+		_alpm_log(PM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
+				info->name, info->version);
+		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
+		if((fp = fopen(path, "w")) == NULL) {
+			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
+			retval = -1;
+			goto cleanup;
+		}
+		if(info->files) {
+			fprintf(fp, "%%FILES%%\n");
+			for(lp = info->files; lp; lp = lp->next) {
+				fprintf(fp, "%s\n", (char *)lp->data);
+			}
+			fprintf(fp, "\n");
+		}
+		if(info->backup) {
+			fprintf(fp, "%%BACKUP%%\n");
+			for(lp = info->backup; lp; lp = lp->next) {
 				fprintf(fp, "%s\n", (char *)lp->data);
 			}
 			fprintf(fp, "\n");
