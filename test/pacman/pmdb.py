@@ -163,6 +163,14 @@ class pmdb:
             elif line == "%FORCE%":
                 fd.readline()
                 pkg.force = 1
+            elif line == "%DEPENDS%":
+                pkg.depends = _getsection(fd)
+            elif line == "%OPTDEPENDS%":
+                pkg.optdepends = _getsection(fd)
+            elif line == "%CONFLICTS%":
+                pkg.conflicts = _getsection(fd)
+            elif line == "%PROVIDES%":
+                pkg.provides = _getsection(fd)
         fd.close()
         pkg.checksum["desc"] = getmd5sum(filename)
         pkg.mtime["desc"] = getmtime(filename)
@@ -189,29 +197,6 @@ class pmdb:
         pkg.checksum["files"] = getmd5sum(filename)
         pkg.mtime["files"] = getmtime(filename)
 
-        # depends
-        filename = os.path.join(path, "depends")
-        if not os.path.isfile(filename):
-            print "invalid db entry found (depends missing) for pkg", pkgname
-            return None
-        fd = file(filename, "r")
-        while 1:
-            line = fd.readline()
-            if not line:
-                break
-            line = line.strip("\n")
-            if line == "%DEPENDS%":
-                pkg.depends = _getsection(fd)
-            elif line == "%OPTDEPENDS%":
-                pkg.optdepends = _getsection(fd)
-            elif line == "%CONFLICTS%":
-                pkg.conflicts = _getsection(fd)
-            elif line == "%PROVIDES%":
-                pkg.provides = _getsection(fd)
-        fd.close()
-        pkg.checksum["depends"] = getmd5sum(filename)
-        pkg.mtime["depends"] = getmtime(filename)
-
         # install
         filename = os.path.join(path, "install")
         if os.path.isfile(filename):
@@ -233,9 +218,9 @@ class pmdb:
         # desc
         # for local db entries: name, version, desc, groups, url, license,
         #                       arch, builddate, installdate, packager,
-        #                       size, reason
+        #                       size, reason, depends, conflicts, provides
         # for sync entries: name, version, desc, groups, csize, md5sum,
-        #                   replaces, force
+        #                   replaces, force, depends, conflicts, provides
         data = [_mksection("NAME", pkg.name)]
         data.append(_mksection("VERSION", pkg.version))
         if pkg.desc:
@@ -250,6 +235,14 @@ class pmdb:
             data.append(_mksection("BUILDDATE", pkg.builddate))
         if pkg.packager:
             data.append(_mksection("PACKAGER", pkg.packager))
+        if pkg.depends:
+            data.append(_mksection("DEPENDS", pkg.depends))
+        if pkg.optdepends:
+            data.append(_mksection("OPTDEPENDS", pkg.optdepends))
+        if pkg.conflicts:
+            data.append(_mksection("CONFLICTS", pkg.conflicts))
+        if pkg.provides:
+            data.append(_mksection("PROVIDES", pkg.provides))
         if self.treename == "local":
             if pkg.url:
                 data.append(_mksection("URL", pkg.url))
@@ -296,25 +289,6 @@ class pmdb:
             mkfile(filename, "\n".join(data))
             pkg.checksum["files"] = getmd5sum(filename)
             pkg.mtime["files"] = getmtime(filename)
-
-        # depends
-        # for local db entries: depends, conflicts, provides
-        # for sync ones: depends, conflicts, provides
-        data = []
-        if pkg.depends:
-            data.append(_mksection("DEPENDS", pkg.depends))
-        if pkg.optdepends:
-            data.append(_mksection("OPTDEPENDS", pkg.optdepends))
-        if pkg.conflicts:
-            data.append(_mksection("CONFLICTS", pkg.conflicts))
-        if pkg.provides:
-            data.append(_mksection("PROVIDES", pkg.provides))
-        if data:
-            data.append("")
-        filename = os.path.join(path, "depends")
-        mkfile(filename, "\n".join(data))
-        pkg.checksum["depends"] = getmd5sum(filename)
-        pkg.mtime["depends"] = getmtime(filename)
 
         # install
         if self.treename == "local":

@@ -51,7 +51,6 @@ class pmpkg:
         self.replaces = []
         self.force = 0
         self.epoch = 0
-        # depends
         self.depends = []
         self.optdepends = []
         self.conflicts = []
@@ -70,13 +69,11 @@ class pmpkg:
         }
         self.checksum = {
             "desc": "",
-            "depends": "",
             "files": "",
             "install": ""
         }
         self.mtime = {
             "desc": (0, 0, 0),
-            "depends": (0, 0, 0),
             "files": (0, 0, 0),
             "install": (0, 0, 0)
         }
@@ -85,7 +82,6 @@ class pmpkg:
         s = ["%s" % self.fullname()]
         s.append("description: %s" % self.desc)
         s.append("url: %s" % self.url)
-        s.append("depends: %s" % " ".join(self.depends))
         s.append("files: %s" % " ".join(self.files))
         s.append("reason: %d" % self.reason)
         return "\n".join(s)
