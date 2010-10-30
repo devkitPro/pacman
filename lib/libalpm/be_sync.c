@@ -239,7 +239,7 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 		return(-1);
 	}
 
-	if(strcmp(filename, "desc") == 0) {
+	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0) {
 		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%NAME%") == 0) {
@@ -354,12 +354,7 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 				if(!pkg->epoch) {
 					pkg->epoch = 1;
 				}
-			}
-		}
-	} else if(strcmp(filename, "depends") == 0) {
-		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
-			_alpm_strtrim(line);
-			if(strcmp(line, "%DEPENDS%") == 0) {
+			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
 							strlen(_alpm_strtrim(line))) {
 					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
