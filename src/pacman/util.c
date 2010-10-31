@@ -651,7 +651,6 @@ void print_packages(const alpm_list_t *packages)
 			string = strreplace(temp, "%s", size);
 			free(size);
 			free(temp);
-			temp = string;
 		}
 		printf("%s\n",string);
 		free(string);

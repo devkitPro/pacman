@@ -129,7 +129,6 @@ int _alpm_sync_db_populate(pmdb_t *db)
 	int count = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
-	const char * archive_path;
 
 	ALPM_LOG_FUNC;
 
@@ -156,8 +155,6 @@ int _alpm_sync_db_populate(pmdb_t *db)
 		st = archive_entry_stat(entry);
 
 		if(S_ISDIR(st->st_mode)) {
-			archive_path = archive_entry_pathname(entry);
-
 			pkg = _alpm_pkg_new();
 			if(pkg == NULL) {
 				archive_read_finish(archive);
@@ -204,7 +201,7 @@ int _alpm_sync_db_populate(pmdb_t *db)
 int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
 {
 	char line[1024];
-	const char *entryname;
+	const char *entryname = NULL;
 	char *filename, *pkgname, *p, *q;
 	pmpkg_t *pkg;
 
@@ -214,12 +211,13 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
 
-	if(entry == NULL) {
+	if(entry != NULL) {
+		entryname = archive_entry_pathname(entry);
+	}
+	if(entryname == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "invalid archive entry provided to _alpm_sync_db_read, skipping\n");
 		return(-1);
 	}
-
-	entryname = archive_entry_pathname(entry);
 
 	_alpm_log(PM_LOG_FUNCTION, "loading package data from archive entry %s\n",
 			entryname);
