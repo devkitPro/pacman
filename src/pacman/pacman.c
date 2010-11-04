@@ -26,6 +26,7 @@
 #define PACKAGE_VERSION GIT_VERSION
 #endif
 
+#include <ctype.h> /* isspace */
 #include <stdlib.h> /* atoi */
 #include <stdio.h>
 #include <limits.h>
@@ -1303,6 +1304,38 @@ int main(int argc, char *argv[])
 	ret = parseargs(argc, argv);
 	if(ret != 0) {
 		cleanup(ret);
+	}
+
+	/* read package arguments from stdin if we have none yet */
+	if(!pm_targets && !isatty(fileno(stdin))) {
+		char line[PATH_MAX];
+		int i = 0;
+		while(i < PATH_MAX && (line[i] = fgetc(stdin)) != EOF) {
+			if(isspace((unsigned char)line[i])) {
+				line[i] = '\0';
+				/* avoid adding zero length arg when multiple spaces separate args */
+				if(i > 0) {
+					pm_targets = alpm_list_add(pm_targets, strdup(line));
+					i = 0;
+				}
+			} else {
+				i++;
+			}
+		}
+		/* check for buffer overflow */
+		if (i >= PATH_MAX) {
+			pm_printf(PM_LOG_ERROR, _("buffer overflow detected in arg parsing\n"));
+			cleanup(EXIT_FAILURE);
+		}
+
+		/* end of stream -- check for data still in line buffer */
+		if(i > 0) {
+			pm_targets = alpm_list_add(pm_targets, strdup(line));
+		}
+		if (!freopen(ctermid(NULL), "r", stdin)) {
+			pm_printf(PM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
+					strerror(errno));
+		}
 	}
 
 	/* parse the config file */
