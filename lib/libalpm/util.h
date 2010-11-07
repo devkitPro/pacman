@@ -87,9 +87,6 @@ char *strsep(char **, const char *);
 #define SYMEXPORT __attribute__((visibility("default")))
 #define SYMHIDDEN __attribute__((visibility("internal")))
 
-/* max percent of package size to download deltas */
-#define MAX_DELTA_RATIO 0.7
-
 #endif /* _ALPM_UTIL_H */
 
 /* vim: set ts=2 sw=2 noet: */
