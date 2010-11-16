@@ -169,7 +169,9 @@ AS_IF([test "x$with_fetch" != "xno"],
 AM_CONDITIONAL([HAVE_LIBFETCH], [test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h glob.h libintl.h limits.h locale.h string.h strings.h sys/ioctl.h sys/param.h sys/statvfs.h sys/syslimits.h sys/time.h syslog.h wchar.h])
+AC_CHECK_HEADERS([fcntl.h glob.h libintl.h limits.h locale.h mntent.h string.h strings.h \
+                  sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h sys/syslimits.h \
+                  sys/time.h sys/types.h sys/ucred.h syslog.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
@@ -183,11 +185,29 @@ AC_STRUCT_DIRENT_D_TYPE
 
 # Checks for library functions.
 AC_FUNC_FORK
+AC_FUNC_GETMNTENT
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MKTIME
 AC_CHECK_FUNCS([geteuid realpath regcomp strcasecmp \
                 strndup strrchr strsep swprintf \
                 wcwidth uname])
+
+# Checks for getmntinfo and determines whether it uses statfs or statvfs
+AC_CHECK_FUNC(getmntinfo,
+	[AC_MSG_CHECKING(parameter style for getmntinfo)
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+# include <sys/param.h>
+# include <sys/mount.h>
+#if HAVE_SYS_UCRED_H
+#include <sys/ucred.h>
+#endif
+extern int getmntinfo (struct statfs **, int);
+		]], [])],
+		[AC_DEFINE(HAVE_GETMNTINFO_STATFS, [], [getmntinfo uses statfs])
+		AC_MSG_RESULT(statfs)],
+		[AC_DEFINE(HAVE_GETMNTINFO_STATVFS, [], [getmntinfo uses statvfs])
+		AC_MSG_RESULT(statvfs)])
+	])
 
 # Enable large file support if available
 AC_SYS_LARGEFILE

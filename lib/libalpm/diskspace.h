@@ -20,7 +20,27 @@
 #ifndef _ALPM_DISKSPACE_H
 #define _ALPM_DISKSPACE_H
 
+#if defined HAVE_GETMNTINFO_STATFS
+#include <sys/mount.h>
+#else
+#include <sys/statvfs.h>
+#endif
+
 #include "alpm.h"
+
+typedef struct __alpm_mountpoint_t {
+	/* mount point information */
+	char *mount_dir;
+#if defined HAVE_GETMNTINFO_STATFS
+	struct statfs *fsp;
+#else
+	struct statvfs *fsp;
+#endif
+	/* storage for additional disk usage calculations */
+	long blocks_needed;
+	long max_blocks_needed;
+	int used;
+} alpm_mountpoint_t;
 
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db);
 
