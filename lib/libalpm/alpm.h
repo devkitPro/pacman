@@ -155,6 +155,9 @@ void alpm_option_set_arch(const char *arch);
 int alpm_option_get_usedelta();
 void alpm_option_set_usedelta(int usedelta);
 
+int alpm_option_get_checkspace();
+void alpm_option_set_checkspace(int checkspace);
+
 pmdb_t *alpm_option_get_localdb();
 alpm_list_t *alpm_option_get_syncdbs();
 

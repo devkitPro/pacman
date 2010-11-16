@@ -232,6 +232,15 @@ int SYMEXPORT alpm_option_get_usedelta()
 	return handle->usedelta;
 }
 
+int SYMEXPORT alpm_option_get_checkspace()
+{
+	if (handle == NULL) {
+		pm_errno = PM_ERR_HANDLE_NULL;
+		return -1;
+	}
+	return handle->checkspace;
+}
+
 pmdb_t SYMEXPORT *alpm_option_get_localdb()
 {
 	if (handle == NULL) {
@@ -548,6 +557,11 @@ void SYMEXPORT alpm_option_set_arch(const char *arch)
 void SYMEXPORT alpm_option_set_usedelta(int usedelta)
 {
 	handle->usedelta = usedelta;
+}
+
+void SYMEXPORT alpm_option_set_checkspace(int checkspace)
+{
+	handle->checkspace = checkspace;
 }
 
 /* vim: set ts=2 sw=2 noet: */

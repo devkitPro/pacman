@@ -956,6 +956,8 @@ static int _parse_options(char *key, char *value)
 		} else if(strcmp(key, "TotalDownload") == 0) {
 			config->totaldownload = 1;
 			pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
+		} else if(strcmp(key, "CheckSpace") == 0) {
+			alpm_option_set_checkspace(1);
 		} else {
 			pm_printf(PM_LOG_ERROR, _("directive '%s' without value not recognized\n"), key);
 			return(1);

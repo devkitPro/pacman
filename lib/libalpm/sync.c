@@ -998,10 +998,12 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	}
 
 	/* check available disk space */
-	_alpm_log(PM_LOG_DEBUG, "checking available disk space\n");
-	if(_alpm_check_diskspace(trans, handle->db_local) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("not enough free disk space\n"));
-		goto error;
+	if(handle->checkspace) {
+		_alpm_log(PM_LOG_DEBUG, "checking available disk space\n");
+		if(_alpm_check_diskspace(trans, handle->db_local) == -1) {
+			_alpm_log(PM_LOG_ERROR, _("not enough free disk space\n"));
+			goto error;
+		}
 	}
 
 	/* remove conflicting and to-be-replaced packages */

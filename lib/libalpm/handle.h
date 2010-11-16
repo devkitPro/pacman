@@ -60,6 +60,7 @@ typedef struct _pmhandle_t {
 	int usesyslog;    /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	char *arch;       /* Architecture of packages we should allow */
 	int usedelta;     /* Download deltas if possible */
+	int checkspace;   /* Check disk space before installing */
 } pmhandle_t;
 
 /* global handle variable */
