@@ -44,6 +44,7 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
+#include "trans.h"
 #include "handle.h"
 
 static int mount_point_cmp(const alpm_mountpoint_t *mp1, const alpm_mountpoint_t *mp2)
@@ -258,6 +259,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 	int replaces = 0, abort = 0;
 	alpm_list_t *targ;
 	pmpkg_t *pkg;
+	int numtargs = alpm_list_count(trans->add);
+	int current = 0;
 
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {
@@ -267,13 +270,22 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 
 	replaces = alpm_list_count(trans->remove);
 	if(replaces) {
-		for(targ = trans->remove; targ; targ = targ->next) {
+		numtargs += replaces;
+		for(targ = trans->remove; targ; targ = targ->next, current++) {
+			double percent = (double)current / numtargs;
+			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (percent * 100),
+			         numtargs, current);
+
 			pkg = (pmpkg_t*)targ->data;
 			calculate_removed_size(pkg, mount_points);
 		}
 	}
 
-	for(targ = trans->add; targ; targ = targ->next) {
+	for(targ = trans->add; targ; targ = targ->next, current++) {
+		double percent = (double)current / numtargs;
+		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (percent * 100),
+		         numtargs, current);
+
 		pkg = (pmpkg_t*)targ->data;
 		if(_alpm_db_get_pkgfromcache(db, pkg->name)) {
 			calculate_removed_size(pkg, mount_points);
@@ -287,6 +299,9 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 			}
 		}
 	}
+
+	PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", 100,
+	         numtargs, current);
 
 	for(i = mount_points; i; i = alpm_list_next(i)) {
 		alpm_mountpoint_t *data = i->data;

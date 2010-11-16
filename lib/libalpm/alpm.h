@@ -371,6 +371,10 @@ typedef enum _pmtransevt_t {
 	 * The repository's tree name is passed to the callback.
 	 */
 	PM_TRANS_EVT_RETRIEVE_START,
+	/** Disk space usage will be computed for a package */
+	PM_TRANS_EVT_DISKSPACE_START,
+	/** Disk space usage was computed for a package */
+	PM_TRANS_EVT_DISKSPACE_DONE,
 } pmtransevt_t;
 /*@}*/
 
@@ -389,7 +393,8 @@ typedef enum _pmtransprog_t {
 	PM_TRANS_PROGRESS_ADD_START,
 	PM_TRANS_PROGRESS_UPGRADE_START,
 	PM_TRANS_PROGRESS_REMOVE_START,
-	PM_TRANS_PROGRESS_CONFLICTS_START
+	PM_TRANS_PROGRESS_CONFLICTS_START,
+	PM_TRANS_PROGRESS_DISKSPACE_START,
 } pmtransprog_t;
 
 /* Transaction Event callback */

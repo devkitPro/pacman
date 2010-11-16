@@ -228,6 +228,11 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_RETRIEVE_START:
 			printf(_(":: Retrieving packages from %s...\n"), (char*)data1);
 			break;
+		case PM_TRANS_EVT_DISKSPACE_START:
+			if(config->noprogressbar) {
+				printf(_("checking available disk space...\n"));
+			}
+			break;
 		/* all the simple done events, with fallthrough for each */
 		case PM_TRANS_EVT_FILECONFLICTS_DONE:
 		case PM_TRANS_EVT_CHECKDEPS_DONE:
@@ -236,6 +241,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 		case PM_TRANS_EVT_INTEGRITY_DONE:
 		case PM_TRANS_EVT_DELTA_INTEGRITY_DONE:
 		case PM_TRANS_EVT_DELTA_PATCHES_DONE:
+		case PM_TRANS_EVT_DISKSPACE_DONE:
 			/* nothing */
 			break;
 	}
@@ -374,6 +380,9 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			break;
 		case PM_TRANS_PROGRESS_CONFLICTS_START:
 			opr = _("checking for file conflicts");
+			break;
+		case PM_TRANS_PROGRESS_DISKSPACE_START:
+			opr = _("checking available disk space");
 			break;
 		default:
 			return;
