@@ -254,12 +254,49 @@ cleanup:
 
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 {
-	alpm_list_t *mount_points;
+	alpm_list_t *mount_points, *i;
+	int replaces = 0, abort = 0;
+	alpm_list_t *targ;
+	pmpkg_t *pkg;
 
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("count not determine filesystem mount points"));
 		return -1;
+	}
+
+	replaces = alpm_list_count(trans->remove);
+	if(replaces) {
+		for(targ = trans->remove; targ; targ = targ->next) {
+			pkg = (pmpkg_t*)targ->data;
+			calculate_removed_size(pkg, mount_points);
+		}
+	}
+
+	for(targ = trans->add; targ; targ = targ->next) {
+		pkg = (pmpkg_t*)targ->data;
+		if(_alpm_db_get_pkgfromcache(db, pkg->name)) {
+			calculate_removed_size(pkg, mount_points);
+		}
+		calculate_installed_size(pkg, mount_points);
+
+		for(i = mount_points; i; i = alpm_list_next(i)) {
+			alpm_mountpoint_t *data = i->data;
+			if(data->blocks_needed > data->max_blocks_needed) {
+				data->max_blocks_needed = data->blocks_needed;
+			}
+		}
+	}
+
+	for(i = mount_points; i; i = alpm_list_next(i)) {
+		alpm_mountpoint_t *data = i->data;
+		if(data->used == 1) {
+			_alpm_log(PM_LOG_DEBUG, "partition %s, needed %ld, free %ld\n",
+			          data->mount_dir, data->max_blocks_needed, (long int)(data->fsp->f_bfree));
+			if(data->max_blocks_needed > data->fsp->f_bfree) {
+				abort = 1;
+			}
+		}
 	}
 
 	for(i = mount_points; i; i = alpm_list_next(i)) {
@@ -268,6 +305,10 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 		FREE(data->fsp);
 	}
 	FREELIST(mount_points);
+
+	if(abort) {
+		RET_ERR(PM_ERR_DISK_SPACE, -1);
+	}
 
 	return 0;
 }

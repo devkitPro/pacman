@@ -60,6 +60,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("could not find or read directory");
 		case PM_ERR_WRONG_ARGS:
 			return _("wrong or NULL argument passed");
+		case PM_ERR_DISK_SPACE:
+			return _("not enough disk space");
 		/* Interface */
 		case PM_ERR_HANDLE_NULL:
 			return _("library not initialized");
