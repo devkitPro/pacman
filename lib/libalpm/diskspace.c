@@ -38,6 +38,12 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
+#include "handle.h"
+
+static int mount_point_cmp(const alpm_mountpoint_t *mp1, const alpm_mountpoint_t *mp2)
+{
+	return(strcmp(mp1->mount_dir, mp2->mount_dir));
+}
 
 static alpm_list_t *mount_point_list()
 {
@@ -121,7 +127,29 @@ static alpm_list_t *mount_point_list()
 	}
 #endif
 
+	mount_points = alpm_list_msort(mount_points, alpm_list_count(mount_points),
+	                                   (alpm_list_fn_cmp)mount_point_cmp);
 	return(mount_points);
+}
+
+static alpm_list_t *match_mount_point(const alpm_list_t *mount_points, const char *file)
+{
+	char real_path[PATH_MAX];
+	snprintf(real_path, PATH_MAX, "%s%s", handle->root, file);
+
+	alpm_list_t *mp = alpm_list_last(mount_points);
+	do {
+		alpm_mountpoint_t *data = mp->data;
+
+		if(strncmp(data->mount_dir, real_path, strlen(data->mount_dir)) == 0) {
+			return mp;
+		}
+
+		mp = mp->prev;
+	} while (mp != alpm_list_last(mount_points));
+
+	/* should not get here... */
+	return NULL;
 }
 
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
