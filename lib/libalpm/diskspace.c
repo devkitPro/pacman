@@ -19,18 +19,23 @@
 
 #include "config.h"
 
-#if defined HAVE_GETMNTENT
+#if defined(HAVE_MNTENT_H)
 #include <mntent.h>
+#endif
+#if defined(HAVE_SYS_STATVFS_H)
 #include <sys/statvfs.h>
-#elif defined HAVE_GETMNTINFO_STATFS
+#endif
+#if defined(HAVE_SYS_PARAM_H)
 #include <sys/param.h>
+#endif
+#if defined(HAVE_SYS_MOUNT_H)
 #include <sys/mount.h>
-#if HAVE_SYS_UCRED_H
+#endif
+#if defined(HAVE_SYS_UCRED_H)
 #include <sys/ucred.h>
 #endif
-#elif defined HAVE_GETMNTINFO_STATVFS
+#if defined(HAVE_SYS_TYPES_H)
 #include <sys/types.h>
-#include <sys/statvfs.h>
 #endif
 
 #include <math.h>
@@ -60,7 +65,7 @@ static alpm_list_t *mount_point_list()
 #if defined HAVE_GETMNTENT
 	struct mntent *mnt;
 	FILE *fp;
-	struct statvfs fsp;
+	FSSTATSTYPE fsp;
 
 	fp = setmntent(MOUNTED, "r");
 
@@ -77,8 +82,8 @@ static alpm_list_t *mount_point_list()
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 
-		MALLOC(mp->fsp, sizeof(struct statvfs), RET_ERR(PM_ERR_MEMORY, NULL));
-		memcpy((void *)(mp->fsp), (void *)(&fsp), sizeof(struct statvfs));
+		MALLOC(mp->fsp, sizeof(FSSTATSTYPE), RET_ERR(PM_ERR_MEMORY, NULL));
+		memcpy((void *)(mp->fsp), (void *)(&fsp), sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0;
 		mp->max_blocks_needed = 0;
@@ -88,9 +93,9 @@ static alpm_list_t *mount_point_list()
 	}
 
 	endmntent(fp);
-#elif defined HAVE_GETMNTINFO_STATFS
+#elif defined HAVE_GETMNTINFO
 	int entries;
-	struct statfs *fsp;
+	FSSTATSTYPE *fsp;
 
 	entries = getmntinfo(&fsp, MNT_NOWAIT);
 
@@ -102,30 +107,8 @@ static alpm_list_t *mount_point_list()
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
 
-		MALLOC(mp->fsp, sizeof(struct statfs), RET_ERR(PM_ERR_MEMORY, NULL));
-		memcpy((void *)(mp->fsp), (void *)fsp, sizeof(struct statfs));
-
-		mp->blocks_needed = 0;
-		mp->max_blocks_needed = 0;
-
-		mount_points = alpm_list_add(mount_points, mp);
-	}
-#elif defined HAVE_GETMNTINFO_STATVFS
-	int entries;
-	struct statvfs *fsp;
-
-	entries = getmntinfo(&fsp, MNT_NOWAIT);
-
-	if (entries < 0) {
-		return NULL;
-	}
-
-	for (; entries-- > 0; fsp++) {
-		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
-		mp->mount_dir = strdup(fsp->f_mntonname);
-
-		MALLOC(mp->fsp, sizeof(struct statvfs), RET_ERR(PM_ERR_MEMORY, NULL));
-		memcpy((void *)(mp->fsp), (void *)fsp, sizeof(struct statvfs));
+		MALLOC(mp->fsp, sizeof(FSSTATSTYPE), RET_ERR(PM_ERR_MEMORY, NULL));
+		memcpy((void *)(mp->fsp), (void *)fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0;
 		mp->max_blocks_needed = 0;

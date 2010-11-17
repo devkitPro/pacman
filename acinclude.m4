@@ -77,7 +77,7 @@ AC_DEFUN([GCC_VISIBILITY_CC],[
     if test $visibility_cv_cc = yes; then
       AC_DEFINE([ENABLE_VISIBILITY_CC], 1, [Define if symbol visibility C support is enabled.])
     fi
-	AM_CONDITIONAL([ENABLE_VISIBILITY_CC], test "x$visibility_cv_cc" = "xyes")
+    AM_CONDITIONAL([ENABLE_VISIBILITY_CC], test "x$visibility_cv_cc" = "xyes")
   fi
 ])
 
@@ -97,7 +97,31 @@ AC_DEFUN([GCC_GNU89_INLINE_CC],[
     if test $gnu89_inline_cv_cc = yes; then
       AC_DEFINE([ENABLE_GNU89_INLINE_CC], 1, [Define if gnu89 inlining semantics should be used.])
     fi
-	AM_CONDITIONAL([ENABLE_GNU89_INLINE_CC], test "x$gnu89_inline_cv_cc" = "xyes")
+    AM_CONDITIONAL([ENABLE_GNU89_INLINE_CC], test "x$gnu89_inline_cv_cc" = "xyes")
   fi
+])
+
+dnl Checks for getmntinfo and determines whether it uses statfs or statvfs
+AC_DEFUN([FS_STATS_TYPE],
+  [AC_CACHE_CHECK([filesystem statistics type], fs_stats_cv_type,
+    [AC_CHECK_FUNC(getmntinfo,
+      [AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM([[
+# include <sys/param.h>
+# include <sys/mount.h>
+#if HAVE_SYS_UCRED_H
+#include <sys/ucred.h>
+#endif
+extern int getmntinfo (struct statfs **, int);
+]],
+          [])],
+        [fs_stats_cv_type="struct statfs"],
+        [fs_stats_cv_type="struct statvfs"])],
+      [AC_CHECK_FUNC(getmntent,
+        [fs_stats_cv_type="struct statvfs"])]
+    )]
+  )
+  AC_DEFINE_UNQUOTED(FSSTATSTYPE, [$fs_stats_cv_type],
+    [Defined as the filesystem stats type ('statvfs' or 'statfs')])
 ])
 

@@ -191,27 +191,11 @@ AC_FUNC_FORK
 AC_FUNC_GETMNTENT
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MKTIME
-AC_CHECK_FUNCS([geteuid realpath regcomp strcasecmp \
+AC_CHECK_FUNCS([geteuid getmntinfo realpath regcomp strcasecmp \
                 strndup strrchr strsep swprintf \
                 wcwidth uname])
-
-# Checks for getmntinfo and determines whether it uses statfs or statvfs
-AC_CHECK_FUNC(getmntinfo,
-	[AC_MSG_CHECKING(parameter style for getmntinfo)
-	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-# include <sys/param.h>
-# include <sys/mount.h>
-#if HAVE_SYS_UCRED_H
-#include <sys/ucred.h>
-#endif
-extern int getmntinfo (struct statfs **, int);
-		]], [])],
-		[AC_DEFINE(HAVE_GETMNTINFO_STATFS, [], [getmntinfo uses statfs])
-		AC_MSG_RESULT(statfs)],
-		[AC_DEFINE(HAVE_GETMNTINFO_STATVFS, [], [getmntinfo uses statvfs])
-		AC_MSG_RESULT(statvfs)])
-	])
-
+# For the diskspace code
+FS_STATS_TYPE
 # Enable large file support if available
 AC_SYS_LARGEFILE
 

@@ -20,9 +20,10 @@
 #ifndef _ALPM_DISKSPACE_H
 #define _ALPM_DISKSPACE_H
 
-#if defined HAVE_GETMNTINFO_STATFS
+#if defined(HAVE_SYS_MOUNT_H)
 #include <sys/mount.h>
-#else
+#endif
+#if defined(HAVE_SYS_STATVFS_H)
 #include <sys/statvfs.h>
 #endif
 
@@ -31,15 +32,11 @@
 typedef struct __alpm_mountpoint_t {
 	/* mount point information */
 	char *mount_dir;
-#if defined HAVE_GETMNTINFO_STATFS
-	struct statfs *fsp;
-#else
-	struct statvfs *fsp;
-#endif
 	/* storage for additional disk usage calculations */
 	long blocks_needed;
 	long max_blocks_needed;
 	int used;
+	FSSTATSTYPE *fsp;
 } alpm_mountpoint_t;
 
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db);
