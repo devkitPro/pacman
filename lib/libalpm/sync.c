@@ -31,7 +31,6 @@
 #include <stdint.h> /* intmax_t */
 #include <unistd.h>
 #include <time.h>
-#include <dirent.h>
 
 /* libalpm */
 #include "sync.h"

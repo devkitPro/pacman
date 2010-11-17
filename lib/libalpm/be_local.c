@@ -340,7 +340,7 @@ static int checkdbdir(pmdb_t *db)
 
 static int is_dir(const char *path, struct dirent *entry)
 {
-#ifdef DT_DIR
+#ifdef HAVE_STRUCT_DIRENT_D_TYPE
 	return(entry->d_type == DT_DIR);
 #else
 	char buffer[PATH_MAX];

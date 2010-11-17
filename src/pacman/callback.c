@@ -26,7 +26,6 @@
 #include <sys/time.h>
 #include <sys/types.h> /* off_t */
 #include <unistd.h>
-#include <dirent.h>
 #include <wchar.h>
 
 #include <alpm.h>

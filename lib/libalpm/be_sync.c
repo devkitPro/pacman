@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <errno.h>
-#include <dirent.h>
 #include <ctype.h>
 #include <locale.h>
 
