@@ -36,10 +36,10 @@ typedef struct __alpm_mountpoint_t {
 	long blocks_needed;
 	long max_blocks_needed;
 	int used;
-	FSSTATSTYPE *fsp;
+	FSSTATSTYPE fsp;
 } alpm_mountpoint_t;
 
-int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db);
+int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local);
 
 #endif /* _ALPM_DISKSPACE_H */
 

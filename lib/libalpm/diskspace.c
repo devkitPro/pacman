@@ -52,12 +52,14 @@
 #include "trans.h"
 #include "handle.h"
 
-static int mount_point_cmp(const alpm_mountpoint_t *mp1, const alpm_mountpoint_t *mp2)
+static int mount_point_cmp(const void *p1, const void *p2)
 {
+	const alpm_mountpoint_t *mp1 = p1;
+	const alpm_mountpoint_t *mp2 = p2;
 	return(strcmp(mp1->mount_dir, mp2->mount_dir));
 }
 
-static alpm_list_t *mount_point_list()
+static alpm_list_t *mount_point_list(void)
 {
 	alpm_list_t *mount_points = NULL;
 	alpm_mountpoint_t *mp;
@@ -70,20 +72,19 @@ static alpm_list_t *mount_point_list()
 	fp = setmntent(MOUNTED, "r");
 
 	if (fp == NULL) {
-		return NULL;
+		return(NULL);
 	}
 
-	while((mnt = getmntent (fp))) {
+	while((mnt = getmntent(fp))) {
 		if(statvfs(mnt->mnt_dir, &fsp) != 0) {
-			_alpm_log(PM_LOG_WARNING, "could not get filesystem information for %s\n", mnt->mnt_dir);
+			_alpm_log(PM_LOG_WARNING,
+					_("could not get filesystem information for %s\n"), mnt->mnt_dir);
 			continue;
 		}
 
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
-
-		MALLOC(mp->fsp, sizeof(FSSTATSTYPE), RET_ERR(PM_ERR_MEMORY, NULL));
-		memcpy((void *)(mp->fsp), (void *)(&fsp), sizeof(FSSTATSTYPE));
+		memcpy(&(mp->fsp), &fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0;
 		mp->max_blocks_needed = 0;
@@ -106,9 +107,7 @@ static alpm_list_t *mount_point_list()
 	for(; entries-- > 0; fsp++) {
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
-
-		MALLOC(mp->fsp, sizeof(FSSTATSTYPE), RET_ERR(PM_ERR_MEMORY, NULL));
-		memcpy((void *)(mp->fsp), (void *)fsp, sizeof(FSSTATSTYPE));
+		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0;
 		mp->max_blocks_needed = 0;
@@ -118,11 +117,12 @@ static alpm_list_t *mount_point_list()
 #endif
 
 	mount_points = alpm_list_msort(mount_points, alpm_list_count(mount_points),
-	                                   (alpm_list_fn_cmp)mount_point_cmp);
+			mount_point_cmp);
 	return(mount_points);
 }
 
-static alpm_list_t *match_mount_point(const alpm_list_t *mount_points, const char *file)
+static alpm_list_t *match_mount_point(const alpm_list_t *mount_points,
+		const char *file)
 {
 	char real_path[PATH_MAX];
 	snprintf(real_path, PATH_MAX, "%s%s", handle->root, file);
@@ -132,17 +132,18 @@ static alpm_list_t *match_mount_point(const alpm_list_t *mount_points, const cha
 		alpm_mountpoint_t *data = mp->data;
 
 		if(strncmp(data->mount_dir, real_path, strlen(data->mount_dir)) == 0) {
-			return mp;
+			return(mp);
 		}
 
 		mp = mp->prev;
 	} while (mp != alpm_list_last(mount_points));
 
 	/* should not get here... */
-	return NULL;
+	return(NULL);
 }
 
-static int calculate_removed_size(pmpkg_t *pkg, const alpm_list_t *mount_points)
+static int calculate_removed_size(const alpm_list_t *mount_points,
+		pmpkg_t *pkg)
 {
 	alpm_list_t *file;
 
@@ -152,37 +153,41 @@ static int calculate_removed_size(pmpkg_t *pkg, const alpm_list_t *mount_points)
 		alpm_mountpoint_t *data;
 		struct stat st;
 		char path[PATH_MAX];
+		const char *filename = file->data;
 
-		/* skip directories to be consistent with libarchive that reports them to be zero size
-		   and to prevent multiple counting across packages */
-		if(*((char *)(file->data) + strlen(file->data) - 1) == '/') {
+		/* skip directories to be consistent with libarchive that reports them
+		 * to be zero size and to prevent multiple counting across packages */
+		if(*(filename + strlen(filename) - 1) == '/') {
 			continue;
 		}
 
-		mp = match_mount_point(mount_points, file->data);
+		mp = match_mount_point(mount_points, filename);
 		if(mp == NULL) {
-			_alpm_log(PM_LOG_WARNING, _("could not determine mount point for file %s"), (char *)(file->data));
+			_alpm_log(PM_LOG_WARNING,
+					_("could not determine mount point for file %s"), filename);
 			continue;
 		}
 
-		snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)file->data);
+		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
 		_alpm_lstat(path, &st);
 
-		/* skip symlinks to be consistent with libarchive that reports them to be zero size */
+		/* skip symlinks to be consistent with libarchive that reports them to
+		 * be zero size */
 		if(S_ISLNK(st.st_mode)) {
 			continue;
 		}
 
 		data = mp->data;
 		data->blocks_needed -= ceil((double)(st.st_size) /
-		                            (double)(data->fsp->f_bsize));
+		                            (double)(data->fsp.f_bsize));
 		data->used = 1;
 	}
 
-	return 0;
+	return(0);
 }
 
-static int calculate_installed_size(pmpkg_t *pkg, const alpm_list_t *mount_points)
+static int calculate_installed_size(const alpm_list_t *mount_points,
+		pmpkg_t *pkg)
 {
 	int ret=0;
 	struct archive *archive;
@@ -212,31 +217,30 @@ static int calculate_installed_size(pmpkg_t *pkg, const alpm_list_t *mount_point
 		file = archive_entry_pathname(entry);
 
 		/* approximate space requirements for db entries */
-		if(strcmp(file, ".PKGINFO") == 0 ||
-		   strcmp(file, ".INSTALL") == 0 ||
-		   strcmp(file, ".CHANGELOG") == 0) {
+		if(file[0] == '.') {
 			file = alpm_option_get_dbpath();
 		}
 
 		mp = match_mount_point(mount_points, file);
 		if(mp == NULL) {
-			_alpm_log(PM_LOG_WARNING, _("could not determine mount point for file %s"), archive_entry_pathname(entry));
+			_alpm_log(PM_LOG_WARNING,
+					_("could not determine mount point for file %s"), file);
 			continue;
 		}
 
 		data = mp->data;
 		data->blocks_needed += ceil((double)(archive_entry_size(entry)) /
-		                            (double)(data->fsp->f_bsize));
+		                            (double)(data->fsp.f_bsize));
 		data->used = 1;
 	}
 
 	archive_read_finish(archive);
 
 cleanup:
-	return ret;
+	return(ret);
 }
 
-int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
+int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 {
 	alpm_list_t *mount_points, *i;
 	int replaces = 0, abort = 0;
@@ -247,8 +251,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("count not determine filesystem mount points"));
-		return -1;
+		_alpm_log(PM_LOG_ERROR, _("could not determine filesystem mount points"));
+		return(-1);
 	}
 
 	replaces = alpm_list_count(trans->remove);
@@ -257,23 +261,24 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 		for(targ = trans->remove; targ; targ = targ->next, current++) {
 			double percent = (double)current / numtargs;
 			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (percent * 100),
-			         numtargs, current);
+					numtargs, current);
 
-			pkg = (pmpkg_t*)targ->data;
-			calculate_removed_size(pkg, mount_points);
+			pkg = targ->data;
+			calculate_removed_size(mount_points, pkg);
 		}
 	}
 
 	for(targ = trans->add; targ; targ = targ->next, current++) {
 		double percent = (double)current / numtargs;
 		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (percent * 100),
-		         numtargs, current);
+				numtargs, current);
 
-		pkg = (pmpkg_t*)targ->data;
-		if(_alpm_db_get_pkgfromcache(db, pkg->name)) {
-			calculate_removed_size(pkg, mount_points);
+		pkg = targ->data;
+		/* is this package already installed? */
+		if(_alpm_db_get_pkgfromcache(db_local, pkg->name)) {
+			calculate_removed_size(mount_points, pkg);
 		}
-		calculate_installed_size(pkg, mount_points);
+		calculate_installed_size(mount_points, pkg);
 
 		for(i = mount_points; i; i = alpm_list_next(i)) {
 			alpm_mountpoint_t *data = i->data;
@@ -284,14 +289,15 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", 100,
-	         numtargs, current);
+			numtargs, current);
 
 	for(i = mount_points; i; i = alpm_list_next(i)) {
 		alpm_mountpoint_t *data = i->data;
 		if(data->used == 1) {
 			_alpm_log(PM_LOG_DEBUG, "partition %s, needed %ld, free %ld\n",
-			          data->mount_dir, data->max_blocks_needed, (long int)(data->fsp->f_bfree));
-			if(data->max_blocks_needed > data->fsp->f_bfree) {
+					data->mount_dir, data->max_blocks_needed,
+					(unsigned long)data->fsp.f_bfree);
+			if(data->max_blocks_needed > data->fsp.f_bfree) {
 				abort = 1;
 			}
 		}
@@ -300,7 +306,6 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 	for(i = mount_points; i; i = alpm_list_next(i)) {
 		alpm_mountpoint_t *data = i->data;
 		FREE(data->mount_dir);
-		FREE(data->fsp);
 	}
 	FREELIST(mount_points);
 
@@ -308,7 +313,7 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db)
 		RET_ERR(PM_ERR_DISK_SPACE, -1);
 	}
 
-	return 0;
+	return(0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
