@@ -305,7 +305,7 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
  * in a consistant state.
  * @param signum the thrown signal
  */
-static RETSIGTYPE handler(int signum)
+static void handler(int signum)
 {
 	int out = fileno(stdout);
 	int err = fileno(stderr);

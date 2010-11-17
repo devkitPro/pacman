@@ -185,7 +185,6 @@ AC_STRUCT_DIRENT_D_TYPE
 AC_FUNC_FORK
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MKTIME
-AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([geteuid realpath regcomp strcasecmp \
                 strndup strrchr strsep swprintf \
                 wcwidth uname])

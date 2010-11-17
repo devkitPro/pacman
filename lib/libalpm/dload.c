@@ -89,7 +89,7 @@ static const char *gethost(struct url *fileurl)
 }
 
 int dload_interrupted;
-static RETSIGTYPE inthandler(int signum)
+static void inthandler(int signum)
 {
 	dload_interrupted = 1;
 }
