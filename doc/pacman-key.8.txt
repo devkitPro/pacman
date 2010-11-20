@@ -1,0 +1,76 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
+pacman-key(8)
+=============
+
+
+Name
+----
+pacman-key - manage pacman's list of trusted keys
+
+
+Synopsis
+--------
+*pacman-key* [options] *command* ['arguments']
+
+
+Description
+-----------
+The script *pacman-key* manage *pacman*'s keyring, which is the collection of GnuPG keys used to check signed packages.
+It provides the ability to import and export keys, fetch keys from keyservers and update the key trust database.
+
+
+Options
+-------
+*\--config* 'file'::
+	Set an alternative configuration file to use (default is {sysconfdir}/pacman.conf)
+
+*\--gpgdir* 'directory'::
+	Set an alternative home directory for GnuPG (default is set in {sysconfdir}/pacman.conf)
+
+
+Commands
+-------
+*-a*, *\--add* 'file ...'::
+	Add the key(s) contained in 'file'(s) to pacman's keyring. If a key already exists, update it.
+
+*\--adv* 'param ...'::
+	Use this option to issue particular GnuPG actions to pacman's keyring. This option should be used with care as it can modify pacman's trust in packages' signatures.
+
+*-d*, *\--del* 'keyid ...'::
+	Remove the key(s) identified by 'keyid'(s) from pacman's keyring
+
+*-e*, *\--export* ['keyid ...']::
+	Export key(s) identified by 'keyid'(s) to STDOUT or all keys if no 'keyid' is specified
+
+*-f*, *\--finger* ['keyid ...']::
+	List fingerprint(s) for specified 'keyid'(s) or for all if none is specified
+
+*\--help*::
+	Display short usage instructions
+
+*-l*, *\--list*::
+	Equivalent to --list-sigs from GnuPG
+
+*-r*, *\--receive* 'keyserver' 'keyid ...'::
+	Fetch the 'keyid'(s) from the specified 'keyserver' URL
+
+*\--reload*::
+	Reloads the keys from the keyring package
+
+*-t*, *\--trust* 'keyid'::
+	Set the trust level of the given key
+
+*-u*, *\--updatedb*::
+	Equivalent to \--check-trustdb in GnuPG
+
+*-v*, *\--version*::
+	Displays the current version
+
+
+See Also
+--------
+linkman:pacman.conf[5]
+
+include::footer.txt[]
