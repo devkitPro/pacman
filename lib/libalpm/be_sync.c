@@ -126,24 +126,56 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	}
 
 	ret = _alpm_download_single_file(dbfile, db->servers, syncpath, force);
-	free(dbfile);
-	free(syncpath);
-	umask(oldmask);
 
 	if(ret == 1) {
 		/* files match, do nothing */
 		pm_errno = 0;
-		return 1;
+		goto cleanup;
 	} else if(ret == -1) {
 		/* pm_errno was set by the download code */
 		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
-		return -1;
+		goto cleanup;
+	}
+
+	/* Download and check the signature of the database if needed */
+	if(db->pgp_verify != PM_PGP_VERIFY_NEVER) {
+		char *sigfile;
+		int sigret;
+
+		len = strlen(dbfile) + 5;
+		MALLOC(sigfile, len, RET_ERR(PM_ERR_MEMORY, -1));
+		sprintf(sigfile, "%s.sig", dbfile);
+
+		sigret = _alpm_download_single_file(sigfile, db->servers, syncpath, 1);
+		free(sigfile);
+
+		if(sigret == -1 && db->pgp_verify == PM_PGP_VERIFY_ALWAYS) {
+			_alpm_log(PM_LOG_ERROR, _("Failed to download signature for db: %s\n"),
+					alpm_strerrorlast());
+			pm_errno = PM_ERR_SIG_INVALID;
+			ret = -1;
+			goto cleanup;
+		}
+
+		sigret = alpm_db_check_pgp_signature(db);
+		if((db->pgp_verify == PM_PGP_VERIFY_ALWAYS && sigret != 0) ||
+				(db->pgp_verify == PM_PGP_VERIFY_OPTIONAL && sigret == 1)) {
+			/* pm_errno was set by the checking code */
+			/* TODO: should we just leave the unverified database */
+			ret = -1;
+			goto cleanup;
+		}
 	}
 
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
-	return 0;
+cleanup:
+
+	free(dbfile);
+	free(syncpath);
+	umask(oldmask);
+	return ret;
 }
 
 /* Forward decl so I don't reorganize the whole file right now */
