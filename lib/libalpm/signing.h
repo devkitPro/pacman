@@ -21,7 +21,17 @@
 
 #include "alpm.h"
 
-int _alpm_gpgme_checksig(const char *pkgpath, const pmpgpsig_t *sig);
+struct __pmpgpsig_t {
+	/* we will either store the encoded data or the raw data-
+	 * this way we can decode on an as-needed basis since most
+	 * operations won't require the overhead of base64 decodes
+	 * on all packages in a sync repository. */
+	char *encdata;
+	size_t rawlen;
+	unsigned char *rawdata;
+};
+
+int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig);
 
 #endif /* _ALPM_SIGNING_H */
 

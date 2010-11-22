@@ -250,6 +250,7 @@ alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
  */
 
 int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
+int alpm_db_check_pgp_signature(pmdb_t *db);
 
 /* GPG signature verification option */
 typedef enum _pgp_verify_t {

@@ -92,52 +92,51 @@ error:
 }
 
 /**
- * Check the PGP package signature for the given package file.
- * @param pkgpath the full path to a package file
+ * Check the PGP package signature for the given file.
+ * @param path the full path to a file
  * @param sig PGP signature data in raw form (already decoded)
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
  */
-int _alpm_gpgme_checksig(const char *pkgpath, const pmpgpsig_t *sig)
+int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 {
 	int ret = 0;
 	gpgme_error_t err;
 	gpgme_ctx_t ctx;
-	gpgme_data_t pkgdata, sigdata;
+	gpgme_data_t filedata, sigdata;
 	gpgme_verify_result_t result;
 	gpgme_signature_t gpgsig;
-	FILE *pkgfile = NULL, *sigfile = NULL;
+	FILE *file = NULL, *sigfile = NULL;
 
 	ALPM_LOG_FUNC;
 
 	if(!sig || !sig->rawdata) {
 		 RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
 	}
-	if(!pkgpath || access(pkgpath, R_OK) != 0) {
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+	if(!path || access(path, R_OK) != 0) {
+		RET_ERR(PM_ERR_NOT_A_FILE, -1);
 	}
 	if(gpgme_init()) {
 		/* pm_errno was set in gpgme_init() */
 		return -1;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "checking package signature for %s\n", pkgpath);
+	_alpm_log(PM_LOG_DEBUG, "checking signature for %s\n", path);
 
 	memset(&ctx, 0, sizeof(ctx));
 	memset(&sigdata, 0, sizeof(sigdata));
-	memset(&pkgdata, 0, sizeof(pkgdata));
+	memset(&filedata, 0, sizeof(filedata));
 
 	err = gpgme_new(&ctx);
 	CHECK_ERR();
 
 	/* create our necessary data objects to verify the signature */
-	/* first the package itself */
-	pkgfile = fopen(pkgpath, "rb");
-	if(pkgfile == NULL) {
-		pm_errno = PM_ERR_PKG_OPEN;
+	file = fopen(path, "rb");
+	if(file == NULL) {
+		pm_errno = PM_ERR_NOT_A_FILE;
 		ret = -1;
 		goto error;
 	}
-	err = gpgme_data_new_from_stream(&pkgdata, pkgfile);
+	err = gpgme_data_new_from_stream(&filedata, file);
 	CHECK_ERR();
 
 	/* next create data object for the signature */
@@ -145,7 +144,7 @@ int _alpm_gpgme_checksig(const char *pkgpath, const pmpgpsig_t *sig)
 	CHECK_ERR();
 
 	/* here's where the magic happens */
-	err = gpgme_op_verify(ctx, sigdata, pkgdata, NULL);
+	err = gpgme_op_verify(ctx, sigdata, filedata, NULL);
 	CHECK_ERR();
 	result = gpgme_op_verify_result(ctx);
 		gpgsig = result->signatures;
@@ -168,34 +167,34 @@ int _alpm_gpgme_checksig(const char *pkgpath, const pmpgpsig_t *sig)
 
 	if(gpgsig->summary & GPGME_SIGSUM_VALID) {
 		/* good signature, continue */
-		_alpm_log(PM_LOG_DEBUG, _("Package %s has a valid signature.\n"),
-				pkgpath);
+		_alpm_log(PM_LOG_DEBUG, _("File %s has a valid signature.\n"),
+				path);
 	} else if(gpgsig->summary & GPGME_SIGSUM_GREEN) {
 		/* 'green' signature, not sure what to do here */
-		_alpm_log(PM_LOG_WARNING, _("Package %s has a green signature.\n"),
-				pkgpath);
+		_alpm_log(PM_LOG_WARNING, _("File %s has a green signature.\n"),
+				path);
 	} else if(gpgsig->summary & GPGME_SIGSUM_KEY_MISSING) {
 		pm_errno = PM_ERR_SIG_UNKNOWN;
-		_alpm_log(PM_LOG_WARNING, _("Package %s has a signature from an unknown key.\n"),
-				pkgpath);
+		_alpm_log(PM_LOG_WARNING, _("File %s has a signature from an unknown key.\n"),
+				path);
 		ret = -1;
 	} else {
 		/* we'll capture everything else here */
 		pm_errno = PM_ERR_SIG_INVALID;
-		_alpm_log(PM_LOG_ERROR, _("Package %s has an invalid signature.\n"),
-				pkgpath);
+		_alpm_log(PM_LOG_ERROR, _("File %s has an invalid signature.\n"),
+				path);
 		ret = 1;
 	}
 
 error:
 	gpgme_data_release(sigdata);
-	gpgme_data_release(pkgdata);
+	gpgme_data_release(filedata);
 	gpgme_release(ctx);
 	if(sigfile) {
 		fclose(sigfile);
 	}
-	if(pkgfile) {
-		fclose(pkgfile);
+	if(file) {
+		fclose(file);
 	}
 	if(err != GPG_ERR_NO_ERROR) {
 		_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
@@ -217,5 +216,20 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 	return _alpm_gpgme_checksig(alpm_pkg_get_filename(pkg),
 			alpm_pkg_get_pgpsig(pkg));
 }
+
+/**
+ * Check the PGP package signature for the given database.
+ * @param db the database to check
+ * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
+ */
+int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+	ASSERT(db != NULL, return(0));
+
+	return(_alpm_gpgme_checksig(_alpm_db_path(db),
+			_alpm_db_pgpsig(db)));
+}
+
 
 /* vim: set ts=2 sw=2 noet: */

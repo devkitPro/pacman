@@ -29,6 +29,7 @@
 
 #include "alpm.h"
 #include "db.h"
+#include "signing.h"
 
 typedef enum _pmpkgfrom_t {
 	PKG_FROM_FILE = 1,
@@ -86,16 +87,6 @@ struct pkg_operations {
  * default accessor functions which are defined there.
  */
 extern struct pkg_operations default_pkg_ops;
-
-struct __pmpgpsig_t {
-	/* we will either store the encoded data or the raw data-
-	 * this way we can decode on an as-needed basis since most
-	 * operations won't require the overhead of base64 decodes
-	 * on all packages in a sync repository. */
-	char *encdata;
-	size_t rawlen;
-	unsigned char *rawdata;
-};
 
 struct __pmpkg_t {
 	unsigned long name_hash;

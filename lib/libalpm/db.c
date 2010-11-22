@@ -365,6 +365,69 @@ pmdb_t *_alpm_db_new(const char *treename, int is_local)
 	return db;
 }
 
+static int load_pgpsig(pmdb_t *db) {
+	size_t len;
+	const char *dbfile;
+	char *sigfile;
+
+	dbfile = _alpm_db_path(db);
+	len = strlen(dbfile) + 5;
+	MALLOC(sigfile, len, RET_ERR(PM_ERR_MEMORY, -1));
+	sprintf(sigfile, "%s.sig", dbfile);
+
+	if(access(sigfile, R_OK) == 0) {
+		FILE *f;
+		long bytes;
+		size_t bytes_read;
+		f = fopen(sigfile, "rb");
+		fseek(f, 0L, SEEK_END);
+		bytes = ftell(f);
+		if(bytes == -1) {
+			_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file for %s"),
+						dbfile);
+			goto cleanup;
+		}
+		fseek(f, 0L, SEEK_SET);
+		CALLOC(db->pgpsig.rawdata, bytes, sizeof(char),
+				goto error);
+		bytes_read = fread(db->pgpsig.rawdata, sizeof(char), bytes, f);
+		if(bytes_read == (size_t)bytes) {
+			db->pgpsig.rawlen = bytes;
+			_alpm_log(PM_LOG_DEBUG,
+					"loaded database .sig file, location %s\n", sigfile);
+		} else {
+			_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file for %s"),
+						dbfile);
+		}
+
+cleanup:
+		fclose(f);
+	} else {
+		_alpm_log(PM_LOG_DEBUG, "no database signature file found\n");
+	}
+
+	return(0);
+
+error:
+	FREE(db->pgpsig.rawdata);
+	db->pgpsig.rawlen = 0;
+	return(1);
+}
+
+const pmpgpsig_t *_alpm_db_pgpsig(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(db != NULL, return(NULL));
+
+	if(db->pgpsig.rawdata == NULL) {
+		load_pgpsig(db);
+	}
+
+	return &(db->pgpsig);
+}
+
 void _alpm_db_free(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
@@ -373,6 +436,8 @@ void _alpm_db_free(pmdb_t *db)
 	_alpm_db_free_pkgcache(db);
 	/* cleanup server list */
 	FREELIST(db->servers);
+	/* only need to free rawdata */
+	FREE(db->pgpsig.rawdata);
 	FREE(db->_path);
 	FREE(db->treename);
 	FREE(db);

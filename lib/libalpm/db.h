@@ -31,6 +31,9 @@
 #include <archive.h>
 #include <archive_entry.h>
 
+#include "alpm.h"
+#include "signing.h"
+
 /* Database entries */
 typedef enum _pmdbinfrq_t {
 	INFRQ_BASE = 1,
@@ -60,6 +63,8 @@ struct __pmdb_t {
 	pmpkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
+	/* do not access directly, use _alpm_db_pgpsig(db) for lazy access */
+	pmpgpsig_t pgpsig;
 	pgp_verify_t pgp_verify;
 
 	struct db_operations *ops;
@@ -76,6 +81,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
 void _alpm_db_unregister(pmdb_t *db);
+const pmpgpsig_t *_alpm_db_pgpsig(pmdb_t *db);
 
 /* be_*.c, backend specific calls */
 int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
