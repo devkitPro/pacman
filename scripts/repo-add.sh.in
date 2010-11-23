@@ -584,6 +584,11 @@ if (( success )); then
 	ln -sf "$target" "$dblink" 2>/dev/null || \
 		ln -f "$target" "$dblink" 2>/dev/null || \
 		cp "$REPO_DB_FILE" "$dblink"
+	if [[ -f "$target.sig" ]]; then
+		ln -sf "$target.sig" "$dblink.sig" 2>/dev/null || \
+			ln -f "$target.sig" "$dblink.sig" 2>/dev/null || \
+			cp "$REPO_DB_FILE.sig" "$dblink.sig"
+	fi
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 	exit 1
