@@ -154,17 +154,17 @@ int _alpm_gpgme_checksig(const char *pkgpath, const pmpgpsig_t *sig)
 		ret = -1;
 		goto error;
 	}
-	fprintf(stdout, "\nsummary=%x\n", gpgsig->summary);
-	fprintf(stdout, "fpr=%s\n", gpgsig->fpr);
-	fprintf(stdout, "status=%d\n", gpgsig->status);
-	fprintf(stdout, "timestamp=%lu\n", gpgsig->timestamp);
-	fprintf(stdout, "wrong_key_usage=%u\n", gpgsig->wrong_key_usage);
-	fprintf(stdout, "pka_trust=%u\n", gpgsig->pka_trust);
-	fprintf(stdout, "chain_model=%u\n", gpgsig->chain_model);
-	fprintf(stdout, "validity=%d\n", gpgsig->validity);
-	fprintf(stdout, "validity_reason=%d\n", gpgsig->validity_reason);
-	fprintf(stdout, "key=%d\n", gpgsig->pubkey_algo);
-	fprintf(stdout, "hash=%d\n", gpgsig->hash_algo);
+	_alpm_log(PM_LOG_DEBUG, "summary=%x\n", gpgsig->summary);
+	_alpm_log(PM_LOG_DEBUG, "fpr=%s\n", gpgsig->fpr);
+	_alpm_log(PM_LOG_DEBUG, "status=%d\n", gpgsig->status);
+	_alpm_log(PM_LOG_DEBUG, "timestamp=%lu\n", gpgsig->timestamp);
+	_alpm_log(PM_LOG_DEBUG, "wrong_key_usage=%u\n", gpgsig->wrong_key_usage);
+	_alpm_log(PM_LOG_DEBUG, "pka_trust=%u\n", gpgsig->pka_trust);
+	_alpm_log(PM_LOG_DEBUG, "chain_model=%u\n", gpgsig->chain_model);
+	_alpm_log(PM_LOG_DEBUG, "validity=%d\n", gpgsig->validity);
+	_alpm_log(PM_LOG_DEBUG, "validity_reason=%d\n", gpgsig->validity_reason);
+	_alpm_log(PM_LOG_DEBUG, "key=%d\n", gpgsig->pubkey_algo);
+	_alpm_log(PM_LOG_DEBUG, "hash=%d\n", gpgsig->hash_algo);
 
 	if(gpgsig->summary & GPGME_SIGSUM_VALID) {
 		/* good signature, continue */
