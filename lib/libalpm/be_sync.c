@@ -139,14 +139,21 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 	/* Download and check the signature of the database if needed */
 	if(db->pgp_verify != PM_PGP_VERIFY_NEVER) {
-		char *sigfile;
+		char *sigfile, *sigfilepath;
 		int sigret;
 
 		len = strlen(dbfile) + 5;
 		MALLOC(sigfile, len, RET_ERR(PM_ERR_MEMORY, -1));
 		sprintf(sigfile, "%s.sig", dbfile);
 
-		sigret = _alpm_download_single_file(sigfile, db->servers, syncpath, 1);
+		/* prevent old signature being used if the following download fails */
+		len = strlen(syncpath) + strlen(sigfile) + 1;
+		MALLOC(sigfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
+		sprintf(sigfilepath, "%s%s", syncpath, sigfile);
+		_alpm_rmrf(sigfilepath);
+		free(sigfilepath);
+
+		sigret = _alpm_download_single_file(sigfile, db->servers, syncpath, 0);
 		free(sigfile);
 
 		if(sigret == -1 && db->pgp_verify == PM_PGP_VERIFY_ALWAYS) {
