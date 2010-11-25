@@ -61,20 +61,24 @@ usage() {
 	printf "$(gettext "               Default is set in %s")\n" "@sysconfdir@/pacman.conf"
 	echo
 	echo "$(gettext "The available commands are:")"
-	echo "$(gettext "  pacman-key -a | --add [<file>] ...                - add the key contained ")"
-	echo "$(gettext "                                                      in <file> (empty for stdin)")"
-	echo "$(gettext "  pacman-key -d | --del <keyid> ...                 - remove the key <keyid>")"
-	echo "$(gettext "  pacman-key -e | --export <keyid> ...              - output the key <keyid>")"
-	echo "$(gettext "  pacman-key -r | --receive <keyserver> <keyid> ... - fetch the keyids from")"
-	echo "$(gettext "                                                      the specified keyserver URL")"
-	echo "$(gettext "  pacman-key -t | --trust <keyid> ...               - set the trust level of the given key")"
-	echo "$(gettext "  pacman-key -u | --updatedb                        - update the trustdb of pacman")"
-	echo "$(gettext "  pacman-key --reload                               - reloads the keys from the keyring package")"
-	echo "$(gettext "  pacman-key -l | --list                            - list keys")"
-	echo "$(gettext "  pacman-key -f | --finger [<keyid]> ...            - list fingerprint for specified keyids (or for all, if none is specified)")"
-	echo "$(gettext "  pacman-key --adv <params>                         - use pacman's keyring as target for advanced commands")"
-	echo "$(gettext "  pacman-key -h | --help                            - displays this message")"
-	echo "$(gettext "  pacman-key -v | --version                         - displays the current version")"
+	echo "$(gettext "  -a | --add [<file>] ...                - add the key contained in <file>")"
+	echo "$(gettext "                                           (empty for stdin)")"
+	echo "$(gettext "  -d | --del <keyid> ...                 - remove the key <keyid>")"
+	echo "$(gettext "  -e | --export <keyid> ...              - output the key <keyid>")"
+	echo "$(gettext "  -f | --finger [<keyid>] ...            - list fingerprint for specified keyids")"
+	echo "$(gettext "                                           (or for all, if no key is specified)")"
+	echo "$(gettext "  -h | --help                            - displays this message")"
+	echo "$(gettext "  -l | --list                            - list keys")"
+	echo "$(gettext "  -r | --receive <keyserver> <keyid> ... - fetch the keyids from the specified")"
+	echo "$(gettext "                                           keyserver URL")"
+	echo "$(gettext "  -t | --trust <keyid> ...               - set the trust level of the given key")"
+	echo "$(gettext "  -u | --updatedb                        - update the trustdb of pacman")"
+	echo "$(gettext "  -v | --version                         - displays the current version")"
+	echo "$(gettext "  --adv <params>                         - use pacman's keyring as target for")"
+	echo "$(gettext "                                           advanced gpg commands")"
+	echo "$(gettext "  --reload                               - reloads the keys supplied by your")"
+	printf "$(gettext "                                           distribution in %s")"'@prefix@/share/pacman'
+	echo
 }
 
 version() {
@@ -214,7 +218,7 @@ if ! type gettext &>/dev/null; then
 	}
 fi
 
-if [[ $1 != "--version" && $1 != "-v" && $1 != "--help" && $1 != "-h" ]]; then
+if [[ $1 != "--version" && $1 != "-v" && $1 != "--help" && $1 != "-h" && $1 != "" ]]; then
 	if type -p gpg >/dev/null 2>&1 = 1; then
 		error "$(gettext "gnupg does not seem to be installed.")"
 		msg2 "$(gettext "pacman-key requires gnupg for most operations.")"
@@ -317,10 +321,10 @@ case "${command}" in
 		${GPG_PACMAN} "$@" || ret=$?
 		exit $ret
 		;;
-	--help)
+	-h | --help)
 		usage
 		;;
-	--version)
+	-v | --version)
 		version
 		exit 0
 		;;
