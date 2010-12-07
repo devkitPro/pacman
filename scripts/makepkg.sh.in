@@ -27,7 +27,7 @@
 
 # makepkg uses quite a few external programs during its execution. You
 # need to have at least the following installed for makepkg to function:
-#   bsdtar (libarchive), bzip2, coreutils, fakeroot, file, find (findutils),
+#   awk, bsdtar (libarchive), bzip2, coreutils, fakeroot, file, find (findutils),
 #   gettext, grep, gzip, openssl, sed, tput (ncurses), xz
 
 # gettext initialization
@@ -1222,21 +1222,27 @@ check_sanity() {
 		fi
 	fi
 
-	for i in ${provides[@]}; do
+	local provides_list
+	eval $(awk '/^[[:space:]]*provides=/,/)/' "$BUILDFILE" | sed "s/provides=/provides_list+=/")
+	for i in ${provides_list[@]}; do
 		if [[ $i != ${i//</} || $i != ${i//>/} ]]; then
 			error "$(gettext "Provides array cannot contain comparison (< or >) operators.")"
 			return 1
 		fi
 	done
 
-	for i in "${backup[@]}"; do
+	local backup_list
+	eval $(awk '/^[[:space:]]*backup=/,/)/' "$BUILDFILE" | sed "s/backup=/backup_list+=/")
+	for i in "${backup_list[@]}"; do
 		if [[ ${i:0:1} = "/" ]]; then
 			error "$(gettext "Backup entry should not contain leading slash : %s")" "$i"
 			return 1
 		fi
 	done
 
-	for i in "${optdepends[@]}"; do
+	local optdepends_list
+	eval $(awk '/^[[:space:]]*optdepends=/,/)/' "$BUILDFILE" | sed "s/optdepends=/optdepends_list+=/")
+	for i in "${optdepends_list[@]}"; do
 		local pkg=${i%%:*}
 		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]+$ ]]; then
 			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$i"
@@ -1257,8 +1263,9 @@ check_sanity() {
 	done
 
 	local valid_options=1
-	local known kopt
-	for i in ${options[@]}; do
+	local known kopt options_list
+	eval $(awk '/^[[:space:]]*options=/,/)/' "$BUILDFILE" | sed "s/options=/options_list+=/")
+	for i in ${options_list[@]}; do
 		known=0
 		# check if option matches a known option or its inverse
 		for kopt in ${packaging_options[@]} ${other_options[@]}; do
