@@ -352,7 +352,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 		timediff = get_update_timediff(0);
 	}
 
-	if(percent > 0 && percent < 100 && !timediff) {
+	if(percent > 0 && percent < 100 && timediff > 0) {
 		/* only update the progress bar when
 		 * a) we first start
 		 * b) we end the progress
