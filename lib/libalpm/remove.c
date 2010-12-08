@@ -369,7 +369,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 {
 	pmpkg_t *info;
 	alpm_list_t *targ, *lp;
-	int pkg_count;
+	size_t pkg_count;
 
 	ALPM_LOG_FUNC;
 
@@ -383,7 +383,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 		char scriptlet[PATH_MAX];
 		info = (pmpkg_t*)targ->data;
 		const char *pkgname = NULL;
-		int targcount = alpm_list_count(targ);
+		size_t targcount = alpm_list_count(targ);
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			return(0);
@@ -414,9 +414,9 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 				}
 			}
 
-			int filenum = alpm_list_count(files);
+			size_t filenum = alpm_list_count(files);
 			alpm_list_t *newfiles;
-			_alpm_log(PM_LOG_DEBUG, "removing %d files\n", filenum);
+			_alpm_log(PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 			/* init progress bar */
 			PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 0,

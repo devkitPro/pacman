@@ -243,11 +243,11 @@ cleanup:
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 {
 	alpm_list_t *mount_points, *i;
-	int replaces = 0, abort = 0;
+	size_t replaces = 0, current = 0;
+	int abort = 0;
 	alpm_list_t *targ;
 	pmpkg_t *pkg;
-	int numtargs = alpm_list_count(trans->add);
-	int current = 0;
+	size_t numtargs = alpm_list_count(trans->add);
 
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {

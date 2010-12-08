@@ -269,7 +269,7 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
  *
  * @return the resultant list
  */
-alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, int n, alpm_list_fn_cmp fn)
+alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn_cmp fn)
 {
 	if (n > 1) {
 		alpm_list_t *left = list;
@@ -511,7 +511,7 @@ inline alpm_list_t SYMEXPORT *alpm_list_first(const alpm_list_t *list)
  *
  * @return an alpm_list_t node for index `n`
  */
-alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, int n)
+alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, size_t n)
 {
 	const alpm_list_t *i = list;
 	while(n--) {
@@ -574,9 +574,9 @@ void SYMEXPORT *alpm_list_getdata(const alpm_list_t *node)
  *
  * @return the number of list items
  */
-int SYMEXPORT alpm_list_count(const alpm_list_t *list)
+size_t SYMEXPORT alpm_list_count(const alpm_list_t *list)
 {
-	unsigned int i = 0;
+	size_t i = 0;
 	const alpm_list_t *lp = list;
 	while(lp) {
 		++i;

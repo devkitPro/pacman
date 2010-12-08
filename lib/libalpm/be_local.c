@@ -443,7 +443,7 @@ static int local_db_populate(pmdb_t *db)
 	}
 
 	closedir(dbdir);
-	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
+	db->pkgcache = alpm_list_msort(db->pkgcache, (size_t)count, _alpm_pkg_cmp);
 	return(count);
 }
 

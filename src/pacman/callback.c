@@ -325,13 +325,14 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 
 /* callback to handle display of transaction progress */
 void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
-                       int howmany, int remain)
+                       size_t howmany, size_t current)
 {
 	float timediff;
 
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	int infolen;
-	int tmp, digits, textlen;
+	int digits, textlen;
+	size_t tmp;
 	char *opr = NULL;
 	/* used for wide character width determination and printing */
 	int len, wclen, wcwid, padwid;
@@ -402,7 +403,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	 * done here to figure out the actual number of screen columns used
 	 * by the output, and then pad it accordingly so we fill the terminal.
 	 */
-	/* len = opr len + pkgname len (if available) + space  + null */
+	/* len = opr len + pkgname len (if available) + space + null */
 	len = strlen(opr) + ((pkgname) ? strlen(pkgname) : 0) + 2;
 	wcstr = calloc(len, sizeof(wchar_t));
 	/* print our strings to the alloc'ed memory */
@@ -434,8 +435,8 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 
 	}
 
-	printf("(%*d/%*d) %ls%-*s", digits, remain, digits, howmany,
-			wcstr, padwid, "");
+	printf("(%*ld/%*ld) %ls%-*s", digits, (unsigned long)current,
+			digits, (unsigned long)howmany, wcstr, padwid, "");
 
 	free(wcstr);
 

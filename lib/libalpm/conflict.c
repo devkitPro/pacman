@@ -402,8 +402,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 		alpm_list_t *upgrade, alpm_list_t *remove)
 {
 	alpm_list_t *i, *j, *conflicts = NULL;
-	int numtargs = alpm_list_count(upgrade);
-	int current;
+	size_t numtargs = alpm_list_count(upgrade);
+	size_t current;
 
 	ALPM_LOG_FUNC;
 

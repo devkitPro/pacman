@@ -822,7 +822,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
 	alpm_list_t *deltas = NULL;
-	int replaces = 0;
+	size_t replaces = 0;
 	int errors = 0;
 	const char *cachedir = NULL;
 	int ret = -1;

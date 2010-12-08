@@ -212,7 +212,7 @@ static int sync_db_populate(pmdb_t *db)
 		}
 	}
 
-	db->pkgcache = alpm_list_msort(db->pkgcache, count, _alpm_pkg_cmp);
+	db->pkgcache = alpm_list_msort(db->pkgcache, (size_t)count, _alpm_pkg_cmp);
 	archive_read_finish(archive);
 
 	return(count);

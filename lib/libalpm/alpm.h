@@ -405,7 +405,7 @@ typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
                                    void *, int *);
 
 /* Transaction Progress callback */
-typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, int, int);
+typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t, size_t);
 
 int alpm_trans_get_flags(void);
 alpm_list_t * alpm_trans_get_add(void);

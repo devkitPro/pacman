@@ -477,7 +477,7 @@ static int extract_single_file(struct archive *archive,
 	return(errors);
 }
 
-static int commit_single_pkg(pmpkg_t *newpkg, int pkg_current, int pkg_count,
+static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current, size_t pkg_count,
 		pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0;
@@ -715,7 +715,7 @@ cleanup:
 
 int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 {
-	int pkg_count, pkg_current;
+	size_t pkg_count, pkg_current;
 	int skip_ldconfig = 0, ret = 0;
 	alpm_list_t *targ;
 
