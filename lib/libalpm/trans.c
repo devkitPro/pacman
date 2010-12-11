@@ -107,7 +107,7 @@ static alpm_list_t *check_arch(alpm_list_t *pkgs)
 	for(i = pkgs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
 		const char *pkgarch = alpm_pkg_get_arch(pkg);
-		if(strcmp(pkgarch,arch) && strcmp(pkgarch,"any")) {
+		if(pkgarch && strcmp(pkgarch, arch) && strcmp(pkgarch, "any")) {
 			char *string;
 			const char *pkgname = alpm_pkg_get_name(pkg);
 			const char *pkgver = alpm_pkg_get_version(pkg);
