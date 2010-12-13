@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Pacman package manager 3.3.1\n"
 "Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
 "POT-Creation-Date: 2010-08-23 21:30-0500\n"
-"PO-Revision-Date: 2009-10-06 21:11+0200\n"
-"Last-Translator: Christian Larsson <congacx@gmail.com>\n"
+"PO-Revision-Date: 2010-10-20 20:26+0200\n"
+"Last-Translator: Tobias Eriksson <tobier@tobier.se>\n"
 "Language-Team: Swedish\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -80,13 +80,13 @@ msgstr ":: %s finns i IgnorePkg/IgnoreGroup. Installera ändå?"
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Ersätt %s med %s/%s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %s strider mot %s. Ta bort %s?"
+msgstr ":: %s krockar med %s. Ta bort %s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %s strider mot %s. Ta bort %s?"
+msgstr ":: %s krockar med %s (%s). Ta bort %s?"
 
 #, c-format
 msgid ""
@@ -318,7 +318,7 @@ msgstr ""
 msgid "  -d, --nodeps         skip dependency checks\n"
 msgstr "  -d, --nodeps         hoppa över kontroll av beroenden\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         only remove database entries, do not remove files\n"
 msgstr ""
@@ -349,13 +349,15 @@ msgstr ""
 msgid ""
 "      --print          only print the targets instead of performing the "
 "operation\n"
-msgstr ""
+msgstr "--print         skriv endast ut, utan att utföra operationen\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
+"        --print-format <string>\n"
+"                       specificera utskriftsformatet\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -371,13 +373,14 @@ msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
 "  -f, --force          tvingfa installation, skriv över motstridiga filer\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --dbonly         add database entries, do not install or keep existing "
 "files\n"
 msgstr ""
-"  -k, --dbonly         ta enbart bort databasinlägg, men ta inte bort några "
-"filer\n"
+"  -k, --dbonly         lägg till databasinlägg, men installera inte eller "
+"behåll inga befintliga filer.\n"
+"\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -517,14 +520,14 @@ msgstr ""
 "                       ignorera en gruppuppgradering (kan användas mer än en "
 "gång)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr ""
-"      --asdeps         installera paket som icke-utryckligt installerade\n"
+"      --asdeps         markera paket som icke-utryckligt installerade\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     installera paket som utryckligt installerade\n"
+msgstr "      --asexplicit     markera paket som utryckligt installerade\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -572,9 +575,9 @@ msgstr "  -b, --dbpath <path>  ange en alternativ plats för databasen\n"
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> ange en alternativ plats för paketcachen\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --config <path>  ange en alternativ konfigurationsfil\n"
+msgstr "      --arch <arch>  ange en alternativ arkitektur\n"
 
 #, c-format
 msgid ""
@@ -616,23 +619,24 @@ msgstr "kunde inte chdir till nerladdningskatalogen% s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "vid körning av XferCommand: delning misslyckades!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' without value not recognized\n"
-msgstr "konfigurationsfil %s, rad %d: direktiv '%s' känns inte igen\n"
+msgstr "direktiv '%s' utan värde känns inte igen\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
 msgstr "ogiltigt värde för 'CleanMethod' : '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "konfigurationsfil %s, rad %d: direktiv '%s' känns inte igen\n"
+msgstr "direktiv '%s' med ett värde känns inte igen\n"
 
 #, c-format
 msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
 msgstr ""
+"Adressen '%s' innehålle $arch-variabeln, men ingen arkitektur är definerad.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -661,19 +665,20 @@ msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "konfigurationsfil %s, rad %d: Alla direktiv måste tillhöra en sektion.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "konfigurationsfil %s, rad %d: direktiv '%s' känns inte igen\n"
+msgstr "konfigurationsfil %s, rad %d: direktiv '%s' kräver ett värde\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "konfigurationsfil %s, rad %d: ogiltigt sektionsnamn.\n"
+msgstr "konfigurationsfil %s, rad %d: problem i alternativsektionen.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "konfigurationsfil %s, rad %d: direktiv '%s' känns inte igen\n"
+msgstr ""
+"konfigurationsfil %s, rad %d: direktiv '%s' i sektion '%s' känns inte igen.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -695,9 +700,9 @@ msgstr "ingen operation specifierad (använd -h för hjälp)\n"
 msgid "no file was specified for --owns\n"
 msgstr "ingen fil specifierades för --owns\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "misslyckades att läsa fil '%s': %s\n"
+msgstr "misslyckades hitta '%s' i PATH: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
@@ -751,9 +756,9 @@ msgstr "paketet \"%s\" hittades inte\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "misslyckades att förbereda överföring (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' har inte ett giltigt suffix för arkiv."
+msgstr ":: paket %s har inte en giltig arkitektur.\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -767,9 +772,9 @@ msgstr "%s är utnämnd som en HoldPkg.\n"
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "HoldPkg hittades i mållistan. Vill du fortsätta?"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "Inga paket modifierade, ingenting att göra."
+msgstr " det finns inget att göra\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -827,9 +832,9 @@ msgstr "Vill du ta bort ALLA filer från cacen?"
 msgid "removing all files from cache...\n"
 msgstr "tar bort alla filer från cachen...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "kunde inte få tillgång till cachekatalogen\n"
+msgstr "kunde inte få tillgång till cachekatalogen %s\n"
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -847,9 +852,9 @@ msgstr " %s är senaste versionen\n"
 msgid "failed to synchronize any databases\n"
 msgstr "misslyckades att synkronisera någon databas\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "installed"
-msgstr "installerar"
+msgstr "installerad"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -877,11 +882,11 @@ msgstr ":: Påbörjar full systemuppgradering...\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ""
+msgstr ":: %s och %s krockar.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %s: strider mot %s\n"
+msgstr ":: %s krockar med %s (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -1028,9 +1033,8 @@ msgstr "FEL: "
 msgid "Cleaning up..."
 msgstr "Städar upp..."
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "Kunde inte hitta källkodsfil %s att extrahera."
+msgstr "Kunde inte hitta källkodsfil %s."
 
 msgid "Aborting..."
 msgstr "Avbryter..."
@@ -1041,16 +1045,14 @@ msgstr "Det finns ingen agent angedd för att hantera %s URL. Kolla %s."
 msgid "The download program %s is not installed."
 msgstr "Nerladdningsprogramet %s är inte installerat."
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "Pacman returnerade ett allvarligt fel (%i): %s"
+msgstr "'%s' returnerade ett allvarligt fel (%i): %s"
 
 msgid "Installing missing dependencies..."
 msgstr "Installerar saknade beroenden..."
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "Pacman misslyckades att installera saknade beroenden"
+msgstr "'%s' misslyckades att installera saknade beroenden"
 
 msgid "Failed to install all missing dependencies."
 msgstr "Misslyckades att installera alla saknade beroenden."
@@ -1065,7 +1067,7 @@ msgid "Retrieving Sources..."
 msgstr "Hämtar Källor..."
 
 msgid "Found %s"
-msgstr ""
+msgstr "Hittade %s"
 
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s hittades inte i byggkatalogen och är inte ett URL"
@@ -1130,9 +1132,8 @@ msgstr "Rensar andra filer..."
 msgid "Compressing man and info pages..."
 msgstr "Komprimerar man och info sidor..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Tar bort felsökningssymboler från binärer och bibliotek..."
+msgstr "Tar bort onödiga symboler från binärer och bibliotek..."
 
 msgid "Removing libtool .la files..."
 msgstr "Tar bort libtool .la filer..."
@@ -1149,12 +1150,11 @@ msgstr "Var vänlig och lägg till en licens rad i din %s!"
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Exempel för GPL licenserad mjukvara: license=('GPL')."
 
-#, fuzzy
 msgid "Invalid backup entry : %s"
-msgstr "Ej giltig paketfil '%s'."
+msgstr "Ej giltigt backupinlägg : %s."
 
 msgid "Package contains reference to %s"
-msgstr ""
+msgstr "Paketet innehåller referens till %s"
 
 msgid "Missing pkg/ directory."
 msgstr "Saknar pkg/ katalog"
@@ -1177,13 +1177,11 @@ msgstr "'%s' är inte ett giltig paket-suffix"
 msgid "Failed to create package file."
 msgstr "Misslyckades att skapa paketfil."
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "Misslyckades att skapa källkodsfil."
+msgstr "Misslyckades att symbolisk länk till paketfil."
 
-#, fuzzy
 msgid "Skipping integrity checks."
-msgstr "Hoppar över kontroll av beroenden."
+msgstr "Hoppar över integritetskontroll."
 
 msgid "Creating source package..."
 msgstr "Skapar källpaket"
@@ -1191,9 +1189,8 @@ msgstr "Skapar källpaket"
 msgid "Adding %s..."
 msgstr "Lägger till %s..."
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "Lägger till %s..."
+msgstr "Lägger till fil %s (%s)..."
 
 msgid "Compressing source package..."
 msgstr "Komprimerar källpaket..."
@@ -1201,12 +1198,11 @@ msgstr "Komprimerar källpaket..."
 msgid "Failed to create source package file."
 msgstr "Misslyckades att skapa källkodsfil."
 
-#, fuzzy
 msgid "Installing package %s with %s -U..."
-msgstr "genererar %s med %s... "
+msgstr "Installerar paket %s med %s -U... "
 
 msgid "Installing %s package group with %s -U..."
-msgstr ""
+msgstr "Installerar paketgruppen %s med %s -U..."
 
 msgid "Failed to install built package(s)."
 msgstr "Misslyckades att installera byggt/byggda paket."
@@ -1232,13 +1228,11 @@ msgstr "som arch=('%s')."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Provides raden kan inte innehålla jämförande (< eller >) tecken"
 
-#, fuzzy
 msgid "Invalid syntax for optdepend : '%s'"
-msgstr "ogiltigt värde för 'CleanMethod' : '%s'\n"
+msgstr "Fel syntax för optdepend : '%s'"
 
-#, fuzzy
 msgid "%s file (%s) does not exist."
-msgstr "Installations scriptlet (%s) existerar inte."
+msgstr "Filen %s (%s) existerar inte."
 
 msgid "options array contains unknown option '%s'"
 msgstr "options raden innehåller okända parametrar '%s'"
@@ -1247,7 +1241,7 @@ msgid "missing package function for split package '%s'"
 msgstr "saknar paketfunktion för att dela paket '%s'"
 
 msgid "requested package %s is not provided in %s"
-msgstr ""
+msgstr "efterfrågat paket %s finns ej i %s"
 
 msgid "Determining latest darcs revision..."
 msgstr "Fastställer senaste darcs revisionen..."
@@ -1322,10 +1316,8 @@ msgstr "  -m, --nocolor    Inaktivera färglagda meddelanden"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Ladda ner och extrahera enbart filerna"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr ""
-"  -p <buildscript> Använd ett alternativt byggskript (istället för '%s')"
+msgstr "  -p <file> Använd ett alternativt byggskript (istället för '%s')"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
@@ -1337,56 +1329,48 @@ msgstr "  -R, --repackage  Packa om innehållet i paketet utan att bygga om"
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installera saknade beroende med pacman"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Generera en tarball innehållandes enbart nerladdade källor"
+"      --allsource  Generera en tarball innehållandes enbart nerladdade "
+"källkodsfiler"
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "      --asroot     Tillåt makepkg att köras som root"
 
-#, fuzzy
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-"  --config <config> Använd en alternativ konfigurationsfil (istället för "
-"'%s')"
+"  --config <file> Använd en alternativ konfigurationsfil (istället för '%s')"
 
-#, fuzzy
 msgid ""
 "  --holdver        Prevent automatic version bumping for development "
 "PKGBUILDs"
 msgstr ""
-"      --holdver    Förhindra automatisk versionsdump för "
+"      --holdver    Förhindra automatisk versionsuppdatering för "
 "utvecklingsversioner av PKGBUILDs "
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr ""
+msgstr "    --pkg <list>        Bygg endast listade paket från ett delat paket"
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr "      --skipinteg  Misslyckas inte när integritetskontroller saknas"
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Generera en tarball med enbart källkoden utan att ladda "
-"ner källor"
+"      --source     Generera en tarball med enbart källkod utan nerladdade "
+"källkodsfiler"
 
 msgid "These options can be passed to pacman:"
 msgstr "Dessa argument kan skickas till pacman:"
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
 "      --noconfirm      Fråga inte efter bekräftelse vid bestämmande av "
 "beroenden"
 
-#, fuzzy
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 "      --noprogressbar  Visa inte en förloppsindikator vid nerladdning av "
@@ -1409,9 +1393,8 @@ msgstr ""
 msgid "%s not found."
 msgstr "% hittades inte."
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
-msgstr "Du har inte skrivrättigheter för att spara nerladdningar i %s."
+msgstr "Du har inte skrivrättigheter för att spara paket i %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Du har inte skrivrättigheter för att spara nerladdningar i %s."
@@ -1479,7 +1462,7 @@ msgstr ""
 "Använd inte flaggan '-F'. Detta argument är enbart för användning av makepkg."
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
+msgstr "Sudo kunde inte hittas, använder su för att få root-rättigheter."
 
 msgid "%s does not exist."
 msgstr "%s existerar inte."
@@ -1506,10 +1489,10 @@ msgstr ""
 "över)"
 
 msgid "Repackaging without the use of a package() function is deprecated."
-msgstr ""
+msgstr "Ompaketering utan att använda en package()-funktion är föråldrat."
 
 msgid "File permissions may not be preserved."
-msgstr ""
+msgstr "Filrättigheterna kanske inte bevaras."
 
 msgid "Leaving fakeroot environment."
 msgstr "Lämnar fakeroot miljö."
@@ -1517,9 +1500,9 @@ msgstr "Lämnar fakeroot miljö."
 msgid "Making package: %s"
 msgstr "Skapar paket: %s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "Ett paket har redan blivit byggt, (använd -f för att skriva över)"
+msgstr ""
+"Ett källkodspaket har redan blivit byggt, (använd -f för att skriva över)"
 
 msgid "Source package created: %s"
 msgstr "Källkodspaket skapat: %s"
@@ -1536,9 +1519,8 @@ msgstr "Kollar beroenden för bygget..."
 msgid "Could not resolve all dependencies."
 msgstr "Kan inte lösa alla beroenden."
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "pacman hittades inte i PATH; hoppar över kontroll av beroenden."
+msgstr "%s hittades inte i PATH; hoppar över kontroll av beroenden."
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr ""
