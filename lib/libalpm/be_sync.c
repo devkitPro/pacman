@@ -238,7 +238,8 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 		return(-1);
 	}
 
-	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0) {
+	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
+			|| strcmp(filename, "deltas") == 0) {
 		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%NAME%") == 0) {
@@ -380,19 +381,14 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					pkg->provides = alpm_list_add(pkg->provides, linedup);
 				}
-			}
-		}
-	} else if(strcmp(filename, "deltas") == 0) {
-		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
-			_alpm_strtrim(line);
-				if(strcmp(line, "%DELTAS%") == 0) {
-					while(_alpm_archive_fgets(line, sizeof(line), archive) && strlen(_alpm_strtrim(line))) {
-						pmdelta_t *delta = _alpm_delta_parse(line);
-						if(delta) {
-							pkg->deltas = alpm_list_add(pkg->deltas, delta);
-						}
+			} else if(strcmp(line, "%DELTAS%") == 0) {
+				while(_alpm_archive_fgets(line, sizeof(line), archive) && strlen(_alpm_strtrim(line))) {
+					pmdelta_t *delta = _alpm_delta_parse(line);
+					if(delta) {
+						pkg->deltas = alpm_list_add(pkg->deltas, delta);
 					}
 				}
+			}
 		}
 	} else {
 		 /* unknown database file */
