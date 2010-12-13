@@ -81,6 +81,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	char *dbfile, *syncpath;
 	const char *dbpath;
+	struct stat buf;
 	size_t len;
 	int ret;
 
@@ -102,6 +103,23 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	len = strlen(dbpath) + 6;
 	MALLOC(syncpath, len, RET_ERR(PM_ERR_MEMORY, -1));
 	sprintf(syncpath, "%s%s", dbpath, "sync/");
+
+	if(stat(syncpath, &buf) != 0) {
+		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
+				syncpath);
+		if(_alpm_makepath(syncpath) != 0) {
+			free(dbfile);
+			free(syncpath);
+			RET_ERR(PM_ERR_SYSTEM, -1);
+		}
+	} else if(!S_ISDIR(buf.st_mode)) {
+		_alpm_log(PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
+		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
+			free(dbfile);
+			free(syncpath);
+			RET_ERR(PM_ERR_SYSTEM, -1);
+		}
+	}
 
 	ret = _alpm_download_single_file(dbfile, db->servers, syncpath, force);
 	free(dbfile);
