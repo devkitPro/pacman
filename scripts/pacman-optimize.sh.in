@@ -25,7 +25,9 @@ export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='@localedir@'
 
 myver='@PACKAGE_VERSION@'
-dbroot='@localstatedir@/lib/pacman/'
+
+eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
+dbroot="${DBPath:-@localstatedir@/lib/pacman/}"
 
 msg() {
 	local mesg=$1; shift
@@ -99,7 +101,7 @@ if ! type diff >/dev/null 2>&1; then
 	die "$(gettext "diff tool was not found, please install diffutils.")"
 fi
 
-if [[ ! -d $dbroot ]]; then
+if [[ ! -d $dbroot || ! -d $dbroot/local ]]; then
 	die "$(gettext "%s does not exist or is not a directory.")" "$dbroot"
 fi
 
