@@ -1306,15 +1306,15 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
-	/* read package arguments from stdin if we have none yet */
-	if(!pm_targets && !isatty(fileno(stdin))) {
+	/* we also support reading targets from stdin */
+	if(!isatty(fileno(stdin))) {
 		char line[PATH_MAX];
 		int i = 0;
 		while(i < PATH_MAX && (line[i] = fgetc(stdin)) != EOF) {
 			if(isspace((unsigned char)line[i])) {
-				line[i] = '\0';
 				/* avoid adding zero length arg when multiple spaces separate args */
 				if(i > 0) {
+					line[i] = '\0';
 					pm_targets = alpm_list_add(pm_targets, strdup(line));
 					i = 0;
 				}
@@ -1330,6 +1330,7 @@ int main(int argc, char *argv[])
 
 		/* end of stream -- check for data still in line buffer */
 		if(i > 0) {
+			line[i] = '\0';
 			pm_targets = alpm_list_add(pm_targets, strdup(line));
 		}
 		if (!freopen(ctermid(NULL), "r", stdin)) {
