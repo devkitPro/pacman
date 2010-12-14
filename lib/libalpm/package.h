@@ -95,17 +95,30 @@ struct __pmpkg_t {
 	char *version;
 	char *desc;
 	char *url;
-	time_t builddate;
-	time_t installdate;
 	char *packager;
 	char *md5sum;
 	char *arch;
+
+	time_t builddate;
+	time_t installdate;
+
 	off_t size;
 	off_t isize;
 	off_t download_size;
+
 	int scriptlet;
 	int epoch;
+
 	pmpkgreason_t reason;
+	pmpkgfrom_t origin;
+	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
+	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
+	union {
+		pmdb_t *db;
+		char *file;
+	} origin_data;
+	pmdbinfrq_t infolevel;
+
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;
 	alpm_list_t *groups;
@@ -118,17 +131,6 @@ struct __pmpkg_t {
 	alpm_list_t *deltas;
 	alpm_list_t *delta_path;
 	alpm_list_t *removes; /* in transaction targets only */
-	/* internal */
-	pmpkgfrom_t origin;
-	/* Replaced 'void *data' with this union as follows:
-	origin == PKG_FROM_FILE, use pkg->origin_data.file
-	origin == PKG_FROM_*DB, use pkg->origin_data.db
-	*/
-	union {
-		pmdb_t *db;
-		char *file;
-	} origin_data;
-	pmdbinfrq_t infolevel;
 
 	struct pkg_operations *ops;
 };
