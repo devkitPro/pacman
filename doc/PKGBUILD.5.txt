@@ -235,9 +235,11 @@ name. The syntax is: `source=('filename::url')`.
 build() Function
 ----------------
 In addition to the above directives, the optional build() bash function usually
-comprises the remainder of the PKGBUILD. This is directly sourced and executed by
-makepkg, so anything that bash or the system has available is available for use
-here. Be sure any exotic commands used are covered by `makedepends`.
+comprises the remainder of the PKGBUILD. This is directly sourced and executed
+by makepkg, so anything that bash or the system has available is available for
+use here. The function is run in `bash -e` mode, meaning any command that exits
+with a non-zero status will cause the function to exit. Be sure any exotic
+commands used are covered by `makedepends`.
 
 All of the above variables such as `pkgname` and `pkgver` are available for use
 in the build function. In addition, makepkg defines three variables for your
@@ -261,10 +263,12 @@ the build function.
 
 package() Function
 ------------------
-An optional package() function can be specified in addition to the build() function.
-This function is run immediately after the build() function. When specified in
-combination with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot
-usage will be limited to running the packaging stage. An existing build() function
+An optional package() function can be specified in addition to the build()
+function. This function is run immediately after the build() function. The
+function is run in `bash -e` mode, meaning any command that exits with a
+non-zero status will cause the function to exit. When specified in combination
+with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage
+will be limited to running the packaging stage. An existing build() function
 will be run as the user calling makepkg.
 
 Package Splitting
