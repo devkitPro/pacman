@@ -112,6 +112,7 @@ off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
 off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
 pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
 int _pkg_get_epoch(pmpkg_t *pkg)               { return pkg->epoch; }
+int _pkg_has_scriptlet(pmpkg_t *pkg)           { return pkg->scriptlet; }
 
 alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
 alpm_list_t *_pkg_get_groups(pmpkg_t *pkg)     { return pkg->groups; }
@@ -142,6 +143,7 @@ struct pkg_operations default_pkg_ops = {
 	.get_isize       = _pkg_get_isize,
 	.get_reason      = _pkg_get_reason,
 	.get_epoch       = _pkg_get_epoch,
+	.has_scriptlet   = _pkg_has_scriptlet,
 	.get_licenses    = _pkg_get_licenses,
 	.get_groups      = _pkg_get_groups,
 	.get_depends     = _pkg_get_depends,
@@ -338,17 +340,7 @@ int SYMEXPORT alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp)
 
 int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
-
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_SCRIPTLET)) {
-		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
-	}
-	return pkg->scriptlet;
+	return pkg->ops->has_scriptlet(pkg);
 }
 
 static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)

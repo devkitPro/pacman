@@ -163,6 +163,20 @@ int _cache_get_epoch(pmpkg_t *pkg)
 	return pkg->epoch;
 }
 
+int _cache_has_scriptlet(pmpkg_t *pkg)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(-1));
+	ASSERT(pkg != NULL, return(-1));
+
+	if(!(pkg->infolevel & INFRQ_SCRIPTLET)) {
+		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
+	}
+	return pkg->scriptlet;
+}
+
 alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
@@ -302,6 +316,7 @@ static struct pkg_operations local_pkg_ops = {
 	.get_isize       = _cache_get_isize,
 	.get_reason      = _cache_get_reason,
 	.get_epoch       = _cache_get_epoch,
+	.has_scriptlet   = _cache_has_scriptlet,
 	.get_licenses    = _cache_get_licenses,
 	.get_groups      = _cache_get_groups,
 	.get_depends     = _cache_get_depends,

@@ -58,6 +58,7 @@ struct pkg_operations {
 	off_t (*get_isize) (pmpkg_t *);
 	pmpkgreason_t (*get_reason) (pmpkg_t *);
 	int (*get_epoch) (pmpkg_t *);
+	int (*has_scriptlet) (pmpkg_t *);
 
 	alpm_list_t *(*get_licenses) (pmpkg_t *);
 	alpm_list_t *(*get_groups) (pmpkg_t *);
@@ -75,10 +76,7 @@ struct pkg_operations {
 	int (*changelog_close) (const pmpkg_t *, void *);
 
 	/* still to add:
-	 * free()
-	 * dup()
 	 * checkmd5sum() ?
-	 * has_scriptlet()
 	 * compute_requiredby()
 	 */
 };
