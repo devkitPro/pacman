@@ -845,4 +845,25 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	return(0);
 }
 
+/**
+ * Hash the given string to an unsigned long value.
+ * This is the standard sdbm hashing algorithm.
+ * @param str string to hash
+ * @return the hash value of the given string
+ */
+unsigned long _alpm_hash_sdbm(const char *str)
+{
+	unsigned long hash = 0;
+	int c;
+
+	if(!str) {
+		return(hash);
+	}
+	while((c = *str++)) {
+		hash = c + (hash << 6) + (hash << 16) - hash;
+	}
+
+	return(hash);
+}
+
 /* vim: set ts=2 sw=2 noet: */
