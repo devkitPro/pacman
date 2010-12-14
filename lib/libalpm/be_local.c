@@ -355,7 +355,7 @@ static int is_dir(const char *path, struct dirent *entry)
 #endif
 }
 
-int _alpm_local_db_populate(pmdb_t *db)
+static int local_db_populate(pmdb_t *db)
 {
 	int count = 0;
 	struct dirent *ent = NULL;
@@ -912,7 +912,7 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 }
 
 struct db_operations local_db_ops = {
-	.populate         = _alpm_local_db_populate,
+	.populate         = local_db_populate,
 	.unregister       = _alpm_db_unregister,
 };
 

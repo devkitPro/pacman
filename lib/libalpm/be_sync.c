@@ -144,7 +144,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 /* Forward decl so I don't reorganize the whole file right now */
 static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry);
 
-int _alpm_sync_db_populate(pmdb_t *db)
+static int sync_db_populate(pmdb_t *db)
 {
 	int count = 0;
 	struct archive *archive;
@@ -424,7 +424,7 @@ error:
 }
 
 struct db_operations sync_db_ops = {
-	.populate         = _alpm_sync_db_populate,
+	.populate         = sync_db_populate,
 	.unregister       = _alpm_db_unregister,
 };
 
