@@ -552,6 +552,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 {
 	alpm_list_t *lp;
+	unsigned long needle_hash;
 
 	ALPM_LOG_FUNC;
 
@@ -559,11 +560,21 @@ pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 		return(NULL);
 	}
 
+	needle_hash = _alpm_hash_sdbm(needle);
+
 	for(lp = haystack; lp; lp = lp->next) {
 		pmpkg_t *info = lp->data;
 
-		if(info && strcmp(info->name, needle) == 0) {
-			return(info);
+		if(info) {
+			/* a zero hash will cause a fall-through just in case */
+			if(info->name_hash && info->name_hash != needle_hash) {
+				continue;
+			}
+
+			/* finally: we had hash match, verify string match */
+			if(strcmp(info->name, needle) == 0) {
+				return(info);
+			}
 		}
 	}
 	return(NULL);
