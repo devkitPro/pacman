@@ -840,6 +840,7 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 		FREE(pkg->name);
 	}
 	STRDUP(pkg->name, tmp, RET_ERR(PM_ERR_MEMORY, -1));
+	pkg->name_hash = _alpm_hash_sdbm(pkg->name);
 
 	free(tmp);
 	return(0);

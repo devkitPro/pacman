@@ -179,6 +179,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			ptr = _alpm_strtrim(ptr);
 			if(strcmp(key, "pkgname") == 0) {
 				STRDUP(newpkg->name, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				newpkg->name_hash = _alpm_hash_sdbm(newpkg->name);
 			} else if(strcmp(key, "pkgver") == 0) {
 				STRDUP(newpkg->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(strcmp(key, "pkgdesc") == 0) {

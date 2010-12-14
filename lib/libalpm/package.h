@@ -89,6 +89,7 @@ struct pkg_operations {
 extern struct pkg_operations default_pkg_ops;
 
 struct __pmpkg_t {
+	unsigned long name_hash;
 	char *filename;
 	char *name;
 	char *version;
