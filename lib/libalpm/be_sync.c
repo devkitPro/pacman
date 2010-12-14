@@ -141,6 +141,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	return(0);
 }
 
+/* Forward decl so I don't reorganize the whole file right now */
+static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry);
+
 int _alpm_sync_db_populate(pmdb_t *db)
 {
 	int count = 0;
@@ -205,7 +208,7 @@ int _alpm_sync_db_populate(pmdb_t *db)
 			count++;
 		} else {
 			/* we have desc, depends or deltas - parse it */
-			_alpm_sync_db_read(db, archive, entry);
+			sync_db_read(db, archive, entry);
 		}
 	}
 
@@ -215,7 +218,7 @@ int _alpm_sync_db_populate(pmdb_t *db)
 	return(count);
 }
 
-int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
+static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
 {
 	char line[1024];
 	const char *entryname = NULL;
@@ -416,6 +419,7 @@ int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry
 error:
 	FREE(pkgname);
 	FREE(filename);
+	/* TODO: return 0 always? */
 	return(0);
 }
 

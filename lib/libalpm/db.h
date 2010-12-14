@@ -81,7 +81,6 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
 int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
 
 int _alpm_sync_db_populate(pmdb_t *db);
-int _alpm_sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry);
 
 /* cache bullshit */
 /* packages */
