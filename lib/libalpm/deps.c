@@ -236,8 +236,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 
 	targets = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
 	for(i = pkglist; i; i = i->next) {
-		void *pkg = i->data;
-		if(alpm_list_find(targets, pkg, _alpm_pkg_cmp)) {
+		pmpkg_t *pkg = i->data;
+		if(_alpm_pkg_find(targets, pkg->name)) {
 			modified = alpm_list_add(modified, pkg);
 		} else {
 			dblist = alpm_list_add(dblist, pkg);
