@@ -345,11 +345,7 @@ int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t 
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
-	/* read DESC */
-	if(_alpm_local_db_read(db, pkg, INFRQ_DESC)) {
-		return(-1);
-	}
-	if(pkg->reason == reason) {
+	if(alpm_pkg_get_reason(pkg) == reason) {
 		/* we are done */
 		return(0);
 	}
