@@ -237,9 +237,11 @@ name. The syntax is: `source=('filename::url')`.
 build() Function
 ----------------
 In addition to the above directives, the optional build() bash function usually
-comprises the remainder of the PKGBUILD. This is directly sourced and executed by
-makepkg, so anything that bash or the system has available is available for use
-here. Be sure any exotic commands used are covered by `makedepends`.
+comprises the remainder of the PKGBUILD. This is directly sourced and executed
+by makepkg, so anything that bash or the system has available is available for
+use here. The function is run in `bash -e` mode, meaning any command that exits
+with a non-zero status will cause the function to exit. Be sure any exotic
+commands used are covered by `makedepends`.
 
 All of the above variables such as `pkgname` and `pkgver` are available for use
 in the build function. In addition, makepkg defines three variables for your
@@ -263,24 +265,27 @@ the build function.
 
 package() Function
 ------------------
-An optional package() function can be specified in addition to the build() function.
-This function is run immediately after the build() function. When specified in
-combination with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot
-usage will be limited to running the packaging stage. An existing build() function
+An optional package() function can be specified in addition to the build()
+function. This function is run immediately after the build() function. The
+function is run in `bash -e` mode, meaning any command that exits with a
+non-zero status will cause the function to exit. When specified in combination
+with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage
+will be limited to running the packaging stage. An existing build() function
 will be run as the user calling makepkg.
 
 Package Splitting
 -----------------
-makepkg supports building multiple packages from a single PKGBUILD. This is achieved
-by assigning an array of package names to the `pkgname` directive. Each split package
-uses a corresponding packaging function with name `package_foo()`, where `foo` is the
-name of the split package.
+makepkg supports building multiple packages from a single PKGBUILD. This is
+achieved by assigning an array of package names to the `pkgname` directive.
+Each split package uses a corresponding packaging function with name
+`package_foo()`, where `foo` is the name of the split package.
 
-All options and directives for the split packages default to the global values given
-within the PKGBUILD. However, some of these can be overridden within each split
-package's packaging function. The following variables can be overridden: `pkgver`,
-`pkgrel`, `pkgdesc`, `arch`, `license`, `groups`, `depends`, `optdepends`,
-`provides`, `conflicts`, `replaces`, `backup`, `options`, `install` and `changelog`.
+All options and directives for the split packages default to the global values
+given within the PKGBUILD. However, some of these can be overridden within each
+split package's packaging function. The following variables can be overridden:
+`pkgver`, `pkgrel`, `pkgdesc`, `arch`, `license`, `groups`, `depends`,
+`optdepends`, `provides`, `conflicts`, `replaces`, `backup`, `options`,
+`install` and `changelog`.
 
 An optional global directive is available when building a split package:
 
