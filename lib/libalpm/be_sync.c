@@ -218,6 +218,24 @@ static int sync_db_populate(pmdb_t *db)
 	return(count);
 }
 
+#define READ_NEXT(s) do { \
+	if(_alpm_archive_fgets(s, sizeof(s), archive) == NULL) goto error; \
+	_alpm_strtrim(s); \
+} while(0)
+
+#define READ_AND_STORE(f) do { \
+	READ_NEXT(line); \
+	STRDUP(f, line, goto error); \
+} while(0)
+
+#define READ_AND_STORE_ALL(f) do { \
+	char *linedup; \
+	READ_NEXT(line); \
+	if(strlen(line) == 0) break; \
+	STRDUP(linedup, line, goto error); \
+	f = alpm_list_add(f, linedup); \
+} while(1) /* note the while(1) and not (0) */
+
 static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
 {
 	char line[1024];
@@ -264,63 +282,35 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%NAME%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				if(strcmp(_alpm_strtrim(line), pkg->name) != 0) {
+				READ_NEXT(line);
+				if(strcmp(line, pkg->name) != 0) {
 					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: name "
 								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%VERSION%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				if(strcmp(_alpm_strtrim(line), pkg->version) != 0) {
+				READ_NEXT(line);
+				if(strcmp(line, pkg->version) != 0) {
 					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%FILENAME%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				STRDUP(pkg->filename, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(pkg->filename);
 			} else if(strcmp(line, "%DESC%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				STRDUP(pkg->desc, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(pkg->desc);
 			} else if(strcmp(line, "%GROUPS%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					pkg->groups = alpm_list_add(pkg->groups, linedup);
-				}
+				READ_AND_STORE_ALL(pkg->groups);
 			} else if(strcmp(line, "%URL%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				STRDUP(pkg->url, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(pkg->url);
 			} else if(strcmp(line, "%LICENSE%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
-							strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					pkg->licenses = alpm_list_add(pkg->licenses, linedup);
-				}
+				READ_AND_STORE_ALL(pkg->licenses);
 			} else if(strcmp(line, "%ARCH%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				STRDUP(pkg->arch, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(pkg->arch);
 			} else if(strcmp(line, "%BUILDDATE%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				_alpm_strtrim(line);
-
+				READ_NEXT(line);
 				char first = tolower((unsigned char)line[0]);
 				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
+					/* initialize to null in case of failure */
+					struct tm tmp_tm = {0};
 					setlocale(LC_TIME, "C");
 					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 					pkg->builddate = mktime(&tmp_tm);
@@ -329,46 +319,28 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 					pkg->builddate = atol(line);
 				}
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				STRDUP(pkg->packager, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(pkg->packager);
 			} else if(strcmp(line, "%CSIZE%") == 0) {
-				/* NOTE: the CSIZE and SIZE fields both share the "size" field
-				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
-				 *       is currently only used in sync databases, and SIZE is
-				 *       only used in local databases.
+				/* Note: the CSIZE and SIZE fields both share the "size" field in the
+				 * pkginfo_t struct. This can be done b/c CSIZE is currently only used
+				 * in sync databases, and SIZE is only used in local databases.
 				 */
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				pkg->size = atol(_alpm_strtrim(line));
+				READ_NEXT(line);
+				pkg->size = atol(line);
 				/* also store this value to isize if isize is unset */
 				if(pkg->isize == 0) {
 					pkg->isize = pkg->size;
 				}
 			} else if(strcmp(line, "%ISIZE%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				pkg->isize = atol(_alpm_strtrim(line));
+				READ_NEXT(line);
+				pkg->isize = atol(line);
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				STRDUP(pkg->md5sum, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(pkg->md5sum);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
-							strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					pkg->replaces = alpm_list_add(pkg->replaces, linedup);
-				}
+				READ_AND_STORE_ALL(pkg->replaces);
 			} else if(strcmp(line, "%EPOCH%") == 0) {
-				if(_alpm_archive_fgets(line, sizeof(line), archive) == NULL) {
-					goto error;
-				}
-				pkg->epoch = atoi(_alpm_strtrim(line));
+				READ_NEXT(line);
+				pkg->epoch = atoi(line);
 			} else if(strcmp(line, "%FORCE%") == 0) {
 				/* For backward compatibility, treat force as a non-zero epoch
 				 * but only if we didn't already have a known epoch value. */
@@ -376,39 +348,20 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 					pkg->epoch = 1;
 				}
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
-							strlen(_alpm_strtrim(line))) {
-					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
-					pkg->depends = alpm_list_add(pkg->depends, dep);
+				/* Different than the rest because of the _alpm_splitdep call. */
+				while(1) {
+					READ_NEXT(line);
+					if(strlen(line) == 0) break;
+					pkg->depends = alpm_list_add(pkg->depends, _alpm_splitdep(line));
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
-							strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					pkg->optdepends = alpm_list_add(pkg->optdepends, linedup);
-				}
+				READ_AND_STORE_ALL(pkg->optdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
-							strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					pkg->conflicts = alpm_list_add(pkg->conflicts, linedup);
-				}
+				READ_AND_STORE_ALL(pkg->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) &&
-							strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
-					pkg->provides = alpm_list_add(pkg->provides, linedup);
-				}
+				READ_AND_STORE_ALL(pkg->provides);
 			} else if(strcmp(line, "%DELTAS%") == 0) {
-				while(_alpm_archive_fgets(line, sizeof(line), archive) && strlen(_alpm_strtrim(line))) {
-					pmdelta_t *delta = _alpm_delta_parse(line);
-					if(delta) {
-						pkg->deltas = alpm_list_add(pkg->deltas, delta);
-					}
-				}
+				READ_AND_STORE_ALL(pkg->deltas);
 			}
 		}
 	} else {
