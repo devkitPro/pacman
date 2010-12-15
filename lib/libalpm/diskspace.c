@@ -294,10 +294,15 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	for(i = mount_points; i; i = alpm_list_next(i)) {
 		alpm_mountpoint_t *data = i->data;
 		if(data->used == 1) {
-			_alpm_log(PM_LOG_DEBUG, "partition %s, needed %ld, free %ld\n",
-					data->mount_dir, data->max_blocks_needed,
+			/* cushion is roughly min(5% capacity, 20MiB) */
+			long fivepc = (data->fsp.f_blocks / 20) + 1;
+			long twentymb = (20 * 1024 * 1024 / data->fsp.f_bsize) + 1;
+			long cushion = fivepc < twentymb ? fivepc : twentymb;
+
+			_alpm_log(PM_LOG_DEBUG, "partition %s, needed %ld, cushion %ld, free %ld\n",
+					data->mount_dir, data->max_blocks_needed, cushion,
 					(unsigned long)data->fsp.f_bfree);
-			if(data->max_blocks_needed > data->fsp.f_bfree) {
+			if(data->max_blocks_needed + cushion > data->fsp.f_bfree) {
 				abort = 1;
 			}
 		}
