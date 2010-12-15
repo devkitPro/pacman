@@ -1546,7 +1546,7 @@ usage() {
 	echo "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")"
 	echo "$(gettext "  --asroot         Allow makepkg to run as root user")"
 	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
-	echo "$(gettext "  --holdver        Prevent automatic version bumping for development PKGBUILDs")"
+	printf "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
 	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
 	echo "$(gettext "  --skipinteg      Do not fail when integrity checks are missing")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
