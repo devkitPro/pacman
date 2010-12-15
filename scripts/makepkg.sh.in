@@ -71,6 +71,7 @@ SOURCEONLY=0
 IGNOREARCH=0
 HOLDVER=0
 BUILDFUNC=0
+CHECKFUNC=0
 PKGFUNC=0
 SPLITPKG=0
 PKGLIST=()
@@ -144,6 +145,9 @@ clean_up() {
 			# Can't do this unless the BUILDSCRIPT has been sourced.
 			if (( BUILDFUNC )); then
 				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-build.log"*
+			fi
+			if (( CHECKFUNC )); then
+				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-check.log"*
 			fi
 			if (( PKGFUNC )); then
 				rm -f "${pkgbase}-${pkgver}-${pkgrel}-${CARCH}-package.log"*
@@ -803,6 +807,10 @@ run_build() {
 	fi
 
 	run_function "build"
+}
+
+run_check() {
+	run_function "check"
 }
 
 run_package() {
@@ -1547,8 +1555,10 @@ usage() {
 	echo "$(gettext "  -s, --syncdeps   Install missing dependencies with pacman")"
 	echo "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")"
 	echo "$(gettext "  --asroot         Allow makepkg to run as root user")"
+	printf "$(gettext "  --check          Run the check() function in the %s")\n" "$BUILDSCRIPT"
 	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	printf "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
+	printf "$(gettext "  --nocheck        Do not run the check() function in the %s")\n" "$BUILDSCRIPT"
 	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
 	echo "$(gettext "  --skipinteg      Do not fail when integrity checks are missing")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
@@ -1584,10 +1594,10 @@ ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcCdefFghiLmop:rRsV"
-OPT_LONG="allsource,asroot,ignorearch,clean,cleancache,nodeps"
+OPT_LONG="allsource,asroot,ignorearch,check,clean,cleancache,nodeps"
 OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver"
-OPT_LONG+=",install,log,nocolor,nobuild,pkg:,rmdeps,repackage,skipinteg"
-OPT_LONG+=",source,syncdeps,version,config:"
+OPT_LONG+=",install,log,nocolor,nobuild,nocheck,pkg:,rmdeps"
+OPT_LONG+=",repackage,skipinteg,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
 OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@" || echo 'PARSE_OPTIONS FAILED')"
@@ -1610,6 +1620,7 @@ while true; do
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
 		-C|--cleancache)  CLEANCACHE=1 ;;
+		--check)          RUN_CHECK='y' ;;
 		--config)         shift; MAKEPKG_CONF=$1 ;;
 		-d|--nodeps)      NODEPS=1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
@@ -1622,6 +1633,7 @@ while true; do
 		-i|--install)     INSTALL=1 ;;
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
+		--nocheck)        RUN_CHECK='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
 		--pkg)            shift; PKGLIST=($1) ;;
@@ -1837,6 +1849,12 @@ fi
 if declare -f build >/dev/null; then
 	BUILDFUNC=1
 fi
+if declare -f check >/dev/null; then
+	# "Hide" check() function if not going to be run
+	if [[ $RUN_CHECK = 'y' || (! $(check_buildenv check) = "n" &&  ! $RUN_CHECK = "n") ]]; then
+		CHECKFUNC=1
+	fi
+fi
 if declare -f package >/dev/null; then
 	PKGFUNC=1
 elif [[ $SPLITPKG -eq 0 ]] && declare -f package_${pkgname} >/dev/null; then
@@ -1900,6 +1918,7 @@ if (( INFAKEROOT )); then
 			if (( ! REPKG )); then
 				if (( BUILDFUNC )); then
 					run_build
+					(( CHECKFUNC )) && run_check
 					tidy_install
 				fi
 			else
@@ -1949,6 +1968,10 @@ elif type -p "${PACMAN%% *}" >/dev/null; then
 
 	msg "$(gettext "Checking buildtime dependencies...")"
 	resolve_deps ${makedepends[@]} || deperr=1
+
+	if (( CHECKFUNC )); then
+		resolve_deps ${checkdepends[@]} || deperr=1
+	fi
 
 	if (( RMDEPS )); then
 		current_pkglist=($(run_pacman -Qq))    # required by remove_deps
@@ -2015,6 +2038,7 @@ else
 		if (( ! REPKG )); then
 			devel_update
 			(( BUILDFUNC )) && run_build
+			(( CHECKFUNC )) && run_check
 		fi
 		if (( ! SPLITPKG )); then
 			if (( PKGFUNC )); then
@@ -2036,6 +2060,7 @@ else
 		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
 			devel_update
 			(( BUILDFUNC )) && run_build
+			(( CHECKFUNC )) && run_check
 			cd "$startdir"
 		fi
 

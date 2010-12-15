@@ -153,6 +153,13 @@ Options
 	Only build listed packages from a split package. The use of quotes is
 	necessary when specifying multiple packages. e.g. `--pkg "pkg1 pkg3"`
 
+*\--check*::
+	Run the check() function in the PKGBUILD, overriding the setting in
+	linkman:makepkg.conf[5].
+
+*\--nocheck*::
+	Do not run the check() function in the PKGBUILD or handle the checkdepends.
+
 *\--noconfirm*::
 	(Passed to pacman) Prevent pacman from waiting for user input before
 	proceeding with operations.

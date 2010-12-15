@@ -156,6 +156,12 @@ name. The syntax is: `source=('filename::url')`.
 	needed at runtime. Packages in this list follow the same format as
 	depends.
 
+*checkdepends (array)*::
+	An array of packages that this package depends on to run its test suite,
+	but are not needed at runtime. Packages in this list follow the same
+	format as depends. These dependencies are only considered when the
+	check() function is present and is to be run by makepkg.
+
 *optdepends (array)*::
 	An array of packages (and accompanying reasons) that are not essential for
 	base functionality, but may be necessary to make full use of the contents
@@ -263,10 +269,18 @@ If you create any variables of your own in the build function, it is
 recommended to use the bash `local` keyword to scope the variable to inside
 the build function.
 
+check() Function
+----------------
+An optional check() function can be specified in which a packages test-suite
+may be run. This function is run between the build() and package() functions.
+The function is run in `bash -e` mode, meaning any command that exits with a
+non-zero status will cause the function to exit. Be sure any exotic commands
+used are covered by `checkdepends`.
+
 package() Function
 ------------------
 An optional package() function can be specified in addition to the build()
-function. This function is run immediately after the build() function. The
+function. This function is run after the build() and check() functions. The
 function is run in `bash -e` mode, meaning any command that exits with a
 non-zero status will cause the function to exit. When specified in combination
 with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage

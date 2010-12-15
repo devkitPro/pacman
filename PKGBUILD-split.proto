@@ -16,6 +16,7 @@ license=('GPL')
 groups=()
 depends=()
 makedepends=()
+checkdepends=()
 provides=()
 conflicts=()
 replaces=()
@@ -31,6 +32,11 @@ build() {
   cd "$srcdir/$pkgbase-$pkgver"
   ./configure --prefix=/usr
   make
+}
+
+check() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make -k check
 }
 
 package_pkg1() {
