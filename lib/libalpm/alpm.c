@@ -23,6 +23,10 @@
 
 #include "config.h"
 
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
+#endif
+
 /* connection caching setup */
 #ifdef HAVE_LIBFETCH
 #include <fetch.h>
@@ -69,6 +73,11 @@ int SYMEXPORT alpm_initialize(void)
 	fetchConnectionCacheInit(5, 1);
 #endif
 
+#ifdef HAVE_LIBCURL
+	curl_global_init(CURL_GLOBAL_SSL);
+	handle->curl = curl_easy_init();
+#endif
+
 	return(0);
 }
 
@@ -90,6 +99,10 @@ int SYMEXPORT alpm_release(void)
 
 #ifdef HAVE_LIBFETCH
 	fetchConnectionCacheClose();
+#endif
+
+#ifdef HAVE_LIBCURL
+	curl_global_cleanup();
 #endif
 
 	return(0);

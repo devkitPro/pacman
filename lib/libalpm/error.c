@@ -28,6 +28,10 @@
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
 
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
+#endif
+
 #ifdef HAVE_LIBFETCH
 #include <fetch.h> /* fetchLastErrString */
 #endif
