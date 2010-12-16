@@ -96,7 +96,12 @@ AC_ARG_WITH(openssl,
 # Help line for libfetch
 AC_ARG_WITH(fetch,
 	AS_HELP_STRING([--with-fetch], [use libfetch as an internal downloader]),
-	[], [with_fetch=check])
+	[], [with_fetch=no])
+
+# Help line for libcurl
+AC_ARG_WITH(curl,
+	AS_HELP_STRING([--with-curl], [use libcurl as an internal downloader]),
+	[], [with_curl=check])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
@@ -148,6 +153,18 @@ AS_IF([test "x$with_openssl" != "xno"],
 	[-lcrypto])],
 	AC_MSG_RESULT(no))
 AM_CONDITIONAL([HAVE_LIBSSL], [test "x$ac_cv_lib_ssl_MD5_Final" = "xyes"])
+
+# Enable or disable usage of libcurl
+AC_MSG_CHECKING(whether to link with libcurl)
+AS_IF([test "x$with_curl" != "xno"],
+	[AC_MSG_RESULT(yes)
+	AC_CHECK_LIB([curl], [curl_easy_perform], ,
+	[if test "x$with_curl" != "xcheck"; then
+		AC_MSG_FAILURE([--with-curl was given, but -lcurl was not found])
+	fi],
+	[-lcurl])],
+	AC_MSG_RESULT(no))
+AM_CONDITIONAL([HAVE_LIBCURL], [test "x$ac_cv_lib_curl_curl_easy_perform" = "xyes"])
 
 # Enable or disable usage of libfetch
 AC_MSG_CHECKING(whether to link with libfetch)
