@@ -23,7 +23,6 @@
 #define _ALPM_DB_H
 
 #include "alpm.h"
-#include <limits.h>
 #include <time.h>
 
 /* libarchive */

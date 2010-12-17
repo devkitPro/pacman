@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <sys/statvfs.h>
 #include <errno.h>
+#include <limits.h>
 
 /* libalpm */
 #include "trans.h"

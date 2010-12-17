@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
+#include <limits.h>
 
 /* libarchive */
 #include <archive.h>

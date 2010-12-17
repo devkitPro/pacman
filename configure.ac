@@ -172,7 +172,7 @@ AS_IF([test "x$with_fetch" != "xno"],
 AM_CONDITIONAL([HAVE_LIBFETCH], [test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h glob.h libintl.h limits.h locale.h mntent.h string.h strings.h \
+AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h strings.h \
                   sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h sys/syslimits.h \
                   sys/time.h sys/types.h sys/ucred.h syslog.h wchar.h])
 
@@ -185,6 +185,7 @@ AC_TYPE_SIZE_T
 AC_STRUCT_TM
 AC_TYPE_UID_T
 AC_STRUCT_DIRENT_D_TYPE
+PATH_MAX_DEFINED
 
 # Checks for library functions.
 AC_FUNC_FORK

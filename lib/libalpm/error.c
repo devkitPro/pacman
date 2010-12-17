@@ -22,7 +22,6 @@
 
 /* TODO: needed for the libfetch stuff, unfortunately- we should kill it */
 #include <stdio.h>
-#include <limits.h>
 /* the following two are needed on BSD for libfetch */
 #if defined(HAVE_SYS_SYSLIMITS_H)
 #include <sys/syslimits.h> /* PATH_MAX */
