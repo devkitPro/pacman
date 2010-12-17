@@ -172,8 +172,8 @@ AS_IF([test "x$with_fetch" != "xno"],
 AM_CONDITIONAL([HAVE_LIBFETCH], [test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h strings.h \
-                  sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h sys/syslimits.h \
+AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h \
+                  sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h \
                   sys/time.h sys/types.h sys/ucred.h syslog.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.

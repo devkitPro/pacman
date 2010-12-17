@@ -29,10 +29,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
-/* the following two are needed on BSD for libfetch */
-#if defined(HAVE_SYS_SYSLIMITS_H)
-#include <sys/syslimits.h> /* PATH_MAX */
-#endif
+/* the following two are needed for FreeBSD's libfetch */
+#include <limits.h> /* PATH_MAX */
 #if defined(HAVE_SYS_PARAM_H)
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
