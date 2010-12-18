@@ -302,7 +302,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 			_alpm_log(PM_LOG_DEBUG, "partition %s, needed %ld, cushion %ld, free %ld\n",
 					data->mount_dir, data->max_blocks_needed, cushion,
 					(unsigned long)data->fsp.f_bfree);
-			if(data->max_blocks_needed + cushion > data->fsp.f_bfree) {
+			if(data->max_blocks_needed + cushion >= 0 &&
+			   (unsigned long)(data->max_blocks_needed + cushion) > data->fsp.f_bfree) {
 				abort = 1;
 			}
 		}
