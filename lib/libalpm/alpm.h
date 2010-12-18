@@ -97,69 +97,69 @@ typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
  * Options
  */
 
-alpm_cb_log alpm_option_get_logcb();
+alpm_cb_log alpm_option_get_logcb(void);
 void alpm_option_set_logcb(alpm_cb_log cb);
 
-alpm_cb_download alpm_option_get_dlcb();
+alpm_cb_download alpm_option_get_dlcb(void);
 void alpm_option_set_dlcb(alpm_cb_download cb);
 
-alpm_cb_fetch alpm_option_get_fetchcb();
+alpm_cb_fetch alpm_option_get_fetchcb(void);
 void alpm_option_set_fetchcb(alpm_cb_fetch cb);
 
-alpm_cb_totaldl alpm_option_get_totaldlcb();
+alpm_cb_totaldl alpm_option_get_totaldlcb(void);
 void alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
 
-const char *alpm_option_get_root();
+const char *alpm_option_get_root(void);
 int alpm_option_set_root(const char *root);
 
-const char *alpm_option_get_dbpath();
+const char *alpm_option_get_dbpath(void);
 int alpm_option_set_dbpath(const char *dbpath);
 
-alpm_list_t *alpm_option_get_cachedirs();
+alpm_list_t *alpm_option_get_cachedirs(void);
 int alpm_option_add_cachedir(const char *cachedir);
 void alpm_option_set_cachedirs(alpm_list_t *cachedirs);
 int alpm_option_remove_cachedir(const char *cachedir);
 
-const char *alpm_option_get_logfile();
+const char *alpm_option_get_logfile(void);
 int alpm_option_set_logfile(const char *logfile);
 
-const char *alpm_option_get_lockfile();
+const char *alpm_option_get_lockfile(void);
 /* no set_lockfile, path is determined from dbpath */
 
-int alpm_option_get_usesyslog();
+int alpm_option_get_usesyslog(void);
 void alpm_option_set_usesyslog(int usesyslog);
 
-alpm_list_t *alpm_option_get_noupgrades();
+alpm_list_t *alpm_option_get_noupgrades(void);
 void alpm_option_add_noupgrade(const char *pkg);
 void alpm_option_set_noupgrades(alpm_list_t *noupgrade);
 int alpm_option_remove_noupgrade(const char *pkg);
 
-alpm_list_t *alpm_option_get_noextracts();
+alpm_list_t *alpm_option_get_noextracts(void);
 void alpm_option_add_noextract(const char *pkg);
 void alpm_option_set_noextracts(alpm_list_t *noextract);
 int alpm_option_remove_noextract(const char *pkg);
 
-alpm_list_t *alpm_option_get_ignorepkgs();
+alpm_list_t *alpm_option_get_ignorepkgs(void);
 void alpm_option_add_ignorepkg(const char *pkg);
 void alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
 int alpm_option_remove_ignorepkg(const char *pkg);
 
-alpm_list_t *alpm_option_get_ignoregrps();
+alpm_list_t *alpm_option_get_ignoregrps(void);
 void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
 
-const char *alpm_option_get_arch();
+const char *alpm_option_get_arch(void);
 void alpm_option_set_arch(const char *arch);
 
-int alpm_option_get_usedelta();
+int alpm_option_get_usedelta(void);
 void alpm_option_set_usedelta(int usedelta);
 
-int alpm_option_get_checkspace();
+int alpm_option_get_checkspace(void);
 void alpm_option_set_checkspace(int checkspace);
 
-pmdb_t *alpm_option_get_localdb();
-alpm_list_t *alpm_option_get_syncdbs();
+pmdb_t *alpm_option_get_localdb(void);
+alpm_list_t *alpm_option_get_syncdbs(void);
 
 /*
  * Install reasons -- ie, why the package was installed
@@ -407,9 +407,9 @@ typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
 /* Transaction Progress callback */
 typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, int, int);
 
-int alpm_trans_get_flags();
-alpm_list_t * alpm_trans_get_add();
-alpm_list_t * alpm_trans_get_remove();
+int alpm_trans_get_flags(void);
+alpm_list_t * alpm_trans_get_add(void);
+alpm_list_t * alpm_trans_get_remove(void);
 int alpm_trans_init(pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);

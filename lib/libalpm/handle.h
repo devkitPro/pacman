@@ -66,7 +66,7 @@ typedef struct _pmhandle_t {
 /* global handle variable */
 extern pmhandle_t *handle;
 
-pmhandle_t *_alpm_handle_new();
+pmhandle_t *_alpm_handle_new(void);
 void _alpm_handle_free(pmhandle_t *handle);
 
 #endif /* _ALPM_HANDLE_H */

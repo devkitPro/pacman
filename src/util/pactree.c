@@ -54,7 +54,7 @@ int reverse = 0;
 int unique = 0;
 char *dbpath = NULL;
 
-static int alpm_local_init()
+static int alpm_local_init(void)
 {
 	int ret;
 

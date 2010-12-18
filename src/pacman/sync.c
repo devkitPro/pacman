@@ -571,7 +571,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	return(0);
 }
 
-static alpm_list_t *syncfirst() {
+static alpm_list_t *syncfirst(void) {
 	alpm_list_t *i, *res = NULL;
 
 	for(i = config->syncfirst; i; i = alpm_list_next(i)) {

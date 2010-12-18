@@ -131,7 +131,7 @@ int _package_changelog_close(const pmpkg_t *pkg, void *fp)
  * lets us only initialize an operations struct once which can always be
  * accessed by this method.
  */
-static struct pkg_operations *get_file_pkg_ops()
+static struct pkg_operations *get_file_pkg_ops(void)
 {
 	static struct pkg_operations *file_pkg_ops = NULL;
 	/* determine whether our static file_pkg_ops struct has been initialized */
