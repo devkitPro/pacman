@@ -846,7 +846,7 @@ static char *get_tempfile(const char *path, const char *filename) {
 }
 
 /** External fetch callback */
-int download_with_xfercommand(const char *url, const char *localpath,
+static int download_with_xfercommand(const char *url, const char *localpath,
 		int force) {
 	int ret = 0;
 	int retval;

@@ -45,7 +45,7 @@
  * @param pkg the package (file) to read the changelog
  * @return a 'file stream' to the package changelog
  */
-void *_package_changelog_open(pmpkg_t *pkg)
+static void *_package_changelog_open(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -90,7 +90,7 @@ void *_package_changelog_open(pmpkg_t *pkg)
  * @param fp a 'file stream' to the package changelog
  * @return the number of characters read, or 0 if there is no more data
  */
-size_t _package_changelog_read(void *ptr, size_t size,
+static size_t _package_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp)
 {
 	ssize_t sret = archive_read_data((struct archive*)fp, ptr, size);
@@ -104,7 +104,7 @@ size_t _package_changelog_read(void *ptr, size_t size,
 }
 
 /*
-int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
+static int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
 {
 	// note: this doesn't quite work, no feof in libarchive
 	return( archive_read_data((struct archive*)fp, NULL, 0) );
@@ -118,7 +118,7 @@ int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
  * @param fp a 'file stream' to the package changelog
  * @return whether closing the package changelog stream was successful
  */
-int _package_changelog_close(const pmpkg_t *pkg, void *fp)
+static int _package_changelog_close(const pmpkg_t *pkg, void *fp)
 {
 	return( archive_read_finish((struct archive *)fp) );
 }

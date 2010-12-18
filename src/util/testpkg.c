@@ -24,7 +24,7 @@
 
 #define BASENAME "testpkg"
 
-void output_cb(pmloglevel_t level, char *fmt, va_list args)
+static void output_cb(pmloglevel_t level, char *fmt, va_list args)
 {
 	if(fmt[0] == '\0') {
 		return;

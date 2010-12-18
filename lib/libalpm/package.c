@@ -97,32 +97,32 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
  * backend logic that needs lazy access, such as the local database through
  * a lazy-load cache. However, the defaults will work just fine for fully-
  * populated package structures. */
-const char *_pkg_get_filename(pmpkg_t *pkg)    { return pkg->filename; }
-const char *_pkg_get_name(pmpkg_t *pkg)        { return pkg->name; }
-const char *_pkg_get_version(pmpkg_t *pkg)     { return pkg->version; }
-const char *_pkg_get_desc(pmpkg_t *pkg)        { return pkg->desc; }
-const char *_pkg_get_url(pmpkg_t *pkg)         { return pkg->url; }
-time_t _pkg_get_builddate(pmpkg_t *pkg)        { return pkg->builddate; }
-time_t _pkg_get_installdate(pmpkg_t *pkg)      { return pkg->installdate; }
-const char *_pkg_get_packager(pmpkg_t *pkg)    { return pkg->packager; }
-const char *_pkg_get_md5sum(pmpkg_t *pkg)      { return pkg->md5sum; }
-const char *_pkg_get_arch(pmpkg_t *pkg)        { return pkg->arch; }
-off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
-off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
-pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
-int _pkg_get_epoch(pmpkg_t *pkg)               { return pkg->epoch; }
-int _pkg_has_scriptlet(pmpkg_t *pkg)           { return pkg->scriptlet; }
+static const char *_pkg_get_filename(pmpkg_t *pkg)    { return pkg->filename; }
+static const char *_pkg_get_name(pmpkg_t *pkg)        { return pkg->name; }
+static const char *_pkg_get_version(pmpkg_t *pkg)     { return pkg->version; }
+static const char *_pkg_get_desc(pmpkg_t *pkg)        { return pkg->desc; }
+static const char *_pkg_get_url(pmpkg_t *pkg)         { return pkg->url; }
+static time_t _pkg_get_builddate(pmpkg_t *pkg)        { return pkg->builddate; }
+static time_t _pkg_get_installdate(pmpkg_t *pkg)      { return pkg->installdate; }
+static const char *_pkg_get_packager(pmpkg_t *pkg)    { return pkg->packager; }
+static const char *_pkg_get_md5sum(pmpkg_t *pkg)      { return pkg->md5sum; }
+static const char *_pkg_get_arch(pmpkg_t *pkg)        { return pkg->arch; }
+static off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
+static off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
+static pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
+static int _pkg_get_epoch(pmpkg_t *pkg)               { return pkg->epoch; }
+static int _pkg_has_scriptlet(pmpkg_t *pkg)           { return pkg->scriptlet; }
 
-alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
-alpm_list_t *_pkg_get_groups(pmpkg_t *pkg)     { return pkg->groups; }
-alpm_list_t *_pkg_get_depends(pmpkg_t *pkg)    { return pkg->depends; }
-alpm_list_t *_pkg_get_optdepends(pmpkg_t *pkg) { return pkg->optdepends; }
-alpm_list_t *_pkg_get_conflicts(pmpkg_t *pkg)  { return pkg->conflicts; }
-alpm_list_t *_pkg_get_provides(pmpkg_t *pkg)   { return pkg->provides; }
-alpm_list_t *_pkg_get_replaces(pmpkg_t *pkg)   { return pkg->replaces; }
-alpm_list_t *_pkg_get_deltas(pmpkg_t *pkg)     { return pkg->deltas; }
-alpm_list_t *_pkg_get_files(pmpkg_t *pkg)      { return pkg->files; }
-alpm_list_t *_pkg_get_backup(pmpkg_t *pkg)     { return pkg->backup; }
+static alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
+static alpm_list_t *_pkg_get_groups(pmpkg_t *pkg)     { return pkg->groups; }
+static alpm_list_t *_pkg_get_depends(pmpkg_t *pkg)    { return pkg->depends; }
+static alpm_list_t *_pkg_get_optdepends(pmpkg_t *pkg) { return pkg->optdepends; }
+static alpm_list_t *_pkg_get_conflicts(pmpkg_t *pkg)  { return pkg->conflicts; }
+static alpm_list_t *_pkg_get_provides(pmpkg_t *pkg)   { return pkg->provides; }
+static alpm_list_t *_pkg_get_replaces(pmpkg_t *pkg)   { return pkg->replaces; }
+static alpm_list_t *_pkg_get_deltas(pmpkg_t *pkg)     { return pkg->deltas; }
+static alpm_list_t *_pkg_get_files(pmpkg_t *pkg)      { return pkg->files; }
+static alpm_list_t *_pkg_get_backup(pmpkg_t *pkg)     { return pkg->backup; }
 
 /** The standard package operations struct. Get fields directly from the
  * struct itself with no abstraction layer or any type of lazy loading.

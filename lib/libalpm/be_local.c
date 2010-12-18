@@ -67,13 +67,13 @@
  * initialized.
  */
 
-const char *_cache_get_filename(pmpkg_t *pkg)
+static const char *_cache_get_filename(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->filename;
 }
 
-const char *_cache_get_name(pmpkg_t *pkg)
+static const char *_cache_get_name(pmpkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return(NULL));
 	return pkg->name;
@@ -91,79 +91,79 @@ static const char *_cache_get_desc(pmpkg_t *pkg)
 	return pkg->desc;
 }
 
-const char *_cache_get_url(pmpkg_t *pkg)
+static const char *_cache_get_url(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->url;
 }
 
-time_t _cache_get_builddate(pmpkg_t *pkg)
+static time_t _cache_get_builddate(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->builddate;
 }
 
-time_t _cache_get_installdate(pmpkg_t *pkg)
+static time_t _cache_get_installdate(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->installdate;
 }
 
-const char *_cache_get_packager(pmpkg_t *pkg)
+static const char *_cache_get_packager(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->packager;
 }
 
-const char *_cache_get_md5sum(pmpkg_t *pkg)
+static const char *_cache_get_md5sum(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->md5sum;
 }
 
-const char *_cache_get_arch(pmpkg_t *pkg)
+static const char *_cache_get_arch(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->arch;
 }
 
-off_t _cache_get_size(pmpkg_t *pkg)
+static off_t _cache_get_size(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->size;
 }
 
-off_t _cache_get_isize(pmpkg_t *pkg)
+static off_t _cache_get_isize(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->isize;
 }
 
-pmpkgreason_t _cache_get_reason(pmpkg_t *pkg)
+static pmpkgreason_t _cache_get_reason(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->reason;
 }
 
-alpm_list_t *_cache_get_licenses(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_licenses(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->licenses;
 }
 
-alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->groups;
 }
 
-int _cache_get_epoch(pmpkg_t *pkg)
+static int _cache_get_epoch(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->epoch;
 }
 
-int _cache_has_scriptlet(pmpkg_t *pkg)
+static int _cache_has_scriptlet(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -177,37 +177,43 @@ int _cache_has_scriptlet(pmpkg_t *pkg)
 	return pkg->scriptlet;
 }
 
-alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->depends;
 }
 
-alpm_list_t *_cache_get_optdepends(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_optdepends(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->optdepends;
 }
 
-alpm_list_t *_cache_get_conflicts(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_conflicts(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->conflicts;
 }
 
-alpm_list_t *_cache_get_provides(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_provides(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->provides;
 }
 
-alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->replaces;
 }
 
-alpm_list_t *_cache_get_files(pmpkg_t *pkg)
+/* local packages can not have deltas */
+static alpm_list_t *_cache_get_deltas(pmpkg_t *pkg)
+{
+	return NULL;
+}
+
+static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -222,7 +228,7 @@ alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 	return pkg->files;
 }
 
-alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -243,7 +249,7 @@ alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
  * @param pkg the package (from db) to read the changelog
  * @return a 'file stream' to the package changelog
  */
-void *_cache_changelog_open(pmpkg_t *pkg)
+static void *_cache_changelog_open(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
@@ -269,14 +275,14 @@ void *_cache_changelog_open(pmpkg_t *pkg)
  * @param fp a 'file stream' to the package changelog
  * @return the number of characters read, or 0 if there is no more data
  */
-size_t _cache_changelog_read(void *ptr, size_t size,
+static size_t _cache_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp)
 {
 	return ( fread(ptr, 1, size, (FILE*)fp) );
 }
 
 /*
-int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
+static int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
 {
 	return( feof((FILE*)fp) );
 }
@@ -289,13 +295,11 @@ int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
  * @param fp a 'file stream' to the package changelog
  * @return whether closing the package changelog stream was successful
  */
-int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
+static int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
 {
 	return( fclose((FILE*)fp) );
 }
 
-/* We're cheating, local packages can't have deltas anyway. */
-alpm_list_t *_pkg_get_deltas(pmpkg_t *pkg);
 
 /** The local database operations struct. Get package fields through
  * lazy accessor methods that handle any backend loading and caching
@@ -324,7 +328,7 @@ static struct pkg_operations local_pkg_ops = {
 	.get_conflicts   = _cache_get_conflicts,
 	.get_provides    = _cache_get_provides,
 	.get_replaces    = _cache_get_replaces,
-	.get_deltas      = _pkg_get_deltas,
+	.get_deltas      = _cache_get_deltas,
 	.get_files       = _cache_get_files,
 	.get_backup      = _cache_get_backup,
 
