@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <limits.h>
 #include <string.h>
 #include <dirent.h>
 
@@ -50,16 +49,18 @@ void output_cb(pmloglevel_t level, char *fmt, va_list args)
 	}
 }
 
-static int db_test(char *dbpath, int local)
+static int check_localdb_files(void)
 {
 	struct dirent *ent;
-	char path[PATH_MAX];
+	const char *dbpath;
+	char path[4096];
 	int ret = 0;
-
 	DIR *dir;
 
-	if(!(dir = opendir(dbpath))) {
-		fprintf(stderr, "error : %s : %s\n", dbpath, strerror(errno));
+	dbpath = alpm_option_get_dbpath();
+	snprintf(path, sizeof(path), "%slocal", dbpath);
+	if(!(dir = opendir(path))) {
+		fprintf(stderr, "error : %s : %s\n", path, strerror(errno));
 		return(1);
 	}
 
@@ -68,23 +69,16 @@ static int db_test(char *dbpath, int local)
 				|| ent->d_name[0] == '.') {
 			continue;
 		}
-		/* check for desc, depends, and files */
-		snprintf(path, PATH_MAX, "%s/%s/desc", dbpath, ent->d_name);
+		/* check for known db files in local database */
+		snprintf(path, sizeof(path), "%slocal/%s/desc", dbpath, ent->d_name);
 		if(access(path, F_OK)) {
 			printf("%s: description file is missing\n", ent->d_name);
 			ret++;
 		}
-		snprintf(path, PATH_MAX, "%s/%s/depends", dbpath, ent->d_name);
+		snprintf(path, sizeof(path), "%slocal/%s/files", dbpath, ent->d_name);
 		if(access(path, F_OK)) {
-			printf("%s: dependency file is missing\n", ent->d_name);
+			printf("%s: file list is missing\n", ent->d_name);
 			ret++;
-		}
-		if(local) {
-			snprintf(path, PATH_MAX, "%s/%s/files", dbpath, ent->d_name);
-			if(access(path, F_OK)) {
-				printf("%s: file list is missing\n", ent->d_name);
-				ret++;
-			}
 		}
 	}
 	if(closedir(dir)) {
@@ -130,14 +124,12 @@ static int checkconflicts(alpm_list_t *pkglist)
 	return(ret);
 }
 
-static int check_localdb(char *dbpath) {
-	char localdbpath[PATH_MAX];
+static int check_localdb(void) {
 	int ret = 0;
 	pmdb_t *db = NULL;
 	alpm_list_t *pkglist;
 
-	snprintf(localdbpath, PATH_MAX, "%s/local", dbpath);
-	ret = db_test(localdbpath, 1);
+	ret = check_localdb_files();
 	if(ret) {
 		return(ret);
 	}
@@ -154,20 +146,13 @@ static int check_localdb(char *dbpath) {
 	return(ret);
 }
 
-static int check_syncdbs(char *dbpath, alpm_list_t *dbnames) {
-	char syncdbpath[PATH_MAX];
+static int check_syncdbs(alpm_list_t *dbnames) {
 	int ret = 0;
 	pmdb_t *db = NULL;
 	alpm_list_t *i, *pkglist, *syncpkglist = NULL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
 		char *dbname = alpm_list_getdata(i);
-		snprintf(syncdbpath, PATH_MAX, "%s/sync/%s", dbpath, dbname);
-		ret = db_test(syncdbpath, 0);
-		if(ret) {
-			ret = 1;
-			goto cleanup;
-		}
 		db = alpm_db_register_sync(dbname);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database (%s)\n",
@@ -219,18 +204,21 @@ int main(int argc, char *argv[])
 
 	if(alpm_initialize() == -1) {
 		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerrorlast());
-		return(1);
+		return(EXIT_FAILURE);
 	}
 
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(output_cb);
 
-	alpm_option_set_dbpath(dbpath);
+	if(alpm_option_set_dbpath(dbpath) != 0) {
+		fprintf(stderr, "cannot set dbpath: %s\n", alpm_strerrorlast());
+		return(EXIT_FAILURE);
+	}
 
 	if(!dbnames) {
-		ret = check_localdb(dbpath);
+		ret = check_localdb();
 	} else {
-		ret = check_syncdbs(dbpath,dbnames);
+		ret = check_syncdbs(dbnames);
 		alpm_list_free(dbnames);
 	}
 
