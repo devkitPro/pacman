@@ -322,9 +322,6 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	alpm_list_t *i;
-
-	ALPM_LOG_FUNC;
-
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	const char *pkgversion = alpm_pkg_get_version(pkg);
 	int satisfy = 0;
@@ -332,22 +329,29 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 	/* check (pkg->name, pkg->version) */
 	satisfy = (strcmp(pkgname, dep->name) == 0
 			&& dep_vercmp(pkgversion, dep->mod, dep->version));
+	if(satisfy) {
+		return(satisfy);
+	}
 
 	/* check provisions, format : "name=version" */
 	for(i = alpm_pkg_get_provides(pkg); i && !satisfy; i = i->next) {
-		char *provname = strdup(i->data);
-		char *provver = strchr(provname, '=');
+		const char *provision = i->data;
+		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
 			satisfy = (dep->mod == PM_DEP_MOD_ANY
-					&& strcmp(provname, dep->name) == 0);
+					&& strcmp(provision, dep->name) == 0);
 		} else {
-			*provver = '\0';
+			/* This is a bit tricker than the old code for performance reasons. To
+			 * prevent the need to copy and duplicate strings, strncmp only the name
+			 * portion if they are the same length, since there is a version and
+			 * operator in play here. */
+			size_t namelen = provver - provision;
 			provver += 1;
-			satisfy = (strcmp(provname, dep->name) == 0
+			satisfy = (strlen(dep->name) == namelen
+					&& strncmp(provision, dep->name, namelen) == 0
 					&& dep_vercmp(provver, dep->mod, dep->version));
 		}
-		free(provname);
 	}
 
 	return(satisfy);
