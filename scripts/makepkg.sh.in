@@ -45,7 +45,7 @@ srcdir="$startdir/src"
 pkgdir="$startdir/pkg"
 
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge')
-other_options=('ccache' 'distcc' 'makeflags')
+other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgver' 'pkgrel' 'pkgdesc' 'arch' 'license' 'groups' \
                     'depends' 'optdepends' 'provides' 'conflicts' 'replaces' \
                     'backup' 'options' 'install' 'changelog')
@@ -738,6 +738,13 @@ run_function() {
 		return 1
 	fi
 	local pkgfunc="$1"
+
+	# clear user-specified buildflags if requested
+	if [[ $(check_option buildflags) = "n" ]]; then
+		CFLAGS=""
+		CXXFLAGS=""
+		LDFLAGS=""
+	fi
 
 	# clear user-specified makeflags if requested
 	if [[ $(check_option makeflags) = "n" ]]; then

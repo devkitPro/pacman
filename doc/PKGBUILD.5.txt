@@ -233,6 +233,12 @@ name. The syntax is: `source=('filename::url')`.
 		form `!distcc` with select packages that have problems building
 		with distcc.
 
+	*buildflags*;;
+		Allow the use of user-specific buildflags (CFLAGS, CXXFLAGS, LDFLAGS)
+		during build as specified in linkman:makepkg.conf[5]. More useful in
+		its negative form `!buildflags` with select packages that have problems
+		building with custom buildflags.
+
 	*makeflags*;;
 		Allow the use of user-specific makeflags during build as specified
 		in linkman:makepkg.conf[5]. More useful in its negative form
