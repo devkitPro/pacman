@@ -1406,17 +1406,19 @@ restore_package_variables() {
 }
 
 run_split_packaging() {
-	for pkg in ${pkgname[@]}; do
-		pkgdir="$pkgdir/$pkg"
+	local pkgname_backup=${pkgname[@]}
+	for pkgname in ${pkgname_backup[@]}; do
+		pkgdir="$pkgdir/$pkgname"
 		mkdir -p "$pkgdir"
 		chmod a-s "$pkgdir"
 		backup_package_variables
-		run_package $pkg
+		run_package $pkgname
 		tidy_install
-		create_package $pkg
+		create_package $pkgname
 		restore_package_variables
 		pkgdir="${pkgdir%/*}"
 	done
+	pkgname=${pkgname_backup[@]}
 }
 
 # Canonicalize a directory path if it exists
