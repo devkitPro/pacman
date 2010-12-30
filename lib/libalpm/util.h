@@ -59,6 +59,22 @@
 	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerrorlast()); \
 	return(ret); } while(0)
 
+/**
+ * Used as a buffer/state holder for _alpm_archive_fgets().
+ */
+struct archive_read_buffer {
+	char *line;
+	char *line_offset;
+	size_t line_size;
+	size_t max_line_size;
+
+	char *block;
+	char *block_offset;
+	size_t block_size;
+
+	int ret;
+};
+
 int _alpm_makepath(const char *path);
 int _alpm_makepath_mode(const char *path, mode_t mode);
 int _alpm_copyfile(const char *src, const char *dest);
@@ -76,7 +92,7 @@ char *_alpm_filecache_find(const char *filename);
 const char *_alpm_filecache_setup(void);
 int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_md5sum(const char *filepath, const char *md5sum);
-char *_alpm_archive_fgets(char *line, size_t size, struct archive *a);
+int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b);
 int _alpm_splitname(const char *target, pmpkg_t *pkg);
 unsigned long _alpm_hash_sdbm(const char *str);
 

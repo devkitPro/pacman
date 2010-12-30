@@ -219,8 +219,8 @@ static int sync_db_populate(pmdb_t *db)
 }
 
 #define READ_NEXT(s) do { \
-	if(_alpm_archive_fgets(s, sizeof(s), archive) == NULL) goto error; \
-	_alpm_strtrim(s); \
+	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
+	s = _alpm_strtrim(buf.line); \
 } while(0)
 
 #define READ_AND_STORE(f) do { \
@@ -238,10 +238,10 @@ static int sync_db_populate(pmdb_t *db)
 
 static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
 {
-	char line[1024];
 	const char *entryname = NULL;
 	char *filename, *pkgname, *p, *q;
 	pmpkg_t *pkg;
+	struct archive_read_buffer buf;
 
 	ALPM_LOG_FUNC;
 
@@ -259,6 +259,10 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 
 	_alpm_log(PM_LOG_FUNCTION, "loading package data from archive entry %s\n",
 			entryname);
+
+	memset(&buf, 0, sizeof(buf));
+	/* 512K for a line length seems reasonable */
+	buf.max_line_size = 512 * 1024;
 
 	/* get package and db file names */
 	STRDUP(pkgname, entryname, RET_ERR(PM_ERR_MEMORY, -1));
@@ -279,8 +283,9 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
 			|| strcmp(filename, "deltas") == 0) {
-		while(_alpm_archive_fgets(line, sizeof(line), archive) != NULL) {
-			_alpm_strtrim(line);
+		while(_alpm_archive_fgets(archive, &buf) == ARCHIVE_OK) {
+			char *line = _alpm_strtrim(buf.line);
+
 			if(strcmp(line, "%NAME%") == 0) {
 				READ_NEXT(line);
 				if(strcmp(line, pkg->name) != 0) {

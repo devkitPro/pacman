@@ -29,7 +29,9 @@ class pmrule:
         self.result = 0
 
     def __str__(self):
-        return "rule = %s" % self.rule
+        if len(self.rule) <= 40:
+            return self.rule
+        return self.rule[:37] + '...'
 
     def check(self, root, retcode, localdb, files):
         """
@@ -75,6 +77,9 @@ class pmrule:
                         success = 0
                 elif case == "VERSION":
                     if value != newpkg.version:
+                        success = 0
+                elif case == "DESC":
+                    if value != newpkg.desc:
                         success = 0
                 elif case == "GROUPS":
                     if not value in newpkg.groups:
@@ -153,7 +158,4 @@ class pmrule:
         self.result = success
         return success
 
-
-if __name__ != "__main__":
-    rule = pmrule("PKG_EXIST=dummy")
 # vim: set ts=4 sw=4 et:

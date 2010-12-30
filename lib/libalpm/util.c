@@ -771,33 +771,89 @@ int _alpm_test_md5sum(const char *filepath, const char *md5sum)
 	return(ret);
 }
 
-char *_alpm_archive_fgets(char *line, size_t size, struct archive *a)
+/* Note: does NOT handle sparse files on purpose for speed. */
+int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 {
-	/* for now, just read one char at a time until we get to a
-	 * '\n' char. we can optimize this later with an internal
-	 * buffer. */
-	/* leave room for zero terminator */
-	char *last = line + size - 1;
-	char *i;
+	char *i = NULL;
+	int64_t offset;
+	int done = 0;
 
-	for(i = line; i < last; i++) {
-		int ret = archive_read_data(a, i, 1);
-		/* special check for first read- if null, return null,
-		 * this indicates EOF */
-		if(i == line && (ret <= 0 || *i == '\0')) {
-			return(NULL);
+	while(1) {
+		/* have we processed this entire block? */
+		if(b->block + b->block_size == b->block_offset) {
+			if(b->ret == ARCHIVE_EOF) {
+				/* reached end of archive on the last read, now we are out of data */
+				goto cleanup;
+			}
+
+			/* zero-copy - this is the entire next block of data. */
+			b->ret = archive_read_data_block(a, (void*)&b->block,
+					&b->block_size, &offset);
+			b->block_offset = b->block;
+
+			/* error or end of archive with no data read, cleanup */
+			if(b->ret < ARCHIVE_OK ||
+					(b->block_size == 0 && b->ret == ARCHIVE_EOF)) {
+				goto cleanup;
+			}
 		}
-		/* check if read value was null or newline */
-		if(ret <= 0 || *i == '\0' || *i == '\n') {
-			last = i + 1;
-			break;
+
+		/* loop through the block looking for EOL characters */
+		for(i = b->block_offset; i < (b->block + b->block_size); i++) {
+			/* check if read value was null or newline */
+			if(*i == '\0' || *i == '\n') {
+				done = 1;
+				break;
+			}
+		}
+
+		/* allocate our buffer, or ensure our existing one is big enough */
+		if(!b->line) {
+			/* set the initial buffer to the read block_size */
+			CALLOC(b->line, b->block_size + 1, sizeof(char),
+					RET_ERR(PM_ERR_MEMORY, -1));
+			b->line_size = b->block_size + 1;
+			b->line_offset = b->line;
+		} else {
+			size_t needed = (b->line_offset - b->line) + (i - b->block_offset) + 1;
+			if(needed > b->max_line_size) {
+				RET_ERR(PM_ERR_MEMORY, -1);
+			}
+			if(needed > b->line_size) {
+				/* need to realloc + copy data to fit total length */
+				char *new;
+				CALLOC(new, needed, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+				memcpy(new, b->line, b->line_size);
+				b->line_size = needed;
+				b->line_offset = new + (b->line_offset - b->line);
+				free(b->line);
+				b->line = new;
+			}
+		}
+
+		if(done) {
+			size_t len = i - b->block_offset;
+			memcpy(b->line_offset, b->block_offset, len);
+			b->line_offset[len] = '\0';
+			b->block_offset = ++i;
+			/* this is the main return point; from here you can read b->line */
+			return(ARCHIVE_OK);
+		} else {
+			/* we've looked through the whole block but no newline, copy it */
+			size_t len = b->block + b->block_size - b->block_offset;
+			memcpy(b->line_offset, b->block_offset, len);
+			b->line_offset += len;
+			b->block_offset = i;
 		}
 	}
 
-	/* always null terminate the buffer */
-	*last = '\0';
-
-	return(line);
+cleanup:
+	{
+		int ret = b->ret;
+		FREE(b->line);
+		memset(b, 0, sizeof(b));
+		return(ret);
+	}
 }
 
 int _alpm_splitname(const char *target, pmpkg_t *pkg)

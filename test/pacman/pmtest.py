@@ -260,11 +260,6 @@ class pmtest:
                 self.result["fail"] += 1
             else:
                 msg = "SKIP"
-            print "\t[%s] %s" % (msg, i.rule)
-            i.result = success
-
-
-if __name__ == "__main__":
-    pass
+            print "\t[%s] %s" % (msg, i)
 
 # vim: set ts=4 sw=4 et:

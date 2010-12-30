@@ -155,17 +155,22 @@ static struct pkg_operations *get_file_pkg_ops(void)
  */
 static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 {
-	char line[PATH_MAX];
 	char *ptr = NULL;
 	char *key = NULL;
 	int linenum = 0;
+	struct archive_read_buffer buf;
 
 	ALPM_LOG_FUNC;
 
-	/* loop until we reach EOF (where archive_fgets will return NULL) */
-	while(_alpm_archive_fgets(line, PATH_MAX, a) != NULL) {
+	memset(&buf, 0, sizeof(buf));
+	/* 512K for a line length seems reasonable */
+	buf.max_line_size = 512 * 1024;
+
+	/* loop until we reach EOF or other error */
+	while(_alpm_archive_fgets(a, &buf) == ARCHIVE_OK) {
+		char *line = _alpm_strtrim(buf.line);
+
 		linenum++;
-		_alpm_strtrim(line);
 		if(strlen(line) == 0 || line[0] == '#') {
 			continue;
 		}
