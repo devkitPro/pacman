@@ -31,7 +31,7 @@
 struct __pmdepend_t {
 	char *name;
 	char *version;
-	long name_hash;
+	unsigned long name_hash;
 	pmdepmod_t mod;
 };
 
