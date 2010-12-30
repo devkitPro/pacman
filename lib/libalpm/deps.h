@@ -29,9 +29,10 @@
 
 /* Dependency */
 struct __pmdepend_t {
-	pmdepmod_t mod;
 	char *name;
 	char *version;
+	long name_hash;
+	pmdepmod_t mod;
 };
 
 /* Missing dependency */

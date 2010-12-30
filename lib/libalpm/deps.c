@@ -322,32 +322,41 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	alpm_list_t *i;
-
-	ALPM_LOG_FUNC;
-
-	const char *pkgname = alpm_pkg_get_name(pkg);
-	const char *pkgversion = alpm_pkg_get_version(pkg);
+	const char *pkgname = pkg->name;
+	const char *pkgversion = pkg->version;
 	int satisfy = 0;
 
 	/* check (pkg->name, pkg->version) */
-	satisfy = (strcmp(pkgname, dep->name) == 0
-			&& dep_vercmp(pkgversion, dep->mod, dep->version));
+	if(pkg->name_hash && dep->name_hash
+			&& pkg->name_hash != dep->name_hash) {
+		/* skip more expensive checks */
+	} else {
+		satisfy = (strcmp(pkgname, dep->name) == 0
+				&& dep_vercmp(pkgversion, dep->mod, dep->version));
+		if(satisfy) {
+			return(satisfy);
+		}
+	}
 
 	/* check provisions, format : "name=version" */
 	for(i = alpm_pkg_get_provides(pkg); i && !satisfy; i = i->next) {
-		char *provname = strdup(i->data);
-		char *provver = strchr(provname, '=');
+		const char *provision = i->data;
+		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
 			satisfy = (dep->mod == PM_DEP_MOD_ANY
-					&& strcmp(provname, dep->name) == 0);
+					&& strcmp(provision, dep->name) == 0);
 		} else {
-			*provver = '\0';
+			/* This is a bit tricker than the old code for performance reasons. To
+			 * prevent the need to copy and duplicate strings, strncmp only the name
+			 * portion if they are the same length, since there is a version and
+			 * operator in play here. */
+			size_t namelen = provver - provision;
 			provver += 1;
-			satisfy = (strcmp(provname, dep->name) == 0
+			satisfy = (strlen(dep->name) == namelen
+					&& strncmp(provision, dep->name, namelen) == 0
 					&& dep_vercmp(provver, dep->mod, dep->version));
 		}
-		free(provname);
 	}
 
 	return(satisfy);
@@ -376,7 +385,8 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 		depend->mod = PM_DEP_MOD_LE;
 		*ptr = '\0';
 		ptr += 2;
-	} else if((ptr = strstr(newstr, "="))) { /* Note: we must do =,<,> checks after <=, >= checks */
+	} else if((ptr = strstr(newstr, "="))) {
+		/* Note: we must do =,<,> checks after <=, >= checks */
 		depend->mod = PM_DEP_MOD_EQ;
 		*ptr = '\0';
 		ptr += 1;
@@ -392,6 +402,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 		/* no version specified - copy the name and return it */
 		depend->mod = PM_DEP_MOD_ANY;
 		STRDUP(depend->name, newstr, RET_ERR(PM_ERR_MEMORY, NULL));
+		depend->name_hash = _alpm_hash_sdbm(depend->name);
 		depend->version = NULL;
 		free(newstr);
 		return(depend);
@@ -400,6 +411,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 	/* if we get here, we have a version comparator, copy the right parts
 	 * to the right places */
 	STRDUP(depend->name, newstr, RET_ERR(PM_ERR_MEMORY, NULL));
+	depend->name_hash = _alpm_hash_sdbm(depend->name);
 	STRDUP(depend->version, ptr, RET_ERR(PM_ERR_MEMORY, NULL));
 	free(newstr);
 
@@ -412,6 +424,7 @@ pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
 	CALLOC(newdep, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	STRDUP(newdep->name, dep->name, RET_ERR(PM_ERR_MEMORY, NULL));
+	newdep->name_hash = dep->name_hash;
 	STRDUP(newdep->version, dep->version, RET_ERR(PM_ERR_MEMORY, NULL));
 	newdep->mod = dep->mod;
 
