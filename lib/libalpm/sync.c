@@ -248,28 +248,14 @@ static int sync_pkg(pmpkg_t *spkg, alpm_list_t *pkg_list)
 	return(0);
 }
 
-static int sync_target(alpm_list_t *dbs_sync, const char *target)
+static int sync_group(alpm_list_t *dbs_sync, const char *target)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *known_pkgs = NULL;
-	pmpkg_t *spkg;
-	pmdepend_t *dep; /* provisions and dependencies are also allowed */
 	pmgrp_t *grp;
 	int found = 0;
 
 	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
-	dep = _alpm_splitdep(target);
-	spkg = _alpm_resolvedep(dep, dbs_sync, NULL, 1);
-	_alpm_dep_free(dep);
-
-	if(spkg != NULL) {
-		return(sync_pkg(spkg, handle->trans->add));
-	}
 
 	_alpm_log(PM_LOG_DEBUG, "%s package not found, searching for group...\n", target);
 	for(i = dbs_sync; i; i = i->next) {
@@ -279,6 +265,18 @@ static int sync_target(alpm_list_t *dbs_sync, const char *target)
 			found = 1;
 			for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
 				pmpkg_t *pkg = j->data;
+
+				/* check if group member is ignored */
+				if(_alpm_pkg_should_ignore(pkg)) {
+					int install = 0;
+					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+							NULL, NULL, &install);
+					if(install == 0) {
+						_alpm_log(PM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
+						continue;
+					}
+				}
+
 				if(sync_pkg(pkg, known_pkgs) == -1) {
 					if(pm_errno == PM_ERR_TRANS_DUP_TARGET || pm_errno == PM_ERR_PKG_IGNORED) {
 						/* just skip duplicate or ignored targets */
@@ -303,6 +301,28 @@ static int sync_target(alpm_list_t *dbs_sync, const char *target)
 	}
 
 	return(0);
+}
+
+static int sync_target(alpm_list_t *dbs_sync, const char *target)
+{
+	pmpkg_t *spkg;
+	pmdepend_t *dep; /* provisions and dependencies are also allowed */
+
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(target != NULL && strlen(target) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	dep = _alpm_splitdep(target);
+	spkg = _alpm_resolvedep(dep, dbs_sync, NULL, 1);
+	_alpm_dep_free(dep);
+
+	if(spkg != NULL) {
+		return(sync_pkg(spkg, handle->trans->add));
+	}
+
+	return(sync_group(dbs_sync, target));
 }
 
 /** Add a sync target to the transaction.
