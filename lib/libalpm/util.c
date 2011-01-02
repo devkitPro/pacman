@@ -684,36 +684,36 @@ int _alpm_lstat(const char *path, struct stat *buf)
 #ifdef HAVE_LIBSSL
 static int md5_file(const char *path, unsigned char output[16])
 {
-    FILE *f;
-    size_t n;
-    MD5_CTX ctx;
-    unsigned char *buf;
+	FILE *f;
+	size_t n;
+	MD5_CTX ctx;
+	unsigned char *buf;
 
-		CALLOC(buf, 8192, sizeof(unsigned char), return(1));
+	CALLOC(buf, 8192, sizeof(unsigned char), return(1));
 
-    if((f = fopen(path, "rb")) == NULL) {
-        free(buf);
-        return(1);
-    }
+	if((f = fopen(path, "rb")) == NULL) {
+		free(buf);
+		return(1);
+	}
 
-    MD5_Init(&ctx);
+	MD5_Init(&ctx);
 
-    while((n = fread(buf, 1, sizeof(buf), f)) > 0) {
-        MD5_Update(&ctx, buf, n);
-		}
+	while((n = fread(buf, 1, sizeof(buf), f)) > 0) {
+		MD5_Update(&ctx, buf, n);
+	}
 
-    MD5_Final(output, &ctx);
+	MD5_Final(output, &ctx);
 
-    memset(&ctx, 0, sizeof(MD5_CTX));
-    free(buf);
+	memset(&ctx, 0, sizeof(MD5_CTX));
+	free(buf);
 
-    if(ferror(f) != 0) {
-        fclose(f);
-        return(2);
-    }
+	if(ferror(f) != 0) {
+		fclose(f);
+		return(2);
+	}
 
-    fclose(f);
-    return(0);
+	fclose(f);
+	return(0);
 }
 #endif
 
