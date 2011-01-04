@@ -12,3 +12,4 @@ self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=dummy|1.4-1")
+self.addrule("PKG_EPOCH=dummy|2")
