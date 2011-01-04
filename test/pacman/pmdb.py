@@ -252,6 +252,8 @@ class pmdb:
                 data.append(_mksection("SIZE", pkg.size))
             if pkg.reason:
                 data.append(_mksection("REASON", pkg.reason))
+            if pkg.epoch:
+                data.append(_mksection("EPOCH", pkg.epoch))
         else:
             data.append(_mksection("FILENAME", pkg.filename()))
             if pkg.replaces:

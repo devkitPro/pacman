@@ -132,6 +132,10 @@ class pmpkg:
         data.append("builddate = %s" % self.builddate)
         data.append("packager = %s" % self.packager)
         data.append("size = %s" % self.size)
+        if self.force:
+            data.append("force = true")
+        if self.epoch:
+            data.append("epoch = %d" % self.epoch)
         if self.arch:
             data.append("arch = %s" % self.arch)
         for i in self.license:

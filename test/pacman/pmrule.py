@@ -78,6 +78,9 @@ class pmrule:
                 elif case == "VERSION":
                     if value != newpkg.version:
                         success = 0
+                elif case == "EPOCH":
+                    if int(value) != newpkg.epoch:
+                        success = 0
                 elif case == "DESC":
                     if value != newpkg.desc:
                         success = 0
