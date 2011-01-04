@@ -630,12 +630,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					goto error;
 				}
 				info->epoch = atoi(_alpm_strtrim(line));
-			} else if(strcmp(line, "%FORCE%") == 0) {
-				/* For backward compatibility, treat force as a non-zero epoch
-				 * but only if we didn't already have a known epoch value. */
-				if(!info->epoch) {
-					info->epoch = 1;
-				}
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
