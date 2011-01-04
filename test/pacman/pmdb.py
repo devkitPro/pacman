@@ -162,7 +162,7 @@ class pmdb:
                 pkg.epoch = int(fd.readline().strip("\n"))
             elif line == "%FORCE%":
                 fd.readline()
-                pkg.force = 1
+                pkg.force = True
             elif line == "%DEPENDS%":
                 pkg.depends = _getsection(fd)
             elif line == "%OPTDEPENDS%":

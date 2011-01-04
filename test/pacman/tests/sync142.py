@@ -5,7 +5,7 @@ sp.epoch = 2
 self.addpkg2db("sync", sp)
 
 lp = pmpkg("dummy", "2.0-1")
-lp.force = 1
+lp.force = True
 self.addpkg2db("local", lp)
 
 self.args = "-Su"

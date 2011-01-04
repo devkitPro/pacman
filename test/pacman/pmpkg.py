@@ -49,7 +49,7 @@ class pmpkg:
         self.reason = 0
         self.md5sum = ""      # sync only
         self.replaces = []
-        self.force = 0
+        self.force = False
         self.epoch = 0
         self.depends = []
         self.optdepends = []

@@ -1,7 +1,7 @@
 self.description = "Sysupgrade with a sync package forcing a downgrade"
 
 sp = pmpkg("dummy", "1.0-1")
-sp.force = 1
+sp.force = True
 
 self.addpkg2db("sync", sp)
 
