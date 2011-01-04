@@ -113,56 +113,6 @@ def mkfile(name, data = ""):
         if setperms:
             os.chmod(filename, int(perms, 8))
 
-def mkdescfile(filename, pkg):
-    """
-    """
-
-    data = []
-
-    # desc
-    #data.append("pkgname = %s" % pkg.name)
-    #data.append("pkgver = %s" % pkg.version)
-    if pkg.desc:
-        data.append("pkgdesc = %s" % pkg.desc)
-    if pkg.url:
-        data.append("url = %s" % pkg.url)
-    if pkg.builddate:
-        data.append("builddate = %s" % pkg.builddate)
-    if pkg.packager:
-        data.append("packager = %s" % pkg.packager)
-    if pkg.size:
-        data.append("size = %s" % pkg.size)
-    if pkg.arch:
-        data.append("arch = %s" % pkg.arch)
-    for i in pkg.groups:
-        data.append("group = %s" % i)
-    for i in pkg.license:
-        data.append("license = %s" % i)
-    if pkg.md5sum:
-        data.append("md5sum = %s" % pkg.md5sum)
-
-    # depends
-    for i in pkg.replaces:
-        data.append("replaces = %s" % i)
-    for i in pkg.depends:
-        data.append("depend = %s" % i)
-    for i in pkg.optdepends:
-        data.append("optdepend = %s" % i)
-    for i in pkg.conflicts:
-        data.append("conflict = %s" % i)
-    for i in pkg.provides:
-        data.append("provides = %s" % i)
-    for i in pkg.backup:
-        data.append("backup = %s" % i)
-    if pkg.epoch:
-        data.append("epoch = %d" % pkg.epoch)
-        if not pkg.force:
-            data.append("force = 1")
-    if pkg.force:
-        data.append("force = 1")
-
-    mkfile(filename, "\n".join(data))
-
 def mkinstallfile(filename, install):
     """
     """
