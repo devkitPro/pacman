@@ -18,6 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdlib.h>
 #include <stdio.h> /* printf */
 #include <string.h> /* strncpy */
 
@@ -30,7 +31,7 @@ int alpm_pkg_vercmp(const char *a, const char *b);
 static void usage(void)
 {
 	fprintf(stderr, "usage: %s <ver1> <ver2>\n\n", BASENAME);
-	fprintf(stderr, "return values:\n");
+	fprintf(stderr, "output values:\n");
 	fprintf(stderr, "  < 0 : if ver1 < ver2\n");
 	fprintf(stderr, "    0 : if ver1 == ver2\n");
 	fprintf(stderr, "  > 0 : if ver1 > ver2\n");
@@ -61,5 +62,5 @@ int main(int argc, char *argv[])
 
 	ret = alpm_pkg_vercmp(s1, s2);
 	printf("%d\n", ret);
-	return(ret);
+	return(EXIT_SUCCESS);
 }
