@@ -7,6 +7,7 @@ ASCIIDOC_MANS = \
 	pacman.8 \
 	makepkg.8 \
 	repo-add.8 \
+	vercmp.8 \
 	PKGBUILD.5 \
 	makepkg.conf.5 \
 	pacman.conf.5 \
@@ -18,6 +19,7 @@ HTML_MANPAGES = \
 	pacman.8.html \
 	makepkg.8.html \
 	repo-add.8.html \
+	vercmp.8.html \
 	PKGBUILD.5.html \
 	makepkg.conf.5.html \
 	pacman.conf.5.html \
@@ -38,6 +40,7 @@ EXTRA_DIST = \
 	pacman.8.txt \
 	makepkg.8.txt \
 	repo-add.8.txt \
+	vercmp.8.txt \
 	PKGBUILD.5.txt \
 	PKGBUILD-example.txt \
 	makepkg.conf.5.txt \
@@ -129,6 +132,7 @@ $(HTML_OTHER): asciidoc.conf
 pacman.8 pacman.8.html: pacman.8.txt
 makepkg.8 makepkg.8.html: makepkg.8.txt
 repo-add.8 repo-add.8.html: repo-add.8.txt
+vercmp.8 vercmp.8.html: vercmp.8.txt
 PKGBUILD.5 PKGBUILD.5.html: PKGBUILD.5.txt PKGBUILD-example.txt
 makepkg.conf.5 makepkg.conf.5.html: makepkg.conf.5.txt
 pacman.conf.5 pacman.conf.5.html: pacman.conf.5.txt
