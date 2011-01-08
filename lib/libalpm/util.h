@@ -95,6 +95,7 @@ int _alpm_test_md5sum(const char *filepath, const char *md5sum);
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b);
 int _alpm_splitname(const char *target, pmpkg_t *pkg);
 unsigned long _alpm_hash_sdbm(const char *str);
+long _alpm_parsedate(const char *line);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);

@@ -24,7 +24,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <ctype.h>
 #include <locale.h> /* setlocale */
 #include <errno.h>
 
@@ -203,16 +202,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			} else if(strcmp(key, "license") == 0) {
 				newpkg->licenses = alpm_list_add(newpkg->licenses, strdup(ptr));
 			} else if(strcmp(key, "builddate") == 0) {
-				char first = tolower((unsigned char)ptr[0]);
-				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
-					setlocale(LC_TIME, "C");
-					strptime(ptr, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					newpkg->builddate = mktime(&tmp_tm);
-					setlocale(LC_TIME, "");
-				} else {
-					newpkg->builddate = atol(ptr);
-				}
+				newpkg->builddate = _alpm_parsedate(ptr);
 			} else if(strcmp(key, "packager") == 0) {
 				STRDUP(newpkg->packager, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(strcmp(key, "arch") == 0) {

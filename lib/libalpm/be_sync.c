@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <errno.h>
-#include <ctype.h>
 #include <locale.h>
 #include <limits.h>
 
@@ -313,17 +312,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 				READ_AND_STORE(pkg->arch);
 			} else if(strcmp(line, "%BUILDDATE%") == 0) {
 				READ_NEXT(line);
-				char first = tolower((unsigned char)line[0]);
-				if(first > 'a' && first < 'z') {
-					/* initialize to null in case of failure */
-					struct tm tmp_tm = {0};
-					setlocale(LC_TIME, "C");
-					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					pkg->builddate = mktime(&tmp_tm);
-					setlocale(LC_TIME, "");
-				} else {
-					pkg->builddate = atol(line);
-				}
+				pkg->builddate = _alpm_parsedate(line);
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
 				READ_AND_STORE(pkg->packager);
 			} else if(strcmp(line, "%CSIZE%") == 0) {

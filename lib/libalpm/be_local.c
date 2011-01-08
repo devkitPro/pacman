@@ -28,7 +28,6 @@
 #include <stdint.h> /* intmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
-#include <ctype.h>
 #include <time.h>
 #include <limits.h> /* PATH_MAX */
 #include <locale.h> /* setlocale */
@@ -570,33 +569,13 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					goto error;
 				}
 				_alpm_strtrim(line);
-
-				char first = tolower((unsigned char)line[0]);
-				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
-					setlocale(LC_TIME, "C");
-					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					info->builddate = mktime(&tmp_tm);
-					setlocale(LC_TIME, "");
-				} else {
-					info->builddate = atol(line);
-				}
+				info->builddate = _alpm_parsedate(line);
 			} else if(strcmp(line, "%INSTALLDATE%") == 0) {
 				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
 				_alpm_strtrim(line);
-
-				char first = tolower((unsigned char)line[0]);
-				if(first > 'a' && first < 'z') {
-					struct tm tmp_tm = {0}; /* initialize to null in case of failure */
-					setlocale(LC_TIME, "C");
-					strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-					info->installdate = mktime(&tmp_tm);
-					setlocale(LC_TIME, "");
-				} else {
-					info->installdate = atol(line);
-				}
+				info->installdate = _alpm_parsedate(line);
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
 				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;

@@ -923,4 +923,17 @@ unsigned long _alpm_hash_sdbm(const char *str)
 	return(hash);
 }
 
+long _alpm_parsedate(const char *line)
+{
+	if(isalpha((unsigned char)line[0])) {
+		/* initialize to null in case of failure */
+		struct tm tmp_tm = { 0 };
+		setlocale(LC_TIME, "C");
+		strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
+		setlocale(LC_TIME, "");
+		return(mktime(&tmp_tm));
+	}
+	return(atol(line));
+}
+
 /* vim: set ts=2 sw=2 noet: */
