@@ -461,7 +461,7 @@ static int parsearg_global(int opt)
 		case OP_ASK:
 			check_optarg();
 			config->noask = 1;
-			config->ask = atoi(optarg);
+			config->ask = (unsigned int)atoi(optarg);
 			break;
 		case OP_CACHEDIR:
 			check_optarg();
@@ -483,7 +483,7 @@ static int parsearg_global(int opt)
 			 * here, error and warning are set in config_new, though perhaps a
 			 * --quiet option will remove these later */
 			if(optarg) {
-				unsigned short debug = atoi(optarg);
+				unsigned short debug = (unsigned short)atoi(optarg);
 				switch(debug) {
 					case 2:
 						config->logmask |= PM_LOG_FUNCTION; /* fall through */
@@ -1356,7 +1356,7 @@ int main(int argc, char *argv[])
 	if(!isatty(fileno(stdin))) {
 		char line[PATH_MAX];
 		int i = 0;
-		while(i < PATH_MAX && (line[i] = fgetc(stdin)) != EOF) {
+		while(i < PATH_MAX && (line[i] = (char)fgetc(stdin)) != EOF) {
 			if(isspace((unsigned char)line[i])) {
 				/* avoid adding zero length arg when multiple spaces separate args */
 				if(i > 0) {

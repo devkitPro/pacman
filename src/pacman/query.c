@@ -406,10 +406,10 @@ static int check(pmpkg_t *pkg)
 	}
 
 	if(!config->quiet) {
-		printf(_n("%s: %d total file, ", "%s: %d total files, ", allfiles),
-				pkgname, allfiles);
-		printf(_n("%d missing file\n", "%d missing files\n", errors),
-				errors);
+		printf(_n("%s: %d total file, ", "%s: %d total files, ",
+					(unsigned long)allfiles), pkgname, allfiles);
+		printf(_n("%d missing file\n", "%d missing files\n",
+					(unsigned long)errors), errors);
 	}
 
 	return(errors != 0 ? 1 : 0);

@@ -178,7 +178,7 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 		}
 
 		data = mp->data;
-		data->blocks_needed -= ceil((double)(st.st_size) /
+		data->blocks_needed -= (long)ceil((double)(st.st_size) /
 		                            (double)(data->fsp.f_bsize));
 		data->used = 1;
 	}
@@ -229,7 +229,7 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 		}
 
 		data = mp->data;
-		data->blocks_needed += ceil((double)(archive_entry_size(entry)) /
+		data->blocks_needed += (long)ceil((double)(archive_entry_size(entry)) /
 		                            (double)(data->fsp.f_bsize));
 		data->used = 1;
 	}
@@ -243,12 +243,12 @@ cleanup:
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 {
 	alpm_list_t *mount_points, *i;
-	size_t replaces = 0, current = 0;
+	size_t replaces = 0, current = 0, numtargs;
 	int abort = 0;
 	alpm_list_t *targ;
 	pmpkg_t *pkg;
-	size_t numtargs = alpm_list_count(trans->add);
 
+	numtargs = alpm_list_count(trans->add);
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not determine filesystem mount points"));
@@ -259,8 +259,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	if(replaces) {
 		numtargs += replaces;
 		for(targ = trans->remove; targ; targ = targ->next, current++) {
-			double percent = (double)current / numtargs;
-			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (percent * 100),
+			double percent = (double)current / (double)numtargs;
+			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (int)(percent * 100),
 					numtargs, current);
 
 			pkg = targ->data;
@@ -269,8 +269,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	}
 
 	for(targ = trans->add; targ; targ = targ->next, current++) {
-		double percent = (double)current / numtargs;
-		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (percent * 100),
+		double percent = (double)current / (double)numtargs;
+		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (int)(percent * 100),
 				numtargs, current);
 
 		pkg = targ->data;
@@ -295,8 +295,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 		alpm_mountpoint_t *data = i->data;
 		if(data->used == 1) {
 			/* cushion is roughly min(5% capacity, 20MiB) */
-			long fivepc = (data->fsp.f_blocks / 20) + 1;
-			long twentymb = (20 * 1024 * 1024 / data->fsp.f_bsize) + 1;
+			long fivepc = ((long)data->fsp.f_blocks / 20) + 1;
+			long twentymb = (20 * 1024 * 1024 / (long)data->fsp.f_bsize) + 1;
 			long cushion = fivepc < twentymb ? fivepc : twentymb;
 
 			_alpm_log(PM_LOG_DEBUG, "partition %s, needed %ld, cushion %ld, free %ld\n",

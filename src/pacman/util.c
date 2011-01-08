@@ -275,7 +275,7 @@ char *strtoupper(char *str)
 	char *ptr = str;
 
 	while(*ptr) {
-		(*ptr) = toupper((unsigned char)*ptr);
+		(*ptr) = (char)toupper((unsigned char)*ptr);
 		ptr++;
 	}
 	return str;
@@ -355,7 +355,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 		q = alpm_list_getdata(i);
 		if(q > p){
 			/* add chars between this occurence and last occurence, if any */
-			strncpy(newp, p, q - p);
+			strncpy(newp, p, (size_t)(q - p));
 			newp += q - p;
 		}
 		strncpy(newp, replace, replacesz);
@@ -389,7 +389,7 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 	char *dup = NULL;
 
 	while((str = strchr(str, splitchar))) {
-		dup = strndup(prev, str - prev);
+		dup = strndup(prev, (size_t)(str - prev));
 		if(dup == NULL) {
 			return(NULL);
 		}
@@ -528,8 +528,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 
 		/* print the package size with the output if ShowSize option set */
 		if(config->showsize) {
-			double mbsize = 0.0;
-			mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
+			double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
 			pm_asprintf(&str, "%s-%s [%.2f MB]", alpm_pkg_get_name(pkg),
 					alpm_pkg_get_version(pkg), mbsize);
@@ -541,8 +540,8 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	}
 
 	/* Convert byte sizes to MB */
-	mbdlsize = dlsize / (1024.0 * 1024.0);
-	mbisize = isize / (1024.0 * 1024.0);
+	mbdlsize = (double)dlsize / (1024.0 * 1024.0);
+	mbisize = (double)isize / (1024.0 * 1024.0);
 
 	if(install) {
 		pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
@@ -646,7 +645,7 @@ void print_packages(const alpm_list_t *packages)
 		if(strstr(temp,"%s")) {
 			char *size;
 			double mbsize = 0.0;
-			mbsize = pkg_get_size(pkg) / (1024.0 * 1024.0);
+			mbsize = (double)pkg_get_size(pkg) / (1024.0 * 1024.0);
 			pm_asprintf(&size, "%.2f", mbsize);
 			string = strreplace(temp, "%s", size);
 			free(size);

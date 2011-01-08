@@ -172,7 +172,7 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 	alpm_list_t *i;
 	int found = 0;
 	char *newurl;
-	int len = 0;
+	size_t len = 0;
 
 	ALPM_LOG_FUNC;
 

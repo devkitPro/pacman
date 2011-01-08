@@ -350,8 +350,9 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 			/* This is a bit tricker than the old code for performance reasons. To
 			 * prevent the need to copy and duplicate strings, strncmp only the name
 			 * portion if they are the same length, since there is a version and
-			 * operator in play here. */
-			size_t namelen = provver - provision;
+			 * operator in play here. Cast is to silence sign conversion warning;
+			 * we know provver >= provision if we are here. */
+			size_t namelen = (size_t)(provver - provision);
 			provver += 1;
 			satisfy = (strlen(dep->name) == namelen
 					&& strncmp(provision, dep->name, namelen) == 0

@@ -242,7 +242,7 @@ void dump_pkg_changelog(pmpkg_t *pkg)
 	} else {
 		/* allocate a buffer to get the changelog back in chunks */
 		char buf[CLBUF_SIZE];
-		int ret = 0;
+		size_t ret = 0;
 		while((ret = alpm_pkg_changelog_read(buf, CLBUF_SIZE, pkg, fp))) {
 			if(ret < CLBUF_SIZE) {
 				/* if we hit the end of the file, we need to add a null terminator */

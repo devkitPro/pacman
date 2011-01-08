@@ -116,7 +116,7 @@ static int parse_options(int argc, char *argv[])
 				break;
 			case 'd':
 				/* validate depth */
-				max_depth = strtol(optarg, &endptr, 10);
+				max_depth = (int)strtol(optarg, &endptr, 10);
 				if(*endptr != '\0') {
 					fprintf(stderr, "error: invalid depth -- %s\n", optarg);
 					return 1;

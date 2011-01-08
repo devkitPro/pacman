@@ -431,7 +431,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 				/* update progress bar after each file */
 				percent = (double)position / (double)filenum;
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name,
-						(double)(percent * 100), pkg_count,
+						(int)(percent * 100), pkg_count,
 						(pkg_count - targcount + 1));
 				position++;
 			}

@@ -346,7 +346,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			/* print the package size with the output if ShowSize option set */
 			if(!config->quiet && config->showsize) {
 				/* Convert byte size to MB */
-				double mbsize = alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
+				double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
 
 				printf(" [%.2f MB]", mbsize);
 			}

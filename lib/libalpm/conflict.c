@@ -425,8 +425,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 			continue;
 		}
 
-		double percent = (double)current / numtargs;
-		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (percent * 100),
+		double percent = (double)current / (double)numtargs;
+		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", (int)(percent * 100),
 		         numtargs, current);
 		/* CHECK 1: check every target against every target */
 		_alpm_log(PM_LOG_DEBUG, "searching for file conflicts: %s\n",

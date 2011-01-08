@@ -668,7 +668,7 @@ int _alpm_lstat(const char *path, struct stat *buf)
 {
 	int ret;
 	char *newpath = strdup(path);
-	int len = strlen(newpath);
+	size_t len = strlen(newpath);
 
 	/* strip the trailing slash if one exists */
 	if(len != 0 && newpath[len - 1] == '/') {
@@ -815,7 +815,8 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			b->line_size = b->block_size + 1;
 			b->line_offset = b->line;
 		} else {
-			size_t needed = (b->line_offset - b->line) + (i - b->block_offset) + 1;
+			size_t needed = (size_t)((b->line_offset - b->line)
+					+ (i - b->block_offset) + 1);
 			if(needed > b->max_line_size) {
 				RET_ERR(PM_ERR_MEMORY, -1);
 			}
@@ -832,7 +833,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 		}
 
 		if(done) {
-			size_t len = i - b->block_offset;
+			size_t len = (size_t)(i - b->block_offset);
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset[len] = '\0';
 			b->block_offset = ++i;
@@ -840,7 +841,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			return(ARCHIVE_OK);
 		} else {
 			/* we've looked through the whole block but no newline, copy it */
-			size_t len = b->block + b->block_size - b->block_offset;
+			size_t len = (size_t)(b->block + b->block_size - b->block_offset);
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset += len;
 			b->block_offset = i;
