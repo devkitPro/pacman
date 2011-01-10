@@ -425,14 +425,13 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 			/* iterate through the list backwards, unlinking files */
 			newfiles = alpm_list_reverse(files);
 			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
-				double percent;
+				int percent;
 				unlink_file(info, lp->data, NULL, trans->flags & PM_TRANS_FLAG_NOSAVE);
 
 				/* update progress bar after each file */
-				percent = (double)position / (double)filenum;
+				percent = (position * 100) / filenum;
 				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name,
-						(int)(percent * 100), pkg_count,
-						(pkg_count - targcount + 1));
+						percent, pkg_count, (pkg_count - targcount + 1));
 				position++;
 			}
 			alpm_list_free(newfiles);

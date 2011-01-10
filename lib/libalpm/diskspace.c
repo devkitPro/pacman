@@ -38,8 +38,6 @@
 #include <sys/types.h>
 #endif
 
-#include <math.h>
-
 /* libarchive */
 #include <archive.h>
 #include <archive_entry.h>
@@ -178,8 +176,9 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 		}
 
 		data = mp->data;
-		data->blocks_needed -= (long)ceil((double)(st.st_size) /
-		                            (double)(data->fsp.f_bsize));
+		/* the addition of (divisor - 1) performs ceil() with integer division */
+		data->blocks_needed -=
+			(st.st_size + data->fsp.f_bsize - 1) / data->fsp.f_bsize;
 		data->used = 1;
 	}
 
@@ -229,8 +228,9 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 		}
 
 		data = mp->data;
-		data->blocks_needed += (long)ceil((double)(archive_entry_size(entry)) /
-		                            (double)(data->fsp.f_bsize));
+		/* the addition of (divisor - 1) performs ceil() with integer division */
+		data->blocks_needed +=
+			(archive_entry_size(entry) + data->fsp.f_bsize - 1) / data->fsp.f_bsize;
 		data->used = 1;
 	}
 
@@ -259,8 +259,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	if(replaces) {
 		numtargs += replaces;
 		for(targ = trans->remove; targ; targ = targ->next, current++) {
-			double percent = (double)current / (double)numtargs;
-			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (int)(percent * 100),
+			int percent = (current * 100) / numtargs;
+			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 					numtargs, current);
 
 			pkg = targ->data;
@@ -269,8 +269,8 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	}
 
 	for(targ = trans->add; targ; targ = targ->next, current++) {
-		double percent = (double)current / (double)numtargs;
-		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", (int)(percent * 100),
+		int percent = (current * 100) / numtargs;
+		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 				numtargs, current);
 
 		pkg = targ->data;

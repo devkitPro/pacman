@@ -477,8 +477,8 @@ static int extract_single_file(struct archive *archive,
 	return(errors);
 }
 
-static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current, size_t pkg_count,
-		pmtrans_t *trans, pmdb_t *db)
+static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
+		size_t pkg_count, pmtrans_t *trans, pmdb_t *db)
 {
 	int i, ret = 0, errors = 0;
 	char scriptlet[PATH_MAX+1];
@@ -605,31 +605,31 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current, size_t pkg_cou
 		}
 
 		for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
-			double percent;
+			int percent;
 
 			if(newpkg->size != 0) {
 				/* Using compressed size for calculations here, as newpkg->isize is not
 				 * exact when it comes to comparing to the ACTUAL uncompressed size
 				 * (missing metadata sizes) */
 				int64_t pos = archive_position_compressed(archive);
-				percent = (double)pos / (double)newpkg->size;
+				percent = (pos * 100) / newpkg->size;
 				_alpm_log(PM_LOG_DEBUG, "decompression progress: "
-						"%f%% (%"PRId64" / %jd)\n",
-						percent*100.0, pos, (intmax_t)newpkg->size);
-				if(percent >= 1.0) {
-					percent = 1.0;
+						"%d%% (%"PRId64" / %jd)\n",
+						percent, pos, (intmax_t)newpkg->size);
+				if(percent >= 100) {
+					percent = 100;
 				}
 			} else {
-				percent = 0.0;
+				percent = 0;
 			}
 
 			if(is_upgrade) {
 				PROGRESS(trans, PM_TRANS_PROGRESS_UPGRADE_START,
-						alpm_pkg_get_name(newpkg), (int)(percent * 100), pkg_count,
+						alpm_pkg_get_name(newpkg), percent, pkg_count,
 						pkg_current);
 			} else {
 				PROGRESS(trans, PM_TRANS_PROGRESS_ADD_START,
-						alpm_pkg_get_name(newpkg), (int)(percent * 100), pkg_count,
+						alpm_pkg_get_name(newpkg), percent, pkg_count,
 						pkg_current);
 			}
 
