@@ -36,7 +36,7 @@
 #include "conf.h"
 
 /* download progress bar */
-static float rate_last;
+static double rate_last;
 static off_t xfered_last;
 static off_t list_xfered = 0.0;
 static off_t list_total = 0.0;
@@ -55,9 +55,9 @@ static alpm_list_t *output = NULL;
  *
  * first_call indicates if this is the first time it is called, for
  * initialization purposes */
-static float get_update_timediff(int first_call)
+static double get_update_timediff(int first_call)
 {
-	float retval = 0.0;
+	double retval = 0.0;
 	static struct timeval last_time = {0, 0};
 
 	/* on first call, simply set the last time and return */
@@ -65,7 +65,7 @@ static float get_update_timediff(int first_call)
 		gettimeofday(&last_time, NULL);
 	} else {
 		struct timeval this_time;
-		float diff_sec, diff_usec;
+		double diff_sec, diff_usec;
 
 		gettimeofday(&this_time, NULL);
 		diff_sec = this_time.tv_sec - last_time.tv_sec;
@@ -473,7 +473,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	int totaldownload = 0;
 	off_t xfered, total;
-	float rate = 0.0, timediff = 0.0, f_xfered = 0.0;
+	double rate = 0.0, timediff = 0.0, f_xfered = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
 	int file_percent = 0, total_percent = 0;
 	char rate_size = 'K', xfered_size = 'K';
@@ -532,7 +532,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	} else if(file_xfered == file_total) {
 		/* compute final values */
 		struct timeval current_time;
-		float diff_sec, diff_usec;
+		double diff_sec, diff_usec;
 
 		gettimeofday(&current_time, NULL);
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;

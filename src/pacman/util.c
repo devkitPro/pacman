@@ -644,8 +644,7 @@ void print_packages(const alpm_list_t *packages)
 		/* %s : size */
 		if(strstr(temp,"%s")) {
 			char *size;
-			double mbsize = 0.0;
-			mbsize = (double)pkg_get_size(pkg) / (1024.0 * 1024.0);
+			double mbsize = (double)pkg_get_size(pkg) / (1024.0 * 1024.0);
 			pm_asprintf(&size, "%.2f", mbsize);
 			string = strreplace(temp, "%s", size);
 			free(size);

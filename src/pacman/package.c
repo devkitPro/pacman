@@ -106,15 +106,15 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 	if(level < 0) {
 		printf(_("Download Size  : %6.2f K\n"),
-			(float)alpm_pkg_get_size(pkg) / 1024.0);
+			(double)alpm_pkg_get_size(pkg) / 1024.0);
 	}
 	if(level == 0) {
 		printf(_("Compressed Size: %6.2f K\n"),
-			(float)alpm_pkg_get_size(pkg) / 1024.0);
+			(double)alpm_pkg_get_size(pkg) / 1024.0);
 	}
 
 	printf(_("Installed Size : %6.2f K\n"),
-			(float)alpm_pkg_get_isize(pkg) / 1024.0);
+			(double)alpm_pkg_get_isize(pkg) / 1024.0);
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg));
 	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg));
 	string_display(_("Build Date     :"), bdatestr);
