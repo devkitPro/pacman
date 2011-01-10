@@ -118,6 +118,25 @@ runtest 1.5.1    1.5.b   1
 runtest 1.5.b-1  1.5.b   0
 runtest 1.5-1    1.5.b  -1
 
+# epoch included version comparisons
+runtest 0:1.0    0:1.0   0
+runtest 0:1.0    0:1.1  -1
+runtest 1:1.0    0:1.0   1
+runtest 1:1.0    0:1.1   1
+runtest 1:1.0    2:1.1  -1
+
+# epoch + sometimes present pkgrel
+runtest 1:1.0    0:1.0-1  1
+runtest 1:1.0-1  0:1.1-1  1
+
+# epoch included on one version
+runtest 0:1.0    1.0   0
+runtest 0:1.0    1.1  -1
+runtest 0:1.1    1.0   1
+runtest 1:1.0    1.0   1
+runtest 1:1.0    1.1   1
+runtest 1:1.1    1.1   1
+
 #END TESTS
 
 echo
