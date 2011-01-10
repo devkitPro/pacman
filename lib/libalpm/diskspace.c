@@ -246,7 +246,6 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	size_t replaces = 0, current = 0, numtargs;
 	int abort = 0;
 	alpm_list_t *targ;
-	pmpkg_t *pkg;
 
 	numtargs = alpm_list_count(trans->add);
 	mount_points = mount_point_list();
@@ -259,24 +258,27 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	if(replaces) {
 		numtargs += replaces;
 		for(targ = trans->remove; targ; targ = targ->next, current++) {
+			pmpkg_t *local_pkg;
 			int percent = (current * 100) / numtargs;
 			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 					numtargs, current);
 
-			pkg = targ->data;
-			calculate_removed_size(mount_points, pkg);
+			local_pkg = targ->data;
+			calculate_removed_size(mount_points, local_pkg);
 		}
 	}
 
 	for(targ = trans->add; targ; targ = targ->next, current++) {
+		pmpkg_t *pkg, *local_pkg;
 		int percent = (current * 100) / numtargs;
 		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 				numtargs, current);
 
 		pkg = targ->data;
 		/* is this package already installed? */
-		if(_alpm_db_get_pkgfromcache(db_local, pkg->name)) {
-			calculate_removed_size(mount_points, pkg);
+		local_pkg = _alpm_db_get_pkgfromcache(db_local, pkg->name);
+		if(local_pkg) {
+			calculate_removed_size(mount_points, local_pkg);
 		}
 		calculate_installed_size(mount_points, pkg);
 
