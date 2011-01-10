@@ -78,7 +78,6 @@ static float get_update_timediff(int first_call)
 			retval = 0.0;
 		} else {
 			last_time = this_time;
-			/* printf("\nupdate retval: %f\n", retval); DEBUG*/
 		}
 	}
 
@@ -327,8 +326,6 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
                        size_t howmany, size_t current)
 {
-	float timediff;
-
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	int infolen;
 	int digits, textlen;
@@ -342,32 +339,24 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 		return;
 	}
 
-	infolen = getcols() * 6 / 10;
-	if (infolen < 50) {
-		infolen = 50;
-	}
-
 	if(percent == 0) {
-		timediff = get_update_timediff(1);
+		get_update_timediff(1);
+	} else if(percent == 100) {
+		/* no need for timediff update, but unconditionally continue unless we
+		 * already completed on a previous call */
+		if(prevpercent == 100) {
+			return;
+		}
 	} else {
-		timediff = get_update_timediff(0);
+		if(!pkgname || percent == prevpercent || get_update_timediff(0) < UPDATE_SPEED_SEC) {
+			/* only update the progress bar when we have a package name, the
+			 * percentage has changed, and it has been long enough.  */
+			return;
+		}
 	}
 
-	if(percent > 0 && percent < 100 && timediff > 0) {
-		/* only update the progress bar when
-		 * a) we first start
-		 * b) we end the progress
-		 * c) it has been long enough since the last call
-		 */
-		return;
-	}
+	prevpercent = percent;
 
-	/* if no pkgname, percent is too high or unchanged, then return */
-	if(!pkgname || percent == prevpercent) {
-		return;
-	}
-
-	prevpercent=percent;
 	/* set text of message to display */
 	switch (event) {
 		case PM_TRANS_PROGRESS_ADD_START:
@@ -387,6 +376,11 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			break;
 		default:
 			return;
+	}
+
+	infolen = getcols() * 6 / 10;
+	if (infolen < 50) {
+		infolen = 50;
 	}
 
 	/* find # of digits in package counts to scale output */
@@ -564,11 +558,11 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		xfered_last = xfered;
 	}
 
-	file_percent = (int)((float)file_xfered) / ((float)file_total) * 100;
+	file_percent = (file_xfered * 100) / file_total;
 
 	if(totaldownload) {
-		total_percent = (int)((float)list_xfered + file_xfered) /
-			((float)list_total) * 100;
+		total_percent = ((list_xfered + file_xfered) * 100) /
+			list_total;
 
 		/* if we are at the end, add the completed file to list_xfered */
 		if(file_xfered == file_total) {
