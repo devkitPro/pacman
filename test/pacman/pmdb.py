@@ -156,11 +156,6 @@ class pmdb:
                 pkg.md5sum = fd.readline().strip("\n")
             elif line == "%REPLACES%":
                 pkg.replaces = _getsection(fd)
-            elif line == "%EPOCH%":
-                pkg.epoch = int(fd.readline().strip("\n"))
-            elif line == "%FORCE%":
-                fd.readline()
-                pkg.force = True
             elif line == "%DEPENDS%":
                 pkg.depends = _getsection(fd)
             elif line == "%OPTDEPENDS%":
@@ -250,19 +245,10 @@ class pmdb:
                 data.append(_mksection("SIZE", pkg.size))
             if pkg.reason:
                 data.append(_mksection("REASON", pkg.reason))
-            if pkg.epoch:
-                data.append(_mksection("EPOCH", pkg.epoch))
         else:
             data.append(_mksection("FILENAME", pkg.filename()))
             if pkg.replaces:
                 data.append(_mksection("REPLACES", pkg.replaces))
-            if pkg.epoch:
-                data.append(_mksection("EPOCH", pkg.epoch))
-                # for backward compatibility
-                if not pkg.force:
-                    data.append(_mksection("FORCE", ""))
-            if pkg.force:
-                data.append(_mksection("FORCE", ""))
             if pkg.csize:
                 data.append(_mksection("CSIZE", pkg.csize))
             if pkg.md5sum:

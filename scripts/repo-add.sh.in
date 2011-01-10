@@ -190,7 +190,7 @@ db_write_entry()
 {
 	# blank out all variables
 	local pkgfile="$1"
-	local pkgname pkgver pkgdesc epoch csize size md5sum url arch builddate packager force \
+	local pkgname pkgver pkgdesc csize size md5sum url arch builddate packager \
 		_groups _licenses _replaces _depends _conflicts _provides _optdepends
 
 	local OLDIFS="$IFS"
@@ -274,12 +274,6 @@ db_write_entry()
 	[[ -n $builddate ]] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
 	[[ -n $packager ]] && echo -e "%PACKAGER%\n$packager\n" >>desc
 	write_list_entry "REPLACES" "$_replaces" "desc"
-	# remain backward-compatible for now; put a force entry in the database
-	if [[ -n $epoch ]]; then
-		echo -e "%EPOCH%\n#epoch\n" >>desc
-		echo -e "%FORCE%\n" >>desc
-	fi
-	[[ -n $force ]] && echo -e "%FORCE%\n" >>desc
 
 	# create depends entry
 	msg2 "$(gettext "Creating 'depends' db entry...")"

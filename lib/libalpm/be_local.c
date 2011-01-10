@@ -156,12 +156,6 @@ static alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
 	return pkg->groups;
 }
 
-static int _cache_get_epoch(pmpkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->epoch;
-}
-
 static int _cache_has_scriptlet(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -318,7 +312,6 @@ static struct pkg_operations local_pkg_ops = {
 	.get_size        = _cache_get_size,
 	.get_isize       = _cache_get_isize,
 	.get_reason      = _cache_get_reason,
-	.get_epoch       = _cache_get_epoch,
 	.has_scriptlet   = _cache_has_scriptlet,
 	.get_licenses    = _cache_get_licenses,
 	.get_groups      = _cache_get_groups,
@@ -606,11 +599,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 					STRDUP(linedup, _alpm_strtrim(line), goto error);
 					info->replaces = alpm_list_add(info->replaces, linedup);
 				}
-			} else if(strcmp(line, "%EPOCH%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				info->epoch = atoi(_alpm_strtrim(line));
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
@@ -766,10 +754,6 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				fprintf(fp, "%s\n", (char *)lp->data);
 			}
 			fprintf(fp, "\n");
-		}
-		if(info->epoch) {
-			fprintf(fp, "%%EPOCH%%\n"
-							"%d\n\n", info->epoch);
 		}
 		if(info->url) {
 			fprintf(fp, "%%URL%%\n"

@@ -935,9 +935,12 @@ write_pkginfo() {
 	echo "# $(LC_ALL=C date -u)"
 	echo "pkgname = $1"
 	(( SPLITPKG )) && echo pkgbase = $pkgbase
-	echo "pkgver = $pkgver-$pkgrel"
+	if [[ $epoch ]]; then
+		echo "pkgver = $epoch:$pkgver-$pkgrel"
+	else
+		echo "pkgver = $pkgver-$pkgrel"
+	fi
 	echo "pkgdesc = $pkgdesc"
-	[[ $epoch ]] && echo "epoch = $epoch"
 	echo "url = $url"
 	echo "builddate = $builddate"
 	echo "packager = $packager"

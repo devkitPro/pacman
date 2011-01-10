@@ -220,12 +220,6 @@ while read i; do
         %REPLACES%)
             echo "replaces = $i"    >> .PKGINFO
         ;;
-        %EPOCH%)
-            echo "epoch = $i" >> .PKGINFO
-        ;;
-        %FORCE%)
-            echo "force = true" >> .PKGINFO
-        ;;
 
         # files
         %BACKUP%)

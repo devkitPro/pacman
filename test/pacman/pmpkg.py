@@ -49,8 +49,6 @@ class pmpkg:
         self.reason = 0
         self.md5sum = ""      # sync only
         self.replaces = []
-        self.force = False
-        self.epoch = 0
         self.depends = []
         self.optdepends = []
         self.conflicts = []
@@ -132,10 +130,6 @@ class pmpkg:
         data.append("builddate = %s" % self.builddate)
         data.append("packager = %s" % self.packager)
         data.append("size = %s" % self.size)
-        if self.force:
-            data.append("force = true")
-        if self.epoch:
-            data.append("epoch = %d" % self.epoch)
         if self.arch:
             data.append("arch = %s" % self.arch)
         for i in self.license:

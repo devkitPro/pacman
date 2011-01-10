@@ -110,7 +110,6 @@ static const char *_pkg_get_arch(pmpkg_t *pkg)        { return pkg->arch; }
 static off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
 static off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
 static pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
-static int _pkg_get_epoch(pmpkg_t *pkg)               { return pkg->epoch; }
 static int _pkg_has_scriptlet(pmpkg_t *pkg)           { return pkg->scriptlet; }
 
 static alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
@@ -141,7 +140,6 @@ struct pkg_operations default_pkg_ops = {
 	.get_size        = _pkg_get_size,
 	.get_isize       = _pkg_get_isize,
 	.get_reason      = _pkg_get_reason,
-	.get_epoch       = _pkg_get_epoch,
 	.has_scriptlet   = _pkg_has_scriptlet,
 	.get_licenses    = _pkg_get_licenses,
 	.get_groups      = _pkg_get_groups,
@@ -221,11 +219,6 @@ off_t SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 {
 	return pkg->ops->get_reason(pkg);
-}
-
-int SYMEXPORT alpm_pkg_get_epoch(pmpkg_t *pkg)
-{
-	return pkg->ops->get_epoch(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_licenses(pmpkg_t *pkg)
@@ -427,7 +420,6 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->size = pkg->size;
 	newpkg->isize = pkg->isize;
 	newpkg->scriptlet = pkg->scriptlet;
-	newpkg->epoch = pkg->epoch;
 	newpkg->reason = pkg->reason;
 
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
@@ -518,20 +510,8 @@ void _alpm_pkg_free_trans(pmpkg_t *pkg)
 /* Is spkg an upgrade for localpkg? */
 int _alpm_pkg_compare_versions(pmpkg_t *spkg, pmpkg_t *localpkg)
 {
-	int spkg_epoch, localpkg_epoch;
-
 	ALPM_LOG_FUNC;
 
-	spkg_epoch = alpm_pkg_get_epoch(spkg);
-	localpkg_epoch = alpm_pkg_get_epoch(localpkg);
-
-	if(spkg_epoch > localpkg_epoch) {
-		return(1);
-	} else if(spkg_epoch < localpkg_epoch) {
-		return(-1);
-	}
-
-	/* equal epoch values, move on to version comparison */
 	return alpm_pkg_vercmp(alpm_pkg_get_version(spkg),
 			alpm_pkg_get_version(localpkg));
 }

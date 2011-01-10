@@ -238,7 +238,6 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 /*int alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp);*/
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
 int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
-int alpm_pkg_get_epoch(pmpkg_t *pkg);
 
 off_t alpm_pkg_download_size(pmpkg_t *newpkg);
 alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
