@@ -29,6 +29,7 @@ confdir='@sysconfdir@'
 
 QUIET=0
 DELTA=0
+WITHFILES=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
@@ -61,7 +62,7 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-d] [-q] <path-to-db> <package|delta> ...\n")"
+	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\n")"
 	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
@@ -77,6 +78,8 @@ and errors.\n\n")"
 Use the -d/--delta flag to automatically generate and add a delta file\n\
 between the old entry and the new one, if the old package file is found\n\
 next to the new one.\n\n")"
+	printf "$(gettext "\
+Use the -f/--files flag to update a database including file entries.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
@@ -290,14 +293,22 @@ db_write_entry()
 	popd >/dev/null
 	popd >/dev/null
 
+	# create files file if wanted
+	if (( WITHFILES )); then
+		msg2 "$(gettext "Creating 'files' db entry...")"
+		local files_path="$tmpdir/$pkgname-$pkgver/files"
+		echo "%FILES%" >$files_path
+		bsdtar --exclude='.*' -tf "$pkgfile" >>$files_path
+	fi
+
 	# create a delta file
 	if [ -n "$oldfilename" -a -f "$oldfile" ]; then
 		delta=$(pkgdelta -q $oldfile $1)
 		if [ -f "$delta" ]; then
 			db_write_delta $delta
-		else
-			warning "$(gettext "Old package file not found : %s")" "$oldfilename"
 		fi
+	else
+		warning "$(gettext "Old package file not found : %s")" "$oldfilename"
 	fi
 
 	return 0
@@ -472,6 +483,7 @@ for arg in "$@"; do
 	case "$arg" in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
+		-f|--files) WITHFILES=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
