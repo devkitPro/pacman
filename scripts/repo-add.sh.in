@@ -32,7 +32,6 @@ DELTA=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
-startdir="$PWD"
 
 # ensure we have a sane umask set
 umask 0022
@@ -73,7 +72,7 @@ specified on the command line from the given repo database. Multiple\n\
 packages to remove can be specified on the command line.\n\n")"
 	printf "$(gettext "\
 Use the -q/--quiet flag to minimize output to basic messages, warnings,\n\
-and errors\n\n")"
+and errors.\n\n")"
 	printf "$(gettext "\
 Use the -d/--delta flag to automatically generate and add a delta file\n\
 between the old entry and the new one, if the old package file is found\n\
@@ -228,8 +227,7 @@ db_write_entry()
 		return 1
 	fi
 
-	cd "$tmpdir"
-
+	pushd "$tmpdir" >/dev/null
 	if [[ -d $pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 	else
@@ -247,7 +245,7 @@ db_write_entry()
 
 	# create package directory
 	mkdir "$pkgname-$pkgver"
-	cd "$pkgname-$pkgver"
+	pushd "$pkgname-$pkgver" >/dev/null
 
 	# restore an eventual deltas file
 	[[ -f ../$pkgname.deltas ]] && mv "../$pkgname.deltas" deltas
@@ -289,7 +287,8 @@ db_write_entry()
 	write_list_entry "PROVIDES" "$_provides" "depends"
 	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
-	cd "$startdir"
+	popd >/dev/null
+	popd >/dev/null
 
 	# create a delta file
 	if [ -n "$oldfilename" -a -f "$oldfile" ]; then
@@ -431,7 +430,6 @@ trap_exit()
 clean_up() {
 	local exit_code=$?
 
-	cd "$startdir"
 	[[ -d $tmpdir ]] && rm -rf "$tmpdir"
 	(( CLEAN_LOCK )) && [[ -f $LOCKFILE ]] && rm -f "$LOCKFILE"
 
@@ -503,7 +501,7 @@ if (( success )); then
 
 	filename=$(basename "$REPO_DB_FILE")
 
-	cd "$tmpdir"
+	pushd "$tmpdir" >/dev/null
 	if [[ -n $(ls) ]]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
 	else
@@ -511,7 +509,7 @@ if (( success )); then
 		warning "$(gettext "No packages remain, creating empty database.")"
 		bsdtar -c${TAR_OPT}f "$filename" -T /dev/null
 	fi
-	cd "$startdir"
+	popd >/dev/null
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
