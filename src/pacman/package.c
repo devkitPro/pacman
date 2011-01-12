@@ -157,6 +157,37 @@ void dump_pkg_sync(pmpkg_t *pkg, const char *treename, int level)
 	dump_pkg_full(pkg, -level);
 }
 
+static const char *get_backup_file_status(const char *root,
+		const char *filename, const char *expected_md5)
+{
+	char path[PATH_MAX];
+	char *ret;
+
+	snprintf(path, PATH_MAX, "%s%s", root, filename);
+
+	/* if we find the file, calculate checksums, otherwise it is missing */
+	if(access(path, R_OK) == 0) {
+		char *md5sum = alpm_compute_md5sum(path);
+
+		if(md5sum == NULL) {
+			pm_fprintf(stderr, PM_LOG_ERROR,
+					_("could not calculate checksums for %s\n"), path);
+			return(NULL);
+		}
+
+		/* if checksums don't match, file has been modified */
+		if (strcmp(md5sum, expected_md5) != 0) {
+			ret = _("MODIFIED");
+		} else {
+			ret = _("Not Modified");
+		}
+		free(md5sum);
+	} else {
+		ret = _("MISSING");
+	}
+	return(ret);
+}
+
 /* Display list of backup files and their modification states
  */
 void dump_pkg_backups(pmpkg_t *pkg)
@@ -167,37 +198,17 @@ void dump_pkg_backups(pmpkg_t *pkg)
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-			char path[PATH_MAX];
+			const char *value;
 			char *str = strdup(alpm_list_getdata(i));
-			char *ptr = index(str, '\t');
+			char *ptr = strchr(str, '\t');
 			if(ptr == NULL) {
 				free(str);
 				continue;
 			}
 			*ptr = '\0';
 			ptr++;
-			snprintf(path, PATH_MAX-1, "%s%s", root, str);
-			/* if we find the file, calculate checksums, otherwise it is missing */
-			if(access(path, R_OK) == 0) {
-				char *md5sum = alpm_compute_md5sum(path);
-
-				if(md5sum == NULL) {
-					pm_fprintf(stderr, PM_LOG_ERROR,
-						_("could not calculate checksums for %s\n"), path);
-					free(str);
-					continue;
-				}
-
-				/* if checksums don't match, file has been modified */
-				if (strcmp(md5sum, ptr) != 0) {
-					printf(_("MODIFIED\t%s\n"), path);
-				} else {
-					printf(_("Not Modified\t%s\n"), path);
-				}
-				free(md5sum);
-			} else {
-				printf(_("MISSING\t\t%s\n"), path);
-			}
+			value = get_backup_file_status(root, str, ptr);
+			printf("%s\t%s%s\n", value, root, str);
 			free(str);
 		}
 	} else {
