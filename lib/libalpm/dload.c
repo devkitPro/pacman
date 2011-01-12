@@ -80,7 +80,7 @@ static char *get_tempfile(const char *path, const char *filename) {
 	return(tempfile);
 }
 
-static const char *gethost(struct url *fileurl)
+static const char *fetch_gethost(struct url *fileurl)
 {
 	const char *host = _("disk");
 	if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
@@ -98,7 +98,7 @@ static void inthandler(int signum)
 #define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
 enum sighandlers { OLD = 0, NEW = 1 };
 
-static int download_internal(const char *url, const char *localpath,
+static int fetch_download_internal(const char *url, const char *localpath,
 		int force) {
 	FILE *localf = NULL;
 	struct stat st;
@@ -191,7 +191,7 @@ static int download_internal(const char *url, const char *localpath,
 	if(fetchStat(fileurl, &ust, "") == -1) {
 		pm_errno = PM_ERR_LIBFETCH;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, gethost(fileurl), fetchLastErrString);
+				filename, fetch_gethost(fileurl), fetchLastErrString);
 		ret = -1;
 		goto cleanup;
 	}
@@ -221,7 +221,7 @@ static int download_internal(const char *url, const char *localpath,
 	if(fetchLastErrCode != 0 || dlf == NULL) {
 		pm_errno = PM_ERR_LIBFETCH;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, gethost(fileurl), fetchLastErrString);
+				filename, fetch_gethost(fileurl), fetchLastErrString);
 		ret = -1;
 		goto cleanup;
 	} else {
@@ -279,7 +279,7 @@ static int download_internal(const char *url, const char *localpath,
 		/* not PM_ERR_LIBFETCH here because libfetch error string might be empty */
 		pm_errno = PM_ERR_RETRIEVE;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s\n"),
-				filename, gethost(fileurl));
+				filename, fetch_gethost(fileurl));
 		ret = -1;
 		goto cleanup;
 	}
@@ -352,7 +352,7 @@ static int download(const char *url, const char *localpath,
 		int force) {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBFETCH
-		return(download_internal(url, localpath, force));
+		return(fetch_download_internal(url, localpath, force));
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
