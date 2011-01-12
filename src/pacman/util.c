@@ -523,7 +523,9 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = alpm_list_getdata(i);
 
-		dlsize += alpm_pkg_download_size(pkg);
+		if(install) {
+			dlsize += alpm_pkg_download_size(pkg);
+		}
 		isize += alpm_pkg_get_isize(pkg);
 
 		/* print the package size with the output if ShowSize option set */

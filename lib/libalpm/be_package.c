@@ -279,6 +279,8 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 	newpkg->filename = strdup(pkgfile);
 	newpkg->size = st.st_size;
 
+	_alpm_log(PM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
+
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves
 	 * as a verfication of integrity and allows us to create the filelist. */
