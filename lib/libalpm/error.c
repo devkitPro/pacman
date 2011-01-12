@@ -58,7 +58,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_WRONG_ARGS:
 			return _("wrong or NULL argument passed");
 		case PM_ERR_DISK_SPACE:
-			return _("not enough disk space");
+			return _("not enough free disk space");
 		/* Interface */
 		case PM_ERR_HANDLE_NULL:
 			return _("library not initialized");

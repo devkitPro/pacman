@@ -84,8 +84,8 @@ static alpm_list_t *mount_point_list(void)
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		memcpy(&(mp->fsp), &fsp, sizeof(FSSTATSTYPE));
 
-		mp->blocks_needed = 0;
-		mp->max_blocks_needed = 0;
+		mp->blocks_needed = 0l;
+		mp->max_blocks_needed = 0l;
 		mp->used = 0;
 
 		mount_points = alpm_list_add(mount_points, mp);
@@ -107,8 +107,9 @@ static alpm_list_t *mount_point_list(void)
 		mp->mount_dir = strdup(fsp->f_mntonname);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
 
-		mp->blocks_needed = 0;
-		mp->max_blocks_needed = 0;
+		mp->blocks_needed = 0l;
+		mp->max_blocks_needed = 0l;
+		mp->used = 0;
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -178,8 +179,7 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 		data = mp->data;
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		data->blocks_needed -=
-			(st.st_size + data->fsp.f_bsize - 1) / data->fsp.f_bsize;
-		data->used = 1;
+			(st.st_size + data->fsp.f_bsize - 1l) / data->fsp.f_bsize;
 	}
 
 	return(0);
@@ -230,8 +230,15 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 		data = mp->data;
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		data->blocks_needed +=
-			(archive_entry_size(entry) + data->fsp.f_bsize - 1) / data->fsp.f_bsize;
+			(archive_entry_size(entry) + data->fsp.f_bsize - 1l) / data->fsp.f_bsize;
 		data->used = 1;
+
+		if(archive_read_data_skip(archive)) {
+			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
+					pkg->name, archive_error_string(archive));
+			pm_errno = PM_ERR_LIBARCHIVE;
+			break;
+		}
 	}
 
 	archive_read_finish(archive);
@@ -306,6 +313,9 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 					(unsigned long)data->fsp.f_bfree);
 			if(data->max_blocks_needed + cushion >= 0 &&
 			   (unsigned long)(data->max_blocks_needed + cushion) > data->fsp.f_bfree) {
+				_alpm_log(PM_LOG_ERROR, _("Partition %s too full: %ld blocks needed, %ld blocks free)\n"),
+						data->mount_dir, data->max_blocks_needed + cushion,
+						(unsigned long)data->fsp.f_bfree);
 				abort = 1;
 			}
 		}
