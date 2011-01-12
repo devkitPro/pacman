@@ -10,7 +10,7 @@ repo-add - package database maintenance utility
 
 Synopsis
 --------
-repo-add [-q] <path-to-db> <package1> [<package2> ...]
+repo-add [-d] [-f] [-q] <path-to-db> <package1> [<package2> ...]
 
 repo-remove [-q] <path-to-db> <packagename> [<packagename2> ...]
 
@@ -30,10 +30,18 @@ on the command line.
 
 Options
 -------
+*-d, \--delta*::
+	Automatically generate and add a delta file between the old entry and the
+	new one, if the old package file is found next to the new one.
+
+*-f, \--files*::
+	Tells repo-add also to create and include a list of the files in the
+	specified packages. This is useful for creating databases listing all files
+	in a given sync repository for tools that may use this information.
+
 *-q, \--quiet*::
 	Force this program to keep quiet and run silent except for warning and
 	error messages.
-
 
 See Also
 --------

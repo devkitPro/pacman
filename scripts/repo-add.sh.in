@@ -29,10 +29,10 @@ confdir='@sysconfdir@'
 
 QUIET=0
 DELTA=0
+WITHFILES=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
-startdir="$PWD"
 
 # ensure we have a sane umask set
 umask 0022
@@ -62,7 +62,7 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-d] [-q] <path-to-db> <package|delta> ...\n")"
+	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\n")"
 	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
@@ -73,11 +73,13 @@ specified on the command line from the given repo database. Multiple\n\
 packages to remove can be specified on the command line.\n\n")"
 	printf "$(gettext "\
 Use the -q/--quiet flag to minimize output to basic messages, warnings,\n\
-and errors\n\n")"
+and errors.\n\n")"
 	printf "$(gettext "\
 Use the -d/--delta flag to automatically generate and add a delta file\n\
 between the old entry and the new one, if the old package file is found\n\
 next to the new one.\n\n")"
+	printf "$(gettext "\
+Use the -f/--files flag to update a database including file entries.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
@@ -228,8 +230,7 @@ db_write_entry()
 		return 1
 	fi
 
-	cd "$tmpdir"
-
+	pushd "$tmpdir" >/dev/null
 	if [[ -d $pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 	else
@@ -247,7 +248,7 @@ db_write_entry()
 
 	# create package directory
 	mkdir "$pkgname-$pkgver"
-	cd "$pkgname-$pkgver"
+	pushd "$pkgname-$pkgver" >/dev/null
 
 	# restore an eventual deltas file
 	[[ -f ../$pkgname.deltas ]] && mv "../$pkgname.deltas" deltas
@@ -289,16 +290,25 @@ db_write_entry()
 	write_list_entry "PROVIDES" "$_provides" "depends"
 	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
 
-	cd "$startdir"
+	popd >/dev/null
+	popd >/dev/null
+
+	# create files file if wanted
+	if (( WITHFILES )); then
+		msg2 "$(gettext "Creating 'files' db entry...")"
+		local files_path="$tmpdir/$pkgname-$pkgver/files"
+		echo "%FILES%" >$files_path
+		bsdtar --exclude='.*' -tf "$pkgfile" >>$files_path
+	fi
 
 	# create a delta file
 	if [ -n "$oldfilename" -a -f "$oldfile" ]; then
 		delta=$(pkgdelta -q $oldfile $1)
 		if [ -f "$delta" ]; then
 			db_write_delta $delta
-		else
-			warning "$(gettext "Old package file not found : %s")" "$oldfilename"
 		fi
+	else
+		warning "$(gettext "Old package file not found : %s")" "$oldfilename"
 	fi
 
 	return 0
@@ -431,7 +441,6 @@ trap_exit()
 clean_up() {
 	local exit_code=$?
 
-	cd "$startdir"
 	[[ -d $tmpdir ]] && rm -rf "$tmpdir"
 	(( CLEAN_LOCK )) && [[ -f $LOCKFILE ]] && rm -f "$LOCKFILE"
 
@@ -474,6 +483,7 @@ for arg in "$@"; do
 	case "$arg" in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
+		-f|--files) WITHFILES=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
@@ -503,7 +513,7 @@ if (( success )); then
 
 	filename=$(basename "$REPO_DB_FILE")
 
-	cd "$tmpdir"
+	pushd "$tmpdir" >/dev/null
 	if [[ -n $(ls) ]]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
 	else
@@ -511,7 +521,7 @@ if (( success )); then
 		warning "$(gettext "No packages remain, creating empty database.")"
 		bsdtar -c${TAR_OPT}f "$filename" -T /dev/null
 	fi
-	cd "$startdir"
+	popd >/dev/null
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
