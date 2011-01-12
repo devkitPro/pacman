@@ -232,6 +232,13 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 		data->blocks_needed +=
 			(archive_entry_size(entry) + data->fsp.f_bsize - 1l) / data->fsp.f_bsize;
 		data->used = 1;
+
+		if(archive_read_data_skip(archive)) {
+			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
+					pkg->name, archive_error_string(archive));
+			pm_errno = PM_ERR_LIBARCHIVE;
+			break;
+		}
 	}
 
 	archive_read_finish(archive);
