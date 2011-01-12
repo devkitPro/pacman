@@ -38,16 +38,14 @@ def _mkfilelist(files):
         usr/local/bin/
         usr/local/bin/dummy
     """
-    i = []
+    file_list = set()
     for f in files:
         dir = getfilename(f)
-        i.append(dir)
+        file_list.add(dir)
         while "/" in dir:
             [dir, tmp] = dir.rsplit("/", 1)
-            if not dir + "/" in files:
-                i.append(dir + "/")
-    i.sort()
-    return i
+            file_list.add(dir + "/")
+    return sorted(file_list)
 
 def _mkbackuplist(backup):
     """
