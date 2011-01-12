@@ -298,10 +298,12 @@ static void unlink_file(pmpkg_t *info, char *filename, alpm_list_t *skip_remove,
 	}
 }
 
-int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *trans)
+int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg,
+		pmtrans_t *trans)
 {
 	alpm_list_t *skip_remove, *b;
 	alpm_list_t *newfiles, *lp;
+	size_t filenum;
 	alpm_list_t *files = alpm_pkg_get_files(oldpkg);
 	const char *pkgname = alpm_pkg_get_name(oldpkg);
 
@@ -315,8 +317,9 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *tra
 	}
 
 	/* copy the remove skiplist over */
-	skip_remove =
-		alpm_list_join(alpm_list_strdup(trans->skip_remove),alpm_list_strdup(handle->noupgrade));
+	skip_remove = alpm_list_join(
+			alpm_list_strdup(trans->skip_remove),
+			alpm_list_strdup(handle->noupgrade));
 	/* Add files in the NEW backup array to the skip_remove array
 	 * so this removal operation doesn't kill them */
 	/* old package backup list */
@@ -339,6 +342,9 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg, pmtrans_t *tra
 			RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
 		}
 	}
+
+	filenum = alpm_list_count(files);
+	_alpm_log(PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 	/* iterate through the list backwards, unlinking files */
 	newfiles = alpm_list_reverse(files);
@@ -406,6 +412,9 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 			alpm_list_t *files = alpm_pkg_get_files(info);
+			alpm_list_t *newfiles;
+			size_t filenum;
+
 			for(lp = files; lp; lp = lp->next) {
 				if(!can_remove_file(lp->data, NULL)) {
 					_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
@@ -414,8 +423,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 				}
 			}
 
-			size_t filenum = alpm_list_count(files);
-			alpm_list_t *newfiles;
+			filenum = alpm_list_count(files);
 			_alpm_log(PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 			/* init progress bar */
