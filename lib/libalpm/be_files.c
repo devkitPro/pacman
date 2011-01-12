@@ -396,14 +396,16 @@ int _alpm_db_populate(pmdb_t *db)
 			continue;
 		}
 
+		pkg->origin = PKG_FROM_CACHE;
+		pkg->origin_data.db = db;
+
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
 		if(_alpm_db_read(db, pkg, INFRQ_BASE) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
 			_alpm_pkg_free(pkg);
 			continue;
 		}
-		pkg->origin = PKG_FROM_CACHE;
-		pkg->origin_data.db = db;
+
 		/* add to the collection */
 		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
@@ -460,7 +462,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	 * & result:  00000100
 	 * == to inforeq? nope, we need to load more info. */
 	if((info->infolevel & inforeq) == inforeq) {
-		/* already loaded this info, do nothing */
+		/* already loaded all of this info, do nothing */
 		return(0);
 	}
 	_alpm_log(PM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
@@ -479,7 +481,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	/* DESC */
-	if(inforeq & INFRQ_DESC) {
+	if(inforeq & INFRQ_DESC && !(info->infolevel & INFRQ_DESC)) {
 		snprintf(path, PATH_MAX, "%sdesc", pkgpath);
 		if((fp = fopen(path, "r")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
@@ -623,7 +625,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	/* FILES */
-	if(inforeq & INFRQ_FILES) {
+	if(inforeq & INFRQ_FILES && !(info->infolevel & INFRQ_FILES)) {
 		snprintf(path, PATH_MAX, "%sfiles", pkgpath);
 		if((fp = fopen(path, "r")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
@@ -650,7 +652,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	/* DEPENDS */
-	if(inforeq & INFRQ_DEPENDS) {
+	if(inforeq & INFRQ_DEPENDS && !(info->infolevel & INFRQ_DEPENDS)) {
 		snprintf(path, PATH_MAX, "%sdepends", pkgpath);
 		if((fp = fopen(path, "r")) == NULL) {
 			_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
@@ -689,7 +691,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	/* DELTAS */
-	if(inforeq & INFRQ_DELTAS) {
+	if(inforeq & INFRQ_DELTAS && !(info->infolevel & INFRQ_DELTAS)) {
 		snprintf(path, PATH_MAX, "%sdeltas", pkgpath);
 		if((fp = fopen(path, "r"))) {
 			while(!feof(fp)) {
@@ -710,7 +712,7 @@ int _alpm_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	}
 
 	/* INSTALL */
-	if(inforeq & INFRQ_SCRIPTLET) {
+	if(inforeq & INFRQ_SCRIPTLET && !(info->infolevel & INFRQ_SCRIPTLET)) {
 		snprintf(path, PATH_MAX, "%sinstall", pkgpath);
 		if(access(path, F_OK) == 0) {
 			info->scriptlet = 1;
