@@ -262,10 +262,10 @@ static void setarch(const char *arch)
 	if (strcmp(arch, "auto") == 0) {
 		struct utsname un;
 		uname(&un);
-		pm_printf(PM_LOG_DEBUG, "config: architecture: %s\n", un.machine);
+		pm_printf(PM_LOG_DEBUG, "config: Architecture: %s\n", un.machine);
 		alpm_option_set_arch(un.machine);
 	} else {
-		pm_printf(PM_LOG_DEBUG, "config: architecture: %s\n", arch);
+		pm_printf(PM_LOG_DEBUG, "config: Architecture: %s\n", arch);
 		alpm_option_set_arch(arch);
 	}
 }
