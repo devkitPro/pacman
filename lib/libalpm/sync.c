@@ -822,7 +822,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
 	alpm_list_t *i, *j, *files = NULL;
 	alpm_list_t *deltas = NULL;
-	size_t replaces = 0;
+	size_t numtargs, current = 0, replaces = 0;
 	int errors = 0;
 	const char *cachedir = NULL;
 	int ret = -1;
@@ -949,14 +949,18 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	}
 
 	/* Check integrity of packages */
+	numtargs = alpm_list_count(trans->add);
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
 
 	errors = 0;
 	for(i = trans->add; i; i = i->next) {
 		pmpkg_t *spkg = i->data;
+		int percent = (current * 100) / numtargs;
 		if(spkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
+		PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
+				numtargs, current);
 
 		const char *filename = alpm_pkg_get_filename(spkg);
 		const char *md5sum = alpm_pkg_get_md5sum(spkg);
@@ -982,12 +986,16 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		pkgfile->reason = spkg->reason; /* copy over install reason */
 		i->data = pkgfile;
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
+		current++;
 	}
+	PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", 100,
+			numtargs, current);
+	EVENT(trans, PM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);
 	if(errors) {
 		pm_errno = PM_ERR_PKG_INVALID;
 		goto error;
 	}
-	EVENT(trans, PM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);
+
 	if(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY) {
 		ret = 0;
 		goto error;

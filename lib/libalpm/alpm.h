@@ -395,6 +395,7 @@ typedef enum _pmtransprog_t {
 	PM_TRANS_PROGRESS_REMOVE_START,
 	PM_TRANS_PROGRESS_CONFLICTS_START,
 	PM_TRANS_PROGRESS_DISKSPACE_START,
+	PM_TRANS_PROGRESS_INTEGRITY_START,
 } pmtransprog_t;
 
 /* Transaction Event callback */

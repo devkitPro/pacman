@@ -161,7 +161,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			break;
 		case PM_TRANS_EVT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
-			printf(_("checking for file conflicts...\n"));
+				printf(_("checking for file conflicts...\n"));
 			}
 			break;
 		case PM_TRANS_EVT_RESOLVEDEPS_START:
@@ -204,7 +204,9 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			display_new_optdepends(data2,data1);
 			break;
 		case PM_TRANS_EVT_INTEGRITY_START:
-			printf(_("checking package integrity...\n"));
+			if(config->noprogressbar) {
+				printf(_("checking package integrity...\n"));
+			}
 			break;
 		case PM_TRANS_EVT_DELTA_INTEGRITY_START:
 			printf(_("checking delta integrity...\n"));
@@ -373,6 +375,9 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			break;
 		case PM_TRANS_PROGRESS_DISKSPACE_START:
 			opr = _("checking available disk space");
+			break;
+		case PM_TRANS_PROGRESS_INTEGRITY_START:
+			opr = _("checking package integrity");
 			break;
 		default:
 			return;
