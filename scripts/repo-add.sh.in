@@ -302,13 +302,15 @@ db_write_entry()
 	fi
 
 	# create a delta file
-	if [ -n "$oldfilename" -a -f "$oldfile" ]; then
-		delta=$(pkgdelta -q $oldfile $1)
-		if [ -f "$delta" ]; then
-			db_write_delta $delta
+	if [ -n "$oldfilename" ]; then
+		if [ -f "$oldfile" ]; then
+			delta=$(pkgdelta -q $oldfile $1)
+			if [ -f "$delta" ]; then
+				db_write_delta $delta
+			fi
+		else
+			warning "$(gettext "Old package file not found: %s")" "$oldfilename"
 		fi
-	else
-		warning "$(gettext "Old package file not found : %s")" "$oldfilename"
 	fi
 
 	return 0
