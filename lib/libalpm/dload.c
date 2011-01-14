@@ -59,7 +59,7 @@ static char *get_filename(const char *url) {
 	return(filename);
 }
 
-#ifdef HAVE_LIBFETCH
+#if defined(HAVE_LIBFETCH) || defined(HAVE_LIBCURL)
 static char *get_destfile(const char *path, const char *filename) {
 	char *destfile;
 	/* len = localpath len + filename len + null */
@@ -80,6 +80,17 @@ static char *get_tempfile(const char *path, const char *filename) {
 	return(tempfile);
 }
 
+#define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
+enum sighandlers { OLD = 0, NEW = 1 };
+
+int dload_interrupted;
+static void inthandler(int signum)
+{
+	dload_interrupted = 1;
+}
+#endif
+
+#ifdef HAVE_LIBFETCH
 static const char *fetch_gethost(struct url *fileurl)
 {
 	const char *host = _("disk");
@@ -88,15 +99,6 @@ static const char *fetch_gethost(struct url *fileurl)
 	}
 	return(host);
 }
-
-int dload_interrupted;
-static void inthandler(int signum)
-{
-	dload_interrupted = 1;
-}
-
-#define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
-enum sighandlers { OLD = 0, NEW = 1 };
 
 static int fetch_download_internal(const char *url, const char *localpath,
 		int force) {
