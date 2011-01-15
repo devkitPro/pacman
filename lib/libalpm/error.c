@@ -39,6 +39,7 @@
 /* libalpm */
 #include "util.h"
 #include "alpm.h"
+#include "handle.h"
 
 const char SYMEXPORT *alpm_strerrorlast(void)
 {
@@ -154,6 +155,13 @@ const char SYMEXPORT *alpm_strerror(int err)
 		case PM_ERR_LIBFETCH:
 #ifdef HAVE_LIBFETCH
 			return fetchLastErrString;
+#else
+			/* obviously shouldn't get here... */
+			return _("download library error");
+#endif
+		case PM_ERR_LIBCURL:
+#ifdef HAVE_LIBCURL
+			return(curl_easy_strerror(handle->curlerr));
 #else
 			/* obviously shouldn't get here... */
 			return _("download library error");
