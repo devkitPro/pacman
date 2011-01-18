@@ -953,7 +953,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	EVENT(trans, PM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
 
 	errors = 0;
-	for(i = trans->add; i; i = i->next) {
+	for(i = trans->add; i; i = i->next, current++) {
 		pmpkg_t *spkg = i->data;
 		int percent = (current * 100) / numtargs;
 		if(spkg->origin == PKG_FROM_FILE) {
@@ -986,7 +986,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		pkgfile->reason = spkg->reason; /* copy over install reason */
 		i->data = pkgfile;
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
-		current++;
 	}
 	PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", 100,
 			numtargs, current);
