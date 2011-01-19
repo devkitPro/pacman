@@ -322,8 +322,6 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	alpm_list_t *i;
-	const char *pkgname = pkg->name;
-	const char *pkgversion = pkg->version;
 	int satisfy = 0;
 
 	/* check (pkg->name, pkg->version) */
@@ -331,8 +329,8 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 			&& pkg->name_hash != dep->name_hash) {
 		/* skip more expensive checks */
 	} else {
-		satisfy = (strcmp(pkgname, dep->name) == 0
-				&& dep_vercmp(pkgversion, dep->mod, dep->version));
+		satisfy = (strcmp(pkg->name, dep->name) == 0
+				&& dep_vercmp(pkg->version, dep->mod, dep->version));
 		if(satisfy) {
 			return(satisfy);
 		}
@@ -366,55 +364,44 @@ int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 pmdepend_t *_alpm_splitdep(const char *depstring)
 {
 	pmdepend_t *depend;
-	char *ptr = NULL;
-	char *newstr = NULL;
+	const char *ptr, *version = NULL;
 
 	if(depstring == NULL) {
 		return(NULL);
 	}
-	STRDUP(newstr, depstring, RET_ERR(PM_ERR_MEMORY, NULL));
 
 	CALLOC(depend, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
-	if((ptr = strstr(newstr, ">="))) {
+	if((ptr = strstr(depstring, ">="))) {
 		depend->mod = PM_DEP_MOD_GE;
-		*ptr = '\0';
-		ptr += 2;
-	} else if((ptr = strstr(newstr, "<="))) {
+		version = ptr + 2;
+	} else if((ptr = strstr(depstring, "<="))) {
 		depend->mod = PM_DEP_MOD_LE;
-		*ptr = '\0';
-		ptr += 2;
-	} else if((ptr = strstr(newstr, "="))) {
+		version = ptr + 2;
+	} else if((ptr = strstr(depstring, "="))) {
 		/* Note: we must do =,<,> checks after <=, >= checks */
 		depend->mod = PM_DEP_MOD_EQ;
-		*ptr = '\0';
-		ptr += 1;
-	} else if((ptr = strstr(newstr, "<"))) {
+		version = ptr + 1;
+	} else if((ptr = strstr(depstring, "<"))) {
 		depend->mod = PM_DEP_MOD_LT;
-		*ptr = '\0';
-		ptr += 1;
-	} else if((ptr = strstr(newstr, ">"))) {
+		version = ptr + 1;
+	} else if((ptr = strstr(depstring, ">"))) {
 		depend->mod = PM_DEP_MOD_GT;
-		*ptr = '\0';
-		ptr += 1;
+		version = ptr + 1;
 	} else {
-		/* no version specified - copy the name and return it */
+		/* no version specified, leave version and ptr NULL */
 		depend->mod = PM_DEP_MOD_ANY;
-		STRDUP(depend->name, newstr, RET_ERR(PM_ERR_MEMORY, NULL));
-		depend->name_hash = _alpm_hash_sdbm(depend->name);
-		depend->version = NULL;
-		free(newstr);
-		return(depend);
 	}
 
-	/* if we get here, we have a version comparator, copy the right parts
-	 * to the right places */
-	STRDUP(depend->name, newstr, RET_ERR(PM_ERR_MEMORY, NULL));
+	/* copy the right parts to the right places */
+	STRNDUP(depend->name, depstring, ptr - depstring,
+			RET_ERR(PM_ERR_MEMORY, NULL));
 	depend->name_hash = _alpm_hash_sdbm(depend->name);
-	STRDUP(depend->version, ptr, RET_ERR(PM_ERR_MEMORY, NULL));
-	free(newstr);
+	if(version) {
+		STRDUP(depend->version, version, RET_ERR(PM_ERR_MEMORY, NULL));
+	}
 
 	return(depend);
 }
