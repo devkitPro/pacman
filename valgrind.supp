@@ -25,23 +25,24 @@
 #     if Param: name of system call param
 #     if Free: name of free-ing fn)
 
+## OpenSSL suppressions, seen when invoking libfetch on a HTTPS URL
 {
-   pacman-dlrelocate
+   openssl-supp-bin2bn
    Memcheck:Cond
-   fun:_dl_relocate_object
-   obj:*ld-2.?.so
+   fun:BN_bin2bn
 }
-
 {
-   pacman-msgsnd
-   Memcheck:Param
-   msgsnd(msgp->mtext)
-   fun:*
+   openssl-supp-bits-word-cond
+   Memcheck:Cond
+   fun:BN_num_bits_word
 }
-
 {
-   pacman-utimensat
-   Memcheck:Param
-   utimensat(filename)
-   fun:*
+   openssl-supp-bits-word-value
+   Memcheck:Value8
+   fun:BN_num_bits_word
+}
+{
+   openssl-supp-mod-exp
+   Memcheck:Value8
+   fun:BN_mod_exp_mont_consttime
 }
