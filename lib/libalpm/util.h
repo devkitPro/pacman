@@ -50,6 +50,7 @@
 #define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
 /* This strdup macro is NULL safe- copying NULL will yield NULL */
 #define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
+#define STRNDUP(r, s, l, action) do { if(s != NULL) { r = strndup(s, l); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
 
 #define FREE(p) do { free(p); p = NULL; } while(0)
 
@@ -99,6 +100,10 @@ long _alpm_parsedate(const char *line);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);
+#endif
+
+#ifndef HAVE_STRNDUP
+char *strndup(const char *s, size_t n);
 #endif
 
 /* check exported library symbols with: nm -C -D <lib> */
