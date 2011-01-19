@@ -864,25 +864,23 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	 * package name can contain hyphens, so parse from the back- go back
 	 * two hyphens and we have split the version from the name.
 	 */
-	char *tmp, *p, *q;
+	const char *version, *end;
 
 	if(target == NULL || pkg == NULL) {
 		return(-1);
 	}
-	STRDUP(tmp, target, RET_ERR(PM_ERR_MEMORY, -1));
-	p = tmp + strlen(tmp);
+	end = target + strlen(target);
 
 	/* remove any trailing '/' */
-	while (*(p - 1) == '/') {
-	  --p;
-	  *p = '\0';
+	while (*(end - 1) == '/') {
+	  --end;
 	}
 
 	/* do the magic parsing- find the beginning of the version string
 	 * by doing two iterations of same loop to lop off two hyphens */
-	for(q = --p; *q && *q != '-'; q--);
-	for(p = --q; *p && *p != '-'; p--);
-	if(*p != '-' || p == tmp) {
+	for(version = end - 1; *version && *version != '-'; version--);
+	for(version = version - 1; *version && *version != '-'; version--);
+	if(*version != '-' || version == target) {
 		return(-1);
 	}
 
@@ -890,16 +888,17 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	if(pkg->version) {
 		FREE(pkg->version);
 	}
-	STRDUP(pkg->version, p+1, RET_ERR(PM_ERR_MEMORY, -1));
-	/* insert a terminator at the end of the name (on hyphen)- then copy it */
-	*p = '\0';
+	/* version actually points to the dash, so need to increment 1 and account
+	 * for potential end character */
+	STRNDUP(pkg->version, version + 1, end - version - 1,
+			RET_ERR(PM_ERR_MEMORY, -1));
+
 	if(pkg->name) {
 		FREE(pkg->name);
 	}
-	STRDUP(pkg->name, tmp, RET_ERR(PM_ERR_MEMORY, -1));
+	STRNDUP(pkg->name, target, version - target, RET_ERR(PM_ERR_MEMORY, -1));
 	pkg->name_hash = _alpm_hash_sdbm(pkg->name);
 
-	free(tmp);
 	return(0);
 }
 
