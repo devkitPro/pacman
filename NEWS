@@ -1,5 +1,8 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.4.3         - fix attempted double remove of all files issue during upgrades
+              - respect IgnorePkg/IgnoreGroup for group members (FS#19854)
+              - back out epoch changes; 3.5.X will handle them differently
 3.4.2         - fix progress bar display with empty packages
               - make pactest testsuite Python 2.7 compatible
               - write epoch values in preparation for 3.5.X releases
