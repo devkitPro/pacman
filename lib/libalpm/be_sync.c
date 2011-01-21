@@ -142,13 +142,15 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 }
 
 /* Forward decl so I don't reorganize the whole file right now */
-static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry);
+static int sync_db_read(pmdb_t *db, struct archive *archive,
+		struct archive_entry *entry, pmpkg_t *likely_pkg);
 
 static int sync_db_populate(pmdb_t *db)
 {
 	int count = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
+	pmpkg_t *pkg = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -169,12 +171,12 @@ static int sync_db_populate(pmdb_t *db)
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 		const struct stat *st;
-		const char *name;
-		pmpkg_t *pkg;
 
 		st = archive_entry_stat(entry);
 
 		if(S_ISDIR(st->st_mode)) {
+			const char *name;
+
 			pkg = _alpm_pkg_new();
 			if(pkg == NULL) {
 				archive_read_finish(archive);
@@ -208,7 +210,7 @@ static int sync_db_populate(pmdb_t *db)
 			count++;
 		} else {
 			/* we have desc, depends or deltas - parse it */
-			sync_db_read(db, archive, entry);
+			sync_db_read(db, archive, entry, pkg);
 		}
 	}
 
@@ -236,10 +238,11 @@ static int sync_db_populate(pmdb_t *db)
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
 
-static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entry *entry)
+static int sync_db_read(pmdb_t *db, struct archive *archive,
+		struct archive_entry *entry, pmpkg_t *likely_pkg)
 {
-	const char *entryname = NULL;
-	char *filename, *pkgname, *p, *q;
+	const char *entryname = NULL, *filename;
+	char *pkgname, *p, *q;
 	pmpkg_t *pkg;
 	struct archive_read_buffer buf;
 
@@ -268,13 +271,17 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 	STRDUP(pkgname, entryname, RET_ERR(PM_ERR_MEMORY, -1));
 	p = pkgname + strlen(pkgname);
 	for(q = --p; *q && *q != '/'; q--);
-	STRDUP(filename, q+1, RET_ERR(PM_ERR_MEMORY, -1));
+	filename = q + 1;
 	for(p = --q; *p && *p != '-'; p--);
 	for(q = --p; *q && *q != '-'; q--);
 	*q = '\0';
 
 	/* package is already in db due to parsing of directory name */
-	pkg = _alpm_pkg_find(db->pkgcache, pkgname);
+	if(likely_pkg && strcmp(likely_pkg->name, pkgname) == 0) {
+		pkg = likely_pkg;
+	} else {
+		pkg = _alpm_pkg_find(db->pkgcache, pkgname);
+	}
 	if(pkg == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "package %s not found in %s sync database",
 					pkgname, db->treename);
@@ -366,7 +373,6 @@ static int sync_db_read(pmdb_t *db, struct archive *archive, struct archive_entr
 
 error:
 	FREE(pkgname);
-	FREE(filename);
 	/* TODO: return 0 always? */
 	return(0);
 }
