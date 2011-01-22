@@ -25,6 +25,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
+#include <errno.h>
 #include <wchar.h>
 
 #include <alpm.h>
@@ -183,7 +184,16 @@ static const char *get_backup_file_status(const char *root,
 		}
 		free(md5sum);
 	} else {
-		ret = "MISSING";
+		switch(errno) {
+			case EACCES:
+				ret = "UNREADABLE";
+				break;
+			case ENOENT:
+				ret = "MISSING";
+				break;
+			default:
+				ret = "UNKNOWN";
+		}
 	}
 	return(ret);
 }
