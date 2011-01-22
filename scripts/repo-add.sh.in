@@ -234,9 +234,9 @@ db_write_entry()
 	if [[ -d $pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 	else
-		if [ $DELTA -eq 1 ]; then
+		if (( DELTA )); then
 			pkgentry=$(find_pkgentry $pkgname)
-			if [ -n "$pkgentry" ]; then
+			if [[ -n $pkgentry ]]; then
 				local oldfilename=$(grep -A1 FILENAME $pkgentry/desc | tail -n1)
 				local oldfile="$(dirname $1)/$oldfilename"
 			fi
@@ -302,14 +302,16 @@ db_write_entry()
 	fi
 
 	# create a delta file
-	if [ -n "$oldfilename" ]; then
-		if [ -f "$oldfile" ]; then
-			delta=$(pkgdelta -q $oldfile $1)
-			if [ -f "$delta" ]; then
-				db_write_delta $delta
+	if (( DELTA )); then
+		if [[ -n $oldfilename ]]; then
+			if [[ -f $oldfile ]]; then
+				delta=$(pkgdelta -q $oldfile $1)
+				if [[ -f $delta ]]; then
+					db_write_delta $delta
+				fi
+			else
+				warning "$(gettext "Old package file not found: %s")" "$oldfilename"
 			fi
-		else
-			warning "$(gettext "Old package file not found: %s")" "$oldfilename"
 		fi
 	fi
 
