@@ -25,7 +25,7 @@ EXTRA_DIST = \
 MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
 
 if USE_GIT_VERSION
-GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 | sed s/^v//')-dirty
+GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')
 REAL_PACKAGE_VERSION = $(GIT_VERSION)
 else
 REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
