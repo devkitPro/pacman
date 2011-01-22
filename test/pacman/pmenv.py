@@ -22,7 +22,7 @@ import os.path
 import pmtest
 
 
-class pmenv:
+class pmenv(object):
     """Environment object
     """
 

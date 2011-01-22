@@ -24,7 +24,7 @@ import tarfile
 
 import util
 
-class pmpkg:
+class pmpkg(object):
     """Package object.
     
     Object holding data from an ArchLinux package.

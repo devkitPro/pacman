@@ -20,7 +20,7 @@ import stat
 
 import util
 
-class pmrule:
+class pmrule(object):
     """Rule object
     """
 

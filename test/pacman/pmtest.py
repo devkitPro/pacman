@@ -28,7 +28,7 @@ import pmfile
 import util
 from util import vprint
 
-class pmtest:
+class pmtest(object):
     """Test object
     """
 

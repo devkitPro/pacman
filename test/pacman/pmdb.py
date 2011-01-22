@@ -72,7 +72,7 @@ def _mksection(title, data):
            "%s\n" % (title, s)
 
 
-class pmdb:
+class pmdb(object):
     """Database object
     """
 

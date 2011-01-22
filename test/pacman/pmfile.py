@@ -20,7 +20,7 @@ import os
 
 import util
 
-class pmfile:
+class pmfile(object):
     """File object
     """
 
