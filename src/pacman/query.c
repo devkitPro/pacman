@@ -39,11 +39,11 @@
 
 extern pmdb_t *db_local;
 
-static char *resolve_path(const char* file)
+static char *resolve_path(const char *file)
 {
 	char *str = NULL;
 
-	str = calloc(PATH_MAX+1, sizeof(char));
+	str = calloc(PATH_MAX + 1, sizeof(char));
 	if(!str) {
 		return(NULL);
 	}
@@ -97,7 +97,10 @@ static int search_path(char **filename, struct stat *bufptr)
 static int query_fileowner(alpm_list_t *targets)
 {
 	int ret = 0;
-	char *filename;
+	char path[PATH_MAX];
+	const char *root;
+	char *append;
+	size_t max_length;
 	alpm_list_t *t;
 
 	/* This code is here for safety only */
@@ -106,13 +109,22 @@ static int query_fileowner(alpm_list_t *targets)
 		return(1);
 	}
 
+	/* Set up our root path buffer. We only need to copy the location of root in
+	 * once, then we can just overwrite whatever file was there on the previous
+	 * iteration. */
+	root = alpm_option_get_root();
+	strncpy(path, root, PATH_MAX - 1);
+	append = path + strlen(path);
+	max_length = PATH_MAX - (append - path) - 1;
+
 	for(t = targets; t; t = alpm_list_next(t)) {
-		int found = 0;
-		filename = strdup(alpm_list_getdata(t));
-		char *dname, *rpath;
-		const char *root, *bname;
+		char *filename, *dname, *rpath;
+		const char *bname;
 		struct stat buf;
-		alpm_list_t *i, *j;
+		alpm_list_t *i;
+		int found = 0;
+
+		filename = strdup(alpm_list_getdata(t));
 
 		if(lstat(filename, &buf) == -1) {
 			/*  if it is not a path but a program name, then check in PATH */
@@ -144,31 +156,37 @@ static int query_fileowner(alpm_list_t *targets)
 		bname = mbasename(filename);
 		dname = mdirname(filename);
 		rpath = resolve_path(dname);
-		free(dname);
 
-		if(!rpath) {
+		/* this odd conditional is to ensure files in '/' can be checked */
+		if(!rpath && strcmp(dname, "") != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
 					filename, strerror(errno));
 			free(filename);
+			free(dname);
 			free(rpath);
 			ret++;
 			continue;
 		}
-
-		root = alpm_option_get_root();
+		free(dname);
 
 		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
+			alpm_list_t *j;
 			pmpkg_t *info = alpm_list_getdata(i);
 
 			for(j = alpm_pkg_get_files(info); j && !found; j = alpm_list_next(j)) {
-				char path[PATH_MAX], *ppath, *pdname;
-				snprintf(path, PATH_MAX, "%s%s",
-						root, (const char *)alpm_list_getdata(j));
+				char *ppath, *pdname;
+				const char *pkgfile = alpm_list_getdata(j);
 
 				/* avoid the costly resolve_path usage if the basenames don't match */
-				if(strcmp(mbasename(path), bname) != 0) {
+				if(strcmp(mbasename(pkgfile), bname) != 0) {
 					continue;
 				}
+
+				if(strlen(pkgfile) > max_length) {
+					pm_fprintf(stderr, PM_LOG_ERROR, _("Path too long: %s%s\n"), root, pkgfile);
+				}
+				/* concatenate our file and the root path */
+				strcpy(append, pkgfile);
 
 				pdname = mdirname(path);
 				ppath = resolve_path(pdname);
