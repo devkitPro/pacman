@@ -340,15 +340,6 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 				READ_AND_STORE(pkg->md5sum);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
 				READ_AND_STORE_ALL(pkg->replaces);
-			} else if(strcmp(line, "%EPOCH%") == 0) {
-				READ_NEXT(line);
-				pkg->epoch = atoi(line);
-			} else if(strcmp(line, "%FORCE%") == 0) {
-				/* For backward compatibility, treat force as a non-zero epoch
-				 * but only if we didn't already have a known epoch value. */
-				if(!pkg->epoch) {
-					pkg->epoch = 1;
-				}
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				/* Different than the rest because of the _alpm_splitdep call. */
 				while(1) {

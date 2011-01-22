@@ -1,0 +1,71 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
+vercmp(8)
+=========
+
+Name
+----
+vercmp - version comparsion utility
+
+
+Synopsis
+--------
+'vercmp' <version1> <version2>
+
+
+Description
+-----------
+'vercmp' is used to determine the relationship between two given version
+numbers. It outputs values as follows:
+
+*  < 0 : if ver1 < ver2
+*  = 0 : if ver1 == ver2
+*  > 0 : if ver1 > ver2
+
+Version comparsion operates as follows:
+
+  Alphanumeric:
+    1.0a < 1.0alpha < 1.0b < 1.0beta < 1.0p < 1.0pre < 1.0rc < 1.0
+  Numeric:
+    1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
+
+Additionally, version strings can have an 'epoch' value defined that will
+overrule any version comparison (unless the epoch values are equal). This is
+specified in an `epoch:version-rel` format. For example, `2:1.0-1` is always
+greater than `1:3.6-1`.
+
+
+Options
+-------
+*-h, \--help*::
+	Display syntax for the given operation. If no operation was supplied
+	then the general syntax is shown.
+
+Examples
+--------
+
+  $ vercmp 1 2
+  -1
+
+  $ vercmp 2 1
+  1
+
+  $ vercmp 2.0-1 1.7-6
+  1
+
+  $ vercmp 2.0 2.0-13
+  0
+
+  $ vercmp 4.34 1:001
+  -1
+
+Configuration
+-------------
+There is none.
+
+See Also
+--------
+linkman:pacman[8], linkman:makepkg[8], linkman:libalpm[3]
+
+include::footer.txt[]

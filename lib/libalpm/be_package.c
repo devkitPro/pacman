@@ -184,13 +184,6 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 				STRDUP(newpkg->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(strcmp(key, "pkgdesc") == 0) {
 				STRDUP(newpkg->desc, ptr, RET_ERR(PM_ERR_MEMORY, -1));
-			} else if(strcmp(key, "force") == 0) {
-				/* For backward compatibility, like in sync_db_read */
-				if(!newpkg->epoch) {
-					newpkg->epoch = 1;
-				}
-			} else if(strcmp(key, "epoch") == 0) {
-				newpkg->epoch = atoi(ptr);
 			} else if(strcmp(key, "group") == 0) {
 				newpkg->groups = alpm_list_add(newpkg->groups, strdup(ptr));
 			} else if(strcmp(key, "url") == 0) {

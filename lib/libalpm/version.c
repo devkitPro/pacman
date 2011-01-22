@@ -23,23 +23,66 @@
 /* libalpm */
 #include "util.h"
 
-/** Compare two version strings and determine which one is 'newer'.
- * Returns a value comparable to the way strcmp works. Returns 1
- * if a is newer than b, 0 if a and b are the same version, or -1
- * if b is newer than a.
- *
- * This function has been adopted from the rpmvercmp function located
- * at lib/rpmvercmp.c, and was most recently updated against rpm
- * version 4.4.2.3. Small modifications have been made to make it more
- * consistent with the libalpm coding style.
- *
- * Keep in mind that the pkgrel is only compared if it is available
- * on both versions handed to this function. For example, comparing
- * 1.5-1 and 1.5 will yield 0; comparing 1.5-1 and 1.5-2 will yield
- * -1 as expected. This is mainly for supporting versioned dependencies
- * that do not include the pkgrel.
+/**
+ * Some functions in this file have been adopted from the rpm source, notably
+ * 'rpmvercmp' located at lib/rpmvercmp.c and 'parseEVR' located at
+ * lib/rpmds.c. It was most recently updated against rpm version 4.8.1. Small
+ * modifications have been made to make it more consistent with the libalpm
+ * coding style.
  */
-int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
+
+/**
+ * Split EVR into epoch, version, and release components.
+ * @param evr		[epoch:]version[-release] string
+ * @retval *ep		pointer to epoch
+ * @retval *vp		pointer to version
+ * @retval *rp		pointer to release
+ */
+static void parseEVR(char *evr, const char **ep, const char **vp,
+		const char **rp)
+{
+	const char *epoch;
+	const char *version;
+	const char *release;
+	char *s, *se;
+
+	s = evr;
+	/* s points to epoch terminator */
+	while (*s && isdigit(*s)) s++;
+	/* se points to version terminator */
+	se = strrchr(s, '-');
+
+	if(*s == ':') {
+		epoch = evr;
+		*s++ = '\0';
+		version = s;
+		if(*epoch == '\0') {
+			epoch = "0";
+		}
+	} else {
+		/* different from RPM- always assume 0 epoch */
+		epoch = "0";
+		version = evr;
+	}
+	if(se) {
+		*se++ = '\0';
+		release = se;
+	} else {
+		release = NULL;
+	}
+
+	if(ep) *ep = epoch;
+	if(vp) *vp = version;
+	if(rp) *rp = release;
+}
+
+/**
+ * Compare alpha and numeric segments of two versions.
+ * return 1: a is newer than b
+ *        0: a and b are the same version
+ *       -1: b is newer than a
+ */
+static int rpmvercmp(const char *a, const char *b)
 {
 	char oldch1, oldch2;
 	char *str1, *str2;
@@ -48,13 +91,6 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 	int rc;
 	int isnum;
 	int ret = 0;
-
-	/* libalpm added code. ensure our strings are not null */
-	if(!a) {
-		if(!b) return(0);
-		return(-1);
-	}
-	if(!b) return(1);
 
 	/* easy comparison to see if versions are identical */
 	if(strcmp(a, b) == 0) return(0);
@@ -147,22 +183,6 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 		one = ptr1;
 		*ptr2 = oldch2;
 		two = ptr2;
-
-		/* libalpm added code. check if version strings have hit the pkgrel
-		 * portion. depending on which strings have hit, take correct action.
-		 * this is all based on the premise that we only have one dash in
-		 * the version string, and it separates pkgver from pkgrel. */
-		if(*ptr1 == '-' && *ptr2 == '-') {
-			/* no-op, continue comparing since we are equivalent throughout */
-		} else if(*ptr1 == '-') {
-			/* ptr1 has hit the pkgrel and ptr2 has not. continue version
-			 * comparison after stripping the pkgrel from ptr1. */
-			*ptr1 = '\0';
-		} else if(*ptr2 == '-') {
-			/* ptr2 has hit the pkgrel and ptr1 has not. continue version
-			 * comparison after stripping the pkgrel from ptr2. */
-			*ptr2 = '\0';
-		}
 	}
 
 	/* this catches the case where all numeric and alpha segments have */
@@ -179,7 +199,7 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 	 * - if one is an alpha, two is newer.
 	 * - otherwise one is newer.
 	 * */
-	if ( ( !*one && !isalpha((int)*two) )
+	if ( (!*one && !isalpha((int)*two))
 			|| isalpha((int)*one) ) {
 		ret = -1;
 	} else {
@@ -189,6 +209,63 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 cleanup:
 	free(str1);
 	free(str2);
+	return(ret);
+}
+
+/** Compare two version strings and determine which one is 'newer'.
+ * Returns a value comparable to the way strcmp works. Returns 1
+ * if a is newer than b, 0 if a and b are the same version, or -1
+ * if b is newer than a.
+ *
+ * Different epoch values for version strings will override any further
+ * comparison. If no epoch is provided, 0 is assumed.
+ *
+ * Keep in mind that the pkgrel is only compared if it is available
+ * on both versions handed to this function. For example, comparing
+ * 1.5-1 and 1.5 will yield 0; comparing 1.5-1 and 1.5-2 will yield
+ * -1 as expected. This is mainly for supporting versioned dependencies
+ * that do not include the pkgrel.
+ */
+int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
+{
+	char *full1, *full2;
+	const char *epoch1, *ver1, *rel1;
+	const char *epoch2, *ver2, *rel2;
+	int ret;
+
+	/* ensure our strings are not null */
+	if(!a && !b) {
+		return(0);
+	} else if(!a) {
+		return(-1);
+	} else if(!b) {
+		return(1);
+	}
+	/* another quick shortcut- if full version specs are equal */
+	if(strcmp(a, b) == 0) {
+		return(0);
+	}
+
+	/* Parse both versions into [epoch:]version[-release] triplets. We probably
+	 * don't need epoch and release to support all the same magic, but it is
+	 * easier to just run it all through the same code. */
+	full1 = strdup(a);
+	full2 = strdup(b);
+
+	/* parseEVR modifies passed in version, so have to dupe it first */
+	parseEVR(full1, &epoch1, &ver1, &rel1);
+	parseEVR(full2, &epoch2, &ver2, &rel2);
+
+	ret = rpmvercmp(epoch1, epoch2);
+	if(ret == 0) {
+		ret = rpmvercmp(ver1, ver2);
+		if(ret == 0 && rel1 && rel2) {
+			ret = rpmvercmp(rel1, rel2);
+		}
+	}
+
+	free(full1);
+	free(full2);
 	return(ret);
 }
 
