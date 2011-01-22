@@ -15,7 +15,8 @@ for p in lp1, lp2, lp3, sp1, sp2, sp3, newp1:
 for p in lp1, lp2, lp3:
 	self.addpkg2db("local", p)
 
-self.addpkg2db("testing", newp1);
+# repos are sorted in alpha order
+self.addpkg2db("atesting", newp1);
 
 for p in sp1, sp2, sp3:
 	self.addpkg2db("sync", p);

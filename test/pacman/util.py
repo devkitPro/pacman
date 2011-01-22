@@ -125,8 +125,11 @@ def mkcfgfile(filename, root, option, db):
         data.extend(["%s = %s" % (key, j) for j in value])
 
     # Repositories
-    for key, value in db.iteritems():
+    # sort by repo name so tests can predict repo order, rather than be
+    # subjects to the whims of python dict() ordering
+    for key in sorted(db.iterkeys()):
         if key != "local":
+            value = db[key]
             data.append("[%s]\n" \
                     "Server = file://%s" \
                      % (value.treename,
