@@ -109,8 +109,8 @@ static int query_fileowner(alpm_list_t *targets)
 	for(t = targets; t; t = alpm_list_next(t)) {
 		int found = 0;
 		filename = strdup(alpm_list_getdata(t));
-		char *bname, *dname, *rpath;
-		const char *root;
+		char *dname, *rpath;
+		const char *root, *bname;
 		struct stat buf;
 		alpm_list_t *i, *j;
 

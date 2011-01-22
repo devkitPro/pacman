@@ -157,25 +157,17 @@ int rmrf(const char *path)
 }
 
 /** Parse the basename of a program from a path.
-* Grabbed from the uClibc source.
 * @param path path to parse basename from
 *
 * @return everything following the final '/'
 */
-char *mbasename(const char *path)
+const char *mbasename(const char *path)
 {
-	const char *s;
-	const char *p;
-
-	p = s = path;
-
-	while (*s) {
-		if (*s++ == '/') {
-			p = s;
-		}
+	const char *last = strrchr(path, '/');
+	if(last) {
+		return(last + 1);
 	}
-
-	return (char *)p;
+	return(path);
 }
 
 /** Parse the dirname of a program from a path.

@@ -44,7 +44,7 @@ int trans_release(void);
 int needs_root(void);
 int getcols(void);
 int rmrf(const char *path);
-char *mbasename(const char *path);
+const char *mbasename(const char *path);
 char *mdirname(const char *path);
 void indentprint(const char *str, int indent);
 char *strtoupper(char *str);
