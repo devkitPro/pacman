@@ -38,4 +38,14 @@ $(OURFILES): Makefile
 
 all-am: $(OURFILES)
 
+bacman: $(srcdir)/bacman.in
+bash_completion: $(srcdir)/bash_completion.in
+pacdiff: $(srcdir)/pacdiff.in
+paclist: $(srcdir)/paclist.in
+pacscripts: $(srcdir)/pacscripts.in
+pacsearch: $(srcdir)/pacsearch.in
+pactree: $(srcdir)/pactree.in
+wget-xdelta.sh: $(srcdir)/wget-xdelta.sh.in
+zsh_completion: $(srcdir)/zsh_completion.in
+
 # vim:set ts=2 sw=2 noet:
