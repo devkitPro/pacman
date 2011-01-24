@@ -367,7 +367,8 @@ static int is_dir(const char *path, struct dirent *entry)
 
 static int local_db_populate(pmdb_t *db)
 {
-	int count = 0;
+	int est_count, count = 0;
+	struct stat buf;
 	struct dirent *ent = NULL;
 	const char *dbpath;
 	DIR *dbdir;
@@ -384,6 +385,11 @@ static int local_db_populate(pmdb_t *db)
 	if(dbdir == NULL) {
 		return(0);
 	}
+	if(fstat(dirfd(dbdir), &buf) != 0) {
+		return(0);
+	}
+	/* subtract the two always-there pointers to get # of children */
+	est_count = (int)buf.st_nlink - 2;
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
 
