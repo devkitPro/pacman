@@ -249,9 +249,9 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 
 /** Get the package cache of a package database
  * @param db pointer to the package database to get the package from
- * @return the list of packages on success, NULL on error
+ * @return the hash of packages on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
+pmpkghash_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -260,6 +260,21 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 	ASSERT(db != NULL, return(NULL));
 
 	return(_alpm_db_get_pkgcache(db));
+}
+
+/** Get the package cache of a package database
+ * @param db pointer to the package database to get the package from
+ * @return the list of packages on success, NULL on error
+ */
+alpm_list_t SYMEXPORT *alpm_db_get_pkgcache_list(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	/* Sanity checks */
+	ASSERT(handle != NULL, return(NULL));
+	ASSERT(db != NULL, return(NULL));
+
+	return(_alpm_db_get_pkgcache_list(db));
 }
 
 /** Get a group entry from a package database
@@ -417,7 +432,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 	const alpm_list_t *i, *j, *k;
 	alpm_list_t *ret = NULL;
 	/* copy the pkgcache- we will free the list var after each needle */
-	alpm_list_t *list = alpm_list_copy(_alpm_db_get_pkgcache(db));
+	alpm_list_t *list = alpm_list_copy(_alpm_db_get_pkgcache_list(db));
 
 	ALPM_LOG_FUNC;
 
@@ -523,14 +538,15 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'\n",
 	                        db->treename);
 
-	alpm_list_free_inner(db->pkgcache, (alpm_list_fn_free)_alpm_pkg_free);
-	alpm_list_free(db->pkgcache);
+	alpm_list_free_inner(_alpm_db_get_pkgcache_list(db),
+				(alpm_list_fn_free)_alpm_pkg_free);
+	_alpm_pkghash_free(db->pkgcache);
 	db->pkgcache_loaded = 0;
 
 	_alpm_db_free_grpcache(db);
 }
 
-alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
+pmpkghash_t *_alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -548,6 +564,19 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 	}
 
 	return(db->pkgcache);
+}
+
+alpm_list_t *_alpm_db_get_pkgcache_list(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+
+	pmpkghash_t *hash = _alpm_db_get_pkgcache(db);
+
+	if(hash == NULL) {
+		return(NULL);
+	}
+
+	return(hash->list);
 }
 
 /* "duplicate" pkg then add it to pkgcache */
@@ -568,7 +597,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 
 	_alpm_log(PM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
 						alpm_pkg_get_name(newpkg), db->treename);
-	db->pkgcache = alpm_list_add_sorted(db->pkgcache, newpkg, _alpm_pkg_cmp);
+	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
 
 	_alpm_db_free_grpcache(db);
 
@@ -577,8 +606,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 
 int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 {
-	void *vdata;
-	pmpkg_t *data;
+	pmpkg_t *data = NULL;
 
 	ALPM_LOG_FUNC;
 
@@ -589,8 +617,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 	_alpm_log(PM_LOG_DEBUG, "removing entry '%s' from '%s' cache\n",
 						alpm_pkg_get_name(pkg), db->treename);
 
-	db->pkgcache = alpm_list_remove(db->pkgcache, pkg, _alpm_pkg_cmp, &vdata);
-	data = vdata;
+	db->pkgcache = _alpm_pkghash_remove(db->pkgcache, pkg, data);
 	if(data == NULL) {
 		/* package not found */
 		_alpm_log(PM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found\n",
@@ -613,14 +640,14 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 		return(NULL);
 	}
 
-	alpm_list_t *pkgcache = _alpm_db_get_pkgcache(db);
+	pmpkghash_t *pkgcache = _alpm_db_get_pkgcache(db);
 	if(!pkgcache) {
 		_alpm_log(PM_LOG_DEBUG, "warning: failed to get '%s' from NULL pkgcache\n",
 				target);
 		return(NULL);
 	}
 
-	return(_alpm_pkg_find(pkgcache, target));
+	return(_alpm_pkghash_find(pkgcache, target));
 }
 
 /* Returns a new group cache from db.
@@ -638,7 +665,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'\n",
 			db->treename);
 
-	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
+	for(lp = _alpm_db_get_pkgcache_list(db); lp; lp = lp->next) {
 		const alpm_list_t *i;
 		pmpkg_t *pkg = lp->data;
 

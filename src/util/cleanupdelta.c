@@ -79,7 +79,7 @@ static void checkdbs(char *dbpath, alpm_list_t *dbnames) {
 					alpm_strerrorlast());
 			return;
 		}
-		checkpkgs(alpm_db_get_pkgcache(db));
+		checkpkgs(alpm_db_get_pkgcache_list(db));
 	}
 
 }

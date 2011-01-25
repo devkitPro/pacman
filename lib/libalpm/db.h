@@ -23,6 +23,8 @@
 #define _ALPM_DB_H
 
 #include "alpm.h"
+#include "pkghash.h"
+
 #include <time.h>
 
 /* libarchive */
@@ -54,7 +56,7 @@ struct __pmdb_t {
 	int grpcache_loaded;
 	/* also indicates whether we are RO or RW */
 	int is_local;
-	alpm_list_t *pkgcache;
+	pmpkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 
@@ -84,7 +86,8 @@ int _alpm_db_load_pkgcache(pmdb_t *db);
 void _alpm_db_free_pkgcache(pmdb_t *db);
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
 int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
-alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db);
+pmpkghash_t *_alpm_db_get_pkgcache(pmdb_t *db);
+alpm_list_t *_alpm_db_get_pkgcache_list(pmdb_t *db);
 int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
 pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target);
 /* groups */

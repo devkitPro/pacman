@@ -142,7 +142,7 @@ static int check_localdb(void) {
 				alpm_strerrorlast());
 		cleanup(EXIT_FAILURE);
 	}
-	pkglist = alpm_db_get_pkgcache(db);
+	pkglist = alpm_db_get_pkgcache_list(db);
 	ret += checkdeps(pkglist);
 	ret += checkconflicts(pkglist);
 	return(ret);
@@ -162,7 +162,7 @@ static int check_syncdbs(alpm_list_t *dbnames) {
 			ret = 1;
 			goto cleanup;
 		}
-		pkglist = alpm_db_get_pkgcache(db);
+		pkglist = alpm_db_get_pkgcache_list(db);
 		syncpkglist = alpm_list_join(syncpkglist, alpm_list_copy(pkglist));
 	}
 	ret += checkdeps(syncpkglist);

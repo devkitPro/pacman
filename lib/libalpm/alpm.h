@@ -187,7 +187,8 @@ int alpm_db_setserver(pmdb_t *db, const char *url);
 int alpm_db_update(int level, pmdb_t *db);
 
 pmpkg_t *alpm_db_get_pkg(pmdb_t *db, const char *name);
-alpm_list_t *alpm_db_get_pkgcache(pmdb_t *db);
+pmpkghash_t *alpm_db_get_pkgcache(pmdb_t *db);
+alpm_list_t *alpm_db_get_pkgcache_list(pmdb_t *db);
 
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
 alpm_list_t *alpm_db_get_grpcache(pmdb_t *db);

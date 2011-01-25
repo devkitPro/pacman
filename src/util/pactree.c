@@ -303,7 +303,7 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
 		pmdepend_t *depend = alpm_list_getdata(i);
-		pmpkg_t *provider = alpm_find_satisfier(alpm_db_get_pkgcache(db_local),
+		pmpkg_t *provider = alpm_find_satisfier(alpm_db_get_pkgcache_list(db_local),
 				alpm_dep_get_name(depend));
 
 		if(provider) {
@@ -347,7 +347,7 @@ int main(int argc, char *argv[])
 	/* we only care about the first non option arg for walking */
 	target_name = argv[optind];
 
-	pkg = alpm_find_satisfier(alpm_db_get_pkgcache(db_local), target_name);
+	pkg = alpm_find_satisfier(alpm_db_get_pkgcache_list(db_local), target_name);
 	if(!pkg) {
 		fprintf(stderr, "error: package '%s' not found\n", target_name);
 		ret = 1;
