@@ -166,7 +166,8 @@ static int sync_db_populate(pmdb_t *db)
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), _alpm_db_path(db),
 				archive_error_string(archive));
-		RET_ERR(PM_ERR_PKG_OPEN, 1);
+		archive_read_finish(archive);
+		RET_ERR(PM_ERR_DB_OPEN, 1);
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
@@ -180,7 +181,7 @@ static int sync_db_populate(pmdb_t *db)
 			pkg = _alpm_pkg_new();
 			if(pkg == NULL) {
 				archive_read_finish(archive);
-				return(-1);
+				RET_ERR(PM_ERR_MEMORY, -1);
 			}
 
 			name = archive_entry_pathname(entry);
