@@ -77,9 +77,9 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 /* Expand the hash table size to the next increment and rebin the entries */
 static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 {
-	//pmpkghash_t *newhash;
-
-	/* TODO - calculate size of newhash */
+	pmpkghash_t *newhash;
+	alpm_list_t *ptr;
+	size_t newsize;
 	/* Hash tables will need resized in two cases:
 	 *  - adding packages to the local database
 	 *  - poor estimation of the number of packages in sync database
@@ -89,17 +89,22 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 	 * larger database sizes, this increase is reduced to avoid excess
 	 * memory allocation as both scenarios requiring a rehash should not
 	 * require a table size increase that large. */
+	if(oldhash->buckets < 500) {
+		newsize = oldhash->buckets * 2;
+	} else if(oldhash->buckets < 3500) {
+		newsize = oldhash->buckets * 3 / 2;
+	} else {
+		newsize = oldhash->buckets * 4 / 3;
+	}
 
-	//newhash = _alpm_pkghash_create(oldhash->buckets);
+	newhash = _alpm_pkghash_create(newsize);
+	for(ptr = oldhash->list; ptr != NULL; ptr = ptr->next) {
+		newhash = _alpm_pkghash_add(newhash, ptr->data);
+	}
 
-	/* TODO - rebin entries */
+	_alpm_pkghash_free(oldhash);
 
-	//_alpm_pkghash_free(oldhash);
-
-	//return newhash;
-
-	printf("rehash needed!!!\n");
-	return(oldhash);
+	return(newhash);
 }
 
 pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
