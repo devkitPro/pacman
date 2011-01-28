@@ -232,8 +232,8 @@ static int sync_db_populate(pmdb_t *db)
 	}
 	est_count = estimate_package_count(&buf, archive);
 
-	/* initialize hash at 50% full */
-	db->pkgcache = _alpm_pkghash_create(est_count * 2);
+	/* initialize hash at 66% full */
+	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 		const struct stat *st;
