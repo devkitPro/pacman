@@ -57,7 +57,6 @@
 #include "conf.h"
 #include "package.h"
 
-pmdb_t *db_local;
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;
 
@@ -1431,14 +1430,6 @@ int main(int argc, char *argv[])
 		printf("Lock File : %s\n", alpm_option_get_lockfile());
 		printf("Log File  : %s\n", alpm_option_get_logfile());
 		list_display("Targets   :", pm_targets);
-	}
-
-	/* Opening local database */
-	db_local = alpm_db_register_local();
-	if(db_local == NULL) {
-		pm_printf(PM_LOG_ERROR, _("could not register 'local' database (%s)\n"),
-		        alpm_strerrorlast());
-		cleanup(EXIT_FAILURE);
 	}
 
 	/* Log commandline */

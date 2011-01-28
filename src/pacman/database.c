@@ -31,8 +31,6 @@
 #include "conf.h"
 #include "util.h"
 
-extern pmdb_t *db_local;
-
 /**
  * @brief Modify the 'local' package database.
  *
@@ -43,6 +41,7 @@ extern pmdb_t *db_local;
 int pacman_database(alpm_list_t *targets)
 {
 	alpm_list_t *i;
+	pmdb_t *db_local;
 	int retval = 0;
 	pmpkgreason_t reason;
 
@@ -65,6 +64,7 @@ int pacman_database(alpm_list_t *targets)
 		return(1);
 	}
 
+	db_local = alpm_option_get_localdb();
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *pkgname = i->data;
 		if(alpm_db_set_pkgreason(db_local, pkgname, reason) == -1) {

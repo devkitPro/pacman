@@ -64,21 +64,6 @@ pmdb_t SYMEXPORT *alpm_db_register_sync(const char *treename)
 	return(_alpm_db_register_sync(treename));
 }
 
-/** Register the local package database.
- * @return a pmdb_t* representing the local database, or NULL on error
- */
-pmdb_t SYMEXPORT *alpm_db_register_local(void)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
-	/* Do not register a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
-
-	return(_alpm_db_register_local());
-}
-
 /* Helper function for alpm_db_unregister{_all} */
 void _alpm_db_unregister(pmdb_t *db)
 {

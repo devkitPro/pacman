@@ -37,8 +37,6 @@
 #include "package.h"
 #include "conf.h"
 
-extern pmdb_t *db_local;
-
 /* if keep_used != 0, then the db files which match an used syncdb
  * will be kept  */
 static int sync_cleandb(const char *dbpath, int keep_used) {
@@ -144,6 +142,7 @@ static int sync_cleancache(int level)
 {
 	alpm_list_t *i;
 	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+	pmdb_t *db_local = alpm_option_get_localdb();
 	int ret = 0;
 
 	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
@@ -295,7 +294,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	return(success > 0);
 }
 
-static void print_installed(pmpkg_t *pkg)
+static void print_installed(pmdb_t *db_local, pmpkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	const char *pkgver = alpm_pkg_get_version(pkg);
@@ -316,6 +315,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 	alpm_list_t *i, *j, *ret;
 	int freelist;
 	int found = 0;
+	pmdb_t *db_local = alpm_option_get_localdb();
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		pmdb_t *db = alpm_list_getdata(i);
@@ -366,7 +366,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 					printf(")");
 				}
 
-				print_installed(pkg);
+				print_installed(db_local, pkg);
 
 				/* we need a newline and initial indent first */
 				printf("\n    ");
@@ -519,6 +519,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ls = NULL;
+	pmdb_t *db_local = alpm_option_get_localdb();
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -556,7 +557,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			if (!config->quiet) {
 				printf("%s %s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
 						alpm_pkg_get_version(pkg));
-				print_installed(pkg);
+				print_installed(db_local, pkg);
 				printf("\n");
 			} else {
 				printf("%s\n", alpm_pkg_get_name(pkg));

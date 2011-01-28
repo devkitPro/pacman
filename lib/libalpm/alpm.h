@@ -174,8 +174,6 @@ typedef enum _pmpkgreason_t {
  * Databases
  */
 
-/* Preferred interfaces db_register_local and db_register_sync */
-pmdb_t *alpm_db_register_local(void);
 pmdb_t *alpm_db_register_sync(const char *treename);
 int alpm_db_unregister(pmdb_t *db);
 int alpm_db_unregister_all(void);

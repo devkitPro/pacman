@@ -37,8 +37,6 @@
 #include "conf.h"
 #include "util.h"
 
-extern pmdb_t *db_local;
-
 static char *resolve_path(const char *file)
 {
 	char *str = NULL;
@@ -102,6 +100,7 @@ static int query_fileowner(alpm_list_t *targets)
 	char *append;
 	size_t max_length;
 	alpm_list_t *t;
+	pmdb_t *db_local;
 
 	/* This code is here for safety only */
 	if(targets == NULL) {
@@ -116,6 +115,8 @@ static int query_fileowner(alpm_list_t *targets)
 	strncpy(path, root, PATH_MAX - 1);
 	append = path + strlen(path);
 	max_length = PATH_MAX - (append - path) - 1;
+
+	db_local = alpm_option_get_localdb();
 
 	for(t = targets; t; t = alpm_list_next(t)) {
 		char *filename, *dname, *rpath;
@@ -220,6 +221,7 @@ static int query_search(alpm_list_t *targets)
 {
 	alpm_list_t *i, *searchlist;
 	int freelist;
+	pmdb_t *db_local = alpm_option_get_localdb();
 
 	/* if we have a targets list, search for packages matching it */
 	if(targets) {
@@ -286,6 +288,8 @@ static int query_group(alpm_list_t *targets)
 	alpm_list_t *i, *j;
 	char *grpname = NULL;
 	int ret = 0;
+	pmdb_t *db_local = alpm_option_get_localdb();
+
 	if(targets == NULL) {
 		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
 			pmgrp_t *grp = alpm_list_getdata(j);
@@ -471,6 +475,7 @@ int pacman_query(alpm_list_t *targets)
 	int match = 0;
 	alpm_list_t *i;
 	pmpkg_t *pkg = NULL;
+	pmdb_t *db_local;
 
 	/* First: operations that do not require targets */
 
@@ -494,6 +499,8 @@ int pacman_query(alpm_list_t *targets)
 			return(1);
 		}
 	}
+
+	db_local = alpm_option_get_localdb();
 
 	/* operations on all packages in the local DB
 	 * valid: no-op (plain -Q), list, info, check

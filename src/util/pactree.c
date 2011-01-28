@@ -77,7 +77,7 @@ static int alpm_local_init(void)
 		return(ret);
 	}
 
-	db_local = alpm_db_register_local();
+	db_local = alpm_option_get_localdb();
 	if(!db_local) {
 		return(1);
 	}

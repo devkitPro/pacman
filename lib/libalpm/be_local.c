@@ -400,7 +400,7 @@ static int local_db_populate(pmdb_t *db)
 		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
 			closedir(dbdir);
-			return(-1);
+			RET_ERR(PM_ERR_MEMORY, -1);
 		}
 		/* split the db entry name */
 		if(_alpm_splitname(name, pkg) != 0) {
@@ -899,11 +899,6 @@ pmdb_t *_alpm_db_register_local(void)
 	pmdb_t *db;
 
 	ALPM_LOG_FUNC;
-
-	if(handle->db_local != NULL) {
-		_alpm_log(PM_LOG_WARNING, _("attempt to re-register the 'local' DB\n"));
-		RET_ERR(PM_ERR_DB_NOT_NULL, NULL);
-	}
 
 	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 

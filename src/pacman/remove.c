@@ -31,8 +31,6 @@
 #include "util.h"
 #include "conf.h"
 
-extern pmdb_t *db_local;
-
 /**
  * @brief Remove a specified list of packages.
  *

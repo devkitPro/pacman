@@ -136,7 +136,7 @@ static int check_localdb(void) {
 		return(ret);
 	}
 
-	db = alpm_db_register_local();
+	db = alpm_option_get_localdb();
 	if(db == NULL) {
 		fprintf(stderr, "error: could not register 'local' database (%s)\n",
 				alpm_strerrorlast());
