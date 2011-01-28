@@ -3982,14 +3982,17 @@ func_exec_program_core ()
 # launches target application with the remaining arguments.
 func_exec_program ()
 {
-  for lt_wr_arg
-  do
-    case \$lt_wr_arg in
-    --lt-*) ;;
-    *) set x \"\$@\" \"\$lt_wr_arg\"; shift;;
-    esac
-    shift
-  done
+  case \" \$* \" in
+  *\\ --lt-*)
+    for lt_wr_arg
+    do
+      case \$lt_wr_arg in
+      --lt-*) ;;
+      *) set x \"\$@\" \"\$lt_wr_arg\"; shift;;
+      esac
+      shift
+    done ;;
+  esac
   func_exec_program_core \${1+\"\$@\"}
 }
 
