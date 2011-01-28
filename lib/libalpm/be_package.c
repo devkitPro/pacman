@@ -180,6 +180,8 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			if(strcmp(key, "pkgname") == 0) {
 				STRDUP(newpkg->name, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 				newpkg->name_hash = _alpm_hash_sdbm(newpkg->name);
+			} else if(strcmp(key, "pkgbase") == 0) {
+				/* not used atm */
 			} else if(strcmp(key, "pkgver") == 0) {
 				STRDUP(newpkg->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
 			} else if(strcmp(key, "pkgdesc") == 0) {
@@ -212,11 +214,13 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 				newpkg->provides = alpm_list_add(newpkg->provides, strdup(ptr));
 			} else if(strcmp(key, "backup") == 0) {
 				newpkg->backup = alpm_list_add(newpkg->backup, strdup(ptr));
+			} else if(strcmp(key, "force") == 0) {
+				/* deprecated, skip it */
 			} else if(strcmp(key, "makepkgopt") == 0) {
 				/* not used atm */
 			} else {
-				_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
-									newpkg->name ? newpkg->name : "error", linenum);
+				_alpm_log(PM_LOG_DEBUG, "%s: unknown key '%s' in description file line %d\n",
+									newpkg->name ? newpkg->name : "error", key, linenum);
 			}
 		}
 		line[0] = '\0';
