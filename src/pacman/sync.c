@@ -42,6 +42,7 @@
 static int sync_cleandb(const char *dbpath, int keep_used) {
 	DIR *dir;
 	struct dirent *ent;
+	alpm_list_t *syncdbs;
 
 	dir = opendir(dbpath);
 	if(dir == NULL) {
@@ -49,12 +50,13 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		return(1);
 	}
 
+	syncdbs = alpm_option_get_syncdbs();
+
 	rewinddir(dir);
 	/* step through the directory one file at a time */
 	while((ent = readdir(dir)) != NULL) {
 		char path[PATH_MAX];
 		struct stat buf;
-		alpm_list_t *syncdbs = NULL, *i;
 		int found = 0;
 		const char *dname = ent->d_name;
 		size_t len;
@@ -77,7 +79,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		/* remove all non-skipped directories and non-database files */
 		stat(path, &buf);
 		len = strlen(path);
-		if(S_ISDIR(buf.st_mode) || strcmp(path+(len-3),".db") != 0) {
+		if(S_ISDIR(buf.st_mode) || strcmp(path + len - 3, ".db") != 0) {
 			if(rmrf(path)) {
 				pm_fprintf(stderr, PM_LOG_ERROR,
 					_("could not remove %s\n"), path);
@@ -88,9 +90,9 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 		}
 
 		if(keep_used) {
+			alpm_list_t *i;
 			len = strlen(dname);
-			char *dbname = strndup(dname, len-3);
-			syncdbs = alpm_option_get_syncdbs();
+			char *dbname = strndup(dname, len - 3);
 			for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
 				pmdb_t *db = alpm_list_getdata(i);
 				found = !strcmp(dbname, alpm_db_get_name(db));
@@ -126,9 +128,9 @@ static int sync_cleandb_all(void) {
 	if(!yesno(_("Do you want to remove unused repositories?"))) {
 		return(0);
 	}
-	/* The sync dbs were previously put in dbpath/, but are now in dbpath/sync/,
-	 * so we will clean everything in dbpath/ (except dbpath/local/ and dbpath/sync/
-	 * and db.lck) and only the unused sync dbs in dbpath/sync/ */
+	/* The sync dbs were previously put in dbpath/ but are now in dbpath/sync/.
+	 * We will clean everything in dbpath/ except local/, sync/ and db.lck, and
+	 * only the unused sync dbs in dbpath/sync/ */
 	ret += sync_cleandb(dbpath, 0);
 
 	sprintf(newdbpath, "%s%s", dbpath, "sync/");
