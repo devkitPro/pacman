@@ -263,7 +263,7 @@ class pmtest(object):
         print "==> Checking rules"
 
         for i in self.rules:
-            success = i.check(self.root, self.retcode, self.db["local"], self.files)
+            success = i.check(self)
             if success == 1:
                 msg = " OK "
                 self.result["success"] += 1

@@ -34,17 +34,16 @@ class pmrule(object):
             return self.rule
         return self.rule[:37] + '...'
 
-    def check(self, root, retcode, localdb, files):
+    def check(self, test):
         """
         """
-
         success = 1
 
-        [test, args] = self.rule.split("=")
-        if test[0] == "!":
+        [testname, args] = self.rule.split("=")
+        if testname[0] == "!":
             self.false = 1
-            test = test.lstrip("!")
-        [kind, case] = test.split("_")
+            testname = testname.lstrip("!")
+        [kind, case] = testname.split("_")
         if "|" in args:
             [key, value] = args.split("|", 1)
         else:
@@ -52,19 +51,20 @@ class pmrule(object):
 
         if kind == "PACMAN":
             if case == "RETCODE":
-                if retcode != int(key):
+                if test.retcode != int(key):
                     success = 0
             elif case == "OUTPUT":
-                logfile = os.path.join(root, util.LOGFILE)
+                logfile = os.path.join(test.root, util.LOGFILE)
                 if not os.access(logfile, os.F_OK):
                     print "LOGFILE not found, cannot validate 'OUTPUT' rule"
                     success = 0
-                elif not util.grep(os.path.join(root, util.LOGFILE), key):
+                elif not util.grep(logfile, key):
                     success = 0
             else:
                 print "PACMAN rule '%s' not found" % case
                 success = -1
         elif kind == "PKG":
+            localdb = test.db["local"]
             newpkg = localdb.db_read(key)
             if not newpkg:
                 success = 0
@@ -107,12 +107,12 @@ class pmrule(object):
                     print "PKG rule '%s' not found" % case
                     success = -1
         elif kind == "FILE":
-            filename = os.path.join(root, key)
+            filename = os.path.join(test.root, key)
             if case == "EXIST":
                 if not os.path.isfile(filename):
                     success = 0
             elif case == "MODIFIED":
-                for f in files:
+                for f in test.files:
                     if f.name == key:
                         if not f.ismodified():
                             success = 0
