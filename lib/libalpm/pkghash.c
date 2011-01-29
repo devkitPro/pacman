@@ -81,11 +81,25 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	return(hash);
 }
 
+static size_t get_hash_position(unsigned long name_hash, pmpkghash_t *hash)
+{
+	size_t position;
+	alpm_list_t *ptr;
+
+	position = name_hash % hash->buckets;
+
+	/* collision resolution using open addressing with linear probing */
+	while((ptr = hash->hash_table[position]) != NULL) {
+		position = (position + 1) % hash->buckets;
+	}
+
+	return(position);
+}
+
 /* Expand the hash table size to the next increment and rebin the entries */
 static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 {
 	pmpkghash_t *newhash;
-	alpm_list_t *ptr;
 	size_t newsize, position, i;
 
 	/* Hash tables will need resized in two cases:
@@ -120,12 +134,7 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 		if(oldhash->hash_table[i] != NULL) {
 			pmpkg_t *package = oldhash->hash_table[i]->data;
 
-			position = package->name_hash % newhash->buckets;
-
-			/* collision resolution using open addressing with linear probing */
-			while((ptr = newhash->hash_table[position]) != NULL) {
-				position = (position + 1) % newhash->buckets;
-			}
+			position = get_hash_position(package->name_hash, newhash);
 
 			newhash->hash_table[position] = oldhash->hash_table[i];
 			oldhash->hash_table[i] = NULL;
@@ -152,12 +161,7 @@ pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
 		hash = rehash(hash);
 	}
 
-	position = pkg->name_hash % hash->buckets;
-
-	/* collision resolution using open addressing with linear probing */
-	while((ptr = hash->hash_table[position]) != NULL) {
-		position = (position + 1) % hash->buckets;
-	}
+	position = get_hash_position(pkg->name_hash, hash);
 
 	ptr = calloc(1, sizeof(alpm_list_t));
 	if(ptr == NULL) {
@@ -188,12 +192,7 @@ pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
 		hash = rehash(hash);
 	}
 
-	position = pkg->name_hash % hash->buckets;
-
-	/* collision resolution using open addressing with linear probing */
-	while((ptr = hash->hash_table[position]) != NULL) {
-		position = (position + 1) % hash->buckets;
-	}
+	position = get_hash_position(pkg->name_hash, hash);
 
 	ptr = calloc(1, sizeof(alpm_list_t));
 	if(ptr == NULL) {
