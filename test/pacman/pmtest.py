@@ -55,6 +55,22 @@ class pmtest(object):
         """
         self.localpkgs.append(pkg)
 
+    def findpkg(self, name, version, allow_local=False):
+        """Find a package object matching the name and version specified in
+        either sync databases or the local package collection. The local database
+        is allowed to match if allow_local is True."""
+        for db in self.db.itervalues():
+            if db.treename == "local" and not allow_local:
+                continue
+            pkg = db.getpkg(name)
+            if pkg and pkg.version == version:
+                return pkg
+        for pkg in self.localpkgs:
+            if pkg.name == name and pkg.version == version:
+                return pkg
+
+        return None
+
     def addrule(self, rulename):
         """
         """
@@ -76,6 +92,7 @@ class pmtest(object):
             "local": pmdb.pmdb("local", self.root)
         }
         self.localpkgs = []
+        self.createlocalpkgs = False
         self.filesystem = []
 
         self.description = ""
@@ -131,7 +148,7 @@ class pmtest(object):
             vprint("\t%s" % os.path.join(util.TMPDIR, pkg.filename()))
             pkg.makepkg(tmpdir)
         for key, value in self.db.iteritems():
-            if key == "local":
+            if key == "local" and not self.createlocalpkgs:
                 continue
             for pkg in value.pkgs:
                 vprint("\t%s" % os.path.join(util.PM_CACHEDIR, pkg.filename()))

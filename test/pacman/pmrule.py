@@ -146,6 +146,13 @@ class pmrule(object):
             else:
                 print "FILE rule '%s' not found" % case
                 success = -1
+        elif kind == "CACHE":
+            cachedir = os.path.join(test.root, util.PM_CACHEDIR)
+            if case == "EXISTS":
+                pkg = test.findpkg(key, value, allow_local=True)
+                if not pkg or not os.path.isfile(
+                        os.path.join(cachedir, pkg.filename())):
+                    success = 0
         else:
             print "Rule kind '%s' not found" % kind
             success = -1
