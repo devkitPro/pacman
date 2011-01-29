@@ -59,6 +59,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 
 	hash->list = NULL;
 	hash->entries = 0;
+	hash->buckets = 0;
 
 	loopsize = sizeof(prime_list) / sizeof(*prime_list);
 	for(i = 0; i < loopsize; i++) {
@@ -66,6 +67,12 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 			hash->buckets = prime_list[i];
 			break;
 		}
+	}
+
+	if(hash->buckets < size) {
+		_alpm_log(PM_LOG_ERROR, _("database larger than maximum size"));
+		free(hash);
+		return(NULL);
 	}
 
 	CALLOC(hash->hash_table, hash->buckets, sizeof(alpm_list_t*), \
@@ -98,6 +105,11 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 	}
 
 	newhash = _alpm_pkghash_create(newsize);
+	if(newhash == NULL) {
+		/* creation of newhash failed, stick with old one... */
+		return(oldhash);
+	}
+
 	for(ptr = oldhash->list; ptr != NULL; ptr = ptr->next) {
 		newhash = _alpm_pkghash_add(newhash, ptr->data);
 	}
