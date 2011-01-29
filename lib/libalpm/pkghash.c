@@ -98,10 +98,12 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 	 * require a table size increase that large. */
 	if(oldhash->buckets < 500) {
 		newsize = oldhash->buckets * 2;
-	} else if(oldhash->buckets < 3500) {
+	} else if(oldhash->buckets < 2000) {
 		newsize = oldhash->buckets * 3 / 2;
-	} else {
+	} else if(oldhash->buckets < 5000) {
 		newsize = oldhash->buckets * 4 / 3;
+	} else {
+		newsize = oldhash->buckets + 1;
 	}
 
 	newhash = _alpm_pkghash_create(newsize);
