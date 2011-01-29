@@ -86,7 +86,8 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 {
 	pmpkghash_t *newhash;
 	alpm_list_t *ptr;
-	size_t newsize;
+	size_t newsize, position, i;
+
 	/* Hash tables will need resized in two cases:
 	 *  - adding packages to the local database
 	 *  - poor estimation of the number of packages in sync database
@@ -112,9 +113,26 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 		return(oldhash);
 	}
 
-	for(ptr = oldhash->list; ptr != NULL; ptr = ptr->next) {
-		newhash = _alpm_pkghash_add(newhash, ptr->data);
+	newhash->list = oldhash->list;
+	oldhash->list = NULL;
+
+	for(i = 0; i < oldhash->buckets; i++) {
+		if(oldhash->hash_table[i] != NULL) {
+			pmpkg_t *package = oldhash->hash_table[i]->data;
+
+			position = package->name_hash % newhash->buckets;
+
+			/* collision resolution using open addressing with linear probing */
+			while((ptr = newhash->hash_table[position]) != NULL) {
+				position = (position + 1) % newhash->buckets;
+			}
+
+			newhash->hash_table[position] = oldhash->hash_table[i];
+			oldhash->hash_table[i] = NULL;
+		}
 	}
+
+	newhash->entries = oldhash->entries;
 
 	_alpm_pkghash_free(oldhash);
 
