@@ -151,21 +151,21 @@ static int sync_cleancache(int level)
 		printf(_("Cache directory: %s\n"), (char*)alpm_list_getdata(i));
 	}
 
+	if(!config->cleanmethod) {
+		/* default to KeepInstalled if user did not specify */
+		config->cleanmethod = PM_CLEAN_KEEPINST;
+	}
+
 	if(level == 1) {
-		switch(config->cleanmethod) {
-			case PM_CLEAN_KEEPINST:
-				if(!yesno(_("Do you want to remove uninstalled packages from cache?"))) {
-					return(0);
-				}
-				break;
-			case PM_CLEAN_KEEPCUR:
-				if(!yesno(_("Do you want to remove outdated packages from cache?"))) {
-					return(0);
-				}
-				break;
-			default:
-				/* this should not happen : the config parsing doesn't set any other value */
-				return(1);
+		printf(_("Packages to keep:\n"));
+		if(config->cleanmethod & PM_CLEAN_KEEPINST) {
+			printf(_("  All locally installed packages\n"));
+		}
+		if(config->cleanmethod & PM_CLEAN_KEEPCUR) {
+			printf(_("  All current sync database packages\n"));
+		}
+		if(!yesno(_("Do you want to remove all other packages from cache?"))) {
+			return(0);
 		}
 		printf(_("removing old packages from cache...\n"));
 	} else {
@@ -193,6 +193,7 @@ static int sync_cleancache(int level)
 			char path[PATH_MAX];
 			int delete = 1;
 			pmpkg_t *localpkg = NULL, *pkg = NULL;
+			const char *local_name, *local_version;
 			alpm_list_t *j;
 
 			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
@@ -219,32 +220,33 @@ static int sync_cleancache(int level)
 				}
 				continue;
 			}
-			switch(config->cleanmethod) {
-				case PM_CLEAN_KEEPINST:
-					/* check if this package is in the local DB */
-					pkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(localpkg));
-					if(pkg != NULL && alpm_pkg_vercmp(alpm_pkg_get_version(localpkg),
+			local_name = alpm_pkg_get_name(localpkg);
+			local_version = alpm_pkg_get_version(localpkg);
+
+			if(config->cleanmethod & PM_CLEAN_KEEPINST) {
+				/* check if this package is in the local DB */
+				pkg = alpm_db_get_pkg(db_local, local_name);
+				if(pkg != NULL && alpm_pkg_vercmp(local_version,
+							alpm_pkg_get_version(pkg)) == 0) {
+					/* package was found in local DB and version matches, keep it */
+					pm_printf(PM_LOG_DEBUG, "pkg %s-%s found in local db\n",
+							local_name, local_version);
+					delete = 0;
+				}
+			}
+			if(config->cleanmethod & PM_CLEAN_KEEPCUR) {
+				/* check if this package is in a sync DB */
+				for(j = sync_dbs; j && delete; j = alpm_list_next(j)) {
+					pmdb_t *db = alpm_list_getdata(j);
+					pkg = alpm_db_get_pkg(db, local_name);
+					if(pkg != NULL && alpm_pkg_vercmp(local_version,
 								alpm_pkg_get_version(pkg)) == 0) {
-						/* package was found in local DB and version matches, keep it */
+						/* package was found in a sync DB and version matches, keep it */
+						pm_printf(PM_LOG_DEBUG, "pkg %s-%s found in sync db\n",
+								local_name, local_version);
 						delete = 0;
 					}
-					break;
-				case PM_CLEAN_KEEPCUR:
-					/* check if this package is in a sync DB */
-					for(j = sync_dbs; j && delete; j = alpm_list_next(j)) {
-						pmdb_t *db = alpm_list_getdata(j);
-						pkg = alpm_db_get_pkg(db, alpm_pkg_get_name(localpkg));
-						if(pkg != NULL && alpm_pkg_vercmp(alpm_pkg_get_version(localpkg),
-									alpm_pkg_get_version(pkg)) == 0) {
-							/* package was found in a sync DB and version matches, keep it */
-							delete = 0;
-						}
-					}
-					break;
-				default:
-					/* this should not happen : the config parsing doesn't set any other value */
-					delete = 0;
-					break;
+				}
 			}
 			/* free the local file package */
 			alpm_pkg_free(localpkg);

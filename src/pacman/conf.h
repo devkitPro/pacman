@@ -111,8 +111,8 @@ enum {
 
 /* clean method */
 enum {
-	PM_CLEAN_KEEPINST = 0, /* default */
-	PM_CLEAN_KEEPCUR
+	PM_CLEAN_KEEPINST = 1,
+	PM_CLEAN_KEEPCUR = (1 << 1)
 };
 
 /* global config variable */

@@ -792,6 +792,18 @@ static void option_add_syncfirst(const char *name) {
 	config->syncfirst = alpm_list_add(config->syncfirst, strdup(name));
 }
 
+/* helper for being used with setrepeatingoption */
+static void option_add_cleanmethod(const char *value) {
+	if (strcmp(value, "KeepInstalled") == 0) {
+		config->cleanmethod |= PM_CLEAN_KEEPINST;
+	} else if (strcmp(value, "KeepCurrent") == 0) {
+		config->cleanmethod |= PM_CLEAN_KEEPCUR;
+	} else {
+		pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
+				value);
+	}
+}
+
 /** Add repeating options such as NoExtract, NoUpgrade, etc to libalpm
  * settings. Refactored out of the parseconfig code since all of them did
  * the exact same thing and duplicated code.
@@ -1008,15 +1020,7 @@ static int _parse_options(char *key, char *value)
 			alpm_option_set_fetchcb(download_with_xfercommand);
 			pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", value);
 		} else if (strcmp(key, "CleanMethod") == 0) {
-			if (strcmp(value, "KeepInstalled") == 0) {
-				config->cleanmethod = PM_CLEAN_KEEPINST;
-			} else if (strcmp(value, "KeepCurrent") == 0) {
-				config->cleanmethod = PM_CLEAN_KEEPCUR;
-			} else {
-				pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"), value);
-				return(1);
-			}
-			pm_printf(PM_LOG_DEBUG, "config: cleanmethod: %s\n", value);
+			setrepeatingoption(value, "CleanMethod", option_add_cleanmethod);
 		} else {
 			pm_printf(PM_LOG_ERROR, _("directive '%s' with a value not recognized\n"), key);
 			return(1);
