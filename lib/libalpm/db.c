@@ -617,7 +617,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 	_alpm_log(PM_LOG_DEBUG, "removing entry '%s' from '%s' cache\n",
 						alpm_pkg_get_name(pkg), db->treename);
 
-	db->pkgcache = _alpm_pkghash_remove(db->pkgcache, pkg, data);
+	db->pkgcache = _alpm_pkghash_remove(db->pkgcache, pkg, &data);
 	if(data == NULL) {
 		/* package not found */
 		_alpm_log(PM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found\n",

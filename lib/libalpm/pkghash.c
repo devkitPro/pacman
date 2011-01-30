@@ -219,10 +219,14 @@ pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
  *
  * @return the resultant hash
  */
-pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t *data)
+pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t **data)
 {
 	alpm_list_t *i;
 	size_t position;
+
+	if(data) {
+		*data = NULL;
+	}
 
 	if(pkg == NULL || hash == NULL) {
 		return(hash);
@@ -235,7 +239,6 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t *data
 		if(info->name_hash == pkg->name_hash &&
 					strcmp(info->name, pkg->name) == 0) {
 
-#if 0  /* Actually removing items is not a good idea with linear probing...  */
 			/* remove from list */
 			/* TODO - refactor with alpm_list_remove */
 			if(i == hash->list) {
@@ -266,16 +269,34 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t *data
 			}
 
 			/* remove from hash */
-			data = info;
-			info = NULL;
+			if(data) {
+				*data = info;
+			}
+			hash->hash_table[position] = NULL;
 			free(i);
-			i = NULL;
 
 			hash->entries -= 1;
-#endif
 
-			/* fake removal - pkgname can not be blank so 0 hash is impossible */
-			info->name_hash = 0;
+			/* potentially move entries following removed entry to keep
+			 * open addressing collision resolution working */
+			size_t next_null = (position + 1) % hash->buckets;
+			while(hash->hash_table[next_null] != NULL) {
+				next_null = (next_null + 1) % hash->buckets;
+			}
+
+			position = (position + 1) % hash->buckets;
+
+			while((i = hash->hash_table[position]) != NULL) {
+				info = i->data;
+				size_t new_position = get_hash_position(info->name_hash, hash);
+
+				if(new_position != next_null) {
+					hash->hash_table[new_position] = i;
+					hash->hash_table[position] = NULL;
+				}
+
+				position = (position + 1) % hash->buckets;
+			}
 
 			return(hash);
 		}

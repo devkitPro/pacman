@@ -47,7 +47,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size);
 
 pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg);
 pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg);
-pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t *data);
+pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t **data);
 
 void _alpm_pkghash_free(pmpkghash_t *hash);
 
