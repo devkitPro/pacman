@@ -51,19 +51,20 @@
  *
  * Example:
  * @code
- * pmdb_t *db;
- * int result;
- * db = alpm_list_getdata(alpm_option_get_syncdbs());
+ * alpm_list_t *syncs = alpm_option_get_syncdbs();
  * if(alpm_trans_init(0, NULL, NULL, NULL) == 0) {
- *     result = alpm_db_update(0, db);
- *     alpm_trans_release();
+ *     for(i = syncs; i; i = alpm_list_next(i)) {
+ *         pmdb_t *db = alpm_list_getdata(i);
+ *         result = alpm_db_update(0, db);
+ *         alpm_trans_release();
  *
- *     if(result > 0) {
- *	       printf("Unable to update database: %s\n", alpm_strerrorlast());
- *     } else if(result < 0) {
- *         printf("Database already up to date\n");
- *     } else {
- *         printf("Database updated\n");
+ *         if(result < 0) {
+ *	           printf("Unable to update database: %s\n", alpm_strerrorlast());
+ *         } else if(result == 1) {
+ *             printf("Database already up to date\n");
+ *         } else {
+ *             printf("Database updated\n");
+ *         }
  *     }
  * }
  * @endcode
@@ -74,7 +75,7 @@
  * @param force if true, then forces the update, otherwise update only in case
  * the database isn't up to date
  * @param db pointer to the package database to update
- * @return 0 on success, > 0 on error (pm_errno is set accordingly), < 0 if up
+ * @return 0 on success, -1 on error (pm_errno is set accordingly), 1 if up to
  * to date
  */
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
