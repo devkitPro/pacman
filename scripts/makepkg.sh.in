@@ -1000,10 +1000,10 @@ check_package() {
 	done
 
 	# check for references to the build and package directory
-	if find "${pkgdir}" -type f -exec grep -q -I "${srcdir}" {} +; then
+	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${srcdir}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
 	fi
-	if find "${pkgdir}" -type f -exec grep -q -I "${pkgdir}" {} +; then
+	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${pkgdir}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
 	fi
 
