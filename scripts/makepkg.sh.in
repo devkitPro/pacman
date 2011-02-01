@@ -1744,7 +1744,7 @@ if [[ ! -w $SRCDEST ]] ; then
 fi
 
 SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
-SRCPKGDEST=${SRCPKGDEST:-$PKGDEST} #default to $PKGDEST if undefined
+SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
 
 
 if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
