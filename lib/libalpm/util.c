@@ -38,6 +38,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <locale.h> /* setlocale */
 
 /* libarchive */
 #include <archive.h>
@@ -210,7 +211,7 @@ char *_alpm_strtrim(char *str)
 }
 
 /* Create a lock file */
-int _alpm_lckmk()
+int _alpm_lckmk(void)
 {
 	int fd;
 	char *dir, *ptr;
@@ -240,7 +241,7 @@ int _alpm_lckmk()
 }
 
 /* Remove a lock file */
-int _alpm_lckrm()
+int _alpm_lckrm(void)
 {
 	const char *file = alpm_option_get_lockfile();
 	if(unlink(file) == -1 && errno != ENOENT) {

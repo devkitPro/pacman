@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <errno.h>
-#include <locale.h>
 #include <limits.h>
 
 /* libarchive */

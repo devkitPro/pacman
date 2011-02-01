@@ -24,7 +24,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <locale.h> /* setlocale */
 #include <errno.h>
 
 /* libarchive */

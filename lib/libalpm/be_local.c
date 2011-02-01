@@ -30,7 +30,6 @@
 #include <dirent.h>
 #include <time.h>
 #include <limits.h> /* PATH_MAX */
-#include <locale.h> /* setlocale */
 
 /* libarchive */
 #include <archive.h>
@@ -911,6 +910,5 @@ pmdb_t *_alpm_db_register_local(void)
 	handle->db_local = db;
 	return(db);
 }
-
 
 /* vim: set ts=2 sw=2 noet: */
