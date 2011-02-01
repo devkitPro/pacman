@@ -350,6 +350,214 @@ cleanup:
 }
 #endif
 
+#ifdef HAVE_LIBCURL
+static int curl_progress(void *filename, double dltotal, double dlnow,
+		double ultotal, double ulnow) {
+
+	/* unused parameters */
+	(void)ultotal;
+	(void)ulnow;
+
+	if(dltotal == 0) {
+		return(0);
+	}
+
+	if(dload_interrupted) {
+		return(1);
+	}
+
+	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
+
+	return(0);
+}
+
+static int curl_gethost(const char *url, char *buffer) {
+	int hostlen;
+	char *p;
+
+	if(strncmp(url, "file://", 7) == 0) {
+		strcpy(buffer, _("disk"));
+	} else {
+		p = strstr(url, "//");
+		if(!p) {
+			return(1);
+		}
+		p += 2; /* jump over the found // */
+		hostlen = strcspn(p, "/");
+		if(hostlen > 255) {
+			/* buffer overflow imminent */
+			_alpm_log(PM_LOG_ERROR, _("buffer overflow detected"));
+			return(1);
+		}
+		snprintf(buffer, hostlen + 1, "%s", p);
+	}
+
+	return(0);
+}
+
+static int curl_download_internal(const char *url, const char *localpath,
+		int force) {
+	int ret = -1;
+	FILE *localf = NULL;
+	char *destfile, *filename, *tempfile;
+	char hostname[256]; /* RFC1123 states applications should support this length */
+	struct stat st;
+	long httpresp, timecond, remote_time, local_time;
+	double remote_size, bytes_dl;
+	struct sigaction sig_pipe[2], sig_int[2];
+
+	filename = get_filename(url);
+	if(!filename || curl_gethost(url, hostname) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
+		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
+	}
+
+	destfile = get_destfile(localpath, filename);
+	tempfile = get_tempfile(localpath, filename); 
+
+	/* the curl_easy handle is initialized with the alpm handle, so we only need
+	 * to reset the curl handle set parameters for each time it's used. */
+	curl_easy_reset(handle->curl);
+	curl_easy_setopt(handle->curl, CURLOPT_URL, url);
+	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_ENCODING, "deflate, gzip");
+	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
+	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, filename);
+
+	if(!force && stat(destfile, &st) == 0) {
+		/* assume its a sync, so we're starting from scratch. but, only download
+		 * our local is out of date. */
+		local_time = (long)st.st_mtime;
+		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
+		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, local_time);
+	} else if(stat(tempfile, &st) == 0 && st.st_size > 0) {
+		/* assume its a partial package download. we do not support resuming of
+		 * transfers on partially downloaded sync DBs. */
+		localf = fopen(tempfile, "ab");
+		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
+		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation");
+	}
+
+	/* no destfile and no tempfile. start from scratch */
+	if(localf == NULL) {
+		localf = fopen(tempfile, "wb");
+		if(localf == NULL) {
+			goto cleanup;
+		}
+	}
+
+	/* this has to be set _after_ figuring out which file we're opening */
+	curl_easy_setopt(handle->curl, CURLOPT_WRITEDATA, localf);
+
+	/* print proxy info for debug purposes */
+	_alpm_log(PM_LOG_DEBUG, "HTTP_PROXY: %s\n", getenv("HTTP_PROXY"));
+	_alpm_log(PM_LOG_DEBUG, "http_proxy: %s\n", getenv("http_proxy"));
+	_alpm_log(PM_LOG_DEBUG, "FTP_PROXY:  %s\n", getenv("FTP_PROXY"));
+	_alpm_log(PM_LOG_DEBUG, "ftp_proxy:  %s\n", getenv("ftp_proxy"));
+
+	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
+	 * something along those lines. Store the old signal handler first. */
+	sig_pipe[NEW].sa_handler = SIG_IGN;
+	sigemptyset(&sig_pipe[NEW].sa_mask);
+	sig_pipe[NEW].sa_flags = 0;
+	sigaction(SIGPIPE, NULL, &sig_pipe[OLD]);
+	sigaction(SIGPIPE, &sig_pipe[NEW], NULL);
+
+	dload_interrupted = 0;
+	sig_int[NEW].sa_handler = &inthandler;
+	sigemptyset(&sig_int[NEW].sa_mask);
+	sig_int[NEW].sa_flags = 0;
+	sigaction(SIGINT, NULL, &sig_int[OLD]);
+	sigaction(SIGINT, &sig_int[NEW], NULL);
+
+	/* Progress 0 - initialize */
+	if(handle->dlcb) {
+		handle->dlcb(filename, 0, 1);
+	}
+
+	/* perform transfer */
+	handle->curlerr = curl_easy_perform(handle->curl);
+
+	/* retrieve info about the state of the transfer */
+	curl_easy_getinfo(handle->curl, CURLINFO_HTTP_CODE, &httpresp);
+	curl_easy_getinfo(handle->curl, CURLINFO_FILETIME, &remote_time);
+	curl_easy_getinfo(handle->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
+	curl_easy_getinfo(handle->curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
+	curl_easy_getinfo(handle->curl, CURLINFO_CONDITION_UNMET, &timecond);
+
+	/* time condition was met and we didn't download anything. we need to
+	 * clean up the 0 byte .part file that's left behind. */
+	if(bytes_dl == 0 && timecond == 1) {
+		ret = 1;
+		unlink(tempfile);
+		goto cleanup;
+	}
+
+	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
+		goto cleanup;
+	} else if(handle->curlerr != CURLE_OK) {
+		pm_errno = PM_ERR_LIBCURL;
+		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+				filename, hostname, curl_easy_strerror(handle->curlerr));
+		unlink(tempfile);
+		goto cleanup;
+	}
+
+	/* remote_size isn't necessarily the full size of the file, just what the
+	 * server reported as remaining to download. compare it to what curl reported
+	 * as actually being transferred during curl_easy_perform() */
+	if((remote_size != -1 && bytes_dl != -1) && bytes_dl != remote_size) {
+		pm_errno = PM_ERR_RETRIEVE;
+		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
+				filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
+		goto cleanup;
+	}
+
+	fclose(localf);
+	localf = NULL;
+
+	/* set the times on the file to the same as that of the remote file */
+	if(remote_time != -1) {
+		struct timeval tv[2];
+		memset(&tv, 0, sizeof(tv));
+		tv[0].tv_sec = tv[1].tv_sec = remote_time;
+		utimes(tempfile, tv);
+	}
+	rename(tempfile, destfile);
+	ret = 0;
+
+cleanup:
+	FREE(tempfile);
+	FREE(destfile);
+	if(localf != NULL) {
+		/* if we still had a local file open, we got interrupted. set the mtimes on
+		 * the file accordingly. */
+		fflush(localf);
+		if(remote_time != -1) {
+			struct timeval tv[2];
+			memset(&tv, 0, sizeof(tv));
+			tv[0].tv_sec = tv[1].tv_sec = remote_time;
+			futimes(fileno(localf), tv);
+		}
+		fclose(localf);
+	}
+
+	/* restore the old signal handlers */
+	sigaction(SIGINT, &sig_int[OLD], NULL);
+	sigaction(SIGPIPE, &sig_pipe[OLD], NULL);
+	/* if we were interrupted, trip the old handler */
+	if(dload_interrupted) {
+		raise(SIGINT);
+	}
+
+	return(ret);
+}
+#endif
+
 static int download(const char *url, const char *localpath,
 		int force) {
 	if(handle->fetchcb == NULL) {
