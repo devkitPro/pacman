@@ -1171,14 +1171,14 @@ create_srcpackage() {
 		exit 1 # TODO: error code
 	fi
 
-       if (( ! ret )) && [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
-           ln -sf "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
-           ret=$?
-       fi
+	if (( ! ret )) && [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
+		ln -sf "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
+		ret=$?
+	fi
 
-       if (( ret )); then
-           warning "$(gettext "Failed to create symlink to source package file.")"
-       fi
+	if (( ret )); then
+		warning "$(gettext "Failed to create symlink to source package file.")"
+	fi
 
 	cd "${startdir}"
 	rm -rf "${srclinks}"
