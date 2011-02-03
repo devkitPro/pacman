@@ -561,8 +561,22 @@ cleanup:
 static int download(const char *url, const char *localpath,
 		int force) {
 	if(handle->fetchcb == NULL) {
-#ifdef HAVE_LIBFETCH
+#if defined(HAVE_LIBFETCH) && defined(HAVE_LIBCURL)
+		const char *pmdownloader = getenv("PACMANDL");
+		if(!pmdownloader || strcmp(pmdownloader, "curl") == 0) {
+			printf(">> using libcurl as internal downloader\n");
+			return(curl_download_internal(url, localpath, force)); 
+		} else if(strcmp(pmdownloader, "fetch") == 0) {
+			printf(">> using libfetch as internal downloader\n");
+			return(fetch_download_internal(url, localpath, force));
+		} else {
+			_alpm_log(PM_LOG_ERROR, "PACMANDL unset or invalid! Use `curl' or `fetch'\n");
+			return(-1);
+		}
+#elif HAVE_LIBFETCH
 		return(fetch_download_internal(url, localpath, force));
+#elif HAVE_LIBCURL
+		return(curl_download_internal(url, localpath, force));
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
