@@ -219,7 +219,8 @@ pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
  *
  * @return the resultant hash
  */
-pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t **data)
+pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
+		pmpkg_t **data)
 {
 	alpm_list_t *i;
 	size_t position;
@@ -239,36 +240,8 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t **dat
 		if(info->name_hash == pkg->name_hash &&
 					strcmp(info->name, pkg->name) == 0) {
 
-			/* remove from list */
-			/* TODO - refactor with alpm_list_remove */
-			if(i == hash->list) {
-				/* Special case: removing the head node which has a back reference to
-				 * the tail node */
-				hash->list = i->next;
-				if(hash->list) {
-					hash->list->prev = i->prev;
-				}
-				i->prev = NULL;
-			} else if(i == hash->list->prev) {
-				/* Special case: removing the tail node, so we need to fix the back
-				 * reference on the head node. We also know tail != head. */
-				if(i->prev) {
-					/* i->next should always be null */
-					i->prev->next = i->next;
-					hash->list->prev = i->prev;
-					i->prev = NULL;
-				}
-			} else {
-				/* Normal case, non-head and non-tail node */
-				if(i->next) {
-					i->next->prev = i->prev;
-				}
-				if(i->prev) {
-					i->prev->next = i->next;
-				}
-			}
-
-			/* remove from hash */
+			/* remove from list and hash */
+			hash->list = alpm_list_remove_item(hash->list, i);
 			if(data) {
 				*data = info;
 			}
