@@ -1281,6 +1281,7 @@ check_sanity() {
 		local pkg=${i%%:*}
 		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]+$ ]]; then
 			error "$(gettext "Invalid syntax for optdepend : '%s'")" "$i"
+			ret=1
 		fi
 	done
 
