@@ -287,6 +287,53 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn
 
 /**
  * @brief Remove an item from the list.
+ * item is not freed; this is the respnsiblity of the caller.
+ *
+ * @param haystack the list to remove the item from
+ * @param item the item to remove from the list
+ *
+ * @return the resultant list
+ */
+alpm_list_t SYMEXPORT *alpm_list_remove_item(alpm_list_t *haystack,
+		alpm_list_t *item)
+{
+	if(haystack == NULL || item == NULL) {
+		return(haystack);
+	}
+
+	if(item == haystack) {
+		/* Special case: removing the head node which has a back reference to
+		 * the tail node */
+		haystack = item->next;
+		if(haystack) {
+			haystack->prev = item->prev;
+		}
+		item->prev = NULL;
+	} else if(item == haystack->prev) {
+		/* Special case: removing the tail node, so we need to fix the back
+		 * reference on the head node. We also know tail != head. */
+		if(item->prev) {
+			/* i->next should always be null */
+			item->prev->next = item->next;
+			haystack->prev = item->prev;
+			item->prev = NULL;
+		}
+	} else {
+		/* Normal case, non-head and non-tail node */
+		if(item->next) {
+			item->next->prev = item->prev;
+		}
+		if(item->prev) {
+			item->prev->next = item->next;
+		}
+	}
+
+	return(haystack);
+}
+
+
+/**
+ * @brief Remove an item from the list.
  *
  * @param haystack the list to remove the item from
  * @param needle   the data member of the item we're removing
@@ -295,9 +342,10 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn
  *
  * @return the resultant list
  */
-alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data)
+alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack,
+		const void *needle, alpm_list_fn_cmp fn, void **data)
 {
-	alpm_list_t *i = haystack, *tmp = NULL;
+	alpm_list_t *i = haystack;
 
 	if(data) {
 		*data = NULL;
@@ -312,44 +360,16 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack, const void *needl
 			i = i->next;
 			continue;
 		}
-		tmp = i->next;
 		if(fn(i->data, needle) == 0) {
-			/* we found a matching item */
-			if(i == haystack) {
-				/* Special case: removing the head node which has a back reference to
-				 * the tail node */
-				haystack = i->next;
-				if(haystack) {
-					haystack->prev = i->prev;
-				}
-				i->prev = NULL;
-			} else if(i == haystack->prev) {
-				/* Special case: removing the tail node, so we need to fix the back
-				 * reference on the head node. We also know tail != head. */
-				if(i->prev) {
-					/* i->next should always be null */
-					i->prev->next = i->next;
-					haystack->prev = i->prev;
-					i->prev = NULL;
-				}
-			} else {
-				/* Normal case, non-head and non-tail node */
-				if(i->next) {
-					i->next->prev = i->prev;
-				}
-				if(i->prev) {
-					i->prev->next = i->next;
-				}
-			}
+			haystack = alpm_list_remove_item(haystack, i);
 
 			if(data) {
 				*data = i->data;
 			}
-			i->data = NULL;
 			free(i);
-			i = NULL;
+			break;
 		} else {
-			i = tmp;
+			i = i->next;
 		}
 	}
 

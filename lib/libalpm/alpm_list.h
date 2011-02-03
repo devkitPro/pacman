@@ -57,6 +57,7 @@ alpm_list_t *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cm
 alpm_list_t *alpm_list_join(alpm_list_t *first, alpm_list_t *second);
 alpm_list_t *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn);
 alpm_list_t *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn_cmp fn);
+alpm_list_t *alpm_list_remove_item(alpm_list_t *haystack, alpm_list_t *item);
 alpm_list_t *alpm_list_remove(alpm_list_t *haystack, const void *needle, alpm_list_fn_cmp fn, void **data);
 alpm_list_t *alpm_list_remove_str(alpm_list_t *haystack, const char *needle, char **data);
 alpm_list_t *alpm_list_remove_dupes(const alpm_list_t *list);
