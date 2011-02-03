@@ -210,6 +210,34 @@ pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
 	return(hash);
 }
 
+static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
+{
+	/* Iterate backwards from 'end' to 'start', seeing if any of the items
+	 * would hash to 'start'. If we find one, we move it there and break.  If
+	 * we get all the way back to position and find none that hash to it, we
+	 * also end iteration. Iterating backwards helps prevent needless shuffles;
+	 * we will never need to move more than one item per function call.  The
+	 * return value is our current iteration location; if this is equal to
+	 * 'start' we can stop this madness. */
+	while(end != start) {
+		alpm_list_t *i = hash->hash_table[end];
+		pmpkg_t *info = i->data;
+		size_t new_position = get_hash_position(info->name_hash, hash);
+
+		if(new_position == start) {
+			hash->hash_table[start] = i;
+			hash->hash_table[end] = NULL;
+			break;
+		}
+
+		/* the odd math ensures we are always positive, e.g.
+		 * e.g. (0 - 1) % 47      == -1
+		 * e.g. (47 + 0 - 1) % 47 == 46 */
+		end = (hash->buckets + end - 1) % hash->buckets;
+	}
+	return(end);
+}
+
 /**
  * @brief Remove a package from a pkghash.
  *
@@ -239,6 +267,7 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
 
 		if(info->name_hash == pkg->name_hash &&
 					strcmp(info->name, pkg->name) == 0) {
+			size_t stop, prev;
 
 			/* remove from list and hash */
 			hash->list = alpm_list_remove_item(hash->list, i);
@@ -247,28 +276,23 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
 			}
 			hash->hash_table[position] = NULL;
 			free(i);
-
 			hash->entries -= 1;
 
-			/* potentially move entries following removed entry to keep
-			 * open addressing collision resolution working */
-			size_t next_null = (position + 1) % hash->buckets;
-			while(hash->hash_table[next_null] != NULL) {
-				next_null = (next_null + 1) % hash->buckets;
+			/* Potentially move entries following removed entry to keep open
+			 * addressing collision resolution working. We start by finding the
+			 * next null bucket to know how far we have to look. */
+			stop = (position + 1) % hash->buckets;
+			while(hash->hash_table[stop] != NULL && stop != position) {
+				stop = (stop + 1) % hash->buckets;
 			}
+			stop = (hash->buckets + stop - 1) % hash->buckets;
 
-			position = (position + 1) % hash->buckets;
-
-			while((i = hash->hash_table[position]) != NULL) {
-				info = i->data;
-				size_t new_position = get_hash_position(info->name_hash, hash);
-
-				if(new_position != next_null) {
-					hash->hash_table[new_position] = i;
-					hash->hash_table[position] = NULL;
-				}
-
-				position = (position + 1) % hash->buckets;
+			/* We now search backwards from stop to position. If we find an
+			 * item that now hashes to position, we will move it, and then try
+			 * to plug the new hole we just opened up, until we finally don't
+			 * move anything. */
+			while((prev = move_one_entry(hash, position, stop)) != position) {
+				position = prev;
 			}
 
 			return(hash);
