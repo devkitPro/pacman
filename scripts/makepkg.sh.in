@@ -1257,7 +1257,7 @@ check_sanity() {
 		fi
 	fi
 
-	local provides_list
+	local provides_list=()
 	eval $(awk '/^[[:space:]]*provides=/,/\)/' "$BUILDFILE" | sed "s/provides=/provides_list+=/")
 	for i in ${provides_list[@]}; do
 		if [[ $i != ${i//</} || $i != ${i//>/} ]]; then
@@ -1266,7 +1266,7 @@ check_sanity() {
 		fi
 	done
 
-	local backup_list
+	local backup_list=()
 	eval $(awk '/^[[:space:]]*backup=/,/\)/' "$BUILDFILE" | sed "s/backup=/backup_list+=/")
 	for i in "${backup_list[@]}"; do
 		if [[ ${i:0:1} = "/" ]]; then
@@ -1275,7 +1275,7 @@ check_sanity() {
 		fi
 	done
 
-	local optdepends_list
+	local optdepends_list=()
 	eval $(awk '/^[[:space:]]*optdepends=/,/\)/' "$BUILDFILE" | sed "s/optdepends=/optdepends_list+=/")
 	for i in "${optdepends_list[@]}"; do
 		local pkg=${i%%:*}
