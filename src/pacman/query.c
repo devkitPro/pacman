@@ -170,7 +170,7 @@ static int query_fileowner(alpm_list_t *targets)
 		}
 		free(dname);
 
-		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
+		for(i = alpm_db_get_pkgcache_list(db_local); i && !found; i = alpm_list_next(i)) {
 			alpm_list_t *j;
 			pmpkg_t *info = alpm_list_getdata(i);
 
@@ -228,7 +228,7 @@ static int query_search(alpm_list_t *targets)
 		searchlist = alpm_db_search(db_local, targets);
 		freelist = 1;
 	} else {
-		searchlist = alpm_db_get_pkgcache(db_local);
+		searchlist = alpm_db_get_pkgcache_list(db_local);
 		freelist = 0;
 	}
 	if(searchlist == NULL) {
@@ -511,7 +511,7 @@ int pacman_query(alpm_list_t *targets)
 			return(1);
 		}
 
-		for(i = alpm_db_get_pkgcache(db_local); i; i = alpm_list_next(i)) {
+		for(i = alpm_db_get_pkgcache_list(db_local); i; i = alpm_list_next(i)) {
 			pkg = alpm_list_getdata(i);
 			if(filter(pkg)) {
 				int value = display(pkg);

@@ -145,9 +145,67 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 static int sync_db_read(pmdb_t *db, struct archive *archive,
 		struct archive_entry *entry, pmpkg_t *likely_pkg);
 
+/*
+ * This is the data table used to generate the estimating function below.
+ * "Weighted Avg" means averaging the bottom table values; thus each repo, big
+ * or small, will have equal influence.  "Unweighted Avg" means averaging the
+ * sums of the top table columns, thus each package has equal influence.  The
+ * final values are calculated by (surprise) averaging the averages, because
+ * why the hell not.
+ *
+ * Database   Pkgs  tar      bz2     gz      xz
+ * community  2096  5294080  256391  421227  301296
+ * core        180   460800   25257   36850   29356
+ * extra      2606  6635520  294647  470818  339392
+ * multilib    126   327680   16120   23261   18732
+ * testing      76   204800   10902   14348   12100
+ *
+ * Bytes Per Package
+ * community  2096  2525.80  122.32  200.97  143.75
+ * core        180  2560.00  140.32  204.72  163.09
+ * extra      2606  2546.25  113.06  180.67  130.23
+ * multilib    126  2600.63  127.94  184.61  148.67
+ * testing      76  2694.74  143.45  188.79  159.21
+
+ * Weighted Avg     2585.48  129.42  191.95  148.99
+ * Unweighted Avg   2543.39  118.74  190.16  137.93
+ * Average of Avgs  2564.44  124.08  191.06  143.46
+ */
+static int estimate_package_count(struct stat *st, struct archive *archive)
+{
+	unsigned int per_package;
+
+	switch(archive_compression(archive)) {
+		case ARCHIVE_COMPRESSION_NONE:
+			per_package = 2564;
+			break;
+		case ARCHIVE_COMPRESSION_GZIP:
+			per_package = 191;
+			break;
+		case ARCHIVE_COMPRESSION_BZIP2:
+			per_package = 124;
+			break;
+		case ARCHIVE_COMPRESSION_COMPRESS:
+			per_package = 193;
+			break;
+		case ARCHIVE_COMPRESSION_LZMA:
+		case ARCHIVE_COMPRESSION_XZ:
+			per_package = 143;
+			break;
+		case ARCHIVE_COMPRESSION_UU:
+			per_package = 3543;
+			break;
+		default:
+			/* assume it is at least somewhat compressed */
+			per_package = 200;
+	}
+	return((int)(st->st_size / per_package) + 1);
+}
+
 static int sync_db_populate(pmdb_t *db)
 {
-	int count = 0;
+	int est_count, count = 0;
+	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
 	pmpkg_t *pkg = NULL;
@@ -169,6 +227,13 @@ static int sync_db_populate(pmdb_t *db)
 		archive_read_finish(archive);
 		RET_ERR(PM_ERR_DB_OPEN, 1);
 	}
+	if(lstat(_alpm_db_path(db), &buf) != 0) {
+		RET_ERR(PM_ERR_DB_OPEN, 1);
+	}
+	est_count = estimate_package_count(&buf, archive);
+
+	/* initialize hash at 66% full */
+	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 		const struct stat *st;
@@ -194,7 +259,7 @@ static int sync_db_populate(pmdb_t *db)
 			}
 
 			/* duplicated database entries are not allowed */
-			if(_alpm_pkg_find(db->pkgcache, pkg->name)) {
+			if(_alpm_pkghash_find(db->pkgcache, pkg->name)) {
 				_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
 				_alpm_pkg_free(pkg);
 				continue;
@@ -207,7 +272,7 @@ static int sync_db_populate(pmdb_t *db)
 			/* add to the collection */
 			_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 					pkg->name, db->treename);
-			db->pkgcache = alpm_list_add(db->pkgcache, pkg);
+			db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
 			count++;
 		} else {
 			/* we have desc, depends or deltas - parse it */
@@ -215,7 +280,9 @@ static int sync_db_populate(pmdb_t *db)
 		}
 	}
 
-	db->pkgcache = alpm_list_msort(db->pkgcache, (size_t)count, _alpm_pkg_cmp);
+	if(count > 0) {
+		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
+	}
 	archive_read_finish(archive);
 
 	return(count);
@@ -281,7 +348,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	if(likely_pkg && strcmp(likely_pkg->name, pkgname) == 0) {
 		pkg = likely_pkg;
 	} else {
-		pkg = _alpm_pkg_find(db->pkgcache, pkgname);
+		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
 	}
 	if(pkg == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "package %s not found in %s sync database",

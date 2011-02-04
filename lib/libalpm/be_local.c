@@ -367,7 +367,8 @@ static int is_dir(const char *path, struct dirent *entry)
 
 static int local_db_populate(pmdb_t *db)
 {
-	int count = 0;
+	int est_count, count = 0;
+	struct stat buf;
 	struct dirent *ent = NULL;
 	const char *dbpath;
 	DIR *dbdir;
@@ -384,6 +385,15 @@ static int local_db_populate(pmdb_t *db)
 	if(dbdir == NULL) {
 		return(0);
 	}
+	if(fstat(dirfd(dbdir), &buf) != 0) {
+		return(0);
+	}
+	/* subtract the two always-there pointers to get # of children */
+	est_count = (int)buf.st_nlink - 2;
+
+	/* initialize hash at 50% full */
+	db->pkgcache = _alpm_pkghash_create(est_count * 2);
+
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
 
@@ -410,7 +420,7 @@ static int local_db_populate(pmdb_t *db)
 		}
 
 		/* duplicated database entries are not allowed */
-		if(_alpm_pkg_find(db->pkgcache, pkg->name)) {
+		if(_alpm_pkghash_find(db->pkgcache, pkg->name)) {
 			_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
 			_alpm_pkg_free(pkg);
 			continue;
@@ -430,12 +440,14 @@ static int local_db_populate(pmdb_t *db)
 		/* add to the collection */
 		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
-		db->pkgcache = alpm_list_add(db->pkgcache, pkg);
+		db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
 		count++;
 	}
 
 	closedir(dbdir);
-	db->pkgcache = alpm_list_msort(db->pkgcache, (size_t)count, _alpm_pkg_cmp);
+	if(count > 0) {
+		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
+	}
 	return(count);
 }
 

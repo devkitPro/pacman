@@ -475,7 +475,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	 * if checkdeps detected it would break something */
 
 	/* see if other packages need it */
-	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
+	for(i = _alpm_db_get_pkgcache_list(db); i; i = i->next) {
 		pmpkg_t *lpkg = i->data;
 		if(_alpm_dep_edge(lpkg, pkg) && !_alpm_pkg_find(targets, lpkg->name)) {
 			return(0);
@@ -508,7 +508,7 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 
 	for(i = targs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
-		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
+		for(j = _alpm_db_get_pkgcache_list(db); j; j = j->next) {
 			pmpkg_t *deppkg = j->data;
 			if(_alpm_dep_edge(pkg, deppkg)
 					&& can_remove_package(db, deppkg, targs, include_explicit)) {
@@ -586,7 +586,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	}
 	/* 2. satisfiers (skip literals here) */
 	for(i = dbs; i; i = i->next) {
-		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
+		for(j = _alpm_db_get_pkgcache_list(i->data); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 			if(_alpm_depcmp_tolerant(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
@@ -614,7 +614,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* first check if one provider is already installed locally */
 	for(i = providers; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
-		if (_alpm_pkg_find(_alpm_db_get_pkgcache(handle->db_local), pkg->name)) {
+		if (_alpm_pkghash_find(_alpm_db_get_pkgcache(handle->db_local), pkg->name)) {
 			alpm_list_free(providers);
 			return(pkg);
 		}

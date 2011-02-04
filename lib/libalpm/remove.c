@@ -95,7 +95,7 @@ static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
 		}
 		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
 		alpm_list_free(lp);
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, trans->remove, NULL);
+		lp = alpm_checkdeps(_alpm_db_get_pkgcache_list(db), 1, trans->remove, NULL);
 	}
 }
 
@@ -125,7 +125,7 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 		}
 		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
 		alpm_list_free(lp);
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, trans->remove, NULL);
+		lp = alpm_checkdeps(_alpm_db_get_pkgcache_list(db), 1, trans->remove, NULL);
 	}
 }
 
@@ -147,7 +147,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, trans->remove, NULL);
+		lp = alpm_checkdeps(_alpm_db_get_pkgcache_list(db), 1, trans->remove, NULL);
 		if(lp != NULL) {
 
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
