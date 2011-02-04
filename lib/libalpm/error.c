@@ -135,6 +135,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 		/* Miscellaenous */
 		case PM_ERR_RETRIEVE:
 			return _("failed to retrieve some files");
+		case PM_ERR_WRITE:
+			return _("failed to copy some file");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
 		/* Errors from external libraries- our own wrapper error */
