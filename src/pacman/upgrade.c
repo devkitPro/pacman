@@ -55,6 +55,8 @@ int pacman_upgrade(alpm_list_t *targets)
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(i->data);
 			if(str == NULL) {
+				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
+						(char *)i->data, alpm_strerrorlast());
 				return(1);
 			} else {
 				free(i->data);

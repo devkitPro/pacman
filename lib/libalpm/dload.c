@@ -296,7 +296,11 @@ static int download_internal(const char *url, const char *localpath,
 		tv[1].tv_sec = ust.mtime;
 		utimes(tempfile, tv);
 	}
-	rename(tempfile, destfile);
+	if(rename(tempfile, destfile)) {
+		_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+				tempfile, destfile, strerror(errno));
+		ret = -1;
+	}
 	ret = 0;
 
 cleanup:

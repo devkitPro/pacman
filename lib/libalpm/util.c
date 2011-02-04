@@ -621,7 +621,7 @@ char *_alpm_filecache_find(const char* filename)
 		}
 	}
 	/* package wasn't found in any cachedir */
-	return(NULL);
+	RET_ERR(PM_ERR_PKG_NOT_FOUND, NULL);
 }
 
 /** Check the alpm cachedirs for existance and find a writable one.
