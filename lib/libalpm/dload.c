@@ -172,6 +172,14 @@ static int download_internal(const char *url, const char *localpath,
 	/* NOTE: libfetch does not reset the error code, be sure to do it before
 	 * calls into the library */
 
+	/* TODO: if we call fetchStat() and get a redirect (disabling automagic
+	 * redirect following), we should repeat the file locator stuff and get a new
+	 * filename rather than only base if off the first URL, and then verify
+	 * get_filename() didn't return ''. Of course, libfetch might not even allow
+	 * us to even get that URL...FS#22645. This would allow us to download things
+	 * without totally puking like
+	 * http://www.archlinux.org/packages/community/x86_64/exim/download/ */
+
 	/* find out the remote size *and* mtime in one go. there is a lot of
 	 * trouble in trying to do both size and "if-modified-since" logic in a
 	 * non-stat request, so avoid it. */
