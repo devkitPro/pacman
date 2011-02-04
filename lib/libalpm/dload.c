@@ -128,13 +128,13 @@ static int download_internal(const char *url, const char *localpath,
 	destfile = get_destfile(localpath, filename);
 	tempfile = get_tempfile(localpath, filename);
 
-	if(stat(tempfile, &st) == 0 && st.st_size > 0) {
+	if(stat(tempfile, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0) {
 		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation\n");
 		local_time = fileurl->last_modified = st.st_mtime;
 		local_size = fileurl->offset = (off_t)st.st_size;
 		dl_thisfile = st.st_size;
 		localf = fopen(tempfile, "ab");
-	} else if(!force && stat(destfile, &st) == 0 && st.st_size > 0) {
+	} else if(!force && stat(destfile, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0) {
 		_alpm_log(PM_LOG_DEBUG, "destfile found, using mtime only\n");
 		local_time = fileurl->last_modified = st.st_mtime;
 		local_size = /* no fu->off here */ (off_t)st.st_size;

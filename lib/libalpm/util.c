@@ -608,12 +608,13 @@ char *_alpm_filecache_find(const char* filename)
 	char path[PATH_MAX];
 	char *retpath;
 	alpm_list_t *i;
+	struct stat buf;
 
 	/* Loop through the cache dirs until we find a matching file */
 	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
 		snprintf(path, PATH_MAX, "%s%s", (char*)alpm_list_getdata(i),
 				filename);
-		if(access(path, R_OK) == 0) {
+		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
 			retpath = strdup(path);
 			_alpm_log(PM_LOG_DEBUG, "found cached pkg: %s\n", retpath);
 			return(retpath);
