@@ -551,7 +551,7 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			} else if(strcmp(line, "%GROUPS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->groups = alpm_list_add(info->groups, linedup);
 				}
 			} else if(strcmp(line, "%URL%") == 0) {
@@ -562,7 +562,7 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			} else if(strcmp(line, "%LICENSE%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->licenses = alpm_list_add(info->licenses, linedup);
 				}
 			} else if(strcmp(line, "%ARCH%") == 0) {
@@ -607,30 +607,30 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			} else if(strcmp(line, "%REPLACES%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->replaces = alpm_list_add(info->replaces, linedup);
 				}
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					pmdepend_t *dep = _alpm_splitdep(_alpm_strtrim(line));
+					pmdepend_t *dep = _alpm_splitdep(line);
 					info->depends = alpm_list_add(info->depends, dep);
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->optdepends = alpm_list_add(info->optdepends, linedup);
 				}
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->conflicts = alpm_list_add(info->conflicts, linedup);
 				}
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->provides = alpm_list_add(info->provides, linedup);
 				}
 			}
@@ -651,13 +651,13 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 			if(strcmp(line, "%FILES%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->files = alpm_list_add(info->files, linedup);
 				}
 			} else if(strcmp(line, "%BACKUP%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					char *linedup;
-					STRDUP(linedup, _alpm_strtrim(line), goto error);
+					STRDUP(linedup, line, goto error);
 					info->backup = alpm_list_add(info->backup, linedup);
 				}
 			}
