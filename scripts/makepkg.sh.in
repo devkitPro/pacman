@@ -507,8 +507,8 @@ download_sources() {
 
 	local netfile
 	for netfile in "${source[@]}"; do
-		local file
-		if file=$(get_filepath "$netfile"); then
+		local file=$(get_filepath "$netfile" || true)
+		if [[ -n "$file" ]]; then
 			msg2 "$(gettext "Found %s")" "${file##*/}"
 			ln -sf "$file" "$srcdir/"
 			continue
