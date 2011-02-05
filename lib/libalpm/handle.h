@@ -34,7 +34,7 @@ typedef struct _pmhandle_t {
 	pmdb_t *db_local;       /* local db pointer */
 	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
 	FILE *logstream;        /* log file stream pointer */
-	int lckfd;              /* lock file descriptor if one exists */
+	FILE *lckstream;        /* lock file stream pointer if one exists */
 	pmtrans_t *trans;
 
 	/* callback functions */

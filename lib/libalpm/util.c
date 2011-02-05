@@ -211,7 +211,7 @@ char *_alpm_strtrim(char *str)
 }
 
 /* Create a lock file */
-int _alpm_lckmk(void)
+FILE *_alpm_lckmk(void)
 {
 	int fd;
 	char *dir, *ptr;
@@ -234,10 +234,9 @@ int _alpm_lckmk(void)
 		fprintf(f, "%ld\n", (long)getpid());
 		fflush(f);
 		fsync(fd);
-		fclose(f);
-		return(fd);
+		return(f);
 	}
-	return(-1);
+	return(NULL);
 }
 
 /* Remove a lock file */

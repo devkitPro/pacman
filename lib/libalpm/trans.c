@@ -73,8 +73,8 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 
 	/* lock db */
 	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {
-		handle->lckfd = _alpm_lckmk();
-		if(handle->lckfd == -1) {
+		handle->lckstream = _alpm_lckmk();
+		if(handle->lckstream == NULL) {
 			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 		}
 	}
@@ -260,12 +260,9 @@ int SYMEXPORT alpm_trans_release()
 
 	/* unlock db */
 	if(!nolock_flag) {
-		if(handle->lckfd != -1) {
-			int fd;
-			do {
-				fd = close(handle->lckfd);
-			} while(fd == -1 && errno == EINTR);
-			handle->lckfd = -1;
+		if(handle->lckstream != NULL) {
+			fclose(handle->lckstream);
+			handle->lckstream = NULL;
 		}
 		if(_alpm_lckrm()) {
 			_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),

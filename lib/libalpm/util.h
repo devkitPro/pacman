@@ -80,7 +80,7 @@ int _alpm_makepath(const char *path);
 int _alpm_makepath_mode(const char *path, mode_t mode);
 int _alpm_copyfile(const char *src, const char *dest);
 char *_alpm_strtrim(char *str);
-int _alpm_lckmk(void);
+FILE *_alpm_lckmk(void);
 int _alpm_lckrm(void);
 int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn);
 int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int breakfirst);
