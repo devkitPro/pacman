@@ -234,6 +234,9 @@ static int sync_db_populate(pmdb_t *db)
 
 	/* initialize hash at 66% full */
 	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
+	if(db->pkgcache == NULL) {
+		RET_ERR(PM_ERR_MEMORY, -1);
+	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 		const struct stat *st;
@@ -348,6 +351,9 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	if(likely_pkg && strcmp(likely_pkg->name, pkgname) == 0) {
 		pkg = likely_pkg;
 	} else {
+		if(db->pkgcache == NULL) {
+			RET_ERR(PM_ERR_MEMORY, -1);
+		}
 		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
 	}
 	if(pkg == NULL) {
@@ -459,10 +465,10 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
 	db = _alpm_db_new(treename, 0);
-	db->ops = &sync_db_ops;
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
+	db->ops = &sync_db_ops;
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return(db);

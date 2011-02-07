@@ -393,6 +393,10 @@ static int local_db_populate(pmdb_t *db)
 
 	/* initialize hash at 50% full */
 	db->pkgcache = _alpm_pkghash_create(est_count * 2);
+	if(db->pkgcache == NULL){
+		closedir(dbdir);
+		RET_ERR(PM_ERR_MEMORY, -1);
+	}
 
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
