@@ -148,7 +148,7 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 	return(newhash);
 }
 
-pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
+static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
 {
 	alpm_list_t *ptr;
 	size_t position;
@@ -173,41 +173,24 @@ pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
 	ptr->prev = ptr;
 
 	hash->hash_table[position] = ptr;
-	hash->list = alpm_list_join(hash->list, ptr);
-	hash->entries += 1;
+	if(!sorted){
+		hash->list = alpm_list_join(hash->list, ptr);
+	}else{
+		hash->list = alpm_list_mmerge(hash->list, ptr, _alpm_pkg_cmp);
+	}
 
+	hash->entries += 1;
 	return(hash);
+}
+
+pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
+{
+	return(pkghash_add_pkg(hash, pkg, 0));
 }
 
 pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
 {
-	if(!hash) {
-		return(_alpm_pkghash_add(hash, pkg));
-	}
-
-	alpm_list_t *ptr;
-	size_t position;
-
-	if((hash->entries + 1) / MAX_HASH_LOAD > hash->buckets) {
-		hash = rehash(hash);
-	}
-
-	position = get_hash_position(pkg->name_hash, hash);
-
-	ptr = calloc(1, sizeof(alpm_list_t));
-	if(ptr == NULL) {
-		return(hash);
-	}
-
-	ptr->data = pkg;
-	ptr->next = NULL;
-	ptr->prev = ptr;
-
-	hash->hash_table[position] = ptr;
-	hash->list = alpm_list_mmerge(hash->list, ptr, _alpm_pkg_cmp);
-	hash->entries += 1;
-
-	return(hash);
+	return(pkghash_add_pkg(hash, pkg, 1));
 }
 
 static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
@@ -344,3 +327,5 @@ pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name)
 
 	return(NULL);
 }
+
+/* vim: set ts=2 sw=2 noet: */
