@@ -32,6 +32,7 @@
 typedef struct __alpm_mountpoint_t {
 	/* mount point information */
 	char *mount_dir;
+	size_t mount_dir_len;
 	/* storage for additional disk usage calculations */
 	long blocks_needed;
 	long max_blocks_needed;

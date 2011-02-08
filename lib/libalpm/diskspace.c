@@ -54,7 +54,8 @@ static int mount_point_cmp(const void *p1, const void *p2)
 {
 	const alpm_mountpoint_t *mp1 = p1;
 	const alpm_mountpoint_t *mp2 = p2;
-	return(strcmp(mp1->mount_dir, mp2->mount_dir));
+	/* the negation will sort all mountpoints before their parent */
+	return(-strcmp(mp1->mount_dir, mp2->mount_dir));
 }
 
 static alpm_list_t *mount_point_list(void)
@@ -82,6 +83,7 @@ static alpm_list_t *mount_point_list(void)
 
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
+		mp->mount_dir_len = strlen(mnt->mnt_dir);
 		memcpy(&(mp->fsp), &fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0l;
@@ -105,6 +107,7 @@ static alpm_list_t *mount_point_list(void)
 	for(; entries-- > 0; fsp++) {
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
+		mp->mount_dir_len = strlen(mnt->mnt_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0l;
@@ -120,22 +123,18 @@ static alpm_list_t *mount_point_list(void)
 	return(mount_points);
 }
 
-static alpm_list_t *match_mount_point(const alpm_list_t *mount_points,
-		const char *file)
+static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
+		const char *real_path)
 {
-	char real_path[PATH_MAX];
-	snprintf(real_path, PATH_MAX, "%s%s", handle->root, file);
+	const alpm_list_t *mp;
 
-	alpm_list_t *mp = alpm_list_last(mount_points);
-	do {
+	for(mp = mount_points; mp != NULL; mp = mp->next) {
 		alpm_mountpoint_t *data = mp->data;
 
-		if(strncmp(data->mount_dir, real_path, strlen(data->mount_dir)) == 0) {
-			return(mp);
+		if(strncmp(data->mount_dir, real_path, data->mount_dir_len) == 0) {
+			return(data);
 		}
-
-		mp = mp->prev;
-	} while (mp != alpm_list_last(mount_points));
+	}
 
 	/* should not get here... */
 	return(NULL);
@@ -148,38 +147,30 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 
 	alpm_list_t *files = alpm_pkg_get_files(pkg);
 	for(file = files; file; file = file->next) {
-		alpm_list_t *mp;
-		alpm_mountpoint_t *data;
+		alpm_mountpoint_t *mp;
 		struct stat st;
 		char path[PATH_MAX];
 		const char *filename = file->data;
 
-		/* skip directories to be consistent with libarchive that reports them
-		 * to be zero size and to prevent multiple counting across packages */
-		if(*(filename + strlen(filename) - 1) == '/') {
+		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
+		_alpm_lstat(path, &st);
+
+		/* skip directories and symlinks to be consistent with libarchive that
+		 * reports them to be zero size */
+		if(S_ISDIR(st.st_mode) || S_ISLNK(st.st_mode)) {
 			continue;
 		}
 
-		mp = match_mount_point(mount_points, filename);
+		mp = match_mount_point(mount_points, path);
 		if(mp == NULL) {
 			_alpm_log(PM_LOG_WARNING,
 					_("could not determine mount point for file %s"), filename);
 			continue;
 		}
 
-		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
-		_alpm_lstat(path, &st);
-
-		/* skip symlinks to be consistent with libarchive that reports them to
-		 * be zero size */
-		if(S_ISLNK(st.st_mode)) {
-			continue;
-		}
-
-		data = mp->data;
 		/* the addition of (divisor - 1) performs ceil() with integer division */
-		data->blocks_needed -=
-			(st.st_size + data->fsp.f_bsize - 1l) / data->fsp.f_bsize;
+		mp->blocks_needed -=
+			(st.st_size + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
 	}
 
 	return(0);
@@ -191,7 +182,6 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 	int ret=0;
 	struct archive *archive;
 	struct archive_entry *entry;
-	const char *file;
 
 	if ((archive = archive_read_new()) == NULL) {
 		pm_errno = PM_ERR_LIBARCHIVE;
@@ -210,28 +200,39 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
-		alpm_list_t *mp;
-		alpm_mountpoint_t *data;
+		alpm_mountpoint_t *mp;
+		const char *filename;
+		mode_t mode;
+		char path[PATH_MAX];
 
-		file = archive_entry_pathname(entry);
+		filename = archive_entry_pathname(entry);
+		mode = archive_entry_mode(entry);
 
-		/* approximate space requirements for db entries */
-		if(file[0] == '.') {
-			file = alpm_option_get_dbpath();
-		}
-
-		mp = match_mount_point(mount_points, file);
-		if(mp == NULL) {
-			_alpm_log(PM_LOG_WARNING,
-					_("could not determine mount point for file %s"), file);
+		/* libarchive reports these as zero size anyways */
+		/* NOTE: if we do start accounting for directory size, a dir matching a
+		 * mountpoint needs to be attributed to the parent, not the mountpoint. */
+		if(S_ISDIR(mode) || S_ISLNK(mode)) {
 			continue;
 		}
 
-		data = mp->data;
+		/* approximate space requirements for db entries */
+		if(filename[0] == '.') {
+			filename = alpm_option_get_dbpath();
+		}
+
+		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
+
+		mp = match_mount_point(mount_points, path);
+		if(mp == NULL) {
+			_alpm_log(PM_LOG_WARNING,
+					_("could not determine mount point for file %s"), filename);
+			continue;
+		}
+
 		/* the addition of (divisor - 1) performs ceil() with integer division */
-		data->blocks_needed +=
-			(archive_entry_size(entry) + data->fsp.f_bsize - 1l) / data->fsp.f_bsize;
-		data->used = 1;
+		mp->blocks_needed +=
+			(archive_entry_size(entry) + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
+		mp->used = 1;
 
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
