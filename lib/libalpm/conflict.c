@@ -383,7 +383,7 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 				return(0);
 			}
 		} else {
-			if(alpm_list_find_str(alpm_pkg_get_files(pkg),path)) {
+			if(alpm_list_find_str(alpm_pkg_get_files(pkg), path)) {
 				continue;
 			} else {
 				closedir(dir);
@@ -415,7 +415,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 	 * be possible with real transactions. Right now we only do half as much
 	 * here as we do when we actually extract files in add.c with our 12
 	 * different cases. */
-	for(current = 1, i = upgrade; i; i = i->next, current++) {
+	for(current = 0, i = upgrade; i; i = i->next, current++) {
 		alpm_list_t *k, *tmpfiles = NULL;
 		pmpkg_t *p1, *p2, *dbpkg;
 		char path[PATH_MAX+1];
@@ -554,6 +554,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 		}
 		FREELIST(tmpfiles);
 	}
+	PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", 100,
+			numtargs, current);
 
 	return(conflicts);
 }
