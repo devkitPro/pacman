@@ -1850,6 +1850,10 @@ else
 	source "$BUILDFILE"
 fi
 
+# set defaults if they weren't specified in buildfile
+pkgbase=${pkgbase:-${pkgname[0]}}
+epoch=${epoch:-0}
+
 if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
@@ -1858,9 +1862,6 @@ if (( GENINTEG )); then
 	generate_checksums
 	exit 0 # $E_OK
 fi
-
-pkgbase=${pkgbase:-${pkgname[0]}}
-epoch=${epoch:-0}
 
 # check the PKGBUILD for some basic requirements
 check_sanity || exit 1
