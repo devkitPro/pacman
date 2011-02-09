@@ -175,6 +175,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 								newpkg->name ? newpkg->name : "error", linenum);
 		} else {
 			key = _alpm_strtrim(key);
+			while(*ptr == ' ') ptr++;
 			ptr = _alpm_strtrim(ptr);
 			if(strcmp(key, "pkgname") == 0) {
 				STRDUP(newpkg->name, ptr, RET_ERR(PM_ERR_MEMORY, -1));
