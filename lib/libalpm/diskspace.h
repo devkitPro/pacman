@@ -37,6 +37,7 @@ typedef struct __alpm_mountpoint_t {
 	long blocks_needed;
 	long max_blocks_needed;
 	int used;
+	int read_only;
 	FSSTATSTYPE fsp;
 } alpm_mountpoint_t;
 

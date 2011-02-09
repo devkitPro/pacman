@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <errno.h>
 #if defined(HAVE_MNTENT_H)
 #include <mntent.h>
 #endif
@@ -66,7 +67,7 @@ static alpm_list_t *mount_point_list(void)
 #if defined HAVE_GETMNTENT
 	struct mntent *mnt;
 	FILE *fp;
-	FSSTATSTYPE fsp;
+	struct statvfs fsp;
 
 	fp = setmntent(MOUNTED, "r");
 
@@ -75,16 +76,22 @@ static alpm_list_t *mount_point_list(void)
 	}
 
 	while((mnt = getmntent(fp))) {
+		if(!mnt) {
+			_alpm_log(PM_LOG_WARNING, _("could not get filesystem information\n"));
+			continue;
+		}
 		if(statvfs(mnt->mnt_dir, &fsp) != 0) {
 			_alpm_log(PM_LOG_WARNING,
-					_("could not get filesystem information for %s\n"), mnt->mnt_dir);
+					_("could not get filesystem information for %s: %s\n"),
+					mnt->mnt_dir, strerror(errno));
 			continue;
 		}
 
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		mp->mount_dir_len = strlen(mp->mount_dir);
-		memcpy(&(mp->fsp), &fsp, sizeof(FSSTATSTYPE));
+		memcpy(&(mp->fsp), &fsp, sizeof(struct statvfs));
+		mp->read_only = fsp.f_flag & ST_RDONLY;
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -105,6 +112,11 @@ static alpm_list_t *mount_point_list(void)
 		mp->mount_dir = strdup(fsp->f_mntonname);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
+#if defined HAVE_STRUCT_STATVFS_F_FLAG
+		mp->read_only = fsp->f_flag & ST_RDONLY;
+#elif defined HAVE_STRUCT_STATFS_F_FLAGS
+		mp->read_only = fsp->f_flags & MNT_RDONLY;
+#endif
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -295,7 +307,11 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 
 	for(i = mount_points; i; i = alpm_list_next(i)) {
 		alpm_mountpoint_t *data = i->data;
-		if(data->used == 1) {
+		if(data->used && data->read_only) {
+			_alpm_log(PM_LOG_ERROR, _("Partition %s is mounted read only\n"),
+					data->mount_dir);
+			abort = 1;
+		} else if(data->used) {
 			/* cushion is roughly min(5% capacity, 20MiB) */
 			long fivepc = ((long)data->fsp.f_blocks / 20) + 1;
 			long twentymb = (20 * 1024 * 1024 / (long)data->fsp.f_bsize) + 1;

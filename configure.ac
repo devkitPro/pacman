@@ -194,6 +194,10 @@ AC_CHECK_FUNCS([geteuid getmntinfo realpath regcomp strcasecmp \
                 wcwidth uname])
 # For the diskspace code
 FS_STATS_TYPE
+AC_CHECK_MEMBERS([struct statvfs.f_flag],,,[[#include <sys/statvfs.h>]])
+AC_CHECK_MEMBERS([struct statfs.f_flags],,,[[#include <sys/param.h>
+                  #include <sys/mount.h>]])
+
 # Enable large file support if available
 AC_SYS_LARGEFILE
 
