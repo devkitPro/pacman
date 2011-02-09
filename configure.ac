@@ -93,11 +93,6 @@ AC_ARG_WITH(openssl,
 	AS_HELP_STRING([--with-openssl], [use OpenSSL crypto implementations instead of internal routines]),
 	[], [with_openssl=check])
 
-# Help line for libfetch
-AC_ARG_WITH(fetch,
-	AS_HELP_STRING([--with-fetch], [use libfetch as an internal downloader]),
-	[], [with_fetch=no])
-
 # Help line for libcurl
 AC_ARG_WITH(curl,
 	AS_HELP_STRING([--with-curl], [use libcurl as an internal downloader]),
@@ -165,25 +160,6 @@ AS_IF([test "x$with_curl" != "xno"],
 	[-lcurl])],
 	AC_MSG_RESULT(no))
 AM_CONDITIONAL([HAVE_LIBCURL], [test "x$ac_cv_lib_curl_curl_easy_perform" = "xyes"])
-
-# Enable or disable usage of libfetch
-AC_MSG_CHECKING(whether to link with libfetch)
-AS_IF([test "x$with_fetch" != "xno"],
-	[AC_MSG_RESULT(yes)
-	AC_CHECK_LIB([fetch], [fetchParseURL], ,
-	[if test "x$with_fetch" != "xcheck"; then
-		AC_MSG_FAILURE([--with-fetch was given, but -lfetch was not found])
-	fi],
-	[-lcrypto -ldl])
-	# Check if libfetch supports connnection caching which we use
-	AS_IF([test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"],
-	[AC_CHECK_DECL(fetchConnectionCacheInit, ,
-		AC_MSG_ERROR([libfetch must be version 2.28 or greater]),
-		[#include <fetch.h>])
-	])
-	],
-	AC_MSG_RESULT(no))
-AM_CONDITIONAL([HAVE_LIBFETCH], [test "x$ac_cv_lib_fetch_fetchParseURL" = "xyes"])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h \
