@@ -53,7 +53,8 @@ static char *get_filename(const char *url) {
 }
 
 #ifdef HAVE_LIBCURL
-static char *get_destfile(const char *path, const char *filename) {
+static char *get_destfile(const char *path, const char *filename)
+{
 	char *destfile;
 	/* len = localpath len + filename len + null */
 	size_t len = strlen(path) + strlen(filename) + 1;
@@ -63,7 +64,8 @@ static char *get_destfile(const char *path, const char *filename) {
 	return(destfile);
 }
 
-static char *get_tempfile(const char *path, const char *filename) {
+static char *get_tempfile(const char *path, const char *filename)
+{
 	char *tempfile;
 	/* len = localpath len + filename len + '.part' len + null */
 	size_t len = strlen(path) + strlen(filename) + 6;
@@ -83,7 +85,8 @@ static void inthandler(int signum)
 }
 
 static int curl_progress(void *filename, double dltotal, double dlnow,
-		double ultotal, double ulnow) {
+		double ultotal, double ulnow)
+{
 
 	/* unused parameters */
 	(void)ultotal;
@@ -104,7 +107,8 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	return(0);
 }
 
-static int curl_gethost(const char *url, char *buffer) {
+static int curl_gethost(const char *url, char *buffer)
+{
 	int hostlen;
 	char *p;
 
@@ -129,7 +133,8 @@ static int curl_gethost(const char *url, char *buffer) {
 }
 
 static int curl_download_internal(const char *url, const char *localpath,
-		int force) {
+		int force)
+{
 	int ret = -1;
 	FILE *localf = NULL;
 	char *destfile, *filename, *tempfile;
@@ -292,7 +297,8 @@ cleanup:
 #endif
 
 static int download(const char *url, const char *localpath,
-		int force) {
+		int force)
+{
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
 		return(curl_download_internal(url, localpath, force));
