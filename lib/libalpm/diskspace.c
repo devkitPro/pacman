@@ -81,14 +81,10 @@ static alpm_list_t *mount_point_list(void)
 			continue;
 		}
 
-		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), &fsp, sizeof(FSSTATSTYPE));
-
-		mp->blocks_needed = 0l;
-		mp->max_blocks_needed = 0l;
-		mp->used = 0;
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -105,14 +101,10 @@ static alpm_list_t *mount_point_list(void)
 	}
 
 	for(; entries-- > 0; fsp++) {
-		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
-
-		mp->blocks_needed = 0l;
-		mp->max_blocks_needed = 0l;
-		mp->used = 0;
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
