@@ -83,7 +83,7 @@ static alpm_list_t *mount_point_list(void)
 
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
-		mp->mount_dir_len = strlen(mnt->mnt_dir);
+		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), &fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0l;
@@ -101,13 +101,13 @@ static alpm_list_t *mount_point_list(void)
 	entries = getmntinfo(&fsp, MNT_NOWAIT);
 
 	if (entries < 0) {
-		return NULL;
+		return(NULL);
 	}
 
 	for(; entries-- > 0; fsp++) {
 		MALLOC(mp, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
-		mp->mount_dir_len = strlen(mnt->mnt_dir);
+		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
 
 		mp->blocks_needed = 0l;
