@@ -175,6 +175,7 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		mp->blocks_needed -=
 			(st.st_size + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
+		mp->used |= USED_REMOVE;
 	}
 
 	return(0);
@@ -236,7 +237,7 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		mp->blocks_needed +=
 			(archive_entry_size(entry) + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
-		mp->used = 1;
+		mp->used |= USED_INSTALL;
 
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
@@ -311,7 +312,7 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 			_alpm_log(PM_LOG_ERROR, _("Partition %s is mounted read only\n"),
 					data->mount_dir);
 			abort = 1;
-		} else if(data->used) {
+		} else if(data->used & USED_INSTALL) {
 			/* cushion is roughly min(5% capacity, 20MiB) */
 			long fivepc = ((long)data->fsp.f_blocks / 20) + 1;
 			long twentymb = (20 * 1024 * 1024 / (long)data->fsp.f_bsize) + 1;

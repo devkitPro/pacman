@@ -29,6 +29,11 @@
 
 #include "alpm.h"
 
+enum mount_used_level {
+	USED_REMOVE = 1,
+	USED_INSTALL = (1 << 1),
+};
+
 typedef struct __alpm_mountpoint_t {
 	/* mount point information */
 	char *mount_dir;
@@ -36,7 +41,7 @@ typedef struct __alpm_mountpoint_t {
 	/* storage for additional disk usage calculations */
 	long blocks_needed;
 	long max_blocks_needed;
-	int used;
+	enum mount_used_level used;
 	int read_only;
 	FSSTATSTYPE fsp;
 } alpm_mountpoint_t;
