@@ -21,8 +21,7 @@
 #include <sys/types.h> /* off_t */
 
 #include "alpm_list.h"
-#include "util.h" /* MALLOC() */
-#include "alpm.h"
+#include "util.h" /* CALLOC() */
 
 struct __pmgraph_t {
 	char state; /* 0: untouched, -1: entered, other: leaving time */
@@ -38,15 +37,7 @@ static pmgraph_t *_alpm_graph_new(void)
 {
 	pmgraph_t *graph = NULL;
 
-	MALLOC(graph, sizeof(pmgraph_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
-	if(graph) {
-		graph->state = 0;
-		graph->data = NULL;
-		graph->parent = NULL;
-		graph->children = NULL;
-		graph->childptr = NULL;
-	}
+	CALLOC(graph, 1, sizeof(pmgraph_t), RET_ERR(PM_ERR_MEMORY, NULL));
 	return(graph);
 }
 
