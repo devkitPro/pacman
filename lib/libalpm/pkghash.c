@@ -70,7 +70,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	}
 
 	if(hash->buckets < size) {
-		_alpm_log(PM_LOG_ERROR, _("database larger than maximum size"));
+		_alpm_log(PM_LOG_ERROR, _("database larger than maximum size\n"));
 		free(hash);
 		return(NULL);
 	}

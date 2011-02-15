@@ -171,7 +171,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
  * Unweighted Avg   2543.39  118.74  190.16  137.93
  * Average of Avgs  2564.44  124.08  191.06  143.46
  */
-static int estimate_package_count(struct stat *st, struct archive *archive)
+static size_t estimate_package_count(struct stat *st, struct archive *archive)
 {
 	unsigned int per_package;
 
@@ -199,12 +199,13 @@ static int estimate_package_count(struct stat *st, struct archive *archive)
 			/* assume it is at least somewhat compressed */
 			per_package = 200;
 	}
-	return((int)(st->st_size / per_package) + 1);
+	return((size_t)(st->st_size / per_package) + 1);
 }
 
 static int sync_db_populate(pmdb_t *db)
 {
-	int est_count, count = 0;
+	size_t est_count;
+	int count = 0;
 	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
@@ -227,7 +228,7 @@ static int sync_db_populate(pmdb_t *db)
 		archive_read_finish(archive);
 		RET_ERR(PM_ERR_DB_OPEN, 1);
 	}
-	if(lstat(_alpm_db_path(db), &buf) != 0) {
+	if(stat(_alpm_db_path(db), &buf) != 0) {
 		RET_ERR(PM_ERR_DB_OPEN, 1);
 	}
 	est_count = estimate_package_count(&buf, archive);

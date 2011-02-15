@@ -367,7 +367,8 @@ static int is_dir(const char *path, struct dirent *entry)
 
 static int local_db_populate(pmdb_t *db)
 {
-	int est_count, count = 0;
+	size_t est_count;
+	int count = 0;
 	struct stat buf;
 	struct dirent *ent = NULL;
 	const char *dbpath;
@@ -379,17 +380,36 @@ static int local_db_populate(pmdb_t *db)
 
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
-		return(-1);
+		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
-		return(0);
+		if(errno == ENOENT) {
+			/* no database existing yet is not an error */
+			return(0);
+		}
+		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
 	if(fstat(dirfd(dbdir), &buf) != 0) {
-		return(0);
+		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
-	/* subtract the two always-there pointers to get # of children */
-	est_count = (int)buf.st_nlink - 2;
+	if(buf.st_nlink >= 2) {
+		est_count = buf.st_nlink;
+	} else {
+		/* Some filesystems don't subscribe to the two-implicit links school of
+		 * thought, e.g. BTRFS, HFS+. See
+		 * http://kerneltrap.org/mailarchive/linux-btrfs/2010/1/23/6723483/thread
+		 */
+		est_count = 0;
+		while((ent = readdir(dbdir)) != NULL) {
+			est_count++;
+		}
+		rewinddir(dbdir);
+	}
+	if(est_count >= 2) {
+		/* subtract the two extra pointers to get # of children */
+		est_count -= 2;
+	}
 
 	/* initialize hash at 50% full */
 	db->pkgcache = _alpm_pkghash_create(est_count * 2);
