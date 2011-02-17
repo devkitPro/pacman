@@ -306,7 +306,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 		} else if(*entry_name == '.') {
 			/* for now, ignore all files starting with '.' that haven't
 			 * already been handled (for future possibilities) */
-		} else {
+		} else if(full) {
 			/* Keep track of all files for filelist generation */
 			newpkg->files = alpm_list_add(newpkg->files, strdup(entry_name));
 		}
