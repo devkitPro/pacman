@@ -40,7 +40,8 @@
 #include "log.h"
 #include "deps.h"
 
-pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2, const char *reason)
+pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2,
+		const char *reason)
 {
 	pmconflict_t *conflict;
 
@@ -75,18 +76,18 @@ pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
 	return(newconflict);
 }
 
-int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
+static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *i;
+	const char *npkg1 = needle->package1;
+	const char *npkg2 = needle->package2;
 
 	ALPM_LOG_FUNC;
 
 	for(i = haystack; i; i = i->next) {
 		pmconflict_t *conflict = i->data;
-		char *cpkg1 = conflict->package1;
-		char *cpkg2 = conflict->package2;
-		char *npkg1 = needle->package1;
-		char *npkg2 = needle->package2;
+		const char *cpkg1 = conflict->package1;
+		const char *cpkg2 = conflict->package2;
 		if((strcmp(cpkg1, npkg1) == 0  && strcmp(cpkg2, npkg2) == 0)
 				|| (strcmp(cpkg1, npkg2) == 0 && strcmp(cpkg2, npkg1) == 0)) {
 			return(1);
@@ -94,28 +95,6 @@ int _alpm_conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
 	}
 
 	return(0);
-}
-
-/** Check if pkg1 conflicts with pkg2
- * @param pkg1 package we are looking at
- * @param conflict name of the possible conflict
- * @param pkg2 package to check
- * @return 0 for no conflict, non-zero otherwise
- */
-static int does_conflict(pmpkg_t *pkg1, const char *conflict, pmpkg_t *pkg2)
-{
-	const char *pkg1name = alpm_pkg_get_name(pkg1);
-	const char *pkg2name = alpm_pkg_get_name(pkg2);
-	pmdepend_t *conf = _alpm_splitdep(conflict);
-	int match = 0;
-
-	match = _alpm_depcmp(pkg2, conf);
-	if(match) {
-		_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
-				pkg1name, pkg2name, conflict);
-	}
-	_alpm_dep_free(conf);
-	return(match);
 }
 
 /** Adds the pkg1/pkg2 conflict to the baddeps list
@@ -127,7 +106,9 @@ static void add_conflict(alpm_list_t **baddeps, const char *pkg1,
 		const char *pkg2, const char *reason)
 {
 	pmconflict_t *conflict = _alpm_conflict_new(pkg1, pkg2, reason);
-	if(conflict && !_alpm_conflict_isin(conflict, *baddeps)) {
+	_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
+			pkg1, pkg2, reason);
+	if(conflict && !conflict_isin(conflict, *baddeps)) {
 		*baddeps = alpm_list_add(*baddeps, conflict);
 	} else {
 		_alpm_conflict_free(conflict);
@@ -158,6 +139,7 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 
 		for(j = alpm_pkg_get_conflicts(pkg1); j; j = j->next) {
 			const char *conflict = j->data;
+			pmdepend_t *parsed_conflict = _alpm_splitdep(conflict);
 
 			for(k = list2; k; k = k->next) {
 				pmpkg_t *pkg2 = k->data;
@@ -168,7 +150,7 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 					continue;
 				}
 
-				if(does_conflict(pkg1, conflict, pkg2)) {
+				if(_alpm_depcmp(pkg2, parsed_conflict)) {
 					if(order >= 0) {
 						add_conflict(baddeps, pkg1name, pkg2name, conflict);
 					} else {
@@ -176,6 +158,7 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 					}
 				}
 			}
+			_alpm_dep_free(parsed_conflict);
 		}
 	}
 }
