@@ -455,6 +455,116 @@ void string_display(const char *title, const char *string)
 	printf("\n");
 }
 
+static void table_print_line(const alpm_list_t *line,
+		const alpm_list_t *formats)
+{
+	const alpm_list_t *curformat = formats;
+	const alpm_list_t *curcell = line;
+
+	while(curcell && curformat) {
+		printf(alpm_list_getdata(curformat), alpm_list_getdata(curcell));
+		curcell = alpm_list_next(curcell);
+		curformat = alpm_list_next(curformat);
+	}
+
+	printf("\n");
+}
+
+/* creates format strings by checking max cell lengths in cols */
+static alpm_list_t *table_create_format(const alpm_list_t *header,
+		const alpm_list_t *rows)
+{
+	alpm_list_t *longest_str, *longest_strs = NULL;
+	alpm_list_t *formats = NULL;
+	const alpm_list_t *i, *row, *cell;
+	char *str, *formatstr;
+	const int padding = 2;
+	int colwidth, totalwidth = 0;
+	int curcol = 0;
+
+	/* header determines column count and initial values of longest_strs */
+	for(i = header; i; i = alpm_list_next(i)) {
+		longest_strs = alpm_list_add(longest_strs, alpm_list_getdata(i));
+	}
+
+	/* now find the longest string in each column */
+	for(longest_str = longest_strs; longest_str;
+			longest_str = alpm_list_next(longest_str), curcol++) {
+		for(i = rows; i; i = alpm_list_next(i)) {
+			row = alpm_list_getdata(i);
+			cell = alpm_list_nth(row, curcol);
+			str = alpm_list_getdata(cell);
+
+			if(strlen(str) > strlen(alpm_list_getdata(longest_str))) {
+				longest_str->data = str;
+			}
+		}
+	}
+
+	/* now use the column width info to generate format strings */
+	for(i = longest_strs; i; i = alpm_list_next(i)) {
+		colwidth = strlen(alpm_list_getdata(i)) + padding;
+		totalwidth += colwidth;
+
+		/* right align the last column for a cleaner table display */
+		str = (alpm_list_next(i) != NULL) ? "%%-%ds" : "%%%ds";
+		pm_asprintf(&formatstr, str, colwidth);
+
+		formats = alpm_list_add(formats, formatstr);
+	}
+
+	alpm_list_free(longest_strs);
+
+	/* return NULL if terminal is not wide enough */
+	if(totalwidth > getcols()) {
+		fprintf(stderr, _("insufficient columns available for table display\n"));
+		FREELIST(formats);
+		return(NULL);
+	}
+
+	return(formats);
+}
+
+/** Displays the list in table format
+ *
+ * @param title the tables title
+ * @param header the column headers. column count is determined by the nr
+ *               of headers
+ * @param rows the rows to display as a list of lists of strings. the outer
+ *             list represents the rows, the inner list the cells (= columns)
+ *
+ * @return -1 if not enough terminal cols available, else 0
+ */
+int table_display(const char *title, const alpm_list_t *header,
+		const alpm_list_t *rows)
+{
+	const alpm_list_t *i;
+	alpm_list_t *formats;
+
+	if(rows == NULL || header == NULL) {
+		return(0);
+	}
+
+	formats = table_create_format(header, rows);
+	if(formats == NULL) {
+		return(-1);
+	}
+
+	if(title != NULL) {
+		printf("%s\n\n", title);
+	}
+
+	table_print_line(header, formats);
+	printf("\n");
+
+	for(i = rows; i; i = alpm_list_next(i)) {
+		table_print_line(alpm_list_getdata(i), formats);
+	}
+
+	FREELIST(formats);
+	return(0);
+}
+
 void list_display(const char *title, const alpm_list_t *list)
 {
 	const alpm_list_t *i;
