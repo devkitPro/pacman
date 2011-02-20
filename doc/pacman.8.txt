@@ -173,15 +173,15 @@ Transaction Options (apply to '-S', '-R' and '-U')
 *-p, \--print*::
 	Only print the targets instead of performing the actual operation (sync,
 	remove or upgrade). Use '\--print-format' to specify how targets are
-	displayed. The default format string is "%l", which displays url with
-	'-S', filename with '-U' and pkgname-pkgver with '-R'.
+	displayed. The default format string is "%l", which displays URLs with
+	'-S', filenames with '-U' and pkgname-pkgver with '-R'.
 
 *\--print-format* <'format'>::
 	Specify a printf-like format to control the output of the '\--print'
-	operation. The possible are attributes are : %n for pkgname, %v for pkgver,
+	operation. The possible attributes are: %n for pkgname, %v for pkgver,
 	%l for location, %r for repo and %s for size.
 
-Upgrade Options (apply to 'S' and 'U')[[UO]]
+Upgrade Options (apply to '-S' and '-U')[[UO]]
 --------------------------------------------
 *-f, \--force*::
 	Bypass file conflict checks and overwrite conflicting files. If the
@@ -214,21 +214,18 @@ Upgrade Options (apply to 'S' and 'U')[[UO]]
 Query Options[[QO]]
 -------------------
 *-c, \--changelog*::
-	View the ChangeLog of a package. Not every package will provide one but
-	it will be shown if available.
+	View the ChangeLog of a package if it exists.
 
 *-d, \--deps*::
 	Restrict or filter output to packages installed as dependencies. This
-	option can be combined with '-t' for listing real orphans- packages that
+	option can be combined with '-t' for listing real orphans - packages that
 	were installed as dependencies but are no longer required by any
-	installed package. ('-Qdt' is equivalent to the pacman 3.0.X '-Qe'
-	option.)
+	installed package.
 
 *-e, \--explicit*::
-	Restrict or filter output to packages explicitly installed. This option
-	can be combined with '-t' to list top-level packages- those packages
-	that were explicitly installed but are not required by any other
-	package. ('-Qet' is equivalent to the pacman 2.9.X '-Qe' option.)
+	Restrict or filter output to explicitly installed packages. This option
+	can be combined with '-t' to list explicitly installed packages which
+	are not required by any other package.
 
 *-g, \--groups*::
 	Display all packages that are members of a named group. If a name is not
@@ -255,8 +252,8 @@ Query Options[[QO]]
 	and installed with '\--upgrade'.
 
 *-o, \--owns* <'file'>::
-	Search for the package that owns file. The path can be relative or
-	absolute.
+	Search for packages that own the specified file(s). The path can be
+	relative or absolute and one or more files can be specified.
 
 *-p, \--file*::
 	Signifies that the package supplied on the command line is a file and
@@ -274,10 +271,9 @@ Query Options[[QO]]
 	rather than names and versions.
 
 *-s, \--search* <'regexp'>::
-	This will search each locally-installed package for names or
-	descriptions that match `regexp`. When you include multiple search
-	terms, only packages with descriptions matching ALL of those terms will
-	be returned.
+	Search each locally-installed package for names or descriptions that
+	match `regexp`. When including multiple search terms, only packages
+	with descriptions matching ALL of those terms are returned.
 
 *-t, \--unrequired*::
 	Restrict or filter output to packages not required by any currently
@@ -310,7 +306,7 @@ Remove Options[[RO]]
 	orphans. If you want to omit condition (B), pass this option twice.
 
 *-u, \--unneeded*::
-	Removes the targets that are not required by any other packages.
+	Removes targets that are not required by any other packages.
 	This is mostly useful when removing a group without using the '-c' option,
 	to avoid breaking any dependencies.
 
@@ -372,18 +368,17 @@ linkman:pacman.conf[5].
 	the same operation.
 
 *-w, \--downloadonly*::
-	Retrieve all packages from the server, but do not install/upgrade
-	anything.
+	Retrieve all packages from the server, but do not install/upgrade anything.
 
 *-y, \--refresh*::
 	Download a fresh copy of the master package list from the server(s)
 	defined in linkman:pacman.conf[5]. This should typically be used each time
 	you use	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags
-	will force a refresh of all package lists even if they are thought to be up
+	will force a refresh of all package lists even if they appear to be up
 	to date.
 
 *\--needed*::
-	Don't reinstall the targets that are already up-to-date.
+	Don't reinstall the targets that are already up to date.
 
 
 Handling Config Files[[HCF]]
@@ -396,7 +391,7 @@ actual file existing on the filesystem. After comparing these 3 hashes, the
 follow scenarios can result:
 
 original=X, current=X, new=X::
-	All three files are the same, so overwrites are not an issue Install the
+	All three files are the same, so overwrites are not an issue. Install the
 	new file.
 
 original=X, current=X, new=Y::
