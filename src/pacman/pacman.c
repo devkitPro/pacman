@@ -988,6 +988,9 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "ILoveCandy") == 0) {
 			config->chomp = 1;
 			pm_printf(PM_LOG_DEBUG, "config: chomp\n");
+		} else if(strcmp(key, "VerbosePkgLists") == 0) {
+			config->verbosepkglists = 1;
+			pm_printf(PM_LOG_DEBUG, "config: verbosepkglists\n");
 		} else if(strcmp(key, "UseDelta") == 0) {
 			alpm_option_set_usedelta(1);
 			pm_printf(PM_LOG_DEBUG, "config: usedelta\n");

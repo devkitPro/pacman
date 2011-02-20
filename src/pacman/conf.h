@@ -69,11 +69,15 @@ typedef struct __config_t {
 	unsigned int ask;
 
 	/* conf file options */
-	unsigned short chomp; /* I Love Candy! */
+	/* I Love Candy! */
+	unsigned short chomp;
+	/* format target pkg lists as table */
+	unsigned short verbosepkglists;
 	/* When downloading, display the amount downloaded, rate, ETA, and percent
 	 * downloaded of the total download list */
 	unsigned short totaldownload;
-	unsigned short cleanmethod; /* select -Sc behavior */
+	/* select -Sc behavior */
+	unsigned short cleanmethod;
 	alpm_list_t *holdpkg;
 	alpm_list_t *syncfirst;
 	char *xfercommand;
