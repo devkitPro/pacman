@@ -518,11 +518,12 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 		}
 	}
 }
+
 /* prepare a list of pkgs to display */
 void display_targets(const alpm_list_t *pkgs, int install)
 {
 	char *str;
-	const char *label;
+	const char *title, *label;
 	double size;
 	const alpm_list_t *i;
 	off_t isize = 0, dlsize = 0;
@@ -532,7 +533,6 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		return;
 	}
 
-	printf("\n");
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = alpm_list_getdata(i);
 
@@ -546,12 +546,14 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		targets = alpm_list_add(targets, str);
 	}
 
-	if(install) {
-		pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
-		list_display(str, targets);
-		free(str);
-		printf("\n");
+	title = install ? _("Targets (%d):") : _("Remove (%d):");
+	pm_asprintf(&str, title, alpm_list_count(pkgs));
 
+	printf("\n");
+	list_display(str, targets);
+	printf("\n");
+
+	if(install) {
 		size = humanize_size(dlsize, 'M', 1, &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
 		if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
@@ -559,15 +561,11 @@ void display_targets(const alpm_list_t *pkgs, int install)
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 		}
 	} else {
-		pm_asprintf(&str, _("Remove (%d):"), alpm_list_count(targets));
-		list_display(str, targets);
-		free(str);
-		printf("\n");
-
 		size = humanize_size(isize, 'M', 1, &label);
 		printf(_("Total Removed Size:   %.2f %s\n"), size, label);
 	}
 
+	free(str);
 	FREELIST(targets);
 }
 
