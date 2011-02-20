@@ -522,9 +522,10 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 void display_targets(const alpm_list_t *pkgs, int install)
 {
 	char *str;
+	const char *label;
+	double size;
 	const alpm_list_t *i;
 	off_t isize = 0, dlsize = 0;
-	double mbisize = 0.0, mbdlsize = 0.0;
 	alpm_list_t *targets = NULL;
 
 	if(!pkgs) {
@@ -545,19 +546,17 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		targets = alpm_list_add(targets, str);
 	}
 
-	/* Convert byte sizes to MB */
-	mbdlsize = (double)dlsize / (1024.0 * 1024.0);
-	mbisize = (double)isize / (1024.0 * 1024.0);
-
 	if(install) {
 		pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
 		list_display(str, targets);
 		free(str);
 		printf("\n");
 
-		printf(_("Total Download Size:    %.2f MB\n"), mbdlsize);
+		size = humanize_size(dlsize, 'M', 1, &label);
+		printf(_("Total Download Size:    %.2f %s\n"), size, label);
 		if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
-			printf(_("Total Installed Size:   %.2f MB\n"), mbisize);
+			size = humanize_size(isize, 'M', 1, &label);
+			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 		}
 	} else {
 		pm_asprintf(&str, _("Remove (%d):"), alpm_list_count(targets));
@@ -565,7 +564,8 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		free(str);
 		printf("\n");
 
-		printf(_("Total Removed Size:   %.2f MB\n"), mbisize);
+		size = humanize_size(isize, 'M', 1, &label);
+		printf(_("Total Removed Size:   %.2f %s\n"), size, label);
 	}
 
 	FREELIST(targets);
@@ -604,6 +604,44 @@ static char *pkg_get_location(pmpkg_t *pkg)
 			pm_asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 			return string;
 	}
+}
+
+/** Converts sizes in bytes into human readable units.
+ *
+ * @param bytes the size in bytes
+ * @param target_unit '\0' or a short label. If equal to one of the short unit
+ * labels ('B', 'K', ...) bytes is converted to target_unit; if '\0', the first
+ * unit which will bring the value to below a threshold of 2048 will be chosen.
+ * @param long_labels whether to use short ("K") or long ("KB") unit labels
+ * @param label will be set to the appropriate unit label
+ *
+ * @return the size in the appropriate unit
+ */
+double humanize_size(off_t bytes, const char target_unit, int long_labels,
+		const char **label)
+{
+	static const char *shortlabels[] = {"B", "K", "M", "G", "T", "P"};
+	static const char *longlabels[] = {"B", "KB", "MB", "GB", "TB", "PB"};
+	static const int unitcount = sizeof(shortlabels) / sizeof(shortlabels[0]);
+
+	const char **labels = long_labels ? longlabels : shortlabels;
+	double val = (double)bytes;
+	int index;
+
+	for(index = 0; index < unitcount - 1; index++) {
+		if(target_unit != '\0' && shortlabels[index][0] == target_unit) {
+			break;
+		} else if(target_unit == '\0' && val <= 2048.0) {
+			break;
+		}
+		val /= 1024.0;
+	}
+
+	if(label) {
+		*label = labels[index];
+	}
+
+	return(val);
 }
 
 void print_packages(const alpm_list_t *packages)

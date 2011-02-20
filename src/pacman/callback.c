@@ -492,10 +492,11 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	int totaldownload = 0;
 	off_t xfered, total;
-	double rate = 0.0, timediff = 0.0, f_xfered = 0.0;
+	double rate = 0.0, timediff = 0.0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
+	double rate_human, xfered_human;
+	const char *rate_label, *xfered_label;
 	int file_percent = 0, total_percent = 0;
-	char rate_size = 'K', xfered_size = 'K';
 
 	if(config->noprogressbar || file_total == -1) {
 		if(file_xfered == 0) {
@@ -557,7 +558,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
 		timediff = diff_sec + (diff_usec / 1000000.0);
-		rate = xfered / (timediff * 1024.0);
+		rate = xfered / timediff;
 
 		/* round elapsed time to the nearest second */
 		eta_s = (int)(timediff + 0.5);
@@ -569,10 +570,10 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 			/* return if the calling interval was too short */
 			return;
 		}
-		rate = (xfered - xfered_last) / (timediff * 1024.0);
+		rate = (xfered - xfered_last) / timediff;
 		/* average rate to reduce jumpiness */
 		rate = (rate + 2 * rate_last) / 3;
-		eta_s = (total - xfered) / (rate * 1024.0);
+		eta_s = (total - xfered) / rate;
 		rate_last = rate;
 		xfered_last = xfered;
 	}
@@ -626,37 +627,13 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	}
 
-	/* Awesome formatting for progress bar.  We need a mess of Kb->Mb->Gb stuff
-	 * here. We'll use limit of 2048 for each until we get some empirical */
-	/* rate_size = 'K'; was set above */
-	if(rate > 2048.0) {
-		rate /= 1024.0;
-		rate_size = 'M';
-		if(rate > 2048.0) {
-			rate /= 1024.0;
-			rate_size = 'G';
-			/* we should not go higher than this for a few years (9999.9 Gb/s?)*/
-		}
-	}
-
-	f_xfered = xfered / 1024.0; /* convert to K by default */
-	/* xfered_size = 'K'; was set above */
-	if(f_xfered > 2048.0) {
-		f_xfered /= 1024.0;
-		xfered_size = 'M';
-		if(f_xfered > 2048.0) {
-			f_xfered /= 1024.0;
-			xfered_size = 'G';
-			/* I should seriously hope that archlinux packages never break
-			 * the 9999.9GB mark... we'd have more serious problems than the progress
-			 * bar in pacman */
-		}
-	}
+	rate_human = humanize_size((off_t)rate, '\0', 0, &rate_label);
+	xfered_human = humanize_size(xfered, '\0', 0, &xfered_label);
 
 	/* 1 space + filenamelen + 1 space + 7 for size + 1 + 7 for rate + 2 for /s + 1 space + 8 for eta */
-	printf(" %ls%-*s %6.1f%c %#6.1f%c/s %02u:%02u:%02u", wcfname,
-			padwid, "", f_xfered, xfered_size,
-			rate, rate_size, eta_h, eta_m, eta_s);
+	printf(" %ls%-*s %6.1f%s %#6.1f%s/s %02u:%02u:%02u", wcfname,
+			padwid, "", xfered_human, xfered_label, rate_human, rate_label,
+			eta_h, eta_m, eta_s);
 
 	free(fname);
 	free(wcfname);

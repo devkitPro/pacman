@@ -51,6 +51,8 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	const char *reason;
 	time_t bdate, idate;
 	char bdatestr[50] = "", idatestr[50] = "";
+	const char *label;
+	double size;
 	const alpm_list_t *i;
 	alpm_list_t *requiredby = NULL, *depstrings = NULL;
 
@@ -105,17 +107,17 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
+
+	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 1, &label);
 	if(level < 0) {
-		printf(_("Download Size  : %6.2f K\n"),
-			(double)alpm_pkg_get_size(pkg) / 1024.0);
-	}
-	if(level == 0) {
-		printf(_("Compressed Size: %6.2f K\n"),
-			(double)alpm_pkg_get_size(pkg) / 1024.0);
+		printf(_("Download Size  : %6.2f %s\n"), size, label);
+	} else if(level == 0) {
+		printf(_("Compressed Size: %6.2f %s\n"), size, label);
 	}
 
-	printf(_("Installed Size : %6.2f K\n"),
-			(double)alpm_pkg_get_isize(pkg) / 1024.0);
+	size = humanize_size(alpm_pkg_get_isize(pkg), 'K', 1, &label);
+	printf(_("Installed Size : %6.2f %s\n"), size, label);
+
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg));
 	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg));
 	string_display(_("Build Date     :"), bdatestr);
