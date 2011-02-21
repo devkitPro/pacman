@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdint.h> /* intmax_t */
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -642,8 +643,7 @@ void print_packages(const alpm_list_t *packages)
 		/* %s : size */
 		if(strstr(temp,"%s")) {
 			char *size;
-			double mbsize = (double)pkg_get_size(pkg) / (1024.0 * 1024.0);
-			pm_asprintf(&size, "%.2f", mbsize);
+			pm_asprintf(&size, "%jd", (intmax_t)pkg_get_size(pkg));
 			string = strreplace(temp, "%s", size);
 			free(size);
 			free(temp);
