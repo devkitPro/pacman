@@ -185,14 +185,6 @@ static int extract_single_file(struct archive *archive,
 		return(0);
 	}
 
-	/* if a file is in the add skiplist we never extract it */
-	if(alpm_list_find_str(trans->skip_add, filename)) {
-		_alpm_log(PM_LOG_DEBUG, "%s is in trans->skip_add, skipping extraction\n",
-				entryname);
-		archive_read_data_skip(archive);
-		return(0);
-	}
-
 	/* Check for file existence. This is one of the more crucial parts
 	 * to get 'right'. Here are the possibilities, with the filesystem
 	 * on the left and the package on the top:

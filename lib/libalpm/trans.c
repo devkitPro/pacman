@@ -305,7 +305,6 @@ void _alpm_trans_free(pmtrans_t *trans)
 	alpm_list_free_inner(trans->remove, (alpm_list_fn_free)_alpm_pkg_free);
 	alpm_list_free(trans->remove);
 
-	FREELIST(trans->skip_add);
 	FREELIST(trans->skip_remove);
 
 	FREE(trans);
