@@ -669,7 +669,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 }
 
 /* Callback to handle notifications from the library */
-void cb_log(pmloglevel_t level, char *fmt, va_list args)
+void cb_log(pmloglevel_t level, const char *fmt, va_list args)
 {
 	if(!fmt || strlen(fmt) == 0) {
 		return;

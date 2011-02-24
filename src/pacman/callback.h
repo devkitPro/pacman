@@ -41,7 +41,7 @@ void cb_dl_total(off_t total);
 void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total);
 
 /* callback to handle messages/notifications from pacman library */
-void cb_log(pmloglevel_t level, char *fmt, va_list args);
+void cb_log(pmloglevel_t level, const char *fmt, va_list args);
 
 #endif /* _PM_CALLBACK_H */
 

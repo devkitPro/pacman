@@ -74,8 +74,8 @@ typedef enum _pmloglevel_t {
 	PM_LOG_FUNCTION = (1 << 3)
 } pmloglevel_t;
 
-typedef void (*alpm_cb_log)(pmloglevel_t, char *, va_list);
-int alpm_logaction(char *fmt, ...);
+typedef void (*alpm_cb_log)(pmloglevel_t, const char *, va_list);
+int alpm_logaction(const char *fmt, ...);
 
 /*
  * Downloading

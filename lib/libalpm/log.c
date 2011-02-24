@@ -42,7 +42,7 @@
  * @param fmt output format
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_logaction(char *fmt, ...)
+int SYMEXPORT alpm_logaction(const char *fmt, ...)
 {
 	int ret;
 	va_list args;
@@ -88,7 +88,7 @@ int SYMEXPORT alpm_logaction(char *fmt, ...)
 
 /** @} */
 
-void _alpm_log(pmloglevel_t flag, char *fmt, ...)
+void _alpm_log(pmloglevel_t flag, const char *fmt, ...)
 {
 	va_list args;
 	alpm_cb_log logcb = alpm_option_get_logcb();
