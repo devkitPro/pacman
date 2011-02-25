@@ -333,7 +333,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		/* Compute the fake local database for resolvedeps (partial fix for the phonon/qt issue) */
 		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache_list(db_local), trans->add, _alpm_pkg_cmp);
 
-		/* Resolve packages in the transaction one at a time, in addtion
+		/* Resolve packages in the transaction one at a time, in addition
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->add; i; i = i->next) {
 			pmpkg_t *pkg = i->data;

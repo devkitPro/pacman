@@ -1,4 +1,4 @@
-self.description = "Sysupgrade with a set of sync packages replacing a set local one"
+self.description = "Sysupgrade with a set of sync packages replacing a local one"
 
 sp1 = pmpkg("pkg2")
 sp1.replaces = ["pkg1"]
