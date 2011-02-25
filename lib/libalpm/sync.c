@@ -102,7 +102,7 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	_alpm_log(PM_LOG_DEBUG, "checking for package upgrades\n");
-	for(i = _alpm_db_get_pkgcache_list(db_local); i; i = i->next) {
+	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
 		pmpkg_t *lpkg = i->data;
 
 		if(_alpm_pkg_find(trans->add, lpkg->name)) {
@@ -149,7 +149,7 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 				break; /* jump to next local package */
 			} else { /* 2. search for replacers in sdb */
 				int found = 0;
-				for(k = _alpm_db_get_pkgcache_list(sdb); k; k = k->next) {
+				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
 					spkg = k->data;
 					if(alpm_list_find_str(alpm_pkg_get_replaces(spkg), lpkg->name)) {
 						found = 1;
@@ -331,7 +331,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		}
 
 		/* Compute the fake local database for resolvedeps (partial fix for the phonon/qt issue) */
-		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache_list(db_local), trans->add, _alpm_pkg_cmp);
+		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(db_local), trans->add, _alpm_pkg_cmp);
 
 		/* Resolve packages in the transaction one at a time, in addition
 		   building up a list of packages which could not be resolved. */
@@ -518,7 +518,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		_alpm_log(PM_LOG_DEBUG, "checking dependencies\n");
-		deps = alpm_checkdeps(_alpm_db_get_pkgcache_list(db_local), 1, trans->remove, trans->add);
+		deps = alpm_checkdeps(_alpm_db_get_pkgcache(db_local), 1, trans->remove, trans->add);
 		if(deps) {
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;

@@ -190,7 +190,7 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 		return(NULL);
 	}
 
-	alpm_list_t *dblist = alpm_list_diff(_alpm_db_get_pkgcache_list(db),
+	alpm_list_t *dblist = alpm_list_diff(_alpm_db_get_pkgcache(db),
 			packages, _alpm_pkg_cmp);
 
 	/* two checks to be done here for conflicts */

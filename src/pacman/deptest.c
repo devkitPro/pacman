@@ -41,7 +41,7 @@ int pacman_deptest(alpm_list_t *targets)
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *target = alpm_list_getdata(i);
 
-		if(!alpm_find_satisfier(alpm_db_get_pkgcache_list(localdb), target)) {
+		if(!alpm_find_satisfier(alpm_db_get_pkgcache(localdb), target)) {
 			deps = alpm_list_add(deps, target);
 		}
 	}

@@ -251,7 +251,7 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
  * @param db pointer to the package database to get the package from
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t SYMEXPORT *alpm_db_get_pkgcache_list(pmdb_t *db)
+alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -259,7 +259,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache_list(pmdb_t *db)
 	ASSERT(handle != NULL, return(NULL));
 	ASSERT(db != NULL, return(NULL));
 
-	return(_alpm_db_get_pkgcache_list(db));
+	return(_alpm_db_get_pkgcache(db));
 }
 
 /** Get a group entry from a package database
@@ -417,7 +417,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 	const alpm_list_t *i, *j, *k;
 	alpm_list_t *ret = NULL;
 	/* copy the pkgcache- we will free the list var after each needle */
-	alpm_list_t *list = alpm_list_copy(_alpm_db_get_pkgcache_list(db));
+	alpm_list_t *list = alpm_list_copy(_alpm_db_get_pkgcache(db));
 
 	ALPM_LOG_FUNC;
 
@@ -523,7 +523,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, "freeing package cache for repository '%s'\n",
 	                        db->treename);
 
-	alpm_list_free_inner(_alpm_db_get_pkgcache_list(db),
+	alpm_list_free_inner(_alpm_db_get_pkgcache(db),
 				(alpm_list_fn_free)_alpm_pkg_free);
 	_alpm_pkghash_free(db->pkgcache);
 	db->pkgcache_loaded = 0;
@@ -551,7 +551,7 @@ pmpkghash_t *_alpm_db_get_pkgcache_hash(pmdb_t *db)
 	return(db->pkgcache);
 }
 
-alpm_list_t *_alpm_db_get_pkgcache_list(pmdb_t *db)
+alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -650,7 +650,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 	_alpm_log(PM_LOG_DEBUG, "loading group cache for repository '%s'\n",
 			db->treename);
 
-	for(lp = _alpm_db_get_pkgcache_list(db); lp; lp = lp->next) {
+	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		const alpm_list_t *i;
 		pmpkg_t *pkg = lp->data;
 

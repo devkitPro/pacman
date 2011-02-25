@@ -338,7 +338,7 @@ int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
 {
 	const alpm_list_t *i;
-	for(i = _alpm_db_get_pkgcache_list(db); i; i = i->next) {
+	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		if(!i->data) {
 			continue;
 		}
