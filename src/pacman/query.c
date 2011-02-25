@@ -148,7 +148,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 		if(S_ISDIR(buf.st_mode)) {
 			pm_fprintf(stderr, PM_LOG_ERROR,
-				_("cannot determine ownership of a directory\n"));
+				_("cannot determine ownership of directory '%s'\n"), filename);
 			ret++;
 			free(filename);
 			continue;
