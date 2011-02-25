@@ -149,12 +149,15 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 			else if(nextchild->state == -1) {
 				pmpkg_t *vertexpkg = vertex->data;
 				pmpkg_t *childpkg = nextchild->data;
+				const char *message;
+
 				_alpm_log(PM_LOG_WARNING, _("dependency cycle detected:\n"));
 				if(reverse) {
-					_alpm_log(PM_LOG_WARNING, _("%s will be removed after its %s dependency\n"), vertexpkg->name, childpkg->name);
+					message =_("%s will be removed after its %s dependency\n");
 				} else {
-					_alpm_log(PM_LOG_WARNING, _("%s will be installed before its %s dependency\n"), vertexpkg->name, childpkg->name);
+					message =_("%s will be installed before its %s dependency\n");
 				}
+				_alpm_log(PM_LOG_WARNING, message, vertexpkg->name, childpkg->name);
 			}
 		}
 		if(!found) {
@@ -670,6 +673,7 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
                       alpm_list_t *preferred, alpm_list_t **packages,
                       alpm_list_t *remove, alpm_list_t **data)
 {
+	int ret = 0;
 	alpm_list_t *i, *j;
 	alpm_list_t *targ;
 	alpm_list_t *deps = NULL;
@@ -701,6 +705,7 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 			/* check if one of the packages in the [*packages] list already satisfies
 			 * this dependency */
 			if(_alpm_find_dep_satisfier(*packages, missdep)) {
+				_alpm_depmiss_free(miss);
 				continue;
 			}
 			/* check if one of the packages in the [preferred] list already satisfies
@@ -713,33 +718,32 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
-				_alpm_log(PM_LOG_WARNING, _("cannot resolve \"%s\", a dependency of \"%s\"\n"),
+				_alpm_log(PM_LOG_WARNING,
+						_("cannot resolve \"%s\", a dependency of \"%s\"\n"),
 						missdepstring, tpkg->name);
 				free(missdepstring);
 				if(data) {
-					pmdepmissing_t *missd = _alpm_depmiss_new(miss->target,
-							miss->depend, miss->causingpkg);
-					if(missd) {
-						*data = alpm_list_add(*data, missd);
-					}
+					*data = alpm_list_add(*data, miss);
 				}
-				alpm_list_free(*packages);
-				*packages = packages_copy;
-				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
-				alpm_list_free(deps);
-				return(-1);
+				ret = -1;
 			} else {
 				_alpm_log(PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 						alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
 				*packages = alpm_list_add(*packages, spkg);
+				_alpm_depmiss_free(miss);
 			}
 		}
-		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
 		alpm_list_free(deps);
 	}
-	alpm_list_free(packages_copy);
+
+	if(ret != 0) {
+		alpm_list_free(*packages);
+		*packages = packages_copy;
+	} else {
+		alpm_list_free(packages_copy);
+	}
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
-	return(0);
+	return(ret);
 }
 
 /* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
