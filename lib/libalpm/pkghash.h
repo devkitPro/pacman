@@ -43,6 +43,8 @@ struct __pmpkghash_t {
 	alpm_list_t *list;
 };
 
+typedef struct __pmpkghash_t pmpkghash_t;
+
 pmpkghash_t *_alpm_pkghash_create(size_t size);
 
 pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg);

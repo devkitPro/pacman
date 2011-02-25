@@ -619,7 +619,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* first check if one provider is already installed locally */
 	for(i = providers; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
-		if (_alpm_pkghash_find(_alpm_db_get_pkgcache(handle->db_local), pkg->name)) {
+		if (_alpm_pkghash_find(_alpm_db_get_pkgcache_hash(handle->db_local), pkg->name)) {
 			alpm_list_free(providers);
 			return(pkg);
 		}

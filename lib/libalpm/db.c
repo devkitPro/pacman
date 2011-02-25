@@ -249,21 +249,6 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 
 /** Get the package cache of a package database
  * @param db pointer to the package database to get the package from
- * @return the hash of packages on success, NULL on error
- */
-pmpkghash_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(db != NULL, return(NULL));
-
-	return(_alpm_db_get_pkgcache(db));
-}
-
-/** Get the package cache of a package database
- * @param db pointer to the package database to get the package from
  * @return the list of packages on success, NULL on error
  */
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache_list(pmdb_t *db)
@@ -546,7 +531,7 @@ void _alpm_db_free_pkgcache(pmdb_t *db)
 	_alpm_db_free_grpcache(db);
 }
 
-pmpkghash_t *_alpm_db_get_pkgcache(pmdb_t *db)
+pmpkghash_t *_alpm_db_get_pkgcache_hash(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
@@ -570,7 +555,7 @@ alpm_list_t *_alpm_db_get_pkgcache_list(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
 
-	pmpkghash_t *hash = _alpm_db_get_pkgcache(db);
+	pmpkghash_t *hash = _alpm_db_get_pkgcache_hash(db);
 
 	if(hash == NULL) {
 		return(NULL);
@@ -640,7 +625,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 		return(NULL);
 	}
 
-	pmpkghash_t *pkgcache = _alpm_db_get_pkgcache(db);
+	pmpkghash_t *pkgcache = _alpm_db_get_pkgcache_hash(db);
 	if(!pkgcache) {
 		_alpm_log(PM_LOG_DEBUG, "warning: failed to get '%s' from NULL pkgcache\n",
 				target);
