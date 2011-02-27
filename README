@@ -328,3 +328,40 @@ API CHANGES BETWEEN 3.3 AND 3.4
 - alpm_pkg_unused_deltas()
 - alpm_conflict_get_reason()
 - error code: PM_ERR_PKG_INVALID_ARCH
+
+
+API CHANGES BETWEEN 3.4 AND 3.5
+===============================
+
+[REMOVED]
+- alpm_db_register_local()
+- alpm_pkg_has_force()
+- alpm_depcmp()
+
+[CHANGED]
+- alpm_trans_cb_progress type had some types changed from int to size_t
+- alpm_cb_log format string is now const char *
+- the interface to add/remove targets:
+  - functions take pmpkg_t * rather than char *.
+  - alpm_sync_target() and alpm_sync_dbtarget() are replaced by alpm_add_pkg()
+  - alpm_add_target() is replaced by alpm_add_pkg()
+  - alpm_remove_target() is replaced by alpm_remove_pkg()
+  - packages can come from:
+     - alpm_db_get_pkg() for normal targets
+     - alpm_find_dbs_satisfier() for versioned provisions
+     - alpm_find_grp_pkgs() for groups
+- alpm_deptest() is replaced by the more flexibile alpm_find_satisfier()
+- size_t used for alpm_list_t sizes
+  - return type for alpm_list_count()
+  - parameter type in alpm_list_msort() and alpm_list_nth()
+
+[ADDED]
+- alpm_option_get_checkspace(), alpm_option_set_checkspace()
+- alpm_find_grp_pkgs()
+- alpm_trans_get_flags()
+- error codes:
+   PM_ERR_DISK_SPACE, PM_ERR_WRITE
+- flags
+   PM_TRANS_FLAG_NODEPVERSION, PM_TRANS_EVT_DISKSPACE_START,
+   PM_TRANS_EVT_DISKSPACE_DONE, PM_TRANS_CONV_SELECT_PROVIDER,
+   PM_TRANS_PROGRESS_DISKSPACE_START, PM_TRANS_PROGRESS_INTEGRITY_START
