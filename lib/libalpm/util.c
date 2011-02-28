@@ -28,7 +28,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <dirent.h>
@@ -208,45 +207,6 @@ char *_alpm_strtrim(char *str)
 	*++pch = '\0';
 
 	return(str);
-}
-
-/* Create a lock file */
-FILE *_alpm_lckmk(void)
-{
-	int fd;
-	char *dir, *ptr;
-	const char *file = alpm_option_get_lockfile();
-
-	/* create the dir of the lockfile first */
-	dir = strdup(file);
-	ptr = strrchr(dir, '/');
-	if(ptr) {
-		*ptr = '\0';
-	}
-	_alpm_makepath(dir);
-	FREE(dir);
-
-	do {
-		fd = open(file, O_WRONLY | O_CREAT | O_EXCL, 0000);
-	} while (fd == -1 && errno == EINTR);
-	if(fd > 0) {
-		FILE *f = fdopen(fd, "w");
-		fprintf(f, "%ld\n", (long)getpid());
-		fflush(f);
-		fsync(fd);
-		return(f);
-	}
-	return(NULL);
-}
-
-/* Remove a lock file */
-int _alpm_lckrm(void)
-{
-	const char *file = alpm_option_get_lockfile();
-	if(unlink(file) == -1 && errno != ENOENT) {
-		return(-1);
-	}
-	return(0);
 }
 
 /* Compression functions */
