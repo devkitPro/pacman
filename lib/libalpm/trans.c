@@ -218,7 +218,7 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 /** Interrupt a transaction.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_trans_interrupt()
+int SYMEXPORT alpm_trans_interrupt(void)
 {
 	pmtrans_t *trans;
 
@@ -240,7 +240,7 @@ int SYMEXPORT alpm_trans_interrupt()
 /** Release a transaction.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_trans_release()
+int SYMEXPORT alpm_trans_release(void)
 {
 	pmtrans_t *trans;
 
@@ -277,7 +277,7 @@ int SYMEXPORT alpm_trans_release()
 
 /** @} */
 
-pmtrans_t *_alpm_trans_new()
+pmtrans_t *_alpm_trans_new(void)
 {
 	pmtrans_t *trans;
 
