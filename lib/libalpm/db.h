@@ -45,6 +45,7 @@ typedef enum _pmdbinfrq_t {
 struct db_operations {
 	int (*populate) (pmdb_t *);
 	void (*unregister) (pmdb_t *);
+	int (*version) (pmdb_t *);
 };
 
 /* Database */
@@ -65,14 +66,15 @@ struct __pmdb_t {
 
 
 /* db.c, database general calls */
+pmdb_t *_alpm_db_new(const char *treename, int is_local);
 void _alpm_db_free(pmdb_t *db);
 const char *_alpm_db_path(pmdb_t *db);
+int _alpm_db_version(pmdb_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(void);
 pmdb_t *_alpm_db_register_sync(const char *treename);
 void _alpm_db_unregister(pmdb_t *db);
-pmdb_t *_alpm_db_new(const char *treename, int is_local);
 
 /* be_*.c, backend specific calls */
 int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);

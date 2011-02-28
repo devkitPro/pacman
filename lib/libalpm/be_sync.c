@@ -443,9 +443,15 @@ error:
 	return(0);
 }
 
+static int sync_db_version(pmdb_t *db)
+{
+	return(2);
+}
+
 struct db_operations sync_db_ops = {
 	.populate         = sync_db_populate,
 	.unregister       = _alpm_db_unregister,
+	.version          = sync_db_version,
 };
 
 pmdb_t *_alpm_db_register_sync(const char *treename)

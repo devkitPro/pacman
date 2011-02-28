@@ -63,6 +63,10 @@ int trans_init(pmtransflag_t flags)
 			fprintf(stderr, _("  if you're sure a package manager is not already\n"
 						"  running, you can remove %s\n"), alpm_option_get_lockfile());
 		}
+		else if(pm_errno == PM_ERR_DB_VERSION) {
+			fprintf(stderr, _("  try running pacman-db-upgrade\n"));
+		}
+
 		return(-1);
 	}
 	return(0);

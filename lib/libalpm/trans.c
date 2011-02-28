@@ -105,10 +105,12 @@ static int remove_lock(pmhandle_t *handle)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
-                              alpm_trans_cb_event event, alpm_trans_cb_conv conv,
-                              alpm_trans_cb_progress progress)
+		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
+		alpm_trans_cb_progress progress)
 {
 	pmtrans_t *trans;
+	const int required_db_version = 2;
+	int db_version;
 
 	ALPM_LOG_FUNC;
 
@@ -122,6 +124,15 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 		if(make_lock(handle)) {
 			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
 		}
+	}
+
+	/* check database version */
+	db_version = _alpm_db_version(handle->db_local);
+	if(db_version < required_db_version) {
+		_alpm_log(PM_LOG_ERROR,
+				_("%s database version is too old\n"), handle->db_local->treename);
+		remove_lock(handle);
+		RET_ERR(PM_ERR_DB_VERSION, -1);
 	}
 
 	trans = _alpm_trans_new();

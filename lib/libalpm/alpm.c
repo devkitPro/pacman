@@ -56,6 +56,8 @@ int SYMEXPORT alpm_initialize(void)
 	}
 	if(_alpm_db_register_local() == NULL) {
 		/* error code should be set */
+		_alpm_handle_free(handle);
+		handle = NULL;
 		return(-1);
 	}
 

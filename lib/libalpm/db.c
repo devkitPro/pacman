@@ -405,6 +405,14 @@ const char *_alpm_db_path(pmdb_t *db)
 	return(db->_path);
 }
 
+int _alpm_db_version(pmdb_t *db)
+{
+	if(!db) {
+		return(-1);
+	}
+	return(db->ops->version(db));
+}
+
 int _alpm_db_cmp(const void *d1, const void *d2)
 {
 	pmdb_t *db1 = (pmdb_t *)d1;

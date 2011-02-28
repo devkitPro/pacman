@@ -924,9 +924,62 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 	return(ret);
 }
 
+static int local_db_version(pmdb_t *db)
+{
+	struct dirent *ent = NULL;
+	const char *dbpath;
+	DIR *dbdir;
+	int version;
+
+	dbpath = _alpm_db_path(db);
+	if(dbpath == NULL) {
+		RET_ERR(PM_ERR_DB_OPEN, -1);
+	}
+	dbdir = opendir(dbpath);
+	if(dbdir == NULL) {
+		if(errno == ENOENT) {
+			/* database dir doesn't exist yet */
+			version = 2;
+			goto done;
+		} else {
+			RET_ERR(PM_ERR_DB_OPEN, -1);
+		}
+	}
+
+	while((ent = readdir(dbdir)) != NULL) {
+		const char *name = ent->d_name;
+		char path[PATH_MAX];
+
+		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
+			continue;
+		}
+		if(!is_dir(dbpath, ent)) {
+			continue;
+		}
+
+		snprintf(path, PATH_MAX, "%s%s/depends", dbpath, name);
+		if(access(path, F_OK) == 0) {
+			/* we found a depends file- bail */
+			version = 1;
+			goto done;
+		}
+	}
+	/* we found no depends file after full scan */
+	version = 2;
+
+done:
+	if(dbdir) {
+		closedir(dbdir);
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "local database version %d\n", version);
+	return(version);
+}
+
 struct db_operations local_db_ops = {
 	.populate         = local_db_populate,
 	.unregister       = _alpm_db_unregister,
+	.version          = local_db_version,
 };
 
 pmdb_t *_alpm_db_register_local(void)

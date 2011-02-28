@@ -77,6 +77,8 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("database already registered");
 		case PM_ERR_DB_NOT_FOUND:
 			return _("could not find database");
+		case PM_ERR_DB_VERSION:
+			return _("database is incorrect version");
 		case PM_ERR_DB_WRITE:
 			return _("could not update database");
 		case PM_ERR_DB_REMOVE:
