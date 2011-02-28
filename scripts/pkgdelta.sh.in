@@ -55,7 +55,7 @@ usage() {
 	printf "pkgdelta (pacman) %s\n\n" "$myver"
 	printf "$(gettext "Usage: pkgdelta [-q] <package1> <package2>\n")"
 	printf "$(gettext "\
-	pkgdelta will create a delta file between two packages\n\
+	pkgdelta will create a delta file between two packages.\n\
 This delta file can then be added to a database using repo-add.\n\n")"
 	echo "$(gettext "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz")"
 }
@@ -85,7 +85,7 @@ read_pkginfo()
 		fi
 	done
 	IFS=$OLDIFS
-	error "$(gettext "Invalid package '%s'")" "$1"
+	error "$(gettext "Invalid package file '%s'.")" "$1"
 	return 1
 }
 

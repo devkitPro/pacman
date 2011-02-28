@@ -987,19 +987,20 @@ int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list 
 
 	/* print a prefix to the message */
 	switch(level) {
-		case PM_LOG_DEBUG:
-			pm_asprintf(string, "debug: %s", msg);
-			break;
 		case PM_LOG_ERROR:
 			pm_asprintf(string, _("error: %s"), msg);
 			break;
 		case PM_LOG_WARNING:
 			pm_asprintf(string, _("warning: %s"), msg);
 			break;
+		case PM_LOG_DEBUG:
+			pm_asprintf(string, "debug: %s", msg);
+			break;
 		case PM_LOG_FUNCTION:
-			pm_asprintf(string, _("function: %s"), msg);
+			pm_asprintf(string, "function: %s", msg);
 			break;
 		default:
+			pm_asprintf(string, "%s", msg);
 			break;
 	}
 	free(msg);
@@ -1034,19 +1035,17 @@ int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list ar
 
 	/* print a prefix to the message */
 	switch(level) {
-		case PM_LOG_DEBUG:
-			fprintf(stream, "debug: ");
-			break;
 		case PM_LOG_ERROR:
 			fprintf(stream, _("error: "));
 			break;
 		case PM_LOG_WARNING:
 			fprintf(stream, _("warning: "));
 			break;
+		case PM_LOG_DEBUG:
+			fprintf(stream, "debug: ");
+			break;
 		case PM_LOG_FUNCTION:
-		  /* TODO we should increase the indent level when this occurs so we can see
-			 * program flow easier.  It'll be fun */
-			fprintf(stream, _("function: "));
+			fprintf(stream, "function: ");
 			break;
 		default:
 			break;

@@ -184,7 +184,7 @@ static int query_fileowner(alpm_list_t *targets)
 				}
 
 				if(strlen(pkgfile) > max_length) {
-					pm_fprintf(stderr, PM_LOG_ERROR, _("Path too long: %s%s\n"), root, pkgfile);
+					pm_fprintf(stderr, PM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
 				}
 				/* concatenate our file and the root path */
 				strcpy(append, pkgfile);
@@ -399,7 +399,7 @@ static int check(pmpkg_t *pkg)
 	rootlen = strlen(root);
 	if(rootlen + 1 > PATH_MAX) {
 		/* we are in trouble here */
-		pm_fprintf(stderr, PM_LOG_ERROR, _("root path too long\n"));
+		pm_fprintf(stderr, PM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
 		return(1);
 	}
 	strcpy(f, root);
@@ -410,7 +410,7 @@ static int check(pmpkg_t *pkg)
 		const char *path = alpm_list_getdata(i);
 
 		if(rootlen + 1 + strlen(path) > PATH_MAX) {
-			pm_fprintf(stderr, PM_LOG_WARNING, _("file path too long\n"));
+			pm_fprintf(stderr, PM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
 			continue;
 		}
 		strcpy(f + rootlen, path);

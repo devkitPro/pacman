@@ -262,7 +262,7 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 
 	if(archive_read_open_filename(_archive, archive,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), archive,
+		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), archive,
 				archive_error_string(_archive));
 		RET_ERR(PM_ERR_PKG_OPEN, 1);
 	}
@@ -320,7 +320,7 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 		int readret = archive_read_extract(_archive, entry, 0);
 		if(readret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
-			_alpm_log(PM_LOG_WARNING, _("warning given while extracting %s (%s)\n"),
+			_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
 					entryname, archive_error_string(_archive));
 		} else if(readret != ARCHIVE_OK) {
 			_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
@@ -474,7 +474,8 @@ int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
 			exit(1);
 		}
 		if(chdir("/") != 0) {
-			fprintf(stderr, _("could not change directory to / (%s)\n"), strerror(errno));
+			fprintf(stderr, _("could not change directory to %s (%s)\n"),
+					"/", strerror(errno));
 			exit(1);
 		}
 		umask(0022);

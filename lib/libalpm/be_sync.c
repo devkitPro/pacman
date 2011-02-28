@@ -223,7 +223,7 @@ static int sync_db_populate(pmdb_t *db)
 
 	if(archive_read_open_filename(archive, _alpm_db_path(db),
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open %s: %s\n"), _alpm_db_path(db),
+		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), _alpm_db_path(db),
 				archive_error_string(archive));
 		archive_read_finish(archive);
 		RET_ERR(PM_ERR_DB_OPEN, 1);

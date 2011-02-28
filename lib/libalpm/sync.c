@@ -900,7 +900,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		_alpm_log(PM_LOG_DEBUG, "checking available disk space\n");
 		if(_alpm_check_diskspace(trans, handle->db_local) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("not enough free disk space\n"));
+			_alpm_log(PM_LOG_ERROR, "%s\n", _("not enough free disk space"));
 			goto error;
 		}
 

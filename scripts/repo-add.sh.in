@@ -254,7 +254,7 @@ db_write_entry()
 	[[ -f ../$pkgname.deltas ]] && mv "../$pkgname.deltas" deltas
 
 	# create desc entry
-	msg2 "$(gettext "Creating 'desc' db entry...")"
+	msg2 "$(gettext "Creating '%s' db entry...")" 'desc'
 	echo -e "%FILENAME%\n$(basename "$1")\n" >>desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
 	[[ -n $pkgbase ]] && echo -e "%BASE%\n$pkgbase\n" >>desc
@@ -276,7 +276,7 @@ db_write_entry()
 	write_list_entry "REPLACES" "$_replaces" "desc"
 
 	# create depends entry
-	msg2 "$(gettext "Creating 'depends' db entry...")"
+	msg2 "$(gettext "Creating '%s' db entry...")" 'depends'
 	# create the file even if it will remain empty
 	touch "depends"
 	write_list_entry "DEPENDS" "$_depends" "depends"
@@ -289,7 +289,7 @@ db_write_entry()
 
 	# create files file if wanted
 	if (( WITHFILES )); then
-		msg2 "$(gettext "Creating 'files' db entry...")"
+		msg2 "$(gettext "Creating '%s' db entry...")" 'files'
 		local files_path="$tmpdir/$pkgname-$pkgver/files"
 		echo "%FILES%" >$files_path
 		bsdtar --exclude='.*' -tf "$pkgfile" >>$files_path
