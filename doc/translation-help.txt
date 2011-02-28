@@ -4,13 +4,17 @@ Pacman - Translating
 This document is here to guide you in helping translate pacman messages,
 libalpm messages, and the manpages for the entire pacman package.
 
-A quick note- the gettext website is a very useful guide to read before
-embarking on translation work, as it describes many of the commands in more
-detail than I will here:
-http://www.gnu.org/software/gettext/manual/html_node/gettext.html[]
+We are currently using http://www.transifex.net/[Transifex] as the translation
+platform for pacman and libalpm. You will need to sign up for an account there
+and then register with a translation team on the
+http://www.transifex.net/projects/p/archlinux-pacman/[pacman project page].
 
-In addition, this site presents a small tutorial that I found useful:
-http://oriya.sarovar.org/docs/gettext/[]
+NOTE: This may be old information due to our switch to Transifex, but the
+gettext website is a very useful guide to read before embarking on translation
+work, as it describes many of the commands in more detail than I will here:
+http://www.gnu.org/software/gettext/manual/html_node/gettext.html[].  In
+addition, this site presents a small tutorial that I found useful:
+http://oriya.sarovar.org/docs/gettext/[].
 
 
 Translating Messages
@@ -28,35 +32,31 @@ original message and the corresponding translation. These po files can then
 either be hand edited, or modified with a tool such as poedit, gtranslator or
 kbabel. Using a translation tool tends to make the job easier.
 
+Please read up on Transifex usage using the
+http://help.transifex.net/[Transifex Help] if you are not familiar.
+
 See the <<Notes,Notes>> section for additional hints on translating.
 
 Pre-release Updates
 ~~~~~~~~~~~~~~~~~~~
 
 A week or two before each release, the codebase will go into a string freeze
-and an email will be sent by the 'translation lieutenant' to the
-mailto:pacman-dev@archlinux.org[pacman-dev] mailing list asking for
-translations. This email will have a prefix of *[translation]* for anyone
-looking to set up an email filter.
+and an email will be sent to the mailto:pacman-dev@archlinux.org[pacman-dev]
+mailing list asking for translations. This email will have a prefix of
+*[translation]* for anyone looking to set up an email filter.
 
-At this time, the `.po` language files will be made available at a URL
-specified in the email. Each language will have two files available (backend
-and frontend). Translators interested in helping are encouraged to send a
-follow-up message to the mailing list stating exactly what they intend to
-translate so efforts are not duplicated on the same language.
+At this time, the latest `.po` language files will be made available at the
+Transifex project page.  Each language will have two files available (backend
+and frontend). Translators interested in helping are encouraged to use the
+features of Transifex to let others know they are currently translating their
+language.
 
 Once a translator has completed the translation (*OR* realizes they do not have
-time to finish), please email the `.po` files back to the list with a subject
-such as '[translation] Updated German translation'. At this point, the
-'translation lieutenant' will gather the translations together for inclusion in
-the upcoming release.
+time to finish), please upload your progress back to the Transifex site.
 
-NOTE: Please email your translations back to the list as soon as possible- this
-will give other speakers of your language time to review your translations and
-update them as necessary.
-
-For those familiar with GIT, you may wish to follow the procedure outlined
-below as another alternative.
+NOTE: Please upload your translations as soon as possible- this will give other
+speakers of your language time to review your translations and update them as
+necessary.
 
 Incremental Updates
 ~~~~~~~~~~~~~~~~~~~
