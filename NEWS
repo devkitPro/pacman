@@ -1,5 +1,49 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.5.0         - sync DBs read directly from the database tarball
+                (FS#8586, FS#20233)
+              - local DB "depends" file has been merged into the "desc" file
+                - pacman-db-upgrade script provided to update the local
+                  database format
+              - sync database extension is .db (without compression suffix)
+                - requires repo-add from pacman-3.4+
+              - package versions can have an 'epoch' value defined that will
+                overrule any version comparison
+                - this replaces the use of the "force" option in allowing for
+                  package updates with versions that do not conform to the
+                  default version comparison operations
+                - package versions have the format [epoch:]pkgver-pkgrel
+              - check available disk space before installing packages (FS#11639)
+                - enabled by the "CheckSpace" option in pacman.conf
+                - attempt to stop install if we hit an extraction issue
+                  (FS#7692, FS#22034)
+              - improved interactive selection for groups/provides
+                (FS#19704, FS#19853)
+              - finer grained control of ignoring dependency resolution
+                - -Sd to ignore dependency versions only
+                - -Sdd to ignore all dependency information
+              - clean-up of --help output (FS#19526)
+              - CleanMethod for package cache cleaning can use both
+                KeepInstalled and KeepCurrent simultaneously
+              - various speed-ups:
+                - improved internal storage of the package cache
+                - faster pkgname/depends searches
+              - use OpenSSL crypto functions if available
+              - makepkg:
+                - add support for running testsuites in a check() function
+                  (FS#15145)
+                  - controlled by BUILDENV option 'check' in makepkg.conf
+                    which may be overridden by --check/--nocheck on the
+                    command-line
+                - extract any file bsdtar recognizes
+                - STRIP_DIRS has been removed in favor of stripping all
+                  recognized files
+                - improve $srcdir/$pkgdir check to reduce false positives
+                - $pkgname can be used in split package() functions (FS#22174)
+                - added '!buildflags' option to allow unsetting of CFLAGS,
+                  CXXFLAGS and LDFLAGS
+              - repo-add: added -f/--files to create files database (FS#11302)
+              - pactree: rewritten in C using libalpm
 3.4.3         - fix attempted double remove of all files issue during upgrades
               - respect IgnorePkg/IgnoreGroup for group members (FS#19854)
               - back out epoch changes; 3.5.X will handle them differently
