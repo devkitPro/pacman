@@ -351,18 +351,22 @@ static int checkdbdir(pmdb_t *db)
 static int is_dir(const char *path, struct dirent *entry)
 {
 #ifdef HAVE_STRUCT_DIRENT_D_TYPE
-	return(entry->d_type == DT_DIR);
-#else
-	char buffer[PATH_MAX];
-	snprintf(buffer, PATH_MAX, "%s/%s", path, entry->d_name);
+	if(entry->d_type != DT_UNKNOWN) {
+		return(entry->d_type == DT_DIR);
+	}
+#endif
+	{
+		char buffer[PATH_MAX];
+		struct stat sbuf;
 
-	struct stat sbuf;
-	if (!stat(buffer, &sbuf)) {
-		return(S_ISDIR(sbuf.st_mode));
+		snprintf(buffer, PATH_MAX, "%s/%s", path, entry->d_name);
+
+		if (!stat(buffer, &sbuf)) {
+			return(S_ISDIR(sbuf.st_mode));
+		}
 	}
 
 	return(0);
-#endif
 }
 
 static int local_db_populate(pmdb_t *db)
@@ -462,7 +466,7 @@ static int local_db_populate(pmdb_t *db)
 		}
 
 		/* add to the collection */
-		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
+		_alpm_log(PM_LOG_DEBUG, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
 		db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
 		count++;
