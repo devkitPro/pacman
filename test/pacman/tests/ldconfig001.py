@@ -9,4 +9,4 @@ self.addpkg(p)
 self.args = "--debug -U %s" % p.filename()
 
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("PACMAN_OUTPUT=ldconfig")
+self.addrule("PACMAN_OUTPUT=running ldconfig")

@@ -17,6 +17,7 @@
 
 
 import os
+import re
 import hashlib
 import stat
 
@@ -194,11 +195,13 @@ def which(filename):
     return None
 
 def grep(filename, pattern):
-    lines = file(filename, 'r').readlines()
-    for line in lines:
-        if not line: break
-        if line.find(pattern) != -1:
+    pat = re.compile(pattern)
+    myfile = open(filename, 'r')
+    for line in myfile:
+        if pat.search(line):
+            myfile.close()
             return True
+    myfile.close()
     return False
 
 def mkdir(path):

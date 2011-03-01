@@ -9,4 +9,4 @@ self.addpkg2db("sync", sp)
 self.args = "-Ss %s" % sp.name
 
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("PACMAN_OUTPUT=%s" % sp.name)
+self.addrule("PACMAN_OUTPUT=^sync/%s" % sp.name)

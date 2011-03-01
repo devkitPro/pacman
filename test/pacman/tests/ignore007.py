@@ -18,4 +18,4 @@ self.args = "--ask=1 -S grp"
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("!PKG_EXIST=%s" % pkg1.name)
 self.addrule("PKG_EXIST=%s" % pkg2.name)
-self.addrule("PACMAN_OUTPUT=IgnorePkg")
+self.addrule("PACMAN_OUTPUT=is in IgnorePkg")
