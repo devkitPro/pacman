@@ -323,7 +323,7 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 					(unsigned long)data->fsp.f_bfree);
 			if(data->max_blocks_needed + cushion >= 0 &&
 			   (unsigned long)(data->max_blocks_needed + cushion) > data->fsp.f_bfree) {
-				_alpm_log(PM_LOG_ERROR, _("Partition %s too full: %ld blocks needed, %ld blocks free)\n"),
+				_alpm_log(PM_LOG_ERROR, _("Partition %s too full: %ld blocks needed, %ld blocks free\n"),
 						data->mount_dir, data->max_blocks_needed + cushion,
 						(unsigned long)data->fsp.f_bfree);
 				abort = 1;
