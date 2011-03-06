@@ -158,8 +158,6 @@ void alpm_option_set_usedelta(int usedelta);
 int alpm_option_get_checkspace(void);
 void alpm_option_set_checkspace(int checkspace);
 
-pmdb_t *alpm_option_get_localdb(void);
-alpm_list_t *alpm_option_get_syncdbs(void);
 
 /*
  * Install reasons -- ie, why the package was installed
@@ -170,30 +168,106 @@ typedef enum _pmpkgreason_t {
 	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
 } pmpkgreason_t;
 
-/*
- * Databases
+/** @addtogroup alpm_api_databases Database Functions
+ * Functions to query and manipulate the database of libalpm.
+ * @{
  */
 
+/** Get the database of locally installed packages.
+ * The returned pointer points to an internal structure
+ * of libalpm which should only be manipulated through
+ * libalpm functions.
+ * @return a reference to the local database
+ */
+pmdb_t *alpm_option_get_localdb(void);
+
+/** Get the list of sync databases.
+ * Returns a list of pmdb_t structures, one for each registered
+ * sync database.
+ * @return a reference to an internal list of pmdb_t structures
+ */
+alpm_list_t *alpm_option_get_syncdbs(void);
+
+/** Register a sync database of packages.
+ * @param treename the name of the sync repository
+ * @return a pmdb_t* on success (the value), NULL on error
+ */
 pmdb_t *alpm_db_register_sync(const char *treename);
+
+/** Unregister a package database.
+ * @param db pointer to the package database to unregister
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_db_unregister(pmdb_t *db);
+
+/** Unregister all package databases.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_db_unregister_all(void);
 
+/** Get the name of a package database.
+ * @param db pointer to the package database
+ * @return the name of the package database, NULL on error
+ */
 const char *alpm_db_get_name(const pmdb_t *db);
+
+/** Get a download URL for the package database.
+ * @param db pointer to the package database
+ * @return a fully-specified download URL, NULL on error
+ */
 const char *alpm_db_get_url(const pmdb_t *db);
 
+/** Set the serverlist of a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_db_setserver(pmdb_t *db, const char *url);
 
 int alpm_db_update(int level, pmdb_t *db);
 
+/** Get a package entry from a package database.
+ * @param db pointer to the package database to get the package from
+ * @param name of the package
+ * @return the package entry on success, NULL on error
+ */
 pmpkg_t *alpm_db_get_pkg(pmdb_t *db, const char *name);
+
+/** Get the package cache of a package database.
+ * @param db pointer to the package database to get the package from
+ * @return the list of packages on success, NULL on error
+ */
 alpm_list_t *alpm_db_get_pkgcache(pmdb_t *db);
 
+/** Get a group entry from a package database.
+ * @param db pointer to the package database to get the group from
+ * @param name of the group
+ * @return the groups entry on success, NULL on error
+ */
 pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
+
+/** Get the group cache of a package database.
+ * @param db pointer to the package database to get the group from
+ * @return the list of groups on success, NULL on error
+ */
 alpm_list_t *alpm_db_get_grpcache(pmdb_t *db);
+
+/** Searches a database.
+ * @param db pointer to the package database to search in
+ * @param needles the list of strings to search for
+ * @return the list of packages on success, NULL on error
+ */
 alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
+
+/** Set install reason for a package in db.
+ * @param db pointer to the package database
+ * @param name the name of the package
+ * @param reason the new install reason
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
 
-/*
+/**
  * Packages
  */
 
