@@ -172,13 +172,14 @@ void alpm_option_set_checkspace(int checkspace);
 
 /** @} */
 
-/*
- * Install reasons -- ie, why the package was installed
+/** Install reasons
+ * Why the package was installed.
  */
-
 typedef enum _pmpkgreason_t {
-	PM_PKG_REASON_EXPLICIT = 0,  /* explicitly requested by the user */
-	PM_PKG_REASON_DEPEND = 1  /* installed as a dependency for another package */
+	/** Explicitly requested by the user. */
+	PM_PKG_REASON_EXPLICIT = 0,
+	/** Installed as a dependency for another package. */
+	PM_PKG_REASON_DEPEND = 1
 } pmpkgreason_t;
 
 /** @addtogroup alpm_api_databases Database Functions
@@ -745,12 +746,19 @@ int alpm_remove_pkg(pmpkg_t *pkg);
  * @{
  */
 
+/** Types of version constraints in dependency specs. */
 typedef enum _pmdepmod_t {
+  /** No version constraint */
 	PM_DEP_MOD_ANY = 1,
+  /** Test version equality (package=x.y.z) */
 	PM_DEP_MOD_EQ,
+  /** Test for at least a version (package>=x.y.z) */
 	PM_DEP_MOD_GE,
+  /** Test for at most a version (package<=x.y.z) */
 	PM_DEP_MOD_LE,
+  /** Test for greater than some version (package>x.y.z) */
 	PM_DEP_MOD_GT,
+  /** Test for less than some version (package<x.y.z) */
 	PM_DEP_MOD_LT
 } pmdepmod_t;
 
@@ -769,9 +777,31 @@ const char *alpm_conflict_get_package1(pmconflict_t *conflict);
 const char *alpm_conflict_get_package2(pmconflict_t *conflict);
 const char *alpm_conflict_get_reason(pmconflict_t *conflict);
 
+/** Returns the type of version constraint.
+ * @param dep a dependency info structure
+ * @return the type of version constraint (PM_DEP_MOD_ANY if no version
+ * is specified).
+ */
 pmdepmod_t alpm_dep_get_mod(const pmdepend_t *dep);
+
+/** Returns the package name of a dependency constraint.
+ * @param dep a dependency info structure
+ * @return a pointer to an internal string.
+ */
 const char *alpm_dep_get_name(const pmdepend_t *dep);
+
+/** Returns the version specified by a dependency constraint.
+ * The version information is returned as a string in the same format
+ * as given by alpm_pkg_get_version().
+ * @param dep a dependency info structure
+ * @return a pointer to an internal string.
+ */
 const char *alpm_dep_get_version(const pmdepend_t *dep);
+
+/** Returns a newly allocated string representing the dependency information.
+ * @param dep a dependency info structure
+ * @return a formatted string, e.g. "glibc>=2.12"
+ */
 char *alpm_dep_compute_string(const pmdepend_t *dep);
 
 /** @} */
@@ -862,9 +892,13 @@ enum _pmerrno_t {
 	PM_ERR_EXTERNAL_DOWNLOAD
 };
 
+/** The number of the last error that occurred. */
 extern enum _pmerrno_t pm_errno;
 
+/** Returns the string corresponding to an error number. */
 const char *alpm_strerror(int err);
+
+/** Returns the string corresponding to pm_errno. */
 const char *alpm_strerrorlast(void);
 
 /* End of alpm_api_errors */
