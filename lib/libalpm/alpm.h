@@ -206,30 +206,166 @@ char *alpm_fetch_pkgurl(const char *url);
 int alpm_pkg_vercmp(const char *a, const char *b);
 alpm_list_t *alpm_pkg_compute_requiredby(pmpkg_t *pkg);
 
+/** @name Package Property Accessors
+ * Any pointer returned by these functions points to internal structures
+ * allocated by libalpm. They should not be freed nor modified in any
+ * way.
+ * @{
+ */
+
+/** Gets the name of the file from which the package was loaded.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_filename(pmpkg_t *pkg);
+
+/** Returns the package name.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_name(pmpkg_t *pkg);
+
+/** Returns the package version as a string.
+ * This includes all available epoch, version, and pkgrel components. Use
+ * alpm_pkg_vercmp() to compare version strings if necessary.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_version(pmpkg_t *pkg);
+
+/** Returns the package description.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_desc(pmpkg_t *pkg);
+
+/** Returns the package URL.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_url(pmpkg_t *pkg);
+
+/** Returns the build timestamp of the package.
+ * @param pkg a pointer to package
+ * @return the timestamp of the build time
+ */
 time_t alpm_pkg_get_builddate(pmpkg_t *pkg);
+
+/** Returns the install timestamp of the package.
+ * @param pkg a pointer to package
+ * @return the timestamp of the install time
+ */
 time_t alpm_pkg_get_installdate(pmpkg_t *pkg);
+
+/** Returns the packager's name.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_packager(pmpkg_t *pkg);
+
+/** Returns the package's MD5 checksum as a string.
+ * The returned string is a sequence of lowercase hexadecimal digits.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
+
+/** Returns the architecture for which the package was built.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
 const char *alpm_pkg_get_arch(pmpkg_t *pkg);
+
+/** Returns the size of the package.
+ * @param pkg a pointer to package
+ * @return the size of the package in bytes.
+ */
 off_t alpm_pkg_get_size(pmpkg_t *pkg);
+
+/** Returns the installed size of the package.
+ * @param pkg a pointer to package
+ * @return the total size of files installed by the package.
+ */
 off_t alpm_pkg_get_isize(pmpkg_t *pkg);
+
+/** Returns the package installation reason.
+ * @param pkg a pointer to package
+ * @return an enum member giving the install reason.
+ */
 pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg);
+
+/** Returns the list of package licenses.
+ * @param pkg a pointer to package
+ * @return a pointer to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_licenses(pmpkg_t *pkg);
+
+/** Returns the list of package groups.
+ * @param pkg a pointer to package
+ * @return a pointer to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_groups(pmpkg_t *pkg);
+
+/** Returns the list of package dependencies as pmdepend_t.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of pmdepend_t structures.
+ */
 alpm_list_t *alpm_pkg_get_depends(pmpkg_t *pkg);
+
+/** Returns the list of package optional dependencies.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_optdepends(pmpkg_t *pkg);
+
+/** Returns the list of package names conflicting with pkg.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
+
+/** Returns the list of package names provided by pkg.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg);
+
 alpm_list_t *alpm_pkg_get_deltas(pmpkg_t *pkg);
+
+/** Returns the list of packages to be replaced by pkg.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_replaces(pmpkg_t *pkg);
+
+/** Returns the list of files installed by pkg.
+ * The filenames are relative to the install root,
+ * and do not include leading slashes.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
+
+/** Returns the list of files backed up when installing pkg.
+ * The elements of the returned list have the form
+ * "<filename>\t<md5sum>", where the given md5sum is that of
+ * the file as provided by the package.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
+
+/** Returns the database containing pkg
+ * Returns a pointer to the pmdb_t structure the package is
+ * originating from, or NULL is the package was loaded from a file.
+ * @param pkg a pointer to package
+ * @return a pointer to the DB containing pkg, or NULL.
+ */
 pmdb_t *alpm_pkg_get_db(pmpkg_t *pkg);
+
+/* End of pmpkg_t accessors */
+/* @} */
+
 void *alpm_pkg_changelog_open(pmpkg_t *pkg);
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp);
