@@ -432,9 +432,11 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 				READ_AND_STORE_ALL(pkg->deltas);
 			}
 		}
+	} else if(strcmp(filename, "files") == 0) {
+		/* currently do nothing with this file */
 	} else {
-		 /* unknown database file */
-		_alpm_log(PM_LOG_DEBUG, "unknown database file: %s", filename);
+		/* unknown database file */
+		_alpm_log(PM_LOG_DEBUG, "unknown database file: %s\n", filename);
 	}
 
 error:
