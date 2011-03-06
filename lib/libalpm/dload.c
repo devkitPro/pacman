@@ -415,11 +415,7 @@ int _alpm_download_files(alpm_list_t *files,
 	return(ret);
 }
 
-/** Fetch a remote pkg.
- * @param url URL of the package to download
- * @return the downloaded filepath on success, NULL on error
- * @addtogroup alpm_misc
- */
+/** Fetch a remote pkg. */
 char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 {
 	char *filename, *filepath;

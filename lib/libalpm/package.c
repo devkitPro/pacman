@@ -46,10 +46,7 @@
  * @{
  */
 
-/** Free a package.
- * @param pkg package pointer to free
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Free a package. */
 int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
@@ -64,10 +61,7 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 	return(0);
 }
 
-/** Check the integrity (with md5) of a package from the sync cache.
- * @param pkg package pointer
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Check the integrity (with md5) of a package from the sync cache. */
 int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 {
 	char *fpath;
@@ -289,30 +283,13 @@ pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
 	return(pkg->origin_data.db);
 }
 
-/**
- * Open a package changelog for reading. Similar to fopen in functionality,
- * except that the returned 'file stream' could really be from an archive
- * as well as from the database.
- * @param pkg the package to read the changelog of (either file or db)
- * @return a 'file stream' to the package changelog
- */
+/** Open a package changelog for reading. */
 void SYMEXPORT *alpm_pkg_changelog_open(pmpkg_t *pkg)
 {
 	return pkg->ops->changelog_open(pkg);
 }
 
-/**
- * Read data from an open changelog 'file stream'. Similar to fread in
- * functionality, this function takes a buffer and amount of data to read. If an
- * error occurs pm_errno will be set.
- *
- * @param ptr a buffer to fill with raw changelog data
- * @param size the size of the buffer
- * @param pkg the package that the changelog is being read from
- * @param fp a 'file stream' to the package changelog
- * @return the number of characters read, or 0 if there is no more data or an
- * error occurred.
- */
+/** Read data from an open changelog 'file stream'. */
 size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp)
 {
@@ -326,14 +303,7 @@ int SYMEXPORT alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp)
 }
 */
 
-/**
- * Close a package changelog for reading. Similar to fclose in functionality,
- * except that the 'file stream' could really be from an archive as well as
- * from the database.
- * @param pkg the package that the changelog was read from
- * @param fp a 'file stream' to the package changelog
- * @return whether closing the package changelog stream was successful
- */
+/** Close a package changelog for reading. */
 int SYMEXPORT alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp)
 {
 	return pkg->ops->changelog_close(pkg, fp);
@@ -361,11 +331,7 @@ static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
 	}
 }
 
-/**
- * @brief Compute the packages requiring a given package.
- * @param pkg a package
- * @return the list of packages requiring pkg
- */
+/** Compute the packages requiring a given package. */
 alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 {
 	const alpm_list_t *i;

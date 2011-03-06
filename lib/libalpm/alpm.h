@@ -98,6 +98,12 @@ typedef void (*alpm_cb_totaldl)(off_t total);
 typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 		int force);
 
+/** Fetch a remote pkg.
+ * @param url URL of the package to download
+ * @return the downloaded filepath on success, NULL on error
+ */
+char *alpm_fetch_pkgurl(const char *url);
+
 /** @addtogroup alpm_api_options Options
  * Libalpm option getters and setters
  * @{
@@ -281,11 +287,39 @@ int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
  * @{
  */
 
+/** Create a package from a file.
+ * If full is false, the archive is read only until all necessary
+ * metadata is found. If it is true, the entire archive is read, which
+ * serves as a verfication of integrity and the filelist can be created.
+ * @param filename location of the package tarball
+ * @param full whether to stop the load after metadata is read or continue
+ *             through the full archive
+ * @param pkg address of the package pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg);
+
+/** Free a package.
+ * @param pkg package pointer to free
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_pkg_free(pmpkg_t *pkg);
+
+/** Check the integrity (with md5) of a package from the sync cache.
+ * @param pkg package pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_pkg_checkmd5sum(pmpkg_t *pkg);
-char *alpm_fetch_pkgurl(const char *url);
+
+/** Compare two version strings and determine which one is 'newer'. */
 int alpm_pkg_vercmp(const char *a, const char *b);
+
+/** Computes the list of packages requiring a given package.
+ * The return value of this function is a newly allocated
+ * list of package names (char*), it should be freed by the caller.
+ * @param pkg a package
+ * @return the list of packages requiring pkg
+ */
 alpm_list_t *alpm_pkg_compute_requiredby(pmpkg_t *pkg);
 
 /** @name Package Property Accessors
@@ -412,6 +446,10 @@ alpm_list_t *alpm_pkg_get_conflicts(pmpkg_t *pkg);
  */
 alpm_list_t *alpm_pkg_get_provides(pmpkg_t *pkg);
 
+/** Returns the list of available deltas for pkg.
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of strings.
+ */
 alpm_list_t *alpm_pkg_get_deltas(pmpkg_t *pkg);
 
 /** Returns the list of packages to be replaced by pkg.
@@ -448,14 +486,41 @@ pmdb_t *alpm_pkg_get_db(pmpkg_t *pkg);
 /* End of pmpkg_t accessors */
 /* @} */
 
+/** Open a package changelog for reading.
+ * Similar to fopen in functionality, except that the returned 'file
+ * stream' could really be from an archive as well as from the database.
+ * @param pkg the package to read the changelog of (either file or db)
+ * @return a 'file stream' to the package changelog
+ */
 void *alpm_pkg_changelog_open(pmpkg_t *pkg);
+
+/** Read data from an open changelog 'file stream'.
+ * Similar to fread in functionality, this function takes a buffer and
+ * amount of data to read. If an error occurs pm_errno will be set.
+ * @param ptr a buffer to fill with raw changelog data
+ * @param size the size of the buffer
+ * @param pkg the package that the changelog is being read from
+ * @param fp a 'file stream' to the package changelog
+ * @return the number of characters read, or 0 if there is no more data or an
+ * error occurred.
+ */
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp);
+
 /*int alpm_pkg_changelog_feof(const pmpkg_t *pkg, void *fp);*/
+
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
+
 int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
+/** Returns the size of download.
+ * Returns the size of the files that will be downloaded to install a
+ * package.
+ * @param newpkg the new package to upgrade to
+ * @return the size of the download
+ */
 off_t alpm_pkg_download_size(pmpkg_t *newpkg);
+
 alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 
 /* End of alpm_pkg */
@@ -668,9 +733,6 @@ int alpm_trans_interrupt(void);
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_trans_release(void);
-
-/** @} */
-
 /** @} */
 
 int alpm_sync_sysupgrade(int enable_downgrade);
