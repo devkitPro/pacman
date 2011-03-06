@@ -263,12 +263,13 @@ alpm_list_t *alpm_find_grp_pkgs(alpm_list_t *dbs, const char *name);
 
 pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);
 
-/*
- * Transactions
+/**
+ * @addtogroup alpm_api_trans Transaction Functions
+ * Functions to manipulate libalpm transactions
+ * @{
  */
 
-
-/* Flags */
+/** Transaction flags */
 typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_NODEPS = 1,
 	PM_TRANS_FLAG_FORCE = (1 << 1),
@@ -290,12 +291,7 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_NOLOCK = (1 << 17)
 } pmtransflag_t;
 
-/**
- * @addtogroup alpm_trans
- * @{
- */
-/**
- * @brief Transaction events.
+/** Transaction events.
  * NULL parameters are passed to in all events unless specified otherwise.
  */
 typedef enum _pmtransevt_t {
@@ -374,9 +370,8 @@ typedef enum _pmtransevt_t {
 	/** Disk space usage was computed for a package */
 	PM_TRANS_EVT_DISKSPACE_DONE,
 } pmtransevt_t;
-/*@}*/
 
-/* Transaction Conversations (ie, questions) */
+/** Transaction Conversations (ie, questions) */
 typedef enum _pmtransconv_t {
 	PM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
 	PM_TRANS_CONV_REPLACE_PKG = (1 << 1),
@@ -387,7 +382,7 @@ typedef enum _pmtransconv_t {
 	PM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
 } pmtransconv_t;
 
-/* Transaction Progress */
+/** Transaction Progress */
 typedef enum _pmtransprog_t {
 	PM_TRANS_PROGRESS_ADD_START,
 	PM_TRANS_PROGRESS_UPGRADE_START,
@@ -397,26 +392,64 @@ typedef enum _pmtransprog_t {
 	PM_TRANS_PROGRESS_INTEGRITY_START,
 } pmtransprog_t;
 
-/* Transaction Event callback */
+/** Transaction Event callback */
 typedef void (*alpm_trans_cb_event)(pmtransevt_t, void *, void *);
 
-/* Transaction Conversation callback */
+/** Transaction Conversation callback */
 typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
                                    void *, int *);
 
-/* Transaction Progress callback */
+/** Transaction Progress callback */
 typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t, size_t);
 
 int alpm_trans_get_flags(void);
+
+/** Returns a list of packages added by the transaction.
+ * @return a list of pmpkg_t structures
+ */
 alpm_list_t * alpm_trans_get_add(void);
+
+/** Returns the list of packages removed by the transaction.
+ * @return a list of pmpkg_t structures
+ */
 alpm_list_t * alpm_trans_get_remove(void);
+
+/** Initialize the transaction.
+ * @param flags flags of the transaction (like nodeps, etc)
+ * @param event event callback function pointer
+ * @param conv question callback function pointer
+ * @param progress progress callback function pointer
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_trans_init(pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
+
+/** Prepare a transaction.
+ * @param data the address of an alpm_list where a list
+ * of pmdepmissing_t objects is dumped (conflicting packages)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_trans_prepare(alpm_list_t **data);
+
+/** Commit a transaction.
+ * @param data the address of an alpm_list where detailed description
+ * of an error can be dumped (ie. list of conflicting files)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_trans_commit(alpm_list_t **data);
+
+/** Interrupt a transaction.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_trans_interrupt(void);
+
+/** Release a transaction.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_trans_release(void);
+
+/** @} */
 
 int alpm_sync_sysupgrade(int enable_downgrade);
 int alpm_add_pkg(pmpkg_t *pkg);
