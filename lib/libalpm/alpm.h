@@ -39,6 +39,11 @@ extern "C" {
  * Arch Linux Package Management library
  */
 
+/** @addtogroup alpm_api Public API
+ * The libalpm Public API
+ * @{
+ */
+
 /*
  * Structures
  */
@@ -93,8 +98,9 @@ typedef void (*alpm_cb_totaldl)(off_t total);
 typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 		int force);
 
-/*
- * Options
+/** @addtogroup alpm_api_options Options
+ * Libalpm option getters and setters
+ * @{
  */
 
 alpm_cb_log alpm_option_get_logcb(void);
@@ -158,6 +164,7 @@ void alpm_option_set_usedelta(int usedelta);
 int alpm_option_get_checkspace(void);
 void alpm_option_set_checkspace(int checkspace);
 
+/** @} */
 
 /*
  * Install reasons -- ie, why the package was installed
@@ -267,11 +274,12 @@ alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
  */
 int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
 
-/**
- * Packages
- */
+/** @} */
 
-/* Info parameters */
+/** @addtogroup alpm_api_packages Package Functions
+ * Functions to manipulate libalpm packages
+ * @{
+ */
 
 int alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg);
 int alpm_pkg_free(pmpkg_t *pkg);
@@ -450,6 +458,9 @@ int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 off_t alpm_pkg_download_size(pmpkg_t *newpkg);
 alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 
+/* End of alpm_pkg */
+/** @} */
+
 /*
  * Deltas
  */
@@ -473,8 +484,7 @@ alpm_list_t *alpm_find_grp_pkgs(alpm_list_t *dbs, const char *name);
 
 pmpkg_t *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync);
 
-/**
- * @addtogroup alpm_api_trans Transaction Functions
+/** @addtogroup alpm_api_trans Transaction Functions
  * Functions to manipulate libalpm transactions
  * @{
  */
@@ -661,12 +671,16 @@ int alpm_trans_release(void);
 
 /** @} */
 
+/** @} */
+
 int alpm_sync_sysupgrade(int enable_downgrade);
 int alpm_add_pkg(pmpkg_t *pkg);
 int alpm_remove_pkg(pmpkg_t *pkg);
 
-/*
- * Dependencies and conflicts
+/** @addtogroup alpm_api_depends Dependency Functions
+ * Functions dealing with libalpm representation of dependency
+ * information.
+ * @{
  */
 
 typedef enum _pmdepmod_t {
@@ -698,8 +712,11 @@ const char *alpm_dep_get_name(const pmdepend_t *dep);
 const char *alpm_dep_get_version(const pmdepend_t *dep);
 char *alpm_dep_compute_string(const pmdepend_t *dep);
 
-/*
- * File conflicts
+/** @} */
+
+/** @addtogroup alpm_api_fileconflicts File Conflicts Functions
+ * Functions to manipulate file conflict information.
+ * @{
  */
 
 typedef enum _pmfileconflicttype_t {
@@ -712,6 +729,8 @@ pmfileconflicttype_t alpm_fileconflict_get_type(pmfileconflict_t *conflict);
 const char *alpm_fileconflict_get_file(pmfileconflict_t *conflict);
 const char *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict);
 
+/** @} */
+
 /*
  * Helpers
  */
@@ -719,8 +738,8 @@ const char *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict);
 /* checksums */
 char *alpm_compute_md5sum(const char *name);
 
-/*
- * Errors
+/** @addtogroup alpm_api_errors Error Codes
+ * @{
  */
 enum _pmerrno_t {
 	PM_ERR_MEMORY = 1,
@@ -785,6 +804,12 @@ extern enum _pmerrno_t pm_errno;
 
 const char *alpm_strerror(int err);
 const char *alpm_strerrorlast(void);
+
+/* End of alpm_api_errors */
+/** @} */
+
+/* End of alpm_api */
+/** @} */
 
 #ifdef __cplusplus
 }
