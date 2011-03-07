@@ -285,10 +285,11 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			{
 				alpm_list_t *unresolved = (alpm_list_t *) data1;
 				alpm_list_t *namelist = NULL, *i;
-				size_t count = alpm_list_count(namelist);
+				size_t count = 0;
 				for (i = unresolved; i; i = i->next) {
 					namelist = alpm_list_add(namelist,
 							(char *)alpm_pkg_get_name(i->data));
+					count++;
 				}
 				printf(_n(
 							":: The following package cannot be upgraded due to unresolvable dependencies:\n",
