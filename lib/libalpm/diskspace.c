@@ -168,7 +168,7 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 		mp = match_mount_point(mount_points, path);
 		if(mp == NULL) {
 			_alpm_log(PM_LOG_WARNING,
-					_("could not determine mount point for file %s"), filename);
+					_("could not determine mount point for file %s\n"), filename);
 			continue;
 		}
 
@@ -230,7 +230,7 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 		mp = match_mount_point(mount_points, path);
 		if(mp == NULL) {
 			_alpm_log(PM_LOG_WARNING,
-					_("could not determine mount point for file %s"), filename);
+					_("could not determine mount point for file %s\n"), filename);
 			continue;
 		}
 
