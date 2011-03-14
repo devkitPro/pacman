@@ -1,30 +1,42 @@
-# Russian translations for Pacman package manager package.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-#  <4rayven@gmail.com>, 2007. <serg.partizan@gmail.com> 2008
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-06-06 10:07+0300\n"
-"Last-Translator: Sergey Tereschenko <serg.partizan@gmail.com>\n"
-"Language-Team: Russian\n"
-"Language: \n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-04 21:23+0000\n"
+"Last-Translator: partizan <serg.partizan@gmail.com>\n"
+"Language-Team: Russian <None>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "заменяется устаревшая версия %s-%s на %s в списке целей\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s не устарел -- пропускается\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr "пропускается %s-%s, поскольку новая версия %s в списке целей\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s не устарел -- переустанавливается\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "откат версии пакета %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "получено предупреждение при извлечении %s (%s)\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "не удалось извлечь %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -41,10 +53,6 @@ msgstr "извлечение: не перезаписывается катало
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "извлечение: символическая ссылка %s не указывает на каталог\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "не удалось извлечь %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -71,6 +79,10 @@ msgid "could not get current working directory\n"
 msgstr "не удалось определить текущий рабочий каталог\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "не удалось изменить каталог на %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "обнаружена проблема во время обновления %s\n"
 
@@ -89,18 +101,6 @@ msgstr "не удалось добавить запись '%s' в кэш\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "удаление некорректной базы данных %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "не удалось открыть %s: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "не удалось удалить каталог базы данных %s\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "не удалось удалить базу данных %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -153,12 +153,12 @@ msgid "missing package metadata in %s\n"
 msgstr "отсутствуют метаданные пакета в %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "путь к базе данных не определён\n"
+msgid "removing invalid file: %s\n"
+msgstr "удаляется ошибочный файл: %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "попытка перерегистрировать локальную БД\n"
+msgid "database path is undefined\n"
+msgstr "путь к базе данных не определён\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -177,12 +177,34 @@ msgid "ignoring package %s-%s\n"
 msgstr "пропуск пакета %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "выбран пакет %s, предоставляющий %s\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "не удалось разрешить \"%s\", зависимость \"%s\"\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "не удалось получить информацию о файловой системе\n"
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "не удалось получить информацию о файловой системе для %s: %s\n"
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr "не удалось определить точку подключения для файла %s"
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr "не удалось определить точки подключения для файловой системы"
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "Раздел %s смонтирован только для чтения\n"
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
+"Раздел %s заполнен полностью: необходимо %ld блоков, доступно %ld блоков\n"
+"\n"
 
 #, c-format
 msgid "disk"
@@ -241,6 +263,10 @@ msgid "wrong or NULL argument passed"
 msgstr "неправильный или пустой аргумент"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr "недостаточно места на диске"
+
+#, c-format
 msgid "library not initialized"
 msgstr "библиотека не инициализирована"
 
@@ -271,6 +297,10 @@ msgstr "база данных уже зарегистрирована"
 #, c-format
 msgid "could not find database"
 msgstr "не удалось найти базу данных"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr "некорректная версия базы данных"
 
 #, c-format
 msgid "could not update database"
@@ -373,6 +403,10 @@ msgid "failed to retrieve some files"
 msgstr "не удалось получить некоторые файлы"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr "не удалось скопировать некоторые файлы"
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "неверное регулярное выражение"
 
@@ -391,6 +425,10 @@ msgstr "ошибка вызова внешнего менеджера загру
 #, c-format
 msgid "unexpected error"
 msgstr "непредвиденная ошибка"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr "база данных больше максимального размера\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -437,22 +475,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "не удалось заменить %s на %s\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s не устарел -- пропускается\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s не устарел -- переустанавливается\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "откат версии пакета %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "пропуск цели: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "обнаружен неразрешимый конфликт пакетов\n"
 
@@ -473,6 +495,10 @@ msgid "could not commit transaction\n"
 msgstr "не удалось совершить запрос\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr "база данных %s слишком старая\n"
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "не удалось удалить блокировочный файл %s\n"
 
@@ -489,8 +515,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "не удалось удалить временный каталог %s\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "не удалось изменить каталог на %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr "не удалось создать канал (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -501,16 +527,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "не удалось изменить корневой каталог (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "не удалось изменить каталог на / (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "вызов popen не удался (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr "вызов execv завершился неудачно (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "вызов waitpid не удался (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr "не удалось открыть канал (%s)\n"
 
 #, c-format
 msgid "command failed to execute correctly\n"
@@ -523,89 +549,3 @@ msgstr "кэш %s не существует, создается...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не удалось создать кэш пакетов, будет использован /tmp\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "в списке целей найдены конфликтующие пакеты\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr ""
-#~ "вы не можете одновременно установить конфликтующие между собой пакеты\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr ""
-#~ "замещение пакетов с использованием параметров -A и -U еще не реализовано\n"
-
-#~ msgid "you can replace packages manually using -Rd and -U\n"
-#~ msgstr "вы можете заменить пакеты вручную, используя -Rd и -U\n"
-
-#~ msgid "url scheme not specified, assuming HTTP\n"
-#~ msgstr "схема ссылки не определена, подразумевается HTTP\n"
-
-#~ msgid "cannot write to file '%s'\n"
-#~ msgstr "не удалось записать в файл '%s'\n"
-
-#~ msgid "no such repository"
-#~ msgstr "нет такого репозитория"
-
-#~ msgid "repository '%s' not found\n"
-#~ msgstr "репозиторий '%s' не найден\n"
-
-#~ msgid "could not create removal transaction\n"
-#~ msgstr "не удалось создать запрос на удаление\n"
-
-#~ msgid "could not create transaction\n"
-#~ msgstr "не удалось создать запрос\n"
-
-#~ msgid "could not initialize the removal transaction\n"
-#~ msgstr "не удалось инициализировать запрос на удаление\n"
-
-#~ msgid "could not initialize transaction\n"
-#~ msgstr "не удалось инициализировать запрос\n"
-
-#~ msgid "could not prepare removal transaction\n"
-#~ msgstr "не удалось подготовить запрос на удаление\n"
-
-#~ msgid "error downloading '%s': %s\n"
-#~ msgstr "ошибка загрузки '%s': %s\n"
-
-#~ msgid "could not chdir to %s\n"
-#~ msgstr "не удалось изменить каталог на %s\n"
-
-#~ msgid "running XferCommand: fork failed!\n"
-#~ msgstr "запуск XferCommand: неудача\n"
-
-#~ msgid "could not commit transaction"
-#~ msgstr "не удалось совершить запрос"
-
-#~ msgid "could not download all files"
-#~ msgstr "не удалось загрузить все файлы"
-
-#~ msgid "cannot load package data"
-#~ msgstr "не удалось загрузить данные пакета"
-
-#~ msgid "package not installed or lesser version"
-#~ msgstr "пакет не установлен или ранней версии"
-
-#~ msgid "group not found"
-#~ msgstr "группа не найдена"
-
-#~ msgid "user aborted the operation"
-#~ msgstr "пользователь прервал операцию"
-
-#~ msgid "internal error"
-#~ msgstr "внутренняя ошибка"
-
-#~ msgid "not confirmed"
-#~ msgstr "не подтверждено"
-
-#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-#~ msgstr "%s-%s: игнорирую обновление пакета (он будет заменен на %s-%s)\n"
-
-#~ msgid "command: %s\n"
-#~ msgstr "команда: %s\n"
-
-#~ msgid "could not prepare transaction\n"
-#~ msgstr "не удалось подготовить запрос\n"
-
-#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-#~ msgstr "Нет /bin/sh в родительском окружении, отмена скрипта\n"

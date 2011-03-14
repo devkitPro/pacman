@@ -1,30 +1,41 @@
-# Hungarian translations for libalpm package.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Miklos Vajna <vmiklos@frugalware.org>, 2006.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2009-10-04 17:08+0200\n"
-"Last-Translator: Nagy Gabor <ngaba@bibl.u-szeged.hu>\n"
-"Language-Team:  <hu@li.org>\n"
-"Language: \n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-07 12:32+0000\n"
+"Last-Translator: ngaba <ngaba@bibl.u-szeged.hu>\n"
+"Language-Team: Hungarian <None>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "régebbi verzió (%s-%s) lecserélése %s verzióra a célok listájában\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "a(z) %s-%s naprakész -- kihagyás\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr "%s-%s kihagyása, mert újabb verzió (%s) van a célok között\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "a(z) %s-%s naprakész -- újratelepítés\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "visszatérés egy régebbi %s verzióhoz (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "figyelmeztetés a %s kicsomagolása közben (%s)\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "nem sikerült kicsomagolni: %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -41,10 +52,6 @@ msgstr "kicsomagolás: nem írok felül könyvtárat a %s fájllal\n"
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "kicsomagolás: %s szimbolikus link nem könyvtárra mutat\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "nem sikerült kicsomagolni: %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -71,6 +78,10 @@ msgid "could not get current working directory\n"
 msgstr "a jelenlegi munkakönyvtár nem kapható meg\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "nem sikerült a könyvtárváltás ide: %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "hiba történt a(z) %s frissítése közben\n"
 
@@ -89,18 +100,6 @@ msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "hibás adatbázis eltávolítása: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "nem sikerült eltávolítani a(z) %s adatbázis-könyvtárat\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "sikertelen a(z) %s adatbázis eltávolítása\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -151,12 +150,12 @@ msgid "missing package metadata in %s\n"
 msgstr "hiányzó csomaginformációs fájl itt: %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "az adatbázis-útvonal nincs megadva\n"
+msgid "removing invalid file: %s\n"
+msgstr "hibás fájl eltávolítása: %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "kísérlet a 'local' adatbázis újraregisztrálására\n"
+msgid "database path is undefined\n"
+msgstr "az adatbázis-útvonal nincs megadva\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -175,12 +174,34 @@ msgid "ignoring package %s-%s\n"
 msgstr "%s-%s csomag kihagyása\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "közvetett csomagválasztás (%s szolgáltatja %s-t)\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nem sikerült a(z) \"%2$s\" csomag \"%1$s\" függőségét feloldani\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "nem sikerült meghatározni a fájlrendszer-információt\n"
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "nem sikerült meghatározni a fájlrendszer-információt %s-hez: %s\n"
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr "nem sikerült meghározni a csatolási pontot a %s fájlhoz"
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr "nem sikerült meghatározni a fájlrendszer csatolási pontokat"
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "A %s partíció csak olvashatóként van csatolva\n"
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
+"Nincs elég szabad hely a %s partíción: %ld blokk szükséges, %ld blokk "
+"szabad\n"
 
 #, c-format
 msgid "disk"
@@ -239,6 +260,10 @@ msgid "wrong or NULL argument passed"
 msgstr "rossz vagy NULL argumentum érkezett"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr "nincs elég szabad lemezterület"
+
+#, c-format
 msgid "library not initialized"
 msgstr "a könyvtár nem inicializált"
 
@@ -269,6 +294,10 @@ msgstr "az adatbázis már regisztrált"
 #, c-format
 msgid "could not find database"
 msgstr "nem található az adatbázis"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr "hibás verziójú az adatbázis"
 
 #, c-format
 msgid "could not update database"
@@ -371,6 +400,10 @@ msgid "failed to retrieve some files"
 msgstr "nem sikerült néhány fájlt letölteni"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr "nem sikerült néhány fájlt másolni"
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "hibás reguláris kifejezés"
 
@@ -389,6 +422,10 @@ msgstr "hiba a külső letöltő meghívásakor"
 #, c-format
 msgid "unexpected error"
 msgstr "nemvárt hiba"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr "az adatbázis nagyobb, mint a maximális megengedett méret\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -435,22 +472,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "nem lehet lecserélni a(z) %s csomagot a(z) %s csomaggal\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "a(z) %s-%s naprakész -- kihagyás\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "a(z) %s-%s naprakész -- újratelepítés\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "visszatérés egy régebbi %s verzióhoz (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "cél kihagyása: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "feloldhatatlan csomagütközéseket találtam\n"
 
@@ -471,6 +492,10 @@ msgid "could not commit transaction\n"
 msgstr "nem sikerült végrehajtani a tranzakciót\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr "a(z) %s adatbázis túl régi verziójú\n"
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "nem sikerült a zároló fájl (%s) eltávolítása\n"
 
@@ -487,8 +512,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nem sikerült a könyvtárváltás ide: %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr "nem sikerült a pipe létrehozása (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -499,16 +524,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "nem sikerült a chroot (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "nem sikerült a könyvtárat a /-re váltani (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "popen hívás sikertelen (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr "sikertelen execv hívás (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid hívás sikertelen (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr "nem sikerült a pipe megnyitása (%s)\n"
 
 #, c-format
 msgid "command failed to execute correctly\n"

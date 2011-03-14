@@ -1,22 +1,22 @@
-# Ukrainian translation for pacman package manager.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Ivan Kovnatsky <sevenfourk@gmail.com>, 2008.
-# Danylo Korostil <ted.korostiled@gmail.com>
-# Roman Kyrylych <roman@archlinux.org>, 2008, 2009, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2010-08-23 21:30-0500\n"
-"PO-Revision-Date: 2010-06-13 20:07+0300\n"
-"Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
-"Language-Team: Ukrainian (archlinux.org.ua)\n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:57-0500\n"
+"PO-Revision-Date: 2011-03-04 18:33+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Ukrainian\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -75,6 +75,10 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Завантаження пакунків з %s...\n"
 
 #, c-format
+msgid "checking available disk space...\n"
+msgstr ""
+
+#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ":: %s є в IgnorePkg/IgnoreGroup. Встановити попри все?"
 
@@ -92,18 +96,25 @@ msgstr ":: %s і %s конфліктують (%s). Вилучити %s?"
 
 #, c-format
 msgid ""
-":: the following package(s) cannot be upgraded due to unresolvable "
+":: The following package cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ""
-":: такі пакунки не можуть бути оновлені через нерозв'язяні залежності: \n"
+msgid_plural ""
+":: The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
-msgid ""
-"\n"
-"Do you want to skip the above package(s) for this upgrade?"
+msgid "Do you want to skip the above package for this upgrade?"
+msgid_plural "Do you want to skip the above packages for this upgrade?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, c-format
+msgid ":: There are %d providers available for %s:\n"
 msgstr ""
-"\n"
-"Бажаєте пропустити вищевказані пакунки для цього оновлення?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -130,12 +141,40 @@ msgid "checking for file conflicts"
 msgstr "перевірка файлових конфліктів"
 
 #, c-format
+msgid "checking available disk space"
+msgstr ""
+
+#, c-format
+msgid "checking package integrity"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "завантаження %s...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "помилка malloc: неможливо розмістити %zd байтів\n"
+
+#, c-format
+msgid "no targets specified (use -h for help)\n"
+msgstr "не вказані цілі (додайте -h для довідки)\n"
+
+#, c-format
+msgid "no install reason specified (use -h for help)\n"
+msgstr ""
+
+#, c-format
+msgid "could not set install reason for package %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: install reason has been set to 'installed as dependency'\n"
+msgstr ""
+
+#, c-format
+msgid "%s: install reason has been set to 'explicitly installed'\n"
+msgstr ""
 
 #, c-format
 msgid "Explicitly installed"
@@ -250,24 +289,12 @@ msgid "Repository     :"
 msgstr "Репозиторій             :"
 
 #, c-format
-msgid "Backup Files:\n"
-msgstr "Файли резервної копії:\n"
-
-#, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "неможливо підрахувати контрольні суми для %s\n"
 
 #, c-format
-msgid "MODIFIED\t%s\n"
-msgstr "ЗМІНЕНО\t%s\n"
-
-#, c-format
-msgid "Not Modified\t%s\n"
-msgstr "Не змінено\t%s\n"
-
-#, c-format
-msgid "MISSING\t\t%s\n"
-msgstr "ВІДСУТНІЙ\t\t%s\n"
+msgid "Backup Files:\n"
+msgstr "Файли резервної копії:\n"
 
 #, c-format
 msgid "(none)\n"
@@ -316,16 +343,6 @@ msgstr ""
 "  -c, --cascade        вилучити пакунки і всі пакунки, які залежать від них\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         пропустити перевірку залежностей\n"
-
-#, c-format
-msgid ""
-"  -k, --dbonly         only remove database entries, do not remove files\n"
-msgstr ""
-"  -k, --dbonly         лише вилучати записи з бази даних, не вилучати файли\n"
-
-#, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         також вилучити файли налаштувань\n"
 
@@ -343,43 +360,6 @@ msgid ""
 msgstr ""
 "  -u, --unneeded       вилучити непотрібні пакунки (які не зламають "
 "пакунки)\n"
-
-#, c-format
-msgid ""
-"      --print          only print the targets instead of performing the "
-"operation\n"
-msgstr ""
-"      --print          тільки вивести цілі замість виконання операції\n"
-
-#, c-format
-msgid ""
-"      --print-format <string>\n"
-"                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <string>\n"
-"                       вказати як виводити цілі\n"
-
-#, c-format
-msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         встановити пакунки як неявно встановлені\n"
-
-#, c-format
-msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     встановити пакунки як явно встановлені\n"
-
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr ""
-"  -f, --force          примусово встановити, перезаписувати конфліктуючі "
-"файли\n"
-
-#, c-format
-msgid ""
-"  -k, --dbonly         add database entries, do not install or keep existing "
-"files\n"
-msgstr ""
-"  -k, --dbonly         додати записи до бази даних, не встановлювати існуючі "
-"файли\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -438,6 +418,12 @@ msgstr ""
 "  -p, --file <package> використовувати файл пакунка замість бази даних\n"
 
 #, c-format
+msgid "  -q, --quiet          show less information for query and search\n"
+msgstr ""
+"  -q, --quiet          показувати менше інформації в результаті запиту чи "
+"пошуку\n"
+
+#, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
@@ -455,12 +441,6 @@ msgstr ""
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       показати список застарілих пакунків [фільтр]\n"
-
-#, c-format
-msgid "  -q, --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet          показувати менше інформації в результаті запиту чи "
-"пошуку\n"
 
 #, c-format
 msgid ""
@@ -509,6 +489,28 @@ msgstr ""
 "оновлення\n"
 
 #, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr "      --asdeps         позначити пакунки як неявно встановлені\n"
+
+#, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr "      --asexplicit     позначити пакунки як явно встановлені\n"
+
+#, c-format
+msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          примусово встановити, перезаписувати конфліктуючі "
+"файли\n"
+
+#, c-format
+msgid "      --asdeps         install packages as non-explicitly installed\n"
+msgstr "      --asdeps         встановити пакунки як неявно встановлені\n"
+
+#, c-format
+msgid "      --asexplicit     install packages as explicitly installed\n"
+msgstr "      --asexplicit     встановити пакунки як явно встановлені\n"
+
+#, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
@@ -526,25 +528,13 @@ msgstr ""
 "неодноразово)\n"
 
 #, c-format
-msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         позначити пакунки як неявно встановлені\n"
+msgid "  -d, --nodeps         skip dependency checks\n"
+msgstr "  -d, --nodeps         пропустити перевірку залежностей\n"
 
 #, c-format
-msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     позначити пакунки як явно встановлені\n"
-
-#, c-format
-msgid "      --config <path>  set an alternate configuration file\n"
+msgid ""
+"  -k, --dbonly         only modify database entries, not package files\n"
 msgstr ""
-"      --config <path>  використовувати альтернативний файл налаштувань\n"
-
-#, c-format
-msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <path> використовувати альтернативний лог-файл\n"
-
-#, c-format
-msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm      не питати підтвердження\n"
 
 #, c-format
 msgid ""
@@ -559,12 +549,24 @@ msgid ""
 msgstr "      --noscriptlet    не виконувати скрипт встановлення, якщо він є\n"
 
 #, c-format
-msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        показувати подробиці\n"
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr ""
+"      --print          тільки вивести цілі замість виконання операції\n"
 
 #, c-format
-msgid "      --debug          display debug messages\n"
-msgstr "      --debug          показувати відлагоджувальні повідомлення\n"
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       вказати як виводити цілі\n"
+
+#, c-format
+msgid "  -b, --dbpath <path>  set an alternate database location\n"
+msgstr ""
+"  -b, --dbpath <path>  використовувати альтернативний шлях до бази даних\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -573,9 +575,12 @@ msgstr ""
 "встановлення\n"
 
 #, c-format
-msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr ""
-"  -b, --dbpath <path>  використовувати альтернативний шлях до бази даних\n"
+msgid "  -v, --verbose        be verbose\n"
+msgstr "  -v, --verbose        показувати подробиці\n"
+
+#, c-format
+msgid "      --arch <arch>    set an alternate architecture\n"
+msgstr "      --arch <arch>    встановити альтернативну архітектуру\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
@@ -583,8 +588,21 @@ msgstr ""
 "      --cachedir <dir> використовувати альтернативний шлях до кешу пакунків\n"
 
 #, c-format
-msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <arch>    встановити альтернативну архітектуру\n"
+msgid "      --config <path>  set an alternate configuration file\n"
+msgstr ""
+"      --config <path>  використовувати альтернативний файл налаштувань\n"
+
+#, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --debug          показувати відлагоджувальні повідомлення\n"
+
+#, c-format
+msgid "      --logfile <path> set an alternate log file\n"
+msgstr "      --logfile <path> використовувати альтернативний лог-файл\n"
+
+#, c-format
+msgid "      --noconfirm      do not ask for any confirmation\n"
+msgstr "      --noconfirm      не питати підтвердження\n"
 
 #, c-format
 msgid ""
@@ -607,16 +625,32 @@ msgid "problem setting logfile '%s' (%s)\n"
 msgstr "проблема встановлення '%s' лог-файлом (%s)\n"
 
 #, c-format
-msgid "'%s' is not a valid debug level\n"
-msgstr "рівень відлагодження '%s' невірний\n"
-
-#, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr "проблема під час додавання каталога кешу '%s' (%s)\n"
 
 #, c-format
+msgid "'%s' is not a valid debug level\n"
+msgstr "рівень відлагодження '%s' невірний\n"
+
+#, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "тільки одна операція може використовуватися одночасно\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "не вказано операцію (використайте -h для довідки)\n"
+
+#, c-format
+msgid "invalid option\n"
+msgstr ""
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "невірне значення для 'CleanMethod' : '%s'\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr ""
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
@@ -627,12 +661,12 @@ msgid "running XferCommand: fork failed!\n"
 msgstr "виконання XferCommand: не вдалося зробити fork!\n"
 
 #, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "директива '%s' без значення не розпізнана.\n"
+msgid "could not change directory to %s (%s)\n"
+msgstr ""
 
 #, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "невірне значення для 'CleanMethod' : '%s'\n"
+msgid "directive '%s' without value not recognized\n"
+msgstr "директива '%s' без значення не розпізнана.\n"
 
 #, c-format
 msgid "directive '%s' with a value not recognized\n"
@@ -692,16 +726,16 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "не вдалося ініціалізувати бібліотеку alpm (%s)\n"
 
 #, c-format
+msgid "buffer overflow detected in arg parsing\n"
+msgstr ""
+
+#, c-format
+msgid "failed to reopen stdin for reading: (%s)\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ви можете виконати цю операцію тільки як root.\n"
-
-#, c-format
-msgid "could not register 'local' database (%s)\n"
-msgstr "неможливо зареєструвати базу даних 'local' (%s)\n"
-
-#, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "не вказано операцію (використайте -h для довідки)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -716,12 +750,16 @@ msgid "failed to read file '%s': %s\n"
 msgstr "не вдалося прочитати файл '%s': %s\n"
 
 #, c-format
-msgid "cannot determine ownership of a directory\n"
-msgstr "неможливо визначити власника каталога\n"
+msgid "cannot determine ownership of directory '%s'\n"
+msgstr ""
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "неможливо визначити справжній шлях до '%s': %s\n"
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is owned by %s %s\n"
@@ -736,24 +774,22 @@ msgid "group \"%s\" was not found\n"
 msgstr "групу \"%s\" не знайдено\n"
 
 #, c-format
-msgid "root path too long\n"
-msgstr "шлях до кореневого каталогу надто довгий\n"
+msgid "%s: %d total file, "
+msgid_plural "%s: %d total files, "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
-msgid "file path too long\n"
-msgstr "шлях до файлу надто довгий\n"
-
-#, c-format
-msgid "%s: %d total files, %d missing file(s)\n"
-msgstr "%s: %d файлів всього, %d файлів відсутні\n"
+msgid "%d missing file\n"
+msgid_plural "%d missing files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "працюючі репозиторії не налаштовані.\n"
-
-#, c-format
-msgid "no targets specified (use -h for help)\n"
-msgstr "не вказані цілі (додайте -h для довідки)\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -796,12 +832,12 @@ msgid "could not access database directory\n"
 msgstr "немає доступу до каталога бази даних\n"
 
 #, c-format
-msgid "Do you want to remove %s?"
-msgstr "Ви хочете вилучити %s?"
+msgid "could not remove %s\n"
+msgstr ""
 
 #, c-format
-msgid "could not remove repository directory\n"
-msgstr "неможливо вилучити каталог репозиторія\n"
+msgid "Do you want to remove %s?"
+msgstr "Ви хочете вилучити %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -820,12 +856,20 @@ msgid "Cache directory: %s\n"
 msgstr "Каталог кешу: %s\n"
 
 #, c-format
-msgid "Do you want to remove uninstalled packages from cache?"
-msgstr "Ви хочете вилучити невстановлені пакунки з кешу?"
+msgid "Packages to keep:\n"
+msgstr ""
 
 #, c-format
-msgid "Do you want to remove outdated packages from cache?"
-msgstr "Ви хочете вилучити застарілі пакунки з кешу?"
+msgid "  All locally installed packages\n"
+msgstr ""
+
+#, c-format
+msgid "  All current sync database packages\n"
+msgstr ""
+
+#, c-format
+msgid "Do you want to remove all other packages from cache?"
+msgstr ""
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -882,6 +926,18 @@ msgstr "репозиторій \"%s\" не знайдено.\n"
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "пропуск пакунка: %s\n"
+
+#, c-format
+msgid "target not found: %s\n"
+msgstr ""
+
+#, c-format
+msgid ":: There are %d members in group %s:\n"
+msgstr ""
+
+#, c-format
+msgid "database not found: %s\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -948,6 +1004,10 @@ msgstr ""
 "  запущений, ви можете вилучити %s\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr ""
+
+#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "не вдалося завершити транзакцію (%s)\n"
 
@@ -984,6 +1044,26 @@ msgid "Optional dependencies for %s\n"
 msgstr "Необов'язкові залежності для %s\n"
 
 #, c-format
+msgid "Repository %s\n"
+msgstr ""
+
+#, c-format
+msgid "Invalid value: %d is not between %d and %d\n"
+msgstr ""
+
+#, c-format
+msgid "Invalid number: %s\n"
+msgstr ""
+
+#, c-format
+msgid "Enter a selection (default=all)"
+msgstr ""
+
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#, c-format
 msgid "[Y/n]"
 msgstr "[Y/n]"
 
@@ -1008,6 +1088,10 @@ msgid "NO"
 msgstr "НІ"
 
 #, c-format
+msgid "failed to allocate string\n"
+msgstr ""
+
+#, c-format
 msgid "error: %s"
 msgstr "помилка: %s"
 
@@ -1016,20 +1100,12 @@ msgid "warning: %s"
 msgstr "попередження: %s"
 
 #, c-format
-msgid "function: %s"
-msgstr "функція: %s"
-
-#, c-format
 msgid "error: "
 msgstr "помилка: "
 
 #, c-format
 msgid "warning: "
 msgstr "попередження: "
-
-#, c-format
-msgid "function: "
-msgstr "функція: "
 
 msgid "WARNING:"
 msgstr "ПОПЕРЕДЖЕННЯ:"
@@ -1060,9 +1136,6 @@ msgstr "Встановлення відсутніх залежностей..."
 
 msgid "'%s' failed to install missing dependencies."
 msgstr "'%' не зміг встановити відсутні залежності."
-
-msgid "Failed to install all missing dependencies."
-msgstr "Не вдалося встановити всі відсутні залежності."
 
 msgid "Missing Dependencies:"
 msgstr "Відсутні залежності:"
@@ -1124,6 +1197,9 @@ msgstr "Розпаковування %s з %s... "
 msgid "Failed to extract %s"
 msgstr "Не вдалося розпакувати %s"
 
+msgid "A failure occurred in %s()."
+msgstr ""
+
 msgid "Starting %s()..."
 msgstr "Початок %s()..."
 
@@ -1157,8 +1233,8 @@ msgstr "Будь-ласка, додайте рядок ліцензії до в�
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Приклад для GPL програм: license=('GPL')."
 
-msgid "Invalid backup entry : %s"
-msgstr "Невірний запис резервного збереження : '%s'"
+msgid "Backup entry file not in package : %s"
+msgstr ""
 
 msgid "Package contains reference to %s"
 msgstr "Пакунок не містить згадки про %s"
@@ -1169,11 +1245,8 @@ msgstr "Каталог pkg/ відсутній."
 msgid "Creating package..."
 msgstr "Створення пакунка..."
 
-msgid "Adding install script..."
-msgstr "Долучення скрипту встановлення..."
-
-msgid "Adding package changelog..."
-msgstr "Долучення списку змін пакунка..."
+msgid "Adding %s file..."
+msgstr ""
 
 msgid "Compressing package..."
 msgstr "Стиснення пакунка..."
@@ -1205,6 +1278,9 @@ msgstr "Стиснення вихідного пакунку..."
 msgid "Failed to create source package file."
 msgstr "Не вдалося створити файл вихідного пакунку."
 
+msgid "Failed to create symlink to source package file."
+msgstr ""
+
 msgid "Installing package %s with %s -U..."
 msgstr "Встановлення пакунку %s з %s -U..."
 
@@ -1220,8 +1296,14 @@ msgstr "%s не повинен бути порожнім."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s не повинен починатися з дефіса."
 
+msgid "%s is not allowed to contain colons or hyphens."
+msgstr ""
+
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s не повинен містити дефіси."
+
+msgid "%s must be an integer."
+msgstr ""
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s немає для архітектури '%s'."
@@ -1234,6 +1316,9 @@ msgstr ", такого як arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Масив provides не може містити оператори порівняння (< або >)."
+
+msgid "Backup entry should not contain leading slash : %s"
+msgstr ""
 
 msgid "Invalid syntax for optdepend : '%s'"
 msgstr "невірне синтаксис для optdepend : '%s'"
@@ -1250,23 +1335,8 @@ msgstr "відсутня функція package для розділеного п
 msgid "requested package %s is not provided in %s"
 msgstr "потрібний пакунок %s не наданий в %s"
 
-msgid "Determining latest darcs revision..."
-msgstr "Визначення останніх змін darcs..."
-
-msgid "Determining latest cvs revision..."
-msgstr "Визначення останніх змін cvs..."
-
-msgid "Determining latest git revision..."
-msgstr "Визначення останніх змін git..."
-
-msgid "Determining latest svn revision..."
-msgstr "Визначення останніх змін svn..."
-
-msgid "Determining latest bzr revision..."
-msgstr "Визначення останніх змін bzr..."
-
-msgid "Determining latest hg revision..."
-msgstr "Визначення останніх змін hg..."
+msgid "Determining latest %s revision..."
+msgstr ""
 
 msgid "Version found: %s"
 msgstr "Знайдена версія: %s"
@@ -1348,16 +1418,19 @@ msgstr ""
 msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "  --asroot         Дозволити makepkg запускатися з-під root'а"
 
+msgid "  --check          Run the check() function in the %s"
+msgstr ""
+
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config <file>  Використовувати інший файл налаштувань (замість '%s')"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development "
-"PKGBUILDs"
+"  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
-"  --holdver        Запобігати автоматичній зміні версії для PKGBUILDів "
-"версій в розробці"
+
+msgid "  --nocheck        Do not run the check() function in the %s"
+msgstr ""
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
@@ -1390,15 +1463,11 @@ msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Якщо -p не вказано, makepkg буде шукати '%s'"
 
 msgid ""
-"Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
-"free software; see the source for copying conditions.\\nThere is NO "
-"WARRANTY, to the extent permitted by law.\\n"
 
 msgid "%s not found."
 msgstr "%s не знайдено."
@@ -1520,11 +1589,11 @@ msgstr "Вихідний пакунок створено: %s"
 msgid "Skipping dependency checks."
 msgstr "Пропуск перевірок залежностей."
 
-msgid "Checking Runtime Dependencies..."
-msgstr "Перевірка залежностей, необхідних для запуску..."
+msgid "Checking runtime dependencies..."
+msgstr ""
 
-msgid "Checking Buildtime Dependencies..."
-msgstr "Перевірка залежностей, необхідних для збирання..."
+msgid "Checking buildtime dependencies..."
+msgstr ""
 
 msgid "Could not resolve all dependencies."
 msgstr "Неможливо розв'язати усі залежності."
@@ -1563,6 +1632,27 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "Використання: %s [pacman_db_root]"
 
 msgid ""
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+
+msgid "%s does not exist or is not a directory."
+msgstr "%s не існує, або не є каталогом."
+
+msgid "You must have correct permissions to upgrade the database."
+msgstr ""
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "Знайдений lock-файл. Поки Pacman працює - виконання неможливе."
+
+msgid "Pre-3.5 database format detected - upgrading..."
+msgstr ""
+
+msgid "Done."
+msgstr ""
+
+msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
@@ -1586,14 +1676,8 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff не знайдено. Будь-ласка, встановіть diffutils."
 
-msgid "%s does not exist or is not a directory."
-msgstr "%s не існує, або не є каталогом."
-
 msgid "You must have correct permissions to optimize the database."
 msgstr "Ви повинні мати коректні права, щоб оптимізувати базу даних."
-
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Знайдений lock-файл. Поки Pacman працює - виконання неможливе."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr ""
@@ -1629,8 +1713,52 @@ msgstr "Встановлення нової бази даних..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Закінчено. Базу даних пакунків оптимізовано."
 
-msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "Використання: repo-add [-q] <path-to-db> <package|delta> ...\\n"
+msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
+msgstr ""
+
+msgid ""
+"\tpkgdelta will create a delta file between two packages.\\nThis delta file "
+"can then be added to a database using repo-add.\\n\\n"
+msgstr ""
+
+msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
+msgstr ""
+
+msgid ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr ""
+
+msgid "Invalid package file '%s'."
+msgstr "Невірний файл пакунка '%s'."
+
+msgid "The package names don't match : '%s' and '%s'"
+msgstr ""
+
+msgid "The package architectures don't match : '%s' and '%s'"
+msgstr ""
+
+msgid "Both packages have the same version : '%s'"
+msgstr ""
+
+msgid "Generating delta from version %s to version %s"
+msgstr ""
+
+msgid "Delta could not be created."
+msgstr ""
+
+msgid "Generated delta : '%s'"
+msgstr ""
+
+msgid "File '%s' does not exist"
+msgstr ""
+
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "Неможливо знайти бінарний файл xdelta3! Чи xdelta3 встановлено?"
+
+msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+msgstr ""
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
@@ -1654,10 +1782,18 @@ msgstr ""
 
 msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors\\n\\n"
+"\\nand errors.\\n\\n"
 msgstr ""
-"Використовуйте опцію -q/--quiet для зменшення виводу до основних повідомлень,"
-"\\nпопереджень і помилок\\n\\n"
+
+msgid ""
+"Use the -d/--delta flag to automatically generate and add a delta file"
+"\\nbetween the old entry and the new one, if the old package file is found"
+"\\nnext to the new one.\\n\\n"
+msgstr ""
+
+msgid ""
+"Use the -f/--files flag to update a database including file entries.\\n\\n"
+msgstr ""
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Приклад:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1676,26 +1812,26 @@ msgstr ""
 "source for copying conditions.\\nThere is NO WARRANTY, to the extent "
 "permitted by law.\\n"
 
-msgid "Creating 'deltas' db entry..."
-msgstr "Створення запису 'deltas'..."
+msgid "No database entry for package '%s'."
+msgstr ""
 
-msgid "An entry for '%s' already existed"
-msgstr "Запис для '%s' вже існував"
+msgid "Adding 'deltas' entry : %s -> %s"
+msgstr ""
 
 msgid "Removing existing entry '%s'..."
 msgstr "Вилучення існуючого запису '%s'..."
 
-msgid "Invalid package file '%s'."
-msgstr "Невірний файл пакунка '%s'."
+msgid "An entry for '%s' already existed"
+msgstr "Запис для '%s' вже існував"
 
-msgid "Creating 'desc' db entry..."
-msgstr "Створення запису 'desc'..."
+msgid "Creating '%s' db entry..."
+msgstr ""
 
 msgid "Computing md5 checksums..."
 msgstr "Підрахунок контрольної суми md5..."
 
-msgid "Creating 'depends' db entry..."
-msgstr "Створення запису 'depends'..."
+msgid "Old package file not found: %s"
+msgstr ""
 
 msgid "Failed to acquire lockfile: %s."
 msgstr "Не вдалося отримати файл замкнення: %s."
@@ -1720,9 +1856,6 @@ msgstr "Файл '%s' не знайдено."
 
 msgid "Adding delta '%s'"
 msgstr "Додавання дельта-патчу '%s'"
-
-msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Неможливо знайти бінарний файл xdelta3! Чи xdelta3 встановлено?"
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' не є файлом пакунка, пропущено"
@@ -1759,187 +1892,3 @@ msgstr "Не залишилося жодного пакунка, створен�
 
 msgid "No packages modified, nothing to do."
 msgstr "Жодні пакунки не були змінені, нема що робити."
-
-#~ msgid "%s not found, searching for group...\n"
-#~ msgstr "%s не знайдено, пошук групи...\n"
-
-#~ msgid "'%s': not found in local db\n"
-#~ msgstr "'%s': не знайдено у локальній базі даних\n"
-
-#~ msgid ":: group %s:\n"
-#~ msgstr ":: група %s:\n"
-
-#~ msgid "    Remove whole content?"
-#~ msgstr "    Вилучити весь вміст?"
-
-#~ msgid ":: Remove %s from group %s?"
-#~ msgstr ":: Вилучити %s з групи %s?"
-
-#~ msgid "could not remove cache directory\n"
-#~ msgstr "неможливо вилучити каталог кешу\n"
-
-#~ msgid "could not create new cache directory\n"
-#~ msgstr "неможливо створити новий каталог кешу\n"
-
-#~ msgid "%s package not found, searching for group...\n"
-#~ msgstr "пакунок %s не знайдено, пошук групи...\n"
-
-#~ msgid ":: group %s (including ignored packages):\n"
-#~ msgstr ":: група %s (в тому числі ігноровані пакунки):\n"
-
-#~ msgid ":: Install whole content?"
-#~ msgstr ":: Встановити весь вміст?"
-
-#~ msgid ":: Install %s from group %s?"
-#~ msgstr ":: Встановити %s з групи %s?"
-
-#~ msgid "'%s': not found in sync db\n"
-#~ msgstr "'%s': не знайдено у базі даних\n"
-
-#~ msgid " local database is up to date\n"
-#~ msgstr " локальна база даних не потребує оновлення\n"
-
-#~ msgid "no URL for package: %s\n"
-#~ msgstr "відсутнє посилання для пакунка: %s\n"
-
-#~ msgid "loading package data...\n"
-#~ msgstr "завантаження вмісту пакунка...\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "errors occurred, no packages were upgraded.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "сталися помилки, пакунки не були оновлені.\n"
-
-#~ msgid "Found %s in build dir"
-#~ msgstr "Знайдено %s в каталозі збирання"
-
-#~ msgid "Using cached copy of %s"
-#~ msgstr "Використовується копія %s з кешу"
-
-#~ msgid "Unable to find source file %s to generate checksum."
-#~ msgstr "Неможливо знайти вихідний файл %s, щоб згенерувати контрольну суму."
-
-#~ msgid "Starting build()..."
-#~ msgstr "Початок build()..."
-
-#~ msgid "Build Failed."
-#~ msgstr "Збирання невдале."
-
-#~ msgid "Packaging Failed."
-#~ msgstr "Збирання невдале."
-
-#~ msgid "Install script %s not found."
-#~ msgstr "Скрипт встановлення %s не знайдено."
-
-#~ msgid "Cannot find the sudo binary! Is sudo installed?"
-#~ msgstr "Неможливо знайти бінарний файл sudo! Чи sudo встановлено?"
-
-#~ msgid "Missing dependencies cannot be installed or removed as a normal user"
-#~ msgstr ""
-#~ "Відсутні залежності не можуть бути встановлені чи вилучені простим "
-#~ "користувачем"
-
-#~ msgid ""
-#~ "without sudo; install and configure sudo to auto-resolve dependencies."
-#~ msgstr ""
-#~ "без sudo; встановіть чи налаштуйте sudo, щоб автоматично розв'язувати "
-#~ "залежності."
-
-#~ msgid "the -f and --force options are no longer recognized"
-#~ msgstr "опції -f та --force більше не діють"
-
-#~ msgid "use options=(force) in the PKGBUILD instead"
-#~ msgstr "замість них використовуйте options=(force) в PKGBUILD"
-
-#~ msgid "All packages have been removed from the database. Deleting '%s'."
-#~ msgstr "Всі пакунки були вилучені з бази даних. Вилучення '%s'."
-
-#~ msgid ""
-#~ ":: %s requires installing %s from IgnorePkg/IgnoreGroup. Install anyway?"
-#~ msgstr ""
-#~ ":: %s потребує встановлення %s з IgnorePkg/IgnoreGroup. Всеодно "
-#~ "встановити?"
-
-#~ msgid "Checking for package upgrades... \n"
-#~ msgstr "Перевірка чи нема новіших пакунків... \n"
-
-#~ msgid "no upgrades found.\n"
-#~ msgstr "нових пакунків не знайдено.\n"
-
-#~ msgid "done.\n"
-#~ msgstr "зроблено.\n"
-
-#~ msgid "Invalid integrity algorithm '%s' specified"
-#~ msgstr "Вказано невірний алгоритм цілісності '%s'"
-
-#~ msgid "Making delta from version %s..."
-#~ msgstr "Створення дельта-патчу з версії %s..."
-
-#~ msgid "Recreating package tarball from delta to match md5 signatures"
-#~ msgstr ""
-#~ "Перестворення пакунка з дельта-патчу для того, щоб зійшлися md5-суми"
-
-#~ msgid "NOTE: the delta should ONLY be distributed with this tarball"
-#~ msgstr "ПРИМІТКА: дельта-патч повинен поширюватися ТІЛЬКИ з цим пакунком"
-
-#~ msgid "Could not generate the package from the delta."
-#~ msgstr "Неможливо згенерувати пакунок з дельта-патчу."
-
-#~ msgid "Delta was not able to be created."
-#~ msgstr "Неможливо створити дельта-патч."
-
-#~ msgid "No previous version found, skipping xdelta."
-#~ msgstr "Попередню версію не знайдено, xdelta пропускається."
-
-#~ msgid ""
-#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
-#~ "free software; see the source for copying conditions.\\nThere is NO "
-#~ "WARRANTY, to the extent permitted by law.\\n"
-#~ msgstr ""
-#~ "Copyright (C) 2002-2007 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
-#~ "free software; see the source for copying conditions.\\nThere is NO "
-#~ "WARRANTY, to the extent permitted by law.\\n"
-
-#~ msgid "BUILDSCRIPT is undefined! Ensure you have updated %s."
-#~ msgstr "BUILDSCRIPT невизначений! Впевніться, що ви поновили %s."
-
-#~ msgid "Skipping build."
-#~ msgstr "Пропуск збирання."
-
-#~ msgid "Running makepkg as root..."
-#~ msgstr "Виконання makepkg з-під root'а..."
-
-#~ msgid ""
-#~ "The -q/--quiet flag to either program will force silent running except"
-#~ "\\nin the case of warnings or errors.\\n\\n"
-#~ msgstr ""
-#~ "Опція -q/--quiet змушуює програму працювати у фоновому режимі,\\nкрім "
-#~ "випадків попереджень чи помилок.\\n\\n"
-
-#~ msgid "Could not add delta '%s'"
-#~ msgstr "Неможливо додати дельта-патч '%s'"
-
-#~ msgid "Either realpath or readlink are required by repo-add."
-#~ msgstr "Для repo-add потрібен або справжній шлях, або хардлінк."
-
-#~ msgid "%s not found. Cannot continue."
-#~ msgstr "%s не знайдено. Продовжити неможливо."
-
-#~ msgid "No compression set."
-#~ msgstr "Стиснення не застосовується."
-
-#~ msgid "segmentation fault\n"
-#~ msgstr "segmentation fault\n"
-
-#~ msgid ""
-#~ "Internal pacman error: Segmentation fault.\n"
-#~ "Please submit a full bug report with --debug if appropriate.\n"
-#~ msgstr ""
-#~ "Внутрішня помилка: Segmentation fault.\n"
-#~ "Будь-ласка відішліть повний багрепорт з --debug, якщо можливо.\n"
-
-#~ msgid "For full benefits of pacman-optimize, run 'sync' now."
-#~ msgstr ""
-#~ "Для того, щоб глянути всі переваги pacman-optimize, запустіть 'sync'."

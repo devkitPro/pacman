@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2010-08-23 21:30-0500\n"
-"PO-Revision-Date: 2011-02-03 17:27+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:57-0500\n"
+"PO-Revision-Date: 2011-03-05 04:19+0000\n"
 "Last-Translator: sotrud_nik <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <None>\n"
 "Language: kk\n"
@@ -74,6 +74,10 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Дестелер %s серверінен алынуда...\n"
 
 #, c-format
+msgid "checking available disk space...\n"
+msgstr "дискідегі қолжетерлік бос орынды тексеру...\n"
+
+#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ":: %s қазір IgnorePkg ішінде көрсетілген. Сонда да орнату керек пе?"
 
@@ -91,19 +95,23 @@ msgstr ":: %s және %s өзара ерегіседі (%s). %s өшіруді 
 
 #, c-format
 msgid ""
-":: the following package(s) cannot be upgraded due to unresolvable "
+":: The following package cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ""
-":: келесі десте(лер) шешілмейтін тәуелділіктер себебінен жаңартуға "
-"келмейді:\n"
+msgid_plural ""
+":: The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
+msgstr[0] ""
+":: Келесі десте(лер) шешілмейтін тәуелділіктер салдарынан жаңарту мүмкін "
+"емес:\n"
 
 #, c-format
-msgid ""
-"\n"
-"Do you want to skip the above package(s) for this upgrade?"
-msgstr ""
-"\n"
-"Осы жаңарту үшін жоғарыдағы дестелерді аттап өтеміз бе?"
+msgid "Do you want to skip the above package for this upgrade?"
+msgid_plural "Do you want to skip the above packages for this upgrade?"
+msgstr[0] "Бұл жаңарту үшін жоғарыдағы десте(лер) елемеуді қалайсыз ба?"
+
+#, c-format
+msgid ":: There are %d providers available for %s:\n"
+msgstr ":: %d ұсынушы бар, %s үшін:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -132,12 +140,40 @@ msgid "checking for file conflicts"
 msgstr "файл ерегістерін тексеру"
 
 #, c-format
+msgid "checking available disk space"
+msgstr "дискідегі қолжетерлік бос орынды тексеру"
+
+#, c-format
+msgid "checking package integrity"
+msgstr "десте бүтіндігін тексеру"
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "%s жүктелуде...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc қатесі: %zd байт орынды бөлу мүмкін емес\n"
+
+#, c-format
+msgid "no targets specified (use -h for help)\n"
+msgstr "мақсаттар көрсетілмеді (көмек үшін -h қолданыңыз)\n"
+
+#, c-format
+msgid "no install reason specified (use -h for help)\n"
+msgstr "орнату себебі көрсетілмеді (көмек үшін -h қараңыз)\n"
+
+#, c-format
+msgid "could not set install reason for package %s (%s)\n"
+msgstr "%s дестесі үшін орнату себебін көрсету мүмкін емес (%s)\n"
+
+#, c-format
+msgid "%s: install reason has been set to 'installed as dependency'\n"
+msgstr "%s: орнату себебі 'тәуелділік ретінде орнатылған' етіп көрсетілді\n"
+
+#, c-format
+msgid "%s: install reason has been set to 'explicitly installed'\n"
+msgstr "%s: орнату себебі 'нақты орнатылған' етіп көрсетілді\n"
 
 #, c-format
 msgid "Explicitly installed"
@@ -252,24 +288,12 @@ msgid "Repository     :"
 msgstr "Репозиторийі          :"
 
 #, c-format
-msgid "Backup Files:\n"
-msgstr "Резервті файлдар      :\n"
-
-#, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "%s үшін тексеру сомаларын есептеу мүмкін емес\n"
 
 #, c-format
-msgid "MODIFIED\t%s\n"
-msgstr "ӨЗГЕРТІЛГЕН\t%s\n"
-
-#, c-format
-msgid "Not Modified\t%s\n"
-msgstr "Өзгертілмеген\t%s\n"
-
-#, c-format
-msgid "MISSING\t\t%s\n"
-msgstr "ЖОҚ БОЛЫП ТҰР\t\t%s\n"
+msgid "Backup Files:\n"
+msgstr "Резервті файлдар      :\n"
 
 #, c-format
 msgid "(none)\n"
@@ -320,16 +344,6 @@ msgstr ""
 "өшіру\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         тәуелділіктерді тексермеу\n"
-
-#, c-format
-msgid ""
-"  -k, --dbonly         only remove database entries, do not remove files\n"
-msgstr ""
-"  -k, --dbonly         тек дерекқордан жазбаларды өшіру, файлдарды қалдыру\n"
-
-#, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         дестемен қоса баптаулар файлдарын өшіру\n"
 
@@ -348,43 +362,6 @@ msgid ""
 msgstr ""
 "  -u, --unneeded       керек емес дестелерді өшіру (бұл басқа дестелерге "
 "зиян келтірмейді)\n"
-
-#, c-format
-msgid ""
-"      --print          only print the targets instead of performing the "
-"operation\n"
-msgstr ""
-"      --print          әрекетті шынымен орындамай тек мақсаттар тізімін "
-"шығару\n"
-
-#, c-format
-msgid ""
-"      --print-format <string>\n"
-"                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <string>\n"
-"                       мақсаттар қалай шығарылатынын көрсетеді\n"
-
-#, c-format
-msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         дестелерді нақты емес орнатылған қылып орнату\n"
-
-#, c-format
-msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     дестелерді нақты орнатылған қылып орнату\n"
-
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr ""
-"  -f, --force          мәжбүрлі орнату, ерегісетін файлдар алмастырылады\n"
-
-#, c-format
-msgid ""
-"  -k, --dbonly         add database entries, do not install or keep existing "
-"files\n"
-msgstr ""
-"  -k, --dbonly         тек дерекқорға жазбаларды қосу, бар файлдарды орнату "
-"не қалдыру керек емес\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -442,6 +419,11 @@ msgstr ""
 "  -p, --file <десте>   ақпаратты десте файлынан алу, дерекқордан емес\n"
 
 #, c-format
+msgid "  -q, --quiet          show less information for query and search\n"
+msgstr ""
+"  -q, --quiet          сұранымдар мен іздеу кезінде аздау ақпаратты көрсету\n"
+
+#, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
@@ -459,11 +441,6 @@ msgstr ""
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       ескірген дестелер тізімін шығару [фильтр]\n"
-
-#, c-format
-msgid "  -q, --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet          сұранымдар мен іздеу кезінде аздау ақпаратты көрсету\n"
 
 #, c-format
 msgid ""
@@ -513,6 +490,27 @@ msgid "      --needed         don't reinstall up to date packages\n"
 msgstr "      --needed         ескірмеген дестелерге тиіспеу\n"
 
 #, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr "      --asdeps         дестелерді нақты орнатылған емес қылып орнату\n"
+
+#, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr "      --asexplicit     дестелерді нақты орнатылған қылып орнату\n"
+
+#, c-format
+msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          мәжбүрлі орнату, ерегісетін файлдар алмастырылады\n"
+
+#, c-format
+msgid "      --asdeps         install packages as non-explicitly installed\n"
+msgstr "      --asdeps         дестелерді нақты емес орнатылған қылып орнату\n"
+
+#, c-format
+msgid "      --asexplicit     install packages as explicitly installed\n"
+msgstr "      --asexplicit     дестелерді нақты орнатылған қылып орнату\n"
+
+#, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
@@ -529,24 +527,14 @@ msgstr ""
 "          жаңарту кезінде топты елемеу (бірнеше рет қолданылуы мүмкін)\n"
 
 #, c-format
-msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         дестелерді нақты орнатылған емес қылып орнату\n"
+msgid "  -d, --nodeps         skip dependency checks\n"
+msgstr "  -d, --nodeps         тәуелділіктерді тексермеу\n"
 
 #, c-format
-msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     дестелерді нақты орнатылған қылып орнату\n"
-
-#, c-format
-msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <жолы>  басқа баптаулар файлын қолдану\n"
-
-#, c-format
-msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <жолы> басқа лог файлын қолдану\n"
-
-#, c-format
-msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm      растауды сұрамау\n"
+msgid ""
+"  -k, --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"  -k, --dbonly         тек дерекқор жазбаларны жаңарту, дестелерге тиіспеу\n"
 
 #, c-format
 msgid ""
@@ -560,28 +548,56 @@ msgid ""
 msgstr "      --noscriptlet    орнату скриптері бар болса, оларды орындамау\n"
 
 #, c-format
-msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        көбірек ақпаратты шығару\n"
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr ""
+"      --print          әрекетті шынымен орындамай тек мақсаттар тізімін "
+"шығару\n"
 
 #, c-format
-msgid "      --debug          display debug messages\n"
-msgstr "      --debug          жөндеу хабарламаларын көрсету\n"
-
-#, c-format
-msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <жолы>    басқа түбірлік буманы көрсету\n"
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       мақсаттар қалай шығарылатынын көрсетеді\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <жолы>  басқа дерекқорды қолдану\n"
 
 #, c-format
-msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <бума> басқа кэш бумасын қолдану\n"
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <жолы>    басқа түбірлік буманы көрсету\n"
+
+#, c-format
+msgid "  -v, --verbose        be verbose\n"
+msgstr "  -v, --verbose        көбірек ақпаратты шығару\n"
 
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    басқа архитектураны орнату\n"
+
+#, c-format
+msgid "      --cachedir <dir> set an alternate package cache location\n"
+msgstr "      --cachedir <бума> басқа кэш бумасын қолдану\n"
+
+#, c-format
+msgid "      --config <path>  set an alternate configuration file\n"
+msgstr "      --config <жолы>  басқа баптаулар файлын қолдану\n"
+
+#, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --debug          жөндеу хабарламаларын көрсету\n"
+
+#, c-format
+msgid "      --logfile <path> set an alternate log file\n"
+msgstr "      --logfile <жолы> басқа лог файлын қолдану\n"
+
+#, c-format
+msgid "      --noconfirm      do not ask for any confirmation\n"
+msgstr "      --noconfirm      растауды сұрамау\n"
 
 #, c-format
 msgid ""
@@ -604,16 +620,32 @@ msgid "problem setting logfile '%s' (%s)\n"
 msgstr "'%s' лог-файлын қолдану қатесі (%s)\n"
 
 #, c-format
-msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' - жөндеудің қате деңгейі\n"
-
-#, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr "'%s' кэш бумасын қосқанда қате кетті (%s)\n"
 
 #, c-format
+msgid "'%s' is not a valid debug level\n"
+msgstr "'%s' - жөндеудің қате деңгейі\n"
+
+#, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "бір уақытта тек бір әрекет орындалуы мүмкін\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "әрекет көрсетілмеді (көмек үшін -h қолданыңыз)\n"
+
+#, c-format
+msgid "invalid option\n"
+msgstr "опция қате\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "'CleanMethod' үшін мәні қате : '%s'\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr "ағымдағы жұмыс бумасын алу мүмкін емес\n"
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
@@ -624,12 +656,12 @@ msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand орындау: үрдісті жасау сәтсіз аяқталды!\n"
 
 #, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "мәні жоқ '%s' директивасы танылмады\n"
+msgid "could not change directory to %s (%s)\n"
+msgstr "%s бумасына өту мүмкін емес (%s)\n"
 
 #, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "'CleanMethod' үшін мәні қате : '%s'\n"
+msgid "directive '%s' without value not recognized\n"
+msgstr "мәні жоқ '%s' директивасы танылмады\n"
 
 #, c-format
 msgid "directive '%s' with a value not recognized\n"
@@ -690,16 +722,16 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "alpm жинағын іске қосу мүмкін емес (%s)\n"
 
 #, c-format
+msgid "buffer overflow detected in arg parsing\n"
+msgstr "аргументтерді талдауда буферден шығып кету табылды\n"
+
+#, c-format
+msgid "failed to reopen stdin for reading: (%s)\n"
+msgstr "оқу үшін stdin қайта ашу сәтсіз: (%s)\n"
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "Бұл әрекетті жасай алмайсыз, өйткені сіз әкімші емессіз (root).\n"
-
-#, c-format
-msgid "could not register 'local' database (%s)\n"
-msgstr "жергілікті дерекқорды тіркеу мүмкін емес (%s)\n"
-
-#, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "әрекет көрсетілмеді (көмек үшін -h қолданыңыз)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -714,12 +746,16 @@ msgid "failed to read file '%s': %s\n"
 msgstr "'%s' файлын оқу мүмкін емес: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of a directory\n"
-msgstr "бума иесін анықтау мүмкін емес\n"
+msgid "cannot determine ownership of directory '%s'\n"
+msgstr "'%s' бумасының иесін анықтау мүмкін емес\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "'%s' үшін шын жолды анықтау мүмкін емес: %s\n"
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "жол тым ұзын: %s%s\n"
 
 #, c-format
 msgid "%s is owned by %s %s\n"
@@ -734,24 +770,18 @@ msgid "group \"%s\" was not found\n"
 msgstr "\"%s\" тобы табылмады\n"
 
 #, c-format
-msgid "root path too long\n"
-msgstr "түбірлік жолы тым ұзын\n"
+msgid "%s: %d total file, "
+msgid_plural "%s: %d total files, "
+msgstr[0] "%s: барлығы %d файл, "
 
 #, c-format
-msgid "file path too long\n"
-msgstr "файл жолы тым ұзын\n"
-
-#, c-format
-msgid "%s: %d total files, %d missing file(s)\n"
-msgstr "%s: барлығы %d файл, %d файл жоқ\n"
+msgid "%d missing file\n"
+msgid_plural "%d missing files\n"
+msgstr[0] "%d файл жоқ\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "бірде-бір репозиторий тиісті түрде бапталмаған.\n"
-
-#, c-format
-msgid "no targets specified (use -h for help)\n"
-msgstr "мақсаттар көрсетілмеді (көмек үшін -h қолданыңыз)\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -794,12 +824,12 @@ msgid "could not access database directory\n"
 msgstr "дерекқор бумасына жету мүмкін емес\n"
 
 #, c-format
-msgid "Do you want to remove %s?"
-msgstr "%s өшіруді қалайсыз ба?"
+msgid "could not remove %s\n"
+msgstr "%s өшіру мүмкін емес\n"
 
 #, c-format
-msgid "could not remove repository directory\n"
-msgstr "репозиторий бумасын өшіру мүмкін емес\n"
+msgid "Do you want to remove %s?"
+msgstr "%s өшіруді қалайсыз ба?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -818,12 +848,20 @@ msgid "Cache directory: %s\n"
 msgstr "Кэш бумасы: %s\n"
 
 #, c-format
-msgid "Do you want to remove uninstalled packages from cache?"
-msgstr "Кэш ішінен орнатылмаған дестелерді өшіруді қалайсыз ба?"
+msgid "Packages to keep:\n"
+msgstr "Ұсталатын дестелер:\n"
 
 #, c-format
-msgid "Do you want to remove outdated packages from cache?"
-msgstr "Кэш ішінен ескірген дестелерді өшіруді қалайсыз ба?"
+msgid "  All locally installed packages\n"
+msgstr "  Барлық жергілікті орнатылған дестелер\n"
+
+#, c-format
+msgid "  All current sync database packages\n"
+msgstr "  Барлық ағымдағы sync дерекқорының дестелері\n"
+
+#, c-format
+msgid "Do you want to remove all other packages from cache?"
+msgstr "Кэштен барлық басқа дестелерді өшіруді қалайсыз ба?"
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -880,6 +918,18 @@ msgstr "\"%s\" репозиторийі табылмады.\n"
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "мақсатты аттап өту: %s\n"
+
+#, c-format
+msgid "target not found: %s\n"
+msgstr "мақсаты табылмады: %s\n"
+
+#, c-format
+msgid ":: There are %d members in group %s:\n"
+msgstr ":: %d мүше бар, %s тобында:\n"
+
+#, c-format
+msgid "database not found: %s\n"
+msgstr "дерекқор табылмады: %s\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -946,6 +996,10 @@ msgstr ""
 "  %s өшіре аласыз\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  pacman-db-upgrade жөнелтіп көріңіз\n"
+
+#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "әрекетті босату сәтсіз (%s)\n"
 
@@ -982,6 +1036,26 @@ msgid "Optional dependencies for %s\n"
 msgstr "%s үшін қосымша тәуелділіктер\n"
 
 #, c-format
+msgid "Repository %s\n"
+msgstr "Репозиторий %s\n"
+
+#, c-format
+msgid "Invalid value: %d is not between %d and %d\n"
+msgstr "Мәні қате: %d мәні %d және %d арасында жатқан жоқ\n"
+
+#, c-format
+msgid "Invalid number: %s\n"
+msgstr "Қате нөмір: %s\n"
+
+#, c-format
+msgid "Enter a selection (default=all)"
+msgstr "Таңдауды енгізіңіз (бастапқы мәні=all)"
+
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Нөмірді енгізіңіз (бастапқы мәні=%d)"
+
+#, c-format
 msgid "[Y/n]"
 msgstr "[Y/n]"
 
@@ -1006,6 +1080,10 @@ msgid "NO"
 msgstr "NO"
 
 #, c-format
+msgid "failed to allocate string\n"
+msgstr "string үшін орын бөлу сәтсіз\n"
+
+#, c-format
 msgid "error: %s"
 msgstr "қате: %s"
 
@@ -1014,20 +1092,12 @@ msgid "warning: %s"
 msgstr "ескерту: %s"
 
 #, c-format
-msgid "function: %s"
-msgstr "функциясы: %s"
-
-#, c-format
 msgid "error: "
 msgstr "қате: "
 
 #, c-format
 msgid "warning: "
 msgstr "ескерту: "
-
-#, c-format
-msgid "function: "
-msgstr "функциясы: "
 
 msgid "WARNING:"
 msgstr "ЕСКЕРТУ:"
@@ -1058,9 +1128,6 @@ msgstr "Керек тәуелділіктерін орнату... "
 
 msgid "'%s' failed to install missing dependencies."
 msgstr "'%s' керек тәуелділіктерді орната алмады."
-
-msgid "Failed to install all missing dependencies."
-msgstr "Барлық тәуелділіктерді орнату қатемен аяқталды."
 
 msgid "Missing Dependencies:"
 msgstr "Керек тәуелділіктер:"
@@ -1123,6 +1190,9 @@ msgstr "%s тарқатылуда %s көмегімен"
 msgid "Failed to extract %s"
 msgstr "%s тарқату мүмкін емес"
 
+msgid "A failure occurred in %s()."
+msgstr "%s() ішінде қате орын алды."
+
 msgid "Starting %s()..."
 msgstr "%s() іске қосылуда..."
 
@@ -1157,8 +1227,8 @@ msgstr "Өзініңіздің %s ішіне лицензия жолын қос�
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "GPL лицензиялы бағдарламалар үшін мысал: license=('GPL')."
 
-msgid "Invalid backup entry : %s"
-msgstr "Резервті жазбасы қате : %s"
+msgid "Backup entry file not in package : %s"
+msgstr "Резервті көшірме жазбасындағы файл десте ішінде емес : %s"
 
 msgid "Package contains reference to %s"
 msgstr "Дестеде %s жеріне сілтеме бар"
@@ -1169,11 +1239,8 @@ msgstr "pkg/ бумасы жоқ болып тұр."
 msgid "Creating package..."
 msgstr "Дестені жасау... "
 
-msgid "Adding install script..."
-msgstr "Орнату скрипті қосылуда..."
-
-msgid "Adding package changelog..."
-msgstr "Дестенің өзгерістер тарихы қосылуда... "
+msgid "Adding %s file..."
+msgstr "%s файлды қосу..."
 
 msgid "Compressing package..."
 msgstr "Десте сығылуда... "
@@ -1205,6 +1272,9 @@ msgstr "Бастапқы кодтар дестесі сығылуда..."
 msgid "Failed to create source package file."
 msgstr "Бастапқы кодтар десте файлын жасау сәтсіз аяқталды.."
 
+msgid "Failed to create symlink to source package file."
+msgstr "Бастапқы код десте файлына сілтемені жасау мүмкін емес."
+
 msgid "Installing package %s with %s -U..."
 msgstr "%s дестесі %s -U көмегімен орнатылуда..."
 
@@ -1220,8 +1290,14 @@ msgstr "%s бос болмауы керек."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s дефистан басталмауы керек."
 
+msgid "%s is not allowed to contain colons or hyphens."
+msgstr "%s ішінде қос нүктелер не дефистер болмауы тиіс."
+
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s ішінде дефис болмауы керек."
+
+msgid "%s must be an integer."
+msgstr "%s бүтін сан болуы керек."
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s '%s' архитектурасы үшін қолданылмайды."
@@ -1235,6 +1311,9 @@ msgstr "arch=('%s') жолын қосу міндетті."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr ""
 "Ұсынылатын тізім ішінде салыстыру (< немесе >) таңбалары болмауы керек."
+
+msgid "Backup entry should not contain leading slash : %s"
+msgstr "Резервті қор жазбасы басында слэш тұрмауы тиіс : %s"
 
 msgid "Invalid syntax for optdepend : '%s'"
 msgstr "optdepend үшін синтаксис қате: '%s'"
@@ -1251,23 +1330,8 @@ msgstr "'%s' дестесін бөлу үшін package функциясы жо�
 msgid "requested package %s is not provided in %s"
 msgstr "сұралған %s дестесін %s ұсынбайды"
 
-msgid "Determining latest darcs revision..."
-msgstr "darcs ішінен соңғы нұсқасы анықталуда..."
-
-msgid "Determining latest cvs revision..."
-msgstr "cvs ішінен соңғы нұсқасы анықталуда..."
-
-msgid "Determining latest git revision..."
-msgstr "git ішінен соңғы нұсқасы анықталуда..."
-
-msgid "Determining latest svn revision..."
-msgstr "svn ішінен соңғы нұсқасы анықталуда..."
-
-msgid "Determining latest bzr revision..."
-msgstr "bzr ішінен соңғы нұсқасы анықталуда..."
-
-msgid "Determining latest hg revision..."
-msgstr "hg ішінен соңғы нұсқасы анықталуда..."
+msgid "Determining latest %s revision..."
+msgstr "Соңғы %s ревизиясын анықтау..."
 
 msgid "Version found: %s"
 msgstr "Табылған нұсқасы: %s"
@@ -1352,15 +1416,18 @@ msgstr ""
 msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "  --asroot         makepkg үшін root атынан қосылуға рұқсат беру"
 
+msgid "  --check          Run the check() function in the %s"
+msgstr "  --check          %s үшін check() функциясын жөнелту"
+
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <file>  Басқа баптаулар файлын қолдану ('%s' орнына)"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development "
-"PKGBUILDs"
-msgstr ""
-"  --holdver        Өндірістегі PKGBUILD-тар үшін автоматты нұсқалардың "
-"өзгеруін болдырмау"
+"  --holdver        Prevent automatic version bumping for development %ss"
+msgstr "  --holdver        Өндіру %ss үшін автоматты нұсқа арттыруын болдырмау"
+
+msgid "  --nocheck        Do not run the check() function in the %s"
+msgstr "  --nocheck        %s үшін check() функциясын жөнелтпеу"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <тізім>    Бөлінетін дестеден тек тізілген дестелерді жинау"
@@ -1389,16 +1456,15 @@ msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Егер -p опциясы көрсетілмесе, makepkg '%s' іздейді"
 
 msgid ""
-"Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2010 Pacman-ды өндіру тобы <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nБұл - "
-"еркін бағдарламалық қамтама; көшірме жасау шарттарын бастапқы кодында "
-"қараңыз.\\nБірақ, заңмен рұқсат етілген шектері ішінде ешқандай КЕПІЛДЕМЕ "
-"берілмейді."
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nБұл еркін "
+"бағдарламалық қамтама; көшірме жасау шарттарын кодтан қараңыз.\\nЗаңмен "
+"рұқсат етілген шегінде ешбір КЕПІЛДЕМЕ берілмейді.\\n"
 
 msgid "%s not found."
 msgstr "%s табылмады."
@@ -1518,11 +1584,11 @@ msgstr "Бастапқы кодтар дестесі құрылған: %s"
 msgid "Skipping dependency checks."
 msgstr "Тәуелділіктерді тексеруді аттап кету."
 
-msgid "Checking Runtime Dependencies..."
-msgstr "Қосылу үшін керек тәуелділіктерді тексеру..."
+msgid "Checking runtime dependencies..."
+msgstr "Іске қосу тәуелділіктерін тексеру..."
 
-msgid "Checking Buildtime Dependencies..."
-msgstr "Дестені жинау үшін керек тәуелділіктерді тексеру..."
+msgid "Checking buildtime dependencies..."
+msgstr "Жасау кезіндегі тәуелділіктерді тексеру..."
 
 msgid "Could not resolve all dependencies."
 msgstr "Барлық тәуелділіктерді шешу мүмкін емес."
@@ -1566,6 +1632,32 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "Қолданылуы: %s [pacman_ДҚ_түбірі]"
 
 msgid ""
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nБұл еркін бағдарламалық қамтама; көшірме жасау шарттарын кодтан қараңыз."
+"\\nЗаңмен рұқсат етілген шегінде ешбір КЕПІЛДЕМЕ берілмейді.\\n"
+
+msgid "%s does not exist or is not a directory."
+msgstr "%s жоқ болып тұр немесе ол бума емес."
+
+msgid "You must have correct permissions to upgrade the database."
+msgstr "Дерекқорды жаңарту үшін сізде керек рұқсаттар болу тиіс."
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr ""
+"Pacman'ның оқшаулау файлы табылды. Pacman қосулы тұрғанда оны қайта қосуға "
+"болмайды."
+
+msgid "Pre-3.5 database format detected - upgrading..."
+msgstr "3.5-тен ескі дерекқор пішімі анықталды - жаңарту..."
+
+msgid "Done."
+msgstr "Аяқталды."
+
+msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
@@ -1590,16 +1682,8 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff утилитасы табылмады, diffutils орнатыңыз."
 
-msgid "%s does not exist or is not a directory."
-msgstr "%s жоқ болып тұр немесе ол бума емес."
-
 msgid "You must have correct permissions to optimize the database."
 msgstr "Дерекқорды ыңғайлату үшін сіздің керек құқығыңыз болуы керек."
-
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-"Pacman'ның оқшаулау файлы табылды. Pacman қосулы тұрғанда оны қайта қосуға "
-"болмайды."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "ҚАТЕ: Дерекқорды жасау үшін уақытша буманы жасау мүмкін емес."
@@ -1634,8 +1718,58 @@ msgstr "Жаңа дерекқор орнына апарылуда..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Аяқталды. pacman дерекқоры ыңғайлатылды."
 
-msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "Қолданылуы: repo-add [-q] <ДҚ-дейін-жол> <десте|дельта> ...\\n"
+msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
+msgstr "Қолданылуы: pkgdelta [-q] <десте1> <десте2>\\n"
+
+msgid ""
+"\tpkgdelta will create a delta file between two packages.\\nThis delta file "
+"can then be added to a database using repo-add.\\n\\n"
+msgstr ""
+"\tpkgdelta екі десте арасындағы дельта (өзгеріс) файлын жасайды.\\nБұл "
+"дельта файлын дерекқорға repo-add көмегімен қосуға болады.\\n\\n"
+
+msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
+msgstr "Мысалы:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
+
+msgid ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nБұл еркін "
+"бағдарламалық қамтама; көшірме жасау шарттарын кодтан қараңыз.\\nЗаңмен "
+"рұқсат етілген шегінде ешбір КЕПІЛДЕМЕ берілмейді.\\n"
+
+msgid "Invalid package file '%s'."
+msgstr "'%s' десте файлы қате."
+
+msgid "The package names don't match : '%s' and '%s'"
+msgstr "Дестелер аттары өзара сәйкес емес : '%s' және '%s'"
+
+msgid "The package architectures don't match : '%s' and '%s'"
+msgstr "Дестелер архитектуралары өзара сәйкес емес : '%s' және '%s'"
+
+msgid "Both packages have the same version : '%s'"
+msgstr "Екі десте де бір нұсқада : '%s'"
+
+msgid "Generating delta from version %s to version %s"
+msgstr "Дельтаны жасау, %s нұсқадан %s нұсқасына дейін"
+
+msgid "Delta could not be created."
+msgstr "Дельтаны жасау мүмкін емес."
+
+msgid "Generated delta : '%s'"
+msgstr "Жасалған дельта : '%s'"
+
+msgid "File '%s' does not exist"
+msgstr "'%s' файлы жоқ болып тұр"
+
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "xdelta3 бинарлық файлы табылмады! xdelta3 орнатылған ба?"
+
+msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+msgstr ""
+"Қолданылуы: repo-add [-d] [-f] [-q] <дерекқор-жолы> <десте|дельта> ...\\n"
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr "Қолданылуы: repo-remove [-q] <ДҚ-дейін-жол> <десте|дельта> ...\\n\\n"
@@ -1657,10 +1791,25 @@ msgstr ""
 
 msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors\\n\\n"
+"\\nand errors.\\n\\n"
 msgstr ""
-"Негізгі хабарламалар, ескертулер, қателер шығысын азайту үшін -q/--quiet"
-"\\nжалаушасын қолданыңыз\\n\\n"
+"-q/--quiet опциясын хабарламалар, ескертулер мен қателер жөнінде\\nшығаруды "
+"қысқарту үшін  қолданыңыз.\\n\\n"
+
+msgid ""
+"Use the -d/--delta flag to automatically generate and add a delta file"
+"\\nbetween the old entry and the new one, if the old package file is found"
+"\\nnext to the new one.\\n\\n"
+msgstr ""
+"-d/--delta опциясын ескі мен жаңа десте арасында дельта файлын\\nавтожасау "
+"мен қосу үшін қолданыңыз, егер жаңа дестеге сай келетін\\nескі десте файлы "
+"табылатын болса.\\n\\n"
+
+msgid ""
+"Use the -f/--files flag to update a database including file entries.\\n\\n"
+msgstr ""
+"-f/--files опциясын файлдар жазбалары бар дерекқорды жаңарту\\nүшін "
+"қолданыңыз.\\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr ""
@@ -1681,26 +1830,26 @@ msgstr ""
 "қамтама; көшірме жасау шарттарын бастапқы кодында қараңыз.\\nБірақ, заңмен "
 "рұқсат етілген шектері ішінде ешқандай КЕПІЛДЕМЕ берілмейді."
 
-msgid "Creating 'deltas' db entry..."
-msgstr "ДҚ ішінде 'deltas' жазбасын жасау..."
+msgid "No database entry for package '%s'."
+msgstr "'%s' дестесі үшін дерекқор жазбасы жоқ."
 
-msgid "An entry for '%s' already existed"
-msgstr "'%s' үшін жазба бар болып тұр"
+msgid "Adding 'deltas' entry : %s -> %s"
+msgstr "'deltas' жазбасын қосу : %s -> %s"
 
 msgid "Removing existing entry '%s'..."
 msgstr "Бар болып тұрған '%s' жазбасын өшіру..."
 
-msgid "Invalid package file '%s'."
-msgstr "'%s' десте файлы қате."
+msgid "An entry for '%s' already existed"
+msgstr "'%s' үшін жазба бар болып тұр"
 
-msgid "Creating 'desc' db entry..."
-msgstr "ДҚ ішінде 'desc' жазбасын жасау..."
+msgid "Creating '%s' db entry..."
+msgstr "Дерекқорда '%s' жазбасын жасау..."
 
 msgid "Computing md5 checksums..."
 msgstr "md5 тексеру сомаларын есептеу..."
 
-msgid "Creating 'depends' db entry..."
-msgstr "ДҚ ішінде 'depends' жазбасын жасау..."
+msgid "Old package file not found: %s"
+msgstr "Ескі десте файлы табылмады: %s"
 
 msgid "Failed to acquire lockfile: %s."
 msgstr "Оқшау файлын алу мүмкін емес: %s."
@@ -1725,9 +1874,6 @@ msgstr "'%s' файлы табылмады."
 
 msgid "Adding delta '%s'"
 msgstr "'%s' дельтасы қосылуда"
-
-msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "xdelta3 бинарлық файлы табылмады! xdelta3 орнатылған ба?"
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' десте файлы емес, өткізіледі"

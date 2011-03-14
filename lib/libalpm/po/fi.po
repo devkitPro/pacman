@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2011-02-03 19:46+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-12 18:34+0000\n"
+"Last-Translator: Huulivoide <jesse.jaara@gmail.com>\n"
 "Language-Team: Finnish <None>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -18,66 +18,80 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
+msgid "%s-%s is up to date -- skipping\n"
 msgstr ""
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
+msgid "%s-%s is up to date -- reinstalling\n"
 msgstr ""
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr ""
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "tiedostoa %s ei voitu purkaa (%s)\n"
 
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
+"kansion oikeuksissa eriavaisuuksia kohdassa %s\n"
+"tiedostojärjestelmä: %o   paketti: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr ""
+msgstr "purku: kansiota ei ylikirjoiteta tiedostolla %s\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
-msgstr ""
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr ""
+msgstr "purku: symboolinenlinkki %s ei osoita kansioon\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "kohdetta %s ei voitu uudelleen kohteeksi %s (%s)\n"
 
 #, c-format
 msgid "%s saved as %s\n"
-msgstr ""
+msgstr "kohde %s tallennettu kohteena %s\n"
 
 #, c-format
 msgid "could not install %s as %s (%s)\n"
-msgstr ""
+msgstr "kohdetta %s ei voitu tallentaa kohteena %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
-msgstr ""
+msgstr "%s asennettu %s:na\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
-msgstr ""
+msgstr "tiedosto %s puretaan tiedostona %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
+msgstr "nykyisen kansion sijaintia ei voitu määrittää\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
 msgstr ""
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr ""
+msgstr "pakettia %s päivitettäessä tapahtui virhe\n"
 
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr ""
+msgstr "pakettia %s asennettaessa tapahtui virhe\n"
 
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr ""
+msgstr "ei voitu päivittää titokantamerkintää: %s-%s\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
@@ -85,18 +99,6 @@ msgstr ""
 
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr ""
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr ""
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr ""
-
-#, c-format
-msgid "could not remove database %s\n"
 msgstr ""
 
 #, c-format
@@ -148,11 +150,11 @@ msgid "missing package metadata in %s\n"
 msgstr ""
 
 #, c-format
-msgid "database path is undefined\n"
+msgid "removing invalid file: %s\n"
 msgstr ""
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
+msgid "database path is undefined\n"
 msgstr ""
 
 #, c-format
@@ -172,11 +174,31 @@ msgid "ignoring package %s-%s\n"
 msgstr ""
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
+msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr ""
 
 #, c-format
-msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
+msgid "could not get filesystem information\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr ""
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr ""
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr ""
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
 msgstr ""
 
 #, c-format
@@ -236,6 +258,10 @@ msgid "wrong or NULL argument passed"
 msgstr ""
 
 #, c-format
+msgid "not enough free disk space"
+msgstr ""
+
+#, c-format
 msgid "library not initialized"
 msgstr ""
 
@@ -265,6 +291,10 @@ msgstr ""
 
 #, c-format
 msgid "could not find database"
+msgstr ""
+
+#, c-format
+msgid "database is incorrect version"
 msgstr ""
 
 #, c-format
@@ -368,6 +398,10 @@ msgid "failed to retrieve some files"
 msgstr ""
 
 #, c-format
+msgid "failed to copy some file"
+msgstr ""
+
+#, c-format
 msgid "invalid regular expression"
 msgstr ""
 
@@ -385,6 +419,10 @@ msgstr ""
 
 #, c-format
 msgid "unexpected error"
+msgstr ""
+
+#, c-format
+msgid "database larger than maximum size\n"
 msgstr ""
 
 #, c-format
@@ -432,22 +470,6 @@ msgid "cannot replace %s by %s\n"
 msgstr ""
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr ""
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr ""
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr ""
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr ""
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr ""
 
@@ -468,6 +490,10 @@ msgid "could not commit transaction\n"
 msgstr ""
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr ""
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr ""
 
@@ -484,7 +510,7 @@ msgid "could not remove tmpdir %s\n"
 msgstr ""
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
+msgid "could not create pipe (%s)\n"
 msgstr ""
 
 #, c-format
@@ -496,15 +522,15 @@ msgid "could not change the root directory (%s)\n"
 msgstr ""
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "call to popen failed (%s)\n"
+msgid "call to execv failed (%s)\n"
 msgstr ""
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not open pipe (%s)\n"
 msgstr ""
 
 #, c-format

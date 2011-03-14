@@ -1,30 +1,42 @@
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Ivan Kovnatsky <sevenfourk@gmail.com>, 2008.
-# Roman Kyrylych <roman@archlinux.org>, 2008, 2009, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-06-13 20:08+0300\n"
-"Last-Translator: Roman Kyrylych <roman@archlinux.org>\n"
-"Language-Team: Ukrainian (archlinux.org.ua) <>\n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-04 18:24+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Ukrainian\n"
-"X-Poedit-Country: UKRAINE\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "старіша версія %s-%s замінюється на %s в цільовому списку пакунків\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s не потребує оновлення -- пропущено\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s не потребує оновлення -- перевстановлюється\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "пониження версії пакунку %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
 msgstr ""
-"%s-%s пропускається, бо в списку цільових пакунків є новіша версія %s\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "неможливо розпакувати %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -41,10 +53,6 @@ msgstr "розпакування: каталог не було перезапи�
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "розпакування: символьне посилання %s не вказує на каталог\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "неможливо розпакувати %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -71,6 +79,10 @@ msgid "could not get current working directory\n"
 msgstr "неможливо отримати поточний робочий каталог\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "неможливо змінити каталог на %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "з'явилась проблема при оновленні %s\n"
 
@@ -89,18 +101,6 @@ msgstr "неможливо додати запис '%s' у кеш\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "вилучення невірної бази даних: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "неможливо відкрити %s: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "неможливо вилучити запис бази даних %s\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "неможливо вилучити базу даних %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -151,12 +151,12 @@ msgid "missing package metadata in %s\n"
 msgstr "бракує метаданих пакунку в %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "шлях до бази даних не вказано\n"
+msgid "removing invalid file: %s\n"
+msgstr ""
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "спроба перереєструвати базу даних 'local'\n"
+msgid "database path is undefined\n"
+msgstr "шлях до бази даних не вказано\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -175,12 +175,32 @@ msgid "ignoring package %s-%s\n"
 msgstr "ігнорування пакунка %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "був вибраний пакунок %s, що забезпечує %s\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "неможливо розв'язати \"%s\", залежність \"%s\"\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr ""
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr ""
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr ""
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
 
 #, c-format
 msgid "disk"
@@ -239,6 +259,10 @@ msgid "wrong or NULL argument passed"
 msgstr "передано невірний аргумент чи NULL"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr ""
+
+#, c-format
 msgid "library not initialized"
 msgstr "бібліотека не ініціалізована"
 
@@ -269,6 +293,10 @@ msgstr "база даних вже зареєстрована"
 #, c-format
 msgid "could not find database"
 msgstr "неможливо знайти базу даних"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr ""
 
 #, c-format
 msgid "could not update database"
@@ -371,6 +399,10 @@ msgid "failed to retrieve some files"
 msgstr "не вдалося отримати деякі файли"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr ""
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "невірний регулярний вираз"
 
@@ -389,6 +421,10 @@ msgstr "помилка виклику зовнішнього завантажу�
 #, c-format
 msgid "unexpected error"
 msgstr "неочікувана помилка"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -435,22 +471,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "неможливо замінити %s на %s\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s не потребує оновлення -- пропущено\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s не потребує оновлення -- перевстановлюється\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "пониження версії пакунку %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "пропуск пакунка: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "виявлені нерозв'язні конфлікти пакунків\n"
 
@@ -471,6 +491,10 @@ msgid "could not commit transaction\n"
 msgstr "неможливо здійснити транзакцію\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr ""
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "неможливо вилучити файл блокування %s\n"
 
@@ -487,8 +511,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "неможливо вилучити тимчасовий каталог %s\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "неможливо змінити каталог на %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -499,16 +523,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "неможливо змінити кореневий каталог (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "неможливо змінити каталог на / (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "виклик popen невдалий (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "виклик waitpid невдалий (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "command failed to execute correctly\n"
@@ -521,88 +545,3 @@ msgstr "кеш %s не існує, створюється...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "неможливо створити кеш пакунку, використовуватиметься /tmp\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "в списку цільових пакунків були знайдені конфліктуючі пакунки\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr "ви не можете одночасно встановити два пакунки, що конфліктують\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr "заміна пакунків за допомогою -U поки-що не підтримується\n"
-
-#~ msgid "you can replace packages manually using -Rd and -U\n"
-#~ msgstr "ви можете власноруч замінити пакунки використавши -Rd та -U\n"
-
-#~ msgid "url scheme not specified, assuming HTTP\n"
-#~ msgstr "протокол посилання не вказано, вважається HTTP\n"
-
-#~ msgid "cannot write to file '%s'\n"
-#~ msgstr "неможливо писати у файл '%s'\n"
-
-#~ msgid "no such repository"
-#~ msgstr "немає такого репозиторію"
-
-#~ msgid "repository '%s' not found\n"
-#~ msgstr "репозиторій '%s' не знайдено\n"
-
-#~ msgid "could not create removal transaction\n"
-#~ msgstr "неможливо створити транзакцію вилучення\n"
-
-#~ msgid "could not create transaction\n"
-#~ msgstr "неможливо створити транзакцію\n"
-
-#~ msgid "could not initialize the removal transaction\n"
-#~ msgstr "неможливо почати транзакцію вилучення\n"
-
-#~ msgid "could not initialize transaction\n"
-#~ msgstr "неможливо почати транзакцію\n"
-
-#~ msgid "could not prepare removal transaction\n"
-#~ msgstr "неможливо підготувати транзакцію вилучення\n"
-
-#~ msgid "error downloading '%s': %s\n"
-#~ msgstr "помилка при завантаженні '%s': %s\n"
-
-#~ msgid "could not chdir to %s\n"
-#~ msgstr "неможливо змінити каталог на %s\n"
-
-#~ msgid "running XferCommand: fork failed!\n"
-#~ msgstr "виконання XferCommand: старт процесу невдалий!\n"
-
-#~ msgid "could not commit transaction"
-#~ msgstr "неможливо здійснити транзакцію"
-
-#~ msgid "could not download all files"
-#~ msgstr "неможиво завантажити усі файли"
-
-#~ msgid "cannot load package data"
-#~ msgstr "неможливо завантажити дані пакунку"
-
-#~ msgid "package not installed or lesser version"
-#~ msgstr "пакунок не встановлено, або існує старіша версія"
-
-#~ msgid "group not found"
-#~ msgstr "група не знадена"
-
-#~ msgid "user aborted the operation"
-#~ msgstr "користувач перервав операцію"
-
-#~ msgid "internal error"
-#~ msgstr "внутрішня помилка"
-
-#~ msgid "not confirmed"
-#~ msgstr "не підтверджено"
-
-#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-#~ msgstr "%s-%s: ігнорування поновлення пакунку (буде замінено на %s-%s)\n"
-
-#~ msgid "command: %s\n"
-#~ msgstr "команда: %s\n"
-
-#~ msgid "could not prepare transaction\n"
-#~ msgstr "неможливо підготувати транзакцію\n"
-
-#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-#~ msgstr ""
-#~ "В батьківському середовищі немає /bin/sh, переривання скрипту виконання\n"

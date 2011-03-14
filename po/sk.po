@@ -1,21 +1,21 @@
-# translation of sk.po to Slovak
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Jose Riha <jose 1711 gmail com>, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2010-08-23 21:30-0500\n"
-"PO-Revision-Date: 2010-07-27 22:05+0200\n"
-"Last-Translator: Jozef Říha <jose1711@gmail.com>\n"
-"Language-Team: Slovak\n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:57-0500\n"
+"PO-Revision-Date: 2011-03-04 18:33+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -74,6 +74,10 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Získavam balíčky z %s...\n"
 
 #, c-format
+msgid "checking available disk space...\n"
+msgstr ""
+
+#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ":: %s je v IgnorePkg/IgnoreGroup. Napriek tomu nainštalovať?"
 
@@ -91,19 +95,25 @@ msgstr ":: %s a %s sú v konflikte (%s). Odstrániť %s?"
 
 #, c-format
 msgid ""
-":: the following package(s) cannot be upgraded due to unresolvable "
+":: The following package cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ""
-":: Nasledujúce balíčky nemôžu byť aktualizované, nie je možné vyriešiť "
-"závislosti:\n"
+msgid_plural ""
+":: The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
-msgid ""
-"\n"
-"Do you want to skip the above package(s) for this upgrade?"
+msgid "Do you want to skip the above package for this upgrade?"
+msgid_plural "Do you want to skip the above packages for this upgrade?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, c-format
+msgid ":: There are %d providers available for %s:\n"
 msgstr ""
-"\n"
-"Chcete preskočiť aktualizáciu balíčkov uvedených vyššie?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -130,12 +140,40 @@ msgid "checking for file conflicts"
 msgstr "kontrolujem konflikty súborov"
 
 #, c-format
+msgid "checking available disk space"
+msgstr ""
+
+#, c-format
+msgid "checking package integrity"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "sťahujem %s...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc zlyhal: nie je možné alokovať %zd bytov\n"
+
+#, c-format
+msgid "no targets specified (use -h for help)\n"
+msgstr "nie sú špecifikované ciele (použite -h pre nápovedu)\n"
+
+#, c-format
+msgid "no install reason specified (use -h for help)\n"
+msgstr ""
+
+#, c-format
+msgid "could not set install reason for package %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: install reason has been set to 'installed as dependency'\n"
+msgstr ""
+
+#, c-format
+msgid "%s: install reason has been set to 'explicitly installed'\n"
+msgstr ""
 
 #, c-format
 msgid "Explicitly installed"
@@ -250,24 +288,12 @@ msgid "Repository     :"
 msgstr "Repozitár      :"
 
 #, c-format
-msgid "Backup Files:\n"
-msgstr "Zálohované súbory :\n"
-
-#, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "nie je možné spočítať kontrolný súčet pre %s\n"
 
 #, c-format
-msgid "MODIFIED\t%s\n"
-msgstr "ZMENENÝ\t\t%s\n"
-
-#, c-format
-msgid "Not Modified\t%s\n"
-msgstr "Nezmenený\t%s\n"
-
-#, c-format
-msgid "MISSING\t\t%s\n"
-msgstr "CHÝBA\t\t%s\n"
+msgid "Backup Files:\n"
+msgstr "Zálohované súbory :\n"
 
 #, c-format
 msgid "(none)\n"
@@ -317,16 +343,6 @@ msgstr ""
 "závisia\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         preskočiť kontrolu závislostí\n"
-
-#, c-format
-msgid ""
-"  -k, --dbonly         only remove database entries, do not remove files\n"
-msgstr ""
-"  -k, --dbonly         odstrániť záznam v databáze, neodstraňovať súbory\n"
-
-#, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         odstrániť aj konfiguračné súbory\n"
 
@@ -345,41 +361,6 @@ msgid ""
 msgstr ""
 "  -u, --unneeded       odstrániť nepotrebné balíčky\n"
 "                       (ktoré nepoškodia iné balíčky)\n"
-
-#, c-format
-msgid ""
-"      --print          only print the targets instead of performing the "
-"operation\n"
-msgstr "      --print          vypísať ciele miesto spustenia operácie\n"
-
-#, c-format
-msgid ""
-"      --print-format <string>\n"
-"                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <string>\n"
-"                       určí, ako majú byť ciele vypísané\n"
-
-#, c-format
-msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         nainštalovať balíčky ako závislosti\n"
-
-#, c-format
-msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr ""
-"      --asexplicit     nainštalovať balíčky ako explicitne inštalované\n"
-
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr ""
-"  -f, --force          vynútená inštalácia, prepíše konfliktné súbory\n"
-
-#, c-format
-msgid ""
-"  -k, --dbonly         add database entries, do not install or keep existing "
-"files\n"
-msgstr ""
-"  -k, --dbonly         odstrániť záznam databáze, neodstraňovať súbory\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -437,6 +418,11 @@ msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <package> otázka na súbor balíčku miesto na databázu\n"
 
 #, c-format
+msgid "  -q, --quiet          show less information for query and search\n"
+msgstr ""
+"  -q, --quiet          zobraziť menej informácii pri otázke a hľadaní\n"
+
+#, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
@@ -455,11 +441,6 @@ msgstr ""
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr ""
 "  -u, --upgrades       zoznam všetkých aktualizovaných balíčkov [filter]\n"
-
-#, c-format
-msgid "  -q, --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet          zobraziť menej informácii pri otázke a hľadaní\n"
 
 #, c-format
 msgid ""
@@ -508,6 +489,28 @@ msgid "      --needed         don't reinstall up to date packages\n"
 msgstr "      --needed         potlačit inštaláciu aktuálnych balíčkov\n"
 
 #, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr "      --asdeps         označiť balíčky ako závislosti\n"
+
+#, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr "      --asexplicit     označiť balíčky ako explicitne inštalované\n"
+
+#, c-format
+msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          vynútená inštalácia, prepíše konfliktné súbory\n"
+
+#, c-format
+msgid "      --asdeps         install packages as non-explicitly installed\n"
+msgstr "      --asdeps         nainštalovať balíčky ako závislosti\n"
+
+#, c-format
+msgid "      --asexplicit     install packages as explicitly installed\n"
+msgstr ""
+"      --asexplicit     nainštalovať balíčky ako explicitne inštalované\n"
+
+#, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
@@ -525,24 +528,13 @@ msgstr ""
 "viackrát)\n"
 
 #, c-format
-msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         označiť balíčky ako závislosti\n"
+msgid "  -d, --nodeps         skip dependency checks\n"
+msgstr "  -d, --nodeps         preskočiť kontrolu závislostí\n"
 
 #, c-format
-msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     označiť balíčky ako explicitne inštalované\n"
-
-#, c-format
-msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <path>  nastaviť cestu ku konfiguračnému súboru\n"
-
-#, c-format
-msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <path  nastaviť cestu k log súboru\n"
-
-#, c-format
-msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm      nepýtať sa na žiadne potvrdenia\n"
+msgid ""
+"  -k, --dbonly         only modify database entries, not package files\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -555,28 +547,54 @@ msgid ""
 msgstr "      --noscriptlet    nespúšťať inštalačné skripty\n"
 
 #, c-format
-msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        zobraziť viac informácii\n"
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr "      --print          vypísať ciele miesto spustenia operácie\n"
 
 #, c-format
-msgid "      --debug          display debug messages\n"
-msgstr "      --debug          zobraziť ladiace správy\n"
-
-#, c-format
-msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <path>    nastaviť iný koreňový adresár pre inštaláciu\n"
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       určí, ako majú byť ciele vypísané\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <path>  nastaviť iné umiestnenie databáze\n"
 
 #, c-format
-msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <dir> nastaviť cestu k adresáru s cache\n"
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <path>    nastaviť iný koreňový adresár pre inštaláciu\n"
+
+#, c-format
+msgid "  -v, --verbose        be verbose\n"
+msgstr "  -v, --verbose        zobraziť viac informácii\n"
 
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    nastaviť alternatívnu architektúru\n"
+
+#, c-format
+msgid "      --cachedir <dir> set an alternate package cache location\n"
+msgstr "      --cachedir <dir> nastaviť cestu k adresáru s cache\n"
+
+#, c-format
+msgid "      --config <path>  set an alternate configuration file\n"
+msgstr "      --config <path>  nastaviť cestu ku konfiguračnému súboru\n"
+
+#, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --debug          zobraziť ladiace správy\n"
+
+#, c-format
+msgid "      --logfile <path> set an alternate log file\n"
+msgstr "      --logfile <path  nastaviť cestu k log súboru\n"
+
+#, c-format
+msgid "      --noconfirm      do not ask for any confirmation\n"
+msgstr "      --noconfirm      nepýtať sa na žiadne potvrdenia\n"
 
 #, c-format
 msgid ""
@@ -599,16 +617,32 @@ msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problém s nastavením log súboru '%s' (%s)\n"
 
 #, c-format
-msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' nie je platná ladiaca úroveň\n"
-
-#, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr "problém pri pridaní adresára s cache '%s' (%s)\n"
 
 #, c-format
+msgid "'%s' is not a valid debug level\n"
+msgstr "'%s' nie je platná ladiaca úroveň\n"
+
+#, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "súčasne je možné spustiť len jednu operáciu\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "nebola špecifikovaná operácia (použite -h pre nápovedu)\n"
+
+#, c-format
+msgid "invalid option\n"
+msgstr ""
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "chybná hodnota pre 'CleanMethod': '%s'\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr ""
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
@@ -619,12 +653,12 @@ msgid "running XferCommand: fork failed!\n"
 msgstr "spustenie XferCommand: bolo neúspešné!\n"
 
 #, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "položka konfigurácie '%s' bez hodnoty nie je povolená\n"
+msgid "could not change directory to %s (%s)\n"
+msgstr ""
 
 #, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "chybná hodnota pre 'CleanMethod': '%s'\n"
+msgid "directive '%s' without value not recognized\n"
+msgstr "položka konfigurácie '%s' bez hodnoty nie je povolená\n"
 
 #, c-format
 msgid "directive '%s' with a value not recognized\n"
@@ -687,16 +721,16 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "zlyhala inicializácia knižnice alpm (%s)\n"
 
 #, c-format
+msgid "buffer overflow detected in arg parsing\n"
+msgstr ""
+
+#, c-format
+msgid "failed to reopen stdin for reading: (%s)\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "operáciu nie je možné uskutočniť, ak nie ste root.\n"
-
-#, c-format
-msgid "could not register 'local' database (%s)\n"
-msgstr "nie je možné zaregistrovať databázu 'local' (%s)\n"
-
-#, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "nebola špecifikovaná operácia (použite -h pre nápovedu)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -711,12 +745,16 @@ msgid "failed to read file '%s': %s\n"
 msgstr "zlyhalo čítanie súboru '%s': %s\n"
 
 #, c-format
-msgid "cannot determine ownership of a directory\n"
-msgstr "nie je možné určiť vlastníka adresára\n"
+msgid "cannot determine ownership of directory '%s'\n"
+msgstr ""
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nie je možné určiť skutočnú cestu pre '%s': %s\n"
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is owned by %s %s\n"
@@ -731,24 +769,22 @@ msgid "group \"%s\" was not found\n"
 msgstr "skupina \"%s\" nebola nájdená\n"
 
 #, c-format
-msgid "root path too long\n"
-msgstr "cesta ku koreňovému adresáru je príliš dlhá\n"
+msgid "%s: %d total file, "
+msgid_plural "%s: %d total files, "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
-msgid "file path too long\n"
-msgstr "cesta k súboru je príliš dlhá\n"
-
-#, c-format
-msgid "%s: %d total files, %d missing file(s)\n"
-msgstr "%s: %d souborov celkom, %d chýbajúcich súborov\n"
+msgid "%d missing file\n"
+msgid_plural "%d missing files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "nie sú nastavené žiadne použiteľné repozitáre.\n"
-
-#, c-format
-msgid "no targets specified (use -h for help)\n"
-msgstr "nie sú špecifikované ciele (použite -h pre nápovedu)\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -792,12 +828,12 @@ msgid "could not access database directory\n"
 msgstr "nie je možné pristupovať k adresáru s databázou\n"
 
 #, c-format
-msgid "Do you want to remove %s?"
-msgstr "Chcete odstrániť %s?"
+msgid "could not remove %s\n"
+msgstr ""
 
 #, c-format
-msgid "could not remove repository directory\n"
-msgstr "nie je možné odstrániť adresár repozitára\n"
+msgid "Do you want to remove %s?"
+msgstr "Chcete odstrániť %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -816,12 +852,20 @@ msgid "Cache directory: %s\n"
 msgstr "Adresár cache: %s\n"
 
 #, c-format
-msgid "Do you want to remove uninstalled packages from cache?"
-msgstr "Chcete odstrániť odinštalované balíčky z cache?"
+msgid "Packages to keep:\n"
+msgstr ""
 
 #, c-format
-msgid "Do you want to remove outdated packages from cache?"
-msgstr "Chcete odstrániť staré balíčky z cache?"
+msgid "  All locally installed packages\n"
+msgstr ""
+
+#, c-format
+msgid "  All current sync database packages\n"
+msgstr ""
+
+#, c-format
+msgid "Do you want to remove all other packages from cache?"
+msgstr ""
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -878,6 +922,18 @@ msgstr "repozitár \"%s\" nebol nájdený.\n"
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "preskakujem cieľ: %s\n"
+
+#, c-format
+msgid "target not found: %s\n"
+msgstr ""
+
+#, c-format
+msgid ":: There are %d members in group %s:\n"
+msgstr ""
+
+#, c-format
+msgid "database not found: %s\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -942,6 +998,10 @@ msgstr ""
 "  môžete odstrániť %s\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr ""
+
+#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "zlyhalo dokončenie transakcie (%s)\n"
 
@@ -978,6 +1038,26 @@ msgid "Optional dependencies for %s\n"
 msgstr "Voliteľné závislosti pre %s\n"
 
 #, c-format
+msgid "Repository %s\n"
+msgstr ""
+
+#, c-format
+msgid "Invalid value: %d is not between %d and %d\n"
+msgstr ""
+
+#, c-format
+msgid "Invalid number: %s\n"
+msgstr ""
+
+#, c-format
+msgid "Enter a selection (default=all)"
+msgstr ""
+
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#, c-format
 msgid "[Y/n]"
 msgstr "[A/n]"
 
@@ -1002,6 +1082,10 @@ msgid "NO"
 msgstr "NIE"
 
 #, c-format
+msgid "failed to allocate string\n"
+msgstr ""
+
+#, c-format
 msgid "error: %s"
 msgstr "chyba: %s"
 
@@ -1010,20 +1094,12 @@ msgid "warning: %s"
 msgstr "varovanie: %s"
 
 #, c-format
-msgid "function: %s"
-msgstr "funkcia: %s"
-
-#, c-format
 msgid "error: "
 msgstr "chyba: "
 
 #, c-format
 msgid "warning: "
 msgstr "varovanie: "
-
-#, c-format
-msgid "function: "
-msgstr "funkcia: "
 
 msgid "WARNING:"
 msgstr "VAROVANIE:"
@@ -1054,9 +1130,6 @@ msgstr "Inštalujem chýbajúce závislosti..."
 
 msgid "'%s' failed to install missing dependencies."
 msgstr "'%s' zlyhal pri inštalácii chýbajúcich závislostí."
-
-msgid "Failed to install all missing dependencies."
-msgstr "Zlyhala inštalácia všetkých chýbajúcich závislostí."
 
 msgid "Missing Dependencies:"
 msgstr "Chýbajúce závislosti:"
@@ -1119,6 +1192,9 @@ msgstr "Rozbaľujem %s pomocou %s"
 msgid "Failed to extract %s"
 msgstr "Chyba pri rozbaľovaní %s"
 
+msgid "A failure occurred in %s()."
+msgstr ""
+
 msgid "Starting %s()..."
 msgstr "Spúšťam %s()..."
 
@@ -1153,8 +1229,8 @@ msgstr "Prosím, pridajte informáciu o licencii do vášho %s!"
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Príklad pre GPL software: license=('GPL')."
 
-msgid "Invalid backup entry : %s"
-msgstr "Neplatná položka zálohy: %s"
+msgid "Backup entry file not in package : %s"
+msgstr ""
 
 msgid "Package contains reference to %s"
 msgstr "Balíček obsahuje odkaz na %s"
@@ -1165,11 +1241,8 @@ msgstr "Chýba pkg/ adresár."
 msgid "Creating package..."
 msgstr "Vytváram balíček..."
 
-msgid "Adding install script..."
-msgstr "Pridávam inštalačný skript..."
-
-msgid "Adding package changelog..."
-msgstr "Pridávam zoznam zmien balíčku..."
+msgid "Adding %s file..."
+msgstr ""
 
 msgid "Compressing package..."
 msgstr "Komprimujem balíček..."
@@ -1201,6 +1274,9 @@ msgstr "Komprimujem zdrojový balíček..."
 msgid "Failed to create source package file."
 msgstr "Chyba pri vytváraní zdrojového balíčku."
 
+msgid "Failed to create symlink to source package file."
+msgstr ""
+
 msgid "Installing package %s with %s -U..."
 msgstr "Inštalujem balíček %s pomocou %s -U..."
 
@@ -1216,8 +1292,14 @@ msgstr "%s nemôže byť prázdne."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s nemôže začínať pomlčkou."
 
+msgid "%s is not allowed to contain colons or hyphens."
+msgstr ""
+
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s nemôže obsahovat pomlčky."
+
+msgid "%s must be an integer."
+msgstr ""
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s nie je dostupný pre architektúru '%s'."
@@ -1230,6 +1312,9 @@ msgstr "ktorý vyzerá takto: arch=('%s')."
 
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Pole Provides nemôže obsahovať porovnávacie operátory (< alebo >)."
+
+msgid "Backup entry should not contain leading slash : %s"
+msgstr ""
 
 msgid "Invalid syntax for optdepend : '%s'"
 msgstr "Chybná syntax pre voliteľné závislosti: '%s'"
@@ -1246,23 +1331,8 @@ msgstr "chýba funkcia balíčka pre rozdelenie balíčka '%s'"
 msgid "requested package %s is not provided in %s"
 msgstr "požadovaný balíček %s nie je poskytovaný balíčkom %s"
 
-msgid "Determining latest darcs revision..."
-msgstr "Zisťujem poslednú darcs revíziu..."
-
-msgid "Determining latest cvs revision..."
-msgstr "Zisťujem poslednú cvs revíziu..."
-
-msgid "Determining latest git revision..."
-msgstr "Zisťujem poslednú git revíziu..."
-
-msgid "Determining latest svn revision..."
-msgstr "Zisťujem poslednú svn revíziu..."
-
-msgid "Determining latest bzr revision..."
-msgstr "Zisťujem poslednú bzr revíziu..."
-
-msgid "Determining latest hg revision..."
-msgstr "Zisťujem poslednú hg revíziu..."
+msgid "Determining latest %s revision..."
+msgstr ""
 
 msgid "Version found: %s"
 msgstr "Nájdená verzia: %s"
@@ -1343,16 +1413,19 @@ msgstr ""
 msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "  --asroot         Povoliť spustenie makepkg pod užívateľom root"
 
+msgid "  --check          Run the check() function in the %s"
+msgstr ""
+
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config <file>  Použiť alternatívny konfiguračný súbor (miesto '%s')"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development "
-"PKGBUILDs"
+"  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
-"  --holdver        Zabrániť automatickému zvýšeniu verzie pri vývojových "
-"PKGBUILDoch"
+
+msgid "  --nocheck        Do not run the check() function in the %s"
+msgstr ""
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
@@ -1379,15 +1452,11 @@ msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Ak nie je zadané -p, makepkg bude hľadať '%s'"
 
 msgid ""
-"Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je "
-"slobodný software; viac o podmienkach použitia nájdete\\v zdrojovom kóde.Zo "
-"zákona nie sú poskytované ŽIADNE ZÁRUKY.\\n"
 
 msgid "%s not found."
 msgstr "%s nebol nájdený."
@@ -1503,11 +1572,11 @@ msgstr "Zdrojový balíček vytvorený: %s"
 msgid "Skipping dependency checks."
 msgstr "Preskakujem kontrolu závislostí."
 
-msgid "Checking Runtime Dependencies..."
-msgstr "Kontrolujem závislosti potrebné pre beh..."
+msgid "Checking runtime dependencies..."
+msgstr ""
 
-msgid "Checking Buildtime Dependencies..."
-msgstr "Kontrolujem závislosti potrebné pre zostavenie..."
+msgid "Checking buildtime dependencies..."
+msgstr ""
 
 msgid "Could not resolve all dependencies."
 msgstr "Nie je možné vyriešiť všetky závislosti."
@@ -1546,6 +1615,27 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "Použitie: %s [koreň_databáze_pacmana]"
 
 msgid ""
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+
+msgid "%s does not exist or is not a directory."
+msgstr "%s neexistuje, alebo nie je adresár."
+
+msgid "You must have correct permissions to upgrade the database."
+msgstr ""
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "Bol nájdený zámok pacmana. Nedá sa pokračovať, kým pacman beží."
+
+msgid "Pre-3.5 database format detected - upgrading..."
+msgstr ""
+
+msgid "Done."
+msgstr ""
+
+msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
@@ -1569,14 +1659,8 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff nebol nájdený, prosím nainštalujte diffutils."
 
-msgid "%s does not exist or is not a directory."
-msgstr "%s neexistuje, alebo nie je adresár."
-
 msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mať správne oprávnenia na optimalizáciu databázy."
-
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Bol nájdený zámok pacmana. Nedá sa pokračovať, kým pacman beží."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "CHYBA: Nie je možné vytvoriť dočasný adresár pre zostavenie databáze."
@@ -1611,8 +1695,52 @@ msgstr "Vymieňajú sa databáze..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Hotovo. Databáza pacmana bola optimalizovaná."
 
-msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "Použitie: repo-add [-q] <path-to-db> <package|delta> ...\\n"
+msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
+msgstr ""
+
+msgid ""
+"\tpkgdelta will create a delta file between two packages.\\nThis delta file "
+"can then be added to a database using repo-add.\\n\\n"
+msgstr ""
+
+msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
+msgstr ""
+
+msgid ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr ""
+
+msgid "Invalid package file '%s'."
+msgstr "Neplatný súbor balíčka '%s'."
+
+msgid "The package names don't match : '%s' and '%s'"
+msgstr ""
+
+msgid "The package architectures don't match : '%s' and '%s'"
+msgstr ""
+
+msgid "Both packages have the same version : '%s'"
+msgstr ""
+
+msgid "Generating delta from version %s to version %s"
+msgstr ""
+
+msgid "Delta could not be created."
+msgstr ""
+
+msgid "Generated delta : '%s'"
+msgstr ""
+
+msgid "File '%s' does not exist"
+msgstr ""
+
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
+
+msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+msgstr ""
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr "Použitie: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
@@ -1635,10 +1763,18 @@ msgstr ""
 
 msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors\\n\\n"
+"\\nand errors.\\n\\n"
 msgstr ""
-"Použite prepínač -q/--quiet pre skrátenie výstupu na základné správy, "
-"varovania \\n a chyby\\n\\n"
+
+msgid ""
+"Use the -d/--delta flag to automatically generate and add a delta file"
+"\\nbetween the old entry and the new one, if the old package file is found"
+"\\nnext to the new one.\\n\\n"
+msgstr ""
+
+msgid ""
+"Use the -f/--files flag to update a database including file entries.\\n\\n"
+msgstr ""
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Príklad:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1657,26 +1793,26 @@ msgstr ""
 "Toto je slobodný software; viac o podmienkach použitia nájdete\\nv zdrojovom "
 "kóde. Zo zákona nie sú poskytované ŽIADNE ZÁRUKY.\\n"
 
-msgid "Creating 'deltas' db entry..."
-msgstr "Vytváram 'deltas' záznam databázy..."
+msgid "No database entry for package '%s'."
+msgstr ""
 
-msgid "An entry for '%s' already existed"
-msgstr "Záznam pre '%s' už existuje"
+msgid "Adding 'deltas' entry : %s -> %s"
+msgstr ""
 
 msgid "Removing existing entry '%s'..."
 msgstr "Odstraňujem existujúci záznam '%s'..."
 
-msgid "Invalid package file '%s'."
-msgstr "Neplatný súbor balíčka '%s'."
+msgid "An entry for '%s' already existed"
+msgstr "Záznam pre '%s' už existuje"
 
-msgid "Creating 'desc' db entry..."
-msgstr "Vytváram 'desc' záznam databázy..."
+msgid "Creating '%s' db entry..."
+msgstr ""
 
 msgid "Computing md5 checksums..."
 msgstr "Počítam kontrolný MD5 súčet..."
 
-msgid "Creating 'depends' db entry..."
-msgstr "Vytváram 'depends' záznam databázy..."
+msgid "Old package file not found: %s"
+msgstr ""
 
 msgid "Failed to acquire lockfile: %s."
 msgstr "Zlyhalo získanie zamykacieho súboru: %s."
@@ -1701,9 +1837,6 @@ msgstr "Súbor '%s' nebol nájdený."
 
 msgid "Adding delta '%s'"
 msgstr "Pridávam delta rozdiel '%s'"
-
-msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' nie je súbor balíčka, preskakujem"

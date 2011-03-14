@@ -1,21 +1,21 @@
-# Norwegian translations for PACKAGE package.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-#  <maister@archlinux.us>, 2009.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2010-08-23 21:30-0500\n"
-"PO-Revision-Date: 2009-10-04 19:29+0200\n"
-"Last-Translator:  <maister@archlinux.us>\n"
-"Language-Team: Norwegian\n"
-"Language: \n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:57-0500\n"
+"PO-Revision-Date: 2011-03-04 18:33+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -74,6 +74,10 @@ msgid ":: Retrieving packages from %s...\n"
 msgstr ":: Mottar pakker fra %s ...\n"
 
 #, c-format
+msgid "checking available disk space...\n"
+msgstr ""
+
+#, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ":: %s finnes i IgnorePkg/IgnoreGroup. Installér likevel?"
 
@@ -81,29 +85,33 @@ msgstr ":: %s finnes i IgnorePkg/IgnoreGroup. Installér likevel?"
 msgid ":: Replace %s with %s/%s?"
 msgstr ":: Bytt ut %s med %s/%s?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: %s strider med %s. Fjern %s?"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: %s strider med %s. Fjern %s?"
+msgstr ""
 
 #, c-format
 msgid ""
-":: the following package(s) cannot be upgraded due to unresolvable "
+":: The following package cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr ""
-":: følgende pakke(r) kan ikke oppgraderes på grunn av uoppløselige "
-"avhengigheter\n"
+msgid_plural ""
+":: The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
-msgid ""
-"\n"
-"Do you want to skip the above package(s) for this upgrade?"
+msgid "Do you want to skip the above package for this upgrade?"
+msgid_plural "Do you want to skip the above packages for this upgrade?"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid ":: There are %d providers available for %s:\n"
 msgstr ""
-"\n"
-"Vil du hoppe over følgende pakke(r) for denne oppgraderingen?"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -130,12 +138,40 @@ msgid "checking for file conflicts"
 msgstr "leter etter filkonflikter"
 
 #, c-format
+msgid "checking available disk space"
+msgstr ""
+
+#, c-format
+msgid "checking package integrity"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "laster ned %s ...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc-feil: kunne ikke allokere %zd bytes\n"
+
+#, c-format
+msgid "no targets specified (use -h for help)\n"
+msgstr "ingen mål spesifisert (bruk -h for hjelp)\n"
+
+#, c-format
+msgid "no install reason specified (use -h for help)\n"
+msgstr ""
+
+#, c-format
+msgid "could not set install reason for package %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: install reason has been set to 'installed as dependency'\n"
+msgstr ""
+
+#, c-format
+msgid "%s: install reason has been set to 'explicitly installed'\n"
+msgstr ""
 
 #, c-format
 msgid "Explicitly installed"
@@ -250,24 +286,12 @@ msgid "Repository     :"
 msgstr "Pakkebrønn     :"
 
 #, c-format
-msgid "Backup Files:\n"
-msgstr "Backup-filer:\n"
-
-#, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "kunne ikke kalkulere sjekksummer for %s\n"
 
 #, c-format
-msgid "MODIFIED\t%s\n"
-msgstr "ENDRET\t%s\n"
-
-#, c-format
-msgid "Not Modified\t%s\n"
-msgstr "Ikke endret\t%s\n"
-
-#, c-format
-msgid "MISSING\t\t%s\n"
-msgstr "MANGLER\t\t%s\n"
+msgid "Backup Files:\n"
+msgstr "Backup-filer:\n"
 
 #, c-format
 msgid "(none)\n"
@@ -316,15 +340,6 @@ msgid ""
 msgstr "  -c, --cascade      fjern pakker og alle pakker som avhenger av dem\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         hopper over sjekking av avhengigheter\n"
-
-#, fuzzy, c-format
-msgid ""
-"  -k, --dbonly         only remove database entries, do not remove files\n"
-msgstr "  -k, --dbonly    fjerner base databaseelement, fjerner ikke filer\n"
-
-#, c-format
 msgid "  -n, --nosave         remove configuration files as well\n"
 msgstr "  -n, --nosave         fjerner konfigurasjonsfiler i tillegg\n"
 
@@ -343,39 +358,6 @@ msgid ""
 msgstr ""
 "  -u, --unneeded    fjerner unødvendige pakker (som ikke ødelegger for andre "
 "pakker)\n"
-
-#, c-format
-msgid ""
-"      --print          only print the targets instead of performing the "
-"operation\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"      --print-format <string>\n"
-"                       specify how the targets should be printed\n"
-msgstr ""
-
-#, c-format
-msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr ""
-"      --asdeps         installér pakker som om andre pakker er avhengig av "
-"dem\n"
-
-#, c-format
-msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     installér pakker som manuelt installert\n"
-
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr ""
-"  -f, --force          tving en installasjon, skriv over motstridige filer\n"
-
-#, fuzzy, c-format
-msgid ""
-"  -k, --dbonly         add database entries, do not install or keep existing "
-"files\n"
-msgstr "  -k, --dbonly    fjerner base databaseelement, fjerner ikke filer\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -428,6 +410,11 @@ msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
 #, c-format
+msgid "  -q, --quiet          show less information for query and search\n"
+msgstr ""
+"  -q, --quiet          vis mindre informasjon for etterspørring og søk\n"
+
+#, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
@@ -445,11 +432,6 @@ msgstr ""
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       lister opp utdaterte pakker [filter]\n"
-
-#, c-format
-msgid "  -q, --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet          vis mindre informasjon for etterspørring og søk\n"
 
 #, c-format
 msgid ""
@@ -498,6 +480,29 @@ msgid "      --needed         don't reinstall up to date packages\n"
 msgstr "      --needed         ikke reinstaller pakker som er oppdaterte\n"
 
 #, c-format
+msgid "      --asdeps         mark packages as non-explicitly installed\n"
+msgstr ""
+
+#, c-format
+msgid "      --asexplicit     mark packages as explicitly installed\n"
+msgstr ""
+
+#, c-format
+msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          tving en installasjon, skriv over motstridige filer\n"
+
+#, c-format
+msgid "      --asdeps         install packages as non-explicitly installed\n"
+msgstr ""
+"      --asdeps         installér pakker som om andre pakker er avhengig av "
+"dem\n"
+
+#, c-format
+msgid "      --asexplicit     install packages as explicitly installed\n"
+msgstr "      --asexplicit     installér pakker som manuelt installert\n"
+
+#, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
@@ -513,27 +518,14 @@ msgstr ""
 "     --ignoregroup    ignorer en gruppeoppgradering (kan bli brukt mer enn "
 "én gang)\n"
 
-#, fuzzy, c-format
-msgid "      --asdeps         mark packages as non-explicitly installed\n"
+#, c-format
+msgid "  -d, --nodeps         skip dependency checks\n"
+msgstr "  -d, --nodeps         hopper over sjekking av avhengigheter\n"
+
+#, c-format
+msgid ""
+"  -k, --dbonly         only modify database entries, not package files\n"
 msgstr ""
-"      --asdeps         installér pakker som om andre pakker er avhengig av "
-"dem\n"
-
-#, fuzzy, c-format
-msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     installér pakker som manuelt installert\n"
-
-#, c-format
-msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <fil>   bruk en alternativ konfigurasjonsfil\n"
-
-#, c-format
-msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <fil>  bruk en alternativ loggfil\n"
-
-#, c-format
-msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --nocorfirm      ikke krev bekrefting fra brukeren\n"
 
 #, c-format
 msgid ""
@@ -546,20 +538,32 @@ msgid ""
 msgstr "    --noscriptlet     ikke kjør install-scriptet hvis det eksisterer\n"
 
 #, c-format
-msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        vær utdypende\n"
+msgid ""
+"      --print          only print the targets instead of performing the "
+"operation\n"
+msgstr ""
 
 #, c-format
-msgid "      --debug          display debug messages\n"
-msgstr "      --debug          viser feilsøkingsbeskjeder\n"
+msgid ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
+msgstr ""
+
+#, c-format
+msgid "  -b, --dbpath <path>  set an alternate database location\n"
+msgstr "  -b, --dbpath <fil>   bruk en alternativ databaseplassering\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr "  -r, --root <mappe>   bruker en alternativ installasjons-rot\n"
 
 #, c-format
-msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <fil>   bruk en alternativ databaseplassering\n"
+msgid "  -v, --verbose        be verbose\n"
+msgstr "  -v, --verbose        vær utdypende\n"
+
+#, c-format
+msgid "      --arch <arch>    set an alternate architecture\n"
+msgstr ""
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
@@ -567,9 +571,21 @@ msgstr ""
 "      --cachedir <mappe> bruk en alternativ plassering for mellomlagring av "
 "pakker\n"
 
-#, fuzzy, c-format
-msgid "      --arch <arch>    set an alternate architecture\n"
+#, c-format
+msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <fil>   bruk en alternativ konfigurasjonsfil\n"
+
+#, c-format
+msgid "      --debug          display debug messages\n"
+msgstr "      --debug          viser feilsøkingsbeskjeder\n"
+
+#, c-format
+msgid "      --logfile <path> set an alternate log file\n"
+msgstr "      --logfile <fil>  bruk en alternativ loggfil\n"
+
+#, c-format
+msgid "      --noconfirm      do not ask for any confirmation\n"
+msgstr "      --nocorfirm      ikke krev bekrefting fra brukeren\n"
 
 #, c-format
 msgid ""
@@ -592,18 +608,34 @@ msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problem under initiering av loggfil '%s' (%s)\n"
 
 #, c-format
-msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' er ikke et gyldig feilsøkingsnivå\n"
-
-#, c-format
 msgid "problem adding cachedir '%s' (%s)\n"
 msgstr ""
 "problem oppstod da programmet skulle legge til mellomlagringsmappe "
 "'%s' (%s)\n"
 
 #, c-format
+msgid "'%s' is not a valid debug level\n"
+msgstr "'%s' er ikke et gyldig feilsøkingsnivå\n"
+
+#, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "kun én operasjon kan bli brukt av gangen\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "ingen operasjon spesifisert (bruk -h for hjelp)\n"
+
+#, c-format
+msgid "invalid option\n"
+msgstr ""
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "invalid verdi for 'CleanMethod' : '%s'\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr ""
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
@@ -613,17 +645,17 @@ msgstr "kunne ikke chdir til nedlastingsmappe %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "kjører XferCommand: splitting feilet\n"
 
-#, fuzzy, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' ble ikke gjenkjent.\n"
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr ""
 
 #, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "invalid verdi for 'CleanMethod' : '%s'\n"
+msgid "directive '%s' without value not recognized\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "directive '%s' with a value not recognized\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' ble ikke gjenkjent.\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -658,55 +690,59 @@ msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "konfigurasjonsfil %s, linje %d: Alle direktiver må høre til en seksjon.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' ble ikke gjenkjent.\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: problem in options section\n"
-msgstr "konfigurasjonsfil %s, linje %d: ugyldig seksjonsnavn.\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in repository section '%s' not "
 "recognized.\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' ble ikke gjenkjent.\n"
+msgstr ""
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
 msgstr "feilet under initialisering av alpm-biblioteket (%s)\n"
 
 #, c-format
+msgid "buffer overflow detected in arg parsing\n"
+msgstr ""
+
+#, c-format
+msgid "failed to reopen stdin for reading: (%s)\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "du kan ikke utføre denne operasjonen hvis du ikke er rot-bruker.\n"
-
-#, c-format
-msgid "could not register 'local' database (%s)\n"
-msgstr "kunne ikke registrere 'lokal'-databasen (%s)\n"
-
-#, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "ingen operasjon spesifisert (bruk -h for hjelp)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "ingen fil ble spesifisert for --owns\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "feilet under innlesing av '%s' : %s\n"
+msgstr ""
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
 msgstr "feilet under innlesing av '%s' : %s\n"
 
 #, c-format
-msgid "cannot determine ownership of a directory\n"
-msgstr "kunne ikke bestemme eierskap av en mappe\n"
+msgid "cannot determine ownership of directory '%s'\n"
+msgstr ""
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "kunne ikke bestemme reell mappe for '%s' : %s\n"
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is owned by %s %s\n"
@@ -721,24 +757,20 @@ msgid "group \"%s\" was not found\n"
 msgstr "gruppe \"%s\" ble ikke funnet\n"
 
 #, c-format
-msgid "root path too long\n"
-msgstr "rot-mappen for lang\n"
+msgid "%s: %d total file, "
+msgid_plural "%s: %d total files, "
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
-msgid "file path too long\n"
-msgstr "fil-vei for lang\n"
-
-#, c-format
-msgid "%s: %d total files, %d missing file(s)\n"
-msgstr "%s: %d antall filer, %d, manglende fil(er)\n"
+msgid "%d missing file\n"
+msgid_plural "%d missing files\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "ingen brukbare pakkebrønner konfigurert.\n"
-
-#, c-format
-msgid "no targets specified (use -h for help)\n"
-msgstr "ingen mål spesifisert (bruk -h for hjelp)\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -748,9 +780,9 @@ msgstr "pakke \"%s\" ikke funnet\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "feilet å forberede transaksjon (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr "'%s' har ikke en gyldig arkiv-suffix."
+msgstr ""
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -764,9 +796,9 @@ msgstr "%s er valgt som en HoldPkg.\n"
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "HoldPkg ble funnet i målliste. Vil du fortsette?"
 
-#, fuzzy, c-format
+#, c-format
 msgid " there is nothing to do\n"
-msgstr "Ingen pakker modifisert, ingenting å gjøre."
+msgstr ""
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -781,12 +813,12 @@ msgid "could not access database directory\n"
 msgstr "fikk ikke tilgang til database-mappe\n"
 
 #, c-format
-msgid "Do you want to remove %s?"
-msgstr "Vil du fjerne %s?"
+msgid "could not remove %s\n"
+msgstr ""
 
 #, c-format
-msgid "could not remove repository directory\n"
-msgstr "kunne ikke fjerne pakkebrønn-mappe\n"
+msgid "Do you want to remove %s?"
+msgstr "Vil du fjerne %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -805,12 +837,20 @@ msgid "Cache directory: %s\n"
 msgstr "Cache-mappe: %s\n"
 
 #, c-format
-msgid "Do you want to remove uninstalled packages from cache?"
-msgstr "Vil du fjerne uinstallerte pakker fra cache?"
+msgid "Packages to keep:\n"
+msgstr ""
 
 #, c-format
-msgid "Do you want to remove outdated packages from cache?"
-msgstr "Vil du fjerne utdaterte pakker fra cache?"
+msgid "  All locally installed packages\n"
+msgstr ""
+
+#, c-format
+msgid "  All current sync database packages\n"
+msgstr ""
+
+#, c-format
+msgid "Do you want to remove all other packages from cache?"
+msgstr ""
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -824,9 +864,9 @@ msgstr "Vil du fjerne ALLE filer fra cache?"
 msgid "removing all files from cache...\n"
 msgstr "fjerner alle filer fra cache ...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not access cache directory %s\n"
-msgstr "fikk ikke tilgang til cache-mappe\n"
+msgstr ""
 
 #, c-format
 msgid "File %s does not seem to be a valid package, remove it?"
@@ -844,9 +884,9 @@ msgstr " %s er oppdatert\n"
 msgid "failed to synchronize any databases\n"
 msgstr "klarte ikke å synkronisere noen databaser\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "installed"
-msgstr "installerer"
+msgstr ""
 
 #, c-format
 msgid "repository '%s' does not exist\n"
@@ -869,6 +909,18 @@ msgid "skipping target: %s\n"
 msgstr "hopper over mål: %s\n"
 
 #, c-format
+msgid "target not found: %s\n"
+msgstr ""
+
+#, c-format
+msgid ":: There are %d members in group %s:\n"
+msgstr ""
+
+#, c-format
+msgid "database not found: %s\n"
+msgstr ""
+
+#, c-format
 msgid ":: Starting full system upgrade...\n"
 msgstr ":: Starter full systemoppgradering ...\n"
 
@@ -876,9 +928,9 @@ msgstr ":: Starter full systemoppgradering ...\n"
 msgid ":: %s and %s are in conflict\n"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: %s: strider med %s\n"
+msgstr ""
 
 #, c-format
 msgid "Proceed with download?"
@@ -933,6 +985,10 @@ msgstr ""
 "   kan du fjerne %s\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr ""
+
+#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "feilet å løse ut transaksjon (%s)\n"
 
@@ -969,6 +1025,26 @@ msgid "Optional dependencies for %s\n"
 msgstr "Alternative avhengigheter for %s\n"
 
 #, c-format
+msgid "Repository %s\n"
+msgstr ""
+
+#, c-format
+msgid "Invalid value: %d is not between %d and %d\n"
+msgstr ""
+
+#, c-format
+msgid "Invalid number: %s\n"
+msgstr ""
+
+#, c-format
+msgid "Enter a selection (default=all)"
+msgstr ""
+
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#, c-format
 msgid "[Y/n]"
 msgstr "[J/n]"
 
@@ -993,6 +1069,10 @@ msgid "NO"
 msgstr "NEI"
 
 #, c-format
+msgid "failed to allocate string\n"
+msgstr ""
+
+#, c-format
 msgid "error: %s"
 msgstr "feil: %s"
 
@@ -1001,20 +1081,12 @@ msgid "warning: %s"
 msgstr "advarsel: %s"
 
 #, c-format
-msgid "function: %s"
-msgstr "funksjon: %s"
-
-#, c-format
 msgid "error: "
 msgstr "feil: "
 
 #, c-format
 msgid "warning: "
 msgstr "advarsel: "
-
-#, c-format
-msgid "function: "
-msgstr "funksjon: "
 
 msgid "WARNING:"
 msgstr "ADVARSEL:"
@@ -1025,9 +1097,8 @@ msgstr "FEIL:"
 msgid "Cleaning up..."
 msgstr "Rydder opp ..."
 
-#, fuzzy
 msgid "Unable to find source file %s."
-msgstr "Klarte ikke å finne kilde fil %s som skulle pakkes ut."
+msgstr ""
 
 msgid "Aborting..."
 msgstr "Avslutter ..."
@@ -1038,19 +1109,14 @@ msgstr "Det finnes ikke et eksternt program til å håndtere %s URLer. Sjekk %s.
 msgid "The download program %s is not installed."
 msgstr "Nedlastingsprogrammet %s er ikke installert."
 
-#, fuzzy
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "Pacman returnerte med en fatal feil (%i): %s"
+msgstr ""
 
 msgid "Installing missing dependencies..."
 msgstr "Installerer manglende avhengigheter ..."
 
-#, fuzzy
 msgid "'%s' failed to install missing dependencies."
-msgstr "Pacman klarte ikke å installere manglende avhengigheter."
-
-msgid "Failed to install all missing dependencies."
-msgstr "Feilet å installere alle manglende avhengigheter."
+msgstr ""
 
 msgid "Missing Dependencies:"
 msgstr "Manglende Avhengigheter:"
@@ -1112,6 +1178,9 @@ msgstr "Pakker ut %s med %s"
 msgid "Failed to extract %s"
 msgstr "Klarte ikke å pakke ut %s"
 
+msgid "A failure occurred in %s()."
+msgstr ""
+
 msgid "Starting %s()..."
 msgstr "Starter %s() ..."
 
@@ -1127,9 +1196,8 @@ msgstr "Rensker andre filer ..."
 msgid "Compressing man and info pages..."
 msgstr "Komprimener manual- og informasjonssider ..."
 
-#, fuzzy
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Stripper feilsøkingssymboler fra binærfiler og biblioteker ..."
+msgstr ""
 
 msgid "Removing libtool .la files..."
 msgstr "Fjerner libtool .la-filer"
@@ -1146,9 +1214,8 @@ msgstr "Vennligst legg til en license-linje til din %s!"
 msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Eksempel for GPL-lisensiert programvare: license=('GPL')."
 
-#, fuzzy
-msgid "Invalid backup entry : %s"
-msgstr "Ugyldig pakkefil '%s'."
+msgid "Backup entry file not in package : %s"
+msgstr ""
 
 msgid "Package contains reference to %s"
 msgstr ""
@@ -1159,11 +1226,8 @@ msgstr "Mangler pkg/-mappe"
 msgid "Creating package..."
 msgstr "Lager pakke ..."
 
-msgid "Adding install script..."
-msgstr "Legger til install-script"
-
-msgid "Adding package changelog..."
-msgstr "Legger til pakkens endringslogg ..."
+msgid "Adding %s file..."
+msgstr ""
 
 msgid "Compressing package..."
 msgstr "Komprimerer pakke ..."
@@ -1174,13 +1238,11 @@ msgstr "'%s' er ikke en gyldig arkiv-suffix."
 msgid "Failed to create package file."
 msgstr "Feilet å lage pakkefil."
 
-#, fuzzy
 msgid "Failed to create symlink to package file."
-msgstr "Feilet å lage pakkefil for kilde."
+msgstr ""
 
-#, fuzzy
 msgid "Skipping integrity checks."
-msgstr "Hopper over avhengighetstester."
+msgstr ""
 
 msgid "Creating source package..."
 msgstr "Lager kildepakke ..."
@@ -1188,9 +1250,8 @@ msgstr "Lager kildepakke ..."
 msgid "Adding %s..."
 msgstr "Legger til %s ..."
 
-#, fuzzy
 msgid "Adding %s file (%s)..."
-msgstr "Legger til %s ..."
+msgstr ""
 
 msgid "Compressing source package..."
 msgstr "Komprimerer kildepakker ..."
@@ -1198,9 +1259,11 @@ msgstr "Komprimerer kildepakker ..."
 msgid "Failed to create source package file."
 msgstr "Feilet å lage pakkefil for kilde."
 
-#, fuzzy
+msgid "Failed to create symlink to source package file."
+msgstr ""
+
 msgid "Installing package %s with %s -U..."
-msgstr "genererer %s med %s ..."
+msgstr ""
 
 msgid "Installing %s package group with %s -U..."
 msgstr ""
@@ -1214,8 +1277,14 @@ msgstr "%s tillates ikke å være tom."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s kan ikke starte med en bindestrek."
 
+msgid "%s is not allowed to contain colons or hyphens."
+msgstr ""
+
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s kan ikke inneholde bindestreker."
+
+msgid "%s must be an integer."
+msgstr ""
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s er ikke tilgjengelig for '%s'-arkitekturen."
@@ -1229,13 +1298,14 @@ msgstr "sånn som arch=('%s')."
 msgid "Provides array cannot contain comparison (< or >) operators."
 msgstr "Provides-listen kan ikke inneholde operatortegn som (< eller >)."
 
-#, fuzzy
-msgid "Invalid syntax for optdepend : '%s'"
-msgstr "invalid verdi for 'CleanMethod' : '%s'\n"
+msgid "Backup entry should not contain leading slash : %s"
+msgstr ""
 
-#, fuzzy
+msgid "Invalid syntax for optdepend : '%s'"
+msgstr ""
+
 msgid "%s file (%s) does not exist."
-msgstr "Installasjons-script (%s) finnes ikke."
+msgstr ""
 
 msgid "options array contains unknown option '%s'"
 msgstr "options-listen inneholder ukjent alternativ '%s'"
@@ -1246,23 +1316,8 @@ msgstr "manglende pakkefunksjon for splittet pakke '%s'"
 msgid "requested package %s is not provided in %s"
 msgstr ""
 
-msgid "Determining latest darcs revision..."
-msgstr "Bestemmer siste darcs-revisjon ..."
-
-msgid "Determining latest cvs revision..."
-msgstr "Bestemmer siste cvs-revisjon ..."
-
-msgid "Determining latest git revision..."
-msgstr "Bestemmer siste git-revisjon ..."
-
-msgid "Determining latest svn revision..."
-msgstr "Bestemmer siste svn-revisjon"
-
-msgid "Determining latest bzr revision..."
-msgstr "Bestemmer siste bzr-revisjon ..."
-
-msgid "Determining latest hg revision..."
-msgstr "Bestemmer siste hg-revisjon ..."
+msgid "Determining latest %s revision..."
+msgstr ""
 
 msgid "Version found: %s"
 msgstr "Versjon funnet: %s"
@@ -1319,9 +1374,8 @@ msgstr "  -m, --nocolor    Skrur av farger i beskjeder til bruker"
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Laster kun ned og pakker ut filer"
 
-#, fuzzy
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr "  -p <byggescript> Bruk et alternativt byggeskript (isteden for '%s')"
+msgstr ""
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
@@ -1336,78 +1390,62 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with pacman"
 msgstr "  -s, --syncdeps   Installér manglende avhengigheter med pacman"
 
-#, fuzzy
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"     --allsource   Generer en tar-ball som kun inneholder kilder.\n"
-"Inkluderer nedlastende kilder"
 
-#, fuzzy
 msgid "  --asroot         Allow makepkg to run as root user"
-msgstr "      --asroot     Tillater makepkg å kjøre som rot-bruker"
+msgstr ""
 
-#, fuzzy
+msgid "  --check          Run the check() function in the %s"
+msgstr ""
+
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-"  --config <fil>    Bruk en alternativ konfigurasjonsfil (istedenfor '%s')"
 
-#, fuzzy
 msgid ""
-"  --holdver        Prevent automatic version bumping for development "
-"PKGBUILDs"
+"  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
-"     --holdver    Forhindrer automatisk versjonshopp for utvikler-pakker"
+
+msgid "  --nocheck        Do not run the check() function in the %s"
+msgstr ""
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 
-#, fuzzy
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
-msgstr "      --skipinteg  Forårsaker ikke feil når integritetstester mangler"
+msgstr ""
 
-#, fuzzy
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
-"      --source     Genererer en tarball med kun kildefiler, uten å laste ned "
-"kilder"
 
 msgid "These options can be passed to pacman:"
 msgstr "Disse alternativene kan gis til pacman:"
 
-#, fuzzy
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
-"     --noconfirm      Ikke spør etter bekreftelse under oppløsning av "
-"avhengigheter"
 
-#, fuzzy
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "      --noprogressbar  Ikke vis framdrift under nedlasting av filer "
+msgstr ""
 
 msgid "If -p is not specified, makepkg will look for '%s'"
 msgstr "Hvis -p ikke er spesifisert vil makepkg se etter '%s'"
 
 msgid ""
-"Copyright (c) 2006-2010 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2009 Pacman utviklerteam <pacman-dev@archlinux.org>.\n"
-"Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nDette er fri "
-"programvare. Se kilden for kopibetingelser.\\nDet er INGEN GARANTI, innenfor "
-"det som er tillatt av loven.\\n"
 
 msgid "%s not found."
 msgstr "%s ikke funnet."
 
-#, fuzzy
 msgid "You do not have write permission to store packages in %s."
-msgstr "Du har ikke skriverettigheter til å lagre nedlastinger i %s."
+msgstr ""
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Du har ikke skriverettigheter til å lagre nedlastinger i %s."
@@ -1515,9 +1553,8 @@ msgstr "Går ut av fakeroot-miljøet."
 msgid "Making package: %s"
 msgstr "Lager pakke: %s"
 
-#, fuzzy
 msgid "A source package has already been built. (use -f to overwrite)"
-msgstr "En pakke har allerede blitt bygd. (bruk -f for å overskrive)"
+msgstr ""
 
 msgid "Source package created: %s"
 msgstr "Kildepakke laget: %s"
@@ -1525,18 +1562,17 @@ msgstr "Kildepakke laget: %s"
 msgid "Skipping dependency checks."
 msgstr "Hopper over avhengighetstester."
 
-msgid "Checking Runtime Dependencies..."
-msgstr "Sjekker avhengigheter som trengs for å kjøre programmet ..."
+msgid "Checking runtime dependencies..."
+msgstr ""
 
-msgid "Checking Buildtime Dependencies..."
-msgstr "Sjekker avhengigheter som trengs for å bygge programmet ..."
+msgid "Checking buildtime dependencies..."
+msgstr ""
 
 msgid "Could not resolve all dependencies."
 msgstr "Kunne ikke avgjøre alle avhengigheter."
 
-#, fuzzy
 msgid "%s was not found in PATH; skipping dependency checks."
-msgstr "pacman ble ikke funnet i PATH; hopper over avhengighetstester."
+msgstr ""
 
 msgid "Skipping source retrieval        -- using existing src/ tree"
 msgstr "Hopper over innhenting av kilder -- bruker eksisterende src/-mappe"
@@ -1569,6 +1605,27 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "Bruk: %s [pacman_db_root]"
 
 msgid ""
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+
+msgid "%s does not exist or is not a directory."
+msgstr "%s finnes ikke eller er ikke en mappe."
+
+msgid "You must have correct permissions to upgrade the database."
+msgstr ""
+
+msgid "Pacman lock file was found. Cannot run while pacman is running."
+msgstr "Pacman lock-fil ble funnet. Kan ikke kjøre når pacman samtidig kjører."
+
+msgid "Pre-3.5 database format detected - upgrading..."
+msgstr ""
+
+msgid "Done."
+msgstr ""
+
+msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
@@ -1592,14 +1649,8 @@ msgstr ""
 msgid "diff tool was not found, please install diffutils."
 msgstr "diff-verktøyet ble ikke funnet. Vennligst installér diffutils."
 
-msgid "%s does not exist or is not a directory."
-msgstr "%s finnes ikke eller er ikke en mappe."
-
 msgid "You must have correct permissions to optimize the database."
 msgstr "Du må ha korrekte tillatelser for å optimisere databasen."
-
-msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Pacman lock-fil ble funnet. Kan ikke kjøre når pacman samtidig kjører."
 
 msgid "ERROR: Can not create temp directory for database building."
 msgstr "FEIL: Kan ikke lage midlertidig mappe for database-bygging."
@@ -1634,8 +1685,52 @@ msgstr "Roterer database på plass ..."
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Ferdig. Din pacman-database har blitt optimisert."
 
-msgid "Usage: repo-add [-q] <path-to-db> <package|delta> ...\\n"
-msgstr "Bruk: repo-add [-q] <vei-til-database> <pakke|delta> ...\\n"
+msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
+msgstr ""
+
+msgid ""
+"\tpkgdelta will create a delta file between two packages.\\nThis delta file "
+"can then be added to a database using repo-add.\\n\\n"
+msgstr ""
+
+msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
+msgstr ""
+
+msgid ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
+msgstr ""
+
+msgid "Invalid package file '%s'."
+msgstr "Ugyldig pakkefil '%s'."
+
+msgid "The package names don't match : '%s' and '%s'"
+msgstr ""
+
+msgid "The package architectures don't match : '%s' and '%s'"
+msgstr ""
+
+msgid "Both packages have the same version : '%s'"
+msgstr ""
+
+msgid "Generating delta from version %s to version %s"
+msgstr ""
+
+msgid "Delta could not be created."
+msgstr ""
+
+msgid "Generated delta : '%s'"
+msgstr ""
+
+msgid "File '%s' does not exist"
+msgstr ""
+
+msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
+msgstr "Kan ikke finne xdelta3-programmet! Er xdelta3 installert?"
+
+msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+msgstr ""
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr "Bruk: repo-remove [-q] <vei-til-database> <pakkenavn|delta> ... \\n\\n"
@@ -1658,10 +1753,18 @@ msgstr ""
 
 msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors\\n\\n"
+"\\nand errors.\\n\\n"
 msgstr ""
-"Bruk '-q/--quiet'-alternativet for å innskrenke utskrift til grunnleggende "
-"beskjeder,\\nadvarsler, og feilmeldinger\\n\\n"
+
+msgid ""
+"Use the -d/--delta flag to automatically generate and add a delta file"
+"\\nbetween the old entry and the new one, if the old package file is found"
+"\\nnext to the new one.\\n\\n"
+msgstr ""
+
+msgid ""
+"Use the -f/--files flag to update a database including file entries.\\n\\n"
+msgstr ""
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Eksempel: repo-add /vei/til/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1681,26 +1784,26 @@ msgstr ""
 "kilden for\n"
 "kopibetingelser. Det er INGEN GARANTI, så langt som det loven tillater.\\n"
 
-msgid "Creating 'deltas' db entry..."
-msgstr "Lager 'deltaer' som databaseelement ..."
+msgid "No database entry for package '%s'."
+msgstr ""
 
-msgid "An entry for '%s' already existed"
-msgstr "Et element for '%s' finnes allerede"
+msgid "Adding 'deltas' entry : %s -> %s"
+msgstr ""
 
 msgid "Removing existing entry '%s'..."
 msgstr "Fjerner eksisterende element '%s' ..."
 
-msgid "Invalid package file '%s'."
-msgstr "Ugyldig pakkefil '%s'."
+msgid "An entry for '%s' already existed"
+msgstr "Et element for '%s' finnes allerede"
 
-msgid "Creating 'desc' db entry..."
-msgstr "Oppretteter 'desc' som databaseelement ..."
+msgid "Creating '%s' db entry..."
+msgstr ""
 
 msgid "Computing md5 checksums..."
 msgstr "Kalkulerer md5-sjekksummer ..."
 
-msgid "Creating 'depends' db entry..."
-msgstr "Lager 'depends' som databaseelement ..."
+msgid "Old package file not found: %s"
+msgstr ""
 
 msgid "Failed to acquire lockfile: %s."
 msgstr "Kunne ikke innhente låsefil: %s."
@@ -1725,9 +1828,6 @@ msgstr "Fil '%s' ble ikke funnet."
 
 msgid "Adding delta '%s'"
 msgstr "Legger til delta '%s'"
-
-msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Kan ikke finne xdelta3-programmet! Er xdelta3 installert?"
 
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' er ikke en pakkefil, hopper over"
@@ -1764,99 +1864,3 @@ msgstr "Ingen pakker gjenstår, oppretter tom database."
 
 msgid "No packages modified, nothing to do."
 msgstr "Ingen pakker modifisert, ingenting å gjøre."
-
-#~ msgid "%s not found, searching for group...\n"
-#~ msgstr "%s ikke funnet, leter etter gruppe ...\n"
-
-#~ msgid "'%s': not found in local db\n"
-#~ msgstr "'%s': ikke funnet i lokal database\n"
-
-#~ msgid ":: group %s:\n"
-#~ msgstr ":: gruppe %s:\n"
-
-#~ msgid "    Remove whole content?"
-#~ msgstr "    Fjern hele innholdet?"
-
-#~ msgid ":: Remove %s from group %s?"
-#~ msgstr ":: Fjern %s fra gruppe %s?"
-
-#~ msgid "could not remove cache directory\n"
-#~ msgstr "kunne ikke fjerne cache-mappen\n"
-
-#~ msgid "could not create new cache directory\n"
-#~ msgstr "kunne ikke opprette ny cache-mappe\n"
-
-#~ msgid "%s package not found, searching for group...\n"
-#~ msgstr "%s pakke ble ikke funnet, leter etter gruppe ...\n"
-
-#~ msgid ":: group %s (including ignored packages):\n"
-#~ msgstr ":: gruppe %s (inkluderer ignorerte pakker):\n"
-
-#~ msgid ":: Install whole content?"
-#~ msgstr ":: Installér hele innholdet?"
-
-#~ msgid ":: Install %s from group %s?"
-#~ msgstr ":: Installér %s fra gruppe %s?"
-
-#~ msgid "'%s': not found in sync db\n"
-#~ msgstr "'%s': ikke funnet i sync-database\n"
-
-#~ msgid " local database is up to date\n"
-#~ msgstr " lokal database er oppdatert\n"
-
-#~ msgid "no URL for package: %s\n"
-#~ msgstr "ingen URL for pakke: %s\n"
-
-#~ msgid "loading package data...\n"
-#~ msgstr "laster inn pakkedata ...\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "errors occurred, no packages were upgraded.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "feil oppstod, ingen pakker ble oppgradert.\n"
-
-#~ msgid "Found %s in build dir"
-#~ msgstr "Fant %s i build-mappen"
-
-#~ msgid "Using cached copy of %s"
-#~ msgstr "Bruker mellomlagret kopi av %s"
-
-#~ msgid "Unable to find source file %s to generate checksum."
-#~ msgstr "Kunne ikke finne kildefil %s for å generere sjekksum."
-
-#~ msgid "Starting build()..."
-#~ msgstr "Starter build() ..."
-
-#~ msgid "Build Failed."
-#~ msgstr "Build feilet"
-
-#~ msgid "Packaging Failed."
-#~ msgstr "Pakking Feilet."
-
-#~ msgid "Install script %s not found."
-#~ msgstr "Installasjonsscript %s ble ikke funnet."
-
-#~ msgid "Cannot find the sudo binary! Is sudo installed?"
-#~ msgstr "Kan ikke finne sudo-programmet! Er sudo installert?"
-
-#~ msgid "Missing dependencies cannot be installed or removed as a normal user"
-#~ msgstr ""
-#~ "Manglende avhengigheter kan ikke installeres eller fjernes som en vanlig "
-#~ "bruker"
-
-#~ msgid ""
-#~ "without sudo; install and configure sudo to auto-resolve dependencies."
-#~ msgstr ""
-#~ "uten sudo; installér og konfigurér sudo for å automatisk avgjøre "
-#~ "avhengigheter."
-
-#~ msgid "the -f and --force options are no longer recognized"
-#~ msgstr "'-f' og '--force'-kommandoene blir ikke lengre gjenkjent"
-
-#~ msgid "use options=(force) in the PKGBUILD instead"
-#~ msgstr "bruk options=(force) i PKGBUILDen isteden"
-
-#~ msgid "All packages have been removed from the database. Deleting '%s'."
-#~ msgstr "Alle pakker har blitt fjernet fra databasen. Sletter '%s'."

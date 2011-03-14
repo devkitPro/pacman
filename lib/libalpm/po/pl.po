@@ -1,32 +1,42 @@
-# Polish translations for Pacman package manager package
-# Polskie tłumaczenia dla pakietu Pacman package manager.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Mateusz Jędrasik <m.jedrasik@gmail.com>, 2007.
-# Mateusz Herych <heniekk@gmail.com>, 2008-2009.
-# #
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-08-01 05:10+0100\n"
-"Last-Translator: Mateusz Herych <heniekk@gmail.com>\n"
-"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-04 18:24+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"|| n%100>=20) ? 1 : 2)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "zastępowanie starszej wersji %s-%s na %s z listy celów\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s jest w najnowszej wersji -- pomijanie\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr "pomijam %s-%s ponieważ nowsza wersja %s jest na liście celów\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s jest w najnowszej wersji -- ponowne instalowanie\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "dezaktualizowanie pakietu %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "nie udało się rozpakować %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -43,10 +53,6 @@ msgstr "rozpakowywanie: nie nadpisuję katalogu plikiem %s\n"
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "rozpakowywanie: dowiązanie symboliczne %s nie kieruje do katalogu\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "nie udało się rozpakować %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -73,6 +79,10 @@ msgid "could not get current working directory\n"
 msgstr "nie można znaleźć obecnego katalogu\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "nie udało się zmienić katalogu na %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "wystąpiły błędy podczas aktualizacji %s\n"
 
@@ -91,18 +101,6 @@ msgstr "nie udało się dodać pozycji '%s' w pliku podręcznym\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "usuwanie niepoprawnej bazy danych: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nie udało się otworzyć %s: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "nie udało się usunąć katalogu bazy danych %s\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "nie można usunąć bazy danych %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -153,12 +151,12 @@ msgid "missing package metadata in %s\n"
 msgstr "brak metadanych pakietu w %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "ścieżka bazy danych jest niezdefiniowana\n"
+msgid "removing invalid file: %s\n"
+msgstr ""
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "próba ponownej rejestracji 'lokalnej' BD\n"
+msgid "database path is undefined\n"
+msgstr "ścieżka bazy danych jest niezdefiniowana\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -177,12 +175,32 @@ msgid "ignoring package %s-%s\n"
 msgstr "ignorowanie pakietu %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "dostawca pakietu został wybrany (%s dostarcza %s)\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nie można rozwiązać \"%s\", zależności od \"%s\"\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr ""
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr ""
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr ""
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
 
 #, c-format
 msgid "disk"
@@ -241,6 +259,10 @@ msgid "wrong or NULL argument passed"
 msgstr "Dany został błędny bądź ZEROWY argument"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr ""
+
+#, c-format
 msgid "library not initialized"
 msgstr "biblioteka nie została zainicjowana"
 
@@ -271,6 +293,10 @@ msgstr "baza danych już zarejestrowana"
 #, c-format
 msgid "could not find database"
 msgstr "nie udało się odnaleźć bazy danych"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr ""
 
 #, c-format
 msgid "could not update database"
@@ -373,6 +399,10 @@ msgid "failed to retrieve some files"
 msgstr "nie udało się odzyskać niektórych plików"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr ""
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "nieprawidłowe wyrażenie regularne"
 
@@ -392,6 +422,10 @@ msgstr ""
 #, c-format
 msgid "unexpected error"
 msgstr "niespodziewany błąd"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -438,22 +472,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "nie udało się zastąpić %s przez %s\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s jest w najnowszej wersji -- pomijanie\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s jest w najnowszej wersji -- ponowne instalowanie\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "dezaktualizowanie pakietu %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "Pomijam cel: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "odkryto nierozwiązywalne konflikty pakietów\n"
 
@@ -474,6 +492,10 @@ msgid "could not commit transaction\n"
 msgstr "nie udało się wykonać tranzakcji\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr ""
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "nie udało się usunąć pliku blokującego %s\n"
 
@@ -490,8 +512,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "nie udało się usunąć katalogu tymczasowego %s\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nie udało się zmienić katalogu na %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -502,16 +524,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "nie udało się zmienić katalogu głównego (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "nie udało się zmienić katalogu na / (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "zawołanie do popen nieudane (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "zawołanie do waitpid nieudane (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "command failed to execute correctly\n"
@@ -525,14 +547,3 @@ msgstr "brak pamięci podręcznej dla %s, tworzenie...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 "nie udało się stworzyć pamięci podręcznej pakietu, używanie /tmp w zamian\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "konfliktujące pakiety zostały znalezione na liście celów\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr ""
-#~ "nie możesz mieć zainstalowanych dwóch konfliktujących ze sobą pakietów w "
-#~ "tym samym czasie\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr "zastępowanie pakietów za pomocą -U nie jest już wspierane\n"

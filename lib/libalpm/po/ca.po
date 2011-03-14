@@ -1,32 +1,41 @@
-# Translation of libpalm.po to Catalan
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-# Manuel Tortosa <manutortosa@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-06-12 19:17+0200\n"
-"Last-Translator: Manuel Tortosa <manutortosa@gmail.com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-04 18:24+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr ""
-"s'està reemplaçant l'antiga versió %s-%s per %s en la llista d'objectius\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s és al dia -- s'ignorarà\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s és al dia -- es reinstal·larà\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "desactualitzant paquet %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
 msgstr ""
-"s'ometrà %s-%s perquè la versió més nova %s és en la llista d'objectius\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "no es pot extreure %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -43,10 +52,6 @@ msgstr "extracció: no se sobreescriurà el directori amb el fitxer %s\n"
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "extracció: l'enllaç simbòlic %s no apunta al directori\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "no es pot extreure %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -73,6 +78,10 @@ msgid "could not get current working directory\n"
 msgstr "no es pot obtenir el directori de treball actual\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "ha ocorregut un problema en actualitzar %s\n"
 
@@ -91,18 +100,6 @@ msgstr "no s'ha pogut afegir l'entrada '%s' en la memòria cau\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "s'està eliminant la base de dades invàlida: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "no s'ha pogut obrir %s: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "no s'ha pogut eliminar el directori de la base de dades %s\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "no s'ha pogut eliminar la base de dades %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -153,12 +150,12 @@ msgid "missing package metadata in %s\n"
 msgstr "falten les metadades del paquet en %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "no s'ha definit la ruta de la base de dades\n"
+msgid "removing invalid file: %s\n"
+msgstr ""
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "intent de re-registre de la BD 'local'\n"
+msgid "database path is undefined\n"
+msgstr "no s'ha definit la ruta de la base de dades\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -177,12 +174,32 @@ msgid "ignoring package %s-%s\n"
 msgstr "s'està ignorant paquet %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "s'ha seleccionat un paquet proveïdor (%s proveeix %s)\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "no es pot resoldre \"%s\", una dependència de \"%s\"\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr ""
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr ""
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr ""
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
 
 #, c-format
 msgid "disk"
@@ -241,6 +258,10 @@ msgid "wrong or NULL argument passed"
 msgstr "s'ha passat un argument erroni o NULL"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr ""
+
+#, c-format
 msgid "library not initialized"
 msgstr "llibreria no inicialitzada"
 
@@ -271,6 +292,10 @@ msgstr "la base de dades ja s'ha registrat"
 #, c-format
 msgid "could not find database"
 msgstr "no s'ha pogut trobar la base de dades"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr ""
 
 #, c-format
 msgid "could not update database"
@@ -374,6 +399,10 @@ msgid "failed to retrieve some files"
 msgstr "ha fallat en recuperar alguns fitxers"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr ""
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "expressió regular invàlida"
 
@@ -392,6 +421,10 @@ msgstr "error en invocar el baixador extern"
 #, c-format
 msgid "unexpected error"
 msgstr "error inesperat"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -438,22 +471,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "no s'ha pogut reemplaçar %s per %s\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s és al dia -- s'ignorarà\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s és al dia -- es reinstal·larà\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "desactualitzant paquet %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "s'ometrà l'objectiu: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "s'ha detectat un paquet amb un conflicte impossible de resoldre\n"
 
@@ -476,6 +493,10 @@ msgid "could not commit transaction\n"
 msgstr "no s'ha pogut publicar la transacció\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr ""
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "no s'ha pogut eliminar el fitxer de bloqueig %s\n"
 
@@ -492,8 +513,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "no s'ha pogut eliminar el directori temporal %s\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -504,16 +525,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "no s'ha pogut canviar el directori arrel (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "no s'ha pogut canviar el directori a / (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "ha fallat la crida a popen (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "ha fallat la crida a waitpid (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "command failed to execute correctly\n"
@@ -526,42 +547,3 @@ msgstr "no existeix memòria cau %s, s'està creant...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "no s'ha pogut crear la memòria cau del paquet, s'usarà /tmp\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "s'han trobat paquets conflictius en la llista d'objectius\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr "no podeu instal·lar dos paquets amb conflictes alhora\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr "no està implementat reemplaçar paquets amb -U\n"
-
-#~ msgid "you can replace packages manually using -Rd and -U\n"
-#~ msgstr "podeu reemplaçar paquets manualment usant -Rd i -U\n"
-
-#~ msgid "url scheme not specified, assuming HTTP\n"
-#~ msgstr "no s'ha especificat l'esquema url, s'està assumint HTTP\n"
-
-#~ msgid "cannot write to file '%s'\n"
-#~ msgstr "no s'ha pogut escriure al fitxer '%s'\n"
-
-#~ msgid "no such repository"
-#~ msgstr "no existeix aquest repositori"
-
-#~ msgid "repository '%s' not found\n"
-#~ msgstr "no s'ha trobat el repositori '%s'\n"
-
-#~ msgid "could not create removal transaction\n"
-#~ msgstr "no s'ha pogut crear la transacció d'eliminació\n"
-
-#~ msgid "could not create transaction\n"
-#~ msgstr "no s'ha pogut crear la transacció\n"
-
-#~ msgid "could not initialize the removal transaction\n"
-#~ msgstr "no s'ha pogut inicialitzar la transacció d'eliminació\n"
-
-#~ msgid "could not initialize transaction\n"
-#~ msgstr "no s'ha pogut inicialitzar la transacció\n"
-
-#~ msgid "could not prepare removal transaction\n"
-#~ msgstr "no s'ha pogut preparar la transacció d'eliminació\n"

@@ -1,30 +1,41 @@
-# Kazakh translations for Pacman package manager package.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com> 2009
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-06-07 09:22+0600\n"
-"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
-"Language-Team: Kazakh\n"
-"Language: \n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-05 03:56+0000\n"
+"Last-Translator: sotrud_nik <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <None>\n"
+"Language: kk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr ""
-"мақсаттар тізімінде ескірген %s-%s нұсқасы жаңа %s нұсқасымен алмастырылады\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s ескірмеді --  өткізіледі\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr ""
-"%s-%s өткізіледі, өйткені жаңа %s нұсқасы мақсаттар тізімінде бар болып тұр\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s ескірмеді --  қайта орнатылады\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "дестенің нұсқасын төмендету %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "%s тарқатқанда ескерту алынды (%s)\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "%s тарқату қатесі (%s)\n"
 
 #, c-format
 msgid ""
@@ -41,10 +52,6 @@ msgstr "тарқату: бума %s файлымен ауыстырылмайд�
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "тарқату: %s символдық сілтемесі бумаға көрсетіп тұрған жоқ\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "%s тарқату қатесі (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -71,6 +78,10 @@ msgid "could not get current working directory\n"
 msgstr "ағымдағы жұмыс бумасын анықтау мүмкін емес\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "%s бумасына ауысу мүмкін емес (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "%s жаңарту кезінде қате кетті\n"
 
@@ -89,18 +100,6 @@ msgstr "кэш ішіне '%s' жазбасын қосу мүмкін емес\n
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "қате дерекқорды өшіру: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "%s ашу мүмкін емес: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "дерекқор %s бумасын өшіру мүмкін емес\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "%s дерекқорын өшіру мүмкін емес\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -151,12 +150,12 @@ msgid "missing package metadata in %s\n"
 msgstr "%s ішінде дестенің мета мәліметтері жоқ\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "дерекқорға жол анықталмаған\n"
+msgid "removing invalid file: %s\n"
+msgstr "қате файлды өшіру: %s\n"
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "дерекқорды қайта тіркеу талабы\n"
+msgid "database path is undefined\n"
+msgstr "дерекқорға жол анықталмаған\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -175,12 +174,32 @@ msgid "ignoring package %s-%s\n"
 msgstr "дестені елемеу %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "тандалған %s дестесі %s ұсынады\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\" шешу мүмкін емес, ол \"%s\" тәуелділігі болып тұр\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "файлдық жүйе ақпаратын алу мүмкін емес\n"
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "%s үшін файлдық жүйе ақпаратын алу мүмкін емес: %s\n"
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr "%s файлы үшін тіркеу нүктесін анықтау мүмкін емес"
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr "файлдық жүйенің тіркеу нүктелерін анықтау мүмкін емес"
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "%s бөлімі тек оқу үшін тіркелген\n"
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr "%s бөлімі тым толық: %ld блок керек, %ld блок бос\n"
 
 #, c-format
 msgid "disk"
@@ -239,6 +258,10 @@ msgid "wrong or NULL argument passed"
 msgstr "аргумент қате не нөлдік болып тұр"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr "дискідегі бос орын жеткіліксіз"
+
+#, c-format
 msgid "library not initialized"
 msgstr "жинақ іске қосылмады"
 
@@ -269,6 +292,10 @@ msgstr "дерекқор тіркелген болып тұр"
 #, c-format
 msgid "could not find database"
 msgstr "дерекқорды табу мүмкін емес"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr "дерекқор нұсқасы дұрыс емес"
 
 #, c-format
 msgid "could not update database"
@@ -371,6 +398,10 @@ msgid "failed to retrieve some files"
 msgstr "кейбір файлдарды алу сәтсіз аяқталды"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr "кейбір файлдарды көшіру сәтсіз"
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "тұрақты өрнек дұрыс емес"
 
@@ -389,6 +420,10 @@ msgstr "сыртқы жүктемелер менеджерін шақыру қа
 #, c-format
 msgid "unexpected error"
 msgstr "күтпеген қате кетті"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr "дерекқор рұқсат етілген өлшемінен үлкен\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -435,22 +470,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "%s жаңа %s нұсқасымен алмастыру мүмкін емес\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s ескірмеді --  өткізіледі\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s ескірмеді --  қайта орнатылады\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "дестенің нұсқасын төмендету %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "мақсатты аттап өту: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "дестелердің шешілмейтін ерегісі табылды\n"
 
@@ -472,6 +491,10 @@ msgid "could not commit transaction\n"
 msgstr "сұранымды аяқтау мүмкін емес\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr "%s дерекқор нұсқасы тым ескі\n"
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "%s оқшау файлын өшіру мүмкін емес\n"
 
@@ -488,8 +511,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "%s уақытша бумасын өшіру мүмкін емес\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "%s бумасына ауысу мүмкін емес (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr "pipe жасау мүмкін емес (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -500,16 +523,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "түбірлік буманы ауыстыру мүмкін емес (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "/ бумасына ауысу мүмкін емес (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "popen шақыру сәтсіз аяқталды (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr "execv шақыру талабы сәтсіз (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid шақыру қатемен аяқталды(%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr "pipe ашу мүмкін емес (%s)\n"
 
 #, c-format
 msgid "command failed to execute correctly\n"
@@ -522,89 +545,3 @@ msgstr "%s кэші жоқ болып тұр, құрылады...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "дестелер кэшін құру мүмкін емес, оның орнына /tmp қолданылады\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "мақсаттар тізімінде ерегісетін дестелер табылды\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr "сіз екі екі ерегісетін дестені орната алмайсыз\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr "дестелерді -A мен -U опцияларын қолданып алмастыру әлі жасалмаған\n"
-
-#~ msgid "you can replace packages manually using -Rd and -U\n"
-#~ msgstr ""
-#~ "сіз дестелерді қолмен алмастыра аласыз, ол үшін -Rd мен -U қолданыңыз\n"
-
-#~ msgid "url scheme not specified, assuming HTTP\n"
-#~ msgstr "сілтеменің түрі анықталмады, HTTP деп саналады\n"
-
-#~ msgid "cannot write to file '%s'\n"
-#~ msgstr "'%s' файлына жазу мүмкін емес\n"
-
-#~ msgid "no such repository"
-#~ msgstr "мұндай репозиторий жоқ"
-
-#~ msgid "repository '%s' not found\n"
-#~ msgstr "'%s' репозиторийі табылмады\n"
-
-#~ msgid "could not create removal transaction\n"
-#~ msgstr "өшіруге сұранымды құру мүмкін емес\n"
-
-#~ msgid "could not create transaction\n"
-#~ msgstr "сұранымды жасау мүмкін емес\n"
-
-#~ msgid "could not initialize the removal transaction\n"
-#~ msgstr "өшіруге сұранымды іске қосу мүмкін емес\n"
-
-#~ msgid "could not initialize transaction\n"
-#~ msgstr "сұранымды іске қосу мүмкін емес\n"
-
-#~ msgid "could not prepare removal transaction\n"
-#~ msgstr "өшіруге сұранымды дайындау мүмкін емес\n"
-
-#~ msgid "error downloading '%s': %s\n"
-#~ msgstr "'%s' жүктеп алу қатесі: %s\n"
-
-#~ msgid "could not chdir to %s\n"
-#~ msgstr "%s бумасына ауысу мүмкін емес\n"
-
-#~ msgid "running XferCommand: fork failed!\n"
-#~ msgstr "XferCommand қосу: сәтсіз аяқталды\n"
-
-#~ msgid "could not commit transaction"
-#~ msgstr "сұранымды аяқтау мүмкін емес"
-
-#~ msgid "could not download all files"
-#~ msgstr "барлық файлдарды жүктеп алу мүмкін емес"
-
-#~ msgid "cannot load package data"
-#~ msgstr "дестенің мәліметтерін жүктеу мүмкін емес"
-
-#~ msgid "package not installed or lesser version"
-#~ msgstr "десте орнатылмаған, не оның нұсқасы ескі"
-
-#~ msgid "group not found"
-#~ msgstr "топ табылмады"
-
-#~ msgid "user aborted the operation"
-#~ msgstr "әрекетті пайдаланушы тоқтатты"
-
-#~ msgid "internal error"
-#~ msgstr "ішкі қате орын алды"
-
-#~ msgid "not confirmed"
-#~ msgstr "расталмады"
-
-#~ msgid "%s-%s: ignoring package upgrade (to be replaced by %s-%s)\n"
-#~ msgstr ""
-#~ "%s-%s: дестені жаңартуды елемеу (ол %s-%s нұсқасымен ауыстырылады)\n"
-
-#~ msgid "command: %s\n"
-#~ msgstr "командасы: %s\n"
-
-#~ msgid "could not prepare transaction\n"
-#~ msgstr "сұранымды дайындау мүмкін емес\n"
-
-#~ msgid "No /bin/sh in parent environment, aborting scriptlet\n"
-#~ msgstr "Бастапқы ортада /bin/sh жоқ, скрипт орындалмайды\n"

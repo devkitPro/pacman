@@ -1,29 +1,41 @@
-# translation of sk.po to Slovak
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-# Jose Riha <jose1711 gmail com>, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-07-27 22:56+0200\n"
-"Last-Translator: Jozef Říha <jose1711@gmail.com>\n"
-"Language-Team: Slovak\n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-04 18:24+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "v zozname cieľov nahradená staršia verzia %s-%s za %s\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s je aktuálny -- preskakujem\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr "vynechávam %s-%s, pretože v zozname cieľov je novšia verzia %s\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s je aktuálny -- preinštalovávam\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "downgradujem balíček %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "nie je možné rozbaliť %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -40,10 +52,6 @@ msgstr "rozbalenie: adresár nebol prepísaný súborom %s\n"
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "rozbalenie: symbolický odkaz %s neodkazuje na adresár\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "nie je možné rozbaliť %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -70,6 +78,10 @@ msgid "could not get current working directory\n"
 msgstr "nie je možné zistiť aktuálny pracovný adresár\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "nie je možné prepnúť sa do adresára %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "nastal problém pri aktualizácii %s\n"
 
@@ -88,18 +100,6 @@ msgstr "nie je možné pridať položku '%s' do cache\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "odstraňujem neplatnú databázu: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "nepodarilo sa otvoriť %s: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "nie je možné odstrániť adresár databáze %s\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "nie je možné odstrániť záznam v databáze %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -150,12 +150,12 @@ msgid "missing package metadata in %s\n"
 msgstr "chýbaju metadáta balíčka v %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "cesta k databáze nie je definovaná\n"
+msgid "removing invalid file: %s\n"
+msgstr ""
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "pokus o opätovné zaregistrovanie databáze 'local'\n"
+msgid "database path is undefined\n"
+msgstr "cesta k databáze nie je definovaná\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -174,12 +174,32 @@ msgid "ignoring package %s-%s\n"
 msgstr "ignorujem balíček %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "bol vybraný nahradzujúci balíček (%s poskytuje %s)\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nie je možné vyriešiť \"%s\", závislosť \"%s\"\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr ""
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr ""
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr ""
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
 
 #, c-format
 msgid "disk"
@@ -238,6 +258,10 @@ msgid "wrong or NULL argument passed"
 msgstr "odovzdaný chybný alebo NULL argument"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr ""
+
+#, c-format
 msgid "library not initialized"
 msgstr "knižnica nebola inicializovaná"
 
@@ -268,6 +292,10 @@ msgstr "databáza je už zaregistrovaná"
 #, c-format
 msgid "could not find database"
 msgstr "nemožno nájsť databázu"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr ""
 
 #, c-format
 msgid "could not update database"
@@ -370,6 +398,10 @@ msgid "failed to retrieve some files"
 msgstr "chyba pri získavaní niektorých súborov"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr ""
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "neplatný regulárny výraz"
 
@@ -388,6 +420,10 @@ msgstr "chyba volania externého programu pre sťahovanie súborov"
 #, c-format
 msgid "unexpected error"
 msgstr "neočakávaná chyba"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -434,22 +470,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "nedá sa nahradiť súbor %s súborom %s\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s je aktuálny -- preskakujem\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s je aktuálny -- preinštalovávam\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "downgradujem balíček %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "preskakujem cieľ: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "zistený konflikt nerozlíšiteľných balíčkov\n"
 
@@ -470,6 +490,10 @@ msgid "could not commit transaction\n"
 msgstr "nie je možné uskutočniť transakciu\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr ""
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "nie je možné odstrániť zamykací súbor %s\n"
 
@@ -486,8 +510,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "nie je možné odstrániť dočasný adresár %s\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nie je možné prepnúť sa do adresára %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -498,16 +522,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "nie je možné zmeniť koreňový adresár (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "nie je možné prepnúť sa do adresára / (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "volanie popen skončilo s chybou (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "volanie waitpid zlyhalo (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "command failed to execute correctly\n"

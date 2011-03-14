@@ -1,28 +1,41 @@
-# Swedish translations for Pacman package manager package.
-# Copyright (C) 2010 Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the pacman package manager package.
-#  <congacx@gmail.com>, 2009.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pacman package manager 3.3.1\n"
-"Report-Msgid-Bugs-To: pacman-dev@archlinux.org\n"
-"POT-Creation-Date: 2011-01-21 10:47-0600\n"
-"PO-Revision-Date: 2010-09-03 13:00+0200\n"
-"Last-Translator: Tobias Eriksson <tobier@tobier.se>\n"
-"Language-Team: Swedish\n"
-"Language: \n"
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-14 13:51-0500\n"
+"PO-Revision-Date: 2011-03-04 18:24+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #, c-format
-msgid "replacing older version %s-%s by %s in target list\n"
-msgstr "ersätter den äldre versionen %s-%s med %s i mållistan\n"
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s är senaste versionen -- hoppar över\n"
 
 #, c-format
-msgid "skipping %s-%s because newer version %s is in target list\n"
-msgstr "hoppar över %s-%s för en nyare version %s finns i mållistan\n"
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s är senaste versionen -- återinstallerar\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "nedgraderar paketet %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "kunde inte extrahera %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -39,10 +52,6 @@ msgstr "extrahera: ersätter ej katalog med fil %s\n"
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
 msgstr "extrahera: symbolisk länk %s pekar inte mot en katalog\n"
-
-#, c-format
-msgid "could not extract %s (%s)\n"
-msgstr "kunde inte extrahera %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -69,6 +78,10 @@ msgid "could not get current working directory\n"
 msgstr "kunde inte hitta nuvarande sökväg\n"
 
 #, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "kunde inte byta katalog till %s (%s)\n"
+
+#, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "problem uppstod under uppgraderingen %s\n"
 
@@ -87,18 +100,6 @@ msgstr "kunde inte lägga till '%s' i cachen\n"
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "tar bort ogiltig databas: %s\n"
-
-#, c-format
-msgid "could not open %s: %s\n"
-msgstr "kunde inte öppna %s: %s\n"
-
-#, c-format
-msgid "could not remove database directory %s\n"
-msgstr "kunde inte ta bort databaskatalogen %s\n"
-
-#, c-format
-msgid "could not remove database %s\n"
-msgstr "kunde inte ta bort databasen %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
@@ -149,12 +150,12 @@ msgid "missing package metadata in %s\n"
 msgstr "saknar metadata för paketet i %s\n"
 
 #, c-format
-msgid "database path is undefined\n"
-msgstr "sökväg till databasen är odefinierad\n"
+msgid "removing invalid file: %s\n"
+msgstr ""
 
 #, c-format
-msgid "attempt to re-register the 'local' DB\n"
-msgstr "försöker att återregistrera den 'lokala' DB\n"
+msgid "database path is undefined\n"
+msgstr "sökväg till databasen är odefinierad\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
@@ -173,12 +174,32 @@ msgid "ignoring package %s-%s\n"
 msgstr "ignorerar paketet %s-%s\n"
 
 #, c-format
-msgid "provider package was selected (%s provides %s)\n"
-msgstr "föräldrapaket blev valt (%s tillhandahåller %s)\n"
-
-#, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "kan inte lösa \"%s\", beroende till \"%s\", \n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine mount point for file %s"
+msgstr ""
+
+#, c-format
+msgid "could not determine filesystem mount points"
+msgstr ""
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr ""
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
 
 #, c-format
 msgid "disk"
@@ -237,6 +258,10 @@ msgid "wrong or NULL argument passed"
 msgstr "fel eller inga argument angivna"
 
 #, c-format
+msgid "not enough free disk space"
+msgstr ""
+
+#, c-format
 msgid "library not initialized"
 msgstr "bibliotek inte initialiserat"
 
@@ -267,6 +292,10 @@ msgstr "databas redan registrerad"
 #, c-format
 msgid "could not find database"
 msgstr "kunde inte hitta databas"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr ""
 
 #, c-format
 msgid "could not update database"
@@ -369,6 +398,10 @@ msgid "failed to retrieve some files"
 msgstr "misslyckades att hämta några filer"
 
 #, c-format
+msgid "failed to copy some file"
+msgstr ""
+
+#, c-format
 msgid "invalid regular expression"
 msgstr "ogiltigt vanligt uttryck"
 
@@ -387,6 +420,10 @@ msgstr "fel vid anrop av extern nerladdare"
 #, c-format
 msgid "unexpected error"
 msgstr "oväntat fel"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -433,22 +470,6 @@ msgid "cannot replace %s by %s\n"
 msgstr "kan inte ersätta %s med %s\n"
 
 #, c-format
-msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s är senaste versionen -- hoppar över\n"
-
-#, c-format
-msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s är senaste versionen -- återinstallerar\n"
-
-#, c-format
-msgid "downgrading package %s (%s => %s)\n"
-msgstr "nedgraderar paketet %s (%s => %s)\n"
-
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "hoppar över målet: %s\n"
-
-#, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "olösliga paketkonflikter upptäckta\n"
 
@@ -469,6 +490,10 @@ msgid "could not commit transaction\n"
 msgstr "kunde inte skicka överföring\n"
 
 #, c-format
+msgid "%s database version is too old\n"
+msgstr ""
+
+#, c-format
 msgid "could not remove lock file %s\n"
 msgstr "kunde inte ta bort låsningsfil %s\n"
 
@@ -485,8 +510,8 @@ msgid "could not remove tmpdir %s\n"
 msgstr "kunde inte ta bort tmpdir %s\n"
 
 #, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "kunde inte byta katalog till %s (%s)\n"
+msgid "could not create pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -497,16 +522,16 @@ msgid "could not change the root directory (%s)\n"
 msgstr "kunde inte byta rootkatalogen (%s)\n"
 
 #, c-format
-msgid "could not change directory to / (%s)\n"
-msgstr "kunde inte byta katalog till / (%s)\n"
-
-#, c-format
-msgid "call to popen failed (%s)\n"
-msgstr "anrop till popen misslyckades (%s)\n"
+msgid "call to execv failed (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "anrop till waitpid misslyckades (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "command failed to execute correctly\n"
@@ -519,42 +544,3 @@ msgstr "ingen %s cache existerar, skapar...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "kunde inte skapa paket-cache, använder /tmp istället\n"
-
-#~ msgid "conflicting packages were found in target list\n"
-#~ msgstr "motstridande paket hittades i mållistan\n"
-
-#~ msgid "you cannot install two conflicting packages at the same time\n"
-#~ msgstr "du kan inte installera två motstridiga paket på samma gång\n"
-
-#~ msgid "replacing packages with -U is not supported yet\n"
-#~ msgstr "erstätta paket med -U stödjs inte än\n"
-
-#~ msgid "you can replace packages manually using -Rd and -U\n"
-#~ msgstr "du kan ersätta paket manuellt genom att använda -Rd och -U\n"
-
-#~ msgid "url scheme not specified, assuming HTTP\n"
-#~ msgstr "url schema inte specifierat, antar HTTP\n"
-
-#~ msgid "cannot write to file '%s'\n"
-#~ msgstr "kan inte skriva till filen '%s'\n"
-
-#~ msgid "no such repository"
-#~ msgstr "inget sådant förråd"
-
-#~ msgid "repository '%s' not found\n"
-#~ msgstr "förrådet '%s' hittades inte\n"
-
-#~ msgid "could not create removal transaction\n"
-#~ msgstr "kunde inte skapa överföring för borttagning\n"
-
-#~ msgid "could not create transaction\n"
-#~ msgstr "kunde inte skapa överföring\n"
-
-#~ msgid "could not initialize the removal transaction\n"
-#~ msgstr "kunde inte påbörja överföring för borttagning\n"
-
-#~ msgid "could not initialize transaction\n"
-#~ msgstr "kunde inte påbörja överföring\n"
-
-#~ msgid "could not prepare removal transaction\n"
-#~ msgstr "kunde inte förbereda överföring för borttagning\n"
