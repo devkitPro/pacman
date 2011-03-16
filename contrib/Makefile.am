@@ -1,11 +1,13 @@
-OURFILES = \
+OURSCRIPTS = \
 	bacman \
-	bash_completion \
 	pacdiff \
 	paclist \
 	pacscripts \
 	pacsearch \
-	wget-xdelta.sh \
+	wget-xdelta.sh
+
+OURFILES = \
+	bash_completion \
 	zsh_completion
 
 EXTRA_DIST = \
@@ -22,21 +24,29 @@ EXTRA_DIST = \
 	README
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(OURFILES) *.tmp
+MOSTLYCLEANFILES = $(OURSCRIPTS) $(OURFILES) *.tmp
 
 edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
 	-e 's|@BASH_SHELL[@]|$(BASH_SHELL)|g'
 
+$(OURSCRIPTS): Makefile
+	@echo '    ' GEN $@;
+	@rm -f $@ $@.tmp
+	@$(edit) $(srcdir)/$@.in >$@.tmp
+	@chmod +x $@.tmp
+	@chmod a-w $@.tmp
+	@mv $@.tmp $@
+
 $(OURFILES): Makefile
 	@echo '    ' GEN $@;
 	@rm -f $@ $@.tmp
-	@cp -a $@.in $@.tmp
-	@$(edit) $@.in >$@.tmp
+	@$(edit) $(srcdir)/$@.in >$@.tmp
+	@chmod a-w $@.tmp
 	@mv $@.tmp $@
 
-all-am: $(OURFILES)
+all-am: $(OURSCRIPTS) $(OURFILES)
 
 bacman: $(srcdir)/bacman.in
 bash_completion: $(srcdir)/bash_completion.in
