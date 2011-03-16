@@ -1361,10 +1361,14 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
-	/* we also support reading targets from stdin */
-	if(!isatty(fileno(stdin))) {
+	/* we support reading targets from stdin if a cmdline parameter is '-' */
+	if(!isatty(fileno(stdin)) && alpm_list_find_str(pm_targets, "-")) {
 		char line[PATH_MAX];
 		int i = 0;
+
+		/* remove the '-' from the list */
+		pm_targets = alpm_list_remove_str(pm_targets, "-", NULL);
+
 		while(i < PATH_MAX && (line[i] = (char)fgetc(stdin)) != EOF) {
 			if(isspace((unsigned char)line[i])) {
 				/* avoid adding zero length arg when multiple spaces separate args */
