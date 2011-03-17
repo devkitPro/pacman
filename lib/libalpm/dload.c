@@ -42,9 +42,12 @@
 #include "util.h"
 #include "handle.h"
 
-static int prevprogress; /* last download amount */
+#ifdef HAVE_LIBCURL
+static double prevprogress; /* last download amount */
+#endif
 
-static char *get_filename(const char *url) {
+static char *get_filename(const char *url)
+{
 	char *filename = strrchr(url, '/');
 	if(filename != NULL) {
 		filename++;
@@ -94,6 +97,14 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 
 	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, dltotal)) {
 		return 0;
+	}
+
+	/* initialize the progress bar here to avoid displaying it when
+	 * a repo is up to date and nothing gets downloaded */
+	if(DOUBLE_EQ(prevprogress, 0)) {
+		if(handle->dlcb) {
+			handle->dlcb((const char*)filename, 0, (long)dltotal);
+		}
 	}
 
 	if(dload_interrupted) {
@@ -214,9 +225,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 	sigaction(SIGINT, NULL, &sig_int[OLD]);
 	sigaction(SIGINT, &sig_int[NEW], NULL);
 
-	/* set initial value of prevprogress to -1 which causes curl_progress() to
-	 * initialize the progress bar with 0% once. */
-	prevprogress = -1;
+	/* Progress 0 - initialize */
+	prevprogress = 0;
 
 	/* perform transfer */
 	handle->curlerr = curl_easy_perform(handle->curl);
