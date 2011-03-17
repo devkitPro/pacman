@@ -3,8 +3,7 @@ OURSCRIPTS = \
 	pacdiff \
 	paclist \
 	pacscripts \
-	pacsearch \
-	wget-xdelta.sh
+	pacsearch
 
 OURFILES = \
 	bash_completion \
@@ -19,7 +18,6 @@ EXTRA_DIST = \
 	pacscripts.in \
 	pacsearch.in \
 	vimprojects \
-	wget-xdelta.sh.in \
 	zsh_completion.in \
 	README
 
@@ -55,7 +53,6 @@ paclist: $(srcdir)/paclist.in
 pacscripts: $(srcdir)/pacscripts.in
 pacsearch: $(srcdir)/pacsearch.in
 pactree: $(srcdir)/pactree.in
-wget-xdelta.sh: $(srcdir)/wget-xdelta.sh.in
 zsh_completion: $(srcdir)/zsh_completion.in
 
 # vim:set ts=2 sw=2 noet:
