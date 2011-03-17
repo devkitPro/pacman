@@ -47,6 +47,8 @@
 #include "util.h"
 #include "handle.h"
 
+static int prevprogress; /* last download amount */
+
 static char *get_filename(const char *url) {
 	char *filename = strrchr(url, '/');
 	if(filename != NULL) {
@@ -92,7 +94,7 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	(void)ultotal;
 	(void)ulnow;
 
-	if(dltotal == 0) {
+	if(dltotal == 0 || prevprogress == dltotal) {
 		return(0);
 	}
 
@@ -101,6 +103,8 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	}
 
 	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
+
+	prevprogress = dlnow;
 
 	return(0);
 }
