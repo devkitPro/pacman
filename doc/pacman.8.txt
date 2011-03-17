@@ -11,7 +11,7 @@ pacman - package manager utility
 
 Synopsis
 --------
-'pacman' <operation> [options] [packages]
+'pacman' <operation> [options] [targets]
 
 
 Description
@@ -24,6 +24,12 @@ automatically upgrade packages. Pacman packages are a zipped tar format.
 Since version 3.0.0, pacman has been the frontend to linkman:libalpm[3], the
 ``Arch Linux Package Management'' library. This library allows alternative
 front ends to be written (for instance, a GUI front end).
+
+Invoking pacman involves specifying an operation with any potential options and
+targets to operate on. A 'target' is usually a package name, filename, URL, or
+a search string. Targets can be provided as command line arguments.
+Additionally, if a single dash (-) is passed as an argument, targets will be
+read from stdin.
 
 
 Operations
