@@ -29,11 +29,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
-/* the following two are needed for FreeBSD's libfetch */
-#include <limits.h> /* PATH_MAX */
-#if defined(HAVE_SYS_PARAM_H)
-#include <sys/param.h> /* MAXHOSTNAMELEN */
-#endif
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
