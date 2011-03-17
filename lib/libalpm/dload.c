@@ -95,6 +95,16 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	(void)ultotal;
 	(void)ulnow;
 
+	/* SIGINT sent, abort by alerting curl */
+	if(dload_interrupted) {
+		return 1;
+	}
+
+	/* none of what follows matters if the front end has no callback */
+	if(handle->dlcb == NULL) {
+		return 0;
+	}
+
 	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, dltotal)) {
 		return 0;
 	}
@@ -102,18 +112,10 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
 	if(DOUBLE_EQ(prevprogress, 0)) {
-		if(handle->dlcb) {
-			handle->dlcb((const char*)filename, 0, (long)dltotal);
-		}
+		handle->dlcb((const char*)filename, 0, (long)dltotal);
 	}
 
-	if(dload_interrupted) {
-		return 1;
-	}
-
-	if(handle->dlcb) {
-		handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
-	}
+	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
 
 	prevprogress = dlnow;
 
