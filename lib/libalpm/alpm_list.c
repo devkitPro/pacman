@@ -287,7 +287,7 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn
 
 /**
  * @brief Remove an item from the list.
- * item is not freed; this is the respnsiblity of the caller.
+ * item is not freed; this is the responsiblity of the caller.
  *
  * @param haystack the list to remove the item from
  * @param item the item to remove from the list

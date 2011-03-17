@@ -817,21 +817,20 @@ static void option_add_cleanmethod(const char *value) {
  * @param option the string (friendly) name of the option, used for messages
  * @param optionfunc a function pointer to an alpm_option_add_* function
  */
-static void setrepeatingoption(const char *ptr, const char *option,
+static void setrepeatingoption(char *ptr, const char *option,
 		void (*optionfunc)(const char*))
 {
-	char *p = (char*)ptr;
 	char *q;
 
-	while((q = strchr(p, ' '))) {
+	while((q = strchr(ptr, ' '))) {
 		*q = '\0';
-		(*optionfunc)(p);
-		pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, p);
-		p = q;
-		p++;
+		(*optionfunc)(ptr);
+		pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
+		ptr = q;
+		ptr++;
 	}
-	(*optionfunc)(p);
-	pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, p);
+	(*optionfunc)(ptr);
+	pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
 }
 
 static char *get_filename(const char *url) {
@@ -954,7 +953,8 @@ cleanup:
 	return(ret);
 }
 
-static int _parse_options(char *key, char *value)
+static int _parse_options(const char *key, char *value,
+		const char *file, int linenum)
 {
 	if(value == NULL) {
 		/* options without settings */
@@ -976,8 +976,9 @@ static int _parse_options(char *key, char *value)
 		} else if(strcmp(key, "CheckSpace") == 0) {
 			alpm_option_set_checkspace(1);
 		} else {
-			pm_printf(PM_LOG_ERROR, _("directive '%s' without value not recognized\n"), key);
-			return(1);
+			pm_printf(PM_LOG_WARNING,
+					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
+					file, linenum, key, "options");
 		}
 	} else {
 		/* options with settings */
@@ -1028,8 +1029,10 @@ static int _parse_options(char *key, char *value)
 		} else if (strcmp(key, "CleanMethod") == 0) {
 			setrepeatingoption(value, "CleanMethod", option_add_cleanmethod);
 		} else {
-			pm_printf(PM_LOG_ERROR, _("directive '%s' with a value not recognized\n"), key);
-			return(1);
+
+			pm_printf(PM_LOG_WARNING,
+					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
+					file, linenum, key, "options");
 		}
 
 	}
@@ -1163,7 +1166,7 @@ static int _parseconfig(const char *file, const char *givensection,
 		/* Include is allowed in both options and repo sections */
 		if(strcmp(key, "Include") == 0) {
 			if(value == NULL) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
+				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
 						file, linenum, key);
 				ret = 1;
 				goto cleanup;
@@ -1175,12 +1178,12 @@ static int _parseconfig(const char *file, const char *givensection,
 			switch(globret) {
 				case GLOB_NOSPACE:
 					pm_printf(PM_LOG_DEBUG,
-							"config file %s, line %d: include globing out of space\n",
+							"config file %s, line %d: include globbing out of space\n",
 							file, linenum);
 				break;
 				case GLOB_ABORTED:
 					pm_printf(PM_LOG_DEBUG,
-							"config file %s, line %d: include globing read error for %s\n",
+							"config file %s, line %d: include globbing read error for %s\n",
 							file, linenum, value);
 				break;
 				case GLOB_NOMATCH:
@@ -1201,18 +1204,14 @@ static int _parseconfig(const char *file, const char *givensection,
 		}
 		if(strcmp(section, "options") == 0) {
 			/* we are either in options ... */
-			if((ret = _parse_options(key, value)) != 0) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: problem in options section\n"),
-						file, linenum);
-				ret = 1;
+			if((ret = _parse_options(key, value, file, linenum)) != 0) {
 				goto cleanup;
 			}
-			continue;
 		} else {
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
-					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive %s needs a value\n"),
+					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
 							file, linenum, key);
 					ret = 1;
 					goto cleanup;
@@ -1222,10 +1221,9 @@ static int _parseconfig(const char *file, const char *givensection,
 					goto cleanup;
 				}
 			} else {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' in repository section '%s' not recognized.\n"),
+				pm_printf(PM_LOG_WARNING,
+						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
 						file, linenum, key, section);
-				ret = 1;
-				goto cleanup;
 			}
 		}
 
@@ -1361,10 +1359,14 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
-	/* we also support reading targets from stdin */
-	if(!isatty(fileno(stdin))) {
+	/* we support reading targets from stdin if a cmdline parameter is '-' */
+	if(!isatty(fileno(stdin)) && alpm_list_find_str(pm_targets, "-")) {
 		char line[PATH_MAX];
 		int i = 0;
+
+		/* remove the '-' from the list */
+		pm_targets = alpm_list_remove_str(pm_targets, "-", NULL);
+
 		while(i < PATH_MAX && (line[i] = (char)fgetc(stdin)) != EOF) {
 			if(isspace((unsigned char)line[i])) {
 				/* avoid adding zero length arg when multiple spaces separate args */
