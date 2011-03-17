@@ -61,7 +61,7 @@ static int mount_point_cmp(const void *p1, const void *p2)
 
 static alpm_list_t *mount_point_list(void)
 {
-	alpm_list_t *mount_points = NULL;
+	alpm_list_t *mount_points = NULL, *ptr;
 	alpm_mountpoint_t *mp;
 
 #if defined HAVE_GETMNTENT
@@ -124,6 +124,10 @@ static alpm_list_t *mount_point_list(void)
 
 	mount_points = alpm_list_msort(mount_points, alpm_list_count(mount_points),
 			mount_point_cmp);
+	for(ptr = mount_points; ptr != NULL; ptr = ptr->next) {
+		mp = ptr->data;
+		_alpm_log(PM_LOG_DEBUG, "mountpoint: %s\n", mp->mount_dir);
+	}
 	return(mount_points);
 }
 
@@ -256,6 +260,7 @@ cleanup:
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 {
 	alpm_list_t *mount_points, *i;
+	alpm_mountpoint_t *root_mp;
 	size_t replaces = 0, current = 0, numtargs;
 	int abort = 0;
 	alpm_list_t *targ;
@@ -263,7 +268,13 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	numtargs = alpm_list_count(trans->add);
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not determine filesystem mount points"));
+		_alpm_log(PM_LOG_ERROR, _("could not determine filesystem mount points\n"));
+		return(-1);
+	}
+	root_mp = match_mount_point(mount_points, handle->root);
+	if(root_mp == NULL) {
+		_alpm_log(PM_LOG_ERROR, _("could not determine root mount point %s\n"),
+				handle->root);
 		return(-1);
 	}
 
