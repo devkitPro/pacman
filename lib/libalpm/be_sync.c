@@ -429,7 +429,12 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
 				READ_AND_STORE_ALL(pkg->provides);
 			} else if(strcmp(line, "%DELTAS%") == 0) {
-				READ_AND_STORE_ALL(pkg->deltas);
+				/* Different than the rest because of the _alpm_delta_parse call. */
+				while(1) {
+					READ_NEXT(line);
+					if(strlen(line) == 0) break;
+					pkg->deltas = alpm_list_add(pkg->deltas, _alpm_delta_parse(line));
+				}
 			}
 		}
 	} else if(strcmp(filename, "files") == 0) {
