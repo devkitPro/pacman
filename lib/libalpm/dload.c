@@ -35,8 +35,8 @@
 #include <sys/param.h> /* MAXHOSTNAMELEN */
 #endif
 
-#ifdef HAVE_LIBFETCH
-#include <fetch.h>
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
 #endif
 
 /* libalpm */
@@ -55,7 +55,7 @@ static char *get_filename(const char *url) {
 	return(filename);
 }
 
-#ifdef HAVE_LIBFETCH
+#ifdef HAVE_LIBCURL
 static char *get_destfile(const char *path, const char *filename) {
 	char *destfile;
 	/* len = localpath len + filename len + null */
@@ -76,14 +76,8 @@ static char *get_tempfile(const char *path, const char *filename) {
 	return(tempfile);
 }
 
-static const char *gethost(struct url *fileurl)
-{
-	const char *host = _("disk");
-	if(strcmp(SCHEME_FILE, fileurl->scheme) != 0) {
-		host = fileurl->host;
-	}
-	return(host);
-}
+#define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
+enum sighandlers { OLD = 0, NEW = 1 };
 
 int dload_interrupted;
 static void inthandler(int signum)
@@ -91,68 +85,113 @@ static void inthandler(int signum)
 	dload_interrupted = 1;
 }
 
-#define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
-enum sighandlers { OLD = 0, NEW = 1 };
+static int curl_progress(void *filename, double dltotal, double dlnow,
+		double ultotal, double ulnow) {
 
-static int download_internal(const char *url, const char *localpath,
+	/* unused parameters */
+	(void)ultotal;
+	(void)ulnow;
+
+	if(dltotal == 0) {
+		return(0);
+	}
+
+	if(dload_interrupted) {
+		return(1);
+	}
+
+	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
+
+	return(0);
+}
+
+static int curl_gethost(const char *url, char *buffer) {
+	int hostlen;
+	char *p;
+
+	if(strncmp(url, "file://", 7) == 0) {
+		strcpy(buffer, _("disk"));
+	} else {
+		p = strstr(url, "//");
+		if(!p) {
+			return(1);
+		}
+		p += 2; /* jump over the found // */
+		hostlen = strcspn(p, "/");
+		if(hostlen > 255) {
+			/* buffer overflow imminent */
+			_alpm_log(PM_LOG_ERROR, _("buffer overflow detected"));
+			return(1);
+		}
+		snprintf(buffer, hostlen + 1, "%s", p);
+	}
+
+	return(0);
+}
+
+static int curl_download_internal(const char *url, const char *localpath,
 		int force) {
+	int ret = -1;
 	FILE *localf = NULL;
+	char *destfile, *filename, *tempfile;
+	char hostname[256]; /* RFC1123 states applications should support this length */
 	struct stat st;
-	int ret = 0;
-	off_t dl_thisfile = 0;
-	ssize_t nread = 0;
-	char *tempfile, *destfile, *filename;
+	long httpresp, timecond, remote_time, local_time;
+	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
 
-	off_t local_size = 0;
-	time_t local_time = 0;
-
-	struct url *fileurl;
-	struct url_stat ust;
-	fetchIO *dlf = NULL;
-
-	char buffer[PM_DLBUF_LEN];
-
 	filename = get_filename(url);
-	if(!filename) {
+	if(!filename || curl_gethost(url, hostname) != 0) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
 		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
 	}
 
-	fileurl = fetchParseURL(url);
-	if(!fileurl) {
-		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
-		RET_ERR(PM_ERR_LIBFETCH, -1);
-	}
-
 	destfile = get_destfile(localpath, filename);
-	tempfile = get_tempfile(localpath, filename);
+	tempfile = get_tempfile(localpath, filename); 
 
-	if(stat(tempfile, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0) {
-		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation\n");
-		local_time = fileurl->last_modified = st.st_mtime;
-		local_size = fileurl->offset = (off_t)st.st_size;
-		dl_thisfile = st.st_size;
+	/* the curl_easy handle is initialized with the alpm handle, so we only need
+	 * to reset the curl handle set parameters for each time it's used. */
+	curl_easy_reset(handle->curl);
+	curl_easy_setopt(handle->curl, CURLOPT_URL, url);
+	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_ENCODING, "deflate, gzip");
+	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
+	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, filename);
+
+	if(!force && stat(destfile, &st) == 0) {
+		/* assume its a sync, so we're starting from scratch. but, only download
+		 * our local is out of date. */
+		local_time = (long)st.st_mtime;
+		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
+		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, local_time);
+	} else if(stat(tempfile, &st) == 0 && st.st_size > 0) {
+		/* assume its a partial package download. we do not support resuming of
+		 * transfers on partially downloaded sync DBs. */
 		localf = fopen(tempfile, "ab");
-	} else if(!force && stat(destfile, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0) {
-		_alpm_log(PM_LOG_DEBUG, "destfile found, using mtime only\n");
-		local_time = fileurl->last_modified = st.st_mtime;
-		local_size = /* no fu->off here */ (off_t)st.st_size;
-	} else {
-		_alpm_log(PM_LOG_DEBUG, "no file found matching criteria, starting from scratch\n");
+		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
+		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation");
 	}
 
-	/* pass the raw filename for passing to the callback function */
-	_alpm_log(PM_LOG_DEBUG, "using '%s' for download progress\n", filename);
+	/* no destfile and no tempfile. start from scratch */
+	if(localf == NULL) {
+		localf = fopen(tempfile, "wb");
+		if(localf == NULL) {
+			goto cleanup;
+		}
+	}
+
+	/* this has to be set _after_ figuring out which file we're opening */
+	curl_easy_setopt(handle->curl, CURLOPT_WRITEDATA, localf);
 
 	/* print proxy info for debug purposes */
 	_alpm_log(PM_LOG_DEBUG, "HTTP_PROXY: %s\n", getenv("HTTP_PROXY"));
 	_alpm_log(PM_LOG_DEBUG, "http_proxy: %s\n", getenv("http_proxy"));
 	_alpm_log(PM_LOG_DEBUG, "FTP_PROXY:  %s\n", getenv("FTP_PROXY"));
 	_alpm_log(PM_LOG_DEBUG, "ftp_proxy:  %s\n", getenv("ftp_proxy"));
-
-	/* 10s timeout */
-	fetchTimeout = 10;
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */
@@ -169,146 +208,60 @@ static int download_internal(const char *url, const char *localpath,
 	sigaction(SIGINT, NULL, &sig_int[OLD]);
 	sigaction(SIGINT, &sig_int[NEW], NULL);
 
-	/* NOTE: libfetch does not reset the error code, be sure to do it before
-	 * calls into the library */
-
-	/* TODO: if we call fetchStat() and get a redirect (disabling automagic
-	 * redirect following), we should repeat the file locator stuff and get a new
-	 * filename rather than only base if off the first URL, and then verify
-	 * get_filename() didn't return ''. Of course, libfetch might not even allow
-	 * us to even get that URL...FS#22645. This would allow us to download things
-	 * without totally puking like
-	 * http://www.archlinux.org/packages/community/x86_64/exim/download/ */
-
-	/* find out the remote size *and* mtime in one go. there is a lot of
-	 * trouble in trying to do both size and "if-modified-since" logic in a
-	 * non-stat request, so avoid it. */
-	fetchLastErrCode = 0;
-	if(fetchStat(fileurl, &ust, "") == -1) {
-		pm_errno = PM_ERR_LIBFETCH;
-		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, gethost(fileurl), fetchLastErrString);
-		ret = -1;
-		goto cleanup;
-	}
-	check_stop();
-
-	_alpm_log(PM_LOG_DEBUG, "ust.mtime: %ld local_time: %ld compare: %ld\n",
-			ust.mtime, local_time, local_time - ust.mtime);
-	_alpm_log(PM_LOG_DEBUG, "ust.size: %jd local_size: %jd compare: %jd\n",
-			(intmax_t)ust.size, (intmax_t)local_size, (intmax_t)(local_size - ust.size));
-	if(!force && ust.mtime && ust.mtime == local_time
-			&& ust.size && ust.size == local_size) {
-		/* the remote time and size values agreed with what we have, so move on
-		 * because there is nothing more to do. */
-		_alpm_log(PM_LOG_DEBUG, "files are identical, skipping %s\n", filename);
-		ret = 1;
-		goto cleanup;
-	}
-	if(!ust.mtime || ust.mtime != local_time) {
-		_alpm_log(PM_LOG_DEBUG, "mtimes were different or unavailable, downloading %s from beginning\n", filename);
-		fileurl->offset = 0;
-	}
-
-	fetchLastErrCode = 0;
-	dlf = fetchGet(fileurl, "");
-	check_stop();
-
-	if(fetchLastErrCode != 0 || dlf == NULL) {
-		pm_errno = PM_ERR_LIBFETCH;
-		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, gethost(fileurl), fetchLastErrString);
-		ret = -1;
-		goto cleanup;
-	} else {
-		_alpm_log(PM_LOG_DEBUG, "connected to %s successfully\n", fileurl->host);
-	}
-
-	if(localf && fileurl->offset == 0) {
-		_alpm_log(PM_LOG_WARNING, _("resuming download of %s not possible; starting over\n"), filename);
-		fclose(localf);
-		localf = NULL;
-	} else if(fileurl->offset) {
-		_alpm_log(PM_LOG_DEBUG, "resuming download at position %jd\n", (intmax_t)fileurl->offset);
-	}
-
-
-	if(localf == NULL) {
-		_alpm_rmrf(tempfile);
-		fileurl->offset = (off_t)0;
-		dl_thisfile = 0;
-		localf = fopen(tempfile, "wb");
-		if(localf == NULL) { /* still null? */
-			pm_errno = PM_ERR_RETRIEVE;
-			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
-					tempfile, strerror(errno));
-			ret = -1;
-			goto cleanup;
-		}
-	}
-
 	/* Progress 0 - initialize */
 	if(handle->dlcb) {
-		handle->dlcb(filename, 0, ust.size);
+		handle->dlcb(filename, 0, 1);
 	}
 
-	while((nread = fetchIO_read(dlf, buffer, PM_DLBUF_LEN)) > 0) {
-		check_stop();
-		size_t nwritten = 0;
-		nwritten = fwrite(buffer, 1, (size_t)nread, localf);
-		if((nwritten != (size_t)nread) || ferror(localf)) {
-			pm_errno = PM_ERR_RETRIEVE;
-			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
-					tempfile, strerror(errno));
-			ret = -1;
-			goto cleanup;
-		}
-		dl_thisfile += nread;
+	/* perform transfer */
+	handle->curlerr = curl_easy_perform(handle->curl);
 
-		if(handle->dlcb) {
-			handle->dlcb(filename, dl_thisfile, ust.size);
-		}
-	}
+	/* retrieve info about the state of the transfer */
+	curl_easy_getinfo(handle->curl, CURLINFO_HTTP_CODE, &httpresp);
+	curl_easy_getinfo(handle->curl, CURLINFO_FILETIME, &remote_time);
+	curl_easy_getinfo(handle->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
+	curl_easy_getinfo(handle->curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
+	curl_easy_getinfo(handle->curl, CURLINFO_CONDITION_UNMET, &timecond);
 
-	/* did the transfer complete normally? */
-	if (nread == -1) {
-		/* not PM_ERR_LIBFETCH here because libfetch error string might be empty */
-		pm_errno = PM_ERR_RETRIEVE;
-		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s\n"),
-				filename, gethost(fileurl));
-		ret = -1;
+	/* time condition was met and we didn't download anything. we need to
+	 * clean up the 0 byte .part file that's left behind. */
+	if(bytes_dl == 0 && timecond == 1) {
+		ret = 1;
+		unlink(tempfile);
 		goto cleanup;
 	}
 
-	if (ust.size != -1 && dl_thisfile < ust.size) {
+	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
+		goto cleanup;
+	} else if(handle->curlerr != CURLE_OK) {
+		pm_errno = PM_ERR_LIBCURL;
+		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+				filename, hostname, curl_easy_strerror(handle->curlerr));
+		unlink(tempfile);
+		goto cleanup;
+	}
+
+	/* remote_size isn't necessarily the full size of the file, just what the
+	 * server reported as remaining to download. compare it to what curl reported
+	 * as actually being transferred during curl_easy_perform() */
+	if((remote_size != -1 && bytes_dl != -1) && bytes_dl != remote_size) {
 		pm_errno = PM_ERR_RETRIEVE;
 		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
-				filename, (intmax_t)dl_thisfile, (intmax_t)ust.size);
-		ret = -1;
+				filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
 	}
 
-	/* probably safer to close the file descriptors now before renaming the file,
-	 * for example to make sure the buffers are flushed.
-	 */
 	fclose(localf);
 	localf = NULL;
-	fetchIO_close(dlf);
-	dlf = NULL;
 
 	/* set the times on the file to the same as that of the remote file */
-	if(ust.mtime) {
+	if(remote_time != -1) {
 		struct timeval tv[2];
 		memset(&tv, 0, sizeof(tv));
-		tv[0].tv_sec = ust.atime;
-		tv[1].tv_sec = ust.mtime;
+		tv[0].tv_sec = tv[1].tv_sec = remote_time;
 		utimes(tempfile, tv);
 	}
-	if(rename(tempfile, destfile)) {
-		_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
-				tempfile, destfile, strerror(errno));
-		ret = -1;
-	}
+	rename(tempfile, destfile);
 	ret = 0;
 
 cleanup:
@@ -318,19 +271,14 @@ cleanup:
 		/* if we still had a local file open, we got interrupted. set the mtimes on
 		 * the file accordingly. */
 		fflush(localf);
-		if(ust.mtime) {
+		if(remote_time != -1) {
 			struct timeval tv[2];
 			memset(&tv, 0, sizeof(tv));
-			tv[0].tv_sec = ust.atime;
-			tv[1].tv_sec = ust.mtime;
+			tv[0].tv_sec = tv[1].tv_sec = remote_time;
 			futimes(fileno(localf), tv);
 		}
 		fclose(localf);
 	}
-	if(dlf != NULL) {
-		fetchIO_close(dlf);
-	}
-	fetchFreeURL(fileurl);
 
 	/* restore the old signal handlers */
 	sigaction(SIGINT, &sig_int[OLD], NULL);
@@ -347,8 +295,8 @@ cleanup:
 static int download(const char *url, const char *localpath,
 		int force) {
 	if(handle->fetchcb == NULL) {
-#ifdef HAVE_LIBFETCH
-		return(download_internal(url, localpath, force));
+#ifdef HAVE_LIBCURL
+		return(curl_download_internal(url, localpath, force));
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif

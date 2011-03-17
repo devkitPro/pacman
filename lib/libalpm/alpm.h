@@ -535,6 +535,7 @@ enum _pmerrno_t {
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,
 	PM_ERR_LIBFETCH,
+	PM_ERR_LIBCURL,
 	PM_ERR_EXTERNAL_DOWNLOAD
 };
 

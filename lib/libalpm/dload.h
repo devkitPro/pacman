@@ -25,8 +25,6 @@
 
 #include <time.h>
 
-#define PM_DLBUF_LEN (1024 * 16)
-
 int _alpm_download_single_file(const char *filename,
 		alpm_list_t *servers, const char *localpath,
 		int force);

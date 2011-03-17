@@ -71,6 +71,11 @@ void _alpm_handle_free(pmhandle_t *handle)
 		closelog();
 	}
 
+#ifdef HAVE_LIBCURL
+	/* release curl handle */
+	curl_easy_cleanup(handle->curl);
+#endif
+
 	/* free memory */
 	_alpm_trans_free(handle->trans);
 	FREE(handle->root);
@@ -85,6 +90,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->ignoregrp);
 	FREE(handle);
+
 }
 
 alpm_cb_log SYMEXPORT alpm_option_get_logcb()

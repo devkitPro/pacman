@@ -29,6 +29,10 @@
 #include "alpm.h"
 #include "trans.h"
 
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
+#endif
+
 typedef struct _pmhandle_t {
 	/* internal usage */
 	pmdb_t *db_local;       /* local db pointer */
@@ -36,6 +40,12 @@ typedef struct _pmhandle_t {
 	FILE *logstream;        /* log file stream pointer */
 	FILE *lckstream;        /* lock file stream pointer if one exists */
 	pmtrans_t *trans;
+
+#ifdef HAVE_LIBCURL
+	/* libcurl handle */
+	CURL *curl;             /* reusable curl_easy handle */
+	CURLcode curlerr;       /* last error produced by curl */
+#endif
 
 	/* callback functions */
 	alpm_cb_log logcb;      /* Log callback function */

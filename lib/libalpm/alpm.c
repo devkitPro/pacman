@@ -23,9 +23,8 @@
 
 #include "config.h"
 
-/* connection caching setup */
-#ifdef HAVE_LIBFETCH
-#include <fetch.h>
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
 #endif
 
 /* libalpm */
@@ -65,8 +64,9 @@ int SYMEXPORT alpm_initialize(void)
 	bindtextdomain("libalpm", LOCALEDIR);
 #endif
 
-#ifdef HAVE_LIBFETCH
-	fetchConnectionCacheInit(5, 1);
+#ifdef HAVE_LIBCURL
+	curl_global_init(CURL_GLOBAL_SSL);
+	handle->curl = curl_easy_init();
 #endif
 
 	return(0);
@@ -88,8 +88,8 @@ int SYMEXPORT alpm_release(void)
 	_alpm_handle_free(handle);
 	handle = NULL;
 
-#ifdef HAVE_LIBFETCH
-	fetchConnectionCacheClose();
+#ifdef HAVE_LIBCURL
+	curl_global_cleanup();
 #endif
 
 	return(0);
