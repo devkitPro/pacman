@@ -157,7 +157,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 {
 	int ret = -1;
 	FILE *localf = NULL;
-	char *destfile, *tempfile;
+	char *useragent, *destfile, *tempfile;
 	char hostname[256]; /* RFC1123 states applications should support this length */
 	struct stat st;
 	long httpresp, timecond, remote_time, local_time;
@@ -186,6 +186,11 @@ static int curl_download_internal(const char *url, const char *localpath,
 	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
 	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void*)&dlfile);
+
+	useragent = getenv("HTTP_USER_AGENT");
+	if (useragent != NULL) {
+		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
+	}
 
 	if(!force && stat(destfile, &st) == 0) {
 		/* assume its a sync, so we're starting from scratch. but, only download
