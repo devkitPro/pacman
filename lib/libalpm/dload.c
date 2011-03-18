@@ -92,7 +92,7 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	(void)ultotal;
 	(void)ulnow;
 
-	if(dltotal == 0 || prevprogress == dltotal) {
+	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, dltotal)) {
 		return 0;
 	}
 
@@ -230,7 +230,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
-	if(bytes_dl == 0 && timecond == 1) {
+	if(DOUBLE_EQ(bytes_dl, 0) && timecond == 1) {
 		ret = 1;
 		unlink(tempfile);
 		goto cleanup;
@@ -249,7 +249,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 	/* remote_size isn't necessarily the full size of the file, just what the
 	 * server reported as remaining to download. compare it to what curl reported
 	 * as actually being transferred during curl_easy_perform() */
-	if((remote_size != -1 && bytes_dl != -1) && bytes_dl != remote_size) {
+	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
+			!DOUBLE_EQ(bytes_dl, remote_size)) {
 		pm_errno = PM_ERR_RETRIEVE;
 		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				filename, (intmax_t)bytes_dl, (intmax_t)remote_size);

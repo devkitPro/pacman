@@ -36,6 +36,8 @@
 #include <time.h>
 #include <sys/stat.h> /* struct stat */
 #include <archive.h> /* struct archive */
+#include <math.h> /* fabs */
+#include <float.h> /* DBL_EPSILON */
 
 #ifdef ENABLE_NLS
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
@@ -60,6 +62,8 @@
 #define RET_ERR(err, ret) do { pm_errno = (err); \
 	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerrorlast()); \
 	return (ret); } while(0)
+
+#define DOUBLE_EQ(x, y) (fabs((x) - (y)) < DBL_EPSILON)
 
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().
