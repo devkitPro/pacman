@@ -154,7 +154,8 @@ AC_CHECK_LIB([gpgme], [gpgme_check_version], ,
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h \
                   sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h \
-                  sys/time.h sys/types.h sys/ucred.h syslog.h wchar.h])
+                  sys/time.h sys/types.h sys/ucred.h syslog.h termios.h \
+                  wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
@@ -173,7 +174,7 @@ AC_FUNC_GETMNTENT
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MKTIME
 AC_CHECK_FUNCS([geteuid getmntinfo realpath regcomp strcasecmp \
-                strndup strrchr strsep swprintf \
+                strndup strrchr strsep swprintf tcflush \
                 wcwidth uname])
 # For the diskspace code
 FS_STATS_TYPE

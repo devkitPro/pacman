@@ -37,6 +37,9 @@
 #include <unistd.h>
 #include <limits.h>
 #include <wchar.h>
+#ifdef HAVE_TERMIOS_H
+#include <termios.h> /* tcflush */
+#endif
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -98,6 +101,18 @@ int needs_root(void)
 		default:
 			return 0;
 	}
+}
+
+/* discard unhandled input on the terminal's input buffer */
+static int flush_term_input(void) {
+#ifdef HAVE_TCFLUSH
+	if(isatty(fileno(stdin))) {
+		return(tcflush(fileno(stdin), TCIFLUSH));
+	}
+#endif
+
+	/* fail silently */
+	return 0;
 }
 
 /* gets the current screen column width */
@@ -812,6 +827,8 @@ int multiselect_question(char *array, int count)
 			break;
 		}
 
+		flush_term_input();
+
 		if(fgets(response, sizeof(response), stdin)) {
 			strtrim(response);
 			if(strlen(response) > 0) {
@@ -848,6 +865,8 @@ int select_question(int count)
 			fprintf(stream, "\n");
 			break;
 		}
+
+		flush_term_input();
 
 		if(fgets(response, sizeof(response), stdin)) {
 			strtrim(response);
@@ -890,6 +909,8 @@ static int question(short preset, char *fmt, va_list args)
 		fprintf(stream, "\n");
 		return preset;
 	}
+
+	flush_term_input();
 
 	if(fgets(response, sizeof(response), stdin)) {
 		strtrim(response);
