@@ -171,7 +171,6 @@ static int curl_download_internal(const char *url, const char *localpath,
 	curl_easy_reset(handle->curl);
 	curl_easy_setopt(handle->curl, CURLOPT_URL, url);
 	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_ENCODING, "deflate, gzip");
 	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
 	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
