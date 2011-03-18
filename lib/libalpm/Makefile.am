@@ -54,7 +54,7 @@ libalpm_la_SOURCES += \
 	md5.h md5.c
 endif
 
-libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
+libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO) @LIBCURL@
 libalpm_la_LIBADD = $(LTLIBINTL)
 
 # vim:set ts=2 sw=2 noet:
