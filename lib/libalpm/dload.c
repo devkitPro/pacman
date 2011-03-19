@@ -231,7 +231,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 	handle->curlerr = curl_easy_perform(handle->curl);
 
 	/* retrieve info about the state of the transfer */
-	curl_easy_getinfo(handle->curl, CURLINFO_HTTP_CODE, &httpresp);
+	curl_easy_getinfo(handle->curl, CURLINFO_RESPONSE_CODE, &httpresp);
 	curl_easy_getinfo(handle->curl, CURLINFO_FILETIME, &remote_time);
 	curl_easy_getinfo(handle->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
 	curl_easy_getinfo(handle->curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
