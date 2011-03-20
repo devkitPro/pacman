@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stddef.h> /* size_t */
 #include <time.h>
 #include <sys/stat.h> /* struct stat */
 #include <archive.h> /* struct archive */

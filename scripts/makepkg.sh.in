@@ -1258,7 +1258,8 @@ check_sanity() {
 	fi
 
 	local provides_list=()
-	eval $(awk '/^[[:space:]]*provides=/,/\)/' "$BUILDFILE" | sed "s/provides=/provides_list+=/")
+	eval $(awk '/^[[:space:]]*provides=/,/\)/' "$BUILDFILE" | \
+		sed -e "s/provides=/provides_list+=/" -e "s/#.*//")
 	for i in ${provides_list[@]}; do
 		if [[ $i != ${i//</} || $i != ${i//>/} ]]; then
 			error "$(gettext "Provides array cannot contain comparison (< or >) operators.")"
@@ -1267,7 +1268,8 @@ check_sanity() {
 	done
 
 	local backup_list=()
-	eval $(awk '/^[[:space:]]*backup=/,/\)/' "$BUILDFILE" | sed "s/backup=/backup_list+=/")
+	eval $(awk '/^[[:space:]]*backup=/,/\)/' "$BUILDFILE" | \
+		sed -e "s/backup=/backup_list+=/" -e "s/#.*//")
 	for i in "${backup_list[@]}"; do
 		if [[ ${i:0:1} = "/" ]]; then
 			error "$(gettext "Backup entry should not contain leading slash : %s")" "$i"
@@ -1276,7 +1278,8 @@ check_sanity() {
 	done
 
 	local optdepends_list=()
-	eval $(awk '/^[[:space:]]*optdepends=/,/\)/' "$BUILDFILE" | sed "s/optdepends=/optdepends_list+=/")
+	eval $(awk '/^[[:space:]]*optdepends=\(/,/\)[[:space:]]*(|#.*)$/' "$BUILDFILE" | \
+		sed -e "s/optdepends=/optdepends_list+=/" -e "s/#.*//")
 	for i in "${optdepends_list[@]}"; do
 		local pkg=${i%%:*}
 		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]+$ ]]; then
@@ -1300,7 +1303,8 @@ check_sanity() {
 
 	local valid_options=1
 	local known kopt options_list
-	eval $(awk '/^[[:space:]]*options=/,/\)/' "$BUILDFILE" | sed "s/options=/options_list+=/")
+	eval $(awk '/^[[:space:]]*options=/,/\)/' "$BUILDFILE" | \
+		sed -e "s/options=/options_list+=/" -e "s/#.*//")
 	for i in ${options_list[@]}; do
 		known=0
 		# check if option matches a known option or its inverse

@@ -663,6 +663,13 @@ static int process_targname(alpm_list_t *dblist, char *targname)
 {
 	pmpkg_t *pkg = alpm_find_dbs_satisfier(dblist, targname);
 
+	/* #FS23342 - skip ignored packages when user says no */
+	if(pm_errno == PM_ERR_PKG_IGNORED) {
+			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targname);
+			pm_errno = 0;
+			return(0);
+	}
+
 	if(pkg) {
 		return(process_pkg(pkg));
 	}

@@ -84,6 +84,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	struct stat buf;
 	size_t len;
 	int ret;
+	mode_t oldmask;
 
 	ALPM_LOG_FUNC;
 
@@ -103,6 +104,9 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	len = strlen(dbpath) + 6;
 	MALLOC(syncpath, len, RET_ERR(PM_ERR_MEMORY, -1));
 	sprintf(syncpath, "%s%s", dbpath, "sync/");
+
+	/* make sure we have a sane umask */
+	oldmask = umask(0022);
 
 	if(stat(syncpath, &buf) != 0) {
 		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
@@ -124,6 +128,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	ret = _alpm_download_single_file(dbfile, db->servers, syncpath, force);
 	free(dbfile);
 	free(syncpath);
+	umask(oldmask);
 
 	if(ret == 1) {
 		/* files match, do nothing */
@@ -429,7 +434,12 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
 				READ_AND_STORE_ALL(pkg->provides);
 			} else if(strcmp(line, "%DELTAS%") == 0) {
-				READ_AND_STORE_ALL(pkg->deltas);
+				/* Different than the rest because of the _alpm_delta_parse call. */
+				while(1) {
+					READ_NEXT(line);
+					if(strlen(line) == 0) break;
+					pkg->deltas = alpm_list_add(pkg->deltas, _alpm_delta_parse(line));
+				}
 			}
 		}
 	} else if(strcmp(filename, "files") == 0) {
