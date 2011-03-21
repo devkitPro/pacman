@@ -995,10 +995,10 @@ pmdb_t *_alpm_db_register_local(void)
 	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 
 	db = _alpm_db_new("local", 1);
-	db->ops = &local_db_ops;
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
+	db->ops = &local_db_ops;
 
 	handle->db_local = db;
 	return(db);
