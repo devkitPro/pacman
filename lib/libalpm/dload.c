@@ -100,7 +100,9 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 		return 1;
 	}
 
-	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
+	if(handle->dlcb) {
+		handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
+	}
 
 	prevprogress = dlnow;
 
