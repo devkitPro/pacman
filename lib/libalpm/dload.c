@@ -214,10 +214,9 @@ static int curl_download_internal(const char *url, const char *localpath,
 	sigaction(SIGINT, NULL, &sig_int[OLD]);
 	sigaction(SIGINT, &sig_int[NEW], NULL);
 
-	/* Progress 0 - initialize */
-	if(handle->dlcb) {
-		handle->dlcb(filename, 0, 1);
-	}
+	/* set initial value of prevprogress to -1 which causes curl_progress() to
+	 * initialize the progress bar with 0% once. */
+	prevprogress = -1;
 
 	/* perform transfer */
 	handle->curlerr = curl_easy_perform(handle->curl);
