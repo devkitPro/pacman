@@ -87,9 +87,11 @@ static void inthandler(int signum)
 	dload_interrupted = 1;
 }
 
-static int curl_progress(void *filename, double dltotal, double dlnow,
+static int curl_progress(void *file, double dltotal, double dlnow,
 		double ultotal, double ulnow)
 {
+	struct fileinfo *dlfile = (struct fileinfo *)file;
+	double current_size, total_size;
 
 	/* unused parameters */
 	(void)ultotal;
@@ -105,19 +107,22 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 		return 0;
 	}
 
-	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, dltotal)) {
+	current_size = dlfile->initial_size + dlnow;
+	total_size = dlfile->initial_size + dltotal;
+
+	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, total_size)) {
 		return 0;
 	}
 
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
 	if(DOUBLE_EQ(prevprogress, 0)) {
-		handle->dlcb((const char*)filename, 0, (long)dltotal);
+		handle->dlcb(dlfile->filename, 0, (long)dltotal);
 	}
 
-	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
+	handle->dlcb(dlfile->filename, (long)current_size, (long)total_size);
 
-	prevprogress = dlnow;
+	prevprogress = current_size;
 
 	return 0;
 }
@@ -152,21 +157,23 @@ static int curl_download_internal(const char *url, const char *localpath,
 {
 	int ret = -1;
 	FILE *localf = NULL;
-	char *destfile, *filename, *tempfile;
+	char *destfile, *tempfile;
 	char hostname[256]; /* RFC1123 states applications should support this length */
 	struct stat st;
 	long httpresp, timecond, remote_time, local_time;
 	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
+	struct fileinfo dlfile;
 
-	filename = get_filename(url);
-	if(!filename || curl_gethost(url, hostname) != 0) {
+	dlfile.initial_size = 0.0;
+	dlfile.filename = get_filename(url);
+	if(!dlfile.filename || curl_gethost(url, hostname) != 0) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
 		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
 	}
 
-	destfile = get_destfile(localpath, filename);
-	tempfile = get_tempfile(localpath, filename); 
+	destfile = get_destfile(localpath, dlfile.filename);
+	tempfile = get_tempfile(localpath, dlfile.filename);
 
 	/* the curl_easy handle is initialized with the alpm handle, so we only need
 	 * to reset the curl handle set parameters for each time it's used. */
@@ -178,7 +185,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
 	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
-	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, filename);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void*)&dlfile);
 
 	if(!force && stat(destfile, &st) == 0) {
 		/* assume its a sync, so we're starting from scratch. but, only download
@@ -192,6 +199,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 		localf = fopen(tempfile, "ab");
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
 		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation");
+		dlfile.initial_size = (double)st.st_size;
 	}
 
 	/* no destfile and no tempfile. start from scratch */
@@ -252,7 +260,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 	} else if(handle->curlerr != CURLE_OK) {
 		pm_errno = PM_ERR_LIBCURL;
 		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				filename, hostname, curl_easy_strerror(handle->curlerr));
+				dlfile.filename, hostname, curl_easy_strerror(handle->curlerr));
 		unlink(tempfile);
 		goto cleanup;
 	}
@@ -264,7 +272,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
 		pm_errno = PM_ERR_RETRIEVE;
 		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
-				filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
+				dlfile.filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
 	}
 

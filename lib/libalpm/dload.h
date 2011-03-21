@@ -25,6 +25,12 @@
 
 #include <time.h>
 
+/* internal structure for communicating with curl progress callback */
+struct fileinfo {
+	char *filename;
+	double initial_size;
+};
+
 int _alpm_download_single_file(const char *filename,
 		alpm_list_t *servers, const char *localpath,
 		int force);
