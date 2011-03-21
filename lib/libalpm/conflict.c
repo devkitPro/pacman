@@ -53,7 +53,7 @@ pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2,
 	STRDUP(conflict->package2, package2, RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(conflict->reason, reason, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	return(conflict);
+	return conflict;
 }
 
 void _alpm_conflict_free(pmconflict_t *conflict)
@@ -73,7 +73,7 @@ pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
 	STRDUP(newconflict->package2, conflict->package2, RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(newconflict->reason, conflict->reason, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	return(newconflict);
+	return newconflict;
 }
 
 static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
@@ -90,11 +90,11 @@ static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
 		const char *cpkg2 = conflict->package2;
 		if((strcmp(cpkg1, npkg1) == 0  && strcmp(cpkg2, npkg2) == 0)
 				|| (strcmp(cpkg1, npkg2) == 0 && strcmp(cpkg2, npkg1) == 0)) {
-			return(1);
+			return 1;
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 /** Adds the pkg1/pkg2 conflict to the baddeps list
@@ -173,7 +173,7 @@ alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages)
 	_alpm_log(PM_LOG_DEBUG, "check targets vs targets\n");
 	check_conflict(packages, packages, &baddeps, 0);
 
-	return(baddeps);
+	return baddeps;
 }
 
 /* Check for target vs (db - target) conflicts
@@ -187,7 +187,7 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	alpm_list_t *dblist = alpm_list_diff(_alpm_db_get_pkgcache(db),
@@ -200,7 +200,7 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 	check_conflict(dblist, packages, &baddeps, -1);
 
 	alpm_list_free(dblist);
-	return(baddeps);
+	return baddeps;
 }
 
 /** Check the package conflicts in a database
@@ -209,7 +209,7 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
  * @return an alpm_list_t of pmconflict_t
  */
 alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_list_t *pkglist) {
-	return(_alpm_innerconflicts(pkglist));
+	return _alpm_innerconflicts(pkglist);
 }
 
 /* Returns a alpm_list_t* of file conflicts.
@@ -246,7 +246,7 @@ static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
 	  }
 	}
 
-	return(ret);
+	return ret;
 }
 
 /* Returns a alpm_list_t* of files that are in filesA but *NOT* in filesB
@@ -293,7 +293,7 @@ static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
 		pA = pA->next;
 	}
 
-	return(ret);
+	return ret;
 }
 
 /* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type (either
@@ -321,7 +321,7 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 	_alpm_log(PM_LOG_DEBUG, "found file conflict %s, packages %s and %s\n",
 	          filestr, name1, name2 ? name2 : "(filesystem)");
 
-	return(conflicts);
+	return conflicts;
 }
 
 void _alpm_fileconflict_free(pmfileconflict_t *conflict)
@@ -345,7 +345,7 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 	snprintf(abspath, PATH_MAX, "%s%s", handle->root, dirpath);
 	dir = opendir(abspath);
 	if(dir == NULL) {
-		return(1);
+		return 1;
 	}
 	while((ent = readdir(dir)) != NULL) {
 		const char *name = ent->d_name;
@@ -363,19 +363,19 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 				continue;
 			} else {
 				closedir(dir);
-				return(0);
+				return 0;
 			}
 		} else {
 			if(alpm_list_find_str(alpm_pkg_get_files(pkg), path)) {
 				continue;
 			} else {
 				closedir(dir);
-				return(0);
+				return 0;
 			}
 		}
 	}
 	closedir(dir);
-	return(1);
+	return 1;
 }
 
 /* Find file conflicts that may occur during the transaction with two checks:
@@ -391,7 +391,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 	ALPM_LOG_FUNC;
 
 	if(db == NULL || upgrade == NULL || trans == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	/* TODO this whole function needs a huge change, which hopefully will
@@ -540,7 +540,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 	PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", 100,
 			numtargs, current);
 
-	return(conflicts);
+	return conflicts;
 }
 
 const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
@@ -548,8 +548,8 @@ const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(conflict != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->package1;
 }
@@ -559,8 +559,8 @@ const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(conflict != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->package2;
 }
@@ -570,8 +570,8 @@ const char SYMEXPORT *alpm_conflict_get_reason(pmconflict_t *conflict)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(conflict != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->reason;
 }
@@ -581,8 +581,8 @@ const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(conflict != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->target;
 }
@@ -592,8 +592,8 @@ pmfileconflicttype_t SYMEXPORT alpm_fileconflict_get_type(pmfileconflict_t *conf
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(conflict != NULL, return(-1));
+	ASSERT(handle != NULL, return -1);
+	ASSERT(conflict != NULL, return -1);
 
 	return conflict->type;
 }
@@ -603,8 +603,8 @@ const char SYMEXPORT *alpm_fileconflict_get_file(pmfileconflict_t *conflict)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(conflict != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->file;
 }
@@ -614,8 +614,8 @@ const char SYMEXPORT *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(conflict != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->ctarget;
 }

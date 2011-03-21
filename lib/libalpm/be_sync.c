@@ -133,17 +133,17 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	if(ret == 1) {
 		/* files match, do nothing */
 		pm_errno = 0;
-		return(1);
+		return 1;
 	} else if(ret == -1) {
 		/* pm_errno was set by the download code */
 		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
-		return(-1);
+		return -1;
 	}
 
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
-	return(0);
+	return 0;
 }
 
 /* Forward decl so I don't reorganize the whole file right now */
@@ -204,7 +204,7 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 			/* assume it is at least somewhat compressed */
 			per_package = 200;
 	}
-	return((size_t)(st->st_size / per_package) + 1);
+	return (size_t)((st->st_size / per_package) + 1);
 }
 
 static int sync_db_populate(pmdb_t *db)
@@ -294,7 +294,7 @@ static int sync_db_populate(pmdb_t *db)
 	}
 	archive_read_finish(archive);
 
-	return(count);
+	return count;
 }
 
 #define READ_NEXT(s) do { \
@@ -334,7 +334,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	}
 	if(entryname == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "invalid archive entry provided to _alpm_sync_db_read, skipping\n");
-		return(-1);
+		return -1;
 	}
 
 	_alpm_log(PM_LOG_FUNCTION, "loading package data from archive entry %s\n",
@@ -365,7 +365,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	if(pkg == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "package %s not found in %s sync database",
 					pkgname, db->treename);
-		return(-1);
+		return -1;
 	}
 
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
@@ -452,12 +452,12 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 error:
 	FREE(pkgname);
 	/* TODO: return 0 always? */
-	return(0);
+	return 0;
 }
 
 static int sync_db_version(pmdb_t *db)
 {
-	return(2);
+	return 2;
 }
 
 struct db_operations sync_db_ops = {
@@ -490,7 +490,7 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 	db->ops = &sync_db_ops;
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
-	return(db);
+	return db;
 }
 
 

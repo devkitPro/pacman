@@ -47,7 +47,7 @@ int pacman_deptest(alpm_list_t *targets)
 	}
 
 	if(deps == NULL) {
-		return(0);
+		return 0;
 	}
 
 	for(i = deps; i; i = alpm_list_next(i)) {
@@ -56,7 +56,7 @@ int pacman_deptest(alpm_list_t *targets)
 		printf("%s\n", dep);
 	}
 	alpm_list_free(deps);
-	return(127);
+	return 127;
 }
 
 /* vim: set ts=2 sw=2 noet: */

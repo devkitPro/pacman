@@ -38,7 +38,7 @@ config_t *config_new(void)
 			pm_fprintf(stderr, PM_LOG_ERROR,
 					_("malloc failure: could not allocate %zd bytes\n"),
 					sizeof(config_t));
-			return(NULL);
+			return NULL;
 	}
 	/* defaults which may get overridden later */
 	newconfig->op = PM_OP_MAIN;
@@ -46,13 +46,13 @@ config_t *config_new(void)
 	/* CONFFILE is defined at compile-time */
 	newconfig->configfile = strdup(CONFFILE);
 
-	return(newconfig);
+	return newconfig;
 }
 
 int config_free(config_t *oldconfig)
 {
 	if(oldconfig == NULL) {
-		return(-1);
+		return -1;
 	}
 
 	FREELIST(oldconfig->holdpkg);
@@ -66,7 +66,7 @@ int config_free(config_t *oldconfig)
 	free(oldconfig);
 	oldconfig = NULL;
 
-	return(0);
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */

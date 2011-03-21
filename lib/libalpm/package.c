@@ -61,7 +61,7 @@ int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 		_alpm_pkg_free(pkg);
 	}
 
-	return(0);
+	return 0;
 }
 
 /** Check the integrity (with md5) of a package from the sync cache.
@@ -84,13 +84,13 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	retval = _alpm_test_md5sum(fpath, alpm_pkg_get_md5sum(pkg));
 
 	if(retval == 0) {
-		return(0);
+		return 0;
 	} else if (retval == 1) {
 		pm_errno = PM_ERR_PKG_INVALID;
 		retval = -1;
 	}
 
-	return(retval);
+	return retval;
 }
 
 /* Default package accessor functions. These will get overridden by any
@@ -274,10 +274,10 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
 {
 	/* Sanity checks */
-	ASSERT(pkg != NULL, return(NULL));
-	ASSERT(pkg->origin != PKG_FROM_FILE, return(NULL));
+	ASSERT(pkg != NULL, return NULL);
+	ASSERT(pkg->origin != PKG_FROM_FILE, return NULL);
 
-	return(pkg->origin_data.db);
+	return pkg->origin_data.db;
 }
 
 /**
@@ -381,7 +381,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 			}
 		}
 	}
-	return(reqs);
+	return reqs;
 }
 
 /** @} */
@@ -394,7 +394,7 @@ pmpkg_t *_alpm_pkg_new(void)
 
 	CALLOC(pkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
-	return(pkg);
+	return pkg;
 }
 
 pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
@@ -445,7 +445,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	}
 	newpkg->infolevel = pkg->infolevel;
 
-	return(newpkg);
+	return newpkg;
 }
 
 void _alpm_pkg_free(pmpkg_t *pkg)
@@ -522,7 +522,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
 	pmpkg_t *pkg1 = (pmpkg_t *)p1;
 	pmpkg_t *pkg2 = (pmpkg_t *)p2;
-	return(strcoll(pkg1->name, pkg2->name));
+	return strcoll(pkg1->name, pkg2->name);
 }
 
 /* Test for existence of a package in a alpm_list_t*
@@ -536,7 +536,7 @@ pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 	ALPM_LOG_FUNC;
 
 	if(needle == NULL || haystack == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	needle_hash = _alpm_hash_sdbm(needle);
@@ -552,11 +552,11 @@ pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 
 			/* finally: we had hash match, verify string match */
 			if(strcmp(info->name, needle) == 0) {
-				return(info);
+				return info;
 			}
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 /** Test if a package should be ignored.
@@ -574,18 +574,18 @@ int _alpm_pkg_should_ignore(pmpkg_t *pkg)
 
 	/* first see if the package is ignored */
 	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
-		return(1);
+		return 1;
 	}
 
 	/* next see if the package is in a group that is ignored */
 	for(groups = handle->ignoregrp; groups; groups = alpm_list_next(groups)) {
 		char *grp = (char *)alpm_list_getdata(groups);
 		if(alpm_list_find_str(alpm_pkg_get_groups(pkg), grp)) {
-			return(1);
+			return 1;
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */

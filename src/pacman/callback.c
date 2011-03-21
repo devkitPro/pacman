@@ -81,7 +81,7 @@ static double get_update_timediff(int first_call)
 		}
 	}
 
-	return(retval);
+	return retval;
 }
 
 /* refactored from cb_trans_progress */

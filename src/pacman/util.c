@@ -68,9 +68,9 @@ int trans_init(pmtransflag_t flags)
 			fprintf(stderr, _("  try running pacman-db-upgrade\n"));
 		}
 
-		return(-1);
+		return -1;
 	}
-	return(0);
+	return 0;
 }
 
 int trans_release(void)
@@ -78,25 +78,25 @@ int trans_release(void)
 	if(alpm_trans_release() == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
 				alpm_strerrorlast());
-		return(-1);
+		return -1;
 	}
-	return(0);
+	return 0;
 }
 
 int needs_root(void)
 {
 	switch(config->op) {
 		case PM_OP_DATABASE:
-			return(1);
+			return 1;
 		case PM_OP_UPGRADE:
 		case PM_OP_REMOVE:
-			return(!config->print);
+			return !config->print;
 		case PM_OP_SYNC:
-			return(config->op_s_clean || config->op_s_sync ||
+			return (config->op_s_clean || config->op_s_sync ||
 					(!config->group && !config->op_s_info && !config->op_q_list &&
 					 !config->op_s_search && !config->print));
 		default:
-			return(0);
+			return 0;
 	}
 }
 
@@ -125,24 +125,24 @@ int rmrf(const char *path)
 	DIR *dirp;
 
 	if(!unlink(path)) {
-		return(0);
+		return 0;
 	} else {
 		if(errno == ENOENT) {
-			return(0);
+			return 0;
 		} else if(errno == EPERM) {
 			/* fallthrough */
 		} else if(errno == EISDIR) {
 			/* fallthrough */
 		} else if(errno == ENOTDIR) {
-			return(1);
+			return 1;
 		} else {
 			/* not a directory */
-			return(1);
+			return 1;
 		}
 
 		dirp = opendir(path);
 		if(!dirp) {
-			return(1);
+			return 1;
 		}
 		for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
 			if(dp->d_ino) {
@@ -157,7 +157,7 @@ int rmrf(const char *path)
 		if(rmdir(path)) {
 			errflag++;
 		}
-		return(errflag);
+		return errflag;
 	}
 }
 
@@ -170,9 +170,9 @@ const char *mbasename(const char *path)
 {
 	const char *last = strrchr(path, '/');
 	if(last) {
-		return(last + 1);
+		return last + 1;
 	}
-	return(path);
+	return path;
 }
 
 /** Parse the dirname of a program from a path.
@@ -187,7 +187,7 @@ char *mdirname(const char *path)
 
 	/* null or empty path */
 	if(path == NULL || path == '\0') {
-		return(strdup("."));
+		return strdup(".");
 	}
 
 	ret = strdup(path);
@@ -196,11 +196,11 @@ char *mdirname(const char *path)
 	if(last != NULL) {
 		/* we found a '/', so terminate our string */
 		*last = '\0';
-		return(ret);
+		return ret;
 	}
 	/* no slash found */
 	free(ret);
-	return(strdup("."));
+	return strdup(".");
 }
 
 /* output a string, but wrap words properly with a specified indentation
@@ -286,7 +286,7 @@ char *strtrim(char *str)
 
 	if(str == NULL || *str == '\0') {
 		/* string is empty, so we're done. */
-		return(str);
+		return str;
 	}
 
 	while(isspace((unsigned char)*pch)) {
@@ -298,7 +298,7 @@ char *strtrim(char *str)
 
 	/* check if there wasn't anything but whitespace in the string. */
 	if(*str == '\0') {
-		return(str);
+		return str;
 	}
 
 	pch = (str + (strlen(str) - 1));
@@ -307,7 +307,7 @@ char *strtrim(char *str)
 	}
 	*++pch = '\0';
 
-	return(str);
+	return str;
 }
 
 /* Replace all occurances of 'needle' with 'replace' in 'str', returning
@@ -321,7 +321,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	size_t newsz;
 
 	if(!str) {
-		return(NULL);
+		return NULL;
 	}
 
 	p = str;
@@ -334,7 +334,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 
 	/* no occurences of needle found */
 	if(!list) {
-		return(strdup(str));
+		return strdup(str);
 	}
 	/* size of new string = size of old string + "number of occurences of needle"
 	 * x "size difference between replace and needle" */
@@ -342,7 +342,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 		alpm_list_count(list) * (replacesz - needlesz);
 	newstr = malloc(newsz);
 	if(!newstr) {
-		return(NULL);
+		return NULL;
 	}
 	*newstr = '\0';
 
@@ -368,7 +368,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	}
 	*newp = '\0';
 
-	return(newstr);
+	return newstr;
 }
 
 /** Splits a string into a list of strings using the chosen character as
@@ -388,7 +388,7 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 	while((str = strchr(str, splitchar))) {
 		dup = strndup(prev, (size_t)(str - prev));
 		if(dup == NULL) {
-			return(NULL);
+			return NULL;
 		}
 		list = alpm_list_add(list, dup);
 
@@ -398,11 +398,11 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 
 	dup = strdup(prev);
 	if(dup == NULL) {
-		return(NULL);
+		return NULL;
 	}
 	list = alpm_list_add(list, dup);
 
-	return(list);
+	return list;
 }
 
 static int string_length(const char *s)
@@ -411,7 +411,7 @@ static int string_length(const char *s)
 	wchar_t *wcstr;
 
 	if(!s) {
-		return(0);
+		return 0;
 	}
 	/* len goes from # bytes -> # chars -> # cols */
 	len = strlen(s) + 1;
@@ -420,7 +420,7 @@ static int string_length(const char *s)
 	len = wcswidth(wcstr, len);
 	free(wcstr);
 
-	return(len);
+	return len;
 }
 
 void string_display(const char *title, const char *string)
@@ -568,11 +568,11 @@ static off_t pkg_get_size(pmpkg_t *pkg)
 {
 	switch(config->op) {
 		case PM_OP_SYNC:
-			return(alpm_pkg_download_size(pkg));
+			return alpm_pkg_download_size(pkg);
 		case PM_OP_UPGRADE:
-			return(alpm_pkg_get_size(pkg));
+			return alpm_pkg_get_size(pkg);
 		default:
-			return(alpm_pkg_get_isize(pkg));
+			return alpm_pkg_get_isize(pkg);
 	}
 }
 
@@ -588,14 +588,14 @@ static char *pkg_get_location(pmpkg_t *pkg)
 			if(dburl) {
 				char *pkgurl = NULL;
 				pm_asprintf(&pkgurl, "%s/%s", dburl, alpm_pkg_get_filename(pkg));
-				return(pkgurl);
+				return pkgurl;
 			}
 		case PM_OP_UPGRADE:
-			return(strdup(alpm_pkg_get_filename(pkg)));
+			return strdup(alpm_pkg_get_filename(pkg));
 		default:
 			string = NULL;
 			pm_asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-			return(string);
+			return string;
 	}
 }
 
@@ -657,7 +657,7 @@ void print_packages(const alpm_list_t *packages)
  * alpm "compare func" signature */
 int str_cmp(const void *s1, const void *s2)
 {
-	return(strcmp(s1, s2));
+	return strcmp(s1, s2);
 }
 
 void display_new_optdepends(pmpkg_t *oldpkg, pmpkg_t *newpkg)
@@ -726,13 +726,13 @@ static int parseindex(char *s, int *val, int min, int max)
 		if(n < min || n > max) {
 			fprintf(stderr, _("Invalid value: %d is not between %d and %d\n"),
 					n, min, max);
-			return(-1);
+			return -1;
 		}
 		*val = n;
-		return(0);
+		return 0;
 	} else {
 		fprintf(stderr, _("Invalid number: %s\n"), s);
-		return(-1);
+		return -1;
 	}
 }
 
@@ -772,20 +772,20 @@ static int multiselect_parse(char *array, int count, char *response)
 		}
 
 		if(parseindex(starts, &start, 1, count) != 0)
-			return(-1);
+			return -1;
 
 		if(!ends) {
 			array[start-1] = include;
 		} else {
 			if(parseindex(ends, &end, start, count) != 0)
-				return(-1);
+				return -1;
 			for(int d = start; d <= end; d++) {
 				array[d-1] = include;
 			}
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 int multiselect_question(char *array, int count)
@@ -823,7 +823,7 @@ int multiselect_question(char *array, int count)
 		}
 		break;
 	}
-	return(0);
+	return 0;
 }
 
 int select_question(int count)
@@ -855,13 +855,13 @@ int select_question(int count)
 				int n;
 				if(parseindex(response, &n, 1, count) != 0)
 					continue;
-				return(n-1);
+				return (n - 1);
 			}
 		}
 		break;
 	}
 
-	return(preset-1);
+	return (preset - 1);
 }
 
 
@@ -888,22 +888,22 @@ static int question(short preset, char *fmt, va_list args)
 
 	if(config->noconfirm) {
 		fprintf(stream, "\n");
-		return(preset);
+		return preset;
 	}
 
 	if(fgets(response, sizeof(response), stdin)) {
 		strtrim(response);
 		if(strlen(response) == 0) {
-			return(preset);
+			return preset;
 		}
 
 		if(strcasecmp(response, _("Y")) == 0 || strcasecmp(response, _("YES")) == 0) {
-			return(1);
+			return 1;
 		} else if (strcasecmp(response, _("N")) == 0 || strcasecmp(response, _("NO")) == 0) {
-			return(0);
+			return 0;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 int yesno(char *fmt, ...)
@@ -915,7 +915,7 @@ int yesno(char *fmt, ...)
 	ret = question(1, fmt, args);
 	va_end(args);
 
-	return(ret);
+	return ret;
 }
 
 int noyes(char *fmt, ...)
@@ -927,7 +927,7 @@ int noyes(char *fmt, ...)
 	ret = question(0, fmt, args);
 	va_end(args);
 
-	return(ret);
+	return ret;
 }
 
 int pm_printf(pmloglevel_t level, const char *format, ...)
@@ -940,7 +940,7 @@ int pm_printf(pmloglevel_t level, const char *format, ...)
 	ret = pm_vfprintf(stdout, level, format, args);
 	va_end(args);
 
-	return(ret);
+	return ret;
 }
 
 int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...)
@@ -953,7 +953,7 @@ int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...)
 	ret = pm_vfprintf(stream, level, format, args);
 	va_end(args);
 
-	return(ret);
+	return ret;
 }
 
 int pm_asprintf(char **string, const char *format, ...)
@@ -969,7 +969,7 @@ int pm_asprintf(char **string, const char *format, ...)
 	}
 	va_end(args);
 
-	return(ret);
+	return ret;
 }
 
 int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list args)
@@ -1005,7 +1005,7 @@ int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list 
 	}
 	free(msg);
 
-	return(ret);
+	return ret;
 }
 
 int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args)
@@ -1053,7 +1053,7 @@ int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list ar
 
 	/* print the message using va_arg list */
 	ret = vfprintf(stream, format, args);
-	return(ret);
+	return ret;
 }
 
 #ifndef HAVE_STRNDUP
@@ -1062,7 +1062,7 @@ static size_t strnlen(const char *s, size_t max)
 {
     register const char *p;
     for(p = s; *p && max--; ++p);
-    return(p - s);
+    return (p - s);
 }
 
 char *strndup(const char *s, size_t n)
@@ -1074,7 +1074,7 @@ char *strndup(const char *s, size_t n)
     return NULL;
 
   new[len] = '\0';
-  return (char *) memcpy(new, s, len);
+  return (char *)memcpy(new, s, len);
 }
 #endif
 

@@ -43,15 +43,15 @@ static char *resolve_path(const char *file)
 
 	str = calloc(PATH_MAX + 1, sizeof(char));
 	if(!str) {
-		return(NULL);
+		return NULL;
 	}
 
 	if(!realpath(file, str)) {
 		free(str);
-		return(NULL);
+		return NULL;
 	}
 
-	return(str);
+	return str;
 }
 
 /* check if filename exists in PATH */
@@ -61,10 +61,10 @@ static int search_path(char **filename, struct stat *bufptr)
 	size_t flen;
 
 	if ((envpath = getenv("PATH")) == NULL) {
-		return(-1);
+		return -1;
 	}
 	if ((envpath = envpathsplit = strdup(envpath)) == NULL) {
-		return(-1);
+		return -1;
 	}
 
 	flen = strlen(*filename);
@@ -84,12 +84,12 @@ static int search_path(char **filename, struct stat *bufptr)
 			free(*filename);
 			*filename = fullname;
 			free(envpath);
-			return(0);
+			return 0;
 		}
 		free(fullname);
 	}
 	free(envpath);
-	return(-1);
+	return -1;
 }
 
 static int query_fileowner(alpm_list_t *targets)
@@ -105,7 +105,7 @@ static int query_fileowner(alpm_list_t *targets)
 	/* This code is here for safety only */
 	if(targets == NULL) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("no file was specified for --owns\n"));
-		return(1);
+		return 1;
 	}
 
 	/* Set up our root path buffer. We only need to copy the location of root in
@@ -232,7 +232,7 @@ static int query_search(alpm_list_t *targets)
 		freelist = 0;
 	}
 	if(searchlist == NULL) {
-		return(1);
+		return 1;
 	}
 
 	for(i = searchlist; i; i = alpm_list_next(i)) {
@@ -280,7 +280,7 @@ static int query_search(alpm_list_t *targets)
 	if(freelist) {
 		alpm_list_free(searchlist);
 	}
-	return(0);
+	return 0;
 }
 
 static int query_group(alpm_list_t *targets)
@@ -343,19 +343,19 @@ static int is_foreign(pmpkg_t *pkg)
 		}
 	}
 	if(match == 0) {
-		return(1);
+		return 1;
 	}
-	return(0);
+	return 0;
 }
 
 static int is_unrequired(pmpkg_t *pkg)
 {
 	alpm_list_t *requiredby = alpm_pkg_compute_requiredby(pkg);
 	if(requiredby == NULL) {
-		return(1);
+		return 1;
 	}
 	FREELIST(requiredby);
-	return(0);
+	return 0;
 }
 
 static int filter(pmpkg_t *pkg)
@@ -363,26 +363,26 @@ static int filter(pmpkg_t *pkg)
 	/* check if this package was explicitly installed */
 	if(config->op_q_explicit &&
 			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_EXPLICIT) {
-		return(0);
+		return 0;
 	}
 	/* check if this package was installed as a dependency */
 	if(config->op_q_deps &&
 			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_DEPEND) {
-		return(0);
+		return 0;
 	}
 	/* check if this pkg isn't in a sync DB */
 	if(config->op_q_foreign && !is_foreign(pkg)) {
-		return(0);
+		return 0;
 	}
 	/* check if this pkg is unrequired */
 	if(config->op_q_unrequired && !is_unrequired(pkg)) {
-		return(0);
+		return 0;
 	}
 	/* check if this pkg is outdated */
 	if(config->op_q_upgrade && (alpm_sync_newversion(pkg, alpm_option_get_syncdbs()) == NULL)) {
-		return(0);
+		return 0;
 	}
-	return(1);
+	return 1;
 }
 
 /* Loop through the packages. For each package,
@@ -400,7 +400,7 @@ static int check(pmpkg_t *pkg)
 	if(rootlen + 1 > PATH_MAX) {
 		/* we are in trouble here */
 		pm_fprintf(stderr, PM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
-		return(1);
+		return 1;
 	}
 	strcpy(f, root);
 
@@ -434,7 +434,7 @@ static int check(pmpkg_t *pkg)
 					(unsigned long)errors), errors);
 	}
 
-	return(errors != 0 ? 1 : 0);
+	return (errors != 0 ? 1 : 0);
 }
 
 static int display(pmpkg_t *pkg)
@@ -466,7 +466,7 @@ static int display(pmpkg_t *pkg)
 			printf("%s\n", alpm_pkg_get_name(pkg));
 		}
 	}
-	return(ret);
+	return ret;
 }
 
 int pacman_query(alpm_list_t *targets)
@@ -482,13 +482,13 @@ int pacman_query(alpm_list_t *targets)
 	/* search for a package */
 	if(config->op_q_search) {
 		ret = query_search(targets);
-		return(ret);
+		return ret;
 	}
 
 	/* looking for groups */
 	if(config->group) {
 		ret = query_group(targets);
-		return(ret);
+		return ret;
 	}
 
 	if(config->op_q_foreign) {
@@ -496,7 +496,7 @@ int pacman_query(alpm_list_t *targets)
 		alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
 		if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
 			pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
-			return(1);
+			return 1;
 		}
 	}
 
@@ -508,7 +508,7 @@ int pacman_query(alpm_list_t *targets)
 	if(targets == NULL) {
 		if(config->op_q_isfile || config->op_q_owns) {
 			pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-			return(1);
+			return 1;
 		}
 
 		for(i = alpm_db_get_pkgcache(db_local); i; i = alpm_list_next(i)) {
@@ -524,7 +524,7 @@ int pacman_query(alpm_list_t *targets)
 		if(!match) {
 			ret = 1;
 		}
-		return(ret);
+		return ret;
 	}
 
 	/* Second: operations that require target(s) */
@@ -532,7 +532,7 @@ int pacman_query(alpm_list_t *targets)
 	/* determine the owner of a file */
 	if(config->op_q_owns) {
 		ret = query_fileowner(targets);
-		return(ret);
+		return ret;
 	}
 
 	/* operations on named packages in the local DB
@@ -570,7 +570,7 @@ int pacman_query(alpm_list_t *targets)
 		ret = 1;
 	}
 
-	return(ret);
+	return ret;
 }
 
 /* vim: set ts=2 sw=2 noet: */

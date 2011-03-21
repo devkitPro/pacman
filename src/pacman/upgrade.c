@@ -46,7 +46,7 @@ int pacman_upgrade(alpm_list_t *targets)
 
 	if(targets == NULL) {
 		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return(1);
+		return 1;
 	}
 
 	/* Check for URL targets and process them
@@ -57,7 +57,7 @@ int pacman_upgrade(alpm_list_t *targets)
 			if(str == NULL) {
 				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 						(char *)i->data, alpm_strerrorlast());
-				return(1);
+				return 1;
 			} else {
 				free(i->data);
 				i->data = str;
@@ -67,7 +67,7 @@ int pacman_upgrade(alpm_list_t *targets)
 
 	/* Step 1: create a new transaction */
 	if(trans_init(config->flags) == -1) {
-		return(1);
+		return 1;
 	}
 
 	/* add targets to the created transaction */
@@ -79,14 +79,14 @@ int pacman_upgrade(alpm_list_t *targets)
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			trans_release();
-			return(1);
+			return 1;
 		}
 		if(alpm_add_pkg(pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			alpm_pkg_free(pkg);
 			trans_release();
-			return(1);
+			return 1;
 		}
 	}
 
@@ -135,7 +135,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		}
 		trans_release();
 		FREELIST(data);
-		return(1);
+		return 1;
 	}
 
 	/* Step 3: perform the installation */
@@ -143,7 +143,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	if(config->print) {
 		print_packages(alpm_trans_get_add());
 		trans_release();
-		return(0);
+		return 0;
 	}
 
 	/* print targets and ask user confirmation */
@@ -151,7 +151,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	if(packages == NULL) { /* we are done */
 		printf(_(" there is nothing to do\n"));
 		trans_release();
-		return(retval);
+		return retval;
 	}
 	display_targets(alpm_trans_get_remove(), 0);
 	display_targets(alpm_trans_get_add(), 1);
@@ -159,7 +159,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	int confirm = yesno(_("Proceed with installation?"));
 	if(!confirm) {
 		trans_release();
-		return(retval);
+		return retval;
 	}
 
 	if(alpm_trans_commit(&data) == -1) {
@@ -197,13 +197,13 @@ int pacman_upgrade(alpm_list_t *targets)
 		}
 		FREELIST(data);
 		trans_release();
-		return(1);
+		return 1;
 	}
 
 	if(trans_release() == -1) {
 		retval = 1;
 	}
-	return(retval);
+	return retval;
 }
 
 /* vim: set ts=2 sw=2 noet: */

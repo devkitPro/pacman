@@ -56,7 +56,7 @@ static int mount_point_cmp(const void *p1, const void *p2)
 	const alpm_mountpoint_t *mp1 = p1;
 	const alpm_mountpoint_t *mp2 = p2;
 	/* the negation will sort all mountpoints before their parent */
-	return(-strcmp(mp1->mount_dir, mp2->mount_dir));
+	return -strcmp(mp1->mount_dir, mp2->mount_dir);
 }
 
 static alpm_list_t *mount_point_list(void)
@@ -72,7 +72,7 @@ static alpm_list_t *mount_point_list(void)
 	fp = setmntent(MOUNTED, "r");
 
 	if (fp == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	while((mnt = getmntent(fp))) {
@@ -104,7 +104,7 @@ static alpm_list_t *mount_point_list(void)
 	entries = getmntinfo(&fsp, MNT_NOWAIT);
 
 	if (entries < 0) {
-		return(NULL);
+		return NULL;
 	}
 
 	for(; entries-- > 0; fsp++) {
@@ -128,7 +128,7 @@ static alpm_list_t *mount_point_list(void)
 		mp = ptr->data;
 		_alpm_log(PM_LOG_DEBUG, "mountpoint: %s\n", mp->mount_dir);
 	}
-	return(mount_points);
+	return mount_points;
 }
 
 static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
@@ -140,12 +140,12 @@ static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
 		alpm_mountpoint_t *data = mp->data;
 
 		if(strncmp(data->mount_dir, real_path, data->mount_dir_len) == 0) {
-			return(data);
+			return data;
 		}
 	}
 
 	/* should not get here... */
-	return(NULL);
+	return NULL;
 }
 
 static int calculate_removed_size(const alpm_list_t *mount_points,
@@ -182,7 +182,7 @@ static int calculate_removed_size(const alpm_list_t *mount_points,
 		mp->used |= USED_REMOVE;
 	}
 
-	return(0);
+	return 0;
 }
 
 static int calculate_installed_size(const alpm_list_t *mount_points,
@@ -254,7 +254,7 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 	archive_read_finish(archive);
 
 cleanup:
-	return(ret);
+	return ret;
 }
 
 int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
@@ -269,13 +269,13 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 	mount_points = mount_point_list();
 	if(mount_points == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not determine filesystem mount points\n"));
-		return(-1);
+		return -1;
 	}
 	root_mp = match_mount_point(mount_points, handle->root);
 	if(root_mp == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not determine root mount point %s\n"),
 				handle->root);
-		return(-1);
+		return -1;
 	}
 
 	replaces = alpm_list_count(trans->remove);
@@ -352,7 +352,7 @@ int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local)
 		RET_ERR(PM_ERR_DISK_SPACE, -1);
 	}
 
-	return(0);
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */

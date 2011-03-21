@@ -38,7 +38,7 @@ static pmgraph_t *_alpm_graph_new(void)
 	pmgraph_t *graph = NULL;
 
 	CALLOC(graph, 1, sizeof(pmgraph_t), RET_ERR(PM_ERR_MEMORY, NULL));
-	return(graph);
+	return graph;
 }
 
 static void _alpm_graph_free(void *data)

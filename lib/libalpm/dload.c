@@ -49,7 +49,7 @@ static char *get_filename(const char *url) {
 	if(filename != NULL) {
 		filename++;
 	}
-	return(filename);
+	return filename;
 }
 
 #ifdef HAVE_LIBCURL
@@ -61,7 +61,7 @@ static char *get_destfile(const char *path, const char *filename)
 	CALLOC(destfile, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
 	snprintf(destfile, len, "%s%s", path, filename);
 
-	return(destfile);
+	return destfile;
 }
 
 static char *get_tempfile(const char *path, const char *filename)
@@ -72,7 +72,7 @@ static char *get_tempfile(const char *path, const char *filename)
 	CALLOC(tempfile, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
 	snprintf(tempfile, len, "%s%s.part", path, filename);
 
-	return(tempfile);
+	return tempfile;
 }
 
 #define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
@@ -93,18 +93,18 @@ static int curl_progress(void *filename, double dltotal, double dlnow,
 	(void)ulnow;
 
 	if(dltotal == 0 || prevprogress == dltotal) {
-		return(0);
+		return 0;
 	}
 
 	if(dload_interrupted) {
-		return(1);
+		return 1;
 	}
 
 	handle->dlcb((const char*)filename, (long)dlnow, (long)dltotal);
 
 	prevprogress = dlnow;
 
-	return(0);
+	return 0;
 }
 
 static int curl_gethost(const char *url, char *buffer)
@@ -117,19 +117,19 @@ static int curl_gethost(const char *url, char *buffer)
 	} else {
 		p = strstr(url, "//");
 		if(!p) {
-			return(1);
+			return 1;
 		}
 		p += 2; /* jump over the found // */
 		hostlen = strcspn(p, "/");
 		if(hostlen > 255) {
 			/* buffer overflow imminent */
 			_alpm_log(PM_LOG_ERROR, _("buffer overflow detected"));
-			return(1);
+			return 1;
 		}
 		snprintf(buffer, hostlen + 1, "%s", p);
 	}
 
-	return(0);
+	return 0;
 }
 
 static int curl_download_internal(const char *url, const char *localpath,
@@ -292,7 +292,7 @@ cleanup:
 		raise(SIGINT);
 	}
 
-	return(ret);
+	return ret;
 }
 #endif
 
@@ -301,7 +301,7 @@ static int download(const char *url, const char *localpath,
 {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return(curl_download_internal(url, localpath, force));
+		return curl_download_internal(url, localpath, force);
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
@@ -310,7 +310,7 @@ static int download(const char *url, const char *localpath,
 		if(ret == -1) {
 			RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 		}
-		return(ret);
+		return ret;
 	}
 }
 
@@ -348,7 +348,7 @@ int _alpm_download_single_file(const char *filename,
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 int _alpm_download_files(alpm_list_t *files,
@@ -365,7 +365,7 @@ int _alpm_download_files(alpm_list_t *files,
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 /** Fetch a remote pkg.
@@ -390,13 +390,13 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	ret = download(url, cachedir, 0);
 	if(ret == -1) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
-		return(NULL);
+		return NULL;
 	}
 	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", url);
 
 	/* we should be able to find the file the second time around */
 	filepath = _alpm_filecache_find(filename);
-	return(filepath);
+	return filepath;
 }
 
 /* vim: set ts=2 sw=2 noet: */

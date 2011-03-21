@@ -40,7 +40,7 @@ pmgrp_t *_alpm_grp_new(const char *name)
 	CALLOC(grp, 1, sizeof(pmgrp_t), RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(grp->name, name, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	return(grp);
+	return grp;
 }
 
 void _alpm_grp_free(pmgrp_t *grp)
@@ -62,7 +62,7 @@ const char SYMEXPORT *alpm_grp_get_name(const pmgrp_t *grp)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(grp != NULL, return(NULL));
+	ASSERT(grp != NULL, return NULL);
 
 	return grp->name;
 }
@@ -72,7 +72,7 @@ alpm_list_t SYMEXPORT *alpm_grp_get_pkgs(const pmgrp_t *grp)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(grp != NULL, return(NULL));
+	ASSERT(grp != NULL, return NULL);
 
 	return grp->packages;
 }

@@ -35,7 +35,7 @@ while(it) {
   if(fn) {
     fn(it->data);
   } else {
-    return(1);
+    return 1;
   }
   free(it);
   it = ptr;
@@ -67,11 +67,11 @@ alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
        NOT
     // This is a comment
 
-5.  Return statements should be written like a function call.
+5.  Return statements should *not* be written like function calls.
 
-    return(0);
-       NOT
     return 0;
+       NOT
+    return(0);
 
 6.  The sizeof() operator should accept a type, not a value. (TODO: in certain
     cases, it may be better- should this be a set guideline? Read "The Practice

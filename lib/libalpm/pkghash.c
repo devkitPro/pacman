@@ -72,13 +72,13 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	if(hash->buckets < size) {
 		_alpm_log(PM_LOG_ERROR, _("database larger than maximum size\n"));
 		free(hash);
-		return(NULL);
+		return NULL;
 	}
 
 	CALLOC(hash->hash_table, hash->buckets, sizeof(alpm_list_t*), \
 				free(hash); RET_ERR(PM_ERR_MEMORY, NULL));
 
-	return(hash);
+	return hash;
 }
 
 static size_t get_hash_position(unsigned long name_hash, pmpkghash_t *hash)
@@ -93,7 +93,7 @@ static size_t get_hash_position(unsigned long name_hash, pmpkghash_t *hash)
 		position = (position + 1) % hash->buckets;
 	}
 
-	return(position);
+	return position;
 }
 
 /* Expand the hash table size to the next increment and rebin the entries */
@@ -124,7 +124,7 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 	newhash = _alpm_pkghash_create(newsize);
 	if(newhash == NULL) {
 		/* creation of newhash failed, stick with old one... */
-		return(oldhash);
+		return oldhash;
 	}
 
 	newhash->list = oldhash->list;
@@ -145,7 +145,7 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 
 	_alpm_pkghash_free(oldhash);
 
-	return(newhash);
+	return newhash;
 }
 
 static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
@@ -154,7 +154,7 @@ static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
 	size_t position;
 
 	if(pkg == NULL || hash == NULL) {
-		return(hash);
+		return hash;
 	}
 
 	if((hash->entries + 1) / MAX_HASH_LOAD > hash->buckets) {
@@ -165,7 +165,7 @@ static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
 
 	ptr = calloc(1, sizeof(alpm_list_t));
 	if(ptr == NULL) {
-		return(hash);
+		return hash;
 	}
 
 	ptr->data = pkg;
@@ -180,17 +180,17 @@ static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
 	}
 
 	hash->entries += 1;
-	return(hash);
+	return hash;
 }
 
 pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
 {
-	return(pkghash_add_pkg(hash, pkg, 0));
+	return pkghash_add_pkg(hash, pkg, 0);
 }
 
 pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
 {
-	return(pkghash_add_pkg(hash, pkg, 1));
+	return pkghash_add_pkg(hash, pkg, 1);
 }
 
 static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
@@ -218,7 +218,7 @@ static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
 		 * e.g. (47 + 0 - 1) % 47 == 46 */
 		end = (hash->buckets + end - 1) % hash->buckets;
 	}
-	return(end);
+	return end;
 }
 
 /**
@@ -241,7 +241,7 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
 	}
 
 	if(pkg == NULL || hash == NULL) {
-		return(hash);
+		return hash;
 	}
 
 	position = pkg->name_hash % hash->buckets;
@@ -278,13 +278,13 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
 				position = prev;
 			}
 
-			return(hash);
+			return hash;
 		}
 
 		position = (position + 1) % hash->buckets;
 	}
 
-	return(hash);
+	return hash;
 }
 
 void _alpm_pkghash_free(pmpkghash_t *hash)
@@ -308,7 +308,7 @@ pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name)
 	ALPM_LOG_FUNC;
 
 	if(name == NULL || hash == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	name_hash = _alpm_hash_sdbm(name);
@@ -319,13 +319,13 @@ pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name)
 		pmpkg_t *info = lp->data;
 
 		if(info->name_hash == name_hash && strcmp(info->name, name) == 0) {
-			return(info);
+			return info;
 		}
 
 		position = (position + 1) % hash->buckets;
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 /* vim: set ts=2 sw=2 noet: */

@@ -69,7 +69,7 @@ int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 
 	_alpm_log(PM_LOG_DEBUG, "adding %s in the target list\n", pkgname);
 	trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(pkg));
-	return(0);
+	return 0;
 }
 
 static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
@@ -185,7 +185,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
-	return(0);
+	return 0;
 }
 
 static int can_remove_file(const char *path, alpm_list_t *skip)
@@ -196,7 +196,7 @@ static int can_remove_file(const char *path, alpm_list_t *skip)
 
 	if(alpm_list_find_str(skip, file)) {
 		/* return success because we will never actually remove this file */
-		return(1);
+		return 1;
 	}
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
@@ -206,11 +206,11 @@ static int can_remove_file(const char *path, alpm_list_t *skip)
 			 * it - ignore "chmod -w" simple permission failures */
 			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
 			          file, strerror(errno));
-			return(0);
+			return 0;
 		}
 	}
 
-	return(1);
+	return 1;
 }
 
 /* Helper function for iterating through a package's file and deleting them
@@ -351,7 +351,7 @@ db:
 				pkgname);
 	}
 
-	return(0);
+	return 0;
 }
 
 int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
@@ -375,7 +375,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 		size_t targcount = alpm_list_count(targ);
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
-			return(0);
+			return 0;
 		}
 
 		/* get the name now so we can use it after package is removed */
@@ -457,7 +457,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 	/* run ldconfig if it exists */
 	_alpm_ldconfig(handle->root);
 
-	return(0);
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */

@@ -60,12 +60,12 @@ static int alpm_local_init(void)
 
 	ret = alpm_initialize();
 	if(ret != 0) {
-		return(ret);
+		return ret;
 	}
 
 	ret = alpm_option_set_root(ROOTDIR);
 	if(ret != 0) {
-		return(ret);
+		return ret;
 	}
 
 	if(dbpath) {
@@ -74,15 +74,15 @@ static int alpm_local_init(void)
 		ret = alpm_option_set_dbpath(DBPATH);
 	}
 	if(ret != 0) {
-		return(ret);
+		return ret;
 	}
 
 	db_local = alpm_option_get_localdb();
 	if(!db_local) {
-		return(1);
+		return 1;
 	}
 
-	return(0);
+	return 0;
 }
 
 static int parse_options(int argc, char *argv[])
@@ -137,12 +137,12 @@ static int parse_options(int argc, char *argv[])
 			case 'h':
 			case '?':
 			default:
-				return(1);
+				return 1;
 		}
 	}
 
 	if(!argv[optind]) {
-		return(1);
+		return 1;
 	}
 
 	if(!color) {
@@ -159,7 +159,7 @@ static int parse_options(int argc, char *argv[])
 		indent_size  = 0;
 	}
 
-	return(0);
+	return 0;
 }
 
 static void usage(void)
@@ -366,7 +366,7 @@ int main(int argc, char *argv[])
 
 finish:
 	cleanup();
-	return(ret);
+	return ret;
 }
 
 /* vim: set ts=2 sw=2 noet: */

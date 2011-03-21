@@ -40,25 +40,25 @@ static int remove_target(char *target)
 	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {
 		if(alpm_remove_pkg(info) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target, alpm_strerrorlast());
-			return(-1);
+			return -1;
 		}
-		return(0);
+		return 0;
 	}
 
 		/* fallback to group */
 	pmgrp_t *grp = alpm_db_readgrp(db_local, target);
 	if(grp == NULL) {
 		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': target not found\n", target);
-		return(-1);
+		return -1;
 	}
 	for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
 		pmpkg_t *pkg = alpm_list_getdata(p);
 		if(alpm_remove_pkg(pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target, alpm_strerrorlast());
-			return(-1);
+			return -1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -75,12 +75,12 @@ int pacman_remove(alpm_list_t *targets)
 
 	if(targets == NULL) {
 		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return(1);
+		return 1;
 	}
 
 	/* Step 0: create a new transaction */
 	if(trans_init(config->flags) == -1) {
-		return(1);
+		return 1;
 	}
 
 	/* Step 1: add targets to the created transaction */
@@ -173,7 +173,7 @@ cleanup:
 	if(trans_release() == -1) {
 		retval = 1;
 	}
-	return(retval);
+	return retval;
 }
 
 /* vim: set ts=2 sw=2 noet: */

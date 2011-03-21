@@ -92,7 +92,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 
 	ptr = calloc(1, sizeof(alpm_list_t));
 	if(ptr == NULL) {
-		return(list);
+		return list;
 	}
 
 	ptr->data = data;
@@ -101,7 +101,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 	/* Special case: the input list is empty */
 	if(list == NULL) {
 		ptr->prev = ptr;
-		return(ptr);
+		return ptr;
 	}
 
 	lp = alpm_list_last(list);
@@ -109,7 +109,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 	ptr->prev = lp;
 	list->prev = ptr;
 
-	return(list);
+	return list;
 }
 
 /**
@@ -124,13 +124,13 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cmp fn)
 {
 	if(!fn || !list) {
-		return(alpm_list_add(list, data));
+		return alpm_list_add(list, data);
 	} else {
 		alpm_list_t *add = NULL, *prev = NULL, *next = list;
 
 		add = calloc(1, sizeof(alpm_list_t));
 		if(add == NULL) {
-			return(list);
+			return list;
 		}
 		add->data = data;
 
@@ -146,19 +146,19 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 			add->prev = list->prev; /* list != NULL */
 			add->next = list;
 			list->prev = add;
-			return(add);
+			return add;
 		} else if(next == NULL) { /* another special case: add last element */
 			add->prev = prev;
 			add->next = NULL;
 			prev->next = add;
 			list->prev = add;
-			return(list);
+			return list;
 		} else {
 			add->prev = prev;
 			add->next = next;
 			next->prev = add;
 			prev->next = add;
-			return(list);
+			return list;
 		}
 	}
 }
@@ -179,10 +179,10 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
 	alpm_list_t *tmp;
 
 	if (first == NULL) {
-		return(second);
+		return second;
 	}
 	if (second == NULL) {
-		return(first);
+		return first;
 	}
 	/* tmp is the last element of the first list */
 	tmp = first->prev;
@@ -193,7 +193,7 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
 	/* set the back reference to the tail */
 	second->prev = tmp;
 
-	return(first);
+	return first;
 }
 
 /**
@@ -257,7 +257,7 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 	}
 	newlist->prev = lp;
 
-	return(newlist);
+	return newlist;
 }
 
 /**
@@ -282,7 +282,7 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn
 		right = alpm_list_msort(right, n - (n/2), fn);
 		list = alpm_list_mmerge(left, right, fn);
 	}
-	return(list);
+	return list;
 }
 
 /**
@@ -298,7 +298,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_item(alpm_list_t *haystack,
 		alpm_list_t *item)
 {
 	if(haystack == NULL || item == NULL) {
-		return(haystack);
+		return haystack;
 	}
 
 	if(item == haystack) {
@@ -328,7 +328,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_item(alpm_list_t *haystack,
 		}
 	}
 
-	return(haystack);
+	return haystack;
 }
 
 
@@ -352,7 +352,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack,
 	}
 
 	if(needle == NULL) {
-		return(haystack);
+		return haystack;
 	}
 
 	while(i) {
@@ -373,7 +373,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack,
 		}
 	}
 
-	return(haystack);
+	return haystack;
 }
 
 /**
@@ -388,8 +388,8 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack,
 alpm_list_t SYMEXPORT *alpm_list_remove_str(alpm_list_t *haystack,
 		const char *needle, char **data)
 {
-	return(alpm_list_remove(haystack, (const void *)needle,
-				(alpm_list_fn_cmp)strcmp, (void **)data));
+	return alpm_list_remove(haystack, (const void *)needle,
+			(alpm_list_fn_cmp)strcmp, (void **)data);
 }
 
 /**
@@ -411,7 +411,7 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 		}
 		lp = lp->next;
 	}
-	return(newlist);
+	return newlist;
 }
 
 /**
@@ -429,7 +429,7 @@ alpm_list_t SYMEXPORT *alpm_list_strdup(const alpm_list_t *list)
 		newlist = alpm_list_add(newlist, strdup(lp->data));
 		lp = lp->next;
 	}
-	return(newlist);
+	return newlist;
 }
 
 /**
@@ -447,7 +447,7 @@ alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
 		newlist = alpm_list_add(newlist, lp->data);
 		lp = lp->next;
 	}
-	return(newlist);
+	return newlist;
 }
 
 /**
@@ -473,7 +473,7 @@ alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
 			lp = lp->next;
 		}
 	}
-	return(newlist);
+	return newlist;
 }
 
 /**
@@ -489,7 +489,7 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 	alpm_list_t *newlist = NULL, *backup;
 
 	if(list == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	lp = alpm_list_last(list);
@@ -502,7 +502,7 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 		lp = lp->prev;
 	}
 	list->prev = backup; /* restore tail pointer */
-	return(newlist);
+	return newlist;
 }
 
 /* Accessors */
@@ -517,9 +517,9 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 inline alpm_list_t SYMEXPORT *alpm_list_first(const alpm_list_t *list)
 {
 	if(list) {
-		return((alpm_list_t*)list);
+		return (alpm_list_t *)list;
 	} else {
-		return(NULL);
+		return NULL;
 	}
 }
 
@@ -537,7 +537,7 @@ alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, size_t n)
 	while(n--) {
 		i = i->next;
 	}
-	return((alpm_list_t*)i);
+	return (alpm_list_t *)i;
 }
 
 /**
@@ -550,9 +550,9 @@ alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, size_t n)
 inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
 {
 	if(node) {
-		return(node->next);
+		return node->next;
 	} else {
-		return(NULL);
+		return NULL;
 	}
 }
 
@@ -566,9 +566,9 @@ inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
 alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
 {
 	if(list) {
-		return(list->prev);
+		return list->prev;
 	} else {
-		return(NULL);
+		return NULL;
 	}
 }
 
@@ -581,8 +581,8 @@ alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
  */
 void SYMEXPORT *alpm_list_getdata(const alpm_list_t *node)
 {
-	if(node == NULL) return(NULL);
-	return(node->data);
+	if(node == NULL) return NULL;
+	return node->data;
 }
 
 /* Misc */
@@ -602,7 +602,7 @@ size_t SYMEXPORT alpm_list_count(const alpm_list_t *list)
 		++i;
 		lp = lp->next;
 	}
-	return(i);
+	return i;
 }
 
 /**
@@ -620,17 +620,17 @@ void SYMEXPORT *alpm_list_find(const alpm_list_t *haystack, const void *needle,
 	const alpm_list_t *lp = haystack;
 	while(lp) {
 		if(lp->data && fn(lp->data, needle) == 0) {
-			return(lp->data);
+			return lp->data;
 		}
 		lp = lp->next;
 	}
-	return(NULL);
+	return NULL;
 }
 
 /* trivial helper function for alpm_list_find_ptr */
 static int ptr_cmp(const void *p, const void *q)
 {
-	return(p != q);
+	return (p != q);
 }
 
 /**
@@ -643,9 +643,10 @@ static int ptr_cmp(const void *p, const void *q)
  *
  * @return `needle` if found, NULL otherwise
  */
-void SYMEXPORT *alpm_list_find_ptr(const alpm_list_t *haystack, const void *needle)
+void SYMEXPORT *alpm_list_find_ptr(const alpm_list_t *haystack,
+		const void *needle)
 {
-	return(alpm_list_find(haystack, needle, ptr_cmp));
+	return alpm_list_find(haystack, needle, ptr_cmp);
 }
 
 /**
@@ -659,8 +660,8 @@ void SYMEXPORT *alpm_list_find_ptr(const alpm_list_t *haystack, const void *need
 char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
 		const char *needle)
 {
-	return((char *)alpm_list_find(haystack, (const void*)needle,
-				(alpm_list_fn_cmp)strcmp));
+	return (char *)alpm_list_find(haystack, (const void *)needle,
+			(alpm_list_fn_cmp)strcmp);
 }
 
 /**
@@ -745,7 +746,7 @@ alpm_list_t SYMEXPORT *alpm_list_diff(const alpm_list_t *lhs,
 
 	alpm_list_free(left);
 	alpm_list_free(right);
-	return(ret);
+	return ret;
 }
 
 /** @} */

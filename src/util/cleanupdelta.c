@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 
 	if(alpm_initialize() == -1) {
 		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerrorlast());
-		return(1);
+		return 1;
 	}
 
 	/* let us get log messages from libalpm */

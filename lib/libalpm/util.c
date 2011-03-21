@@ -86,7 +86,7 @@ char* strsep(char** str, const char* delims)
 
 int _alpm_makepath(const char *path)
 {
-	return(_alpm_makepath_mode(path, 0755));
+	return _alpm_makepath_mode(path, 0755);
 }
 
 /* does the same thing as 'mkdir -p' */
@@ -122,7 +122,7 @@ int _alpm_makepath_mode(const char *path, mode_t mode)
 	free(orig);
 	free(incr);
 	umask(oldmask);
-	return(ret);
+	return ret;
 }
 
 #define CPBUFSIZE 8 * 1024
@@ -136,12 +136,12 @@ int _alpm_copyfile(const char *src, const char *dest)
 
 	in = fopen(src, "rb");
 	if(in == NULL) {
-		return(1);
+		return 1;
 	}
 	out = fopen(dest, "wb");
 	if(out == NULL) {
 		fclose(in);
-		return(1);
+		return 1;
 	}
 
 	CALLOC(buf, (size_t)CPBUFSIZE, (size_t)1, ret = 1; goto cleanup;);
@@ -174,7 +174,7 @@ cleanup:
 	fclose(in);
 	fclose(out);
 	FREE(buf);
-	return(ret);
+	return ret;
 }
 
 /* Trim whitespace and newlines from a string
@@ -185,7 +185,7 @@ char *_alpm_strtrim(char *str)
 
 	if(*str == '\0') {
 		/* string is empty, so we're done. */
-		return(str);
+		return str;
 	}
 
 	while(isspace((unsigned char)*pch)) {
@@ -197,7 +197,7 @@ char *_alpm_strtrim(char *str)
 
 	/* check if there wasn't anything but whitespace in the string. */
 	if(*str == '\0') {
-		return(str);
+		return str;
 	}
 
 	pch = (str + (strlen(str) - 1));
@@ -206,7 +206,7 @@ char *_alpm_strtrim(char *str)
 	}
 	*++pch = '\0';
 
-	return(str);
+	return str;
 }
 
 /* Compression functions */
@@ -224,12 +224,12 @@ int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn)
 	alpm_list_t *list = NULL;
 	int ret = 0;
 	if(fn == NULL) {
-		return(1);
+		return 1;
 	}
 	list = alpm_list_add(list, (void *)fn);
 	ret = _alpm_unpack(archive, prefix, list, 1);
 	alpm_list_free(list);
-	return(ret);
+	return ret;
 }
 
 /**
@@ -340,7 +340,7 @@ cleanup:
 	if(restore_cwd && chdir(cwd) != 0) {
 		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
 	}
-	return(ret);
+	return ret;
 }
 
 /* does the same thing as 'rm -rf' */
@@ -355,18 +355,18 @@ int _alpm_rmrf(const char *path)
 	if(_alpm_lstat(path, &st) == 0) {
 		if(!S_ISDIR(st.st_mode)) {
 			if(!unlink(path)) {
-				return(0);
+				return 0;
 			} else {
 				if(errno == ENOENT) {
-					return(0);
+					return 0;
 				} else {
-					return(1);
+					return 1;
 				}
 			}
 		} else {
 			dirp = opendir(path);
 			if(!dirp) {
-				return(1);
+				return 1;
 			}
 			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
 				if(dp->d_ino) {
@@ -381,9 +381,9 @@ int _alpm_rmrf(const char *path)
 				errflag++;
 			}
 		}
-		return(errflag);
+		return errflag;
 	}
-	return(0);
+	return 0;
 }
 
 int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
@@ -414,7 +414,7 @@ int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
 		fflush(f);
 	}
 
-	return(ret);
+	return ret;
 }
 
 int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
@@ -531,7 +531,7 @@ cleanup:
 		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
 	}
 
-	return(retval);
+	return retval;
 }
 
 int _alpm_ldconfig(const char *root)
@@ -549,14 +549,14 @@ int _alpm_ldconfig(const char *root)
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 /* Helper function for comparing strings using the
  * alpm "compare func" signature */
 int _alpm_str_cmp(const void *s1, const void *s2)
 {
-	return(strcmp(s1, s2));
+	return strcmp(s1, s2);
 }
 
 /** Find a filename in a registered alpm cachedir.
@@ -577,7 +577,7 @@ char *_alpm_filecache_find(const char* filename)
 		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
 			retpath = strdup(path);
 			_alpm_log(PM_LOG_DEBUG, "found cached pkg: %s\n", retpath);
-			return(retpath);
+			return retpath;
 		}
 	}
 	/* package wasn't found in any cachedir */
@@ -603,11 +603,11 @@ const char *_alpm_filecache_setup(void)
 					cachedir);
 			if(_alpm_makepath(cachedir) == 0) {
 				_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
-				return(cachedir);
+				return cachedir;
 			}
 		} else if(S_ISDIR(buf.st_mode) && (buf.st_mode & S_IWUSR)) {
 			_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
-			return(cachedir);
+			return cachedir;
 		}
 	}
 
@@ -616,7 +616,7 @@ const char *_alpm_filecache_setup(void)
 	alpm_option_set_cachedirs(tmp);
 	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/\n");
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
-	return(alpm_list_getdata(tmp));
+	return alpm_list_getdata(tmp);
 }
 
 /** lstat wrapper that treats /path/dirsymlink/ the same as /path/dirsymlink.
@@ -640,7 +640,7 @@ int _alpm_lstat(const char *path, struct stat *buf)
 	ret = lstat(newpath, buf);
 
 	FREE(newpath);
-	return(ret);
+	return ret;
 }
 
 #ifdef HAVE_LIBSSL
@@ -651,11 +651,11 @@ static int md5_file(const char *path, unsigned char output[16])
 	MD5_CTX ctx;
 	unsigned char *buf;
 
-	CALLOC(buf, 8192, sizeof(unsigned char), return(1));
+	CALLOC(buf, 8192, sizeof(unsigned char), RET_ERR(PM_ERR_MEMORY, 1));
 
 	if((f = fopen(path, "rb")) == NULL) {
 		free(buf);
-		return(1);
+		return 1;
 	}
 
 	MD5_Init(&ctx);
@@ -671,11 +671,11 @@ static int md5_file(const char *path, unsigned char output[16])
 
 	if(ferror(f) != 0) {
 		fclose(f);
-		return(2);
+		return 2;
 	}
 
 	fclose(f);
-	return(0);
+	return 0;
 }
 #endif
 
@@ -692,7 +692,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 
 	ALPM_LOG_FUNC;
 
-	ASSERT(filename != NULL, return(NULL));
+	ASSERT(filename != NULL, return NULL);
 
 	/* allocate 32 chars plus 1 for null */
 	md5sum = calloc(33, sizeof(char));
@@ -711,7 +711,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	md5sum[32] = '\0';
 
 	_alpm_log(PM_LOG_DEBUG, "md5(%s) = %s\n", filename, md5sum);
-	return(md5sum);
+	return md5sum;
 }
 
 int _alpm_test_md5sum(const char *filepath, const char *md5sum)
@@ -730,7 +730,7 @@ int _alpm_test_md5sum(const char *filepath, const char *md5sum)
 	}
 
 	FREE(md5sum2);
-	return(ret);
+	return ret;
 }
 
 /* Note: does NOT handle sparse files on purpose for speed. */
@@ -800,7 +800,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			b->line_offset[len] = '\0';
 			b->block_offset = ++i;
 			/* this is the main return point; from here you can read b->line */
-			return(ARCHIVE_OK);
+			return ARCHIVE_OK;
 		} else {
 			/* we've looked through the whole block but no newline, copy it */
 			size_t len = (size_t)(b->block + b->block_size - b->block_offset);
@@ -815,7 +815,7 @@ cleanup:
 		int ret = b->ret;
 		FREE(b->line);
 		memset(b, 0, sizeof(b));
-		return(ret);
+		return ret;
 	}
 }
 
@@ -829,7 +829,7 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	const char *version, *end;
 
 	if(target == NULL || pkg == NULL) {
-		return(-1);
+		return -1;
 	}
 	end = target + strlen(target);
 
@@ -843,7 +843,7 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	for(version = end - 1; *version && *version != '-'; version--);
 	for(version = version - 1; *version && *version != '-'; version--);
 	if(*version != '-' || version == target) {
-		return(-1);
+		return -1;
 	}
 
 	/* copy into fields and return */
@@ -861,7 +861,7 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	STRNDUP(pkg->name, target, version - target, RET_ERR(PM_ERR_MEMORY, -1));
 	pkg->name_hash = _alpm_hash_sdbm(pkg->name);
 
-	return(0);
+	return 0;
 }
 
 /**
@@ -876,13 +876,13 @@ unsigned long _alpm_hash_sdbm(const char *str)
 	int c;
 
 	if(!str) {
-		return(hash);
+		return hash;
 	}
 	while((c = *str++)) {
 		hash = c + (hash << 6) + (hash << 16) - hash;
 	}
 
-	return(hash);
+	return hash;
 }
 
 long _alpm_parsedate(const char *line)
@@ -893,9 +893,9 @@ long _alpm_parsedate(const char *line)
 		setlocale(LC_TIME, "C");
 		strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 		setlocale(LC_TIME, "");
-		return(mktime(&tmp_tm));
+		return mktime(&tmp_tm);
 	}
-	return(atol(line));
+	return atol(line);
 }
 
 #ifndef HAVE_STRNDUP
@@ -904,7 +904,7 @@ static size_t strnlen(const char *s, size_t max)
 {
     register const char *p;
     for(p = s; *p && max--; ++p);
-    return(p - s);
+    return (p - s);
 }
 
 char *strndup(const char *s, size_t n)
@@ -916,7 +916,7 @@ char *strndup(const char *s, size_t n)
     return NULL;
 
   new[len] = '\0';
-  return (char *) memcpy(new, s, len);
+  return (char *)memcpy(new, s, len);
 }
 #endif
 

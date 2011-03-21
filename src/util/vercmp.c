@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
 
 	if(argc == 1) {
 		usage();
-		return(2);
+		return 2;
 	}
 	if(argc > 1 &&
 			(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0
 			 || strcmp(argv[1], "--usage") == 0)) {
 		usage();
-		return(0);
+		return 0;
 	}
 	if(argc > 2) {
 		s2 = argv[2];
@@ -62,5 +62,5 @@ int main(int argc, char *argv[])
 
 	ret = alpm_pkg_vercmp(s1, s2);
 	printf("%d\n", ret);
-	return(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }

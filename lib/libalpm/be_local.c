@@ -51,8 +51,8 @@
 #define LAZY_LOAD(info, errret) \
 	do { \
 		ALPM_LOG_FUNC; \
-		ASSERT(handle != NULL, return(errret)); \
-		ASSERT(pkg != NULL, return(errret)); \
+		ASSERT(handle != NULL, return (errret)); \
+		ASSERT(pkg != NULL, return (errret)); \
 		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
 			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
 		} \
@@ -73,13 +73,13 @@ static const char *_cache_get_filename(pmpkg_t *pkg)
 
 static const char *_cache_get_name(pmpkg_t *pkg)
 {
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(pkg != NULL, return NULL);
 	return pkg->name;
 }
 
 static const char *_cache_get_version(pmpkg_t *pkg)
 {
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(pkg != NULL, return NULL);
 	return pkg->version;
 }
 
@@ -160,8 +160,8 @@ static int _cache_has_scriptlet(pmpkg_t *pkg)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(pkg != NULL, return(-1));
+	ASSERT(handle != NULL, return -1);
+	ASSERT(pkg != NULL, return -1);
 
 	if(!(pkg->infolevel & INFRQ_SCRIPTLET)) {
 		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
@@ -210,8 +210,8 @@ static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(pkg != NULL, return NULL);
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
@@ -225,8 +225,8 @@ static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(pkg != NULL, return NULL);
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
@@ -246,8 +246,8 @@ static void *_cache_changelog_open(pmpkg_t *pkg)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(pkg != NULL, return NULL);
 
 	char clfile[PATH_MAX];
 	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
@@ -270,13 +270,13 @@ static void *_cache_changelog_open(pmpkg_t *pkg)
 static size_t _cache_changelog_read(void *ptr, size_t size,
 		const pmpkg_t *pkg, const void *fp)
 {
-	return ( fread(ptr, 1, size, (FILE*)fp) );
+	return fread(ptr, 1, size, (FILE *)fp);
 }
 
 /*
 static int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
 {
-	return( feof((FILE*)fp) );
+	return feof((FILE*)fp);
 }
 */
 
@@ -289,7 +289,7 @@ static int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
  */
 static int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
 {
-	return( fclose((FILE*)fp) );
+	return fclose((FILE *)fp);
 }
 
 
@@ -345,14 +345,14 @@ static int checkdbdir(pmdb_t *db)
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
 	}
-	return(0);
+	return 0;
 }
 
 static int is_dir(const char *path, struct dirent *entry)
 {
 #ifdef HAVE_STRUCT_DIRENT_D_TYPE
 	if(entry->d_type != DT_UNKNOWN) {
-		return(entry->d_type == DT_DIR);
+		return (entry->d_type == DT_DIR);
 	}
 #endif
 	{
@@ -362,11 +362,11 @@ static int is_dir(const char *path, struct dirent *entry)
 		snprintf(buffer, PATH_MAX, "%s/%s", path, entry->d_name);
 
 		if (!stat(buffer, &sbuf)) {
-			return(S_ISDIR(sbuf.st_mode));
+			return S_ISDIR(sbuf.st_mode);
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 static int local_db_populate(pmdb_t *db)
@@ -390,7 +390,7 @@ static int local_db_populate(pmdb_t *db)
 	if(dbdir == NULL) {
 		if(errno == ENOENT) {
 			/* no database existing yet is not an error */
-			return(0);
+			return 0;
 		}
 		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
@@ -476,7 +476,7 @@ static int local_db_populate(pmdb_t *db)
 	if(count > 0) {
 		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
 	}
-	return(count);
+	return count;
 }
 
 /* Note: the return value must be freed by the caller */
@@ -490,7 +490,7 @@ static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
 	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
 	MALLOC(pkgpath, len, RET_ERR(PM_ERR_MEMORY, NULL));
 	sprintf(pkgpath, "%s%s-%s/", dbpath, info->name, info->version);
-	return(pkgpath);
+	return pkgpath;
 }
 
 
@@ -509,14 +509,14 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 
 	if(info == NULL || info->name == NULL || info->version == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_local_db_read, skipping\n");
-		return(-1);
+		return -1;
 	}
 
 	if(info->origin != PKG_FROM_LOCALDB) {
 		_alpm_log(PM_LOG_DEBUG,
 				"request to read info for a non-local package '%s', skipping...\n",
 				info->name);
-		return(-1);
+		return -1;
 	}
 
 	/* bitmask logic here:
@@ -526,7 +526,7 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	 * == to inforeq? nope, we need to load more info. */
 	if((info->infolevel & inforeq) == inforeq) {
 		/* already loaded all of this info, do nothing */
-		return(0);
+		return 0;
 	}
 	_alpm_log(PM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
 			info->name, inforeq);
@@ -706,14 +706,14 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	info->infolevel |= inforeq;
 
 	free(pkgpath);
-	return(0);
+	return 0;
 
 error:
 	free(pkgpath);
 	if(fp) {
 		fclose(fp);
 	}
-	return(-1);
+	return -1;
 }
 
 int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info)
@@ -723,7 +723,7 @@ int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info)
 	char *pkgpath = NULL;
 
 	if(checkdbdir(db) != 0) {
-		return(-1);
+		return -1;
 	}
 
 	oldmask = umask(0000);
@@ -737,7 +737,7 @@ int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info)
 	free(pkgpath);
 	umask(oldmask);
 
-	return(retval);
+	return retval;
 }
 
 int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
@@ -752,7 +752,7 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	ALPM_LOG_FUNC;
 
 	if(db == NULL || info == NULL) {
-		return(-1);
+		return -1;
 	}
 
 	pkgpath = get_pkgpath(db, info);
@@ -761,7 +761,7 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	oldmask = umask(0022);
 
 	if(strcmp(db->treename, "local") != 0) {
-		return(-1);
+		return -1;
 	}
 
 	/* DESC */
@@ -904,7 +904,7 @@ cleanup:
 		fclose(fp);
 	}
 
-	return(retval);
+	return retval;
 }
 
 int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
@@ -925,7 +925,7 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 	if(ret != 0) {
 		ret = -1;
 	}
-	return(ret);
+	return ret;
 }
 
 static int local_db_version(pmdb_t *db)
@@ -977,7 +977,7 @@ done:
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "local database version %d\n", version);
-	return(version);
+	return version;
 }
 
 struct db_operations local_db_ops = {
@@ -1001,7 +1001,7 @@ pmdb_t *_alpm_db_register_local(void)
 	}
 
 	handle->db_local = db;
-	return(db);
+	return db;
 }
 
 /* vim: set ts=2 sw=2 noet: */

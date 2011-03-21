@@ -63,7 +63,7 @@ static int check_localdb_files(void)
 	snprintf(path, sizeof(path), "%slocal", dbpath);
 	if(!(dir = opendir(path))) {
 		fprintf(stderr, "error : %s : %s\n", path, strerror(errno));
-		return(1);
+		return 1;
 	}
 
 	while ((ent = readdir(dir)) != NULL) {
@@ -85,10 +85,10 @@ static int check_localdb_files(void)
 	}
 	if(closedir(dir)) {
 		fprintf(stderr, "error closing dbpath : %s\n", strerror(errno));
-		return(1);
+		return 1;
 	}
 
-	return(ret);
+	return ret;
 }
 
 static int checkdeps(alpm_list_t *pkglist)
@@ -107,7 +107,7 @@ static int checkdeps(alpm_list_t *pkglist)
 		ret++;
 	}
 	FREELIST(data);
-	return(ret);
+	return ret;
 }
 
 static int checkconflicts(alpm_list_t *pkglist)
@@ -123,7 +123,7 @@ static int checkconflicts(alpm_list_t *pkglist)
 		ret++;
 	}
 	FREELIST(data);
-	return(ret);
+	return ret;
 }
 
 static int check_localdb(void) {
@@ -133,7 +133,7 @@ static int check_localdb(void) {
 
 	ret = check_localdb_files();
 	if(ret) {
-		return(ret);
+		return ret;
 	}
 
 	db = alpm_option_get_localdb();
@@ -145,7 +145,7 @@ static int check_localdb(void) {
 	pkglist = alpm_db_get_pkgcache(db);
 	ret += checkdeps(pkglist);
 	ret += checkconflicts(pkglist);
-	return(ret);
+	return ret;
 }
 
 static int check_syncdbs(alpm_list_t *dbnames) {
@@ -169,7 +169,7 @@ static int check_syncdbs(alpm_list_t *dbnames) {
 
 cleanup:
 	alpm_list_free(syncpkglist);
-	return(ret);
+	return ret;
 }
 
 static void usage(void) {
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 
 	if(alpm_initialize() == -1) {
 		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerrorlast());
-		return(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
 
 	/* let us get log messages from libalpm */
@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
 
 	if(alpm_option_set_dbpath(dbpath) != 0) {
 		fprintf(stderr, "cannot set dbpath: %s\n", alpm_strerrorlast());
-		return(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
 
 	if(!dbnames) {

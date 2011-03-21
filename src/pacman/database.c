@@ -47,7 +47,7 @@ int pacman_database(alpm_list_t *targets)
 
 	if(targets == NULL) {
 		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return(1);
+		return 1;
 	}
 
 	if(config->flags & PM_TRANS_FLAG_ALLDEPS) { /* --asdeps */
@@ -56,12 +56,12 @@ int pacman_database(alpm_list_t *targets)
 		reason = PM_PKG_REASON_EXPLICIT;
 	} else {
 		pm_printf(PM_LOG_ERROR, _("no install reason specified (use -h for help)\n"));
-		return(1);
+		return 1;
 	}
 
 	/* Lock database */
 	if(trans_init(0) == -1) {
-		return(1);
+		return 1;
 	}
 
 	db_local = alpm_option_get_localdb();
@@ -82,9 +82,9 @@ int pacman_database(alpm_list_t *targets)
 
 	/* Unlock database */
 	if(trans_release() == -1) {
-		return(1);
+		return 1;
 	}
-	return(retval);
+	return retval;
 }
 
 /* vim: set ts=2 sw=2 noet: */

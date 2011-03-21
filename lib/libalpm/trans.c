@@ -66,7 +66,7 @@ static int make_lock(pmhandle_t *handle)
 	}
 	if(_alpm_makepath(dir)) {
 		FREE(dir);
-		return(-1);
+		return -1;
 	}
 	FREE(dir);
 
@@ -79,9 +79,9 @@ static int make_lock(pmhandle_t *handle)
 		fflush(f);
 		fsync(fd);
 		handle->lckstream = f;
-		return(0);
+		return 0;
 	}
-	return(-1);
+	return -1;
 }
 
 /* Remove a lock file */
@@ -92,9 +92,9 @@ static int remove_lock(pmhandle_t *handle)
 		handle->lckstream = NULL;
 	}
 	if(unlink(handle->lockfile) == -1 && errno != ENOENT) {
-		return(-1);
+		return -1;
 	}
-	return(0);
+	return 0;
 }
 
 /** Initialize the transaction.
@@ -148,7 +148,7 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 
 	handle->trans = trans;
 
-	return(0);
+	return 0;
 }
 
 static alpm_list_t *check_arch(alpm_list_t *pkgs)
@@ -158,7 +158,7 @@ static alpm_list_t *check_arch(alpm_list_t *pkgs)
 
 	const char *arch = alpm_option_get_arch();
 	if(!arch) {
-		return(NULL);
+		return NULL;
 	}
 	for(i = pkgs; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
@@ -173,7 +173,7 @@ static alpm_list_t *check_arch(alpm_list_t *pkgs)
 			invalid = alpm_list_add(invalid, string);
 		}
 	}
-	return(invalid);
+	return invalid;
 }
 
 /** Prepare a transaction.
@@ -198,7 +198,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->add == NULL && trans->remove == NULL) {
-		return(0);
+		return 0;
 	}
 
 	alpm_list_t *invalid = check_arch(trans->add);
@@ -212,18 +212,18 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 	if(trans->add == NULL) {
 		if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
 			/* pm_errno is set by _alpm_remove_prepare() */
-			return(-1);
+			return -1;
 		}
 	}	else {
 		if(_alpm_sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
 			/* pm_errno is set by _alpm_sync_prepare() */
-			return(-1);
+			return -1;
 		}
 	}
 
 	trans->state = STATE_PREPARED;
 
-	return(0);
+	return 0;
 }
 
 /** Commit a transaction.
@@ -249,7 +249,7 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->add == NULL && trans->remove == NULL) {
-		return(0);
+		return 0;
 	}
 
 	trans->state = STATE_COMMITING;
@@ -257,18 +257,18 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 	if(trans->add == NULL) {
 		if(_alpm_remove_packages(trans, handle->db_local) == -1) {
 			/* pm_errno is set by _alpm_remove_commit() */
-			return(-1);
+			return -1;
 		}
 	} else {
 		if(_alpm_sync_commit(trans, handle->db_local, data) == -1) {
 			/* pm_errno is set by _alpm_sync_commit() */
-			return(-1);
+			return -1;
 		}
 	}
 
 	trans->state = STATE_COMMITED;
 
-	return(0);
+	return 0;
 }
 
 /** Interrupt a transaction.
@@ -290,7 +290,7 @@ int SYMEXPORT alpm_trans_interrupt(void)
 
 	trans->state = STATE_INTERRUPTED;
 
-	return(0);
+	return 0;
 }
 
 /** Release a transaction.
@@ -324,7 +324,7 @@ int SYMEXPORT alpm_trans_release(void)
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 /** @} */
@@ -338,7 +338,7 @@ pmtrans_t *_alpm_trans_new(void)
 	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(PM_ERR_MEMORY, NULL));
 	trans->state = STATE_IDLE;
 
-	return(trans);
+	return trans;
 }
 
 void _alpm_trans_free(pmtrans_t *trans)
@@ -367,7 +367,7 @@ static int grep(const char *fn, const char *needle)
 	FILE *fp;
 
 	if((fp = fopen(fn, "r")) == NULL) {
-		return(0);
+		return 0;
 	}
 	while(!feof(fp)) {
 		char line[1024];
@@ -378,11 +378,11 @@ static int grep(const char *fn, const char *needle)
 		 * ends up being split across line reads */
 		if(strstr(line, needle)) {
 			fclose(fp);
-			return(1);
+			return 1;
 		}
 	}
 	fclose(fp);
-	return(0);
+	return 0;
 }
 
 int _alpm_runscriptlet(const char *root, const char *installfn,
@@ -402,7 +402,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	if(access(installfn, R_OK)) {
 		/* not found */
 		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
-		return(0);
+		return 0;
 	}
 
 	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
@@ -413,7 +413,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
 	if(mkdtemp(tmpdir) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
-		return(1);
+		return 1;
 	} else {
 		clean_tmpdir = 1;
 	}
@@ -459,14 +459,14 @@ cleanup:
 		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
 	}
 
-	return(retval);
+	return retval;
 }
 
 int SYMEXPORT alpm_trans_get_flags()
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(handle->trans != NULL, return(-1));
+	ASSERT(handle != NULL, return -1);
+	ASSERT(handle->trans != NULL, return -1);
 
 	return handle->trans->flags;
 }
@@ -474,8 +474,8 @@ int SYMEXPORT alpm_trans_get_flags()
 alpm_list_t SYMEXPORT * alpm_trans_get_add()
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(handle->trans != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(handle->trans != NULL, return NULL);
 
 	return handle->trans->add;
 }
@@ -483,8 +483,8 @@ alpm_list_t SYMEXPORT * alpm_trans_get_add()
 alpm_list_t SYMEXPORT * alpm_trans_get_remove()
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(NULL));
-	ASSERT(handle->trans != NULL, return(NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(handle->trans != NULL, return NULL);
 
 	return handle->trans->remove;
 }

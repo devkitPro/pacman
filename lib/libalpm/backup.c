@@ -47,7 +47,7 @@ static int backup_split(const char *string, char **file, char **hash)
 			/* don't need our dup as the fname wasn't requested, so free it */
 			FREE(str);
 		}
-		return(0);
+		return 0;
 	}
 	*ptr = '\0';
 	ptr++;
@@ -59,21 +59,21 @@ static int backup_split(const char *string, char **file, char **hash)
 		*hash = strdup(ptr);
 	}
 	FREE(str);
-	return(1);
+	return 1;
 }
 
 char *_alpm_backup_file(const char *string)
 {
 	char *file = NULL;
 	backup_split(string, &file, NULL);
-	return(file);
+	return file;
 }
 
 char *_alpm_backup_hash(const char *string)
 {
 	char *hash = NULL;
 	backup_split(string, NULL, &hash);
-	return(hash);
+	return hash;
 }
 
 /* Look for a filename in a pmpkg_t.backup list.  If we find it,
@@ -86,7 +86,7 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 	ALPM_LOG_FUNC;
 
 	if(file == NULL || backup == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	/* run through the backup list and parse out the hash for our file */
@@ -101,13 +101,13 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 		}
 		if(strcmp(file, filename) == 0) {
 			FREE(filename);
-			return(hash);
+			return hash;
 		}
 		FREE(filename);
 		FREE(hash);
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 /* vim: set ts=2 sw=2 noet: */

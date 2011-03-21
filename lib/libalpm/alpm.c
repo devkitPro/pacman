@@ -57,7 +57,7 @@ int SYMEXPORT alpm_initialize(void)
 		/* error code should be set */
 		_alpm_handle_free(handle);
 		handle = NULL;
-		return(-1);
+		return -1;
 	}
 
 #ifdef ENABLE_NLS
@@ -69,7 +69,7 @@ int SYMEXPORT alpm_initialize(void)
 	handle->curl = curl_easy_init();
 #endif
 
-	return(0);
+	return 0;
 }
 
 /** Release the library.  This should be the last alpm call you make.
@@ -82,7 +82,7 @@ int SYMEXPORT alpm_release(void)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	if(alpm_db_unregister_all() == -1) {
-		return(-1);
+		return -1;
 	}
 
 	_alpm_handle_free(handle);
@@ -92,7 +92,7 @@ int SYMEXPORT alpm_release(void)
 	curl_global_cleanup();
 #endif
 
-	return(0);
+	return 0;
 }
 
 /** @} */
@@ -103,7 +103,7 @@ int SYMEXPORT alpm_release(void)
 
 /* Get the version of library */
 const char SYMEXPORT *alpm_version(void) {
-	return(LIB_VERSION);
+	return LIB_VERSION;
 }
 
 /* vim: set ts=2 sw=2 noet: */

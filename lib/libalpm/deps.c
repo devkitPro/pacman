@@ -56,7 +56,7 @@ pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
 	miss->depend = _alpm_dep_dup(dep);
 	STRDUP(miss->causingpkg, causingpkg, RET_ERR(PM_ERR_MEMORY, NULL));
 
-	return(miss);
+	return miss;
 }
 
 void _alpm_depmiss_free(pmdepmissing_t *miss)
@@ -98,7 +98,7 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 		}
 		vertex_i->childptr = vertex_i->children;
 	}
-	return(vertices);
+	return vertices;
 }
 
 /* Re-order a list of target packages with respect to their dependencies.
@@ -125,7 +125,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	ALPM_LOG_FUNC;
 
 	if(targets == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "started sorting dependencies\n");
@@ -189,7 +189,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	alpm_list_free_inner(vertices, _alpm_graph_free);
 	alpm_list_free(vertices);
 
-	return(newtargs);
+	return newtargs;
 }
 
 pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
@@ -199,10 +199,10 @@ pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = i->data;
 		if(_alpm_depcmp_tolerant(pkg, dep)) {
-			return(pkg);
+			return pkg;
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 /** Find a package satisfying a specified dependency.
@@ -216,7 +216,7 @@ pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 	pmdepend_t *dep = _alpm_splitdep(depstring);
 	pmpkg_t *pkg = _alpm_find_dep_satisfier(pkgs, dep);
 	_alpm_dep_free(dep);
-	return(pkg);
+	return pkg;
 }
 
 /** Checks dependencies and returns missing ones in a list.
@@ -300,7 +300,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	alpm_list_free(modified);
 	alpm_list_free(dblist);
 
-	return(baddeps);
+	return baddeps;
 }
 
 static int dep_vercmp(const char *version1, pmdepmod_t mod,
@@ -321,7 +321,7 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 			default: equal = 1; break;
 		}
 	}
-	return(equal);
+	return equal;
 }
 
 /* nodepversion: skip version checking */
@@ -345,7 +345,7 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 		satisfy = (strcmp(pkg->name, dep->name) == 0
 				&& dep_vercmp(pkg->version, depmod, dep->version));
 		if(satisfy) {
-			return(satisfy);
+			return satisfy;
 		}
 	}
 
@@ -371,7 +371,7 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 		}
 	}
 
-	return(satisfy);
+	return satisfy;
 }
 
 /* tolerant : respects NODEPVERSION flag */
@@ -384,13 +384,13 @@ int _alpm_depcmp_tolerant(pmpkg_t *pkg, pmdepend_t *dep)
 		nodepversion = flags & PM_TRANS_FLAG_NODEPVERSION;
 	}
 
-	return(_depcmp(pkg, dep, nodepversion));
+	return _depcmp(pkg, dep, nodepversion);
 }
 
 /* strict : ignores NODEPVERSION flag */
 int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
-	return(_depcmp(pkg, dep, 0));
+	return _depcmp(pkg, dep, 0);
 }
 
 pmdepend_t *_alpm_splitdep(const char *depstring)
@@ -399,7 +399,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 	const char *ptr, *version = NULL;
 
 	if(depstring == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	CALLOC(depend, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
@@ -435,7 +435,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 		STRDUP(depend->version, version, RET_ERR(PM_ERR_MEMORY, NULL));
 	}
 
-	return(depend);
+	return depend;
 }
 
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
@@ -448,7 +448,7 @@ pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
 	STRDUP(newdep->version, dep->version, RET_ERR(PM_ERR_MEMORY, NULL));
 	newdep->mod = dep->mod;
 
-	return(newdep);
+	return newdep;
 }
 
 /* These parameters are messy. We check if this package, given a list of
@@ -461,7 +461,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	alpm_list_t *i;
 
 	if(_alpm_pkg_find(targets, alpm_pkg_get_name(pkg))) {
-		return(0);
+		return 0;
 	}
 
 	if(!include_explicit) {
@@ -469,7 +469,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 		if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
 			_alpm_log(PM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
 					alpm_pkg_get_name(pkg));
-			return(0);
+			return 0;
 		}
 	}
 
@@ -483,12 +483,12 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		pmpkg_t *lpkg = i->data;
 		if(_alpm_dep_edge(lpkg, pkg) && !_alpm_pkg_find(targets, lpkg->name)) {
-			return(0);
+			return 0;
 		}
 	}
 
 	/* it's ok to remove */
-	return(1);
+	return 1;
 }
 
 /**
@@ -539,13 +539,13 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstri
 	pmdepend_t *dep;
 	pmpkg_t *pkg;
 
-	ASSERT(dbs, return(NULL));
+	ASSERT(dbs, return NULL);
 
 	dep = _alpm_splitdep(depstring);
-	ASSERT(dep, return(NULL));
+	ASSERT(dep, return NULL);
 	pkg = _alpm_resolvedep(dep, dbs, NULL, 1);
 	_alpm_dep_free(dep);
-	return(pkg);
+	return pkg;
 }
 
 /**
@@ -586,7 +586,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 					continue;
 				}
 			}
-			return(pkg);
+			return pkg;
 		}
 	}
 	/* 2. satisfiers (skip literals here) */
@@ -621,7 +621,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 		pmpkg_t *pkg = i->data;
 		if (_alpm_pkghash_find(_alpm_db_get_pkgcache_hash(handle->db_local), pkg->name)) {
 			alpm_list_free(providers);
-			return(pkg);
+			return pkg;
 		}
 	}
 	count = alpm_list_count(providers);
@@ -636,7 +636,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 		if(index >= 0 && index < count) {
 			pmpkg_t *pkg = alpm_list_getdata(alpm_list_nth(providers, index));
 			alpm_list_free(providers);
-			return(pkg);
+			return pkg;
 		}
 		alpm_list_free(providers);
 		providers = NULL;
@@ -647,7 +647,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	} else {
 		pm_errno = PM_ERR_PKG_NOT_FOUND;
 	}
-	return(NULL);
+	return NULL;
 }
 
 /* Computes resolvable dependencies for a given package and adds that package
@@ -682,7 +682,7 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 	ALPM_LOG_FUNC;
 
 	if(_alpm_pkg_find(*packages, pkg->name) != NULL) {
-		return(0);
+		return 0;
 	}
 
 	/* Create a copy of the packages list, so that it can be restored
@@ -743,7 +743,7 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 		alpm_list_free(packages_copy);
 	}
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
-	return(ret);
+	return ret;
 }
 
 /* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
@@ -752,10 +752,10 @@ int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2)
 	alpm_list_t *i;
 	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
 		if(_alpm_depcmp_tolerant(pkg2, i->data)) {
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
@@ -763,9 +763,9 @@ const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(miss != NULL, return(NULL));
+	ASSERT(miss != NULL, return NULL);
 
-	return(miss->target);
+	return miss->target;
 }
 
 const char SYMEXPORT *alpm_miss_get_causingpkg(const pmdepmissing_t *miss)
@@ -773,7 +773,7 @@ const char SYMEXPORT *alpm_miss_get_causingpkg(const pmdepmissing_t *miss)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(miss != NULL, return(NULL));
+	ASSERT(miss != NULL, return NULL);
 
 	return miss->causingpkg;
 }
@@ -783,9 +783,9 @@ pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(miss != NULL, return(NULL));
+	ASSERT(miss != NULL, return NULL);
 
-	return(miss->depend);
+	return miss->depend;
 }
 
 pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
@@ -793,9 +793,9 @@ pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(dep != NULL, return(-1));
+	ASSERT(dep != NULL, return -1);
 
-	return(dep->mod);
+	return dep->mod;
 }
 
 const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
@@ -803,9 +803,9 @@ const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(dep != NULL, return(NULL));
+	ASSERT(dep != NULL, return NULL);
 
-	return(dep->name);
+	return dep->name;
 }
 
 const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
@@ -813,9 +813,9 @@ const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(dep != NULL, return(NULL));
+	ASSERT(dep != NULL, return NULL);
 
-	return(dep->version);
+	return dep->version;
 }
 
 /** Reverse of splitdep; make a dep string from a pmdepend_t struct.
@@ -831,7 +831,7 @@ char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
-	ASSERT(dep != NULL, return(NULL));
+	ASSERT(dep != NULL, return NULL);
 
 	if(dep->name) {
 		name = dep->name;
@@ -876,6 +876,6 @@ char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 	MALLOC(str, len, RET_ERR(PM_ERR_MEMORY, NULL));
 	snprintf(str, len, "%s%s%s", name, opr, ver);
 
-	return(str);
+	return str;
 }
 /* vim: set ts=2 sw=2 noet: */

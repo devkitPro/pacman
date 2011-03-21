@@ -173,7 +173,7 @@ static const char *get_backup_file_status(const char *root,
 		if(md5sum == NULL) {
 			pm_fprintf(stderr, PM_LOG_ERROR,
 					_("could not calculate checksums for %s\n"), path);
-			return(NULL);
+			return NULL;
 		}
 
 		/* if checksums don't match, file has been modified */
@@ -195,7 +195,7 @@ static const char *get_backup_file_status(const char *root,
 				ret = "UNKNOWN";
 		}
 	}
-	return(ret);
+	return ret;
 }
 
 /* Display list of backup files and their modification states

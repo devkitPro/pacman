@@ -59,7 +59,7 @@
 
 #define RET_ERR(err, ret) do { pm_errno = (err); \
 	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerrorlast()); \
-	return(ret); } while(0)
+	return (ret); } while(0)
 
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().

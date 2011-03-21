@@ -142,7 +142,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 			return _("libarchive error");
 		case PM_ERR_LIBCURL:
 #ifdef HAVE_LIBCURL
-			return(curl_easy_strerror(handle->curlerr));
+			return curl_easy_strerror(handle->curlerr);
 #else
 			/* obviously shouldn't get here... */
 			return _("download library error");

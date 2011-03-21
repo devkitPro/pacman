@@ -93,7 +93,7 @@ static int rpmvercmp(const char *a, const char *b)
 	int ret = 0;
 
 	/* easy comparison to see if versions are identical */
-	if(strcmp(a, b) == 0) return(0);
+	if(strcmp(a, b) == 0) return 0;
 
 	str1 = strdup(a);
 	str2 = strdup(b);
@@ -209,7 +209,7 @@ static int rpmvercmp(const char *a, const char *b)
 cleanup:
 	free(str1);
 	free(str2);
-	return(ret);
+	return ret;
 }
 
 /** Compare two version strings and determine which one is 'newer'.
@@ -235,15 +235,15 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 
 	/* ensure our strings are not null */
 	if(!a && !b) {
-		return(0);
+		return 0;
 	} else if(!a) {
-		return(-1);
+		return -1;
 	} else if(!b) {
-		return(1);
+		return 1;
 	}
 	/* another quick shortcut- if full version specs are equal */
 	if(strcmp(a, b) == 0) {
-		return(0);
+		return 0;
 	}
 
 	/* Parse both versions into [epoch:]version[-release] triplets. We probably
@@ -266,7 +266,7 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 
 	free(full1);
 	free(full2);
-	return(ret);
+	return ret;
 }
 
 /* vim: set ts=2 sw=2 noet: */

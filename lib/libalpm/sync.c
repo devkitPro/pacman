@@ -56,7 +56,7 @@
  */
 pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 {
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(pkg != NULL, return NULL);
 
 	alpm_list_t *i;
 	pmpkg_t *spkg = NULL;
@@ -68,7 +68,7 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 	if(spkg == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "'%s' not found in sync db => no upgrade\n",
 				alpm_pkg_get_name(pkg));
-		return(NULL);
+		return NULL;
 	}
 
 	/* compare versions and see if spkg is an upgrade */
@@ -76,10 +76,10 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 		_alpm_log(PM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
 					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
 					alpm_pkg_get_version(spkg));
-		return(spkg);
+		return spkg;
 	}
 	/* spkg is not an upgrade */
-	return(NULL);
+	return NULL;
 }
 
 /** Search for packages to upgrade and add them to the transaction.
@@ -199,7 +199,7 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 /** Find group members across a list of databases.
@@ -241,7 +241,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 		}
 	}
 	alpm_list_free(ignorelist);
-	return(pkgs);
+	return pkgs;
 }
 
 /** Compute the size of the files that will be downloaded to install a
@@ -257,7 +257,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	if(newpkg->origin != PKG_FROM_SYNCDB) {
 		newpkg->infolevel |= INFRQ_DSIZE;
 		newpkg->download_size = 0;
-		return(0);
+		return 0;
 	}
 
 	fname = alpm_pkg_get_filename(newpkg);
@@ -294,7 +294,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 
 	newpkg->infolevel |= INFRQ_DSIZE;
 	newpkg->download_size = size;
-	return(0);
+	return 0;
 }
 
 int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
@@ -544,7 +544,7 @@ cleanup:
 	alpm_list_free(unresolvable);
 	alpm_list_free(remove);
 
-	return(ret);
+	return ret;
 }
 
 /** Returns the size of the files that will be downloaded to install a
@@ -557,13 +557,13 @@ off_t SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
 	if(!(newpkg->infolevel & INFRQ_DSIZE)) {
 		compute_download_size(newpkg);
 	}
-	return(newpkg->download_size);
+	return newpkg->download_size;
 }
 
 static int endswith(const char *filename, const char *extension)
 {
 	const char *s = filename + strlen(filename) - strlen(extension);
-	return(strcmp(s, extension) == 0);
+	return strcmp(s, extension) == 0;
 }
 
 /** Applies delta files to create an upgraded package file.
@@ -649,7 +649,7 @@ static int apply_deltas(pmtrans_t *trans)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 /** Compares the md5sum of a file to the expected value.
@@ -684,7 +684,7 @@ static int test_md5sum(pmtrans_t *trans, const char *filename,
 
 	FREE(filepath);
 
-	return(ret);
+	return ret;
 }
 
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
@@ -928,7 +928,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 error:
 	FREELIST(files);
 	alpm_list_free(deltas);
-	return(ret);
+	return ret;
 }
 
 /* vim: set ts=2 sw=2 noet: */

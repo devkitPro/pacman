@@ -47,7 +47,7 @@ static void *_package_changelog_open(pmpkg_t *pkg)
 {
 	ALPM_LOG_FUNC;
 
-	ASSERT(pkg != NULL, return(NULL));
+	ASSERT(pkg != NULL, return NULL);
 
 	struct archive *archive = NULL;
 	struct archive_entry *entry;
@@ -69,14 +69,14 @@ static void *_package_changelog_open(pmpkg_t *pkg)
 		const char *entry_name = archive_entry_pathname(entry);
 
 		if(strcmp(entry_name, ".CHANGELOG") == 0) {
-			return(archive);
+			return archive;
 		}
 	}
 	/* we didn't find a changelog */
 	archive_read_finish(archive);
 	errno = ENOENT;
 
-	return(NULL);
+	return NULL;
 }
 
 /**
@@ -95,9 +95,9 @@ static size_t _package_changelog_read(void *ptr, size_t size,
 	/* Report error (negative values) */
 	if(sret < 0) {
 		pm_errno = PM_ERR_LIBARCHIVE;
-		return(0);
+		return 0;
 	} else {
-		return((size_t)sret);
+		return (size_t)sret;
 	}
 }
 
@@ -105,7 +105,7 @@ static size_t _package_changelog_read(void *ptr, size_t size,
 static int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
 {
 	// note: this doesn't quite work, no feof in libarchive
-	return( archive_read_data((struct archive*)fp, NULL, 0) );
+	return archive_read_data((struct archive*)fp, NULL, 0);
 }
 */
 
@@ -118,7 +118,7 @@ static int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
  */
 static int _package_changelog_close(const pmpkg_t *pkg, void *fp)
 {
-	return( archive_read_finish((struct archive *)fp) );
+	return archive_read_finish((struct archive *)fp);
 }
 
 /** Package file operations struct accessor. We implement this as a method
@@ -137,7 +137,7 @@ static struct pkg_operations *get_file_pkg_ops(void)
 		file_pkg_ops.changelog_close = _package_changelog_close;
 		file_pkg_ops_initialized = 1;
 	}
-	return(&file_pkg_ops);
+	return &file_pkg_ops;
 }
 
 /**
@@ -226,7 +226,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 		line[0] = '\0';
 	}
 
-	return(0);
+	return 0;
 }
 
 /**
@@ -356,7 +356,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC;
 	}
 
-	return(newpkg);
+	return newpkg;
 
 pkg_invalid:
 	pm_errno = PM_ERR_PKG_INVALID;
@@ -364,7 +364,7 @@ error:
 	_alpm_pkg_free(newpkg);
 	archive_read_finish(archive);
 
-	return(NULL);
+	return NULL;
 }
 
 /** Create a package from a file.
@@ -389,10 +389,10 @@ int SYMEXPORT alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg)
 	*pkg = pkg_load(filename, full);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
-		return(-1);
+		return -1;
 	}
 
-	return(0);
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */

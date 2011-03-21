@@ -91,7 +91,7 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 				/* with the NEEDED flag, packages up to date are not reinstalled */
 				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
 						localpkgname, localpkgver);
-				return(0);
+				return 0;
 			} else {
 				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
 						localpkgname, localpkgver);
@@ -109,7 +109,7 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 						pkgname, pkgver);
 	trans->add = alpm_list_add(trans->add, pkg);
 
-	return(0);
+	return 0;
 }
 
 static int perform_extraction(struct archive *archive,
@@ -132,9 +132,9 @@ static int perform_extraction(struct archive *archive,
 				origname, archive_error_string(archive));
 		alpm_logaction("error: could not extract %s (%s)\n",
 				origname, archive_error_string(archive));
-		return(1);
+		return 1;
 	}
-	return(0);
+	return 0;
 }
 
 static int extract_single_file(struct archive *archive,
@@ -169,7 +169,7 @@ static int extract_single_file(struct archive *archive,
 		 * already been handled (for future possibilities) */
 		_alpm_log(PM_LOG_DEBUG, "skipping extraction of '%s'\n", entryname);
 		archive_read_data_skip(archive);
-		return(0);
+		return 0;
 	} else {
 		/* build the new entryname relative to handle->root */
 		snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
@@ -182,7 +182,7 @@ static int extract_single_file(struct archive *archive,
 		alpm_logaction("note: %s is in NoExtract, skipping extraction\n",
 				entryname);
 		archive_read_data_skip(archive);
-		return(0);
+		return 0;
 	}
 
 	/* Check for file existence. This is one of the more crucial parts
@@ -226,13 +226,13 @@ static int extract_single_file(struct archive *archive,
 				_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
 						entryname);
 				archive_read_data_skip(archive);
-				return(0);
+				return 0;
 			} else {
 				/* case 10/11: trying to overwrite dir with file/symlink, don't allow it */
 				_alpm_log(PM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
 						entryname);
 				archive_read_data_skip(archive);
-				return(1);
+				return 1;
 			}
 		} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 9: existing symlink, dir in package */
@@ -241,13 +241,13 @@ static int extract_single_file(struct archive *archive,
 				_alpm_log(PM_LOG_DEBUG, "extract: skipping symlink overwrite of %s\n",
 						entryname);
 				archive_read_data_skip(archive);
-				return(0);
+				return 0;
 			} else {
 				/* this is BAD. symlink was not to a directory */
 				_alpm_log(PM_LOG_ERROR, _("extract: symlink %s does not point to dir\n"),
 						entryname);
 				archive_read_data_skip(archive);
-				return(1);
+				return 1;
 			}
 		} else if(S_ISREG(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 6: trying to overwrite file with dir */
@@ -299,7 +299,7 @@ static int extract_single_file(struct archive *archive,
 			/* error */
 			FREE(hash_orig);
 			FREE(entryname_orig);
-			return(1);
+			return 1;
 		}
 
 		hash_local = alpm_compute_md5sum(filename);
@@ -442,7 +442,7 @@ static int extract_single_file(struct archive *archive,
 		if(ret == 1) {
 			/* error */
 			FREE(entryname_orig);
-			return(1);
+			return 1;
 		}
 
 		/* calculate an hash if this is in newpkg's backup */
@@ -469,7 +469,7 @@ static int extract_single_file(struct archive *archive,
 		}
 	}
 	FREE(entryname_orig);
-	return(errors);
+	return errors;
 }
 
 static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
@@ -705,7 +705,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 
 cleanup:
 	_alpm_pkg_free(oldpkg);
-	return(ret);
+	return ret;
 }
 
 int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
@@ -720,7 +720,7 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
 	if(trans->add == NULL) {
-		return(0);
+		return 0;
 	}
 
 	pkg_count = alpm_list_count(trans->add);
@@ -729,7 +729,7 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 	/* loop through our package list adding/upgrading one at a time */
 	for(targ = trans->add; targ; targ = targ->next) {
 		if(handle->trans->state == STATE_INTERRUPTED) {
-			return(ret);
+			return ret;
 		}
 
 		pmpkg_t *newpkg = (pmpkg_t *)targ->data;
@@ -750,7 +750,7 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 		_alpm_ldconfig(handle->root);
 	}
 
-	return(ret);
+	return ret;
 }
 
 /* vim: set ts=2 sw=2 noet: */

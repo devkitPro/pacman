@@ -64,7 +64,7 @@ int SYMEXPORT alpm_logaction(const char *fmt, ...)
 			} else {
 				pm_errno = PM_ERR_SYSTEM;
 			}
-		return(-1);
+		return -1;
 		}
 	}
 
@@ -83,7 +83,7 @@ int SYMEXPORT alpm_logaction(const char *fmt, ...)
 	 *   kpacman: "KPACMAN"
 	 * This would allow us to share the log file between several frontends
 	 * and know who does what */
-	return(ret);
+	return ret;
 }
 
 /** @} */

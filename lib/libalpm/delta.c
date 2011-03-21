@@ -41,32 +41,32 @@
 
 const char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
 {
-	ASSERT(delta != NULL, return(NULL));
-	return(delta->from);
+	ASSERT(delta != NULL, return NULL);
+	return delta->from;
 }
 
 const char SYMEXPORT *alpm_delta_get_to(pmdelta_t *delta)
 {
-	ASSERT(delta != NULL, return(NULL));
-	return(delta->to);
+	ASSERT(delta != NULL, return NULL);
+	return delta->to;
 }
 
 const char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
 {
-	ASSERT(delta != NULL, return(NULL));
-	return(delta->delta);
+	ASSERT(delta != NULL, return NULL);
+	return delta->delta;
 }
 
 const char SYMEXPORT *alpm_delta_get_md5sum(pmdelta_t *delta)
 {
-	ASSERT(delta != NULL, return(NULL));
-	return(delta->delta_md5);
+	ASSERT(delta != NULL, return NULL);
+	return delta->delta_md5;
 }
 
 off_t SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
 {
-	ASSERT(delta != NULL, return(-1));
-	return(delta->delta_size);
+	ASSERT(delta != NULL, return -1);
+	return delta->delta_size;
 }
 
 /** @} */
@@ -108,7 +108,7 @@ static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 		}
 		v_i->childptr = v_i->children;
 	}
-	return(vertices);
+	return vertices;
 }
 
 static void graph_init_size(alpm_list_t *vertices)
@@ -205,7 +205,7 @@ static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **
 	*path = alpm_list_reverse(rpath);
 	alpm_list_free(rpath);
 
-	return(bestsize);
+	return bestsize;
 }
 
 /** Calculates the shortest path from one version to another.
@@ -229,7 +229,7 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 
 	if(deltas == NULL) {
 		*path = NULL;
-		return(bestsize);
+		return bestsize;
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
@@ -245,7 +245,7 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 	alpm_list_free(vertices);
 
 	*path = bestpath;
-	return(bestsize);
+	return bestsize;
 }
 
 static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota)
@@ -273,7 +273,7 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
 	}
 	alpm_list_free_inner(vertices, _alpm_graph_free);
 	alpm_list_free(vertices);
-	return(unused);
+	return unused;
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
@@ -283,7 +283,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
 			alpm_pkg_get_deltas(pkg),
 			alpm_pkg_get_filename(pkg),
 			pkgsize * MAX_DELTA_RATIO);
-	return(unused);
+	return unused;
 }
 
 
@@ -308,7 +308,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	if(regexec(&reg, line, 0, 0, 0) != 0) {
 		/* delta line is invalid, return NULL */
 		regfree(&reg);
-		return(NULL);
+		return NULL;
 	}
 	regfree(&reg);
 
@@ -339,7 +339,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 
 	_alpm_log(PM_LOG_DEBUG, "delta : %s %s '%jd'\n", delta->from, delta->to, (intmax_t)delta->delta_size);
 
-	return(delta);
+	return delta;
 }
 
 void _alpm_delta_free(pmdelta_t *delta)

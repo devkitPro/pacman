@@ -47,7 +47,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 	dir = opendir(dbpath);
 	if(dir == NULL) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("could not access database directory\n"));
-		return(1);
+		return 1;
 	}
 
 	syncdbs = alpm_option_get_syncdbs();
@@ -84,7 +84,7 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 				pm_fprintf(stderr, PM_LOG_ERROR,
 					_("could not remove %s\n"), path);
 				closedir(dir);
-				return(1);
+				return 1;
 			}
 			continue;
 		}
@@ -110,12 +110,12 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 				pm_fprintf(stderr, PM_LOG_ERROR,
 					_("could not remove %s\n"), path);
 				closedir(dir);
-				return(1);
+				return 1;
 			}
 		}
 	}
 	closedir(dir);
-	return(0);
+	return 0;
 }
 
 static int sync_cleandb_all(void) {
@@ -126,7 +126,7 @@ static int sync_cleandb_all(void) {
 	dbpath = alpm_option_get_dbpath();
 	printf(_("Database directory: %s\n"), dbpath);
 	if(!yesno(_("Do you want to remove unused repositories?"))) {
-		return(0);
+		return 0;
 	}
 	/* The sync dbs were previously put in dbpath/ but are now in dbpath/sync/.
 	 * We will clean everything in dbpath/ except local/, sync/ and db.lck, and
@@ -137,7 +137,7 @@ static int sync_cleandb_all(void) {
 	ret += sync_cleandb(newdbpath, 1);
 
 	printf(_("Database directory cleaned up\n"));
-	return(ret);
+	return ret;
 }
 
 static int sync_cleancache(int level)
@@ -165,12 +165,12 @@ static int sync_cleancache(int level)
 			printf(_("  All current sync database packages\n"));
 		}
 		if(!yesno(_("Do you want to remove all other packages from cache?"))) {
-			return(0);
+			return 0;
 		}
 		printf(_("removing old packages from cache...\n"));
 	} else {
 		if(!noyes(_("Do you want to remove ALL files from cache?"))) {
-			return(0);
+			return 0;
 		}
 		printf(_("removing all files from cache...\n"));
 	}
@@ -258,7 +258,7 @@ static int sync_cleancache(int level)
 		closedir(dir);
 	}
 
-	return(ret);
+	return ret;
 }
 
 static int sync_synctree(int level, alpm_list_t *syncs)
@@ -267,7 +267,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	int success = 0, ret;
 
 	if(trans_init(0) == -1) {
-		return(0);
+		return 0;
 	}
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
@@ -286,7 +286,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	}
 
 	if(trans_release() == -1) {
-		return(0);
+		return 0;
 	}
 	/* We should always succeed if at least one DB was upgraded - we may possibly
 	 * fail later with unresolved deps, but that should be rare, and would be
@@ -295,7 +295,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	if(!success) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to synchronize any databases\n"));
 	}
-	return(success > 0);
+	return (success > 0);
 }
 
 static void print_installed(pmdb_t *db_local, pmpkg_t *pkg)
@@ -384,7 +384,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 		}
 	}
 
-	return(!found);
+	return !found;
 }
 
 static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
@@ -432,7 +432,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
@@ -466,7 +466,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				if(!db) {
 					pm_fprintf(stderr, PM_LOG_ERROR,
 						_("repository '%s' does not exist\n"), repo);
-					return(1);
+					return 1;
 				}
 
 				for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
@@ -517,7 +517,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
@@ -543,7 +543,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 				pm_fprintf(stderr, PM_LOG_ERROR,
 					_("repository \"%s\" was not found.\n"),repo);
 				alpm_list_free(ls);
-				return(1);
+				return 1;
 			}
 
 			ls = alpm_list_add(ls, db);
@@ -573,7 +573,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 		alpm_list_free(ls);
 	}
 
-	return(0);
+	return 0;
 }
 
 static alpm_list_t *syncfirst(void) {
@@ -591,7 +591,7 @@ static alpm_list_t *syncfirst(void) {
 		}
 	}
 
-	return(res);
+	return res;
 }
 
 static pmdb_t *get_db(const char *dbname)
@@ -600,10 +600,10 @@ static pmdb_t *get_db(const char *dbname)
 	for(i = alpm_option_get_syncdbs(); i; i = i->next) {
 		pmdb_t *db = i->data;
 		if(strcmp(alpm_db_get_name(db), dbname) == 0) {
-			return(db);
+			return db;
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 static int process_pkg(pmpkg_t *pkg)
@@ -615,14 +615,14 @@ static int process_pkg(pmpkg_t *pkg)
 				|| pm_errno == PM_ERR_PKG_IGNORED) {
 			/* just skip duplicate or ignored targets */
 			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
-			return(0);
+			return 0;
 		} else {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
 					alpm_strerrorlast());
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 static int process_group(alpm_list_t *dbs, char *group)
@@ -634,7 +634,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 
 	if(!count) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("target not found: %s\n"), group);
-		return(1);
+		return 1;
 	}
 
 	printf(_(":: There are %d members in group %s:\n"), count,
@@ -656,7 +656,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 cleanup:
 	alpm_list_free(pkgs);
 	free(array);
-	return(ret);
+	return ret;
 }
 
 static int process_targname(alpm_list_t *dblist, char *targname)
@@ -667,14 +667,14 @@ static int process_targname(alpm_list_t *dblist, char *targname)
 	if(pm_errno == PM_ERR_PKG_IGNORED) {
 			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targname);
 			pm_errno = 0;
-			return(0);
+			return 0;
 	}
 
 	if(pkg) {
-		return(process_pkg(pkg));
+		return process_pkg(pkg);
 	}
 	/* fallback on group */
-	return(process_group(dblist, targname));
+	return process_group(dblist, targname);
 }
 
 static int process_target(char *target)
@@ -709,7 +709,7 @@ static int process_target(char *target)
 	}
 cleanup:
 	free(targstring);
-	return(ret);
+	return ret;
 }
 
 static int sync_trans(alpm_list_t *targets)
@@ -721,7 +721,7 @@ static int sync_trans(alpm_list_t *targets)
 
 	/* Step 1: create a new transaction... */
 	if(trans_init(config->flags) == -1) {
-		return(1);
+		return 1;
 	}
 
 	/* process targets */
@@ -861,7 +861,7 @@ cleanup:
 		retval = 1;
 	}
 
-	return(retval);
+	return retval;
 }
 
 int pacman_sync(alpm_list_t *targets)
@@ -873,7 +873,7 @@ int pacman_sync(alpm_list_t *targets)
 		int ret = 0;
 
 		if(trans_init(0) == -1) {
-			return(1);
+			return 1;
 		}
 
 		ret += sync_cleancache(config->op_s_clean);
@@ -884,14 +884,14 @@ int pacman_sync(alpm_list_t *targets)
 			ret++;
 		}
 
-		return(ret);
+		return ret;
 	}
 
 	/* ensure we have at least one valid sync db set up */
 	sync_dbs = alpm_option_get_syncdbs();
 	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
 		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
-		return(1);
+		return 1;
 	}
 
 	if(config->op_s_sync) {
@@ -899,40 +899,40 @@ int pacman_sync(alpm_list_t *targets)
 		printf(_(":: Synchronizing package databases...\n"));
 		alpm_logaction("synchronizing package lists\n");
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
-			return(1);
+			return 1;
 		}
 	}
 
 	/* search for a package */
 	if(config->op_s_search) {
-		return(sync_search(sync_dbs, targets));
+		return sync_search(sync_dbs, targets);
 	}
 
 	/* look for groups */
 	if(config->group) {
-		return(sync_group(config->group, sync_dbs, targets));
+		return sync_group(config->group, sync_dbs, targets);
 	}
 
 	/* get package info */
 	if(config->op_s_info) {
-		return(sync_info(sync_dbs, targets));
+		return sync_info(sync_dbs, targets);
 	}
 
 	/* get a listing of files in sync DBs */
 	if(config->op_q_list) {
-		return(sync_list(sync_dbs, targets));
+		return sync_list(sync_dbs, targets);
 	}
 
 	if(targets == NULL) {
 		if(config->op_s_upgrade) {
 			/* proceed */
 		} else if(config->op_s_sync) {
-			return(0);
+			return 0;
 		} else {
 			/* don't proceed here unless we have an operation that doesn't require a
 			 * target list */
 			pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-			return(1);
+			return 1;
 		}
 	}
 
@@ -967,7 +967,7 @@ int pacman_sync(alpm_list_t *targets)
 	int ret = sync_trans(targs);
 	FREELIST(targs);
 
-	return(ret);
+	return ret;
 }
 
 /* vim: set ts=2 sw=2 noet: */
