@@ -1230,9 +1230,7 @@ static int _parseconfig(const char *file, const char *givensection,
 	}
 
 cleanup:
-	if(fp) {
-		fclose(fp);
-	}
+	fclose(fp);
 	if(section){
 		free(section);
 	}
