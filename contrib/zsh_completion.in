@@ -214,6 +214,7 @@ _pacman_completions_all_groups() {
 	local -a cmd groups
 	_pacman_get_command
 	groups=( $(_call_program groups $cmd[@] -Sg) )
+	typeset -U groups
 	compadd "$@" -a groups
 }
 
@@ -221,23 +222,20 @@ _pacman_completions_all_groups() {
 # these can be specified as either 'package' or 'repository/package'
 _pacman_completions_all_packages() {
 	local -a cmd packages repositories packages_long
+	_pacman_get_command
 
-	repositories=(${(o)${${${(M)${(f)"$(<@sysconfdir@/pacman.conf)"}:#\[*}/\[/}/\]/}:#options})
-	typeset -U repositories
-	packages_long=(@localstatedir@/lib/pacman/sync/${^repositories}/*(/))
-	packages=(${(o)${${packages_long#@localstatedir@/lib/pacman/sync/}#*/}%-*-*} )
-	typeset -U packages
-	_wanted packages expl "packages" compadd - "${(@)packages}"
-	if [[ $PREFIX != */* ]] ; then
+	if compset -P1 '*/*'; then
+		packages=( $(_call_program packages $cmd[@] -Sql ${words[CURRENT]%/*}) )
+		typeset -U packages
+		_wanted repo_packages expl "repository/package" compadd ${(@)packages}
+	else
+		packages=( $(_call_program packages $cmd[@] -Sql) )
+		typeset -U packages
+		_wanted packages expl "packages" compadd - "${(@)packages}"
+
 		repositories=(${(o)${${${(M)${(f)"$(<@sysconfdir@/pacman.conf)"}:#\[*}/\[/}/\]/}:#options})
 		typeset -U repositories
 		_wanted repo_packages expl "repository/package" compadd -S "/" $repositories
-	else
-		compset -P '*/'
-		packages_long=(@localstatedir@/lib/pacman/sync/$IPREFIX*(/))
-		packages=(${(o)${${packages_long#@localstatedir@/lib/pacman/sync/}#*/}%-*-*} )
-		typeset -U packages
-		_wanted repo_packages expl "repository/package" compadd ${(@)packages}
 	fi
 }
 
@@ -245,7 +243,7 @@ _pacman_completions_all_packages() {
 _pacman_completions_installed_groups() {
 	local -a cmd groups
 	_pacman_get_command
-	groups=(${(o)${(f)"$(pacman -Qg)"}% *})
+	groups=(${(o)${(f)"$(_call_program groups $cmd[@] -Qg)"}% *})
 	typeset -U groups
 	compadd "$@" -a groups
 }

@@ -345,7 +345,7 @@ static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
 		pmpkg_t *cachepkg = i->data;
 		if(_alpm_dep_edge(cachepkg, pkg)) {
 			const char *cachepkgname = cachepkg->name;
-			if(alpm_list_find_str(*reqs, cachepkgname) == 0) {
+			if(alpm_list_find_str(*reqs, cachepkgname) == NULL) {
 				*reqs = alpm_list_add(*reqs, strdup(cachepkgname));
 			}
 		}
