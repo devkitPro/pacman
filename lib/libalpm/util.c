@@ -740,6 +740,9 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 	int64_t offset;
 	int done = 0;
 
+	/* ensure we start populating our line buffer at the beginning */
+	b->line_offset = b->line;
+
 	while(1) {
 		/* have we processed this entire block? */
 		if(b->block + b->block_size == b->block_offset) {
