@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-14 13:57-0500\n"
-"PO-Revision-Date: 2011-03-08 14:52+0000\n"
+"POT-Creation-Date: 2011-03-23 02:03-0500\n"
+"PO-Revision-Date: 2011-03-22 15:36+0000\n"
 "Last-Translator: tlaloc <matthias@archlinux.de>\n"
 "Language-Team: German <None>\n"
 "Language: de\n"
@@ -652,10 +652,6 @@ msgid "only one operation may be used at a time\n"
 msgstr "Es ist nur eine Operation zur selben Zeit erlaubt\n"
 
 #, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "Keine Operation angegeben (benutzen Sie -h für Hilfe)\n"
-
-#, c-format
 msgid "invalid option\n"
 msgstr "Ungültige Option\n"
 
@@ -680,12 +676,11 @@ msgid "could not change directory to %s (%s)\n"
 msgstr "Konnte nicht in Verzeichnis %s wechseln(%s)\n"
 
 #, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "Direktive '%s' wird ohne Wert nicht erkannt\n"
-
-#, c-format
-msgid "directive '%s' with a value not recognized\n"
-msgstr "Direktive '%s' mit einem Wert wird nicht erkannt\n"
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"Konfigurations-Datei %s, Zeile %d: Direktive '%s in Sektion '%s' wird nicht "
+"erkannt.\n"
 
 #, c-format
 msgid ""
@@ -724,21 +719,9 @@ msgstr ""
 "gehören.\n"
 
 #, c-format
-msgid "config file %s, line %d: directive %s needs a value\n"
+msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
-"Konfigurations-Datei %s, Zeile %d: Direktive '%s' benötigt einen Wert\n"
-
-#, c-format
-msgid "config file %s, line %d: problem in options section\n"
-msgstr "Konfigurations-Datei %s, Zeile %d: Problem in der Sektion Option\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in repository section '%s' not "
-"recognized.\n"
-msgstr ""
-"Konfigurations-Datei %s, Zeile %d: Direktive '%s' in der Repositorien-"
-"Sektion '%s' wurde nicht erkannt.\n"
+"Konfigurations-Datei %s, Zeile %d: Direktive '%s' verlangt einen Wert.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -755,6 +738,10 @@ msgstr "Konnte stdin nicht zum Auslesen neu öffnen: (%s)\n"
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "Sie benötigen Root-Rechte, um diese Operation auszuführen.\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "Keine Operation angegeben (benutzen Sie -h für Hilfe)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -814,7 +801,7 @@ msgstr "Paket \"%s\" wurde nicht gefunden\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
-msgstr "Konnte den Vorgang (%s) nicht vorbereiten\n"
+msgstr "Konnte den Vorgang nicht vorbereiten (%s)\n"
 
 #, c-format
 msgid ":: package %s does not have a valid architecture\n"
@@ -1268,7 +1255,7 @@ msgid "Creating package..."
 msgstr "Erstelle Paket ... "
 
 msgid "Adding %s file..."
-msgstr "Füge % Datei hinzu..."
+msgstr "Füge %s Datei hinzu..."
 
 msgid "Compressing package..."
 msgstr "Komprimiere Paket ... "

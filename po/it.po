@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-14 13:57-0500\n"
-"PO-Revision-Date: 2011-03-05 16:47+0000\n"
+"POT-Creation-Date: 2011-03-23 02:03-0500\n"
+"PO-Revision-Date: 2011-03-22 15:36+0000\n"
 "Last-Translator: giovanni <giovanni@archlinux.org>\n"
 "Language-Team: Italian <None>\n"
 "Language: it\n"
@@ -595,7 +595,7 @@ msgstr "  -v, --verbose        mostra maggiori informazioni\n"
 
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <arch>  imposta una architettura alternativa\n"
+msgstr "      --arch <arch>    imposta una architettura alternativa\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
@@ -655,10 +655,6 @@ msgid "only one operation may be used at a time\n"
 msgstr "è consentito eseguire solo un'operazione per volta\n"
 
 #, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "nessuna operazione specificata (usa -h per un aiuto)\n"
-
-#, c-format
 msgid "invalid option\n"
 msgstr "opzione non valida\n"
 
@@ -683,12 +679,11 @@ msgid "could not change directory to %s (%s)\n"
 msgstr "impossibile entrare nella directory %s (%s)\n"
 
 #, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "la direttiva '%s' senza valore non è stata riconosciuta\n"
-
-#, c-format
-msgid "directive '%s' with a value not recognized\n"
-msgstr "la direttiva '%s' con un valore non riconosciuto\n"
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"file di configurazione %s, riga %d: la direttiva '%s' presente nella sezione "
+"'%s' non è stata riconosciuta.\n"
 
 #, c-format
 msgid ""
@@ -726,23 +721,10 @@ msgstr ""
 "ad una sezione.\n"
 
 #, c-format
-msgid "config file %s, line %d: directive %s needs a value\n"
+msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
-"file di configurazione %s, linea %d: la direttiva %s necessita di un valore\n"
-
-#, c-format
-msgid "config file %s, line %d: problem in options section\n"
-msgstr ""
-"file di configurazione %s, linea %d: c'è un problema nella sezione delle "
-"opzioni\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in repository section '%s' not "
-"recognized.\n"
-msgstr ""
-"file di configurazione %s, linea %d: la direttiva '%s' nella sezione '%s' "
-"del repository non è stata riconosciuta.\n"
+"file di configurazione %s, riga %d: la direttiva '%s' necessita di un "
+"valore\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -760,6 +742,10 @@ msgstr "impossibile riaprire stdin in lettura: (%s)\n"
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "questa operazione è possibile solo da root.\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "nessuna operazione specificata (usa -h per un aiuto)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -839,7 +825,7 @@ msgstr "È stato trovato HoldPkg nella lista dei pacchetti. Vuoi continuare?"
 
 #, c-format
 msgid " there is nothing to do\n"
-msgstr "Non c'è nulla da fare\n"
+msgstr " non ci sono aggiornamenti disponibili\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
