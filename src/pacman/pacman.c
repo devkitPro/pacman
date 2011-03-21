@@ -740,7 +740,8 @@ static int parseargs(int argc, char *argv[])
 		} else if(opt == '?') {
 			/* this should have failed during first pass already */
 			return(1);
-		} else if(parsearg_op(opt, 1) == 0) {	/* opt is an operation */
+		} else if(parsearg_op(opt, 1) == 0) {
+			/* opt is an operation */
 			continue;
 		}
 
@@ -757,18 +758,17 @@ static int parseargs(int argc, char *argv[])
 			case PM_OP_SYNC:
 				result = parsearg_sync(opt);
 				break;
-			case PM_OP_DEPTEST:
-				result = 1;
-				break;
 			case PM_OP_UPGRADE:
 				result = parsearg_upgrade(opt);
 				break;
+			case PM_OP_DEPTEST:
 			default:
-				pm_printf(PM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
-				return(1);
+				result = 1;
+				break;
 		}
-		if (result == 0)
+		if (result == 0) {
 			continue;
+		}
 
 		/* fall back to global options */
 		result = parsearg_global(opt);
