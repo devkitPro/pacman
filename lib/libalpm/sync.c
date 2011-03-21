@@ -512,7 +512,11 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	for(i = trans->add; i; i = i->next) {
 		pmpkg_t *spkg = i->data;
 		for(j = spkg->removes; j; j = j->next) {
-			trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(j->data));
+			pmpkg_t *rpkg = j->data;
+			if(!_alpm_pkg_find(trans->remove, rpkg->name)) {
+				_alpm_log(PM_LOG_DEBUG, "adding '%s' to remove list\n", rpkg->name);
+				trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(rpkg));
+			}
 		}
 	}
 
