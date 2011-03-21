@@ -637,25 +637,37 @@ static int process_group(alpm_list_t *dbs, char *group)
 		return(1);
 	}
 
-	printf(_(":: There are %d members in group %s:\n"), count,
-			group);
-	select_display(pkgs);
-	char *array = malloc(count);
-	multiselect_question(array, count);
-	int n = 0;
-	for(i = pkgs; i; i = alpm_list_next(i)) {
-		if(array[n++] == 0)
-			continue;
-		pmpkg_t *pkg = alpm_list_getdata(i);
 
-		if(process_pkg(pkg) == 1) {
-			ret = 1;
-			goto cleanup;
+	if(config->print == 0) {
+		printf(_(":: There are %d members in group %s:\n"), count,
+				group);
+		select_display(pkgs);
+		char *array = malloc(count);
+		multiselect_question(array, count);
+		int n = 0;
+		for(i = pkgs; i; i = alpm_list_next(i)) {
+			if(array[n++] == 0)
+				continue;
+			pmpkg_t *pkg = alpm_list_getdata(i);
+
+			if(process_pkg(pkg) == 1) {
+				ret = 1;
+				free(array);
+				goto cleanup;
+			}
+		}
+	} else {
+		for(i = pkgs; i; i = alpm_list_next(i)) {
+			pmpkg_t *pkg = alpm_list_getdata(i);
+
+			if(process_pkg(pkg) == 1) {
+				ret = 1;
+				goto cleanup;
+			}
 		}
 	}
 cleanup:
 	alpm_list_free(pkgs);
-	free(array);
 	return(ret);
 }
 
