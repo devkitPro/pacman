@@ -50,41 +50,34 @@ error() {
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}
 	echo
-	printf "$(gettext "Usage: %s [options] command [arguments]")\n" $(basename $0)
+	printf "$(gettext "Usage: %s [options] <command> [arguments]")\n" $(basename $0)
 	echo
 	echo "$(gettext "Manage pacman's list of trusted keys")"
 	echo
 	echo "$(gettext "Options must be placed before commands. The available options are:")"
-	echo "$(gettext " --config    - set an alternative configuration file to use. ")"
-	printf "$(gettext "               Default is %s")\n" "@sysconfdir@/pacman.conf"
-	echo "$(gettext " --gpgdir    - set an alternative home directory for gnupg. ")"
-	printf "$(gettext "               Default is set in %s")\n" "@sysconfdir@/pacman.conf"
+	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$CONFIG"
+	echo "$(gettext "  --gpgdir         Set an alternate directory for gnupg")"
 	echo
 	echo "$(gettext "The available commands are:")"
-	echo "$(gettext "  -a | --add [<file>] ...                - add the key contained in <file>")"
-	echo "$(gettext "                                           (empty for stdin)")"
-	echo "$(gettext "  -d | --del <keyid> ...                 - remove the key <keyid>")"
-	echo "$(gettext "  -e | --export <keyid> ...              - output the key <keyid>")"
-	echo "$(gettext "  -f | --finger [<keyid>] ...            - list fingerprint for specified keyids")"
-	echo "$(gettext "                                           (or for all, if no key is specified)")"
-	echo "$(gettext "  -h | --help                            - displays this message")"
-	echo "$(gettext "  -l | --list                            - list keys")"
-	echo "$(gettext "  -r | --receive <keyserver> <keyid> ... - fetch the keyids from the specified")"
-	echo "$(gettext "                                           keyserver URL")"
-	echo "$(gettext "  -t | --trust <keyid> ...               - set the trust level of the given key")"
-	echo "$(gettext "  -u | --updatedb                        - update the trustdb of pacman")"
-	echo "$(gettext "  -v | --version                         - displays the current version")"
-	echo "$(gettext "  --adv <params>                         - use pacman's keyring as target for")"
-	echo "$(gettext "                                           advanced gpg commands")"
-	echo "$(gettext "  --reload                               - reloads the keys supplied by your")"
-	printf "$(gettext "                                           distribution in %s")"'@prefix@/share/pacman'
+	echo "$(gettext "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)")"
+	echo "$(gettext "  -d, --del <keyid(s)>      Remove the specified keyids")"
+	echo "$(gettext "  -e, --export <keyid(s)>   Export the specified keyids")"
+	echo "$(gettext "  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids")"
+	echo "$(gettext "  -h, --help                This help")"
+	echo "$(gettext "  -l, --list                List keys")"
+	echo "$(gettext "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids")"
+	echo "$(gettext "  -t, --trust <keyid(s)>    Set the trust level of the given keyids")"
+	echo "$(gettext "  -u, --updatedb            Update the trustdb of pacman")"
+	echo "$(gettext "  -V, --version             Show program version")"
+	echo "$(gettext "  --adv <params>            Use pacman's keyring with advanced gpg commands")"
+	printf "$(gettext "  --reload                  Reload the default keys")"
 	echo
 }
 
 version() {
 	printf "pacman-key (pacman) %s\n" "${myver}"
 	printf "$(gettext "\
-Copyright (c) 2010 Pacman Development Team <pacman-dev@archlinux.org>.\n\
+Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
@@ -218,7 +211,7 @@ if ! type gettext &>/dev/null; then
 	}
 fi
 
-if [[ $1 != "--version" && $1 != "-v" && $1 != "--help" && $1 != "-h" && $1 != "" ]]; then
+if [[ $1 != "--version" && $1 != "-V" && $1 != "--help" && $1 != "-h" && $1 != "" ]]; then
 	if type -p gpg >/dev/null 2>&1 = 1; then
 		error "$(gettext "gnupg does not seem to be installed.")"
 		msg2 "$(gettext "pacman-key requires gnupg for most operations.")"
@@ -241,7 +234,7 @@ while [[ $1 =~ ^--(config|gpgdir)$ ]]; do
 done
 
 if [[ ! -r "${CONFIG}" ]]; then
-	error "$(gettext "It is not possible to read %s")" "${CONFIG}"
+	error "$(gettext "%s not found.")" "$CONFIG"
 	exit 1
 fi
 
@@ -269,7 +262,6 @@ case "${command}" in
 	-d|--del)
 		if (( $# == 0 )); then
 			error "$(gettext "You need to specify at least one key identifier")"
-			usage
 			exit 1
 		fi
 		${GPG_PACMAN} --quiet --batch --delete-key --yes "$@"
@@ -284,7 +276,7 @@ case "${command}" in
 		${GPG_PACMAN} --batch --list-sigs "$@"
 		;;
 	-f|--finger)
-		${GPG_PACMAN} --batch --fingerprint $*
+		${GPG_PACMAN} --batch --fingerprint "$@"
 		;;
 	-e|--export)
 		${GPG_PACMAN} --armor --export "$@"
@@ -292,7 +284,6 @@ case "${command}" in
 	-r|--receive)
 		if (( $# < 2 )); then
 			error "$(gettext "You need to specify the keyserver and at least one key identifier")"
-			usage
 			exit 1
 		fi
 		keyserver="$1"
@@ -302,7 +293,6 @@ case "${command}" in
 	-t|--trust)
 		if (( $# == 0 )); then
 			error "$(gettext "You need to specify at least one key identifier")"
-			usage
 			exit 1
 		fi
 		while (( $# > 0 )); do
@@ -321,15 +311,10 @@ case "${command}" in
 		${GPG_PACMAN} "$@" || ret=$?
 		exit $ret
 		;;
-	-h | --help)
-		usage
-		;;
-	-v | --version)
-		version
-		exit 0
-		;;
+	-h|--help)
+		usage; exit 0 ;;
+	-V|--version)
+		version; exit 0 ;;
 	*)
-		usage
-		exit 1
-		;;
+		usage; exit 1 ;;
 esac
