@@ -30,6 +30,8 @@ confdir='@sysconfdir@'
 QUIET=0
 DELTA=0
 WITHFILES=0
+SIGN=0
+VERIFY=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
@@ -62,7 +64,7 @@ error() {
 # print usage instructions
 usage() {
 	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\n")"
+	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> ...\n")"
 	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
 	printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
@@ -79,7 +81,8 @@ Use the -d/--delta flag to automatically generate and add a delta file\n\
 between the old entry and the new one, if the old package file is found\n\
 next to the new one.\n\n")"
 	printf "$(gettext "\
-Use the -f/--files flag to update a database including file entries.\n\n")"
+Use the -f/--files flag to update a database including file entries.\n\n
+See repo-add(8) for more details and descriptions of the available options.\n\n")"
 	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
 	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
 }
@@ -184,6 +187,47 @@ db_remove_delta()
 	return 1
 } # end db_remove_delta
 
+# sign the package database once repackaged
+create_signature() {
+	(( ! SIGN )) && return
+	local dbfile="$1"
+	local ret=0
+	msg "$(gettext "Signing database...")"
+	if [ ! $(type -p "gpg") ]; then
+		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+	gpg --detach-sign --use-agent "$dbfile" || ret=$?
+	if (( ! ret )); then
+		msg2 "$(gettext "Created signature file %s.")" "$dbfile.sig"
+	else
+		warning "$(gettext "Failed to sign package database.")"
+	fi
+}
+
+# verify the existing package database signature
+verify_signature() {
+	(( ! VERIFY )) && return
+	local dbfile="$1"
+	local ret=0
+	msg "$(gettext "Verifying database signature...")"
+	if [ ! $(type -p "gpg") ]; then
+		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+	if [[ ! -f $dbfile.sig ]]; then
+		warning "$(gettext "No existing signature found, skipping verification.")"
+		return
+	fi
+	gpg --verify "$dbfile.sig" || ret=$?
+	if (( ! ret )); then
+		msg2 "$(gettext "Database signature file verified.")"
+	else
+		error "$(gettext "Database signature was NOT valid!")"
+		exit 1
+	fi
+}
+
 # write an entry to the pacman database
 #   arg1 - path to package
 db_write_entry()
@@ -219,9 +263,6 @@ db_write_entry()
 
 	IFS=$OLDIFS
 
-	# get md5sum and compressed size of package
-	md5sum="$(openssl dgst -md5 "$pkgfile")"
-	md5sum="${md5sum##* }"
 	csize=$(@SIZECMD@ "$pkgfile")
 
 	# ensure $pkgname and $pkgver variables were found
@@ -242,6 +283,13 @@ db_write_entry()
 			fi
 		fi
 	fi
+
+	# compute checksums
+	msg2 "$(gettext "Computing checksums...")"
+	md5sum="$(openssl dgst -md5 "$pkgfile")"
+	md5sum="${md5sum##* }"
+	sha256sum="$(openssl dgst -sha256 "$pkgfile")"
+	sha256sum="${sha256sum##* }"
 
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
@@ -264,9 +312,15 @@ db_write_entry()
 	[[ -n $csize ]] && echo -e "%CSIZE%\n$csize\n" >>desc
 	[[ -n $size ]] && echo -e "%ISIZE%\n$size\n" >>desc
 
-	# compute checksums
-	msg2 "$(gettext "Computing md5 checksums...")"
+	# add checksums
 	echo -e "%MD5SUM%\n$md5sum\n" >>desc
+	echo -e "%SHA256SUM%\n$sha256sum\n" >>desc
+
+	# add base64'd PGP signature
+	if [[ -f $startdir/$pkgfile.sig ]]; then
+		pgpsig=$(openssl base64 -in "$startdir/$pkgfile.sig" | tr -d '\n')
+		echo -e "%PGPSIG%\n$pgpsig\n" >>desc
+	fi
 
 	[[ -n $url ]] && echo -e "%URL%\n$url\n" >>desc
 	write_list_entry "LICENSE" "$_licenses" "desc"
@@ -352,6 +406,7 @@ check_repo_db()
 				exit 1
 			fi
 		fi
+		verify_signature "$REPO_DB_FILE"
 		msg "$(gettext "Extracting database to a temporary location...")"
 		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir"
 	else
@@ -482,6 +537,8 @@ for arg in "$@"; do
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
+		-s|--sign) SIGN=1;;
+		-v|--verify) VERIFY=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$arg"
@@ -514,6 +571,7 @@ if (( success )); then
 	pushd "$tmpdir" >/dev/null
 	if [[ -n $(ls) ]]; then
 		bsdtar -c${TAR_OPT}f "$filename" *
+		create_signature "$filename"
 	else
 		# we have no packages remaining? zip up some emptyness
 		warning "$(gettext "No packages remain, creating empty database.")"
@@ -522,12 +580,19 @@ if (( success )); then
 	popd >/dev/null
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+	[[ -f $REPO_DB_FILE.sig ]] && rm -f "$REPO_DB_FILE.sig"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
+	[[ -f $tmpdir/$filename.sig ]] && mv "$tmpdir/$filename.sig" "$REPO_DB_FILE.sig"
 	dblink="${REPO_DB_FILE%.tar.*}"
 	target=${REPO_DB_FILE##*/}
 	ln -sf "$target" "$dblink" 2>/dev/null || \
 		ln -f "$target" "$dblink" 2>/dev/null || \
 		cp "$REPO_DB_FILE" "$dblink"
+	if [[ -f "$target.sig" ]]; then
+		ln -sf "$target.sig" "$dblink.sig" 2>/dev/null || \
+			ln -f "$target.sig" "$dblink.sig" 2>/dev/null || \
+			cp "$REPO_DB_FILE.sig" "$dblink.sig"
+	fi
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 	exit 1

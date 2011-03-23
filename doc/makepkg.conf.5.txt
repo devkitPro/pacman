@@ -70,7 +70,7 @@ Options
 	This is often used to set the number of jobs used, for example, `-j2`.
 	Other flags that make accepts can also be passed.
 
-**BUILDENV=(**fakeroot !distcc color !ccache**)**::
+**BUILDENV=(**fakeroot !distcc color !ccache !sign**)**::
 	This array contains options that affect the build environment, the defaults
 	are shown here. All options should always be left in the array; to enable
 	or disable an option simply remove or place an ``!'' at the front of the
@@ -97,6 +97,13 @@ Options
 		Run the check() function if present in the PKGBUILD. This can be
 		enabled or disabled for individual packages through the use of
 		makepkg's `--check` and `--nocheck` options respectively.
+
+	*sign*;;
+		Generate a PGP signature file using GnuPG. This will execute `gpg
+		--detach-sign --use-agent` on the built package to generate a detached
+		signature file, using the GPG agent if it is available. The signature
+		file will be the entire filename of the package with a ``.sig''
+		extension.
 
 **DISTCC_HOSTS=**"host1 ..."::
 	If using DistCC, this is used to specify a space-delimited list of hosts

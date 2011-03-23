@@ -43,6 +43,13 @@ Options
 	Force this program to keep quiet and run silent except for warning and
 	error messages.
 
+*-s, \--sign*::
+	Generate a PGP signature file using GnuPG. This will execute `gpg
+	--detach-sign --use-agent` on the generated database to generate a detached
+	signature file, using the GPG agent if it is available. The signature file
+	will be the entire filename of the database with a ``.sig'' extension.
+
+
 See Also
 --------
 linkman:makepkg[8], linkman:pacman[8]
