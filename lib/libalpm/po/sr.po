@@ -1,0 +1,552 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2011-03-20 23:42-0500\n"
+"PO-Revision-Date: 2011-03-22 15:34+0000\n"
+"Last-Translator: Xabre <githzerai06@gmail.com>\n"
+"Language-Team: Serbian <None>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#, c-format
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s је већ ажуран — прескачем\n"
+
+#, c-format
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s је већ ажуран — инсталирам поново\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "разграђујем пакет %s (%s -> %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "дато је упозорење при распакивању %s (%s)\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "не могу да распакујем %s (%s)\n"
+
+#, c-format
+msgid ""
+"directory permissions differ on %s\n"
+"filesystem: %o  package: %o\n"
+msgstr ""
+"дозволе фасцикле се разликују за %s\n"
+"систем фајлова: %o пакет: %o\n"
+
+#, c-format
+msgid "extract: not overwriting dir with file %s\n"
+msgstr "распакивање: не преписујем фасциклу фајлом %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "распакивање: симболичка веза %s не упућује на фасциклу\n"
+
+#, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "не могу да преименујем %s у %s (%s)\n"
+
+#, c-format
+msgid "%s saved as %s\n"
+msgstr "сачувах %s као %s\n"
+
+#, c-format
+msgid "could not install %s as %s (%s)\n"
+msgstr "не могу да инсталирам %s као %s (%s)\n"
+
+#, c-format
+msgid "%s installed as %s\n"
+msgstr "инсталирах %s као %s\n"
+
+#, c-format
+msgid "extracting %s as %s.pacnew\n"
+msgstr "распакујем %s као %s.pacnew\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr "не могу да одредим радну фасциклу\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "не могу да променим фасциклу у %s (%s)\n"
+
+#, c-format
+msgid "problem occurred while upgrading %s\n"
+msgstr "дошло је до грешке при надоградњи %s\n"
+
+#, c-format
+msgid "problem occurred while installing %s\n"
+msgstr "дошло је до грешке при инсталирању %s\n"
+
+#, c-format
+msgid "could not update database entry %s-%s\n"
+msgstr "не могу да ажурирам унос у бази %s - %s\n"
+
+#, c-format
+msgid "could not add entry '%s' in cache\n"
+msgstr "не могу да додам унос „%s“ у кеш\n"
+
+#, c-format
+msgid "removing invalid database: %s\n"
+msgstr "уклањам неисправну базу: %s\n"
+
+#, c-format
+msgid "invalid name for database entry '%s'\n"
+msgstr "неисправно име уноса базе „%s“\n"
+
+#, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "дупликат уноса базе „%s“\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "оштећен унос базе „%s“\n"
+
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "не могу да отворим фајл %s: %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "недоследност базе „%s“: разлика у имену пакета %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "недоследност базе „%s“: разлика у верзији пакета %s\n"
+
+#, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "не могу да направим фасциклу %s: %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "не могу да обрадим фајл описа пакета у %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "недостаје име пакета у %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "недостаје верзија пакета у %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "грешка при читању пакета %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "недостају метаподаци пакета %s\n"
+
+#, c-format
+msgid "removing invalid file: %s\n"
+msgstr "уклањам неисправан фајл: %s\n"
+
+#, c-format
+msgid "database path is undefined\n"
+msgstr "путања базе није одређена\n"
+
+#, c-format
+msgid "dependency cycle detected:\n"
+msgstr "откривена петља зависности:\n"
+
+#, c-format
+msgid "%s will be removed after its %s dependency\n"
+msgstr "%s ће бити укоњен након своје зависности %s\n"
+
+#, c-format
+msgid "%s will be installed before its %s dependency\n"
+msgstr "%s ће бити инсталиран пре своје зависности %s\n"
+
+#, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "игноришем пакет %s - %s\n"
+
+#, c-format
+msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
+msgstr "не могу да разрешим „%s“, зависност за „%s“\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "не могу да добавим податке о систему фајлова\n"
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "не могу да добавим податке о систему фајлова за %s: %s\n"
+
+#, c-format
+msgid "could not determine mount point for file %s\n"
+msgstr "не могу да одредим тачку монтирања за фајл %s\n"
+
+#, c-format
+msgid "could not determine filesystem mount points\n"
+msgstr "не могу да утврдим тачке монтирања система фајлова\n"
+
+#, c-format
+msgid "could not determine root mount point %s\n"
+msgstr "не могу да утврдим корену тачку монтирања %s\n"
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "Партиција %s је монтирана само за читање\n"
+
+#, c-format
+msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgstr ""
+"Партиција %s је препуна: потребно је %ld блокова, али је %ld слободно\n"
+
+#, c-format
+msgid "disk"
+msgstr "диск"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "„%s“ је нисправан урл\n"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "неуспешно преузимање фајла „%s“ са „%s“: %s\n"
+
+#, c-format
+msgid "resuming download of %s not possible; starting over\n"
+msgstr "настављање преузимања %s није могуће: започињем изнова\n"
+
+#, c-format
+msgid "error writing to file '%s': %s\n"
+msgstr "грешка при упису у фајл „%s“: %s\n"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s\n"
+msgstr "неуспешно преузимање фајла „%s“ са %s\n"
+
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr "изгледа да је %s окрњен: %jd/%jd бајтова\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "неуспешно преузимање %s\n"
+
+#, c-format
+msgid "out of memory!"
+msgstr "недостатак меморије!"
+
+#, c-format
+msgid "unexpected system error"
+msgstr "неочекивана системска грешка"
+
+#, c-format
+msgid "insufficient privileges"
+msgstr "неодговарајуће дозволе"
+
+#, c-format
+msgid "could not find or read file"
+msgstr "не могу да нађем или прочитам фајл"
+
+#, c-format
+msgid "could not find or read directory"
+msgstr "не могу да нађем или прочитам фасциклу"
+
+#, c-format
+msgid "wrong or NULL argument passed"
+msgstr "прослеђен је погрешан или празан аргумент"
+
+#, c-format
+msgid "not enough free disk space"
+msgstr "нема довољно слободног простора на диску"
+
+#, c-format
+msgid "library not initialized"
+msgstr "библиотека није учитана"
+
+#, c-format
+msgid "library already initialized"
+msgstr "библиотека је већ учитана"
+
+#, c-format
+msgid "unable to lock database"
+msgstr "не могу да закључам базу"
+
+#, c-format
+msgid "could not open database"
+msgstr "не могу да отворим базу"
+
+#, c-format
+msgid "could not create database"
+msgstr "не могу да направим базу"
+
+#, c-format
+msgid "database not initialized"
+msgstr "база није учитана"
+
+#, c-format
+msgid "database already registered"
+msgstr "база је већ регистрована"
+
+#, c-format
+msgid "could not find database"
+msgstr "не могу да нађем базу"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr "погрешна верзија базе"
+
+#, c-format
+msgid "could not update database"
+msgstr "не могу да ажурирам базу"
+
+#, c-format
+msgid "could not remove database entry"
+msgstr "не могу да уклоним унос базе"
+
+#, c-format
+msgid "invalid url for server"
+msgstr "неисправан урл сервера"
+
+#, c-format
+msgid "no servers configured for repository"
+msgstr "нису подешени севери ризнице"
+
+#, c-format
+msgid "transaction already initialized"
+msgstr "пренос је већ покренут"
+
+#, c-format
+msgid "transaction not initialized"
+msgstr "пренос није покренут"
+
+#, c-format
+msgid "duplicate target"
+msgstr "дуплиран циљ"
+
+#, c-format
+msgid "transaction not prepared"
+msgstr "пренос није припремљен"
+
+#, c-format
+msgid "transaction aborted"
+msgstr "пренос је отказан"
+
+#, c-format
+msgid "operation not compatible with the transaction type"
+msgstr "радња није сагласна са врстом преноса"
+
+#, c-format
+msgid "transaction commit attempt when database is not locked"
+msgstr "покушај преноса док база није закључана"
+
+#, c-format
+msgid "could not find or read package"
+msgstr "не могу да нађем или прочитам пакет"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr "радња је отказана због игнорисаног пакета"
+
+#, c-format
+msgid "invalid or corrupted package"
+msgstr "неисправан или покварен пакет"
+
+#, c-format
+msgid "cannot open package file"
+msgstr "не могу да отворим фајл пакета"
+
+#, c-format
+msgid "cannot remove all files for package"
+msgstr "не могу да уклоним све фајлове пакета"
+
+#, c-format
+msgid "package filename is not valid"
+msgstr "неисправно име фајла пакета"
+
+#, c-format
+msgid "package architecture is not valid"
+msgstr "неисправна архитектура пакета"
+
+#, c-format
+msgid "could not find repository for target"
+msgstr "не могу да нађем ризницу циља"
+
+#, c-format
+msgid "invalid or corrupted delta"
+msgstr "неисправна или покварена делта"
+
+#, c-format
+msgid "delta patch failed"
+msgstr "неуспела закрпа делтом"
+
+#, c-format
+msgid "could not satisfy dependencies"
+msgstr "не могу да задовољим зависности"
+
+#, c-format
+msgid "conflicting dependencies"
+msgstr "сукоб зависности"
+
+#, c-format
+msgid "conflicting files"
+msgstr "сукоб фајлова"
+
+#, c-format
+msgid "failed to retrieve some files"
+msgstr "неуспешно преузимање неких фајлова"
+
+#, c-format
+msgid "failed to copy some file"
+msgstr "грешка при копирању фајла"
+
+#, c-format
+msgid "invalid regular expression"
+msgstr "неисправан регуларни израз"
+
+#, c-format
+msgid "libarchive error"
+msgstr "грешка либархајва"
+
+#, c-format
+msgid "download library error"
+msgstr "грешка у библиотеци преузимања"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "грешка при покретању спољног програма за преузимање"
+
+#, c-format
+msgid "unexpected error"
+msgstr "неочекивана грешка"
+
+#, c-format
+msgid "database larger than maximum size\n"
+msgstr "база је већа од максималне величине\n"
+
+#, c-format
+msgid "could not find %s in database -- skipping\n"
+msgstr "не могу да нађем %s у бази — прескачем\n"
+
+#, c-format
+msgid "removing %s from target list\n"
+msgstr "уклањам %s са списка циљева\n"
+
+#, c-format
+msgid "cannot remove file '%s': %s\n"
+msgstr "не могу да уклоним фајл „%s“: %s\n"
+
+#, c-format
+msgid "could not remove database entry %s-%s\n"
+msgstr "не могу да уклоним унос базе %s — %s\n"
+
+#, c-format
+msgid "could not remove entry '%s' from cache\n"
+msgstr "не могу да уклоним унос „%s“ из кеша\n"
+
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: игноришем надоградњу пакета (%s -> %s)\n"
+
+#, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: игноришем разградњу пакета (%s -> %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr "%s: разграђујем са верзије %s на верзију %s\n"
+
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s: локални (%s) је новији од %s (%s)\n"
+
+#, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
+msgstr "игноришем замену пакета (%s-%s -> %s-%s)\n"
+
+#, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "не могу да заменим %s са %s\n"
+
+#, c-format
+msgid "unresolvable package conflicts detected\n"
+msgstr "откривени су неразрешиви сукоби пакета\n"
+
+#, c-format
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "уклањам „%s“ са списка циљева због сукоба са „%s“\n"
+
+#, c-format
+msgid "failed to retrieve some files from %s\n"
+msgstr "неуспешно преузимање неких фајлова са %s\n"
+
+#, c-format
+msgid "could not commit removal transaction\n"
+msgstr "не могу да обавим уклањање\n"
+
+#, c-format
+msgid "could not commit transaction\n"
+msgstr "не могу да обавим пренос\n"
+
+#, c-format
+msgid "%s database version is too old\n"
+msgstr "верзија базе %s је застарела\n"
+
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "не могу да уклоним фајл браве %s\n"
+
+#, c-format
+msgid "could not create temp directory\n"
+msgstr "не могу да направим привремену фасциклу\n"
+
+#, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "не могу да копирам привремени фајл у %s (%s)\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "не могу да уклоним привремену фасциклу %s\n"
+
+#, c-format
+msgid "could not create pipe (%s)\n"
+msgstr "не могу да направим цев (%s)\n"
+
+#, c-format
+msgid "could not fork a new process (%s)\n"
+msgstr "не могу да рачвам нови процес (%s)\n"
+
+#, c-format
+msgid "could not change the root directory (%s)\n"
+msgstr "ме могу да променим корену фасциклу (%s)\n"
+
+#, c-format
+msgid "call to execv failed (%s)\n"
+msgstr "неуспео позив извршног аргумента (%s)\n"
+
+#, c-format
+msgid "call to waitpid failed (%s)\n"
+msgstr "неуспешо позивање процеса чекања (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr "не могу да отворим цев (%s)\n"
+
+#, c-format
+msgid "command failed to execute correctly\n"
+msgstr "неуспешно правилно извршавање наредбе\n"
+
+#, c-format
+msgid "no %s cache exists, creating...\n"
+msgstr "не постоји кеш за %s; правим....\n"
+
+#, c-format
+msgid "couldn't create package cache, using /tmp instead\n"
+msgstr "не могу да направим кеш пакета; користим /tmp као замену\n"
