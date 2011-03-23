@@ -55,7 +55,7 @@ Operations
 	removed, in which case every package in that group will be removed.
 	Files belonging to the specified package will be deleted, and the
 	database will be updated. Most configuration files will be saved
-	with a `.pacsave` extension unless the '\--nosave' option is used.
+	with a '.pacsave' extension unless the '\--nosave' option is used.
 	See <<RO,Remove Options>> below.
 
 *-S, \--sync*::
@@ -115,16 +115,16 @@ greater than `1:3.6-1`.
 
 Options
 -------
-*-b, \--dbpath* <'path'>::
+*-b, \--dbpath* <path>::
 	Specify an alternative database location (a typical default is
-	``{localstatedir}/lib/pacman'').  This should not be used unless you know what you are
+	`{localstatedir}/lib/pacman`). This should not be used unless you know what you are
 	doing. *NOTE*: if specified, this is an absolute path and the root path is
 	not automatically prepended.
 
-*-r, \--root* <'path'>::
-	Specify an alternative installation root (default is ``/''). This should
-	not be used as a way to install software into ``/usr/local'' instead of
-	``/usr''. This option is used if you want to install a package on a
+*-r, \--root* <path>::
+	Specify an alternative installation root (default is `/`). This should
+	not be used as a way to install software into `/usr/local` instead of
+	`/usr`. This option is used if you want to install a package on a
 	temporary mounted partition which is "owned" by another system.
 	*NOTE*: if database path or logfile are not specified on either the
 	command line or in linkman:pacman.conf[5], their default location will
@@ -133,23 +133,23 @@ Options
 *-v, \--verbose*::
 	Output paths such as as the Root, Conf File, DB Path, Cache Dirs, etc.
 
-*\--arch* <'arch'>::
+*\--arch* <arch>::
 	Specify an alternate architecture.
 
-*\--cachedir* <'dir'>::
+*\--cachedir* <dir>::
 	Specify an alternative package cache location (a typical default is
-	``{localstatedir}/cache/pacman/pkg''). Multiple cache directories can be specified,
+	`{localstatedir}/cache/pacman/pkg`). Multiple cache directories can be specified,
 	and they are tried in the order they are passed to pacman. *NOTE*: this
 	is an absolute path, the root path is not automatically prepended.
 
-*\--config* <'file'>::
+*\--config* <file>::
 	Specify an alternate configuration file.
 
 *\--debug*::
 	Display debug messages. When reporting bugs, this option is recommended
 	to be used.
 
-*\--logfile* <'file'>::
+*\--logfile* <file>::
 	Specify an alternate log file. This is an absolute path, regardless of
 	the installation root setting.
 
@@ -182,7 +182,7 @@ Transaction Options (apply to '-S', '-R' and '-U')
 	displayed. The default format string is "%l", which displays URLs with
 	'-S', filenames with '-U' and pkgname-pkgver with '-R'.
 
-*\--print-format* <'format'>::
+*\--print-format* <format>::
 	Specify a printf-like format to control the output of the '\--print'
 	operation. The possible attributes are: %n for pkgname, %v for pkgver,
 	%l for location, %r for repo and %s for size.
@@ -207,12 +207,12 @@ Upgrade Options (apply to '-S' and '-U')[[UO]]
 	as explicitly installed so it will not be removed by the '\--recursive'
 	remove operation.
 
-*\--ignore* <'package'>::
+*\--ignore* <package>::
 	Directs pacman to ignore upgrades of package even if there is one
 	available. Multiple packages can be specified by separating them
 	with a comma.
 
-*\--ignoregroup* <'group'>::
+*\--ignoregroup* <group>::
 	Directs pacman to ignore upgrades of all packages in 'group' even if
 	there is one available. Multiple groups can be specified by
 	separating them with a comma.
@@ -257,7 +257,7 @@ Query Options[[QO]]
 	database(s).  Typically these are packages that were downloaded manually
 	and installed with '\--upgrade'.
 
-*-o, \--owns* <'file'>::
+*-o, \--owns* <file>::
 	Search for packages that own the specified file(s). The path can be
 	relative or absolute and one or more files can be specified.
 
@@ -276,7 +276,7 @@ Query Options[[QO]]
 	and missing files; a bare query will only show package names
 	rather than names and versions.
 
-*-s, \--search* <'regexp'>::
+*-s, \--search* <regexp>::
 	Search each locally-installed package for names or descriptions that
 	match `regexp`. When including multiple search terms, only packages
 	with descriptions matching ALL of those terms are returned.
@@ -302,7 +302,7 @@ Remove Options[[RO]]
 *-n, \--nosave*::
 	Instructs pacman to ignore file backup designations. Normally, when a
 	file is removed from the system the database is checked to see if the
-	file should be renamed with a ``.pacsave'' extension.
+	file should be renamed with a '.pacsave' extension.
 
 *-s, \--recursive*::
 	Remove each target specified including all of their dependencies, provided
@@ -354,7 +354,7 @@ linkman:pacman.conf[5].
 	will only show package names and omit databases and versions; group will
 	only show package names and omit group names.
 
-*-s, \--search* <'regexp'>::
+*-s, \--search* <regexp>::
 	This will search each package in the sync databases for names or
 	descriptions that match `regexp`. When you include multiple search
 	terms, only packages with descriptions matching ALL of those terms will
