@@ -263,9 +263,6 @@ db_write_entry()
 
 	IFS=$OLDIFS
 
-	# get md5sum and compressed size of package
-	md5sum="$(openssl dgst -md5 "$pkgfile")"
-	md5sum="${md5sum##* }"
 	csize=$(@SIZECMD@ "$pkgfile")
 
 	# ensure $pkgname and $pkgver variables were found
@@ -286,6 +283,13 @@ db_write_entry()
 			fi
 		fi
 	fi
+
+	# compute checksums
+	msg2 "$(gettext "Computing checksums...")"
+	md5sum="$(openssl dgst -md5 "$pkgfile")"
+	md5sum="${md5sum##* }"
+	sha256sum="$(openssl dgst -sha256 "$pkgfile")"
+	sha256sum="${sha256sum##* }"
 
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
@@ -308,9 +312,9 @@ db_write_entry()
 	[[ -n $csize ]] && echo -e "%CSIZE%\n$csize\n" >>desc
 	[[ -n $size ]] && echo -e "%ISIZE%\n$size\n" >>desc
 
-	# compute checksums
-	msg2 "$(gettext "Computing md5 checksums...")"
+	# add checksums
 	echo -e "%MD5SUM%\n$md5sum\n" >>desc
+	echo -e "%SHA256SUM%\n$sha256sum\n" >>desc
 
 	# add base64'd PGP signature
 	if [[ -f $startdir/$pkgfile.sig ]]; then
