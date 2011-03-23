@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-14 13:57-0500\n"
-"PO-Revision-Date: 2011-03-05 17:02+0000\n"
-"Last-Translator: partizan <serg.partizan@gmail.com>\n"
+"POT-Creation-Date: 2011-03-23 02:03-0500\n"
+"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Russian <None>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #, c-format
@@ -107,8 +107,6 @@ msgstr[1] ""
 ":: Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
 msgstr[2] ""
 ":: Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
-msgstr[3] ""
-":: Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -116,7 +114,6 @@ msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Вы уверены что хотите пропустить этот пакет при обновлении?"
 msgstr[1] "Вы уверены что хотите пропустить эти пакеты при обновлении?"
 msgstr[2] "Вы уверены что хотите пропустить эти пакеты при обновлении?"
-msgstr[3] "Вы уверены что хотите пропустить эти пакеты при обновлении?"
 
 #, c-format
 msgid ":: There are %d providers available for %s:\n"
@@ -640,10 +637,6 @@ msgid "only one operation may be used at a time\n"
 msgstr "одновременно может выполняться только одна операция\n"
 
 #, c-format
-msgid "no operation specified (use -h for help)\n"
-msgstr "не задана операция (для справки используйте -h)\n"
-
-#, c-format
 msgid "invalid option\n"
 msgstr "несуществующий параметр\n"
 
@@ -668,12 +661,9 @@ msgid "could not change directory to %s (%s)\n"
 msgstr "не удалось изменить рабочий каталог на %s (%s)\n"
 
 #, c-format
-msgid "directive '%s' without value not recognized\n"
-msgstr "директива '%s' без значения не распознана\n"
-
-#, c-format
-msgid "directive '%s' with a value not recognized\n"
-msgstr "директива '%s' со значением не распознана\n"
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -710,20 +700,8 @@ msgstr ""
 "секциях.\n"
 
 #, c-format
-msgid "config file %s, line %d: directive %s needs a value\n"
-msgstr "конфигурационный файл %s, строка %d: директива '%s' требует значения\n"
-
-#, c-format
-msgid "config file %s, line %d: problem in options section\n"
-msgstr "конфигурационный файл %s, строка %d: проблема в секции options\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in repository section '%s' not "
-"recognized.\n"
+msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
-"конфигурационный файл %s, строка %d: директива '%s' в секции репозитория "
-"'%s' не распознана.\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -741,6 +719,10 @@ msgstr "не удалось открыть заново stdin для чтени�
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr ""
 "Вы не можете выполнить эту операцию, не являясь суперпользователем (root).\n"
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
+msgstr "не задана операция (для справки используйте -h)\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -783,8 +765,7 @@ msgid "%s: %d total file, "
 msgid_plural "%s: %d total files, "
 msgstr[0] "%s: всего %d файл, "
 msgstr[1] "%s: всего %d файлов, "
-msgstr[2] "%s: всего %d файла, "
-msgstr[3] "%s: всего %d файлов, "
+msgstr[2] "%s: всего %d файлов, "
 
 #, c-format
 msgid "%d missing file\n"
@@ -792,7 +773,6 @@ msgid_plural "%d missing files\n"
 msgstr[0] "%d отсутствующий файл\n"
 msgstr[1] "%d отсутствующие файлы\n"
 msgstr[2] "%d отсутствующие файлы\n"
-msgstr[3] "%d отсутствующие файлы\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"

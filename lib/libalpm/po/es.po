@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-16 19:34-0500\n"
-"PO-Revision-Date: 2011-03-15 18:34+0000\n"
-"Last-Translator: Traumness <traumness@gmail.com>\n"
+"POT-Creation-Date: 2011-03-20 23:42-0500\n"
+"PO-Revision-Date: 2011-03-22 15:34+0000\n"
+"Last-Translator: angvp <angvp@archlinux.org>\n"
 "Language-Team: Spanish (Castilian) <>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s esta al día -- saltando\n"
+msgstr "%s-%s está actualizado -- omitiendo\n"
 
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s esta al día -- re-instalando\n"
+msgstr "%s-%s está actualizado -- re-instalando\n"
 
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "decrementando la versión del paquete %s (%s => %s)\n"
+msgstr "desactualizando la versión del paquete %s (%s => %s)\n"
 
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
@@ -43,15 +43,15 @@ msgid ""
 "filesystem: %o  package: %o\n"
 msgstr ""
 "los permisos de directorio difieren en %s\n"
-"sistema de archivos: %o paquete: %o\n"
+"sistema de archivos: %o  paquete: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "extract: no se puede sobreescribir el dir con el archivo %s\n"
+msgstr "extract: no se puede sobreescribir el directorio con el archivo %s\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
-msgstr "extract: el link simbólico %s no apunta al directorio\n"
+msgstr "extract: el enlace simbólico %s no apunta al directorio\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -71,7 +71,7 @@ msgstr "%s instalado como %s\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
-msgstr "descomprimiendo %s como %s.pacnew\n"
+msgstr "extrayendo %s como %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
@@ -99,19 +99,19 @@ msgstr "no se pudo agregar la entrada '%s' a la caché\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr "quitando la base de datos inválida: %s\n"
+msgstr "quitando la base de datos no válida: %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "nombre inválido para la entrada '%s' de la base de datos \n"
+msgstr "nombre no válido para la entrada '%s' de la base de datos\n"
 
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "entrada '%s' duplicada en la base de datos \n"
+msgstr "entrada '%s' duplicada en la base de datos\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "entrada corrupta en la base de datos '%s'\n"
+msgstr "entrada dañada en la base de datos '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -179,7 +179,7 @@ msgstr "ignorando el paquete %s-%s\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "no se pudo resolver \"%s\", una dependencia para \"%s\"\n"
+msgstr "no se pudo resolver \"%s\", una dependencia de \"%s\"\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
@@ -196,8 +196,12 @@ msgid "could not determine mount point for file %s\n"
 msgstr "no se pudo determinar el punto de montaje para el archivo %s\n"
 
 #, c-format
-msgid "could not determine filesystem mount points"
-msgstr "no se pudo determinar los puntos de montajes del sistema de archivos"
+msgid "could not determine filesystem mount points\n"
+msgstr "no se puede determinar el punto de montaje del sistema de archivos\n"
+
+#, c-format
+msgid "could not determine root mount point %s\n"
+msgstr "no se pudo determinar el punto de montaje de la raiz %s\n"
 
 #, c-format
 msgid "Partition %s is mounted read only\n"
@@ -215,7 +219,7 @@ msgstr "disco"
 
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "la url %s no es válida\n"
+msgstr "la dirección %s no es válida\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -231,7 +235,7 @@ msgstr "no se pudo escribir al archivo '%s': %s\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s\n"
-msgstr "falló al obtener archivo '%s' desde %s\n"
+msgstr "error al obtener el archivo '%s' desde %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -263,7 +267,7 @@ msgstr "no se pudo encontrar o leer el directorio"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "se pasó un argumento erróneo o NULO"
+msgstr "se pasó un argumento erróneo o nulo"
 
 #, c-format
 msgid "not enough free disk space"
@@ -303,7 +307,7 @@ msgstr "no se pudo encontrar la base de datos"
 
 #, c-format
 msgid "database is incorrect version"
-msgstr "la base de datos es una versión incorrecta"
+msgstr "la base de datos es de una versión incorrecta"
 
 #, c-format
 msgid "could not update database"
@@ -327,7 +331,7 @@ msgstr "la operación ya se inicializó"
 
 #, c-format
 msgid "transaction not initialized"
-msgstr "operación no inicializada"
+msgstr "la operación no está inicializada"
 
 #, c-format
 msgid "duplicate target"
@@ -335,7 +339,7 @@ msgstr "objetivo duplicado"
 
 #, c-format
 msgid "transaction not prepared"
-msgstr "operación no lista"
+msgstr "la operación no está lista"
 
 #, c-format
 msgid "transaction aborted"
@@ -360,7 +364,7 @@ msgstr "operación cancelada debido a ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "paquete invalido o corrupto"
+msgstr "paquete inválido o corrupto"
 
 #, c-format
 msgid "cannot open package file"
@@ -384,11 +388,11 @@ msgstr "no pudo encontrarse un repositorio para el objetivo"
 
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "invalido o diferencial corrupto"
+msgstr "no válido o diferencial dañado"
 
 #, c-format
 msgid "delta patch failed"
-msgstr "parche diferencial fallado"
+msgstr "parche diferencial falló"
 
 #, c-format
 msgid "could not satisfy dependencies"
@@ -404,15 +408,15 @@ msgstr "archivos en conflicto"
 
 #, c-format
 msgid "failed to retrieve some files"
-msgstr "falló al descargar algunos archivos"
+msgstr "error al descargar algunos archivos"
 
 #, c-format
 msgid "failed to copy some file"
-msgstr "falló al copiar algún archivo"
+msgstr "error al copiar algún archivo"
 
 #, c-format
 msgid "invalid regular expression"
-msgstr "expresión regular inválida"
+msgstr "expresión regular no válida"
 
 #, c-format
 msgid "libarchive error"
@@ -432,7 +436,7 @@ msgstr "error inesperado"
 
 #, c-format
 msgid "database larger than maximum size\n"
-msgstr "la base de datos es más grande del tamaño máximo\n"
+msgstr "la base de datos supera el tamaño máximo\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -448,11 +452,11 @@ msgstr "no se pudo quitar el archivo '%s': %s\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "no se pudo quitar de la base de datos %s-%s\n"
+msgstr "no se pudo quitar la entrada %s-%s de la base de datos\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "no se pudo quitar la entrada '%s' de la cache\n"
+msgstr "no se pudo quitar la entrada '%s' de la caché\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
@@ -460,11 +464,11 @@ msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
 
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ignorando la degradación del paquete (%s => %s)\n"
+msgstr "%s: ignorando la desactualización del paquete (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr "%s: degradando desde la versión %s a la versión %s\n"
+msgstr "%s: desactualizando de la versión %s a la versión %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
@@ -480,17 +484,17 @@ msgstr "no se pudo reemplazar el archivo %s por %s\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr "se han detectado paquetes con conflictos no resueltos\n"
+msgstr "se han detectado paquetes con conflictos no resolvibles\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
-"quitando '%s' de la lista de objetivos debido a que posee conflictos con "
+"quitando '%s' de la lista de objetivos debido a que tiene conflictos con "
 "'%s'\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
-msgstr "falló al descargar algunos archivos desde %s\n"
+msgstr "error al descargar algunos archivos desde %s\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -502,7 +506,7 @@ msgstr "no se pudo asignar la transacción\n"
 
 #, c-format
 msgid "%s database version is too old\n"
-msgstr "%s versión de la base de datos es muy vieja\n"
+msgstr "la versión de la base de datos %s es muy antigua\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
@@ -550,7 +554,7 @@ msgstr "el comando falló al ejecutarse\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "no existe la cache %s, creando...\n"
+msgstr "no existe la caché %s, creando...\n"
 
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"

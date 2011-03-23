@@ -166,7 +166,8 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 							continue;
 						}
 
-						/* If spkg is already in the target list, we append lpkg to spkg's removes list */
+						/* If spkg is already in the target list, we append lpkg to spkg's
+						 * removes list */
 						pmpkg_t *tpkg = _alpm_pkg_find(trans->add, spkg->name);
 						if(tpkg) {
 							/* sanity check, multiple repos can contain spkg->name */
@@ -330,8 +331,10 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			}
 		}
 
-		/* Compute the fake local database for resolvedeps (partial fix for the phonon/qt issue) */
-		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(db_local), trans->add, _alpm_pkg_cmp);
+		/* Compute the fake local database for resolvedeps (partial fix for the
+		 * phonon/qt issue) */
+		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(db_local),
+				trans->add, _alpm_pkg_cmp);
 
 		/* Resolve packages in the transaction one at a time, in addition
 		   building up a list of packages which could not be resolved. */
@@ -512,7 +515,11 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	for(i = trans->add; i; i = i->next) {
 		pmpkg_t *spkg = i->data;
 		for(j = spkg->removes; j; j = j->next) {
-			trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(j->data));
+			pmpkg_t *rpkg = j->data;
+			if(!_alpm_pkg_find(trans->remove, rpkg->name)) {
+				_alpm_log(PM_LOG_DEBUG, "adding '%s' to remove list\n", rpkg->name);
+				trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(rpkg));
+			}
 		}
 	}
 

@@ -52,8 +52,9 @@ Options
 	Removes all cached source files from the directory specified in `SRCDEST`
 	in linkman:makepkg.conf[5].
 
-*--config* <`/path/to/config`>::
-	Use an alternate config file instead of the `{sysconfdir}/makepkg.conf` default;
+*\--config* <file>::
+	Use an alternate config file instead of the `{sysconfdir}/makepkg.conf`
+	default.
 
 *-d, \--nodeps*::
 	Do not perform any dependency checks. This will let you override and
@@ -117,7 +118,7 @@ Options
 	`\--noextract` option if you wish to tweak the files in src/ before
 	building.
 
-*-p* <`buildscript`>::
+*-p* <buildscript>::
 	Read the package script `buildscript` instead of the `PKGBUILD` default;
 	see linkman:PKGBUILD[5].
 
@@ -149,7 +150,7 @@ Options
 	remote builder, or a tarball upload. Because integrity checks are verified,
 	all source files of the package need to be present or downloadable.
 
-*\--pkg <`list`>*::
+*\--pkg <list>*::
 	Only build listed packages from a split package. The use of quotes is
 	necessary when specifying multiple packages. e.g. `--pkg "pkg1 pkg3"`
 

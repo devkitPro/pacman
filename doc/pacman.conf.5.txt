@@ -57,13 +57,13 @@ Options
 
 *DBPath =* path/to/db/dir::
 	Overrides the default location of the toplevel database directory.  A
-	typical default is ``{localstatedir}/lib/pacman/''. Most users will not need to set
+	typical default is `{localstatedir}/lib/pacman/`. Most users will not need to set
 	this option. *NOTE*: if specified, this is an absolute path and the root
 	path is not automatically prepended.
 
 *CacheDir =* path/to/cache/dir::
 	Overrides the default location of the package cache directory. A typical
-	default is ``{localstatedir}/cache/pacman/pkg/''. Multiple cache directories can be
+	default is `{localstatedir}/cache/pacman/pkg/`. Multiple cache directories can be
 	specified, and they are tried in the order they are listed in the config
 	file. If a file is not found in any cache directory, it will be downloaded
 	to the first cache directory with write access. *NOTE*: this is an absolute
@@ -72,7 +72,7 @@ Options
 
 *LogFile =* '/path/to/file'::
 	Overrides the default location of the pacman log file. A typical default
-	is ``{localstatedir}/log/pacman.log''. This is an absolute path and the root directory
+	is `{localstatedir}/log/pacman.log`. This is an absolute path and the root directory
 	is not prepended.
 
 *HoldPkg =* package ...::
@@ -149,7 +149,7 @@ Options
 
 *UseSyslog*::
 	Log action messages through syslog(). This will insert log entries into
-	``{localstatedir}/log/messages'' or equivalent.
+	`{localstatedir}/log/messages` or equivalent.
 
 *ShowSize*::
 	Display the size of individual packages for '\--sync' and '\--query' modes.
