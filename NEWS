@@ -1,5 +1,20 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.5.1         - don't error on unknown pacman.conf directives (FS#23055)
+              - only read arguments from stdin if '-' is provided as target
+              - fix case with ignore handling in argument list (FS#23342)
+              - don't show group selection prompt with -Sp (FS#23340)
+              - restore old --debug/--verbose behavior (FS#23370)
+              - ensure repo DBs are saved with sane umask (FS#23343)
+              - fix segfault when a repo includes deltas entries (FS#23314)
+              - fix potential data corruption issue on sync DB read
+              - get zsh completion in a working state (FS#23322)
+              - makepkg: improve optdepends extraction (FS#23307)
+              - translations:
+                - de: fix makepkg fatal error (FS#23315)
+                - sr, sr@latin: new Serbian translation
+                - various other translation updates
+              - build system: ensure libtool respects LDFLAGS (FS#23325)
 3.5.0         - sync DBs read directly from the database tarball
                 (FS#8586, FS#20233)
               - local DB "depends" file has been merged into the "desc" file
