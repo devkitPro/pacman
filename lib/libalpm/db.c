@@ -154,8 +154,6 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
  */
 int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 {
-	alpm_list_t *i;
-	int found = 0;
 	char *newurl;
 	size_t len = 0;
 
@@ -163,16 +161,6 @@ int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 
 	/* Sanity checks */
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-
-	for(i = handle->dbs_sync; i && !found; i = i->next) {
-		pmdb_t *sdb = i->data;
-		if(strcmp(db->treename, sdb->treename) == 0) {
-			found = 1;
-		}
-	}
-	if(!found) {
-		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
-	}
 
 	if(url) {
 		len = strlen(url);
