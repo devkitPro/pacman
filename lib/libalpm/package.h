@@ -87,6 +87,16 @@ struct pkg_operations {
  */
 extern struct pkg_operations default_pkg_ops;
 
+struct __pmpgpsig_t {
+	/* we will either store the encoded data or the raw data-
+	 * this way we can decode on an as-needed basis since most
+	 * operations won't require the overhead of base64 decodes
+	 * on all packages in a sync repository. */
+	char *encdata;
+	size_t rawlen;
+	unsigned char *rawdata;
+};
+
 struct __pmpkg_t {
 	unsigned long name_hash;
 	char *filename;
@@ -97,6 +107,8 @@ struct __pmpkg_t {
 	char *packager;
 	char *md5sum;
 	char *arch;
+
+	pmpgpsig_t pgpsig;
 
 	time_t builddate;
 	time_t installdate;

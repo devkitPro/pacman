@@ -45,6 +45,7 @@ extern "C" {
 
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
+typedef struct __pmpgpsig_t pmpgpsig_t;
 typedef struct __pmdelta_t pmdelta_t;
 typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
@@ -215,6 +216,7 @@ time_t alpm_pkg_get_builddate(pmpkg_t *pkg);
 time_t alpm_pkg_get_installdate(pmpkg_t *pkg);
 const char *alpm_pkg_get_packager(pmpkg_t *pkg);
 const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
+const pmpgpsig_t *alpm_pkg_get_pgpsig(pmpkg_t *pkg);
 const char *alpm_pkg_get_arch(pmpkg_t *pkg);
 off_t alpm_pkg_get_size(pmpkg_t *pkg);
 off_t alpm_pkg_get_isize(pmpkg_t *pkg);
