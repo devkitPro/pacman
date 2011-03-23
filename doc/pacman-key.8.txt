@@ -1,0 +1,85 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
+pacman-key(8)
+=============
+
+
+Name
+----
+pacman-key - manage pacman's list of trusted keys
+
+
+Synopsis
+--------
+'pacman-key' [options] <command> [arguments]
+
+
+Description
+-----------
+pacman-key is a script used to manage pacman's keyring, which is the collection
+of GnuPG keys used to check signed packages.  It provides the ability to import
+and export keys, fetch keys from keyservers and update the key trust database.
+
+
+Options
+-------
+*\--config* <file>::
+	Use an alternate config file instead of the `{sysconfdir}/pacman.conf`
+	default.
+
+*\--gpgdir* <dir>::
+	Set an alternate home directory for GnuPG. If unspecified, the value is
+	read from `{sysconfdir}/pacman.conf`.
+
+
+Commands
+-------
+*-a, \--add* file ...::
+	Add the key(s) contained in the specified file or files to pacman's
+	keyring. If a key already exists, update it.
+
+*\--adv* param ...::
+	Use this option to issue particular GnuPG actions to pacman's keyring. This
+	option should be used with care as it can modify pacman's trust in
+	packages' signatures.
+
+*-d, \--del* keyid ...::
+	Remove the key(s) identified by the specified keyid or keyids from pacman's
+	keyring.
+
+*-e, \--export* [keyid ...]::
+	Export key(s) identified by the specified keyid to 'stdout'. If no keyid is
+	specified, all keys will be exported.
+
+*-f, \--finger* [keyid ...]::
+	List a fingerprint for each specified keyid, or for all known keys if no
+	keyids are specified.
+
+*-h, \--help*::
+	Output syntax and command line options.
+
+*-l, \--list*::
+	Equivalent to --list-sigs from GnuPG.
+
+*-r, \--receive* keyserver keyid ...::
+	Fetch the specified keyids from the specified key server URL.
+
+*\--reload*::
+	Reloads the keys from the keyring package.
+
+*-t, \--trust* keyid::
+	Set the trust level of the given key.
+
+*-u, \--updatedb*::
+	Equivalent to \--check-trustdb in GnuPG.
+
+*-v, \--version*::
+	Displays the program version.
+
+
+See Also
+--------
+linkman:pacman[8], linkman:pacman.conf[5]
+
+include::footer.txt[]

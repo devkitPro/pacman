@@ -1,0 +1,320 @@
+#!@BASH_SHELL@ -e
+#
+#   pacman-key - manages pacman's keyring
+#                Based on apt-key, from Debian
+#   @configure_input@
+#
+#   Copyright (c) 2010 - Pacman Development Team <pacman-dev@archlinux.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# gettext initialization
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='@localedir@'
+
+myver="@PACKAGE_VERSION@"
+
+msg() {
+	local mesg=$1; shift
+	printf "==> ${mesg}\n" "$@" >&1
+}
+
+msg2() {
+	(( QUIET )) && return
+	local mesg=$1; shift
+	printf "  -> ${mesg}\n" "$@" >&1
+}
+
+warning() {
+	local mesg=$1; shift
+	printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
+}
+
+error() {
+	local mesg=$1; shift
+	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+}
+
+usage() {
+	printf "pacman-key (pacman) %s\n" ${myver}
+	echo
+	printf "$(gettext "Usage: %s [options] <command> [arguments]")\n" $(basename $0)
+	echo
+	echo "$(gettext "Manage pacman's list of trusted keys")"
+	echo
+	echo "$(gettext "Options must be placed before commands. The available options are:")"
+	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$CONFIG"
+	echo "$(gettext "  --gpgdir         Set an alternate directory for gnupg")"
+	echo
+	echo "$(gettext "The available commands are:")"
+	echo "$(gettext "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)")"
+	echo "$(gettext "  -d, --del <keyid(s)>      Remove the specified keyids")"
+	echo "$(gettext "  -e, --export <keyid(s)>   Export the specified keyids")"
+	echo "$(gettext "  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids")"
+	echo "$(gettext "  -h, --help                This help")"
+	echo "$(gettext "  -l, --list                List keys")"
+	echo "$(gettext "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids")"
+	echo "$(gettext "  -t, --trust <keyid(s)>    Set the trust level of the given keyids")"
+	echo "$(gettext "  -u, --updatedb            Update the trustdb of pacman")"
+	echo "$(gettext "  -V, --version             Show program version")"
+	echo "$(gettext "  --adv <params>            Use pacman's keyring with advanced gpg commands")"
+	printf "$(gettext "  --reload                  Reload the default keys")"
+	echo
+}
+
+version() {
+	printf "pacman-key (pacman) %s\n" "${myver}"
+	printf "$(gettext "\
+Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>.\n\
+This is free software; see the source for copying conditions.\n\
+There is NO WARRANTY, to the extent permitted by law.\n")"
+}
+
+find_config() {
+	# Prints on stdin the values of all the options from the configuration file that
+	# are associated with the first parameter of this function.
+	# The option names are stripped
+	grep -e "^[[:blank:]]*$1[[:blank:]]*=.*" "$CONFIG" | cut -d= -f 2-
+}
+
+reload_keyring() {
+	local PACMAN_SHARE_DIR='@prefix@/share/pacman'
+	local GPG_NOKEYRING="gpg --batch --quiet --ignore-time-conflict --no-options --no-default-keyring --homedir ${PACMAN_KEYRING_DIR}"
+
+	# Variable used for iterating on keyrings
+	local key
+	local key_id
+
+	# Keyring with keys to be added to the keyring
+	local ADDED_KEYS="${PACMAN_SHARE_DIR}/addedkeys.gpg"
+
+	# Keyring with keys that were deprecated and will eventually be deleted
+	local DEPRECATED_KEYS="${PACMAN_SHARE_DIR}/deprecatedkeys.gpg"
+
+	# List of keys removed from the keyring. This file is not a keyring, unlike the others.
+	# It is a textual list of values that gpg recogniezes as identifiers for keys.
+	local REMOVED_KEYS="${PACMAN_SHARE_DIR}/removedkeys"
+
+	# Verify signatures of related files, if they exist
+	if [[ -r "${ADDED_KEYS}" ]]; then
+		msg "$(gettext "Verifying official keys file signature...")"
+		if ! ${GPG_PACMAN} --quiet --batch --verify "${ADDED_KEYS}.sig" 1>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
+			exit 1
+		fi
+	fi
+
+	if [[ -r "${DEPRECATED_KEYS}" ]]; then
+		msg "$(gettext "Verifying deprecated keys file signature...")"
+		if ! ${GPG_PACMAN} --quiet --batch --verify "${DEPRECATED_KEYS}.sig" 1>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${DEPRECATED_KEYS}"
+			exit 1
+		fi
+	fi
+
+	if [[ -r "${REMOVED_KEYS}" ]]; then
+		msg "$(gettext "Verifying deleted keys file signature...")"
+		if ! ${GPG_PACMAN} --quiet --batch --verify "${REMOVED_KEYS}.sig"; then
+			error "$(gettext "The signature of file %s is not valid.")" "${REMOVED_KEYS}"
+			exit 1
+		fi
+	fi
+
+	# Read the key ids to an array. The conversion from whatever is inside the file
+	# to key ids is important, because key ids are the only guarantee of identification
+	# for the keys.
+	local -A removed_ids
+	if [[ -r "${REMOVED_KEYS}" ]]; then
+		while read key; do
+			local key_values name
+			key_values=$(${GPG_PACMAN} --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5,10 --output-delimiter=' ')
+			if [[ -n $key_values ]]; then
+				# The first word is the key_id
+				key_id=${key_values%% *}
+				# the rest if the name of the owner
+				name=${key_values#* }
+				if [[ -n ${key_id} ]]; then
+					# Mark this key to be deleted
+					removed_ids[$key_id]="$name"
+				fi
+			fi
+		done < "${REMOVED_KEYS}"
+	fi
+
+	# List of keys that must be kept installed, even if in the list of keys to be removed
+	local HOLD_KEYS=$(find_config "HoldKeys")
+
+	# Remove the keys that must be kept from the set of keys that should be removed
+	if [[ -n ${HOLD_KEYS} ]]; then
+		for key in ${HOLD_KEYS}; do
+			key_id=$(${GPG_PACMAN} --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5)
+			if [[ -n "${removed_ids[$key_id]}" ]]; then
+				unset removed_ids[$key_id]
+			fi
+		done
+	fi
+
+	# Add keys from the current set of keys from pacman-keyring package. The web of trust will
+	# be updated automatically.
+	if [[ -r "${ADDED_KEYS}" ]]; then
+		msg "$(gettext "Appending official keys...")"
+		local add_keys=$(${GPG_NOKEYRING} --keyring "${ADDED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)
+		for key_id in ${add_keys}; do
+			# There is no point in adding a key that will be deleted right after
+			if [[ -z "${removed_ids[$key_id]}" ]]; then
+				${GPG_NOKEYRING} --keyring "${ADDED_KEYS}" --export "${key_id}" | ${GPG_PACMAN} --import
+			fi
+		done
+	fi
+
+	if [[ -r "${DEPRECATED_KEYS}" ]]; then
+		msg "$(gettext "Appending deprecated keys...")"
+		local add_keys=$(${GPG_NOKEYRING} --keyring "${DEPRECATED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)
+		for key_id in ${add_keys}; do
+			# There is no point in adding a key that will be deleted right after
+			if [[ -z "${removed_ids[$key_id]}" ]]; then
+				${GPG_NOKEYRING} --keyring "${DEPRECATED_KEYS}" --export "${key_id}" | ${GPG_PACMAN} --import
+			fi
+		done
+	fi
+
+	# Remove the keys not marked to keep
+	if (( ${#removed_ids[@]} > 0 )); then
+		msg "$(gettext "Removing deleted keys from keyring...")"
+		for key_id in "${!removed_ids[@]}"; do
+			echo "  removing key $key_id - ${removed_ids[$key_id]}"
+			${GPG_PACMAN} --quiet --batch --yes --delete-key "${key_id}"
+		done
+	fi
+
+	# Update trustdb, just to be sure
+	msg "$(gettext "Updating trust database...")"
+	${GPG_PACMAN} --batch --check-trustdb
+}
+
+# PROGRAM START
+if ! type gettext &>/dev/null; then
+	gettext() {
+		echo "$@"
+	}
+fi
+
+if [[ $1 != "--version" && $1 != "-V" && $1 != "--help" && $1 != "-h" && $1 != "" ]]; then
+	if type -p gpg >/dev/null 2>&1 = 1; then
+		error "$(gettext "gnupg does not seem to be installed.")"
+		msg2 "$(gettext "pacman-key requires gnupg for most operations.")"
+		exit 1
+	elif (( EUID != 0 )); then
+		error "$(gettext "pacman-key needs to be run as root.")"
+		exit 1
+	fi
+fi
+
+# Parse global options
+CONFIG="@sysconfdir@/pacman.conf"
+PACMAN_KEYRING_DIR="@sysconfdir@/pacman.d/gnupg"
+while [[ $1 =~ ^--(config|gpgdir)$ ]]; do
+	case "$1" in
+		--config) shift; CONFIG="$1" ;;
+		--gpgdir) shift; PACMAN_KEYRING_DIR="$1" ;;
+	esac
+	shift
+done
+
+if [[ ! -r "${CONFIG}" ]]; then
+	error "$(gettext "%s not found.")" "$CONFIG"
+	exit 1
+fi
+
+# Read GPGDIR from $CONFIG.
+# The pattern is: any spaces or tabs, GPGDir, any spaces or tabs, equal sign
+# and the rest of the line. The string is splitted after the first occurrence of =
+if [[ GPGDIR=$(find_config "GPGDir") == 0 ]]; then
+	PACMAN_KEYRING_DIR="${GPGDIR}"
+fi
+GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR}"
+
+# Parse and execute command
+command="$1"
+if [[ -z "${command}" ]]; then
+	usage
+	exit 1
+fi
+shift
+
+case "${command}" in
+	-a|--add)
+		# If there is no extra parameter, gpg will read stdin
+		${GPG_PACMAN} --quiet --batch --import "$@"
+		;;
+	-d|--del)
+		if (( $# == 0 )); then
+			error "$(gettext "You need to specify at least one key identifier")"
+			exit 1
+		fi
+		${GPG_PACMAN} --quiet --batch --delete-key --yes "$@"
+		;;
+	-u|--updatedb)
+		${GPG_PACMAN} --batch --check-trustdb
+		;;
+	--reload)
+		reload_keyring
+		;;
+	-l|--list)
+		${GPG_PACMAN} --batch --list-sigs "$@"
+		;;
+	-f|--finger)
+		${GPG_PACMAN} --batch --fingerprint "$@"
+		;;
+	-e|--export)
+		${GPG_PACMAN} --armor --export "$@"
+		;;
+	-r|--receive)
+		if (( $# < 2 )); then
+			error "$(gettext "You need to specify the keyserver and at least one key identifier")"
+			exit 1
+		fi
+		keyserver="$1"
+		shift
+		${GPG_PACMAN} --keyserver "${keyserver}" --recv-keys "$@"
+		;;
+	-t|--trust)
+		if (( $# == 0 )); then
+			error "$(gettext "You need to specify at least one key identifier")"
+			exit 1
+		fi
+		while (( $# > 0 )); do
+			# Verify if the key exists in pacman's keyring
+			if ${GPG_PACMAN} --list-keys "$1" > /dev/null 2>&1; then
+				${GPG_PACMAN} --edit-key "$1"
+			else
+				error "$(gettext "The key identified by %s doesn't exist")" "$1"
+				exit 1
+			fi
+			shift
+		done
+		;;
+	--adv)
+		msg "$(gettext "Executing: %s ")$*" "${GPG_PACMAN}"
+		${GPG_PACMAN} "$@" || ret=$?
+		exit $ret
+		;;
+	-h|--help)
+		usage; exit 0 ;;
+	-V|--version)
+		version; exit 0 ;;
+	*)
+		usage; exit 1 ;;
+esac
