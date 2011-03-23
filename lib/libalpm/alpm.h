@@ -534,7 +534,6 @@ enum _pmerrno_t {
 	PM_ERR_INVALID_REGEX,
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,
-	PM_ERR_LIBFETCH,
 	PM_ERR_LIBCURL,
 	PM_ERR_EXTERNAL_DOWNLOAD
 };
