@@ -261,14 +261,6 @@ static int query_search(alpm_list_t *targets)
 			printf("%s", alpm_pkg_get_name(pkg));
 		}
 
-		/* print the package size with the output if ShowSize option set */
-		if(!config->quiet && config->showsize) {
-			/* Convert byte size to MB */
-			double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
-
-			printf(" [%.2f MB]", mbsize);
-		}
-
 
 		if (!config->quiet) {
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {

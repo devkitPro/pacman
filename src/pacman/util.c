@@ -540,16 +540,8 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		}
 		isize += alpm_pkg_get_isize(pkg);
 
-		/* print the package size with the output if ShowSize option set */
-		if(config->showsize) {
-			double mbsize = (double)alpm_pkg_get_size(pkg) / (1024.0 * 1024.0);
-
-			pm_asprintf(&str, "%s-%s [%.2f MB]", alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg), mbsize);
-		} else {
-			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg));
-		}
+		pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
+				alpm_pkg_get_version(pkg));
 		targets = alpm_list_add(targets, str);
 	}
 

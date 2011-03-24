@@ -70,7 +70,6 @@ typedef struct __config_t {
 
 	/* conf file options */
 	unsigned short chomp; /* I Love Candy! */
-	unsigned short showsize; /* show individual package sizes */
 	/* When downloading, display the amount downloaded, rate, ETA, and percent
 	 * downloaded of the total download list */
 	unsigned short totaldownload;
