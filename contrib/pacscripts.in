@@ -61,7 +61,7 @@ spacman() {
 	if [ $EUID -eq 0 ]; then
 		pacman "$@"
 	else
-		if [ ! "$(type -p sudo)" ]; then
+		if ! type -p sudo; then
 			error "Cannot find the sudo binary! Is sudo installed?"
 			error "Otherwise try to run the program as root"
 			exit 1

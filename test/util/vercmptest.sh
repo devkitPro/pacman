@@ -62,7 +62,7 @@ runtest() {
 # use first arg as our binary if specified
 [ -n "$1" ] && bin="$1"
 
-if [ ! $(type -p "$bin") ]; then
+if ! type -p "$bin"; then
 	echo "vercmp binary ($bin) could not be located"
 	exit 1
 fi

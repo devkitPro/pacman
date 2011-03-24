@@ -193,7 +193,7 @@ create_signature() {
 	local dbfile="$1"
 	local ret=0
 	msg "$(gettext "Signing database...")"
-	if [ ! $(type -p "gpg") ]; then
+	if ! type -p gpg; then
 		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
@@ -211,7 +211,7 @@ verify_signature() {
 	local dbfile="$1"
 	local ret=0
 	msg "$(gettext "Verifying database signature...")"
-	if [ ! $(type -p "gpg") ]; then
+	if ! type -p gpg; then
 		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi

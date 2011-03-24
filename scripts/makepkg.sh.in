@@ -392,7 +392,7 @@ run_pacman() {
 	local cmd
 	printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
 	if (( ! ASROOT )) && [[ ! $1 =~ ^-(T|Qq)$ ]]; then
-		if [ "$(type -p sudo)" ]; then
+		if type -p sudo >/dev/null; then
 			cmd="sudo $cmd"
 		else
 			cmd="su -c '$cmd'"
@@ -1112,7 +1112,7 @@ create_signature() {
 	local ret=0
 	local filename="$1"
 	msg "$(gettext "Signing package...")"
-	if [ ! $(type -p "gpg") ]; then
+	if ! type -p gpg >/dev/null; then
 		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
