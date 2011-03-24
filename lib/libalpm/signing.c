@@ -204,6 +204,51 @@ error:
 }
 
 /**
+ * Load the signature from the given path into the provided struct.
+ * @param sigfile the signature to attempt to load
+ * @param pgpsig the struct to place the data in
+ *
+ * @return 0 on success, 1 on file not found, -1 on error
+ */
+int _alpm_load_signature(const char *sigfile, pmpgpsig_t *pgpsig) {
+	struct stat st;
+
+	if(access(sigfile, R_OK) == 0 && stat(sigfile, &st) == 0) {
+		FILE *f;
+		size_t bytes_read;
+
+		if(st.st_size > 4096) {
+			return -1;
+		}
+
+		if((f = fopen(sigfile, "rb")) == NULL) {
+			return -1;
+		}
+		CALLOC(pgpsig->rawdata, st.st_size, sizeof(unsigned char),
+				RET_ERR(PM_ERR_MEMORY, -1));
+		bytes_read = fread(pgpsig->rawdata, sizeof(char), st.st_size, f);
+		if(bytes_read == (size_t)st.st_size) {
+			pgpsig->rawlen = bytes_read;
+			_alpm_log(PM_LOG_DEBUG, "loaded gpg signature file, location %s\n",
+					sigfile);
+		} else {
+			_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file %s"),
+					sigfile);
+			FREE(pgpsig->rawdata);
+			return -1;
+		}
+
+		fclose(f);
+	} else {
+		_alpm_log(PM_LOG_DEBUG, "signature file %s not found\n", sigfile);
+		/* not fatal...we return a different error code here */
+		return 1;
+	}
+
+	return 0;
+}
+
+/**
  * Check the PGP package signature for the given package file.
  * @param pkg the package to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
@@ -227,8 +272,8 @@ int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 	ALPM_LOG_FUNC;
 	ASSERT(db != NULL, return(0));
 
-	return(_alpm_gpgme_checksig(_alpm_db_path(db),
-			_alpm_db_pgpsig(db)));
+	return _alpm_gpgme_checksig(_alpm_db_path(db),
+			_alpm_db_pgpsig(db));
 }
 
 
