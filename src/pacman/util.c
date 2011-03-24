@@ -612,7 +612,7 @@ static char *pkg_get_location(pmpkg_t *pkg)
  * @param target_unit '\0' or a short label. If equal to one of the short unit
  * labels ('B', 'K', ...) bytes is converted to target_unit; if '\0', the first
  * unit which will bring the value to below a threshold of 2048 will be chosen.
- * @param long_labels whether to use short ("K") or long ("KB") unit labels
+ * @param long_labels whether to use short ("K") or long ("KiB") unit labels
  * @param label will be set to the appropriate unit label
  *
  * @return the size in the appropriate unit
@@ -621,7 +621,7 @@ double humanize_size(off_t bytes, const char target_unit, int long_labels,
 		const char **label)
 {
 	static const char *shortlabels[] = {"B", "K", "M", "G", "T", "P"};
-	static const char *longlabels[] = {"B", "KB", "MB", "GB", "TB", "PB"};
+	static const char *longlabels[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB"};
 	static const int unitcount = sizeof(shortlabels) / sizeof(shortlabels[0]);
 
 	const char **labels = long_labels ? longlabels : shortlabels;
