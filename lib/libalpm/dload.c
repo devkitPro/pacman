@@ -142,6 +142,18 @@ static int curl_gethost(const char *url, char *buffer)
 	return 0;
 }
 
+static int utimes_long(const char *path, long time)
+{
+	if(time != -1) {
+		struct timeval tv[2];
+		memset(&tv, 0, sizeof(tv));
+		tv[0].tv_sec = tv[1].tv_sec = time;
+		return utimes(path, tv);
+	}
+	return 0;
+}
+
+
 static int curl_download_internal(const char *url, const char *localpath,
 		int force)
 {
@@ -265,34 +277,22 @@ static int curl_download_internal(const char *url, const char *localpath,
 		goto cleanup;
 	}
 
-	fclose(localf);
-	localf = NULL;
-
-	/* set the times on the file to the same as that of the remote file */
-	if(remote_time != -1) {
-		struct timeval tv[2];
-		memset(&tv, 0, sizeof(tv));
-		tv[0].tv_sec = tv[1].tv_sec = remote_time;
-		utimes(tempfile, tv);
-	}
-	rename(tempfile, destfile);
 	ret = 0;
 
 cleanup:
+	if(localf != NULL) {
+		fclose(localf);
+		utimes_long(tempfile, remote_time);
+	}
+
+	/* TODO: A signature download will need to return success here as well before
+	 * we're willing to rotate the new file into place. */
+	if(ret == 0) {
+		rename(tempfile, destfile);
+	}
+
 	FREE(tempfile);
 	FREE(destfile);
-	if(localf != NULL) {
-		/* if we still had a local file open, we got interrupted. set the mtimes on
-		 * the file accordingly. */
-		fflush(localf);
-		if(remote_time != -1) {
-			struct timeval tv[2];
-			memset(&tv, 0, sizeof(tv));
-			tv[0].tv_sec = tv[1].tv_sec = remote_time;
-			futimes(fileno(localf), tv);
-		}
-		fclose(localf);
-	}
 
 	/* restore the old signal handlers */
 	sigaction(SIGINT, &sig_int[OLD], NULL);
