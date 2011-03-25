@@ -208,12 +208,6 @@ static int curl_download_internal(const char *url, const char *localpath,
 
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEDATA, localf);
 
-	/* print proxy info for debug purposes */
-	_alpm_log(PM_LOG_DEBUG, "HTTP_PROXY: %s\n", getenv("HTTP_PROXY"));
-	_alpm_log(PM_LOG_DEBUG, "http_proxy: %s\n", getenv("http_proxy"));
-	_alpm_log(PM_LOG_DEBUG, "FTP_PROXY:  %s\n", getenv("FTP_PROXY"));
-	_alpm_log(PM_LOG_DEBUG, "ftp_proxy:  %s\n", getenv("ftp_proxy"));
-
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */
 	sig_pipe[NEW].sa_handler = SIG_IGN;
