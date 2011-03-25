@@ -825,7 +825,8 @@ const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
  */
 char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 {
-	char *name, *opr, *ver, *str = NULL;
+	const char *name, *opr, *ver;
+	char *str;
 	size_t len;
 
 	ALPM_LOG_FUNC;
@@ -863,7 +864,7 @@ char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 			break;
 	}
 
-	if(dep->version) {
+	if(dep->mod != PM_DEP_MOD_ANY && dep->version) {
 		ver = dep->version;
 	} else {
 		ver = "";
