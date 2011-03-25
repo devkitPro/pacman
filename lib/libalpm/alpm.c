@@ -77,9 +77,18 @@ int SYMEXPORT alpm_initialize(void)
  */
 int SYMEXPORT alpm_release(void)
 {
+	pmdb_t *db;
+
 	ALPM_LOG_FUNC;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	/* close local database */
+	db = handle->db_local;
+	if(db) {
+		db->ops->unregister(db);
+		handle->db_local = NULL;
+	}
 
 	if(alpm_db_unregister_all() == -1) {
 		return -1;

@@ -794,15 +794,15 @@ run_function() {
 		# ensure overridden package variables survive tee with split packages
 		logpipe=$(mktemp -u "$startdir/logpipe.XXXXXXXX")
 		mkfifo "$logpipe"
-		exec 3>&1
 		tee "$BUILDLOG" < "$logpipe" &
-		exec 1>"$logpipe" 2>"$logpipe"
+		local teepid=$!
+
 		restoretrap=$(trap -p ERR)
 		trap 'error_function $pkgfunc' ERR
-		$pkgfunc 2>&1
+		$pkgfunc &>"$logpipe"
 		eval $restoretrap
-		sync
-		exec 1>&3 2>&3 3>&-
+
+		wait $teepid
 		rm "$logpipe"
 	else
 		restoretrap=$(trap -p ERR)
