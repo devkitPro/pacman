@@ -526,28 +526,6 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 	}
 }
 
-/** Find a package satisfying a specified dependency.
- * First look for a literal, going through each db one by one. Then look for
- * providers. The first satisfier found is returned.
- * The dependency can include versions with depmod operators.
- * @param dbs an alpm_list_t* of pmdb_t where the satisfier will be searched
- * @param depstring package or provision name, versioned or not
- * @return a pmpkg_t* satisfying depstring
- */
-pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstring)
-{
-	pmdepend_t *dep;
-	pmpkg_t *pkg;
-
-	ASSERT(dbs, return(NULL));
-
-	dep = _alpm_splitdep(depstring);
-	ASSERT(dep, return(NULL));
-	pkg = _alpm_resolvedep(dep, dbs, NULL, 1);
-	_alpm_dep_free(dep);
-	return(pkg);
-}
-
 /**
  * helper function for resolvedeps: search for dep satisfier in dbs
  *
@@ -650,7 +628,30 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	return(NULL);
 }
 
-/* Computes resolvable dependencies for a given package and adds that package
+/** Find a package satisfying a specified dependency.
+ * First look for a literal, going through each db one by one. Then look for
+ * providers. The first satisfier found is returned.
+ * The dependency can include versions with depmod operators.
+ * @param dbs an alpm_list_t* of pmdb_t where the satisfier will be searched
+ * @param depstring package or provision name, versioned or not
+ * @return a pmpkg_t* satisfying depstring
+ */
+pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstring)
+{
+	pmdepend_t *dep;
+	pmpkg_t *pkg;
+
+	ASSERT(dbs, return(NULL));
+
+	dep = _alpm_splitdep(depstring);
+	ASSERT(dep, return(NULL));
+	pkg = _alpm_resolvedep(dep, dbs, NULL, 1);
+	_alpm_dep_free(dep);
+	return(pkg);
+}
+
+/**
+ * Computes resolvable dependencies for a given package and adds that package
  * and those resolvable dependencies to a list.
  *
  * @param localpkgs is the list of local packages
