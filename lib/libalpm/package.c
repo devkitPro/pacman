@@ -339,14 +339,14 @@ static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
 {
 	const alpm_list_t *i;
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
-		if(!i->data) {
-			continue;
-		}
 		pmpkg_t *cachepkg = i->data;
-		if(_alpm_dep_edge(cachepkg, pkg)) {
-			const char *cachepkgname = cachepkg->name;
-			if(alpm_list_find_str(*reqs, cachepkgname) == NULL) {
-				*reqs = alpm_list_add(*reqs, strdup(cachepkgname));
+		alpm_list_t *i;
+		for(i = alpm_pkg_get_depends(cachepkg); i; i = i->next) {
+			if(_alpm_depcmp(pkg, i->data)) {
+				const char *cachepkgname = cachepkg->name;
+				if(alpm_list_find_str(*reqs, cachepkgname) == NULL) {
+					*reqs = alpm_list_add(*reqs, strdup(cachepkgname));
+				}
 			}
 		}
 	}
@@ -377,8 +377,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 			for(i = handle->dbs_sync; i; i = i->next) {
 				db = i->data;
 				find_requiredby(pkg, db, &reqs);
-				reqs = alpm_list_msort(reqs, alpm_list_count(reqs), _alpm_str_cmp);
 			}
+			reqs = alpm_list_msort(reqs, alpm_list_count(reqs), _alpm_str_cmp);
 		}
 	}
 	return(reqs);
