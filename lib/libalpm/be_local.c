@@ -256,13 +256,6 @@ static size_t _cache_changelog_read(void *ptr, size_t size,
 	return fread(ptr, 1, size, (FILE *)fp);
 }
 
-/*
-static int _cache_changelog_feof(const pmpkg_t *pkg, void *fp)
-{
-	return feof((FILE*)fp);
-}
-*/
-
 /**
  * Close a package changelog for reading. Similar to fclose in functionality,
  * except that the 'file stream' is from the database.

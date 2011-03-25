@@ -101,14 +101,6 @@ static size_t _package_changelog_read(void *ptr, size_t size,
 	}
 }
 
-/*
-static int _package_changelog_feof(const pmpkg_t *pkg, void *fp)
-{
-	// note: this doesn't quite work, no feof in libarchive
-	return archive_read_data((struct archive*)fp, NULL, 0);
-}
-*/
-
 /**
  * Close a package changelog for reading. Similar to fclose in functionality,
  * except that the 'file stream' is from an archive.
