@@ -123,6 +123,7 @@ static void usage(int op, const char * const myname)
 		printf("    %s {-Q --query}    [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-R --remove}   [%s] <%s>\n", myname, str_opt, str_pkg);
 		printf("    %s {-S --sync}     [%s] [%s]\n", myname, str_opt, str_pkg);
+		printf("    %s {-T --deptest}  [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-U --upgrade}  [%s] <%s>\n", myname, str_opt, str_file);
 		printf(_("\nuse '%s {-h --help}' with an operation for available options\n"),
 				myname);
@@ -173,6 +174,9 @@ static void usage(int op, const char * const myname)
 			printf("%s:\n", str_opt);
 			addlist(_("      --asdeps         mark packages as non-explicitly installed\n"));
 			addlist(_("      --asexplicit     mark packages as explicitly installed\n"));
+		} else if(op == PM_OP_DEPTEST) {
+			printf("%s:  %s {-T --deptest} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
+			printf("%s:\n", str_opt);
 		}
 		switch(op) {
 			case PM_OP_SYNC:
