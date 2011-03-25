@@ -56,26 +56,16 @@ static char *get_filename(const char *url)
 }
 
 #ifdef HAVE_LIBCURL
-static char *get_destfile(const char *path, const char *filename)
+static char *get_fullpath(const char *path, const char *filename,
+		const char *suffix)
 {
-	char *destfile;
-	/* len = localpath len + filename len + null */
-	size_t len = strlen(path) + strlen(filename) + 1;
-	CALLOC(destfile, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
-	snprintf(destfile, len, "%s%s", path, filename);
+	char *filepath;
+	/* len = localpath len + filename len + suffix len + null */
+	size_t len = strlen(path) + strlen(filename) + strlen(suffix) + 1;
+	CALLOC(filepath, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
+	snprintf(filepath, len, "%s%s%s", path, filename, suffix);
 
-	return destfile;
-}
-
-static char *get_tempfile(const char *path, const char *filename)
-{
-	char *tempfile;
-	/* len = localpath len + filename len + '.part' len + null */
-	size_t len = strlen(path) + strlen(filename) + 6;
-	CALLOC(tempfile, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
-	snprintf(tempfile, len, "%s%s.part", path, filename);
-
-	return tempfile;
+	return filepath;
 }
 
 #define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
@@ -172,8 +162,11 @@ static int curl_download_internal(const char *url, const char *localpath,
 		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
 	}
 
-	destfile = get_destfile(localpath, dlfile.filename);
-	tempfile = get_tempfile(localpath, dlfile.filename);
+	destfile = get_fullpath(localpath, dlfile.filename, "");
+	tempfile = get_fullpath(localpath, dlfile.filename, ".part");
+	if(!destfile || !tempfile) {
+		goto cleanup;
+	}
 
 	/* the curl_easy handle is initialized with the alpm handle, so we only need
 	 * to reset the curl handle set parameters for each time it's used. */
