@@ -204,13 +204,37 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	return(newtargs);
 }
 
+static int no_dep_version(void)
+{
+	int flags = alpm_trans_get_flags();
+	return flags != -1 && (flags & PM_TRANS_FLAG_NODEPVERSION);
+}
+
+static pmdepend_t *filtered_depend(pmdepend_t *dep, int nodepversion)
+{
+	if(nodepversion) {
+		pmdepend_t *newdep = _alpm_dep_dup(dep);
+		ASSERT(newdep, return(dep));
+		newdep->mod = PM_DEP_MOD_ANY;
+		dep = newdep;
+	}
+	return dep;
+}
+
+static void release_filtered_depend(pmdepend_t *dep, int nodepversion)
+{
+	if(nodepversion) {
+		free(dep);
+	}
+}
+
 static pmpkg_t *find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 {
 	alpm_list_t *i;
 
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = i->data;
-		if(_alpm_depcmp_tolerant(pkg, dep)) {
+		if(_alpm_depcmp(pkg, dep)) {
 			return(pkg);
 		}
 	}
@@ -245,6 +269,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	alpm_list_t *i, *j;
 	alpm_list_t *targets, *dblist = NULL, *modified = NULL;
 	alpm_list_t *baddeps = NULL;
+	int nodepversion;
 
 	ALPM_LOG_FUNC;
 
@@ -259,6 +284,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	}
 	alpm_list_free(targets);
 
+	nodepversion = no_dep_version();
+
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {
 		pmpkg_t *tp = i->data;
@@ -267,6 +294,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 			pmdepend_t *depend = j->data;
+			depend = filtered_depend(depend, nodepversion);
 			/* 1. we check the upgrade list */
 			/* 2. we check database for untouched satisfying packages */
 			if(!find_dep_satisfier(upgrade, depend) &&
@@ -280,6 +308,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 				miss = depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
 				baddeps = alpm_list_add(baddeps, miss);
 			}
+			release_filtered_depend(depend, nodepversion);
 		}
 	}
 
@@ -290,6 +319,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 			pmpkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
 				pmdepend_t *depend = j->data;
+				depend = filtered_depend(depend, nodepversion);
 				pmpkg_t *causingpkg = find_dep_satisfier(modified, depend);
 				/* we won't break this depend, if it is already broken, we ignore it */
 				/* 1. check upgrade list for satisfiers */
@@ -305,6 +335,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 					miss = depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
 					baddeps = alpm_list_add(baddeps, miss);
 				}
+				release_filtered_depend(depend, nodepversion);
 			}
 		}
 	}
@@ -336,18 +367,10 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 	return(equal);
 }
 
-/* nodepversion: skip version checking */
-static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
+int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	alpm_list_t *i;
 	int satisfy = 0;
-	int depmod;
-
-	if(nodepversion) {
-		depmod = PM_DEP_MOD_ANY;
-	} else {
-		depmod = dep->mod;
-	}
 
 	/* check (pkg->name, pkg->version) */
 	if(pkg->name_hash && dep->name_hash
@@ -355,7 +378,7 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 		/* skip more expensive checks */
 	} else {
 		satisfy = (strcmp(pkg->name, dep->name) == 0
-				&& dep_vercmp(pkg->version, depmod, dep->version));
+				&& dep_vercmp(pkg->version, dep->mod, dep->version));
 		if(satisfy) {
 			return(satisfy);
 		}
@@ -367,7 +390,7 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
-			satisfy = (depmod == PM_DEP_MOD_ANY
+			satisfy = (dep->mod == PM_DEP_MOD_ANY
 					&& strcmp(provision, dep->name) == 0);
 		} else {
 			/* This is a bit tricker than the old code for performance reasons. To
@@ -379,30 +402,11 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 			provver += 1;
 			satisfy = (strlen(dep->name) == namelen
 					&& strncmp(provision, dep->name, namelen) == 0
-					&& dep_vercmp(provver, depmod, dep->version));
+					&& dep_vercmp(provver, dep->mod, dep->version));
 		}
 	}
 
 	return(satisfy);
-}
-
-/* tolerant : respects NODEPVERSION flag */
-int _alpm_depcmp_tolerant(pmpkg_t *pkg, pmdepend_t *dep)
-{
-	int nodepversion = 0;
-	int flags = alpm_trans_get_flags();
-
-	if (flags != -1) {
-		nodepversion = flags & PM_TRANS_FLAG_NODEPVERSION;
-	}
-
-	return(_depcmp(pkg, dep, nodepversion));
-}
-
-/* strict : ignores NODEPVERSION flag */
-int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
-{
-	return(_depcmp(pkg, dep, 0));
 }
 
 pmdepend_t *_alpm_splitdep(const char *depstring)
@@ -562,7 +566,7 @@ static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
-		if(pkg && _alpm_depcmp_tolerant(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
+		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(pkg)) {
 				int install = 0;
 				if (prompt) {
@@ -583,7 +587,7 @@ static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	for(i = dbs; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(_alpm_depcmp_tolerant(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
+			if(_alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install = 0;
