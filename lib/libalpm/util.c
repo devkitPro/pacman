@@ -573,7 +573,7 @@ char *_alpm_filecache_find(const char* filename)
 
 	/* Loop through the cache dirs until we find a matching file */
 	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
-		snprintf(path, PATH_MAX, "%s%s", (char*)alpm_list_getdata(i),
+		snprintf(path, PATH_MAX, "%s%s", (char *)alpm_list_getdata(i),
 				filename);
 		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
 			retpath = strdup(path);
@@ -753,7 +753,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			}
 
 			/* zero-copy - this is the entire next block of data. */
-			b->ret = archive_read_data_block(a, (void*)&b->block,
+			b->ret = archive_read_data_block(a, (void *)&b->block,
 					&b->block_size, &offset);
 			b->block_offset = b->block;
 

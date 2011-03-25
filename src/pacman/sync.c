@@ -148,7 +148,7 @@ static int sync_cleancache(int level)
 	int ret = 0;
 
 	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
-		printf(_("Cache directory: %s\n"), (char*)alpm_list_getdata(i));
+		printf(_("Cache directory: %s\n"), (char *)alpm_list_getdata(i));
 	}
 
 	if(!config->cleanmethod) {

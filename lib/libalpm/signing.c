@@ -140,7 +140,7 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	CHECK_ERR();
 
 	/* next create data object for the signature */
-	err = gpgme_data_new_from_mem(&sigdata, (char*)sig->rawdata, sig->rawlen, 0);
+	err = gpgme_data_new_from_mem(&sigdata, (char *)sig->rawdata, sig->rawlen, 0);
 	CHECK_ERR();
 
 	/* here's where the magic happens */

@@ -205,7 +205,7 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 	ASSERT(db != NULL, return NULL);
 	ASSERT(db->servers != NULL, return NULL);
 
-	url = (char*)db->servers->data;
+	url = (char *)db->servers->data;
 
 	return url;
 }

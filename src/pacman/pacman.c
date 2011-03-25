@@ -842,7 +842,7 @@ static int option_add_cleanmethod(const char *value) {
  * @param optionfunc a function pointer to an alpm_option_add_* function
  */
 static void setrepeatingoption(char *ptr, const char *option,
-		int (*optionfunc)(const char*))
+		int (*optionfunc)(const char *))
 {
 	char *q;
 
@@ -1482,7 +1482,7 @@ int main(int argc, char *argv[])
 		printf("DB Path   : %s\n", alpm_option_get_dbpath());
 		printf("Cache Dirs: ");
 		for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
-			printf("%s  ", (char*)alpm_list_getdata(i));
+			printf("%s  ", (char *)alpm_list_getdata(i));
 		}
 		printf("\n");
 		printf("Lock File : %s\n", alpm_option_get_lockfile());

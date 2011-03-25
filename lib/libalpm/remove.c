@@ -378,7 +378,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 	for(targ = trans->remove; targ; targ = targ->next) {
 		int position = 0;
 		char scriptlet[PATH_MAX];
-		info = (pmpkg_t*)targ->data;
+		info = (pmpkg_t *)targ->data;
 		const char *pkgname = NULL;
 		size_t targcount = alpm_list_count(targ);
 

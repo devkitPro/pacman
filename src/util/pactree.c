@@ -267,7 +267,7 @@ static void walk_reverse_deps(pmpkg_t *pkg, int depth)
 		return;
 	}
 
-	walked = alpm_list_add(walked, (void*)alpm_pkg_get_name(pkg));
+	walked = alpm_list_add(walked, (void *)alpm_pkg_get_name(pkg));
 	required_by = alpm_pkg_compute_requiredby(pkg);
 
 	for(i = required_by; i; i = alpm_list_next(i)) {
@@ -299,7 +299,7 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 		return;
 	}
 
-	walked = alpm_list_add(walked, (void*)alpm_pkg_get_name(pkg));
+	walked = alpm_list_add(walked, (void *)alpm_pkg_get_name(pkg));
 
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
 		pmdepend_t *depend = alpm_list_getdata(i);

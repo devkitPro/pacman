@@ -203,7 +203,7 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 
 static int decode_pgpsig(pmpkg_t *pkg) {
 	int len = strlen(pkg->pgpsig.encdata);
-	const unsigned char *usline = (const unsigned char*)pkg->pgpsig.encdata;
+	const unsigned char *usline = (const unsigned char *)pkg->pgpsig.encdata;
 	int destlen = 0;
 	/* get the necessary size for the buffer by passing 0 */
 	int ret = base64_decode(NULL, &destlen, usline, len);

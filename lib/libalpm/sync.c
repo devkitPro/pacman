@@ -681,7 +681,7 @@ static int test_md5sum(pmtrans_t *trans, const char *filepath,
 	int ret = _alpm_test_md5sum(filepath, md5sum);
 	if(ret == 1) {
 		int doremove = 0;
-		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char*)filepath,
+		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
 				NULL, NULL, &doremove);
 		if(doremove) {
 			unlink(filepath);
