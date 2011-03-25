@@ -147,10 +147,11 @@ static int curl_download_internal(const char *url, const char *localpath,
 {
 	int ret = -1;
 	FILE *localf = NULL;
-	char *useragent, *destfile, *tempfile;
+	const char *open_mode, *useragent;
+	char *destfile, *tempfile;
 	char hostname[256]; /* RFC1123 states applications should support this length */
 	struct stat st;
-	long httpresp, timecond, remote_time, local_time;
+	long httpresp, timecond, remote_time;
 	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
 	struct fileinfo dlfile;
@@ -185,30 +186,26 @@ static int curl_download_internal(const char *url, const char *localpath,
 		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
 	}
 
+	/* TODO: no assuming here. the calling function should tell us what's kosher */
 	if(!force && stat(destfile, &st) == 0) {
 		/* assume its a sync, so we're starting from scratch. but, only download
 		 * our local is out of date. */
-		local_time = (long)st.st_mtime;
 		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
-		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, local_time);
+		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
 	} else if(stat(tempfile, &st) == 0 && st.st_size > 0) {
 		/* assume its a partial package download. we do not support resuming of
 		 * transfers on partially downloaded sync DBs. */
-		localf = fopen(tempfile, "ab");
+		open_mode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
 		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation");
 		dlfile.initial_size = (double)st.st_size;
 	}
 
-	/* no destfile and no tempfile. start from scratch */
+	localf = fopen(tempfile, open_mode);
 	if(localf == NULL) {
-		localf = fopen(tempfile, "wb");
-		if(localf == NULL) {
-			goto cleanup;
-		}
+		goto cleanup;
 	}
 
-	/* this has to be set _after_ figuring out which file we're opening */
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEDATA, localf);
 
 	/* print proxy info for debug purposes */
