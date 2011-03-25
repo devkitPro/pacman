@@ -114,6 +114,7 @@ static void usage(int op, const char * const myname)
 	char const * const str_usg = _("usage");
 	char const * const str_opr = _("operation");
 
+	/* please limit your strings to 80 characters in width */
 	if(op == PM_OP_MAIN) {
 		printf("%s:  %s <%s> [...]\n", str_usg, myname, str_opr);
 		printf(_("operations:\n"));
@@ -132,10 +133,10 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-R --remove} [%s] <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			addlist(_("  -c, --cascade        remove packages and all packages that depend on them\n"));
-			addlist(_("  -n, --nosave         remove configuration files as well\n"));
-			addlist(_("  -s, --recursive      remove dependencies also (that won't break packages)\n"
-				 "                       (-ss includes explicitly installed dependencies too)\n"));
-			addlist(_("  -u, --unneeded       remove unneeded packages (that won't break packages)\n"));
+			addlist(_("  -n, --nosave         remove configuration files\n"));
+			addlist(_("  -s, --recursive      remove unnecessary dependencies\n"
+			          "                       (-ss includes explicitly installed dependencies)\n"));
+			addlist(_("  -u, --unneeded       remove unneeded packages\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
 			printf("%s:\n", str_opt);
@@ -186,16 +187,16 @@ static void usage(int op, const char * const myname)
 				addlist(_("      --asexplicit     install packages as explicitly installed\n"));
 				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 				addlist(_("      --ignoregroup <grp>\n"
-				         "                       ignore a group upgrade (can be used more than once)\n"));
+				          "                       ignore a group upgrade (can be used more than once)\n"));
 				/* pass through */
 			case PM_OP_REMOVE:
-				addlist(_("  -d, --nodeps         skip dependency checks\n"));
+				addlist(_("  -d, --nodeps         skip dependency version checks (-dd to skip all checks)\n"));
 				addlist(_("  -k, --dbonly         only modify database entries, not package files\n"));
 				addlist(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 				addlist(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
-				addlist(_("      --print          only print the targets instead of performing the operation\n"));
+				addlist(_("      --print          print the targets instead of performing the operation\n"));
 				addlist(_("      --print-format <string>\n"
-				         "                       specify how the targets should be printed\n"));
+				          "                       specify how the targets should be printed\n"));
 				break;
 		}
 
