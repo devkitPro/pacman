@@ -10,35 +10,28 @@ repo-add - package database maintenance utility
 
 Synopsis
 --------
-repo-add [-d] [-f] [-q] <path-to-db> <package1> [<package2> ...]
+repo-add [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> [<package|delta> ...]
 
-repo-remove [-q] <path-to-db> <packagename> [<packagename2> ...]
+repo-remove [-q] [-s] [-v] <path-to-db> <packagename|delta> [<packagename|delta> ...]
 
 
 Description
 -----------
 repo-add and repo-remove are two scripts to help build a package database for
 packages built with linkman:makepkg[8] and installed with linkman:pacman[8].
+They also handle package deltas produced by linkman:pkgdelta[8].
 
-repo-add will update a package database by reading a built package file.
-Multiple packages to add can be specified on the command line.
+repo-add will update a package database by reading a built package or package
+delta file. Multiple packages and/or deltas to add can be specified on the
+command line.
 
-repo-remove will update a package database by removing the package name
-specified on the command line. Multiple packages to remove can be specified
-on the command line.
+repo-remove will update a package database by removing the package name or
+delta specified on the command line. Multiple packages and/or delta to remove
+can be specified on the command line.
 
 
-Options
--------
-*-d, \--delta*::
-	Automatically generate and add a delta file between the old entry and the
-	new one, if the old package file is found next to the new one.
-
-*-f, \--files*::
-	Tells repo-add also to create and include a list of the files in the
-	specified packages. This is useful for creating databases listing all files
-	in a given sync repository for tools that may use this information.
-
+Common Options
+--------------
 *-q, \--quiet*::
 	Force this program to keep quiet and run silent except for warning and
 	error messages.
@@ -49,9 +42,24 @@ Options
 	signature file, using the GPG agent if it is available. The signature file
 	will be the entire filename of the database with a ``.sig'' extension.
 
+*-v, \--verify*::
+	Verify the PGP signature of the database before updating the database.
+	If the signature is invalid, an error is produced and the update does not
+	proceed.
+
+repo-add Options
+----------------
+*-d, \--delta*::
+	Automatically generate and add a delta file between the old entry and the
+	new one, if the old package file is found next to the new one.
+
+*-f, \--files*::
+	Tells repo-add also to create and include a list of the files in the
+	specified packages. This is useful for creating databases listing all files
+	in a given sync repository for tools that may use this information.
 
 See Also
 --------
-linkman:makepkg[8], linkman:pacman[8]
+linkman:makepkg[8], linkman:pacman[8], linkman:pkgdelta[8]
 
 include::footer.txt[]
