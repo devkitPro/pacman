@@ -28,7 +28,7 @@
 # makepkg uses quite a few external programs during its execution. You
 # need to have at least the following installed for makepkg to function:
 #   awk, bsdtar (libarchive), bzip2, coreutils, fakeroot, file, find (findutils),
-#   gettext, grep, gzip, openssl, sed, tput (ncurses), xz
+#   gettext, gpg, grep, gzip, openssl, sed, tput (ncurses), xz
 
 # gettext initialization
 export TEXTDOMAIN='pacman'
@@ -75,6 +75,7 @@ CHECKFUNC=0
 PKGFUNC=0
 SPLITPKG=0
 PKGLIST=()
+SIGNPKG=''
 
 # Forces the pkgver of the current PKGBUILD. Used by the fakeroot call
 # when dealing with svn/cvs/etc PKGBUILDs.
@@ -1106,7 +1107,7 @@ create_package() {
 }
 
 create_signature() {
-	if [[ $(check_buildenv sign) != "y" ]]; then
+	if [[ $SIGNPKG != 'y' ]]; then
 		return
 	fi
 	local ret=0
@@ -1116,7 +1117,15 @@ create_signature() {
 		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
-	gpg --detach-sign --use-agent "$filename" || ret=$?
+
+	local SIGNWITHKEY=""
+	if [[ -n $SIGNKEY ]]; then
+		SIGNWITHKEY="-u ${SIGNKEY}"
+	fi
+	# The signature will be generated directly in ascii-friendly format
+	gpg --detach-sign --use-agent ${SIGNWITHKEY} "$filename" &>/dev/null || ret=$?
+
+
 	if (( ! ret )); then
 		msg2 "$(gettext "Created signature file %s.")" "$filename.sig"
 	else
@@ -1615,8 +1624,11 @@ usage() {
 	printf "$(gettext "  --check          Run the check() function in the %s")\n" "$BUILDSCRIPT"
 	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	printf "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
+	echo "$(gettext "  --key <key>      Specify a key to use for gpg signing instead of the default")"
 	printf "$(gettext "  --nocheck        Do not run the check() function in the %s")\n" "$BUILDSCRIPT"
+	echo "$(gettext "  --nosign         Do not create a signature for the package")"
 	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
+	echo "$(gettext "  --sign           Sign the resulting package with gpg")"
 	echo "$(gettext "  --skipinteg      Do not fail when integrity checks are missing")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
 	echo
@@ -1653,8 +1665,8 @@ ARGLIST=("$@")
 OPT_SHORT="AcCdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,check,clean,cleancache,nodeps"
 OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver"
-OPT_LONG+=",install,log,nocolor,nobuild,nocheck,pkg:,rmdeps"
-OPT_LONG+=",repackage,skipinteg,source,syncdeps,version,config:"
+OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
+OPT_LONG+=",repackage,skipinteg,sign,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
 OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@" || echo 'PARSE_OPTIONS FAILED')"
@@ -1688,15 +1700,18 @@ while true; do
 		-g|--geninteg)    GENINTEG=1 ;;
 		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
+		--key)            shift; SIGNKEY=$1 ;;
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
 		--nocheck)        RUN_CHECK='n' ;;
+		--nosign)         SIGNPKG='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
 		--pkg)            shift; PKGLIST=($1) ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--skipinteg)      SKIPINTEG=1 ;;
+		--sign)           SIGNPKG='y' ;;
 		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
 
@@ -1930,6 +1945,22 @@ if [[ -n "${PKGLIST[@]}" ]]; then
 	unset pkgname
 	pkgname=("${PKGLIST[@]}")
 fi
+
+# check if gpg signature is to be created and if signing key is valid
+if [[ -z "$SIGNPKG" && $(check_buildenv sign) == 'y' ]]; then
+  SIGNPKG='y'
+fi
+if [[ $SIGNPKG == 'y' ]]; then
+	if ! gpg --list-key ${SIGNKEY} &>/dev/null; then
+		if [[ ! -z $SIGNKEY ]]; then
+			error "$(gettext "The key ${SIGNKEY} does not exist in your keyring.")"
+		else
+			error "$(gettext "There is no key in your keyring.")"
+		fi
+		exit 1
+	fi
+fi
+
 
 if (( ! SPLITPKG )); then
 	fullver=$(get_full_version $epoch $pkgver $pkgrel)
