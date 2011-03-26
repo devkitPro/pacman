@@ -33,6 +33,7 @@ struct __pmpgpsig_t {
 
 int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig);
 int _alpm_load_signature(const char *sigfile, pmpgpsig_t *pgpsig);
+pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db);
 
 #endif /* _ALPM_SIGNING_H */
 

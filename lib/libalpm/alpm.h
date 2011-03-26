@@ -225,6 +225,9 @@ int alpm_option_set_usedelta(int usedelta);
 int alpm_option_get_checkspace(void);
 int alpm_option_set_checkspace(int checkspace);
 
+pgp_verify_t alpm_option_get_default_sigverify(void);
+int alpm_option_set_default_sigverify(pgp_verify_t level);
+
 /** @} */
 
 /** @addtogroup alpm_api_databases Database Functions

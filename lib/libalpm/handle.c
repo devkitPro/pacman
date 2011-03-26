@@ -50,6 +50,8 @@ pmhandle_t *_alpm_handle_new()
 
 	CALLOC(handle, 1, sizeof(pmhandle_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
+	handle->sigverify = PM_PGP_VERIFY_OPTIONAL;
+
 	return handle;
 }
 
@@ -623,6 +625,19 @@ int SYMEXPORT alpm_option_set_checkspace(int checkspace)
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	handle->checkspace = checkspace;
 	return 0;
+}
+
+int SYMEXPORT alpm_option_set_default_sigverify(pgp_verify_t level)
+{
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	handle->sigverify = level;
+	return 0;
+}
+
+pgp_verify_t SYMEXPORT alpm_option_get_default_sigverify()
+{
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, PM_PGP_VERIFY_UNKNOWN));
+	return handle->sigverify;
 }
 
 /* vim: set ts=2 sw=2 noet: */

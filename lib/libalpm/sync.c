@@ -842,6 +842,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		char *filepath = _alpm_filecache_find(filename);
 		const char *md5sum = alpm_pkg_get_md5sum(spkg);
 		const pmpgpsig_t *pgpsig = alpm_pkg_get_pgpsig(spkg);
+		pgp_verify_t check_sig;
 
 		/* check md5sum first */
 		if(test_md5sum(trans, filepath, md5sum) != 0) {
@@ -853,10 +854,19 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		/* check PGP signature next */
 		pmdb_t *sdb = alpm_pkg_get_db(spkg);
 
-		if(sdb->pgp_verify != PM_PGP_VERIFY_NEVER) {
+		check_sig = _alpm_db_get_sigverify_level(sdb);
+
+		if(check_sig == PM_PGP_VERIFY_UNKNOWN) {
+			_alpm_log(PM_LOG_ERROR, _("failed to determine signature verification "
+						"level for database: %s\n"), sdb->treename);
+			pm_errno = PM_ERR_PKG_INVALID;
+			goto error;
+		}
+
+		if(check_sig != PM_PGP_VERIFY_NEVER) {
 			int ret = _alpm_gpgme_checksig(filepath, pgpsig);
-			if((sdb->pgp_verify == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
-					(sdb->pgp_verify == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
+			if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
+					(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
 				errors++;
 				*data = alpm_list_add(*data, strdup(filename));
 				FREE(filepath);

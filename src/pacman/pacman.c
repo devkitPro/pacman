@@ -1057,6 +1057,18 @@ static int _parse_options(const char *key, char *value,
 			pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", value);
 		} else if (strcmp(key, "CleanMethod") == 0) {
 			setrepeatingoption(value, "CleanMethod", option_add_cleanmethod);
+		} else if(strcmp(key, "VerifySig") == 0) {
+			if (strcmp(value, "Always") == 0) {
+				alpm_option_set_default_sigverify(PM_PGP_VERIFY_ALWAYS);
+			} else if(strcmp(value, "Optional") == 0) {
+				alpm_option_set_default_sigverify(PM_PGP_VERIFY_OPTIONAL);
+			} else if(strcmp(value, "Never") == 0) {
+				alpm_option_set_default_sigverify(PM_PGP_VERIFY_NEVER);
+			} else {
+				pm_printf(PM_LOG_ERROR, _("invalid value for 'VerifySig' : '%s'\n"), value);
+				return 1;
+			}
+			pm_printf(PM_LOG_DEBUG, "config: setting default VerifySig: %s\n", value);
 		} else {
 
 			pm_printf(PM_LOG_WARNING,

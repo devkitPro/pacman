@@ -249,9 +249,27 @@ int _alpm_load_signature(const char *sigfile, pmpgpsig_t *pgpsig) {
 }
 
 /**
+ * Determines the necessity of checking for a valid PGP signature
+ * @param db the sync database to query
+ *
+ * @return signature verification level
+ */
+pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
+{
+	ALPM_LOG_FUNC;
+	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, PM_PGP_VERIFY_UNKNOWN));
+
+	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
+		return db->pgp_verify;
+	} else {
+		return alpm_option_get_default_sigverify();
+	}
+}
+
+/**
  * Check the PGP package signature for the given package file.
  * @param pkg the package to check
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
+ * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 {
@@ -265,16 +283,15 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 /**
  * Check the PGP package signature for the given database.
  * @param db the database to check
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
+ * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
-	ASSERT(db != NULL, return(0));
+	ASSERT(db != NULL, return 0);
 
 	return _alpm_gpgme_checksig(_alpm_db_path(db),
 			_alpm_db_pgpsig(db));
 }
-
 
 /* vim: set ts=2 sw=2 noet: */
