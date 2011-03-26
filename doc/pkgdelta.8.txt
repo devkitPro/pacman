@@ -1,0 +1,42 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
+pkgdelta(8)
+=========
+
+Name
+----
+pkgdelta - package delta generation utility
+
+
+Synopsis
+--------
+'pkgdelta' [-q] <package1> <package2>
+
+
+Description
+-----------
+'pkgdelta' is used to create package delta files between two versions of the
+same package. These files are essentially binary patches. linkman:pacman[8] can
+download deltas instead of full package upgrades, and use them with the
+previous versions of packages (in the package cache) to synthesize the upgraded
+version of the packages. This likely reduces download sizes for upgrades
+significantly.
+
+'pkgdelta' requires linkman:xdelta3[1] to do its job.
+
+Options
+-------
+*-q, \--quiet*::
+	Be quiet. Do not output anything but warnings and errors.
+
+Examples
+--------
+
+  $ pkgdelta libreoffice-3.3.2-1-x86_64.pkg.tar.xz libreoffice-3.3.2-2-x86_64.pkg.tar.xz
+
+See Also
+--------
+linkman:pacman[8], linkman:xdelta3[1]
+
+include::footer.txt[]
