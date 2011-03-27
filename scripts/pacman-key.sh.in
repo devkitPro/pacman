@@ -244,7 +244,12 @@ fi
 if [[ GPGDIR=$(find_config "GPGDir") == 0 ]]; then
 	PACMAN_KEYRING_DIR="${GPGDIR}"
 fi
-GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR}"
+GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
+
+# Try to create $PACMAN_KEYRING_DIR if non-existent
+# Check for simple existence rather than for a directory as someone may want
+# to use a symlink here
+[[ -e ${PACMAN_KEYRING_DIR} ]] || mkdir -p -m 755 "${PACMAN_KEYRING_DIR}"
 
 # Parse and execute command
 command="$1"
