@@ -381,6 +381,7 @@ const pmpgpsig_t *_alpm_db_pgpsig(pmdb_t *db)
 
 		/* TODO: do something with ret value */
 		ret = _alpm_load_signature(sigfile, &(db->pgpsig));
+		(void)ret;
 
 		FREE(sigfile);
 	}
