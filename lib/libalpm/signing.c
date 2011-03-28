@@ -210,19 +210,22 @@ error:
  *
  * @return 0 on success, 1 on file not found, -1 on error
  */
-int _alpm_load_signature(const char *sigfile, pmpgpsig_t *pgpsig) {
+int _alpm_load_signature(const char *file, pmpgpsig_t *pgpsig) {
 	struct stat st;
+	char *sigfile;
+	int ret = -1;
+
+	/* look around for a PGP signature file; load if available */
+	MALLOC(sigfile, strlen(file) + 5, RET_ERR(PM_ERR_MEMORY, -1));
+	sprintf(sigfile, "%s.sig", file);
 
 	if(access(sigfile, R_OK) == 0 && stat(sigfile, &st) == 0) {
 		FILE *f;
 		size_t bytes_read;
 
-		if(st.st_size > 4096) {
-			return -1;
-		}
-
-		if((f = fopen(sigfile, "rb")) == NULL) {
-			return -1;
+		if(st.st_size > 4096 || (f = fopen(sigfile, "rb")) == NULL) {
+			free(sigfile);
+			return ret;
 		}
 		CALLOC(pgpsig->rawdata, st.st_size, sizeof(unsigned char),
 				RET_ERR(PM_ERR_MEMORY, -1));
@@ -231,21 +234,22 @@ int _alpm_load_signature(const char *sigfile, pmpgpsig_t *pgpsig) {
 			pgpsig->rawlen = bytes_read;
 			_alpm_log(PM_LOG_DEBUG, "loaded gpg signature file, location %s\n",
 					sigfile);
+			ret = 0;
 		} else {
 			_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file %s"),
 					sigfile);
 			FREE(pgpsig->rawdata);
-			return -1;
 		}
 
 		fclose(f);
 	} else {
 		_alpm_log(PM_LOG_DEBUG, "signature file %s not found\n", sigfile);
 		/* not fatal...we return a different error code here */
-		return 1;
+		ret = 1;
 	}
 
-	return 0;
+	free(sigfile);
+	return ret;
 }
 
 /**

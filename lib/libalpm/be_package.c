@@ -243,7 +243,6 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 
 	/* attempt to stat the package file, ensure it exists */
 	if(stat(pkgfile, &st) == 0) {
-		char *pgpfile;
 		int sig_ret;
 
 		newpkg = _alpm_pkg_new();
@@ -253,13 +252,9 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 		newpkg->filename = strdup(pkgfile);
 		newpkg->size = st.st_size;
 
-		/* look around for a PGP signature file; load if available */
-		MALLOC(pgpfile, strlen(pkgfile) + 5, RET_ERR(PM_ERR_MEMORY, NULL));
-		sprintf(pgpfile, "%s.sig", pkgfile);
 		/* TODO: do something with ret value */
-		sig_ret = _alpm_load_signature(pgpfile, &(newpkg->pgpsig));
+		sig_ret = _alpm_load_signature(pkgfile, &(newpkg->pgpsig));
 		(void)sig_ret;
-		FREE(pgpfile);
 	} else {
 		/* couldn't stat the pkgfile, return an error */
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);

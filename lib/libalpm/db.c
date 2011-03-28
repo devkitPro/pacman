@@ -322,21 +322,14 @@ const pmpgpsig_t *_alpm_db_pgpsig(pmdb_t *db)
 	ASSERT(db != NULL, return(NULL));
 
 	if(db->pgpsig.rawdata == NULL) {
-		size_t len;
 		const char *dbfile;
-		char *sigfile;
 		int ret;
 
 		dbfile = _alpm_db_path(db);
-		len = strlen(dbfile) + 5;
-		MALLOC(sigfile, len, RET_ERR(PM_ERR_MEMORY, NULL));
-		sprintf(sigfile, "%s.sig", dbfile);
 
 		/* TODO: do something with ret value */
-		ret = _alpm_load_signature(sigfile, &(db->pgpsig));
+		ret = _alpm_load_signature(dbfile, &(db->pgpsig));
 		(void)ret;
-
-		FREE(sigfile);
 	}
 
 	return &(db->pgpsig);
